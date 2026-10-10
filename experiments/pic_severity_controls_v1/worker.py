@@ -54,7 +54,8 @@ def observe(native,pcbnew):
             count+=1
             if count>32:raise ValueError('drawing census cap')
             if item.Type()==pcbnew.PCB_TEXT_T:
-                texts.append({'uuid':str(item.m_Uuid.AsString()),'text':str(item.GetText()),'layer':str(pcbnew.LayerName(item.GetLayer())),'parent':parent})
+                texts.append({'uuid':str(item.m_Uuid.AsString()),'text':str(item.GetText()),'layer':str(pcbnew.LayerName(item.GetLayer())),
+                    'layer_id':integer(int(item.GetLayer())),'parent':parent})
     graphics(native.GetDrawings(),'board')
     for fp in native.GetFootprints():graphics(fp.GraphicalItems(),'footprint')
     if (len(pads),len(footprints),len(routes),len(nets),len(texts))!=(4,4,2,2,2):raise ValueError('fixed native census differs')

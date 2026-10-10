@@ -1,0 +1,7 @@
+# Failed first native severity diagnostic
+
+At 59171d6, all six native observations succeeded and one DRC ran. Five observation checks rejected the original layer spelling Dwgs.User versus actual User.Drawings before DRC. The board-edge-text case emitted the exact intended error plus four missing-courtyard warnings and no opens, but cannot qualify without its positive. The declared Default-profile copy also exposed native effective class name POWER,Default with original POWER dimensions and inherited profile. These are diagnostic expectation failures, not evidence that the rules were enforced for unexecuted DRC cases.
+
+The batch remains failed_controls / exit2. Stored 10.400665 wall / 8.680227 full CPU seconds under90-second caps; outer10.849340 wall /9.066094 waited-child CPU. All15 original files and existing copied bytes remain unchanged except the authored board and the two predeclared profile references. The one DRC copy adds only project-local PRL. All six outcomes remain recorded. Independent audit passes136checks, with all174rawfiles and original15 unchanged; see ../review-pic-severity-native-001/REVIEW.md.
+
+Public board geometry is authored; copied original layers/setup/project settings derive from the upstream KiCad PIC demo under CC BY-SA4. Notices are retained. No engine, export, board save, production admission, schematic parity, routing performance or general machining support is claimed. Whole original dependency copies stay local; the later full backup must preserve them.

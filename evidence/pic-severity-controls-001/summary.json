@@ -1,0 +1,1760 @@
+{
+  "schema": 1,
+  "status": "failed_controls",
+  "controls_passed": false,
+  "routing_accepted": false,
+  "geometry_qualified": false,
+  "format_support_qualified": false,
+  "dependency_complete": false,
+  "production_support_changed": false,
+  "schematic_parity_qualified": false,
+  "default_profile_enforcement_qualified": false,
+  "new_engine_execution": false,
+  "board_saved": false,
+  "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.data/boards/kicad-pic-programmer/pic_programmer.kicad_pcb",
+  "budget_seconds": 90,
+  "cpu_budget_seconds": 90,
+  "output_ceiling_bytes": 20971520,
+  "scope": "Six owned development cases; original rule severities/floors preserved. Two copied profile-reference deltas. No DSN, engine, save, production admission or schematic parity.",
+  "accounting_point": "Stored totals precede final publication freshness/size checks; acceptance caps include them. Full self+waited-child CPU; measured caps, not hard OS quotas. Finite samples, not atomic authentication.",
+  "cases": [
+    {
+      "case": "positive",
+      "status": "failed",
+      "native_executed": true,
+      "control_passed": false,
+      "stages": {
+        "observe": {
+          "observation.json": "ae6097312974572f9a8f297690d7a210d98f1fe8b45e6c78c7375ff100e52482",
+          "observe-process.json": "c10c3b4972841afefa5c10d218146ffe25f3c7cc6c7e164637174efb108bc571",
+          "observe.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "scene": {
+        "case": "positive",
+        "pads": [
+          {
+            "uuid": "f94fd449-1080-5bfe-bc75-ffb34d09b58b",
+            "footprint_uuid": "c070eaf4-8ccd-50af-808c-83d90d76d4af",
+            "reference": "P1",
+            "number": "1",
+            "net": "GND",
+            "position_nm": [
+              10000000,
+              10000000
+            ],
+            "post_machined": false
+          },
+          {
+            "uuid": "2a1ac4a8-eef8-575b-84d8-41c76155e5dd",
+            "footprint_uuid": "8a29508f-4464-5ea6-98ac-79d915faab6d",
+            "reference": "P2",
+            "number": "1",
+            "net": "GND",
+            "position_nm": [
+              30000000,
+              10000000
+            ],
+            "post_machined": false
+          },
+          {
+            "uuid": "94d28fd3-035e-5d28-89ad-f3eff6d69666",
+            "footprint_uuid": "1eb9bf85-be18-5dce-b9d6-ba981e04323c",
+            "reference": "P3",
+            "number": "1",
+            "net": "SIGNAL_A",
+            "position_nm": [
+              10000000,
+              20000000
+            ],
+            "post_machined": false
+          },
+          {
+            "uuid": "3cd0996e-5a4c-542a-9454-16bcd993a381",
+            "footprint_uuid": "20bcb423-a57f-504d-9d1f-db870bbe0e2a",
+            "reference": "P4",
+            "number": "1",
+            "net": "SIGNAL_A",
+            "position_nm": [
+              30000000,
+              20000000
+            ],
+            "post_machined": false
+          }
+        ],
+        "tracks": [
+          {
+            "uuid": "af158420-2f97-5b0f-b747-bac57651d158",
+            "net": "GND",
+            "start_nm": [
+              10000000,
+              10000000
+            ],
+            "end_nm": [
+              30000000,
+              10000000
+            ],
+            "width_nm": 800000,
+            "layer": "F.Cu"
+          },
+          {
+            "uuid": "a9f93540-3cea-5be0-a0b7-b3a73215bbca",
+            "net": "SIGNAL_A",
+            "start_nm": [
+              10000000,
+              20000000
+            ],
+            "end_nm": [
+              30000000,
+              20000000
+            ],
+            "width_nm": 500000,
+            "layer": "F.Cu"
+          }
+        ],
+        "texts": [
+          {
+            "uuid": "c8fe43a2-1bc2-5702-b488-91f43d743de8",
+            "text": "Owned footprint text",
+            "layer": "F.Fab",
+            "parent": "footprint"
+          },
+          {
+            "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+            "text": "Owned board text",
+            "layer": "Dwgs.User",
+            "parent": "board"
+          }
+        ],
+        "target_class": null,
+        "profile": "",
+        "board_saved": false,
+        "routing_accepted": false,
+        "schematic_parity_qualified": false
+      },
+      "project_delta": [],
+      "input_hashes": {
+        "fp-lib-table": "e81a9c021142c92ce2795b9b94b37d4e7f04956dfe10c3d7869518c601e25ad8",
+        "libs/3d_shapes/adjustable_rx2v4.wrl": "f3dd9c781da7cfe705faef8f8999899a597088d7afbe727429823beec278ae54",
+        "libs/3d_shapes/textool_40.wrl": "ef484084ef42b8c2e61363426b63838e6069975a5a260bfd66f172227bf7f2c0",
+        "libs/pic_programmer_fp.pretty/40tex-Ell600.kicad_mod": "61c5b4297088827ba2d02143edc9cf031802ec0072e057cb8d8e5483b5d6fa9a",
+        "libs/pic_programmer_fp.pretty/RV2X4.kicad_mod": "64add84809f19b9eb77d86695ac19b2f87677e6849cdc1b103219c18ff8780cd",
+        "libs/pic_programmer_fp.pretty/SolderJumper-2_P1.3mm_Open_TrianglePad1.0x1.5mm.kicad_mod": "0449fc32c1f0ed8fc10f686bb06953dbcfcf06849c41c9ebde3876df60ace016",
+        "libs/pic_programmer_fp.pretty/TO-92.kicad_mod": "ee34a946728dbf06ab4fbcfe6d940c202f737420b010927eb537c0e911fe3a62",
+        "pic_programmer.kicad_pcb": "275b6cb6362111f45caead18f9afb241847c8dc64d208ad032f4bf82300e1cd0",
+        "pic_programmer.kicad_pro": "3b0ac39da5af86d0baa2a64da55a89c39ba00148dc82b54f3062f5c3650a5cc5",
+        "pic_programmer.kicad_sch": "cf92bff8aebe19e45444f13b2ccd1c8ad578df6a226acd5381e2eff95e2fc08f",
+        "pic_programmer.kicad_sym": "311bf43e2f3999072cad00a00b8c894c6adbaec5b97ada2256b0db1d2115039a",
+        "pic_sockets.kicad_sch": "8cbf575b53b205280ca277df8affc6477cf20c5d06c63c267cd6fb19b6d771ae",
+        "sym-lib-table": "0115c6d84c88e0da8c7b47db401ae4f93f197ee9645b9dc4fbdad8d55a22a0e8",
+        "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+        "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5"
+      },
+      "intent_guard": {
+        "prospective_guard_only": true,
+        "source_intent_allowed": true,
+        "reasons": [],
+        "class_profiles": [
+          {
+            "class": "Default",
+            "profile": ""
+          },
+          {
+            "class": "POWER",
+            "profile": ""
+          }
+        ],
+        "schematic_parity_qualified": false,
+        "production_support_changed": false
+      },
+      "error": "ValueError: native route/text identity differs",
+      "binding_evidence": {},
+      "steps": [
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 1.06875795898668,
+          "cpu_seconds": 0.461105,
+          "max_rss_bytes": 100024320,
+          "supervisor_cpu_seconds": 0.005773999999999946,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 46137344,
+          "sampled_peak_workdir_bytes": 741188,
+          "resource_guards": {
+            "max_group_rss_bytes": 2147483648,
+            "max_workdir_bytes": 20971520,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/pic_severity_controls_v1/worker.py",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-severity-controls-001/positive/observe-input/pic_programmer.kicad_pcb",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-severity-controls-001/positive/observation.json"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-severity-controls-001/positive/observe.log",
+          "log_bytes": 0,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-severity-controls-001/positive",
+          "signal_cancellation_enabled": true,
+          "pid": 15558,
+          "name": "observe"
+        }
+      ]
+    },
+    {
+      "case": "missing_named_profile",
+      "status": "failed",
+      "native_executed": true,
+      "control_passed": false,
+      "stages": {
+        "observe": {
+          "observation.json": "cf535e0724a29338b878f1cbbf454a217771457c759297def6845d7712dbc615",
+          "observe-process.json": "edbaa4323fd686fcef9ea74183630aac03d89148f144394f4c83ff4509ba7e97",
+          "observe.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "scene": {
+        "case": "missing_named_profile",
+        "pads": [
+          {
+            "uuid": "f94fd449-1080-5bfe-bc75-ffb34d09b58b",
+            "footprint_uuid": "c070eaf4-8ccd-50af-808c-83d90d76d4af",
+            "reference": "P1",
+            "number": "1",
+            "net": "GND",
+            "position_nm": [
+              10000000,
+              10000000
+            ],
+            "post_machined": false
+          },
+          {
+            "uuid": "2a1ac4a8-eef8-575b-84d8-41c76155e5dd",
+            "footprint_uuid": "8a29508f-4464-5ea6-98ac-79d915faab6d",
+            "reference": "P2",
+            "number": "1",
+            "net": "GND",
+            "position_nm": [
+              30000000,
+              10000000
+            ],
+            "post_machined": false
+          },
+          {
+            "uuid": "94d28fd3-035e-5d28-89ad-f3eff6d69666",
+            "footprint_uuid": "1eb9bf85-be18-5dce-b9d6-ba981e04323c",
+            "reference": "P3",
+            "number": "1",
+            "net": "SIGNAL_A",
+            "position_nm": [
+              10000000,
+              20000000
+            ],
+            "post_machined": false
+          },
+          {
+            "uuid": "3cd0996e-5a4c-542a-9454-16bcd993a381",
+            "footprint_uuid": "20bcb423-a57f-504d-9d1f-db870bbe0e2a",
+            "reference": "P4",
+            "number": "1",
+            "net": "SIGNAL_A",
+            "position_nm": [
+              30000000,
+              20000000
+            ],
+            "post_machined": false
+          }
+        ],
+        "tracks": [
+          {
+            "uuid": "af158420-2f97-5b0f-b747-bac57651d158",
+            "net": "GND",
+            "start_nm": [
+              10000000,
+              10000000
+            ],
+            "end_nm": [
+              30000000,
+              10000000
+            ],
+            "width_nm": 800000,
+            "layer": "F.Cu"
+          },
+          {
+            "uuid": "a9f93540-3cea-5be0-a0b7-b3a73215bbca",
+            "net": "SIGNAL_A",
+            "start_nm": [
+              10000000,
+              20000000
+            ],
+            "end_nm": [
+              30000000,
+              20000000
+            ],
+            "width_nm": 500000,
+            "layer": "F.Cu"
+          }
+        ],
+        "texts": [
+          {
+            "uuid": "c8fe43a2-1bc2-5702-b488-91f43d743de8",
+            "text": "Owned footprint text",
+            "layer": "F.Fab",
+            "parent": "footprint"
+          },
+          {
+            "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+            "text": "Owned board text",
+            "layer": "Dwgs.User",
+            "parent": "board"
+          }
+        ],
+        "target_class": "POWER",
+        "profile": "MissingOwnedProfile",
+        "board_saved": false,
+        "routing_accepted": false,
+        "schematic_parity_qualified": false
+      },
+      "project_delta": [
+        {
+          "path": [
+            "net_settings",
+            "classes",
+            1,
+            "tuning_profile"
+          ],
+          "before": "",
+          "after": "MissingOwnedProfile"
+        }
+      ],
+      "input_hashes": {
+        "fp-lib-table": "e81a9c021142c92ce2795b9b94b37d4e7f04956dfe10c3d7869518c601e25ad8",
+        "libs/3d_shapes/adjustable_rx2v4.wrl": "f3dd9c781da7cfe705faef8f8999899a597088d7afbe727429823beec278ae54",
+        "libs/3d_shapes/textool_40.wrl": "ef484084ef42b8c2e61363426b63838e6069975a5a260bfd66f172227bf7f2c0",
+        "libs/pic_programmer_fp.pretty/40tex-Ell600.kicad_mod": "61c5b4297088827ba2d02143edc9cf031802ec0072e057cb8d8e5483b5d6fa9a",
+        "libs/pic_programmer_fp.pretty/RV2X4.kicad_mod": "64add84809f19b9eb77d86695ac19b2f87677e6849cdc1b103219c18ff8780cd",
+        "libs/pic_programmer_fp.pretty/SolderJumper-2_P1.3mm_Open_TrianglePad1.0x1.5mm.kicad_mod": "0449fc32c1f0ed8fc10f686bb06953dbcfcf06849c41c9ebde3876df60ace016",
+        "libs/pic_programmer_fp.pretty/TO-92.kicad_mod": "ee34a946728dbf06ab4fbcfe6d940c202f737420b010927eb537c0e911fe3a62",
+        "pic_programmer.kicad_pcb": "275b6cb6362111f45caead18f9afb241847c8dc64d208ad032f4bf82300e1cd0",
+        "pic_programmer.kicad_pro": "9a79dc5b114ec2825d9f531da370949a71df76c1c78f3804b70762e4ea95d2f5",
+        "pic_programmer.kicad_sch": "cf92bff8aebe19e45444f13b2ccd1c8ad578df6a226acd5381e2eff95e2fc08f",
+        "pic_programmer.kicad_sym": "311bf43e2f3999072cad00a00b8c894c6adbaec5b97ada2256b0db1d2115039a",
+        "pic_sockets.kicad_sch": "8cbf575b53b205280ca277df8affc6477cf20c5d06c63c267cd6fb19b6d771ae",
+        "sym-lib-table": "0115c6d84c88e0da8c7b47db401ae4f93f197ee9645b9dc4fbdad8d55a22a0e8",
+        "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+        "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5"
+      },
+      "intent_guard": {
+        "prospective_guard_only": true,
+        "source_intent_allowed": false,
+        "reasons": [
+          "nonempty class tuning profile"
+        ],
+        "class_profiles": [
+          {
+            "class": "Default",
+            "profile": ""
+          },
+          {
+            "class": "POWER",
+            "profile": "MissingOwnedProfile"
+          }
+        ],
+        "schematic_parity_qualified": false,
+        "production_support_changed": false
+      },
+      "error": "ValueError: native route/text identity differs",
+      "binding_evidence": {},
+      "steps": [
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.4161226670112228,
+          "cpu_seconds": 0.405456,
+          "max_rss_bytes": 98992128,
+          "supervisor_cpu_seconds": 0.00449300000000008,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 42582016,
+          "sampled_peak_workdir_bytes": 741516,
+          "resource_guards": {
+            "max_group_rss_bytes": 2147483648,
+            "max_workdir_bytes": 20971520,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/pic_severity_controls_v1/worker.py",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-severity-controls-001/missing_named_profile/observe-input/pic_programmer.kicad_pcb",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-severity-controls-001/missing_named_profile/observation.json"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-severity-controls-001/missing_named_profile/observe.log",
+          "log_bytes": 0,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-severity-controls-001/missing_named_profile",
+          "signal_cancellation_enabled": true,
+          "pid": 15573,
+          "name": "observe"
+        }
+      ]
+    },
+    {
+      "case": "missing_default_profile",
+      "status": "failed",
+      "native_executed": true,
+      "control_passed": false,
+      "stages": {
+        "observe": {
+          "observation.json": "b2b4af8c8c273377796ccedeac008b18bf470f9e5c5685c700efdef81fe870c6",
+          "observe-process.json": "e26032d86fee6f1839092944a9f2da5e15812febd9883f4b0dab22784d48d2ad",
+          "observe.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "scene": {
+        "case": "missing_default_profile",
+        "pads": [
+          {
+            "uuid": "f94fd449-1080-5bfe-bc75-ffb34d09b58b",
+            "footprint_uuid": "c070eaf4-8ccd-50af-808c-83d90d76d4af",
+            "reference": "P1",
+            "number": "1",
+            "net": "GND",
+            "position_nm": [
+              10000000,
+              10000000
+            ],
+            "post_machined": false
+          },
+          {
+            "uuid": "2a1ac4a8-eef8-575b-84d8-41c76155e5dd",
+            "footprint_uuid": "8a29508f-4464-5ea6-98ac-79d915faab6d",
+            "reference": "P2",
+            "number": "1",
+            "net": "GND",
+            "position_nm": [
+              30000000,
+              10000000
+            ],
+            "post_machined": false
+          },
+          {
+            "uuid": "94d28fd3-035e-5d28-89ad-f3eff6d69666",
+            "footprint_uuid": "1eb9bf85-be18-5dce-b9d6-ba981e04323c",
+            "reference": "P3",
+            "number": "1",
+            "net": "SIGNAL_A",
+            "position_nm": [
+              10000000,
+              20000000
+            ],
+            "post_machined": false
+          },
+          {
+            "uuid": "3cd0996e-5a4c-542a-9454-16bcd993a381",
+            "footprint_uuid": "20bcb423-a57f-504d-9d1f-db870bbe0e2a",
+            "reference": "P4",
+            "number": "1",
+            "net": "SIGNAL_A",
+            "position_nm": [
+              30000000,
+              20000000
+            ],
+            "post_machined": false
+          }
+        ],
+        "tracks": [
+          {
+            "uuid": "af158420-2f97-5b0f-b747-bac57651d158",
+            "net": "GND",
+            "start_nm": [
+              10000000,
+              10000000
+            ],
+            "end_nm": [
+              30000000,
+              10000000
+            ],
+            "width_nm": 800000,
+            "layer": "F.Cu"
+          },
+          {
+            "uuid": "a9f93540-3cea-5be0-a0b7-b3a73215bbca",
+            "net": "SIGNAL_A",
+            "start_nm": [
+              10000000,
+              20000000
+            ],
+            "end_nm": [
+              30000000,
+              20000000
+            ],
+            "width_nm": 500000,
+            "layer": "F.Cu"
+          }
+        ],
+        "texts": [
+          {
+            "uuid": "c8fe43a2-1bc2-5702-b488-91f43d743de8",
+            "text": "Owned footprint text",
+            "layer": "F.Fab",
+            "parent": "footprint"
+          },
+          {
+            "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+            "text": "Owned board text",
+            "layer": "Dwgs.User",
+            "parent": "board"
+          }
+        ],
+        "target_class": "Default",
+        "profile": "MissingOwnedProfile",
+        "board_saved": false,
+        "routing_accepted": false,
+        "schematic_parity_qualified": false
+      },
+      "project_delta": [
+        {
+          "path": [
+            "net_settings",
+            "classes",
+            0,
+            "tuning_profile"
+          ],
+          "before": "",
+          "after": "MissingOwnedProfile"
+        }
+      ],
+      "input_hashes": {
+        "fp-lib-table": "e81a9c021142c92ce2795b9b94b37d4e7f04956dfe10c3d7869518c601e25ad8",
+        "libs/3d_shapes/adjustable_rx2v4.wrl": "f3dd9c781da7cfe705faef8f8999899a597088d7afbe727429823beec278ae54",
+        "libs/3d_shapes/textool_40.wrl": "ef484084ef42b8c2e61363426b63838e6069975a5a260bfd66f172227bf7f2c0",
+        "libs/pic_programmer_fp.pretty/40tex-Ell600.kicad_mod": "61c5b4297088827ba2d02143edc9cf031802ec0072e057cb8d8e5483b5d6fa9a",
+        "libs/pic_programmer_fp.pretty/RV2X4.kicad_mod": "64add84809f19b9eb77d86695ac19b2f87677e6849cdc1b103219c18ff8780cd",
+        "libs/pic_programmer_fp.pretty/SolderJumper-2_P1.3mm_Open_TrianglePad1.0x1.5mm.kicad_mod": "0449fc32c1f0ed8fc10f686bb06953dbcfcf06849c41c9ebde3876df60ace016",
+        "libs/pic_programmer_fp.pretty/TO-92.kicad_mod": "ee34a946728dbf06ab4fbcfe6d940c202f737420b010927eb537c0e911fe3a62",
+        "pic_programmer.kicad_pcb": "275b6cb6362111f45caead18f9afb241847c8dc64d208ad032f4bf82300e1cd0",
+        "pic_programmer.kicad_pro": "2f666b181c41f62b9c2b488247c0e8d3374579725260a02785127b06da212d40",
+        "pic_programmer.kicad_sch": "cf92bff8aebe19e45444f13b2ccd1c8ad578df6a226acd5381e2eff95e2fc08f",
+        "pic_programmer.kicad_sym": "311bf43e2f3999072cad00a00b8c894c6adbaec5b97ada2256b0db1d2115039a",
+        "pic_sockets.kicad_sch": "8cbf575b53b205280ca277df8affc6477cf20c5d06c63c267cd6fb19b6d771ae",
+        "sym-lib-table": "0115c6d84c88e0da8c7b47db401ae4f93f197ee9645b9dc4fbdad8d55a22a0e8",
+        "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+        "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5"
+      },
+      "intent_guard": {
+        "prospective_guard_only": true,
+        "source_intent_allowed": false,
+        "reasons": [
+          "nonempty class tuning profile"
+        ],
+        "class_profiles": [
+          {
+            "class": "Default",
+            "profile": "MissingOwnedProfile"
+          },
+          {
+            "class": "POWER",
+            "profile": ""
+          }
+        ],
+        "schematic_parity_qualified": false,
+        "production_support_changed": false
+      },
+      "error": "ValueError: native route/text identity differs",
+      "binding_evidence": {},
+      "steps": [
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.445494832994882,
+          "cpu_seconds": 0.42144999999999994,
+          "max_rss_bytes": 98484224,
+          "supervisor_cpu_seconds": 0.00439799999999968,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 41500672,
+          "sampled_peak_workdir_bytes": 741548,
+          "resource_guards": {
+            "max_group_rss_bytes": 2147483648,
+            "max_workdir_bytes": 20971520,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/pic_severity_controls_v1/worker.py",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-severity-controls-001/missing_default_profile/observe-input/pic_programmer.kicad_pcb",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-severity-controls-001/missing_default_profile/observation.json"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-severity-controls-001/missing_default_profile/observe.log",
+          "log_bytes": 0,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-severity-controls-001/missing_default_profile",
+          "signal_cancellation_enabled": true,
+          "pid": 15576,
+          "name": "observe"
+        }
+      ]
+    },
+    {
+      "case": "board_edge_text",
+      "status": "failed_expected_predicate",
+      "native_executed": true,
+      "control_passed": false,
+      "stages": {
+        "observe": {
+          "observation.json": "1277629c7f21a268daaa5f1e5eed6165e1d87a7f3a8dc5e35caee3129edb97ab",
+          "observe-process.json": "7eba1b09e611c35f9cc589d956af944a450328e31830c5a6a288960604991f67",
+          "observe.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "original-drc": {
+          "original-drc.json": "369e1f8eacd3dbf605667d143e9cac33f9fb530f75211e114ab00bddc07ac506",
+          "original-drc-process.json": "9fb3acaf2ffc2d4a292bf052d028a15bbe0815c758ec26e9dc5274098c0ea0ca",
+          "original-drc.log": "a1f1071a2959614d187497570bc2c4bc4819c760f405cde1015174f3fb26e207"
+        }
+      },
+      "scene": {
+        "case": "board_edge_text",
+        "pads": [
+          {
+            "uuid": "f94fd449-1080-5bfe-bc75-ffb34d09b58b",
+            "footprint_uuid": "c070eaf4-8ccd-50af-808c-83d90d76d4af",
+            "reference": "P1",
+            "number": "1",
+            "net": "GND",
+            "position_nm": [
+              10000000,
+              10000000
+            ],
+            "post_machined": false
+          },
+          {
+            "uuid": "2a1ac4a8-eef8-575b-84d8-41c76155e5dd",
+            "footprint_uuid": "8a29508f-4464-5ea6-98ac-79d915faab6d",
+            "reference": "P2",
+            "number": "1",
+            "net": "GND",
+            "position_nm": [
+              30000000,
+              10000000
+            ],
+            "post_machined": false
+          },
+          {
+            "uuid": "94d28fd3-035e-5d28-89ad-f3eff6d69666",
+            "footprint_uuid": "1eb9bf85-be18-5dce-b9d6-ba981e04323c",
+            "reference": "P3",
+            "number": "1",
+            "net": "SIGNAL_A",
+            "position_nm": [
+              10000000,
+              20000000
+            ],
+            "post_machined": false
+          },
+          {
+            "uuid": "3cd0996e-5a4c-542a-9454-16bcd993a381",
+            "footprint_uuid": "20bcb423-a57f-504d-9d1f-db870bbe0e2a",
+            "reference": "P4",
+            "number": "1",
+            "net": "SIGNAL_A",
+            "position_nm": [
+              30000000,
+              20000000
+            ],
+            "post_machined": false
+          }
+        ],
+        "tracks": [
+          {
+            "uuid": "af158420-2f97-5b0f-b747-bac57651d158",
+            "net": "GND",
+            "start_nm": [
+              10000000,
+              10000000
+            ],
+            "end_nm": [
+              30000000,
+              10000000
+            ],
+            "width_nm": 800000,
+            "layer": "F.Cu"
+          },
+          {
+            "uuid": "a9f93540-3cea-5be0-a0b7-b3a73215bbca",
+            "net": "SIGNAL_A",
+            "start_nm": [
+              10000000,
+              20000000
+            ],
+            "end_nm": [
+              30000000,
+              20000000
+            ],
+            "width_nm": 500000,
+            "layer": "F.Cu"
+          }
+        ],
+        "texts": [
+          {
+            "uuid": "c8fe43a2-1bc2-5702-b488-91f43d743de8",
+            "text": "Owned footprint text",
+            "layer": "F.Fab",
+            "parent": "footprint"
+          },
+          {
+            "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+            "text": "Owned board text",
+            "layer": "Edge.Cuts",
+            "parent": "board"
+          }
+        ],
+        "target_class": null,
+        "profile": "",
+        "board_saved": false,
+        "routing_accepted": false,
+        "schematic_parity_qualified": false
+      },
+      "project_delta": [],
+      "input_hashes": {
+        "fp-lib-table": "e81a9c021142c92ce2795b9b94b37d4e7f04956dfe10c3d7869518c601e25ad8",
+        "libs/3d_shapes/adjustable_rx2v4.wrl": "f3dd9c781da7cfe705faef8f8999899a597088d7afbe727429823beec278ae54",
+        "libs/3d_shapes/textool_40.wrl": "ef484084ef42b8c2e61363426b63838e6069975a5a260bfd66f172227bf7f2c0",
+        "libs/pic_programmer_fp.pretty/40tex-Ell600.kicad_mod": "61c5b4297088827ba2d02143edc9cf031802ec0072e057cb8d8e5483b5d6fa9a",
+        "libs/pic_programmer_fp.pretty/RV2X4.kicad_mod": "64add84809f19b9eb77d86695ac19b2f87677e6849cdc1b103219c18ff8780cd",
+        "libs/pic_programmer_fp.pretty/SolderJumper-2_P1.3mm_Open_TrianglePad1.0x1.5mm.kicad_mod": "0449fc32c1f0ed8fc10f686bb06953dbcfcf06849c41c9ebde3876df60ace016",
+        "libs/pic_programmer_fp.pretty/TO-92.kicad_mod": "ee34a946728dbf06ab4fbcfe6d940c202f737420b010927eb537c0e911fe3a62",
+        "pic_programmer.kicad_pcb": "19fbf42a2b5fd9094898ae658965099486094564841db841e9a24a45d3971c53",
+        "pic_programmer.kicad_pro": "3b0ac39da5af86d0baa2a64da55a89c39ba00148dc82b54f3062f5c3650a5cc5",
+        "pic_programmer.kicad_sch": "cf92bff8aebe19e45444f13b2ccd1c8ad578df6a226acd5381e2eff95e2fc08f",
+        "pic_programmer.kicad_sym": "311bf43e2f3999072cad00a00b8c894c6adbaec5b97ada2256b0db1d2115039a",
+        "pic_sockets.kicad_sch": "8cbf575b53b205280ca277df8affc6477cf20c5d06c63c267cd6fb19b6d771ae",
+        "sym-lib-table": "0115c6d84c88e0da8c7b47db401ae4f93f197ee9645b9dc4fbdad8d55a22a0e8",
+        "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+        "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5"
+      },
+      "intent_guard": {
+        "prospective_guard_only": true,
+        "source_intent_allowed": false,
+        "reasons": [
+          "text/dimension/unknown Edge.Cuts item"
+        ],
+        "class_profiles": [
+          {
+            "class": "Default",
+            "profile": ""
+          },
+          {
+            "class": "POWER",
+            "profile": ""
+          }
+        ],
+        "schematic_parity_qualified": false,
+        "production_support_changed": false
+      },
+      "observation": {
+        "intent_and_geometry_observed": true,
+        "native_effective_profiles": {
+          "GND": "",
+          "SIGNAL_A": ""
+        },
+        "post_machined_pad_uuids": [],
+        "provider_enforcement_inferred": false,
+        "schematic_parity_qualified": false
+      },
+      "observation_verified": true,
+      "binding_evidence": {
+        "original-drc-binding.json": "df38c5e379841463342e1d76abaa8070928fe267f16063e4593f0baa43b04270"
+      },
+      "native": {
+        "opens": 0,
+        "blocking": 1,
+        "warnings": 4,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "key": "silk_edge_clearance"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Text (or dimension) on Edge.Cuts layer",
+            "items": [
+              {
+                "description": "PCB text 'Owned board text' on Edge.Cuts",
+                "pos": {
+                  "x": 20.0,
+                  "y": 5.0
+                },
+                "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d"
+              }
+            ],
+            "severity": "error",
+            "type": "text_on_edge_cuts"
+          },
+          {
+            "description": "Footprint has no courtyard defined",
+            "items": [
+              {
+                "description": "Footprint P1",
+                "pos": {
+                  "x": 10.0,
+                  "y": 10.0
+                },
+                "uuid": "c070eaf4-8ccd-50af-808c-83d90d76d4af"
+              }
+            ],
+            "severity": "warning",
+            "type": "missing_courtyard"
+          },
+          {
+            "description": "Footprint has no courtyard defined",
+            "items": [
+              {
+                "description": "Footprint P2",
+                "pos": {
+                  "x": 30.0,
+                  "y": 10.0
+                },
+                "uuid": "8a29508f-4464-5ea6-98ac-79d915faab6d"
+              }
+            ],
+            "severity": "warning",
+            "type": "missing_courtyard"
+          },
+          {
+            "description": "Footprint has no courtyard defined",
+            "items": [
+              {
+                "description": "Footprint P3",
+                "pos": {
+                  "x": 10.0,
+                  "y": 20.0
+                },
+                "uuid": "1eb9bf85-be18-5dce-b9d6-ba981e04323c"
+              }
+            ],
+            "severity": "warning",
+            "type": "missing_courtyard"
+          },
+          {
+            "description": "Footprint has no courtyard defined",
+            "items": [
+              {
+                "description": "Footprint P4",
+                "pos": {
+                  "x": 30.0,
+                  "y": 20.0
+                },
+                "uuid": "20bcb423-a57f-504d-9d1f-db870bbe0e2a"
+              }
+            ],
+            "severity": "warning",
+            "type": "missing_courtyard"
+          }
+        ]
+      },
+      "native_binding": {
+        "board_sha256": "19fbf42a2b5fd9094898ae658965099486094564841db841e9a24a45d3971c53",
+        "project_sha256": "3b0ac39da5af86d0baa2a64da55a89c39ba00148dc82b54f3062f5c3650a5cc5",
+        "report_sha256": "369e1f8eacd3dbf605667d143e9cac33f9fb530f75211e114ab00bddc07ac506",
+        "binding_sha256": "df38c5e379841463342e1d76abaa8070928fe267f16063e4593f0baa43b04270"
+      },
+      "predicate": {
+        "predicate_met": true,
+        "provider_detected": true,
+        "coverage_probe": false,
+        "coverage_outcome": null,
+        "target_findings": [
+          {
+            "description": "Text (or dimension) on Edge.Cuts layer",
+            "items": [
+              {
+                "description": "PCB text 'Owned board text' on Edge.Cuts",
+                "pos": {
+                  "x": 20.0,
+                  "y": 5.0
+                },
+                "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d"
+              }
+            ],
+            "severity": "error",
+            "type": "text_on_edge_cuts"
+          }
+        ],
+        "schematic_parity_qualified": false
+      },
+      "paired_positive_passed": false,
+      "steps": [
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.3844730409909971,
+          "cpu_seconds": 0.379334,
+          "max_rss_bytes": 97206272,
+          "supervisor_cpu_seconds": 0.003849999999999909,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 42975232,
+          "sampled_peak_workdir_bytes": 741250,
+          "resource_guards": {
+            "max_group_rss_bytes": 2147483648,
+            "max_workdir_bytes": 20971520,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/pic_severity_controls_v1/worker.py",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-severity-controls-001/board_edge_text/observe-input/pic_programmer.kicad_pcb",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-severity-controls-001/board_edge_text/observation.json"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-severity-controls-001/board_edge_text/observe.log",
+          "log_bytes": 0,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-severity-controls-001/board_edge_text",
+          "signal_cancellation_enabled": true,
+          "pid": 15590,
+          "name": "observe"
+        },
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 1.0317268749931827,
+          "cpu_seconds": 0.667715,
+          "max_rss_bytes": 271204352,
+          "supervisor_cpu_seconds": 0.013113000000000152,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 163594240,
+          "sampled_peak_workdir_bytes": 1540766,
+          "resource_guards": {
+            "max_group_rss_bytes": 2147483648,
+            "max_workdir_bytes": 20971520,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-severity-controls-001/board_edge_text/original-drc.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-severity-controls-001/board_edge_text/original-drc-input/pic_programmer.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-severity-controls-001/board_edge_text/original-drc.log",
+          "log_bytes": 177,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-severity-controls-001/board_edge_text",
+          "signal_cancellation_enabled": true,
+          "pid": 15592,
+          "name": "original-drc",
+          "validated_input_sha256": "19fbf42a2b5fd9094898ae658965099486094564841db841e9a24a45d3971c53",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-severity-controls-001/board_edge_text/observe-input/pic_programmer.kicad_pcb"
+        }
+      ]
+    },
+    {
+      "case": "footprint_edge_text",
+      "status": "failed",
+      "native_executed": true,
+      "control_passed": false,
+      "stages": {
+        "observe": {
+          "observation.json": "6ce3da706edd92b0657d6cf70cafdb0b225eb38df09599a3edb787a8b0ecd4ef",
+          "observe-process.json": "b972d156fb30fb71854772f4aa26ed43c012bd98a25d69f7f1e42fd288538d00",
+          "observe.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "scene": {
+        "case": "footprint_edge_text",
+        "pads": [
+          {
+            "uuid": "f94fd449-1080-5bfe-bc75-ffb34d09b58b",
+            "footprint_uuid": "c070eaf4-8ccd-50af-808c-83d90d76d4af",
+            "reference": "P1",
+            "number": "1",
+            "net": "GND",
+            "position_nm": [
+              10000000,
+              10000000
+            ],
+            "post_machined": false
+          },
+          {
+            "uuid": "2a1ac4a8-eef8-575b-84d8-41c76155e5dd",
+            "footprint_uuid": "8a29508f-4464-5ea6-98ac-79d915faab6d",
+            "reference": "P2",
+            "number": "1",
+            "net": "GND",
+            "position_nm": [
+              30000000,
+              10000000
+            ],
+            "post_machined": false
+          },
+          {
+            "uuid": "94d28fd3-035e-5d28-89ad-f3eff6d69666",
+            "footprint_uuid": "1eb9bf85-be18-5dce-b9d6-ba981e04323c",
+            "reference": "P3",
+            "number": "1",
+            "net": "SIGNAL_A",
+            "position_nm": [
+              10000000,
+              20000000
+            ],
+            "post_machined": false
+          },
+          {
+            "uuid": "3cd0996e-5a4c-542a-9454-16bcd993a381",
+            "footprint_uuid": "20bcb423-a57f-504d-9d1f-db870bbe0e2a",
+            "reference": "P4",
+            "number": "1",
+            "net": "SIGNAL_A",
+            "position_nm": [
+              30000000,
+              20000000
+            ],
+            "post_machined": false
+          }
+        ],
+        "tracks": [
+          {
+            "uuid": "af158420-2f97-5b0f-b747-bac57651d158",
+            "net": "GND",
+            "start_nm": [
+              10000000,
+              10000000
+            ],
+            "end_nm": [
+              30000000,
+              10000000
+            ],
+            "width_nm": 800000,
+            "layer": "F.Cu"
+          },
+          {
+            "uuid": "a9f93540-3cea-5be0-a0b7-b3a73215bbca",
+            "net": "SIGNAL_A",
+            "start_nm": [
+              10000000,
+              20000000
+            ],
+            "end_nm": [
+              30000000,
+              20000000
+            ],
+            "width_nm": 500000,
+            "layer": "F.Cu"
+          }
+        ],
+        "texts": [
+          {
+            "uuid": "c8fe43a2-1bc2-5702-b488-91f43d743de8",
+            "text": "Owned footprint text",
+            "layer": "Edge.Cuts",
+            "parent": "footprint"
+          },
+          {
+            "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+            "text": "Owned board text",
+            "layer": "Dwgs.User",
+            "parent": "board"
+          }
+        ],
+        "target_class": null,
+        "profile": "",
+        "board_saved": false,
+        "routing_accepted": false,
+        "schematic_parity_qualified": false
+      },
+      "project_delta": [],
+      "input_hashes": {
+        "fp-lib-table": "e81a9c021142c92ce2795b9b94b37d4e7f04956dfe10c3d7869518c601e25ad8",
+        "libs/3d_shapes/adjustable_rx2v4.wrl": "f3dd9c781da7cfe705faef8f8999899a597088d7afbe727429823beec278ae54",
+        "libs/3d_shapes/textool_40.wrl": "ef484084ef42b8c2e61363426b63838e6069975a5a260bfd66f172227bf7f2c0",
+        "libs/pic_programmer_fp.pretty/40tex-Ell600.kicad_mod": "61c5b4297088827ba2d02143edc9cf031802ec0072e057cb8d8e5483b5d6fa9a",
+        "libs/pic_programmer_fp.pretty/RV2X4.kicad_mod": "64add84809f19b9eb77d86695ac19b2f87677e6849cdc1b103219c18ff8780cd",
+        "libs/pic_programmer_fp.pretty/SolderJumper-2_P1.3mm_Open_TrianglePad1.0x1.5mm.kicad_mod": "0449fc32c1f0ed8fc10f686bb06953dbcfcf06849c41c9ebde3876df60ace016",
+        "libs/pic_programmer_fp.pretty/TO-92.kicad_mod": "ee34a946728dbf06ab4fbcfe6d940c202f737420b010927eb537c0e911fe3a62",
+        "pic_programmer.kicad_pcb": "bad91a3902b62079532594d191cf5b4331f4ec07784929a8604b8242863043ea",
+        "pic_programmer.kicad_pro": "3b0ac39da5af86d0baa2a64da55a89c39ba00148dc82b54f3062f5c3650a5cc5",
+        "pic_programmer.kicad_sch": "cf92bff8aebe19e45444f13b2ccd1c8ad578df6a226acd5381e2eff95e2fc08f",
+        "pic_programmer.kicad_sym": "311bf43e2f3999072cad00a00b8c894c6adbaec5b97ada2256b0db1d2115039a",
+        "pic_sockets.kicad_sch": "8cbf575b53b205280ca277df8affc6477cf20c5d06c63c267cd6fb19b6d771ae",
+        "sym-lib-table": "0115c6d84c88e0da8c7b47db401ae4f93f197ee9645b9dc4fbdad8d55a22a0e8",
+        "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+        "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5"
+      },
+      "intent_guard": {
+        "prospective_guard_only": true,
+        "source_intent_allowed": false,
+        "reasons": [
+          "text/dimension/unknown Edge.Cuts item"
+        ],
+        "class_profiles": [
+          {
+            "class": "Default",
+            "profile": ""
+          },
+          {
+            "class": "POWER",
+            "profile": ""
+          }
+        ],
+        "schematic_parity_qualified": false,
+        "production_support_changed": false
+      },
+      "error": "ValueError: native route/text identity differs",
+      "binding_evidence": {},
+      "steps": [
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.38551829099014867,
+          "cpu_seconds": 0.379067,
+          "max_rss_bytes": 97239040,
+          "supervisor_cpu_seconds": 0.003849999999999909,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 43008000,
+          "sampled_peak_workdir_bytes": 741274,
+          "resource_guards": {
+            "max_group_rss_bytes": 2147483648,
+            "max_workdir_bytes": 20971520,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/pic_severity_controls_v1/worker.py",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-severity-controls-001/footprint_edge_text/observe-input/pic_programmer.kicad_pcb",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-severity-controls-001/footprint_edge_text/observation.json"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-severity-controls-001/footprint_edge_text/observe.log",
+          "log_bytes": 0,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-severity-controls-001/footprint_edge_text",
+          "signal_cancellation_enabled": true,
+          "pid": 15606,
+          "name": "observe"
+        }
+      ]
+    },
+    {
+      "case": "pad_front_counterbore",
+      "status": "failed",
+      "native_executed": true,
+      "control_passed": false,
+      "stages": {
+        "observe": {
+          "observation.json": "d1ea4ba27b779d16d109588e0f53e7179a0988f225b51133886559a905329bf4",
+          "observe-process.json": "dd3a6db224e8aa78eb0aa644dcef10ecb20ce6ac62906e12fc9cbeef70d758a3",
+          "observe.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "scene": {
+        "case": "pad_front_counterbore",
+        "pads": [
+          {
+            "uuid": "f94fd449-1080-5bfe-bc75-ffb34d09b58b",
+            "footprint_uuid": "c070eaf4-8ccd-50af-808c-83d90d76d4af",
+            "reference": "P1",
+            "number": "1",
+            "net": "GND",
+            "position_nm": [
+              10000000,
+              10000000
+            ],
+            "post_machined": false
+          },
+          {
+            "uuid": "2a1ac4a8-eef8-575b-84d8-41c76155e5dd",
+            "footprint_uuid": "8a29508f-4464-5ea6-98ac-79d915faab6d",
+            "reference": "P2",
+            "number": "1",
+            "net": "GND",
+            "position_nm": [
+              30000000,
+              10000000
+            ],
+            "post_machined": false
+          },
+          {
+            "uuid": "94d28fd3-035e-5d28-89ad-f3eff6d69666",
+            "footprint_uuid": "1eb9bf85-be18-5dce-b9d6-ba981e04323c",
+            "reference": "P3",
+            "number": "1",
+            "net": "SIGNAL_A",
+            "position_nm": [
+              10000000,
+              20000000
+            ],
+            "post_machined": true
+          },
+          {
+            "uuid": "3cd0996e-5a4c-542a-9454-16bcd993a381",
+            "footprint_uuid": "20bcb423-a57f-504d-9d1f-db870bbe0e2a",
+            "reference": "P4",
+            "number": "1",
+            "net": "SIGNAL_A",
+            "position_nm": [
+              30000000,
+              20000000
+            ],
+            "post_machined": false
+          }
+        ],
+        "tracks": [
+          {
+            "uuid": "af158420-2f97-5b0f-b747-bac57651d158",
+            "net": "GND",
+            "start_nm": [
+              10000000,
+              10000000
+            ],
+            "end_nm": [
+              30000000,
+              10000000
+            ],
+            "width_nm": 800000,
+            "layer": "F.Cu"
+          },
+          {
+            "uuid": "a9f93540-3cea-5be0-a0b7-b3a73215bbca",
+            "net": "SIGNAL_A",
+            "start_nm": [
+              10000000,
+              20000000
+            ],
+            "end_nm": [
+              30000000,
+              20000000
+            ],
+            "width_nm": 500000,
+            "layer": "F.Cu"
+          }
+        ],
+        "texts": [
+          {
+            "uuid": "c8fe43a2-1bc2-5702-b488-91f43d743de8",
+            "text": "Owned footprint text",
+            "layer": "F.Fab",
+            "parent": "footprint"
+          },
+          {
+            "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+            "text": "Owned board text",
+            "layer": "Dwgs.User",
+            "parent": "board"
+          }
+        ],
+        "target_class": null,
+        "profile": "",
+        "board_saved": false,
+        "routing_accepted": false,
+        "schematic_parity_qualified": false
+      },
+      "project_delta": [],
+      "input_hashes": {
+        "fp-lib-table": "e81a9c021142c92ce2795b9b94b37d4e7f04956dfe10c3d7869518c601e25ad8",
+        "libs/3d_shapes/adjustable_rx2v4.wrl": "f3dd9c781da7cfe705faef8f8999899a597088d7afbe727429823beec278ae54",
+        "libs/3d_shapes/textool_40.wrl": "ef484084ef42b8c2e61363426b63838e6069975a5a260bfd66f172227bf7f2c0",
+        "libs/pic_programmer_fp.pretty/40tex-Ell600.kicad_mod": "61c5b4297088827ba2d02143edc9cf031802ec0072e057cb8d8e5483b5d6fa9a",
+        "libs/pic_programmer_fp.pretty/RV2X4.kicad_mod": "64add84809f19b9eb77d86695ac19b2f87677e6849cdc1b103219c18ff8780cd",
+        "libs/pic_programmer_fp.pretty/SolderJumper-2_P1.3mm_Open_TrianglePad1.0x1.5mm.kicad_mod": "0449fc32c1f0ed8fc10f686bb06953dbcfcf06849c41c9ebde3876df60ace016",
+        "libs/pic_programmer_fp.pretty/TO-92.kicad_mod": "ee34a946728dbf06ab4fbcfe6d940c202f737420b010927eb537c0e911fe3a62",
+        "pic_programmer.kicad_pcb": "d63201871ccde7d8a7bc07c0da539cce77623edd442bfe24da05ee9231eb34ae",
+        "pic_programmer.kicad_pro": "3b0ac39da5af86d0baa2a64da55a89c39ba00148dc82b54f3062f5c3650a5cc5",
+        "pic_programmer.kicad_sch": "cf92bff8aebe19e45444f13b2ccd1c8ad578df6a226acd5381e2eff95e2fc08f",
+        "pic_programmer.kicad_sym": "311bf43e2f3999072cad00a00b8c894c6adbaec5b97ada2256b0db1d2115039a",
+        "pic_sockets.kicad_sch": "8cbf575b53b205280ca277df8affc6477cf20c5d06c63c267cd6fb19b6d771ae",
+        "sym-lib-table": "0115c6d84c88e0da8c7b47db401ae4f93f197ee9645b9dc4fbdad8d55a22a0e8",
+        "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+        "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5"
+      },
+      "intent_guard": {
+        "prospective_guard_only": true,
+        "source_intent_allowed": false,
+        "reasons": [
+          "post-machining/backdrill intent"
+        ],
+        "class_profiles": [
+          {
+            "class": "Default",
+            "profile": ""
+          },
+          {
+            "class": "POWER",
+            "profile": ""
+          }
+        ],
+        "schematic_parity_qualified": false,
+        "production_support_changed": false
+      },
+      "error": "ValueError: native route/text identity differs",
+      "binding_evidence": {},
+      "steps": [
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.4022695829917211,
+          "cpu_seconds": 0.396256,
+          "max_rss_bytes": 98123776,
+          "supervisor_cpu_seconds": 0.004617000000000537,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 42352640,
+          "sampled_peak_workdir_bytes": 741344,
+          "resource_guards": {
+            "max_group_rss_bytes": 2147483648,
+            "max_workdir_bytes": 20971520,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/pic_severity_controls_v1/worker.py",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-severity-controls-001/pad_front_counterbore/observe-input/pic_programmer.kicad_pcb",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-severity-controls-001/pad_front_counterbore/observation.json"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-severity-controls-001/pad_front_counterbore/observe.log",
+          "log_bytes": 0,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-severity-controls-001/pad_front_counterbore",
+          "signal_cancellation_enabled": true,
+          "pid": 15609,
+          "name": "observe"
+        }
+      ]
+    }
+  ],
+  "production_gate_rejection": "unsupported: custom pads not qualified; unknown rule severity semantics: footprint_symbol_field_mismatch; unknown rule severity semantics: missing_tuning_profile; unknown rule severity semantics: text_on_edge_cuts; unknown rule severity semantics: track_on_post_machined_layer",
+  "source_hashes": {
+    "fp-lib-table": "e81a9c021142c92ce2795b9b94b37d4e7f04956dfe10c3d7869518c601e25ad8",
+    "libs/3d_shapes/adjustable_rx2v4.wrl": "f3dd9c781da7cfe705faef8f8999899a597088d7afbe727429823beec278ae54",
+    "libs/3d_shapes/textool_40.wrl": "ef484084ef42b8c2e61363426b63838e6069975a5a260bfd66f172227bf7f2c0",
+    "libs/pic_programmer_fp.pretty/40tex-Ell600.kicad_mod": "61c5b4297088827ba2d02143edc9cf031802ec0072e057cb8d8e5483b5d6fa9a",
+    "libs/pic_programmer_fp.pretty/RV2X4.kicad_mod": "64add84809f19b9eb77d86695ac19b2f87677e6849cdc1b103219c18ff8780cd",
+    "libs/pic_programmer_fp.pretty/SolderJumper-2_P1.3mm_Open_TrianglePad1.0x1.5mm.kicad_mod": "0449fc32c1f0ed8fc10f686bb06953dbcfcf06849c41c9ebde3876df60ace016",
+    "libs/pic_programmer_fp.pretty/TO-92.kicad_mod": "ee34a946728dbf06ab4fbcfe6d940c202f737420b010927eb537c0e911fe3a62",
+    "pic_programmer.kicad_pcb": "1ca70b620506818eb0227e2863bbd573d1fec1672072dc43d0dbe8475e69c8fb",
+    "pic_programmer.kicad_pro": "3b0ac39da5af86d0baa2a64da55a89c39ba00148dc82b54f3062f5c3650a5cc5",
+    "pic_programmer.kicad_sch": "cf92bff8aebe19e45444f13b2ccd1c8ad578df6a226acd5381e2eff95e2fc08f",
+    "pic_programmer.kicad_sym": "311bf43e2f3999072cad00a00b8c894c6adbaec5b97ada2256b0db1d2115039a",
+    "pic_sockets.kicad_sch": "8cbf575b53b205280ca277df8affc6477cf20c5d06c63c267cd6fb19b6d771ae",
+    "sym-lib-table": "0115c6d84c88e0da8c7b47db401ae4f93f197ee9645b9dc4fbdad8d55a22a0e8",
+    "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5"
+  },
+  "source_bytes": 1366598,
+  "source_file_count": 15,
+  "acquisition_receipt_sha256": "a2a8e9e22ff3e109de94733aa8f5e99ca5fd476ef9ec20be837c54100036eac1",
+  "source_explicit_ignored_checks": [
+    "footprint_filters_mismatch",
+    "silk_edge_clearance",
+    "tuning_profile_track_geometries"
+  ],
+  "original_observed_effective_ignored_checks": [
+    "footprint_filters_mismatch",
+    "silk_edge_clearance",
+    "track_not_centered_on_via",
+    "tuning_profile_track_geometries"
+  ],
+  "original_native_report": {
+    "path": "evidence/pic-custom-observation-002/original-drc.json",
+    "sha256": "a3ae0798c019ee60d3fb37171a18bc940043c6329dbf1f24dc9c9463f1df01d7"
+  },
+  "protocol": {
+    "schema": 1,
+    "name": "owned-severity-intent-controls-v1",
+    "order": [
+      "positive",
+      "missing_named_profile",
+      "missing_default_profile",
+      "board_edge_text",
+      "footprint_edge_text",
+      "pad_front_counterbore"
+    ],
+    "wall_seconds": 90,
+    "full_cpu_seconds": 90,
+    "output_bytes": 20971520,
+    "source_board_sha256": "1ca70b620506818eb0227e2863bbd573d1fec1672072dc43d0dbe8475e69c8fb",
+    "source_project_sha256": "3b0ac39da5af86d0baa2a64da55a89c39ba00148dc82b54f3062f5c3650a5cc5",
+    "original_native_report_sha256": "a3ae0798c019ee60d3fb37171a18bc940043c6329dbf1f24dc9c9463f1df01d7",
+    "expected_effective_ignored_checks": [
+      "footprint_filters_mismatch",
+      "silk_edge_clearance",
+      "track_not_centered_on_via",
+      "tuning_profile_track_geometries"
+    ],
+    "board_saved": false,
+    "dsn_exported": false,
+    "routing_engine": false,
+    "production_support_changed": false,
+    "schematic_parity_qualified": false,
+    "project_delta": "Only the declared copied class tuning_profile for the two profile cases; every other project value and original severity/floor remains unchanged.",
+    "default_probe": "Loaded Default-only profile intent must be witnessed; finding present or omitted is recorded. Completion does not qualify Default-provider enforcement.",
+    "negative_predicates": "Exact target type/severity/UUIDs (profile is global/no UUID); no other blocking, critical, unknown findings or exclusions. All raw findings preserved.",
+    "parity_limit": "Exact CLI omits --schematic-parity; copied original schematic does not match newly authored fixture. Empty parity list never establishes coverage.",
+    "machining_limit": "Only front counterbore PTH recipe; exact native mode/size/depth/affected layer and targeted track+pad error required. Failure preserved; via/backdrill and countersink unsupported."
+  },
+  "protocol_sha256": "cf99ab31ac0abc217a5cb43b85c47e0ae9bb6b2440c5ddb03ef5442929c7844f",
+  "tools": {
+    "implementation_sha256": {
+      "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+      "autorouter/__main__.py": "392fce11f56a05acd7cc90c504d016e0ca04ece04fde70d95fbfef48c2fac8fc",
+      "autorouter/adapter.py": "509feca807ccee112b0b6a071fd0944c88177ba83f5b77422ec8be5cdf63d25b",
+      "autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+      "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+      "autorouter/floor_context.py": "8c00a443a9a6bd5e05c416b031b0f2dcc4f6e836f3769acab9ceced4fba91c14",
+      "autorouter/floor_route.py": "403582db57db73c5d10b4083b3e050f70966b07d3b219cd3ad0f3c387aa51b88",
+      "autorouter/handoff.py": "74f022bae8a8d89ebf86d7d2a3255a7c41a6f171e041ecc0c73ee5346a82a936",
+      "autorouter/native.py": "7257496b007fbc449adb3cc8b999712aed8ea0aa881a116ba337d18e2ab87c02",
+      "autorouter/netclass.py": "d0d26610b550b0655a1eafc3022196e31f59f719b5b3f0a727c464f9c90eda61",
+      "autorouter/pipeline.py": "f7555490c1e010c35a604365e253a11d31036c6c170d0543b25f85929aaff8ad",
+      "autorouter/placement_clearance.py": "b1d891d0bc8284bcac80a20cff11263afc8966e30ce8baaf35f1ae78e27ff152",
+      "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+      "autorouter/recovery.py": "95cebb44d8eac6e9903bd33e65b5cef887d8b1531f67375b940442f1237c2f9a",
+      "autorouter/runner.py": "0e81ab1badf20cd84adc2fed586641dd97a489a5a6af03febe6fb597bb1d2718",
+      "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+      "autorouter/strategy.py": "a85e9097f3f20508a0d72f50078dad531a3cccc2f41b85da3a74c0a826b1d558",
+      "autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+      "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+      "autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455"
+    },
+    "git_head": "59171d628b087a465d6e365fa31bba7e9ec2a225",
+    "kicad": "10.0.0",
+    "freerouting": "2.5.0",
+    "files": {
+      "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+      "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219"
+    },
+    "network": "engine sandbox-exec deny network*"
+  },
+  "runtime_sources": {
+    "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+    "autorouter/__main__.py": "392fce11f56a05acd7cc90c504d016e0ca04ece04fde70d95fbfef48c2fac8fc",
+    "autorouter/adapter.py": "509feca807ccee112b0b6a071fd0944c88177ba83f5b77422ec8be5cdf63d25b",
+    "autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+    "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+    "autorouter/floor_context.py": "8c00a443a9a6bd5e05c416b031b0f2dcc4f6e836f3769acab9ceced4fba91c14",
+    "autorouter/floor_route.py": "403582db57db73c5d10b4083b3e050f70966b07d3b219cd3ad0f3c387aa51b88",
+    "autorouter/handoff.py": "74f022bae8a8d89ebf86d7d2a3255a7c41a6f171e041ecc0c73ee5346a82a936",
+    "autorouter/native.py": "7257496b007fbc449adb3cc8b999712aed8ea0aa881a116ba337d18e2ab87c02",
+    "autorouter/netclass.py": "d0d26610b550b0655a1eafc3022196e31f59f719b5b3f0a727c464f9c90eda61",
+    "autorouter/pipeline.py": "f7555490c1e010c35a604365e253a11d31036c6c170d0543b25f85929aaff8ad",
+    "autorouter/placement_clearance.py": "b1d891d0bc8284bcac80a20cff11263afc8966e30ce8baaf35f1ae78e27ff152",
+    "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+    "autorouter/recovery.py": "95cebb44d8eac6e9903bd33e65b5cef887d8b1531f67375b940442f1237c2f9a",
+    "autorouter/runner.py": "0e81ab1badf20cd84adc2fed586641dd97a489a5a6af03febe6fb597bb1d2718",
+    "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+    "autorouter/strategy.py": "a85e9097f3f20508a0d72f50078dad531a3cccc2f41b85da3a74c0a826b1d558",
+    "autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+    "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+    "autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455",
+    "toolchain.lock.json": "f04be5cdf6f64bddc16a6c5efd217b2f5e0a1341906ff44033f5807971154efe",
+    "experiments/pic_severity_controls_v1/driver.py": "15aa76b9e47e04d3c1e77bb74b91864f47e40f6e57e980c6e21ac0f81b6634d8",
+    "experiments/pic_severity_controls_v1/worker.py": "31985a03709d7224b49ca3f16cb03b42ba1978f8318ae7d8725513711c3af769",
+    "experiments/pic_severity_controls_v1/fixture.py": "3b423afcacd7ad3e681446f21fed9a1c5b62cb47904a307ce6f9b594a29cde73",
+    "experiments/pic_severity_controls_v1/checks.py": "deee186e98360611a11f52930fc9d2c217958d0e1b26f86eea9db8f3724b0120",
+    "experiments/pic_severity_controls_v1/intent.py": "a8e5824e9ae1ef2a8f706db25313454ece753ca099d4b1e16129401c172986e4",
+    "experiments/pic_severity_controls_v1/test_controls.py": "e602e2aad4ccc37200632cacce1eef09070722463290c3b0a8fe8c3ab52583e0",
+    "experiments/pic_severity_controls_v1/PROTOCOL.json": "cf99ab31ac0abc217a5cb43b85c47e0ae9bb6b2440c5ddb03ef5442929c7844f",
+    "experiments/pic_severity_controls_v1/README.md": "2222ae131effde0b7749b3e08a83166ec3fffe3504b37219528a77a6cf1b0d35",
+    "experiments/pic_severity_controls_v1/SOURCE-NOTES.md": "61cc417578486527ce3134911438f4244747e373e12cbb41711808fb57cab92e",
+    "evidence/pic-custom-observation-002/original-drc.json": "a3ae0798c019ee60d3fb37171a18bc940043c6329dbf1f24dc9c9463f1df01d7"
+  },
+  "planned_project_copy_bytes_upper_bound": 16399176,
+  "original_inputs_unchanged": true,
+  "completed_evidence": {
+    "board_edge_text/kicad-config/10.0/3d_viewer.json": "196678c94fed37c15510bb4b54d6e4eec989a0c3f9b4d30ff1be0d1425992bf3",
+    "board_edge_text/kicad-config/10.0/cvpcb.json": "b93174a3b1470f1ce0e43c90268ce83976432c5210d906a3846ee7976ea9d272",
+    "board_edge_text/kicad-config/10.0/eeschema.json": "ce1d47af13c60254b736992e8a387cf93b06c83f302e3aaa4c6836acb05d3502",
+    "board_edge_text/kicad-config/10.0/fpedit.json": "e88988497732f32bf92cccd726d7d28ea7dfe1922d693448a38cb4c063f9d368",
+    "board_edge_text/kicad-config/10.0/kicad.json": "026a2e3d05986b554bc6f5aa8590c69e847090527e0e718287e1005dbd905015",
+    "board_edge_text/kicad-config/10.0/kicad_common.json": "438f226c986900faaec2c98d4530e8aa68fbaf9866d32a1bde78a88196840cbb",
+    "board_edge_text/kicad-config/10.0/pcbnew.json": "f0822c67ee74c2e6189603de283b6d288e77a6a201c65d2f6b60afd119c95845",
+    "board_edge_text/kicad-config/10.0/symbol_editor.json": "a3212dc53c3cbfd170a2bb6ae42db289bc6f4c3cf6df9abc4a5c856d22d2f86a",
+    "board_edge_text/observation.json": "1277629c7f21a268daaa5f1e5eed6165e1d87a7f3a8dc5e35caee3129edb97ab",
+    "board_edge_text/observe-input/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+    "board_edge_text/observe-input/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    "board_edge_text/observe-input/fp-lib-table": "e81a9c021142c92ce2795b9b94b37d4e7f04956dfe10c3d7869518c601e25ad8",
+    "board_edge_text/observe-input/libs/3d_shapes/adjustable_rx2v4.wrl": "f3dd9c781da7cfe705faef8f8999899a597088d7afbe727429823beec278ae54",
+    "board_edge_text/observe-input/libs/3d_shapes/textool_40.wrl": "ef484084ef42b8c2e61363426b63838e6069975a5a260bfd66f172227bf7f2c0",
+    "board_edge_text/observe-input/libs/pic_programmer_fp.pretty/40tex-Ell600.kicad_mod": "61c5b4297088827ba2d02143edc9cf031802ec0072e057cb8d8e5483b5d6fa9a",
+    "board_edge_text/observe-input/libs/pic_programmer_fp.pretty/RV2X4.kicad_mod": "64add84809f19b9eb77d86695ac19b2f87677e6849cdc1b103219c18ff8780cd",
+    "board_edge_text/observe-input/libs/pic_programmer_fp.pretty/SolderJumper-2_P1.3mm_Open_TrianglePad1.0x1.5mm.kicad_mod": "0449fc32c1f0ed8fc10f686bb06953dbcfcf06849c41c9ebde3876df60ace016",
+    "board_edge_text/observe-input/libs/pic_programmer_fp.pretty/TO-92.kicad_mod": "ee34a946728dbf06ab4fbcfe6d940c202f737420b010927eb537c0e911fe3a62",
+    "board_edge_text/observe-input/pic_programmer.kicad_pcb": "19fbf42a2b5fd9094898ae658965099486094564841db841e9a24a45d3971c53",
+    "board_edge_text/observe-input/pic_programmer.kicad_pro": "3b0ac39da5af86d0baa2a64da55a89c39ba00148dc82b54f3062f5c3650a5cc5",
+    "board_edge_text/observe-input/pic_programmer.kicad_sch": "cf92bff8aebe19e45444f13b2ccd1c8ad578df6a226acd5381e2eff95e2fc08f",
+    "board_edge_text/observe-input/pic_programmer.kicad_sym": "311bf43e2f3999072cad00a00b8c894c6adbaec5b97ada2256b0db1d2115039a",
+    "board_edge_text/observe-input/pic_sockets.kicad_sch": "8cbf575b53b205280ca277df8affc6477cf20c5d06c63c267cd6fb19b6d771ae",
+    "board_edge_text/observe-input/sym-lib-table": "0115c6d84c88e0da8c7b47db401ae4f93f197ee9645b9dc4fbdad8d55a22a0e8",
+    "board_edge_text/observe-process.json": "7eba1b09e611c35f9cc589d956af944a450328e31830c5a6a288960604991f67",
+    "board_edge_text/observe.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "board_edge_text/original-drc-binding.json": "df38c5e379841463342e1d76abaa8070928fe267f16063e4593f0baa43b04270",
+    "board_edge_text/original-drc-input/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+    "board_edge_text/original-drc-input/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    "board_edge_text/original-drc-input/fp-lib-table": "e81a9c021142c92ce2795b9b94b37d4e7f04956dfe10c3d7869518c601e25ad8",
+    "board_edge_text/original-drc-input/libs/3d_shapes/adjustable_rx2v4.wrl": "f3dd9c781da7cfe705faef8f8999899a597088d7afbe727429823beec278ae54",
+    "board_edge_text/original-drc-input/libs/3d_shapes/textool_40.wrl": "ef484084ef42b8c2e61363426b63838e6069975a5a260bfd66f172227bf7f2c0",
+    "board_edge_text/original-drc-input/libs/pic_programmer_fp.pretty/40tex-Ell600.kicad_mod": "61c5b4297088827ba2d02143edc9cf031802ec0072e057cb8d8e5483b5d6fa9a",
+    "board_edge_text/original-drc-input/libs/pic_programmer_fp.pretty/RV2X4.kicad_mod": "64add84809f19b9eb77d86695ac19b2f87677e6849cdc1b103219c18ff8780cd",
+    "board_edge_text/original-drc-input/libs/pic_programmer_fp.pretty/SolderJumper-2_P1.3mm_Open_TrianglePad1.0x1.5mm.kicad_mod": "0449fc32c1f0ed8fc10f686bb06953dbcfcf06849c41c9ebde3876df60ace016",
+    "board_edge_text/original-drc-input/libs/pic_programmer_fp.pretty/TO-92.kicad_mod": "ee34a946728dbf06ab4fbcfe6d940c202f737420b010927eb537c0e911fe3a62",
+    "board_edge_text/original-drc-input/pic_programmer.kicad_pcb": "19fbf42a2b5fd9094898ae658965099486094564841db841e9a24a45d3971c53",
+    "board_edge_text/original-drc-input/pic_programmer.kicad_prl": "76cd12bad2eb64ef16184b89f9b6826085733a663df6ade3829f48c74f79f759",
+    "board_edge_text/original-drc-input/pic_programmer.kicad_pro": "3b0ac39da5af86d0baa2a64da55a89c39ba00148dc82b54f3062f5c3650a5cc5",
+    "board_edge_text/original-drc-input/pic_programmer.kicad_sch": "cf92bff8aebe19e45444f13b2ccd1c8ad578df6a226acd5381e2eff95e2fc08f",
+    "board_edge_text/original-drc-input/pic_programmer.kicad_sym": "311bf43e2f3999072cad00a00b8c894c6adbaec5b97ada2256b0db1d2115039a",
+    "board_edge_text/original-drc-input/pic_sockets.kicad_sch": "8cbf575b53b205280ca277df8affc6477cf20c5d06c63c267cd6fb19b6d771ae",
+    "board_edge_text/original-drc-input/sym-lib-table": "0115c6d84c88e0da8c7b47db401ae4f93f197ee9645b9dc4fbdad8d55a22a0e8",
+    "board_edge_text/original-drc-process.json": "9fb3acaf2ffc2d4a292bf052d028a15bbe0815c758ec26e9dc5274098c0ea0ca",
+    "board_edge_text/original-drc.json": "369e1f8eacd3dbf605667d143e9cac33f9fb530f75211e114ab00bddc07ac506",
+    "board_edge_text/original-drc.log": "a1f1071a2959614d187497570bc2c4bc4819c760f405cde1015174f3fb26e207",
+    "board_edge_text/recipe.json": "949429b8cb92eebbd79f023c4798be7790044fe2a45c0ed62ccda6b248756bce",
+    "code/autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+    "code/autorouter/__main__.py": "392fce11f56a05acd7cc90c504d016e0ca04ece04fde70d95fbfef48c2fac8fc",
+    "code/autorouter/adapter.py": "509feca807ccee112b0b6a071fd0944c88177ba83f5b77422ec8be5cdf63d25b",
+    "code/autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+    "code/autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+    "code/autorouter/floor_context.py": "8c00a443a9a6bd5e05c416b031b0f2dcc4f6e836f3769acab9ceced4fba91c14",
+    "code/autorouter/floor_route.py": "403582db57db73c5d10b4083b3e050f70966b07d3b219cd3ad0f3c387aa51b88",
+    "code/autorouter/handoff.py": "74f022bae8a8d89ebf86d7d2a3255a7c41a6f171e041ecc0c73ee5346a82a936",
+    "code/autorouter/native.py": "7257496b007fbc449adb3cc8b999712aed8ea0aa881a116ba337d18e2ab87c02",
+    "code/autorouter/netclass.py": "d0d26610b550b0655a1eafc3022196e31f59f719b5b3f0a727c464f9c90eda61",
+    "code/autorouter/pipeline.py": "f7555490c1e010c35a604365e253a11d31036c6c170d0543b25f85929aaff8ad",
+    "code/autorouter/placement_clearance.py": "b1d891d0bc8284bcac80a20cff11263afc8966e30ce8baaf35f1ae78e27ff152",
+    "code/autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+    "code/autorouter/recovery.py": "95cebb44d8eac6e9903bd33e65b5cef887d8b1531f67375b940442f1237c2f9a",
+    "code/autorouter/runner.py": "0e81ab1badf20cd84adc2fed586641dd97a489a5a6af03febe6fb597bb1d2718",
+    "code/autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+    "code/autorouter/strategy.py": "a85e9097f3f20508a0d72f50078dad531a3cccc2f41b85da3a74c0a826b1d558",
+    "code/autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+    "code/autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+    "code/autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455",
+    "code/evidence/pic-custom-observation-002/original-drc.json": "a3ae0798c019ee60d3fb37171a18bc940043c6329dbf1f24dc9c9463f1df01d7",
+    "code/experiments/pic_severity_controls_v1/PROTOCOL.json": "cf99ab31ac0abc217a5cb43b85c47e0ae9bb6b2440c5ddb03ef5442929c7844f",
+    "code/experiments/pic_severity_controls_v1/README.md": "2222ae131effde0b7749b3e08a83166ec3fffe3504b37219528a77a6cf1b0d35",
+    "code/experiments/pic_severity_controls_v1/SOURCE-NOTES.md": "61cc417578486527ce3134911438f4244747e373e12cbb41711808fb57cab92e",
+    "code/experiments/pic_severity_controls_v1/checks.py": "deee186e98360611a11f52930fc9d2c217958d0e1b26f86eea9db8f3724b0120",
+    "code/experiments/pic_severity_controls_v1/driver.py": "15aa76b9e47e04d3c1e77bb74b91864f47e40f6e57e980c6e21ac0f81b6634d8",
+    "code/experiments/pic_severity_controls_v1/fixture.py": "3b423afcacd7ad3e681446f21fed9a1c5b62cb47904a307ce6f9b594a29cde73",
+    "code/experiments/pic_severity_controls_v1/intent.py": "a8e5824e9ae1ef2a8f706db25313454ece753ca099d4b1e16129401c172986e4",
+    "code/experiments/pic_severity_controls_v1/test_controls.py": "e602e2aad4ccc37200632cacce1eef09070722463290c3b0a8fe8c3ab52583e0",
+    "code/experiments/pic_severity_controls_v1/worker.py": "31985a03709d7224b49ca3f16cb03b42ba1978f8318ae7d8725513711c3af769",
+    "code/toolchain.lock.json": "f04be5cdf6f64bddc16a6c5efd217b2f5e0a1341906ff44033f5807971154efe",
+    "footprint_edge_text/observation.json": "6ce3da706edd92b0657d6cf70cafdb0b225eb38df09599a3edb787a8b0ecd4ef",
+    "footprint_edge_text/observe-input/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+    "footprint_edge_text/observe-input/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    "footprint_edge_text/observe-input/fp-lib-table": "e81a9c021142c92ce2795b9b94b37d4e7f04956dfe10c3d7869518c601e25ad8",
+    "footprint_edge_text/observe-input/libs/3d_shapes/adjustable_rx2v4.wrl": "f3dd9c781da7cfe705faef8f8999899a597088d7afbe727429823beec278ae54",
+    "footprint_edge_text/observe-input/libs/3d_shapes/textool_40.wrl": "ef484084ef42b8c2e61363426b63838e6069975a5a260bfd66f172227bf7f2c0",
+    "footprint_edge_text/observe-input/libs/pic_programmer_fp.pretty/40tex-Ell600.kicad_mod": "61c5b4297088827ba2d02143edc9cf031802ec0072e057cb8d8e5483b5d6fa9a",
+    "footprint_edge_text/observe-input/libs/pic_programmer_fp.pretty/RV2X4.kicad_mod": "64add84809f19b9eb77d86695ac19b2f87677e6849cdc1b103219c18ff8780cd",
+    "footprint_edge_text/observe-input/libs/pic_programmer_fp.pretty/SolderJumper-2_P1.3mm_Open_TrianglePad1.0x1.5mm.kicad_mod": "0449fc32c1f0ed8fc10f686bb06953dbcfcf06849c41c9ebde3876df60ace016",
+    "footprint_edge_text/observe-input/libs/pic_programmer_fp.pretty/TO-92.kicad_mod": "ee34a946728dbf06ab4fbcfe6d940c202f737420b010927eb537c0e911fe3a62",
+    "footprint_edge_text/observe-input/pic_programmer.kicad_pcb": "bad91a3902b62079532594d191cf5b4331f4ec07784929a8604b8242863043ea",
+    "footprint_edge_text/observe-input/pic_programmer.kicad_pro": "3b0ac39da5af86d0baa2a64da55a89c39ba00148dc82b54f3062f5c3650a5cc5",
+    "footprint_edge_text/observe-input/pic_programmer.kicad_sch": "cf92bff8aebe19e45444f13b2ccd1c8ad578df6a226acd5381e2eff95e2fc08f",
+    "footprint_edge_text/observe-input/pic_programmer.kicad_sym": "311bf43e2f3999072cad00a00b8c894c6adbaec5b97ada2256b0db1d2115039a",
+    "footprint_edge_text/observe-input/pic_sockets.kicad_sch": "8cbf575b53b205280ca277df8affc6477cf20c5d06c63c267cd6fb19b6d771ae",
+    "footprint_edge_text/observe-input/sym-lib-table": "0115c6d84c88e0da8c7b47db401ae4f93f197ee9645b9dc4fbdad8d55a22a0e8",
+    "footprint_edge_text/observe-process.json": "b972d156fb30fb71854772f4aa26ed43c012bd98a25d69f7f1e42fd288538d00",
+    "footprint_edge_text/observe.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "footprint_edge_text/recipe.json": "1b83c4ac128f31f8604b71af4fbfe218f482a690e0e22e4c0871e3c9eeab21c4",
+    "missing_default_profile/observation.json": "b2b4af8c8c273377796ccedeac008b18bf470f9e5c5685c700efdef81fe870c6",
+    "missing_default_profile/observe-input/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+    "missing_default_profile/observe-input/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    "missing_default_profile/observe-input/fp-lib-table": "e81a9c021142c92ce2795b9b94b37d4e7f04956dfe10c3d7869518c601e25ad8",
+    "missing_default_profile/observe-input/libs/3d_shapes/adjustable_rx2v4.wrl": "f3dd9c781da7cfe705faef8f8999899a597088d7afbe727429823beec278ae54",
+    "missing_default_profile/observe-input/libs/3d_shapes/textool_40.wrl": "ef484084ef42b8c2e61363426b63838e6069975a5a260bfd66f172227bf7f2c0",
+    "missing_default_profile/observe-input/libs/pic_programmer_fp.pretty/40tex-Ell600.kicad_mod": "61c5b4297088827ba2d02143edc9cf031802ec0072e057cb8d8e5483b5d6fa9a",
+    "missing_default_profile/observe-input/libs/pic_programmer_fp.pretty/RV2X4.kicad_mod": "64add84809f19b9eb77d86695ac19b2f87677e6849cdc1b103219c18ff8780cd",
+    "missing_default_profile/observe-input/libs/pic_programmer_fp.pretty/SolderJumper-2_P1.3mm_Open_TrianglePad1.0x1.5mm.kicad_mod": "0449fc32c1f0ed8fc10f686bb06953dbcfcf06849c41c9ebde3876df60ace016",
+    "missing_default_profile/observe-input/libs/pic_programmer_fp.pretty/TO-92.kicad_mod": "ee34a946728dbf06ab4fbcfe6d940c202f737420b010927eb537c0e911fe3a62",
+    "missing_default_profile/observe-input/pic_programmer.kicad_pcb": "275b6cb6362111f45caead18f9afb241847c8dc64d208ad032f4bf82300e1cd0",
+    "missing_default_profile/observe-input/pic_programmer.kicad_pro": "2f666b181c41f62b9c2b488247c0e8d3374579725260a02785127b06da212d40",
+    "missing_default_profile/observe-input/pic_programmer.kicad_sch": "cf92bff8aebe19e45444f13b2ccd1c8ad578df6a226acd5381e2eff95e2fc08f",
+    "missing_default_profile/observe-input/pic_programmer.kicad_sym": "311bf43e2f3999072cad00a00b8c894c6adbaec5b97ada2256b0db1d2115039a",
+    "missing_default_profile/observe-input/pic_sockets.kicad_sch": "8cbf575b53b205280ca277df8affc6477cf20c5d06c63c267cd6fb19b6d771ae",
+    "missing_default_profile/observe-input/sym-lib-table": "0115c6d84c88e0da8c7b47db401ae4f93f197ee9645b9dc4fbdad8d55a22a0e8",
+    "missing_default_profile/observe-process.json": "e26032d86fee6f1839092944a9f2da5e15812febd9883f4b0dab22784d48d2ad",
+    "missing_default_profile/observe.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "missing_default_profile/recipe.json": "10300acbd59fb67626deef4ff75a1733dc81bd492f11e44c5a039c4f620a325a",
+    "missing_named_profile/observation.json": "cf535e0724a29338b878f1cbbf454a217771457c759297def6845d7712dbc615",
+    "missing_named_profile/observe-input/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+    "missing_named_profile/observe-input/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    "missing_named_profile/observe-input/fp-lib-table": "e81a9c021142c92ce2795b9b94b37d4e7f04956dfe10c3d7869518c601e25ad8",
+    "missing_named_profile/observe-input/libs/3d_shapes/adjustable_rx2v4.wrl": "f3dd9c781da7cfe705faef8f8999899a597088d7afbe727429823beec278ae54",
+    "missing_named_profile/observe-input/libs/3d_shapes/textool_40.wrl": "ef484084ef42b8c2e61363426b63838e6069975a5a260bfd66f172227bf7f2c0",
+    "missing_named_profile/observe-input/libs/pic_programmer_fp.pretty/40tex-Ell600.kicad_mod": "61c5b4297088827ba2d02143edc9cf031802ec0072e057cb8d8e5483b5d6fa9a",
+    "missing_named_profile/observe-input/libs/pic_programmer_fp.pretty/RV2X4.kicad_mod": "64add84809f19b9eb77d86695ac19b2f87677e6849cdc1b103219c18ff8780cd",
+    "missing_named_profile/observe-input/libs/pic_programmer_fp.pretty/SolderJumper-2_P1.3mm_Open_TrianglePad1.0x1.5mm.kicad_mod": "0449fc32c1f0ed8fc10f686bb06953dbcfcf06849c41c9ebde3876df60ace016",
+    "missing_named_profile/observe-input/libs/pic_programmer_fp.pretty/TO-92.kicad_mod": "ee34a946728dbf06ab4fbcfe6d940c202f737420b010927eb537c0e911fe3a62",
+    "missing_named_profile/observe-input/pic_programmer.kicad_pcb": "275b6cb6362111f45caead18f9afb241847c8dc64d208ad032f4bf82300e1cd0",
+    "missing_named_profile/observe-input/pic_programmer.kicad_pro": "9a79dc5b114ec2825d9f531da370949a71df76c1c78f3804b70762e4ea95d2f5",
+    "missing_named_profile/observe-input/pic_programmer.kicad_sch": "cf92bff8aebe19e45444f13b2ccd1c8ad578df6a226acd5381e2eff95e2fc08f",
+    "missing_named_profile/observe-input/pic_programmer.kicad_sym": "311bf43e2f3999072cad00a00b8c894c6adbaec5b97ada2256b0db1d2115039a",
+    "missing_named_profile/observe-input/pic_sockets.kicad_sch": "8cbf575b53b205280ca277df8affc6477cf20c5d06c63c267cd6fb19b6d771ae",
+    "missing_named_profile/observe-input/sym-lib-table": "0115c6d84c88e0da8c7b47db401ae4f93f197ee9645b9dc4fbdad8d55a22a0e8",
+    "missing_named_profile/observe-process.json": "edbaa4323fd686fcef9ea74183630aac03d89148f144394f4c83ff4509ba7e97",
+    "missing_named_profile/observe.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "missing_named_profile/recipe.json": "505e24ad64c20dcacfbd98b3f22605117f46d14d46eb42e662fd529bc8b0250b",
+    "pad_front_counterbore/observation.json": "d1ea4ba27b779d16d109588e0f53e7179a0988f225b51133886559a905329bf4",
+    "pad_front_counterbore/observe-input/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+    "pad_front_counterbore/observe-input/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    "pad_front_counterbore/observe-input/fp-lib-table": "e81a9c021142c92ce2795b9b94b37d4e7f04956dfe10c3d7869518c601e25ad8",
+    "pad_front_counterbore/observe-input/libs/3d_shapes/adjustable_rx2v4.wrl": "f3dd9c781da7cfe705faef8f8999899a597088d7afbe727429823beec278ae54",
+    "pad_front_counterbore/observe-input/libs/3d_shapes/textool_40.wrl": "ef484084ef42b8c2e61363426b63838e6069975a5a260bfd66f172227bf7f2c0",
+    "pad_front_counterbore/observe-input/libs/pic_programmer_fp.pretty/40tex-Ell600.kicad_mod": "61c5b4297088827ba2d02143edc9cf031802ec0072e057cb8d8e5483b5d6fa9a",
+    "pad_front_counterbore/observe-input/libs/pic_programmer_fp.pretty/RV2X4.kicad_mod": "64add84809f19b9eb77d86695ac19b2f87677e6849cdc1b103219c18ff8780cd",
+    "pad_front_counterbore/observe-input/libs/pic_programmer_fp.pretty/SolderJumper-2_P1.3mm_Open_TrianglePad1.0x1.5mm.kicad_mod": "0449fc32c1f0ed8fc10f686bb06953dbcfcf06849c41c9ebde3876df60ace016",
+    "pad_front_counterbore/observe-input/libs/pic_programmer_fp.pretty/TO-92.kicad_mod": "ee34a946728dbf06ab4fbcfe6d940c202f737420b010927eb537c0e911fe3a62",
+    "pad_front_counterbore/observe-input/pic_programmer.kicad_pcb": "d63201871ccde7d8a7bc07c0da539cce77623edd442bfe24da05ee9231eb34ae",
+    "pad_front_counterbore/observe-input/pic_programmer.kicad_pro": "3b0ac39da5af86d0baa2a64da55a89c39ba00148dc82b54f3062f5c3650a5cc5",
+    "pad_front_counterbore/observe-input/pic_programmer.kicad_sch": "cf92bff8aebe19e45444f13b2ccd1c8ad578df6a226acd5381e2eff95e2fc08f",
+    "pad_front_counterbore/observe-input/pic_programmer.kicad_sym": "311bf43e2f3999072cad00a00b8c894c6adbaec5b97ada2256b0db1d2115039a",
+    "pad_front_counterbore/observe-input/pic_sockets.kicad_sch": "8cbf575b53b205280ca277df8affc6477cf20c5d06c63c267cd6fb19b6d771ae",
+    "pad_front_counterbore/observe-input/sym-lib-table": "0115c6d84c88e0da8c7b47db401ae4f93f197ee9645b9dc4fbdad8d55a22a0e8",
+    "pad_front_counterbore/observe-process.json": "dd3a6db224e8aa78eb0aa644dcef10ecb20ce6ac62906e12fc9cbeef70d758a3",
+    "pad_front_counterbore/observe.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "pad_front_counterbore/recipe.json": "3c062b93fc4797c9c7dcdf72f0fdae3f24837eacdc1f069557bbf88e9e10c2ac",
+    "positive/observation.json": "ae6097312974572f9a8f297690d7a210d98f1fe8b45e6c78c7375ff100e52482",
+    "positive/observe-input/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+    "positive/observe-input/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    "positive/observe-input/fp-lib-table": "e81a9c021142c92ce2795b9b94b37d4e7f04956dfe10c3d7869518c601e25ad8",
+    "positive/observe-input/libs/3d_shapes/adjustable_rx2v4.wrl": "f3dd9c781da7cfe705faef8f8999899a597088d7afbe727429823beec278ae54",
+    "positive/observe-input/libs/3d_shapes/textool_40.wrl": "ef484084ef42b8c2e61363426b63838e6069975a5a260bfd66f172227bf7f2c0",
+    "positive/observe-input/libs/pic_programmer_fp.pretty/40tex-Ell600.kicad_mod": "61c5b4297088827ba2d02143edc9cf031802ec0072e057cb8d8e5483b5d6fa9a",
+    "positive/observe-input/libs/pic_programmer_fp.pretty/RV2X4.kicad_mod": "64add84809f19b9eb77d86695ac19b2f87677e6849cdc1b103219c18ff8780cd",
+    "positive/observe-input/libs/pic_programmer_fp.pretty/SolderJumper-2_P1.3mm_Open_TrianglePad1.0x1.5mm.kicad_mod": "0449fc32c1f0ed8fc10f686bb06953dbcfcf06849c41c9ebde3876df60ace016",
+    "positive/observe-input/libs/pic_programmer_fp.pretty/TO-92.kicad_mod": "ee34a946728dbf06ab4fbcfe6d940c202f737420b010927eb537c0e911fe3a62",
+    "positive/observe-input/pic_programmer.kicad_pcb": "275b6cb6362111f45caead18f9afb241847c8dc64d208ad032f4bf82300e1cd0",
+    "positive/observe-input/pic_programmer.kicad_pro": "3b0ac39da5af86d0baa2a64da55a89c39ba00148dc82b54f3062f5c3650a5cc5",
+    "positive/observe-input/pic_programmer.kicad_sch": "cf92bff8aebe19e45444f13b2ccd1c8ad578df6a226acd5381e2eff95e2fc08f",
+    "positive/observe-input/pic_programmer.kicad_sym": "311bf43e2f3999072cad00a00b8c894c6adbaec5b97ada2256b0db1d2115039a",
+    "positive/observe-input/pic_sockets.kicad_sch": "8cbf575b53b205280ca277df8affc6477cf20c5d06c63c267cd6fb19b6d771ae",
+    "positive/observe-input/sym-lib-table": "0115c6d84c88e0da8c7b47db401ae4f93f197ee9645b9dc4fbdad8d55a22a0e8",
+    "positive/observe-process.json": "c10c3b4972841afefa5c10d218146ffe25f3c7cc6c7e164637174efb108bc571",
+    "positive/observe.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "positive/recipe.json": "78a8bf09a67ec5d071c7177e872f4b1a8805206a71ab06d1943c2394a38b54f6"
+  },
+  "wall_seconds": 10.40066520900291,
+  "total_cpu_seconds": 8.680227,
+  "child_step_cpu_seconds": 3.110383,
+  "monitor_cpu_seconds": 0,
+  "native_executed": true,
+  "within_budget": true
+}

@@ -1,0 +1,353 @@
+{
+  "scope": "Exact original001 observations; added layer IDs require future native002, not inferred from this report.",
+  "cases": [
+    {
+      "case": "positive",
+      "status": "failed",
+      "error": "ValueError: native route/text identity differs",
+      "expected_texts": [
+        {
+          "uuid": "c8fe43a2-1bc2-5702-b488-91f43d743de8",
+          "text": "Owned footprint text",
+          "layer": "F.Fab",
+          "parent": "footprint"
+        },
+        {
+          "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+          "text": "Owned board text",
+          "layer": "Dwgs.User",
+          "parent": "board"
+        }
+      ],
+      "actual_texts": [
+        {
+          "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+          "text": "Owned board text",
+          "layer": "User.Drawings",
+          "parent": "board"
+        },
+        {
+          "uuid": "c8fe43a2-1bc2-5702-b488-91f43d743de8",
+          "text": "Owned footprint text",
+          "layer": "F.Fab",
+          "parent": "footprint"
+        }
+      ],
+      "actual_nets": [
+        {
+          "name": "GND",
+          "netcode": 1,
+          "class": "POWER",
+          "width_nm": 800000,
+          "clearance_nm": 280000,
+          "via_diameter_nm": 1600000,
+          "via_drill_nm": 600000,
+          "tuning_profile": "",
+          "has_tuning_profile": false
+        },
+        {
+          "name": "SIGNAL_A",
+          "netcode": 2,
+          "class": "Default",
+          "width_nm": 500000,
+          "clearance_nm": 250000,
+          "via_diameter_nm": 1600000,
+          "via_drill_nm": 600000,
+          "tuning_profile": "",
+          "has_tuning_profile": false
+        }
+      ],
+      "observation_sha256": "ae6097312974572f9a8f297690d7a210d98f1fe8b45e6c78c7375ff100e52482"
+    },
+    {
+      "case": "missing_named_profile",
+      "status": "failed",
+      "error": "ValueError: native route/text identity differs",
+      "expected_texts": [
+        {
+          "uuid": "c8fe43a2-1bc2-5702-b488-91f43d743de8",
+          "text": "Owned footprint text",
+          "layer": "F.Fab",
+          "parent": "footprint"
+        },
+        {
+          "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+          "text": "Owned board text",
+          "layer": "Dwgs.User",
+          "parent": "board"
+        }
+      ],
+      "actual_texts": [
+        {
+          "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+          "text": "Owned board text",
+          "layer": "User.Drawings",
+          "parent": "board"
+        },
+        {
+          "uuid": "c8fe43a2-1bc2-5702-b488-91f43d743de8",
+          "text": "Owned footprint text",
+          "layer": "F.Fab",
+          "parent": "footprint"
+        }
+      ],
+      "actual_nets": [
+        {
+          "name": "GND",
+          "netcode": 1,
+          "class": "POWER",
+          "width_nm": 800000,
+          "clearance_nm": 280000,
+          "via_diameter_nm": 1600000,
+          "via_drill_nm": 600000,
+          "tuning_profile": "MissingOwnedProfile",
+          "has_tuning_profile": true
+        },
+        {
+          "name": "SIGNAL_A",
+          "netcode": 2,
+          "class": "Default",
+          "width_nm": 500000,
+          "clearance_nm": 250000,
+          "via_diameter_nm": 1600000,
+          "via_drill_nm": 600000,
+          "tuning_profile": "",
+          "has_tuning_profile": false
+        }
+      ],
+      "observation_sha256": "cf535e0724a29338b878f1cbbf454a217771457c759297def6845d7712dbc615"
+    },
+    {
+      "case": "missing_default_profile",
+      "status": "failed",
+      "error": "ValueError: native route/text identity differs",
+      "expected_texts": [
+        {
+          "uuid": "c8fe43a2-1bc2-5702-b488-91f43d743de8",
+          "text": "Owned footprint text",
+          "layer": "F.Fab",
+          "parent": "footprint"
+        },
+        {
+          "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+          "text": "Owned board text",
+          "layer": "Dwgs.User",
+          "parent": "board"
+        }
+      ],
+      "actual_texts": [
+        {
+          "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+          "text": "Owned board text",
+          "layer": "User.Drawings",
+          "parent": "board"
+        },
+        {
+          "uuid": "c8fe43a2-1bc2-5702-b488-91f43d743de8",
+          "text": "Owned footprint text",
+          "layer": "F.Fab",
+          "parent": "footprint"
+        }
+      ],
+      "actual_nets": [
+        {
+          "name": "GND",
+          "netcode": 1,
+          "class": "POWER,Default",
+          "width_nm": 800000,
+          "clearance_nm": 280000,
+          "via_diameter_nm": 1600000,
+          "via_drill_nm": 600000,
+          "tuning_profile": "MissingOwnedProfile",
+          "has_tuning_profile": true
+        },
+        {
+          "name": "SIGNAL_A",
+          "netcode": 2,
+          "class": "Default",
+          "width_nm": 500000,
+          "clearance_nm": 250000,
+          "via_diameter_nm": 1600000,
+          "via_drill_nm": 600000,
+          "tuning_profile": "MissingOwnedProfile",
+          "has_tuning_profile": true
+        }
+      ],
+      "observation_sha256": "b2b4af8c8c273377796ccedeac008b18bf470f9e5c5685c700efdef81fe870c6"
+    },
+    {
+      "case": "board_edge_text",
+      "status": "failed_expected_predicate",
+      "error": null,
+      "expected_texts": [
+        {
+          "uuid": "c8fe43a2-1bc2-5702-b488-91f43d743de8",
+          "text": "Owned footprint text",
+          "layer": "F.Fab",
+          "parent": "footprint"
+        },
+        {
+          "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+          "text": "Owned board text",
+          "layer": "Edge.Cuts",
+          "parent": "board"
+        }
+      ],
+      "actual_texts": [
+        {
+          "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+          "text": "Owned board text",
+          "layer": "Edge.Cuts",
+          "parent": "board"
+        },
+        {
+          "uuid": "c8fe43a2-1bc2-5702-b488-91f43d743de8",
+          "text": "Owned footprint text",
+          "layer": "F.Fab",
+          "parent": "footprint"
+        }
+      ],
+      "actual_nets": [
+        {
+          "name": "GND",
+          "netcode": 1,
+          "class": "POWER",
+          "width_nm": 800000,
+          "clearance_nm": 280000,
+          "via_diameter_nm": 1600000,
+          "via_drill_nm": 600000,
+          "tuning_profile": "",
+          "has_tuning_profile": false
+        },
+        {
+          "name": "SIGNAL_A",
+          "netcode": 2,
+          "class": "Default",
+          "width_nm": 500000,
+          "clearance_nm": 250000,
+          "via_diameter_nm": 1600000,
+          "via_drill_nm": 600000,
+          "tuning_profile": "",
+          "has_tuning_profile": false
+        }
+      ],
+      "observation_sha256": "1277629c7f21a268daaa5f1e5eed6165e1d87a7f3a8dc5e35caee3129edb97ab"
+    },
+    {
+      "case": "footprint_edge_text",
+      "status": "failed",
+      "error": "ValueError: native route/text identity differs",
+      "expected_texts": [
+        {
+          "uuid": "c8fe43a2-1bc2-5702-b488-91f43d743de8",
+          "text": "Owned footprint text",
+          "layer": "Edge.Cuts",
+          "parent": "footprint"
+        },
+        {
+          "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+          "text": "Owned board text",
+          "layer": "Dwgs.User",
+          "parent": "board"
+        }
+      ],
+      "actual_texts": [
+        {
+          "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+          "text": "Owned board text",
+          "layer": "User.Drawings",
+          "parent": "board"
+        },
+        {
+          "uuid": "c8fe43a2-1bc2-5702-b488-91f43d743de8",
+          "text": "Owned footprint text",
+          "layer": "Edge.Cuts",
+          "parent": "footprint"
+        }
+      ],
+      "actual_nets": [
+        {
+          "name": "GND",
+          "netcode": 1,
+          "class": "POWER",
+          "width_nm": 800000,
+          "clearance_nm": 280000,
+          "via_diameter_nm": 1600000,
+          "via_drill_nm": 600000,
+          "tuning_profile": "",
+          "has_tuning_profile": false
+        },
+        {
+          "name": "SIGNAL_A",
+          "netcode": 2,
+          "class": "Default",
+          "width_nm": 500000,
+          "clearance_nm": 250000,
+          "via_diameter_nm": 1600000,
+          "via_drill_nm": 600000,
+          "tuning_profile": "",
+          "has_tuning_profile": false
+        }
+      ],
+      "observation_sha256": "6ce3da706edd92b0657d6cf70cafdb0b225eb38df09599a3edb787a8b0ecd4ef"
+    },
+    {
+      "case": "pad_front_counterbore",
+      "status": "failed",
+      "error": "ValueError: native route/text identity differs",
+      "expected_texts": [
+        {
+          "uuid": "c8fe43a2-1bc2-5702-b488-91f43d743de8",
+          "text": "Owned footprint text",
+          "layer": "F.Fab",
+          "parent": "footprint"
+        },
+        {
+          "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+          "text": "Owned board text",
+          "layer": "Dwgs.User",
+          "parent": "board"
+        }
+      ],
+      "actual_texts": [
+        {
+          "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+          "text": "Owned board text",
+          "layer": "User.Drawings",
+          "parent": "board"
+        },
+        {
+          "uuid": "c8fe43a2-1bc2-5702-b488-91f43d743de8",
+          "text": "Owned footprint text",
+          "layer": "F.Fab",
+          "parent": "footprint"
+        }
+      ],
+      "actual_nets": [
+        {
+          "name": "GND",
+          "netcode": 1,
+          "class": "POWER",
+          "width_nm": 800000,
+          "clearance_nm": 280000,
+          "via_diameter_nm": 1600000,
+          "via_drill_nm": 600000,
+          "tuning_profile": "",
+          "has_tuning_profile": false
+        },
+        {
+          "name": "SIGNAL_A",
+          "netcode": 2,
+          "class": "Default",
+          "width_nm": 500000,
+          "clearance_nm": 250000,
+          "via_diameter_nm": 1600000,
+          "via_drill_nm": 600000,
+          "tuning_profile": "",
+          "has_tuning_profile": false
+        }
+      ],
+      "observation_sha256": "d1ea4ba27b779d16d109588e0f53e7179a0988f225b51133886559a905329bf4"
+    }
+  ]
+}

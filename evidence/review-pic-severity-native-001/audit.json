@@ -1,0 +1,413 @@
+{
+  "schema": 1,
+  "status": "failed_native_run_consistency_verified",
+  "audit_passed": true,
+  "native_run_passed": false,
+  "native_executed_by_reviewer": false,
+  "git_head": "59171d628b087a465d6e365fa31bba7e9ec2a225",
+  "summary_sha256": "473c1d16335c149d31193126b65fd4dd62ca9618cbdb8ad42ddda3e3de8d3c86",
+  "execution_sha256": "fdfe1495f34c9cfea5d6d52312a8d94fb072943dccb0862a97015af1195cafdb",
+  "raw_file_count": 174,
+  "raw_bytes": 5777053,
+  "original_source_files": 15,
+  "checks": [
+    "honest failed batch, six denominator rows",
+    "expected order",
+    "original full project preserved",
+    "all completed material hashes exact",
+    "execution commit matches",
+    "frozen committed runtime autorouter/__init__.py",
+    "frozen committed runtime autorouter/__main__.py",
+    "frozen committed runtime autorouter/adapter.py",
+    "frozen committed runtime autorouter/board_floor.py",
+    "frozen committed runtime autorouter/config.py",
+    "frozen committed runtime autorouter/floor_context.py",
+    "frozen committed runtime autorouter/floor_route.py",
+    "frozen committed runtime autorouter/handoff.py",
+    "frozen committed runtime autorouter/native.py",
+    "frozen committed runtime autorouter/netclass.py",
+    "frozen committed runtime autorouter/pipeline.py",
+    "frozen committed runtime autorouter/placement_clearance.py",
+    "frozen committed runtime autorouter/placement_transform.py",
+    "frozen committed runtime autorouter/recovery.py",
+    "frozen committed runtime autorouter/runner.py",
+    "frozen committed runtime autorouter/sexpr.py",
+    "frozen committed runtime autorouter/strategy.py",
+    "frozen committed runtime autorouter/thermal.py",
+    "frozen committed runtime autorouter/thermal_geometry.py",
+    "frozen committed runtime autorouter/thermal_worker.py",
+    "frozen committed runtime toolchain.lock.json",
+    "frozen committed runtime experiments/pic_severity_controls_v1/driver.py",
+    "frozen committed runtime experiments/pic_severity_controls_v1/worker.py",
+    "frozen committed runtime experiments/pic_severity_controls_v1/fixture.py",
+    "frozen committed runtime experiments/pic_severity_controls_v1/checks.py",
+    "frozen committed runtime experiments/pic_severity_controls_v1/intent.py",
+    "frozen committed runtime experiments/pic_severity_controls_v1/test_controls.py",
+    "frozen committed runtime experiments/pic_severity_controls_v1/PROTOCOL.json",
+    "frozen committed runtime experiments/pic_severity_controls_v1/README.md",
+    "frozen committed runtime experiments/pic_severity_controls_v1/SOURCE-NOTES.md",
+    "frozen committed runtime evidence/pic-custom-observation-002/original-drc.json",
+    "frozen implementation manifest exact",
+    "tool pins match saved lock",
+    "current pinned tool bytes kicad-cli",
+    "current pinned tool bytes python3.9",
+    "current pinned tool bytes java",
+    "current pinned tool bytes freerouting-2.5.0.jar",
+    "current pinned tool bytes _pcbnew.so",
+    "wrapper/log exact",
+    "root invocation matches expected",
+    "no outer cleanup/cancellation",
+    "separate original/effective ignored lists",
+    "positive exact recipe and profile delta",
+    "positive copied project semantic identity",
+    "positive copied project byte identity",
+    "positive setup and layer table immutable",
+    "positive complete original companions preserved",
+    "positive input/census binding",
+    "positive observe captured artifacts exact",
+    "positive observe process receipt",
+    "positive observe exact nonsaving network-denied argv",
+    "positive sole text-label mismatch or exact board target",
+    "positive historical checker outcome reproduced",
+    "positive exact secondary identity diagnosis",
+    "positive DRC not reached, no invented counts",
+    "missing_named_profile exact recipe and profile delta",
+    "missing_named_profile copied project semantic identity",
+    "missing_named_profile setup and layer table immutable",
+    "missing_named_profile complete original companions preserved",
+    "missing_named_profile input/census binding",
+    "missing_named_profile observe captured artifacts exact",
+    "missing_named_profile observe process receipt",
+    "missing_named_profile observe exact nonsaving network-denied argv",
+    "missing_named_profile sole text-label mismatch or exact board target",
+    "missing_named_profile historical checker outcome reproduced",
+    "missing_named_profile exact secondary identity diagnosis",
+    "missing_named_profile DRC not reached, no invented counts",
+    "missing_default_profile exact recipe and profile delta",
+    "missing_default_profile copied project semantic identity",
+    "missing_default_profile setup and layer table immutable",
+    "missing_default_profile complete original companions preserved",
+    "missing_default_profile input/census binding",
+    "missing_default_profile observe captured artifacts exact",
+    "missing_default_profile observe process receipt",
+    "missing_default_profile observe exact nonsaving network-denied argv",
+    "missing_default_profile sole text-label mismatch or exact board target",
+    "missing_default_profile historical checker outcome reproduced",
+    "missing_default_profile exact secondary identity diagnosis",
+    "Default inheritance exact observed composite",
+    "missing_default_profile DRC not reached, no invented counts",
+    "board_edge_text exact recipe and profile delta",
+    "board_edge_text copied project semantic identity",
+    "board_edge_text copied project byte identity",
+    "board_edge_text setup and layer table immutable",
+    "board_edge_text complete original companions preserved",
+    "board_edge_text input/census binding",
+    "board_edge_text observe captured artifacts exact",
+    "board_edge_text original-drc captured artifacts exact",
+    "board_edge_text observe process receipt",
+    "board_edge_text observe exact nonsaving network-denied argv",
+    "board_edge_text original-drc process receipt",
+    "board_edge_text original-drc exact nonsaving network-denied argv",
+    "board_edge_text sole text-label mismatch or exact board target",
+    "board_edge_text historical checker outcome reproduced",
+    "board_edge_text exact secondary identity diagnosis",
+    "DRC original byte preservation",
+    "DRC binding file captured",
+    "only actual raw DRC summary exact",
+    "target observed but positive gate correctly fails",
+    "footprint_edge_text exact recipe and profile delta",
+    "footprint_edge_text copied project semantic identity",
+    "footprint_edge_text copied project byte identity",
+    "footprint_edge_text setup and layer table immutable",
+    "footprint_edge_text complete original companions preserved",
+    "footprint_edge_text input/census binding",
+    "footprint_edge_text observe captured artifacts exact",
+    "footprint_edge_text observe process receipt",
+    "footprint_edge_text observe exact nonsaving network-denied argv",
+    "footprint_edge_text sole text-label mismatch or exact board target",
+    "footprint_edge_text historical checker outcome reproduced",
+    "footprint_edge_text exact secondary identity diagnosis",
+    "footprint_edge_text DRC not reached, no invented counts",
+    "pad_front_counterbore exact recipe and profile delta",
+    "pad_front_counterbore copied project semantic identity",
+    "pad_front_counterbore copied project byte identity",
+    "pad_front_counterbore setup and layer table immutable",
+    "pad_front_counterbore complete original companions preserved",
+    "pad_front_counterbore input/census binding",
+    "pad_front_counterbore observe captured artifacts exact",
+    "pad_front_counterbore observe process receipt",
+    "pad_front_counterbore observe exact nonsaving network-denied argv",
+    "pad_front_counterbore sole text-label mismatch or exact board target",
+    "pad_front_counterbore historical checker outcome reproduced",
+    "pad_front_counterbore exact secondary identity diagnosis",
+    "pad_front_counterbore DRC not reached, no invented counts",
+    "six observes and one DRC",
+    "worker CPU sum exact",
+    "stored and external measured budgets",
+    "run evidence within20MiB",
+    "no support claim",
+    "entire raw run and original unchanged through audit"
+  ],
+  "check_count": 136,
+  "cases": [
+    {
+      "case": "positive",
+      "status": "failed",
+      "stages": [
+        "observe"
+      ],
+      "historical_error": "native route/text identity differs",
+      "text_mismatch": [
+        {
+          "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+          "expected": {
+            "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+            "text": "Owned board text",
+            "layer": "Dwgs.User",
+            "parent": "board"
+          },
+          "actual": {
+            "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+            "text": "Owned board text",
+            "layer": "User.Drawings",
+            "parent": "board"
+          }
+        }
+      ],
+      "secondary_after_synthetic_alias_only": null,
+      "native_classes": [
+        {
+          "name": "GND",
+          "class": "POWER",
+          "tuning_profile": "",
+          "width_nm": 800000,
+          "clearance_nm": 280000
+        },
+        {
+          "name": "SIGNAL_A",
+          "class": "Default",
+          "tuning_profile": "",
+          "width_nm": 500000,
+          "clearance_nm": 250000
+        }
+      ],
+      "native_counts": null,
+      "control_passed": false
+    },
+    {
+      "case": "missing_named_profile",
+      "status": "failed",
+      "stages": [
+        "observe"
+      ],
+      "historical_error": "native route/text identity differs",
+      "text_mismatch": [
+        {
+          "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+          "expected": {
+            "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+            "text": "Owned board text",
+            "layer": "Dwgs.User",
+            "parent": "board"
+          },
+          "actual": {
+            "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+            "text": "Owned board text",
+            "layer": "User.Drawings",
+            "parent": "board"
+          }
+        }
+      ],
+      "secondary_after_synthetic_alias_only": null,
+      "native_classes": [
+        {
+          "name": "GND",
+          "class": "POWER",
+          "tuning_profile": "MissingOwnedProfile",
+          "width_nm": 800000,
+          "clearance_nm": 280000
+        },
+        {
+          "name": "SIGNAL_A",
+          "class": "Default",
+          "tuning_profile": "",
+          "width_nm": 500000,
+          "clearance_nm": 250000
+        }
+      ],
+      "native_counts": null,
+      "control_passed": false
+    },
+    {
+      "case": "missing_default_profile",
+      "status": "failed",
+      "stages": [
+        "observe"
+      ],
+      "historical_error": "native route/text identity differs",
+      "text_mismatch": [
+        {
+          "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+          "expected": {
+            "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+            "text": "Owned board text",
+            "layer": "Dwgs.User",
+            "parent": "board"
+          },
+          "actual": {
+            "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+            "text": "Owned board text",
+            "layer": "User.Drawings",
+            "parent": "board"
+          }
+        }
+      ],
+      "secondary_after_synthetic_alias_only": "native effective class/profile differs",
+      "native_classes": [
+        {
+          "name": "GND",
+          "class": "POWER,Default",
+          "tuning_profile": "MissingOwnedProfile",
+          "width_nm": 800000,
+          "clearance_nm": 280000
+        },
+        {
+          "name": "SIGNAL_A",
+          "class": "Default",
+          "tuning_profile": "MissingOwnedProfile",
+          "width_nm": 500000,
+          "clearance_nm": 250000
+        }
+      ],
+      "native_counts": null,
+      "control_passed": false
+    },
+    {
+      "case": "board_edge_text",
+      "status": "failed_expected_predicate",
+      "stages": [
+        "observe",
+        "original-drc"
+      ],
+      "historical_error": null,
+      "text_mismatch": [],
+      "secondary_after_synthetic_alias_only": null,
+      "native_classes": [
+        {
+          "name": "GND",
+          "class": "POWER",
+          "tuning_profile": "",
+          "width_nm": 800000,
+          "clearance_nm": 280000
+        },
+        {
+          "name": "SIGNAL_A",
+          "class": "Default",
+          "tuning_profile": "",
+          "width_nm": 500000,
+          "clearance_nm": 250000
+        }
+      ],
+      "native_counts": {
+        "opens": 0,
+        "blocking": 1,
+        "warnings": 4,
+        "exclusions": 0
+      },
+      "control_passed": false
+    },
+    {
+      "case": "footprint_edge_text",
+      "status": "failed",
+      "stages": [
+        "observe"
+      ],
+      "historical_error": "native route/text identity differs",
+      "text_mismatch": [
+        {
+          "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+          "expected": {
+            "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+            "text": "Owned board text",
+            "layer": "Dwgs.User",
+            "parent": "board"
+          },
+          "actual": {
+            "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+            "text": "Owned board text",
+            "layer": "User.Drawings",
+            "parent": "board"
+          }
+        }
+      ],
+      "secondary_after_synthetic_alias_only": null,
+      "native_classes": [
+        {
+          "name": "GND",
+          "class": "POWER",
+          "tuning_profile": "",
+          "width_nm": 800000,
+          "clearance_nm": 280000
+        },
+        {
+          "name": "SIGNAL_A",
+          "class": "Default",
+          "tuning_profile": "",
+          "width_nm": 500000,
+          "clearance_nm": 250000
+        }
+      ],
+      "native_counts": null,
+      "control_passed": false
+    },
+    {
+      "case": "pad_front_counterbore",
+      "status": "failed",
+      "stages": [
+        "observe"
+      ],
+      "historical_error": "native route/text identity differs",
+      "text_mismatch": [
+        {
+          "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+          "expected": {
+            "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+            "text": "Owned board text",
+            "layer": "Dwgs.User",
+            "parent": "board"
+          },
+          "actual": {
+            "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+            "text": "Owned board text",
+            "layer": "User.Drawings",
+            "parent": "board"
+          }
+        }
+      ],
+      "secondary_after_synthetic_alias_only": null,
+      "native_classes": [
+        {
+          "name": "GND",
+          "class": "POWER",
+          "tuning_profile": "",
+          "width_nm": 800000,
+          "clearance_nm": 280000
+        },
+        {
+          "name": "SIGNAL_A",
+          "class": "Default",
+          "tuning_profile": "",
+          "width_nm": 500000,
+          "clearance_nm": 250000
+        }
+      ],
+      "native_counts": null,
+      "control_passed": false
+    }
+  ],
+  "stored_wall_seconds": 10.40066520900291,
+  "stored_full_cpu_seconds": 8.680227,
+  "external_wall_seconds": 10.84933962499781,
+  "external_waited_cpu_seconds": 9.066094,
+  "diagnostic_note": "Alias-only recheck used a synthetic in-memory observation solely to expose secondary mismatch. Raw observations and failed outcome were not changed or relabelled."
+}

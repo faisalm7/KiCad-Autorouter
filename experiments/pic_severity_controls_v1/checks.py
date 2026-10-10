@@ -3,6 +3,8 @@ from decimal import Decimal
 from autorouter import pipeline as p
 import fixture
 TARGETS={'missing_tuning_profile','text_on_edge_cuts','track_on_post_machined_layer'}
+# Exact pinned original layer table and native001 names, not a generic alias map.
+TEXT_LAYERS={'Dwgs.User':(17,'User.Drawings'),'Edge.Cuts':(25,'Edge.Cuts'),'F.Fab':(35,'F.Fab')}
 def nm(value):
     val=Decimal(str(value))*1000000
     if val!=val.to_integral_value():raise ValueError('noninteger nanometres')
@@ -32,12 +34,17 @@ def observe(native,scene,project):
                 if post['mode']!='COUNTERBORE' or post['size_nm']!=1200000 or post['depth_nm']!=200000:raise ValueError('native intended counterbore differs')
             elif post['mode'] not in ('UNKNOWN','NOT_POST_MACHINED'):raise ValueError('unexpected native machining')
         if row['affected_layers']!=(['F.Cu'] if expected['post_machined'] else []):raise ValueError('native machining layer witness differs')
-    if routes!={r['uuid']:r for r in scene['tracks']} or texts!={r['uuid']:r for r in scene['texts']}:raise ValueError('native route/text identity differs')
+    expected_texts={r['uuid']:{**r,'layer_id':TEXT_LAYERS[r['layer']][0],'layer':TEXT_LAYERS[r['layer']][1]} for r in scene['texts']}
+    if (routes!={r['uuid']:r for r in scene['tracks']} or texts!=expected_texts
+        or any(type(r.get('layer_id')) is not int for r in texts.values())):raise ValueError('native route/text identity differs')
     classes={r['name']:r for r in project['net_settings']['classes']}
     codes=[]
     for name,class_name in (('GND','POWER'),('SIGNAL_A','Default')):
         row=nets[name];cls=classes[class_name];profile=cls['tuning_profile'] or classes['Default']['tuning_profile']
-        expected={'name':name,'class':class_name,'width_nm':nm(cls['track_width']),'clearance_nm':nm(cls['clearance']),'via_diameter_nm':nm(cls['via_diameter']),'via_drill_nm':nm(cls['via_drill']),
+        # Actual001 shows this composite only for the declared inherited-profile
+        # diagnostic. Every constituent dimension and profile remains exact.
+        effective_name='POWER,Default' if scene['case']=='missing_default_profile' and name=='GND' else class_name
+        expected={'name':name,'class':effective_name,'width_nm':nm(cls['track_width']),'clearance_nm':nm(cls['clearance']),'via_diameter_nm':nm(cls['via_diameter']),'via_drill_nm':nm(cls['via_drill']),
             'tuning_profile':profile,'has_tuning_profile':bool(profile)}
         if {k:row.get(k) for k in expected}!=expected or type(row.get('netcode')) is not int or row['netcode']<=0:raise ValueError('native effective class/profile differs')
         codes.append(row['netcode'])

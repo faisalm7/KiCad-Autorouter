@@ -27,3 +27,9 @@ python3 -B .runs/pic-severity-controls-draft-002/test_controls.py
 No native findings, coverage results or library completeness are established by those tests. The original remains production-blocked by custom pads and the four unqualified severity names. These controls do not widen support, qualify arbitrary postmachining/backdrills, prove electrical adequacy, or substitute for human PCB review.
 
 The independent publication-scan finding is fixed in draft002: final bounded size scanning now precedes the last full material/semantic check, strict canonical/returned-record equality, and final resource sample. Original draft001 and its reproduced stale-source/raw-report positives remain unchanged. No geometry, worker, predicates, protocol or production support changed.
+
+## Exposed v1.1 identity amendment after actual001
+
+Actual001 at 59171d6 remains failed: five observations rejected the original file spelling `Dwgs.User` versus the native name `User.Drawings`. The board-edge text negative found its exact native error but lacked a passing paired positive. Native001 also recorded the effective GND class name `POWER,Default` only when Default's missing profile was inherited; original POWER dimensions stayed intact. No failed result is recast as qualified.
+
+The v1.1 worker adds native integer text layer IDs. Checks require both the exact original-table ID and native name: Dwgs.User = 17/User.Drawings, Edge.Cuts = 25/Edge.Cuts, F.Fab = 35/F.Fab. Only the declared Default-profile GND diagnostic expects the exact composite class name; dimensions, net identity and profile are still checked. All six board bytes, project deltas, severity predicates, budgets and production support remain unchanged. The next separate actual batch is `.runs/pic-severity-controls-002`, after review and committed-source readback.

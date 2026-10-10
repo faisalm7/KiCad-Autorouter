@@ -8,7 +8,10 @@ def model(scene,project):
     result={'schema':1,'native_version':'10.0.0','units':'integer nanometres','same_loaded_board':True,
         'board_saved':False,'dsn_exported':False,'routing_accepted':False,'schematic_parity_qualified':False,
         'floors_nm':{key:checks.nm(project['board']['design_settings']['rules'][key]) for key in ('min_track_width','min_clearance','min_via_diameter','min_through_hole_diameter','min_via_annular_width')},
-        'pads':[],'footprints':[],'routes':scene['tracks'],'texts':scene['texts'],'nets':[]}
+        'pads':[],'footprints':[],'routes':scene['tracks'],'texts':[], 'nets':[]}
+    layer_ids={'Dwgs.User':17,'F.Fab':35,'Edge.Cuts':25}
+    for row in scene['texts']:
+        result['texts'].append({**row,'layer_id':layer_ids[row['layer']],'layer':'User.Drawings' if row['layer']=='Dwgs.User' else row['layer']})
     for row in scene['pads']:
         pad={k:v for k,v in row.items() if k!='post_machined'}
         pad.update(size_nm=[3000000,3000000],drill_nm=[600000,600000],layers=['F.Cu','B.Cu'],post_machining={})
@@ -20,7 +23,8 @@ def model(scene,project):
     classes={r['name']:r for r in project['net_settings']['classes']}
     for code,(name,clsname) in enumerate((('GND','POWER'),('SIGNAL_A','Default')),1):
         cls=classes[clsname];profile=cls['tuning_profile'] or classes['Default']['tuning_profile']
-        result['nets'].append({'name':name,'netcode':code,'class':clsname,'width_nm':checks.nm(cls['track_width']),'clearance_nm':checks.nm(cls['clearance']),
+        effective='POWER,Default' if scene['case']=='missing_default_profile' and name=='GND' else clsname
+        result['nets'].append({'name':name,'netcode':code,'class':effective,'width_nm':checks.nm(cls['track_width']),'clearance_nm':checks.nm(cls['clearance']),
             'via_diameter_nm':checks.nm(cls['via_diameter']),'via_drill_nm':checks.nm(cls['via_drill']),'tuning_profile':profile,'has_tuning_profile':bool(profile)})
     return result
 
@@ -97,6 +101,17 @@ class Controls(unittest.TestCase):
             self.assertTrue(result['predicate_met'],case);self.assertEqual(raw,before)
             if case=='missing_default_profile':
                 self.assertFalse(result['provider_detected']);self.assertEqual(result['coverage_outcome'],'finding_omitted_despite_loaded_intent')
+    def test_exact_layer_id_label_and_inherited_class_must_match(self):
+        for case in fx.CASES:
+            _,project,scene=self.prepare(case)
+            for variant in ('id','bool_id','label','parent','class'):
+                native=model(scene,project)
+                if variant=='id':native['texts'][0]['layer_id']+=2
+                if variant=='bool_id':native['texts'][0]['layer_id']=True
+                if variant=='label':native['texts'][0]['layer']='Dwgs.User'
+                if variant=='parent':native['texts'][0]['parent']='Wrong'
+                if variant=='class':native['nets'][0]['class']='POWER' if case=='missing_default_profile' else 'POWER,Default'
+                with self.subTest(case=case,variant=variant),self.assertRaises(ValueError):checks.observe(native,scene,project)
     def test_default_present_is_separately_recorded_no_implicit_parity(self):
         _,_,scene=self.prepare('missing_default_profile');raw=raw_report('missing_named_profile',scene,self.ignored)
         raw['violations'][0]['description']=raw['violations'][0]['description'].replace('POWER','Default')

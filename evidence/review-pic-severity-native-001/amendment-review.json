@@ -1,0 +1,77 @@
+{
+  "schema": 1,
+  "status": "v1.1_amendment_source_review_cleared",
+  "native_executed": false,
+  "native002_required": true,
+  "historical001_still_failed": true,
+  "source_files": {
+    "driver.py": "8f91f8ddfce8dd4cad17acc3d3f46dd4f9d9928eefcc615bdb0e931ffc01699f",
+    "worker.py": "28c8e00c9ee1257752260ab21ea501a21e35ab1480d8c7f0335c8a343a5350a2",
+    "fixture.py": "3b423afcacd7ad3e681446f21fed9a1c5b62cb47904a307ce6f9b594a29cde73",
+    "checks.py": "aafda05256566dd0e72b0fcefa7020a5235f2af25716def225aaaea84bdab832",
+    "intent.py": "a8e5824e9ae1ef2a8f706db25313454ece753ca099d4b1e16129401c172986e4",
+    "test_controls.py": "e5f8cfc8ece3c7ad9957ca58584a33c0e863f61f83a13b2556590e8d4656e1dc",
+    "PROTOCOL.json": "e7e8ae26c08766b9d43745d6b35fcf96af98c13f3ddc4d191266d08e486d7a97",
+    "README.md": "df6a17da2faac878514a12545ea99bdf25eeb426e4d6a57da37a029a29782aae",
+    "SOURCE-NOTES.md": "61cc417578486527ce3134911438f4244747e373e12cbb41711808fb57cab92e"
+  },
+  "layer_mapping": {
+    "Dwgs.User": [
+      17,
+      "User.Drawings"
+    ],
+    "Edge.Cuts": [
+      25,
+      "Edge.Cuts"
+    ],
+    "F.Fab": [
+      35,
+      "F.Fab"
+    ]
+  },
+  "assertion_count": 41,
+  "assertions": [
+    "all three ID/name pairs follow exact original layer table",
+    "fixture.py unchanged bytes",
+    "intent.py unchanged bytes",
+    "SOURCE-NOTES.md unchanged bytes",
+    "driver lifecycle unchanged outside explicit protocol declaration",
+    "severity target/residual predicate unchanged",
+    "positive exact unchanged board bytes",
+    "positive exact unchanged project recipe",
+    "positive historical observation missing new ID remains rejected",
+    "positive retained native identities plus explicit synthetic IDs pass",
+    "missing_named_profile exact unchanged board bytes",
+    "missing_named_profile exact unchanged project recipe",
+    "missing_named_profile historical observation missing new ID remains rejected",
+    "missing_named_profile retained native identities plus explicit synthetic IDs pass",
+    "missing_default_profile exact unchanged board bytes",
+    "missing_default_profile exact unchanged project recipe",
+    "missing_default_profile historical observation missing new ID remains rejected",
+    "missing_default_profile retained native identities plus explicit synthetic IDs pass",
+    "board_edge_text exact unchanged board bytes",
+    "board_edge_text exact unchanged project recipe",
+    "board_edge_text historical observation missing new ID remains rejected",
+    "board_edge_text retained native identities plus explicit synthetic IDs pass",
+    "footprint_edge_text exact unchanged board bytes",
+    "footprint_edge_text exact unchanged project recipe",
+    "footprint_edge_text historical observation missing new ID remains rejected",
+    "footprint_edge_text retained native identities plus explicit synthetic IDs pass",
+    "pad_front_counterbore exact unchanged board bytes",
+    "pad_front_counterbore exact unchanged project recipe",
+    "pad_front_counterbore historical observation missing new ID remains rejected",
+    "pad_front_counterbore retained native identities plus explicit synthetic IDs pass",
+    "wrong_id rejected",
+    "boolean_id rejected",
+    "wrong_alias rejected",
+    "wrong_parent rejected",
+    "wrong_profile rejected",
+    "wrong_dimension rejected",
+    "unexpected_composite rejected",
+    "missing_composite rejected",
+    "extra_class rejected",
+    "no author source changes during review",
+    "entire failed001 and original15 unchanged"
+  ],
+  "limitations": "Six positives use retained actual native observations with deliberately synthetic numeric layer IDs from the original file table. This exercises the new checker and exact composite label, not native GetLayer execution or retrospective001 qualification."
+}

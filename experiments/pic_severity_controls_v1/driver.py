@@ -266,12 +266,13 @@ def experiment(out,*,run_native=False):
     return publish(out,record,stable,account,remaining)
 
 def protocol():
-    return {'schema':1,'name':'owned-severity-intent-controls-v1','order':list(fixture.CASES),
+    return {'schema':1,'name':'owned-severity-intent-controls-v1.1','order':list(fixture.CASES),
         'wall_seconds':SECONDS,'full_cpu_seconds':SECONDS,'output_bytes':LIMIT,'source_board_sha256':BOARD_SHA,'source_project_sha256':PROJECT_SHA,
         'original_native_report_sha256':BASELINE_REPORT_SHA,'expected_effective_ignored_checks':list(OBSERVED_IGNORED),
         'board_saved':False,'dsn_exported':False,'routing_engine':False,'production_support_changed':False,'schematic_parity_qualified':False,
         'project_delta':'Only the declared copied class tuning_profile for the two profile cases; every other project value and original severity/floor remains unchanged.',
         'default_probe':'Loaded Default-only profile intent must be witnessed; finding present or omitted is recorded. Completion does not qualify Default-provider enforcement.',
+        'observed_identity_amendment':'Native text layer IDs and names must match the original table (Dwgs.User is ID17/User.Drawings). Only Default-profile GND expects actual composite class POWER,Default, with all original POWER dimensions and inherited profile exact. Original001 remains failed.',
         'negative_predicates':'Exact target type/severity/UUIDs (profile is global/no UUID); no other blocking, critical, unknown findings or exclusions. All raw findings preserved.',
         'parity_limit':'Exact CLI omits --schematic-parity; copied original schematic does not match newly authored fixture. Empty parity list never establishes coverage.',
         'machining_limit':'Only front counterbore PTH recipe; exact native mode/size/depth/affected layer and targeted track+pad error required. Failure preserved; via/backdrill and countersink unsupported.'}
