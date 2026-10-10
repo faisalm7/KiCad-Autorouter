@@ -1,0 +1,98 @@
+{
+  "passed": true,
+  "checks": 4579,
+  "failures": [],
+  "native_bindings": 29,
+  "trials": {
+    "C_feedback": {
+      "count": 24,
+      "outcomes": {
+        "drc_rejected": 3,
+        "quality_rejected": 1,
+        "improvement_validated": 20
+      },
+      "improvements": 20,
+      "checkpoints": 26
+    }
+  },
+  "comparison": {
+    "B2_selected": "via_low",
+    "B2_length_mm": 749.4416426125838,
+    "C_length_mm": 648.0451713373182,
+    "length_delta_mm": -101.39647127526564,
+    "length_reduction_percent": 13.529601974316966,
+    "B2_vias": 2,
+    "C_vias": 2,
+    "B2_charged_wall_seconds": 55.89524904200516,
+    "C_charged_wall_seconds": 105.42557887500152,
+    "B2_charged_cpu_seconds": 75.89225999999998,
+    "C_charged_cpu_seconds": 85.34977899999998,
+    "wall_delta_seconds": 49.53032983299636,
+    "cpu_delta_seconds": 9.457519000000005
+  },
+  "public_subset": {
+    "present": true,
+    "verified": true,
+    "raw_files": 526,
+    "generated_scope_files": 1,
+    "raw_bytes": 3980743
+  },
+  "engine_durations": [
+    {
+      "run": "B2_portfolio/01-via_default",
+      "variant": "via_default",
+      "assigned_job_seconds": 61,
+      "assigned_optimizer_seconds": 61,
+      "engine_wall_seconds": 12.57286591600132,
+      "engine_cpu_seconds": 21.597574,
+      "logged_job_seconds": 10.14,
+      "logged_job_state": "COMPLETED",
+      "stop_threshold_percent": [
+        0.1
+      ],
+      "cooperative_job_cap_overshoot_seconds": 0
+    },
+    {
+      "run": "B2_portfolio/02-via_low",
+      "variant": "via_low",
+      "assigned_job_seconds": 35,
+      "assigned_optimizer_seconds": 35,
+      "engine_wall_seconds": 13.68653291699593,
+      "engine_cpu_seconds": 24.519484,
+      "logged_job_seconds": 11.42,
+      "logged_job_state": "COMPLETED",
+      "stop_threshold_percent": [
+        0.1
+      ],
+      "cooperative_job_cap_overshoot_seconds": 0
+    },
+    {
+      "run": "B2_portfolio/03-via_high",
+      "variant": "via_high",
+      "assigned_job_seconds": 6,
+      "assigned_optimizer_seconds": 6,
+      "engine_wall_seconds": 8.32670241699816,
+      "engine_cpu_seconds": 13.970551,
+      "logged_job_seconds": 6.06,
+      "logged_job_state": "TIMED_OUT",
+      "stop_threshold_percent": [
+        0.1
+      ],
+      "cooperative_job_cap_overshoot_seconds": 0.05999999999999961
+    },
+    {
+      "run": "C_feedback/incumbent",
+      "variant": null,
+      "assigned_job_seconds": 61,
+      "assigned_optimizer_seconds": 61,
+      "engine_wall_seconds": 12.517564417001267,
+      "engine_cpu_seconds": 21.895808,
+      "logged_job_seconds": 10.25,
+      "logged_job_state": "COMPLETED",
+      "stop_threshold_percent": [
+        0.1
+      ],
+      "cooperative_job_cap_overshoot_seconds": 0
+    }
+  ]
+}
