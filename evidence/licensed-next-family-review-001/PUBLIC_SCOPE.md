@@ -1,0 +1,1 @@
+Selected project-authored research summaries and receipts are published here. Full cached primary metadata and acquisition scripts remain local in .runs/licensed-next-family-review-001; manifest references do not imply that every referenced file is public. This review made nine pinned metadata requests, without acquiring source boards or changing population/support/family counts.
