@@ -1,0 +1,204 @@
+{
+  "passed": true,
+  "check_count": 4769,
+  "failures": [],
+  "native_executed_by_reviewer": false,
+  "frozen_commit": "cc71a5103f32b97274fb82a9494501b0b823d541",
+  "prior_commit": "cbae1254f00d3470d98ba18d24a09e99874f0cc2",
+  "production_tools_source_existing_protocol_exactly_equal": true,
+  "native_outcomes": [
+    {
+      "run": "B0_standard120",
+      "candidate_sha256": "1d081f1c458e64e6db77f4f2ef0151ed49305129285bae08a65c21250ec9cdd9",
+      "native_report_sha256": "4a1f654034a4562b486020c408f86b22d43fec2488acdf0b3d27d327fd10b6f5",
+      "opens": 14,
+      "blocking": 3,
+      "warnings": 0,
+      "exclusions": 0
+    },
+    {
+      "run": "B1_standard120",
+      "candidate_sha256": "21e18e96b97c1004750c74d7aa269256e34ee269a611b99f17a8105cc0256e18",
+      "native_report_sha256": "798f64133e0549893f227e9b6611c42c5ca81897b22e0fd96bf74d0c786d6581",
+      "opens": 0,
+      "blocking": 1,
+      "warnings": 0,
+      "exclusions": 0
+    },
+    {
+      "run": "B1_completion120",
+      "candidate_sha256": "7fb5c9396f90babf2b063f20b190ba1d22b4f6d35cb8f92bcff8e80953c8cdda",
+      "native_report_sha256": "79b86b2eabafbf124943c04f637bbf692e78dbfd1a9e9449f02322181cefbdde",
+      "opens": 0,
+      "blocking": 1,
+      "warnings": 0,
+      "exclusions": 0
+    }
+  ],
+  "engine_outcomes": [
+    {
+      "run": "B0_standard120",
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 33.02645450000273,
+      "cpu_seconds": 56.478123000000004,
+      "assigned_job_seconds": 60,
+      "assigned_optimizer_seconds": 30,
+      "timeout_log_lines": []
+    },
+    {
+      "run": "B1_standard120",
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 49.62982025000383,
+      "cpu_seconds": 71.841839,
+      "assigned_job_seconds": 60,
+      "assigned_optimizer_seconds": 30,
+      "timeout_log_lines": [
+        "2026-10-10 03:15:45.269 INFO   [785B2C\\A52C6F] Optimizer stage timed out.",
+        "2026-10-10 03:15:45.300 INFO   [785B2C\\A52C6F] Optimization stage completed with timeout:. Baseline router score: 1000.00, baseline optimizer score: 522.34, final router score: 1000.00, final optimizer score: 522.34, completed in 30.37 seconds, using 27.63 total CPU seconds, 47.36 GB total allocated, and 612.2 MB peak heap usage.",
+        "2026-10-10 03:15:45.309 INFO   [785B2C\\A52C6F] Job '785B2C\\A52C6F' finished with state: COMPLETED (optimizer stage timed out) (elapsed: 47.34 seconds, finished at UTC: 2026-10-10T10:15:45.309243Z)."
+      ]
+    },
+    {
+      "run": "B1_completion120",
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 18.90473574999487,
+      "cpu_seconds": 34.130931,
+      "assigned_job_seconds": 60,
+      "assigned_optimizer_seconds": null,
+      "timeout_log_lines": []
+    }
+  ],
+  "analytical_metrics": [
+    {
+      "run": "B0_standard120",
+      "length_mm": 4509.21757855414,
+      "vias": 25
+    },
+    {
+      "run": "B1_standard120",
+      "length_mm": 4994.8879510154175,
+      "vias": 35
+    },
+    {
+      "run": "B1_completion120",
+      "length_mm": 4994.887951015417,
+      "vias": 35
+    }
+  ],
+  "public_subset": {
+    "present": true,
+    "verified": true,
+    "raw_files": 107,
+    "raw_bytes": 3253680
+  },
+  "outcomes": [
+    {
+      "id": "B0_standard120",
+      "status": "drc_rejected",
+      "accepted": false,
+      "opens": 14,
+      "blocking": 3,
+      "warnings": 0,
+      "exclusions": 0,
+      "charged_wall_seconds": 42.733322666994354,
+      "charged_cpu_seconds": 64.191857,
+      "length_mm": 4509.217578554141,
+      "vias": 25
+    },
+    {
+      "id": "B1_standard120",
+      "status": "drc_rejected",
+      "accepted": false,
+      "opens": 0,
+      "blocking": 1,
+      "warnings": 0,
+      "exclusions": 0,
+      "charged_wall_seconds": 59.57723029198678,
+      "charged_cpu_seconds": 80.119067,
+      "length_mm": 4994.887951015417,
+      "vias": 35
+    },
+    {
+      "id": "B1_completion120",
+      "status": "drc_rejected",
+      "accepted": false,
+      "opens": 0,
+      "blocking": 1,
+      "warnings": 0,
+      "exclusions": 0,
+      "charged_wall_seconds": 28.831796249993204,
+      "charged_cpu_seconds": 42.258587999999975,
+      "length_mm": 4994.887951015416,
+      "vias": 35
+    }
+  ],
+  "original_ignored_checks": [
+    {
+      "description": "Footprint has no courtyard defined",
+      "key": "missing_courtyard"
+    },
+    {
+      "description": "Copper connection too narrow",
+      "key": "connection_width"
+    },
+    {
+      "description": "Track endpoint not centered on via",
+      "key": "track_not_centered_on_via"
+    },
+    {
+      "description": "Tuning profile track geometries",
+      "key": "tuning_profile_track_geometries"
+    },
+    {
+      "description": "Footprint doesn't match symbol's footprint filters",
+      "key": "footprint_filters_mismatch"
+    },
+    {
+      "description": "PTH inside courtyard",
+      "key": "pth_inside_courtyard"
+    },
+    {
+      "description": "NPTH inside courtyard",
+      "key": "npth_inside_courtyard"
+    }
+  ],
+  "comparisons": [
+    {
+      "baseline": "B0_standard120",
+      "system": "prior_C_thermal",
+      "baseline_accepted": false,
+      "C_accepted": true,
+      "completion_difference": 1,
+      "interpretation": "separately charged policies; completion/profile/allocation effects are not a thermal-only ablation"
+    },
+    {
+      "baseline": "B1_standard120",
+      "system": "prior_C_thermal",
+      "baseline_accepted": false,
+      "C_accepted": true,
+      "completion_difference": 1,
+      "interpretation": "separately charged policies; completion/profile/allocation effects are not a thermal-only ablation"
+    },
+    {
+      "baseline": "B1_completion120",
+      "system": "prior_C_thermal",
+      "baseline_accepted": false,
+      "C_accepted": true,
+      "completion_difference": 1,
+      "interpretation": "separately charged policies; completion/profile/allocation effects are not a thermal-only ablation"
+    }
+  ],
+  "scope": [
+    "All three fresh baseline policies rejected under original native constraints, within their own120-second wall/CPU ceilings including full shared verification/freeze/publication overhead.",
+    "Prior accepted C is cross-bound by identical production code/tools/source/old protocol bytes; these are separately timed sequential runs, not a new randomized joint comparison.",
+    "B1 completion-only reproduces the prior C pre-repair route geometry up to generated UUIDs and the exact thermal report, strengthening the repair-mechanism explanation without a population claim.",
+    "Invalid baseline route metrics remain diagnostics only; no accepted-route length/via superiority claim follows.",
+    "Original ignored-check configuration is unchanged; zero findings under it is not physical/electrical/ampacity or human-review qualification.",
+    "Stored totals precede final freshness/publication work; the frozen harness checks full charged acceptance caps afterward.",
+    "No new native jobs were executed by this reviewer."
+  ],
+  "script_sha256": "b001cdd63bde28de9ef0a761a4aef4627c6c68b3d2d204f9cabf4b8d3f69a576"
+}

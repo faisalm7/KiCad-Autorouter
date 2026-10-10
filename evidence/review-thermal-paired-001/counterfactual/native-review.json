@@ -1,0 +1,128 @@
+{
+  "passed": true,
+  "check_count": 46,
+  "checks": [
+    "lead actually observed expected native rejection",
+    "negative result never accepted or applied",
+    "control protocol bound",
+    "executed exact reviewed control source",
+    "executed exact reviewed positive gate",
+    "all successful and failed incumbent evidence unchanged",
+    "paired summary/protocol/prior independent audit unchanged protocol.json",
+    "paired summary/protocol/prior independent audit unchanged paired-summary.json",
+    "paired summary/protocol/prior independent audit unchanged audit.json",
+    "original source and complete diagnostic snapshot unchanged",
+    "exact diagnostic frozen implementation inventory",
+    "actual native tool pin kicad-cli",
+    "actual native tool pin python3.9",
+    "actual native tool pin java",
+    "actual native tool pin freerouting-2.5.0.jar",
+    "actual native tool pin _pcbnew.so",
+    "full candidate/rule tree exact failed incumbent",
+    "negative byte hash restores exact fresh failed incumbent",
+    "precise successful production candidate and removed UUID",
+    "exactly one added production bridge removed; every remaining byte/shape retained",
+    "original immutable geometry unchanged",
+    "protected original routing unchanged",
+    "identical original sole thermal summary reproduced",
+    "zero opens/warnings/exclusions; one blocking thermal",
+    "exact pad/zone thermal finding identities",
+    "actual final raw report hash",
+    "fresh refill reproduces same native outcome",
+    "final native exact input identity",
+    "complete retained native input and original rules",
+    "original class and generated dimensions freshly native audited",
+    "raw process bound refill-drc",
+    "completed/clean child refill-drc",
+    "owned network-denied child refill-drc",
+    "exact log bytes refill-drc",
+    "raw process bound final-netclasses",
+    "completed/clean child final-netclasses",
+    "owned network-denied child final-netclasses",
+    "exact log bytes final-netclasses",
+    "raw process bound final-drc",
+    "completed/clean child final-drc",
+    "owned network-denied child final-drc",
+    "exact log bytes final-drc",
+    "full pinned final DRC command bound to restored candidate",
+    "separate diagnostic within30 wall and CPU",
+    "stored totals contain sequential native children",
+    "explicit original immutability and timing sample limitation"
+  ],
+  "native_executed_by_reviewer": false,
+  "lead_native_run": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-production-negative-001",
+  "candidate_sha256": "f3469b34e2d7724d65ade7b1a5b3353c75b67c54f525f54b88c3626cd8531b0a",
+  "removed_uuid": "026a2d2d-ef36-597d-a14d-3e1c751c2de8",
+  "native_report_sha256": "6c67eb8cf77f76268a94c868c68d738f721cb4d4b2398efa2230909385ea042d",
+  "native": {
+    "opens": 0,
+    "blocking": 1,
+    "warnings": 0,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Copper connection too narrow",
+        "key": "connection_width"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "PTH inside courtyard",
+        "key": "pth_inside_courtyard"
+      },
+      {
+        "description": "NPTH inside courtyard",
+        "key": "npth_inside_courtyard"
+      }
+    ],
+    "findings": [
+      {
+        "description": "Thermal relief connection to zone incomplete (layer bottom_copper; 1 spokes connected to isolated island)",
+        "items": [
+          {
+            "description": "Zone [GND] on bottom_copper, priority 0",
+            "pos": {
+              "x": 193.675,
+              "y": 133.35
+            },
+            "uuid": "00000000-0000-0000-0000-00004cdec22b"
+          },
+          {
+            "description": "PTH pad C4 [GND] of U9",
+            "pos": {
+              "x": 150.495,
+              "y": 72.39
+            },
+            "uuid": "387e8928-4a73-4b3a-ae74-249440996e94"
+          }
+        ],
+        "severity": "error",
+        "type": "starved_thermal"
+      }
+    ]
+  },
+  "wall_seconds": 6.491124375002983,
+  "total_cpu_seconds": 5.019699,
+  "timing_scope": "summary samples before final write; all subsequent verification/write CPU and wall are checked against the same cap, rejected correction may finish outside cap",
+  "limitations": [
+    "Separate exact-production bridge-removal counterfactual; its cost is outside paired comparison.",
+    "Actual original native severity/ignored-check configuration unchanged; no physical/electrical/ampacity qualification.",
+    "Stored times precede final freshness work; source checks/code enforce the same30-second caps after that work."
+  ],
+  "summary_sha256": "afa6294ceab175b367b37b9fca6099a922a17cb3ae6db3d2901df8311c114952",
+  "script_sha256": "0be2b2cd92a8c2ad12bf97ca22aff1cb2cea6c7c9271f73e62f6ee596a9906e1"
+}

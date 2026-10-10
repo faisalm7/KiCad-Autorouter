@@ -1,0 +1,11 @@
+--- 
++++ 
+@@ -127,7 +127,7 @@
+         if p.sha(code/Path(relative).name)!=digest:raise p.Rejected('production snapshot changed')
+     for name in HELPERS:shutil.copy2(HERE/name,code/name)
+     code_hashes=p.tree_hash(code);completed={}
+-    record={'schema':1,'status':'running','stage':stage,'seconds_ceiling':seconds,'cpu_seconds_ceiling':seconds,'controls_passed':False,'routing_accepted':False,'production_support_qualified':False,'comparison_eligible':False,'physical_electrical_validation':False,'fixture_exposure':'original diagnostic development only; not an independent routing family','fixture_topology':topology,'tools':tools,'source_hashes':fixture_hashes,'original_inputs':originals,'steps':steps,'cases':[],'cpu_enforcement':'cooperative per-step remaining wall/CPU plus final measured cap, no OS aggregate quota'}
++    record={'schema':1,'status':'running','stage':stage,'seconds_ceiling':seconds,'cpu_seconds_ceiling':seconds,'controls_passed':False,'routing_accepted':False,'production_support_qualified':False,'comparison_eligible':False,'physical_electrical_validation':False,'fixture_exposure':'original diagnostic development only; not an independent routing family','fixture_topology':topology,'tools':tools,'source_hashes':fixture_hashes,'original_inputs':originals,'steps':steps,'cases':[],'cpu_enforcement':'cooperative per-step remaining wall/CPU plus final measured cap, no OS aggregate quota','accounting_point':'Stored totals precede final summary publication and freshness recheck; acceptance caps include both, and rejected correction can finish outside cap'}
+     def remaining():return max(0.,min(start+seconds-time.monotonic(),seconds-(cpu()-cpu0)))
+     def stable():
+         if PROJECT.with_suffix('.kicad_dru').exists() or PROJECT.with_suffix('.kicad_dru').is_symlink():raise p.Rejected('new original custom rules require qualification')

@@ -39,3 +39,5 @@ python3 scripts/experiment_paired.py --project interf_u --system thermal --outpu
 ```
 
 Unsupported thermal geometry or any other blocking finding remains rejected. The saved copper-path witness does not qualify current capacity, heat flow or manufacturing. Original rule severities and ignored checks remain unchanged; native acceptance alone is not physical validation.
+
+The [thermal experiment](docs/thermal-experiment.md) records fresh B0/B1/completion-only/B2 outcomes, the accepted recovery candidate, exact bridge-removal control, full costs and limitations.
