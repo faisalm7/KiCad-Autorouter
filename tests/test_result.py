@@ -10,6 +10,8 @@ from pathlib import Path
 import shutil
 import tempfile
 import unittest
+from unittest.mock import patch
+from types import SimpleNamespace
 
 from autorouter import pipeline as p, sexpr as sx
 
@@ -90,7 +92,7 @@ class ResultFreshnessTests(unittest.TestCase):
             "monitor_cpu_seconds": 0.1,
             "total_cpu_seconds": 1.3,
             "tools": {"kicad": "10.0.0", "implementation_sha256": implementation,
-                      "files": {pin["path"]: pin["sha256"] for pin in pins.values()}},
+                      "files": {str(p.c.resolve_tool_path(pin["path"])): pin["sha256"] for pin in pins.values()}},
         }
         self.save_receipt()
 
@@ -302,6 +304,46 @@ class ResultFreshnessTests(unittest.TestCase):
         self.save_receipt()
         with self.assertRaisesRegex(p.Rejected, "tool pins"):
             p.check_result(self.receipt)
+
+
+class RelocatableToolPinTests(unittest.TestCase):
+    """Real-file pin resolution controls, not native binary execution tests."""
+
+    def test_relocated_manifest_verifies_project_local_engine_and_hash(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory).resolve() / 'relocated-checkout'
+            (root / '.tools').mkdir(parents=True)
+            (root / 'autorouter').mkdir()
+            (root / 'autorouter/config.py').write_text('# fixture implementation\n')
+            names = {'CLI': 'kicad_cli', 'PYTHON': 'kicad_python', 'JAVA': 'java', 'PCBNEW': 'pcbnew', 'JAR': 'freerouting'}
+            overrides, pins = {'ROOT': root}, {}
+            for attribute, name in names.items():
+                file = root / ('.tools/freerouting-2.5.0.jar' if attribute == 'JAR' else name)
+                file.write_bytes(('non-executable pin fixture: ' + name).encode())
+                overrides[attribute] = file
+                pins[name] = {'path': str(file.relative_to(root)) if attribute == 'JAR' else str(file), 'sha256': p.sha(file)}
+            (root / 'toolchain.lock.json').write_text(json.dumps({'tools': pins}))
+            # Only Git metadata is stubbed; path resolution and all file digests
+            # use actual files in a new checkout-shaped directory.
+            with patch.multiple(p.c, **overrides), patch.object(p.subprocess, 'run', return_value=SimpleNamespace(stdout='a' * 40 + '\n')):
+                result = p.tool_manifest()
+                self.assertEqual(result['files'][str(overrides['JAR'])], pins['freerouting']['sha256'])
+                self.assertEqual(p.c.resolve_tool_path(pins['freerouting']['path']), p.c.JAR)
+                overrides['JAR'].write_bytes(b'tampered engine')
+                with self.assertRaisesRegex(p.Rejected, 'pinned tool changed'):
+                    p.tool_manifest()
+
+    def test_relative_pin_rejects_escape_aliases_and_symlink(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory).resolve()
+            (root / '.tools').mkdir()
+            (root / 'outside').mkdir()
+            (root / '.tools/link').symlink_to(root / 'outside', target_is_directory=True)
+            with patch.object(p.c, 'ROOT', root):
+                for value in ('../outside.jar', './.tools/a.jar', '.tools/../a.jar', '.tools//a.jar', '.tools/link/a.jar', '.'):
+                    with self.subTest(value=value), self.assertRaises(ValueError):
+                        p.c.resolve_tool_path(value)
+                self.assertEqual(p.c.resolve_tool_path(str(p.c.CLI)), p.c.CLI)
 
 
 if __name__ == "__main__":

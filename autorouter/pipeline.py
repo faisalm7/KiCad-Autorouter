@@ -216,11 +216,13 @@ def validate_candidate(job, original, candidate, source_hashes, protected):
 
 
 def tool_manifest():
+    expected=json.loads((c.ROOT/'toolchain.lock.json').read_text())['tools']
+    resolved={name:c.resolve_tool_path(pin['path']) for name,pin in expected.items()}
+    if resolved.get('freerouting')!=c.JAR: raise Rejected('engine pin does not identify project-local JAR')
     files={str(p):sha(p) for p in (c.CLI,c.PYTHON,c.JAVA,c.JAR) if p.is_file()}
     if c.PCBNEW.is_file(): files[str(c.PCBNEW)]=sha(c.PCBNEW)
-    expected=json.loads((c.ROOT/'toolchain.lock.json').read_text())['tools']
     for name, pin in expected.items():
-        path=Path(pin['path'])
+        path=resolved[name]
         if files.get(str(path))!=pin['sha256']: raise Rejected('pinned tool changed or missing: '+name)
     implementation={str(p.relative_to(c.ROOT)):sha(p) for p in sorted((c.ROOT/'autorouter').glob('*.py'))}
     git_head=subprocess.run(['git','rev-parse','HEAD'],cwd=c.ROOT,capture_output=True,text=True,check=True).stdout.strip()
@@ -400,5 +402,5 @@ def check_result(path):
         expected_code[parts[1]]=digest
     if actual_code!=expected_code: raise Rejected('retained implementation file set differs from provenance')
     pins=json.loads((c.ROOT/'toolchain.lock.json').read_text())['tools']
-    if any(tools.get('files',{}).get(pin['path'])!=pin['sha256'] for pin in pins.values()): raise Rejected('recorded tool pins differ from qualified toolchain')
+    if any(tools.get('files',{}).get(str(c.resolve_tool_path(pin['path'])))!=pin['sha256'] for pin in pins.values()): raise Rejected('recorded tool pins differ from qualified toolchain')
     return {'current':True,'candidate':str(candidate),'candidate_sha256':data['candidate_sha256'],'applied':False,'authentication':'none; mutable local evidence consistency only','warning':'Fresh native validation is required before application; human PCB review and electrical/physical validation remain required.'}

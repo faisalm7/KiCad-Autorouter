@@ -1,0 +1,20 @@
+name: Manual pure Python controls
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  controls:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1; official ref verified 2026-10-10
+        with:
+          persist-credentials: false
+      - name: Run only platform-independent parsing and filesystem controls
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          python3 -m unittest discover -s tests -p test_adapter.py -v
+          python3 -m unittest discover -s tests -p test_validation.py -v
+          python3 -m unittest discover -s tests -p test_handoff.py -v
