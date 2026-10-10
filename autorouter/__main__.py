@@ -30,7 +30,7 @@ def main():
     recover=sub.add_parser('recover',help='Experimental whole-board routing with bounded thermal repair');recover.add_argument('board');recover.add_argument('--output',required=True);recover.add_argument('--seconds',type=float,default=120)
     verify=sub.add_parser('check-result');verify.add_argument('receipt')
     r=sub.add_parser('route'); r.add_argument('board'); r.add_argument('--output',required=True); r.add_argument('--seconds',type=float,default=120); r.add_argument('--keep-existing',action='store_true');r.add_argument('--adapter',choices=['none','graphics','planes','both'],default='none');r.add_argument('--profile',choices=['standard','tuned','completion-only'],default='standard')
-    r.add_argument('--guidance',choices=['native','board-floors-v1'],default='native')
+    r.add_argument('--guidance',choices=['native','board-floors-v1','placement-clearance-v1'],default='native')
     a=p.parse_args()
     if a.command=='doctor':
         result=doctor();print(json.dumps(result,indent=2));return 0 if result['ready'] else 2

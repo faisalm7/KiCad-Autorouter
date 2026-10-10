@@ -8,8 +8,8 @@ def review_copy(receipt, output):
     receipt = Path(receipt).resolve(strict=True)
     receipt_digest = sha(receipt)
     verified = check_result(receipt)
-    if verified.get('input_policy') == 'board-floors-v1':
-        raise Rejected('floor-policy GUI handoff is not yet qualified')
+    if verified.get('input_policy','native') != 'native':
+        raise Rejected('guidance-policy GUI handoff is not yet qualified')
     candidate = Path(verified['candidate'])
     destination = Path(output).absolute()
     if destination.exists() or destination.is_symlink():

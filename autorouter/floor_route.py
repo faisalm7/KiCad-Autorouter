@@ -7,6 +7,7 @@ import copy
 import datetime
 import json
 import math
+import os
 from pathlib import Path
 import resource
 import shutil
@@ -17,6 +18,8 @@ from . import pipeline as p, config as c, sexpr as sx, board_floor as g
 from .floor_context import LIMITS
 
 POLICY='board-floors-v1'
+PLACEMENT_POLICY='placement-clearance-v1'
+GUIDANCE_POLICIES={POLICY,PLACEMENT_POLICY}
 SANDBOX=['/usr/bin/sandbox-exec','-p','(version 1)(allow default)(deny network*)']
 
 
@@ -32,8 +35,9 @@ def read_json(path):
             if key in result:raise p.Rejected('duplicate JSON field')
             result[key]=value
         return result
-    def constant(value):raise p.Rejected('nonfinite JSON value')
-    return json.loads(path.read_text(),object_pairs_hook=pairs,parse_constant=constant)
+    def constant(value):raise p.Rejected('invalid resource accounting: nonfinite JSON value')
+    from .placement_clearance import read_bytes
+    return json.loads(read_bytes(path),object_pairs_hook=pairs,parse_constant=constant)
 
 
 def child_cpu():
@@ -41,9 +45,31 @@ def child_cpu():
     return value.ru_utime+value.ru_stime
 
 
+def evidence_markers(directory):
+    markers=set()
+    with os.scandir(directory) as entries:
+        for count,entry in enumerate(entries,1):
+            if count>4000:raise p.Rejected('bounded evidence entry ceiling')
+            if entry.name.startswith(('placement-','planning-')):markers.add('placement')
+            if entry.name.startswith('floor-'):markers.add('floor')
+    return markers
+
+
 def receipt_policy(data,directory):
     """Refuse single-field downgrade while preserving old native/C receipts."""
-    artifacts=any(path.name.startswith('floor-') for path in Path(directory).iterdir())
+    markers=evidence_markers(directory)
+    new_artifacts='placement' in markers
+    new_claims=any(key.startswith(('placement_','planning_')) for key in data) or data.get('input_policy')==PLACEMENT_POLICY
+    if data.get('schema')==3 or new_artifacts or new_claims:
+        from .placement_clearance import parameters
+        if (type(data.get('schema')) is not int or data['schema']!=3 or data.get('input_policy')!=PLACEMENT_POLICY
+                or data.get('adapter')!='both' or data.get('scope')!='whole_board_unlocked_routing'
+                or data.get('baseline')!='completion_only_probe' or data.get('engine_profile')!='completion-only'
+                or data.get('scoring_variant')!='via_default' or canonical(data.get('planning_parameters'))!=canonical(parameters())
+                or any(key in data for key in ('strategy','netclass_policy','guidance_policy','diagnostic_schema','production_qualified'))):
+            raise p.Rejected('missing, mixed or downgraded placement policy')
+        return PLACEMENT_POLICY
+    artifacts='floor' in markers
     claims='input_policy' in data or 'guidance_policy' in data or any(key.startswith('floor_') for key in data)
     if data.get('schema')==2 or artifacts or claims:
         if (type(data.get('schema')) is not int or data['schema']!=2 or data.get('input_policy')!=POLICY
@@ -56,14 +82,21 @@ def receipt_policy(data,directory):
 
 
 def evidence_inventory(directory):
-    return {name:digest for name,digest in p.tree_hash(directory).items()
+    if 'placement' in evidence_markers(directory):
+        from .placement_clearance import evidence_inventory as bounded_inventory
+        hashes=bounded_inventory(directory)
+    else:hashes=p.tree_hash(directory)
+    return {name:digest for name,digest in hashes.items()
             if name not in {'result.json','result.json.partial'}
             and not name.startswith(('invalidated-result-','interrupted-result-'))}
 
 
-def context_argv(mode,board,path,dsn=None):
+def context_argv(mode,board,path,dsn=None,area_output=None):
     result=[*SANDBOX,str(c.PYTHON),str(c.ROOT/'autorouter/floor_context.py'),mode,str(board),str(path)]
     if dsn is not None:result.append(str(dsn))
+    if area_output is not None:
+        if mode!='export' or dsn is None:raise p.Rejected('area observation requires export')
+        result.append(str(area_output))
     return result
 
 
@@ -76,10 +109,11 @@ def context_binding(native,board,hashes,mode,dsn_hash=None):
         raise p.Rejected('native floor context input/project/mode binding differs')
 
 
-def acquire_context(job,mode,board):
+def acquire_context(job,mode,board,*,areas=False):
     name='floor-'+mode;path=job.out/(name+'-context.json');dsn=job.out/'native.dsn' if mode=='export' else None
     before=p.tree_hash(board.parent)
-    job.step(name,context_argv(mode,board,path,dsn),already_sandboxed=True)
+    area_output=job.out/'placement-area-context.json' if areas else None
+    job.step(name,context_argv(mode,board,path,dsn,area_output),already_sandboxed=True)
     native=read_json(path)
     context_binding(native,board,before,mode,p.sha(dsn) if dsn else None)
     if p.tree_hash(board.parent)!=before:raise p.Rejected('native floor context modified project')
@@ -133,8 +167,11 @@ def engine_argv(directory,settings):
 
 
 def check_floor_result(directory,data,original,candidate,protected):
-    if receipt_policy(data,directory)!=POLICY:raise p.Rejected('floor policy required')
+    policy=receipt_policy(data,directory)
+    if policy not in GUIDANCE_POLICIES:raise p.Rejected('floor-backed policy required')
+    new_policy=policy==PLACEMENT_POLICY
     required_code={'autorouter/board_floor.py','autorouter/floor_context.py','autorouter/floor_route.py','autorouter/adapter.py'}
+    if new_policy:required_code.update({'autorouter/placement_transform.py','autorouter/placement_clearance.py'})
     if not required_code<=set(data.get('tools',{}).get('implementation_sha256',{})):raise p.Rejected('floor implementation provenance incomplete')
     if data.get('floor_evidence_hashes')!=evidence_inventory(directory):raise p.Rejected('completed floor evidence changed')
     contract=read_json(directory/'floor-policy.json')
@@ -148,9 +185,16 @@ def check_floor_result(directory,data,original,candidate,protected):
     native=read_json(directory/'floor-export-context.json')
     context_binding(native,exported,expected,'export',p.sha(directory/'native.dsn'))
     if native.get('routes')!=[]:raise p.Rejected('floor export unexpectedly retained routes')
-    process_check(directory,data,'floor-export',context_argv('export',exported,directory/'floor-export-context.json',directory/'native.dsn'))
-    raw=(directory/'native.dsn').read_bytes();guided=(directory/'floor-guided.dsn').read_bytes();adapted=(directory/'task.dsn').read_bytes()
-    if g.verify_chain(raw,guided,adapted,native,candidate.with_suffix('.kicad_pro').read_bytes(),(sx.dump(task)+'\n').encode())!=contract['transformation']:
+    process_check(directory,data,'floor-export',context_argv('export',exported,directory/'floor-export-context.json',directory/'native.dsn',directory/'placement-area-context.json' if new_policy else None))
+    if new_policy:
+        from .placement_clearance import read_bytes
+        raw=read_bytes(directory/'native.dsn',20*1024*1024);guided=read_bytes(directory/'floor-guided.dsn');adapted=read_bytes(directory/'task.dsn')
+    else:
+        raw=(directory/'native.dsn').read_bytes();guided=(directory/'floor-guided.dsn').read_bytes();adapted=(directory/'task.dsn').read_bytes()
+    if new_policy:
+        from . import placement_clearance as pc
+        pc.check_chain(directory,data);pc.check_freeze(directory,data)
+    elif g.verify_chain(raw,guided,adapted,native,candidate.with_suffix('.kicad_pro').read_bytes(),(sx.dump(task)+'\n').encode())!=contract['transformation']:
         raise p.Rejected('floor derivation receipt differs')
     if data.get('floor_guided_dsn_sha256')!=g.sha(guided):raise p.Rejected('guided DSN hash differs')
     final_native=read_json(directory/'floor-final-context.json');expected=dict(data['source_hashes']);expected[candidate.name]=data['candidate_sha256']
@@ -161,7 +205,7 @@ def check_floor_result(directory,data,original,candidate,protected):
     if read_json(directory/'floor-final-audit.json')!=audited:raise p.Rejected('final floor route audit differs')
     process_check(directory,data,'floor-final',context_argv('final',candidate,directory/'floor-final-context.json'))
     settings=data.get('engine_budget',{})
-    expected_settings=p.engine_profile_settings(data['engine_profile'],settings.get('remaining_outer_wall_seconds_at_assignment'),strict_class_targets=True)
+    expected_settings=p.engine_profile_settings(data['engine_profile'],settings.get('remaining_outer_wall_seconds_at_assignment'),strict_class_targets=True,scoring_variant='via_default' if new_policy else None)
     expected_settings.update(outer_task_wall_budget_seconds=data['budget_seconds'],outer_task_cpu_budget_seconds=data['cpu_budget_seconds'])
     if settings!=expected_settings:raise p.Rejected('floor engine configuration differs')
     process_check(directory,data,'engine',engine_argv(directory,settings['argv']))
@@ -246,8 +290,10 @@ def publish(output,report,stable,account,remaining):
     return report
 
 
-def route(source,output,seconds,keep_existing,adapter,profile,scoring_variant):
-    if keep_existing or adapter!='both' or scoring_variant is not None:raise p.Rejected('unsupported: board-floors-v1 requires whole-board adapter=both without scoring variants')
+def route(source,output,seconds,keep_existing,adapter,profile,scoring_variant,*,guidance_policy=POLICY):
+    if guidance_policy not in GUIDANCE_POLICIES:raise p.Rejected('unknown floor-backed guidance policy')
+    if keep_existing or adapter!='both' or scoring_variant is not None:raise p.Rejected('unsupported: guidance requires whole-board adapter=both without scoring overrides')
+    if guidance_policy==PLACEMENT_POLICY and profile!='completion-only':raise p.Rejected('unsupported: placement policy requires completion-only profile')
     p.engine_scoring_settings(scoring_variant)
     if profile not in {'standard','tuned','completion-only'}:raise p.Rejected('unknown engine profile')
     if isinstance(seconds,bool) or not isinstance(seconds,(int,float)) or not math.isfinite(seconds) or not 5<=seconds<=900:raise p.Rejected('budget must be 5–900 seconds')
@@ -256,12 +302,14 @@ def route(source,output,seconds,keep_existing,adapter,profile,scoring_variant):
     handlers={sig:signal.getsignal(sig) for sig in (signal.SIGINT,signal.SIGTERM)}
     try:
         for sig in handlers:signal.signal(sig,interrupted)
-        return _route(source,output,seconds,profile)
+        return _route(source,output,seconds,profile,guidance_policy)
     finally:
         for sig,handler in handlers.items():signal.signal(sig,handler)
 
 
-def _route(source,output,seconds,profile):
+def _route(source,output,seconds,profile,guidance_policy=POLICY):
+    new_policy=guidance_policy==PLACEMENT_POLICY
+    if new_policy:from . import placement_clearance as pc
     started,parent_start,child_start=time.monotonic(),time.process_time(),child_cpu()
     source,output=Path(source).absolute(),Path(output).absolute()
     if any(path.is_symlink() for path in (source,*source.parents,output,*output.parents)):raise p.Rejected('floor paths must not use symlinks')
@@ -269,15 +317,18 @@ def _route(source,output,seconds,profile):
     if source.parent==output or source.parent in output.parents:raise p.Rejected('output must be outside source project')
     def remaining():return max(0,min(started+seconds-time.monotonic(),seconds-(time.process_time()-parent_start+child_cpu()-child_start)))
     job=FloorJob(output,seconds,remaining);job.started=started;job.cpu_started=parent_start
-    report={'schema':2,'input_policy':POLICY,'status':'rejected','accepted':False,'physical_electrical_validation':False,'schematic_parity':'not checked',
+    report={'schema':3 if new_policy else 2,'input_policy':guidance_policy,'status':'rejected','accepted':False,'physical_electrical_validation':False,'schematic_parity':'not checked',
         'source':str(source),'started_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'budget_seconds':seconds,'cpu_budget_seconds':seconds,
         'cpu_budget_enforcement':'remaining wall/CPU assignment and final acceptance cap; no hard total-CPU quota','baseline':p.engine_baseline(profile,'both'),
-        'adapter':'both','engine_profile':profile,'scoring_variant':None,'scope':'whole_board_unlocked_routing'}
+        'adapter':'both','engine_profile':profile,'scoring_variant':'via_default' if new_policy else None,'scope':'whole_board_unlocked_routing'}
+    if new_policy:report['planning_parameters']=pc.parameters()
     frozen=False;completed=None
     def stable():
         if not frozen:return
-        if p.tree_hash(source.parent)!=hashes or p.tree_hash(output/'snapshot')!=hashes:raise p.Rejected('floor source/snapshot changed')
+        inventory=pc.inventory if new_policy else p.tree_hash
+        if inventory(source.parent)!=hashes or inventory(output/'snapshot')!=hashes:raise p.Rejected('floor source/snapshot changed')
         if p.tool_manifest()!=report['tools']:raise p.Rejected('floor source/tool/code/HEAD changed')
+        if new_policy:pc.check_freeze(output,report)
         if completed is not None and evidence_inventory(output)!=completed:raise p.Rejected('completed floor evidence changed')
     def account():
         steps=job.steps
@@ -292,11 +343,18 @@ def _route(source,output,seconds,profile):
         if report['wall_seconds']>seconds or report['total_cpu_seconds']>seconds:report.update(accepted=False,status='budget_exceeded')
         if not report['accepted']:report['whole_project_drc_clean']=False
     try:
-        p.check_storage();hashes=p.tree_hash(source.parent);original=p.preflight(source)
+        p.check_storage()
+        hashes=pc.placement.inventory(pc.files(source.parent)) if new_policy else p.tree_hash(source.parent)
+        original=p.preflight(source)
         if p.netclass_policy(source) is not None:raise p.Rejected('unsupported: floor policy requires one Default class')
         task=g.task_from_source(original)
         g.qualify_scope(json.loads(source.with_suffix('.kicad_pro').read_text()),task)
+        if new_policy:pc.narrow_source(original)
         report.update(source_hashes=hashes,tools=p.tool_manifest())
+        if new_policy:
+            freeze=pc.capture_freeze(report['tools']);shutil.copy2(c.ROOT/'toolchain.lock.json',output/'placement-toolchain.lock.json')
+            p.save_json(output/'placement-source-freeze.json',freeze)
+            report['placement_source_freeze']={'file':'placement-source-freeze.json','sha256':p.sha(output/'placement-source-freeze.json')}
         shutil.copytree(source.parent,output/'snapshot');shutil.copytree(source.parent,output/'candidate');(output/'code').mkdir()
         for relative,digest in report['tools']['implementation_sha256'].items():
             dest=output/'code'/Path(relative).name;shutil.copy2(c.ROOT/relative,dest)
@@ -305,15 +363,23 @@ def _route(source,output,seconds,profile):
         report['task_sha256']=p.sha(candidate)
         shutil.copytree(candidate.parent,output/'floor-export-input');exported=output/'floor-export-input'/source.name
         report['source_drc']=job.drc('source-drc',output/'snapshot'/source.name)
-        native=acquire_context(job,'export',exported)
-        guided,contract=policy_contract((output/'native.dsn').read_bytes(),native,candidate.with_suffix('.kicad_pro').read_bytes(),task,hashes)
+        native=acquire_context(job,'export',exported,areas=new_policy)
+        raw=pc.read_bytes(output/'native.dsn',20*1024*1024) if new_policy else (output/'native.dsn').read_bytes()
+        guided,contract=policy_contract(raw,native,candidate.with_suffix('.kicad_pro').read_bytes(),task,hashes)
         (output/'floor-guided.dsn').write_bytes(guided);(output/'task.dsn').write_bytes(guided);p.save_json(output/'floor-policy.json',contract)
-        from .adapter import adapt_dsn
-        report['adapter_transformations']=adapt_dsn(output/'task.dsn','both',native['obstacles'])
-        g.verify_chain((output/'native.dsn').read_bytes(),guided,(output/'task.dsn').read_bytes(),native,candidate.with_suffix('.kicad_pro').read_bytes(),(sx.dump(task)+'\n').encode())
+        if new_policy:
+            outputs,composition=pc.derive_chain(output,source.name,hashes)
+            for name,raw in outputs.items():(output/name).write_bytes(raw)
+            p.save_json(output/'placement-policy.json',composition)
+            report['placement_policy']={'file':'placement-policy.json','sha256':p.sha(output/'placement-policy.json')}
+            pc.check_chain(output,report)
+        else:
+            from .adapter import adapt_dsn
+            report['adapter_transformations']=adapt_dsn(output/'task.dsn','both',native['obstacles'])
+            g.verify_chain((output/'native.dsn').read_bytes(),guided,(output/'task.dsn').read_bytes(),native,candidate.with_suffix('.kicad_pro').read_bytes(),(sx.dump(task)+'\n').encode())
         report.update(native_dsn_sha256=p.sha(output/'native.dsn'),floor_guided_dsn_sha256=g.sha(guided),task_dsn_sha256=p.sha(output/'task.dsn'),floor_policy={'file':'floor-policy.json','sha256':p.sha(output/'floor-policy.json')})
         (output/'engine-config').mkdir()
-        settings=p.engine_profile_settings(profile,remaining(),strict_class_targets=True)
+        settings=p.engine_profile_settings(profile,remaining(),strict_class_targets=True,scoring_variant='via_default' if new_policy else None)
         settings.update(outer_task_wall_budget_seconds=seconds,outer_task_cpu_budget_seconds=seconds);report['engine_budget']=settings
         job.step('engine',engine_argv(output,settings['argv']),already_sandboxed=True)
         if profile=='tuned':report['optimizer_threshold_audit']=p.optimizer_threshold_audit(output/'engine.log',0.1)

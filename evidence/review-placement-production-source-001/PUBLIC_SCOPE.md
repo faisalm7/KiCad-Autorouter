@@ -1,0 +1,1 @@
+Selected exact independent review records. Full ignored review includes synthetic copied fixtures and frozen source/reproduction copies, not all repeated here. The original manifest describes that full tree. These are pure/source/saved-evidence consistency checks; no new native or engine execution occurred.
