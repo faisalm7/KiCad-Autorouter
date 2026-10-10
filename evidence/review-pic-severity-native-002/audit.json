@@ -1,0 +1,771 @@
+{
+  "schema": 1,
+  "status": "actual_diagnostic_run_consistency_verified",
+  "audit_passed": true,
+  "native_run_passed": true,
+  "native_executed_by_reviewer": false,
+  "git_head": "2a987f2275c071c3788e46dfa17dcfb9bd4c80fb",
+  "summary_sha256": "e205d0d79d2c021290950e91078e1e622b01431da21af8404520f5a42d5dc48f",
+  "execution_sha256": "d7632cd0e12099d73f8eb0f28c0e5519a9d916bf6bc2659a37e8f69f3ef5ab9a",
+  "raw_file_count": 314,
+  "raw_bytes": 9852517,
+  "original_source_files": 15,
+  "checks": [
+    "six completed diagnostic outcomes",
+    "expected order",
+    "original full project preserved",
+    "all completed material hashes exact",
+    "execution commit matches",
+    "frozen committed runtime autorouter/__init__.py",
+    "frozen committed runtime autorouter/__main__.py",
+    "frozen committed runtime autorouter/adapter.py",
+    "frozen committed runtime autorouter/board_floor.py",
+    "frozen committed runtime autorouter/config.py",
+    "frozen committed runtime autorouter/floor_context.py",
+    "frozen committed runtime autorouter/floor_route.py",
+    "frozen committed runtime autorouter/handoff.py",
+    "frozen committed runtime autorouter/native.py",
+    "frozen committed runtime autorouter/netclass.py",
+    "frozen committed runtime autorouter/pipeline.py",
+    "frozen committed runtime autorouter/placement_clearance.py",
+    "frozen committed runtime autorouter/placement_transform.py",
+    "frozen committed runtime autorouter/recovery.py",
+    "frozen committed runtime autorouter/runner.py",
+    "frozen committed runtime autorouter/sexpr.py",
+    "frozen committed runtime autorouter/strategy.py",
+    "frozen committed runtime autorouter/thermal.py",
+    "frozen committed runtime autorouter/thermal_geometry.py",
+    "frozen committed runtime autorouter/thermal_worker.py",
+    "frozen committed runtime toolchain.lock.json",
+    "frozen committed runtime experiments/pic_severity_controls_v1/driver.py",
+    "frozen committed runtime experiments/pic_severity_controls_v1/worker.py",
+    "frozen committed runtime experiments/pic_severity_controls_v1/fixture.py",
+    "frozen committed runtime experiments/pic_severity_controls_v1/checks.py",
+    "frozen committed runtime experiments/pic_severity_controls_v1/intent.py",
+    "frozen committed runtime experiments/pic_severity_controls_v1/test_controls.py",
+    "frozen committed runtime experiments/pic_severity_controls_v1/PROTOCOL.json",
+    "frozen committed runtime experiments/pic_severity_controls_v1/README.md",
+    "frozen committed runtime experiments/pic_severity_controls_v1/SOURCE-NOTES.md",
+    "frozen committed runtime evidence/pic-custom-observation-002/original-drc.json",
+    "frozen implementation manifest exact",
+    "tool pins match saved lock",
+    "current pinned tool bytes kicad-cli",
+    "current pinned tool bytes python3.9",
+    "current pinned tool bytes java",
+    "current pinned tool bytes freerouting-2.5.0.jar",
+    "current pinned tool bytes _pcbnew.so",
+    "wrapper/log exact",
+    "root invocation matches expected",
+    "no outer cleanup/cancellation",
+    "separate original/effective ignored lists",
+    "positive exact recipe and profile delta",
+    "positive copied project semantic identity",
+    "positive copied project byte identity",
+    "positive setup and layer table immutable",
+    "positive complete original companions preserved",
+    "positive input/census binding",
+    "positive observe captured artifacts exact",
+    "positive original-drc captured artifacts exact",
+    "positive observe process receipt",
+    "positive observe actual exit and status",
+    "positive observe log size and bounded elapsed",
+    "positive observe resource guards retained",
+    "positive observe exact nonsaving network-denied argv",
+    "positive original-drc process receipt",
+    "positive original-drc actual exit and status",
+    "positive original-drc log size and bounded elapsed",
+    "positive original-drc resource guards retained",
+    "positive original-drc exact nonsaving network-denied argv",
+    "positive all fixture/project bytes identical to failed001",
+    "positive actual native text ID/name witness exact",
+    "positive native intent/geometry observation matches record",
+    "positive DRC original byte preservation",
+    "positive DRC original path association",
+    "positive DRC binding captured",
+    "positive recorded native binding exact",
+    "positive actual raw DRC summary exact",
+    "positive expected diagnostic matched positive gate",
+    "positive four ordinary missing_courtyard warnings",
+    "positive no opens/exclusions/parity and original effective ignored set",
+    "positive no blocking findings but retains four warnings",
+    "missing_named_profile exact recipe and profile delta",
+    "missing_named_profile copied project semantic identity",
+    "missing_named_profile setup and layer table immutable",
+    "missing_named_profile complete original companions preserved",
+    "missing_named_profile input/census binding",
+    "missing_named_profile observe captured artifacts exact",
+    "missing_named_profile original-drc captured artifacts exact",
+    "missing_named_profile observe process receipt",
+    "missing_named_profile observe actual exit and status",
+    "missing_named_profile observe log size and bounded elapsed",
+    "missing_named_profile observe resource guards retained",
+    "missing_named_profile observe exact nonsaving network-denied argv",
+    "missing_named_profile original-drc process receipt",
+    "missing_named_profile original-drc actual exit and status",
+    "missing_named_profile original-drc log size and bounded elapsed",
+    "missing_named_profile original-drc resource guards retained",
+    "missing_named_profile original-drc exact nonsaving network-denied argv",
+    "missing_named_profile all fixture/project bytes identical to failed001",
+    "missing_named_profile actual native text ID/name witness exact",
+    "missing_named_profile native intent/geometry observation matches record",
+    "missing_named_profile DRC original byte preservation",
+    "missing_named_profile DRC original path association",
+    "missing_named_profile DRC binding captured",
+    "missing_named_profile recorded native binding exact",
+    "missing_named_profile actual raw DRC summary exact",
+    "missing_named_profile expected diagnostic matched positive gate",
+    "missing_named_profile four ordinary missing_courtyard warnings",
+    "missing_named_profile no opens/exclusions/parity and original effective ignored set",
+    "named missing profile remains warning",
+    "missing_default_profile exact recipe and profile delta",
+    "missing_default_profile copied project semantic identity",
+    "missing_default_profile setup and layer table immutable",
+    "missing_default_profile complete original companions preserved",
+    "missing_default_profile input/census binding",
+    "missing_default_profile observe captured artifacts exact",
+    "missing_default_profile original-drc captured artifacts exact",
+    "missing_default_profile observe process receipt",
+    "missing_default_profile observe actual exit and status",
+    "missing_default_profile observe log size and bounded elapsed",
+    "missing_default_profile observe resource guards retained",
+    "missing_default_profile observe exact nonsaving network-denied argv",
+    "missing_default_profile original-drc process receipt",
+    "missing_default_profile original-drc actual exit and status",
+    "missing_default_profile original-drc log size and bounded elapsed",
+    "missing_default_profile original-drc resource guards retained",
+    "missing_default_profile original-drc exact nonsaving network-denied argv",
+    "missing_default_profile all fixture/project bytes identical to failed001",
+    "missing_default_profile actual native text ID/name witness exact",
+    "missing_default_profile native intent/geometry observation matches record",
+    "missing_default_profile DRC original byte preservation",
+    "missing_default_profile DRC original path association",
+    "missing_default_profile DRC binding captured",
+    "missing_default_profile recorded native binding exact",
+    "missing_default_profile actual raw DRC summary exact",
+    "missing_default_profile expected diagnostic matched positive gate",
+    "missing_default_profile four ordinary missing_courtyard warnings",
+    "missing_default_profile no opens/exclusions/parity and original effective ignored set",
+    "Default omission despite profiles in both loaded nets",
+    "board_edge_text exact recipe and profile delta",
+    "board_edge_text copied project semantic identity",
+    "board_edge_text copied project byte identity",
+    "board_edge_text setup and layer table immutable",
+    "board_edge_text complete original companions preserved",
+    "board_edge_text input/census binding",
+    "board_edge_text observe captured artifacts exact",
+    "board_edge_text original-drc captured artifacts exact",
+    "board_edge_text observe process receipt",
+    "board_edge_text observe actual exit and status",
+    "board_edge_text observe log size and bounded elapsed",
+    "board_edge_text observe resource guards retained",
+    "board_edge_text observe exact nonsaving network-denied argv",
+    "board_edge_text original-drc process receipt",
+    "board_edge_text original-drc actual exit and status",
+    "board_edge_text original-drc log size and bounded elapsed",
+    "board_edge_text original-drc resource guards retained",
+    "board_edge_text original-drc exact nonsaving network-denied argv",
+    "board_edge_text all fixture/project bytes identical to failed001",
+    "board_edge_text actual native text ID/name witness exact",
+    "board_edge_text native intent/geometry observation matches record",
+    "board_edge_text DRC original byte preservation",
+    "board_edge_text DRC original path association",
+    "board_edge_text DRC binding captured",
+    "board_edge_text recorded native binding exact",
+    "board_edge_text actual raw DRC summary exact",
+    "board_edge_text expected diagnostic matched positive gate",
+    "board_edge_text four ordinary missing_courtyard warnings",
+    "board_edge_text no opens/exclusions/parity and original effective ignored set",
+    "board_edge_text exact native target remains error",
+    "footprint_edge_text exact recipe and profile delta",
+    "footprint_edge_text copied project semantic identity",
+    "footprint_edge_text copied project byte identity",
+    "footprint_edge_text setup and layer table immutable",
+    "footprint_edge_text complete original companions preserved",
+    "footprint_edge_text input/census binding",
+    "footprint_edge_text observe captured artifacts exact",
+    "footprint_edge_text original-drc captured artifacts exact",
+    "footprint_edge_text observe process receipt",
+    "footprint_edge_text observe actual exit and status",
+    "footprint_edge_text observe log size and bounded elapsed",
+    "footprint_edge_text observe resource guards retained",
+    "footprint_edge_text observe exact nonsaving network-denied argv",
+    "footprint_edge_text original-drc process receipt",
+    "footprint_edge_text original-drc actual exit and status",
+    "footprint_edge_text original-drc log size and bounded elapsed",
+    "footprint_edge_text original-drc resource guards retained",
+    "footprint_edge_text original-drc exact nonsaving network-denied argv",
+    "footprint_edge_text all fixture/project bytes identical to failed001",
+    "footprint_edge_text actual native text ID/name witness exact",
+    "footprint_edge_text native intent/geometry observation matches record",
+    "footprint_edge_text DRC original byte preservation",
+    "footprint_edge_text DRC original path association",
+    "footprint_edge_text DRC binding captured",
+    "footprint_edge_text recorded native binding exact",
+    "footprint_edge_text actual raw DRC summary exact",
+    "footprint_edge_text expected diagnostic matched positive gate",
+    "footprint_edge_text four ordinary missing_courtyard warnings",
+    "footprint_edge_text no opens/exclusions/parity and original effective ignored set",
+    "footprint_edge_text exact native target remains error",
+    "pad_front_counterbore exact recipe and profile delta",
+    "pad_front_counterbore copied project semantic identity",
+    "pad_front_counterbore copied project byte identity",
+    "pad_front_counterbore setup and layer table immutable",
+    "pad_front_counterbore complete original companions preserved",
+    "pad_front_counterbore input/census binding",
+    "pad_front_counterbore observe captured artifacts exact",
+    "pad_front_counterbore original-drc captured artifacts exact",
+    "pad_front_counterbore observe process receipt",
+    "pad_front_counterbore observe actual exit and status",
+    "pad_front_counterbore observe log size and bounded elapsed",
+    "pad_front_counterbore observe resource guards retained",
+    "pad_front_counterbore observe exact nonsaving network-denied argv",
+    "pad_front_counterbore original-drc process receipt",
+    "pad_front_counterbore original-drc actual exit and status",
+    "pad_front_counterbore original-drc log size and bounded elapsed",
+    "pad_front_counterbore original-drc resource guards retained",
+    "pad_front_counterbore original-drc exact nonsaving network-denied argv",
+    "pad_front_counterbore all fixture/project bytes identical to failed001",
+    "pad_front_counterbore actual native text ID/name witness exact",
+    "pad_front_counterbore native intent/geometry observation matches record",
+    "pad_front_counterbore DRC original byte preservation",
+    "pad_front_counterbore DRC original path association",
+    "pad_front_counterbore DRC binding captured",
+    "pad_front_counterbore recorded native binding exact",
+    "pad_front_counterbore actual raw DRC summary exact",
+    "pad_front_counterbore expected diagnostic matched positive gate",
+    "pad_front_counterbore four ordinary missing_courtyard warnings",
+    "pad_front_counterbore no opens/exclusions/parity and original effective ignored set",
+    "pad_front_counterbore exact native target remains error",
+    "six observes and six DRC stages",
+    "worker CPU sum exact",
+    "stored and external measured budgets",
+    "run evidence within20MiB",
+    "no support claim",
+    "both full raw runs and original unchanged through audit"
+  ],
+  "check_count": 231,
+  "cases": [
+    {
+      "case": "positive",
+      "status": "passed",
+      "stages": [
+        "observe",
+        "original-drc"
+      ],
+      "native_text_layers": [
+        {
+          "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+          "text": "Owned board text",
+          "layer": "User.Drawings",
+          "layer_id": 17,
+          "parent": "board"
+        },
+        {
+          "uuid": "c8fe43a2-1bc2-5702-b488-91f43d743de8",
+          "text": "Owned footprint text",
+          "layer": "F.Fab",
+          "layer_id": 35,
+          "parent": "footprint"
+        }
+      ],
+      "native_classes": [
+        {
+          "name": "GND",
+          "class": "POWER",
+          "tuning_profile": "",
+          "width_nm": 800000,
+          "clearance_nm": 280000
+        },
+        {
+          "name": "SIGNAL_A",
+          "class": "Default",
+          "tuning_profile": "",
+          "width_nm": 500000,
+          "clearance_nm": 250000
+        }
+      ],
+      "native_counts": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 4,
+        "exclusions": 0
+      },
+      "finding_types": [
+        {
+          "type": "missing_courtyard",
+          "severity": "warning"
+        },
+        {
+          "type": "missing_courtyard",
+          "severity": "warning"
+        },
+        {
+          "type": "missing_courtyard",
+          "severity": "warning"
+        },
+        {
+          "type": "missing_courtyard",
+          "severity": "warning"
+        }
+      ],
+      "predicate": {
+        "predicate_met": true,
+        "provider_detected": false,
+        "coverage_probe": false,
+        "coverage_outcome": null,
+        "target_findings": [],
+        "schematic_parity_qualified": false
+      },
+      "control_passed": true
+    },
+    {
+      "case": "missing_named_profile",
+      "status": "passed",
+      "stages": [
+        "observe",
+        "original-drc"
+      ],
+      "native_text_layers": [
+        {
+          "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+          "text": "Owned board text",
+          "layer": "User.Drawings",
+          "layer_id": 17,
+          "parent": "board"
+        },
+        {
+          "uuid": "c8fe43a2-1bc2-5702-b488-91f43d743de8",
+          "text": "Owned footprint text",
+          "layer": "F.Fab",
+          "layer_id": 35,
+          "parent": "footprint"
+        }
+      ],
+      "native_classes": [
+        {
+          "name": "GND",
+          "class": "POWER",
+          "tuning_profile": "MissingOwnedProfile",
+          "width_nm": 800000,
+          "clearance_nm": 280000
+        },
+        {
+          "name": "SIGNAL_A",
+          "class": "Default",
+          "tuning_profile": "",
+          "width_nm": 500000,
+          "clearance_nm": 250000
+        }
+      ],
+      "native_counts": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 5,
+        "exclusions": 0
+      },
+      "finding_types": [
+        {
+          "type": "missing_courtyard",
+          "severity": "warning"
+        },
+        {
+          "type": "missing_courtyard",
+          "severity": "warning"
+        },
+        {
+          "type": "missing_courtyard",
+          "severity": "warning"
+        },
+        {
+          "type": "missing_courtyard",
+          "severity": "warning"
+        },
+        {
+          "type": "missing_tuning_profile",
+          "severity": "warning"
+        }
+      ],
+      "predicate": {
+        "predicate_met": true,
+        "provider_detected": true,
+        "coverage_probe": false,
+        "coverage_outcome": null,
+        "target_findings": [
+          {
+            "description": "Missing tuning profile (Net Class: POWER, Tuning Profile: MissingOwnedProfile)",
+            "items": [],
+            "severity": "warning",
+            "type": "missing_tuning_profile"
+          }
+        ],
+        "schematic_parity_qualified": false
+      },
+      "control_passed": true
+    },
+    {
+      "case": "missing_default_profile",
+      "status": "passed",
+      "stages": [
+        "observe",
+        "original-drc"
+      ],
+      "native_text_layers": [
+        {
+          "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+          "text": "Owned board text",
+          "layer": "User.Drawings",
+          "layer_id": 17,
+          "parent": "board"
+        },
+        {
+          "uuid": "c8fe43a2-1bc2-5702-b488-91f43d743de8",
+          "text": "Owned footprint text",
+          "layer": "F.Fab",
+          "layer_id": 35,
+          "parent": "footprint"
+        }
+      ],
+      "native_classes": [
+        {
+          "name": "GND",
+          "class": "POWER,Default",
+          "tuning_profile": "MissingOwnedProfile",
+          "width_nm": 800000,
+          "clearance_nm": 280000
+        },
+        {
+          "name": "SIGNAL_A",
+          "class": "Default",
+          "tuning_profile": "MissingOwnedProfile",
+          "width_nm": 500000,
+          "clearance_nm": 250000
+        }
+      ],
+      "native_counts": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 4,
+        "exclusions": 0
+      },
+      "finding_types": [
+        {
+          "type": "missing_courtyard",
+          "severity": "warning"
+        },
+        {
+          "type": "missing_courtyard",
+          "severity": "warning"
+        },
+        {
+          "type": "missing_courtyard",
+          "severity": "warning"
+        },
+        {
+          "type": "missing_courtyard",
+          "severity": "warning"
+        }
+      ],
+      "predicate": {
+        "predicate_met": true,
+        "provider_detected": false,
+        "coverage_probe": true,
+        "coverage_outcome": "finding_omitted_despite_loaded_intent",
+        "target_findings": [],
+        "schematic_parity_qualified": false
+      },
+      "control_passed": true
+    },
+    {
+      "case": "board_edge_text",
+      "status": "passed",
+      "stages": [
+        "observe",
+        "original-drc"
+      ],
+      "native_text_layers": [
+        {
+          "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+          "text": "Owned board text",
+          "layer": "Edge.Cuts",
+          "layer_id": 25,
+          "parent": "board"
+        },
+        {
+          "uuid": "c8fe43a2-1bc2-5702-b488-91f43d743de8",
+          "text": "Owned footprint text",
+          "layer": "F.Fab",
+          "layer_id": 35,
+          "parent": "footprint"
+        }
+      ],
+      "native_classes": [
+        {
+          "name": "GND",
+          "class": "POWER",
+          "tuning_profile": "",
+          "width_nm": 800000,
+          "clearance_nm": 280000
+        },
+        {
+          "name": "SIGNAL_A",
+          "class": "Default",
+          "tuning_profile": "",
+          "width_nm": 500000,
+          "clearance_nm": 250000
+        }
+      ],
+      "native_counts": {
+        "opens": 0,
+        "blocking": 1,
+        "warnings": 4,
+        "exclusions": 0
+      },
+      "finding_types": [
+        {
+          "type": "text_on_edge_cuts",
+          "severity": "error"
+        },
+        {
+          "type": "missing_courtyard",
+          "severity": "warning"
+        },
+        {
+          "type": "missing_courtyard",
+          "severity": "warning"
+        },
+        {
+          "type": "missing_courtyard",
+          "severity": "warning"
+        },
+        {
+          "type": "missing_courtyard",
+          "severity": "warning"
+        }
+      ],
+      "predicate": {
+        "predicate_met": true,
+        "provider_detected": true,
+        "coverage_probe": false,
+        "coverage_outcome": null,
+        "target_findings": [
+          {
+            "description": "Text (or dimension) on Edge.Cuts layer",
+            "items": [
+              {
+                "description": "PCB text 'Owned board text' on Edge.Cuts",
+                "pos": {
+                  "x": 20.0,
+                  "y": 5.0
+                },
+                "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d"
+              }
+            ],
+            "severity": "error",
+            "type": "text_on_edge_cuts"
+          }
+        ],
+        "schematic_parity_qualified": false
+      },
+      "control_passed": true
+    },
+    {
+      "case": "footprint_edge_text",
+      "status": "passed",
+      "stages": [
+        "observe",
+        "original-drc"
+      ],
+      "native_text_layers": [
+        {
+          "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+          "text": "Owned board text",
+          "layer": "User.Drawings",
+          "layer_id": 17,
+          "parent": "board"
+        },
+        {
+          "uuid": "c8fe43a2-1bc2-5702-b488-91f43d743de8",
+          "text": "Owned footprint text",
+          "layer": "Edge.Cuts",
+          "layer_id": 25,
+          "parent": "footprint"
+        }
+      ],
+      "native_classes": [
+        {
+          "name": "GND",
+          "class": "POWER",
+          "tuning_profile": "",
+          "width_nm": 800000,
+          "clearance_nm": 280000
+        },
+        {
+          "name": "SIGNAL_A",
+          "class": "Default",
+          "tuning_profile": "",
+          "width_nm": 500000,
+          "clearance_nm": 250000
+        }
+      ],
+      "native_counts": {
+        "opens": 0,
+        "blocking": 1,
+        "warnings": 4,
+        "exclusions": 0
+      },
+      "finding_types": [
+        {
+          "type": "text_on_edge_cuts",
+          "severity": "error"
+        },
+        {
+          "type": "missing_courtyard",
+          "severity": "warning"
+        },
+        {
+          "type": "missing_courtyard",
+          "severity": "warning"
+        },
+        {
+          "type": "missing_courtyard",
+          "severity": "warning"
+        },
+        {
+          "type": "missing_courtyard",
+          "severity": "warning"
+        }
+      ],
+      "predicate": {
+        "predicate_met": true,
+        "provider_detected": true,
+        "coverage_probe": false,
+        "coverage_outcome": null,
+        "target_findings": [
+          {
+            "description": "Text (or dimension) on Edge.Cuts layer",
+            "items": [
+              {
+                "description": "Footprint text of P1 (Owned footprint text)",
+                "pos": {
+                  "x": 10.0,
+                  "y": 15.0
+                },
+                "uuid": "c8fe43a2-1bc2-5702-b488-91f43d743de8"
+              }
+            ],
+            "severity": "error",
+            "type": "text_on_edge_cuts"
+          }
+        ],
+        "schematic_parity_qualified": false
+      },
+      "control_passed": true
+    },
+    {
+      "case": "pad_front_counterbore",
+      "status": "passed",
+      "stages": [
+        "observe",
+        "original-drc"
+      ],
+      "native_text_layers": [
+        {
+          "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+          "text": "Owned board text",
+          "layer": "User.Drawings",
+          "layer_id": 17,
+          "parent": "board"
+        },
+        {
+          "uuid": "c8fe43a2-1bc2-5702-b488-91f43d743de8",
+          "text": "Owned footprint text",
+          "layer": "F.Fab",
+          "layer_id": 35,
+          "parent": "footprint"
+        }
+      ],
+      "native_classes": [
+        {
+          "name": "GND",
+          "class": "POWER",
+          "tuning_profile": "",
+          "width_nm": 800000,
+          "clearance_nm": 280000
+        },
+        {
+          "name": "SIGNAL_A",
+          "class": "Default",
+          "tuning_profile": "",
+          "width_nm": 500000,
+          "clearance_nm": 250000
+        }
+      ],
+      "native_counts": {
+        "opens": 0,
+        "blocking": 1,
+        "warnings": 4,
+        "exclusions": 0
+      },
+      "finding_types": [
+        {
+          "type": "track_on_post_machined_layer",
+          "severity": "error"
+        },
+        {
+          "type": "missing_courtyard",
+          "severity": "warning"
+        },
+        {
+          "type": "missing_courtyard",
+          "severity": "warning"
+        },
+        {
+          "type": "missing_courtyard",
+          "severity": "warning"
+        },
+        {
+          "type": "missing_courtyard",
+          "severity": "warning"
+        }
+      ],
+      "predicate": {
+        "predicate_met": true,
+        "provider_detected": true,
+        "coverage_probe": false,
+        "coverage_outcome": null,
+        "target_findings": [
+          {
+            "description": "Track connected to post-machined or backdrilled layer",
+            "items": [
+              {
+                "description": "Track [SIGNAL_A] on top_layer, length 20.0000 mm",
+                "pos": {
+                  "x": 10.0,
+                  "y": 20.0
+                },
+                "uuid": "a9f93540-3cea-5be0-a0b7-b3a73215bbca"
+              },
+              {
+                "description": "PTH pad 1 [SIGNAL_A] of P3",
+                "pos": {
+                  "x": 10.0,
+                  "y": 20.0
+                },
+                "uuid": "94d28fd3-035e-5d28-89ad-f3eff6d69666"
+              }
+            ],
+            "severity": "error",
+            "type": "track_on_post_machined_layer"
+          }
+        ],
+        "schematic_parity_qualified": false
+      },
+      "control_passed": true
+    }
+  ],
+  "stored_wall_seconds": 15.808914416003972,
+  "stored_full_cpu_seconds": 14.038842,
+  "external_wall_seconds": 16.347974667005474,
+  "external_waited_cpu_seconds": 14.535938,
+  "diagnostic_note": "All numeric layer IDs are actual fresh native002 observations. Six diagnostic predicates passed; Default omission remains unqualified enforcement, actual errors remain errors, and failed001 is unchanged."
+}
