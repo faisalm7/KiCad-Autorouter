@@ -4,7 +4,7 @@ Updated October 10, 2026 (America/Los_Angeles). **Active local reconstruction; i
 
 ## Durable local work and backup boundary
 
-Checkout: `/Users/faisal/Projects/KiCad-Autorouter-local` on this Mac; branch `rebuild/local-20261010-015447`. Latest verified push/read-back is **`df4464d47483e5728d55a97c9fedbd684b5ef66c`** ([receipt](evidence/backups/checkpoint-df4464d.json)). G0 began at `683e41a`; no cloud/worktree was used.
+Checkout: `/Users/faisal/Projects/KiCad-Autorouter-local` on this Mac; branch `rebuild/local-20261010-015447`. Latest verified push/read-back is **`24ab168d2f62b89fd76c6bac80ede241df72a0c9`** ([receipt](evidence/backups/checkpoint-24ab168.json)). G0 began at `683e41a`; no cloud/worktree was used.
 
 Latest **full** archive: **3e2cce9**. Restore verified all Git refs, **30,291 non-Git files / 1,017,693,214 bytes**, and CLI help ([verification](evidence/backups/restore-3e2cce9.json)). Location: `.local-backups/checkpoint-20261010T115857Z-befcc16a3a72476f82094eb198dd5190`. This covers both placement native omission experiments, the safety gate/fix, failed routing fixture001, accepted diagnostic fixture002, full matched pair001, all completed reviews/receipt controls and outcomes002 drafts. GitHub holds audited source and selected evidence. Full archives remain on this Mac only; an independent off-Mac destination awaits the owner. No original or prior archive was removed.
 
@@ -56,13 +56,13 @@ The only pre-adapter difference is removal of eight DSN obstacles attributed to 
 
 ## Entire considered population and provenance
 
-**14 acquired boards remain in the denominator: 7 manifested inputs plus 7 incomplete expansion inputs; 3 statically eligible, 11 unsupported.** Three inputs were routed; two have an accepted policy. Eligibility is not native acceptance. All are development-exposed; independent families are unverified. The [complete per-board index](evidence/development-outcomes-002/index.json) retains all reasons, attempts and pair gains/losses without pooling different policies/versions.
+**14 acquired boards remain in the denominator: 7 manifested inputs plus 7 incomplete expansion inputs; 3 statically eligible, 11 unsupported.** Three inputs were routed; two have an accepted production policy and a third now has an accepted diagnostic policy. Eligibility is not native acceptance. All are development-exposed; independent families are unverified. The [complete per-board index](evidence/development-outcomes-002/index.json) retains all reasons, attempts and pair gains/losses without pooling different policies/versions.
 
 | Manifested board | Current recorded condition |
 |---|---|
 | sonde xilinx | Static eligible; accepted quality experiments above |
 | interf_u | Static eligible; automatic C accepted; tested B0/B1/B2 rejected |
-| multichannel_mixer | Static eligible; matched placement diagnostic still rejected, 8 opens / two clearance errors; floor reference 160 opens / one thermal |
+| multichannel_mixer | Static eligible; v2 planning-margin diagnostic accepted0opens/0blocking/96warnings; zero-margin reference and low-via-cost variant remain rejected |
 | pic_programmer | Unsupported custom pads and severity semantics |
 | complex_hierarchy | Unsupported class assignments and empty-net zone severity semantics |
 | ColdFire/Xilinx | Unsupported class assignment/nonblocking thermal constraints; four-layer scope unqualified |
@@ -106,8 +106,18 @@ At the next native milestone, freeze ignored writes, commit/audit/push and run `
 
 Before further native batches, the project backup ceiling is raised from1GiB to2GiB: the verified1,017,693,214-byte raw inventory leaves only56,048,610bytes under the old cap, less than the next bounded comparison. The filesystem has approximately404GiB free. The100,000-file cap, credential/path/source-freeze guards and streaming writer remain unchanged;27 backup controls pass in1.435seconds. This does not change OS protections or claim a new restoration test. The latest actual full restore remains3e2cce9.
 
-## Next declared clearance/search experiment
+## Placement/search v2: measured diagnostic completion
 
-The reviewed v2 diagnostic is integrated at `experiments/placement_diagnostic_v2`. Its56 pure controls passed locally in0.348s; independent review reran all56. It preserves the exact native/floor/placement chain and changes only three DSN planning-clearance atoms, leaving native preferences, actual source rules, width/via dimensions and final acceptance unchanged. Fixed order: zero margin/default50/5costs;20µm margin/default50/5;20µm margin/low25/3. Each arm receives120second wall/CPU caps including all shared overhead. The20µm parameter is a hypothesis supported by the saved roundrect discrepancy, not a universal bound. Fresh strongest-policy owned fixture is mandatory before any full-board run. Native execution is pending; no new accepted board or production/C novelty claim. A separate fixed two-segment native counterfactual is under final review.
+At `24ab168d`, the new strongest-policy owned fixture passed actual engine/import/refill/final DRC: zero findings, one required via,67.933738mm;8.284335 wall/5.466622 CPU seconds. The same-code [three-arm experiment](evidence/placement-search-three-arm-001/summary.json) then completed with all shared overhead charged to every arm under equal120second caps:
 
-The last full archive remains3e2cce9. New source/research checkpoints are remote; subsequent diagnostic drafts/raw data await the next tested full archive.
+| Policy | Opens / blocking / warnings / exclusions | Charged wall / CPU seconds | Accepted |
+|---|---|---|---|
+| Placement/floor, zero margin, default via costs | 8 / 2 clearance / 94 / 0 | 47.237442 / 60.386719 | No |
+| Same pipeline,20µm planning margin, default via costs | 0 / 0 / 96 / 0 | 44.580724 / 56.572069 | Diagnostic only |
+| Same20µm margin, lower via costs | 0 / 1 thermal / 95 / 0 | 34.131237 / 38.634855 | No |
+
+The accepted candidate is `36e778573b2c90dfca8f9d45597e6bd890cc45c7fc4c6c86a2673e2e7fef3bef`,2647.385729mm/21vias. Exactly three engine-planning clearance atoms gain20µm; source/native rules, pad geometry, width/via dimensions and final acceptance stay unchanged. The new reference reproduces the earlier8opens/two clearance errors. Margin changes also change search behavior, so the completion gain is not attributed solely to the two local geometric discrepancies. Lower via costs produced a thermal-relief error at C2 and are not selected as an improvement. No pair has two valid outputs: there is no valid route-quality delta. The accepted route has96warnings, including9connection-width warnings; routing acceptance is not whole-project or electrical cleanliness.
+
+All three exact receipts passed root readback. Independent raw evidence review is pending. This is one exposed adapter/search result, not C novelty, production promotion, a new independent family or generalized superiority. The14-board denominator remains3eligible/11unsupported; two production-policy inputs and one distinct diagnostic input now have accepted evidence. The previous immutable outcomes002 index records the prior state; outcomes003 is being prepared.
+
+The separate fixed two-segment clearance counterfactual is integrated and independently source-reviewed;18 root pure controls pass. Its native run remains pending. It cannot establish route acceptance or a universal margin guarantee. The last full archive remains3e2cce9; new raw fixture/three-arm evidence awaits the next tested full archive.

@@ -1,0 +1,4345 @@
+{
+  "diagnostic_schema": 2,
+  "status": "diagnostic_accepted",
+  "routing_accepted": true,
+  "production_qualified": false,
+  "comparison_eligible": false,
+  "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.data/boards/kicad-multichannel/multichannel_mixer.kicad_pcb",
+  "policy": "placement-search-v2-margin20um-default",
+  "search_parameters": {
+    "clearance_margin_nm": 20000,
+    "scoring_variant": "via_default",
+    "via_costs": 50,
+    "plane_via_costs": 5
+  },
+  "budget_seconds": 113.599,
+  "cpu_budget_seconds": 113.599,
+  "engine_profile": "completion-only",
+  "adapter": "both",
+  "scope": "whole original project; diagnostic all-allowed placement only; no genuine rule-area restrictions",
+  "physical_electrical_validation": false,
+  "steps": [
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.5597094999975525,
+      "cpu_seconds": 1.0562559999999999,
+      "max_rss_bytes": 274497536,
+      "supervisor_cpu_seconds": 0.02236700000000269,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 266551296,
+      "sampled_peak_workdir_bytes": 17054448,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1/source-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1/source-drc-input/multichannel_mixer.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1/source-drc.log",
+      "log_bytes": 172,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1",
+      "signal_cancellation_enabled": true,
+      "pid": 86065,
+      "name": "source-drc",
+      "validated_input_sha256": "44b7c119a0d05c98e9f294659879184038a5f6c30073c04d9536990429ca413e",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1/snapshot/multichannel_mixer.kicad_pcb"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.39887150000140537,
+      "cpu_seconds": 0.382997,
+      "max_rss_bytes": 106250240,
+      "supervisor_cpu_seconds": 0.006251000000002449,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 36732928,
+      "sampled_peak_workdir_bytes": 17238365,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1/code/native_combined.py",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1/floor-export-input/multichannel_mixer.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1/floor-export-context.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1/area-context.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1/native.dsn"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1/floor-area-export.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1",
+      "signal_cancellation_enabled": true,
+      "pid": 86077,
+      "name": "floor-area-export"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 20.347601624998788,
+      "cpu_seconds": 34.397433,
+      "max_rss_bytes": 569393152,
+      "supervisor_cpu_seconds": 0.16775499999999965,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 569294848,
+      "sampled_peak_workdir_bytes": 17493466,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java",
+        "-Xms128m",
+        "-Xmx2g",
+        "-XX:ActiveProcessorCount=1",
+        "-Djava.awt.headless=true",
+        "-jar",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar",
+        "--gui.enabled=false",
+        "--api_server.enabled=false",
+        "--mcp_server.enabled=false",
+        "-da",
+        "--user_data_path=/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1/engine-config",
+        "--logging.file.enabled=false",
+        "--router.autorouter.max_passes=30",
+        "--router.job_timeout=00:01:00",
+        "--router.automatic_neckdown=false",
+        "--router.fanout.enabled=false",
+        "--router.neck_width_um=0",
+        "--router.optimizer.enabled=false",
+        "--router.scoring.via_costs=50",
+        "--router.scoring.plane_via_costs=5",
+        "-de",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1/task.dsn",
+        "-do",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1/routes.ses"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1/engine.log",
+      "log_bytes": 6855,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1",
+      "signal_cancellation_enabled": true,
+      "pid": 86252,
+      "name": "engine"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.6771035409983597,
+      "cpu_seconds": 0.478521,
+      "max_rss_bytes": 106381312,
+      "supervisor_cpu_seconds": 0.00997700000000279,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 69386240,
+      "sampled_peak_workdir_bytes": 19061881,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+        "import",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1/candidate/multichannel_mixer.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1/imported.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1/routes.ses"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1/import.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1",
+      "signal_cancellation_enabled": true,
+      "pid": 86536,
+      "name": "import"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 2.0133584170034737,
+      "cpu_seconds": 1.287149,
+      "max_rss_bytes": 279445504,
+      "supervisor_cpu_seconds": 0.02915100000000237,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 271613952,
+      "sampled_peak_workdir_bytes": 24077108,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1/refill-drc.json",
+        "--save-board",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1/refill/multichannel_mixer.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1/refill-drc.log",
+      "log_bytes": 183,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1",
+      "signal_cancellation_enabled": true,
+      "pid": 86548,
+      "name": "refill-drc",
+      "validated_input_sha256": "f72147999ee56eff7f7e777eced17152afa49316df38bdd0a7e8d54f34240c3d",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1/refill/multichannel_mixer.kicad_pcb"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.46118350000324426,
+      "cpu_seconds": 0.464372,
+      "max_rss_bytes": 119799808,
+      "supervisor_cpu_seconds": 0.007920999999999623,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 37322752,
+      "sampled_peak_workdir_bytes": 25154276,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/floor_context.py",
+        "final",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1/candidate/multichannel_mixer.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1/floor-final-context.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1/floor-final.log",
+      "log_bytes": 4725,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1",
+      "signal_cancellation_enabled": true,
+      "pid": 86562,
+      "name": "floor-final"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.8619681249983842,
+      "cpu_seconds": 1.217052,
+      "max_rss_bytes": 275939328,
+      "supervisor_cpu_seconds": 0.01825799999999944,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 266846208,
+      "sampled_peak_workdir_bytes": 29752298,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1/final-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1/final-drc-input/multichannel_mixer.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1/final-drc.log",
+      "log_bytes": 170,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1",
+      "signal_cancellation_enabled": true,
+      "pid": 86574,
+      "name": "final-drc",
+      "validated_input_sha256": "36e778573b2c90dfca8f9d45597e6bd890cc45c7fc4c6c86a2673e2e7fef3bef",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1/candidate/multichannel_mixer.kicad_pcb"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.48222033299680334,
+      "cpu_seconds": 0.467487,
+      "max_rss_bytes": 115949568,
+      "supervisor_cpu_seconds": 0.008231999999999573,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 34488320,
+      "sampled_peak_workdir_bytes": 29758825,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+        "metrics",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1/candidate/multichannel_mixer.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1/metrics.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1/metrics.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1",
+      "signal_cancellation_enabled": true,
+      "pid": 86586,
+      "name": "metrics"
+    }
+  ],
+  "started_utc": "2026-10-10T12:17:26.131603+00:00",
+  "freeze": {
+    "tools": {
+      "implementation_sha256": {
+        "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+        "autorouter/__main__.py": "2e61b5f10de1ee775cf0302246ca047e566dcefca6f7e93860e1c16ae119eec9",
+        "autorouter/adapter.py": "509feca807ccee112b0b6a071fd0944c88177ba83f5b77422ec8be5cdf63d25b",
+        "autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+        "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+        "autorouter/floor_context.py": "d346e3b552328d370b4c18c20bd55074702ec53198aef0d47f38b05a0aff7f4a",
+        "autorouter/floor_route.py": "796653ec3f6e851b09079032624ed7deb80e3a278ff52ca07b75baf4e77200bf",
+        "autorouter/handoff.py": "22db5dc88be754d97fc5325495073a9931ff1aab79821c177654838b1ea09615",
+        "autorouter/native.py": "7257496b007fbc449adb3cc8b999712aed8ea0aa881a116ba337d18e2ab87c02",
+        "autorouter/netclass.py": "d0d26610b550b0655a1eafc3022196e31f59f719b5b3f0a727c464f9c90eda61",
+        "autorouter/pipeline.py": "101ad65bff197afe17758d30e850a944333875f256f159a4346fdf36f997358f",
+        "autorouter/recovery.py": "95cebb44d8eac6e9903bd33e65b5cef887d8b1531f67375b940442f1237c2f9a",
+        "autorouter/runner.py": "0e81ab1badf20cd84adc2fed586641dd97a489a5a6af03febe6fb597bb1d2718",
+        "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+        "autorouter/strategy.py": "a85e9097f3f20508a0d72f50078dad531a3cccc2f41b85da3a74c0a826b1d558",
+        "autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+        "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+        "autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455"
+      },
+      "git_head": "24ab168d2f62b89fd76c6bac80ede241df72a0c9",
+      "kicad": "10.0.0",
+      "freerouting": "2.5.0",
+      "files": {
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+        "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219"
+      },
+      "network": "engine sandbox-exec deny network*"
+    },
+    "files_sha256": {
+      "experiments/placement_diagnostic_v2/diagnostic_route.py": "fe8299dc5c56b12a04e3fdd3e934ac2dffa61a35925ccebd86c857a41ed69c4f",
+      "experiments/placement_diagnostic_v2/native_combined.py": "3fb123a8a1fdbe119a7de60e97677940e26a15b5562a822599d854ba04553a70",
+      "experiments/placement_diagnostic_v2/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+      "experiments/placement_diagnostic_v2/search_guidance.py": "e432a464726ded98b044da4abdf22cb6594268e3c538e9d4c65261a1270b9cd4",
+      "experiments/placement_diagnostic_v2/experiment_search.py": "7e5661228dde28952a11deb52de6bc5887b844a9e11029e81d1b84f289921708",
+      "experiments/placement_diagnostic_v2/protocol.json": "c47a4882b6fa89014775fdba14e2ea363d268bf1ddc770105065cbb59fb0cdc3",
+      "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+      "autorouter/__main__.py": "2e61b5f10de1ee775cf0302246ca047e566dcefca6f7e93860e1c16ae119eec9",
+      "autorouter/adapter.py": "509feca807ccee112b0b6a071fd0944c88177ba83f5b77422ec8be5cdf63d25b",
+      "autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+      "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+      "autorouter/floor_context.py": "d346e3b552328d370b4c18c20bd55074702ec53198aef0d47f38b05a0aff7f4a",
+      "autorouter/floor_route.py": "796653ec3f6e851b09079032624ed7deb80e3a278ff52ca07b75baf4e77200bf",
+      "autorouter/handoff.py": "22db5dc88be754d97fc5325495073a9931ff1aab79821c177654838b1ea09615",
+      "autorouter/native.py": "7257496b007fbc449adb3cc8b999712aed8ea0aa881a116ba337d18e2ab87c02",
+      "autorouter/netclass.py": "d0d26610b550b0655a1eafc3022196e31f59f719b5b3f0a727c464f9c90eda61",
+      "autorouter/pipeline.py": "101ad65bff197afe17758d30e850a944333875f256f159a4346fdf36f997358f",
+      "autorouter/recovery.py": "95cebb44d8eac6e9903bd33e65b5cef887d8b1531f67375b940442f1237c2f9a",
+      "autorouter/runner.py": "0e81ab1badf20cd84adc2fed586641dd97a489a5a6af03febe6fb597bb1d2718",
+      "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+      "autorouter/strategy.py": "a85e9097f3f20508a0d72f50078dad531a3cccc2f41b85da3a74c0a826b1d558",
+      "autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+      "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+      "autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455",
+      "toolchain.lock.json": "f04be5cdf6f64bddc16a6c5efd217b2f5e0a1341906ff44033f5807971154efe"
+    },
+    "protocol_sha256": "c47a4882b6fa89014775fdba14e2ea363d268bf1ddc770105065cbb59fb0cdc3",
+    "helper_files": {
+      "diagnostic_route.py": "experiments/placement_diagnostic_v2/diagnostic_route.py",
+      "native_combined.py": "experiments/placement_diagnostic_v2/native_combined.py",
+      "placement_transform.py": "experiments/placement_diagnostic_v2/placement_transform.py",
+      "search_guidance.py": "experiments/placement_diagnostic_v2/search_guidance.py",
+      "experiment_search.py": "experiments/placement_diagnostic_v2/experiment_search.py",
+      "protocol.json": "experiments/placement_diagnostic_v2/protocol.json"
+    }
+  },
+  "tools": {
+    "implementation_sha256": {
+      "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+      "autorouter/__main__.py": "2e61b5f10de1ee775cf0302246ca047e566dcefca6f7e93860e1c16ae119eec9",
+      "autorouter/adapter.py": "509feca807ccee112b0b6a071fd0944c88177ba83f5b77422ec8be5cdf63d25b",
+      "autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+      "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+      "autorouter/floor_context.py": "d346e3b552328d370b4c18c20bd55074702ec53198aef0d47f38b05a0aff7f4a",
+      "autorouter/floor_route.py": "796653ec3f6e851b09079032624ed7deb80e3a278ff52ca07b75baf4e77200bf",
+      "autorouter/handoff.py": "22db5dc88be754d97fc5325495073a9931ff1aab79821c177654838b1ea09615",
+      "autorouter/native.py": "7257496b007fbc449adb3cc8b999712aed8ea0aa881a116ba337d18e2ab87c02",
+      "autorouter/netclass.py": "d0d26610b550b0655a1eafc3022196e31f59f719b5b3f0a727c464f9c90eda61",
+      "autorouter/pipeline.py": "101ad65bff197afe17758d30e850a944333875f256f159a4346fdf36f997358f",
+      "autorouter/recovery.py": "95cebb44d8eac6e9903bd33e65b5cef887d8b1531f67375b940442f1237c2f9a",
+      "autorouter/runner.py": "0e81ab1badf20cd84adc2fed586641dd97a489a5a6af03febe6fb597bb1d2718",
+      "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+      "autorouter/strategy.py": "a85e9097f3f20508a0d72f50078dad531a3cccc2f41b85da3a74c0a826b1d558",
+      "autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+      "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+      "autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455"
+    },
+    "git_head": "24ab168d2f62b89fd76c6bac80ede241df72a0c9",
+    "kicad": "10.0.0",
+    "freerouting": "2.5.0",
+    "files": {
+      "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+      "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219"
+    },
+    "network": "engine sandbox-exec deny network*"
+  },
+  "source_hashes": {
+    "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+    "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    "channel_strip.kicad_sch": "2c98b5d37f5b60c9187474017d7b754e8b4a1d45f4115dcbecf1a745ab175e0e",
+    "fp-lib-table": "8a1e7e5ab227455c8865598b3c4c36db1e75c8abced3b2c0aee4fde54176a328",
+    "multichannel_mixer-unrouted.kicad_pcb": "149b2dce16e0f59adb78f87068f4137b7dafca0e991a0b21fdd967c873fd5ee9",
+    "multichannel_mixer.kicad_pcb": "44b7c119a0d05c98e9f294659879184038a5f6c30073c04d9536990429ca413e",
+    "multichannel_mixer.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+    "multichannel_mixer.kicad_sch": "e47aecee9416d51fb5aed36d008a0442d3d6d68abfc5224bcdb5c5bb4a690fcf",
+    "multichannel_mixer.kicad_sym": "7e0793cc48f3a20ea84f3c4c8643ffeb1be79dd05faba8ae1278dc39dbf7cf8b",
+    "multichannel_mixer.pretty/CAPC3216X140N.kicad_mod": "3e6145d55866da5a696cefe075a68d26cf30fde90403ff2e006d2e4ae1461474",
+    "multichannel_mixer.pretty/CAPPRB254-500X840.kicad_mod": "6e1ac6aeba9d1c87ba73b30104162d35ae05625364c80ed204127c90e0542775",
+    "multichannel_mixer.pretty/CLIFF_FC68148(DC-10A).kicad_mod": "96f4e07509d06c0157dfca2b336f761541ed5d2daead790baafe6b90d23e658e",
+    "multichannel_mixer.pretty/Jack_6.35mm_Neutrik_NMJ6HCD2_Horizontal.kicad_mod": "b8a282923219bb3b01bf82278a7ded099fac556385eaf8707d777fc92cc32fc3",
+    "multichannel_mixer.pretty/Potentiometer_Alps_RK09K_Single_Vertical.kicad_mod": "ce94093ebd8cd8cd35a75442db46854414f78ca9be4f3b4234a7819650b938aa",
+    "multichannel_mixer.pretty/RESC3216X65N.kicad_mod": "a12fbb5040e28dd960364f0319773d1450c0610c18ab9844d0671b6bf6c9f6d7",
+    "multichannel_mixer.pretty/SOIC127P600X175-8N.kicad_mod": "0b5f066de991d39015aab71847ce9a17e3a60394391350e46650fa8e7d274f80",
+    "sym-lib-table": "68b0633966d91fd9e81c05b7706abcddc892d1c71c9994c8cb757e38216787f7"
+  },
+  "observer_sha256": "3fb123a8a1fdbe119a7de60e97677940e26a15b5562a822599d854ba04553a70",
+  "source_drc": {
+    "opens": 0,
+    "blocking": 24,
+    "warnings": 93,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "PTH inside courtyard",
+        "key": "pth_inside_courtyard"
+      },
+      {
+        "description": "NPTH inside courtyard",
+        "key": "npth_inside_courtyard"
+      },
+      {
+        "description": "Footprint component type doesn't match footprint pads",
+        "key": "footprint_type_mismatch"
+      }
+    ],
+    "findings": [
+      {
+        "description": "Clearance violation (board minimum clearance 0.3000 mm; actual 0.2296 mm)",
+        "items": [
+          {
+            "description": "Pad 1 [GND] of C11 on B.Cu",
+            "pos": {
+              "x": 150.4,
+              "y": 114.3
+            },
+            "uuid": "40967179-725d-4b9f-85c4-a62d4bfc9e2a"
+          },
+          {
+            "description": "Track [Net-(IC2B-IN-)] on B.Cu, length 3.1820 mm",
+            "pos": {
+              "x": 146.8,
+              "y": 112.790811
+            },
+            "uuid": "4e9d4b3d-9d86-404b-bcec-dda2bc8a2ede"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      },
+      {
+        "description": "Clearance violation (board minimum clearance 0.3000 mm; actual 0.2000 mm)",
+        "items": [
+          {
+            "description": "Track [Net-(IC2B-IN-)] on B.Cu, length 3.1820 mm",
+            "pos": {
+              "x": 146.8,
+              "y": 112.790811
+            },
+            "uuid": "4e9d4b3d-9d86-404b-bcec-dda2bc8a2ede"
+          },
+          {
+            "description": "PTH pad 3 [Net-(C7-Pad1)] of RV1",
+            "pos": {
+              "x": 147.5,
+              "y": 115.4
+            },
+            "uuid": "cb82a97e-d3bf-475f-9e22-904fbaf27340"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      },
+      {
+        "description": "Clearance violation (board minimum clearance 0.3000 mm; actual 0.2250 mm)",
+        "items": [
+          {
+            "description": "Pad 1 [Net-(C7-Pad1)] of C7 on B.Cu",
+            "pos": {
+              "x": 148.0,
+              "y": 117.9
+            },
+            "uuid": "1fdc0925-4977-48de-8f48-b31b544dfc16"
+          },
+          {
+            "description": "Track [Net-(IC2B-IN-)] on B.Cu, length 4.4592 mm",
+            "pos": {
+              "x": 149.05,
+              "y": 115.040811
+            },
+            "uuid": "5c1225c8-8457-4dda-847b-ddd28aeb8ba5"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      },
+      {
+        "description": "Clearance violation (board minimum clearance 0.3000 mm; actual 0.2296 mm)",
+        "items": [
+          {
+            "description": "Pad 1 [GND] of C11 on B.Cu",
+            "pos": {
+              "x": 150.4,
+              "y": 114.3
+            },
+            "uuid": "40967179-725d-4b9f-85c4-a62d4bfc9e2a"
+          },
+          {
+            "description": "Track [Net-(IC2B-IN-)] on B.Cu, length 4.4592 mm",
+            "pos": {
+              "x": 149.05,
+              "y": 115.040811
+            },
+            "uuid": "5c1225c8-8457-4dda-847b-ddd28aeb8ba5"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      },
+      {
+        "description": "Clearance violation (board minimum clearance 0.3000 mm; actual 0.2000 mm)",
+        "items": [
+          {
+            "description": "Pad 2 [Net-(C11-Pad2)] of C11 on B.Cu",
+            "pos": {
+              "x": 150.4,
+              "y": 117.3
+            },
+            "uuid": "0076537d-6cae-42dd-bf86-fab13bb362c1"
+          },
+          {
+            "description": "Track [Net-(IC2B-IN-)] on B.Cu, length 4.4592 mm",
+            "pos": {
+              "x": 149.05,
+              "y": 115.040811
+            },
+            "uuid": "5c1225c8-8457-4dda-847b-ddd28aeb8ba5"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      },
+      {
+        "description": "Clearance violation (board minimum clearance 0.3000 mm; actual 0.2296 mm)",
+        "items": [
+          {
+            "description": "Track [Net-(IC3B-IN-)] on B.Cu, length 4.4592 mm",
+            "pos": {
+              "x": 127.05,
+              "y": 115.040811
+            },
+            "uuid": "548c31ee-5151-4b2d-89b3-be2a4de72795"
+          },
+          {
+            "description": "Pad 1 [GND] of C20 on B.Cu",
+            "pos": {
+              "x": 128.4,
+              "y": 114.3
+            },
+            "uuid": "59377a8f-b2ae-4f06-9323-9177ac55180a"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      },
+      {
+        "description": "Clearance violation (board minimum clearance 0.3000 mm; actual 0.2000 mm)",
+        "items": [
+          {
+            "description": "Track [Net-(IC3B-IN-)] on B.Cu, length 4.4592 mm",
+            "pos": {
+              "x": 127.05,
+              "y": 115.040811
+            },
+            "uuid": "548c31ee-5151-4b2d-89b3-be2a4de72795"
+          },
+          {
+            "description": "Pad 2 [Net-(C20-Pad2)] of C20 on B.Cu",
+            "pos": {
+              "x": 128.4,
+              "y": 117.3
+            },
+            "uuid": "f7272283-74a9-460d-859e-20c04aec99cc"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      },
+      {
+        "description": "Clearance violation (board minimum clearance 0.3000 mm; actual 0.2250 mm)",
+        "items": [
+          {
+            "description": "Pad 1 [Net-(C16-Pad1)] of C16 on B.Cu",
+            "pos": {
+              "x": 126.0,
+              "y": 117.9
+            },
+            "uuid": "081d2afa-c298-4593-96b7-4ea61ed00c5b"
+          },
+          {
+            "description": "Track [Net-(IC3B-IN-)] on B.Cu, length 4.4592 mm",
+            "pos": {
+              "x": 127.05,
+              "y": 115.040811
+            },
+            "uuid": "548c31ee-5151-4b2d-89b3-be2a4de72795"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      },
+      {
+        "description": "Clearance violation (board minimum clearance 0.3000 mm; actual 0.2000 mm)",
+        "items": [
+          {
+            "description": "PTH pad 3 [Net-(C8-Pad1)] of RV2",
+            "pos": {
+              "x": 147.5,
+              "y": 97.4
+            },
+            "uuid": "e4e5d5bd-087d-4f10-b611-cdc157b4ed34"
+          },
+          {
+            "description": "Track [Net-(IC2B-IN-)] on B.Cu, length 4.0000 mm",
+            "pos": {
+              "x": 148.85,
+              "y": 94.85
+            },
+            "uuid": "fac33179-5cf1-4305-9537-1f9ff224022b"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      },
+      {
+        "description": "Clearance violation (board minimum clearance 0.3000 mm; actual 0.2000 mm)",
+        "items": [
+          {
+            "description": "PTH pad 3 [Net-(C16-Pad1)] of RV5",
+            "pos": {
+              "x": 125.5,
+              "y": 115.4
+            },
+            "uuid": "008930d5-7b48-42bf-b13f-311d1e280276"
+          },
+          {
+            "description": "Track [Net-(IC3B-IN-)] on B.Cu, length 3.1820 mm",
+            "pos": {
+              "x": 124.8,
+              "y": 112.790811
+            },
+            "uuid": "e83b3677-58bd-4085-9636-415bcf65c5ea"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      },
+      {
+        "description": "Clearance violation (board minimum clearance 0.3000 mm; actual 0.2296 mm)",
+        "items": [
+          {
+            "description": "Pad 1 [GND] of C20 on B.Cu",
+            "pos": {
+              "x": 128.4,
+              "y": 114.3
+            },
+            "uuid": "59377a8f-b2ae-4f06-9323-9177ac55180a"
+          },
+          {
+            "description": "Track [Net-(IC3B-IN-)] on B.Cu, length 3.1820 mm",
+            "pos": {
+              "x": 124.8,
+              "y": 112.790811
+            },
+            "uuid": "e83b3677-58bd-4085-9636-415bcf65c5ea"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      },
+      {
+        "description": "Clearance violation (board minimum clearance 0.3000 mm; actual 0.2000 mm)",
+        "items": [
+          {
+            "description": "PTH pad 3 [Net-(C25-Pad1)] of RV9",
+            "pos": {
+              "x": 169.5,
+              "y": 115.4
+            },
+            "uuid": "36231006-0636-47a4-ae91-cccda7a91290"
+          },
+          {
+            "description": "Track [Net-(IC4B-IN-)] on B.Cu, length 3.1820 mm",
+            "pos": {
+              "x": 168.8,
+              "y": 112.790811
+            },
+            "uuid": "505639db-b499-4543-81ee-373c6f290e28"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      },
+      {
+        "description": "Clearance violation (board minimum clearance 0.3000 mm; actual 0.2000 mm)",
+        "items": [
+          {
+            "description": "PTH pad 3 [Net-(C17-Pad1)] of RV6",
+            "pos": {
+              "x": 125.5,
+              "y": 97.4
+            },
+            "uuid": "6e42a5c3-10ba-418f-a1b2-467ad3485314"
+          },
+          {
+            "description": "Track [Net-(IC3B-IN-)] on B.Cu, length 4.0000 mm",
+            "pos": {
+              "x": 126.85,
+              "y": 94.85
+            },
+            "uuid": "f357e3fe-11b1-4925-af36-2f83412c2bfb"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      },
+      {
+        "description": "Clearance violation (board minimum clearance 0.3000 mm; actual 0.2296 mm)",
+        "items": [
+          {
+            "description": "Track [Net-(IC4B-IN-)] on B.Cu, length 3.1820 mm",
+            "pos": {
+              "x": 168.8,
+              "y": 112.790811
+            },
+            "uuid": "505639db-b499-4543-81ee-373c6f290e28"
+          },
+          {
+            "description": "Pad 1 [GND] of C29 on B.Cu",
+            "pos": {
+              "x": 172.4,
+              "y": 114.3
+            },
+            "uuid": "ba44be9f-e35c-4be8-ac17-d8835b96df13"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      },
+      {
+        "description": "Clearance violation (board minimum clearance 0.3000 mm; actual 0.2250 mm)",
+        "items": [
+          {
+            "description": "Track [Net-(IC4B-IN-)] on B.Cu, length 4.4592 mm",
+            "pos": {
+              "x": 171.05,
+              "y": 115.040811
+            },
+            "uuid": "836554a5-8efa-4d18-8b92-bf428c726335"
+          },
+          {
+            "description": "Pad 1 [Net-(C25-Pad1)] of C25 on B.Cu",
+            "pos": {
+              "x": 170.0,
+              "y": 117.9
+            },
+            "uuid": "c0fbdbd0-0902-4755-8934-d7f711452a21"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      },
+      {
+        "description": "Clearance violation (board minimum clearance 0.3000 mm; actual 0.2296 mm)",
+        "items": [
+          {
+            "description": "Track [Net-(IC4B-IN-)] on B.Cu, length 4.4592 mm",
+            "pos": {
+              "x": 171.05,
+              "y": 115.040811
+            },
+            "uuid": "836554a5-8efa-4d18-8b92-bf428c726335"
+          },
+          {
+            "description": "Pad 1 [GND] of C29 on B.Cu",
+            "pos": {
+              "x": 172.4,
+              "y": 114.3
+            },
+            "uuid": "ba44be9f-e35c-4be8-ac17-d8835b96df13"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      },
+      {
+        "description": "Clearance violation (board minimum clearance 0.3000 mm; actual 0.2000 mm)",
+        "items": [
+          {
+            "description": "Pad 2 [Net-(C29-Pad2)] of C29 on B.Cu",
+            "pos": {
+              "x": 172.4,
+              "y": 117.3
+            },
+            "uuid": "42190ced-75e2-4172-b43e-a94bd7ca20f2"
+          },
+          {
+            "description": "Track [Net-(IC4B-IN-)] on B.Cu, length 4.4592 mm",
+            "pos": {
+              "x": 171.05,
+              "y": 115.040811
+            },
+            "uuid": "836554a5-8efa-4d18-8b92-bf428c726335"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      },
+      {
+        "description": "Clearance violation (board minimum clearance 0.3000 mm; actual 0.2000 mm)",
+        "items": [
+          {
+            "description": "PTH pad 3 [Net-(C26-Pad1)] of RV10",
+            "pos": {
+              "x": 169.5,
+              "y": 97.4
+            },
+            "uuid": "85ad2ea7-fef4-476d-8b15-a1af46ae8cb5"
+          },
+          {
+            "description": "Track [Net-(IC4B-IN-)] on B.Cu, length 4.0000 mm",
+            "pos": {
+              "x": 170.85,
+              "y": 94.85
+            },
+            "uuid": "e45a3336-bddc-4417-9324-8ee309a130a2"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      },
+      {
+        "description": "Clearance violation (board minimum clearance 0.3000 mm; actual 0.2000 mm)",
+        "items": [
+          {
+            "description": "PTH pad 3 [Net-(C34-Pad1)] of RV13",
+            "pos": {
+              "x": 103.5,
+              "y": 115.4
+            },
+            "uuid": "249097c3-dd24-43de-86a1-ed026ed338a8"
+          },
+          {
+            "description": "Track [Net-(IC5B-IN-)] on B.Cu, length 3.1820 mm",
+            "pos": {
+              "x": 102.8,
+              "y": 112.790811
+            },
+            "uuid": "514ea747-a87c-4c1b-b13f-9bc09cdb41c3"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      },
+      {
+        "description": "Clearance violation (board minimum clearance 0.3000 mm; actual 0.2296 mm)",
+        "items": [
+          {
+            "description": "Track [Net-(IC5B-IN-)] on B.Cu, length 3.1820 mm",
+            "pos": {
+              "x": 102.8,
+              "y": 112.790811
+            },
+            "uuid": "514ea747-a87c-4c1b-b13f-9bc09cdb41c3"
+          },
+          {
+            "description": "Pad 1 [GND] of C38 on B.Cu",
+            "pos": {
+              "x": 106.4,
+              "y": 114.3
+            },
+            "uuid": "d0484e9e-30b1-4e13-9b17-4520fb4cfa0d"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      },
+      {
+        "description": "Clearance violation (board minimum clearance 0.3000 mm; actual 0.2296 mm)",
+        "items": [
+          {
+            "description": "Track [Net-(IC5B-IN-)] on B.Cu, length 4.4592 mm",
+            "pos": {
+              "x": 105.05,
+              "y": 115.040811
+            },
+            "uuid": "5d5e3e33-529d-4437-a2f8-7a6e454e480d"
+          },
+          {
+            "description": "Pad 1 [GND] of C38 on B.Cu",
+            "pos": {
+              "x": 106.4,
+              "y": 114.3
+            },
+            "uuid": "d0484e9e-30b1-4e13-9b17-4520fb4cfa0d"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      },
+      {
+        "description": "Clearance violation (board minimum clearance 0.3000 mm; actual 0.2000 mm)",
+        "items": [
+          {
+            "description": "Pad 2 [Net-(C38-Pad2)] of C38 on B.Cu",
+            "pos": {
+              "x": 106.4,
+              "y": 117.3
+            },
+            "uuid": "018605ae-87b3-4a6f-87c8-20a3731adb96"
+          },
+          {
+            "description": "Track [Net-(IC5B-IN-)] on B.Cu, length 4.4592 mm",
+            "pos": {
+              "x": 105.05,
+              "y": 115.040811
+            },
+            "uuid": "5d5e3e33-529d-4437-a2f8-7a6e454e480d"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      },
+      {
+        "description": "Clearance violation (board minimum clearance 0.3000 mm; actual 0.2250 mm)",
+        "items": [
+          {
+            "description": "Pad 1 [Net-(C34-Pad1)] of C34 on B.Cu",
+            "pos": {
+              "x": 104.0,
+              "y": 117.9
+            },
+            "uuid": "07052512-52f4-44ee-802d-7bcefc718a29"
+          },
+          {
+            "description": "Track [Net-(IC5B-IN-)] on B.Cu, length 4.4592 mm",
+            "pos": {
+              "x": 105.05,
+              "y": 115.040811
+            },
+            "uuid": "5d5e3e33-529d-4437-a2f8-7a6e454e480d"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      },
+      {
+        "description": "Clearance violation (board minimum clearance 0.3000 mm; actual 0.2000 mm)",
+        "items": [
+          {
+            "description": "Track [Net-(IC5B-IN-)] on B.Cu, length 4.0000 mm",
+            "pos": {
+              "x": 104.85,
+              "y": 94.85
+            },
+            "uuid": "d71ff7ac-699f-40cb-a02c-76b813f8eac5"
+          },
+          {
+            "description": "PTH pad 3 [Net-(C35-Pad1)] of RV14",
+            "pos": {
+              "x": 103.5,
+              "y": 97.4
+            },
+            "uuid": "e1268511-38a2-4617-acaf-78b41eeb61dd"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      },
+      {
+        "description": "Copper connection too narrow (board setup constraints minimum connection width 0.3000 mm; actual 0.2419 mm) (F.Cu)",
+        "items": [
+          {
+            "description": "Zone [GND] on F.Cu and B.Cu, priority 1",
+            "pos": {
+              "x": 199.46,
+              "y": 154.66
+            },
+            "uuid": "2a2e83ed-a77d-476f-8432-6de9bc7f83ed"
+          }
+        ],
+        "severity": "warning",
+        "type": "connection_width"
+      },
+      {
+        "description": "Copper connection too narrow (board setup constraints minimum connection width 0.3000 mm; actual 0.2522 mm) (F.Cu)",
+        "items": [
+          {
+            "description": "Zone [GND] on F.Cu and B.Cu, priority 1",
+            "pos": {
+              "x": 199.46,
+              "y": 154.66
+            },
+            "uuid": "2a2e83ed-a77d-476f-8432-6de9bc7f83ed"
+          }
+        ],
+        "severity": "warning",
+        "type": "connection_width"
+      },
+      {
+        "description": "Copper connection too narrow (board setup constraints minimum connection width 0.3000 mm; actual 0.2590 mm) (B.Cu)",
+        "items": [
+          {
+            "description": "Zone [GND] on F.Cu and B.Cu, priority 1",
+            "pos": {
+              "x": 199.46,
+              "y": 154.66
+            },
+            "uuid": "2a2e83ed-a77d-476f-8432-6de9bc7f83ed"
+          }
+        ],
+        "severity": "warning",
+        "type": "connection_width"
+      },
+      {
+        "description": "Copper connection too narrow (board setup constraints minimum connection width 0.3000 mm; actual 0.2590 mm) (B.Cu)",
+        "items": [
+          {
+            "description": "Zone [GND] on F.Cu and B.Cu, priority 1",
+            "pos": {
+              "x": 199.46,
+              "y": 154.66
+            },
+            "uuid": "2a2e83ed-a77d-476f-8432-6de9bc7f83ed"
+          }
+        ],
+        "severity": "warning",
+        "type": "connection_width"
+      },
+      {
+        "description": "Copper connection too narrow (board setup constraints minimum connection width 0.3000 mm; actual 0.2590 mm) (B.Cu)",
+        "items": [
+          {
+            "description": "Zone [GND] on F.Cu and B.Cu, priority 1",
+            "pos": {
+              "x": 199.46,
+              "y": 154.66
+            },
+            "uuid": "2a2e83ed-a77d-476f-8432-6de9bc7f83ed"
+          }
+        ],
+        "severity": "warning",
+        "type": "connection_width"
+      },
+      {
+        "description": "Copper connection too narrow (board setup constraints minimum connection width 0.3000 mm; actual 0.2590 mm) (B.Cu)",
+        "items": [
+          {
+            "description": "Zone [GND] on F.Cu and B.Cu, priority 1",
+            "pos": {
+              "x": 199.46,
+              "y": 154.66
+            },
+            "uuid": "2a2e83ed-a77d-476f-8432-6de9bc7f83ed"
+          }
+        ],
+        "severity": "warning",
+        "type": "connection_width"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Segment on Edge.Cuts",
+            "pos": {
+              "x": 89.46,
+              "y": 154.66
+            },
+            "uuid": "934dde10-2d04-4cc1-8a7d-b02236d5b3e7"
+          },
+          {
+            "description": "Reference field of J9",
+            "pos": {
+              "x": 89.785,
+              "y": 59.285
+            },
+            "uuid": "ab7ba046-f239-4f75-b208-08d8f747ca88"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R39",
+            "pos": {
+              "x": 104.4,
+              "y": 102.8
+            },
+            "uuid": "01af1621-bf1e-4866-9afb-fc0ad9d5bbc6"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R34",
+            "pos": {
+              "x": 163.0,
+              "y": 135.9
+            },
+            "uuid": "052aaf5b-83a5-4049-a08f-c2580eef5f42"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R14",
+            "pos": {
+              "x": 144.95,
+              "y": 147.4
+            },
+            "uuid": "06560235-829d-4551-8d65-a6fb4eccef39"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R16",
+            "pos": {
+              "x": 123.0,
+              "y": 76.4
+            },
+            "uuid": "14210547-155e-4bb1-b0ad-9e53eb8cae03"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R41",
+            "pos": {
+              "x": 105.0,
+              "y": 135.9
+            },
+            "uuid": "14954005-cbed-4d75-bda3-5270d2adf816"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'SOIC127P600X175-8N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint IC1",
+            "pos": {
+              "x": 190.335,
+              "y": 108.24
+            },
+            "uuid": "14dcd6b7-28de-486c-87e1-37a918938e53"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R35",
+            "pos": {
+              "x": 171.0,
+              "y": 121.0
+            },
+            "uuid": "16c6edfe-2bb5-4c5e-a1ca-6907c3836866"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R44",
+            "pos": {
+              "x": 101.0,
+              "y": 93.0
+            },
+            "uuid": "184d662a-7a4c-47db-8ef1-95394cf32e2e"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'SOIC127P600X175-8N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint IC5",
+            "pos": {
+              "x": 102.365,
+              "y": 84.1
+            },
+            "uuid": "19c0567c-0a4a-44fa-b8ec-1ed930890b86"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R36",
+            "pos": {
+              "x": 166.95,
+              "y": 147.4
+            },
+            "uuid": "1b59920a-24f6-41d9-a64a-3553f3bcda5f"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R29",
+            "pos": {
+              "x": 170.4,
+              "y": 100.2
+            },
+            "uuid": "1c4af49e-f4b0-46ac-bd9b-d35dc19c5dcf"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R10",
+            "pos": {
+              "x": 139.6,
+              "y": 113.6
+            },
+            "uuid": "1f2d6bd6-a730-422e-8cc9-f140d9f88335"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R27",
+            "pos": {
+              "x": 167.0,
+              "y": 76.4
+            },
+            "uuid": "24169333-428e-49c7-b66f-35c4efa52831"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R23",
+            "pos": {
+              "x": 119.0,
+              "y": 135.9
+            },
+            "uuid": "2aafd3a4-f8da-4ff9-878d-9b4d8096f30e"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R28",
+            "pos": {
+              "x": 170.4,
+              "y": 102.8
+            },
+            "uuid": "2c799000-eefd-4892-ab1f-19a5b5305211"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R38",
+            "pos": {
+              "x": 101.0,
+              "y": 76.4
+            },
+            "uuid": "32154c45-272a-4f1b-bb92-5e3e80b3ad79"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C9",
+            "pos": {
+              "x": 145.0,
+              "y": 123.7
+            },
+            "uuid": "323df3d5-bae3-4268-91ba-132d89edcbb4"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R46",
+            "pos": {
+              "x": 105.0,
+              "y": 121.0
+            },
+            "uuid": "34dfb910-53b0-4b9a-a13a-e54ff3969e90"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R4",
+            "pos": {
+              "x": 140.0,
+              "y": 76.4
+            },
+            "uuid": "373aed5c-d84d-4434-a21a-a1fd37990ce1"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R3",
+            "pos": {
+              "x": 195.5,
+              "y": 107.79
+            },
+            "uuid": "3dbbb966-237a-4622-aa02-da08cfc81215"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C7",
+            "pos": {
+              "x": 146.5,
+              "y": 117.9
+            },
+            "uuid": "407e97d0-28fd-4a9b-a8ae-14a9da7a54dd"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C38",
+            "pos": {
+              "x": 106.4,
+              "y": 115.8
+            },
+            "uuid": "45b0fdb3-54ad-4dbf-9fdd-67ac6feb56a4"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R2",
+            "pos": {
+              "x": 190.22,
+              "y": 112.76
+            },
+            "uuid": "49ef3be0-4ece-4a5f-ab9a-708944544e48"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C20",
+            "pos": {
+              "x": 128.4,
+              "y": 115.8
+            },
+            "uuid": "4e148dbd-8a41-4f56-98ac-558d5f41e56c"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R22",
+            "pos": {
+              "x": 123.0,
+              "y": 93.0
+            },
+            "uuid": "500921ea-2bff-4724-9bc7-ca47fb4047b0"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C37",
+            "pos": {
+              "x": 101.0,
+              "y": 129.0
+            },
+            "uuid": "504a579e-12c6-44fb-9a6d-1bd3435da07a"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R13",
+            "pos": {
+              "x": 149.0,
+              "y": 121.0
+            },
+            "uuid": "53c253d1-ba54-4756-96f0-3977856483b2"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C21",
+            "pos": {
+              "x": 118.0,
+              "y": 84.4
+            },
+            "uuid": "5c9a6157-411f-4814-a840-f45db3bd67a1"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R18",
+            "pos": {
+              "x": 126.4,
+              "y": 100.2
+            },
+            "uuid": "5f2f2e72-b4f0-48f8-9600-a26e5b1810e7"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C19",
+            "pos": {
+              "x": 123.0,
+              "y": 129.0
+            },
+            "uuid": "601131b5-abed-4c31-b81b-129a70b9609a"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R17",
+            "pos": {
+              "x": 126.4,
+              "y": 102.8
+            },
+            "uuid": "60930032-b855-46a3-bbc6-e08bad17aaa8"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R1",
+            "pos": {
+              "x": 182.46,
+              "y": 106.335
+            },
+            "uuid": "73ded116-ec17-44a3-8540-726f02056f23"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C34",
+            "pos": {
+              "x": 102.5,
+              "y": 117.9
+            },
+            "uuid": "7ba1f967-07c6-4ba1-b086-ea38f646e227"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R26",
+            "pos": {
+              "x": 162.0,
+              "y": 76.4
+            },
+            "uuid": "7e861515-7263-490e-80d3-09de0c031d69"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R40",
+            "pos": {
+              "x": 104.4,
+              "y": 100.2
+            },
+            "uuid": "831ecff1-007e-425c-ab59-74bb54693f8a"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C33",
+            "pos": {
+              "x": 101.0,
+              "y": 78.9
+            },
+            "uuid": "86f0878d-e211-42c9-8f28-3f34e637d9f0"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C15",
+            "pos": {
+              "x": 123.0,
+              "y": 78.9
+            },
+            "uuid": "8b3be304-674f-4346-9088-f2824a10b575"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R8",
+            "pos": {
+              "x": 149.0,
+              "y": 135.9
+            },
+            "uuid": "8bc7d5b0-5523-4d7b-a9b5-b4289cd3ac97"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C6",
+            "pos": {
+              "x": 145.0,
+              "y": 78.9
+            },
+            "uuid": "91b2213f-b9ab-4ad2-a0fd-8fd5f88b473d"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C25",
+            "pos": {
+              "x": 168.5,
+              "y": 117.9
+            },
+            "uuid": "9726dbb5-e10d-4266-af77-5a8834882080"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R21",
+            "pos": {
+              "x": 117.6,
+              "y": 113.6
+            },
+            "uuid": "9c8c7ed3-8ed5-4b7c-ba47-a3864f8719c9"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C35",
+            "pos": {
+              "x": 98.0,
+              "y": 102.8
+            },
+            "uuid": "9fbf0ea0-a68a-4477-875d-3f2cfebca404"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R25",
+            "pos": {
+              "x": 122.95,
+              "y": 147.4
+            },
+            "uuid": "a1e19e00-ec1e-4e62-a79a-d5d8bc7c51ef"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C29",
+            "pos": {
+              "x": 172.4,
+              "y": 115.8
+            },
+            "uuid": "a89efda9-2b5b-4faa-bb6b-71e4bfde1edb"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R7",
+            "pos": {
+              "x": 148.4,
+              "y": 100.2
+            },
+            "uuid": "a96f0531-d384-43e4-a10d-516be57cf599"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R47",
+            "pos": {
+              "x": 100.95,
+              "y": 147.4
+            },
+            "uuid": "a98be734-604b-4016-ba6d-3ec80d0370b2"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C12",
+            "pos": {
+              "x": 140.0,
+              "y": 84.4
+            },
+            "uuid": "aed8d622-4e79-4a2a-aa55-3a1f84aa1ab9"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C18",
+            "pos": {
+              "x": 123.0,
+              "y": 123.7
+            },
+            "uuid": "b22a69da-8e03-4c59-8458-318c54a251c6"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C16",
+            "pos": {
+              "x": 124.5,
+              "y": 117.9
+            },
+            "uuid": "b53efe89-5319-4d1d-ae79-0a838c5684ba"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'SOIC127P600X175-8N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint IC4",
+            "pos": {
+              "x": 168.365,
+              "y": 84.1
+            },
+            "uuid": "b76db4e3-0b5e-4bd5-97b2-ed27e324688d"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C30",
+            "pos": {
+              "x": 162.0,
+              "y": 84.4
+            },
+            "uuid": "c298078b-eebd-4431-b51d-d2ff259a82ff"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'SOIC127P600X175-8N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint IC2",
+            "pos": {
+              "x": 146.365,
+              "y": 84.1
+            },
+            "uuid": "c2d7b7c0-b75c-42d7-8bae-8ad2a9730652"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C27",
+            "pos": {
+              "x": 167.0,
+              "y": 123.7
+            },
+            "uuid": "c4cce067-aec1-4f2e-bc78-a28b95346b98"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R31",
+            "pos": {
+              "x": 163.0,
+              "y": 117.9
+            },
+            "uuid": "c5206f3a-84cd-461f-ba85-ad00cf3aa6b6"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C26",
+            "pos": {
+              "x": 164.0,
+              "y": 102.8
+            },
+            "uuid": "c6d9f255-50ea-4406-aebd-70af7d9ad596"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R20",
+            "pos": {
+              "x": 119.0,
+              "y": 117.9
+            },
+            "uuid": "c77d10ae-eeba-4fb9-8018-538f333ccaaa"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R33",
+            "pos": {
+              "x": 167.0,
+              "y": 93.0
+            },
+            "uuid": "c87fd0b6-5316-4467-9ea3-3099c8685480"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C28",
+            "pos": {
+              "x": 167.0,
+              "y": 129.0
+            },
+            "uuid": "cbbbcd7a-efd2-4a07-9733-697b8590dfdb"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C17",
+            "pos": {
+              "x": 120.0,
+              "y": 102.8
+            },
+            "uuid": "cbcf2fa9-147f-432b-9e68-d36fe9192d5c"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R30",
+            "pos": {
+              "x": 171.0,
+              "y": 135.9
+            },
+            "uuid": "d1a4e9b8-ed4c-46fa-812e-5cfbf1c4a965"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R43",
+            "pos": {
+              "x": 95.6,
+              "y": 113.6
+            },
+            "uuid": "d1f8f3cd-2232-4231-a37b-801cb6df863e"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R6",
+            "pos": {
+              "x": 148.4,
+              "y": 102.8
+            },
+            "uuid": "d2b6fd9e-e685-45fe-87eb-93a1f78a9e94"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C8",
+            "pos": {
+              "x": 142.0,
+              "y": 102.8
+            },
+            "uuid": "d62eeed1-79c0-475b-9db5-39b9d834045c"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R12",
+            "pos": {
+              "x": 141.0,
+              "y": 135.9
+            },
+            "uuid": "da18d72f-d1b5-4ba8-8e23-370d3a50dd48"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R45",
+            "pos": {
+              "x": 97.0,
+              "y": 135.9
+            },
+            "uuid": "df393e4b-9b26-4afd-a377-45f0094a7810"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'SOIC127P600X175-8N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint IC3",
+            "pos": {
+              "x": 124.365,
+              "y": 84.1
+            },
+            "uuid": "e628fff6-80a6-47ed-ab0e-3925977b0887"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R15",
+            "pos": {
+              "x": 118.0,
+              "y": 76.4
+            },
+            "uuid": "e86477a3-efba-49cb-b9fb-7a08d3eaa169"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R32",
+            "pos": {
+              "x": 161.6,
+              "y": 113.6
+            },
+            "uuid": "e8754587-612f-4049-adbd-9c5371fbbc63"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C39",
+            "pos": {
+              "x": 96.0,
+              "y": 84.4
+            },
+            "uuid": "e919e84d-7781-4c35-9210-924c7ec4eb31"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R11",
+            "pos": {
+              "x": 145.0,
+              "y": 93.0
+            },
+            "uuid": "eaa30fac-44f8-48e1-9e0d-f03bf0f99174"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C10",
+            "pos": {
+              "x": 145.0,
+              "y": 129.0
+            },
+            "uuid": "eb1637a1-b503-4ac6-8dc6-42896ccf5fed"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R5",
+            "pos": {
+              "x": 145.0,
+              "y": 76.4
+            },
+            "uuid": "eb7eb4e8-7776-407c-b60d-6a6ce43af179"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C36",
+            "pos": {
+              "x": 101.0,
+              "y": 123.7
+            },
+            "uuid": "ecd09680-5cf2-4350-8777-b9085bf57aef"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R42",
+            "pos": {
+              "x": 97.0,
+              "y": 117.9
+            },
+            "uuid": "ed3bec5e-6e30-4fdf-8415-430e8581317d"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R37",
+            "pos": {
+              "x": 96.0,
+              "y": 76.4
+            },
+            "uuid": "f12e5e8b-309a-4ae0-a86f-459de24ef66d"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C24",
+            "pos": {
+              "x": 167.0,
+              "y": 78.9
+            },
+            "uuid": "f158b91e-6011-4932-8b6b-d38f8c0fc551"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C3",
+            "pos": {
+              "x": 182.46,
+              "y": 103.66
+            },
+            "uuid": "f3688754-2453-4531-8697-d0a6bed0b864"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R9",
+            "pos": {
+              "x": 141.0,
+              "y": 117.9
+            },
+            "uuid": "f53a583a-1ca1-47d0-800b-57082d95913d"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R24",
+            "pos": {
+              "x": 127.0,
+              "y": 121.0
+            },
+            "uuid": "f58ffe04-f661-4e6f-b71b-c1365cb73e72"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C11",
+            "pos": {
+              "x": 150.4,
+              "y": 115.8
+            },
+            "uuid": "f8a20521-1aea-49a9-8c0f-07837604b964"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R19",
+            "pos": {
+              "x": 127.0,
+              "y": 135.9
+            },
+            "uuid": "fb5a45a9-c146-4e09-970a-1a3be949a1e8"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Silkscreen clipped by solder mask",
+        "items": [
+          {
+            "description": "Reference field of IC3",
+            "pos": {
+              "x": 120.359,
+              "y": 84.1
+            },
+            "uuid": "28520b16-c5fa-4c24-bc71-6965d0761a5e"
+          },
+          {
+            "description": "Pad 2 [+12V] of C21 on B.Cu",
+            "pos": {
+              "x": 119.5,
+              "y": 84.4
+            },
+            "uuid": "88e58f92-c2a4-468b-acf1-7e0e78a26bc3"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_over_copper"
+      },
+      {
+        "description": "Silkscreen clipped by solder mask",
+        "items": [
+          {
+            "description": "Reference field of IC5",
+            "pos": {
+              "x": 98.359,
+              "y": 84.1
+            },
+            "uuid": "8720a952-c5fc-4caa-b673-006377c6ab25"
+          },
+          {
+            "description": "Pad 2 [+12V] of C39 on B.Cu",
+            "pos": {
+              "x": 97.5,
+              "y": 84.4
+            },
+            "uuid": "c6d97c51-38e3-4b00-a640-106a38baad50"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_over_copper"
+      },
+      {
+        "description": "Silkscreen clipped by solder mask",
+        "items": [
+          {
+            "description": "Reference field of IC2",
+            "pos": {
+              "x": 142.359,
+              "y": 84.1
+            },
+            "uuid": "7fa181e1-69d9-464a-ae81-9bced51542f0"
+          },
+          {
+            "description": "Pad 2 [+12V] of C12 on B.Cu",
+            "pos": {
+              "x": 141.5,
+              "y": 84.4
+            },
+            "uuid": "b350806d-e28e-4fb1-beba-6501898e83b7"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_over_copper"
+      },
+      {
+        "description": "Silkscreen clipped by solder mask",
+        "items": [
+          {
+            "description": "Reference field of IC4",
+            "pos": {
+              "x": 164.359,
+              "y": 84.1
+            },
+            "uuid": "1e456e2e-f3a0-4432-8014-887b72a52c34"
+          },
+          {
+            "description": "Pad 2 [+12V] of C30 on B.Cu",
+            "pos": {
+              "x": 163.5,
+              "y": 84.4
+            },
+            "uuid": "0e483a8e-b18c-4eeb-8e8c-760f6b306309"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_over_copper"
+      },
+      {
+        "description": "Non-Mirrored text on back layer",
+        "items": [
+          {
+            "description": "Reference field of R3",
+            "pos": {
+              "x": 195.65,
+              "y": 111.06
+            },
+            "uuid": "4cbe1a4d-c11a-4c56-b91c-c730a4af03f8"
+          }
+        ],
+        "severity": "warning",
+        "type": "nonmirrored_text_on_back_layer"
+      }
+    ]
+  },
+  "chain": {
+    "native_dsn_sha256": "2b70c6504ef6c93c55a4440c8321d7f68e803162c6020644b0e062cf7131746f",
+    "floor_guided_sha256": "4b572c753d47db8b6d72d2df8835982df34eea28dd385f212690034a62a2b009",
+    "pre_adapter_sha256": "2ed17a12914412bd897189ef21239b6bb67213f9a01d2a92a01e5b45b5809595",
+    "task_dsn_sha256": "bf7bbc0a0ded74ddb1ce7aed1d66c5b67aecab0d9e21b38b7b22b07dd858a462",
+    "placement_guided_sha256": "378f44831b5072883682e5e8b5be95a464780b07548f1c8288e3ea58229e2954",
+    "search_guidance_sha256": "fbc99cae04c9d9cf3ac232d91232fb92820fea18455732213389d38dd4a13e73",
+    "placement_removed_count": 8,
+    "search_parameters": {
+      "clearance_margin_nm": 20000,
+      "scoring_variant": "via_default",
+      "via_costs": 50,
+      "plane_via_costs": 5
+    },
+    "floor_context_sha256": "78166ec08dc35d9f17ca432ffbfdc14b7c8c25fa2d3c8f9e478e0fd2e73d4da5",
+    "area_context_sha256": "2e35dd4e3a239149aa54513f3a77b042b42123b9d90c7298ce231a4382bcc4e5"
+  },
+  "engine_budget": {
+    "profile": "completion-only",
+    "argv": [
+      "--router.autorouter.max_passes=30",
+      "--router.job_timeout=00:01:00",
+      "--router.automatic_neckdown=false",
+      "--router.fanout.enabled=false",
+      "--router.neck_width_um=0",
+      "--router.optimizer.enabled=false",
+      "--router.scoring.via_costs=50",
+      "--router.scoring.plane_via_costs=5"
+    ],
+    "scoring": {
+      "variant": "via_default",
+      "via_costs": 50,
+      "plane_via_costs": 5,
+      "argv": [
+        "--router.scoring.via_costs=50",
+        "--router.scoring.plane_via_costs=5"
+      ]
+    },
+    "strict_class_targets": true,
+    "remaining_outer_wall_seconds_at_assignment": 107.80451420800091,
+    "assigned_job_timeout_seconds": 60,
+    "assigned_optimizer_timeout_seconds": null,
+    "native_finalization_reserve_seconds": 10,
+    "engine_grace_reserve_seconds": 30,
+    "internal_deadlines": "cooperative planning caps; external supervision and measured CPU acceptance cap remain authoritative",
+    "outer_task_wall_budget_seconds": 113.599,
+    "outer_task_cpu_budget_seconds": 113.599
+  },
+  "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-search-three-arm-001/arm-1/candidate/multichannel_mixer.kicad_pcb",
+  "candidate_sha256": "36e778573b2c90dfca8f9d45597e6bd890cc45c7fc4c6c86a2673e2e7fef3bef",
+  "native": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 96,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "PTH inside courtyard",
+        "key": "pth_inside_courtyard"
+      },
+      {
+        "description": "NPTH inside courtyard",
+        "key": "npth_inside_courtyard"
+      },
+      {
+        "description": "Footprint component type doesn't match footprint pads",
+        "key": "footprint_type_mismatch"
+      }
+    ],
+    "findings": [
+      {
+        "description": "Copper connection too narrow (board setup constraints minimum connection width 0.3000 mm; actual 0.2641 mm) (B.Cu)",
+        "items": [
+          {
+            "description": "Zone [GND] on F.Cu and B.Cu, priority 1",
+            "pos": {
+              "x": 199.46,
+              "y": 154.66
+            },
+            "uuid": "2a2e83ed-a77d-476f-8432-6de9bc7f83ed"
+          }
+        ],
+        "severity": "warning",
+        "type": "connection_width"
+      },
+      {
+        "description": "Copper connection too narrow (board setup constraints minimum connection width 0.3000 mm; actual 0.2641 mm) (B.Cu)",
+        "items": [
+          {
+            "description": "Zone [GND] on F.Cu and B.Cu, priority 1",
+            "pos": {
+              "x": 199.46,
+              "y": 154.66
+            },
+            "uuid": "2a2e83ed-a77d-476f-8432-6de9bc7f83ed"
+          }
+        ],
+        "severity": "warning",
+        "type": "connection_width"
+      },
+      {
+        "description": "Copper connection too narrow (board setup constraints minimum connection width 0.3000 mm; actual 0.2751 mm) (B.Cu)",
+        "items": [
+          {
+            "description": "Zone [GND] on F.Cu and B.Cu, priority 1",
+            "pos": {
+              "x": 199.46,
+              "y": 154.66
+            },
+            "uuid": "2a2e83ed-a77d-476f-8432-6de9bc7f83ed"
+          }
+        ],
+        "severity": "warning",
+        "type": "connection_width"
+      },
+      {
+        "description": "Copper connection too narrow (board setup constraints minimum connection width 0.3000 mm; actual 0.2641 mm) (B.Cu)",
+        "items": [
+          {
+            "description": "Zone [GND] on F.Cu and B.Cu, priority 1",
+            "pos": {
+              "x": 199.46,
+              "y": 154.66
+            },
+            "uuid": "2a2e83ed-a77d-476f-8432-6de9bc7f83ed"
+          }
+        ],
+        "severity": "warning",
+        "type": "connection_width"
+      },
+      {
+        "description": "Copper connection too narrow (board setup constraints minimum connection width 0.3000 mm; actual 0.2819 mm) (F.Cu)",
+        "items": [
+          {
+            "description": "Zone [GND] on F.Cu and B.Cu, priority 1",
+            "pos": {
+              "x": 199.46,
+              "y": 154.66
+            },
+            "uuid": "2a2e83ed-a77d-476f-8432-6de9bc7f83ed"
+          }
+        ],
+        "severity": "warning",
+        "type": "connection_width"
+      },
+      {
+        "description": "Copper connection too narrow (board setup constraints minimum connection width 0.3000 mm; actual 0.2577 mm) (B.Cu)",
+        "items": [
+          {
+            "description": "Zone [GND] on F.Cu and B.Cu, priority 1",
+            "pos": {
+              "x": 199.46,
+              "y": 154.66
+            },
+            "uuid": "2a2e83ed-a77d-476f-8432-6de9bc7f83ed"
+          }
+        ],
+        "severity": "warning",
+        "type": "connection_width"
+      },
+      {
+        "description": "Copper connection too narrow (board setup constraints minimum connection width 0.3000 mm; actual 0.2668 mm) (F.Cu)",
+        "items": [
+          {
+            "description": "Zone [GND] on F.Cu and B.Cu, priority 1",
+            "pos": {
+              "x": 199.46,
+              "y": 154.66
+            },
+            "uuid": "2a2e83ed-a77d-476f-8432-6de9bc7f83ed"
+          }
+        ],
+        "severity": "warning",
+        "type": "connection_width"
+      },
+      {
+        "description": "Copper connection too narrow (board setup constraints minimum connection width 0.3000 mm; actual 0.2163 mm) (F.Cu)",
+        "items": [
+          {
+            "description": "Zone [GND] on F.Cu and B.Cu, priority 1",
+            "pos": {
+              "x": 199.46,
+              "y": 154.66
+            },
+            "uuid": "2a2e83ed-a77d-476f-8432-6de9bc7f83ed"
+          }
+        ],
+        "severity": "warning",
+        "type": "connection_width"
+      },
+      {
+        "description": "Copper connection too narrow (board setup constraints minimum connection width 0.3000 mm; actual 0.1689 mm) (F.Cu)",
+        "items": [
+          {
+            "description": "Zone [GND] on F.Cu and B.Cu, priority 1",
+            "pos": {
+              "x": 199.46,
+              "y": 154.66
+            },
+            "uuid": "2a2e83ed-a77d-476f-8432-6de9bc7f83ed"
+          }
+        ],
+        "severity": "warning",
+        "type": "connection_width"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Segment on Edge.Cuts",
+            "pos": {
+              "x": 89.46,
+              "y": 154.66
+            },
+            "uuid": "934dde10-2d04-4cc1-8a7d-b02236d5b3e7"
+          },
+          {
+            "description": "Reference field of J9",
+            "pos": {
+              "x": 89.785,
+              "y": 59.285
+            },
+            "uuid": "ab7ba046-f239-4f75-b208-08d8f747ca88"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R39",
+            "pos": {
+              "x": 104.4,
+              "y": 102.8
+            },
+            "uuid": "01af1621-bf1e-4866-9afb-fc0ad9d5bbc6"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R34",
+            "pos": {
+              "x": 163.0,
+              "y": 135.9
+            },
+            "uuid": "052aaf5b-83a5-4049-a08f-c2580eef5f42"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R14",
+            "pos": {
+              "x": 144.95,
+              "y": 147.4
+            },
+            "uuid": "06560235-829d-4551-8d65-a6fb4eccef39"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R16",
+            "pos": {
+              "x": 123.0,
+              "y": 76.4
+            },
+            "uuid": "14210547-155e-4bb1-b0ad-9e53eb8cae03"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R41",
+            "pos": {
+              "x": 105.0,
+              "y": 135.9
+            },
+            "uuid": "14954005-cbed-4d75-bda3-5270d2adf816"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'SOIC127P600X175-8N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint IC1",
+            "pos": {
+              "x": 190.335,
+              "y": 108.24
+            },
+            "uuid": "14dcd6b7-28de-486c-87e1-37a918938e53"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R35",
+            "pos": {
+              "x": 171.0,
+              "y": 121.0
+            },
+            "uuid": "16c6edfe-2bb5-4c5e-a1ca-6907c3836866"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R44",
+            "pos": {
+              "x": 101.0,
+              "y": 93.0
+            },
+            "uuid": "184d662a-7a4c-47db-8ef1-95394cf32e2e"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'SOIC127P600X175-8N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint IC5",
+            "pos": {
+              "x": 102.365,
+              "y": 84.1
+            },
+            "uuid": "19c0567c-0a4a-44fa-b8ec-1ed930890b86"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R36",
+            "pos": {
+              "x": 166.95,
+              "y": 147.4
+            },
+            "uuid": "1b59920a-24f6-41d9-a64a-3553f3bcda5f"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R29",
+            "pos": {
+              "x": 170.4,
+              "y": 100.2
+            },
+            "uuid": "1c4af49e-f4b0-46ac-bd9b-d35dc19c5dcf"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R10",
+            "pos": {
+              "x": 139.6,
+              "y": 113.6
+            },
+            "uuid": "1f2d6bd6-a730-422e-8cc9-f140d9f88335"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R27",
+            "pos": {
+              "x": 167.0,
+              "y": 76.4
+            },
+            "uuid": "24169333-428e-49c7-b66f-35c4efa52831"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R23",
+            "pos": {
+              "x": 119.0,
+              "y": 135.9
+            },
+            "uuid": "2aafd3a4-f8da-4ff9-878d-9b4d8096f30e"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R28",
+            "pos": {
+              "x": 170.4,
+              "y": 102.8
+            },
+            "uuid": "2c799000-eefd-4892-ab1f-19a5b5305211"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R38",
+            "pos": {
+              "x": 101.0,
+              "y": 76.4
+            },
+            "uuid": "32154c45-272a-4f1b-bb92-5e3e80b3ad79"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C9",
+            "pos": {
+              "x": 145.0,
+              "y": 123.7
+            },
+            "uuid": "323df3d5-bae3-4268-91ba-132d89edcbb4"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R46",
+            "pos": {
+              "x": 105.0,
+              "y": 121.0
+            },
+            "uuid": "34dfb910-53b0-4b9a-a13a-e54ff3969e90"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R4",
+            "pos": {
+              "x": 140.0,
+              "y": 76.4
+            },
+            "uuid": "373aed5c-d84d-4434-a21a-a1fd37990ce1"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R3",
+            "pos": {
+              "x": 195.5,
+              "y": 107.79
+            },
+            "uuid": "3dbbb966-237a-4622-aa02-da08cfc81215"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C7",
+            "pos": {
+              "x": 146.5,
+              "y": 117.9
+            },
+            "uuid": "407e97d0-28fd-4a9b-a8ae-14a9da7a54dd"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C38",
+            "pos": {
+              "x": 106.4,
+              "y": 115.8
+            },
+            "uuid": "45b0fdb3-54ad-4dbf-9fdd-67ac6feb56a4"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R2",
+            "pos": {
+              "x": 190.22,
+              "y": 112.76
+            },
+            "uuid": "49ef3be0-4ece-4a5f-ab9a-708944544e48"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C20",
+            "pos": {
+              "x": 128.4,
+              "y": 115.8
+            },
+            "uuid": "4e148dbd-8a41-4f56-98ac-558d5f41e56c"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R22",
+            "pos": {
+              "x": 123.0,
+              "y": 93.0
+            },
+            "uuid": "500921ea-2bff-4724-9bc7-ca47fb4047b0"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C37",
+            "pos": {
+              "x": 101.0,
+              "y": 129.0
+            },
+            "uuid": "504a579e-12c6-44fb-9a6d-1bd3435da07a"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R13",
+            "pos": {
+              "x": 149.0,
+              "y": 121.0
+            },
+            "uuid": "53c253d1-ba54-4756-96f0-3977856483b2"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C21",
+            "pos": {
+              "x": 118.0,
+              "y": 84.4
+            },
+            "uuid": "5c9a6157-411f-4814-a840-f45db3bd67a1"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R18",
+            "pos": {
+              "x": 126.4,
+              "y": 100.2
+            },
+            "uuid": "5f2f2e72-b4f0-48f8-9600-a26e5b1810e7"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C19",
+            "pos": {
+              "x": 123.0,
+              "y": 129.0
+            },
+            "uuid": "601131b5-abed-4c31-b81b-129a70b9609a"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R17",
+            "pos": {
+              "x": 126.4,
+              "y": 102.8
+            },
+            "uuid": "60930032-b855-46a3-bbc6-e08bad17aaa8"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R1",
+            "pos": {
+              "x": 182.46,
+              "y": 106.335
+            },
+            "uuid": "73ded116-ec17-44a3-8540-726f02056f23"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C34",
+            "pos": {
+              "x": 102.5,
+              "y": 117.9
+            },
+            "uuid": "7ba1f967-07c6-4ba1-b086-ea38f646e227"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R26",
+            "pos": {
+              "x": 162.0,
+              "y": 76.4
+            },
+            "uuid": "7e861515-7263-490e-80d3-09de0c031d69"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R40",
+            "pos": {
+              "x": 104.4,
+              "y": 100.2
+            },
+            "uuid": "831ecff1-007e-425c-ab59-74bb54693f8a"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C33",
+            "pos": {
+              "x": 101.0,
+              "y": 78.9
+            },
+            "uuid": "86f0878d-e211-42c9-8f28-3f34e637d9f0"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C15",
+            "pos": {
+              "x": 123.0,
+              "y": 78.9
+            },
+            "uuid": "8b3be304-674f-4346-9088-f2824a10b575"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R8",
+            "pos": {
+              "x": 149.0,
+              "y": 135.9
+            },
+            "uuid": "8bc7d5b0-5523-4d7b-a9b5-b4289cd3ac97"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C6",
+            "pos": {
+              "x": 145.0,
+              "y": 78.9
+            },
+            "uuid": "91b2213f-b9ab-4ad2-a0fd-8fd5f88b473d"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C25",
+            "pos": {
+              "x": 168.5,
+              "y": 117.9
+            },
+            "uuid": "9726dbb5-e10d-4266-af77-5a8834882080"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R21",
+            "pos": {
+              "x": 117.6,
+              "y": 113.6
+            },
+            "uuid": "9c8c7ed3-8ed5-4b7c-ba47-a3864f8719c9"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C35",
+            "pos": {
+              "x": 98.0,
+              "y": 102.8
+            },
+            "uuid": "9fbf0ea0-a68a-4477-875d-3f2cfebca404"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R25",
+            "pos": {
+              "x": 122.95,
+              "y": 147.4
+            },
+            "uuid": "a1e19e00-ec1e-4e62-a79a-d5d8bc7c51ef"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C29",
+            "pos": {
+              "x": 172.4,
+              "y": 115.8
+            },
+            "uuid": "a89efda9-2b5b-4faa-bb6b-71e4bfde1edb"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R7",
+            "pos": {
+              "x": 148.4,
+              "y": 100.2
+            },
+            "uuid": "a96f0531-d384-43e4-a10d-516be57cf599"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R47",
+            "pos": {
+              "x": 100.95,
+              "y": 147.4
+            },
+            "uuid": "a98be734-604b-4016-ba6d-3ec80d0370b2"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C12",
+            "pos": {
+              "x": 140.0,
+              "y": 84.4
+            },
+            "uuid": "aed8d622-4e79-4a2a-aa55-3a1f84aa1ab9"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C18",
+            "pos": {
+              "x": 123.0,
+              "y": 123.7
+            },
+            "uuid": "b22a69da-8e03-4c59-8458-318c54a251c6"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C16",
+            "pos": {
+              "x": 124.5,
+              "y": 117.9
+            },
+            "uuid": "b53efe89-5319-4d1d-ae79-0a838c5684ba"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'SOIC127P600X175-8N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint IC4",
+            "pos": {
+              "x": 168.365,
+              "y": 84.1
+            },
+            "uuid": "b76db4e3-0b5e-4bd5-97b2-ed27e324688d"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C30",
+            "pos": {
+              "x": 162.0,
+              "y": 84.4
+            },
+            "uuid": "c298078b-eebd-4431-b51d-d2ff259a82ff"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'SOIC127P600X175-8N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint IC2",
+            "pos": {
+              "x": 146.365,
+              "y": 84.1
+            },
+            "uuid": "c2d7b7c0-b75c-42d7-8bae-8ad2a9730652"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C27",
+            "pos": {
+              "x": 167.0,
+              "y": 123.7
+            },
+            "uuid": "c4cce067-aec1-4f2e-bc78-a28b95346b98"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R31",
+            "pos": {
+              "x": 163.0,
+              "y": 117.9
+            },
+            "uuid": "c5206f3a-84cd-461f-ba85-ad00cf3aa6b6"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C26",
+            "pos": {
+              "x": 164.0,
+              "y": 102.8
+            },
+            "uuid": "c6d9f255-50ea-4406-aebd-70af7d9ad596"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R20",
+            "pos": {
+              "x": 119.0,
+              "y": 117.9
+            },
+            "uuid": "c77d10ae-eeba-4fb9-8018-538f333ccaaa"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R33",
+            "pos": {
+              "x": 167.0,
+              "y": 93.0
+            },
+            "uuid": "c87fd0b6-5316-4467-9ea3-3099c8685480"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C28",
+            "pos": {
+              "x": 167.0,
+              "y": 129.0
+            },
+            "uuid": "cbbbcd7a-efd2-4a07-9733-697b8590dfdb"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C17",
+            "pos": {
+              "x": 120.0,
+              "y": 102.8
+            },
+            "uuid": "cbcf2fa9-147f-432b-9e68-d36fe9192d5c"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R30",
+            "pos": {
+              "x": 171.0,
+              "y": 135.9
+            },
+            "uuid": "d1a4e9b8-ed4c-46fa-812e-5cfbf1c4a965"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R43",
+            "pos": {
+              "x": 95.6,
+              "y": 113.6
+            },
+            "uuid": "d1f8f3cd-2232-4231-a37b-801cb6df863e"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R6",
+            "pos": {
+              "x": 148.4,
+              "y": 102.8
+            },
+            "uuid": "d2b6fd9e-e685-45fe-87eb-93a1f78a9e94"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C8",
+            "pos": {
+              "x": 142.0,
+              "y": 102.8
+            },
+            "uuid": "d62eeed1-79c0-475b-9db5-39b9d834045c"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R12",
+            "pos": {
+              "x": 141.0,
+              "y": 135.9
+            },
+            "uuid": "da18d72f-d1b5-4ba8-8e23-370d3a50dd48"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R45",
+            "pos": {
+              "x": 97.0,
+              "y": 135.9
+            },
+            "uuid": "df393e4b-9b26-4afd-a377-45f0094a7810"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'SOIC127P600X175-8N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint IC3",
+            "pos": {
+              "x": 124.365,
+              "y": 84.1
+            },
+            "uuid": "e628fff6-80a6-47ed-ab0e-3925977b0887"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R15",
+            "pos": {
+              "x": 118.0,
+              "y": 76.4
+            },
+            "uuid": "e86477a3-efba-49cb-b9fb-7a08d3eaa169"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R32",
+            "pos": {
+              "x": 161.6,
+              "y": 113.6
+            },
+            "uuid": "e8754587-612f-4049-adbd-9c5371fbbc63"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C39",
+            "pos": {
+              "x": 96.0,
+              "y": 84.4
+            },
+            "uuid": "e919e84d-7781-4c35-9210-924c7ec4eb31"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R11",
+            "pos": {
+              "x": 145.0,
+              "y": 93.0
+            },
+            "uuid": "eaa30fac-44f8-48e1-9e0d-f03bf0f99174"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C10",
+            "pos": {
+              "x": 145.0,
+              "y": 129.0
+            },
+            "uuid": "eb1637a1-b503-4ac6-8dc6-42896ccf5fed"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R5",
+            "pos": {
+              "x": 145.0,
+              "y": 76.4
+            },
+            "uuid": "eb7eb4e8-7776-407c-b60d-6a6ce43af179"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C36",
+            "pos": {
+              "x": 101.0,
+              "y": 123.7
+            },
+            "uuid": "ecd09680-5cf2-4350-8777-b9085bf57aef"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R42",
+            "pos": {
+              "x": 97.0,
+              "y": 117.9
+            },
+            "uuid": "ed3bec5e-6e30-4fdf-8415-430e8581317d"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R37",
+            "pos": {
+              "x": 96.0,
+              "y": 76.4
+            },
+            "uuid": "f12e5e8b-309a-4ae0-a86f-459de24ef66d"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C24",
+            "pos": {
+              "x": 167.0,
+              "y": 78.9
+            },
+            "uuid": "f158b91e-6011-4932-8b6b-d38f8c0fc551"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C3",
+            "pos": {
+              "x": 182.46,
+              "y": 103.66
+            },
+            "uuid": "f3688754-2453-4531-8697-d0a6bed0b864"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R9",
+            "pos": {
+              "x": 141.0,
+              "y": 117.9
+            },
+            "uuid": "f53a583a-1ca1-47d0-800b-57082d95913d"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R24",
+            "pos": {
+              "x": 127.0,
+              "y": 121.0
+            },
+            "uuid": "f58ffe04-f661-4e6f-b71b-c1365cb73e72"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'CAPC3216X140N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint C11",
+            "pos": {
+              "x": 150.4,
+              "y": 115.8
+            },
+            "uuid": "f8a20521-1aea-49a9-8c0f-07837604b964"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Footprint 'RESC3216X65N' does not match copy in library 'multichannel_mixer'",
+        "items": [
+          {
+            "description": "Footprint R19",
+            "pos": {
+              "x": 127.0,
+              "y": 135.9
+            },
+            "uuid": "fb5a45a9-c146-4e09-970a-1a3be949a1e8"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Silkscreen clipped by solder mask",
+        "items": [
+          {
+            "description": "Reference field of IC3",
+            "pos": {
+              "x": 120.359,
+              "y": 84.1
+            },
+            "uuid": "28520b16-c5fa-4c24-bc71-6965d0761a5e"
+          },
+          {
+            "description": "Pad 2 [+12V] of C21 on B.Cu",
+            "pos": {
+              "x": 119.5,
+              "y": 84.4
+            },
+            "uuid": "88e58f92-c2a4-468b-acf1-7e0e78a26bc3"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_over_copper"
+      },
+      {
+        "description": "Silkscreen clipped by solder mask",
+        "items": [
+          {
+            "description": "Reference field of IC5",
+            "pos": {
+              "x": 98.359,
+              "y": 84.1
+            },
+            "uuid": "8720a952-c5fc-4caa-b673-006377c6ab25"
+          },
+          {
+            "description": "Pad 2 [+12V] of C39 on B.Cu",
+            "pos": {
+              "x": 97.5,
+              "y": 84.4
+            },
+            "uuid": "c6d97c51-38e3-4b00-a640-106a38baad50"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_over_copper"
+      },
+      {
+        "description": "Silkscreen clipped by solder mask",
+        "items": [
+          {
+            "description": "Reference field of IC2",
+            "pos": {
+              "x": 142.359,
+              "y": 84.1
+            },
+            "uuid": "7fa181e1-69d9-464a-ae81-9bced51542f0"
+          },
+          {
+            "description": "Pad 2 [+12V] of C12 on B.Cu",
+            "pos": {
+              "x": 141.5,
+              "y": 84.4
+            },
+            "uuid": "b350806d-e28e-4fb1-beba-6501898e83b7"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_over_copper"
+      },
+      {
+        "description": "Silkscreen clipped by solder mask",
+        "items": [
+          {
+            "description": "Reference field of IC4",
+            "pos": {
+              "x": 164.359,
+              "y": 84.1
+            },
+            "uuid": "1e456e2e-f3a0-4432-8014-887b72a52c34"
+          },
+          {
+            "description": "Pad 2 [+12V] of C30 on B.Cu",
+            "pos": {
+              "x": 163.5,
+              "y": 84.4
+            },
+            "uuid": "0e483a8e-b18c-4eeb-8e8c-760f6b306309"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_over_copper"
+      },
+      {
+        "description": "Non-Mirrored text on back layer",
+        "items": [
+          {
+            "description": "Reference field of R3",
+            "pos": {
+              "x": 195.65,
+              "y": 111.06
+            },
+            "uuid": "4cbe1a4d-c11a-4c56-b91c-c730a4af03f8"
+          }
+        ],
+        "severity": "warning",
+        "type": "nonmirrored_text_on_back_layer"
+      }
+    ]
+  },
+  "native_report_sha256": "a86988c1f81f2ff0ece9a0fe4fec67c1f9c05952fbc71e83e09c92a330191fe7",
+  "metrics": {
+    "version": "10.0.0",
+    "pads": 327,
+    "footprints": 114,
+    "zones": 6,
+    "vias": 21,
+    "track_length_mm": 2647.385728862638,
+    "copper_layers": 2
+  },
+  "evidence_hashes": {
+    "area-context.json": "2e35dd4e3a239149aa54513f3a77b042b42123b9d90c7298ce231a4382bcc4e5",
+    "candidate/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+    "candidate/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    "candidate/channel_strip.kicad_sch": "2c98b5d37f5b60c9187474017d7b754e8b4a1d45f4115dcbecf1a745ab175e0e",
+    "candidate/fp-lib-table": "8a1e7e5ab227455c8865598b3c4c36db1e75c8abced3b2c0aee4fde54176a328",
+    "candidate/multichannel_mixer-unrouted.kicad_pcb": "149b2dce16e0f59adb78f87068f4137b7dafca0e991a0b21fdd967c873fd5ee9",
+    "candidate/multichannel_mixer.kicad_pcb": "36e778573b2c90dfca8f9d45597e6bd890cc45c7fc4c6c86a2673e2e7fef3bef",
+    "candidate/multichannel_mixer.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+    "candidate/multichannel_mixer.kicad_sch": "e47aecee9416d51fb5aed36d008a0442d3d6d68abfc5224bcdb5c5bb4a690fcf",
+    "candidate/multichannel_mixer.kicad_sym": "7e0793cc48f3a20ea84f3c4c8643ffeb1be79dd05faba8ae1278dc39dbf7cf8b",
+    "candidate/multichannel_mixer.pretty/CAPC3216X140N.kicad_mod": "3e6145d55866da5a696cefe075a68d26cf30fde90403ff2e006d2e4ae1461474",
+    "candidate/multichannel_mixer.pretty/CAPPRB254-500X840.kicad_mod": "6e1ac6aeba9d1c87ba73b30104162d35ae05625364c80ed204127c90e0542775",
+    "candidate/multichannel_mixer.pretty/CLIFF_FC68148(DC-10A).kicad_mod": "96f4e07509d06c0157dfca2b336f761541ed5d2daead790baafe6b90d23e658e",
+    "candidate/multichannel_mixer.pretty/Jack_6.35mm_Neutrik_NMJ6HCD2_Horizontal.kicad_mod": "b8a282923219bb3b01bf82278a7ded099fac556385eaf8707d777fc92cc32fc3",
+    "candidate/multichannel_mixer.pretty/Potentiometer_Alps_RK09K_Single_Vertical.kicad_mod": "ce94093ebd8cd8cd35a75442db46854414f78ca9be4f3b4234a7819650b938aa",
+    "candidate/multichannel_mixer.pretty/RESC3216X65N.kicad_mod": "a12fbb5040e28dd960364f0319773d1450c0610c18ab9844d0671b6bf6c9f6d7",
+    "candidate/multichannel_mixer.pretty/SOIC127P600X175-8N.kicad_mod": "0b5f066de991d39015aab71847ce9a17e3a60394391350e46650fa8e7d274f80",
+    "candidate/sym-lib-table": "68b0633966d91fd9e81c05b7706abcddc892d1c71c9994c8cb757e38216787f7",
+    "code/native_combined.py": "3fb123a8a1fdbe119a7de60e97677940e26a15b5562a822599d854ba04553a70",
+    "code/source/autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+    "code/source/autorouter/__main__.py": "2e61b5f10de1ee775cf0302246ca047e566dcefca6f7e93860e1c16ae119eec9",
+    "code/source/autorouter/adapter.py": "509feca807ccee112b0b6a071fd0944c88177ba83f5b77422ec8be5cdf63d25b",
+    "code/source/autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+    "code/source/autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+    "code/source/autorouter/floor_context.py": "d346e3b552328d370b4c18c20bd55074702ec53198aef0d47f38b05a0aff7f4a",
+    "code/source/autorouter/floor_route.py": "796653ec3f6e851b09079032624ed7deb80e3a278ff52ca07b75baf4e77200bf",
+    "code/source/autorouter/handoff.py": "22db5dc88be754d97fc5325495073a9931ff1aab79821c177654838b1ea09615",
+    "code/source/autorouter/native.py": "7257496b007fbc449adb3cc8b999712aed8ea0aa881a116ba337d18e2ab87c02",
+    "code/source/autorouter/netclass.py": "d0d26610b550b0655a1eafc3022196e31f59f719b5b3f0a727c464f9c90eda61",
+    "code/source/autorouter/pipeline.py": "101ad65bff197afe17758d30e850a944333875f256f159a4346fdf36f997358f",
+    "code/source/autorouter/recovery.py": "95cebb44d8eac6e9903bd33e65b5cef887d8b1531f67375b940442f1237c2f9a",
+    "code/source/autorouter/runner.py": "0e81ab1badf20cd84adc2fed586641dd97a489a5a6af03febe6fb597bb1d2718",
+    "code/source/autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+    "code/source/autorouter/strategy.py": "a85e9097f3f20508a0d72f50078dad531a3cccc2f41b85da3a74c0a826b1d558",
+    "code/source/autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+    "code/source/autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+    "code/source/autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455",
+    "code/source/experiments/placement_diagnostic_v2/diagnostic_route.py": "fe8299dc5c56b12a04e3fdd3e934ac2dffa61a35925ccebd86c857a41ed69c4f",
+    "code/source/experiments/placement_diagnostic_v2/experiment_search.py": "7e5661228dde28952a11deb52de6bc5887b844a9e11029e81d1b84f289921708",
+    "code/source/experiments/placement_diagnostic_v2/native_combined.py": "3fb123a8a1fdbe119a7de60e97677940e26a15b5562a822599d854ba04553a70",
+    "code/source/experiments/placement_diagnostic_v2/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+    "code/source/experiments/placement_diagnostic_v2/protocol.json": "c47a4882b6fa89014775fdba14e2ea363d268bf1ddc770105065cbb59fb0cdc3",
+    "code/source/experiments/placement_diagnostic_v2/search_guidance.py": "e432a464726ded98b044da4abdf22cb6594268e3c538e9d4c65261a1270b9cd4",
+    "code/source/toolchain.lock.json": "f04be5cdf6f64bddc16a6c5efd217b2f5e0a1341906ff44033f5807971154efe",
+    "engine-config/freerouting.json": "2767d51b2c5725d1d69072101c6169bf83627648c387daa1772b6e47a53d8e4c",
+    "engine-process.json": "d20edc08424bd28cf9f2e24775efc3fda654d40f9585984c5e3560249b304def",
+    "engine.log": "712591f6a034db313283eecbcc3e718f595f3cfc4376eebf347e6da0e4ef503f",
+    "final-drc-binding.json": "fe4aca4cb2b6f9b21c82e4c56b703f9e2d1388b0f6b134c0130fb0713bc585b3",
+    "final-drc-input/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+    "final-drc-input/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    "final-drc-input/channel_strip.kicad_sch": "2c98b5d37f5b60c9187474017d7b754e8b4a1d45f4115dcbecf1a745ab175e0e",
+    "final-drc-input/fp-lib-table": "8a1e7e5ab227455c8865598b3c4c36db1e75c8abced3b2c0aee4fde54176a328",
+    "final-drc-input/multichannel_mixer-unrouted.kicad_pcb": "149b2dce16e0f59adb78f87068f4137b7dafca0e991a0b21fdd967c873fd5ee9",
+    "final-drc-input/multichannel_mixer.kicad_pcb": "36e778573b2c90dfca8f9d45597e6bd890cc45c7fc4c6c86a2673e2e7fef3bef",
+    "final-drc-input/multichannel_mixer.kicad_prl": "01533ea460c27198c7171ff081d5b50b944a806a6f8dc6bfa486b809c4872f2d",
+    "final-drc-input/multichannel_mixer.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+    "final-drc-input/multichannel_mixer.kicad_sch": "e47aecee9416d51fb5aed36d008a0442d3d6d68abfc5224bcdb5c5bb4a690fcf",
+    "final-drc-input/multichannel_mixer.kicad_sym": "7e0793cc48f3a20ea84f3c4c8643ffeb1be79dd05faba8ae1278dc39dbf7cf8b",
+    "final-drc-input/multichannel_mixer.pretty/CAPC3216X140N.kicad_mod": "3e6145d55866da5a696cefe075a68d26cf30fde90403ff2e006d2e4ae1461474",
+    "final-drc-input/multichannel_mixer.pretty/CAPPRB254-500X840.kicad_mod": "6e1ac6aeba9d1c87ba73b30104162d35ae05625364c80ed204127c90e0542775",
+    "final-drc-input/multichannel_mixer.pretty/CLIFF_FC68148(DC-10A).kicad_mod": "96f4e07509d06c0157dfca2b336f761541ed5d2daead790baafe6b90d23e658e",
+    "final-drc-input/multichannel_mixer.pretty/Jack_6.35mm_Neutrik_NMJ6HCD2_Horizontal.kicad_mod": "b8a282923219bb3b01bf82278a7ded099fac556385eaf8707d777fc92cc32fc3",
+    "final-drc-input/multichannel_mixer.pretty/Potentiometer_Alps_RK09K_Single_Vertical.kicad_mod": "ce94093ebd8cd8cd35a75442db46854414f78ca9be4f3b4234a7819650b938aa",
+    "final-drc-input/multichannel_mixer.pretty/RESC3216X65N.kicad_mod": "a12fbb5040e28dd960364f0319773d1450c0610c18ab9844d0671b6bf6c9f6d7",
+    "final-drc-input/multichannel_mixer.pretty/SOIC127P600X175-8N.kicad_mod": "0b5f066de991d39015aab71847ce9a17e3a60394391350e46650fa8e7d274f80",
+    "final-drc-input/sym-lib-table": "68b0633966d91fd9e81c05b7706abcddc892d1c71c9994c8cb757e38216787f7",
+    "final-drc-process.json": "89fd5b381d9cb3999aa1df06031a21b5d6bd7c7c54eb8526fbdd242d6bfd02a5",
+    "final-drc.json": "a86988c1f81f2ff0ece9a0fe4fec67c1f9c05952fbc71e83e09c92a330191fe7",
+    "final-drc.log": "5b0519456e3bce4706ff40670245a4a12aba79fa133645f80961459448a906b9",
+    "floor-area-export-process.json": "210233b1f455a8681a753ea3320e83a4a0102c8e1bbe4cdc2b89e8df3769f7e1",
+    "floor-area-export.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "floor-export-context.json": "78166ec08dc35d9f17ca432ffbfdc14b7c8c25fa2d3c8f9e478e0fd2e73d4da5",
+    "floor-export-input/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+    "floor-export-input/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    "floor-export-input/channel_strip.kicad_sch": "2c98b5d37f5b60c9187474017d7b754e8b4a1d45f4115dcbecf1a745ab175e0e",
+    "floor-export-input/fp-lib-table": "8a1e7e5ab227455c8865598b3c4c36db1e75c8abced3b2c0aee4fde54176a328",
+    "floor-export-input/multichannel_mixer-unrouted.kicad_pcb": "149b2dce16e0f59adb78f87068f4137b7dafca0e991a0b21fdd967c873fd5ee9",
+    "floor-export-input/multichannel_mixer.kicad_pcb": "9f4453741e0b2e8b0204813b7a4ab0c2ac20d6a3f97060bb78e35dee56384b02",
+    "floor-export-input/multichannel_mixer.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+    "floor-export-input/multichannel_mixer.kicad_sch": "e47aecee9416d51fb5aed36d008a0442d3d6d68abfc5224bcdb5c5bb4a690fcf",
+    "floor-export-input/multichannel_mixer.kicad_sym": "7e0793cc48f3a20ea84f3c4c8643ffeb1be79dd05faba8ae1278dc39dbf7cf8b",
+    "floor-export-input/multichannel_mixer.pretty/CAPC3216X140N.kicad_mod": "3e6145d55866da5a696cefe075a68d26cf30fde90403ff2e006d2e4ae1461474",
+    "floor-export-input/multichannel_mixer.pretty/CAPPRB254-500X840.kicad_mod": "6e1ac6aeba9d1c87ba73b30104162d35ae05625364c80ed204127c90e0542775",
+    "floor-export-input/multichannel_mixer.pretty/CLIFF_FC68148(DC-10A).kicad_mod": "96f4e07509d06c0157dfca2b336f761541ed5d2daead790baafe6b90d23e658e",
+    "floor-export-input/multichannel_mixer.pretty/Jack_6.35mm_Neutrik_NMJ6HCD2_Horizontal.kicad_mod": "b8a282923219bb3b01bf82278a7ded099fac556385eaf8707d777fc92cc32fc3",
+    "floor-export-input/multichannel_mixer.pretty/Potentiometer_Alps_RK09K_Single_Vertical.kicad_mod": "ce94093ebd8cd8cd35a75442db46854414f78ca9be4f3b4234a7819650b938aa",
+    "floor-export-input/multichannel_mixer.pretty/RESC3216X65N.kicad_mod": "a12fbb5040e28dd960364f0319773d1450c0610c18ab9844d0671b6bf6c9f6d7",
+    "floor-export-input/multichannel_mixer.pretty/SOIC127P600X175-8N.kicad_mod": "0b5f066de991d39015aab71847ce9a17e3a60394391350e46650fa8e7d274f80",
+    "floor-export-input/sym-lib-table": "68b0633966d91fd9e81c05b7706abcddc892d1c71c9994c8cb757e38216787f7",
+    "floor-final-audit.json": "620963c8d9774f377f817731d0f55b71c55a5db29766166ef828466cbeaa91b3",
+    "floor-final-context.json": "1790db82359875c9f65efc88cbf2ba293b22b581e44094ef9aa8dd5b0c26bc91",
+    "floor-final-process.json": "23a092ce15d7930deaf199521b285594cf002823297432a2fd1214f860e8e3c7",
+    "floor-final.log": "05a3c634574be579638c007fa670675db9b2cc111ace73034c31513c82ecf6d2",
+    "floor-guided.dsn": "4b572c753d47db8b6d72d2df8835982df34eea28dd385f212690034a62a2b009",
+    "floor-policy.json": "f26ac6ea55fdb7af157dc7ca8dba108439c79433379f1f99d9f5bd4b1cf834ca",
+    "import-process.json": "b7d1ac9e243a62e6958b9f1f159f56a73fb20020ee9c1a67d842b95e2608dae5",
+    "import.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "imported.kicad_pcb": "e4ff3b3a0ec4fa35040c55907a4b4582f2a8597caee564ed27ae1f797dfd3617",
+    "imported.kicad_prl": "7d9ad4476f33f37f2a7260669e933885b08555cc667b8a58a3980a10d5e0a4dd",
+    "imported.kicad_pro": "fd0d9f24724fe4c9f2815f3b6f16d2481d3daf09f3e1f027b680abe497b39522",
+    "kicad-config/10.0/3d_viewer.json": "196678c94fed37c15510bb4b54d6e4eec989a0c3f9b4d30ff1be0d1425992bf3",
+    "kicad-config/10.0/cvpcb.json": "b93174a3b1470f1ce0e43c90268ce83976432c5210d906a3846ee7976ea9d272",
+    "kicad-config/10.0/eeschema.json": "ce1d47af13c60254b736992e8a387cf93b06c83f302e3aaa4c6836acb05d3502",
+    "kicad-config/10.0/fpedit.json": "e88988497732f32bf92cccd726d7d28ea7dfe1922d693448a38cb4c063f9d368",
+    "kicad-config/10.0/kicad.json": "026a2e3d05986b554bc6f5aa8590c69e847090527e0e718287e1005dbd905015",
+    "kicad-config/10.0/kicad_common.json": "c6f515fb9679c0366918b71e9a7dadafbcf7e4779b55f160eb8b846f5391aec0",
+    "kicad-config/10.0/pcbnew.json": "f0822c67ee74c2e6189603de283b6d288e77a6a201c65d2f6b60afd119c95845",
+    "kicad-config/10.0/symbol_editor.json": "a3212dc53c3cbfd170a2bb6ae42db289bc6f4c3cf6df9abc4a5c856d22d2f86a",
+    "metrics-process.json": "62638595ee36028136ece89faf0d125b61fbfa2ac42bf8414603106918aba242",
+    "metrics.json": "4ed8de38db959017cd7fd169e3f07bd2ab0f4ba86a51deb21ce6244407068300",
+    "metrics.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native.dsn": "2b70c6504ef6c93c55a4440c8321d7f68e803162c6020644b0e062cf7131746f",
+    "placement-guided.dsn": "378f44831b5072883682e5e8b5be95a464780b07548f1c8288e3ea58229e2954",
+    "placement-transform.json": "110bb88c0c6633e5e79dddf50f4bab60ab8bde459f135c428356d37daf834eb4",
+    "pre-adapter.dsn": "2ed17a12914412bd897189ef21239b6bb67213f9a01d2a92a01e5b45b5809595",
+    "refill/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+    "refill/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    "refill/channel_strip.kicad_sch": "2c98b5d37f5b60c9187474017d7b754e8b4a1d45f4115dcbecf1a745ab175e0e",
+    "refill/fp-lib-table": "8a1e7e5ab227455c8865598b3c4c36db1e75c8abced3b2c0aee4fde54176a328",
+    "refill/multichannel_mixer-unrouted.kicad_pcb": "149b2dce16e0f59adb78f87068f4137b7dafca0e991a0b21fdd967c873fd5ee9",
+    "refill/multichannel_mixer.kicad_pcb": "c9a9ef45fa05f3f76cc5769d959ce29c8c6bf8744aa09fcababa58fd7c7156ec",
+    "refill/multichannel_mixer.kicad_prl": "01533ea460c27198c7171ff081d5b50b944a806a6f8dc6bfa486b809c4872f2d",
+    "refill/multichannel_mixer.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+    "refill/multichannel_mixer.kicad_sch": "e47aecee9416d51fb5aed36d008a0442d3d6d68abfc5224bcdb5c5bb4a690fcf",
+    "refill/multichannel_mixer.kicad_sym": "7e0793cc48f3a20ea84f3c4c8643ffeb1be79dd05faba8ae1278dc39dbf7cf8b",
+    "refill/multichannel_mixer.pretty/CAPC3216X140N.kicad_mod": "3e6145d55866da5a696cefe075a68d26cf30fde90403ff2e006d2e4ae1461474",
+    "refill/multichannel_mixer.pretty/CAPPRB254-500X840.kicad_mod": "6e1ac6aeba9d1c87ba73b30104162d35ae05625364c80ed204127c90e0542775",
+    "refill/multichannel_mixer.pretty/CLIFF_FC68148(DC-10A).kicad_mod": "96f4e07509d06c0157dfca2b336f761541ed5d2daead790baafe6b90d23e658e",
+    "refill/multichannel_mixer.pretty/Jack_6.35mm_Neutrik_NMJ6HCD2_Horizontal.kicad_mod": "b8a282923219bb3b01bf82278a7ded099fac556385eaf8707d777fc92cc32fc3",
+    "refill/multichannel_mixer.pretty/Potentiometer_Alps_RK09K_Single_Vertical.kicad_mod": "ce94093ebd8cd8cd35a75442db46854414f78ca9be4f3b4234a7819650b938aa",
+    "refill/multichannel_mixer.pretty/RESC3216X65N.kicad_mod": "a12fbb5040e28dd960364f0319773d1450c0610c18ab9844d0671b6bf6c9f6d7",
+    "refill/multichannel_mixer.pretty/SOIC127P600X175-8N.kicad_mod": "0b5f066de991d39015aab71847ce9a17e3a60394391350e46650fa8e7d274f80",
+    "refill/sym-lib-table": "68b0633966d91fd9e81c05b7706abcddc892d1c71c9994c8cb757e38216787f7",
+    "refill-drc-binding.json": "7783d54949b921987de19ff85302e8928017faa838e031b938155bf53d879615",
+    "refill-drc-process.json": "f41491cd16dd405b47200c6f3bc80772676a3b615186253f67ef3c805e8152ab",
+    "refill-drc.json": "1254e61417c9046c02c73db29857a63de1f154676fd73935d77a35ffe7d597ce",
+    "refill-drc.log": "715b29a04193b49028c78f82468b28a380a2d8d26608ebdc31ebdd4d35c8d51a",
+    "route-meta.json": "edb4af293157f77aeb6996aa845e82ac623be5d8689d5bff9b9b5a0b47879b23",
+    "routes.ses": "1b5e1bd42911edcc78cf3cde8663ef2eb3a3a117060f78c88ec222d4830e6871",
+    "search-guidance.json": "fbc99cae04c9d9cf3ac232d91232fb92820fea18455732213389d38dd4a13e73",
+    "snapshot/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+    "snapshot/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    "snapshot/channel_strip.kicad_sch": "2c98b5d37f5b60c9187474017d7b754e8b4a1d45f4115dcbecf1a745ab175e0e",
+    "snapshot/fp-lib-table": "8a1e7e5ab227455c8865598b3c4c36db1e75c8abced3b2c0aee4fde54176a328",
+    "snapshot/multichannel_mixer-unrouted.kicad_pcb": "149b2dce16e0f59adb78f87068f4137b7dafca0e991a0b21fdd967c873fd5ee9",
+    "snapshot/multichannel_mixer.kicad_pcb": "44b7c119a0d05c98e9f294659879184038a5f6c30073c04d9536990429ca413e",
+    "snapshot/multichannel_mixer.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+    "snapshot/multichannel_mixer.kicad_sch": "e47aecee9416d51fb5aed36d008a0442d3d6d68abfc5224bcdb5c5bb4a690fcf",
+    "snapshot/multichannel_mixer.kicad_sym": "7e0793cc48f3a20ea84f3c4c8643ffeb1be79dd05faba8ae1278dc39dbf7cf8b",
+    "snapshot/multichannel_mixer.pretty/CAPC3216X140N.kicad_mod": "3e6145d55866da5a696cefe075a68d26cf30fde90403ff2e006d2e4ae1461474",
+    "snapshot/multichannel_mixer.pretty/CAPPRB254-500X840.kicad_mod": "6e1ac6aeba9d1c87ba73b30104162d35ae05625364c80ed204127c90e0542775",
+    "snapshot/multichannel_mixer.pretty/CLIFF_FC68148(DC-10A).kicad_mod": "96f4e07509d06c0157dfca2b336f761541ed5d2daead790baafe6b90d23e658e",
+    "snapshot/multichannel_mixer.pretty/Jack_6.35mm_Neutrik_NMJ6HCD2_Horizontal.kicad_mod": "b8a282923219bb3b01bf82278a7ded099fac556385eaf8707d777fc92cc32fc3",
+    "snapshot/multichannel_mixer.pretty/Potentiometer_Alps_RK09K_Single_Vertical.kicad_mod": "ce94093ebd8cd8cd35a75442db46854414f78ca9be4f3b4234a7819650b938aa",
+    "snapshot/multichannel_mixer.pretty/RESC3216X65N.kicad_mod": "a12fbb5040e28dd960364f0319773d1450c0610c18ab9844d0671b6bf6c9f6d7",
+    "snapshot/multichannel_mixer.pretty/SOIC127P600X175-8N.kicad_mod": "0b5f066de991d39015aab71847ce9a17e3a60394391350e46650fa8e7d274f80",
+    "snapshot/sym-lib-table": "68b0633966d91fd9e81c05b7706abcddc892d1c71c9994c8cb757e38216787f7",
+    "source-drc-binding.json": "47308b59d70cc96bc5dd30a39a41244c9ed34e2d56edd78593160e474252224e",
+    "source-drc-input/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+    "source-drc-input/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    "source-drc-input/channel_strip.kicad_sch": "2c98b5d37f5b60c9187474017d7b754e8b4a1d45f4115dcbecf1a745ab175e0e",
+    "source-drc-input/fp-lib-table": "8a1e7e5ab227455c8865598b3c4c36db1e75c8abced3b2c0aee4fde54176a328",
+    "source-drc-input/multichannel_mixer-unrouted.kicad_pcb": "149b2dce16e0f59adb78f87068f4137b7dafca0e991a0b21fdd967c873fd5ee9",
+    "source-drc-input/multichannel_mixer.kicad_pcb": "44b7c119a0d05c98e9f294659879184038a5f6c30073c04d9536990429ca413e",
+    "source-drc-input/multichannel_mixer.kicad_prl": "01533ea460c27198c7171ff081d5b50b944a806a6f8dc6bfa486b809c4872f2d",
+    "source-drc-input/multichannel_mixer.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+    "source-drc-input/multichannel_mixer.kicad_sch": "e47aecee9416d51fb5aed36d008a0442d3d6d68abfc5224bcdb5c5bb4a690fcf",
+    "source-drc-input/multichannel_mixer.kicad_sym": "7e0793cc48f3a20ea84f3c4c8643ffeb1be79dd05faba8ae1278dc39dbf7cf8b",
+    "source-drc-input/multichannel_mixer.pretty/CAPC3216X140N.kicad_mod": "3e6145d55866da5a696cefe075a68d26cf30fde90403ff2e006d2e4ae1461474",
+    "source-drc-input/multichannel_mixer.pretty/CAPPRB254-500X840.kicad_mod": "6e1ac6aeba9d1c87ba73b30104162d35ae05625364c80ed204127c90e0542775",
+    "source-drc-input/multichannel_mixer.pretty/CLIFF_FC68148(DC-10A).kicad_mod": "96f4e07509d06c0157dfca2b336f761541ed5d2daead790baafe6b90d23e658e",
+    "source-drc-input/multichannel_mixer.pretty/Jack_6.35mm_Neutrik_NMJ6HCD2_Horizontal.kicad_mod": "b8a282923219bb3b01bf82278a7ded099fac556385eaf8707d777fc92cc32fc3",
+    "source-drc-input/multichannel_mixer.pretty/Potentiometer_Alps_RK09K_Single_Vertical.kicad_mod": "ce94093ebd8cd8cd35a75442db46854414f78ca9be4f3b4234a7819650b938aa",
+    "source-drc-input/multichannel_mixer.pretty/RESC3216X65N.kicad_mod": "a12fbb5040e28dd960364f0319773d1450c0610c18ab9844d0671b6bf6c9f6d7",
+    "source-drc-input/multichannel_mixer.pretty/SOIC127P600X175-8N.kicad_mod": "0b5f066de991d39015aab71847ce9a17e3a60394391350e46650fa8e7d274f80",
+    "source-drc-input/sym-lib-table": "68b0633966d91fd9e81c05b7706abcddc892d1c71c9994c8cb757e38216787f7",
+    "source-drc-process.json": "3e199432f6973881cb29b73d832f78fc2a18d0988eb28649bb45dd79252fad2b",
+    "source-drc.json": "35730add7d1860635641c348756e37c7e3dcaa7d3cbd91233becd3739ff7eb81",
+    "source-drc.log": "e6c68c05ea5144622a3e3e6e476de80c5ed443db1b869bbc1a2b1a0babc5bdfe",
+    "task.dsn": "bf7bbc0a0ded74ddb1ce7aed1d66c5b67aecab0d9e21b38b7b22b07dd858a462"
+  },
+  "accounting_point": "Stored totals precede final publication/readback/freshness; final acceptance wall/CPU caps include all checks; correction may finish outside cap.",
+  "wall_seconds": 34.81238712499908,
+  "total_cpu_seconds": 46.942978,
+  "parent_cpu_seconds": 7.059096,
+  "waited_child_cpu_seconds": 39.883882,
+  "child_step_cpu_seconds": 39.751267,
+  "monitor_cpu_seconds": 0,
+  "peak_child_rss_bytes": 569393152,
+  "within_budget": true
+}
