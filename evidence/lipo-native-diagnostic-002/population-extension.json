@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "scope": "Append-only observation extension, not a routing comparison or eligibility change. Prior full16-board qualification snapshot remains immutable.",
+  "predecessor": {
+    "path": "evidence/placement-production-qualification-001/summary.json",
+    "sha256": "a694044b83f1a3b7d7b001fe11be3463f8413b8d0d9c39292de20f59fca70b86"
+  },
+  "counts_unchanged": {
+    "acquired_boards": 16,
+    "complete_inputs": 7,
+    "incomplete_inputs": 9,
+    "independent_families_established": null,
+    "inputs_with_actual_routing_attempts": 3,
+    "inputs_with_at_least_one_accepted_production_policy": 3,
+    "recorded_static_eligible": 3,
+    "unsupported_or_incomplete": 13,
+    "untouched_final_evaluation": 0
+  },
+  "board": ".data/expansion003/lipo-disconnector/lipo_disconnector.kicad_pcb",
+  "source_sha256": "3ef2141230ce971115381107486892bdf06a724c5d31d9ef2103622e113cf4e0",
+  "new_attempts": [
+    {
+      "path": ".runs/lipo-native-diagnostic-001/summary.json",
+      "sha256": "831572e5416550d9d75b9a4a3a975402e50383cbe6dd2d41028cc6335021ec0a",
+      "git_head": "7ecc1b3004831aea614fbc8c7d42babd1571bdbd",
+      "status": "failed",
+      "observations_complete": false,
+      "routing_accepted": false,
+      "source_routes_retained": true,
+      "native": {
+        "opens": null,
+        "blocking": null,
+        "warnings": null,
+        "exclusions": null
+      },
+      "error": "Rejected: observe: nonzero_exit"
+    },
+    {
+      "path": ".runs/lipo-native-diagnostic-002/summary.json",
+      "sha256": "bbfd3412ccb8b777a0d3c8320b7ea881543264d42463e4cc9f85dec42127d3eb",
+      "git_head": "dbea85e796a1024ade7346568369283719289d86",
+      "status": "observations_complete",
+      "observations_complete": true,
+      "routing_accepted": false,
+      "source_routes_retained": true,
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 7,
+        "exclusions": 0
+      },
+      "error": null
+    }
+  ],
+  "static_eligible": false,
+  "format_support_qualified": false,
+  "dependency_complete": false,
+  "new_production_accepted": false,
+  "independent_family_qualified": false
+}

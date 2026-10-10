@@ -4,7 +4,7 @@ Updated October 10, 2026. Evidence describes the exact recorded implementation a
 
 | Requirement | Implementation / executable check | Stored evidence | Status and limits |
 |---|---|---|---|
-| G0 local checkout, audited push and independent remote read-back | OS/Git inspection; remote SHA and decoded file byte comparison | `evidence/backups/G0.json`; `evidence/backups/checkpoint-7ecc1b3.json` | Passed through 7ecc1b3; later staged files still require audit |
+| G0 local checkout, audited push and independent remote read-back | OS/Git inspection; remote SHA and decoded file byte comparison | `evidence/backups/G0.json`; `evidence/backups/checkpoint-dbea85e.json` | Passed through dbea85e; later staged files still require audit |
 | Pinned Mac native interfaces and engine | `python3 -m autorouter doctor` | `toolchain.lock.json`; `evidence/doctor-initial.json`; per-run tool manifests | KiCad 10.0.0, Freerouting 2.5.0 and Java 25.0.2 exercised; fresh-install/package matrix incomplete |
 | G1 licensed real routing with native refill/connectivity | `python3 -m autorouter route … --adapter both --output NEW` | `.runs/adapter-ablation-001/combined/result.json` and native report | Narrow vertical slice passed: 0 opens, 0 blocking findings, 1 warning; not whole-project or physical cleanliness |
 | Immutable original geometry, terminal mapping, zones, protected routes and rules | `pipeline.py` structural/file-set checks; native control generator | `evidence/native-controls-002/summary.json`; frozen run source/candidate manifests | Exercised narrow scope; unsupported constraints remain rejected |
@@ -96,3 +96,5 @@ LiPo original-format helper source is reviewed and promoted with38 pure controls
 Actual LiPo001 at7ecc1b3 failed DSN export after native load; no context JSON or DRC was produced. All originals remain unchanged,161 offline audit checks pass, and format/routing/dependency support remains false. The failed run is retained before a separately reviewed context-only diagnostic (`evidence/lipo-native-diagnostic-001`).
 
 The explicit LiPo context-only selector is source-reviewed:52 pure controls and6 independent methods pass, with default export preserved and no DSN-success claim possible in context-only mode. Actual002 remains pending after source checkpoint. `evidence/lipo-context-only-source-001`, `evidence/review-lipo-context-only-001`.
+
+Actual context-only002 atdbea85e completed both nonsaving native stages: original pad/route/net identities match and DRC reports0opens/0blocking/7warnings/0exclusions. All26 originals and existing copied files unchanged; DRC adds only a disposable `.kicad_prl`. Three additional ignored native defaults absent from source remain explicit; no source rules were edited. No DSN/save/autorouting/format/dependency qualification. Independent197-check raw audit passes; `evidence/lipo-native-diagnostic-002/summary.json`.
