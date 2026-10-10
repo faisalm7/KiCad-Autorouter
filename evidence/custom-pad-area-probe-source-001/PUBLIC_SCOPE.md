@@ -1,0 +1,1 @@
+Project-owned helper provenance, exact source manifest and pure controls. Initial preparation failures are retained. Java/native execution is not established by these records. Cached upstream code, JAR, partial source snapshots and compiled artifacts remain local. Derived geometry provenance is documented in the helper README and original public native-control evidence.

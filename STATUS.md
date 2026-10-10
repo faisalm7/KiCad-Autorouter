@@ -8,6 +8,10 @@ Checkout: `/Users/faisal/Projects/KiCad-Autorouter-local` on this Mac; branch `r
 
 Latest **full** archive: **a258c4a**. Restoration verified all Git references, **49,824 non-Git files / 1,539,941,941 bytes**, and CLI help ([verification](evidence/backups/restore-a258c4a.json)). Location: `.local-backups/checkpoint-20261010T163457Z-5ac7f7159bb541efb566c74039d69f46`. It includes all prior raw evidence, actual padstack import, failed and completed native severity batches, all new audits/API declarations, the parity proposal and the explicitly incomplete area-probe draft. GitHub holds audited source and selected evidence. Full archives remain on this Mac only; independent off-Mac storage awaits the owner. No previous archive or original source was removed. Later changes require a later archive.
 
+## Current custom-pad and parity diagnostics
+
+The [area/contact import helper](experiments/custom_pad_area_probe_v1/README.md) is promoted after independent review and 19 root pure tests. Actual compilation/import is pending. It retains six native-derived scenes and requires exact copper, terminal contacts, width and clearance readbacks. This is an import capability experiment; production custom-pad support and the original PIC four-arm run remain gated. The separate three-case schematic parity helper is under independent review.
+
 ## Implemented validation and measured results
 
 Pinned tools: KiCad **10.0.0**, matching Python, Freerouting **2.5.0**, Java **25.0.2**. Separate complete project copies preserve geometry/nets/pads/rules/severities/zones/protected copper; native refill/DRC/connectivity binds exact candidate bytes. Unsupported, stale, corrupt or excluded validation rejects, as do critical findings regardless of severity. Original ignored checks remain unchanged. Receipt readback checks consistency, not fresh native execution or authenticity. CPU ceilings are measured acceptance caps, not OS aggregate quotas; receipts identify their accounting sample point.

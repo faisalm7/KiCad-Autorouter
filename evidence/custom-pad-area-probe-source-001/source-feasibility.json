@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "status": "prospective API inspection pending",
+  "inputs": {
+    ".runs/custom-pad-transport-options-001/REPORT.md": {
+      "bytes": 12494,
+      "sha256": "4feb1b0b995bd93889d98aec625ec13c2a29409581970a1f0e4891e3019d458b"
+    },
+    ".runs/custom-pad-transport-options-001/BasicBoard.java": {
+      "bytes": 53764,
+      "sha256": "873c4b50c7ee899da85cf1d140bcdd1edb6e6f482b938228ce74ccb8538d09a4"
+    },
+    ".runs/custom-pad-transport-options-001/ConductionArea.java": {
+      "bytes": 14920,
+      "sha256": "2dc48135c2f8476fc4610c43e8c1a0351cdd52f89e543e16cb5532e3f991c39a"
+    },
+    ".runs/custom-pad-transport-options-001/Wiring.java": {
+      "bytes": 27895,
+      "sha256": "46a81a6595f3c130374d307151ae2f422b7991ef4ec57eae1cf7421df20eaedb"
+    },
+    ".runs/interf-width-diagnosis-001/RoutingBoard.java": {
+      "bytes": 55089,
+      "sha256": "2b4afe0bb66f2029a301515a27208484fbe64db10d2cdac9ee23d181cee0af70"
+    },
+    ".runs/pic-custom-native-controls-002/summary.json": {
+      "bytes": 185919,
+      "sha256": "c9149cb74cb4d52ca4905ed64ffa6b616f3af9ed40708a8c00768f3b21b73430"
+    },
+    ".runs/pic-padstack-import-probe-001/summary.json": {
+      "bytes": 9376,
+      "sha256": "889b538e82dec8d4ccf1780b8b7d8105adcad6e4ce441aa978f0aceafbf183b9"
+    }
+  },
+  "no_new_native_java_engine_network": true,
+  "facts": [
+    "Wiring.java:477-486 inserts exact transformed area as obstacle=false.",
+    "RoutingBoard.java:1268-1290 sets area obstacle flags and rules ignoreConduction then reinserts tree.",
+    "BasicBoard.java:1045-1104 checks trace shape against actual default search tree.",
+    "ConductionArea.java:341-364 detects same-net trace endpoints and drill centers; reciprocal pin/trace direction must be observed."
+  ],
+  "unresolved": [
+    "Whole DSN import entrypoint/lifecycle",
+    "Exact pinned-JAR area/contact/search-tree signatures",
+    "Reciprocal native terminal contacts",
+    "Plane-net classification after whole import",
+    "Area contour fidelity at native front0/back90"
+  ],
+  "production_support_changed": false
+}
