@@ -1,0 +1,1 @@
+Prepared exact disposable fixture and multichannel projects only. First actual CUA app inventory failed because the Mac was locked; no PCB Editor or GUI DRC was opened or run, no UI qualification. Owner manual unlock was requested; no permission inferred from elapsed time. Both projects remain for actual inspection after unlock. Full prepared project/copy records remain local.

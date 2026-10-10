@@ -1,0 +1,692 @@
+{
+  "schema": 1,
+  "review": "Independent AI offline actual-evidence audit; not human PCB review",
+  "native_jobs": 0,
+  "engine_jobs": 0,
+  "gui_actions": 0,
+  "network_calls": 0,
+  "passed": true,
+  "summary_sha256": "e3620b0673c1971943eb40e20b412a71dfa1e958b422f409838d6f3fa587e4e8",
+  "code_head": "c29fc88fd5cfee9192840b6592a7f27833a34ebd",
+  "case_results": [
+    {
+      "case": "positive",
+      "counts": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0
+      },
+      "native_report_sha256": "0d9ca75679460a9ddf37a98ed736adb80b13cdd6c9d1d4c3e6e4fc8b4b143f84",
+      "candidate_sha256": "4c118026360d23ecfffad6b4c8638aabf592f9534ca1e8cb999a77316dee09e1",
+      "existing_native_input_files_unchanged": 10,
+      "allowed_added_files": [
+        "fixture.kicad_prl"
+      ],
+      "exit_code": 0,
+      "cleanup_reported": true
+    },
+    {
+      "case": "missing_via",
+      "counts": {
+        "opens": 1,
+        "blocking": 0,
+        "warnings": 2,
+        "exclusions": 0
+      },
+      "native_report_sha256": "25af9e72888cc5f6a045b79882b7bf976f247f67b26ddca367282032a98abf48",
+      "candidate_sha256": "62f6526e9b4348ad526dad1fed002c80ddcaf9cbcca6b55c744dde2a84c93ad5",
+      "existing_native_input_files_unchanged": 10,
+      "allowed_added_files": [
+        "fixture.kicad_prl"
+      ],
+      "exit_code": 5,
+      "cleanup_reported": true
+    }
+  ],
+  "required_via_uuid": "823b0627-0880-4b8e-b78f-6d1407f43ea0",
+  "adjacent_route_uuids": [
+    "21672e60-3d6f-4104-a2a6-21c15b36ca6b",
+    "e13a511f-5f1a-4df7-b5b3-52f887325036"
+  ],
+  "original_material_unchanged": true,
+  "actual_run_files": 93,
+  "actual_run_bytes": 807677,
+  "stored_wall_seconds": 5.4120856659938,
+  "stored_total_cpu_seconds": 3.678899,
+  "child_step_cpu_seconds": 0.839768,
+  "accounting_point": "Stored pre-publication wall/full parent+waited-child CPU sample; positive acceptance caps include all final verification/publication. Polling can overshoot; no OS aggregate CPU quota.",
+  "limitations": [
+    "Stored prepublication sample is not an independently measured full invocation time; actual source enforces a final acceptance cap after its last scan/readback.",
+    "Reported cleanup and process records are mutable local evidence, not authenticated telemetry.",
+    "Both native controls concern the exact owned disposable review project; no GUI/live apply/undo or new routing-quality claim."
+  ],
+  "check_count": 156,
+  "checks": [
+    {
+      "name": "exact root-announced summary",
+      "passed": true
+    },
+    {
+      "name": "completed controls true",
+      "passed": true
+    },
+    {
+      "name": "no additional acceptance/GUI/live apply/engine claims",
+      "passed": true
+    },
+    {
+      "name": "fixed two cases",
+      "passed": true
+    },
+    {
+      "name": "original accepted receipt hash",
+      "passed": true
+    },
+    {
+      "name": "new handoff exact record hash",
+      "passed": true
+    },
+    {
+      "name": "complete recorded inventory source_hashes",
+      "passed": true
+    },
+    {
+      "name": "complete recorded inventory candidate_hashes",
+      "passed": true
+    },
+    {
+      "name": "complete recorded inventory evidence",
+      "passed": true
+    },
+    {
+      "name": "complete recorded inventory handoff_tree",
+      "passed": true
+    },
+    {
+      "name": "fresh pure central receipt readback",
+      "passed": true
+    },
+    {
+      "name": "handoff status policy",
+      "passed": true
+    },
+    {
+      "name": "handoff full provenance inventories",
+      "passed": true
+    },
+    {
+      "name": "handoff complete copied project",
+      "passed": true
+    },
+    {
+      "name": "handoff board receipt identity",
+      "passed": true
+    },
+    {
+      "name": "exact current HEAD",
+      "passed": true
+    },
+    {
+      "name": "all current pinned tools and core manifest",
+      "passed": true
+    },
+    {
+      "name": "complete saved code inventory",
+      "passed": true
+    },
+    {
+      "name": "current code autorouter/__init__.py",
+      "passed": true
+    },
+    {
+      "name": "committed code autorouter/__init__.py",
+      "passed": true
+    },
+    {
+      "name": "current code autorouter/__main__.py",
+      "passed": true
+    },
+    {
+      "name": "committed code autorouter/__main__.py",
+      "passed": true
+    },
+    {
+      "name": "current code autorouter/adapter.py",
+      "passed": true
+    },
+    {
+      "name": "committed code autorouter/adapter.py",
+      "passed": true
+    },
+    {
+      "name": "current code autorouter/board_floor.py",
+      "passed": true
+    },
+    {
+      "name": "committed code autorouter/board_floor.py",
+      "passed": true
+    },
+    {
+      "name": "current code autorouter/config.py",
+      "passed": true
+    },
+    {
+      "name": "committed code autorouter/config.py",
+      "passed": true
+    },
+    {
+      "name": "current code autorouter/floor_context.py",
+      "passed": true
+    },
+    {
+      "name": "committed code autorouter/floor_context.py",
+      "passed": true
+    },
+    {
+      "name": "current code autorouter/floor_route.py",
+      "passed": true
+    },
+    {
+      "name": "committed code autorouter/floor_route.py",
+      "passed": true
+    },
+    {
+      "name": "current code autorouter/handoff.py",
+      "passed": true
+    },
+    {
+      "name": "committed code autorouter/handoff.py",
+      "passed": true
+    },
+    {
+      "name": "current code autorouter/native.py",
+      "passed": true
+    },
+    {
+      "name": "committed code autorouter/native.py",
+      "passed": true
+    },
+    {
+      "name": "current code autorouter/netclass.py",
+      "passed": true
+    },
+    {
+      "name": "committed code autorouter/netclass.py",
+      "passed": true
+    },
+    {
+      "name": "current code autorouter/pipeline.py",
+      "passed": true
+    },
+    {
+      "name": "committed code autorouter/pipeline.py",
+      "passed": true
+    },
+    {
+      "name": "current code autorouter/placement_clearance.py",
+      "passed": true
+    },
+    {
+      "name": "committed code autorouter/placement_clearance.py",
+      "passed": true
+    },
+    {
+      "name": "current code autorouter/placement_transform.py",
+      "passed": true
+    },
+    {
+      "name": "committed code autorouter/placement_transform.py",
+      "passed": true
+    },
+    {
+      "name": "current code autorouter/recovery.py",
+      "passed": true
+    },
+    {
+      "name": "committed code autorouter/recovery.py",
+      "passed": true
+    },
+    {
+      "name": "current code autorouter/runner.py",
+      "passed": true
+    },
+    {
+      "name": "committed code autorouter/runner.py",
+      "passed": true
+    },
+    {
+      "name": "current code autorouter/sexpr.py",
+      "passed": true
+    },
+    {
+      "name": "committed code autorouter/sexpr.py",
+      "passed": true
+    },
+    {
+      "name": "current code autorouter/strategy.py",
+      "passed": true
+    },
+    {
+      "name": "committed code autorouter/strategy.py",
+      "passed": true
+    },
+    {
+      "name": "current code autorouter/thermal.py",
+      "passed": true
+    },
+    {
+      "name": "committed code autorouter/thermal.py",
+      "passed": true
+    },
+    {
+      "name": "current code autorouter/thermal_geometry.py",
+      "passed": true
+    },
+    {
+      "name": "committed code autorouter/thermal_geometry.py",
+      "passed": true
+    },
+    {
+      "name": "current code autorouter/thermal_worker.py",
+      "passed": true
+    },
+    {
+      "name": "committed code autorouter/thermal_worker.py",
+      "passed": true
+    },
+    {
+      "name": "current code toolchain.lock.json",
+      "passed": true
+    },
+    {
+      "name": "committed code toolchain.lock.json",
+      "passed": true
+    },
+    {
+      "name": "current code experiments/placement_production_controls_v1/driver.py",
+      "passed": true
+    },
+    {
+      "name": "committed code experiments/placement_production_controls_v1/driver.py",
+      "passed": true
+    },
+    {
+      "name": "current code experiments/placement_handoff_native_v1/driver.py",
+      "passed": true
+    },
+    {
+      "name": "committed code experiments/placement_handoff_native_v1/driver.py",
+      "passed": true
+    },
+    {
+      "name": "current code experiments/placement_handoff_native_v1/test_driver.py",
+      "passed": true
+    },
+    {
+      "name": "committed code experiments/placement_handoff_native_v1/test_driver.py",
+      "passed": true
+    },
+    {
+      "name": "handoff runtime source /Users/faisal/Projects/KiCad-Autorouter-local/autorouter/thermal_geometry.py",
+      "passed": true
+    },
+    {
+      "name": "handoff runtime source /Users/faisal/Projects/KiCad-Autorouter-local/autorouter/thermal.py",
+      "passed": true
+    },
+    {
+      "name": "handoff runtime source /Users/faisal/Projects/KiCad-Autorouter-local/autorouter/runner.py",
+      "passed": true
+    },
+    {
+      "name": "handoff runtime source /Users/faisal/Projects/KiCad-Autorouter-local/autorouter/config.py",
+      "passed": true
+    },
+    {
+      "name": "handoff runtime source /Users/faisal/Projects/KiCad-Autorouter-local/autorouter/recovery.py",
+      "passed": true
+    },
+    {
+      "name": "handoff runtime source /Users/faisal/Projects/KiCad-Autorouter-local/autorouter/handoff.py",
+      "passed": true
+    },
+    {
+      "name": "handoff runtime source /Users/faisal/Projects/KiCad-Autorouter-local/autorouter/floor_context.py",
+      "passed": true
+    },
+    {
+      "name": "handoff runtime source /Users/faisal/Projects/KiCad-Autorouter-local/autorouter/adapter.py",
+      "passed": true
+    },
+    {
+      "name": "handoff runtime source /Users/faisal/Projects/KiCad-Autorouter-local/autorouter/sexpr.py",
+      "passed": true
+    },
+    {
+      "name": "handoff runtime source /Users/faisal/Projects/KiCad-Autorouter-local/autorouter/__init__.py",
+      "passed": true
+    },
+    {
+      "name": "handoff runtime source /Users/faisal/Projects/KiCad-Autorouter-local/autorouter/floor_route.py",
+      "passed": true
+    },
+    {
+      "name": "handoff runtime source /Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py",
+      "passed": true
+    },
+    {
+      "name": "handoff runtime source /Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+      "passed": true
+    },
+    {
+      "name": "handoff runtime source /Users/faisal/Projects/KiCad-Autorouter-local/autorouter/placement_clearance.py",
+      "passed": true
+    },
+    {
+      "name": "handoff runtime source /Users/faisal/Projects/KiCad-Autorouter-local/autorouter/netclass.py",
+      "passed": true
+    },
+    {
+      "name": "handoff runtime source /Users/faisal/Projects/KiCad-Autorouter-local/autorouter/board_floor.py",
+      "passed": true
+    },
+    {
+      "name": "handoff runtime source /Users/faisal/Projects/KiCad-Autorouter-local/autorouter/thermal_worker.py",
+      "passed": true
+    },
+    {
+      "name": "handoff runtime source /Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py",
+      "passed": true
+    },
+    {
+      "name": "handoff runtime source /Users/faisal/Projects/KiCad-Autorouter-local/autorouter/placement_transform.py",
+      "passed": true
+    },
+    {
+      "name": "handoff runtime source /Users/faisal/Projects/KiCad-Autorouter-local/autorouter/__main__.py",
+      "passed": true
+    },
+    {
+      "name": "handoff runtime source /Users/faisal/Projects/KiCad-Autorouter-local/toolchain.lock.json",
+      "passed": true
+    },
+    {
+      "name": "reviewed native controller exact",
+      "passed": true
+    },
+    {
+      "name": "reviewed handoff exact",
+      "passed": true
+    },
+    {
+      "name": "one required positive via",
+      "passed": true
+    },
+    {
+      "name": "via joins two copper sides",
+      "passed": true
+    },
+    {
+      "name": "positive completed inventory",
+      "passed": true
+    },
+    {
+      "name": "positive case summary exact",
+      "passed": true
+    },
+    {
+      "name": "positive current case candidate inventory",
+      "passed": true
+    },
+    {
+      "name": "positive raw version/schema/source/all severities",
+      "passed": true
+    },
+    {
+      "name": "positive no exclusions",
+      "passed": true
+    },
+    {
+      "name": "positive independent raw counters",
+      "passed": true
+    },
+    {
+      "name": "positive production parser parity",
+      "passed": true
+    },
+    {
+      "name": "positive unchanged ignored checks",
+      "passed": true
+    },
+    {
+      "name": "positive original project rules bytes",
+      "passed": true
+    },
+    {
+      "name": "positive original immutable board geometry",
+      "passed": true
+    },
+    {
+      "name": "positive native binding exact paths/no save",
+      "passed": true
+    },
+    {
+      "name": "positive native input existing bytes unchanged",
+      "passed": true
+    },
+    {
+      "name": "positive only permissible PRL addition",
+      "passed": true
+    },
+    {
+      "name": "positive actual native input after inventory",
+      "passed": true
+    },
+    {
+      "name": "positive exact DRC argv no save/engine",
+      "passed": true
+    },
+    {
+      "name": "positive process status cleanup",
+      "passed": true
+    },
+    {
+      "name": "positive process record matches root step",
+      "passed": true
+    },
+    {
+      "name": "positive step candidate identity",
+      "passed": true
+    },
+    {
+      "name": "positive frozen stage native-drc.json",
+      "passed": true
+    },
+    {
+      "name": "positive frozen stage native-drc.log",
+      "passed": true
+    },
+    {
+      "name": "positive frozen stage native-drc-process.json",
+      "passed": true
+    },
+    {
+      "name": "positive independent reused process/input checker",
+      "passed": true
+    },
+    {
+      "name": "positive recipe adjacent IDs",
+      "passed": true
+    },
+    {
+      "name": "positive all candidate files unchanged",
+      "passed": true
+    },
+    {
+      "name": "positive native positive actually clean",
+      "passed": true
+    },
+    {
+      "name": "missing_via completed inventory",
+      "passed": true
+    },
+    {
+      "name": "missing_via case summary exact",
+      "passed": true
+    },
+    {
+      "name": "missing_via current case candidate inventory",
+      "passed": true
+    },
+    {
+      "name": "missing_via raw version/schema/source/all severities",
+      "passed": true
+    },
+    {
+      "name": "missing_via no exclusions",
+      "passed": true
+    },
+    {
+      "name": "missing_via independent raw counters",
+      "passed": true
+    },
+    {
+      "name": "missing_via production parser parity",
+      "passed": true
+    },
+    {
+      "name": "missing_via unchanged ignored checks",
+      "passed": true
+    },
+    {
+      "name": "missing_via original project rules bytes",
+      "passed": true
+    },
+    {
+      "name": "missing_via original immutable board geometry",
+      "passed": true
+    },
+    {
+      "name": "missing_via native binding exact paths/no save",
+      "passed": true
+    },
+    {
+      "name": "missing_via native input existing bytes unchanged",
+      "passed": true
+    },
+    {
+      "name": "missing_via only permissible PRL addition",
+      "passed": true
+    },
+    {
+      "name": "missing_via actual native input after inventory",
+      "passed": true
+    },
+    {
+      "name": "missing_via exact DRC argv no save/engine",
+      "passed": true
+    },
+    {
+      "name": "missing_via process status cleanup",
+      "passed": true
+    },
+    {
+      "name": "missing_via process record matches root step",
+      "passed": true
+    },
+    {
+      "name": "missing_via step candidate identity",
+      "passed": true
+    },
+    {
+      "name": "missing_via frozen stage native-drc.json",
+      "passed": true
+    },
+    {
+      "name": "missing_via frozen stage native-drc.log",
+      "passed": true
+    },
+    {
+      "name": "missing_via frozen stage native-drc-process.json",
+      "passed": true
+    },
+    {
+      "name": "missing_via independent reused process/input checker",
+      "passed": true
+    },
+    {
+      "name": "missing_via recipe adjacent IDs",
+      "passed": true
+    },
+    {
+      "name": "missing_via exactly original via deleted",
+      "passed": true
+    },
+    {
+      "name": "missing_via all other project files identical",
+      "passed": true
+    },
+    {
+      "name": "missing_via expected single required-via open",
+      "passed": true
+    },
+    {
+      "name": "missing_via expected two dangling warnings",
+      "passed": true
+    },
+    {
+      "name": "missing_via targeted finding and actual rejection",
+      "passed": true
+    },
+    {
+      "name": "fixed shared caps",
+      "passed": true
+    },
+    {
+      "name": "finite positive measured samples",
+      "passed": true
+    },
+    {
+      "name": "child CPU arithmetic",
+      "passed": true
+    },
+    {
+      "name": "step wall enclosed",
+      "passed": true
+    },
+    {
+      "name": "four project copies accounted",
+      "passed": true
+    },
+    {
+      "name": "actual full output within cap",
+      "passed": true
+    },
+    {
+      "name": "final original unchanged /Users/faisal/Projects/KiCad-Autorouter-local/evidence/placement-area-native-001/allowed_placement/candidate",
+      "passed": true
+    },
+    {
+      "name": "final original unchanged /Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-production-native-001/candidate",
+      "passed": true
+    },
+    {
+      "name": "final original unchanged /Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-production-native-001",
+      "passed": true
+    },
+    {
+      "name": "final original unchanged /Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-review-copy-001",
+      "passed": true
+    },
+    {
+      "name": "final actual run unchanged",
+      "passed": true
+    },
+    {
+      "name": "final current runtime/head/tools unchanged",
+      "passed": true
+    }
+  ],
+  "audit_wall_seconds": 0.5154646669980139
+}

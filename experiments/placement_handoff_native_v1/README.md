@@ -1,6 +1,6 @@
 # Disposable placement review-copy native qualifier
 
-This helper has passed independent source review and33 root pure/read-only controls. No native KiCad, engine or GUI was run in preparing it. It does not implement review-copy or admit another routing policy. Root has integrated the exact reviewed helper/tests and created the actual `.runs/placement-review-copy-001` from the separately checkpointed production handoff. After this helper checkpoint, run the sole native lane below.
+This helper has passed independent source review and33 root pure/read-only controls. No native KiCad, engine or GUI was run in preparing it. It does not implement review-copy or admit another routing policy. Root has integrated the exact reviewed helper/tests and created the actual `.runs/placement-review-copy-001` from the separately checkpointed production handoff. The sole native lane below subsequently completed atc29fc88.
 
 ## Exact experiment
 
@@ -22,12 +22,14 @@ Cancellation/staleness/final cap failures archive any canonical/partial positive
 
 33 controls passed in the final run (`pure-controls-005.log`). These include actual accepted-receipt readback, exact via removal, full tiny file-copy flow with explicitly fake native worker and checker, project/source/report/case mutations at stage and publication boundaries, required-UUID rejection, code/argv/caps/path/schema guards, failed corrective writes, and actual Python selfSIGINT/selfSIGTERM under scoped handlers. They are lifecycle/recipe evidence, not fresh native qualification. Earlier successful21/28/30/32control logs are retained. Reviewer reproduced a late size-scan publication race against the original driver7c37b2f7: a canonical mutation or budget consumption during the final size scan escaped the old order. Original source/tests/docs/manifest are retained byte-for-byte in snapshot-001. Final size scanning now precedes the exact canonical/in-memory comparison and final cap sample; both reviewer falsifiers and a returned-record mutation have regression controls. No native finding is inferred.
 
-## Lead command after promotion/checkpoint and real handoff creation
+## Recorded lead command after promotion/checkpoint and real handoff creation
 
-Suggested promotion path: `experiments/placement_handoff_native_v1/{driver.py,test_driver.py,README.md}`. Root substitutes the newly created real handoff's exact path and a fresh output ID; this command has NOT been executed:
+Promoted path: `experiments/placement_handoff_native_v1/{driver.py,test_driver.py,README.md}`. This exact command completed; preserve its output and use a new ID only when a new verification question warrants execution:
 
 ```sh
 python3 -B experiments/placement_handoff_native_v1/driver.py --receipt .runs/placement-production-native-001/result.json --handoff .runs/placement-review-copy-001/review.json --output .runs/placement-handoff-native-001 --run-native
 ```
 
 The helper refuses reuse and refuses uncommitted runtime source/tests. Preserve failures unchanged. The following GUI fixture and full multichannel observations remain separate pending work; native controls do not qualify GUI edits, undo, live board application or older formats.
+
+Actual001 completed atc29fc88: both native predicates pass, positive0all and missing-via1open/2warnings. Stored5.412086wall/3.678899CPU under shared60second caps;156 independent raw bindings pass. Complete originals/handoff unchanged; only allowed disposable PRL files added to native input copies. `evidence/placement-handoff-native-001/summary.json`. The example output above is now completed and immutable; use a new name only for a new verification question. Actual GUI remains incomplete because the Mac was locked before any editor opened.
