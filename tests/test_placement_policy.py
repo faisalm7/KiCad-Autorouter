@@ -122,10 +122,12 @@ class Receipt(unittest.TestCase):
  def test_missing_new_modules_cannot_pass_rehashed_code_inventory(self):
   (self.out/'code/placement_clearance.py').unlink();self.data['tools']['implementation_sha256'].pop('autorouter/placement_clearance.py');self.save()
   with self.assertRaisesRegex(p.Rejected,'implementation provenance'):self.check()
- def test_handoff_refuses_new_policy(self):
+ def test_handoff_allows_disposable_copy_only(self):
   from autorouter.handoff import review_copy
-  with self.assertRaisesRegex(p.Rejected,'handoff'):review_copy(self.receipt,self.root/'gui')
-  self.assertFalse((self.root/'gui').exists())
+  before=pc.evidence_inventory(self.out);result=review_copy(self.receipt,self.root/'gui')
+  self.assertEqual(result['input_policy'],pc.POLICY);self.assertEqual(result['source_receipt_schema'],3)
+  self.assertEqual(result['status'],'ready_for_manual_review');self.assertIs(result['native_validation_performed'],False)
+  self.assertEqual(pc.inventory(self.root/'gui/project'),pc.inventory(self.candidate.parent));self.assertEqual(pc.evidence_inventory(self.out),before)
  def test_cleanliness_claim_must_match_zero_warning_fixture(self):
   self.data['whole_project_drc_clean']=False;self.save()
   with self.assertRaisesRegex(p.Rejected,'cleanliness'):self.check()

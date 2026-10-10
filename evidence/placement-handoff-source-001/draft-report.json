@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "changed_files": [
+    "autorouter/handoff.py",
+    "tests/test_handoff.py",
+    "tests/test_placement_policy.py",
+    "docs/gui-workflow.md",
+    "docs/placement-clearance-guidance.md",
+    "README.md"
+  ],
+  "tracked_baselines_unchanged": {
+    "autorouter/handoff.py": true,
+    "tests/test_handoff.py": true,
+    "tests/test_placement_policy.py": true,
+    "docs/gui-workflow.md": true,
+    "docs/placement-clearance-guidance.md": true,
+    "README.md": true
+  },
+  "tests": {
+    "count": 41,
+    "passed": true,
+    "log": "tests-004.log",
+    "command": "python3 -B .runs/placement-handoff-draft-001/run_tests.py"
+  },
+  "native_execution": false,
+  "engine_execution": false,
+  "network_execution": false,
+  "scope": "filesystem review-copy source draft; native/GUI qualification pending",
+  "source_sha256": "74f022bae8a8d89ebf86d7d2a3255a7c41a6f171e041ecc0c73ee5346a82a936",
+  "independent_review": {
+    "status": "source and lifecycle review clear",
+    "native_execution": false,
+    "controls": ".runs/review-placement-handoff-001/fixed-controls-002/summary.json",
+    "actual_saved_receipt_copy": ".runs/review-placement-handoff-001/actual-schema3-copy-001-audit.json",
+    "evidence_sha256": {
+      ".runs/review-placement-handoff-001/fixed-controls-002/summary.json": "fecbde03bdee5e1b112cf4f1809ae96ff9025fab49b3c522887c7e4d098fa11c",
+      ".runs/review-placement-handoff-001/actual-schema3-copy-001-audit.json": "4eec3405629012c55c6b0980a6d4dc95e657c6b26807c05fcd8e1938a24b4e47"
+    }
+  }
+}

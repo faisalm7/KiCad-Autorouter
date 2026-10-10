@@ -1,42 +1,202 @@
-"""Create a disposable project for manual GUI review without modifying a receipt."""
+"""Bounded disposable review copies; no GUI, native worker or live application."""
 from pathlib import Path
-import shutil
-from .pipeline import Rejected, check_result, tree_hash, save_json, sha
+import hashlib
+import os
+import resource
+import signal
+import time
+import uuid
+from . import config as c, floor_route as f, placement_clearance as pc
+from .pipeline import Rejected, check_result, save_json
+
+SECONDS = 30
+PROJECT_BYTES = 32 * 1024 * 1024
+EVIDENCE_BYTES = 100 * 1024 * 1024
+
+
+def digest(raw):
+    return hashlib.sha256(raw).hexdigest()
+
+
+def cpu_seconds():
+    own = resource.getrusage(resource.RUSAGE_SELF)
+    child = resource.getrusage(resource.RUSAGE_CHILDREN)
+    return own.ru_utime + own.ru_stime + child.ru_utime + child.ru_stime
+
+
+def real_path(value, *, existing=True):
+    path = Path(value).absolute()
+    if '..' in path.parts or any(p.is_symlink() for p in (path, *path.parents)):
+        raise Rejected('review paths must be real canonical paths without symlinks')
+    return path.resolve(strict=existing)
+
+
+def runtime_inventory():
+    """Bind the checker/helper source and lock, not installed native binaries."""
+    result = {}; total = 0
+    with os.scandir(c.ROOT / 'autorouter') as entries:
+        for count, entry in enumerate(entries, 1):
+            if count > 256:
+                raise Rejected('review runtime entry ceiling')
+            if entry.name.endswith('.py'):
+                raw = pc.read_bytes(entry.path, 8 * 1024 * 1024 - total)
+                total += len(raw); result[str(Path(entry.path))] = digest(raw)
+    for path in (Path(__file__).absolute(), c.ROOT / 'toolchain.lock.json'):
+        result[str(path)] = digest(pc.read_bytes(path, PROJECT_BYTES))
+    return result
+
+
+def _review_copy(receipt, output, start, cpu_start):
+    destination = None; created = False
+    record = {'schema': 1, 'status': 'rejected', 'native_validation_performed': False,
+              'budget_seconds': SECONDS, 'cpu_budget_seconds': SECONDS,
+              'accounting_point': 'Stored totals precede final publication checks; final wall and parent-plus-waited-child CPU caps include them. These are observed acceptance ceilings, not OS quotas.'}
+
+    def cap():
+        if time.monotonic() - start > SECONDS or cpu_seconds() - cpu_start > SECONDS:
+            raise Rejected('review copy exceeded 30-second wall or full CPU ceiling')
+
+    def inventory(path, *, contents=False, evidence=False):
+        cap()
+        value = pc.inventory(path, contents=contents,
+                             max_bytes=EVIDENCE_BYTES if evidence else PROJECT_BYTES,
+                             max_files=4000 if evidence else 2000, max_entries=8000 if evidence else 4000)
+        cap(); return value
+
+    def account():
+        record.update(wall_seconds=time.monotonic() - start,
+                      total_cpu_seconds=cpu_seconds() - cpu_start)
+        record['within_budget'] = record['wall_seconds'] <= SECONDS and record['total_cpu_seconds'] <= SECONDS
+
+    def invalidate():
+        # Only metadata in this invocation's new directory is moved. Keep the
+        # disposable project and all interrupted/ready bytes as evidence.
+        for path in (destination / 'review.json', destination / 'review.json.partial'):
+            if path.exists() or path.is_symlink():
+                path.rename(destination / ('invalidated-review-' + uuid.uuid4().hex + '-' + path.name))
+
+    try:
+        cap(); receipt = real_path(receipt)
+        raw = pc.read_bytes(receipt, PROJECT_BYTES); receipt_digest = digest(raw)
+        report = f.read_json(receipt)
+        if digest(pc.read_bytes(receipt, PROJECT_BYTES)) != receipt_digest:
+            raise Rejected('receipt changed while reading review input')
+        if not isinstance(report, dict):
+            raise Rejected('review receipt must be an object')
+        source = real_path(report['source'])
+        candidate = real_path(report['candidate'])
+        if candidate != receipt.parent / 'candidate' / source.name:
+            raise Rejected('review candidate does not belong to receipt')
+        destination = real_path(output, existing=False)
+        if destination.exists():
+            raise Rejected('review output already exists')
+        for protected in (source.parent, receipt.parent):
+            if destination == protected or protected in destination.parents:
+                raise Rejected('review copy must be outside source and evidence directories')
+
+        # Bound complete trees before calling legacy check_result, whose own
+        # reads remain sampled rather than race-free. Never adopt later trees.
+        evidence_hashes = inventory(receipt.parent, evidence=True)
+        source_hashes = inventory(source.parent)
+        captured = inventory(candidate.parent, contents=True)
+        candidate_hashes = {name: digest(value) for name, value in captured.items()}
+        runtime_hashes = runtime_inventory(); cap()
+        policy = f.receipt_policy(report, receipt.parent)
+        if ((policy == 'native' and (type(report.get('schema')) is not int or report['schema'] != 1))
+                or (policy == pc.POLICY and report.get('schema') != 3)
+                or policy not in {'native', pc.POLICY}
+                or 'diagnostic_schema' in report):
+            raise Rejected('guidance-policy GUI handoff is not yet qualified for this receipt')
+        identity = {'candidate': str(candidate), 'candidate_sha256': report['candidate_sha256'],
+                    'input_policy': policy}
+        if candidate_hashes.get(candidate.name) != identity['candidate_sha256']:
+            raise Rejected('captured candidate differs from receipt')
+        project = destination / 'project'
+
+        def material():
+            cap()
+            if runtime_inventory() != runtime_hashes:
+                raise Rejected('review runtime source or toolchain lock changed')
+            if digest(pc.read_bytes(receipt, PROJECT_BYTES)) != receipt_digest:
+                raise Rejected('receipt changed while preparing review copy')
+            if inventory(source.parent) != source_hashes:
+                raise Rejected('source project changed while preparing review copy')
+            if inventory(receipt.parent, evidence=True) != evidence_hashes:
+                raise Rejected('routing evidence changed while preparing review copy')
+            if inventory(candidate.parent) != candidate_hashes:
+                raise Rejected('candidate project changed while preparing review copy')
+            if created and inventory(project) != candidate_hashes:
+                raise Rejected('copied project changed while preparing review copy')
+            cap()
+
+        def central_check():
+            material()
+            verified = check_result(receipt); cap()
+            if (verified.get('current') is not True or verified.get('applied') is not False
+                    or any(verified.get(key, 'native' if key == 'input_policy' else None) != value
+                           for key, value in identity.items())):
+                raise Rejected('central receipt policy or candidate identity changed')
+            # No subprocess-bearing check follows this material sample.
+            material()
+
+        central_check()
+        destination.mkdir(parents=True, exist_ok=False); created = True
+        project.mkdir()
+        for relative, payload in captured.items():
+            cap(); target = project / relative; target.parent.mkdir(parents=True, exist_ok=True)
+            with target.open('xb') as stream:
+                stream.write(payload)
+        del captured
+        material()
+        record.update(status='ready_for_manual_review', input_policy=policy,
+                      source_receipt_schema=report['schema'], receipt=str(receipt),
+                      receipt_sha256=receipt_digest, verified_candidate_sha256=identity['candidate_sha256'],
+                      candidate_sha256=candidate_hashes[candidate.name], project=str(project),
+                      board=str(project / candidate.name), initial_project_hashes=candidate_hashes,
+                      source_project_hashes=source_hashes, routing_evidence_hashes=evidence_hashes,
+                      runtime_source_sha256=runtime_hashes,
+                      limits='Disposable complete project files for manual review only; no fresh native check, applied result, GUI opening or live-editor approval. Saving/editing invalidates the original validation claim. Local bounded inventories are finite samples, not atomic authentication or protection against hostile concurrent writers, abrupt termination or power loss. Installed native tool binaries are not revalidated by this copy command.')
+        central_check(); account(); cap()
+        expected = f.canonical(record)
+        save_json(destination / 'review.json', record)
+        if f.canonical(record) != expected or f.canonical(f.read_json(destination / 'review.json')) != expected:
+            raise Rejected('ready review metadata changed during publication')
+        central_check()
+        if f.canonical(record) != expected or f.canonical(f.read_json(destination / 'review.json')) != expected:
+            raise Rejected('ready review metadata changed after validation')
+        material()
+        if f.canonical(record) != expected or f.canonical(f.read_json(destination / 'review.json')) != expected:
+            raise Rejected('ready review metadata changed during final material check')
+        cap(); return record
+    except (Exception, KeyboardInterrupt) as exc:
+        if created:
+            invalidate()
+            record.update(status='cancelled' if isinstance(exc, KeyboardInterrupt) else 'rejected',
+                          error=type(exc).__name__ + ': ' + str(exc))
+            account()
+            try:
+                save_json(destination / 'review.json', record)
+                if f.canonical(f.read_json(destination / 'review.json')) != f.canonical(record):
+                    raise Rejected('corrective review metadata differs')
+            except (Exception, KeyboardInterrupt):
+                invalidate()
+        if isinstance(exc, KeyboardInterrupt):
+            raise Rejected('review copy cancelled') from exc
+        raise
 
 
 def review_copy(receipt, output):
-    receipt = Path(receipt).resolve(strict=True)
-    receipt_digest = sha(receipt)
-    verified = check_result(receipt)
-    if verified.get('input_policy','native') != 'native':
-        raise Rejected('guidance-policy GUI handoff is not yet qualified')
-    candidate = Path(verified['candidate'])
-    destination = Path(output).absolute()
-    if destination.exists() or destination.is_symlink():
-        raise Rejected('review output already exists')
-    if any(p.is_symlink() for p in destination.parents):
-        raise Rejected('review output has a symlink ancestor')
-    destination = destination.resolve()
-    # A review may cause KiCad to create history/settings files. Keep it outside
-    # both the source project and the complete evidence run.
-    import json
-    report = json.loads(receipt.read_text())
-    for protected in (Path(report['source']).resolve().parent, receipt.parent):
-        if destination == protected or protected in destination.parents:
-            raise Rejected('review copy must be outside source and evidence directories')
-    before = tree_hash(candidate.parent)
-    destination.mkdir(parents=True, exist_ok=False)
-    project = destination / 'project'
-    shutil.copytree(candidate.parent, project)
-    if tree_hash(project) != before or tree_hash(candidate.parent) != before:
-        raise Rejected('candidate changed while preparing review copy')
-    rechecked = check_result(receipt)
-    if sha(receipt) != receipt_digest or any(rechecked.get(k) != verified.get(k) for k in ('candidate', 'candidate_sha256')) or sha(project / candidate.name) != verified['candidate_sha256']:
-        raise Rejected('receipt or candidate changed while preparing review copy')
-    record = {'schema': 1, 'status': 'ready_for_manual_review', 'receipt': str(receipt),
-              'receipt_sha256': receipt_digest, 'candidate_sha256': sha(project / candidate.name),
-              'project': str(project), 'board': str(project / candidate.name),
-              'initial_project_hashes': before,
-              'limits': 'This is a disposable review copy, not an applied result. KiCad may rewrite project settings even when board changes are discarded. Any saved edit invalidates the original validation claim. No live-board replacement, automatic approval, GUI stale-edit detection or undo is implemented.'}
-    save_json(destination / 'review.json', record)
-    return record
+    """Create one new disposable project from centrally verified captured bytes."""
+    start = time.monotonic(); cpu_start = cpu_seconds()
+    previous = {sig: signal.getsignal(sig) for sig in (signal.SIGINT, signal.SIGTERM)}
+
+    def interrupted(*_):
+        raise KeyboardInterrupt
+
+    try:
+        for sig in previous:
+            signal.signal(sig, interrupted)
+        return _review_copy(receipt, output, start, cpu_start)
+    finally:
+        for sig, handler in previous.items():
+            signal.signal(sig, handler)

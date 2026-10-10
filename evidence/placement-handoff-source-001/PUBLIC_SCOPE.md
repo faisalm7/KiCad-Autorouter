@@ -1,0 +1,1 @@
+Project-owned source review metadata and software test logs, copied exactly from ignored working records. Full draft history, generated tiny controls and copies remain local for the next full archive. This is not a fresh native/GUI result or standalone relocated routing dataset.
