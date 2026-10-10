@@ -37,7 +37,9 @@ def cancelled_publication(path, data):
     data['status'] = 'cancelled'
     if 'accepted' in data:data['accepted'] = False
     if 'comparisons' in data:data['comparisons'] = []
-    for row in data.get('results', []):row['accepted'] = False
+    for row in data.get('results', []):
+        row['accepted'] = False
+        for observation in row.get('observations', []):observation['final_delivery_accepted'] = False
     partial = path.with_suffix(path.suffix+'.partial')
     if partial.exists():
         if partial.is_symlink() or not partial.is_file():
@@ -246,6 +248,7 @@ def experiment(out, project_name='sonde'):
             for row in summary['results']:
                 row['accepted'] = False
                 row['paired_publication_budget_rejected'] = True
+                for observation in row.get('observations', []):observation['final_delivery_accepted'] = False
             publish(out/'paired-summary.json', summary)
     except KeyboardInterrupt:
         cancelled_publication(out/'paired-summary.json', summary)

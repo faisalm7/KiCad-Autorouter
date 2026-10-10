@@ -1,0 +1,299 @@
+"""Narrow native-resolved DSN netclass fidelity checks.
+
+No pattern evaluator, source mutation, solver, or native execution occurs here.
+The caller enforces supported board geometry and original-rule scope, binds the
+native map to its immutable source, and validates imported geometry and DRC.
+A mapping pass alone is never routing acceptance or proof of pin identities.
+"""
+from decimal import Decimal, InvalidOperation
+import hashlib
+import json
+from pathlib import Path
+import re
+
+
+_DIMENSIONS = (
+    ("width_nm", "track_width", "min_track_width"),
+    ("clearance_nm", "clearance", "min_clearance"),
+    ("via_diameter_nm", "via_diameter", "min_via_diameter"),
+    ("via_drill_nm", "via_drill", "min_through_hole_diameter"),
+)
+
+
+def _millimetres_to_nm(raw, *, allow_zero=False):
+    if isinstance(raw, bool) or not isinstance(raw, (int, float)):
+        raise ValueError("Finite numeric dimensions required")
+    value = Decimal(str(raw)) * 1000000
+    if (not value.is_finite() or value < 0 or (value == 0 and not allow_zero)
+            or value != value.to_integral_value()):
+        raise ValueError("Dimensions must be finite exact nanometres in the permitted range")
+    return int(value)
+
+
+def _named(node, label):
+    if len(node) < 2 or not isinstance(node[1], str):
+        raise ValueError("Malformed " + label + " identifier")
+    from autorouter import sexpr as sx
+    return sx.unquote(node[1])
+
+
+def _children_only(node, allowed, start=1):
+    if any(not isinstance(x, list) or not x or x[0] not in allowed for x in node[start:]):
+        raise ValueError("Malformed or unqualified " + str(node[0]) + " override")
+
+
+def qualify_project(project):
+    """Admit Default alone, or Default plus one class with literal identifiers.
+
+    This is an eligibility whitelist, not a general netclass resolver. Native
+    KiCad remains the source of the per-net effective class map.
+    """
+    if not isinstance(project, dict):
+        raise ValueError("Project JSON object required")
+    settings = project.get("net_settings")
+    if not isinstance(settings, dict):
+        raise ValueError("Original net settings required")
+    if settings.get("netclass_assignments") not in (None, {}):
+        raise ValueError("Explicit or inherited netclass assignments not qualified")
+    classes = settings.get("classes")
+    if not isinstance(classes, list) or len(classes) not in (1, 2):
+        raise ValueError("Only one or two fully specified netclasses qualified")
+    names = []
+    for cls in classes:
+        if not isinstance(cls, dict) or not isinstance(cls.get("name"), str):
+            raise ValueError("Malformed netclass")
+        name = cls["name"]
+        if not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", name) or name == "kicad_default":
+            raise ValueError("Netclass identifier outside narrow scope")
+        names.append(name)
+        for _, key, _ in _DIMENSIONS:
+            _millimetres_to_nm(cls.get(key))
+        if cls["via_drill"] >= cls["via_diameter"]:
+            raise ValueError("Via drill must be smaller than copper diameter")
+        if any(cls.get(key) for key in ("tuning_profile", "tuning_profiles")):
+            raise ValueError("Netclass tuning profiles not qualified")
+    if len(set(names)) != len(names) or "Default" not in names:
+        raise ValueError("Unique Default class required")
+    patterns = settings.get("netclass_patterns")
+    if patterns is None:
+        patterns = []
+    if not isinstance(patterns, list):
+        raise ValueError("Malformed netclass pattern list")
+    if len(classes) == 1:
+        if patterns:
+            raise ValueError("Patterns require the explicit second class")
+        return {"mode": "single_default", "literal_assignments": {}}
+    nondefault = next(name for name in names if name != "Default")
+    if not isinstance(patterns, list) or not 1 <= len(patterns) <= 1024:
+        raise ValueError("A bounded list of literal assignments is required")
+    assignments = {}
+    for item in patterns:
+        if not isinstance(item, dict) or set(item) != {"netclass", "pattern"}:
+            raise ValueError("Malformed literal netclass assignment")
+        if (item["netclass"] != nondefault or not isinstance(item["pattern"], str)
+                or re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", item["pattern"]) is None
+                or item["pattern"] in assignments):
+            raise ValueError("Only unique literal identifier assignments qualified")
+        assignments[item["pattern"]] = nondefault
+    return {"mode": "literal_two_class", "literal_assignments": assignments}
+
+
+def audit_native(native, project):
+    """Check effective native classes against qualified original project settings.
+
+    The caller must independently bind the native process/input/report hashes.
+    Returned rows are copies of the validated native rows; this function does
+    not infer connectivity, resolve patterns, or establish routing acceptance.
+    """
+    policy = qualify_project(project)
+    if (not isinstance(native, dict) or type(native.get("schema")) is not int or native.get("schema") != 1
+            or native.get("native_version") != "10.0.0" or native.get("units") != "integer nanometres"):
+        raise ValueError("Unexpected native version")
+    native_rows = native.get("nets")
+    if not isinstance(native_rows, list) or not native_rows or len(native_rows) > 10000:
+        raise ValueError("Missing or oversized native net inventory")
+    codes = set()
+    for row in native_rows:
+        if not isinstance(row, dict) or not isinstance(row.get("name"), str) or not row["name"]:
+            raise ValueError("Malformed native net record")
+        if not isinstance(row.get("class"), str):
+            raise ValueError("Malformed native class name")
+        for key in ("netcode", "width_nm", "clearance_nm", "via_diameter_nm", "via_drill_nm", "copper_pad_count"):
+            if type(row.get(key)) is not int or row[key] < (0 if key == "copper_pad_count" else 1):
+                raise ValueError("Native dimensions/counts must be integer nanometres")
+        if row["netcode"] in codes:
+            raise ValueError("Duplicate native netcode")
+        codes.add(row["netcode"])
+        # Only these literal names are admitted by the policy; general patterns
+        # remain unqualified. Actual DSN mapping still comes from native rows.
+        expected_class = policy["literal_assignments"].get(row["name"], "Default")
+        if row["class"] != expected_class:
+            raise ValueError("Native class resolution differs from admitted literal assignment")
+    records = {row["name"]: row for row in native_rows}
+    if len(records) != len(native["nets"]):
+        raise ValueError("Duplicate native net")
+    configured = {item["name"]: item for item in project["net_settings"]["classes"]}
+    try:
+        floors = project["board"]["design_settings"]["rules"]
+        if not isinstance(floors, dict):
+            raise ValueError("Original board rule object required")
+        minimums = {key: _millimetres_to_nm(floors[key], allow_zero=True) for _, _, key in _DIMENSIONS}
+    except (KeyError, TypeError):
+        raise ValueError("Original board dimension floors required") from None
+    observed_classes = {row["class"] for row in records.values()}
+    # Multi-class scope must actually exercise native nondefault resolution.
+    if policy["mode"] == "literal_two_class" and observed_classes <= {"Default"}:
+        raise ValueError("Native resolution did not exercise a nondefault class")
+    for row in records.values():
+        cls = configured.get(row["class"])
+        if cls is None:
+            raise ValueError("Composite/implicit native class outside this narrow audit")
+        for native_key, json_key, floor_key in _DIMENSIONS:
+            value = Decimal(str(row[native_key]))
+            if value != Decimal(str(cls[json_key])) * 1000000:
+                raise ValueError("Native resolved class differs from original project value: " + native_key)
+            if value < minimums[floor_key]:
+                raise ValueError("Class parameter below original board floor: " + native_key)
+    return {"passed": True, "policy": policy, "native_nets": len(records),
+            "nets": [dict(row) for row in native_rows], "routing_accepted": False}
+
+
+def audit_mapping(tree, native, project):
+    """Compare DSN to native-resolved membership; never evaluate pattern strings."""
+    from autorouter import sexpr as sx
+    from autorouter.adapter import _check_units
+
+    verified = audit_native(native, project)
+    policy = verified["policy"]
+    records = {row["name"]: row for row in verified["nets"]}
+    configured = {item["name"]: item for item in project["net_settings"]["classes"]}
+    _check_units(tree)
+    network, library, structure = (sx.one(tree, key) for key in ("network", "library", "structure"))
+    if any(node is None for node in (network, library, structure)):
+        raise ValueError("DSN is missing required network/library/structure")
+    expected = {name for name, row in records.items() if row["copper_pad_count"] > 0}
+    exported = [_named(node, "DSN net") for node in sx.children(network, "net")]
+    if len(set(exported)) != len(exported) or set(exported) != expected:
+        raise ValueError("DSN/native copper-terminal net inventory differs")
+    _children_only(network, {"net", "class"})
+    for net in sx.children(network, "net"):
+        pins = sx.one(net, "pins")
+        if pins is None or any(not isinstance(x, str) for x in pins[1:]):
+            raise ValueError("Malformed DSN pins")
+        if len(pins) - 1 != records[sx.unquote(net[1])]["copper_pad_count"]:
+            raise ValueError("DSN/native terminal count differs")
+        _children_only(net, {"pins"}, 2)
+    layer_nodes = sx.children(structure, "layer")
+    layers = {_named(x, "DSN layer") for x in layer_nodes}
+    if len(layers) != 2 or len(layer_nodes) != 2:
+        raise ValueError("Audit only understands two-layer through-via export")
+    stacks = {_named(x, "DSN padstack"): x for x in sx.children(library, "padstack")}
+    if len(stacks) != len(sx.children(library, "padstack")):
+        raise ValueError("Duplicate DSN padstack identifier")
+    declared_vias = sx.one(structure, "via")
+    if declared_vias is None:
+        raise ValueError("DSN via declaration missing")
+    if any(not isinstance(x, str) for x in declared_vias[1:]):
+        raise ValueError("Malformed DSN via declaration")
+    via_names = [sx.unquote(x) for x in declared_vias[1:]]
+    declared_vias = set(via_names)
+    if len(declared_vias) != len(via_names):
+        raise ValueError("Duplicate DSN via declaration")
+    membership, classes, class_names = {}, [], set()
+    for cls in sx.children(network, "class"):
+        name = _named(cls, "DSN class")
+        if name in class_names:
+            raise ValueError("Duplicate DSN class")
+        class_names.add(name)
+        members = [sx.unquote(x) for x in cls[2:] if isinstance(x, str)]
+        if len(members) != len(set(members)):
+            raise ValueError("Duplicate class member")
+        if any(not isinstance(x, str) and (not isinstance(x, list) or not x or x[0] not in {"rule", "circuit"}) for x in cls[2:]):
+            raise ValueError("Unqualified DSN class override")
+        rules, circuit = sx.one(cls, "rule"), sx.one(cls, "circuit")
+        if rules is None or circuit is None:
+            raise ValueError("Missing or unqualified DSN class rules")
+        _children_only(rules, {"width", "clearance"})
+        if len(circuit) != 2 or not isinstance(circuit[1], list) or circuit[1][0] != "use_via":
+            raise ValueError("Unqualified DSN class circuit override")
+        width, clearance = sx.one(rules, "width"), sx.one(rules, "clearance")
+        via = sx.one(circuit, "use_via")
+        if any(x is None or len(x) != 2 or not isinstance(x[1], str) for x in (width, clearance, via)):
+            raise ValueError("Malformed class geometry")
+        via_id = sx.unquote(via[1])
+        match = re.fullmatch(r"Via\[0-1\]_([0-9.]+):([0-9.]+)_um", via_id)
+        if not match or via_id not in declared_vias or via_id not in stacks:
+            raise ValueError("Unknown native through-via ID or padstack")
+        try:
+            dimensions = {"width_nm": Decimal(width[1]) * 1000,
+                          "clearance_nm": Decimal(clearance[1]) * 1000,
+                          "via_diameter_nm": Decimal(match[1]) * 1000,
+                          "via_drill_nm": Decimal(match[2]) * 1000}
+        except InvalidOperation:
+            raise ValueError("Malformed exported class dimension") from None
+        if any(not value.is_finite() or value <= 0 for value in dimensions.values()):
+            raise ValueError("Invalid exported class dimension")
+        stack = stacks[via_id]
+        _children_only(stack, {"shape", "attach"}, 2)
+        if sx.one(stack, "attach") != ["attach", "off"]:
+            raise ValueError("Unqualified via attachment semantics")
+        project_class = configured.get("Default" if name == "kicad_default" else name)
+        if project_class is None:
+            raise ValueError("Unknown DSN class definition")
+        for native_key, project_key, _ in _DIMENSIONS:
+            if dimensions[native_key] != Decimal(str(project_class[project_key])) * 1000000:
+                raise ValueError("DSN class differs from original project dimensions: " + name)
+        shapes = sx.children(stack, "shape")
+        shape_layers = set()
+        for shape in shapes:
+            circle = sx.one(shape, "circle")
+            if (len(shape) != 2 or circle is None or len(circle) != 3
+                    or not all(isinstance(x, str) for x in circle)):
+                raise ValueError("Unqualified via shape")
+            shape_layers.add(sx.unquote(circle[1]))
+            try:
+                diameter = Decimal(circle[2]) * 1000
+            except InvalidOperation:
+                raise ValueError("Malformed via copper diameter") from None
+            if not diameter.is_finite() or diameter != dimensions["via_diameter_nm"]:
+                raise ValueError("Via ID and actual copper shape disagree")
+        if len(shapes) != 2 or shape_layers != layers:
+            raise ValueError("Through-via layer coverage differs")
+        for net in members:
+            if net not in records or net in membership:
+                raise ValueError("Unknown or multiply assigned DSN class member")
+            row = records[net]
+            expected_name = "kicad_default" if row["class"] == "Default" else row["class"]
+            if name != expected_name or any(value != row[key] for key, value in dimensions.items()):
+                raise ValueError("DSN class differs from native mapping for " + net)
+            membership[net] = name
+        classes.append({"dsn_class": name, "member_count": len(members),
+                        "via": via_id, "dimensions_nm": {key: str(value) for key, value in dimensions.items()}})
+    expected_classes = {"kicad_default"} | {row["class"] for row in records.values() if row["class"] != "Default"}
+    if class_names != expected_classes:
+        raise ValueError("DSN/native class definition inventory differs")
+    if set(membership) != set(records):
+        raise ValueError("Native net missing from explicit DSN classes")
+    return {"passed": True, "native_nets": len(records), "exported_terminal_nets": len(expected),
+            "policy": policy, "classes": classes, "membership": membership,
+            "limitations": ["Via drill is encoded by pinned KiCad via ID.",
+                            "Terminal counts do not prove pin identities.",
+                            "Imported route geometry and native DRC require separate validation."],
+            "routing_accepted": False}
+
+def audit_dsn(path, native, project):
+    """Return a hash-bound, non-mutating mapping audit or fail closed."""
+    from autorouter.adapter import _parse_dsn
+    from autorouter import sexpr as sx
+    path = Path(path)
+    if path.is_symlink() or not path.is_file() or path.stat().st_size > sx.MAX_BYTES:
+        raise ValueError("Bounded regular DSN file required")
+    raw = path.read_bytes()
+    result = audit_mapping(_parse_dsn(raw.decode("utf-8")), native, project)
+    if path.is_symlink() or path.read_bytes() != raw:
+        raise ValueError("DSN changed during mapping audit")
+    result["dsn_sha256"] = hashlib.sha256(raw).hexdigest()
+    result["native_map_sha256"] = hashlib.sha256(json.dumps(native, sort_keys=True, separators=(",", ":"), allow_nan=False).encode()).hexdigest()
+    result["project_json_sha256"] = hashlib.sha256(json.dumps(project, sort_keys=True, separators=(",", ":"), allow_nan=False).encode()).hexdigest()
+    result["source_modified"] = False
+    return result

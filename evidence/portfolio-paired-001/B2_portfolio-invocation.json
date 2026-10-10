@@ -1,0 +1,236 @@
+{
+  "id": "B2_portfolio",
+  "accepted": true,
+  "status": "completed",
+  "started_utc": "2026-10-10T08:42:31.706256+00:00",
+  "host_load_average_1_5_15_minutes_begin": [
+    2.78564453125,
+    5.30908203125,
+    6.10400390625
+  ],
+  "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portfolio-paired-001/B2_portfolio/portfolio-summary.json",
+  "result_sha256": "8bba07aa18762e5131d0b1fe67e39005b900c5d1d6975b2cfa1e27297de9e4e1",
+  "selected": {
+    "id": "via_low",
+    "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portfolio-paired-001/B2_portfolio/02-via_low/result.json",
+    "result_sha256": "5a83ad20699aaed200cc082d87ed5d2db0a58fb11dde5989e42c217d2e763a3e",
+    "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portfolio-paired-001/B2_portfolio/02-via_low/candidate/sonde xilinx.kicad_pcb",
+    "candidate_sha256": "789af0fc9de5245e066773506c1e7792bdf703ae40c35abea4dae125cf681550",
+    "native_report_sha256": "75f3a10a97d90cf6e8ec8bb0152c077d2df758e00fd43d0d818c20226586a552",
+    "vias": 2,
+    "length_mm": 749.4416426125838,
+    "consistency": {
+      "current": true,
+      "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portfolio-paired-001/B2_portfolio/02-via_low/candidate/sonde xilinx.kicad_pcb",
+      "candidate_sha256": "789af0fc9de5245e066773506c1e7792bdf703ae40c35abea4dae125cf681550",
+      "applied": false,
+      "authentication": "none; mutable local evidence consistency only",
+      "warning": "Fresh native validation is required before application; human PCB review and electrical/physical validation remain required."
+    }
+  },
+  "pareto_frontier": [
+    "via_low"
+  ],
+  "trials": [
+    {
+      "index": 0,
+      "id": "via_default",
+      "assigned_seconds": 104.20798250000371,
+      "started_utc": "2026-10-10T08:42:32.580765+00:00",
+      "finished_utc": "2026-10-10T08:42:51.479164+00:00",
+      "status": "routing_accepted",
+      "reason": null,
+      "accepted_in_trial_receipt": true,
+      "eligible": true,
+      "invocation_wall_seconds": 18.898353082993708,
+      "invocation_cpu_seconds": 26.014418999999997,
+      "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portfolio-paired-001/B2_portfolio/01-via_default/result.json",
+      "result_sha256": "d6b2efbcd64cafba19e18d127fee5d37f09841d81f50fd9bb8d3f9cc43b31a41",
+      "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portfolio-paired-001/B2_portfolio/01-via_default/candidate/sonde xilinx.kicad_pcb",
+      "candidate_sha256": "088d488ef94ffe5c8c25280078a64f20635e707d4c4c867954a3184406985111",
+      "native_report_sha256": "c610c7caec3a2ef04be990e1826dd0c06f317673e1e4ad2c32decb1277ac0780",
+      "vias": 2,
+      "length_mm": 786.3155360930381,
+      "peak_child_rss_bytes": 328581120,
+      "peak_polled_group_rss_bytes": 328466432,
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 1,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Copper connection too narrow",
+            "key": "connection_width"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Footprint 'DSUB-9_Male_EdgeMount_P2.77mm' does not match copy in library 'sonde-xilinx'",
+            "items": [
+              {
+                "description": "Footprint J2",
+                "pos": {
+                  "x": 181.61,
+                  "y": 90.1192
+                },
+                "uuid": "00000000-0000-0000-0000-00005a73b143"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_mismatch"
+          }
+        ]
+      }
+    },
+    {
+      "index": 1,
+      "id": "via_low",
+      "assigned_seconds": 77.974413,
+      "started_utc": "2026-10-10T08:42:51.742951+00:00",
+      "finished_utc": "2026-10-10T08:43:11.337370+00:00",
+      "status": "routing_accepted",
+      "reason": null,
+      "accepted_in_trial_receipt": true,
+      "eligible": true,
+      "invocation_wall_seconds": 19.594373624997388,
+      "invocation_cpu_seconds": 28.851609000000007,
+      "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portfolio-paired-001/B2_portfolio/02-via_low/result.json",
+      "result_sha256": "5a83ad20699aaed200cc082d87ed5d2db0a58fb11dde5989e42c217d2e763a3e",
+      "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portfolio-paired-001/B2_portfolio/02-via_low/candidate/sonde xilinx.kicad_pcb",
+      "candidate_sha256": "789af0fc9de5245e066773506c1e7792bdf703ae40c35abea4dae125cf681550",
+      "native_report_sha256": "75f3a10a97d90cf6e8ec8bb0152c077d2df758e00fd43d0d818c20226586a552",
+      "vias": 2,
+      "length_mm": 749.4416426125838,
+      "peak_child_rss_bytes": 345538560,
+      "peak_polled_group_rss_bytes": 345505792,
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 1,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Copper connection too narrow",
+            "key": "connection_width"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Footprint 'DSUB-9_Male_EdgeMount_P2.77mm' does not match copy in library 'sonde-xilinx'",
+            "items": [
+              {
+                "description": "Footprint J2",
+                "pos": {
+                  "x": 181.61,
+                  "y": 90.1192
+                },
+                "uuid": "00000000-0000-0000-0000-00005a73b143"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_mismatch"
+          }
+        ]
+      }
+    },
+    {
+      "index": 2,
+      "id": "via_high",
+      "assigned_seconds": 48.866884999999996,
+      "started_utc": "2026-10-10T08:43:11.597726+00:00",
+      "finished_utc": "2026-10-10T08:43:26.049672+00:00",
+      "status": "routing_accepted",
+      "reason": null,
+      "accepted_in_trial_receipt": true,
+      "eligible": true,
+      "invocation_wall_seconds": 14.451912249998713,
+      "invocation_cpu_seconds": 18.348785999999997,
+      "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portfolio-paired-001/B2_portfolio/03-via_high/result.json",
+      "result_sha256": "0b65b2b8de7f11f2cdd1b931708c4b01269ecac37e2ad1dcd88e6583278ea6ff",
+      "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portfolio-paired-001/B2_portfolio/03-via_high/candidate/sonde xilinx.kicad_pcb",
+      "candidate_sha256": "4fd5f26cbd74dec6f6dc35d31d6aee9c7fc27957f400cd3ba3fbb243fd5cd15e",
+      "native_report_sha256": "752c564e3deff538b9f6412b187572d9c500dda0b3a28b751053d9ece5e1eeb3",
+      "vias": 3,
+      "length_mm": 809.4288327175311,
+      "peak_child_rss_bytes": 290406400,
+      "peak_polled_group_rss_bytes": 290373632,
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 1,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Copper connection too narrow",
+            "key": "connection_width"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Footprint 'DSUB-9_Male_EdgeMount_P2.77mm' does not match copy in library 'sonde-xilinx'",
+            "items": [
+              {
+                "description": "Footprint J2",
+                "pos": {
+                  "x": 181.61,
+                  "y": 90.1192
+                },
+                "uuid": "00000000-0000-0000-0000-00005a73b143"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_mismatch"
+          }
+        ]
+      }
+    }
+  ],
+  "peak_child_rss_bytes": 345538560,
+  "peak_polled_group_rss_bytes": 345505792,
+  "invocation_wall_seconds": 55.38131437500124,
+  "invocation_cpu_seconds": 75.578222,
+  "finished_utc": "2026-10-10T08:43:27.087726+00:00",
+  "host_load_average_1_5_15_minutes_end": [
+    3.14892578125,
+    4.94873046875,
+    5.9130859375
+  ],
+  "within_enclosing_budgets": true
+}

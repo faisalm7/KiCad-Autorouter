@@ -1,0 +1,216 @@
+{
+  "id": "trial-0023",
+  "proposal": {
+    "kind": "individual_segment",
+    "net": "13",
+    "route_ids": [
+      "b237aebf3fd43ebe8d51d1eda00af7b1b0a17bdda39d18778760383ea20af465"
+    ],
+    "ranking_length_mm": 3.623356568156108
+  },
+  "status": "improvement_validated",
+  "accepted": true,
+  "started_elapsed_seconds": 98.66607424999529,
+  "base_candidate_sha256": "e178bf4c9655b6d2e8a057e302e895402405a1e4ceb57811a20dacea5064113d",
+  "candidate_sha256": "ae27b4ffa1fc45dec5bb6c2fec4efd1376db1a64b0c02af901a31554e136b578",
+  "native": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 1,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Copper connection too narrow",
+        "key": "connection_width"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      }
+    ],
+    "findings": [
+      {
+        "description": "Footprint 'DSUB-9_Male_EdgeMount_P2.77mm' does not match copy in library 'sonde-xilinx'",
+        "items": [
+          {
+            "description": "Footprint J2",
+            "pos": {
+              "x": 181.61,
+              "y": 90.1192
+            },
+            "uuid": "00000000-0000-0000-0000-00005a73b143"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      }
+    ]
+  },
+  "native_report_sha256": "21ca904e1a8208fec96bfb5287d46da5fea62689ceb676c93418c68fd4451e03",
+  "metrics": {
+    "version": "10.0.0",
+    "pads": 108,
+    "footprints": 25,
+    "zones": 1,
+    "vias": 2,
+    "track_length_mm": 648.0451713373182,
+    "copper_layers": 2
+  },
+  "steps": [
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.1411512920021778,
+      "cpu_seconds": 0.584645,
+      "max_rss_bytes": 226721792,
+      "supervisor_cpu_seconds": 0.01129099999999994,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 220135424,
+      "sampled_peak_workdir_bytes": 1424147,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portfolio-paired-001/C_feedback/trials/trial-0023/refill-drc.json",
+        "--save-board",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portfolio-paired-001/C_feedback/trials/trial-0023/refill/sonde xilinx.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portfolio-paired-001/C_feedback/trials/trial-0023/refill-drc.log",
+      "log_bytes": 195,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portfolio-paired-001/C_feedback/trials/trial-0023",
+      "signal_cancellation_enabled": true,
+      "pid": 61233,
+      "name": "refill-drc",
+      "validated_input_sha256": "ae27b4ffa1fc45dec5bb6c2fec4efd1376db1a64b0c02af901a31554e136b578",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portfolio-paired-001/C_feedback/trials/trial-0023/refill/sonde xilinx.kicad_pcb",
+      "phase": "trial-0023"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.1368636659972253,
+      "cpu_seconds": 0.58534,
+      "max_rss_bytes": 224722944,
+      "supervisor_cpu_seconds": 0.013091999999996773,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 219922432,
+      "sampled_peak_workdir_bytes": 2092755,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portfolio-paired-001/C_feedback/trials/trial-0023/final-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portfolio-paired-001/C_feedback/trials/trial-0023/final-drc-input/sonde xilinx.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portfolio-paired-001/C_feedback/trials/trial-0023/final-drc.log",
+      "log_bytes": 182,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portfolio-paired-001/C_feedback/trials/trial-0023",
+      "signal_cancellation_enabled": true,
+      "pid": 61234,
+      "name": "final-drc",
+      "validated_input_sha256": "ae27b4ffa1fc45dec5bb6c2fec4efd1376db1a64b0c02af901a31554e136b578",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portfolio-paired-001/C_feedback/trials/trial-0023/candidate/sonde xilinx.kicad_pcb",
+      "phase": "trial-0023"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.3970870410048519,
+      "cpu_seconds": 0.393466,
+      "max_rss_bytes": 202096640,
+      "supervisor_cpu_seconds": 0.005966000000000804,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 35028992,
+      "sampled_peak_workdir_bytes": 2099095,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+        "metrics",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portfolio-paired-001/C_feedback/trials/trial-0023/candidate/sonde xilinx.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portfolio-paired-001/C_feedback/trials/trial-0023/metrics.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portfolio-paired-001/C_feedback/trials/trial-0023/metrics.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portfolio-paired-001/C_feedback/trials/trial-0023",
+      "signal_cancellation_enabled": true,
+      "pid": 61246,
+      "name": "metrics",
+      "phase": "trial-0023"
+    }
+  ],
+  "finished_elapsed_seconds": 101.59991725000145,
+  "finished_observed_cpu_seconds": 82.64010399999998
+}

@@ -1,0 +1,841 @@
+{
+  "schema": 1,
+  "kind": "paired_development_comparison",
+  "status": "completed",
+  "started_utc": "2026-10-10T08:42:31.278471+00:00",
+  "results": [
+    {
+      "id": "B2_portfolio",
+      "accepted": true,
+      "status": "completed",
+      "started_utc": "2026-10-10T08:42:31.706256+00:00",
+      "host_load_average_1_5_15_minutes_begin": [
+        2.78564453125,
+        5.30908203125,
+        6.10400390625
+      ],
+      "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portfolio-paired-001/B2_portfolio/portfolio-summary.json",
+      "result_sha256": "8bba07aa18762e5131d0b1fe67e39005b900c5d1d6975b2cfa1e27297de9e4e1",
+      "selected": {
+        "id": "via_low",
+        "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portfolio-paired-001/B2_portfolio/02-via_low/result.json",
+        "result_sha256": "5a83ad20699aaed200cc082d87ed5d2db0a58fb11dde5989e42c217d2e763a3e",
+        "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portfolio-paired-001/B2_portfolio/02-via_low/candidate/sonde xilinx.kicad_pcb",
+        "candidate_sha256": "789af0fc9de5245e066773506c1e7792bdf703ae40c35abea4dae125cf681550",
+        "native_report_sha256": "75f3a10a97d90cf6e8ec8bb0152c077d2df758e00fd43d0d818c20226586a552",
+        "vias": 2,
+        "length_mm": 749.4416426125838,
+        "consistency": {
+          "current": true,
+          "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portfolio-paired-001/B2_portfolio/02-via_low/candidate/sonde xilinx.kicad_pcb",
+          "candidate_sha256": "789af0fc9de5245e066773506c1e7792bdf703ae40c35abea4dae125cf681550",
+          "applied": false,
+          "authentication": "none; mutable local evidence consistency only",
+          "warning": "Fresh native validation is required before application; human PCB review and electrical/physical validation remain required."
+        }
+      },
+      "pareto_frontier": [
+        "via_low"
+      ],
+      "trials": [
+        {
+          "index": 0,
+          "id": "via_default",
+          "assigned_seconds": 104.20798250000371,
+          "started_utc": "2026-10-10T08:42:32.580765+00:00",
+          "finished_utc": "2026-10-10T08:42:51.479164+00:00",
+          "status": "routing_accepted",
+          "reason": null,
+          "accepted_in_trial_receipt": true,
+          "eligible": true,
+          "invocation_wall_seconds": 18.898353082993708,
+          "invocation_cpu_seconds": 26.014418999999997,
+          "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portfolio-paired-001/B2_portfolio/01-via_default/result.json",
+          "result_sha256": "d6b2efbcd64cafba19e18d127fee5d37f09841d81f50fd9bb8d3f9cc43b31a41",
+          "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portfolio-paired-001/B2_portfolio/01-via_default/candidate/sonde xilinx.kicad_pcb",
+          "candidate_sha256": "088d488ef94ffe5c8c25280078a64f20635e707d4c4c867954a3184406985111",
+          "native_report_sha256": "c610c7caec3a2ef04be990e1826dd0c06f317673e1e4ad2c32decb1277ac0780",
+          "vias": 2,
+          "length_mm": 786.3155360930381,
+          "peak_child_rss_bytes": 328581120,
+          "peak_polled_group_rss_bytes": 328466432,
+          "native": {
+            "opens": 0,
+            "blocking": 0,
+            "warnings": 1,
+            "exclusions": 0,
+            "ignored_checks": [
+              {
+                "description": "Copper connection too narrow",
+                "key": "connection_width"
+              },
+              {
+                "description": "Track endpoint not centered on via",
+                "key": "track_not_centered_on_via"
+              },
+              {
+                "description": "Tuning profile track geometries",
+                "key": "tuning_profile_track_geometries"
+              },
+              {
+                "description": "Footprint doesn't match symbol's footprint filters",
+                "key": "footprint_filters_mismatch"
+              }
+            ],
+            "findings": [
+              {
+                "description": "Footprint 'DSUB-9_Male_EdgeMount_P2.77mm' does not match copy in library 'sonde-xilinx'",
+                "items": [
+                  {
+                    "description": "Footprint J2",
+                    "pos": {
+                      "x": 181.61,
+                      "y": 90.1192
+                    },
+                    "uuid": "00000000-0000-0000-0000-00005a73b143"
+                  }
+                ],
+                "severity": "warning",
+                "type": "lib_footprint_mismatch"
+              }
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "id": "via_low",
+          "assigned_seconds": 77.974413,
+          "started_utc": "2026-10-10T08:42:51.742951+00:00",
+          "finished_utc": "2026-10-10T08:43:11.337370+00:00",
+          "status": "routing_accepted",
+          "reason": null,
+          "accepted_in_trial_receipt": true,
+          "eligible": true,
+          "invocation_wall_seconds": 19.594373624997388,
+          "invocation_cpu_seconds": 28.851609000000007,
+          "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portfolio-paired-001/B2_portfolio/02-via_low/result.json",
+          "result_sha256": "5a83ad20699aaed200cc082d87ed5d2db0a58fb11dde5989e42c217d2e763a3e",
+          "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portfolio-paired-001/B2_portfolio/02-via_low/candidate/sonde xilinx.kicad_pcb",
+          "candidate_sha256": "789af0fc9de5245e066773506c1e7792bdf703ae40c35abea4dae125cf681550",
+          "native_report_sha256": "75f3a10a97d90cf6e8ec8bb0152c077d2df758e00fd43d0d818c20226586a552",
+          "vias": 2,
+          "length_mm": 749.4416426125838,
+          "peak_child_rss_bytes": 345538560,
+          "peak_polled_group_rss_bytes": 345505792,
+          "native": {
+            "opens": 0,
+            "blocking": 0,
+            "warnings": 1,
+            "exclusions": 0,
+            "ignored_checks": [
+              {
+                "description": "Copper connection too narrow",
+                "key": "connection_width"
+              },
+              {
+                "description": "Track endpoint not centered on via",
+                "key": "track_not_centered_on_via"
+              },
+              {
+                "description": "Tuning profile track geometries",
+                "key": "tuning_profile_track_geometries"
+              },
+              {
+                "description": "Footprint doesn't match symbol's footprint filters",
+                "key": "footprint_filters_mismatch"
+              }
+            ],
+            "findings": [
+              {
+                "description": "Footprint 'DSUB-9_Male_EdgeMount_P2.77mm' does not match copy in library 'sonde-xilinx'",
+                "items": [
+                  {
+                    "description": "Footprint J2",
+                    "pos": {
+                      "x": 181.61,
+                      "y": 90.1192
+                    },
+                    "uuid": "00000000-0000-0000-0000-00005a73b143"
+                  }
+                ],
+                "severity": "warning",
+                "type": "lib_footprint_mismatch"
+              }
+            ]
+          }
+        },
+        {
+          "index": 2,
+          "id": "via_high",
+          "assigned_seconds": 48.866884999999996,
+          "started_utc": "2026-10-10T08:43:11.597726+00:00",
+          "finished_utc": "2026-10-10T08:43:26.049672+00:00",
+          "status": "routing_accepted",
+          "reason": null,
+          "accepted_in_trial_receipt": true,
+          "eligible": true,
+          "invocation_wall_seconds": 14.451912249998713,
+          "invocation_cpu_seconds": 18.348785999999997,
+          "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portfolio-paired-001/B2_portfolio/03-via_high/result.json",
+          "result_sha256": "0b65b2b8de7f11f2cdd1b931708c4b01269ecac37e2ad1dcd88e6583278ea6ff",
+          "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portfolio-paired-001/B2_portfolio/03-via_high/candidate/sonde xilinx.kicad_pcb",
+          "candidate_sha256": "4fd5f26cbd74dec6f6dc35d31d6aee9c7fc27957f400cd3ba3fbb243fd5cd15e",
+          "native_report_sha256": "752c564e3deff538b9f6412b187572d9c500dda0b3a28b751053d9ece5e1eeb3",
+          "vias": 3,
+          "length_mm": 809.4288327175311,
+          "peak_child_rss_bytes": 290406400,
+          "peak_polled_group_rss_bytes": 290373632,
+          "native": {
+            "opens": 0,
+            "blocking": 0,
+            "warnings": 1,
+            "exclusions": 0,
+            "ignored_checks": [
+              {
+                "description": "Copper connection too narrow",
+                "key": "connection_width"
+              },
+              {
+                "description": "Track endpoint not centered on via",
+                "key": "track_not_centered_on_via"
+              },
+              {
+                "description": "Tuning profile track geometries",
+                "key": "tuning_profile_track_geometries"
+              },
+              {
+                "description": "Footprint doesn't match symbol's footprint filters",
+                "key": "footprint_filters_mismatch"
+              }
+            ],
+            "findings": [
+              {
+                "description": "Footprint 'DSUB-9_Male_EdgeMount_P2.77mm' does not match copy in library 'sonde-xilinx'",
+                "items": [
+                  {
+                    "description": "Footprint J2",
+                    "pos": {
+                      "x": 181.61,
+                      "y": 90.1192
+                    },
+                    "uuid": "00000000-0000-0000-0000-00005a73b143"
+                  }
+                ],
+                "severity": "warning",
+                "type": "lib_footprint_mismatch"
+              }
+            ]
+          }
+        }
+      ],
+      "peak_child_rss_bytes": 345538560,
+      "peak_polled_group_rss_bytes": 345505792,
+      "invocation_wall_seconds": 55.38131437500124,
+      "invocation_cpu_seconds": 75.578222,
+      "finished_utc": "2026-10-10T08:43:27.087726+00:00",
+      "host_load_average_1_5_15_minutes_end": [
+        3.14892578125,
+        4.94873046875,
+        5.9130859375
+      ],
+      "within_enclosing_budgets": true,
+      "accepted_before_shared_charge": true,
+      "charged_wall_seconds": 55.89524904200516,
+      "charged_cpu_seconds": 75.89225999999998,
+      "within_charged_budgets": true
+    },
+    {
+      "id": "C_feedback",
+      "accepted": true,
+      "status": "routing_accepted",
+      "started_utc": "2026-10-10T08:43:27.088290+00:00",
+      "host_load_average_1_5_15_minutes_begin": [
+        3.14892578125,
+        4.94873046875,
+        5.9130859375
+      ],
+      "adapter": "both",
+      "engine_profile": "tuned",
+      "operation": "prune",
+      "proposal_policy": "feedback",
+      "accepted_in_receipt": true,
+      "reason": null,
+      "cancelled": false,
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 1,
+      "exclusions": 0,
+      "length_mm": 648.0451713373182,
+      "vias": 2,
+      "wall_seconds": 104.62577454200073,
+      "parent_cpu_seconds": 21.870243000000002,
+      "child_cpu_seconds": 62.89176999999997,
+      "monitor_cpu_seconds": 0,
+      "total_cpu_seconds": 84.76201299999997,
+      "peak_child_rss_bytes": 328581120,
+      "peak_polled_group_rss_bytes": 328581120,
+      "invocation_wall_seconds": 104.9116442079976,
+      "invocation_cpu_seconds": 85.035741,
+      "candidate_sha256": "ae27b4ffa1fc45dec5bb6c2fec4efd1376db1a64b0c02af901a31554e136b578",
+      "native_report_sha256": "c6041b518afbfcfb54d95b0c0c8dec598b956284808d0b5e95dc5fef807db013",
+      "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portfolio-paired-001/C_feedback/result.json",
+      "result_sha256": "44de4feb70b99941644b94b328b916f5687ec28ecd8469ee8ebfc79bda0967ec",
+      "within_equal_budgets": true,
+      "protocol_contract_verified": true,
+      "receipt_verified": true,
+      "observations": [
+        {
+          "kind": "incumbent_validated",
+          "checkpoint": "checkpoints/0000.json",
+          "checkpoint_sha256": "2a77309db8348b345b7c799eb4b537c4c0b688c2b78feb605ea0ef1dd58c99f1",
+          "elapsed_seconds": 19.21223358399584,
+          "observed_cpu_seconds": 26.952105999999993,
+          "metrics": {
+            "version": "10.0.0",
+            "pads": 108,
+            "footprints": 25,
+            "zones": 1,
+            "vias": 2,
+            "track_length_mm": 786.3155360930381,
+            "copper_layers": 2
+          },
+          "candidate_sha256": "f832e06e1d969a92b766d19d92c44efab2aed00f8253d2748414c4cfdda5e345",
+          "within_budgets_when_observed": true,
+          "final_delivery_accepted": true,
+          "meaning": "validated incumbent observation; does not override final budget/cancellation/receipt outcome"
+        },
+        {
+          "kind": "trial_completed",
+          "checkpoint": "checkpoints/0001.json",
+          "checkpoint_sha256": "cd2401980f76e3f76b0046c72b700ffc91854c6333c0f928f6a6a1ef3c7bfca6",
+          "elapsed_seconds": 22.262044083996443,
+          "observed_cpu_seconds": 28.912096999999996,
+          "metrics": {
+            "version": "10.0.0",
+            "pads": 108,
+            "footprints": 25,
+            "zones": 1,
+            "vias": 2,
+            "track_length_mm": 786.3155360930381,
+            "copper_layers": 2
+          },
+          "candidate_sha256": "f832e06e1d969a92b766d19d92c44efab2aed00f8253d2748414c4cfdda5e345",
+          "within_budgets_when_observed": true,
+          "final_delivery_accepted": true,
+          "meaning": "validated incumbent observation; does not override final budget/cancellation/receipt outcome"
+        },
+        {
+          "kind": "trial_completed",
+          "checkpoint": "checkpoints/0002.json",
+          "checkpoint_sha256": "76dd3fa3e8e82b7063c2b43bc26d69dfabff1d7dd5b1904173a53a42e9493981",
+          "elapsed_seconds": 25.758940624997194,
+          "observed_cpu_seconds": 31.331165999999993,
+          "metrics": {
+            "version": "10.0.0",
+            "pads": 108,
+            "footprints": 25,
+            "zones": 1,
+            "vias": 2,
+            "track_length_mm": 786.3155360930381,
+            "copper_layers": 2
+          },
+          "candidate_sha256": "f832e06e1d969a92b766d19d92c44efab2aed00f8253d2748414c4cfdda5e345",
+          "within_budgets_when_observed": true,
+          "final_delivery_accepted": true,
+          "meaning": "validated incumbent observation; does not override final budget/cancellation/receipt outcome"
+        },
+        {
+          "kind": "trial_completed",
+          "checkpoint": "checkpoints/0003.json",
+          "checkpoint_sha256": "f7f27db8764739afcebfd285d232f089016540bad7baa1aa54f5a81fec9c1df3",
+          "elapsed_seconds": 29.2019761249976,
+          "observed_cpu_seconds": 33.69305799999999,
+          "metrics": {
+            "version": "10.0.0",
+            "pads": 108,
+            "footprints": 25,
+            "zones": 1,
+            "vias": 2,
+            "track_length_mm": 768.1702633843173,
+            "copper_layers": 2
+          },
+          "candidate_sha256": "baae6bbcf2a796e4b953fb5fdc000a678b155f40a86aae4cdcd7c2af2f775985",
+          "within_budgets_when_observed": true,
+          "final_delivery_accepted": true,
+          "meaning": "validated incumbent observation; does not override final budget/cancellation/receipt outcome"
+        },
+        {
+          "kind": "trial_completed",
+          "checkpoint": "checkpoints/0004.json",
+          "checkpoint_sha256": "797c0fb54e3c5dee380e449c3b237ea9401a67c52ff0e1bb1d0199d6233f94c4",
+          "elapsed_seconds": 32.63264299999719,
+          "observed_cpu_seconds": 36.04634699999999,
+          "metrics": {
+            "version": "10.0.0",
+            "pads": 108,
+            "footprints": 25,
+            "zones": 1,
+            "vias": 2,
+            "track_length_mm": 757.3052633843173,
+            "copper_layers": 2
+          },
+          "candidate_sha256": "8ef93716d36a96a2492987c085ba450f76abf6fc0a3f9da4673c8b9e0e15f5be",
+          "within_budgets_when_observed": true,
+          "final_delivery_accepted": true,
+          "meaning": "validated incumbent observation; does not override final budget/cancellation/receipt outcome"
+        },
+        {
+          "kind": "trial_completed",
+          "checkpoint": "checkpoints/0005.json",
+          "checkpoint_sha256": "746da07c80eb3a8d96a7ad99d43d57a8026c9abeabca9d474cd9496989fd9ab3",
+          "elapsed_seconds": 36.13724562499556,
+          "observed_cpu_seconds": 38.421387999999986,
+          "metrics": {
+            "version": "10.0.0",
+            "pads": 108,
+            "footprints": 25,
+            "zones": 1,
+            "vias": 2,
+            "track_length_mm": 747.55143244463,
+            "copper_layers": 2
+          },
+          "candidate_sha256": "0bc34d494ca5ead281cad3dcd3d49e8d556738390384e8fd73654e24ae6393e9",
+          "within_budgets_when_observed": true,
+          "final_delivery_accepted": true,
+          "meaning": "validated incumbent observation; does not override final budget/cancellation/receipt outcome"
+        },
+        {
+          "kind": "trial_completed",
+          "checkpoint": "checkpoints/0006.json",
+          "checkpoint_sha256": "82cb6eba88647141704c745e7402093cf8c5e9ca8463622fcad0225bccf697b7",
+          "elapsed_seconds": 39.599289042002056,
+          "observed_cpu_seconds": 40.78092499999998,
+          "metrics": {
+            "version": "10.0.0",
+            "pads": 108,
+            "footprints": 25,
+            "zones": 1,
+            "vias": 2,
+            "track_length_mm": 737.8189561297346,
+            "copper_layers": 2
+          },
+          "candidate_sha256": "c0773997fcfc3228002b590acb8d91799bb35c8e516ed1881955ab1ef41f8f13",
+          "within_budgets_when_observed": true,
+          "final_delivery_accepted": true,
+          "meaning": "validated incumbent observation; does not override final budget/cancellation/receipt outcome"
+        },
+        {
+          "kind": "trial_completed",
+          "checkpoint": "checkpoints/0007.json",
+          "checkpoint_sha256": "634eb45d202b27113de00bb2253dd7fa148db38991fa16a32c94cbfd95ffaa9e",
+          "elapsed_seconds": 43.036354167001264,
+          "observed_cpu_seconds": 43.14035499999998,
+          "metrics": {
+            "version": "10.0.0",
+            "pads": 108,
+            "footprints": 25,
+            "zones": 1,
+            "vias": 2,
+            "track_length_mm": 729.5739561297345,
+            "copper_layers": 2
+          },
+          "candidate_sha256": "847bbe2e5b83ee7f20f416292229fab28be144ee1112e8f7a64af469c439d2d2",
+          "within_budgets_when_observed": true,
+          "final_delivery_accepted": true,
+          "meaning": "validated incumbent observation; does not override final budget/cancellation/receipt outcome"
+        },
+        {
+          "kind": "trial_completed",
+          "checkpoint": "checkpoints/0008.json",
+          "checkpoint_sha256": "87f72e1fba4d89518e6e28645b39d7bc2360342342e7463705157fa1d2879b63",
+          "elapsed_seconds": 46.1399651249958,
+          "observed_cpu_seconds": 45.083402999999976,
+          "metrics": {
+            "version": "10.0.0",
+            "pads": 108,
+            "footprints": 25,
+            "zones": 1,
+            "vias": 2,
+            "track_length_mm": 729.5739561297345,
+            "copper_layers": 2
+          },
+          "candidate_sha256": "847bbe2e5b83ee7f20f416292229fab28be144ee1112e8f7a64af469c439d2d2",
+          "within_budgets_when_observed": true,
+          "final_delivery_accepted": true,
+          "meaning": "validated incumbent observation; does not override final budget/cancellation/receipt outcome"
+        },
+        {
+          "kind": "trial_completed",
+          "checkpoint": "checkpoints/0009.json",
+          "checkpoint_sha256": "3ad59c9fdb7c7eac16068c0aa4fdcbbd590a804411a1ccfdd61d458f7ccbce12",
+          "elapsed_seconds": 49.63049616699573,
+          "observed_cpu_seconds": 47.45611599999999,
+          "metrics": {
+            "version": "10.0.0",
+            "pads": 108,
+            "footprints": 25,
+            "zones": 1,
+            "vias": 2,
+            "track_length_mm": 721.7764068108781,
+            "copper_layers": 2
+          },
+          "candidate_sha256": "dd12cd9d790ddbf201163c8440e7d2a708592556a96ca79bf3c80ead834615b3",
+          "within_budgets_when_observed": true,
+          "final_delivery_accepted": true,
+          "meaning": "validated incumbent observation; does not override final budget/cancellation/receipt outcome"
+        },
+        {
+          "kind": "trial_completed",
+          "checkpoint": "checkpoints/0010.json",
+          "checkpoint_sha256": "8ed0b4d4f74f8c06872f244f3f8af3b6035e7b1aacf70c89fbaa613400a6d645",
+          "elapsed_seconds": 53.28701174999878,
+          "observed_cpu_seconds": 49.874298999999986,
+          "metrics": {
+            "version": "10.0.0",
+            "pads": 108,
+            "footprints": 25,
+            "zones": 1,
+            "vias": 2,
+            "track_length_mm": 714.1564068108781,
+            "copper_layers": 2
+          },
+          "candidate_sha256": "16f7b828b1d20795f68aa180e1ab063b24df60090f2c145b1b941b9bd9ceffe8",
+          "within_budgets_when_observed": true,
+          "final_delivery_accepted": true,
+          "meaning": "validated incumbent observation; does not override final budget/cancellation/receipt outcome"
+        },
+        {
+          "kind": "trial_completed",
+          "checkpoint": "checkpoints/0011.json",
+          "checkpoint_sha256": "e6417b15f5d5101304685f1c63b7d78a71636d84e23f430deecbbbed9ad4b34d",
+          "elapsed_seconds": 56.74233062499843,
+          "observed_cpu_seconds": 52.241526999999984,
+          "metrics": {
+            "version": "10.0.0",
+            "pads": 108,
+            "footprints": 25,
+            "zones": 1,
+            "vias": 2,
+            "track_length_mm": 706.5364068108782,
+            "copper_layers": 2
+          },
+          "candidate_sha256": "14732c3c17c3af0dc9c017132745ac512781206f22d03aeb39f2c330b02c6a42",
+          "within_budgets_when_observed": true,
+          "final_delivery_accepted": true,
+          "meaning": "validated incumbent observation; does not override final budget/cancellation/receipt outcome"
+        },
+        {
+          "kind": "trial_completed",
+          "checkpoint": "checkpoints/0012.json",
+          "checkpoint_sha256": "5779e676e9536c1748e9a20bb8aca7e26b892994e33bac117df41c71adc07957",
+          "elapsed_seconds": 60.173493458998564,
+          "observed_cpu_seconds": 54.593122999999984,
+          "metrics": {
+            "version": "10.0.0",
+            "pads": 108,
+            "footprints": 25,
+            "zones": 1,
+            "vias": 2,
+            "track_length_mm": 699.9096068108782,
+            "copper_layers": 2
+          },
+          "candidate_sha256": "eea0d167360b79f20ebedd5ce9b457aee2fb0e58c2c57e098c4568bfe4aebfc5",
+          "within_budgets_when_observed": true,
+          "final_delivery_accepted": true,
+          "meaning": "validated incumbent observation; does not override final budget/cancellation/receipt outcome"
+        },
+        {
+          "kind": "trial_completed",
+          "checkpoint": "checkpoints/0013.json",
+          "checkpoint_sha256": "0f3a2171af102e2e41eaa9544c6101adb8c455bd02101dfe6d2ffc014e22c483",
+          "elapsed_seconds": 63.65298095899925,
+          "observed_cpu_seconds": 56.95958199999998,
+          "metrics": {
+            "version": "10.0.0",
+            "pads": 108,
+            "footprints": 25,
+            "zones": 1,
+            "vias": 2,
+            "track_length_mm": 693.6703068108781,
+            "copper_layers": 2
+          },
+          "candidate_sha256": "04027702f5e98da8a40972296d491bb471fe4593c709a82fe5bd2b9ccf416b53",
+          "within_budgets_when_observed": true,
+          "final_delivery_accepted": true,
+          "meaning": "validated incumbent observation; does not override final budget/cancellation/receipt outcome"
+        },
+        {
+          "kind": "trial_completed",
+          "checkpoint": "checkpoints/0014.json",
+          "checkpoint_sha256": "52932953b5727a1a4fc58fc5b7defd754b2e548e1d673c2875b85d54067ccbb9",
+          "elapsed_seconds": 67.08278050000081,
+          "observed_cpu_seconds": 59.31392899999999,
+          "metrics": {
+            "version": "10.0.0",
+            "pads": 108,
+            "footprints": 25,
+            "zones": 1,
+            "vias": 2,
+            "track_length_mm": 687.5679752892381,
+            "copper_layers": 2
+          },
+          "candidate_sha256": "2f10c73d090a557a2b476349b6f30f67d4d2c77fc6f0bb021cb1062a1b572156",
+          "within_budgets_when_observed": true,
+          "final_delivery_accepted": true,
+          "meaning": "validated incumbent observation; does not override final budget/cancellation/receipt outcome"
+        },
+        {
+          "kind": "trial_completed",
+          "checkpoint": "checkpoints/0015.json",
+          "checkpoint_sha256": "4b705463113cde007bc8b5f6630486e84696be9526ef91e97162a000ec74aea1",
+          "elapsed_seconds": 70.51165945899993,
+          "observed_cpu_seconds": 61.651578999999984,
+          "metrics": {
+            "version": "10.0.0",
+            "pads": 108,
+            "footprints": 25,
+            "zones": 1,
+            "vias": 2,
+            "track_length_mm": 682.1030298201599,
+            "copper_layers": 2
+          },
+          "candidate_sha256": "6fb8e38974090105482b1a6fecc24676f13c775de170f9565cd41fdd9aa92bc3",
+          "within_budgets_when_observed": true,
+          "final_delivery_accepted": true,
+          "meaning": "validated incumbent observation; does not override final budget/cancellation/receipt outcome"
+        },
+        {
+          "kind": "trial_completed",
+          "checkpoint": "checkpoints/0016.json",
+          "checkpoint_sha256": "8753b65f386ccac8f4fb54f1cd4600c4d458ca02625e5275350a919a1ab577b9",
+          "elapsed_seconds": 73.9684313339967,
+          "observed_cpu_seconds": 64.01880099999998,
+          "metrics": {
+            "version": "10.0.0",
+            "pads": 108,
+            "footprints": 25,
+            "zones": 1,
+            "vias": 2,
+            "track_length_mm": 676.8350843003201,
+            "copper_layers": 2
+          },
+          "candidate_sha256": "c8025ebfb541194ba4033415190b99b5ab6967c1e5c1abba5b57c1f196767b81",
+          "within_budgets_when_observed": true,
+          "final_delivery_accepted": true,
+          "meaning": "validated incumbent observation; does not override final budget/cancellation/receipt outcome"
+        },
+        {
+          "kind": "trial_completed",
+          "checkpoint": "checkpoints/0017.json",
+          "checkpoint_sha256": "cf8619f929af19acc00c86dd471d4b15b6e652952c7d950737f6db4d81329e64",
+          "elapsed_seconds": 77.45546641699912,
+          "observed_cpu_seconds": 66.42252499999998,
+          "metrics": {
+            "version": "10.0.0",
+            "pads": 108,
+            "footprints": 25,
+            "zones": 1,
+            "vias": 2,
+            "track_length_mm": 671.7550843003202,
+            "copper_layers": 2
+          },
+          "candidate_sha256": "d270d6722769bbbc5f2e7d8f7358a2d265f59c2865637b6202696a6a8d9481b2",
+          "within_budgets_when_observed": true,
+          "final_delivery_accepted": true,
+          "meaning": "validated incumbent observation; does not override final budget/cancellation/receipt outcome"
+        },
+        {
+          "kind": "trial_completed",
+          "checkpoint": "checkpoints/0018.json",
+          "checkpoint_sha256": "ecac0a2fb7d113b7d563d566699ac81e3348e48d5c91658a5ce608bc56146faf",
+          "elapsed_seconds": 80.9624760000006,
+          "observed_cpu_seconds": 68.80979099999998,
+          "metrics": {
+            "version": "10.0.0",
+            "pads": 108,
+            "footprints": 25,
+            "zones": 1,
+            "vias": 2,
+            "track_length_mm": 667.5925843003203,
+            "copper_layers": 2
+          },
+          "candidate_sha256": "fdbae1386e8210a0b307b9b4e5cd141d1fface0a0a68715f120dcec9e0039565",
+          "within_budgets_when_observed": true,
+          "final_delivery_accepted": true,
+          "meaning": "validated incumbent observation; does not override final budget/cancellation/receipt outcome"
+        },
+        {
+          "kind": "trial_completed",
+          "checkpoint": "checkpoints/0019.json",
+          "checkpoint_sha256": "f65cd2ec7f5e7b0566157d01980fb194498a26a471000db868e8a1397c55f7a9",
+          "elapsed_seconds": 84.42502533399966,
+          "observed_cpu_seconds": 71.16090799999998,
+          "metrics": {
+            "version": "10.0.0",
+            "pads": 108,
+            "footprints": 25,
+            "zones": 1,
+            "vias": 2,
+            "track_length_mm": 663.4372843003201,
+            "copper_layers": 2
+          },
+          "candidate_sha256": "effc4104af74e2ba8be743d9f53a1514673f8fdb797164a00e93e43149caad86",
+          "within_budgets_when_observed": true,
+          "final_delivery_accepted": true,
+          "meaning": "validated incumbent observation; does not override final budget/cancellation/receipt outcome"
+        },
+        {
+          "kind": "trial_completed",
+          "checkpoint": "checkpoints/0020.json",
+          "checkpoint_sha256": "94f00ac28fb4569dfc8befa04ff72dff12251c655778835a45dde709b02450fe",
+          "elapsed_seconds": 88.07056070899853,
+          "observed_cpu_seconds": 73.54270999999997,
+          "metrics": {
+            "version": "10.0.0",
+            "pads": 108,
+            "footprints": 25,
+            "zones": 1,
+            "vias": 2,
+            "track_length_mm": 659.4072843003202,
+            "copper_layers": 2
+          },
+          "candidate_sha256": "54a47ffac58030c06ecd744807ee23e69932bb95a0b81b5f941b66898f5efbea",
+          "within_budgets_when_observed": true,
+          "final_delivery_accepted": true,
+          "meaning": "validated incumbent observation; does not override final budget/cancellation/receipt outcome"
+        },
+        {
+          "kind": "trial_completed",
+          "checkpoint": "checkpoints/0021.json",
+          "checkpoint_sha256": "37321b6862f6fc60020e4f47ae4dc2233128b504c50f83efa4f97328e3f3d3f1",
+          "elapsed_seconds": 91.54391183400003,
+          "observed_cpu_seconds": 75.90934399999998,
+          "metrics": {
+            "version": "10.0.0",
+            "pads": 108,
+            "footprints": 25,
+            "zones": 1,
+            "vias": 2,
+            "track_length_mm": 655.40728430032,
+            "copper_layers": 2
+          },
+          "candidate_sha256": "e217d7537d62384d3e55905091cc5c246a2f0a7a62b76693944e68e71dcbd87d",
+          "within_budgets_when_observed": true,
+          "final_delivery_accepted": true,
+          "meaning": "validated incumbent observation; does not override final budget/cancellation/receipt outcome"
+        },
+        {
+          "kind": "trial_completed",
+          "checkpoint": "checkpoints/0022.json",
+          "checkpoint_sha256": "4540b362184aaea79ef17b0cf8177bd394b228cebad8a1d1f0e728f3773616ba",
+          "elapsed_seconds": 94.57737383399945,
+          "observed_cpu_seconds": 77.86306599999998,
+          "metrics": {
+            "version": "10.0.0",
+            "pads": 108,
+            "footprints": 25,
+            "zones": 1,
+            "vias": 2,
+            "track_length_mm": 655.40728430032,
+            "copper_layers": 2
+          },
+          "candidate_sha256": "e217d7537d62384d3e55905091cc5c246a2f0a7a62b76693944e68e71dcbd87d",
+          "within_budgets_when_observed": true,
+          "final_delivery_accepted": true,
+          "meaning": "validated incumbent observation; does not override final budget/cancellation/receipt outcome"
+        },
+        {
+          "kind": "trial_completed",
+          "checkpoint": "checkpoints/0023.json",
+          "checkpoint_sha256": "44b025b4c3704437a2fa1b007a2735c72328a3fb0caebb20baae838aced95e43",
+          "elapsed_seconds": 98.13654400000087,
+          "observed_cpu_seconds": 80.25864499999997,
+          "metrics": {
+            "version": "10.0.0",
+            "pads": 108,
+            "footprints": 25,
+            "zones": 1,
+            "vias": 2,
+            "track_length_mm": 651.6685279054743,
+            "copper_layers": 2
+          },
+          "candidate_sha256": "e178bf4c9655b6d2e8a057e302e895402405a1e4ceb57811a20dacea5064113d",
+          "within_budgets_when_observed": true,
+          "final_delivery_accepted": true,
+          "meaning": "validated incumbent observation; does not override final budget/cancellation/receipt outcome"
+        },
+        {
+          "kind": "trial_completed",
+          "checkpoint": "checkpoints/0024.json",
+          "checkpoint_sha256": "ff39b57ab58cbce6b0b9ce9543753948b5aeb4e0d45ef8b8e2593933959cde15",
+          "elapsed_seconds": 101.60214650000125,
+          "observed_cpu_seconds": 82.64232499999997,
+          "metrics": {
+            "version": "10.0.0",
+            "pads": 108,
+            "footprints": 25,
+            "zones": 1,
+            "vias": 2,
+            "track_length_mm": 648.0451713373182,
+            "copper_layers": 2
+          },
+          "candidate_sha256": "ae27b4ffa1fc45dec5bb6c2fec4efd1376db1a64b0c02af901a31554e136b578",
+          "within_budgets_when_observed": true,
+          "final_delivery_accepted": true,
+          "meaning": "validated incumbent observation; does not override final budget/cancellation/receipt outcome"
+        },
+        {
+          "kind": "final_validated",
+          "checkpoint": "checkpoints/0025.json",
+          "checkpoint_sha256": "9bea796d9ee237e14ed681cbdcb7b5b6b13ed3d2ebad8a6de90f35f15c4e77c1",
+          "elapsed_seconds": 104.62253587500163,
+          "observed_cpu_seconds": 84.75883299999998,
+          "metrics": {
+            "version": "10.0.0",
+            "pads": 108,
+            "footprints": 25,
+            "zones": 1,
+            "vias": 2,
+            "track_length_mm": 648.0451713373182,
+            "copper_layers": 2
+          },
+          "candidate_sha256": "ae27b4ffa1fc45dec5bb6c2fec4efd1376db1a64b0c02af901a31554e136b578",
+          "within_budgets_when_observed": true,
+          "final_delivery_accepted": true,
+          "meaning": "validated incumbent observation; does not override final budget/cancellation/receipt outcome"
+        }
+      ],
+      "finished_utc": "2026-10-10T08:45:12.000868+00:00",
+      "host_load_average_1_5_15_minutes_end": [
+        4.1416015625,
+        4.69287109375,
+        5.693359375
+      ],
+      "within_enclosing_budgets": true,
+      "accepted_before_shared_charge": true,
+      "charged_wall_seconds": 105.42557887500152,
+      "charged_cpu_seconds": 85.34977899999998,
+      "within_charged_budgets": true
+    }
+  ],
+  "comparisons": [
+    {
+      "baseline_variant": "via_low",
+      "system": "C_feedback",
+      "baseline_selected": true,
+      "length_delta_mm": -101.39647127526564,
+      "via_delta": 0,
+      "C_dominates_with_1e_6mm_tolerance": true,
+      "baseline_dominates_with_1e_6mm_tolerance": false
+    }
+  ],
+  "claims_limit": "one exposed family; no population, novelty, human-review, or electrical-adequacy claim",
+  "protocol_sha256": "ecf8ea487f52c3162cae1acaf1dd2b78698c9853ef43708a5e01a32810148851",
+  "shared_charge_policy": "entire measured shared overhead charged to EACH arm; raw invocation measurements retained separately",
+  "accounting_point": "sample before final summary write; full charged caps rechecked after publication; any over-cap correction is rejected and may finish outside cap",
+  "batch_wall_seconds": 160.80689325000276,
+  "batch_cpu_seconds": 160.928001,
+  "finished_utc": "2026-10-10T08:45:12.086329+00:00",
+  "shared_overhead_wall_seconds": 0.5139346670039231,
+  "shared_overhead_cpu_seconds": 0.3140379999999823
+}

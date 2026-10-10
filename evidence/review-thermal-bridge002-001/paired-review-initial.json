@@ -1,0 +1,34 @@
+{
+  "kind": "pure synthetic injected-clock/cancellation controls; no native evidence",
+  "script_sha256": "253480ac46b7dab99303d7b48031035a394c5dec39bd075847a31a99ec2d2bb6",
+  "findings": [
+    {
+      "injection": "over_cap",
+      "status": "completed",
+      "row_accepted": false,
+      "comparisons": [],
+      "observations": [
+        {
+          "final_delivery_accepted": false,
+          "description": "synthetic observation"
+        }
+      ],
+      "inconsistent_observation_acceptance": false
+    },
+    {
+      "injection": "cancelled",
+      "status": "cancelled",
+      "row_accepted": false,
+      "comparisons": [],
+      "observations": [
+        {
+          "final_delivery_accepted": true,
+          "description": "synthetic observation"
+        }
+      ],
+      "inconsistent_observation_acceptance": true
+    }
+  ],
+  "scope": "Main paired acceptance and comparisons correctly reject both controls. Observation final_delivery_accepted metadata remains true after publication invalidation/cancellation; clear it whenever invalidating a row.",
+  "other_review": "Sequential execution, full frontier binding, wrapper/code/source freeze, conservative shared overhead charged to each arm and postpublication main acceptance caps inspected; no additional blocking finding."
+}
