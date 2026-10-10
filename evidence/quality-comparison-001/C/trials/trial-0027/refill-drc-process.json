@@ -1,0 +1,48 @@
+{
+  "status": "nonzero_exit",
+  "exit_code": 5,
+  "wall_seconds": 1.1563321670037112,
+  "cpu_seconds": 0.589355,
+  "max_rss_bytes": 225853440,
+  "supervisor_cpu_seconds": 0.01656499999999994,
+  "monitor_cpu_seconds": 0.07819999999999999,
+  "sampled_peak_group_rss_bytes": 219299840,
+  "sampled_peak_workdir_bytes": 1424981,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 536870912,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+    "pcb",
+    "drc",
+    "--format",
+    "json",
+    "--severity-all",
+    "--all-track-errors",
+    "--refill-zones",
+    "--exit-code-violations",
+    "--output",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/quality-comparison-001/C/trials/trial-0027/refill-drc.json",
+    "--save-board",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/quality-comparison-001/C/trials/trial-0027/refill/sonde xilinx.kicad_pcb"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/quality-comparison-001/C/trials/trial-0027/refill-drc.log",
+  "log_bytes": 188,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/quality-comparison-001/C/trials/trial-0027",
+  "signal_cancellation_enabled": true,
+  "pid": 488,
+  "name": "refill-drc"
+}

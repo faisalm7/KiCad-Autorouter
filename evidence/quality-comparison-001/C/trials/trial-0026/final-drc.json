@@ -1,0 +1,88 @@
+{
+    "$schema": "https://schemas.kicad.org/drc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-10-10T00:07:53",
+    "ignored_checks": [
+        {
+            "description": "Copper connection too narrow",
+            "key": "connection_width"
+        },
+        {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+        },
+        {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+        },
+        {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning",
+        "exclusion"
+    ],
+    "kicad_version": "10.0.0",
+    "schematic_parity": [],
+    "source": "sonde xilinx.kicad_pcb",
+    "unconnected_items": [
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 7 [GND] of J2 on top_copper",
+                    "pos": {
+                        "x": 181.61,
+                        "y": 88.7342
+                    },
+                    "uuid": "edbbf432-5304-453b-8560-b7f1d22f025d"
+                },
+                {
+                    "description": "Pad 6 [GND] of J2 on top_copper",
+                    "pos": {
+                        "x": 181.61,
+                        "y": 85.9642
+                    },
+                    "uuid": "d6700b04-2a63-47e1-b09e-feb3edf7df67"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        }
+    ],
+    "violations": [
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Track [GND] on top_copper, length 1.1875 mm",
+                    "pos": {
+                        "x": 180.4225,
+                        "y": 85.9642
+                    },
+                    "uuid": "b2f10904-603e-45d6-903a-f360767a31e9"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Footprint 'DSUB-9_Male_EdgeMount_P2.77mm' does not match copy in library 'sonde-xilinx'",
+            "items": [
+                {
+                    "description": "Footprint J2",
+                    "pos": {
+                        "x": 181.61,
+                        "y": 90.1192
+                    },
+                    "uuid": "00000000-0000-0000-0000-00005a73b143"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_mismatch"
+        }
+    ]
+}

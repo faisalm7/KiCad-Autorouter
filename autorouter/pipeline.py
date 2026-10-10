@@ -228,6 +228,19 @@ def tool_manifest():
     git_head=subprocess.run(['git','rev-parse','HEAD'],cwd=c.ROOT,capture_output=True,text=True,check=True).stdout.strip()
     return {'implementation_sha256':implementation,'git_head':git_head,'kicad':'10.0.0','freerouting':'2.5.0','files':files,'network':'engine sandbox-exec deny network*'}
 
+def optimizer_threshold_audit(log, expected_percent):
+    """Reject a logged stop threshold inconsistent with the declared profile.
+
+    Absence of that conditional stop message is recorded as unobserved, never as
+    runtime proof of the effective setting. The engine may stop for another cap.
+    """
+    values=[float(value) for value in re.findall(r'Stopping optimizer because .*?the threshold \(([0-9]+(?:\.[0-9]+)?)%\)',Path(log).read_text())]
+    if any(abs(value-expected_percent)>1e-6 for value in values):
+        raise Rejected('optimizer runtime threshold differs from declared profile: '+str(values))
+    return {'expected_percent':expected_percent,'observed_stop_threshold_percent':values,
+            'runtime_observation':'matched' if values else 'stop threshold not logged'}
+
+
 def route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard'):
     if engine_profile not in {'standard','tuned'}: raise Rejected('unknown engine profile')
     operation_started=time.monotonic()
@@ -266,11 +279,16 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
         config_dir=output/'engine-config'; config_dir.mkdir()
         engine_settings=['--router.autorouter.max_passes=30','--router.optimizer.max_threads=1','--router.optimizer.max_passes=10','--router.job_timeout=60s','--router.optimizer.timeout=30s']
         if engine_profile=='tuned':
-            engine_settings=['--router.autorouter.max_passes=100','--router.optimizer.max_threads=1','--router.optimizer.max_passes=50','--router.job_timeout=100s','--router.optimizer.timeout=90s','--router.optimizer.improvement_threshold=0.1','--router.optimizer.enable_preflight_guards=false','--router.optimizer.max_consecutive_failures=100','--router.optimizer.max_consecutive_failures_pass1=100']
+            # Pinned b647a2f CliSettings.java149-155 scales CLI values in (0,1)
+            # by 100. Internal units are percent: 0.001 -> 0.1%, not 0.1 -> 10%.
+            # https://github.com/freerouting/freerouting/blob/b647a2f824cfbc54bc4dcaee71b03b7cd945eb76/src/main/java/app/freerouting/settings/sources/CliSettings.java#L149
+            engine_settings=['--router.autorouter.max_passes=100','--router.optimizer.max_threads=1','--router.optimizer.max_passes=50','--router.job_timeout=100s','--router.optimizer.timeout=90s','--router.optimizer.improvement_threshold=0.001','--router.optimizer.enable_preflight_guards=false','--router.optimizer.max_consecutive_failures=100','--router.optimizer.max_consecutive_failures_pass1=100']
         job.step('engine',['/usr/bin/sandbox-exec','-p','(version 1)(allow default)(deny network*)',c.JAVA,'-Xms128m','-Xmx2g','-XX:ActiveProcessorCount=1','-Djava.awt.headless=true','-jar',c.JAR,
             '--gui.enabled=false','--api_server.enabled=false','--mcp_server.enabled=false','-da','--user_data_path='+str(config_dir),'--logging.file.enabled=false',
             *engine_settings,
             '-de',output/'task.dsn','-do',output/'routes.ses'])
+        if engine_profile=='tuned':
+            report['optimizer_threshold_audit']=optimizer_threshold_audit(output/'engine.log',0.1)
         if not (output/'routes.ses').is_file(): raise Rejected('engine emitted no SES')
         imported=output/'imported.kicad_pcb'
         job.native('import','import',candidate,imported,output/'routes.ses')
