@@ -1,0 +1,307 @@
+{
+  "case_ids": [
+    "convex",
+    "concave",
+    "sameAB",
+    "sameBA",
+    "distinct"
+  ],
+  "coordinate_transform": [
+    1,
+    0,
+    0
+  ],
+  "expected": {
+    "concave": {
+      "B.Cu": null,
+      "F.Cu": {
+        "area_um2": 1725000.0,
+        "bounds_um": [
+          -650,
+          -750,
+          500,
+          750
+        ],
+        "corners_um": [
+          [
+            -650,
+            -750
+          ],
+          [
+            500,
+            -750
+          ],
+          [
+            500,
+            750
+          ],
+          [
+            -650,
+            750
+          ]
+        ],
+        "strict_inside": {
+          "a": false,
+          "b": false,
+          "notch": true,
+          "origin": true
+        }
+      }
+    },
+    "convex": {
+      "B.Cu": null,
+      "F.Cu": {
+        "area_um2": 1875000.0,
+        "bounds_um": [
+          -500,
+          -750,
+          1000,
+          750
+        ],
+        "corners_um": [
+          [
+            1000,
+            0
+          ],
+          [
+            500,
+            -750
+          ],
+          [
+            -500,
+            -750
+          ],
+          [
+            -500,
+            750
+          ],
+          [
+            500,
+            750
+          ]
+        ],
+        "strict_inside": {
+          "a": false,
+          "b": false,
+          "notch": false,
+          "origin": true
+        }
+      }
+    },
+    "distinct": {
+      "B.Cu": {
+        "area_um2": 250000.0,
+        "bounds_um": [
+          500,
+          500,
+          1000,
+          1000
+        ],
+        "corners_um": [
+          [
+            500,
+            500
+          ],
+          [
+            1000,
+            500
+          ],
+          [
+            1000,
+            1000
+          ],
+          [
+            500,
+            1000
+          ]
+        ],
+        "strict_inside": {
+          "a": false,
+          "b": true,
+          "notch": false,
+          "origin": false
+        }
+      },
+      "F.Cu": {
+        "area_um2": 250000.0,
+        "bounds_um": [
+          -1000,
+          -1000,
+          -500,
+          -500
+        ],
+        "corners_um": [
+          [
+            -1000,
+            -1000
+          ],
+          [
+            -500,
+            -1000
+          ],
+          [
+            -500,
+            -500
+          ],
+          [
+            -1000,
+            -500
+          ]
+        ],
+        "strict_inside": {
+          "a": true,
+          "b": false,
+          "notch": false,
+          "origin": false
+        }
+      }
+    },
+    "sameAB": {
+      "B.Cu": null,
+      "F.Cu": {
+        "area_um2": 250000.0,
+        "bounds_um": [
+          500,
+          500,
+          1000,
+          1000
+        ],
+        "corners_um": [
+          [
+            500,
+            500
+          ],
+          [
+            1000,
+            500
+          ],
+          [
+            1000,
+            1000
+          ],
+          [
+            500,
+            1000
+          ]
+        ],
+        "strict_inside": {
+          "a": false,
+          "b": true,
+          "notch": false,
+          "origin": false
+        }
+      }
+    },
+    "sameBA": {
+      "B.Cu": null,
+      "F.Cu": {
+        "area_um2": 250000.0,
+        "bounds_um": [
+          -1000,
+          -1000,
+          -500,
+          -500
+        ],
+        "corners_um": [
+          [
+            -1000,
+            -1000
+          ],
+          [
+            -500,
+            -1000
+          ],
+          [
+            -500,
+            -500
+          ],
+          [
+            -1000,
+            -500
+          ]
+        ],
+        "strict_inside": {
+          "a": true,
+          "b": false,
+          "notch": false,
+          "origin": false
+        }
+      }
+    }
+  },
+  "imported_hull_area_um2": 1725000.0,
+  "input_sha256": {
+    "concave.dsn": "bf0ff1de4b604f91ef05fcade5d5fcd284b33aa9c074f8d0a2e955d9113f7644",
+    "convex.dsn": "a29240d03feff540aeabc5e356c7adac2bc7691dd6f2433d0afa42b0275acdc8",
+    "distinct.dsn": "e10c374f83ab674e0125ccec6e10c546523d0e8f0818f6ad745fc1b87a97b0b9",
+    "sameAB.dsn": "2e0bd09d721e4d188d33a9782d2e8b59ca2c464ac312022fa7c0beea90e6452f",
+    "sameBA.dsn": "6e020e94076f82042f86377944235615a3a51d81703e5781fd560e26a765d022"
+  },
+  "limits": {
+    "full_cpu_seconds": 60,
+    "java_heap": "256m",
+    "output_bytes": 10485760,
+    "wall_seconds": 60
+  },
+  "notch_point_um": [
+    -600,
+    0
+  ],
+  "prospective_expectation": "Convex control preserved; concave becomes hull; same-layer last shape wins in both orders; different layers retain separate shapes. Unexpected measured observations must be reported, not reinterpreted as support.",
+  "qualification": {
+    "custom_pad_support": false,
+    "native_validation": false,
+    "original_board_imported": false,
+    "routing": false
+  },
+  "raw_concave_area_um2": 1350000.0,
+  "schema": 1,
+  "scope": "owned_padstack_import_only",
+  "source_geometry": "Fixed exposed PIC custom-pad control recipe; original15-file project is not read or changed by this probe.",
+  "source_provenance": {
+    ".runs/pic-padstack-api-inspection-001/receipt.json": {
+      "bytes": 6189,
+      "sha256": "c16048f7d3abf7ad2b7914c8e2deed7cca34f23231a7f1f642ea2c1d3be9d271"
+    },
+    ".runs/pic-padstack-api-inspection-002/receipt.json": {
+      "bytes": 3719,
+      "sha256": "e15d97444c2793823610edb2649823634c81001de0dac57192e8f2bc3ac2a9b1"
+    },
+    ".runs/pic-padstack-coordinate-inspection-001/receipt.json": {
+      "bytes": 503,
+      "sha256": "fa0a29a884adc36cdde8662b64ed9c6f49a622cbf5b23af3f633a5e495690181"
+    },
+    ".runs/pic-padstack-engine-inspection-001/receipt.json": {
+      "bytes": 3421,
+      "sha256": "fcb7222383c8d599550a080b5c289209c3e9d6df316a4cac205e5a9e4fcee151"
+    }
+  },
+  "tools": {
+    "jar": {
+      "bytes": 64599107,
+      "path": ".tools/freerouting-2.5.0.jar",
+      "sha256": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7"
+    },
+    "java": {
+      "bytes": 70432,
+      "path": "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java",
+      "sha256": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6"
+    },
+    "javac": {
+      "bytes": 70464,
+      "path": "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/javac",
+      "sha256": "c977cb93886f87d04f451b163c11f5bb2d100398cf48d57c680c8102237e5704"
+    },
+    "python": {
+      "bytes": 33816,
+      "path": "/Users/faisal/.pyenv/versions/3.11.9/bin/python3.11",
+      "sha256": "11019d860d2db6de27cf71881546ea451f3931ad3280fcc9ae2ce18ef8d989b5"
+    },
+    "sandbox": {
+      "bytes": 135136,
+      "path": "/usr/bin/sandbox-exec",
+      "sha256": "58839ef01b4eef8aac0d2aa8f9d1c074ae45aafe3533965b030672450064acc8"
+    }
+  },
+  "units": "micrometres"
+}

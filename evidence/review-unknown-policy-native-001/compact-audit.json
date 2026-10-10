@@ -1,0 +1,162 @@
+{
+  "audit_full_sha256": "099cbd66e7b1f2ce2a152f975f7d9dabd5a06934de29fa8f29bf4c56856aed3d",
+  "audit_passed": true,
+  "candidate_sha256": "e897b0ea8224ca58c9baf62143d3393ead367cdbed85338fdbe762da611e0542",
+  "check_count": 156,
+  "check_result": {
+    "applied": false,
+    "authentication": "none; mutable local evidence consistency only",
+    "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/unknown-policy-native-001/candidate/fixture.kicad_pcb",
+    "candidate_sha256": "e897b0ea8224ca58c9baf62143d3393ead367cdbed85338fdbe762da611e0542",
+    "current": true,
+    "input_policy": "placement-clearance-v1",
+    "warning": "Fresh native validation is required before application; human PCB review and electrical/physical validation remain required."
+  },
+  "dsndelta": {
+    "changed_clearance_atoms": 3,
+    "clearance_um_after": 320,
+    "clearance_um_before": 300,
+    "removed_keepouts": 2
+  },
+  "extra": {
+    "controller_exit_code": 0,
+    "external_execution_sha256": "76344312605793ee0b66246e14edc90d4679dd2308129897843063aef90de90e",
+    "external_waited_child_cpu_seconds": 6.095101,
+    "external_wall_seconds": 9.077218125006766,
+    "extra_default_ignored_absent_source": [
+      "track_not_centered_on_via",
+      "tuning_profile_track_geometries"
+    ],
+    "floor_final_nonfatal_log": "PCB_VIA::GetWidth called without a layer argument; observed exit0, complete context, raw log preserved; not a DRC finding or waived native finding.",
+    "native_effective_ignored": [
+      "footprint_filters_mismatch",
+      "footprint_type_mismatch",
+      "missing_courtyard",
+      "npth_inside_courtyard",
+      "pth_inside_courtyard",
+      "track_not_centered_on_via",
+      "tuning_profile_track_geometries"
+    ],
+    "processes": [
+      {
+        "cpu_seconds": 0.44537999999999994,
+        "exit_code": 0,
+        "log_bytes": 159,
+        "log_sha256": "46f238ef812b5e29e9bc8c32371adae127d7b61085b46e3c04f2751d716212eb",
+        "name": "source-drc",
+        "process_sha256": "eb75780270b4ed3c8758300ae452dec6a9ff7213d7a12e93a094f25baaa47e93",
+        "wall_seconds": 1.0749099170061527
+      },
+      {
+        "cpu_seconds": 0.349158,
+        "exit_code": 0,
+        "log_bytes": 0,
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "name": "floor-export",
+        "process_sha256": "1f3a4a6e14b882bafd00458b75db037d0f4fab6f5fdc977908f4e3cdfe70a79b",
+        "wall_seconds": 0.3854410419880878
+      },
+      {
+        "cpu_seconds": 1.4270420000000001,
+        "exit_code": 0,
+        "log_bytes": 1919,
+        "log_sha256": "aee7488ecd1122f06333c109f988901446eedc785c8361794688eb865919c0a0",
+        "name": "engine",
+        "process_sha256": "64a9a2ac1c70ffab81629fb3085e159892dec2c2c5196fa080d6951f9cd180fb",
+        "wall_seconds": 2.532268041992211
+      },
+      {
+        "cpu_seconds": 0.356757,
+        "exit_code": 0,
+        "log_bytes": 0,
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "name": "import",
+        "process_sha256": "b0a1b755566cc185b5cf55bfac408b83165aab3e40676113651ffcab63a86e17",
+        "wall_seconds": 0.36662333300046157
+      },
+      {
+        "cpu_seconds": 0.432469,
+        "exit_code": 0,
+        "log_bytes": 171,
+        "log_sha256": "06751719b74353cd48ff9c91a8b18124bd192d3ae92e3bf715ad76147af8c6bb",
+        "name": "refill-drc",
+        "process_sha256": "c4b3b0e7bd6db0c3a8e48fbe388aebf5cb39dd4bb8a857bf3d67657c372f933e",
+        "wall_seconds": 0.7001499170000898
+      },
+      {
+        "cpu_seconds": 0.329619,
+        "exit_code": 0,
+        "log_bytes": 225,
+        "log_sha256": "3f1b884543dc14ce41729bd011d9b60900929e19575fc8db6031dae452fb840d",
+        "name": "floor-final",
+        "process_sha256": "01c83d73b398ad06fbe42a265203e2a7c245ac937a6c5092e81b746ace622af7",
+        "wall_seconds": 0.3372931250050897
+      },
+      {
+        "cpu_seconds": 0.393112,
+        "exit_code": 0,
+        "log_bytes": 158,
+        "log_sha256": "5a10339a60af3d8e41291b09f825de3af054582d61e7168a1967967290b46e4d",
+        "name": "final-drc",
+        "process_sha256": "dd7fe91b5507d550017a0474355ff7c5f43718f3e23445d4792f509519d6c12c",
+        "wall_seconds": 0.6658131669973955
+      },
+      {
+        "cpu_seconds": 0.333682,
+        "exit_code": 0,
+        "log_bytes": 0,
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "name": "metrics",
+        "process_sha256": "d56fd8142decced797bfb3457a39e95fb947ed4fc620d5669d2719d5d9a6b7fa",
+        "wall_seconds": 0.3460764999908861
+      }
+    ],
+    "public_selected_bytes": 128676,
+    "public_selected_files": 27,
+    "public_selection_sha256": "9ae53c1c4236fe6f0adb22fa456c837395283af4e8925db2ab5fc8fc983a26ce",
+    "source_explicit_ignored": [
+      "footprint_filters_mismatch",
+      "footprint_type_mismatch",
+      "missing_courtyard",
+      "npth_inside_courtyard",
+      "pth_inside_courtyard"
+    ]
+  },
+  "git_head": "d97314ff033b696df9b6660bba534e8a6851d080",
+  "limits": "No new native run or human validation. Fixture outside population. Stored totals precede final publication; frozen code has later cap/freshness checks, not independently timed by this audit. 20um is a conservative policy, not universal geometric bound.",
+  "metrics": {
+    "copper_layers": 2,
+    "footprints": 4,
+    "pads": 4,
+    "track_length_mm": 67.93373808491306,
+    "version": "10.0.0",
+    "vias": 1,
+    "zones": 1
+  },
+  "native_counts": {
+    "blocking": 0,
+    "exclusions": 0,
+    "opens": 0,
+    "warnings": 0
+  },
+  "native_engine_network_executed": false,
+  "native_report_sha256": "ea5a184b1a6b932149f5311f006c4551624cdeef6e38fed21940d3429b13ee0f",
+  "result_sha256": "c226286d9e07e738f24a2af05efe3e429e1baae7c3efb399daca813d56ef39f1",
+  "root_readback_sha256": "3ff6fbbb617ca9866acdd3ebba28d52eede30a5bca58c86ba4b2bcfcee2dd57a",
+  "schema": 1,
+  "scope": "announced-complete unchanged owned fixture native compatibility after unknown-finding policy fix; no comparative claim",
+  "source_hashes": {
+    "PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+    "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+    "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    "candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+    "export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+    "final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+    "final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+    "fixture.kicad_pcb": "1e2216f05fd7540a2a4edf894a18addc389c056854bc6bb5fa2169f90753f7dd",
+    "fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+    "native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2"
+  },
+  "total_cpu_seconds": 5.799167,
+  "wall_seconds": 8.732562832999974
+}

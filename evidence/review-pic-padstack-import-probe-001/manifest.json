@@ -1,0 +1,1563 @@
+{
+  "schema": 1,
+  "status": "frozen",
+  "files": {
+    "REVIEW.md": {
+      "sha256": "01ff8c7c049f04f9a409eefac60c9883522797ce80690d286b0a34b3b5ca859b",
+      "bytes": 4749
+    },
+    "audit-preparation-errors.json": {
+      "sha256": "6456a7f00b2e4c273d6310ad4c46fa0446918b6301f2c56feeea425da333034b",
+      "bytes": 343
+    },
+    "reproduce.py": {
+      "sha256": "014502c893508caf73310676fbab7c3bc07ee2c828c64f44a8af2bfdc23fcfe9",
+      "bytes": 4255
+    },
+    "reproduction-001/late_class/.git/HEAD": {
+      "sha256": "c589d42e616c9280a5086c1a7a6d6f59128e907f04063daa8393a3a40edb728e",
+      "bytes": 35
+    },
+    "reproduction-001/late_class/.git/refs/heads/rebuild/local-test": {
+      "sha256": "0e4f6f5ffe8ab285266465bd48989e24fae411b9a759de839aee5dcab192beb7",
+      "bytes": 41
+    },
+    "reproduction-001/late_class/.runs/output/classes/PadstackImportProbe.class": {
+      "sha256": "be1a97c92328a2fcd0c37751cef07316917c77359afea74559972cf3adec68ef",
+      "bytes": 13
+    },
+    "reproduction-001/late_class/.runs/output/code/autorouter/__init__.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-001/late_class/.runs/output/code/autorouter/runner.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-001/late_class/.runs/output/code/experiments/pic_padstack_import_probe_v1/PROTOCOL.json": {
+      "sha256": "2df02b04f967fbed92b5379edd11f8f3bbf5d78a6c2c31e142b576245168712f",
+      "bytes": 4316
+    },
+    "reproduction-001/late_class/.runs/output/code/experiments/pic_padstack_import_probe_v1/PadstackImportProbe.java": {
+      "sha256": "2927505a6dc4ce6587b46e756c1fac2c78af6cdb1d4ffd65c67eb65d50856894",
+      "bytes": 8304
+    },
+    "reproduction-001/late_class/.runs/output/code/experiments/pic_padstack_import_probe_v1/README.md": {
+      "sha256": "3dce9fa12b6d3d103ae60cf8e1818db825c1ac6db5bdf283a180a348a5111894",
+      "bytes": 4810
+    },
+    "reproduction-001/late_class/.runs/output/code/experiments/pic_padstack_import_probe_v1/driver.py": {
+      "sha256": "81e2baea71bfd6ad0f58b8b83dbe21fe43e5ddc0c2312270eef7c20c2eee6289",
+      "bytes": 18494
+    },
+    "reproduction-001/late_class/.runs/output/code/experiments/pic_padstack_import_probe_v1/test_driver.py": {
+      "sha256": "76f35412ab0ad553ecbec205cccabbf0513da2cc2aca3972f499acdba6c151d7",
+      "bytes": 11538
+    },
+    "reproduction-001/late_class/.runs/output/code/toolchain.lock.json": {
+      "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "bytes": 2
+    },
+    "reproduction-001/late_class/.runs/output/compile-process.json": {
+      "sha256": "930c45a0874112084d2bf1e19c152ede618dd78d085ce831e9bec9c8a4c305a7",
+      "bytes": 1099
+    },
+    "reproduction-001/late_class/.runs/output/compile.log": {
+      "sha256": "b355cdd9987bf1d64a54000121b4bbb878e58c1d183290948da9d340b7ef3832",
+      "bytes": 39
+    },
+    "reproduction-001/late_class/.runs/output/import-process.json": {
+      "sha256": "6a1a8c878d78d655bf6779d8ddc7e21cf2c54c6d71b895ff3fa8b3f8a4797799",
+      "bytes": 1354
+    },
+    "reproduction-001/late_class/.runs/output/import.log": {
+      "sha256": "b355cdd9987bf1d64a54000121b4bbb878e58c1d183290948da9d340b7ef3832",
+      "bytes": 39
+    },
+    "reproduction-001/late_class/.runs/output/inputs/concave.dsn": {
+      "sha256": "bf0ff1de4b604f91ef05fcade5d5fcd284b33aa9c074f8d0a2e955d9113f7644",
+      "bytes": 87
+    },
+    "reproduction-001/late_class/.runs/output/inputs/convex.dsn": {
+      "sha256": "a29240d03feff540aeabc5e356c7adac2bc7691dd6f2433d0afa42b0275acdc8",
+      "bytes": 86
+    },
+    "reproduction-001/late_class/.runs/output/inputs/distinct.dsn": {
+      "sha256": "e10c374f83ab674e0125ccec6e10c546523d0e8f0818f6ad745fc1b87a97b0b9",
+      "bytes": 99
+    },
+    "reproduction-001/late_class/.runs/output/inputs/sameAB.dsn": {
+      "sha256": "2e0bd09d721e4d188d33a9782d2e8b59ca2c464ac312022fa7c0beea90e6452f",
+      "bytes": 97
+    },
+    "reproduction-001/late_class/.runs/output/inputs/sameBA.dsn": {
+      "sha256": "6e020e94076f82042f86377944235615a3a51d81703e5781fd560e26a765d022",
+      "bytes": 97
+    },
+    "reproduction-001/late_class/.runs/output/observations.json": {
+      "sha256": "e1a0b864a237bd9bc77df4ad3c508c06228e40903453167aeffa5747ee6c9168",
+      "bytes": 2751
+    },
+    "reproduction-001/late_class/.runs/output/runtime.json": {
+      "sha256": "647671ddef7358daa8d511e3152fe14803691ec1948e5fb75533117ffd130b1d",
+      "bytes": 1843
+    },
+    "reproduction-001/late_class/.runs/output/summary.json": {
+      "sha256": "090a009ce919354da509626148ad1738597e8c4ced146096a43cffbfb5e3b31e",
+      "bytes": 7900
+    },
+    "reproduction-001/late_class/autorouter/__init__.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-001/late_class/autorouter/runner.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-001/late_class/experiments/pic_padstack_import_probe_v1/PROTOCOL.json": {
+      "sha256": "2df02b04f967fbed92b5379edd11f8f3bbf5d78a6c2c31e142b576245168712f",
+      "bytes": 4316
+    },
+    "reproduction-001/late_class/experiments/pic_padstack_import_probe_v1/PadstackImportProbe.java": {
+      "sha256": "2927505a6dc4ce6587b46e756c1fac2c78af6cdb1d4ffd65c67eb65d50856894",
+      "bytes": 8304
+    },
+    "reproduction-001/late_class/experiments/pic_padstack_import_probe_v1/README.md": {
+      "sha256": "3dce9fa12b6d3d103ae60cf8e1818db825c1ac6db5bdf283a180a348a5111894",
+      "bytes": 4810
+    },
+    "reproduction-001/late_class/experiments/pic_padstack_import_probe_v1/driver.py": {
+      "sha256": "81e2baea71bfd6ad0f58b8b83dbe21fe43e5ddc0c2312270eef7c20c2eee6289",
+      "bytes": 18494
+    },
+    "reproduction-001/late_class/experiments/pic_padstack_import_probe_v1/test_driver.py": {
+      "sha256": "76f35412ab0ad553ecbec205cccabbf0513da2cc2aca3972f499acdba6c151d7",
+      "bytes": 11538
+    },
+    "reproduction-001/late_class/toolchain.lock.json": {
+      "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "bytes": 2
+    },
+    "reproduction-001/late_class/tools/jar": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-001/late_class/tools/java": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-001/late_class/tools/javac": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-001/late_class/tools/python": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-001/late_class/tools/sandbox": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-001/late_input/.git/HEAD": {
+      "sha256": "c589d42e616c9280a5086c1a7a6d6f59128e907f04063daa8393a3a40edb728e",
+      "bytes": 35
+    },
+    "reproduction-001/late_input/.git/refs/heads/rebuild/local-test": {
+      "sha256": "0e4f6f5ffe8ab285266465bd48989e24fae411b9a759de839aee5dcab192beb7",
+      "bytes": 41
+    },
+    "reproduction-001/late_input/.runs/output/classes/PadstackImportProbe.class": {
+      "sha256": "a117d2baaf7f5cd6f40b8f558ea0d61a48f14c591598d92efb7a9dd12819e619",
+      "bytes": 12
+    },
+    "reproduction-001/late_input/.runs/output/code/autorouter/__init__.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-001/late_input/.runs/output/code/autorouter/runner.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-001/late_input/.runs/output/code/experiments/pic_padstack_import_probe_v1/PROTOCOL.json": {
+      "sha256": "1573fac0c2f2266588b3bb460b1f05af0dba2c43d43fd97fa165cd1b82dcf43c",
+      "bytes": 4316
+    },
+    "reproduction-001/late_input/.runs/output/code/experiments/pic_padstack_import_probe_v1/PadstackImportProbe.java": {
+      "sha256": "2927505a6dc4ce6587b46e756c1fac2c78af6cdb1d4ffd65c67eb65d50856894",
+      "bytes": 8304
+    },
+    "reproduction-001/late_input/.runs/output/code/experiments/pic_padstack_import_probe_v1/README.md": {
+      "sha256": "3dce9fa12b6d3d103ae60cf8e1818db825c1ac6db5bdf283a180a348a5111894",
+      "bytes": 4810
+    },
+    "reproduction-001/late_input/.runs/output/code/experiments/pic_padstack_import_probe_v1/driver.py": {
+      "sha256": "81e2baea71bfd6ad0f58b8b83dbe21fe43e5ddc0c2312270eef7c20c2eee6289",
+      "bytes": 18494
+    },
+    "reproduction-001/late_input/.runs/output/code/experiments/pic_padstack_import_probe_v1/test_driver.py": {
+      "sha256": "76f35412ab0ad553ecbec205cccabbf0513da2cc2aca3972f499acdba6c151d7",
+      "bytes": 11538
+    },
+    "reproduction-001/late_input/.runs/output/code/toolchain.lock.json": {
+      "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "bytes": 2
+    },
+    "reproduction-001/late_input/.runs/output/compile-process.json": {
+      "sha256": "c3bb5afa730f40dbe829444d746771a457a2d9c8e06dfa020718fc7e70f84979",
+      "bytes": 1099
+    },
+    "reproduction-001/late_input/.runs/output/compile.log": {
+      "sha256": "b355cdd9987bf1d64a54000121b4bbb878e58c1d183290948da9d340b7ef3832",
+      "bytes": 39
+    },
+    "reproduction-001/late_input/.runs/output/import-process.json": {
+      "sha256": "279c97c39543da298cf0deffbcc4f48c1e7dd50ef99c339131d0a94860d759d6",
+      "bytes": 1354
+    },
+    "reproduction-001/late_input/.runs/output/import.log": {
+      "sha256": "b355cdd9987bf1d64a54000121b4bbb878e58c1d183290948da9d340b7ef3832",
+      "bytes": 39
+    },
+    "reproduction-001/late_input/.runs/output/inputs/concave.dsn": {
+      "sha256": "ca8c6e79b5218bb9547cb81707d8578626daa1225afb12de3c4b743539fe78d6",
+      "bytes": 88
+    },
+    "reproduction-001/late_input/.runs/output/inputs/convex.dsn": {
+      "sha256": "a29240d03feff540aeabc5e356c7adac2bc7691dd6f2433d0afa42b0275acdc8",
+      "bytes": 86
+    },
+    "reproduction-001/late_input/.runs/output/inputs/distinct.dsn": {
+      "sha256": "e10c374f83ab674e0125ccec6e10c546523d0e8f0818f6ad745fc1b87a97b0b9",
+      "bytes": 99
+    },
+    "reproduction-001/late_input/.runs/output/inputs/sameAB.dsn": {
+      "sha256": "2e0bd09d721e4d188d33a9782d2e8b59ca2c464ac312022fa7c0beea90e6452f",
+      "bytes": 97
+    },
+    "reproduction-001/late_input/.runs/output/inputs/sameBA.dsn": {
+      "sha256": "6e020e94076f82042f86377944235615a3a51d81703e5781fd560e26a765d022",
+      "bytes": 97
+    },
+    "reproduction-001/late_input/.runs/output/observations.json": {
+      "sha256": "e1a0b864a237bd9bc77df4ad3c508c06228e40903453167aeffa5747ee6c9168",
+      "bytes": 2751
+    },
+    "reproduction-001/late_input/.runs/output/runtime.json": {
+      "sha256": "dee4e255fc6046c7fbec5e882d77a56bef5a9b55f62229f9e41db0f62fa9a316",
+      "bytes": 1843
+    },
+    "reproduction-001/late_input/.runs/output/summary.json": {
+      "sha256": "d7531bc0baaffafa2666fc4c17dff244fdb7ee41f22e8b352c809eb0cf4ef0dd",
+      "bytes": 7900
+    },
+    "reproduction-001/late_input/autorouter/__init__.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-001/late_input/autorouter/runner.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-001/late_input/experiments/pic_padstack_import_probe_v1/PROTOCOL.json": {
+      "sha256": "1573fac0c2f2266588b3bb460b1f05af0dba2c43d43fd97fa165cd1b82dcf43c",
+      "bytes": 4316
+    },
+    "reproduction-001/late_input/experiments/pic_padstack_import_probe_v1/PadstackImportProbe.java": {
+      "sha256": "2927505a6dc4ce6587b46e756c1fac2c78af6cdb1d4ffd65c67eb65d50856894",
+      "bytes": 8304
+    },
+    "reproduction-001/late_input/experiments/pic_padstack_import_probe_v1/README.md": {
+      "sha256": "3dce9fa12b6d3d103ae60cf8e1818db825c1ac6db5bdf283a180a348a5111894",
+      "bytes": 4810
+    },
+    "reproduction-001/late_input/experiments/pic_padstack_import_probe_v1/driver.py": {
+      "sha256": "81e2baea71bfd6ad0f58b8b83dbe21fe43e5ddc0c2312270eef7c20c2eee6289",
+      "bytes": 18494
+    },
+    "reproduction-001/late_input/experiments/pic_padstack_import_probe_v1/test_driver.py": {
+      "sha256": "76f35412ab0ad553ecbec205cccabbf0513da2cc2aca3972f499acdba6c151d7",
+      "bytes": 11538
+    },
+    "reproduction-001/late_input/toolchain.lock.json": {
+      "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "bytes": 2
+    },
+    "reproduction-001/late_input/tools/jar": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-001/late_input/tools/java": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-001/late_input/tools/javac": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-001/late_input/tools/python": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-001/late_input/tools/sandbox": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-001/late_observation/.git/HEAD": {
+      "sha256": "c589d42e616c9280a5086c1a7a6d6f59128e907f04063daa8393a3a40edb728e",
+      "bytes": 35
+    },
+    "reproduction-001/late_observation/.git/refs/heads/rebuild/local-test": {
+      "sha256": "0e4f6f5ffe8ab285266465bd48989e24fae411b9a759de839aee5dcab192beb7",
+      "bytes": 41
+    },
+    "reproduction-001/late_observation/.runs/output/classes/PadstackImportProbe.class": {
+      "sha256": "a117d2baaf7f5cd6f40b8f558ea0d61a48f14c591598d92efb7a9dd12819e619",
+      "bytes": 12
+    },
+    "reproduction-001/late_observation/.runs/output/code/autorouter/__init__.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-001/late_observation/.runs/output/code/autorouter/runner.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-001/late_observation/.runs/output/code/experiments/pic_padstack_import_probe_v1/PROTOCOL.json": {
+      "sha256": "e27a629ffdcd5d9ba67df035af4cb39ae5910991521139b23140ac2f72c31ed0",
+      "bytes": 4346
+    },
+    "reproduction-001/late_observation/.runs/output/code/experiments/pic_padstack_import_probe_v1/PadstackImportProbe.java": {
+      "sha256": "2927505a6dc4ce6587b46e756c1fac2c78af6cdb1d4ffd65c67eb65d50856894",
+      "bytes": 8304
+    },
+    "reproduction-001/late_observation/.runs/output/code/experiments/pic_padstack_import_probe_v1/README.md": {
+      "sha256": "3dce9fa12b6d3d103ae60cf8e1818db825c1ac6db5bdf283a180a348a5111894",
+      "bytes": 4810
+    },
+    "reproduction-001/late_observation/.runs/output/code/experiments/pic_padstack_import_probe_v1/driver.py": {
+      "sha256": "81e2baea71bfd6ad0f58b8b83dbe21fe43e5ddc0c2312270eef7c20c2eee6289",
+      "bytes": 18494
+    },
+    "reproduction-001/late_observation/.runs/output/code/experiments/pic_padstack_import_probe_v1/test_driver.py": {
+      "sha256": "76f35412ab0ad553ecbec205cccabbf0513da2cc2aca3972f499acdba6c151d7",
+      "bytes": 11538
+    },
+    "reproduction-001/late_observation/.runs/output/code/toolchain.lock.json": {
+      "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "bytes": 2
+    },
+    "reproduction-001/late_observation/.runs/output/compile-process.json": {
+      "sha256": "efbca79b5b8612ce186c5259748a3350390f48aa82486ae7dc432abd7b50d93e",
+      "bytes": 1135
+    },
+    "reproduction-001/late_observation/.runs/output/compile.log": {
+      "sha256": "b355cdd9987bf1d64a54000121b4bbb878e58c1d183290948da9d340b7ef3832",
+      "bytes": 39
+    },
+    "reproduction-001/late_observation/.runs/output/import-process.json": {
+      "sha256": "56c3cb8407944dd4e6bce3dd561481014a86691dd8c691060e07b61b7d3b5f30",
+      "bytes": 1402
+    },
+    "reproduction-001/late_observation/.runs/output/import.log": {
+      "sha256": "b355cdd9987bf1d64a54000121b4bbb878e58c1d183290948da9d340b7ef3832",
+      "bytes": 39
+    },
+    "reproduction-001/late_observation/.runs/output/inputs/concave.dsn": {
+      "sha256": "bf0ff1de4b604f91ef05fcade5d5fcd284b33aa9c074f8d0a2e955d9113f7644",
+      "bytes": 87
+    },
+    "reproduction-001/late_observation/.runs/output/inputs/convex.dsn": {
+      "sha256": "a29240d03feff540aeabc5e356c7adac2bc7691dd6f2433d0afa42b0275acdc8",
+      "bytes": 86
+    },
+    "reproduction-001/late_observation/.runs/output/inputs/distinct.dsn": {
+      "sha256": "e10c374f83ab674e0125ccec6e10c546523d0e8f0818f6ad745fc1b87a97b0b9",
+      "bytes": 99
+    },
+    "reproduction-001/late_observation/.runs/output/inputs/sameAB.dsn": {
+      "sha256": "2e0bd09d721e4d188d33a9782d2e8b59ca2c464ac312022fa7c0beea90e6452f",
+      "bytes": 97
+    },
+    "reproduction-001/late_observation/.runs/output/inputs/sameBA.dsn": {
+      "sha256": "6e020e94076f82042f86377944235615a3a51d81703e5781fd560e26a765d022",
+      "bytes": 97
+    },
+    "reproduction-001/late_observation/.runs/output/observations.json": {
+      "sha256": "4997884f6ec556625515a393ce5d84e937c80a978eadac094015f4191ae89c57",
+      "bytes": 2752
+    },
+    "reproduction-001/late_observation/.runs/output/runtime.json": {
+      "sha256": "76a5940fcdd4a2046b6bbbfd267ec5cff6dff3b6d8bcfb2d0fafa468bb05e3bc",
+      "bytes": 1843
+    },
+    "reproduction-001/late_observation/.runs/output/summary.json": {
+      "sha256": "9bda3a220c2fc43fd6da75a19703d78deb4af947e3087bb4b2299b7d3d33ac38",
+      "bytes": 7982
+    },
+    "reproduction-001/late_observation/autorouter/__init__.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-001/late_observation/autorouter/runner.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-001/late_observation/experiments/pic_padstack_import_probe_v1/PROTOCOL.json": {
+      "sha256": "e27a629ffdcd5d9ba67df035af4cb39ae5910991521139b23140ac2f72c31ed0",
+      "bytes": 4346
+    },
+    "reproduction-001/late_observation/experiments/pic_padstack_import_probe_v1/PadstackImportProbe.java": {
+      "sha256": "2927505a6dc4ce6587b46e756c1fac2c78af6cdb1d4ffd65c67eb65d50856894",
+      "bytes": 8304
+    },
+    "reproduction-001/late_observation/experiments/pic_padstack_import_probe_v1/README.md": {
+      "sha256": "3dce9fa12b6d3d103ae60cf8e1818db825c1ac6db5bdf283a180a348a5111894",
+      "bytes": 4810
+    },
+    "reproduction-001/late_observation/experiments/pic_padstack_import_probe_v1/driver.py": {
+      "sha256": "81e2baea71bfd6ad0f58b8b83dbe21fe43e5ddc0c2312270eef7c20c2eee6289",
+      "bytes": 18494
+    },
+    "reproduction-001/late_observation/experiments/pic_padstack_import_probe_v1/test_driver.py": {
+      "sha256": "76f35412ab0ad553ecbec205cccabbf0513da2cc2aca3972f499acdba6c151d7",
+      "bytes": 11538
+    },
+    "reproduction-001/late_observation/toolchain.lock.json": {
+      "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "bytes": 2
+    },
+    "reproduction-001/late_observation/tools/jar": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-001/late_observation/tools/java": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-001/late_observation/tools/javac": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-001/late_observation/tools/python": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-001/late_observation/tools/sandbox": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-001/late_process/.git/HEAD": {
+      "sha256": "c589d42e616c9280a5086c1a7a6d6f59128e907f04063daa8393a3a40edb728e",
+      "bytes": 35
+    },
+    "reproduction-001/late_process/.git/refs/heads/rebuild/local-test": {
+      "sha256": "0e4f6f5ffe8ab285266465bd48989e24fae411b9a759de839aee5dcab192beb7",
+      "bytes": 41
+    },
+    "reproduction-001/late_process/.runs/output/classes/PadstackImportProbe.class": {
+      "sha256": "a117d2baaf7f5cd6f40b8f558ea0d61a48f14c591598d92efb7a9dd12819e619",
+      "bytes": 12
+    },
+    "reproduction-001/late_process/.runs/output/code/autorouter/__init__.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-001/late_process/.runs/output/code/autorouter/runner.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-001/late_process/.runs/output/code/experiments/pic_padstack_import_probe_v1/PROTOCOL.json": {
+      "sha256": "6cc6ce76d8800b22306fea8f04a4837085ca247f5bebfee4bae0121d95caea69",
+      "bytes": 4326
+    },
+    "reproduction-001/late_process/.runs/output/code/experiments/pic_padstack_import_probe_v1/PadstackImportProbe.java": {
+      "sha256": "2927505a6dc4ce6587b46e756c1fac2c78af6cdb1d4ffd65c67eb65d50856894",
+      "bytes": 8304
+    },
+    "reproduction-001/late_process/.runs/output/code/experiments/pic_padstack_import_probe_v1/README.md": {
+      "sha256": "3dce9fa12b6d3d103ae60cf8e1818db825c1ac6db5bdf283a180a348a5111894",
+      "bytes": 4810
+    },
+    "reproduction-001/late_process/.runs/output/code/experiments/pic_padstack_import_probe_v1/driver.py": {
+      "sha256": "81e2baea71bfd6ad0f58b8b83dbe21fe43e5ddc0c2312270eef7c20c2eee6289",
+      "bytes": 18494
+    },
+    "reproduction-001/late_process/.runs/output/code/experiments/pic_padstack_import_probe_v1/test_driver.py": {
+      "sha256": "76f35412ab0ad553ecbec205cccabbf0513da2cc2aca3972f499acdba6c151d7",
+      "bytes": 11538
+    },
+    "reproduction-001/late_process/.runs/output/code/toolchain.lock.json": {
+      "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "bytes": 2
+    },
+    "reproduction-001/late_process/.runs/output/compile-process.json": {
+      "sha256": "8ca17dd65fe46bc3a88f7b5ca4af98a0002bd1545a2052e5a1687b39f917d67e",
+      "bytes": 1111
+    },
+    "reproduction-001/late_process/.runs/output/compile.log": {
+      "sha256": "b355cdd9987bf1d64a54000121b4bbb878e58c1d183290948da9d340b7ef3832",
+      "bytes": 39
+    },
+    "reproduction-001/late_process/.runs/output/import-process.json": {
+      "sha256": "05b484bc2fe9efc29476aad1c0b19446eed43c168c1edf3cf4a95d0ce557645a",
+      "bytes": 1371
+    },
+    "reproduction-001/late_process/.runs/output/import.log": {
+      "sha256": "b355cdd9987bf1d64a54000121b4bbb878e58c1d183290948da9d340b7ef3832",
+      "bytes": 39
+    },
+    "reproduction-001/late_process/.runs/output/inputs/concave.dsn": {
+      "sha256": "bf0ff1de4b604f91ef05fcade5d5fcd284b33aa9c074f8d0a2e955d9113f7644",
+      "bytes": 87
+    },
+    "reproduction-001/late_process/.runs/output/inputs/convex.dsn": {
+      "sha256": "a29240d03feff540aeabc5e356c7adac2bc7691dd6f2433d0afa42b0275acdc8",
+      "bytes": 86
+    },
+    "reproduction-001/late_process/.runs/output/inputs/distinct.dsn": {
+      "sha256": "e10c374f83ab674e0125ccec6e10c546523d0e8f0818f6ad745fc1b87a97b0b9",
+      "bytes": 99
+    },
+    "reproduction-001/late_process/.runs/output/inputs/sameAB.dsn": {
+      "sha256": "2e0bd09d721e4d188d33a9782d2e8b59ca2c464ac312022fa7c0beea90e6452f",
+      "bytes": 97
+    },
+    "reproduction-001/late_process/.runs/output/inputs/sameBA.dsn": {
+      "sha256": "6e020e94076f82042f86377944235615a3a51d81703e5781fd560e26a765d022",
+      "bytes": 97
+    },
+    "reproduction-001/late_process/.runs/output/observations.json": {
+      "sha256": "e1a0b864a237bd9bc77df4ad3c508c06228e40903453167aeffa5747ee6c9168",
+      "bytes": 2751
+    },
+    "reproduction-001/late_process/.runs/output/runtime.json": {
+      "sha256": "495d6c69a1217a610c0030db66fa215bcd771868f8a8c42faa227b72049fc48a",
+      "bytes": 1843
+    },
+    "reproduction-001/late_process/.runs/output/summary.json": {
+      "sha256": "bd7d6c84e6198007bf556d0b9e6e85835951653bc5988cdab7aa44db1ed44661",
+      "bytes": 7928
+    },
+    "reproduction-001/late_process/autorouter/__init__.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-001/late_process/autorouter/runner.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-001/late_process/experiments/pic_padstack_import_probe_v1/PROTOCOL.json": {
+      "sha256": "6cc6ce76d8800b22306fea8f04a4837085ca247f5bebfee4bae0121d95caea69",
+      "bytes": 4326
+    },
+    "reproduction-001/late_process/experiments/pic_padstack_import_probe_v1/PadstackImportProbe.java": {
+      "sha256": "2927505a6dc4ce6587b46e756c1fac2c78af6cdb1d4ffd65c67eb65d50856894",
+      "bytes": 8304
+    },
+    "reproduction-001/late_process/experiments/pic_padstack_import_probe_v1/README.md": {
+      "sha256": "3dce9fa12b6d3d103ae60cf8e1818db825c1ac6db5bdf283a180a348a5111894",
+      "bytes": 4810
+    },
+    "reproduction-001/late_process/experiments/pic_padstack_import_probe_v1/driver.py": {
+      "sha256": "81e2baea71bfd6ad0f58b8b83dbe21fe43e5ddc0c2312270eef7c20c2eee6289",
+      "bytes": 18494
+    },
+    "reproduction-001/late_process/experiments/pic_padstack_import_probe_v1/test_driver.py": {
+      "sha256": "76f35412ab0ad553ecbec205cccabbf0513da2cc2aca3972f499acdba6c151d7",
+      "bytes": 11538
+    },
+    "reproduction-001/late_process/toolchain.lock.json": {
+      "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "bytes": 2
+    },
+    "reproduction-001/late_process/tools/jar": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-001/late_process/tools/java": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-001/late_process/tools/javac": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-001/late_process/tools/python": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-001/late_process/tools/sandbox": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-001/results.json": {
+      "sha256": "5f5cd5dba12070863aa21bcefc9bf6ba3cc2b8a1408b0719062842506f703e63",
+      "bytes": 1891
+    },
+    "reproduction-001/unchanged/.git/HEAD": {
+      "sha256": "c589d42e616c9280a5086c1a7a6d6f59128e907f04063daa8393a3a40edb728e",
+      "bytes": 35
+    },
+    "reproduction-001/unchanged/.git/refs/heads/rebuild/local-test": {
+      "sha256": "0e4f6f5ffe8ab285266465bd48989e24fae411b9a759de839aee5dcab192beb7",
+      "bytes": 41
+    },
+    "reproduction-001/unchanged/.runs/output/classes/PadstackImportProbe.class": {
+      "sha256": "a117d2baaf7f5cd6f40b8f558ea0d61a48f14c591598d92efb7a9dd12819e619",
+      "bytes": 12
+    },
+    "reproduction-001/unchanged/.runs/output/code/autorouter/__init__.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-001/unchanged/.runs/output/code/autorouter/runner.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-001/unchanged/.runs/output/code/experiments/pic_padstack_import_probe_v1/PROTOCOL.json": {
+      "sha256": "ed793b1a1bc7abc747ef7f64b07e50e11d2260a6e6b56b67a134a9130ee79600",
+      "bytes": 4311
+    },
+    "reproduction-001/unchanged/.runs/output/code/experiments/pic_padstack_import_probe_v1/PadstackImportProbe.java": {
+      "sha256": "2927505a6dc4ce6587b46e756c1fac2c78af6cdb1d4ffd65c67eb65d50856894",
+      "bytes": 8304
+    },
+    "reproduction-001/unchanged/.runs/output/code/experiments/pic_padstack_import_probe_v1/README.md": {
+      "sha256": "3dce9fa12b6d3d103ae60cf8e1818db825c1ac6db5bdf283a180a348a5111894",
+      "bytes": 4810
+    },
+    "reproduction-001/unchanged/.runs/output/code/experiments/pic_padstack_import_probe_v1/driver.py": {
+      "sha256": "81e2baea71bfd6ad0f58b8b83dbe21fe43e5ddc0c2312270eef7c20c2eee6289",
+      "bytes": 18494
+    },
+    "reproduction-001/unchanged/.runs/output/code/experiments/pic_padstack_import_probe_v1/test_driver.py": {
+      "sha256": "76f35412ab0ad553ecbec205cccabbf0513da2cc2aca3972f499acdba6c151d7",
+      "bytes": 11538
+    },
+    "reproduction-001/unchanged/.runs/output/code/toolchain.lock.json": {
+      "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "bytes": 2
+    },
+    "reproduction-001/unchanged/.runs/output/compile-process.json": {
+      "sha256": "d9e774551bde8586a10dd4f00e90fc37ea39c0001e35c68b102735d1f61fdfbe",
+      "bytes": 1093
+    },
+    "reproduction-001/unchanged/.runs/output/compile.log": {
+      "sha256": "b355cdd9987bf1d64a54000121b4bbb878e58c1d183290948da9d340b7ef3832",
+      "bytes": 39
+    },
+    "reproduction-001/unchanged/.runs/output/import-process.json": {
+      "sha256": "3e5e6fabecd67991073f20aed358d9087f5d9829aa6a814adbf4471458fa5dc7",
+      "bytes": 1346
+    },
+    "reproduction-001/unchanged/.runs/output/import.log": {
+      "sha256": "b355cdd9987bf1d64a54000121b4bbb878e58c1d183290948da9d340b7ef3832",
+      "bytes": 39
+    },
+    "reproduction-001/unchanged/.runs/output/inputs/concave.dsn": {
+      "sha256": "bf0ff1de4b604f91ef05fcade5d5fcd284b33aa9c074f8d0a2e955d9113f7644",
+      "bytes": 87
+    },
+    "reproduction-001/unchanged/.runs/output/inputs/convex.dsn": {
+      "sha256": "a29240d03feff540aeabc5e356c7adac2bc7691dd6f2433d0afa42b0275acdc8",
+      "bytes": 86
+    },
+    "reproduction-001/unchanged/.runs/output/inputs/distinct.dsn": {
+      "sha256": "e10c374f83ab674e0125ccec6e10c546523d0e8f0818f6ad745fc1b87a97b0b9",
+      "bytes": 99
+    },
+    "reproduction-001/unchanged/.runs/output/inputs/sameAB.dsn": {
+      "sha256": "2e0bd09d721e4d188d33a9782d2e8b59ca2c464ac312022fa7c0beea90e6452f",
+      "bytes": 97
+    },
+    "reproduction-001/unchanged/.runs/output/inputs/sameBA.dsn": {
+      "sha256": "6e020e94076f82042f86377944235615a3a51d81703e5781fd560e26a765d022",
+      "bytes": 97
+    },
+    "reproduction-001/unchanged/.runs/output/observations.json": {
+      "sha256": "e1a0b864a237bd9bc77df4ad3c508c06228e40903453167aeffa5747ee6c9168",
+      "bytes": 2751
+    },
+    "reproduction-001/unchanged/.runs/output/runtime.json": {
+      "sha256": "b614f178347483f2fe6c5f68eeffbfdf122ee5afe42644d19aa9cb3b8cb9acbf",
+      "bytes": 1843
+    },
+    "reproduction-001/unchanged/.runs/output/summary.json": {
+      "sha256": "9d5e4765404d12b60ef7ac92017a2e4fb74e0b2ca4717f12c2d844dda418300e",
+      "bytes": 7886
+    },
+    "reproduction-001/unchanged/autorouter/__init__.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-001/unchanged/autorouter/runner.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-001/unchanged/experiments/pic_padstack_import_probe_v1/PROTOCOL.json": {
+      "sha256": "ed793b1a1bc7abc747ef7f64b07e50e11d2260a6e6b56b67a134a9130ee79600",
+      "bytes": 4311
+    },
+    "reproduction-001/unchanged/experiments/pic_padstack_import_probe_v1/PadstackImportProbe.java": {
+      "sha256": "2927505a6dc4ce6587b46e756c1fac2c78af6cdb1d4ffd65c67eb65d50856894",
+      "bytes": 8304
+    },
+    "reproduction-001/unchanged/experiments/pic_padstack_import_probe_v1/README.md": {
+      "sha256": "3dce9fa12b6d3d103ae60cf8e1818db825c1ac6db5bdf283a180a348a5111894",
+      "bytes": 4810
+    },
+    "reproduction-001/unchanged/experiments/pic_padstack_import_probe_v1/driver.py": {
+      "sha256": "81e2baea71bfd6ad0f58b8b83dbe21fe43e5ddc0c2312270eef7c20c2eee6289",
+      "bytes": 18494
+    },
+    "reproduction-001/unchanged/experiments/pic_padstack_import_probe_v1/test_driver.py": {
+      "sha256": "76f35412ab0ad553ecbec205cccabbf0513da2cc2aca3972f499acdba6c151d7",
+      "bytes": 11538
+    },
+    "reproduction-001/unchanged/toolchain.lock.json": {
+      "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "bytes": 2
+    },
+    "reproduction-001/unchanged/tools/jar": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-001/unchanged/tools/java": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-001/unchanged/tools/javac": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-001/unchanged/tools/python": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-001/unchanged/tools/sandbox": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-001.log": {
+      "sha256": "95c735f4e909ec598c770ab940c474ec857d5c7829635393171e51545ff9e4e3",
+      "bytes": 1591
+    },
+    "reproduction-002/late_class/.git/HEAD": {
+      "sha256": "c589d42e616c9280a5086c1a7a6d6f59128e907f04063daa8393a3a40edb728e",
+      "bytes": 35
+    },
+    "reproduction-002/late_class/.git/refs/heads/rebuild/local-test": {
+      "sha256": "0e4f6f5ffe8ab285266465bd48989e24fae411b9a759de839aee5dcab192beb7",
+      "bytes": 41
+    },
+    "reproduction-002/late_class/.runs/output/classes/PadstackImportProbe.class": {
+      "sha256": "be1a97c92328a2fcd0c37751cef07316917c77359afea74559972cf3adec68ef",
+      "bytes": 13
+    },
+    "reproduction-002/late_class/.runs/output/code/autorouter/__init__.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-002/late_class/.runs/output/code/autorouter/runner.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-002/late_class/.runs/output/code/experiments/pic_padstack_import_probe_v1/PROTOCOL.json": {
+      "sha256": "b148d06276c84b75ae1b109bba766471d9f9cde028f098378c4057b8fdf383c8",
+      "bytes": 4316
+    },
+    "reproduction-002/late_class/.runs/output/code/experiments/pic_padstack_import_probe_v1/PadstackImportProbe.java": {
+      "sha256": "2927505a6dc4ce6587b46e756c1fac2c78af6cdb1d4ffd65c67eb65d50856894",
+      "bytes": 8304
+    },
+    "reproduction-002/late_class/.runs/output/code/experiments/pic_padstack_import_probe_v1/README.md": {
+      "sha256": "2a172d709521549922acf941c87bdec9ba21f6351072286e338a5f00e9df1044",
+      "bytes": 5473
+    },
+    "reproduction-002/late_class/.runs/output/code/experiments/pic_padstack_import_probe_v1/driver.py": {
+      "sha256": "2b995875d509c3245398be1ee94ccabe5af264266cd07f7aa29509ecfe94e358",
+      "bytes": 18667
+    },
+    "reproduction-002/late_class/.runs/output/code/experiments/pic_padstack_import_probe_v1/test_driver.py": {
+      "sha256": "7077076db713ccf38d373b8e15c2ac2157b1e776bab9f34956fa1101bac4e537",
+      "bytes": 12160
+    },
+    "reproduction-002/late_class/.runs/output/code/toolchain.lock.json": {
+      "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "bytes": 2
+    },
+    "reproduction-002/late_class/.runs/output/compile-process.json": {
+      "sha256": "d8b7120a448341b5f990da0a7b130f0b862fb7770445b40c19958419f4c20fdd",
+      "bytes": 1099
+    },
+    "reproduction-002/late_class/.runs/output/compile.log": {
+      "sha256": "b355cdd9987bf1d64a54000121b4bbb878e58c1d183290948da9d340b7ef3832",
+      "bytes": 39
+    },
+    "reproduction-002/late_class/.runs/output/import-process.json": {
+      "sha256": "d4d35b2dcaa39d4d141861cba55563c645a1ae6f82f5e3c691c35cbe942443df",
+      "bytes": 1354
+    },
+    "reproduction-002/late_class/.runs/output/import.log": {
+      "sha256": "b355cdd9987bf1d64a54000121b4bbb878e58c1d183290948da9d340b7ef3832",
+      "bytes": 39
+    },
+    "reproduction-002/late_class/.runs/output/inputs/concave.dsn": {
+      "sha256": "bf0ff1de4b604f91ef05fcade5d5fcd284b33aa9c074f8d0a2e955d9113f7644",
+      "bytes": 87
+    },
+    "reproduction-002/late_class/.runs/output/inputs/convex.dsn": {
+      "sha256": "a29240d03feff540aeabc5e356c7adac2bc7691dd6f2433d0afa42b0275acdc8",
+      "bytes": 86
+    },
+    "reproduction-002/late_class/.runs/output/inputs/distinct.dsn": {
+      "sha256": "e10c374f83ab674e0125ccec6e10c546523d0e8f0818f6ad745fc1b87a97b0b9",
+      "bytes": 99
+    },
+    "reproduction-002/late_class/.runs/output/inputs/sameAB.dsn": {
+      "sha256": "2e0bd09d721e4d188d33a9782d2e8b59ca2c464ac312022fa7c0beea90e6452f",
+      "bytes": 97
+    },
+    "reproduction-002/late_class/.runs/output/inputs/sameBA.dsn": {
+      "sha256": "6e020e94076f82042f86377944235615a3a51d81703e5781fd560e26a765d022",
+      "bytes": 97
+    },
+    "reproduction-002/late_class/.runs/output/invalidated-fc07f58be9d04460bc0f6bf635028fef-summary.json": {
+      "sha256": "836cf71ff749daee21c2197f8cd5b88683fc8ee118e36d103b966b943aee6c83",
+      "bytes": 7886
+    },
+    "reproduction-002/late_class/.runs/output/observations.json": {
+      "sha256": "e1a0b864a237bd9bc77df4ad3c508c06228e40903453167aeffa5747ee6c9168",
+      "bytes": 2751
+    },
+    "reproduction-002/late_class/.runs/output/runtime.json": {
+      "sha256": "ec6894bb76e8aad9c9c5eaf745209be883b32879973033e9058bf69c967aba7f",
+      "bytes": 1843
+    },
+    "reproduction-002/late_class/.runs/output/summary.json": {
+      "sha256": "ebe19da7acf595b66ca502d8ce62bdd93019364a250fc9813709ff2bf9a5d557",
+      "bytes": 8052
+    },
+    "reproduction-002/late_class/autorouter/__init__.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-002/late_class/autorouter/runner.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-002/late_class/experiments/pic_padstack_import_probe_v1/PROTOCOL.json": {
+      "sha256": "b148d06276c84b75ae1b109bba766471d9f9cde028f098378c4057b8fdf383c8",
+      "bytes": 4316
+    },
+    "reproduction-002/late_class/experiments/pic_padstack_import_probe_v1/PadstackImportProbe.java": {
+      "sha256": "2927505a6dc4ce6587b46e756c1fac2c78af6cdb1d4ffd65c67eb65d50856894",
+      "bytes": 8304
+    },
+    "reproduction-002/late_class/experiments/pic_padstack_import_probe_v1/README.md": {
+      "sha256": "2a172d709521549922acf941c87bdec9ba21f6351072286e338a5f00e9df1044",
+      "bytes": 5473
+    },
+    "reproduction-002/late_class/experiments/pic_padstack_import_probe_v1/driver.py": {
+      "sha256": "2b995875d509c3245398be1ee94ccabe5af264266cd07f7aa29509ecfe94e358",
+      "bytes": 18667
+    },
+    "reproduction-002/late_class/experiments/pic_padstack_import_probe_v1/test_driver.py": {
+      "sha256": "7077076db713ccf38d373b8e15c2ac2157b1e776bab9f34956fa1101bac4e537",
+      "bytes": 12160
+    },
+    "reproduction-002/late_class/toolchain.lock.json": {
+      "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "bytes": 2
+    },
+    "reproduction-002/late_class/tools/jar": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-002/late_class/tools/java": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-002/late_class/tools/javac": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-002/late_class/tools/python": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-002/late_class/tools/sandbox": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-002/late_input/.git/HEAD": {
+      "sha256": "c589d42e616c9280a5086c1a7a6d6f59128e907f04063daa8393a3a40edb728e",
+      "bytes": 35
+    },
+    "reproduction-002/late_input/.git/refs/heads/rebuild/local-test": {
+      "sha256": "0e4f6f5ffe8ab285266465bd48989e24fae411b9a759de839aee5dcab192beb7",
+      "bytes": 41
+    },
+    "reproduction-002/late_input/.runs/output/classes/PadstackImportProbe.class": {
+      "sha256": "a117d2baaf7f5cd6f40b8f558ea0d61a48f14c591598d92efb7a9dd12819e619",
+      "bytes": 12
+    },
+    "reproduction-002/late_input/.runs/output/code/autorouter/__init__.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-002/late_input/.runs/output/code/autorouter/runner.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-002/late_input/.runs/output/code/experiments/pic_padstack_import_probe_v1/PROTOCOL.json": {
+      "sha256": "20fa0f0292b26f9fc6e25d63f5765e6d0167072dde435145e83204b7fcc29ead",
+      "bytes": 4316
+    },
+    "reproduction-002/late_input/.runs/output/code/experiments/pic_padstack_import_probe_v1/PadstackImportProbe.java": {
+      "sha256": "2927505a6dc4ce6587b46e756c1fac2c78af6cdb1d4ffd65c67eb65d50856894",
+      "bytes": 8304
+    },
+    "reproduction-002/late_input/.runs/output/code/experiments/pic_padstack_import_probe_v1/README.md": {
+      "sha256": "2a172d709521549922acf941c87bdec9ba21f6351072286e338a5f00e9df1044",
+      "bytes": 5473
+    },
+    "reproduction-002/late_input/.runs/output/code/experiments/pic_padstack_import_probe_v1/driver.py": {
+      "sha256": "2b995875d509c3245398be1ee94ccabe5af264266cd07f7aa29509ecfe94e358",
+      "bytes": 18667
+    },
+    "reproduction-002/late_input/.runs/output/code/experiments/pic_padstack_import_probe_v1/test_driver.py": {
+      "sha256": "7077076db713ccf38d373b8e15c2ac2157b1e776bab9f34956fa1101bac4e537",
+      "bytes": 12160
+    },
+    "reproduction-002/late_input/.runs/output/code/toolchain.lock.json": {
+      "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "bytes": 2
+    },
+    "reproduction-002/late_input/.runs/output/compile-process.json": {
+      "sha256": "f4d3b268b0550141344855f9c5e10b2ceab25a02fca99c628bdba1b89492d282",
+      "bytes": 1099
+    },
+    "reproduction-002/late_input/.runs/output/compile.log": {
+      "sha256": "b355cdd9987bf1d64a54000121b4bbb878e58c1d183290948da9d340b7ef3832",
+      "bytes": 39
+    },
+    "reproduction-002/late_input/.runs/output/import-process.json": {
+      "sha256": "07d64d14ba72753ee0bf0d00a52860b297a92ff5ef240ad19456daf6b7eeaebd",
+      "bytes": 1354
+    },
+    "reproduction-002/late_input/.runs/output/import.log": {
+      "sha256": "b355cdd9987bf1d64a54000121b4bbb878e58c1d183290948da9d340b7ef3832",
+      "bytes": 39
+    },
+    "reproduction-002/late_input/.runs/output/inputs/concave.dsn": {
+      "sha256": "ca8c6e79b5218bb9547cb81707d8578626daa1225afb12de3c4b743539fe78d6",
+      "bytes": 88
+    },
+    "reproduction-002/late_input/.runs/output/inputs/convex.dsn": {
+      "sha256": "a29240d03feff540aeabc5e356c7adac2bc7691dd6f2433d0afa42b0275acdc8",
+      "bytes": 86
+    },
+    "reproduction-002/late_input/.runs/output/inputs/distinct.dsn": {
+      "sha256": "e10c374f83ab674e0125ccec6e10c546523d0e8f0818f6ad745fc1b87a97b0b9",
+      "bytes": 99
+    },
+    "reproduction-002/late_input/.runs/output/inputs/sameAB.dsn": {
+      "sha256": "2e0bd09d721e4d188d33a9782d2e8b59ca2c464ac312022fa7c0beea90e6452f",
+      "bytes": 97
+    },
+    "reproduction-002/late_input/.runs/output/inputs/sameBA.dsn": {
+      "sha256": "6e020e94076f82042f86377944235615a3a51d81703e5781fd560e26a765d022",
+      "bytes": 97
+    },
+    "reproduction-002/late_input/.runs/output/invalidated-f3ead13fd1ec49b2bb69c138e2d09e18-summary.json": {
+      "sha256": "04626957dac6931a1f010a2722bb37bcfa211dc7928d56b2e8a97650fb0e01bf",
+      "bytes": 7899
+    },
+    "reproduction-002/late_input/.runs/output/observations.json": {
+      "sha256": "e1a0b864a237bd9bc77df4ad3c508c06228e40903453167aeffa5747ee6c9168",
+      "bytes": 2751
+    },
+    "reproduction-002/late_input/.runs/output/runtime.json": {
+      "sha256": "c7c94640342d9afbb7963d6a5f8942e023e4c89923b47afdb3080dac2a8fc3eb",
+      "bytes": 1843
+    },
+    "reproduction-002/late_input/.runs/output/summary.json": {
+      "sha256": "d5e61a0032e476dd61dbae5118aa8867dfac5333d0243dc4afa1c6b81c7fd083",
+      "bytes": 8052
+    },
+    "reproduction-002/late_input/autorouter/__init__.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-002/late_input/autorouter/runner.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-002/late_input/experiments/pic_padstack_import_probe_v1/PROTOCOL.json": {
+      "sha256": "20fa0f0292b26f9fc6e25d63f5765e6d0167072dde435145e83204b7fcc29ead",
+      "bytes": 4316
+    },
+    "reproduction-002/late_input/experiments/pic_padstack_import_probe_v1/PadstackImportProbe.java": {
+      "sha256": "2927505a6dc4ce6587b46e756c1fac2c78af6cdb1d4ffd65c67eb65d50856894",
+      "bytes": 8304
+    },
+    "reproduction-002/late_input/experiments/pic_padstack_import_probe_v1/README.md": {
+      "sha256": "2a172d709521549922acf941c87bdec9ba21f6351072286e338a5f00e9df1044",
+      "bytes": 5473
+    },
+    "reproduction-002/late_input/experiments/pic_padstack_import_probe_v1/driver.py": {
+      "sha256": "2b995875d509c3245398be1ee94ccabe5af264266cd07f7aa29509ecfe94e358",
+      "bytes": 18667
+    },
+    "reproduction-002/late_input/experiments/pic_padstack_import_probe_v1/test_driver.py": {
+      "sha256": "7077076db713ccf38d373b8e15c2ac2157b1e776bab9f34956fa1101bac4e537",
+      "bytes": 12160
+    },
+    "reproduction-002/late_input/toolchain.lock.json": {
+      "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "bytes": 2
+    },
+    "reproduction-002/late_input/tools/jar": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-002/late_input/tools/java": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-002/late_input/tools/javac": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-002/late_input/tools/python": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-002/late_input/tools/sandbox": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-002/late_observation/.git/HEAD": {
+      "sha256": "c589d42e616c9280a5086c1a7a6d6f59128e907f04063daa8393a3a40edb728e",
+      "bytes": 35
+    },
+    "reproduction-002/late_observation/.git/refs/heads/rebuild/local-test": {
+      "sha256": "0e4f6f5ffe8ab285266465bd48989e24fae411b9a759de839aee5dcab192beb7",
+      "bytes": 41
+    },
+    "reproduction-002/late_observation/.runs/output/classes/PadstackImportProbe.class": {
+      "sha256": "a117d2baaf7f5cd6f40b8f558ea0d61a48f14c591598d92efb7a9dd12819e619",
+      "bytes": 12
+    },
+    "reproduction-002/late_observation/.runs/output/code/autorouter/__init__.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-002/late_observation/.runs/output/code/autorouter/runner.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-002/late_observation/.runs/output/code/experiments/pic_padstack_import_probe_v1/PROTOCOL.json": {
+      "sha256": "0071650d32f54465d4301c66e6ff775f19c7924f2db65ea2fb006d2d5206e047",
+      "bytes": 4346
+    },
+    "reproduction-002/late_observation/.runs/output/code/experiments/pic_padstack_import_probe_v1/PadstackImportProbe.java": {
+      "sha256": "2927505a6dc4ce6587b46e756c1fac2c78af6cdb1d4ffd65c67eb65d50856894",
+      "bytes": 8304
+    },
+    "reproduction-002/late_observation/.runs/output/code/experiments/pic_padstack_import_probe_v1/README.md": {
+      "sha256": "2a172d709521549922acf941c87bdec9ba21f6351072286e338a5f00e9df1044",
+      "bytes": 5473
+    },
+    "reproduction-002/late_observation/.runs/output/code/experiments/pic_padstack_import_probe_v1/driver.py": {
+      "sha256": "2b995875d509c3245398be1ee94ccabe5af264266cd07f7aa29509ecfe94e358",
+      "bytes": 18667
+    },
+    "reproduction-002/late_observation/.runs/output/code/experiments/pic_padstack_import_probe_v1/test_driver.py": {
+      "sha256": "7077076db713ccf38d373b8e15c2ac2157b1e776bab9f34956fa1101bac4e537",
+      "bytes": 12160
+    },
+    "reproduction-002/late_observation/.runs/output/code/toolchain.lock.json": {
+      "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "bytes": 2
+    },
+    "reproduction-002/late_observation/.runs/output/compile-process.json": {
+      "sha256": "bbbf119f327d21d97a2d0d0a2c93d027a30ab0cab0cb19301a071295a9aac49a",
+      "bytes": 1135
+    },
+    "reproduction-002/late_observation/.runs/output/compile.log": {
+      "sha256": "b355cdd9987bf1d64a54000121b4bbb878e58c1d183290948da9d340b7ef3832",
+      "bytes": 39
+    },
+    "reproduction-002/late_observation/.runs/output/import-process.json": {
+      "sha256": "8a23d881d4e6bbfe571f45e26fa974f1b2687b9af461181e49694b740406469f",
+      "bytes": 1402
+    },
+    "reproduction-002/late_observation/.runs/output/import.log": {
+      "sha256": "b355cdd9987bf1d64a54000121b4bbb878e58c1d183290948da9d340b7ef3832",
+      "bytes": 39
+    },
+    "reproduction-002/late_observation/.runs/output/inputs/concave.dsn": {
+      "sha256": "bf0ff1de4b604f91ef05fcade5d5fcd284b33aa9c074f8d0a2e955d9113f7644",
+      "bytes": 87
+    },
+    "reproduction-002/late_observation/.runs/output/inputs/convex.dsn": {
+      "sha256": "a29240d03feff540aeabc5e356c7adac2bc7691dd6f2433d0afa42b0275acdc8",
+      "bytes": 86
+    },
+    "reproduction-002/late_observation/.runs/output/inputs/distinct.dsn": {
+      "sha256": "e10c374f83ab674e0125ccec6e10c546523d0e8f0818f6ad745fc1b87a97b0b9",
+      "bytes": 99
+    },
+    "reproduction-002/late_observation/.runs/output/inputs/sameAB.dsn": {
+      "sha256": "2e0bd09d721e4d188d33a9782d2e8b59ca2c464ac312022fa7c0beea90e6452f",
+      "bytes": 97
+    },
+    "reproduction-002/late_observation/.runs/output/inputs/sameBA.dsn": {
+      "sha256": "6e020e94076f82042f86377944235615a3a51d81703e5781fd560e26a765d022",
+      "bytes": 97
+    },
+    "reproduction-002/late_observation/.runs/output/invalidated-201b90c9f5e54514b38db7a0c2b9f210-summary.json": {
+      "sha256": "d4f1f715b25af5e17a5ecc95dcc7d1c9e3c53b2769acfb34e4b8b4e789099b5b",
+      "bytes": 7971
+    },
+    "reproduction-002/late_observation/.runs/output/observations.json": {
+      "sha256": "4997884f6ec556625515a393ce5d84e937c80a978eadac094015f4191ae89c57",
+      "bytes": 2752
+    },
+    "reproduction-002/late_observation/.runs/output/runtime.json": {
+      "sha256": "f55b26ddbcfd97bd33d48a33e3d9b884647b4a659971e94fe3ec397308ab72b6",
+      "bytes": 1843
+    },
+    "reproduction-002/late_observation/.runs/output/summary.json": {
+      "sha256": "c1db21bed5e703dd238b98e9aa07cf2323d76bfc895dd77a7b26b1f2fcfc5203",
+      "bytes": 8136
+    },
+    "reproduction-002/late_observation/autorouter/__init__.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-002/late_observation/autorouter/runner.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-002/late_observation/experiments/pic_padstack_import_probe_v1/PROTOCOL.json": {
+      "sha256": "0071650d32f54465d4301c66e6ff775f19c7924f2db65ea2fb006d2d5206e047",
+      "bytes": 4346
+    },
+    "reproduction-002/late_observation/experiments/pic_padstack_import_probe_v1/PadstackImportProbe.java": {
+      "sha256": "2927505a6dc4ce6587b46e756c1fac2c78af6cdb1d4ffd65c67eb65d50856894",
+      "bytes": 8304
+    },
+    "reproduction-002/late_observation/experiments/pic_padstack_import_probe_v1/README.md": {
+      "sha256": "2a172d709521549922acf941c87bdec9ba21f6351072286e338a5f00e9df1044",
+      "bytes": 5473
+    },
+    "reproduction-002/late_observation/experiments/pic_padstack_import_probe_v1/driver.py": {
+      "sha256": "2b995875d509c3245398be1ee94ccabe5af264266cd07f7aa29509ecfe94e358",
+      "bytes": 18667
+    },
+    "reproduction-002/late_observation/experiments/pic_padstack_import_probe_v1/test_driver.py": {
+      "sha256": "7077076db713ccf38d373b8e15c2ac2157b1e776bab9f34956fa1101bac4e537",
+      "bytes": 12160
+    },
+    "reproduction-002/late_observation/toolchain.lock.json": {
+      "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "bytes": 2
+    },
+    "reproduction-002/late_observation/tools/jar": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-002/late_observation/tools/java": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-002/late_observation/tools/javac": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-002/late_observation/tools/python": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-002/late_observation/tools/sandbox": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-002/late_process/.git/HEAD": {
+      "sha256": "c589d42e616c9280a5086c1a7a6d6f59128e907f04063daa8393a3a40edb728e",
+      "bytes": 35
+    },
+    "reproduction-002/late_process/.git/refs/heads/rebuild/local-test": {
+      "sha256": "0e4f6f5ffe8ab285266465bd48989e24fae411b9a759de839aee5dcab192beb7",
+      "bytes": 41
+    },
+    "reproduction-002/late_process/.runs/output/classes/PadstackImportProbe.class": {
+      "sha256": "a117d2baaf7f5cd6f40b8f558ea0d61a48f14c591598d92efb7a9dd12819e619",
+      "bytes": 12
+    },
+    "reproduction-002/late_process/.runs/output/code/autorouter/__init__.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-002/late_process/.runs/output/code/autorouter/runner.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-002/late_process/.runs/output/code/experiments/pic_padstack_import_probe_v1/PROTOCOL.json": {
+      "sha256": "1f8f7bea8e8954bb8d21ee5f92b81b1b1e75fe755e5013cff870742556aebe8a",
+      "bytes": 4326
+    },
+    "reproduction-002/late_process/.runs/output/code/experiments/pic_padstack_import_probe_v1/PadstackImportProbe.java": {
+      "sha256": "2927505a6dc4ce6587b46e756c1fac2c78af6cdb1d4ffd65c67eb65d50856894",
+      "bytes": 8304
+    },
+    "reproduction-002/late_process/.runs/output/code/experiments/pic_padstack_import_probe_v1/README.md": {
+      "sha256": "2a172d709521549922acf941c87bdec9ba21f6351072286e338a5f00e9df1044",
+      "bytes": 5473
+    },
+    "reproduction-002/late_process/.runs/output/code/experiments/pic_padstack_import_probe_v1/driver.py": {
+      "sha256": "2b995875d509c3245398be1ee94ccabe5af264266cd07f7aa29509ecfe94e358",
+      "bytes": 18667
+    },
+    "reproduction-002/late_process/.runs/output/code/experiments/pic_padstack_import_probe_v1/test_driver.py": {
+      "sha256": "7077076db713ccf38d373b8e15c2ac2157b1e776bab9f34956fa1101bac4e537",
+      "bytes": 12160
+    },
+    "reproduction-002/late_process/.runs/output/code/toolchain.lock.json": {
+      "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "bytes": 2
+    },
+    "reproduction-002/late_process/.runs/output/compile-process.json": {
+      "sha256": "e90db0107cdace82231819a2f2c49a625b1a4887afac4b0bd235e421be57f16e",
+      "bytes": 1111
+    },
+    "reproduction-002/late_process/.runs/output/compile.log": {
+      "sha256": "b355cdd9987bf1d64a54000121b4bbb878e58c1d183290948da9d340b7ef3832",
+      "bytes": 39
+    },
+    "reproduction-002/late_process/.runs/output/import-process.json": {
+      "sha256": "e6d72e915cd9d66783785d335a856163ceee6ecc33c81e2fdebab8674aa3ee88",
+      "bytes": 1371
+    },
+    "reproduction-002/late_process/.runs/output/import.log": {
+      "sha256": "b355cdd9987bf1d64a54000121b4bbb878e58c1d183290948da9d340b7ef3832",
+      "bytes": 39
+    },
+    "reproduction-002/late_process/.runs/output/inputs/concave.dsn": {
+      "sha256": "bf0ff1de4b604f91ef05fcade5d5fcd284b33aa9c074f8d0a2e955d9113f7644",
+      "bytes": 87
+    },
+    "reproduction-002/late_process/.runs/output/inputs/convex.dsn": {
+      "sha256": "a29240d03feff540aeabc5e356c7adac2bc7691dd6f2433d0afa42b0275acdc8",
+      "bytes": 86
+    },
+    "reproduction-002/late_process/.runs/output/inputs/distinct.dsn": {
+      "sha256": "e10c374f83ab674e0125ccec6e10c546523d0e8f0818f6ad745fc1b87a97b0b9",
+      "bytes": 99
+    },
+    "reproduction-002/late_process/.runs/output/inputs/sameAB.dsn": {
+      "sha256": "2e0bd09d721e4d188d33a9782d2e8b59ca2c464ac312022fa7c0beea90e6452f",
+      "bytes": 97
+    },
+    "reproduction-002/late_process/.runs/output/inputs/sameBA.dsn": {
+      "sha256": "6e020e94076f82042f86377944235615a3a51d81703e5781fd560e26a765d022",
+      "bytes": 97
+    },
+    "reproduction-002/late_process/.runs/output/invalidated-fa254670e06742aa8b16d02e5340b8c3-summary.json": {
+      "sha256": "26dee95b306498011882ad6f44d0c9b24af832312e47186c8c88149eb1441258",
+      "bytes": 7927
+    },
+    "reproduction-002/late_process/.runs/output/observations.json": {
+      "sha256": "e1a0b864a237bd9bc77df4ad3c508c06228e40903453167aeffa5747ee6c9168",
+      "bytes": 2751
+    },
+    "reproduction-002/late_process/.runs/output/runtime.json": {
+      "sha256": "abb889d4410ef29a682786196b64718671ab5e528c6914d90e5a355cfd10bc4c",
+      "bytes": 1843
+    },
+    "reproduction-002/late_process/.runs/output/summary.json": {
+      "sha256": "bf45c575e375fed9a1c225bd4ecf842fe87cc126250ad9c05886c103da5c22c9",
+      "bytes": 8068
+    },
+    "reproduction-002/late_process/autorouter/__init__.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-002/late_process/autorouter/runner.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-002/late_process/experiments/pic_padstack_import_probe_v1/PROTOCOL.json": {
+      "sha256": "1f8f7bea8e8954bb8d21ee5f92b81b1b1e75fe755e5013cff870742556aebe8a",
+      "bytes": 4326
+    },
+    "reproduction-002/late_process/experiments/pic_padstack_import_probe_v1/PadstackImportProbe.java": {
+      "sha256": "2927505a6dc4ce6587b46e756c1fac2c78af6cdb1d4ffd65c67eb65d50856894",
+      "bytes": 8304
+    },
+    "reproduction-002/late_process/experiments/pic_padstack_import_probe_v1/README.md": {
+      "sha256": "2a172d709521549922acf941c87bdec9ba21f6351072286e338a5f00e9df1044",
+      "bytes": 5473
+    },
+    "reproduction-002/late_process/experiments/pic_padstack_import_probe_v1/driver.py": {
+      "sha256": "2b995875d509c3245398be1ee94ccabe5af264266cd07f7aa29509ecfe94e358",
+      "bytes": 18667
+    },
+    "reproduction-002/late_process/experiments/pic_padstack_import_probe_v1/test_driver.py": {
+      "sha256": "7077076db713ccf38d373b8e15c2ac2157b1e776bab9f34956fa1101bac4e537",
+      "bytes": 12160
+    },
+    "reproduction-002/late_process/toolchain.lock.json": {
+      "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "bytes": 2
+    },
+    "reproduction-002/late_process/tools/jar": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-002/late_process/tools/java": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-002/late_process/tools/javac": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-002/late_process/tools/python": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-002/late_process/tools/sandbox": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-002/results.json": {
+      "sha256": "8dbf9e35547f9009cd28f77674d721766ca6a5de0ff68525a3ee0785d077ddc9",
+      "bytes": 1907
+    },
+    "reproduction-002/unchanged/.git/HEAD": {
+      "sha256": "c589d42e616c9280a5086c1a7a6d6f59128e907f04063daa8393a3a40edb728e",
+      "bytes": 35
+    },
+    "reproduction-002/unchanged/.git/refs/heads/rebuild/local-test": {
+      "sha256": "0e4f6f5ffe8ab285266465bd48989e24fae411b9a759de839aee5dcab192beb7",
+      "bytes": 41
+    },
+    "reproduction-002/unchanged/.runs/output/classes/PadstackImportProbe.class": {
+      "sha256": "a117d2baaf7f5cd6f40b8f558ea0d61a48f14c591598d92efb7a9dd12819e619",
+      "bytes": 12
+    },
+    "reproduction-002/unchanged/.runs/output/code/autorouter/__init__.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-002/unchanged/.runs/output/code/autorouter/runner.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-002/unchanged/.runs/output/code/experiments/pic_padstack_import_probe_v1/PROTOCOL.json": {
+      "sha256": "643a12c94ba6822615ce939266cab7254a6238fd2965aaddf35de4202de20368",
+      "bytes": 4311
+    },
+    "reproduction-002/unchanged/.runs/output/code/experiments/pic_padstack_import_probe_v1/PadstackImportProbe.java": {
+      "sha256": "2927505a6dc4ce6587b46e756c1fac2c78af6cdb1d4ffd65c67eb65d50856894",
+      "bytes": 8304
+    },
+    "reproduction-002/unchanged/.runs/output/code/experiments/pic_padstack_import_probe_v1/README.md": {
+      "sha256": "2a172d709521549922acf941c87bdec9ba21f6351072286e338a5f00e9df1044",
+      "bytes": 5473
+    },
+    "reproduction-002/unchanged/.runs/output/code/experiments/pic_padstack_import_probe_v1/driver.py": {
+      "sha256": "2b995875d509c3245398be1ee94ccabe5af264266cd07f7aa29509ecfe94e358",
+      "bytes": 18667
+    },
+    "reproduction-002/unchanged/.runs/output/code/experiments/pic_padstack_import_probe_v1/test_driver.py": {
+      "sha256": "7077076db713ccf38d373b8e15c2ac2157b1e776bab9f34956fa1101bac4e537",
+      "bytes": 12160
+    },
+    "reproduction-002/unchanged/.runs/output/code/toolchain.lock.json": {
+      "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "bytes": 2
+    },
+    "reproduction-002/unchanged/.runs/output/compile-process.json": {
+      "sha256": "103644be3e773ee91af5d361607880097efbec4335f457adc1ff3d1f1248a0b5",
+      "bytes": 1093
+    },
+    "reproduction-002/unchanged/.runs/output/compile.log": {
+      "sha256": "b355cdd9987bf1d64a54000121b4bbb878e58c1d183290948da9d340b7ef3832",
+      "bytes": 39
+    },
+    "reproduction-002/unchanged/.runs/output/import-process.json": {
+      "sha256": "3777589b07375830dac0683b062b10f2a8219f8da9dc7ab8a4774b9e6f43fde5",
+      "bytes": 1346
+    },
+    "reproduction-002/unchanged/.runs/output/import.log": {
+      "sha256": "b355cdd9987bf1d64a54000121b4bbb878e58c1d183290948da9d340b7ef3832",
+      "bytes": 39
+    },
+    "reproduction-002/unchanged/.runs/output/inputs/concave.dsn": {
+      "sha256": "bf0ff1de4b604f91ef05fcade5d5fcd284b33aa9c074f8d0a2e955d9113f7644",
+      "bytes": 87
+    },
+    "reproduction-002/unchanged/.runs/output/inputs/convex.dsn": {
+      "sha256": "a29240d03feff540aeabc5e356c7adac2bc7691dd6f2433d0afa42b0275acdc8",
+      "bytes": 86
+    },
+    "reproduction-002/unchanged/.runs/output/inputs/distinct.dsn": {
+      "sha256": "e10c374f83ab674e0125ccec6e10c546523d0e8f0818f6ad745fc1b87a97b0b9",
+      "bytes": 99
+    },
+    "reproduction-002/unchanged/.runs/output/inputs/sameAB.dsn": {
+      "sha256": "2e0bd09d721e4d188d33a9782d2e8b59ca2c464ac312022fa7c0beea90e6452f",
+      "bytes": 97
+    },
+    "reproduction-002/unchanged/.runs/output/inputs/sameBA.dsn": {
+      "sha256": "6e020e94076f82042f86377944235615a3a51d81703e5781fd560e26a765d022",
+      "bytes": 97
+    },
+    "reproduction-002/unchanged/.runs/output/observations.json": {
+      "sha256": "e1a0b864a237bd9bc77df4ad3c508c06228e40903453167aeffa5747ee6c9168",
+      "bytes": 2751
+    },
+    "reproduction-002/unchanged/.runs/output/runtime.json": {
+      "sha256": "6eb5851ad8643eaf8eae19098abf04d650561bf7350cfd95add4e5780a25a4a5",
+      "bytes": 1843
+    },
+    "reproduction-002/unchanged/.runs/output/summary.json": {
+      "sha256": "8cb6844ab08f1ad54f2698eaae209a3240fa5a035eaaaea62bae3276b1f79b9f",
+      "bytes": 7885
+    },
+    "reproduction-002/unchanged/autorouter/__init__.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-002/unchanged/autorouter/runner.py": {
+      "sha256": "55bb9ed5338c072ac52d6d4caaa5dbc7a27155b385bb66a9a63ba1ba458938d1",
+      "bytes": 32
+    },
+    "reproduction-002/unchanged/experiments/pic_padstack_import_probe_v1/PROTOCOL.json": {
+      "sha256": "643a12c94ba6822615ce939266cab7254a6238fd2965aaddf35de4202de20368",
+      "bytes": 4311
+    },
+    "reproduction-002/unchanged/experiments/pic_padstack_import_probe_v1/PadstackImportProbe.java": {
+      "sha256": "2927505a6dc4ce6587b46e756c1fac2c78af6cdb1d4ffd65c67eb65d50856894",
+      "bytes": 8304
+    },
+    "reproduction-002/unchanged/experiments/pic_padstack_import_probe_v1/README.md": {
+      "sha256": "2a172d709521549922acf941c87bdec9ba21f6351072286e338a5f00e9df1044",
+      "bytes": 5473
+    },
+    "reproduction-002/unchanged/experiments/pic_padstack_import_probe_v1/driver.py": {
+      "sha256": "2b995875d509c3245398be1ee94ccabe5af264266cd07f7aa29509ecfe94e358",
+      "bytes": 18667
+    },
+    "reproduction-002/unchanged/experiments/pic_padstack_import_probe_v1/test_driver.py": {
+      "sha256": "7077076db713ccf38d373b8e15c2ac2157b1e776bab9f34956fa1101bac4e537",
+      "bytes": 12160
+    },
+    "reproduction-002/unchanged/toolchain.lock.json": {
+      "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "bytes": 2
+    },
+    "reproduction-002/unchanged/tools/jar": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-002/unchanged/tools/java": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-002/unchanged/tools/javac": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-002/unchanged/tools/python": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-002/unchanged/tools/sandbox": {
+      "sha256": "7c9bbe5ec9b3fb774e8fa0f54247e93c34ddf8e5d16fe3073420de0ae81a262d",
+      "bytes": 4
+    },
+    "reproduction-002.log": {
+      "sha256": "6ff7a621b9eff6f4c4de70e3a8ac92801ab734f431db7700749c34564e152dd9",
+      "bytes": 1607
+    },
+    "review.json": {
+      "sha256": "b330179e3e8feddc704893093ecffdadf7558d35a6d47947d3d1aa9c40963ccc",
+      "bytes": 1113
+    },
+    "selected-public.json": {
+      "sha256": "a00584f722ed49c6020ee6868b2f1898ee292254a932b47d298187fabc517c1a",
+      "bytes": 1126
+    },
+    "snapshot-001/PROTOCOL.json": {
+      "sha256": "28533dd0ac0a9cd79f8624ec5ca98e51572be745719957695e4006a6a047e6d4",
+      "bytes": 6777
+    },
+    "snapshot-001/PadstackImportProbe.java": {
+      "sha256": "2927505a6dc4ce6587b46e756c1fac2c78af6cdb1d4ffd65c67eb65d50856894",
+      "bytes": 8304
+    },
+    "snapshot-001/README.md": {
+      "sha256": "3dce9fa12b6d3d103ae60cf8e1818db825c1ac6db5bdf283a180a348a5111894",
+      "bytes": 4810
+    },
+    "snapshot-001/author-manifest.json": {
+      "sha256": "690e125ac555e1b1af8904cbfa51e7d28f6d364cc863751b639aaaabd78ec275",
+      "bytes": 1678
+    },
+    "snapshot-001/driver.py": {
+      "sha256": "81e2baea71bfd6ad0f58b8b83dbe21fe43e5ddc0c2312270eef7c20c2eee6289",
+      "bytes": 18494
+    },
+    "snapshot-001/pure-tests-001.log": {
+      "sha256": "06c5223e824ce45e2eba33ef6cf81539bc7426c2afa321bade2a0cdc24aa92b4",
+      "bytes": 1820
+    },
+    "snapshot-001/test_driver.py": {
+      "sha256": "76f35412ab0ad553ecbec205cccabbf0513da2cc2aca3972f499acdba6c151d7",
+      "bytes": 11538
+    },
+    "snapshot-002/PROTOCOL.json": {
+      "sha256": "28533dd0ac0a9cd79f8624ec5ca98e51572be745719957695e4006a6a047e6d4",
+      "bytes": 6777
+    },
+    "snapshot-002/PadstackImportProbe.java": {
+      "sha256": "2927505a6dc4ce6587b46e756c1fac2c78af6cdb1d4ffd65c67eb65d50856894",
+      "bytes": 8304
+    },
+    "snapshot-002/README.md": {
+      "sha256": "2a172d709521549922acf941c87bdec9ba21f6351072286e338a5f00e9df1044",
+      "bytes": 5473
+    },
+    "snapshot-002/driver.py": {
+      "sha256": "2b995875d509c3245398be1ee94ccabe5af264266cd07f7aa29509ecfe94e358",
+      "bytes": 18667
+    },
+    "snapshot-002/test_driver.py": {
+      "sha256": "7077076db713ccf38d373b8e15c2ac2157b1e776bab9f34956fa1101bac4e537",
+      "bytes": 12160
+    },
+    "static-audit-001.json": {
+      "sha256": "5510af01d6d4445fddcd62ec465175aa57b448774465b3d0bcc08864c352596c",
+      "bytes": 7318
+    },
+    "static-audit-001.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "static-audit-002.log": {
+      "sha256": "d9274771183fbd9b7345599e92198b9ce0948cdb182e7b29577424af7c836d5f",
+      "bytes": 211
+    },
+    "static_audit.py": {
+      "sha256": "c46f8fbe4708421b4587c6dec532f5912d895cbc13ba2e5d655f7bb4abe4e37d",
+      "bytes": 4444
+    }
+  },
+  "native_java_compiler_network_executed": false
+}
