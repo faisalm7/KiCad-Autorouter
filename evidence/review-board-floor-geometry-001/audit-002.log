@@ -1,0 +1,150 @@
+{
+  "passed": true,
+  "checks": 1905,
+  "failures": [],
+  "native_executed_by_reviewer": false,
+  "frozen_commit": "099cc8f72c145e43743c18c1549a7e2db36ce100",
+  "run_status": "invalidated",
+  "overall_controls_passed": false,
+  "six_executed_case_predicates_verified": true,
+  "cases": [
+    {
+      "case": "positive",
+      "native_control_predicate_verified": true,
+      "routing_accepted": false,
+      "candidate_sha256": "fa36ff88a01c43b35f6876a4fece7ee3e38f5bc9a92b2fe439125d6c543b07d6",
+      "report_sha256": "55bfde209dab50cacc336028c217b8f3152657df558421d805abce6b78df3296",
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 0,
+      "exclusions": 0,
+      "finding_types": {}
+    },
+    {
+      "case": "track_width",
+      "native_control_predicate_verified": true,
+      "routing_accepted": false,
+      "candidate_sha256": "b1d1ac07e31e59745c56fa5aced38486f1e56d3d014c791c1aa1b7a1d4eee698",
+      "report_sha256": "71dcef6fcb206b22f959b89b164dd1254082a7ac9e0b6fe6ccb143a685091869",
+      "opens": 0,
+      "blocking": 1,
+      "warnings": 1,
+      "exclusions": 0,
+      "finding_types": {
+        "track_width": 1,
+        "connection_width": 1
+      }
+    },
+    {
+      "case": "clearance",
+      "native_control_predicate_verified": true,
+      "routing_accepted": false,
+      "candidate_sha256": "b9d565124b32d61c40679afc3990089bc606d181fe5bd18a817b08723e957d61",
+      "report_sha256": "03c1ebb7919efc8c7ae6a6b72eff38e2cbcd73208e37c02aa02933c1e4e1ec0d",
+      "opens": 0,
+      "blocking": 3,
+      "warnings": 0,
+      "exclusions": 0,
+      "finding_types": {
+        "clearance": 3
+      }
+    },
+    {
+      "case": "via_diameter",
+      "native_control_predicate_verified": true,
+      "routing_accepted": false,
+      "candidate_sha256": "2b81ec270c5a8f9d5fbf9966dc564300ee654c53feaceea5974ce059c9ee7d00",
+      "report_sha256": "4de8b429b466f9c7a2f51b5ce3d0ea4a478069e9919309a6c9ed6c5e0d6ce940",
+      "opens": 0,
+      "blocking": 2,
+      "warnings": 0,
+      "exclusions": 0,
+      "finding_types": {
+        "annular_width": 1,
+        "via_diameter": 1
+      }
+    },
+    {
+      "case": "drill",
+      "native_control_predicate_verified": true,
+      "routing_accepted": false,
+      "candidate_sha256": "eb230bd092a8eb27afec4b6041a103e6dadcf06042a6401cdc7726b1a16d845b",
+      "report_sha256": "2b4de236cdd5e14a6940e479b60ab9e26aae6edf3b3dfb60f6a3b59bc9ecffa3",
+      "opens": 0,
+      "blocking": 1,
+      "warnings": 0,
+      "exclusions": 0,
+      "finding_types": {
+        "drill_out_of_range": 1
+      }
+    },
+    {
+      "case": "annulus",
+      "native_control_predicate_verified": true,
+      "routing_accepted": false,
+      "candidate_sha256": "2af18b993b61cf12914dd987237235ce5ab53991965e4a339c8c3b7978cefb45",
+      "report_sha256": "4aea968ed770baec96ce69be75dfb73679e9c373367b01a694a5ecd6607c3d5d",
+      "opens": 0,
+      "blocking": 1,
+      "warnings": 0,
+      "exclusions": 0,
+      "finding_types": {
+        "annular_width": 1
+      }
+    }
+  ],
+  "source_sha256": "dc396dfab9dfbd51a0d75cc8d8457b91c3dbac55358c0f5f84dca83dea97ee38",
+  "original_project_sha256": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+  "original_ignored_checks": [
+    {
+      "description": "Footprint has no courtyard defined",
+      "key": "missing_courtyard"
+    },
+    {
+      "description": "Track endpoint not centered on via",
+      "key": "track_not_centered_on_via"
+    },
+    {
+      "description": "Tuning profile track geometries",
+      "key": "tuning_profile_track_geometries"
+    },
+    {
+      "description": "Footprint doesn't match symbol's footprint filters",
+      "key": "footprint_filters_mismatch"
+    },
+    {
+      "description": "PTH inside courtyard",
+      "key": "pth_inside_courtyard"
+    },
+    {
+      "description": "NPTH inside courtyard",
+      "key": "npth_inside_courtyard"
+    },
+    {
+      "description": "Footprint component type doesn't match footprint pads",
+      "key": "footprint_type_mismatch"
+    }
+  ],
+  "publication_failure": {
+    "cause": "negative case expected tuple becomes list in JSON roundtrip",
+    "tuple_paths": [
+      "cases.1.expected",
+      "cases.2.expected",
+      "cases.3.expected",
+      "cases.4.expected",
+      "cases.5.expected"
+    ],
+    "actual_frozen_publish_reproduced": true,
+    "actual_run_unchanged": true
+  },
+  "wall_seconds": 13.36030700000265,
+  "total_cpu_seconds": 9.203077,
+  "script_sha256": "44ca7acac2b4d1c6efa57e7a2c211fb82c3cf609a2e1fe1157d9c9dcfe67d2af",
+  "scope": [
+    "Six actual native case predicates verified; overall run remains invalidated.",
+    "No engine or SES import ran; forced-via transport and production integration remain unqualified.",
+    "Original rules/geometry were unchanged; secondary warning/error findings retained.",
+    "Stored invalidated totals are a pre-publication sample; no accepted budget claim made.",
+    "No reviewer native jobs; frozen driver reproduction uses only JSON publication."
+  ]
+}

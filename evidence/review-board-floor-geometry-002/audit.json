@@ -1,0 +1,138 @@
+{
+  "passed": true,
+  "checks": 1914,
+  "failures": [],
+  "native_executed_by_reviewer": false,
+  "frozen_commit": "efc174e8ffda7796d56f663d87885b444c7bc729",
+  "run_status": "completed",
+  "overall_controls_passed": true,
+  "six_executed_case_predicates_verified": true,
+  "cases": [
+    {
+      "case": "positive",
+      "native_control_predicate_verified": true,
+      "routing_accepted": false,
+      "candidate_sha256": "fa36ff88a01c43b35f6876a4fece7ee3e38f5bc9a92b2fe439125d6c543b07d6",
+      "report_sha256": "11a1ca30146208085cb3f34167e9b78f6419ac33620b192a546d6d841f64d757",
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 0,
+      "exclusions": 0,
+      "finding_types": {}
+    },
+    {
+      "case": "track_width",
+      "native_control_predicate_verified": true,
+      "routing_accepted": false,
+      "candidate_sha256": "b1d1ac07e31e59745c56fa5aced38486f1e56d3d014c791c1aa1b7a1d4eee698",
+      "report_sha256": "c3fa689099db9f9b3171c73b57113d2261be8bb8c2162ab9ef5c1603c56e6376",
+      "opens": 0,
+      "blocking": 1,
+      "warnings": 1,
+      "exclusions": 0,
+      "finding_types": {
+        "track_width": 1,
+        "connection_width": 1
+      }
+    },
+    {
+      "case": "clearance",
+      "native_control_predicate_verified": true,
+      "routing_accepted": false,
+      "candidate_sha256": "b9d565124b32d61c40679afc3990089bc606d181fe5bd18a817b08723e957d61",
+      "report_sha256": "68dac37fb39a5e2db942721a702ad60d0b83e78785d590b52be3e52cb0c4ba00",
+      "opens": 0,
+      "blocking": 3,
+      "warnings": 0,
+      "exclusions": 0,
+      "finding_types": {
+        "clearance": 3
+      }
+    },
+    {
+      "case": "via_diameter",
+      "native_control_predicate_verified": true,
+      "routing_accepted": false,
+      "candidate_sha256": "2b81ec270c5a8f9d5fbf9966dc564300ee654c53feaceea5974ce059c9ee7d00",
+      "report_sha256": "d3e4cbed1ee309d598029f2a67795f6849dcf1ccd55ee8a265444b8e9687e379",
+      "opens": 0,
+      "blocking": 2,
+      "warnings": 0,
+      "exclusions": 0,
+      "finding_types": {
+        "annular_width": 1,
+        "via_diameter": 1
+      }
+    },
+    {
+      "case": "drill",
+      "native_control_predicate_verified": true,
+      "routing_accepted": false,
+      "candidate_sha256": "eb230bd092a8eb27afec4b6041a103e6dadcf06042a6401cdc7726b1a16d845b",
+      "report_sha256": "3b8bbf36f4ed5d6f3873220e6035e3308afad9ffeabfe10e1ca90b72b3f25d95",
+      "opens": 0,
+      "blocking": 1,
+      "warnings": 0,
+      "exclusions": 0,
+      "finding_types": {
+        "drill_out_of_range": 1
+      }
+    },
+    {
+      "case": "annulus",
+      "native_control_predicate_verified": true,
+      "routing_accepted": false,
+      "candidate_sha256": "2af18b993b61cf12914dd987237235ce5ab53991965e4a339c8c3b7978cefb45",
+      "report_sha256": "5cfe7feb8ff19c2595627273068adc8c545197a7ab7624ddc4d0b9c35924fca1",
+      "opens": 0,
+      "blocking": 1,
+      "warnings": 0,
+      "exclusions": 0,
+      "finding_types": {
+        "annular_width": 1
+      }
+    }
+  ],
+  "source_sha256": "dc396dfab9dfbd51a0d75cc8d8457b91c3dbac55358c0f5f84dca83dea97ee38",
+  "original_project_sha256": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+  "original_ignored_checks": [
+    {
+      "description": "Footprint has no courtyard defined",
+      "key": "missing_courtyard"
+    },
+    {
+      "description": "Track endpoint not centered on via",
+      "key": "track_not_centered_on_via"
+    },
+    {
+      "description": "Tuning profile track geometries",
+      "key": "tuning_profile_track_geometries"
+    },
+    {
+      "description": "Footprint doesn't match symbol's footprint filters",
+      "key": "footprint_filters_mismatch"
+    },
+    {
+      "description": "PTH inside courtyard",
+      "key": "pth_inside_courtyard"
+    },
+    {
+      "description": "NPTH inside courtyard",
+      "key": "npth_inside_courtyard"
+    },
+    {
+      "description": "Footprint component type doesn't match footprint pads",
+      "key": "footprint_type_mismatch"
+    }
+  ],
+  "wall_seconds": 13.469755375001114,
+  "total_cpu_seconds": 9.037068,
+  "script_sha256": "28e72ed7bd3827119902bfa644cd21e53ba5bc9341e3e6c7c0df327fa9fcbeb7",
+  "scope": [
+    "Fresh native002 all six controls completed; prior001 remains invalidated.",
+    "No engine or SES import ran in geometry002; forced-via transport and production integration are separate qualification.",
+    "Original rules/geometry were unchanged; secondary warning/error findings retained.",
+    "Stored totals precede final freshness/publication; corrected frozen driver applies acceptance cap after final check.",
+    "No reviewer native jobs."
+  ]
+}

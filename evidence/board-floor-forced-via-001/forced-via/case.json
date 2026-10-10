@@ -1,0 +1,100 @@
+{
+  "case": "forced-via-engine",
+  "passed": true,
+  "solver_executed": true,
+  "zero_via_is_failure": true,
+  "engine_settings": {
+    "profile": "completion-only",
+    "argv": [
+      "--router.autorouter.max_passes=30",
+      "--router.job_timeout=00:01:00",
+      "--router.automatic_neckdown=false",
+      "--router.fanout.enabled=false",
+      "--router.neck_width_um=0",
+      "--router.optimizer.enabled=false"
+    ],
+    "scoring": {
+      "variant": null,
+      "argv": []
+    },
+    "strict_class_targets": true,
+    "remaining_outer_wall_seconds_at_assignment": 118.18726720900304,
+    "assigned_job_timeout_seconds": 60,
+    "assigned_optimizer_timeout_seconds": null,
+    "native_finalization_reserve_seconds": 10,
+    "engine_grace_reserve_seconds": 30,
+    "internal_deadlines": "cooperative planning caps; external supervision and measured CPU acceptance cap remain authoritative"
+  },
+  "adapter": {
+    "classification": "B1_adapter_only",
+    "mode": "both",
+    "input_sha256": "a237d6d29d4d5f81c2078fee5f56709f769456235cc1aca7875c20bcc4737fa6",
+    "output_sha256": "a237d6d29d4d5f81c2078fee5f56709f769456235cc1aca7875c20bcc4737fa6",
+    "input_bytes": 1317,
+    "output_bytes": 1317,
+    "planes_removed": 0,
+    "graphics_keepouts_added": 0,
+    "net_pin_mapping": {
+      "nets": 2,
+      "pins": 4,
+      "semantic_sha256": "6a6cb7a86efaf7ace596e1b376a2f5e16dfdddf35a9cf84b7d77e063fe21abb5"
+    },
+    "net_pin_mapping_unchanged": true,
+    "native_project_modified": false,
+    "transformations": [],
+    "limitations": [
+      "Graphics use conservative bounding rectangles, not exact copper contours.",
+      "Plane suppression is an all-terminal over-routing surrogate; native zones must remain unchanged."
+    ]
+  },
+  "native_dsn_sha256": "e7e8d0e69c678b523728415f62f4f622cb8dcd0f57901c60c14d8668c738924d",
+  "guided_dsn_sha256": "a237d6d29d4d5f81c2078fee5f56709f769456235cc1aca7875c20bcc4737fa6",
+  "task_dsn_sha256": "a237d6d29d4d5f81c2078fee5f56709f769456235cc1aca7875c20bcc4737fa6",
+  "native": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 0,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "PTH inside courtyard",
+        "key": "pth_inside_courtyard"
+      },
+      {
+        "description": "NPTH inside courtyard",
+        "key": "npth_inside_courtyard"
+      },
+      {
+        "description": "Footprint component type doesn't match footprint pads",
+        "key": "footprint_type_mismatch"
+      }
+    ],
+    "findings": []
+  },
+  "native_route_readback": {
+    "passed": true,
+    "native_route_count": 8,
+    "native_via_count": 1
+  },
+  "signal_vias": 1,
+  "ses_sha256": "60b038739ccb4d8c55c5f18f2585e7fc41bc8a1c5b7e638ec1aac02287e62bbe",
+  "final_drc_sha256": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+  "binding_sha256": "8e638e935b948d432b32a96118ba1abfd87d3767dda8e069055b82a3b7467862",
+  "candidate_sha256": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a"
+}

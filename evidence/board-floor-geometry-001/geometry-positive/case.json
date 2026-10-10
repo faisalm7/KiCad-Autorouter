@@ -1,0 +1,63 @@
+{
+  "case": "positive",
+  "passed": true,
+  "expected": null,
+  "prepared_candidate_sha256": "fa36ff88a01c43b35f6876a4fece7ee3e38f5bc9a92b2fe439125d6c543b07d6",
+  "changed_routes_only": true,
+  "native_route_readback": {
+    "passed": true,
+    "native_route_count": 8,
+    "native_via_count": 1
+  },
+  "generated_dimensions": {
+    "passed": true,
+    "counts": {
+      "segment": 7,
+      "arc": 0,
+      "via": 1
+    },
+    "policy": "exact derived floor guidance for every generated route",
+    "routing_accepted": false
+  },
+  "native": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 0,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "PTH inside courtyard",
+        "key": "pth_inside_courtyard"
+      },
+      {
+        "description": "NPTH inside courtyard",
+        "key": "npth_inside_courtyard"
+      },
+      {
+        "description": "Footprint component type doesn't match footprint pads",
+        "key": "footprint_type_mismatch"
+      }
+    ],
+    "findings": []
+  },
+  "targeted_native_findings": [],
+  "final_drc_sha256": "55bfde209dab50cacc336028c217b8f3152657df558421d805abce6b78df3296",
+  "binding_sha256": "7deb24e8ea17afbfdd5b5495ef5a027a8482c94bbc79f39393141e3985b38716",
+  "candidate_sha256": "fa36ff88a01c43b35f6876a4fece7ee3e38f5bc9a92b2fe439125d6c543b07d6"
+}

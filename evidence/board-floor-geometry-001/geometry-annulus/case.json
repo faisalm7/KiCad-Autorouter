@@ -1,0 +1,91 @@
+{
+  "case": "annulus",
+  "passed": true,
+  "expected": [
+    "annular_width",
+    [
+      "be87fcb9-2dd7-52e2-b539-a068d83c50ea"
+    ]
+  ],
+  "prepared_candidate_sha256": "2af18b993b61cf12914dd987237235ce5ab53991965e4a339c8c3b7978cefb45",
+  "changed_routes_only": true,
+  "native_route_readback": {
+    "passed": true,
+    "native_route_count": 8,
+    "native_via_count": 1
+  },
+  "generated_dimension_rejection": "generated via differs from derived guidance/floor",
+  "native": {
+    "opens": 0,
+    "blocking": 1,
+    "warnings": 0,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "PTH inside courtyard",
+        "key": "pth_inside_courtyard"
+      },
+      {
+        "description": "NPTH inside courtyard",
+        "key": "npth_inside_courtyard"
+      },
+      {
+        "description": "Footprint component type doesn't match footprint pads",
+        "key": "footprint_type_mismatch"
+      }
+    ],
+    "findings": [
+      {
+        "description": "Annular width (board setup constraints min annular width 0.3000 mm; actual 0.2000 mm)",
+        "items": [
+          {
+            "description": "Via [SIGNAL_A] on F.Cu - B.Cu",
+            "pos": {
+              "x": 35.0,
+              "y": 10.0
+            },
+            "uuid": "be87fcb9-2dd7-52e2-b539-a068d83c50ea"
+          }
+        ],
+        "severity": "error",
+        "type": "annular_width"
+      }
+    ]
+  },
+  "targeted_native_findings": [
+    {
+      "description": "Annular width (board setup constraints min annular width 0.3000 mm; actual 0.2000 mm)",
+      "items": [
+        {
+          "description": "Via [SIGNAL_A] on F.Cu - B.Cu",
+          "pos": {
+            "x": 35.0,
+            "y": 10.0
+          },
+          "uuid": "be87fcb9-2dd7-52e2-b539-a068d83c50ea"
+        }
+      ],
+      "severity": "error",
+      "type": "annular_width"
+    }
+  ],
+  "final_drc_sha256": "4aea968ed770baec96ce69be75dfb73679e9c373367b01a694a5ecd6607c3d5d",
+  "binding_sha256": "8245dfa1f639a3b9cfaf74f16a79a544c7f42b285885fab15c8ad81492544154",
+  "candidate_sha256": "2af18b993b61cf12914dd987237235ce5ab53991965e4a339c8c3b7978cefb45"
+}

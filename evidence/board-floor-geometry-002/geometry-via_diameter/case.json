@@ -1,0 +1,106 @@
+{
+  "case": "via_diameter",
+  "passed": true,
+  "expected": [
+    "via_diameter",
+    [
+      "be87fcb9-2dd7-52e2-b539-a068d83c50ea"
+    ]
+  ],
+  "prepared_candidate_sha256": "2b81ec270c5a8f9d5fbf9966dc564300ee654c53feaceea5974ce059c9ee7d00",
+  "changed_routes_only": true,
+  "native_route_readback": {
+    "passed": true,
+    "native_route_count": 8,
+    "native_via_count": 1
+  },
+  "generated_dimension_rejection": "generated via differs from derived guidance/floor",
+  "native": {
+    "opens": 0,
+    "blocking": 2,
+    "warnings": 0,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "PTH inside courtyard",
+        "key": "pth_inside_courtyard"
+      },
+      {
+        "description": "NPTH inside courtyard",
+        "key": "npth_inside_courtyard"
+      },
+      {
+        "description": "Footprint component type doesn't match footprint pads",
+        "key": "footprint_type_mismatch"
+      }
+    ],
+    "findings": [
+      {
+        "description": "Annular width (board setup constraints min annular width 0.3000 mm; actual 0.1500 mm)",
+        "items": [
+          {
+            "description": "Via [SIGNAL_A] on F.Cu - B.Cu",
+            "pos": {
+              "x": 35.0,
+              "y": 10.0
+            },
+            "uuid": "be87fcb9-2dd7-52e2-b539-a068d83c50ea"
+          }
+        ],
+        "severity": "error",
+        "type": "annular_width"
+      },
+      {
+        "description": "Via diameter (board setup constraints min diameter 1.5000 mm; actual 0.6000 mm)",
+        "items": [
+          {
+            "description": "Via [SIGNAL_A] on F.Cu - B.Cu",
+            "pos": {
+              "x": 35.0,
+              "y": 10.0
+            },
+            "uuid": "be87fcb9-2dd7-52e2-b539-a068d83c50ea"
+          }
+        ],
+        "severity": "error",
+        "type": "via_diameter"
+      }
+    ]
+  },
+  "targeted_native_findings": [
+    {
+      "description": "Via diameter (board setup constraints min diameter 1.5000 mm; actual 0.6000 mm)",
+      "items": [
+        {
+          "description": "Via [SIGNAL_A] on F.Cu - B.Cu",
+          "pos": {
+            "x": 35.0,
+            "y": 10.0
+          },
+          "uuid": "be87fcb9-2dd7-52e2-b539-a068d83c50ea"
+        }
+      ],
+      "severity": "error",
+      "type": "via_diameter"
+    }
+  ],
+  "final_drc_sha256": "d3e4cbed1ee309d598029f2a67795f6849dcf1ccd55ee8a265444b8e9687e379",
+  "binding_sha256": "53e9d06b62753049d1811eace78deb67955178490c9b3cfa68df1737059a65e6",
+  "candidate_sha256": "2b81ec270c5a8f9d5fbf9966dc564300ee654c53feaceea5974ce059c9ee7d00"
+}

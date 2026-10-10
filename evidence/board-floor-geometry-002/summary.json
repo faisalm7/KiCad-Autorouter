@@ -1,0 +1,1897 @@
+{
+  "schema": 1,
+  "status": "completed",
+  "stage": "geometry",
+  "seconds_ceiling": 60,
+  "cpu_seconds_ceiling": 60,
+  "controls_passed": true,
+  "routing_accepted": false,
+  "production_support_qualified": false,
+  "comparison_eligible": false,
+  "physical_electrical_validation": false,
+  "fixture_exposure": "original diagnostic development only; not an independent routing family",
+  "fixture_topology": {
+    "net": "SIGNAL_A",
+    "necessity": "source terminals occupy disjoint F.Cu/B.Cu layers; no other conductive interlayer object exists",
+    "source_has_no_layer_bridge": true,
+    "engine_via_emission_qualified": false
+  },
+  "tools": {
+    "implementation_sha256": {
+      "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+      "autorouter/__main__.py": "483543e08399c4a42cdb585f6376a7c2cfca8a6a2d94678d3812aceed080d332",
+      "autorouter/adapter.py": "509feca807ccee112b0b6a071fd0944c88177ba83f5b77422ec8be5cdf63d25b",
+      "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+      "autorouter/handoff.py": "3a1cace2d72672e502ff4f943c0820d23b9ed1d15c5566d3a694365847d4a22d",
+      "autorouter/native.py": "7257496b007fbc449adb3cc8b999712aed8ea0aa881a116ba337d18e2ab87c02",
+      "autorouter/netclass.py": "d0d26610b550b0655a1eafc3022196e31f59f719b5b3f0a727c464f9c90eda61",
+      "autorouter/pipeline.py": "5663f2b5d9ba4a11fb5740f1a11818ea714dd7a8b25a5b75b05d11ab20af2bb1",
+      "autorouter/recovery.py": "95cebb44d8eac6e9903bd33e65b5cef887d8b1531f67375b940442f1237c2f9a",
+      "autorouter/runner.py": "0e81ab1badf20cd84adc2fed586641dd97a489a5a6af03febe6fb597bb1d2718",
+      "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+      "autorouter/strategy.py": "a85e9097f3f20508a0d72f50078dad531a3cccc2f41b85da3a74c0a826b1d558",
+      "autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+      "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+      "autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455"
+    },
+    "git_head": "efc174e8ffda7796d56f663d87885b444c7bc729",
+    "kicad": "10.0.0",
+    "freerouting": "2.5.0",
+    "files": {
+      "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+      "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219"
+    },
+    "network": "engine sandbox-exec deny network*"
+  },
+  "source_hashes": {
+    "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+    "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    "fixture.kicad_pcb": "dc396dfab9dfbd51a0d75cc8d8457b91c3dbac55358c0f5f84dca83dea97ee38",
+    "fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538"
+  },
+  "original_inputs": {
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.data/boards/kicad-multichannel/multichannel_mixer.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/fixtures/smoke/smoke.kicad_pcb": "618b0b1d23f082283a5136b514ff64ee54b3a058f068689bf64668a436d7c5ea",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-native-draft-002/driver.py": "12d4eac8691c8abe8e382e5bbbd593c30c07e038b18d79dc30fd447c981b70cc",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-native-draft-002/fixture_recipe.py": "96a04506088905103eb5d4791c288a01d7c1da7d7a55788527a3fb7ccae2e3a7",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-native-draft-002/board_floor_guidance.py": "d9b597c4a359f7cf95f080f8238f248302a3c97f024d4472d8a0e8a211f95175",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-native-draft-002/native_context_worker.py": "69d7611e00b40f55e54a8dca1d866b5003d6ff44c9be44234d2c5cd58447a340"
+  },
+  "steps": [
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.5776110840015463,
+      "cpu_seconds": 0.378212,
+      "max_rss_bytes": 88948736,
+      "supervisor_cpu_seconds": 0.004199000000000064,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 75268096,
+      "sampled_peak_workdir_bytes": 43804,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/code/native_context_worker.py",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/context/native-input/fixture.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/context/native.dsn",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/context/native-context.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/context/native-context.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/context",
+      "signal_cancellation_enabled": true,
+      "pid": 20258,
+      "name": "native-context"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.7900325419977889,
+      "cpu_seconds": 0.43111199999999994,
+      "max_rss_bytes": 91766784,
+      "supervisor_cpu_seconds": 0.00626900000000008,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 89964544,
+      "sampled_peak_workdir_bytes": 147873,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-positive/refill-drc.json",
+        "--save-board",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-positive/refill/fixture.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-positive/refill-drc.log",
+      "log_bytes": 188,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-positive",
+      "signal_cancellation_enabled": true,
+      "pid": 20271,
+      "name": "refill-drc",
+      "validated_input_sha256": "fa36ff88a01c43b35f6876a4fece7ee3e38f5bc9a92b2fe439125d6c543b07d6",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-positive/refill/fixture.kicad_pcb"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.6664780830033123,
+      "cpu_seconds": 0.39674,
+      "max_rss_bytes": 91848704,
+      "supervisor_cpu_seconds": 0.007344999999999935,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 90537984,
+      "sampled_peak_workdir_bytes": 194835,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-positive/final-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-positive/final-drc-input/fixture.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-positive/final-drc.log",
+      "log_bytes": 175,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-positive",
+      "signal_cancellation_enabled": true,
+      "pid": 20273,
+      "name": "final-drc",
+      "validated_input_sha256": "fa36ff88a01c43b35f6876a4fece7ee3e38f5bc9a92b2fe439125d6c543b07d6",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-positive/candidate/fixture.kicad_pcb"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.36830166700383415,
+      "cpu_seconds": 0.347233,
+      "max_rss_bytes": 90275840,
+      "supervisor_cpu_seconds": 0.006809999999999983,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 34570240,
+      "sampled_peak_workdir_bytes": 206071,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/code/native_context_worker.py",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-positive/candidate/fixture.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-positive/final.dsn",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-positive/final-context.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-positive/final-context.log",
+      "log_bytes": 225,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-positive",
+      "signal_cancellation_enabled": true,
+      "pid": 20281,
+      "name": "final-context"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 0.7361550419955165,
+      "cpu_seconds": 0.411033,
+      "max_rss_bytes": 101810176,
+      "supervisor_cpu_seconds": 0.0066869999999998875,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 90128384,
+      "sampled_peak_workdir_bytes": 149298,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-track_width/refill-drc.json",
+        "--save-board",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-track_width/refill/fixture.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-track_width/refill-drc.log",
+      "log_bytes": 191,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-track_width",
+      "signal_cancellation_enabled": true,
+      "pid": 20296,
+      "name": "refill-drc",
+      "validated_input_sha256": "b1d1ac07e31e59745c56fa5aced38486f1e56d3d014c791c1aa1b7a1d4eee698",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-track_width/refill/fixture.kicad_pcb"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 0.7241619999986142,
+      "cpu_seconds": 0.405129,
+      "max_rss_bytes": 101613568,
+      "supervisor_cpu_seconds": 0.007997000000000032,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 90406912,
+      "sampled_peak_workdir_bytes": 197697,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-track_width/final-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-track_width/final-drc-input/fixture.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-track_width/final-drc.log",
+      "log_bytes": 178,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-track_width",
+      "signal_cancellation_enabled": true,
+      "pid": 20297,
+      "name": "final-drc",
+      "validated_input_sha256": "b1d1ac07e31e59745c56fa5aced38486f1e56d3d014c791c1aa1b7a1d4eee698",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-track_width/candidate/fixture.kicad_pcb"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.33734862499841256,
+      "cpu_seconds": 0.331328,
+      "max_rss_bytes": 90177536,
+      "supervisor_cpu_seconds": 0.004922000000000093,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 35028992,
+      "sampled_peak_workdir_bytes": 208964,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/code/native_context_worker.py",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-track_width/candidate/fixture.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-track_width/final.dsn",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-track_width/final-context.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-track_width/final-context.log",
+      "log_bytes": 225,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-track_width",
+      "signal_cancellation_enabled": true,
+      "pid": 20300,
+      "name": "final-context"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 0.7157173750019865,
+      "cpu_seconds": 0.393298,
+      "max_rss_bytes": 101777408,
+      "supervisor_cpu_seconds": 0.006443000000000199,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 89980928,
+      "sampled_peak_workdir_bytes": 150416,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-clearance/refill-drc.json",
+        "--save-board",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-clearance/refill/fixture.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-clearance/refill-drc.log",
+      "log_bytes": 189,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-clearance",
+      "signal_cancellation_enabled": true,
+      "pid": 20302,
+      "name": "refill-drc",
+      "validated_input_sha256": "b9d565124b32d61c40679afc3990089bc606d181fe5bd18a817b08723e957d61",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-clearance/refill/fixture.kicad_pcb"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 0.6941755410007318,
+      "cpu_seconds": 0.39379099999999995,
+      "max_rss_bytes": 101646336,
+      "supervisor_cpu_seconds": 0.0067150000000000265,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 90619904,
+      "sampled_peak_workdir_bytes": 199914,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-clearance/final-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-clearance/final-drc-input/fixture.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-clearance/final-drc.log",
+      "log_bytes": 176,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-clearance",
+      "signal_cancellation_enabled": true,
+      "pid": 20314,
+      "name": "final-drc",
+      "validated_input_sha256": "b9d565124b32d61c40679afc3990089bc606d181fe5bd18a817b08723e957d61",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-clearance/candidate/fixture.kicad_pcb"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.351255833003961,
+      "cpu_seconds": 0.34102499999999997,
+      "max_rss_bytes": 89292800,
+      "supervisor_cpu_seconds": 0.005010999999999877,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 35241984,
+      "sampled_peak_workdir_bytes": 211177,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/code/native_context_worker.py",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-clearance/candidate/fixture.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-clearance/final.dsn",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-clearance/final-context.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-clearance/final-context.log",
+      "log_bytes": 225,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-clearance",
+      "signal_cancellation_enabled": true,
+      "pid": 20315,
+      "name": "final-context"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 0.7272731249977369,
+      "cpu_seconds": 0.40499899999999994,
+      "max_rss_bytes": 101679104,
+      "supervisor_cpu_seconds": 0.006186000000000025,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 89980928,
+      "sampled_peak_workdir_bytes": 148950,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-via_diameter/refill-drc.json",
+        "--save-board",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-via_diameter/refill/fixture.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-via_diameter/refill-drc.log",
+      "log_bytes": 192,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-via_diameter",
+      "signal_cancellation_enabled": true,
+      "pid": 20317,
+      "name": "refill-drc",
+      "validated_input_sha256": "2b81ec270c5a8f9d5fbf9966dc564300ee654c53feaceea5974ce059c9ee7d00",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-via_diameter/refill/fixture.kicad_pcb"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 0.7286368750064867,
+      "cpu_seconds": 0.404031,
+      "max_rss_bytes": 101679104,
+      "supervisor_cpu_seconds": 0.00787899999999997,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 90472448,
+      "sampled_peak_workdir_bytes": 197016,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-via_diameter/final-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-via_diameter/final-drc-input/fixture.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-via_diameter/final-drc.log",
+      "log_bytes": 179,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-via_diameter",
+      "signal_cancellation_enabled": true,
+      "pid": 20329,
+      "name": "final-drc",
+      "validated_input_sha256": "2b81ec270c5a8f9d5fbf9966dc564300ee654c53feaceea5974ce059c9ee7d00",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-via_diameter/candidate/fixture.kicad_pcb"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.34124545900704106,
+      "cpu_seconds": 0.335234,
+      "max_rss_bytes": 90144768,
+      "supervisor_cpu_seconds": 0.004633999999999805,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 34947072,
+      "sampled_peak_workdir_bytes": 208137,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/code/native_context_worker.py",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-via_diameter/candidate/fixture.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-via_diameter/final.dsn",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-via_diameter/final-context.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-via_diameter/final-context.log",
+      "log_bytes": 225,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-via_diameter",
+      "signal_cancellation_enabled": true,
+      "pid": 20330,
+      "name": "final-context"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 0.7513256669990369,
+      "cpu_seconds": 0.39818,
+      "max_rss_bytes": 101875712,
+      "supervisor_cpu_seconds": 0.006701000000000068,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 89899008,
+      "sampled_peak_workdir_bytes": 148412,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-drill/refill-drc.json",
+        "--save-board",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-drill/refill/fixture.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-drill/refill-drc.log",
+      "log_bytes": 185,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-drill",
+      "signal_cancellation_enabled": true,
+      "pid": 20332,
+      "name": "refill-drc",
+      "validated_input_sha256": "eb230bd092a8eb27afec4b6041a103e6dadcf06042a6401cdc7726b1a16d845b",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-drill/refill/fixture.kicad_pcb"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 0.7884571250033332,
+      "cpu_seconds": 0.41419399999999995,
+      "max_rss_bytes": 101646336,
+      "supervisor_cpu_seconds": 0.009711999999999943,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 90341376,
+      "sampled_peak_workdir_bytes": 195893,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-drill/final-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-drill/final-drc-input/fixture.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-drill/final-drc.log",
+      "log_bytes": 172,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-drill",
+      "signal_cancellation_enabled": true,
+      "pid": 20344,
+      "name": "final-drc",
+      "validated_input_sha256": "eb230bd092a8eb27afec4b6041a103e6dadcf06042a6401cdc7726b1a16d845b",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-drill/candidate/fixture.kicad_pcb"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.3509383330019773,
+      "cpu_seconds": 0.342636,
+      "max_rss_bytes": 89260032,
+      "supervisor_cpu_seconds": 0.005119000000000096,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 35028992,
+      "sampled_peak_workdir_bytes": 207123,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/code/native_context_worker.py",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-drill/candidate/fixture.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-drill/final.dsn",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-drill/final-context.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-drill/final-context.log",
+      "log_bytes": 225,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-drill",
+      "signal_cancellation_enabled": true,
+      "pid": 20345,
+      "name": "final-context"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 0.7260343750022002,
+      "cpu_seconds": 0.40559399999999995,
+      "max_rss_bytes": 101711872,
+      "supervisor_cpu_seconds": 0.006280999999999981,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 89997312,
+      "sampled_peak_workdir_bytes": 148411,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-annulus/refill-drc.json",
+        "--save-board",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-annulus/refill/fixture.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-annulus/refill-drc.log",
+      "log_bytes": 187,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-annulus",
+      "signal_cancellation_enabled": true,
+      "pid": 20347,
+      "name": "refill-drc",
+      "validated_input_sha256": "2af18b993b61cf12914dd987237235ce5ab53991965e4a339c8c3b7978cefb45",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-annulus/refill/fixture.kicad_pcb"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 0.7295869169975049,
+      "cpu_seconds": 0.409352,
+      "max_rss_bytes": 101580800,
+      "supervisor_cpu_seconds": 0.00768599999999986,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 90357760,
+      "sampled_peak_workdir_bytes": 195913,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-annulus/final-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-annulus/final-drc-input/fixture.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-annulus/final-drc.log",
+      "log_bytes": 174,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-annulus",
+      "signal_cancellation_enabled": true,
+      "pid": 20348,
+      "name": "final-drc",
+      "validated_input_sha256": "2af18b993b61cf12914dd987237235ce5ab53991965e4a339c8c3b7978cefb45",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-annulus/candidate/fixture.kicad_pcb"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.33981083300022874,
+      "cpu_seconds": 0.333719,
+      "max_rss_bytes": 88965120,
+      "supervisor_cpu_seconds": 0.004929999999999879,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 34996224,
+      "sampled_peak_workdir_bytes": 207151,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/code/native_context_worker.py",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-annulus/candidate/fixture.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-annulus/final.dsn",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-annulus/final-context.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-annulus/final-context.log",
+      "log_bytes": 225,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-annulus",
+      "signal_cancellation_enabled": true,
+      "pid": 20360,
+      "name": "final-context"
+    }
+  ],
+  "cases": [
+    {
+      "case": "positive",
+      "passed": true,
+      "expected": null,
+      "prepared_candidate_sha256": "fa36ff88a01c43b35f6876a4fece7ee3e38f5bc9a92b2fe439125d6c543b07d6",
+      "changed_routes_only": true,
+      "native_route_readback": {
+        "passed": true,
+        "native_route_count": 8,
+        "native_via_count": 1
+      },
+      "generated_dimensions": {
+        "passed": true,
+        "counts": {
+          "segment": 7,
+          "arc": 0,
+          "via": 1
+        },
+        "policy": "exact derived floor guidance for every generated route",
+        "routing_accepted": false
+      },
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": []
+      },
+      "targeted_native_findings": [],
+      "final_drc_sha256": "11a1ca30146208085cb3f34167e9b78f6419ac33620b192a546d6d841f64d757",
+      "binding_sha256": "c2c53022e1306251f62bc42c2a76cd3351c52015ba27f2aaea5d49daacad158b",
+      "candidate_sha256": "fa36ff88a01c43b35f6876a4fece7ee3e38f5bc9a92b2fe439125d6c543b07d6"
+    },
+    {
+      "case": "track_width",
+      "passed": true,
+      "expected": [
+        "track_width",
+        [
+          "33bbdb18-b2d7-5d52-844b-45e96f008f52"
+        ]
+      ],
+      "prepared_candidate_sha256": "b1d1ac07e31e59745c56fa5aced38486f1e56d3d014c791c1aa1b7a1d4eee698",
+      "changed_routes_only": true,
+      "native_route_readback": {
+        "passed": true,
+        "native_route_count": 8,
+        "native_via_count": 1
+      },
+      "generated_dimension_rejection": "generated track differs from derived guidance",
+      "native": {
+        "opens": 0,
+        "blocking": 1,
+        "warnings": 1,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Track width (board setup constraints min width 0.3000 mm; actual 0.2000 mm)",
+            "items": [
+              {
+                "description": "Track [SIGNAL_A] on F.Cu, length 25.0000 mm",
+                "pos": {
+                  "x": 10.0,
+                  "y": 10.0
+                },
+                "uuid": "33bbdb18-b2d7-5d52-844b-45e96f008f52"
+              }
+            ],
+            "severity": "error",
+            "type": "track_width"
+          },
+          {
+            "description": "Copper connection too narrow (board setup constraints minimum connection width 0.3000 mm; actual 0.2000 mm) (F.Cu)",
+            "items": [
+              {
+                "description": "Track [SIGNAL_A] on F.Cu, length 25.0000 mm",
+                "pos": {
+                  "x": 10.0,
+                  "y": 10.0
+                },
+                "uuid": "33bbdb18-b2d7-5d52-844b-45e96f008f52"
+              },
+              {
+                "description": "Via [SIGNAL_A] on F.Cu - B.Cu",
+                "pos": {
+                  "x": 35.0,
+                  "y": 10.0
+                },
+                "uuid": "be87fcb9-2dd7-52e2-b539-a068d83c50ea"
+              }
+            ],
+            "severity": "warning",
+            "type": "connection_width"
+          }
+        ]
+      },
+      "targeted_native_findings": [
+        {
+          "description": "Track width (board setup constraints min width 0.3000 mm; actual 0.2000 mm)",
+          "items": [
+            {
+              "description": "Track [SIGNAL_A] on F.Cu, length 25.0000 mm",
+              "pos": {
+                "x": 10.0,
+                "y": 10.0
+              },
+              "uuid": "33bbdb18-b2d7-5d52-844b-45e96f008f52"
+            }
+          ],
+          "severity": "error",
+          "type": "track_width"
+        }
+      ],
+      "final_drc_sha256": "c3fa689099db9f9b3171c73b57113d2261be8bb8c2162ab9ef5c1603c56e6376",
+      "binding_sha256": "835f394d331e4e3512fc37f33c8aa951c5ddb96c4134ea5ab87db3c1c6f3d691",
+      "candidate_sha256": "b1d1ac07e31e59745c56fa5aced38486f1e56d3d014c791c1aa1b7a1d4eee698"
+    },
+    {
+      "case": "clearance",
+      "passed": true,
+      "expected": [
+        "clearance",
+        [
+          "33bbdb18-b2d7-5d52-844b-45e96f008f52",
+          "85ef567e-5b7e-5634-9102-d944903ec41e"
+        ]
+      ],
+      "prepared_candidate_sha256": "b9d565124b32d61c40679afc3990089bc606d181fe5bd18a817b08723e957d61",
+      "changed_routes_only": true,
+      "native_route_readback": {
+        "passed": true,
+        "native_route_count": 8,
+        "native_via_count": 1
+      },
+      "generated_dimensions": {
+        "passed": true,
+        "counts": {
+          "segment": 7,
+          "arc": 0,
+          "via": 1
+        },
+        "policy": "exact derived floor guidance for every generated route",
+        "routing_accepted": false
+      },
+      "native": {
+        "opens": 0,
+        "blocking": 3,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Clearance violation (board minimum clearance 0.3000 mm; actual 0.2000 mm)",
+            "items": [
+              {
+                "description": "Track [SIGNAL_A] on F.Cu, length 25.0000 mm",
+                "pos": {
+                  "x": 10.0,
+                  "y": 10.0
+                },
+                "uuid": "33bbdb18-b2d7-5d52-844b-45e96f008f52"
+              },
+              {
+                "description": "Track [SIGNAL_B] on F.Cu, length 9.5000 mm",
+                "pos": {
+                  "x": 20.0,
+                  "y": 20.0
+                },
+                "uuid": "36721d7a-4cef-5864-977c-73be117a3e6d"
+              }
+            ],
+            "severity": "error",
+            "type": "clearance"
+          },
+          {
+            "description": "Clearance violation (board minimum clearance 0.3000 mm; actual 0.2000 mm)",
+            "items": [
+              {
+                "description": "Track [SIGNAL_A] on F.Cu, length 25.0000 mm",
+                "pos": {
+                  "x": 10.0,
+                  "y": 10.0
+                },
+                "uuid": "33bbdb18-b2d7-5d52-844b-45e96f008f52"
+              },
+              {
+                "description": "Track [SIGNAL_B] on F.Cu, length 9.5000 mm",
+                "pos": {
+                  "x": 30.0,
+                  "y": 10.5
+                },
+                "uuid": "f06890ad-5d9d-583e-969b-afdc38d7b679"
+              }
+            ],
+            "severity": "error",
+            "type": "clearance"
+          },
+          {
+            "description": "Clearance violation (board minimum clearance 0.3000 mm; actual 0.2000 mm)",
+            "items": [
+              {
+                "description": "Track [SIGNAL_A] on F.Cu, length 25.0000 mm",
+                "pos": {
+                  "x": 10.0,
+                  "y": 10.0
+                },
+                "uuid": "33bbdb18-b2d7-5d52-844b-45e96f008f52"
+              },
+              {
+                "description": "Track [SIGNAL_B] on F.Cu, length 10.0000 mm",
+                "pos": {
+                  "x": 20.0,
+                  "y": 10.5
+                },
+                "uuid": "85ef567e-5b7e-5634-9102-d944903ec41e"
+              }
+            ],
+            "severity": "error",
+            "type": "clearance"
+          }
+        ]
+      },
+      "targeted_native_findings": [
+        {
+          "description": "Clearance violation (board minimum clearance 0.3000 mm; actual 0.2000 mm)",
+          "items": [
+            {
+              "description": "Track [SIGNAL_A] on F.Cu, length 25.0000 mm",
+              "pos": {
+                "x": 10.0,
+                "y": 10.0
+              },
+              "uuid": "33bbdb18-b2d7-5d52-844b-45e96f008f52"
+            },
+            {
+              "description": "Track [SIGNAL_B] on F.Cu, length 10.0000 mm",
+              "pos": {
+                "x": 20.0,
+                "y": 10.5
+              },
+              "uuid": "85ef567e-5b7e-5634-9102-d944903ec41e"
+            }
+          ],
+          "severity": "error",
+          "type": "clearance"
+        }
+      ],
+      "final_drc_sha256": "68dac37fb39a5e2db942721a702ad60d0b83e78785d590b52be3e52cb0c4ba00",
+      "binding_sha256": "6249298b5317da1ff71758e54d5afff60541c1e3664987cf288ad87de2f2869c",
+      "candidate_sha256": "b9d565124b32d61c40679afc3990089bc606d181fe5bd18a817b08723e957d61"
+    },
+    {
+      "case": "via_diameter",
+      "passed": true,
+      "expected": [
+        "via_diameter",
+        [
+          "be87fcb9-2dd7-52e2-b539-a068d83c50ea"
+        ]
+      ],
+      "prepared_candidate_sha256": "2b81ec270c5a8f9d5fbf9966dc564300ee654c53feaceea5974ce059c9ee7d00",
+      "changed_routes_only": true,
+      "native_route_readback": {
+        "passed": true,
+        "native_route_count": 8,
+        "native_via_count": 1
+      },
+      "generated_dimension_rejection": "generated via differs from derived guidance/floor",
+      "native": {
+        "opens": 0,
+        "blocking": 2,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Annular width (board setup constraints min annular width 0.3000 mm; actual 0.1500 mm)",
+            "items": [
+              {
+                "description": "Via [SIGNAL_A] on F.Cu - B.Cu",
+                "pos": {
+                  "x": 35.0,
+                  "y": 10.0
+                },
+                "uuid": "be87fcb9-2dd7-52e2-b539-a068d83c50ea"
+              }
+            ],
+            "severity": "error",
+            "type": "annular_width"
+          },
+          {
+            "description": "Via diameter (board setup constraints min diameter 1.5000 mm; actual 0.6000 mm)",
+            "items": [
+              {
+                "description": "Via [SIGNAL_A] on F.Cu - B.Cu",
+                "pos": {
+                  "x": 35.0,
+                  "y": 10.0
+                },
+                "uuid": "be87fcb9-2dd7-52e2-b539-a068d83c50ea"
+              }
+            ],
+            "severity": "error",
+            "type": "via_diameter"
+          }
+        ]
+      },
+      "targeted_native_findings": [
+        {
+          "description": "Via diameter (board setup constraints min diameter 1.5000 mm; actual 0.6000 mm)",
+          "items": [
+            {
+              "description": "Via [SIGNAL_A] on F.Cu - B.Cu",
+              "pos": {
+                "x": 35.0,
+                "y": 10.0
+              },
+              "uuid": "be87fcb9-2dd7-52e2-b539-a068d83c50ea"
+            }
+          ],
+          "severity": "error",
+          "type": "via_diameter"
+        }
+      ],
+      "final_drc_sha256": "d3e4cbed1ee309d598029f2a67795f6849dcf1ccd55ee8a265444b8e9687e379",
+      "binding_sha256": "53e9d06b62753049d1811eace78deb67955178490c9b3cfa68df1737059a65e6",
+      "candidate_sha256": "2b81ec270c5a8f9d5fbf9966dc564300ee654c53feaceea5974ce059c9ee7d00"
+    },
+    {
+      "case": "drill",
+      "passed": true,
+      "expected": [
+        "drill_out_of_range",
+        [
+          "be87fcb9-2dd7-52e2-b539-a068d83c50ea"
+        ]
+      ],
+      "prepared_candidate_sha256": "eb230bd092a8eb27afec4b6041a103e6dadcf06042a6401cdc7726b1a16d845b",
+      "changed_routes_only": true,
+      "native_route_readback": {
+        "passed": true,
+        "native_route_count": 8,
+        "native_via_count": 1
+      },
+      "generated_dimension_rejection": "generated via differs from derived guidance/floor",
+      "native": {
+        "opens": 0,
+        "blocking": 1,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+            "items": [
+              {
+                "description": "Via [SIGNAL_A] on F.Cu - B.Cu",
+                "pos": {
+                  "x": 35.0,
+                  "y": 10.0
+                },
+                "uuid": "be87fcb9-2dd7-52e2-b539-a068d83c50ea"
+              }
+            ],
+            "severity": "error",
+            "type": "drill_out_of_range"
+          }
+        ]
+      },
+      "targeted_native_findings": [
+        {
+          "description": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+          "items": [
+            {
+              "description": "Via [SIGNAL_A] on F.Cu - B.Cu",
+              "pos": {
+                "x": 35.0,
+                "y": 10.0
+              },
+              "uuid": "be87fcb9-2dd7-52e2-b539-a068d83c50ea"
+            }
+          ],
+          "severity": "error",
+          "type": "drill_out_of_range"
+        }
+      ],
+      "final_drc_sha256": "3b8bbf36f4ed5d6f3873220e6035e3308afad9ffeabfe10e1ca90b72b3f25d95",
+      "binding_sha256": "6c6eacc6b8301e5a610dfa20a6ed596ba66f406930208a4664285750b6648893",
+      "candidate_sha256": "eb230bd092a8eb27afec4b6041a103e6dadcf06042a6401cdc7726b1a16d845b"
+    },
+    {
+      "case": "annulus",
+      "passed": true,
+      "expected": [
+        "annular_width",
+        [
+          "be87fcb9-2dd7-52e2-b539-a068d83c50ea"
+        ]
+      ],
+      "prepared_candidate_sha256": "2af18b993b61cf12914dd987237235ce5ab53991965e4a339c8c3b7978cefb45",
+      "changed_routes_only": true,
+      "native_route_readback": {
+        "passed": true,
+        "native_route_count": 8,
+        "native_via_count": 1
+      },
+      "generated_dimension_rejection": "generated via differs from derived guidance/floor",
+      "native": {
+        "opens": 0,
+        "blocking": 1,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Annular width (board setup constraints min annular width 0.3000 mm; actual 0.2000 mm)",
+            "items": [
+              {
+                "description": "Via [SIGNAL_A] on F.Cu - B.Cu",
+                "pos": {
+                  "x": 35.0,
+                  "y": 10.0
+                },
+                "uuid": "be87fcb9-2dd7-52e2-b539-a068d83c50ea"
+              }
+            ],
+            "severity": "error",
+            "type": "annular_width"
+          }
+        ]
+      },
+      "targeted_native_findings": [
+        {
+          "description": "Annular width (board setup constraints min annular width 0.3000 mm; actual 0.2000 mm)",
+          "items": [
+            {
+              "description": "Via [SIGNAL_A] on F.Cu - B.Cu",
+              "pos": {
+                "x": 35.0,
+                "y": 10.0
+              },
+              "uuid": "be87fcb9-2dd7-52e2-b539-a068d83c50ea"
+            }
+          ],
+          "severity": "error",
+          "type": "annular_width"
+        }
+      ],
+      "final_drc_sha256": "5cfe7feb8ff19c2595627273068adc8c545197a7ab7624ddc4d0b9c35924fca1",
+      "binding_sha256": "8b0bce5e9a2a601584ea4132915ca7db9055bfc7517ee78fa038de677a66a627",
+      "candidate_sha256": "2af18b993b61cf12914dd987237235ce5ab53991965e4a339c8c3b7978cefb45"
+    }
+  ],
+  "cpu_enforcement": "cooperative per-step remaining wall/CPU plus final measured cap, no OS aggregate quota",
+  "accounting_point": "Stored totals precede final summary publication and freshness recheck; acceptance caps include both, and rejected correction can finish outside cap",
+  "native_context_receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/context/native-context.json",
+  "original_inputs_unchanged": true,
+  "completed_evidence": {
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/context": {
+      "floor-guided.dsn": "edb627d7ee89a8f60592741f38797d0513e1e836cdce248b96a5fc947ae1a31a",
+      "guidance.json": "98b1e15c8b75d505eec06a76a485f472bc613ec5e2121ac5f2406ab3c13c8f54",
+      "native-context-process.json": "327a0e417c63c261e7f80d8d7d4537b9c76e70b8cec4619fe859b1f64518a278",
+      "native-context.json": "66afae52d46ca4468ed446d6dd3d3ac105217c36b41e363f7c0ad87aff65951a",
+      "native-context.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "native-input/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "native-input/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "native-input/fixture.kicad_pcb": "dc396dfab9dfbd51a0d75cc8d8457b91c3dbac55358c0f5f84dca83dea97ee38",
+      "native-input/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "native.dsn": "dcbbc5d9fb99e5d0abee5789c15d1231f910f456b8ab369561d3a9641cbd6011"
+    },
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-positive": {
+      "candidate/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "candidate/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "candidate/fixture.kicad_pcb": "fa36ff88a01c43b35f6876a4fece7ee3e38f5bc9a92b2fe439125d6c543b07d6",
+      "candidate/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "case.json": "840f6d952a0e657030cd7d7b65ed75ceecad02d0e8e90d39111fc640ea3c468a",
+      "final-context-process.json": "1369818a43f241031e77f3335f824455b5829a8383a3166a33952f91d97a9664",
+      "final-context.json": "08e63b513e06158e4c725c2417ec9b7a9897ec951874bd24ee3348495ab310c5",
+      "final-context.log": "3f1b884543dc14ce41729bd011d9b60900929e19575fc8db6031dae452fb840d",
+      "final-drc-binding.json": "c2c53022e1306251f62bc42c2a76cd3351c52015ba27f2aaea5d49daacad158b",
+      "final-drc-input/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "final-drc-input/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "final-drc-input/fixture.kicad_pcb": "fa36ff88a01c43b35f6876a4fece7ee3e38f5bc9a92b2fe439125d6c543b07d6",
+      "final-drc-input/fixture.kicad_prl": "f92cdf44f7d7e8caa87ef7674a3d165d8b41ad63269d30068ffb91ca2dfe9a9d",
+      "final-drc-input/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "final-drc-process.json": "c680b212e7efb6ebe9ff5ec6fdb660c256a92812ef173dcc7a18c6b9cb47a4fa",
+      "final-drc.json": "11a1ca30146208085cb3f34167e9b78f6419ac33620b192a546d6d841f64d757",
+      "final-drc.log": "ae107cc581b7b58a63c4c35bfa9ea16f3533c55e937793e059fec8050ac562a0",
+      "final.dsn": "549ebbff7ed8dc2c9bd5b2681c755647e7fdf3568ff9c0eb75db6036e02567ff",
+      "kicad-config/10.0/3d_viewer.json": "196678c94fed37c15510bb4b54d6e4eec989a0c3f9b4d30ff1be0d1425992bf3",
+      "kicad-config/10.0/cvpcb.json": "b93174a3b1470f1ce0e43c90268ce83976432c5210d906a3846ee7976ea9d272",
+      "kicad-config/10.0/eeschema.json": "ce1d47af13c60254b736992e8a387cf93b06c83f302e3aaa4c6836acb05d3502",
+      "kicad-config/10.0/fpedit.json": "e88988497732f32bf92cccd726d7d28ea7dfe1922d693448a38cb4c063f9d368",
+      "kicad-config/10.0/kicad.json": "026a2e3d05986b554bc6f5aa8590c69e847090527e0e718287e1005dbd905015",
+      "kicad-config/10.0/kicad_common.json": "7881993f182a100f7306243462e78446ffa4a0101269e45f625fd7d125bf93f6",
+      "kicad-config/10.0/pcbnew.json": "f0822c67ee74c2e6189603de283b6d288e77a6a201c65d2f6b60afd119c95845",
+      "kicad-config/10.0/symbol_editor.json": "a3212dc53c3cbfd170a2bb6ae42db289bc6f4c3cf6df9abc4a5c856d22d2f86a",
+      "refill/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "refill/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "refill/fixture.kicad_pcb": "06e2d1ad804ec9b42d62b37b40730dc244c635647fccdee28fecfdea4219007e",
+      "refill/fixture.kicad_prl": "f92cdf44f7d7e8caa87ef7674a3d165d8b41ad63269d30068ffb91ca2dfe9a9d",
+      "refill/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "refill-drc-binding.json": "2209f8506aff5c22a565722ac37f78d49a012f2d34ce52e930bd1697f527d134",
+      "refill-drc-process.json": "9745189a17c6d8ad4c2ce184c20f99ea3303bd65b14795bba34202ed5051e71a",
+      "refill-drc.json": "11a1ca30146208085cb3f34167e9b78f6419ac33620b192a546d6d841f64d757",
+      "refill-drc.log": "ac4d611699ce3deaeae730d09826e2437bb6a1ec6499475e6e260b0bed7727a1"
+    },
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-track_width": {
+      "candidate/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "candidate/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "candidate/fixture.kicad_pcb": "b1d1ac07e31e59745c56fa5aced38486f1e56d3d014c791c1aa1b7a1d4eee698",
+      "candidate/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "case.json": "15767f40ea718f2d8a58dcbf79fdf5ab7e9c37eb62a0d689cb630b432ef0a7cf",
+      "final-context-process.json": "63143ca98cc6d14f94182149e2f80520c94e350f9fcabf66c6c2782a59681db5",
+      "final-context.json": "2015fb2b90b244521d1c5c161dfd57208adc409d864cf75d5f2eb89edc08c7d1",
+      "final-context.log": "3f1b884543dc14ce41729bd011d9b60900929e19575fc8db6031dae452fb840d",
+      "final-drc-binding.json": "835f394d331e4e3512fc37f33c8aa951c5ddb96c4134ea5ab87db3c1c6f3d691",
+      "final-drc-input/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "final-drc-input/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "final-drc-input/fixture.kicad_pcb": "b1d1ac07e31e59745c56fa5aced38486f1e56d3d014c791c1aa1b7a1d4eee698",
+      "final-drc-input/fixture.kicad_prl": "f92cdf44f7d7e8caa87ef7674a3d165d8b41ad63269d30068ffb91ca2dfe9a9d",
+      "final-drc-input/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "final-drc-process.json": "16d4c13c174d2caa0192395c25c7b97b9e2170f464752f063bda80f4e0e86f3a",
+      "final-drc.json": "c3fa689099db9f9b3171c73b57113d2261be8bb8c2162ab9ef5c1603c56e6376",
+      "final-drc.log": "0a903d63db27c94994b74710649924ce27301fe602a51aa89a1eab2f1f3c5c7b",
+      "final.dsn": "704e08d6b107d856fd72d16b277d927b1aec370ecbf69ad777c5c0535446ada2",
+      "kicad-config/10.0/3d_viewer.json": "196678c94fed37c15510bb4b54d6e4eec989a0c3f9b4d30ff1be0d1425992bf3",
+      "kicad-config/10.0/cvpcb.json": "b93174a3b1470f1ce0e43c90268ce83976432c5210d906a3846ee7976ea9d272",
+      "kicad-config/10.0/eeschema.json": "ce1d47af13c60254b736992e8a387cf93b06c83f302e3aaa4c6836acb05d3502",
+      "kicad-config/10.0/fpedit.json": "e88988497732f32bf92cccd726d7d28ea7dfe1922d693448a38cb4c063f9d368",
+      "kicad-config/10.0/kicad.json": "026a2e3d05986b554bc6f5aa8590c69e847090527e0e718287e1005dbd905015",
+      "kicad-config/10.0/kicad_common.json": "3b1e1c903473fcd132f7374c79fd27cca344c0fb774b1e1a84ac54c953ee3d10",
+      "kicad-config/10.0/pcbnew.json": "f0822c67ee74c2e6189603de283b6d288e77a6a201c65d2f6b60afd119c95845",
+      "kicad-config/10.0/symbol_editor.json": "a3212dc53c3cbfd170a2bb6ae42db289bc6f4c3cf6df9abc4a5c856d22d2f86a",
+      "refill/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "refill/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "refill/fixture.kicad_pcb": "c8c4bcc2b98142bcea75c588b342762ac0ffa18b2c8f7d2fea16ccd9db007687",
+      "refill/fixture.kicad_prl": "f92cdf44f7d7e8caa87ef7674a3d165d8b41ad63269d30068ffb91ca2dfe9a9d",
+      "refill/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "refill-drc-binding.json": "25f911cfba3710dea176068b4f648e91fb3dd09742905b9b8f95fde3b4d63508",
+      "refill-drc-process.json": "e9928b3c38fd97ee71ebd70ca51d5de267e15350069c0eff2685f46d2a8effad",
+      "refill-drc.json": "c3fa689099db9f9b3171c73b57113d2261be8bb8c2162ab9ef5c1603c56e6376",
+      "refill-drc.log": "96e5232d9153924d21bb18244de49a36ab0cd95c8e9986c36c63dacf646a48d2"
+    },
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-clearance": {
+      "candidate/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "candidate/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "candidate/fixture.kicad_pcb": "b9d565124b32d61c40679afc3990089bc606d181fe5bd18a817b08723e957d61",
+      "candidate/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "case.json": "140f485210385d3f4bcd06b73c935bd822d92d5f61e85b689607b00cdd3d77de",
+      "final-context-process.json": "809c49649b0c64372293f16c6b9aafc93a06f8973ad1f1e5f0000b19cb03de6b",
+      "final-context.json": "1876bc75c2be2b981e0aebe397f39b1d044ad0da79ac638bf2658c900a4d401b",
+      "final-context.log": "3f1b884543dc14ce41729bd011d9b60900929e19575fc8db6031dae452fb840d",
+      "final-drc-binding.json": "6249298b5317da1ff71758e54d5afff60541c1e3664987cf288ad87de2f2869c",
+      "final-drc-input/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "final-drc-input/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "final-drc-input/fixture.kicad_pcb": "b9d565124b32d61c40679afc3990089bc606d181fe5bd18a817b08723e957d61",
+      "final-drc-input/fixture.kicad_prl": "f92cdf44f7d7e8caa87ef7674a3d165d8b41ad63269d30068ffb91ca2dfe9a9d",
+      "final-drc-input/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "final-drc-process.json": "2a9811aee00d2db295c845a354d017c2606d5f917aeb8ed25357a33d8f2bbdb1",
+      "final-drc.json": "68dac37fb39a5e2db942721a702ad60d0b83e78785d590b52be3e52cb0c4ba00",
+      "final-drc.log": "1e33e9b49dba66bd75e597092b737834cbadadf744d952093515fc115ff8446f",
+      "final.dsn": "3babcc55a733a35fd1202dc8b49214341f56289d409db2511c38532ffad89645",
+      "kicad-config/10.0/3d_viewer.json": "196678c94fed37c15510bb4b54d6e4eec989a0c3f9b4d30ff1be0d1425992bf3",
+      "kicad-config/10.0/cvpcb.json": "b93174a3b1470f1ce0e43c90268ce83976432c5210d906a3846ee7976ea9d272",
+      "kicad-config/10.0/eeschema.json": "ce1d47af13c60254b736992e8a387cf93b06c83f302e3aaa4c6836acb05d3502",
+      "kicad-config/10.0/fpedit.json": "e88988497732f32bf92cccd726d7d28ea7dfe1922d693448a38cb4c063f9d368",
+      "kicad-config/10.0/kicad.json": "026a2e3d05986b554bc6f5aa8590c69e847090527e0e718287e1005dbd905015",
+      "kicad-config/10.0/kicad_common.json": "fa33f16ff802a58d6f72ae2aef4e0b21afb052f941cc78c5a2e614a157e4a001",
+      "kicad-config/10.0/pcbnew.json": "f0822c67ee74c2e6189603de283b6d288e77a6a201c65d2f6b60afd119c95845",
+      "kicad-config/10.0/symbol_editor.json": "a3212dc53c3cbfd170a2bb6ae42db289bc6f4c3cf6df9abc4a5c856d22d2f86a",
+      "refill/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "refill/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "refill/fixture.kicad_pcb": "b6eb7d4bb06c657f0d1610d4506735f62f9b72f732408b0a6b95d5ee0da2075e",
+      "refill/fixture.kicad_prl": "f92cdf44f7d7e8caa87ef7674a3d165d8b41ad63269d30068ffb91ca2dfe9a9d",
+      "refill/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "refill-drc-binding.json": "1a427954b7ee4541d9715ffd4443f797a92ab1dc597d803745ed4f7edb3692c7",
+      "refill-drc-process.json": "1b4274d8c95d74604c7b41ecf904380513a483f30e4e233d4c04ee167149e485",
+      "refill-drc.json": "c4c1ae5493dedd147ea48b0c0c34abc001df10a2430a0837c34f6b852e053ac2",
+      "refill-drc.log": "a369c6528879ac58f88acd863354c151ed12f52533203c451211e4bf0ec2078b"
+    },
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-via_diameter": {
+      "candidate/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "candidate/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "candidate/fixture.kicad_pcb": "2b81ec270c5a8f9d5fbf9966dc564300ee654c53feaceea5974ce059c9ee7d00",
+      "candidate/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "case.json": "c364531e9babe2dca124c43a9131c963cb6c07ff8279a7309d3a086836b15f93",
+      "final-context-process.json": "e6ac963f96aca6171c7fe6cac1dec67fe14a564486e5b0de728ff17254e200c0",
+      "final-context.json": "953701fa2c2f2fff345830d98edb2ffda943c674bd369193ccf90ae19863e2b9",
+      "final-context.log": "3f1b884543dc14ce41729bd011d9b60900929e19575fc8db6031dae452fb840d",
+      "final-drc-binding.json": "53e9d06b62753049d1811eace78deb67955178490c9b3cfa68df1737059a65e6",
+      "final-drc-input/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "final-drc-input/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "final-drc-input/fixture.kicad_pcb": "2b81ec270c5a8f9d5fbf9966dc564300ee654c53feaceea5974ce059c9ee7d00",
+      "final-drc-input/fixture.kicad_prl": "f92cdf44f7d7e8caa87ef7674a3d165d8b41ad63269d30068ffb91ca2dfe9a9d",
+      "final-drc-input/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "final-drc-process.json": "9dce7d3144268c91a226439efad9b475baacf84d50b4ec38c9bab2d269b925cd",
+      "final-drc.json": "d3e4cbed1ee309d598029f2a67795f6849dcf1ccd55ee8a265444b8e9687e379",
+      "final-drc.log": "36a0dc08cf7243f5c9de75e16d5ce14772c9d52b1248a7e34e68e183a3b587c0",
+      "final.dsn": "e6e127a7ebeee6f5e614de397c6101497c47334e6e716a2c31ce0a0f75264375",
+      "kicad-config/10.0/3d_viewer.json": "196678c94fed37c15510bb4b54d6e4eec989a0c3f9b4d30ff1be0d1425992bf3",
+      "kicad-config/10.0/cvpcb.json": "b93174a3b1470f1ce0e43c90268ce83976432c5210d906a3846ee7976ea9d272",
+      "kicad-config/10.0/eeschema.json": "ce1d47af13c60254b736992e8a387cf93b06c83f302e3aaa4c6836acb05d3502",
+      "kicad-config/10.0/fpedit.json": "e88988497732f32bf92cccd726d7d28ea7dfe1922d693448a38cb4c063f9d368",
+      "kicad-config/10.0/kicad.json": "026a2e3d05986b554bc6f5aa8590c69e847090527e0e718287e1005dbd905015",
+      "kicad-config/10.0/kicad_common.json": "ec0656a2ca3ab4cd492801650bc4c6367d4cebd678f7cf4ae4dd8bac3aa3ea21",
+      "kicad-config/10.0/pcbnew.json": "f0822c67ee74c2e6189603de283b6d288e77a6a201c65d2f6b60afd119c95845",
+      "kicad-config/10.0/symbol_editor.json": "a3212dc53c3cbfd170a2bb6ae42db289bc6f4c3cf6df9abc4a5c856d22d2f86a",
+      "refill/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "refill/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "refill/fixture.kicad_pcb": "91b14f36a3d2b15c2722f407cec308f46603a1f820743329746e6e7e69ea728d",
+      "refill/fixture.kicad_prl": "f92cdf44f7d7e8caa87ef7674a3d165d8b41ad63269d30068ffb91ca2dfe9a9d",
+      "refill/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "refill-drc-binding.json": "495aab488dd2e13a817a9b60b5748c2b97e70e1ee10bfa4e1de860887b409869",
+      "refill-drc-process.json": "8c12d59f0e8c892e8e2be783344881606373ea129a1b99b17730fe5fd6ffd142",
+      "refill-drc.json": "4049e4c7b57c04dcebc4b9e3adea18c71eb8d1fdb04d071717b5ed5c7af9abfd",
+      "refill-drc.log": "30ac13150a2b698f1da23f19d447266742853cfe37fe221b98235e8144ac80c3"
+    },
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-drill": {
+      "candidate/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "candidate/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "candidate/fixture.kicad_pcb": "eb230bd092a8eb27afec4b6041a103e6dadcf06042a6401cdc7726b1a16d845b",
+      "candidate/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "case.json": "e6506fd5f67de8a3551c74a06720711a872b6a55a5f03636f57ae7f3d8e5ed85",
+      "final-context-process.json": "5110d77dabcbea8be0e5cd84e1c8c45511ffeebceabcfe08b351272d70d4f891",
+      "final-context.json": "6333578ac5890db7797d740c13eeaf6d9939d3bd32fb72e098cde42e15958696",
+      "final-context.log": "3f1b884543dc14ce41729bd011d9b60900929e19575fc8db6031dae452fb840d",
+      "final-drc-binding.json": "6c6eacc6b8301e5a610dfa20a6ed596ba66f406930208a4664285750b6648893",
+      "final-drc-input/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "final-drc-input/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "final-drc-input/fixture.kicad_pcb": "eb230bd092a8eb27afec4b6041a103e6dadcf06042a6401cdc7726b1a16d845b",
+      "final-drc-input/fixture.kicad_prl": "f92cdf44f7d7e8caa87ef7674a3d165d8b41ad63269d30068ffb91ca2dfe9a9d",
+      "final-drc-input/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "final-drc-process.json": "e897e40e093c457b3d74a22970cb4d43fedddd5d55477c00c45b880dc9bc76dd",
+      "final-drc.json": "3b8bbf36f4ed5d6f3873220e6035e3308afad9ffeabfe10e1ca90b72b3f25d95",
+      "final-drc.log": "5f4c6996d601478ef9291367fc298856e3e24cada32bbb6e6764af36912390f0",
+      "final.dsn": "b2fd6261709f8f6accfeb5892085bd358885ca4af03d2e6160e84c3e02c2689f",
+      "kicad-config/10.0/3d_viewer.json": "196678c94fed37c15510bb4b54d6e4eec989a0c3f9b4d30ff1be0d1425992bf3",
+      "kicad-config/10.0/cvpcb.json": "b93174a3b1470f1ce0e43c90268ce83976432c5210d906a3846ee7976ea9d272",
+      "kicad-config/10.0/eeschema.json": "ce1d47af13c60254b736992e8a387cf93b06c83f302e3aaa4c6836acb05d3502",
+      "kicad-config/10.0/fpedit.json": "e88988497732f32bf92cccd726d7d28ea7dfe1922d693448a38cb4c063f9d368",
+      "kicad-config/10.0/kicad.json": "026a2e3d05986b554bc6f5aa8590c69e847090527e0e718287e1005dbd905015",
+      "kicad-config/10.0/kicad_common.json": "3fb55b54f28948294dcda10d0a85aee84068b190a849ac6432759737cef963a8",
+      "kicad-config/10.0/pcbnew.json": "f0822c67ee74c2e6189603de283b6d288e77a6a201c65d2f6b60afd119c95845",
+      "kicad-config/10.0/symbol_editor.json": "a3212dc53c3cbfd170a2bb6ae42db289bc6f4c3cf6df9abc4a5c856d22d2f86a",
+      "refill/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "refill/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "refill/fixture.kicad_pcb": "6535b8346104391ab93b74f4b35bea1ace3d09de9d857c916154c26948796aa5",
+      "refill/fixture.kicad_prl": "f92cdf44f7d7e8caa87ef7674a3d165d8b41ad63269d30068ffb91ca2dfe9a9d",
+      "refill/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "refill-drc-binding.json": "3f9017949f7308cf606a029b737d48becd9ccae84c10854741a156b4e50c959d",
+      "refill-drc-process.json": "b6fc904dbcb2b739e7e4eba5829dda2fc98a7d2dc964223552748a131547ddc8",
+      "refill-drc.json": "e5b98a62ae153857d5cbe8520e998f82436f487086242360894859e7e12cec34",
+      "refill-drc.log": "b03164422907ef5a05732b0545875f2d57e6b15afc4058455697f34ae4db9b35"
+    },
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-annulus": {
+      "candidate/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "candidate/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "candidate/fixture.kicad_pcb": "2af18b993b61cf12914dd987237235ce5ab53991965e4a339c8c3b7978cefb45",
+      "candidate/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "case.json": "f32b68016cb05f886d10d032587a9e2481b7780920ef4a1a5031d6e48fdfa8b6",
+      "final-context-process.json": "f1f5e1117b9c05ce88a0b919dbf155503fac5dc213058b1c22a385a72dcb69c7",
+      "final-context.json": "62bce563c74d497e6d9300d6fffa6206a59e90ea0252a1234abad286b2457ead",
+      "final-context.log": "3f1b884543dc14ce41729bd011d9b60900929e19575fc8db6031dae452fb840d",
+      "final-drc-binding.json": "8b0bce5e9a2a601584ea4132915ca7db9055bfc7517ee78fa038de677a66a627",
+      "final-drc-input/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "final-drc-input/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "final-drc-input/fixture.kicad_pcb": "2af18b993b61cf12914dd987237235ce5ab53991965e4a339c8c3b7978cefb45",
+      "final-drc-input/fixture.kicad_prl": "f92cdf44f7d7e8caa87ef7674a3d165d8b41ad63269d30068ffb91ca2dfe9a9d",
+      "final-drc-input/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "final-drc-process.json": "dde75148cfd5496ce9277ac30a9a52fb3bfdeab6fffc75b6eb859a33629f91ed",
+      "final-drc.json": "5cfe7feb8ff19c2595627273068adc8c545197a7ab7624ddc4d0b9c35924fca1",
+      "final-drc.log": "ee06736fcc3e59dbd318552560c4bbca30bdc4cec1a9e5360d9c9725bb7b0416",
+      "final.dsn": "b2eef763a8da4496f2d2e579837e50166df742012e18e25d90af0104cb665f1f",
+      "kicad-config/10.0/3d_viewer.json": "196678c94fed37c15510bb4b54d6e4eec989a0c3f9b4d30ff1be0d1425992bf3",
+      "kicad-config/10.0/cvpcb.json": "b93174a3b1470f1ce0e43c90268ce83976432c5210d906a3846ee7976ea9d272",
+      "kicad-config/10.0/eeschema.json": "ce1d47af13c60254b736992e8a387cf93b06c83f302e3aaa4c6836acb05d3502",
+      "kicad-config/10.0/fpedit.json": "e88988497732f32bf92cccd726d7d28ea7dfe1922d693448a38cb4c063f9d368",
+      "kicad-config/10.0/kicad.json": "026a2e3d05986b554bc6f5aa8590c69e847090527e0e718287e1005dbd905015",
+      "kicad-config/10.0/kicad_common.json": "01fcaef3fb3d62f1c0334a40bf748f4ffc7a0a644e7d42238e205ce264408cbe",
+      "kicad-config/10.0/pcbnew.json": "f0822c67ee74c2e6189603de283b6d288e77a6a201c65d2f6b60afd119c95845",
+      "kicad-config/10.0/symbol_editor.json": "a3212dc53c3cbfd170a2bb6ae42db289bc6f4c3cf6df9abc4a5c856d22d2f86a",
+      "refill/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "refill/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "refill/fixture.kicad_pcb": "b8f26474ba79a1946b2fecdf8d70afc5bad9cf84fc4a0cfd8d4331d2eefca99f",
+      "refill/fixture.kicad_prl": "f92cdf44f7d7e8caa87ef7674a3d165d8b41ad63269d30068ffb91ca2dfe9a9d",
+      "refill/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "refill-drc-binding.json": "78c0e003754ade80b4dafae576f93fcc1d34ddb4a71378632fe65936fbca88b6",
+      "refill-drc-process.json": "7689e3b84242610f5d45de2628ddd57810f6d7cc760473f46760d90c171af8b3",
+      "refill-drc.json": "0cf4f7ab10c7b35e08662845ed495e46501a3e227919366291291e06eb05664f",
+      "refill-drc.log": "e51d711c99ba24eddb7d385af2626238131624d8b3e837a5eaeaf2198f5c9824"
+    }
+  },
+  "wall_seconds": 13.469755375001114,
+  "total_cpu_seconds": 9.037068,
+  "child_cpu_seconds": 7.27684,
+  "monitor_cpu_seconds": 0,
+  "within_budget": true
+}

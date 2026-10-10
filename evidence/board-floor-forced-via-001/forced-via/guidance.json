@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "policy": "board_floor_guidance_v1",
+  "input_sha256": "e7e8d0e69c678b523728415f62f4f622cb8dcd0f57901c60c14d8668c738924d",
+  "output_sha256": "a237d6d29d4d5f81c2078fee5f56709f769456235cc1aca7875c20bcc4737fa6",
+  "project_sha256": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+  "task_sha256": "dc396dfab9dfbd51a0d75cc8d8457b91c3dbac55358c0f5f84dca83dea97ee38",
+  "native_context_content_sha256": "1efcaf27b3ea94e8cf1219d304d7172de6ae31294242dcb3b8f807efdb2535df",
+  "raw_nm": {
+    "width_nm": 200000,
+    "clearance_nm": 200000,
+    "via_diameter_nm": 600000,
+    "via_drill_nm": 300000
+  },
+  "original_floors_nm": {
+    "min_track_width": 300000,
+    "min_clearance": 300000,
+    "min_via_diameter": 1500000,
+    "min_through_hole_diameter": 300000,
+    "min_via_annular_width": 300000
+  },
+  "derived_nm": {
+    "width_nm": 300000,
+    "clearance_nm": 300000,
+    "via_diameter_nm": 1500000,
+    "via_drill_nm": 300000
+  },
+  "engine_requirements": {
+    "automatic_neckdown": false,
+    "fanout.enabled": false,
+    "neck_width_um": 0
+  },
+  "raw_audit": {
+    "passed": true,
+    "policy": "board_floor_guidance_v1",
+    "guided": false,
+    "terminal_count": 4,
+    "declared_copper_terminal_nets": 2,
+    "source_class_nets": 2,
+    "via_id": "Via[0-1]_600:300_um",
+    "routing_accepted": false,
+    "physical_geometry_qualification": false
+  },
+  "edit_audit": {
+    "passed": true,
+    "exact_allowed_change": true,
+    "routing_accepted": false
+  },
+  "routing_accepted": false,
+  "production_support_qualified": false,
+  "limitations": [
+    "Caller must bind real native process and all original project/rule files.",
+    "No independent physical pad geometry/import qualification; full native validation remains required.",
+    "Run existing geometry/plane adapter after floor guidance; preserve each distinct stage."
+  ]
+}

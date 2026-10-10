@@ -1,0 +1,115 @@
+{
+    "$schema": "https://schemas.kicad.org/drc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-10-10T03:24:33",
+    "ignored_checks": [
+        {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+        },
+        {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+        },
+        {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+        },
+        {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+        },
+        {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+        },
+        {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+        },
+        {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning",
+        "exclusion"
+    ],
+    "kicad_version": "10.0.0",
+    "schematic_parity": [],
+    "source": "fixture.kicad_pcb",
+    "unconnected_items": [],
+    "violations": [
+        {
+            "description": "Clearance violation (board minimum clearance 0.3000 mm; actual 0.2000 mm)",
+            "items": [
+                {
+                    "description": "Track [SIGNAL_A] on F.Cu, length 25.0000 mm",
+                    "pos": {
+                        "x": 10.0,
+                        "y": 10.0
+                    },
+                    "uuid": "33bbdb18-b2d7-5d52-844b-45e96f008f52"
+                },
+                {
+                    "description": "Track [SIGNAL_B] on F.Cu, length 9.5000 mm",
+                    "pos": {
+                        "x": 30.0,
+                        "y": 10.5
+                    },
+                    "uuid": "f06890ad-5d9d-583e-969b-afdc38d7b679"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation (board minimum clearance 0.3000 mm; actual 0.2000 mm)",
+            "items": [
+                {
+                    "description": "Track [SIGNAL_A] on F.Cu, length 25.0000 mm",
+                    "pos": {
+                        "x": 10.0,
+                        "y": 10.0
+                    },
+                    "uuid": "33bbdb18-b2d7-5d52-844b-45e96f008f52"
+                },
+                {
+                    "description": "Track [SIGNAL_B] on F.Cu, length 10.0000 mm",
+                    "pos": {
+                        "x": 20.0,
+                        "y": 10.5
+                    },
+                    "uuid": "85ef567e-5b7e-5634-9102-d944903ec41e"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation (board minimum clearance 0.3000 mm; actual 0.2000 mm)",
+            "items": [
+                {
+                    "description": "Track [SIGNAL_A] on F.Cu, length 25.0000 mm",
+                    "pos": {
+                        "x": 10.0,
+                        "y": 10.0
+                    },
+                    "uuid": "33bbdb18-b2d7-5d52-844b-45e96f008f52"
+                },
+                {
+                    "description": "Track [SIGNAL_B] on F.Cu, length 9.5000 mm",
+                    "pos": {
+                        "x": 20.0,
+                        "y": 20.0
+                    },
+                    "uuid": "36721d7a-4cef-5864-977c-73be117a3e6d"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        }
+    ]
+}

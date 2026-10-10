@@ -1,0 +1,114 @@
+{
+  "case": "track_width",
+  "passed": true,
+  "expected": [
+    "track_width",
+    [
+      "33bbdb18-b2d7-5d52-844b-45e96f008f52"
+    ]
+  ],
+  "prepared_candidate_sha256": "b1d1ac07e31e59745c56fa5aced38486f1e56d3d014c791c1aa1b7a1d4eee698",
+  "changed_routes_only": true,
+  "native_route_readback": {
+    "passed": true,
+    "native_route_count": 8,
+    "native_via_count": 1
+  },
+  "generated_dimension_rejection": "generated track differs from derived guidance",
+  "native": {
+    "opens": 0,
+    "blocking": 1,
+    "warnings": 1,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "PTH inside courtyard",
+        "key": "pth_inside_courtyard"
+      },
+      {
+        "description": "NPTH inside courtyard",
+        "key": "npth_inside_courtyard"
+      },
+      {
+        "description": "Footprint component type doesn't match footprint pads",
+        "key": "footprint_type_mismatch"
+      }
+    ],
+    "findings": [
+      {
+        "description": "Track width (board setup constraints min width 0.3000 mm; actual 0.2000 mm)",
+        "items": [
+          {
+            "description": "Track [SIGNAL_A] on F.Cu, length 25.0000 mm",
+            "pos": {
+              "x": 10.0,
+              "y": 10.0
+            },
+            "uuid": "33bbdb18-b2d7-5d52-844b-45e96f008f52"
+          }
+        ],
+        "severity": "error",
+        "type": "track_width"
+      },
+      {
+        "description": "Copper connection too narrow (board setup constraints minimum connection width 0.3000 mm; actual 0.2000 mm) (F.Cu)",
+        "items": [
+          {
+            "description": "Track [SIGNAL_A] on F.Cu, length 25.0000 mm",
+            "pos": {
+              "x": 10.0,
+              "y": 10.0
+            },
+            "uuid": "33bbdb18-b2d7-5d52-844b-45e96f008f52"
+          },
+          {
+            "description": "Via [SIGNAL_A] on F.Cu - B.Cu",
+            "pos": {
+              "x": 35.0,
+              "y": 10.0
+            },
+            "uuid": "be87fcb9-2dd7-52e2-b539-a068d83c50ea"
+          }
+        ],
+        "severity": "warning",
+        "type": "connection_width"
+      }
+    ]
+  },
+  "targeted_native_findings": [
+    {
+      "description": "Track width (board setup constraints min width 0.3000 mm; actual 0.2000 mm)",
+      "items": [
+        {
+          "description": "Track [SIGNAL_A] on F.Cu, length 25.0000 mm",
+          "pos": {
+            "x": 10.0,
+            "y": 10.0
+          },
+          "uuid": "33bbdb18-b2d7-5d52-844b-45e96f008f52"
+        }
+      ],
+      "severity": "error",
+      "type": "track_width"
+    }
+  ],
+  "final_drc_sha256": "c3fa689099db9f9b3171c73b57113d2261be8bb8c2162ab9ef5c1603c56e6376",
+  "binding_sha256": "835f394d331e4e3512fc37f33c8aa951c5ddb96c4134ea5ab87db3c1c6f3d691",
+  "candidate_sha256": "b1d1ac07e31e59745c56fa5aced38486f1e56d3d014c791c1aa1b7a1d4eee698"
+}

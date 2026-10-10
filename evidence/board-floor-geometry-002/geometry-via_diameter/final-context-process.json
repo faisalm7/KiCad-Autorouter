@@ -1,0 +1,45 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 0.34124545900704106,
+  "cpu_seconds": 0.335234,
+  "max_rss_bytes": 90144768,
+  "supervisor_cpu_seconds": 0.004633999999999805,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 34947072,
+  "sampled_peak_workdir_bytes": 208137,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 536870912,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+    "-B",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/code/native_context_worker.py",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-via_diameter/candidate/fixture.kicad_pcb",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-via_diameter/final.dsn",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-via_diameter/final-context.json"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-via_diameter/final-context.log",
+  "log_bytes": 225,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-geometry-002/geometry-via_diameter",
+  "signal_cancellation_enabled": true,
+  "pid": 20330,
+  "name": "final-context"
+}

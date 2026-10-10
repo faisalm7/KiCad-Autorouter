@@ -12,7 +12,7 @@ Active specification: `MASTER_PROMPT.md`, read completely. Use the selected loca
 
 ## Immediate sequence
 
-1. **Finish native floor qualification.** Floor-geometry001 ran a clean positive and five correctly rejected native negatives, but final publication invalidated the invocation because tuple/list JSON representation differed. Preserve001. Review the draft002 strict serialization repair and regression controls, then execute fresh geometry002. Only after it passes, execute the reviewed forced-via stage on a new identifier. Require actual engine via emission, exact imported dimensions/net identity and final KiCad acceptance under unchanged rules; zero vias or missing SES is failure.
+1. **Preserve native floor qualification.** Geometry002 passed the clean positive and five targeted invalid controls. Forced-via001 passed actual engine/SES/native import with one required via and no native findings. Independent raw and public-copy evidence reviews passed. Preserve invalidated001 and the strict JSON regression. The next milestone is production integration, not another repetition of these diagnostics.
 2. **Integrate the common adapter correction only after qualification.** Bind original project floors, raw native defaults, guided DSN, source/net/pad identity and exact generated dimensions through route/final validation/receipt readback. Never replace raw preferences with a fabricated native class map. Preserve old behavior unless an explicit qualified policy is selected. First support direct B1 routing; keep strategy/recovery/portfolio paths blocked for the new policy until fully propagated and tested. This correction is baseline improvement, not a new C algorithm.
 3. **Run the next real development task.** Freeze the reviewed code, compare raw and corrected multichannel routing sequentially under a declared equal budget, and preserve every failure. Diagnose actual remaining connectivity/clearance/thermal failures before choosing a bounded new strategy. Prior uncorrected run001 had160opens/95blocking findings; no full-board floor-guided success is established.
 4. **Keep checkpoints real.** Audit explicit staged paths, rights and newly exposed history; commit/push without rewriting, then independently match remote SHA/file bytes. At native milestones freeze ignored writes, archive new raw outputs and actually restore them. Keep private references, downloaded engines and bulk data out of Git. An owner-selected private off-Mac destination remains pending.
@@ -42,11 +42,6 @@ python3 -m autorouter check-result .runs/thermal-paired-001/C_thermal/result.jso
 python3 scripts/backup.py
 ```
 
-After the draft002 review, use fresh outputs; these identifiers were not executed when this plan was written:
-
-```sh
-python3 -B .runs/board-floor-native-draft-002/driver.py --out .runs/board-floor-geometry-002 --stage geometry --run-native
-python3 -B .runs/board-floor-native-draft-002/driver.py --out .runs/board-floor-forced-via-001 --stage forced-via --run-native
-```
+The native geometry002 and forced-via001 commands have completed. A public diagnostic reproduction entry point and fresh identifiers are documented in `docs/board-floor-guidance.md`; do not repeat them without a reason. Next freeze/checkpoint the reviewed production draft, then run its explicit CLI policy on the owned fixture before the real multichannel task.
 
 The ignored native draft is preserved by private archives, not installed production functionality. Do not rerun completed thermal comparisons without a new hypothesis. Never overwrite an existing run identifier. Geometry60seconds, forced-via120seconds, wall and measured total CPU; one worker, bounded storage/memory and logs. Polling is not an OS aggregate quota. No persistent/background/auto-resume work, paid services, private uploads or global preference changes. `python3 scripts/backup.py --verify RECEIPT` actually restore-checks a named archive; a manifest is not a backup.
