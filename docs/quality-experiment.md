@@ -56,3 +56,17 @@ Stored trial002/0001 motivates the hypothesis: deleting a long route left two sm
 ```sh
 python3 scripts/experiment_quality.py --project sonde --feedback-ablation --output .runs/quality-comparison-004
 ```
+
+## Corrected five-arm pilot 004
+
+Frozen `221f26f2808b1918aca2a1df3b3f70b345605eb1`, all five arms completed sequentially under120second wall/CPU acceptance ceilings. Exact native input/source/code/receipt hashes and full invoking costs are retained in `.runs/quality-comparison-004`; the reduced public pack is `evidence/quality-comparison-004`. Corrected inner timeouts are recorded per run.
+
+| Arm | Native opens / blocking | Warnings | Length mm | Vias | Receipt wall / CPU seconds | Accepted |
+|---|---|---:|---:|---:|---|---|
+| B0 | 3 / 7 | 1 | 566.453919 | 4 | 10.655905 /10.643505 | No |
+| B1 | 0 / 0 | 1 | 786.315536 | 3 | 13.536024 /16.701032 | Yes |
+| B2 | 0 / 0 | 1 | 786.315536 | 2 | 18.256663 /26.195744 | Yes |
+| C_single | 0 / 0 | 1 | 662.694144 | 2 | 104.665355 /83.391587 | Yes |
+| C_feedback | 0 / 0 | 1 | 644.548871 | 2 | 107.789295 /85.618350 | Yes |
+
+All accepted arms passed full enclosing-invocation budgets and strict receipts. C_feedback is141.766665mm shorter than B2 with equal vias, and18.145273mm shorter than C_single. The combined deletion was actually accepted at feedback trial0002: one preceding segment plus the two exact native-identified dangling stubs. C_feedback had25trials and21accepted improvements. The retained parent failure and every follow-up received real native checks. The modest extra compute versus C_single is measured; no speedup over B2, broad completion gain, electrical adequacy or general superiority is established. This is one exposed family, one fixed-order trial per arm. Stronger equally charged restart/tuning baseline research remains open.

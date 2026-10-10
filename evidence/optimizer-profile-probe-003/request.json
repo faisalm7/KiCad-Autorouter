@@ -1,0 +1,406 @@
+{
+  "timespans": [
+    "60s",
+    "30s",
+    "100s",
+    "90s",
+    "60",
+    "30",
+    "100",
+    "90",
+    "00:01:00",
+    "00:00:30",
+    "00:01:40",
+    "00:01:30"
+  ],
+  "profiles": [
+    {
+      "name": "standard_remaining_120_strict_False",
+      "argv": [
+        "-de",
+        "probe.dsn",
+        "-do",
+        "probe.ses",
+        "--router.autorouter.max_passes=30",
+        "--router.job_timeout=00:01:00",
+        "--router.optimizer.max_threads=1",
+        "--router.optimizer.max_passes=10",
+        "--router.optimizer.timeout=00:00:30"
+      ]
+    },
+    {
+      "name": "standard_remaining_120_strict_True",
+      "argv": [
+        "-de",
+        "probe.dsn",
+        "-do",
+        "probe.ses",
+        "--router.autorouter.max_passes=30",
+        "--router.job_timeout=00:01:00",
+        "--router.automatic_neckdown=false",
+        "--router.fanout.enabled=false",
+        "--router.neck_width_um=0",
+        "--router.optimizer.max_threads=1",
+        "--router.optimizer.max_passes=10",
+        "--router.optimizer.timeout=00:00:30"
+      ]
+    },
+    {
+      "name": "tuned_remaining_120_strict_False",
+      "argv": [
+        "-de",
+        "probe.dsn",
+        "-do",
+        "probe.ses",
+        "--router.autorouter.max_passes=100",
+        "--router.job_timeout=00:01:20",
+        "--router.optimizer.max_threads=1",
+        "--router.optimizer.max_passes=50",
+        "--router.optimizer.timeout=00:01:20",
+        "--router.optimizer.improvement_threshold=0.001",
+        "--router.optimizer.enable_preflight_guards=false",
+        "--router.optimizer.max_consecutive_failures=100",
+        "--router.optimizer.max_consecutive_failures_pass1=100"
+      ]
+    },
+    {
+      "name": "tuned_remaining_120_strict_True",
+      "argv": [
+        "-de",
+        "probe.dsn",
+        "-do",
+        "probe.ses",
+        "--router.autorouter.max_passes=100",
+        "--router.job_timeout=00:01:20",
+        "--router.automatic_neckdown=false",
+        "--router.fanout.enabled=false",
+        "--router.neck_width_um=0",
+        "--router.optimizer.max_threads=1",
+        "--router.optimizer.max_passes=50",
+        "--router.optimizer.timeout=00:01:20",
+        "--router.optimizer.improvement_threshold=0.001",
+        "--router.optimizer.enable_preflight_guards=false",
+        "--router.optimizer.max_consecutive_failures=100",
+        "--router.optimizer.max_consecutive_failures_pass1=100"
+      ]
+    },
+    {
+      "name": "completion-only_remaining_120_strict_False",
+      "argv": [
+        "-de",
+        "probe.dsn",
+        "-do",
+        "probe.ses",
+        "--router.autorouter.max_passes=30",
+        "--router.job_timeout=00:01:00",
+        "--router.optimizer.enabled=false"
+      ]
+    },
+    {
+      "name": "completion-only_remaining_120_strict_True",
+      "argv": [
+        "-de",
+        "probe.dsn",
+        "-do",
+        "probe.ses",
+        "--router.autorouter.max_passes=30",
+        "--router.job_timeout=00:01:00",
+        "--router.automatic_neckdown=false",
+        "--router.fanout.enabled=false",
+        "--router.neck_width_um=0",
+        "--router.optimizer.enabled=false"
+      ]
+    },
+    {
+      "name": "standard_remaining_105_strict_False",
+      "argv": [
+        "-de",
+        "probe.dsn",
+        "-do",
+        "probe.ses",
+        "--router.autorouter.max_passes=30",
+        "--router.job_timeout=00:01:00",
+        "--router.optimizer.max_threads=1",
+        "--router.optimizer.max_passes=10",
+        "--router.optimizer.timeout=00:00:30"
+      ]
+    },
+    {
+      "name": "standard_remaining_105_strict_True",
+      "argv": [
+        "-de",
+        "probe.dsn",
+        "-do",
+        "probe.ses",
+        "--router.autorouter.max_passes=30",
+        "--router.job_timeout=00:01:00",
+        "--router.automatic_neckdown=false",
+        "--router.fanout.enabled=false",
+        "--router.neck_width_um=0",
+        "--router.optimizer.max_threads=1",
+        "--router.optimizer.max_passes=10",
+        "--router.optimizer.timeout=00:00:30"
+      ]
+    },
+    {
+      "name": "tuned_remaining_105_strict_False",
+      "argv": [
+        "-de",
+        "probe.dsn",
+        "-do",
+        "probe.ses",
+        "--router.autorouter.max_passes=100",
+        "--router.job_timeout=00:01:05",
+        "--router.optimizer.max_threads=1",
+        "--router.optimizer.max_passes=50",
+        "--router.optimizer.timeout=00:01:05",
+        "--router.optimizer.improvement_threshold=0.001",
+        "--router.optimizer.enable_preflight_guards=false",
+        "--router.optimizer.max_consecutive_failures=100",
+        "--router.optimizer.max_consecutive_failures_pass1=100"
+      ]
+    },
+    {
+      "name": "tuned_remaining_105_strict_True",
+      "argv": [
+        "-de",
+        "probe.dsn",
+        "-do",
+        "probe.ses",
+        "--router.autorouter.max_passes=100",
+        "--router.job_timeout=00:01:05",
+        "--router.automatic_neckdown=false",
+        "--router.fanout.enabled=false",
+        "--router.neck_width_um=0",
+        "--router.optimizer.max_threads=1",
+        "--router.optimizer.max_passes=50",
+        "--router.optimizer.timeout=00:01:05",
+        "--router.optimizer.improvement_threshold=0.001",
+        "--router.optimizer.enable_preflight_guards=false",
+        "--router.optimizer.max_consecutive_failures=100",
+        "--router.optimizer.max_consecutive_failures_pass1=100"
+      ]
+    },
+    {
+      "name": "completion-only_remaining_105_strict_False",
+      "argv": [
+        "-de",
+        "probe.dsn",
+        "-do",
+        "probe.ses",
+        "--router.autorouter.max_passes=30",
+        "--router.job_timeout=00:01:00",
+        "--router.optimizer.enabled=false"
+      ]
+    },
+    {
+      "name": "completion-only_remaining_105_strict_True",
+      "argv": [
+        "-de",
+        "probe.dsn",
+        "-do",
+        "probe.ses",
+        "--router.autorouter.max_passes=30",
+        "--router.job_timeout=00:01:00",
+        "--router.automatic_neckdown=false",
+        "--router.fanout.enabled=false",
+        "--router.neck_width_um=0",
+        "--router.optimizer.enabled=false"
+      ]
+    },
+    {
+      "name": "standard_remaining_45_strict_False",
+      "argv": [
+        "-de",
+        "probe.dsn",
+        "-do",
+        "probe.ses",
+        "--router.autorouter.max_passes=30",
+        "--router.job_timeout=00:00:05",
+        "--router.optimizer.max_threads=1",
+        "--router.optimizer.max_passes=10",
+        "--router.optimizer.timeout=00:00:05"
+      ]
+    },
+    {
+      "name": "standard_remaining_45_strict_True",
+      "argv": [
+        "-de",
+        "probe.dsn",
+        "-do",
+        "probe.ses",
+        "--router.autorouter.max_passes=30",
+        "--router.job_timeout=00:00:05",
+        "--router.automatic_neckdown=false",
+        "--router.fanout.enabled=false",
+        "--router.neck_width_um=0",
+        "--router.optimizer.max_threads=1",
+        "--router.optimizer.max_passes=10",
+        "--router.optimizer.timeout=00:00:05"
+      ]
+    },
+    {
+      "name": "tuned_remaining_45_strict_False",
+      "argv": [
+        "-de",
+        "probe.dsn",
+        "-do",
+        "probe.ses",
+        "--router.autorouter.max_passes=100",
+        "--router.job_timeout=00:00:05",
+        "--router.optimizer.max_threads=1",
+        "--router.optimizer.max_passes=50",
+        "--router.optimizer.timeout=00:00:05",
+        "--router.optimizer.improvement_threshold=0.001",
+        "--router.optimizer.enable_preflight_guards=false",
+        "--router.optimizer.max_consecutive_failures=100",
+        "--router.optimizer.max_consecutive_failures_pass1=100"
+      ]
+    },
+    {
+      "name": "tuned_remaining_45_strict_True",
+      "argv": [
+        "-de",
+        "probe.dsn",
+        "-do",
+        "probe.ses",
+        "--router.autorouter.max_passes=100",
+        "--router.job_timeout=00:00:05",
+        "--router.automatic_neckdown=false",
+        "--router.fanout.enabled=false",
+        "--router.neck_width_um=0",
+        "--router.optimizer.max_threads=1",
+        "--router.optimizer.max_passes=50",
+        "--router.optimizer.timeout=00:00:05",
+        "--router.optimizer.improvement_threshold=0.001",
+        "--router.optimizer.enable_preflight_guards=false",
+        "--router.optimizer.max_consecutive_failures=100",
+        "--router.optimizer.max_consecutive_failures_pass1=100"
+      ]
+    },
+    {
+      "name": "completion-only_remaining_45_strict_False",
+      "argv": [
+        "-de",
+        "probe.dsn",
+        "-do",
+        "probe.ses",
+        "--router.autorouter.max_passes=30",
+        "--router.job_timeout=00:00:05",
+        "--router.optimizer.enabled=false"
+      ]
+    },
+    {
+      "name": "completion-only_remaining_45_strict_True",
+      "argv": [
+        "-de",
+        "probe.dsn",
+        "-do",
+        "probe.ses",
+        "--router.autorouter.max_passes=30",
+        "--router.job_timeout=00:00:05",
+        "--router.automatic_neckdown=false",
+        "--router.fanout.enabled=false",
+        "--router.neck_width_um=0",
+        "--router.optimizer.enabled=false"
+      ]
+    },
+    {
+      "name": "standard_remaining_900_strict_False",
+      "argv": [
+        "-de",
+        "probe.dsn",
+        "-do",
+        "probe.ses",
+        "--router.autorouter.max_passes=30",
+        "--router.job_timeout=00:01:00",
+        "--router.optimizer.max_threads=1",
+        "--router.optimizer.max_passes=10",
+        "--router.optimizer.timeout=00:00:30"
+      ]
+    },
+    {
+      "name": "standard_remaining_900_strict_True",
+      "argv": [
+        "-de",
+        "probe.dsn",
+        "-do",
+        "probe.ses",
+        "--router.autorouter.max_passes=30",
+        "--router.job_timeout=00:01:00",
+        "--router.automatic_neckdown=false",
+        "--router.fanout.enabled=false",
+        "--router.neck_width_um=0",
+        "--router.optimizer.max_threads=1",
+        "--router.optimizer.max_passes=10",
+        "--router.optimizer.timeout=00:00:30"
+      ]
+    },
+    {
+      "name": "tuned_remaining_900_strict_False",
+      "argv": [
+        "-de",
+        "probe.dsn",
+        "-do",
+        "probe.ses",
+        "--router.autorouter.max_passes=100",
+        "--router.job_timeout=00:01:40",
+        "--router.optimizer.max_threads=1",
+        "--router.optimizer.max_passes=50",
+        "--router.optimizer.timeout=00:01:30",
+        "--router.optimizer.improvement_threshold=0.001",
+        "--router.optimizer.enable_preflight_guards=false",
+        "--router.optimizer.max_consecutive_failures=100",
+        "--router.optimizer.max_consecutive_failures_pass1=100"
+      ]
+    },
+    {
+      "name": "tuned_remaining_900_strict_True",
+      "argv": [
+        "-de",
+        "probe.dsn",
+        "-do",
+        "probe.ses",
+        "--router.autorouter.max_passes=100",
+        "--router.job_timeout=00:01:40",
+        "--router.automatic_neckdown=false",
+        "--router.fanout.enabled=false",
+        "--router.neck_width_um=0",
+        "--router.optimizer.max_threads=1",
+        "--router.optimizer.max_passes=50",
+        "--router.optimizer.timeout=00:01:30",
+        "--router.optimizer.improvement_threshold=0.001",
+        "--router.optimizer.enable_preflight_guards=false",
+        "--router.optimizer.max_consecutive_failures=100",
+        "--router.optimizer.max_consecutive_failures_pass1=100"
+      ]
+    },
+    {
+      "name": "completion-only_remaining_900_strict_False",
+      "argv": [
+        "-de",
+        "probe.dsn",
+        "-do",
+        "probe.ses",
+        "--router.autorouter.max_passes=30",
+        "--router.job_timeout=00:01:00",
+        "--router.optimizer.enabled=false"
+      ]
+    },
+    {
+      "name": "completion-only_remaining_900_strict_True",
+      "argv": [
+        "-de",
+        "probe.dsn",
+        "-do",
+        "probe.ses",
+        "--router.autorouter.max_passes=30",
+        "--router.job_timeout=00:01:00",
+        "--router.automatic_neckdown=false",
+        "--router.fanout.enabled=false",
+        "--router.neck_width_um=0",
+        "--router.optimizer.enabled=false"
+      ]
+    }
+  ]
+}

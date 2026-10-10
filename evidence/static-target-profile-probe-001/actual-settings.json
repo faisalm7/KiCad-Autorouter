@@ -1,0 +1,242 @@
+{
+  "execution": "actual pinned JAR settings and parser only; no routing job, DSN load, or native engine",
+  "jar_code_source": "file:/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar",
+  "timespans_to_seconds": {
+    "60s": null,
+    "60": 60,
+    "00:01:00": 60
+  },
+  "profiles": [
+    {
+      "name": "standard_strict_False",
+      "argv": [
+        "-de",
+        "probe.dsn",
+        "-do",
+        "probe.ses",
+        "--router.autorouter.max_passes\u003d30",
+        "--router.job_timeout\u003d00:01:00",
+        "--router.optimizer.max_threads\u003d1",
+        "--router.optimizer.max_passes\u003d10",
+        "--router.optimizer.timeout\u003d00:00:30"
+      ],
+      "parsed_cli_arguments": {
+        "router.autorouter.max_passes": "30",
+        "router.optimizer.max_passes": "10",
+        "router.optimizer.timeout": "00:00:30",
+        "router.optimizer.max_threads": "1",
+        "router.job_timeout": "00:01:00"
+      },
+      "effective_requested_settings": {
+        "router.autorouter.max_passes": 30,
+        "router.job_timeout": "00:01:00",
+        "router.optimizer.max_threads": 1,
+        "router.optimizer.max_passes": 10,
+        "router.optimizer.timeout": "00:00:30"
+      },
+      "autorouter_enabled": true,
+      "optimizer_enabled": true,
+      "effective_job_timeout_seconds": 60,
+      "effective_optimizer_timeout_seconds": 30
+    },
+    {
+      "name": "tuned_strict_False",
+      "argv": [
+        "-de",
+        "probe.dsn",
+        "-do",
+        "probe.ses",
+        "--router.autorouter.max_passes\u003d100",
+        "--router.job_timeout\u003d00:01:20",
+        "--router.optimizer.max_threads\u003d1",
+        "--router.optimizer.max_passes\u003d50",
+        "--router.optimizer.timeout\u003d00:01:20",
+        "--router.optimizer.improvement_threshold\u003d0.001",
+        "--router.optimizer.enable_preflight_guards\u003dfalse",
+        "--router.optimizer.max_consecutive_failures\u003d100",
+        "--router.optimizer.max_consecutive_failures_pass1\u003d100"
+      ],
+      "parsed_cli_arguments": {
+        "router.optimizer.improvement_threshold": "0.1",
+        "router.autorouter.max_passes": "100",
+        "router.optimizer.max_consecutive_failures": "100",
+        "router.optimizer.enable_preflight_guards": "false",
+        "router.optimizer.max_passes": "50",
+        "router.optimizer.timeout": "00:01:20",
+        "router.optimizer.max_threads": "1",
+        "router.optimizer.max_consecutive_failures_pass1": "100",
+        "router.job_timeout": "00:01:20"
+      },
+      "effective_requested_settings": {
+        "router.autorouter.max_passes": 100,
+        "router.job_timeout": "00:01:20",
+        "router.optimizer.max_threads": 1,
+        "router.optimizer.max_passes": 50,
+        "router.optimizer.timeout": "00:01:20",
+        "router.optimizer.improvement_threshold": 0.1,
+        "router.optimizer.enable_preflight_guards": false,
+        "router.optimizer.max_consecutive_failures": 100,
+        "router.optimizer.max_consecutive_failures_pass1": 100
+      },
+      "autorouter_enabled": true,
+      "optimizer_enabled": true,
+      "effective_job_timeout_seconds": 80,
+      "effective_optimizer_timeout_seconds": 80
+    },
+    {
+      "name": "completion-only_strict_False",
+      "argv": [
+        "-de",
+        "probe.dsn",
+        "-do",
+        "probe.ses",
+        "--router.autorouter.max_passes\u003d30",
+        "--router.job_timeout\u003d00:01:00",
+        "--router.optimizer.enabled\u003dfalse"
+      ],
+      "parsed_cli_arguments": {
+        "router.autorouter.max_passes": "30",
+        "router.optimizer.enabled": "false",
+        "router.job_timeout": "00:01:00"
+      },
+      "effective_requested_settings": {
+        "router.autorouter.max_passes": 30,
+        "router.job_timeout": "00:01:00",
+        "router.optimizer.enabled": false
+      },
+      "autorouter_enabled": true,
+      "optimizer_enabled": false,
+      "effective_job_timeout_seconds": 60,
+      "effective_optimizer_timeout_seconds": null
+    },
+    {
+      "name": "standard_strict_True",
+      "argv": [
+        "-de",
+        "probe.dsn",
+        "-do",
+        "probe.ses",
+        "--router.autorouter.max_passes\u003d30",
+        "--router.job_timeout\u003d00:01:00",
+        "--router.automatic_neckdown\u003dfalse",
+        "--router.fanout.enabled\u003dfalse",
+        "--router.neck_width_um\u003d0",
+        "--router.optimizer.max_threads\u003d1",
+        "--router.optimizer.max_passes\u003d10",
+        "--router.optimizer.timeout\u003d00:00:30"
+      ],
+      "parsed_cli_arguments": {
+        "router.fanout.enabled": "false",
+        "router.autorouter.max_passes": "30",
+        "router.optimizer.max_passes": "10",
+        "router.optimizer.timeout": "00:00:30",
+        "router.neck_width_um": "0",
+        "router.optimizer.max_threads": "1",
+        "router.job_timeout": "00:01:00",
+        "router.automatic_neckdown": "false"
+      },
+      "effective_requested_settings": {
+        "router.autorouter.max_passes": 30,
+        "router.job_timeout": "00:01:00",
+        "router.automatic_neckdown": false,
+        "router.fanout.enabled": false,
+        "router.neck_width_um": 0.0,
+        "router.optimizer.max_threads": 1,
+        "router.optimizer.max_passes": 10,
+        "router.optimizer.timeout": "00:00:30"
+      },
+      "autorouter_enabled": true,
+      "optimizer_enabled": true,
+      "effective_job_timeout_seconds": 60,
+      "effective_optimizer_timeout_seconds": 30
+    },
+    {
+      "name": "tuned_strict_True",
+      "argv": [
+        "-de",
+        "probe.dsn",
+        "-do",
+        "probe.ses",
+        "--router.autorouter.max_passes\u003d100",
+        "--router.job_timeout\u003d00:01:20",
+        "--router.automatic_neckdown\u003dfalse",
+        "--router.fanout.enabled\u003dfalse",
+        "--router.neck_width_um\u003d0",
+        "--router.optimizer.max_threads\u003d1",
+        "--router.optimizer.max_passes\u003d50",
+        "--router.optimizer.timeout\u003d00:01:20",
+        "--router.optimizer.improvement_threshold\u003d0.001",
+        "--router.optimizer.enable_preflight_guards\u003dfalse",
+        "--router.optimizer.max_consecutive_failures\u003d100",
+        "--router.optimizer.max_consecutive_failures_pass1\u003d100"
+      ],
+      "parsed_cli_arguments": {
+        "router.fanout.enabled": "false",
+        "router.optimizer.improvement_threshold": "0.1",
+        "router.autorouter.max_passes": "100",
+        "router.optimizer.max_consecutive_failures": "100",
+        "router.optimizer.enable_preflight_guards": "false",
+        "router.optimizer.max_passes": "50",
+        "router.optimizer.timeout": "00:01:20",
+        "router.neck_width_um": "0",
+        "router.optimizer.max_threads": "1",
+        "router.optimizer.max_consecutive_failures_pass1": "100",
+        "router.job_timeout": "00:01:20",
+        "router.automatic_neckdown": "false"
+      },
+      "effective_requested_settings": {
+        "router.autorouter.max_passes": 100,
+        "router.job_timeout": "00:01:20",
+        "router.automatic_neckdown": false,
+        "router.fanout.enabled": false,
+        "router.neck_width_um": 0.0,
+        "router.optimizer.max_threads": 1,
+        "router.optimizer.max_passes": 50,
+        "router.optimizer.timeout": "00:01:20",
+        "router.optimizer.improvement_threshold": 0.1,
+        "router.optimizer.enable_preflight_guards": false,
+        "router.optimizer.max_consecutive_failures": 100,
+        "router.optimizer.max_consecutive_failures_pass1": 100
+      },
+      "autorouter_enabled": true,
+      "optimizer_enabled": true,
+      "effective_job_timeout_seconds": 80,
+      "effective_optimizer_timeout_seconds": 80
+    },
+    {
+      "name": "completion-only_strict_True",
+      "argv": [
+        "-de",
+        "probe.dsn",
+        "-do",
+        "probe.ses",
+        "--router.autorouter.max_passes\u003d30",
+        "--router.job_timeout\u003d00:01:00",
+        "--router.automatic_neckdown\u003dfalse",
+        "--router.fanout.enabled\u003dfalse",
+        "--router.neck_width_um\u003d0",
+        "--router.optimizer.enabled\u003dfalse"
+      ],
+      "parsed_cli_arguments": {
+        "router.fanout.enabled": "false",
+        "router.autorouter.max_passes": "30",
+        "router.optimizer.enabled": "false",
+        "router.neck_width_um": "0",
+        "router.job_timeout": "00:01:00",
+        "router.automatic_neckdown": "false"
+      },
+      "effective_requested_settings": {
+        "router.autorouter.max_passes": 30,
+        "router.job_timeout": "00:01:00",
+        "router.automatic_neckdown": false,
+        "router.fanout.enabled": false,
+        "router.neck_width_um": 0.0,
+        "router.optimizer.enabled": false
+      },
+      "autorouter_enabled": true,
+      "optimizer_enabled": false,
+      "effective_job_timeout_seconds": 60,
+      "effective_optimizer_timeout_seconds": null
+    }
+  ]
+}

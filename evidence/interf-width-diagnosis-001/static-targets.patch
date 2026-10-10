@@ -1,0 +1,90 @@
+--- a/autorouter/pipeline.py
++++ b/autorouter/pipeline.py
+@@ -316,7 +316,7 @@
+ ENGINE_NATIVE_RESERVE_SECONDS=10
+ ENGINE_GRACE_RESERVE_SECONDS=30
+ 
+-def engine_profile_settings(profile, remaining_seconds):
++def engine_profile_settings(profile, remaining_seconds, *, strict_class_targets=False):
+     """Assign cooperative internal deadlines inside the outer wall budget.
+ 
+     Freerouting accepts numeric seconds or HH:mm:ss, not values such as 90s.
+@@ -325,6 +325,7 @@
+     supervisor and measured CPU acceptance cap remain authoritative.
+     """
+     if profile not in {'standard','tuned','completion-only'}: raise Rejected('unknown engine profile')
++    if type(strict_class_targets) is not bool: raise Rejected('invalid static netclass target policy')
+     if isinstance(remaining_seconds,bool) or not isinstance(remaining_seconds,(int,float)) or not math.isfinite(remaining_seconds):
+         raise Rejected('invalid remaining engine budget')
+     available=math.floor(remaining_seconds-ENGINE_NATIVE_RESERVE_SECONDS-ENGINE_GRACE_RESERVE_SECONDS)
+@@ -334,6 +335,10 @@
+     def span(seconds): return f'{seconds//3600:02}:{seconds//60%60:02}:{seconds%60:02}'
+     args=['--router.autorouter.max_passes='+('100' if profile=='tuned' else '30'),
+           '--router.job_timeout='+span(job_cap)]
++    if strict_class_targets:
++        # Pinned micro-neckdown can run during fanout even when automatic
++        # neckdown is false. Exact class targets therefore exclude both paths.
++        args+=['--router.automatic_neckdown=false','--router.fanout.enabled=false','--router.neck_width_um=0']
+     if profile=='completion-only':
+         args+=['--router.optimizer.enabled=false']
+     else:
+@@ -343,7 +348,7 @@
+             # Actual pinned JAR probe verifies CLI fraction .001 -> internal .1%.
+             args+=['--router.optimizer.improvement_threshold=0.001','--router.optimizer.enable_preflight_guards=false',
+                    '--router.optimizer.max_consecutive_failures=100','--router.optimizer.max_consecutive_failures_pass1=100']
+-    return {'profile':profile,'argv':args,'remaining_outer_wall_seconds_at_assignment':remaining_seconds,
++    return {'profile':profile,'argv':args,'strict_class_targets':strict_class_targets,'remaining_outer_wall_seconds_at_assignment':remaining_seconds,
+             'assigned_job_timeout_seconds':job_cap,'assigned_optimizer_timeout_seconds':optimizer_cap,
+             'native_finalization_reserve_seconds':ENGINE_NATIVE_RESERVE_SECONDS,
+             'engine_grace_reserve_seconds':ENGINE_GRACE_RESERVE_SECONDS,
+@@ -406,7 +411,7 @@
+         if policy is not None:
+             report['netclass_task_audit']=audit_dsn(output/'task.dsn',native_classes,json.loads(candidate.with_suffix('.kicad_pro').read_text()))
+         config_dir=output/'engine-config'; config_dir.mkdir()
+-        report['engine_budget']=engine_profile_settings(engine_profile,job.deadline-time.monotonic())
++        report['engine_budget']=engine_profile_settings(engine_profile,job.deadline-time.monotonic(),strict_class_targets=policy is not None)
+         report['engine_budget']['outer_task_wall_budget_seconds']=seconds
+         report['engine_budget']['outer_task_cpu_budget_seconds']=seconds
+         engine_settings=report['engine_budget']['argv']
+--- a/scripts/probe_engine_profiles.py
++++ b/scripts/probe_engine_profiles.py
+@@ -36,10 +36,11 @@
+     assigned={}
+     for remaining in (120,105,45,900):
+         for profile in ('standard','tuned','completion-only'):
+-            settings=p.engine_profile_settings(profile,remaining)
+-            name=f'{profile}_remaining_{remaining}'
+-            assigned[name]=settings
+-            profiles.append({'name':name,'argv':['-de','probe.dsn','-do','probe.ses',*settings['argv']]})
++            for strict in (False,True):
++                settings=p.engine_profile_settings(profile,remaining,strict_class_targets=strict)
++                name=f'{profile}_remaining_{remaining}_strict_{strict}'
++                assigned[name]=settings
++                profiles.append({'name':name,'argv':['-de','probe.dsn','-do','probe.ses',*settings['argv']]})
+     request={'timespans':['60s','30s','100s','90s','60','30','100','90','00:01:00','00:00:30','00:01:40','00:01:30'],
+              'profiles':profiles}
+     p.check_storage()
+--- a/tests/test_engine_profiles.py
++++ b/tests/test_engine_profiles.py
+@@ -5,6 +5,21 @@
+ 
+ 
+ class EngineProfileControls(unittest.TestCase):
++    def test_strict_classes_disable_all_three_width_reduction_paths(self):
++        for profile in ('standard','tuned','completion-only'):
++            strict=p.engine_profile_settings(profile,120,strict_class_targets=True)
++            legacy=p.engine_profile_settings(profile,120)
++            self.assertTrue(strict['strict_class_targets'])
++            self.assertFalse(legacy['strict_class_targets'])
++            for arg in ('--router.automatic_neckdown=false','--router.fanout.enabled=false','--router.neck_width_um=0'):
++                self.assertIn(arg,strict['argv'])
++                self.assertNotIn(arg,legacy['argv'])
++            self.assertEqual(strict['assigned_job_timeout_seconds'],legacy['assigned_job_timeout_seconds'])
++
++    def test_invalid_static_target_policy_is_rejected(self):
++        with self.assertRaisesRegex(p.Rejected,'static netclass'):
++            p.engine_profile_settings('standard',120,strict_class_targets='false')
++
+     def test_standard_caps_keep_full_reserves(self):
+         result=p.engine_profile_settings('standard',120)
+         self.assertEqual(result['assigned_job_timeout_seconds'],60)

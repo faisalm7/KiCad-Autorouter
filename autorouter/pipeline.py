@@ -316,7 +316,7 @@ def optimizer_threshold_audit(log, expected_percent):
 ENGINE_NATIVE_RESERVE_SECONDS=10
 ENGINE_GRACE_RESERVE_SECONDS=30
 
-def engine_profile_settings(profile, remaining_seconds):
+def engine_profile_settings(profile, remaining_seconds, *, strict_class_targets=False):
     """Assign cooperative internal deadlines inside the outer wall budget.
 
     Freerouting accepts numeric seconds or HH:mm:ss, not values such as 90s.
@@ -325,6 +325,7 @@ def engine_profile_settings(profile, remaining_seconds):
     supervisor and measured CPU acceptance cap remain authoritative.
     """
     if profile not in {'standard','tuned','completion-only'}: raise Rejected('unknown engine profile')
+    if type(strict_class_targets) is not bool: raise Rejected('invalid static netclass target policy')
     if isinstance(remaining_seconds,bool) or not isinstance(remaining_seconds,(int,float)) or not math.isfinite(remaining_seconds):
         raise Rejected('invalid remaining engine budget')
     available=math.floor(remaining_seconds-ENGINE_NATIVE_RESERVE_SECONDS-ENGINE_GRACE_RESERVE_SECONDS)
@@ -334,6 +335,10 @@ def engine_profile_settings(profile, remaining_seconds):
     def span(seconds): return f'{seconds//3600:02}:{seconds//60%60:02}:{seconds%60:02}'
     args=['--router.autorouter.max_passes='+('100' if profile=='tuned' else '30'),
           '--router.job_timeout='+span(job_cap)]
+    if strict_class_targets:
+        # Pinned micro-neckdown can run during fanout even when automatic
+        # neckdown is false. Exact class targets therefore exclude both paths.
+        args+=['--router.automatic_neckdown=false','--router.fanout.enabled=false','--router.neck_width_um=0']
     if profile=='completion-only':
         args+=['--router.optimizer.enabled=false']
     else:
@@ -343,7 +348,7 @@ def engine_profile_settings(profile, remaining_seconds):
             # Actual pinned JAR probe verifies CLI fraction .001 -> internal .1%.
             args+=['--router.optimizer.improvement_threshold=0.001','--router.optimizer.enable_preflight_guards=false',
                    '--router.optimizer.max_consecutive_failures=100','--router.optimizer.max_consecutive_failures_pass1=100']
-    return {'profile':profile,'argv':args,'remaining_outer_wall_seconds_at_assignment':remaining_seconds,
+    return {'profile':profile,'argv':args,'strict_class_targets':strict_class_targets,'remaining_outer_wall_seconds_at_assignment':remaining_seconds,
             'assigned_job_timeout_seconds':job_cap,'assigned_optimizer_timeout_seconds':optimizer_cap,
             'native_finalization_reserve_seconds':ENGINE_NATIVE_RESERVE_SECONDS,
             'engine_grace_reserve_seconds':ENGINE_GRACE_RESERVE_SECONDS,
@@ -406,7 +411,7 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
         if policy is not None:
             report['netclass_task_audit']=audit_dsn(output/'task.dsn',native_classes,json.loads(candidate.with_suffix('.kicad_pro').read_text()))
         config_dir=output/'engine-config'; config_dir.mkdir()
-        report['engine_budget']=engine_profile_settings(engine_profile,job.deadline-time.monotonic())
+        report['engine_budget']=engine_profile_settings(engine_profile,job.deadline-time.monotonic(),strict_class_targets=policy is not None)
         report['engine_budget']['outer_task_wall_budget_seconds']=seconds
         report['engine_budget']['outer_task_cpu_budget_seconds']=seconds
         engine_settings=report['engine_budget']['argv']

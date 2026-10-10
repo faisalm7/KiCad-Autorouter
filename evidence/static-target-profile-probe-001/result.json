@@ -1,0 +1,62 @@
+{
+  "passed": true,
+  "checks": 67,
+  "checks_passed": 67,
+  "unit_controls": 12,
+  "unit_controls_passed": true,
+  "routing_executed": false,
+  "jar_sha256": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+  "draft_pipeline_sha256": "5366695652891437de5ab7631864682abaa2a833cb4242bf222ab178706c4282",
+  "patch_sha256": "ae8653d295a63481505aaaa5e2e2f7f6494793cbdb73fe4b2fcc3b7b591a950e",
+  "actual_settings_sha256": "42cadfe176ee7718d0438d6248aa6f327e20f3185a1669698c04d6e55b1cff1e",
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 0.6826318329985952,
+    "cpu_seconds": 1.4664409999999999,
+    "max_rss_bytes": 146948096,
+    "supervisor_cpu_seconds": 0.005551,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 129335296,
+    "sampled_peak_workdir_bytes": 15967,
+    "resource_guards": {
+      "max_group_rss_bytes": 4294967296,
+      "max_workdir_bytes": 536870912,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java",
+      "-Xms32m",
+      "-Xmx256m",
+      "-XX:ActiveProcessorCount=1",
+      "-Djava.awt.headless=true",
+      "-Duser.home=/Users/faisal/Projects/KiCad-Autorouter-local/.runs/static-target-profile-probe-001/java-home",
+      "-Djava.io.tmpdir=/Users/faisal/Projects/KiCad-Autorouter-local/.runs/static-target-profile-probe-001/tmp",
+      "--class-path",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/static-target-profile-probe-001/EngineProfileProbe.java",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/static-target-profile-probe-001/request.json",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/static-target-profile-probe-001/actual-settings.json"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/static-target-profile-probe-001/probe.log",
+    "log_bytes": 0,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/static-target-profile-probe-001",
+    "signal_cancellation_enabled": true,
+    "pid": 36684
+  }
+}

@@ -1,0 +1,1 @@
+Public report/summary and full-artifact hash inventory only. Actual downloaded source boards, unresolved upstream model paths, full static data and exact original notices remain under ignored .data and .runs; no new corpus promotion. See REPORT.md for all six projects/seven boards and incomplete dependency status.

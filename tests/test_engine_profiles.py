@@ -5,6 +5,21 @@ from autorouter import pipeline as p
 
 
 class EngineProfileControls(unittest.TestCase):
+    def test_strict_classes_disable_all_three_width_reduction_paths(self):
+        for profile in ('standard','tuned','completion-only'):
+            strict=p.engine_profile_settings(profile,120,strict_class_targets=True)
+            legacy=p.engine_profile_settings(profile,120)
+            self.assertTrue(strict['strict_class_targets'])
+            self.assertFalse(legacy['strict_class_targets'])
+            for arg in ('--router.automatic_neckdown=false','--router.fanout.enabled=false','--router.neck_width_um=0'):
+                self.assertIn(arg,strict['argv'])
+                self.assertNotIn(arg,legacy['argv'])
+            self.assertEqual(strict['assigned_job_timeout_seconds'],legacy['assigned_job_timeout_seconds'])
+
+    def test_invalid_static_target_policy_is_rejected(self):
+        with self.assertRaisesRegex(p.Rejected,'static netclass'):
+            p.engine_profile_settings('standard',120,strict_class_targets='false')
+
     def test_standard_caps_keep_full_reserves(self):
         result=p.engine_profile_settings('standard',120)
         self.assertEqual(result['assigned_job_timeout_seconds'],60)

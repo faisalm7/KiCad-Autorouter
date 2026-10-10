@@ -1,0 +1,1 @@
+Project-owned diagnosis, patch, draft sources and primary-source URL/hash references only. Downloaded Freerouting source files are deliberately omitted from this public subset and preserved under .runs/interf-width-diagnosis-001. This diagnosis was read-only; no native rerouting occurred.

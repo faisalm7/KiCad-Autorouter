@@ -36,10 +36,11 @@ def main():
     assigned={}
     for remaining in (120,105,45,900):
         for profile in ('standard','tuned','completion-only'):
-            settings=p.engine_profile_settings(profile,remaining)
-            name=f'{profile}_remaining_{remaining}'
-            assigned[name]=settings
-            profiles.append({'name':name,'argv':['-de','probe.dsn','-do','probe.ses',*settings['argv']]})
+            for strict in (False,True):
+                settings=p.engine_profile_settings(profile,remaining,strict_class_targets=strict)
+                name=f'{profile}_remaining_{remaining}_strict_{strict}'
+                assigned[name]=settings
+                profiles.append({'name':name,'argv':['-de','probe.dsn','-do','probe.ses',*settings['argv']]})
     request={'timespans':['60s','30s','100s','90s','60','30','100','90','00:01:00','00:00:30','00:01:40','00:01:30'],
              'profiles':profiles}
     p.check_storage()
