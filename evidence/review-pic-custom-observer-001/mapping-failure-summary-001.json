@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "scope": "Synthetic worker records with real copied inputs/output files; zero native/engine jobs. Mapping mismatch injected into returned native pad census, original project untouched. Small setup indentation failures retained separately; they are not product failures.",
+  "driver_sha256": "b542d74d32db7957d4fb971dd48262a5c6324536eb96bb993247ad9a92fbf75f",
+  "rows": [
+    {
+      "case": "unchanged",
+      "status": "observations_complete",
+      "observations_complete": true,
+      "dsn_export_succeeded": true,
+      "native_dsn_sha256": "35f2436b95a2bd35e2e10aa7a83e91c9a832811552cad75db47cd45247cdb6a8",
+      "error": null,
+      "actual_captured_dsn_bytes": 13665,
+      "actual_captured_dsn_sha256": "35f2436b95a2bd35e2e10aa7a83e91c9a832811552cad75db47cd45247cdb6a8",
+      "process_exit_code": 0,
+      "process_cleanup_complete": true,
+      "raw_record_sha256": "91dcf5f3ececdf31df8472050687a227c5727dda5be9f8cb33675d8aa4ea6f08"
+    },
+    {
+      "case": "mapping_failure",
+      "status": "invalidated",
+      "observations_complete": false,
+      "dsn_export_succeeded": false,
+      "native_dsn_sha256": null,
+      "error": "Rejected: recorded observation selection differs",
+      "actual_captured_dsn_bytes": 13665,
+      "actual_captured_dsn_sha256": "35f2436b95a2bd35e2e10aa7a83e91c9a832811552cad75db47cd45247cdb6a8",
+      "process_exit_code": 0,
+      "process_cleanup_complete": true,
+      "raw_record_sha256": "0cc30560c1c854ac28aedfbb011aedf48f456640c0a57f520e1ee005145b197d"
+    }
+  ],
+  "finding": "Successful captured export incorrectly reported false, mapping failure replaced by final selection mismatch; false observations_complete remains safe."
+}

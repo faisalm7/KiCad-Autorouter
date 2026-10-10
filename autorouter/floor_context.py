@@ -78,7 +78,7 @@ def observe_areas(native,pcbnew):
     return {'zones':zones,'footprint_zone_count':fp_zones,'footprint_rulearea_count':fp_rules}
 
 
-def collect(mode,source,output,dsn=None,area_output=None):
+def collect(mode,source,output,dsn=None,area_output=None,*,observation_output=None,observer=None):
     if mode not in {'export','final'} or (mode=='export')!=(dsn is not None):raise ValueError('unknown context action')
     board,output=map(canonical_path,(source,output));project=board.with_suffix('.kicad_pro')
     dsn=canonical_path(dsn) if dsn is not None else None
@@ -87,6 +87,11 @@ def collect(mode,source,output,dsn=None,area_output=None):
     area_output=canonical_path(area_output) if area_output is not None else None
     if area_output is not None and (mode!='export' or area_output.parent!=output.parent or area_output.exists() or len({output,dsn,area_output})!=3):
         raise ValueError('fresh distinct export-only area context required')
+    observation_output=canonical_path(observation_output) if observation_output is not None else None
+    if ((observation_output is None)!=(observer is None) or (observer is not None and not callable(observer))
+            or (observation_output is not None and (mode!='export' or observation_output.parent!=output.parent
+                or observation_output.exists() or observation_output in {output,dsn,area_output}))):
+        raise ValueError('fresh export-only diagnostic callback/output pair required')
     if not board.is_file() or not project.is_file():raise ValueError('complete project required')
     before=inventory(board.parent)
     import pcbnew
@@ -95,6 +100,7 @@ def collect(mode,source,output,dsn=None,area_output=None):
     if not native or native.GetCopperLayerCount()!=2:raise ValueError('two native copper layers required')
     native.SynchronizeNetsAndNetClasses(False)
     areas=observe_areas(native,pcbnew) if area_output is not None else None
+    observation_before=observer(native,pcbnew) if observer is not None else None
     pads=[];nets=[];routes=[];obstacles=[];counts={}
     for pad in native.GetPads():
         if len(pads)>=LIMITS['pads']:raise ValueError('native pad population ceiling')
@@ -129,8 +135,10 @@ def collect(mode,source,output,dsn=None,area_output=None):
             box=graphic.GetBoundingBox();obstacles.append({'layer':native.GetLayerName(graphic.GetLayer()),'kind':graphic.GetClass(),
                 'bbox_mm':[pcbnew.ToMM(box.GetX()),pcbnew.ToMM(box.GetY()),pcbnew.ToMM(box.GetRight()),pcbnew.ToMM(box.GetBottom())]})
         if not pcbnew.ExportSpecctraDSN(native,str(dsn)):raise ValueError('DSN export failed')
-        if area_output is not None and (dsn.is_symlink() or not dsn.is_file() or not 0<dsn.stat().st_size<=20*1024*1024):
+        if (area_output is not None or observation_output is not None) and (dsn.is_symlink() or not dsn.is_file() or not 0<dsn.stat().st_size<=20*1024*1024):
             raise ValueError('invalid bounded native DSN')
+    observation_after=observer(native,pcbnew) if observer is not None else None
+    if observation_before!=observation_after:raise ValueError('export changed diagnostic native observation')
     after=inventory(board.parent)
     if after!=before:raise ValueError('native context changed input project')
     settings=native.GetDesignSettings()
@@ -148,6 +156,16 @@ def collect(mode,source,output,dsn=None,area_output=None):
             'input_hashes_before':before,'input_hashes_after':after,**areas,'limits':AREA_LIMITS,
             'routing_accepted':False,'adapter_transformation_performed':False}
         with area_output.open('x') as handle:json.dump(area_result,handle,indent=2,allow_nan=False);handle.write('\n')
+
+    if observation_output is not None:
+        diagnostic={'context_schema':1,'native_version':'10.0.0','units':'integer nanometres','mode':mode,'source':str(board),
+            'board_sha256':sha(board),'project_sha256':sha(project),'dsn_sha256':sha(dsn),
+            'floor_context_sha256':sha(output),'input_hashes_before':before,'input_hashes_after':after,
+            'observation_before_export':observation_before,'observation_after_export':observation_after,
+            'same_loaded_board':True,'board_saved':False,'routing_accepted':False,'geometry_qualified':False}
+        raw=json.dumps(diagnostic,indent=2,allow_nan=False)+'\n'
+        if len(raw.encode())>1024*1024:raise ValueError('diagnostic output cap')
+        with observation_output.open('x') as handle:handle.write(raw)
 
 
 if __name__=='__main__':collect(*sys.argv[1:])

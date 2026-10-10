@@ -1,0 +1,125 @@
+{
+  "schema": 1,
+  "native_jobs": 0,
+  "engine_jobs": 0,
+  "network_calls": 0,
+  "pcbnew_imported": false,
+  "source_board_sha256": "1ca70b620506818eb0227e2863bbd573d1fec1672072dc43d0dbe8475e69c8fb",
+  "source_project_sha256": "3b0ac39da5af86d0baa2a64da55a89c39ba00148dc82b54f3062f5c3650a5cc5",
+  "cached_primary_source_commit": "0feeca2a807f428ad2b3fa7c1e39625cb769f02c",
+  "references": {
+    "pcbnew/pad.cpp": {
+      "sha256": "585db35f7e35ac8f781e712507eedc90611708bc36a49606e31176ab7d86ace2",
+      "url": "https://gitlab.com/kicad/code/kicad/-/blob/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/pcbnew/pad.cpp"
+    },
+    "pcbnew/specctra_import_export/specctra_export.cpp": {
+      "sha256": "069625125a481565f608a7e0780f393351bc7ce4528f1ce94ae0d80c049ab05d",
+      "url": "https://gitlab.com/kicad/code/kicad/-/blob/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/pcbnew/specctra_import_export/specctra_export.cpp"
+    },
+    "pcbnew/drc/drc_item.cpp": {
+      "sha256": "ab014f2d70866bb1da53773b55fb3ce9912af501fa49c08b3a6f697dcdac3f51",
+      "url": "https://gitlab.com/kicad/code/kicad/-/blob/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/pcbnew/drc/drc_item.cpp"
+    },
+    "pcbnew/drc/drc_test_provider_misc.cpp": {
+      "sha256": "1f51a3b790d287409d939d90453be6691e310ae3843ec8f39451c30f628d9388",
+      "url": "https://gitlab.com/kicad/code/kicad/-/blob/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/pcbnew/drc/drc_test_provider_misc.cpp"
+    },
+    "pcbnew/drc/drc_test_provider_disallow.cpp": {
+      "sha256": "e9ab0984ab4328cc1e3bae22114fd60b5fdde1da12d7472cbefee603e25afcf2",
+      "url": "https://gitlab.com/kicad/code/kicad/-/blob/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/pcbnew/drc/drc_test_provider_disallow.cpp"
+    },
+    "pcbnew/pcbnew_jobs_handler.cpp": {
+      "sha256": "3151e93e6c05c83015e8fc9cd70884bba062aa550944dfaef815eb711d311aa3",
+      "url": "https://gitlab.com/kicad/code/kicad/-/blob/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/pcbnew/pcbnew_jobs_handler.cpp"
+    },
+    "pcbnew/board_design_settings.cpp": {
+      "sha256": "1e9176e7273612767cf1ec21992ac0cc75f157f6929097c71ab160f90711a731",
+      "url": "https://gitlab.com/kicad/code/kicad/-/blob/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/pcbnew/board_design_settings.cpp"
+    }
+  },
+  "installed_python_binding": {
+    "path": "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/pcbnew.py",
+    "sha256": "cd1c06c4709c653256ebd0c98c66d80cd72033767fac27c34ea01b5ec586116a",
+    "legacy_accessor_trap": "GetCustomShapeAsPolygon(layer=UNDEFINED_LAYER) ignores layer and calls MergePrimitivesAsPolygon(F_Cu, polygon_set), lines15820\u201315824. Explicit per-copper-layer MergePrimitivesAsPolygon and TransformShapeToPolygon APIs are declared; declarations are not runtime qualification."
+  },
+  "pads": [
+    {
+      "pad_uuid": "3acb5a29-7227-4ce2-8aa0-d92094ccdfdc",
+      "number": "1",
+      "net": "VCC",
+      "native_observed": false,
+      "polygon_area_mm2_exact": "15/8",
+      "convex_hull_area_mm2_exact": "15/8",
+      "convex_hull_exact": [
+        [
+          "-1/2",
+          "-3/4"
+        ],
+        [
+          "1/2",
+          "-3/4"
+        ],
+        [
+          "1",
+          "0"
+        ],
+        [
+          "1/2",
+          "3/4"
+        ],
+        [
+          "-1/2",
+          "3/4"
+        ]
+      ],
+      "anchor_0_3mm_corners_inside_original_polygon": true
+    },
+    {
+      "pad_uuid": "5b196d03-cd44-4c2b-9a91-fadc24ae5f4b",
+      "number": "2",
+      "net": "/pic_sockets/VCC_PIC",
+      "native_observed": false,
+      "polygon_area_mm2_exact": "27/20",
+      "convex_hull_area_mm2_exact": "69/40",
+      "convex_hull_exact": [
+        [
+          "-13/20",
+          "-3/4"
+        ],
+        [
+          "1/2",
+          "-3/4"
+        ],
+        [
+          "1/2",
+          "3/4"
+        ],
+        [
+          "-13/20",
+          "3/4"
+        ]
+      ],
+      "anchor_0_3mm_corners_inside_original_polygon": true,
+      "notch_counterexample": {
+        "local_mm": [
+          "-0.4",
+          "0"
+        ],
+        "inside_export_hull_model": true,
+        "inside_original_polygon": false,
+        "inside_anchor": false
+      }
+    }
+  ],
+  "original_four_severity_values": {
+    "footprint_symbol_field_mismatch": "warning",
+    "missing_tuning_profile": "warning",
+    "text_on_edge_cuts": "error",
+    "track_on_post_machined_layer": "error"
+  },
+  "original_netclass_tuning_profiles": {
+    "Default": "",
+    "POWER": ""
+  },
+  "scope": "Static rational geometry only. Exported hull adds a false-contact region to concave pad2; native geometry/DSN correspondence and connectivity remain unobserved. No production gate changes."
+}

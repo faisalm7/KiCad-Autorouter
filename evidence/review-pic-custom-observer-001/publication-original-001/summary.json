@@ -1,0 +1,104 @@
+{
+  "schema": 1,
+  "module_sha256": "b542d74d32db7957d4fb971dd48262a5c6324536eb96bb993247ad9a92fbf75f",
+  "results": [
+    {
+      "case": "unchanged",
+      "injected": false,
+      "available_at_return": 1.0,
+      "returned": {
+        "schema": 1,
+        "status": "observations_complete",
+        "observations_complete": true,
+        "routing_accepted": false,
+        "geometry_qualified": false
+      },
+      "canonical": {
+        "schema": 1,
+        "status": "observations_complete",
+        "observations_complete": true,
+        "routing_accepted": false,
+        "geometry_qualified": false
+      },
+      "returned_equals_canonical": true,
+      "native_jobs": 0,
+      "engine_jobs": 0,
+      "caps_simulated": true,
+      "expected_safety_outcome": true
+    },
+    {
+      "case": "canonical_during_final_size",
+      "injected": true,
+      "available_at_return": 1.0,
+      "returned": {
+        "schema": 1,
+        "status": "observations_complete",
+        "observations_complete": true,
+        "routing_accepted": false,
+        "geometry_qualified": false
+      },
+      "canonical": {
+        "schema": 1,
+        "status": "observations_complete",
+        "observations_complete": true,
+        "routing_accepted": false,
+        "geometry_qualified": true
+      },
+      "returned_equals_canonical": false,
+      "native_jobs": 0,
+      "engine_jobs": 0,
+      "caps_simulated": true,
+      "expected_safety_outcome": false
+    },
+    {
+      "case": "budget_during_final_size",
+      "injected": true,
+      "available_at_return": 0.0,
+      "returned": {
+        "schema": 1,
+        "status": "observations_complete",
+        "observations_complete": true,
+        "routing_accepted": false,
+        "geometry_qualified": false
+      },
+      "canonical": {
+        "schema": 1,
+        "status": "observations_complete",
+        "observations_complete": true,
+        "routing_accepted": false,
+        "geometry_qualified": false
+      },
+      "returned_equals_canonical": true,
+      "native_jobs": 0,
+      "engine_jobs": 0,
+      "caps_simulated": true,
+      "expected_safety_outcome": false
+    },
+    {
+      "case": "returned_record_during_final_size",
+      "injected": true,
+      "available_at_return": 1.0,
+      "returned": {
+        "schema": 1,
+        "status": "observations_complete",
+        "observations_complete": true,
+        "routing_accepted": false,
+        "geometry_qualified": true
+      },
+      "canonical": {
+        "schema": 1,
+        "status": "observations_complete",
+        "observations_complete": true,
+        "routing_accepted": false,
+        "geometry_qualified": false
+      },
+      "returned_equals_canonical": false,
+      "native_jobs": 0,
+      "engine_jobs": 0,
+      "caps_simulated": true,
+      "expected_safety_outcome": false
+    }
+  ],
+  "all_expected": false,
+  "scope": "Small real output files and mocked final size/budget boundary; no native execution or timed cap qualification."
+}

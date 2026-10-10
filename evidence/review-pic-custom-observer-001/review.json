@@ -1,0 +1,92 @@
+{
+  "schema": 1,
+  "status": "reviewed_no_remaining_blocker_for_bounded_native_observation",
+  "native_API_qualified": false,
+  "geometry_qualified": false,
+  "routing_support_qualified": false,
+  "review_kind": "Independent AI source and software-control review, not human PCB review",
+  "native_jobs": 0,
+  "engine_jobs": 0,
+  "gui_jobs": 0,
+  "network_calls": 0,
+  "tracked_or_original_source_writes": 0,
+  "sources": {
+    "driver.py": {
+      "sha256": "9448e8ac5fea2611bbe198d309fa67fcd08dd2ba049f23b3e69d30c1a214a2dd",
+      "promoted_path": "experiments/pic_custom_observer_v1/driver.py",
+      "promoted_byte_identity": true
+    },
+    "worker.py": {
+      "sha256": "b80727fc2a18cc8b57ac5617e1b78e9fe3e0dd2db91e70e16330fc9e414a0a76",
+      "promoted_path": "experiments/pic_custom_observer_v1/worker.py",
+      "promoted_byte_identity": true
+    },
+    "mapping.py": {
+      "sha256": "7ee2f87aca68ddaad4fceabd1fe9249732adcb60033a19fc1488fa389216a186",
+      "promoted_path": "experiments/pic_custom_observer_v1/mapping.py",
+      "promoted_byte_identity": true
+    },
+    "test_driver.py": {
+      "sha256": "9361b91645c11745442f28d4eb22924d0e86afdf70c1e4cfef66e0c36e588d4f",
+      "promoted_path": "experiments/pic_custom_observer_v1/test_driver.py",
+      "promoted_byte_identity": true
+    },
+    "README.md": {
+      "sha256": "5b0203a02a4ded210061484429ea018c4b5d20c845b43cc474d5654c58695506",
+      "promoted_path": "experiments/pic_custom_observer_v1/README.md",
+      "promoted_byte_identity": true
+    },
+    "autorouter/floor_context.py": {
+      "sha256": "8c00a443a9a6bd5e05c416b031b0f2dcc4f6e836f3769acab9ceced4fba91c14",
+      "promoted_path": "autorouter/floor_context.py",
+      "promoted_byte_identity": true
+    }
+  },
+  "author_manifest_sha256": "708e700915f5c833b9c6e61d34d82675df5b97c7f8161677ca3e55f16c3466f7",
+  "original_source_file_count": 15,
+  "original_source_bytes": 1366598,
+  "original_source_inventory_sha256": "75aa8fd75b69fcbdc96f59bf4b959f0d893b709beceab7425b23c694eeee4b25",
+  "original_board_sha256": "1ca70b620506818eb0227e2863bbd573d1fec1672072dc43d0dbe8475e69c8fb",
+  "original_project_sha256": "3b0ac39da5af86d0baa2a64da55a89c39ba00148dc82b54f3062f5c3650a5cc5",
+  "wrapper_sha256": "cd1c06c4709c653256ebd0c98c66d80cd72033767fac27c34ea01b5ec586116a",
+  "publication_controls": {
+    "final_driver_sha256": "9448e8ac5fea2611bbe198d309fa67fcd08dd2ba049f23b3e69d30c1a214a2dd",
+    "cases": 4,
+    "all_expected": true,
+    "record": "publication-fixed-002/summary.json"
+  },
+  "mapping_failure_controls": {
+    "cases": 2,
+    "all_expected": true,
+    "record": "mapping-failure-summary-fixed-001.json"
+  },
+  "author_controls_independently_rerun": {
+    "count": 31,
+    "passed": true,
+    "seconds": 2.154,
+    "log": "author-controls-final-001.log"
+  },
+  "findings": [
+    {
+      "id": "R1",
+      "status": "resolved",
+      "description": "Final output scan preceded by final canonical/budget checks allowed changed or expired positive summary; final scan now precedes saved/in-memory equality and remaining-budget sample.",
+      "original": "publication-original-001/summary.json",
+      "fixed": "publication-fixed-002/summary.json"
+    },
+    {
+      "id": "R2",
+      "status": "resolved",
+      "description": "Successful captured export followed by mapping failure was mislabeled and original error overwritten; export facts now precede correspondence, failure remains rejected and first cause retained.",
+      "original": "mapping-failure-summary-001.json",
+      "fixed": "mapping-failure-summary-fixed-001.json"
+    }
+  ],
+  "limitations": [
+    "Finite mutable file samples, not atomic authentication or hard CPU preemption.",
+    "Declared SWIG APIs not executed by reviewer; opaque returns fail with retained evidence.",
+    "No proof that native copper equals exported convex hull or that geometry/connectivity is supported.",
+    "Ordinary CLI does not qualify schematic parity or all four new rule providers.",
+    "Static original gap0.2496150883mm and hull overlap0.06mm2 are hypotheses; actual original native DRC decides feasibility."
+  ]
+}

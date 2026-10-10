@@ -1,0 +1,134 @@
+{
+  "schema": 1,
+  "module_sha256": "9448e8ac5fea2611bbe198d309fa67fcd08dd2ba049f23b3e69d30c1a214a2dd",
+  "results": [
+    {
+      "case": "unchanged",
+      "injected": false,
+      "available_at_return": 1.0,
+      "returned": {
+        "schema": 1,
+        "status": "observations_complete",
+        "observations_complete": true,
+        "routing_accepted": false,
+        "geometry_qualified": false
+      },
+      "canonical": {
+        "schema": 1,
+        "status": "observations_complete",
+        "observations_complete": true,
+        "routing_accepted": false,
+        "geometry_qualified": false
+      },
+      "returned_equals_canonical": true,
+      "native_jobs": 0,
+      "engine_jobs": 0,
+      "caps_simulated": true,
+      "expected_safety_outcome": true
+    },
+    {
+      "case": "canonical_during_final_size",
+      "injected": true,
+      "available_at_return": 1.0,
+      "returned": {
+        "schema": 1,
+        "status": "invalidated",
+        "observations_complete": false,
+        "routing_accepted": false,
+        "geometry_qualified": false,
+        "format_support_qualified": false,
+        "dependency_complete": false,
+        "original_inputs_unchanged": null,
+        "error": "Rejected: summary stale or final resourcecap exceeded",
+        "final_validation_error": "Rejected: summary stale or final resourcecap exceeded"
+      },
+      "canonical": {
+        "schema": 1,
+        "status": "invalidated",
+        "observations_complete": false,
+        "routing_accepted": false,
+        "geometry_qualified": false,
+        "format_support_qualified": false,
+        "dependency_complete": false,
+        "original_inputs_unchanged": null,
+        "error": "Rejected: summary stale or final resourcecap exceeded",
+        "final_validation_error": "Rejected: summary stale or final resourcecap exceeded"
+      },
+      "returned_equals_canonical": true,
+      "native_jobs": 0,
+      "engine_jobs": 0,
+      "caps_simulated": true,
+      "expected_safety_outcome": true
+    },
+    {
+      "case": "budget_during_final_size",
+      "injected": true,
+      "available_at_return": 0.0,
+      "returned": {
+        "schema": 1,
+        "status": "invalidated",
+        "observations_complete": false,
+        "routing_accepted": false,
+        "geometry_qualified": false,
+        "format_support_qualified": false,
+        "dependency_complete": false,
+        "original_inputs_unchanged": null,
+        "error": "Rejected: summary stale or final resourcecap exceeded",
+        "final_validation_error": "Rejected: summary stale or final resourcecap exceeded"
+      },
+      "canonical": {
+        "schema": 1,
+        "status": "invalidated",
+        "observations_complete": false,
+        "routing_accepted": false,
+        "geometry_qualified": false,
+        "format_support_qualified": false,
+        "dependency_complete": false,
+        "original_inputs_unchanged": null,
+        "error": "Rejected: summary stale or final resourcecap exceeded",
+        "final_validation_error": "Rejected: summary stale or final resourcecap exceeded"
+      },
+      "returned_equals_canonical": true,
+      "native_jobs": 0,
+      "engine_jobs": 0,
+      "caps_simulated": true,
+      "expected_safety_outcome": true
+    },
+    {
+      "case": "returned_record_during_final_size",
+      "injected": true,
+      "available_at_return": 1.0,
+      "returned": {
+        "schema": 1,
+        "status": "invalidated",
+        "observations_complete": false,
+        "routing_accepted": false,
+        "geometry_qualified": false,
+        "format_support_qualified": false,
+        "dependency_complete": false,
+        "original_inputs_unchanged": null,
+        "error": "Rejected: summary stale or final resourcecap exceeded",
+        "final_validation_error": "Rejected: summary stale or final resourcecap exceeded"
+      },
+      "canonical": {
+        "schema": 1,
+        "status": "invalidated",
+        "observations_complete": false,
+        "routing_accepted": false,
+        "geometry_qualified": false,
+        "format_support_qualified": false,
+        "dependency_complete": false,
+        "original_inputs_unchanged": null,
+        "error": "Rejected: summary stale or final resourcecap exceeded",
+        "final_validation_error": "Rejected: summary stale or final resourcecap exceeded"
+      },
+      "returned_equals_canonical": true,
+      "native_jobs": 0,
+      "engine_jobs": 0,
+      "caps_simulated": true,
+      "expected_safety_outcome": true
+    }
+  ],
+  "all_expected": true,
+  "scope": "Small real output files and mocked final size/budget boundary; no native execution or timed cap qualification."
+}

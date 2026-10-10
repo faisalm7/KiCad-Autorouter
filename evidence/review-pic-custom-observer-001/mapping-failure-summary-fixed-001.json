@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "driver_sha256": "9448e8ac5fea2611bbe198d309fa67fcd08dd2ba049f23b3e69d30c1a214a2dd",
+  "all_expected": true,
+  "rows": [
+    {
+      "status": "observations_complete",
+      "observations_complete": true,
+      "dsn_export_succeeded": true,
+      "native_dsn_sha256": "35f2436b95a2bd35e2e10aa7a83e91c9a832811552cad75db47cd45247cdb6a8",
+      "correspondence_verified": true,
+      "native_original_pad_route_identities_match": true,
+      "error": null,
+      "final_validation_error": null,
+      "case": "unchanged",
+      "actual_captured_dsn_sha256": "35f2436b95a2bd35e2e10aa7a83e91c9a832811552cad75db47cd45247cdb6a8",
+      "stage_names": [
+        "observe",
+        "original-drc"
+      ],
+      "native_jobs": 0,
+      "expected_truth_checks_passed": true
+    },
+    {
+      "status": "failed",
+      "observations_complete": false,
+      "dsn_export_succeeded": true,
+      "native_dsn_sha256": "35f2436b95a2bd35e2e10aa7a83e91c9a832811552cad75db47cd45247cdb6a8",
+      "correspondence_verified": false,
+      "native_original_pad_route_identities_match": null,
+      "error": "ValueError: native original terminal identities differ",
+      "final_validation_error": null,
+      "case": "mapping_failure",
+      "actual_captured_dsn_sha256": "35f2436b95a2bd35e2e10aa7a83e91c9a832811552cad75db47cd45247cdb6a8",
+      "stage_names": [
+        "observe"
+      ],
+      "native_jobs": 0,
+      "expected_truth_checks_passed": true
+    }
+  ],
+  "scope": "Same frozen original synthetic worker/control input construction; real files, no native/engine. Source projects untouched; export facts and correspondence verdict remain distinct."
+}

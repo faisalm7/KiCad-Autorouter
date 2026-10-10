@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "scope": "Static geometric distinction, no native or engine result",
+  "point_witness": {
+    "center": [
+      "-.4",
+      "0"
+    ],
+    "only_proves": "hull membership can include non-copper points; not safe for .5mm round track endpoint"
+  },
+  "disc_checks": [
+    {
+      "center_mm": [
+        "-.4",
+        "0"
+      ],
+      "primitive_edge_distance_squared_mm2": "9/208",
+      "primitive_edge_distance_mm": 0.20801257358446093,
+      "anchor_distance_mm": 0.25,
+      "radius_mm": 0.25,
+      "minimum_copper_clearance_mm": -0.04198742641553907,
+      "source_only": true
+    },
+    {
+      "center_mm": [
+        "-.60",
+        "0"
+      ],
+      "primitive_edge_distance_squared_mm2": "729/5200",
+      "primitive_edge_distance_mm": 0.37442263245202967,
+      "anchor_distance_mm": 0.45,
+      "radius_mm": 0.25,
+      "minimum_copper_clearance_mm": 0.12442263245202967,
+      "source_only": true
+    }
+  ],
+  "proposed_capsule": {
+    "width_mm": ".5",
+    "horizontal_centerline_start_mm": [
+      "-1.5",
+      "0"
+    ],
+    "end_mm": [
+      "-.60",
+      "0"
+    ],
+    "condition": "Approach lies in open notch; closest point on this centerline to the polygon/anchor is its rightmost endpoint. The exterior segment and its endpoint disk preserve the stated margin in this local model. Still requires owned native connectivity control and unchanged rule binding."
+  },
+  "anchor_containment": "Boundary-inclusive; rectangular anchor contacts the primitive notch vertex at(-.15,0). Strict containment would wrongly exclude the actual source."
+}

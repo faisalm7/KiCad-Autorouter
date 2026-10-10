@@ -1,0 +1,5 @@
+# Reviewed source integration
+
+The optional floor_context callback, worker and mapping retain their initial tested bytes. Root517 integrated tests passed10.232s and four historical accepted receipts passed current readback. Corrected driver9448e8ac5fea2611bbe198d309fa67fcd08dd2ba049f23b3e69d30c1a214a2dd passes31 root focused controls2.282s. Independent review reproduced late-scan publication acceptance and lost export/mapping-failure facts; their exact original failures and corrected controls are preserved separately. Native observations remain pending after source checkpoint.
+
+Root reviewed all promoted code, both corrective patches, and each pure result. Initial27-test and intermediate30-test logs/bindings remain explicitly historical. Final source bindings are in final-bindings.json; no production custom-pad or severity support is enabled. The existing517-suite need not be repeated for changes confined to the separate diagnostic controller/tests/README, since the integrated core/worker/mapping bytes did not change. The planned fresh default-path native fixture regression remains required.

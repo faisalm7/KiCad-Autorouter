@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "status": "conditional_preselection_not_executed",
+  "declared_utc": "2026-10-10T14:34:02.314535+00:00",
+  "declaration_head": "df1c41d676884b2f3066865eae60114b70f492b5",
+  "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.data/boards/kicad-pic-programmer/pic_programmer.kicad_pcb",
+  "source_sha256": "1ca70b620506818eb0227e2863bbd573d1fec1672072dc43d0dbe8475e69c8fb",
+  "exposure": "Already exposed licensed development input. No independent-family or untouched-evaluation claim.",
+  "required_gates": [
+    "Original same-load native custom-pad/class/DSN observation and nonsaving original-rule DRC; no production support from this diagnostic",
+    "Owned native positive, concave-hull false-contact negative, foreign-net intrusion negative and rotated/back-side controls",
+    "Reviewed narrow support/receipt invariants integrated, audited source push, exact runtime/protocol freeze immediately before any full-board arm"
+  ],
+  "arms": [
+    {
+      "id": "B0",
+      "operation": "route",
+      "adapter": "none",
+      "profile": "standard"
+    },
+    {
+      "id": "B1",
+      "operation": "route",
+      "adapter": "both",
+      "profile": "standard"
+    },
+    {
+      "id": "B2",
+      "operation": "existing fixed portfolio",
+      "adapter": "both",
+      "profile": "tuned",
+      "variants": [
+        "via_default",
+        "via_low",
+        "via_high"
+      ],
+      "selection": "minimum native vias, then native track length, then fixed attempt index; retain frontier/all rejected/unrun attempts"
+    },
+    {
+      "id": "C",
+      "operation": "existing prune",
+      "adapter": "both",
+      "profile": "tuned",
+      "proposal_policy": "feedback",
+      "incumbent": "Own paid default-scoring tuned route; never reuse B2 candidate for free"
+    }
+  ],
+  "arm_wall_seconds": 120,
+  "arm_parent_plus_waited_child_cpu_seconds": 120,
+  "shared_overhead": "Charge whole setup/freeze, all failed/successful trials, inspection, validation and final publication to each arm; no double-count nested receipts. Same original constraints and native acceptance.",
+  "max_new_retained_bytes": 262144000,
+  "execution": "Sequential one heavy worker; fixed B0/B1/B2/C order; retain failures and explicit unrun variants; stop at cap or unqualified geometry. No automatic reruns for favorable results.",
+  "decision_rule": "Compare quality only among native-accepted candidates. Report gained/lost/tied status and all warnings/length/vias/time/CPU. No gain is a valid outcome. Any later algorithm modification is a separately declared development hypothesis.",
+  "reference_copper": "Remove only unlocked routes with existing pipeline; preserve pad/footprint/zone intent/rules/protected tracks. No reference-route seeding or label use.",
+  "existing_implementation_sha256": {
+    "scripts/experiment_quality.py": "740bccf7dbed5bcf457fe4e80a38fc69a2c8911003270aa45355ed533a491a6f",
+    "scripts/experiment_portfolio.py": "0d2f892a52be41d59231d8357c021e5592a268e335c15c79f46fe28a9ad20483",
+    "scripts/experiment_paired.py": "8b4f22f5b5b21c49a6b5efb43a854c392a1c0c11403d05d5775ccd656e642c42",
+    "autorouter/strategy.py": "a85e9097f3f20508a0d72f50078dad531a3cccc2f41b85da3a74c0a826b1d558"
+  },
+  "limitations": [
+    "The runtime/code freeze is not yet final: narrow support implementation and all native gates are pending.",
+    "No B0/B1/B2/C run or new eligible board follows from this declaration.",
+    "No model training or learned mechanism is selected."
+  ]
+}
