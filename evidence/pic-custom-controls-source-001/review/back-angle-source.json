@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "reason": "Missing cached primary FOOTPRINT::Flip orientation behavior needed to predeclare back90 export angle. One pinned source file; never executed.",
+  "url": "https://raw.githubusercontent.com/KiCad/kicad-source-mirror/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/pcbnew/footprint.cpp",
+  "commit": "0feeca2a807f428ad2b3fa7c1e39625cb769f02c",
+  "local": "source/footprint.cpp",
+  "bytes": 151123,
+  "sha256": "303393e9dac501744ece338c04bc2dd33807e4a8ee71a148f7cc22a252df53b5",
+  "license": "GPL-2.0-or-later per original header retained",
+  "lines_1based": {
+    "Flip": [
+      2706,
+      2763
+    ],
+    "orientation_negation": [
+      2725,
+      2738
+    ]
+  },
+  "derivation": "TOP_BOTTOM negates90 to-90; cached exporter normalizes180-minus-flipped-angle to270. This predicts DSN back270; actual control must independently match fixed native world geometry.",
+  "native_executed": false,
+  "new_production_support": false,
+  "network_scope": "One immutable primary source document first inspected via web and then cached with bounded512KiB download."
+}

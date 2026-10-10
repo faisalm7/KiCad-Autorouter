@@ -1,0 +1,165 @@
+{
+  "schema": 1,
+  "status": "unexecuted native diagnostic; source frozen for independent review",
+  "base_git_head": "5041ec4524750a03b1048c745063fc670c2988d7",
+  "production_core_edits": false,
+  "native_engine_gui_network_executed": false,
+  "tests": {
+    "command": "python3 -B -m unittest discover -s .runs/pic-custom-native-controls-draft-001 -p 'test_*.py' -v",
+    "log": "pure-tests-004.log",
+    "passed": 34,
+    "wall_seconds_reported_by_unittest": 10.945
+  },
+  "observed_ignored_baseline": {
+    "path": "evidence/pic-custom-observation-002/original-drc.json",
+    "sha256": "a3ae0798c019ee60d3fb37171a18bc940043c6329dbf1f24dc9c9463f1df01d7",
+    "explicit_source": [
+      "footprint_filters_mismatch",
+      "silk_edge_clearance",
+      "tuning_profile_track_geometries"
+    ],
+    "effective_native": [
+      "footprint_filters_mismatch",
+      "silk_edge_clearance",
+      "track_not_centered_on_via",
+      "tuning_profile_track_geometries"
+    ]
+  },
+  "promotion": {
+    "experiments/pic_custom_native_controls_v1/driver.py": "c53b1dc32c25c6b940c35e1fd8fd0e2986680edef55139f64bdf679a10700cc4",
+    "experiments/pic_custom_native_controls_v1/worker.py": "c7872eba92ca663e311ef55c769cbc4b1454e68e1763b653780d833972b51c44",
+    "experiments/pic_custom_native_controls_v1/fixture.py": "618b1de05e61d73f9b4e9419040ed698937817252c8e0fa6e621feb5fc6f3d10",
+    "experiments/pic_custom_native_controls_v1/checks.py": "8d4c15a35c2b1301002f1b9fd552a4b608dc6280244f3b4effdfd642bf4f0948",
+    "experiments/pic_custom_native_controls_v1/recipes.py": "1606972db3464ec80e7781630e5cec55509aa2926c6913ff6965bcc9956148ea",
+    "experiments/pic_custom_native_controls_v1/test_controls.py": "1bd4b3bca68cd91607a129afc219cbced0b3db590ae3307626409100c9ab1e65",
+    "experiments/pic_custom_native_controls_v1/test_recipes.py": "df7e72ec7a6d75007fc17ac417355dd12cfab5b7366f60af0a8296df50c17726",
+    "experiments/pic_custom_native_controls_v1/PROTOCOL.json": "9cc372a90d12283074e108b6228a098ef86f1d3d53bd29246bd1e16ac084f620",
+    "experiments/pic_custom_native_controls_v1/README.md": "6ab6f5cebb0ac628936d9c2f2048803b1dddcf2dd6cea40442aca1c37d0d7504"
+  },
+  "files": {
+    "PROTOCOL.json": {
+      "sha256": "9cc372a90d12283074e108b6228a098ef86f1d3d53bd29246bd1e16ac084f620",
+      "bytes": 1338
+    },
+    "README.md": {
+      "sha256": "6ab6f5cebb0ac628936d9c2f2048803b1dddcf2dd6cea40442aca1c37d0d7504",
+      "bytes": 5389
+    },
+    "checks.py": {
+      "sha256": "8d4c15a35c2b1301002f1b9fd552a4b608dc6280244f3b4effdfd642bf4f0948",
+      "bytes": 11234
+    },
+    "driver.py": {
+      "sha256": "c53b1dc32c25c6b940c35e1fd8fd0e2986680edef55139f64bdf679a10700cc4",
+      "bytes": 25073
+    },
+    "fixture.py": {
+      "sha256": "618b1de05e61d73f9b4e9419040ed698937817252c8e0fa6e621feb5fc6f3d10",
+      "bytes": 4121
+    },
+    "preparation-001/_licenses/LICENSE.CC-BY-SA-4.0": {
+      "sha256": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "bytes": 15164
+    },
+    "preparation-001/_licenses/LICENSE.README": {
+      "sha256": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "bytes": 2386
+    },
+    "preparation-001/back90-false_hull/pic_programmer.kicad_pcb": {
+      "sha256": "d3d54f8d5f217223666886fa6a01cc2251fc9733bcbb654b1576936bfc8fc4ec",
+      "bytes": 5673
+    },
+    "preparation-001/back90-false_hull/recipe.json": {
+      "sha256": "73a85696cc38473154fc3aa8eefcff914be0d2bbed878dfa745598b9ab955a75",
+      "bytes": 2932
+    },
+    "preparation-001/back90-foreign_intrusion/pic_programmer.kicad_pcb": {
+      "sha256": "36398bccd47ce85659abe65c0ac2df40cb463b0f418446758d74d5848ae7ae2b",
+      "bytes": 5675
+    },
+    "preparation-001/back90-foreign_intrusion/recipe.json": {
+      "sha256": "07f81650f1023a34cb3290a94ecd4c6e93d0169b62dce7a80cf0b52536562868",
+      "bytes": 2939
+    },
+    "preparation-001/back90-positive/pic_programmer.kicad_pcb": {
+      "sha256": "fa177763ecae74f8df9a9488d3469b145ffb16256bac6174a428fd329aabe596",
+      "bytes": 5673
+    },
+    "preparation-001/back90-positive/recipe.json": {
+      "sha256": "0d59367f44df4d857bc1d9f554c496ee53b0c9367129e36f14f464d5c1245733",
+      "bytes": 2930
+    },
+    "preparation-001/front0-false_hull/pic_programmer.kicad_pcb": {
+      "sha256": "b457ed18623f180f17afeba9ae5f24e5a8ec49c3d1b4690f3d24367f2b5b8a94",
+      "bytes": 5649
+    },
+    "preparation-001/front0-false_hull/recipe.json": {
+      "sha256": "3b6b7b0ec76588f01e87c2d83ac65ace97c1c0c9c8f02cce62c84cd6406b2370",
+      "bytes": 2912
+    },
+    "preparation-001/front0-foreign_intrusion/pic_programmer.kicad_pcb": {
+      "sha256": "22bad009959417c3885d0cddab7a9b532ee92b1d566ddcd5e38bdd9019295995",
+      "bytes": 5652
+    },
+    "preparation-001/front0-foreign_intrusion/recipe.json": {
+      "sha256": "d8cf69b2e0acd0b8731dacd9f083d2544e8dcb6d7157e1f03b2486508c314a67",
+      "bytes": 2920
+    },
+    "preparation-001/front0-positive/pic_programmer.kicad_pcb": {
+      "sha256": "78d7c7cd916cf236042567959beaffd1f957b7f489f41baae089e604420fd67c",
+      "bytes": 5649
+    },
+    "preparation-001/front0-positive/recipe.json": {
+      "sha256": "bfb32787d8c9c881cb74363b15b7fad683fc9bca96611afdc1cc6f460e903b6c",
+      "bytes": 2910
+    },
+    "preparation-001/preparation.json": {
+      "sha256": "e782b9e5a191eb6f9a02ef4700fd76d1faf3fbcaa143bd43c4c4aeda1b128a57",
+      "bytes": 6379
+    },
+    "preparation-001.log": {
+      "sha256": "0f5904710f5a568b9ba8b2794e92f21e2e3e335d1f2055462330ae1eefe7a91d",
+      "bytes": 133
+    },
+    "prepare_audit.py": {
+      "sha256": "8ab6930c0019c281b24bad6f86024e290bd0426289d6a846251ffb80f0b0e515",
+      "bytes": 2299
+    },
+    "promotion.patch": {
+      "sha256": "e7b2f9b5be741e1c0ebf640d78a2b9440c877302bde3d12c9a55fb6232d3b0ea",
+      "bytes": 90520
+    },
+    "pure-tests-001.log": {
+      "sha256": "949407edc4a173f9ba572e3069de3eac9b19b269a7ef4bbdd3014e0899cd1cbf",
+      "bytes": 5549
+    },
+    "pure-tests-002.log": {
+      "sha256": "020cfc3d4056b047931623be4863bbfe0f8d997cc8801121ade3ef464a60c0a8",
+      "bytes": 4438
+    },
+    "pure-tests-003.log": {
+      "sha256": "4bd4554d8da47df9eadae4919a8d3e8f1d24adb920b0fdd89b1162527d883586",
+      "bytes": 4597
+    },
+    "pure-tests-004.log": {
+      "sha256": "d5aa0293bf5d7170828b37d73936e8a5c8cad69f2b3109a0a6d7cc1c912e9518",
+      "bytes": 4923
+    },
+    "recipes.py": {
+      "sha256": "1606972db3464ec80e7781630e5cec55509aa2926c6913ff6965bcc9956148ea",
+      "bytes": 4414
+    },
+    "test_controls.py": {
+      "sha256": "1bd4b3bca68cd91607a129afc219cbced0b3db590ae3307626409100c9ab1e65",
+      "bytes": 25505
+    },
+    "test_recipes.py": {
+      "sha256": "df7e72ec7a6d75007fc17ac417355dd12cfab5b7366f60af0a8296df50c17726",
+      "bytes": 4895
+    },
+    "worker.py": {
+      "sha256": "c7872eba92ca663e311ef55c769cbc4b1454e68e1763b653780d833972b51c44",
+      "bytes": 6625
+    }
+  }
+}

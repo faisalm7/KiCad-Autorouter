@@ -110,3 +110,7 @@ Pic source compatibility regression at9300c75 passes actual required-via placeme
 The diagnostic-only pic DSN parser correction is independently reviewed and passes36 root focused controls plus8 independent grammar controls on the actual retained export. Original001 remains failed; fresh002 original-rule DRC is pending. No production scope or core/worker/controller change. `evidence/pic-custom-observer-fix-001`.
 
 Actual pic002at129dde0 completes same-BOARD observation/DSN correspondence and original-rule nonsaving refill DRC:0opens/0blocking/41missing-library warnings/0exclusions; noJP1finding. Original15files unchanged and741independent checks pass. Stored5.087088wall/3.656985CPU under60secondcaps; measuredcontroller exit0. Extra native ignored track_not_centered_on_via absent from source remains explicit. Source retains376original routes: no autorouting completion or production/geometry/format qualification. `evidence/pic-custom-observation-002`.
+
+### Six owned custom-pad controls: source prepared, native proof pending
+
+G2 source/validation preparation: [helper](experiments/pic_custom_native_controls_v1/README.md), [frozen preparation evidence](evidence/pic-custom-controls-source-001/PUBLIC_SCOPE.md),34root pure tests. This exercises orchestration, exact recipes and rejection logic only. Actual front0/back90 contact/disconnection/intrusion predicates, production custom geometry, severity providers and G4comparison remain unproved by these tests. Original project severities/default distinction and unused classes are preserved.

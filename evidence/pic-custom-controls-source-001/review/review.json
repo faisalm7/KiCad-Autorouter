@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "reviewer": "Independent AI subagent; not human PCB review",
+  "disposition": "No remaining blocker found for the fixed ROOT-only six-case native diagnostic. Actual native qualification is pending.",
+  "author_manifest_sha256": "4f4a6f38fed24702961352e4eeef16b022180ab382659ef3efa57fae02e4233a",
+  "promoted_files": {
+    "driver.py": {
+      "sha256": "c53b1dc32c25c6b940c35e1fd8fd0e2986680edef55139f64bdf679a10700cc4",
+      "bytes": 25073,
+      "promoted_exact": true
+    },
+    "worker.py": {
+      "sha256": "c7872eba92ca663e311ef55c769cbc4b1454e68e1763b653780d833972b51c44",
+      "bytes": 6625,
+      "promoted_exact": true
+    },
+    "fixture.py": {
+      "sha256": "618b1de05e61d73f9b4e9419040ed698937817252c8e0fa6e621feb5fc6f3d10",
+      "bytes": 4121,
+      "promoted_exact": true
+    },
+    "checks.py": {
+      "sha256": "8d4c15a35c2b1301002f1b9fd552a4b608dc6280244f3b4effdfd642bf4f0948",
+      "bytes": 11234,
+      "promoted_exact": true
+    },
+    "recipes.py": {
+      "sha256": "1606972db3464ec80e7781630e5cec55509aa2926c6913ff6965bcc9956148ea",
+      "bytes": 4414,
+      "promoted_exact": true
+    },
+    "test_controls.py": {
+      "sha256": "1bd4b3bca68cd91607a129afc219cbced0b3db590ae3307626409100c9ab1e65",
+      "bytes": 25505,
+      "promoted_exact": true
+    },
+    "test_recipes.py": {
+      "sha256": "df7e72ec7a6d75007fc17ac417355dd12cfab5b7366f60af0a8296df50c17726",
+      "bytes": 4895,
+      "promoted_exact": true
+    },
+    "PROTOCOL.json": {
+      "sha256": "9cc372a90d12283074e108b6228a098ef86f1d3d53bd29246bd1e16ac084f620",
+      "bytes": 1338,
+      "promoted_exact": true
+    },
+    "README.md": {
+      "sha256": "6ab6f5cebb0ac628936d9c2f2048803b1dddcf2dd6cea40442aca1c37d0d7504",
+      "bytes": 5389,
+      "promoted_exact": true
+    }
+  },
+  "ignored_sets": {
+    "source_explicit": [
+      "footprint_filters_mismatch",
+      "silk_edge_clearance",
+      "tuning_profile_track_geometries"
+    ],
+    "native_effective": [
+      "footprint_filters_mismatch",
+      "silk_edge_clearance",
+      "track_not_centered_on_via",
+      "tuning_profile_track_geometries"
+    ],
+    "baseline_report_sha256": "a3ae0798c019ee60d3fb37171a18bc940043c6329dbf1f24dc9c9463f1df01d7"
+  },
+  "controls": {
+    "independent_predicate_cases": 15,
+    "independent_publication_cases": 6,
+    "all_passed": true
+  },
+  "native_jobs": 0,
+  "engine_jobs": 0,
+  "gui_jobs": 0,
+  "new_primary_source_documents": 1,
+  "new_production_support": false,
+  "limitations": [
+    "Finite sampled evidence consistency, not atomic authentication.",
+    "Pure/mocked tests are not native geometry/provider evidence.",
+    "Y-symmetric front0/back90 fixed scenes cannot establish arbitrary chiral reflection.",
+    "Unused POWER class, four new severity-provider enforcement categories and source-native ignored default difference remain unqualified.",
+    "Convex hull export is not native copper.",
+    "Exact export/polygon/DRC outcomes may reject actual controls; preserve all six denominator rows and failures."
+  ]
+}

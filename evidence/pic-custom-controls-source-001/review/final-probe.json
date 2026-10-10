@@ -1,0 +1,336 @@
+{
+  "schema": 1,
+  "scope": "Independent synthetic finding predicates and actual tiny output files at mocked final publication boundaries; no native/engine/GUI process.",
+  "source_hashes": {
+    "driver.py": "c53b1dc32c25c6b940c35e1fd8fd0e2986680edef55139f64bdf679a10700cc4",
+    "checks.py": "8d4c15a35c2b1301002f1b9fd552a4b608dc6280244f3b4effdfd642bf4f0948"
+  },
+  "predicate_cases": [
+    {
+      "case": "positive",
+      "warning": null,
+      "predicate": true,
+      "expected": true,
+      "passed": true
+    },
+    {
+      "case": "positive",
+      "warning": "lib_footprint_issues",
+      "predicate": true,
+      "expected": true,
+      "passed": true
+    },
+    {
+      "case": "positive",
+      "warning": "unknown_provider",
+      "predicate": false,
+      "expected": false,
+      "passed": true
+    },
+    {
+      "case": "positive",
+      "warning": "missing_tuning_profile",
+      "predicate": false,
+      "expected": false,
+      "passed": true
+    },
+    {
+      "case": "positive",
+      "warning": "padstack_invalid",
+      "predicate": false,
+      "expected": false,
+      "passed": true
+    },
+    {
+      "case": "false_hull",
+      "warning": null,
+      "predicate": true,
+      "expected": true,
+      "passed": true
+    },
+    {
+      "case": "false_hull",
+      "warning": "lib_footprint_issues",
+      "predicate": true,
+      "expected": true,
+      "passed": true
+    },
+    {
+      "case": "false_hull",
+      "warning": "unknown_provider",
+      "predicate": false,
+      "expected": false,
+      "passed": true
+    },
+    {
+      "case": "false_hull",
+      "warning": "missing_tuning_profile",
+      "predicate": false,
+      "expected": false,
+      "passed": true
+    },
+    {
+      "case": "false_hull",
+      "warning": "padstack_invalid",
+      "predicate": false,
+      "expected": false,
+      "passed": true
+    },
+    {
+      "case": "foreign_intrusion",
+      "warning": null,
+      "predicate": true,
+      "expected": true,
+      "passed": true
+    },
+    {
+      "case": "foreign_intrusion",
+      "warning": "lib_footprint_issues",
+      "predicate": true,
+      "expected": true,
+      "passed": true
+    },
+    {
+      "case": "foreign_intrusion",
+      "warning": "unknown_provider",
+      "predicate": false,
+      "expected": false,
+      "passed": true
+    },
+    {
+      "case": "foreign_intrusion",
+      "warning": "missing_tuning_profile",
+      "predicate": false,
+      "expected": false,
+      "passed": true
+    },
+    {
+      "case": "foreign_intrusion",
+      "warning": "padstack_invalid",
+      "predicate": false,
+      "expected": false,
+      "passed": true
+    }
+  ],
+  "publication_cases": [
+    {
+      "case": "unchanged",
+      "passed": true,
+      "returned": {
+        "status": "controls_passed",
+        "controls_passed": true,
+        "routing_accepted": false,
+        "geometry_qualified": false,
+        "format_support_qualified": false,
+        "dependency_complete": false,
+        "custom_routing_support_qualified": false,
+        "nondefault_resolution_qualified": false,
+        "new_severity_enforcement_qualified": false,
+        "arbitrary_reflection_qualified": false,
+        "new_engine_execution": false,
+        "board_saved": false
+      },
+      "canonical": {
+        "status": "controls_passed",
+        "controls_passed": true,
+        "routing_accepted": false,
+        "geometry_qualified": false,
+        "format_support_qualified": false,
+        "dependency_complete": false,
+        "custom_routing_support_qualified": false,
+        "nondefault_resolution_qualified": false,
+        "new_severity_enforcement_qualified": false,
+        "arbitrary_reflection_qualified": false,
+        "new_engine_execution": false,
+        "board_saved": false
+      },
+      "injected": false,
+      "archived": 0
+    },
+    {
+      "case": "canonical_late",
+      "passed": true,
+      "returned": {
+        "status": "invalidated",
+        "controls_passed": false,
+        "routing_accepted": false,
+        "geometry_qualified": false,
+        "format_support_qualified": false,
+        "dependency_complete": false,
+        "custom_routing_support_qualified": false,
+        "nondefault_resolution_qualified": false,
+        "new_severity_enforcement_qualified": false,
+        "arbitrary_reflection_qualified": false,
+        "new_engine_execution": false,
+        "board_saved": false,
+        "original_inputs_unchanged": null,
+        "error": "Rejected: summary stale or final cap exceeded",
+        "final_validation_error": "Rejected: summary stale or final cap exceeded"
+      },
+      "canonical": {
+        "status": "invalidated",
+        "controls_passed": false,
+        "routing_accepted": false,
+        "geometry_qualified": false,
+        "format_support_qualified": false,
+        "dependency_complete": false,
+        "custom_routing_support_qualified": false,
+        "nondefault_resolution_qualified": false,
+        "new_severity_enforcement_qualified": false,
+        "arbitrary_reflection_qualified": false,
+        "new_engine_execution": false,
+        "board_saved": false,
+        "original_inputs_unchanged": null,
+        "error": "Rejected: summary stale or final cap exceeded",
+        "final_validation_error": "Rejected: summary stale or final cap exceeded"
+      },
+      "injected": true,
+      "archived": 1
+    },
+    {
+      "case": "returned_late",
+      "passed": true,
+      "returned": {
+        "status": "invalidated",
+        "controls_passed": false,
+        "routing_accepted": false,
+        "geometry_qualified": false,
+        "format_support_qualified": false,
+        "dependency_complete": false,
+        "custom_routing_support_qualified": false,
+        "nondefault_resolution_qualified": false,
+        "new_severity_enforcement_qualified": false,
+        "arbitrary_reflection_qualified": false,
+        "new_engine_execution": false,
+        "board_saved": false,
+        "original_inputs_unchanged": null,
+        "error": "Rejected: summary stale or final cap exceeded",
+        "final_validation_error": "Rejected: summary stale or final cap exceeded"
+      },
+      "canonical": {
+        "status": "invalidated",
+        "controls_passed": false,
+        "routing_accepted": false,
+        "geometry_qualified": false,
+        "format_support_qualified": false,
+        "dependency_complete": false,
+        "custom_routing_support_qualified": false,
+        "nondefault_resolution_qualified": false,
+        "new_severity_enforcement_qualified": false,
+        "arbitrary_reflection_qualified": false,
+        "new_engine_execution": false,
+        "board_saved": false,
+        "original_inputs_unchanged": null,
+        "error": "Rejected: summary stale or final cap exceeded",
+        "final_validation_error": "Rejected: summary stale or final cap exceeded"
+      },
+      "injected": true,
+      "archived": 1
+    },
+    {
+      "case": "expired_late",
+      "passed": true,
+      "returned": {
+        "status": "invalidated",
+        "controls_passed": false,
+        "routing_accepted": false,
+        "geometry_qualified": false,
+        "format_support_qualified": false,
+        "dependency_complete": false,
+        "custom_routing_support_qualified": false,
+        "nondefault_resolution_qualified": false,
+        "new_severity_enforcement_qualified": false,
+        "arbitrary_reflection_qualified": false,
+        "new_engine_execution": false,
+        "board_saved": false,
+        "original_inputs_unchanged": null,
+        "error": "Rejected: summary stale or final cap exceeded",
+        "final_validation_error": "Rejected: summary stale or final cap exceeded"
+      },
+      "canonical": {
+        "status": "invalidated",
+        "controls_passed": false,
+        "routing_accepted": false,
+        "geometry_qualified": false,
+        "format_support_qualified": false,
+        "dependency_complete": false,
+        "custom_routing_support_qualified": false,
+        "nondefault_resolution_qualified": false,
+        "new_severity_enforcement_qualified": false,
+        "arbitrary_reflection_qualified": false,
+        "new_engine_execution": false,
+        "board_saved": false,
+        "original_inputs_unchanged": null,
+        "error": "Rejected: summary stale or final cap exceeded",
+        "final_validation_error": "Rejected: summary stale or final cap exceeded"
+      },
+      "injected": true,
+      "archived": 1
+    },
+    {
+      "case": "cancelled_late",
+      "passed": true,
+      "returned": {
+        "status": "cancelled",
+        "controls_passed": false,
+        "routing_accepted": false,
+        "geometry_qualified": false,
+        "format_support_qualified": false,
+        "dependency_complete": false,
+        "custom_routing_support_qualified": false,
+        "nondefault_resolution_qualified": false,
+        "new_severity_enforcement_qualified": false,
+        "arbitrary_reflection_qualified": false,
+        "new_engine_execution": false,
+        "board_saved": false,
+        "original_inputs_unchanged": null,
+        "error": "KeyboardInterrupt: ",
+        "final_validation_error": "KeyboardInterrupt: "
+      },
+      "canonical": {
+        "status": "cancelled",
+        "controls_passed": false,
+        "routing_accepted": false,
+        "geometry_qualified": false,
+        "format_support_qualified": false,
+        "dependency_complete": false,
+        "custom_routing_support_qualified": false,
+        "nondefault_resolution_qualified": false,
+        "new_severity_enforcement_qualified": false,
+        "arbitrary_reflection_qualified": false,
+        "new_engine_execution": false,
+        "board_saved": false,
+        "original_inputs_unchanged": null,
+        "error": "KeyboardInterrupt: ",
+        "final_validation_error": "KeyboardInterrupt: "
+      },
+      "injected": true,
+      "archived": 1
+    },
+    {
+      "case": "correction_failed",
+      "passed": true,
+      "returned": {
+        "status": "cancelled",
+        "controls_passed": false,
+        "routing_accepted": false,
+        "geometry_qualified": false,
+        "format_support_qualified": false,
+        "dependency_complete": false,
+        "custom_routing_support_qualified": false,
+        "nondefault_resolution_qualified": false,
+        "new_severity_enforcement_qualified": false,
+        "arbitrary_reflection_qualified": false,
+        "new_engine_execution": false,
+        "board_saved": false,
+        "original_inputs_unchanged": null,
+        "error": "KeyboardInterrupt: ",
+        "final_validation_error": "KeyboardInterrupt: "
+      },
+      "canonical": null,
+      "injected": true,
+      "archived": 1
+    }
+  ],
+  "all_passed": true
+}
