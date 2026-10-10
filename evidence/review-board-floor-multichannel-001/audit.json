@@ -1,0 +1,158 @@
+{
+  "schema": 1,
+  "audited_utc": "2026-10-10T11:00:19.811801+00:00",
+  "audit_passed": true,
+  "routing_accepted": false,
+  "check_result_expected_rejection": "receipt is not an accepted routing result",
+  "floor_helper_scope": "check_floor_result validates retained transformation/transport/context consistency even for rejected data; it is not routing acceptance and does not override native DRC.",
+  "checks": {
+    "source_snapshot_unchanged": true,
+    "actual_rejected_not_relabelled": true,
+    "floor_transport_context_contract_passed_without_acceptance": true,
+    "all_candidate_project_files_original": true,
+    "immutable_geometry_and_constraints_equal": true,
+    "six_zone_intents_unchanged": true,
+    "project_rules_exact_in_every_native_copy": true,
+    "native_guidance_adapter_chain_exact": true,
+    "exact_candidate_transport_and_saved_fill": true,
+    "SES_import_candidate_geometry_equal": true,
+    "native_actual_route_readback_exact": true,
+    "source-drc_exit_matches_findings": true,
+    "refill-drc_exit_matches_findings": true,
+    "final-drc_exit_matches_findings": true,
+    "receipt_matches_raw_final_DRC": true,
+    "native_correctly_rejects": true,
+    "recorded_failure_160opens_one_thermal_94warnings": true,
+    "final_native_input_bound": true,
+    "final_native_input_preserves_original_rules": true,
+    "final_native_process_exact": true,
+    "final_step_bound": true,
+    "same_declared_profile_reserves_and_flags": true,
+    "all_workers_network_denied_cleanup_complete": true,
+    "resource_sums_and_caps": true,
+    "independent_geometry_metrics_match": true,
+    "retained_code_matches_recorded_and_current": true,
+    "previous_width_clearance_annulus_via_errors_absent_now": true,
+    "no_audit_mutation": true
+  },
+  "facts": {
+    "git_head": "e12cdc4cac2ec01ccf88c1f0f62ae29a21fa8678",
+    "candidate_sha256": "b5da43c9fc38cc1d5e006f144cc8747528313137cb114e37c27d86a5bf3938a3",
+    "project_sha256": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+    "source_files": 17,
+    "zones": 6,
+    "reports": {
+      "source-drc": {
+        "opens": 0,
+        "blocking": 24,
+        "warnings": 93,
+        "exclusions": 0,
+        "errors_by_type": {
+          "clearance": 24
+        }
+      },
+      "refill-drc": {
+        "opens": 160,
+        "blocking": 1,
+        "warnings": 94,
+        "exclusions": 0,
+        "errors_by_type": {
+          "starved_thermal": 1,
+          "unconnected_items": 160
+        }
+      },
+      "final-drc": {
+        "opens": 160,
+        "blocking": 1,
+        "warnings": 94,
+        "exclusions": 0,
+        "errors_by_type": {
+          "starved_thermal": 1,
+          "unconnected_items": 160
+        }
+      }
+    },
+    "prior_unmodified_adapter_error_counts": {
+      "annular_width": 3,
+      "clearance": 13,
+      "track_width": 75,
+      "starved_thermal": 1,
+      "via_diameter": 3,
+      "unconnected_items": 160
+    },
+    "metrics": {
+      "version": "10.0.0",
+      "pads": 327,
+      "footprints": 114,
+      "zones": 6,
+      "vias": 0,
+      "track_length_mm": 186.99817901643615,
+      "copper_layers": 2
+    },
+    "generated_route_widths_nm": [
+      300000
+    ],
+    "native_thermal_findings": [
+      {
+        "description": "Thermal relief connection to zone incomplete (layer F.Cu; 3 spokes connected to isolated island)",
+        "items": [
+          {
+            "description": "Zone [vbias] on F.Cu, priority 2",
+            "pos": {
+              "x": 191.46,
+              "y": 108.66
+            },
+            "uuid": "2ac68700-4aa9-4420-a0e1-76004e618e09"
+          },
+          {
+            "description": "PTH pad 1 [vbias] of C2",
+            "pos": {
+              "x": 187.73,
+              "y": 101.73
+            },
+            "uuid": "6676eb38-09f3-4b48-8024-482389e3ee8d"
+          }
+        ],
+        "severity": "error",
+        "type": "starved_thermal"
+      }
+    ],
+    "receipt_wall_seconds": 57.37823804200161,
+    "receipt_total_cpu_seconds": 64.509057,
+    "peak_child_rss_bytes": 415285248,
+    "engine_settings": {
+      "profile": "completion-only",
+      "argv": [
+        "--router.autorouter.max_passes=30",
+        "--router.job_timeout=00:01:00",
+        "--router.automatic_neckdown=false",
+        "--router.fanout.enabled=false",
+        "--router.neck_width_um=0",
+        "--router.optimizer.enabled=false"
+      ],
+      "scoring": {
+        "variant": null,
+        "argv": []
+      },
+      "strict_class_targets": true,
+      "remaining_outer_wall_seconds_at_assignment": 116.11841545799689,
+      "assigned_job_timeout_seconds": 60,
+      "assigned_optimizer_timeout_seconds": null,
+      "native_finalization_reserve_seconds": 10,
+      "engine_grace_reserve_seconds": 30,
+      "internal_deadlines": "cooperative planning caps; external supervision and measured CPU acceptance cap remain authoritative",
+      "outer_task_wall_budget_seconds": 120.0,
+      "outer_task_cpu_budget_seconds": 120.0
+    }
+  },
+  "run_inventory_sha256": "58a0e9c90e5c35dd514663dcbbc90ed33fd44c31a23c26db2ade9e89bc4b761a",
+  "shared_SES_parser_sha256": "6d547941484afdc11ada18f38fd2b13f7307afcba08c9075b986a7a2f1f76d3d",
+  "limitations": [
+    "Rejected full board:160 opens plus thermal violation; no usable completion or quality win.",
+    "Older unmodified run comparison is diagnostic, not a fresh equal-code/profile/timing causal comparison.",
+    "Zero vias on this failed full-board attempt; this run cannot qualify nonzero via transport, which was exercised separately by the owned fixture.",
+    "Stored totals precede final publication/readback. No independent enclosing invocation timer retained for this CLI run.",
+    "Original project/rules and six zone definitions preserved; native refill/final DRC actually ran with residual thermal reported. No claim of electrical/manufacturing adequacy.",
+    "Read-only AI evidence review, not authentication, fresh native execution or human PCB review."
+  ]
+}

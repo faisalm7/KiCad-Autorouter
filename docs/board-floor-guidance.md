@@ -1,6 +1,6 @@
 # Board-floor guidance qualification
 
-This is a native-tested diagnostic and an integrated adapter correction awaiting its first production CLI native run. It is not a new routing strategy or a completed multichannel board. Original board/project rules, native class preferences and DRC severities remain unchanged.
+The explicit production adapter passes the owned required-via fixture, while full multichannel routing remains rejected. It is not a new routing strategy or a completed multichannel board. Original board/project rules, native class preferences and DRC severities remain unchanged.
 
 The original multichannel export used preferred0.2mm tracks/clearance and0.6mm vias despite original board minima of0.3mm tracks/clearance,1.5mm vias,0.3mm drills and0.3mm annuli. Earlier native context001 proved those values and terminal mapping. The uncorrected full-board attempt remains rejected with160opens and95blocking findings.
 
@@ -51,4 +51,21 @@ Selected exact raw evidence is in `evidence/board-floor-geometry-001`, `002` and
 
 Independent read-only audits verified1,914 fresh geometry002 bindings,607 forced-via001 bindings and1,455 selected-public-copy checks. They independently decoded SES geometry and compared it through imported/final/native-readback objects. Review records are in `evidence/review-board-floor-geometry-002` and `evidence/review-board-floor-forced-via-001`; AI review is not human PCB or physical review.
 
-Production CLI integration, final receipt reconstruction and policy downgrade protection are implemented under the explicit `route --guidance board-floors-v1 --adapter both` option. All 364 software tests passed in the main checkout; independent review cleared two reproduced publication/transport defects after fixes. Selected review records are in `evidence/review-board-floor-production-001`. These software checks do not qualify actual production routing. Full-board floor routing, native production qualification and strategy propagation remain pending; floor GUI handoff is deliberately unsupported. No source eligibility, completion-rate or physical/electrical claim is added by this diagnostic.
+Production CLI integration, final receipt reconstruction and policy downgrade protection are implemented under the explicit `route --guidance board-floors-v1 --adapter both` option. All 364 software tests passed in the main checkout; independent review cleared two reproduced publication/transport defects after fixes. Selected review records are in `evidence/review-board-floor-production-001`. Actual production execution is recorded below. Strategy propagation and floor GUI handoff remain unsupported. No source eligibility, completion-rate or physical/electrical claim is added by this diagnostic.
+
+## Actual production execution at e12cdc4
+
+The `route --guidance board-floors-v1 --adapter both --profile completion-only` option completed all eight actual stages on the owned fixture. `evidence/board-floor-production-native-001/result.json` accepts zero opens/blocking/warnings/exclusions, seven segments plus one required 1.5/.3 mm via, 67.926667 mm total length. Candidate SHA256 is `79c46687d355a60f3917794f277ef41fb839088622123784dddc55c13e23af06`; receipt readback passed. Stored pre-publication totals are 7.277325 wall / 5.137059 CPU seconds under60secondcaps; caps include final publication/checks but this invocation has no separate enclosing timer. Independent review passed30binding checks and all116selected public files match raw evidence. This fixture has zero zones, so the real refill stage alone adds no nonempty-zone coverage.
+
+The full multichannel exploratory run also completed all native stages under original settings, including six zones. `evidence/board-floor-multichannel-001/result.json` remains rejected with160opens,1blocking thermal,94warnings,0exclusions; candidate SHA256 `b5da43c9fc38cc1d5e006f144cc8747528313137cb114e37c27d86a5bf3938a3`. Stored pre-publication totals are57.378238wall/64.509057CPU under120secondcaps. None of the older attempt's75track_width,13clearance,3annular_width or3via_diameter errors remain. Opens did not improve. This descriptive historical comparison is not a fresh equal-budget pair, a valid-quality comparison, or C novelty. A prospective matched development repetition is pending.
+
+Integration regression: the original native-policy smoke accepted with a nonempty zone (7.878404wall/4.795079recordedCPU), and all six actual literal-class controls passed (17.161423wall/13.096545enclosingCPU). Real SIGTERM during the floor engine yielded cancelled/false, complete cleanup and immediate absence of its owned process group; original source/code stayed unchanged. The cancellation control's inherited key `engine_cancelled_by_sigint` is misnamed: frozen code and the engine receipt actually require and record SIGTERM. These are scoped controls, not OS-crash or GUI qualification.
+
+Reproduce only when needed with new output identifiers:
+
+```sh
+python3 -B -m autorouter route tests/fixtures/board-floor/fixture.kicad_pcb --output .runs/floor-fixture-NEW --seconds 60 --adapter both --profile completion-only --guidance board-floors-v1
+python3 -B -m autorouter check-result .runs/floor-fixture-NEW/result.json
+```
+
+All production raw runs and new reviews are newer than the latest ebbb56c full private archive and await the next tested archive. The public selected text copies are individually hashed; originals remain in this durable checkout.

@@ -1,0 +1,93 @@
+"""Read-only native001 audit. No subprocess, native, engine or source/run writes."""
+from pathlib import Path
+from decimal import Decimal
+from collections import Counter
+import hashlib,json,math,re,sys,datetime
+HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[1];sys.path.insert(0,str(ROOT))
+from autorouter import pipeline as p,board_floor as g,floor_route as f,sexpr as sx
+RUN=ROOT/'.runs/board-floor-production-native-001'
+def read(name):return json.loads((RUN/name).read_text())
+def nm(atom,scale=1000000):
+ value=Decimal(str(atom))*scale
+ if not value.is_finite() or value!=value.to_integral_value():raise AssertionError('inexact coordinate/dimension')
+ return int(value)
+def seg(net,layer,width,a,b):return ('segment',net,layer,width,*sorted([tuple(a),tuple(b)]))
+def board_geometry(tree):
+ _,resolve=g.source_net_identity(tree);result=[]
+ for item in tree:
+  if not isinstance(item,list) or not item or item[0] not in p.ROUTES:continue
+  net=resolve(sx.one(item,'net'))
+  if item[0]=='segment':result.append(seg(net,sx.unquote(sx.one(item,'layer')[1]),nm(sx.one(item,'width')[1]),[nm(v) for v in sx.one(item,'start')[1:]], [nm(v) for v in sx.one(item,'end')[1:]]))
+  elif item[0]=='via':result.append(('via',net,tuple(nm(v) for v in sx.one(item,'at')[1:]),nm(sx.one(item,'size')[1]),nm(sx.one(item,'drill')[1]),tuple(sx.unquote(v) for v in sx.one(item,'layers')[1:])))
+  else:raise AssertionError('unqualified arc')
+ return Counter(result)
+def ses_geometry(tree):
+ routes=sx.one(tree,'routes');resolution=sx.one(routes,'resolution');assert resolution==['resolution','um','10'];scale=Decimal(1000)/Decimal(resolution[2]);result=[]
+ lib={sx.unquote(n[1]):n for n in sx.children(sx.one(routes,'library_out'),'padstack')}
+ for netnode in sx.children(sx.one(routes,'network_out'),'net'):
+  net=sx.unquote(netnode[1])
+  for child in netnode[2:]:
+   if child[0]=='wire':
+    path=sx.one(child,'path');layer=sx.unquote(path[1]);width=nm(path[2],scale);coords=path[3:];assert len(coords)>=4 and len(coords)%2==0
+    xy=[(nm(coords[i],scale),-nm(coords[i+1],scale)) for i in range(0,len(coords),2)]
+    result.extend(seg(net,layer,width,a,b) for a,b in zip(xy,xy[1:]))
+   elif child[0]=='via':
+    name=sx.unquote(child[1]);match=re.fullmatch(r'Via\[0-1\]_([0-9.]+):([0-9.]+)_um',name);assert match
+    diameter,drill=(nm(v,1000) for v in match.groups());shapes=sx.children(lib[name],'shape');assert len(shapes)==2
+    assert {sx.unquote(sx.one(s,'circle')[1]) for s in shapes}=={'F.Cu','B.Cu'}
+    assert all(nm(sx.one(s,'circle')[2],scale)==diameter for s in shapes)
+    result.append(('via',net,(nm(child[2],scale),-nm(child[3],scale)),diameter,drill,('F.Cu','B.Cu')))
+   else:raise AssertionError('unexpected SES routing item')
+ return Counter(result)
+def main():
+ before=json.loads((HERE/'before.json').read_text());source=Path(before['source']);initial=p.tree_hash(RUN);checks={};facts={}
+ def check(name,condition):checks[name]=bool(condition);assert condition,name
+ data=read('result.json');check('original_source_inventory_unchanged',p.tree_hash(source.parent)==before['source_hashes'])
+ check('current_code_unchanged',{str(x.relative_to(ROOT)):p.sha(x) for x in sorted((ROOT/'autorouter').glob('*.py'))}==before['implementation_sha256'])
+ check('run_recorded_same_code_and_head',data['tools']['implementation_sha256']==before['implementation_sha256'] and data['tools']['git_head']==before['git_head'])
+ check('accepted_schema_policy',data['schema']==2 and data['accepted'] is True and data['status']=='routing_accepted' and data['input_policy']==f.POLICY)
+ check('source_and_snapshot_bound',data['source']==str(source) and data['source_hashes']==before['source_hashes'] and p.tree_hash(RUN/'snapshot')==before['source_hashes'])
+ check('complete_current_evidence_check',p.check_result(RUN/'result.json')['current'] is True)
+ candidate=Path(data['candidate']);original=sx.read(source);task=g.task_from_source(original);task_bytes=(sx.dump(task)+'\n').encode();project=source.with_suffix('.kicad_pro').read_bytes();export=read('floor-export-context.json')
+ raw=(RUN/'native.dsn').read_bytes();guided=(RUN/'floor-guided.dsn').read_bytes();adapted=(RUN/'task.dsn').read_bytes()
+ reconstructed,transformation=g.transform(raw,export,project,task_bytes)
+ check('raw_guided_exact_chain',guided==reconstructed and g.verify_chain(raw,guided,adapted,export,project,task_bytes)==transformation)
+ policy=read('floor-policy.json');derived=policy['transformation']['derived_nm'];raw_nm=policy['transformation']['raw_nm'];floors=policy['transformation']['original_floors_nm']
+ expected={'width_nm':max(raw_nm['width_nm'],floors['min_track_width']),'clearance_nm':max(raw_nm['clearance_nm'],floors['min_clearance']),'via_drill_nm':max(raw_nm['via_drill_nm'],floors['min_through_hole_diameter'])}
+ expected['via_diameter_nm']=max(raw_nm['via_diameter_nm'],floors['min_via_diameter'],expected['via_drill_nm']+2*floors['min_via_annular_width'])
+ check('derived_maxima_independently_recomputed',derived==expected)
+ check('original_project_exact_in_all_complete_copies',all((RUN/d/source.with_suffix('.kicad_pro').name).read_bytes()==project for d in ['snapshot','candidate','floor-export-input','source-drc-input','refill','final-drc-input']))
+ cand=sx.read(candidate);imported=sx.read(RUN/'imported.kicad_pcb');refill=sx.read(RUN/'refill'/source.name)
+ check('immutable_board_geometry_preserved',p.immutable(cand)==p.immutable(original))
+ check('candidate_exact_import_then_fill',candidate.read_bytes()==(sx.dump(p.transplant_fill(p.transplant_routes(task,imported),refill))+'\n').encode())
+ check('candidate_hash_exact',p.sha(candidate)==data['candidate_sha256'])
+ ses=ses_geometry(sx.read(RUN/'routes.ses'));native_route_geometry=board_geometry(cand)
+ check('independent_SES_import_final_geometry_equal',ses==board_geometry(imported)==native_route_geometry)
+ native=read('floor-final-context.json');g.audit_native_routes(cand,native)
+ check('actual_native_widths_and_via_exact',all(r['width_nm']==derived['via_diameter_nm' if r['kind']=='via' else 'width_nm'] and (r['kind']!='via' or r['drill_nm']==derived['via_drill_nm']) for r in native['routes']))
+ via_rows=[r for r in native['routes'] if r['kind']=='via'];check('required_SIGNAL_A_through_via',len(via_rows)>=1 and all(r['net']=='SIGNAL_A' and r['via_type']==4 and r['layers']==['F.Cu','B.Cu'] for r in via_rows))
+ reports={}
+ for stage in ['source-drc','refill-drc','final-drc']:
+  parsed=p.parse_report(RUN/(stage+'.json'),source.name);raw_report=read(stage+'.json');reports[stage]={k:parsed[k] for k in ['opens','blocking','warnings','exclusions']}
+  check(stage+'_all_severities_pinned_native',raw_report['kicad_version']=='10.0.0' and set(raw_report['included_severities'])=={'error','warning','exclusion'})
+  if stage!='source-drc':check(stage+'_zero_all_findings',not parsed['findings'] and p.native_accepted(parsed))
+ settings=data['engine_budget'];args=settings['argv'];check('completion_profile_no_width_reduction',data['engine_profile']=='completion-only' and data['baseline']=='completion_only_probe' and all(v in args for v in ['--router.automatic_neckdown=false','--router.fanout.enabled=false','--router.neck_width_um=0','--router.optimizer.enabled=false']))
+ check('deadline_reserve_derived',settings['assigned_job_timeout_seconds']==min(100,math.floor(settings['remaining_outer_wall_seconds_at_assignment']-40)))
+ check('all_native_and_engine_network_denied',all(s['argv'][:len(f.SANDBOX)]==f.SANDBOX for s in data['steps']))
+ check('all_steps_finished_with_report_consistent_exits',all(s['cleanup_complete'] is True and ((s['name']=='source-drc' and s['exit_code']==(5 if read('source-drc.json')['violations'] or read('source-drc.json')['unconnected_items'] or read('source-drc.json')['schematic_parity'] else 0) and s['status']==('nonzero_exit' if s['exit_code'] else 'success')) or (s['name']!='source-drc' and s['status']=='success' and s['exit_code']==0)) for s in data['steps']))
+ child=sum(s['cpu_seconds'] for s in data['steps']);monitor=sum(s['monitor_cpu_seconds'] for s in data['steps']);total=data['parent_cpu_seconds']+child+monitor+data['control_child_cpu_seconds']
+ check('CPU_sum_no_double_count',abs(child-data['child_cpu_seconds'])<1e-6 and abs(monitor-data['monitor_cpu_seconds'])<1e-6 and abs(total-data['total_cpu_seconds'])<1e-6)
+ check('receipt_caps_satisfied',data['budget_seconds']==data['cpu_budget_seconds']==60 and data['wall_seconds']<=60 and total<=60)
+ check('sequential_step_wall_within_total',sum(s['wall_seconds'] for s in data['steps'])<=data['wall_seconds'])
+ lengths=sum(math.hypot(item[4][0]-item[5][0],item[4][1]-item[5][1])*count/1000000 for item,count in native_route_geometry.items() if item[0]=='segment')
+ check('geometry_metrics_match',math.isclose(lengths,data['metrics']['track_length_mm'],abs_tol=1e-6) and len(via_rows)==data['metrics']['vias'])
+ check('run_unmodified_by_audit',initial==p.tree_hash(RUN));check('source_unmodified_by_audit',before['source_hashes']==p.tree_hash(source.parent))
+ facts={'candidate_sha256':p.sha(candidate),'raw_nm':raw_nm,'original_floors_nm':floors,'derived_nm':derived,'reports':reports,'route_geometry_counts':{'segments':sum(n for k,n in native_route_geometry.items() if k[0]=='segment'),'vias':len(via_rows)},'metrics':data['metrics'],'receipt_wall_seconds':data['wall_seconds'],'receipt_total_cpu_seconds':total,'peak_child_rss_bytes':data['peak_child_rss_bytes'],'engine_settings':settings,'source_reference_seed_files':'Complete fixture directory includes reference test seeds; engine process reads only the fresh derived task.dsn. This is an exposed owned integration fixture, not a hidden benchmark.'}
+ return {'schema':1,'audited_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'passed':all(checks.values()),'checks':checks,'facts':facts,'run_inventory_sha256':hashlib.sha256(json.dumps(initial,sort_keys=True,separators=(',',':')).encode()).hexdigest(),'run_inventory':initial,'source_before_file_sha256':p.sha(HERE/'before.json'),'limitations':['Read-only evidence consistency plus independent SES geometry reconstruction; not fresh native execution or cryptographic authentication.','Stored wall/CPU totals precede final publication/readback; full-cap enforcement follows in reviewed code, but no separate enclosing invocation timer is retained for this CLI run. Do not report these as independently measured full invocation totals.','Refill actually ran with original rules but this owned fixture has zero zones, so it does not newly qualify nonempty zone fill behavior.','Single exposed owned forced-via fixture; not general board-family success, B2/C superiority, human PCB review, electrical adequacy or manufacturing qualification.']}
+if __name__=='__main__':
+ output=HERE/'audit.json'
+ if output.exists():raise SystemExit('refuse audit receipt collision')
+ try:result=main()
+ except Exception as exc:result={'schema':1,'passed':False,'error':type(exc).__name__+': '+str(exc),'scope':'Read-only audit failed; do not alter source/run to obtain a pass'}
+ with output.open('x') as handle:json.dump(result,handle,indent=2,allow_nan=False);handle.write('\n')
+ print(json.dumps({k:result[k] for k in ['passed','error'] if k in result}));raise SystemExit(0 if result['passed'] else 1)

@@ -41,3 +41,5 @@ python3 scripts/experiment_paired.py --project interf_u --system thermal --outpu
 Unsupported thermal geometry or any other blocking finding remains rejected. The saved copper-path witness does not qualify current capacity, heat flow or manufacturing. Original rule severities and ignored checks remain unchanged; native acceptance alone is not physical validation.
 
 The [thermal experiment](docs/thermal-experiment.md) records fresh B0/B1/completion-only/B2 outcomes, the accepted recovery candidate, exact bridge-removal control, full costs and limitations.
+
+`route --guidance board-floors-v1 --adapter both` explicitly honors original board minima when native Default-class preferences are smaller. This narrow two-layer whole-board policy passed an owned required-via fixture; multichannel still rejects with160opens/one thermal. It preserves original settings and is not yet available to `improve`, `recover`, portfolio or GUI handoff. See [floor guidance evidence](docs/board-floor-guidance.md).

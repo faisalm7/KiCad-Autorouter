@@ -1,0 +1,13 @@
+# Independent actual floor-production smoke audit
+
+Passed 30 read-only evidence checks for `board-floor-production-native-001` at production commit e12cdc4cac2ec01ccf88c1f0f62ae29a21fa8678. Original source/project files and the run itself remained byte-for-byte unchanged. The independent SES parser reconstructed seven segments and one through via and matched imported and final native board geometry exactly. Original width/clearance/via preferences (0.2/0.2/0.6 mm) remain unchanged; task guidance became 0.3/0.3/1.5 mm, via drill 0.3 mm, honoring the original board floors. Source DRC had two opens; final saved refill and final DRC both had zero opens, blocking findings, warnings and exclusions.
+
+Receipt metrics are 67.926667 mm and one via; candidate SHA256 is `79c46687d355a60f3917794f277ef41fb839088622123784dddc55c13e23af06`. Recorded pre-publication totals are 7.277325 s wall and 5.137059 s total CPU within 60-second caps. Reviewed code applies caps after publication/readback, but this CLI run has no separate retained enclosing invocation timer. Do not label the stored totals independently measured full-invocation costs.
+
+Actual `--refill-zones --save-board` ran, but this exposed owned four-pad fixture contains zero zones; nonempty-zone behavior is not newly qualified. This is production integration evidence only, not broad completion, B2/C superiority, human PCB review, electrical adequacy or manufacturing proof. Synthetic reference seeds in the complete fixture folder were preserved; the actual engine argv points only at the newly derived task DSN.
+
+`audit.py` is a read-only inspection script; its only output is a new audit receipt in this review folder, and it refuses collisions. `audit.json` binds the full run inventory. The initial reviewer-script failure is retained separately: it mistakenly expected source DRC exit0 even though the unrouted input correctly produced exit5 with two opens. `audit-correction.json` explains the correction; no actual run/source file changed.
+
+All 116 manifest-selected public copies (736,602 bytes) match the local run exactly. `files.json` and `scope.json` are additional curator metadata, separately hashed in `public-selected-copy.json`.
+
+A future deliberately invalid actual-receipt control should first relocate a full disposable copy and rebind only run-local paths/hashes, then require an unchanged positive `check_result` before mutation. Rehash and delete SES/import/refill evidence or alter one generated width; each must reject for the intended check. A copy rejected solely because its paths still identify the original run is not a meaningful negative control. No such additional control was executed in this audit; existing actual native dimension negatives remain separate evidence.

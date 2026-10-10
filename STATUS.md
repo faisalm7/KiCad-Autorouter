@@ -1,124 +1,92 @@
 # Current status
 
-Updated October 10, 2026 (America/Los_Angeles). Active local reconstruction; the project is not complete. Native development evidence shows shorter routes beyond the adapter and tuned baseline on sonde, and fresh native completion beyond the tested baselines on interf_u. Both are exposed development inputs; family independence is unverified. Generalized superiority and electrical suitability remain unproved.
+Updated October 10, 2026 (America/Los_Angeles). **Active local reconstruction; incomplete.** Native experiments show shorter routes beyond a stronger adapter baseline on sonde, and automatic thermal-repair completion beyond tested baselines on interf_u. Different frozen code/strategies on two exposed inputs do not establish a pooled completion rate, independent-family result, generalized superiority or electrical qualification.
 
-## Locality and recovery
+## Durable local work and backup boundary
 
-Work runs on this Mac, Darwin 27 arm64, in `/Users/faisal/Projects/KiCad-Autorouter-local`, branch `rebuild/local-20261010-015447`. Initial safe commit `683e41a` and later development checkpoints were pushed and independently checked. Latest verified checkpoint before this update: **`ebbb56c2b86f0f7a51027108f9999cc489f8a5c3`**, with remote SHA and selected file bytes matched (`evidence/backups/checkpoint-ebbb56c.json`). No failed cloud environment, global preferences or safety controls were changed.
+Checkout: `/Users/faisal/Projects/KiCad-Autorouter-local` on this Mac; branch `rebuild/local-20261010-015447`. Latest verified push/read-back is **`e12cdc4cac2ec01ccf88c1f0f62ae29a21fa8678`** ([receipt](evidence/backups/checkpoint-e12cdc4.json)). G0 began at `683e41a`; no cloud/worktree was used.
 
-The latest actual bundle/raw archive is **`ebbb56c`**. Restoration verified all Git references and **25,514 non-Git files / 872,221,792 bytes**, then ran restored CLI help (`evidence/backups/restore-ebbb56c.json`). It covers the thermal pair/ablations/counterfactual, all three native floor-control invocations and their independent reviews, plus the partial production draft at snapshot time. Later draft edits and future native runs are outside this snapshot. The archive is in `.local-backups/checkpoint-20261010T103733Z-bed6f1bd956947f39663c0d49ad96a3f`. Raw archives remain on this Mac only; an owner-selected private off-Mac destination is pending. GitHub holds audited source and selected public evidence, not complete raw artifacts.
+Latest **full** archive: **`ebbb56c2b86f0f7a51027108f9999cc489f8a5c3`**. Restore verified all Git refs, **25,514 non-Git files / 872,221,792 bytes**, and CLI help ([receipt](evidence/backups/restore-ebbb56c.json)). Location: `.local-backups/checkpoint-20261010T103733Z-bed6f1bd956947f39663c0d49ad96a3f`. Coverage includes thermal evidence, three floor native runs/reviews and the draft at snapshot time. **Source-closure002 metadata and later edits/results are outside it.** GitHub holds audited source/selected evidence. Full private archives remain on this Mac only; independent off-Mac protection awaits an owner-selected destination.
 
-## Executed pipeline, controls and integration
+## Implemented validation and measured results
 
-The pinned CLI uses KiCad 10.0.0 and its bundled Python, Freerouting 2.5.0, and Java 25.0.2. It snapshots complete projects, preserves original geometry/nets/terminal mapping/rules/zones/protected routing, imports routing, refills zones, and validates the exact final candidate with native DRC/connectivity. Per-job config, cache and documents are isolated. Missing, stale or unsupported checks reject. Receipt checking verifies stored consistency; it is not fresh native execution or cryptographic authenticity.
+Pinned tools: KiCad **10.0.0**, matching Python, Freerouting **2.5.0**, Java **25.0.2**. Separate complete project copies preserve geometry/nets/pads/rules/severities/zones/protected copper; native refill/DRC/connectivity binds exact candidate bytes. Unsupported, stale, corrupt or excluded validation rejects, as do critical findings regardless of severity. Original ignored checks remain unchanged. Receipt readback checks consistency, not fresh native execution or authenticity. CPU ceilings are measured acceptance caps, not OS aggregate quotas; receipts identify their accounting sample point.
 
-Fourteen original native controls passed expected outcomes: one positive and thirteen deliberate geometry, disconnect, short, protected-routing, zone and rule/severity failures. A real engine SIGINT control rejected incomplete output, cleaned its owned process group and preserved sources/code (`evidence/native-cancellation-001`). Reviews reproduced and verified fixes for receipt path escapes, setup symlinks and competing-file overwrite. Detached children, OS crashes, interstage and GUI cancellation remain unqualified.
+The stronger **sonde** [pair001](evidence/portfolio-paired-001/paired-summary.json), frozen at `2f36e2c`, charges setup, all attempts, validation and full shared overhead to each arm under **120-second wall and measured-CPU ceilings**:
 
-Additional **native-exclusion-002** passed on disposable copies: fresh positive DRC had 0 opens, 0 blocking findings, 1 warning and 0 exclusions; the deliberately excluded warning was emitted by KiCad with `excluded: true`. The old parser counted 0 exclusions; the corrected production parser counts 1 and rejects it. Sources and original severities stayed unchanged. This validates parsing/rejection, not candidate promotion or a new routing success. Failed control 001 remains retained. Present exclusion flags now require a Boolean; existing severity behavior and eligibility gates remain unchanged (`evidence/native-exclusion-002`).
-
-The latest complete coordinator suite passed **328 tests** (`evidence/tests/thermal-ablation-001.log`), including thermal integration and adversarial receipt/cancellation controls. These do not replace native evidence. Fresh local clone/venv installation002 at `dd2cce9` passed setup, doctor, all 160 then-current tests, a real native fixture route and strict receipt checking with network denied. It reused installed Mac tools and verified JAR cache, so it is not fresh-Mac or package qualification. Installation001's sandbox-denied setuid monitor failure remains retained; its replacement unprivileged libproc monitor passed focused controls. Current changes have not repeated installation qualification.
-
-The actual PCB Editor opened a disposable B1 project and ran refill/DRC: 0 errors/opens, 25 library-disabled warnings, 0 exclusions and four original ignored checks. This differs from isolated CLI warning configuration. Discard preserved board bytes but changed disposable project defaults and created history/preferences. An actual C pilot001 `review-copy` also passed. These qualify a separate-copy review workflow only; live application, undo, stale editor detection and a plugin remain unqualified (`docs/gui-workflow.md`).
-
-## Measured development experiments
-
-Frozen adapter ablation001 at `7fef467` reproduced both interchange defects on sonde: B0 had 3 opens / 7 blocking findings; graphics-only retained 3 opens; planes-only retained 3 blocking findings; combined B1 accepted with 786.316 mm / 3 vias and one library warning. Native zones and constraints were preserved. This is adapter correction. Two bounded KRT alternative-engine spikes failed preservation/native validation (`docs/krt-spike.md`). Early smoke records before the frozen ablation remain provisional.
-
-**Quality comparison004**, frozen at `221f26f2808b1918aca2a1df3b3f70b345605eb1`, completed all five fresh arms under equal **120-second wall and measured-CPU acceptance ceilings**, including conversion, failed proposals, strategy work and native validation:
-
-| Arm | Opens / blocking | Track length | Vias | Receipt wall / CPU seconds | Accepted |
-|---|---|---|---|---|---|
-| B0 stock | 3 / 7 | 566.454 mm | 4 | 10.656 / 10.644 | No |
-| B1 combined adapter | 0 / 0 | 786.316 mm | 3 | 13.536 / 16.701 | Yes |
-| B2 tuned | 0 / 0 | 786.316 mm | 2 | 18.257 / 26.196 | Yes |
-| C_single | 0 / 0 | 662.694 mm | 2 | 104.665 / 83.392 | Yes |
-| C_feedback | 0 / 0 | 644.549 mm | 2 | 107.789 / 85.618 | Yes |
-
-Every accepted arm retained one warning and zero exclusions. C starts from its own tuned incumbent and permits only native-valid deletions that do not increase vias, length or warning identities. Warning-guided compound deletion improved 18.145 mm over the single-deletion ablation and 141.767 mm over tuned B2, with equal vias and more compute. B0's invalid shorter output is not a quality comparator. This is one-family proxy-quality evidence, not a speedup, whole-project DRC cleanliness, physical validation or generalized superiority. Exact invocation budgets and rejected trials are in `docs/quality-experiment.md` and `evidence/quality-comparison-004`.
-
-Earlier pilots remain retained with their limitations: pilot001 had an invalid intended B2 profile; pilot002 traded shorter length for an extra via; earlier inner timeout strings parsed to null despite effective outer supervision. Corrected HH:mm:ss deadlines were prospectively used in 004. No old receipt was rewritten.
-
-**Interf-native-003 and 004**, frozen at `80acfa8`, both pass strict generated netclass width/via targets after optional engine width-reduction paths were disabled. Completion-only used 27.437 wall / 41.615 CPU seconds; standard optimization used 59.469 / 80.371. Both have zero opens but **one blocking U9 C4 isolated-island `starved_thermal`**, so both remain rejected. Their 4,994.888 mm / 35-via outputs are not accepted quality results. Original thermal checks, pad/zone intent and source files were preserved; the source also has inherited thermal findings. The first repair diagnostic stopped before native execution because its global UUID uniqueness guard also counted dimension child labels; that failed invocation is retained. After the guard correction was audited/pushed at655207c, diagnostic002 passed the first2.1mm bridge: zero opens/blocking/exclusions, strict targets pass, no added vias,5.577wall/4.499CPU seconds. This repair-only result excludes acquisition of the failed incumbent and is not a production routing receipt or fair comparison.
-
-**Fresh portfolio-paired-001**, frozen at `2f36e2c`, completed the stronger baseline comparison. All three B2 cost variants passed native acceptance: default786.315536mm/2vias, low749.441643mm/2vias, high809.428833mm/3vias. The low-cost candidate is the sole Pareto-frontier point and the selected baseline. C_feedback used its own tuned incumbent and accepted648.045171mm/2vias,101.396471mm shorter than that stronger B2. All accepted outputs retain zero opens/blocking/exclusions and one warning. Fully charged B2 cost55.895249wall/75.892260CPU; C105.425579wall/85.349779CPU. Each arm includes the entire shared0.513935wall/0.314038CPU overhead and is under120seconds. This remains one exposed family and a quality gain with more compute, not generalized completion or electrical superiority. Frozen code, all three outcomes, C trials and exact summaries are in `evidence/portfolio-paired-001`; independent raw audit passed4,579 checks, including29 native bindings and every526-file public raw copy.
-
-A later review reproduced stale observation metadata after cancellation or final-publication cap invalidation. Main acceptance already rejected correctly. The fix clears those subordinate delivery flags too, with a focused regression and223tests passing. That branch was not exercised in the successful frozen pair; executed evidence remains unchanged.
-
-## Full considered development population
-
-Keep the full denominator of **14 acquired boards: 7 complete manifested boards plus 7 incomplete audit inputs**. Current static gates admit 3 and reject 11; static eligibility is not native routing acceptance. All are exposed development material; family independence is unverified.
-
-The complete manifest contains six licensed projects, 132 original files plus notices, **144 files / 13,654,726 bytes**, all hash-verified. `evidence/corpus-audit-003.json` records its latest seven-board audit:
-
-| Complete board | Current status |
-|---|---|
-| sonde xilinx | Statically eligible; accepted native experiments above |
-| interf_u | Statically eligible; C_thermal accepted in fresh pair001; tested B0/B1/B2 remain rejected |
-| pic_programmer | Unsupported custom pads and four unqualified severity keys |
-| complex_hierarchy | Unsupported class bindings and `zone_has_empty_net` severity semantics |
-| ColdFire/Xilinx | Unsupported four-layer class scope, assignment pattern and nonblocking thermal check |
-| multichannel_mixer | Statically admitted after qualified critical-warning policy; full routing and board-floor export remain unqualified |
-| multichannel_mixer-unrouted | Missing same-basename project binding and unqualified board version |
-
-The fixed six-project expansion audit acquired seven more boards in 35 original/notice files (6,495,334 bytes). All seven remain statically unsupported, external library/model closure is incomplete, and none is promoted (`evidence/corpus-expansion-audit-001`). Shared-template ancestry is recorded; multichannel siblings and related audit variants are not independent families. Forty-eight metadata-only repositories form a separate search denominator. No original rules/severities/bindings were changed to admit inputs. The 30–50-family development audit and untouched family-disjoint evaluation remain unmet.
-
-## Next execution and open gates
-
-The thermal pair, fresh allocation ablations, exact bridge-removal counterfactual and independent audits are checkpointed and restore-tested. Qualify board-floor guidance through actual native positive/invalid controls and a forced-via engine round trip before integrating it as a common adapter correction. `PLANS.md` contains the next sequence; no new floor-guidance production support is claimed.
-
-G0 and a narrow G1/G2 vertical slice are evidenced. G3 representative coverage, generalized G4 improvement, full G5 application/installation qualification, G7 untouched evaluation and G8 release readiness remain open. Current evidence does not justify model training. Selected-net routing, schematic parity, human PCB review and physical/electrical validation are unestablished. No formal release/package, paid service or background/auto-resume work was initiated.
-
-Native thermal counterfactual001 at0517174 passed its expected rejection: deleting only the bridge reconstructed the original failed candidate hash, and fresh native refill/class/DRC restored the identical U9 C4 thermal error (zero opens/warnings/exclusions). It used5.328wall/3.959CPU seconds, preserved the complete positive evidence and original source, and establishes a causal diagnostic effect. An independent static audit also found unchanged filled polygons and positive annular contact from the bridge destination region to another GND terminal, U9 G11. Automatic geometry-driven recovery and its full routing budget remain unqualified.
-
-Native pad-stack controls001 retained an invalid test recipe: KiCad discarded the specified SMD drill, so the expected finding was absent. Corrected002 passed all three actual controls: a clean positive, a targeted `padstack` warning with zero native blocking errors, and a targeted `padstack_invalid` error from a1nm PTH drill (plus the unchanged original drill-minimum error). Complete original project settings and synthetic input boards stayed unchanged. These earlier controls established the need to reject critical pad-stack warnings independently of native error counts; integrated qualification003 follows. Evidence: `evidence/padstack-native-controls-001` and `002`.
-
-Native geometry export001 read the failed interf003 candidate through pinned pcbnew with0API errors,1.350178wall/.900378CPU seconds and unchanged originals. It observed379pads,35vias and27filled contours;2nearby contours were selected by geometry, and both returned `native_self_intersecting: true`. Scene qualification and automatic repair remain unestablished pending interpretation and drilled-body checks (`evidence/thermal-geometry-export-001`).
-
-The central native acceptance policy now rejects every critical finding independently of severity, including both `padstack` and uneditable `padstack_invalid`; raw native report dictionaries and original severities stay unchanged. Preflight admits only the narrow original `padstack: warning` exception; ignored core checks and unknown setting keys still reject. Actual native controls003 passed using this production helper.236 coordinator tests cover route/strategy/receipt/handoff/portfolio/paired policy paths; static audit003 is3eligible/4unsupported among7complete boards, and a fresh audit keeps all7incomplete acquisition inputs unsupported (14total:3eligible/11unsupported). No new whole-board routing acceptance follows from this support-policy change.
-
-Independent acceptance-policy review passed194 checks against all critical finding types, exact severity exceptions, malformed summaries and retained native reports (`evidence/review-padstack-policy-001`). It found no blocking bypass; this is consistency/adversarial review, not fresh native execution or human PCB review.
-
-Fresh pipeline regressions at421ba64: policy-smoke-native-001 accepted the six-pad synthetic B1/completion-only task in8.604216wall/5.091716CPU seconds,0opens/blocking/warnings/exclusions,90mm/0vias, and strict receipt checking passed. Multichannel-native-001 rejected in73.187888wall/81.858311CPU seconds under120caps:160opens,95blocking,138warnings,0exclusions. Its unchanged source already has24clearanceerrors/93warnings. Candidate blockers are75track-width,13clearance,3annular-width,3via-diameter and1thermal. No new production family was solved; fixed-geometry feasibility and export-floor guidance remain under investigation. Both full native runs preserved original project constraints.
-
-Saved-fill geometry research found why the whole-body certificate fails: two contour edge gaps have squared separation4/17nm², and rounded drill boundaries straddle five locations by about0.30nm. Two bounded path searches returned no certificate. The separately declared graph003 search then found4unvalidated bridges with explicit10µm-margin copper paths to a distinct terminal in3.059757wall seconds (CPU not separately recorded). It corrects two independently reproduced earlier wrapper gaps; no native repair, global component merge, full route budget or electrical claim follows. Evidence: `evidence/thermal-path-proposal-001` and `evidence/review-copper-path-001`.
-
-Independent audits verified 312 fresh policy-routing bindings and 1,313 graph003 geometry/binding checks (`evidence/review-policy-routing-001`, `evidence/review-thermal-graph003-001`). The latter independently reconstructed every pad/via drill and exact saved contour; its geometric witness remains subject to actual final native validation. Native board-floor-context-001 then passed all three export-only cases in 2.874544 wall / 2.457058 CPU seconds, preserving original inputs. It proves that the mixer export uses 0.2 mm width/clearance and 0.6 mm vias despite native floors of 0.3/0.3/1.5 mm, maps all 280 connected terminals, and detects missing project rules. No transformed guidance or routing success is yet qualified.
-
-The generated repair-only native001 diagnostic passed at clean 893f63a with the first graph-derived 1.505199 mm / 0.5 mm bridge: zero native opens/blocking/warnings/exclusions, no added vias, unchanged exact target-zone fill and original project. Full measured repair-only cost was 5.413284 wall / 4.355851 CPU seconds. Its final candidate hash is d3d7acd394464cd670be574bfc78117a1604509b61e740bb8168b514996564c6. The acquisition of the failed route and geometry/proposals is excluded, so this is not an accepted routing receipt or an end-to-end comparison (`evidence/thermal-auto-native-001`). That repair-only control is followed by the separately recorded fresh end-to-end pair below.
-
-New production route receipts retain and bind both `native.dsn` and adapted `task.dsn`, including single-Default exports. Earlier raw exports cannot be reconstructed from their hashes and are not retrospectively fabricated. A separate optional control-process CPU field supports complete measured accounting without changing historical receipts.
-
-The generated-bridge exact-removal counterfactual passed: fresh native checks restored the identical sole thermal error after removing only the bridge, recreating failed board hash 922c6ce93556732940b5bccc06794c84b35fd164f86abd0ac3f6faf5b76e3f41. Cost was 6.292102 wall / 4.780804 CPU seconds; all positive/source evidence stayed unchanged (`evidence/thermal-auto-negative-001`). Independent positive consistency review passed 112 checks. These controls support the automatic strategy; the separate end-to-end pair below supplies its first full-budget result.
-
-The experimental `recover` command now generates bounded copper-path proposals from a fresh completion-only incumbent and validates the final delivered board again. Independent wrapper review reproduced and fixed SIGTERM and stale-input publication gaps; thirteen mocked-stage controls plus an actual Python SIGTERM control pass. Eleven separate adversarial pairing checks bind the fresh engine command, directory, budgets and both exports. These are software controls, not native whole-board qualification.
-
-## First full-budget thermal recovery
-
-**Thermal-paired-001**, frozen at `cbae1254f00d3470d98ba18d24a09e99874f0cc2`, ran both fresh arms sequentially on interf_u. Both had 120-second wall and measured-CPU ceilings, including complete shared overhead charged to each arm.
-
-| Arm | Native opens / blocking / warnings / exclusions | Charged wall / CPU seconds | Accepted |
+| Arm | Native opens / blocking / warnings / exclusions | Length / vias | Charged wall / CPU seconds |
 |---|---|---|---|
-| B2 fixed cost portfolio | 0 / 1 thermal / 0 / 0 in its only attempted variant | 72.948518 / 91.882070 | No |
-| C thermal recovery | 0 / 0 / 0 / 0 | 42.044862 / 54.759604 | Yes |
+| B2 fixed cost portfolio, selected low-cost variant | 0 / 0 / 1 / 0 | 749.441643 mm / 2 | 55.895249 / 75.892260 |
+| C warning-guided route pruning, own tuned incumbent | 0 / 0 / 1 / 0 | 648.045171 mm / 2 | 105.425579 / 85.349779 |
 
-The B2 default-cost tuned attempt consumed enough budget that another attempt plus mandatory validation reserves could not fit; low/high variants were not executed or claimed. C acquired its own completion-only failed incumbent, observed its geometry, generated the first native-valid 1.505199 mm bridge and revalidated the delivered board. Final candidate `be7694040a84aaac331981cd121ac66774284df30923550c5054691fe302dabb` has 4,996.393150 mm of track and 35 vias, with unchanged saved target-zone fill, rules, protected geometry and inherited ignored-check settings. Strict receipt consistency checking passed. No original project was applied or edited.
+All three B2 variants produced valid candidates. C is **101.396471 mm shorter with equal vias**, using more compute. Prior five-arm [quality004](evidence/quality-comparison-004/summary.json) separately shows the compound-deletion ablation: 644.549 mm versus single-deletion 662.694 mm, both two vias. The frozen [adapter ablation](evidence/adapter-ablation-001/summary.json) retains B0's 3 opens/7 blocking findings and independent graphics/plane failure controls. These distinguish adapter correction from post-route improvement; invalid shorter outputs are never quality comparators. See [experiment details](docs/quality-experiment.md).
 
-This is a fresh completion gain on one additional exposed input, not general superiority or electrical/thermal qualification. The invalid B2 board cannot serve as a usable-quality comparator, hence the pair deliberately has no quality deltas. The two policies allocate engine time differently. The fresh full-budget completion-only adapter baseline and stock/standard-adapter ablations below isolate repair from allocation. Source/family independence and untouched evaluation remain unmet. Evidence: `evidence/thermal-paired-001`; complete native input trees and frozen code are included in the tested099cc8f raw archive.
+The fresh **interf_u** [thermal pair](evidence/thermal-paired-001/paired-summary.json), frozen at `cbae125`, includes C's own failed incumbent, geometry observation, proposals, repair and final delivered-board validation. Later [allocation ablations](evidence/thermal-ablation-001/summary.json) at `cc71a51` preserve identical production/source/tool bytes, with the changed HEAD/new harness recorded:
 
-The reconciled `evidence/development-outcomes-001/index.json` retains all 14 acquired boards, 11 unsupported reasons, three actual routed inputs and all named paired gains/losses. Two inputs have an accepted recorded policy; the different frozen versions and C mechanisms do not constitute an aggregate completion-rate result. The index verifies all original board hashes and performs no new native execution.
+| Policy / experiment | Opens / blocking / warnings / exclusions | Charged wall / CPU seconds | Accepted |
+|---|---|---|---|
+| B2 tuned cost portfolio / pair001 | 0 / 1 thermal / 0 / 0 | 72.948518 / 91.882070 | No |
+| C automatic thermal recovery / pair001 | 0 / 0 / 0 / 0 | 42.044862 / 54.759604 | Yes |
+| B0 standard / ablation001 | 14 / 3 / 0 / 0 | 42.733323 / 64.191857 | No |
+| B1 standard / ablation001 | 0 / 1 thermal / 0 / 0 | 59.577230 / 80.119067 | No |
+| B1 completion-only / ablation001 | 0 / 1 thermal / 0 / 0 | 28.831796 / 42.258588 | No |
 
-The independent paired evidence audit passed 4,122 checks, including all 117 public raw files and original ignored-check identities. Exact delivered-candidate bridge removal then passed a fresh native counterfactual: sole identical thermal error, exact failed incumbent hash f3469b34e2d7724d65ade7b1a5b3353c75b67c54f525f54b88c3626cd8531b0a, original/positive evidence unchanged. Stored diagnostic cost6.491124wall/5.019699CPU precedes final freshness check; all acceptance caps include it. This diagnostic cost is separate from the paired comparison (`evidence/thermal-production-negative-001`). The separately committed allocation-ablation harness binds unchanged production/source/tool/protocol bytes to the old pair, while explicitly recording its new Git HEAD and new harness.
+Every policy fits its 120-second wall/CPU ceilings. Only B2's first variant fit its budget/reserves; the other two were not run. C delivered 4,996.393150 mm / 35 vias with unchanged fill/constraints. B1 completion-only reproduces C's pre-repair geometry apart from generated UUIDs. [Exact bridge removal](evidence/thermal-production-negative-001/negative-summary.json) restores the failed incumbent hash and sole thermal error under fresh native checks. This supports local completion; invalid baselines supply no quality delta. Separate sequential ablations are not a randomized population study. See [thermal scope](docs/thermal-experiment.md).
 
-**Thermal-ablation-001** completed all three fresh baseline policies at cc71a51, with verified identical production/source/tool bytes to the prior pair. B0 retained14opens/3blocking (charged42.733323wall/64.191857CPU); B1standard retained0opens/1thermal (59.577230/80.119067); B1completion retained0opens/1thermal (28.831796/42.258588). All have0warnings/exclusions, exact engine contracts checked, and remain rejected under120secondcaps. Thus completion-only allocation did not reproduce C acceptance in this experiment. The new HEAD/harness and separate sequential experiment are explicit. See `docs/thermal-experiment.md` and `evidence/thermal-ablation-001`; no quality delta uses an invalid baseline.
+## Common board-floor adapter: fixture pass, full board rejected
 
-Independent raw review of thermal-ablation001 passed4,769 checks, including all107 public raw files, settings, native bindings and full prior/new tree inventories. B1completion reproduces C incumbent route geometry apart from generated UUIDs and the same thermal; together with exact bridge removal this supports local mechanism attribution. The original7 ignored checks remain unchanged. Board-floor v3 pure review separately passes67 checks and4 rejection probes, and23 preparation controls pass for an owned native fixture; actual floor qualification has not yet run.
+The original **multichannel** run rejected **160 opens / 95 blocking / 138 warnings / 0 exclusions**, 73.187888 wall / 81.858311 CPU seconds. Source: 24 clearance errors/93 warnings. Native export preferred 0.2 mm width/clearance and 0.6 mm vias despite original minima of 0.3/0.3/1.5 mm. A transform alone does not establish feasibility.
 
-Board-floor-geometry001 executed all six native cases under unchanged original rules: positive accepted; width, clearance, via diameter, drill and annulus violations were each rejected with the expected object identities. Overall invocation is **invalidated**, because a tuple-valued expected finding became a JSON list and failed final summary readback. The reporting defect requires a corrected fresh invocation; individual native observations do not override the invalid final result. All source inputs remained unchanged. Production floor guidance and engine via transport remain unqualified.
+The diagnostic path is now qualified on an owned exposed fixture: [geometry002](evidence/board-floor-geometry-002/summary.json) passed the positive plus five targeted width/clearance/via/drill/annulus negatives (13.469755 wall / 9.037068 CPU seconds); [forced-via001](evidence/board-floor-forced-via-001/summary.json) passed real engine → SES → native import/refill/DRC (6.759127 / 4.816742), with one required 1.5 mm / 0.3 mm via and zero native findings. Independent audits verified raw/source/candidate/report/SES bindings and exact public copies. [Geometry001](evidence/board-floor-geometry-001/summary.json) remains invalidated by its tuple/JSON publication defect; corrected002 is a separate fresh run.
 
-Fresh floor-geometry002 at efc174e passed all six native controls in stored13.469755wall/9.037068CPU seconds under60secondcaps. Forced-via001 then passed actual Freerouting SES/import and KiCad readback/DRC in6.759127wall/4.816742CPU under120caps: one required SIGNAL_A via at1.5/.3mm,0opens/blocking/warnings/exclusions. Both use fixed driver12d4eac8, preserve originals and remain diagnostic fixtures; production floor support is pending. The31 pure controls also pass in the public diagnostic copy. Exact scope/reproduction: `docs/board-floor-guidance.md`.
+**Production code is promoted and independently reviewed.** At `e12cdc4`, the [actual CLI fixture](evidence/board-floor-production-native-001/result.json) passed native validation and receipt readback: zero findings, 67.926667 mm / one via, stored pre-publication 7.277325 wall / 5.137059 CPU seconds within 60-second caps. The [full multichannel run](evidence/board-floor-multichannel-001/result.json) remains **rejected: 160 opens, one thermal error, 94 warnings, zero exclusions**, 57.378238 wall / 64.509057 CPU seconds within 120-second caps. Its 75 width, 13 clearance, three annulus and three via-diameter errors from the older run are absent. This historical comparison is descriptive, not a fresh matched experiment or completion gain. No new eligible/accepted input follows. Strategy/recovery/portfolio propagation remains blocked. This is B1 correction, not C novelty ([scope](docs/board-floor-guidance.md)).
 
-Independent review verified1,914 geometry002 bindings,607 forced-via001 bindings and1,455 public-copy checks. SES coordinates/net/layers and all seven segments plus one via match native import/final saved board/readback. The audit preserves001 as invalidated and makes no production/full-board claim (`evidence/review-board-floor-geometry-002`, `evidence/review-board-floor-forced-via-001`).
+## Entire considered population and provenance
 
-Bounded source-closure002 matched all five Roller model blobs across introduction, board-date and later library snapshots and verified the historical library CC-BY-4.0 README. Custom footprint provenance and model-specific rights remain unresolved; no asset payload was fetched or source promoted. The14-board denominator is unchanged. Selected analysis: `evidence/source-closure-review-002`; new raw metadata remains outside the ebbb56c archive until the next snapshot.
+**14 acquired boards remain in the denominator: 7 manifested inputs plus 7 incomplete expansion inputs; 3 statically eligible, 11 unsupported.** Three inputs were routed; two have an accepted policy. Eligibility is not native acceptance. All are development-exposed; independent families are unverified. The [complete per-board index](evidence/development-outcomes-001/index.json) retains all reasons, attempts and pair gains/losses without pooling different policies/versions.
 
-Production floor adapter integration checkpoint: explicit `route --guidance board-floors-v1 --adapter both` is implemented; root full suite passed364tests in5.867s (`evidence/tests/board-floor-production-001.log`). Independent review cleared both reproduced receipt-publication/transport gaps. First actual native production CLI run is still pending; diagnostic positives are not relabelled as production results. This work is newer than the ebbb56c full private archive.
+| Manifested board | Current recorded condition |
+|---|---|
+| sonde xilinx | Static eligible; accepted quality experiments above |
+| interf_u | Static eligible; automatic C accepted; tested B0/B1/B2 rejected |
+| multichannel_mixer | Static eligible; floor-guided routing still rejected, 160 opens / one thermal |
+| pic_programmer | Unsupported custom pads and severity semantics |
+| complex_hierarchy | Unsupported class assignments and empty-net zone severity semantics |
+| ColdFire/Xilinx | Unsupported class assignment/nonblocking thermal constraints; four-layer scope unqualified |
+| multichannel_mixer-unrouted | Missing matching project binding and unqualified board format |
+
+The seven incomplete inputs are **FDC2214, VEML7700, ADS1219, SFA40, Roller Encoder, LIS3DH Micro and LIS3DH**. Recorded class/rule/net-tie/exclusion/custom-pad gaps and external dependency closure remain unresolved ([audit](evidence/corpus-expansion-policy-audit-001.json)). Roller model blobs are pinned, but custom-footprint/model rights remain unresolved ([closure002](evidence/source-closure-review-002/review.md)). Shared templates or different product functions do not prove circuit independence. Forty-eight metadata-only repositories are a separate search denominator. No original rule was relaxed to admit inputs.
+
+## Controls, installation and preserved failed hypotheses
+
+The integrated root suite passed **364 tests in 5.867 seconds** ([log](evidence/tests/board-floor-production-001.log)). The unchanged native smoke and six literal-class native regression controls passed. Real floor-engine SIGTERM left a cancelled receipt, cleaned its process group and preserved sources. Other native controls remain separate evidence. Mocked stages/AI audits do not establish native correctness or human review.
+
+Fresh clone/venv **installation002** passed 160 then-current tests, doctor, native routing and receipt checking with network denied, reusing installed tools/JAR cache. Current code has not repeated it. Actual PCB Editor and `review-copy` observations qualify separate-copy review only: GUI refill/DRC differed in library warnings, and discard changed disposable project defaults. Live apply/undo, stale-editor protection, detached-process/OS-crash/interstage/GUI cancellation, selected-net routing, full schematic parity and a plugin remain unqualified ([installation](docs/install-test.md), [GUI](docs/gui-workflow.md)).
+
+Preserved historical failures include two [KRT spikes](docs/krt-spike.md), invalid early profiles/timeouts and extra-via tradeoffs, failed SMD-drill/exclusion recipes, installation001's sandbox monitor failure, thermal geometry attempts and floor001. Corrected prospective004 used verified deadlines. Old unsnapshotted smoke evidence stays provisional; no historical receipt was rewritten to claim a later fix.
+
+## Continuation and gates
+
+G0 and the real G1/measurement slice are evidenced. G2 needs broader failure/constraint controls; G3's 30–50-family audit, generalized G4 improvement, full G5 integration, G7 untouched family-disjoint evaluation and G8 release readiness remain open. G6 currently favors measured deterministic mechanisms; no justified training task/model exists. Physical/electrical validation and human PCB review are not established.
+
+Resume in this checkout, with one lead owning the single native/engine lane. These commands exist now; check current sources before using old receipts after implementation changes:
+
+```sh
+cd /Users/faisal/Projects/KiCad-Autorouter-local
+git status --short
+python3 -m autorouter doctor
+python3 data/fetch.py --verify
+python3 -m unittest discover -s tests -v
+python3 -m autorouter check-result .runs/thermal-paired-001/C_thermal/result.json
+```
+
+After the lane is idle, this fresh-output command reproduces the passed fixture (do not repeat without a new verification need):
+
+```sh
+python3 -m autorouter route tests/fixtures/board-floor/fixture.kicad_pcb --guidance board-floors-v1 --adapter both --profile completion-only --seconds 60 --output .runs/board-floor-production-followup-001
+python3 -m autorouter check-result .runs/board-floor-production-followup-001/result.json
+```
+
+Next qualify production invalid/cancellation controls and the frozen matched multichannel harness; then compare equal budgets sequentially. Keep failures and fresh output identifiers. Update this snapshot after any later checkpoint/outcome.
+
+At the next clean checkpoint, freeze ignored writes and run `python3 scripts/backup.py`, covering source-closure002 and later draft/results. Existing-archive check: `python3 scripts/backup.py --verify .local-backups/checkpoint-20261010T103733Z-bed6f1bd956947f39663c0d49ad96a3f/receipt.json`. Keep spending at $0, one bounded worker, originals untouched and private/unlicensed material out of Git. No background/auto-resume work or formal release/package publication.

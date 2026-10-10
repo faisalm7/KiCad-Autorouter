@@ -33,6 +33,10 @@ Updated October 10, 2026. Evidence describes the exact recorded implementation a
 
 Counts describe executed controls and the complete considered development population, not correctness breadth. The one accepted adapter candidate retains a warning. Rejected route lengths cannot establish usable quality gains. All fourteen acquired boards are development-exposed; none belongs to an untouched final evaluation. Original rules and unsupported inputs remain preserved.
 
+## Historical observations in execution order
+
+The following paragraphs preserve earlier checkpoint observations; later entries supersede earlier pending-work statements. Current results are in STATUS.md and the requirement table.
+
 Actual pinned-JAR timeout/settings probe 002 passed 201 checks across 12 cases; no routing was executed. The latest integrated coordinator suite passes236tests; these are distinct from actual native controls. Production interf_u attempt001 timed out with no final candidate, so native multiclass routing remains pending despite passed export audits. Fresh local installation002 passed 160 then-current tests and a real native fixture using installed Mac tools; fresh OS/package support remains unqualified.
 
 Additional acquisition audit retains seven incomplete boards from six projects, all unsupported with no native outcomes. Total acquired/exposed material is14boards (7complete in manifest plus7incomplete), with3staticallyeligible/11unsupported. The48-repository metadata screen is separate and establishes no independent families. Probe003 passes457actual-JAR setting checks; the subsequent portfolio probe passes539/539. Native width/thermal failures on interf_u remain rejected.
@@ -54,3 +58,5 @@ G4 thermal-paired-001 at cbae125 adds one exposed-input completion gain: C passe
 Fresh thermal allocation ablation001 at cc71a51 checks identical core/source/tool bytes to C pair001: B0 rejects14opens/3blocking; both standard and completion-only B1 reject the sole thermal under fully charged120secondcaps. Exact-production bridge removal also restores the failure. This supplies narrow beyond-adapter mechanism evidence on interf_u; generalized completion, family separation and physical validation remain unmet (`docs/thermal-experiment.md`).
 
 Board-floor geometry002 and forced-via001 pass actual native controls/engine import under unchanged rules (`docs/board-floor-guidance.md`). Geometry001 remains invalidated for the retained tuple/JSON publication defect. These qualify the diagnostic mechanism only; explicit production policy/receipt checking and full-board floor guidance are pending.
+
+Production board-floor integration at e12cdc4 passes364software tests and actual required-via CLI/receipt qualification, while full multichannel remains rejected160opens/one thermal. The unchanged native smoke, six literal-class controls and real floor-engine SIGTERM/cleanup also pass. Scope, exact hashes and selected native evidence: `docs/board-floor-guidance.md`; no completion-rate, C-novelty, GUI or physical qualification is inferred.
