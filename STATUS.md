@@ -4,7 +4,7 @@ Updated October 10, 2026 (America/Los_Angeles). **Active local reconstruction; i
 
 ## Durable local work and backup boundary
 
-Checkout: `/Users/faisal/Projects/KiCad-Autorouter-local` on this Mac; branch `rebuild/local-20261010-015447`. Latest verified push/read-back is **`8497654be1f9d011eedea746e27bd6798f078cf5`** ([receipt](evidence/backups/checkpoint-8497654.json)). G0 began at `683e41a`; no cloud/worktree was used.
+Checkout: `/Users/faisal/Projects/KiCad-Autorouter-local` on this Mac; branch `rebuild/local-20261010-015447`. Latest verified push/read-back is **`73107be01a4e561d68d85a99ef8efab08ce4161c`** ([receipt](evidence/backups/checkpoint-73107be.json)). G0 began at `683e41a`; no cloud/worktree was used.
 
 Latest **full** archive: **8799c54**. Restore verified all Git refs, **28,416 non-Git files /940,519,944 bytes**, and CLI help ([verification](evidence/backups/restore-8799c54.json)). Location: `.local-backups/checkpoint-20261010T111408Z-1858532d2b2a47fbbf697c612a30b81d`. Covers all floor production/native/receipt/regression/cancellation evidence and reviews, source-closure002, the deferred pair draft/review, placement diagnosis/research and explicitly partial placement drafts at freeze. Later placement edits are outside it. Initial guard stop was a byte-identical public synthetic-key-header test copy; the exact path/hash exception passed positive and changed-content/path rejection controls. GitHub holds audited source/selected evidence. Full archives remain on this Mac only; an independent off-Mac destination awaits the owner.
 
@@ -41,15 +41,28 @@ The diagnostic path is now qualified on an owned exposed fixture: [geometry002](
 
 **Production code is promoted and independently reviewed.** At `e12cdc4`, the [actual CLI fixture](evidence/board-floor-production-native-001/result.json) passed native validation and receipt readback: zero findings, 67.926667 mm / one via, stored pre-publication 7.277325 wall / 5.137059 CPU seconds within 60-second caps. The [full multichannel run](evidence/board-floor-multichannel-001/result.json) remains **rejected: 160 opens, one thermal error, 94 warnings, zero exclusions**, 57.378238 wall / 64.509057 CPU seconds within 120-second caps. Its 75 width, 13 clearance, three annulus and three via-diameter errors from the older run are absent. This historical comparison is descriptive, not a fresh matched experiment or completion gain. No new eligible/accepted input follows. Strategy/recovery/portfolio propagation remains blocked. This is B1 correction, not C novelty ([scope](docs/board-floor-guidance.md)).
 
+## Placement correction: matched reduction in opens, no accepted full board
+
+The owned fixture002 at `73107be` passed the complete real diagnostic route and independent readback: zero native findings, one required via, 67.926667 mm, stored 8.577736 wall / 5.535336 CPU seconds under 60-second caps. Its actual track crosses the original unrestricted placement area. Fixture001 remains a pre-engine identity-parser failure; the narrow empty-area-net fix leaves all source bytes intact. Independent review checked 50 bindings plus the crossing and public copies. Fourteen actual-evidence tampering controls reject consistently after rehashing, with original/relocated/restored positives passing; these are offline consistency checks.
+
+The same-HEAD [full-board pair](evidence/placement-routing-pair-001/summary.json) then completed both policies. Every arm pays all shared overhead under equal 120-second wall/CPU caps:
+
+| Diagnostic policy | Opens / blocking / warnings / exclusions | Charged wall / CPU seconds | Accepted |
+|---|---|---|---|
+| Board-floor reference | 160 / 1 thermal / 94 / 0 | 65.278253 / 72.920478 | No |
+| Same policy plus exact placement correction | 8 / 2 clearance / 94 / 0 | 46.451122 / 59.604769 | No |
+
+The only pre-adapter difference is removal of eight DSN obstacles attributed to four explicitly unrestricted original placement areas. All original areas/rules remain. This reduced opens by 152 but added one blocking finding; both outputs remain invalid. It is an adapter diagnosis, with no completion gain, valid-route quality delta, production promotion or C/B2 superiority claim. Independent review passed 81 checks. The remaining clearance reports are 0.2994/0.2995 mm against the unchanged 0.3000 mm minimum. The engine stopped on stagnation with nine internal unrouted items; native refill reports eight opens. Next investigate these geometry and search failures before another declared bounded experiment.
+
 ## Entire considered population and provenance
 
-**14 acquired boards remain in the denominator: 7 manifested inputs plus 7 incomplete expansion inputs; 3 statically eligible, 11 unsupported.** Three inputs were routed; two have an accepted policy. Eligibility is not native acceptance. All are development-exposed; independent families are unverified. The [complete per-board index](evidence/development-outcomes-001/index.json) retains all reasons, attempts and pair gains/losses without pooling different policies/versions.
+**14 acquired boards remain in the denominator: 7 manifested inputs plus 7 incomplete expansion inputs; 3 statically eligible, 11 unsupported.** Three inputs were routed; two have an accepted policy. Eligibility is not native acceptance. All are development-exposed; independent families are unverified. The [complete per-board index](evidence/development-outcomes-002/index.json) retains all reasons, attempts and pair gains/losses without pooling different policies/versions.
 
 | Manifested board | Current recorded condition |
 |---|---|
 | sonde xilinx | Static eligible; accepted quality experiments above |
 | interf_u | Static eligible; automatic C accepted; tested B0/B1/B2 rejected |
-| multichannel_mixer | Static eligible; floor-guided routing still rejected, 160 opens / one thermal |
+| multichannel_mixer | Static eligible; matched placement diagnostic still rejected, 8 opens / two clearance errors; floor reference 160 opens / one thermal |
 | pic_programmer | Unsupported custom pads and severity semantics |
 | complex_hierarchy | Unsupported class assignments and empty-net zone severity semantics |
 | ColdFire/Xilinx | Unsupported class assignment/nonblocking thermal constraints; four-layer scope unqualified |
@@ -87,10 +100,6 @@ python3 -m autorouter route tests/fixtures/board-floor/fixture.kicad_pcb --guida
 python3 -m autorouter check-result .runs/board-floor-production-followup-001/result.json
 ```
 
-Five actual production floor controls and nine offline receipt controls pass. Placement native001 confirmed the all-allowed export mismatch but **failed all three genuine-prohibition negative controls**: pinned KiCad returned no findings. Production now rejects genuine/ambiguous board or footprint rule areas and legacy module syntax. Three actual earlier accepted receipts still pass readback. A fresh14-board static audit keeps3eligible/11unsupported; four previously unsupported boards gain this additional reason. Native002 reproduced the omission in all3cases after removing only disabled placement metadata (4.873879wall/3.710146CPU); constraint qualification remains false. Next test the narrowly unrestricted placement correction in an explicit diagnostic pipeline and matched budget experiment. No causal routing gain or broader keepout support is claimed. See `docs/placement-area-diagnostics.md`; preserve failed001 unchanged.
+Five actual production floor controls and nine offline receipt controls pass. Placement native001 confirmed the all-allowed export mismatch but **failed all three genuine-prohibition negative controls**: pinned KiCad returned no findings. Production now rejects genuine/ambiguous board or footprint rule areas and legacy module syntax. Three actual earlier accepted receipts still pass readback. A fresh14-board static audit keeps3eligible/11unsupported; four previously unsupported boards gain this additional reason. Native002 reproduced the omission in all3cases after removing only disabled placement metadata (4.873879wall/3.710146CPU); constraint qualification remains false. The explicit diagnostic fixture and same-HEAD pair are now recorded above: fewer opens, both arms invalid, no completion gain or broader keepout support. See `docs/placement-area-diagnostics.md`; preserve failed001 unchanged.
 
 At the next native milestone, freeze ignored writes, commit/audit/push and run `python3 -B scripts/backup.py` again. Existing-archive check: `python3 -B scripts/backup.py --verify .local-backups/checkpoint-20261010T111408Z-1858532d2b2a47fbbf697c612a30b81d/receipt.json`. Keep spending at $0, one bounded worker, originals untouched and private/unlicensed material out of Git. No background/auto-resume work or formal release/package publication.
-
-The explicit `experiments/placement_diagnostic_v1` harness is now implemented, with37 pure controls and independent review. Actual fixture001 then passed source DRC and the combined export but rejected before engine because its named-net board retains an empty numeric rule-area net field. This failure is retained unchanged. Next checkpoint these exact helpers, run the owned allowed-placement/required-via fixture, then only if accepted run the same-HEAD floor versus floor-plus-placement pair. This is an adapter diagnostic, with no production promotion or C novelty claim.
-
-The empty-area identity fix now passes387 root tests and37 diagnostic controls; three earlier accepted receipts remain unchanged and pass readback. Independent review passed43 actual export bindings and23 targeted identity controls. It recognizes only the exact empty net0/name pair on a board-level all-allowed rule area; terminal aliases and malformed/conflicting identities still reject. Fresh fixture002 native routing is next.

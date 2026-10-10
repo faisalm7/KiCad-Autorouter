@@ -1,0 +1,113 @@
+{
+  "schema": 1,
+  "audit_passed": true,
+  "review_kind": "independent AI read-only evidence audit",
+  "native_or_engine_executed": false,
+  "check_count": 81,
+  "summary_sha256": "3a395d1095c345a102028e3b4f7a328c97950f09ee52c6fe0e0f2855f7788ac8",
+  "protocol_sha256": "8ab86621b1cd9021a1682fba2c385840ce0bed9203e49409e5b534bbcb7a841a",
+  "arms": [
+    {
+      "arm": 0,
+      "policy": "floor-v1-reference-diagnostic",
+      "status": "drc_rejected",
+      "routing_accepted": false,
+      "candidate_sha256": "b6c0f151061d0f192069e220c1fc615ea5b39d76535e75248f0af13e10614bc6",
+      "report_sha256": "d55a591d88faa664dfb47a2d2c9fde498245d1e4240fc6ec91c09ef2713f8379",
+      "native": {
+        "opens": 160,
+        "blocking": 1,
+        "warnings": 94,
+        "exclusions": 0
+      },
+      "finding_types": [
+        "connection_width",
+        "lib_footprint_mismatch",
+        "nonmirrored_text_on_back_layer",
+        "silk_edge_clearance",
+        "silk_over_copper",
+        "starved_thermal",
+        "unconnected_items"
+      ],
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 327,
+        "footprints": 114,
+        "zones": 6,
+        "vias": 0,
+        "track_length_mm": 186.99817901643615,
+        "copper_layers": 2
+      },
+      "assigned_seconds": 113.758,
+      "internal_job_seconds": 60,
+      "receipt_wall_seconds": 57.13349037500302,
+      "receipt_cpu_seconds": 64.838826,
+      "invocation_wall_seconds": 63.88568608300557,
+      "invocation_cpu_seconds": 71.571364,
+      "charged_wall_seconds": 65.27825312499044,
+      "charged_cpu_seconds": 72.92047800000002,
+      "source_zone_count": 6,
+      "candidate_zone_count": 6,
+      "recorded_started_utc": "2026-10-10T11:53:05.070424+00:00"
+    },
+    {
+      "arm": 1,
+      "policy": "floor-plus-placement-diagnostic-v1",
+      "status": "drc_rejected",
+      "routing_accepted": false,
+      "candidate_sha256": "87b82041c0b6fbdbf21cd0ba2b3c08e56195facc984f2a93febc919432ae66e3",
+      "report_sha256": "c0b63feb6b3b81a0e17f7cfba2f59b00335b0fd2ccbd77a9a219d3dd8430299e",
+      "native": {
+        "opens": 8,
+        "blocking": 2,
+        "warnings": 94,
+        "exclusions": 0
+      },
+      "finding_types": [
+        "clearance",
+        "connection_width",
+        "lib_footprint_mismatch",
+        "nonmirrored_text_on_back_layer",
+        "silk_edge_clearance",
+        "silk_over_copper",
+        "track_dangling",
+        "unconnected_items"
+      ],
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 327,
+        "footprints": 114,
+        "zones": 6,
+        "vias": 13,
+        "track_length_mm": 2404.75355560204,
+        "copper_layers": 2
+      },
+      "assigned_seconds": 113.758,
+      "internal_job_seconds": 60,
+      "receipt_wall_seconds": 36.872887208002794,
+      "receipt_cpu_seconds": 50.18714200000001,
+      "invocation_wall_seconds": 45.05855537500611,
+      "invocation_cpu_seconds": 58.25565500000002,
+      "charged_wall_seconds": 46.451122416990984,
+      "charged_cpu_seconds": 59.60476900000003,
+      "source_zone_count": 6,
+      "candidate_zone_count": 6,
+      "recorded_started_utc": "2026-10-10T11:54:08.980500+00:00"
+    }
+  ],
+  "comparison": {
+    "floor_accepted": false,
+    "placement_accepted": false,
+    "completion_difference": 0,
+    "scope": "one exposed diagnostic input-policy comparison, no production/C/B2/generalized claim",
+    "opens_delta": -152,
+    "blocking_delta": 1,
+    "warnings_delta": 0,
+    "exclusions_delta": 0
+  },
+  "shared_wall_seconds": 1.3925670419848757,
+  "shared_cpu_seconds": 1.3491140000000144,
+  "accounting_point": "Stored totals precede final publication/freshness/readback; charged caps rechecked after all checks. Corrective rejection can finish outside cap.",
+  "accounting_limit": "Stored measurements precede final publication/freshness. Source includes a postpublication cap guard; this offline audit verifies stored arithmetic and outcomes, not an independent postpublication elapsed measurement.",
+  "scope": "One exposed development-board diagnostic B1 representation ablation; no production/C/B2/generalized/electrical claim."
+}

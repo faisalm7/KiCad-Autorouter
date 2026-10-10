@@ -97,3 +97,20 @@ The standalone [harness](../experiments/placement_diagnostic_v1/README.md) compa
 Actual routing fixture001 at8497654 passed native source DRC and same-load floor/area export, then rejected before engine with an unqualified net-reference error. The original named-pad-net board also contains `(net 0) (net_name "")` on its all-allowed rule area. The strict identity parser did not recognize that native-readable empty-area representation. This is a retained implementation failure, not a native routing result; no original file is changed to work around it.
 
 The reviewed identity fix accepts that exact empty field only on a board-level all-allowed rule area, with unique net/net_name fields and all five explicit allowed flags. Pads/routes, genuine keepouts, ordinary copper zones, ambiguous names and nonzero aliases gain no support.387 root tests and37 diagnostic controls pass; independent review verified43 saved-export bindings and23 targeted controls. These are offline checks; fresh native fixture002 remains required.
+
+## Actual routing and matched comparison
+
+At `73107be`, corrected fixture002 passed real engine → SES import → native refill → final DRC, with zero findings, one required via and 67.926667 mm of track. Stored wall/CPU was 8.577736 / 5.535336 seconds under60-second caps. Its SIGNAL_B track crosses the unchanged allowed-area interior. Independent review checked50 bindings, exact crossing geometry and127 public files. The failed001 source/rules and all evidence remain unchanged.
+
+The same-HEAD full [pair001](../evidence/placement-routing-pair-001/summary.json) produced:
+
+| Policy | Opens | Blocking | Warnings | Exclusions | Charged wall / CPU seconds |
+|---|---:|---:|---:|---:|---:|
+| Floor reference | 160 | 1 thermal | 94 | 0 | 65.278253 / 72.920478 |
+| Floor plus placement | 8 | 2 clearance | 94 | 0 | 46.451122 / 59.604769 |
+
+Both are rejected. This is a both-invalid completion tie; no valid-route length/via delta is computed. Each received the same113.758-second invocation allowance and paid every shared cost under120-second outer caps. The raw native tasks match apart from display names; removing exactly eight attributed keepouts is the sole pre-adapter AST change. Final candidates preserve the original complete project and all areas/rules. Independent audit passed81 checks.
+
+The second arm's candidate is `87b82041c0b6fbdbf21cd0ba2b3c08e56195facc984f2a93febc919432ae66e3`. Native DRC reports0.2994/0.2995mm clearances near RV13's rounded mounting pad against the original0.3000mm minimum. Freerouting stopped after19 passes because its best score had stagnated; it reported nine internal unrouted items and native refill reports eight opens. These measured failures justify further conservative geometry/search diagnosis, not an accepted routing claim.
+
+Fourteen rehashed tampering controls on copied actual fixture evidence reject through semantic guards; original, relocated and restored positives pass. These offline checks cover source/rules, observer/process, DSN derivation, candidate transport and native verdict consistency. They do not replace native controls or authenticate rewritten evidence. See [controls](../evidence/placement-diagnostic-receipt-controls-001/README.md). The complete [population index002](../evidence/development-outcomes-002/index.json) retains all14 inputs and records zero accepted placement diagnostics separately from two earlier accepted production inputs.

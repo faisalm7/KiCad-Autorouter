@@ -1,0 +1,89 @@
+{
+  "status": "actual stored pair reporting readback passed",
+  "native_executed": false,
+  "source_unchanged_validation": "generator rechecked all original board and read input bytes",
+  "index_sha256": "607d136d1bed16fb5aeb26447cd698edcb5626374c1570df16b71d9d0885b636",
+  "population": {
+    "total": 14,
+    "eligible": 3,
+    "unsupported": 11,
+    "production_accepted_inputs": 2,
+    "placement_diagnostic_accepted_inputs": 0
+  },
+  "pair": {
+    "evidence": ".runs/placement-routing-pair-001/summary.json",
+    "sha256": "3a395d1095c345a102028e3b4f7a328c97950f09ee52c6fe0e0f2855f7788ac8",
+    "status": "completed",
+    "comparison_eligible": true
+  },
+  "outcomes": {
+    "status": "eligible_recorded_pair",
+    "gained": [],
+    "lost": [],
+    "tied_valid": [],
+    "tied_invalid": [
+      ".data/boards/kicad-multichannel/multichannel_mixer.kicad_pcb"
+    ],
+    "unevaluated": [
+      ".data/boards/kicad-sonde-xilinx/sonde xilinx.kicad_pcb",
+      ".data/boards/kicad-pic-programmer/pic_programmer.kicad_pcb",
+      ".data/boards/kicad-complex-hierarchy/complex_hierarchy.kicad_pcb",
+      ".data/boards/kicad-interf-u/interf_u.kicad_pcb",
+      ".data/boards/kicad-multichannel/multichannel_mixer-unrouted.kicad_pcb",
+      ".data/boards/kicad-coldfire-xilinx/kit-dev-coldfire-xilinx_5213.kicad_pcb",
+      ".data/corpus-expansion-audit-001/Protocentral__protocentral_fdc2214_hardware/hardware/brk_fdc2214_v2.kicad_pcb",
+      ".data/corpus-expansion-audit-001/sparkfun__SparkFun_Ambient_Light_Sensor-VEML7700/Hardware/SparkFun_VEML7700.kicad_pcb",
+      ".data/corpus-expansion-audit-001/sparkfun__SparkFun_Qwiic_ADC_ADS1219/Hardware/Qwiic_ADC_ADS1219.kicad_pcb",
+      ".data/corpus-expansion-audit-001/sparkfun__SparkFun_Qwiic_Formaldehyde_Sensor_SFA40/Hardware/SparkFun_Qwiic_Formaldehyde_Sensor_SFA40.kicad_pcb",
+      ".data/corpus-expansion-audit-001/sparkfun__SparkFun_Roller_Encoder_Breakout/Hardware/SparkFun_Roller_Encoder_Breakout.kicad_pcb",
+      ".data/corpus-expansion-audit-001/sparkfun__SparkFun_Triple_Axis_Acclerometer-LIS3DH/Hardware/Micro/SparkFun_LIS3DH_Micro.kicad_pcb",
+      ".data/corpus-expansion-audit-001/sparkfun__SparkFun_Triple_Axis_Acclerometer-LIS3DH/Hardware/Qwiic 1x1/SparkFun_LIS3DH.kicad_pcb"
+    ],
+    "comparison": {
+      "board": ".data/boards/kicad-multichannel/multichannel_mixer.kicad_pcb",
+      "baseline_accepted": false,
+      "placement_accepted": false,
+      "completion_difference": 0,
+      "opens_delta": -152,
+      "blocking_delta": 1,
+      "warnings_delta": 0,
+      "exclusions_delta": 0
+    }
+  },
+  "arms": [
+    {
+      "policy": "floor-v1-reference-diagnostic",
+      "status": "drc_rejected",
+      "accepted": false,
+      "verified_native_accepted": false,
+      "opens": 160,
+      "blocking": 1,
+      "warnings": 94,
+      "exclusions": 0,
+      "charged_wall_seconds": 65.27825312499044,
+      "charged_cpu_seconds": 72.92047800000002,
+      "receipt": {
+        "evidence": ".runs/placement-routing-pair-001/arm-0/result.json",
+        "sha256": "6cda74808836a67f08101c826395dbde866ba217b6ba9c989e0fe1b91617da15"
+      },
+      "candidate_sha256": "b6c0f151061d0f192069e220c1fc615ea5b39d76535e75248f0af13e10614bc6"
+    },
+    {
+      "policy": "floor-plus-placement-diagnostic-v1",
+      "status": "drc_rejected",
+      "accepted": false,
+      "verified_native_accepted": false,
+      "opens": 8,
+      "blocking": 2,
+      "warnings": 94,
+      "exclusions": 0,
+      "charged_wall_seconds": 46.451122416990984,
+      "charged_cpu_seconds": 59.60476900000003,
+      "receipt": {
+        "evidence": ".runs/placement-routing-pair-001/arm-1/result.json",
+        "sha256": "4f2dcec85f8f414c370bf58b6454951012c4ed739b9cf74b775b9a8a13b15f31"
+      },
+      "candidate_sha256": "87b82041c0b6fbdbf21cd0ba2b3c08e56195facc984f2a93febc919432ae66e3"
+    }
+  ]
+}

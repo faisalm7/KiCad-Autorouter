@@ -1,0 +1,1 @@
+Exact selected independent offline audit/control records. Original native results remain at their named run paths. Relocated working/source trees are omitted here and retained in the full on-Mac raw archive; public copies of mutation deltas are diagnostics, not real routing inputs or accepted output. No fresh native work or authentication claim follows from these controls.

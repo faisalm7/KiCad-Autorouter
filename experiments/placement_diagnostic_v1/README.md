@@ -5,7 +5,7 @@ attributed to enabled, explicitly unrestricted placement areas changes routing.
 It is an input-adapter hypothesis, not system C novelty or a stronger B2 result.
 Actual fixture001 at8497654 completed source DRC and the combined observer, then
 rejected before engine at a legacy empty rule-area net field. This failed run is
-preserved. Engine/import/final-validation qualification remains pending.
+preserved. Fresh fixture002 subsequently passed actual engine/import/refill/final DRC at73107be; the full-board pair also completed with both arms rejected.
 
 The two arms use the same original complete project, same-load observer, floor
 policy, both adapter, completion-only engine profile and actual production floor
@@ -28,7 +28,7 @@ admitted. It does not claim native enforcement of genuine keepout restrictions.
   contexts, exports once and never saves the board. It explicitly raises the
   area footprint cap from 100 to 512 for the 114-footprint full board; all other
   area limits and the original floor schema/limits are preserved. Actual fixture001 now binds this combined invocation to the expected
-  area/floor observations; full routing qualification remains pending.
+  area/floor observations; fixture002 subsequently passed the full diagnostic route.
 - `placement_transform.py` is an exact copy of reviewed source003, SHA256
   `bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5`.
   Its upstream raw-to-floor provenance is independently rederived here.
@@ -78,8 +78,8 @@ python3 -B experiments/placement_diagnostic_v1/diagnostic_route.py --run-diagnos
 python3 -B experiments/placement_diagnostic_v1/diagnostic_route.py --check-result .runs/placement-routing-fixture-002/result.json
 ```
 
-These fixture002 commands have NOT executed. Only after the
-same-code fixture's actual native checks and independent readback qualify it:
+These commands executed at73107be. Do not overwrite their output paths. The
+same-code fixture passed actual native checks and independent readback before the pair:
 
 ```sh
 python3 -B experiments/placement_diagnostic_v1/experiment_pair.py --run-pair --fixture-result .runs/placement-routing-fixture-002/result.json --output .runs/placement-routing-pair-001
@@ -114,3 +114,5 @@ preceding reviewed files. No actual native result is inferred from these tests.
 Final pair freshness also binds the qualification fixture original project
 outside its output directory, in addition to its retained evidence. A real
 post-gate source mutation control invalidates the comparison.
+
+Actual pair001: reference160opens/1thermal versus placement8opens/2clearance errors,94warnings/0exclusions both. All shared costs charged within equal120secondcaps; both invalid, no quality delta or production/C/B2 promotion. See `docs/placement-area-diagnostics.md` and immutable public evidence. Next experiments need a new declared protocol and unused output path.

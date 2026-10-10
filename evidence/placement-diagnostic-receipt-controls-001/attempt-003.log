@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-diagnostic-receipt-controls-001/controls.py", line 144, in <module>
+    raise SystemExit(0 if execute(sys.argv[2])['status']=='passed' else 1)
+                          ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-diagnostic-receipt-controls-001/controls.py", line 115, in execute
+    current=f.read_json(work/'result.json');mutate(current)
+                                            ^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-diagnostic-receipt-controls-001/controls.py", line 74, in rule_severity
+    mutate_json(work/'candidate'/Path(board_name).with_suffix('.kicad_pro'),lambda x:x['board']['design_settings']['drc_severities'].update(track_width='warning'))
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-diagnostic-receipt-controls-001/controls.py", line 65, in mutate_json
+    value=f.read_json(path);fn(value);p.save_json(path,value)
+                            ^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-diagnostic-receipt-controls-001/controls.py", line 74, in <lambda>
+    mutate_json(work/'candidate'/Path(board_name).with_suffix('.kicad_pro'),lambda x:x['board']['design_settings']['drc_severities'].update(track_width='warning'))
+                                                                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+KeyError: 'drc_severities'

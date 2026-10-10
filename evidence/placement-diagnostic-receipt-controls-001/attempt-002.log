@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-diagnostic-receipt-controls-001/controls.py", line 143, in <module>
+    raise SystemExit(0 if execute(sys.argv[2])['status']=='passed' else 1)
+                          ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-diagnostic-receipt-controls-001/controls.py", line 58, in execute
+    positive=d.check_result(work/'result.json')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/placement_diagnostic_v1/diagnostic_route.py", line 149, in check_result
+    if p.sha(raw)!=data['native_report_sha256'] or native!=data['native']:raise p.Rejected('final raw native report changed')
+                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+autorouter.pipeline.Rejected: final raw native report changed

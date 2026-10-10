@@ -1,0 +1,228 @@
+{
+  "status": "passed",
+  "scope": "actual native receipt consistency controls with offline relocation/tampering; no authentication or new native qualification",
+  "native_jobs": 0,
+  "engine_jobs": 0,
+  "positive_original": {
+    "diagnostic_verified": true,
+    "routing_accepted": true,
+    "production_qualified": false
+  },
+  "positive_relocated": {
+    "diagnostic_verified": true,
+    "routing_accepted": true,
+    "production_qualified": false
+  },
+  "positive_restored": {
+    "diagnostic_verified": true,
+    "routing_accepted": true,
+    "production_qualified": false
+  },
+  "originals_code_tools_unchanged": true,
+  "cases": [
+    {
+      "case": "stale_source",
+      "outer_inventory_rehashed": true,
+      "changed_files_sha256": {
+        "source/fixture.kicad_pcb": "69fa378a59bc76e083b1c20291c9214991b4648e2ec687f9fdb29d75ff748474"
+      },
+      "expected": "semantic rejection",
+      "native_executed": false,
+      "actual": "rejected",
+      "exception": "Rejected",
+      "reason": "diagnostic source/snapshot/candidate identity changed",
+      "passed": true
+    },
+    {
+      "case": "candidate_rule_severity",
+      "outer_inventory_rehashed": true,
+      "changed_files_sha256": {
+        "evidence/candidate/fixture.kicad_pro": "0048ead2215813df1e03235c08431f6a51b8a4481c2c4410f3748784ba098938",
+        "evidence/result.json": "2c5e881a0db38f7aa11eded835c953a82ee08597a2a418e81357ce661641c4e1"
+      },
+      "expected": "semantic rejection",
+      "native_executed": false,
+      "actual": "rejected",
+      "exception": "Rejected",
+      "reason": "candidate project/rules/file set changed",
+      "passed": true
+    },
+    {
+      "case": "reidentified_original_rules",
+      "outer_inventory_rehashed": true,
+      "changed_files_sha256": {
+        "evidence/candidate/fixture.kicad_pro": "0048ead2215813df1e03235c08431f6a51b8a4481c2c4410f3748784ba098938",
+        "evidence/result.json": "eb9f7cbe77c25f4207fb40ab1cacdb921bddd023788638c0213127ff19c96a50",
+        "evidence/snapshot/fixture.kicad_pro": "0048ead2215813df1e03235c08431f6a51b8a4481c2c4410f3748784ba098938",
+        "source/fixture.kicad_pro": "0048ead2215813df1e03235c08431f6a51b8a4481c2c4410f3748784ba098938"
+      },
+      "expected": "semantic rejection",
+      "native_executed": false,
+      "actual": "rejected",
+      "exception": "Rejected",
+      "reason": "unsupported: core native check not blocking: track_width",
+      "passed": true
+    },
+    {
+      "case": "placement_removal_provenance",
+      "outer_inventory_rehashed": true,
+      "changed_files_sha256": {
+        "evidence/placement-transform.json": "a6a759ef91935ff2dfdc41ee2b8a5b472c19f118d98fbc120e236b1f9b7c2e04",
+        "evidence/result.json": "bbb71ebefd33837818d581a4b522c53a672ff124c4868f3cbc8d0398ff6655e6"
+      },
+      "expected": "semantic rejection",
+      "native_executed": false,
+      "actual": "rejected",
+      "exception": "Rejected",
+      "reason": "placement transform receipt differs",
+      "passed": true
+    },
+    {
+      "case": "weaker_floor_guidance",
+      "outer_inventory_rehashed": true,
+      "changed_files_sha256": {
+        "evidence/floor-guided.dsn": "69524b2b9c0d950a0abd471b965332bad9e5f3b086fda5af3da9217b2fc1a8d8",
+        "evidence/result.json": "3a22f10c215870e888d4c4424909f4f3d323f222461b6bb5d9b40c87059f24ba"
+      },
+      "expected": "semantic rejection",
+      "native_executed": false,
+      "actual": "rejected",
+      "exception": "Rejected",
+      "reason": "raw-to-floor guidance provenance differs",
+      "passed": true
+    },
+    {
+      "case": "rehashed_observer_preference",
+      "outer_inventory_rehashed": true,
+      "changed_files_sha256": {
+        "evidence/floor-export-context.json": "3cf628a616302ced239ebd1154d5b346b664400c5a3d300a2ebf803d9f59a224",
+        "evidence/result.json": "8a4cb3e88164f45e3f6f30e8997ce0b49633db0fdd656a036dbbcc57c4711885"
+      },
+      "expected": "semantic rejection",
+      "native_executed": false,
+      "actual": "rejected",
+      "exception": "ValueError",
+      "reason": "raw native preferences mismatch",
+      "passed": true
+    },
+    {
+      "case": "rehashed_observer_flags",
+      "outer_inventory_rehashed": true,
+      "changed_files_sha256": {
+        "evidence/area-context.json": "10ec530ae0531b077b6d2e44089df5d8bf6085ac9e00eeb1be54b0150a3f955b",
+        "evidence/result.json": "09924bbabf0cd8045705325a7ed30b190aac66c764b5a7776f6740b374f00d46"
+      },
+      "expected": "semantic rejection",
+      "native_executed": false,
+      "actual": "rejected",
+      "exception": "ValueError",
+      "reason": "source/native zone discrepancy: disallow",
+      "passed": true
+    },
+    {
+      "case": "rehashed_observer_snapshot",
+      "outer_inventory_rehashed": true,
+      "changed_files_sha256": {
+        "evidence/code/native_combined.py": "dca0a7cdccd9f99222ac48656518420f4c1d648377aef68dc26ebf4f9d219552",
+        "evidence/result.json": "b1ea67856a24a550a79a719dedc9d5beb204f1e1ecac62813d32b3f92a07ecaf"
+      },
+      "expected": "semantic rejection",
+      "native_executed": false,
+      "actual": "rejected",
+      "exception": "Rejected",
+      "reason": "executed observer snapshot changed",
+      "passed": true
+    },
+    {
+      "case": "matched_observer_process_and_step",
+      "outer_inventory_rehashed": true,
+      "changed_files_sha256": {
+        "evidence/floor-area-export-process.json": "87d0d9fef3a5a411585e787fa160816d3f4acfbb776d6ce735527329538ad114",
+        "evidence/result.json": "f206417eb29ad648930708c4925ca83b910de1a7017bcb69b23133e618d2d1da"
+      },
+      "expected": "semantic rejection",
+      "native_executed": false,
+      "actual": "rejected",
+      "exception": "Rejected",
+      "reason": "floor process provenance differs: floor-area-export",
+      "passed": true
+    },
+    {
+      "case": "rehashed_report_and_process",
+      "outer_inventory_rehashed": true,
+      "changed_files_sha256": {
+        "evidence/final-drc-process.json": "2563928e879632431e707be19aaab9951ddd81e30fdc38df16ce4e608ff0ad3a",
+        "evidence/final-drc.json": "0f030a80e9df088f543eedb185ebf72fcbbb41835556b2348fd35e13e343f8d2",
+        "evidence/result.json": "cc7880a9f7c67942c266e90e508ca041509f3ac13eff31846e260d7ef568973c"
+      },
+      "expected": "semantic rejection",
+      "native_executed": false,
+      "actual": "rejected",
+      "exception": "Rejected",
+      "reason": "diagnostic acceptance/status contradicts native/budget outcome",
+      "passed": true
+    },
+    {
+      "case": "rehashed_candidate_route",
+      "outer_inventory_rehashed": true,
+      "changed_files_sha256": {
+        "evidence/candidate/fixture.kicad_pcb": "c9c88ee17332554fd9889c6ed8803dc57c747a85359d130222fbc3464bcd98ad",
+        "evidence/result.json": "b171880bd69792e6b8d911cb077450dbc76234db3b3b07ef26282893aa80dedb"
+      },
+      "expected": "semantic rejection",
+      "native_executed": false,
+      "actual": "rejected",
+      "exception": "Rejected",
+      "reason": "final candidate differs from task/import/refill reconstruction",
+      "passed": true
+    },
+    {
+      "case": "rehashed_immutable_pad",
+      "outer_inventory_rehashed": true,
+      "changed_files_sha256": {
+        "evidence/candidate/fixture.kicad_pcb": "d6a046400ffdbb2cba87f868aaae3b041e79ba5823dd8b30898d91b8e7b85429",
+        "evidence/result.json": "a69f8ee6f74f0bab5ee7e2cbb17d63b26da19df84b94c23bbde0e1ee9aa16bba"
+      },
+      "expected": "semantic rejection",
+      "native_executed": false,
+      "actual": "rejected",
+      "exception": "Rejected",
+      "reason": "diagnostic immutable source geometry changed",
+      "passed": true
+    },
+    {
+      "case": "original_ignored_checks",
+      "outer_inventory_rehashed": true,
+      "changed_files_sha256": {
+        "evidence/final-drc.json": "1a48bfebed3d51dd21550fa35df2f806e6bb43f268979ee6ccbd73912cade867",
+        "evidence/result.json": "275d5a2d8d8ca8b46197cd6b7fa8a9c62c5b5b65ffd0c51015be295e97e52a06"
+      },
+      "expected": "semantic rejection",
+      "native_executed": false,
+      "actual": "rejected",
+      "exception": "Rejected",
+      "reason": "validator disabled required check",
+      "passed": true
+    },
+    {
+      "case": "matched_engine_process_and_step",
+      "outer_inventory_rehashed": true,
+      "changed_files_sha256": {
+        "evidence/engine-process.json": "9e39d5424c24b765a576a7d5aa4fffad2791aa45811f11c8d588a2af01d010e6",
+        "evidence/result.json": "13132c44cc6211f0f25d4aceeceee70fc68ab05bd5375af11bc98700eb1490bb"
+      },
+      "expected": "semantic rejection",
+      "native_executed": false,
+      "actual": "rejected",
+      "exception": "Rejected",
+      "reason": "floor process provenance differs: engine",
+      "passed": true
+    }
+  ],
+  "wall_seconds": 1.0947545410017483,
+  "parent_cpu_seconds": 1.07047,
+  "stored_bytes": 3799901,
+  "byte_ceiling": 10485760,
+  "time_ceiling_seconds": 60,
+  "origin_receipt_sha256": "efc21282c09158882e22a3324bb3504d934001336f219af16407938e0e5f8153"
+}

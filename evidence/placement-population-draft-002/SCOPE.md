@@ -1,0 +1,1 @@
+Exact selected reporting-review records. Source/index is separately published in evidence/development-outcomes-002. Earlier draft snapshots and full mutation controls listed in manifests remain in the local raw archive. Index generation is stored-evidence reporting, not a new native check.
