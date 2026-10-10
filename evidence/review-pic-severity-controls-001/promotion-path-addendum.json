@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "status": "promotion_paths_reviewed_no_execution_blocker",
+  "scope": "Read-only review; no test, native, compiler, Java, or network execution.",
+  "author_manifest_sha256": "e1020329cc5bd42b6270c437c6cf2ba33e84f5b58e629d2239ec28d5ce4f4c25",
+  "destination": "experiments/pic_severity_controls_v1",
+  "files": {
+    "driver.py": {
+      "bytes": 25391,
+      "sha256": "15aa76b9e47e04d3c1e77bb74b91864f47e40f6e57e980c6e21ac0f81b6634d8"
+    },
+    "worker.py": {
+      "bytes": 6237,
+      "sha256": "31985a03709d7224b49ca3f16cb03b42ba1978f8318ae7d8725513711c3af769"
+    },
+    "fixture.py": {
+      "bytes": 5269,
+      "sha256": "3b423afcacd7ad3e681446f21fed9a1c5b62cb47904a307ce6f9b594a29cde73"
+    },
+    "checks.py": {
+      "bytes": 7840,
+      "sha256": "deee186e98360611a11f52930fc9d2c217958d0e1b26f86eea9db8f3724b0120"
+    },
+    "intent.py": {
+      "bytes": 3140,
+      "sha256": "a8e5824e9ae1ef2a8f706db25313454ece753ca099d4b1e16129401c172986e4"
+    },
+    "test_controls.py": {
+      "bytes": 23509,
+      "sha256": "e602e2aad4ccc37200632cacce1eef09070722463290c3b0a8fe8c3ab52583e0"
+    },
+    "PROTOCOL.json": {
+      "bytes": 1829,
+      "sha256": "cf99ab31ac0abc217a5cb43b85c47e0ae9bb6b2440c5ddb03ef5442929c7844f"
+    },
+    "README.md": {
+      "bytes": 5119,
+      "sha256": "2222ae131effde0b7749b3e08a83166ec3fffe3504b37219528a77a6cf1b0d35"
+    },
+    "SOURCE-NOTES.md": {
+      "bytes": 4127,
+      "sha256": "61cc417578486527ce3134911438f4244747e373e12cbb41711808fb57cab92e"
+    }
+  },
+  "working_directory": "/Users/faisal/Projects/KiCad-Autorouter-local",
+  "root_only_native_invocation": "python3 -B experiments/pic_severity_controls_v1/driver.py --output .runs/pic-severity-controls-001 --run-native",
+  "pure_test_invocation": "python3 -B experiments/pic_severity_controls_v1/test_controls.py",
+  "output_path_exists_at_review": false,
+  "checks": [
+    "Driver discovers repository ROOT from ancestor autorouter/pipeline.py; worker uses ancestor floor_context.py and toolchain.lock.json. Both resolve under the proposed experiments directory.",
+    "Direct file invocation puts the helper directory on sys.path, resolving sibling fixture/checks/intent modules; no package wrapper or __init__.py is required.",
+    "HERE-derived worker, protocol and all nine HELPERS paths follow the promoted directory. snapshot() obtains repository-relative paths dynamically and checks exact HEAD blobs, rather than a draft path.",
+    "Original source, acquisition receipt, pinned native report, installed tool paths and direct fresh .runs output/lock remain repository-relative or deliberately pinned; none depends on the ignored draft directory.",
+    "Unit test temporary trees use d.HERE and cleanup; mocked snapshot/precondition test does not rely on the draft directory being untracked. No promotion-specific error-message expectation was found.",
+    "SOURCE-NOTES cached-source paths and README prepromotion command are historical/research references, not runtime imports or input dependencies."
+  ],
+  "required_before_native": [
+    "Copy all nine exact files; commit/audit/push/read back that checkpoint before running. Exact HEAD source snapshot is enforced by the driver.",
+    "Run from the local repository directory with the pinned complete original 15-file project, acquisition receipt and baseline native report present.",
+    "Use a new direct .runs child; do not overwrite an existing output. Do not run another experiment holding quality-experiment.lock or a competing heavy worker.",
+    "Keep current production source/tool/HEAD/helper bytes stable throughout execution. Scope remains diagnostic and all support/geometry/parity claims false."
+  ],
+  "documentation_note": "SOURCE-NOTES mentions preparation-notes.json retained in the original draft, which is intentionally not one of the nine runtime promotion files. This is historical provenance, not an execution dependency.",
+  "runtime_edits_recommended": [],
+  "tests_run": false
+}

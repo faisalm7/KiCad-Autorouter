@@ -1,0 +1,228 @@
+{
+  "scope": "Pure recipes and invented raw findings only; no native execution, enforcement, or routing qualification.",
+  "source_file_count": 15,
+  "source_bytes": 1366598,
+  "source_hashes": {
+    "fp-lib-table": "e81a9c021142c92ce2795b9b94b37d4e7f04956dfe10c3d7869518c601e25ad8",
+    "libs/3d_shapes/adjustable_rx2v4.wrl": "f3dd9c781da7cfe705faef8f8999899a597088d7afbe727429823beec278ae54",
+    "libs/3d_shapes/textool_40.wrl": "ef484084ef42b8c2e61363426b63838e6069975a5a260bfd66f172227bf7f2c0",
+    "libs/pic_programmer_fp.pretty/40tex-Ell600.kicad_mod": "61c5b4297088827ba2d02143edc9cf031802ec0072e057cb8d8e5483b5d6fa9a",
+    "libs/pic_programmer_fp.pretty/RV2X4.kicad_mod": "64add84809f19b9eb77d86695ac19b2f87677e6849cdc1b103219c18ff8780cd",
+    "libs/pic_programmer_fp.pretty/SolderJumper-2_P1.3mm_Open_TrianglePad1.0x1.5mm.kicad_mod": "0449fc32c1f0ed8fc10f686bb06953dbcfcf06849c41c9ebde3876df60ace016",
+    "libs/pic_programmer_fp.pretty/TO-92.kicad_mod": "ee34a946728dbf06ab4fbcfe6d940c202f737420b010927eb537c0e911fe3a62",
+    "pic_programmer.kicad_pcb": "1ca70b620506818eb0227e2863bbd573d1fec1672072dc43d0dbe8475e69c8fb",
+    "pic_programmer.kicad_pro": "3b0ac39da5af86d0baa2a64da55a89c39ba00148dc82b54f3062f5c3650a5cc5",
+    "pic_programmer.kicad_sch": "cf92bff8aebe19e45444f13b2ccd1c8ad578df6a226acd5381e2eff95e2fc08f",
+    "pic_programmer.kicad_sym": "311bf43e2f3999072cad00a00b8c894c6adbaec5b97ada2256b0db1d2115039a",
+    "pic_sockets.kicad_sch": "8cbf575b53b205280ca277df8affc6477cf20c5d06c63c267cd6fb19b6d771ae",
+    "sym-lib-table": "0115c6d84c88e0da8c7b47db401ae4f93f197ee9645b9dc4fbdad8d55a22a0e8",
+    "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5"
+  },
+  "author_sources": {
+    "driver.py": "d2581afb55029d74c2e0c7d2ce6c2589a546d3aeb8b33f6450480e2e62411883",
+    "worker.py": "31985a03709d7224b49ca3f16cb03b42ba1978f8318ae7d8725513711c3af769",
+    "fixture.py": "3b423afcacd7ad3e681446f21fed9a1c5b62cb47904a307ce6f9b594a29cde73",
+    "checks.py": "deee186e98360611a11f52930fc9d2c217958d0e1b26f86eea9db8f3724b0120",
+    "intent.py": "a8e5824e9ae1ef2a8f706db25313454ece753ca099d4b1e16129401c172986e4",
+    "test_controls.py": "90688a03755eb8ee0742c3a83c0d65de19a67a9b704eb850be7000608016550b",
+    "PROTOCOL.json": "cf99ab31ac0abc217a5cb43b85c47e0ae9bb6b2440c5ddb03ef5442929c7844f",
+    "README.md": "df3db72deef57f7a197676ccb209ebe51bb4391523847c75223ca78541b1ebde",
+    "SOURCE-NOTES.md": "61cc417578486527ce3134911438f4244747e373e12cbb41711808fb57cab92e"
+  },
+  "checks": [
+    {
+      "check": "positive: original stackup/layers/setup exact",
+      "passed": true
+    },
+    {
+      "check": "positive: profile-only delta scope",
+      "passed": true
+    },
+    {
+      "check": "positive: exact expected finding passes",
+      "passed": true
+    },
+    {
+      "check": "positive: unknown residual warning rejects",
+      "passed": true
+    },
+    {
+      "check": "positive: critical residual warning rejects",
+      "passed": true
+    },
+    {
+      "check": "positive: missing ignored-key rejects",
+      "passed": true
+    },
+    {
+      "check": "missing_named_profile: original stackup/layers/setup exact",
+      "passed": true
+    },
+    {
+      "check": "missing_named_profile: profile-only delta scope",
+      "passed": true
+    },
+    {
+      "check": "missing_named_profile: exact expected finding passes",
+      "passed": true
+    },
+    {
+      "check": "missing_named_profile: unknown residual warning rejects",
+      "passed": true
+    },
+    {
+      "check": "missing_named_profile: critical residual warning rejects",
+      "passed": true
+    },
+    {
+      "check": "missing_named_profile: missing ignored-key rejects",
+      "passed": true
+    },
+    {
+      "check": "missing_named_profile: duplicate target rejects",
+      "passed": true
+    },
+    {
+      "check": "missing_named_profile: wrong target identity rejects",
+      "passed": true
+    },
+    {
+      "check": "missing_default_profile: original stackup/layers/setup exact",
+      "passed": true
+    },
+    {
+      "check": "missing_default_profile: profile-only delta scope",
+      "passed": true
+    },
+    {
+      "check": "missing_default_profile: exact expected finding passes",
+      "passed": true
+    },
+    {
+      "check": "missing_default_profile: unknown residual warning rejects",
+      "passed": true
+    },
+    {
+      "check": "missing_default_profile: critical residual warning rejects",
+      "passed": true
+    },
+    {
+      "check": "missing_default_profile: missing ignored-key rejects",
+      "passed": true
+    },
+    {
+      "check": "missing_default_profile: duplicate target rejects",
+      "passed": true
+    },
+    {
+      "check": "missing_default_profile: wrong target identity rejects",
+      "passed": true
+    },
+    {
+      "check": "Default omission is completed coverage probe, not provider detection",
+      "passed": true
+    },
+    {
+      "check": "board_edge_text: original stackup/layers/setup exact",
+      "passed": true
+    },
+    {
+      "check": "board_edge_text: profile-only delta scope",
+      "passed": true
+    },
+    {
+      "check": "board_edge_text: exact expected finding passes",
+      "passed": true
+    },
+    {
+      "check": "board_edge_text: unknown residual warning rejects",
+      "passed": true
+    },
+    {
+      "check": "board_edge_text: critical residual warning rejects",
+      "passed": true
+    },
+    {
+      "check": "board_edge_text: missing ignored-key rejects",
+      "passed": true
+    },
+    {
+      "check": "board_edge_text: duplicate target rejects",
+      "passed": true
+    },
+    {
+      "check": "board_edge_text: wrong target identity rejects",
+      "passed": true
+    },
+    {
+      "check": "footprint_edge_text: original stackup/layers/setup exact",
+      "passed": true
+    },
+    {
+      "check": "footprint_edge_text: profile-only delta scope",
+      "passed": true
+    },
+    {
+      "check": "footprint_edge_text: exact expected finding passes",
+      "passed": true
+    },
+    {
+      "check": "footprint_edge_text: unknown residual warning rejects",
+      "passed": true
+    },
+    {
+      "check": "footprint_edge_text: critical residual warning rejects",
+      "passed": true
+    },
+    {
+      "check": "footprint_edge_text: missing ignored-key rejects",
+      "passed": true
+    },
+    {
+      "check": "footprint_edge_text: duplicate target rejects",
+      "passed": true
+    },
+    {
+      "check": "footprint_edge_text: wrong target identity rejects",
+      "passed": true
+    },
+    {
+      "check": "pad_front_counterbore: original stackup/layers/setup exact",
+      "passed": true
+    },
+    {
+      "check": "pad_front_counterbore: profile-only delta scope",
+      "passed": true
+    },
+    {
+      "check": "pad_front_counterbore: exact expected finding passes",
+      "passed": true
+    },
+    {
+      "check": "pad_front_counterbore: unknown residual warning rejects",
+      "passed": true
+    },
+    {
+      "check": "pad_front_counterbore: critical residual warning rejects",
+      "passed": true
+    },
+    {
+      "check": "pad_front_counterbore: missing ignored-key rejects",
+      "passed": true
+    },
+    {
+      "check": "pad_front_counterbore: duplicate target rejects",
+      "passed": true
+    },
+    {
+      "check": "pad_front_counterbore: wrong target identity rejects",
+      "passed": true
+    },
+    {
+      "check": "complete original 15-file inventory unchanged",
+      "passed": true
+    }
+  ],
+  "passed": true
+}

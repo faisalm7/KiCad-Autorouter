@@ -1,0 +1,61 @@
+{
+  "schema": 1,
+  "status": "source_stable_pending_independent_rerun",
+  "old_draft_preserved": true,
+  "finding": "final size scan followed final material check and could leave stale source/report bound to positive summary",
+  "fix": "size before final stable/material/semantic check; then existing strictcanonical/returned-record equality and final cap",
+  "changes": {
+    "driver.py": {
+      "old_sha256": "d2581afb55029d74c2e0c7d2ce6c2589a546d3aeb8b33f6450480e2e62411883",
+      "new_sha256": "15aa76b9e47e04d3c1e77bb74b91864f47e40f6e57e980c6e21ac0f81b6634d8",
+      "identical": false
+    },
+    "worker.py": {
+      "old_sha256": "31985a03709d7224b49ca3f16cb03b42ba1978f8318ae7d8725513711c3af769",
+      "new_sha256": "31985a03709d7224b49ca3f16cb03b42ba1978f8318ae7d8725513711c3af769",
+      "identical": true
+    },
+    "fixture.py": {
+      "old_sha256": "3b423afcacd7ad3e681446f21fed9a1c5b62cb47904a307ce6f9b594a29cde73",
+      "new_sha256": "3b423afcacd7ad3e681446f21fed9a1c5b62cb47904a307ce6f9b594a29cde73",
+      "identical": true
+    },
+    "checks.py": {
+      "old_sha256": "deee186e98360611a11f52930fc9d2c217958d0e1b26f86eea9db8f3724b0120",
+      "new_sha256": "deee186e98360611a11f52930fc9d2c217958d0e1b26f86eea9db8f3724b0120",
+      "identical": true
+    },
+    "intent.py": {
+      "old_sha256": "a8e5824e9ae1ef2a8f706db25313454ece753ca099d4b1e16129401c172986e4",
+      "new_sha256": "a8e5824e9ae1ef2a8f706db25313454ece753ca099d4b1e16129401c172986e4",
+      "identical": true
+    },
+    "test_controls.py": {
+      "old_sha256": "90688a03755eb8ee0742c3a83c0d65de19a67a9b704eb850be7000608016550b",
+      "new_sha256": "e602e2aad4ccc37200632cacce1eef09070722463290c3b0a8fe8c3ab52583e0",
+      "identical": false
+    },
+    "PROTOCOL.json": {
+      "old_sha256": "cf99ab31ac0abc217a5cb43b85c47e0ae9bb6b2440c5ddb03ef5442929c7844f",
+      "new_sha256": "cf99ab31ac0abc217a5cb43b85c47e0ae9bb6b2440c5ddb03ef5442929c7844f",
+      "identical": true
+    },
+    "README.md": {
+      "old_sha256": "df3db72deef57f7a197676ccb209ebe51bb4391523847c75223ca78541b1ebde",
+      "new_sha256": "2222ae131effde0b7749b3e08a83166ec3fffe3504b37219528a77a6cf1b0d35",
+      "identical": false
+    },
+    "SOURCE-NOTES.md": {
+      "old_sha256": "61cc417578486527ce3134911438f4244747e373e12cbb41711808fb57cab92e",
+      "new_sha256": "61cc417578486527ce3134911438f4244747e373e12cbb41711808fb57cab92e",
+      "identical": true
+    }
+  },
+  "tests": {
+    "methods": 4,
+    "seconds": 0.068,
+    "log": "tests-publication-003.log",
+    "scope": "publication only; original16method suite previously passed on001; exact reviewer positive/source/report cases now in regression"
+  },
+  "no_native_java_compiler_network": true
+}

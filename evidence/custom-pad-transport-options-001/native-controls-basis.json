@@ -1,0 +1,104 @@
+{
+  "summary": {
+    "path": ".runs/pic-custom-native-controls-002/summary.json",
+    "bytes": 185919,
+    "sha256": "c9149cb74cb4d52ca4905ed64ffa6b616f3af9ed40708a8c00768f3b21b73430"
+  },
+  "cases": [
+    {
+      "variant": "front0",
+      "case": "positive",
+      "control_passed": true,
+      "geometry_verified": true,
+      "counts": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 4,
+        "exclusions": 0
+      },
+      "error_types": [],
+      "native_report_sha256": "e7337fcae5cb9bc1d32b644870ef7df4be9493717cdb4645b3d7c5c8816074aa"
+    },
+    {
+      "variant": "front0",
+      "case": "false_hull",
+      "control_passed": true,
+      "geometry_verified": true,
+      "counts": {
+        "opens": 1,
+        "blocking": 0,
+        "warnings": 5,
+        "exclusions": 0
+      },
+      "error_types": [
+        "unconnected_items"
+      ],
+      "native_report_sha256": "14a2eb76a0e7b3efe37679f2de8a5bd8445dc54e86f5929ffd71d796b5bbd6ea"
+    },
+    {
+      "variant": "front0",
+      "case": "foreign_intrusion",
+      "control_passed": true,
+      "geometry_verified": true,
+      "counts": {
+        "opens": 0,
+        "blocking": 2,
+        "warnings": 4,
+        "exclusions": 0
+      },
+      "error_types": [
+        "shorting_items",
+        "solder_mask_bridge"
+      ],
+      "native_report_sha256": "f7d0f1d9f83dbc23110f646a6442083e9adbe1e50d686721fd292f42663d0805"
+    },
+    {
+      "variant": "back90",
+      "case": "positive",
+      "control_passed": true,
+      "geometry_verified": true,
+      "counts": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 4,
+        "exclusions": 0
+      },
+      "error_types": [],
+      "native_report_sha256": "d412ad6f00552823e8c9d89ffba181769fb57f4a65cda471f15e4e734d44d9a0"
+    },
+    {
+      "variant": "back90",
+      "case": "false_hull",
+      "control_passed": true,
+      "geometry_verified": true,
+      "counts": {
+        "opens": 1,
+        "blocking": 0,
+        "warnings": 5,
+        "exclusions": 0
+      },
+      "error_types": [
+        "unconnected_items"
+      ],
+      "native_report_sha256": "ba29f91f5ddc524e184ca16ebab47f75e3c9e257cea1e2fe4a1a49cdac7ee37c"
+    },
+    {
+      "variant": "back90",
+      "case": "foreign_intrusion",
+      "control_passed": true,
+      "geometry_verified": true,
+      "counts": {
+        "opens": 0,
+        "blocking": 2,
+        "warnings": 4,
+        "exclusions": 0
+      },
+      "error_types": [
+        "shorting_items",
+        "solder_mask_bridge"
+      ],
+      "native_report_sha256": "61e9b15ed94796c69f3cfda0f035621bf38f864b92614da447dd14fb64ff962b"
+    }
+  ],
+  "scope": "Already performed ROOT native controls read only; no new execution. Original failed001 stays failed. v1.1 requires copper short with optional same-pair solder-mask companion. This does not test an engine conduction-area representation."
+}

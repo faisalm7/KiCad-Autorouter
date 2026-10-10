@@ -1,0 +1,46 @@
+{
+  "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-severity-controls-draft-002/driver.py",
+  "source_sha256": "15aa76b9e47e04d3c1e77bb74b91864f47e40f6e57e980c6e21ac0f81b6634d8",
+  "scope": "Only publication flow, real tiny files, mocked final scan timing; no native validation claim.",
+  "cases": [
+    {
+      "case": "unchanged",
+      "returned_controls_passed": true,
+      "canonical_controls_passed": true,
+      "source_unchanged": true,
+      "report_unchanged": true,
+      "calls": [
+        "stable",
+        "size",
+        "stable"
+      ],
+      "expected_controls_passed": true
+    },
+    {
+      "case": "late_source",
+      "returned_controls_passed": false,
+      "canonical_controls_passed": false,
+      "source_unchanged": false,
+      "report_unchanged": true,
+      "calls": [
+        "stable",
+        "size",
+        "stable"
+      ],
+      "expected_controls_passed": false
+    },
+    {
+      "case": "late_report",
+      "returned_controls_passed": false,
+      "canonical_controls_passed": false,
+      "source_unchanged": true,
+      "report_unchanged": false,
+      "calls": [
+        "stable",
+        "size",
+        "stable"
+      ],
+      "expected_controls_passed": false
+    }
+  ]
+}

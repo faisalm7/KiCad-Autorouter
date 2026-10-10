@@ -1,0 +1,74 @@
+{
+  "schema": 1,
+  "status": "cleared_for_root_bounded_diagnostic_execution",
+  "remaining_blockers": [],
+  "native_executed": false,
+  "network_requests": 0,
+  "author_or_tracked_edits": false,
+  "original_manifest_sha256": "f2bf2a19f9ade8ab71c9c27e28042147f3a5cace477fd63188b0465a1607967f",
+  "final_manifest_sha256": "e1020329cc5bd42b6270c437c6cf2ba33e84f5b58e629d2239ec28d5ce4f4c25",
+  "final_manifest_entries_verified": 19,
+  "promotion_files": {
+    "driver.py": {
+      "bytes": 25391,
+      "sha256": "15aa76b9e47e04d3c1e77bb74b91864f47e40f6e57e980c6e21ac0f81b6634d8"
+    },
+    "worker.py": {
+      "bytes": 6237,
+      "sha256": "31985a03709d7224b49ca3f16cb03b42ba1978f8318ae7d8725513711c3af769"
+    },
+    "fixture.py": {
+      "bytes": 5269,
+      "sha256": "3b423afcacd7ad3e681446f21fed9a1c5b62cb47904a307ce6f9b594a29cde73"
+    },
+    "checks.py": {
+      "bytes": 7840,
+      "sha256": "deee186e98360611a11f52930fc9d2c217958d0e1b26f86eea9db8f3724b0120"
+    },
+    "intent.py": {
+      "bytes": 3140,
+      "sha256": "a8e5824e9ae1ef2a8f706db25313454ece753ca099d4b1e16129401c172986e4"
+    },
+    "test_controls.py": {
+      "bytes": 23509,
+      "sha256": "e602e2aad4ccc37200632cacce1eef09070722463290c3b0a8fe8c3ab52583e0"
+    },
+    "PROTOCOL.json": {
+      "bytes": 1829,
+      "sha256": "cf99ab31ac0abc217a5cb43b85c47e0ae9bb6b2440c5ddb03ef5442929c7844f"
+    },
+    "README.md": {
+      "bytes": 5119,
+      "sha256": "2222ae131effde0b7749b3e08a83166ec3fffe3504b37219528a77a6cf1b0d35"
+    },
+    "SOURCE-NOTES.md": {
+      "bytes": 4127,
+      "sha256": "61cc417578486527ce3134911438f4244747e373e12cbb41711808fb57cab92e"
+    }
+  },
+  "reproduced_blockers": [
+    {
+      "id": "R1",
+      "description": "Final output-size scan followed last material sample, permitting stale original project/raw report with successful canonical summary.",
+      "initial_results": "publication-001/results.json",
+      "fixed_results": "publication-002/results.json",
+      "fixed": true
+    }
+  ],
+  "independent_checks": {
+    "recipe_predicate_assertions": 48,
+    "publication_cases_each_version": 3,
+    "cached_source_files": 15,
+    "original_author_files": 14,
+    "wrapper_pin_match": true,
+    "original_source_file_count": 15,
+    "original_source_bytes": 1366598,
+    "original_source_unchanged": true
+  },
+  "limitations": [
+    "No native recipe/API execution in this review.",
+    "Default-profile omission is a coverage observation only.",
+    "No parity, arbitrary machining, production admission, or routing performance qualification.",
+    "Bounded mutable-file consistency samples are not atomic authentication."
+  ]
+}

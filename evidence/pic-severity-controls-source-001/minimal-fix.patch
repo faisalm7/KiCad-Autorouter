@@ -1,0 +1,54 @@
+--- draft001/driver.py
++++ draft002/driver.py
+@@ -140,7 +140,7 @@
+     try:
+         stable();account();expected=f.canonical(record);p.save_json(path,record)
+         if f.canonical(read(path))!=expected:raise p.Rejected('summary changed after write')
+-        stable();final_size=size(out)
++        final_size=size(out);stable()
+         if f.canonical(record)!=expected or f.canonical(read(path))!=expected or final_size>LIMIT or remaining()<=0:raise p.Rejected('summary stale or final cap exceeded')
+     except (Exception,KeyboardInterrupt) as exc:
+         first=record.get('error');error=type(exc).__name__+': '+str(exc)
+--- draft001/test_controls.py
++++ draft002/test_controls.py
+@@ -154,6 +154,27 @@
+                     if variant=='stale':raise ValueError('changed material')
+             with mock.patch.object(d,'size',side_effect=scan):result=d.publish(out,record,stable,lambda:None,lambda:0 if expired else 1)
+             self.assertIs(result['controls_passed'],variant=='positive');self.assertEqual(result,d.read(out/'summary.json'));self.assertFalse(result['routing_accepted'])
++    def test_exact_reviewer_late_scan_source_and_report_mutations(self):
++        # Same three real-file cases as the independent publication reproducer.
++        for variant in ('unchanged','late_source','late_report'):
++            case=self.out/variant;case.mkdir();out=case/'out';out.mkdir()
++            source=case/'original.kicad_pro';source.write_text('{"original":true}\n')
++            report=out/'raw-report.json';report.write_text('{"violations":[]}\n')
++            frozen={source:d.digest(source),report:d.digest(report)};record=self.record();calls=[]
++            def stable():
++                calls.append('stable')
++                if any(d.digest(path)!=digest for path,digest in frozen.items()):raise d.p.Rejected('material changed')
++            real_size=d.size
++            def final_scan(path):
++                measured=real_size(path)
++                if variant!='unchanged':
++                    target=source if variant=='late_source' else report
++                    target.write_bytes(target.read_bytes()+b' ')
++                calls.append('size');return measured
++            with mock.patch.object(d,'size',side_effect=final_scan):result=d.publish(out,record,stable,lambda:None,lambda:1)
++            self.assertIs(result['controls_passed'],variant=='unchanged')
++            self.assertIs(d.read(out/'summary.json')['controls_passed'],variant=='unchanged')
++            self.assertEqual(calls,['stable','size','stable'])
+     def test_failed_correction_removes_positive_canonical(self):
+         save=d.p.save_json;calls=[]
+         def write(path,value):
+--- draft001/README.md
++++ draft002/README.md
+@@ -21,7 +21,9 @@
+ Before promotion, only pure checks are authorized:
+ 
+ ```
+-python3 -B .runs/pic-severity-controls-draft-001/test_controls.py
++python3 -B .runs/pic-severity-controls-draft-002/test_controls.py
+ ```
+ 
+ No native findings, coverage results or library completeness are established by those tests. The original remains production-blocked by custom pads and the four unqualified severity names. These controls do not widen support, qualify arbitrary postmachining/backdrills, prove electrical adequacy, or substitute for human PCB review.
++
++The independent publication-scan finding is fixed in draft002: final bounded size scanning now precedes the last full material/semantic check, strict canonical/returned-record equality, and final resource sample. Original draft001 and its reproduced stale-source/raw-report positives remain unchanged. No geometry, worker, predicates, protocol or production support changed.
