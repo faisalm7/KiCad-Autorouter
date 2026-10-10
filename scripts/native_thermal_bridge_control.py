@@ -28,6 +28,21 @@ def inside(point,poly):
         if (a[1]>y)!=(b[1]>y) and x<(b[0]-a[0])*(y-a[1])/(b[1]-a[1])+a[0]:v=not v
     return v
 
+def diagnostic_uuid_index(base):
+    owners={}
+    def visit(node):
+        if not isinstance(node,list) or not node:return
+        for child in node[1:]:
+            if isinstance(child,list) and child and child[0]=='uuid':
+                if len(child)!=2 or not isinstance(child[1],str):raise p.Rejected('malformed candidate UUID')
+                owners.setdefault(sx.unquote(child[1]),[]).append(node)
+            visit(child)
+    visit(base)
+    for uid,kind in ((PAD,'pad'),(ZONE,'zone')):
+        matches=owners.get(uid,[])
+        if len(matches)!=1 or matches[0][0]!=kind:raise p.Rejected('ambiguous or incorrectly typed diagnostic target UUID')
+    return owners
+
 def main(out,validate):
     started,started_cpu=time.monotonic(),cpu()
     out=out.resolve()
@@ -49,16 +64,10 @@ def main(out,validate):
     if baseline!=receipt['native'] or p.sha(BASE/'final-drc.json')!=receipt['native_report_sha256']:raise p.Rejected('base native report binding stale')
     errors=[f for f in baseline['findings'] if f['severity']=='error']
     if baseline['opens'] or baseline['exclusions'] or len(errors)!=1 or errors[0]['type']!='starved_thermal' or {i['uuid'] for i in errors[0]['items']}!={PAD,ZONE}:raise p.Rejected('unexpected baseline failure')
-    zone=next(z for z in sx.children(base,'zone') if sx.unquote(sx.one(z,'uuid')[1])==ZONE)
+    uuids=diagnostic_uuid_index(base)
+    zone=uuids[ZONE][0]
     if sx.one(zone,'net')!=['net','100'] or sx.one(zone,'layer')!=['layer','"B.Cu"']:raise p.Rejected('zone identity changed')
     polys=[[list(map(float,v[1:3])) for v in sx.one(poly,'pts')[1:]] for poly in sx.children(zone,'filled_polygon')]
-    uuids=[]
-    def visit(n):
-        if not isinstance(n,list):return
-        if n and n[0]=='uuid':uuids.append(sx.unquote(n[1]))
-        for child in n:visit(child)
-    visit(base)
-    if len(uuids)!=len(set(uuids)):raise p.Rejected('ambiguous original candidate UUIDs')
     proposals=[]
     for index,x in enumerate([149.96,150.00,150.04,150.08]):
         a=[x,71.7];b=[x,73.8]

@@ -1,0 +1,1 @@
+Failed diagnostic invocation retained. No native job started; original candidate/source were read only. The script and frozen code are in commit1cad16d. This failure establishes no native repair result or comparative performance. Exact process wall/CPU was not captured for this pre-native failure.

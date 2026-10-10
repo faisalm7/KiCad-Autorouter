@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "kind": "author static re-review and pure UUID controls; no native execution",
+  "promoted_sha256": "c905110267079d83d10b4f0266d18bc08ec11966860a0041401315fcc223cc12",
+  "proposed_sha256": "4a2014c1fb81972c54eec0ab208af5c4362d2082d3a10eceeada309cc6d4449d",
+  "patch_sha256": "1359a51e1b6d8da4bba8616412220bff8cbc8385242ea24ce8cc893326ef09cc",
+  "candidate_sha256": "922c6ce93556732940b5bccc06794c84b35fd164f86abd0ac3f6faf5b76e3f41",
+  "uuid_occurrences": 2077,
+  "distinct_uuids": 2075,
+  "duplicate_object_kinds": {
+    "1b8fe558-a37c-4374-bd81-51085d667a2a": [
+      "dimension",
+      "gr_text"
+    ],
+    "a89f3348-ea52-416c-b2a0-80e39b25fbec": [
+      "dimension",
+      "gr_text"
+    ]
+  },
+  "checks": {
+    "fixed_candidate_hash": true,
+    "only_dimension_nested_text_duplicates": true,
+    "target_pad_unique": true,
+    "target_zone_unique": true,
+    "pad_duplicate_rejected": true,
+    "pad_wrong_kind_rejected": true,
+    "zone_duplicate_rejected": true,
+    "zone_wrong_kind_rejected": true,
+    "proposal_0_no_collision": true,
+    "proposal_1_no_collision": true,
+    "proposal_2_no_collision": true,
+    "proposal_3_no_collision": true,
+    "collision_membership_preserves_all_occurrences": true,
+    "native_requested_executed_distinct": true,
+    "generation_exit_fail_closed": true
+  },
+  "passed": true,
+  "native_jobs": 0,
+  "limitations": [
+    "New native validation remains necessary.",
+    "Global UUID uniqueness is inappropriate for retained native dimension text. The patch narrows identity checks to the two diagnostic targets and all proposed UUID collisions."
+  ],
+  "existing_failure_preserved": true
+}
