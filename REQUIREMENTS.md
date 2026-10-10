@@ -4,7 +4,7 @@ Updated October 10, 2026. Evidence describes the exact recorded implementation a
 
 | Requirement | Implementation / executable check | Stored evidence | Status and limits |
 |---|---|---|---|
-| G0 local checkout, audited push and independent remote read-back | OS/Git inspection; remote SHA and decoded file byte comparison | `evidence/backups/G0.json`; `evidence/backups/checkpoint-6c34110.json` | Passed through 6c34110; later staged files still require audit |
+| G0 local checkout, audited push and independent remote read-back | OS/Git inspection; remote SHA and decoded file byte comparison | `evidence/backups/G0.json`; `evidence/backups/checkpoint-7ecc1b3.json` | Passed through 7ecc1b3; later staged files still require audit |
 | Pinned Mac native interfaces and engine | `python3 -m autorouter doctor` | `toolchain.lock.json`; `evidence/doctor-initial.json`; per-run tool manifests | KiCad 10.0.0, Freerouting 2.5.0 and Java 25.0.2 exercised; fresh-install/package matrix incomplete |
 | G1 licensed real routing with native refill/connectivity | `python3 -m autorouter route … --adapter both --output NEW` | `.runs/adapter-ablation-001/combined/result.json` and native report | Narrow vertical slice passed: 0 opens, 0 blocking findings, 1 warning; not whole-project or physical cleanliness |
 | Immutable original geometry, terminal mapping, zones, protected routes and rules | `pipeline.py` structural/file-set checks; native control generator | `evidence/native-controls-002/summary.json`; frozen run source/candidate manifests | Exercised narrow scope; unsupported constraints remain rejected |
@@ -92,3 +92,7 @@ Fresh placement production qualification: d6f7f81 owned fixture and eab7540 full
 Current installation helper source is promoted with 494 passing root tests (8.791s). Independent whole-flow mocked falsifiers exposed and fixed late Git/file changes and native-receipt capture ordering; real controller self-signals also reject publication. These are harness controls. Later actual installation003 at6c34110 passed:20 commands,494 tests, zero-finding native placement route and unchanged source/clone inventories; independent217-check audit verified160 selected public files. It reused installed dependencies on this Mac; no fresh OS/package/GUI claim. `evidence/placement-install-source-001`.
 
 LiPo original-format helper source is reviewed and promoted with38 pure controls; native observations remain pending. Both stage-freeze and late-material mutation defects were reproduced and fixed before native execution. No format admission, routing, library resolution or semantic migration is implemented by this helper. `experiments/lipo_native_diagnostic_v1`.
+
+Actual LiPo001 at7ecc1b3 failed DSN export after native load; no context JSON or DRC was produced. All originals remain unchanged,161 offline audit checks pass, and format/routing/dependency support remains false. The failed run is retained before a separately reviewed context-only diagnostic (`evidence/lipo-native-diagnostic-001`).
+
+The explicit LiPo context-only selector is source-reviewed:52 pure controls and6 independent methods pass, with default export preserved and no DSN-success claim possible in context-only mode. Actual002 remains pending after source checkpoint. `evidence/lipo-context-only-source-001`, `evidence/review-lipo-context-only-001`.

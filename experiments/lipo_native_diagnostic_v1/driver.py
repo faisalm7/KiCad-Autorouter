@@ -18,6 +18,7 @@ BOARD_SHA='3ef2141230ce971115381107486892bdf06a724c5d31d9ef2103622e113cf4e0'
 PROJECT_SHA='8bc2dc577fb98404f317730b10ba2945f213a14e212b7a0b3e7fba7943a8d95e'
 SECONDS=30;LIMIT=20*1024*1024;RESERVE=1024*1024
 HELPERS=('driver.py','test_driver.py')
+OBSERVATIONS=('export','context-only')
 
 def sha_bytes(raw):return hashlib.sha256(raw).hexdigest()
 def read(path):return f.read_json(path)
@@ -69,10 +70,24 @@ def source_notes(board,project):
         'unobserved_native_semantics':['full footprint/pad/drill geometry','edge arcs and stackup','all original zone/layer/legacy teardrop intent','save/refill serialization','import/route transplantation','library and model resolution'],
         'dependency_complete':False,'format_support_qualified':False}
 
-def observe_binding(out,hashes,notes):
+def observation_mode(observation):
+    if observation not in OBSERVATIONS:raise p.Rejected('unknown observation mode')
+    return 'export' if observation=='export' else 'final'
+
+def observe_argv(out,observation='export'):
+    mode=observation_mode(observation);board=out/'observe-input'/SOURCE.name
+    return f.context_argv(mode,board,out/'observation.json',out/'native.dsn' if mode=='export' else None)
+
+def observation_outputs(out,observation):
+    mode=observation_mode(observation);dsn=out/'native.dsn'
+    if mode=='final' and (dsn.exists() or dsn.is_symlink()):raise p.Rejected('unexpected DSN in context-only observation')
+    return ['observation.json','native.dsn'] if mode=='export' else ['observation.json']
+
+def observe_binding(out,hashes,notes,observation='export'):
     board=out/'observe-input'/SOURCE.name;observed=read(out/'observation.json');dsn=out/'native.dsn'
-    if not 0<len(io.read_bytes(dsn,LIMIT))<=LIMIT:raise p.Rejected('empty native DSN')
-    f.context_binding(observed,board,hashes,'export',p.sha(dsn))
+    mode=observation_mode(observation);observation_outputs(out,observation)
+    if mode=='export' and not 0<len(io.read_bytes(dsn,LIMIT))<=LIMIT:raise p.Rejected('empty native DSN')
+    f.context_binding(observed,board,hashes,mode,p.sha(dsn) if mode=='export' else None)
     if observed.get('context_schema')!=1 or observed.get('native_version')!='10.0.0' or observed.get('units')!='integer nanometres' or observed.get('routing_accepted') is not False:raise p.Rejected('unexpected observation schema')
     native_pads=[{k:r[k] for k in ('uuid','reference','number','net')} for r in observed['pads']]
     key=lambda row:row['uuid']
@@ -106,13 +121,14 @@ def reserve_copy(out,source_bytes,copies):
 
 class ObservationJob(f.FloorJob):
     """Use proven isolation and runner, narrowed to two nonsaving native actions."""
-    def __init__(self,out,seconds,remaining):
+    def __init__(self,out,seconds,remaining,observation='export'):
+        observation_mode(observation);self.observation=observation
         super().__init__(out,seconds,remaining);self.stage_evidence={}
     def step(self,name,argv,allowed=(0,),*,already_sandboxed=False):
         actual=[str(x) for x in (argv if already_sandboxed else [*f.SANDBOX,*argv])]
-        board=self.out/'observe-input'/SOURCE.name
-        expected=f.context_argv('export',board,self.out/'observation.json',self.out/'native.dsn') if name=='observe' else drc_argv(self.out)
+        expected=observe_argv(self.out,self.observation) if name=='observe' else drc_argv(self.out)
         if name not in ('observe','original-drc') or actual!=expected:raise p.Rejected('only exact nonsaving observation/DRC allowed')
+        observation_outputs(self.out,self.observation)
         available=self.remaining()
         if available<=0:raise p.Rejected('shared wall/CPU budget exhausted')
         result=run(actual,cwd=self.out,log=self.out/(name+'.log'),
@@ -120,7 +136,7 @@ class ObservationJob(f.FloorJob):
         result['name']=name;self.steps.append(result);p.save_json(self.out/(name+'-process.json'),result)
         if result['status']=='cancelled':raise KeyboardInterrupt
         if result['status'] not in ('success','nonzero_exit') or result['exit_code'] not in allowed or result.get('cleanup_complete') is not True:raise p.Rejected(name+': '+result['status'])
-        names=(['observation.json','native.dsn'] if name=='observe' else ['original-drc.json'])+[name+'-process.json',name+'.log']
+        names=(observation_outputs(self.out,self.observation) if name=='observe' else ['original-drc.json'])+[name+'-process.json',name+'.log']
         self.stage_evidence[name]={key:sha_bytes(io.read_bytes(self.out/key,LIMIT)) for key in names}
         if self.remaining()<=0 or size(self.out)>LIMIT:raise p.Rejected('observation resource cap exceeded')
         return result
@@ -154,14 +170,16 @@ def publish(out,record,stable,account,remaining):
         except (Exception,KeyboardInterrupt):invalidate()
     return record
 
-def experiment(out,*,run_native=False):
+def experiment(out,*,run_native=False,observation='export'):
     if run_native is not True:raise p.Rejected('--run-native required')
+    mode=observation_mode(observation)
     start=time.monotonic();cpu0=cpu();out=owned(out,output=True)
     remaining=lambda:max(0,min(SECONDS-(time.monotonic()-start),SECONDS-(cpu()-cpu0)))
-    job=ObservationJob(out,SECONDS,remaining)
+    job=ObservationJob(out,SECONDS,remaining,observation)
     record={'schema':1,'status':'incomplete','observations_complete':False,'routing_accepted':False,'dependency_complete':False,'format_support_qualified':False,
+        'observation':observation,'native_observation_mode':mode,'dsn_export_requested':mode=='export','dsn_export_succeeded':False,'native_dsn_sha256':None,
         'semantic_migration_performed':False,'board_saved':False,'new_engine_execution':False,'source':str(SOURCE),'budget_seconds':SECONDS,'cpu_budget_seconds':SECONDS,'output_ceiling_bytes':LIMIT,
-        'scope':'Unsupported original-format development input; two complete unchanged copies, same-load observer/export plus separate original-rule DRC. No routing/acceptance auditor, aliases, substitutions or source save.',
+        'scope':'Unsupported original-format development input; two complete unchanged copies, same-load ' + observation + ' observation plus separate original-rule DRC. No routing/acceptance auditor, aliases, substitutions or source save.',
         'accounting_point':'Stored totals precede final publication; completed observations require final whole-run wall/parent+waited-child CPU and output caps. Polling can overshoot; no hard aggregate CPU quota.'}
     authorized=False;frozen=None;completed=None;stage_one=None;stage_two=None
     def account():
@@ -170,13 +188,15 @@ def experiment(out,*,run_native=False):
         if not record['within_budget']:record.update(observations_complete=False,status='budget_exceeded')
     def stable():
         if not authorized:return
+        observation_outputs(out,observation)
+        if record.get('observation')!=observation or record.get('native_observation_mode')!=mode or record.get('dsn_export_requested') is not (mode=='export') or record.get('dsn_export_succeeded') is not (mode=='export' and stage_one is not None):raise p.Rejected('recorded observation selection differs')
         # Metadata executes Git. Rehash all trusted material after that call,
         # not merely before it, so mutations during metadata cannot be adopted.
         if frozen is not None and p.tool_manifest()!=record['tools']:raise p.Rejected('frozen core/tool/HEAD changed')
         if stage_one is not None:
             if any(sha_bytes(io.read_bytes(out/name,LIMIT))!=digest for name,digest in stage_one.items()):raise p.Rejected('stage-one observation evidence changed')
-            observed=observe_binding(out,hashes,notes)
-            if (record.get('observation_sha256')!=stage_one['observation.json'] or record.get('native_dsn_sha256')!=stage_one['native.dsn']
+            observed=observe_binding(out,hashes,notes,observation)
+            if (record.get('observation_sha256')!=stage_one['observation.json'] or record.get('native_dsn_sha256')!=stage_one.get('native.dsn')
                     or record.get('native_effective_floors_nm')!=observed['floors_nm'] or record.get('native_effective_nets')!=observed['nets']):
                 raise p.Rejected('recorded observation differs from frozen raw evidence')
             if inventory(out/'observe-input')!=hashes:raise p.Rejected('observation source copy changed')
@@ -186,7 +206,7 @@ def experiment(out,*,run_native=False):
         if completed is not None:
             now={k:v for k,v in inventory(out).items() if k!='summary.json' and not k.startswith('invalidated-')}
             if now!=completed:raise p.Rejected('completed observation evidence changed')
-            f.process_check(out,{'steps':job.steps},'observe',f.context_argv('export',out/'observe-input'/SOURCE.name,out/'observation.json',out/'native.dsn'))
+            f.process_check(out,{'steps':job.steps},'observe',observe_argv(out,observation))
             if [step['name'] for step in job.steps]!=['observe','original-drc']:raise p.Rejected('unexpected completed native stage census')
         if frozen is not None:
             if any(p.sha(Path(path))!=digest for path,digest in record['tools']['files'].items()):raise p.Rejected('runtime tool material changed')
@@ -203,12 +223,12 @@ def experiment(out,*,run_native=False):
         reserve_copy(out,total,2);record['planned_project_copy_bytes']=2*total
         shutil.copytree(SOURCE.parent,out/'observe-input');stable()
         if inventory(out/'observe-input')!=hashes:raise p.Rejected('observation copy differs')
-        board=out/'observe-input'/SOURCE.name;argv=f.context_argv('export',board,out/'observation.json',out/'native.dsn')
+        board=out/'observe-input'/SOURCE.name;argv=observe_argv(out,observation)
         job.step('observe',argv,already_sandboxed=True)
         stage_one=dict(job.stage_evidence['observe'])
-        observed=observe_binding(out,hashes,notes)
+        observed=observe_binding(out,hashes,notes,observation)
         f.process_check(out,{'steps':job.steps},'observe',argv)
-        record.update(stage_one_evidence=stage_one,observation_sha256=stage_one['observation.json'],native_dsn_sha256=stage_one['native.dsn'],native_effective_floors_nm=observed['floors_nm'],native_effective_nets=observed['nets'],native_original_pad_route_identities_match=True)
+        record.update(dsn_export_succeeded=mode=='export',stage_one_evidence=stage_one,observation_sha256=stage_one['observation.json'],native_dsn_sha256=stage_one.get('native.dsn'),native_effective_floors_nm=observed['floors_nm'],native_effective_nets=observed['nets'],native_original_pad_route_identities_match=True)
         stable();reserve_copy(out,total,1)
         native=job.drc('original-drc',board,save=False);stage_two=dict(job.stage_evidence['original-drc']);record['stage_two_evidence']=stage_two
         record['native']=native;record['native_binding']=drc_binding(out,job.steps,hashes,native)
@@ -222,14 +242,14 @@ def experiment(out,*,run_native=False):
     return publish(out,record,stable,account,remaining)
 
 def main(argv=None):
-    ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--output',type=Path,required=True);ap.add_argument('--run-native',action='store_true');args=ap.parse_args(argv)
+    ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--output',type=Path,required=True);ap.add_argument('--run-native',action='store_true');ap.add_argument('--observation',choices=OBSERVATIONS,default='export');args=ap.parse_args(argv)
     if not args.run_native:ap.error('--run-native required; no native execution')
     previous={sig:signal.getsignal(sig) for sig in (signal.SIGINT,signal.SIGTERM)}
     def interrupted(*_):raise KeyboardInterrupt
     try:
         for sig in previous:signal.signal(sig,interrupted)
         with owned(ROOT/'.runs/quality-experiment.lock').open('a') as stream:
-            fcntl.flock(stream,fcntl.LOCK_EX|fcntl.LOCK_NB);record=experiment(args.output,run_native=True)
+            fcntl.flock(stream,fcntl.LOCK_EX|fcntl.LOCK_NB);record=experiment(args.output,run_native=True,observation=args.observation)
     finally:
         for sig,handler in previous.items():signal.signal(sig,handler)
     print(json.dumps({'status':record['status'],'observations_complete':record['observations_complete'],'routing_accepted':False,'format_support_qualified':False}))

@@ -1,8 +1,12 @@
-# LiPo original-format A/B diagnostic draft
+# LiPo original-format A/B diagnostic
 
-Ready for independent source review, not executed natively. The 38 pure controls exercise real original file/blob inventories and fabricated native observations/publication failures. They do not establish native geometry, settings, routing, or compatibility.
+The original export diagnostic001 stopped honestly at `ExportSpecctraDSN` returning false; observer JSON and DRC were not reached, and original inputs remained unchanged. The default `export` behavior is retained. An explicit `--observation context-only` now uses the unchanged production `floor_context.py final` observer, without DSN export or adapter work, then the same separate original-rule DRC. Its next native run is pending lead execution. All 52 pure controls pass; fabricated observations and process records do not establish native geometry, settings, routing, or compatibility.
 
-This is the smallest A/B portion of `.runs/lipo-format-plan-001/PLAN.md`: copy all 26 pinned original files unchanged, observe the loaded board and raw DSN through the current production `floor_context.py export` helper, then original-rule CLI DRC with in-memory refill on a second complete copy. No board is saved; no route is removed or added. The original format rejection is deliberately recorded, not bypassed for routing. No acceptance auditor, rules normalization, environment-alias substitution, library update, model installation, source script, engine, or save/migration stage runs.
+Context-only mode records `observation=context-only`, `native_observation_mode=final`, `dsn_export_requested=false`, `dsn_export_succeeded=false` and `native_dsn_sha256=null`. It rejects an unexpected `native.dsn` file, directory or symlink, export-mode context, or export argv. Both modes freeze each stage's complete evidence before parsing and retain the same source, tool, committed-code, budget, cancellation and final publication guards. The original format/support/dependency/routing claims remain false. A completed context-only observation cannot be represented as a successful export.
+
+Four original padless footprints have the same KiBuzzard reference. Pinned KiCad exporter source rejects duplicate references across all footprints; this explains a plausible export failure path but is not a newly observed native cause. The existing observer records pad identities, not a complete native padless-footprint census. Its no-layer via-width calls may retain native warnings already seen in diagnostic001; these are not hidden, treated as export causation, or used to qualify native width semantics. No footprint is renamed/removed and no board is saved or converted.
+
+This is the smallest A/B portion of `.runs/lipo-format-plan-001/PLAN.md`: copy all 26 pinned original files unchanged, observe the loaded board (plus raw DSN in default export mode) through the current production `floor_context.py` helper, then original-rule CLI DRC with in-memory refill on a second complete copy. No board is saved; no route is removed or added. The original format rejection is deliberately recorded, not bypassed for routing. No acceptance auditor, rules normalization, environment-alias substitution, library update, model installation, source script, engine, or save/migration stage runs.
 
 The helper records native floors and complete effective netclass rows separately from original project JSON. Ten pad identities, three nonempty nets and eight original route identities must match. Original zone intent (including both legacy teardrops) is recorded as static source data only. Full native pad/footprint/drill shape, edge arcs, stackup, zone/teardrop interpretation, saved refill, import compatibility and dependency resolution remain explicitly unobserved. A clean raw DRC, should it occur, does not close any of those gaps. `routing_accepted`, `format_support_qualified`, and `dependency_complete` remain false for every outcome. `central_native_policy_accepted` describes only the recorded native report under the unchanged central policy, never project admission.
 
@@ -18,12 +22,12 @@ After review, the lead can copy `driver.py` and `test_driver.py` byte-identicall
 
 ```sh
 python3 -B -m unittest discover -s experiments/lipo_native_diagnostic_v1 -p test_driver.py -v
-python3 -B experiments/lipo_native_diagnostic_v1/driver.py --output .runs/lipo-native-diagnostic-001 --run-native
+python3 -B experiments/lipo_native_diagnostic_v1/driver.py --output .runs/lipo-native-diagnostic-002 --run-native --observation context-only
 ```
 
 Running directly from the untracked draft intentionally fails the committed-byte gate before native execution. The expected result is bounded observations or an honestly retained unsupported/native failure, not an expected clean DRC or qualification. Root owns execution and subsequent decisions. No Stage C or production format change is proposed here.
 
-## Independent review correction
+## Historical source review corrections before diagnostic001
 
 Snapshot001 preserves the initial manifest, source and 29-control logs unchanged. The reviewer reproduced two whole-flow freshness defects using copied small inputs and fake native/Git calls: stage-one observations could be mutated during Stage B and then adopted into the final inventory, and originals could change during the final Git metadata call after their prior hash check. Both were observation-integrity failures; no actual native diagnostic had run.
 

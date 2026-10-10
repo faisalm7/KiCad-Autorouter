@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "kind": "Read-only design audit; no implementation/native/engine/GUI/network execution",
+  "git_head": "7ecc1b3004831aea614fbc8c7d42babd1571bdbd",
+  "reviewed_files": {
+    "autorouter/handoff.py": "d0c76da3608f4bfdff95dca5d78c05424976503009f0b5b4a2077fab3f896c89",
+    "autorouter/__main__.py": "392fce11f56a05acd7cc90c504d016e0ca04ece04fde70d95fbfef48c2fac8fc",
+    "autorouter/pipeline.py": "435b55852ec1616c2a546ac89c5aa67a198cedd864691b67df56332bf4af6f4e",
+    "autorouter/placement_clearance.py": "b1d891d0bc8284bcac80a20cff11263afc8966e30ce8baaf35f1ae78e27ff152",
+    "autorouter/floor_route.py": "403582db57db73c5d10b4083b3e050f70966b07d3b219cd3ad0f3c387aa51b88",
+    "tests/test_handoff.py": "b6eec96cb111a605eb0cd07044dc2f634f629b06da423b0d75b256ae4c8bdc33",
+    "tests/test_placement_policy.py": "7b43ecce74449ce97d33c7c27c9314c128fbed97fd058725060beb76e008ca5f",
+    "docs/gui-workflow.md": "8047b65bb3bd35b04d7a5df5f3bbb0e220783c94bdc6b92ee76d83272a1b76a5",
+    "docs/placement-clearance-guidance.md": "7f89824ec1b64e518bf5e8ac1879901607dbeda3b7a2e50b439c2b4c17d6db79",
+    "docs/review-quality.md": "fe4de1550d3596366424c07cbb6a140bfe19861b5f0b74336fca1b0c01598260",
+    "README.md": "63098333c9d0899932a74a3272aa51f669c2fbf3394ad3655816989eb49d2ec1"
+  },
+  "current_behavior": "All non-native policies remain rejected by handoff.review_copy",
+  "proposed_first_new_scope": "Accepted schema3 placement-clearance-v1 disposable copy only; board-floors-v1 remains blocked",
+  "tests_run": 0,
+  "native_jobs": 0,
+  "engine_jobs": 0,
+  "new_counterexamples_executed": false,
+  "current_code_gaps": "Destination full-project freshness after second check and ready-publication invalidation need focused reproduction/controls before scope expansion."
+}
