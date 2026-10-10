@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-placement-clearance-controls-001/audit.py", line 56, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-placement-clearance-controls-001/audit.py", line 35, in main
+    ok(case+': actual process fully completed',len(entry['steps'])==1 and entry['steps'][0]['exit_code']==5 and entry['steps'][0]['cleanup_complete'] is True and entry['steps'][0]['status']=='success')
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-placement-clearance-controls-001/audit.py", line 13, in ok
+    if not v:raise AssertionError(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: unchanged_negative: actual process fully completed

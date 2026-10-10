@@ -1,0 +1,19 @@
+{
+  "native_or_engine_executed": false,
+  "large_allocation_or_large_file_created": false,
+  "oversize_final_read": {
+    "virtual_size_bytes": 34603008,
+    "actual_size_bytes": 1,
+    "stable_passed": true,
+    "body_read_after_oversize_metadata": true
+  },
+  "late_extra_inventory_continued": {
+    "events": [
+      "saw expected a",
+      "continued after unexpected b"
+    ],
+    "sentinel_reached": true,
+    "error": "continued beyond already-mismatched inventory"
+  },
+  "interpretation": "Reproduces unbounded final read/scan design under tiny mocked metadata/iterator. Does not indicate a wrong actual index."
+}

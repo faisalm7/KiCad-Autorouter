@@ -1,11 +1,13 @@
-# Placement/search v2 diagnostic draft
+# Placement/search v2 diagnostic
 
-This draft is unexecuted and not qualified for production. It tests a fixed
+This diagnostic is not qualified for production. It tests a fixed
 conservative engine-planning parameter on the already exposed multichannel
 board. It does not change original rules, pad shapes, floor context, or the
 final native acceptance predicate. It is adapter/search work, not C novelty or
 generalized superiority. The preceding v1 pair had160 versus8 opens and both
 outputs were invalid; those historical results and runtime remain untouched.
+
+Actual execution at24ab168d is complete: the fresh owned fixture passed; the full zero-margin arm rejected8opens/2clearance,20µm/default accepted0opens/0blocking/96warnings, and20µm/low rejected one thermal. All fully charged120second wall/CPU caps passed. Only one compared output is valid, so no route-quality delta is claimed. Independent raw review passed167 checks. See [results](../../evidence/placement-search-three-arm-001/summary.json) and [scope](../../docs/placement-area-diagnostics.md). This is one exposed adapter/search completion gain, not C novelty or generalized evidence.
 
 Three fresh fixed-order arms each receive equal120-second wall and measured
 CPU ceilings, with ALL shared preparation, publication and readback cost charged
@@ -87,19 +89,17 @@ verify explicit50/5 versus25/3 flags. Native/process stages in wrapper tests are
 mocked; none of these checks establishes new native routing validity. Initial
 49-control successful run is retained as `pure-tests-001.log`.
 
-After review, promote this directory's runtime/tests/protocol/README into
-`experiments/placement_diagnostic_v2`, rerun the pure controls, commit, push and
-verify readback. Do not copy log/manifests into runtime unless deliberately
-preserving evidence. Example commands use unused output names:
+The reviewed source is integrated here. For a justified reproduction after a new
+verified source checkpoint, use a fresh strongest-policy fixture and comparison
+at the same HEAD. Do not overwrite completed001 outputs. Example follow-up names:
 
 ```sh
 python3 -B -m unittest discover -s experiments/placement_diagnostic_v2 -p 'test_*.py'
-python3 -B experiments/placement_diagnostic_v2/diagnostic_route.py --run-diagnostic --source evidence/placement-area-native-001/allowed_placement/candidate/fixture.kicad_pcb --output .runs/placement-search-fixture-001 --seconds 60 --policy placement-search-v2-margin20um-via-low
-python3 -B experiments/placement_diagnostic_v2/diagnostic_route.py --check-result .runs/placement-search-fixture-001/result.json
-python3 -B experiments/placement_diagnostic_v2/experiment_search.py --run-search --fixture-result .runs/placement-search-fixture-001/result.json --output .runs/placement-search-three-arm-001
+python3 -B experiments/placement_diagnostic_v2/diagnostic_route.py --run-diagnostic --source evidence/placement-area-native-001/allowed_placement/candidate/fixture.kicad_pcb --output .runs/placement-search-fixture-followup-001 --seconds 60 --policy placement-search-v2-margin20um-via-low
+python3 -B experiments/placement_diagnostic_v2/diagnostic_route.py --check-result .runs/placement-search-fixture-followup-001/result.json
+python3 -B experiments/placement_diagnostic_v2/experiment_search.py --run-search --fixture-result .runs/placement-search-fixture-followup-001/result.json --output .runs/placement-search-three-arm-followup-001
 ```
 
 The fixture is separate qualification work, not charged comparison work. The
 three-arm job requires the successful fixture, same committed code/tool/source
-freeze, one native lane and sufficient bounded storage. No new run was executed
-by the draft author. No acquisition or full output tree duplication was needed.
+freeze, one native lane and sufficient bounded storage. The lead executed the original001 runs; the draft author and reviewers did not run competing native jobs.

@@ -1,13 +1,13 @@
-# Fixed two-segment clearance counterfactual — driver only
+# Fixed two-segment clearance counterfactual
 
-Not executed natively. The lead must review/promote/checkpoint before using the explicit `--run-native` switch. The driver uses the retained rejected placement arm1 candidate SHA `87b82041c0b6fbdbf21cd0ba2b3c08e56195facc984f2a93febc919432ae66e3`, complete original 17-file project and pinned prior pair/arm receipts. It never reroutes, imports engine output, changes original rules or writes any prior evidence.
+Actual native control001 at897add4 completed and failed its predeclared positive predicate. The unchanged negative reproduced8opens/2pad errors; the translated case removed those pad errors but introduced4clearances against neighboring GND tracks, with8opens unchanged. All raw evidence is retained, source/rules are unchanged, and no recipe was retuned. See [summary](../../evidence/placement-clearance-controls-001/summary.json). This reviewed source requires a verified checkpoint before any justified fresh execution with `--run-native`. The driver uses the retained rejected placement arm1 candidate SHA `87b82041c0b6fbdbf21cd0ba2b3c08e56195facc984f2a93febc919432ae66e3`, complete original 17-file project and pinned prior pair/arm receipts. It never reroutes, imports engine output, changes original rules or writes any prior evidence.
 
 Two predeclared derived cases:
 
 1. `unchanged_negative`: candidate bytes unchanged. Require the same two error-severity clearance findings against RV13 MP pad `8e14d5c7…` and the two selected track UUIDs, 8 opens, 2 blocking findings, unchanged 94-warning count, 0 exclusions and unchanged ignored checks.
 2. `translated_positive`: translate both endpoints of track `1b4dc6f3…` by (+0.015,+0.015) mm, and track `b5b9d5b3…` by (+0.015,−0.015) mm. Exact source coordinates, 0.300 mm width, B.Cu, net56 and unique top-level segment identity are prerequisites. Reverse the four endpoint edits to recover the entire original AST exactly; UUIDs, all other route fields, pads, zones, edges, net mapping, project files and rules remain unchanged. Translation normal to each 45° trace raises analytic clearance by 0.0212132034 mm. Require all clearance and other blocking-error findings gone, no newly introduced policy-critical finding and opens no worse than8. This is stricter than merely preserving the set of blocking types. Every result still has `routing_accepted=false` and no comparison/production/margin-policy qualification. If eight opens remain, the actual board is still rejected by central native policy.
 
-The positive condition is an unexecuted hypothesis. Translated endpoints can disconnect existing routing; an increase in opens or remaining/new blocking findings makes the control fail. The driver preserves such raw outcomes and never retries different coordinates.
+The positive condition was a predeclared hypothesis; the actual run failed it. Translated endpoints can disconnect existing routing; an increase in opens or remaining/new blocking findings makes the control fail. The driver preserves such raw outcomes and never retries different coordinates.
 
 Safety/provenance:
 
@@ -19,10 +19,10 @@ Safety/provenance:
 
 Eighteen pure controls pass in `pure-tests-003.log`. They parse actual saved geometry to verify exact two-node translations and byte-unchanged negative, reject missing/duplicate/wrong/nested target identities, changed coordinates/dimensions/net/layer/lock, malformed or dishonest native conditions, and exercise small-file path/size controls plus post-positive cancellation, summary tampering, failed corrective writes and final readback budget exhaustion. Four additional controls cover exact committed bytes, changed live/source bytes and exhausted Git-audit time, four-copy projection arithmetic and actual small-file aggregate-copy overflow without large allocation. Tests never invoke native tools or the engine. `baseline-readback-001.log` separately verifies the actual historical receipt/source/evidence identities read-only (17 source and17candidate files, six prior trees, expected8/2/94/0 native counters). It is not native preparation/acceptance evidence.
 
-Draft command for the lead only, after review and explicit promotion/checkpoint:
+Command for a justified fresh reproduction by the lead only, after a verified source checkpoint (001 is already completed):
 
 ```text
-python3 -B experiments/placement_clearance_controls_v1/driver.py --output .runs/placement-clearance-controls-001 --run-native
+python3 -B experiments/placement_clearance_controls_v1/driver.py --output .runs/placement-clearance-controls-followup-001 --run-native
 ```
 
 If promoted into `experiments/placement_clearance_controls_v1`, retain these four helper basenames and adjust only the command path. Root discovery uses the real parent `toolchain.lock.json`. Running without `--run-native` or reusing an output directory is rejected before native work. No source/board-specific action from this diagnostic is a general repair algorithm or evidence that a20µm engine margin is universally qualified.

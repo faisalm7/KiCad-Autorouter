@@ -1,0 +1,283 @@
+{
+  "schema": 1,
+  "audit_passed": true,
+  "review_kind": "independent AI read-only evidence audit",
+  "native_or_engine_executed": false,
+  "check_count": 167,
+  "summary_sha256": "995d15bc7b04545e4e8faa4e6c0b6a93b0f65b16b2b976a99cd3131d127fa98b",
+  "protocol_sha256": "a55e272044fb44ef285649e09b8b643d17f8d9506e1c0c982c581bbc4d738a16",
+  "arms": [
+    {
+      "arm": 0,
+      "policy": "placement-search-v2-margin0-default",
+      "status": "drc_rejected",
+      "routing_accepted": false,
+      "candidate_sha256": "f49f7d14221ee9925507bedb847590dabc46a9e2b867a445bb54ea309daad797",
+      "report_sha256": "f9ebfcfa34292e7eb4ee2ca4e04a91bc94af3d35433d83d77f1abd87d8a32183",
+      "native": {
+        "opens": 8,
+        "blocking": 2,
+        "warnings": 94,
+        "exclusions": 0
+      },
+      "finding_types": {
+        "clearance": 2,
+        "track_dangling": 1,
+        "connection_width": 6,
+        "silk_edge_clearance": 1,
+        "lib_footprint_mismatch": 81,
+        "silk_over_copper": 4,
+        "nonmirrored_text_on_back_layer": 1,
+        "unconnected_items": 8
+      },
+      "segments_transported": 770,
+      "blocking_findings": [
+        {
+          "description": "Clearance violation (board minimum clearance 0.3000 mm; actual 0.2995 mm)",
+          "items": [
+            {
+              "description": "Track [Net-(IC5B-IN-)] on B.Cu, length 1.0081 mm",
+              "pos": {
+                "x": 107.3545,
+                "y": 106.6582
+              },
+              "uuid": "17d6746c-b301-4d90-abcb-02684230338a"
+            },
+            {
+              "description": "PTH pad MP [<no net>] of RV13",
+              "pos": {
+                "x": 105.4,
+                "y": 108.4
+              },
+              "uuid": "8e14d5c7-1e43-4f6e-863a-75ee7e612059"
+            }
+          ],
+          "severity": "error",
+          "type": "clearance"
+        },
+        {
+          "description": "Clearance violation (board minimum clearance 0.3000 mm; actual 0.2994 mm)",
+          "items": [
+            {
+              "description": "Track [Net-(IC5B-IN-)] on B.Cu, length 3.2766 mm",
+              "pos": {
+                "x": 105.0376,
+                "y": 112.4586
+              },
+              "uuid": "5166b518-1582-4f81-acb2-554491d38e8d"
+            },
+            {
+              "description": "PTH pad MP [<no net>] of RV13",
+              "pos": {
+                "x": 105.4,
+                "y": 108.4
+              },
+              "uuid": "8e14d5c7-1e43-4f6e-863a-75ee7e612059"
+            }
+          ],
+          "severity": "error",
+          "type": "clearance"
+        }
+      ],
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 327,
+        "footprints": 114,
+        "zones": 6,
+        "vias": 13,
+        "track_length_mm": 2404.7535556020407,
+        "copper_layers": 2
+      },
+      "assigned_seconds": 113.599,
+      "internal_job_seconds": 60,
+      "receipt_wall_seconds": 37.64020724999864,
+      "receipt_cpu_seconds": 50.893561000000005,
+      "invocation_wall_seconds": 45.65255149999575,
+      "invocation_cpu_seconds": 58.892139,
+      "charged_wall_seconds": 47.23744162500225,
+      "charged_cpu_seconds": 60.386719000000014,
+      "source_zone_count": 6,
+      "candidate_zone_count": 6,
+      "recorded_started_utc": "2026-10-10T12:16:40.454864+00:00"
+    },
+    {
+      "arm": 1,
+      "policy": "placement-search-v2-margin20um-default",
+      "status": "diagnostic_accepted",
+      "routing_accepted": true,
+      "candidate_sha256": "36e778573b2c90dfca8f9d45597e6bd890cc45c7fc4c6c86a2673e2e7fef3bef",
+      "report_sha256": "a86988c1f81f2ff0ece9a0fe4fec67c1f9c05952fbc71e83e09c92a330191fe7",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 96,
+        "exclusions": 0
+      },
+      "finding_types": {
+        "connection_width": 9,
+        "silk_edge_clearance": 1,
+        "lib_footprint_mismatch": 81,
+        "silk_over_copper": 4,
+        "nonmirrored_text_on_back_layer": 1
+      },
+      "segments_transported": 783,
+      "blocking_findings": [],
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 327,
+        "footprints": 114,
+        "zones": 6,
+        "vias": 21,
+        "track_length_mm": 2647.385728862638,
+        "copper_layers": 2
+      },
+      "assigned_seconds": 113.599,
+      "internal_job_seconds": 60,
+      "receipt_wall_seconds": 34.81238712499908,
+      "receipt_cpu_seconds": 46.942978,
+      "invocation_wall_seconds": 42.995834082998044,
+      "invocation_cpu_seconds": 55.077489,
+      "charged_wall_seconds": 44.58072420800454,
+      "charged_cpu_seconds": 56.57206900000001,
+      "source_zone_count": 6,
+      "candidate_zone_count": 6,
+      "recorded_started_utc": "2026-10-10T12:17:26.131603+00:00"
+    },
+    {
+      "arm": 2,
+      "policy": "placement-search-v2-margin20um-via-low",
+      "status": "drc_rejected",
+      "routing_accepted": false,
+      "candidate_sha256": "55670625699b4ed2a19c4436b61248101e6284c65ec6adb25902549e472f3ae8",
+      "report_sha256": "f233feb5205dc28a58e0c18d9e9d1df8788d31ca966cf62cb010e359eb4d7554",
+      "native": {
+        "opens": 0,
+        "blocking": 1,
+        "warnings": 95,
+        "exclusions": 0
+      },
+      "finding_types": {
+        "starved_thermal": 1,
+        "connection_width": 8,
+        "silk_edge_clearance": 1,
+        "lib_footprint_mismatch": 81,
+        "silk_over_copper": 4,
+        "nonmirrored_text_on_back_layer": 1
+      },
+      "segments_transported": 805,
+      "blocking_findings": [
+        {
+          "description": "Thermal relief connection to zone incomplete (layer B.Cu; 2 spokes connected to isolated island)",
+          "items": [
+            {
+              "description": "Zone [GND] on F.Cu and B.Cu, priority 1",
+              "pos": {
+                "x": 199.46,
+                "y": 154.66
+              },
+              "uuid": "2a2e83ed-a77d-476f-8432-6de9bc7f83ed"
+            },
+            {
+              "description": "PTH pad 2 [GND] of C2",
+              "pos": {
+                "x": 185.19,
+                "y": 101.73
+              },
+              "uuid": "165eb624-4975-4aaf-be98-534b58e79af9"
+            }
+          ],
+          "severity": "error",
+          "type": "starved_thermal"
+        }
+      ],
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 327,
+        "footprints": 114,
+        "zones": 6,
+        "vias": 32,
+        "track_length_mm": 2624.012119781446,
+        "copper_layers": 2
+      },
+      "assigned_seconds": 113.599,
+      "internal_job_seconds": 60,
+      "receipt_wall_seconds": 24.139390415999515,
+      "receipt_cpu_seconds": 28.821819999999992,
+      "invocation_wall_seconds": 32.54634704199998,
+      "invocation_cpu_seconds": 37.140274999999974,
+      "charged_wall_seconds": 34.131237167006475,
+      "charged_cpu_seconds": 38.63485499999999,
+      "source_zone_count": 6,
+      "candidate_zone_count": 6,
+      "recorded_started_utc": "2026-10-10T12:18:09.148685+00:00"
+    }
+  ],
+  "comparison": {
+    "margin_effect": {
+      "reference_policy": "placement-search-v2-margin0-default",
+      "variant_policy": "placement-search-v2-margin20um-default",
+      "reference_accepted": false,
+      "variant_accepted": true,
+      "completion_difference": 1,
+      "scope": "One exposed diagnostic planning/search comparison; no production/C/B2/generalized claim",
+      "opens_delta": -8,
+      "blocking_delta": -2,
+      "warnings_delta": 2,
+      "exclusions_delta": 0
+    },
+    "via_cost_effect": {
+      "reference_policy": "placement-search-v2-margin20um-default",
+      "variant_policy": "placement-search-v2-margin20um-via-low",
+      "reference_accepted": true,
+      "variant_accepted": false,
+      "completion_difference": -1,
+      "scope": "One exposed diagnostic planning/search comparison; no production/C/B2/generalized claim",
+      "opens_delta": 0,
+      "blocking_delta": 1,
+      "warnings_delta": -1,
+      "exclusions_delta": 0
+    },
+    "combined_effect": {
+      "reference_policy": "placement-search-v2-margin0-default",
+      "variant_policy": "placement-search-v2-margin20um-via-low",
+      "reference_accepted": false,
+      "variant_accepted": false,
+      "completion_difference": 0,
+      "scope": "One exposed diagnostic planning/search comparison; no production/C/B2/generalized claim",
+      "opens_delta": -8,
+      "blocking_delta": -1,
+      "warnings_delta": 1,
+      "exclusions_delta": 0
+    }
+  },
+  "shared_wall_seconds": 1.5848901250064955,
+  "shared_cpu_seconds": 1.4945800000000133,
+  "accounting_point": "Stored totals precede final publication/freshness/readback; charged caps rechecked after all checks. Corrective rejection can finish outside cap.",
+  "accounting_limit": "Stored measurements precede final publication/freshness. Source includes a postpublication cap guard; this offline audit verifies stored arithmetic and outcomes, not an independent postpublication elapsed measurement.",
+  "fixture": {
+    "receipt_sha256": "332ec41f52651131d08eedc4734a5f981a7d883f7a9a50e5b4218d01e11bf9ae",
+    "candidate_sha256": "6ee4d849a28ff7744ca9aac1d4a011220ac4942c4dec436b35284c246535ea28",
+    "final_drc_sha256": "c8e2569304160a1c6bc4945bc3e23cd668ed10cc21379c2d4d7aac5d3ff252cd",
+    "routing_accepted": true,
+    "native": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 0,
+      "exclusions": 0
+    },
+    "segments_transported": 7,
+    "metrics": {
+      "version": "10.0.0",
+      "pads": 4,
+      "footprints": 4,
+      "zones": 1,
+      "vias": 1,
+      "track_length_mm": 67.93373808491305,
+      "copper_layers": 2
+    },
+    "receipt_wall_seconds": 8.284335417003604,
+    "receipt_cpu_seconds": 5.466622,
+    "frozen_head": "24ab168d2f62b89fd76c6bac80ede241df72a0c9"
+  },
+  "scope": "One exposed development-board diagnostic planning/search ablation; no production/C/B2/generalized/electrical claim."
+}

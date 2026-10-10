@@ -71,11 +71,11 @@ closed. Its44 pure controls do not establish native or routing correctness.
 Review found and fixed custom-rule filename case handling and quoted edge
 parsing gaps; original snapshots and failures remain retained.
 
-A prospective routing diagnostic will compare floor guidance with and without
-this correction under equal budgets. It will reject every genuine keepout in
-both arms and use actual unchanged-rule native validation. Any resulting gain
-would be an adapter gain, not C novelty. No completion improvement, new eligible
-family, GUI support or physical/electrical validation is established yet.
+The initial prospective routing diagnostic compared floor guidance with and without
+this correction under equal budgets, rejecting every genuine keepout in both arms
+and using unchanged-rule native validation. Its failed pair and subsequent v2
+completion result are documented below. These remain adapter work, not C novelty,
+new independent families, GUI support or physical/electrical validation.
 
 The safety gate also rejects legacy `module` footprint syntax after review found
 that parser alias could hide a footprint-local restriction. It passed372 software tests after adjusting the budget-control
@@ -92,11 +92,11 @@ A subsequent [stable-source review](../evidence/keepout-upstream-fix-review-001/
 
 ## Committed diagnostic execution gate
 
-The standalone [harness](../experiments/placement_diagnostic_v1/README.md) compares floor guidance with and without exact placement correction. Root and independent review each passed37 pure controls; the separate observer review passed28 source-composition checks. No native or engine run of this harness has occurred yet. Each runtime helper/protocol/core/tool pin must match committed HEAD. The owned fixture must pass actual engine/import/refill/DRC plus independent readback before the same-HEAD full-board pair can execute. The pair charges all shared overhead to both equal120second wall/CPU caps, retains both failures and requires final source/code/evidence freshness. Detailed commands and scope are in its README.
+The standalone [harness](../experiments/placement_diagnostic_v1/README.md) compares floor guidance with and without exact placement correction. Root and independent review each passed37 pure controls; the separate observer review passed28 source-composition checks. At that initial freeze, native execution was pending; the following sections record its later actual runs. Each runtime helper/protocol/core/tool pin must match committed HEAD. The owned fixture must pass actual engine/import/refill/DRC plus independent readback before the same-HEAD full-board pair can execute. The pair charges all shared overhead to both equal120second wall/CPU caps, retains both failures and requires final source/code/evidence freshness. Detailed commands and scope are in its README.
 
 Actual routing fixture001 at8497654 passed native source DRC and same-load floor/area export, then rejected before engine with an unqualified net-reference error. The original named-pad-net board also contains `(net 0) (net_name "")` on its all-allowed rule area. The strict identity parser did not recognize that native-readable empty-area representation. This is a retained implementation failure, not a native routing result; no original file is changed to work around it.
 
-The reviewed identity fix accepts that exact empty field only on a board-level all-allowed rule area, with unique net/net_name fields and all five explicit allowed flags. Pads/routes, genuine keepouts, ordinary copper zones, ambiguous names and nonzero aliases gain no support.387 root tests and37 diagnostic controls pass; independent review verified43 saved-export bindings and23 targeted controls. These are offline checks; fresh native fixture002 remains required.
+The reviewed identity fix accepts that exact empty field only on a board-level all-allowed rule area, with unique net/net_name fields and all five explicit allowed flags. Pads/routes, genuine keepouts, ordinary copper zones, ambiguous names and nonzero aliases gain no support.387 root tests and37 diagnostic controls pass; independent review verified43 saved-export bindings and23 targeted controls. These were offline prerequisites; fresh native fixture002 subsequently passed as recorded below.
 
 ## Actual routing and matched comparison
 
@@ -115,4 +115,16 @@ The second arm's candidate is `87b82041c0b6fbdbf21cd0ba2b3c08e56195facc984f2a93f
 
 Fourteen rehashed tampering controls on copied actual fixture evidence reject through semantic guards; original, relocated and restored positives pass. These offline checks cover source/rules, observer/process, DSN derivation, candidate transport and native verdict consistency. They do not replace native controls or authenticate rewritten evidence. See [controls](../evidence/placement-diagnostic-receipt-controls-001/README.md). The complete [population index002](../evidence/development-outcomes-002/index.json) retains all14 inputs and records zero accepted placement diagnostics separately from two earlier accepted production inputs.
 
-The [curve analysis](../evidence/placement-clearance-research-001/REPORT.md) now reproduces both clearance errors analytically: the saved DSN polygon understates the pad by approximately2.235µm. A fixed20µm additive engine-planning margin is the next conservative hypothesis, not a universal numerical guarantee. Independent direct finite-line/circular-corner calculations agree with native values. The [search analysis](../evidence/placement-search-research-001/README.md) identifies a hardcoded ten-pass stagnation stop and verifies the existing lower-via-cost preset. The next planned three arms separate margin and scoring effects. A bounded native counterfactual will first keep the invalid board unchanged and move only its two offending track segments outward in a separate copy; that control cannot establish routing completion while opens remain.
+The [curve analysis](../evidence/placement-clearance-research-001/REPORT.md) now reproduces both clearance errors analytically: the saved DSN polygon understates the pad by approximately2.235µm. A fixed20µm additive engine-planning margin became the next conservative hypothesis, not a universal numerical guarantee. Independent direct finite-line/circular-corner calculations agree with native values. The [search analysis](../evidence/placement-search-research-001/README.md) identifies a hardcoded ten-pass stagnation stop and verifies the existing lower-via-cost preset. The declared three arms separate margin and scoring effects. The separate fixed native counterfactual moves only two offending segments; its failure is retained below.
+
+## Actual v2 margin/search ablation
+
+At24ab168d the strongest-policy required-via owned fixture passed actual routing with zero native findings. The subsequent [three-arm001](../evidence/placement-search-three-arm-001/summary.json) preserved identical raw, floor and placement tasks; only three planning-clearance atoms changed300→320µm. The two margin arms have identical DSN ASTs and differ only in explicit via costs50/5 versus25/3.
+
+The zero-margin/default reference rejected8opens/2clearance/94warnings.20µm/default accepted0opens/0blocking/96warnings,2647.385729mm/21vias, charged44.580724wall/56.572069CPU seconds.20µm/low rejected0opens/1starved_thermal/95warnings at C2. All exclusions are zero; all fully charged wall/CPU totals fit120second caps. Final accepted candidate SHA is36e778573b2c90dfca8f9d45597e6bd890cc45c7fc4c6c86a2673e2e7fef3bef.
+
+This supports one exposed diagnostic adapter completion gain; search-path changes accompany the margin, so completion is not assigned solely to the two local geometric discrepancies. Lower costs caused a lost completion. No comparison has two accepted outputs, so no usable length/via delta is emitted. The accepted result has9connection-width warnings, versus6in the original source, and remains unsuitable for a whole-project-clean/electrical claim. Production integration and broader qualification are separate work. Root receipt readbacks pass; the independent raw audit passed167 checks. The counterfactual/public-copy audit separately passed344 checks. These are evidence-consistency reviews, not new native execution or human PCB review.
+
+## Failed local-move counterfactual
+
+At897add4 [counterfactual001](../evidence/placement-clearance-controls-001/summary.json) preserved the earlier rejected candidate and rules. Its unchanged negative reproduced8opens/two RV13-pad clearance errors. Moving both selected segments outward by21.2132034µm perpendicular to their direction removed those pad errors but caused four new clearances against adjacent GND tracks;8opens remain. The predeclared positive therefore failed. All raw evidence is retained without recipe retuning. Shared costs12.501076wall/10.826642CPU fit60secondcaps. This result argues against that simple local move as a valid repair and illustrates the need to account for neighboring copper. It does not qualify a general repair or invalidate the separately measured full reroute.

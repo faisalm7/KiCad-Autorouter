@@ -1,0 +1,22 @@
+# Outcomes003 stored-evidence reporter
+
+This generator creates a new index from the immutable public outcomes002 predecessor and explicitly supplied schema2 fixture/three-arm receipts. It never mutates the predecessor, invokes native tools, or discovers the newest run. `native_summary.py` is a project-owned pure validation/acceptance snapshot extracted from the recorded pipeline. Its file-loading assignment was removed and the entrypoint renamed to `parse_data`, receiving already bounded, strictly decoded JSON. The validation body, constants and acceptance functions are AST-identical to the original; full-source/helper hashes and this adaptation are in `parser-provenance.json`. This is stored-evidence consistency checking, not another native execution or a replacement for the independent diagnostic checker.
+
+Run from the checkout:
+
+```sh
+python3 -B evidence/development-outcomes-003/test_generate.py
+python3 -B evidence/development-outcomes-003/generate.py --fixture-result .runs/placement-search-fixture-001/result.json --three-arm-summary .runs/placement-search-three-arm-001/summary.json
+```
+
+The actual `index.json` retains all14 acquired inputs (7complete/7incomplete), the recorded3eligible/11unsupported gate, and2 inputs with recorded production-policy acceptance. The owned fixture stays outside the denominator. Exactly1 input has an accepted planning/search diagnostic: multichannel, with20µm margin/default via costs. This remains an unpromoted development diagnostic, with96noncritical warnings; it is not whole-project DRC cleanliness, physical/electrical validation, C novelty, B2 superiority or a population success rate.
+
+The margin comparison gains1, the via-cost comparison loses1, and the combined comparison ties with both outputs invalid. Each leaves13 inputs unevaluated. No route-quality delta is emitted because none of the three comparisons has two accepted outputs. All three canonical arm receipts, recorded metrics, raw costs, shared overhead, failures, protocol and prior outcomes are retained.
+
+The reporter cross-checks strict JSON and Boolean schemas, policy/parameters, equal cap/cost sums, canonical arm/summary agreement, raw native report and metrics, native input/project/candidate bindings and final argv, process/step consistency, all seven recorded completed trees, frozen code/source inventories and source bytes. Both initial and final inventory checks use one streaming walker with at most4096 entries including directories,2048 files and128MiB of file contents. Every read is stat-checked and capped at32MiB+1 bytes to detect growth. Unknown final entries reject before reading or descending; final rereads retain original hashes. New hash insertion order is sorted after bounded capture solely to keep the prior output bytes deterministic. It rechecks file hashes and inventory membership before returning. It does not rederive routing geometry or authenticate a fully rewritten history. Correct interpretation also relies on the independently audited underlying experiment and immutable retained evidence.
+
+Twenty-five pure controls passed in `pure-tests-003.log`. Earlier sixteen/seventeen-test logs, first actual output and pre-bounds-fix source snapshot are preserved. Eight added small-file/virtual-metadata controls cover oversized final reads, concurrent growth, early unexpected-entry rejection, directory/file/aggregate caps, no parser reopen and no hash rebasing. Synthetic controls are not native evidence. Actual generation succeeded against the completed same-HEAD24ab168 three-arm run; `actual-readback.json` records its exact identity and resulting counts.
+
+The separate two-segment clearance counterfactual subsequently failed: translating the two segments removed the original pad errors but introduced four neighboring-track clearances, with8opens unchanged. Its canonical summary SHA is81867c5e79adad1d084ce29648fa34f0de0fd3269a442aee1da513dbbe82f1dc. This fixed-candidate failure remains separate evidence; it is not counted as routing acceptance or a corpus input, and this reporter does not reinterpret it as padding qualification.
+
+This is the new immutable `evidence/development-outcomes-003` snapshot. Root reran all25 controls and reproduced the actual index byte-identically; independent review is recorded separately. Existing002 remains byte-identical. No source rules, pipeline gate, native binary or corpus source is changed.

@@ -1,0 +1,1 @@
+Exact selected metadata-only research records; full metadata/notices/scripts remain ignored for complete archive. No new board acquired by this research. Proposed projects require a separate lead acquisition, full rights/dependency/source audit and native qualification; no current denominator change.

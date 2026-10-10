@@ -1,0 +1,1 @@
+Exact top-level independent reporter-review records, including the tiny-file bounds reproduction and final regeneration. Nested pre/final source snapshots remain in the ignored full archive workflow. No native or engine execution.

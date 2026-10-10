@@ -1,0 +1,19 @@
+{
+  "source": "autorouter/pipeline.py",
+  "source_sha256": "101ad65bff197afe17758d30e850a944333875f256f159a4346fdf36f997358f",
+  "extracted_names": [
+    "CRITICAL_CHECKS",
+    "CRITICAL_FINDINGS",
+    "KNOWN_CHECKS",
+    "native_accepted",
+    "native_rejection_reasons",
+    "parse_report"
+  ],
+  "snapshot_sha256": "9145c6121f5d7df4143955f54285a5cb3032db5a5cc5957d786382451b99ee36",
+  "scope": "Pure raw-report consistency and recorded acceptance policy only; no native invocation.",
+  "entrypoint": "parse_data(data, board_name)",
+  "adaptation": "Renamed original parse_report to parse_data; removed exactly the original initial json.loads(Path(path).read_text()) assignment and unused json/Path imports. Caller supplies bounded captured, duplicate/nonfinite-rejecting JSON. Original validation body, constants and acceptance functions unchanged.",
+  "validation_body_ast_equal_to_original_after_io_assignment": true,
+  "acceptance_and_constant_asts_unchanged": true,
+  "prior_snapshot_sha256": "d3b369dd324570f0e06fc58a8a09acf5559918a30575292c959ded0a65a5588e"
+}

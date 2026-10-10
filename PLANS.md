@@ -1,62 +1,44 @@
 # Execution plan
 
-Active specification: `MASTER_PROMPT.md`, read completely. Use the selected local Mac checkout and `rebuild/local-20261010-015447`; one lead integrates and runs the single native/engine lane. This is an active reconstruction, not a completed product or confirmed population improvement.
+Active specification: `MASTER_PROMPT.md`, read completely. Use this local Mac checkout and `rebuild/local-20261010-015447`; one lead integrates and owns the single native/engine lane. This remains an incomplete reconstruction and development study.
 
 ## Current evidence
 
-- G0 development push/read-back passed through3e2cce9. Its full private archive restored all Git refs and30,291non-Git files /1,017,693,214bytes, plus CLIhelp. Covers all completed placement native/routing/failure/control/review/index work and earlier evidence. Archives remain on this Mac only.
-- Native controls, actual engine cancellation, separate-copy GUI observation and fresh local clone/venv installation002 passed within documented scopes. Current integrated suite:387tests in6.076seconds (`evidence/tests/placement-net-identity-root-tests-001.log`). Current code has not repeated installation qualification; GUI live apply/undo remains unqualified.
-- Stronger sonde pair001: B2 portfolio selected749.441643mm/2vias; C_feedback648.045171mm/2vias,101.396471mm shorter, with more compute. Both fit fully charged120second wall/CPU caps. All three B2 outputs were valid. One exposed input, not generalized superiority.
-- Fresh interf thermal pair001: C_thermal accepted0opens/blocking/warnings/exclusions; B2 rejected one thermal. Fresh B0/B1-standard/B1-completion ablation001 all rejected. Exact removal of only the delivered bridge restores the identical failed incumbent and thermal. Full costs, cross-HEAD production-byte equality and limitations are preserved in `docs/thermal-experiment.md`.
-- All14 acquired boards remain in the denominator:3 statically eligible,11 unsupported. Two exposed inputs have accepted policies; this is not a pooled benchmark or independence claim. Development30–50-family coverage and an untouched evaluation corpus are unmet.
+- Verified source/evidence push through897add4. The latest full private archive is3e2cce9: all Git refs and30,291 non-Git files /1,017,693,214 bytes restored, plus CLI help. New v2/control/research evidence awaits the next full archive. Archives remain on this Mac only.
+- Current root suite:395 tests in6.067seconds; separate v2/control suites56/18 pass. Actual native integration, cancellation, narrow separate-copy GUI observation and older installation002 are recorded individually. Current code has not repeated installation qualification; live apply/undo remains unqualified.
+- Sonde C feedback is101.396471mm shorter with equal2vias than stronger B2 portfolio, using more compute; both fit fully charged120second wall/CPU caps. Interf C thermal recovery accepts while tested B0/B1/B2 reject; exact bridge removal restores the failed native thermal. Different strategies on exposed inputs do not establish a pooled rate.
+- Placement v1 reduced multichannel opens160→8 but both arms rejected. V2 at24ab168d accepts20µm planning margin/default50/5 costs with0opens/0blocking/96warnings,2647.385729mm/21vias, charged44.580724wall/56.572069CPU. Zero margin and lower via costs reject. This is a diagnostic common-adapter gain, not C novelty or production promotion. No pair has two valid outputs for route-quality comparison.
+- Fixed local track translations at897add4 removed two pad errors but introduced four neighboring-track errors; the predeclared positive control failed and is retained without retuning. Independent raw audits passed167 v2 checks and344 counterfactual/public-copy checks.
+- All14 acquired boards remain:3 statically eligible/11 unsupported,2 production-policy accepted inputs and1 distinct diagnostic accepted input. Family independence, representative30–50-family coverage and untouched evaluation remain unestablished. Outcomes003 reproduces byte-identically after25 root controls and independent review.002 remains immutable.
 
 ## Immediate sequence
 
-1. **Preserve native floor qualification.** Geometry002 passed the clean positive and five targeted invalid controls. Forced-via001 passed actual engine/SES/native import with one required via and no native findings. Independent raw and public-copy evidence reviews passed. Preserve invalidated001 and the strict JSON regression. Production integration and independent review now pass; the actual CLI required-via fixture also passed native validation/readback (67.926667 mm, one via, zero findings; 7.277325 wall / 5.137059 CPU seconds). Do not repeat completed diagnostics without a new reason.
-2. **Extend qualification of the promoted common adapter correction.** Bind original project floors, raw native defaults, guided DSN, source/net/pad identity and exact generated dimensions through route/final validation/receipt readback. Never replace raw preferences with a fabricated native class map. Preserve old behavior unless an explicit qualified policy is selected. Direct B1 routing is implemented; keep strategy/recovery/portfolio paths blocked for the new policy until fully propagated and tested. This correction is baseline improvement, not a new C algorithm.
-3. **Follow the measured remaining failures.** Placement fixture002 and same-HEAD pair001 at73107be completed. Exact removal of eight unrestricted-area DSN obstacles reduced native opens160→8, but both arms rejected (one thermal versus two clearance errors). Full charged wall/CPU remained within equal120secondcaps; no valid quality or C novelty claim. Keep the diagnostic separate from production. After the checkpoint and full restoration test, inspect the roundrect-pad clearance discrepancy and engine stagnation, then predeclare the smallest justified conservative geometry or search variant. Preserve originals, both failed outputs and all14 population rows. Do not simply rerun completed comparisons or relax native minima.
-4. **Keep checkpoints real.** Audit explicit staged paths, rights and newly exposed history; commit/push without rewriting, then independently match remote SHA/file bytes. At native milestones freeze ignored writes, archive new raw outputs and actually restore them. Keep private references, downloaded engines and bulk data out of Git. An owner-selected private off-Mac destination remains pending.
-5. **Broaden licensed coverage in parallel with bounded work.** Resolve exact dependencies/rights/ancestry of the fixed six-project expansion before promotion. Preserve incomplete/unsupported reasons. Metadata-only searches are not acquisitions or independent families. Do not expose prospective holdout geometry for development.
+1. Outcomes003 review, root reproduction and full-population publication preparation are complete. Preserve all rejected arms, warnings, failed native controls and raw costs. Commit/push/read back audited files; all agents are frozen for the full archive/restore workflow.
+2. Integrate the successful adapter through one existing floor_route lifecycle, with explicit `placement-clearance-v1` guidance, fixed20µm/default50/5/completion-only settings, exact same-load area/floor context and separate strict receipt schema. Keep native/board-floors-v1 behavior and historical readback unchanged. Narrow scope: whole unlocked2Cu Default class, rectangular outline, explicitly unrestricted enabled SHEETNAME areas only. No genuine keepouts, unknown areas, cutouts or constraint relaxation. Block strategy/recovery/portfolio/handoff propagation until separately qualified. The integration plan is frozen at `docs/placement-production-plan.md`; the new production policy does not exist yet.
+3. Before new production native work, test rehashed receipt downgrade/tampering, old-receipt compatibility, bounds/cancellation/freshness and exact DSN equivalence; obtain independent review and verified source checkpoint. Then execute fresh owned required-via fixture, positive/invalid production controls, real process cancellation and a full multichannel production replay. The replay qualifies integration, not a new fair comparison or generalized result.
+4. After the full archive, acquire PMOD-to-Qwiic and LiPo Disconnector into new ignored development staging under reviewed pinned retrieval plans. Cap each root+dependencies at10MiB, verify Git blobs/SHA256, never execute dataset scripts. Inspect original layers/rules, all references and notices; preserve incomplete/unsupported cases in the expanded considered denominator. Metadata-only leads are not acquisitions or independent families. Resolve old reserve metadata labels before any geometry exposure. Defer Video while library-version/high-speed scope remains unresolved.
+5. Broaden actual supported constraints and licensed families from measured acquisition failures, then compare strongest B0/B1/B2/C mechanisms on identical inputs/budgets. Do not repeat a completed benchmark merely to seek a favorable result. Preserve failed KRT and other hypotheses.
 
 ## Remaining gates
 
-G2/G4: broaden native constraint, cancellation and failure controls; compare the strongest justified strategies against B0/B1/B2 across eligible families with full costs, gains/losses/ties and valid-route quality. Keep KRT preservation/native failures and unsuccessful hypotheses visible.
+G2/G4: broader native constraint/failure controls and beyond-B2 evidence across families, with full costs, gains/losses/ties and quality only on valid routes.
 
-G5: repeat installation on a frozen candidate; qualify actual safe review/stale-editor/cancellation interactions. Selected-net routing, schematic parity, live apply/undo and plugin behavior remain unsupported or unverified.
+G5: current clean installation, safe stale-editor/cancellation interactions and review workflow. Selected nets, full schematic parity, live apply/undo and plugin remain unsupported/unverified.
 
-G6: current deterministic mechanisms address measured failures; no justified learning task or model exists. Do not train merely to satisfy a label.
+G6: deterministic mechanisms remain justified; no useful learning task or model has been demonstrated.
 
-G7: freeze protocol/code/family separation before an untouched confirmatory run; report paired uncertainty and coverage. Debugged inputs are exposed. AI review does not replace human PCB review or physical testing.
+G7: freeze code/protocol and authentic family separation before an untouched confirmatory run. Exposed development inputs are never holdout. AI reviews are not human PCB or physical validation.
 
-G8: complete install/demo/test/benchmark entry points, notices, package tests, current restore evidence and a local release candidate. Formal release/package publication, reviewer contact, paid services and fabrication require separate authorization.
+G8: maintain executable install/demo/test/benchmark commands, notices, tested packages and restoration; prepare a local release candidate. Formal releases, packages, external contacts, paid services and fabrication require separate approval.
 
-## Commands and operational limits
-
-From this checkout, with no competing native job:
+## Existing commands and limits
 
 ```sh
-python3 -m autorouter doctor
-python3 data/fetch.py --verify
-python3 -m unittest discover -s tests -v
-python3 -m autorouter check-result .runs/board-floor-production-native-001/result.json
-python3 scripts/backup.py
+python3 -B -m autorouter doctor
+python3 -B data/fetch.py --verify
+python3 -B -m unittest discover -s tests
+python3 -B experiments/placement_diagnostic_v2/diagnostic_route.py --check-result .runs/placement-search-three-arm-001/arm-1/result.json
+python3 -B scripts/backup.py
 ```
 
-The native geometry002, forced-via001 and production fixture commands have completed. Diagnostic reproduction is in `docs/board-floor-guidance.md`. If a later verification needs a fresh fixture run, use an unused output and the single native lane:
-
-```sh
-python3 -m autorouter route tests/fixtures/board-floor/fixture.kicad_pcb --guidance board-floors-v1 --adapter both --profile completion-only --seconds 60 --output .runs/board-floor-production-followup-001
-python3 -m autorouter check-result .runs/board-floor-production-followup-001/result.json
-```
-
-The diagnostic draft is historical; explicit production guidance is now implemented and fixture-qualified. Full-board routing still rejects. Do not rerun completed thermal comparisons without a new hypothesis. Never overwrite an existing run identifier. Geometry60seconds, forced-via120seconds, wall and measured total CPU; one worker, bounded storage/memory and logs. Polling is not an OS aggregate quota. No persistent/background/auto-resume work, paid services, private uploads or global preference changes. `python3 scripts/backup.py --verify RECEIPT` actually restore-checks a named archive; a manifest is not a backup.
-
-Placement/native-source-guard and matched diagnostic work are now covered by the3e2cce9 full tested archive. See `STATUS.md` for exact checkpoint and restoration boundaries.
-
-Actual placement fixture001 remains failed; correctedfixture002 passed and pair001 produced two rejected outputs. The new outcomes002 snapshot separates the unchanged two accepted production inputs from zero accepted placement diagnostics.
-
-Next declared diagnostic under preparation: same placement/floor pipeline, zero margin/default scoring;20µm extra engine clearance/default scoring;20µm/via_low scoring. Equal120second wall/CPU caps with all overhead charged; same-code owned fixture first. Native original constraints always decide acceptance. Source-backed curved-pad analysis and engine stagnation findings must be attached before execution. Archive capacity remains bounded at2GiB/100,000files after the reviewed capacity-only change.
-
-V2 source is integrated and56 pure controls pass. Commit/push/read back exact helpers and protocol; run new `.runs/placement-search-fixture-001` with20µm/via_low; on success run `.runs/placement-search-three-arm-001` with the same HEAD/runtime. Keep all three outputs and charge all shared costs. Independently audit raw outcomes and rebuild the entire14-input index only after execution. The separate native fixed-segment counterfactual is for failure causality, not route acceptance.
-
-V2 fixture and full three-arm001 completed at24ab168d:20µm/default accepted, zero-margin and lower-via-cost variants rejected. Audit all raw bindings, publish outcomes003 with one accepted diagnostic input, run the fixed native clearance counterfactual, and archive/restore new evidence. Then qualify a narrow common adapter integration and broaden licensed development inputs; do not relabel this adapter gain as C novelty.
+The v2 fixture, three-arm001 and clearance-control001 are completed; never reuse their output names. New production integration commands must be implemented before documentation advertises them. Use one bounded worker, original immutable projects, fully charged wall/CPU caps and isolated network-denied native execution. Polling/CPU acceptance limits are not OS quotas. Archive payload ceiling2GiB/100,000files; preserve older archives. No background/auto-resume loops, new spending, private uploads, global preference changes or cloud access. Independent off-Mac backup destination remains an owner gate.
