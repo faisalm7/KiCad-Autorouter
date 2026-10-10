@@ -1,0 +1,39 @@
+--- a/autorouter/board_floor.py
++++ b/autorouter/board_floor.py
+@@ -93,7 +93,7 @@
+         if (code=='0') != (name==''):raise ValueError('original empty net must be code zero')
+         table[code]=name
+         if name:names.add(name)
+-    def resolve(node):
++    def resolve(node,*,owner=None):
+         if node is None:return ''
+         if any(not isinstance(x,str) for x in node):raise ValueError('malformed original net reference')
+         if declared:
+@@ -101,6 +101,18 @@
+             name=table[node[1]]
+             if len(node)==3 and sx.unquote(node[2])!=name:raise ValueError('original net code/name conflict')
+             return name
++        # KiCad10 named-net boards can retain the legacy unconnected marker
++        # on an explicitly unrestricted board rule area. This is NOT an alias
++        # for any pad/route net or a named net whose text happens to be "0".
++        if (node==['net','0'] and any(owner is zone for zone in sx.children(task,'zone'))
++                and sx.children(owner,'net')==[node]
++                and sx.children(owner,'net_name')==[['net_name','""']]):
++            flags={'tracks','vias','pads','copperpour','footprints'}
++            keepouts=sx.children(owner,'keepout')
++            if (len(keepouts)==1 and len(keepouts[0])==6
++                    and all(isinstance(x,list) and len(x)==2 and x[0] in flags and x[1]=='allowed' for x in keepouts[0][1:])
++                    and {x[0] for x in keepouts[0][1:]}==flags):
++                return ''
+         if len(node)!=2 or not node[1].startswith(chr(34)) or not node[1].endswith(chr(34)):
+             raise ValueError('unqualified named task net reference')
+         return sx.unquote(node[1])
+@@ -108,7 +120,7 @@
+         for child in node[1:]:
+             if not isinstance(child,list) or not child:continue
+             if child[0]=='net':
+-                name=resolve(child)
++                name=resolve(child,owner=node)
+                 if name:names.add(name)
+             else:walk(child)
+     # Root declarations have already been checked; inspect every other reference.

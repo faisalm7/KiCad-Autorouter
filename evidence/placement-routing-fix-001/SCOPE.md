@@ -1,0 +1,1 @@
+Exact selected public review/draft files. These are offline actual-evidence replay and software controls, not a fresh native/engine run. Owned fixture and original project rules remain unchanged. Old source and failed tests are preserved.

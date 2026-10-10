@@ -1,10 +1,11 @@
-# Frozen diagnostic routing draft, not a production feature
+# Placement routing diagnostic, not a production feature
 
 This standalone experiment tests whether exact removal of generic DSN keepouts
 attributed to enabled, explicitly unrestricted placement areas changes routing.
 It is an input-adapter hypothesis, not system C novelty or a stronger B2 result.
-No native or engine job has executed this harness yet. Pure tests cannot qualify
-its new combined native observer or actual routing.
+Actual fixture001 at8497654 completed source DRC and the combined observer, then
+rejected before engine at a legacy empty rule-area net field. This failed run is
+preserved. Engine/import/final-validation qualification remains pending.
 
 The two arms use the same original complete project, same-load observer, floor
 policy, both adapter, completion-only engine profile and actual production floor
@@ -26,8 +27,8 @@ admitted. It does not claim native enforcement of genuine keepout restrictions.
   native-qualified area getter loop. It loads/synchronizes once, observes both
   contexts, exports once and never saves the board. It explicitly raises the
   area footprint cap from 100 to 512 for the 114-footprint full board; all other
-  area limits and the original floor schema/limits are preserved. This new
-  combined invocation remains native-unqualified until the owned fixture run.
+  area limits and the original floor schema/limits are preserved. Actual fixture001 now binds this combined invocation to the expected
+  area/floor observations; full routing qualification remains pending.
 - `placement_transform.py` is an exact copy of reviewed source003, SHA256
   `bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5`.
   Its upstream raw-to-floor provenance is independently rederived here.
@@ -67,23 +68,21 @@ this is one exposed development board, not an independent-family experiment.
 
 ## Lead-only next execution after review and commit
 
-Promote these five Python files and protocol/README together to a project
-folder (for example `experiments/placement_diagnostic_v1`) without source edits.
-The relative-location discovery supports that folder. The helper hash mapping
-is recorded at execution, not hardcoded to this ignored draft. Run pure controls,
-commit and verify the checkpoint, then run one owned fixture first:
+The five Python files and protocol/README are committed in this folder. The
+helper hash mapping is recorded at execution. After a source fix, run pure
+controls, commit and verify the checkpoint, then use a fresh fixture output:
 
 ```sh
 python3 -B experiments/placement_diagnostic_v1/test_diagnostic.py
-python3 -B experiments/placement_diagnostic_v1/diagnostic_route.py --run-diagnostic --source evidence/placement-area-native-001/allowed_placement/candidate/fixture.kicad_pcb --output .runs/placement-routing-fixture-001 --seconds 60 --policy floor-plus-placement-diagnostic-v1
-python3 -B experiments/placement_diagnostic_v1/diagnostic_route.py --check-result .runs/placement-routing-fixture-001/result.json
+python3 -B experiments/placement_diagnostic_v1/diagnostic_route.py --run-diagnostic --source evidence/placement-area-native-001/allowed_placement/candidate/fixture.kicad_pcb --output .runs/placement-routing-fixture-002 --seconds 60 --policy floor-plus-placement-diagnostic-v1
+python3 -B experiments/placement_diagnostic_v1/diagnostic_route.py --check-result .runs/placement-routing-fixture-002/result.json
 ```
 
-These prospective promoted-path commands have NOT executed. Only after the
+These fixture002 commands have NOT executed. Only after the
 same-code fixture's actual native checks and independent readback qualify it:
 
 ```sh
-python3 -B experiments/placement_diagnostic_v1/experiment_pair.py --run-pair --fixture-result .runs/placement-routing-fixture-001/result.json --output .runs/placement-routing-pair-001
+python3 -B experiments/placement_diagnostic_v1/experiment_pair.py --run-pair --fixture-result .runs/placement-routing-fixture-002/result.json --output .runs/placement-routing-pair-001
 ```
 
 The pair refuses a different fixture, source inventory, production/helper code,

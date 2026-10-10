@@ -1,0 +1,105 @@
+{
+  "schema": 1,
+  "audit_passed": true,
+  "native_or_engine_executed": false,
+  "routing_accepted": false,
+  "production_qualified": false,
+  "check_count": 43,
+  "source_sha256": "1e2216f05fd7540a2a4edf894a18addc389c056854bc6bb5fa2169f90753f7dd",
+  "summary_sha256": "d77ec8932fabab2f0e00dd8981217ad7095e8b261a5a6de1b1241500a2c932b2",
+  "all_task_net_references": [
+    {
+      "parent": "pad",
+      "path": [
+        13,
+        10,
+        8
+      ],
+      "node": [
+        "net",
+        "\"SIGNAL_A\""
+      ]
+    },
+    {
+      "parent": "pad",
+      "path": [
+        14,
+        10,
+        8
+      ],
+      "node": [
+        "net",
+        "\"SIGNAL_A\""
+      ]
+    },
+    {
+      "parent": "pad",
+      "path": [
+        15,
+        10,
+        8
+      ],
+      "node": [
+        "net",
+        "\"SIGNAL_B\""
+      ]
+    },
+    {
+      "parent": "pad",
+      "path": [
+        16,
+        10,
+        8
+      ],
+      "node": [
+        "net",
+        "\"SIGNAL_B\""
+      ]
+    },
+    {
+      "parent": "zone",
+      "path": [
+        17,
+        1
+      ],
+      "node": [
+        "net",
+        "0"
+      ]
+    }
+  ],
+  "downstream_structural_analysis_only": {
+    "raw_audit": {
+      "passed": true,
+      "policy": "board-floors-v1",
+      "guided": false,
+      "terminal_count": 4,
+      "declared_copper_terminal_nets": 2,
+      "source_class_nets": 2,
+      "via_id": "Via[0-1]_600:300_um",
+      "routing_accepted": false,
+      "physical_geometry_qualification": false
+    },
+    "exact_edit_audit": {
+      "passed": true,
+      "exact_allowed_change": true,
+      "routing_accepted": false
+    },
+    "removed": 2,
+    "derived_dimensions_nm": {
+      "width_nm": 300000,
+      "clearance_nm": 300000,
+      "via_diameter_nm": 1500000,
+      "via_drill_nm": 300000
+    },
+    "raw_sha256": "7b1711e508045f48989449a3deb7e8ae014e599d5397eeb39bf2e09ef9f8619e",
+    "guided_sha256": "53d713af2a1eb4d0634efba9bef42625d7178f13c1b58101051815d7cb059beb",
+    "placed_sha256": "300d7cbc6df6997281559f419fe0edb128748fef03f708ed6469a14465e9d404",
+    "adapted_sha256": "300d7cbc6df6997281559f419fe0edb128748fef03f708ed6469a14465e9d404",
+    "qualification": false,
+    "limitation": "No production source-net resolver bypass or original/native bytes edited. Independent diagnostic context tests later pure grammar stages only. Actual route/final validation not reached."
+  },
+  "accounting_point": "Stored totals precede final publication/readback/freshness; final acceptance wall/CPU caps include all checks; correction may finish outside cap.",
+  "wall_seconds_recorded": 3.0138098749957862,
+  "cpu_seconds_recorded": 1.957058
+}

@@ -68,3 +68,5 @@ Placement native001 at fdf499d confirmed all-allowed areas export as obstacles b
 Native002 at9c44e0a reproduced the omission on3unchanged-prohibition copies with only disabled placement nodes removed; no constraint qualification follows. Four actualCLI paths (native route, floor route, recover, improve) reject these unsupported sources before any native/engine stage. Current14-board preflight remains3eligible/11unsupported; originals unchanged.
 
 The exact placement diagnostic harness is implemented under `experiments/placement_diagnostic_v1`, with37 pure controls and independent observer/pair reviews. Actual combined-observer, engine and final native qualification are pending. It remains a separately named B1 adapter experiment, not production support or C novelty.
+
+Placement routing fixture001 is retained as a pre-engine parser failure after successful actual source DRC/combined export. The exact empty-area identity correction passes387 root tests,37 diagnostic controls and23 independent identity controls; three historical accepted receipts recheck unchanged. Full diagnostic routing still requires freshfixture002.

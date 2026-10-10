@@ -1,0 +1,160 @@
+{
+  "schema": 1,
+  "native_executed": false,
+  "production_edited": false,
+  "routing_accepted": false,
+  "passed": true,
+  "controls": 23,
+  "tests": [
+    {
+      "case": "actual named pads plus explicit unrestricted area zero",
+      "passed": true,
+      "outcome": "parsed",
+      "names": [
+        "SIGNAL_A",
+        "SIGNAL_B"
+      ]
+    },
+    {
+      "case": "rule-area noncanonical numeric/alias 1",
+      "passed": true,
+      "outcome": "rejected",
+      "reason": "unqualified named task net reference"
+    },
+    {
+      "case": "rule-area noncanonical numeric/alias -1",
+      "passed": true,
+      "outcome": "rejected",
+      "reason": "unqualified named task net reference"
+    },
+    {
+      "case": "rule-area noncanonical numeric/alias 00",
+      "passed": true,
+      "outcome": "rejected",
+      "reason": "unqualified named task net reference"
+    },
+    {
+      "case": "rule-area noncanonical numeric/alias 0.0",
+      "passed": true,
+      "outcome": "rejected",
+      "reason": "unqualified named task net reference"
+    },
+    {
+      "case": "rule-area noncanonical numeric/alias +0",
+      "passed": true,
+      "outcome": "rejected",
+      "reason": "unqualified named task net reference"
+    },
+    {
+      "case": "rule-area noncanonical numeric/alias unknown",
+      "passed": true,
+      "outcome": "rejected",
+      "reason": "unqualified named task net reference"
+    },
+    {
+      "case": "numeric zero outside actual board area pad",
+      "passed": true,
+      "outcome": "rejected",
+      "reason": "unqualified named task net reference"
+    },
+    {
+      "case": "numeric zero outside actual board area route",
+      "passed": true,
+      "outcome": "rejected",
+      "reason": "unqualified named task net reference"
+    },
+    {
+      "case": "numeric zero outside actual board area nested_zone",
+      "passed": true,
+      "outcome": "rejected",
+      "reason": "unqualified named task net reference"
+    },
+    {
+      "case": "ambiguous area duplicate_net",
+      "passed": true,
+      "outcome": "rejected",
+      "reason": "unqualified named task net reference"
+    },
+    {
+      "case": "ambiguous area missing_name",
+      "passed": true,
+      "outcome": "rejected",
+      "reason": "unqualified named task net reference"
+    },
+    {
+      "case": "ambiguous area nonempty_name",
+      "passed": true,
+      "outcome": "rejected",
+      "reason": "unqualified named task net reference"
+    },
+    {
+      "case": "ambiguous area duplicate_name",
+      "passed": true,
+      "outcome": "rejected",
+      "reason": "unqualified named task net reference"
+    },
+    {
+      "case": "ambiguous area unknown_flag",
+      "passed": true,
+      "outcome": "rejected",
+      "reason": "unqualified named task net reference"
+    },
+    {
+      "case": "ambiguous area duplicate_flag",
+      "passed": true,
+      "outcome": "rejected",
+      "reason": "unqualified named task net reference"
+    },
+    {
+      "case": "ambiguous area missing_flag",
+      "passed": true,
+      "outcome": "rejected",
+      "reason": "unqualified named task net reference"
+    },
+    {
+      "case": "ambiguous area prohibited",
+      "passed": true,
+      "outcome": "rejected",
+      "reason": "unqualified named task net reference"
+    },
+    {
+      "case": "ambiguous area no_keepout",
+      "passed": true,
+      "outcome": "rejected",
+      "reason": "unqualified named task net reference"
+    },
+    {
+      "case": "quoted zero remains distinct named net",
+      "passed": true,
+      "outcome": "parsed",
+      "names": [
+        "0",
+        "SIGNAL_A",
+        "SIGNAL_B"
+      ]
+    },
+    {
+      "case": "legacy declared table preserved",
+      "passed": true,
+      "outcome": "parsed",
+      "names": [
+        "SIGNAL_A",
+        "SIGNAL_B"
+      ]
+    },
+    {
+      "case": "legacy declared conflicting code name rejected",
+      "passed": true,
+      "outcome": "rejected",
+      "reason": "original net code/name conflict"
+    },
+    {
+      "case": "actual same-load frozen raw floor transform after isolated draft fix",
+      "passed": true,
+      "outcome": "pure transformation only",
+      "guided_sha256": "53d713af2a1eb4d0634efba9bef42625d7178f13c1b58101051815d7cb059beb"
+    }
+  ],
+  "draft_sha256": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+  "original_run_unchanged": true
+}
