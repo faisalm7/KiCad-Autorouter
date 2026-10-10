@@ -44,3 +44,5 @@ Automatic thermal generalization remains a proposal: the fixed positive and exac
 Native pad-stack controls002 passed actual clean positive, targeted critical warning and targeted invalid-error cases under unchanged project settings. Evidence: `evidence/padstack-native-controls-002/summary.json`; failed SMD-hole recipe001 retained. Central policy now rejects critical warnings through every acceptance path; native003 confirms the integrated helper. Static audit003 and the incomplete-input recheck yield3eligible/11unsupported of14acquired boards. Full multichannel routing/floor guidance remains unqualified.
 
 At421ba64 the new policy passed a fresh complete native smoke route and strict readback. The newly eligible multichannel whole-board attempt rejected with160opens/95blocking findings under120secondcaps; no additional solved production family is counted. Evidence: `evidence/policy-smoke-native-001` and `evidence/multichannel-native-001`.
+
+Generated thermal repair native001 passes actual final native checks with exact saved-fill preservation (`evidence/thermal-auto-native-001`); end-to-end G4 completion recovery and its equal-budget comparator remain unmet.

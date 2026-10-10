@@ -106,6 +106,42 @@ class ResultFreshnessTests(unittest.TestCase):
         self.assertIs(result["applied"], False)
         self.assertEqual(p.tree_hash(self.root), before)
 
+    def test_retained_raw_and_adapted_exports_reject_missing_or_changed_bytes(self):
+        for name, field in [("native.dsn", "native_dsn_sha256"), ("task.dsn", "task_dsn_sha256")]:
+            (self.run / name).write_text("raw export\n" if name == "native.dsn" else "adapted export\n")
+            self.data[field] = p.sha(self.run / name)
+        self.save_receipt()
+        self.assertTrue(p.check_result(self.receipt)["current"])
+        for name in ("native.dsn", "task.dsn"):
+            with self.subTest(name=name):
+                file = self.run / name
+                raw = file.read_bytes()
+                file.write_bytes(raw + b"changed\n")
+                with self.assertRaisesRegex(p.Rejected, "routing export changed"):
+                    p.check_result(self.receipt)
+                file.unlink()
+                with self.assertRaisesRegex(p.Rejected, "routing export changed"):
+                    p.check_result(self.receipt)
+                file.write_bytes(raw)
+        del self.data["task_dsn_sha256"]
+        self.save_receipt()
+        with self.assertRaisesRegex(p.Rejected, "routing export changed"):
+            p.check_result(self.receipt)
+
+    def test_control_process_cpu_is_charged_and_validated(self):
+        self.data["control_child_cpu_seconds"] = 0.25
+        self.save_receipt()
+        with self.assertRaisesRegex(p.Rejected, "inconsistent CPU"):
+            p.check_result(self.receipt)
+        self.data["total_cpu_seconds"] += 0.25
+        self.save_receipt()
+        self.assertTrue(p.check_result(self.receipt)["current"])
+        for value in (-1, True, float("nan")):
+            self.data["control_child_cpu_seconds"] = value
+            self.save_receipt()
+            with self.assertRaisesRegex(p.Rejected, "invalid resource"):
+                p.check_result(self.receipt)
+
     def test_edited_source_board_is_stale(self):
         self.source.write_text("edited board\n")
         with self.assertRaisesRegex(p.Rejected, "stale source"):

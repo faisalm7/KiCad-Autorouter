@@ -455,6 +455,7 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
         policy=netclass_policy(candidate)
         if policy is None:
             job.native('export','export',candidate,output/'task.dsn')
+            shutil.copy2(output/'task.dsn',output/'native.dsn')
         else:
             from .netclass import audit_dsn
             mapping=output/'export-netclasses.json'
@@ -465,12 +466,14 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
             shutil.copy2(output/'task.dsn',output/'native.dsn')
             report['netclass_policy']=policy
             report['netclass_export_audit']=audit_dsn(output/'native.dsn',native_classes,json.loads(candidate.with_suffix('.kicad_pro').read_text()))
+        report['native_dsn_sha256']=sha(output/'native.dsn')
         if adapter!='none':
             from .adapter import adapt_dsn
             job.native('obstacles','obstacles',candidate,output/'obstacles.json')
             report['adapter_transformations']=adapt_dsn(output/'task.dsn',adapter,json.loads((output/'obstacles.json').read_text()))
         if policy is not None:
             report['netclass_task_audit']=audit_dsn(output/'task.dsn',native_classes,json.loads(candidate.with_suffix('.kicad_pro').read_text()))
+        report['task_dsn_sha256']=sha(output/'task.dsn')
         config_dir=output/'engine-config'; config_dir.mkdir()
         report['engine_budget']=engine_profile_settings(engine_profile,job.deadline-time.monotonic(),strict_class_targets=policy is not None,scoring_variant=scoring_variant)
         report['engine_budget']['outer_task_wall_budget_seconds']=seconds
@@ -560,6 +563,14 @@ def check_result(path):
         if file.is_symlink(): raise Rejected('symlink in run evidence: '+name)
         return json.loads(file.read_text())
 
+    # New runs retain both representations. Older receipts remain explicitly
+    # limited to the evidence they originally captured; never synthesize it.
+    if 'native_dsn_sha256' in data or 'task_dsn_sha256' in data:
+        for name,field in [('native.dsn','native_dsn_sha256'),('task.dsn','task_dsn_sha256')]:
+            file=path.parent/name
+            if file.is_symlink() or not file.is_file() or data.get(field)!=sha(file):
+                raise Rejected('retained routing export changed or incomplete: '+name)
+
     if netclass_policy(candidate) is not None:
         from .netclass import audit_dsn, audit_native
         native_classes=evidence('final-netclasses.json')
@@ -635,7 +646,8 @@ def check_result(path):
     if not 5<=budget<=900 or wall>budget or sum(number(step.get('wall_seconds')) for step in steps)>wall+1e-6: raise Rejected('receipt exceeds its recorded wall budget')
     child=sum(number(step.get('cpu_seconds')) for step in steps)
     monitor=sum(number(step.get('monitor_cpu_seconds')) for step in steps)
-    if abs(number(data.get('child_cpu_seconds'))-child)>1e-6 or abs(number(data.get('monitor_cpu_seconds'))-monitor)>1e-6 or abs(number(data.get('total_cpu_seconds'))-(number(data.get('parent_cpu_seconds'))+child+monitor))>1e-6: raise Rejected('inconsistent CPU accounting')
+    control_child=number(data.get('control_child_cpu_seconds',0))
+    if abs(number(data.get('child_cpu_seconds'))-child)>1e-6 or abs(number(data.get('monitor_cpu_seconds'))-monitor)>1e-6 or abs(number(data.get('total_cpu_seconds'))-(number(data.get('parent_cpu_seconds'))+child+monitor+control_child))>1e-6: raise Rejected('inconsistent CPU accounting')
 
     tools=data.get('tools',{})
     implementation=tools.get('implementation_sha256')
