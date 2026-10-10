@@ -1,0 +1,5 @@
+# Original-source observation002
+
+Exact original-source observation/DSN/native DRC evidence. Original376routes retained: no autorouting completion. All15 original files/rules preserved; separate complete copies, nonsaving refill. No full runtime/project copies or tools in this public subset; full raw run retained locally for archive. Geometry/settings derived from official KiCad demos/pic_programmer at69cafb907ebc09e7722a2a464b1d466fc2e3608d remain CC BY-SA4.0; original notices included.
+
+Original native DRC:0opens,0blocking,41missing-footprint-library warnings,0exclusions. No reported JP1clearance violation. Native ignores track_not_centered_on_via in addition to three explicit source ignores. This does not qualify source-to-native severity equivalence, custom-pad contact/clearance/rotations, format support, electrical adequacy or routing. Six nonfatal no-layer via-width warnings remain in the observer log. Controller exit0 is separately measured; shared60secondwall/fullCPU caps pass. Stored totals precede final publication.
