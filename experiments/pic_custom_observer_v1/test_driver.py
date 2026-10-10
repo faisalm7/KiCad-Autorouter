@@ -5,6 +5,7 @@ from unittest import mock
 import driver as d
 import mapping as m
 import worker as w
+from autorouter.adapter import _parse_dsn, _dump_dsn, _QUOTE_SENTINEL
 
 def digest(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -53,7 +54,7 @@ def fabricated(notes,project,board,hashes):
             pins.append(['pin',custom_ids.get(row['uuid'],'plain'),'"'+unique+'"','0','0'])
         images.append(['image',ref,*pins]);components.append(['component',ref,['place',ref,'0','0','front','0']])
     network=['network',*[['net','"'+name+'"',['pins',*[row['reference']+'-'+row['number'] for row in pads if row['net']==name and row['copper_layers']]]] for name in names]]
-    raw=(d.sx.dump(['pcb','synthetic',['unit','um'],['resolution','um','10'],['library',*images,*stacks],['placement',*components],network])+'\n').encode()
+    raw=_dump_dsn(['pcb','synthetic',['parser',['string_quote',_QUOTE_SENTINEL]],['unit','um'],['resolution','um','10'],['library',*images,*stacks],['placement',*components],network]).encode()
     native['dsn_sha256']=custom['dsn_sha256']=d.sha_bytes(raw)
     return native,custom,raw
 
@@ -108,14 +109,59 @@ class Tests(unittest.TestCase):
         self.write_context();custom=d.read(self.out/'custom-pads.json');custom['project_sha256']='0'*64;d.p.save_json(self.out/'custom-pads.json',custom)
         with self.assertRaisesRegex(d.p.Rejected,'binding'):d.observe_binding(self.out,self.hashes,self.notes)
     def test_dsn_terminal_reassigned_rejects(self):
-        native,custom,raw=self.context();tree=d.sx.parse(raw.decode());nets=d.sx.children(d.sx.one(tree,'network'),'net');nets[0][1]='"wrong"'
-        with self.assertRaisesRegex(ValueError,'terminal'):m.dsn_correspondence(d.sx.dump(tree).encode(),native,custom['observation_before_export']['pads'])
+        native,custom,raw=self.context();tree=_parse_dsn(raw.decode());nets=d.sx.children(d.sx.one(tree,'network'),'net');nets[0][1]='"wrong"'
+        with self.assertRaisesRegex(ValueError,'terminal'):m.dsn_correspondence(_dump_dsn(tree).encode(),native,custom['observation_before_export']['pads'])
     def test_dsn_padstack_loss_rejects(self):
-        native,custom,raw=self.context();tree=d.sx.parse(raw.decode());library=d.sx.one(tree,'library');library.remove(next(x for x in d.sx.children(library,'padstack') if x[1]=='custom_1'))
-        with self.assertRaisesRegex(ValueError,'padstack'):m.dsn_correspondence(d.sx.dump(tree).encode(),native,custom['observation_before_export']['pads'])
+        native,custom,raw=self.context();tree=_parse_dsn(raw.decode());library=d.sx.one(tree,'library');library.remove(next(x for x in d.sx.children(library,'padstack') if x[1]=='custom_1'))
+        with self.assertRaisesRegex(ValueError,'padstack'):m.dsn_correspondence(_dump_dsn(tree).encode(),native,custom['observation_before_export']['pads'])
     def test_dsn_wrong_units_rejects(self):
         native,custom,raw=self.context();raw=raw.replace(b'(unit um)',b'(unit mm)')
         with self.assertRaisesRegex(ValueError,'unit'):m.dsn_correspondence(raw,native,custom['observation_before_export']['pads'])
+    def retained_export(self):
+        """Actual native001 artifacts; reading them does not rerun native validation."""
+        base=d.ROOT/'evidence/pic-custom-observation-001'
+        expected={'native.dsn':'d928e7f3e823dd9c3adbe8cc09e5cd65c17c014e1377076fee8f94336e652111',
+            'observation.json':'badfc2effcb330ce57e44bc385ac618bb8ba4f0d3cc217bb8ac4c24c2bbebb72',
+            'custom-pads.json':'a332de64029ba810c3526b331a59a7d6fcd443c648a7b4a7fc7148353a389baf'}
+        for name,sha in expected.items():self.assertEqual(digest(base/name),sha,name)
+        return d.read(base/'observation.json'),d.read(base/'custom-pads.json'),(base/'native.dsn').read_bytes()
+    def test_actual_export_quote_grammar_and_complete_correspondence(self):
+        native,custom,raw=self.retained_export()
+        self.assertEqual(raw.count(b'(string_quote ")'),1)
+        with self.assertRaisesRegex(ValueError,'invalid S-expression token'):d.sx.parse(raw.decode())
+        self.assertEqual(_parse_dsn(raw.decode())[0],'pcb')
+        m.floor_identity(native,self.notes,self.project)
+        pads=m.custom_identity(custom,native,self.notes)
+        result=m.dsn_correspondence(raw,native,pads)
+        self.assertEqual(result['terminal_count'],236);self.assertEqual(len(result['custom_pads']),2)
+        self.assertEqual((len(native['pads']),len(native['routes'])),(247,376))
+        self.assertFalse(result['geometry_qualified']);self.assertFalse(result['routing_accepted'])
+    def test_actual_export_missing_duplicate_or_misplaced_quote_rejects(self):
+        native,custom,raw=self.retained_export();declaration=b'(string_quote ")'
+        missing=raw.replace(declaration,b'',1)
+        malformed={'missing':missing,'duplicate':raw.replace(declaration,declaration+b' '+declaration,1),
+            'outside_parser':missing.replace(b'(structure',declaration+b'\n  (structure',1),
+            'unterminated_string':raw+b'\n"unterminated','unbalanced':raw.rstrip()[:-1]}
+        self.assertNotEqual(malformed['outside_parser'],missing)
+        for name,bad in malformed.items():
+            with self.subTest(name=name),self.assertRaises(ValueError):
+                m.dsn_correspondence(bad,native,custom['observation_before_export']['pads'])
+    def test_actual_export_reserved_quote_sentinel_rejects(self):
+        native,custom,raw=self.retained_export()
+        with self.assertRaisesRegex(ValueError,'reserved quote sentinel'):
+            m.dsn_correspondence(raw+b'\n; '+_QUOTE_SENTINEL.encode(),native,custom['observation_before_export']['pads'])
+    def test_actual_export_reassigned_terminal_rejects_after_parse(self):
+        native,custom,raw=self.retained_export();tree=_parse_dsn(raw.decode())
+        d.sx.children(d.sx.one(tree,'network'),'net')[0][1]='"wrong-assigned-net"'
+        with self.assertRaisesRegex(ValueError,'terminal mismatch'):
+            m.dsn_correspondence(_dump_dsn(tree).encode(),native,custom['observation_before_export']['pads'])
+    def test_actual_export_missing_custom_padstack_rejects_after_parse(self):
+        native,custom,raw=self.retained_export();rows=custom['observation_before_export']['pads']
+        result=m.dsn_correspondence(raw,native,rows);stack_name=result['custom_pads'][0]['padstack_ast'][1]
+        tree=_parse_dsn(raw.decode());library=d.sx.one(tree,'library')
+        library.remove(next(node for node in d.sx.children(library,'padstack') if node[1]==stack_name))
+        with self.assertRaisesRegex(ValueError,'padstack'):
+            m.dsn_correspondence(_dump_dsn(tree).encode(),native,rows)
     def test_context_flag_path_argument_guards(self):
         with self.assertRaisesRegex(d.p.Rejected,'run-native'):d.experiment(self.out/'absent')
         for value in ('export','context-only',None,True):

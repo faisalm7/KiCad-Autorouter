@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "argv": [
+    "python3",
+    "-B",
+    "experiments/pic_custom_observer_v1/driver.py",
+    "--run-native",
+    "--output",
+    ".runs/pic-custom-observation-001"
+  ],
+  "shell_wrapper": "python3 -B experiments/pic_custom_observer_v1/driver.py --run-native --output .runs/pic-custom-observation-001 > .runs/pic-custom-observation-001-command.log 2>&1; cat .runs/pic-custom-observation-001-command.log",
+  "tool_shell_exit_code": 0,
+  "controller_exit_code_measured": null,
+  "limitation": "The shell exit belongs to the following cat command. Controller exit was not separately captured; native worker process exit is recorded inside the run. Do not interpret shell0 as successful diagnostic completion.",
+  "command_log_sha256": "5dc032730bc481ac723382c26c1e331ea78e7c8f4d52bb14c1bb18b696afd5a5",
+  "git_head": "9300c75a4e70b29a3f919edc5cb3ed0ee3566e3e"
+}

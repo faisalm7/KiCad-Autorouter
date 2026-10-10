@@ -1,0 +1,152 @@
+{
+  "schema": 1,
+  "native_jobs": 0,
+  "engine_jobs": 0,
+  "raw_run_unchanged": true,
+  "source_unchanged": true,
+  "raw_dsn_sha256": "d928e7f3e823dd9c3adbe8cc09e5cd65c17c014e1377076fee8f94336e652111",
+  "custom_record_sha256": "a332de64029ba810c3526b331a59a7d6fcd443c648a7b4a7fc7148353a389baf",
+  "parser_controls": [
+    {
+      "case": "actual",
+      "accepted_for_observation": true,
+      "expected": true,
+      "error": null,
+      "input_sha256": "d928e7f3e823dd9c3adbe8cc09e5cd65c17c014e1377076fee8f94336e652111"
+    },
+    {
+      "case": "missing_quote_declaration",
+      "accepted_for_observation": false,
+      "expected": false,
+      "error": "ValueError: Expected exactly one KiCad string_quote declaration",
+      "input_sha256": "d042f1cf84a5a1cfe7a2a32f2aa26d14f623f56f5c667910dc0a5b1859070b51"
+    },
+    {
+      "case": "duplicate_quote_declaration",
+      "accepted_for_observation": false,
+      "expected": false,
+      "error": "ValueError: Expected exactly one KiCad string_quote declaration",
+      "input_sha256": "e5be7c32441f22e86be4fecb486de96a123740735aff985c72721314aec94565"
+    },
+    {
+      "case": "comment_only_declaration",
+      "accepted_for_observation": false,
+      "expected": false,
+      "error": "ValueError: Expected exactly one KiCad string_quote declaration",
+      "input_sha256": "6c45cbc001405af28aaf143ec88a45b6b8d11386ae27f3ea3149735abd873703"
+    },
+    {
+      "case": "reserved_sentinel",
+      "accepted_for_observation": false,
+      "expected": false,
+      "error": "ValueError: DSN contains reserved quote sentinel",
+      "input_sha256": "ac35fb21ac4732277ef793ccbd69b3b55daea25fa49d7734e7dbc37f46836ebb"
+    },
+    {
+      "case": "unterminated_string",
+      "accepted_for_observation": false,
+      "expected": false,
+      "error": "ValueError: Unterminated DSN string",
+      "input_sha256": "ce51501f7da0db9c5ecf3c96cbb6dba4d75e197e4da6074291ca535b4c5a066d"
+    },
+    {
+      "case": "unmatched_close",
+      "accepted_for_observation": false,
+      "expected": false,
+      "error": "ValueError: unmatched closing parenthesis",
+      "input_sha256": "2d58d27def0a44edfda9b68d658b30821f2b568426664e88d85c75cda73da087"
+    },
+    {
+      "case": "wrong_units",
+      "accepted_for_observation": false,
+      "expected": false,
+      "error": "ValueError: Only explicitly declared DSN unit um is supported",
+      "input_sha256": "c3d426c102982bd697a289bf4a5f02febfb797d1ba4247d9a8106c62ac11488a"
+    }
+  ],
+  "shape_observations": [
+    {
+      "uuid": "3acb5a29-7227-4ce2-8aa0-d92094ccdfdc",
+      "number": "1",
+      "net": "VCC",
+      "native_layer": [
+        "B.Cu"
+      ],
+      "native_pad_position_nm": [
+        147357000,
+        97790000
+      ],
+      "source_ring_equals_native_local": true,
+      "native_world_equals_zero_rotation_local_plus_position": true,
+      "native_effective_equals_world": true,
+      "native_local_vertices": 5,
+      "native_area_nm2_times2": 3750000000000,
+      "dsn_padstack_layer": "top_layer",
+      "dsn_pin_ast": [
+        "pin",
+        "Cust[T]Pad_300.000000x300.000000_1500.000000x1500.000000_6_um_4F9F87CB620F18FA2F4FD38FD52DC8B8",
+        "1",
+        "-725",
+        "0"
+      ],
+      "dsn_placement_ast": [
+        "place",
+        "JP1",
+        "148082",
+        "-97790",
+        "back",
+        "180",
+        [
+          "PN",
+          "JUMPER"
+        ]
+      ],
+      "dsn_polygon_equals_local_convex_hull": true,
+      "dsn_unique_vertices": 5,
+      "dsn_area_nm2_times2": 3750000000000,
+      "native_to_DSN_world_transform_qualified": false
+    },
+    {
+      "uuid": "5b196d03-cd44-4c2b-9a91-fadc24ae5f4b",
+      "number": "2",
+      "net": "/pic_sockets/VCC_PIC",
+      "native_layer": [
+        "B.Cu"
+      ],
+      "native_pad_position_nm": [
+        148807000,
+        97790000
+      ],
+      "source_ring_equals_native_local": true,
+      "native_world_equals_zero_rotation_local_plus_position": true,
+      "native_effective_equals_world": true,
+      "native_local_vertices": 5,
+      "native_area_nm2_times2": 2700000000000,
+      "dsn_padstack_layer": "top_layer",
+      "dsn_pin_ast": [
+        "pin",
+        "Cust[T]Pad_300.000000x300.000000_1150.000000x1500.000000_5_um_4994A2648203C86F3D6EDA91726DD99D",
+        "2",
+        "725",
+        "0"
+      ],
+      "dsn_placement_ast": [
+        "place",
+        "JP1",
+        "148082",
+        "-97790",
+        "back",
+        "180",
+        [
+          "PN",
+          "JUMPER"
+        ]
+      ],
+      "dsn_polygon_equals_local_convex_hull": true,
+      "dsn_unique_vertices": 4,
+      "dsn_area_nm2_times2": 3450000000000,
+      "native_to_DSN_world_transform_qualified": false
+    }
+  ],
+  "scope": "Actual saved native observations and raw export, re-read offline. Only original zero-angle geometry was checked. Local hull comparison does not qualify arbitrary back-side DSN transforms, native copper connectivity or DRC clearance. No original native DRC stage ran in001."
+}

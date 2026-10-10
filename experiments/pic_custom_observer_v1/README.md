@@ -1,4 +1,4 @@
-# Original pic custom-pad observation: unexecuted diagnostic
+# Original pic custom-pad observation: diagnostic
 
 Lead-only prospective observation of the complete original `pic_programmer`
 project. This does not strip its 376 existing routes, route anything, save a
@@ -46,25 +46,36 @@ single project experiment lock and scoped SIGINT/SIGTERM handlers prevent
 competing project jobs and restore handlers. Existing native failures and all
 original inputs remain intact. No network or external spending.
 
-Planned promotion is `driver.py`, `worker.py`, `mapping.py`, `test_driver.py` and
-this README under `experiments/pic_custom_observer_v1`, plus the narrow optional
-callback patch to `autorouter/floor_context.py`. Commit/audit/push first. Root
-must run the integrated suite, historical receipt readbacks and a fresh default
-placement fixture regression before the new native observation. No native job
-has been run from this draft.
+The initial observation at `9300c75` is retained in
+`evidence/pic-custom-observation-001`. The actual worker exported DSN and all
+three explicit-layer custom-polygon observations, with unchanged full terminal
+and footprint state across export. Correspondence parsing then failed because
+the generic board parser rejected KiCad's normal `(string_quote ")` declaration;
+the separate original-rule DRC was not reached. This is a failed diagnostic,
+not a native routing or geometry qualification.
+
+Correspondence now uses the existing strict `adapter._parse_dsn`, already used
+by the other DSN adapters. It recognizes exactly one correctly placed native
+quote declaration; it does not fall back, rewrite the retained DSN or alter any
+mapping check. Hash-bound pure regressions parse the retained native001 export,
+check all 236 connected pins and both custom pads, and reject malformed quote
+declarations, changed terminal assignments and missing padstacks. Synthetic
+controls also emit native quote grammar through the existing DSN serializer.
+These pure checks do not substitute for the next fresh native invocation.
+Commit/audit/push the parser fix before that invocation; preserve native001.
 
 Pure reproduction (project Python3.11, no native import):
 
 ```sh
-python3 -B -m unittest discover -s .runs/pic-custom-observer-draft-001 -p test_driver.py -v
+python3 -B -m unittest discover -s experiments/pic_custom_observer_v1 -p test_driver.py -v
 ```
 
 Prospective ROOT invocation after promotion, review and source checkpoint:
 
 ```sh
-python3 -B experiments/pic_custom_observer_v1/driver.py --run-native --output .runs/pic-custom-observation-001
+python3 -B experiments/pic_custom_observer_v1/driver.py --run-native --output .runs/pic-custom-observation-002
 ```
 
-The first observation may fail. Retain it, explain the actual API/native finding,
+The next observation may fail. Retain it, explain the actual API/native finding,
 and do not substitute guessed polygons, remove JP1 or weaken any constraint.
 Actual route-contact/false-hull/foreign-net controls are a separate later gate.

@@ -1,0 +1,67 @@
+{
+  "driver_sha256": "b542d74d32db7957d4fb971dd48262a5c6324536eb96bb993247ad9a92fbf75f",
+  "native_executed": false,
+  "source_modified": false,
+  "cases": [
+    {
+      "case": "unchanged",
+      "returned": {
+        "status": "observations_complete",
+        "observations_complete": true,
+        "routing_accepted": false
+      },
+      "canonical": {
+        "status": "observations_complete",
+        "observations_complete": true,
+        "routing_accepted": false
+      },
+      "exhausted": false,
+      "negative_correctly_invalidated": true
+    },
+    {
+      "case": "canonical_mutation",
+      "returned": {
+        "status": "observations_complete",
+        "observations_complete": true,
+        "routing_accepted": false
+      },
+      "canonical": {
+        "status": "observations_complete",
+        "observations_complete": true,
+        "routing_accepted": true
+      },
+      "exhausted": false,
+      "negative_correctly_invalidated": false
+    },
+    {
+      "case": "budget_during_scan",
+      "returned": {
+        "status": "observations_complete",
+        "observations_complete": true,
+        "routing_accepted": false
+      },
+      "canonical": {
+        "status": "observations_complete",
+        "observations_complete": true,
+        "routing_accepted": false
+      },
+      "exhausted": true,
+      "negative_correctly_invalidated": false
+    },
+    {
+      "case": "record_mutation",
+      "returned": {
+        "status": "observations_complete",
+        "observations_complete": true,
+        "routing_accepted": true
+      },
+      "canonical": {
+        "status": "observations_complete",
+        "observations_complete": true,
+        "routing_accepted": false
+      },
+      "exhausted": false,
+      "negative_correctly_invalidated": false
+    }
+  ]
+}

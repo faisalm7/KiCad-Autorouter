@@ -2,7 +2,7 @@
 import copy
 from decimal import Decimal
 from autorouter import sexpr as sx,board_floor as g,pipeline as p,netclass
-from autorouter.adapter import _check_units
+from autorouter.adapter import _check_units, _parse_dsn
 
 SEVERITIES={'footprint_symbol_field_mismatch':'warning','missing_tuning_profile':'warning',
             'text_on_edge_cuts':'error','track_on_post_machined_layer':'error'}
@@ -83,7 +83,7 @@ def custom_identity(observation,native,notes):
     return copy.deepcopy(actual)
 
 def dsn_correspondence(raw,native,custom):
-    tree=sx.parse(raw.decode());_check_units(tree)
+    tree=_parse_dsn(raw.decode());_check_units(tree)
     library=sx.one(tree,'library');placement=sx.one(tree,'placement');network=sx.one(tree,'network')
     if any(x is None for x in (library,placement,network)):raise ValueError('missing DSN context')
     def unique(nodes,label):
