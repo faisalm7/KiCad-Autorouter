@@ -225,6 +225,8 @@ def native_rejection_reasons(native):
             return ['malformed native finding']
         # Error/exclusion checks also fail closed if a caller supplies dishonest
         # counters. check_result separately re-derives every counter from JSON.
+        if finding['type'] not in KNOWN_CHECKS | {'padstack_invalid'}:
+            reasons.append('unknown native finding semantics: '+finding['type'])
         if finding['severity']=='error': reasons.append('native error finding: '+finding['type'])
         if finding['severity']=='exclusion' or finding.get('excluded',False):
             reasons.append('excluded native finding: '+finding['type'])

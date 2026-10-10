@@ -1,0 +1,75 @@
+{
+  "schema": 1,
+  "status": "source_bytecode_review_complete",
+  "scope": "Read-only review of existing javap output; no new javap, Java execution, engine route, KiCad, network or original board reads.",
+  "jar_sha256_from_saved_receipt": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+  "toolchain_lock": {
+    "bytes": 1231,
+    "sha256": "f04be5cdf6f64bddc16a6c5efd217b2f5e0a1341906ff44033f5807971154efe"
+  },
+  "saved_source_inventory": {
+    "receipt.json": {
+      "bytes": 3421,
+      "sha256": "fcb7222383c8d599550a080b5c289209c3e9d6df316a4cac205e5a9e4fcee151"
+    },
+    "app.freerouting.core.library.Padstack.txt": {
+      "bytes": 22119,
+      "sha256": "f20594ceb8bc81fb44b51d1cddf6688d2ce015da207b56d1eaec38873ecb57b0"
+    },
+    "app.freerouting.io.specctra.parser.Padstack.txt": {
+      "bytes": 68,
+      "sha256": "f29efcc1e3f3628701b63fcccd5df8b5d479216ee53057164c218cc163840036"
+    },
+    "app.freerouting.io.specctra.parser.Polygon.txt": {
+      "bytes": 14362,
+      "sha256": "6d3c6377018a3ddf0c90af7df343826bcf862f3aaa667294a03dd6c2f8aba3e8"
+    },
+    "app.freerouting.geometry.planar.PolygonShape.txt": {
+      "bytes": 71955,
+      "sha256": "ecb10f9ae141dc480abc3b2fbba391395761e505e2780c7e82d39062b2eee8d0"
+    },
+    "app.freerouting.io.specctra.parser.Library.txt": {
+      "bytes": 71621,
+      "sha256": "bc3f881b630eec3c2dce159ade3047f6ed7244af6101c8c00c472446e23861c3"
+    }
+  },
+  "checks": {
+    "all_saved_output_hashes_match_receipt": true,
+    "pinned_jar_receipt_matches_project_lock": true,
+    "polygon_hull_before_convex_split": true,
+    "single_convexshape_array_per_layer": true,
+    "same_layer_assignment_overwrites": true,
+    "duplicate_padstack_identifier_early_return": true,
+    "missing_parser_padstack_class_retained": true
+  },
+  "basis": "Method control flow in saved bytecode, not dynamic import or routing evidence.",
+  "qualified_support": false,
+  "probe_executed": false,
+  "findings": [
+    {
+      "id": "P1",
+      "conclusion": "Padstack polygon import convexifies before storage.",
+      "evidence": "Library.readPadstackScope bytecode327..438; Polygon.transformToBoardRel creates PolygonShape at90..98; PolygonShape.convexHull removes non-left turns recursively."
+    },
+    {
+      "id": "P2",
+      "conclusion": "Multiple shapes on one copper layer overwrite in input order; no union is performed by this path.",
+      "evidence": "Library collection LinkedList6..13, add125..134, iteration296..322, layer getNo525..537, aastore569..575; global PCB/SIGNAL Arrays.fill515..519."
+    },
+    {
+      "id": "P3",
+      "conclusion": "One stored ConvexShape per layer is part of core Padstack API.",
+      "evidence": "Padstack.shapes ConvexShape[], constructor0..9, getShape(int)21..27 returns indexed member."
+    },
+    {
+      "id": "P4",
+      "conclusion": "Geometry library ability to split nonconvex shapes does not establish concave padstack support.",
+      "evidence": "Library explicitly convexifies PolygonShape first and stores element0 of split at410..414, logging if length differs from1."
+    },
+    {
+      "id": "P5",
+      "conclusion": "Repeating a padstack identifier is not a composition workaround.",
+      "evidence": "Library.readPadstackScope bytecode252..262 returns true when existing name found; original input names also use replaceAll(\\.\\d+, empty) at38..47, so probe IDs should be simple distinct names."
+    }
+  ]
+}

@@ -36,6 +36,17 @@ class NativePolicyControls(unittest.TestCase):
         self.assertTrue(p.native_accepted(native)); self.assertTrue(strategy._valid(native))
         self.assertEqual(native['warnings'], 1)
 
+    def test_unknown_findings_fail_without_reclassifying_native_counts(self):
+        for severity in ('warning', 'error', 'exclusion'):
+            with self.subTest(severity=severity):
+                native = self.native(finding('future_unqualified_check', severity))
+                before = copy.deepcopy(native)
+                self.assertFalse(p.native_accepted(native))
+                self.assertFalse(strategy._valid(native))
+                self.assertIn('unknown native finding semantics: future_unqualified_check',
+                              p.native_rejection_reasons(native))
+                self.assertEqual(native, before)
+
     def test_direct_helper_does_not_trust_forged_zero_counters(self):
         for item in (finding('track_dangling', 'error'), finding('track_dangling', excluded=True),
                      finding('track_dangling', 'exclusion')):
@@ -106,6 +117,15 @@ class PolicyReceiptControls(unittest.TestCase):
     def test_ordinary_warning_receipt_still_verifies(self):
         self.install_finding('track_dangling')
         self.assertTrue(p.check_result(self.case.receipt)['current'])
+
+    def test_rehashed_unknown_warning_receipt_and_handoff_reject(self):
+        self.install_finding('future_unqualified_check')
+        with self.assertRaisesRegex(p.Rejected, 'unknown native finding semantics'):
+            p.check_result(self.case.receipt)
+        target = self.case.root/'unknown-review'
+        with self.assertRaisesRegex(p.Rejected, 'unknown native finding semantics'):
+            handoff.review_copy(self.case.receipt, target)
+        self.assertFalse(target.exists())
 
     def test_missing_warning_severity_and_disabled_padstack_remain_rejected(self):
         case = self.case

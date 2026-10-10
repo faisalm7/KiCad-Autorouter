@@ -1,0 +1,71 @@
+{
+  "schema": 1,
+  "status": "proposal_only_no_native_execution",
+  "no_production_changes": true,
+  "minimal_first_batch": {
+    "wall_seconds": 90,
+    "full_cpu_seconds": 90,
+    "output_bytes": 20971520,
+    "shared_across_all_attempts": true,
+    "stages": "Existing nonsaving original-rule DRC plus narrowly declared intent readback; source/tool/project/process/full reports retained."
+  },
+  "cases": [
+    {
+      "id": "positive",
+      "change": "Owned conventional two-terminal routed fixture, complete original project and ordinary documentation-layer text.",
+      "expectation": "No target findings, opens, blocking or exclusions; warnings retained."
+    },
+    {
+      "id": "missing_named_profile",
+      "change": "Set only one owned named nondefault class tuning_profile to MissingOwnedProfile; definitions remain empty.",
+      "expectation": "Actual missing_tuning_profile warning with original warning severity; future application guard rejects intent/finding.",
+      "classification": "provider negative; no project-source edits"
+    },
+    {
+      "id": "missing_default_profile",
+      "change": "Set only Default.tuning_profile to MissingOwnedProfile on another copy.",
+      "expectation": "Coverage probe: source suggests direct named-class provider loop omits Default. Record actual outcome; source guard rejects regardless.",
+      "classification": "not a provider pass if finding absent"
+    },
+    {
+      "id": "board_edge_text",
+      "change": "Move only a fixed UUID gr_text from Dwgs.User to Edge.Cuts.",
+      "expectation": "text_on_edge_cuts:error bound to exact UUID; additional raw outline findings retained."
+    },
+    {
+      "id": "footprint_edge_text",
+      "change": "Move only a fixed UUID fp_text or field from F.Fab to Edge.Cuts.",
+      "expectation": "text_on_edge_cuts:error bound to exact nested item UUID; confirms nested traversal."
+    },
+    {
+      "id": "pad_front_counterbore",
+      "change": "On a new PTH/track fixture copy add (front_post_machining counterbore (size 1.2) (depth 0.2)) to the pad only; choose original-rule-compliant original pad/hole and fixed F.Cu track.",
+      "expectation": "Native nonzero front mode/size/depth retained and track_on_post_machined_layer:error exactly track+pad; absent finding is failed qualification.",
+      "limits": "Prospective parser recipe only; connectivity precondition/DRC outcome unexecuted. Ordinary positive must first be clean."
+    },
+    {
+      "id": "via_backdrill_later",
+      "change": "Separate connected through-via copy with (backdrill (size 0.8) (layers \"F.Cu\" \"B.Cu\")); fixed corresponding ordinary hole smaller than0.8.",
+      "expectation": "Actual intent retained and exact track+via target finding; otherwise remain unsupported.",
+      "limits": "Separate later branch, not inferred from pad case; physical/stackup correctness unqualified."
+    },
+    {
+      "id": "schematic_fields_later",
+      "change": "Owned annotated matched schematic/board pair; change only one custom footprint field, preserve all net/pad data; explicit parity option only after verified command support.",
+      "expectation": "Matched pair positive, exact footprint_symbol_field_mismatch on negative, proof netlist/parity actually ran. No-parity negative is coverage-only."
+    }
+  ],
+  "fail_closed_source_tokens": [
+    "backdrill",
+    "tertiary_drill",
+    "front_post_machining",
+    "back_post_machining",
+    "generated (any initially unqualified generator)"
+  ],
+  "finding_critical_proposal": [
+    "missing_tuning_profile",
+    "text_on_edge_cuts",
+    "track_on_post_machined_layer"
+  ],
+  "metadata_is_not_provider_coverage": true
+}

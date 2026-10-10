@@ -1,0 +1,126 @@
+{
+  "accepted_raw_reports": [
+    {
+      "central_policy_accepts": true,
+      "counts": {
+        "blocking": 0,
+        "exclusions": 0,
+        "opens": 0,
+        "warnings": 0
+      },
+      "finding_types": {},
+      "native_report": ".runs/pic-core-placement-regression-001/final-drc.json",
+      "native_report_sha256": "df75f85c544589b3632b11055fc79dcb92784f15ddc7edb1b3d5af7b7b5a41a1",
+      "raw_rederived_equal": true,
+      "receipt": ".runs/pic-core-placement-regression-001/result.json",
+      "receipt_sha256": "029e7a81d1df9ae7c30f46ec03396a21afe7cafb7b434d4817781373ae4e6b67",
+      "unknown_types": []
+    },
+    {
+      "central_policy_accepts": true,
+      "counts": {
+        "blocking": 0,
+        "exclusions": 0,
+        "opens": 0,
+        "warnings": 96
+      },
+      "finding_types": {
+        "connection_width": 9,
+        "lib_footprint_mismatch": 81,
+        "nonmirrored_text_on_back_layer": 1,
+        "silk_edge_clearance": 1,
+        "silk_over_copper": 4
+      },
+      "native_report": ".runs/placement-production-multichannel-001/final-drc.json",
+      "native_report_sha256": "ce780053bb51d2b131db586c87ec02d81ea8619eaf5bbe8967439259e768d5a6",
+      "raw_rederived_equal": true,
+      "receipt": ".runs/placement-production-multichannel-001/result.json",
+      "receipt_sha256": "c8501cf4b14634a0c9c2d38504717f8f9d7e7991b461446642cf7a3ecca6f4e3",
+      "unknown_types": []
+    },
+    {
+      "central_policy_accepts": true,
+      "counts": {
+        "blocking": 0,
+        "exclusions": 0,
+        "opens": 0,
+        "warnings": 1
+      },
+      "finding_types": {
+        "lib_footprint_mismatch": 1
+      },
+      "native_report": ".runs/portfolio-paired-001/C_feedback/final-drc.json",
+      "native_report_sha256": "c6041b518afbfcfb54d95b0c0c8dec598b956284808d0b5e95dc5fef807db013",
+      "raw_rederived_equal": true,
+      "receipt": ".runs/portfolio-paired-001/C_feedback/result.json",
+      "receipt_sha256": "44de4feb70b99941644b94b328b916f5687ec28ecd8469ee8ebfc79bda0967ec",
+      "unknown_types": []
+    },
+    {
+      "central_policy_accepts": true,
+      "counts": {
+        "blocking": 0,
+        "exclusions": 0,
+        "opens": 0,
+        "warnings": 0
+      },
+      "finding_types": {},
+      "native_report": ".runs/thermal-paired-001/C_thermal/final-drc.json",
+      "native_report_sha256": "9c686fa4880f270280f11ba049ddb9a7e23a4e576e1023374b95c8673321a45b",
+      "raw_rederived_equal": true,
+      "receipt": ".runs/thermal-paired-001/C_thermal/result.json",
+      "receipt_sha256": "22b05b6b3af0bc4cc77ec41c29cb0c7c69bf82f090f4a1615b1eeec5e7e8c391",
+      "unknown_types": []
+    }
+  ],
+  "ast_compatibility_checks": {
+    "CRITICAL_CHECKS_unchanged": true,
+    "CRITICAL_FINDINGS_unchanged": true,
+    "KNOWN_CHECKS_unchanged": true,
+    "native_accepted": true,
+    "parse_report": true,
+    "preflight": true
+  },
+  "before_mutation_receipt_sha256": "797c8e6ae48f618f13bc48c483bb64164d0a764da813104abf3780667c7b00bb",
+  "engine_executed": false,
+  "full_check_result_repeated": false,
+  "head": "0dc3aa57546cc20f7083cdda15a9d98e7fee2052",
+  "limitations": [
+    "Offline stored-report compatibility only; root owns fresh native validation.",
+    "Known project-setting keys are a deliberately conservative allowlist, not exhaustive KiCad finding semantics. Unknown future/other type fails closed.",
+    "No source severity key admission or four currently unknown project keys qualification."
+  ],
+  "mutations": [
+    {
+      "native_evidence_unchanged": true,
+      "reasons": [
+        "native error finding: future_unqualified_native_check",
+        "unknown native finding semantics: future_unqualified_native_check"
+      ],
+      "rejected": true,
+      "severity": "error"
+    },
+    {
+      "native_evidence_unchanged": true,
+      "reasons": [
+        "unknown native finding semantics: future_unqualified_native_check"
+      ],
+      "rejected": true,
+      "severity": "warning"
+    },
+    {
+      "native_evidence_unchanged": true,
+      "reasons": [
+        "excluded native finding: future_unqualified_native_check",
+        "unknown native finding semantics: future_unqualified_native_check"
+      ],
+      "rejected": true,
+      "severity": "exclusion"
+    }
+  ],
+  "native_executed": false,
+  "pipeline_sha256": "f7555490c1e010c35a604365e253a11d31036c6c170d0543b25f85929aaff8ad",
+  "prior_committed_pipeline_sha256": "435b55852ec1616c2a546ac89c5aa67a198cedd864691b67df56332bf4af6f4e",
+  "schema": 1,
+  "status": "scoped_review_clear"
+}
