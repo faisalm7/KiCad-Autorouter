@@ -1,0 +1,1 @@
+Project-owned static audit and minimal custom-pad geometry observations from complete official KiCad CC-BY-SA4 demo inputs, source commit and exact inventories cited in REPORT/audit. No new board/source-code payload, native run or support change. Pinned GPL source remains ignored; all original geometry and current16-board denominator unchanged.
