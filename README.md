@@ -43,3 +43,5 @@ Unsupported thermal geometry or any other blocking finding remains rejected. The
 The [thermal experiment](docs/thermal-experiment.md) records fresh B0/B1/completion-only/B2 outcomes, the accepted recovery candidate, exact bridge-removal control, full costs and limitations.
 
 `route --guidance board-floors-v1 --adapter both` explicitly honors original board minima when native Default-class preferences are smaller. This narrow two-layer whole-board policy passed an owned required-via fixture; multichannel still rejects with160opens/one thermal. It preserves original settings and is not yet available to `improve`, `recover`, portfolio or GUI handoff. See [floor guidance evidence](docs/board-floor-guidance.md).
+
+Pinned KiCad10.0.0 missed deliberate track/via keepout violations in new native controls. Routing therefore rejects genuine or ambiguous board/footprint rule-area restrictions and legacy `module` footprint syntax. Original constraints are preserved, never removed to pass preflight. Ordinary copper zones and explicitly unrestricted areas remain subject to all other checks. See [native limitations and current diagnostic](docs/placement-area-diagnostics.md).

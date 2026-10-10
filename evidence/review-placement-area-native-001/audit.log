@@ -1,0 +1,78 @@
+{
+  "schema": 1,
+  "audit_passed": true,
+  "native_controls_passed": false,
+  "native_or_engine_executed_by_reviewer": false,
+  "count": 47,
+  "summary_sha256": "c61d54b5508f0508528e1236ead7bf97ad21ef336e32448994c6239db56b058f",
+  "cases": [
+    {
+      "case": "allowed_placement",
+      "keepout_kinds": [
+        "keepout",
+        "keepout"
+      ],
+      "findings": [],
+      "control_passed": true
+    },
+    {
+      "case": "track_prohibited",
+      "keepout_kinds": [
+        "wire_keepout",
+        "wire_keepout"
+      ],
+      "findings": [],
+      "control_passed": false
+    },
+    {
+      "case": "via_prohibited",
+      "keepout_kinds": [
+        "via_keepout",
+        "via_keepout"
+      ],
+      "findings": [],
+      "control_passed": false
+    },
+    {
+      "case": "mixed",
+      "keepout_kinds": [
+        "keepout",
+        "keepout",
+        "wire_keepout",
+        "wire_keepout",
+        "via_keepout",
+        "via_keepout"
+      ],
+      "findings": [],
+      "control_passed": false
+    }
+  ],
+  "pure_transform_on_actual_area_observations": [
+    {
+      "case": "allowed_placement",
+      "pure_transform_passed": true,
+      "removed": 2,
+      "routing_accepted": false,
+      "native_qualification": false
+    },
+    {
+      "case": "track_prohibited",
+      "pure_transform_passed": false,
+      "reason": "no eligible enabled all-allowed placement areas"
+    },
+    {
+      "case": "via_prohibited",
+      "pure_transform_passed": false,
+      "reason": "no eligible enabled all-allowed placement areas"
+    },
+    {
+      "case": "mixed",
+      "pure_transform_passed": false,
+      "reason": "overlapping rule-area provenance unsupported"
+    }
+  ],
+  "transform_scope": "Pure attribution probe only; raw is also passed as guided input, so this is not a floor-guidance chain or a production routing acceptance test. Negative native controls remain failed.",
+  "wall_seconds_recorded": 6.785365540999919,
+  "cpu_seconds_recorded": 4.759377000000001,
+  "accounting_point": "Stored totals precede final publication/freshness checks; acceptance wall/CPU cap includes those checks. Corrective rejection can finish outside cap."
+}

@@ -4,7 +4,7 @@ Updated October 10, 2026 (America/Los_Angeles). **Active local reconstruction; i
 
 ## Durable local work and backup boundary
 
-Checkout: `/Users/faisal/Projects/KiCad-Autorouter-local` on this Mac; branch `rebuild/local-20261010-015447`. Latest verified push/read-back is **`8799c54c6c7225ebd8a0661840e55f6c0176584e`** ([receipt](evidence/backups/checkpoint-8799c54.json)). G0 began at `683e41a`; no cloud/worktree was used.
+Checkout: `/Users/faisal/Projects/KiCad-Autorouter-local` on this Mac; branch `rebuild/local-20261010-015447`. Latest verified push/read-back is **`fdf499d8c45c281fa2f85c13e2d5930cc7427523`** ([receipt](evidence/backups/checkpoint-fdf499d.json)). G0 began at `683e41a`; no cloud/worktree was used.
 
 Latest **full** archive: **8799c54**. Restore verified all Git refs, **28,416 non-Git files /940,519,944 bytes**, and CLI help ([verification](evidence/backups/restore-8799c54.json)). Location: `.local-backups/checkpoint-20261010T111408Z-1858532d2b2a47fbbf697c612a30b81d`. Covers all floor production/native/receipt/regression/cancellation evidence and reviews, source-closure002, the deferred pair draft/review, placement diagnosis/research and explicitly partial placement drafts at freeze. Later placement edits are outside it. Initial guard stop was a byte-identical public synthetic-key-header test copy; the exact path/hash exception passed positive and changed-content/path rejection controls. GitHub holds audited source/selected evidence. Full archives remain on this Mac only; an independent off-Mac destination awaits the owner.
 
@@ -59,7 +59,7 @@ The seven incomplete inputs are **FDC2214, VEML7700, ADS1219, SFA40, Roller Enco
 
 ## Controls, installation and preserved failed hypotheses
 
-The integrated root suite passed **367 tests in 5.938 seconds** ([log](evidence/tests/backup-floor-fixture-001.log)). The unchanged native smoke and six literal-class native regression controls passed. Real floor-engine SIGTERM left a cancelled receipt, cleaned its process group and preserved sources. Other native controls remain separate evidence. Mocked stages/AI audits do not establish native correctness or human review.
+The integrated root suite passed **372 tests in 6.122 seconds** ([log](evidence/tests/rule-area-scope-tests-003.log)). The unchanged native smoke and six literal-class native regression controls passed. Real floor-engine SIGTERM left a cancelled receipt, cleaned its process group and preserved sources. Other native controls remain separate evidence. Mocked stages/AI audits do not establish native correctness or human review.
 
 Fresh clone/venv **installation002** passed 160 then-current tests, doctor, native routing and receipt checking with network denied, reusing installed tools/JAR cache. Current code has not repeated it. Actual PCB Editor and `review-copy` observations qualify separate-copy review only: GUI refill/DRC differed in library warnings, and discard changed disposable project defaults. Live apply/undo, stale-editor protection, detached-process/OS-crash/interstage/GUI cancellation, selected-net routing, full schematic parity and a plugin remain unqualified ([installation](docs/install-test.md), [GUI](docs/gui-workflow.md)).
 
@@ -87,6 +87,6 @@ python3 -m autorouter route tests/fixtures/board-floor/fixture.kicad_pcb --guida
 python3 -m autorouter check-result .runs/board-floor-production-followup-001/result.json
 ```
 
-Five actual production positive/invalid controls and nine offline copied-receipt controls now pass. Next qualify the newly diagnosed placement-area mismatch: four all-allowed original areas exported as eight generic keepouts. Native constraint controls, exact mapping and an explicit policy precede any causal routing claim. The reviewed two-arm harness remains unexecuted; a later matched ablation should include this correction. Keep every failure and fresh output identifiers.
+Five actual production floor controls and nine offline receipt controls pass. Placement native001 confirmed the all-allowed export mismatch but **failed all three genuine-prohibition negative controls**: pinned KiCad returned no findings. Production now rejects genuine/ambiguous board or footprint rule areas and legacy module syntax. Three actual earlier accepted receipts still pass readback. A fresh14-board static audit keeps3eligible/11unsupported; four previously unsupported boards gain this additional reason. Next test a no-placement counterfactual, then the narrowly unrestricted placement correction in an explicit diagnostic pipeline and matched budget experiment. No causal routing gain or broader keepout support is claimed. See `docs/placement-area-diagnostics.md`; preserve failed001 unchanged.
 
 At the next native milestone, freeze ignored writes, commit/audit/push and run `python3 -B scripts/backup.py` again. Existing-archive check: `python3 -B scripts/backup.py --verify .local-backups/checkpoint-20261010T111408Z-1858532d2b2a47fbbf697c612a30b81d/receipt.json`. Keep spending at $0, one bounded worker, originals untouched and private/unlicensed material out of Git. No background/auto-resume work or formal release/package publication.

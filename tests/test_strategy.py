@@ -98,7 +98,13 @@ class StrategyControlFlowTests(unittest.TestCase):
         self.source_dir = self.root / "source"
         self.source_dir.mkdir()
         self.source = self.source_dir / "test.kicad_pcb"
-        self.source.write_text(BOARD)
+        # The pure selection fixture above deliberately contains a restricted
+        # area. Actual routing now rejects that unsupported native constraint;
+        # budget/control-flow tests need an explicitly unrestricted area.
+        control_board = BOARD.replace('(keepout (tracks not_allowed))',
+            '(keepout (tracks allowed) (vias allowed) (pads allowed) '
+            '(copperpour allowed) (footprints allowed))')
+        self.source.write_text(control_board)
         self.source.with_suffix(".kicad_pro").write_text("{}\n")
         self.output = self.root / "run"
         self.clock = 1000.0

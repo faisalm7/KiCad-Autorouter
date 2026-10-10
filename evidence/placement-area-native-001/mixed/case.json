@@ -1,0 +1,582 @@
+{
+  "case": "mixed",
+  "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-001/fixtures/mixed/fixture.kicad_pcb",
+  "source_hashes": {
+    "PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+    "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+    "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    "candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+    "export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+    "final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+    "final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+    "fixture.kicad_pcb": "ca5135487d1f3dc6f7c976f3e17de84b794cc1e85df830367c8ab929f82f54f7",
+    "fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+    "native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2"
+  },
+  "expected": {
+    "case": "mixed",
+    "board_sha256": "ca5135487d1f3dc6f7c976f3e17de84b794cc1e85df830367c8ab929f82f54f7",
+    "zones": [
+      {
+        "uuid": "3f4f757d-cf48-5c50-b759-32ab22feb20d",
+        "name": "diagnostic-allowed",
+        "parent": "board",
+        "is_rule_area": true,
+        "placement_enabled": true,
+        "placement_source_type": "SHEETNAME",
+        "placement_source": "/Diagnostic/",
+        "disallow": {
+          "tracks": false,
+          "vias": false,
+          "pads": false,
+          "copperpour": false,
+          "footprints": false
+        },
+        "layers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "outlines_nm": [
+          [
+            [
+              20000000,
+              19000000
+            ],
+            [
+              30000000,
+              19000000
+            ],
+            [
+              30000000,
+              21000000
+            ],
+            [
+              20000000,
+              21000000
+            ]
+          ]
+        ],
+        "outline_closed": [
+          true
+        ],
+        "holes": [
+          0
+        ],
+        "arc_count": 0
+      },
+      {
+        "uuid": "e9e8ec49-c37f-5889-957e-61d7b0d20d88",
+        "name": "diagnostic-track",
+        "parent": "board",
+        "is_rule_area": true,
+        "placement_enabled": false,
+        "placement_source_type": "SHEETNAME",
+        "placement_source": "/Diagnostic/",
+        "disallow": {
+          "tracks": true,
+          "vias": false,
+          "pads": false,
+          "copperpour": false,
+          "footprints": false
+        },
+        "layers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "outlines_nm": [
+          [
+            [
+              24500000,
+              19000000
+            ],
+            [
+              25500000,
+              19000000
+            ],
+            [
+              25500000,
+              21000000
+            ],
+            [
+              24500000,
+              21000000
+            ]
+          ]
+        ],
+        "outline_closed": [
+          true
+        ],
+        "holes": [
+          0
+        ],
+        "arc_count": 0
+      },
+      {
+        "uuid": "2af8d043-95d1-5426-972d-f9e848c737d4",
+        "name": "diagnostic-via",
+        "parent": "board",
+        "is_rule_area": true,
+        "placement_enabled": false,
+        "placement_source_type": "SHEETNAME",
+        "placement_source": "/Diagnostic/",
+        "disallow": {
+          "tracks": false,
+          "vias": true,
+          "pads": false,
+          "copperpour": false,
+          "footprints": false
+        },
+        "layers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "outlines_nm": [
+          [
+            [
+              40645000,
+              12960000
+            ],
+            [
+              42645000,
+              12960000
+            ],
+            [
+              42645000,
+              14960000
+            ],
+            [
+              40645000,
+              14960000
+            ]
+          ]
+        ],
+        "outline_closed": [
+          true
+        ],
+        "holes": [
+          0
+        ],
+        "arc_count": 0
+      }
+    ],
+    "prohibited_target_uuids": [
+      "0661fc24-4411-4f35-ad36-9f97c4110962",
+      "692ddee1-7ca5-403d-9d6e-ef63ba59a986"
+    ]
+  },
+  "passed": false,
+  "area_observation": {
+    "context_schema": 1,
+    "native_version": "10.0.0",
+    "units": "integer nanometres",
+    "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-001/mixed/candidate/fixture.kicad_pcb",
+    "board_sha256": "ca5135487d1f3dc6f7c976f3e17de84b794cc1e85df830367c8ab929f82f54f7",
+    "project_sha256": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+    "dsn_sha256": "79c27c36f6395d0cdce650b4b4276ea4a09a03a67de7e03d626ec1e6fc16cede",
+    "board_saved": false,
+    "input_hashes_before": {
+      "PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+      "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+      "export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+      "final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+      "final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+      "fixture.kicad_pcb": "ca5135487d1f3dc6f7c976f3e17de84b794cc1e85df830367c8ab929f82f54f7",
+      "fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2"
+    },
+    "input_hashes_after": {
+      "PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+      "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+      "export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+      "final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+      "final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+      "fixture.kicad_pcb": "ca5135487d1f3dc6f7c976f3e17de84b794cc1e85df830367c8ab929f82f54f7",
+      "fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2"
+    },
+    "zones": [
+      {
+        "uuid": "3f4f757d-cf48-5c50-b759-32ab22feb20d",
+        "name": "diagnostic-allowed",
+        "parent": "board",
+        "is_rule_area": true,
+        "placement_enabled": true,
+        "placement_source_type": "SHEETNAME",
+        "placement_source": "/Diagnostic/",
+        "disallow": {
+          "tracks": false,
+          "vias": false,
+          "pads": false,
+          "copperpour": false,
+          "footprints": false
+        },
+        "layers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "outlines_nm": [
+          [
+            [
+              20000000,
+              19000000
+            ],
+            [
+              30000000,
+              19000000
+            ],
+            [
+              30000000,
+              21000000
+            ],
+            [
+              20000000,
+              21000000
+            ]
+          ]
+        ],
+        "outline_closed": [
+          true
+        ],
+        "holes": [
+          0
+        ],
+        "arc_count": 0
+      },
+      {
+        "uuid": "e9e8ec49-c37f-5889-957e-61d7b0d20d88",
+        "name": "diagnostic-track",
+        "parent": "board",
+        "is_rule_area": true,
+        "placement_enabled": false,
+        "placement_source_type": "SHEETNAME",
+        "placement_source": "/Diagnostic/",
+        "disallow": {
+          "tracks": true,
+          "vias": false,
+          "pads": false,
+          "copperpour": false,
+          "footprints": false
+        },
+        "layers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "outlines_nm": [
+          [
+            [
+              24500000,
+              19000000
+            ],
+            [
+              25500000,
+              19000000
+            ],
+            [
+              25500000,
+              21000000
+            ],
+            [
+              24500000,
+              21000000
+            ]
+          ]
+        ],
+        "outline_closed": [
+          true
+        ],
+        "holes": [
+          0
+        ],
+        "arc_count": 0
+      },
+      {
+        "uuid": "2af8d043-95d1-5426-972d-f9e848c737d4",
+        "name": "diagnostic-via",
+        "parent": "board",
+        "is_rule_area": true,
+        "placement_enabled": false,
+        "placement_source_type": "SHEETNAME",
+        "placement_source": "/Diagnostic/",
+        "disallow": {
+          "tracks": false,
+          "vias": true,
+          "pads": false,
+          "copperpour": false,
+          "footprints": false
+        },
+        "layers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "outlines_nm": [
+          [
+            [
+              40645000,
+              12960000
+            ],
+            [
+              42645000,
+              12960000
+            ],
+            [
+              42645000,
+              14960000
+            ],
+            [
+              40645000,
+              14960000
+            ]
+          ]
+        ],
+        "outline_closed": [
+          true
+        ],
+        "holes": [
+          0
+        ],
+        "arc_count": 0
+      }
+    ],
+    "footprint_zone_count": 0,
+    "footprint_rulearea_count": 0,
+    "limits": {
+      "files": 2000,
+      "bytes": 104857600,
+      "zones": 16,
+      "outlines": 16,
+      "vertices": 10000,
+      "footprints": 100
+    },
+    "routing_accepted": false,
+    "adapter_transformation_performed": false
+  },
+  "native_context_audit": {
+    "passed": true,
+    "zones": 3,
+    "footprint_zones": 0
+  },
+  "export_keepout_audit": {
+    "passed": true,
+    "exact_bindings": [
+      {
+        "zone_uuid": "3f4f757d-cf48-5c50-b759-32ab22feb20d",
+        "kind": "keepout",
+        "layer": "F.Cu",
+        "dsn_node": [
+          "keepout",
+          "\"\"",
+          [
+            "polygon",
+            "F.Cu",
+            "0",
+            "20000",
+            "-19000",
+            "30000",
+            "-19000",
+            "30000",
+            "-21000",
+            "20000",
+            "-21000",
+            "20000",
+            "-19000"
+          ]
+        ],
+        "all_flags_allowed": true
+      },
+      {
+        "zone_uuid": "3f4f757d-cf48-5c50-b759-32ab22feb20d",
+        "kind": "keepout",
+        "layer": "B.Cu",
+        "dsn_node": [
+          "keepout",
+          "\"\"",
+          [
+            "polygon",
+            "B.Cu",
+            "0",
+            "20000",
+            "-19000",
+            "30000",
+            "-19000",
+            "30000",
+            "-21000",
+            "20000",
+            "-21000",
+            "20000",
+            "-19000"
+          ]
+        ],
+        "all_flags_allowed": true
+      },
+      {
+        "zone_uuid": "e9e8ec49-c37f-5889-957e-61d7b0d20d88",
+        "kind": "wire_keepout",
+        "layer": "F.Cu",
+        "dsn_node": [
+          "wire_keepout",
+          "\"\"",
+          [
+            "polygon",
+            "F.Cu",
+            "0",
+            "24500",
+            "-19000",
+            "25500",
+            "-19000",
+            "25500",
+            "-21000",
+            "24500",
+            "-21000",
+            "24500",
+            "-19000"
+          ]
+        ],
+        "all_flags_allowed": false
+      },
+      {
+        "zone_uuid": "e9e8ec49-c37f-5889-957e-61d7b0d20d88",
+        "kind": "wire_keepout",
+        "layer": "B.Cu",
+        "dsn_node": [
+          "wire_keepout",
+          "\"\"",
+          [
+            "polygon",
+            "B.Cu",
+            "0",
+            "24500",
+            "-19000",
+            "25500",
+            "-19000",
+            "25500",
+            "-21000",
+            "24500",
+            "-21000",
+            "24500",
+            "-19000"
+          ]
+        ],
+        "all_flags_allowed": false
+      },
+      {
+        "zone_uuid": "2af8d043-95d1-5426-972d-f9e848c737d4",
+        "kind": "via_keepout",
+        "layer": "F.Cu",
+        "dsn_node": [
+          "via_keepout",
+          "\"\"",
+          [
+            "polygon",
+            "F.Cu",
+            "0",
+            "40645",
+            "-12960",
+            "42645",
+            "-12960",
+            "42645",
+            "-14960",
+            "40645",
+            "-14960",
+            "40645",
+            "-12960"
+          ]
+        ],
+        "all_flags_allowed": false
+      },
+      {
+        "zone_uuid": "2af8d043-95d1-5426-972d-f9e848c737d4",
+        "kind": "via_keepout",
+        "layer": "B.Cu",
+        "dsn_node": [
+          "via_keepout",
+          "\"\"",
+          [
+            "polygon",
+            "B.Cu",
+            "0",
+            "40645",
+            "-12960",
+            "42645",
+            "-12960",
+            "42645",
+            "-14960",
+            "40645",
+            "-14960",
+            "40645",
+            "-12960"
+          ]
+        ],
+        "all_flags_allowed": false
+      }
+    ],
+    "all_allowed_generic_keepouts": 2,
+    "genuine_restriction_keepouts": 4,
+    "dsn_modified": false,
+    "routing_accepted": false
+  },
+  "native": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 0,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "PTH inside courtyard",
+        "key": "pth_inside_courtyard"
+      },
+      {
+        "description": "NPTH inside courtyard",
+        "key": "npth_inside_courtyard"
+      },
+      {
+        "description": "Footprint component type doesn't match footprint pads",
+        "key": "footprint_type_mismatch"
+      }
+    ],
+    "findings": []
+  },
+  "native_binding": {
+    "candidate_sha256": "ca5135487d1f3dc6f7c976f3e17de84b794cc1e85df830367c8ab929f82f54f7",
+    "native_report_sha256": "c3bda7636f67be098df31db2dca5aeb959d358cc39dd34b0f96b93f4b1a58d53",
+    "native_binding_sha256": "4866a44c3b9e3697c570c86df8fdfdbbad447cc266b6fc53e9b1befc6befc751",
+    "input_hashes": {
+      "PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+      "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+      "export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+      "final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+      "final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+      "fixture.kicad_pcb": "ca5135487d1f3dc6f7c976f3e17de84b794cc1e85df830367c8ab929f82f54f7",
+      "fixture.kicad_prl": "f92cdf44f7d7e8caa87ef7674a3d165d8b41ad63269d30068ffb91ca2dfe9a9d",
+      "fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2"
+    }
+  },
+  "targeted_native_findings": [],
+  "native_dsn_sha256": "79c27c36f6395d0cdce650b4b4276ea4a09a03a67de7e03d626ec1e6fc16cede",
+  "area_context_sha256": "f11bc975b104fdb5ef7ea8ce187649b50a32863cd06229f30e47e34f62f62c75",
+  "board_sha256": "ca5135487d1f3dc6f7c976f3e17de84b794cc1e85df830367c8ab929f82f54f7",
+  "source_unchanged": true,
+  "project_sha256": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538"
+}

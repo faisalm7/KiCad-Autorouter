@@ -90,6 +90,31 @@ def netclass_policy(board):
     except (ValueError,TypeError,KeyError) as exc:
         raise Rejected('unsupported: netclass bindings not qualified: '+str(exc)) from exc
 
+def check_rule_area_support(tree):
+    """Block restrictions the pinned native validator did not detect.
+
+    Actual placement-area-native-001 controls missed crossing prohibited
+    tracks/vias in KiCad 10.0.0. Preserving a DSN obstacle is not independent
+    validation. Only explicitly unrestricted areas remain in supported scope.
+    """
+    if sx.children(tree,'module'):
+        raise Rejected('legacy module footprints not qualified')
+    flags={'tracks','vias','pads','copperpour','footprints'}
+    zones=list(sx.children(tree,'zone'))
+    for footprint in sx.children(tree,'footprint'):
+        zones.extend(sx.children(footprint,'zone'))
+    for zone in zones:
+        keepout=sx.one(zone,'keepout')
+        placement=sx.one(zone,'placement')
+        if keepout is None and placement is None:
+            continue
+        if (keepout is None or len(keepout)!=6
+                or any(not isinstance(n,list) or len(n)!=2
+                       or n[0] not in flags or n[1]!='allowed' for n in keepout[1:])
+                or {n[0] for n in keepout[1:]}!=flags):
+            raise Rejected('rule-area restrictions not qualified by pinned native validator')
+
+
 def preflight(board):
     t=sx.read(board)
     reasons=[]
@@ -109,6 +134,8 @@ def preflight(board):
             if key in CRITICAL_CHECKS and val!='error' and (key,val)!=('padstack','warning'): reasons.append('core native check not blocking: '+key)
     rules=board.with_suffix('.kicad_dru')
     if rules.exists() and rules.read_text().strip(): reasons.append('custom rules not qualified')
+    try: check_rule_area_support(t)
+    except Rejected as exc: reasons.append(str(exc))
     for fp in sx.children(t,'footprint'):
         if sx.children(fp,'net_tie_pad_groups'): reasons.append('net ties not qualified')
         for pad in sx.children(fp,'pad'):
@@ -313,6 +340,7 @@ def audit_candidate_netclasses(candidate, protected, native):
             'project_sha256':sha(project)}
 
 def validate_candidate(job, original, candidate, source_hashes, protected, *, guidance_contract=None):
+    check_rule_area_support(original)
     if guidance_contract is not None:
         from .floor_route import validate_contract
         validate_contract(original,candidate,source_hashes,protected,guidance_contract,job.out)
