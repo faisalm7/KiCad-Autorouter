@@ -18,6 +18,16 @@ class MutationTests(unittest.TestCase):
         cls.project=Path(cls.receipt['candidate']).with_suffix('.kicad_pro').read_bytes()
         cls.base=d.sx.parse(cls.board.decode());cls.policy=d.f.read_json(d.PURE_POSITIVE.parent/'floor-policy.json')
         cls.original=d.sx.read(Path(cls.receipt['source']));cls.hashes=cls.receipt['source_hashes']
+    def test_reference_routing_is_removed_from_exact_owned_task(self):
+        self.assertEqual(len(d.p.routes(self.original)),8)
+        task=d.check_fixture_source(Path(self.receipt['source']),self.original,{**self.receipt,'task_sha256':self.policy['task_sha256']})
+        self.assertEqual(d.p.routes(task),[])
+        self.assertEqual(d.p.immutable(task),d.p.immutable(self.original))
+    def test_wrong_stripped_task_and_protected_reference_rejected(self):
+        bad=copy.deepcopy(self.receipt);bad['task_sha256']='0'*64
+        with self.assertRaisesRegex(d.p.Rejected,'stripped task'):d.check_fixture_source(Path(self.receipt['source']),self.original,bad)
+        tree=copy.deepcopy(self.original);d.p.routes(tree)[0].append('locked')
+        with self.assertRaisesRegex(ValueError,'protected'):d.check_fixture_source(Path(self.receipt['source']),tree,self.receipt)
     def test_positive_byte_identity(self):
         board,project,e=d.prepare('positive',self.board,self.project)
         self.assertEqual(board,self.board);self.assertEqual(project,self.project)

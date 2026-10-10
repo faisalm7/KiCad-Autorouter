@@ -1,0 +1,70 @@
+diff --git a/experiments/placement_production_controls_v1/README.md b/experiments/placement_production_controls_v1/README.md
+index cc249c7..c578169 100644
+--- a/experiments/placement_production_controls_v1/README.md
++++ b/experiments/placement_production_controls_v1/README.md
+@@ -10,7 +10,9 @@ Fresh-output commands (do not reuse completed output names):
+ 
+ ```sh
+ python3 -B -m unittest discover -s experiments/placement_production_controls_v1 -v
+-python3 -B experiments/placement_production_controls_v1/driver.py --run-native --positive .runs/placement-production-native-001/result.json --out .runs/placement-production-controls-native-001
++python3 -B experiments/placement_production_controls_v1/driver.py --run-native --positive .runs/placement-production-native-001/result.json --out .runs/placement-production-controls-native-002
+ python3 -B experiments/placement_production_controls_v1/cancellation.py --run-native --signal SIGINT --output .runs/placement-production-cancellation-int-001
+ python3 -B experiments/placement_production_controls_v1/cancellation.py --run-native --signal SIGTERM --output .runs/placement-production-cancellation-term-001
+ ```
++
++Attempt001 stopped before native work because the harness incorrectly required an unrouted original. The owned original contains eight known reference routes; production removes these in the whole-board task. The corrected harness pins the exact original board/project and checks the declared stripped task hash, preserving all areas and rejecting protected routes. Failed001 remains immutable; the next native control output is002.
+diff --git a/experiments/placement_production_controls_v1/driver.py b/experiments/placement_production_controls_v1/driver.py
+index b0a12d3..2df015c 100644
+--- a/experiments/placement_production_controls_v1/driver.py
++++ b/experiments/placement_production_controls_v1/driver.py
+@@ -71,6 +71,18 @@ def uid(node):
+ def xy(node,key):return tuple(float(x) for x in sx.one(node,key)[1:3])
+ 
+ 
++
++def check_fixture_source(source,original,positive):
++    """Pin the owned routed reference; qualify the stripped whole-board task."""
++    if (source!=FIXTURE or p.sha(source)!='1e2216f05fd7540a2a4edf894a18addc389c056854bc6bb5fa2169f90753f7dd'
++            or p.sha(source.with_suffix('.kicad_pro'))!='ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538'
++            or len(sx.children(original,'zone'))!=1):raise p.Rejected('owned fixture source/area differs')
++    task=f.g.task_from_source(original)
++    if p.routes(task) or f.g.sha((sx.dump(task)+'\n').encode())!=positive.get('task_sha256'):
++        raise p.Rejected('owned fixture stripped task differs')
++    return task
++
++
+ def prepare(case,board_bytes,project_bytes):
+     """Exact one-field/one-object mutations; never modify caller's inputs."""
+     if case not in CASES:raise p.Rejected('unknown case')
+@@ -219,8 +231,8 @@ def experiment(out,*,positive=None,run_native=False):
+         if positive.get('input_policy')!=POLICY or positive.get('adapter')!='both' or positive.get('engine_profile')!='completion-only':
+             raise p.Rejected('positive policy/profile differs')
+         original=p.preflight(source);hashes=p.tree_hash(source.parent)
+-        if hashes!=positive['source_hashes'] or p.routes(original) or len(sx.children(original,'zone'))!=1:
+-            raise p.Rejected('expected original no-route/one-placement-area fixture differs')
++        if hashes!=positive['source_hashes']:raise p.Rejected('original fixture project differs')
++        check_fixture_source(source,original,positive)
+         if positive['native']['findings'] or not p.native_accepted(positive['native']):raise p.Rejected('positive native report is not clean')
+         tools=p.tool_manifest()
+         if tools['implementation_sha256']!=positive['tools']['implementation_sha256'] or tools['files']!=positive['tools']['files']:
+diff --git a/experiments/placement_production_controls_v1/test_driver.py b/experiments/placement_production_controls_v1/test_driver.py
+index c8156b9..7ac9145 100644
+--- a/experiments/placement_production_controls_v1/test_driver.py
++++ b/experiments/placement_production_controls_v1/test_driver.py
+@@ -18,6 +18,16 @@ class MutationTests(unittest.TestCase):
+         cls.project=Path(cls.receipt['candidate']).with_suffix('.kicad_pro').read_bytes()
+         cls.base=d.sx.parse(cls.board.decode());cls.policy=d.f.read_json(d.PURE_POSITIVE.parent/'floor-policy.json')
+         cls.original=d.sx.read(Path(cls.receipt['source']));cls.hashes=cls.receipt['source_hashes']
++    def test_reference_routing_is_removed_from_exact_owned_task(self):
++        self.assertEqual(len(d.p.routes(self.original)),8)
++        task=d.check_fixture_source(Path(self.receipt['source']),self.original,{**self.receipt,'task_sha256':self.policy['task_sha256']})
++        self.assertEqual(d.p.routes(task),[])
++        self.assertEqual(d.p.immutable(task),d.p.immutable(self.original))
++    def test_wrong_stripped_task_and_protected_reference_rejected(self):
++        bad=copy.deepcopy(self.receipt);bad['task_sha256']='0'*64
++        with self.assertRaisesRegex(d.p.Rejected,'stripped task'):d.check_fixture_source(Path(self.receipt['source']),self.original,bad)
++        tree=copy.deepcopy(self.original);d.p.routes(tree)[0].append('locked')
++        with self.assertRaisesRegex(ValueError,'protected'):d.check_fixture_source(Path(self.receipt['source']),tree,self.receipt)
+     def test_positive_byte_identity(self):
+         board,project,e=d.prepare('positive',self.board,self.project)
+         self.assertEqual(board,self.board);self.assertEqual(project,self.project)

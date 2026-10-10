@@ -10,7 +10,9 @@ Fresh-output commands (do not reuse completed output names):
 
 ```sh
 python3 -B -m unittest discover -s experiments/placement_production_controls_v1 -v
-python3 -B experiments/placement_production_controls_v1/driver.py --run-native --positive .runs/placement-production-native-001/result.json --out .runs/placement-production-controls-native-001
+python3 -B experiments/placement_production_controls_v1/driver.py --run-native --positive .runs/placement-production-native-001/result.json --out .runs/placement-production-controls-native-002
 python3 -B experiments/placement_production_controls_v1/cancellation.py --run-native --signal SIGINT --output .runs/placement-production-cancellation-int-001
 python3 -B experiments/placement_production_controls_v1/cancellation.py --run-native --signal SIGTERM --output .runs/placement-production-cancellation-term-001
 ```
+
+Attempt001 stopped before native work because the harness incorrectly required an unrouted original. The owned original contains eight known reference routes; production removes these in the whole-board task. The corrected harness pins the exact original board/project and checks the declared stripped task hash, preserving all areas and rejecting protected routes. Failed001 remains immutable; the next native control output is002.

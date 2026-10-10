@@ -71,6 +71,18 @@ def uid(node):
 def xy(node,key):return tuple(float(x) for x in sx.one(node,key)[1:3])
 
 
+
+def check_fixture_source(source,original,positive):
+    """Pin the owned routed reference; qualify the stripped whole-board task."""
+    if (source!=FIXTURE or p.sha(source)!='1e2216f05fd7540a2a4edf894a18addc389c056854bc6bb5fa2169f90753f7dd'
+            or p.sha(source.with_suffix('.kicad_pro'))!='ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538'
+            or len(sx.children(original,'zone'))!=1):raise p.Rejected('owned fixture source/area differs')
+    task=f.g.task_from_source(original)
+    if p.routes(task) or f.g.sha((sx.dump(task)+'\n').encode())!=positive.get('task_sha256'):
+        raise p.Rejected('owned fixture stripped task differs')
+    return task
+
+
 def prepare(case,board_bytes,project_bytes):
     """Exact one-field/one-object mutations; never modify caller's inputs."""
     if case not in CASES:raise p.Rejected('unknown case')
@@ -219,8 +231,8 @@ def experiment(out,*,positive=None,run_native=False):
         if positive.get('input_policy')!=POLICY or positive.get('adapter')!='both' or positive.get('engine_profile')!='completion-only':
             raise p.Rejected('positive policy/profile differs')
         original=p.preflight(source);hashes=p.tree_hash(source.parent)
-        if hashes!=positive['source_hashes'] or p.routes(original) or len(sx.children(original,'zone'))!=1:
-            raise p.Rejected('expected original no-route/one-placement-area fixture differs')
+        if hashes!=positive['source_hashes']:raise p.Rejected('original fixture project differs')
+        check_fixture_source(source,original,positive)
         if positive['native']['findings'] or not p.native_accepted(positive['native']):raise p.Rejected('positive native report is not clean')
         tools=p.tool_manifest()
         if tools['implementation_sha256']!=positive['tools']['implementation_sha256'] or tools['files']!=positive['tools']['files']:

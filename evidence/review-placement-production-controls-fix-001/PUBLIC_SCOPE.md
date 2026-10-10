@@ -1,0 +1,1 @@
+Independent pure review of the production fault-control harness correction. These exact review files are copied from the local frozen audit. The five new native controls remain pending; the original failed pre-native attempt remains preserved. No native or engine execution occurred in this review.
