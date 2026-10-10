@@ -1,0 +1,1 @@
+Selected exact top-level independent-review records. The ignored snapshot and copied-test work trees remain in the full local archive workflow. No native run was executed. Root promotion changed only protocol wording from Both diagnostic arms to All three diagnostic arms, with no contract change; promoted-byte tests and committed freeze follow separately.

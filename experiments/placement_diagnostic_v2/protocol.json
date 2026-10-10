@@ -1,0 +1,65 @@
+{
+  "schema": 2,
+  "kind": "prospective three-arm diagnostic clearance and via-cost ablation",
+  "project_id": "kicad-multichannel",
+  "board_name": "multichannel_mixer.kicad_pcb",
+  "fixed_order": [
+    "placement-search-v2-margin0-default",
+    "placement-search-v2-margin20um-default",
+    "placement-search-v2-margin20um-via-low"
+  ],
+  "wall_seconds_per_arm": 120,
+  "cpu_seconds_per_arm": 120,
+  "final_shared_reserve_seconds": 5,
+  "profile": "completion-only",
+  "adapter": "both",
+  "strict_generated_dimensions": true,
+  "scope": "Exactly one rectangular outer boundary; source and native all-allowed enabled SHEETNAME rule areas only; no genuine prohibitions or footprint zones; no cutouts; all original source geometry/rules preserved.",
+  "native_keepout_limitation": "Native controls missed genuine track/via prohibition violations. All three diagnostic arms reject such source inputs before routing. This protocol does not claim native keepout enforcement.",
+  "difference": "All three arms preserve exact raw->floor->placement provenance. Next only three existing global/global-smd_smd/class clearance atom values gain the fixed margin; every other AST node/atom remains exact. Final arm also uses explicit existing via_low costs. Both adapter and completion-only profile remain common.",
+  "accounting": "Each arm pays its full invocation plus ALL common setup/freeze/publication/readback overhead, failed work included. Common assigned cap is identical, with final actual wall and parent+waited-child CPU checks. CPU is a measured acceptance cap, not a hard OS quota.",
+  "claims": "Exposed diagnostic comparison only. No production runtime policy, C novelty, B2 superiority, independent-family or physical/electrical validation claim. Quality deltas only if both outputs are native accepted.",
+  "execution_gate": "All runtime helpers/protocol/core must be committed before engines. Fresh owned allowed-placement fixture with this exact code/HEAD, margin20000nm and via_low25/3 must first pass full diagnostic and checker; old v1 receipts cannot qualify. One foreground heavy worker, original project unchanged, no new spending.",
+  "observer_change": "Exact reviewed v1 combined observer snapshot; no getter/schema/cap changes. Exact reviewed placement transform snapshot; no changes.",
+  "qualification_fixture": {
+    "board_name": "fixture.kicad_pcb",
+    "source_hashes": {
+      "export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+      "native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2",
+      "final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+      "PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+      "fixture.kicad_pcb": "1e2216f05fd7540a2a4edf894a18addc389c056854bc6bb5fa2169f90753f7dd",
+      "candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+      "final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+      "fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d"
+    },
+    "origin": "project-owned accepted four-pad required-via geometry plus one all-allowed placement area; full original project copied unchanged",
+    "required_policy": "placement-search-v2-margin20um-via-low"
+  },
+  "host_observation": "Host load averages sampled at each arm start/end; desktop application activity not measured; one shared-lock project worker.",
+  "search_parameters": [
+    {
+      "scoring_variant": "via_default",
+      "via_costs": 50,
+      "plane_via_costs": 5,
+      "clearance_margin_nm": 0
+    },
+    {
+      "scoring_variant": "via_default",
+      "via_costs": 50,
+      "plane_via_costs": 5,
+      "clearance_margin_nm": 20000
+    },
+    {
+      "scoring_variant": "via_low",
+      "via_costs": 25,
+      "plane_via_costs": 3,
+      "clearance_margin_nm": 20000
+    }
+  ],
+  "margin_hypothesis": "Fixed20um conservative planning parameter, not a universal geometry guarantee. Retained exposed-board native clearances .299394522/.299465233mm versus DSN polygon distances .301629101/.301699812mm suggest approximately2.235580um inward deficit. Rounded segment count prevents treating max_error as a formal bound. Original native final predicate remains unchanged.",
+  "native_observer_sha256": "3fb123a8a1fdbe119a7de60e97677940e26a15b5562a822599d854ba04553a70",
+  "placement_transform_sha256": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5"
+}

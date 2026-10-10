@@ -4,7 +4,7 @@ Updated October 10, 2026 (America/Los_Angeles). **Active local reconstruction; i
 
 ## Durable local work and backup boundary
 
-Checkout: `/Users/faisal/Projects/KiCad-Autorouter-local` on this Mac; branch `rebuild/local-20261010-015447`. Latest verified push/read-back is **`267199fde6b427e6298befc0ea0defc62e39fdf9`** ([receipt](evidence/backups/checkpoint-267199f.json)). G0 began at `683e41a`; no cloud/worktree was used.
+Checkout: `/Users/faisal/Projects/KiCad-Autorouter-local` on this Mac; branch `rebuild/local-20261010-015447`. Latest verified push/read-back is **`df4464d47483e5728d55a97c9fedbd684b5ef66c`** ([receipt](evidence/backups/checkpoint-df4464d.json)). G0 began at `683e41a`; no cloud/worktree was used.
 
 Latest **full** archive: **3e2cce9**. Restore verified all Git refs, **30,291 non-Git files / 1,017,693,214 bytes**, and CLI help ([verification](evidence/backups/restore-3e2cce9.json)). Location: `.local-backups/checkpoint-20261010T115857Z-befcc16a3a72476f82094eb198dd5190`. This covers both placement native omission experiments, the safety gate/fix, failed routing fixture001, accepted diagnostic fixture002, full matched pair001, all completed reviews/receipt controls and outcomes002 drafts. GitHub holds audited source and selected evidence. Full archives remain on this Mac only; an independent off-Mac destination awaits the owner. No original or prior archive was removed.
 
@@ -105,3 +105,9 @@ Five actual production floor controls and nine offline receipt controls pass. Pl
 At the next native milestone, freeze ignored writes, commit/audit/push and run `python3 -B scripts/backup.py` again. Existing-archive check: `python3 -B scripts/backup.py --verify .local-backups/checkpoint-20261010T115857Z-befcc16a3a72476f82094eb198dd5190/receipt.json`. Keep spending at $0, one bounded worker, originals untouched and private/unlicensed material out of Git. No background/auto-resume work or formal release/package publication.
 
 Before further native batches, the project backup ceiling is raised from1GiB to2GiB: the verified1,017,693,214-byte raw inventory leaves only56,048,610bytes under the old cap, less than the next bounded comparison. The filesystem has approximately404GiB free. The100,000-file cap, credential/path/source-freeze guards and streaming writer remain unchanged;27 backup controls pass in1.435seconds. This does not change OS protections or claim a new restoration test. The latest actual full restore remains3e2cce9.
+
+## Next declared clearance/search experiment
+
+The reviewed v2 diagnostic is integrated at `experiments/placement_diagnostic_v2`. Its56 pure controls passed locally in0.348s; independent review reran all56. It preserves the exact native/floor/placement chain and changes only three DSN planning-clearance atoms, leaving native preferences, actual source rules, width/via dimensions and final acceptance unchanged. Fixed order: zero margin/default50/5costs;20µm margin/default50/5;20µm margin/low25/3. Each arm receives120second wall/CPU caps including all shared overhead. The20µm parameter is a hypothesis supported by the saved roundrect discrepancy, not a universal bound. Fresh strongest-policy owned fixture is mandatory before any full-board run. Native execution is pending; no new accepted board or production/C novelty claim. A separate fixed two-segment native counterfactual is under final review.
+
+The last full archive remains3e2cce9. New source/research checkpoints are remote; subsequent diagnostic drafts/raw data await the next tested full archive.
