@@ -1,0 +1,201 @@
+{
+  "id": "trial-0025",
+  "proposal": {
+    "kind": "individual_segment",
+    "net": "13",
+    "route_ids": [
+      "a01edc9c261b40e419e34f68aa8b1c53bd7313789da5b212c78160e104c2eb18"
+    ],
+    "ranking_length_mm": 2.769999999999996
+  },
+  "status": "drc_rejected",
+  "accepted": false,
+  "started_elapsed_seconds": 94.17448604200035,
+  "base_candidate_sha256": "c2dcdfe7d997ab901bdca1b7b194243695fc4652322aad811e112c1e001ed985",
+  "candidate_sha256": "6e341aafaf24162b8e5d1db2769f7524764c48c796697b92347714f6eb63acbd",
+  "native": {
+    "opens": 1,
+    "blocking": 0,
+    "warnings": 2,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Copper connection too narrow",
+        "key": "connection_width"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      }
+    ],
+    "findings": [
+      {
+        "description": "Track has unconnected end",
+        "items": [
+          {
+            "description": "Track [GND] on top_copper, length 1.1875 mm",
+            "pos": {
+              "x": 180.4225,
+              "y": 85.9642
+            },
+            "uuid": "163c7d4f-9dd3-42e7-a3c0-8285999be328"
+          }
+        ],
+        "severity": "warning",
+        "type": "track_dangling"
+      },
+      {
+        "description": "Footprint 'DSUB-9_Male_EdgeMount_P2.77mm' does not match copy in library 'sonde-xilinx'",
+        "items": [
+          {
+            "description": "Footprint J2",
+            "pos": {
+              "x": 181.61,
+              "y": 90.1192
+            },
+            "uuid": "00000000-0000-0000-0000-00005a73b143"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Missing connection between items",
+        "items": [
+          {
+            "description": "Pad 7 [GND] of J2 on top_copper",
+            "pos": {
+              "x": 181.61,
+              "y": 88.7342
+            },
+            "uuid": "edbbf432-5304-453b-8560-b7f1d22f025d"
+          },
+          {
+            "description": "Pad 6 [GND] of J2 on top_copper",
+            "pos": {
+              "x": 181.61,
+              "y": 85.9642
+            },
+            "uuid": "d6700b04-2a63-47e1-b09e-feb3edf7df67"
+          }
+        ],
+        "severity": "error",
+        "type": "unconnected_items"
+      }
+    ]
+  },
+  "native_report_sha256": "9647cf133e4c9f683eca56124821752f504da8a338eeed9813fd3b4fcd372d45",
+  "steps": [
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.169729291999829,
+      "cpu_seconds": 0.600016,
+      "max_rss_bytes": 225968128,
+      "supervisor_cpu_seconds": 0.017685999999997648,
+      "monitor_cpu_seconds": 0.086232,
+      "sampled_peak_group_rss_bytes": 219430912,
+      "sampled_peak_workdir_bytes": 1426343,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/quality-comparison-002/C/trials/trial-0025/refill-drc.json",
+        "--save-board",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/quality-comparison-002/C/trials/trial-0025/refill/sonde xilinx.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/quality-comparison-002/C/trials/trial-0025/refill-drc.log",
+      "log_bytes": 188,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/quality-comparison-002/C/trials/trial-0025",
+      "signal_cancellation_enabled": true,
+      "pid": 7656,
+      "name": "refill-drc",
+      "validated_input_sha256": "6e341aafaf24162b8e5d1db2769f7524764c48c796697b92347714f6eb63acbd",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/quality-comparison-002/C/trials/trial-0025/refill/sonde xilinx.kicad_pcb",
+      "phase": "trial-0025"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.1589467910016538,
+      "cpu_seconds": 0.598568,
+      "max_rss_bytes": 225165312,
+      "supervisor_cpu_seconds": 0.019729999999999137,
+      "monitor_cpu_seconds": 0.08708099999999999,
+      "sampled_peak_group_rss_bytes": 224542720,
+      "sampled_peak_workdir_bytes": 2096436,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/quality-comparison-002/C/trials/trial-0025/final-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/quality-comparison-002/C/trials/trial-0025/final-drc-input/sonde xilinx.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/quality-comparison-002/C/trials/trial-0025/final-drc.log",
+      "log_bytes": 175,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/quality-comparison-002/C/trials/trial-0025",
+      "signal_cancellation_enabled": true,
+      "pid": 7664,
+      "name": "final-drc",
+      "validated_input_sha256": "6e341aafaf24162b8e5d1db2769f7524764c48c796697b92347714f6eb63acbd",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/quality-comparison-002/C/trials/trial-0025/candidate/sonde xilinx.kicad_pcb",
+      "phase": "trial-0025"
+    }
+  ],
+  "finished_elapsed_seconds": 96.7697516249973,
+  "finished_observed_cpu_seconds": 76.57708999999998
+}

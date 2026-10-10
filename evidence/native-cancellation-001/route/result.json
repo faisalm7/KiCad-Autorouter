@@ -1,0 +1,284 @@
+{
+  "schema": 1,
+  "status": "rejected",
+  "accepted": false,
+  "physical_electrical_validation": false,
+  "schematic_parity": "not checked",
+  "source": "/Users/faisal/Projects/KiCad-Autorouter-local/fixtures/smoke/smoke.kicad_pcb",
+  "started_utc": "2026-10-10T07:22:41.832824+00:00",
+  "budget_seconds": 120.0,
+  "cpu_budget_seconds": 120.0,
+  "cpu_budget_enforcement": "postcompletion acceptance cap; no total-CPU preemption",
+  "baseline": "B0",
+  "adapter": "none",
+  "engine_profile": "standard",
+  "scope": "whole_board_unlocked_routing",
+  "tools": {
+    "implementation_sha256": {
+      "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+      "autorouter/__main__.py": "ed6f6ff3284014c1003fa2a06ff24f29733fc8f2a180f65a8de9baa86c181718",
+      "autorouter/adapter.py": "509feca807ccee112b0b6a071fd0944c88177ba83f5b77422ec8be5cdf63d25b",
+      "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+      "autorouter/handoff.py": "3a1cace2d72672e502ff4f943c0820d23b9ed1d15c5566d3a694365847d4a22d",
+      "autorouter/native.py": "1434868c6519a54588ccb27e4f1a3270f0e519da40d9a4815ca8ce9c1abbaccd",
+      "autorouter/pipeline.py": "11ad7346bac7d7781627e206684bf861847d19f6203fa74965b92ae8e7462976",
+      "autorouter/runner.py": "9b1a434af499dcd76cbb6fb65165c3cf624b4e8eccbcf4d3ee635150d79df3e8",
+      "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+      "autorouter/strategy.py": "a95f05b1482787da4e20d321467d1b3b79db01cc911c6423003e20394a23006b"
+    },
+    "git_head": "57db7878f7b69549736788b4fc7e8c9458733e85",
+    "kicad": "10.0.0",
+    "freerouting": "2.5.0",
+    "files": {
+      "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+      "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219"
+    },
+    "network": "engine sandbox-exec deny network*"
+  },
+  "source_hashes": {
+    "smoke.kicad_pcb": "618b0b1d23f082283a5136b514ff64ee54b3a058f068689bf64668a436d7c5ea",
+    "smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+    "smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643"
+  },
+  "task_sha256": "d0c77f01dcfdd0b31f5cf7ed2addda31c45518b71426f4f81e07333ae6a58a0d",
+  "source_drc": {
+    "opens": 2,
+    "blocking": 0,
+    "warnings": 0,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "Footprint component type doesn't match footprint pads",
+        "key": "footprint_type_mismatch"
+      }
+    ],
+    "findings": [
+      {
+        "description": "Missing connection between items",
+        "items": [
+          {
+            "description": "PTH pad 1 [SIGNAL_A] of J1",
+            "pos": {
+              "x": 10.0,
+              "y": 10.0
+            },
+            "uuid": "2259717b-f87b-4741-851c-4246b16698d8"
+          },
+          {
+            "description": "PTH pad 1 [SIGNAL_A] of J2",
+            "pos": {
+              "x": 40.0,
+              "y": 10.0
+            },
+            "uuid": "08f93607-b33b-46bf-b3b6-1629e09d1df5"
+          }
+        ],
+        "severity": "error",
+        "type": "unconnected_items"
+      },
+      {
+        "description": "Missing connection between items",
+        "items": [
+          {
+            "description": "PTH pad 1 [SIGNAL_B] of J3",
+            "pos": {
+              "x": 10.0,
+              "y": 20.0
+            },
+            "uuid": "6588aca0-021d-49ec-8333-8ac58765813d"
+          },
+          {
+            "description": "PTH pad 1 [SIGNAL_B] of J4",
+            "pos": {
+              "x": 40.0,
+              "y": 20.0
+            },
+            "uuid": "a06354ce-d76c-45d5-b28a-d51f06164d89"
+          }
+        ],
+        "severity": "error",
+        "type": "unconnected_items"
+      }
+    ]
+  },
+  "reason": "Rejected: engine: cancelled exit=-9",
+  "steps": [
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.1478092909965198,
+      "cpu_seconds": 0.49696299999999993,
+      "max_rss_bytes": 102645760,
+      "supervisor_cpu_seconds": 0.015163000000000038,
+      "monitor_cpu_seconds": 0.08130099999999998,
+      "sampled_peak_group_rss_bytes": 97878016,
+      "sampled_peak_workdir_bytes": 191685,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-cancellation-001/route/source-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-cancellation-001/route/source-drc-input/smoke.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-cancellation-001/route/source-drc.log",
+      "log_bytes": 163,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-cancellation-001/route",
+      "signal_cancellation_enabled": true,
+      "pid": 10219,
+      "name": "source-drc",
+      "validated_input_sha256": "618b0b1d23f082283a5136b514ff64ee54b3a058f068689bf64668a436d7c5ea",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-cancellation-001/route/snapshot/smoke.kicad_pcb"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.3914174999954412,
+      "cpu_seconds": 0.36119799999999996,
+      "max_rss_bytes": 87457792,
+      "supervisor_cpu_seconds": 0.0072570000000000134,
+      "monitor_cpu_seconds": 0.030654,
+      "sampled_peak_group_rss_bytes": 33439744,
+      "sampled_peak_workdir_bytes": 196237,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+        "export",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-cancellation-001/route/candidate/smoke.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-cancellation-001/route/task.dsn"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-cancellation-001/route/export.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-cancellation-001/route",
+      "signal_cancellation_enabled": true,
+      "pid": 10236,
+      "name": "export"
+    },
+    {
+      "status": "cancelled",
+      "exit_code": -9,
+      "wall_seconds": 0.5828337080019992,
+      "cpu_seconds": 0.49105499999999996,
+      "max_rss_bytes": 116162560,
+      "supervisor_cpu_seconds": 0.007265999999999995,
+      "monitor_cpu_seconds": 0.028242,
+      "sampled_peak_group_rss_bytes": 92815360,
+      "sampled_peak_workdir_bytes": 197951,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java",
+        "-Xms128m",
+        "-Xmx2g",
+        "-XX:ActiveProcessorCount=1",
+        "-Djava.awt.headless=true",
+        "-jar",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar",
+        "--gui.enabled=false",
+        "--api_server.enabled=false",
+        "--mcp_server.enabled=false",
+        "-da",
+        "--user_data_path=/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-cancellation-001/route/engine-config",
+        "--logging.file.enabled=false",
+        "--router.autorouter.max_passes=30",
+        "--router.optimizer.max_threads=1",
+        "--router.optimizer.max_passes=10",
+        "--router.job_timeout=60s",
+        "--router.optimizer.timeout=30s",
+        "-de",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-cancellation-001/route/task.dsn",
+        "-do",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-cancellation-001/route/routes.ses"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-cancellation-001/route/engine.log",
+      "log_bytes": 75,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-cancellation-001/route",
+      "signal_cancellation_enabled": true,
+      "pid": 10239,
+      "cancel_signal": "SIGINT",
+      "name": "engine"
+    }
+  ],
+  "wall_seconds": 2.5433408340031747,
+  "parent_cpu_seconds": 0.432802,
+  "child_cpu_seconds": 1.349216,
+  "monitor_cpu_seconds": 0.140197,
+  "total_cpu_seconds": 1.9222149999999998,
+  "peak_child_rss_bytes": 116162560,
+  "resource_limitations": "One sequential worker; Java 2GiB heap; group RSS4GiB and workdir512MiB polling guards may overshoot;10GiB total cache checked before task. Peak direct-child RSS and polled group RSS are different metrics. CPU descendants only if accounted for by child wait; monitoring CPU included.",
+  "resource_accounting_point": "Summary sampled before final receipt write; wall and measured CPU acceptance caps rechecked after that write. No hard total-CPU preemption."
+}

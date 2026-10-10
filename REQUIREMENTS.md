@@ -1,6 +1,6 @@
 # Requirements to evidence
 
-Updated October 9, 2026. Evidence describes the exact recorded implementation and inputs; it does not qualify later edits automatically.
+Updated October 10, 2026. Evidence describes the exact recorded implementation and inputs; it does not qualify later edits automatically.
 
 | Requirement | Implementation / executable check | Stored evidence | Status and limits |
 |---|---|---|---|
@@ -18,8 +18,8 @@ Updated October 9, 2026. Evidence describes the exact recorded implementation an
 | G2 historical adapter reconstruction and ablations | `adapter.py`; `scripts/experiment_adapter.py` | `.runs/adapter-ablation-001/protocol.json` and `summary.json`; independent binding audit | Five arms at frozen `7fef467`; B1 recovery on one family only; early smoke/stock records remain provisional |
 | G3 alternative-engine integration spike | `scripts/setup_krt.py`; `scripts/experiment_krt.py` | `docs/krt-spike.md`; `.runs/krt-spike-001` and `002` | Two KRT attempts completed; both raw and both route-only outputs rejected; formatting and copper-text failures diagnosed |
 | G3 representative 30–50-family audit and architecture | Corpus expansion, failure analysis and native qualification | Initial corpus and two engine approaches above; `docs/research-foundation.md` | Unmet: 5 provisional families, only sonde currently eligible; broader native audit and ancestry screening pending |
-| G4 substantive strategy beyond B1 and equal-budget B2 | Strategy prototype and tuned/restart comparison in progress; planned 120-second wall / 120-second measured CPU caps | No completed B2/C result claimed in this matrix | Pending; no generalized completion, quality or speed superiority claim |
-| G5 usable CLI and safe candidate handling | CLI route/diagnostics/receipt checking and new `review-copy` command | Real separate-output runs; receipt tamper controls | Routing CLI exercised; review-copy native end-to-end check pending |
+| G4 substantive strategy beyond B1 and equal-budget B2 | Native-validated pruning and corrected tuned profile; equal 120-second wall / CPU caps | `evidence/quality-comparison-002/summary.json`; `docs/quality-experiment.md` | One exposed family: C shorter with equal vias vs B1, one extra via vs B2; no overall superiority or speedup |
+| G5 usable CLI and safe candidate handling | CLI route/diagnostics/receipt checking and new `review-copy` command | Real separate-output runs; receipt tamper controls | Routing CLI and actual C pilot 001 review-copy exercised; `evidence/gui-inspection/review-copy-C-001.json` |
 | G5 actual external KiCad review workflow | PCB Editor opened disposable B1 project; native GUI refill/DRC; close and Discard | `evidence/gui-inspection/gui-native-drc.rpt`; `observation.json`; `docs/gui-workflow.md` | Narrowly exercised: 0 errors/opens, 25 library-disabled warnings, 0 exclusions, 4 ignored checks. Board bytes unchanged; disposable project metadata/history changed. CLI/GUI warning configurations differ; apply/undo/stale editor, GUI cancellation and installation remain unqualified |
 | G6 evidence-based learning decision | Failure audit and non-learning alternatives | Adapter/KRT observations and current limited corpus | No model trained; current data does not justify training; revisit after broader audit |
 | G7 untouched evaluation and independent scrutiny | Freeze future family-disjoint protocol; adversarial reviews | `docs/review-initial.md`; `docs/review-followup.md` | AI reviews completed for scoped defects/evidence; final holdout and confirmatory evaluation unmet |

@@ -1,6 +1,6 @@
 # Current status
 
-Updated October 9, 2026 (America/Los_Angeles). This is an active local experimental reconstruction. The adapter recovery below is measured; a substantive improvement beyond the adapter remains unproved.
+Updated October 10, 2026 (America/Los_Angeles). This is an active local experimental reconstruction. The adapter recovery below is measured; a substantive improvement beyond the adapter remains unproved.
 
 ## Locality and recoverability
 
@@ -16,7 +16,7 @@ G1 has a licensed, native-validated routing success and a real native control su
 
 Independent follow-up review reproduced and verified fixes for candidate-directory symlink escape, engine setup symlink escape, and competing-file overwrite. Twelve receipt checks passed against actual filesystem edits. Synthetic receipts in those tests are not native routing evidence. The review also checked the frozen experiment's source/code/candidate/report bindings and CPU accounting. See `docs/review-initial.md` and `docs/review-followup.md`. CLI stale-file checks exist; applying a candidate to a live editor is not implemented or qualified.
 
-The actual KiCad 10.0.0 PCB Editor also opened a disposable complete copy of the accepted B1 candidate and ran native DRC with zone refill: 0 errors, 0 unconnected, 25 library-disabled warnings and 0 exclusions. Four original ignored checks remained visible. This differs from the isolated CLI's one-warning library configuration and is not an identical validation configuration. Closing with Discard preserved board bytes but rewrote the disposable `.kicad_pro` defaults/version and created `.kicad_prl` / `.history`. Originals and accepted evidence were preserved. This narrowly qualifies external review of a separate copy, not plugin execution, automatic application, undo, unsaved-edit detection or GUI cancellation. Evidence: `evidence/gui-inspection/gui-native-drc.rpt`, `observation.json`, and `docs/gui-workflow.md`. The new CLI `review-copy` implementation still awaits its native end-to-end check.
+The actual KiCad 10.0.0 PCB Editor also opened a disposable complete copy of the accepted B1 candidate and ran native DRC with zone refill: 0 errors, 0 unconnected, 25 library-disabled warnings and 0 exclusions. Four original ignored checks remained visible. This differs from the isolated CLI's one-warning library configuration and is not an identical validation configuration. Closing with Discard preserved board bytes but rewrote the disposable `.kicad_pro` defaults/version and created `.kicad_prl` / `.history`. Originals and accepted evidence were preserved. This narrowly qualifies external review of a separate copy, not plugin execution, automatic application, undo, unsaved-edit detection or GUI cancellation. Evidence: `evidence/gui-inspection/gui-native-drc.rpt`, `observation.json`, and `docs/gui-workflow.md`. The CLI `review-copy` completed its end-to-end check on accepted C pilot 001; `evidence/gui-inspection/review-copy-C-001.json` binds the copied project. This does not apply changes to a live editor.
 
 ## Frozen development adapter experiment
 
@@ -53,7 +53,7 @@ The multichannel siblings share terminal connectivity but differ in 19 footprint
 
 ## Remaining work and continuation
 
-G2 has the narrow validator controls, receipt bindings and historical adapter reconstruction above; broader validation qualification remains open. G3 has an initial corpus and alternative-engine spike, not the required representative audit. A new-strategy prototype and equal-budget tuned/restart B2 comparison are in progress under a planned 120-second wall and 120-second measured CPU cap; neither has completed evidence here. G4 superiority, complete G5 application/installation qualification, G7 untouched evaluation, and G8 release preparation remain unmet. No model has been trained; the current small failure audit does not justify training. Selected-net routing, schematic parity, human PCB review, and physical/electrical validation remain unestablished. No formal release or package has been published.
+G2 has the narrow validator controls, receipt bindings and historical adapter reconstruction above; broader validation qualification remains open. G3 has an initial corpus and alternative-engine spike, not the required representative audit. Corrected four-arm pilot 002 completed at frozen `57db787` under equal 120-second wall and measured-CPU caps. B1 accepted 786.316 mm / 3 vias, B2 accepted 786.316 mm / 2 vias, and C accepted 660.099 mm / 3 vias. Each retained one warning. C improves length beyond B1 but trades shorter length for an extra via against B2; no overall superiority or speedup is established. Pilot 001 had a B2 threshold error and remains explicitly labelled. See `docs/quality-experiment.md`. G4 superiority, complete G5 application/installation qualification, G7 untouched evaluation, and G8 release preparation remain unmet. No model has been trained; the current small failure audit does not justify training. Selected-net routing, schematic parity, human PCB review, and physical/electrical validation remain unestablished. No formal release or package has been published.
 
 Resume from this checkout, first inspecting any active run before launching another heavy worker:
 
@@ -65,4 +65,6 @@ python3 -m unittest discover -s tests -v
 
 Legacy runs without an explicit measured-CPU ceiling are retained as historical evidence but the strengthened `check-result` refuses to qualify them for the new review workflow. New runs must carry the explicit cap.
 
-The lead should finish and review the pending B2/strategy experiment, then audit and push a checkpoint and run `python3 scripts/backup.py` to create and restore-test a new archive. `PLANS.md` records the remaining gates. Reproduction scripts require new output directories; preserve all failed runs. No background or auto-resume work is scheduled.
+Next: execute the prepared installation and native cancellation tests, then test C with a tuned incumbent and qualify literal netclass support for a second family. Audit and push checkpoints, and run `python3 scripts/backup.py` to create and restore-test a new archive. `PLANS.md` records the remaining gates. Reproduction scripts require new output directories; preserve all failed runs. No background or auto-resume work is scheduled.
+
+Actual engine-stage cancellation control 001 passed: SIGINT to the owned routing CLI rejected the candidate, the engine recorded cancellation and complete cleanup, and its process group was absent. Source/code remained unchanged. See `evidence/native-cancellation-001/control.json`. Interstage/GUI cancellation and OS crashes remain unqualified.

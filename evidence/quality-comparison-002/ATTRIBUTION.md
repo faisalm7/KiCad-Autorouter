@@ -1,0 +1,7 @@
+# Evidence attribution and completeness
+
+These are modified `sonde xilinx` hardware artifacts from the official KiCad source mirror, commit `69cafb907ebc09e7722a2a464b1d466fc2e3608d`, under CC BY-SA 4.0. Original creator/title fields are retained in the boards. Source: https://github.com/KiCad/kicad-source-mirror/tree/69cafb907ebc09e7722a2a464b1d466fc2e3608d/demos/sonde%20xilinx . License scope and original notices: ../../docs/data-provenance.md and ../../data/sources.json . Hardware modifications: original unlocked routing replaced by Freerouting, native zone fills regenerated; rejected candidates retained. The hardware derivatives retain CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/). Original pipeline code is GPL-3.0-or-later.
+
+This small Git subset includes all four arm outcomes plus pruning trial reports, raw reports/logs, interchange artifacts, candidate boards/project rules, and executed pipeline code snapshots. Full original/native input directories and local libraries remain in `.runs/quality-comparison-002` and await inclusion in the next private checkpoint archive. Absolute local paths are recorded honestly; run `check-result` against the original complete run, not this reduced subset. No private board is included.
+
+Corrected B2 used the runtime-confirmed 0.1% threshold. C has shorter length but one extra via versus B2; no Pareto improvement is claimed. See ../../docs/quality-experiment.md .
