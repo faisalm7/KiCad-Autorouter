@@ -4,7 +4,7 @@ Updated October 10, 2026. Evidence describes the exact recorded implementation a
 
 | Requirement | Implementation / executable check | Stored evidence | Status and limits |
 |---|---|---|---|
-| G0 local checkout, audited push and independent remote read-back | OS/Git inspection; remote SHA and decoded file byte comparison | `evidence/backups/G0.json`; `evidence/backups/checkpoint-ee431c0.json` | Passed through ee431c0; later staged files still require audit |
+| G0 local checkout, audited push and independent remote read-back | OS/Git inspection; remote SHA and decoded file byte comparison | `evidence/backups/G0.json`; `evidence/backups/checkpoint-ee431c0.json` | Passed; latest verified source SHA/readback is recorded in STATUS.md. Each later change requires its own audited checkpoint |
 | Pinned Mac native interfaces and engine | `python3 -m autorouter doctor` | `toolchain.lock.json`; `evidence/doctor-initial.json`; per-run tool manifests | KiCad 10.0.0, Freerouting 2.5.0 and Java 25.0.2 exercised; fresh-install/package matrix incomplete |
 | G1 licensed real routing with native refill/connectivity | `python3 -m autorouter route … --adapter both --output NEW` | `.runs/adapter-ablation-001/combined/result.json` and native report | Narrow vertical slice passed: 0 opens, 0 blocking findings, 1 warning; not whole-project or physical cleanliness |
 | Immutable original geometry, terminal mapping, zones, protected routes and rules | `pipeline.py` structural/file-set checks; native control generator | `evidence/native-controls-002/summary.json`; frozen run source/candidate manifests | Exercised narrow scope; unsupported constraints remain rejected |
@@ -33,7 +33,7 @@ Updated October 10, 2026. Evidence describes the exact recorded implementation a
 | Stronger equal-budget B2 search portfolio | `scripts/experiment_portfolio.py`;18 controls | `evidence/baseline-strength-review-001`; `evidence/review-portfolio-001` | Actual JAR539/539 settings checks; final-publication cancellation defect reproduced/fixed; fresh pair001 completed; independent raw audit passed4,579checks |
 | Strict multiclass preferred-target policy | uniform engine optional-neckdown disabling; native dimension audit | `evidence/interf-native-003/004` | Initial target checks pass but003/004 rejected for thermal; subsequent fresh C_thermal pair001 passes exact two-class targets plus native acceptance, with scope/limitations in thermal experiment |
 
-Counts describe executed controls and the complete considered development population, not correctness breadth. The one accepted adapter candidate retains a warning. Rejected route lengths cannot establish usable quality gains. All sixteen acquired boards are development-exposed; none belongs to an untouched final evaluation. Original rules and unsupported inputs remain preserved.
+Counts describe executed controls and the complete considered development population, not correctness breadth. The sonde adapter candidate retains one warning; accepted multichannel placement candidates retain96warnings. Rejected route lengths cannot establish usable quality gains. All sixteen acquired boards are development-exposed; none belongs to an untouched final evaluation. Original rules and unsupported inputs remain preserved.
 
 ## Historical observations in execution order
 

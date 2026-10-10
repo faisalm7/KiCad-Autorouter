@@ -1,0 +1,1 @@
+Exact compact independent review/control metadata and project-owned falsifier scripts. Generated copied projects and full raw histories remain local. The selected-public index binds exact raw bytes; the full core manifest describes additional omitted evidence. No new native/GUI execution.

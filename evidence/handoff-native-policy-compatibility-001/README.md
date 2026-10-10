@@ -1,0 +1,9 @@
+# Native-policy review-copy compatibility — passed
+
+The promoted, intentionally uncommitted handoff source 74f022bae8a8d89ebf86d7d2a3255a7c41a6f171e041ecc0c73ee5346a82a936 was imported from the real checkout. The actual central checker and review_copy ran; neither was mocked. No native, engine, GUI or network worker ran. Runtime source/lock bytes stayed unchanged during both checks/copies.
+
+Both historical quality-comparison-001/C and stronger thermal-paired-001/C_thermal passed exact receipt readback before and after copying. Complete original source/run maps stayed identical, and every copied project file matched the accepted candidate map (16 sonde files; 25 interf_u files). Each emitted native-policy, source receipt schema 1, ready_for_manual_review metadata with native_validation_performed=false. The historical C run has 2,271 evidence files; this confirms why the bounded 4,000-file evidence allowance is needed. The thermal run has 475 evidence files.
+
+Whole-case timings in the summary include the input snapshots, two central readbacks and complete post-copy checks; their final per-case audit JSON writes are outside those individual samples. The outer summary sample is 4.826628 wall / 4.513039 parent-plus-waited-child CPU seconds. That stored sample precedes the last runtime source recheck and summary publication; the shell tool observed 4.943880 seconds to process completion. The audit's 60-second admission ceiling is sampled, not a process-kernel quota. Each actual review_copy separately enforced its own 30-second cap including postpublication checks.
+
+Raw scripts, before/after hash maps, canonical ready metadata, complete disposable copies and logs are retained here. This is compatibility of filesystem handoff with current saved evidence, not fresh native validation, live application, GUI support or human PCB review. Do not rerun audit.py into these existing output names.

@@ -1,0 +1,15 @@
+# Independent handoff source review
+
+No remaining blocker was found in the scoped review of handoff.py SHA256 74f022bae8a8d89ebf86d7d2a3255a7c41a6f171e041ecc0c73ee5346a82a936. This exact source is now promoted. The frozen author manifest is a2598822b62f9ee4e375a13cb82108fb79002fbd1dbfcb2f3b90e0e590279232. This is an AI engineering review, not human PCB review.
+
+The original implementation reproduced seven failures using real small files and a mocked saved-receipt validator: copied project/rule changes during the second check, source/copy/record changes after publication, an interrupt and an actual owned-process SIGTERM. The unchanged control passed. These tests did not execute native KiCad, an engine or GUI.
+
+A new defect in the first proposed fix also reproduced: changing canonical review.json during the last material sample left a positive record with a wrong candidate hash. The author added a strict canonical comparison after that sample. All 17 independent controls then passed against the exact final source, including actual self-SIGINT/SIGTERM, corrective-publication failure, injected wall/CPU overcaps, and source/copy/evidence/metadata mutation. Earlier failed outputs remain retained.
+
+A separate actual saved-evidence positive copied all ten project files from the accepted owned schema-3 placement fixture byte-for-byte, with its original source and run unchanged. The three saved-receipt checks passed, canonical metadata matched the returned record, and the independent enclosing operation took 0.2543 seconds. This exercised the ignored final draft against actual previously native-validated evidence; it did not run a new native check, production CLI, or GUI. Candidate SHA256: 4c118026360d23ecfffad6b4c8638aabf592f9534ca1e8cb999a77316dee09e1.
+
+The extension admits only existing schema-1 native guidance or schema-3 placement-clearance-v1. It captures bounded project bytes, checks complete immutable source/run/candidate/copied project material around three central saved-receipt checks, restores signal handlers, and rejects stale/cancelled/overcap publication. Unknown and floor-only guidance remain blocked. The 30-second wall/CPU ceilings are measured acceptance caps, not hard CPU preemption. Stored totals precede final publication checks; those checks remain within the final cap. Evidence/project bounds and finite sampling are explicit; this is not authentication, hostile-concurrency protection, a fresh native validation, installed-tool binary revalidation, live application, undo, or protection after return.
+
+The corrected prospective GUI protocol (985bd7e5446cb0476699aa8a1b77211977600c99a1468de645a5261c1069771d) now requires both cases, parseable raw reports and central critical-finding predicates, source/rules preservation, and explicit configuration differences. No GUI actions have occurred in this review. The separate native-controller review is pending and excluded from this frozen core review.
+
+Core review files and actual-copy evidence are now frozen. The native-controller subfolder may be written separately.

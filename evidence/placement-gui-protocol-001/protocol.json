@@ -1,0 +1,110 @@
+{
+  "schema": 1,
+  "status": "planned_not_executed",
+  "scope": "Actual separate disposable project GUI observation after reviewed handoff and fresh native copy controls. No live source application, plugin, undo or human/electrical approval.",
+  "prerequisites": [
+    "Audited source checkpoint and read-back for handoff integration and native controller",
+    "Actual owned-fixture review-copy result plus unchanged positive and required-via-removal native negative",
+    "Central saved-result checking and complete original/accepted-run project inventories before UI access"
+  ],
+  "native_version": "10.0.0",
+  "cases": [
+    {
+      "receipt": ".runs/placement-production-native-001/result.json",
+      "receipt_sha256": "166050372738e25335db8261753c433c921a0a71857148c7a4d8cadf2669df7d",
+      "run_git_head": "d6f7f81b129dbccd8d7201868782ac317c646fc2",
+      "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-production-native-001/candidate/fixture.kicad_pcb",
+      "candidate_sha256": "4c118026360d23ecfffad6b4c8638aabf592f9534ca1e8cb999a77316dee09e1",
+      "native_report_sha256": "b79e538fa609dc6b6cf61ae5a790fb188d18fe671d6ac7818ccd8d15421b14f9",
+      "expected_cli_findings": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0
+      },
+      "candidate_project_hashes": {
+        "PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+        "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+        "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+        "candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+        "export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+        "final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+        "final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+        "fixture.kicad_pcb": "4c118026360d23ecfffad6b4c8638aabf592f9534ca1e8cb999a77316dee09e1",
+        "fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+        "native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2"
+      }
+    },
+    {
+      "receipt": ".runs/placement-production-multichannel-001/result.json",
+      "receipt_sha256": "c8501cf4b14634a0c9c2d38504717f8f9d7e7991b461446642cf7a3ecca6f4e3",
+      "run_git_head": "eab7540924b5c8d68263fb68eb4bce6ab9540783",
+      "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-production-multichannel-001/candidate/multichannel_mixer.kicad_pcb",
+      "candidate_sha256": "65dd3b0e6e0bfe6bf45a84b58d94eb4388a8b318967c47c40c26714b6777a0ef",
+      "native_report_sha256": "ce780053bb51d2b131db586c87ec02d81ea8619eaf5bbe8967439259e768d5a6",
+      "expected_cli_findings": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 96,
+        "exclusions": 0
+      },
+      "candidate_project_hashes": {
+        "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+        "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+        "channel_strip.kicad_sch": "2c98b5d37f5b60c9187474017d7b754e8b4a1d45f4115dcbecf1a745ab175e0e",
+        "fp-lib-table": "8a1e7e5ab227455c8865598b3c4c36db1e75c8abced3b2c0aee4fde54176a328",
+        "multichannel_mixer-unrouted.kicad_pcb": "149b2dce16e0f59adb78f87068f4137b7dafca0e991a0b21fdd967c873fd5ee9",
+        "multichannel_mixer.kicad_pcb": "65dd3b0e6e0bfe6bf45a84b58d94eb4388a8b318967c47c40c26714b6777a0ef",
+        "multichannel_mixer.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+        "multichannel_mixer.kicad_sch": "e47aecee9416d51fb5aed36d008a0442d3d6d68abfc5224bcdb5c5bb4a690fcf",
+        "multichannel_mixer.kicad_sym": "7e0793cc48f3a20ea84f3c4c8643ffeb1be79dd05faba8ae1278dc39dbf7cf8b",
+        "multichannel_mixer.pretty/CAPC3216X140N.kicad_mod": "3e6145d55866da5a696cefe075a68d26cf30fde90403ff2e006d2e4ae1461474",
+        "multichannel_mixer.pretty/CAPPRB254-500X840.kicad_mod": "6e1ac6aeba9d1c87ba73b30104162d35ae05625364c80ed204127c90e0542775",
+        "multichannel_mixer.pretty/CLIFF_FC68148(DC-10A).kicad_mod": "96f4e07509d06c0157dfca2b336f761541ed5d2daead790baafe6b90d23e658e",
+        "multichannel_mixer.pretty/Jack_6.35mm_Neutrik_NMJ6HCD2_Horizontal.kicad_mod": "b8a282923219bb3b01bf82278a7ded099fac556385eaf8707d777fc92cc32fc3",
+        "multichannel_mixer.pretty/Potentiometer_Alps_RK09K_Single_Vertical.kicad_mod": "ce94093ebd8cd8cd35a75442db46854414f78ca9be4f3b4234a7819650b938aa",
+        "multichannel_mixer.pretty/RESC3216X65N.kicad_mod": "a12fbb5040e28dd960364f0319773d1450c0610c18ab9844d0671b6bf6c9f6d7",
+        "multichannel_mixer.pretty/SOIC127P600X175-8N.kicad_mod": "0b5f066de991d39015aab71847ce9a17e3a60394391350e46650fa8e7d274f80",
+        "sym-lib-table": "68b0633966d91fd9e81c05b7706abcddc892d1c71c9994c8cb757e38216787f7"
+      }
+    }
+  ],
+  "outputs": {
+    "fixture_review": ".runs/placement-gui-fixture-001",
+    "full_review": ".runs/placement-gui-multichannel-001",
+    "observations": ".runs/placement-gui-observations-001"
+  },
+  "active_session_wall_limit_minutes": 15,
+  "logical_output_limit_bytes": 67108864,
+  "resource_scope": "Manual active-session observation, not a routing benchmark; GUI CPU and hidden external process work are not comparative timing data. Native prerequisite has its own full bounded accounting. Stop and retain incomplete evidence at the observation limit.",
+  "sequence": [
+    "Create each new complete review project with the qualified CLI; require exact copied candidate/source/rule bindings before opening",
+    "Use actual UI tools to open only the exact disposable board; inspect displayed version and geometry/connectivity counters",
+    "Run native GUI Design Rules Checker with zone refill and errors/warnings/exclusions visible; do not change severities/libraries to suppress findings",
+    "Export actual raw report through GUI to the matching disposable evidence location; record format and hash, observed options and counts",
+    "Compare categories/ignored checks/configuration against the source-bound CLI report without asserting equality when different",
+    "Close and discard only the owned disposable project; record board/project/history/PRL changes and verify all original/accepted-run bytes unchanged",
+    "Confirm no task-owned PCB Editor window/process remains; do not close or kill unrelated windows/processes"
+  ],
+  "failure_handling": "Missing permissions, ambiguous board/window identity, unsupported export or missing report is incomplete GUI qualification. Preserve the current source/run and all failed observations; no mocked GUI substitution.",
+  "claims_excluded": [
+    "Fresh GUI DRC cannot retroactively authenticate mutable prior receipts",
+    "No full native semantic migration or original-format admission",
+    "No selected-net routing, live apply/undo, unsaved-source-editor detection, manufacturing or electrical validation",
+    "No completion-rate, performance or independent-family comparison"
+  ],
+  "per_case_gui_verdict": {
+    "required": [
+      "Exact disposable board/window and pinned native version observed",
+      "Native GUI DRC with zone refill and all severities represented in retained raw report",
+      "Zero unconnected opens, blocking findings and exclusions",
+      "No unchanged central-policy critical finding at any severity",
+      "No materially changed critical rule, severity, exclusion or geometry settings",
+      "Original source and accepted-run inventories unchanged after closing owned disposable board"
+    ],
+    "report_validation": "Prefer actual GUI JSON export when available. Parse using unchanged central report parser/predicate when schema permits. Missing, corrupt or unsupported report/schema is incomplete; do not infer native validation from screenshots or counters alone.",
+    "noncritical_differences": "Retain exact noncritical library/default/report differences with observed keys/counts. They may permit a narrowly labelled workflow observation, not a claim of semantic or CLI/GUI equivalence.",
+    "failed_or_incomplete": "Record failed native predicate separately from incomplete report/permission/window/setting qualification. Never label either pass.",
+    "combined_scope": "Both fixture and full-board cases must satisfy the stated predicates for two-case GUI scope. One passing case cannot qualify the other."
+  }
+}

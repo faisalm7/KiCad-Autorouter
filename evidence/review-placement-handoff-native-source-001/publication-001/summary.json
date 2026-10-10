@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "module_sha256": "7c37b2f7badb0e5d7d04bd221684d6218beb5b5f431a2c56ed48e75d20a6654b",
+  "results": [
+    {
+      "case": "unchanged",
+      "injected": false,
+      "available_at_return": 1.0,
+      "returned_controls_passed": true,
+      "canonical": {
+        "schema": 1,
+        "status": "completed",
+        "controls_passed": true,
+        "routing_accepted": false,
+        "gui_qualified": false
+      },
+      "returned_equals_canonical": true,
+      "native_jobs": 0,
+      "engine_jobs": 0,
+      "caps_simulated": true,
+      "expected_safety_outcome": true
+    },
+    {
+      "case": "canonical_during_final_size",
+      "injected": true,
+      "available_at_return": 1.0,
+      "returned_controls_passed": true,
+      "canonical": {
+        "schema": 1,
+        "status": "completed",
+        "controls_passed": true,
+        "routing_accepted": true,
+        "gui_qualified": false
+      },
+      "returned_equals_canonical": false,
+      "native_jobs": 0,
+      "engine_jobs": 0,
+      "caps_simulated": true,
+      "expected_safety_outcome": false
+    },
+    {
+      "case": "budget_during_final_size",
+      "injected": true,
+      "available_at_return": 0.0,
+      "returned_controls_passed": true,
+      "canonical": {
+        "schema": 1,
+        "status": "completed",
+        "controls_passed": true,
+        "routing_accepted": false,
+        "gui_qualified": false
+      },
+      "returned_equals_canonical": true,
+      "native_jobs": 0,
+      "engine_jobs": 0,
+      "caps_simulated": true,
+      "expected_safety_outcome": false
+    }
+  ],
+  "all_expected": false,
+  "scope": "Real small output files and mocked final size/budget boundary; no native execution or timed cap qualification."
+}

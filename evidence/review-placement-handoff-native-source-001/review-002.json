@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "scope": "Independent AI source/controlled-filesystem review, not human PCB or native qualification",
+  "status": "no_remaining_scoped_execution_blocker",
+  "native_jobs": 0,
+  "engine_jobs": 0,
+  "gui_actions": 0,
+  "author_frozen_hashes": {
+    "driver.py": "5a0f2cf37c79da9585bfc9b9fb8d7383a51a7cec15cd754c038060e763e66c60",
+    "test_driver.py": "09f605d2d9a07b8c47286a6685a51c0497480825b629faa70146c41b3e54c1e5",
+    "manifest.json": "0a7f3e49a2964fca7fec9b9b6f571da9720709dda0e3617e0ff2d491b0632346"
+  },
+  "initial_finding_reproduced": true,
+  "fixed_independent_publication_controls": {
+    "count": 3,
+    "all_expected": true,
+    "includes": "unchanged positive, canonical mutation during final size scan, cap exhaustion during final size scan",
+    "resource_counters_simulated": true
+  },
+  "independent_author_suite": {
+    "tests": 33,
+    "passed": true,
+    "wall_seconds_reported_by_unittest": 0.967,
+    "scope": "Pure/read-only saved-receipt and explicitly fake-native worker controls; real owned-process self-signals in tests"
+  },
+  "actual_native_qualification": "pending lead execution; none claimed",
+  "reviewed_dependencies": {
+    "experiments/placement_production_controls_v1/driver.py": "b937cdf603b2b65b93af00f3db546b33e25dc1bf86510335b72bbedb45afaae2",
+    "autorouter/pipeline.py": "435b55852ec1616c2a546ac89c5aa67a198cedd864691b67df56332bf4af6f4e",
+    "autorouter/floor_route.py": "403582db57db73c5d10b4083b3e050f70966b07d3b219cd3ad0f3c387aa51b88",
+    "autorouter/placement_clearance.py": "b1d891d0bc8284bcac80a20cff11263afc8966e30ce8baaf35f1ae78e27ff152",
+    "toolchain.lock.json": "f04be5cdf6f64bddc16a6c5efd217b2f5e0a1341906ff44033f5807971154efe"
+  },
+  "limitations": [
+    "Postcompletion wall/CPU acceptance with cooperative remaining timeout, not hard aggregate CPU preemption",
+    "Stored costs precede final publication; final acceptance now samples after the bounded output scan and canonical checks",
+    "Mutable file hashes are sampled consistency checks, not authentication or atomic protection against hostile concurrency",
+    "Control scope is exactly the retained owned placement fixture and a freshly copied handoff project, not GUI/live apply, undo, broad placement support or new routing quality"
+  ]
+}

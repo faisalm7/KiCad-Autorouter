@@ -1,0 +1,62 @@
+--- a/REQUIREMENTS.md
++++ b/REQUIREMENTS.md
+@@ -5,5 +5,5 @@
+ | Requirement | Implementation / executable check | Stored evidence | Status and limits |
+ |---|---|---|---|
+-| G0 local checkout, audited push and independent remote read-back | OS/Git inspection; remote SHA and decoded file byte comparison | `evidence/backups/G0.json`; `evidence/backups/checkpoint-ee431c0.json` | Passed through ee431c0; later staged files still require audit |
++| G0 local checkout, audited push and independent remote read-back | OS/Git inspection; remote SHA and decoded file byte comparison | `evidence/backups/G0.json`; `evidence/backups/checkpoint-ee431c0.json` | Passed; latest verified source SHA/readback is recorded in STATUS.md. Each later change requires its own audited checkpoint |
+ | Pinned Mac native interfaces and engine | `python3 -m autorouter doctor` | `toolchain.lock.json`; `evidence/doctor-initial.json`; per-run tool manifests | KiCad 10.0.0, Freerouting 2.5.0 and Java 25.0.2 exercised; fresh-install/package matrix incomplete |
+ | G1 licensed real routing with native refill/connectivity | `python3 -m autorouter route … --adapter both --output NEW` | `.runs/adapter-ablation-001/combined/result.json` and native report | Narrow vertical slice passed: 0 opens, 0 blocking findings, 1 warning; not whole-project or physical cleanliness |
+@@ -34,5 +34,5 @@
+ | Strict multiclass preferred-target policy | uniform engine optional-neckdown disabling; native dimension audit | `evidence/interf-native-003/004` | Initial target checks pass but003/004 rejected for thermal; subsequent fresh C_thermal pair001 passes exact two-class targets plus native acceptance, with scope/limitations in thermal experiment |
+ 
+-Counts describe executed controls and the complete considered development population, not correctness breadth. The one accepted adapter candidate retains a warning. Rejected route lengths cannot establish usable quality gains. All sixteen acquired boards are development-exposed; none belongs to an untouched final evaluation. Original rules and unsupported inputs remain preserved.
++Counts describe executed controls and the complete considered development population, not correctness breadth. The sonde adapter candidate retains one warning; accepted multichannel placement candidates retain96warnings. Rejected route lengths cannot establish usable quality gains. All sixteen acquired boards are development-exposed; none belongs to an untouched final evaluation. Original rules and unsupported inputs remain preserved.
+ 
+ ## Historical observations in execution order
+--- a/docs/install-test.md
++++ b/docs/install-test.md
+@@ -65,5 +65,5 @@
+ editing the disposable checkout to make its original commit appear to pass.
+ 
+-The scoped macOS monitor fix passed 22 runner controls both normally and with the actual fresh-venv interpreter under unchanged network denial. Those include a real memory-limit kill, network EPERM and descendant cleanup. Metadata-denial behavior has a separate mocked-error control and is not described as a real OS failure. Evidence: `evidence/review-install-monitor-001`. The full installation retest remains separate.
++The scoped macOS monitor fix passed 22 runner controls both normally and with the actual fresh-venv interpreter under unchanged network denial. Those include a real memory-limit kill, network EPERM and descendant cleanup. Metadata-denial behavior has a separate mocked-error control and is not described as a real OS failure. Evidence: `evidence/review-install-monitor-001`. Those scoped monitor controls are separate from the completed full installation002 and003 runs.
+ 
+ Attempt 002 at `dd2cce9` passed the complete workflow in 14.935349 seconds: all 160 tests, actual native fixture routing and strict result checking passed under network denial. Both checkouts retained their tracked inventories and HEAD. See `evidence/installation-002`; later source changes require separately scoped qualification.
+--- a/evidence/claims.json
++++ b/evidence/claims.json
+@@ -112,5 +112,5 @@
+       "statement": "Six prospective projects/seven boards acquired35original/notice files; all seven statically unsupported, dependency closure incomplete and familyindependence unproven.",
+       "evidence": "evidence/corpus-expansion-audit-001/summary.json",
+-      "status": "Additional exposed development audit; no promotion/native/solver outcome; retain full fourteen acquired-board denominator with seven incomplete inputs separately"
++      "status": "Additional exposed development audit; no promotion/native/solver outcome. Its historical fourteen-board denominator retains seven incomplete inputs separately; current sixteen-board population is recorded in placement-production-qualification-001."
+     },
+     {
+@@ -257,5 +257,5 @@
+       "statement": "Real Freerouting SES and native route-only import emitted one required SIGNAL_A via with1.5mm diameter/.3mm drill; final native DRC/readback passed with0opens/blocking/warnings/exclusions and source unchanged.",
+       "evidence": "evidence/board-floor-forced-via-001/summary.json",
+-      "status": "efc174e plus frozen driver12d4eac8; stored6.759127wall/4.816742CPU under120secondcaps. Owned fixture; production adapter integration and whole-board outcome remain unqualified."
++      "status": "efc174e plus frozen driver12d4eac8; stored6.759127wall/4.816742CPU under120secondcaps. Owned diagnostic fixture; later production integration and full-board outcomes are recorded separately under floor-production-native-001/floor-multichannel-001 and placement-production-qualification-001."
+     },
+     {
+@@ -299,5 +299,5 @@
+       "statement": "The stricter rule-area/legacy-module support gate leaves the14-board population at3eligible/11unsupported;4alreadyunsupported boards gain the keepout reason, all source input inventories unchanged.",
+       "evidence": "evidence/review-rule-area-scope-001/population-001.json",
+-      "status": "Offline current-scope audit; no new routing/native outcome or independent-family claim."
++      "status": "Historical offline14-board scope audit; current16-board population is recorded in placement-production-qualification-001. No new routing/native outcome or independent-family claim."
+     },
+     {
+@@ -341,5 +341,5 @@
+       "statement": "Bounded pinned acquisition added two development boards, 81 files / 7,858,011 bytes verified by expected Git blob and SHA256. Full considered population is16, with3 statically eligible and13 unsupported or incomplete.",
+       "evidence": "evidence/licensed-acquisition-003/population-extension.json",
+-      "status": "Both new boards reject unchanged preflight. No native/engine execution, completed source closure, independent-family or holdout claim. Prior14 outcome index stays immutable; raw acquisitions await next archive."
++      "status": "Acquisition-only receipt; both new boards still reject unchanged preflight and remain incomplete. No engine or family/holdout claim. Later LiPo nonsaving native observations are recorded separately under lipo-native-diagnostic-001/002. Prior14 outcome index stays immutable; full raw acquisitions are preserved in archive4795010 and subsequent full archives."
+     },
+     {
+@@ -347,5 +347,5 @@
+       "statement": "Integrated explicit placement-clearance-v1 through the existing floor lifecycle;474 root tests pass, with fixed20um/default costs and strict schema3/source/evidence bindings. Three historical accepted receipts remain current and unchanged.",
+       "evidence": "evidence/placement-production-source-001/ROOT_INTEGRATION.md",
+-      "status": "Fresh native production fixture, invalid controls, real cancellation and exposed full-board replay are pending. Independent source/pure review is not native or human PCB qualification."
++      "status": "Source-only checkpoint. Native fixture, invalid controls, real cancellation and exposed full-board replay subsequently passed in placement-production-qualification-001; source/pure review itself is not native or human PCB qualification."
+     },
+     {

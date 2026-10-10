@@ -1,0 +1,1 @@
+Actual root CLI saved-evidence copy at8ada9d7. All10 copied project files equal the accepted candidate; original source/run unchanged. No new native or GUI worker. Full disposable project remains local. Receipt retains original paths and is not a relocatable project.
