@@ -1,0 +1,251 @@
+{
+  "schema": 1,
+  "kind": "development evidence index, not a new benchmark",
+  "input_files": {
+    "evidence/corpus-audit-003.json": "b3ecd3a0dfbe6d4ab230bb767a6bdac880f410c0ad3824c7927d58388dfb6d18",
+    "evidence/corpus-expansion-policy-audit-001.json": "4deed3df9a1eb909de6132b3a7666649c3b40daa78419808027f200c09a48757",
+    "data/sources.json": "a2a8e9e22ff3e109de94733aa8f5e99ca5fd476ef9ec20be837c54100036eac1"
+  },
+  "split": "all development-exposed",
+  "boards": [
+    {
+      "board": ".data/boards/kicad-sonde-xilinx/sonde xilinx.kicad_pcb",
+      "source_sha256": "d0dee876715fcdd3f656dd6a77cc1141c39bec4d6f8492a3784d38edd6b9a998",
+      "input_completeness": "manifested complete project",
+      "static_eligible_at_recorded_gate": true,
+      "unsupported_reason": null,
+      "static_evidence": "evidence/corpus-audit-003.json",
+      "native_experiments": [
+        {
+          "evidence": "evidence/portfolio-paired-001/paired-summary.json",
+          "sha256": "1dc0922ab7497d36483fa6c55a28ffc0c2a2d437dc47671ea6b5d743e81d1c66",
+          "status": "completed",
+          "arms": [
+            {
+              "id": "B2_portfolio",
+              "accepted": true,
+              "status": "completed",
+              "charged_wall_seconds": 55.89524904200516,
+              "charged_cpu_seconds": 75.89225999999998,
+              "candidate_sha256": null,
+              "quality_comparisons": null
+            },
+            {
+              "id": "C_feedback",
+              "accepted": true,
+              "status": "routing_accepted",
+              "charged_wall_seconds": 105.42557887500152,
+              "charged_cpu_seconds": 85.34977899999998,
+              "candidate_sha256": "ae27b4ffa1fc45dec5bb6c2fec4efd1376db1a64b0c02af901a31554e136b578",
+              "quality_comparisons": [
+                {
+                  "baseline_variant": "via_low",
+                  "system": "C_feedback",
+                  "baseline_selected": true,
+                  "length_delta_mm": -101.39647127526564,
+                  "via_delta": 0,
+                  "C_dominates_with_1e_6mm_tolerance": true,
+                  "baseline_dominates_with_1e_6mm_tolerance": false
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "board": ".data/boards/kicad-pic-programmer/pic_programmer.kicad_pcb",
+      "source_sha256": "1ca70b620506818eb0227e2863bbd573d1fec1672072dc43d0dbe8475e69c8fb",
+      "input_completeness": "manifested complete project",
+      "static_eligible_at_recorded_gate": false,
+      "unsupported_reason": "unsupported: custom pads not qualified; unknown rule severity semantics: footprint_symbol_field_mismatch; unknown rule severity semantics: missing_tuning_profile; unknown rule severity semantics: text_on_edge_cuts; unknown rule severity semantics: track_on_post_machined_layer",
+      "static_evidence": "evidence/corpus-audit-003.json",
+      "native_experiments": []
+    },
+    {
+      "board": ".data/boards/kicad-complex-hierarchy/complex_hierarchy.kicad_pcb",
+      "source_sha256": "d5f4162d4c766448832723d139f9e0fcb88a17c82340f10f6f6dc6c2042f0d69",
+      "input_completeness": "manifested complete project",
+      "static_eligible_at_recorded_gate": false,
+      "unsupported_reason": "unsupported: netclass bindings not qualified: Only unique literal identifier assignments qualified; unknown rule severity semantics: zone_has_empty_net",
+      "static_evidence": "evidence/corpus-audit-003.json",
+      "native_experiments": []
+    },
+    {
+      "board": ".data/boards/kicad-interf-u/interf_u.kicad_pcb",
+      "source_sha256": "a740ce7fde77ab6af191e23ece21e57d36bb3c29325879248520dcd9ab47b57e",
+      "input_completeness": "manifested complete project",
+      "static_eligible_at_recorded_gate": true,
+      "unsupported_reason": null,
+      "static_evidence": "evidence/corpus-audit-003.json",
+      "native_experiments": [
+        {
+          "evidence": "evidence/thermal-paired-001/paired-summary.json",
+          "sha256": "fbeba480de0cb55966be2da272857f8ca84709105ab274f47c61c8068e154e4e",
+          "status": "completed",
+          "arms": [
+            {
+              "id": "B2_portfolio",
+              "accepted": false,
+              "status": "no_valid_candidate",
+              "charged_wall_seconds": 72.94851787399239,
+              "charged_cpu_seconds": 91.88207,
+              "candidate_sha256": null,
+              "quality_comparisons": null
+            },
+            {
+              "id": "C_thermal",
+              "accepted": true,
+              "status": "routing_accepted",
+              "charged_wall_seconds": 42.04486216699297,
+              "charged_cpu_seconds": 54.759603999999996,
+              "candidate_sha256": "be7694040a84aaac331981cd121ac66774284df30923550c5054691fe302dabb",
+              "quality_comparisons": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "board": ".data/boards/kicad-multichannel/multichannel_mixer-unrouted.kicad_pcb",
+      "source_sha256": "149b2dce16e0f59adb78f87068f4137b7dafca0e991a0b21fdd967c873fd5ee9",
+      "input_completeness": "manifested complete project",
+      "static_eligible_at_recorded_gate": false,
+      "unsupported_reason": "unsupported: complete .kicad_pro required; unqualified board format version",
+      "static_evidence": "evidence/corpus-audit-003.json",
+      "native_experiments": []
+    },
+    {
+      "board": ".data/boards/kicad-multichannel/multichannel_mixer.kicad_pcb",
+      "source_sha256": "44b7c119a0d05c98e9f294659879184038a5f6c30073c04d9536990429ca413e",
+      "input_completeness": "manifested complete project",
+      "static_eligible_at_recorded_gate": true,
+      "unsupported_reason": null,
+      "static_evidence": "evidence/corpus-audit-003.json",
+      "native_experiments": [
+        {
+          "evidence": "evidence/multichannel-native-001/result.json",
+          "sha256": "6ec9941f48987706cf633a878e63c54f278ae57e954e4582375f37b57db3d223",
+          "status": "drc_rejected",
+          "arm": "B1 completion-only",
+          "accepted": false,
+          "receipt_wall_seconds": 73.18788812500134,
+          "receipt_cpu_seconds": 81.858311,
+          "native": {
+            "opens": 160,
+            "blocking": 95,
+            "warnings": 138,
+            "exclusions": 0
+          },
+          "comparison": "none; single rejected attempt, not a paired C outcome"
+        }
+      ]
+    },
+    {
+      "board": ".data/boards/kicad-coldfire-xilinx/kit-dev-coldfire-xilinx_5213.kicad_pcb",
+      "source_sha256": "392cf6bf4b9b62beb435f965ccd7671a46decb17f947b74bfde482acd2132a5e",
+      "input_completeness": "manifested complete project",
+      "static_eligible_at_recorded_gate": false,
+      "unsupported_reason": "unsupported: core native check not blocking: starved_thermal; netclass bindings not qualified: Only unique literal identifier assignments qualified",
+      "static_evidence": "evidence/corpus-audit-003.json",
+      "native_experiments": []
+    },
+    {
+      "board": ".data/corpus-expansion-audit-001/Protocentral__protocentral_fdc2214_hardware/hardware/brk_fdc2214_v2.kicad_pcb",
+      "source_sha256": "7cbe2ddbc2264291a62ac3a1027db57916ad3f01c1c1e72fb2c489d841d8f23a",
+      "input_completeness": "incomplete dependency and rights closure",
+      "static_eligible_at_recorded_gate": false,
+      "unsupported_reason": "unsupported: core native check not blocking: clearance; core native check not blocking: copper_edge_clearance; core native check not blocking: hole_to_hole; core native check not blocking: starved_thermal; custom pads not qualified; net ties not qualified; netclass bindings not qualified: Only one or two fully specified netclasses qualified; unknown rule severity semantics: footprint_symbol_field_mismatch; unknown rule severity semantics: missing_tuning_profile; unknown rule severity semantics: text_on_edge_cuts; unknown rule severity semantics: track_on_post_machined_layer",
+      "static_evidence": "evidence/corpus-expansion-policy-audit-001.json",
+      "native_experiments": []
+    },
+    {
+      "board": ".data/corpus-expansion-audit-001/sparkfun__SparkFun_Ambient_Light_Sensor-VEML7700/Hardware/SparkFun_VEML7700.kicad_pcb",
+      "source_sha256": "d88abec2f3ca3314e694587a11872a467ef019a29cba14fdf6aa17d4b7d75e76",
+      "input_completeness": "incomplete dependency and rights closure",
+      "static_eligible_at_recorded_gate": false,
+      "unsupported_reason": "unsupported: net ties not qualified; netclass bindings not qualified: Netclass identifier outside narrow scope; unknown rule severity semantics: text_on_edge_cuts",
+      "static_evidence": "evidence/corpus-expansion-policy-audit-001.json",
+      "native_experiments": []
+    },
+    {
+      "board": ".data/corpus-expansion-audit-001/sparkfun__SparkFun_Qwiic_ADC_ADS1219/Hardware/Qwiic_ADC_ADS1219.kicad_pcb",
+      "source_sha256": "c2ecbd687854b01a8483543bb254dca09d791b127e6815431bbce3a08bf4c0bc",
+      "input_completeness": "incomplete dependency and rights closure",
+      "static_eligible_at_recorded_gate": false,
+      "unsupported_reason": "unsupported: net ties not qualified; netclass bindings not qualified: Netclass identifier outside narrow scope; unknown rule severity semantics: text_on_edge_cuts",
+      "static_evidence": "evidence/corpus-expansion-policy-audit-001.json",
+      "native_experiments": []
+    },
+    {
+      "board": ".data/corpus-expansion-audit-001/sparkfun__SparkFun_Qwiic_Formaldehyde_Sensor_SFA40/Hardware/SparkFun_Qwiic_Formaldehyde_Sensor_SFA40.kicad_pcb",
+      "source_sha256": "76db6ca88004faecd3d844b378badb6796af5c26eb260b3783d240c2c0372455",
+      "input_completeness": "incomplete dependency and rights closure",
+      "static_eligible_at_recorded_gate": false,
+      "unsupported_reason": "unsupported: DRC exclusions not qualified; net ties not qualified; netclass bindings not qualified: Netclass identifier outside narrow scope; unknown rule severity semantics: footprint_symbol_field_mismatch; unknown rule severity semantics: missing_tuning_profile; unknown rule severity semantics: text_on_edge_cuts; unknown rule severity semantics: track_on_post_machined_layer",
+      "static_evidence": "evidence/corpus-expansion-policy-audit-001.json",
+      "native_experiments": []
+    },
+    {
+      "board": ".data/corpus-expansion-audit-001/sparkfun__SparkFun_Roller_Encoder_Breakout/Hardware/SparkFun_Roller_Encoder_Breakout.kicad_pcb",
+      "source_sha256": "3086590581f2c33fc646f8a5c5e9ffaeeec12ba7d31b31e0afb8c414d5260ff5",
+      "input_completeness": "incomplete dependency and rights closure",
+      "static_eligible_at_recorded_gate": false,
+      "unsupported_reason": "unsupported: netclass bindings not qualified: Netclass identifier outside narrow scope; unknown rule severity semantics: text_on_edge_cuts",
+      "static_evidence": "evidence/corpus-expansion-policy-audit-001.json",
+      "native_experiments": []
+    },
+    {
+      "board": ".data/corpus-expansion-audit-001/sparkfun__SparkFun_Triple_Axis_Acclerometer-LIS3DH/Hardware/Micro/SparkFun_LIS3DH_Micro.kicad_pcb",
+      "source_sha256": "0d085ac9ef7a484d7b4424c459e4840fae485c4c0b7cc7c62b100e3e93620603",
+      "input_completeness": "incomplete dependency and rights closure",
+      "static_eligible_at_recorded_gate": false,
+      "unsupported_reason": "unsupported: net ties not qualified; netclass bindings not qualified: Netclass identifier outside narrow scope; unknown rule severity semantics: text_on_edge_cuts",
+      "static_evidence": "evidence/corpus-expansion-policy-audit-001.json",
+      "native_experiments": []
+    },
+    {
+      "board": ".data/corpus-expansion-audit-001/sparkfun__SparkFun_Triple_Axis_Acclerometer-LIS3DH/Hardware/Qwiic 1x1/SparkFun_LIS3DH.kicad_pcb",
+      "source_sha256": "55dca06685c4278b1f58159841536c3c0da168228cdcbe830726145cf96d55e8",
+      "input_completeness": "incomplete dependency and rights closure",
+      "static_eligible_at_recorded_gate": false,
+      "unsupported_reason": "unsupported: DRC exclusions not qualified; net ties not qualified; netclass bindings not qualified: Netclass identifier outside narrow scope; unknown rule severity semantics: text_on_edge_cuts",
+      "static_evidence": "evidence/corpus-expansion-policy-audit-001.json",
+      "native_experiments": []
+    }
+  ],
+  "counts": {
+    "acquired_boards": 14,
+    "complete_inputs": 7,
+    "incomplete_inputs": 7,
+    "recorded_static_eligible": 3,
+    "recorded_static_unsupported": 11,
+    "inputs_with_actual_native_routing_attempts": 3,
+    "inputs_with_at_least_one_recorded_accepted_routing_policy": 2,
+    "independent_families_established": null
+  },
+  "pair_outcomes": {
+    "sonde": {
+      "B2_accepted": true,
+      "C_feedback_accepted": true,
+      "completion_gain": false,
+      "completion_loss": false,
+      "quality_proxy_improvement": true
+    },
+    "interf_u": {
+      "B2_accepted": false,
+      "C_thermal_accepted": true,
+      "completion_gain": true,
+      "completion_loss": false,
+      "quality_comparable": false
+    }
+  },
+  "limits": [
+    "Different frozen commits and two different C strategies; not an aggregate completion rate or unified-system benchmark.",
+    "Unsupported inputs are retained; static eligibility is not native acceptance.",
+    "The eleven unsupported inputs have no native routing result, and multichannel has no paired C result.",
+    "Only named paired experiments supply gain/loss comparisons; none was lost in those two observed pairs.",
+    "Input checks here verify current original board bytes against stored source hashes; no native job is performed.",
+    "Inherited severities and ignored checks are unchanged; no electrical/physical qualification or untouched test set."
+  ]
+}

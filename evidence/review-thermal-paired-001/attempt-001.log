@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-thermal-paired-001/audit.py", line 136, in <module>
+    verify_route(file.parent,r,'tuned',row['id'])
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-thermal-paired-001/audit.py", line 105, in verify_route
+    if record.get('native_report_sha256'):verify_native(directory,record)
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-thermal-paired-001/audit.py", line 81, in verify_native
+    need(argv==[str(p.c.CLI),'pcb','drc','--format','json','--severity-all','--all-track-errors','--refill-zones','--exit-code-violations','--output',str(directory/'final-drc.json'),str(inp)] and process['validated_input_sha256']==final_hash,label+' exact final DRC flags/hash')
+                                                                                                                                                                                                    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'validated_input_sha256'

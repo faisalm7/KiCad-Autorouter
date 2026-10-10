@@ -1,0 +1,265 @@
+{
+  "passed": true,
+  "check_count": 4122,
+  "failures": [],
+  "frozen_commit": "cbae1254f00d3470d98ba18d24a09e99874f0cc2",
+  "native_executed_by_reviewer": false,
+  "native_outcomes": [
+    {
+      "run": "B2_portfolio/01-via_default",
+      "candidate_sha256": "c30aca44e0aa766ca12a70e5f23c2fa12767ab6ac715e9b6bc3e51a9e0577142",
+      "native_report_sha256": "96c2f38786b3f8964adbc478f163f15732c712260d082fc73ef302413c9b5ca2",
+      "opens": 0,
+      "blocking": 1,
+      "warnings": 0,
+      "exclusions": 0
+    },
+    {
+      "run": "C_thermal/incumbent",
+      "candidate_sha256": "f3469b34e2d7724d65ade7b1a5b3353c75b67c54f525f54b88c3626cd8531b0a",
+      "native_report_sha256": "be3fd345f51d3a99453bd248b28c506242b82b13e03a0ce606bca3218b33f729",
+      "opens": 0,
+      "blocking": 1,
+      "warnings": 0,
+      "exclusions": 0
+    },
+    {
+      "run": "C_thermal",
+      "candidate_sha256": "be7694040a84aaac331981cd121ac66774284df30923550c5054691fe302dabb",
+      "native_report_sha256": "9c686fa4880f270280f11ba049ddb9a7e23a4e576e1023374b95c8673321a45b",
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 0,
+      "exclusions": 0
+    },
+    {
+      "run": "C_thermal/recovery/trial-01",
+      "candidate_sha256": "be7694040a84aaac331981cd121ac66774284df30923550c5054691fe302dabb",
+      "native_report_sha256": "a9dcbae0a0514e46c680973718962c070ae658d019e3a2ca6acebdd57c4fd21a",
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 0,
+      "exclusions": 0
+    }
+  ],
+  "engines": [
+    {
+      "run": "B2_portfolio/01-via_default",
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 63.125155542002176,
+      "cpu_seconds": 83.627618,
+      "assigned_job_seconds": 60,
+      "assigned_optimizer_seconds": 60,
+      "timeout_log_lines": [
+        "2026-10-10 03:03:47.529 INFO   [B90936\\4DF70E] Job 'B90936\\4DF70E' finished with state: TIMED_OUT (elapsed: 1 minute 0.60 seconds, finished at UTC: 2026-10-10T10:03:47.527665Z)."
+      ]
+    },
+    {
+      "run": "C_thermal/incumbent",
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 19.39997795799718,
+      "cpu_seconds": 35.116336,
+      "assigned_job_seconds": 36,
+      "assigned_optimizer_seconds": null,
+      "timeout_log_lines": []
+    }
+  ],
+  "metrics": [
+    {
+      "run": "B2_portfolio/01-via_default",
+      "length_mm": 4994.887951015416,
+      "vias": 35
+    },
+    {
+      "run": "C_thermal/incumbent",
+      "length_mm": 4994.887951015417,
+      "vias": 35
+    },
+    {
+      "run": "C_thermal",
+      "length_mm": 4996.393150337765,
+      "vias": 35
+    }
+  ],
+  "geometry": {
+    "status": "validated_trial_candidate",
+    "trials": 1,
+    "validation_passed": true,
+    "independent_paths": {
+      "paths": [
+        {
+          "path": "proposal0/source",
+          "leg": 0,
+          "boundary_clearance_nm_approx": 77223.13157338285,
+          "minimum_drill_clearance_nm_approx": 146626.7745289707
+        },
+        {
+          "path": "proposal0/destination",
+          "leg": 0,
+          "boundary_clearance_nm_approx": 96464.95511739343,
+          "minimum_drill_clearance_nm_approx": 905038.3136138187
+        },
+        {
+          "path": "proposal0/destination",
+          "leg": 1,
+          "boundary_clearance_nm_approx": 45848.233355759934,
+          "minimum_drill_clearance_nm_approx": 150000.38232895802
+        },
+        {
+          "path": "proposal1/source",
+          "leg": 0,
+          "boundary_clearance_nm_approx": 77223.13157338285,
+          "minimum_drill_clearance_nm_approx": 146626.7745289707
+        },
+        {
+          "path": "proposal1/destination",
+          "leg": 0,
+          "boundary_clearance_nm_approx": 64112.60102988373,
+          "minimum_drill_clearance_nm_approx": 874754.8783981963
+        },
+        {
+          "path": "proposal1/destination",
+          "leg": 1,
+          "boundary_clearance_nm_approx": 45848.233355759934,
+          "minimum_drill_clearance_nm_approx": 150000.38232895802
+        },
+        {
+          "path": "proposal2/source",
+          "leg": 0,
+          "boundary_clearance_nm_approx": 77223.13157338285,
+          "minimum_drill_clearance_nm_approx": 146626.7745289707
+        },
+        {
+          "path": "proposal2/destination",
+          "leg": 0,
+          "boundary_clearance_nm_approx": 32331.534849685682,
+          "minimum_drill_clearance_nm_approx": 856234.4526401113
+        },
+        {
+          "path": "proposal2/destination",
+          "leg": 1,
+          "boundary_clearance_nm_approx": 45848.233355759934,
+          "minimum_drill_clearance_nm_approx": 150000.38232895802
+        },
+        {
+          "path": "proposal3/source",
+          "leg": 0,
+          "boundary_clearance_nm_approx": 150000.6828134459,
+          "minimum_drill_clearance_nm_approx": 150000.38232895802
+        },
+        {
+          "path": "proposal3/destination",
+          "leg": 0,
+          "boundary_clearance_nm_approx": 96464.95511739343,
+          "minimum_drill_clearance_nm_approx": 905038.3136138187
+        },
+        {
+          "path": "proposal3/destination",
+          "leg": 1,
+          "boundary_clearance_nm_approx": 45848.233355759934,
+          "minimum_drill_clearance_nm_approx": 150000.38232895802
+        }
+      ],
+      "physical_holes": 352,
+      "native_pads": 379,
+      "native_vias": 35,
+      "filled_outlines": 27,
+      "minimum_boundary_nm": 32331.534849685682,
+      "minimum_drill_nm": 146626.7745289707
+    }
+  },
+  "historical_controls": {
+    "positive_receipt_sha256": "7abc5bc6c7f210d0a196a97958b14afe6a9bb41cce4f3daccfd6a79e4fec65c1",
+    "negative_receipt_sha256": "ac8bc7987cb63662c4a3800e0cfa0a3b5ecda8ea03ca95701967d24671251077",
+    "positive_native_report_sha256": "c173c5fb1fb353228614723399670a09cef6e5bd8fcf11938becbaa884fa358b",
+    "negative_native_report_sha256": "2c0f874a80d4fc66749384103b62670e71e3689cd8efb4ec21ae8db9b3ed22b5",
+    "negative_candidate_sha256": "922c6ce93556732940b5bccc06794c84b35fd164f86abd0ac3f6faf5b76e3f41",
+    "fresh_incumbent_candidate_sha256": "f3469b34e2d7724d65ade7b1a5b3353c75b67c54f525f54b88c3626cd8531b0a",
+    "qualification_scope": "historical repair-only positive/removal counterfactual; equal-budget completion evidence comes solely from this fresh pair"
+  },
+  "public_subset": {
+    "present": true,
+    "verified": true,
+    "raw_files": 117,
+    "raw_bytes": 4403123
+  },
+  "original_ignored_checks_unchanged": [
+    {
+      "description": "Footprint has no courtyard defined",
+      "key": "missing_courtyard"
+    },
+    {
+      "description": "Copper connection too narrow",
+      "key": "connection_width"
+    },
+    {
+      "description": "Track endpoint not centered on via",
+      "key": "track_not_centered_on_via"
+    },
+    {
+      "description": "Tuning profile track geometries",
+      "key": "tuning_profile_track_geometries"
+    },
+    {
+      "description": "Footprint doesn't match symbol's footprint filters",
+      "key": "footprint_filters_mismatch"
+    },
+    {
+      "description": "PTH inside courtyard",
+      "key": "pth_inside_courtyard"
+    },
+    {
+      "description": "NPTH inside courtyard",
+      "key": "npth_inside_courtyard"
+    }
+  ],
+  "outcomes": {
+    "B2_portfolio": {
+      "status": "no_valid_candidate",
+      "accepted": false,
+      "charged_wall_seconds": 72.94851787399239,
+      "charged_cpu_seconds": 91.88207,
+      "opens": null,
+      "blocking": null,
+      "warnings": null,
+      "exclusions": null,
+      "length_mm": null,
+      "vias": null
+    },
+    "C_thermal": {
+      "status": "routing_accepted",
+      "accepted": true,
+      "charged_wall_seconds": 42.04486216699297,
+      "charged_cpu_seconds": 54.759603999999996,
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 0,
+      "exclusions": 0,
+      "length_mm": 4996.393150337764,
+      "vias": 35
+    }
+  },
+  "baseline_attempted": [
+    "via_default"
+  ],
+  "baseline_not_started": [
+    "via_low",
+    "via_high"
+  ],
+  "baseline_stop_reason": "insufficient remaining budget for another attempt and reserves",
+  "baseline_frontier": [],
+  "quality_comparisons": [],
+  "scope": [
+    "Stored raw consistency and independent exact geometry audit, not a fresh native run or human PCB review.",
+    "One exposed development board/family and one sequential pair; no population superiority or statistical/generalization claim.",
+    "A valid C completion with no valid B2 completion is a completion outcome; invalid B2 length/via metrics are not quality comparators.",
+    "Measured wall/CPU caps include shared setup and failed work; CPU acceptance caps are postcompletion, polling resource limits may overshoot.",
+    "Prior repair-only positive/removal counterfactual supports mechanism qualification but is distinct from this newly generated incumbent and full-budget run.",
+    "B2 reached cooperative internal timeout, emitted an SES, and failed actual native thermal validation; it did not exhaust every possible tuned configuration.",
+    "C uses a different declared engine allocation/profile; completion-only and other baseline ablations are needed to isolate repair contribution.",
+    "The public subset omits complete project/native-input trees; full raw evidence remains local."
+  ],
+  "script_sha256": "d603d45175d4977139ebeba477241497d4cbd87385dc103c37553b79709694f9"
+}
