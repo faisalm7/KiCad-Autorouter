@@ -1,0 +1,450 @@
+{
+  "scope": "pure review of unqualified copper-path draft; no native or engine process",
+  "source_sha256": {
+    "copper_path.py": "66b40537165fe7344d2884fb3fe8efaef73b8ba418c48f859c216eb2ef806e8e",
+    "attempt_paths_v2.py": "d878dc1d9a0f25ee12252cc7b21397d4434d355174201a851285b09fec197367",
+    "diagnose.py": "c9e15bbb7f305c35ec1ef602e4737a8b0f4b896801ca5d667a180823d75fb1e0"
+  },
+  "audit_script_sha256": "54dae56165c79bd6d7f81813ff39e89238e04a9f0d64e251f49c9d7d80d8c56d",
+  "native_executed": false,
+  "routing_executed": false,
+  "kernel_controls": {
+    "valid_integer_leg_accepted": true,
+    "exact_margin_boundary_rejected": true,
+    "drill_center_crossing_rejected": true,
+    "subnanometre_distance_exact": true,
+    "reviewed_sources_unchanged": true
+  },
+  "wrapper_reproductions": {
+    "bridge_hole_crossing": {
+      "reproduced": true,
+      "input": {
+        "api_error_count": 0,
+        "source_unchanged": true,
+        "layers": [
+          {
+            "id": 2,
+            "canonical": "B.Cu"
+          }
+        ],
+        "class": {
+          "width_nm": 500000
+        },
+        "native_max_error_nm": 10000,
+        "target_pad_uuid": "target",
+        "zone_uuid": "controlled-zone",
+        "net_code": 100,
+        "pads": [
+          {
+            "uuid": "target",
+            "net_code": 100,
+            "position_nm": [
+              0,
+              0
+            ],
+            "logical_terminal": [
+              "controlled-footprint",
+              "target"
+            ],
+            "effective_hole": {
+              "start_nm": [
+                0,
+                0
+              ],
+              "end_nm": [
+                0,
+                0
+              ],
+              "width_nm": 800000
+            },
+            "drill_is_round": true,
+            "is_pth": true,
+            "orientation_degrees": 0,
+            "layers": [
+              {
+                "id": 2,
+                "on_layer": true,
+                "flash_layer": true,
+                "shape_is_circle": true,
+                "size_nm": [
+                  1400000,
+                  1400000
+                ],
+                "offset_nm": [
+                  0,
+                  0
+                ],
+                "shape_position_nm": [
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          {
+            "uuid": "other",
+            "net_code": 100,
+            "position_nm": [
+              2000000,
+              0
+            ],
+            "logical_terminal": [
+              "controlled-footprint",
+              "other"
+            ],
+            "effective_hole": {
+              "start_nm": [
+                2000000,
+                0
+              ],
+              "end_nm": [
+                2000000,
+                0
+              ],
+              "width_nm": 800000
+            },
+            "drill_is_round": true,
+            "is_pth": true,
+            "orientation_degrees": 0,
+            "layers": [
+              {
+                "id": 2,
+                "on_layer": true,
+                "flash_layer": true,
+                "shape_is_circle": true,
+                "size_nm": [
+                  1400000,
+                  1400000
+                ],
+                "offset_nm": [
+                  0,
+                  0
+                ],
+                "shape_position_nm": [
+                  2000000,
+                  0
+                ]
+              }
+            ]
+          }
+        ],
+        "vias": [
+          {
+            "uuid": "gap-drill",
+            "net_code": 0,
+            "position_nm": [
+              750000,
+              -250000
+            ],
+            "drill_nm": 100000,
+            "layer_membership": [
+              2
+            ]
+          }
+        ],
+        "bodies": [
+          {
+            "native_outline_index": 0,
+            "layer_id": 2,
+            "zone_uuid": "controlled-zone",
+            "net_code": 100,
+            "selected": true,
+            "holes_nm": [],
+            "hole_count": 0,
+            "native_total_arc_count": 0,
+            "native_outer_closed": true,
+            "outer_nm": [
+              [
+                -1000000,
+                -1000000
+              ],
+              [
+                600000,
+                -1000000
+              ],
+              [
+                600000,
+                1000000
+              ],
+              [
+                -1000000,
+                1000000
+              ]
+            ]
+          },
+          {
+            "native_outline_index": 1,
+            "layer_id": 2,
+            "zone_uuid": "controlled-zone",
+            "net_code": 100,
+            "selected": true,
+            "holes_nm": [],
+            "hole_count": 0,
+            "native_total_arc_count": 0,
+            "native_outer_closed": true,
+            "outer_nm": [
+              [
+                900000,
+                -1000000
+              ],
+              [
+                3000000,
+                -1000000
+              ],
+              [
+                3000000,
+                1000000
+              ],
+              [
+                900000,
+                1000000
+              ]
+            ]
+          }
+        ]
+      },
+      "unsafe_proposals": [
+        {
+          "start_nm": [
+            375000,
+            -250000
+          ],
+          "end_nm": [
+            1000000,
+            -250000
+          ],
+          "width_nm": 500000,
+          "layer": "B.Cu",
+          "net_code": 100,
+          "source_outline_index": 0,
+          "destination_outline_index": 1,
+          "target_logical_terminal": [
+            "controlled-footprint",
+            "target"
+          ],
+          "other_logical_terminal": [
+            "controlled-footprint",
+            "other"
+          ],
+          "source_copper_path_nm": [
+            [
+              375000,
+              -250000
+            ]
+          ],
+          "destination_copper_path_nm": [
+            [
+              1000000,
+              -250000
+            ],
+            [
+              1450000,
+              0
+            ]
+          ],
+          "copper_path_margin_nm": 10000,
+          "length_nm": 625000.0,
+          "routing_accepted": false,
+          "native_validated": false,
+          "certificate_scope": "positive-margin saved-fill paths outside every physical round hole to target and distinct logical terminal annuli; no global component claim"
+        }
+      ]
+    },
+    "net_identity_mismatch": {
+      "reproduced": true,
+      "input": {
+        "api_error_count": 0,
+        "source_unchanged": true,
+        "layers": [
+          {
+            "id": 2,
+            "canonical": "B.Cu"
+          }
+        ],
+        "class": {
+          "width_nm": 500000
+        },
+        "native_max_error_nm": 10000,
+        "target_pad_uuid": "target",
+        "zone_uuid": "controlled-zone",
+        "net_code": 100,
+        "pads": [
+          {
+            "uuid": "target",
+            "net_code": 999,
+            "position_nm": [
+              0,
+              0
+            ],
+            "logical_terminal": [
+              "controlled-footprint",
+              "target"
+            ],
+            "effective_hole": {
+              "start_nm": [
+                0,
+                0
+              ],
+              "end_nm": [
+                0,
+                0
+              ],
+              "width_nm": 800000
+            },
+            "drill_is_round": true,
+            "is_pth": true,
+            "orientation_degrees": 0,
+            "layers": [
+              {
+                "id": 2,
+                "on_layer": true,
+                "flash_layer": true,
+                "shape_is_circle": true,
+                "size_nm": [
+                  1400000,
+                  1400000
+                ],
+                "offset_nm": [
+                  0,
+                  0
+                ],
+                "shape_position_nm": [
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          {
+            "uuid": "other",
+            "net_code": 100,
+            "position_nm": [
+              2000000,
+              0
+            ],
+            "logical_terminal": [
+              "controlled-footprint",
+              "other"
+            ],
+            "effective_hole": {
+              "start_nm": [
+                2000000,
+                0
+              ],
+              "end_nm": [
+                2000000,
+                0
+              ],
+              "width_nm": 800000
+            },
+            "drill_is_round": true,
+            "is_pth": true,
+            "orientation_degrees": 0,
+            "layers": [
+              {
+                "id": 2,
+                "on_layer": true,
+                "flash_layer": true,
+                "shape_is_circle": true,
+                "size_nm": [
+                  1400000,
+                  1400000
+                ],
+                "offset_nm": [
+                  0,
+                  0
+                ],
+                "shape_position_nm": [
+                  2000000,
+                  0
+                ]
+              }
+            ]
+          }
+        ],
+        "vias": [
+          {
+            "uuid": "gap-drill",
+            "net_code": 0,
+            "position_nm": [
+              750000,
+              -250000
+            ],
+            "drill_nm": 100000,
+            "layer_membership": [
+              2
+            ]
+          }
+        ],
+        "bodies": [
+          {
+            "native_outline_index": 0,
+            "layer_id": 2,
+            "zone_uuid": "controlled-zone",
+            "net_code": 100,
+            "selected": true,
+            "holes_nm": [],
+            "hole_count": 0,
+            "native_total_arc_count": 0,
+            "native_outer_closed": true,
+            "outer_nm": [
+              [
+                -1000000,
+                -1000000
+              ],
+              [
+                600000,
+                -1000000
+              ],
+              [
+                600000,
+                1000000
+              ],
+              [
+                -1000000,
+                1000000
+              ]
+            ]
+          },
+          {
+            "native_outline_index": 1,
+            "layer_id": 2,
+            "zone_uuid": "controlled-zone",
+            "net_code": 999,
+            "selected": true,
+            "holes_nm": [],
+            "hole_count": 0,
+            "native_total_arc_count": 0,
+            "native_outer_closed": true,
+            "outer_nm": [
+              [
+                900000,
+                -1000000
+              ],
+              [
+                3000000,
+                -1000000
+              ],
+              [
+                3000000,
+                1000000
+              ],
+              [
+                900000,
+                1000000
+              ]
+            ]
+          }
+        ]
+      },
+      "emitted_count": 4
+    }
+  },
+  "interpretation": [
+    "Exact leg geometry is consistent with a positive-margin path proof given validated integer domain and complete physical holes.",
+    "A new bridge must itself be checked against drills before claiming an entire local connection.",
+    "Native observation identity/binding, target uniqueness, same zone/layer/net, complete physical hole census and final budget check remain qualification requirements.",
+    "Actual saved attempts emitted no proposals and correctly leave scene, global topology and routing acceptance false."
+  ],
+  "wall_seconds": 0.00739025000075344
+}
