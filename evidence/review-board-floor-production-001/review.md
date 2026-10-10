@@ -1,0 +1,16 @@
+# Independent floor-production draft review
+
+Snapshot003 is cleared for a prospective checkpoint and bounded native smoke. This is an AI code/evidence review, not human PCB review or native production qualification. Exact source and selected test hashes are in `snapshot-003.json`; author freeze identity was subsequently confirmed in `final-byte-identity.json` with no production-source drift.
+
+Two reproduced acceptance/evidence findings were fixed before clearance:
+
+- R1: a canonical receipt changed during its final checker could remain positive. The final exact canonical comparison now rejects that change. The original failing reproduction and corrected controls remain separate.
+- R2: a synthetic positive could omit SES/imported/source-DRC/refill artifacts and use arbitrary source/refill commands. Readback now requires the retained artifacts, exact native stage process/report/input bindings, and reconstruction from stripped task through imported routes and saved fill to the final emitted candidate. Rehashed deletions and command/import mutations now reject.
+
+Independent controls: 10 original adversarial cases passed after correction; 5 additional transport cases passed. The author's 35 focused floor tests also passed when run from the reviewer's copied snapshot. A real bounded self-SIGTERM during final checking left the canonical result cancelled/false, preserved the previous positive only as an invalidated artifact, and restored both signal handlers. Native/engine stages in publication and synthetic receipt controls were mocked; these counts do not establish routing correctness.
+
+The byte-chain controls read the existing forced-via native artifacts without changing them. They verify the draft's raw→guided→adapter output equality and reject dropped obstacles, changed rules, wrong native route UUID/net/layer/coordinate/dimensions, and relabelled raw preferences. Three actual archived native-policy accepted receipts (B2, C_feedback, C_thermal) passed consistency readback under the first draft snapshot, with their receipt hashes unchanged. This is legacy evidence compatibility, not rerouting.
+
+The reviewed scope is explicit single-Default, two outer copper layers, whole-board task without protected routes, adapter=both. Native defaults remain unchanged. Floor mode has exact generated targets derived from original preferences and native floors; original project rules and the central native acceptance policy remain authoritative. Unsupported strategy/portfolio/recovery propagation and floor GUI handoff remain blocked. Full-candidate evidence, source/code/tool stability, scoped cancellation and postpublication caps are enforced; stored accounting is explicitly sampled before final publication, while acceptance caps include its cost.
+
+No further blocker was found in this snapshot. Complete evidence may still exceed the conservative 100 MiB/2,000-file run inventory ceiling and fail closed. Pad-position observations are not a separate complete pad-shape/native-geometry qualification. Mutable local evidence consistency is not cryptographic authentication. Actual direct-route integration, general completion improvements, physical/electrical validation and human review are not established by this review.

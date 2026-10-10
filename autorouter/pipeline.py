@@ -312,7 +312,10 @@ def audit_candidate_netclasses(candidate, protected, native):
     return {'native':mapping,'route_dimensions':dimensions,'candidate_sha256':sha(candidate),
             'project_sha256':sha(project)}
 
-def validate_candidate(job, original, candidate, source_hashes, protected):
+def validate_candidate(job, original, candidate, source_hashes, protected, *, guidance_contract=None):
+    if guidance_contract is not None:
+        from .floor_route import validate_contract
+        validate_contract(original,candidate,source_hashes,protected,guidance_contract,job.out)
     # Reject mutations before native tooling is allowed to normalize anything.
     if immutable(sx.read(candidate))!=immutable(original): raise Rejected('immutable geometry changed')
     if any(n not in routes(sx.read(candidate)) for n in protected): raise Rejected('protected route changed')
@@ -323,7 +326,10 @@ def validate_candidate(job, original, candidate, source_hashes, protected):
     sx.write(candidate,transplant_fill(sx.read(candidate),sx.read(refill)))
     if immutable(sx.read(candidate))!=immutable(original): raise Rejected('immutable geometry changed after refill')
     final_hash=sha(candidate)
-    if netclass_policy(candidate) is not None:
+    if guidance_contract is not None:
+        from .floor_route import final_context
+        final_context(job,original,candidate,source_hashes,protected,guidance_contract)
+    elif netclass_policy(candidate) is not None:
         mapping=job.out/'final-netclasses.json'
         job.native('final-netclasses','netclasses',candidate,mapping)
         audited=audit_candidate_netclasses(candidate,protected,json.loads(mapping.read_text()))
@@ -420,7 +426,11 @@ def engine_baseline(profile,adapter):
     raise Rejected('unknown engine profile')
 
 
-def route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None):
+def route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native'):
+    if guidance_policy not in {'native','board-floors-v1'}: raise Rejected('unknown guidance policy')
+    if guidance_policy=='board-floors-v1':
+        from .floor_route import route as floor_route
+        return floor_route(source,output,seconds,keep_existing,adapter,engine_profile,scoring_variant)
     if engine_profile not in {'standard','tuned','completion-only'}: raise Rejected('unknown engine profile')
     engine_scoring_settings(scoring_variant)
     operation_started=time.monotonic()
@@ -542,8 +552,11 @@ def check_result(path):
     validation too. This function never applies a live-editor change.
     """
     path=Path(path).resolve(strict=True)
+    from .floor_route import receipt_policy, read_json
     data=json.loads(path.read_text())
-    if data.get('schema')!=1 or data.get('accepted') is not True or data.get('status')!='routing_accepted':
+    input_policy=receipt_policy(data,path.parent)
+    if input_policy=='board-floors-v1': data=read_json(path)
+    if data.get('schema') not in (1,2) or data.get('accepted') is not True or data.get('status')!='routing_accepted':
         raise Rejected('receipt is not an accepted routing result')
     source=Path(data['source'])
     if tree_hash(source.parent)!=data['source_hashes']: raise Rejected('stale source project')
@@ -571,6 +584,9 @@ def check_result(path):
             if file.is_symlink() or not file.is_file() or data.get(field)!=sha(file):
                 raise Rejected('retained routing export changed or incomplete: '+name)
 
+    if input_policy=='board-floors-v1':
+        from .floor_route import check_floor_result
+        check_floor_result(path.parent,data,original,candidate,protected)
     if netclass_policy(candidate) is not None:
         from .netclass import audit_dsn, audit_native
         native_classes=evidence('final-netclasses.json')
@@ -626,6 +642,9 @@ def check_result(path):
 
     process=evidence('final-drc-process.json')
     expected_argv=[str(c.CLI),'pcb','drc','--format','json','--severity-all','--all-track-errors','--refill-zones','--exit-code-violations','--output',str(path.parent/'final-drc.json'),str(native_input)]
+    if input_policy=='board-floors-v1':
+        from .floor_route import SANDBOX
+        expected_argv=SANDBOX+expected_argv
     findings=bool(native['findings'])
     if process.get('argv')!=expected_argv or process.get('cwd')!=str(path.parent) or process.get('name')!='final-drc' or process.get('exit_code')!=(5 if findings else 0) or process.get('status')!=('nonzero_exit' if findings else 'success') or process.get('cleanup_complete') is not True:
         raise Rejected('native process provenance is inconsistent')
@@ -663,4 +682,6 @@ def check_result(path):
     if actual_code!=expected_code: raise Rejected('retained implementation file set differs from provenance')
     pins=json.loads((c.ROOT/'toolchain.lock.json').read_text())['tools']
     if any(tools.get('files',{}).get(str(c.resolve_tool_path(pin['path'])))!=pin['sha256'] for pin in pins.values()): raise Rejected('recorded tool pins differ from qualified toolchain')
-    return {'current':True,'candidate':str(candidate),'candidate_sha256':data['candidate_sha256'],'applied':False,'authentication':'none; mutable local evidence consistency only','warning':'Fresh native validation is required before application; human PCB review and electrical/physical validation remain required.'}
+    result={'current':True,'candidate':str(candidate),'candidate_sha256':data['candidate_sha256'],'applied':False,'authentication':'none; mutable local evidence consistency only','warning':'Fresh native validation is required before application; human PCB review and electrical/physical validation remain required.'}
+    if input_policy=='board-floors-v1': result['input_policy']=input_policy
+    return result

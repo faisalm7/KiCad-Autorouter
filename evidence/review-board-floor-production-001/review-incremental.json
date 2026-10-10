@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "review_kind": "Independent AI read-only adversarial review, not human PCB review",
+  "snapshot": "snapshot-001.json",
+  "status": "Incremental; author still developing, final recheck pending",
+  "findings": [
+    {
+      "id": "R1",
+      "severity": "acceptance publication blocker",
+      "scope": "floor_route.publish",
+      "description": "Canonical result can change during final check_result after initial exact readback and remain accepted because stable evidence inventory excludes result.json.",
+      "reproduced": true,
+      "control": "controls.py::Controls.test_postcheck_receipt_change_invalidates",
+      "snapshot_floor_route_sha256": "624fa3cac0b0d4b2567c5aef92bac81d0c961d3e9bfe5500e83a158a328a9d14",
+      "author_status": "Author reports final exact readback added; not yet independently retested."
+    },
+    {
+      "id": "R2",
+      "severity": "new-contract evidence-completeness blocker",
+      "scope": "floor_route.check_floor_result",
+      "description": "A complete synthetic positive passes consistency with no SES/imported-board/source-DRC/refill artifacts and arbitrary source/refill command arrays. Actual route implementation does execute these stages; defect is missing declared evidence/provenance verification, not observed native routing failure.",
+      "reproduced": true,
+      "control": "reproduce_missing_transport.py",
+      "snapshot_floor_route_sha256": "8fa880dd24612a345d8fce3a0672c65d8f3ebed8291d11b876b0d9188a27acae",
+      "evidence": "missing-transport-001.json",
+      "author_status": "Author agreed to exact transport/refill derivation and raw report/process checks; implementation/retest pending."
+    }
+  ],
+  "controls": {
+    "total": 10,
+    "passed": 9,
+    "failed": 1,
+    "log": "pure-controls-001.log",
+    "scope": "Actual retained raw fixture bytes and native route report read-only; publication/native process stages mocked; no new native validation."
+  },
+  "legacy_readback": "legacy-readback-001.json",
+  "remaining": [
+    "Recheck frozen author snapshot after tests complete",
+    "Central final/check-result contract with synthetic floor receipts",
+    "Explicit native and literal-two-class existing regression coverage",
+    "Actual direct-route integration remains for root after checkpoint"
+  ]
+}

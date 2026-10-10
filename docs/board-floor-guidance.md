@@ -1,6 +1,6 @@
 # Board-floor guidance qualification
 
-This is a tested diagnostic and a pending production adapter correction. It is not a new routing strategy or a completed multichannel board. Original board/project rules, native class preferences and DRC severities remain unchanged.
+This is a native-tested diagnostic and an integrated adapter correction awaiting its first production CLI native run. It is not a new routing strategy or a completed multichannel board. Original board/project rules, native class preferences and DRC severities remain unchanged.
 
 The original multichannel export used preferred0.2mm tracks/clearance and0.6mm vias despite original board minima of0.3mm tracks/clearance,1.5mm vias,0.3mm drills and0.3mm annuli. Earlier native context001 proved those values and terminal mapping. The uncorrected full-board attempt remains rejected with160opens and95blocking findings.
 
@@ -51,4 +51,4 @@ Selected exact raw evidence is in `evidence/board-floor-geometry-001`, `002` and
 
 Independent read-only audits verified1,914 fresh geometry002 bindings,607 forced-via001 bindings and1,455 selected-public-copy checks. They independently decoded SES geometry and compared it through imported/final/native-readback objects. Review records are in `evidence/review-board-floor-geometry-002` and `evidence/review-board-floor-forced-via-001`; AI review is not human PCB or physical review.
 
-Production CLI integration, final receipt reconstruction, policy downgrade protection, full-board floor routing and strategy propagation still require implementation and native qualification. No source eligibility, completion-rate or physical/electrical claim is added by this diagnostic.
+Production CLI integration, final receipt reconstruction and policy downgrade protection are implemented under the explicit `route --guidance board-floors-v1 --adapter both` option. All 364 software tests passed in the main checkout; independent review cleared two reproduced publication/transport defects after fixes. Selected review records are in `evidence/review-board-floor-production-001`. These software checks do not qualify actual production routing. Full-board floor routing, native production qualification and strategy propagation remain pending; floor GUI handoff is deliberately unsupported. No source eligibility, completion-rate or physical/electrical claim is added by this diagnostic.
