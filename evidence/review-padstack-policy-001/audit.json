@@ -1,0 +1,919 @@
+{
+  "kind": "independent read-only policy review plus controlled pure fixtures",
+  "native_executed": false,
+  "engines_executed": false,
+  "source_sha256": {
+    "autorouter/pipeline.py": "6ea660781da7c81967ed790f4122bcfe68957b6ec591a2e2d34f9a3bb5984da7",
+    "autorouter/strategy.py": "a85e9097f3f20508a0d72f50078dad531a3cccc2f41b85da3a74c0a826b1d558",
+    "autorouter/handoff.py": "3a1cace2d72672e502ff4f943c0820d23b9ed1d15c5566d3a694365847d4a22d",
+    "scripts/experiment_quality.py": "740bccf7dbed5bcf457fe4e80a38fc69a2c8911003270aa45355ed533a491a6f",
+    "scripts/experiment_portfolio.py": "0d2f892a52be41d59231d8357c021e5592a268e335c15c79f46fe28a9ad20483",
+    "scripts/experiment_paired.py": "3259d6ec51ca5cf4556fbd35cfa67b33729b3e10ee9cd0e47d2d913a9c84d184",
+    "scripts/native_padstack_controls.py": "954aa77c7e142f988cdb238a9b269646859533dee7cde7bc8f522eaa75b45974",
+    "scripts/native_controls.py": "19a1c36b8cdbfd36dc400daf13180060766dfc90a33cbeca7590a605f9cf256d",
+    "scripts/native_thermal_bridge_control.py": "5eabcf4388effa838e7d3bdc77fb01382cf9ee4232f336b8e4c5b32ad97e9c04",
+    "scripts/experiment_krt.py": "da700092f6eb47cf0dfe77168636469574e57005d6803b0a1b13a83ad535463b",
+    "tests/test_padstack_policy.py": "8307212e525617e2c44aa7e2941f400f6452dcb9ef25a2ec9c7a224fc520f65c"
+  },
+  "script_sha256": "ff65d20530eb287225838a80156f0e2261e31809b66446ed50827f1c2014e974",
+  "checks": [
+    {
+      "name": "padstack-native-controls-001/positive/raw_hash",
+      "passed": true
+    },
+    {
+      "name": "padstack-native-controls-001/positive/summary_unchanged",
+      "passed": true
+    },
+    {
+      "name": "padstack-native-controls-001/positive/expected_policy",
+      "passed": true
+    },
+    {
+      "name": "padstack-native-controls-001/positive/strategy_policy",
+      "passed": true
+    },
+    {
+      "name": "padstack-native-controls-001/positive/no_mutation",
+      "passed": true
+    },
+    {
+      "name": "padstack-native-controls-001/wrong_paste/raw_hash",
+      "passed": true
+    },
+    {
+      "name": "padstack-native-controls-001/wrong_paste/summary_unchanged",
+      "passed": true
+    },
+    {
+      "name": "padstack-native-controls-001/wrong_paste/expected_policy",
+      "passed": true
+    },
+    {
+      "name": "padstack-native-controls-001/wrong_paste/strategy_policy",
+      "passed": true
+    },
+    {
+      "name": "padstack-native-controls-001/wrong_paste/no_mutation",
+      "passed": true
+    },
+    {
+      "name": "padstack-native-controls-001/smd_hole/raw_hash",
+      "passed": true
+    },
+    {
+      "name": "padstack-native-controls-001/smd_hole/summary_unchanged",
+      "passed": true
+    },
+    {
+      "name": "padstack-native-controls-001/smd_hole/expected_policy",
+      "passed": true
+    },
+    {
+      "name": "padstack-native-controls-001/smd_hole/strategy_policy",
+      "passed": true
+    },
+    {
+      "name": "padstack-native-controls-001/smd_hole/no_mutation",
+      "passed": true
+    },
+    {
+      "name": "padstack-native-controls-002/positive/raw_hash",
+      "passed": true
+    },
+    {
+      "name": "padstack-native-controls-002/positive/summary_unchanged",
+      "passed": true
+    },
+    {
+      "name": "padstack-native-controls-002/positive/expected_policy",
+      "passed": true
+    },
+    {
+      "name": "padstack-native-controls-002/positive/strategy_policy",
+      "passed": true
+    },
+    {
+      "name": "padstack-native-controls-002/positive/no_mutation",
+      "passed": true
+    },
+    {
+      "name": "padstack-native-controls-002/wrong_paste/raw_hash",
+      "passed": true
+    },
+    {
+      "name": "padstack-native-controls-002/wrong_paste/summary_unchanged",
+      "passed": true
+    },
+    {
+      "name": "padstack-native-controls-002/wrong_paste/expected_policy",
+      "passed": true
+    },
+    {
+      "name": "padstack-native-controls-002/wrong_paste/strategy_policy",
+      "passed": true
+    },
+    {
+      "name": "padstack-native-controls-002/wrong_paste/no_mutation",
+      "passed": true
+    },
+    {
+      "name": "padstack-native-controls-002/pth_tiny_hole/raw_hash",
+      "passed": true
+    },
+    {
+      "name": "padstack-native-controls-002/pth_tiny_hole/summary_unchanged",
+      "passed": true
+    },
+    {
+      "name": "padstack-native-controls-002/pth_tiny_hole/expected_policy",
+      "passed": true
+    },
+    {
+      "name": "padstack-native-controls-002/pth_tiny_hole/strategy_policy",
+      "passed": true
+    },
+    {
+      "name": "padstack-native-controls-002/pth_tiny_hole/no_mutation",
+      "passed": true
+    },
+    {
+      "name": "critical/annular_width/warning",
+      "passed": true
+    },
+    {
+      "name": "critical/annular_width/error",
+      "passed": true
+    },
+    {
+      "name": "critical/annular_width/exclusion",
+      "passed": true
+    },
+    {
+      "name": "critical/clearance/warning",
+      "passed": true
+    },
+    {
+      "name": "critical/clearance/error",
+      "passed": true
+    },
+    {
+      "name": "critical/clearance/exclusion",
+      "passed": true
+    },
+    {
+      "name": "critical/copper_edge_clearance/warning",
+      "passed": true
+    },
+    {
+      "name": "critical/copper_edge_clearance/error",
+      "passed": true
+    },
+    {
+      "name": "critical/copper_edge_clearance/exclusion",
+      "passed": true
+    },
+    {
+      "name": "critical/drill_out_of_range/warning",
+      "passed": true
+    },
+    {
+      "name": "critical/drill_out_of_range/error",
+      "passed": true
+    },
+    {
+      "name": "critical/drill_out_of_range/exclusion",
+      "passed": true
+    },
+    {
+      "name": "critical/hole_clearance/warning",
+      "passed": true
+    },
+    {
+      "name": "critical/hole_clearance/error",
+      "passed": true
+    },
+    {
+      "name": "critical/hole_clearance/exclusion",
+      "passed": true
+    },
+    {
+      "name": "critical/hole_near_hole/warning",
+      "passed": true
+    },
+    {
+      "name": "critical/hole_near_hole/error",
+      "passed": true
+    },
+    {
+      "name": "critical/hole_near_hole/exclusion",
+      "passed": true
+    },
+    {
+      "name": "critical/hole_to_hole/warning",
+      "passed": true
+    },
+    {
+      "name": "critical/hole_to_hole/error",
+      "passed": true
+    },
+    {
+      "name": "critical/hole_to_hole/exclusion",
+      "passed": true
+    },
+    {
+      "name": "critical/invalid_outline/warning",
+      "passed": true
+    },
+    {
+      "name": "critical/invalid_outline/error",
+      "passed": true
+    },
+    {
+      "name": "critical/invalid_outline/exclusion",
+      "passed": true
+    },
+    {
+      "name": "critical/items_not_allowed/warning",
+      "passed": true
+    },
+    {
+      "name": "critical/items_not_allowed/error",
+      "passed": true
+    },
+    {
+      "name": "critical/items_not_allowed/exclusion",
+      "passed": true
+    },
+    {
+      "name": "critical/padstack/warning",
+      "passed": true
+    },
+    {
+      "name": "critical/padstack/error",
+      "passed": true
+    },
+    {
+      "name": "critical/padstack/exclusion",
+      "passed": true
+    },
+    {
+      "name": "critical/padstack_invalid/warning",
+      "passed": true
+    },
+    {
+      "name": "critical/padstack_invalid/error",
+      "passed": true
+    },
+    {
+      "name": "critical/padstack_invalid/exclusion",
+      "passed": true
+    },
+    {
+      "name": "critical/shorting_items/warning",
+      "passed": true
+    },
+    {
+      "name": "critical/shorting_items/error",
+      "passed": true
+    },
+    {
+      "name": "critical/shorting_items/exclusion",
+      "passed": true
+    },
+    {
+      "name": "critical/starved_thermal/warning",
+      "passed": true
+    },
+    {
+      "name": "critical/starved_thermal/error",
+      "passed": true
+    },
+    {
+      "name": "critical/starved_thermal/exclusion",
+      "passed": true
+    },
+    {
+      "name": "critical/through_hole_pad_without_hole/warning",
+      "passed": true
+    },
+    {
+      "name": "critical/through_hole_pad_without_hole/error",
+      "passed": true
+    },
+    {
+      "name": "critical/through_hole_pad_without_hole/exclusion",
+      "passed": true
+    },
+    {
+      "name": "critical/track_width/warning",
+      "passed": true
+    },
+    {
+      "name": "critical/track_width/error",
+      "passed": true
+    },
+    {
+      "name": "critical/track_width/exclusion",
+      "passed": true
+    },
+    {
+      "name": "critical/tracks_crossing/warning",
+      "passed": true
+    },
+    {
+      "name": "critical/tracks_crossing/error",
+      "passed": true
+    },
+    {
+      "name": "critical/tracks_crossing/exclusion",
+      "passed": true
+    },
+    {
+      "name": "critical/unconnected_items/warning",
+      "passed": true
+    },
+    {
+      "name": "critical/unconnected_items/error",
+      "passed": true
+    },
+    {
+      "name": "critical/unconnected_items/exclusion",
+      "passed": true
+    },
+    {
+      "name": "critical/via_diameter/warning",
+      "passed": true
+    },
+    {
+      "name": "critical/via_diameter/error",
+      "passed": true
+    },
+    {
+      "name": "critical/via_diameter/exclusion",
+      "passed": true
+    },
+    {
+      "name": "critical/zones_intersect/warning",
+      "passed": true
+    },
+    {
+      "name": "critical/zones_intersect/error",
+      "passed": true
+    },
+    {
+      "name": "critical/zones_intersect/exclusion",
+      "passed": true
+    },
+    {
+      "name": "disabled/padstack",
+      "passed": true
+    },
+    {
+      "name": "disabled/padstack_invalid",
+      "passed": true
+    },
+    {
+      "name": "disabled/unrecognized_namespace",
+      "passed": true
+    },
+    {
+      "name": "malformed_count/opens/None",
+      "passed": true
+    },
+    {
+      "name": "malformed_count/opens/False",
+      "passed": true
+    },
+    {
+      "name": "malformed_count/opens/-1",
+      "passed": true
+    },
+    {
+      "name": "malformed_count/opens/'0'",
+      "passed": true
+    },
+    {
+      "name": "malformed_count/opens/[]",
+      "passed": true
+    },
+    {
+      "name": "malformed_count/opens/{}",
+      "passed": true
+    },
+    {
+      "name": "malformed_count/opens/nan",
+      "passed": true
+    },
+    {
+      "name": "malformed_count/blocking/None",
+      "passed": true
+    },
+    {
+      "name": "malformed_count/blocking/False",
+      "passed": true
+    },
+    {
+      "name": "malformed_count/blocking/-1",
+      "passed": true
+    },
+    {
+      "name": "malformed_count/blocking/'0'",
+      "passed": true
+    },
+    {
+      "name": "malformed_count/blocking/[]",
+      "passed": true
+    },
+    {
+      "name": "malformed_count/blocking/{}",
+      "passed": true
+    },
+    {
+      "name": "malformed_count/blocking/nan",
+      "passed": true
+    },
+    {
+      "name": "malformed_count/warnings/None",
+      "passed": true
+    },
+    {
+      "name": "malformed_count/warnings/False",
+      "passed": true
+    },
+    {
+      "name": "malformed_count/warnings/-1",
+      "passed": true
+    },
+    {
+      "name": "malformed_count/warnings/'0'",
+      "passed": true
+    },
+    {
+      "name": "malformed_count/warnings/[]",
+      "passed": true
+    },
+    {
+      "name": "malformed_count/warnings/{}",
+      "passed": true
+    },
+    {
+      "name": "malformed_count/warnings/nan",
+      "passed": true
+    },
+    {
+      "name": "malformed_count/exclusions/None",
+      "passed": true
+    },
+    {
+      "name": "malformed_count/exclusions/False",
+      "passed": true
+    },
+    {
+      "name": "malformed_count/exclusions/-1",
+      "passed": true
+    },
+    {
+      "name": "malformed_count/exclusions/'0'",
+      "passed": true
+    },
+    {
+      "name": "malformed_count/exclusions/[]",
+      "passed": true
+    },
+    {
+      "name": "malformed_count/exclusions/{}",
+      "passed": true
+    },
+    {
+      "name": "malformed_count/exclusions/nan",
+      "passed": true
+    },
+    {
+      "name": "malformed/findings/0",
+      "passed": true
+    },
+    {
+      "name": "malformed/findings/1",
+      "passed": true
+    },
+    {
+      "name": "malformed/findings/2",
+      "passed": true
+    },
+    {
+      "name": "malformed/findings/3",
+      "passed": true
+    },
+    {
+      "name": "malformed/findings/4",
+      "passed": true
+    },
+    {
+      "name": "malformed/findings/5",
+      "passed": true
+    },
+    {
+      "name": "malformed/ignored_checks/0",
+      "passed": true
+    },
+    {
+      "name": "malformed/ignored_checks/1",
+      "passed": true
+    },
+    {
+      "name": "malformed/ignored_checks/2",
+      "passed": true
+    },
+    {
+      "name": "malformed/ignored_checks/3",
+      "passed": true
+    },
+    {
+      "name": "malformed/ignored_checks/4",
+      "passed": true
+    },
+    {
+      "name": "ordinary_finding/error",
+      "passed": true
+    },
+    {
+      "name": "ordinary_finding/exclusion",
+      "passed": true
+    },
+    {
+      "name": "ordinary_excluded_finding",
+      "passed": true
+    },
+    {
+      "name": "ordinary_warning_still_allowed",
+      "passed": true
+    },
+    {
+      "name": "preflight/annular_width/error",
+      "passed": true
+    },
+    {
+      "name": "preflight/annular_width/warning",
+      "passed": true
+    },
+    {
+      "name": "preflight/annular_width/ignore",
+      "passed": true
+    },
+    {
+      "name": "preflight/clearance/error",
+      "passed": true
+    },
+    {
+      "name": "preflight/clearance/warning",
+      "passed": true
+    },
+    {
+      "name": "preflight/clearance/ignore",
+      "passed": true
+    },
+    {
+      "name": "preflight/copper_edge_clearance/error",
+      "passed": true
+    },
+    {
+      "name": "preflight/copper_edge_clearance/warning",
+      "passed": true
+    },
+    {
+      "name": "preflight/copper_edge_clearance/ignore",
+      "passed": true
+    },
+    {
+      "name": "preflight/drill_out_of_range/error",
+      "passed": true
+    },
+    {
+      "name": "preflight/drill_out_of_range/warning",
+      "passed": true
+    },
+    {
+      "name": "preflight/drill_out_of_range/ignore",
+      "passed": true
+    },
+    {
+      "name": "preflight/hole_clearance/error",
+      "passed": true
+    },
+    {
+      "name": "preflight/hole_clearance/warning",
+      "passed": true
+    },
+    {
+      "name": "preflight/hole_clearance/ignore",
+      "passed": true
+    },
+    {
+      "name": "preflight/hole_near_hole/error",
+      "passed": true
+    },
+    {
+      "name": "preflight/hole_near_hole/warning",
+      "passed": true
+    },
+    {
+      "name": "preflight/hole_near_hole/ignore",
+      "passed": true
+    },
+    {
+      "name": "preflight/hole_to_hole/error",
+      "passed": true
+    },
+    {
+      "name": "preflight/hole_to_hole/warning",
+      "passed": true
+    },
+    {
+      "name": "preflight/hole_to_hole/ignore",
+      "passed": true
+    },
+    {
+      "name": "preflight/invalid_outline/error",
+      "passed": true
+    },
+    {
+      "name": "preflight/invalid_outline/warning",
+      "passed": true
+    },
+    {
+      "name": "preflight/invalid_outline/ignore",
+      "passed": true
+    },
+    {
+      "name": "preflight/items_not_allowed/error",
+      "passed": true
+    },
+    {
+      "name": "preflight/items_not_allowed/warning",
+      "passed": true
+    },
+    {
+      "name": "preflight/items_not_allowed/ignore",
+      "passed": true
+    },
+    {
+      "name": "preflight/padstack/error",
+      "passed": true
+    },
+    {
+      "name": "preflight/padstack/warning",
+      "passed": true
+    },
+    {
+      "name": "preflight/padstack/ignore",
+      "passed": true
+    },
+    {
+      "name": "preflight/padstack_invalid/error",
+      "passed": true
+    },
+    {
+      "name": "preflight/padstack_invalid/warning",
+      "passed": true
+    },
+    {
+      "name": "preflight/padstack_invalid/ignore",
+      "passed": true
+    },
+    {
+      "name": "preflight/shorting_items/error",
+      "passed": true
+    },
+    {
+      "name": "preflight/shorting_items/warning",
+      "passed": true
+    },
+    {
+      "name": "preflight/shorting_items/ignore",
+      "passed": true
+    },
+    {
+      "name": "preflight/starved_thermal/error",
+      "passed": true
+    },
+    {
+      "name": "preflight/starved_thermal/warning",
+      "passed": true
+    },
+    {
+      "name": "preflight/starved_thermal/ignore",
+      "passed": true
+    },
+    {
+      "name": "preflight/through_hole_pad_without_hole/error",
+      "passed": true
+    },
+    {
+      "name": "preflight/through_hole_pad_without_hole/warning",
+      "passed": true
+    },
+    {
+      "name": "preflight/through_hole_pad_without_hole/ignore",
+      "passed": true
+    },
+    {
+      "name": "preflight/track_width/error",
+      "passed": true
+    },
+    {
+      "name": "preflight/track_width/warning",
+      "passed": true
+    },
+    {
+      "name": "preflight/track_width/ignore",
+      "passed": true
+    },
+    {
+      "name": "preflight/tracks_crossing/error",
+      "passed": true
+    },
+    {
+      "name": "preflight/tracks_crossing/warning",
+      "passed": true
+    },
+    {
+      "name": "preflight/tracks_crossing/ignore",
+      "passed": true
+    },
+    {
+      "name": "preflight/unconnected_items/error",
+      "passed": true
+    },
+    {
+      "name": "preflight/unconnected_items/warning",
+      "passed": true
+    },
+    {
+      "name": "preflight/unconnected_items/ignore",
+      "passed": true
+    },
+    {
+      "name": "preflight/unrecognized_namespace/error",
+      "passed": true
+    },
+    {
+      "name": "preflight/unrecognized_namespace/warning",
+      "passed": true
+    },
+    {
+      "name": "preflight/unrecognized_namespace/ignore",
+      "passed": true
+    },
+    {
+      "name": "preflight/via_diameter/error",
+      "passed": true
+    },
+    {
+      "name": "preflight/via_diameter/warning",
+      "passed": true
+    },
+    {
+      "name": "preflight/via_diameter/ignore",
+      "passed": true
+    },
+    {
+      "name": "preflight/zones_intersect/error",
+      "passed": true
+    },
+    {
+      "name": "preflight/zones_intersect/warning",
+      "passed": true
+    },
+    {
+      "name": "preflight/zones_intersect/ignore",
+      "passed": true
+    },
+    {
+      "name": "reviewed_code_unchanged",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "retained_native_reports": [
+    {
+      "run": "padstack-native-controls-001",
+      "case": "positive",
+      "raw_sha256": "a1a581c6fec872a78c12f73579391e181c77f96c9af8f23dee48dc0457d76c9c",
+      "accepted_by_current_policy": true,
+      "reasons": [],
+      "native_counts": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0
+      },
+      "findings": []
+    },
+    {
+      "run": "padstack-native-controls-001",
+      "case": "wrong_paste",
+      "raw_sha256": "a7f52962cf81fe2bf3af5306cca13fbcb6eeea1a07098206404a9da906d2384c",
+      "accepted_by_current_policy": false,
+      "reasons": [
+        "policy-critical native finding: padstack (warning)"
+      ],
+      "native_counts": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 1,
+        "exclusions": 0
+      },
+      "findings": [
+        [
+          "padstack",
+          "warning"
+        ]
+      ]
+    },
+    {
+      "run": "padstack-native-controls-001",
+      "case": "smd_hole",
+      "raw_sha256": "57cf155b25b2a04840bb7bf98fd96fc139b0f7e9e778fc1b875c7a8c6f286e8c",
+      "accepted_by_current_policy": true,
+      "reasons": [],
+      "native_counts": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0
+      },
+      "findings": []
+    },
+    {
+      "run": "padstack-native-controls-002",
+      "case": "positive",
+      "raw_sha256": "fa31f63baf55dc72197e51bb4f404dfb645c39e00fb91fbde18ab5239f16ba0a",
+      "accepted_by_current_policy": true,
+      "reasons": [],
+      "native_counts": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0
+      },
+      "findings": []
+    },
+    {
+      "run": "padstack-native-controls-002",
+      "case": "wrong_paste",
+      "raw_sha256": "908836b535802b938fda5c3a15599af26d2b66d9290fb74083162009490b2c09",
+      "accepted_by_current_policy": false,
+      "reasons": [
+        "policy-critical native finding: padstack (warning)"
+      ],
+      "native_counts": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 1,
+        "exclusions": 0
+      },
+      "findings": [
+        [
+          "padstack",
+          "warning"
+        ]
+      ]
+    },
+    {
+      "run": "padstack-native-controls-002",
+      "case": "pth_tiny_hole",
+      "raw_sha256": "ddc82b16d8112ac84bcee632c83d4d0d1880fc35047fef3b8d45c73262b5f270",
+      "accepted_by_current_policy": false,
+      "reasons": [
+        "native blocking=2",
+        "native error finding: drill_out_of_range",
+        "native error finding: padstack_invalid",
+        "policy-critical native finding: drill_out_of_range (error)",
+        "policy-critical native finding: padstack_invalid (error)"
+      ],
+      "native_counts": {
+        "opens": 0,
+        "blocking": 2,
+        "warnings": 0,
+        "exclusions": 0
+      },
+      "findings": [
+        [
+          "padstack_invalid",
+          "error"
+        ],
+        [
+          "drill_out_of_range",
+          "error"
+        ]
+      ]
+    }
+  ],
+  "limits": [
+    "This is not fresh native validation.",
+    "Historical smd_hole negative remains invalid; no findings were emitted.",
+    "A policy helper is not an authenticating report parser; production callers derive it from parse_report.",
+    "Passing this review does not qualify thermal topology, new pad geometries, or general routing superiority."
+  ]
+}

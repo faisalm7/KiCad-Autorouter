@@ -93,7 +93,7 @@ def proposals(tree, nets, protected, grouped):
 
 
 def _valid(native):
-    return native["opens"] == 0 and native["blocking"] == 0 and native["exclusions"] == 0
+    return p.native_accepted(native)
 
 
 def _warning_signatures(native):
@@ -348,6 +348,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single"):
                               native_report_sha256=p.sha(trial_job.out / "final-drc.json"))
                 if not _valid(native):
                     record["status"] = "drc_rejected"
+                    record["native_rejection_reasons"] = p.native_rejection_reasons(native)
                 else:
                     trial_job.native("metrics", "metrics", candidate, trial_job.out / "metrics.json")
                     metrics = json.loads((trial_job.out / "metrics.json").read_text())
@@ -446,6 +447,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single"):
         report.update(candidate=str(candidate), candidate_sha256=final_hash,
                       native_report_sha256=p.sha(output / "final-drc.json"), native=native,
                       metrics=metrics, invariants_unchanged=True,
+                      native_rejection_reasons=p.native_rejection_reasons(native),
                       whole_project_drc_clean=_valid(native) and native["warnings"] == 0,
                       accepted=_valid(native), status="routing_accepted" if _valid(native) else "drc_rejected")
         checkpoint("final_validated", candidate, metrics)

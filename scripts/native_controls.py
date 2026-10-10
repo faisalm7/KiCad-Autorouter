@@ -8,7 +8,7 @@ import shutil
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from autorouter import sexpr as sx
-from autorouter.pipeline import Job, routes, tree_hash, validate_candidate, save_json, sha, tool_manifest
+from autorouter.pipeline import Job, routes, tree_hash, validate_candidate, save_json, sha, tool_manifest, native_accepted, native_rejection_reasons
 
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--valid',required=True);parser.add_argument('--output',required=True)
@@ -48,7 +48,8 @@ def main():
         try:
             digest,native=validate_candidate(job,original,candidate,tree_hash(source),protected)
             entry['candidate_sha256']=digest;entry['native']=native
-            entry['accepted']=native['opens']==0 and native['blocking']==0 and native['exclusions']==0
+            entry['accepted']=native_accepted(native)
+            entry['native_rejection_reasons']=native_rejection_reasons(native)
         except Exception as exc: entry['accepted']=False;entry['reason']=str(exc)
         raw=job.out/'diagnostic-drc.json'
         entry['native_execution_proven']=raw.is_file() and any(s['name']=='diagnostic-drc' and s['exit_code'] in (0,5) for s in job.steps)

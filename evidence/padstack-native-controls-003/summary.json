@@ -1,0 +1,488 @@
+{
+  "schema": 1,
+  "purpose": "native padstack diagnostic qualification only",
+  "routing_accepted": false,
+  "control_changes_production_support": false,
+  "controls_passed": true,
+  "seconds_ceiling": 120,
+  "script_sha256": "954aa77c7e142f988cdb238a9b269646859533dee7cde7bc8f522eaa75b45974",
+  "tools": {
+    "implementation_sha256": {
+      "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+      "autorouter/__main__.py": "35ffd855e3bc9d488b21bcd0238051815ccbd16119ac4d7dea7be2f97a23a75f",
+      "autorouter/adapter.py": "509feca807ccee112b0b6a071fd0944c88177ba83f5b77422ec8be5cdf63d25b",
+      "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+      "autorouter/handoff.py": "3a1cace2d72672e502ff4f943c0820d23b9ed1d15c5566d3a694365847d4a22d",
+      "autorouter/native.py": "7257496b007fbc449adb3cc8b999712aed8ea0aa881a116ba337d18e2ab87c02",
+      "autorouter/netclass.py": "d0d26610b550b0655a1eafc3022196e31f59f719b5b3f0a727c464f9c90eda61",
+      "autorouter/pipeline.py": "6ea660781da7c81967ed790f4122bcfe68957b6ec591a2e2d34f9a3bb5984da7",
+      "autorouter/runner.py": "0e81ab1badf20cd84adc2fed586641dd97a489a5a6af03febe6fb597bb1d2718",
+      "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+      "autorouter/strategy.py": "a85e9097f3f20508a0d72f50078dad531a3cccc2f41b85da3a74c0a826b1d558"
+    },
+    "git_head": "3ea8051a80a3d5a13f3702792f07899513f5e3e7",
+    "kicad": "10.0.0",
+    "freerouting": "2.5.0",
+    "files": {
+      "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+      "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219"
+    },
+    "network": "engine sandbox-exec deny network*"
+  },
+  "original_inputs": {
+    "project": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+    "fixture": "618b0b1d23f082283a5136b514ff64ee54b3a058f068689bf64668a436d7c5ea"
+  },
+  "cases": [
+    {
+      "case": "positive",
+      "passed": true,
+      "source_hashes": {
+        "multichannel_mixer.kicad_pcb": "5f1be69ff976b1edf704d1b9c4acf52b0d7a75da53d5bd3452ec172eb534db14",
+        "multichannel_mixer.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538"
+      },
+      "target_pad_uuid": "2259717b-f87b-4741-851c-4246b16698d8",
+      "fixture_roundtrip_equal": true,
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": []
+      },
+      "policy_critical_count": 0,
+      "policy_critical_findings": [],
+      "policy_accepted": true,
+      "native_rejection_reasons": [],
+      "report_sha256": "43039d8555e93d409dfdfbdf3f3756a0b499c410ffe3ffac8bc35de0b8003242",
+      "targeted_padstack_findings": []
+    },
+    {
+      "case": "wrong_paste",
+      "passed": true,
+      "source_hashes": {
+        "multichannel_mixer.kicad_pcb": "6ebbe8ca358d72f13f28e7679bf60584e2d3634c889ed4c5999fa42db341ecb4",
+        "multichannel_mixer.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538"
+      },
+      "target_pad_uuid": "2259717b-f87b-4741-851c-4246b16698d8",
+      "fixture_roundtrip_equal": true,
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 1,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Padstack is questionable (SMD pad has copper and paste layers on different sides of the board)",
+            "items": [
+              {
+                "description": "Pad 1 [<no net>] of J1 on F.Cu",
+                "pos": {
+                  "x": 10.0,
+                  "y": 10.0
+                },
+                "uuid": "2259717b-f87b-4741-851c-4246b16698d8"
+              }
+            ],
+            "severity": "warning",
+            "type": "padstack"
+          }
+        ]
+      },
+      "policy_critical_count": 1,
+      "policy_critical_findings": [
+        {
+          "description": "Padstack is questionable (SMD pad has copper and paste layers on different sides of the board)",
+          "items": [
+            {
+              "description": "Pad 1 [<no net>] of J1 on F.Cu",
+              "pos": {
+                "x": 10.0,
+                "y": 10.0
+              },
+              "uuid": "2259717b-f87b-4741-851c-4246b16698d8"
+            }
+          ],
+          "severity": "warning",
+          "type": "padstack"
+        }
+      ],
+      "policy_accepted": false,
+      "native_rejection_reasons": [
+        "policy-critical native finding: padstack (warning)"
+      ],
+      "report_sha256": "faaaa8ce28b92d44e98292d45032043f597987e57aa654aae498aa4234c7617d",
+      "targeted_padstack_findings": [
+        {
+          "description": "Padstack is questionable (SMD pad has copper and paste layers on different sides of the board)",
+          "items": [
+            {
+              "description": "Pad 1 [<no net>] of J1 on F.Cu",
+              "pos": {
+                "x": 10.0,
+                "y": 10.0
+              },
+              "uuid": "2259717b-f87b-4741-851c-4246b16698d8"
+            }
+          ],
+          "severity": "warning",
+          "type": "padstack"
+        }
+      ]
+    },
+    {
+      "case": "pth_tiny_hole",
+      "passed": true,
+      "source_hashes": {
+        "multichannel_mixer.kicad_pcb": "2c5ceb654ebec185a65cdb58492df9ea235e90a8d6478eb28055be1b2063805f",
+        "multichannel_mixer.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538"
+      },
+      "target_pad_uuid": "2259717b-f87b-4741-851c-4246b16698d8",
+      "fixture_roundtrip_equal": true,
+      "native": {
+        "opens": 0,
+        "blocking": 2,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Padstack is not valid (PTH pad hole size must be larger than 0.000004 mm)",
+            "items": [
+              {
+                "description": "PTH pad 1 [<no net>] of J1",
+                "pos": {
+                  "x": 10.0,
+                  "y": 10.0
+                },
+                "uuid": "2259717b-f87b-4741-851c-4246b16698d8"
+              }
+            ],
+            "severity": "error",
+            "type": "padstack_invalid"
+          },
+          {
+            "description": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 1.000e-06 mm)",
+            "items": [
+              {
+                "description": "PTH pad 1 [<no net>] of J1",
+                "pos": {
+                  "x": 10.0,
+                  "y": 10.0
+                },
+                "uuid": "2259717b-f87b-4741-851c-4246b16698d8"
+              }
+            ],
+            "severity": "error",
+            "type": "drill_out_of_range"
+          }
+        ]
+      },
+      "policy_critical_count": 2,
+      "policy_critical_findings": [
+        {
+          "description": "Padstack is not valid (PTH pad hole size must be larger than 0.000004 mm)",
+          "items": [
+            {
+              "description": "PTH pad 1 [<no net>] of J1",
+              "pos": {
+                "x": 10.0,
+                "y": 10.0
+              },
+              "uuid": "2259717b-f87b-4741-851c-4246b16698d8"
+            }
+          ],
+          "severity": "error",
+          "type": "padstack_invalid"
+        },
+        {
+          "description": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 1.000e-06 mm)",
+          "items": [
+            {
+              "description": "PTH pad 1 [<no net>] of J1",
+              "pos": {
+                "x": 10.0,
+                "y": 10.0
+              },
+              "uuid": "2259717b-f87b-4741-851c-4246b16698d8"
+            }
+          ],
+          "severity": "error",
+          "type": "drill_out_of_range"
+        }
+      ],
+      "policy_accepted": false,
+      "native_rejection_reasons": [
+        "native blocking=2",
+        "native error finding: drill_out_of_range",
+        "native error finding: padstack_invalid",
+        "policy-critical native finding: drill_out_of_range (error)",
+        "policy-critical native finding: padstack_invalid (error)"
+      ],
+      "report_sha256": "c6f7b279cffa81debdc62a66d7aa25a28437bc73066a0539844fc5f406b8fb3d",
+      "targeted_padstack_findings": [
+        {
+          "description": "Padstack is not valid (PTH pad hole size must be larger than 0.000004 mm)",
+          "items": [
+            {
+              "description": "PTH pad 1 [<no net>] of J1",
+              "pos": {
+                "x": 10.0,
+                "y": 10.0
+              },
+              "uuid": "2259717b-f87b-4741-851c-4246b16698d8"
+            }
+          ],
+          "severity": "error",
+          "type": "padstack_invalid"
+        }
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.7698008330044104,
+      "cpu_seconds": 0.47368,
+      "max_rss_bytes": 91029504,
+      "supervisor_cpu_seconds": 0.004958999999999991,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 53477376,
+      "sampled_peak_workdir_bytes": 116301,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/padstack-native-controls-003/positive-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/padstack-native-controls-003/positive-drc-input/multichannel_mixer.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/padstack-native-controls-003/positive-drc.log",
+      "log_bytes": 164,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/padstack-native-controls-003",
+      "signal_cancellation_enabled": true,
+      "pid": 77052,
+      "name": "positive-drc",
+      "validated_input_sha256": "5f1be69ff976b1edf704d1b9c4acf52b0d7a75da53d5bd3452ec172eb534db14",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/padstack-native-controls-003/positive/multichannel_mixer.kicad_pcb"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 0.43894620799983386,
+      "cpu_seconds": 0.40296299999999996,
+      "max_rss_bytes": 100958208,
+      "supervisor_cpu_seconds": 0.004140000000000005,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 52625408,
+      "sampled_peak_workdir_bytes": 162288,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/padstack-native-controls-003/wrong_paste-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/padstack-native-controls-003/wrong_paste-drc-input/multichannel_mixer.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/padstack-native-controls-003/wrong_paste-drc.log",
+      "log_bytes": 167,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/padstack-native-controls-003",
+      "signal_cancellation_enabled": true,
+      "pid": 77072,
+      "name": "wrong_paste-drc",
+      "validated_input_sha256": "6ebbe8ca358d72f13f28e7679bf60584e2d3634c889ed4c5999fa42db341ecb4",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/padstack-native-controls-003/wrong_paste/multichannel_mixer.kicad_pcb"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 0.4486762499946053,
+      "cpu_seconds": 0.39170499999999997,
+      "max_rss_bytes": 101253120,
+      "supervisor_cpu_seconds": 0.004284999999999983,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 52756480,
+      "sampled_peak_workdir_bytes": 210459,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/padstack-native-controls-003/pth_tiny_hole-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/padstack-native-controls-003/pth_tiny_hole-drc-input/multichannel_mixer.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/padstack-native-controls-003/pth_tiny_hole-drc.log",
+      "log_bytes": 169,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/padstack-native-controls-003",
+      "signal_cancellation_enabled": true,
+      "pid": 77082,
+      "name": "pth_tiny_hole-drc",
+      "validated_input_sha256": "2c5ceb654ebec185a65cdb58492df9ea235e90a8d6478eb28055be1b2063805f",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/padstack-native-controls-003/pth_tiny_hole/multichannel_mixer.kicad_pcb"
+    }
+  ],
+  "wall_seconds": 1.898177625000244,
+  "cpu_seconds": 1.4889279999999998
+}

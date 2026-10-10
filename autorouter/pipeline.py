@@ -106,7 +106,7 @@ def preflight(board):
         if settings.get('drc_exclusions'): reasons.append('DRC exclusions not qualified')
         for key,val in settings.get('rule_severities',{}).items():
             if key not in KNOWN_CHECKS or val not in {'error','warning','ignore'}: reasons.append('unknown rule severity semantics: '+key)
-            if key in CRITICAL_CHECKS and val!='error': reasons.append('core native check not blocking: '+key)
+            if key in CRITICAL_CHECKS and val!='error' and (key,val)!=('padstack','warning'): reasons.append('core native check not blocking: '+key)
     rules=board.with_suffix('.kicad_dru')
     if rules.exists() and rules.read_text().strip(): reasons.append('custom rules not qualified')
     for fp in sx.children(t,'footprint'):
@@ -165,6 +165,50 @@ def parse_report(path, board_name):
     return {'opens':len(data['unconnected_items']), 'blocking':sum(v['severity']=='error' for v in data['violations']+data['schematic_parity']),
             'warnings':sum(v['severity']=='warning' for v in findings), 'exclusions':sum(v['severity']=='exclusion' or v.get('excluded',False) for v in findings),
             'ignored_checks':data['ignored_checks'],'findings':findings}
+
+
+# Finding types are not project-setting keys: KiCad's padstack_invalid has no
+# editable severity. Keep parse_report's native summary schema unchanged so old
+# evidence can be rechecked under this stricter application acceptance policy.
+CRITICAL_FINDINGS = CRITICAL_CHECKS | {'padstack_invalid'}
+
+
+def native_rejection_reasons(native):
+    """Application policy over unchanged native evidence; never a DRC rewrite."""
+    if not isinstance(native,dict) or any(type(native.get(k)) is not int or native[k]<0
+                                        for k in ('opens','blocking','warnings','exclusions')):
+        return ['malformed native summary counts']
+    findings=native.get('findings')
+    if not isinstance(findings,list): return ['missing native findings']
+    ignored=native.get('ignored_checks')
+    if not isinstance(ignored,list): return ['missing native ignored-check metadata']
+    reasons=[]
+    for check in ignored:
+        if not isinstance(check,dict) or not isinstance(check.get('key'),str) or check['key'] not in KNOWN_CHECKS:
+            return ['malformed or unknown native ignored check']
+        if check['key'] in CRITICAL_FINDINGS:
+            reasons.append('disabled policy-critical native check: '+check['key'])
+    for key in ('opens','blocking','exclusions'):
+        if native[key]: reasons.append('native '+key+'='+str(native[key]))
+    for finding in findings:
+        if (not isinstance(finding,dict) or not isinstance(finding.get('type'),str)
+                or not finding['type'] or finding.get('severity') not in ('error','warning','exclusion')
+                or not isinstance(finding.get('items'),list) or any(not isinstance(item,dict) for item in finding['items'])
+                or ('excluded' in finding and type(finding['excluded']) is not bool)):
+            return ['malformed native finding']
+        # Error/exclusion checks also fail closed if a caller supplies dishonest
+        # counters. check_result separately re-derives every counter from JSON.
+        if finding['severity']=='error': reasons.append('native error finding: '+finding['type'])
+        if finding['severity']=='exclusion' or finding.get('excluded',False):
+            reasons.append('excluded native finding: '+finding['type'])
+        if finding['type'] in CRITICAL_FINDINGS:
+            reasons.append('policy-critical native finding: '+finding['type']+' ('+finding['severity']+')')
+    return sorted(set(reasons))
+
+
+def native_accepted(native):
+    return not native_rejection_reasons(native)
+
 
 class Job:
     def __init__(self, out, seconds):
@@ -452,7 +496,8 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
         report['candidate_sha256']=final_hash
         report['candidate']=str(candidate)
         report['invariants_unchanged']=True
-        valid=report['native']['opens']==0 and report['native']['blocking']==0 and report['native']['exclusions']==0
+        report['native_rejection_reasons']=native_rejection_reasons(native)
+        valid=native_accepted(native)
         report['status']='routing_accepted' if valid else 'drc_rejected'
         report['accepted']=valid
         report['whole_project_drc_clean']=valid and report['native']['warnings']==0
@@ -561,7 +606,8 @@ def check_result(path):
     if tree_hash(native_input.parent)!=after: raise Rejected('retained native input changed')
     if sha(path.parent/'final-drc.json')!=data['native_report_sha256']: raise Rejected('native report changed')
     native=parse_report(path.parent/'final-drc.json',candidate.name)
-    if native['opens'] or native['blocking'] or native['exclusions']: raise Rejected('native findings reject candidate')
+    reasons=native_rejection_reasons(native)
+    if reasons: raise Rejected('native findings reject candidate: '+'; '.join(reasons))
     if data.get('native')!=native or data.get('invariants_unchanged') is not True: raise Rejected('receipt native summary differs from raw evidence')
     if data.get('whole_project_drc_clean') is not (native['warnings']==0): raise Rejected('receipt cleanliness claim differs from native evidence')
     metrics=evidence('metrics.json')

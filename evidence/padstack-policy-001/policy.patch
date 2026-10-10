@@ -1,0 +1,365 @@
+--- a/autorouter/pipeline.py
++++ b/autorouter/pipeline.py
+@@ -106,7 +106,7 @@
+         if settings.get('drc_exclusions'): reasons.append('DRC exclusions not qualified')
+         for key,val in settings.get('rule_severities',{}).items():
+             if key not in KNOWN_CHECKS or val not in {'error','warning','ignore'}: reasons.append('unknown rule severity semantics: '+key)
+-            if key in CRITICAL_CHECKS and val!='error': reasons.append('core native check not blocking: '+key)
++            if key in CRITICAL_CHECKS and val!='error' and (key,val)!=('padstack','warning'): reasons.append('core native check not blocking: '+key)
+     rules=board.with_suffix('.kicad_dru')
+     if rules.exists() and rules.read_text().strip(): reasons.append('custom rules not qualified')
+     for fp in sx.children(t,'footprint'):
+@@ -165,6 +165,50 @@
+     return {'opens':len(data['unconnected_items']), 'blocking':sum(v['severity']=='error' for v in data['violations']+data['schematic_parity']),
+             'warnings':sum(v['severity']=='warning' for v in findings), 'exclusions':sum(v['severity']=='exclusion' or v.get('excluded',False) for v in findings),
+             'ignored_checks':data['ignored_checks'],'findings':findings}
++
++
++# Finding types are not project-setting keys: KiCad's padstack_invalid has no
++# editable severity. Keep parse_report's native summary schema unchanged so old
++# evidence can be rechecked under this stricter application acceptance policy.
++CRITICAL_FINDINGS = CRITICAL_CHECKS | {'padstack_invalid'}
++
++
++def native_rejection_reasons(native):
++    """Application policy over unchanged native evidence; never a DRC rewrite."""
++    if not isinstance(native,dict) or any(type(native.get(k)) is not int or native[k]<0
++                                        for k in ('opens','blocking','warnings','exclusions')):
++        return ['malformed native summary counts']
++    findings=native.get('findings')
++    if not isinstance(findings,list): return ['missing native findings']
++    ignored=native.get('ignored_checks')
++    if not isinstance(ignored,list): return ['missing native ignored-check metadata']
++    reasons=[]
++    for check in ignored:
++        if not isinstance(check,dict) or not isinstance(check.get('key'),str) or check['key'] not in KNOWN_CHECKS:
++            return ['malformed or unknown native ignored check']
++        if check['key'] in CRITICAL_FINDINGS:
++            reasons.append('disabled policy-critical native check: '+check['key'])
++    for key in ('opens','blocking','exclusions'):
++        if native[key]: reasons.append('native '+key+'='+str(native[key]))
++    for finding in findings:
++        if (not isinstance(finding,dict) or not isinstance(finding.get('type'),str)
++                or not finding['type'] or finding.get('severity') not in ('error','warning','exclusion')
++                or not isinstance(finding.get('items'),list) or any(not isinstance(item,dict) for item in finding['items'])
++                or ('excluded' in finding and type(finding['excluded']) is not bool)):
++            return ['malformed native finding']
++        # Error/exclusion checks also fail closed if a caller supplies dishonest
++        # counters. check_result separately re-derives every counter from JSON.
++        if finding['severity']=='error': reasons.append('native error finding: '+finding['type'])
++        if finding['severity']=='exclusion' or finding.get('excluded',False):
++            reasons.append('excluded native finding: '+finding['type'])
++        if finding['type'] in CRITICAL_FINDINGS:
++            reasons.append('policy-critical native finding: '+finding['type']+' ('+finding['severity']+')')
++    return sorted(set(reasons))
++
++
++def native_accepted(native):
++    return not native_rejection_reasons(native)
++
+ 
+ class Job:
+     def __init__(self, out, seconds):
+@@ -452,7 +496,8 @@
+         report['candidate_sha256']=final_hash
+         report['candidate']=str(candidate)
+         report['invariants_unchanged']=True
+-        valid=report['native']['opens']==0 and report['native']['blocking']==0 and report['native']['exclusions']==0
++        report['native_rejection_reasons']=native_rejection_reasons(native)
++        valid=native_accepted(native)
+         report['status']='routing_accepted' if valid else 'drc_rejected'
+         report['accepted']=valid
+         report['whole_project_drc_clean']=valid and report['native']['warnings']==0
+@@ -561,7 +606,8 @@
+     if tree_hash(native_input.parent)!=after: raise Rejected('retained native input changed')
+     if sha(path.parent/'final-drc.json')!=data['native_report_sha256']: raise Rejected('native report changed')
+     native=parse_report(path.parent/'final-drc.json',candidate.name)
+-    if native['opens'] or native['blocking'] or native['exclusions']: raise Rejected('native findings reject candidate')
++    reasons=native_rejection_reasons(native)
++    if reasons: raise Rejected('native findings reject candidate: '+'; '.join(reasons))
+     if data.get('native')!=native or data.get('invariants_unchanged') is not True: raise Rejected('receipt native summary differs from raw evidence')
+     if data.get('whole_project_drc_clean') is not (native['warnings']==0): raise Rejected('receipt cleanliness claim differs from native evidence')
+     metrics=evidence('metrics.json')
+--- a/autorouter/strategy.py
++++ b/autorouter/strategy.py
+@@ -93,7 +93,7 @@
+ 
+ 
+ def _valid(native):
+-    return native["opens"] == 0 and native["blocking"] == 0 and native["exclusions"] == 0
++    return p.native_accepted(native)
+ 
+ 
+ def _warning_signatures(native):
+@@ -348,6 +348,7 @@
+                               native_report_sha256=p.sha(trial_job.out / "final-drc.json"))
+                 if not _valid(native):
+                     record["status"] = "drc_rejected"
++                    record["native_rejection_reasons"] = p.native_rejection_reasons(native)
+                 else:
+                     trial_job.native("metrics", "metrics", candidate, trial_job.out / "metrics.json")
+                     metrics = json.loads((trial_job.out / "metrics.json").read_text())
+@@ -446,6 +447,7 @@
+         report.update(candidate=str(candidate), candidate_sha256=final_hash,
+                       native_report_sha256=p.sha(output / "final-drc.json"), native=native,
+                       metrics=metrics, invariants_unchanged=True,
++                      native_rejection_reasons=p.native_rejection_reasons(native),
+                       whole_project_drc_clean=_valid(native) and native["warnings"] == 0,
+                       accepted=_valid(native), status="routing_accepted" if _valid(native) else "drc_rejected")
+         checkpoint("final_validated", candidate, metrics)
+--- a/scripts/native_controls.py
++++ b/scripts/native_controls.py
+@@ -8,7 +8,7 @@
+ import sys
+ sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+ from autorouter import sexpr as sx
+-from autorouter.pipeline import Job, routes, tree_hash, validate_candidate, save_json, sha, tool_manifest
++from autorouter.pipeline import Job, routes, tree_hash, validate_candidate, save_json, sha, tool_manifest, native_accepted, native_rejection_reasons
+ 
+ def main():
+     parser=argparse.ArgumentParser();parser.add_argument('--valid',required=True);parser.add_argument('--output',required=True)
+@@ -48,7 +48,8 @@
+         try:
+             digest,native=validate_candidate(job,original,candidate,tree_hash(source),protected)
+             entry['candidate_sha256']=digest;entry['native']=native
+-            entry['accepted']=native['opens']==0 and native['blocking']==0 and native['exclusions']==0
++            entry['accepted']=native_accepted(native)
++            entry['native_rejection_reasons']=native_rejection_reasons(native)
+         except Exception as exc: entry['accepted']=False;entry['reason']=str(exc)
+         raw=job.out/'diagnostic-drc.json'
+         entry['native_execution_proven']=raw.is_file() and any(s['name']=='diagnostic-drc' and s['exit_code'] in (0,5) for s in job.steps)
+--- a/scripts/native_thermal_bridge_control.py
++++ b/scripts/native_thermal_bridge_control.py
+@@ -102,7 +102,8 @@
+                     stable()
+                     baseline_warning={(f['type'],tuple(sorted(i['uuid'] for i in f['items']))) for f in baseline['findings'] if f['severity']=='warning'}
+                     warnings={(f['type'],tuple(sorted(i['uuid'] for i in f['items']))) for f in native['findings'] if f['severity']=='warning'}
+-                    valid=native['opens']==native['blocking']==native['exclusions']==0 and warnings<=baseline_warning
++                    valid=p.native_accepted(native) and warnings<=baseline_warning
++                    trial['native_rejection_reasons']=p.native_rejection_reasons(native)
+                     trial.update(status='native_pass' if valid else 'native_rejected',validation_passed=valid,candidate_sha256=final,native=native,native_report_sha256=p.sha(directory/'final-drc.json'),metrics=metrics)
+                 except p.Rejected as exc:trial.update(status='validation_error',reason=str(exc))
+             trial.update(steps=job.steps,finished_elapsed_seconds=time.monotonic()-started,finished_observed_CPU_seconds=cpu()-started_cpu)
+--- a/scripts/experiment_krt.py
++++ b/scripts/experiment_krt.py
+@@ -166,7 +166,7 @@
+                 native = raw_job.drc("native-diagnostic", raw)
+                 report["raw"]["native"] = native
+                 report["raw"]["native_report_sha256"] = sha(raw_job.out / "native-diagnostic.json")
+-                report["raw"]["accepted"] = bool(report["raw"]["immutable_equal"] and report["raw"]["project_files_equal"] and report["raw"]["protected_equal"] and not native["opens"] and not native["blocking"] and not native["exclusions"] and engine_error is None and report["task_input_unchanged"])
++                report["raw"]["accepted"] = bool(report["raw"]["immutable_equal"] and report["raw"]["project_files_equal"] and report["raw"]["protected_equal"] and p.native_accepted(native) and engine_error is None and report["task_input_unchanged"])
+             except Exception as exc:
+                 report["raw"]["native_error"] = type(exc).__name__ + ": " + str(exc)
+             # A separately recorded adapter experiment, never replacing raw output.
+@@ -187,7 +187,7 @@
+                                native_report_sha256=sha(adapted_job.out / "final-drc.json"))
+                 adapted_job.native("metrics", "metrics", candidate, adapted_job.out / "metrics.json")
+                 adapted["metrics"] = json.loads((adapted_job.out / "metrics.json").read_text())
+-                adapted["accepted"] = not native["opens"] and not native["blocking"] and not native["exclusions"] and engine_error is None and report["task_input_unchanged"]
++                adapted["accepted"] = p.native_accepted(native) and engine_error is None and report["task_input_unchanged"]
+             except Exception as exc:
+                 adapted["reason"] = type(exc).__name__ + ": " + str(exc)
+         else:
+--- a/scripts/native_padstack_controls.py
++++ b/scripts/native_padstack_controls.py
+@@ -62,11 +62,11 @@
+     """Draft policy on an actual report; raw native severities are untouched."""
+     summary = p.parse_report(report, name)
+     critical = [v for v in summary['findings']
+-                if v['type'] in p.CRITICAL_CHECKS | PAD_TYPES]
++                if v['type'] in p.CRITICAL_FINDINGS]
+     return {'native': summary, 'policy_critical_count': len(critical),
+             'policy_critical_findings': critical,
+-            'policy_accepted': not (summary['opens'] or summary['blocking'] or
+-                                    summary['exclusions'] or critical)}
++            'policy_accepted': p.native_accepted(summary),
++            'native_rejection_reasons': p.native_rejection_reasons(summary)}
+ 
+ 
+ def cpu():
+--- a/tests/test_strategy.py
++++ b/tests/test_strategy.py
+@@ -346,7 +346,7 @@
+         self.nets = s.zone_net_ids(original)
+         self.root_proposal = s.proposals(self.tree, self.nets, self.protected, False)[0]
+         self.failed = s.delete_routes(self.tree, self.root_proposal["route_ids"], self.nets, self.protected)
+-        self.baseline = {"opens": 0, "blocking": 0, "exclusions": 0, "findings": []}
++        self.baseline = {"opens": 0, "blocking": 0, "warnings": 0, "exclusions": 0, "ignored_checks": [], "findings": []}
+         self.native = dict(self.baseline, findings=[self.warning("tool-short")])
+ 
+     @staticmethod
+--- /dev/null
++++ b/tests/test_padstack_policy.py
+@@ -0,0 +1,172 @@
++"""Pure policy/receipt controls; no native validation or routing is simulated as proof."""
++import copy
++import json
++from pathlib import Path
++import tempfile
++import unittest
++
++from autorouter import pipeline as p, strategy, handoff
++from scripts import experiment_quality as quality, experiment_portfolio as portfolio
++from scripts import experiment_paired as paired
++import test_result as receipt_support
++
++
++def finding(kind='padstack', severity='warning', **extra):
++    return dict(type=kind, severity=severity, items=[{'uuid': 'controlled-pad'}], **extra)
++
++
++class NativePolicyControls(unittest.TestCase):
++    def native(self, *findings):
++        return {'opens': 0, 'blocking': 0, 'warnings': len(findings),
++                'exclusions': 0, 'ignored_checks': [], 'findings': list(findings)}
++
++    def test_critical_warnings_fail_without_reclassifying_native_counts(self):
++        for kind in ('padstack', 'padstack_invalid', 'clearance'):
++            with self.subTest(kind=kind):
++                native = self.native(finding(kind)); before = copy.deepcopy(native)
++                self.assertFalse(p.native_accepted(native))
++                self.assertFalse(strategy._valid(native))
++                self.assertIn('policy-critical native finding: '+kind+' (warning)',
++                              p.native_rejection_reasons(native))
++                self.assertEqual(native, before)
++                self.assertEqual(native['blocking'], 0)
++
++    def test_ordinary_warning_is_preserved_and_allowed(self):
++        native = self.native(finding('track_dangling'))
++        self.assertTrue(p.native_accepted(native)); self.assertTrue(strategy._valid(native))
++        self.assertEqual(native['warnings'], 1)
++
++    def test_direct_helper_does_not_trust_forged_zero_counters(self):
++        for item in (finding('track_dangling', 'error'), finding('track_dangling', excluded=True),
++                     finding('track_dangling', 'exclusion')):
++            with self.subTest(item=item): self.assertFalse(p.native_accepted(self.native(item)))
++
++    def test_missing_or_malformed_summary_cannot_look_clean(self):
++        cases = [None, {}, [], dict(self.native(), findings=None),
++                 dict(self.native(), findings=[{}]), dict(self.native(), opens=False),
++                 dict(self.native(), blocking=-1), dict(self.native(), exclusions='0'),
++                 self.native(finding(excluded='false')), self.native(finding(severity=[])),
++                 dict(self.native(), ignored_checks=None),
++                 dict(self.native(), ignored_checks=[{'key':'padstack'}])]
++        absent = self.native(); del absent['findings']; cases.append(absent)
++        for native in cases:
++            with self.subTest(native=native): self.assertFalse(p.native_accepted(native))
++
++    def test_preflight_admits_only_padstack_warning_exception_and_never_edits_project(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            board = Path(tmp)/'board.kicad_pcb'
++            board.write_text('(kicad_pcb (version 20260206) (layers (0 "F.Cu" signal) (2 "B.Cu" signal)))')
++            for key, severity, permitted in [('padstack','warning',True), ('padstack','error',True),
++                ('padstack','ignore',False), ('clearance','warning',False),
++                ('clearance','ignore',False), ('padstack_invalid','warning',False),
++                ('padstack_invalid','error',False), ('unknown_check','error',False)]:
++                with self.subTest(key=key, severity=severity):
++                    project = board.with_suffix('.kicad_pro')
++                    project.write_text(json.dumps({'board':{'design_settings':{'rule_severities':{key:severity}}}}))
++                    before = project.read_bytes()
++                    if permitted: self.assertTrue(p.preflight(board))
++                    else:
++                        with self.assertRaises(p.Rejected): p.preflight(board)
++                    self.assertEqual(project.read_bytes(), before)
++
++
++class PolicyReceiptControls(unittest.TestCase):
++    def setUp(self):
++        # Reuse the filesystem receipt factory, not its test methods or mocks.
++        self.case = receipt_support.ResultFreshnessTests(methodName='runTest')
++        self.case.setUp(); self.addCleanup(self.case.doCleanups)
++
++    def install_finding(self, kind='padstack'):
++        case = self.case
++        raw = copy.deepcopy(case.native_shape)
++        raw['violations'] = [finding(kind)]
++        case.native.write_text(json.dumps(raw))
++        case.data['native'] = p.parse_report(case.native, case.source.name)
++        case.data['native_report_sha256'] = p.sha(case.native)
++        case.data['whole_project_drc_clean'] = False
++        process_path = case.run/'final-drc-process.json'
++        process = json.loads(process_path.read_text()); process.update(status='nonzero_exit', exit_code=5)
++        process_path.write_text(json.dumps(process))
++        case.data['steps'][0].update(status='nonzero_exit', exit_code=5)
++        case.save_receipt()
++        return case.data
++
++    def test_parser_shape_stays_compatible_with_archived_native_summary(self):
++        native = self.install_finding()['native']
++        self.assertEqual(set(native), {'opens','blocking','warnings','exclusions','ignored_checks','findings'})
++        self.assertEqual(native['findings'], [finding()])
++        self.assertEqual((native['opens'],native['blocking'],native['warnings'],native['exclusions']), (0,0,1,0))
++
++    def test_consistently_rehashed_accepted_receipt_still_rejects_critical_warning(self):
++        for kind in ('padstack','padstack_invalid'):
++            self.install_finding(kind)
++            with self.subTest(kind=kind), self.assertRaisesRegex(p.Rejected, 'policy-critical native finding: '+kind):
++                p.check_result(self.case.receipt)
++
++    def test_ordinary_warning_receipt_still_verifies(self):
++        self.install_finding('track_dangling')
++        self.assertTrue(p.check_result(self.case.receipt)['current'])
++
++    def test_missing_warning_severity_and_disabled_padstack_remain_rejected(self):
++        case = self.case
++        for change in ('missing_warning','ignored_padstack'):
++            raw = copy.deepcopy(case.native_shape)
++            if change == 'missing_warning': raw['included_severities'].remove('warning')
++            else: raw['ignored_checks'] = [{'key':'padstack','description':'ignored'}]
++            case.native.write_text(json.dumps(raw))
++            with self.subTest(change=change), self.assertRaises(p.Rejected): p.parse_report(case.native, case.source.name)
++
++    def test_handoff_rejects_before_creating_review_copy(self):
++        self.install_finding(); target = self.case.root/'review'
++        with self.assertRaisesRegex(p.Rejected, 'policy-critical'):
++            handoff.review_copy(self.case.receipt, target)
++        self.assertFalse(target.exists())
++
++    def test_quality_and_paired_c_arm_cannot_admit_rehashed_critical_warning(self):
++        case = self.case; data = self.install_finding()
++        data.update(adapter='both',engine_profile='tuned',proposal_policy='feedback',incumbent_baseline='B2_tuned')
++        (case.run/'incumbent').mkdir()
++        incumbent = case.run/'incumbent/result.json'
++        incumbent.write_text(json.dumps(dict(data)))
++        data['incumbent'] = {'receipt':str(incumbent)}; case.save_receipt()
++        for arm in (dict(id='B2',adapter='both',engine_profile='tuned',operation='route'), paired.C_ARM):
++            with self.subTest(arm=arm['id']):
++                row = quality.summarize(arm,case.run,data,2,2)
++                self.assertTrue(row['protocol_contract_verified'])
++                self.assertFalse(row['accepted']); self.assertFalse(row['receipt_verified'])
++                self.assertIn('policy-critical',row['receipt_verification_error'])
++
++    def portfolio_row(self):
++        case = self.case; data = self.install_finding()
++        data.update(adapter='both',engine_profile='tuned',scoring_variant='via_default')
++        engine = p.engine_profile_settings('tuned',120,scoring_variant='via_default')
++        engine.update(outer_task_wall_budget_seconds=120,outer_task_cpu_budget_seconds=120)
++        step = {'name':'engine','argv':['java',*engine['argv']],'status':'success',
++                'exit_code':0,'cleanup_complete':True,'wall_seconds':0,'cpu_seconds':0,'monitor_cpu_seconds':0}
++        (case.run/'engine-process.json').write_text(json.dumps(step))
++        data.update(engine_budget=engine); data['steps'].append(step); case.save_receipt()
++        row = {'id':'via_default','eligible':True,'status':'routing_accepted','assigned_seconds':120,
++               'result':str(case.receipt),'result_sha256':p.sha(case.receipt),
++               'candidate':str(case.candidate),'candidate_sha256':data['candidate_sha256'],
++               'native_report_sha256':data['native_report_sha256'],'vias':0,'length_mm':2.0}
++        frozen = {'tools':data['tools'],'source_hashes':data['source_hashes']}
++        return row,frozen
++
++    def test_portfolio_selection_rechecks_central_policy(self):
++        row,frozen = self.portfolio_row()
++        with self.assertRaisesRegex(p.Rejected,'policy-critical'):
++            portfolio.verify_row(row,self.case.source,frozen)
++
++    def test_paired_portfolio_frontier_rechecks_central_policy(self):
++        row,frozen = self.portfolio_row(); directory = self.case.run.parent
++        protocol = {'freeze':frozen,'variants':list(portfolio.VARIANTS)}
++        (directory/'protocol.json').write_text(json.dumps(protocol))
++        summary = {'status':'completed','comparison_eligible':True,'trials':[row],
++                   'selected':row,'pareto_frontier':['via_default'],'wall_seconds':2,'total_cpu_seconds':2,
++                   'protocol_sha256':p.sha(directory/'protocol.json')}
++        (directory/'portfolio-summary.json').write_text(json.dumps(summary))
++        with self.assertRaisesRegex(p.Rejected,'policy-critical'):
++            paired.verify_portfolio(directory,summary,self.case.source,frozen)
++
++
++if __name__ == '__main__': unittest.main()

@@ -1,0 +1,121 @@
+{
+  "schema": 1,
+  "kind": "complete acquired population static audit",
+  "split": "development-exposed",
+  "source_manifest_sha256": "a2a8e9e22ff3e109de94733aa8f5e99ca5fd476ef9ec20be837c54100036eac1",
+  "git_head": "3ea8051a80a3d5a13f3702792f07899513f5e3e7",
+  "implementation_sha256": {
+    "scripts/audit_corpus.py": "466df24622a2bcec96890b8f794f22ed7b7affef8890875082025bea6bf5eb39",
+    "data/fetch.py": "faef6e14072dccdc2f741df67743c18ad9982b99ea48baeab5f957f56586532b",
+    "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+    "autorouter/__main__.py": "35ffd855e3bc9d488b21bcd0238051815ccbd16119ac4d7dea7be2f97a23a75f",
+    "autorouter/adapter.py": "509feca807ccee112b0b6a071fd0944c88177ba83f5b77422ec8be5cdf63d25b",
+    "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+    "autorouter/handoff.py": "3a1cace2d72672e502ff4f943c0820d23b9ed1d15c5566d3a694365847d4a22d",
+    "autorouter/native.py": "7257496b007fbc449adb3cc8b999712aed8ea0aa881a116ba337d18e2ab87c02",
+    "autorouter/netclass.py": "d0d26610b550b0655a1eafc3022196e31f59f719b5b3f0a727c464f9c90eda61",
+    "autorouter/pipeline.py": "6ea660781da7c81967ed790f4122bcfe68957b6ec591a2e2d34f9a3bb5984da7",
+    "autorouter/runner.py": "0e81ab1badf20cd84adc2fed586641dd97a489a5a6af03febe6fb597bb1d2718",
+    "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+    "autorouter/strategy.py": "a85e9097f3f20508a0d72f50078dad531a3cccc2f41b85da3a74c0a826b1d558"
+  },
+  "native_processes_executed": 0,
+  "independent_families_established": null,
+  "holdout": false,
+  "boards": [
+    {
+      "project_id": "kicad-sonde-xilinx",
+      "family": "kicad-sonde-xilinx",
+      "family_status": "unverified_pending_deduplication",
+      "board": ".data/boards/kicad-sonde-xilinx/sonde xilinx.kicad_pcb",
+      "sha256": "d0dee876715fcdd3f656dd6a77cc1141c39bec4d6f8492a3784d38edd6b9a998",
+      "license": "CC-BY-SA-4.0",
+      "rules_binding": "native_same_basename",
+      "static_eligible": true,
+      "native_acceptance": null,
+      "unsupported_reason": null
+    },
+    {
+      "project_id": "kicad-pic-programmer",
+      "family": "kicad-pic-programmer",
+      "family_status": "unverified_pending_deduplication",
+      "board": ".data/boards/kicad-pic-programmer/pic_programmer.kicad_pcb",
+      "sha256": "1ca70b620506818eb0227e2863bbd573d1fec1672072dc43d0dbe8475e69c8fb",
+      "license": "CC-BY-SA-4.0",
+      "rules_binding": "native_same_basename",
+      "static_eligible": false,
+      "native_acceptance": null,
+      "unsupported_reason": "unsupported: custom pads not qualified; unknown rule severity semantics: footprint_symbol_field_mismatch; unknown rule severity semantics: missing_tuning_profile; unknown rule severity semantics: text_on_edge_cuts; unknown rule severity semantics: track_on_post_machined_layer"
+    },
+    {
+      "project_id": "kicad-complex-hierarchy",
+      "family": "kicad-complex-hierarchy",
+      "family_status": "unverified_pending_deduplication",
+      "board": ".data/boards/kicad-complex-hierarchy/complex_hierarchy.kicad_pcb",
+      "sha256": "d5f4162d4c766448832723d139f9e0fcb88a17c82340f10f6f6dc6c2042f0d69",
+      "license": "CC-BY-SA-4.0",
+      "rules_binding": "native_same_basename",
+      "static_eligible": false,
+      "native_acceptance": null,
+      "unsupported_reason": "unsupported: netclass bindings not qualified: Only unique literal identifier assignments qualified; unknown rule severity semantics: zone_has_empty_net"
+    },
+    {
+      "project_id": "kicad-interf-u",
+      "family": "kicad-interf-u",
+      "family_status": "unverified_pending_deduplication",
+      "board": ".data/boards/kicad-interf-u/interf_u.kicad_pcb",
+      "sha256": "a740ce7fde77ab6af191e23ece21e57d36bb3c29325879248520dcd9ab47b57e",
+      "license": "CC-BY-SA-4.0",
+      "rules_binding": "native_same_basename",
+      "static_eligible": true,
+      "native_acceptance": null,
+      "unsupported_reason": null
+    },
+    {
+      "project_id": "kicad-multichannel",
+      "family": "kicad-multichannel",
+      "family_status": "unverified_pending_deduplication",
+      "board": ".data/boards/kicad-multichannel/multichannel_mixer-unrouted.kicad_pcb",
+      "sha256": "149b2dce16e0f59adb78f87068f4137b7dafca0e991a0b21fdd967c873fd5ee9",
+      "license": "CC-BY-SA-4.0",
+      "rules_binding": "requires_explicit_task_mapping_before_native_validation",
+      "static_eligible": false,
+      "native_acceptance": null,
+      "unsupported_reason": "unsupported: complete .kicad_pro required; unqualified board format version"
+    },
+    {
+      "project_id": "kicad-multichannel",
+      "family": "kicad-multichannel",
+      "family_status": "unverified_pending_deduplication",
+      "board": ".data/boards/kicad-multichannel/multichannel_mixer.kicad_pcb",
+      "sha256": "44b7c119a0d05c98e9f294659879184038a5f6c30073c04d9536990429ca413e",
+      "license": "CC-BY-SA-4.0",
+      "rules_binding": "native_same_basename",
+      "static_eligible": true,
+      "native_acceptance": null,
+      "unsupported_reason": null
+    },
+    {
+      "project_id": "kicad-coldfire-xilinx",
+      "family": "kicad-coldfire-xilinx",
+      "family_status": "unverified; 2009 added path and distinct terminal partition do not establish independent ancestry",
+      "board": ".data/boards/kicad-coldfire-xilinx/kit-dev-coldfire-xilinx_5213.kicad_pcb",
+      "sha256": "392cf6bf4b9b62beb435f965ccd7671a46decb17f947b74bfde482acd2132a5e",
+      "license": "CC-BY-SA-4.0",
+      "rules_binding": "native_same_basename",
+      "static_eligible": false,
+      "native_acceptance": null,
+      "unsupported_reason": "unsupported: core native check not blocking: starved_thermal; netclass bindings not qualified: Only unique literal identifier assignments qualified"
+    }
+  ],
+  "claims_limit": "Eligibility is a static gate only. It is not native acceptance, family independence or comparative routing evidence.",
+  "totals": {
+    "projects": 6,
+    "boards": 7,
+    "files": 144,
+    "bytes": 13654726,
+    "static_eligible": 3,
+    "unsupported": 4,
+    "audit_errors": 0
+  }
+}

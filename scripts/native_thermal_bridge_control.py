@@ -102,7 +102,8 @@ def main(out,validate):
                     stable()
                     baseline_warning={(f['type'],tuple(sorted(i['uuid'] for i in f['items']))) for f in baseline['findings'] if f['severity']=='warning'}
                     warnings={(f['type'],tuple(sorted(i['uuid'] for i in f['items']))) for f in native['findings'] if f['severity']=='warning'}
-                    valid=native['opens']==native['blocking']==native['exclusions']==0 and warnings<=baseline_warning
+                    valid=p.native_accepted(native) and warnings<=baseline_warning
+                    trial['native_rejection_reasons']=p.native_rejection_reasons(native)
                     trial.update(status='native_pass' if valid else 'native_rejected',validation_passed=valid,candidate_sha256=final,native=native,native_report_sha256=p.sha(directory/'final-drc.json'),metrics=metrics)
                 except p.Rejected as exc:trial.update(status='validation_error',reason=str(exc))
             trial.update(steps=job.steps,finished_elapsed_seconds=time.monotonic()-started,finished_observed_CPU_seconds=cpu()-started_cpu)

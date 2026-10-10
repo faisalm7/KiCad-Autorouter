@@ -59,14 +59,14 @@ def fixture(case):
 
 
 def proposed_summary(report, name):
-    """Draft policy on an actual report; raw native severities are untouched."""
+    """Production policy on an actual report; native severities stay untouched."""
     summary = p.parse_report(report, name)
     critical = [v for v in summary['findings']
-                if v['type'] in p.CRITICAL_CHECKS | PAD_TYPES]
+                if v['type'] in p.CRITICAL_FINDINGS]
     return {'native': summary, 'policy_critical_count': len(critical),
             'policy_critical_findings': critical,
-            'policy_accepted': not (summary['opens'] or summary['blocking'] or
-                                    summary['exclusions'] or critical)}
+            'policy_accepted': p.native_accepted(summary),
+            'native_rejection_reasons': p.native_rejection_reasons(summary)}
 
 
 def cpu():
@@ -97,7 +97,7 @@ def experiment(out):
     manifest = p.tool_manifest()
     job = p.Job(out, max(0.01, 120 - (time.monotonic() - start)))
     record = {'schema': 1, 'purpose': 'native padstack diagnostic qualification only',
-              'routing_accepted': False, 'production_support_changed': False,
+              'routing_accepted': False, 'control_changes_production_support': False,
               'controls_passed': False, 'seconds_ceiling': 120,
               'script_sha256': p.sha(__file__), 'tools': manifest,
               'original_inputs': original_hashes, 'cases': []}

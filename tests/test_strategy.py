@@ -346,7 +346,7 @@ class FeedbackSelectionTests(unittest.TestCase):
         self.nets = s.zone_net_ids(original)
         self.root_proposal = s.proposals(self.tree, self.nets, self.protected, False)[0]
         self.failed = s.delete_routes(self.tree, self.root_proposal["route_ids"], self.nets, self.protected)
-        self.baseline = {"opens": 0, "blocking": 0, "exclusions": 0, "findings": []}
+        self.baseline = {"opens": 0, "blocking": 0, "warnings": 0, "exclusions": 0, "ignored_checks": [], "findings": []}
         self.native = dict(self.baseline, findings=[self.warning("tool-short")])
 
     @staticmethod

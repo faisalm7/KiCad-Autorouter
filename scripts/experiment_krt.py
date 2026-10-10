@@ -166,7 +166,7 @@ def main():
                 native = raw_job.drc("native-diagnostic", raw)
                 report["raw"]["native"] = native
                 report["raw"]["native_report_sha256"] = sha(raw_job.out / "native-diagnostic.json")
-                report["raw"]["accepted"] = bool(report["raw"]["immutable_equal"] and report["raw"]["project_files_equal"] and report["raw"]["protected_equal"] and not native["opens"] and not native["blocking"] and not native["exclusions"] and engine_error is None and report["task_input_unchanged"])
+                report["raw"]["accepted"] = bool(report["raw"]["immutable_equal"] and report["raw"]["project_files_equal"] and report["raw"]["protected_equal"] and p.native_accepted(native) and engine_error is None and report["task_input_unchanged"])
             except Exception as exc:
                 report["raw"]["native_error"] = type(exc).__name__ + ": " + str(exc)
             # A separately recorded adapter experiment, never replacing raw output.
@@ -187,7 +187,7 @@ def main():
                                native_report_sha256=sha(adapted_job.out / "final-drc.json"))
                 adapted_job.native("metrics", "metrics", candidate, adapted_job.out / "metrics.json")
                 adapted["metrics"] = json.loads((adapted_job.out / "metrics.json").read_text())
-                adapted["accepted"] = not native["opens"] and not native["blocking"] and not native["exclusions"] and engine_error is None and report["task_input_unchanged"]
+                adapted["accepted"] = p.native_accepted(native) and engine_error is None and report["task_input_unchanged"]
             except Exception as exc:
                 adapted["reason"] = type(exc).__name__ + ": " + str(exc)
         else:

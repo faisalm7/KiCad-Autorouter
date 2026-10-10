@@ -166,6 +166,16 @@
       "statement": "Three real KiCad controls qualify clean positive, critical padstack warning and targeted padstack_invalid error handling under unchanged project rules.",
       "evidence": "evidence/padstack-native-controls-002/summary.json",
       "status": "All expected outcomes passed; failed SMD-drill recipe001 retained; diagnostic script hash frozen at dcb0a44 plus saved delta, not a routing or benchmark result; production policy unchanged."
+    },
+    {
+      "id": "padstack-production-policy-003",
+      "statement": "Shared acceptance policy preserves native severities and rejects critical padstack warnings; integrated actual positive/warning/error controls passed. Static support expands to3of14 acquired boards, without a new routed success.",
+      "evidence": [
+        "evidence/padstack-native-controls-003/summary.json",
+        "evidence/corpus-audit-003.json",
+        "evidence/corpus-expansion-policy-audit-001.json"
+      ],
+      "status": "236 coordinator tests passed; diagnostics bound by exact script/module hashes at3ea8051 plus recorded changes. Original rules unchanged; full multichannel routing and floor export unqualified."
     }
   ],
   "unmet": [
