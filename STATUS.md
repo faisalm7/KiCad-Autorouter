@@ -66,3 +66,5 @@ python3 -m autorouter route .data/boards/kicad-interf-u/interf_u.kicad_pcb --ada
 ```
 
 After an accepted multiclass result, execute `scripts/native_class_controls.py` against that receipt, then run the corrected frozen comparison. Audit, push and independently read back each milestone; `python3 scripts/backup.py` creates and actually restore-tests the next raw archive. No background or auto-resume work is scheduled.
+
+After checkpoint `2751126530ba19bfce05867a9a5d032587578098` was pushed and independently read back, completion-only `interf-native-002` finished in25.439 wall /35.765 CPU seconds. It was rejected: the actual SES includes0.3mm tracks where the native Default target is0.4mm, preserved through import/refill. Raw refill also reports one blocking starved thermal and zero opens. Engine neckdown behavior is under investigation; no target or DRC rule is relaxed. The next strategy revision adds an explicit warning-feedback ablation;190 coordinator tests pass, native joint-deletion evidence pending.

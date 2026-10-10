@@ -34,7 +34,11 @@ ARMS = (
     {"id": "B0", "adapter": "none", "engine_profile": "standard", "operation": "route"},
     {"id": "B1", "adapter": "both", "engine_profile": "standard", "operation": "route"},
     {"id": "B2", "adapter": "both", "engine_profile": "tuned", "operation": "route"},
-    {"id": "C", "adapter": "both", "engine_profile": "tuned", "operation": "prune"},
+    {"id": "C", "adapter": "both", "engine_profile": "tuned", "operation": "prune", "proposal_policy": "single"},
+)
+FEEDBACK_ARMS = (*ARMS[:3],
+    {**ARMS[3], "id": "C_single"},
+    {**ARMS[3], "id": "C_feedback", "proposal_policy": "feedback"},
 )
 SCRIPT = Path(__file__).resolve()
 PROJECTS = {"sonde": "kicad-sonde-xilinx", "interf_u": "kicad-interf-u"}
@@ -124,6 +128,8 @@ def summarize(arm, directory, result, invocation_wall, invocation_cpu):
         result.get("adapter") == arm["adapter"]
         and result.get("engine_profile") == arm["engine_profile"]
         and result.get("scope") == "whole_board_unlocked_routing")
+    if arm["operation"] == "prune":
+        row["protocol_contract_verified"] = row["protocol_contract_verified"] and result.get("proposal_policy") == arm["proposal_policy"]
     if arm["operation"] == "prune" and row["accepted_in_receipt"]:
         incumbent_path = directory / "incumbent/result.json"
         try:
@@ -175,10 +181,14 @@ def observations(directory, result, row):
 def comparisons(rows):
     by_id = {row["id"]: row for row in rows}
     result = []
-    for baseline in ("B1", "B2"):
-        left, right = by_id.get(baseline), by_id.get("C")
+    pairs = [(baseline, system) for system in ("C", "C_single", "C_feedback")
+             if system in by_id for baseline in ("B1", "B2")]
+    if "C_single" in by_id and "C_feedback" in by_id:
+        pairs.append(("C_single", "C_feedback"))
+    for baseline, system in pairs:
+        left, right = by_id.get(baseline), by_id.get(system)
         comparable = bool(left and right and left["accepted"] and right["accepted"])
-        item = {"baseline": baseline, "system": "C", "comparable_valid_candidates": comparable}
+        item = {"baseline": baseline, "system": system, "comparable_valid_candidates": comparable}
         if comparable:
             item.update(length_delta_mm=right["length_mm"] - left["length_mm"],
                         via_delta=right["vias"] - left["vias"],
@@ -188,7 +198,8 @@ def comparisons(rows):
     return result
 
 
-def experiment(out, project_name="sonde"):
+def experiment(out, project_name="sonde", feedback_ablation=False):
+    arms = FEEDBACK_ARMS if feedback_ablation else ARMS
     batch_started, batch_cpu_started = time.monotonic(), total_process_cpu()
     out.mkdir(parents=True, exist_ok=False)
     summary = {"schema": 1, "status": "incomplete", "protocol": "protocol.json", "results": [],
@@ -206,7 +217,9 @@ def experiment(out, project_name="sonde"):
         protocol = {"schema": 1, "created_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
                     "split": "development-exposed", "family": family, "source": str(board),
                     "license": "CC-BY-SA-4.0; exact pinned source and license files in frozen source inventory and data/sources.json",
-                    "freeze": frozen, "arms": ARMS, "arm_order": [arm["id"] for arm in ARMS],
+                    "freeze": frozen, "arms": arms, "arm_order": [arm["id"] for arm in arms],
+                    "feedback_ablation": feedback_ablation,
+                    "feedback_prediction": "Native-warning-guided compound deletion may remove redundant stubs rejected by single deletion; every follow-up consumes the same trial and total wall/CPU budgets. It may displace better proposals and lose quality; compare C_feedback directly with C_single.",
                     "wall_budget_per_arm_seconds": BUDGET, "cpu_budget_per_arm_seconds": BUDGET,
                     "cpu_enforcement": "measured post-completion acceptance cap, not OS CPU preemption; self plus reaped-child invocation CPU also checked",
                     "concurrency": 1, "external_concurrency": "operator must keep other routing/native experiments idle",
@@ -223,13 +236,13 @@ def experiment(out, project_name="sonde"):
         p.save_json(out / "protocol.json", protocol)
         summary["protocol_sha256"] = p.sha(out / "protocol.json")
         p.save_json(out / "summary.json", summary)
-        for arm in ARMS:
+        for arm in arms:
             verify_freeze(frozen, board)
             directory = out / arm["id"]
             host_load_begin = list(os.getloadavg())
             started, cpu_started = time.monotonic(), total_process_cpu()
             try:
-                result = (prune(board, directory, BUDGET) if arm["operation"] == "prune" else
+                result = (prune(board, directory, BUDGET, proposal_policy=arm["proposal_policy"]) if arm["operation"] == "prune" else
                           p.route(board, directory, BUDGET, False, arm["adapter"], arm["engine_profile"]))
             except KeyboardInterrupt:
                 result = {"status": "cancelled", "accepted": False, "reason": "interrupted invocation"}
@@ -284,6 +297,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", required=True, help="new directory under this checkout's .runs")
     parser.add_argument("--project", choices=tuple(PROJECTS), default="sonde")
+    parser.add_argument("--feedback-ablation", action="store_true", help="predeclared five arms: B0, B1, B2, C_single, C_feedback")
     args = parser.parse_args()
     out = Path(args.output).resolve()
     if c.ROOT / ".runs" not in out.parents:
@@ -298,7 +312,7 @@ def main():
     try:
         with lock_path.open("a") as lock:
             fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-            return experiment(out, args.project)
+            return experiment(out, args.project, args.feedback_ablation)
     finally:
         for sig, handler in previous.items():
             signal.signal(sig, handler)

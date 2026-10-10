@@ -35,3 +35,5 @@ python3 -m autorouter check-result .runs/adapter-ablation-001/combined/result.js
 ```
 
 `scripts/experiment_adapter.py --output NEW_RUN_DIRECTORY` repeats the five-arm development ablation using the then-current code. `scripts/experiment_krt.py --output NEW_RUN_DIRECTORY` runs the native-engine spike; `--pretty-input` selects the semantically equivalent formatted input. New runs are separate evidence, not replacements for the frozen results. `python3 scripts/backup.py` creates a checkpoint archive and verifies an actual local restoration; use `--verify RECEIPT` to restore-check a named existing receipt. Record exact commands and new paths for each completed experiment.
+
+Current immediate sequence: diagnose/preserve interf-native-002's original-width mismatch and thermal failure; freeze the reviewed five-arm warning-feedback ablation and run it on sonde with corrected actual-JAR deadlines. Keep C_single as the ablation and all rejected trials. In parallel, audit dependency/rights closure for the fixed six prospective development projects within a10MiB batch; no new family counts until complete acquisition and ancestry checks.

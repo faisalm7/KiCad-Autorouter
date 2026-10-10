@@ -24,6 +24,8 @@ FINAL_RESERVE_SECONDS = 15.0
 MIN_TRIAL_SECONDS = 4.0
 MAX_TRIAL_SECONDS = 12.0
 MAX_TRIALS = 32
+MAX_FEEDBACK_DEPTH = 2
+MAX_FEEDBACK_ADDED_ROUTES = 8
 
 
 class Cancelled(p.Rejected):
@@ -99,6 +101,95 @@ def _warning_signatures(native):
             for finding in native["findings"] if finding["severity"] == "warning"}
 
 
+def feedback_proposal(failed_tree, proposal, native, incumbent_native, nets, protected):
+    """Suggest a bounded compound move; native warnings never authorize acceptance.
+
+    Only new track_dangling findings may drive a follow-up. Their item UUIDs must
+    identify unique, eligible remaining tracks on this proposal's zone net. The
+    resulting cumulative deletion is applied to the unchanged best candidate,
+    not to arbitrary paths or geometry from a report. This is a proposal only.
+    """
+    def refused(reason):
+        return {"proposed": False, "reason": reason}
+
+    try:
+        if any(type(native[key]) is not int or native[key] < 0 for key in ("opens", "blocking", "exclusions")) or not _valid(native):
+            return refused("native connectivity or blocking checks failed")
+        depth = proposal.get("feedback_depth", 0)
+        added_count = proposal.get("feedback_added_routes", 0)
+        if type(depth) is not int or type(added_count) is not int or depth < 0 or added_count < 0:
+            return refused("invalid feedback accounting")
+        if depth >= MAX_FEEDBACK_DEPTH:
+            return refused("feedback depth exhausted")
+        old_ids = proposal["route_ids"]
+        if (not isinstance(old_ids, list) or not old_ids or any(not isinstance(x, str) for x in old_ids)
+                or len(old_ids) != len(set(old_ids))):
+            return refused("invalid cumulative deletion")
+        if proposal["net"] not in nets:
+            return refused("proposal is not on an eligible zone net")
+        if set(old_ids) & {route_id(route) for route in p.routes(failed_tree)}:
+            return refused("failed candidate does not reflect preceding deletion")
+        incumbent_signatures = _warning_signatures(incumbent_native)
+        new_warnings = [finding for finding in native["findings"]
+                        if finding["severity"] == "warning"
+                        and not _warning_signatures({"findings": [finding]}) <= incumbent_signatures]
+        if not new_warnings:
+            return refused("no new warning to repair")
+        if any(finding["type"] != "track_dangling" for finding in new_warnings):
+            return refused("new warning kind is not eligible for cleanup")
+
+        # Index every native object, including pads/zones/footprints, so a UUID
+        # shared with a nonroute object cannot be mistaken for an owned track.
+        uuid_items = {}
+        pending = [failed_tree]
+        while pending:
+            node = pending.pop()
+            if not isinstance(node, list):
+                continue
+            tags = sx.children(node, "uuid")
+            for tag in tags:
+                if len(tag) != 2 or not isinstance(tag[1], str) or not sx.unquote(tag[1]):
+                    return refused("malformed candidate UUID")
+                uuid_items.setdefault(sx.unquote(tag[1]), []).append(node)
+            pending.extend(value for value in node if isinstance(value, list))
+
+        eligible = {route_id(route): route for route in eligible_routes(failed_tree, nets, protected)
+                    if route[0] in {"segment", "arc"}}
+        selected, selected_uuids = set(), set()
+        for warning in new_warnings:
+            items = warning["items"]
+            if not isinstance(items, list) or not items:
+                return refused("warning has no exact item references")
+            for item in items:
+                identifier = item.get("uuid") if isinstance(item, dict) else None
+                if not isinstance(identifier, str) or not identifier or identifier in selected_uuids:
+                    return refused("missing or repeated warning UUID")
+                matches = uuid_items.get(identifier, [])
+                if len(matches) != 1:
+                    return refused("warning UUID is absent or ambiguous")
+                route = matches[0]
+                rid = route_id(route)
+                if rid not in eligible or sx.one(route, "net")[1] != proposal["net"]:
+                    return refused("warning references protected, nonroute or other-net copper")
+                selected.add(rid)
+                selected_uuids.add(identifier)
+        if not selected or selected & set(old_ids):
+            return refused("cleanup makes no new eligible deletion")
+        added_count += len(selected)
+        if added_count > MAX_FEEDBACK_ADDED_ROUTES:
+            return refused("feedback route cap exhausted")
+        return {"proposed": True, "proposal": {
+            "kind": "native_warning_cleanup", "net": proposal["net"],
+            "route_ids": sorted(set(old_ids) | selected),
+            "feedback_depth": depth + 1, "feedback_added_routes": added_count,
+            "root_kind": proposal.get("root_kind", proposal["kind"]),
+            "added_route_uuids": sorted(selected_uuids),
+            "trigger_warning_signatures": sorted(_warning_signatures({"findings": new_warnings})),
+        }}
+    except (KeyError, TypeError, ValueError, IndexError, AttributeError):
+        return refused("malformed feedback inputs")
+
+
 def _quality(metrics):
     length, vias = metrics.get("track_length_mm"), metrics.get("vias")
     if isinstance(length, bool) or not isinstance(length, (int, float)) or not math.isfinite(length) or length < 0:
@@ -133,7 +224,7 @@ def _check_original(source, snapshot, expected):
         raise p.Rejected("source or frozen snapshot changed during pruning")
 
 
-def prune(source, output, seconds=120):
+def prune(source, output, seconds=120, *, proposal_policy="single"):
     """Run tuned B2 plus greedy pruning within one wall/CPU budget, retaining trials.
 
     A 15-second reserve is withheld from B2/trials for final emission and native
@@ -141,6 +232,8 @@ def prune(source, output, seconds=120):
     finish. Exhausting the global budget always rejects the root result.
     """
     started, cpu_started = time.monotonic(), time.process_time()
+    if not isinstance(proposal_policy, str) or proposal_policy not in {"single", "feedback"}:
+        raise p.Rejected("unknown pruning proposal policy")
     if isinstance(seconds, bool) or not isinstance(seconds, (int, float)) or not math.isfinite(seconds) or not 30 <= seconds <= 900:
         raise p.Rejected("pruning budget must be 30–900 seconds")
     source = Path(source).resolve(strict=True)
@@ -154,6 +247,9 @@ def prune(source, output, seconds=120):
     (output / "trials").mkdir()
     report = {"schema": 1, "status": "rejected", "accepted": False, "baseline": "C-prototype",
               "strategy": "native_validated_zone_net_pruning", "adapter": "both",
+              "proposal_policy": proposal_policy,
+              "feedback_max_depth": MAX_FEEDBACK_DEPTH,
+              "feedback_max_added_routes": MAX_FEEDBACK_ADDED_ROUTES,
               "engine_profile": "tuned", "incumbent_baseline": "B2_tuned",
               "novel_routing_algorithm_claim": False, "reference_routes_used_for_selection": False,
               "scope": "whole_board_unlocked_routing", "source": str(source),
@@ -283,7 +379,7 @@ def prune(source, output, seconds=120):
             _check_original(source, snapshot, source_hashes)
             checkpoint("trial_completed", best, best_metrics,
                        {"trial": trial_id, "trial_status": record["status"]})
-            return True
+            return record
 
         for grouped in (True, False):
             for proposal in proposals(sx.read(best), nets, protected, grouped):
@@ -291,8 +387,40 @@ def prune(source, output, seconds=120):
                 available = {route_id(route) for route in eligible_routes(sx.read(best), nets, protected)}
                 if not set(proposal["route_ids"]) <= available:
                     continue
-                if not attempt(proposal):
+                record = attempt(proposal)
+                if not record:
                     break
+                if proposal_policy == "feedback":
+                    # A failed native-valid singleton may leave redundant stubs.
+                    # Every cleanup is another charged, fully validated attempt.
+                    # Never use feedback from a stale board or altered report.
+                    for _ in range(MAX_FEEDBACK_DEPTH):
+                        if record["status"] != "quality_rejected":
+                            break
+                        failed_dir = output / "trials" / record["id"]
+                        failed = failed_dir / "candidate" / source.name
+                        _check_original(source, snapshot, source_hashes)
+                        p.verify_candidate_files(best, source_hashes, record["base_candidate_sha256"])
+                        p.verify_candidate_files(failed, source_hashes, record["candidate_sha256"])
+                        if p.sha(failed_dir / "final-drc.json") != record["native_report_sha256"]:
+                            raise p.Rejected("native report changed before feedback proposal")
+                        failed_tree = sx.read(failed)
+                        decision = feedback_proposal(failed_tree, record["proposal"], record["native"],
+                                                     best_native, nets, protected)
+                        p.verify_candidate_files(failed, source_hashes, record["candidate_sha256"])
+                        decision["parent_trial"] = record["id"]
+                        decision["failed_candidate_sha256"] = record["candidate_sha256"]
+                        decision["native_report_sha256"] = record["native_report_sha256"]
+                        decision["base_candidate_sha256"] = record["base_candidate_sha256"]
+                        if decision["proposed"]:
+                            decision["proposal"]["parent_trial"] = record["id"]
+                        p.save_json(failed_dir / "feedback-decision.json", decision)
+                        if not decision["proposed"]:
+                            break
+                        p.verify_candidate_files(best, source_hashes, record["base_candidate_sha256"])
+                        record = attempt(decision["proposal"])
+                        if not record:
+                            break
 
         _check_original(source, snapshot, source_hashes)
         report["best_observed_metrics"] = best_metrics
