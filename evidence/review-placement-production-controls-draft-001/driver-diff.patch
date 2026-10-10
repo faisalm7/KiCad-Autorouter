@@ -1,0 +1,117 @@
+--- .runs/board-floor-production-controls-draft-001/driver.py
++++ experiments/placement_production_controls_v1/driver.py
+@@ -1,6 +1,6 @@
+-"""Five bounded real-native controls of the explicit production floor contract.
+-
+-Draft only. Requires --run-native; never calls an engine. All cases share 60s
++"""Five bounded real-native controls of the placement guidance floor contract.
++
++Requires --run-native and a fresh accepted production receipt; never calls an engine. All cases share 60s
+ wall and parent + waited-child CPU. These controls do not route a new board,
+ establish broad support, or qualify physical/electrical suitability.
+ """
+@@ -18,6 +18,7 @@
+ import shutil
+ import signal
+ import sys
++import subprocess
+ import time
+ import uuid
+ 
+@@ -27,14 +28,25 @@
+ sys.path.insert(0,str(ROOT))
+ from autorouter import config as c,pipeline as p,sexpr as sx,floor_route as f
+ 
+-POSITIVE=ROOT/'.runs/board-floor-production-native-001/result.json'
+-POSITIVE_CANDIDATE_SHA='79c46687d355a60f3917794f277ef41fb839088622123784dddc55c13e23af06'
++POLICY='placement-clearance-v1'
++FIXTURE=ROOT/'evidence/placement-area-native-001/allowed_placement/candidate/fixture.kicad_pcb'
++PURE_POSITIVE=ROOT/'.runs/placement-search-fixture-001/result.json'
+ CASES=('positive','narrow_track','small_via','missing_via','changed_rule')
+ POLICY_FILES=('floor-policy.json','floor-export-context.json','native.dsn','floor-guided.dsn')
+ SECONDS=60
+ CONTRACT_REASONS={'narrow_track':'generated track differs from derived guidance',
+                   'small_via':'generated via differs from derived guidance/floor',
+                   'changed_rule':'native context/source/DSN byte binding mismatch'}
++
++
++
++def committed_sources():
++    """Reject uncommitted implementation, tool pins, or control helpers before native work."""
++    paths=[*sorted((ROOT/'autorouter').glob('*.py')),ROOT/'toolchain.lock.json',HERE/'driver.py',HERE/'test_driver.py']
++    for path in paths:
++        relative=str(owned(path).relative_to(ROOT))
++        result=subprocess.run(['git','show','HEAD:'+relative],cwd=ROOT,capture_output=True,timeout=5,check=True)
++        if result.stdout!=path.read_bytes():raise p.Rejected('control source differs from committed HEAD: '+relative)
+ 
+ 
+ def cpu():
+@@ -168,8 +180,10 @@
+     return record
+ 
+ 
+-def experiment(out,*,run_native=False):
++def experiment(out,*,positive=None,run_native=False):
+     if run_native is not True:raise p.Rejected('explicit --run-native required')
++    POSITIVE=owned(positive) if positive is not None else None
++    if POSITIVE is None:raise p.Rejected('accepted production receipt required')
+     start=time.monotonic();cpu0=cpu();out=owned(out,exists=False)
+     if out.parent!=ROOT/'.runs' or out.exists():raise p.Rejected('output must be a fresh direct .runs child')
+     out.mkdir();steps=[];completed={};freeze=None
+@@ -198,15 +212,15 @@
+         for location,inventory in completed.items():
+             if p.tree_hash(Path(location))!=inventory:raise p.Rejected('completed case evidence changed')
+     try:
+-        p.check_storage();owned(POSITIVE);positive_before=p.tree_hash(POSITIVE.parent);p.check_result(POSITIVE)
++        p.check_storage();committed_sources();owned(POSITIVE);positive_before=p.tree_hash(POSITIVE.parent);p.check_result(POSITIVE)
+         positive=f.read_json(POSITIVE);source=owned(positive['source']);candidate=owned(positive['candidate'])
+-        if positive['candidate_sha256']!=POSITIVE_CANDIDATE_SHA or p.sha(candidate)!=POSITIVE_CANDIDATE_SHA:
++        if source!=FIXTURE or positive['candidate_sha256']!=p.sha(candidate):
+             raise p.Rejected('not the pinned accepted production fixture')
+-        if positive.get('input_policy')!=f.POLICY or positive.get('adapter')!='both' or positive.get('engine_profile')!='completion-only':
++        if positive.get('input_policy')!=POLICY or positive.get('adapter')!='both' or positive.get('engine_profile')!='completion-only':
+             raise p.Rejected('positive policy/profile differs')
+         original=p.preflight(source);hashes=p.tree_hash(source.parent)
+-        if hashes!=positive['source_hashes'] or p.routes(original) or sx.children(original,'zone'):
+-            raise p.Rejected('expected original no-route/no-zone fixture differs')
++        if hashes!=positive['source_hashes'] or p.routes(original) or len(sx.children(original,'zone'))!=1:
++            raise p.Rejected('expected original no-route/one-placement-area fixture differs')
+         if positive['native']['findings'] or not p.native_accepted(positive['native']):raise p.Rejected('positive native report is not clean')
+         tools=p.tool_manifest()
+         if tools['implementation_sha256']!=positive['tools']['implementation_sha256'] or tools['files']!=positive['tools']['files']:
+@@ -218,7 +232,7 @@
+             if p.sha(dest)!=digest:raise p.Rejected('source changed during code freeze')
+         for name in helpers:shutil.copy2(HERE/name,out/'code'/name)
+         freeze={'positive':positive_before,'source':hashes,'candidate':p.tree_hash(candidate.parent),'tools':tools,'helpers':helpers,'code':p.tree_hash(out/'code')}
+-        record.update(freeze=freeze,source=str(source),positive_result_sha256=p.sha(POSITIVE),positive_candidate_sha256=p.sha(candidate))
++        record.update(freeze=freeze,production_input_policy=POLICY,source=str(source),positive_result_sha256=p.sha(POSITIVE),positive_candidate_sha256=p.sha(candidate))
+         stable();board_bytes=candidate.read_bytes();project_bytes=candidate.with_suffix('.kicad_pro').read_bytes()
+         for case in CASES:
+             stable()
+@@ -243,7 +257,7 @@
+                     entry.update(production_native=native_final,production_native_accepted=p.native_accepted(native_final),
+                                  production_binding=check_drc(validation,'final-drc',board,native_final),candidate_sha256=final)
+                     if native_final!=native:raise p.Rejected('separate production/diagnostic native observations differ')
+-                    if final!=expected['board_sha256']:raise p.Rejected('no-zone control changed during finalization')
++                    if final!=expected['board_sha256']:raise p.Rejected('all-allowed-area control changed during finalization')
+                     p.verify_candidate_files(board,hashes,final)
+                     production_ok=(case=='positive' and p.native_accepted(native_final) and native_final['warnings']==0) or (
+                         case=='missing_via' and diagnostic_pass(case,native_final,expected,positive['native']['ignored_checks'])[0])
+@@ -261,7 +275,7 @@
+ 
+ 
+ def main(argv=None):
+-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--out',required=True,type=Path);parser.add_argument('--run-native',action='store_true');args=parser.parse_args(argv)
++    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--out',required=True,type=Path);parser.add_argument('--run-native',action='store_true');parser.add_argument('--positive',required=True,type=Path);args=parser.parse_args(argv)
+     if not args.run_native:parser.error('--run-native required; no native work performed')
+     prior={sig:signal.getsignal(sig) for sig in (signal.SIGINT,signal.SIGTERM)}
+     def cancelled(*_):raise KeyboardInterrupt
+@@ -269,7 +283,7 @@
+         for sig in prior:signal.signal(sig,cancelled)
+         with owned(ROOT/'.runs/quality-experiment.lock',exists=False).open('a') as stream:
+             fcntl.flock(stream,fcntl.LOCK_EX|fcntl.LOCK_NB)
+-            result=experiment(args.out,run_native=True)
++            result=experiment(args.out,positive=args.positive,run_native=True)
+     finally:
+         for sig,handler in prior.items():signal.signal(sig,handler)
+     print(json.dumps({'status':result['status'],'controls_passed':result['controls_passed'],'output':str(args.out)}))

@@ -1,0 +1,38 @@
+# Independent static closure audit003
+
+The two completed acquisitions add **two boards**, bringing the acquired population to **16**. Both boards remain development-exposed, incomplete in dependency closure and unsupported by the current source gate. The resulting recorded population is7complete/9incomplete and3eligible/13unsupported; the prior2production-policy accepted inputs and1separate diagnostic accepted input do not change. Neither acquisition is native-validated or an established independent family.
+
+The independent inventory verifies all81 acquired files, their original Git blobs and SHA-256 values against the pinned proposal and completed receipts:55files/3,663,021bytes for PMOD-to-Qwiic and26files/4,194,990bytes for LiPo Disconnector. Both full source trees remain byte-identical after the audit. No network, native tool, solver or downloaded script was executed. The pre-download exposure decision remains immutable; its earlier `fetch_executed:false` is a historical decision record, not the current acquisition outcome.
+
+| Original project | Native source observations | Exact current static gate |
+|---|---|---|
+|PMOD-to-Qwiic at14b1141eca4fb4ff84d9898e756ee8e5445b6c1f|PCB20201116, schematic20200827; F.Cu/B.Cu;4footprints,18pads,29segments,4vias,1copper zone; rounded outline4lines+4arcs.|Rejected: old board format; legacy `Power.nets=["+3V3"]` assignment without qualified literal bindings; five unqualified legacy severity keys. Original Default width0.16mm is below board minimum≈0.20mm; no resolution is inferred.|
+|LiPo Disconnector ate70656fad7e7756d6595a1598037d724dcd0e5d6|PCB20220621, schematic20220404; F.Cu/B.Cu;13footprints including9padless board-only KiBuzzard graphics,10pads,6segments,2vias,3copper zones;4lines+4arcs.|Rejected: old board format. Single Default class. Same-basename project exists, but original project metadata says `lipo_jumpers.kicad_pro`; retained unchanged.|
+
+Neither contains a prohibited board rule area or DRC exclusion. LiPo's original `connection_width:ignore`, `padstack:warning` and all other severities are retained; this audit does not change or approve them. PMOD's five unknown keys are `drill_too_small`, `keepout`, `microvia_drill_too_small`, `via_hole_larger_than_pad` and `zone_has_empty_net`. Native migration/effective-rule behavior is untested. Rounded edges also fall outside the rectangular placement-diagnostic scope; absence of placement areas is not a reason to transplant that policy.
+
+## Concrete dependency gaps
+
+Both project tables reference only the complete15-file `Symbols_Extra.pretty` logo directory. Its files and MIT notice are present at their exact pinned submodule revisions. This is **not** the complete95MB/194MB module repository or complete board dependency closure. PMOD also has the complete30-file symbol repository, but neither project has a sym-lib-table and actual schematic references use stock `power` and `Connector_Generic` names. Every actual symbol has an embedded definition; embedded copies do not establish authentic upstream stock-library identity. Symbol-instance tables were inspected as well as property fields, so LiPo's initially generic `U`/`J` reference properties are not misreported as missing component assignments.
+
+| Missing original project-local model | Required by | Pinned Git blob / bytes |
+|---|---|---|
+|`modules/packages3D/Connector_JST.3dshapes/SM04B-SRSS-TB.STEP`|PMOD J2/J3|5167178f7b0fa44d9595431b7ec2fa3727b6d124 /140,835|
+|`modules/packages3D/Connector.3dshapes/S2B-PH-SM4-TB.step`|LiPo J1/J2|7bfe9f28cc256f423bc691e3937777a1ca22f6db /153,561|
+|`modules/packages3D/Connector.3dshapes/Jumper_2_P2.54mm.step`|LiPo J3, explicitly hidden|8002c3ae73ffaf8c30050b986fa1d57e8debe65b /216,536|
+
+The exact missing blobs exist in the pinned metadata. Their contents/vendor notices were not acquired or inspected; repository MIT alone is not asserted to settle upstream model rights. The hidden jumper remains an original reference. Closing these three small local gaps requires510,932additional bytes across the two projects, before any unresolved stock assets; wholesale module downloads are unnecessary for this reference audit.
+
+Stock footprint identities still unresolved are the named PinHeader1x06 and JST-SH4 variants for PMOD, and PinHeader1x02 and JST-PH2 variants for LiPo. Models additionally reference `${KISYS3DMOD}` and `${KICAD6_3DMODEL_DIR}`. No historical library revision, alias mapping or model parity was invented from the installed application. The original root caches are retained whole; their thousands of global footprint descriptions are metadata, not a requirement to fetch every cached library. The complete unlinked PMOD symbol repository also contains unused footprint/datasheet references, explicitly recorded separately from the actual board dependency graph.
+
+## Rights and ancestry limits
+
+The [PMOD publisher root](https://github.com/solderparty/pmod_to_qwiic_adapter/blob/14b1141eca4fb4ff84d9898e756ee8e5445b6c1f/LICENSE.md) and [LiPo publisher root](https://github.com/solderparty/lipo_disconnector_hw/blob/e70656fad7e7756d6595a1598037d724dcd0e5d6/LICENSE.md) retain CERN-OHL1.2 notices. The module and PMOD symbol dependencies retain [arturo182's MIT notice](https://github.com/arturo182/kicad-modules/blob/813d15802ba11589749847e9e03fbcbd1c3a7a05/LICENSE), including2019 attribution. All acquired text files were scanned for inline copyright/license/trademark notices; no conflicting inline grant was found outside those notices. This does not clear unacquired models, stock assets, cache-derived descriptions, photographic authorship or unknown font provenance. LiPo's photo is retained under its original root path; no additional independent authorship evidence was supplied. Non-UTF8 punctuation in its original license bytes was preserved, not silently rewritten.
+
+Keep original notices and source attribution, date/describe any future modified documentation, and preserve the applicable original license terms. Logos remain source documentation, not an endorsement or new branding asset. Complete-project redistribution is not cleared by this audit; source stays ignored until remaining asset provenance is resolved. Public audit records may describe gaps without publishing those assets.
+
+The15 shared logo blobs and common publisher establish template reuse. Separate product functions/repositories, connector choices or schematic sizes do not establish family independence. Both are provisionally grouped for leakage control with ancestry unresolved. Prior metadata-only reserve labels are retained as history; both were explicitly designated development before geometry acquisition and cannot become untouched holdout inputs.
+
+The smallest next gate is authentic reference/notice closure, then a bounded compatibility diagnostic on disposable copies with original files retained and unchanged. LiPo is the narrower compatibility lead because current static rejection is only its format version; that is an investigation priority, not permission to broaden the gate. Do not rename source formats, substitute global aliases, relax native rules or claim successful routing from these static observations.
+
+`audit.json` contains per-file hashes/rights scope, every board and schematic reference, stock/local gaps, source/project metadata, full original rule data and exact static rejection strings. `audit.py` reproduces the read-only audit. The first run's receipt-metadata assertion failure is retained with its original script: the plan's acquisition flag was false while the completed receipt correctly sets it true; the corrected script now explicitly checks that transition.

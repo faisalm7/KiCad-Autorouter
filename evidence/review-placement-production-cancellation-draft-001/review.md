@@ -1,0 +1,11 @@
+# Independent cancellation-control review
+
+Two concrete issues in the initial adaptation are resolved in the reviewed source. main registered SIGTERM twice, saving the already-overwritten handler rather than its original value; it now captures unique SIGINT/SIGTERM handlers before setup and restores both in finally. The lead added a real handler-state test with a stubbed control failure.
+
+The initial final-write path could leave canonical passed=true after an interrupt following publication. A bounded synthetic Popen/git/PID simulation reproduced exactly that result without launching any subprocess or native/engine job: interrupt_escaped=true and canonical_passed_after_interrupt=true. The first harness import failed before simulation and is retained explicitly. The same simulation against the fixed copied source now completes with status=cancelled, passed=false, no escaping interrupt and the prior positive archived.
+
+The fixed publish_control checks source/tool/HEAD/helper and exact route/engine receipt hashes plus owned engine-group absence before and after canonical publication. Canonical tampering or interruption archives canonical/partial outputs before negative correction; failed correction archives again. Lead-added pure controls cover handler restoration, explicit execution gate, after-write interruption, canonical tamper and failed correction. This reviewer independently reran the concrete whole-control publication reproduction, not native cancellation.
+
+No additional immediate blocker was found for the narrowly described engine-stage native experiment after committed-source checkpoint. It signals only the unreaped spawned CLI PID; actual log plus immediate-child process-group observation and retained engine PID/cancel signal/cleanup must agree. Group absence is an immediate observation. The CLI has its60-second route budget; the control additionally allows bounded startup/cleanup waits and is not an equal-budget routing comparison. Interstage/editor/OS-crash handling and electrical correctness remain outside scope. Actual SIGINT and SIGTERM tests are still pending and must preserve any failure. Earlier historical floor cancellation evidence is unchanged.
+
+This review subfolder is frozen. It is independent AI source review plus mocked process/publication evidence, not native qualification.

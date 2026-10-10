@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "recorded_utc": "2026-10-10T12:48:28.615714+00:00",
+  "prior_population": {
+    "count": 14,
+    "evidence": "evidence/development-outcomes-003/index.json",
+    "sha256": "3f8005c3ba6a23954b21cb7fc055418ed3e103bbcc129f7e1aa78373e99a9023"
+  },
+  "new_acquired_native_boards": 2,
+  "considered_population": 16,
+  "all_acquired_in_denominator": true,
+  "eligible": 3,
+  "unsupported_or_incomplete": 13,
+  "routing_inputs": 3,
+  "production_policy_accepted_inputs": 2,
+  "distinct_diagnostic_accepted_inputs": 1,
+  "records": [
+    {
+      "id": "pmod-to-qwiic",
+      "source": ".data/expansion003/pmod-to-qwiic/pmod_to_qwiic.kicad_pcb",
+      "board_sha256": "67e1a533771d8918e53f7451171df3fdb58bfa315cb95cee4a8efd14ca0083f7",
+      "project_sha256": "bc747a79ad6a3eb60e36e69c3ada43cb22c1f4e446403e9b748dc788d3db1777",
+      "receipt_sha256": "536f024782803f3054e48a307413b380d64a019649f7d4b743e1b56fb2af6105",
+      "split": "development",
+      "dependency_closure": "incomplete; three unique local models and historical stock-library identities unresolved across both projects; see exact closure audit",
+      "routing_supported": false,
+      "preflight_rejection": "unsupported: netclass bindings not qualified: A bounded list of literal assignments is required; unknown rule severity semantics: drill_too_small; unknown rule severity semantics: keepout; unknown rule severity semantics: microvia_drill_too_small; unknown rule severity semantics: via_hole_larger_than_pad; unknown rule severity semantics: zone_has_empty_net; unqualified board format version",
+      "native_executed": false,
+      "engine_executed": false,
+      "family_independence": null
+    },
+    {
+      "id": "lipo-disconnector",
+      "source": ".data/expansion003/lipo-disconnector/lipo_disconnector.kicad_pcb",
+      "board_sha256": "3ef2141230ce971115381107486892bdf06a724c5d31d9ef2103622e113cf4e0",
+      "project_sha256": "8bc2dc577fb98404f317730b10ba2945f213a14e212b7a0b3e7fba7943a8d95e",
+      "receipt_sha256": "b57bc2ce29d7c5e45939fbf917896d02536b357e8b5a08c04828dd8305107c27",
+      "split": "development",
+      "dependency_closure": "incomplete; three unique local models and historical stock-library identities unresolved across both projects; see exact closure audit",
+      "routing_supported": false,
+      "preflight_rejection": "unsupported: unqualified board format version",
+      "native_executed": false,
+      "engine_executed": false,
+      "family_independence": null
+    }
+  ],
+  "scope": "Acquisition and unchanged offline support gate only. Prior14 outcome index remains immutable; these2 append every newly acquired native board. No new native check, completed source closure, independent family or pooled success-rate claim.",
+  "closure_audit": {
+    "path": "evidence/licensed-closure-audit-003/audit.json",
+    "sha256": "2cd1637a3bc280a116c98c8986270e5614e0ee20467a21986b7fb47a10708443"
+  }
+}

@@ -1,0 +1,3810 @@
+{
+  "schema": 1,
+  "kind": "independent static original source/license/dependency audit; not native qualification",
+  "prior_acquired_inputs": 14,
+  "new_acquired_boards": 2,
+  "resulting_acquired_inputs": 16,
+  "recorded_static_eligible": 3,
+  "recorded_static_unsupported": 13,
+  "complete_inputs": 7,
+  "incomplete_inputs": 9,
+  "production_policy_accepted_inputs_unchanged": 2,
+  "diagnostic_accepted_inputs_unchanged": 1,
+  "exposure_decision": ".runs/licensed-acquisition-003/exposure-decision.json",
+  "exposure_sha256": "d183ec65c6e7d1d283bd0157ec70e0ee7741b84011eb6278a203c9c691c96b23",
+  "plan_sha256": "4ab6b6675eeb33b90a1296441f624a5ba3a293c246d65fa021f73d4c6fa79dae",
+  "pipeline_sha256": "101ad65bff197afe17758d30e850a944333875f256f159a4346fdf36f997358f",
+  "sexpr_sha256": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+  "records": [
+    {
+      "project": "pmod-to-qwiic",
+      "split": "development",
+      "source_repository": "solderparty/pmod_to_qwiic_adapter",
+      "source_commit": "14b1141eca4fb4ff84d9898e756ee8e5445b6c1f",
+      "acquisition_receipt": ".runs/licensed-acquisition-003/pmod-to-qwiic-001/receipt.json",
+      "acquisition_receipt_sha256": "536f024782803f3054e48a307413b380d64a019649f7d4b743e1b56fb2af6105",
+      "files": 55,
+      "bytes": 3663021,
+      "complete_pinned_root": true,
+      "complete_declared_submodule_repository": false,
+      "root_file_count": 9,
+      "source_inventory": {
+        ".gitignore": "88f35093c21001693041e4be9d7bc510a5b6c4832edcf78f33fdc971566ce65f",
+        ".gitmodules": "303e2693150d7da5595afd132e29646614e755627da745d6a7d887d4408cd76d",
+        "LICENSE.md": "60142a73e57a208d178a74fd43ad37badaa95d552108c13c614d8c1e26c4c366",
+        "README.md": "5857d64fc10a3a794763ee6c48ba92549ca118eb2c1e45de356bb60ef2d0b963",
+        "fp-info-cache": "cfb4790660b584a1584fe10131742b99b64a20b37f060337b94614086ce7ed4d",
+        "fp-lib-table": "82100ee093fd690054037cadff8629acf2e6be028fb5918e8802562ab10023a2",
+        "library/.gitignore": "d03bac78bce61b9d97f47ec8638bc25a49d43d57ae3d91b1002ebc08b56e7adb",
+        "library/74xGxx_Extra.lib": "3fdad94cd10b84ba729b0610c9496d4709a3ef75cab99f62a07df853918be8b3",
+        "library/Amplifier_Audio_Extra.lib": "afd390d3542e803fc13f59f0c525d833a0aee5782da1fac95ad709e703a8c833",
+        "library/Analog_ADC_Extra.kicad_sym": "104bb44e27de143fd895d6b0824daef92e97035142ab663448376c450c3045b8",
+        "library/Battery_Management_Extra.lib": "3650b70dfb084fdfa56cf16b842add4b47161a07c879fced5297164af98a021b",
+        "library/Device_Extra.lib": "40e452aa405389d1f16cc5c978dd7eb26a7d2b37664cbd125c158c683219dd95",
+        "library/Display_Graphic_Extra.kicad_sym": "b346c5acba6dbee1b614d342082cd3f2e0d26d55df41d3c2e0d129a158739cf7",
+        "library/Display_Graphic_Extra.lib": "db47a889222e653e0c26e5358df4e86e4240fb2566b6946c4d9c96a980329238",
+        "library/Driver_LED_Extra.lib": "5c549e1a1c5d18bbea89c19df05bede7dc9d1a654f8771391ce9d97694486b94",
+        "library/Driver_Motor_Extra.lib": "8ace5acd902bfed70261b404c33d4d55e119aef5bcae8f0c323eb6b208e28dff",
+        "library/FPGA_Lattice_Extra.lib": "192c522433758cd0f4fce93780cb51f925e34e3f0bee9ebd1c04a2b898de74bd",
+        "library/Interface_Display_Extra.lib": "30e75731c7bd2bacb2c5a5ce36e79672f05d37f94dd663ffa4e9c868e5c9ba4f",
+        "library/Interface_Expansion_Extra.lib": "0ff1b90b1dfc85e04b2708cd3974ef6102bf9ab0cfec9d7c4310668dd43a5787",
+        "library/Interface_USB_Extra.kicad_sym": "de4f58a257b0c7956fc38fd95a88bb3a4b10796717889b0b2159916119d8660f",
+        "library/Keyboard.lib": "812657e04bbc95e5ad56152732b7bbb6099b6561916744c90e69e23c45a6aaee",
+        "library/LED_Driver_Extra.lib": "826b95eba70244e2ea638738cf614a84ba22cd83754d856051988b0ab75743f7",
+        "library/LED_Extra.lib": "5480c75c606bd285faee32c2e56a0d39cd4ce6f8c0f50b9deee798ca2915901a",
+        "library/LICENSE": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+        "library/MCU_Microchip_SAMD_Extra.lib": "d91405d2221dae81e521fb161a8752cee5fce89c0ed51258922c907c28fe5b8a",
+        "library/MCU_Module_Extra.lib": "5c56f093cf48522f3f0dc6c970b717bae83b3431285f68080a3735facf5a0611",
+        "library/MCU_NXP_RT.lib": "e8342a4bc17c1a6466d86013f2887d12d2fb8d55bf9a80ad5c34affca7d980db",
+        "library/Memory_Flash_Extra.lib": "e06d2a909dcbf32cdf04ed8ead8a800bd21438ea1a5c309d047ac6ac2516b6ec",
+        "library/Potentiometer_Digital_Extra.kicad_sym": "891689df6279e0b5f1ce57dbba6bf5921d8e9397c9c293453bc89bc62a6e1e54",
+        "library/RF_Module_Extra.lib": "8a484b586122c9c6f651d65eb84ac230ff340dcf9bd16b709c1ed4bd2c2a3d02",
+        "library/Regulator_Switching_Extra.kicad_sym": "2c94c6e39578cea8f1f22f5507214af10977ba7fc662038b21d4ad20b5a16ccd",
+        "library/Sensor_Motion_Extra.lib": "6b1bde5cca31029081a64d930010d3729cfd1a3f7289978e70a48305f898259f",
+        "library/Switch_Extra.lib": "ea75372fccbd3423df7cd810284a7a124a4272826d1b3dacab12499f454324b0",
+        "library/Transistor_FET_Extra.lib": "bf6c0f70ed9415b03470c86dc1ab8cf69e1a8349503da8cc95245e2a55eacc30",
+        "library/power_extra.kicad_sym": "a378e8e06658d6c935d3eac6ab3d8a4723447910550d8d0bd86b3ff6e1458661",
+        "library/power_extra.lib": "5da6c27f1b346a989266c6dc1bd337aff92f3607d9d9e2627c1fac5a2c7b8a79",
+        "modules/LICENSE": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+        "modules/Symbols_Extra.pretty/SolderParty-Logo_12.6x11.7mm_SilkScreen.kicad_mod": "5f9a79e06a4f4e861198038bf6e3b345ec9b38402bd274ac415f5ce4a1cdd62d",
+        "modules/Symbols_Extra.pretty/SolderParty-Logo_13.5x12.6mm_SilkScreen.kicad_mod": "9f85eb0d3d611ae9fe5e455f063191ac785d69169ca59ab14a7ad0d9ba613b6a",
+        "modules/Symbols_Extra.pretty/SolderParty-Logo_14.6x13.5mm_SilkScreen.kicad_mod": "8ab7f36965e7b9c79d10ba6f716eaecbb7450dd7ef7144ba1ea4b70b4b87872f",
+        "modules/Symbols_Extra.pretty/SolderParty-Logo_6.3x5.9mm_SilkScreen.kicad_mod": "e30cf7128f51f03b445e4b804924fed6f7b9baea565dea194d62940168fc40f3",
+        "modules/Symbols_Extra.pretty/SolderParty-Logo_9.5x8.8mm_SilkScreen.kicad_mod": "2b42d1a42f609b858eea8aff18f03debdd2dc04c7729617641ece03ba91edb98",
+        "modules/Symbols_Extra.pretty/SolderParty-New-Logo_10x8.5mm_SilkScreen.kicad_mod": "acf8ada447027c6fd06511d2c3f1856b304a9f15d5872d1cf4d9f054f16b6402",
+        "modules/Symbols_Extra.pretty/SolderParty-New-Logo_12.5x10.6mm_SilkScreen.kicad_mod": "274945955528e605909dbf678aba669f7738ef6d2ab079d7067fcb89beb47709",
+        "modules/Symbols_Extra.pretty/SolderParty-New-Logo_15x12.7mm_SilkScreen.kicad_mod": "adc13a815022a9cb99c92c68a0c68e3481ea518fb99c0eabacff024e5093e241",
+        "modules/Symbols_Extra.pretty/SolderParty-New-Logo_20x16.9mm_SilkScreen.kicad_mod": "7189e02c9180b4ce68073b0e32c22ceb397f37e2e66b3933a6f8724183a698ba",
+        "modules/Symbols_Extra.pretty/SolderParty-New-Logo_25x21.2mm_SilkScreen.kicad_mod": "9c04257ed73fa5846a2856bb75d1e2e5245dd45d97a21f3afdf6701333a3ce58",
+        "modules/Symbols_Extra.pretty/SolderParty-New-Logo_3x2.5mm_SilkScreen.kicad_mod": "cde7e5cba2c7697cc6833b177d27419af8ae53051be43c7836506e411bf0bc1c",
+        "modules/Symbols_Extra.pretty/SolderParty-New-Logo_45x38.1mm_SilkScreen.kicad_mod": "b1e32aeda5ea9502ef7c2b20611b2bff3ca878e915d258c4e36305f325a8f59d",
+        "modules/Symbols_Extra.pretty/SolderParty-New-Logo_5x4.2mm_SilkScreen.kicad_mod": "2633d6f477fb68e29134914674f6827dc8f9df4f155ba4b2766717d406628174",
+        "modules/Symbols_Extra.pretty/SolderParty-New-Logo_60x50.8mm_SilkScreen.kicad_mod": "2279157404e4a0e314e94605aa314f00d041fb0a8d22fff2446926fa67f08015",
+        "modules/Symbols_Extra.pretty/SolderParty-New-Logo_7.5x6.4mm_SilkScreen.kicad_mod": "9caec0ba9c1c80ea0683af3ffd63ec8c7a19e9e059a11e96a31207de3ab434d2",
+        "pmod_to_qwiic.kicad_pcb": "67e1a533771d8918e53f7451171df3fdb58bfa315cb95cee4a8efd14ca0083f7",
+        "pmod_to_qwiic.kicad_pro": "bc747a79ad6a3eb60e36e69c3ada43cb22c1f4e446403e9b748dc788d3db1777",
+        "pmod_to_qwiic.kicad_sch": "5e168a9a7edfeea936e28f12271336741c57069c2c788a2ca2ca166df0705627"
+      },
+      "source_unchanged": true,
+      "board": ".data/expansion003/pmod-to-qwiic/pmod_to_qwiic.kicad_pcb",
+      "board_sha256": "67e1a533771d8918e53f7451171df3fdb58bfa315cb95cee4a8efd14ca0083f7",
+      "board_format_version": "20201116",
+      "schematic_format_version": "20200827",
+      "project_meta": {
+        "filename": "pmod_to_qwiic.kicad_pro",
+        "version": 1
+      },
+      "same_basename_project_exists": true,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "layer_count": 2,
+      "net_declarations": [
+        [
+          "0",
+          "\"\""
+        ],
+        [
+          "1",
+          "\"GND\""
+        ],
+        [
+          "2",
+          "\"+3V3\""
+        ],
+        [
+          "3",
+          "\"/SDA\""
+        ],
+        [
+          "4",
+          "\"/SCL\""
+        ],
+        [
+          "5",
+          "\"Net-(J1-Pad2)\""
+        ],
+        [
+          "6",
+          "\"/INT\""
+        ]
+      ],
+      "pads": 18,
+      "edge_geometry_counts": {
+        "gr_arc": 4,
+        "gr_line": 4
+      },
+      "tracks": 29,
+      "vias": 4,
+      "zone_count": 1,
+      "rule_area_count": 0,
+      "footprints": [
+        {
+          "identity": "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical",
+          "reference": "J1",
+          "uuid": "00000000-0000-0000-0000-00005bf03c84",
+          "pads": 6,
+          "pad_types": {
+            "thru_hole:rect": 1,
+            "thru_hole:oval": 5
+          },
+          "models": [
+            {
+              "reference": "${KISYS3DMOD}/Connector_PinHeader_2.54mm.3dshapes/PinHeader_1x06_P2.54mm_Vertical.wrl",
+              "hidden": false,
+              "owner_reference": "J1",
+              "owner_footprint": "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical",
+              "kind": "unresolved original stock/environment alias",
+              "present": false
+            }
+          ],
+          "authentic_project_local_library_file": null,
+          "local_library_present": false,
+          "local_library_sha256": null,
+          "embedded_only_graphic": false,
+          "attributes": [
+            "attr",
+            "through_hole"
+          ],
+          "schematic_path": "/231b0a73-975d-4768-867e-b82018e0792b",
+          "native_library_parity_qualified": false
+        },
+        {
+          "identity": "Connector_JST:JST_SH_SM04B-SRSS-TB_1x04-1MP_P1.00mm_Horizontal",
+          "reference": "J2",
+          "uuid": "24dba591-b885-4ce8-9fbf-5378b2314e5d",
+          "pads": 6,
+          "pad_types": {
+            "smd:roundrect": 6
+          },
+          "models": [
+            {
+              "reference": "${KIPRJMOD}/modules/packages3D/Connector_JST.3dshapes/SM04B-SRSS-TB.STEP",
+              "hidden": false,
+              "owner_reference": "J2",
+              "owner_footprint": "Connector_JST:JST_SH_SM04B-SRSS-TB_1x04-1MP_P1.00mm_Horizontal",
+              "kind": "project-local model",
+              "relative_path": "modules/packages3D/Connector_JST.3dshapes/SM04B-SRSS-TB.STEP",
+              "present": false
+            }
+          ],
+          "authentic_project_local_library_file": null,
+          "local_library_present": false,
+          "local_library_sha256": null,
+          "embedded_only_graphic": false,
+          "attributes": [
+            "attr",
+            "smd"
+          ],
+          "schematic_path": "/177a13f8-6c6c-449f-9b7b-6263f8ee4cc9",
+          "native_library_parity_qualified": false
+        },
+        {
+          "identity": "Connector_JST:JST_SH_SM04B-SRSS-TB_1x04-1MP_P1.00mm_Horizontal",
+          "reference": "J3",
+          "uuid": "a32207a1-9db1-4ca3-b69c-b7b9051d3462",
+          "pads": 6,
+          "pad_types": {
+            "smd:roundrect": 6
+          },
+          "models": [
+            {
+              "reference": "${KIPRJMOD}/modules/packages3D/Connector_JST.3dshapes/SM04B-SRSS-TB.STEP",
+              "hidden": false,
+              "owner_reference": "J3",
+              "owner_footprint": "Connector_JST:JST_SH_SM04B-SRSS-TB_1x04-1MP_P1.00mm_Horizontal",
+              "kind": "project-local model",
+              "relative_path": "modules/packages3D/Connector_JST.3dshapes/SM04B-SRSS-TB.STEP",
+              "present": false
+            }
+          ],
+          "authentic_project_local_library_file": null,
+          "local_library_present": false,
+          "local_library_sha256": null,
+          "embedded_only_graphic": false,
+          "attributes": [
+            "attr",
+            "smd"
+          ],
+          "schematic_path": "/678ad7a0-4308-4367-8535-55442c3f8b53",
+          "native_library_parity_qualified": false
+        },
+        {
+          "identity": "Symbols_Extra:SolderParty-New-Logo_5x4.2mm_SilkScreen",
+          "reference": "G***",
+          "uuid": "a6f8640f-2d35-4457-86d7-99f5484c071b",
+          "pads": 0,
+          "pad_types": {},
+          "models": [],
+          "authentic_project_local_library_file": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_5x4.2mm_SilkScreen.kicad_mod",
+          "local_library_present": true,
+          "local_library_sha256": "2633d6f477fb68e29134914674f6827dc8f9df4f155ba4b2766717d406628174",
+          "embedded_only_graphic": false,
+          "attributes": [
+            "attr",
+            "through_hole"
+          ],
+          "schematic_path": null,
+          "native_library_parity_qualified": false
+        }
+      ],
+      "symbol_references": [
+        "Connector_Generic:Conn_01x04",
+        "Connector_Generic:Conn_01x06",
+        "power:+3.3V",
+        "power:GND",
+        "power:PWR_FLAG"
+      ],
+      "embedded_symbol_definitions": [
+        "Connector_Generic:Conn_01x04",
+        "Connector_Generic:Conn_01x06",
+        "power:+3.3V",
+        "power:GND",
+        "power:PWR_FLAG"
+      ],
+      "schematic_instances": [
+        {
+          "lib_id": "power:PWR_FLAG",
+          "uuid": "e9b8f91c-f994-43d7-8e9f-940137a09905",
+          "properties": {
+            "Reference": "#FLG0101",
+            "Value": "PWR_FLAG",
+            "Footprint": "",
+            "Datasheet": "~"
+          },
+          "instances": null
+        },
+        {
+          "lib_id": "power:PWR_FLAG",
+          "uuid": "b3c0fb4e-2f40-4ed9-9e1c-8f93471cb65c",
+          "properties": {
+            "Reference": "#FLG0102",
+            "Value": "PWR_FLAG",
+            "Footprint": "",
+            "Datasheet": "~"
+          },
+          "instances": null
+        },
+        {
+          "lib_id": "power:+3.3V",
+          "uuid": "fd8a5cdc-66af-47c6-8ddc-cdc3d82b188a",
+          "properties": {
+            "Reference": "#PWR0103",
+            "Value": "+3.3V",
+            "Footprint": "",
+            "Datasheet": ""
+          },
+          "instances": null
+        },
+        {
+          "lib_id": "power:+3.3V",
+          "uuid": "a41311d3-a16d-4f66-aa45-294edb210d01",
+          "properties": {
+            "Reference": "#PWR0102",
+            "Value": "+3.3V",
+            "Footprint": "",
+            "Datasheet": ""
+          },
+          "instances": null
+        },
+        {
+          "lib_id": "power:+3.3V",
+          "uuid": "f28ff8e5-3069-446e-95b7-f793391331f5",
+          "properties": {
+            "Reference": "#PWR0104",
+            "Value": "+3.3V",
+            "Footprint": "",
+            "Datasheet": ""
+          },
+          "instances": null
+        },
+        {
+          "lib_id": "power:+3.3V",
+          "uuid": "c1235c55-0534-4972-a7bf-1d493ad8c157",
+          "properties": {
+            "Reference": "#PWR0107",
+            "Value": "+3.3V",
+            "Footprint": "",
+            "Datasheet": ""
+          },
+          "instances": null
+        },
+        {
+          "lib_id": "power:GND",
+          "uuid": "d78913cb-ffb5-40bb-8809-8897df44716c",
+          "properties": {
+            "Reference": "#PWR0106",
+            "Value": "GND",
+            "Footprint": "",
+            "Datasheet": ""
+          },
+          "instances": null
+        },
+        {
+          "lib_id": "power:GND",
+          "uuid": "7c398dd3-3d44-4fd5-8abf-84e2e2db4c0d",
+          "properties": {
+            "Reference": "#PWR0101",
+            "Value": "GND",
+            "Footprint": "",
+            "Datasheet": ""
+          },
+          "instances": null
+        },
+        {
+          "lib_id": "power:GND",
+          "uuid": "fcc51ac1-e26e-4983-909c-571b175478a4",
+          "properties": {
+            "Reference": "#PWR0108",
+            "Value": "GND",
+            "Footprint": "",
+            "Datasheet": ""
+          },
+          "instances": null
+        },
+        {
+          "lib_id": "power:GND",
+          "uuid": "2c62f261-f7fc-4426-86ae-b27b33326644",
+          "properties": {
+            "Reference": "#PWR0105",
+            "Value": "GND",
+            "Footprint": "",
+            "Datasheet": ""
+          },
+          "instances": null
+        },
+        {
+          "lib_id": "Connector_Generic:Conn_01x04",
+          "uuid": "177a13f8-6c6c-449f-9b7b-6263f8ee4cc9",
+          "properties": {
+            "Reference": "J2",
+            "Value": "Conn_Stemma_QT",
+            "Footprint": "Connector_JST:JST_SH_SM04B-SRSS-TB_1x04-1MP_P1.00mm_Horizontal",
+            "Datasheet": "~"
+          },
+          "instances": null
+        },
+        {
+          "lib_id": "Connector_Generic:Conn_01x04",
+          "uuid": "678ad7a0-4308-4367-8535-55442c3f8b53",
+          "properties": {
+            "Reference": "J3",
+            "Value": "Conn_Stemma_QT",
+            "Footprint": "Connector_JST:JST_SH_SM04B-SRSS-TB_1x04-1MP_P1.00mm_Horizontal",
+            "Datasheet": "~"
+          },
+          "instances": null
+        },
+        {
+          "lib_id": "Connector_Generic:Conn_01x06",
+          "uuid": "231b0a73-975d-4768-867e-b82018e0792b",
+          "properties": {
+            "Reference": "J1",
+            "Value": "PMOD",
+            "Footprint": "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical",
+            "Datasheet": "~"
+          },
+          "instances": null
+        }
+      ],
+      "original_symbol_instances_table": [
+        "symbol_instances",
+        [
+          "path",
+          "\"/e9b8f91c-f994-43d7-8e9f-940137a09905\"",
+          [
+            "reference",
+            "\"#FLG0101\""
+          ],
+          [
+            "unit",
+            "1"
+          ]
+        ],
+        [
+          "path",
+          "\"/b3c0fb4e-2f40-4ed9-9e1c-8f93471cb65c\"",
+          [
+            "reference",
+            "\"#FLG0102\""
+          ],
+          [
+            "unit",
+            "1"
+          ]
+        ],
+        [
+          "path",
+          "\"/7c398dd3-3d44-4fd5-8abf-84e2e2db4c0d\"",
+          [
+            "reference",
+            "\"#PWR0101\""
+          ],
+          [
+            "unit",
+            "1"
+          ]
+        ],
+        [
+          "path",
+          "\"/a41311d3-a16d-4f66-aa45-294edb210d01\"",
+          [
+            "reference",
+            "\"#PWR0102\""
+          ],
+          [
+            "unit",
+            "1"
+          ]
+        ],
+        [
+          "path",
+          "\"/fd8a5cdc-66af-47c6-8ddc-cdc3d82b188a\"",
+          [
+            "reference",
+            "\"#PWR0103\""
+          ],
+          [
+            "unit",
+            "1"
+          ]
+        ],
+        [
+          "path",
+          "\"/f28ff8e5-3069-446e-95b7-f793391331f5\"",
+          [
+            "reference",
+            "\"#PWR0104\""
+          ],
+          [
+            "unit",
+            "1"
+          ]
+        ],
+        [
+          "path",
+          "\"/2c62f261-f7fc-4426-86ae-b27b33326644\"",
+          [
+            "reference",
+            "\"#PWR0105\""
+          ],
+          [
+            "unit",
+            "1"
+          ]
+        ],
+        [
+          "path",
+          "\"/d78913cb-ffb5-40bb-8809-8897df44716c\"",
+          [
+            "reference",
+            "\"#PWR0106\""
+          ],
+          [
+            "unit",
+            "1"
+          ]
+        ],
+        [
+          "path",
+          "\"/c1235c55-0534-4972-a7bf-1d493ad8c157\"",
+          [
+            "reference",
+            "\"#PWR0107\""
+          ],
+          [
+            "unit",
+            "1"
+          ]
+        ],
+        [
+          "path",
+          "\"/fcc51ac1-e26e-4983-909c-571b175478a4\"",
+          [
+            "reference",
+            "\"#PWR0108\""
+          ],
+          [
+            "unit",
+            "1"
+          ]
+        ],
+        [
+          "path",
+          "\"/231b0a73-975d-4768-867e-b82018e0792b\"",
+          [
+            "reference",
+            "\"J1\""
+          ],
+          [
+            "unit",
+            "1"
+          ]
+        ],
+        [
+          "path",
+          "\"/177a13f8-6c6c-449f-9b7b-6263f8ee4cc9\"",
+          [
+            "reference",
+            "\"J2\""
+          ],
+          [
+            "unit",
+            "1"
+          ]
+        ],
+        [
+          "path",
+          "\"/678ad7a0-4308-4367-8535-55442c3f8b53\"",
+          [
+            "reference",
+            "\"J3\""
+          ],
+          [
+            "unit",
+            "1"
+          ]
+        ]
+      ],
+      "schematic_sheet_count": 0,
+      "schematic_original_references": [
+        {
+          "kind": "ki_fp_filters",
+          "value": "Connector*:*_1x??_*"
+        },
+        {
+          "kind": "ki_fp_filters",
+          "value": "Connector*:*_1x??_*"
+        },
+        {
+          "kind": "lib_id",
+          "value": "power:PWR_FLAG"
+        },
+        {
+          "kind": "lib_id",
+          "value": "power:PWR_FLAG"
+        },
+        {
+          "kind": "lib_id",
+          "value": "power:+3.3V"
+        },
+        {
+          "kind": "lib_id",
+          "value": "power:+3.3V"
+        },
+        {
+          "kind": "lib_id",
+          "value": "power:+3.3V"
+        },
+        {
+          "kind": "lib_id",
+          "value": "power:+3.3V"
+        },
+        {
+          "kind": "lib_id",
+          "value": "power:GND"
+        },
+        {
+          "kind": "lib_id",
+          "value": "power:GND"
+        },
+        {
+          "kind": "lib_id",
+          "value": "power:GND"
+        },
+        {
+          "kind": "lib_id",
+          "value": "power:GND"
+        },
+        {
+          "kind": "lib_id",
+          "value": "Connector_Generic:Conn_01x04"
+        },
+        {
+          "kind": "Footprint",
+          "value": "Connector_JST:JST_SH_SM04B-SRSS-TB_1x04-1MP_P1.00mm_Horizontal"
+        },
+        {
+          "kind": "lib_id",
+          "value": "Connector_Generic:Conn_01x04"
+        },
+        {
+          "kind": "Footprint",
+          "value": "Connector_JST:JST_SH_SM04B-SRSS-TB_1x04-1MP_P1.00mm_Horizontal"
+        },
+        {
+          "kind": "lib_id",
+          "value": "Connector_Generic:Conn_01x06"
+        },
+        {
+          "kind": "Footprint",
+          "value": "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical"
+        }
+      ],
+      "project_fp_table": [
+        {
+          "name": "Symbols_Extra",
+          "type": "KiCad",
+          "uri": "${KIPRJMOD}/modules/Symbols_Extra.pretty",
+          "options": "",
+          "descr": ""
+        }
+      ],
+      "project_sym_table_present": false,
+      "project_local_missing_models": [
+        {
+          "reference": "${KIPRJMOD}/modules/packages3D/Connector_JST.3dshapes/SM04B-SRSS-TB.STEP",
+          "hidden": false,
+          "owner_reference": "J2",
+          "owner_footprint": "Connector_JST:JST_SH_SM04B-SRSS-TB_1x04-1MP_P1.00mm_Horizontal",
+          "kind": "project-local model",
+          "relative_path": "modules/packages3D/Connector_JST.3dshapes/SM04B-SRSS-TB.STEP",
+          "present": false,
+          "pinned_tree_entry": {
+            "path": "packages3D/Connector_JST.3dshapes/SM04B-SRSS-TB.STEP",
+            "mode": "100644",
+            "type": "blob",
+            "sha": "5167178f7b0fa44d9595431b7ec2fa3727b6d124",
+            "size": 140835,
+            "url": "https://api.github.com/repos/arturo182/kicad-modules/git/blobs/5167178f7b0fa44d9595431b7ec2fa3727b6d124"
+          },
+          "rights": "not audited: blob content/embedded/vendor notice not acquired; repository MIT must not be assumed to resolve all upstream model rights"
+        },
+        {
+          "reference": "${KIPRJMOD}/modules/packages3D/Connector_JST.3dshapes/SM04B-SRSS-TB.STEP",
+          "hidden": false,
+          "owner_reference": "J3",
+          "owner_footprint": "Connector_JST:JST_SH_SM04B-SRSS-TB_1x04-1MP_P1.00mm_Horizontal",
+          "kind": "project-local model",
+          "relative_path": "modules/packages3D/Connector_JST.3dshapes/SM04B-SRSS-TB.STEP",
+          "present": false,
+          "pinned_tree_entry": {
+            "path": "packages3D/Connector_JST.3dshapes/SM04B-SRSS-TB.STEP",
+            "mode": "100644",
+            "type": "blob",
+            "sha": "5167178f7b0fa44d9595431b7ec2fa3727b6d124",
+            "size": 140835,
+            "url": "https://api.github.com/repos/arturo182/kicad-modules/git/blobs/5167178f7b0fa44d9595431b7ec2fa3727b6d124"
+          },
+          "rights": "not audited: blob content/embedded/vendor notice not acquired; repository MIT must not be assumed to resolve all upstream model rights"
+        }
+      ],
+      "stock_models": [
+        "${KISYS3DMOD}/Connector_PinHeader_2.54mm.3dshapes/PinHeader_1x06_P2.54mm_Vertical.wrl"
+      ],
+      "stock_footprints": [
+        "Connector_JST:JST_SH_SM04B-SRSS-TB_1x04-1MP_P1.00mm_Horizontal",
+        "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical"
+      ],
+      "extra_dependency_file_reference_audit": [
+        {
+          "path": "library/74xGxx_Extra.lib",
+          "legacy_F2_F3": [
+            "F2 \"\" 200 -300 50 H I C CNN",
+            "F3 \"\" 200 -300 50 H I C CNN"
+          ]
+        },
+        {
+          "path": "library/Amplifier_Audio_Extra.lib",
+          "legacy_F2_F3": [
+            "F2 \"Package_TO_SOT_SMD:SOT-23-6\" 0 -600 50 H I C CNN",
+            "F3 \"\" 0 0 50 H I C CNN"
+          ]
+        },
+        {
+          "path": "library/Analog_ADC_Extra.kicad_sym",
+          "references": [
+            {
+              "kind": "Footprint",
+              "value": "Package_TO_SOT_SMD:SOT-23-8"
+            },
+            {
+              "kind": "Datasheet",
+              "value": "https://datasheet.lcsc.com/szlcsc/Texas-Instruments-TI-INA219AIDR_C138706.pdf"
+            },
+            {
+              "kind": "ki_fp_filters",
+              "value": "SOT?23*"
+            }
+          ]
+        },
+        {
+          "path": "library/Battery_Management_Extra.lib",
+          "legacy_F2_F3": [
+            "F2 \"\" -1300 400 50 H I C CNN",
+            "F3 \"\" -1300 400 50 H I C CNN",
+            "F2 \"Package_TO_SOT_SMD:SOT-23-6\" 0 -400 50 H I C CNN",
+            "F3 \"\" 0 0 50 H I C CNN",
+            "F2 \"Package_SO:SOP-8_3.76x4.96mm_P1.27mm\" 0 -450 50 H I C CNN",
+            "F3 \"\" 750 -900 50 H I C CNN",
+            "F2 \"\" -550 50 50 H I C CNN",
+            "F3 \"\" -550 50 50 H I C CNN",
+            "F2 \"Package_SO:SOP-8_3.76x4.96mm_P1.27mm\" 0 -500 50 H I C CNN",
+            "F3 \"\" 0 0 50 H I C CNN",
+            "F2 \"Package_TO_SOT_SMD:SOT-23-5\" 0 -350 60 H I C CNN",
+            "F3 \"\" 0 850 60 H I C CNN"
+          ]
+        },
+        {
+          "path": "library/Device_Extra.lib",
+          "legacy_F2_F3": [
+            "F2 \"\" 0 -50 50 H I C CNN",
+            "F3 \"\" 0 -50 50 H I C CNN",
+            "F2 \"\" 0 -50 50 H I C CNN",
+            "F3 \"\" 0 -50 50 H I C CNN"
+          ]
+        },
+        {
+          "path": "library/Display_Graphic_Extra.kicad_sym",
+          "references": [
+            {
+              "kind": "Datasheet",
+              "value": "https://www.buydisplay.com/download/manual/ERC240160-2_Series_Datasheet.pdf"
+            },
+            {
+              "kind": "Datasheet",
+              "value": "https://www.buydisplay.com/download/interfacing/ERC240160-2_Interfacing.pdf"
+            }
+          ]
+        },
+        {
+          "path": "library/Display_Graphic_Extra.lib",
+          "legacy_F2_F3": [
+            "F2 \"\" 0 -550 50 H I C CNN",
+            "F3 \"\" 0 -550 50 H I C CNN",
+            "F2 \"\" 0 -750 60 H I C CNN",
+            "F3 \"\" 0 -750 60 H I C CNN",
+            "F2 \"\" 0 -750 60 H I C CNN",
+            "F3 \"\" 0 -750 60 H I C CNN",
+            "F2 \"\" -200 0 50 H I C CNN",
+            "F3 \"\" -200 0 50 H I C CNN",
+            "F2 \"\" 2300 -1300 50 H I C CNN",
+            "F3 \"https://www.buydisplay.com/download/manual/ERC240160-2_Series_Datasheet.pdf\" 0 -1100 50 H I C CNN",
+            "F2 \"\" 2300 -1300 50 H I C CNN",
+            "F3 \"https://www.buydisplay.com/download/interfacing/ERC240160-2_Interfacing.pdf\" 0 -1100 50 H I C CNN",
+            "F2 \"\" 0 0 50 H I C CNN",
+            "F3 \"\" 0 0 50 H I C CNN",
+            "F2 \"\" 800 200 50 H I C CNN",
+            "F3 \"\" 800 200 50 H I C CNN",
+            "F2 \"\" 800 200 50 H I C CNN",
+            "F3 \"\" 800 200 50 H I C CNN"
+          ]
+        },
+        {
+          "path": "library/Driver_LED_Extra.lib",
+          "legacy_F2_F3": [
+            "F2 \"Package_TO_SOT_SMD:SOT-23-6\" 0 0 50 H I C CNN",
+            "F3 \"\" 0 0 50 H I C CNN",
+            "F2 \"\" 0 0 50 H I C CNN",
+            "F3 \"\" 0 0 50 H I C CNN"
+          ]
+        },
+        {
+          "path": "library/Driver_Motor_Extra.lib",
+          "legacy_F2_F3": [
+            "F2 \"Module:Pololu_Breakout-16_15.2x20.3mm\" 0 -950 50 H I C CNN",
+            "F3 \"\" 50 -300 50 H I C CNN"
+          ]
+        },
+        {
+          "path": "library/FPGA_Lattice_Extra.lib",
+          "legacy_F2_F3": [
+            "F2 \"Package_DFN_QFN:QFN-48-1EP_7x7mm_P0.5mm_EP5.6x5.6mm\" 0 -2150 50 H I C CNN",
+            "F3 \"\" -400 1000 50 H I C CNN"
+          ]
+        },
+        {
+          "path": "library/Interface_Display_Extra.lib",
+          "legacy_F2_F3": [
+            "F2 \"\" -1250 -450 50 H I C CNN",
+            "F3 \"\" -1250 -450 50 H I C CNN"
+          ]
+        },
+        {
+          "path": "library/Interface_Expansion_Extra.lib",
+          "legacy_F2_F3": [
+            "F2 \"Package_DFN_QFN:QFN-16-1EP_3x3mm_P0.5mm_EP1.75x1.75mm\" 0 -750 50 H I C CNN",
+            "F3 \"\" -400 -300 50 H I C CNN",
+            "F2 \"Package_DFN_QFN:WQFN-24-1EP_4x4mm_P0.5mm_EP2.45x2.45mm\" 50 -1150 50 H I C CNN",
+            "F3 \"http://www.ti.com/lit/ds/symlink/tca8418.pdf\" 50 -1250 50 H I C CNN"
+          ]
+        },
+        {
+          "path": "library/Interface_USB_Extra.kicad_sym",
+          "references": [
+            {
+              "kind": "Footprint",
+              "value": "Package_DFN_QFN:WQFN-14-1EP_2.5x2.5mm_P0.5mm_EP1.45x1.45mm"
+            },
+            {
+              "kind": "Datasheet",
+              "value": "https://datasheet.lcsc.com/szlcsc/1809111642_ON-Semiconductor-FUSB302BMPX_C132291.pdf"
+            },
+            {
+              "kind": "Footprint",
+              "value": "Package_SO:TSSOP-16_4.4x5mm_P0.65mm"
+            },
+            {
+              "kind": "Datasheet",
+              "value": "https://datasheet.lcsc.com/szlcsc/2006111335_INJOINIC-IP2721_C603176.pdf"
+            }
+          ]
+        },
+        {
+          "path": "library/Keyboard.lib",
+          "legacy_F2_F3": [
+            "F2 \"\" 0 -350 60 H I C CNN",
+            "F3 \"\" 0 -350 60 H I C CNN"
+          ]
+        },
+        {
+          "path": "library/LED_Driver_Extra.lib",
+          "legacy_F2_F3": [
+            "F2 \"Package_TO_SOT_SMD:SOT-23-5\" 0 -450 50 H I C CNN",
+            "F3 \"\" 0 -450 50 H I C CNN"
+          ]
+        },
+        {
+          "path": "library/LED_Extra.lib",
+          "legacy_F2_F3": [
+            "F2 \"\" -600 -2100 50 H I C CNN",
+            "F3 \"\" -600 -2100 50 H I C CNN",
+            "F2 \"LED_SMD_Extra:WS2812B-2020\" 50 -300 50 H I L TNN",
+            "F3 \"https://www.tme.eu/Document/4a8239e52df5e0b5cc2eb96834c5d8b6/WS2812B-2020.pdf\" 100 -375 50 H I L TNN"
+          ]
+        },
+        {
+          "path": "library/MCU_Microchip_SAMD_Extra.lib",
+          "legacy_F2_F3": [
+            "F2 \"Package_SO:SOIC-14_3.9x8.7mm_P1.27mm\" 0 -650 50 H I C CNN",
+            "F3 \"\" 0 0 50 H I C CNN",
+            "F2 \"\" 850 -1500 50 H I C CNN",
+            "F3 \"\" 850 -1500 50 H I C CNN",
+            "F2 \"Package_DFN_QFN:QFN-48-1EP_7x7mm_P0.5mm_EP5.15x5.15mm\" -100 -2050 50 H I C CNN",
+            "F3 \"\" -100 -2050 50 H I C CNN",
+            "F2 \"\" 850 -1500 50 H I C CNN",
+            "F3 \"\" 850 -1500 50 H I C CNN",
+            "F2 \"Package_DFN_QFN:QFN-64-1EP_9x9mm_P0.5mm_EP4.7x4.7mm\" -50 -2550 50 H I C CNN",
+            "F3 \"\" 0 -2800 50 H I C CNN"
+          ]
+        },
+        {
+          "path": "library/MCU_Module_Extra.lib",
+          "legacy_F2_F3": [
+            "F2 \"\" -175 -1625 50 H I C CNN",
+            "F3 \"\" -175 -1625 50 H I C CNN"
+          ]
+        },
+        {
+          "path": "library/MCU_NXP_RT.lib",
+          "legacy_F2_F3": [
+            "F2 \"Package_QFP:TQFP-80_12x12mm_P0.5mm\" 50 -2750 50 H I C CNN",
+            "F3 \"https://www.nxp.com/docs/en/data-sheet/IMXRT1010CEC.pdf\" 0 -2850 50 H I C CNN",
+            "F2 \"Package_BGA_Extra:BGA-196_14x14_12.0x12.0mm\" 0 -3450 50 H I C CNN",
+            "F3 \"\" 0 -2050 50 H I C CNN"
+          ]
+        },
+        {
+          "path": "library/Memory_Flash_Extra.lib",
+          "legacy_F2_F3": [
+            "F2 \"Package_SON_Extra:USON-8_3x4mm_P0.8mm\" 0 -500 50 H I C CNN",
+            "F3 \"\" 0 -600 50 H I C CNN",
+            "F2 \"Package_SON:WSON-8-1EP_6x5mm_P1.27mm_EP3.4x4mm\" 0 -500 50 H I C CNN",
+            "F3 \"\" 0 -600 50 H I C CNN"
+          ]
+        },
+        {
+          "path": "library/Potentiometer_Digital_Extra.kicad_sym",
+          "references": [
+            {
+              "kind": "Footprint",
+              "value": "Package_TO_SOT_SMD:SOT-23-8"
+            },
+            {
+              "kind": "Datasheet",
+              "value": "https://datasheet.lcsc.com/szlcsc/1809111712_ON-Semiconductor-CAT5171TBI-50GT3_C154777.pdf"
+            },
+            {
+              "kind": "Datasheet",
+              "value": "https://datasheet.lcsc.com/szlcsc/1809192233_Microchip-Tech-MCP4018T-503E-LT_C145561.pdf"
+            }
+          ]
+        },
+        {
+          "path": "library/RF_Module_Extra.lib",
+          "legacy_F2_F3": [
+            "F2 \"Package_DFN_QFN:QFN-48-1EP_7x7mm_P0.5mm_EP5.3x5.3mm\" 0 -1700 50 H I C CNN",
+            "F3 \"\" 250 -1000 50 H I C CNN",
+            "F2 \"RF_Module:ESP32-WROOM-32\" 0 -1350 50 H I C CNN",
+            "F3 \"\" -300 50 50 H I C CNN",
+            "F2 \"\" 1500 -1000 50 H I C CNN",
+            "F3 \"\" 1500 -1000 50 H I C CNN"
+          ]
+        },
+        {
+          "path": "library/Regulator_Switching_Extra.kicad_sym",
+          "references": [
+            {
+              "kind": "Footprint",
+              "value": "Package_TO_SOT_SMD:SOT-23-6"
+            },
+            {
+              "kind": "Datasheet",
+              "value": "https://datasheet.lcsc.com/szlcsc/1811151539_XI-AN-Aerosemi-Tech-MT3608_C84817.pdf"
+            },
+            {
+              "kind": "Footprint",
+              "value": "Package_DFN_QFN_Extra:Texas_RGX0011A"
+            },
+            {
+              "kind": "Datasheet",
+              "value": "https://datasheet.lcsc.com/szlcsc/1912111437_Texas-Instruments-TPS62135RGXR_C167238.pdf"
+            },
+            {
+              "kind": "Footprint",
+              "value": "Package_DFN_QFN:QFN-32-1EP_5x5mm_P0.5mm_EP3.45x3.45mm_ThermalVias"
+            },
+            {
+              "kind": "Datasheet",
+              "value": "https://datasheet.lcsc.com/szlcsc/Texas-Instruments-TI-TPS65261RHBR_C138722.pdf"
+            }
+          ]
+        },
+        {
+          "path": "library/Sensor_Motion_Extra.lib",
+          "legacy_F2_F3": [
+            "F2 \"\" -400 -700 50 H I L CNN",
+            "F3 \"\" -550 -450 50 V I C CNN"
+          ]
+        },
+        {
+          "path": "library/Switch_Extra.lib",
+          "legacy_F2_F3": [
+            "F2 \"\" 400 -200 50 H I C CNN",
+            "F3 \"\" 400 -200 50 H I C CNN"
+          ]
+        },
+        {
+          "path": "library/Transistor_FET_Extra.lib",
+          "legacy_F2_F3": [
+            "F2 \"Package_TO_SOT_SMD:SOT-363_SC-70-6\" 0 -350 50 H I C CNN",
+            "F3 \"\" 0 -350 50 H I C CNN",
+            "F2 \"Package_SO:TSSOP-8_4.4x3mm_P0.65mm\" 0 -350 50 H I C CNN",
+            "F3 \"\" 50 -350 50 H I C CNN"
+          ]
+        },
+        {
+          "path": "library/power_extra.kicad_sym",
+          "references": []
+        },
+        {
+          "path": "library/power_extra.lib",
+          "legacy_F2_F3": [
+            "F2 \"\" 0 0 50 H I C CNN",
+            "F3 \"\" 0 0 50 H I C CNN",
+            "F2 \"\" 0 0 50 H I C CNN",
+            "F3 \"\" 0 0 50 H I C CNN"
+          ]
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-Logo_12.6x11.7mm_SilkScreen.kicad_mod",
+          "references": []
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-Logo_13.5x12.6mm_SilkScreen.kicad_mod",
+          "references": []
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-Logo_14.6x13.5mm_SilkScreen.kicad_mod",
+          "references": []
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-Logo_6.3x5.9mm_SilkScreen.kicad_mod",
+          "references": []
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-Logo_9.5x8.8mm_SilkScreen.kicad_mod",
+          "references": []
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_10x8.5mm_SilkScreen.kicad_mod",
+          "references": []
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_12.5x10.6mm_SilkScreen.kicad_mod",
+          "references": []
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_15x12.7mm_SilkScreen.kicad_mod",
+          "references": []
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_20x16.9mm_SilkScreen.kicad_mod",
+          "references": []
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_25x21.2mm_SilkScreen.kicad_mod",
+          "references": []
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_3x2.5mm_SilkScreen.kicad_mod",
+          "references": []
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_45x38.1mm_SilkScreen.kicad_mod",
+          "references": []
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_5x4.2mm_SilkScreen.kicad_mod",
+          "references": []
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_60x50.8mm_SilkScreen.kicad_mod",
+          "references": []
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_7.5x6.4mm_SilkScreen.kicad_mod",
+          "references": []
+        }
+      ],
+      "drc_exclusions": [],
+      "original_rule_severities": {
+        "annular_width": "error",
+        "clearance": "error",
+        "copper_edge_clearance": "error",
+        "courtyards_overlap": "error",
+        "diff_pair_gap_out_of_range": "error",
+        "diff_pair_uncoupled_length_too_long": "error",
+        "drill_too_small": "error",
+        "duplicate_footprints": "warning",
+        "extra_footprint": "warning",
+        "hole_clearance": "error",
+        "hole_near_hole": "error",
+        "invalid_outline": "error",
+        "item_on_disabled_layer": "error",
+        "items_not_allowed": "error",
+        "keepout": "error",
+        "length_out_of_range": "error",
+        "malformed_courtyard": "error",
+        "microvia_drill_too_small": "error",
+        "missing_courtyard": "ignore",
+        "missing_footprint": "warning",
+        "net_conflict": "warning",
+        "npth_inside_courtyard": "ignore",
+        "padstack": "error",
+        "pth_inside_courtyard": "ignore",
+        "shorting_items": "error",
+        "silk_over_copper": "error",
+        "silk_overlap": "error",
+        "skew_out_of_range": "error",
+        "too_many_vias": "error",
+        "track_dangling": "warning",
+        "track_width": "error",
+        "tracks_crossing": "error",
+        "unconnected_items": "error",
+        "unresolved_variable": "error",
+        "via_dangling": "warning",
+        "via_hole_larger_than_pad": "error",
+        "zone_has_empty_net": "error",
+        "zones_intersect": "error"
+      },
+      "unknown_legacy_severity_keys": [
+        "drill_too_small",
+        "keepout",
+        "microvia_drill_too_small",
+        "via_hole_larger_than_pad",
+        "zone_has_empty_net"
+      ],
+      "original_rule_minima": {
+        "allow_blind_buried_vias": false,
+        "allow_microvias": false,
+        "max_error": 0.005,
+        "min_clearance": 0.0,
+        "min_copper_edge_clearance": 0.0,
+        "min_hole_clearance": 0.0,
+        "min_hole_to_hole": 0.25,
+        "min_microvia_diameter": 0.19999999999999998,
+        "min_microvia_drill": 0.09999999999999999,
+        "min_silk_clearance": 0.0,
+        "min_through_hole_diameter": 0.3,
+        "min_track_width": 0.19999999999999998,
+        "min_via_annular_width": 0.049999999999999996,
+        "min_via_annulus": 0.049999999999999996,
+        "min_via_diameter": 0.39999999999999997,
+        "solder_mask_clearance": 0.0,
+        "solder_mask_min_width": 0.0,
+        "solder_paste_clearance": 0.0,
+        "solder_paste_margin_ratio": -0.0
+      },
+      "original_net_settings": {
+        "classes": [
+          {
+            "bus_width": 12.0,
+            "clearance": 0.16,
+            "diff_pair_gap": 0.25,
+            "diff_pair_via_gap": 0.25,
+            "diff_pair_width": 0.2,
+            "line_style": 0,
+            "microvia_diameter": 0.3,
+            "microvia_drill": 0.1,
+            "name": "Default",
+            "pcb_color": "rgba(0, 0, 0, 0.000)",
+            "schematic_color": "rgba(0, 0, 0, 0.000)",
+            "track_width": 0.16,
+            "via_diameter": 0.6,
+            "via_drill": 0.3,
+            "wire_width": 6.0
+          },
+          {
+            "bus_width": 12.0,
+            "clearance": 0.16,
+            "diff_pair_gap": 0.25,
+            "diff_pair_via_gap": 0.25,
+            "diff_pair_width": 0.2,
+            "line_style": 0,
+            "microvia_diameter": 0.3,
+            "microvia_drill": 0.1,
+            "name": "Power",
+            "nets": [
+              "+3V3"
+            ],
+            "pcb_color": "rgba(0, 0, 0, 0.000)",
+            "schematic_color": "rgba(0, 0, 0, 0.000)",
+            "track_width": 0.2,
+            "via_diameter": 0.6,
+            "via_drill": 0.3,
+            "wire_width": 6.0
+          }
+        ],
+        "meta": {
+          "version": 0
+        },
+        "net_colors": null
+      },
+      "static_preflight_eligible": false,
+      "static_preflight_reason": "unsupported: netclass bindings not qualified: A bounded list of literal assignments is required; unknown rule severity semantics: drill_too_small; unknown rule severity semantics: keepout; unknown rule severity semantics: microvia_drill_too_small; unknown rule severity semantics: via_hole_larger_than_pad; unknown rule severity semantics: zone_has_empty_net; unqualified board format version",
+      "native_executed": false,
+      "native_validity": null,
+      "dependency_complete": false,
+      "file_rights_audit": [
+        {
+          "path": ".gitignore",
+          "sha256": "88f35093c21001693041e4be9d7bc510a5b6c4832edcf78f33fdc971566ce65f",
+          "bytes": 62,
+          "source_repository": "solderparty/pmod_to_qwiic_adapter",
+          "source_commit": "14b1141eca4fb4ff84d9898e756ee8e5445b6c1f",
+          "git_blob_sha1": "983524c8bc8a1c4963d15c695a04e0892f1329dc",
+          "source_url": "https://raw.githubusercontent.com/solderparty/pmod_to_qwiic_adapter/14b1141eca4fb4ff84d9898e756ee8e5445b6c1f/.gitignore",
+          "published_notice_scope": "publisher CERN-OHL-1.2 root notice; third-party provenance exceptions separately retained",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/LICENSE.md",
+          "notice_sha256": "60142a73e57a208d178a74fd43ad37badaa95d552108c13c614d8c1e26c4c366",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": ".gitmodules",
+          "sha256": "303e2693150d7da5595afd132e29646614e755627da745d6a7d887d4408cd76d",
+          "bytes": 176,
+          "source_repository": "solderparty/pmod_to_qwiic_adapter",
+          "source_commit": "14b1141eca4fb4ff84d9898e756ee8e5445b6c1f",
+          "git_blob_sha1": "fe0926db82589d7cbc8c41f9a7e35569266d560b",
+          "source_url": "https://raw.githubusercontent.com/solderparty/pmod_to_qwiic_adapter/14b1141eca4fb4ff84d9898e756ee8e5445b6c1f/.gitmodules",
+          "published_notice_scope": "publisher CERN-OHL-1.2 root notice; third-party provenance exceptions separately retained",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/LICENSE.md",
+          "notice_sha256": "60142a73e57a208d178a74fd43ad37badaa95d552108c13c614d8c1e26c4c366",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "LICENSE.md",
+          "sha256": "60142a73e57a208d178a74fd43ad37badaa95d552108c13c614d8c1e26c4c366",
+          "bytes": 9153,
+          "source_repository": "solderparty/pmod_to_qwiic_adapter",
+          "source_commit": "14b1141eca4fb4ff84d9898e756ee8e5445b6c1f",
+          "git_blob_sha1": "6e2467a1febf9b22b2820abc1cf3803cb92e88f0",
+          "source_url": "https://raw.githubusercontent.com/solderparty/pmod_to_qwiic_adapter/14b1141eca4fb4ff84d9898e756ee8e5445b6c1f/LICENSE.md",
+          "published_notice_scope": "publisher CERN-OHL-1.2 root notice; third-party provenance exceptions separately retained",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/LICENSE.md",
+          "notice_sha256": "60142a73e57a208d178a74fd43ad37badaa95d552108c13c614d8c1e26c4c366",
+          "inline_notice_hits": [
+            {
+              "line": 1,
+              "text": "\ufeffCERN Open Hardware Licence v1.2 "
+            },
+            {
+              "line": 5,
+              "text": "Through this CERN Open Hardware Licence (\"CERN OHL\") version 1.2, CERN"
+            },
+            {
+              "line": 7,
+              "text": "hardware designers.  The CERN OHL is copyright CERN. Anyone is welcome"
+            },
+            {
+              "line": 16,
+              "text": "In this Licence, the following terms have the following meanings:"
+            },
+            {
+              "line": 18,
+              "text": "\u201cLicence\u201d means this CERN OHL."
+            },
+            {
+              "line": 23,
+              "text": "available under the conditions of this Licence. The Documentation may"
+            },
+            {
+              "line": 35,
+              "text": "\u201cLicensee\u201d means any natural or legal person exercising rights under"
+            },
+            {
+              "line": 36,
+              "text": "this Licence."
+            },
+            {
+              "line": 41,
+              "text": "of this Licence."
+            },
+            {
+              "line": 43,
+              "text": "A Licensee may at the same time be a Licensor, and vice versa. "
+            },
+            {
+              "line": 50,
+              "text": "2.1. This Licence governs the use, copying, modification,"
+            },
+            {
+              "line": 53,
+              "text": "granted under this Licence, the Licensee irrevocably accepts these"
+            },
+            {
+              "line": 56,
+              "text": "2.2. This Licence is granted by the Licensor directly to the Licensee,"
+            },
+            {
+              "line": 57,
+              "text": "and shall apply worldwide and without limitation in time. The Licensee"
+            },
+            {
+              "line": 58,
+              "text": "may assign his licence rights or grant sub-licences."
+            },
+            {
+              "line": 60,
+              "text": "2.3. This Licence does not extend to software, firmware, or code"
+            },
+            {
+              "line": 64,
+              "text": "to this Licence. The use of such software, firmware, or code is"
+            },
+            {
+              "line": 65,
+              "text": "otherwise subject to the applicable licence terms and conditions."
+            },
+            {
+              "line": 70,
+              "text": "3.1. The Licensee shall keep intact all copyright and trademarks"
+            },
+            {
+              "line": 72,
+              "text": "notices that refer to this Licence and to the disclaimer of warranties"
+            },
+            {
+              "line": 78,
+              "text": "3.2. The Licensee may copy, communicate to the public and distribute"
+            },
+            {
+              "line": 82,
+              "text": "3.3. The Licensee may modify the Documentation or any portion thereof"
+            },
+            {
+              "line": 83,
+              "text": "provided that upon modification of the Documentation, the Licensee"
+            },
+            {
+              "line": 86,
+              "text": "once the Licensee communicates to the public or distributes the"
+            },
+            {
+              "line": 92,
+              "text": "3.4. The Licensee may communicate to the public and distribute the"
+            },
+            {
+              "line": 93,
+              "text": "modified Documentation (thereby in addition to being a Licensee also"
+            },
+            {
+              "line": 99,
+              "text": "that the Licensee has modified the Documentation, with the date and"
+            },
+            {
+              "line": 109,
+              "text": "viewable with a tool licensed under an OSI-approved license if the"
+            },
+            {
+              "line": 112,
+              "text": "e) license the modified Documentation under the terms and conditions"
+            },
+            {
+              "line": 113,
+              "text": "of this Licence or, where applicable, a later version of this Licence"
+            },
+            {
+              "line": 116,
+              "text": "3.5. The Licence includes a non-exclusive licence to those patents or"
+            },
+            {
+              "line": 119,
+              "text": "the rights granted under this Licence. The scope of this section 3.5"
+            },
+            {
+              "line": 125,
+              "text": "4.1. The Licensee may manufacture or distribute Products always"
+            },
+            {
+              "line": 127,
+              "text": "licence under this Licence the Licensee provides to each recipient of"
+            },
+            {
+              "line": 131,
+              "text": "4.2. The Licensee is invited to inform any Licensor who has indicated"
+            },
+            {
+              "line": 133,
+              "text": "dates of production of Products the Licensee has (had) manufactured"
+            },
+            {
+              "line": 145,
+              "text": "copyright, trade secret or other proprietary right. The entire risk as"
+            },
+            {
+              "line": 147,
+              "text": "Licensee and not the Licensor. This disclaimer of warranty is an"
+            },
+            {
+              "line": 148,
+              "text": "essential part of this Licence and a condition for the grant of any"
+            },
+            {
+              "line": 149,
+              "text": "rights granted under this Licence. The Licensee warrants that it does"
+            },
+            {
+              "line": 161,
+              "text": "damages, and the Licensee shall hold the Licensor(s) free and harmless"
+            },
+            {
+              "line": 167,
+              "text": "6.1. Except for the rights explicitly granted hereunder, this Licence"
+            },
+            {
+              "line": 169,
+              "text": "property rights to the Licensee."
+            },
+            {
+              "line": 171,
+              "text": "6.2. The Licensee shall not use or make reference to any of the names"
+            },
+            {
+              "line": 180,
+              "text": "6.3. CERN may publish updated versions of this Licence which retain"
+            },
+            {
+              "line": 185,
+              "text": "6.4. This Licence shall terminate with immediate effect, upon written"
+            },
+            {
+              "line": 186,
+              "text": "notice and without involvement of a court if the Licensee fails to"
+            },
+            {
+              "line": 187,
+              "text": "comply with any of its terms and conditions, or if the Licensee"
+            },
+            {
+              "line": 189,
+              "text": "Licence. Section 5 shall continue to apply."
+            }
+          ],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "README.md",
+          "sha256": "5857d64fc10a3a794763ee6c48ba92549ca118eb2c1e45de356bb60ef2d0b963",
+          "bytes": 161,
+          "source_repository": "solderparty/pmod_to_qwiic_adapter",
+          "source_commit": "14b1141eca4fb4ff84d9898e756ee8e5445b6c1f",
+          "git_blob_sha1": "1dce95012ad61721e5de54151d9633b46ef7e6bd",
+          "source_url": "https://raw.githubusercontent.com/solderparty/pmod_to_qwiic_adapter/14b1141eca4fb4ff84d9898e756ee8e5445b6c1f/README.md",
+          "published_notice_scope": "publisher CERN-OHL-1.2 root notice; third-party provenance exceptions separately retained",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/LICENSE.md",
+          "notice_sha256": "60142a73e57a208d178a74fd43ad37badaa95d552108c13c614d8c1e26c4c366",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "fp-info-cache",
+          "sha256": "cfb4790660b584a1584fe10131742b99b64a20b37f060337b94614086ce7ed4d",
+          "bytes": 3010687,
+          "source_repository": "solderparty/pmod_to_qwiic_adapter",
+          "source_commit": "14b1141eca4fb4ff84d9898e756ee8e5445b6c1f",
+          "git_blob_sha1": "92f625c94005e9d8aba913a1053a74c5051a9671",
+          "source_url": "https://raw.githubusercontent.com/solderparty/pmod_to_qwiic_adapter/14b1141eca4fb4ff84d9898e756ee8e5445b6c1f/fp-info-cache",
+          "published_notice_scope": "publisher CERN-OHL-1.2 root notice; third-party provenance exceptions separately retained",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/LICENSE.md",
+          "notice_sha256": "60142a73e57a208d178a74fd43ad37badaa95d552108c13c614d8c1e26c4c366",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "fp-lib-table",
+          "sha256": "82100ee093fd690054037cadff8629acf2e6be028fb5918e8802562ab10023a2",
+          "bytes": 131,
+          "source_repository": "solderparty/pmod_to_qwiic_adapter",
+          "source_commit": "14b1141eca4fb4ff84d9898e756ee8e5445b6c1f",
+          "git_blob_sha1": "08119643765536a01c48138bc03ed496cc5819d2",
+          "source_url": "https://raw.githubusercontent.com/solderparty/pmod_to_qwiic_adapter/14b1141eca4fb4ff84d9898e756ee8e5445b6c1f/fp-lib-table",
+          "published_notice_scope": "publisher CERN-OHL-1.2 root notice; third-party provenance exceptions separately retained",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/LICENSE.md",
+          "notice_sha256": "60142a73e57a208d178a74fd43ad37badaa95d552108c13c614d8c1e26c4c366",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "pmod_to_qwiic.kicad_pcb",
+          "sha256": "67e1a533771d8918e53f7451171df3fdb58bfa315cb95cee4a8efd14ca0083f7",
+          "bytes": 86825,
+          "source_repository": "solderparty/pmod_to_qwiic_adapter",
+          "source_commit": "14b1141eca4fb4ff84d9898e756ee8e5445b6c1f",
+          "git_blob_sha1": "e09984e1f2a35478b0da7f4caf0737f77f251434",
+          "source_url": "https://raw.githubusercontent.com/solderparty/pmod_to_qwiic_adapter/14b1141eca4fb4ff84d9898e756ee8e5445b6c1f/pmod_to_qwiic.kicad_pcb",
+          "published_notice_scope": "publisher CERN-OHL-1.2 root notice; third-party provenance exceptions separately retained",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/LICENSE.md",
+          "notice_sha256": "60142a73e57a208d178a74fd43ad37badaa95d552108c13c614d8c1e26c4c366",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "pmod_to_qwiic.kicad_pro",
+          "sha256": "bc747a79ad6a3eb60e36e69c3ada43cb22c1f4e446403e9b748dc788d3db1777",
+          "bytes": 9305,
+          "source_repository": "solderparty/pmod_to_qwiic_adapter",
+          "source_commit": "14b1141eca4fb4ff84d9898e756ee8e5445b6c1f",
+          "git_blob_sha1": "147e3598710ef2fd9292e5d12e5a5ec36a1af52a",
+          "source_url": "https://raw.githubusercontent.com/solderparty/pmod_to_qwiic_adapter/14b1141eca4fb4ff84d9898e756ee8e5445b6c1f/pmod_to_qwiic.kicad_pro",
+          "published_notice_scope": "publisher CERN-OHL-1.2 root notice; third-party provenance exceptions separately retained",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/LICENSE.md",
+          "notice_sha256": "60142a73e57a208d178a74fd43ad37badaa95d552108c13c614d8c1e26c4c366",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "pmod_to_qwiic.kicad_sch",
+          "sha256": "5e168a9a7edfeea936e28f12271336741c57069c2c788a2ca2ca166df0705627",
+          "bytes": 20474,
+          "source_repository": "solderparty/pmod_to_qwiic_adapter",
+          "source_commit": "14b1141eca4fb4ff84d9898e756ee8e5445b6c1f",
+          "git_blob_sha1": "45c459433a7bfb4c060bd97d69828436d87347af",
+          "source_url": "https://raw.githubusercontent.com/solderparty/pmod_to_qwiic_adapter/14b1141eca4fb4ff84d9898e756ee8e5445b6c1f/pmod_to_qwiic.kicad_sch",
+          "published_notice_scope": "publisher CERN-OHL-1.2 root notice; third-party provenance exceptions separately retained",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/LICENSE.md",
+          "notice_sha256": "60142a73e57a208d178a74fd43ad37badaa95d552108c13c614d8c1e26c4c366",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "modules/LICENSE",
+          "sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "bytes": 1066,
+          "source_repository": "arturo182/kicad-modules",
+          "source_commit": "813d15802ba11589749847e9e03fbcbd1c3a7a05",
+          "git_blob_sha1": "b72430dd28b649c004e6e82ecfa008ae4cecdb48",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-modules/813d15802ba11589749847e9e03fbcbd1c3a7a05/LICENSE",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/modules/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [
+            {
+              "line": 1,
+              "text": "MIT License"
+            },
+            {
+              "line": 3,
+              "text": "Copyright (c) 2019 arturo182"
+            },
+            {
+              "line": 8,
+              "text": "to use, copy, modify, merge, publish, distribute, sublicense, and/or sell"
+            },
+            {
+              "line": 12,
+              "text": "The above copyright notice and this permission notice shall be included in all"
+            },
+            {
+              "line": 18,
+              "text": "AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER"
+            }
+          ],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-Logo_12.6x11.7mm_SilkScreen.kicad_mod",
+          "sha256": "5f9a79e06a4f4e861198038bf6e3b345ec9b38402bd274ac415f5ce4a1cdd62d",
+          "bytes": 30905,
+          "source_repository": "arturo182/kicad-modules",
+          "source_commit": "813d15802ba11589749847e9e03fbcbd1c3a7a05",
+          "git_blob_sha1": "8a45e4b2b8cfb57384097eb691410edebff62369",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-modules/813d15802ba11589749847e9e03fbcbd1c3a7a05/Symbols_Extra.pretty/SolderParty-Logo_12.6x11.7mm_SilkScreen.kicad_mod",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/modules/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-Logo_13.5x12.6mm_SilkScreen.kicad_mod",
+          "sha256": "9f85eb0d3d611ae9fe5e455f063191ac785d69169ca59ab14a7ad0d9ba613b6a",
+          "bytes": 30877,
+          "source_repository": "arturo182/kicad-modules",
+          "source_commit": "813d15802ba11589749847e9e03fbcbd1c3a7a05",
+          "git_blob_sha1": "087127327f85bec5f8e866eda8a1510fe042d3be",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-modules/813d15802ba11589749847e9e03fbcbd1c3a7a05/Symbols_Extra.pretty/SolderParty-Logo_13.5x12.6mm_SilkScreen.kicad_mod",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/modules/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-Logo_14.6x13.5mm_SilkScreen.kicad_mod",
+          "sha256": "8ab7f36965e7b9c79d10ba6f716eaecbb7450dd7ef7144ba1ea4b70b4b87872f",
+          "bytes": 30905,
+          "source_repository": "arturo182/kicad-modules",
+          "source_commit": "813d15802ba11589749847e9e03fbcbd1c3a7a05",
+          "git_blob_sha1": "9449a3fd07ca7c275b6fd73344cfa4eac824b5c3",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-modules/813d15802ba11589749847e9e03fbcbd1c3a7a05/Symbols_Extra.pretty/SolderParty-Logo_14.6x13.5mm_SilkScreen.kicad_mod",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/modules/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-Logo_6.3x5.9mm_SilkScreen.kicad_mod",
+          "sha256": "e30cf7128f51f03b445e4b804924fed6f7b9baea565dea194d62940168fc40f3",
+          "bytes": 28385,
+          "source_repository": "arturo182/kicad-modules",
+          "source_commit": "813d15802ba11589749847e9e03fbcbd1c3a7a05",
+          "git_blob_sha1": "1bd78f258f5163f8fa2a77b6d302fa15942894f8",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-modules/813d15802ba11589749847e9e03fbcbd1c3a7a05/Symbols_Extra.pretty/SolderParty-Logo_6.3x5.9mm_SilkScreen.kicad_mod",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/modules/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-Logo_9.5x8.8mm_SilkScreen.kicad_mod",
+          "sha256": "2b42d1a42f609b858eea8aff18f03debdd2dc04c7729617641ece03ba91edb98",
+          "bytes": 28408,
+          "source_repository": "arturo182/kicad-modules",
+          "source_commit": "813d15802ba11589749847e9e03fbcbd1c3a7a05",
+          "git_blob_sha1": "f9ef0931716b70b6837c34086301bca2608b03fb",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-modules/813d15802ba11589749847e9e03fbcbd1c3a7a05/Symbols_Extra.pretty/SolderParty-Logo_9.5x8.8mm_SilkScreen.kicad_mod",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/modules/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_10x8.5mm_SilkScreen.kicad_mod",
+          "sha256": "acf8ada447027c6fd06511d2c3f1856b304a9f15d5872d1cf4d9f054f16b6402",
+          "bytes": 20434,
+          "source_repository": "arturo182/kicad-modules",
+          "source_commit": "813d15802ba11589749847e9e03fbcbd1c3a7a05",
+          "git_blob_sha1": "7d8232ea664f9253b2bf8cb045c321e715a707e7",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-modules/813d15802ba11589749847e9e03fbcbd1c3a7a05/Symbols_Extra.pretty/SolderParty-New-Logo_10x8.5mm_SilkScreen.kicad_mod",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/modules/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_12.5x10.6mm_SilkScreen.kicad_mod",
+          "sha256": "274945955528e605909dbf678aba669f7738ef6d2ab079d7067fcb89beb47709",
+          "bytes": 20508,
+          "source_repository": "arturo182/kicad-modules",
+          "source_commit": "813d15802ba11589749847e9e03fbcbd1c3a7a05",
+          "git_blob_sha1": "a64c37fd687dddfb0af8fa96e55d17ea82ef458e",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-modules/813d15802ba11589749847e9e03fbcbd1c3a7a05/Symbols_Extra.pretty/SolderParty-New-Logo_12.5x10.6mm_SilkScreen.kicad_mod",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/modules/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_15x12.7mm_SilkScreen.kicad_mod",
+          "sha256": "adc13a815022a9cb99c92c68a0c68e3481ea518fb99c0eabacff024e5093e241",
+          "bytes": 20412,
+          "source_repository": "arturo182/kicad-modules",
+          "source_commit": "813d15802ba11589749847e9e03fbcbd1c3a7a05",
+          "git_blob_sha1": "9b1908b2bea24513b21d4f606a44a3acfd4b2d9b",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-modules/813d15802ba11589749847e9e03fbcbd1c3a7a05/Symbols_Extra.pretty/SolderParty-New-Logo_15x12.7mm_SilkScreen.kicad_mod",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/modules/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_20x16.9mm_SilkScreen.kicad_mod",
+          "sha256": "7189e02c9180b4ce68073b0e32c22ceb397f37e2e66b3933a6f8724183a698ba",
+          "bytes": 20507,
+          "source_repository": "arturo182/kicad-modules",
+          "source_commit": "813d15802ba11589749847e9e03fbcbd1c3a7a05",
+          "git_blob_sha1": "08b8381671dea0a7b6fac6cc0e1332cd588ab650",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-modules/813d15802ba11589749847e9e03fbcbd1c3a7a05/Symbols_Extra.pretty/SolderParty-New-Logo_20x16.9mm_SilkScreen.kicad_mod",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/modules/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_25x21.2mm_SilkScreen.kicad_mod",
+          "sha256": "9c04257ed73fa5846a2856bb75d1e2e5245dd45d97a21f3afdf6701333a3ce58",
+          "bytes": 20465,
+          "source_repository": "arturo182/kicad-modules",
+          "source_commit": "813d15802ba11589749847e9e03fbcbd1c3a7a05",
+          "git_blob_sha1": "97ae788b08556d1d13c7acc3d6131e2476d82cc0",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-modules/813d15802ba11589749847e9e03fbcbd1c3a7a05/Symbols_Extra.pretty/SolderParty-New-Logo_25x21.2mm_SilkScreen.kicad_mod",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/modules/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_3x2.5mm_SilkScreen.kicad_mod",
+          "sha256": "cde7e5cba2c7697cc6833b177d27419af8ae53051be43c7836506e411bf0bc1c",
+          "bytes": 20508,
+          "source_repository": "arturo182/kicad-modules",
+          "source_commit": "813d15802ba11589749847e9e03fbcbd1c3a7a05",
+          "git_blob_sha1": "4323972aa182473a928f3319b4d6a9823afed69f",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-modules/813d15802ba11589749847e9e03fbcbd1c3a7a05/Symbols_Extra.pretty/SolderParty-New-Logo_3x2.5mm_SilkScreen.kicad_mod",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/modules/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_45x38.1mm_SilkScreen.kicad_mod",
+          "sha256": "b1e32aeda5ea9502ef7c2b20611b2bff3ca878e915d258c4e36305f325a8f59d",
+          "bytes": 21131,
+          "source_repository": "arturo182/kicad-modules",
+          "source_commit": "813d15802ba11589749847e9e03fbcbd1c3a7a05",
+          "git_blob_sha1": "dd6be9f7fa62a981a8da4434d146b11940280932",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-modules/813d15802ba11589749847e9e03fbcbd1c3a7a05/Symbols_Extra.pretty/SolderParty-New-Logo_45x38.1mm_SilkScreen.kicad_mod",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/modules/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_5x4.2mm_SilkScreen.kicad_mod",
+          "sha256": "2633d6f477fb68e29134914674f6827dc8f9df4f155ba4b2766717d406628174",
+          "bytes": 20483,
+          "source_repository": "arturo182/kicad-modules",
+          "source_commit": "813d15802ba11589749847e9e03fbcbd1c3a7a05",
+          "git_blob_sha1": "cea7a94bc8841372b6f3cec111befafcba27e0d2",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-modules/813d15802ba11589749847e9e03fbcbd1c3a7a05/Symbols_Extra.pretty/SolderParty-New-Logo_5x4.2mm_SilkScreen.kicad_mod",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/modules/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_60x50.8mm_SilkScreen.kicad_mod",
+          "sha256": "2279157404e4a0e314e94605aa314f00d041fb0a8d22fff2446926fa67f08015",
+          "bytes": 21282,
+          "source_repository": "arturo182/kicad-modules",
+          "source_commit": "813d15802ba11589749847e9e03fbcbd1c3a7a05",
+          "git_blob_sha1": "af57918f34ce0d5e1f1368bbea73a24e7c55ee5a",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-modules/813d15802ba11589749847e9e03fbcbd1c3a7a05/Symbols_Extra.pretty/SolderParty-New-Logo_60x50.8mm_SilkScreen.kicad_mod",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/modules/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_7.5x6.4mm_SilkScreen.kicad_mod",
+          "sha256": "9caec0ba9c1c80ea0683af3ffd63ec8c7a19e9e059a11e96a31207de3ab434d2",
+          "bytes": 20483,
+          "source_repository": "arturo182/kicad-modules",
+          "source_commit": "813d15802ba11589749847e9e03fbcbd1c3a7a05",
+          "git_blob_sha1": "8ae60503e59bd1492fb04eb7635ff3faa2a9c677",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-modules/813d15802ba11589749847e9e03fbcbd1c3a7a05/Symbols_Extra.pretty/SolderParty-New-Logo_7.5x6.4mm_SilkScreen.kicad_mod",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/modules/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "library/.gitignore",
+          "sha256": "d03bac78bce61b9d97f47ec8638bc25a49d43d57ae3d91b1002ebc08b56e7adb",
+          "bytes": 18,
+          "source_repository": "arturo182/kicad-library",
+          "source_commit": "3b3f989c6b1778cbe8901a18d363393a0305b51a",
+          "git_blob_sha1": "686fc5b8a0470835df4331c81b019c61bf65f9ab",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-library/3b3f989c6b1778cbe8901a18d363393a0305b51a/.gitignore",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/library/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "library/74xGxx_Extra.lib",
+          "sha256": "3fdad94cd10b84ba729b0610c9496d4709a3ef75cab99f62a07df853918be8b3",
+          "bytes": 532,
+          "source_repository": "arturo182/kicad-library",
+          "source_commit": "3b3f989c6b1778cbe8901a18d363393a0305b51a",
+          "git_blob_sha1": "d023fae55f02137358cd06f62cfc6dd1928fe98c",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-library/3b3f989c6b1778cbe8901a18d363393a0305b51a/74xGxx_Extra.lib",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/library/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "library/Amplifier_Audio_Extra.lib",
+          "sha256": "afd390d3542e803fc13f59f0c525d833a0aee5782da1fac95ad709e703a8c833",
+          "bytes": 528,
+          "source_repository": "arturo182/kicad-library",
+          "source_commit": "3b3f989c6b1778cbe8901a18d363393a0305b51a",
+          "git_blob_sha1": "bbc8b145d5f306db53eb937b0809f9e7f1f48e02",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-library/3b3f989c6b1778cbe8901a18d363393a0305b51a/Amplifier_Audio_Extra.lib",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/library/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "library/Analog_ADC_Extra.kicad_sym",
+          "sha256": "104bb44e27de143fd895d6b0824daef92e97035142ab663448376c450c3045b8",
+          "bytes": 2408,
+          "source_repository": "arturo182/kicad-library",
+          "source_commit": "3b3f989c6b1778cbe8901a18d363393a0305b51a",
+          "git_blob_sha1": "ea93ec2aa681490dce5ba5e9d957e7b5879f9773",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-library/3b3f989c6b1778cbe8901a18d363393a0305b51a/Analog_ADC_Extra.kicad_sym",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/library/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "library/Battery_Management_Extra.lib",
+          "sha256": "3650b70dfb084fdfa56cf16b842add4b47161a07c879fced5297164af98a021b",
+          "bytes": 3678,
+          "source_repository": "arturo182/kicad-library",
+          "source_commit": "3b3f989c6b1778cbe8901a18d363393a0305b51a",
+          "git_blob_sha1": "bcb008d5e030f8ce25ad25387f5fab771861dff5",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-library/3b3f989c6b1778cbe8901a18d363393a0305b51a/Battery_Management_Extra.lib",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/library/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "library/Device_Extra.lib",
+          "sha256": "40e452aa405389d1f16cc5c978dd7eb26a7d2b37664cbd125c158c683219dd95",
+          "bytes": 2908,
+          "source_repository": "arturo182/kicad-library",
+          "source_commit": "3b3f989c6b1778cbe8901a18d363393a0305b51a",
+          "git_blob_sha1": "f6e7e2b2ee3bb9d2e1b7287321ebad2c863f1a75",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-library/3b3f989c6b1778cbe8901a18d363393a0305b51a/Device_Extra.lib",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/library/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "library/Display_Graphic_Extra.kicad_sym",
+          "sha256": "b346c5acba6dbee1b614d342082cd3f2e0d26d55df41d3c2e0d129a158739cf7",
+          "bytes": 64157,
+          "source_repository": "arturo182/kicad-library",
+          "source_commit": "3b3f989c6b1778cbe8901a18d363393a0305b51a",
+          "git_blob_sha1": "940ebbe9164f6690f676842a650faa38830a88f3",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-library/3b3f989c6b1778cbe8901a18d363393a0305b51a/Display_Graphic_Extra.kicad_sym",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/library/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "library/Display_Graphic_Extra.lib",
+          "sha256": "db47a889222e653e0c26e5358df4e86e4240fb2566b6946c4d9c96a980329238",
+          "bytes": 14531,
+          "source_repository": "arturo182/kicad-library",
+          "source_commit": "3b3f989c6b1778cbe8901a18d363393a0305b51a",
+          "git_blob_sha1": "e99438f2d43c2469961c52c97cfa6e1f5adf1ace",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-library/3b3f989c6b1778cbe8901a18d363393a0305b51a/Display_Graphic_Extra.lib",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/library/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "library/Driver_LED_Extra.lib",
+          "sha256": "5c549e1a1c5d18bbea89c19df05bede7dc9d1a654f8771391ce9d97694486b94",
+          "bytes": 2950,
+          "source_repository": "arturo182/kicad-library",
+          "source_commit": "3b3f989c6b1778cbe8901a18d363393a0305b51a",
+          "git_blob_sha1": "6c43152ce52d39745624c8f64f2b7a79d50d556f",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-library/3b3f989c6b1778cbe8901a18d363393a0305b51a/Driver_LED_Extra.lib",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/library/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "library/Driver_Motor_Extra.lib",
+          "sha256": "8ace5acd902bfed70261b404c33d4d55e119aef5bcae8f0c323eb6b208e28dff",
+          "bytes": 949,
+          "source_repository": "arturo182/kicad-library",
+          "source_commit": "3b3f989c6b1778cbe8901a18d363393a0305b51a",
+          "git_blob_sha1": "5a9235c21b65ec43525f0e68490c8e3e08747944",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-library/3b3f989c6b1778cbe8901a18d363393a0305b51a/Driver_Motor_Extra.lib",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/library/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "library/FPGA_Lattice_Extra.lib",
+          "sha256": "192c522433758cd0f4fce93780cb51f925e34e3f0bee9ebd1c04a2b898de74bd",
+          "bytes": 2384,
+          "source_repository": "arturo182/kicad-library",
+          "source_commit": "3b3f989c6b1778cbe8901a18d363393a0305b51a",
+          "git_blob_sha1": "944617f668a7bba4f0bba344e0a57d28d1bfa857",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-library/3b3f989c6b1778cbe8901a18d363393a0305b51a/FPGA_Lattice_Extra.lib",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/library/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "library/Interface_Display_Extra.lib",
+          "sha256": "30e75731c7bd2bacb2c5a5ce36e79672f05d37f94dd663ffa4e9c868e5c9ba4f",
+          "bytes": 2243,
+          "source_repository": "arturo182/kicad-library",
+          "source_commit": "3b3f989c6b1778cbe8901a18d363393a0305b51a",
+          "git_blob_sha1": "2b5fa29e5068fdef30ba819626d9215f6790f74a",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-library/3b3f989c6b1778cbe8901a18d363393a0305b51a/Interface_Display_Extra.lib",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/library/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "library/Interface_Expansion_Extra.lib",
+          "sha256": "0ff1b90b1dfc85e04b2708cd3974ef6102bf9ab0cfec9d7c4310668dd43a5787",
+          "bytes": 2073,
+          "source_repository": "arturo182/kicad-library",
+          "source_commit": "3b3f989c6b1778cbe8901a18d363393a0305b51a",
+          "git_blob_sha1": "151fd6d60c6d4967b204af9bd75b80b09a08b144",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-library/3b3f989c6b1778cbe8901a18d363393a0305b51a/Interface_Expansion_Extra.lib",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/library/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "library/Interface_USB_Extra.kicad_sym",
+          "sha256": "de4f58a257b0c7956fc38fd95a88bb3a4b10796717889b0b2159916119d8660f",
+          "bytes": 7377,
+          "source_repository": "arturo182/kicad-library",
+          "source_commit": "3b3f989c6b1778cbe8901a18d363393a0305b51a",
+          "git_blob_sha1": "881a3be071b15b9a9ded8e12912b9c2da8f56636",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-library/3b3f989c6b1778cbe8901a18d363393a0305b51a/Interface_USB_Extra.kicad_sym",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/library/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "library/Keyboard.lib",
+          "sha256": "812657e04bbc95e5ad56152732b7bbb6099b6561916744c90e69e23c45a6aaee",
+          "bytes": 1323,
+          "source_repository": "arturo182/kicad-library",
+          "source_commit": "3b3f989c6b1778cbe8901a18d363393a0305b51a",
+          "git_blob_sha1": "263c92de518605b1f9cd7bdf7f7dada4f5f1dabe",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-library/3b3f989c6b1778cbe8901a18d363393a0305b51a/Keyboard.lib",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/library/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "library/LED_Driver_Extra.lib",
+          "sha256": "826b95eba70244e2ea638738cf614a84ba22cd83754d856051988b0ab75743f7",
+          "bytes": 463,
+          "source_repository": "arturo182/kicad-library",
+          "source_commit": "3b3f989c6b1778cbe8901a18d363393a0305b51a",
+          "git_blob_sha1": "3e439eaa52e5f0858b61ce48ac1c958948092b0d",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-library/3b3f989c6b1778cbe8901a18d363393a0305b51a/LED_Driver_Extra.lib",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/library/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "library/LED_Extra.lib",
+          "sha256": "5480c75c606bd285faee32c2e56a0d39cd4ce6f8c0f50b9deee798ca2915901a",
+          "bytes": 2006,
+          "source_repository": "arturo182/kicad-library",
+          "source_commit": "3b3f989c6b1778cbe8901a18d363393a0305b51a",
+          "git_blob_sha1": "769e6e8051c3d66b0ccb1f20d9d98c016290ae10",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-library/3b3f989c6b1778cbe8901a18d363393a0305b51a/LED_Extra.lib",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/library/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "library/LICENSE",
+          "sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "bytes": 1066,
+          "source_repository": "arturo182/kicad-library",
+          "source_commit": "3b3f989c6b1778cbe8901a18d363393a0305b51a",
+          "git_blob_sha1": "b72430dd28b649c004e6e82ecfa008ae4cecdb48",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-library/3b3f989c6b1778cbe8901a18d363393a0305b51a/LICENSE",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/library/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [
+            {
+              "line": 1,
+              "text": "MIT License"
+            },
+            {
+              "line": 3,
+              "text": "Copyright (c) 2019 arturo182"
+            },
+            {
+              "line": 8,
+              "text": "to use, copy, modify, merge, publish, distribute, sublicense, and/or sell"
+            },
+            {
+              "line": 12,
+              "text": "The above copyright notice and this permission notice shall be included in all"
+            },
+            {
+              "line": 18,
+              "text": "AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER"
+            }
+          ],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "library/MCU_Microchip_SAMD_Extra.lib",
+          "sha256": "d91405d2221dae81e521fb161a8752cee5fce89c0ed51258922c907c28fe5b8a",
+          "bytes": 8406,
+          "source_repository": "arturo182/kicad-library",
+          "source_commit": "3b3f989c6b1778cbe8901a18d363393a0305b51a",
+          "git_blob_sha1": "6f30298da66ad4d4be75aa543675c92707e6ad7a",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-library/3b3f989c6b1778cbe8901a18d363393a0305b51a/MCU_Microchip_SAMD_Extra.lib",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/library/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "library/MCU_Module_Extra.lib",
+          "sha256": "5c56f093cf48522f3f0dc6c970b717bae83b3431285f68080a3735facf5a0611",
+          "bytes": 2590,
+          "source_repository": "arturo182/kicad-library",
+          "source_commit": "3b3f989c6b1778cbe8901a18d363393a0305b51a",
+          "git_blob_sha1": "404fd20c60bdb61274f7b1804b17cbee5058f1a6",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-library/3b3f989c6b1778cbe8901a18d363393a0305b51a/MCU_Module_Extra.lib",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/library/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "library/MCU_NXP_RT.lib",
+          "sha256": "e8342a4bc17c1a6466d86013f2887d12d2fb8d55bf9a80ad5c34affca7d980db",
+          "bytes": 12919,
+          "source_repository": "arturo182/kicad-library",
+          "source_commit": "3b3f989c6b1778cbe8901a18d363393a0305b51a",
+          "git_blob_sha1": "0c845584e889bf8f08b133358eaa3c8a1431b79c",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-library/3b3f989c6b1778cbe8901a18d363393a0305b51a/MCU_NXP_RT.lib",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/library/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "library/Memory_Flash_Extra.lib",
+          "sha256": "e06d2a909dcbf32cdf04ed8ead8a800bd21438ea1a5c309d047ac6ac2516b6ec",
+          "bytes": 1185,
+          "source_repository": "arturo182/kicad-library",
+          "source_commit": "3b3f989c6b1778cbe8901a18d363393a0305b51a",
+          "git_blob_sha1": "575687f6dc0bd2c0f0d25f692005b7c7c11e67e8",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-library/3b3f989c6b1778cbe8901a18d363393a0305b51a/Memory_Flash_Extra.lib",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/library/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "library/Potentiometer_Digital_Extra.kicad_sym",
+          "sha256": "891689df6279e0b5f1ce57dbba6bf5921d8e9397c9c293453bc89bc62a6e1e54",
+          "bytes": 4260,
+          "source_repository": "arturo182/kicad-library",
+          "source_commit": "3b3f989c6b1778cbe8901a18d363393a0305b51a",
+          "git_blob_sha1": "2193fb4f9ab605f45439120f5c4609dc6f7c0160",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-library/3b3f989c6b1778cbe8901a18d363393a0305b51a/Potentiometer_Digital_Extra.kicad_sym",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/library/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "library/RF_Module_Extra.lib",
+          "sha256": "8a484b586122c9c6f651d65eb84ac230ff340dcf9bd16b709c1ed4bd2c2a3d02",
+          "bytes": 6356,
+          "source_repository": "arturo182/kicad-library",
+          "source_commit": "3b3f989c6b1778cbe8901a18d363393a0305b51a",
+          "git_blob_sha1": "9e92778a942f845febb6d9ec0eb85d3c4d2096f8",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-library/3b3f989c6b1778cbe8901a18d363393a0305b51a/RF_Module_Extra.lib",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/library/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "library/Regulator_Switching_Extra.kicad_sym",
+          "sha256": "2c94c6e39578cea8f1f22f5507214af10977ba7fc662038b21d4ad20b5a16ccd",
+          "bytes": 14890,
+          "source_repository": "arturo182/kicad-library",
+          "source_commit": "3b3f989c6b1778cbe8901a18d363393a0305b51a",
+          "git_blob_sha1": "7e7b3c2329f5ab7343839f54ceabd757ec2a239f",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-library/3b3f989c6b1778cbe8901a18d363393a0305b51a/Regulator_Switching_Extra.kicad_sym",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/library/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "library/Sensor_Motion_Extra.lib",
+          "sha256": "6b1bde5cca31029081a64d930010d3729cfd1a3f7289978e70a48305f898259f",
+          "bytes": 749,
+          "source_repository": "arturo182/kicad-library",
+          "source_commit": "3b3f989c6b1778cbe8901a18d363393a0305b51a",
+          "git_blob_sha1": "65cbccb61d962e953872ed94a14774e1f7316e77",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-library/3b3f989c6b1778cbe8901a18d363393a0305b51a/Sensor_Motion_Extra.lib",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/library/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "library/Switch_Extra.lib",
+          "sha256": "ea75372fccbd3423df7cd810284a7a124a4272826d1b3dacab12499f454324b0",
+          "bytes": 541,
+          "source_repository": "arturo182/kicad-library",
+          "source_commit": "3b3f989c6b1778cbe8901a18d363393a0305b51a",
+          "git_blob_sha1": "1c6e6a734162954d5d35e269543626c816809244",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-library/3b3f989c6b1778cbe8901a18d363393a0305b51a/Switch_Extra.lib",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/library/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "library/Transistor_FET_Extra.lib",
+          "sha256": "bf6c0f70ed9415b03470c86dc1ab8cf69e1a8349503da8cc95245e2a55eacc30",
+          "bytes": 1035,
+          "source_repository": "arturo182/kicad-library",
+          "source_commit": "3b3f989c6b1778cbe8901a18d363393a0305b51a",
+          "git_blob_sha1": "3e66fb432bb40b6eb6d742974e9e9b8eff2271cb",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-library/3b3f989c6b1778cbe8901a18d363393a0305b51a/Transistor_FET_Extra.lib",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/library/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "library/power_extra.kicad_sym",
+          "sha256": "a378e8e06658d6c935d3eac6ab3d8a4723447910550d8d0bd86b3ff6e1458661",
+          "bytes": 4175,
+          "source_repository": "arturo182/kicad-library",
+          "source_commit": "3b3f989c6b1778cbe8901a18d363393a0305b51a",
+          "git_blob_sha1": "efc3ad35e222339deb9d2ee28e4a51b339ee8b6d",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-library/3b3f989c6b1778cbe8901a18d363393a0305b51a/power_extra.kicad_sym",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/library/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "library/power_extra.lib",
+          "sha256": "5da6c27f1b346a989266c6dc1bd337aff92f3607d9d9e2627c1fac5a2c7b8a79",
+          "bytes": 588,
+          "source_repository": "arturo182/kicad-library",
+          "source_commit": "3b3f989c6b1778cbe8901a18d363393a0305b51a",
+          "git_blob_sha1": "d9e0e011d5b0ddc5ecd239eaf002d9eb1722e923",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-library/3b3f989c6b1778cbe8901a18d363393a0305b51a/power_extra.lib",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/pmod-to-qwiic/library/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        }
+      ],
+      "independent_family_established": false,
+      "family_group_for_leakage": "solderparty-connector-adapter-group-unresolved-ancestry",
+      "scope_limits": [
+        "Full table-referenced15-logo directory+notice is acquired; not the whole95/193MB module repository.",
+        "Schematic embedded symbols and board embedded footprints do not prove exact upstream version/library closure.",
+        "Stock aliases and model references remain unchanged and unresolved; current installed libraries are not silently substituted.",
+        "fp-info-cache is retained whole as original metadata, not treated as an instruction to fetch every cached global library.",
+        "No symbols/library table links the extra PMOD symbol repository to actual schematic refs; that complete dependency repository is present but current symbols use stock power/Connector_Generic names.",
+        "No source scripts, native tools, engines, network calls or file edits occurred."
+      ]
+    },
+    {
+      "project": "lipo-disconnector",
+      "split": "development",
+      "source_repository": "solderparty/lipo_disconnector_hw",
+      "source_commit": "e70656fad7e7756d6595a1598037d724dcd0e5d6",
+      "acquisition_receipt": ".runs/licensed-acquisition-003/lipo-disconnector-001/receipt.json",
+      "acquisition_receipt_sha256": "b57bc2ce29d7c5e45939fbf917896d02536b357e8b5a08c04828dd8305107c27",
+      "files": 26,
+      "bytes": 4194990,
+      "complete_pinned_root": true,
+      "complete_declared_submodule_repository": false,
+      "root_file_count": 10,
+      "source_inventory": {
+        ".gitignore": "a6157db91bb741061fcc41872981af094c463daf8b08e066822d0d39400e2606",
+        ".gitmodules": "0cc320f5834a0cabc14e0775bc62a2da297e2b46e7215454ff035856b06a9288",
+        "LICENSE.md": "80b532e977fd4609b67f3fb86f1a234308d7ab3263441e66f02b421ff81ca213",
+        "README.md": "13d0a2cdc9de9f67f544f24c215fe975c3c668c6ca4afaf24e39b1bbb13c136d",
+        "fp-info-cache": "ca4336a9b62765f25e53d81b62fb0da4497c13c3f08013958bf9030d8ec80ab7",
+        "fp-lib-table": "d0124ab3fcfaeabdc91ed3c99a37b1282e7999d6d84304ebca88b3d5e3f2ea36",
+        "img/contents.jpg": "1ca7064887716fbdce99d4556d98888fe06f5ca51766eb05a9ae2e4aa0ac885a",
+        "lipo_disconnector.kicad_pcb": "3ef2141230ce971115381107486892bdf06a724c5d31d9ef2103622e113cf4e0",
+        "lipo_disconnector.kicad_pro": "8bc2dc577fb98404f317730b10ba2945f213a14e212b7a0b3e7fba7943a8d95e",
+        "lipo_disconnector.kicad_sch": "60e6b6c72bd144937deab985c552e4bce3ba465d373ddc7ace3bd731d6a67f2f",
+        "modules/LICENSE": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+        "modules/Symbols_Extra.pretty/SolderParty-Logo_12.6x11.7mm_SilkScreen.kicad_mod": "5f9a79e06a4f4e861198038bf6e3b345ec9b38402bd274ac415f5ce4a1cdd62d",
+        "modules/Symbols_Extra.pretty/SolderParty-Logo_13.5x12.6mm_SilkScreen.kicad_mod": "9f85eb0d3d611ae9fe5e455f063191ac785d69169ca59ab14a7ad0d9ba613b6a",
+        "modules/Symbols_Extra.pretty/SolderParty-Logo_14.6x13.5mm_SilkScreen.kicad_mod": "8ab7f36965e7b9c79d10ba6f716eaecbb7450dd7ef7144ba1ea4b70b4b87872f",
+        "modules/Symbols_Extra.pretty/SolderParty-Logo_6.3x5.9mm_SilkScreen.kicad_mod": "e30cf7128f51f03b445e4b804924fed6f7b9baea565dea194d62940168fc40f3",
+        "modules/Symbols_Extra.pretty/SolderParty-Logo_9.5x8.8mm_SilkScreen.kicad_mod": "2b42d1a42f609b858eea8aff18f03debdd2dc04c7729617641ece03ba91edb98",
+        "modules/Symbols_Extra.pretty/SolderParty-New-Logo_10x8.5mm_SilkScreen.kicad_mod": "acf8ada447027c6fd06511d2c3f1856b304a9f15d5872d1cf4d9f054f16b6402",
+        "modules/Symbols_Extra.pretty/SolderParty-New-Logo_12.5x10.6mm_SilkScreen.kicad_mod": "274945955528e605909dbf678aba669f7738ef6d2ab079d7067fcb89beb47709",
+        "modules/Symbols_Extra.pretty/SolderParty-New-Logo_15x12.7mm_SilkScreen.kicad_mod": "adc13a815022a9cb99c92c68a0c68e3481ea518fb99c0eabacff024e5093e241",
+        "modules/Symbols_Extra.pretty/SolderParty-New-Logo_20x16.9mm_SilkScreen.kicad_mod": "7189e02c9180b4ce68073b0e32c22ceb397f37e2e66b3933a6f8724183a698ba",
+        "modules/Symbols_Extra.pretty/SolderParty-New-Logo_25x21.2mm_SilkScreen.kicad_mod": "9c04257ed73fa5846a2856bb75d1e2e5245dd45d97a21f3afdf6701333a3ce58",
+        "modules/Symbols_Extra.pretty/SolderParty-New-Logo_3x2.5mm_SilkScreen.kicad_mod": "cde7e5cba2c7697cc6833b177d27419af8ae53051be43c7836506e411bf0bc1c",
+        "modules/Symbols_Extra.pretty/SolderParty-New-Logo_45x38.1mm_SilkScreen.kicad_mod": "b1e32aeda5ea9502ef7c2b20611b2bff3ca878e915d258c4e36305f325a8f59d",
+        "modules/Symbols_Extra.pretty/SolderParty-New-Logo_5x4.2mm_SilkScreen.kicad_mod": "2633d6f477fb68e29134914674f6827dc8f9df4f155ba4b2766717d406628174",
+        "modules/Symbols_Extra.pretty/SolderParty-New-Logo_60x50.8mm_SilkScreen.kicad_mod": "2279157404e4a0e314e94605aa314f00d041fb0a8d22fff2446926fa67f08015",
+        "modules/Symbols_Extra.pretty/SolderParty-New-Logo_7.5x6.4mm_SilkScreen.kicad_mod": "9caec0ba9c1c80ea0683af3ffd63ec8c7a19e9e059a11e96a31207de3ab434d2"
+      },
+      "source_unchanged": true,
+      "board": ".data/expansion003/lipo-disconnector/lipo_disconnector.kicad_pcb",
+      "board_sha256": "3ef2141230ce971115381107486892bdf06a724c5d31d9ef2103622e113cf4e0",
+      "board_format_version": "20220621",
+      "schematic_format_version": "20220404",
+      "project_meta": {
+        "filename": "lipo_jumpers.kicad_pro",
+        "version": 1
+      },
+      "same_basename_project_exists": true,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "layer_count": 2,
+      "net_declarations": [
+        [
+          "0",
+          "\"\""
+        ],
+        [
+          "1",
+          "\"Net-(J1-Pin_1)\""
+        ],
+        [
+          "2",
+          "\"GND\""
+        ],
+        [
+          "3",
+          "\"Net-(J2-Pin_1)\""
+        ]
+      ],
+      "pads": 10,
+      "edge_geometry_counts": {
+        "gr_arc": 4,
+        "gr_line": 4
+      },
+      "tracks": 6,
+      "vias": 2,
+      "zone_count": 3,
+      "rule_area_count": 0,
+      "footprints": [
+        {
+          "identity": "kibuzzard-62E1C2B7",
+          "reference": "kibuzzard-62E1C2B7",
+          "uuid": "065f84d2-7f53-4f8d-a0fc-cd5ca680d935",
+          "pads": 0,
+          "pad_types": {},
+          "models": [],
+          "authentic_project_local_library_file": null,
+          "local_library_present": false,
+          "local_library_sha256": null,
+          "embedded_only_graphic": true,
+          "attributes": [
+            "attr",
+            "board_only",
+            "exclude_from_pos_files",
+            "exclude_from_bom"
+          ],
+          "schematic_path": null,
+          "native_library_parity_qualified": false
+        },
+        {
+          "identity": "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical",
+          "reference": "J3",
+          "uuid": "1adaeb69-5b55-461f-b805-5777dd820efd",
+          "pads": 2,
+          "pad_types": {
+            "thru_hole:circle": 1,
+            "thru_hole:oval": 1
+          },
+          "models": [
+            {
+              "reference": "${KICAD6_3DMODEL_DIR}/Connector_PinHeader_2.54mm.3dshapes/PinHeader_1x02_P2.54mm_Vertical.wrl",
+              "hidden": false,
+              "owner_reference": "J3",
+              "owner_footprint": "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical",
+              "kind": "unresolved original stock/environment alias",
+              "present": false
+            },
+            {
+              "reference": "${KIPRJMOD}/modules/packages3D/Connector.3dshapes/Jumper_2_P2.54mm.step",
+              "hidden": true,
+              "owner_reference": "J3",
+              "owner_footprint": "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical",
+              "kind": "project-local model",
+              "relative_path": "modules/packages3D/Connector.3dshapes/Jumper_2_P2.54mm.step",
+              "present": false
+            }
+          ],
+          "authentic_project_local_library_file": null,
+          "local_library_present": false,
+          "local_library_sha256": null,
+          "embedded_only_graphic": false,
+          "attributes": [
+            "attr",
+            "through_hole"
+          ],
+          "schematic_path": "/a4298e30-1fd6-4d58-a2fe-0a5bdb6bfe5f",
+          "native_library_parity_qualified": false
+        },
+        {
+          "identity": "kibuzzard-62E1C3A6",
+          "reference": "kibuzzard-62E1C3A6",
+          "uuid": "1dd2800b-6710-44f9-9172-6fb318b84090",
+          "pads": 0,
+          "pad_types": {},
+          "models": [],
+          "authentic_project_local_library_file": null,
+          "local_library_present": false,
+          "local_library_sha256": null,
+          "embedded_only_graphic": true,
+          "attributes": [
+            "attr",
+            "board_only",
+            "exclude_from_pos_files",
+            "exclude_from_bom"
+          ],
+          "schematic_path": null,
+          "native_library_parity_qualified": false
+        },
+        {
+          "identity": "kibuzzard-62E1C2B7",
+          "reference": "kibuzzard-62E1C2B7",
+          "uuid": "1f22bfb5-a3ba-49bf-b54e-bc3d360ce6b0",
+          "pads": 0,
+          "pad_types": {},
+          "models": [],
+          "authentic_project_local_library_file": null,
+          "local_library_present": false,
+          "local_library_sha256": null,
+          "embedded_only_graphic": true,
+          "attributes": [
+            "attr",
+            "board_only",
+            "exclude_from_pos_files",
+            "exclude_from_bom"
+          ],
+          "schematic_path": null,
+          "native_library_parity_qualified": false
+        },
+        {
+          "identity": "kibuzzard-62E1C2B7",
+          "reference": "kibuzzard-62E1C2B7",
+          "uuid": "2791104e-9431-4052-ae79-e9b6ee5707b3",
+          "pads": 0,
+          "pad_types": {},
+          "models": [],
+          "authentic_project_local_library_file": null,
+          "local_library_present": false,
+          "local_library_sha256": null,
+          "embedded_only_graphic": true,
+          "attributes": [
+            "attr",
+            "board_only",
+            "exclude_from_pos_files",
+            "exclude_from_bom"
+          ],
+          "schematic_path": null,
+          "native_library_parity_qualified": false
+        },
+        {
+          "identity": "kibuzzard-62E1C2B7",
+          "reference": "kibuzzard-62E1C2B7",
+          "uuid": "36deb817-974c-445a-a832-625afce319ac",
+          "pads": 0,
+          "pad_types": {},
+          "models": [],
+          "authentic_project_local_library_file": null,
+          "local_library_present": false,
+          "local_library_sha256": null,
+          "embedded_only_graphic": true,
+          "attributes": [
+            "attr",
+            "board_only",
+            "exclude_from_pos_files",
+            "exclude_from_bom"
+          ],
+          "schematic_path": null,
+          "native_library_parity_qualified": false
+        },
+        {
+          "identity": "kibuzzard-62E1C4AB",
+          "reference": "kibuzzard-62E1C4AB",
+          "uuid": "416d86f0-664f-4f77-b4d2-5f7386ce21a8",
+          "pads": 0,
+          "pad_types": {},
+          "models": [],
+          "authentic_project_local_library_file": null,
+          "local_library_present": false,
+          "local_library_sha256": null,
+          "embedded_only_graphic": true,
+          "attributes": [
+            "attr",
+            "board_only",
+            "exclude_from_pos_files",
+            "exclude_from_bom"
+          ],
+          "schematic_path": null,
+          "native_library_parity_qualified": false
+        },
+        {
+          "identity": "Connector_JST:JST_PH_S2B-PH-SM4-TB_1x02-1MP_P2.00mm_Horizontal",
+          "reference": "J1",
+          "uuid": "75272a1d-603e-44c1-89b5-cc0e00d1759d",
+          "pads": 4,
+          "pad_types": {
+            "smd:roundrect": 4
+          },
+          "models": [
+            {
+              "reference": "${KIPRJMOD}/modules/packages3D/Connector.3dshapes/S2B-PH-SM4-TB.step",
+              "hidden": false,
+              "owner_reference": "J1",
+              "owner_footprint": "Connector_JST:JST_PH_S2B-PH-SM4-TB_1x02-1MP_P2.00mm_Horizontal",
+              "kind": "project-local model",
+              "relative_path": "modules/packages3D/Connector.3dshapes/S2B-PH-SM4-TB.step",
+              "present": false
+            }
+          ],
+          "authentic_project_local_library_file": null,
+          "local_library_present": false,
+          "local_library_sha256": null,
+          "embedded_only_graphic": false,
+          "attributes": [
+            "attr",
+            "smd"
+          ],
+          "schematic_path": "/06106496-02ce-47c8-93a9-c5f29bee346c",
+          "native_library_parity_qualified": false
+        },
+        {
+          "identity": "Symbols_Extra:SolderParty-New-Logo_3x2.5mm_SilkScreen",
+          "reference": "G***",
+          "uuid": "c0f3dd8e-6689-4d21-99b8-9f67391ac6a2",
+          "pads": 0,
+          "pad_types": {},
+          "models": [],
+          "authentic_project_local_library_file": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_3x2.5mm_SilkScreen.kicad_mod",
+          "local_library_present": true,
+          "local_library_sha256": "cde7e5cba2c7697cc6833b177d27419af8ae53051be43c7836506e411bf0bc1c",
+          "embedded_only_graphic": false,
+          "attributes": [
+            "attr",
+            "through_hole"
+          ],
+          "schematic_path": null,
+          "native_library_parity_qualified": false
+        },
+        {
+          "identity": "Connector_JST:JST_PH_S2B-PH-SM4-TB_1x02-1MP_P2.00mm_Horizontal",
+          "reference": "J2",
+          "uuid": "c378ad48-df39-4f14-af07-bba7da69d0ba",
+          "pads": 4,
+          "pad_types": {
+            "smd:roundrect": 4
+          },
+          "models": [
+            {
+              "reference": "${KIPRJMOD}/modules/packages3D/Connector.3dshapes/S2B-PH-SM4-TB.step",
+              "hidden": false,
+              "owner_reference": "J2",
+              "owner_footprint": "Connector_JST:JST_PH_S2B-PH-SM4-TB_1x02-1MP_P2.00mm_Horizontal",
+              "kind": "project-local model",
+              "relative_path": "modules/packages3D/Connector.3dshapes/S2B-PH-SM4-TB.step",
+              "present": false
+            }
+          ],
+          "authentic_project_local_library_file": null,
+          "local_library_present": false,
+          "local_library_sha256": null,
+          "embedded_only_graphic": false,
+          "attributes": [
+            "attr",
+            "smd"
+          ],
+          "schematic_path": "/d9330b19-b208-4d11-83ce-4c0a8befadd2",
+          "native_library_parity_qualified": false
+        },
+        {
+          "identity": "kibuzzard-62E2BF3F",
+          "reference": "kibuzzard-62E2BF3F",
+          "uuid": "00f38ca0-8097-4b5a-94ce-d8e1ed08cfdc",
+          "pads": 0,
+          "pad_types": {},
+          "models": [],
+          "authentic_project_local_library_file": null,
+          "local_library_present": false,
+          "local_library_sha256": null,
+          "embedded_only_graphic": true,
+          "attributes": [
+            "attr",
+            "board_only",
+            "exclude_from_pos_files",
+            "exclude_from_bom"
+          ],
+          "schematic_path": null,
+          "native_library_parity_qualified": false
+        },
+        {
+          "identity": "kibuzzard-62E2BF4D",
+          "reference": "kibuzzard-62E2BF4D",
+          "uuid": "5b544d92-7f71-4d76-b9a4-82412725242a",
+          "pads": 0,
+          "pad_types": {},
+          "models": [],
+          "authentic_project_local_library_file": null,
+          "local_library_present": false,
+          "local_library_sha256": null,
+          "embedded_only_graphic": true,
+          "attributes": [
+            "attr",
+            "board_only",
+            "exclude_from_pos_files",
+            "exclude_from_bom"
+          ],
+          "schematic_path": null,
+          "native_library_parity_qualified": false
+        },
+        {
+          "identity": "kibuzzard-62E2BF27",
+          "reference": "kibuzzard-62E2BF27",
+          "uuid": "5dc205e4-0ed2-49b4-b499-eae488cc75f0",
+          "pads": 0,
+          "pad_types": {},
+          "models": [],
+          "authentic_project_local_library_file": null,
+          "local_library_present": false,
+          "local_library_sha256": null,
+          "embedded_only_graphic": true,
+          "attributes": [
+            "attr",
+            "board_only",
+            "exclude_from_pos_files",
+            "exclude_from_bom"
+          ],
+          "schematic_path": null,
+          "native_library_parity_qualified": false
+        }
+      ],
+      "symbol_references": [
+        "Connector_Generic:Conn_01x02",
+        "Connector_Generic:Conn_02x01",
+        "power:GND"
+      ],
+      "embedded_symbol_definitions": [
+        "Connector_Generic:Conn_01x02",
+        "Connector_Generic:Conn_02x01",
+        "power:GND"
+      ],
+      "schematic_instances": [
+        {
+          "lib_id": "Connector_Generic:Conn_01x02",
+          "uuid": "06106496-02ce-47c8-93a9-c5f29bee346c",
+          "properties": {
+            "Reference": "U",
+            "Value": "",
+            "Footprint": "",
+            "Datasheet": "~",
+            "LCSC": "C47647"
+          },
+          "instances": null
+        },
+        {
+          "lib_id": "Connector_Generic:Conn_02x01",
+          "uuid": "a4298e30-1fd6-4d58-a2fe-0a5bdb6bfe5f",
+          "properties": {
+            "Reference": "J",
+            "Value": "Conn_02x01",
+            "Footprint": "",
+            "Datasheet": "~"
+          },
+          "instances": null
+        },
+        {
+          "lib_id": "power:GND",
+          "uuid": "c5b11294-dbaf-4dda-8b39-1ca50e1e9de2",
+          "properties": {
+            "Reference": "#PWR",
+            "Value": "GND",
+            "Footprint": "",
+            "Datasheet": ""
+          },
+          "instances": null
+        },
+        {
+          "lib_id": "Connector_Generic:Conn_01x02",
+          "uuid": "d9330b19-b208-4d11-83ce-4c0a8befadd2",
+          "properties": {
+            "Reference": "U",
+            "Value": "",
+            "Footprint": "",
+            "Datasheet": "~",
+            "LCSC": "C47647"
+          },
+          "instances": null
+        }
+      ],
+      "original_symbol_instances_table": [
+        "symbol_instances",
+        [
+          "path",
+          "\"/c5b11294-dbaf-4dda-8b39-1ca50e1e9de2\"",
+          [
+            "reference",
+            "\"#PWR02\""
+          ],
+          [
+            "unit",
+            "1"
+          ],
+          [
+            "value",
+            "\"GND\""
+          ],
+          [
+            "footprint",
+            "\"\""
+          ]
+        ],
+        [
+          "path",
+          "\"/06106496-02ce-47c8-93a9-c5f29bee346c\"",
+          [
+            "reference",
+            "\"J1\""
+          ],
+          [
+            "unit",
+            "1"
+          ],
+          [
+            "value",
+            "\"Conn_Batt1\""
+          ],
+          [
+            "footprint",
+            "\"Connector_JST:JST_PH_S2B-PH-SM4-TB_1x02-1MP_P2.00mm_Horizontal\""
+          ]
+        ],
+        [
+          "path",
+          "\"/d9330b19-b208-4d11-83ce-4c0a8befadd2\"",
+          [
+            "reference",
+            "\"J2\""
+          ],
+          [
+            "unit",
+            "1"
+          ],
+          [
+            "value",
+            "\"Conn_Batt2\""
+          ],
+          [
+            "footprint",
+            "\"Connector_JST:JST_PH_S2B-PH-SM4-TB_1x02-1MP_P2.00mm_Horizontal\""
+          ]
+        ],
+        [
+          "path",
+          "\"/a4298e30-1fd6-4d58-a2fe-0a5bdb6bfe5f\"",
+          [
+            "reference",
+            "\"J3\""
+          ],
+          [
+            "unit",
+            "1"
+          ],
+          [
+            "value",
+            "\"Conn_Jumper\""
+          ],
+          [
+            "footprint",
+            "\"Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical\""
+          ]
+        ]
+      ],
+      "schematic_sheet_count": 0,
+      "schematic_original_references": [
+        {
+          "kind": "ki_fp_filters",
+          "value": "Connector*:*_1x??_*"
+        },
+        {
+          "kind": "ki_fp_filters",
+          "value": "Connector*:*_2x??_*"
+        },
+        {
+          "kind": "lib_id",
+          "value": "Connector_Generic:Conn_01x02"
+        },
+        {
+          "kind": "footprint",
+          "value": ""
+        },
+        {
+          "kind": "lib_id",
+          "value": "Connector_Generic:Conn_02x01"
+        },
+        {
+          "kind": "footprint",
+          "value": ""
+        },
+        {
+          "kind": "lib_id",
+          "value": "power:GND"
+        },
+        {
+          "kind": "footprint",
+          "value": ""
+        },
+        {
+          "kind": "lib_id",
+          "value": "Connector_Generic:Conn_01x02"
+        },
+        {
+          "kind": "footprint",
+          "value": ""
+        },
+        {
+          "kind": "footprint",
+          "value": ""
+        },
+        {
+          "kind": "footprint",
+          "value": "Connector_JST:JST_PH_S2B-PH-SM4-TB_1x02-1MP_P2.00mm_Horizontal"
+        },
+        {
+          "kind": "footprint",
+          "value": "Connector_JST:JST_PH_S2B-PH-SM4-TB_1x02-1MP_P2.00mm_Horizontal"
+        },
+        {
+          "kind": "footprint",
+          "value": "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
+        }
+      ],
+      "project_fp_table": [
+        {
+          "name": "Symbols_Extra",
+          "type": "KiCad",
+          "uri": "${KIPRJMOD}/modules/Symbols_Extra.pretty",
+          "options": "",
+          "descr": ""
+        }
+      ],
+      "project_sym_table_present": false,
+      "project_local_missing_models": [
+        {
+          "reference": "${KIPRJMOD}/modules/packages3D/Connector.3dshapes/Jumper_2_P2.54mm.step",
+          "hidden": true,
+          "owner_reference": "J3",
+          "owner_footprint": "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical",
+          "kind": "project-local model",
+          "relative_path": "modules/packages3D/Connector.3dshapes/Jumper_2_P2.54mm.step",
+          "present": false,
+          "pinned_tree_entry": {
+            "path": "packages3D/Connector.3dshapes/Jumper_2_P2.54mm.step",
+            "mode": "100644",
+            "type": "blob",
+            "sha": "8002c3ae73ffaf8c30050b986fa1d57e8debe65b",
+            "size": 216536,
+            "url": "https://api.github.com/repos/arturo182/kicad-modules/git/blobs/8002c3ae73ffaf8c30050b986fa1d57e8debe65b"
+          },
+          "rights": "not audited: blob content/embedded/vendor notice not acquired; repository MIT must not be assumed to resolve all upstream model rights"
+        },
+        {
+          "reference": "${KIPRJMOD}/modules/packages3D/Connector.3dshapes/S2B-PH-SM4-TB.step",
+          "hidden": false,
+          "owner_reference": "J1",
+          "owner_footprint": "Connector_JST:JST_PH_S2B-PH-SM4-TB_1x02-1MP_P2.00mm_Horizontal",
+          "kind": "project-local model",
+          "relative_path": "modules/packages3D/Connector.3dshapes/S2B-PH-SM4-TB.step",
+          "present": false,
+          "pinned_tree_entry": {
+            "path": "packages3D/Connector.3dshapes/S2B-PH-SM4-TB.step",
+            "mode": "100644",
+            "type": "blob",
+            "sha": "7bfe9f28cc256f423bc691e3937777a1ca22f6db",
+            "size": 153561,
+            "url": "https://api.github.com/repos/arturo182/kicad-modules/git/blobs/7bfe9f28cc256f423bc691e3937777a1ca22f6db"
+          },
+          "rights": "not audited: blob content/embedded/vendor notice not acquired; repository MIT must not be assumed to resolve all upstream model rights"
+        },
+        {
+          "reference": "${KIPRJMOD}/modules/packages3D/Connector.3dshapes/S2B-PH-SM4-TB.step",
+          "hidden": false,
+          "owner_reference": "J2",
+          "owner_footprint": "Connector_JST:JST_PH_S2B-PH-SM4-TB_1x02-1MP_P2.00mm_Horizontal",
+          "kind": "project-local model",
+          "relative_path": "modules/packages3D/Connector.3dshapes/S2B-PH-SM4-TB.step",
+          "present": false,
+          "pinned_tree_entry": {
+            "path": "packages3D/Connector.3dshapes/S2B-PH-SM4-TB.step",
+            "mode": "100644",
+            "type": "blob",
+            "sha": "7bfe9f28cc256f423bc691e3937777a1ca22f6db",
+            "size": 153561,
+            "url": "https://api.github.com/repos/arturo182/kicad-modules/git/blobs/7bfe9f28cc256f423bc691e3937777a1ca22f6db"
+          },
+          "rights": "not audited: blob content/embedded/vendor notice not acquired; repository MIT must not be assumed to resolve all upstream model rights"
+        }
+      ],
+      "stock_models": [
+        "${KICAD6_3DMODEL_DIR}/Connector_PinHeader_2.54mm.3dshapes/PinHeader_1x02_P2.54mm_Vertical.wrl"
+      ],
+      "stock_footprints": [
+        "Connector_JST:JST_PH_S2B-PH-SM4-TB_1x02-1MP_P2.00mm_Horizontal",
+        "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
+      ],
+      "extra_dependency_file_reference_audit": [
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-Logo_12.6x11.7mm_SilkScreen.kicad_mod",
+          "references": []
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-Logo_13.5x12.6mm_SilkScreen.kicad_mod",
+          "references": []
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-Logo_14.6x13.5mm_SilkScreen.kicad_mod",
+          "references": []
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-Logo_6.3x5.9mm_SilkScreen.kicad_mod",
+          "references": []
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-Logo_9.5x8.8mm_SilkScreen.kicad_mod",
+          "references": []
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_10x8.5mm_SilkScreen.kicad_mod",
+          "references": []
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_12.5x10.6mm_SilkScreen.kicad_mod",
+          "references": []
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_15x12.7mm_SilkScreen.kicad_mod",
+          "references": []
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_20x16.9mm_SilkScreen.kicad_mod",
+          "references": []
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_25x21.2mm_SilkScreen.kicad_mod",
+          "references": []
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_3x2.5mm_SilkScreen.kicad_mod",
+          "references": []
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_45x38.1mm_SilkScreen.kicad_mod",
+          "references": []
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_5x4.2mm_SilkScreen.kicad_mod",
+          "references": []
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_60x50.8mm_SilkScreen.kicad_mod",
+          "references": []
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_7.5x6.4mm_SilkScreen.kicad_mod",
+          "references": []
+        }
+      ],
+      "drc_exclusions": [],
+      "original_rule_severities": {
+        "annular_width": "error",
+        "clearance": "error",
+        "connection_width": "ignore",
+        "copper_edge_clearance": "error",
+        "copper_sliver": "warning",
+        "courtyards_overlap": "error",
+        "diff_pair_gap_out_of_range": "error",
+        "diff_pair_uncoupled_length_too_long": "error",
+        "drill_out_of_range": "error",
+        "duplicate_footprints": "warning",
+        "extra_footprint": "warning",
+        "footprint_type_mismatch": "warning",
+        "hole_clearance": "error",
+        "hole_near_hole": "error",
+        "invalid_outline": "error",
+        "isolated_copper": "warning",
+        "item_on_disabled_layer": "error",
+        "items_not_allowed": "error",
+        "length_out_of_range": "error",
+        "lib_footprint_issues": "warning",
+        "lib_footprint_mismatch": "warning",
+        "malformed_courtyard": "error",
+        "microvia_drill_out_of_range": "error",
+        "missing_courtyard": "ignore",
+        "missing_footprint": "warning",
+        "net_conflict": "warning",
+        "npth_inside_courtyard": "ignore",
+        "overlapping_pads": "warning",
+        "padstack": "warning",
+        "pth_inside_courtyard": "ignore",
+        "shorting_items": "error",
+        "silk_edge_clearance": "warning",
+        "silk_over_copper": "warning",
+        "silk_overlap": "warning",
+        "skew_out_of_range": "error",
+        "solder_mask_bridge": "error",
+        "starved_thermal": "error",
+        "text_height": "warning",
+        "text_thickness": "warning",
+        "through_hole_pad_without_hole": "error",
+        "too_many_vias": "error",
+        "track_dangling": "warning",
+        "track_width": "error",
+        "tracks_crossing": "error",
+        "unconnected_items": "error",
+        "unresolved_variable": "error",
+        "via_dangling": "warning",
+        "zones_intersect": "error"
+      },
+      "unknown_legacy_severity_keys": [],
+      "original_rule_minima": {
+        "max_error": 0.005,
+        "min_clearance": 0.0,
+        "min_connection": 0.0,
+        "min_copper_edge_clearance": 0.0,
+        "min_hole_clearance": 0.25,
+        "min_hole_to_hole": 0.25,
+        "min_microvia_diameter": 0.19999999999999998,
+        "min_microvia_drill": 0.09999999999999999,
+        "min_resolved_spokes": 2,
+        "min_silk_clearance": 0.0,
+        "min_text_height": 0.7999999999999999,
+        "min_text_thickness": 0.12,
+        "min_through_hole_diameter": 0.3,
+        "min_track_width": 0.19999999999999998,
+        "min_via_annular_width": 0.049999999999999996,
+        "min_via_diameter": 0.39999999999999997,
+        "solder_mask_clearance": 0.0,
+        "solder_mask_min_width": 0.0,
+        "solder_mask_to_copper_clearance": 0.0,
+        "use_height_for_length_calcs": true
+      },
+      "original_net_settings": {
+        "classes": [
+          {
+            "bus_width": 12.0,
+            "clearance": 0.2,
+            "diff_pair_gap": 0.25,
+            "diff_pair_via_gap": 0.25,
+            "diff_pair_width": 0.2,
+            "line_style": 0,
+            "microvia_diameter": 0.3,
+            "microvia_drill": 0.1,
+            "name": "Default",
+            "pcb_color": "rgba(0, 0, 0, 0.000)",
+            "schematic_color": "rgba(0, 0, 0, 0.000)",
+            "track_width": 0.25,
+            "via_diameter": 0.8,
+            "via_drill": 0.4,
+            "wire_width": 6.0
+          }
+        ],
+        "meta": {
+          "version": 2
+        },
+        "net_colors": null
+      },
+      "static_preflight_eligible": false,
+      "static_preflight_reason": "unsupported: unqualified board format version",
+      "native_executed": false,
+      "native_validity": null,
+      "dependency_complete": false,
+      "file_rights_audit": [
+        {
+          "path": ".gitignore",
+          "sha256": "a6157db91bb741061fcc41872981af094c463daf8b08e066822d0d39400e2606",
+          "bytes": 76,
+          "source_repository": "solderparty/lipo_disconnector_hw",
+          "source_commit": "e70656fad7e7756d6595a1598037d724dcd0e5d6",
+          "git_blob_sha1": "a67bc0ff2c2c5d3d9082ee5ac36ae1749eaa4a32",
+          "source_url": "https://raw.githubusercontent.com/solderparty/lipo_disconnector_hw/e70656fad7e7756d6595a1598037d724dcd0e5d6/.gitignore",
+          "published_notice_scope": "publisher CERN-OHL-1.2 root notice; third-party provenance exceptions separately retained",
+          "notice_path": ".data/expansion003/lipo-disconnector/LICENSE.md",
+          "notice_sha256": "80b532e977fd4609b67f3fb86f1a234308d7ab3263441e66f02b421ff81ca213",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": ".gitmodules",
+          "sha256": "0cc320f5834a0cabc14e0775bc62a2da297e2b46e7215454ff035856b06a9288",
+          "bytes": 92,
+          "source_repository": "solderparty/lipo_disconnector_hw",
+          "source_commit": "e70656fad7e7756d6595a1598037d724dcd0e5d6",
+          "git_blob_sha1": "8d6d01c5c1743e6656a4d45bc83aeb386fb52470",
+          "source_url": "https://raw.githubusercontent.com/solderparty/lipo_disconnector_hw/e70656fad7e7756d6595a1598037d724dcd0e5d6/.gitmodules",
+          "published_notice_scope": "publisher CERN-OHL-1.2 root notice; third-party provenance exceptions separately retained",
+          "notice_path": ".data/expansion003/lipo-disconnector/LICENSE.md",
+          "notice_sha256": "80b532e977fd4609b67f3fb86f1a234308d7ab3263441e66f02b421ff81ca213",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "LICENSE.md",
+          "sha256": "80b532e977fd4609b67f3fb86f1a234308d7ab3263441e66f02b421ff81ca213",
+          "bytes": 9309,
+          "source_repository": "solderparty/lipo_disconnector_hw",
+          "source_commit": "e70656fad7e7756d6595a1598037d724dcd0e5d6",
+          "git_blob_sha1": "130fab9b4841abddd619e3a743c38b5912ecf939",
+          "source_url": "https://raw.githubusercontent.com/solderparty/lipo_disconnector_hw/e70656fad7e7756d6595a1598037d724dcd0e5d6/LICENSE.md",
+          "published_notice_scope": "publisher CERN-OHL-1.2 root notice; third-party provenance exceptions separately retained",
+          "notice_path": ".data/expansion003/lipo-disconnector/LICENSE.md",
+          "notice_sha256": "80b532e977fd4609b67f3fb86f1a234308d7ab3263441e66f02b421ff81ca213",
+          "inline_notice_hits": [
+            {
+              "line": 1,
+              "text": "CERN Open Hardware Licence v1.2 "
+            },
+            {
+              "line": 5,
+              "text": "Through this CERN Open Hardware Licence (\"CERN OHL\") version 1.2, CERN"
+            },
+            {
+              "line": 7,
+              "text": "hardware designers.  The CERN OHL is copyright CERN. Anyone is welcome"
+            },
+            {
+              "line": 16,
+              "text": "In this Licence, the following terms have the following meanings:"
+            },
+            {
+              "line": 18,
+              "text": "\ufffdLicence\ufffd means this CERN OHL."
+            },
+            {
+              "line": 23,
+              "text": "available under the conditions of this Licence. The Documentation may"
+            },
+            {
+              "line": 35,
+              "text": "\ufffdLicensee\ufffd means any natural or legal person exercising rights under"
+            },
+            {
+              "line": 36,
+              "text": "this Licence."
+            },
+            {
+              "line": 41,
+              "text": "of this Licence."
+            },
+            {
+              "line": 43,
+              "text": "A Licensee may at the same time be a Licensor, and vice versa. "
+            },
+            {
+              "line": 50,
+              "text": "2.1. This Licence governs the use, copying, modification,"
+            },
+            {
+              "line": 53,
+              "text": "granted under this Licence, the Licensee irrevocably accepts these"
+            },
+            {
+              "line": 56,
+              "text": "2.2. This Licence is granted by the Licensor directly to the Licensee,"
+            },
+            {
+              "line": 57,
+              "text": "and shall apply worldwide and without limitation in time. The Licensee"
+            },
+            {
+              "line": 58,
+              "text": "may assign his licence rights or grant sub-licences."
+            },
+            {
+              "line": 60,
+              "text": "2.3. This Licence does not extend to software, firmware, or code"
+            },
+            {
+              "line": 64,
+              "text": "to this Licence. The use of such software, firmware, or code is"
+            },
+            {
+              "line": 65,
+              "text": "otherwise subject to the applicable licence terms and conditions."
+            },
+            {
+              "line": 70,
+              "text": "3.1. The Licensee shall keep intact all copyright and trademarks"
+            },
+            {
+              "line": 72,
+              "text": "notices that refer to this Licence and to the disclaimer of warranties"
+            },
+            {
+              "line": 78,
+              "text": "3.2. The Licensee may copy, communicate to the public and distribute"
+            },
+            {
+              "line": 82,
+              "text": "3.3. The Licensee may modify the Documentation or any portion thereof"
+            },
+            {
+              "line": 83,
+              "text": "provided that upon modification of the Documentation, the Licensee"
+            },
+            {
+              "line": 86,
+              "text": "once the Licensee communicates to the public or distributes the"
+            },
+            {
+              "line": 92,
+              "text": "3.4. The Licensee may communicate to the public and distribute the"
+            },
+            {
+              "line": 93,
+              "text": "modified Documentation (thereby in addition to being a Licensee also"
+            },
+            {
+              "line": 99,
+              "text": "that the Licensee has modified the Documentation, with the date and"
+            },
+            {
+              "line": 109,
+              "text": "viewable with a tool licensed under an OSI-approved license if the"
+            },
+            {
+              "line": 112,
+              "text": "e) license the modified Documentation under the terms and conditions"
+            },
+            {
+              "line": 113,
+              "text": "of this Licence or, where applicable, a later version of this Licence"
+            },
+            {
+              "line": 116,
+              "text": "3.5. The Licence includes a non-exclusive licence to those patents or"
+            },
+            {
+              "line": 119,
+              "text": "the rights granted under this Licence. The scope of this section 3.5"
+            },
+            {
+              "line": 125,
+              "text": "4.1. The Licensee may manufacture or distribute Products always"
+            },
+            {
+              "line": 127,
+              "text": "licence under this Licence the Licensee provides to each recipient of"
+            },
+            {
+              "line": 131,
+              "text": "4.2. The Licensee is invited to inform any Licensor who has indicated"
+            },
+            {
+              "line": 133,
+              "text": "dates of production of Products the Licensee has (had) manufactured"
+            },
+            {
+              "line": 145,
+              "text": "copyright, trade secret or other proprietary right. The entire risk as"
+            },
+            {
+              "line": 147,
+              "text": "Licensee and not the Licensor. This disclaimer of warranty is an"
+            },
+            {
+              "line": 148,
+              "text": "essential part of this Licence and a condition for the grant of any"
+            },
+            {
+              "line": 149,
+              "text": "rights granted under this Licence. The Licensee warrants that it does"
+            },
+            {
+              "line": 161,
+              "text": "damages, and the Licensee shall hold the Licensor(s) free and harmless"
+            },
+            {
+              "line": 167,
+              "text": "6.1. Except for the rights explicitly granted hereunder, this Licence"
+            },
+            {
+              "line": 169,
+              "text": "property rights to the Licensee."
+            },
+            {
+              "line": 171,
+              "text": "6.2. The Licensee shall not use or make reference to any of the names"
+            },
+            {
+              "line": 180,
+              "text": "6.3. CERN may publish updated versions of this Licence which retain"
+            },
+            {
+              "line": 185,
+              "text": "6.4. This Licence shall terminate with immediate effect, upon written"
+            },
+            {
+              "line": 186,
+              "text": "notice and without involvement of a court if the Licensee fails to"
+            },
+            {
+              "line": 187,
+              "text": "comply with any of its terms and conditions, or if the Licensee"
+            },
+            {
+              "line": 189,
+              "text": "Licence. Section 5 shall continue to apply."
+            }
+          ],
+          "utf8_replacement_count": 14,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "README.md",
+          "sha256": "13d0a2cdc9de9f67f544f24c215fe975c3c668c6ca4afaf24e39b1bbb13c136d",
+          "bytes": 561,
+          "source_repository": "solderparty/lipo_disconnector_hw",
+          "source_commit": "e70656fad7e7756d6595a1598037d724dcd0e5d6",
+          "git_blob_sha1": "6df0ec33d95fd9ef10451bd243c0268496bd2fad",
+          "source_url": "https://raw.githubusercontent.com/solderparty/lipo_disconnector_hw/e70656fad7e7756d6595a1598037d724dcd0e5d6/README.md",
+          "published_notice_scope": "publisher CERN-OHL-1.2 root notice; third-party provenance exceptions separately retained",
+          "notice_path": ".data/expansion003/lipo-disconnector/LICENSE.md",
+          "notice_sha256": "80b532e977fd4609b67f3fb86f1a234308d7ab3263441e66f02b421ff81ca213",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "fp-info-cache",
+          "sha256": "ca4336a9b62765f25e53d81b62fb0da4497c13c3f08013958bf9030d8ec80ab7",
+          "bytes": 3179063,
+          "source_repository": "solderparty/lipo_disconnector_hw",
+          "source_commit": "e70656fad7e7756d6595a1598037d724dcd0e5d6",
+          "git_blob_sha1": "07fe89dc5d0cf7fd3f03f16a748671c3f3174553",
+          "source_url": "https://raw.githubusercontent.com/solderparty/lipo_disconnector_hw/e70656fad7e7756d6595a1598037d724dcd0e5d6/fp-info-cache",
+          "published_notice_scope": "publisher CERN-OHL-1.2 root notice; third-party provenance exceptions separately retained",
+          "notice_path": ".data/expansion003/lipo-disconnector/LICENSE.md",
+          "notice_sha256": "80b532e977fd4609b67f3fb86f1a234308d7ab3263441e66f02b421ff81ca213",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "fp-lib-table",
+          "sha256": "d0124ab3fcfaeabdc91ed3c99a37b1282e7999d6d84304ebca88b3d5e3f2ea36",
+          "bytes": 134,
+          "source_repository": "solderparty/lipo_disconnector_hw",
+          "source_commit": "e70656fad7e7756d6595a1598037d724dcd0e5d6",
+          "git_blob_sha1": "bad673eda8b551e91025b34e67eb0d46d7fdbe0b",
+          "source_url": "https://raw.githubusercontent.com/solderparty/lipo_disconnector_hw/e70656fad7e7756d6595a1598037d724dcd0e5d6/fp-lib-table",
+          "published_notice_scope": "publisher CERN-OHL-1.2 root notice; third-party provenance exceptions separately retained",
+          "notice_path": ".data/expansion003/lipo-disconnector/LICENSE.md",
+          "notice_sha256": "80b532e977fd4609b67f3fb86f1a234308d7ab3263441e66f02b421ff81ca213",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "img/contents.jpg",
+          "sha256": "1ca7064887716fbdce99d4556d98888fe06f5ca51766eb05a9ae2e4aa0ac885a",
+          "bytes": 350696,
+          "source_repository": "solderparty/lipo_disconnector_hw",
+          "source_commit": "e70656fad7e7756d6595a1598037d724dcd0e5d6",
+          "git_blob_sha1": "dfd10af1f0690a852ef7a8c3ed44a351fb2b157d",
+          "source_url": "https://raw.githubusercontent.com/solderparty/lipo_disconnector_hw/e70656fad7e7756d6595a1598037d724dcd0e5d6/img/contents.jpg",
+          "published_notice_scope": "publisher CERN-OHL-1.2 root notice; third-party provenance exceptions separately retained",
+          "notice_path": ".data/expansion003/lipo-disconnector/LICENSE.md",
+          "notice_sha256": "80b532e977fd4609b67f3fb86f1a234308d7ab3263441e66f02b421ff81ca213",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": null,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "lipo_disconnector.kicad_pcb",
+          "sha256": "3ef2141230ce971115381107486892bdf06a724c5d31d9ef2103622e113cf4e0",
+          "bytes": 276943,
+          "source_repository": "solderparty/lipo_disconnector_hw",
+          "source_commit": "e70656fad7e7756d6595a1598037d724dcd0e5d6",
+          "git_blob_sha1": "a6e467a2e8c33585511163c0a430a830de6dffd5",
+          "source_url": "https://raw.githubusercontent.com/solderparty/lipo_disconnector_hw/e70656fad7e7756d6595a1598037d724dcd0e5d6/lipo_disconnector.kicad_pcb",
+          "published_notice_scope": "publisher CERN-OHL-1.2 root notice; third-party provenance exceptions separately retained",
+          "notice_path": ".data/expansion003/lipo-disconnector/LICENSE.md",
+          "notice_sha256": "80b532e977fd4609b67f3fb86f1a234308d7ab3263441e66f02b421ff81ca213",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "lipo_disconnector.kicad_pro",
+          "sha256": "8bc2dc577fb98404f317730b10ba2945f213a14e212b7a0b3e7fba7943a8d95e",
+          "bytes": 11069,
+          "source_repository": "solderparty/lipo_disconnector_hw",
+          "source_commit": "e70656fad7e7756d6595a1598037d724dcd0e5d6",
+          "git_blob_sha1": "b048277cac77d00f94f17ac226a9a3decce284dc",
+          "source_url": "https://raw.githubusercontent.com/solderparty/lipo_disconnector_hw/e70656fad7e7756d6595a1598037d724dcd0e5d6/lipo_disconnector.kicad_pro",
+          "published_notice_scope": "publisher CERN-OHL-1.2 root notice; third-party provenance exceptions separately retained",
+          "notice_path": ".data/expansion003/lipo-disconnector/LICENSE.md",
+          "notice_sha256": "80b532e977fd4609b67f3fb86f1a234308d7ab3263441e66f02b421ff81ca213",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "lipo_disconnector.kicad_sch",
+          "sha256": "60e6b6c72bd144937deab985c552e4bce3ba465d373ddc7ace3bd731d6a67f2f",
+          "bytes": 10288,
+          "source_repository": "solderparty/lipo_disconnector_hw",
+          "source_commit": "e70656fad7e7756d6595a1598037d724dcd0e5d6",
+          "git_blob_sha1": "21cd780b388dbab01eed7c3292f6d5a867df3c85",
+          "source_url": "https://raw.githubusercontent.com/solderparty/lipo_disconnector_hw/e70656fad7e7756d6595a1598037d724dcd0e5d6/lipo_disconnector.kicad_sch",
+          "published_notice_scope": "publisher CERN-OHL-1.2 root notice; third-party provenance exceptions separately retained",
+          "notice_path": ".data/expansion003/lipo-disconnector/LICENSE.md",
+          "notice_sha256": "80b532e977fd4609b67f3fb86f1a234308d7ab3263441e66f02b421ff81ca213",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "modules/LICENSE",
+          "sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "bytes": 1066,
+          "source_repository": "arturo182/kicad-modules",
+          "source_commit": "9bde9c1677d7002a26a9c11c747fe226a62b70db",
+          "git_blob_sha1": "b72430dd28b649c004e6e82ecfa008ae4cecdb48",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-modules/9bde9c1677d7002a26a9c11c747fe226a62b70db/LICENSE",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/lipo-disconnector/modules/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [
+            {
+              "line": 1,
+              "text": "MIT License"
+            },
+            {
+              "line": 3,
+              "text": "Copyright (c) 2019 arturo182"
+            },
+            {
+              "line": 8,
+              "text": "to use, copy, modify, merge, publish, distribute, sublicense, and/or sell"
+            },
+            {
+              "line": 12,
+              "text": "The above copyright notice and this permission notice shall be included in all"
+            },
+            {
+              "line": 18,
+              "text": "AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER"
+            }
+          ],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-Logo_12.6x11.7mm_SilkScreen.kicad_mod",
+          "sha256": "5f9a79e06a4f4e861198038bf6e3b345ec9b38402bd274ac415f5ce4a1cdd62d",
+          "bytes": 30905,
+          "source_repository": "arturo182/kicad-modules",
+          "source_commit": "9bde9c1677d7002a26a9c11c747fe226a62b70db",
+          "git_blob_sha1": "8a45e4b2b8cfb57384097eb691410edebff62369",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-modules/9bde9c1677d7002a26a9c11c747fe226a62b70db/Symbols_Extra.pretty/SolderParty-Logo_12.6x11.7mm_SilkScreen.kicad_mod",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/lipo-disconnector/modules/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-Logo_13.5x12.6mm_SilkScreen.kicad_mod",
+          "sha256": "9f85eb0d3d611ae9fe5e455f063191ac785d69169ca59ab14a7ad0d9ba613b6a",
+          "bytes": 30877,
+          "source_repository": "arturo182/kicad-modules",
+          "source_commit": "9bde9c1677d7002a26a9c11c747fe226a62b70db",
+          "git_blob_sha1": "087127327f85bec5f8e866eda8a1510fe042d3be",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-modules/9bde9c1677d7002a26a9c11c747fe226a62b70db/Symbols_Extra.pretty/SolderParty-Logo_13.5x12.6mm_SilkScreen.kicad_mod",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/lipo-disconnector/modules/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-Logo_14.6x13.5mm_SilkScreen.kicad_mod",
+          "sha256": "8ab7f36965e7b9c79d10ba6f716eaecbb7450dd7ef7144ba1ea4b70b4b87872f",
+          "bytes": 30905,
+          "source_repository": "arturo182/kicad-modules",
+          "source_commit": "9bde9c1677d7002a26a9c11c747fe226a62b70db",
+          "git_blob_sha1": "9449a3fd07ca7c275b6fd73344cfa4eac824b5c3",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-modules/9bde9c1677d7002a26a9c11c747fe226a62b70db/Symbols_Extra.pretty/SolderParty-Logo_14.6x13.5mm_SilkScreen.kicad_mod",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/lipo-disconnector/modules/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-Logo_6.3x5.9mm_SilkScreen.kicad_mod",
+          "sha256": "e30cf7128f51f03b445e4b804924fed6f7b9baea565dea194d62940168fc40f3",
+          "bytes": 28385,
+          "source_repository": "arturo182/kicad-modules",
+          "source_commit": "9bde9c1677d7002a26a9c11c747fe226a62b70db",
+          "git_blob_sha1": "1bd78f258f5163f8fa2a77b6d302fa15942894f8",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-modules/9bde9c1677d7002a26a9c11c747fe226a62b70db/Symbols_Extra.pretty/SolderParty-Logo_6.3x5.9mm_SilkScreen.kicad_mod",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/lipo-disconnector/modules/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-Logo_9.5x8.8mm_SilkScreen.kicad_mod",
+          "sha256": "2b42d1a42f609b858eea8aff18f03debdd2dc04c7729617641ece03ba91edb98",
+          "bytes": 28408,
+          "source_repository": "arturo182/kicad-modules",
+          "source_commit": "9bde9c1677d7002a26a9c11c747fe226a62b70db",
+          "git_blob_sha1": "f9ef0931716b70b6837c34086301bca2608b03fb",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-modules/9bde9c1677d7002a26a9c11c747fe226a62b70db/Symbols_Extra.pretty/SolderParty-Logo_9.5x8.8mm_SilkScreen.kicad_mod",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/lipo-disconnector/modules/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_10x8.5mm_SilkScreen.kicad_mod",
+          "sha256": "acf8ada447027c6fd06511d2c3f1856b304a9f15d5872d1cf4d9f054f16b6402",
+          "bytes": 20434,
+          "source_repository": "arturo182/kicad-modules",
+          "source_commit": "9bde9c1677d7002a26a9c11c747fe226a62b70db",
+          "git_blob_sha1": "7d8232ea664f9253b2bf8cb045c321e715a707e7",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-modules/9bde9c1677d7002a26a9c11c747fe226a62b70db/Symbols_Extra.pretty/SolderParty-New-Logo_10x8.5mm_SilkScreen.kicad_mod",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/lipo-disconnector/modules/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_12.5x10.6mm_SilkScreen.kicad_mod",
+          "sha256": "274945955528e605909dbf678aba669f7738ef6d2ab079d7067fcb89beb47709",
+          "bytes": 20508,
+          "source_repository": "arturo182/kicad-modules",
+          "source_commit": "9bde9c1677d7002a26a9c11c747fe226a62b70db",
+          "git_blob_sha1": "a64c37fd687dddfb0af8fa96e55d17ea82ef458e",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-modules/9bde9c1677d7002a26a9c11c747fe226a62b70db/Symbols_Extra.pretty/SolderParty-New-Logo_12.5x10.6mm_SilkScreen.kicad_mod",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/lipo-disconnector/modules/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_15x12.7mm_SilkScreen.kicad_mod",
+          "sha256": "adc13a815022a9cb99c92c68a0c68e3481ea518fb99c0eabacff024e5093e241",
+          "bytes": 20412,
+          "source_repository": "arturo182/kicad-modules",
+          "source_commit": "9bde9c1677d7002a26a9c11c747fe226a62b70db",
+          "git_blob_sha1": "9b1908b2bea24513b21d4f606a44a3acfd4b2d9b",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-modules/9bde9c1677d7002a26a9c11c747fe226a62b70db/Symbols_Extra.pretty/SolderParty-New-Logo_15x12.7mm_SilkScreen.kicad_mod",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/lipo-disconnector/modules/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_20x16.9mm_SilkScreen.kicad_mod",
+          "sha256": "7189e02c9180b4ce68073b0e32c22ceb397f37e2e66b3933a6f8724183a698ba",
+          "bytes": 20507,
+          "source_repository": "arturo182/kicad-modules",
+          "source_commit": "9bde9c1677d7002a26a9c11c747fe226a62b70db",
+          "git_blob_sha1": "08b8381671dea0a7b6fac6cc0e1332cd588ab650",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-modules/9bde9c1677d7002a26a9c11c747fe226a62b70db/Symbols_Extra.pretty/SolderParty-New-Logo_20x16.9mm_SilkScreen.kicad_mod",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/lipo-disconnector/modules/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_25x21.2mm_SilkScreen.kicad_mod",
+          "sha256": "9c04257ed73fa5846a2856bb75d1e2e5245dd45d97a21f3afdf6701333a3ce58",
+          "bytes": 20465,
+          "source_repository": "arturo182/kicad-modules",
+          "source_commit": "9bde9c1677d7002a26a9c11c747fe226a62b70db",
+          "git_blob_sha1": "97ae788b08556d1d13c7acc3d6131e2476d82cc0",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-modules/9bde9c1677d7002a26a9c11c747fe226a62b70db/Symbols_Extra.pretty/SolderParty-New-Logo_25x21.2mm_SilkScreen.kicad_mod",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/lipo-disconnector/modules/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_3x2.5mm_SilkScreen.kicad_mod",
+          "sha256": "cde7e5cba2c7697cc6833b177d27419af8ae53051be43c7836506e411bf0bc1c",
+          "bytes": 20508,
+          "source_repository": "arturo182/kicad-modules",
+          "source_commit": "9bde9c1677d7002a26a9c11c747fe226a62b70db",
+          "git_blob_sha1": "4323972aa182473a928f3319b4d6a9823afed69f",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-modules/9bde9c1677d7002a26a9c11c747fe226a62b70db/Symbols_Extra.pretty/SolderParty-New-Logo_3x2.5mm_SilkScreen.kicad_mod",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/lipo-disconnector/modules/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_45x38.1mm_SilkScreen.kicad_mod",
+          "sha256": "b1e32aeda5ea9502ef7c2b20611b2bff3ca878e915d258c4e36305f325a8f59d",
+          "bytes": 21131,
+          "source_repository": "arturo182/kicad-modules",
+          "source_commit": "9bde9c1677d7002a26a9c11c747fe226a62b70db",
+          "git_blob_sha1": "dd6be9f7fa62a981a8da4434d146b11940280932",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-modules/9bde9c1677d7002a26a9c11c747fe226a62b70db/Symbols_Extra.pretty/SolderParty-New-Logo_45x38.1mm_SilkScreen.kicad_mod",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/lipo-disconnector/modules/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_5x4.2mm_SilkScreen.kicad_mod",
+          "sha256": "2633d6f477fb68e29134914674f6827dc8f9df4f155ba4b2766717d406628174",
+          "bytes": 20483,
+          "source_repository": "arturo182/kicad-modules",
+          "source_commit": "9bde9c1677d7002a26a9c11c747fe226a62b70db",
+          "git_blob_sha1": "cea7a94bc8841372b6f3cec111befafcba27e0d2",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-modules/9bde9c1677d7002a26a9c11c747fe226a62b70db/Symbols_Extra.pretty/SolderParty-New-Logo_5x4.2mm_SilkScreen.kicad_mod",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/lipo-disconnector/modules/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_60x50.8mm_SilkScreen.kicad_mod",
+          "sha256": "2279157404e4a0e314e94605aa314f00d041fb0a8d22fff2446926fa67f08015",
+          "bytes": 21282,
+          "source_repository": "arturo182/kicad-modules",
+          "source_commit": "9bde9c1677d7002a26a9c11c747fe226a62b70db",
+          "git_blob_sha1": "af57918f34ce0d5e1f1368bbea73a24e7c55ee5a",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-modules/9bde9c1677d7002a26a9c11c747fe226a62b70db/Symbols_Extra.pretty/SolderParty-New-Logo_60x50.8mm_SilkScreen.kicad_mod",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/lipo-disconnector/modules/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        },
+        {
+          "path": "modules/Symbols_Extra.pretty/SolderParty-New-Logo_7.5x6.4mm_SilkScreen.kicad_mod",
+          "sha256": "9caec0ba9c1c80ea0683af3ffd63ec8c7a19e9e059a11e96a31207de3ab434d2",
+          "bytes": 20483,
+          "source_repository": "arturo182/kicad-modules",
+          "source_commit": "9bde9c1677d7002a26a9c11c747fe226a62b70db",
+          "git_blob_sha1": "8ae60503e59bd1492fb04eb7635ff3faa2a9c677",
+          "source_url": "https://raw.githubusercontent.com/arturo182/kicad-modules/9bde9c1677d7002a26a9c11c747fe226a62b70db/Symbols_Extra.pretty/SolderParty-New-Logo_7.5x6.4mm_SilkScreen.kicad_mod",
+          "published_notice_scope": "MIT dependency notice",
+          "notice_path": ".data/expansion003/lipo-disconnector/modules/LICENSE",
+          "notice_sha256": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+          "inline_notice_hits": [],
+          "utf8_replacement_count": 0,
+          "redistribution_cleared_for_complete_project": false
+        }
+      ],
+      "independent_family_established": false,
+      "family_group_for_leakage": "solderparty-connector-adapter-group-unresolved-ancestry",
+      "scope_limits": [
+        "Full table-referenced15-logo directory+notice is acquired; not the whole95/193MB module repository.",
+        "Schematic embedded symbols and board embedded footprints do not prove exact upstream version/library closure.",
+        "Stock aliases and model references remain unchanged and unresolved; current installed libraries are not silently substituted.",
+        "fp-info-cache is retained whole as original metadata, not treated as an instruction to fetch every cached global library.",
+        "No symbols/library table links the extra PMOD symbol repository to actual schematic refs; that complete dependency repository is present but current symbols use stock power/Connector_Generic names.",
+        "No source scripts, native tools, engines, network calls or file edits occurred."
+      ]
+    }
+  ],
+  "shared_templates": {
+    "identical_logo_dependency_files": 15,
+    "same_MIT_notice": true,
+    "family_independence_proven": false,
+    "interpretation": "Sharedpublisher/logolibrary indicates common templates; distinct functions/repositories do not establish independent circuit ancestry. Both remain development and conservatively grouped pending ancestry review."
+  },
+  "inputs": {
+    ".runs/licensed-expansion-research-003/retrieval-plan.json": "4ab6b6675eeb33b90a1296441f624a5ba3a293c246d65fa021f73d4c6fa79dae",
+    ".runs/licensed-acquisition-003/exposure-decision.json": "d183ec65c6e7d1d283bd0157ec70e0ee7741b84011eb6278a203c9c691c96b23",
+    ".runs/licensed-acquisition-003/pmod-to-qwiic-001/receipt.json": "536f024782803f3054e48a307413b380d64a019649f7d4b743e1b56fb2af6105",
+    ".data/expansion003/pmod-to-qwiic/.gitignore": "88f35093c21001693041e4be9d7bc510a5b6c4832edcf78f33fdc971566ce65f",
+    ".data/expansion003/pmod-to-qwiic/.gitmodules": "303e2693150d7da5595afd132e29646614e755627da745d6a7d887d4408cd76d",
+    ".data/expansion003/pmod-to-qwiic/LICENSE.md": "60142a73e57a208d178a74fd43ad37badaa95d552108c13c614d8c1e26c4c366",
+    ".data/expansion003/pmod-to-qwiic/README.md": "5857d64fc10a3a794763ee6c48ba92549ca118eb2c1e45de356bb60ef2d0b963",
+    ".data/expansion003/pmod-to-qwiic/fp-info-cache": "cfb4790660b584a1584fe10131742b99b64a20b37f060337b94614086ce7ed4d",
+    ".data/expansion003/pmod-to-qwiic/fp-lib-table": "82100ee093fd690054037cadff8629acf2e6be028fb5918e8802562ab10023a2",
+    ".data/expansion003/pmod-to-qwiic/library/.gitignore": "d03bac78bce61b9d97f47ec8638bc25a49d43d57ae3d91b1002ebc08b56e7adb",
+    ".data/expansion003/pmod-to-qwiic/library/74xGxx_Extra.lib": "3fdad94cd10b84ba729b0610c9496d4709a3ef75cab99f62a07df853918be8b3",
+    ".data/expansion003/pmod-to-qwiic/library/Amplifier_Audio_Extra.lib": "afd390d3542e803fc13f59f0c525d833a0aee5782da1fac95ad709e703a8c833",
+    ".data/expansion003/pmod-to-qwiic/library/Analog_ADC_Extra.kicad_sym": "104bb44e27de143fd895d6b0824daef92e97035142ab663448376c450c3045b8",
+    ".data/expansion003/pmod-to-qwiic/library/Battery_Management_Extra.lib": "3650b70dfb084fdfa56cf16b842add4b47161a07c879fced5297164af98a021b",
+    ".data/expansion003/pmod-to-qwiic/library/Device_Extra.lib": "40e452aa405389d1f16cc5c978dd7eb26a7d2b37664cbd125c158c683219dd95",
+    ".data/expansion003/pmod-to-qwiic/library/Display_Graphic_Extra.kicad_sym": "b346c5acba6dbee1b614d342082cd3f2e0d26d55df41d3c2e0d129a158739cf7",
+    ".data/expansion003/pmod-to-qwiic/library/Display_Graphic_Extra.lib": "db47a889222e653e0c26e5358df4e86e4240fb2566b6946c4d9c96a980329238",
+    ".data/expansion003/pmod-to-qwiic/library/Driver_LED_Extra.lib": "5c549e1a1c5d18bbea89c19df05bede7dc9d1a654f8771391ce9d97694486b94",
+    ".data/expansion003/pmod-to-qwiic/library/Driver_Motor_Extra.lib": "8ace5acd902bfed70261b404c33d4d55e119aef5bcae8f0c323eb6b208e28dff",
+    ".data/expansion003/pmod-to-qwiic/library/FPGA_Lattice_Extra.lib": "192c522433758cd0f4fce93780cb51f925e34e3f0bee9ebd1c04a2b898de74bd",
+    ".data/expansion003/pmod-to-qwiic/library/Interface_Display_Extra.lib": "30e75731c7bd2bacb2c5a5ce36e79672f05d37f94dd663ffa4e9c868e5c9ba4f",
+    ".data/expansion003/pmod-to-qwiic/library/Interface_Expansion_Extra.lib": "0ff1b90b1dfc85e04b2708cd3974ef6102bf9ab0cfec9d7c4310668dd43a5787",
+    ".data/expansion003/pmod-to-qwiic/library/Interface_USB_Extra.kicad_sym": "de4f58a257b0c7956fc38fd95a88bb3a4b10796717889b0b2159916119d8660f",
+    ".data/expansion003/pmod-to-qwiic/library/Keyboard.lib": "812657e04bbc95e5ad56152732b7bbb6099b6561916744c90e69e23c45a6aaee",
+    ".data/expansion003/pmod-to-qwiic/library/LED_Driver_Extra.lib": "826b95eba70244e2ea638738cf614a84ba22cd83754d856051988b0ab75743f7",
+    ".data/expansion003/pmod-to-qwiic/library/LED_Extra.lib": "5480c75c606bd285faee32c2e56a0d39cd4ce6f8c0f50b9deee798ca2915901a",
+    ".data/expansion003/pmod-to-qwiic/library/LICENSE": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+    ".data/expansion003/pmod-to-qwiic/library/MCU_Microchip_SAMD_Extra.lib": "d91405d2221dae81e521fb161a8752cee5fce89c0ed51258922c907c28fe5b8a",
+    ".data/expansion003/pmod-to-qwiic/library/MCU_Module_Extra.lib": "5c56f093cf48522f3f0dc6c970b717bae83b3431285f68080a3735facf5a0611",
+    ".data/expansion003/pmod-to-qwiic/library/MCU_NXP_RT.lib": "e8342a4bc17c1a6466d86013f2887d12d2fb8d55bf9a80ad5c34affca7d980db",
+    ".data/expansion003/pmod-to-qwiic/library/Memory_Flash_Extra.lib": "e06d2a909dcbf32cdf04ed8ead8a800bd21438ea1a5c309d047ac6ac2516b6ec",
+    ".data/expansion003/pmod-to-qwiic/library/Potentiometer_Digital_Extra.kicad_sym": "891689df6279e0b5f1ce57dbba6bf5921d8e9397c9c293453bc89bc62a6e1e54",
+    ".data/expansion003/pmod-to-qwiic/library/RF_Module_Extra.lib": "8a484b586122c9c6f651d65eb84ac230ff340dcf9bd16b709c1ed4bd2c2a3d02",
+    ".data/expansion003/pmod-to-qwiic/library/Regulator_Switching_Extra.kicad_sym": "2c94c6e39578cea8f1f22f5507214af10977ba7fc662038b21d4ad20b5a16ccd",
+    ".data/expansion003/pmod-to-qwiic/library/Sensor_Motion_Extra.lib": "6b1bde5cca31029081a64d930010d3729cfd1a3f7289978e70a48305f898259f",
+    ".data/expansion003/pmod-to-qwiic/library/Switch_Extra.lib": "ea75372fccbd3423df7cd810284a7a124a4272826d1b3dacab12499f454324b0",
+    ".data/expansion003/pmod-to-qwiic/library/Transistor_FET_Extra.lib": "bf6c0f70ed9415b03470c86dc1ab8cf69e1a8349503da8cc95245e2a55eacc30",
+    ".data/expansion003/pmod-to-qwiic/library/power_extra.kicad_sym": "a378e8e06658d6c935d3eac6ab3d8a4723447910550d8d0bd86b3ff6e1458661",
+    ".data/expansion003/pmod-to-qwiic/library/power_extra.lib": "5da6c27f1b346a989266c6dc1bd337aff92f3607d9d9e2627c1fac5a2c7b8a79",
+    ".data/expansion003/pmod-to-qwiic/modules/LICENSE": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+    ".data/expansion003/pmod-to-qwiic/modules/Symbols_Extra.pretty/SolderParty-Logo_12.6x11.7mm_SilkScreen.kicad_mod": "5f9a79e06a4f4e861198038bf6e3b345ec9b38402bd274ac415f5ce4a1cdd62d",
+    ".data/expansion003/pmod-to-qwiic/modules/Symbols_Extra.pretty/SolderParty-Logo_13.5x12.6mm_SilkScreen.kicad_mod": "9f85eb0d3d611ae9fe5e455f063191ac785d69169ca59ab14a7ad0d9ba613b6a",
+    ".data/expansion003/pmod-to-qwiic/modules/Symbols_Extra.pretty/SolderParty-Logo_14.6x13.5mm_SilkScreen.kicad_mod": "8ab7f36965e7b9c79d10ba6f716eaecbb7450dd7ef7144ba1ea4b70b4b87872f",
+    ".data/expansion003/pmod-to-qwiic/modules/Symbols_Extra.pretty/SolderParty-Logo_6.3x5.9mm_SilkScreen.kicad_mod": "e30cf7128f51f03b445e4b804924fed6f7b9baea565dea194d62940168fc40f3",
+    ".data/expansion003/pmod-to-qwiic/modules/Symbols_Extra.pretty/SolderParty-Logo_9.5x8.8mm_SilkScreen.kicad_mod": "2b42d1a42f609b858eea8aff18f03debdd2dc04c7729617641ece03ba91edb98",
+    ".data/expansion003/pmod-to-qwiic/modules/Symbols_Extra.pretty/SolderParty-New-Logo_10x8.5mm_SilkScreen.kicad_mod": "acf8ada447027c6fd06511d2c3f1856b304a9f15d5872d1cf4d9f054f16b6402",
+    ".data/expansion003/pmod-to-qwiic/modules/Symbols_Extra.pretty/SolderParty-New-Logo_12.5x10.6mm_SilkScreen.kicad_mod": "274945955528e605909dbf678aba669f7738ef6d2ab079d7067fcb89beb47709",
+    ".data/expansion003/pmod-to-qwiic/modules/Symbols_Extra.pretty/SolderParty-New-Logo_15x12.7mm_SilkScreen.kicad_mod": "adc13a815022a9cb99c92c68a0c68e3481ea518fb99c0eabacff024e5093e241",
+    ".data/expansion003/pmod-to-qwiic/modules/Symbols_Extra.pretty/SolderParty-New-Logo_20x16.9mm_SilkScreen.kicad_mod": "7189e02c9180b4ce68073b0e32c22ceb397f37e2e66b3933a6f8724183a698ba",
+    ".data/expansion003/pmod-to-qwiic/modules/Symbols_Extra.pretty/SolderParty-New-Logo_25x21.2mm_SilkScreen.kicad_mod": "9c04257ed73fa5846a2856bb75d1e2e5245dd45d97a21f3afdf6701333a3ce58",
+    ".data/expansion003/pmod-to-qwiic/modules/Symbols_Extra.pretty/SolderParty-New-Logo_3x2.5mm_SilkScreen.kicad_mod": "cde7e5cba2c7697cc6833b177d27419af8ae53051be43c7836506e411bf0bc1c",
+    ".data/expansion003/pmod-to-qwiic/modules/Symbols_Extra.pretty/SolderParty-New-Logo_45x38.1mm_SilkScreen.kicad_mod": "b1e32aeda5ea9502ef7c2b20611b2bff3ca878e915d258c4e36305f325a8f59d",
+    ".data/expansion003/pmod-to-qwiic/modules/Symbols_Extra.pretty/SolderParty-New-Logo_5x4.2mm_SilkScreen.kicad_mod": "2633d6f477fb68e29134914674f6827dc8f9df4f155ba4b2766717d406628174",
+    ".data/expansion003/pmod-to-qwiic/modules/Symbols_Extra.pretty/SolderParty-New-Logo_60x50.8mm_SilkScreen.kicad_mod": "2279157404e4a0e314e94605aa314f00d041fb0a8d22fff2446926fa67f08015",
+    ".data/expansion003/pmod-to-qwiic/modules/Symbols_Extra.pretty/SolderParty-New-Logo_7.5x6.4mm_SilkScreen.kicad_mod": "9caec0ba9c1c80ea0683af3ffd63ec8c7a19e9e059a11e96a31207de3ab434d2",
+    ".data/expansion003/pmod-to-qwiic/pmod_to_qwiic.kicad_pcb": "67e1a533771d8918e53f7451171df3fdb58bfa315cb95cee4a8efd14ca0083f7",
+    ".data/expansion003/pmod-to-qwiic/pmod_to_qwiic.kicad_pro": "bc747a79ad6a3eb60e36e69c3ada43cb22c1f4e446403e9b748dc788d3db1777",
+    ".data/expansion003/pmod-to-qwiic/pmod_to_qwiic.kicad_sch": "5e168a9a7edfeea936e28f12271336741c57069c2c788a2ca2ca166df0705627",
+    ".runs/licensed-expansion-research-003/pmod-modules-tree.json": "64a339ca518610c1972b49c0eab423ed9c5b26b0342fa62d16cdbc80804046ff",
+    ".runs/licensed-acquisition-003/lipo-disconnector-001/receipt.json": "b57bc2ce29d7c5e45939fbf917896d02536b357e8b5a08c04828dd8305107c27",
+    ".data/expansion003/lipo-disconnector/.gitignore": "a6157db91bb741061fcc41872981af094c463daf8b08e066822d0d39400e2606",
+    ".data/expansion003/lipo-disconnector/.gitmodules": "0cc320f5834a0cabc14e0775bc62a2da297e2b46e7215454ff035856b06a9288",
+    ".data/expansion003/lipo-disconnector/LICENSE.md": "80b532e977fd4609b67f3fb86f1a234308d7ab3263441e66f02b421ff81ca213",
+    ".data/expansion003/lipo-disconnector/README.md": "13d0a2cdc9de9f67f544f24c215fe975c3c668c6ca4afaf24e39b1bbb13c136d",
+    ".data/expansion003/lipo-disconnector/fp-info-cache": "ca4336a9b62765f25e53d81b62fb0da4497c13c3f08013958bf9030d8ec80ab7",
+    ".data/expansion003/lipo-disconnector/fp-lib-table": "d0124ab3fcfaeabdc91ed3c99a37b1282e7999d6d84304ebca88b3d5e3f2ea36",
+    ".data/expansion003/lipo-disconnector/img/contents.jpg": "1ca7064887716fbdce99d4556d98888fe06f5ca51766eb05a9ae2e4aa0ac885a",
+    ".data/expansion003/lipo-disconnector/lipo_disconnector.kicad_pcb": "3ef2141230ce971115381107486892bdf06a724c5d31d9ef2103622e113cf4e0",
+    ".data/expansion003/lipo-disconnector/lipo_disconnector.kicad_pro": "8bc2dc577fb98404f317730b10ba2945f213a14e212b7a0b3e7fba7943a8d95e",
+    ".data/expansion003/lipo-disconnector/lipo_disconnector.kicad_sch": "60e6b6c72bd144937deab985c552e4bce3ba465d373ddc7ace3bd731d6a67f2f",
+    ".data/expansion003/lipo-disconnector/modules/LICENSE": "b678c6a755d0f48f2cff6f2c18723dc78f8dff4ae21a8d3c1e281cd72914dd14",
+    ".data/expansion003/lipo-disconnector/modules/Symbols_Extra.pretty/SolderParty-Logo_12.6x11.7mm_SilkScreen.kicad_mod": "5f9a79e06a4f4e861198038bf6e3b345ec9b38402bd274ac415f5ce4a1cdd62d",
+    ".data/expansion003/lipo-disconnector/modules/Symbols_Extra.pretty/SolderParty-Logo_13.5x12.6mm_SilkScreen.kicad_mod": "9f85eb0d3d611ae9fe5e455f063191ac785d69169ca59ab14a7ad0d9ba613b6a",
+    ".data/expansion003/lipo-disconnector/modules/Symbols_Extra.pretty/SolderParty-Logo_14.6x13.5mm_SilkScreen.kicad_mod": "8ab7f36965e7b9c79d10ba6f716eaecbb7450dd7ef7144ba1ea4b70b4b87872f",
+    ".data/expansion003/lipo-disconnector/modules/Symbols_Extra.pretty/SolderParty-Logo_6.3x5.9mm_SilkScreen.kicad_mod": "e30cf7128f51f03b445e4b804924fed6f7b9baea565dea194d62940168fc40f3",
+    ".data/expansion003/lipo-disconnector/modules/Symbols_Extra.pretty/SolderParty-Logo_9.5x8.8mm_SilkScreen.kicad_mod": "2b42d1a42f609b858eea8aff18f03debdd2dc04c7729617641ece03ba91edb98",
+    ".data/expansion003/lipo-disconnector/modules/Symbols_Extra.pretty/SolderParty-New-Logo_10x8.5mm_SilkScreen.kicad_mod": "acf8ada447027c6fd06511d2c3f1856b304a9f15d5872d1cf4d9f054f16b6402",
+    ".data/expansion003/lipo-disconnector/modules/Symbols_Extra.pretty/SolderParty-New-Logo_12.5x10.6mm_SilkScreen.kicad_mod": "274945955528e605909dbf678aba669f7738ef6d2ab079d7067fcb89beb47709",
+    ".data/expansion003/lipo-disconnector/modules/Symbols_Extra.pretty/SolderParty-New-Logo_15x12.7mm_SilkScreen.kicad_mod": "adc13a815022a9cb99c92c68a0c68e3481ea518fb99c0eabacff024e5093e241",
+    ".data/expansion003/lipo-disconnector/modules/Symbols_Extra.pretty/SolderParty-New-Logo_20x16.9mm_SilkScreen.kicad_mod": "7189e02c9180b4ce68073b0e32c22ceb397f37e2e66b3933a6f8724183a698ba",
+    ".data/expansion003/lipo-disconnector/modules/Symbols_Extra.pretty/SolderParty-New-Logo_25x21.2mm_SilkScreen.kicad_mod": "9c04257ed73fa5846a2856bb75d1e2e5245dd45d97a21f3afdf6701333a3ce58",
+    ".data/expansion003/lipo-disconnector/modules/Symbols_Extra.pretty/SolderParty-New-Logo_3x2.5mm_SilkScreen.kicad_mod": "cde7e5cba2c7697cc6833b177d27419af8ae53051be43c7836506e411bf0bc1c",
+    ".data/expansion003/lipo-disconnector/modules/Symbols_Extra.pretty/SolderParty-New-Logo_45x38.1mm_SilkScreen.kicad_mod": "b1e32aeda5ea9502ef7c2b20611b2bff3ca878e915d258c4e36305f325a8f59d",
+    ".data/expansion003/lipo-disconnector/modules/Symbols_Extra.pretty/SolderParty-New-Logo_5x4.2mm_SilkScreen.kicad_mod": "2633d6f477fb68e29134914674f6827dc8f9df4f155ba4b2766717d406628174",
+    ".data/expansion003/lipo-disconnector/modules/Symbols_Extra.pretty/SolderParty-New-Logo_60x50.8mm_SilkScreen.kicad_mod": "2279157404e4a0e314e94605aa314f00d041fb0a8d22fff2446926fa67f08015",
+    ".data/expansion003/lipo-disconnector/modules/Symbols_Extra.pretty/SolderParty-New-Logo_7.5x6.4mm_SilkScreen.kicad_mod": "9caec0ba9c1c80ea0683af3ffd63ec8c7a19e9e059a11e96a31207de3ab434d2",
+    ".runs/licensed-expansion-research-003/lipo-modules-tree.json": "dfb980417d5d3ef049057fbf3cd654b41e8bd5b19dbbb0febdd3804040ec000c",
+    "autorouter/pipeline.py": "101ad65bff197afe17758d30e850a944333875f256f159a4346fdf36f997358f",
+    "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd"
+  },
+  "native_jobs": 0,
+  "engine_jobs": 0,
+  "network_requests": 0,
+  "tracked_edits": false
+}

@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/licensed-closure-audit-003/audit.py", line 104, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/licensed-closure-audit-003/audit.py", line 98, in main
+    records=[audit(slug,plan)for slug in SLUGS]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/licensed-closure-audit-003/audit.py", line 98, in <listcomp>
+    records=[audit(slug,plan)for slug in SLUGS]
+             ^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/licensed-closure-audit-003/audit.py", line 49, in audit
+    assert all(file[k]==row[k]for k in row if k!='sha256')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

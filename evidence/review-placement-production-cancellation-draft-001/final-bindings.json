@@ -1,0 +1,30 @@
+{
+  "source_hashes": {
+    "driver.py": "1c21b0a2b38dbf0404a96187ace0998bfbf3f100b21ec7f23415357d018bf792",
+    "test_driver.py": "ec51927e81a13c3bda905706832d4ee050ac481eb31b3f389d9e72414a44f4c4",
+    "cancellation.py": "b490c18e0939de132399db50061d1081e8a31f20435974304fda7a0393b0555f",
+    "README.md": "3939114c1cacd6d32713c8d71e911ffd729c4e90bd47a584a6c2c48bca482919"
+  },
+  "before_fix_sha256": "9903a1c1e6794f5e74d304f393899b431c849a5f99cf41d4195d180943389c76",
+  "reproduction_before": {
+    "mocked_process_only": true,
+    "native_executed": false,
+    "engine_executed": false,
+    "subprocess_executed": false,
+    "interrupt_escaped": true,
+    "canonical_passed_after_interrupt": true,
+    "canonical_status": "passed"
+  },
+  "reproduction_after": {
+    "mocked_process_only": true,
+    "native_executed": false,
+    "engine_executed": false,
+    "subprocess_executed": false,
+    "interrupt_escaped": false,
+    "canonical_passed_after_interrupt": false,
+    "canonical_status": "cancelled"
+  },
+  "lead_reported_pure_controls": 28,
+  "native_executed": false,
+  "engine_executed": false
+}
