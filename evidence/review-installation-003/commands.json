@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "audit": {
+    "argv": [
+      "python3",
+      "-B",
+      ".runs/review-installation-003/audit.py"
+    ],
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local",
+    "stdout": ".runs/review-installation-003/audit-001.log",
+    "exit_code": 0,
+    "note": "Original refuses collisions; preserve frozen evidence when making a new audit copy."
+  },
+  "fresh_readback_failure": {
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      ".runs/installation-003/checkout/.venv/bin/python",
+      "-B",
+      "-m",
+      "autorouter",
+      "check-result",
+      ".runs/installation-003/checkout/.runs/install-placement-smoke/result.json"
+    ],
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local",
+    "log": "fresh-readback-001.log",
+    "reason": "Incorrect root cwd loaded root helper; expected clone helper provenance rejected."
+  },
+  "fresh_readback_success": {
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      ".venv/bin/python",
+      "-B",
+      "-m",
+      "autorouter",
+      "check-result",
+      ".runs/install-placement-smoke/result.json"
+    ],
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-003/checkout",
+    "log": "fresh-readback-002.log",
+    "native_jobs": 0,
+    "engine_jobs": 0
+  }
+}

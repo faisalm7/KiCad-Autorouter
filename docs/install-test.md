@@ -1,10 +1,10 @@
 # Fresh-checkout installation test
 
-Current qualification: installation 002 at `dd2cce9` passed a fresh local clone/venv, its then-current 160 controls, one native smoke route and strict readback. It predates placement guidance. The next installation is pending; use a fresh output and the explicit placement selector after committing this harness and all test sources.
+Current qualification: installation003 at `6c34110262795bb029dbecdcb62cb95d971faa17` passed all20 actual commands in a fresh local clone/venv,494 controls, the explicit placement fixture route and strict readback under network denial. The candidate has zero findings, one via and67.933738mm. All7,673 tracked source/clone files match; the independent217-check audit passes. See `evidence/installation-003` and `evidence/review-installation-003`. This is one clean checkout/venv on the existing Mac, not a fresh Mac installation. Use a fresh output for future qualifications; do not overwrite completed003.
 
 Historical failure: installation 001 at `e1e585f` stopped after clone/setup/doctor because the sandbox denied the old `/bin/ps` monitor. Its 19 failed controls and original logs remain in `evidence/installation-001`. The scoped libproc fix and actual installation 002 resolved that failure without disabling network denial.
 ```sh
-python3 scripts/install_smoke.py --output .runs/installation-003 --guidance placement-clearance-v1
+python3 scripts/install_smoke.py --output .runs/installation-004 --guidance placement-clearance-v1
 ```
 
 Omitting `--guidance` preserves the legacy `native` smoke choice (120 seconds). The explicit `placement-clearance-v1` choice runs exactly one owned placement fixture with the existing fixed 20 µm planning margin, default 50/5 costs, both adapter fixes and completion-only profile (60-second native wall/CPU caps). Both choices run the full clean-venv test suite; the installer creates an empty clone `.runs` before tests. This placement invocation does not repeat the larger-board comparison, all diagnostic native controls or cancellation experiments.
@@ -67,3 +67,5 @@ editing the disposable checkout to make its original commit appear to pass.
 The scoped macOS monitor fix passed 22 runner controls both normally and with the actual fresh-venv interpreter under unchanged network denial. Those include a real memory-limit kill, network EPERM and descendant cleanup. Metadata-denial behavior has a separate mocked-error control and is not described as a real OS failure. Evidence: `evidence/review-install-monitor-001`. The full installation retest remains separate.
 
 Attempt 002 at `dd2cce9` passed the complete workflow in 14.935349 seconds: all 160 tests, actual native fixture routing and strict result checking passed under network denial. Both checkouts retained their tracked inventories and HEAD. See `evidence/installation-002`; later source changes require separately scoped qualification.
+
+Attempt003 stored32.868175wall/29.866697CPU before final publication; the600-second wall acceptance cap includes final operations. Its native stored sample is6.413382wall/4.442717CPU under60-second caps. Full scratch is205,739,841bytes after publication. Public evidence is a selected exact subset with original paths; the complete local clone/venv/engine/raw tree requires the full local archive. The reviewer retained one wrong-cwd readback attempt, which correctly rejected clone-specific provenance; the actual clone-cwd readback passed without native rerouting.

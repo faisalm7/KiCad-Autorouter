@@ -1,0 +1,37 @@
+{
+  "status": "awaiting_second_stage_binding_fix",
+  "initial_driver_sha256": "826417aa7d5f965e806fde3c164379fef3ad41f46530ef1ea6a27c41688fa6a3",
+  "independently_rerun_controls": [
+    {
+      "snapshot": "snapshot-001",
+      "count": 29,
+      "passed": true
+    },
+    {
+      "snapshot": "snapshot-002",
+      "count": 34,
+      "passed": true
+    }
+  ],
+  "whole_flow_reproductions": [
+    "reproduction-001/review.json",
+    "reproduction-003/review.json",
+    "reproduction-004/review.json",
+    "reproduction-005/review.json"
+  ],
+  "failed_harness_attempt": "reproduction-002.log: relative fake ROOT, no native executed; corrected absolute path in subsequent attempts",
+  "core_unchanged": true,
+  "native_executed": false,
+  "routing_accepted": false,
+  "format_support_qualified": false,
+  "scope_checks": {
+    "explicit_run_flag": true,
+    "source_and_project_pins": true,
+    "complete_acquired_source_26_files": true,
+    "two_exact_nonsaving_commands": true,
+    "shared_wall_cpu_budget_30": true,
+    "shared_output_cap_20MiB": true,
+    "shared_experiment_lock": true,
+    "no_new_format_or_dependency_qualification": true
+  }
+}

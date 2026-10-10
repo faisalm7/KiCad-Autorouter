@@ -1,0 +1,17 @@
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-lipo-native-diagnostic-001/reproduce.py", line 64, in <module>
+    rows=[case(name) for name in ('unchanged','rebased_observation','capture_observation','late_source')]
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-lipo-native-diagnostic-001/reproduce.py", line 64, in <listcomp>
+    rows=[case(name) for name in ('unchanged','rebased_observation','capture_observation','late_source')]
+          ^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-lipo-native-diagnostic-001/reproduce.py", line 55, in case
+    result=d.experiment(out,run_native=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-lipo-native-diagnostic-001/snapshot-001/driver.py", line 155, in experiment
+    start=time.monotonic();cpu0=cpu();out=owned(out,output=True)
+                                          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-lipo-native-diagnostic-001/snapshot-001/driver.py", line 28, in owned
+    if not path.is_relative_to(ROOT):raise p.Rejected('path outside checkout')
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+autorouter.pipeline.Rejected: path outside checkout

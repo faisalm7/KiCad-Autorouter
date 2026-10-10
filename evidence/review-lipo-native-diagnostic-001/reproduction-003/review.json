@@ -1,0 +1,87 @@
+{
+  "script_sha256": "826417aa7d5f965e806fde3c164379fef3ad41f46530ef1ea6a27c41688fa6a3",
+  "scope": "Pure whole-flow reproduction with copied original PCB/project bytes only; source/commit/tool/native operations are mocked. No native/Git/engine/network processes.",
+  "rows": [
+    {
+      "case": "unchanged",
+      "observations_complete": true,
+      "status": "observations_complete",
+      "error": null,
+      "reported_observation_sha256": "3e9502897feda95265116022b99f72ae480d5786d5d8a63627e7d28b82b9b260",
+      "actual_observation_sha256": "3e9502897feda95265116022b99f72ae480d5786d5d8a63627e7d28b82b9b260",
+      "reported_floor": 100000,
+      "actual_floor": 100000,
+      "reported_original_unchanged": true,
+      "actual_source_unchanged": true,
+      "mutation": {},
+      "mock_native_stages": 2,
+      "actual_native_processes": 0,
+      "expected_complete": true,
+      "expectation_satisfied": true
+    },
+    {
+      "case": "rebased_observation",
+      "observations_complete": true,
+      "status": "observations_complete",
+      "error": null,
+      "reported_observation_sha256": "c2eb200c2b70ff5c0cc74d468c6cb773dadce61d53b0bd40d94a8044ae7ddac3",
+      "actual_observation_sha256": "cbf2d7cf3122352ee48876a6cb51ddf5b81a647f9327e9628290923be2d2a288",
+      "reported_floor": 100000,
+      "actual_floor": 999999,
+      "reported_original_unchanged": true,
+      "actual_source_unchanged": true,
+      "mutation": {
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-lipo-native-diagnostic-001/reproduction-003/rebased_observation/.runs/out/observation.json",
+        "before": "c2eb200c2b70ff5c0cc74d468c6cb773dadce61d53b0bd40d94a8044ae7ddac3",
+        "after": "cbf2d7cf3122352ee48876a6cb51ddf5b81a647f9327e9628290923be2d2a288"
+      },
+      "mock_native_stages": 2,
+      "actual_native_processes": 0,
+      "expected_complete": false,
+      "expectation_satisfied": false
+    },
+    {
+      "case": "capture_observation",
+      "observations_complete": true,
+      "status": "observations_complete",
+      "error": null,
+      "reported_observation_sha256": "3b56def4c4d5d7fa8a60f2d82d6bd3774dc75c0c88e9062b296085175a9158a4",
+      "actual_observation_sha256": "3b56def4c4d5d7fa8a60f2d82d6bd3774dc75c0c88e9062b296085175a9158a4",
+      "reported_floor": 100000,
+      "actual_floor": 999999,
+      "reported_original_unchanged": true,
+      "actual_source_unchanged": true,
+      "mutation": {
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-lipo-native-diagnostic-001/reproduction-003/capture_observation/.runs/out/observation.json",
+        "before": "cff1cb0cc8af6d80c3df6c5689539916f254958c56245ea56bc60800a899e2e5",
+        "after": "3b56def4c4d5d7fa8a60f2d82d6bd3774dc75c0c88e9062b296085175a9158a4"
+      },
+      "mock_native_stages": 2,
+      "actual_native_processes": 0,
+      "expected_complete": false,
+      "expectation_satisfied": false
+    },
+    {
+      "case": "late_source",
+      "observations_complete": true,
+      "status": "observations_complete",
+      "error": null,
+      "reported_observation_sha256": "756bad74d9592346307df8b50e8d669763a0fb9a1d0c3e1b904259b4d343c495",
+      "actual_observation_sha256": "756bad74d9592346307df8b50e8d669763a0fb9a1d0c3e1b904259b4d343c495",
+      "reported_floor": 100000,
+      "actual_floor": 100000,
+      "reported_original_unchanged": true,
+      "actual_source_unchanged": false,
+      "mutation": {
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-lipo-native-diagnostic-001/reproduction-003/late_source/source/lipo_disconnector.kicad_pcb",
+        "before": "3ef2141230ce971115381107486892bdf06a724c5d31d9ef2103622e113cf4e0",
+        "after": "89e574eb412379a635527da62fedb16ff03cfd7665259f1856b56b4601d0dd28"
+      },
+      "mock_native_stages": 2,
+      "actual_native_processes": 0,
+      "expected_complete": false,
+      "expectation_satisfied": false
+    }
+  ],
+  "all_expected": false
+}

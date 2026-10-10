@@ -1,0 +1,11 @@
+# Independent LiPo diagnostic source review
+
+Cleared for the lead's separately checkpointed, bounded original-format native observation. This review did not run KiCad, Freerouting, network requests or a format migration. It does not qualify routing or dependency closure.
+
+Final driver `2122d3ac...` and tests `5870e6ac...` match the author manifest and reviewer snapshot. All38 final pure controls pass independently; our full-flow mocked-stage reproduction retains its unchanged positive and rejects four exact mutations. Actual SIGINT and SIGTERM delivered only to the short-lived review Python process during synthetic positive publication both produce a false/cancelled canonical result and restore prior handlers. Those are control tests, not native cancellation qualification.
+
+Three evidence defects were reproduced and fixed before clearance: observer data could change and be rebased during stage two or after first parsing; source data could change during the final metadata check; and a changed DRC report could be rebased while its stored binding retained an earlier hash. Both stages now freeze report/data/process/log bytes inside the bounded step before parsers. Final validation compares those bytes and recorded derived fields/bindings, then checks all original/runtime/tool material after metadata. Original failures and intermediate sources remain preserved. See `review.json`, `reproduction-006/review.json`, `pure-controls-003.log`, and `signal-controls.json`.
+
+The exact observer/export helper and original-rule DRC command are non-saving, use two complete copies, and cannot route. Original26-file acquisition, source/project association, committed helper/core/tool bytes, one experiment lock, shared30-second wall/CPU acceptance ceilings and20MiB output bounds are explicit. Polling overshoot and non-atomic observations are acknowledged. Native teardrop/pad geometry equivalence, saved refill, library/model resolution and old-format routing remain unobserved or unsupported even if a raw DRC later happens to be clean.
+
+No remaining source blocker was found in this review scope. Actual native execution remains the lead's next qualification; source and production files stayed unchanged throughout review.

@@ -1,0 +1,1 @@
+Exact compact independent review records. The full installation-tree inventory is retained locally; selected-metadata.json records its omission. This review performed no native or engine execution. Original absolute paths remain unchanged.
