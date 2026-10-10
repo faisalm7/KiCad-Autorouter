@@ -1,0 +1,39 @@
+{
+  "script": ".runs/review-placement-install-001/snapshot-002/scripts/install_smoke.py",
+  "script_sha256": "5c10aed95eb3b5ebe6f162caf15a7ba532fbe624c485dff2831b10ed875e64bb",
+  "scope": "Entire install_test flow, mocked every command including fake clone/venv/native; real tiny native receipt mutated immediately after its first strict parse, before the parsed object is returned. No native qualification.",
+  "actual_subprocess_count": 0,
+  "rows": [
+    {
+      "case": "unchanged",
+      "exit_code": 0,
+      "canonical_passed": true,
+      "status": "passed",
+      "reason": null,
+      "mutation": {},
+      "mock_command_count": 28,
+      "summary_native_wall": 8.0,
+      "receipt_native_wall": 8.0,
+      "expected_pass": true,
+      "expectation_satisfied": true
+    },
+    {
+      "case": "native_receipt_before_inventory",
+      "exit_code": 0,
+      "canonical_passed": true,
+      "status": "passed",
+      "reason": null,
+      "mutation": {
+        "path": ".runs/review-placement-install-001/receipt-capture-002/native_receipt_before_inventory/output/checkout/.runs/install-placement-smoke/result.json",
+        "before_sha256": "494552ad3f1d2b9e6804e966c85be4d29fa3a04b44bf1052070b8702088ef6cb",
+        "after_sha256": "3ddb679dbb153a06604355de0e221ddb3130f7aa358bab3f792289072f730479"
+      },
+      "mock_command_count": 28,
+      "summary_native_wall": 8.0,
+      "receipt_native_wall": 1.0,
+      "expected_pass": false,
+      "expectation_satisfied": false
+    }
+  ],
+  "all_expected": false
+}

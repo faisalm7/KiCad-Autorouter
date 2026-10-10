@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "disposition": "no remaining source blocker found within reviewed installation scope; actual fresh installation pending",
+  "review_kind": "independent adversarial AI review, not native/install qualification",
+  "source_sha256": "9b02ec5f6d6399427cebe9f64e514e9178bc396797d074f0eceadd7456e3d4e7",
+  "tests_sha256": "425e58c001c2cc857b71d21b744899f224aa0792d319f7668e7d702316b7284c",
+  "author_manifest_sha256": "fe9875b2b19fbef73aba153618a1614a021fc8856a424d8eb2894be72d4d3a37",
+  "patch_sha256": "99361417ffc53a095c1e8fe8dc4b33e7db492081ec8c448c400910c178fd30e2",
+  "resolved_findings": [
+    {
+      "id": "R1",
+      "severity": "blocking before execution",
+      "problem": "Final material snapshots preceded owned Git subprocesses, allowing late candidate/source/tool/interpreter/log/HEAD/index mutations to retain canonical success. Invoking Python also lacked a final hash binding.",
+      "evidence_before": [
+        "reproduction-001/review.json",
+        "reproduction-002/review.json"
+      ],
+      "correction": "Pure material verification before and after final Git probes, original interpreter path/hash, bounded ordinary-repository HEAD/ref/index witness.",
+      "evidence_after": "reproduction-004/review.json",
+      "status": "resolved; unchanged positive and eleven late negatives behave correctly"
+    },
+    {
+      "id": "R2",
+      "severity": "blocking before execution",
+      "problem": "Native receipt parsed before full native evidence snapshot; after-read mutation rebased the tree while keeping stale summarized values.",
+      "evidence_before": "receipt-capture-002/review.json",
+      "correction": "Full native snapshot before parse/contract; unchanged inventory after subprocess check-result and final publication.",
+      "evidence_after": "receipt-capture-003/review.json",
+      "status": "resolved; unchanged positive and exact after-read wall8-to1 mutation behave correctly"
+    }
+  ],
+  "verification": {
+    "independent_final_unit_tests": 20,
+    "final_unit_log": "tests-snapshot003.log",
+    "final_unit_seconds": 0.743,
+    "whole_flow_late_mutation_scenarios": 12,
+    "whole_flow_receipt_capture_scenarios": 2,
+    "whole_flow_subprocesses": "all mocked; real tiny project/evidence files",
+    "actual_self_signal_controls": [
+      "SIGINT",
+      "SIGTERM"
+    ],
+    "self_signal_scope": "installer main handlers + final publication, install_test stubbed; each original handler restored and canonical false with archived prior positive",
+    "actual_install_jobs": 0,
+    "actual_clone_jobs": 0,
+    "actual_git_jobs": 0,
+    "actual_native_jobs": 0,
+    "actual_engine_jobs": 0,
+    "network_requests": 0
+  },
+  "scope_checks": [
+    "Legacy native selection and120-second route arguments unchanged when selector omitted; explicit placement choice fixes owned source/both/completion/default scoring/60-second caps.",
+    "Clone uses exact clean frozen source HEAD, no-local/no-hardlinks, empty template and hooks disabled; ignores global Git config without writing it. Clone .runs bootstrap occurs before test suite.",
+    "All child command invocations network-denied; verified cached JAR independently copied; existing installed native tools reused.",
+    "Separate source/clone tracked inventories and full native tree readback; final strict canonical JSON and failed-publication archival.",
+    "Source witness intentionally requires ordinary local .git directory and bounded branch syntax; managed worktrees remain outside this harness scope.",
+    "Existing10000tracked/128MiB source,512MiB scratch,600wall ceilings unchanged; installation CPU measured but not capped; native route has its separate60wall/CPUcap.",
+    "Source/clone command/hashes and actual installation still require root execution; fake command results are not installed tool evidence."
+  ],
+  "limitations": [
+    "Mutable multi-file sampling is not atomic/authenticated proof against a concurrently malicious actor able to rewrite all evidence.",
+    "Directory/storage and memory controls are polling/postcompletion checks, not hard kernel quotas.",
+    "Fresh local clone/venv reuses installed Mac/KiCad/Java/Python and cached engine; not fresh OS or independent download/package/GUI qualification.",
+    "No tracked code or original run/source artifacts were edited by reviewer."
+  ]
+}

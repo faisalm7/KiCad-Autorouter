@@ -1,10 +1,13 @@
 # Fresh-checkout installation test
 
-Status: attempt 001 at `e1e585f` failed 19 of 105 subprocess controls after clone, venv, verified engine setup and doctor passed. The sandbox refused the setuid `/bin/ps` resource-monitor executable. Native routing was not reached. Raw failure evidence is retained in `evidence/installation-001`; a monitor fix and fresh test are pending. Native and engine tests remain sequential.
+Current qualification: installation 002 at `dd2cce9` passed a fresh local clone/venv, its then-current 160 controls, one native smoke route and strict readback. It predates placement guidance. The next installation is pending; use a fresh output and the explicit placement selector after committing this harness and all test sources.
 
+Historical failure: installation 001 at `e1e585f` stopped after clone/setup/doctor because the sandbox denied the old `/bin/ps` monitor. Its 19 failed controls and original logs remain in `evidence/installation-001`. The scoped libproc fix and actual installation 002 resolved that failure without disabling network denial.
 ```sh
-python3 scripts/install_smoke.py --output .runs/installation-002
+python3 scripts/install_smoke.py --output .runs/installation-003 --guidance placement-clearance-v1
 ```
+
+Omitting `--guidance` preserves the legacy `native` smoke choice (120 seconds). The explicit `placement-clearance-v1` choice runs exactly one owned placement fixture with the existing fixed 20 µm planning margin, default 50/5 costs, both adapter fixes and completion-only profile (60-second native wall/CPU caps). Both choices run the full clean-venv test suite; the installer creates an empty clone `.runs` before tests. This placement invocation does not repeat the larger-board comparison, all diagnostic native controls or cancellation experiments.
 
 Use Python 3.11 and a new output directory. The source checkout must have no
 tracked changes or nonignored untracked files. The script refuses an existing
@@ -23,20 +26,35 @@ the coordinator has only standard-library dependencies.
 The official Freerouting JAR is copied from the existing verified cache and
 checked for the pinned hash and independent file identity. The copied checkout's
 `setup_engine.py` runs with network denied and must verify that cached asset.
-The test then runs doctor, the full lightweight unit suite, a real native route
-of the project-owned smoke fixture, and `check-result`. The native receipt must
+The test then runs doctor, the full lightweight unit suite, one real native route
+of the selected project-owned fixture, and `check-result`. All child commands,
+including Git and venv setup, run under the existing network-denial sandbox. The native receipt must
 bind to the tested commit and unchanged source. Final tracked inventories,
 clean status and HEAD are checked for both checkouts.
 
 `result.json` records every command's arguments, working directory, exit/status,
 time, CPU, RSS, log path and log hash; it also records the source inventory,
 virtual-environment identity, dependency reuse, doctor and native results.
-Raw command logs and native artifacts remain under the output. The script uses
+Raw command logs and native artifacts remain under the output. Final publication
+checks both source and clone tracked bytes, clean Git status and HEAD, the
+complete native result tree, tools, original and venv Python executable/configuration, command logs
+and source inventory before and after writing the canonical receipt. Material files are rechecked
+after the final Git subprocesses as well; bounded local HEAD/ref/index witnesses
+detect changed commit/staging state during those observations. Strict JSON
+readback rejects duplicate/nonfinite values or semantic changes. Interruption,
+staleness, cap crossing or failed correction archives the old canonical/partial
+file before recording failure; no successful canonical is retained on a failed
+rewrite. Separate `freshness-*.json/log` files retain the final Git observations.
+Wall and total waited-process CPU are sampled before final publication checks;
+the 600-second wall acceptance cap includes those checks and the final write.
+CPU is measured for installation diagnosis, not capped as a routing comparison. The script uses
 a 10-minute overall command budget, 2 MB capped command logs, 4 GiB process-group
 RSS polling and a 512 MiB scratch ceiling. Polling can overshoot; it is not an OS
 filesystem or memory quota. Nested native workers also use the pipeline's own
-bounds. Source verification overhead and the final receipt write are small but
-are not a hard real-time or kernel resource guarantee.
+bounds. The tracked source inventory additionally remains bounded to 10,000 files and
+128 MiB. A shared project experiment lock prevents overlapping cooperating
+harnesses; the lead keeps all other heavy workers idle. These polling and
+post-completion checks are not hard kernel resource guarantees.
 
 Passing establishes relocation into a fresh checkout and virtual environment
 on this Mac. The installed KiCad, bundled pcbnew, Java and base Python are reused;

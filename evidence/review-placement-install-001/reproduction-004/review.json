@@ -1,0 +1,185 @@
+{
+  "script": ".runs/review-placement-install-001/snapshot-003/scripts/install_smoke.py",
+  "script_sha256": "9b02ec5f6d6399427cebe9f64e514e9178bc396797d074f0eceadd7456e3d4e7",
+  "scope": "Entire install_test flow, mocked every command including fake clone/venv/native; real tiny files mutated during final owned Git call. No native qualification.",
+  "actual_subprocess_count": 0,
+  "rows": [
+    {
+      "case": "unchanged",
+      "exit_code": 0,
+      "canonical_passed": true,
+      "status": "passed",
+      "reason": null,
+      "mutation": {},
+      "mock_command_count": 28,
+      "expected_pass": true,
+      "expectation_satisfied": true
+    },
+    {
+      "case": "native_candidate",
+      "exit_code": 2,
+      "canonical_passed": false,
+      "status": "failed",
+      "reason": "RuntimeError: native evidence or fixture changed during publication",
+      "mutation": {
+        "path": ".runs/review-placement-install-001/reproduction-004/native_candidate/output/checkout/.runs/install-placement-smoke/candidate.board",
+        "before_sha256": "1b977739cc6d7673e6ef602f47418a79adda27c7700eaafcfd38c06f58f6ecf5",
+        "after_sha256": "249cce3f4f397da38d3d724b3f9050ad92efbdc7880c180d6d930e5b7dedce2c"
+      },
+      "mock_command_count": 28,
+      "expected_pass": false,
+      "expectation_satisfied": true
+    },
+    {
+      "case": "source_tracked",
+      "exit_code": 2,
+      "canonical_passed": false,
+      "status": "failed",
+      "reason": "RuntimeError: tracked source changed during publication",
+      "mutation": {
+        "path": ".runs/review-placement-install-001/reproduction-004/source_tracked/source/README.md",
+        "before_sha256": "1beb6dbff81f8e9fd943092c8be12611c6dc42cca13eb1d61edbc37cfc0540a3",
+        "after_sha256": "5d430722ed938037c20b5af743579d63ed7021d6a967c15dee705ca533c82854"
+      },
+      "mock_command_count": 28,
+      "expected_pass": false,
+      "expectation_satisfied": true
+    },
+    {
+      "case": "clone_tracked",
+      "exit_code": 2,
+      "canonical_passed": false,
+      "status": "failed",
+      "reason": "RuntimeError: tracked source changed during publication",
+      "mutation": {
+        "path": ".runs/review-placement-install-001/reproduction-004/clone_tracked/output/checkout/README.md",
+        "before_sha256": "1beb6dbff81f8e9fd943092c8be12611c6dc42cca13eb1d61edbc37cfc0540a3",
+        "after_sha256": "5d430722ed938037c20b5af743579d63ed7021d6a967c15dee705ca533c82854"
+      },
+      "mock_command_count": 28,
+      "expected_pass": false,
+      "expectation_satisfied": true
+    },
+    {
+      "case": "native_tool",
+      "exit_code": 2,
+      "canonical_passed": false,
+      "status": "failed",
+      "reason": "RuntimeError: native tool changed during publication",
+      "mutation": {
+        "path": ".runs/review-placement-install-001/reproduction-004/native_tool/native-tool",
+        "before_sha256": "5d5682cddfeb61a6b45f85e746e429aeb53378200a295657ccaffa109bc244e7",
+        "after_sha256": "af2a088a2dda1977a49852d7c42ab9e0023b53211353f66d389c4f5f2b18fc41"
+      },
+      "mock_command_count": 28,
+      "expected_pass": false,
+      "expectation_satisfied": true
+    },
+    {
+      "case": "venv_python",
+      "exit_code": 2,
+      "canonical_passed": false,
+      "status": "failed",
+      "reason": "RuntimeError: installation interpreter, metadata or command log changed",
+      "mutation": {
+        "path": ".runs/review-placement-install-001/reproduction-004/venv_python/output/checkout/.venv/bin/python",
+        "before_sha256": "c45b1c4f497c35943dfb5d6fe342f85503059e37c07a4c0570ab50c5c22274ac",
+        "after_sha256": "f178c5c600c731b4e22a2b97be91e195b5cad20e23bada1cac8200561c60afdf"
+      },
+      "mock_command_count": 28,
+      "expected_pass": false,
+      "expectation_satisfied": true
+    },
+    {
+      "case": "source_python",
+      "exit_code": 2,
+      "canonical_passed": false,
+      "status": "failed",
+      "reason": "RuntimeError: installation interpreter, metadata or command log changed",
+      "mutation": {
+        "path": ".runs/review-placement-install-001/reproduction-004/source_python/source-python",
+        "before_sha256": "c65b62dbaa138b644f72b293cd131daf67679de4d8bd56511fa67973aac4e4ed",
+        "after_sha256": "5d8c0b57062aa4c1d97749c159e4eea9bd606a85adda775ac7ecb6dfda583cfd"
+      },
+      "mock_command_count": 28,
+      "expected_pass": false,
+      "expectation_satisfied": true
+    },
+    {
+      "case": "command_log",
+      "exit_code": 2,
+      "canonical_passed": false,
+      "status": "failed",
+      "reason": "RuntimeError: installation interpreter, metadata or command log changed",
+      "mutation": {
+        "path": ".runs/review-placement-install-001/reproduction-004/command_log/output/00-source-status.log",
+        "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "after_sha256": "86d4f06a2c40ae8968d2afddd9be8f5b7cec5efb585713a19eb21832e6aaba24"
+      },
+      "mock_command_count": 28,
+      "expected_pass": false,
+      "expectation_satisfied": true
+    },
+    {
+      "case": "source_head",
+      "exit_code": 2,
+      "canonical_passed": false,
+      "status": "failed",
+      "reason": "RuntimeError: source loose branch commit changed",
+      "mutation": {
+        "path": ".runs/review-placement-install-001/reproduction-004/source_head/source/.git/refs/heads/review",
+        "before_sha256": "5a84b79716842f146f7533d890cc7308cad7b21abdc29c1852c6b3bb8ad66672",
+        "after_sha256": "d70dc30f9b74041ebcd3e97dadb9da824df0de444abe3f73ad20e71686c5cfd9"
+      },
+      "mock_command_count": 28,
+      "expected_pass": false,
+      "expectation_satisfied": true
+    },
+    {
+      "case": "clone_head",
+      "exit_code": 2,
+      "canonical_passed": false,
+      "status": "failed",
+      "reason": "RuntimeError: detached clone HEAD changed",
+      "mutation": {
+        "path": ".runs/review-placement-install-001/reproduction-004/clone_head/output/checkout/.git/HEAD",
+        "before_sha256": "5a84b79716842f146f7533d890cc7308cad7b21abdc29c1852c6b3bb8ad66672",
+        "after_sha256": "d70dc30f9b74041ebcd3e97dadb9da824df0de444abe3f73ad20e71686c5cfd9"
+      },
+      "mock_command_count": 28,
+      "expected_pass": false,
+      "expectation_satisfied": true
+    },
+    {
+      "case": "source_index",
+      "exit_code": 2,
+      "canonical_passed": false,
+      "status": "failed",
+      "reason": "RuntimeError: Git HEAD/ref/index witness changed",
+      "mutation": {
+        "path": ".runs/review-placement-install-001/reproduction-004/source_index/source/.git/index",
+        "before_sha256": "4fffa8cc40ed8d81a7fdc236586b4d55164c689412d858ad70d1770015b59ac0",
+        "after_sha256": "d995b2f75fa25d7b162a0c8987cc27cfdcf85db92d1ddd43fc9ba64d9260d42f"
+      },
+      "mock_command_count": 28,
+      "expected_pass": false,
+      "expectation_satisfied": true
+    },
+    {
+      "case": "clone_index",
+      "exit_code": 2,
+      "canonical_passed": false,
+      "status": "failed",
+      "reason": "RuntimeError: Git HEAD/ref/index witness changed",
+      "mutation": {
+        "path": ".runs/review-placement-install-001/reproduction-004/clone_index/output/checkout/.git/index",
+        "before_sha256": "8a5e7320ead84220a7521279b745b01c1855955a4b0f3ebb7bac271976dd5f68",
+        "after_sha256": "210f35aa0d2780b0b4953fb85d47a60cf9ae2b9fb7da1c73664e2a87c9a91523"
+      },
+      "mock_command_count": 28,
+      "expected_pass": false,
+      "expectation_satisfied": true
+    }
+  ],
+  "all_expected": true
+}
