@@ -1,0 +1,2026 @@
+{
+  "schema": 1,
+  "family": "diagnostic-smoke",
+  "native_version": "10.0.0",
+  "tools": {
+    "implementation_sha256": {
+      "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+      "autorouter/__main__.py": "a643b5118a5a04b138c139a2f5952698863204af08b1e7a65e973ea6ff2810f8",
+      "autorouter/config.py": "56000b52bcadd2cb738b1ab0d475fd867e7be8bed032cafa982473f1a747df79",
+      "autorouter/native.py": "b8d1bb8c47fb4a37a60c6d7bb009abe7e619f2507fa7894677738b0772fd65db",
+      "autorouter/pipeline.py": "2e2b29fccb26b07a601dae187a9f7aec19dd1c922e48c551d90bd0fc6f234723",
+      "autorouter/runner.py": "29938e7a47480c66373019b4d6a81954fcb69040d0a9705ce97670e07e195e6e",
+      "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd"
+    },
+    "git_head": "683e41aab756cfb5c6a0c7c0f0ed37b8e18dc704",
+    "kicad": "10.0.0",
+    "freerouting": "2.5.0",
+    "files": {
+      "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+      "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219"
+    },
+    "network": "engine sandbox-exec deny network*"
+  },
+  "all_passed": true,
+  "controls": [
+    {
+      "case": "positive",
+      "expected_accepted": true,
+      "candidate_before_sha256": "5919b1d0c41d9dc854129b6ad999a588e958ed936ee2be2fc6e8b03a3b933b00",
+      "source_hashes": {
+        "smoke.kicad_pcb": "5919b1d0c41d9dc854129b6ad999a588e958ed936ee2be2fc6e8b03a3b933b00",
+        "smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+        "smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643"
+      },
+      "diagnostic_native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": []
+      },
+      "candidate_sha256": "5919b1d0c41d9dc854129b6ad999a588e958ed936ee2be2fc6e8b03a3b933b00",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": []
+      },
+      "accepted": true,
+      "native_execution_proven": true,
+      "passed": true,
+      "steps": [
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 1.272367249999661,
+          "cpu_seconds": 0.440557,
+          "max_rss_bytes": 101842944,
+          "supervisor_cpu_seconds": 0.0036670000000000036,
+          "argv": [
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/positive/diagnostic-drc.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/positive/diagnostic-drc-input/smoke.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/positive/diagnostic-drc.log",
+          "log_bytes": 166,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/positive",
+          "signal_cancellation_enabled": true,
+          "pid": 67905,
+          "name": "diagnostic-drc",
+          "validated_input_sha256": "5919b1d0c41d9dc854129b6ad999a588e958ed936ee2be2fc6e8b03a3b933b00",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/positive/candidate/smoke.kicad_pcb"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 1.0416696250031237,
+          "cpu_seconds": 0.41229099999999996,
+          "max_rss_bytes": 102236160,
+          "supervisor_cpu_seconds": 0.004612000000000005,
+          "argv": [
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/positive/refill-drc.json",
+            "--save-board",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/positive/refill/smoke.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/positive/refill-drc.log",
+          "log_bytes": 174,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/positive",
+          "signal_cancellation_enabled": true,
+          "pid": 67917,
+          "name": "refill-drc",
+          "validated_input_sha256": "5919b1d0c41d9dc854129b6ad999a588e958ed936ee2be2fc6e8b03a3b933b00",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/positive/refill/smoke.kicad_pcb"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 1.0243110410010559,
+          "cpu_seconds": 0.40182199999999996,
+          "max_rss_bytes": 102154240,
+          "supervisor_cpu_seconds": 0.0035720000000000057,
+          "argv": [
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/positive/final-drc.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/positive/final-drc-input/smoke.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/positive/final-drc.log",
+          "log_bytes": 161,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/positive",
+          "signal_cancellation_enabled": true,
+          "pid": 67918,
+          "name": "final-drc",
+          "validated_input_sha256": "5919b1d0c41d9dc854129b6ad999a588e958ed936ee2be2fc6e8b03a3b933b00",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/positive/candidate/smoke.kicad_pcb"
+        }
+      ]
+    },
+    {
+      "case": "disconnected",
+      "expected_accepted": false,
+      "candidate_before_sha256": "642ac3e6fa9a0aa64305cd871fad6c959836992a602bb36fcd8680afff29e71a",
+      "source_hashes": {
+        "smoke.kicad_pcb": "5919b1d0c41d9dc854129b6ad999a588e958ed936ee2be2fc6e8b03a3b933b00",
+        "smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+        "smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643"
+      },
+      "diagnostic_native": {
+        "opens": 1,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Missing connection between items",
+            "items": [
+              {
+                "description": "PTH pad 1 [SIGNAL_A] of J1",
+                "pos": {
+                  "x": 10.0,
+                  "y": 10.0
+                },
+                "uuid": "2259717b-f87b-4741-851c-4246b16698d8"
+              },
+              {
+                "description": "PTH pad 1 [SIGNAL_A] of J2",
+                "pos": {
+                  "x": 40.0,
+                  "y": 10.0
+                },
+                "uuid": "08f93607-b33b-46bf-b3b6-1629e09d1df5"
+              }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+          }
+        ]
+      },
+      "candidate_sha256": "642ac3e6fa9a0aa64305cd871fad6c959836992a602bb36fcd8680afff29e71a",
+      "native": {
+        "opens": 1,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Missing connection between items",
+            "items": [
+              {
+                "description": "PTH pad 1 [SIGNAL_A] of J1",
+                "pos": {
+                  "x": 10.0,
+                  "y": 10.0
+                },
+                "uuid": "2259717b-f87b-4741-851c-4246b16698d8"
+              },
+              {
+                "description": "PTH pad 1 [SIGNAL_A] of J2",
+                "pos": {
+                  "x": 40.0,
+                  "y": 10.0
+                },
+                "uuid": "08f93607-b33b-46bf-b3b6-1629e09d1df5"
+              }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+          }
+        ]
+      },
+      "accepted": false,
+      "native_execution_proven": true,
+      "passed": true,
+      "steps": [
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 1.0422623339982238,
+          "cpu_seconds": 0.409983,
+          "max_rss_bytes": 101875712,
+          "supervisor_cpu_seconds": 0.003848000000000004,
+          "argv": [
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/disconnected/diagnostic-drc.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/disconnected/diagnostic-drc-input/smoke.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/disconnected/diagnostic-drc.log",
+          "log_bytes": 170,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/disconnected",
+          "signal_cancellation_enabled": true,
+          "pid": 67931,
+          "name": "diagnostic-drc",
+          "validated_input_sha256": "642ac3e6fa9a0aa64305cd871fad6c959836992a602bb36fcd8680afff29e71a",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/disconnected/candidate/smoke.kicad_pcb"
+        },
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 1.0338161250037956,
+          "cpu_seconds": 0.407508,
+          "max_rss_bytes": 102465536,
+          "supervisor_cpu_seconds": 0.004250000000000004,
+          "argv": [
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/disconnected/refill-drc.json",
+            "--save-board",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/disconnected/refill/smoke.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/disconnected/refill-drc.log",
+          "log_bytes": 178,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/disconnected",
+          "signal_cancellation_enabled": true,
+          "pid": 67933,
+          "name": "refill-drc",
+          "validated_input_sha256": "642ac3e6fa9a0aa64305cd871fad6c959836992a602bb36fcd8680afff29e71a",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/disconnected/refill/smoke.kicad_pcb"
+        },
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 1.0457055830047466,
+          "cpu_seconds": 0.41799299999999995,
+          "max_rss_bytes": 102055936,
+          "supervisor_cpu_seconds": 0.003942000000000001,
+          "argv": [
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/disconnected/final-drc.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/disconnected/final-drc-input/smoke.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/disconnected/final-drc.log",
+          "log_bytes": 165,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/disconnected",
+          "signal_cancellation_enabled": true,
+          "pid": 67945,
+          "name": "final-drc",
+          "validated_input_sha256": "642ac3e6fa9a0aa64305cd871fad6c959836992a602bb36fcd8680afff29e71a",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/disconnected/candidate/smoke.kicad_pcb"
+        }
+      ]
+    },
+    {
+      "case": "short",
+      "expected_accepted": false,
+      "candidate_before_sha256": "990123bd34cb7e12358df227f8bf88efc20e8ad632e241a99240f505fd5cd7d9",
+      "source_hashes": {
+        "smoke.kicad_pcb": "5919b1d0c41d9dc854129b6ad999a588e958ed936ee2be2fc6e8b03a3b933b00",
+        "smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+        "smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643"
+      },
+      "diagnostic_native": {
+        "opens": 0,
+        "blocking": 1,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Tracks crossing",
+            "items": [
+              {
+                "description": "Track [SIGNAL_B] on F.Cu, length 30.0000 mm",
+                "pos": {
+                  "x": 10.0,
+                  "y": 20.0
+                },
+                "uuid": "58a31046-467b-4813-b04a-e38a082d55e9"
+              },
+              {
+                "description": "Track [SIGNAL_A] on F.Cu, length 10.0000 mm",
+                "pos": {
+                  "x": 25.0,
+                  "y": 10.0
+                },
+                "uuid": "783d5f91-fde6-4673-bc21-817846a9d9f7"
+              }
+            ],
+            "severity": "error",
+            "type": "tracks_crossing"
+          }
+        ]
+      },
+      "candidate_sha256": "990123bd34cb7e12358df227f8bf88efc20e8ad632e241a99240f505fd5cd7d9",
+      "native": {
+        "opens": 0,
+        "blocking": 1,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Tracks crossing",
+            "items": [
+              {
+                "description": "Track [SIGNAL_B] on F.Cu, length 30.0000 mm",
+                "pos": {
+                  "x": 10.0,
+                  "y": 20.0
+                },
+                "uuid": "58a31046-467b-4813-b04a-e38a082d55e9"
+              },
+              {
+                "description": "Track [SIGNAL_A] on F.Cu, length 10.0000 mm",
+                "pos": {
+                  "x": 25.0,
+                  "y": 10.0
+                },
+                "uuid": "791f3aa3-ce0a-4301-a9aa-c9cfd1e5b879"
+              }
+            ],
+            "severity": "error",
+            "type": "tracks_crossing"
+          }
+        ]
+      },
+      "accepted": false,
+      "native_execution_proven": true,
+      "passed": true,
+      "steps": [
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 1.0226186250001774,
+          "cpu_seconds": 0.40590499999999996,
+          "max_rss_bytes": 101793792,
+          "supervisor_cpu_seconds": 0.003713999999999995,
+          "argv": [
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/short/diagnostic-drc.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/short/diagnostic-drc-input/smoke.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/short/diagnostic-drc.log",
+          "log_bytes": 163,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/short",
+          "signal_cancellation_enabled": true,
+          "pid": 67948,
+          "name": "diagnostic-drc",
+          "validated_input_sha256": "990123bd34cb7e12358df227f8bf88efc20e8ad632e241a99240f505fd5cd7d9",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/short/candidate/smoke.kicad_pcb"
+        },
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 1.046992040995974,
+          "cpu_seconds": 0.41467299999999996,
+          "max_rss_bytes": 102449152,
+          "supervisor_cpu_seconds": 0.004280000000000006,
+          "argv": [
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/short/refill-drc.json",
+            "--save-board",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/short/refill/smoke.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/short/refill-drc.log",
+          "log_bytes": 171,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/short",
+          "signal_cancellation_enabled": true,
+          "pid": 67960,
+          "name": "refill-drc",
+          "validated_input_sha256": "990123bd34cb7e12358df227f8bf88efc20e8ad632e241a99240f505fd5cd7d9",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/short/refill/smoke.kicad_pcb"
+        },
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 1.025247917001252,
+          "cpu_seconds": 0.40962699999999996,
+          "max_rss_bytes": 102088704,
+          "supervisor_cpu_seconds": 0.003831000000000001,
+          "argv": [
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/short/final-drc.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/short/final-drc-input/smoke.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/short/final-drc.log",
+          "log_bytes": 158,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/short",
+          "signal_cancellation_enabled": true,
+          "pid": 67961,
+          "name": "final-drc",
+          "validated_input_sha256": "990123bd34cb7e12358df227f8bf88efc20e8ad632e241a99240f505fd5cd7d9",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/short/candidate/smoke.kicad_pcb"
+        }
+      ]
+    },
+    {
+      "case": "wrong_pad_net",
+      "expected_accepted": false,
+      "candidate_before_sha256": "29f4953f20f8c1d8f1014425e3da3f73055b73a117235955cf858f9d7fabf031",
+      "source_hashes": {
+        "smoke.kicad_pcb": "5919b1d0c41d9dc854129b6ad999a588e958ed936ee2be2fc6e8b03a3b933b00",
+        "smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+        "smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643"
+      },
+      "diagnostic_native": {
+        "opens": 1,
+        "blocking": 2,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Items shorting two nets (nets SIGNAL_B and SIGNAL_A)",
+            "items": [
+              {
+                "description": "PTH pad 1 [SIGNAL_B] of J1",
+                "pos": {
+                  "x": 10.0,
+                  "y": 10.0
+                },
+                "uuid": "2259717b-f87b-4741-851c-4246b16698d8"
+              },
+              {
+                "description": "Track [SIGNAL_A] on F.Cu, length 30.0000 mm",
+                "pos": {
+                  "x": 40.0,
+                  "y": 10.0
+                },
+                "uuid": "44d2725a-b013-49db-9ca0-6b42b0d61245"
+              }
+            ],
+            "severity": "error",
+            "type": "shorting_items"
+          },
+          {
+            "description": "Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.0000 mm)",
+            "items": [
+              {
+                "description": "Track [SIGNAL_A] on F.Cu, length 30.0000 mm",
+                "pos": {
+                  "x": 40.0,
+                  "y": 10.0
+                },
+                "uuid": "44d2725a-b013-49db-9ca0-6b42b0d61245"
+              },
+              {
+                "description": "PTH pad 1 [SIGNAL_B] of J1",
+                "pos": {
+                  "x": 10.0,
+                  "y": 10.0
+                },
+                "uuid": "2259717b-f87b-4741-851c-4246b16698d8"
+              }
+            ],
+            "severity": "error",
+            "type": "hole_clearance"
+          },
+          {
+            "description": "Missing connection between items",
+            "items": [
+              {
+                "description": "PTH pad 1 [SIGNAL_B] of J1",
+                "pos": {
+                  "x": 10.0,
+                  "y": 10.0
+                },
+                "uuid": "2259717b-f87b-4741-851c-4246b16698d8"
+              },
+              {
+                "description": "Track [SIGNAL_B] on F.Cu, length 30.0000 mm",
+                "pos": {
+                  "x": 10.0,
+                  "y": 20.0
+                },
+                "uuid": "58a31046-467b-4813-b04a-e38a082d55e9"
+              }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+          }
+        ]
+      },
+      "accepted": false,
+      "reason": "immutable geometry changed",
+      "native_execution_proven": true,
+      "passed": true,
+      "steps": [
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 1.0481960420001997,
+          "cpu_seconds": 0.411674,
+          "max_rss_bytes": 101924864,
+          "supervisor_cpu_seconds": 0.003571999999999992,
+          "argv": [
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/wrong_pad_net/diagnostic-drc.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/wrong_pad_net/diagnostic-drc-input/smoke.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/wrong_pad_net/diagnostic-drc.log",
+          "log_bytes": 171,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/wrong_pad_net",
+          "signal_cancellation_enabled": true,
+          "pid": 67975,
+          "name": "diagnostic-drc",
+          "validated_input_sha256": "29f4953f20f8c1d8f1014425e3da3f73055b73a117235955cf858f9d7fabf031",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/wrong_pad_net/candidate/smoke.kicad_pcb"
+        }
+      ]
+    },
+    {
+      "case": "moved_footprint",
+      "expected_accepted": false,
+      "candidate_before_sha256": "843e202be46e1bd7b96f4a483fc8810872ccf26db04b71d6647701e93f6523c5",
+      "source_hashes": {
+        "smoke.kicad_pcb": "5919b1d0c41d9dc854129b6ad999a588e958ed936ee2be2fc6e8b03a3b933b00",
+        "smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+        "smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643"
+      },
+      "diagnostic_native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": []
+      },
+      "accepted": false,
+      "reason": "immutable geometry changed",
+      "native_execution_proven": true,
+      "passed": true,
+      "steps": [
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 1.0340341250048368,
+          "cpu_seconds": 0.402759,
+          "max_rss_bytes": 101711872,
+          "supervisor_cpu_seconds": 0.003366000000000008,
+          "argv": [
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/moved_footprint/diagnostic-drc.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/moved_footprint/diagnostic-drc-input/smoke.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/moved_footprint/diagnostic-drc.log",
+          "log_bytes": 173,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/moved_footprint",
+          "signal_cancellation_enabled": true,
+          "pid": 67976,
+          "name": "diagnostic-drc",
+          "validated_input_sha256": "843e202be46e1bd7b96f4a483fc8810872ccf26db04b71d6647701e93f6523c5",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/moved_footprint/candidate/smoke.kicad_pcb"
+        }
+      ]
+    },
+    {
+      "case": "rotated_footprint",
+      "expected_accepted": false,
+      "candidate_before_sha256": "7009ec48c4f6c3c7537a9503a57516ac888372f7df79bcf9269bdae9296a13e9",
+      "source_hashes": {
+        "smoke.kicad_pcb": "5919b1d0c41d9dc854129b6ad999a588e958ed936ee2be2fc6e8b03a3b933b00",
+        "smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+        "smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643"
+      },
+      "diagnostic_native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": []
+      },
+      "accepted": false,
+      "reason": "immutable geometry changed",
+      "native_execution_proven": true,
+      "passed": true,
+      "steps": [
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 1.0384451249992708,
+          "cpu_seconds": 0.40519,
+          "max_rss_bytes": 101859328,
+          "supervisor_cpu_seconds": 0.003571999999999992,
+          "argv": [
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/rotated_footprint/diagnostic-drc.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/rotated_footprint/diagnostic-drc-input/smoke.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/rotated_footprint/diagnostic-drc.log",
+          "log_bytes": 175,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/rotated_footprint",
+          "signal_cancellation_enabled": true,
+          "pid": 67988,
+          "name": "diagnostic-drc",
+          "validated_input_sha256": "7009ec48c4f6c3c7537a9503a57516ac888372f7df79bcf9269bdae9296a13e9",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/rotated_footprint/candidate/smoke.kicad_pcb"
+        }
+      ]
+    },
+    {
+      "case": "pad_geometry",
+      "expected_accepted": false,
+      "candidate_before_sha256": "a2570f60eb3206aa02df61821b6167f63d3ea524af256c0bb2cc722bddb2e89a",
+      "source_hashes": {
+        "smoke.kicad_pcb": "5919b1d0c41d9dc854129b6ad999a588e958ed936ee2be2fc6e8b03a3b933b00",
+        "smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+        "smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643"
+      },
+      "diagnostic_native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": []
+      },
+      "accepted": false,
+      "reason": "immutable geometry changed",
+      "native_execution_proven": true,
+      "passed": true,
+      "steps": [
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 1.0340178339974955,
+          "cpu_seconds": 0.408712,
+          "max_rss_bytes": 101695488,
+          "supervisor_cpu_seconds": 0.0039889999999999926,
+          "argv": [
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/pad_geometry/diagnostic-drc.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/pad_geometry/diagnostic-drc-input/smoke.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/pad_geometry/diagnostic-drc.log",
+          "log_bytes": 170,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/pad_geometry",
+          "signal_cancellation_enabled": true,
+          "pid": 67989,
+          "name": "diagnostic-drc",
+          "validated_input_sha256": "a2570f60eb3206aa02df61821b6167f63d3ea524af256c0bb2cc722bddb2e89a",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/pad_geometry/candidate/smoke.kicad_pcb"
+        }
+      ]
+    },
+    {
+      "case": "illegal_via",
+      "expected_accepted": false,
+      "candidate_before_sha256": "637862f17727e94ffec753dc9ecfae91368fef77081c4f8bac61f4b8513c6f49",
+      "source_hashes": {
+        "smoke.kicad_pcb": "5919b1d0c41d9dc854129b6ad999a588e958ed936ee2be2fc6e8b03a3b933b00",
+        "smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+        "smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643"
+      },
+      "diagnostic_native": {
+        "opens": 0,
+        "blocking": 1,
+        "warnings": 1,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Via diameter (board setup constraints min diameter 0.5000 mm; actual 0.2000 mm)",
+            "items": [
+              {
+                "description": "Via [SIGNAL_A] on F.Cu - B.Cu",
+                "pos": {
+                  "x": 25.0,
+                  "y": 10.0
+                },
+                "uuid": "cc6de15f-cfa0-4c6a-a1f4-e1fa9bb769c8"
+              }
+            ],
+            "severity": "error",
+            "type": "via_diameter"
+          },
+          {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+              {
+                "description": "Via [SIGNAL_A] on F.Cu - B.Cu",
+                "pos": {
+                  "x": 25.0,
+                  "y": 10.0
+                },
+                "uuid": "cc6de15f-cfa0-4c6a-a1f4-e1fa9bb769c8"
+              }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+          }
+        ]
+      },
+      "candidate_sha256": "d363f07e6c9fd2174a07b3e04471c845c840c7a721715893089493fad4181cd2",
+      "native": {
+        "opens": 0,
+        "blocking": 1,
+        "warnings": 1,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Via diameter (board setup constraints min diameter 0.5000 mm; actual 0.2000 mm)",
+            "items": [
+              {
+                "description": "Via [SIGNAL_A] on F.Cu - B.Cu",
+                "pos": {
+                  "x": 25.0,
+                  "y": 10.0
+                },
+                "uuid": "44a118da-e65a-43a9-8c4f-ba624f5d15e4"
+              }
+            ],
+            "severity": "error",
+            "type": "via_diameter"
+          },
+          {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+              {
+                "description": "Via [SIGNAL_A] on F.Cu - B.Cu",
+                "pos": {
+                  "x": 25.0,
+                  "y": 10.0
+                },
+                "uuid": "44a118da-e65a-43a9-8c4f-ba624f5d15e4"
+              }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+          }
+        ]
+      },
+      "accepted": false,
+      "native_execution_proven": true,
+      "passed": true,
+      "steps": [
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 1.03314883299754,
+          "cpu_seconds": 0.402882,
+          "max_rss_bytes": 101826560,
+          "supervisor_cpu_seconds": 0.0032030000000000114,
+          "argv": [
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/illegal_via/diagnostic-drc.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/illegal_via/diagnostic-drc-input/smoke.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/illegal_via/diagnostic-drc.log",
+          "log_bytes": 169,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/illegal_via",
+          "signal_cancellation_enabled": true,
+          "pid": 68001,
+          "name": "diagnostic-drc",
+          "validated_input_sha256": "637862f17727e94ffec753dc9ecfae91368fef77081c4f8bac61f4b8513c6f49",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/illegal_via/candidate/smoke.kicad_pcb"
+        },
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 1.035805250001431,
+          "cpu_seconds": 0.414115,
+          "max_rss_bytes": 102121472,
+          "supervisor_cpu_seconds": 0.00426399999999999,
+          "argv": [
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/illegal_via/refill-drc.json",
+            "--save-board",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/illegal_via/refill/smoke.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/illegal_via/refill-drc.log",
+          "log_bytes": 177,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/illegal_via",
+          "signal_cancellation_enabled": true,
+          "pid": 68003,
+          "name": "refill-drc",
+          "validated_input_sha256": "637862f17727e94ffec753dc9ecfae91368fef77081c4f8bac61f4b8513c6f49",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/illegal_via/refill/smoke.kicad_pcb"
+        },
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 1.0468299159983872,
+          "cpu_seconds": 0.415846,
+          "max_rss_bytes": 102072320,
+          "supervisor_cpu_seconds": 0.003848000000000018,
+          "argv": [
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/illegal_via/final-drc.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/illegal_via/final-drc-input/smoke.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/illegal_via/final-drc.log",
+          "log_bytes": 164,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/illegal_via",
+          "signal_cancellation_enabled": true,
+          "pid": 68015,
+          "name": "final-drc",
+          "validated_input_sha256": "d363f07e6c9fd2174a07b3e04471c845c840c7a721715893089493fad4181cd2",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/illegal_via/candidate/smoke.kicad_pcb"
+        }
+      ]
+    },
+    {
+      "case": "narrow_track",
+      "expected_accepted": false,
+      "candidate_before_sha256": "8de097f36e599848a6b88b1a54686b2ece42349c73cf3b8c81a663f07a602729",
+      "source_hashes": {
+        "smoke.kicad_pcb": "5919b1d0c41d9dc854129b6ad999a588e958ed936ee2be2fc6e8b03a3b933b00",
+        "smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+        "smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643"
+      },
+      "diagnostic_native": {
+        "opens": 0,
+        "blocking": 1,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Track width (board setup constraints min width 0.2000 mm; actual 0.0100 mm)",
+            "items": [
+              {
+                "description": "Track [SIGNAL_A] on F.Cu, length 30.0000 mm",
+                "pos": {
+                  "x": 40.0,
+                  "y": 10.0
+                },
+                "uuid": "44d2725a-b013-49db-9ca0-6b42b0d61245"
+              }
+            ],
+            "severity": "error",
+            "type": "track_width"
+          }
+        ]
+      },
+      "candidate_sha256": "8de097f36e599848a6b88b1a54686b2ece42349c73cf3b8c81a663f07a602729",
+      "native": {
+        "opens": 0,
+        "blocking": 1,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Track width (board setup constraints min width 0.2000 mm; actual 0.0100 mm)",
+            "items": [
+              {
+                "description": "Track [SIGNAL_A] on F.Cu, length 30.0000 mm",
+                "pos": {
+                  "x": 40.0,
+                  "y": 10.0
+                },
+                "uuid": "44d2725a-b013-49db-9ca0-6b42b0d61245"
+              }
+            ],
+            "severity": "error",
+            "type": "track_width"
+          }
+        ]
+      },
+      "accepted": false,
+      "native_execution_proven": true,
+      "passed": true,
+      "steps": [
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 1.0431109589990228,
+          "cpu_seconds": 0.410124,
+          "max_rss_bytes": 101810176,
+          "supervisor_cpu_seconds": 0.004143000000000008,
+          "argv": [
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/narrow_track/diagnostic-drc.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/narrow_track/diagnostic-drc-input/smoke.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/narrow_track/diagnostic-drc.log",
+          "log_bytes": 170,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/narrow_track",
+          "signal_cancellation_enabled": true,
+          "pid": 68019,
+          "name": "diagnostic-drc",
+          "validated_input_sha256": "8de097f36e599848a6b88b1a54686b2ece42349c73cf3b8c81a663f07a602729",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/narrow_track/candidate/smoke.kicad_pcb"
+        },
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 1.0505867500032764,
+          "cpu_seconds": 0.417647,
+          "max_rss_bytes": 102301696,
+          "supervisor_cpu_seconds": 0.004263000000000017,
+          "argv": [
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/narrow_track/refill-drc.json",
+            "--save-board",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/narrow_track/refill/smoke.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/narrow_track/refill-drc.log",
+          "log_bytes": 178,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/narrow_track",
+          "signal_cancellation_enabled": true,
+          "pid": 68032,
+          "name": "refill-drc",
+          "validated_input_sha256": "8de097f36e599848a6b88b1a54686b2ece42349c73cf3b8c81a663f07a602729",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/narrow_track/refill/smoke.kicad_pcb"
+        },
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 1.0299161670045578,
+          "cpu_seconds": 0.404147,
+          "max_rss_bytes": 102105088,
+          "supervisor_cpu_seconds": 0.003353999999999968,
+          "argv": [
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/narrow_track/final-drc.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/narrow_track/final-drc-input/smoke.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/narrow_track/final-drc.log",
+          "log_bytes": 165,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/narrow_track",
+          "signal_cancellation_enabled": true,
+          "pid": 68033,
+          "name": "final-drc",
+          "validated_input_sha256": "8de097f36e599848a6b88b1a54686b2ece42349c73cf3b8c81a663f07a602729",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/narrow_track/candidate/smoke.kicad_pcb"
+        }
+      ]
+    },
+    {
+      "case": "removed_zone",
+      "expected_accepted": false,
+      "candidate_before_sha256": "786a4b6dfbb73d041a594321713d604ba6e5a00f30a18f0c7cc3fa35aa7478ee",
+      "source_hashes": {
+        "smoke.kicad_pcb": "5919b1d0c41d9dc854129b6ad999a588e958ed936ee2be2fc6e8b03a3b933b00",
+        "smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+        "smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643"
+      },
+      "diagnostic_native": {
+        "opens": 1,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Missing connection between items",
+            "items": [
+              {
+                "description": "PTH pad 1 [GND] of J5",
+                "pos": {
+                  "x": 10.0,
+                  "y": 30.0
+                },
+                "uuid": "3770420a-a201-4704-85a8-70c7666bf2cf"
+              },
+              {
+                "description": "PTH pad 1 [GND] of J6",
+                "pos": {
+                  "x": 40.0,
+                  "y": 30.0
+                },
+                "uuid": "91b55d41-261e-40fb-b066-cea4f05adfc3"
+              }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+          }
+        ]
+      },
+      "accepted": false,
+      "reason": "immutable geometry changed",
+      "native_execution_proven": true,
+      "passed": true,
+      "steps": [
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 0.6859264169979724,
+          "cpu_seconds": 0.382719,
+          "max_rss_bytes": 100941824,
+          "supervisor_cpu_seconds": 0.00217700000000004,
+          "argv": [
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/removed_zone/diagnostic-drc.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/removed_zone/diagnostic-drc-input/smoke.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/removed_zone/diagnostic-drc.log",
+          "log_bytes": 170,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/removed_zone",
+          "signal_cancellation_enabled": true,
+          "pid": 68045,
+          "name": "diagnostic-drc",
+          "validated_input_sha256": "786a4b6dfbb73d041a594321713d604ba6e5a00f30a18f0c7cc3fa35aa7478ee",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/removed_zone/candidate/smoke.kicad_pcb"
+        }
+      ]
+    },
+    {
+      "case": "removed_protected",
+      "expected_accepted": false,
+      "candidate_before_sha256": "642ac3e6fa9a0aa64305cd871fad6c959836992a602bb36fcd8680afff29e71a",
+      "source_hashes": {
+        "smoke.kicad_pcb": "5919b1d0c41d9dc854129b6ad999a588e958ed936ee2be2fc6e8b03a3b933b00",
+        "smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+        "smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643"
+      },
+      "diagnostic_native": {
+        "opens": 1,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Missing connection between items",
+            "items": [
+              {
+                "description": "PTH pad 1 [SIGNAL_A] of J1",
+                "pos": {
+                  "x": 10.0,
+                  "y": 10.0
+                },
+                "uuid": "2259717b-f87b-4741-851c-4246b16698d8"
+              },
+              {
+                "description": "PTH pad 1 [SIGNAL_A] of J2",
+                "pos": {
+                  "x": 40.0,
+                  "y": 10.0
+                },
+                "uuid": "08f93607-b33b-46bf-b3b6-1629e09d1df5"
+              }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+          }
+        ]
+      },
+      "accepted": false,
+      "reason": "protected route changed",
+      "native_execution_proven": true,
+      "passed": true,
+      "steps": [
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 1.0299091249980847,
+          "cpu_seconds": 0.40558399999999994,
+          "max_rss_bytes": 101875712,
+          "supervisor_cpu_seconds": 0.003974999999999951,
+          "argv": [
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/removed_protected/diagnostic-drc.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/removed_protected/diagnostic-drc-input/smoke.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/removed_protected/diagnostic-drc.log",
+          "log_bytes": 175,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/removed_protected",
+          "signal_cancellation_enabled": true,
+          "pid": 68046,
+          "name": "diagnostic-drc",
+          "validated_input_sha256": "642ac3e6fa9a0aa64305cd871fad6c959836992a602bb36fcd8680afff29e71a",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/removed_protected/candidate/smoke.kicad_pcb"
+        }
+      ]
+    },
+    {
+      "case": "reduced_clearance",
+      "expected_accepted": false,
+      "candidate_before_sha256": "5919b1d0c41d9dc854129b6ad999a588e958ed936ee2be2fc6e8b03a3b933b00",
+      "source_hashes": {
+        "smoke.kicad_pcb": "5919b1d0c41d9dc854129b6ad999a588e958ed936ee2be2fc6e8b03a3b933b00",
+        "smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+        "smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643"
+      },
+      "diagnostic_native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": []
+      },
+      "accepted": false,
+      "reason": "candidate project/rules/file set changed",
+      "native_execution_proven": true,
+      "passed": true,
+      "steps": [
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 1.0415141659977962,
+          "cpu_seconds": 0.404958,
+          "max_rss_bytes": 101892096,
+          "supervisor_cpu_seconds": 0.0037670000000000203,
+          "argv": [
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/reduced_clearance/diagnostic-drc.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/reduced_clearance/diagnostic-drc-input/smoke.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/reduced_clearance/diagnostic-drc.log",
+          "log_bytes": 175,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/reduced_clearance",
+          "signal_cancellation_enabled": true,
+          "pid": 68047,
+          "name": "diagnostic-drc",
+          "validated_input_sha256": "5919b1d0c41d9dc854129b6ad999a588e958ed936ee2be2fc6e8b03a3b933b00",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/reduced_clearance/candidate/smoke.kicad_pcb"
+        }
+      ]
+    },
+    {
+      "case": "changed_severity",
+      "expected_accepted": false,
+      "candidate_before_sha256": "5919b1d0c41d9dc854129b6ad999a588e958ed936ee2be2fc6e8b03a3b933b00",
+      "source_hashes": {
+        "smoke.kicad_pcb": "5919b1d0c41d9dc854129b6ad999a588e958ed936ee2be2fc6e8b03a3b933b00",
+        "smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+        "smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643"
+      },
+      "diagnostic_native_error": "validator disabled required check",
+      "accepted": false,
+      "reason": "candidate project/rules/file set changed",
+      "native_execution_proven": true,
+      "passed": true,
+      "steps": [
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 1.0420162500013248,
+          "cpu_seconds": 0.41081599999999996,
+          "max_rss_bytes": 101679104,
+          "supervisor_cpu_seconds": 0.004092999999999958,
+          "argv": [
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/changed_severity/diagnostic-drc.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/changed_severity/diagnostic-drc-input/smoke.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/changed_severity/diagnostic-drc.log",
+          "log_bytes": 174,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/changed_severity",
+          "signal_cancellation_enabled": true,
+          "pid": 68061,
+          "name": "diagnostic-drc",
+          "validated_input_sha256": "5919b1d0c41d9dc854129b6ad999a588e958ed936ee2be2fc6e8b03a3b933b00",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/changed_severity/candidate/smoke.kicad_pcb"
+        }
+      ]
+    },
+    {
+      "case": "added_rules",
+      "expected_accepted": false,
+      "candidate_before_sha256": "5919b1d0c41d9dc854129b6ad999a588e958ed936ee2be2fc6e8b03a3b933b00",
+      "source_hashes": {
+        "smoke.kicad_pcb": "5919b1d0c41d9dc854129b6ad999a588e958ed936ee2be2fc6e8b03a3b933b00",
+        "smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+        "smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643"
+      },
+      "diagnostic_native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": []
+      },
+      "accepted": false,
+      "reason": "candidate project/rules/file set changed",
+      "native_execution_proven": true,
+      "passed": true,
+      "steps": [
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 1.0279802499935613,
+          "cpu_seconds": 0.399615,
+          "max_rss_bytes": 101662720,
+          "supervisor_cpu_seconds": 0.003913999999999973,
+          "argv": [
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/added_rules/diagnostic-drc.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/added_rules/diagnostic-drc-input/smoke.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/added_rules/diagnostic-drc.log",
+          "log_bytes": 169,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/added_rules",
+          "signal_cancellation_enabled": true,
+          "pid": 68062,
+          "name": "diagnostic-drc",
+          "validated_input_sha256": "5919b1d0c41d9dc854129b6ad999a588e958ed936ee2be2fc6e8b03a3b933b00",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-controls-002/added_rules/candidate/smoke.kicad_pcb"
+        }
+      ]
+    }
+  ]
+}

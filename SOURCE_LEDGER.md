@@ -54,3 +54,10 @@ These locations and concepts are carried forward as leads. The new handoff did n
 - https://www.flux.ai/p/blog/ai-auto-layout-winter-update
 
 Verify latest primary sources, artifact-specific rights, geometry/rule fidelity, actual buildability, and version compatibility before making comparisons or design commitments. The source ledger is a research start, not evidence that a router outperforms another one.
+
+## Fresh reconstruction research (October 9, 2026)
+
+- Installed Mac interfaces actually exercised: KiCad10.0.0 CLI and pcbnew, Java25.0.2; hashes in toolchain.lock.json. Official CLI reference https://docs.kicad.org/10.0/en/cli/cli.html corroborates refill/report flags; actual installed help and execution determine compatibility.
+- Freerouting2.5.0 release/source, unconditional version-check path and alternative engines: docs/research-foundation.md. Network deny was actually tested with a socket probe; no claim that disabling analytics alone makes the engine offline.
+- Official sonde native project and file-specific CC BY-SA4.0 evidence pinned at69cafb907ebc09e7722a2a464b1d466fc2e3608d: data/sources.json, docs/data-provenance.md. Download and offline verification executed.
+- Isolated KiCad configuration experiments and source trace: docs/kicad-config-investigation.md. Working recipe established; earlier crash cause unresolved.

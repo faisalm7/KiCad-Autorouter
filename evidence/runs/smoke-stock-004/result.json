@@ -1,0 +1,426 @@
+{
+  "schema": 1,
+  "status": "routing_accepted",
+  "accepted": true,
+  "physical_electrical_validation": false,
+  "schematic_parity": "not checked",
+  "source": "/Users/faisal/Projects/KiCad-Autorouter-local/fixtures/smoke/smoke.kicad_pcb",
+  "started_utc": "2026-10-10T02:14:20.409963+00:00",
+  "budget_seconds": 120.0,
+  "baseline": "B0",
+  "adapter": "none",
+  "scope": "whole_board_unlocked_routing",
+  "tools": {
+    "implementation_sha256": {
+      "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+      "autorouter/__main__.py": "a643b5118a5a04b138c139a2f5952698863204af08b1e7a65e973ea6ff2810f8",
+      "autorouter/config.py": "56000b52bcadd2cb738b1ab0d475fd867e7be8bed032cafa982473f1a747df79",
+      "autorouter/native.py": "b8d1bb8c47fb4a37a60c6d7bb009abe7e619f2507fa7894677738b0772fd65db",
+      "autorouter/pipeline.py": "2e2b29fccb26b07a601dae187a9f7aec19dd1c922e48c551d90bd0fc6f234723",
+      "autorouter/runner.py": "29938e7a47480c66373019b4d6a81954fcb69040d0a9705ce97670e07e195e6e",
+      "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd"
+    },
+    "git_head": "683e41aab756cfb5c6a0c7c0f0ed37b8e18dc704",
+    "kicad": "10.0.0",
+    "freerouting": "2.5.0",
+    "files": {
+      "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+      "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219"
+    },
+    "network": "engine sandbox-exec deny network*"
+  },
+  "source_hashes": {
+    "smoke.kicad_pcb": "618b0b1d23f082283a5136b514ff64ee54b3a058f068689bf64668a436d7c5ea",
+    "smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+    "smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643"
+  },
+  "task_sha256": "d0c77f01dcfdd0b31f5cf7ed2addda31c45518b71426f4f81e07333ae6a58a0d",
+  "source_drc": {
+    "opens": 2,
+    "blocking": 0,
+    "warnings": 0,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "Footprint component type doesn't match footprint pads",
+        "key": "footprint_type_mismatch"
+      }
+    ],
+    "findings": [
+      {
+        "description": "Missing connection between items",
+        "items": [
+          {
+            "description": "PTH pad 1 [SIGNAL_A] of J1",
+            "pos": {
+              "x": 10.0,
+              "y": 10.0
+            },
+            "uuid": "2259717b-f87b-4741-851c-4246b16698d8"
+          },
+          {
+            "description": "PTH pad 1 [SIGNAL_A] of J2",
+            "pos": {
+              "x": 40.0,
+              "y": 10.0
+            },
+            "uuid": "08f93607-b33b-46bf-b3b6-1629e09d1df5"
+          }
+        ],
+        "severity": "error",
+        "type": "unconnected_items"
+      },
+      {
+        "description": "Missing connection between items",
+        "items": [
+          {
+            "description": "PTH pad 1 [SIGNAL_B] of J3",
+            "pos": {
+              "x": 10.0,
+              "y": 20.0
+            },
+            "uuid": "6588aca0-021d-49ec-8333-8ac58765813d"
+          },
+          {
+            "description": "PTH pad 1 [SIGNAL_B] of J4",
+            "pos": {
+              "x": 40.0,
+              "y": 20.0
+            },
+            "uuid": "a06354ce-d76c-45d5-b28a-d51f06164d89"
+          }
+        ],
+        "severity": "error",
+        "type": "unconnected_items"
+      }
+    ]
+  },
+  "native": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 0,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "Footprint component type doesn't match footprint pads",
+        "key": "footprint_type_mismatch"
+      }
+    ],
+    "findings": []
+  },
+  "metrics": {
+    "version": "10.0.0",
+    "pads": 6,
+    "footprints": 6,
+    "zones": 1,
+    "vias": 0,
+    "track_length_mm": 60.0,
+    "copper_layers": 2
+  },
+  "candidate_sha256": "5919b1d0c41d9dc854129b6ad999a588e958ed936ee2be2fc6e8b03a3b933b00",
+  "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/smoke-stock-004/candidate/smoke.kicad_pcb",
+  "invariants_unchanged": true,
+  "whole_project_drc_clean": true,
+  "steps": [
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.0251864579986432,
+      "cpu_seconds": 0.432146,
+      "max_rss_bytes": 101351424,
+      "supervisor_cpu_seconds": 0.0019399999999999973,
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/smoke-stock-004/source-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/smoke-stock-004/source-drc-input/smoke.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/smoke-stock-004/source-drc.log",
+      "log_bytes": 149,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/smoke-stock-004",
+      "signal_cancellation_enabled": true,
+      "pid": 67477,
+      "name": "source-drc",
+      "validated_input_sha256": "618b0b1d23f082283a5136b514ff64ee54b3a058f068689bf64668a436d7c5ea",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/smoke-stock-004/snapshot/smoke.kicad_pcb"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.3643550829947344,
+      "cpu_seconds": 0.335178,
+      "max_rss_bytes": 88293376,
+      "supervisor_cpu_seconds": 0.0020990000000000175,
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+        "export",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/smoke-stock-004/candidate/smoke.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/smoke-stock-004/task.dsn"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/smoke-stock-004/export.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/smoke-stock-004",
+      "signal_cancellation_enabled": true,
+      "pid": 67484,
+      "name": "export"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 2.499876874993788,
+      "cpu_seconds": 1.422479,
+      "max_rss_bytes": 186793984,
+      "supervisor_cpu_seconds": 0.006757999999999986,
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java",
+        "-Xms128m",
+        "-Xmx2g",
+        "-XX:ActiveProcessorCount=1",
+        "-Djava.awt.headless=true",
+        "-jar",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar",
+        "--gui.enabled=false",
+        "--api_server.enabled=false",
+        "--mcp_server.enabled=false",
+        "-da",
+        "--user_data_path=/Users/faisal/Projects/KiCad-Autorouter-local/.runs/smoke-stock-004/engine-config",
+        "--logging.file.enabled=false",
+        "--router.autorouter.max_passes=30",
+        "--router.optimizer.max_threads=1",
+        "--router.optimizer.max_passes=10",
+        "--router.job_timeout=60s",
+        "--router.optimizer.timeout=30s",
+        "-de",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/smoke-stock-004/task.dsn",
+        "-do",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/smoke-stock-004/routes.ses"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/smoke-stock-004/engine.log",
+      "log_bytes": 2354,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/smoke-stock-004",
+      "signal_cancellation_enabled": true,
+      "pid": 67490,
+      "name": "engine"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.3341511670005275,
+      "cpu_seconds": 0.328271,
+      "max_rss_bytes": 88817664,
+      "supervisor_cpu_seconds": 0.003138000000000002,
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+        "import",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/smoke-stock-004/candidate/smoke.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/smoke-stock-004/imported.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/smoke-stock-004/routes.ses"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/smoke-stock-004/import.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/smoke-stock-004",
+      "signal_cancellation_enabled": true,
+      "pid": 67502,
+      "name": "import"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 1.007524666005338,
+      "cpu_seconds": 0.397551,
+      "max_rss_bytes": 102039552,
+      "supervisor_cpu_seconds": 0.0038729999999999876,
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/smoke-stock-004/refill-drc.json",
+        "--save-board",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/smoke-stock-004/refill/smoke.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/smoke-stock-004/refill-drc.log",
+      "log_bytes": 161,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/smoke-stock-004",
+      "signal_cancellation_enabled": true,
+      "pid": 67514,
+      "name": "refill-drc",
+      "validated_input_sha256": "59a9e093e00e337683c6393babe2563ff8b87d35543deb473db9d66553160355",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/smoke-stock-004/refill/smoke.kicad_pcb"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 1.028721583999868,
+      "cpu_seconds": 0.413659,
+      "max_rss_bytes": 101826560,
+      "supervisor_cpu_seconds": 0.003941,
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/smoke-stock-004/final-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/smoke-stock-004/final-drc-input/smoke.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/smoke-stock-004/final-drc.log",
+      "log_bytes": 148,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/smoke-stock-004",
+      "signal_cancellation_enabled": true,
+      "pid": 67515,
+      "name": "final-drc",
+      "validated_input_sha256": "5919b1d0c41d9dc854129b6ad999a588e958ed936ee2be2fc6e8b03a3b933b00",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/smoke-stock-004/candidate/smoke.kicad_pcb"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.3254237919973093,
+      "cpu_seconds": 0.320445,
+      "max_rss_bytes": 88244224,
+      "supervisor_cpu_seconds": 0.0024099999999999955,
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+        "metrics",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/smoke-stock-004/candidate/smoke.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/smoke-stock-004/metrics.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/smoke-stock-004/metrics.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/smoke-stock-004",
+      "signal_cancellation_enabled": true,
+      "pid": 67516,
+      "name": "metrics"
+    }
+  ],
+  "wall_seconds": 6.721204040994053,
+  "parent_cpu_seconds": 0.133833,
+  "child_cpu_seconds": 3.649729,
+  "total_cpu_seconds": 3.783562,
+  "peak_child_rss_bytes": 186793984,
+  "resource_limitations": "One sequential worker; Java 2GiB heap; peak direct-child RSS (not process tree). Cache ceiling checked before task, not continuously OS-enforced. CPU descendants only if accounted for by child wait."
+}

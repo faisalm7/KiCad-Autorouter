@@ -1,0 +1,646 @@
+{
+  "schema": 1,
+  "status": "drc_rejected",
+  "accepted": false,
+  "physical_electrical_validation": false,
+  "schematic_parity": "not checked",
+  "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.data/boards/kicad-sonde-xilinx/sonde xilinx.kicad_pcb",
+  "started_utc": "2026-10-10T02:12:28.191828+00:00",
+  "budget_seconds": 120.0,
+  "baseline": "B0",
+  "adapter": "none",
+  "scope": "whole_board_unlocked_routing",
+  "tools": {
+    "implementation_sha256": {
+      "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+      "autorouter/__main__.py": "a643b5118a5a04b138c139a2f5952698863204af08b1e7a65e973ea6ff2810f8",
+      "autorouter/config.py": "56000b52bcadd2cb738b1ab0d475fd867e7be8bed032cafa982473f1a747df79",
+      "autorouter/native.py": "b8d1bb8c47fb4a37a60c6d7bb009abe7e619f2507fa7894677738b0772fd65db",
+      "autorouter/pipeline.py": "2e2b29fccb26b07a601dae187a9f7aec19dd1c922e48c551d90bd0fc6f234723",
+      "autorouter/runner.py": "29938e7a47480c66373019b4d6a81954fcb69040d0a9705ce97670e07e195e6e",
+      "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd"
+    },
+    "git_head": "683e41aab756cfb5c6a0c7c0f0ed37b8e18dc704",
+    "kicad": "10.0.0",
+    "freerouting": "2.5.0",
+    "files": {
+      "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+      "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219"
+    },
+    "network": "engine sandbox-exec deny network*"
+  },
+  "source_hashes": {
+    "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+    "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    "fp-lib-table": "cc8af24e493a4d6d8ff8206d7c58d9b4209779095abeb4edbc0e5b2dc555cc9f",
+    "sonde xilinx.kicad_pcb": "d0dee876715fcdd3f656dd6a77cc1141c39bec4d6f8492a3784d38edd6b9a998",
+    "sonde xilinx.kicad_pro": "ee60a96f93cc36549b52da9b3eea9547d5ea1e83a671c449668987edfb73a901",
+    "sonde xilinx.kicad_sch": "5271d5d1472d4dab645870f97e62785be9eb95b793e1b8cf0d8ca607de95a985",
+    "sonde-xilinx.pretty/C_Axial_L5.1mm_D3.1mm_P12.50mm_Horizontal.kicad_mod": "ea2b7f922393cb792135103efd8304d933b476ca15ab957e7d2d85452abf2710",
+    "sonde-xilinx.pretty/C_Disc_D5.1mm_W3.2mm_P5.00mm.kicad_mod": "1aecdb4ad2120e99d792a4388eff86462154afbbc64cc1b06041a2c9c1e6fe65",
+    "sonde-xilinx.pretty/DIP-14_W7.62mm_LongPads.kicad_mod": "bfc91319c5905ed84ce72c8a8c3c19b0c6767f812083a063559c5407ecdc1146",
+    "sonde-xilinx.pretty/DSUB-25_Male_EdgeMount_P2.77mm.kicad_mod": "97e783488fc12772d98e9b734cd14a9b07632d2b9e5db4760b7ffec74e0520e4",
+    "sonde-xilinx.pretty/DSUB-9_Male_EdgeMount_P2.77mm.kicad_mod": "ad60738ef94ffc9848a1137ea9dbde55f8b2a2238d519098c5d5d33cee73238b",
+    "sonde-xilinx.pretty/D_A-405_P7.62mm_Horizontal.kicad_mod": "9299977270227d4a3f4bf01f88c1b9c8a2be3ac20212ec06000506d8a534bc0f",
+    "sonde-xilinx.pretty/PinHeader_1x06_P2.54mm_Vertical.kicad_mod": "4cf2a6eea9a9dc960638d14dcd8729452a5443f1a21bdb8ed1c6f5f56908ce8c",
+    "sonde-xilinx.pretty/R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal.kicad_mod": "48e73c07df158b05eaaf9281beffa4ac8c4aac1bec213ac21710f837d0901cd7",
+    "sonde_xilinx.kicad_sym": "67477c8ef19c1e2da41f760328c030dc04283805b2c76005d5ae48acd1fc365e",
+    "sym-lib-table": "b928ea6f61eb0e8804340a842a259e678b9a5fd8d5f9e69306160882361e6456"
+  },
+  "task_sha256": "47a5ca23f1fba41d95a2acd6b46df214517f762a53f6659916cbab0f5b09378a",
+  "source_drc": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 1,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Copper connection too narrow",
+        "key": "connection_width"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      }
+    ],
+    "findings": [
+      {
+        "description": "Footprint 'DSUB-9_Male_EdgeMount_P2.77mm' does not match copy in library 'sonde-xilinx'",
+        "items": [
+          {
+            "description": "Footprint J2",
+            "pos": {
+              "x": 181.61,
+              "y": 90.1192
+            },
+            "uuid": "00000000-0000-0000-0000-00005a73b143"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      }
+    ]
+  },
+  "native": {
+    "opens": 3,
+    "blocking": 7,
+    "warnings": 1,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Copper connection too narrow",
+        "key": "connection_width"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      }
+    ],
+    "findings": [
+      {
+        "description": "Clearance violation ( clearance 0.2540 mm; actual 0.0000 mm)",
+        "items": [
+          {
+            "description": "Track [Net-(U1B-O)] on top_copper, length 2.4302 mm",
+            "pos": {
+              "x": 153.8202,
+              "y": 99.5966
+            },
+            "uuid": "23261141-a6d4-4b81-a8f0-6ac49e646ebf"
+          },
+          {
+            "description": "PCB text 'TMS-PROG' on top_copper",
+            "pos": {
+              "x": 158.115,
+              "y": 102.235
+            },
+            "uuid": "2a51a229-75db-4354-926d-ac6179482fc4"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      },
+      {
+        "description": "Clearance violation ( clearance 0.2540 mm; actual 0.0000 mm)",
+        "items": [
+          {
+            "description": "Track [Net-(U1B-O)] on top_copper, length 2.0085 mm",
+            "pos": {
+              "x": 152.4,
+              "y": 95.415
+            },
+            "uuid": "2a99155b-367d-4c47-86e8-e46e56d57ac1"
+          },
+          {
+            "description": "PCB text 'TCK-CCL' on top_copper",
+            "pos": {
+              "x": 158.115,
+              "y": 96.52
+            },
+            "uuid": "72a7430a-2e55-4e1e-8d44-b846dd022cfb"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      },
+      {
+        "description": "Clearance violation ( clearance 0.2540 mm; actual 0.2141 mm)",
+        "items": [
+          {
+            "description": "PCB text 'TCK-CCL' on top_copper",
+            "pos": {
+              "x": 158.115,
+              "y": 96.52
+            },
+            "uuid": "72a7430a-2e55-4e1e-8d44-b846dd022cfb"
+          },
+          {
+            "description": "Track [Net-(U1B-O)] on top_copper, length 1.4350 mm",
+            "pos": {
+              "x": 152.4,
+              "y": 93.98
+            },
+            "uuid": "85484608-b294-45c9-a6e5-b37904ab42fa"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      },
+      {
+        "description": "Items shorting two nets (nets <no net> and /PWR_3,3-5V)",
+        "items": [
+          {
+            "description": "PCB text 'GND' on top_copper",
+            "pos": {
+              "x": 162.56,
+              "y": 81.28
+            },
+            "uuid": "717b9b54-8836-45e6-8f9b-3a4b8501ac9e"
+          },
+          {
+            "description": "Track [/PWR_3,3-5V] on top_copper, length 1.9757 mm",
+            "pos": {
+              "x": 162.952,
+              "y": 80.137
+            },
+            "uuid": "8ed1a9cb-fae8-49f5-849d-8ea154ce86d0"
+          }
+        ],
+        "severity": "error",
+        "type": "shorting_items"
+      },
+      {
+        "description": "Items shorting two nets (nets <no net> and /PWR_3,3-5V)",
+        "items": [
+          {
+            "description": "PCB text 'GND' on top_copper",
+            "pos": {
+              "x": 162.56,
+              "y": 81.28
+            },
+            "uuid": "717b9b54-8836-45e6-8f9b-3a4b8501ac9e"
+          },
+          {
+            "description": "Track [/PWR_3,3-5V] on top_copper, length 6.7200 mm",
+            "pos": {
+              "x": 169.672,
+              "y": 80.137
+            },
+            "uuid": "94bfb71b-0031-482b-a25e-7854545df40c"
+          }
+        ],
+        "severity": "error",
+        "type": "shorting_items"
+      },
+      {
+        "description": "Items shorting two nets (nets <no net> and Net-(U1B-O))",
+        "items": [
+          {
+            "description": "PCB text 'TCK-CCL' on top_copper",
+            "pos": {
+              "x": 158.115,
+              "y": 96.52
+            },
+            "uuid": "72a7430a-2e55-4e1e-8d44-b846dd022cfb"
+          },
+          {
+            "description": "Track [Net-(U1B-O)] on top_copper, length 2.7614 mm",
+            "pos": {
+              "x": 153.8202,
+              "y": 96.8352
+            },
+            "uuid": "c0be60bd-862d-4385-b7af-78ed61f7d137"
+          }
+        ],
+        "severity": "error",
+        "type": "shorting_items"
+      },
+      {
+        "description": "Items shorting two nets (nets <no net> and Net-(U1B-O))",
+        "items": [
+          {
+            "description": "PCB text 'TMS-PROG' on top_copper",
+            "pos": {
+              "x": 158.115,
+              "y": 102.235
+            },
+            "uuid": "2a51a229-75db-4354-926d-ac6179482fc4"
+          },
+          {
+            "description": "Track [Net-(U1B-O)] on top_copper, length 3.5383 mm",
+            "pos": {
+              "x": 152.1018,
+              "y": 101.315
+            },
+            "uuid": "f72a9e68-8298-4e1d-8087-111f4dfc07f0"
+          }
+        ],
+        "severity": "error",
+        "type": "shorting_items"
+      },
+      {
+        "description": "Footprint 'DSUB-9_Male_EdgeMount_P2.77mm' does not match copy in library 'sonde-xilinx'",
+        "items": [
+          {
+            "description": "Footprint J2",
+            "pos": {
+              "x": 181.61,
+              "y": 90.1192
+            },
+            "uuid": "00000000-0000-0000-0000-00005a73b143"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "Missing connection between items",
+        "items": [
+          {
+            "description": "PTH pad 7 [GND] of U1",
+            "pos": {
+              "x": 127.0,
+              "y": 97.79
+            },
+            "uuid": "e6be32e7-c8b1-4b4e-9651-33f6a1ef2c91"
+          },
+          {
+            "description": "Zone [GND] on bottom_copper, priority 0",
+            "pos": {
+              "x": 182.88,
+              "y": 110.49
+            },
+            "uuid": "00000000-0000-0000-0000-00005b221ae5"
+          }
+        ],
+        "severity": "error",
+        "type": "unconnected_items"
+      },
+      {
+        "description": "Missing connection between items",
+        "items": [
+          {
+            "description": "PTH pad 5 [GND] of U2",
+            "pos": {
+              "x": 140.97,
+              "y": 92.71
+            },
+            "uuid": "06dc3c3b-63f5-4c84-ae2e-9854d50e5b1b"
+          },
+          {
+            "description": "Zone [GND] on bottom_copper, priority 0",
+            "pos": {
+              "x": 182.88,
+              "y": 110.49
+            },
+            "uuid": "00000000-0000-0000-0000-00005b221ae5"
+          }
+        ],
+        "severity": "error",
+        "type": "unconnected_items"
+      },
+      {
+        "description": "Missing connection between items",
+        "items": [
+          {
+            "description": "Track [GND] on top_copper, length 2.7700 mm",
+            "pos": {
+              "x": 179.235,
+              "y": 88.7342
+            },
+            "uuid": "b3b2f735-cf6f-4a90-8fa7-e00ed9437eb9"
+          },
+          {
+            "description": "PTH pad 2 [GND] of P1",
+            "pos": {
+              "x": 169.672,
+              "y": 82.677
+            },
+            "uuid": "3d6c4114-fe31-4a9c-944e-f57200513aa8"
+          }
+        ],
+        "severity": "error",
+        "type": "unconnected_items"
+      }
+    ]
+  },
+  "metrics": {
+    "version": "10.0.0",
+    "pads": 108,
+    "footprints": 25,
+    "zones": 1,
+    "vias": 4,
+    "track_length_mm": 566.4539189245652,
+    "copper_layers": 2
+  },
+  "candidate_sha256": "ba892c517aaded557d0e768168672491a2f4a56133446f597e396c8dfa44677b",
+  "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-stock-002/candidate/sonde xilinx.kicad_pcb",
+  "invariants_unchanged": true,
+  "whole_project_drc_clean": false,
+  "steps": [
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.4453722499965806,
+      "cpu_seconds": 0.604386,
+      "max_rss_bytes": 223870976,
+      "supervisor_cpu_seconds": 0.0031759999999999844,
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-stock-002/source-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-stock-002/source-drc-input/sonde xilinx.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-stock-002/source-drc.log",
+      "log_bytes": 149,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-stock-002",
+      "signal_cancellation_enabled": true,
+      "pid": 66263,
+      "name": "source-drc",
+      "validated_input_sha256": "d0dee876715fcdd3f656dd6a77cc1141c39bec4d6f8492a3784d38edd6b9a998",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-stock-002/snapshot/sonde xilinx.kicad_pcb"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.3892715840047458,
+      "cpu_seconds": 0.365396,
+      "max_rss_bytes": 197672960,
+      "supervisor_cpu_seconds": 0.0017689999999999928,
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+        "export",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-stock-002/candidate/sonde xilinx.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-stock-002/task.dsn"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-stock-002/export.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-stock-002",
+      "signal_cancellation_enabled": true,
+      "pid": 66275,
+      "name": "export"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 4.813716791999468,
+      "cpu_seconds": 6.638948,
+      "max_rss_bytes": 285294592,
+      "supervisor_cpu_seconds": 0.009189000000000003,
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java",
+        "-Xms128m",
+        "-Xmx2g",
+        "-XX:ActiveProcessorCount=1",
+        "-Djava.awt.headless=true",
+        "-jar",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar",
+        "--gui.enabled=false",
+        "--api_server.enabled=false",
+        "--mcp_server.enabled=false",
+        "-da",
+        "--user_data_path=/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-stock-002/engine-config",
+        "--logging.file.enabled=false",
+        "--router.autorouter.max_passes=30",
+        "--router.optimizer.max_threads=1",
+        "--router.optimizer.max_passes=10",
+        "--router.job_timeout=60s",
+        "--router.optimizer.timeout=30s",
+        "-de",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-stock-002/task.dsn",
+        "-do",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-stock-002/routes.ses"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-stock-002/engine.log",
+      "log_bytes": 4098,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-stock-002",
+      "signal_cancellation_enabled": true,
+      "pid": 66276,
+      "name": "engine"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.37624158400285523,
+      "cpu_seconds": 0.376058,
+      "max_rss_bytes": 199393280,
+      "supervisor_cpu_seconds": 0.002452999999999983,
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+        "import",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-stock-002/candidate/sonde xilinx.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-stock-002/imported.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-stock-002/routes.ses"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-stock-002/import.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-stock-002",
+      "signal_cancellation_enabled": true,
+      "pid": 66305,
+      "name": "import"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.0907845420006197,
+      "cpu_seconds": 0.543526,
+      "max_rss_bytes": 224215040,
+      "supervisor_cpu_seconds": 0.002701999999999982,
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-stock-002/refill-drc.json",
+        "--save-board",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-stock-002/refill/sonde xilinx.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-stock-002/refill-drc.log",
+      "log_bytes": 161,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-stock-002",
+      "signal_cancellation_enabled": true,
+      "pid": 66306,
+      "name": "refill-drc",
+      "validated_input_sha256": "74182c3e1b678f6d0373c5739c838d6d323783a4b566700e1f549c74c962e197",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-stock-002/refill/sonde xilinx.kicad_pcb"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.08699841699854,
+      "cpu_seconds": 0.540475,
+      "max_rss_bytes": 224542720,
+      "supervisor_cpu_seconds": 0.00291199999999997,
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-stock-002/final-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-stock-002/final-drc-input/sonde xilinx.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-stock-002/final-drc.log",
+      "log_bytes": 148,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-stock-002",
+      "signal_cancellation_enabled": true,
+      "pid": 66318,
+      "name": "final-drc",
+      "validated_input_sha256": "ba892c517aaded557d0e768168672491a2f4a56133446f597e396c8dfa44677b",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-stock-002/candidate/sonde xilinx.kicad_pcb"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.36705362499924377,
+      "cpu_seconds": 0.36592099999999994,
+      "max_rss_bytes": 198967296,
+      "supervisor_cpu_seconds": 0.0017280000000000073,
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+        "metrics",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-stock-002/candidate/sonde xilinx.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-stock-002/metrics.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-stock-002/metrics.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-stock-002",
+      "signal_cancellation_enabled": true,
+      "pid": 66321,
+      "name": "metrics"
+    }
+  ],
+  "wall_seconds": 9.903481374996773,
+  "parent_cpu_seconds": 0.346007,
+  "child_cpu_seconds": 9.43471,
+  "total_cpu_seconds": 9.780717000000001,
+  "peak_child_rss_bytes": 285294592,
+  "resource_limitations": "One sequential worker; Java 2GiB heap; peak direct-child RSS (not process tree). Cache ceiling checked before task, not continuously OS-enforced. CPU descendants only if accounted for by child wait."
+}

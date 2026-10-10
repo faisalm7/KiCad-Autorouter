@@ -1,0 +1,25 @@
+# Experimental architecture and current limits
+
+The current implementation is a Python modular command-line program with an isolated native worker and one Freerouting process. It is a reconstruction, not a new routing algorithm. The installed KiCad 10.0.0 and Java25.0.2 are pinned in `toolchain.lock.json`; no application was upgraded. Python3.11 runs the coordinator; only KiCad's bundled Python3.9 loads pcbnew.
+
+The source project is hashed, copied, and never written. Whole-board tasks remove only unlocked tracks/vias/arcs in a copy; partial-completion mode treats all existing routes as protected. A bounded process supervisor executes DSN export, Freerouting2.5.0, and SES import. The SES importer can rewrite native metadata and format, so only its route objects are transferred into the original syntax tree, translating net codes through names. Every other original field remains present. Zone refill runs in a separate native copy; only derived filled polygons transfer back. Final DRC runs on a byte-identical separate copy with original rule/project files. The final emitted candidate hash, original file inventory, report inputs, versions, commands and resource receipts are bound together. Added rules, altered rules, source changes, missing protected copper, modified immutable fields or failed native checks reject the result.
+
+This preserves original syntax semantics conservatively. It does not prove every possible KiCad constraint is supported. The preflight currently blocks custom rules, netclass mappings/patterns, custom pads, net ties, advanced vias, DRC exclusions and disabled core checks. Supported-format coverage is experimental: native versions20241229 and20260206, two/four copper layers. User-supplied designs require engineering review. High-speed, RF, high-voltage, HDI, differential timing and physical/electrical correctness are unqualified. Selected-net scope is not implemented. Schematic parity is explicitly not checked.
+
+A routing-scope acceptance requires zero native opens, zero blocking findings, zero exclusions, preserved invariants and budget compliance. Warnings remain visible and whole-project DRC cleanliness is separately reported. A failed or missing report is never a pass. No candidate is applied to a live KiCad editor; separate candidate projects are the only output. Save/close the original and open the candidate separately for human review. GUI detection, unsaved edits, native undo and apply/reject interaction have not been qualified.
+
+## Baselines and experiments
+
+B0 is the stock DSN representation and Freerouting2.5.0 with explicit bounded settings. There is no learned strategy or C implementation. B1 corrections, B2 tuning/restarts and alternative-engine comparisons are development work. Neither synthetic smoke success nor the historical adapter board establishes superiority.
+
+Initial real results exposed an isolated-configuration crash and native `.kicad_prl` creation. Failed attempts are preserved. Three isolated KiCad directory variables give a working native configuration; the precise crash cause is not claimed. Native local-settings side effects now occur only in disposable validation copies.
+
+## Resource and security limits
+
+One sequential heavy worker; Freerouting sees one CPU and a2GiB Java heap. Parent and child CPU and native peak RSS are measured; RSS is not a sum across descendants. A hard task deadline is divided among every subprocess and includes Python/validation overhead. Logs are capped, process groups cancelled and ordinary descendants killed. Detached descendants or a supervisor SIGKILL are outside cleanup guarantees. Process-group RSS and per-run output size are polled against4GiB/512MiB guards; polling can overshoot. Total cache/data size and free disk are checked before runs. These are operational guards, not OS-enforced memory/filesystem quotas. Monitoring CPU is charged separately and included in total CPU.
+
+Freerouting's startup performs a version check even with analytics disabled. A tested macOS `sandbox-exec` profile denies network access for the entire engine process. This adds a process restriction and changes no global protection. The public release JAR is downloaded by pinned size/hash, not committed. No paid service, private-board upload, model inference or telemetry is required by the runtime.
+
+## Dependencies and rights
+
+Original project code and diagnostic fixtures are GPL-3.0-or-later; see LICENSE. Freerouting is GPL-3.0 and KiCad code is GPL-3.0-or-later; acquired binaries are not redistributed here. The sonde hardware project is independently CC BY-SA4.0, with exact file-level source and notices in `data/sources.json` and `docs/data-provenance.md`. Code and hardware rights are not interchangeable. Source references and alternative prior art are in `docs/research-foundation.md`. No formal package or release is published.
