@@ -112,14 +112,22 @@ def predicate(case,native,raw,scene,ignored):
         ids={item.get('uuid') for item in row.get('items',[])}
         if row.get('severity')!='error' or row.get('excluded',False):return False
         if case=='false_hull':return row.get('type')=='unconnected_items' and pads['CONCAVE'] in ids and bool(ids & {pads['CONVEX'],tracks['CONTACT_TRACK']}) and ids<={pads['CONCAVE'],pads['CONVEX'],tracks['CONTACT_TRACK']}
-        return row.get('type') in ('clearance','shorting_items') and ids=={pads['CONCAVE'],tracks['FOREIGN_TRACK']}
+        return row.get('type') in ('clearance','shorting_items') and len(row.get('items',[]))==2 and ids=={pads['CONCAVE'],tracks['FOREIGN_TRACK']}
     if case=='false_hull':
         hits=raw['unconnected_items']
         if not hits or native['opens']!=len(hits) or native['blocking']!=0 or not all(target(row) for row in hits):return False,[]
     elif case=='foreign_intrusion':
         if native['opens'] or raw['unconnected_items']:return False,[]
         hits=[r for r in raw['violations'] if r.get('severity')=='error']
-        if not hits or native['blocking']!=len(hits) or not all(target(row) for row in hits):return False,[]
+        required=[row for row in hits if target(row)]
+        companions=[row for row in hits if not target(row)]
+        pair={pads['CONCAVE'],tracks['FOREIGN_TRACK']}
+        def mask_companion(row):
+            return (row.get('type')=='solder_mask_bridge' and row.get('severity')=='error'
+                and not row.get('excluded',False) and len(row.get('items',[]))==2
+                and {item.get('uuid') for item in row['items']}==pair)
+        if (not required or native['blocking']!=len(hits) or len(companions)>1
+                or not all(mask_companion(row) for row in companions)):return False,[]
     else:raise ValueError('unknown control case')
     clean=copy.deepcopy(native);clean.update(opens=0,blocking=0,findings=[row for row in native['findings'] if row not in hits])
     return p.native_accepted(clean),copy.deepcopy(hits)

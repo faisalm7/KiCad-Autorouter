@@ -74,7 +74,7 @@ After independent review, ROOT integrates all nine helper/protocol files into
 then alone invokes a fresh output:
 
 ```sh
-python3 -B experiments/pic_custom_native_controls_v1/driver.py --run-native --output .runs/pic-custom-native-controls-001
+python3 -B experiments/pic_custom_native_controls_v1/driver.py --run-native --output .runs/pic-custom-native-controls-002
 ```
 
 No native result is promised. Original observation002 establishes that the pinned
@@ -82,3 +82,20 @@ APIs worked on the original two B.Cu pads and original ordinary DRC had no opens
 blocking findings; it does not substitute for these new front/back contact controls.
 Imported route transport, production support, severity-provider semantics and a
 fair full-board B0/B1/B2/C comparison remain later gates.
+
+## Exposed diagnostic amendment v1.1
+
+Native controls001 at34665498 completed all twelve stages and matched all six
+fixed geometries. Both positives and both false-hull negatives passed. Each foreign
+intrusion produced the required exact-pair `shorting_items:error` plus an exact-pair
+`solder_mask_bridge:error`; the original predicate rejected that companion error.
+The failed001 receipt and all raw findings remain unchanged.
+
+This revision changes only the diagnostic expectation: at least one nonexcluded
+same-pair copper short/clearance error remains required, and at most one same-pair
+solder-mask error may accompany it. Mask-only findings, wrong pairs, unrelated
+errors, opens, exclusions and unknown/critical warnings still fail. Geometry,
+project rules/severities, source files, budgets and production policies are unchanged.
+Every raw error remains an error; these invalid boards are never accepted routing.
+A fresh002 execution after reviewed-source checkpoint will test the revised
+controller. This is an exposed diagnostic correction, not a comparative gain.

@@ -1,0 +1,140 @@
+{
+    "$schema": "https://schemas.kicad.org/drc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-10-10T08:32:41",
+    "ignored_checks": [
+        {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+        },
+        {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+        },
+        {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+        },
+        {
+            "description": "Silkscreen clipped by board edge",
+            "key": "silk_edge_clearance"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning",
+        "exclusion"
+    ],
+    "kicad_version": "10.0.0",
+    "schematic_parity": [],
+    "source": "pic_programmer.kicad_pcb",
+    "unconnected_items": [],
+    "violations": [
+        {
+            "description": "Items shorting two nets (nets CONTACT and FOREIGN)",
+            "items": [
+                {
+                    "description": "Pad 1 [CONTACT] of CONCAVE on bottom_layer",
+                    "pos": {
+                        "x": 25.0,
+                        "y": 20.0
+                    },
+                    "uuid": "4915a982-bb17-52b4-bbe6-f66f4a60b95a"
+                },
+                {
+                    "description": "Track [FOREIGN] on bottom_layer, length 8.4000 mm",
+                    "pos": {
+                        "x": 34.0,
+                        "y": 20.0
+                    },
+                    "uuid": "f3561e35-1c51-50c8-8e81-51caa7778fe6"
+                }
+            ],
+            "severity": "error",
+            "type": "shorting_items"
+        },
+        {
+            "description": "Rear solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "Track [FOREIGN] on bottom_layer, length 8.4000 mm",
+                    "pos": {
+                        "x": 34.0,
+                        "y": 20.0
+                    },
+                    "uuid": "f3561e35-1c51-50c8-8e81-51caa7778fe6"
+                },
+                {
+                    "description": "Pad 1 [CONTACT] of CONCAVE on bottom_layer",
+                    "pos": {
+                        "x": 25.0,
+                        "y": 20.0
+                    },
+                    "uuid": "4915a982-bb17-52b4-bbe6-f66f4a60b95a"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Footprint has no courtyard defined",
+            "items": [
+                {
+                    "description": "Footprint CONVEX",
+                    "pos": {
+                        "x": 25.0,
+                        "y": 30.0
+                    },
+                    "uuid": "831c8714-9c32-5eb8-98d5-c88cabba2cb5"
+                }
+            ],
+            "severity": "warning",
+            "type": "missing_courtyard"
+        },
+        {
+            "description": "Footprint has no courtyard defined",
+            "items": [
+                {
+                    "description": "Footprint CONCAVE",
+                    "pos": {
+                        "x": 25.0,
+                        "y": 20.0
+                    },
+                    "uuid": "70fcf9a3-c3b0-5565-92a7-bd8da7f3e206"
+                }
+            ],
+            "severity": "warning",
+            "type": "missing_courtyard"
+        },
+        {
+            "description": "Footprint has no courtyard defined",
+            "items": [
+                {
+                    "description": "Footprint FOREIGN_A",
+                    "pos": {
+                        "x": 34.0,
+                        "y": 20.0
+                    },
+                    "uuid": "7f0ed9dd-8cda-5055-bb28-0f3e7dd9285c"
+                }
+            ],
+            "severity": "warning",
+            "type": "missing_courtyard"
+        },
+        {
+            "description": "Footprint has no courtyard defined",
+            "items": [
+                {
+                    "description": "Footprint FOREIGN_B",
+                    "pos": {
+                        "x": 31.0,
+                        "y": 20.0
+                    },
+                    "uuid": "9cf660d1-8b09-5e49-b8d7-5d0dd310d469"
+                }
+            ],
+            "severity": "warning",
+            "type": "missing_courtyard"
+        }
+    ]
+}

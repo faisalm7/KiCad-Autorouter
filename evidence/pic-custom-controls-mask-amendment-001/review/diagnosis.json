@@ -1,0 +1,141 @@
+{
+  "scope": "Read-only diagnosis of actual failed001 report bindings and derived counts; comprehensive run audit belongs to separate reviewer.",
+  "summary_sha256": "dadb2512fef6bc4147ae522868acdc983d1d36bc8363bf14cd140e422f2f07db",
+  "git_head": "34665498a2a4e3a0c017f7120f1352fa9e4f7d5e",
+  "retained_status": "failed_controls",
+  "retained_controls_passed": false,
+  "wall_seconds": 15.271931000010227,
+  "total_cpu_seconds": 12.88517,
+  "cases": [
+    {
+      "variant": "front0",
+      "case": "positive",
+      "retained_status": "passed",
+      "control_passed": true,
+      "geometry_verified": true,
+      "report_sha256": "9baa8959f6d79180b2c13fe4ab9b5857b277a9c64ebfa7225aedfa2d929f41c7",
+      "counts": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 4,
+        "exclusions": 0
+      },
+      "errors": []
+    },
+    {
+      "variant": "front0",
+      "case": "false_hull",
+      "retained_status": "passed",
+      "control_passed": true,
+      "geometry_verified": true,
+      "report_sha256": "4d5b504ebbf04878c4b813c63947d27b2b9dd7f4d02469750a903bf983beb3ec",
+      "counts": {
+        "opens": 1,
+        "blocking": 0,
+        "warnings": 5,
+        "exclusions": 0
+      },
+      "errors": []
+    },
+    {
+      "variant": "front0",
+      "case": "foreign_intrusion",
+      "retained_status": "failed_expected_predicate",
+      "control_passed": false,
+      "geometry_verified": true,
+      "report_sha256": "2e895e2db49fcba05a2b427134a9803d0e67bbfe4330d8cc04aa0a4e36308b58",
+      "counts": {
+        "opens": 0,
+        "blocking": 2,
+        "warnings": 4,
+        "exclusions": 0
+      },
+      "errors": [
+        {
+          "type": "shorting_items",
+          "severity": "error",
+          "excluded": false,
+          "uuid_order": [
+            "622642c5-7358-52c5-87c8-6145902a09f9",
+            "66ce1ed5-9aa2-521f-964d-6f7881db6f8c"
+          ]
+        },
+        {
+          "type": "solder_mask_bridge",
+          "severity": "error",
+          "excluded": false,
+          "uuid_order": [
+            "66ce1ed5-9aa2-521f-964d-6f7881db6f8c",
+            "622642c5-7358-52c5-87c8-6145902a09f9"
+          ]
+        }
+      ]
+    },
+    {
+      "variant": "back90",
+      "case": "positive",
+      "retained_status": "passed",
+      "control_passed": true,
+      "geometry_verified": true,
+      "report_sha256": "632b1f2293f6c91813fef827b279242a4d1c80c7229b42af06d3e7a67f67b9f6",
+      "counts": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 4,
+        "exclusions": 0
+      },
+      "errors": []
+    },
+    {
+      "variant": "back90",
+      "case": "false_hull",
+      "retained_status": "passed",
+      "control_passed": true,
+      "geometry_verified": true,
+      "report_sha256": "8b71b756324dc3335da75e80862417936f9871152c3f68a4ccdf649b1eaf7b65",
+      "counts": {
+        "opens": 1,
+        "blocking": 0,
+        "warnings": 5,
+        "exclusions": 0
+      },
+      "errors": []
+    },
+    {
+      "variant": "back90",
+      "case": "foreign_intrusion",
+      "retained_status": "failed_expected_predicate",
+      "control_passed": false,
+      "geometry_verified": true,
+      "report_sha256": "733cbaea4f9aba67d45858e30b7184f7832eab44d774dce09fe14b617264dbc9",
+      "counts": {
+        "opens": 0,
+        "blocking": 2,
+        "warnings": 4,
+        "exclusions": 0
+      },
+      "errors": [
+        {
+          "type": "shorting_items",
+          "severity": "error",
+          "excluded": false,
+          "uuid_order": [
+            "4915a982-bb17-52b4-bbe6-f66f4a60b95a",
+            "f3561e35-1c51-50c8-8e81-51caa7778fe6"
+          ]
+        },
+        {
+          "type": "solder_mask_bridge",
+          "severity": "error",
+          "excluded": false,
+          "uuid_order": [
+            "f3561e35-1c51-50c8-8e81-51caa7778fe6",
+            "4915a982-bb17-52b4-bbe6-f66f4a60b95a"
+          ]
+        }
+      ]
+    }
+  ],
+  "native_executed_by_reviewer": false,
+  "source_run_mutated": false
+}

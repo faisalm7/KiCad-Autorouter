@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "name": "owned-custom-native-controls-v1",
+  "name": "owned-custom-native-controls-v1.1",
   "order": [
     {
       "variant": "front0",
@@ -44,5 +44,11 @@
   "board_saved": false,
   "routing_engine": false,
   "production_custom_support": false,
-  "transform": "front0 identity; back90 T(x,y)=(40-y,40-x)mm; exact native world rings required. Y-symmetric shapes do not qualify arbitrary chiral reflection."
+  "transform": "front0 identity; back90 T(x,y)=(40-y,40-x)mm; exact native world rings required. Y-symmetric shapes do not qualify arbitrary chiral reflection.",
+  "intrusion_predicate": "Require nonexcluded same CONCAVE/FOREIGN_TRACK copper shorting_items or clearance error; allow at most one additional same-pair solder_mask_bridge error. Mask-only and unrelated errors fail. All raw findings retained.",
+  "prior_exposed_run": {
+    "path": ".runs/pic-custom-native-controls-001/summary.json",
+    "sha256": "dadb2512fef6bc4147ae522868acdc983d1d36bc8363bf14cd140e422f2f07db",
+    "status_preserved": "failed_controls"
+  }
 }

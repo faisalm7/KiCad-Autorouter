@@ -1,0 +1,186 @@
+{
+  "schema": 1,
+  "status": "audit_passed_failed_controls_preserved",
+  "checks": 5026,
+  "git_head": "34665498a2a4e3a0c017f7120f1352fa9e4f7d5e",
+  "summary_sha256": "dadb2512fef6bc4147ae522868acdc983d1d36bc8363bf14cd140e422f2f07db",
+  "execution_sha256": "f25f0565ca9252d88e44ff8e93d63ed6b234f4175d2ace6e55bbe214b6636e75",
+  "cases": [
+    {
+      "name": "front0-positive",
+      "predicate": true,
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 4,
+        "exclusions": 0
+      },
+      "warning_types": {
+        "missing_courtyard": 4
+      },
+      "errors": [],
+      "board_sha256": "78d7c7cd916cf236042567959beaffd1f957b7f489f41baae089e604420fd67c",
+      "original_drc_sha256": "9baa8959f6d79180b2c13fe4ab9b5857b277a9c64ebfa7225aedfa2d929f41c7",
+      "geometry_verified": true
+    },
+    {
+      "name": "front0-false_hull",
+      "predicate": true,
+      "native": {
+        "opens": 1,
+        "blocking": 0,
+        "warnings": 5,
+        "exclusions": 0
+      },
+      "warning_types": {
+        "track_dangling": 1,
+        "missing_courtyard": 4
+      },
+      "errors": [
+        {
+          "type": "unconnected_items",
+          "uuid_pair": [
+            "622642c5-7358-52c5-87c8-6145902a09f9",
+            "59958fc2-8201-502b-97bc-c380a81086e4"
+          ]
+        }
+      ],
+      "board_sha256": "b457ed18623f180f17afeba9ae5f24e5a8ec49c3d1b4690f3d24367f2b5b8a94",
+      "original_drc_sha256": "4d5b504ebbf04878c4b813c63947d27b2b9dd7f4d02469750a903bf983beb3ec",
+      "geometry_verified": true
+    },
+    {
+      "name": "front0-foreign_intrusion",
+      "predicate": false,
+      "native": {
+        "opens": 0,
+        "blocking": 2,
+        "warnings": 4,
+        "exclusions": 0
+      },
+      "warning_types": {
+        "missing_courtyard": 4
+      },
+      "errors": [
+        {
+          "type": "shorting_items",
+          "uuid_pair": [
+            "622642c5-7358-52c5-87c8-6145902a09f9",
+            "66ce1ed5-9aa2-521f-964d-6f7881db6f8c"
+          ]
+        },
+        {
+          "type": "solder_mask_bridge",
+          "uuid_pair": [
+            "66ce1ed5-9aa2-521f-964d-6f7881db6f8c",
+            "622642c5-7358-52c5-87c8-6145902a09f9"
+          ]
+        }
+      ],
+      "board_sha256": "22bad009959417c3885d0cddab7a9b532ee92b1d566ddcd5e38bdd9019295995",
+      "original_drc_sha256": "2e895e2db49fcba05a2b427134a9803d0e67bbfe4330d8cc04aa0a4e36308b58",
+      "geometry_verified": true
+    },
+    {
+      "name": "back90-positive",
+      "predicate": true,
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 4,
+        "exclusions": 0
+      },
+      "warning_types": {
+        "missing_courtyard": 4
+      },
+      "errors": [],
+      "board_sha256": "fa177763ecae74f8df9a9488d3469b145ffb16256bac6174a428fd329aabe596",
+      "original_drc_sha256": "632b1f2293f6c91813fef827b279242a4d1c80c7229b42af06d3e7a67f67b9f6",
+      "geometry_verified": true
+    },
+    {
+      "name": "back90-false_hull",
+      "predicate": true,
+      "native": {
+        "opens": 1,
+        "blocking": 0,
+        "warnings": 5,
+        "exclusions": 0
+      },
+      "warning_types": {
+        "track_dangling": 1,
+        "missing_courtyard": 4
+      },
+      "errors": [
+        {
+          "type": "unconnected_items",
+          "uuid_pair": [
+            "60363aa2-deee-53e9-8a30-e267fd75aa50",
+            "4915a982-bb17-52b4-bbe6-f66f4a60b95a"
+          ]
+        }
+      ],
+      "board_sha256": "d3d54f8d5f217223666886fa6a01cc2251fc9733bcbb654b1576936bfc8fc4ec",
+      "original_drc_sha256": "8b71b756324dc3335da75e80862417936f9871152c3f68a4ccdf649b1eaf7b65",
+      "geometry_verified": true
+    },
+    {
+      "name": "back90-foreign_intrusion",
+      "predicate": false,
+      "native": {
+        "opens": 0,
+        "blocking": 2,
+        "warnings": 4,
+        "exclusions": 0
+      },
+      "warning_types": {
+        "missing_courtyard": 4
+      },
+      "errors": [
+        {
+          "type": "shorting_items",
+          "uuid_pair": [
+            "4915a982-bb17-52b4-bbe6-f66f4a60b95a",
+            "f3561e35-1c51-50c8-8e81-51caa7778fe6"
+          ]
+        },
+        {
+          "type": "solder_mask_bridge",
+          "uuid_pair": [
+            "f3561e35-1c51-50c8-8e81-51caa7778fe6",
+            "4915a982-bb17-52b4-bbe6-f66f4a60b95a"
+          ]
+        }
+      ],
+      "board_sha256": "36398bccd47ce85659abe65c0ac2df40cb463b0f418446758d74d5848ae7ae2b",
+      "original_drc_sha256": "733cbaea4f9aba67d45858e30b7184f7832eab44d774dce09fe14b617264dbc9",
+      "geometry_verified": true
+    }
+  ],
+  "actual_native_stages": 12,
+  "native_invoked_by_audit": false,
+  "network_requests": 0,
+  "source_before_after_equal": true,
+  "raw_before_after_equal": true,
+  "source_file_count": 15,
+  "source_bytes": 1366598,
+  "stored_wall_seconds": 15.271931000010227,
+  "stored_total_cpu_seconds": 12.88517,
+  "outer_wall_seconds": 15.781482999998843,
+  "outer_waited_child_cpu_seconds": 13.340561,
+  "stored_accounting_point": "Stored totals precede final publication freshness/size checks; acceptance caps include them. Wall/full self+waited-child CPU are measured caps, not hard OS quotas. Finite samples are not atomic authentication.",
+  "false_scope_flags": [
+    "routing_accepted",
+    "geometry_qualified",
+    "format_support_qualified",
+    "dependency_complete",
+    "custom_routing_support_qualified",
+    "nondefault_resolution_qualified",
+    "new_severity_enforcement_qualified",
+    "arbitrary_reflection_qualified",
+    "new_engine_execution",
+    "board_saved"
+  ],
+  "selected_public_file_count": 78,
+  "selected_public_bytes": 641151
+}

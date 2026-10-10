@@ -130,6 +130,31 @@ class Controls(unittest.TestCase):
             if variant=='open':raw['unconnected_items']=[{'type':'unconnected_items','severity':'error','items':[]}]
             if variant=='unrelated_error':raw['violations'].append({'type':'shorting_items','severity':'error','items':[{'uuid':'other'}]})
             with self.subTest(variant=variant):self.assertFalse(checks.predicate('foreign_intrusion',summary(raw),raw,scene,self.ignored)[0])
+    def test_intrusion_mask_companion_requires_copper_error_and_exact_pair(self):
+        for variant in fx.VARIANTS:
+            scene=self.scene('foreign_intrusion',variant)
+            for mutation in ('unchanged','mask_only','wrong_pair','extra_uuid','duplicate_companion','duplicate_primary','missing_primary_uuid','primary_warning','primary_excluded','mask_excluded','unrelated_error','open'):
+                raw=native_report('foreign_intrusion',scene,self.ignored)
+                primary=raw['violations'][0]
+                mask=copy.deepcopy(primary);mask['type']='solder_mask_bridge';raw['violations'].append(mask)
+                if mutation=='mask_only':raw['violations']=[mask]
+                if mutation=='wrong_pair':mask['items'][0]['uuid']='other'
+                if mutation=='extra_uuid':mask['items'].append({'uuid':'other'})
+                if mutation=='duplicate_companion':raw['violations'].append(copy.deepcopy(mask))
+                if mutation=='duplicate_primary':primary['items'].append(copy.deepcopy(primary['items'][0]))
+                if mutation=='missing_primary_uuid':primary['items'][0].pop('uuid')
+                if mutation=='primary_warning':primary['severity']='warning'
+                if mutation=='primary_excluded':primary['excluded']=True
+                if mutation=='mask_excluded':mask['excluded']=True
+                if mutation=='unrelated_error':raw['violations'].append({'type':'clearance','severity':'error','items':[{'uuid':'other'}]})
+                if mutation=='open':raw['unconnected_items'].append({'type':'unconnected_items','severity':'error','items':[]})
+                before=copy.deepcopy(raw)
+                with self.subTest(variant=variant,mutation=mutation):
+                    passed,hits=checks.predicate('foreign_intrusion',summary(raw),raw,scene,self.ignored)
+                    self.assertEqual(passed,mutation=='unchanged')
+                    self.assertEqual(raw,before)
+                    if passed:self.assertEqual(hits,raw['violations'])
+
     def test_critical_warning_ignored_setting_exclusion_rejects(self):
         for variant in ('critical','ignored','exclusion'):
             scene=self.scene();raw=native_report('positive',scene,self.ignored)
