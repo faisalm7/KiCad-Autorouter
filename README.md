@@ -1,6 +1,6 @@
 # KiCad-Autorouter — local reconstruction
 
-Experimental offline CLI for routing a **separate copy** of a KiCad project with Freerouting and checking it using native KiCad. Combined adapter corrections pass native checks on one public development board where the stock representation fails. Generalized improvement beyond the adapter is not established. See [STATUS.md](STATUS.md) for actual results and gaps.
+Experimental offline CLI for routing a **separate copy** of a KiCad project with Freerouting and checking it using native KiCad. Combined adapter corrections pass native checks on one public development board where the stock representation fails. Experimental pruning improves a route-length proxy there; bounded thermal recovery passes another exposed board where a fixed tuned portfolio remains rejected. Generalized improvement beyond the adapter is not established. See [STATUS.md](STATUS.md) for actual results and gaps.
 
 The tested Mac has KiCad10.0.0 at `/Applications/KiCad`, its bundled Python3.9, Java25.0.2, and Python3.11. Installed applications are not changed. The pinned binaries are recorded in `toolchain.lock.json`.
 
@@ -29,4 +29,13 @@ python3 -m autorouter route '.data/boards/kicad-sonde-xilinx/sonde xilinx.kicad_
 python3 -m autorouter improve '.data/boards/kicad-sonde-xilinx/sonde xilinx.kicad_pcb' --seconds 120 --output .runs/prune-NEW
 ```
 
-`improve` is an experimental strategy: obtain and charge a valid tuned B2 incumbent, then remove potentially redundant zone-net routes only when repeated native checks preserve completion, constraints, warnings and route quality. It is not a new geometric routing algorithm. The entire attempt, including failed trials and final checks, shares one wall budget. The acquired development population contains fourteen boards: seven complete manifested inputs and seven incomplete audit inputs. Three pass static preflight; eleven remain unsupported. Family independence and end-to-end multiclass routing acceptance remain unqualified. All exclusions remain in [current status](STATUS.md).
+`improve` is an experimental strategy: obtain and charge a valid tuned B2 incumbent, then remove potentially redundant zone-net routes only when repeated native checks preserve completion, constraints, warnings and route quality. It is not a new geometric routing algorithm. The entire attempt, including failed trials and final checks, shares one wall budget. The acquired development population contains fourteen boards: seven complete manifested inputs and seven incomplete audit inputs. Three pass static preflight; eleven remain unsupported. Family independence remains unqualified. The fresh thermal experiment provides one narrow end-to-end two-class success. All exclusions remain in [current status](STATUS.md).
+
+`recover` is an experimental completion strategy for a sole supported native thermal failure. It derives a short bridge from the freshly routed board and accepts only after another full native validation, within the same total budget:
+
+```sh
+python3 -m autorouter recover '.data/boards/kicad-interf-u/interf_u.kicad_pcb' --seconds 120 --output .runs/thermal-NEW
+python3 scripts/experiment_paired.py --project interf_u --system thermal --output .runs/thermal-paired-NEW
+```
+
+Unsupported thermal geometry or any other blocking finding remains rejected. The saved copper-path witness does not qualify current capacity, heat flow or manufacturing. Original rule severities and ignored checks remain unchanged; native acceptance alone is not physical validation.

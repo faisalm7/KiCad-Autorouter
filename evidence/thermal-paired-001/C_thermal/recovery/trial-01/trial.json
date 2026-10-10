@@ -1,0 +1,204 @@
+{
+  "id": "trial-01",
+  "proposal_index": 0,
+  "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-paired-001/C_thermal/recovery/trial-01/candidate/interf_u.kicad_pcb",
+  "validation_passed": true,
+  "status": "validated",
+  "steps": [
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 1.2306570840009954,
+      "cpu_seconds": 0.849652,
+      "max_rss_bytes": 247136256,
+      "supervisor_cpu_seconds": 0.011278000000000787,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 234913792,
+      "sampled_peak_workdir_bytes": 2927264,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-paired-001/C_thermal/recovery/trial-01/refill-drc.json",
+        "--save-board",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-paired-001/C_thermal/recovery/trial-01/refill/interf_u.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-paired-001/C_thermal/recovery/trial-01/refill-drc.log",
+      "log_bytes": 192,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-paired-001/C_thermal/recovery/trial-01",
+      "signal_cancellation_enabled": true,
+      "pid": 4835,
+      "name": "refill-drc",
+      "validated_input_sha256": "be7694040a84aaac331981cd121ac66774284df30923550c5054691fe302dabb",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-paired-001/C_thermal/recovery/trial-01/refill/interf_u.kicad_pcb"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.41531874999782303,
+      "cpu_seconds": 0.417795,
+      "max_rss_bytes": 207421440,
+      "supervisor_cpu_seconds": 0.005419999999999092,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 34996224,
+      "sampled_peak_workdir_bytes": 2977476,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-paired-001/C_thermal/recovery/code/native.py",
+        "netclasses",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-paired-001/C_thermal/recovery/trial-01/candidate/interf_u.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-paired-001/C_thermal/recovery/trial-01/final-netclasses.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-paired-001/C_thermal/recovery/trial-01/final-netclasses.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-paired-001/C_thermal/recovery/trial-01",
+      "signal_cancellation_enabled": true,
+      "pid": 4847,
+      "name": "final-netclasses"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 1.202980916001252,
+      "cpu_seconds": 0.827542,
+      "max_rss_bytes": 245186560,
+      "supervisor_cpu_seconds": 0.01453399999999938,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 234799104,
+      "sampled_peak_workdir_bytes": 4428243,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-paired-001/C_thermal/recovery/trial-01/final-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-paired-001/C_thermal/recovery/trial-01/final-drc-input/interf_u.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-paired-001/C_thermal/recovery/trial-01/final-drc.log",
+      "log_bytes": 179,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-paired-001/C_thermal/recovery/trial-01",
+      "signal_cancellation_enabled": true,
+      "pid": 4848,
+      "name": "final-drc",
+      "validated_input_sha256": "be7694040a84aaac331981cd121ac66774284df30923550c5054691fe302dabb",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-paired-001/C_thermal/recovery/trial-01/candidate/interf_u.kicad_pcb"
+    }
+  ],
+  "candidate_sha256": "be7694040a84aaac331981cd121ac66774284df30923550c5054691fe302dabb",
+  "native": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 0,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Copper connection too narrow",
+        "key": "connection_width"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "PTH inside courtyard",
+        "key": "pth_inside_courtyard"
+      },
+      {
+        "description": "NPTH inside courtyard",
+        "key": "npth_inside_courtyard"
+      }
+    ],
+    "findings": []
+  },
+  "native_report_sha256": "a9dcbae0a0514e46c680973718962c070ae658d019e3a2ca6acebdd57c4fd21a",
+  "native_rejection_reasons": [],
+  "saved_fill_unchanged": true,
+  "pad_via_geometry_unchanged": true,
+  "final_map_sha256": "f6de51ccb5c003dce4a0d676e08c528a6cf1823f06b2bba870aa204ba753596f"
+}

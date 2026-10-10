@@ -4,7 +4,7 @@ Active specification: `MASTER_PROMPT.md`, read completely. Work remains in the s
 
 ## Established starting point
 
-- G0 pushes and independent remote read-backs passed through `b3db012`; that full raw archive restored22,327files including current policy controls, geometry export, smoke/multichannel native runs and audits. It remains on this Mac only.
+- G0 pushes and independent remote read-backs passed through `cbae125`; that full raw archive restored22,327files including current policy controls, geometry export, smoke/multichannel native runs and audits. It remains on this Mac only.
 - The native vertical slice, fourteen original controls, actual engine cancellation, separate-copy GUI observation and fresh local clone/venv installation002 passed within documented scopes. Additional native-exclusion-002 proved that a real excluded warning must be counted and rejected. The complete suite passes 296 tests including thermal integration, cancellation and evidence-contract controls.
 - Frozen quality004 completed B0/B1/B2/C_single/C_feedback on one exposed sonde family. C_feedback accepted 644.549 mm / 2 vias versus tuned B2's 786.316 mm / 2 vias and C_single's 662.694 mm / 2 vias, with more compute. Each accepted arm retained one warning. Broad superiority is unproved.
 - Interf003/004 preserve strict class targets but both fail a native isolated-island thermal check. The full population is fourteen acquired boards: seven complete manifested and seven incomplete audit inputs, with three statically eligible and eleven unsupported. Family independence remains unverified.
@@ -54,4 +54,6 @@ The critical-warning policy is integrated and native controls003 passed. The fir
 
 Latest actual commands completed: `python3 -m autorouter route fixtures/smoke/smoke.kicad_pcb --output .runs/policy-smoke-native-001 --seconds 60 --adapter both --profile completion-only` accepted and strict receipt check passed; the corresponding multichannel run001 under120seconds rejected. Do not reuse these run identifiers. Next native experiment requires a new reviewed mechanism/protocol and fresh output directory.
 
-Immediate next native command after reviewed code checkpoint: `python3 -B scripts/experiment_paired.py --project interf_u --system thermal --output .runs/thermal-paired-001`. This charges a fresh incumbent, geometry, proposal search, repair and final validation against the fixed B2 portfolio under equal 120-second wall and CPU ceilings. No previous failed candidate is reused.
+Completed native command after reviewed code checkpoint: `python3 -B scripts/experiment_paired.py --project interf_u --system thermal --output .runs/thermal-paired-001`. This charges a fresh incumbent, geometry, proposal search, repair and final validation against the fixed B2 portfolio under equal 120-second wall and CPU ceilings. No previous failed candidate is reused.
+
+Thermal pair001 passed C completion within both charged caps while the B2 portfolio retained one thermal error. Next: independently audit raw evidence, execute fresh B0/B1/B1-completion-only allocation ablations under identical production hashes and budgets, then archive and actually restore all new raw material. The board-floor draft is still unpromoted and requires separate native controls.

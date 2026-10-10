@@ -1,0 +1,202 @@
+{
+  "schema": 1,
+  "kind": "paired_development_comparison",
+  "status": "completed",
+  "started_utc": "2026-10-10T10:02:39.986000+00:00",
+  "results": [
+    {
+      "id": "B2_portfolio",
+      "accepted": false,
+      "status": "no_valid_candidate",
+      "started_utc": "2026-10-10T10:02:40.428868+00:00",
+      "host_load_average_1_5_15_minutes_begin": [
+        2.6240234375,
+        2.6826171875,
+        2.86962890625
+      ],
+      "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-paired-001/B2_portfolio/portfolio-summary.json",
+      "result_sha256": "d94496b0c49b30469e610249d27ba7e885be42470829e314889a584483d88b48",
+      "selected": null,
+      "pareto_frontier": [],
+      "trials": [
+        {
+          "index": 0,
+          "id": "via_default",
+          "assigned_seconds": 104.08854749999591,
+          "started_utc": "2026-10-10T10:02:41.421230+00:00",
+          "finished_utc": "2026-10-10T10:03:52.469461+00:00",
+          "status": "drc_rejected",
+          "reason": null,
+          "accepted_in_trial_receipt": false,
+          "eligible": false,
+          "invocation_wall_seconds": 71.04815641700407,
+          "invocation_cpu_seconds": 90.23554100000001,
+          "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-paired-001/B2_portfolio/01-via_default/result.json",
+          "result_sha256": "588ad25bf71de2a8720401a7d9bc8b2495b7fd3a5ffec86e4cf21f856272dffa",
+          "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-paired-001/B2_portfolio/01-via_default/candidate/interf_u.kicad_pcb",
+          "candidate_sha256": "c30aca44e0aa766ca12a70e5f23c2fa12767ab6ac715e9b6bc3e51a9e0577142",
+          "native_report_sha256": "96c2f38786b3f8964adbc478f163f15732c712260d082fc73ef302413c9b5ca2",
+          "vias": 35,
+          "length_mm": 4994.887951015415,
+          "peak_child_rss_bytes": 631963648,
+          "peak_polled_group_rss_bytes": 631472128,
+          "native": {
+            "opens": 0,
+            "blocking": 1,
+            "warnings": 0,
+            "exclusions": 0,
+            "ignored_checks": [
+              {
+                "description": "Footprint has no courtyard defined",
+                "key": "missing_courtyard"
+              },
+              {
+                "description": "Copper connection too narrow",
+                "key": "connection_width"
+              },
+              {
+                "description": "Track endpoint not centered on via",
+                "key": "track_not_centered_on_via"
+              },
+              {
+                "description": "Tuning profile track geometries",
+                "key": "tuning_profile_track_geometries"
+              },
+              {
+                "description": "Footprint doesn't match symbol's footprint filters",
+                "key": "footprint_filters_mismatch"
+              },
+              {
+                "description": "PTH inside courtyard",
+                "key": "pth_inside_courtyard"
+              },
+              {
+                "description": "NPTH inside courtyard",
+                "key": "npth_inside_courtyard"
+              }
+            ],
+            "findings": [
+              {
+                "description": "Thermal relief connection to zone incomplete (layer bottom_copper; 1 spokes connected to isolated island)",
+                "items": [
+                  {
+                    "description": "Zone [GND] on bottom_copper, priority 0",
+                    "pos": {
+                      "x": 193.675,
+                      "y": 133.35
+                    },
+                    "uuid": "00000000-0000-0000-0000-00004cdec22b"
+                  },
+                  {
+                    "description": "PTH pad C4 [GND] of U9",
+                    "pos": {
+                      "x": 150.495,
+                      "y": 72.39
+                    },
+                    "uuid": "387e8928-4a73-4b3a-ae74-249440996e94"
+                  }
+                ],
+                "severity": "error",
+                "type": "starved_thermal"
+              }
+            ]
+          }
+        }
+      ],
+      "peak_child_rss_bytes": 631963648,
+      "peak_polled_group_rss_bytes": 631472128,
+      "invocation_wall_seconds": 72.42039554100484,
+      "invocation_cpu_seconds": 91.548743,
+      "finished_utc": "2026-10-10T10:03:52.849325+00:00",
+      "host_load_average_1_5_15_minutes_end": [
+        3.814453125,
+        3.04541015625,
+        2.990234375
+      ],
+      "within_enclosing_budgets": true,
+      "accepted_before_shared_charge": false,
+      "charged_wall_seconds": 72.94851787399239,
+      "charged_cpu_seconds": 91.88207,
+      "within_charged_budgets": true
+    },
+    {
+      "id": "C_thermal",
+      "accepted": true,
+      "status": "routing_accepted",
+      "started_utc": "2026-10-10T10:03:52.849732+00:00",
+      "host_load_average_1_5_15_minutes_begin": [
+        3.814453125,
+        3.04541015625,
+        2.990234375
+      ],
+      "adapter": "both",
+      "engine_profile": "completion-only",
+      "operation": "recover",
+      "strategy": "native_validated_thermal_bridge",
+      "accepted_in_receipt": true,
+      "reason": null,
+      "cancelled": false,
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 0,
+      "exclusions": 0,
+      "length_mm": 4996.393150337764,
+      "vias": 35,
+      "wall_seconds": 40.62958141699346,
+      "parent_cpu_seconds": 8.709306999999999,
+      "child_cpu_seconds": 44.79389,
+      "monitor_cpu_seconds": 0,
+      "total_cpu_seconds": 53.54397999999998,
+      "peak_child_rss_bytes": 525860864,
+      "peak_polled_group_rss_bytes": 524435456,
+      "invocation_wall_seconds": 41.51673983400542,
+      "invocation_cpu_seconds": 54.426277,
+      "candidate_sha256": "be7694040a84aaac331981cd121ac66774284df30923550c5054691fe302dabb",
+      "native_report_sha256": "9c686fa4880f270280f11ba049ddb9a7e23a4e576e1023374b95c8673321a45b",
+      "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-paired-001/C_thermal/result.json",
+      "result_sha256": "22b05b6b3af0bc4cc77ec41c29cb0c7c69bf82f090f4a1615b1eeec5e7e8c391",
+      "within_equal_budgets": true,
+      "protocol_contract_verified": true,
+      "receipt_verified": true,
+      "observations": [
+        {
+          "kind": "final_result_only",
+          "elapsed_seconds": 41.12357550000161,
+          "observed_cpu_seconds": 54.03654400000002,
+          "metrics": {
+            "version": "10.0.0",
+            "pads": 379,
+            "footprints": 25,
+            "zones": 1,
+            "vias": 35,
+            "track_length_mm": 4996.393150337764,
+            "copper_layers": 2
+          },
+          "final_delivery_accepted": true,
+          "meaning": "final completion upper bound only; earlier native success times unobserved"
+        }
+      ],
+      "finished_utc": "2026-10-10T10:04:34.366540+00:00",
+      "host_load_average_1_5_15_minutes_end": [
+        3.83984375,
+        3.14697265625,
+        3.0283203125
+      ],
+      "within_enclosing_budgets": true,
+      "accepted_before_shared_charge": true,
+      "charged_wall_seconds": 42.04486216699297,
+      "charged_cpu_seconds": 54.759603999999996,
+      "within_charged_budgets": true
+    }
+  ],
+  "comparisons": [],
+  "claims_limit": "one exposed family; no population, novelty, human-review, or electrical-adequacy claim",
+  "protocol_sha256": "dc05ef74819f40b4505696276c361ebeb79c1f56ea0ebfea49dfe8f335dfb605",
+  "shared_charge_policy": "entire measured shared overhead charged to EACH arm; raw invocation measurements retained separately",
+  "accounting_point": "sample before final summary write; full charged caps rechecked after publication; any over-cap correction is rejected and may finish outside cap",
+  "batch_wall_seconds": 114.46525770799781,
+  "batch_cpu_seconds": 146.308347,
+  "finished_utc": "2026-10-10T10:04:34.451241+00:00",
+  "shared_overhead_wall_seconds": 0.5281223329875502,
+  "shared_overhead_cpu_seconds": 0.33332699999999704
+}

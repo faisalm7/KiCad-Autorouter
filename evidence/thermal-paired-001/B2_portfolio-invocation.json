@@ -1,0 +1,111 @@
+{
+  "id": "B2_portfolio",
+  "accepted": false,
+  "status": "no_valid_candidate",
+  "started_utc": "2026-10-10T10:02:40.428868+00:00",
+  "host_load_average_1_5_15_minutes_begin": [
+    2.6240234375,
+    2.6826171875,
+    2.86962890625
+  ],
+  "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-paired-001/B2_portfolio/portfolio-summary.json",
+  "result_sha256": "d94496b0c49b30469e610249d27ba7e885be42470829e314889a584483d88b48",
+  "selected": null,
+  "pareto_frontier": [],
+  "trials": [
+    {
+      "index": 0,
+      "id": "via_default",
+      "assigned_seconds": 104.08854749999591,
+      "started_utc": "2026-10-10T10:02:41.421230+00:00",
+      "finished_utc": "2026-10-10T10:03:52.469461+00:00",
+      "status": "drc_rejected",
+      "reason": null,
+      "accepted_in_trial_receipt": false,
+      "eligible": false,
+      "invocation_wall_seconds": 71.04815641700407,
+      "invocation_cpu_seconds": 90.23554100000001,
+      "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-paired-001/B2_portfolio/01-via_default/result.json",
+      "result_sha256": "588ad25bf71de2a8720401a7d9bc8b2495b7fd3a5ffec86e4cf21f856272dffa",
+      "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-paired-001/B2_portfolio/01-via_default/candidate/interf_u.kicad_pcb",
+      "candidate_sha256": "c30aca44e0aa766ca12a70e5f23c2fa12767ab6ac715e9b6bc3e51a9e0577142",
+      "native_report_sha256": "96c2f38786b3f8964adbc478f163f15732c712260d082fc73ef302413c9b5ca2",
+      "vias": 35,
+      "length_mm": 4994.887951015415,
+      "peak_child_rss_bytes": 631963648,
+      "peak_polled_group_rss_bytes": 631472128,
+      "native": {
+        "opens": 0,
+        "blocking": 1,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Copper connection too narrow",
+            "key": "connection_width"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Thermal relief connection to zone incomplete (layer bottom_copper; 1 spokes connected to isolated island)",
+            "items": [
+              {
+                "description": "Zone [GND] on bottom_copper, priority 0",
+                "pos": {
+                  "x": 193.675,
+                  "y": 133.35
+                },
+                "uuid": "00000000-0000-0000-0000-00004cdec22b"
+              },
+              {
+                "description": "PTH pad C4 [GND] of U9",
+                "pos": {
+                  "x": 150.495,
+                  "y": 72.39
+                },
+                "uuid": "387e8928-4a73-4b3a-ae74-249440996e94"
+              }
+            ],
+            "severity": "error",
+            "type": "starved_thermal"
+          }
+        ]
+      }
+    }
+  ],
+  "peak_child_rss_bytes": 631963648,
+  "peak_polled_group_rss_bytes": 631472128,
+  "invocation_wall_seconds": 72.42039554100484,
+  "invocation_cpu_seconds": 91.548743,
+  "finished_utc": "2026-10-10T10:03:52.849325+00:00",
+  "host_load_average_1_5_15_minutes_end": [
+    3.814453125,
+    3.04541015625,
+    2.990234375
+  ],
+  "within_enclosing_budgets": true
+}
