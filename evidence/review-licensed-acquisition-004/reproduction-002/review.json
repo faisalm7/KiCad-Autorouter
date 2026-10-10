@@ -1,0 +1,50 @@
+{
+  "scope": "Tiny actual filesystem, real acquire/committed/publish logic, fake Git/transport only; no network/native/engine/project-data mutation",
+  "source_sha256": "26266d986acdbd2d65294fdc95acf96f3ffe72adf08805d7164cc20b036511ae",
+  "results": [
+    {
+      "variant": "unchanged",
+      "injected": false,
+      "returned_status": "acquired_unqualified",
+      "canonical_status": "acquired_unqualified",
+      "error": null,
+      "helper_bound": true,
+      "head_bound": true,
+      "response_bound": true,
+      "original_unchanged": true
+    },
+    {
+      "variant": "late_helper",
+      "injected": true,
+      "returned_status": null,
+      "canonical_status": "failed",
+      "error": "ValueError: runtime material/HEAD changed after metadata",
+      "helper_bound": false,
+      "head_bound": true,
+      "response_bound": true,
+      "original_unchanged": true
+    },
+    {
+      "variant": "late_head",
+      "injected": true,
+      "returned_status": null,
+      "canonical_status": "failed",
+      "error": "ValueError: runtime material/HEAD changed after metadata",
+      "helper_bound": true,
+      "head_bound": false,
+      "response_bound": true,
+      "original_unchanged": true
+    },
+    {
+      "variant": "late_response",
+      "injected": true,
+      "returned_status": null,
+      "canonical_status": "failed",
+      "error": "ValueError: completed response evidence changed",
+      "helper_bound": true,
+      "head_bound": true,
+      "response_bound": false,
+      "original_unchanged": true
+    }
+  ]
+}

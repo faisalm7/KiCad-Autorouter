@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "disposition": "cleared_test_only_promoted_location_fix",
+  "runtime_source_unchanged": true,
+  "fetch_sha256": "26266d986acdbd2d65294fdc95acf96f3ffe72adf08805d7164cc20b036511ae",
+  "old_test_sha256": "6d81189236f6752e85fc0f3ab20bce2ea4f2621581e05685ec1645c2f6476e2f",
+  "promoted_test_sha256": "eafefd1825b359f6ecab47c6605a56255d6371e247bec5d754cee6d5f8def7e7",
+  "review": "The sole diff replaces testing the current test file directory with a fresh reviewer-owned .runs/draft. It still calls real committed(root,draft), requires the promoted-directory error, and additionally asserts the Git metadata mock was never invoked. This correctly exercises the same path refusal after promotion without relying on the test installation path. No runtime code or acquisition policy changes.",
+  "validation": "Lead retained failed before-tests.log and reports31 passing controls after this correction. Independent source review only; no redundant suite/network/fetch/native execution.",
+  "lead_evidence": ".runs/licensed-acquisition-root-integration-001",
+  "frozen_review_manifest_sha256": "7d820a26aa1974f7749d403bf7c35e687d8f399cdfe7889dcec74045a42de812"
+}

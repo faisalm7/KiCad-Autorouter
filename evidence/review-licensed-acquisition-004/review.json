@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "disposition": "no_remaining_scoped_source_blocker",
+  "network_requests": 0,
+  "native_executed": false,
+  "engine_executed": false,
+  "project_data_mutated": false,
+  "tracked_source_mutated": false,
+  "author_manifest_sha256": "4ea2362f4bc8f6b7aed13f16ce891e38b9ecc3d9dc3f0ee639a08a89884b36be",
+  "author_manifest_entries_verified": 107,
+  "original_manifest_sha256": "08c37986425f08ca4a45e856655be91dc7e20fb7075ce766b0b1606fa5ea5891",
+  "original_manifest_entries_verified_unchanged": 9,
+  "promoted_source": {
+    "fetch.py": {
+      "sha256": "26266d986acdbd2d65294fdc95acf96f3ffe72adf08805d7164cc20b036511ae",
+      "bytes": 24674
+    },
+    "test_fetch.py": {
+      "sha256": "6d81189236f6752e85fc0f3ab20bce2ea4f2621581e05685ec1645c2f6476e2f",
+      "bytes": 19486
+    },
+    "protocol.json": {
+      "sha256": "23239f00d5d249611d2403eec0e41d8d6db22881aa76dd3d76e94bd764b24427",
+      "bytes": 26978
+    },
+    "existing-data-inventory.json": {
+      "sha256": "4b83c99102430d1df211c9d3b5522360e5d1f0e1b7223a16318253da0863bda7",
+      "bytes": 64903
+    },
+    "README.md": {
+      "sha256": "1899728434304c3a815e2615d03127390918196ee34387dcdb8ae9b459229d20",
+      "bytes": 5882
+    },
+    "STATIC_AUDIT.md": {
+      "sha256": "7acd5c48f484d4af52887cf1e6cc5bde4728041bed8d4d457a247a4f5db21866",
+      "bytes": 4759
+    }
+  },
+  "review_copy_unchanged_after_tests": true,
+  "current_original_inventory_equal": true,
+  "current_data_files": 312,
+  "current_data_bytes": 32392408,
+  "planned_files": 33,
+  "planned_bytes": 5016162,
+  "independent_original_falsifiers": {
+    "cases": 4,
+    "fixed_source_reproduction": "reproduction-002/review.json",
+    "before_fix": "reproduction-001/review.json",
+    "all_expected_outcomes": true
+  },
+  "copied_pure_controls": {
+    "count": 31,
+    "passed": true,
+    "seconds": 0.115,
+    "log": "fixed-pure-tests-002.log"
+  },
+  "limitations": [
+    "HTTP and Git lifecycle falsifiers used mocks with real tiny files; no actual remote payload acquisition here.",
+    "Current original .data inventory was independently read and exactly matched the frozen312-file baseline.",
+    "Finite hash and HEAD/ref samples are consistency checks, not atomic protection against hostile concurrent writers.",
+    "This review does not establish per-file rights closure, dependency closure, native support, independent families or publication permission."
+  ]
+}

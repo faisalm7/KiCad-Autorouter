@@ -1,0 +1,11 @@
+# Acquisition004 final freshness correction
+
+The original draft remains byte-identical in `.runs/licensed-acquisition-004`. No payload was fetched and no `.data` file changed. Its snapshot was not qualified for acquisition after review found three late-stage freshness gaps.
+
+`before-001` retains the exact reviewer reproducer copied without modification into this new author-owned directory. With Git/HTTP mocked and tiny real files, the unchanged case passed, but a late helper change during the last Git-show, a late direct HEAD change at the same point, and a response-file change during the final output scan incorrectly left `acquired_unqualified`. These are real receipt-integrity failures in the draft, not data licensing or native failures.
+
+The narrow correction adds a bounded material-only local Git identity witness (HEAD plus loose or packed branch reference) and rehashes all six helper files after the metadata subprocesses. The final stable pass also checks this identity after reading source/response material. Publication now performs its output scan before that last stable pass, then checks exact canonical/in-memory receipt equality and the remaining deadline. It does not rebase any pinned material. Ordinary local `.git` directory only is deliberate; unsupported worktree indirection is rejected. Finite sampling does not authenticate against an arbitrary concurrent adversary.
+
+Protocol, 312-file baseline, project/source pins, first-three order, proposed64MiB all-data cap,10MiB project/network cap,300-second invocation and all qualification/rights limits are unchanged. The same six intended promoted filenames and committed-directory gate remain. Tests add late helper/HEAD mutation and final scan source/response mutation controls plus loose/packed identity parsing; all earlier27 tests remain. No format, source, alias or routing support changes.
+
+After the lead released the quiet lane, the exact unchanged reviewer reproducer passed the positive and rejected all three tampered cases in `after-001`; originals remained unchanged. Offline plan-only again matched the real312-file/32,392,408-byte baseline with zero requests. The original draft manifest entries were rechecked byte-identical. Native, engine, GUI, network and real acquisition remain unexecuted here.

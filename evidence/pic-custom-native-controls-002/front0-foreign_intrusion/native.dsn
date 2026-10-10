@@ -1,0 +1,94 @@
+(pcb "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-custom-native-controls-002/front0-foreign_intrusion/native.dsn"
+  (parser
+    (string_quote ")
+    (space_in_quoted_tokens on)
+    (host_cad "KiCad's Pcbnew")
+    (host_version "10.0.0")
+  )
+  (resolution um 10)
+  (unit um)
+  (structure
+    (layer top_layer
+      (type signal)
+      (property
+        (index 0)
+      )
+    )
+    (layer bottom_layer
+      (type signal)
+      (property
+        (index 1)
+      )
+    )
+    (boundary
+      (path pcb 0  40000 -30000  0 -30000  0 0  40000 0  40000 -30000)
+    )
+    (via "Via[0-1]_1600:600_um")
+    (rule
+      (width 500)
+      (clearance 250)
+      (clearance 62.5 (type smd_smd))
+    )
+  )
+  (placement
+    (component Owned_CONVEX
+      (place CONVEX 10000 -15000 front 0 (PN Owned_CONVEX))
+    )
+    (component Owned_CONCAVE
+      (place CONCAVE 20000 -15000 front 0 (PN Owned_CONCAVE))
+    )
+    (component Owned_FOREIGN_A
+      (place FOREIGN_A 20000 -6000 front 0 (PN Owned_FOREIGN_A))
+      (place FOREIGN_B 20000 -9000 front 0 (PN Owned_FOREIGN_B))
+    )
+  )
+  (library
+    (image Owned_CONVEX
+      (pin Cust[T]Pad_300.000000x300.000000_1500.000000x1500.000000_6_um_4F9F87CB620F18FA2F4FD38FD52DC8B8 1 0 0)
+    )
+    (image Owned_CONCAVE
+      (pin Cust[T]Pad_300.000000x300.000000_1150.000000x1500.000000_5_um_4994A2648203C86F3D6EDA91726DD99D 1 0 0)
+    )
+    (image Owned_FOREIGN_A
+      (pin Round[T]Pad_1500.000000_um 1 0 0)
+    )
+    (padstack Round[T]Pad_1500.000000_um
+      (shape (circle top_layer 1500))
+      (attach off)
+    )
+    (padstack Cust[T]Pad_300.000000x300.000000_1500.000000x1500.000000_6_um_4F9F87CB620F18FA2F4FD38FD52DC8B8
+      (shape (polygon top_layer 0  -500 750  500 750  1000 0  500 -750  -500 -750  -500 750))
+      (attach off)
+    )
+    (padstack Cust[T]Pad_300.000000x300.000000_1150.000000x1500.000000_5_um_4994A2648203C86F3D6EDA91726DD99D
+      (shape (polygon top_layer 0  -650 750  500 750  500 -750  -650 -750  -650 750))
+      (attach off)
+    )
+    (padstack "Via[0-1]_1600:600_um"
+      (shape (circle top_layer 1600))
+      (shape (circle bottom_layer 1600))
+      (attach off)
+    )
+  )
+  (network
+    (net CONTACT
+      (pins CONVEX-1 CONCAVE-1)
+    )
+    (net FOREIGN
+      (pins FOREIGN_A-1 FOREIGN_B-1)
+    )
+    (class kicad_default CONTACT FOREIGN
+      (circuit
+        (use_via "Via[0-1]_1600:600_um")
+      )
+      (rule
+        (width 500)
+        (clearance 250)
+      )
+    )
+  )
+  (wiring
+    (wire (path top_layer 500  10500 -15250  20000 -15500)(net CONTACT)(type route))
+    (wire (path top_layer 500  20000 -6000  20000 -14400)(net FOREIGN)(type route))
+  )
+)
