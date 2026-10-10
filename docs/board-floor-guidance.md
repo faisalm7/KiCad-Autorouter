@@ -69,3 +69,11 @@ python3 -B -m autorouter check-result .runs/floor-fixture-NEW/result.json
 ```
 
 All production raw runs and new reviews are newer than the latest ebbb56c full private archive and await the next tested archive. The public selected text copies are individually hashed; originals remain in this durable checkout.
+
+## Additional production controls and next diagnosed export defect
+
+Five fresh controls at2ea2b48 passed with the actual production validator: clean positive;0.2mmtrack native width error and exact-guidance rejection;0.6mmvia native diameter/annulus errors and exact-guidance rejection; sole required via removed, producing native opens and rejection; and changed project width severity, rejected despite a clean diagnostic DRC. All share60seconds wall/CPU; stored pre-publication8.913714208wall/6.324479CPU. Exact evidence is in `evidence/board-floor-production-controls-native-001`. The diagnostic helper's23pure controls pass both from its frozen ignored draft and public copy.
+
+Nine offline relocated-receipt controls also passed. Every negative first passed full readback after deliberate path/hash relocation of actual evidence. Missing SES/import/refill, consistently forged source command, policy downgrade, wrong width, changed candidate rules and stale disposable source all then rejected for intended reasons. These are consistency tests, not new native execution/authentication (`evidence/board-floor-receipt-controls-001`).
+
+Remaining160opens led to a new diagnosis: four original enabled placement areas explicitly allow all five keepout categories but correspond exactly to eight generic DSN keepouts. Version-matched exporter source confirms that fallback, while native DRC applies no implicit keepout prohibition when all five flags allow. `evidence/placement-area-diagnosis-001` and `evidence/placement-area-export-review-001` bind the observation and primary sources. Selective correction is not implemented or causally tested. Genuine restrictions and original placement areas must remain untouched; same-load native controls, conservative unambiguous mapping and an explicit new policy are prerequisites. The reviewed two-arm floor-only pair remains unexecuted; a future matched ablation should include the placement correction after qualification.

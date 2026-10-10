@@ -1,0 +1,139 @@
+{
+  "schema": 1,
+  "started_utc": "2026-10-10T11:02:34.075231+00:00",
+  "scope": "Synthetic relocation of actual native evidence; read-only checker controls, no authentication or fresh native execution",
+  "base_run": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/board-floor-production-native-001",
+  "base_result_sha256": "6b9cd47134978a4c4e1e3e55e70e55bf4ee30da9ce4164733b9195f738e1028b",
+  "base_source": "/Users/faisal/Projects/KiCad-Autorouter-local/tests/fixtures/board-floor/fixture.kicad_pcb",
+  "disk_ceiling_bytes": 16777216,
+  "estimated_copy_bytes": 7732034,
+  "cases": [
+    {
+      "case": "positive",
+      "relocation_positive": true,
+      "expected_negative": false,
+      "passed": true,
+      "outcome": "accepted unchanged relocated evidence"
+    },
+    {
+      "case": "missing_ses",
+      "relocation_positive": true,
+      "expected_negative": true,
+      "passed": true,
+      "expected_reason_fragments": [
+        "SES"
+      ],
+      "outcome": "rejected",
+      "reason": "Rejected: missing or invalid retained SES transport"
+    },
+    {
+      "case": "missing_import",
+      "relocation_positive": true,
+      "expected_negative": true,
+      "passed": true,
+      "expected_reason_fragments": [
+        "import"
+      ],
+      "outcome": "rejected",
+      "reason": "Rejected: missing retained native import"
+    },
+    {
+      "case": "missing_refill",
+      "relocation_positive": true,
+      "expected_negative": true,
+      "passed": true,
+      "expected_reason_fragments": [
+        "native stage input changed",
+        "No such file"
+      ],
+      "outcome": "rejected",
+      "reason": "Rejected: retained floor native stage input changed"
+    },
+    {
+      "case": "arbitrary_source_command",
+      "relocation_positive": true,
+      "expected_negative": true,
+      "passed": true,
+      "expected_reason_fragments": [
+        "provenance differs: source-drc"
+      ],
+      "outcome": "rejected",
+      "reason": "Rejected: floor process provenance differs: source-drc"
+    },
+    {
+      "case": "downgraded_policy",
+      "relocation_positive": true,
+      "expected_negative": true,
+      "passed": true,
+      "expected_reason_fragments": [
+        "downgraded floor policy"
+      ],
+      "outcome": "rejected",
+      "reason": "Rejected: missing, mixed or downgraded floor policy"
+    },
+    {
+      "case": "wrong_generated_width",
+      "relocation_positive": true,
+      "expected_negative": true,
+      "passed": true,
+      "expected_reason_fragments": [
+        "generated track differs"
+      ],
+      "outcome": "rejected",
+      "reason": "ValueError: generated track differs from derived guidance"
+    },
+    {
+      "case": "changed_candidate_rules",
+      "relocation_positive": true,
+      "expected_negative": true,
+      "passed": true,
+      "expected_reason_fragments": [
+        "candidate project/rules/file set changed"
+      ],
+      "outcome": "rejected",
+      "reason": "Rejected: candidate project/rules/file set changed"
+    },
+    {
+      "case": "stale_source_copy",
+      "relocation_positive": true,
+      "expected_negative": true,
+      "passed": true,
+      "expected_reason_fragments": [
+        "stale source project"
+      ],
+      "outcome": "rejected",
+      "reason": "Rejected: stale source project"
+    }
+  ],
+  "bytes_so_far": 7758366,
+  "original_run_unchanged": true,
+  "original_source_unchanged": true,
+  "total_bytes": 7758659,
+  "passed": true,
+  "limitations": [
+    "Paths/context hashes were synthetically rebound; logs/boards/DSN/SES/code bytes remain actual original evidence until each declared mutation.",
+    "Every negative case first passed complete check_result after relocation. Rejected copies are never new native routing results.",
+    "These controls test mutable evidence consistency and fail-closed checks, not authenticity or fresh DRC."
+  ],
+  "checker_implementation_sha256": {
+    "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+    "autorouter/__main__.py": "2e61b5f10de1ee775cf0302246ca047e566dcefca6f7e93860e1c16ae119eec9",
+    "autorouter/adapter.py": "509feca807ccee112b0b6a071fd0944c88177ba83f5b77422ec8be5cdf63d25b",
+    "autorouter/board_floor.py": "cdd3ebc72f722925ea98b6a542409c62b755ef5e465a533c8fc134ef05df2908",
+    "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+    "autorouter/floor_context.py": "d346e3b552328d370b4c18c20bd55074702ec53198aef0d47f38b05a0aff7f4a",
+    "autorouter/floor_route.py": "796653ec3f6e851b09079032624ed7deb80e3a278ff52ca07b75baf4e77200bf",
+    "autorouter/handoff.py": "22db5dc88be754d97fc5325495073a9931ff1aab79821c177654838b1ea09615",
+    "autorouter/native.py": "7257496b007fbc449adb3cc8b999712aed8ea0aa881a116ba337d18e2ab87c02",
+    "autorouter/netclass.py": "d0d26610b550b0655a1eafc3022196e31f59f719b5b3f0a727c464f9c90eda61",
+    "autorouter/pipeline.py": "ac8121e1843006457eea5bbe1498ec6905bb8ecfa910c3e62c5b4f9f1ece1ff7",
+    "autorouter/recovery.py": "95cebb44d8eac6e9903bd33e65b5cef887d8b1531f67375b940442f1237c2f9a",
+    "autorouter/runner.py": "0e81ab1badf20cd84adc2fed586641dd97a489a5a6af03febe6fb597bb1d2718",
+    "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+    "autorouter/strategy.py": "a85e9097f3f20508a0d72f50078dad531a3cccc2f41b85da3a74c0a826b1d558",
+    "autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+    "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+    "autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455"
+  },
+  "control_script_sha256": "c3e52131f13df3d1638bd66106f56caf16acfdbd23f4c2460f4588e1c01087dd"
+}

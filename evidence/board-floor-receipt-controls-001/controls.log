@@ -1,0 +1,102 @@
+{
+  "passed": true,
+  "cases": [
+    {
+      "case": "positive",
+      "relocation_positive": true,
+      "expected_negative": false,
+      "passed": true,
+      "outcome": "accepted unchanged relocated evidence"
+    },
+    {
+      "case": "missing_ses",
+      "relocation_positive": true,
+      "expected_negative": true,
+      "passed": true,
+      "expected_reason_fragments": [
+        "SES"
+      ],
+      "outcome": "rejected",
+      "reason": "Rejected: missing or invalid retained SES transport"
+    },
+    {
+      "case": "missing_import",
+      "relocation_positive": true,
+      "expected_negative": true,
+      "passed": true,
+      "expected_reason_fragments": [
+        "import"
+      ],
+      "outcome": "rejected",
+      "reason": "Rejected: missing retained native import"
+    },
+    {
+      "case": "missing_refill",
+      "relocation_positive": true,
+      "expected_negative": true,
+      "passed": true,
+      "expected_reason_fragments": [
+        "native stage input changed",
+        "No such file"
+      ],
+      "outcome": "rejected",
+      "reason": "Rejected: retained floor native stage input changed"
+    },
+    {
+      "case": "arbitrary_source_command",
+      "relocation_positive": true,
+      "expected_negative": true,
+      "passed": true,
+      "expected_reason_fragments": [
+        "provenance differs: source-drc"
+      ],
+      "outcome": "rejected",
+      "reason": "Rejected: floor process provenance differs: source-drc"
+    },
+    {
+      "case": "downgraded_policy",
+      "relocation_positive": true,
+      "expected_negative": true,
+      "passed": true,
+      "expected_reason_fragments": [
+        "downgraded floor policy"
+      ],
+      "outcome": "rejected",
+      "reason": "Rejected: missing, mixed or downgraded floor policy"
+    },
+    {
+      "case": "wrong_generated_width",
+      "relocation_positive": true,
+      "expected_negative": true,
+      "passed": true,
+      "expected_reason_fragments": [
+        "generated track differs"
+      ],
+      "outcome": "rejected",
+      "reason": "ValueError: generated track differs from derived guidance"
+    },
+    {
+      "case": "changed_candidate_rules",
+      "relocation_positive": true,
+      "expected_negative": true,
+      "passed": true,
+      "expected_reason_fragments": [
+        "candidate project/rules/file set changed"
+      ],
+      "outcome": "rejected",
+      "reason": "Rejected: candidate project/rules/file set changed"
+    },
+    {
+      "case": "stale_source_copy",
+      "relocation_positive": true,
+      "expected_negative": true,
+      "passed": true,
+      "expected_reason_fragments": [
+        "stale source project"
+      ],
+      "outcome": "rejected",
+      "reason": "Rejected: stale source project"
+    }
+  ],
+  "total_bytes": 7758659
+}

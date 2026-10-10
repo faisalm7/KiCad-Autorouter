@@ -4,7 +4,7 @@ Updated October 10, 2026 (America/Los_Angeles). **Active local reconstruction; i
 
 ## Durable local work and backup boundary
 
-Checkout: `/Users/faisal/Projects/KiCad-Autorouter-local` on this Mac; branch `rebuild/local-20261010-015447`. Latest verified push/read-back is **`e12cdc4cac2ec01ccf88c1f0f62ae29a21fa8678`** ([receipt](evidence/backups/checkpoint-e12cdc4.json)). G0 began at `683e41a`; no cloud/worktree was used.
+Checkout: `/Users/faisal/Projects/KiCad-Autorouter-local` on this Mac; branch `rebuild/local-20261010-015447`. Latest verified push/read-back is **`2ea2b480e9bbcab40a73e7925072f857b7bb1b85`** ([receipt](evidence/backups/checkpoint-2ea2b48.json)). G0 began at `683e41a`; no cloud/worktree was used.
 
 Latest **full** archive: **`ebbb56c2b86f0f7a51027108f9999cc489f8a5c3`**. Restore verified all Git refs, **25,514 non-Git files / 872,221,792 bytes**, and CLI help ([receipt](evidence/backups/restore-ebbb56c.json)). Location: `.local-backups/checkpoint-20261010T103733Z-bed6f1bd956947f39663c0d49ad96a3f`. Coverage includes thermal evidence, three floor native runs/reviews and the draft at snapshot time. **Source-closure002 metadata and later edits/results are outside it.** GitHub holds audited source/selected evidence. Full private archives remain on this Mac only; independent off-Mac protection awaits an owner-selected destination.
 
@@ -87,6 +87,6 @@ python3 -m autorouter route tests/fixtures/board-floor/fixture.kicad_pcb --guida
 python3 -m autorouter check-result .runs/board-floor-production-followup-001/result.json
 ```
 
-Next qualify production invalid/cancellation controls and the frozen matched multichannel harness; then compare equal budgets sequentially. Keep failures and fresh output identifiers. Update this snapshot after any later checkpoint/outcome.
+Five actual production positive/invalid controls and nine offline copied-receipt controls now pass. Next qualify the newly diagnosed placement-area mismatch: four all-allowed original areas exported as eight generic keepouts. Native constraint controls, exact mapping and an explicit policy precede any causal routing claim. The reviewed two-arm harness remains unexecuted; a later matched ablation should include this correction. Keep every failure and fresh output identifiers.
 
 At the next clean checkpoint, freeze ignored writes and run `python3 scripts/backup.py`, covering source-closure002 and later draft/results. Existing-archive check: `python3 scripts/backup.py --verify .local-backups/checkpoint-20261010T103733Z-bed6f1bd956947f39663c0d49ad96a3f/receipt.json`. Keep spending at $0, one bounded worker, originals untouched and private/unlicensed material out of Git. No background/auto-resume work or formal release/package publication.
