@@ -1,0 +1,399 @@
+{
+  "schema": 1,
+  "purpose": "native padstack diagnostic qualification only",
+  "routing_accepted": false,
+  "production_support_changed": false,
+  "controls_passed": false,
+  "seconds_ceiling": 120,
+  "script_sha256": "608bd5063a76bdfe285c9ac1b89a04aaf27f1c2d3b3e34f29187216c26da6248",
+  "tools": {
+    "implementation_sha256": {
+      "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+      "autorouter/__main__.py": "35ffd855e3bc9d488b21bcd0238051815ccbd16119ac4d7dea7be2f97a23a75f",
+      "autorouter/adapter.py": "509feca807ccee112b0b6a071fd0944c88177ba83f5b77422ec8be5cdf63d25b",
+      "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+      "autorouter/handoff.py": "3a1cace2d72672e502ff4f943c0820d23b9ed1d15c5566d3a694365847d4a22d",
+      "autorouter/native.py": "7257496b007fbc449adb3cc8b999712aed8ea0aa881a116ba337d18e2ab87c02",
+      "autorouter/netclass.py": "d0d26610b550b0655a1eafc3022196e31f59f719b5b3f0a727c464f9c90eda61",
+      "autorouter/pipeline.py": "8e66e900fd45b730975d20079064f4ea6404d89312b4fc897b811c59200c7ab0",
+      "autorouter/runner.py": "0e81ab1badf20cd84adc2fed586641dd97a489a5a6af03febe6fb597bb1d2718",
+      "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+      "autorouter/strategy.py": "dbb44279ec0502776fbe6283832d07034a5fd8cb7e0b9a6ddc7761a91a506f8f"
+    },
+    "git_head": "dcb0a44523a661dcb96e55811c07eeb818a31a34",
+    "kicad": "10.0.0",
+    "freerouting": "2.5.0",
+    "files": {
+      "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+      "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219"
+    },
+    "network": "engine sandbox-exec deny network*"
+  },
+  "original_inputs": {
+    "project": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+    "fixture": "618b0b1d23f082283a5136b514ff64ee54b3a058f068689bf64668a436d7c5ea"
+  },
+  "cases": [
+    {
+      "case": "positive",
+      "passed": true,
+      "source_hashes": {
+        "multichannel_mixer.kicad_pcb": "5f1be69ff976b1edf704d1b9c4acf52b0d7a75da53d5bd3452ec172eb534db14",
+        "multichannel_mixer.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538"
+      },
+      "target_pad_uuid": "2259717b-f87b-4741-851c-4246b16698d8",
+      "fixture_roundtrip_equal": true,
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": []
+      },
+      "policy_critical_count": 0,
+      "policy_critical_findings": [],
+      "policy_accepted": true,
+      "report_sha256": "a1a581c6fec872a78c12f73579391e181c77f96c9af8f23dee48dc0457d76c9c",
+      "targeted_padstack_findings": []
+    },
+    {
+      "case": "wrong_paste",
+      "passed": true,
+      "source_hashes": {
+        "multichannel_mixer.kicad_pcb": "6ebbe8ca358d72f13f28e7679bf60584e2d3634c889ed4c5999fa42db341ecb4",
+        "multichannel_mixer.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538"
+      },
+      "target_pad_uuid": "2259717b-f87b-4741-851c-4246b16698d8",
+      "fixture_roundtrip_equal": true,
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 1,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Padstack is questionable (SMD pad has copper and paste layers on different sides of the board)",
+            "items": [
+              {
+                "description": "Pad 1 [<no net>] of J1 on F.Cu",
+                "pos": {
+                  "x": 10.0,
+                  "y": 10.0
+                },
+                "uuid": "2259717b-f87b-4741-851c-4246b16698d8"
+              }
+            ],
+            "severity": "warning",
+            "type": "padstack"
+          }
+        ]
+      },
+      "policy_critical_count": 1,
+      "policy_critical_findings": [
+        {
+          "description": "Padstack is questionable (SMD pad has copper and paste layers on different sides of the board)",
+          "items": [
+            {
+              "description": "Pad 1 [<no net>] of J1 on F.Cu",
+              "pos": {
+                "x": 10.0,
+                "y": 10.0
+              },
+              "uuid": "2259717b-f87b-4741-851c-4246b16698d8"
+            }
+          ],
+          "severity": "warning",
+          "type": "padstack"
+        }
+      ],
+      "policy_accepted": false,
+      "report_sha256": "a7f52962cf81fe2bf3af5306cca13fbcb6eeea1a07098206404a9da906d2384c",
+      "targeted_padstack_findings": [
+        {
+          "description": "Padstack is questionable (SMD pad has copper and paste layers on different sides of the board)",
+          "items": [
+            {
+              "description": "Pad 1 [<no net>] of J1 on F.Cu",
+              "pos": {
+                "x": 10.0,
+                "y": 10.0
+              },
+              "uuid": "2259717b-f87b-4741-851c-4246b16698d8"
+            }
+          ],
+          "severity": "warning",
+          "type": "padstack"
+        }
+      ]
+    },
+    {
+      "case": "smd_hole",
+      "passed": false,
+      "source_hashes": {
+        "multichannel_mixer.kicad_pcb": "897190d60a0099c0e67c1787f9c922ca0692105ba9d429dd87b67323fe54ca4c",
+        "multichannel_mixer.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538"
+      },
+      "target_pad_uuid": "2259717b-f87b-4741-851c-4246b16698d8",
+      "fixture_roundtrip_equal": true,
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": []
+      },
+      "policy_critical_count": 0,
+      "policy_critical_findings": [],
+      "policy_accepted": true,
+      "report_sha256": "57cf155b25b2a04840bb7bf98fd96fc139b0f7e9e778fc1b875c7a8c6f286e8c",
+      "targeted_padstack_findings": []
+    }
+  ],
+  "steps": [
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.6760399170016171,
+      "cpu_seconds": 0.43562,
+      "max_rss_bytes": 91111424,
+      "supervisor_cpu_seconds": 0.004514000000000018,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 57212928,
+      "sampled_peak_workdir_bytes": 115756,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/padstack-native-controls-001/positive-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/padstack-native-controls-001/positive-drc-input/multichannel_mixer.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/padstack-native-controls-001/positive-drc.log",
+      "log_bytes": 164,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/padstack-native-controls-001",
+      "signal_cancellation_enabled": true,
+      "pid": 69446,
+      "name": "positive-drc",
+      "validated_input_sha256": "5f1be69ff976b1edf704d1b9c4acf52b0d7a75da53d5bd3452ec172eb534db14",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/padstack-native-controls-001/positive/multichannel_mixer.kicad_pcb"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 0.4521004999987781,
+      "cpu_seconds": 0.401653,
+      "max_rss_bytes": 101089280,
+      "supervisor_cpu_seconds": 0.004347999999999991,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 52871168,
+      "sampled_peak_workdir_bytes": 161705,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/padstack-native-controls-001/wrong_paste-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/padstack-native-controls-001/wrong_paste-drc-input/multichannel_mixer.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/padstack-native-controls-001/wrong_paste-drc.log",
+      "log_bytes": 167,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/padstack-native-controls-001",
+      "signal_cancellation_enabled": true,
+      "pid": 69458,
+      "name": "wrong_paste-drc",
+      "validated_input_sha256": "6ebbe8ca358d72f13f28e7679bf60584e2d3634c889ed4c5999fa42db341ecb4",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/padstack-native-controls-001/wrong_paste/multichannel_mixer.kicad_pcb"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.39479954200214706,
+      "cpu_seconds": 0.387135,
+      "max_rss_bytes": 91455488,
+      "supervisor_cpu_seconds": 0.00436700000000001,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 53002240,
+      "sampled_peak_workdir_bytes": 208660,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/padstack-native-controls-001/smd_hole-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/padstack-native-controls-001/smd_hole-drc-input/multichannel_mixer.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/padstack-native-controls-001/smd_hole-drc.log",
+      "log_bytes": 164,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/padstack-native-controls-001",
+      "signal_cancellation_enabled": true,
+      "pid": 69459,
+      "name": "smd_hole-drc",
+      "validated_input_sha256": "897190d60a0099c0e67c1787f9c922ca0692105ba9d429dd87b67323fe54ca4c",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/padstack-native-controls-001/smd_hole/multichannel_mixer.kicad_pcb"
+    }
+  ],
+  "wall_seconds": 1.7808488340015174,
+  "cpu_seconds": 1.446856
+}

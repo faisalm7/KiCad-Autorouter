@@ -4,7 +4,7 @@ Active specification: `MASTER_PROMPT.md`, read completely. Work remains in the s
 
 ## Established starting point
 
-- G0 pushes and independent remote read-backs passed through `c2b7933`; that full raw archive restored21,855files including the paired comparison, native thermal counterfactual and audits. It remains on this Mac only.
+- G0 pushes and independent remote read-backs passed through `dcb0a44`; that full raw archive restored21,855files including the paired comparison, native thermal counterfactual and audits. It remains on this Mac only.
 - The native vertical slice, fourteen original controls, actual engine cancellation, separate-copy GUI observation and fresh local clone/venv installation002 passed within documented scopes. Additional native-exclusion-002 proved that a real excluded warning must be counted and rejected. The current coordinator suite passes 223 tests.
 - Frozen quality004 completed B0/B1/B2/C_single/C_feedback on one exposed sonde family. C_feedback accepted 644.549 mm / 2 vias versus tuned B2's 786.316 mm / 2 vias and C_single's 662.694 mm / 2 vias, with more compute. Each accepted arm retained one warning. Broad superiority is unproved.
 - Interf003/004 preserve strict class targets but both fail a native isolated-island thermal check. The full population is fourteen acquired boards: seven complete manifested and seven incomplete audit inputs, with two statically eligible and twelve unsupported. Family independence remains unverified.
@@ -43,7 +43,9 @@ After code/protocol review and a verified checkpoint, existing experiment entry 
 
 ```sh
 python3 scripts/experiment_paired.py --project sonde --output .runs/portfolio-paired-002
-python3 scripts/native_thermal_bridge_negative.py --output .runs/interf-thermal-negative-001 --run-native
+python3 scripts/native_thermal_bridge_negative.py --output .runs/interf-thermal-negative-002 --run-native
 ```
 
-These use **new, unexecuted** output identifiers. The fresh pair001 is complete; do not repeat it without a new hypothesis. The immediate native command is the bridge-removal counterfactual. Use fresh identifiers if directories already exist. Record the common frozen SHA and compare enclosing invocation costs as well as receipts. `python3 scripts/backup.py --verify RECEIPT` restore-checks a named existing backup; a manifest alone is not a backup.
+These use **new, unexecuted** output identifiers. The fresh pair001 is complete; do not repeat it without a new hypothesis. The bridge-removal counterfactual001 has already passed; do not repeat it without a new hypothesis. Immediate work is native geometry observation and policy integration after the passed pad-stack controls002. Use fresh identifiers if directories already exist. Record the common frozen SHA and compare enclosing invocation costs as well as receipts. `python3 scripts/backup.py --verify RECEIPT` restore-checks a named existing backup; a manifest alone is not a backup.
+
+Pad-stack controls002 now supply real positive, warning-negative and invalid-error evidence;001 remains retained as a failed SMD-drill recipe. Next integrate a central policy predicate preserving native report severities/dictionaries and unchanged original project settings, then rerun all affected acceptance/readback paths. This does not qualify export of board-level minimum rules.

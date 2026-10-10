@@ -40,3 +40,5 @@ Additional acquisition audit retains seven incomplete boards from six projects, 
 Thermal bridge diagnostic002 at655207c passed actual refill/class/finalDRC with one2.1mm addition and no extra vias. It is repair-only on a stored failed candidate, not a full routing receipt or general completion gain. Paired stronger-baseline harness is integrated with six pure control-flow tests; fresh pair001 passed both full budgets: C101.396471mm shorter than solefrontier lowcostB2, equal2vias on one exposed family.
 
 Automatic thermal generalization remains a proposal: the fixed positive and exact bridge-removal negative both ran natively; a generic pure geometry kernel has16controls but no native exporter/proposal qualification yet. No support gate or original rule is weakened.
+
+Native pad-stack controls002 passed actual clean positive, targeted critical warning and targeted invalid-error cases under unchanged project settings. Evidence: `evidence/padstack-native-controls-002/summary.json`; failed SMD-hole recipe001 retained. A centralized warning policy remains unintegrated, so original eligibility stays unchanged.

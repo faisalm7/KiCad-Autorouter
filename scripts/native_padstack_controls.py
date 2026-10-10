@@ -1,4 +1,4 @@
-"""Unexecuted native padstack controls; diagnostic only, no support gate changes.
+"""Native padstack controls; diagnostic only, no support gate changes.
 
 Run with ordinary Python from this checkout after the lead releases the native
 lane. Native DRC is bounded by one 120-second Job. No routing or source writes.
@@ -23,13 +23,13 @@ PROJECT = ROOT / '.data/boards/kicad-multichannel/multichannel_mixer.kicad_pro'
 # Complete immutable project hash, deliberately not a subset of its settings.
 PROJECT_SHA = 'ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538'
 FIXTURE = ROOT / 'fixtures/smoke/smoke.kicad_pcb'
-CASES = ('positive', 'wrong_paste', 'smd_hole')
+CASES = ('positive', 'wrong_paste', 'pth_tiny_hole')
 PAD_TYPES = {'padstack', 'padstack_invalid'}
 
 
 def fixture(case):
     """Make a new owned diagnostic board, never alter either reference input."""
-    if case not in CASES:
+    if case not in (*CASES, 'smd_hole'):
         raise ValueError('unknown fixture case')
     tree = sx.read(FIXTURE)
     fp = copy.deepcopy(sx.children(tree, 'footprint')[0])
@@ -44,7 +44,16 @@ def fixture(case):
     pad.append(['layers', '"F.Cu"', '"F.Mask"',
                 '"B.Paste"' if case == 'wrong_paste' else '"F.Paste"'])
     if case == 'smd_hole':
+        # Retained failed recipe from run001: KiCad discards SMD drills on load.
         pad.append(['drill', '0.8'])
+    elif case == 'pth_tiny_hole':
+        sx.one(fp, 'attr')[1:] = ['through_hole']
+        pad[2:4] = ['thru_hole', 'circle']
+        sx.one(pad, 'layers')[1:] = ['"*.Cu"', '"*.Mask"']
+        # Positive one-nanometre PTH drill survives parsing and is below the
+        # pinned padstack check's four-internal-unit tolerance. Other original
+        # drill-rule errors remain recorded; only padstack_invalid qualifies.
+        pad.append(['drill', '0.000001'])
     tree.append(fp)
     return tree, sx.unquote(sx.one(pad, 'uuid')[1])
 
