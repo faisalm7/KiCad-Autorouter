@@ -25,12 +25,15 @@ import time
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from autorouter import config as c, pipeline as p
 from autorouter.strategy import prune
+from autorouter.recovery import recover
 from scripts import experiment_portfolio as portfolio, experiment_quality as q
 
 BUDGET = 120.0
 SCRIPT = Path(__file__).resolve()
 C_ARM = {'id': 'C_feedback', 'adapter': 'both', 'engine_profile': 'tuned',
          'operation': 'prune', 'proposal_policy': 'feedback'}
+THERMAL_ARM = {'id': 'C_thermal', 'adapter': 'both', 'engine_profile': 'completion-only',
+               'operation': 'recover', 'strategy': 'native_validated_thermal_bridge'}
 
 
 def cancelled_publication(path, data):
@@ -105,7 +108,8 @@ def verify_portfolio(directory, returned, board, frozen):
 def comparisons(rows):
     """Report every valid baseline frontier point; do not hide tradeoffs."""
     by_id = {row['id']: row for row in rows}
-    baseline, system = by_id.get('B2_portfolio'), by_id.get('C_feedback')
+    baseline = by_id.get('B2_portfolio')
+    system = by_id.get('C_feedback') or by_id.get('C_thermal')
     if not baseline or not system or not baseline['accepted'] or not system['accepted']:
         return []
     result = []
@@ -114,7 +118,7 @@ def comparisons(rows):
             continue
         length_delta = system['length_mm'] - row['length_mm']
         via_delta = system['vias'] - row['vias']
-        result.append({'baseline_variant': row['id'], 'system': 'C_feedback',
+        result.append({'baseline_variant': row['id'], 'system': system['id'],
             'baseline_selected': baseline['selected']['id'] == row['id'],
             'length_delta_mm': length_delta, 'via_delta': via_delta,
             'C_dominates_with_1e_6mm_tolerance': length_delta <= 1e-6 and via_delta <= 0 and (length_delta < -1e-6 or via_delta < 0),
@@ -122,7 +126,59 @@ def comparisons(rows):
     return result
 
 
-def experiment(out, project_name='sonde'):
+def verify_thermal_incumbent(directory, result, board, frozen):
+    """Bind the fresh C engine attempt to the declared comparator contract."""
+    path = directory/'incumbent/result.json'
+    record = result.get('incumbent', {})
+    if (any(q.is_symlink() for q in (path,*path.parents)) or record.get('receipt') != str(path)
+            or record.get('receipt_sha256') != p.sha(path)):
+        raise p.Rejected('thermal incumbent receipt binding mismatch')
+    assigned = result.get('incumbent_assigned_seconds')
+    if not q.finite_nonnegative(assigned) or not 5 <= assigned <= BUDGET-40:
+        raise p.Rejected('thermal incumbent assignment outside declared reserve')
+    data = json.loads(path.read_text())
+    if (data.get('source') != str(board) or data.get('source_hashes') != frozen['source_hashes']
+            or data.get('tools') != frozen['tools'] or data.get('adapter') != 'both'
+            or data.get('engine_profile') != 'completion-only' or data.get('scoring_variant') is not None
+            or data.get('scope') != 'whole_board_unlocked_routing'
+            or data.get('budget_seconds') != result.get('incumbent_assigned_seconds')
+            or data.get('cpu_budget_seconds') != result.get('incumbent_assigned_seconds')
+            or data.get('status') != record.get('status') or data.get('accepted') != record.get('accepted')):
+        raise p.Rejected('thermal incumbent differs from frozen contract')
+    engine = data.get('engine_budget', {})
+    left = engine.get('remaining_outer_wall_seconds_at_assignment')
+    if not q.finite_nonnegative(left) or left > assigned:
+        raise p.Rejected('thermal engine remaining allowance exceeds assignment')
+    expected = p.engine_profile_settings('completion-only', engine.get('remaining_outer_wall_seconds_at_assignment'),
+                                         strict_class_targets=data.get('netclass_policy') is not None)
+    if (any(engine.get(k) != v for k,v in expected.items())
+            or engine.get('outer_task_wall_budget_seconds') != data['budget_seconds']
+            or engine.get('outer_task_cpu_budget_seconds') != data['cpu_budget_seconds']):
+        raise p.Rejected('thermal incumbent engine settings mismatch')
+    steps = [s for s in data.get('steps', []) if s.get('name') == 'engine']
+    expected_argv = ['/usr/bin/sandbox-exec','-p','(version 1)(allow default)(deny network*)',str(c.JAVA),
+                     '-Xms128m','-Xmx2g','-XX:ActiveProcessorCount=1','-Djava.awt.headless=true','-jar',str(c.JAR),
+                     '--gui.enabled=false','--api_server.enabled=false','--mcp_server.enabled=false','-da',
+                     '--user_data_path='+str(path.parent/'engine-config'),'--logging.file.enabled=false',
+                     *expected['argv'],'-de',str(path.parent/'task.dsn'),'-do',str(path.parent/'routes.ses')]
+    if (len(steps) != 1 or steps[0].get('status') != 'success' or steps[0].get('exit_code') != 0
+            or steps[0].get('cleanup_complete') is not True
+            or steps[0].get('argv') != expected_argv or steps[0].get('cwd') != str(path.parent)
+            or json.loads((path.parent/'engine-process.json').read_text()) != steps[0]):
+        raise p.Rejected('thermal incumbent engine execution mismatch')
+    for name,field in [('native.dsn','native_dsn_sha256'),('task.dsn','task_dsn_sha256')]:
+        if (path.parent/name).is_symlink() or p.sha(path.parent/name) != data.get(field):
+            raise p.Rejected('thermal incumbent export changed')
+    if result.get('accepted') is True and data.get('status') not in {'routing_accepted','drc_rejected'}:
+        raise p.Rejected('thermal recovery used an ineligible incumbent')
+    if p.sha(path) != record['receipt_sha256']:
+        raise p.Rejected('thermal incumbent changed during verification')
+
+
+def experiment(out, project_name='sonde', system='feedback'):
+    if system not in {'feedback','thermal'}:
+        raise p.Rejected('unknown paired system')
+    c_arm = C_ARM if system=='feedback' else THERMAL_ARM
     batch_started, batch_cpu = time.monotonic(), q.total_process_cpu()
     out = Path(out).resolve()
     if c.ROOT/'.runs' not in out.parents:
@@ -149,10 +205,11 @@ def experiment(out, project_name='sonde'):
             if p.sha(target) != digest:
                 raise p.Rejected('code changed while preserving paired freeze')
         protocol = {'schema': 1, 'freeze': frozen, 'family': family, 'source': str(board),
-            'arm_order': ['B2_portfolio', 'C_feedback'], 'wall_budget_per_arm_seconds': BUDGET,
+            'arm_order': ['B2_portfolio', c_arm['id']], 'wall_budget_per_arm_seconds': BUDGET,
             'cpu_budget_per_arm_seconds': BUDGET, 'cpu_enforcement': 'measured acceptance cap, not OS preemption',
             'baseline': 'fixed three search-cost variants, same adapter and native constraints; full frontier retained',
-            'system': 'single tuned default-cost incumbent plus feedback pruning; no free use of the portfolio winner',
+            'system': ('single tuned default-cost incumbent plus feedback pruning' if system=='feedback' else 'fresh completion-only default-cost incumbent, fresh native geometry and bounded thermal bridge recovery')+'; no free use of the portfolio winner',
+            'system_contract': c_arm,
             'accounting': 'each raw enclosing arm includes pre/post freeze verification, invocation, failed attempts, receipt checks, and arm-index emission; the entire shared initial freeze/copy/paired-summary overhead is then conservatively charged to EACH arm, with caps rechecked after final publication',
             'fairness_limit': 'equal total budgets and constraints, different predeclared allocation policies; C is not initialized by the portfolio',
             'editor_policy': 'operator closes PCB Editor and keeps other native/engine jobs idle',
@@ -172,9 +229,14 @@ def experiment(out, project_name='sonde'):
                     result = portfolio.experiment(directory, project_name)
                     row.update(verify_portfolio(directory, result, board, frozen))
                 else:
-                    result = prune(board, directory, BUDGET, proposal_policy='feedback')
-                    row.update(q.summarize(C_ARM, directory, result,
+                    result = (prune(board, directory, BUDGET, proposal_policy='feedback')
+                              if system=='feedback' else recover(board, directory, BUDGET))
+                    row.update(q.summarize(c_arm, directory, result,
                         time.monotonic()-started, q.total_process_cpu()-cpu_started))
+                    if system=='thermal' and result.get('strategy')!=THERMAL_ARM['strategy']:
+                        raise p.Rejected('thermal strategy contract mismatch')
+                    if system=='thermal' and result.get('accepted') is True:
+                        verify_thermal_incumbent(directory, result, board, frozen)
                     if q.cancelled(result):
                         raise KeyboardInterrupt
                     if result.get('tools') != frozen['tools'] or result.get('source_hashes') != frozen['source_hashes']:
@@ -259,6 +321,7 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', required=True)
     parser.add_argument('--project', choices=tuple(q.PROJECTS), default='sonde')
+    parser.add_argument('--system', choices=('feedback','thermal'), default='feedback')
     args=parser.parse_args()
     lock_path=c.ROOT/'.runs/quality-experiment.lock';lock_path.parent.mkdir(exist_ok=True)
     if lock_path.is_symlink():parser.error('experiment lock must not be a symlink')
@@ -267,7 +330,7 @@ def main():
     try:
         with lock_path.open('a') as lock:
             fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
-            result=experiment(Path(args.output),args.project)
+            result=experiment(Path(args.output),args.project,args.system)
         print(json.dumps({'status':result['status'],'summary':str(Path(args.output)/'paired-summary.json')}))
         return 0 if result['status']=='completed' else 2
     finally:

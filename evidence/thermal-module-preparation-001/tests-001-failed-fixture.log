@@ -1,0 +1,46 @@
+test_boolean_counter_rejected (__main__.Controls.test_boolean_counter_rejected) ... ok
+test_child_does_not_launch_when_cpu_exhausted (__main__.Controls.test_child_does_not_launch_when_cpu_exhausted) ... ok
+test_child_receipts_success_error_cancel_once (__main__.Controls.test_child_receipts_success_error_cancel_once) ... ok
+test_exclusions_rejected (__main__.Controls.test_exclusions_rejected) ... ok
+test_failed_invalidation_leaves_no_positive_canonical (__main__.Controls.test_failed_invalidation_leaves_no_positive_canonical) ... ok
+test_input_symlink_rejected (__main__.Controls.test_input_symlink_rejected) ... ok
+test_map_binding_even_if_outer_audit_is_noop (__main__.Controls.test_map_binding_even_if_outer_audit_is_noop) ... ok
+test_other_critical_warning_rejected (__main__.Controls.test_other_critical_warning_rejected) ... ok
+test_partial_write_failure_preserved_and_invalidated (__main__.Controls.test_partial_write_failure_preserved_and_invalidated) ... ok
+test_publication_invalidates_after_positive_write (__main__.Controls.test_publication_invalidates_after_positive_write) ... ok
+test_sole_positive (__main__.Controls.test_sole_positive) ... FAIL
+test_all_holes_even_foreign_net_block_bridge (__main__.Geometry.test_all_holes_even_foreign_net_block_bridge) ... ok
+test_body_layer (__main__.Geometry.test_body_layer) ... ok
+test_concavity_crossing (__main__.Geometry.test_concavity_crossing) ... ok
+test_duplicate_uuid (__main__.Geometry.test_duplicate_uuid) ... ok
+test_exact_margin_tangent_rejected (__main__.Geometry.test_exact_margin_tangent_rejected) ... ok
+test_exhausted_shared_budget (__main__.Geometry.test_exhausted_shared_budget) ... ok
+test_forged_path_through_drill (__main__.Geometry.test_forged_path_through_drill) ... ok
+test_forged_proposal_net (__main__.Geometry.test_forged_proposal_net) ... ok
+test_hole_centerline_crossing (__main__.Geometry.test_hole_centerline_crossing) ... ok
+test_negative_hole (__main__.Geometry.test_negative_hole) ... ok
+test_no_binding (__main__.Geometry.test_no_binding) ... ok
+test_nonpositive_max_error (__main__.Geometry.test_nonpositive_max_error) ... ok
+test_offset_drill_rejected_as_target (__main__.Geometry.test_offset_drill_rejected_as_target) ... ok
+test_positive_rechecked (__main__.Geometry.test_positive_rechecked) ... ok
+test_renaming_invariant (__main__.Geometry.test_renaming_invariant) ... ok
+test_reversed_serialization_invariant (__main__.Geometry.test_reversed_serialization_invariant) ... ok
+test_rotation_translation_invariant (__main__.Geometry.test_rotation_translation_invariant) ... ok
+test_same_logical_terminal_not_destination (__main__.Geometry.test_same_logical_terminal_not_destination) ... ok
+test_slot_rejected (__main__.Geometry.test_slot_rejected) ... ok
+test_target_net (__main__.Geometry.test_target_net) ... ok
+test_waypoint_operation_cap (__main__.Geometry.test_waypoint_operation_cap) ... ok
+
+======================================================================
+FAIL: test_sole_positive (__main__.Controls.test_sole_positive)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-module-draft-001/test_thermal_draft.py", line 105, in test_sole_positive
+    def test_sole_positive(self):self.assertEqual(t.sole_thermal(self.native()),self.finding())
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != {'type': 'starved_thermal', 'severity': '[48 chars]e'}]}
+
+----------------------------------------------------------------------
+Ran 32 tests in 0.177s
+
+FAILED (failures=1)

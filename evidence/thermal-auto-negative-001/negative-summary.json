@@ -1,0 +1,236 @@
+{
+  "schema": 1,
+  "status": "expected_native_rejection",
+  "control_passed": true,
+  "candidate_accepted": false,
+  "routing_accepted": false,
+  "comparison_eligible": false,
+  "applied": false,
+  "native_executed": true,
+  "original_inputs_unchanged": true,
+  "wall_budget_seconds": 30.0,
+  "cpu_budget_seconds": 30.0,
+  "cost_scope": "single bridge-removal negative diagnostic; excludes acquisition and positive repair",
+  "steps": [
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.495419207996747,
+      "cpu_seconds": 0.8932619999999999,
+      "max_rss_bytes": 244891648,
+      "supervisor_cpu_seconds": 0.012664999999999926,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 235257856,
+      "sampled_peak_workdir_bytes": 2928036,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-auto-negative-001/trial/refill-drc.json",
+        "--save-board",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-auto-negative-001/trial/refill/interf_u.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-auto-negative-001/trial/refill-drc.log",
+      "log_bytes": 177,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-auto-negative-001/trial",
+      "signal_cancellation_enabled": true,
+      "pid": 96474,
+      "name": "refill-drc",
+      "validated_input_sha256": "922c6ce93556732940b5bccc06794c84b35fd164f86abd0ac3f6faf5b76e3f41",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-auto-negative-001/trial/refill/interf_u.kicad_pcb"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.43800529099826235,
+      "cpu_seconds": 0.42278099999999996,
+      "max_rss_bytes": 206979072,
+      "supervisor_cpu_seconds": 0.005147000000000013,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 34701312,
+      "sampled_peak_workdir_bytes": 2978158,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-auto-negative-001/code/autorouter/native.py",
+        "netclasses",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-auto-negative-001/trial/candidate/interf_u.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-auto-negative-001/trial/final-netclasses.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-auto-negative-001/trial/final-netclasses.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-auto-negative-001/trial",
+      "signal_cancellation_enabled": true,
+      "pid": 96475,
+      "name": "final-netclasses"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.2320363749968237,
+      "cpu_seconds": 0.8084819999999999,
+      "max_rss_bytes": 244891648,
+      "supervisor_cpu_seconds": 0.012334000000000067,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 235536384,
+      "sampled_peak_workdir_bytes": 4429702,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-auto-negative-001/trial/final-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-auto-negative-001/trial/final-drc-input/interf_u.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-auto-negative-001/trial/final-drc.log",
+      "log_bytes": 164,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-auto-negative-001/trial",
+      "signal_cancellation_enabled": true,
+      "pid": 96489,
+      "name": "final-drc",
+      "validated_input_sha256": "922c6ce93556732940b5bccc06794c84b35fd164f86abd0ac3f6faf5b76e3f41",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-auto-negative-001/trial/candidate/interf_u.kicad_pcb"
+    }
+  ],
+  "protocol_sha256": "d10d95cbd2a8c1cc428318864b8f6e997000ccbac72b9a4500c4049f22f48de4",
+  "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-auto-negative-001/trial/candidate/interf_u.kicad_pcb",
+  "candidate_sha256": "922c6ce93556732940b5bccc06794c84b35fd164f86abd0ac3f6faf5b76e3f41",
+  "native": {
+    "opens": 0,
+    "blocking": 1,
+    "warnings": 0,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Copper connection too narrow",
+        "key": "connection_width"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "PTH inside courtyard",
+        "key": "pth_inside_courtyard"
+      },
+      {
+        "description": "NPTH inside courtyard",
+        "key": "npth_inside_courtyard"
+      }
+    ],
+    "findings": [
+      {
+        "description": "Thermal relief connection to zone incomplete (layer bottom_copper; 1 spokes connected to isolated island)",
+        "items": [
+          {
+            "description": "Zone [GND] on bottom_copper, priority 0",
+            "pos": {
+              "x": 193.675,
+              "y": 133.35
+            },
+            "uuid": "00000000-0000-0000-0000-00004cdec22b"
+          },
+          {
+            "description": "PTH pad C4 [GND] of U9",
+            "pos": {
+              "x": 150.495,
+              "y": 72.39
+            },
+            "uuid": "387e8928-4a73-4b3a-ae74-249440996e94"
+          }
+        ],
+        "severity": "error",
+        "type": "starved_thermal"
+      }
+    ]
+  },
+  "native_report_sha256": "2c0f874a80d4fc66749384103b62670e71e3689cd8efb4ec21ae8db9b3ed22b5",
+  "native_class_map_sha256": "97d8c6dd3939fa3ae069ab82ff6b940c050c99d8388e03b817e7c4d40502bbb9",
+  "wall_seconds": 6.292101750004804,
+  "total_cpu_seconds": 4.780804
+}

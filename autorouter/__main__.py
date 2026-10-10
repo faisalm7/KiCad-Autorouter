@@ -27,6 +27,7 @@ def main():
     sub.add_parser('doctor')
     review=sub.add_parser('review-copy');review.add_argument('receipt');review.add_argument('--output',required=True)
     improve=sub.add_parser('improve');improve.add_argument('board');improve.add_argument('--output',required=True);improve.add_argument('--seconds',type=float,default=120);improve.add_argument('--proposal-policy',choices=['single','feedback'],default='single')
+    recover=sub.add_parser('recover',help='Experimental whole-board routing with bounded thermal repair');recover.add_argument('board');recover.add_argument('--output',required=True);recover.add_argument('--seconds',type=float,default=120)
     verify=sub.add_parser('check-result');verify.add_argument('receipt')
     r=sub.add_parser('route'); r.add_argument('board'); r.add_argument('--output',required=True); r.add_argument('--seconds',type=float,default=120); r.add_argument('--keep-existing',action='store_true');r.add_argument('--adapter',choices=['none','graphics','planes','both'],default='none');r.add_argument('--profile',choices=['standard','tuned','completion-only'],default='standard')
     a=p.parse_args()
@@ -43,6 +44,9 @@ def main():
         if a.command=='improve':
             from .strategy import prune
             result=prune(a.board,a.output,a.seconds,proposal_policy=a.proposal_policy)
+        elif a.command=='recover':
+            from .recovery import recover
+            result=recover(a.board,a.output,a.seconds)
         else: result=route(a.board,a.output,a.seconds,a.keep_existing,a.adapter,a.profile)
     except Exception as exc:
         print(json.dumps({'accepted':False,'error':str(exc)}));return 2

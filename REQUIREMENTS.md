@@ -46,3 +46,5 @@ Native pad-stack controls002 passed actual clean positive, targeted critical war
 At421ba64 the new policy passed a fresh complete native smoke route and strict readback. The newly eligible multichannel whole-board attempt rejected with160opens/95blocking findings under120secondcaps; no additional solved production family is counted. Evidence: `evidence/policy-smoke-native-001` and `evidence/multichannel-native-001`.
 
 Generated thermal repair native001 passes actual final native checks with exact saved-fill preservation (`evidence/thermal-auto-native-001`); end-to-end G4 completion recovery and its equal-budget comparator remain unmet.
+
+Thermal recovery integration now has independent geometry, wrapper and comparator-contract reviews, 32 geometry/module controls, 13 wrapper controls and 11 evidence-contract controls. Actual Python SIGTERM and postpublication source/code mutation reject accepted receipts. `evidence/review-recovery-wrapper-001` and `evidence/review-thermal-contract-001` record discovered defects and their fixes. The generated exact-removal native counterfactual also passes; a fresh full-budget routing comparison is still required.

@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "review_kind": "independent AI; mocked native/engine control stages plus actual Python SIGTERM",
+  "completed_utc": "2026-10-10T09:57:34.888898+00:00",
+  "scope": "recovery wrapper, CLI dispatch and resource accounting; actual thermal geometry/native correctness separately reviewed",
+  "findings": [
+    {
+      "id": "R1",
+      "description": "SIGTERM after accepted publication could leave accepted receipt",
+      "status": "resolved",
+      "original": "sigterm-reproduction.json",
+      "final": "sigterm-final.json"
+    },
+    {
+      "id": "R2",
+      "description": "source/code changes during last accepted publication were not rechecked",
+      "status": "resolved",
+      "original": "postpublication-staleness.json",
+      "final": "postpublication-staleness-fixed.json"
+    }
+  ],
+  "remaining_blockers": [],
+  "pure_controls": 13,
+  "native_or_engine_jobs": 0,
+  "promotable_controls": "test_recovery.py",
+  "hashes": {
+    "autorouter/recovery.py": "95cebb44d8eac6e9903bd33e65b5cef887d8b1531f67375b940442f1237c2f9a",
+    "autorouter/__main__.py": "483543e08399c4a42cdb585f6376a7c2cfca8a6a2d94678d3812aceed080d332",
+    "autorouter/pipeline.py": "5663f2b5d9ba4a11fb5740f1a11818ea714dd7a8b25a5b75b05d11ab20af2bb1",
+    ".runs/review-recovery-wrapper-001/controls.py": "6f91550227768884686cdb43a13fc818eb622df5a6fa22a6d35b4249a89c16f0",
+    ".runs/review-recovery-wrapper-001/test_recovery.py": "bebf6d61f0b50dc3236cc5c50ccd508464e9615283bd59a780ea3785ab4a53d3",
+    ".runs/review-recovery-wrapper-001/controls-final.log": "d4370075e0643070e281368ccd1fc8cfa70897344c2907272bc04ec2e60236d4",
+    ".runs/review-recovery-wrapper-001/sigterm-reproduction.json": "872e1094e2e28012fbe64e6434397c2461a59c225f2b2859214d09dcb8ff120c",
+    ".runs/review-recovery-wrapper-001/sigterm-fixed.json": "bd27847460dadbcc46faa2b2f1f39e714ce2ceba434f7c2787798d76a3f4e71c",
+    ".runs/review-recovery-wrapper-001/sigterm-final.json": "998e1b4741eebebb4dfb637de10c8e36e518fa4dff95d5959c08f17c7c49e91b",
+    ".runs/review-recovery-wrapper-001/postpublication-staleness.json": "13cb4eb1be90c1aa1a6f79a4fba6d41955ec9037c50e1bf605568fe2e5d86c41",
+    ".runs/review-recovery-wrapper-001/postpublication-staleness-fixed.json": "d662d78617aebc2390ed7986b701a160e9800138dde18c1c1d7d8f5587f5f8a9",
+    ".runs/review-recovery-wrapper-001/postpublication-staleness-untriggered.json": "23fc9ff39c13e3c17d3bea99def9da596463b4ab602c442bbdb01f1a310f1cf6",
+    ".runs/review-recovery-wrapper-001/README.md": "463fa3f9962fa24e88d8cfbac744259daf4c6496ffeda7d87b70c9ec0e5f604c"
+  }
+}

@@ -57,6 +57,23 @@ class PairedControls(unittest.TestCase):
         self.assertTrue(result['comparisons'][0]['C_dominates_with_1e_6mm_tolerance'])
         self.assertFalse(result['comparisons'][1]['C_dominates_with_1e_6mm_tolerance'])
 
+    def test_thermal_arm_starts_its_own_fresh_operation_with_full_charged_budget(self):
+        def recovery(board,directory,seconds):
+            self.assertEqual((board,seconds),(self.board,120))
+            self.assertEqual(directory,self.out/'C_thermal')
+            self.calls.append('thermal');self.wall+=20.;self.cpu+=20.
+            return {'tools':{'git_head':'synthetic'},'source_hashes':{},'status':'routing_accepted',
+                    'accepted':True,'steps':[],'strategy':'native_validated_thermal_bridge'}
+        def summary(arm,*args):
+            self.assertEqual(arm,m.THERMAL_ARM)
+            return {'id':'C_thermal','status':'routing_accepted','accepted':True,'vias':2,'length_mm':700.}
+        with patch.object(m,'recover',side_effect=recovery),patch.object(m.q,'summarize',side_effect=summary),patch.object(m,'verify_thermal_incumbent') as verify:
+            result=m.experiment(self.out,system='thermal')
+            verify.assert_called_once()
+        self.assertEqual(self.calls,['portfolio','thermal'])
+        self.assertEqual([row['charged_cpu_seconds'] for row in result['results']],[28.,28.])
+        self.assertEqual(result['comparisons'][0]['system'],'C_thermal')
+
     def test_shared_overhead_can_disqualify_otherwise_in_budget_C(self):
         self.c_cost=(115.,115.)
         result=m.experiment(self.out)
