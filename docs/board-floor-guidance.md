@@ -47,7 +47,7 @@ python3 -B evidence/board-floor-native-draft-002/driver.py --out .runs/board-flo
 
 The two reproduction native commands above have not been executed; the actual runs used the byte-identical reviewed ignored driver at `.runs/board-floor-native-draft-002/driver.py`. Root did execute the public copy's31 pure tests. This driver is a diagnostic, not an installed routing feature.
 
-Selected exact raw evidence is in `evidence/board-floor-geometry-001`, `002` and `board-floor-forced-via-001`, with scope and per-file hashes. Full raw trees remain in `.runs`; selected copies omit KiCad/engine configuration. The099cc8f tested private archive predates all three native floor invocations. A new raw archive is required to cover them. Archives are on this Mac only.
+Selected exact raw evidence is in `evidence/board-floor-geometry-001`, `002` and `board-floor-forced-via-001`, with scope and per-file hashes. Full raw trees remain in `.runs`; selected copies omit KiCad/engine configuration. The ebbb56c tested private archive covers all three native floor invocations and their independent reviews, with25,514non-Gitfiles restored and all Git refs verified. Archives are on this Mac only.
 
 Independent read-only audits verified1,914 fresh geometry002 bindings,607 forced-via001 bindings and1,455 selected-public-copy checks. They independently decoded SES geometry and compared it through imported/final/native-readback objects. Review records are in `evidence/review-board-floor-geometry-002` and `evidence/review-board-floor-forced-via-001`; AI review is not human PCB or physical review.
 
