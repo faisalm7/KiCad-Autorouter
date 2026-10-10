@@ -1,0 +1,143 @@
+{
+  "schema": 1,
+  "audit_passed": true,
+  "check_count": 168,
+  "native_engine_network_executed": false,
+  "head": "eab7540924b5c8d68263fb68eb4bce6ab9540783",
+  "summary_sha256": "59780264584c2335ad73fb71b72fae14b4857fdc14843d250f14309f6d492345",
+  "cases": [
+    {
+      "case": "positive",
+      "candidate_sha256": "4c118026360d23ecfffad6b4c8638aabf592f9534ca1e8cb999a77316dee09e1",
+      "diagnostic_report_sha256": "fa0cd3ea26e22af80743bfd19cefc8bc0899285d4d13b2890941857f1ff87cc7",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0
+      },
+      "findings": [],
+      "production_native_accepted": true,
+      "production_rejection": null,
+      "production_native_steps": 3
+    },
+    {
+      "case": "narrow_track",
+      "candidate_sha256": "2d498e6da844145a7fe1c02277afb0f52db5aeb1472e5dddb8fb492c84481ad1",
+      "diagnostic_report_sha256": "fc69406b2e194e3410e20eeb4866540743160d9abed01b11f33730b6d043e21f",
+      "native": {
+        "opens": 0,
+        "blocking": 1,
+        "warnings": 1,
+        "exclusions": 0
+      },
+      "findings": [
+        {
+          "type": "track_width",
+          "severity": "error",
+          "items": [
+            "436faa9a-4769-493e-b507-867eded7201c"
+          ]
+        },
+        {
+          "type": "connection_width",
+          "severity": "warning",
+          "items": [
+            "d67c6e15-c566-5a5d-afb1-5fe68896c30e",
+            "436faa9a-4769-493e-b507-867eded7201c"
+          ]
+        }
+      ],
+      "production_native_accepted": false,
+      "production_rejection": "ValueError: generated track differs from derived guidance",
+      "production_native_steps": 0
+    },
+    {
+      "case": "small_via",
+      "candidate_sha256": "925341dabe2ef6e7071eddc537cbc19fe80f8dc62947795bd5e5e33cff52f4ef",
+      "diagnostic_report_sha256": "0ec1ff64d8f51dba952107541a187c8f5116081f7361543c050ec7fcbc9e070f",
+      "native": {
+        "opens": 0,
+        "blocking": 2,
+        "warnings": 0,
+        "exclusions": 0
+      },
+      "findings": [
+        {
+          "type": "annular_width",
+          "severity": "error",
+          "items": [
+            "823b0627-0880-4b8e-b78f-6d1407f43ea0"
+          ]
+        },
+        {
+          "type": "via_diameter",
+          "severity": "error",
+          "items": [
+            "823b0627-0880-4b8e-b78f-6d1407f43ea0"
+          ]
+        }
+      ],
+      "production_native_accepted": false,
+      "production_rejection": "ValueError: generated via differs from derived guidance/floor",
+      "production_native_steps": 0
+    },
+    {
+      "case": "missing_via",
+      "candidate_sha256": "62f6526e9b4348ad526dad1fed002c80ddcaf9cbcca6b55c744dde2a84c93ad5",
+      "diagnostic_report_sha256": "a5cc3ba779ceeacbb7c1e443635facb04a4b01a6ac5b691d308e6fd4deac0ca3",
+      "native": {
+        "opens": 1,
+        "blocking": 0,
+        "warnings": 2,
+        "exclusions": 0
+      },
+      "findings": [
+        {
+          "type": "track_dangling",
+          "severity": "warning",
+          "items": [
+            "e13a511f-5f1a-4df7-b5b3-52f887325036"
+          ]
+        },
+        {
+          "type": "track_dangling",
+          "severity": "warning",
+          "items": [
+            "21672e60-3d6f-4104-a2a6-21c15b36ca6b"
+          ]
+        },
+        {
+          "type": "unconnected_items",
+          "severity": "error",
+          "items": [
+            "21672e60-3d6f-4104-a2a6-21c15b36ca6b",
+            "e13a511f-5f1a-4df7-b5b3-52f887325036"
+          ]
+        }
+      ],
+      "production_native_accepted": false,
+      "production_rejection": null,
+      "production_native_steps": 3
+    },
+    {
+      "case": "changed_rule",
+      "candidate_sha256": "4c118026360d23ecfffad6b4c8638aabf592f9534ca1e8cb999a77316dee09e1",
+      "diagnostic_report_sha256": "530b83c62ba4f948795b3fd588da928ed30a9d9d9b53a1479cf9fbda362a3f86",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0
+      },
+      "findings": [],
+      "production_native_accepted": false,
+      "production_rejection": "ValueError: native context/source/DSN byte binding mismatch",
+      "production_native_steps": 0
+    }
+  ],
+  "wall_seconds": 9.452607291997992,
+  "total_cpu_seconds": 6.336963,
+  "native_step_cpu_seconds": 4.214717,
+  "scope": "Five stored-candidate controls, fresh actual native reports; no new engine route, population board or comparison. Rule-severity mutation refused by provenance, not a nativeDRC finding. Raw001 pre-native failure retained. Timings sampled before publication with finalcaps in frozen source; no independent time instrumentation."
+}

@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "audit_passed": true,
+  "check_count": 83,
+  "native_engine_network_executed": false,
+  "head": "eab7540924b5c8d68263fb68eb4bce6ab9540783",
+  "receipt_sha256": "c8501cf4b14634a0c9c2d38504717f8f9d7e7991b461446642cf7a3ecca6f4e3",
+  "candidate_sha256": "65dd3b0e6e0bfe6bf45a84b58d94eb4388a8b318967c47c40c26714b6777a0ef",
+  "report_sha256": "ce780053bb51d2b131db586c87ec02d81ea8619eaf5bbe8967439259e768d5a6",
+  "finding_census": [
+    {
+      "type": "connection_width",
+      "severity": "warning",
+      "count": 9
+    },
+    {
+      "type": "lib_footprint_mismatch",
+      "severity": "warning",
+      "count": 81
+    },
+    {
+      "type": "nonmirrored_text_on_back_layer",
+      "severity": "warning",
+      "count": 1
+    },
+    {
+      "type": "silk_edge_clearance",
+      "severity": "warning",
+      "count": 1
+    },
+    {
+      "type": "silk_over_copper",
+      "severity": "warning",
+      "count": 4
+    }
+  ],
+  "metrics": {
+    "version": "10.0.0",
+    "pads": 327,
+    "footprints": 114,
+    "zones": 6,
+    "vias": 21,
+    "track_length_mm": 2647.385728862639,
+    "copper_layers": 2
+  },
+  "wall_seconds": 36.878349999999045,
+  "total_cpu_seconds": 51.577022,
+  "transforms": {
+    "placement_areas": 4,
+    "removed_false_keepouts": 8,
+    "clearance_atoms_changed": 3,
+    "clearance_um_before": 300,
+    "clearance_um_after": 320,
+    "adapter_planes_removed": 3,
+    "original_zones_retained": 6
+  },
+  "same_topology_prior_diagnostic": {
+    "result_sha256": "90fa23eb153005370614e86bf198cf72ee5f3c7e7d2b58e3eb0e287997884922",
+    "candidate_sha256": "36e778573b2c90dfca8f9d45597e6bd890cc45c7fc4c6c86a2673e2e7fef3bef",
+    "segments": 783,
+    "vias": 21,
+    "exact_net_layer_endpoint_width_drill_geometry_equal": true,
+    "comparison_claim": false
+  },
+  "scope": "Exposed one-board productionqualification replay. No new matchedcomparison/Cnovelty/generalization, no metric gainvsinvalidbaseline, no physical/electrical or GUIqualification. Original24clearanceerrors and93warnings remain source evidence; candidate has96warnings including3more connection_width. Storedtimings precedefinalwrite, frozenfinalguard checks cap."
+}

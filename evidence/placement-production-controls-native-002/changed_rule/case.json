@@ -1,0 +1,81 @@
+{
+  "case": "changed_rule",
+  "passed": true,
+  "expected": {
+    "case": "changed_rule",
+    "positive_via_uuid": "823b0627-0880-4b8e-b78f-6d1407f43ea0",
+    "adjacent_route_uuids": [
+      "21672e60-3d6f-4104-a2a6-21c15b36ca6b",
+      "e13a511f-5f1a-4df7-b5b3-52f887325036"
+    ],
+    "changed_project": true,
+    "target_uuid": null,
+    "field": "board.design_settings.rule_severities.track_width",
+    "old": "error",
+    "new": "warning",
+    "board_sha256": "4c118026360d23ecfffad6b4c8638aabf592f9534ca1e8cb999a77316dee09e1",
+    "project_sha256": "0048ead2215813df1e03235c08431f6a51b8a4481c2c4410f3748784ba098938"
+  },
+  "diagnostic_binding": {
+    "candidate_sha256": "4c118026360d23ecfffad6b4c8638aabf592f9534ca1e8cb999a77316dee09e1",
+    "native_report_sha256": "530b83c62ba4f948795b3fd588da928ed30a9d9d9b53a1479cf9fbda362a3f86",
+    "native_binding_sha256": "148aae4227d514f77e5f7cfe101b6b9adb957f1b0aac9d863dca501c570098d2",
+    "input_hashes": {
+      "PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+      "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+      "export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+      "final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+      "final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+      "fixture.kicad_pcb": "4c118026360d23ecfffad6b4c8638aabf592f9534ca1e8cb999a77316dee09e1",
+      "fixture.kicad_prl": "f92cdf44f7d7e8caa87ef7674a3d165d8b41ad63269d30068ffb91ca2dfe9a9d",
+      "fixture.kicad_pro": "0048ead2215813df1e03235c08431f6a51b8a4481c2c4410f3748784ba098938",
+      "native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2"
+    }
+  },
+  "native": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 0,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "PTH inside courtyard",
+        "key": "pth_inside_courtyard"
+      },
+      {
+        "description": "NPTH inside courtyard",
+        "key": "npth_inside_courtyard"
+      },
+      {
+        "description": "Footprint component type doesn't match footprint pads",
+        "key": "footprint_type_mismatch"
+      }
+    ],
+    "findings": []
+  },
+  "diagnostic_passed": true,
+  "targeted_native_findings": [],
+  "production_validation_invoked": true,
+  "production_rejection": "ValueError: native context/source/DSN byte binding mismatch",
+  "production_native_accepted": false,
+  "production_expected_outcome": true,
+  "production_steps": []
+}

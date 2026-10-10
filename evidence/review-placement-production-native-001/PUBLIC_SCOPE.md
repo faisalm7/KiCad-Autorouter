@@ -1,0 +1,1 @@
+Exact independent offline audit records and preserved reviewer-script failures. No native, engine or network execution by this audit. The manifests bind unchanged original raw runs; selected public copies are intentionally incomplete for standalone receipt execution. Counts describe evidence checks, not independent board families or human PCB review.

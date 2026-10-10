@@ -1,0 +1,183 @@
+{
+  "schema": 1,
+  "status": "passed",
+  "passed": true,
+  "scope": "Offline synthetic relocation/tampering of actual schema3 native evidence; no authentication or fresh native execution",
+  "native_executed": false,
+  "engine_executed": false,
+  "original_positive": {
+    "current": true,
+    "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-production-native-001/candidate/fixture.kicad_pcb",
+    "candidate_sha256": "4c118026360d23ecfffad6b4c8638aabf592f9534ca1e8cb999a77316dee09e1",
+    "applied": false,
+    "authentication": "none; mutable local evidence consistency only",
+    "warning": "Fresh native validation is required before application; human PCB review and electrical/physical validation remain required.",
+    "input_policy": "placement-clearance-v1"
+  },
+  "base_run": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-production-native-001",
+  "base_result_sha256": "166050372738e25335db8261753c433c921a0a71857148c7a4d8cadf2669df7d",
+  "base_source": "/Users/faisal/Projects/KiCad-Autorouter-local/evidence/placement-area-native-001/allowed_placement/candidate/fixture.kicad_pcb",
+  "budget_seconds": 60,
+  "cpu_budget_seconds": 60,
+  "disk_ceiling_bytes": 16777216,
+  "projected_copy_bytes": 12280905,
+  "cases": [
+    {
+      "case": "positive",
+      "positive_relocated": true,
+      "expected_negative": false,
+      "passed": true,
+      "outcome": "accepted unchanged relocated evidence",
+      "receipt_sha256": "26bb46bcb31130aa328b252a854b6bc6be549314ff56c8b662965527ce293e42"
+    },
+    {
+      "case": "downgrade_floor_markers_present",
+      "positive_relocated": true,
+      "expected_negative": true,
+      "passed": true,
+      "expected_reason_fragments": [
+        "downgraded placement policy"
+      ],
+      "outcome": "rejected",
+      "reason": "Rejected: missing, mixed or downgraded placement policy",
+      "receipt_sha256": "93370478fcd511e6888c2ffce0087dd6bba6a8358b6633e3c5d61e15c23308b6"
+    },
+    {
+      "case": "erase_new_markers_floor_attempt",
+      "positive_relocated": true,
+      "expected_negative": true,
+      "passed": true,
+      "expected_reason_fragments": [
+        "adapter changed guided rules or geometry"
+      ],
+      "outcome": "rejected",
+      "reason": "ValueError: adapter changed guided rules or geometry",
+      "receipt_sha256": "9faa1672fced071d2724838a83d587302102af98e2f6796402bf732c45d508ee"
+    },
+    {
+      "case": "rehashed_planning_clearance",
+      "positive_relocated": true,
+      "expected_negative": true,
+      "passed": true,
+      "expected_reason_fragments": [
+        "placement planning/adapter bytes differ"
+      ],
+      "outcome": "rejected",
+      "reason": "Rejected: placement planning/adapter bytes differ",
+      "receipt_sha256": "9aa7cccf4941ec65d805a6baec7b6f05fb9a84feaf07f1a81e04be5279d0082d"
+    },
+    {
+      "case": "rehashed_area_prohibition",
+      "positive_relocated": true,
+      "expected_negative": true,
+      "passed": true,
+      "expected_reason_fragments": [
+        "source/native zone discrepancy: disallow"
+      ],
+      "outcome": "rejected",
+      "reason": "ValueError: source/native zone discrepancy: disallow",
+      "receipt_sha256": "04e116dc1351a68c93547b70ab41fdf0010aeb3819b43b4844ca0027e3eff39d"
+    },
+    {
+      "case": "matched_via_low_settings_process",
+      "positive_relocated": true,
+      "expected_negative": true,
+      "passed": true,
+      "expected_reason_fragments": [
+        "floor engine configuration differs"
+      ],
+      "outcome": "rejected",
+      "reason": "Rejected: floor engine configuration differs",
+      "receipt_sha256": "148a47970083b5b0cadb1fee2cc284cd0890d197d2e0c313015ac212740f8a1d"
+    },
+    {
+      "case": "missing_ses",
+      "positive_relocated": true,
+      "expected_negative": true,
+      "passed": true,
+      "expected_reason_fragments": [
+        "retained SES transport"
+      ],
+      "outcome": "rejected",
+      "reason": "Rejected: missing or invalid retained SES transport",
+      "receipt_sha256": "bff6c5d741f4c74b2f13d3bf8c4ae6d998ee35f6df781f132c166d545729f19c"
+    },
+    {
+      "case": "arbitrary_observer_process",
+      "positive_relocated": true,
+      "expected_negative": true,
+      "passed": true,
+      "expected_reason_fragments": [
+        "floor process provenance differs: floor-export"
+      ],
+      "outcome": "rejected",
+      "reason": "Rejected: floor process provenance differs: floor-export",
+      "receipt_sha256": "31e4e35bf3883c355dacfb4c6f8bacdf2f517078606b895efdeec97b70b0a939"
+    },
+    {
+      "case": "wrong_generated_width",
+      "positive_relocated": true,
+      "expected_negative": true,
+      "passed": true,
+      "expected_reason_fragments": [
+        "generated track differs from derived guidance"
+      ],
+      "outcome": "rejected",
+      "reason": "ValueError: generated track differs from derived guidance",
+      "receipt_sha256": "68ea9fc8e95a910f6abb33f421792f4efbd873f03b8d0469985318d16b8d9e7f"
+    },
+    {
+      "case": "changed_candidate_rules",
+      "positive_relocated": true,
+      "expected_negative": true,
+      "passed": true,
+      "expected_reason_fragments": [
+        "placement candidate tree changed"
+      ],
+      "outcome": "rejected",
+      "reason": "Rejected: placement candidate tree changed",
+      "receipt_sha256": "b2c7ececd33175227489e230f207f9bf600abfe22b349ad058d8fd956f2cb4e5"
+    },
+    {
+      "case": "rehashed_blocking_report",
+      "positive_relocated": true,
+      "expected_negative": true,
+      "passed": true,
+      "expected_reason_fragments": [
+        "native findings reject candidate"
+      ],
+      "outcome": "rejected",
+      "reason": "Rejected: native findings reject candidate: native blocking=1; native error finding: track_width; policy-critical native finding: track_width (error)",
+      "receipt_sha256": "c9165b3b3fb3553d9ad7a784eb9ac40d1755b170e62cb90602ac2e712a017c3d"
+    },
+    {
+      "case": "stale_source_copy",
+      "positive_relocated": true,
+      "expected_negative": true,
+      "passed": true,
+      "expected_reason_fragments": [
+        "stale source project"
+      ],
+      "outcome": "rejected",
+      "reason": "Rejected: stale source project",
+      "receipt_sha256": "aa66d63396fc4e9226b65dc94419e92f0cef89ccd544fe81886cc6bdb913392e"
+    },
+    {
+      "case": "rehashed_immutable_pad",
+      "positive_relocated": true,
+      "expected_negative": true,
+      "passed": true,
+      "expected_reason_fragments": [
+        "immutable geometry changed"
+      ],
+      "outcome": "rejected",
+      "reason": "Rejected: immutable geometry changed",
+      "receipt_sha256": "d378e66a93ae43dad977a40b07934e0e700a759d91895dbf4a302fdde44fe900"
+    }
+  ],
+  "original_run_source_code_tools_unchanged": true,
+  "wall_seconds": 2.6652709580012015,
+  "total_cpu_seconds": 2.5844299999999993,
+  "stored_bytes": 12110229,
+  "accounting_point": "before final publication/freshness; final caps include both"
+}

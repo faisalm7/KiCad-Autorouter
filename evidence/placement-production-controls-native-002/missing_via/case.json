@@ -1,0 +1,418 @@
+{
+  "case": "missing_via",
+  "passed": true,
+  "expected": {
+    "case": "missing_via",
+    "positive_via_uuid": "823b0627-0880-4b8e-b78f-6d1407f43ea0",
+    "adjacent_route_uuids": [
+      "21672e60-3d6f-4104-a2a6-21c15b36ca6b",
+      "e13a511f-5f1a-4df7-b5b3-52f887325036"
+    ],
+    "changed_project": false,
+    "target_uuid": "823b0627-0880-4b8e-b78f-6d1407f43ea0",
+    "field": "remove_exact_via",
+    "board_sha256": "62f6526e9b4348ad526dad1fed002c80ddcaf9cbcca6b55c744dde2a84c93ad5",
+    "project_sha256": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538"
+  },
+  "diagnostic_binding": {
+    "candidate_sha256": "62f6526e9b4348ad526dad1fed002c80ddcaf9cbcca6b55c744dde2a84c93ad5",
+    "native_report_sha256": "a5cc3ba779ceeacbb7c1e443635facb04a4b01a6ac5b691d308e6fd4deac0ca3",
+    "native_binding_sha256": "7c10d6f62b4d8169b76de6e03b3fa7ce6cf7379a10a3459085da5d12ffc192ed",
+    "input_hashes": {
+      "PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+      "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+      "export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+      "final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+      "final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+      "fixture.kicad_pcb": "62f6526e9b4348ad526dad1fed002c80ddcaf9cbcca6b55c744dde2a84c93ad5",
+      "fixture.kicad_prl": "f92cdf44f7d7e8caa87ef7674a3d165d8b41ad63269d30068ffb91ca2dfe9a9d",
+      "fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2"
+    }
+  },
+  "native": {
+    "opens": 1,
+    "blocking": 0,
+    "warnings": 2,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "PTH inside courtyard",
+        "key": "pth_inside_courtyard"
+      },
+      {
+        "description": "NPTH inside courtyard",
+        "key": "npth_inside_courtyard"
+      },
+      {
+        "description": "Footprint component type doesn't match footprint pads",
+        "key": "footprint_type_mismatch"
+      }
+    ],
+    "findings": [
+      {
+        "description": "Track has unconnected end",
+        "items": [
+          {
+            "description": "Track [SIGNAL_A] on F.Cu, length 26.2183 mm",
+            "pos": {
+              "x": 41.65,
+              "y": 13.96
+            },
+            "uuid": "e13a511f-5f1a-4df7-b5b3-52f887325036"
+          }
+        ],
+        "severity": "warning",
+        "type": "track_dangling"
+      },
+      {
+        "description": "Track has unconnected end",
+        "items": [
+          {
+            "description": "Track [SIGNAL_A] on B.Cu, length 0.8383 mm",
+            "pos": {
+              "x": 41.65,
+              "y": 13.1217
+            },
+            "uuid": "21672e60-3d6f-4104-a2a6-21c15b36ca6b"
+          }
+        ],
+        "severity": "warning",
+        "type": "track_dangling"
+      },
+      {
+        "description": "Missing connection between items",
+        "items": [
+          {
+            "description": "Track [SIGNAL_A] on B.Cu, length 0.8383 mm",
+            "pos": {
+              "x": 41.65,
+              "y": 13.1217
+            },
+            "uuid": "21672e60-3d6f-4104-a2a6-21c15b36ca6b"
+          },
+          {
+            "description": "Track [SIGNAL_A] on F.Cu, length 26.2183 mm",
+            "pos": {
+              "x": 41.65,
+              "y": 13.96
+            },
+            "uuid": "e13a511f-5f1a-4df7-b5b3-52f887325036"
+          }
+        ],
+        "severity": "error",
+        "type": "unconnected_items"
+      }
+    ]
+  },
+  "diagnostic_passed": true,
+  "targeted_native_findings": [
+    {
+      "description": "Missing connection between items",
+      "items": [
+        {
+          "description": "Track [SIGNAL_A] on B.Cu, length 0.8383 mm",
+          "pos": {
+            "x": 41.65,
+            "y": 13.1217
+          },
+          "uuid": "21672e60-3d6f-4104-a2a6-21c15b36ca6b"
+        },
+        {
+          "description": "Track [SIGNAL_A] on F.Cu, length 26.2183 mm",
+          "pos": {
+            "x": 41.65,
+            "y": 13.96
+          },
+          "uuid": "e13a511f-5f1a-4df7-b5b3-52f887325036"
+        }
+      ],
+      "severity": "error",
+      "type": "unconnected_items"
+    }
+  ],
+  "production_validation_invoked": true,
+  "production_native": {
+    "opens": 1,
+    "blocking": 0,
+    "warnings": 2,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "PTH inside courtyard",
+        "key": "pth_inside_courtyard"
+      },
+      {
+        "description": "NPTH inside courtyard",
+        "key": "npth_inside_courtyard"
+      },
+      {
+        "description": "Footprint component type doesn't match footprint pads",
+        "key": "footprint_type_mismatch"
+      }
+    ],
+    "findings": [
+      {
+        "description": "Track has unconnected end",
+        "items": [
+          {
+            "description": "Track [SIGNAL_A] on F.Cu, length 26.2183 mm",
+            "pos": {
+              "x": 41.65,
+              "y": 13.96
+            },
+            "uuid": "e13a511f-5f1a-4df7-b5b3-52f887325036"
+          }
+        ],
+        "severity": "warning",
+        "type": "track_dangling"
+      },
+      {
+        "description": "Track has unconnected end",
+        "items": [
+          {
+            "description": "Track [SIGNAL_A] on B.Cu, length 0.8383 mm",
+            "pos": {
+              "x": 41.65,
+              "y": 13.1217
+            },
+            "uuid": "21672e60-3d6f-4104-a2a6-21c15b36ca6b"
+          }
+        ],
+        "severity": "warning",
+        "type": "track_dangling"
+      },
+      {
+        "description": "Missing connection between items",
+        "items": [
+          {
+            "description": "Track [SIGNAL_A] on B.Cu, length 0.8383 mm",
+            "pos": {
+              "x": 41.65,
+              "y": 13.1217
+            },
+            "uuid": "21672e60-3d6f-4104-a2a6-21c15b36ca6b"
+          },
+          {
+            "description": "Track [SIGNAL_A] on F.Cu, length 26.2183 mm",
+            "pos": {
+              "x": 41.65,
+              "y": 13.96
+            },
+            "uuid": "e13a511f-5f1a-4df7-b5b3-52f887325036"
+          }
+        ],
+        "severity": "error",
+        "type": "unconnected_items"
+      }
+    ]
+  },
+  "production_native_accepted": false,
+  "production_binding": {
+    "candidate_sha256": "62f6526e9b4348ad526dad1fed002c80ddcaf9cbcca6b55c744dde2a84c93ad5",
+    "native_report_sha256": "6bccbce33b06380ca519a7cbb980d637c8bb845169ad7468bbc1b64d24072509",
+    "native_binding_sha256": "0c143ed9076dfa00d7c12fb51b46738e79674f4b5d65d7233b9ec8bb7407694d",
+    "input_hashes": {
+      "PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+      "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+      "export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+      "final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+      "final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+      "fixture.kicad_pcb": "62f6526e9b4348ad526dad1fed002c80ddcaf9cbcca6b55c744dde2a84c93ad5",
+      "fixture.kicad_prl": "f92cdf44f7d7e8caa87ef7674a3d165d8b41ad63269d30068ffb91ca2dfe9a9d",
+      "fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2"
+    }
+  },
+  "candidate_sha256": "62f6526e9b4348ad526dad1fed002c80ddcaf9cbcca6b55c744dde2a84c93ad5",
+  "production_expected_outcome": true,
+  "production_steps": [
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 0.7367611250010668,
+      "cpu_seconds": 0.391076,
+      "max_rss_bytes": 101351424,
+      "supervisor_cpu_seconds": 0.008070000000000022,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 89882624,
+      "sampled_peak_workdir_bytes": 196968,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-production-controls-native-002/missing_via/validation/refill-drc.json",
+        "--save-board",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-production-controls-native-002/missing_via/validation/refill/fixture.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-production-controls-native-002/missing_via/validation/refill-drc.log",
+      "log_bytes": 209,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-production-controls-native-002/missing_via/validation",
+      "signal_cancellation_enabled": true,
+      "pid": 15710,
+      "name": "refill-drc",
+      "validated_input_sha256": "62f6526e9b4348ad526dad1fed002c80ddcaf9cbcca6b55c744dde2a84c93ad5",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-production-controls-native-002/missing_via/validation/refill/fixture.kicad_pcb"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.33595958299702033,
+      "cpu_seconds": 0.326359,
+      "max_rss_bytes": 90275840,
+      "supervisor_cpu_seconds": 0.004937999999999887,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 35766272,
+      "sampled_peak_workdir_bytes": 207905,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/floor_context.py",
+        "final",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-production-controls-native-002/missing_via/validation/candidate/fixture.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-production-controls-native-002/missing_via/validation/floor-final-context.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-production-controls-native-002/missing_via/validation/floor-final.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-production-controls-native-002/missing_via/validation",
+      "signal_cancellation_enabled": true,
+      "pid": 15713,
+      "name": "floor-final"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 0.7304780000049504,
+      "cpu_seconds": 0.38469099999999995,
+      "max_rss_bytes": 101072896,
+      "supervisor_cpu_seconds": 0.00895899999999994,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 90112000,
+      "sampled_peak_workdir_bytes": 274114,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-production-controls-native-002/missing_via/validation/final-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-production-controls-native-002/missing_via/validation/final-drc-input/fixture.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-production-controls-native-002/missing_via/validation/final-drc.log",
+      "log_bytes": 196,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-production-controls-native-002/missing_via/validation",
+      "signal_cancellation_enabled": true,
+      "pid": 15714,
+      "name": "final-drc",
+      "validated_input_sha256": "62f6526e9b4348ad526dad1fed002c80ddcaf9cbcca6b55c744dde2a84c93ad5",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-production-controls-native-002/missing_via/validation/candidate/fixture.kicad_pcb"
+    }
+  ]
+}

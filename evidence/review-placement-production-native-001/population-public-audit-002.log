@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-placement-production-native-001/audit_population_public.py", line 69, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-placement-production-native-001/audit_population_public.py", line 61, in main
+    a.ok(name+': remainingomissions onlydeclared generateddirs',all(any(part in generated for part in Path(rel).parts) for rel in missing))
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-placement-production-native-001/audit_fixture.py", line 17, in ok
+    if not value:raise AssertionError(name)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: placement-production-receipt-controls-001: remainingomissions onlydeclared generateddirs

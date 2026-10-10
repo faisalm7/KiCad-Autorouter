@@ -1,0 +1,84 @@
+{
+    "$schema": "https://schemas.kicad.org/drc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-10-10T06:11:41",
+    "ignored_checks": [
+        {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+        },
+        {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+        },
+        {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+        },
+        {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+        },
+        {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+        },
+        {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+        },
+        {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning",
+        "exclusion"
+    ],
+    "kicad_version": "10.0.0",
+    "schematic_parity": [],
+    "source": "fixture.kicad_pcb",
+    "unconnected_items": [],
+    "violations": [
+        {
+            "description": "Track width (board setup constraints min width 0.3000 mm; actual 0.2000 mm)",
+            "items": [
+                {
+                    "description": "Track [SIGNAL_B] on F.Cu, length 30.0000 mm",
+                    "pos": {
+                        "x": 40.0,
+                        "y": 20.0
+                    },
+                    "uuid": "436faa9a-4769-493e-b507-867eded7201c"
+                }
+            ],
+            "severity": "error",
+            "type": "track_width"
+        },
+        {
+            "description": "Copper connection too narrow (board setup constraints minimum connection width 0.3000 mm; actual 0.2000 mm) (F.Cu)",
+            "items": [
+                {
+                    "description": "Pad 1 [SIGNAL_B] of J4 on F.Cu",
+                    "pos": {
+                        "x": 40.0,
+                        "y": 20.0
+                    },
+                    "uuid": "d67c6e15-c566-5a5d-afb1-5fe68896c30e"
+                },
+                {
+                    "description": "Track [SIGNAL_B] on F.Cu, length 30.0000 mm",
+                    "pos": {
+                        "x": 40.0,
+                        "y": 20.0
+                    },
+                    "uuid": "436faa9a-4769-493e-b507-867eded7201c"
+                }
+            ],
+            "severity": "warning",
+            "type": "connection_width"
+        }
+    ]
+}

@@ -1,0 +1,51 @@
+{
+  "status": "nonzero_exit",
+  "exit_code": 5,
+  "wall_seconds": 0.6950812499999302,
+  "cpu_seconds": 0.37923899999999994,
+  "max_rss_bytes": 101105664,
+  "supervisor_cpu_seconds": 0.00960099999999997,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 89997312,
+  "sampled_peak_workdir_bytes": 184201,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 536870912,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+    "pcb",
+    "drc",
+    "--format",
+    "json",
+    "--severity-all",
+    "--all-track-errors",
+    "--refill-zones",
+    "--exit-code-violations",
+    "--output",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-production-controls-native-002/small_via/diagnostic/diagnostic-drc.json",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-production-controls-native-002/small_via/diagnostic/diagnostic-drc-input/fixture.kicad_pcb"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-production-controls-native-002/small_via/diagnostic/diagnostic-drc.log",
+  "log_bytes": 199,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-production-controls-native-002/small_via/diagnostic",
+  "signal_cancellation_enabled": true,
+  "pid": 15696,
+  "name": "diagnostic-drc"
+}

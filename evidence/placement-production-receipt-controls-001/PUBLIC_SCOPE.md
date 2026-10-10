@@ -1,0 +1,1 @@
+Selected exact scripts, logs, manifests and case summaries from the actual-receipt copied-evidence controls. Full disposable source/run copies remain local. Original review manifest covers that complete local tree, not this subset. Every negative follows a successful relocated positive. No new native/engine execution; mutable local consistency, not authentication.
