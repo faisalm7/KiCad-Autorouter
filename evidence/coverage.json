@@ -1,0 +1,947 @@
+{
+  "schema_version": 1,
+  "status": "static_preflight_complete_native_audit_pending",
+  "scope": "Full considered development population after hash-verified acquisition and static preflight. Prior per-run sonde evidence is separate; no native subprocesses or routing were run by this corpus audit.",
+  "source_commit": "69cafb907ebc09e7722a2a464b1d466fc2e3608d",
+  "source_manifest": "data/sources.json",
+  "source_manifest_sha256": "9f3af9a592160435ee539beabb7fce7452a3a4ad1d37bfb5ff0836e65d24ef9f",
+  "split": "development",
+  "final_holdout": false,
+  "considered_projects": 5,
+  "considered_native_board_files": 6,
+  "provisional_family_identifiers": 5,
+  "independent_families_established": null,
+  "deduplication_status": "limited_static_fingerprint_screen_complete_ancestry_independence_unverified",
+  "acquisition": {
+    "status": "verified",
+    "command": "python3 data/fetch.py --verify",
+    "original_project_files": 82,
+    "original_project_bytes": 9182639,
+    "files_including_notices": 92,
+    "bytes_including_notices": 9270389
+  },
+  "projects": [
+    {
+      "project_id": "kicad-sonde-xilinx",
+      "family_id": "kicad-sonde-xilinx",
+      "family_assignment_status": "provisional_pending_deduplication",
+      "source_directory": "demos/sonde xilinx",
+      "local_directory": ".data/boards/kicad-sonde-xilinx",
+      "license": "CC-BY-SA-4.0",
+      "rights_status": "upstream_demo_scope_checked_original_and_embedded_notices_retained",
+      "acquisition_status": "all_originals_verified",
+      "source_files": 14,
+      "source_bytes": 668217,
+      "split": "development",
+      "scope_eligibility": "eligible_for_native_audit_electrical_scope_unverified",
+      "unsupported_reason": null,
+      "boards": [
+        {
+          "source_path": "demos/sonde xilinx/sonde xilinx.kicad_pcb",
+          "local_path": ".data/boards/kicad-sonde-xilinx/sonde xilinx.kicad_pcb",
+          "sha256": "d0dee876715fcdd3f656dd6a77cc1141c39bec4d6f8492a3784d38edd6b9a998",
+          "git_blob_sha1": "26781327d86bc390ce22dbad8f1861f6faae2d4c",
+          "project_file": ".data/boards/kicad-sonde-xilinx/sonde xilinx.kicad_pro",
+          "same_basename_project": true,
+          "rules_binding": "native_same_basename",
+          "native_preflight_status": "pending",
+          "routing_status": "not_evaluated_as_frozen_population_member",
+          "unsupported_reason": null,
+          "accepted": null,
+          "static_preflight": {
+            "status": "eligible_for_native_audit",
+            "reasons": [],
+            "implementation": "autorouter.pipeline.preflight"
+          },
+          "static_features": {
+            "board_format_version": "20241229",
+            "copper_layer_count": 2,
+            "copper_layers": [
+              {
+                "number": "0",
+                "name": "F.Cu",
+                "type": "signal"
+              },
+              {
+                "number": "2",
+                "name": "B.Cu",
+                "type": "signal"
+              }
+            ],
+            "copper_count_method": "canonical F.Cu/B.Cu/InN.Cu layer names; static parse, no native API",
+            "footprints": 25,
+            "pads": 108,
+            "custom_pads": 0,
+            "pad_shapes": {
+              "circle": 22,
+              "oval": 47,
+              "rect": 39
+            },
+            "netclass_classes": 1,
+            "netclass_patterns": [],
+            "netclass_assignments": null,
+            "netclass_features_read_from": ".data/boards/kicad-sonde-xilinx/sonde xilinx.kicad_pro",
+            "native_project_binding": "native_same_basename",
+            "netclass_features_are_not_applied_to_board": false,
+            "drc_exclusion_count": 0,
+            "zones": 1,
+            "protected_route_items": 0,
+            "declared_signal_type_layer_count": 2,
+            "preflight_copper_layer_count": 2
+          },
+          "structural_fingerprints": {
+            "net_terminal_partition_sha256": "1e3ae21371fec34ae94712d63df60c6f9bc93037614e8235cd2f63d8be0d73b4",
+            "footprint_placement_sha256": "2aaefce2c1702040f4aff050abaac2f5e5ff73be8e14497862968c2f43b07cd5",
+            "route_uuid_generator_stripped_board_sha256": "8c3a0f872578ba1813b139071fc698211d2ec7ac24f47c1d3a7751ddf09ed21a",
+            "connected_net_partitions": 42,
+            "terminal_occurrences": 108
+          }
+        }
+      ],
+      "prior_evidence_note": "Earlier development routing runs exist; consult their separate pinned reports. Acquisition does not assign or alter their outcomes.",
+      "structural_family_note": "Distinct source directory is provisional only; this limited fingerprint screen does not establish ancestry or independence."
+    },
+    {
+      "project_id": "kicad-pic-programmer",
+      "family_id": "kicad-pic-programmer",
+      "family_assignment_status": "provisional_pending_deduplication",
+      "source_directory": "demos/pic_programmer",
+      "local_directory": ".data/boards/kicad-pic-programmer",
+      "license": "CC-BY-SA-4.0",
+      "rights_status": "upstream_demo_scope_checked_original_and_embedded_notices_retained",
+      "acquisition_status": "all_originals_verified",
+      "source_files": 13,
+      "source_bytes": 1349048,
+      "split": "development",
+      "scope_eligibility": "blocked_by_current_static_preflight",
+      "unsupported_reason": "custom pads not qualified; netclass bindings not qualified; unknown rule severity semantics: footprint_symbol_field_mismatch; unknown rule severity semantics: missing_tuning_profile; unknown rule severity semantics: text_on_edge_cuts; unknown rule severity semantics: track_on_post_machined_layer",
+      "boards": [
+        {
+          "source_path": "demos/pic_programmer/pic_programmer.kicad_pcb",
+          "local_path": ".data/boards/kicad-pic-programmer/pic_programmer.kicad_pcb",
+          "sha256": "1ca70b620506818eb0227e2863bbd573d1fec1672072dc43d0dbe8475e69c8fb",
+          "git_blob_sha1": "b4d4adb82a1345cf5a6e97f78162e723292186e5",
+          "project_file": ".data/boards/kicad-pic-programmer/pic_programmer.kicad_pro",
+          "same_basename_project": true,
+          "rules_binding": "native_same_basename",
+          "native_preflight_status": "not_run_static_preflight_blocked",
+          "routing_status": "not_evaluated_as_frozen_population_member",
+          "unsupported_reason": "custom pads not qualified; netclass bindings not qualified; unknown rule severity semantics: footprint_symbol_field_mismatch; unknown rule severity semantics: missing_tuning_profile; unknown rule severity semantics: text_on_edge_cuts; unknown rule severity semantics: track_on_post_machined_layer",
+          "accepted": null,
+          "static_preflight": {
+            "status": "unsupported",
+            "reasons": [
+              "custom pads not qualified",
+              "netclass bindings not qualified",
+              "unknown rule severity semantics: footprint_symbol_field_mismatch",
+              "unknown rule severity semantics: missing_tuning_profile",
+              "unknown rule severity semantics: text_on_edge_cuts",
+              "unknown rule severity semantics: track_on_post_machined_layer"
+            ],
+            "implementation": "autorouter.pipeline.preflight"
+          },
+          "static_features": {
+            "board_format_version": "20260206",
+            "copper_layer_count": 2,
+            "copper_layers": [
+              {
+                "number": "0",
+                "name": "F.Cu",
+                "type": "signal"
+              },
+              {
+                "number": "2",
+                "name": "B.Cu",
+                "type": "signal"
+              }
+            ],
+            "copper_count_method": "canonical F.Cu/B.Cu/InN.Cu layer names; static parse, no native API",
+            "footprints": 63,
+            "pads": 247,
+            "custom_pads": 2,
+            "pad_shapes": {
+              "circle": 99,
+              "custom": 2,
+              "oval": 119,
+              "rect": 6,
+              "roundrect": 21
+            },
+            "netclass_classes": 2,
+            "netclass_patterns": [
+              {
+                "netclass": "POWER",
+                "pattern": "GND"
+              },
+              {
+                "netclass": "POWER",
+                "pattern": "VCC"
+              }
+            ],
+            "netclass_assignments": null,
+            "netclass_features_read_from": ".data/boards/kicad-pic-programmer/pic_programmer.kicad_pro",
+            "native_project_binding": "native_same_basename",
+            "netclass_features_are_not_applied_to_board": false,
+            "drc_exclusion_count": 0,
+            "zones": 1,
+            "protected_route_items": 0,
+            "declared_signal_type_layer_count": 2,
+            "preflight_copper_layer_count": 2
+          },
+          "structural_fingerprints": {
+            "net_terminal_partition_sha256": "4cac80d3d7b23412ebe32fda636baced396d7b491cc22d916e2390d3d2cb6519",
+            "footprint_placement_sha256": "b27ecc946492498b7233771b816c23353e84c9729ec928c02662ca229505543c",
+            "route_uuid_generator_stripped_board_sha256": "bc684140a1ee7512942e66c7734b92f4e382c8b6c4e411012b32c73ed5d69d61",
+            "connected_net_partitions": 111,
+            "terminal_occurrences": 236
+          }
+        }
+      ],
+      "unverified_historical_lead": "Historical native report found netclass bindings and custom pads unsupported. Fresh static audit confirms both rejection categories at this source revision; no new native validation was performed.",
+      "structural_family_note": "Distinct source directory is provisional only; this limited fingerprint screen does not establish ancestry or independence."
+    },
+    {
+      "project_id": "kicad-complex-hierarchy",
+      "family_id": "kicad-complex-hierarchy",
+      "family_assignment_status": "provisional_pending_deduplication",
+      "source_directory": "demos/complex_hierarchy",
+      "local_directory": ".data/boards/kicad-complex-hierarchy",
+      "license": "CC-BY-SA-4.0",
+      "rights_status": "upstream_demo_scope_checked_original_and_embedded_notices_retained",
+      "acquisition_status": "all_originals_verified",
+      "source_files": 17,
+      "source_bytes": 1148108,
+      "split": "development",
+      "scope_eligibility": "blocked_by_current_static_preflight",
+      "unsupported_reason": "netclass bindings not qualified; unknown rule severity semantics: zone_has_empty_net",
+      "boards": [
+        {
+          "source_path": "demos/complex_hierarchy/complex_hierarchy.kicad_pcb",
+          "local_path": ".data/boards/kicad-complex-hierarchy/complex_hierarchy.kicad_pcb",
+          "sha256": "d5f4162d4c766448832723d139f9e0fcb88a17c82340f10f6f6dc6c2042f0d69",
+          "git_blob_sha1": "3d37a6c827fd04462f73c929cc1520b4cee37cad",
+          "project_file": ".data/boards/kicad-complex-hierarchy/complex_hierarchy.kicad_pro",
+          "same_basename_project": true,
+          "rules_binding": "native_same_basename",
+          "native_preflight_status": "not_run_static_preflight_blocked",
+          "routing_status": "not_evaluated_as_frozen_population_member",
+          "unsupported_reason": "netclass bindings not qualified; unknown rule severity semantics: zone_has_empty_net",
+          "accepted": null,
+          "static_preflight": {
+            "status": "unsupported",
+            "reasons": [
+              "netclass bindings not qualified",
+              "unknown rule severity semantics: zone_has_empty_net"
+            ],
+            "implementation": "autorouter.pipeline.preflight"
+          },
+          "static_features": {
+            "board_format_version": "20241229",
+            "copper_layer_count": 2,
+            "copper_layers": [
+              {
+                "number": "0",
+                "name": "F.Cu",
+                "type": "power"
+              },
+              {
+                "number": "2",
+                "name": "B.Cu",
+                "type": "signal"
+              }
+            ],
+            "copper_count_method": "canonical F.Cu/B.Cu/InN.Cu layer names; static parse, no native API",
+            "footprints": 68,
+            "pads": 165,
+            "custom_pads": 0,
+            "pad_shapes": {
+              "circle": 54,
+              "oval": 61,
+              "rect": 32,
+              "roundrect": 18
+            },
+            "netclass_classes": 2,
+            "netclass_patterns": [
+              {
+                "netclass": "power",
+                "pattern": "-VAA"
+              },
+              {
+                "netclass": "power",
+                "pattern": "/12Vext"
+              },
+              {
+                "netclass": "power",
+                "pattern": "GND"
+              },
+              {
+                "netclass": "power",
+                "pattern": "HT"
+              },
+              {
+                "netclass": "power",
+                "pattern": "VCC"
+              }
+            ],
+            "netclass_assignments": null,
+            "netclass_features_read_from": ".data/boards/kicad-complex-hierarchy/complex_hierarchy.kicad_pro",
+            "native_project_binding": "native_same_basename",
+            "netclass_features_are_not_applied_to_board": false,
+            "drc_exclusion_count": 0,
+            "zones": 166,
+            "protected_route_items": 0,
+            "declared_signal_type_layer_count": 1,
+            "preflight_copper_layer_count": 2
+          },
+          "structural_fingerprints": {
+            "net_terminal_partition_sha256": "b16443d14ffebddcac2df8d00026958c7ca246a41c88443f133ece5be968fe71",
+            "footprint_placement_sha256": "961755f8e9203027ab602b072821e37da2e528c4cde36d733e0be6f987abfb6c",
+            "route_uuid_generator_stripped_board_sha256": "6583ce5c42099695d961d099d2ab60f4c426c4e078da412d443014ff2b4ab56f",
+            "connected_net_partitions": 52,
+            "terminal_occurrences": 164
+          }
+        }
+      ],
+      "structural_family_note": "Distinct source directory is provisional only; this limited fingerprint screen does not establish ancestry or independence."
+    },
+    {
+      "project_id": "kicad-interf-u",
+      "family_id": "kicad-interf-u",
+      "family_assignment_status": "provisional_pending_deduplication",
+      "source_directory": "demos/interf_u",
+      "local_directory": ".data/boards/kicad-interf-u",
+      "license": "CC-BY-SA-4.0",
+      "rights_status": "upstream_demo_scope_checked_original_and_embedded_notices_retained",
+      "acquisition_status": "all_originals_verified",
+      "source_files": 23,
+      "source_bytes": 1473421,
+      "split": "development",
+      "scope_eligibility": "blocked_by_current_static_preflight",
+      "unsupported_reason": "netclass bindings not qualified",
+      "boards": [
+        {
+          "source_path": "demos/interf_u/interf_u.kicad_pcb",
+          "local_path": ".data/boards/kicad-interf-u/interf_u.kicad_pcb",
+          "sha256": "a740ce7fde77ab6af191e23ece21e57d36bb3c29325879248520dcd9ab47b57e",
+          "git_blob_sha1": "863e2ded270d3ad98ae617351ae6bc558614fdb8",
+          "project_file": ".data/boards/kicad-interf-u/interf_u.kicad_pro",
+          "same_basename_project": true,
+          "rules_binding": "native_same_basename",
+          "native_preflight_status": "not_run_static_preflight_blocked",
+          "routing_status": "not_evaluated_as_frozen_population_member",
+          "unsupported_reason": "netclass bindings not qualified",
+          "accepted": null,
+          "static_preflight": {
+            "status": "unsupported",
+            "reasons": [
+              "netclass bindings not qualified"
+            ],
+            "implementation": "autorouter.pipeline.preflight"
+          },
+          "static_features": {
+            "board_format_version": "20241229",
+            "copper_layer_count": 2,
+            "copper_layers": [
+              {
+                "number": "0",
+                "name": "F.Cu",
+                "type": "signal"
+              },
+              {
+                "number": "2",
+                "name": "B.Cu",
+                "type": "signal"
+              }
+            ],
+            "copper_count_method": "canonical F.Cu/B.Cu/InN.Cu layer names; static parse, no native API",
+            "footprints": 25,
+            "pads": 379,
+            "custom_pads": 0,
+            "pad_shapes": {
+              "circle": 158,
+              "oval": 144,
+              "rect": 77
+            },
+            "netclass_classes": 2,
+            "netclass_patterns": [
+              {
+                "netclass": "Power",
+                "pattern": "GND"
+              },
+              {
+                "netclass": "Power",
+                "pattern": "VCC"
+              }
+            ],
+            "netclass_assignments": null,
+            "netclass_features_read_from": ".data/boards/kicad-interf-u/interf_u.kicad_pro",
+            "native_project_binding": "native_same_basename",
+            "netclass_features_are_not_applied_to_board": false,
+            "drc_exclusion_count": 0,
+            "zones": 1,
+            "protected_route_items": 0,
+            "declared_signal_type_layer_count": 2,
+            "preflight_copper_layer_count": 2
+          },
+          "structural_fingerprints": {
+            "net_terminal_partition_sha256": "a93c492a9930c625700827a6ca23f8b116faacc31e531e9edb40c2ba32a1e7a4",
+            "footprint_placement_sha256": "eb71b432aadb43192ba832a6d2c9c0ad60fba493b8ff65a9012127315484ce20",
+            "route_uuid_generator_stripped_board_sha256": "879caefa73ae987e6617e70c103a01375f60a7b1b408f7feceb5a3fd0be06f2a",
+            "connected_net_partitions": 173,
+            "terminal_occurrences": 373
+          }
+        }
+      ],
+      "additional_rights_evidence": {
+        "subject": "Tux artwork",
+        "attribution": "Larry Ewing and The GIMP",
+        "source": "https://www.kernel.org/faq.html",
+        "note": "Official Linux FAQ identifies author and permits use including commercial with author credit; KiCad root demo license scopes the native project. No separate local notice is present."
+      },
+      "structural_family_note": "Distinct source directory is provisional only; this limited fingerprint screen does not establish ancestry or independence."
+    },
+    {
+      "project_id": "kicad-multichannel",
+      "family_id": "kicad-multichannel",
+      "family_assignment_status": "provisional_pending_deduplication",
+      "source_directory": "demos/multichannel",
+      "local_directory": ".data/boards/kicad-multichannel",
+      "license": "CC-BY-SA-4.0",
+      "rights_status": "upstream_demo_scope_checked_original_and_embedded_notices_retained",
+      "acquisition_status": "all_originals_verified",
+      "source_files": 15,
+      "source_bytes": 4543845,
+      "split": "development",
+      "scope_eligibility": "blocked_by_current_static_preflight",
+      "unsupported_reason": "complete .kicad_pro required; core native check not blocking: padstack; unqualified board format version",
+      "boards": [
+        {
+          "source_path": "demos/multichannel/multichannel_mixer-unrouted.kicad_pcb",
+          "local_path": ".data/boards/kicad-multichannel/multichannel_mixer-unrouted.kicad_pcb",
+          "sha256": "149b2dce16e0f59adb78f87068f4137b7dafca0e991a0b21fdd967c873fd5ee9",
+          "git_blob_sha1": "b0840a2a3b27c2566a6d94c6826324fa7c67266a",
+          "project_file": ".data/boards/kicad-multichannel/multichannel_mixer.kicad_pro",
+          "same_basename_project": false,
+          "rules_binding": "requires_explicit_task_mapping_before_native_validation",
+          "native_preflight_status": "not_run_static_preflight_blocked",
+          "routing_status": "not_evaluated_as_frozen_population_member",
+          "unsupported_reason": "complete .kicad_pro required; unqualified board format version",
+          "accepted": null,
+          "static_preflight": {
+            "status": "unsupported",
+            "reasons": [
+              "complete .kicad_pro required",
+              "unqualified board format version"
+            ],
+            "implementation": "autorouter.pipeline.preflight"
+          },
+          "static_features": {
+            "board_format_version": "20241030",
+            "copper_layer_count": 2,
+            "copper_layers": [
+              {
+                "number": "0",
+                "name": "F.Cu",
+                "type": "signal"
+              },
+              {
+                "number": "2",
+                "name": "B.Cu",
+                "type": "signal"
+              }
+            ],
+            "copper_count_method": "canonical F.Cu/B.Cu/InN.Cu layer names; static parse, no native API",
+            "footprints": 114,
+            "pads": 327,
+            "custom_pads": 0,
+            "pad_shapes": {
+              "circle": 73,
+              "rect": 219,
+              "roundrect": 35
+            },
+            "netclass_classes": 1,
+            "netclass_patterns": [],
+            "netclass_assignments": null,
+            "netclass_features_read_from": ".data/boards/kicad-multichannel/multichannel_mixer.kicad_pro",
+            "native_project_binding": "requires_explicit_task_mapping_before_native_validation",
+            "netclass_features_are_not_applied_to_board": true,
+            "drc_exclusion_count": 0,
+            "zones": 5,
+            "protected_route_items": 0,
+            "declared_signal_type_layer_count": 11,
+            "preflight_copper_layer_count": 2
+          },
+          "structural_fingerprints": {
+            "net_terminal_partition_sha256": "0de9bb3260367ec5a07efcf9ad17e300ab9b722253bc6bbbd5552a0a07fd3d0a",
+            "footprint_placement_sha256": "88f8c0f6d1abfe9412bd9c15cb6f3fdbd54620e470c02afe8660dc7d6ca87036",
+            "route_uuid_generator_stripped_board_sha256": "88b1868815c3ff34f5bcecc321da4a7ae72bfed6cb7384dd72206b922a59bc84",
+            "connected_net_partitions": 80,
+            "terminal_occurrences": 280
+          }
+        },
+        {
+          "source_path": "demos/multichannel/multichannel_mixer.kicad_pcb",
+          "local_path": ".data/boards/kicad-multichannel/multichannel_mixer.kicad_pcb",
+          "sha256": "44b7c119a0d05c98e9f294659879184038a5f6c30073c04d9536990429ca413e",
+          "git_blob_sha1": "9b83639887d4f0ab7bf867ff83da6327c1fd93dc",
+          "project_file": ".data/boards/kicad-multichannel/multichannel_mixer.kicad_pro",
+          "same_basename_project": true,
+          "rules_binding": "native_same_basename",
+          "native_preflight_status": "not_run_static_preflight_blocked",
+          "routing_status": "not_evaluated_as_frozen_population_member",
+          "unsupported_reason": "core native check not blocking: padstack",
+          "accepted": null,
+          "static_preflight": {
+            "status": "unsupported",
+            "reasons": [
+              "core native check not blocking: padstack"
+            ],
+            "implementation": "autorouter.pipeline.preflight"
+          },
+          "static_features": {
+            "board_format_version": "20241229",
+            "copper_layer_count": 2,
+            "copper_layers": [
+              {
+                "number": "0",
+                "name": "F.Cu",
+                "type": "signal"
+              },
+              {
+                "number": "2",
+                "name": "B.Cu",
+                "type": "signal"
+              }
+            ],
+            "copper_count_method": "canonical F.Cu/B.Cu/InN.Cu layer names; static parse, no native API",
+            "footprints": 114,
+            "pads": 327,
+            "custom_pads": 0,
+            "pad_shapes": {
+              "circle": 73,
+              "rect": 219,
+              "roundrect": 35
+            },
+            "netclass_classes": 1,
+            "netclass_patterns": [],
+            "netclass_assignments": null,
+            "netclass_features_read_from": ".data/boards/kicad-multichannel/multichannel_mixer.kicad_pro",
+            "native_project_binding": "native_same_basename",
+            "netclass_features_are_not_applied_to_board": false,
+            "drc_exclusion_count": 0,
+            "zones": 6,
+            "protected_route_items": 0,
+            "declared_signal_type_layer_count": 2,
+            "preflight_copper_layer_count": 2
+          },
+          "structural_fingerprints": {
+            "net_terminal_partition_sha256": "0de9bb3260367ec5a07efcf9ad17e300ab9b722253bc6bbbd5552a0a07fd3d0a",
+            "footprint_placement_sha256": "de98232bab86610f4a5a9c2e8f0bc07bfebe724cac1f05a80ae2e8091b944ca0",
+            "route_uuid_generator_stripped_board_sha256": "7f39f65f4910ca7827104db0d74f75c58fafe27cbbc861940e644e6d4f37e920",
+            "connected_net_partitions": 80,
+            "terminal_occurrences": 280
+          }
+        }
+      ],
+      "leakage_note": "Routed and unrouted siblings must stay in one family. Reference-route access must be excluded from solver task staging.",
+      "structural_family_note": "Routed/unrouted siblings have identical net-to-terminal partitions but 19 numerically different footprint poses after normalizing numeric spelling and equivalent rotations. They remain one family and are not identical fixed-placement tasks.",
+      "sibling_footprint_pose_differences": {
+        "count": 19,
+        "references": [
+          "C15",
+          "C16",
+          "C17",
+          "C18",
+          "C19",
+          "C20",
+          "C21",
+          "IC3",
+          "R15",
+          "R16",
+          "R17",
+          "R18",
+          "R19",
+          "R20",
+          "R21",
+          "R22",
+          "R23",
+          "R24",
+          "R25"
+        ],
+        "normalization": "Decimal numeric values, implicit rotation 0, rotation modulo 360, side included"
+      }
+    }
+  ],
+  "static_preflight_summary": {
+    "considered_native_board_files": 6,
+    "eligible_for_native_audit": 1,
+    "unsupported": 5,
+    "preflight_errors": 0,
+    "native_subprocesses_run": 0,
+    "code_sha256": {
+      "autorouter/pipeline.py": "e7fb090df5437c6317c0646f04dec2dff5def7b786b27ff3a6284fc02ee1b469",
+      "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd"
+    },
+    "source_files_verified_before_and_after": 92,
+    "source_hash_inventory_sha256": "748fcd5ac6b338165232e462de6d6bbbeaf7c6cdb5faecfd7926a2ae2a8b24b6",
+    "sources_unchanged": true,
+    "observed_utc": "2026-10-10T06:47:19.869436+00:00",
+    "scope": "Static implementation capability gate; not native DRC, electrical scope confirmation, source cleanliness or routing acceptance."
+  },
+  "deduplication_method": {
+    "connectivity": "Partition pads by their native net and sort terminal (reference,pad-number) lists; ignores net names but retains reference names.",
+    "geometry": "Compare footprint reference/x/y/rotation/side using decimal numeric values and rotation modulo 360; compare full route/zone-fill/UUID/generator/version-stripped trees. No translation/rotation-of-whole-board canonicalization or subgraph ancestry inference.",
+    "limits": "Distinct fingerprints do not establish independent families. All variants within a source project remain together."
+  },
+  "structural_matching_groups": {
+    "net_terminal_partition_sha256": [
+      [
+        ".data/boards/kicad-multichannel/multichannel_mixer-unrouted.kicad_pcb",
+        ".data/boards/kicad-multichannel/multichannel_mixer.kicad_pcb"
+      ]
+    ],
+    "footprint_placement_sha256": [],
+    "route_uuid_generator_stripped_board_sha256": []
+  },
+  "static_preflight_history": [
+    {
+      "summary": {
+        "considered_native_board_files": 6,
+        "eligible_for_native_audit": 1,
+        "unsupported": 5,
+        "preflight_errors": 0,
+        "native_subprocesses_run": 0,
+        "code_sha256": {
+          "autorouter/pipeline.py": "5d102eaf72ede6d6fca105651640dd61677c835016978224e4672197cf2d44f1",
+          "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd"
+        },
+        "source_files_verified_before_and_after": 92,
+        "source_hash_inventory_sha256": "748fcd5ac6b338165232e462de6d6bbbeaf7c6cdb5faecfd7926a2ae2a8b24b6",
+        "sources_unchanged": true,
+        "observed_utc": "2026-10-10T06:45:50.710380+00:00",
+        "scope": "Static implementation capability gate, not native DRC, electrical scope confirmation, source cleanliness or routing acceptance."
+      },
+      "boards": [
+        {
+          "local_path": ".data/boards/kicad-sonde-xilinx/sonde xilinx.kicad_pcb",
+          "static_preflight": {
+            "status": "eligible_for_native_audit",
+            "reasons": [],
+            "implementation": "autorouter.pipeline.preflight"
+          },
+          "static_features": {
+            "board_format_version": "20241229",
+            "copper_layer_count": 2,
+            "copper_layers": [
+              {
+                "number": "0",
+                "name": "F.Cu",
+                "type": "signal"
+              },
+              {
+                "number": "2",
+                "name": "B.Cu",
+                "type": "signal"
+              }
+            ],
+            "copper_count_method": "canonical F.Cu/B.Cu/InN.Cu layer names; static parse, no native API",
+            "footprints": 25,
+            "pads": 108,
+            "custom_pads": 0,
+            "pad_shapes": {
+              "circle": 22,
+              "oval": 47,
+              "rect": 39
+            },
+            "netclass_classes": 1,
+            "netclass_patterns": [],
+            "netclass_assignments": null,
+            "netclass_features_read_from": ".data/boards/kicad-sonde-xilinx/sonde xilinx.kicad_pro",
+            "native_project_binding": "native_same_basename",
+            "netclass_features_are_not_applied_to_board": false,
+            "drc_exclusion_count": 0,
+            "zones": 1,
+            "protected_route_items": 0,
+            "preflight_signal_type_count": 2
+          }
+        },
+        {
+          "local_path": ".data/boards/kicad-pic-programmer/pic_programmer.kicad_pcb",
+          "static_preflight": {
+            "status": "unsupported",
+            "reasons": [
+              "custom pads not qualified",
+              "netclass bindings not qualified",
+              "unknown rule severity semantics: footprint_symbol_field_mismatch",
+              "unknown rule severity semantics: missing_tuning_profile",
+              "unknown rule severity semantics: text_on_edge_cuts",
+              "unknown rule severity semantics: track_on_post_machined_layer"
+            ],
+            "implementation": "autorouter.pipeline.preflight"
+          },
+          "static_features": {
+            "board_format_version": "20260206",
+            "copper_layer_count": 2,
+            "copper_layers": [
+              {
+                "number": "0",
+                "name": "F.Cu",
+                "type": "signal"
+              },
+              {
+                "number": "2",
+                "name": "B.Cu",
+                "type": "signal"
+              }
+            ],
+            "copper_count_method": "canonical F.Cu/B.Cu/InN.Cu layer names; static parse, no native API",
+            "footprints": 63,
+            "pads": 247,
+            "custom_pads": 2,
+            "pad_shapes": {
+              "circle": 99,
+              "custom": 2,
+              "oval": 119,
+              "rect": 6,
+              "roundrect": 21
+            },
+            "netclass_classes": 2,
+            "netclass_patterns": [
+              {
+                "netclass": "POWER",
+                "pattern": "GND"
+              },
+              {
+                "netclass": "POWER",
+                "pattern": "VCC"
+              }
+            ],
+            "netclass_assignments": null,
+            "netclass_features_read_from": ".data/boards/kicad-pic-programmer/pic_programmer.kicad_pro",
+            "native_project_binding": "native_same_basename",
+            "netclass_features_are_not_applied_to_board": false,
+            "drc_exclusion_count": 0,
+            "zones": 1,
+            "protected_route_items": 0,
+            "preflight_signal_type_count": 2
+          }
+        },
+        {
+          "local_path": ".data/boards/kicad-complex-hierarchy/complex_hierarchy.kicad_pcb",
+          "static_preflight": {
+            "status": "unsupported",
+            "reasons": [
+              "netclass bindings not qualified",
+              "requires 2 or 4 copper layers",
+              "unknown rule severity semantics: zone_has_empty_net"
+            ],
+            "implementation": "autorouter.pipeline.preflight"
+          },
+          "static_features": {
+            "board_format_version": "20241229",
+            "copper_layer_count": 2,
+            "copper_layers": [
+              {
+                "number": "0",
+                "name": "F.Cu",
+                "type": "power"
+              },
+              {
+                "number": "2",
+                "name": "B.Cu",
+                "type": "signal"
+              }
+            ],
+            "copper_count_method": "canonical F.Cu/B.Cu/InN.Cu layer names; static parse, no native API",
+            "footprints": 68,
+            "pads": 165,
+            "custom_pads": 0,
+            "pad_shapes": {
+              "circle": 54,
+              "oval": 61,
+              "rect": 32,
+              "roundrect": 18
+            },
+            "netclass_classes": 2,
+            "netclass_patterns": [
+              {
+                "netclass": "power",
+                "pattern": "-VAA"
+              },
+              {
+                "netclass": "power",
+                "pattern": "/12Vext"
+              },
+              {
+                "netclass": "power",
+                "pattern": "GND"
+              },
+              {
+                "netclass": "power",
+                "pattern": "HT"
+              },
+              {
+                "netclass": "power",
+                "pattern": "VCC"
+              }
+            ],
+            "netclass_assignments": null,
+            "netclass_features_read_from": ".data/boards/kicad-complex-hierarchy/complex_hierarchy.kicad_pro",
+            "native_project_binding": "native_same_basename",
+            "netclass_features_are_not_applied_to_board": false,
+            "drc_exclusion_count": 0,
+            "zones": 166,
+            "protected_route_items": 0,
+            "preflight_signal_type_count": 1
+          }
+        },
+        {
+          "local_path": ".data/boards/kicad-interf-u/interf_u.kicad_pcb",
+          "static_preflight": {
+            "status": "unsupported",
+            "reasons": [
+              "netclass bindings not qualified"
+            ],
+            "implementation": "autorouter.pipeline.preflight"
+          },
+          "static_features": {
+            "board_format_version": "20241229",
+            "copper_layer_count": 2,
+            "copper_layers": [
+              {
+                "number": "0",
+                "name": "F.Cu",
+                "type": "signal"
+              },
+              {
+                "number": "2",
+                "name": "B.Cu",
+                "type": "signal"
+              }
+            ],
+            "copper_count_method": "canonical F.Cu/B.Cu/InN.Cu layer names; static parse, no native API",
+            "footprints": 25,
+            "pads": 379,
+            "custom_pads": 0,
+            "pad_shapes": {
+              "circle": 158,
+              "oval": 144,
+              "rect": 77
+            },
+            "netclass_classes": 2,
+            "netclass_patterns": [
+              {
+                "netclass": "Power",
+                "pattern": "GND"
+              },
+              {
+                "netclass": "Power",
+                "pattern": "VCC"
+              }
+            ],
+            "netclass_assignments": null,
+            "netclass_features_read_from": ".data/boards/kicad-interf-u/interf_u.kicad_pro",
+            "native_project_binding": "native_same_basename",
+            "netclass_features_are_not_applied_to_board": false,
+            "drc_exclusion_count": 0,
+            "zones": 1,
+            "protected_route_items": 0,
+            "preflight_signal_type_count": 2
+          }
+        },
+        {
+          "local_path": ".data/boards/kicad-multichannel/multichannel_mixer-unrouted.kicad_pcb",
+          "static_preflight": {
+            "status": "unsupported",
+            "reasons": [
+              "complete .kicad_pro required",
+              "requires 2 or 4 copper layers",
+              "unqualified board format version"
+            ],
+            "implementation": "autorouter.pipeline.preflight"
+          },
+          "static_features": {
+            "board_format_version": "20241030",
+            "copper_layer_count": 2,
+            "copper_layers": [
+              {
+                "number": "0",
+                "name": "F.Cu",
+                "type": "signal"
+              },
+              {
+                "number": "2",
+                "name": "B.Cu",
+                "type": "signal"
+              }
+            ],
+            "copper_count_method": "canonical F.Cu/B.Cu/InN.Cu layer names; static parse, no native API",
+            "footprints": 114,
+            "pads": 327,
+            "custom_pads": 0,
+            "pad_shapes": {
+              "circle": 73,
+              "rect": 219,
+              "roundrect": 35
+            },
+            "netclass_classes": 1,
+            "netclass_patterns": [],
+            "netclass_assignments": null,
+            "netclass_features_read_from": ".data/boards/kicad-multichannel/multichannel_mixer.kicad_pro",
+            "native_project_binding": "requires_explicit_task_mapping_before_native_validation",
+            "netclass_features_are_not_applied_to_board": true,
+            "drc_exclusion_count": 0,
+            "zones": 5,
+            "protected_route_items": 0,
+            "preflight_signal_type_count": 11
+          }
+        },
+        {
+          "local_path": ".data/boards/kicad-multichannel/multichannel_mixer.kicad_pcb",
+          "static_preflight": {
+            "status": "unsupported",
+            "reasons": [
+              "core native check not blocking: padstack"
+            ],
+            "implementation": "autorouter.pipeline.preflight"
+          },
+          "static_features": {
+            "board_format_version": "20241229",
+            "copper_layer_count": 2,
+            "copper_layers": [
+              {
+                "number": "0",
+                "name": "F.Cu",
+                "type": "signal"
+              },
+              {
+                "number": "2",
+                "name": "B.Cu",
+                "type": "signal"
+              }
+            ],
+            "copper_count_method": "canonical F.Cu/B.Cu/InN.Cu layer names; static parse, no native API",
+            "footprints": 114,
+            "pads": 327,
+            "custom_pads": 0,
+            "pad_shapes": {
+              "circle": 73,
+              "rect": 219,
+              "roundrect": 35
+            },
+            "netclass_classes": 1,
+            "netclass_patterns": [],
+            "netclass_assignments": null,
+            "netclass_features_read_from": ".data/boards/kicad-multichannel/multichannel_mixer.kicad_pro",
+            "native_project_binding": "native_same_basename",
+            "netclass_features_are_not_applied_to_board": false,
+            "drc_exclusion_count": 0,
+            "zones": 6,
+            "protected_route_items": 0,
+            "preflight_signal_type_count": 2
+          }
+        }
+      ],
+      "superseded_reason": "Lead fixed layer classification: canonical F.Cu/B.Cu/InN.Cu names replace signal-type counting. Previous exclusions retained here."
+    }
+  ]
+}

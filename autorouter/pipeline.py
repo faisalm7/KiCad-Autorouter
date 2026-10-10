@@ -11,6 +11,7 @@ import math
 import os
 from pathlib import Path
 import resource
+import re
 import shutil
 import subprocess
 import time
@@ -38,6 +39,7 @@ def save_json(path, value):
 
 def tree_hash(root):
     root=Path(root)
+    if root.is_symlink() or not root.is_dir(): raise Rejected('project root must be a real directory')
     result={}
     total=0
     for path in sorted(root.rglob('*')):
@@ -76,7 +78,7 @@ def preflight(board):
     if t[0]!='kicad_pcb': reasons.append('not a KiCad board')
     if sx.one(t,'version')[1] not in {'20241229','20260206'}: reasons.append('unqualified board format version')
     layers=sx.one(t,'layers',[])
-    if sum(isinstance(x,list) and len(x)>2 and x[2]=='signal' for x in layers) not in (2,4): reasons.append('requires 2 or 4 copper layers')
+    if sum(isinstance(x,list) and len(x)>2 and re.fullmatch(r'(?:F|B|In[0-9]+)\.Cu',sx.unquote(x[1])) is not None for x in layers) not in (2,4): reasons.append('requires 2 or 4 copper layers')
     project=board.with_suffix('.kicad_pro')
     if not project.is_file(): reasons.append('complete .kicad_pro required')
     else:
@@ -224,7 +226,8 @@ def tool_manifest():
     git_head=subprocess.run(['git','rev-parse','HEAD'],cwd=c.ROOT,capture_output=True,text=True,check=True).stdout.strip()
     return {'implementation_sha256':implementation,'git_head':git_head,'kicad':'10.0.0','freerouting':'2.5.0','files':files,'network':'engine sandbox-exec deny network*'}
 
-def route(source, output, seconds=120, keep_existing=False, adapter='none'):
+def route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard'):
+    if engine_profile not in {'standard','tuned'}: raise Rejected('unknown engine profile')
     operation_started=time.monotonic()
     operation_cpu=time.process_time()
     source=Path(source).resolve(strict=True); output=Path(output).resolve()
@@ -237,7 +240,7 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none'):
     code=output/'code'; code.mkdir()
     for path in (c.ROOT/'autorouter').glob('*.py'): shutil.copy2(path,code/path.name)
     report={'schema':1,'status':'validator_error','accepted':False,'physical_electrical_validation':False,'schematic_parity':'not checked','source':str(source),
-            'started_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'budget_seconds':seconds,'baseline':'B0' if adapter=='none' else 'B1','adapter':adapter,'scope':'partial_completion' if keep_existing else 'whole_board_unlocked_routing',
+            'started_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'budget_seconds':seconds,'cpu_budget_seconds':seconds,'cpu_budget_enforcement':'postcompletion acceptance cap; no total-CPU preemption','baseline':('B0' if adapter=='none' else 'B1') if engine_profile=='standard' else 'B2_tuned','adapter':adapter,'engine_profile':engine_profile,'scope':'partial_completion' if keep_existing else 'whole_board_unlocked_routing',
             'tools':tool_manifest()}
     try:
         before=tree_hash(source.parent); report['source_hashes']=before
@@ -259,9 +262,12 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none'):
             job.native('obstacles','obstacles',candidate,output/'obstacles.json')
             report['adapter_transformations']=adapt_dsn(output/'task.dsn',adapter,json.loads((output/'obstacles.json').read_text()))
         config_dir=output/'engine-config'; config_dir.mkdir()
+        engine_settings=['--router.autorouter.max_passes=30','--router.optimizer.max_threads=1','--router.optimizer.max_passes=10','--router.job_timeout=60s','--router.optimizer.timeout=30s']
+        if engine_profile=='tuned':
+            engine_settings=['--router.autorouter.max_passes=100','--router.optimizer.max_threads=1','--router.optimizer.max_passes=50','--router.job_timeout=100s','--router.optimizer.timeout=90s','--router.optimizer.improvement_threshold=0.1','--router.optimizer.enable_preflight_guards=false','--router.optimizer.max_consecutive_failures=100','--router.optimizer.max_consecutive_failures_pass1=100']
         job.step('engine',['/usr/bin/sandbox-exec','-p','(version 1)(allow default)(deny network*)',c.JAVA,'-Xms128m','-Xmx2g','-XX:ActiveProcessorCount=1','-Djava.awt.headless=true','-jar',c.JAR,
             '--gui.enabled=false','--api_server.enabled=false','--mcp_server.enabled=false','-da','--user_data_path='+str(config_dir),'--logging.file.enabled=false',
-            '--router.autorouter.max_passes=30','--router.optimizer.max_threads=1','--router.optimizer.max_passes=10','--router.job_timeout=60s','--router.optimizer.timeout=30s',
+            *engine_settings,
             '-de',output/'task.dsn','-do',output/'routes.ses'])
         if not (output/'routes.ses').is_file(): raise Rejected('engine emitted no SES')
         imported=output/'imported.kicad_pcb'
@@ -295,22 +301,104 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none'):
     report['resource_limitations']='One sequential worker; Java 2GiB heap; group RSS4GiB and workdir512MiB polling guards may overshoot;10GiB total cache checked before task. Peak direct-child RSS and polled group RSS are different metrics. CPU descendants only if accounted for by child wait; monitoring CPU included.'
     if report['wall_seconds']>seconds:
         report['accepted']=False; report['status']='timeout'
+    elif report['total_cpu_seconds']>seconds:
+        report['accepted']=False; report['status']='cpu_budget_exceeded'
+    report['resource_accounting_point']='Summary sampled before final receipt write; wall and measured CPU acceptance caps rechecked after that write. No hard total-CPU preemption.'
     save_json(output/'result.json',report)
+    # Receipt serialization/fsync must not let an accepted result cross its cap.
+    # The corrective rejected receipt need not finish inside the acceptance cap.
+    completed_wall=time.monotonic()-job.started
+    completed_parent_cpu=time.process_time()-job.cpu_started
+    completed_cpu=completed_parent_cpu+report['child_cpu_seconds']+report['monitor_cpu_seconds']
+    if completed_wall>seconds or completed_cpu>seconds:
+        report.update(accepted=False,status='timeout' if completed_wall>seconds else 'cpu_budget_exceeded',
+                      wall_seconds=completed_wall,parent_cpu_seconds=completed_parent_cpu,total_cpu_seconds=completed_cpu)
+        save_json(output/'result.json',report)
     return report
 
 
 def check_result(path):
-    """Check a local receipt remains applicable; never applies a live-editor change."""
+    """Check local evidence consistency; this is not authentication or fresh DRC.
+
+    All receipts are mutable local JSON. A party rewriting the complete evidence
+    set can fabricate a consistent history; safe application needs fresh native
+    validation too. This function never applies a live-editor change.
+    """
     path=Path(path).resolve(strict=True)
     data=json.loads(path.read_text())
     if data.get('schema')!=1 or data.get('accepted') is not True or data.get('status')!='routing_accepted':
         raise Rejected('receipt is not an accepted routing result')
     source=Path(data['source'])
     if tree_hash(source.parent)!=data['source_hashes']: raise Rejected('stale source project')
+    if tree_hash(path.parent/'snapshot')!=data['source_hashes']: raise Rejected('source snapshot changed')
     candidate=Path(data['candidate'])
-    if candidate.parent.parent!=path.parent: raise Rejected('candidate does not belong to this run')
+    if candidate.is_symlink() or candidate.parent.is_symlink() or candidate!=path.parent/'candidate'/source.name: raise Rejected('candidate does not belong to this run')
     verify_candidate_files(candidate,data['source_hashes'],data['candidate_sha256'])
+    original=preflight(source)
+    current=sx.read(candidate)
+    if immutable(current)!=immutable(original): raise Rejected('immutable geometry changed')
+    if data.get('scope') not in {'whole_board_unlocked_routing','partial_completion'}: raise Rejected('unknown protected routing scope')
+    protected=[route for route in routes(original) if data['scope']=='partial_completion' or locked(route)]
+    if any(route not in routes(current) for route in protected): raise Rejected('protected route changed')
+
+    def evidence(name):
+        file=path.parent/name
+        if file.is_symlink(): raise Rejected('symlink in run evidence: '+name)
+        return json.loads(file.read_text())
+
+    binding=evidence('final-drc-binding.json')
+    native_input=path.parent/'final-drc-input'/candidate.name
+    expected=dict(data['source_hashes']); expected[candidate.name]=data['candidate_sha256']
+    if binding.get('source')!=str(candidate) or binding.get('input')!=str(native_input) or binding.get('saved') is not False or binding.get('before')!=expected:
+        raise Rejected('final native input binding differs from candidate')
+    after=binding.get('after')
+    if not isinstance(after,dict) or any(after.get(name)!=digest for name,digest in expected.items()) or set(after)-set(expected)-{candidate.with_suffix('.kicad_prl').name}:
+        raise Rejected('native validation changed board or rules')
+    if tree_hash(native_input.parent)!=after: raise Rejected('retained native input changed')
     if sha(path.parent/'final-drc.json')!=data['native_report_sha256']: raise Rejected('native report changed')
     native=parse_report(path.parent/'final-drc.json',candidate.name)
     if native['opens'] or native['blocking'] or native['exclusions']: raise Rejected('native findings reject candidate')
-    return {'current':True,'candidate':str(candidate),'candidate_sha256':data['candidate_sha256'],'applied':False,'warning':'Human PCB review and electrical/physical validation remain required.'}
+    if data.get('native')!=native or data.get('invariants_unchanged') is not True: raise Rejected('receipt native summary differs from raw evidence')
+    if data.get('whole_project_drc_clean') is not (native['warnings']==0): raise Rejected('receipt cleanliness claim differs from native evidence')
+    metrics=evidence('metrics.json')
+    if data.get('metrics')!=metrics or metrics.get('version')!='10.0.0': raise Rejected('receipt metrics differ from retained native metrics')
+
+    process=evidence('final-drc-process.json')
+    expected_argv=[str(c.CLI),'pcb','drc','--format','json','--severity-all','--all-track-errors','--refill-zones','--exit-code-violations','--output',str(path.parent/'final-drc.json'),str(native_input)]
+    findings=bool(native['findings'])
+    if process.get('argv')!=expected_argv or process.get('cwd')!=str(path.parent) or process.get('name')!='final-drc' or process.get('exit_code')!=(5 if findings else 0) or process.get('status')!=('nonzero_exit' if findings else 'success') or process.get('cleanup_complete') is not True:
+        raise Rejected('native process provenance is inconsistent')
+    steps=data.get('steps')
+    if not isinstance(steps,list) or not steps or any(not isinstance(step,dict) for step in steps): raise Rejected('missing process history')
+    matching=[step for step in steps if step.get('name')=='final-drc' and step.get('cwd')==str(path.parent)]
+    if len(matching)!=1 or any(matching[0].get(key)!=value for key,value in process.items()) or matching[0].get('validated_input_sha256')!=data['candidate_sha256'] or matching[0].get('emitted_candidate')!=str(candidate):
+        raise Rejected('final native step differs from process or input binding')
+    if any(step.get('status')=='cancelled' or step.get('cleanup_complete') is not True for step in steps): raise Rejected('cancelled or incomplete process cleanup in receipt')
+
+    def number(value):
+        if isinstance(value,bool) or not isinstance(value,(int,float)) or not math.isfinite(value) or value<0: raise Rejected('invalid resource accounting')
+        return value
+
+    wall,budget=number(data.get('wall_seconds')),number(data.get('budget_seconds'))
+    cpu_budget=number(data.get('cpu_budget_seconds'))
+    if not 5<=cpu_budget<=900 or number(data.get('total_cpu_seconds'))>cpu_budget: raise Rejected('receipt exceeds its recorded CPU budget')
+    if not 5<=budget<=900 or wall>budget or sum(number(step.get('wall_seconds')) for step in steps)>wall+1e-6: raise Rejected('receipt exceeds its recorded wall budget')
+    child=sum(number(step.get('cpu_seconds')) for step in steps)
+    monitor=sum(number(step.get('monitor_cpu_seconds')) for step in steps)
+    if abs(number(data.get('child_cpu_seconds'))-child)>1e-6 or abs(number(data.get('monitor_cpu_seconds'))-monitor)>1e-6 or abs(number(data.get('total_cpu_seconds'))-(number(data.get('parent_cpu_seconds'))+child+monitor))>1e-6: raise Rejected('inconsistent CPU accounting')
+
+    tools=data.get('tools',{})
+    implementation=tools.get('implementation_sha256')
+    if tools.get('kicad')!='10.0.0' or not isinstance(implementation,dict) or not implementation: raise Rejected('missing pinned implementation provenance')
+    if not {'autorouter/pipeline.py','autorouter/native.py','autorouter/runner.py','autorouter/sexpr.py'}<=set(implementation): raise Rejected('incomplete implementation provenance')
+    actual_code=tree_hash(path.parent/'code')
+    expected_code={}
+    for relative,digest in implementation.items():
+        parts=Path(relative).parts
+        if len(parts)!=2 or parts[0]!='autorouter' or not parts[1].endswith('.py') or actual_code.get(parts[1])!=digest:
+            raise Rejected('retained implementation differs from provenance')
+        expected_code[parts[1]]=digest
+    if actual_code!=expected_code: raise Rejected('retained implementation file set differs from provenance')
+    pins=json.loads((c.ROOT/'toolchain.lock.json').read_text())['tools']
+    if any(tools.get('files',{}).get(pin['path'])!=pin['sha256'] for pin in pins.values()): raise Rejected('recorded tool pins differ from qualified toolchain')
+    return {'current':True,'candidate':str(candidate),'candidate_sha256':data['candidate_sha256'],'applied':False,'authentication':'none; mutable local evidence consistency only','warning':'Fresh native validation is required before application; human PCB review and electrical/physical validation remain required.'}

@@ -1,0 +1,325 @@
+{
+    "$schema": "https://schemas.kicad.org/drc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-10-09T23:46:13",
+    "ignored_checks": [
+        {
+            "description": "Copper connection too narrow",
+            "key": "connection_width"
+        },
+        {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+        },
+        {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+        },
+        {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning",
+        "exclusion"
+    ],
+    "kicad_version": "10.0.0",
+    "schematic_parity": [],
+    "source": "sonde xilinx.kicad_pcb",
+    "unconnected_items": [],
+    "violations": [
+        {
+            "description": "Clearance violation ( clearance 0.2540 mm; actual 0.0000 mm)",
+            "items": [
+                {
+                    "description": "Track [Net-(U1B-O)] on top_copper, length 8.6000 mm",
+                    "pos": {
+                        "x": 154.8,
+                        "y": 105.0
+                    },
+                    "uuid": "38a36704-904e-4e0a-92de-ee3be4ed6243"
+                },
+                {
+                    "description": "PCB text 'TCK-CCL' on top_copper",
+                    "pos": {
+                        "x": 158.115,
+                        "y": 96.52
+                    },
+                    "uuid": "72a7430a-2e55-4e1e-8d44-b846dd022cfb"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Items shorting two nets (nets <no net> and Net-(U1B-O))",
+            "items": [
+                {
+                    "description": "PCB text 'TMS-PROG' on top_copper",
+                    "pos": {
+                        "x": 158.115,
+                        "y": 102.235
+                    },
+                    "uuid": "2a51a229-75db-4354-926d-ac6179482fc4"
+                },
+                {
+                    "description": "Track [Net-(U1B-O)] on top_copper, length 8.6000 mm",
+                    "pos": {
+                        "x": 154.8,
+                        "y": 105.0
+                    },
+                    "uuid": "38a36704-904e-4e0a-92de-ee3be4ed6243"
+                }
+            ],
+            "severity": "error",
+            "type": "shorting_items"
+        },
+        {
+            "description": "Items shorting two nets (nets <no net> and Net-(U1B-O))",
+            "items": [
+                {
+                    "description": "PCB text 'TCK-CCL' on top_copper",
+                    "pos": {
+                        "x": 158.115,
+                        "y": 96.52
+                    },
+                    "uuid": "72a7430a-2e55-4e1e-8d44-b846dd022cfb"
+                },
+                {
+                    "description": "Track [Net-(U1B-O)] on top_copper, length 3.3941 mm",
+                    "pos": {
+                        "x": 154.8,
+                        "y": 96.4
+                    },
+                    "uuid": "869d44b3-4a82-4e82-92bd-8cce8464b710"
+                }
+            ],
+            "severity": "error",
+            "type": "shorting_items"
+        },
+        {
+            "description": "Items shorting two nets (nets <no net> and Net-(U1A-O))",
+            "items": [
+                {
+                    "description": "PCB text 'TDO-DONE' on top_copper",
+                    "pos": {
+                        "x": 158.115,
+                        "y": 86.36
+                    },
+                    "uuid": "2be32b3c-9123-4383-9cf1-02617616cbbd"
+                },
+                {
+                    "description": "Track [Net-(U1A-O)] on top_copper, length 13.0000 mm",
+                    "pos": {
+                        "x": 153.9,
+                        "y": 74.4
+                    },
+                    "uuid": "c7f61992-cd76-40af-ab21-053b8e0ce785"
+                }
+            ],
+            "severity": "error",
+            "type": "shorting_items"
+        },
+        {
+            "description": "Items shorting two nets (nets <no net> and Net-(U1A-O))",
+            "items": [
+                {
+                    "description": "PCB text 'TDO-DONE' on top_copper",
+                    "pos": {
+                        "x": 158.115,
+                        "y": 86.36
+                    },
+                    "uuid": "2be32b3c-9123-4383-9cf1-02617616cbbd"
+                },
+                {
+                    "description": "Track [Net-(U1A-O)] on top_copper, length 2.1213 mm",
+                    "pos": {
+                        "x": 153.9,
+                        "y": 87.4
+                    },
+                    "uuid": "4fc0fa94-9eb7-42e6-9fa6-665967805c91"
+                }
+            ],
+            "severity": "error",
+            "type": "shorting_items"
+        },
+        {
+            "description": "Items shorting two nets (nets <no net> and Net-(U1C-O))",
+            "items": [
+                {
+                    "description": "PCB text 'TMS-PROG' on top_copper",
+                    "pos": {
+                        "x": 158.115,
+                        "y": 102.235
+                    },
+                    "uuid": "2a51a229-75db-4354-926d-ac6179482fc4"
+                },
+                {
+                    "description": "Track [Net-(U1C-O)] on top_copper, length 2.4000 mm",
+                    "pos": {
+                        "x": 152.4,
+                        "y": 101.5
+                    },
+                    "uuid": "ff11c95c-1890-4a25-8f27-9bd1467354f8"
+                }
+            ],
+            "severity": "error",
+            "type": "shorting_items"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2540 mm; actual 0.2158 mm)",
+            "items": [
+                {
+                    "description": "PCB text 'TCK-CCL' on top_copper",
+                    "pos": {
+                        "x": 158.115,
+                        "y": 96.52
+                    },
+                    "uuid": "72a7430a-2e55-4e1e-8d44-b846dd022cfb"
+                },
+                {
+                    "description": "Track [Net-(U1D-O)] on top_copper, length 1.1000 mm",
+                    "pos": {
+                        "x": 151.8,
+                        "y": 97.6
+                    },
+                    "uuid": "748d2b0b-6d28-4685-8743-2ca61859ba3a"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2540 mm; actual 0.2002 mm)",
+            "items": [
+                {
+                    "description": "Track [Net-(U1D-O)] on top_copper, length 1.2728 mm",
+                    "pos": {
+                        "x": 152.9,
+                        "y": 97.6
+                    },
+                    "uuid": "5976cb1e-f05d-4711-a337-db9b20ef811c"
+                },
+                {
+                    "description": "PCB text 'TCK-CCL' on top_copper",
+                    "pos": {
+                        "x": 158.115,
+                        "y": 96.52
+                    },
+                    "uuid": "72a7430a-2e55-4e1e-8d44-b846dd022cfb"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2540 mm; actual 0.0000 mm)",
+            "items": [
+                {
+                    "description": "Track [Net-(U1D-O)] on top_copper, length 5.5000 mm",
+                    "pos": {
+                        "x": 153.8,
+                        "y": 98.5
+                    },
+                    "uuid": "23d8dff2-ba2f-4176-a984-87059edceaa8"
+                },
+                {
+                    "description": "PCB text 'TMS-PROG' on top_copper",
+                    "pos": {
+                        "x": 158.115,
+                        "y": 102.235
+                    },
+                    "uuid": "2a51a229-75db-4354-926d-ac6179482fc4"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Items shorting two nets (nets <no net> and Net-(U1C-O))",
+            "items": [
+                {
+                    "description": "PCB text 'TMS-PROG' on top_copper",
+                    "pos": {
+                        "x": 158.115,
+                        "y": 102.235
+                    },
+                    "uuid": "2a51a229-75db-4354-926d-ac6179482fc4"
+                },
+                {
+                    "description": "Track [Net-(U1C-O)] on top_copper, length 4.8083 mm",
+                    "pos": {
+                        "x": 149.0,
+                        "y": 104.9
+                    },
+                    "uuid": "52b1cc77-8828-4378-a2e5-b43904eb894d"
+                }
+            ],
+            "severity": "error",
+            "type": "shorting_items"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2540 mm; actual 0.0868 mm)",
+            "items": [
+                {
+                    "description": "Track [/TCK-CCLK] on top_copper, length 1.3000 mm",
+                    "pos": {
+                        "x": 162.6,
+                        "y": 99.1
+                    },
+                    "uuid": "3e79dfb0-23fd-4bc8-af93-f995b6ca9e2c"
+                },
+                {
+                    "description": "PCB text 'TCK-CCL' on top_copper",
+                    "pos": {
+                        "x": 158.115,
+                        "y": 96.52
+                    },
+                    "uuid": "72a7430a-2e55-4e1e-8d44-b846dd022cfb"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Items shorting two nets (nets <no net> and /TCK-CCLK)",
+            "items": [
+                {
+                    "description": "PCB text 'TCK-CCL' on top_copper",
+                    "pos": {
+                        "x": 158.115,
+                        "y": 96.52
+                    },
+                    "uuid": "72a7430a-2e55-4e1e-8d44-b846dd022cfb"
+                },
+                {
+                    "description": "Track [/TCK-CCLK] on top_copper, length 10.0409 mm",
+                    "pos": {
+                        "x": 162.6,
+                        "y": 97.8
+                    },
+                    "uuid": "7aa7ae97-4b9a-48ea-8805-2ad7a807b1f4"
+                }
+            ],
+            "severity": "error",
+            "type": "shorting_items"
+        },
+        {
+            "description": "Footprint 'DSUB-9_Male_EdgeMount_P2.77mm' does not match copy in library 'sonde-xilinx'",
+            "items": [
+                {
+                    "description": "Footprint J2",
+                    "pos": {
+                        "x": 181.61,
+                        "y": 90.1192
+                    },
+                    "uuid": "00000000-0000-0000-0000-00005a73b143"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_mismatch"
+        }
+    ]
+}

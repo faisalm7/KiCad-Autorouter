@@ -1,0 +1,41 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 0.388002083003812,
+  "cpu_seconds": 0.38267799999999996,
+  "max_rss_bytes": 200392704,
+  "supervisor_cpu_seconds": 0.007901000000000047,
+  "monitor_cpu_seconds": 0.027664,
+  "sampled_peak_group_rss_bytes": 36962304,
+  "sampled_peak_workdir_bytes": 2297525,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 536870912,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+    "import",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/adapter-ablation-001/stock-a/candidate/sonde xilinx.kicad_pcb",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/adapter-ablation-001/stock-a/imported.kicad_pcb",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/adapter-ablation-001/stock-a/routes.ses"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/adapter-ablation-001/stock-a/import.log",
+  "log_bytes": 0,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/adapter-ablation-001/stock-a",
+  "signal_cancellation_enabled": true,
+  "pid": 80834,
+  "name": "import"
+}

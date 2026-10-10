@@ -1,0 +1,24 @@
+2026-10-09 23:39:22.635 INFO   Freerouting v2.5.0 (build-date: 2026-10-05)
+2026-10-09 23:39:22.899 INFO   Hardware: 1 CPU cores, 479 CPU score, 1979 MB RAM
+2026-10-09 23:39:22.902 WARN   GUI is disabled and you don't have a console available, so the only feedback from Freerouting is in the log.
+2026-10-09 23:39:24.251 INFO   [103FEB\C80D23] Loading board file 'task.dsn'...
+2026-10-09 23:39:24.288 INFO   Layer 'bottom_copper' contains a power plane / large copper pour covering >=30% of the board; associated net(s) configured for plane routing.
+2026-10-09 23:39:24.300 INFO   [103FEB\C80D23] Job '103FEB\C80D23' started at 2026-10-10T06:39:24.299932Z.
+2026-10-09 23:39:24.346 INFO   [103FEB\C80D23] Pipeline thread limits: autorouter pass is single-threaded, optimizer.max_threads=1.
+2026-10-09 23:39:24.373 INFO   [103FEB\C80D23] Fanout stage started on board '2453a3904ba443c4373785aef75bb8c8' with 21 of 34 SMD pins needing fanout (13 already connected, 0 netless).
+2026-10-09 23:39:24.616 INFO   [103FEB\C80D23] Fanout pass #1 on board 'ac2f3a51c9b4d3b867c3b690b08d5881' completed in 0.23 seconds with 18 SMD pins fanouted, 1 not routed, 0 insert errors, +8 extra vias (0 SMD pins still to check in pass, ripup costs=100).
+2026-10-09 23:39:24.642 INFO   [103FEB\C80D23] Fanout pass #2 on board 'ac2f3a51c9b4d3b867c3b690b08d5881' completed in 0.02 seconds with 0 SMD pins fanouted, 0 not routed, 0 insert errors, +0 extra vias (0 SMD pins still to check in pass, ripup costs=200).
+2026-10-09 23:39:24.644 INFO   [103FEB\C80D23] Fanout stage completed: started with 34 total SMD pins, completed in 0.27 seconds, escaped pins: 20/34 (58.8%), using 0.26 total CPU seconds, 0.12 GB total allocated, and 98.8 MB peak heap usage.
+2026-10-09 23:39:24.663 INFO   [103FEB\C80D23] Auto-routing stage started on board 'ac2f3a51c9b4d3b867c3b690b08d5881' with baseline score 308.46 for 36 unrouted items.
+2026-10-09 23:39:25.261 INFO   [103FEB\C80D23] Auto-routing pass #1 on board 'ac2f3a51c9b4d3b867c3b690b08d5881' was completed in 0.58 seconds with score 980.10 (1 unrouted and 0 violations).
+2026-10-09 23:39:25.315 INFO   [103FEB\C80D23] Auto-routing pass #2 on board '108931aafb303ce25ad18310a846a60c' was completed in 0.04 seconds with score 1000.00 (0 unrouted and 0 violations), using 0.93 CPU seconds and the job allocated 0.69 GB of memory so far.
+2026-10-09 23:39:25.331 INFO   [103FEB\C80D23] Auto-routing pass #3 on board '94739ff5fddec99ea421fde1cddb4f17' was completed in 0.01 seconds with score 1000.00 (0 unrouted and 0 violations), using 0.93 CPU seconds and the job allocated 0.69 GB of memory so far.
+2026-10-09 23:39:25.353 INFO   [103FEB\C80D23] Auto-routing stage completed: started with 48 unrouted nets, completed in 1.00 seconds, final score: 1000.00 (0 unrouted and 0 violations), using 0.93 total CPU seconds, 0.69 GB total allocated, and 15.3 MB peak heap usage.
+2026-10-09 23:39:25.377 INFO   [103FEB\C80D23] Optimization stage started on board 'a800975a06199472513f35b722fbeb53'. Baseline router score: 1000.00, optimizer score: 881.94, incomplete connections: 0, clearance violations: 0.
+2026-10-09 23:39:26.763 INFO   [103FEB\C80D23] Optimizer pass #1 on board 'a0ef34dcd747626a6349525dda8040c8' was completed in 1.36 seconds with the score of 895.83 (0 unrouted and 0 violations).
+2026-10-09 23:39:26.771 INFO   [103FEB\C80D23] Optimizer pass #1: optimizer score 881.94 -> 895.83 (IMPROVED, 1.5748%), router score: 1000.00, incomplete connections: 0, clearance violations: 0.
+2026-10-09 23:39:26.771 INFO   [103FEB\C80D23] Stopping optimizer because the improvement in this pass (1.5748%) is below the threshold (2.50%).
+2026-10-09 23:39:26.779 INFO   [103FEB\C80D23] Optimization stage completed:. Baseline router score: 1000.00, baseline optimizer score: 881.94, final router score: 1000.00, final optimizer score: 895.83, completed in 1.40 seconds, using 1.33 total CPU seconds, 1.33 GB total allocated, and 38.4 MB peak heap usage.
+2026-10-09 23:39:26.783 INFO   [103FEB\C80D23] Job '103FEB\C80D23' finished with state: COMPLETED (elapsed: 2.48 seconds, finished at UTC: 2026-10-10T06:39:26.782996Z).
+2026-10-09 23:39:26.793 INFO   Saving output file '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/adapter-ablation-001/graphics/routes.ses' (SES)...
+2026-10-09 23:39:26.794 INFO   Successfully saved output file '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/adapter-ablation-001/graphics/routes.ses' (19095 bytes).

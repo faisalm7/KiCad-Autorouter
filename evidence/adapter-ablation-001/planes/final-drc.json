@@ -1,0 +1,118 @@
+{
+    "$schema": "https://schemas.kicad.org/drc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-10-09T23:39:43",
+    "ignored_checks": [
+        {
+            "description": "Copper connection too narrow",
+            "key": "connection_width"
+        },
+        {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+        },
+        {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+        },
+        {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning",
+        "exclusion"
+    ],
+    "kicad_version": "10.0.0",
+    "schematic_parity": [],
+    "source": "sonde xilinx.kicad_pcb",
+    "unconnected_items": [],
+    "violations": [
+        {
+            "description": "Clearance violation ( clearance 0.2540 mm; actual 0.0000 mm)",
+            "items": [
+                {
+                    "description": "Track [/PWR_3,3-5V] on top_copper, length 1.9757 mm",
+                    "pos": {
+                        "x": 162.952,
+                        "y": 80.137
+                    },
+                    "uuid": "3361213c-a706-4acd-b8c9-b8085e06f7e3"
+                },
+                {
+                    "description": "PCB text 'GND' on top_copper",
+                    "pos": {
+                        "x": 162.56,
+                        "y": 81.28
+                    },
+                    "uuid": "717b9b54-8836-45e6-8f9b-3a4b8501ac9e"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Items shorting two nets (nets <no net> and /PWR_3,3-5V)",
+            "items": [
+                {
+                    "description": "PCB text 'GND' on top_copper",
+                    "pos": {
+                        "x": 162.56,
+                        "y": 81.28
+                    },
+                    "uuid": "717b9b54-8836-45e6-8f9b-3a4b8501ac9e"
+                },
+                {
+                    "description": "Track [/PWR_3,3-5V] on top_copper, length 6.7200 mm",
+                    "pos": {
+                        "x": 169.672,
+                        "y": 80.137
+                    },
+                    "uuid": "9fb2d354-ae4e-49b5-8b9a-60a4dc1b82f6"
+                }
+            ],
+            "severity": "error",
+            "type": "shorting_items"
+        },
+        {
+            "description": "Items shorting two nets (nets <no net> and Net-(U1A-O))",
+            "items": [
+                {
+                    "description": "PCB text 'TDO-DONE' on top_copper",
+                    "pos": {
+                        "x": 158.115,
+                        "y": 86.36
+                    },
+                    "uuid": "2be32b3c-9123-4383-9cf1-02617616cbbd"
+                },
+                {
+                    "description": "Track [Net-(U1A-O)] on top_copper, length 4.9252 mm",
+                    "pos": {
+                        "x": 152.4,
+                        "y": 83.9748
+                    },
+                    "uuid": "30707141-8388-4ba6-a0ce-4df55d9f7d02"
+                }
+            ],
+            "severity": "error",
+            "type": "shorting_items"
+        },
+        {
+            "description": "Footprint 'DSUB-9_Male_EdgeMount_P2.77mm' does not match copy in library 'sonde-xilinx'",
+            "items": [
+                {
+                    "description": "Footprint J2",
+                    "pos": {
+                        "x": 181.61,
+                        "y": 90.1192
+                    },
+                    "uuid": "00000000-0000-0000-0000-00005a73b143"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_mismatch"
+        }
+    ]
+}

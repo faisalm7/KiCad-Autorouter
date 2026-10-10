@@ -1,0 +1,44 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 0.1643012499989709,
+  "cpu_seconds": 0.15986499999999998,
+  "max_rss_bytes": 43139072,
+  "supervisor_cpu_seconds": 0.0045680000000000165,
+  "monitor_cpu_seconds": 0.013458999999999999,
+  "sampled_peak_group_rss_bytes": 3850240,
+  "sampled_peak_workdir_bytes": 2141668,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 536870912,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/krt-0.23.0-venv/bin/python",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/krt-spike-002/parser-probe.py",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/KiCadRoutingTools-0.23.0/py_router",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/krt-spike-002/parser-single-line.kicad_pcb",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/krt-spike-002/task-input/sonde xilinx.kicad_pcb",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/krt-spike-002/parser-probe.json"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/krt-spike-002/parser-probe.log",
+  "log_bytes": 140,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/krt-spike-002",
+  "signal_cancellation_enabled": true,
+  "pid": 84669,
+  "name": "parser-probe"
+}

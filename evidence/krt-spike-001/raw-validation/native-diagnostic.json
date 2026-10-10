@@ -1,0 +1,141 @@
+{
+    "$schema": "https://schemas.kicad.org/drc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-10-09T23:42:15",
+    "ignored_checks": [
+        {
+            "description": "Copper connection too narrow",
+            "key": "connection_width"
+        },
+        {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+        },
+        {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+        },
+        {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning",
+        "exclusion"
+    ],
+    "kicad_version": "10.0.0",
+    "schematic_parity": [],
+    "source": "sonde xilinx.kicad_pcb",
+    "unconnected_items": [],
+    "violations": [
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "PCB text 'TMS-PROG' on F.Silkscreen",
+                    "pos": {
+                        "x": 158.115,
+                        "y": 102.235
+                    },
+                    "uuid": "2a51a229-75db-4354-926d-ac6179482fc4"
+                },
+                {
+                    "description": "Reference field of R12",
+                    "pos": {
+                        "x": 157.48,
+                        "y": 101.37
+                    },
+                    "uuid": "eabad64c-e379-46a1-83ba-c478368d3ee4"
+                }
+            ],
+            "severity": "error",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "Footprint text of D2 (K)",
+                    "pos": {
+                        "x": 160.02,
+                        "y": 80.64
+                    },
+                    "uuid": "324aad6e-d9ed-4c28-aadc-70c2396e6c7a"
+                },
+                {
+                    "description": "PCB text 'GND' on F.Silkscreen",
+                    "pos": {
+                        "x": 162.56,
+                        "y": 81.28
+                    },
+                    "uuid": "717b9b54-8836-45e6-8f9b-3a4b8501ac9e"
+                }
+            ],
+            "severity": "error",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "PCB text 'TCK-CCL' on F.Silkscreen",
+                    "pos": {
+                        "x": 158.115,
+                        "y": 96.52
+                    },
+                    "uuid": "72a7430a-2e55-4e1e-8d44-b846dd022cfb"
+                },
+                {
+                    "description": "Reference field of R11",
+                    "pos": {
+                        "x": 157.48,
+                        "y": 96.29
+                    },
+                    "uuid": "d487287a-f806-4b4b-badf-f42c40b32041"
+                }
+            ],
+            "severity": "error",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "PCB text 'TDI-TIN' on F.Silkscreen",
+                    "pos": {
+                        "x": 158.115,
+                        "y": 91.44
+                    },
+                    "uuid": "e1e2e17c-9c97-4111-bd02-e15c2c41e832"
+                },
+                {
+                    "description": "Reference field of R14",
+                    "pos": {
+                        "x": 157.48,
+                        "y": 91.21
+                    },
+                    "uuid": "f961c032-2628-44fa-901a-648dc9739910"
+                }
+            ],
+            "severity": "error",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Footprint 'DSUB-9_Male_EdgeMount_P2.77mm' does not match copy in library 'sonde-xilinx'",
+            "items": [
+                {
+                    "description": "Footprint J2",
+                    "pos": {
+                        "x": 181.61,
+                        "y": 90.1192
+                    },
+                    "uuid": "00000000-0000-0000-0000-00005a73b143"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_mismatch"
+        }
+    ]
+}

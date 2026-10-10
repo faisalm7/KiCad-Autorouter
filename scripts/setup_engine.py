@@ -11,6 +11,8 @@ URL='https://github.com/freerouting/freerouting/releases/download/v2.5.0/freerou
 SIZE=64599107
 
 def main():
+    if JAR.parent.is_symlink() or JAR.is_symlink():
+        raise SystemExit('Engine path must not be a symlink')
     JAR.parent.mkdir(exist_ok=True)
     if JAR.exists():
         if hashlib.sha256(JAR.read_bytes()).hexdigest()!=JAR_SHA256:
@@ -28,6 +30,8 @@ def main():
             f.write(chunk)
     if total!=SIZE or hashlib.sha256(tmp.read_bytes()).hexdigest()!=JAR_SHA256:
         raise SystemExit('Download failed size/hash verification; not installed')
-    os.replace(tmp,JAR)
+    if JAR.parent.is_symlink(): raise SystemExit('Engine destination changed')
+    os.link(tmp,JAR)  # Exclusive publication: preserve a concurrently created destination.
+    tmp.unlink()
     print('Verified official Freerouting 2.5.0 JAR:',JAR_SHA256)
 if __name__=='__main__': main()

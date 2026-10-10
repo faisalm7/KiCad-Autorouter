@@ -1,24 +1,30 @@
 # Requirements to evidence
 
-| Requirement | Implementation / executable check | Evidence | Status |
-|---|---|---|---|
-| G0 local checkout and safe remote backup | Git + OS inspection; independent SHA and README read | evidence/backups/G0.json | Passed |
-| Pinned Mac CLI and native interfaces | `python3 -m autorouter doctor` | toolchain.lock.json; evidence/doctor-initial.json | Actual10.0.0 interfaces exercised; packaging incomplete |
-| G1 real routing + native refill/connectivity | `python3 -m autorouter route … --output NEW` | evidence/runs/smoke-stock-004; sonde-stock-002 | Diagnostic accepted; public development stock failed |
-| Immutable original/native geometry/project/rules | pipeline.py structural and complete-file checks; test_validation.py | Native input bindings + source/candidate hashes | Exercised narrow scope; more constraints blocked |
-| Fail closed missing/corrupt/disabled checks | parse_report; test_validation.py | docs/review-initial.md | Reproduced flaws fixed; parser tests passed |
-| Native positive and deliberately invalid controls | `scripts/native_controls.py --valid … --output NEW` | .runs/native-controls-002/summary.json | 14 real native control cases passed; not population evidence |
-| Cancellation, timeout, descendants, bounded logs | runner.py; test_runner.py | Actual disposable child processes | Passed; detached children/SIGKILL cleanup unqualified |
-| Memory/disk guard and complete compute accounting | runner.py polling work in progress; pipeline.py counters | Run process receipts | Partial; polling is not OS enforcement |
-| Licensed native source and preserved originals | `python3 data/fetch.py --verify` | data/sources.json; docs/data-provenance.md | 1 public family acquired; no training/holdout |
-| Historical mechanism reconstruction | adapter.py; separate graphics/planes/both modes | Tests only so far | Native experiments pending |
-| G3 representative failure audit + alternatives | Research + KRT spike preparation | docs/research-foundation.md | 30–50 family audit unmet |
-| G4 B0/B1/B2/C fair improvement + ablations | No C strategy implemented | None | Unmet; no superiority claim |
-| G5 CLI, supported scope and separate output | autorouter/__main__.py; README | Real CLI route commands | CLI exercised; GUI/undo/stale editor/selected nets unqualified |
-| G6 learning decision | Failure audit still too small | docs/architecture.md | No model; training not presently justified |
-| G7 frozen holdout + independent scrutiny | Initial adversarial AI review only | docs/review-initial.md | Confirmatory evaluation unmet |
-| G8 backup/restore + fresh installation | scripts/backup.py; test_backup.py | Scratch backup tests | Actual checkpoint restoration pending |
-| Release packaging/CI/support matrix | README + architecture initial scope only | None | Unmet; no published package/release |
-| Human and physical/electrical validation | Later owner-approved execution required | None | Unmet |
+Updated October 9, 2026. Evidence describes the exact recorded implementation and inputs; it does not qualify later edits automatically.
 
-Counts describe executed controls, not correctness breadth. Source preservation does not establish schematic parity or physical performance. Every unavailable capability remains excluded from acceptance claims.
+| Requirement | Implementation / executable check | Stored evidence | Status and limits |
+|---|---|---|---|
+| G0 local checkout, audited push and independent remote read-back | OS/Git inspection; remote SHA and decoded file byte comparison | `evidence/backups/G0.json`; `evidence/backups/checkpoint-7fef467.json` | Passed for initial commit and checkpoint `7fef467`; later staged files still require audit |
+| Pinned Mac native interfaces and engine | `python3 -m autorouter doctor` | `toolchain.lock.json`; `evidence/doctor-initial.json`; per-run tool manifests | KiCad 10.0.0, Freerouting 2.5.0 and Java 25.0.2 exercised; fresh-install/package matrix incomplete |
+| G1 licensed real routing with native refill/connectivity | `python3 -m autorouter route … --adapter both --output NEW` | `.runs/adapter-ablation-001/combined/result.json` and native report | Narrow vertical slice passed: 0 opens, 0 blocking findings, 1 warning; not whole-project or physical cleanliness |
+| Immutable original geometry, terminal mapping, zones, protected routes and rules | `pipeline.py` structural/file-set checks; native control generator | `evidence/native-controls-002/summary.json`; frozen run source/candidate manifests | Exercised narrow scope; unsupported constraints remain rejected |
+| Fail closed on missing, corrupt, stale or disabled validation | `parse_report`, preservation checks, `check_result`; `tests/test_validation.py`, `tests/test_result.py` | `docs/review-initial.md`; `docs/review-followup.md`; `.runs/review-followup-001` | Reproduced defects fixed; 12 receipt tests passed; synthetic receipts test checking logic only |
+| Native positive and deliberately invalid controls | `scripts/native_controls.py --valid … --output NEW` | `evidence/native-controls-002/summary.json` | All 14 cases passed: 1 positive, 13 negative, each with actual native execution; broader constraint coverage pending |
+| Cancellation, timeout, descendants and bounded logs | `runner.py`; `tests/test_runner.py` | Disposable real subprocess controls and run process receipts | Ordinary cleanup exercised; detached children, SIGKILL and full GUI-stage behavior unqualified |
+| Bounded resource use and total compute accounting | Runner polling and pipeline accounting | Frozen protocol/receipts; `.runs/review-followup-001/ablation-binding-audit.json` | Adapter CPU totals independently checked; polling can overshoot and is not OS enforcement |
+| Safe setup and candidate ownership boundaries | Symlink rejection, resolved ownership, exclusive engine publication | `docs/review-followup.md`; before/after setup and receipt reproductions | Reproduced escapes/overwrite fixed; no live-editor candidate application claim |
+| Licensed complete projects and immutable acquisition | `python3 data/fetch.py --verify`; hash-pinned stdlib fetcher | `data/sources.json`; `docs/data-provenance.md`; `evidence/coverage.json` | 5 projects, 6 boards; 92 files including notices, 9,270,389 bytes verified; all exposed development |
+| Full considered population and explicit unsupported cases | Static `autorouter.pipeline.preflight`; structural fingerprints | `evidence/coverage.json`, including prior audit history | 6 considered, 1 eligible, 5 unsupported, 0 errors; no native execution in this corpus audit; no independent-family claim |
+| G2 historical adapter reconstruction and ablations | `adapter.py`; `scripts/experiment_adapter.py` | `.runs/adapter-ablation-001/protocol.json` and `summary.json`; independent binding audit | Five arms at frozen `7fef467`; B1 recovery on one family only; early smoke/stock records remain provisional |
+| G3 alternative-engine integration spike | `scripts/setup_krt.py`; `scripts/experiment_krt.py` | `docs/krt-spike.md`; `.runs/krt-spike-001` and `002` | Two KRT attempts completed; both raw and both route-only outputs rejected; formatting and copper-text failures diagnosed |
+| G3 representative 30–50-family audit and architecture | Corpus expansion, failure analysis and native qualification | Initial corpus and two engine approaches above; `docs/research-foundation.md` | Unmet: 5 provisional families, only sonde currently eligible; broader native audit and ancestry screening pending |
+| G4 substantive strategy beyond B1 and equal-budget B2 | Strategy prototype and tuned/restart comparison in progress; planned 120-second wall / 120-second measured CPU caps | No completed B2/C result claimed in this matrix | Pending; no generalized completion, quality or speed superiority claim |
+| G5 usable CLI and safe candidate handling | CLI route/diagnostics/receipt checking and new `review-copy` command | Real separate-output runs; receipt tamper controls | Routing CLI exercised; review-copy native end-to-end check pending |
+| G5 actual external KiCad review workflow | PCB Editor opened disposable B1 project; native GUI refill/DRC; close and Discard | `evidence/gui-inspection/gui-native-drc.rpt`; `observation.json`; `docs/gui-workflow.md` | Narrowly exercised: 0 errors/opens, 25 library-disabled warnings, 0 exclusions, 4 ignored checks. Board bytes unchanged; disposable project metadata/history changed. CLI/GUI warning configurations differ; apply/undo/stale editor, GUI cancellation and installation remain unqualified |
+| G6 evidence-based learning decision | Failure audit and non-learning alternatives | Adapter/KRT observations and current limited corpus | No model trained; current data does not justify training; revisit after broader audit |
+| G7 untouched evaluation and independent scrutiny | Freeze future family-disjoint protocol; adversarial reviews | `docs/review-initial.md`; `docs/review-followup.md` | AI reviews completed for scoped defects/evidence; final holdout and confirmatory evaluation unmet |
+| G8 actual checkpoint backup and restoration | `python3 scripts/backup.py`; `--verify RECEIPT` | `evidence/backups/checkpoint-7fef467.json`; named local receipt/verification | Bundle, all refs and 1,185 non-Git files restored/verified; CLI help passed. On-Mac only; later artifacts need new archive; off-Mac destination awaiting owner |
+| Release packaging, CI and support matrix | Installation/demo/test/benchmark entry points to complete | Existing CLI/scripts are partial handoff | Unmet; no formal release/package published |
+| Schematic parity, human PCB and physical/electrical validation | Separate future qualification | None | Unmet; native routing acceptance does not establish these properties |
+
+Counts describe executed controls and the complete considered development population, not correctness breadth. The one accepted adapter candidate retains a warning. Rejected route lengths cannot establish usable quality gains. All six acquired boards are development-exposed; none belongs to an untouched final evaluation. Original rules and unsupported inputs remain preserved.

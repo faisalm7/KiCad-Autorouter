@@ -1,0 +1,23 @@
+2026-10-09 23:39:12.009 INFO   Freerouting v2.5.0 (build-date: 2026-10-05)
+2026-10-09 23:39:12.276 INFO   Hardware: 1 CPU cores, 484 CPU score, 1979 MB RAM
+2026-10-09 23:39:12.280 WARN   GUI is disabled and you don't have a console available, so the only feedback from Freerouting is in the log.
+2026-10-09 23:39:13.674 INFO   [D70BFF\D3ECD8] Loading board file 'task.dsn'...
+2026-10-09 23:39:13.723 INFO   Layer 'bottom_copper' contains a power plane / large copper pour covering >=30% of the board; associated net(s) configured for plane routing.
+2026-10-09 23:39:13.734 INFO   [D70BFF\D3ECD8] Job 'D70BFF\D3ECD8' started at 2026-10-10T06:39:13.734829Z.
+2026-10-09 23:39:13.781 INFO   [D70BFF\D3ECD8] Pipeline thread limits: autorouter pass is single-threaded, optimizer.max_threads=1.
+2026-10-09 23:39:13.808 INFO   [D70BFF\D3ECD8] Fanout stage started on board 'b74885a0cd2a55aba5b4150354a8a0b9' with 21 of 34 SMD pins needing fanout (13 already connected, 0 netless).
+2026-10-09 23:39:14.045 INFO   [D70BFF\D3ECD8] Fanout pass #1 on board 'a1578b071e44223dc1b55f1e6db9aca2' completed in 0.22 seconds with 18 SMD pins fanouted, 1 not routed, 0 insert errors, +8 extra vias (0 SMD pins still to check in pass, ripup costs=100).
+2026-10-09 23:39:14.072 INFO   [D70BFF\D3ECD8] Fanout pass #2 on board 'a1578b071e44223dc1b55f1e6db9aca2' completed in 0.02 seconds with 0 SMD pins fanouted, 0 not routed, 0 insert errors, +0 extra vias (0 SMD pins still to check in pass, ripup costs=200).
+2026-10-09 23:39:14.075 INFO   [D70BFF\D3ECD8] Fanout stage completed: started with 34 total SMD pins, completed in 0.26 seconds, escaped pins: 20/34 (58.8%), using 0.25 total CPU seconds, 0.12 GB total allocated, and 97.5 MB peak heap usage.
+2026-10-09 23:39:14.092 INFO   [D70BFF\D3ECD8] Auto-routing stage started on board 'a1578b071e44223dc1b55f1e6db9aca2' with baseline score 308.46 for 36 unrouted items.
+2026-10-09 23:39:14.703 INFO   [D70BFF\D3ECD8] Auto-routing pass #1 on board 'a1578b071e44223dc1b55f1e6db9aca2' was completed in 0.60 seconds with score 1000.00 (0 unrouted and 0 violations).
+2026-10-09 23:39:14.719 INFO   [D70BFF\D3ECD8] Auto-routing pass #2 on board '89b487ed82b2687ceef14af6176a3d64' was completed in 0.01 seconds with score 1000.00 (0 unrouted and 0 violations).
+2026-10-09 23:39:14.742 INFO   [D70BFF\D3ECD8] Auto-routing stage completed: started with 48 unrouted nets, completed in 0.95 seconds, final score: 1000.00 (0 unrouted and 0 violations), using 0.00 total CPU seconds, 0.00 GB total allocated, and 0.0 MB peak heap usage.
+2026-10-09 23:39:14.767 INFO   [D70BFF\D3ECD8] Optimization stage started on board 'a81ccb6c27698edad6e1fead080a153f'. Baseline router score: 1000.00, optimizer score: 888.89, incomplete connections: 0, clearance violations: 0.
+2026-10-09 23:39:16.515 INFO   [D70BFF\D3ECD8] Optimizer pass #1 on board '44ec82c20801f5854bb7776b2371b0c3' was completed in 1.71 seconds with the score of 902.78 (0 unrouted and 0 violations).
+2026-10-09 23:39:16.524 INFO   [D70BFF\D3ECD8] Optimizer pass #1: optimizer score 888.89 -> 902.78 (IMPROVED, 1.5625%), router score: 1000.00, incomplete connections: 0, clearance violations: 0.
+2026-10-09 23:39:16.524 INFO   [D70BFF\D3ECD8] Stopping optimizer because the improvement in this pass (1.5625%) is below the threshold (2.50%).
+2026-10-09 23:39:16.535 INFO   [D70BFF\D3ECD8] Optimization stage completed:. Baseline router score: 1000.00, baseline optimizer score: 888.89, final router score: 1000.00, final optimizer score: 902.78, completed in 1.76 seconds, using 1.52 total CPU seconds, 1.32 GB total allocated, and 30.8 MB peak heap usage.
+2026-10-09 23:39:16.540 INFO   [D70BFF\D3ECD8] Job 'D70BFF\D3ECD8' finished with state: COMPLETED (elapsed: 2.81 seconds, finished at UTC: 2026-10-10T06:39:16.539935Z).
+2026-10-09 23:39:16.583 INFO   Saving output file '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/adapter-ablation-001/stock-a/routes.ses' (SES)...
+2026-10-09 23:39:16.584 INFO   Successfully saved output file '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/adapter-ablation-001/stock-a/routes.ses' (18825 bytes).

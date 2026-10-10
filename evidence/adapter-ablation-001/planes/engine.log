@@ -1,0 +1,26 @@
+2026-10-09 23:39:32.700 INFO   Freerouting v2.5.0 (build-date: 2026-10-05)
+2026-10-09 23:39:32.964 INFO   Hardware: 1 CPU cores, 486 CPU score, 1979 MB RAM
+2026-10-09 23:39:32.966 WARN   GUI is disabled and you don't have a console available, so the only feedback from Freerouting is in the log.
+2026-10-09 23:39:34.311 INFO   [38F1AF\ADA8D9] Loading board file 'task.dsn'...
+2026-10-09 23:39:34.362 INFO   [38F1AF\ADA8D9] Job '38F1AF\ADA8D9' started at 2026-10-10T06:39:34.362398Z.
+2026-10-09 23:39:34.405 INFO   [38F1AF\ADA8D9] Pipeline thread limits: autorouter pass is single-threaded, optimizer.max_threads=1.
+2026-10-09 23:39:34.427 INFO   [38F1AF\ADA8D9] Fanout stage started on board '889d19a58fc0019328942b09549c1d91' with 21 of 34 SMD pins needing fanout (13 already connected, 0 netless).
+2026-10-09 23:39:34.664 INFO   [38F1AF\ADA8D9] Fanout pass #1 on board '6c161852c9295d403a4540b12d26082f' completed in 0.22 seconds with 21 SMD pins fanouted, 0 not routed, 0 insert errors, +7 extra vias (0 SMD pins still to check in pass, ripup costs=100).
+2026-10-09 23:39:34.695 INFO   [38F1AF\ADA8D9] Fanout pass #2 on board 'b96bf1ddfad0d9231646b3e802590759' completed in 0.02 seconds with 2 SMD pins fanouted, 0 not routed, 0 insert errors, +2 extra vias (0 SMD pins still to check in pass, ripup costs=200).
+2026-10-09 23:39:34.712 INFO   [38F1AF\ADA8D9] Fanout pass #3 on board 'b96bf1ddfad0d9231646b3e802590759' completed in 0.01 seconds with 0 SMD pins fanouted, 0 not routed, 0 insert errors, +0 extra vias (0 SMD pins still to check in pass, ripup costs=300).
+2026-10-09 23:39:34.713 INFO   [38F1AF\ADA8D9] Fanout stage completed: started with 34 total SMD pins, completed in 0.28 seconds, escaped pins: 21/34 (61.8%), using 0.27 total CPU seconds, 0.12 GB total allocated, and 93.2 MB peak heap usage.
+2026-10-09 23:39:34.720 INFO   [38F1AF\ADA8D9] Auto-routing stage started on board 'b96bf1ddfad0d9231646b3e802590759' with baseline score 121.21 for 54 unrouted items.
+2026-10-09 23:39:35.414 INFO   [38F1AF\ADA8D9] Auto-routing pass #1 on board 'b96bf1ddfad0d9231646b3e802590759' was completed in 0.68 seconds with score 979.80 (1 unrouted and 0 violations), using 0.94 CPU seconds and the job allocated 0.70 GB of memory so far.
+2026-10-09 23:39:35.513 INFO   [38F1AF\ADA8D9] Auto-routing pass #2 on board 'ccd2e8506e7f9e23c14d4a37cf042ce4' was completed in 0.09 seconds with score 1000.00 (0 unrouted and 0 violations), using 0.94 CPU seconds and the job allocated 0.70 GB of memory so far.
+2026-10-09 23:39:35.526 INFO   [38F1AF\ADA8D9] Auto-routing pass #3 on board 'd5a78971e94fbc7a25d1b17c799bc530' was completed in 0.00 seconds with score 1000.00 (0 unrouted and 0 violations), using 0.94 CPU seconds and the job allocated 0.70 GB of memory so far.
+2026-10-09 23:39:35.542 INFO   [38F1AF\ADA8D9] Auto-routing stage completed: started with 66 unrouted nets, completed in 1.13 seconds, final score: 1000.00 (0 unrouted and 0 violations), using 0.94 total CPU seconds, 0.70 GB total allocated, and 29.4 MB peak heap usage.
+2026-10-09 23:39:35.567 INFO   [38F1AF\ADA8D9] Optimization stage started on board '6745488b54e94b58905659dbd4440368'. Baseline router score: 1000.00, optimizer score: 750.38, incomplete connections: 0, clearance violations: 0.
+2026-10-09 23:39:37.765 INFO   [38F1AF\ADA8D9] Optimizer pass #1 on board '14cc90fc76e863ae28c88a42e2d8eb20' was completed in 2.17 seconds with the score of 770.48 (0 unrouted and 0 violations).
+2026-10-09 23:39:37.770 INFO   [38F1AF\ADA8D9] Optimizer pass #1: optimizer score 750.38 -> 770.48 (IMPROVED, 2.6789%), router score: 1000.00, incomplete connections: 0, clearance violations: 0.
+2026-10-09 23:39:39.945 INFO   [38F1AF\ADA8D9] Optimizer pass #2 on board 'fe410e421b3f719a92e358b4b3c8f60f' was completed in 2.16 seconds with the score of 788.53 (0 unrouted and 0 violations).
+2026-10-09 23:39:39.950 INFO   [38F1AF\ADA8D9] Optimizer pass #2: optimizer score 770.48 -> 788.53 (IMPROVED, 2.3423%), router score: 1000.00, incomplete connections: 0, clearance violations: 0.
+2026-10-09 23:39:39.950 INFO   [38F1AF\ADA8D9] Stopping optimizer because the improvement in this pass (2.3423%) is below the threshold (2.50%).
+2026-10-09 23:39:39.954 INFO   [38F1AF\ADA8D9] Optimization stage completed:. Baseline router score: 1000.00, baseline optimizer score: 750.38, final router score: 1000.00, final optimizer score: 788.53, completed in 4.39 seconds, using 4.07 total CPU seconds, 5.11 GB total allocated, and 63.5 MB peak heap usage.
+2026-10-09 23:39:39.958 INFO   [38F1AF\ADA8D9] Job '38F1AF\ADA8D9' finished with state: COMPLETED (elapsed: 5.59 seconds, finished at UTC: 2026-10-10T06:39:39.958288Z).
+2026-10-09 23:39:39.991 INFO   Saving output file '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/adapter-ablation-001/planes/routes.ses' (SES)...
+2026-10-09 23:39:39.992 INFO   Successfully saved output file '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/adapter-ablation-001/planes/routes.ses' (25568 bytes).

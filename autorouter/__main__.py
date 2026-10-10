@@ -25,15 +25,25 @@ def main():
     p=argparse.ArgumentParser(prog='python -m autorouter')
     sub=p.add_subparsers(dest='command',required=True)
     sub.add_parser('doctor')
+    review=sub.add_parser('review-copy');review.add_argument('receipt');review.add_argument('--output',required=True)
+    improve=sub.add_parser('improve');improve.add_argument('board');improve.add_argument('--output',required=True);improve.add_argument('--seconds',type=float,default=120)
     verify=sub.add_parser('check-result');verify.add_argument('receipt')
-    r=sub.add_parser('route'); r.add_argument('board'); r.add_argument('--output',required=True); r.add_argument('--seconds',type=float,default=120); r.add_argument('--keep-existing',action='store_true');r.add_argument('--adapter',choices=['none','graphics','planes','both'],default='none')
+    r=sub.add_parser('route'); r.add_argument('board'); r.add_argument('--output',required=True); r.add_argument('--seconds',type=float,default=120); r.add_argument('--keep-existing',action='store_true');r.add_argument('--adapter',choices=['none','graphics','planes','both'],default='none');r.add_argument('--profile',choices=['standard','tuned'],default='standard')
     a=p.parse_args()
     if a.command=='doctor':
         result=doctor();print(json.dumps(result,indent=2));return 0 if result['ready'] else 2
+    if a.command=='review-copy':
+        from .handoff import review_copy
+        try: print(json.dumps(review_copy(a.receipt,a.output),indent=2));return 0
+        except Exception as exc: print(json.dumps({'status':'rejected','reason':str(exc)}));return 2
     if a.command=='check-result':
         try: print(json.dumps(check_result(a.receipt),indent=2));return 0
         except Exception as exc: print(json.dumps({'current':False,'reason':str(exc)}));return 2
-    try: result=route(a.board,a.output,a.seconds,a.keep_existing,a.adapter)
+    try:
+        if a.command=='improve':
+            from .strategy import prune
+            result=prune(a.board,a.output,a.seconds)
+        else: result=route(a.board,a.output,a.seconds,a.keep_existing,a.adapter,a.profile)
     except Exception as exc:
         print(json.dumps({'accepted':False,'error':str(exc)}));return 2
     print(json.dumps({k:v for k,v in result.items() if k in ('status','accepted','reason','candidate','wall_seconds','total_cpu_seconds','metrics')},indent=2))

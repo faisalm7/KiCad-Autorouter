@@ -1,0 +1,40 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 0.4035427089984296,
+  "cpu_seconds": 0.39646699999999996,
+  "max_rss_bytes": 198377472,
+  "supervisor_cpu_seconds": 0.009626999999999608,
+  "monitor_cpu_seconds": 0.030494999999999994,
+  "sampled_peak_group_rss_bytes": 33882112,
+  "sampled_peak_workdir_bytes": 3812909,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 536870912,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+    "metrics",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/adapter-ablation-001/stock-b/candidate/sonde xilinx.kicad_pcb",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/adapter-ablation-001/stock-b/metrics.json"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/adapter-ablation-001/stock-b/metrics.log",
+  "log_bytes": 0,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/adapter-ablation-001/stock-b",
+  "signal_cancellation_enabled": true,
+  "pid": 81511,
+  "name": "metrics"
+}

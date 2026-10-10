@@ -1,0 +1,47 @@
+{
+  "status": "nonzero_exit",
+  "exit_code": 5,
+  "wall_seconds": 1.1389514170004986,
+  "cpu_seconds": 0.570452,
+  "max_rss_bytes": 224329728,
+  "supervisor_cpu_seconds": 0.015681000000000056,
+  "monitor_cpu_seconds": 0.064369,
+  "sampled_peak_group_rss_bytes": 219332608,
+  "sampled_peak_workdir_bytes": 2000225,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 536870912,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+    "pcb",
+    "drc",
+    "--format",
+    "json",
+    "--severity-all",
+    "--all-track-errors",
+    "--refill-zones",
+    "--exit-code-violations",
+    "--output",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/adapter-ablation-001/graphics/source-drc.json",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/adapter-ablation-001/graphics/source-drc-input/sonde xilinx.kicad_pcb"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/adapter-ablation-001/graphics/source-drc.log",
+  "log_bytes": 163,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/adapter-ablation-001/graphics",
+  "signal_cancellation_enabled": true,
+  "pid": 80864,
+  "name": "source-drc"
+}

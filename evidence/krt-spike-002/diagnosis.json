@@ -1,0 +1,432 @@
+{
+  "run": "krt-spike-002",
+  "immutable_differences": [
+    {
+      "kind": "gr_text",
+      "original_count": 8,
+      "raw_count": 8,
+      "original_items_absent_in_raw": 8
+    }
+  ],
+  "result_sha256": "4f593741a9428e9f028b3fb5423c5b5aa1ed1c6b8069b83615e6ea83306053ae",
+  "raw": {
+    "sha256": "e7c44c68b98030c3cab35cbfed10c3122387c4340e5ea08a9a25330622181282",
+    "violation_types": {
+      "silk_overlap": 4,
+      "lib_footprint_mismatch": 1
+    },
+    "violation_severity": {
+      "error": 4,
+      "warning": 1
+    },
+    "unconnected": 0,
+    "excluded_violations": 0,
+    "violations": [
+      {
+        "type": "silk_overlap",
+        "description": "Silkscreen clearance",
+        "items": [
+          {
+            "description": "PCB text 'TMS-PROG' on F.Silkscreen",
+            "pos": {
+              "x": 158.115,
+              "y": 102.235
+            },
+            "uuid": "2a51a229-75db-4354-926d-ac6179482fc4"
+          },
+          {
+            "description": "Reference field of R12",
+            "pos": {
+              "x": 157.48,
+              "y": 101.37
+            },
+            "uuid": "eabad64c-e379-46a1-83ba-c478368d3ee4"
+          }
+        ]
+      },
+      {
+        "type": "silk_overlap",
+        "description": "Silkscreen clearance",
+        "items": [
+          {
+            "description": "Footprint text of D2 (K)",
+            "pos": {
+              "x": 160.02,
+              "y": 80.64
+            },
+            "uuid": "324aad6e-d9ed-4c28-aadc-70c2396e6c7a"
+          },
+          {
+            "description": "PCB text 'GND' on F.Silkscreen",
+            "pos": {
+              "x": 162.56,
+              "y": 81.28
+            },
+            "uuid": "717b9b54-8836-45e6-8f9b-3a4b8501ac9e"
+          }
+        ]
+      },
+      {
+        "type": "silk_overlap",
+        "description": "Silkscreen clearance",
+        "items": [
+          {
+            "description": "PCB text 'TCK-CCL' on F.Silkscreen",
+            "pos": {
+              "x": 158.115,
+              "y": 96.52
+            },
+            "uuid": "72a7430a-2e55-4e1e-8d44-b846dd022cfb"
+          },
+          {
+            "description": "Reference field of R11",
+            "pos": {
+              "x": 157.48,
+              "y": 96.29
+            },
+            "uuid": "d487287a-f806-4b4b-badf-f42c40b32041"
+          }
+        ]
+      },
+      {
+        "type": "silk_overlap",
+        "description": "Silkscreen clearance",
+        "items": [
+          {
+            "description": "PCB text 'TDI-TIN' on F.Silkscreen",
+            "pos": {
+              "x": 158.115,
+              "y": 91.44
+            },
+            "uuid": "e1e2e17c-9c97-4111-bd02-e15c2c41e832"
+          },
+          {
+            "description": "Reference field of R14",
+            "pos": {
+              "x": 157.48,
+              "y": 91.21
+            },
+            "uuid": "f961c032-2628-44fa-901a-648dc9739910"
+          }
+        ]
+      },
+      {
+        "type": "lib_footprint_mismatch",
+        "description": "Footprint 'DSUB-9_Male_EdgeMount_P2.77mm' does not match copy in library 'sonde-xilinx'",
+        "items": [
+          {
+            "description": "Footprint J2",
+            "pos": {
+              "x": 181.61,
+              "y": 90.1192
+            },
+            "uuid": "00000000-0000-0000-0000-00005a73b143"
+          }
+        ]
+      }
+    ]
+  },
+  "route_transfer": {
+    "sha256": "1891152fefc9001aabaa954be3dbb96f9b2e59898aaa020b36c5434bb33a1924",
+    "violation_types": {
+      "clearance": 5,
+      "shorting_items": 7,
+      "lib_footprint_mismatch": 1
+    },
+    "violation_severity": {
+      "error": 12,
+      "warning": 1
+    },
+    "unconnected": 0,
+    "excluded_violations": 0,
+    "violations": [
+      {
+        "type": "clearance",
+        "description": "Clearance violation ( clearance 0.2540 mm; actual 0.0000 mm)",
+        "items": [
+          {
+            "description": "Track [Net-(U1B-O)] on top_copper, length 8.6000 mm",
+            "pos": {
+              "x": 154.8,
+              "y": 105.0
+            },
+            "uuid": "38a36704-904e-4e0a-92de-ee3be4ed6243"
+          },
+          {
+            "description": "PCB text 'TCK-CCL' on top_copper",
+            "pos": {
+              "x": 158.115,
+              "y": 96.52
+            },
+            "uuid": "72a7430a-2e55-4e1e-8d44-b846dd022cfb"
+          }
+        ]
+      },
+      {
+        "type": "shorting_items",
+        "description": "Items shorting two nets (nets <no net> and Net-(U1B-O))",
+        "items": [
+          {
+            "description": "PCB text 'TMS-PROG' on top_copper",
+            "pos": {
+              "x": 158.115,
+              "y": 102.235
+            },
+            "uuid": "2a51a229-75db-4354-926d-ac6179482fc4"
+          },
+          {
+            "description": "Track [Net-(U1B-O)] on top_copper, length 8.6000 mm",
+            "pos": {
+              "x": 154.8,
+              "y": 105.0
+            },
+            "uuid": "38a36704-904e-4e0a-92de-ee3be4ed6243"
+          }
+        ]
+      },
+      {
+        "type": "shorting_items",
+        "description": "Items shorting two nets (nets <no net> and Net-(U1B-O))",
+        "items": [
+          {
+            "description": "PCB text 'TCK-CCL' on top_copper",
+            "pos": {
+              "x": 158.115,
+              "y": 96.52
+            },
+            "uuid": "72a7430a-2e55-4e1e-8d44-b846dd022cfb"
+          },
+          {
+            "description": "Track [Net-(U1B-O)] on top_copper, length 3.3941 mm",
+            "pos": {
+              "x": 154.8,
+              "y": 96.4
+            },
+            "uuid": "869d44b3-4a82-4e82-92bd-8cce8464b710"
+          }
+        ]
+      },
+      {
+        "type": "shorting_items",
+        "description": "Items shorting two nets (nets <no net> and Net-(U1A-O))",
+        "items": [
+          {
+            "description": "PCB text 'TDO-DONE' on top_copper",
+            "pos": {
+              "x": 158.115,
+              "y": 86.36
+            },
+            "uuid": "2be32b3c-9123-4383-9cf1-02617616cbbd"
+          },
+          {
+            "description": "Track [Net-(U1A-O)] on top_copper, length 13.0000 mm",
+            "pos": {
+              "x": 153.9,
+              "y": 74.4
+            },
+            "uuid": "c7f61992-cd76-40af-ab21-053b8e0ce785"
+          }
+        ]
+      },
+      {
+        "type": "shorting_items",
+        "description": "Items shorting two nets (nets <no net> and Net-(U1A-O))",
+        "items": [
+          {
+            "description": "PCB text 'TDO-DONE' on top_copper",
+            "pos": {
+              "x": 158.115,
+              "y": 86.36
+            },
+            "uuid": "2be32b3c-9123-4383-9cf1-02617616cbbd"
+          },
+          {
+            "description": "Track [Net-(U1A-O)] on top_copper, length 2.1213 mm",
+            "pos": {
+              "x": 153.9,
+              "y": 87.4
+            },
+            "uuid": "4fc0fa94-9eb7-42e6-9fa6-665967805c91"
+          }
+        ]
+      },
+      {
+        "type": "shorting_items",
+        "description": "Items shorting two nets (nets <no net> and Net-(U1C-O))",
+        "items": [
+          {
+            "description": "PCB text 'TMS-PROG' on top_copper",
+            "pos": {
+              "x": 158.115,
+              "y": 102.235
+            },
+            "uuid": "2a51a229-75db-4354-926d-ac6179482fc4"
+          },
+          {
+            "description": "Track [Net-(U1C-O)] on top_copper, length 2.4000 mm",
+            "pos": {
+              "x": 152.4,
+              "y": 101.5
+            },
+            "uuid": "ff11c95c-1890-4a25-8f27-9bd1467354f8"
+          }
+        ]
+      },
+      {
+        "type": "clearance",
+        "description": "Clearance violation ( clearance 0.2540 mm; actual 0.2158 mm)",
+        "items": [
+          {
+            "description": "PCB text 'TCK-CCL' on top_copper",
+            "pos": {
+              "x": 158.115,
+              "y": 96.52
+            },
+            "uuid": "72a7430a-2e55-4e1e-8d44-b846dd022cfb"
+          },
+          {
+            "description": "Track [Net-(U1D-O)] on top_copper, length 1.1000 mm",
+            "pos": {
+              "x": 151.8,
+              "y": 97.6
+            },
+            "uuid": "748d2b0b-6d28-4685-8743-2ca61859ba3a"
+          }
+        ]
+      },
+      {
+        "type": "shorting_items",
+        "description": "Items shorting two nets (nets <no net> and Net-(U1C-O))",
+        "items": [
+          {
+            "description": "PCB text 'TMS-PROG' on top_copper",
+            "pos": {
+              "x": 158.115,
+              "y": 102.235
+            },
+            "uuid": "2a51a229-75db-4354-926d-ac6179482fc4"
+          },
+          {
+            "description": "Track [Net-(U1C-O)] on top_copper, length 4.8083 mm",
+            "pos": {
+              "x": 149.0,
+              "y": 104.9
+            },
+            "uuid": "52b1cc77-8828-4378-a2e5-b43904eb894d"
+          }
+        ]
+      },
+      {
+        "type": "clearance",
+        "description": "Clearance violation ( clearance 0.2540 mm; actual 0.2002 mm)",
+        "items": [
+          {
+            "description": "Track [Net-(U1D-O)] on top_copper, length 1.2728 mm",
+            "pos": {
+              "x": 152.9,
+              "y": 97.6
+            },
+            "uuid": "5976cb1e-f05d-4711-a337-db9b20ef811c"
+          },
+          {
+            "description": "PCB text 'TCK-CCL' on top_copper",
+            "pos": {
+              "x": 158.115,
+              "y": 96.52
+            },
+            "uuid": "72a7430a-2e55-4e1e-8d44-b846dd022cfb"
+          }
+        ]
+      },
+      {
+        "type": "clearance",
+        "description": "Clearance violation ( clearance 0.2540 mm; actual 0.0868 mm)",
+        "items": [
+          {
+            "description": "Track [/TCK-CCLK] on top_copper, length 1.3000 mm",
+            "pos": {
+              "x": 162.6,
+              "y": 99.1
+            },
+            "uuid": "3e79dfb0-23fd-4bc8-af93-f995b6ca9e2c"
+          },
+          {
+            "description": "PCB text 'TCK-CCL' on top_copper",
+            "pos": {
+              "x": 158.115,
+              "y": 96.52
+            },
+            "uuid": "72a7430a-2e55-4e1e-8d44-b846dd022cfb"
+          }
+        ]
+      },
+      {
+        "type": "clearance",
+        "description": "Clearance violation ( clearance 0.2540 mm; actual 0.0000 mm)",
+        "items": [
+          {
+            "description": "Track [Net-(U1D-O)] on top_copper, length 5.5000 mm",
+            "pos": {
+              "x": 153.8,
+              "y": 98.5
+            },
+            "uuid": "23d8dff2-ba2f-4176-a984-87059edceaa8"
+          },
+          {
+            "description": "PCB text 'TMS-PROG' on top_copper",
+            "pos": {
+              "x": 158.115,
+              "y": 102.235
+            },
+            "uuid": "2a51a229-75db-4354-926d-ac6179482fc4"
+          }
+        ]
+      },
+      {
+        "type": "shorting_items",
+        "description": "Items shorting two nets (nets <no net> and /TCK-CCLK)",
+        "items": [
+          {
+            "description": "PCB text 'TCK-CCL' on top_copper",
+            "pos": {
+              "x": 158.115,
+              "y": 96.52
+            },
+            "uuid": "72a7430a-2e55-4e1e-8d44-b846dd022cfb"
+          },
+          {
+            "description": "Track [/TCK-CCLK] on top_copper, length 10.0409 mm",
+            "pos": {
+              "x": 162.6,
+              "y": 97.8
+            },
+            "uuid": "7aa7ae97-4b9a-48ea-8805-2ad7a807b1f4"
+          }
+        ]
+      },
+      {
+        "type": "lib_footprint_mismatch",
+        "description": "Footprint 'DSUB-9_Male_EdgeMount_P2.77mm' does not match copy in library 'sonde-xilinx'",
+        "items": [
+          {
+            "description": "Footprint J2",
+            "pos": {
+              "x": 181.61,
+              "y": 90.1192
+            },
+            "uuid": "00000000-0000-0000-0000-00005a73b143"
+          }
+        ]
+      }
+    ]
+  },
+  "metrics": {
+    "version": "10.0.0",
+    "pads": 108,
+    "footprints": 25,
+    "zones": 1,
+    "vias": 18,
+    "track_length_mm": 556.1976633248028,
+    "copper_layers": 2
+  }
+}

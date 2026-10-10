@@ -1,0 +1,47 @@
+{
+  "status": "nonzero_exit",
+  "exit_code": 5,
+  "wall_seconds": 1.3512696249963483,
+  "cpu_seconds": 0.568475,
+  "max_rss_bytes": 222871552,
+  "supervisor_cpu_seconds": 0.017133999999999983,
+  "monitor_cpu_seconds": 0.086395,
+  "sampled_peak_group_rss_bytes": 217235456,
+  "sampled_peak_workdir_bytes": 602434,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 536870912,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+    "pcb",
+    "drc",
+    "--format",
+    "json",
+    "--severity-all",
+    "--all-track-errors",
+    "--refill-zones",
+    "--exit-code-violations",
+    "--output",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/krt-spike-001/raw-validation/native-diagnostic.json",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/krt-spike-001/raw-validation/native-diagnostic-input/sonde xilinx.kicad_pcb"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/krt-spike-001/raw-validation/native-diagnostic.log",
+  "log_bytes": 169,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/krt-spike-001/raw-validation",
+  "signal_cancellation_enabled": true,
+  "pid": 82673,
+  "name": "native-diagnostic"
+}

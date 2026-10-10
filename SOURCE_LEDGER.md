@@ -61,3 +61,7 @@ Verify latest primary sources, artifact-specific rights, geometry/rule fidelity,
 - Freerouting2.5.0 release/source, unconditional version-check path and alternative engines: docs/research-foundation.md. Network deny was actually tested with a socket probe; no claim that disabling analytics alone makes the engine offline.
 - Official sonde native project and file-specific CC BY-SA4.0 evidence pinned at69cafb907ebc09e7722a2a464b1d466fc2e3608d: data/sources.json, docs/data-provenance.md. Download and offline verification executed.
 - Isolated KiCad configuration experiments and source trace: docs/kicad-config-investigation.md. Working recipe established; earlier crash cause unresolved.
+
+- Freerouting2.5.0 optimizer stopping settings were checked in the tagged primary source: https://github.com/freerouting/freerouting/blob/v2.5.0/src/main/java/app/freerouting/settings/OptimizerSettings.java . Default improvement threshold2.5 percent motivated a development B2 profile with0.1 percent and larger pass/failure caps. Runtime confirmation and measured outcomes belong to the fresh quality experiment, not this source reading.
+- Executed KRT0.23.0 native spikes and pinned extension/dependency/source hashes: docs/krt-spike.md and evidence/krt-spike-001/002. Both reject; this updates the earlier integration lead without asserting a general comparison.
+- Five complete official KiCad development projects acquired at the pinned source revision;92 files verified,6PCBs counted including unsupported sibling: docs/data-provenance.md and evidence/coverage.json.

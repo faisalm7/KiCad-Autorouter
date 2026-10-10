@@ -2,9 +2,72 @@
   "schema": 1,
   "stage": "exploratory development",
   "claims": [
-    {"id":"local-backup-G0","statement":"Audited starter source pushed and independently read back","evidence":"evidence/backups/G0.json","status":"verified"},
-    {"id":"smoke-native","statement":"One original diagnostic fixture routed and native-validated","evidence":"evidence/runs/smoke-stock-004/result.json","status":"exploratory; not population evidence"},
-    {"id":"sonde-stock-failure","statement":"One public development board stock run has 3 opens and 7 blocking native findings","evidence":"evidence/runs/sonde-stock-002/result.json","status":"exploratory; no comparative gain"}
+    {
+      "id": "local-backup-G0",
+      "statement": "Audited starter source pushed and independently read back",
+      "evidence": "evidence/backups/G0.json",
+      "status": "verified"
+    },
+    {
+      "id": "smoke-native",
+      "statement": "One original diagnostic fixture routed and native-validated",
+      "evidence": "evidence/runs/smoke-stock-004/result.json",
+      "status": "provisional early experiment;code hash recorded but no full immutable code snapshot;superseded by frozen ablation"
+    },
+    {
+      "id": "sonde-stock-failure",
+      "statement": "One public development board stock run has 3 opens and 7 blocking native findings",
+      "evidence": "evidence/runs/sonde-stock-002/result.json",
+      "status": "provisional early experiment;code hash recorded but no full immutable code snapshot;superseded by frozen ablation"
+    },
+    {
+      "id": "adapter-development",
+      "statement": "On one exposed public family, combined B1 corrects 3 stock opens and7 blocking findings; zero opens/errors after native refill, 1 warning remains. Graphics-only and planes-only fail separately.",
+      "evidence": "evidence/adapter-ablation-001/summary.json",
+      "status": "verified development ablation at frozen code7fef467;120s wall cap;not beyond-adapter superiority"
+    },
+    {
+      "id": "native-controls",
+      "statement": "14 actual native positive/invalid controls produced expected acceptance or rejection",
+      "evidence": "evidence/native-controls-002/summary.json",
+      "status": "executed diagnostic controls;not population evidence"
+    },
+    {
+      "id": "alternative-fidelity",
+      "statement": "Two KRT spikes reject geometry-moving output; route-only adaptations also fail native checks",
+      "evidence": [
+        "evidence/krt-spike-001/result.json",
+        "evidence/krt-spike-002/result.json"
+      ],
+      "status": "exploratory;coordinator hashes but incomplete historical code snapshot;no comparative superiority"
+    },
+    {
+      "id": "coverage",
+      "statement": "Six considered PCBs in5provisional families;1eligible5unsupported;all source hashes preserved",
+      "evidence": "evidence/coverage.json",
+      "status": "static coverage audit;family independence not established"
+    },
+    {
+      "id": "gui-copy",
+      "statement": "Actual PCBEditor opened separate B1copy;nativeGUIrefillDRC0errors0opens25librarywarnings;project settings changed on discard but accepted/source untouched",
+      "evidence": "evidence/gui-inspection/observation.json",
+      "status": "narrowexternalworkflowtest;notplugin/undoqualification"
+    },
+    {
+      "id": "restoration",
+      "statement": "Full Git bundle and inventoried nonGitarchive restored andverified;CLIhelp ran",
+      "evidence": "evidence/backups/checkpoint-7fef467.json",
+      "status": "onMaconlyfullarchive;sourcecheckpointoffMacGitHub"
+    }
   ],
-  "unmet": ["G1 control suite finalization","B1/B2/C comparison","representative development corpus","confirmatory evaluation","GUI qualification","human PCB review","physical validation"]
+  "unmet": [
+    "B2/C equalbudgetmeasurement pending",
+    "30\u201350familyrepresentativeaudit",
+    "untouchedconfirmatoryevaluation",
+    "fullGUIapply/undoqualification",
+    "freshscratchinstall",
+    "humanPCBreview",
+    "physicalvalidation",
+    "independentoffMacprivatearchivebackup"
+  ]
 }
