@@ -4,7 +4,7 @@ Active specification: `MASTER_PROMPT.md`, read completely. Use the selected loca
 
 ## Current evidence
 
-- G0 development pushes/read-backs passed through9c44e0a. Its full private archive restored all Git refs and28,416non-Gitfiles /940,519,944bytes, plus CLIhelp. Covers every completed floor native/receipt/cancellation/regression control and review, source-closure002, deferred pair draft and initial partial placement drafts. Later placement edits are outside that snapshot. Archives remain on this Mac only.
+- G0 development push/read-back passed through3e2cce9. Its full private archive restored all Git refs and30,291non-Git files /1,017,693,214bytes, plus CLIhelp. Covers all completed placement native/routing/failure/control/review/index work and earlier evidence. Archives remain on this Mac only.
 - Native controls, actual engine cancellation, separate-copy GUI observation and fresh local clone/venv installation002 passed within documented scopes. Current integrated suite:387tests in6.076seconds (`evidence/tests/placement-net-identity-root-tests-001.log`). Current code has not repeated installation qualification; GUI live apply/undo remains unqualified.
 - Stronger sonde pair001: B2 portfolio selected749.441643mm/2vias; C_feedback648.045171mm/2vias,101.396471mm shorter, with more compute. Both fit fully charged120second wall/CPU caps. All three B2 outputs were valid. One exposed input, not generalized superiority.
 - Fresh interf thermal pair001: C_thermal accepted0opens/blocking/warnings/exclusions; B2 rejected one thermal. Fresh B0/B1-standard/B1-completion ablation001 all rejected. Exact removal of only the delivered bridge restores the identical failed incumbent and thermal. Full costs, cross-HEAD production-byte equality and limitations are preserved in `docs/thermal-experiment.md`.
@@ -51,6 +51,6 @@ python3 -m autorouter check-result .runs/board-floor-production-followup-001/res
 
 The diagnostic draft is historical; explicit production guidance is now implemented and fixture-qualified. Full-board routing still rejects. Do not rerun completed thermal comparisons without a new hypothesis. Never overwrite an existing run identifier. Geometry60seconds, forced-via120seconds, wall and measured total CPU; one worker, bounded storage/memory and logs. Polling is not an OS aggregate quota. No persistent/background/auto-resume work, paid services, private uploads or global preference changes. `python3 scripts/backup.py --verify RECEIPT` actually restore-checks a named archive; a manifest is not a backup.
 
-Placement/native-source-guard work after the8799c54 archive still requires a fresh tested private backup. See `STATUS.md` for current checkpoint and evidence boundaries.
+Placement/native-source-guard and matched diagnostic work are now covered by the3e2cce9 full tested archive. See `STATUS.md` for exact checkpoint and restoration boundaries.
 
 Actual placement fixture001 remains failed; correctedfixture002 passed and pair001 produced two rejected outputs. The new outcomes002 snapshot separates the unchanged two accepted production inputs from zero accepted placement diagnostics.
