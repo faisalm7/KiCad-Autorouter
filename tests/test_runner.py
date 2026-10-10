@@ -9,6 +9,7 @@ import sys
 import tempfile
 import time
 import unittest
+from unittest.mock import patch
 
 from autorouter.runner import run
 
@@ -156,7 +157,13 @@ result = run([sys.executable, '-c', sys.argv[2]], cwd=directory, log=directory/'
             result = self.run_python(code, max_group_rss_bytes=48 * 1024**2)
             self.assertEqual(result["status"], "memory_limit")
             self.assertGreater(result["sampled_peak_group_rss_bytes"], 48 * 1024**2)
-            self.assertGreater(result["monitor_cpu_seconds"], 0)
+            if sys.platform == "darwin":
+                # libproc executes in the supervisor; adding it again as child
+                # monitoring CPU would double-count pipeline parent CPU.
+                self.assertEqual(result["monitor_cpu_seconds"], 0)
+                self.assertGreater(result["supervisor_cpu_seconds"], 0)
+            else:
+                self.assertGreater(result["monitor_cpu_seconds"], 0)
             self.assertFalse(result["resource_guards"]["os_enforced"])
             self.assert_dead(result["pid"])
             self.assert_dead(int((self.cwd / "child.pid").read_text()))
@@ -215,6 +222,42 @@ result = run([sys.executable, '-c', sys.argv[2]], cwd=directory, log=directory/'
                     result = self.run_python("raise RuntimeError", **{option: value})
                     self.assertEqual(result["status"], "invalid_request")
                     self.assertFalse(self.log.exists())
+
+    @unittest.skipUnless(sys.platform == "darwin", "macOS libproc/sandbox control")
+    def test_network_denied_worker_keeps_memory_guard_enabled(self):
+        script = '''import errno,json,socket,sys
+from pathlib import Path
+from autorouter.runner import run
+root=Path(sys.argv[1])
+result=run([sys.executable,'-c','import time; data=bytearray(64*1024*1024); time.sleep(10)'],cwd=root,log=root/'sandbox-worker.log',timeout=3,max_group_rss_bytes=48*1024**2)
+try:
+ with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as client:
+  client.settimeout(.2); client.connect(('127.0.0.1',9))
+ network_denied=False
+except OSError as exc:
+ network_denied=exc.errno==errno.EPERM
+print(json.dumps({'worker':result,'network_denied':network_denied}))
+'''
+        process = subprocess.run(["/usr/bin/sandbox-exec", "-p", "(version 1)(allow default)(deny network*)",
+                                  sys.executable, "-c", script, str(self.cwd)],
+                                 cwd=ROOT, capture_output=True, text=True, timeout=6)
+        self.assertEqual(process.returncode, 0, process.stderr)
+        result = json.loads(process.stdout)
+        self.assertTrue(result["network_denied"], result)
+        worker = result["worker"]
+        self.assertEqual(worker["status"], "memory_limit", worker)
+        self.assertGreater(worker["sampled_peak_group_rss_bytes"], 48 * 1024**2)
+        self.assertTrue(worker["cleanup_complete"], worker)
+        self.assert_dead(worker["pid"])
+
+    @unittest.skipUnless(sys.platform == "darwin", "macOS libproc fail-closed control")
+    def test_inaccessible_memory_metadata_fails_closed_and_cleans_worker(self):
+        with patch("autorouter.runner._darwin_group_rss_bytes", side_effect=PermissionError("metadata denied")):
+            result = self.run_python("import time; time.sleep(10)")
+        self.assertEqual(result["status"], "runner_error", result)
+        self.assertIn("metadata denied", result["error"])
+        self.assertTrue(result["cleanup_complete"], result)
+        self.assert_dead(result["pid"])
 
 
 if __name__ == "__main__":

@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "status": "focused_tests_passed",
+  "failure": "sandbox denies exec of setuid /bin/ps (mode104755); unchanged network profile",
+  "fix": "unprivileged macOS libproc API restricted to owned process group, bounded4096PID inventory, strict96byte taskinfo ABI, failclosed errors; no network or memory guard disabled",
+  "cpu_accounting": "in-process monitor included in parent/supervisor CPU; monitor child CPU0 onMac",
+  "tests": {
+    "unsandboxed_runner": 22,
+    "network_denied_runner_with_fresh_venv_interpreter": 22,
+    "native_engines_run": 0,
+    "whole_install_rerun": false
+  },
+  "source_code": {
+    "autorouter/runner.py": "0e81ab1badf20cd84adc2fed586641dd97a489a5a6af03febe6fb597bb1d2718",
+    "tests/test_runner.py": "de9dee80926b3dd738fa158f1270d77925fb19ea79987877911701cda765064c"
+  },
+  "failed_install_preserved": {
+    "result.json": "9c908934f7d8a2f69c572fe7f4b6a8a56c054e5828b7a0287e0e6c671822c86a",
+    "13-tests.log": "eb419b05105872172b740fb921c590e0a840be95ff38283afe4ed40dc5964d94"
+  },
+  "evidence": {
+    "original-reproduction.json": "f4f662dd217bd177c8e4116f9cd993207eb79e7aebc93af90c3b2e2b668ec98b",
+    "worker.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "libproc-probe.py": "adb0390ad84f2cef49191b0a25cdeff5b8a7f9be6358461347faae84177e1cbd",
+    "runner-unsandboxed.log": "9c04c54389e78f29049a9d2cb4416c9bdc8ddecb47a926b1c10fffd32060ac3c",
+    "libproc-probe-result.json": "db8c98e3e7350c2d940b1c87a2eb284d4289455a3bc700a99dc379ee45df998a",
+    "runner-sandboxed-venv.log": "9d69b644c4d5a750fb7c1d62641713c5c47c5462b8c81520d2c4b17fac232ea8"
+  },
+  "api_primary_references": [
+    "https://github.com/apple-oss-distributions/xnu/blob/main/bsd/sys/proc_info.h",
+    "https://github.com/apple-oss-distributions/xnu/blob/main/libsyscall/wrappers/libproc/libproc.h",
+    "https://github.com/apple-oss-distributions/xnu/blob/main/libsyscall/wrappers/libproc/libproc.c"
+  ]
+}

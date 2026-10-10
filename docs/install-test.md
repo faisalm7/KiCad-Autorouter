@@ -1,11 +1,9 @@
 # Fresh-checkout installation test
 
-Status: prepared; no execution result is claimed by this document. The lead runs
-this after the sequential quality experiment and after committing the exact
-installation-test implementation. Native and engine tests must remain sequential.
+Status: attempt 001 at `e1e585f` failed 19 of 105 subprocess controls after clone, venv, verified engine setup and doctor passed. The sandbox refused the setuid `/bin/ps` resource-monitor executable. Native routing was not reached. Raw failure evidence is retained in `evidence/installation-001`; a monitor fix and fresh test are pending. Native and engine tests remain sequential.
 
 ```sh
-python3 scripts/install_smoke.py --output .runs/installation-001
+python3 scripts/install_smoke.py --output .runs/installation-002
 ```
 
 Use Python 3.11 and a new output directory. The source checkout must have no
@@ -47,3 +45,5 @@ Mac installation, independent dependency acquisition, package installation,
 GUI support on a new host, or broad routing correctness. No formal package or
 release is produced. Failed steps must remain reported as failed rather than
 editing the disposable checkout to make its original commit appear to pass.
+
+The scoped macOS monitor fix passed 22 runner controls both normally and with the actual fresh-venv interpreter under unchanged network denial. Those include a real memory-limit kill, network EPERM and descendant cleanup. Metadata-denial behavior has a separate mocked-error control and is not described as a real OS failure. Evidence: `evidence/review-install-monitor-001`. The full installation retest remains separate.

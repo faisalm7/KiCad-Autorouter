@@ -10,6 +10,8 @@ from __future__ import annotations
 
 import math
 import os
+import ctypes
+import errno
 from pathlib import Path
 import selectors
 import signal
@@ -72,14 +74,64 @@ def _workdir_bytes(root: Path, limit: int) -> int:
     return total
 
 
+def _darwin_group_rss_bytes(pgid: int) -> int:
+    """Read only our process group's RSS through the unprivileged libproc API.
+
+    macOS refuses to exec setuid /bin/ps inside sandbox-exec. Calling the public
+    metadata API needs no privilege change and leaves the sandbox intact.
+    ABI: Apple xnu bsd/sys/proc_info.h PROC_PIDTASKINFO (4), 96-byte taskinfo;
+    its second uint64 is resident size in bytes. proc_listpgrppids returns a
+    PID count, unlike proc_listpids' byte count. Interfaces checked against:
+    https://github.com/apple-oss-distributions/xnu/blob/main/bsd/sys/proc_info.h
+    https://github.com/apple-oss-distributions/xnu/blob/main/libsyscall/wrappers/libproc/libproc.h
+    """
+    library = ctypes.CDLL('/usr/lib/libproc.dylib', use_errno=True)
+    library.proc_listpgrppids.argtypes = [ctypes.c_int, ctypes.c_void_p, ctypes.c_int]
+    library.proc_listpgrppids.restype = ctypes.c_int
+    library.proc_pidinfo.argtypes = [ctypes.c_int, ctypes.c_int, ctypes.c_uint64, ctypes.c_void_p, ctypes.c_int]
+    library.proc_pidinfo.restype = ctypes.c_int
+    # Reject a saturated inventory rather than silently undercount memory.
+    pids = (ctypes.c_int * 4096)()
+    ctypes.set_errno(0)
+    count = library.proc_listpgrppids(pgid, pids, ctypes.sizeof(pids))
+    error = ctypes.get_errno()
+    if count < 0 or count == 0 and error not in (0, errno.ESRCH):
+        raise OSError(error, 'libproc could not list owned process group')
+    if count >= len(pids):
+        raise RuntimeError('owned process group exceeds bounded PID inventory')
+    total = 0
+    for pid in set(list(pids)[:count]):
+        if pid <= 0:
+            continue
+        try:
+            if os.getpgid(pid) != pgid:
+                continue  # Exited/reused PID or a child that left this group.
+        except ProcessLookupError:
+            continue
+        task_info = (ctypes.c_uint64 * 12)()
+        ctypes.set_errno(0)
+        size = library.proc_pidinfo(pid, 4, 0, task_info, ctypes.sizeof(task_info))
+        error = ctypes.get_errno()
+        if size == 0 and error == errno.ESRCH:
+            continue  # Exit between group enumeration and metadata sampling.
+        if size != ctypes.sizeof(task_info):
+            raise OSError(error, 'libproc returned incomplete owned-process memory data')
+        total += task_info[1]
+    return total
+
+
 def _group_rss_bytes(pgid: int, cwd: Path) -> tuple[int, float]:
     """Read only pid/pgid/RSS metadata; sum the worker's group, never other groups.
 
-    ps RSS uses KiB on Darwin and Linux. Shared pages can be double-counted by a
+    macOS libproc runs in the parent; its CPU is already in parent/supervisor
+    CPU and must not be added again as monitor child CPU. Other-platform ps
+    RSS uses KiB. Shared pages can be double-counted by a
     sum, and short-lived peaks can be missed. wait4 accounts for the ps helper's
     own CPU separately from the worker. A temporary unlinked file avoids pipe
     deadlock without storing process names, command lines, or environments.
     """
+    if sys.platform == 'darwin':
+        return _darwin_group_rss_bytes(pgid), 0.0
     with tempfile.TemporaryFile(dir=cwd) as listing:
         scanner = subprocess.Popen(
             ["/bin/ps", "-axo", "pid=,pgid=,rss="],
@@ -184,6 +236,7 @@ def run(
             "rss_scope": "kernel peak, not simultaneous process-tree total",
             "native_rss_unit": "bytes" if sys.platform == "darwin" else "KiB" if sys.platform.startswith("linux") else "unknown",
             "memory_limit_enforced": False,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds",
         },
     }
     process: subprocess.Popen[bytes] | None = None

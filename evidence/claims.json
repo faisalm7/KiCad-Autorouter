@@ -64,6 +64,18 @@
       "statement": "C shortens B1 with equal vias; versus corrected B2 it has shorter length but one extra via and higher runtime/CPU. No Pareto win or general superiority.",
       "evidence": "evidence/quality-comparison-002/summary.json",
       "status": "one exposed development family; all accepted arms retain one warning; frozen57db787"
+    },
+    {
+      "id": "native-cancellation-001",
+      "statement": "SIGINT during actual owned engine execution rejected the incomplete route and completed process-group cleanup with unchanged source/code.",
+      "evidence": "evidence/native-cancellation-001/control.json",
+      "status": "engine-stage control passed; interstage/GUI/OS-crash behavior remains unqualified"
+    },
+    {
+      "id": "fresh-install-001",
+      "statement": "Fresh clone, venv, verified cached engine and doctor passed, but 19 of 105 tests failed because sandbox denied the old ps resource monitor; native route was not reached.",
+      "evidence": "evidence/installation-001/result.json",
+      "status": "failed attempt retained; scoped monitor fix passed focused controls; full retest pending"
     }
   ],
   "unmet": [

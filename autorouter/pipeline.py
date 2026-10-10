@@ -5,6 +5,7 @@ Experimental whole-board completion only. Original projects are never written.
 from __future__ import annotations
 import copy
 import datetime
+from decimal import Decimal, InvalidOperation
 import hashlib
 import json
 import math
@@ -72,6 +73,23 @@ def routes(tree): return [n for n in tree if isinstance(n,list) and n and n[0] i
 def locked(n):
     return 'locked' in n or sx.one(n,'locked') in (['locked','yes'],['locked'])
 
+def netclass_policy(board):
+    """Keep the established Default path; qualify only a narrow new scope."""
+    project=json.loads(Path(board).with_suffix('.kicad_pro').read_text())
+    settings=project.get('net_settings',{})
+    if not (settings.get('netclass_patterns') or settings.get('netclass_assignments') or len(settings.get('classes',[]))>1):
+        return None
+    from .netclass import qualify_project
+    try:
+        policy=qualify_project(project)
+        layers=sx.one(sx.read(board),'layers',[])
+        if sum(isinstance(x,list) and len(x)>2 and re.fullmatch(r'(?:F|B|In[0-9]+)\.Cu',sx.unquote(x[1])) is not None for x in layers)!=2:
+            raise ValueError('literal netclasses currently require two copper layers')
+        if policy['mode']!='literal_two_class': raise ValueError('unqualified netclass binding mode')
+        return policy
+    except (ValueError,TypeError,KeyError) as exc:
+        raise Rejected('unsupported: netclass bindings not qualified: '+str(exc)) from exc
+
 def preflight(board):
     t=sx.read(board)
     reasons=[]
@@ -83,8 +101,8 @@ def preflight(board):
     if not project.is_file(): reasons.append('complete .kicad_pro required')
     else:
         p=json.loads(project.read_text()); settings=p.get('board',{}).get('design_settings',{})
-        nc=p.get('net_settings',{})
-        if nc.get('netclass_patterns') or nc.get('netclass_assignments') or len(nc.get('classes',[]))>1: reasons.append('netclass bindings not qualified')
+        try: netclass_policy(board)
+        except Rejected as exc: reasons.append(str(exc).removeprefix('unsupported: '))
         if settings.get('drc_exclusions'): reasons.append('DRC exclusions not qualified')
         for key,val in settings.get('rule_severities',{}).items():
             if key not in KNOWN_CHECKS or val not in {'error','warning','ignore'}: reasons.append('unknown rule severity semantics: '+key)
@@ -199,6 +217,55 @@ def verify_candidate_files(candidate, original_hashes, final_hash=None):
     expected[candidate.name]=sha(candidate) if final_hash is None else final_hash
     if actual!=expected: raise Rejected('candidate project/rules/file set changed')
 
+def audit_route_dimensions(tree, protected, native):
+    """Check new copper against native class targets, beyond DRC minimums.
+
+    Protected original route objects are exempt from target equality; their
+    unchanged geometry remains subject to normal native DRC. This is an exact
+    target-preservation scope, not general neckdown/custom-rule support.
+    """
+    records={row['name']:row for row in native['nets']}
+    names={node[1]:sx.unquote(node[2]) for node in sx.children(tree,'net')}
+    checked={'segments':0,'arcs':0,'vias':0,'protected':0}
+    def dimension(route,key):
+        node=sx.one(route,key)
+        if node is None or len(node)!=2 or not isinstance(node[1],str): raise Rejected('missing or malformed route '+key)
+        try: value=Decimal(node[1])*1000000
+        except InvalidOperation: raise Rejected('malformed route '+key) from None
+        if not value.is_finite() or value<=0 or value!=value.to_integral_value(): raise Rejected('invalid route '+key)
+        return int(value)
+    for route in routes(tree):
+        if route in protected:
+            checked['protected']+=1
+            continue
+        net=sx.one(route,'net')
+        if net is None or len(net)!=2 or not isinstance(net[1],str): raise Rejected('route missing net')
+        name=names.get(net[1],sx.unquote(net[1]))
+        row=records.get(name)
+        if row is None: raise Rejected('generated route has unknown native net '+name)
+        if route[0]=='via':
+            if any(kind in route for kind in ('blind','micro')) or sx.one(route,'layers')!=['layers','"F.Cu"','"B.Cu"']:
+                raise Rejected('unqualified generated via layer span')
+            if dimension(route,'size')!=row['via_diameter_nm'] or dimension(route,'drill')!=row['via_drill_nm']:
+                raise Rejected('generated via differs from native netclass target: '+name)
+            checked['vias']+=1
+        else:
+            if dimension(route,'width')!=row['width_nm']:
+                raise Rejected('generated track differs from native netclass target: '+name)
+            checked['arcs' if route[0]=='arc' else 'segments']+=1
+    return {'passed':True,'checked':checked,'policy':'exact effective native targets for new routes; protected originals unchanged'}
+
+def audit_candidate_netclasses(candidate, protected, native):
+    from .netclass import audit_native
+    project=candidate.with_suffix('.kicad_pro')
+    if (native.get('source')!=str(candidate) or native.get('board_sha256')!=sha(candidate)
+            or native.get('project_sha256')!=sha(project) or native.get('board_saved') is not False):
+        raise Rejected('native netclass map is not bound to candidate and original project')
+    mapping=audit_native(native,json.loads(project.read_text()))
+    dimensions=audit_route_dimensions(sx.read(candidate),protected,native)
+    return {'native':mapping,'route_dimensions':dimensions,'candidate_sha256':sha(candidate),
+            'project_sha256':sha(project)}
+
 def validate_candidate(job, original, candidate, source_hashes, protected):
     # Reject mutations before native tooling is allowed to normalize anything.
     if immutable(sx.read(candidate))!=immutable(original): raise Rejected('immutable geometry changed')
@@ -210,6 +277,12 @@ def validate_candidate(job, original, candidate, source_hashes, protected):
     sx.write(candidate,transplant_fill(sx.read(candidate),sx.read(refill)))
     if immutable(sx.read(candidate))!=immutable(original): raise Rejected('immutable geometry changed after refill')
     final_hash=sha(candidate)
+    if netclass_policy(candidate) is not None:
+        mapping=job.out/'final-netclasses.json'
+        job.native('final-netclasses','netclasses',candidate,mapping)
+        audited=audit_candidate_netclasses(candidate,protected,json.loads(mapping.read_text()))
+        audited['native_map_file_sha256']=sha(mapping)
+        save_json(job.out/'final-netclass-audit.json',audited)
     native=job.drc('final-drc',candidate)
     verify_candidate_files(candidate,source_hashes,final_hash)
     return final_hash,native
@@ -271,11 +344,25 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
         sx.write(candidate,task)
         report['task_sha256']=sha(candidate)
         report['source_drc']=job.drc('source-drc',snapshot)
-        job.native('export','export',candidate,output/'task.dsn')
+        policy=netclass_policy(candidate)
+        if policy is None:
+            job.native('export','export',candidate,output/'task.dsn')
+        else:
+            from .netclass import audit_dsn
+            mapping=output/'export-netclasses.json'
+            job.native('export','export',candidate,output/'task.dsn',mapping)
+            native_classes=json.loads(mapping.read_text())
+            # The task contains only protected routes, and its original rules.
+            audit_candidate_netclasses(candidate,protected,native_classes)
+            shutil.copy2(output/'task.dsn',output/'native.dsn')
+            report['netclass_policy']=policy
+            report['netclass_export_audit']=audit_dsn(output/'native.dsn',native_classes,json.loads(candidate.with_suffix('.kicad_pro').read_text()))
         if adapter!='none':
             from .adapter import adapt_dsn
             job.native('obstacles','obstacles',candidate,output/'obstacles.json')
             report['adapter_transformations']=adapt_dsn(output/'task.dsn',adapter,json.loads((output/'obstacles.json').read_text()))
+        if policy is not None:
+            report['netclass_task_audit']=audit_dsn(output/'task.dsn',native_classes,json.loads(candidate.with_suffix('.kicad_pro').read_text()))
         config_dir=output/'engine-config'; config_dir.mkdir()
         engine_settings=['--router.autorouter.max_passes=30','--router.optimizer.max_threads=1','--router.optimizer.max_passes=10','--router.job_timeout=60s','--router.optimizer.timeout=30s']
         if engine_profile=='tuned':
@@ -365,6 +452,41 @@ def check_result(path):
         file=path.parent/name
         if file.is_symlink(): raise Rejected('symlink in run evidence: '+name)
         return json.loads(file.read_text())
+
+    if netclass_policy(candidate) is not None:
+        from .netclass import audit_dsn, audit_native
+        native_classes=evidence('final-netclasses.json')
+        audited=audit_candidate_netclasses(candidate,protected,native_classes)
+        audited['native_map_file_sha256']=sha(path.parent/'final-netclasses.json')
+        if evidence('final-netclass-audit.json')!=audited: raise Rejected('retained native netclass audit differs from candidate')
+        process=evidence('final-netclasses-process.json')
+        expected=[str(c.PYTHON),str(c.ROOT/'autorouter/native.py'),'netclasses',str(candidate),str(path.parent/'final-netclasses.json')]
+        if (process.get('argv')!=expected or process.get('cwd')!=str(path.parent) or process.get('name')!='final-netclasses'
+                or process.get('exit_code')!=0 or process.get('status')!='success' or process.get('cleanup_complete') is not True):
+            raise Rejected('native netclass process provenance is inconsistent')
+        matching=[step for step in data.get('steps',[]) if step.get('name')=='final-netclasses' and step.get('cwd')==str(path.parent)]
+        if len(matching)!=1 or any(matching[0].get(key)!=value for key,value in process.items()):
+            raise Rejected('native netclass step differs from retained process')
+        if data.get('baseline')!='C-prototype':
+            # Reconstruct the exact native export input from the frozen source,
+            # never from the already-routed candidate or receipt assertions.
+            task=copy.deepcopy(original)
+            if data['scope']=='whole_board_unlocked_routing':
+                task[:]=[node for node in task if not isinstance(node,list) or not node or node[0] not in ROUTES or locked(node)]
+            for zone in sx.children(task,'zone'):
+                zone[:]=[node for node in zone if not isinstance(node,list) or not node or node[0] not in DERIVED_ZONE]
+            task_hash=hashlib.sha256((sx.dump(task)+'\n').encode()).hexdigest()
+            exported=evidence('export-netclasses.json')
+            project=json.loads(candidate.with_suffix('.kicad_pro').read_text())
+            if (data.get('task_sha256')!=task_hash or exported.get('board_sha256')!=task_hash
+                    or exported.get('project_sha256')!=sha(candidate.with_suffix('.kicad_pro'))
+                    or exported.get('source')!=str(candidate) or exported.get('board_saved') is not False):
+                raise Rejected('export netclass map differs from original routing task')
+            audit_native(exported,project)
+            if (data.get('netclass_policy')!=netclass_policy(candidate)
+                    or data.get('netclass_export_audit')!=audit_dsn(path.parent/'native.dsn',exported,project)
+                    or data.get('netclass_task_audit')!=audit_dsn(path.parent/'task.dsn',exported,project)):
+                raise Rejected('retained DSN netclass audits differ from exported evidence')
 
     binding=evidence('final-drc-binding.json')
     native_input=path.parent/'final-drc-input'/candidate.name

@@ -34,10 +34,10 @@ ARMS = (
     {"id": "B0", "adapter": "none", "engine_profile": "standard", "operation": "route"},
     {"id": "B1", "adapter": "both", "engine_profile": "standard", "operation": "route"},
     {"id": "B2", "adapter": "both", "engine_profile": "tuned", "operation": "route"},
-    {"id": "C", "adapter": "both", "engine_profile": "standard", "operation": "prune"},
+    {"id": "C", "adapter": "both", "engine_profile": "tuned", "operation": "prune"},
 )
 SCRIPT = Path(__file__).resolve()
-BOARD = c.ROOT / ".data/boards/kicad-sonde-xilinx/sonde xilinx.kicad_pcb"
+PROJECTS = {"sonde": "kicad-sonde-xilinx", "interf_u": "kicad-interf-u"}
 SUPPORT = (SCRIPT, c.ROOT / "toolchain.lock.json", c.ROOT / "data/sources.json")
 
 
@@ -47,7 +47,28 @@ def total_process_cpu():
     return parent.ru_utime + parent.ru_stime + children.ru_utime + children.ru_stime
 
 
-def freeze():
+def selected_source(name):
+    manifest = json.loads((c.ROOT / "data/sources.json").read_text())
+    project = next(row for row in manifest["projects"] if row["project_id"] == PROJECTS[name])
+    if project["split"] != "development" or len(project["boards"]) != 1:
+        raise p.Rejected("only the predeclared single-board development projects are supported")
+    entry = project["boards"][0]
+    if entry["same_basename_project"] is not True:
+        raise p.Rejected("native project binding is required")
+    base = (c.ROOT / ".data" / project["destination"]).resolve()
+    if c.ROOT / ".data/boards" not in base.parents:
+        raise p.Rejected("manifest project escaped the acquired corpus")
+    board = base / Path(entry["board"]).name
+    expected = {str(Path(row["destination"]).relative_to(project["destination"])): row["sha256"]
+                for row in manifest["files"] if row.get("project_id") == project["project_id"]}
+    if not expected or p.tree_hash(base) != expected:
+        raise p.Rejected("complete acquired source inventory differs from licensed manifest")
+    if not board.is_file():
+        raise p.Rejected("selected source board is missing")
+    return board, project["family"]
+
+
+def freeze(board):
     tools = p.tool_manifest()
     files = dict(tools["implementation_sha256"])
     files.update({str(path.relative_to(c.ROOT)): p.sha(path) for path in SUPPORT})
@@ -56,11 +77,11 @@ def freeze():
                                    cwd=c.ROOT, capture_output=True, check=True).stdout
         if hashlib.sha256(committed).hexdigest() != digest:
             raise p.Rejected("commit exact experiment sources before running: " + relative)
-    return {"tools": tools, "source_hashes": p.tree_hash(BOARD.parent), "files_sha256": files}
+    return {"tools": tools, "source_hashes": p.tree_hash(board.parent), "files_sha256": files}
 
 
-def verify_freeze(frozen):
-    if p.tree_hash(BOARD.parent) != frozen["source_hashes"]:
+def verify_freeze(frozen, board):
+    if p.tree_hash(board.parent) != frozen["source_hashes"]:
         raise p.Rejected("experiment source changed")
     if p.tool_manifest() != frozen["tools"]:
         raise p.Rejected("experiment implementation, tools, or Git HEAD changed")
@@ -99,6 +120,23 @@ def summarize(arm, directory, result, invocation_wall, invocation_cpu):
            "result_sha256": p.sha(directory / "result.json") if (directory / "result.json").is_file() else None}
     values = (row["wall_seconds"], row["total_cpu_seconds"], invocation_wall, invocation_cpu)
     row["within_equal_budgets"] = all(finite_nonnegative(value) and value <= BUDGET for value in values)
+    row["protocol_contract_verified"] = (
+        result.get("adapter") == arm["adapter"]
+        and result.get("engine_profile") == arm["engine_profile"]
+        and result.get("scope") == "whole_board_unlocked_routing")
+    if arm["operation"] == "prune" and row["accepted_in_receipt"]:
+        incumbent_path = directory / "incumbent/result.json"
+        try:
+            incumbent = json.loads(incumbent_path.read_text())
+            row["protocol_contract_verified"] = row["protocol_contract_verified"] and (
+                result.get("incumbent_baseline") == "B2_tuned"
+                and result.get("incumbent", {}).get("receipt") == str(incumbent_path)
+                and incumbent.get("adapter") == arm["adapter"]
+                and incumbent.get("engine_profile") == arm["engine_profile"]
+                and incumbent.get("scope") == "whole_board_unlocked_routing"
+                and incumbent.get("accepted") is True)
+        except (OSError, ValueError):
+            row["protocol_contract_verified"] = False
     row["receipt_verified"] = False
     if row["accepted_in_receipt"]:
         try:
@@ -106,7 +144,7 @@ def summarize(arm, directory, result, invocation_wall, invocation_cpu):
             row["receipt_verified"] = True
         except Exception as exc:
             row["receipt_verification_error"] = type(exc).__name__ + ": " + str(exc)
-    row["accepted"] = row["receipt_verified"] and row["within_equal_budgets"] and not row["cancelled"]
+    row["accepted"] = row["protocol_contract_verified"] and row["receipt_verified"] and row["within_equal_budgets"] and not row["cancelled"]
     return row
 
 
@@ -150,14 +188,15 @@ def comparisons(rows):
     return result
 
 
-def experiment(out):
+def experiment(out, project_name="sonde"):
     batch_started, batch_cpu_started = time.monotonic(), total_process_cpu()
     out.mkdir(parents=True, exist_ok=False)
     summary = {"schema": 1, "status": "incomplete", "protocol": "protocol.json", "results": [],
                "claims_limit": "One exposed development family and one predeclared trial per arm; no population superiority, algorithmic novelty, or confirmatory significance claim."}
     try:
         p.check_storage()
-        frozen = freeze()
+        board, family = selected_source(project_name)
+        frozen = freeze(board)
         for relative in frozen["files_sha256"]:
             destination = out / "frozen-code" / relative
             destination.parent.mkdir(parents=True, exist_ok=True)
@@ -165,7 +204,7 @@ def experiment(out):
             if p.sha(destination) != frozen["files_sha256"][relative]:
                 raise p.Rejected("code changed while copying frozen experiment sources")
         protocol = {"schema": 1, "created_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
-                    "split": "development-exposed", "family": "kicad-sonde-xilinx", "source": str(BOARD),
+                    "split": "development-exposed", "family": family, "source": str(board),
                     "license": "CC-BY-SA-4.0; exact pinned source and license files in frozen source inventory and data/sources.json",
                     "freeze": frozen, "arms": ARMS, "arm_order": [arm["id"] for arm in ARMS],
                     "wall_budget_per_arm_seconds": BUDGET, "cpu_budget_per_arm_seconds": BUDGET,
@@ -176,22 +215,22 @@ def experiment(out):
                     "task": "remove unlocked routing; preserve original zones, rules, geometry, protected copper and terminal mapping",
                     "primary": "zero native opens/blocking/exclusions, immutable constraints and final receipt binding, within both budgets",
                     "secondary": ["native track length", "native via count", "warnings", "wall", "parent+child+monitor CPU", "direct-child and polled group RSS"],
-                    "ablation": "B1 is C without pruning, using identical adapter, engine profile, implementation and validator; C pays for its own B1 incumbent",
+                    "ablation": "B2 is C without pruning, using identical adapter, tuned engine profile, implementation and validator; C pays for its own B2 incumbent and reserves 15 seconds wall/CPU for final validation",
                     "B2_limit": "one predeclared tuned profile, not an exhaustive parameter/restart optimum",
-                    "prediction": "some B1 zone-net tracks may be redundant after native refill; C may reduce length without more vias/warnings, at increased validation cost",
+                    "prediction": "pruning may reduce track-length proxy while retaining the independently rerun tuned incumbent via count and warning set; fewer trials may fit after the more expensive incumbent; no fixed final length or two-via result is promised",
                     "observations": "C records actual native-validated incumbent checkpoints; baseline arms provide final observation only. No interpolated success curves.",
                     "claims_limit": summary["claims_limit"]}
         p.save_json(out / "protocol.json", protocol)
         summary["protocol_sha256"] = p.sha(out / "protocol.json")
         p.save_json(out / "summary.json", summary)
         for arm in ARMS:
-            verify_freeze(frozen)
+            verify_freeze(frozen, board)
             directory = out / arm["id"]
             host_load_begin = list(os.getloadavg())
             started, cpu_started = time.monotonic(), total_process_cpu()
             try:
-                result = (prune(BOARD, directory, BUDGET) if arm["operation"] == "prune" else
-                          p.route(BOARD, directory, BUDGET, False, arm["adapter"], arm["engine_profile"]))
+                result = (prune(board, directory, BUDGET) if arm["operation"] == "prune" else
+                          p.route(board, directory, BUDGET, False, arm["adapter"], arm["engine_profile"]))
             except KeyboardInterrupt:
                 result = {"status": "cancelled", "accepted": False, "reason": "interrupted invocation"}
             except Exception as exc:
@@ -207,7 +246,7 @@ def experiment(out):
                        host_load_average_1_5_15_minutes_end=host_load_end)
             summary["results"].append(row)
             try:
-                verify_freeze(frozen)
+                verify_freeze(frozen, board)
                 row["freeze_unchanged"] = True
                 if not row["cancelled"] and result.get("status") != "invocation_error" and (result.get("tools") != frozen["tools"] or result.get("source_hashes") != frozen["source_hashes"]):
                     raise p.Rejected("arm receipt not bound to experiment source/tool/code freeze")
@@ -244,6 +283,7 @@ def experiment(out):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", required=True, help="new directory under this checkout's .runs")
+    parser.add_argument("--project", choices=tuple(PROJECTS), default="sonde")
     args = parser.parse_args()
     out = Path(args.output).resolve()
     if c.ROOT / ".runs" not in out.parents:
@@ -258,7 +298,7 @@ def main():
     try:
         with lock_path.open("a") as lock:
             fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-            return experiment(out)
+            return experiment(out, args.project)
     finally:
         for sig, handler in previous.items():
             signal.signal(sig, handler)

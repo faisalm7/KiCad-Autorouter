@@ -223,3 +223,9 @@ Then consider Openair-max as its own bounded batch, not bundled with ColdFire.
 Neither operation should execute dataset scripts or omit rule/library files to
 fit a limit. Preserve the complete official screen and acquired unsupported
 population as the corpus expands. No new download above 10 MiB is proposed here.
+
+## Production integration under qualification
+
+The new production module resolves membership through native KiCad, checks the unchanged original project and DSN classes before and after adaptation, and checks generated track widths and via diameter/drill against effective native targets after refill. Only two copper layers and Default plus one fully specified class with unique literal identifier assignments are admitted; wildcard, composite, explicit assignment, advanced via and custom-rule cases remain unsupported. Locked or explicitly preserved original routing is checked for exact preservation and native DRC rather than rewritten to preferred widths.
+
+Final candidate validation and receipt checking share the native-map and generated-dimension checks. Pure controls and the previous native export probe support implementation development; this new pipeline revision still requires actual routing and deliberately invalid native controls before a routing-support claim. Netclass widths are routing targets, distinct from board minimum DRC constraints, which is why both checks are retained. Terminal counts in the DSN audit do not prove pin identity; preserved pad/net mapping and actual final native connectivity remain necessary.

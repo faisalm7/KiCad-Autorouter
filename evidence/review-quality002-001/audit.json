@@ -1,0 +1,69 @@
+{
+  "passed": true,
+  "reviewer": "AI subagent engine_research; not human PCB review",
+  "native_rerun": false,
+  "frozen_head": "57db7878f7b69549736788b4fc7e8c9458733e85",
+  "frozen_files": 13,
+  "arms": [
+    {
+      "id": "B0",
+      "accepted": false,
+      "opens": 3,
+      "blocking": 7,
+      "warnings": 1,
+      "length_mm": 566.4539189245651,
+      "vias": 4,
+      "invocation_wall_seconds": 10.448646083998028,
+      "invocation_cpu_seconds": 11.104394
+    },
+    {
+      "id": "B1",
+      "accepted": true,
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 1,
+      "length_mm": 786.3155360930381,
+      "vias": 3,
+      "invocation_wall_seconds": 13.910074082996289,
+      "invocation_cpu_seconds": 18.185363000000002
+    },
+    {
+      "id": "B2",
+      "accepted": true,
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 1,
+      "length_mm": 786.3155360930381,
+      "vias": 2,
+      "invocation_wall_seconds": 18.766178416000912,
+      "invocation_cpu_seconds": 27.253414
+    },
+    {
+      "id": "C",
+      "accepted": true,
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 1,
+      "length_mm": 660.0990621590843,
+      "vias": 3,
+      "invocation_wall_seconds": 105.9236027079969,
+      "invocation_cpu_seconds": 83.242927
+    }
+  ],
+  "C_trial_counts": {
+    "drc_rejected": 6,
+    "quality_rejected": 1,
+    "improvement_validated": 21
+  },
+  "C_checkpoints": 30,
+  "B2_threshold": {
+    "expected_percent": 0.1,
+    "observed_stop_threshold_percent": [
+      0.1
+    ],
+    "runtime_observation": "matched"
+  },
+  "commands": "PYTHONDONTWRITEBYTECODE=1 python3 .runs/review-quality002-001/audit.py",
+  "checked": "Protocol hash; frozen code bytes and committed Git blobs; original/snapshot source inventories; tool and per-arm implementation manifests; candidate immutable geometry and hashes; final native report hashes/parsed summaries/input bindings; child and monitoring CPU sums; receipt and invocation wall/CPU ceilings; accepted receipt consistency; all C trial native bindings; all checkpoints; B2 logged threshold",
+  "interpretation": "C is 126.216474 mm shorter than B1/B2, same vias as B1, one more than B2. No Pareto win against B2, no speedup, one exposed family only. Original docs table uses receipt timings; invocation timings above include call overhead. No electrical or physical validation claim."
+}

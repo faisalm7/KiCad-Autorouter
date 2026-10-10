@@ -128,10 +128,11 @@ class StrategyControlFlowTests(unittest.TestCase):
                 Path(output).write_text(json.dumps(metrics(sx.read(board))))
                 self.steps.append({"name": name, "status": "success", "cpu_seconds": 0.25, "monitor_cpu_seconds": 0.01, "max_rss_bytes": 123})
 
-        def baseline(source, output, seconds, keep_existing, adapter):
+        def baseline(source, output, seconds, keep_existing, adapter, engine_profile):
             owner.budgets.append(seconds)
             owner.assertFalse(keep_existing)
             owner.assertEqual(adapter, "both")
+            owner.assertEqual(engine_profile, "tuned")
             output.mkdir()
             shutil.copytree(source.parent, output / "candidate")
             candidate = output / "candidate" / source.name
@@ -180,6 +181,8 @@ class StrategyControlFlowTests(unittest.TestCase):
         self.assertAlmostEqual(result["total_cpu_seconds"], expected_child + expected_monitor + result["parent_cpu_seconds"])
         self.assertLess(result["parent_cpu_seconds"], 99)  # Nested parent's fake receipt is not double-counted.
         self.assertEqual(result["cpu_budget_seconds"], 120)
+        self.assertEqual(result["incumbent_baseline"], "B2_tuned")
+        self.assertEqual(result["engine_profile"], "tuned")
         self.assertLessEqual(result["total_cpu_seconds"], 120)
 
     def test_rejected_incumbent_never_becomes_accepted(self):

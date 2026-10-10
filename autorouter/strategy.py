@@ -1,9 +1,9 @@
-"""Experimental C prototype: delete redundant zone-net routing after B1.
+"""Experimental C prototype: delete redundant zone-net routing after tuned B2.
 
 This is native-validated postprocessing, not a claimed new routing algorithm.
 Only original zone net identifiers select proposals; original unlocked reference
 routes and net-name heuristics never select or score a deletion. All accepted
-trials and the final candidate undergo the same full native validation as B1.
+trials and the final candidate undergo the same full native validation as B2.
 """
 
 from __future__ import annotations
@@ -134,9 +134,9 @@ def _check_original(source, snapshot, expected):
 
 
 def prune(source, output, seconds=120):
-    """Run B1 plus greedy pruning within one wall/CPU budget, retaining trials.
+    """Run tuned B2 plus greedy pruning within one wall/CPU budget, retaining trials.
 
-    A 15-second reserve is withheld from B1/trials for final emission and native
+    A 15-second reserve is withheld from B2/trials for final emission and native
     checks. It is a planning reserve, not a promise that slow native tooling will
     finish. Exhausting the global budget always rejects the root result.
     """
@@ -154,6 +154,7 @@ def prune(source, output, seconds=120):
     (output / "trials").mkdir()
     report = {"schema": 1, "status": "rejected", "accepted": False, "baseline": "C-prototype",
               "strategy": "native_validated_zone_net_pruning", "adapter": "both",
+              "engine_profile": "tuned", "incumbent_baseline": "B2_tuned",
               "novel_routing_algorithm_claim": False, "reference_routes_used_for_selection": False,
               "scope": "whole_board_unlocked_routing", "source": str(source),
               "budget_seconds": seconds, "cpu_budget_seconds": seconds,
@@ -208,7 +209,7 @@ def prune(source, output, seconds=120):
         incumbent_seconds = remaining_work_budget()
         if incumbent_seconds < 5:
             raise p.Rejected("insufficient budget for incumbent and finalization reserve")
-        incumbent = p.route(source, output / "incumbent", incumbent_seconds, False, "both")
+        incumbent = p.route(source, output / "incumbent", incumbent_seconds, False, "both", "tuned")
         all_steps.extend(dict(step, phase="incumbent") for step in incumbent.get("steps", []))
         report["incumbent"] = {"receipt": str(output / "incumbent/result.json"),
                                "status": incumbent["status"], "accepted": incumbent["accepted"],
@@ -219,7 +220,7 @@ def prune(source, output, seconds=120):
             raise Cancelled("incumbent cancelled")
         if not incumbent["accepted"]:
             report["status"] = "incumbent_rejected"
-            raise p.Rejected("B1 incumbent rejected: " + str(incumbent.get("reason", incumbent["status"])))
+            raise p.Rejected("B2 incumbent rejected: " + str(incumbent.get("reason", incumbent["status"])))
         p.check_result(output / "incumbent/result.json")
         _check_original(source, snapshot, source_hashes)
         best = Path(incumbent["candidate"])
@@ -334,7 +335,7 @@ def prune(source, output, seconds=120):
     report["child_cpu_seconds"] = sum(step.get("cpu_seconds") or 0 for step in all_steps)
     report["monitor_cpu_seconds"] = sum(step.get("monitor_cpu_seconds") or 0 for step in all_steps)
     report["peak_child_rss_bytes"] = max([step.get("max_rss_bytes") or 0 for step in all_steps] + [0])
-    report["resource_limitations"] = "Global wall and measured-CPU acceptance budgets include B1, every failed trial, final native validation and monitor CPU. CPU is checked after stages/completion, not preempted by the OS. Process-group and workdir polling guards can overshoot; no process-tree memory quota or full orphan CPU accounting is claimed. Stored totals precede the last receipt write; both caps are checked after it."
+    report["resource_limitations"] = "Global wall and measured-CPU acceptance budgets include B2, every failed trial, final native validation and monitor CPU. CPU is checked after stages/completion, not preempted by the OS. Process-group and workdir polling guards can overshoot; no process-tree memory quota or full orphan CPU accounting is claimed. Stored totals precede the last receipt write; both caps are checked after it."
 
     def account():
         report["wall_seconds"] = time.monotonic() - started

@@ -1,10 +1,10 @@
 # Native-validated route pruning — development protocol
 
-C obtains its own B1 incumbent and charges conversion, engine work, all native tests, failed deletion attempts and final emission to one 120-second wall and measured-CPU ceiling. The CPU ceiling is an acceptance check, not kernel CPU preemption. It uses original copper-zone net identifiers, then tries whole-net route removal and individual segments/vias in longest-segment order. Locked source copper remains protected. A deletion is retained only if native refill/DRC remains connected with no blocking findings/exclusions, original geometry/rules remain intact, length/vias do not increase, and no new warning identities appear. Failed trials are retained. A final check runs on the actual emitted candidate.
+Current C obtains its own tuned B2 incumbent and charges conversion, engine work, all native tests, failed deletion attempts and final emission to one 120-second wall and measured-CPU ceiling. The CPU ceiling is an acceptance check, not kernel CPU preemption. It uses original copper-zone net identifiers, then tries whole-net route removal and individual segments/vias in longest-segment order. Locked source copper remains protected. A deletion is retained only if native refill/DRC remains connected with no blocking findings/exclusions, original geometry/rules remain intact, length/vias do not increase, and no new warning identities appear. Failed trials are retained. A final check runs on the actual emitted candidate.
 
 This is greedy native-validated postprocessing, a familiar optimization pattern, not a novel geometric routing algorithm. It specifically targets extra wiring introduced by B1's conservative plane suppression. It does not yet model true native plane components during export; even a shorter native-valid result is not proof of return-path or electrical adequacy. There is no learned selector or reference-route scoring.
 
-Prediction: redundant zone-net wiring can be removed while retaining the wires that bridge separate copper components. Falsification: no quality reduction, broken connectivity, altered constraints, higher via/warning count, budget exhaustion, or no advantage over the competent tuned baseline. Integration cost: repeated native processes and full-project copies. Regression risks: consuming the completion budget before final checks, missing unverified electrical requirements, and poor proposal ordering on other boards. B1 is the no-pruning ablation. B2 uses the identical corrected representation with larger pass limits and a lower optimizer stopping threshold.
+Prediction: redundant zone-net wiring can be removed while retaining the wires that bridge separate copper components. Falsification: no quality reduction, broken connectivity, altered constraints, higher via/warning count, budget exhaustion, or no advantage over the competent tuned baseline. Integration cost: repeated native processes and full-project copies. Regression risks: consuming the completion budget before final checks, missing unverified electrical requirements, and poor proposal ordering on other boards. B2 is now the direct no-pruning ablation; pilots 001/002 used B1 incumbents. B2 uses the identical corrected representation with larger pass limits and a lower optimizer stopping threshold.
 
 The experiment includes B0/B1/B2/C sequentially, freezes source, protocol and implementation before engines, counts every considered outcome, and records host load. Desktop background contention is uncontrolled; one project heavy worker runs at a time. Only one previously exposed public development family is presently compared. C has actual incumbent checkpoints; other arms only have final validated observations, so earlier success curves are not invented. No family-level confidence or broad superiority claim is supported.
 
@@ -20,13 +20,17 @@ Freerouting2.5.0 `CliSettings.java` converts values between0 and1 into percentag
 
 Frozen commit `57db7878f7b69549736788b4fc7e8c9458733e85`, `.runs/quality-comparison-002`, completed all four arms under 120-second wall and measured-CPU caps. B2's engine log confirmed the corrected 0.1% stopping threshold. Source and frozen code remained unchanged; accepted receipts passed the strict checker.
 
-| Arm | Accepted | Opens / blocking | Warnings | Length mm | Vias | Wall seconds | CPU seconds |
+| Arm | Accepted | Opens / blocking | Warnings | Length mm | Vias | Receipt wall seconds | Receipt CPU seconds |
 |---|---|---|---:|---:|---:|---:|---:|
 | B0 | No | 3 / 7 | 1 | 566.454 | 4 | 10.447 | 11.098 |
 | B1 | Yes | 0 / 0 | 1 | 786.316 | 3 | 13.908 | 18.179 |
 | B2 | Yes | 0 / 0 | 1 | 786.316 | 2 | 18.765 | 27.247 |
 | C, standard incumbent | Yes | 0 / 0 | 1 | 660.099 | 3 | 105.920 | 83.229 |
 
+The acceptance calculation additionally checks the full enclosing invocation: B1 13.910 s wall / 18.185 s CPU, B2 18.766 / 27.253, and C 105.924 / 83.243. The table shows inner receipt timing; the full invocation includes its small remaining emission overhead.
+
 C shortened the accepted B1 route by 126.216 mm with unchanged vias and warning identities. Against corrected B2 it is shorter but has one extra via: **no Pareto improvement over B2**. It also consumes more time and CPU; this is not a speedup. All three accepted arms retain one library-footprint warning and lack electrical/physical qualification. One exposed family establishes no generalized superiority. Full raw outcomes and failed trials are retained locally; the audited public subset is `evidence/quality-comparison-002`.
 
 Next prospective hypothesis: begin C with the same tuned engine profile as B2, charging its complete generation and all pruning/native checks to the same total budget. Pruning's no-via-increase rule would then preserve that incumbent's via advantage. This is a proposed experiment, not a measured outcome; do not pool it retrospectively with 001 or 002.
+
+The current script additionally accepts `--project interf_u` for a separate four-arm development comparison. It verifies the complete selected project against the licensed acquisition manifest before freezing. Adding this option does not bypass preflight or qualify netclasses. Each family runs sequentially in its own new directory.
