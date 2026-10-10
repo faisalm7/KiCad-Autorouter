@@ -1,0 +1,490 @@
+{
+  "schema": 1,
+  "native_or_engine_executed": false,
+  "input_sha256": {
+    ".runs/placement-routing-pair-001/arm-1/result.json": "4f2dcec85f8f414c370bf58b6454951012c4ed739b9cf74b775b9a8a13b15f31",
+    ".runs/placement-routing-pair-001/arm-1/candidate/multichannel_mixer.kicad_pcb": "87b82041c0b6fbdbf21cd0ba2b3c08e56195facc984f2a93febc919432ae66e3",
+    ".runs/placement-routing-pair-001/arm-1/routes.ses": "92d3a29bd29e86b8acd3d090b1103692cca2c3f26ed98c8e39c9a4fcc9735548",
+    ".runs/placement-routing-pair-001/arm-1/final-drc.json": "c0b63feb6b3b81a0e17f7cfba2f59b00335b0fd2ccbd77a9a219d3dd8430299e",
+    ".runs/placement-routing-pair-001/arm-1/engine.log": "b304992d0482e7f04b54bab50046b0582211fc07acf5565e8415ca7764193f37",
+    ".data/boards/kicad-multichannel/multichannel_mixer.kicad_pcb": "44b7c119a0d05c98e9f294659879184038a5f6c30073c04d9536990429ca413e",
+    ".tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+    ".runs/baseline-strength-review-001/prototype/profile-probe/actual-settings.json": "97bd003d159d6b4519c09373b7c4044f55329167b723ea5bb59832d52339988a"
+  },
+  "original_inputs_unchanged": true,
+  "native_opens": 8,
+  "native_open_net_counts": {
+    "vbias": 3,
+    "+12V": 1,
+    "Net-(IC4A-OUT)": 1,
+    "Net-(IC4B-IN-)": 1,
+    "Net-(IC5A-OUT)": 1,
+    "Net-(IC5B-IN-)": 1
+  },
+  "open_items": [
+    {
+      "net": "vbias",
+      "endpoints": [
+        {
+          "uuid": "82abb365-603d-45de-bb2d-2aefe273ac94",
+          "description": "Pad 5 [vbias] of IC2 on B.Cu",
+          "native_position_mm": {
+            "x": 148.27,
+            "y": 86.8
+          },
+          "kind": "pad",
+          "reference": "IC2",
+          "number": "5",
+          "net": "vbias",
+          "size_mm": [
+            "0.6",
+            "1.55"
+          ]
+        },
+        {
+          "uuid": "7c99d8b1-59d0-4a68-baa0-6d2c90bcc443",
+          "description": "Track [vbias] on B.Cu, length 3.6110 mm",
+          "native_position_mm": {
+            "x": 143.389,
+            "y": 82.6267
+          },
+          "kind": "segment",
+          "net": "vbias"
+        }
+      ],
+      "ses_geometry_present": true
+    },
+    {
+      "net": "vbias",
+      "endpoints": [
+        {
+          "uuid": "bf1b3698-c606-4c27-9d29-6079d3bc78e9",
+          "description": "Pad 5 [vbias] of IC4 on B.Cu",
+          "native_position_mm": {
+            "x": 170.27,
+            "y": 86.8
+          },
+          "kind": "pad",
+          "reference": "IC4",
+          "number": "5",
+          "net": "vbias",
+          "size_mm": [
+            "0.6",
+            "1.55"
+          ]
+        },
+        {
+          "uuid": "875aac43-e45c-4a44-b785-54cc0b11f86e",
+          "description": "Track [vbias] on B.Cu, length 3.0564 mm",
+          "native_position_mm": {
+            "x": 169.0,
+            "y": 82.6267
+          },
+          "kind": "segment",
+          "net": "vbias"
+        }
+      ],
+      "ses_geometry_present": true
+    },
+    {
+      "net": "vbias",
+      "endpoints": [
+        {
+          "uuid": "cc826c86-ce63-44c6-8def-9749cb58a63d",
+          "description": "Track [vbias] on F.Cu, length 7.7195 mm",
+          "native_position_mm": {
+            "x": 184.6678,
+            "y": 100.5283
+          },
+          "kind": "segment",
+          "net": "vbias"
+        },
+        {
+          "uuid": "bf1b3698-c606-4c27-9d29-6079d3bc78e9",
+          "description": "Pad 5 [vbias] of IC4 on B.Cu",
+          "native_position_mm": {
+            "x": 170.27,
+            "y": 86.8
+          },
+          "kind": "pad",
+          "reference": "IC4",
+          "number": "5",
+          "net": "vbias",
+          "size_mm": [
+            "0.6",
+            "1.55"
+          ]
+        }
+      ],
+      "ses_geometry_present": true
+    },
+    {
+      "net": "+12V",
+      "endpoints": [
+        {
+          "uuid": "2ef54846-4fad-4f40-8a49-afcf3cb1ac3e",
+          "description": "Track [+12V] on B.Cu, length 0.5350 mm",
+          "native_position_mm": {
+            "x": 122.46,
+            "y": 85.5733
+          },
+          "kind": "segment",
+          "net": "+12V"
+        },
+        {
+          "uuid": "8f9c023b-d9fb-4986-95a3-301c509dee7f",
+          "description": "Track [+12V] on B.Cu, length 1.0267 mm",
+          "native_position_mm": {
+            "x": 141.5,
+            "y": 84.4
+          },
+          "kind": "segment",
+          "net": "+12V"
+        }
+      ],
+      "ses_geometry_present": true
+    },
+    {
+      "net": "Net-(IC4A-OUT)",
+      "endpoints": [
+        {
+          "uuid": "d3577201-8c7a-40a3-9a2d-9064109238de",
+          "description": "Track [Net-(IC4A-OUT)] on B.Cu, length 1.3576 mm",
+          "native_position_mm": {
+            "x": 166.46,
+            "y": 81.4
+          },
+          "kind": "segment",
+          "net": "Net-(IC4A-OUT)"
+        },
+        {
+          "uuid": "ab390720-2368-4766-bc38-accc2c083b45",
+          "description": "Track [Net-(IC4A-OUT)] on B.Cu, length 2.6000 mm",
+          "native_position_mm": {
+            "x": 171.85,
+            "y": 102.8
+          },
+          "kind": "segment",
+          "net": "Net-(IC4A-OUT)"
+        }
+      ],
+      "ses_geometry_present": true
+    },
+    {
+      "net": "Net-(IC4B-IN-)",
+      "endpoints": [
+        {
+          "uuid": "ac5af61c-88ac-497f-9769-1c5fc01ea3ef",
+          "description": "Track [Net-(IC4B-IN-)] on B.Cu, length 0.7141 mm",
+          "native_position_mm": {
+            "x": 167.0,
+            "y": 90.8359
+          },
+          "kind": "segment",
+          "net": "Net-(IC4B-IN-)"
+        },
+        {
+          "uuid": "50df974f-1fc6-4a33-b5ec-87cd94959944",
+          "description": "Track [Net-(IC4B-IN-)] on B.Cu, length 1.3517 mm",
+          "native_position_mm": {
+            "x": 169.55,
+            "y": 121.0
+          },
+          "kind": "segment",
+          "net": "Net-(IC4B-IN-)"
+        }
+      ],
+      "ses_geometry_present": true
+    },
+    {
+      "net": "Net-(IC5A-OUT)",
+      "endpoints": [
+        {
+          "uuid": "2cbda080-ba61-4e07-8c07-3697b433d74b",
+          "description": "Track [Net-(IC5A-OUT)] on B.Cu, length 2.6000 mm",
+          "native_position_mm": {
+            "x": 105.85,
+            "y": 100.2
+          },
+          "kind": "segment",
+          "net": "Net-(IC5A-OUT)"
+        },
+        {
+          "uuid": "8a602dc5-fd57-4a2a-b3bd-4e9cc47f1d39",
+          "description": "Track [Net-(IC5A-OUT)] on B.Cu, length 0.1883 mm",
+          "native_position_mm": {
+            "x": 100.46,
+            "y": 81.4
+          },
+          "kind": "segment",
+          "net": "Net-(IC5A-OUT)"
+        }
+      ],
+      "ses_geometry_present": true
+    },
+    {
+      "net": "Net-(IC5B-IN-)",
+      "endpoints": [
+        {
+          "uuid": "528e91ef-4f0f-4a5e-a100-7b5b2887877e",
+          "description": "Track [Net-(IC5B-IN-)] on B.Cu, length 1.0267 mm",
+          "native_position_mm": {
+            "x": 101.0,
+            "y": 91.55
+          },
+          "kind": "segment",
+          "net": "Net-(IC5B-IN-)"
+        },
+        {
+          "uuid": "de50d424-8908-4f41-a72f-c9609caa8255",
+          "description": "Track [Net-(IC5B-IN-)] on B.Cu, length 2.4186 mm",
+          "native_position_mm": {
+            "x": 106.6417,
+            "y": 105.9454
+          },
+          "kind": "segment",
+          "net": "Net-(IC5B-IN-)"
+        }
+      ],
+      "ses_geometry_present": true
+    }
+  ],
+  "ses_to_final_segment_multiset_equal": true,
+  "ses_segments": 770,
+  "candidate_segments": 770,
+  "ses_per_open_net": {
+    "vbias": {
+      "segments": 55,
+      "vias": 1
+    },
+    "+12V": {
+      "segments": 46,
+      "vias": 2
+    },
+    "Net-(IC4A-OUT)": {
+      "segments": 17,
+      "vias": 0
+    },
+    "Net-(IC4B-IN-)": {
+      "segments": 9,
+      "vias": 0
+    },
+    "Net-(IC5A-OUT)": {
+      "segments": 12,
+      "vias": 0
+    },
+    "Net-(IC5B-IN-)": {
+      "segments": 15,
+      "vias": 0
+    }
+  },
+  "passes": [
+    {
+      "pass": 1,
+      "wall_seconds": 2.64,
+      "score": 833.33,
+      "unrouted": 25,
+      "violations": 0
+    },
+    {
+      "pass": 2,
+      "wall_seconds": 1.21,
+      "score": 840.0,
+      "unrouted": 24,
+      "violations": 0
+    },
+    {
+      "pass": 3,
+      "wall_seconds": 1.2,
+      "score": 866.67,
+      "unrouted": 20,
+      "violations": 0
+    },
+    {
+      "pass": 4,
+      "wall_seconds": 1.03,
+      "score": 853.33,
+      "unrouted": 22,
+      "violations": 0
+    },
+    {
+      "pass": 5,
+      "wall_seconds": 1.55,
+      "score": 853.33,
+      "unrouted": 22,
+      "violations": 0
+    },
+    {
+      "pass": 6,
+      "wall_seconds": 0.66,
+      "score": 846.67,
+      "unrouted": 23,
+      "violations": 0
+    },
+    {
+      "pass": 7,
+      "wall_seconds": 0.52,
+      "score": 866.67,
+      "unrouted": 20,
+      "violations": 0
+    },
+    {
+      "pass": 8,
+      "wall_seconds": 0.0,
+      "score": 866.67,
+      "unrouted": 20,
+      "violations": 0
+    },
+    {
+      "pass": 9,
+      "wall_seconds": 2.1,
+      "score": 940.0,
+      "unrouted": 9,
+      "violations": 0
+    },
+    {
+      "pass": 10,
+      "wall_seconds": 0.52,
+      "score": 820.0,
+      "unrouted": 27,
+      "violations": 0
+    },
+    {
+      "pass": 11,
+      "wall_seconds": 1.16,
+      "score": 846.67,
+      "unrouted": 23,
+      "violations": 0
+    },
+    {
+      "pass": 12,
+      "wall_seconds": 0.0,
+      "score": 940.0,
+      "unrouted": 9,
+      "violations": 0
+    },
+    {
+      "pass": 13,
+      "wall_seconds": 0.5,
+      "score": 820.0,
+      "unrouted": 27,
+      "violations": 0
+    },
+    {
+      "pass": 14,
+      "wall_seconds": 1.27,
+      "score": 846.67,
+      "unrouted": 23,
+      "violations": 0
+    },
+    {
+      "pass": 15,
+      "wall_seconds": 0.5,
+      "score": 840.0,
+      "unrouted": 24,
+      "violations": 0
+    },
+    {
+      "pass": 16,
+      "wall_seconds": 0.0,
+      "score": 940.0,
+      "unrouted": 9,
+      "violations": 0
+    },
+    {
+      "pass": 17,
+      "wall_seconds": 0.49,
+      "score": 820.0,
+      "unrouted": 27,
+      "violations": 0
+    },
+    {
+      "pass": 18,
+      "wall_seconds": 1.4,
+      "score": 860.0,
+      "unrouted": 21,
+      "violations": 0
+    },
+    {
+      "pass": 19,
+      "wall_seconds": 0.56,
+      "score": 840.0,
+      "unrouted": 24,
+      "violations": 0
+    }
+  ],
+  "last_log_airline_net": "GND",
+  "log_report_caveat": "Pinned source builds current-board report before best-history restoration. It is not the final native open list.",
+  "existing_actual_jar_cost_probe": [
+    {
+      "profile": "via_default_remaining_120_strict_True",
+      "argv": [
+        "--router.scoring.via_costs=50",
+        "--router.scoring.plane_via_costs=5"
+      ],
+      "effective_settings": {
+        "router.scoring.via_costs": 50,
+        "router.scoring.plane_via_costs": 5
+      }
+    },
+    {
+      "profile": "via_low_remaining_120_strict_True",
+      "argv": [
+        "--router.scoring.via_costs=25",
+        "--router.scoring.plane_via_costs=3"
+      ],
+      "effective_settings": {
+        "router.scoring.via_costs": 25,
+        "router.scoring.plane_via_costs": 3
+      }
+    },
+    {
+      "profile": "via_high_remaining_120_strict_True",
+      "argv": [
+        "--router.scoring.via_costs=100",
+        "--router.scoring.plane_via_costs=10"
+      ],
+      "effective_settings": {
+        "router.scoring.via_costs": 100,
+        "router.scoring.plane_via_costs": 10
+      }
+    }
+  ],
+  "read_only_jar_field_evidence": {
+    "app/freerouting/settings/RoutingCostSettings.class": {
+      "class_sha256": "e8e59d7a2c448e52ffab43f2925587e0360816bf7313ba903787c9816d62712d",
+      "constant_pool_tokens_observed": [
+        "via_costs",
+        "plane_via_costs",
+        "start_ripup_costs"
+      ]
+    },
+    "app/freerouting/autoroute/pipeline/BatchAutorouter.class": {
+      "class_sha256": "29bae438aea4442ac1f12e77784f95079764a748476f69a462873aae8a2f0453",
+      "constant_pool_tokens_observed": [
+        "STAGNATION_PASS_LIMIT",
+        "STAGNATION_SCORE_THRESHOLD"
+      ]
+    },
+    "app/freerouting/settings/sources/CliSettings.class": {
+      "class_sha256": "a791ebfa133e4dd3777fb54a5c1a87d598c1eeb2d36f2cb6c47c0a8fd87328a0",
+      "constant_pool_tokens_observed": [
+        "router.",
+        "applyRouterSetting"
+      ]
+    },
+    "app/freerouting/util/ReflectionUtil.class": {
+      "class_sha256": "2f508e31c94af9ca8eb4c594f772e5591f5775d4311fc1c9668192ca997d278b",
+      "constant_pool_tokens_observed": [
+        "setFieldValue",
+        "getFieldByNameOrSerializedName"
+      ]
+    }
+  },
+  "no_cli_execution_in_this_review": true,
+  "limitations": [
+    "Direct segment transport equality does not itself prove electrical connectivity; fresh stored native report is authoritative.",
+    "Nine internal incompletes versus eight native opens need not have identical semantics; no one-to-one attribution is proved.",
+    "Class constant strings support field existence, not newly observed CLI runtime application; only cached via-cost settings have actual-JAR merge evidence."
+  ]
+}

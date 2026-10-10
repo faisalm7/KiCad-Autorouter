@@ -54,3 +54,5 @@ The diagnostic draft is historical; explicit production guidance is now implemen
 Placement/native-source-guard and matched diagnostic work are now covered by the3e2cce9 full tested archive. See `STATUS.md` for exact checkpoint and restoration boundaries.
 
 Actual placement fixture001 remains failed; correctedfixture002 passed and pair001 produced two rejected outputs. The new outcomes002 snapshot separates the unchanged two accepted production inputs from zero accepted placement diagnostics.
+
+Next declared diagnostic under preparation: same placement/floor pipeline, zero margin/default scoring;20µm extra engine clearance/default scoring;20µm/via_low scoring. Equal120second wall/CPU caps with all overhead charged; same-code owned fixture first. Native original constraints always decide acceptance. Source-backed curved-pad analysis and engine stagnation findings must be attached before execution. Archive capacity remains bounded at2GiB/100,000files after the reviewed capacity-only change.

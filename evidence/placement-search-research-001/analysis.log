@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "native_or_engine_executed": false,
+  "original_inputs_unchanged": true,
+  "native_opens": 8,
+  "native_open_net_counts": {
+    "vbias": 3,
+    "+12V": 1,
+    "Net-(IC4A-OUT)": 1,
+    "Net-(IC4B-IN-)": 1,
+    "Net-(IC5A-OUT)": 1,
+    "Net-(IC5B-IN-)": 1
+  },
+  "ses_to_final_segment_multiset_equal": true,
+  "ses_segments": 770,
+  "candidate_segments": 770,
+  "ses_per_open_net": {
+    "vbias": {
+      "segments": 55,
+      "vias": 1
+    },
+    "+12V": {
+      "segments": 46,
+      "vias": 2
+    },
+    "Net-(IC4A-OUT)": {
+      "segments": 17,
+      "vias": 0
+    },
+    "Net-(IC4B-IN-)": {
+      "segments": 9,
+      "vias": 0
+    },
+    "Net-(IC5A-OUT)": {
+      "segments": 12,
+      "vias": 0
+    },
+    "Net-(IC5B-IN-)": {
+      "segments": 15,
+      "vias": 0
+    }
+  },
+  "last_log_airline_net": "GND",
+  "log_report_caveat": "Pinned source builds current-board report before best-history restoration. It is not the final native open list.",
+  "existing_actual_jar_cost_probe": [
+    {
+      "profile": "via_default_remaining_120_strict_True",
+      "argv": [
+        "--router.scoring.via_costs=50",
+        "--router.scoring.plane_via_costs=5"
+      ],
+      "effective_settings": {
+        "router.scoring.via_costs": 50,
+        "router.scoring.plane_via_costs": 5
+      }
+    },
+    {
+      "profile": "via_low_remaining_120_strict_True",
+      "argv": [
+        "--router.scoring.via_costs=25",
+        "--router.scoring.plane_via_costs=3"
+      ],
+      "effective_settings": {
+        "router.scoring.via_costs": 25,
+        "router.scoring.plane_via_costs": 3
+      }
+    },
+    {
+      "profile": "via_high_remaining_120_strict_True",
+      "argv": [
+        "--router.scoring.via_costs=100",
+        "--router.scoring.plane_via_costs=10"
+      ],
+      "effective_settings": {
+        "router.scoring.via_costs": 100,
+        "router.scoring.plane_via_costs": 10
+      }
+    }
+  ],
+  "no_cli_execution_in_this_review": true,
+  "limitations": [
+    "Direct segment transport equality does not itself prove electrical connectivity; fresh stored native report is authoritative.",
+    "Nine internal incompletes versus eight native opens need not have identical semantics; no one-to-one attribution is proved.",
+    "Class constant strings support field existence, not newly observed CLI runtime application; only cached via-cost settings have actual-JAR merge evidence."
+  ]
+}

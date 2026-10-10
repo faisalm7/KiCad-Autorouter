@@ -1,0 +1,1 @@
+Exact selected local research/review records; downloaded upstream source and directory listings remain ignored. Manifests may list those omitted files. No native or engine work is claimed by the analysis. Actual historic candidate/report evidence is at its separately pinned source run. Applicable original licenses and URLs are preserved in the source receipts/ledger.

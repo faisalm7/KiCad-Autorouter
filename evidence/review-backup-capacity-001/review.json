@@ -1,0 +1,38 @@
+{
+  "status": "independent read-only bounded-capacity review cleared",
+  "inputs_sha256": {
+    "scripts/backup.py": "7ad33551057a344361beb25e2e0a110bf76939724d8c27dbbbce05a17fcacaf3",
+    "tests/test_backup_capacity.py": "e90122cb250e0d2679ee7d0e9e7fa5af70d6b675ab77c03c752b94b399c2d328",
+    ".runs/backup-capacity-review-001/capacity.patch": "3d68be8224dcb719021d9c2e9851f872ae94ca5ad64cdf918140fee6956adf9c",
+    ".runs/backup-capacity-review-001/review.json": "826192125c2d3cb1e6299d137f735368f623aaac26247c23482ff9074029ddd0",
+    ".runs/backup-capacity-review-001/df-k.txt": "2c6fabeb75d2ec78b41f376a34d3bf665f8af202522299f2dd5d4fb92224e0c0"
+  },
+  "inverse_four_line_change_matches_original": true,
+  "promoted_script_equals_proposal": true,
+  "promoted_tests_equal_proposal": true,
+  "max_logical_archive_bundle_bytes_each": 2147483648,
+  "max_files": 100000,
+  "scopes": [
+    ".runs",
+    ".data",
+    ".local-reference"
+  ],
+  "recorded_disk_available_gib": 404.0108642578125,
+  "recorded_disk_observed_utc": "2026-10-10T12:03:48.078238+00:00",
+  "prior_schema1_compatible_by_unchanged_restore_logic_and_monotone_limit": true,
+  "lead_reported_backup_controls": {
+    "passed": 27,
+    "seconds": 1.435,
+    "independently_rerun": false
+  },
+  "native_jobs": 0,
+  "engine_jobs": 0,
+  "archives_opened_or_created": 0,
+  "large_allocations": false,
+  "limitations": [
+    "2GiB caps apply separately, not as one total disk quota.",
+    "Git bundle size check remains after creation, as before.",
+    "Disk availability is the retained observation, not a future guarantee.",
+    "No new full backup/restoration claimed by this review."
+  ]
+}
