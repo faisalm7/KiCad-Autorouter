@@ -1,0 +1,42 @@
+# Private historical context and local-only backup receipts.
+.local-reference/
+.local-backups/
+.private/
+secrets/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Downloaded dependencies, data, and disposable execution state.
+.venv/
+venv/
+.tools/
+.data/
+.cache/
+.runs/
+node_modules/
+target/
+build/
+dist/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.egg-info/
+
+# Archives require explicit audit and a separate backup decision.
+*.bundle
+*.tar.gz
+*.tgz
+*.zip
+.DS_Store
+
+# Keep small, sanitized, reproducible evidence/ records tracked.
+# Do not ignore the whole evidence directory or generic *.json files.
