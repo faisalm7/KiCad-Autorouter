@@ -241,6 +241,7 @@ def experiment(out, project_name="sonde", feedback_ablation=False):
             directory = out / arm["id"]
             host_load_begin = list(os.getloadavg())
             started, cpu_started = time.monotonic(), total_process_cpu()
+            invocation_started_utc = datetime.datetime.now(datetime.timezone.utc).isoformat()
             try:
                 result = (prune(board, directory, BUDGET, proposal_policy=arm["proposal_policy"]) if arm["operation"] == "prune" else
                           p.route(board, directory, BUDGET, False, arm["adapter"], arm["engine_profile"]))
@@ -248,10 +249,14 @@ def experiment(out, project_name="sonde", feedback_ablation=False):
                 result = {"status": "cancelled", "accepted": False, "reason": "interrupted invocation"}
             except Exception as exc:
                 result = {"status": "invocation_error", "accepted": False, "reason": type(exc).__name__ + ": " + str(exc)}
-            wall, cpu = time.monotonic() - started, total_process_cpu() - cpu_started
+            invocation_finished_monotonic = time.monotonic()
+            invocation_finished_utc = datetime.datetime.now(datetime.timezone.utc).isoformat()
+            wall, cpu = invocation_finished_monotonic - started, total_process_cpu() - cpu_started
             host_load_end = list(os.getloadavg())
             p.save_json(out / (arm["id"] + "-invocation.json"), {"wall_seconds": wall, "cpu_seconds": cpu,
                         "status": result.get("status"), "reason": result.get("reason"),
+                        "started_utc": invocation_started_utc, "finished_utc": invocation_finished_utc,
+                        "started_monotonic": started, "finished_monotonic": invocation_finished_monotonic,
                         "host_load_average_1_5_15_minutes_begin": host_load_begin,
                         "host_load_average_1_5_15_minutes_end": host_load_end})
             row = summarize(arm, directory, result, wall, cpu)

@@ -1,0 +1,240 @@
+{
+  "passed": false,
+  "checks": 7063,
+  "failures": [
+    "B2/C_single no recorded arm overlap"
+  ],
+  "public_subset": {
+    "files_verified": 825,
+    "bytes_verified": 5074025,
+    "manifest_sha256": "4326503a839e7f5262c77706f5c4927b4acddd96ed1293bec8bcefad46db99bf",
+    "complete_run": false
+  },
+  "native_receipts": 57,
+  "C_trials": {
+    "C_single": {
+      "count": 25,
+      "outcomes": {
+        "drc_rejected": 4,
+        "quality_rejected": 1,
+        "improvement_validated": 20
+      },
+      "improvements": 20,
+      "checkpoints": 27
+    },
+    "C_feedback": {
+      "count": 25,
+      "outcomes": {
+        "drc_rejected": 3,
+        "quality_rejected": 1,
+        "improvement_validated": 21
+      },
+      "improvements": 21,
+      "checkpoints": 27
+    }
+  },
+  "feedback": [
+    {
+      "run": "C_feedback/trial-0002",
+      "parent": "trial-0001",
+      "base_candidate_sha256": "4b7d87097198eb4f163fbab0e284ba4cd0e199500048d55cb5c43b81521829fc",
+      "parent_candidate_sha256": "33334347c87683b51dc17db13fec4af5cd4df0558a10d984bc03caa6c58f946d",
+      "trigger_native_report_sha256": "7b48ade1eeb71bdcadb8ec17f2b110acba8c961459a7da8c220e572ef299a54d",
+      "trigger_UUIDs": [
+        "4d1d21d9-863f-4f30-88f7-f9f1f124b917",
+        "7561412d-a00a-4775-a788-11386a0a451a"
+      ],
+      "removed_segments": [
+        {
+          "uuid": "7561412d-a00a-4775-a788-11386a0a451a",
+          "route": "(segment (start 140.97 107.87) (end 138.915 107.87) (width 0.635) (layer \"F.Cu\") (net 13) (uuid \"7561412d-a00a-4775-a788-11386a0a451a\"))"
+        },
+        {
+          "uuid": "4d1d21d9-863f-4f30-88f7-f9f1f124b917",
+          "route": "(segment (start 127 97.79) (end 128.835 97.79) (width 0.635) (layer \"F.Cu\") (net 13) (uuid \"4d1d21d9-863f-4f30-88f7-f9f1f124b917\"))"
+        },
+        {
+          "uuid": "6c28459c-f8e7-4656-b9f2-f02854a3458e",
+          "route": "(segment (start 138.915 107.87) (end 128.835 97.79) (width 0.635) (layer \"F.Cu\") (net 13) (uuid \"6c28459c-f8e7-4656-b9f2-f02854a3458e\"))"
+        }
+      ],
+      "actual_length_saved_mm": 18.14527270872088,
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 1,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Copper connection too narrow",
+            "key": "connection_width"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Footprint 'DSUB-9_Male_EdgeMount_P2.77mm' does not match copy in library 'sonde-xilinx'",
+            "items": [
+              {
+                "description": "Footprint J2",
+                "pos": {
+                  "x": 181.61,
+                  "y": 90.1192
+                },
+                "uuid": "00000000-0000-0000-0000-00005a73b143"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_mismatch"
+          }
+        ]
+      },
+      "decision_sha256": "d7a73e829c052f59b9ee694c978843cfad3cea74b4615dd54cafd15adbf7fc76"
+    }
+  ],
+  "arm_metrics": [
+    {
+      "id": "B0",
+      "accepted": false,
+      "opens": 3,
+      "blocking": 7,
+      "warnings": 1,
+      "exclusions": 0,
+      "length_mm": 566.4539189245652,
+      "vias": 4,
+      "invocation_wall_seconds": 10.65740083399578,
+      "invocation_cpu_seconds": 10.649935,
+      "peak_child_rss_bytes": 254574592,
+      "peak_polled_group_rss_bytes": 254476288
+    },
+    {
+      "id": "B1",
+      "accepted": true,
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 1,
+      "exclusions": 0,
+      "length_mm": 786.315536093038,
+      "vias": 3,
+      "invocation_wall_seconds": 13.537637624998752,
+      "invocation_cpu_seconds": 16.707341,
+      "peak_child_rss_bytes": 356483072,
+      "peak_polled_group_rss_bytes": 355794944
+    },
+    {
+      "id": "B2",
+      "accepted": true,
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 1,
+      "exclusions": 0,
+      "length_mm": 786.3155360930381,
+      "vias": 2,
+      "invocation_wall_seconds": 18.258330541997566,
+      "invocation_cpu_seconds": 26.202142000000002,
+      "peak_child_rss_bytes": 359989248,
+      "peak_polled_group_rss_bytes": 359972864
+    },
+    {
+      "id": "C_single",
+      "accepted": true,
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 1,
+      "exclusions": 0,
+      "length_mm": 662.694144046039,
+      "vias": 2,
+      "invocation_wall_seconds": 104.66881883399765,
+      "invocation_cpu_seconds": 83.404883,
+      "peak_child_rss_bytes": 330530816,
+      "peak_polled_group_rss_bytes": 330432512
+    },
+    {
+      "id": "C_feedback",
+      "accepted": true,
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 1,
+      "exclusions": 0,
+      "length_mm": 644.5488713373181,
+      "vias": 2,
+      "invocation_wall_seconds": 107.79395695900166,
+      "invocation_cpu_seconds": 85.632711,
+      "peak_child_rss_bytes": 348372992,
+      "peak_polled_group_rss_bytes": 347881472
+    }
+  ],
+  "engines": [
+    {
+      "run": "B0",
+      "assigned_job_seconds": 60,
+      "assigned_optimizer_seconds": 30,
+      "engine_wall_seconds": 4.935308333995636,
+      "engine_CPU_seconds": 6.862698,
+      "logged_job_seconds": 2.52,
+      "logged_optimizer_seconds": 1.4,
+      "observed_stop_threshold_percent": [
+        2.5
+      ]
+    },
+    {
+      "run": "B1",
+      "assigned_job_seconds": 60,
+      "assigned_optimizer_seconds": 30,
+      "engine_wall_seconds": 7.629523124996922,
+      "engine_CPU_seconds": 12.535315,
+      "logged_job_seconds": 5.34,
+      "logged_optimizer_seconds": 4.16,
+      "observed_stop_threshold_percent": [
+        2.5
+      ]
+    },
+    {
+      "run": "B2",
+      "assigned_job_seconds": 77,
+      "assigned_optimizer_seconds": 77,
+      "engine_wall_seconds": 12.407712374995754,
+      "engine_CPU_seconds": 21.980603,
+      "logged_job_seconds": 10.11,
+      "logged_optimizer_seconds": 8.94,
+      "observed_stop_threshold_percent": [
+        0.1
+      ]
+    },
+    {
+      "run": "C_single/incumbent",
+      "assigned_job_seconds": 62,
+      "assigned_optimizer_seconds": 62,
+      "engine_wall_seconds": 12.399795249999443,
+      "engine_CPU_seconds": 21.755536,
+      "logged_job_seconds": 10.14,
+      "logged_optimizer_seconds": 9.03,
+      "observed_stop_threshold_percent": [
+        0.1
+      ]
+    },
+    {
+      "run": "C_feedback/incumbent",
+      "assigned_job_seconds": 62,
+      "assigned_optimizer_seconds": 62,
+      "engine_wall_seconds": 12.524177582999982,
+      "engine_CPU_seconds": 21.969884999999998,
+      "logged_job_seconds": 10.13,
+      "logged_optimizer_seconds": 9.0,
+      "observed_stop_threshold_percent": [
+        0.1
+      ]
+    }
+  ]
+}

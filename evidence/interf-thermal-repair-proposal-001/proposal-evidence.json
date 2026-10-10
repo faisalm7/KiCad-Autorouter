@@ -1,0 +1,167 @@
+{
+  "kind": "static proposal evidence only; no candidate/native execution",
+  "base_candidate_sha256": "922c6ce93556732940b5bccc06794c84b35fd164f86abd0ac3f6faf5b76e3f41",
+  "base_result_sha256": "06d2f303813ce1d02b3be98a7c3a1fa96eb9856b43e0ef550503cc5814e8d545",
+  "base_final_native_report_sha256": "0af6ef1524a321a3e424b9738d6736fdba587fe40225af238533808128ac364c",
+  "base_native": {
+    "opens": 0,
+    "blocking": 1,
+    "warnings": 0,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Copper connection too narrow",
+        "key": "connection_width"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "PTH inside courtyard",
+        "key": "pth_inside_courtyard"
+      },
+      {
+        "description": "NPTH inside courtyard",
+        "key": "npth_inside_courtyard"
+      }
+    ],
+    "findings": [
+      {
+        "description": "Thermal relief connection to zone incomplete (layer bottom_copper; 1 spokes connected to isolated island)",
+        "items": [
+          {
+            "description": "Zone [GND] on bottom_copper, priority 0",
+            "pos": {
+              "x": 193.675,
+              "y": 133.35
+            },
+            "uuid": "00000000-0000-0000-0000-00004cdec22b"
+          },
+          {
+            "description": "PTH pad C4 [GND] of U9",
+            "pos": {
+              "x": 150.495,
+              "y": 72.39
+            },
+            "uuid": "387e8928-4a73-4b3a-ae74-249440996e94"
+          }
+        ],
+        "severity": "error",
+        "type": "starved_thermal"
+      }
+    ]
+  },
+  "fill_polygons": {
+    "17": {
+      "points": 579,
+      "area_mm2": 314.0476459688234,
+      "parsed_coordinates_sha256": "b071b5522ea9c97e1dad486db47760b91c6e0f4f737036af630738f04ce5b52b"
+    },
+    "20": {
+      "points": 65,
+      "area_mm2": 2.187749947021075,
+      "parsed_coordinates_sha256": "cc62d3ba7f58439791874ea3f773476bf875a0ed0e587d1bae421c9130c252e2"
+    }
+  },
+  "existing_generated_GND_track": "(segment (start 150.495 72.39) (end 150.495 85.09) (width 0.5) (layer \"B.Cu\") (net 100) (uuid \"4a2a19f6-8db7-4bc7-89ad-3a0139aff293\"))",
+  "proposals": [
+    {
+      "start_mm": [
+        149.96,
+        71.7
+      ],
+      "end_mm": [
+        149.96,
+        73.8
+      ],
+      "width_mm": 0.5,
+      "net": "GND",
+      "layer": "B.Cu",
+      "start_polygon": [
+        20
+      ],
+      "end_polygon": [
+        17
+      ],
+      "length_mm": 2.0999999999999943,
+      "approx_parallel_VCC_clearance_margin_mm": 0.029700000000010274
+    },
+    {
+      "start_mm": [
+        150.0,
+        71.7
+      ],
+      "end_mm": [
+        150.0,
+        73.8
+      ],
+      "width_mm": 0.5,
+      "net": "GND",
+      "layer": "B.Cu",
+      "start_polygon": [
+        20
+      ],
+      "end_polygon": [
+        17
+      ],
+      "length_mm": 2.0999999999999943,
+      "approx_parallel_VCC_clearance_margin_mm": 0.06970000000000232
+    },
+    {
+      "start_mm": [
+        150.04,
+        71.7
+      ],
+      "end_mm": [
+        150.04,
+        73.8
+      ],
+      "width_mm": 0.5,
+      "net": "GND",
+      "layer": "B.Cu",
+      "start_polygon": [
+        20
+      ],
+      "end_polygon": [
+        17
+      ],
+      "length_mm": 2.0999999999999943,
+      "approx_parallel_VCC_clearance_margin_mm": 0.10969999999999436
+    },
+    {
+      "start_mm": [
+        150.08,
+        71.7
+      ],
+      "end_mm": [
+        150.08,
+        73.8
+      ],
+      "width_mm": 0.5,
+      "net": "GND",
+      "layer": "B.Cu",
+      "start_polygon": [
+        20
+      ],
+      "end_polygon": [
+        17
+      ],
+      "length_mm": 2.0999999999999943,
+      "approx_parallel_VCC_clearance_margin_mm": 0.14970000000001482
+    }
+  ],
+  "draft_script_sha256": "176a11b6bff1b4d1c994f8ca70c58d0be3b80740e97504e775c345d59d2394ec"
+}

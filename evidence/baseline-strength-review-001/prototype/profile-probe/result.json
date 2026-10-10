@@ -1,0 +1,68 @@
+{
+  "schema": 1,
+  "created_utc": "2026-10-10T08:16:58.241324+00:00",
+  "input_hashes": {
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+    "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/baseline-strength-review-001/prototype/autorouter/pipeline.py": "824f470b6e85689a047e8687fd634b10c39b9316d5db9837ada163ab4b011dd3",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/baseline-strength-review-001/prototype/scripts/probe_portfolio.py": "a4581174a9699a6f6836f304cdc3bb0995a850819a7e405d21ab193a7f0717a2",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/EngineProfileProbe.java": "6522f4077ce97148c4d34127bf962d971862de53b99e26ea91b106ce52d6459a"
+  },
+  "router_executed": false,
+  "board_loaded": false,
+  "passed": true,
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 0.7047823329994571,
+    "cpu_seconds": 1.1816010000000001,
+    "max_rss_bytes": 137871360,
+    "supervisor_cpu_seconds": 0.004310000000000036,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 122208256,
+    "sampled_peak_workdir_bytes": 88668,
+    "resource_guards": {
+      "max_group_rss_bytes": 4294967296,
+      "max_workdir_bytes": 536870912,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java",
+      "-Xms32m",
+      "-Xmx256m",
+      "-XX:ActiveProcessorCount=1",
+      "-Djava.awt.headless=true",
+      "-Duser.home=/Users/faisal/Projects/KiCad-Autorouter-local/.runs/baseline-strength-review-001/prototype/profile-probe/java-home",
+      "-Djava.io.tmpdir=/Users/faisal/Projects/KiCad-Autorouter-local/.runs/baseline-strength-review-001/prototype/profile-probe/tmp",
+      "--class-path",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/baseline-strength-review-001/prototype/profile-probe/EngineProfileProbe.java",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/baseline-strength-review-001/prototype/profile-probe/request.json",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/baseline-strength-review-001/prototype/profile-probe/actual-settings.json"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/baseline-strength-review-001/prototype/profile-probe/probe.log",
+    "log_bytes": 0,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/baseline-strength-review-001/prototype/profile-probe",
+    "signal_cancellation_enabled": true,
+    "pid": 45828
+  },
+  "checks": 539,
+  "checks_passed": 539,
+  "profiles": 18,
+  "actual_settings_sha256": "97bd003d159d6b4519c09373b7c4044f55329167b723ea5bb59832d52339988a"
+}

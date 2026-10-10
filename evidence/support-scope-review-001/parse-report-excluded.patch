@@ -1,0 +1,14 @@
+--- a/autorouter/pipeline.py
++++ b/autorouter/pipeline.py
+@@ -160,8 +160,10 @@
+     for v in findings:
+         if not isinstance(v,dict) or v.get('severity') not in ('error','warning','exclusion') or not isinstance(v.get('type'),str) or not isinstance(v.get('items'),list):
+             raise Rejected('invalid finding schema')
++        if 'excluded' in v and type(v['excluded']) is not bool:
++            raise Rejected('invalid finding exclusion flag')
+     return {'opens':len(data['unconnected_items']), 'blocking':sum(v['severity']=='error' for v in data['violations']+data['schematic_parity']),
+-            'warnings':sum(v['severity']=='warning' for v in findings), 'exclusions':sum(v['severity']=='exclusion' for v in findings),
++            'warnings':sum(v['severity']=='warning' for v in findings), 'exclusions':sum(v['severity']=='exclusion' or v.get('excluded',False) for v in findings),
+             'ignored_checks':data['ignored_checks'],'findings':findings}
+ 
+ class Job:

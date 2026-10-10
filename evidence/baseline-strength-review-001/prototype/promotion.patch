@@ -1,0 +1,573 @@
+--- a/autorouter/pipeline.py
++++ b/autorouter/pipeline.py
+@@ -316,7 +316,18 @@
+ ENGINE_NATIVE_RESERVE_SECONDS=10
+ ENGINE_GRACE_RESERVE_SECONDS=30
+ 
+-def engine_profile_settings(profile, remaining_seconds, *, strict_class_targets=False):
++def engine_scoring_settings(variant=None):
++    presets={'via_default':(50,5),'via_low':(25,3),'via_high':(100,10)}
++    if variant is None:
++        return {'variant':None,'argv':[]}
++    if not isinstance(variant,str) or variant not in presets:
++        raise Rejected('unknown engine scoring variant')
++    via,plane=presets[variant]
++    return {'variant':variant,'via_costs':via,'plane_via_costs':plane,
++            'argv':[f'--router.scoring.via_costs={via}',f'--router.scoring.plane_via_costs={plane}']}
++
++
++def engine_profile_settings(profile, remaining_seconds, *, strict_class_targets=False, scoring_variant=None):
+     """Assign cooperative internal deadlines inside the outer wall budget.
+ 
+     Freerouting accepts numeric seconds or HH:mm:ss, not values such as 90s.
+@@ -333,6 +344,7 @@
+     job_cap=min(100 if profile=='tuned' else 60,available)
+     optimizer_cap=None if profile=='completion-only' else min(90 if profile=='tuned' else 30,job_cap)
+     def span(seconds): return f'{seconds//3600:02}:{seconds//60%60:02}:{seconds%60:02}'
++    scoring=engine_scoring_settings(scoring_variant)
+     args=['--router.autorouter.max_passes='+('100' if profile=='tuned' else '30'),
+           '--router.job_timeout='+span(job_cap)]
+     if strict_class_targets:
+@@ -348,7 +360,8 @@
+             # Actual pinned JAR probe verifies CLI fraction .001 -> internal .1%.
+             args+=['--router.optimizer.improvement_threshold=0.001','--router.optimizer.enable_preflight_guards=false',
+                    '--router.optimizer.max_consecutive_failures=100','--router.optimizer.max_consecutive_failures_pass1=100']
+-    return {'profile':profile,'argv':args,'strict_class_targets':strict_class_targets,'remaining_outer_wall_seconds_at_assignment':remaining_seconds,
++    args+=scoring['argv']
++    return {'profile':profile,'argv':args,'scoring':scoring,'strict_class_targets':strict_class_targets,'remaining_outer_wall_seconds_at_assignment':remaining_seconds,
+             'assigned_job_timeout_seconds':job_cap,'assigned_optimizer_timeout_seconds':optimizer_cap,
+             'native_finalization_reserve_seconds':ENGINE_NATIVE_RESERVE_SECONDS,
+             'engine_grace_reserve_seconds':ENGINE_GRACE_RESERVE_SECONDS,
+@@ -361,8 +374,9 @@
+     raise Rejected('unknown engine profile')
+ 
+ 
+-def route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard'):
++def route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None):
+     if engine_profile not in {'standard','tuned','completion-only'}: raise Rejected('unknown engine profile')
++    engine_scoring_settings(scoring_variant)
+     operation_started=time.monotonic()
+     operation_cpu=time.process_time()
+     source=Path(source).resolve(strict=True); output=Path(output).resolve()
+@@ -375,7 +389,7 @@
+     code=output/'code'; code.mkdir()
+     for path in (c.ROOT/'autorouter').glob('*.py'): shutil.copy2(path,code/path.name)
+     report={'schema':1,'status':'validator_error','accepted':False,'physical_electrical_validation':False,'schematic_parity':'not checked','source':str(source),
+-            'started_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'budget_seconds':seconds,'cpu_budget_seconds':seconds,'cpu_budget_enforcement':'postcompletion acceptance cap; no total-CPU preemption','baseline':engine_baseline(engine_profile,adapter),'adapter':adapter,'engine_profile':engine_profile,'scope':'partial_completion' if keep_existing else 'whole_board_unlocked_routing',
++            'started_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'budget_seconds':seconds,'cpu_budget_seconds':seconds,'cpu_budget_enforcement':'postcompletion acceptance cap; no total-CPU preemption','baseline':engine_baseline(engine_profile,adapter),'adapter':adapter,'engine_profile':engine_profile,'scoring_variant':scoring_variant,'scope':'partial_completion' if keep_existing else 'whole_board_unlocked_routing',
+             'tools':tool_manifest()}
+     try:
+         before=tree_hash(source.parent); report['source_hashes']=before
+@@ -411,7 +425,7 @@
+         if policy is not None:
+             report['netclass_task_audit']=audit_dsn(output/'task.dsn',native_classes,json.loads(candidate.with_suffix('.kicad_pro').read_text()))
+         config_dir=output/'engine-config'; config_dir.mkdir()
+-        report['engine_budget']=engine_profile_settings(engine_profile,job.deadline-time.monotonic(),strict_class_targets=policy is not None)
++        report['engine_budget']=engine_profile_settings(engine_profile,job.deadline-time.monotonic(),strict_class_targets=policy is not None,scoring_variant=scoring_variant)
+         report['engine_budget']['outer_task_wall_budget_seconds']=seconds
+         report['engine_budget']['outer_task_cpu_budget_seconds']=seconds
+         engine_settings=report['engine_budget']['argv']
+--- /dev/null
++++ b/scripts/experiment_portfolio.py
+@@ -0,0 +1,301 @@
++#!/usr/bin/env python3
++"""Fixed, sequential development B2 portfolio with one shared wall/CPU budget.
++
++No routing job may run alongside this experiment. The output indexes retained
++native-validated trial receipts; it is not itself a pipeline routing receipt.
++No reference route is used for parameter selection, ranking, or scoring.
++"""
++from __future__ import annotations
++
++import argparse
++import datetime
++import fcntl
++import hashlib
++import json
++import os
++from pathlib import Path
++import shutil
++import signal
++import subprocess
++import sys
++import time
++
++sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
++from autorouter import config as c, pipeline as p
++from scripts import experiment_quality as q
++
++BUDGET = 120.0
++FINAL_RESERVE = 15.0
++VARIANTS = ('via_default', 'via_low', 'via_high')
++SCRIPT = Path(__file__).resolve()
++
++
++def rank(row):
++    return row['vias'], row['length_mm'], row['index']
++
++
++def valid_metrics(metrics):
++    return (type(metrics.get('vias')) is int and metrics['vias'] >= 0
++            and q.finite_nonnegative(metrics.get('track_length_mm')))
++
++
++def frontier(rows):
++    eligible = [row for row in rows if row.get('eligible') is True]
++    return [row['id'] for row in eligible if not any(
++        other['vias'] <= row['vias'] and other['length_mm'] <= row['length_mm']
++        and (other['vias'] < row['vias'] or other['length_mm'] < row['length_mm'])
++        for other in eligible)]
++
++
++def freeze(board):
++    frozen = q.freeze(board)
++    relative = str(SCRIPT.relative_to(c.ROOT))
++    digest = p.sha(SCRIPT)
++    committed = subprocess.run(['git', 'show', frozen['tools']['git_head'] + ':' + relative],
++                               cwd=c.ROOT, capture_output=True, check=True).stdout
++    if hashlib.sha256(committed).hexdigest() != digest:
++        raise p.Rejected('commit exact portfolio script before running')
++    frozen['files_sha256'][relative] = digest
++    return frozen
++
++
++def verify_row(row, board, frozen):
++    """Consistency check before ranking and again at final selection.
++
++    p.check_result checks immutable/native evidence. This additional check binds
++    the retained receipt, metrics, and profile to the predeclared experiment.
++    Neither function authenticates mutable JSON.
++    """
++    receipt = Path(row['result'])
++    if receipt.is_symlink() or p.sha(receipt) != row['result_sha256']:
++        raise p.Rejected('trial receipt changed')
++    data = json.loads(receipt.read_text())
++    if (data.get('source') != str(board) or data.get('source_hashes') != frozen['source_hashes']
++            or data.get('tools') != frozen['tools'] or data.get('engine_profile') != 'tuned'
++            or data.get('adapter') != 'both' or data.get('scoring_variant') != row['id']
++            or data.get('scope') != 'whole_board_unlocked_routing'
++            or data.get('budget_seconds') != row['assigned_seconds']
++            or data.get('cpu_budget_seconds') != row['assigned_seconds']):
++        raise p.Rejected('trial differs from frozen portfolio contract')
++    engine = data.get('engine_budget', {})
++    expected = p.engine_profile_settings('tuned', engine.get('remaining_outer_wall_seconds_at_assignment'),
++        strict_class_targets=data.get('netclass_policy') is not None, scoring_variant=row['id'])
++    if (any(engine.get(key) != value for key, value in expected.items())
++            or engine.get('outer_task_wall_budget_seconds') != row['assigned_seconds']
++            or engine.get('outer_task_cpu_budget_seconds') != row['assigned_seconds']):
++        raise p.Rejected('trial engine profile differs from declared variant')
++    engine_steps = [step for step in data.get('steps', []) if step.get('name') == 'engine']
++    if len(engine_steps) != 1:
++        raise p.Rejected('missing unique engine step')
++    engine_step = engine_steps[0]
++    if ([arg for arg in engine_step.get('argv', []) if arg.startswith('--router.')] != expected['argv']
++            or engine_step.get('status') != 'success' or engine_step.get('exit_code') != 0
++            or engine_step.get('cleanup_complete') is not True):
++        raise p.Rejected('engine execution arguments differ from declared variant')
++    process = receipt.parent/'engine-process.json'
++    if process.is_symlink() or json.loads(process.read_text()) != engine_step:
++        raise p.Rejected('engine step differs from retained process')
++    verified = p.check_result(receipt)
++    metrics = data.get('metrics', {})
++    if not valid_metrics(metrics):
++        raise p.Rejected('invalid native trial metrics')
++    if (metrics['vias'] != row['vias'] or metrics['track_length_mm'] != row['length_mm']
++            or verified['candidate'] != row['candidate']
++            or verified['candidate_sha256'] != row['candidate_sha256']
++            or data.get('native_report_sha256') != row['native_report_sha256']):
++        raise p.Rejected('trial summary differs from bound evidence')
++    if p.sha(receipt) != row['result_sha256']:
++        raise p.Rejected('trial receipt changed while checking')
++    return verified
++
++
++def experiment(out, project_name='sonde'):
++    started, cpu_started = time.monotonic(), q.total_process_cpu()
++    started_utc = datetime.datetime.now(datetime.timezone.utc).isoformat()
++    out = Path(out).resolve()
++    if c.ROOT / '.runs' not in out.parents:
++        raise p.Rejected('portfolio output must be under this checkout .runs')
++    out.mkdir(parents=True, exist_ok=False)
++    summary = {'schema': 1, 'kind': 'experimental_baseline_portfolio', 'status': 'incomplete',
++               'comparison_eligible': False, 'selected': None, 'trials': [], 'pareto_frontier': [],
++               'wall_budget_seconds': BUDGET, 'cpu_budget_seconds': BUDGET,
++               'cpu_enforcement': 'postcompletion acceptance cap; no total-CPU preemption',
++               'selection_rule': 'minimum (native via count, native track length, fixed attempt index)',
++               'started_utc': started_utc,
++               'host_load_average_1_5_15_minutes_begin': list(os.getloadavg()),
++               'claims_limit': 'exposed development experiment; no population superiority or electrical adequacy claim',
++               'receipt_scope': 'selected trial receipt charges that trial only; this summary charges the entire portfolio',
++               'physical_electrical_validation': False, 'applied': False}
++
++    def totals():
++        return time.monotonic() - started, q.total_process_cpu() - cpu_started
++
++    def remaining():
++        wall, cpu = totals()
++        return min(BUDGET - wall, BUDGET - cpu)
++
++    def preserve_partial():
++        partial = out / 'portfolio-summary.json.partial'
++        if partial.exists():
++            if partial.is_symlink() or not partial.is_file():
++                raise p.Rejected('invalid interrupted portfolio summary')
++            with (out/'cancelled-summary.partial').open('xb') as retained:
++                retained.write(partial.read_bytes())
++            partial.unlink()
++
++    try:
++        p.check_storage()
++        board, family = q.selected_source(project_name)
++        frozen = freeze(board)
++        for relative, digest in frozen['files_sha256'].items():
++            copied = out / 'frozen-code' / relative
++            copied.parent.mkdir(parents=True, exist_ok=True)
++            shutil.copy2(c.ROOT / relative, copied)
++            if p.sha(copied) != digest:
++                raise p.Rejected('frozen code changed while copying')
++        protocol = {'schema': 1, 'family': family, 'source': str(board), 'freeze': frozen,
++                    'variants': list(VARIANTS), 'fixed_order': True,
++                    'scoring': {name: p.engine_scoring_settings(name) for name in VARIANTS},
++                    'selection_rule': summary['selection_rule'], 'wall_budget_seconds': BUDGET,
++                    'cpu_budget_seconds': BUDGET, 'root_finalization_reserve_seconds': FINAL_RESERVE,
++                    'attempt_allocation': 'min(remaining global wall, remaining global CPU) minus finalization reserve; route helper then withholds its engine grace/native reserves',
++                    'constraints': 'same immutable source, targets, adapter, native validation, and per-board support policy for every attempt',
++                    'validation': 'every accepted trial receives native validation; final selection rechecks exact unchanged receipt/candidate. No candidate is copied or mutated during selection.',
++                    'cpu_accounting': 'RUSAGE_SELF + RUSAGE_CHILDREN deltas over this whole invocation, including all setup, attempts, checks, and selection; never sum nested receipt CPU into this value',
++                    'claim_scope': summary['claims_limit']}
++        p.save_json(out / 'protocol.json', protocol)
++        summary.update(protocol_sha256=p.sha(out / 'protocol.json'), source=str(board), family=family)
++        for index, variant in enumerate(VARIANTS):
++            q.verify_freeze(frozen, board)
++            assigned = remaining() - FINAL_RESERVE
++            # Do not start expensive preparation when even the current engine
++            # minimum cannot fit. route() repeats this check after preparation.
++            if assigned < p.ENGINE_GRACE_RESERVE_SECONDS + p.ENGINE_NATIVE_RESERVE_SECONDS + 1:
++                summary['stop_reason'] = 'insufficient remaining budget for another attempt and reserves'
++                break
++            directory = out / f'{index + 1:02d}-{variant}'
++            before_wall, before_cpu = time.monotonic(), q.total_process_cpu()
++            trial_started_utc = datetime.datetime.now(datetime.timezone.utc).isoformat()
++            try:
++                result = p.route(board, directory, assigned, False, 'both', 'tuned', scoring_variant=variant)
++            except (Exception, KeyboardInterrupt) as exc:
++                # Preserve an invocation failure even when route() fails before
++                # creating its own receipt. Cancellation invalidates the whole
++                # portfolio and is never hidden by an earlier accepted trial.
++                summary['trials'].append({'index': index, 'id': variant, 'assigned_seconds': assigned,
++                    'status': 'cancelled' if isinstance(exc, KeyboardInterrupt) else 'invocation_error',
++                    'eligible': False, 'reason': type(exc).__name__ + ': ' + str(exc),
++                    'invocation_wall_seconds': time.monotonic() - before_wall,
++                    'invocation_cpu_seconds': q.total_process_cpu() - before_cpu,
++                    'directory': str(directory)})
++                raise
++            trial_wall, trial_cpu = time.monotonic() - before_wall, q.total_process_cpu() - before_cpu
++            receipt = directory / 'result.json'
++            metrics = result.get('metrics', {})
++            row = {'index': index, 'id': variant, 'assigned_seconds': assigned,
++                   'started_utc': trial_started_utc,
++                   'finished_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(),
++                   'status': result.get('status'), 'reason': result.get('reason'),
++                   'accepted_in_trial_receipt': result.get('accepted') is True,
++                   'eligible': False, 'invocation_wall_seconds': trial_wall,
++                   'invocation_cpu_seconds': trial_cpu,
++                   'result': str(receipt), 'result_sha256': p.sha(receipt),
++                   'candidate': result.get('candidate'), 'candidate_sha256': result.get('candidate_sha256'),
++                   'native_report_sha256': result.get('native_report_sha256'),
++                   'vias': metrics.get('vias'), 'length_mm': metrics.get('track_length_mm'),
++                   'peak_child_rss_bytes': result.get('peak_child_rss_bytes'),
++                   'peak_polled_group_rss_bytes': max([step.get('sampled_peak_group_rss_bytes') or 0 for step in result.get('steps', [])] + [0]),
++                   'native': result.get('native')}
++            summary['trials'].append(row)
++            if q.cancelled(result):
++                raise KeyboardInterrupt
++            q.verify_freeze(frozen, board)
++            if row['accepted_in_trial_receipt']:
++                if not all(q.finite_nonnegative(value) and value <= assigned for value in (trial_wall, trial_cpu)):
++                    row['verification_error'] = 'trial invocation exceeded its assigned wall/CPU allowance'
++                else:
++                    verify_row(row, board, frozen)
++                    row['eligible'] = True
++            p.save_json(out / 'portfolio-summary.json', summary)
++            if remaining() <= FINAL_RESERVE:
++                summary['stop_reason'] = 'global finalization reserve reached'
++                break
++        # Recheck every retained eligible receipt before computing the frontier;
++        # stale losers must not remain an apparently valid stronger baseline.
++        for row in summary['trials']:
++            if row['eligible']:
++                verify_row(row, board, frozen)
++        q.verify_freeze(frozen, board)
++        summary['pareto_frontier'] = frontier(summary['trials'])
++        candidates = [row for row in summary['trials'] if row['eligible']]
++        if candidates:
++            chosen = min(candidates, key=rank)
++            verified = verify_row(chosen, board, frozen)
++            summary['selected'] = {key: chosen[key] for key in ('id', 'result', 'result_sha256', 'candidate', 'candidate_sha256', 'native_report_sha256', 'vias', 'length_mm')}
++            summary['selected']['consistency'] = verified
++            q.verify_freeze(frozen, board)
++            summary.update(status='completed', comparison_eligible=True)
++        else:
++            summary['status'] = 'no_valid_candidate'
++    except KeyboardInterrupt:
++        summary.update(status='cancelled', comparison_eligible=False, selected=None)
++    except Exception as exc:
++        summary.update(status='invalidated', comparison_eligible=False, selected=None,
++                       reason=type(exc).__name__ + ': ' + str(exc))
++
++    def account():
++        wall, cpu = totals()
++        summary.update(wall_seconds=wall, total_cpu_seconds=cpu)
++        if not all(q.finite_nonnegative(value) and value <= BUDGET for value in (wall, cpu)):
++            summary.update(status='budget_exceeded', comparison_eligible=False, selected=None)
++
++    summary['accounting_point'] = 'sample before summary write; caps checked again after write; over-cap correction can finish outside cap'
++    summary['finished_utc'] = datetime.datetime.now(datetime.timezone.utc).isoformat()
++    summary['host_load_average_1_5_15_minutes_end'] = list(os.getloadavg())
++    summary['peak_child_rss_bytes'] = max([row.get('peak_child_rss_bytes') or 0 for row in summary['trials']] + [0])
++    summary['peak_polled_group_rss_bytes'] = max([row.get('peak_polled_group_rss_bytes') or 0 for row in summary['trials']] + [0])
++    try:
++        if summary['status'] == 'cancelled':
++            preserve_partial()
++        account()
++        p.save_json(out / 'portfolio-summary.json', summary)
++        if remaining() < 0:
++            account()
++            p.save_json(out / 'portfolio-summary.json', summary)
++    except KeyboardInterrupt:
++        # Final publication is still part of the cancellable operation. Keep
++        # an interrupted write as evidence before emitting a rejected summary.
++        # Never modify any underlying trial receipt or source project.
++        preserve_partial()
++        wall, cpu = totals()
++        summary.update(status='cancelled', comparison_eligible=False, selected=None,
++                       wall_seconds=wall, total_cpu_seconds=cpu)
++        p.save_json(out / 'portfolio-summary.json', summary)
++    return summary
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('--output', required=True)
++    parser.add_argument('--project', choices=tuple(q.PROJECTS), default='sonde')
++    args = parser.parse_args()
++    lock_path = c.ROOT / '.runs/quality-experiment.lock'
++    lock_path.parent.mkdir(exist_ok=True)
++    if lock_path.is_symlink():
++        parser.error('experiment lock must not be a symlink')
++    def interrupted(signum, frame):
++        raise KeyboardInterrupt
++    previous = {sig: signal.signal(sig, interrupted) for sig in (signal.SIGINT, signal.SIGTERM)}
++    try:
++        with lock_path.open('a') as lock:
++            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
++            result = experiment(Path(args.output), args.project)
++        print(json.dumps({'status': result['status'], 'summary': str(Path(args.output) / 'portfolio-summary.json')}))
++        return 0 if result['comparison_eligible'] else 2
++    finally:
++        for sig, handler in previous.items():
++            signal.signal(sig, handler)
++
++
++if __name__ == '__main__':
++    raise SystemExit(main())
+--- /dev/null
++++ b/tests/test_portfolio.py
+@@ -0,0 +1,197 @@
++"""Pure control-flow tests. Mocked native stages do not qualify route correctness."""
++import json
++from pathlib import Path
++import tempfile
++import unittest
++from unittest.mock import patch
++
++from autorouter import pipeline as p
++from scripts import experiment_portfolio as m
++
++
++class ScoringControls(unittest.TestCase):
++    def test_three_verified_presets_do_not_change_rules_or_deadlines(self):
++        for variant, expected in [('via_default',(50,5)),('via_low',(25,3)),('via_high',(100,10))]:
++            for strict in (False,True):
++                old=p.engine_profile_settings('tuned',105,strict_class_targets=strict)
++                new=p.engine_profile_settings('tuned',105,strict_class_targets=strict,scoring_variant=variant)
++                self.assertEqual(new['argv'][:-2],old['argv'])
++                self.assertEqual(new['assigned_job_timeout_seconds'],old['assigned_job_timeout_seconds'])
++                self.assertEqual(new['argv'][-2:],[f'--router.scoring.via_costs={expected[0]}',f'--router.scoring.plane_via_costs={expected[1]}'])
++
++    def test_unknown_costs_cannot_inject_engine_arguments(self):
++        for value in ('--router.ignore_net_classes=true',{},[],0,True,'invalid'):
++            with self.subTest(value=value),self.assertRaises(p.Rejected):p.engine_scoring_settings(value)
++
++    def test_default_call_preserves_existing_flags(self):
++        self.assertEqual(p.engine_scoring_settings(None),{'variant':None,'argv':[]})
++        self.assertFalse(any('via_costs' in arg for arg in p.engine_profile_settings('standard',120)['argv']))
++
++
++class PortfolioControls(unittest.TestCase):
++    def setUp(self):
++        self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup)
++        self.root=Path(self.temp.name).resolve();(self.root/'.runs').mkdir();(self.root/'source').mkdir()
++        self.board=self.root/'source/board.kicad_pcb';self.board.write_text('fixture')
++        self.wall=0.;self.cpu=0.;self.calls=[];self.out=self.root/'.runs/portfolio'
++        self.frozen={'tools':{},'source_hashes':{},'files_sha256':{}}
++        self.sizes=[(2,100.),(3,80.),(2,90.)];self.costs=[(18.,25.)]*3
++        self.patches=[patch.object(m.c,'ROOT',self.root),patch.object(m.time,'monotonic',side_effect=lambda:self.wall),
++            patch.object(m.q,'total_process_cpu',side_effect=lambda:self.cpu),patch.object(p,'check_storage'),
++            patch.object(m.q,'selected_source',return_value=(self.board,'synthetic-controls')),
++            patch.object(m,'freeze',return_value=self.frozen),patch.object(m.q,'verify_freeze'),
++            patch.object(p,'route',side_effect=self.route),patch.object(p,'check_result',side_effect=self.checked)]
++        for item in self.patches:item.start();self.addCleanup(item.stop)
++
++    def route(self,board,directory,seconds,keep,adapter,profile,*,scoring_variant):
++        index=len(self.calls);self.calls.append((scoring_variant,seconds))
++        wall,cpu=self.costs[index];self.wall+=wall;self.cpu+=cpu
++        vias,length=self.sizes[index];directory.mkdir()
++        engine=p.engine_profile_settings(profile,seconds,scoring_variant=scoring_variant)
++        engine.update(outer_task_wall_budget_seconds=seconds,outer_task_cpu_budget_seconds=seconds)
++        step={'name':'engine','argv':['java',*engine['argv']],'status':'success','exit_code':0,'cleanup_complete':True}
++        p.save_json(directory/'engine-process.json',step)
++        result={'source':str(board),'source_hashes':{},'tools':{},'adapter':adapter,'engine_profile':profile,
++            'scoring_variant':scoring_variant,'scope':'whole_board_unlocked_routing',
++            'budget_seconds':seconds,'cpu_budget_seconds':seconds,'status':'routing_accepted','accepted':True,
++            'candidate':str(directory/'candidate/board.kicad_pcb'),'candidate_sha256':'candidate-'+scoring_variant,
++            'native_report_sha256':'native-'+scoring_variant,'metrics':{'vias':vias,'track_length_mm':length},
++            'native':{'opens':0,'blocking':0,'exclusions':0},'steps':[step],'engine_budget':engine}
++        p.save_json(directory/'result.json',result)
++        return result
++
++    def checked(self,receipt):
++        data=json.loads(receipt.read_text())
++        return {'candidate':data['candidate'],'candidate_sha256':data['candidate_sha256'],'current':True,'applied':False}
++
++    def test_shared_cpu_budget_drives_rolling_allocation(self):
++        result=m.experiment(self.out)
++        self.assertEqual(self.calls,[('via_default',105.),('via_low',80.),('via_high',55.)])
++        self.assertTrue(result['comparison_eligible'])
++        self.assertEqual(result['total_cpu_seconds'],75.)
++        self.assertEqual(result['wall_seconds'],54.)
++        self.assertEqual(result['selected']['id'],'via_high')
++        self.assertEqual(result['pareto_frontier'],['via_low','via_high'])
++        self.assertNotIn('accepted',result)
++
++    def test_prep_and_selection_costs_are_in_global_budget(self):
++        def frozen(board):self.wall+=5.;self.cpu+=6.;return self.frozen
++        with patch.object(m,'freeze',side_effect=frozen):result=m.experiment(self.out)
++        self.assertEqual(self.calls[0][1],99.)
++        self.assertEqual(result['wall_seconds'],59.)
++        self.assertEqual(result['total_cpu_seconds'],81.)
++
++    def test_reserves_stop_before_third_attempt_without_erasing_trials(self):
++        self.costs=[(20.,40.)]*3
++        result=m.experiment(self.out)
++        self.assertEqual(len(self.calls),2)
++        self.assertEqual(len(result['trials']),2)
++        self.assertTrue(result['comparison_eligible'])
++        self.assertIn('reserves',result['stop_reason'])
++
++    def test_cpu_overshoot_disqualifies_previous_valid_candidate(self):
++        self.costs=[(18.,25.),(18.,100.)]
++        result=m.experiment(self.out)
++        self.assertEqual(result['status'],'budget_exceeded')
++        self.assertFalse(result['comparison_eligible']);self.assertIsNone(result['selected'])
++        self.assertEqual(len(result['trials']),2)
++
++    def test_cancel_preserves_failed_trial_but_no_delivery(self):
++        real=self.route
++        def route(*a,**kw):
++            if self.calls:raise KeyboardInterrupt
++            return real(*a,**kw)
++        with patch.object(p,'route',side_effect=route):result=m.experiment(self.out)
++        self.assertEqual(result['status'],'cancelled');self.assertIsNone(result['selected'])
++        self.assertEqual(len(result['trials']),2)
++        self.assertEqual(result['trials'][1]['status'],'cancelled')
++
++    def test_source_change_invalidates_result(self):
++        with patch.object(m.q,'verify_freeze',side_effect=[None,p.Rejected('source changed')]):result=m.experiment(self.out)
++        self.assertEqual(result['status'],'invalidated');self.assertFalse(result['comparison_eligible'])
++        self.assertEqual(len(result['trials']),1)
++
++    def test_invalid_native_metric_cannot_rank(self):
++        self.sizes[0]=(True,100.)
++        result=m.experiment(self.out)
++        self.assertEqual(result['status'],'invalidated');self.assertIsNone(result['selected'])
++
++    def test_receipt_switch_during_check_fails_closed(self):
++        original=self.checked
++        def switched(receipt):
++            result=original(receipt);data=json.loads(receipt.read_text());data['metrics']['vias']+=1
++            p.save_json(receipt,data);return result
++        with patch.object(p,'check_result',side_effect=switched):result=m.experiment(self.out)
++        self.assertEqual(result['status'],'invalidated');self.assertIn('changed while checking',result['reason'])
++
++    def test_profile_label_cannot_hide_wrong_engine_cost(self):
++        route=self.route
++        def wrong(*a,**kw):
++            result=route(*a,**kw)
++            result['steps'][0]['argv'][-1]='--router.scoring.plane_via_costs=99'
++            p.save_json(a[1]/'result.json',result)
++            p.save_json(a[1]/'engine-process.json',result['steps'][0])
++            return result
++        with patch.object(p,'route',side_effect=wrong):result=m.experiment(self.out)
++        self.assertEqual(result['status'],'invalidated')
++        self.assertIn('execution arguments',result['reason'])
++
++    def test_output_collision_does_not_replace_original(self):
++        self.out.mkdir();marker=self.out/'precious';marker.write_text('preserved')
++        with self.assertRaises(FileExistsError):m.experiment(self.out)
++        self.assertEqual(marker.read_text(),'preserved')
++
++    def test_stable_tie_and_pareto_keep_all_valid_metrics(self):
++        self.sizes=[(2,100.),(2,100.),(3,120.)]
++        result=m.experiment(self.out)
++        self.assertEqual(result['selected']['id'],'via_default')
++        self.assertEqual(result['pareto_frontier'],['via_default','via_low'])
++        self.assertEqual(len(result['trials']),3)
++
++    def test_summary_write_budget_crossing_corrects_acceptance(self):
++        saved=p.save_json
++        def write(path,value):
++            saved(path,value)
++            if path.name=='portfolio-summary.json' and value.get('comparison_eligible'):
++                self.cpu=120.1
++        with patch.object(p,'save_json',side_effect=write):result=m.experiment(self.out)
++        self.assertFalse(result['comparison_eligible']);self.assertEqual(result['status'],'budget_exceeded')
++        self.assertFalse(json.loads((self.out/'portfolio-summary.json').read_text())['comparison_eligible'])
++
++    def test_cancel_after_final_positive_write_clears_eligibility(self):
++        saved=p.save_json
++        def write(path,value):
++            saved(path,value)
++            if path.name=='portfolio-summary.json' and value.get('comparison_eligible'):
++                raise KeyboardInterrupt
++        with patch.object(p,'save_json',side_effect=write):result=m.experiment(self.out)
++        self.assertEqual(result['status'],'cancelled');self.assertIsNone(result['selected'])
++        retained=json.loads((self.out/'portfolio-summary.json').read_text())
++        self.assertFalse(retained['comparison_eligible']);self.assertEqual(len(retained['trials']),3)
++
++    def test_cancel_inside_final_write_preserves_partial_and_rejects(self):
++        saved=p.save_json
++        def write(path,value):
++            if path.name=='portfolio-summary.json' and value.get('comparison_eligible'):
++                path.with_suffix('.json.partial').write_text('interrupted bytes')
++                raise KeyboardInterrupt
++            saved(path,value)
++        with patch.object(p,'save_json',side_effect=write):result=m.experiment(self.out)
++        self.assertEqual(result['status'],'cancelled');self.assertFalse(result['comparison_eligible'])
++        self.assertEqual((self.out/'cancelled-summary.partial').read_text(),'interrupted bytes')
++        self.assertFalse((self.out/'portfolio-summary.json.partial').exists())
++
++    def test_cancel_inside_interim_write_preserves_partial_and_rejects(self):
++        saved=p.save_json
++        def write(path,value):
++            if path.name=='portfolio-summary.json' and value.get('status')=='incomplete':
++                path.with_suffix('.json.partial').write_text('interrupted interim')
++                raise KeyboardInterrupt
++            saved(path,value)
++        with patch.object(p,'save_json',side_effect=write):result=m.experiment(self.out)
++        self.assertEqual(result['status'],'cancelled');self.assertFalse(result['comparison_eligible'])
++        self.assertEqual((self.out/'cancelled-summary.partial').read_text(),'interrupted interim')
++        self.assertEqual(len(result['trials']),1)
++
++
++if __name__=='__main__':unittest.main()

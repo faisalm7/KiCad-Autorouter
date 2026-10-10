@@ -1,0 +1,69 @@
+--- a/autorouter/pipeline.py
++++ b/autorouter/pipeline.py
+@@ -316,7 +316,18 @@
+ ENGINE_NATIVE_RESERVE_SECONDS=10
+ ENGINE_GRACE_RESERVE_SECONDS=30
+ 
+-def engine_profile_settings(profile, remaining_seconds, *, strict_class_targets=False):
++def engine_scoring_settings(variant=None):
++    presets={'via_default':(50,5),'via_low':(25,3),'via_high':(100,10)}
++    if variant is None:
++        return {'variant':None,'argv':[]}
++    if not isinstance(variant,str) or variant not in presets:
++        raise Rejected('unknown engine scoring variant')
++    via,plane=presets[variant]
++    return {'variant':variant,'via_costs':via,'plane_via_costs':plane,
++            'argv':[f'--router.scoring.via_costs={via}',f'--router.scoring.plane_via_costs={plane}']}
++
++
++def engine_profile_settings(profile, remaining_seconds, *, strict_class_targets=False, scoring_variant=None):
+     """Assign cooperative internal deadlines inside the outer wall budget.
+ 
+     Freerouting accepts numeric seconds or HH:mm:ss, not values such as 90s.
+@@ -333,6 +344,7 @@
+     job_cap=min(100 if profile=='tuned' else 60,available)
+     optimizer_cap=None if profile=='completion-only' else min(90 if profile=='tuned' else 30,job_cap)
+     def span(seconds): return f'{seconds//3600:02}:{seconds//60%60:02}:{seconds%60:02}'
++    scoring=engine_scoring_settings(scoring_variant)
+     args=['--router.autorouter.max_passes='+('100' if profile=='tuned' else '30'),
+           '--router.job_timeout='+span(job_cap)]
+     if strict_class_targets:
+@@ -348,7 +360,8 @@
+             # Actual pinned JAR probe verifies CLI fraction .001 -> internal .1%.
+             args+=['--router.optimizer.improvement_threshold=0.001','--router.optimizer.enable_preflight_guards=false',
+                    '--router.optimizer.max_consecutive_failures=100','--router.optimizer.max_consecutive_failures_pass1=100']
+-    return {'profile':profile,'argv':args,'strict_class_targets':strict_class_targets,'remaining_outer_wall_seconds_at_assignment':remaining_seconds,
++    args+=scoring['argv']
++    return {'profile':profile,'argv':args,'scoring':scoring,'strict_class_targets':strict_class_targets,'remaining_outer_wall_seconds_at_assignment':remaining_seconds,
+             'assigned_job_timeout_seconds':job_cap,'assigned_optimizer_timeout_seconds':optimizer_cap,
+             'native_finalization_reserve_seconds':ENGINE_NATIVE_RESERVE_SECONDS,
+             'engine_grace_reserve_seconds':ENGINE_GRACE_RESERVE_SECONDS,
+@@ -361,8 +374,9 @@
+     raise Rejected('unknown engine profile')
+ 
+ 
+-def route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard'):
++def route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None):
+     if engine_profile not in {'standard','tuned','completion-only'}: raise Rejected('unknown engine profile')
++    engine_scoring_settings(scoring_variant)
+     operation_started=time.monotonic()
+     operation_cpu=time.process_time()
+     source=Path(source).resolve(strict=True); output=Path(output).resolve()
+@@ -375,7 +389,7 @@
+     code=output/'code'; code.mkdir()
+     for path in (c.ROOT/'autorouter').glob('*.py'): shutil.copy2(path,code/path.name)
+     report={'schema':1,'status':'validator_error','accepted':False,'physical_electrical_validation':False,'schematic_parity':'not checked','source':str(source),
+-            'started_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'budget_seconds':seconds,'cpu_budget_seconds':seconds,'cpu_budget_enforcement':'postcompletion acceptance cap; no total-CPU preemption','baseline':engine_baseline(engine_profile,adapter),'adapter':adapter,'engine_profile':engine_profile,'scope':'partial_completion' if keep_existing else 'whole_board_unlocked_routing',
++            'started_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'budget_seconds':seconds,'cpu_budget_seconds':seconds,'cpu_budget_enforcement':'postcompletion acceptance cap; no total-CPU preemption','baseline':engine_baseline(engine_profile,adapter),'adapter':adapter,'engine_profile':engine_profile,'scoring_variant':scoring_variant,'scope':'partial_completion' if keep_existing else 'whole_board_unlocked_routing',
+             'tools':tool_manifest()}
+     try:
+         before=tree_hash(source.parent); report['source_hashes']=before
+@@ -411,7 +425,7 @@
+         if policy is not None:
+             report['netclass_task_audit']=audit_dsn(output/'task.dsn',native_classes,json.loads(candidate.with_suffix('.kicad_pro').read_text()))
+         config_dir=output/'engine-config'; config_dir.mkdir()
+-        report['engine_budget']=engine_profile_settings(engine_profile,job.deadline-time.monotonic(),strict_class_targets=policy is not None)
++        report['engine_budget']=engine_profile_settings(engine_profile,job.deadline-time.monotonic(),strict_class_targets=policy is not None,scoring_variant=scoring_variant)
+         report['engine_budget']['outer_task_wall_budget_seconds']=seconds
+         report['engine_budget']['outer_task_cpu_budget_seconds']=seconds
+         engine_settings=report['engine_budget']['argv']

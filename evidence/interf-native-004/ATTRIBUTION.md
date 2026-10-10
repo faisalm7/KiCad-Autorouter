@@ -1,0 +1,3 @@
+Derived diagnostic records for the official KiCad interf_u hardware demo at69cafb907ebc09e7722a2a464b1d466fc2e3608d, CC BY-SA4.0. Source and original notices: data/sources.json; https://github.com/KiCad/kicad-source-mirror/tree/69cafb907ebc09e7722a2a464b1d466fc2e3608d/demos/interf_u . Original rules and geometry retained.
+
+REJECTED: strict routing-target dimensions passed, zero opens, one blocking native starved_thermal at U9C4. Width targets are preferred class settings, not asserted electrical minima. This public subset omits complete original/candidate/native-input projects, preserved locally in interf-native-004 for the next full backup. No native-qualified multiclass success.

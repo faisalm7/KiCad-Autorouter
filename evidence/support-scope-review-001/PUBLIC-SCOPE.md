@@ -1,0 +1,1 @@
+Project-authored report and pinned primary-source URL/hash references only; downloaded KiCad C++ sources and original corpus fields remain ignored. Support proposals have not broadened preflight. The exclusion parser defect was separately reproduced with actual native control002.
