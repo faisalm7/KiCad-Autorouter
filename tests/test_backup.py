@@ -76,6 +76,13 @@ class BackupTests(unittest.TestCase):
         with self.assertRaisesRegex(backup.BackupError, "Possible credential"):
             backup.inventory(self.root)
 
+    def test_reviewed_public_test_source_exception_is_exact(self):
+        path = ".runs/installation-002/checkout/tests/test_backup.py"
+        self.assertTrue(backup.audited_nonsecret_test_source(path, backup.NONSECRET_TEST_SOURCE))
+        self.assertFalse(backup.audited_nonsecret_test_source(path, "0" * 64))
+        self.assertFalse(backup.audited_nonsecret_test_source(".runs/innocent.log", backup.NONSECRET_TEST_SOURCE))
+        self.assertFalse(backup.audited_nonsecret_test_source(path + ".key", backup.NONSECRET_TEST_SOURCE))
+
     def test_size_limit_before_snapshot(self):
         with patch.object(backup, "LIMIT", 3):
             with self.assertRaisesRegex(backup.BackupError, "ceiling"):

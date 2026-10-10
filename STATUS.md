@@ -38,18 +38,19 @@ Earlier `smoke-stock-004` and `sonde-stock-002` records remain provisional devel
 
 Two bounded KiCadRoutingTools 0.23.0 native-input spikes completed. Both raw outputs changed eight copper texts and failed immutable preservation and native DRC. Separately recorded route-only transfers restored source geometry but had 8 and 12 blocking copper collisions. All four outputs were rejected. A formatting-dependent zone-parser omission was isolated and corrected in the second input; acceptance still failed. See `docs/krt-spike.md` and `.runs/krt-spike-001` / `.runs/krt-spike-002`. These rejected candidates establish no quality or speed advantage.
 
-Five licensed source projects containing six native boards were acquired at one pinned revision: 82 original files plus notices, 92 files and 9,270,389 bytes total. All are exposed development data. `evidence/coverage.json` retains the complete denominator, source hashes, both static audits and every unsupported reason. The latest static preflight has **1 eligible board, 5 unsupported boards, 0 parsing errors**. It executed no native subprocesses and is not a population routing test.
+Six licensed source projects containing seven native boards are now acquired at one pinned revision: 132 original files plus notices, 144 files and 13,654,726 bytes total. All are exposed development data. Historical `evidence/coverage.json` retains the prior six-board audit; the new reproducible `scripts/audit_corpus.py` records the complete promoted population. Current static preflight has **2 eligible boards, 5 unsupported boards, 0 parsing errors**. Static eligibility executes no native subprocesses and is not routing acceptance.
 
 | Considered board | Current static eligibility |
 |---|---|
 | sonde xilinx | Eligible for native audit; separate development routing evidence is above |
-| pic_programmer | Unsupported custom pads, netclass bindings and four unqualified rule-severity keys |
+| pic_programmer | Unsupported custom pads and four unqualified rule-severity keys |
 | complex_hierarchy | Unsupported netclass bindings and `zone_has_empty_net` severity semantics |
-| interf_u | Unsupported netclass bindings |
+| interf_u | Statically eligible through literal two-class checks; production native routing qualification pending |
+| ColdFire/Xilinx | Unsupported four-layer netclass scope, non-identifier pattern and nonblocking original thermal check |
 | multichannel_mixer | Required `padstack` check is not blocking in the original project |
 | multichannel_mixer-unrouted | Missing same-basename project binding and unqualified board format |
 
-The multichannel siblings share terminal connectivity but differ in 19 footprint poses; they stay in one family. Five directory-based family identifiers do not establish ancestry independence. The requested 30–50-family audit, a family-disjoint holdout, and a generalized comparison remain unmet. No original rule, severity, geometry or project binding was changed to admit excluded boards.
+The multichannel siblings share terminal connectivity but differ in 19 footprint poses; they stay in one family. Six directory-based family identifiers do not establish ancestry independence. The requested 30–50-family audit, a family-disjoint holdout, and a generalized comparison remain unmet. No original rule, severity, geometry or project binding was changed to admit excluded boards.
 
 ## Remaining work and continuation
 
@@ -71,4 +72,6 @@ Actual engine-stage cancellation control 001 passed: SIGINT to the owned routing
 
 The current pending revision adds literal two-class native export/target checks and switches C to a tuned incumbent. These code changes still await native multiclass qualification and a new frozen comparison. The failed fresh-install attempt 001 is retained; 19 subprocess tests failed because the sandbox denied the setuid process monitor. The replacement unprivileged monitor passed 22 focused controls under both ordinary execution and the same sandboxed fresh venv; full retest remains pending.
 
-A separately bounded acquisition audit retained the complete ColdFire/Xilinx project (50 originals plus two license notices, 4,384,337 bytes) under the pinned official demo license. It is not yet promoted into the six-board experiment manifest or routed. Its four copper layers and non-identifier assignment pattern remain outside the new literal two-layer class scope. Acquisition/ancestry receipts remain in `.runs/coldfire-audit-001`; no family independence is established.
+A separately bounded acquisition audit retained the complete ColdFire/Xilinx project (50 originals plus two license notices, 4,384,337 bytes) under the pinned official demo license. It has now been promoted into the seven-board acquisition manifest; it has not been routed. Its four copper layers and non-identifier assignment pattern remain outside the new literal two-layer class scope. Acquisition/ancestry receipts remain in `.runs/coldfire-audit-001`; no family independence is established.
+
+Fresh installation attempt 002 at `dd2cce9` passed all 160 tests, native smoke routing and receipt validation in a new local clone/venv with network denied. It reused installed Mac tools and the verified JAR cache; it does not qualify a fresh Mac or package installation. Full workflow took 14.935349 seconds. `evidence/installation-002` preserves command logs and scope.

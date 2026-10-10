@@ -47,3 +47,5 @@ release is produced. Failed steps must remain reported as failed rather than
 editing the disposable checkout to make its original commit appear to pass.
 
 The scoped macOS monitor fix passed 22 runner controls both normally and with the actual fresh-venv interpreter under unchanged network denial. Those include a real memory-limit kill, network EPERM and descendant cleanup. Metadata-denial behavior has a separate mocked-error control and is not described as a real OS failure. Evidence: `evidence/review-install-monitor-001`. The full installation retest remains separate.
+
+Attempt 002 at `dd2cce9` passed the complete workflow in 14.935349 seconds: all 160 tests, actual native fixture routing and strict result checking passed under network denial. Both checkouts retained their tracked inventories and HEAD. See `evidence/installation-002`; later source changes require separately scoped qualification.
