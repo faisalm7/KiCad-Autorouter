@@ -1,0 +1,81 @@
+{
+  "local_evidence_directory": ".runs/placement-area-native-002",
+  "summary_sha256": "5ad3ba8699416497c75a384967af8a826d57004c5c6fb147a909f4e69f869807",
+  "git_head": "9c44e0a828772455a3c09463c9cb4cf450f1d1e3",
+  "driver_sha256": "c8fd3aba64473bc3717d89c659727aa4a13c681a96646e5a478aba41121f4c36",
+  "status": "completed",
+  "controls_passed_means_omission_reproduced": true,
+  "constraint_qualification_passed": false,
+  "routing_accepted": false,
+  "wall_seconds": 4.873878582999168,
+  "total_cpu_seconds": 3.7101460000000004,
+  "original001_entire_tree_unchanged": true,
+  "cases": [
+    {
+      "case": "track_prohibited",
+      "board_sha256": "b26371c3aa7083dc2580a3a0ad079b509bdcec05820d875300b5079d643bdbba",
+      "report_sha256": "b8d1df1b37d6102419bcce50d6cb5202f302bbdc08f4fa5474f4709442489ae0",
+      "area_context_sha256": "6c70fd28793b4e6c5f4f5710f2b8833bc05b5163d63d41be9b57fee3e99f7746",
+      "removed_placement_node_count": 1,
+      "native_counters": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0
+      },
+      "omission_reproduced": true,
+      "native_rejected_known_invalid_constraint": false,
+      "production_supported": false
+    },
+    {
+      "case": "via_prohibited",
+      "board_sha256": "b0fb15907a952f43abf5ccd377634ccd4c95d71e108f476e0b8d839fb90ae61f",
+      "report_sha256": "91bc1d56739083b9164559fd81475c2eff1d091ed1ad897dcd8bfde4840b9ffb",
+      "area_context_sha256": "1accee41ebc46a09d544b1c471e16827788f5a3320bef3fa49b9dd7718c6e6b2",
+      "removed_placement_node_count": 1,
+      "native_counters": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0
+      },
+      "omission_reproduced": true,
+      "native_rejected_known_invalid_constraint": false,
+      "production_supported": false
+    },
+    {
+      "case": "mixed",
+      "board_sha256": "76b387990e58d8c67e5cb329c10d0291b3b788c3d06bbab299fa780a8529c005",
+      "report_sha256": "aeadb2f0753d0ae7e7718292138a23c562fcd2b57c8809c522c4afebc0591959",
+      "area_context_sha256": "be986c54d32037fa7da3e4770e4c5de9ac73b2b94e80bd4d3c97c4a081eacab6",
+      "removed_placement_node_count": 2,
+      "native_counters": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0
+      },
+      "omission_reproduced": true,
+      "native_rejected_known_invalid_constraint": false,
+      "production_supported": false
+    }
+  ],
+  "read_only_followup_checks": [
+    "diagnostic_only_verdicts",
+    "original001_entire_tree_still_unchanged",
+    "all_three_predeclared_cases",
+    "track_prohibited:completed_tree_matches",
+    "track_prohibited:source_tree_matches",
+    "track_prohibited:raw_native_report_matches",
+    "track_prohibited:unsupported_omission_only",
+    "via_prohibited:completed_tree_matches",
+    "via_prohibited:source_tree_matches",
+    "via_prohibited:raw_native_report_matches",
+    "via_prohibited:unsupported_omission_only",
+    "mixed:completed_tree_matches",
+    "mixed:source_tree_matches",
+    "mixed:raw_native_report_matches",
+    "mixed:unsupported_omission_only"
+  ],
+  "native_executed_by_this_review": false
+}

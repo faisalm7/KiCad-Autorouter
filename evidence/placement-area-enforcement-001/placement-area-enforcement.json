@@ -1,0 +1,205 @@
+{
+  "schema": 1,
+  "scope": "Development native-validation failure diagnosis; not routing or adapter qualification",
+  "upstream_source_commit": "0feeca2a807f428ad2b3fa7c1e39625cb769f02c",
+  "native_version": "10.0.0",
+  "native001": {
+    "local_evidence_directory": ".runs/placement-area-native-001",
+    "summary_sha256": "c61d54b5508f0508528e1236ead7bf97ad21ef336e32448994c6239db56b058f",
+    "status": "completed",
+    "controls_passed": false,
+    "wall_seconds": 6.785365540999919,
+    "total_cpu_seconds": 4.759377000000001,
+    "cases": [
+      {
+        "case": "allowed_placement",
+        "native_findings": 0,
+        "negative_targets": [],
+        "passed_original_control": true,
+        "board_sha256": "1e2216f05fd7540a2a4edf894a18addc389c056854bc6bb5fa2169f90753f7dd",
+        "report_sha256": "77bdc5a5f279a2c1ed1bbdc0a353dfd7f4fead7102749786de2dbe6c084bf406",
+        "process_sha256": "224e1843c6e1f4495af2d0fcbf177f32784a75bf0b1af6cd2630548c88087cdc"
+      },
+      {
+        "case": "track_prohibited",
+        "native_findings": 0,
+        "negative_targets": [
+          "0661fc24-4411-4f35-ad36-9f97c4110962"
+        ],
+        "passed_original_control": false,
+        "board_sha256": "28195bb0293c89172be5a343fd2e9b64b5e27c9777345d88cb0d9b43c83cdebe",
+        "report_sha256": "4357439864cee2cebeb9e40f263c616141dadc8aa3a0d33535ad77ec7169d618",
+        "process_sha256": "2eb6139546d2dfa36cf487cb09299dea37cef4f01d2541648b2b16184cfd9314"
+      },
+      {
+        "case": "via_prohibited",
+        "native_findings": 0,
+        "negative_targets": [
+          "692ddee1-7ca5-403d-9d6e-ef63ba59a986"
+        ],
+        "passed_original_control": false,
+        "board_sha256": "bafcae0af7e92f95ad88af6b4141e699b3472c19f7c21593b534b57c20f5a882",
+        "report_sha256": "5920b5aa2ff288bde1d301b91ea40fc5dc664138be3f25ff22a9ba40fdc33f1a",
+        "process_sha256": "e0b86ddfd7ef666a3965186a620c25b98437e4a2207251333ae5b41419a4a57d"
+      },
+      {
+        "case": "mixed",
+        "native_findings": 0,
+        "negative_targets": [
+          "0661fc24-4411-4f35-ad36-9f97c4110962",
+          "692ddee1-7ca5-403d-9d6e-ef63ba59a986"
+        ],
+        "passed_original_control": false,
+        "board_sha256": "ca5135487d1f3dc6f7c976f3e17de84b794cc1e85df830367c8ab929f82f54f7",
+        "report_sha256": "c3bda7636f67be098df31db2dca5aeb959d358cc39dd34b0f96b93f4b1a58d53",
+        "process_sha256": "b9446a3580093e2f937032e09273d9925ace116c9ab870e25b8c8a8b537c9039"
+      }
+    ]
+  },
+  "read_only_audit": {
+    "local_directory": ".runs/placement-area-native-failure-review-001",
+    "audit_sha256": "7abd5bfc961ecce100ccbd7ca2feda07608afb9bfc44865a6ab2128e0178f8bb",
+    "check_count": 29,
+    "native_executed": false,
+    "original_tree_unchanged": true
+  },
+  "sources": [
+    {
+      "upstream_path": "pcbnew/specctra_import_export/specctra_export.cpp",
+      "url": "https://github.com/KiCad/kicad-source-mirror/blob/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/pcbnew/specctra_import_export/specctra_export.cpp",
+      "sha256": "069625125a481565f608a7e0780f393351bc7ce4528f1ce94ae0d80c049ab05d",
+      "bytes": 62520,
+      "license": "GPL-2.0-or-later, per retained original file header",
+      "source_bytes_published": false
+    },
+    {
+      "upstream_path": "pcbnew/drc/drc_engine.cpp",
+      "url": "https://github.com/KiCad/kicad-source-mirror/blob/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/pcbnew/drc/drc_engine.cpp",
+      "sha256": "ddd99dc45baea9aa94997eb074e8529c34374b58492668ef80667f6d4a9ea775",
+      "bytes": 106259,
+      "license": "GPL-2.0-or-later, per retained original file header",
+      "source_bytes_published": false
+    },
+    {
+      "upstream_path": "pcbnew/drc/drc_test_provider_disallow.cpp",
+      "url": "https://github.com/KiCad/kicad-source-mirror/blob/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/pcbnew/drc/drc_test_provider_disallow.cpp",
+      "sha256": "e9ab0984ab4328cc1e3bae22114fd60b5fdde1da12d7472cbefee603e25afcf2",
+      "bytes": 11626,
+      "license": "GPL-2.0-or-later, per retained original file header",
+      "source_bytes_published": false
+    },
+    {
+      "upstream_path": "pcbnew/drc/drc_rtree.h",
+      "url": "https://github.com/KiCad/kicad-source-mirror/blob/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/pcbnew/drc/drc_rtree.h",
+      "sha256": "19dd97a4fc814cc819c59a5847a088228b5926e9dc6e2f6d0b68a9c2b64187f4",
+      "bytes": 20131,
+      "license": "GPL-2.0-or-later, per retained original file header",
+      "source_bytes_published": false
+    },
+    {
+      "upstream_path": "pcbnew/zone.cpp",
+      "url": "https://github.com/KiCad/kicad-source-mirror/blob/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/pcbnew/zone.cpp",
+      "sha256": "c206dd80cad8971321a147f004d8b968a11c166e79e4dbed0d13ac603b0d6700",
+      "bytes": 70932,
+      "license": "GPL-2.0-or-later, per retained original file header",
+      "source_bytes_published": false
+    },
+    {
+      "upstream_path": "pcbnew/zone_filler.cpp",
+      "url": "https://github.com/KiCad/kicad-source-mirror/blob/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/pcbnew/zone_filler.cpp",
+      "sha256": "15e854b8539913e556bc8b033c22f21770af36bbc96fd061d17fbc223ff5e833",
+      "bytes": 149005,
+      "license": "GPL-2.0-or-later, per retained original file header",
+      "source_bytes_published": false
+    }
+  ],
+  "interpretation": {
+    "native_negative_controls_qualified": false,
+    "specific_track_and_via_findings_missing": true,
+    "explanation": "Pinned source spatial indexing uses rule-area filled shapes, while rule areas remain unfilled; general implicit disallow checks return early. Source-backed explanation, not a measured native runtime shape probe.",
+    "placement_node_removal_counterfactual": "Executed later at9c44e0a; all three omissions persisted after placement nodes were removed. Constraint qualification remains false."
+  },
+  "protection_commit": "9c44e0a828772455a3c09463c9cb4cf450f1d1e3",
+  "publication_scope": "Only project-authored prose and compact hash/source metadata; no upstream source, boards, binaries, local configuration, or absolute personal paths included.",
+  "native002_later_observation": {
+    "local_evidence_directory": ".runs/placement-area-native-002",
+    "summary_sha256": "5ad3ba8699416497c75a384967af8a826d57004c5c6fb147a909f4e69f869807",
+    "git_head": "9c44e0a828772455a3c09463c9cb4cf450f1d1e3",
+    "driver_sha256": "c8fd3aba64473bc3717d89c659727aa4a13c681a96646e5a478aba41121f4c36",
+    "status": "completed",
+    "controls_passed_means_omission_reproduced": true,
+    "constraint_qualification_passed": false,
+    "routing_accepted": false,
+    "wall_seconds": 4.873878582999168,
+    "total_cpu_seconds": 3.7101460000000004,
+    "original001_entire_tree_unchanged": true,
+    "cases": [
+      {
+        "case": "track_prohibited",
+        "board_sha256": "b26371c3aa7083dc2580a3a0ad079b509bdcec05820d875300b5079d643bdbba",
+        "report_sha256": "b8d1df1b37d6102419bcce50d6cb5202f302bbdc08f4fa5474f4709442489ae0",
+        "area_context_sha256": "6c70fd28793b4e6c5f4f5710f2b8833bc05b5163d63d41be9b57fee3e99f7746",
+        "removed_placement_node_count": 1,
+        "native_counters": {
+          "opens": 0,
+          "blocking": 0,
+          "warnings": 0,
+          "exclusions": 0
+        },
+        "omission_reproduced": true,
+        "native_rejected_known_invalid_constraint": false,
+        "production_supported": false
+      },
+      {
+        "case": "via_prohibited",
+        "board_sha256": "b0fb15907a952f43abf5ccd377634ccd4c95d71e108f476e0b8d839fb90ae61f",
+        "report_sha256": "91bc1d56739083b9164559fd81475c2eff1d091ed1ad897dcd8bfde4840b9ffb",
+        "area_context_sha256": "1accee41ebc46a09d544b1c471e16827788f5a3320bef3fa49b9dd7718c6e6b2",
+        "removed_placement_node_count": 1,
+        "native_counters": {
+          "opens": 0,
+          "blocking": 0,
+          "warnings": 0,
+          "exclusions": 0
+        },
+        "omission_reproduced": true,
+        "native_rejected_known_invalid_constraint": false,
+        "production_supported": false
+      },
+      {
+        "case": "mixed",
+        "board_sha256": "76b387990e58d8c67e5cb329c10d0291b3b788c3d06bbab299fa780a8529c005",
+        "report_sha256": "aeadb2f0753d0ae7e7718292138a23c562fcd2b57c8809c522c4afebc0591959",
+        "area_context_sha256": "be986c54d32037fa7da3e4770e4c5de9ac73b2b94e80bd4d3c97c4a081eacab6",
+        "removed_placement_node_count": 2,
+        "native_counters": {
+          "opens": 0,
+          "blocking": 0,
+          "warnings": 0,
+          "exclusions": 0
+        },
+        "omission_reproduced": true,
+        "native_rejected_known_invalid_constraint": false,
+        "production_supported": false
+      }
+    ],
+    "read_only_followup_checks": [
+      "diagnostic_only_verdicts",
+      "original001_entire_tree_still_unchanged",
+      "all_three_predeclared_cases",
+      "track_prohibited:completed_tree_matches",
+      "track_prohibited:source_tree_matches",
+      "track_prohibited:raw_native_report_matches",
+      "track_prohibited:unsupported_omission_only",
+      "via_prohibited:completed_tree_matches",
+      "via_prohibited:source_tree_matches",
+      "via_prohibited:raw_native_report_matches",
+      "via_prohibited:unsupported_omission_only",
+      "mixed:completed_tree_matches",
+      "mixed:source_tree_matches",
+      "mixed:raw_native_report_matches",
+      "mixed:unsupported_omission_only"
+    ],
+    "native_executed_by_this_review": false
+  }
+}

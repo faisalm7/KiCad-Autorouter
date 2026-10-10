@@ -1,0 +1,2027 @@
+{
+  "schema": 1,
+  "status": "completed",
+  "controls_passed": true,
+  "routing_accepted": false,
+  "comparison_eligible": false,
+  "adapter_policy_qualified": false,
+  "constraint_qualification_passed": false,
+  "adapter_transformation_performed": false,
+  "engine_executed": false,
+  "diagnostic_kind": "placement_node_removal_omission_falsification",
+  "claims_limit": "controls_passed means omission reproduced after removing only placement metadata; genuine constraints remain unqualified and production unsupported",
+  "started_utc": "2026-10-10T11:34:16.804439+00:00",
+  "budget_seconds": 60,
+  "cpu_budget_seconds": 60,
+  "predeclared_cases": [
+    "track_prohibited",
+    "via_prohibited",
+    "mixed"
+  ],
+  "cases": [
+    {
+      "case": "track_prohibited",
+      "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/fixtures/track_prohibited/fixture.kicad_pcb",
+      "source_hashes": {
+        "PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+        "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+        "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+        "candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+        "export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+        "final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+        "final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+        "fixture.kicad_pcb": "b26371c3aa7083dc2580a3a0ad079b509bdcec05820d875300b5079d643bdbba",
+        "fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+        "native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2"
+      },
+      "expected": {
+        "case": "track_prohibited",
+        "board_sha256": "b26371c3aa7083dc2580a3a0ad079b509bdcec05820d875300b5079d643bdbba",
+        "zones": [
+          {
+            "uuid": "e9e8ec49-c37f-5889-957e-61d7b0d20d88",
+            "name": "diagnostic-track",
+            "parent": "board",
+            "is_rule_area": true,
+            "placement_enabled": false,
+            "placement_source_type": "SHEETNAME",
+            "placement_source": "",
+            "disallow": {
+              "tracks": true,
+              "vias": false,
+              "pads": false,
+              "copperpour": false,
+              "footprints": false
+            },
+            "layers": [
+              "F.Cu",
+              "B.Cu"
+            ],
+            "outlines_nm": [
+              [
+                [
+                  24500000,
+                  19000000
+                ],
+                [
+                  25500000,
+                  19000000
+                ],
+                [
+                  25500000,
+                  21000000
+                ],
+                [
+                  24500000,
+                  21000000
+                ]
+              ]
+            ],
+            "outline_closed": [
+              true
+            ],
+            "holes": [
+              0
+            ],
+            "arc_count": 0
+          }
+        ],
+        "prohibited_target_uuids": [
+          "0661fc24-4411-4f35-ad36-9f97c4110962"
+        ]
+      },
+      "removed_placement_nodes": [
+        {
+          "uuid": "e9e8ec49-c37f-5889-957e-61d7b0d20d88",
+          "node": [
+            "placement",
+            [
+              "enabled",
+              "no"
+            ],
+            [
+              "sheetname",
+              "\"/Diagnostic/\""
+            ]
+          ]
+        }
+      ],
+      "production_scope": {
+        "supported": false,
+        "reason": "unsupported: rule-area restrictions not qualified by pinned native validator",
+        "native_diagnostic_only": true
+      },
+      "passed": true,
+      "routing_accepted": false,
+      "constraint_qualification_passed": false,
+      "area_observation": {
+        "context_schema": 1,
+        "native_version": "10.0.0",
+        "units": "integer nanometres",
+        "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/track_prohibited/candidate/fixture.kicad_pcb",
+        "board_sha256": "b26371c3aa7083dc2580a3a0ad079b509bdcec05820d875300b5079d643bdbba",
+        "project_sha256": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+        "dsn_sha256": "c710cd2ea51ad3a36726edf51902c3dc46880e638499822fd9e3ae852c7f5f4d",
+        "board_saved": false,
+        "input_hashes_before": {
+          "PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+          "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+          "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+          "candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+          "export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+          "final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+          "final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+          "fixture.kicad_pcb": "b26371c3aa7083dc2580a3a0ad079b509bdcec05820d875300b5079d643bdbba",
+          "fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+          "native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2"
+        },
+        "input_hashes_after": {
+          "PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+          "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+          "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+          "candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+          "export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+          "final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+          "final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+          "fixture.kicad_pcb": "b26371c3aa7083dc2580a3a0ad079b509bdcec05820d875300b5079d643bdbba",
+          "fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+          "native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2"
+        },
+        "zones": [
+          {
+            "uuid": "e9e8ec49-c37f-5889-957e-61d7b0d20d88",
+            "name": "diagnostic-track",
+            "parent": "board",
+            "is_rule_area": true,
+            "placement_enabled": false,
+            "placement_source_type": "SHEETNAME",
+            "placement_source": "",
+            "disallow": {
+              "tracks": true,
+              "vias": false,
+              "pads": false,
+              "copperpour": false,
+              "footprints": false
+            },
+            "layers": [
+              "F.Cu",
+              "B.Cu"
+            ],
+            "outlines_nm": [
+              [
+                [
+                  24500000,
+                  19000000
+                ],
+                [
+                  25500000,
+                  19000000
+                ],
+                [
+                  25500000,
+                  21000000
+                ],
+                [
+                  24500000,
+                  21000000
+                ]
+              ]
+            ],
+            "outline_closed": [
+              true
+            ],
+            "holes": [
+              0
+            ],
+            "arc_count": 0
+          }
+        ],
+        "footprint_zone_count": 0,
+        "footprint_rulearea_count": 0,
+        "limits": {
+          "files": 2000,
+          "bytes": 104857600,
+          "zones": 16,
+          "outlines": 16,
+          "vertices": 10000,
+          "footprints": 100
+        },
+        "routing_accepted": false,
+        "adapter_transformation_performed": false
+      },
+      "native_context_audit": {
+        "passed": true,
+        "zones": 1,
+        "footprint_zones": 0
+      },
+      "export_keepout_audit": {
+        "passed": true,
+        "exact_bindings": [
+          {
+            "zone_uuid": "e9e8ec49-c37f-5889-957e-61d7b0d20d88",
+            "kind": "wire_keepout",
+            "layer": "F.Cu",
+            "dsn_node": [
+              "wire_keepout",
+              "\"\"",
+              [
+                "polygon",
+                "F.Cu",
+                "0",
+                "24500",
+                "-19000",
+                "25500",
+                "-19000",
+                "25500",
+                "-21000",
+                "24500",
+                "-21000",
+                "24500",
+                "-19000"
+              ]
+            ],
+            "all_flags_allowed": false
+          },
+          {
+            "zone_uuid": "e9e8ec49-c37f-5889-957e-61d7b0d20d88",
+            "kind": "wire_keepout",
+            "layer": "B.Cu",
+            "dsn_node": [
+              "wire_keepout",
+              "\"\"",
+              [
+                "polygon",
+                "B.Cu",
+                "0",
+                "24500",
+                "-19000",
+                "25500",
+                "-19000",
+                "25500",
+                "-21000",
+                "24500",
+                "-21000",
+                "24500",
+                "-19000"
+              ]
+            ],
+            "all_flags_allowed": false
+          }
+        ],
+        "all_allowed_generic_keepouts": 0,
+        "genuine_restriction_keepouts": 2,
+        "dsn_modified": false,
+        "routing_accepted": false
+      },
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": []
+      },
+      "native_binding": {
+        "candidate_sha256": "b26371c3aa7083dc2580a3a0ad079b509bdcec05820d875300b5079d643bdbba",
+        "native_report_sha256": "b8d1df1b37d6102419bcce50d6cb5202f302bbdc08f4fa5474f4709442489ae0",
+        "native_binding_sha256": "fe3fe0bebbf1ebdc1f629295e5686cc07b98ea7d218c2691177134dc48e7865b",
+        "input_hashes": {
+          "PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+          "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+          "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+          "candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+          "export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+          "final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+          "final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+          "fixture.kicad_pcb": "b26371c3aa7083dc2580a3a0ad079b509bdcec05820d875300b5079d643bdbba",
+          "fixture.kicad_prl": "f92cdf44f7d7e8caa87ef7674a3d165d8b41ad63269d30068ffb91ca2dfe9a9d",
+          "fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+          "native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2"
+        }
+      },
+      "omission_reproduced": true,
+      "native_rejected_known_invalid_constraint": false,
+      "targeted_native_findings": [],
+      "native_dsn_sha256": "c710cd2ea51ad3a36726edf51902c3dc46880e638499822fd9e3ae852c7f5f4d",
+      "area_context_sha256": "6c70fd28793b4e6c5f4f5710f2b8833bc05b5163d63d41be9b57fee3e99f7746",
+      "board_sha256": "b26371c3aa7083dc2580a3a0ad079b509bdcec05820d875300b5079d643bdbba",
+      "source_unchanged": true
+    },
+    {
+      "case": "via_prohibited",
+      "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/fixtures/via_prohibited/fixture.kicad_pcb",
+      "source_hashes": {
+        "PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+        "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+        "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+        "candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+        "export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+        "final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+        "final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+        "fixture.kicad_pcb": "b0fb15907a952f43abf5ccd377634ccd4c95d71e108f476e0b8d839fb90ae61f",
+        "fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+        "native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2"
+      },
+      "expected": {
+        "case": "via_prohibited",
+        "board_sha256": "b0fb15907a952f43abf5ccd377634ccd4c95d71e108f476e0b8d839fb90ae61f",
+        "zones": [
+          {
+            "uuid": "2af8d043-95d1-5426-972d-f9e848c737d4",
+            "name": "diagnostic-via",
+            "parent": "board",
+            "is_rule_area": true,
+            "placement_enabled": false,
+            "placement_source_type": "SHEETNAME",
+            "placement_source": "",
+            "disallow": {
+              "tracks": false,
+              "vias": true,
+              "pads": false,
+              "copperpour": false,
+              "footprints": false
+            },
+            "layers": [
+              "F.Cu",
+              "B.Cu"
+            ],
+            "outlines_nm": [
+              [
+                [
+                  40645000,
+                  12960000
+                ],
+                [
+                  42645000,
+                  12960000
+                ],
+                [
+                  42645000,
+                  14960000
+                ],
+                [
+                  40645000,
+                  14960000
+                ]
+              ]
+            ],
+            "outline_closed": [
+              true
+            ],
+            "holes": [
+              0
+            ],
+            "arc_count": 0
+          }
+        ],
+        "prohibited_target_uuids": [
+          "692ddee1-7ca5-403d-9d6e-ef63ba59a986"
+        ]
+      },
+      "removed_placement_nodes": [
+        {
+          "uuid": "2af8d043-95d1-5426-972d-f9e848c737d4",
+          "node": [
+            "placement",
+            [
+              "enabled",
+              "no"
+            ],
+            [
+              "sheetname",
+              "\"/Diagnostic/\""
+            ]
+          ]
+        }
+      ],
+      "production_scope": {
+        "supported": false,
+        "reason": "unsupported: rule-area restrictions not qualified by pinned native validator",
+        "native_diagnostic_only": true
+      },
+      "passed": true,
+      "routing_accepted": false,
+      "constraint_qualification_passed": false,
+      "area_observation": {
+        "context_schema": 1,
+        "native_version": "10.0.0",
+        "units": "integer nanometres",
+        "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/via_prohibited/candidate/fixture.kicad_pcb",
+        "board_sha256": "b0fb15907a952f43abf5ccd377634ccd4c95d71e108f476e0b8d839fb90ae61f",
+        "project_sha256": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+        "dsn_sha256": "9fe92422751b4e7da3c3ed26306c74629e13cfe98efa5e5aa371a802cd1e8d0c",
+        "board_saved": false,
+        "input_hashes_before": {
+          "PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+          "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+          "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+          "candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+          "export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+          "final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+          "final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+          "fixture.kicad_pcb": "b0fb15907a952f43abf5ccd377634ccd4c95d71e108f476e0b8d839fb90ae61f",
+          "fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+          "native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2"
+        },
+        "input_hashes_after": {
+          "PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+          "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+          "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+          "candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+          "export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+          "final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+          "final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+          "fixture.kicad_pcb": "b0fb15907a952f43abf5ccd377634ccd4c95d71e108f476e0b8d839fb90ae61f",
+          "fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+          "native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2"
+        },
+        "zones": [
+          {
+            "uuid": "2af8d043-95d1-5426-972d-f9e848c737d4",
+            "name": "diagnostic-via",
+            "parent": "board",
+            "is_rule_area": true,
+            "placement_enabled": false,
+            "placement_source_type": "SHEETNAME",
+            "placement_source": "",
+            "disallow": {
+              "tracks": false,
+              "vias": true,
+              "pads": false,
+              "copperpour": false,
+              "footprints": false
+            },
+            "layers": [
+              "F.Cu",
+              "B.Cu"
+            ],
+            "outlines_nm": [
+              [
+                [
+                  40645000,
+                  12960000
+                ],
+                [
+                  42645000,
+                  12960000
+                ],
+                [
+                  42645000,
+                  14960000
+                ],
+                [
+                  40645000,
+                  14960000
+                ]
+              ]
+            ],
+            "outline_closed": [
+              true
+            ],
+            "holes": [
+              0
+            ],
+            "arc_count": 0
+          }
+        ],
+        "footprint_zone_count": 0,
+        "footprint_rulearea_count": 0,
+        "limits": {
+          "files": 2000,
+          "bytes": 104857600,
+          "zones": 16,
+          "outlines": 16,
+          "vertices": 10000,
+          "footprints": 100
+        },
+        "routing_accepted": false,
+        "adapter_transformation_performed": false
+      },
+      "native_context_audit": {
+        "passed": true,
+        "zones": 1,
+        "footprint_zones": 0
+      },
+      "export_keepout_audit": {
+        "passed": true,
+        "exact_bindings": [
+          {
+            "zone_uuid": "2af8d043-95d1-5426-972d-f9e848c737d4",
+            "kind": "via_keepout",
+            "layer": "F.Cu",
+            "dsn_node": [
+              "via_keepout",
+              "\"\"",
+              [
+                "polygon",
+                "F.Cu",
+                "0",
+                "40645",
+                "-12960",
+                "42645",
+                "-12960",
+                "42645",
+                "-14960",
+                "40645",
+                "-14960",
+                "40645",
+                "-12960"
+              ]
+            ],
+            "all_flags_allowed": false
+          },
+          {
+            "zone_uuid": "2af8d043-95d1-5426-972d-f9e848c737d4",
+            "kind": "via_keepout",
+            "layer": "B.Cu",
+            "dsn_node": [
+              "via_keepout",
+              "\"\"",
+              [
+                "polygon",
+                "B.Cu",
+                "0",
+                "40645",
+                "-12960",
+                "42645",
+                "-12960",
+                "42645",
+                "-14960",
+                "40645",
+                "-14960",
+                "40645",
+                "-12960"
+              ]
+            ],
+            "all_flags_allowed": false
+          }
+        ],
+        "all_allowed_generic_keepouts": 0,
+        "genuine_restriction_keepouts": 2,
+        "dsn_modified": false,
+        "routing_accepted": false
+      },
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": []
+      },
+      "native_binding": {
+        "candidate_sha256": "b0fb15907a952f43abf5ccd377634ccd4c95d71e108f476e0b8d839fb90ae61f",
+        "native_report_sha256": "91bc1d56739083b9164559fd81475c2eff1d091ed1ad897dcd8bfde4840b9ffb",
+        "native_binding_sha256": "d9a67d90878de3f7dc2d0eeef8761903fcfada21ab2bf71eb9d9d4a113bda98a",
+        "input_hashes": {
+          "PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+          "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+          "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+          "candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+          "export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+          "final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+          "final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+          "fixture.kicad_pcb": "b0fb15907a952f43abf5ccd377634ccd4c95d71e108f476e0b8d839fb90ae61f",
+          "fixture.kicad_prl": "f92cdf44f7d7e8caa87ef7674a3d165d8b41ad63269d30068ffb91ca2dfe9a9d",
+          "fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+          "native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2"
+        }
+      },
+      "omission_reproduced": true,
+      "native_rejected_known_invalid_constraint": false,
+      "targeted_native_findings": [],
+      "native_dsn_sha256": "9fe92422751b4e7da3c3ed26306c74629e13cfe98efa5e5aa371a802cd1e8d0c",
+      "area_context_sha256": "1accee41ebc46a09d544b1c471e16827788f5a3320bef3fa49b9dd7718c6e6b2",
+      "board_sha256": "b0fb15907a952f43abf5ccd377634ccd4c95d71e108f476e0b8d839fb90ae61f",
+      "source_unchanged": true
+    },
+    {
+      "case": "mixed",
+      "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/fixtures/mixed/fixture.kicad_pcb",
+      "source_hashes": {
+        "PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+        "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+        "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+        "candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+        "export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+        "final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+        "final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+        "fixture.kicad_pcb": "76b387990e58d8c67e5cb329c10d0291b3b788c3d06bbab299fa780a8529c005",
+        "fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+        "native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2"
+      },
+      "expected": {
+        "case": "mixed",
+        "board_sha256": "76b387990e58d8c67e5cb329c10d0291b3b788c3d06bbab299fa780a8529c005",
+        "zones": [
+          {
+            "uuid": "3f4f757d-cf48-5c50-b759-32ab22feb20d",
+            "name": "diagnostic-allowed",
+            "parent": "board",
+            "is_rule_area": true,
+            "placement_enabled": true,
+            "placement_source_type": "SHEETNAME",
+            "placement_source": "/Diagnostic/",
+            "disallow": {
+              "tracks": false,
+              "vias": false,
+              "pads": false,
+              "copperpour": false,
+              "footprints": false
+            },
+            "layers": [
+              "F.Cu",
+              "B.Cu"
+            ],
+            "outlines_nm": [
+              [
+                [
+                  20000000,
+                  19000000
+                ],
+                [
+                  30000000,
+                  19000000
+                ],
+                [
+                  30000000,
+                  21000000
+                ],
+                [
+                  20000000,
+                  21000000
+                ]
+              ]
+            ],
+            "outline_closed": [
+              true
+            ],
+            "holes": [
+              0
+            ],
+            "arc_count": 0
+          },
+          {
+            "uuid": "e9e8ec49-c37f-5889-957e-61d7b0d20d88",
+            "name": "diagnostic-track",
+            "parent": "board",
+            "is_rule_area": true,
+            "placement_enabled": false,
+            "placement_source_type": "SHEETNAME",
+            "placement_source": "",
+            "disallow": {
+              "tracks": true,
+              "vias": false,
+              "pads": false,
+              "copperpour": false,
+              "footprints": false
+            },
+            "layers": [
+              "F.Cu",
+              "B.Cu"
+            ],
+            "outlines_nm": [
+              [
+                [
+                  24500000,
+                  19000000
+                ],
+                [
+                  25500000,
+                  19000000
+                ],
+                [
+                  25500000,
+                  21000000
+                ],
+                [
+                  24500000,
+                  21000000
+                ]
+              ]
+            ],
+            "outline_closed": [
+              true
+            ],
+            "holes": [
+              0
+            ],
+            "arc_count": 0
+          },
+          {
+            "uuid": "2af8d043-95d1-5426-972d-f9e848c737d4",
+            "name": "diagnostic-via",
+            "parent": "board",
+            "is_rule_area": true,
+            "placement_enabled": false,
+            "placement_source_type": "SHEETNAME",
+            "placement_source": "",
+            "disallow": {
+              "tracks": false,
+              "vias": true,
+              "pads": false,
+              "copperpour": false,
+              "footprints": false
+            },
+            "layers": [
+              "F.Cu",
+              "B.Cu"
+            ],
+            "outlines_nm": [
+              [
+                [
+                  40645000,
+                  12960000
+                ],
+                [
+                  42645000,
+                  12960000
+                ],
+                [
+                  42645000,
+                  14960000
+                ],
+                [
+                  40645000,
+                  14960000
+                ]
+              ]
+            ],
+            "outline_closed": [
+              true
+            ],
+            "holes": [
+              0
+            ],
+            "arc_count": 0
+          }
+        ],
+        "prohibited_target_uuids": [
+          "0661fc24-4411-4f35-ad36-9f97c4110962",
+          "692ddee1-7ca5-403d-9d6e-ef63ba59a986"
+        ]
+      },
+      "removed_placement_nodes": [
+        {
+          "uuid": "e9e8ec49-c37f-5889-957e-61d7b0d20d88",
+          "node": [
+            "placement",
+            [
+              "enabled",
+              "no"
+            ],
+            [
+              "sheetname",
+              "\"/Diagnostic/\""
+            ]
+          ]
+        },
+        {
+          "uuid": "2af8d043-95d1-5426-972d-f9e848c737d4",
+          "node": [
+            "placement",
+            [
+              "enabled",
+              "no"
+            ],
+            [
+              "sheetname",
+              "\"/Diagnostic/\""
+            ]
+          ]
+        }
+      ],
+      "production_scope": {
+        "supported": false,
+        "reason": "unsupported: rule-area restrictions not qualified by pinned native validator",
+        "native_diagnostic_only": true
+      },
+      "passed": true,
+      "routing_accepted": false,
+      "constraint_qualification_passed": false,
+      "area_observation": {
+        "context_schema": 1,
+        "native_version": "10.0.0",
+        "units": "integer nanometres",
+        "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/mixed/candidate/fixture.kicad_pcb",
+        "board_sha256": "76b387990e58d8c67e5cb329c10d0291b3b788c3d06bbab299fa780a8529c005",
+        "project_sha256": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+        "dsn_sha256": "26eb06881a2208ba2f34288890a0d4b0afc265e56253172a8bec53549be5bb9c",
+        "board_saved": false,
+        "input_hashes_before": {
+          "PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+          "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+          "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+          "candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+          "export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+          "final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+          "final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+          "fixture.kicad_pcb": "76b387990e58d8c67e5cb329c10d0291b3b788c3d06bbab299fa780a8529c005",
+          "fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+          "native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2"
+        },
+        "input_hashes_after": {
+          "PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+          "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+          "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+          "candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+          "export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+          "final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+          "final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+          "fixture.kicad_pcb": "76b387990e58d8c67e5cb329c10d0291b3b788c3d06bbab299fa780a8529c005",
+          "fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+          "native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2"
+        },
+        "zones": [
+          {
+            "uuid": "3f4f757d-cf48-5c50-b759-32ab22feb20d",
+            "name": "diagnostic-allowed",
+            "parent": "board",
+            "is_rule_area": true,
+            "placement_enabled": true,
+            "placement_source_type": "SHEETNAME",
+            "placement_source": "/Diagnostic/",
+            "disallow": {
+              "tracks": false,
+              "vias": false,
+              "pads": false,
+              "copperpour": false,
+              "footprints": false
+            },
+            "layers": [
+              "F.Cu",
+              "B.Cu"
+            ],
+            "outlines_nm": [
+              [
+                [
+                  20000000,
+                  19000000
+                ],
+                [
+                  30000000,
+                  19000000
+                ],
+                [
+                  30000000,
+                  21000000
+                ],
+                [
+                  20000000,
+                  21000000
+                ]
+              ]
+            ],
+            "outline_closed": [
+              true
+            ],
+            "holes": [
+              0
+            ],
+            "arc_count": 0
+          },
+          {
+            "uuid": "e9e8ec49-c37f-5889-957e-61d7b0d20d88",
+            "name": "diagnostic-track",
+            "parent": "board",
+            "is_rule_area": true,
+            "placement_enabled": false,
+            "placement_source_type": "SHEETNAME",
+            "placement_source": "",
+            "disallow": {
+              "tracks": true,
+              "vias": false,
+              "pads": false,
+              "copperpour": false,
+              "footprints": false
+            },
+            "layers": [
+              "F.Cu",
+              "B.Cu"
+            ],
+            "outlines_nm": [
+              [
+                [
+                  24500000,
+                  19000000
+                ],
+                [
+                  25500000,
+                  19000000
+                ],
+                [
+                  25500000,
+                  21000000
+                ],
+                [
+                  24500000,
+                  21000000
+                ]
+              ]
+            ],
+            "outline_closed": [
+              true
+            ],
+            "holes": [
+              0
+            ],
+            "arc_count": 0
+          },
+          {
+            "uuid": "2af8d043-95d1-5426-972d-f9e848c737d4",
+            "name": "diagnostic-via",
+            "parent": "board",
+            "is_rule_area": true,
+            "placement_enabled": false,
+            "placement_source_type": "SHEETNAME",
+            "placement_source": "",
+            "disallow": {
+              "tracks": false,
+              "vias": true,
+              "pads": false,
+              "copperpour": false,
+              "footprints": false
+            },
+            "layers": [
+              "F.Cu",
+              "B.Cu"
+            ],
+            "outlines_nm": [
+              [
+                [
+                  40645000,
+                  12960000
+                ],
+                [
+                  42645000,
+                  12960000
+                ],
+                [
+                  42645000,
+                  14960000
+                ],
+                [
+                  40645000,
+                  14960000
+                ]
+              ]
+            ],
+            "outline_closed": [
+              true
+            ],
+            "holes": [
+              0
+            ],
+            "arc_count": 0
+          }
+        ],
+        "footprint_zone_count": 0,
+        "footprint_rulearea_count": 0,
+        "limits": {
+          "files": 2000,
+          "bytes": 104857600,
+          "zones": 16,
+          "outlines": 16,
+          "vertices": 10000,
+          "footprints": 100
+        },
+        "routing_accepted": false,
+        "adapter_transformation_performed": false
+      },
+      "native_context_audit": {
+        "passed": true,
+        "zones": 3,
+        "footprint_zones": 0
+      },
+      "export_keepout_audit": {
+        "passed": true,
+        "exact_bindings": [
+          {
+            "zone_uuid": "3f4f757d-cf48-5c50-b759-32ab22feb20d",
+            "kind": "keepout",
+            "layer": "F.Cu",
+            "dsn_node": [
+              "keepout",
+              "\"\"",
+              [
+                "polygon",
+                "F.Cu",
+                "0",
+                "20000",
+                "-19000",
+                "30000",
+                "-19000",
+                "30000",
+                "-21000",
+                "20000",
+                "-21000",
+                "20000",
+                "-19000"
+              ]
+            ],
+            "all_flags_allowed": true
+          },
+          {
+            "zone_uuid": "3f4f757d-cf48-5c50-b759-32ab22feb20d",
+            "kind": "keepout",
+            "layer": "B.Cu",
+            "dsn_node": [
+              "keepout",
+              "\"\"",
+              [
+                "polygon",
+                "B.Cu",
+                "0",
+                "20000",
+                "-19000",
+                "30000",
+                "-19000",
+                "30000",
+                "-21000",
+                "20000",
+                "-21000",
+                "20000",
+                "-19000"
+              ]
+            ],
+            "all_flags_allowed": true
+          },
+          {
+            "zone_uuid": "e9e8ec49-c37f-5889-957e-61d7b0d20d88",
+            "kind": "wire_keepout",
+            "layer": "F.Cu",
+            "dsn_node": [
+              "wire_keepout",
+              "\"\"",
+              [
+                "polygon",
+                "F.Cu",
+                "0",
+                "24500",
+                "-19000",
+                "25500",
+                "-19000",
+                "25500",
+                "-21000",
+                "24500",
+                "-21000",
+                "24500",
+                "-19000"
+              ]
+            ],
+            "all_flags_allowed": false
+          },
+          {
+            "zone_uuid": "e9e8ec49-c37f-5889-957e-61d7b0d20d88",
+            "kind": "wire_keepout",
+            "layer": "B.Cu",
+            "dsn_node": [
+              "wire_keepout",
+              "\"\"",
+              [
+                "polygon",
+                "B.Cu",
+                "0",
+                "24500",
+                "-19000",
+                "25500",
+                "-19000",
+                "25500",
+                "-21000",
+                "24500",
+                "-21000",
+                "24500",
+                "-19000"
+              ]
+            ],
+            "all_flags_allowed": false
+          },
+          {
+            "zone_uuid": "2af8d043-95d1-5426-972d-f9e848c737d4",
+            "kind": "via_keepout",
+            "layer": "F.Cu",
+            "dsn_node": [
+              "via_keepout",
+              "\"\"",
+              [
+                "polygon",
+                "F.Cu",
+                "0",
+                "40645",
+                "-12960",
+                "42645",
+                "-12960",
+                "42645",
+                "-14960",
+                "40645",
+                "-14960",
+                "40645",
+                "-12960"
+              ]
+            ],
+            "all_flags_allowed": false
+          },
+          {
+            "zone_uuid": "2af8d043-95d1-5426-972d-f9e848c737d4",
+            "kind": "via_keepout",
+            "layer": "B.Cu",
+            "dsn_node": [
+              "via_keepout",
+              "\"\"",
+              [
+                "polygon",
+                "B.Cu",
+                "0",
+                "40645",
+                "-12960",
+                "42645",
+                "-12960",
+                "42645",
+                "-14960",
+                "40645",
+                "-14960",
+                "40645",
+                "-12960"
+              ]
+            ],
+            "all_flags_allowed": false
+          }
+        ],
+        "all_allowed_generic_keepouts": 2,
+        "genuine_restriction_keepouts": 4,
+        "dsn_modified": false,
+        "routing_accepted": false
+      },
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": []
+      },
+      "native_binding": {
+        "candidate_sha256": "76b387990e58d8c67e5cb329c10d0291b3b788c3d06bbab299fa780a8529c005",
+        "native_report_sha256": "aeadb2f0753d0ae7e7718292138a23c562fcd2b57c8809c522c4afebc0591959",
+        "native_binding_sha256": "5e2b2da9164cf8767166223da05c766a5452e0c6c7b3911cfdeabcdb11971536",
+        "input_hashes": {
+          "PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+          "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+          "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+          "candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+          "export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+          "final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+          "final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+          "fixture.kicad_pcb": "76b387990e58d8c67e5cb329c10d0291b3b788c3d06bbab299fa780a8529c005",
+          "fixture.kicad_prl": "f92cdf44f7d7e8caa87ef7674a3d165d8b41ad63269d30068ffb91ca2dfe9a9d",
+          "fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+          "native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2"
+        }
+      },
+      "omission_reproduced": true,
+      "native_rejected_known_invalid_constraint": false,
+      "targeted_native_findings": [],
+      "native_dsn_sha256": "26eb06881a2208ba2f34288890a0d4b0afc265e56253172a8bec53549be5bb9c",
+      "area_context_sha256": "be986c54d32037fa7da3e4770e4c5de9ac73b2b94e80bd4d3c97c4a081eacab6",
+      "board_sha256": "76b387990e58d8c67e5cb329c10d0291b3b788c3d06bbab299fa780a8529c005",
+      "source_unchanged": true
+    }
+  ],
+  "steps": [
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.6096582499958458,
+      "cpu_seconds": 0.391671,
+      "max_rss_bytes": 89391104,
+      "supervisor_cpu_seconds": 0.00451899999999994,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 61358080,
+      "sampled_peak_workdir_bytes": 64409,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/code/native_areas.py",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/track_prohibited/candidate/fixture.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/track_prohibited/areas.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/track_prohibited/native.dsn"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/track_prohibited/area-export.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/track_prohibited",
+      "signal_cancellation_enabled": true,
+      "pid": 59761,
+      "name": "area-export"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.7803153749991907,
+      "cpu_seconds": 0.42214399999999996,
+      "max_rss_bytes": 91684864,
+      "supervisor_cpu_seconds": 0.006697000000000064,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 89915392,
+      "sampled_peak_workdir_bytes": 191432,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/track_prohibited/diagnostic-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/track_prohibited/diagnostic-drc-input/fixture.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/track_prohibited/diagnostic-drc.log",
+      "log_bytes": 180,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/track_prohibited",
+      "signal_cancellation_enabled": true,
+      "pid": 59762,
+      "name": "diagnostic-drc",
+      "validated_input_sha256": "b26371c3aa7083dc2580a3a0ad079b509bdcec05820d875300b5079d643bdbba",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/track_prohibited/candidate/fixture.kicad_pcb"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.33520791699993424,
+      "cpu_seconds": 0.33015700000000003,
+      "max_rss_bytes": 90030080,
+      "supervisor_cpu_seconds": 0.003311000000000064,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 35192832,
+      "sampled_peak_workdir_bytes": 64419,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/code/native_areas.py",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/via_prohibited/candidate/fixture.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/via_prohibited/areas.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/via_prohibited/native.dsn"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/via_prohibited/area-export.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/via_prohibited",
+      "signal_cancellation_enabled": true,
+      "pid": 59764,
+      "name": "area-export"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.6653005840053083,
+      "cpu_seconds": 0.398723,
+      "max_rss_bytes": 91848704,
+      "supervisor_cpu_seconds": 0.00777899999999998,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 90079232,
+      "sampled_peak_workdir_bytes": 191459,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/via_prohibited/diagnostic-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/via_prohibited/diagnostic-drc-input/fixture.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/via_prohibited/diagnostic-drc.log",
+      "log_bytes": 178,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/via_prohibited",
+      "signal_cancellation_enabled": true,
+      "pid": 59776,
+      "name": "diagnostic-drc",
+      "validated_input_sha256": "b0fb15907a952f43abf5ccd377634ccd4c95d71e108f476e0b8d839fb90ae61f",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/via_prohibited/candidate/fixture.kicad_pcb"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.33493499999894993,
+      "cpu_seconds": 0.330238,
+      "max_rss_bytes": 90161152,
+      "supervisor_cpu_seconds": 0.0030850000000000044,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 34996224,
+      "sampled_peak_workdir_bytes": 67620,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/code/native_areas.py",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/mixed/candidate/fixture.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/mixed/areas.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/mixed/native.dsn"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/mixed/area-export.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/mixed",
+      "signal_cancellation_enabled": true,
+      "pid": 59779,
+      "name": "area-export"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.6647761670028558,
+      "cpu_seconds": 0.396086,
+      "max_rss_bytes": 91652096,
+      "supervisor_cpu_seconds": 0.006860000000000088,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 89980928,
+      "sampled_peak_workdir_bytes": 195514,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/mixed/diagnostic-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/mixed/diagnostic-drc-input/fixture.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/mixed/diagnostic-drc.log",
+      "log_bytes": 169,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/mixed",
+      "signal_cancellation_enabled": true,
+      "pid": 59780,
+      "name": "diagnostic-drc",
+      "validated_input_sha256": "76b387990e58d8c67e5cb329c10d0291b3b788c3d06bbab299fa780a8529c005",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/mixed/candidate/fixture.kicad_pcb"
+    }
+  ],
+  "fixture_scope": "Copies of actual001 negative fixtures; deliberately invalid geometry retained; no corpus promotion.",
+  "accounting_point": "Stored totals precede final publication/freshness; actual wall and parent+waited-child CPU ceilings include those checks.",
+  "freeze": {
+    "actual001": {
+      "allowed_placement/area-export-process.json": "b1247767cf5b0246dde73715fbe3b2ea0eba7da2f38286d35f96f911ded12c8a",
+      "allowed_placement/area-export.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "allowed_placement/areas.json": "bd9fb1e7b5e822bf34b867f587e2c4082760fe9567c12887d6b203924f1c8f59",
+      "allowed_placement/candidate/PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+      "allowed_placement/candidate/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "allowed_placement/candidate/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "allowed_placement/candidate/candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+      "allowed_placement/candidate/export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+      "allowed_placement/candidate/final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+      "allowed_placement/candidate/final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+      "allowed_placement/candidate/fixture.kicad_pcb": "1e2216f05fd7540a2a4edf894a18addc389c056854bc6bb5fa2169f90753f7dd",
+      "allowed_placement/candidate/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "allowed_placement/candidate/native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2",
+      "allowed_placement/case.json": "79732391e5f38ef76ef3761598397df32fdb682d177064c99484ad26034ea122",
+      "allowed_placement/diagnostic-drc-binding.json": "52588b781b8ebd82013067e250a503a7695ddc0d192e4f1622299d44504c52d8",
+      "allowed_placement/diagnostic-drc-input/PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+      "allowed_placement/diagnostic-drc-input/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "allowed_placement/diagnostic-drc-input/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "allowed_placement/diagnostic-drc-input/candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+      "allowed_placement/diagnostic-drc-input/export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+      "allowed_placement/diagnostic-drc-input/final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+      "allowed_placement/diagnostic-drc-input/final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+      "allowed_placement/diagnostic-drc-input/fixture.kicad_pcb": "1e2216f05fd7540a2a4edf894a18addc389c056854bc6bb5fa2169f90753f7dd",
+      "allowed_placement/diagnostic-drc-input/fixture.kicad_prl": "f92cdf44f7d7e8caa87ef7674a3d165d8b41ad63269d30068ffb91ca2dfe9a9d",
+      "allowed_placement/diagnostic-drc-input/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "allowed_placement/diagnostic-drc-input/native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2",
+      "allowed_placement/diagnostic-drc-process.json": "224e1843c6e1f4495af2d0fcbf177f32784a75bf0b1af6cd2630548c88087cdc",
+      "allowed_placement/diagnostic-drc.json": "77bdc5a5f279a2c1ed1bbdc0a353dfd7f4fead7102749786de2dbe6c084bf406",
+      "allowed_placement/diagnostic-drc.log": "22ee2c20a54d67cce5fdbe31b4a687e679478cdfdf3fae750711d38e8bae58ae",
+      "allowed_placement/kicad-config/10.0/3d_viewer.json": "196678c94fed37c15510bb4b54d6e4eec989a0c3f9b4d30ff1be0d1425992bf3",
+      "allowed_placement/kicad-config/10.0/cvpcb.json": "b93174a3b1470f1ce0e43c90268ce83976432c5210d906a3846ee7976ea9d272",
+      "allowed_placement/kicad-config/10.0/eeschema.json": "ce1d47af13c60254b736992e8a387cf93b06c83f302e3aaa4c6836acb05d3502",
+      "allowed_placement/kicad-config/10.0/fpedit.json": "e88988497732f32bf92cccd726d7d28ea7dfe1922d693448a38cb4c063f9d368",
+      "allowed_placement/kicad-config/10.0/kicad.json": "026a2e3d05986b554bc6f5aa8590c69e847090527e0e718287e1005dbd905015",
+      "allowed_placement/kicad-config/10.0/kicad_common.json": "9adf82e60a20c0eb23bde65b54c3706935e9b979f24fe68ed1ba3d48cc7c7e44",
+      "allowed_placement/kicad-config/10.0/pcbnew.json": "f0822c67ee74c2e6189603de283b6d288e77a6a201c65d2f6b60afd119c95845",
+      "allowed_placement/kicad-config/10.0/symbol_editor.json": "a3212dc53c3cbfd170a2bb6ae42db289bc6f4c3cf6df9abc4a5c856d22d2f86a",
+      "allowed_placement/native.dsn": "a08640165953b79ab37e74178ef04282112addd0ff0f76f0249953974524910d",
+      "code/autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+      "code/autorouter/__main__.py": "2e61b5f10de1ee775cf0302246ca047e566dcefca6f7e93860e1c16ae119eec9",
+      "code/autorouter/adapter.py": "509feca807ccee112b0b6a071fd0944c88177ba83f5b77422ec8be5cdf63d25b",
+      "code/autorouter/board_floor.py": "cdd3ebc72f722925ea98b6a542409c62b755ef5e465a533c8fc134ef05df2908",
+      "code/autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+      "code/autorouter/floor_context.py": "d346e3b552328d370b4c18c20bd55074702ec53198aef0d47f38b05a0aff7f4a",
+      "code/autorouter/floor_route.py": "796653ec3f6e851b09079032624ed7deb80e3a278ff52ca07b75baf4e77200bf",
+      "code/autorouter/handoff.py": "22db5dc88be754d97fc5325495073a9931ff1aab79821c177654838b1ea09615",
+      "code/autorouter/native.py": "7257496b007fbc449adb3cc8b999712aed8ea0aa881a116ba337d18e2ab87c02",
+      "code/autorouter/netclass.py": "d0d26610b550b0655a1eafc3022196e31f59f719b5b3f0a727c464f9c90eda61",
+      "code/autorouter/pipeline.py": "ac8121e1843006457eea5bbe1498ec6905bb8ecfa910c3e62c5b4f9f1ece1ff7",
+      "code/autorouter/recovery.py": "95cebb44d8eac6e9903bd33e65b5cef887d8b1531f67375b940442f1237c2f9a",
+      "code/autorouter/runner.py": "0e81ab1badf20cd84adc2fed586641dd97a489a5a6af03febe6fb597bb1d2718",
+      "code/autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+      "code/autorouter/strategy.py": "a85e9097f3f20508a0d72f50078dad531a3cccc2f41b85da3a74c0a826b1d558",
+      "code/autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+      "code/autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+      "code/autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455",
+      "code/driver.py": "4596891c758613610193f65fe5b9d72547dd2bc8594d4152f6f3222f8f7c9089",
+      "code/fixture_recipe.py": "cef9abff12acf1861d367ef502410da482dd3928fbb72dae5b03f7e1e94467dd",
+      "code/native_areas.py": "1c20e255b69eea8bb9ddd0ae864bbed5ac7797719866de4fc51e3bc326913771",
+      "code/support.py": "a18bd9236fbebb13ab7937979694f512d5655c06cd327409b10780645e7a16a1",
+      "code/test_driver.py": "918933e8567a36148bc334b2e665891e592cda63c9c322298db2062cb762002c",
+      "fixtures/allowed_placement/PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+      "fixtures/allowed_placement/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "fixtures/allowed_placement/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "fixtures/allowed_placement/candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+      "fixtures/allowed_placement/export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+      "fixtures/allowed_placement/final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+      "fixtures/allowed_placement/final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+      "fixtures/allowed_placement/fixture.kicad_pcb": "1e2216f05fd7540a2a4edf894a18addc389c056854bc6bb5fa2169f90753f7dd",
+      "fixtures/allowed_placement/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "fixtures/allowed_placement/native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2",
+      "fixtures/mixed/PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+      "fixtures/mixed/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "fixtures/mixed/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "fixtures/mixed/candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+      "fixtures/mixed/export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+      "fixtures/mixed/final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+      "fixtures/mixed/final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+      "fixtures/mixed/fixture.kicad_pcb": "ca5135487d1f3dc6f7c976f3e17de84b794cc1e85df830367c8ab929f82f54f7",
+      "fixtures/mixed/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "fixtures/mixed/native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2",
+      "fixtures/track_prohibited/PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+      "fixtures/track_prohibited/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "fixtures/track_prohibited/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "fixtures/track_prohibited/candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+      "fixtures/track_prohibited/export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+      "fixtures/track_prohibited/final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+      "fixtures/track_prohibited/final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+      "fixtures/track_prohibited/fixture.kicad_pcb": "28195bb0293c89172be5a343fd2e9b64b5e27c9777345d88cb0d9b43c83cdebe",
+      "fixtures/track_prohibited/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "fixtures/track_prohibited/native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2",
+      "fixtures/via_prohibited/PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+      "fixtures/via_prohibited/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "fixtures/via_prohibited/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "fixtures/via_prohibited/candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+      "fixtures/via_prohibited/export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+      "fixtures/via_prohibited/final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+      "fixtures/via_prohibited/final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+      "fixtures/via_prohibited/fixture.kicad_pcb": "bafcae0af7e92f95ad88af6b4141e699b3472c19f7c21593b534b57c20f5a882",
+      "fixtures/via_prohibited/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "fixtures/via_prohibited/native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2",
+      "mixed/area-export-process.json": "bb3782758e1b2ab75d1427b2db82403aeb9c94fd57c9463ceb8dc4b6d7779c2c",
+      "mixed/area-export.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "mixed/areas.json": "f11bc975b104fdb5ef7ea8ce187649b50a32863cd06229f30e47e34f62f62c75",
+      "mixed/candidate/PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+      "mixed/candidate/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "mixed/candidate/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "mixed/candidate/candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+      "mixed/candidate/export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+      "mixed/candidate/final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+      "mixed/candidate/final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+      "mixed/candidate/fixture.kicad_pcb": "ca5135487d1f3dc6f7c976f3e17de84b794cc1e85df830367c8ab929f82f54f7",
+      "mixed/candidate/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "mixed/candidate/native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2",
+      "mixed/case.json": "85f2a22adedb0a9c3642ca121598c801b272a348e4d33910291e5fe58bd09fe5",
+      "mixed/diagnostic-drc-binding.json": "4866a44c3b9e3697c570c86df8fdfdbbad447cc266b6fc53e9b1befc6befc751",
+      "mixed/diagnostic-drc-input/PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+      "mixed/diagnostic-drc-input/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "mixed/diagnostic-drc-input/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "mixed/diagnostic-drc-input/candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+      "mixed/diagnostic-drc-input/export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+      "mixed/diagnostic-drc-input/final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+      "mixed/diagnostic-drc-input/final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+      "mixed/diagnostic-drc-input/fixture.kicad_pcb": "ca5135487d1f3dc6f7c976f3e17de84b794cc1e85df830367c8ab929f82f54f7",
+      "mixed/diagnostic-drc-input/fixture.kicad_prl": "f92cdf44f7d7e8caa87ef7674a3d165d8b41ad63269d30068ffb91ca2dfe9a9d",
+      "mixed/diagnostic-drc-input/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "mixed/diagnostic-drc-input/native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2",
+      "mixed/diagnostic-drc-process.json": "b9446a3580093e2f937032e09273d9925ace116c9ab870e25b8c8a8b537c9039",
+      "mixed/diagnostic-drc.json": "c3bda7636f67be098df31db2dca5aeb959d358cc39dd34b0f96b93f4b1a58d53",
+      "mixed/diagnostic-drc.log": "55caffcb4ee0f8f48f4bbc24ae731cb75604d9863b16b88e0819318e5a37a60b",
+      "mixed/kicad-config/10.0/3d_viewer.json": "196678c94fed37c15510bb4b54d6e4eec989a0c3f9b4d30ff1be0d1425992bf3",
+      "mixed/kicad-config/10.0/cvpcb.json": "b93174a3b1470f1ce0e43c90268ce83976432c5210d906a3846ee7976ea9d272",
+      "mixed/kicad-config/10.0/eeschema.json": "ce1d47af13c60254b736992e8a387cf93b06c83f302e3aaa4c6836acb05d3502",
+      "mixed/kicad-config/10.0/fpedit.json": "e88988497732f32bf92cccd726d7d28ea7dfe1922d693448a38cb4c063f9d368",
+      "mixed/kicad-config/10.0/kicad.json": "026a2e3d05986b554bc6f5aa8590c69e847090527e0e718287e1005dbd905015",
+      "mixed/kicad-config/10.0/kicad_common.json": "09d583bec8bd49c6040ccd9f95b752100a4ad7bde2b846722ecb7c6354606cf8",
+      "mixed/kicad-config/10.0/pcbnew.json": "f0822c67ee74c2e6189603de283b6d288e77a6a201c65d2f6b60afd119c95845",
+      "mixed/kicad-config/10.0/symbol_editor.json": "a3212dc53c3cbfd170a2bb6ae42db289bc6f4c3cf6df9abc4a5c856d22d2f86a",
+      "mixed/native.dsn": "79c27c36f6395d0cdce650b4b4276ea4a09a03a67de7e03d626ec1e6fc16cede",
+      "summary.json": "c61d54b5508f0508528e1236ead7bf97ad21ef336e32448994c6239db56b058f",
+      "track_prohibited/area-export-process.json": "ac80648e8c6715a661d1a667d9c8a9b95a872783e5a924b71d034456bcd48e51",
+      "track_prohibited/area-export.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "track_prohibited/areas.json": "82f6cdbcfaa804130a685642c9724519cd5533d19cc0c27cc3cca258928fd7ec",
+      "track_prohibited/candidate/PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+      "track_prohibited/candidate/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "track_prohibited/candidate/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "track_prohibited/candidate/candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+      "track_prohibited/candidate/export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+      "track_prohibited/candidate/final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+      "track_prohibited/candidate/final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+      "track_prohibited/candidate/fixture.kicad_pcb": "28195bb0293c89172be5a343fd2e9b64b5e27c9777345d88cb0d9b43c83cdebe",
+      "track_prohibited/candidate/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "track_prohibited/candidate/native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2",
+      "track_prohibited/case.json": "915c9ec611253551561127eec3df75fdf8a0e4bb3c981120fffd39054ad32fa1",
+      "track_prohibited/diagnostic-drc-binding.json": "8c35d933752cd9f9b0b629d4908bac8308ef05664509e6a4b771132f3175269f",
+      "track_prohibited/diagnostic-drc-input/PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+      "track_prohibited/diagnostic-drc-input/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "track_prohibited/diagnostic-drc-input/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "track_prohibited/diagnostic-drc-input/candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+      "track_prohibited/diagnostic-drc-input/export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+      "track_prohibited/diagnostic-drc-input/final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+      "track_prohibited/diagnostic-drc-input/final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+      "track_prohibited/diagnostic-drc-input/fixture.kicad_pcb": "28195bb0293c89172be5a343fd2e9b64b5e27c9777345d88cb0d9b43c83cdebe",
+      "track_prohibited/diagnostic-drc-input/fixture.kicad_prl": "f92cdf44f7d7e8caa87ef7674a3d165d8b41ad63269d30068ffb91ca2dfe9a9d",
+      "track_prohibited/diagnostic-drc-input/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "track_prohibited/diagnostic-drc-input/native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2",
+      "track_prohibited/diagnostic-drc-process.json": "2eb6139546d2dfa36cf487cb09299dea37cef4f01d2541648b2b16184cfd9314",
+      "track_prohibited/diagnostic-drc.json": "4357439864cee2cebeb9e40f263c616141dadc8aa3a0d33535ad77ec7169d618",
+      "track_prohibited/diagnostic-drc.log": "32f6455eb974aa40a5a25b094007fd88e941d671df6b46341d652eb2de9751d8",
+      "track_prohibited/kicad-config/10.0/3d_viewer.json": "196678c94fed37c15510bb4b54d6e4eec989a0c3f9b4d30ff1be0d1425992bf3",
+      "track_prohibited/kicad-config/10.0/cvpcb.json": "b93174a3b1470f1ce0e43c90268ce83976432c5210d906a3846ee7976ea9d272",
+      "track_prohibited/kicad-config/10.0/eeschema.json": "ce1d47af13c60254b736992e8a387cf93b06c83f302e3aaa4c6836acb05d3502",
+      "track_prohibited/kicad-config/10.0/fpedit.json": "e88988497732f32bf92cccd726d7d28ea7dfe1922d693448a38cb4c063f9d368",
+      "track_prohibited/kicad-config/10.0/kicad.json": "026a2e3d05986b554bc6f5aa8590c69e847090527e0e718287e1005dbd905015",
+      "track_prohibited/kicad-config/10.0/kicad_common.json": "ecd353b698a78a09301364d28b4fc7af0636937a8a65f3a7634a986b72704c04",
+      "track_prohibited/kicad-config/10.0/pcbnew.json": "f0822c67ee74c2e6189603de283b6d288e77a6a201c65d2f6b60afd119c95845",
+      "track_prohibited/kicad-config/10.0/symbol_editor.json": "a3212dc53c3cbfd170a2bb6ae42db289bc6f4c3cf6df9abc4a5c856d22d2f86a",
+      "track_prohibited/native.dsn": "194039b46eb5bc7adb4175cc2a49d4ce0f5407b83b05039c430d0f83351adc29",
+      "via_prohibited/area-export-process.json": "7d6c48e317931fbcb53ec53b2354ef8f546c43ffc6b9c3cd4e478bee74b83fc4",
+      "via_prohibited/area-export.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "via_prohibited/areas.json": "8fc37620f7626a055baf9db1d8dc5418a4798c3115190c593e14dd178e25a692",
+      "via_prohibited/candidate/PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+      "via_prohibited/candidate/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "via_prohibited/candidate/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "via_prohibited/candidate/candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+      "via_prohibited/candidate/export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+      "via_prohibited/candidate/final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+      "via_prohibited/candidate/final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+      "via_prohibited/candidate/fixture.kicad_pcb": "bafcae0af7e92f95ad88af6b4141e699b3472c19f7c21593b534b57c20f5a882",
+      "via_prohibited/candidate/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "via_prohibited/candidate/native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2",
+      "via_prohibited/case.json": "f9caee6c0e41563368706f8f1b25471a42579e54f2aaa3797e443608619f5e40",
+      "via_prohibited/diagnostic-drc-binding.json": "09f0c66d921a381fc93fb13c6a56ab8158917a7c38865a26cafb463116f0d1ee",
+      "via_prohibited/diagnostic-drc-input/PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+      "via_prohibited/diagnostic-drc-input/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "via_prohibited/diagnostic-drc-input/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "via_prohibited/diagnostic-drc-input/candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+      "via_prohibited/diagnostic-drc-input/export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+      "via_prohibited/diagnostic-drc-input/final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+      "via_prohibited/diagnostic-drc-input/final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+      "via_prohibited/diagnostic-drc-input/fixture.kicad_pcb": "bafcae0af7e92f95ad88af6b4141e699b3472c19f7c21593b534b57c20f5a882",
+      "via_prohibited/diagnostic-drc-input/fixture.kicad_prl": "f92cdf44f7d7e8caa87ef7674a3d165d8b41ad63269d30068ffb91ca2dfe9a9d",
+      "via_prohibited/diagnostic-drc-input/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "via_prohibited/diagnostic-drc-input/native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2",
+      "via_prohibited/diagnostic-drc-process.json": "e0b86ddfd7ef666a3965186a620c25b98437e4a2207251333ae5b41419a4a57d",
+      "via_prohibited/diagnostic-drc.json": "5920b5aa2ff288bde1d301b91ea40fc5dc664138be3f25ff22a9ba40fdc33f1a",
+      "via_prohibited/diagnostic-drc.log": "8bd17f54555768fa1db6b0ef66758c5e2976295a1afc25dcf6820dc37ee182d0",
+      "via_prohibited/kicad-config/10.0/3d_viewer.json": "196678c94fed37c15510bb4b54d6e4eec989a0c3f9b4d30ff1be0d1425992bf3",
+      "via_prohibited/kicad-config/10.0/cvpcb.json": "b93174a3b1470f1ce0e43c90268ce83976432c5210d906a3846ee7976ea9d272",
+      "via_prohibited/kicad-config/10.0/eeschema.json": "ce1d47af13c60254b736992e8a387cf93b06c83f302e3aaa4c6836acb05d3502",
+      "via_prohibited/kicad-config/10.0/fpedit.json": "e88988497732f32bf92cccd726d7d28ea7dfe1922d693448a38cb4c063f9d368",
+      "via_prohibited/kicad-config/10.0/kicad.json": "026a2e3d05986b554bc6f5aa8590c69e847090527e0e718287e1005dbd905015",
+      "via_prohibited/kicad-config/10.0/kicad_common.json": "fc468d099d0978d551edaa4e49095bde8b7fce902b8ed983f3ca4984f17b6d21",
+      "via_prohibited/kicad-config/10.0/pcbnew.json": "f0822c67ee74c2e6189603de283b6d288e77a6a201c65d2f6b60afd119c95845",
+      "via_prohibited/kicad-config/10.0/symbol_editor.json": "a3212dc53c3cbfd170a2bb6ae42db289bc6f4c3cf6df9abc4a5c856d22d2f86a",
+      "via_prohibited/native.dsn": "c465f41ad5d075c3d9691900cae0c0986b74575a00f60d1e21929ba509791022"
+    },
+    "tools": {
+      "implementation_sha256": {
+        "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+        "autorouter/__main__.py": "2e61b5f10de1ee775cf0302246ca047e566dcefca6f7e93860e1c16ae119eec9",
+        "autorouter/adapter.py": "509feca807ccee112b0b6a071fd0944c88177ba83f5b77422ec8be5cdf63d25b",
+        "autorouter/board_floor.py": "cdd3ebc72f722925ea98b6a542409c62b755ef5e465a533c8fc134ef05df2908",
+        "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+        "autorouter/floor_context.py": "d346e3b552328d370b4c18c20bd55074702ec53198aef0d47f38b05a0aff7f4a",
+        "autorouter/floor_route.py": "796653ec3f6e851b09079032624ed7deb80e3a278ff52ca07b75baf4e77200bf",
+        "autorouter/handoff.py": "22db5dc88be754d97fc5325495073a9931ff1aab79821c177654838b1ea09615",
+        "autorouter/native.py": "7257496b007fbc449adb3cc8b999712aed8ea0aa881a116ba337d18e2ab87c02",
+        "autorouter/netclass.py": "d0d26610b550b0655a1eafc3022196e31f59f719b5b3f0a727c464f9c90eda61",
+        "autorouter/pipeline.py": "101ad65bff197afe17758d30e850a944333875f256f159a4346fdf36f997358f",
+        "autorouter/recovery.py": "95cebb44d8eac6e9903bd33e65b5cef887d8b1531f67375b940442f1237c2f9a",
+        "autorouter/runner.py": "0e81ab1badf20cd84adc2fed586641dd97a489a5a6af03febe6fb597bb1d2718",
+        "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+        "autorouter/strategy.py": "a85e9097f3f20508a0d72f50078dad531a3cccc2f41b85da3a74c0a826b1d558",
+        "autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+        "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+        "autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455"
+      },
+      "git_head": "9c44e0a828772455a3c09463c9cb4cf450f1d1e3",
+      "kicad": "10.0.0",
+      "freerouting": "2.5.0",
+      "files": {
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+        "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219"
+      },
+      "network": "engine sandbox-exec deny network*"
+    },
+    "helpers": {
+      "driver.py": "c8fd3aba64473bc3717d89c659727aa4a13c681a96646e5a478aba41121f4c36",
+      "fixture_recipe.py": "f9e3767c975baeec3e11f33ce7b686e4c744900e7648728582b3858236cd1b6c",
+      "native_areas.py": "1c20e255b69eea8bb9ddd0ae864bbed5ac7797719866de4fc51e3bc326913771",
+      "support.py": "a18bd9236fbebb13ab7937979694f512d5655c06cd327409b10780645e7a16a1",
+      "test_driver.py": "ec7697454c9c63a886fa60fc71bd24cc9e0bfef3a5b3ce7835de7539333286bc"
+    },
+    "code": {
+      "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+      "autorouter/__main__.py": "2e61b5f10de1ee775cf0302246ca047e566dcefca6f7e93860e1c16ae119eec9",
+      "autorouter/adapter.py": "509feca807ccee112b0b6a071fd0944c88177ba83f5b77422ec8be5cdf63d25b",
+      "autorouter/board_floor.py": "cdd3ebc72f722925ea98b6a542409c62b755ef5e465a533c8fc134ef05df2908",
+      "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+      "autorouter/floor_context.py": "d346e3b552328d370b4c18c20bd55074702ec53198aef0d47f38b05a0aff7f4a",
+      "autorouter/floor_route.py": "796653ec3f6e851b09079032624ed7deb80e3a278ff52ca07b75baf4e77200bf",
+      "autorouter/handoff.py": "22db5dc88be754d97fc5325495073a9931ff1aab79821c177654838b1ea09615",
+      "autorouter/native.py": "7257496b007fbc449adb3cc8b999712aed8ea0aa881a116ba337d18e2ab87c02",
+      "autorouter/netclass.py": "d0d26610b550b0655a1eafc3022196e31f59f719b5b3f0a727c464f9c90eda61",
+      "autorouter/pipeline.py": "101ad65bff197afe17758d30e850a944333875f256f159a4346fdf36f997358f",
+      "autorouter/recovery.py": "95cebb44d8eac6e9903bd33e65b5cef887d8b1531f67375b940442f1237c2f9a",
+      "autorouter/runner.py": "0e81ab1badf20cd84adc2fed586641dd97a489a5a6af03febe6fb597bb1d2718",
+      "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+      "autorouter/strategy.py": "a85e9097f3f20508a0d72f50078dad531a3cccc2f41b85da3a74c0a826b1d558",
+      "autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+      "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+      "autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455",
+      "driver.py": "c8fd3aba64473bc3717d89c659727aa4a13c681a96646e5a478aba41121f4c36",
+      "fixture_recipe.py": "f9e3767c975baeec3e11f33ce7b686e4c744900e7648728582b3858236cd1b6c",
+      "native_areas.py": "1c20e255b69eea8bb9ddd0ae864bbed5ac7797719866de4fc51e3bc326913771",
+      "support.py": "a18bd9236fbebb13ab7937979694f512d5655c06cd327409b10780645e7a16a1",
+      "test_driver.py": "ec7697454c9c63a886fa60fc71bd24cc9e0bfef3a5b3ce7835de7539333286bc"
+    },
+    "pcbnew_wrapper_sha256": "cd1c06c4709c653256ebd0c98c66d80cd72033767fac27c34ea01b5ec586116a"
+  },
+  "actual001_summary_sha256": "c61d54b5508f0508528e1236ead7bf97ad21ef336e32448994c6239db56b058f",
+  "original_actual001_unchanged": true,
+  "completed_evidence": {
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/fixtures/track_prohibited": {
+      "PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+      "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+      "export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+      "final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+      "final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+      "fixture.kicad_pcb": "b26371c3aa7083dc2580a3a0ad079b509bdcec05820d875300b5079d643bdbba",
+      "fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2"
+    },
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/track_prohibited": {
+      "area-export-process.json": "a6b1023feaaae28c53eaed608a0dfef91a702ccb4fa8c8c9371ec2da32f72e0e",
+      "area-export.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "areas.json": "6c70fd28793b4e6c5f4f5710f2b8833bc05b5163d63d41be9b57fee3e99f7746",
+      "candidate/PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+      "candidate/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "candidate/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "candidate/candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+      "candidate/export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+      "candidate/final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+      "candidate/final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+      "candidate/fixture.kicad_pcb": "b26371c3aa7083dc2580a3a0ad079b509bdcec05820d875300b5079d643bdbba",
+      "candidate/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "candidate/native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2",
+      "case.json": "032d61920e71faa33948e73b15385e5bcd9855d72724e68dda4ee63f06884663",
+      "diagnostic-drc-binding.json": "fe3fe0bebbf1ebdc1f629295e5686cc07b98ea7d218c2691177134dc48e7865b",
+      "diagnostic-drc-input/PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+      "diagnostic-drc-input/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "diagnostic-drc-input/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "diagnostic-drc-input/candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+      "diagnostic-drc-input/export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+      "diagnostic-drc-input/final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+      "diagnostic-drc-input/final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+      "diagnostic-drc-input/fixture.kicad_pcb": "b26371c3aa7083dc2580a3a0ad079b509bdcec05820d875300b5079d643bdbba",
+      "diagnostic-drc-input/fixture.kicad_prl": "f92cdf44f7d7e8caa87ef7674a3d165d8b41ad63269d30068ffb91ca2dfe9a9d",
+      "diagnostic-drc-input/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "diagnostic-drc-input/native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2",
+      "diagnostic-drc-process.json": "5b103bbb894d40bd2978d7aede9116ae5cb87679698772217b71c0fea825c4a7",
+      "diagnostic-drc.json": "b8d1df1b37d6102419bcce50d6cb5202f302bbdc08f4fa5474f4709442489ae0",
+      "diagnostic-drc.log": "5ae289271bd1d2aebd5cdfe6c0c1c0a1bdf02141ed2faa490dc33701663d4107",
+      "kicad-config/10.0/3d_viewer.json": "196678c94fed37c15510bb4b54d6e4eec989a0c3f9b4d30ff1be0d1425992bf3",
+      "kicad-config/10.0/cvpcb.json": "b93174a3b1470f1ce0e43c90268ce83976432c5210d906a3846ee7976ea9d272",
+      "kicad-config/10.0/eeschema.json": "ce1d47af13c60254b736992e8a387cf93b06c83f302e3aaa4c6836acb05d3502",
+      "kicad-config/10.0/fpedit.json": "e88988497732f32bf92cccd726d7d28ea7dfe1922d693448a38cb4c063f9d368",
+      "kicad-config/10.0/kicad.json": "026a2e3d05986b554bc6f5aa8590c69e847090527e0e718287e1005dbd905015",
+      "kicad-config/10.0/kicad_common.json": "b4bd9b55b90ca06b2923f8e1d6d03f03c83a8e954f66616db8e62e8350cf38a8",
+      "kicad-config/10.0/pcbnew.json": "f0822c67ee74c2e6189603de283b6d288e77a6a201c65d2f6b60afd119c95845",
+      "kicad-config/10.0/symbol_editor.json": "a3212dc53c3cbfd170a2bb6ae42db289bc6f4c3cf6df9abc4a5c856d22d2f86a",
+      "native.dsn": "c710cd2ea51ad3a36726edf51902c3dc46880e638499822fd9e3ae852c7f5f4d"
+    },
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/fixtures/via_prohibited": {
+      "PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+      "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+      "export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+      "final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+      "final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+      "fixture.kicad_pcb": "b0fb15907a952f43abf5ccd377634ccd4c95d71e108f476e0b8d839fb90ae61f",
+      "fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2"
+    },
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/via_prohibited": {
+      "area-export-process.json": "94d41c3d71acead1c0e31c9b61642e558894193cccedd23a72fafaa39b1e0020",
+      "area-export.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "areas.json": "1accee41ebc46a09d544b1c471e16827788f5a3320bef3fa49b9dd7718c6e6b2",
+      "candidate/PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+      "candidate/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "candidate/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "candidate/candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+      "candidate/export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+      "candidate/final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+      "candidate/final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+      "candidate/fixture.kicad_pcb": "b0fb15907a952f43abf5ccd377634ccd4c95d71e108f476e0b8d839fb90ae61f",
+      "candidate/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "candidate/native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2",
+      "case.json": "a576929eccac3300608590f6aa5c4b745a108bf1b942e2cb24973c23969207b8",
+      "diagnostic-drc-binding.json": "d9a67d90878de3f7dc2d0eeef8761903fcfada21ab2bf71eb9d9d4a113bda98a",
+      "diagnostic-drc-input/PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+      "diagnostic-drc-input/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "diagnostic-drc-input/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "diagnostic-drc-input/candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+      "diagnostic-drc-input/export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+      "diagnostic-drc-input/final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+      "diagnostic-drc-input/final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+      "diagnostic-drc-input/fixture.kicad_pcb": "b0fb15907a952f43abf5ccd377634ccd4c95d71e108f476e0b8d839fb90ae61f",
+      "diagnostic-drc-input/fixture.kicad_prl": "f92cdf44f7d7e8caa87ef7674a3d165d8b41ad63269d30068ffb91ca2dfe9a9d",
+      "diagnostic-drc-input/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "diagnostic-drc-input/native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2",
+      "diagnostic-drc-process.json": "a3a34067562f88d1dc40eff4af0bb08f412df1814b7a5e8c796e3050a0a34017",
+      "diagnostic-drc.json": "91bc1d56739083b9164559fd81475c2eff1d091ed1ad897dcd8bfde4840b9ffb",
+      "diagnostic-drc.log": "e747e479593d692349f9b04dd34a87deb768b34df9c7fe0fa8169962e1c7c8ac",
+      "kicad-config/10.0/3d_viewer.json": "196678c94fed37c15510bb4b54d6e4eec989a0c3f9b4d30ff1be0d1425992bf3",
+      "kicad-config/10.0/cvpcb.json": "b93174a3b1470f1ce0e43c90268ce83976432c5210d906a3846ee7976ea9d272",
+      "kicad-config/10.0/eeschema.json": "ce1d47af13c60254b736992e8a387cf93b06c83f302e3aaa4c6836acb05d3502",
+      "kicad-config/10.0/fpedit.json": "e88988497732f32bf92cccd726d7d28ea7dfe1922d693448a38cb4c063f9d368",
+      "kicad-config/10.0/kicad.json": "026a2e3d05986b554bc6f5aa8590c69e847090527e0e718287e1005dbd905015",
+      "kicad-config/10.0/kicad_common.json": "e3bfa926958bc6ffefb79531b7e89e52d5adbcb9663e14b879f6c85c31beab2d",
+      "kicad-config/10.0/pcbnew.json": "f0822c67ee74c2e6189603de283b6d288e77a6a201c65d2f6b60afd119c95845",
+      "kicad-config/10.0/symbol_editor.json": "a3212dc53c3cbfd170a2bb6ae42db289bc6f4c3cf6df9abc4a5c856d22d2f86a",
+      "native.dsn": "9fe92422751b4e7da3c3ed26306c74629e13cfe98efa5e5aa371a802cd1e8d0c"
+    },
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/fixtures/mixed": {
+      "PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+      "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+      "export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+      "final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+      "final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+      "fixture.kicad_pcb": "76b387990e58d8c67e5cb329c10d0291b3b788c3d06bbab299fa780a8529c005",
+      "fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2"
+    },
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-native-002/mixed": {
+      "area-export-process.json": "57993becf3cd4ca008c205056b117eef3d4e49b3149268b369454db1206a7c43",
+      "area-export.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "areas.json": "be986c54d32037fa7da3e4770e4c5de9ac73b2b94e80bd4d3c97c4a081eacab6",
+      "candidate/PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+      "candidate/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "candidate/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "candidate/candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+      "candidate/export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+      "candidate/final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+      "candidate/final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+      "candidate/fixture.kicad_pcb": "76b387990e58d8c67e5cb329c10d0291b3b788c3d06bbab299fa780a8529c005",
+      "candidate/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "candidate/native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2",
+      "case.json": "46d335f654523ef1c866b2b55f6a0d5ec39363594af59e3d8ba0da9d26919a14",
+      "diagnostic-drc-binding.json": "5e2b2da9164cf8767166223da05c766a5452e0c6c7b3911cfdeabcdb11971536",
+      "diagnostic-drc-input/PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+      "diagnostic-drc-input/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "diagnostic-drc-input/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "diagnostic-drc-input/candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+      "diagnostic-drc-input/export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+      "diagnostic-drc-input/final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+      "diagnostic-drc-input/final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+      "diagnostic-drc-input/fixture.kicad_pcb": "76b387990e58d8c67e5cb329c10d0291b3b788c3d06bbab299fa780a8529c005",
+      "diagnostic-drc-input/fixture.kicad_prl": "f92cdf44f7d7e8caa87ef7674a3d165d8b41ad63269d30068ffb91ca2dfe9a9d",
+      "diagnostic-drc-input/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "diagnostic-drc-input/native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2",
+      "diagnostic-drc-process.json": "3436020fdc18ab3bf5437150f3639949d4025cd3e8432b604fb819aa2abd71d9",
+      "diagnostic-drc.json": "aeadb2f0753d0ae7e7718292138a23c562fcd2b57c8809c522c4afebc0591959",
+      "diagnostic-drc.log": "a9863861527a866e0d1f55e9206ccd08e9c24625ef96950551de583bbd036a50",
+      "kicad-config/10.0/3d_viewer.json": "196678c94fed37c15510bb4b54d6e4eec989a0c3f9b4d30ff1be0d1425992bf3",
+      "kicad-config/10.0/cvpcb.json": "b93174a3b1470f1ce0e43c90268ce83976432c5210d906a3846ee7976ea9d272",
+      "kicad-config/10.0/eeschema.json": "ce1d47af13c60254b736992e8a387cf93b06c83f302e3aaa4c6836acb05d3502",
+      "kicad-config/10.0/fpedit.json": "e88988497732f32bf92cccd726d7d28ea7dfe1922d693448a38cb4c063f9d368",
+      "kicad-config/10.0/kicad.json": "026a2e3d05986b554bc6f5aa8590c69e847090527e0e718287e1005dbd905015",
+      "kicad-config/10.0/kicad_common.json": "ce8f15940efc2b318be72c2f02648beee221189b039faa769ec1da2cd4454894",
+      "kicad-config/10.0/pcbnew.json": "f0822c67ee74c2e6189603de283b6d288e77a6a201c65d2f6b60afd119c95845",
+      "kicad-config/10.0/symbol_editor.json": "a3212dc53c3cbfd170a2bb6ae42db289bc6f4c3cf6df9abc4a5c856d22d2f86a",
+      "native.dsn": "26eb06881a2208ba2f34288890a0d4b0afc265e56253172a8bec53549be5bb9c"
+    }
+  },
+  "wall_seconds": 4.873878582999168,
+  "total_cpu_seconds": 3.7101460000000004,
+  "native_executed": true,
+  "native_step_cpu_seconds": 2.269019,
+  "monitor_cpu_seconds": 0,
+  "within_budget": true
+}

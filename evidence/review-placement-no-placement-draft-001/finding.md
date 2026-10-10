@@ -1,0 +1,3 @@
+# Prior-evidence freeze finding
+
+The initial no-placement diagnostic driver4969677a baseline pins actual001 summary and sources, but does not compare the summary-bound completed_evidence case trees or freeze.fixtures/code inventories with current files before recording a new entire-tree baseline. Earlier mutation of a retained raw report, code or unselected case can become the newly frozen history. The proposed small fix is to validate those recorded inventories before taking original_tree, while preserving all raw failed001 data. This is an evidence-integrity gap, not a demonstrated native constraint acceptance: the new diagnostic never claims routing or constraint qualification. No original file was mutated to demonstrate it; code-path finding only.

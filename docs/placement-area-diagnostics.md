@@ -44,8 +44,13 @@ provider skips implicit-rule reports in its general path; its separate track
 index uses a zone's effective filled shape, which can be empty for a rule area.
 The track-only indexed path cannot independently rescue the via check.
 This is a source-based explanation of the observed10.0.0 workflow, not a claim
-about every KiCad version or an upstream-confirmed defect. A no-placement
-counterfactual remains pending to rule out the fixture's placement metadata.
+about every KiCad version or an upstream-confirmed defect. The actual no-placement
+counterfactual002 subsequently reproduced the omission for all three cases:
+removing only disabled placement nodes left the prohibited flags, geometry and
+project intact, yet every report still had zero findings. Stored4.873878583wall
+/3.710146CPU seconds stayed within shared60secondcaps. Its omission controls
+pass; constraint qualification explicitly remains false. See
+[`native002`](../evidence/placement-area-native-002/summary.json).
 
 Primary files and exact retained hashes are listed in
 [`diagnosis-sources.json`](../evidence/review-placement-area-native-001/diagnosis-sources.json):
@@ -62,7 +67,7 @@ export obstacles. The reviewed pure transform requires a same-load native
 census, complete unchanged original project, simple rectangular board boundary,
 exact source/DSN layer and integer geometry mapping, and unambiguous provenance.
 It preserves every nonremoved AST entry. Unknown/custom/overlapping cases fail
-closed. Its41 pure controls do not establish native or routing correctness.
+closed. Its44 pure controls do not establish native or routing correctness.
 Review found and fixed custom-rule filename case handling and quoted edge
 parsing gaps; original snapshots and failures remain retained.
 
@@ -82,3 +87,9 @@ genuine rule-area restrictions. The independent full14-board gate audit keeps
 overall eligibility at3eligible/11unsupported. Four already unsupported inputs
 now also receive the rule-area reason. All complete input inventories remain
 unchanged (`evidence/review-rule-area-scope-001/population-001.json`).
+
+A subsequent [stable-source review](../evidence/keepout-upstream-fix-review-001/REPORT.md) found fixes for both native omission paths in10.0.7, while its board-area DSN fallback is unchanged. This supplies a future toolchain-qualification candidate. No binary was downloaded or installed, and current experiments remain pinned to10.0.0 with the stricter support gate.
+
+## Committed diagnostic execution gate
+
+The standalone [harness](../experiments/placement_diagnostic_v1/README.md) compares floor guidance with and without exact placement correction. Root and independent review each passed37 pure controls; the separate observer review passed28 source-composition checks. No native or engine run of this harness has occurred yet. Each runtime helper/protocol/core/tool pin must match committed HEAD. The owned fixture must pass actual engine/import/refill/DRC plus independent readback before the same-HEAD full-board pair can execute. The pair charges all shared overhead to both equal120second wall/CPU caps, retains both failures and requires final source/code/evidence freshness. Detailed commands and scope are in its README.

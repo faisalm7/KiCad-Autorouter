@@ -1,0 +1,41 @@
+{
+  "scope": "static source composition audit only; caller process/path/budget/final validation audit separate",
+  "checks": [
+    "sha exact production floor AST",
+    "inventory exact production floor AST",
+    "canonical_path exact production floor AST",
+    "FLOORS unchanged",
+    "LIMITS unchanged",
+    "only area cap change100to512",
+    "strict native Boolean helper unchanged",
+    "observer returns data only",
+    "all native area loops/getters/enums/types/census exact",
+    "area return complete",
+    "qualified20MiB DSN guard restored exactly once",
+    "complete floor collect unchanged after explicit composition only",
+    "exactly one LoadBoard",
+    "exactly one export",
+    "exactly one synchronization",
+    "no native board mutation calls",
+    "both contexts bind same context_schema",
+    "both contexts bind same native_version",
+    "both contexts bind same units",
+    "both contexts bind same source",
+    "both contexts bind same board_sha256",
+    "both contexts bind same project_sha256",
+    "both contexts bind same input_hashes_before",
+    "both contexts bind same input_hashes_after",
+    "both contexts bind same board_saved",
+    "both contexts bind same routing_accepted",
+    "same sole exported DSN hash",
+    "reviewed helper sources unchanged"
+  ],
+  "check_count": 28,
+  "passed": true,
+  "native_executed": false,
+  "source_sha256": {
+    ".runs/placement-routing-draft-001/native_combined.py": "3fb123a8a1fdbe119a7de60e97677940e26a15b5562a822599d854ba04553a70",
+    "autorouter/floor_context.py": "d346e3b552328d370b4c18c20bd55074702ec53198aef0d47f38b05a0aff7f4a",
+    ".runs/placement-area-native-draft-002/native_areas.py": "1c20e255b69eea8bb9ddd0ae864bbed5ac7797719866de4fc51e3bc326913771"
+  }
+}
