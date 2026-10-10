@@ -1,0 +1,126 @@
+{
+  "timespans": [
+    "60s",
+    "30s",
+    "100s",
+    "90s",
+    "60",
+    "30",
+    "100",
+    "90",
+    "00:01:00",
+    "00:00:30",
+    "00:01:40",
+    "00:01:30"
+  ],
+  "profiles": [
+    {
+      "name": "B0_B1_standard_original",
+      "argv": [
+        "-de",
+        "probe.dsn",
+        "-do",
+        "probe.ses",
+        "--router.autorouter.max_passes=30",
+        "--router.optimizer.max_threads=1",
+        "--router.optimizer.max_passes=10",
+        "--router.job_timeout=60s",
+        "--router.optimizer.timeout=30s"
+      ]
+    },
+    {
+      "name": "B0_B1_standard_numeric_timeouts",
+      "argv": [
+        "-de",
+        "probe.dsn",
+        "-do",
+        "probe.ses",
+        "--router.autorouter.max_passes=30",
+        "--router.optimizer.max_threads=1",
+        "--router.optimizer.max_passes=10",
+        "--router.job_timeout=60",
+        "--router.optimizer.timeout=30"
+      ]
+    },
+    {
+      "name": "B0_B1_standard_colon_timeouts",
+      "argv": [
+        "-de",
+        "probe.dsn",
+        "-do",
+        "probe.ses",
+        "--router.autorouter.max_passes=30",
+        "--router.optimizer.max_threads=1",
+        "--router.optimizer.max_passes=10",
+        "--router.job_timeout=00:01:00",
+        "--router.optimizer.timeout=00:00:30"
+      ]
+    },
+    {
+      "name": "B2_tuned_original",
+      "argv": [
+        "-de",
+        "probe.dsn",
+        "-do",
+        "probe.ses",
+        "--router.autorouter.max_passes=100",
+        "--router.optimizer.max_threads=1",
+        "--router.optimizer.max_passes=50",
+        "--router.job_timeout=100s",
+        "--router.optimizer.timeout=90s",
+        "--router.optimizer.improvement_threshold=0.001",
+        "--router.optimizer.enable_preflight_guards=false",
+        "--router.optimizer.max_consecutive_failures=100",
+        "--router.optimizer.max_consecutive_failures_pass1=100"
+      ]
+    },
+    {
+      "name": "B2_tuned_numeric_timeouts",
+      "argv": [
+        "-de",
+        "probe.dsn",
+        "-do",
+        "probe.ses",
+        "--router.autorouter.max_passes=100",
+        "--router.optimizer.max_threads=1",
+        "--router.optimizer.max_passes=50",
+        "--router.job_timeout=100",
+        "--router.optimizer.timeout=90",
+        "--router.optimizer.improvement_threshold=0.001",
+        "--router.optimizer.enable_preflight_guards=false",
+        "--router.optimizer.max_consecutive_failures=100",
+        "--router.optimizer.max_consecutive_failures_pass1=100"
+      ]
+    },
+    {
+      "name": "B2_tuned_colon_timeouts",
+      "argv": [
+        "-de",
+        "probe.dsn",
+        "-do",
+        "probe.ses",
+        "--router.autorouter.max_passes=100",
+        "--router.optimizer.max_threads=1",
+        "--router.optimizer.max_passes=50",
+        "--router.job_timeout=00:01:40",
+        "--router.optimizer.timeout=00:01:30",
+        "--router.optimizer.improvement_threshold=0.001",
+        "--router.optimizer.enable_preflight_guards=false",
+        "--router.optimizer.max_consecutive_failures=100",
+        "--router.optimizer.max_consecutive_failures_pass1=100"
+      ]
+    },
+    {
+      "name": "B1_completion_only_proposed",
+      "argv": [
+        "-de",
+        "probe.dsn",
+        "-do",
+        "probe.ses",
+        "--router.autorouter.max_passes=30",
+        "--router.job_timeout=60",
+        "--router.optimizer.enabled=false"
+      ]
+    }
+  ]
+}

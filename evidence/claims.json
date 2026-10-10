@@ -43,9 +43,9 @@
     },
     {
       "id": "coverage",
-      "statement": "Six considered PCBs in5provisional families;1eligible5unsupported;all source hashes preserved",
-      "evidence": "evidence/coverage.json",
-      "status": "static coverage audit;family independence not established"
+      "statement": "Seven considered PCBs in six provisional directory families; 2 statically eligible, 5 unsupported, 0 audit errors; 144 complete-project/notice files verified.",
+      "evidence": "evidence/corpus-audit-002.json",
+      "status": "Static audit only; multiclass native routing and family independence remain unqualified; all acquired boards development-exposed"
     },
     {
       "id": "gui-copy",
@@ -55,15 +55,15 @@
     },
     {
       "id": "restoration",
-      "statement": "Full Git bundle and inventoried nonGitarchive restored andverified;CLIhelp ran",
-      "evidence": "evidence/backups/checkpoint-7fef467.json",
-      "status": "onMaconlyfullarchive;sourcecheckpointoffMacGitHub"
+      "statement": "Checkpoint 7c7f358 Git refs and 11,060 non-Git files restored and verified; restored CLI help passed.",
+      "evidence": "evidence/backups/restore-7c7f358.json",
+      "status": "On-Mac only; includes artifacts before interf-native-001 and quality-comparison-003, not later runs"
     },
     {
       "id": "quality-corrected-002",
       "statement": "C shortens B1 with equal vias; versus corrected B2 it has shorter length but one extra via and higher runtime/CPU. No Pareto win or general superiority.",
       "evidence": "evidence/quality-comparison-002/summary.json",
-      "status": "one exposed development family; all accepted arms retain one warning; frozen57db787"
+      "status": "one exposed development family; all accepted arms retain one warning; frozen57db787; later timeout-parser probe found inner deadlines ineffective, outer caps still enforced"
     },
     {
       "id": "native-cancellation-001",
@@ -75,13 +75,31 @@
       "id": "fresh-install-001",
       "statement": "Fresh clone, venv, verified cached engine and doctor passed, but 19 of 105 tests failed because sandbox denied the old ps resource monitor; native route was not reached.",
       "evidence": "evidence/installation-001/result.json",
-      "status": "failed attempt retained; scoped monitor fix passed focused controls; full retest pending"
+      "status": "Failed attempt retained; scoped monitor repair subsequently passed full installation-002"
     },
     {
       "id": "fresh-install-002",
       "statement": "Fresh local clone/venv passed verified cached-engine setup, doctor, 160 tests, real native fixture route and final receipt check with network denied and tracked sources unchanged.",
       "evidence": "evidence/installation-002/result.json",
       "status": "passed at dd2cce9; reuses installed Mac tools and verified JAR; not fresh OS/package qualification"
+    },
+    {
+      "id": "quality-tuned-incumbent-003",
+      "statement": "C accepted 662.694144 mm / 2 vias versus B2 786.315536 mm / 2 vias and B1 786.315536 mm / 3 vias, each zero opens/blocking and one warning.",
+      "evidence": "evidence/quality-comparison-003/summary.json",
+      "status": "One exposed family, frozen 7c7f358; greater compute, not speedup or general superiority; old inner timeout syntax invalid, valid outer caps; corrected prospective repeat pending"
+    },
+    {
+      "id": "interf-native-001",
+      "statement": "First production multiclass attempt exported correctly but timed out in optimization before SES generation; no native final candidate.",
+      "evidence": "evidence/interf-native-001/result.json",
+      "status": "Rejected, 120.311234 wall / 139.470787 CPU seconds, complete cleanup; does not qualify multiclass routing"
+    },
+    {
+      "id": "engine-profile-parser-002",
+      "statement": "Actual pinned JAR passed 201 settings/parser checks across 12 profile/budget cases; corrected timeouts parse and completion-only disables optimizer.",
+      "evidence": "evidence/optimizer-profile-probe-002/result.json",
+      "status": "No board loaded or routed; reserves are planning allowances, outer acceptance remains authoritative"
     }
   ],
   "unmet": [

@@ -313,9 +313,51 @@ def optimizer_threshold_audit(log, expected_percent):
     return {'expected_percent':expected_percent,'observed_stop_threshold_percent':values,
             'runtime_observation':'matched' if values else 'stop threshold not logged'}
 
+ENGINE_NATIVE_RESERVE_SECONDS=10
+ENGINE_GRACE_RESERVE_SECONDS=30
+
+def engine_profile_settings(profile, remaining_seconds):
+    """Assign cooperative internal deadlines inside the outer wall budget.
+
+    Freerouting accepts numeric seconds or HH:mm:ss, not values such as 90s.
+    Its job monitor permits 30 seconds of graceful stopping. Both that grace
+    and a native-finalization planning reserve are withheld uniformly. The
+    supervisor and measured CPU acceptance cap remain authoritative.
+    """
+    if profile not in {'standard','tuned','completion-only'}: raise Rejected('unknown engine profile')
+    if isinstance(remaining_seconds,bool) or not isinstance(remaining_seconds,(int,float)) or not math.isfinite(remaining_seconds):
+        raise Rejected('invalid remaining engine budget')
+    available=math.floor(remaining_seconds-ENGINE_NATIVE_RESERVE_SECONDS-ENGINE_GRACE_RESERVE_SECONDS)
+    if available<1: raise Rejected('insufficient remaining budget for engine grace and native finalization reserves')
+    job_cap=min(100 if profile=='tuned' else 60,available)
+    optimizer_cap=None if profile=='completion-only' else min(90 if profile=='tuned' else 30,job_cap)
+    def span(seconds): return f'{seconds//3600:02}:{seconds//60%60:02}:{seconds%60:02}'
+    args=['--router.autorouter.max_passes='+('100' if profile=='tuned' else '30'),
+          '--router.job_timeout='+span(job_cap)]
+    if profile=='completion-only':
+        args+=['--router.optimizer.enabled=false']
+    else:
+        args+=['--router.optimizer.max_threads=1','--router.optimizer.max_passes='+('50' if profile=='tuned' else '10'),
+               '--router.optimizer.timeout='+span(optimizer_cap)]
+        if profile=='tuned':
+            # Actual pinned JAR probe verifies CLI fraction .001 -> internal .1%.
+            args+=['--router.optimizer.improvement_threshold=0.001','--router.optimizer.enable_preflight_guards=false',
+                   '--router.optimizer.max_consecutive_failures=100','--router.optimizer.max_consecutive_failures_pass1=100']
+    return {'profile':profile,'argv':args,'remaining_outer_wall_seconds_at_assignment':remaining_seconds,
+            'assigned_job_timeout_seconds':job_cap,'assigned_optimizer_timeout_seconds':optimizer_cap,
+            'native_finalization_reserve_seconds':ENGINE_NATIVE_RESERVE_SECONDS,
+            'engine_grace_reserve_seconds':ENGINE_GRACE_RESERVE_SECONDS,
+            'internal_deadlines':'cooperative planning caps; external supervision and measured CPU acceptance cap remain authoritative'}
+
+def engine_baseline(profile,adapter):
+    if profile=='completion-only': return 'completion_only_probe'
+    if profile=='tuned': return 'B2_tuned'
+    if profile=='standard': return 'B0' if adapter=='none' else 'B1'
+    raise Rejected('unknown engine profile')
+
 
 def route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard'):
-    if engine_profile not in {'standard','tuned'}: raise Rejected('unknown engine profile')
+    if engine_profile not in {'standard','tuned','completion-only'}: raise Rejected('unknown engine profile')
     operation_started=time.monotonic()
     operation_cpu=time.process_time()
     source=Path(source).resolve(strict=True); output=Path(output).resolve()
@@ -328,7 +370,7 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
     code=output/'code'; code.mkdir()
     for path in (c.ROOT/'autorouter').glob('*.py'): shutil.copy2(path,code/path.name)
     report={'schema':1,'status':'validator_error','accepted':False,'physical_electrical_validation':False,'schematic_parity':'not checked','source':str(source),
-            'started_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'budget_seconds':seconds,'cpu_budget_seconds':seconds,'cpu_budget_enforcement':'postcompletion acceptance cap; no total-CPU preemption','baseline':('B0' if adapter=='none' else 'B1') if engine_profile=='standard' else 'B2_tuned','adapter':adapter,'engine_profile':engine_profile,'scope':'partial_completion' if keep_existing else 'whole_board_unlocked_routing',
+            'started_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'budget_seconds':seconds,'cpu_budget_seconds':seconds,'cpu_budget_enforcement':'postcompletion acceptance cap; no total-CPU preemption','baseline':engine_baseline(engine_profile,adapter),'adapter':adapter,'engine_profile':engine_profile,'scope':'partial_completion' if keep_existing else 'whole_board_unlocked_routing',
             'tools':tool_manifest()}
     try:
         before=tree_hash(source.parent); report['source_hashes']=before
@@ -364,12 +406,10 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
         if policy is not None:
             report['netclass_task_audit']=audit_dsn(output/'task.dsn',native_classes,json.loads(candidate.with_suffix('.kicad_pro').read_text()))
         config_dir=output/'engine-config'; config_dir.mkdir()
-        engine_settings=['--router.autorouter.max_passes=30','--router.optimizer.max_threads=1','--router.optimizer.max_passes=10','--router.job_timeout=60s','--router.optimizer.timeout=30s']
-        if engine_profile=='tuned':
-            # Pinned b647a2f CliSettings.java149-155 scales CLI values in (0,1)
-            # by 100. Internal units are percent: 0.001 -> 0.1%, not 0.1 -> 10%.
-            # https://github.com/freerouting/freerouting/blob/b647a2f824cfbc54bc4dcaee71b03b7cd945eb76/src/main/java/app/freerouting/settings/sources/CliSettings.java#L149
-            engine_settings=['--router.autorouter.max_passes=100','--router.optimizer.max_threads=1','--router.optimizer.max_passes=50','--router.job_timeout=100s','--router.optimizer.timeout=90s','--router.optimizer.improvement_threshold=0.001','--router.optimizer.enable_preflight_guards=false','--router.optimizer.max_consecutive_failures=100','--router.optimizer.max_consecutive_failures_pass1=100']
+        report['engine_budget']=engine_profile_settings(engine_profile,job.deadline-time.monotonic())
+        report['engine_budget']['outer_task_wall_budget_seconds']=seconds
+        report['engine_budget']['outer_task_cpu_budget_seconds']=seconds
+        engine_settings=report['engine_budget']['argv']
         job.step('engine',['/usr/bin/sandbox-exec','-p','(version 1)(allow default)(deny network*)',c.JAVA,'-Xms128m','-Xmx2g','-XX:ActiveProcessorCount=1','-Djava.awt.headless=true','-jar',c.JAR,
             '--gui.enabled=false','--api_server.enabled=false','--mcp_server.enabled=false','-da','--user_data_path='+str(config_dir),'--logging.file.enabled=false',
             *engine_settings,

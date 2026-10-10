@@ -1,0 +1,5 @@
+# Rejected development attempt
+
+The complete source is official KiCad interf_u at commit 69cafb907ebc09e7722a2a464b1d466fc2e3608d, under CC BY-SA 4.0 per original notices retained in data/sources.json. Source: https://github.com/KiCad/kicad-source-mirror/tree/69cafb907ebc09e7722a2a464b1d466fc2e3608d/demos/interf_u . Hardware/interchange derivatives remain CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/); original software is GPL-3.0-or-later.
+
+This tuned attempt at 7c7f358 timed out and is rejected. Export mapping checks passed, but no SES or final native candidate was emitted. Wall120.311234 s / CPU139.470787 s exceeded acceptance caps. The engine completed routing and its first optimizer pass before being killed later. Internal timeout strings were subsequently found malformed; external supervisor cleanup completed. This does not qualify multiclass routing. No source/rule relaxation occurred. Full original projects and native execution copies remain local; this subset contains raw reports, logs and interchange evidence.
