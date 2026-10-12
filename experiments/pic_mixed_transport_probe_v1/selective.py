@@ -137,7 +137,7 @@ def compare(observed, expected, verified_local_observation):
     result['baseline_false_state_exact']=True
     return result
 
-def transition(row):
+def transition(row, *, plane_suppressed=False):
     """Check the same exact transition on one independently validated import."""
     equal(row['settings_after_selective'], row['settings_after'], 'manager settings changed')
     for phase in ('settings_before', 'settings_after', 'settings_after_selective'):
@@ -154,12 +154,13 @@ def transition(row):
     targets = {body['area_id'] for body in row['local_override']['targets']}
     areas = by_id(old['areas'], 'old areas')
     originals = set(areas) - targets
-    if (len(targets) != 2 or len(areas) != 3 or len(originals) != 1 or old['ignore_conduction'] is not True
+    if (type(plane_suppressed) is not bool or len(targets) != 2 or len(areas) != (2 if plane_suppressed else 3) or len(originals) != (0 if plane_suppressed else 1) or old['ignore_conduction'] is not True
             or any(a['obstacle'] is not False for a in areas.values())):
         raise ValueError('false original area scope differs')
-    original = areas[next(iter(originals))]
-    if original['nets'] != ['GND'] or original['fixed'] != 'SYSTEM_FIXED':
-        raise ValueError('original plane identity differs')
+    if not plane_suppressed:
+        original = areas[next(iter(originals))]
+        if original['nets'] != ['GND'] or original['fixed'] != 'SYSTEM_FIXED':
+            raise ValueError('original plane identity differs')
     restored = copy.deepcopy(new)
     if restored['ignore_conduction'] is not False:
         raise ValueError('global selective flag not explicitly changed')

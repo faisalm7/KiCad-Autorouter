@@ -1,0 +1,1 @@
+Selected exact project-owned diagnostic source, analysis and receipts. Derived board facts originate from the already licensed, pinned KiCad PIC development input; full provenance remains in data/sources.json and prior public run evidence. Downloaded engine/source binaries and duplicate derived DSNs stay local. No routing acceptance or generalized gain follows.

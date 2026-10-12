@@ -1,0 +1,85 @@
+{
+  "scope": "Read-only independent review of ROOT Python controller/comparator and adapter author recipe. Java files authored by this reviewer, not independently reviewed here.",
+  "reviewed_sources": {
+    "experiments/pic_mixed_transport_probe_v1/driver.py": {
+      "bytes": 40004,
+      "sha256": "7caeacbc854bfb787842560da5ed85dc56d0c903911ad0e8b4adbf772b53cbb7"
+    },
+    "experiments/pic_mixed_transport_probe_v1/routing_adapter.py": {
+      "bytes": 9568,
+      "sha256": "e94c74271898ae2e2d624098f1c6d5d00c368b830c9212af40a16ad461be2865"
+    },
+    "experiments/pic_mixed_transport_probe_v1/routing_checks.py": {
+      "bytes": 12098,
+      "sha256": "8a4c9faa184aeacb46c4a79027199e12c0c75bd9d2c94abbba84bdcecb1c2b4a"
+    },
+    "experiments/pic_mixed_transport_probe_v1/routing_native.py": {
+      "bytes": 4397,
+      "sha256": "e092fba61751322e4783d399f3d6a97e90e92399a89619119ab387b300ece9cc"
+    },
+    "experiments/pic_mixed_transport_probe_v1/selective.py": {
+      "bytes": 12631,
+      "sha256": "e36dea5ffcb7e8a36992e6cb7251fefa66e36fcd1cadbe0edd0f6f148082be61"
+    },
+    "experiments/pic_mixed_transport_probe_v1/ses_checks.py": {
+      "bytes": 15208,
+      "sha256": "f3d6c3ff951ea09337cedc59e950bb9d40bd324ebe91695e258d6ee62f149443"
+    },
+    "experiments/pic_mixed_transport_probe_v1/routing_input.py": {
+      "bytes": 12770,
+      "sha256": "4b02ca51e21873851894e8bfc7e6d3b58e25ba103dd88110a7c70dea3a6d1cd9"
+    },
+    "experiments/pic_mixed_transport_probe_v1/ADAPTER_PROTOCOL.json": {
+      "bytes": 17872,
+      "sha256": "49618201bbe7e1a4179c4beb0fe8edfe0e534c0491baa1626f7665e18eff0c4e"
+    },
+    "experiments/pic_mixed_transport_probe_v1/test_routing.py": {
+      "bytes": 18619,
+      "sha256": "d7bc6f747bd03d9edfa974b3c750f30c29966a540de9658542622c3e5aa29f17"
+    },
+    "experiments/pic_mixed_transport_probe_v1/test_routing_adapter.py": {
+      "bytes": 11034,
+      "sha256": "ca9b6129c58b9b2ace5c6581213c5de7f95815065e6a1f531adbb375fd47b62d"
+    },
+    "experiments/pic_mixed_transport_probe_v1/MixedClassProbe.java": {
+      "bytes": 24952,
+      "sha256": "04bbc93e2803516064f61ef7cae1b41050502f5e56d597da5c4e572a74b2d9e9"
+    },
+    "experiments/pic_mixed_transport_probe_v1/SelectiveAreaProbe.java": {
+      "bytes": 12298,
+      "sha256": "79a78bd4f5856cf64df74d3215e9a6582776bb325518136bf032637723f87d2a"
+    },
+    "experiments/pic_mixed_transport_probe_v1/SelectiveRoutingProbe.java": {
+      "bytes": 7038,
+      "sha256": "89b9d182e7b6c7375c9e697c7b3d232197e075fd2d905110078100ae6d1038ed"
+    },
+    "experiments/pic_mixed_transport_probe_v1/ExactPointWitness.java": {
+      "bytes": 1301,
+      "sha256": "662607bbd68a7e45682014bc5af8c05798c177fd3a645c5e73650b5e8ddc7f46"
+    }
+  },
+  "review_commands": [
+    "python3 -B .runs/review-pic-adapter-python-001/probe.py",
+    "python3 -B .runs/review-pic-adapter-python-001/probe.py probe-002.json"
+  ],
+  "source_reads_only_no_native_jvm": true,
+  "fixed_probe_unchanged": true,
+  "new_basis_7_pins_verified": true,
+  "disposition": "No remaining scoped source blocker after exact four-case unchanged falsifier rerun. Actual compilation/router/native qualification belongs to ROOT.",
+  "findings": [
+    {
+      "id": "R1",
+      "status": "resolved",
+      "before": "Adapter projection accepted bowtie corner order, opposite numerical layer with expected string, and unavailable/Circle border contradictions.",
+      "after": "Positive passes and all three contradictions reject at adapter rectangle constraints differ."
+    }
+  ],
+  "limitations": [
+    "Synthetic JSON controls are not real importer/native evidence.",
+    "All19 planning rectangles are conservative outward-snapped text bounds, not exact copper contours.",
+    "Prior14 imported obstacle contours were not historically captured; current before/after geometry plus old metadata and exact original DSN AST are the stated bounds.",
+    "Exact rational witness is observation only, not a tolerated SES rounding policy.",
+    "Static and proposal-only native paths explicitly retain routing_accepted false; no production or comparative gain claim.",
+    "Final freshness consists of finite material samples, not atomic defense against an arbitrary concurrent writer."
+  ]
+}

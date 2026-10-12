@@ -1,0 +1,67 @@
+{
+  "context_unchanged": true,
+  "counts": {
+    "PCB_TEXT": 19,
+    "bottom_layer": 2,
+    "ordinary_routes": 0,
+    "preserved_protected_bodies": 2,
+    "removed_original_GND_plane": 1,
+    "top_layer": 17
+  },
+  "inputs": {
+    "evidence/pic-mixed-transport-probe-005/context.json": {
+      "bytes": 219793,
+      "sha256": "b4da59c31f10616c46b538a9fe00a722215f3d3444a6402853c7c1efc0bc8ac9"
+    },
+    "evidence/pic-selective-routing-001/unrouted.dsn": {
+      "bytes": 87985,
+      "sha256": "29fac563a4675c1c3dacacc7cdaabe4e761e48221547f96fbdddd46b4ce817e9"
+    }
+  },
+  "interface": {
+    "apply": "apply(path, context) atomically invokes existing adapter on disposable DSN and returns receipt",
+    "receipt_keys": [
+      "schema",
+      "classification",
+      "input_sha256",
+      "output_sha256",
+      "native_context_sha256",
+      "planning_grid_mm",
+      "obstacles",
+      "adapter",
+      "original_ast_sha256",
+      "removed_plane",
+      "preserved_protected_bodies",
+      "remaining_ordinary_routes",
+      "native_context_modified",
+      "native_rules_modified",
+      "routing_executed",
+      "routing_accepted"
+    ],
+    "verify": "verify(original_unrouted_bytes, adapted_bytes, context, receipt) returns True or raises; no file writes"
+  },
+  "limits": [
+    "Caller retains qualified native context and complete source/derivation bindings.",
+    "Context/receipt canonical digest is evidence consistency, not authentication.",
+    "Bounding boxes conservatively approximate text; native final validation remains authoritative.",
+    "Fixed original PIC plane and protected body AST digests restrict this diagnostic.",
+    "Neither original routing removal nor native derivation is repeated."
+  ],
+  "positive_verified": true,
+  "scope": "finite B1_adapter_only pure existing-adapter reuse; no native/JVM/engine execution",
+  "source": {
+    "experiments/pic_mixed_transport_probe_v1/routing_adapter.py": {
+      "bytes": 9568,
+      "sha256": "e94c74271898ae2e2d624098f1c6d5d00c368b830c9212af40a16ad461be2865"
+    },
+    "experiments/pic_mixed_transport_probe_v1/test_routing_adapter.py": {
+      "bytes": 11034,
+      "sha256": "ca9b6129c58b9b2ace5c6581213c5de7f95815065e6a1f531adbb375fd47b62d"
+    }
+  },
+  "tests": {
+    "command": "python3 -B -m unittest experiments.pic_mixed_transport_probe_v1.test_routing_adapter -v",
+    "log": "tests-001.log",
+    "methods": 9
+  }
+}

@@ -28,6 +28,63 @@ def static_state(state, *, renumber=False):
         if renumber:net.pop('terminal_ids')
     return result
 
+def adapter_projection(state, retained, receipt):
+    """Remove only verified new rectangles and the one suppressed engine plane.
+
+    The original native zone is preserved separately. Prior ordinary obstacle
+    contours were not captured; their original DSN AST and observed metadata
+    remain exact, with fresh geometry captured before and after this routing.
+    """
+    rows=state.get('adapter_obstacles')
+    if (not isinstance(rows,list) or len(rows)!=33 or type(state.get('adapter_obstacle_count')) is not int
+            or state['adapter_obstacle_count']!=33):raise ValueError('complete adapter obstacle census required')
+    identities=s.by_id(rows,'adapter obstacles');items=s.by_id(state['items'],'items')
+    kind='app.freerouting.board.model.items.ObstacleArea'
+    if set(identities)!={i for i,r in items.items() if r['kind']==kind}:raise ValueError('adapter obstacle item census differs')
+    for row in rows:
+        if any(row.get(k)!=v for k,v in items[row['id']].items()):raise ValueError('adapter obstacle identity differs')
+    changes=receipt['adapter']['transformations']
+    rectangles=[r for r in changes if r['kind']=='native_graphic_bbox_keepout']
+    if len(rectangles)!=19 or receipt['adapter']['planes_removed']!=1:raise ValueError('finite adapter transform differs')
+    matched=set();scale=ses_checks.number(state['board_units_per_um']);origin=state['board_origin_dsn_um']
+    for rect in rectangles:
+        x0,y0,x1,y1=map(ses_checks.number,rect['rect_um'])
+        ring=s.canonical(sorted([[str(x.normalize()),str(y.normalize())] for x,y in ((x0,y0),(x1,y0),(x1,y1),(x0,y1))]))
+        matches=[]
+        for row in rows:
+            if row.get('ring_um') is None or row.get('layer')!=rect['dsn_layer']:continue
+            actual=s.canonical(sorted([[str(ses_checks.number(x).normalize()),str(ses_checks.number(y).normalize())] for x,y in row['ring_um']]))
+            if actual==ring:matches.append(row)
+        if len(matches)!=1 or matches[0]['id'] in matched:raise ValueError('exact adapter rectangle not uniquely imported')
+        row=matches[0];matched.add(row['id'])
+        allowed_borders={'app.freerouting.geometry.planar.'+name for name in ('IntBox','IntOctagon','Simplex','PolygonShape')}
+        layer=state['layers'].index(row['layer'])
+        if (row['holes']!=0 or row.get('hole_shapes')!=[] or row.get('ring_unavailable') is not False
+                or type(row.get('corner_count')) is not int or row['corner_count']!=4
+                or row.get('border_class') not in allowed_borders or len(row['ring_board_integer'])!=4
+                or len(row.get('ring_classes',[]))!=4 or any(k!='app.freerouting.geometry.planar.IntPoint' for k in row['ring_classes'])
+                or row['nets'] or row['fixed']!='SYSTEM_FIXED' or row['clearance_class_index']!=1
+                or any(type(row.get(k)) is not int or row[k]!=layer for k in ('layer_index','first_layer','last_layer'))
+                or ses_checks.canonical_ring([[ses_checks.number(x) for x in point] for point in row['ring_um']])!=ses_checks.canonical_ring([[x0,y0],[x1,y0],[x1,y1],[x0,y1]])):
+            raise ValueError('adapter rectangle constraints differ')
+        for point,um in zip(row['ring_board_integer'],row['ring_um']):
+            if (not isinstance(point,list) or len(point)!=2 or any(type(x) is not int for x in point)
+                    or [ses_checks.number(x)/scale+ses_checks.number(o) for x,o in zip(point,origin)]!=list(map(ses_checks.number,um))):
+                raise ValueError('adapter rectangle exact integer witness differs')
+    corrected=copy.deepcopy(state);corrected.pop('adapter_obstacles');corrected.pop('adapter_obstacle_count')
+    corrected['items']=[r for r in corrected['items'] if r['id'] not in matched]
+    prior=copy.deepcopy(retained)
+    planes=[a for a in prior['areas'] if a['nets']==['GND'] and a['fixed']=='SYSTEM_FIXED']
+    if len(planes)!=1:raise ValueError('one retained GND plane required')
+    pid=planes[0]['id'];prior['areas']=[a for a in prior['areas'] if a['id']!=pid]
+    prior['items']=[a for a in prior['items'] if a['id']!=pid];prior['census']['areas']-=1
+    ground=[n for n in prior['nets'] if n['name']=='GND']
+    if len(ground)!=1 or ground[0]['contains_plane'] is not True:raise ValueError('original engine plane status differs')
+    ground[0]['contains_plane']=False
+    s.equal(static_state(corrected,renumber=True),static_state(prior,renumber=True),'corrected adapter changed other imported constraints')
+    return sorted(matched)
+
+
 def effective(value):
     if set(value)!={'configuration_json','layers_json','board_specific_costs_applied'} or type(value['board_specific_costs_applied']) is not bool:
         raise ValueError('effective settings witness schema/types differ')
@@ -40,20 +97,24 @@ def effective(value):
         raise ValueError('exact two active routing layers required')
     return {'configuration':config,'layers':layers,'board_specific_costs_applied':value['board_specific_costs_applied']}
 
-def compare(observed,expected,retained_selective,*,native_diagnostic=False):
+def compare(observed,expected,retained_selective,*,native_diagnostic=False,adapter_receipt=None):
     if (type(observed.get('schema')) is not int or observed['schema']!=1 or observed.get('mode')!='selective_route_diagnostic'
             or observed.get('status')!='observed' or observed.get('routing_executed') is not True
             or observed.get('ses_executed') is not True or type(observed.get('cancel_before_routing')) is not bool):
         raise ValueError('complete direct pipeline observation required')
     row=observed['case']
     transport.validate_local_rows([row],expected,(False,))
-    s.transition(row)
+    if adapter_receipt is not None and row.get('plane_suppressed') is not True:raise ValueError('explicit adapter plane mode required')
+    s.transition(row,plane_suppressed=adapter_receipt is not None)
     for key in ('route_geometry_before_local','route_geometry','route_geometry_after_selective'):
         if row[key]!={'trace_count':0,'via_count':0,'traces':[],'vias':[]}:
             raise ValueError('ordinary reference route leaked into solver input')
-    s.equal(static_state(row['state_after_selective'],renumber=True),
-            static_state(retained_selective['case']['state_after_selective'],renumber=True),
-            'stripped import changed nonrouting constraints')
+    if adapter_receipt is None:
+        s.equal(static_state(row['state_after_selective'],renumber=True),
+                static_state(retained_selective['case']['state_after_selective'],renumber=True),
+                'stripped import changed nonrouting constraints')
+    else:
+        adapter_projection(row['state_after_selective'],retained_selective['case']['state_after_selective'],adapter_receipt)
     before=row['state_after_selective'];after=observed['final_state'];geometry=observed['final_geometry']
     s.equal(static_state(before),static_state(after),'routing changed nonrouting constraints')
     loaded=effective(observed['settings_loaded']);enabled=effective(observed['settings_enabled']);final=effective(observed['settings_final'])

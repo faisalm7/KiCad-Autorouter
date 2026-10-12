@@ -1,0 +1,87 @@
+{
+  "cached_api_bindings": {
+    ".runs/custom-pad-area-api-inspection-002/app.freerouting.board.model.items.ObstacleArea.txt": {
+      "bytes": 2112,
+      "sha256": "80154b80323ca117bfe51797868cc2eea33ed07813fbdd1a79c4eb2940cff848"
+    },
+    ".runs/custom-pad-area-api-inspection-002/app.freerouting.geometry.planar.Area.txt": {
+      "bytes": 1581,
+      "sha256": "6cb289ba0ef1b52cd2d72ad0392ec18bbbe8ed0c07ba944cfb41e21439e64ca6"
+    },
+    ".runs/pic-padstack-api-inspection-002/app.freerouting.geometry.planar.IntPoint.txt": {
+      "bytes": 2795,
+      "sha256": "de1f67988635dfd0e80de9367e7e49cb6464992ee7f5e7e9b42ba40057981a78"
+    },
+    ".runs/pic-padstack-api-inspection-002/app.freerouting.geometry.planar.PolylineShape.txt": {
+      "bytes": 2851,
+      "sha256": "05d83f40030796cde75379a1261515a708a344b7e31bb068500b4d33db4e7faf"
+    },
+    ".runs/pic-padstack-api-inspection-002/app.freerouting.geometry.planar.Shape.txt": {
+      "bytes": 1526,
+      "sha256": "6902d7dc4cbf26d28f604a7e529f50cae1782bcb5e7f5c692b1afc3e7f61d702"
+    },
+    ".runs/pic-routing-rational-diagnosis-001/source/RationalPoint.java": {
+      "bytes": 9278,
+      "sha256": "46d1ea1122909839c24670a7354a2fe5cd4cfe2ce6b9280645c9c1d61d2c20ec"
+    },
+    ".runs/pic-selective-area-plan-001/source/ObstacleArea.java": {
+      "bytes": 10365,
+      "sha256": "b6dc3cef274215d66ed8ebf6caf2277d85d4a1278b917e7b313f5c41c00c79af"
+    }
+  },
+  "findings": [],
+  "head": "60dacfe5aa9f7350f02326c63199c4148b23c513",
+  "limits": [
+    "Source review does not prove compilation, native validity, routing success or transport exactness.",
+    "Existing ordinary obstacles without polyline borders retain class/bounds and explicit ring_unavailable; this does not qualify arbitrary hidden shape geometry. New19 rectangles must still pass the root independent geometry checker.",
+    "Extreme otherwise bounded exact observations can exceed16MiB JSON and fail closed; no unbounded publication is introduced.",
+    "Old-mode semantic compatibility is source-reviewed; no historical/native executions repeated."
+  ],
+  "reviewed_obligations": [
+    {
+      "evidence": "observe/routeGeometry/writeSes/targets/prepare/run original signatures delegate false. Default writer calls false for both state and route geometry. Existing route/cancel arguments remain; only explicit adapter-route requests true. Shared predicates now permit 2 or 3 areas, but default targets still require exactly3 and one unchanged GND plane.",
+      "obligation": "old-mode isolation"
+    },
+    {
+      "evidence": "Adapter load targets require exactly2 original local bodies and zero residual original plane. Exact-class ObstacleArea census requires33; excludes ConductionArea subclasses. All observed obstacle metadata, board-space bounds, layer, hole counts, available polyline integer rings and unavailable-ring flag retained.",
+      "obligation": "finite new adapter scope"
+    },
+    {
+      "evidence": "ExactPointWitness uses direct IntPoint integer fields or pinned RationalPoint package-private BigInteger x/y/z; no float/SES conversion. Rejects null, unknown classes, nonpositive denominator and any raw coordinate over4096bits; gcd normalization preserves exact signed affine coordinates. It runs before toFloat in route/via capture.",
+      "obligation": "no invented exact fraction"
+    },
+    {
+      "evidence": "Existing synchronous pipeline, 60second cooperative deadline, external runner authority and final job.board selection unchanged. Adapter boolean propagates through prepared/final/writer state and exact route capture. Manager replacement selects the same final job.board before unchanged saveAsSpecctraSessionSes call.",
+      "obligation": "actual final board and default writer"
+    },
+    {
+      "evidence": "Existing1MiB input/16MiB JSON/4MiB SES and item4096,pin512,trace2048,via512 bounds retained. New obstacle holes<=32, each polyline3..4096corners and aggregate<=16384; route aggregate<=16384 with positive widths and valid layers. Writer preserves first failure and after-observations; no acceptance flag is granted.",
+      "obligation": "finite observation bounds"
+    },
+    {
+      "evidence": "Cached pinned declarations expose ObstacleArea.name/getArea/getLayer; Area isBounded/getBorder/getHoles/boundingBox; PolylineShape borderLineCount/corner. Cached primary RationalPoint declares final package-private BigInteger x/y/z with affine x/z,y/z; new helper uses same package. Actual runtime access remains to be tested by ROOT.",
+      "obligation": "source/API plausibility"
+    }
+  ],
+  "scope": "Independent read-only source/API review only; no Java compiler/JVM/native/engine/network execution",
+  "source_and_cached_api_unchanged": true,
+  "source_bindings": {
+    "experiments/pic_mixed_transport_probe_v1/ExactPointWitness.java": {
+      "bytes": 1301,
+      "sha256": "662607bbd68a7e45682014bc5af8c05798c177fd3a645c5e73650b5e8ddc7f46"
+    },
+    "experiments/pic_mixed_transport_probe_v1/MixedClassProbe.java": {
+      "bytes": 24952,
+      "sha256": "04bbc93e2803516064f61ef7cae1b41050502f5e56d597da5c4e572a74b2d9e9"
+    },
+    "experiments/pic_mixed_transport_probe_v1/SelectiveAreaProbe.java": {
+      "bytes": 12298,
+      "sha256": "79a78bd4f5856cf64df74d3215e9a6582776bb325518136bf032637723f87d2a"
+    },
+    "experiments/pic_mixed_transport_probe_v1/SelectiveRoutingProbe.java": {
+      "bytes": 7038,
+      "sha256": "89b9d182e7b6c7375c9e697c7b3d232197e075fd2d905110078100ae6d1038ed"
+    }
+  },
+  "verdict": "No concrete blocker found within the four-file Java scope; actual compilation/import/routing remain unqualified by this review."
+}

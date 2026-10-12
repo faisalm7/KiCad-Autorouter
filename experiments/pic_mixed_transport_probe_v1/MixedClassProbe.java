@@ -30,6 +30,9 @@ public final class MixedClassProbe {
       "layer_count",s.getLayerCount(),"router_enabled",s.getRunRouter(),"optimizer_enabled",s.getRunOptimizer());
   }
   static void observe(RoutingBoard b,Map<String,Object> state){
+    observe(b,state,false);
+  }
+  static void observe(RoutingBoard b,Map<String,Object> state,boolean adapter){
     var ct=b.communication.coordinateTransform;var m=b.rules.clearanceMatrix;
     state.put("census",map("items",b.getItems().size(),"pins",b.getPins().size(),"traces",b.getTraces().size(),
       "vias",b.getVias().size(),"areas",b.getConductionAreas().size(),"components",b.components.count(),
@@ -73,6 +76,46 @@ public final class MixedClassProbe {
       nets.add(map("name",net.name,"number",n,"class",nc.getName(),"width_um",widths,"trace_clearance_class",nc.getTraceClearanceClass(),
         "default_item_classes",defaults,"contains_plane",net.containsPlane(),"terminal_ids",ids(net.getTerminalItems()),"connected_sets",groups));
     }
+    if(adapter)adapterObstacles(b,state);
+  }
+  /** Names of global DSN keepouts are discarded by the importer; retain actual geometry instead. */
+  static void adapterObstacles(RoutingBoard b,Map<String,Object> state){
+    List<ObstacleArea> selected=new ArrayList<>();List<Object> rows=new ArrayList<>();
+    for(Item item:b.getItems())if(item.getClass()==ObstacleArea.class)selected.add((ObstacleArea)item);
+    state.putAll(map("adapter_obstacle_count",selected.size(),"adapter_obstacles",rows));
+    if(selected.size()!=33)throw new IllegalArgumentException("adapter mode requires 33 ordinary obstacles; count retained");
+    int[] corners={0};
+    for(ObstacleArea obstacle:selected){
+      var row=item(obstacle,b);rows.add(row);int layer=obstacle.getLayer();var area=obstacle.getArea();
+      if(layer<0||layer>=b.getLayerCount()||area==null||!area.isBounded())
+        throw new IllegalArgumentException("ordinary obstacle layer/area scope");
+      var holes=area.getHoles();
+      if(holes==null||holes.length>32)throw new IllegalArgumentException("ordinary obstacle hole bound");
+      var bounds=area.boundingBox();List<Object> holeShapes=new ArrayList<>();
+      row.putAll(map("name",obstacle.name,"layer_index",layer,"layer",b.layerStructure.layers[layer].name,
+        "bounds_board_integer",List.of(bounds.ll.x,bounds.ll.y,bounds.ur.x,bounds.ur.y),
+        "bounds_um",AreaContactProbe.box(b.communication.coordinateTransform,bounds),
+        "holes",holes.length,"hole_shapes",holeShapes));
+      row.putAll(obstacleBorder(b,area.getBorder(),corners));
+      for(Shape hole:holes)holeShapes.add(obstacleBorder(b,hole,corners));
+    }
+  }
+  static Map<String,Object> obstacleBorder(RoutingBoard b,Shape border,int[] total){
+    if(border==null||!border.isBounded())throw new IllegalArgumentException("bounded ordinary obstacle border required");
+    var ct=b.communication.coordinateTransform;var bounds=border.boundingBox();
+    var row=map("border_class",border.getClass().getName(),"border_bounds_board_integer",List.of(bounds.ll.x,bounds.ll.y,bounds.ur.x,bounds.ur.y),
+      "border_bounds_um",AreaContactProbe.box(ct,bounds),"ring_unavailable",!(border instanceof PolylineShape));
+    if(border instanceof PolylineShape poly){
+      int count=poly.borderLineCount();row.put("corner_count",count);total[0]+=count;
+      if(count<3||count>4096||total[0]>16384)throw new IllegalArgumentException("ordinary obstacle contour bound");
+      List<Object> ring=new ArrayList<>(),integerRing=new ArrayList<>();List<String> kinds=new ArrayList<>();
+      for(int k=0;k<count;k++){
+        Point p=poly.corner(k);ring.add(AreaContactProbe.point(ct,p.toFloat()));
+        integerRing.add(AreaContactProbe.integerPoint(p));kinds.add(p.getClass().getName());
+      }
+      row.putAll(map("ring_um",ring,"ring_board_integer",integerRing,"ring_classes",kinds));
+    }
+    return row;
   }
   /** Finite post-load diagnostic for the two captured JP1 footprint overrides only. */
   static void applyLocal250(RoutingBoard b,Map<String,Object> row){
@@ -148,8 +191,11 @@ public final class MixedClassProbe {
     audit.put("tree_entries_valid",valid);
     if(!valid)throw new IllegalArgumentException("local item search-tree entries invalid after refresh");
   }
-  /** Separate route geometry, emitted only by local250-ses; no approximate point is promoted to exact. */
+  /** Separate route geometry; optional exact coordinates remain an observation, never acceptance. */
   static void routeGeometry(RoutingBoard b,Map<String,Object> result){
+    routeGeometry(b,result,false);
+  }
+  static void routeGeometry(RoutingBoard b,Map<String,Object> result,boolean exact){
     var ct=b.communication.coordinateTransform;
     List<Object> traces=new ArrayList<>(),vias=new ArrayList<>();
     result.putAll(map("trace_count",b.getTraces().size(),"via_count",b.getVias().size(),"traces",traces,"vias",vias));
@@ -163,19 +209,22 @@ public final class MixedClassProbe {
       totalCorners+=n;
       if(n<2||n>4096||totalCorners>16384||layer<0||layer>=b.getLayerCount()||poly.getHalfWidth()<=0)
         throw new IllegalArgumentException("ordinary trace corner/layer/width bound");
-      List<Object> corners=new ArrayList<>(),integerCorners=new ArrayList<>();List<String> classes=new ArrayList<>();
+      List<Object> corners=new ArrayList<>(),integerCorners=new ArrayList<>(),exactCorners=new ArrayList<>();List<String> classes=new ArrayList<>();
       for(int k=0;k<n;k++){
-        Point point=poly.polyline().corner(k);corners.add(AreaContactProbe.point(ct,point.toFloat()));
+        Point point=poly.polyline().corner(k);if(exact)exactCorners.add(ExactPointWitness.capture(point));
+        corners.add(AreaContactProbe.point(ct,point.toFloat()));
         integerCorners.add(AreaContactProbe.integerPoint(point));classes.add(point.getClass().getName());
       }
       row.putAll(map("layer_index",layer,"layer",b.layerStructure.layers[layer].name,"half_width_board_units",poly.getHalfWidth(),
         "width_um",ct.boardToDsn(2.0*poly.getHalfWidth()),"corners_um",corners,"corners_board_integer",integerCorners,"corner_classes",classes));
+      if(exact)row.put("corners_board_exact",exactCorners);
     }
     for(Via via:b.getVias()){
       var row=item(via,b);vias.add(row);Point center=via.getCenter();List<String> layers=new ArrayList<>();
       if(via.firstLayer()<0||via.lastLayer()<via.firstLayer()||via.lastLayer()>=b.getLayerCount()||via.getPadstack()==null)
         throw new IllegalArgumentException("ordinary via layer/padstack scope");
       for(int l=via.firstLayer();l<=via.lastLayer();l++)layers.add(b.layerStructure.layers[l].name);
+      if(exact)row.put("position_board_exact",ExactPointWitness.capture(center));
       row.putAll(map("position_um",AreaContactProbe.point(ct,center.toFloat()),"position_board_integer",AreaContactProbe.integerPoint(center),
         "position_class",center.getClass().getName(),"padstack_name",via.getPadstack().name,"layers",layers,"bounds_um",AreaContactProbe.box(ct,via.boundingBox())));
     }
@@ -201,6 +250,9 @@ public final class MixedClassProbe {
     String message=e.getClass().getName()+": "+e.getMessage();return message.length()>4096?message.substring(0,4096):message;
   }
   static void writeSes(HeadlessBoardManager manager,RoutingBoard board,Path path,Map<String,Object> row)throws Exception{
+    writeSes(manager,board,path,row,false);
+  }
+  static void writeSes(HeadlessBoardManager manager,RoutingBoard board,Path path,Map<String,Object> row,boolean exact)throws Exception{
     var ses=map("executed",false,"returned",null,"closed",false,"bytes",0,"sha256",null,"path","raw.ses","write_completed",false);
     row.put("ses",ses);Exception failure=null;BoundedSesStream stream=null;
     try{
@@ -225,9 +277,9 @@ public final class MixedClassProbe {
       }
       // Preserve after-observations even when the writer returned false or a file audit failed.
       var after=map();row.put("state_after_ses",after);
-      try{observe(board,after);}catch(Exception e){ses.put("state_error",boundedError(e));if(failure==null)failure=e;}
+      try{observe(board,after,exact);}catch(Exception e){ses.put("state_error",boundedError(e));if(failure==null)failure=e;}
       var geometry=map();row.put("route_geometry_after_ses",geometry);
-      try{routeGeometry(board,geometry);}catch(Exception e){ses.put("geometry_error",boundedError(e));if(failure==null)failure=e;}
+      try{routeGeometry(board,geometry,exact);}catch(Exception e){ses.put("geometry_error",boundedError(e));if(failure==null)failure=e;}
     }
     if(failure!=null){ses.put("error",boundedError(failure));throw failure;}
   }

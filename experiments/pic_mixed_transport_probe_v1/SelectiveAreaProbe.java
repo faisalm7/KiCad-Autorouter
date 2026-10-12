@@ -16,6 +16,9 @@ public final class SelectiveAreaProbe {
   static final String[] ARGV={"--router.autorouter.enabled=false","--router.optimizer.enabled=false","--router.plane_as_obstacle=false"};
 
   static List<ConductionArea> targets(RoutingBoard board,Map<String,Object> row){
+    return targets(board,row,false);
+  }
+  static List<ConductionArea> targets(RoutingBoard board,Map<String,Object> row,boolean planeSuppressed){
     if(!(row.get("local_override") instanceof Map<?,?> local)||!(local.get("targets") instanceof List<?> audit)||audit.size()!=2)
       throw new IllegalArgumentException("exact local override target audit required");
     List<ConductionArea> result=new ArrayList<>();Set<Integer> ids=new HashSet<>();
@@ -27,8 +30,8 @@ public final class SelectiveAreaProbe {
         throw new IllegalArgumentException("selective target identity differs from completed local override");
       result.add(area);
     }
-    if(board.getConductionAreas().size()!=3||!board.rules.getIgnoreConduction())
-      throw new IllegalArgumentException("expected false-global three-area baseline required");
+    if(board.getConductionAreas().size()!=(planeSuppressed?2:3)||!board.rules.getIgnoreConduction())
+      throw new IllegalArgumentException(planeSuppressed?"expected false-global two-area baseline required":"expected false-global three-area baseline required");
     int original=0;
     for(ConductionArea area:board.getConductionAreas()){
       if(area.getIsObstacle())throw new IllegalArgumentException("baseline area unexpectedly enabled");
@@ -39,7 +42,7 @@ public final class SelectiveAreaProbe {
         original++;
       }
     }
-    if(original!=1)throw new IllegalArgumentException("one unchanged original plane required");
+    if(original!=(planeSuppressed?0:1))throw new IllegalArgumentException(planeSuppressed?"suppressed mode requires no original plane":"one unchanged original plane required");
     return result;
   }
 
@@ -48,7 +51,7 @@ public final class SelectiveAreaProbe {
     List<Item> routes=new ArrayList<>();routes.addAll(board.getTraces());routes.addAll(board.getVias());
     out.putAll(map("area_count",board.getConductionAreas().size(),"route_count",routes.size(),
       "item_count",board.getItems().size(),"areas",areas,"trace_queries",queries,"tree_entries",entries));
-    if(board.getConductionAreas().size()!=3||routes.size()>2560||board.getItems().size()>4096)
+    if((board.getConductionAreas().size()!=2&&board.getConductionAreas().size()!=3)||routes.size()>2560||board.getItems().size()>4096)
       throw new IllegalArgumentException("predicate census bound; counts retained");
     boolean valid=true,rawValid=true;int indexed=0,unindexed=0;
     var tree=board.searchTreeManager.getDefaultTree();
@@ -96,6 +99,10 @@ public final class SelectiveAreaProbe {
 
   record Prepared(RoutingJob job,HeadlessBoardManager manager,RoutingBoard board) {}
   static Prepared prepare(byte[] raw,Map<String,Object> row,String[] argv)throws Exception{
+    return prepare(raw,row,argv,false);
+  }
+  static Prepared prepare(byte[] raw,Map<String,Object> row,String[] argv,boolean planeSuppressed)throws Exception{
+    if(planeSuppressed)row.put("plane_suppressed",true);
     CliSettings cli=new CliSettings(argv);
     SettingsSource[] sources={new DefaultSettings(),new DsnFileSettings(new ByteArrayInputStream(raw),"original-mixed.dsn"),cli};
     RouterSettings settings=new SettingsMerger(sources).merge();RoutingJob job=new RoutingJob();job.routerSettings=settings;
@@ -107,12 +114,12 @@ public final class SelectiveAreaProbe {
     if(!(loaded instanceof BoardReadResult.Success success)||!(success.board() instanceof RoutingBoard board)||manager.getRoutingBoard()!=board)
       throw new IllegalArgumentException("successful identical manager RoutingBoard required");
     board.awaitPostLoad();row.putAll(map("post_load_awaited",true,"parser_warnings",success.warnings(),"settings_after",MixedClassProbe.settings(job.routerSettings)));
-    var beforeLocal=map();row.put("state_before_local",beforeLocal);MixedClassProbe.observe(board,beforeLocal);
-    var geometryBeforeLocal=map();row.put("route_geometry_before_local",geometryBeforeLocal);MixedClassProbe.routeGeometry(board,geometryBeforeLocal);
+    var beforeLocal=map();row.put("state_before_local",beforeLocal);MixedClassProbe.observe(board,beforeLocal,planeSuppressed);
+    var geometryBeforeLocal=map();row.put("route_geometry_before_local",geometryBeforeLocal);MixedClassProbe.routeGeometry(board,geometryBeforeLocal,planeSuppressed);
     MixedClassProbe.applyLocal250(board,row);
-    var state=map();row.put("state",state);MixedClassProbe.observe(board,state);
-    var geometry=map();row.put("route_geometry",geometry);MixedClassProbe.routeGeometry(board,geometry);
-    List<ConductionArea> targets=targets(board,row);
+    var state=map();row.put("state",state);MixedClassProbe.observe(board,state,planeSuppressed);
+    var geometry=map();row.put("route_geometry",geometry);MixedClassProbe.routeGeometry(board,geometry,planeSuppressed);
+    List<ConductionArea> targets=targets(board,row,planeSuppressed);
     var before=map();row.put("predicates_before",before);predicates(board,before);
     List<Integer> changed=new ArrayList<>();for(ConductionArea area:targets)changed.add(area.getId());Collections.sort(changed);
     var audit=map("changed_area_ids",changed,"global_ignore_before",board.rules.getIgnoreConduction(),
@@ -127,9 +134,9 @@ public final class SelectiveAreaProbe {
     }catch(Exception e){failure=e;}
     // Capture each post-mutation stage independently, preserving any earlier cause.
     var afterState=map();row.put("state_after_selective",afterState);
-    try{MixedClassProbe.observe(board,afterState);}catch(Exception e){row.put("state_capture_error",MixedClassProbe.boundedError(e));if(failure==null)failure=e;}
+    try{MixedClassProbe.observe(board,afterState,planeSuppressed);}catch(Exception e){row.put("state_capture_error",MixedClassProbe.boundedError(e));if(failure==null)failure=e;}
     var afterGeometry=map();row.put("route_geometry_after_selective",afterGeometry);
-    try{MixedClassProbe.routeGeometry(board,afterGeometry);}catch(Exception e){row.put("geometry_capture_error",MixedClassProbe.boundedError(e));if(failure==null)failure=e;}
+    try{MixedClassProbe.routeGeometry(board,afterGeometry,planeSuppressed);}catch(Exception e){row.put("geometry_capture_error",MixedClassProbe.boundedError(e));if(failure==null)failure=e;}
     var after=map();row.put("predicates_after",after);
     try{predicates(board,after);}catch(Exception e){row.put("predicate_capture_error",MixedClassProbe.boundedError(e));if(failure==null)failure=e;}
     try{row.put("settings_after_selective",MixedClassProbe.settings(job.routerSettings));}

@@ -20,7 +20,9 @@ def task_copy(source,destination):
 def execute(out,source,expected,transport,remaining,dispatch,env,capture,record,pending_candidate,*,diagnostic_only=False):
     if not diagnostic_only and transport.get('generated_engine_to_ses_exact') is not True:
         raise ValueError('new engine-to-SES geometry differs')
-    if diagnostic_only and (transport.get('safe_structure') is not True or transport.get('retained_routing_failure')!='ValueError: exact integer engine point required'):
+    if diagnostic_only and (transport.get('safe_structure') is not True or transport.get('generated_engine_to_ses_exact') is not False
+            or not (transport.get('retained_routing_failure')=='ValueError: exact integer engine point required'
+                    or transport.get('adapter_proposal_only') is True and transport.get('proposal_only') is True)):
         raise ValueError('finite failed-transport native diagnostic required')
     job=ses_native.SesJob(out/'routing-native',remaining,dispatch,env)
     result={'candidate_emitted':False,'routing_accepted':False,'production_support_qualified':False,'diagnostic_only':diagnostic_only}

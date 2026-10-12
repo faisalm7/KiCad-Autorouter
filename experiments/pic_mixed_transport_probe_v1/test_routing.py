@@ -165,6 +165,44 @@ class RoutingChecks(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'SES net'):
             ses_checks.audit(raw.replace(b'Net-(Q2-C)',b'unknown-net'),self.unrouted,self.expected,task,generated=True,proposal_only=True)
 
+    def test_adapter_import_projection_keeps_rectangles_plane_and_other_rules_explicit(self):
+        from experiments.pic_mixed_transport_probe_v1 import routing_adapter
+        from decimal import Decimal
+        context=json.loads((ROOT/'evidence/pic-mixed-transport-probe-005/context.json').read_text())
+        with tempfile.TemporaryDirectory(dir=ROOT/'.runs') as td:
+            path=Path(td)/'input.dsn';path.write_bytes(self.unrouted);receipt=routing_adapter.apply(path,context)
+        retained=self.retained['case']['state_after_selective'];state=copy.deepcopy(retained)
+        plane=next(a for a in state['areas'] if a['nets']==['GND']);pid=plane['id']
+        state['areas']=[a for a in state['areas'] if a['id']!=pid];state['census']['areas']-=1
+        state['items']=[a for a in state['items'] if a['id']!=pid]
+        next(n for n in state['nets'] if n['name']=='GND')['contains_plane']=False
+        kind='app.freerouting.board.model.items.ObstacleArea'
+        state['adapter_obstacles']=[copy.deepcopy(i) for i in state['items'] if i['kind']==kind]
+        transforms=[r for r in receipt['adapter']['transformations'] if r['kind']=='native_graphic_bbox_keepout']
+        for index,rect in enumerate(transforms):
+            layer=state['layers'].index(rect['dsn_layer']);x0,y0,x1,y1=map(Decimal,rect['rect_um'])
+            item={'id':30000+index,'kind':kind,'nets':[],'fixed':'SYSTEM_FIXED','clearance_class_index':1,'first_layer':layer,'last_layer':layer,'contacts':[]}
+            state['items'].append(item)
+            ring=[[x0,y0],[x1,y0],[x1,y1],[x0,y1]]
+            state['adapter_obstacles'].append(dict(copy.deepcopy(item),layer=rect['dsn_layer'],layer_index=layer,holes=0,hole_shapes=[],ring_unavailable=False,corner_count=4,border_class='app.freerouting.geometry.planar.IntBox',ring_classes=['app.freerouting.geometry.planar.IntPoint']*4,ring_um=[[float(x) for x in point] for point in ring],ring_board_integer=[[int(x*10) for x in point] for point in ring]))
+        state['adapter_obstacle_count']=33
+        self.assertEqual(len(c.adapter_projection(state,retained,receipt)),19)
+        for case in ('shrink','omission','plane','clearance','width','bowtie','opposite_layer','unavailable'):
+            bad=copy.deepcopy(state)
+            if case=='shrink':bad['adapter_obstacles'][-1]['ring_um'][0][0]+=0.1
+            elif case=='omission':bad['adapter_obstacles'].pop()
+            elif case=='plane':next(n for n in bad['nets'] if n['name']=='GND')['contains_plane']=True
+            elif case=='clearance':bad['adapter_obstacles'][-1]['clearance_class_index']=0
+            elif case=='width':bad['nets'][0]['width_um'][0]+=1
+            elif case=='bowtie':
+                for field in ('ring_um','ring_board_integer'):
+                    ring=bad['adapter_obstacles'][-1][field];ring[1],ring[2]=ring[2],ring[1]
+            elif case=='opposite_layer':
+                row=bad['adapter_obstacles'][-1];other=1-row['layer_index'];row.update(layer_index=other,first_layer=other,last_layer=other)
+                next(item for item in bad['items'] if item['id']==row['id']).update(first_layer=other,last_layer=other)
+            else:bad['adapter_obstacles'][-1].update(ring_unavailable=True,border_class='app.freerouting.geometry.planar.Circle',corner_count=0)
+            with self.subTest(case=case),self.assertRaises(ValueError):c.adapter_projection(bad,retained,receipt)
+
     def test_native_task_copy_retains_original_intent_and_rules(self):
         with tempfile.TemporaryDirectory(dir=ROOT/'.runs') as td:
             target=routing_native.task_copy(ROOT/'.data/boards/kicad-pic-programmer/pic_programmer.kicad_pcb',Path(td)/'task')

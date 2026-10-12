@@ -1,0 +1,33 @@
+{
+  "scope": "Synthetic observer JSON over retained public state; not actual native/importer evidence. No source/run mutations.",
+  "sources": {
+    "routing_adapter.py": "e94c74271898ae2e2d624098f1c6d5d00c368b830c9212af40a16ad461be2865",
+    "routing_checks.py": "8a4c9faa184aeacb46c4a79027199e12c0c75bd9d2c94abbba84bdcecb1c2b4a",
+    "selective.py": "e36dea5ffcb7e8a36992e6cb7251fefa66e36fcd1cadbe0edd0f6f148082be61",
+    "routing_native.py": "e092fba61751322e4783d399f3d6a97e90e92399a89619119ab387b300ece9cc",
+    "driver.py": "7caeacbc854bfb787842560da5ed85dc56d0c903911ad0e8b4adbf772b53cbb7",
+    "ADAPTER_PROTOCOL.json": "49618201bbe7e1a4179c4beb0fe8edfe0e534c0491baa1626f7665e18eff0c4e"
+  },
+  "results": [
+    {
+      "case": "positive",
+      "accepted": true,
+      "matched": 19
+    },
+    {
+      "case": "bowtie_order",
+      "accepted": false,
+      "error": "ValueError: adapter rectangle constraints differ"
+    },
+    {
+      "case": "wrong_layer_index",
+      "accepted": false,
+      "error": "ValueError: adapter rectangle constraints differ"
+    },
+    {
+      "case": "unavailable_border",
+      "accepted": false,
+      "error": "ValueError: adapter rectangle constraints differ"
+    }
+  ]
+}
