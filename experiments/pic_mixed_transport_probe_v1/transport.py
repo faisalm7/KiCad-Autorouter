@@ -109,7 +109,10 @@ def derive(raw,context,observation,notes):
         'native_pad_count':len(context['pads']),
         'terminals':[{'reference':p['reference'],'number':p['number'],'net':p['net'],'position_um':old.coord(p['position_nm'])}
             for p in context['pads'] if p['netcode']>0 and p['copper_layers']],
-        'nets':{n['name']:{'class':'kicad_default' if n['class']=='Default' else n['class'],
+        # Pinned KiCadNetClassNames maps DSN kicad_default to runtime default.
+        # Native, interchange and imported labels are distinct namespaces.
+        'nets':{n['name']:{'class':'default' if n['class']=='Default' else n['class'],
+            'dsn_class':'kicad_default' if n['class']=='Default' else n['class'],
             'width_um':n['width_nm']/1000,'clearance_um':n['clearance_nm']/1000} for n in context['nets']},
         'unchanged_original_wire_count':len(sx.children(sx.one(original,'wiring'),'wire')),
         'unchanged_original_via_count':len(sx.children(sx.one(original,'wiring'),'via')),
@@ -175,7 +178,7 @@ def validate(observed,expected):
             if canonical_ring(exact)!=canonical_ring(want['ring_um']):raise ValueError('exact integer body coordinates differ')
             layer=expected['layer_order'].index(want['layer']);clearances=[]
             for name,n in nets.items():
-                if n['class'] not in ('kicad_default','POWER'):raise ValueError('unexpected imported original class')
+                if n['class'] not in ('default','POWER'):raise ValueError('unexpected imported original class')
                 if any(x['class']==n['class'] for x in clearances):continue
                 cell=matrix[(area['clearance_class_index'],n['trace_clearance_class'],layer)]
                 clearances.append({'class':n['class'],'area_to_trace_raw_um':cell['raw_um'],'compensated_um':cell['compensated_um'],

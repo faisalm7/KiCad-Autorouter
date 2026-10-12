@@ -42,14 +42,55 @@ def _children_only(node, allowed, start=1):
         raise ValueError("Malformed or unqualified " + str(node[0]) + " override")
 
 
+def reject_tuning_intent(project):
+    """Reject profile assignments/definitions independently of class routing scope.
+
+    These are the pinned KiCad project fields, not meander UI preferences.
+    Missing older fields and explicitly empty current fields remain inactive.
+    No project value is rewritten and no severity semantics are admitted.
+    """
+    if not isinstance(project, dict):
+        raise ValueError("Project JSON object required")
+    settings = project.get("net_settings", {})
+    if not isinstance(settings, dict):
+        raise ValueError("Malformed net settings")
+    classes = settings.get("classes", [])
+    if not isinstance(classes, list):
+        raise ValueError("Malformed netclass list")
+    for cls in classes:
+        if not isinstance(cls, dict):
+            raise ValueError("Malformed netclass")
+        if "tuning_profile" in cls:
+            profile = cls["tuning_profile"]
+            if not isinstance(profile, str):
+                raise ValueError("Malformed netclass tuning profile")
+            if profile:
+                raise ValueError("Netclass tuning profiles not qualified")
+    if "tuning_profiles" not in project:
+        return
+    definitions = project["tuning_profiles"]
+    if (not isinstance(definitions, dict)
+            or set(definitions) - {"meta", "tuning_profiles_impedance_geometric"}):
+        raise ValueError("Unqualified tuning profile definitions schema")
+    if "meta" in definitions:
+        meta = definitions["meta"]
+        if (not isinstance(meta, dict) or set(meta) != {"version"}
+                or type(meta["version"]) is not int or meta["version"] != 0):
+            raise ValueError("Unqualified tuning profile definitions schema")
+    profiles = definitions.get("tuning_profiles_impedance_geometric", [])
+    if not isinstance(profiles, list):
+        raise ValueError("Malformed tuning profile definitions")
+    if profiles:
+        raise ValueError("Tuning profile definitions not qualified")
+
+
 def qualify_project(project):
     """Admit Default alone, or Default plus one class with literal identifiers.
 
     This is an eligibility whitelist, not a general netclass resolver. Native
     KiCad remains the source of the per-net effective class map.
     """
-    if not isinstance(project, dict):
-        raise ValueError("Project JSON object required")
+    reject_tuning_intent(project)
     settings = project.get("net_settings")
     if not isinstance(settings, dict):
         raise ValueError("Original net settings required")

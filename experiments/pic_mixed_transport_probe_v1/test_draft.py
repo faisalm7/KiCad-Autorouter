@@ -272,6 +272,20 @@ class Pure(unittest.TestCase):
         self.assertLess(len((json.dumps(compact,indent=2)+'\n').encode()),1024**2)
         saved={s:clear for s in ('before_export','after_export')}
         self.assertEqual(driver.verify_load_observations(compact,saved,self.context,self.notes),clear)
+    def test_actual_import_runtime_default_namespace(self):
+        raw=json.loads((ROOT/'evidence/pic-mixed-transport-probe-005/observations.json').read_text())
+        self.assertEqual(self.expected['nets']['GND']['class'],'POWER')
+        defaults=[n for n in self.expected['nets'].values() if n['dsn_class']=='kicad_default']
+        self.assertEqual(len(defaults),109);self.assertTrue(all(n['class']=='default' for n in defaults))
+        run=ROOT/'evidence/pic-mixed-transport-probe-005'
+        _,actual_expected=transport.derive((run/'native.dsn').read_bytes(),json.loads((run/'context.json').read_text()),json.loads((run/'custom.json').read_text()),self.notes)
+        result=transport.validate(raw,actual_expected);self.assertEqual(len(result),2)
+        self.assertTrue(all(r['observed'] for r in result))
+        for label in ('kicad_default','Default','POWER','future_default'):
+            bad=copy.deepcopy(raw);row=next(n for n in bad['cases'][0]['state']['nets'] if n['class']=='default');row['class']=label
+            with self.subTest(label=label),self.assertRaisesRegex(ValueError,'class/width'):transport.validate(bad,actual_expected)
+        bad=copy.deepcopy(raw);bad['cases'][0]['state']['nets'][0]['width_um'][0]+=1
+        with self.assertRaisesRegex(ValueError,'class/width'):transport.validate(bad,actual_expected)
     def test_shared_publication_invalidates_late_material(self):
         for which in ('positive','evidence','cancel'):
             with self.subTest(which=which),tempfile.TemporaryDirectory(dir=HERE) as temp:

@@ -1,0 +1,19 @@
+# Actual mixed transport005: independent raw audit
+
+The retained run is internally consistent and still failed. At source `569959f`, native observation, Java compilation and both manager imports completed with exit0 and cleanup true. The original frozen `transport.validate` then rejects `engine original class/width differs`; this review reproduced that exact failure without changing labels, expectations, artifacts or source.
+
+Both imports contain the exact111 expected nets. The mismatch is109 `kicad_default` labels represented as `default`; all109 widths remain500 µm on both layers. GND and VCC remain POWER with800 µm widths. This establishes an observed label difference, not a general class-name normalization policy. The original validator has not passed, and later facts below were audited separately using its stored expectations and shared geometry helpers.
+
+Both cases preserve240 uniquely identified placed DSN pins, including236 assigned pins with exact original nets/positions and four expected unassigned pins. This is separate from247 native pad rows. Both report63 components,339 traces,6 vias,3 areas and2 layers. Import normalization/connectivity does not prove exact original trace union or future SES survival. Before/after settings disable router and optimizer, preserve the requested plane flag, and record completed post-load processing.
+
+Both synthetic custom areas match the exact expected native world rings and integer coordinates, fixed USER_FIXED status, holes0 and requested obstacle flag. VCC pin869/area1221 and VCC_PIC pin870/area1222 have reciprocal own contacts in both modes. Their ring areas are1,875,000 and1,350,000 µm²; retained API area values are0. This geometry/contact observation is not a routed-result or electrical-validity claim.
+
+Each mode records the complete50-cell two-layer matrix for five classes. Raw/board scales agree and all compensated entries add16 board units (=1.6 µm). POWER custom body and anchor use class3: raw280/compensated281.6 µm against POWER and default traces. The other body uses class1, anchor class2: raw250/compensated251.6 µm against default traces and280/281.6 µm against POWER. Original local-rule equivalence remains unqualified; these two pairs do not summarize every SMD/matrix rule.
+
+The raw import log reports287 pre-existing, fixed trace/via clearance violations after the second plane=true load, beginning with fixed vias against the GND obstacle area. Both parser-warning arrays are empty; these are separate diagnostic channels. The warnings are engine import findings, not a fresh KiCad verdict. The original GND plane and routing were retained. No routing or SES execution occurred, and native initialization/pairwise enforcement remain unqualified.
+
+All15 original files and copied project match. All70 run files were unchanged across review; all38 frozen source pins and33 basis pins match their retained bytes. Shared `verify_native` reproduces the native sidecar/context/source checks and exact derived DSN/expectations/native summary. All three process receipts match summary steps, exact owned cwd/log paths, offline sandbox invocation, nontruncated logs and cleanup status. No current-source rewrite was used: analysis imported the run's frozen code snapshot.
+
+Costs (wall / child CPU seconds): native0.691918 /0.483450; compile0.585436 /1.079943; import0.585973 /1.267515. Stored whole invocation2.972174 /3.900163 full CPU; outer3.129823 /4.043028 waited CPU, exit1. Both recorded180-second caps hold. Reporting samples are not hard CPU-preemption guarantees.
+
+`audit.json` contains exact hashes, settings, counts, area contacts, matrix pairs and outer receipt. Reproduce with `python3 -B .runs/review-pic-mixed-actual-005/audit.py`. This is an offline readback only: no native, Java, compiler, benchmark or network job was run. Original005 must remain failed; any corrected class-identity contract requires a separately recorded amendment and fresh run.

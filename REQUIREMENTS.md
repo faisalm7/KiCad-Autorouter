@@ -178,3 +178,7 @@ G2 mixed002 remains failed:actualPAD.GetEffectiveNetClass returned opaque SwigPy
 G2 mixed003 failed before initialization/export/import on the diagnostic's added exact name/code type guard. [Evidence](evidence/pic-mixed-transport-probe-003/summary.json). No raw return types were recorded; do not infer them. Source/copy unchanged; qualified native query-path alignment and fresh004 remain prospective.
 
 G2 mixed004 captured all247pre-call pad rows then crashed during WriteDRCReport, nativeexit-11. [Raw evidence](evidence/pic-mixed-transport-probe-004/summary.json). API observation is progress, not initialized-rule/geometry/import qualification. Explicit load-only1.1 amendment and fresh005 remain prospective; no native acceptance gate is relaxed.
+
+G2 actualmixed005 has successfulnative/export/compile/import processes but fails diagnosticclasslabel equality; [fullrawresult](evidence/pic-mixed-transport-probe-005/summary.json). Native109Default widths500um and2POWER800um survive; retainedwarnings/localoverride mismatches remain. No new family/completion/SES/native-rule qualification.
+
+G2profileintent correctness: actualDefault-only preflight bypass reproduced and closed with shared sourceguard;616tests/4historicalreadbacks and independent16case review pass. [Source](evidence/default-tuning-guard-source-001/ROOT_INTEGRATION.md). No newseverity support; freshnativecompatibility pending.

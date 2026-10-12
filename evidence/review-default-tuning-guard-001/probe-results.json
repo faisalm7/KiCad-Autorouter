@@ -1,0 +1,128 @@
+{
+  "schema": 1,
+  "passed": true,
+  "source_pins": {
+    "autorouter/netclass.py": "96a7425112bc5a5ce5d2f15f69efc334fbfbb97aa9deee1ee33ce984d25a8ea6",
+    "autorouter/pipeline.py": "266ffd1fb0ec4fea30a4b7d73df9d387c727b690ef2b13f3eeda6870cbd6a8fa",
+    "tests/test_default_tuning_intent.py": "182f4b7f5578d77c8af112cd2e0911e6307104dc0d04e4a12613e05e8d5a28e7"
+  },
+  "cases": [
+    {
+      "case": "unchanged",
+      "old": "admitted",
+      "new": "admitted",
+      "reason": null,
+      "project_bytes_unchanged": true
+    },
+    {
+      "case": "active_default",
+      "old": "admitted",
+      "new": "rejected",
+      "reason": "unsupported: Netclass tuning profiles not qualified",
+      "project_bytes_unchanged": true
+    },
+    {
+      "case": "unused_definition",
+      "old": "admitted",
+      "new": "rejected",
+      "reason": "unsupported: Tuning profile definitions not qualified",
+      "project_bytes_unchanged": true
+    },
+    {
+      "case": "meander_preferences",
+      "old": "admitted",
+      "new": "admitted",
+      "reason": null,
+      "project_bytes_unchanged": true
+    },
+    {
+      "case": "whitespace_profile",
+      "new": "rejected",
+      "reason": "unsupported: Netclass tuning profiles not qualified",
+      "project_bytes_unchanged": true
+    },
+    {
+      "case": "boolean_profile",
+      "new": "rejected",
+      "reason": "unsupported: Malformed netclass tuning profile",
+      "project_bytes_unchanged": true
+    },
+    {
+      "case": "list_profile",
+      "new": "rejected",
+      "reason": "unsupported: Malformed netclass tuning profile",
+      "project_bytes_unchanged": true
+    },
+    {
+      "case": "null_classes",
+      "new": "rejected",
+      "reason": "unsupported: Malformed netclass list",
+      "project_bytes_unchanged": true
+    },
+    {
+      "case": "boolean_meta_version",
+      "new": "rejected",
+      "reason": "unsupported: Unqualified tuning profile definitions schema",
+      "project_bytes_unchanged": true
+    },
+    {
+      "case": "float_meta_version",
+      "new": "rejected",
+      "reason": "unsupported: Unqualified tuning profile definitions schema",
+      "project_bytes_unchanged": true
+    },
+    {
+      "case": "future_definition_field",
+      "new": "rejected",
+      "reason": "unsupported: Unqualified tuning profile definitions schema",
+      "project_bytes_unchanged": true
+    },
+    {
+      "case": "scalar_definition_list",
+      "new": "rejected",
+      "reason": "unsupported: Malformed tuning profile definitions",
+      "project_bytes_unchanged": true
+    },
+    {
+      "case": "unassigned_active_definition",
+      "new": "rejected",
+      "reason": "unsupported: Tuning profile definitions not qualified",
+      "project_bytes_unchanged": true
+    },
+    {
+      "case": "unused_class_before_assignment_scope",
+      "new": "rejected"
+    },
+    {
+      "case": "candidate_project_profile_tamper",
+      "new": "rejected"
+    },
+    {
+      "case": "empty_intent_meander",
+      "new": "admitted",
+      "project_bytes_unchanged": true
+    }
+  ],
+  "unchanged_severity_gates": true,
+  "unchanged_project_and_central_readback_checks": true,
+  "native_rationale": {
+    "summary_sha256": "e205d0d79d2c021290950e91078e1e622b01431da21af8404520f5a42d5dc48f",
+    "default_finding_omitted": true,
+    "default_enforcement_qualified": false
+  },
+  "root_historical_readback_receipt_sha256": "14bff53c6d41a26c6956f83efa221ac8cb9c4505eb323533ffc8a31d6645c132",
+  "cached_sources": {
+    ".runs/pic-severity-scope-review-001/source/common/project/net_settings.cpp": {
+      "bytes": 46498,
+      "sha256": "bbc0a1c6d197886521dae5a0f806eaf7c363c6840b6e7c87ab8bcd891cb687c0"
+    },
+    ".runs/pic-severity-scope-review-001/source/common/project/tuning_profiles.cpp": {
+      "bytes": 9515,
+      "sha256": "bcc7ac23cac358ab4d2330cf626e31b079ee3a81455b26c59eec90fc64e06b96"
+    }
+  },
+  "native_jobs": 0,
+  "jvm_jobs": 0,
+  "full_suites": 0,
+  "remaining_blockers": []
+}

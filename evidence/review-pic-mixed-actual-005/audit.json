@@ -1,0 +1,464 @@
+{
+  "schema": 1,
+  "audit_passed": true,
+  "run_status": "failed",
+  "checker_error_reproduced": "engine original class/width differs",
+  "scope": "Retained-run consistency only; original validator remains failed. No native/JVM rerun, normalization fix, or routing acceptance.",
+  "git_head": "569959f493ca347730c8ce2def5864f1576c8ba6",
+  "source_files": 15,
+  "frozen_run_files": 70,
+  "source_code_pins_verified": 38,
+  "basis_pins_verified": 33,
+  "bound_artifacts": {
+    "summary.json": "6b99b9a8a6bc40e72916298b38bfccac243c3e39f31e51079bb9f20fec678ed9",
+    "observations.json": "cbff29a527e70bfc28ffc6920a6fdbebedb3061ae1eec2ca84a775e06130e1f7",
+    "expectations.json": "42df2e960441a2d9a8ab664f25fe51ac1f520efb7e280f926b2f008b334ed2d8",
+    "native.dsn": "4dcc60f1f8f0eccf33cac02045d3ec0e2354df4ddb551bdd875a217e2e5b1dcf",
+    "mixed.dsn": "90a6635023098216645a3ecb852c8a463a3d489a4ee68d048a1fe0a40926f817",
+    "context.json": "b4da59c31f10616c46b538a9fe00a722215f3d3444a6402853c7c1efc0bc8ac9",
+    "custom.json": "68402ae46efc5d8ee3baf1de7683407c1f02218ee095929d62aff95898fafaa3",
+    "clearance-observation.json": "56137d2b82b51446a6e1c4adbf66c1063e50b46fee2422b192ac93d23968a02a",
+    "native-observe.log": "12ecaefce1134af40ff1936d5aad2575c510639f1b7b0929776638e199d47a57",
+    "compile.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "import.log": "c500f2b71d9162f6707bfc229f750150a46bf5faf19d979318d40382057bfa4c"
+  },
+  "steps": [
+    {
+      "name": "native-observe",
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.6919178329990245,
+      "cpu_seconds": 0.48345,
+      "monitor_cpu_seconds": 0.0,
+      "max_rss_bytes": 217890816,
+      "cleanup_complete": true
+    },
+    {
+      "name": "compile",
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.5854357079952024,
+      "cpu_seconds": 1.079943,
+      "monitor_cpu_seconds": 0.0,
+      "max_rss_bytes": 167854080,
+      "cleanup_complete": true
+    },
+    {
+      "name": "import",
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.5859734160185326,
+      "cpu_seconds": 1.267515,
+      "monitor_cpu_seconds": 0.0,
+      "max_rss_bytes": 336232448,
+      "cleanup_complete": true
+    }
+  ],
+  "stored_wall_seconds": 2.972174291993724,
+  "stored_full_cpu_seconds": 3.900163,
+  "outer": {
+    "argv": [
+      "python3",
+      "-B",
+      "experiments/pic_mixed_transport_probe_v1/driver.py",
+      "--run-probe",
+      "--output",
+      ".runs/pic-mixed-transport-probe-005"
+    ],
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local",
+    "git_head": "569959f493ca347730c8ce2def5864f1576c8ba6",
+    "started_utc": "2026-10-12T04:52:13.708172+00:00",
+    "exit_code": 1,
+    "wall_seconds": 3.1298232919943985,
+    "waited_child_cpu_seconds": 4.043028,
+    "cleanup_signals": [],
+    "log_sha256": "906b43fef6b206eeb48d7a66f618b769ceb50b3d22694cff99c9bfda5094103f",
+    "log_bytes": 112,
+    "wrapper_sha256": "a0ea3b78751151ff3745aefc87229122a29aab203e3b89c67f27200662cc8c86",
+    "scope": "One original-project load-only native-clearance observation; initialization unqualified and two sequential retained-route manager imports only; no router, SES, support admission or routing acceptance."
+  },
+  "native_observation": {
+    "initialization_qualified": false,
+    "drc_report_executed": false,
+    "pairwise_rules_qualified": false,
+    "scope": "Same LoadBoard own/local/class queries; initialization success and pairwise rule enforcement are unqualified.",
+    "local_optional_observations_supported": true,
+    "custom_pad_own_clearance": [
+      {
+        "uuid": "3acb5a29-7227-4ce2-8aa0-d92094ccdfdc",
+        "net": "VCC",
+        "netcode": 1,
+        "netclass": "POWER",
+        "class_clearance_nm": 280000,
+        "class_metadata": {
+          "meaning": "Net metadata class preference; not a pad-local, own-clearance, or pairwise rule result.",
+          "source": "BOARD.GetNetsByName -> NETINFO_ITEM.GetNetClassSlow",
+          "status": "observed"
+        },
+        "net_metadata_return_types": {
+          "class_clearance": "int",
+          "class_label": "str",
+          "class_object": "NETCLASS",
+          "key": "wxString",
+          "netcode": "int"
+        },
+        "pad_net_return_types": {
+          "name": "str",
+          "netcode": "int"
+        },
+        "own": [
+          {
+            "layer": "B.Cu",
+            "value_nm": 250000
+          }
+        ],
+        "pad_local": {
+          "status": "observed",
+          "value_nm": null
+        },
+        "footprint_local": {
+          "status": "observed",
+          "value_nm": 250000
+        },
+        "pad_override": {
+          "status": "observed",
+          "value_nm": 250000
+        }
+      },
+      {
+        "uuid": "5b196d03-cd44-4c2b-9a91-fadc24ae5f4b",
+        "net": "/pic_sockets/VCC_PIC",
+        "netcode": 13,
+        "netclass": "Default",
+        "class_clearance_nm": 250000,
+        "class_metadata": {
+          "meaning": "Net metadata class preference; not a pad-local, own-clearance, or pairwise rule result.",
+          "source": "BOARD.GetNetsByName -> NETINFO_ITEM.GetNetClassSlow",
+          "status": "observed"
+        },
+        "net_metadata_return_types": {
+          "class_clearance": "int",
+          "class_label": "str",
+          "class_object": "NETCLASS",
+          "key": "wxString",
+          "netcode": "int"
+        },
+        "pad_net_return_types": {
+          "name": "str",
+          "netcode": "int"
+        },
+        "own": [
+          {
+            "layer": "B.Cu",
+            "value_nm": 250000
+          }
+        ],
+        "pad_local": {
+          "status": "observed",
+          "value_nm": null
+        },
+        "footprint_local": {
+          "status": "observed",
+          "value_nm": 250000
+        },
+        "pad_override": {
+          "status": "observed",
+          "value_nm": 250000
+        }
+      }
+    ]
+  },
+  "cases": [
+    {
+      "setting": false,
+      "census": {
+        "items": 1222,
+        "pins": 240,
+        "traces": 339,
+        "vias": 6,
+        "areas": 3,
+        "components": 63,
+        "layers": 2,
+        "max_net_number": 111,
+        "clearance_classes": 5
+      },
+      "settings_before": {
+        "plane_as_obstacle": false,
+        "plane_nets": [],
+        "layer_count": 2,
+        "router_enabled": false,
+        "optimizer_enabled": false
+      },
+      "settings_after": {
+        "plane_as_obstacle": false,
+        "plane_nets": [],
+        "layer_count": 2,
+        "router_enabled": false,
+        "optimizer_enabled": false
+      },
+      "post_load_awaited": true,
+      "parser_warnings": [],
+      "class_label_mismatches": 109,
+      "class_label_mapping_observed": {
+        "kicad_default": "default",
+        "POWER": "POWER"
+      },
+      "width_mismatches": [],
+      "first_class_mismatch": {
+        "net": "/CLOCK-RB6",
+        "expected": "kicad_default",
+        "actual": "default"
+      },
+      "assigned_pins": 236,
+      "unassigned_pins": [
+        [
+          "J1",
+          "SH@1"
+        ],
+        [
+          "J1",
+          "SH"
+        ],
+        [
+          "P3",
+          "@2"
+        ],
+        [
+          "P3",
+          "@1"
+        ]
+      ],
+      "pin_position_net_mismatches": [],
+      "layers": [
+        "top_layer",
+        "bottom_layer"
+      ],
+      "matrix_classes": [
+        "null",
+        "default",
+        "smd",
+        "POWER",
+        "board_edge"
+      ],
+      "matrix_cells": 50,
+      "all_matrix_safety_margin_board_units": 16,
+      "bodies": [
+        {
+          "pad_uuid": "3acb5a29-7227-4ce2-8aa0-d92094ccdfdc",
+          "net": "VCC",
+          "pin_id": 869,
+          "area_id": 1221,
+          "pin_class": 3,
+          "area_class": 3,
+          "own_contacts_reciprocal": true,
+          "pin_contacts": [
+            1221
+          ],
+          "area_contacts": [
+            869,
+            896
+          ],
+          "integer_area_um2": 1875000.0,
+          "reported_api_area_um2": 0.0,
+          "clearances": [
+            {
+              "trace_class": "POWER",
+              "area_to_trace_raw_um": 280.0,
+              "compensated_um": 281.6,
+              "pin_to_trace_raw_um": 280.0
+            },
+            {
+              "trace_class": "default",
+              "area_to_trace_raw_um": 280.0,
+              "compensated_um": 281.6,
+              "pin_to_trace_raw_um": 280.0
+            }
+          ]
+        },
+        {
+          "pad_uuid": "5b196d03-cd44-4c2b-9a91-fadc24ae5f4b",
+          "net": "/pic_sockets/VCC_PIC",
+          "pin_id": 870,
+          "area_id": 1222,
+          "pin_class": 2,
+          "area_class": 1,
+          "own_contacts_reciprocal": true,
+          "pin_contacts": [
+            1222
+          ],
+          "area_contacts": [
+            870,
+            995
+          ],
+          "integer_area_um2": 1350000.0,
+          "reported_api_area_um2": 0.0,
+          "clearances": [
+            {
+              "trace_class": "POWER",
+              "area_to_trace_raw_um": 280.0,
+              "compensated_um": 281.6,
+              "pin_to_trace_raw_um": 280.0
+            },
+            {
+              "trace_class": "default",
+              "area_to_trace_raw_um": 250.0,
+              "compensated_um": 251.6,
+              "pin_to_trace_raw_um": 250.0
+            }
+          ]
+        }
+      ],
+      "ignore_conduction": true
+    },
+    {
+      "setting": true,
+      "census": {
+        "items": 1222,
+        "pins": 240,
+        "traces": 339,
+        "vias": 6,
+        "areas": 3,
+        "components": 63,
+        "layers": 2,
+        "max_net_number": 111,
+        "clearance_classes": 5
+      },
+      "settings_before": {
+        "plane_as_obstacle": true,
+        "plane_nets": [],
+        "layer_count": 2,
+        "router_enabled": false,
+        "optimizer_enabled": false
+      },
+      "settings_after": {
+        "plane_as_obstacle": true,
+        "plane_nets": [],
+        "layer_count": 2,
+        "router_enabled": false,
+        "optimizer_enabled": false
+      },
+      "post_load_awaited": true,
+      "parser_warnings": [],
+      "class_label_mismatches": 109,
+      "class_label_mapping_observed": {
+        "kicad_default": "default",
+        "POWER": "POWER"
+      },
+      "width_mismatches": [],
+      "first_class_mismatch": {
+        "net": "/CLOCK-RB6",
+        "expected": "kicad_default",
+        "actual": "default"
+      },
+      "assigned_pins": 236,
+      "unassigned_pins": [
+        [
+          "J1",
+          "SH@1"
+        ],
+        [
+          "J1",
+          "SH"
+        ],
+        [
+          "P3",
+          "@2"
+        ],
+        [
+          "P3",
+          "@1"
+        ]
+      ],
+      "pin_position_net_mismatches": [],
+      "layers": [
+        "top_layer",
+        "bottom_layer"
+      ],
+      "matrix_classes": [
+        "null",
+        "default",
+        "smd",
+        "POWER",
+        "board_edge"
+      ],
+      "matrix_cells": 50,
+      "all_matrix_safety_margin_board_units": 16,
+      "bodies": [
+        {
+          "pad_uuid": "3acb5a29-7227-4ce2-8aa0-d92094ccdfdc",
+          "net": "VCC",
+          "pin_id": 869,
+          "area_id": 1221,
+          "pin_class": 3,
+          "area_class": 3,
+          "own_contacts_reciprocal": true,
+          "pin_contacts": [
+            1221
+          ],
+          "area_contacts": [
+            869,
+            896
+          ],
+          "integer_area_um2": 1875000.0,
+          "reported_api_area_um2": 0.0,
+          "clearances": [
+            {
+              "trace_class": "POWER",
+              "area_to_trace_raw_um": 280.0,
+              "compensated_um": 281.6,
+              "pin_to_trace_raw_um": 280.0
+            },
+            {
+              "trace_class": "default",
+              "area_to_trace_raw_um": 280.0,
+              "compensated_um": 281.6,
+              "pin_to_trace_raw_um": 280.0
+            }
+          ]
+        },
+        {
+          "pad_uuid": "5b196d03-cd44-4c2b-9a91-fadc24ae5f4b",
+          "net": "/pic_sockets/VCC_PIC",
+          "pin_id": 870,
+          "area_id": 1222,
+          "pin_class": 2,
+          "area_class": 1,
+          "own_contacts_reciprocal": true,
+          "pin_contacts": [
+            1222
+          ],
+          "area_contacts": [
+            870,
+            995
+          ],
+          "integer_area_um2": 1350000.0,
+          "reported_api_area_um2": 0.0,
+          "clearances": [
+            {
+              "trace_class": "POWER",
+              "area_to_trace_raw_um": 280.0,
+              "compensated_um": 281.6,
+              "pin_to_trace_raw_um": 280.0
+            },
+            {
+              "trace_class": "default",
+              "area_to_trace_raw_um": 250.0,
+              "compensated_um": 251.6,
+              "pin_to_trace_raw_um": 250.0
+            }
+          ]
+        }
+      ],
+      "ignore_conduction": false
+    }
+  ],
+  "engine_log_warning": {
+    "count": 287,
+    "scope": "pre-existing fixed trace/via clearance violations reported after second plane=true load",
+    "parser_warning_arrays_empty": true,
+    "is_KiCad_verdict": false
+  },
+  "all_original_and_run_bytes_unchanged": true,
+  "native_jobs": 0,
+  "jvm_jobs": 0
+}

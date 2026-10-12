@@ -1,0 +1,12 @@
+--- autorouter/pipeline.py
++++ autorouter/pipeline.py
+@@ -77,6 +77,9 @@
+ def netclass_policy(board):
+     """Keep the established Default path; qualify only a narrow new scope."""
+     project=json.loads(Path(board).with_suffix('.kicad_pro').read_text())
++    from .netclass import reject_tuning_intent
++    try: reject_tuning_intent(project)
++    except ValueError as exc: raise Rejected('unsupported: '+str(exc)) from exc
+     settings=project.get('net_settings',{})
+     if not (settings.get('netclass_patterns') or settings.get('netclass_assignments') or len(settings.get('classes',[]))>1):
+         return None
