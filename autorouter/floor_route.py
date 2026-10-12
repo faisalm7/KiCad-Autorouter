@@ -160,10 +160,7 @@ def process_check(directory,data,name,argv,*,allowed=(0,)):
 
 
 def engine_argv(directory,settings):
-    return [*SANDBOX,str(c.JAVA),'-Xms128m','-Xmx2g','-XX:ActiveProcessorCount=1','-Djava.awt.headless=true','-jar',str(c.JAR),
-        '--gui.enabled=false','--api_server.enabled=false','--mcp_server.enabled=false','-da',
-        '--user_data_path='+str(directory/'engine-config'),'--logging.file.enabled=false',*settings,
-        '-de',str(directory/'task.dsn'),'-do',str(directory/'routes.ses')]
+    return p.engine_argv(directory,settings)
 
 
 def check_floor_result(directory,data,original,candidate,protected):
@@ -288,7 +285,7 @@ def publish(output,report,stable,account,remaining):
     return report
 
 
-def route(source,output,seconds,keep_existing,adapter,profile,scoring_variant,*,guidance_policy=POLICY):
+def route(source,output,seconds,keep_existing,adapter,profile,scoring_variant,*,guidance_policy=POLICY,preferences=None):
     if guidance_policy not in GUIDANCE_POLICIES:raise p.Rejected('unknown floor-backed guidance policy')
     if keep_existing or adapter!='both' or scoring_variant is not None:raise p.Rejected('unsupported: guidance requires whole-board adapter=both without scoring overrides')
     if guidance_policy==PLACEMENT_POLICY and profile!='completion-only':raise p.Rejected('unsupported: placement policy requires completion-only profile')
@@ -300,15 +297,17 @@ def route(source,output,seconds,keep_existing,adapter,profile,scoring_variant,*,
     handlers={sig:signal.getsignal(sig) for sig in (signal.SIGINT,signal.SIGTERM)}
     try:
         for sig in handlers:signal.signal(sig,interrupted)
-        return _route(source,output,seconds,profile,guidance_policy)
+        return _route(source,output,seconds,profile,guidance_policy,preferences)
     finally:
         for sig,handler in handlers.items():signal.signal(sig,handler)
 
 
-def _route(source,output,seconds,profile,guidance_policy=POLICY):
+def _route(source,output,seconds,profile,guidance_policy=POLICY,preferences=None):
     new_policy=guidance_policy==PLACEMENT_POLICY
     if new_policy:from . import placement_clearance as pc
     started,parent_start,child_start=time.monotonic(),time.process_time(),child_cpu()
+    if preferences is not None:
+        started,parent_start,child_start=preferences['started'],preferences['parent_cpu'],preferences['child_cpu']
     source,output=Path(source).absolute(),Path(output).absolute()
     if any(path.is_symlink() for path in (source,*source.parents,output,*output.parents)):raise p.Rejected('floor paths must not use symlinks')
     source,output=source.resolve(strict=True),output.resolve()
@@ -322,12 +321,14 @@ def _route(source,output,seconds,profile,guidance_policy=POLICY):
     if new_policy:report['planning_parameters']=pc.parameters()
     frozen=False;completed=None
     def stable():
+        p.preferences_fresh(output,preferences)
         if not frozen:return
         inventory=pc.inventory if new_policy else p.tree_hash
-        if inventory(source.parent)!=hashes or inventory(output/'snapshot')!=hashes:raise p.Rejected('floor source/snapshot changed')
         if p.tool_manifest()!=report['tools']:raise p.Rejected('floor source/tool/code/HEAD changed')
         if new_policy:pc.check_freeze(output,report)
         if completed is not None and evidence_inventory(output)!=completed:raise p.Rejected('completed floor evidence changed')
+        if inventory(source.parent)!=hashes or inventory(output/'snapshot')!=hashes:raise p.Rejected('floor source/snapshot changed')
+        p.preferences_fresh(output,preferences)
     def account():
         steps=job.steps
         report.update(steps=steps,wall_seconds=time.monotonic()-started,parent_cpu_seconds=time.process_time()-parent_start,
@@ -341,6 +342,7 @@ def _route(source,output,seconds,profile,guidance_policy=POLICY):
         if report['wall_seconds']>seconds or report['total_cpu_seconds']>seconds:report.update(accepted=False,status='budget_exceeded')
         if not report['accepted']:report['whole_project_drc_clean']=False
     try:
+        p.capture_preferences(report,output,preferences)
         p.check_storage()
         hashes=pc.placement.inventory(pc.files(source.parent)) if new_policy else p.tree_hash(source.parent)
         original=p.preflight(source)

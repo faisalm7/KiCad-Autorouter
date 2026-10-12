@@ -1,0 +1,38 @@
+{
+  "scope": "Argument-only controls; control body mocked for valid choices, no subprocess/signals/native",
+  "source_sha256": "85af3f48a81283c2401d07fad1830b0fb93187ee53c10a16f9a424ddf5aaed6e",
+  "rows": [
+    {
+      "argv": [],
+      "passed": true,
+      "selected": "SIGINT"
+    },
+    {
+      "argv": [
+        "--signal",
+        "SIGINT"
+      ],
+      "passed": true,
+      "selected": "SIGINT"
+    },
+    {
+      "argv": [
+        "--signal",
+        "SIGTERM"
+      ],
+      "passed": true,
+      "selected": "SIGTERM"
+    },
+    {
+      "argv": [
+        "--signal",
+        "SIGKILL"
+      ],
+      "rejected_before_control": true
+    },
+    {
+      "direct_signal": "SIGKILL",
+      "rejected_before_output": true
+    }
+  ]
+}

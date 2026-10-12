@@ -1,0 +1,22 @@
+{
+  "scope": "Exact stable closure + actual floor.publish; native/checker/metadata mocked; no native inference",
+  "source_sha256": "cf9bc45ec449246bd36c74ac4a6df89bc68ba55597c33008933f2ad6b0ad48e2",
+  "cases": [
+    {
+      "case": "unchanged",
+      "metadata_calls": 3,
+      "preset_changed": false,
+      "returned_accepted": true,
+      "canonical_accepted": true,
+      "status": "routing_accepted"
+    },
+    {
+      "case": "late_metadata_preset",
+      "metadata_calls": 3,
+      "preset_changed": true,
+      "returned_accepted": false,
+      "canonical_accepted": false,
+      "status": "invalidated"
+    }
+  ]
+}

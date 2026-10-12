@@ -1,0 +1,67 @@
+{
+  "controls": {
+    "cancellation_argument_controls": {
+      "cases": 5,
+      "evidence": "cancellation-parameter-controls.json",
+      "passed": true
+    },
+    "persistent": {
+      "file": "tests/test_preference_publication.py",
+      "log": "persistent-controls-001.log",
+      "methods": 7,
+      "scenarios": 13,
+      "seconds": 0.291,
+      "sha256": "f928e29474f2e08d3bac7332a57601f763ab4104f7c034514693af8a5bf5150c"
+    },
+    "unchanged_reproducers": {
+      "cases": 12,
+      "evidence": [
+        "reproduction-001/results.json",
+        "reproduction-002/results.json",
+        "floor-reproduction-001/results.json",
+        "floor-reproduction-002/results.json",
+        "readback-reproduction-001/results.json",
+        "readback-reproduction-002/results.json"
+      ],
+      "fixed_outcomes_match_expectations": true
+    }
+  },
+  "disposition": "cleared for ROOT sequential fresh qualification within this source-review scope",
+  "final_ordering_note": "ROOT subsequently moved source/snapshot comparison after metadata in native/floor stable. Narrow final diff reviewed; no additional rerun claimed for that ordering-only change. ROOT owns final full-suite/native gates.",
+  "findings": [
+    {
+      "fixed": "unchanged accepts; optimizer, short-pass and scoring aliases reject; full argv/cwd/process exact",
+      "id": "R1",
+      "initial": "binding unchanged positive and three tampered aliases accepted",
+      "problem": "Filtering only --router.* admitted other effective engine aliases"
+    },
+    {
+      "fixed": "existing guarded publisher, scoped handlers and canonical check reject both; invalidated positives retained",
+      "id": "R2",
+      "initial": "KeyboardInterrupt left accepted canonical; checker-return canonical edit disagreed with accepted return",
+      "problem": "Native first positive write outside guarded publication; late canonical edits not compared"
+    },
+    {
+      "fixed": "preset/snapshot repeat after metadata and completed evidence rejects mutation",
+      "id": "R3",
+      "initial": "late metadata preset mutation left positive canonical and return",
+      "problem": "Floor preset freshness sampled before subprocess-bearing tool metadata"
+    },
+    {
+      "fixed": "final preference binding and initial receipt digest comparison reject both",
+      "id": "R4",
+      "initial": "both late snapshot and canonical mutations still returned current=true",
+      "problem": "Standalone native preference-bearing check-result did not recheck snapshot/receipt after late code inventory"
+    }
+  ],
+  "historical_compatibility": "No-preference receipts skip new preference binder; old floor and placement policy dispatch/final evidence remain unchanged. Existing historical readbacks were not rerun by this review.",
+  "limits": [
+    "Finite freshness samples are not atomic authentication or a hostile-writer proof.",
+    "No new layer selection support: only source_all is admitted.",
+    "Existing immutable original rules/native predicates remain authoritative.",
+    "Signal selector alone does not qualify actual engine-stage SIGTERM; ROOT will execute that separately."
+  ],
+  "remaining_reproduced_blockers": [],
+  "schema": 1,
+  "scope": "No native/JVM/network/full-suite execution. Mocked worker lifecycle controls and synthetic full-checker receipts do not establish native correctness."
+}

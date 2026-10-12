@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "scope": "Real tiny files; fake worker/native stages/checker, no routing/native qualification. Alias binder is real.",
+  "source_sha256": {
+    "autorouter/pipeline.py": "e7baf5b0d9cd3e575d2a0b371ba6bf90171fc7dd0ed278b193260a12d79e20e7",
+    "autorouter/floor_route.py": "a5e5308a455884430a9073f2e00c462a3e33c60406ace08dc21e03df6cab65d9",
+    "autorouter/preferences.py": "384fdd3cd0ceb26873abdfb357afe6a7550a4263716b6aaa2478137783fd3dca"
+  },
+  "rows": [
+    {
+      "case": "binding_unchanged",
+      "extra": [],
+      "accepted_by_preference_binding": true
+    },
+    {
+      "case": "optimizer_alias",
+      "extra": [
+        "--optimizer.enabled=false"
+      ],
+      "accepted_by_preference_binding": true
+    },
+    {
+      "case": "short_pass_alias",
+      "extra": [
+        "-mp",
+        "999"
+      ],
+      "accepted_by_preference_binding": true
+    },
+    {
+      "case": "scoring_alias",
+      "extra": [
+        "--optimizer-scoring-version=v1"
+      ],
+      "accepted_by_preference_binding": true
+    },
+    {
+      "case": "native_unchanged",
+      "mutation": null,
+      "error": null,
+      "returned_accepted": true,
+      "canonical_accepted": true,
+      "canonical_profile": "standard",
+      "returned_profile": "standard"
+    },
+    {
+      "case": "native_interrupt",
+      "mutation": "interrupt_after_positive_write",
+      "error": "KeyboardInterrupt: owned pure control",
+      "returned_accepted": null,
+      "canonical_accepted": true,
+      "canonical_profile": "standard",
+      "returned_profile": null
+    },
+    {
+      "case": "native_canonical_mutation",
+      "mutation": "canonical_after_checker",
+      "error": null,
+      "returned_accepted": true,
+      "canonical_accepted": true,
+      "canonical_profile": "tuned",
+      "returned_profile": "standard"
+    }
+  ]
+}

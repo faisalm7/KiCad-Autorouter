@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "status": "prospective",
+  "purpose": "Qualify saved preferences, actual scope/override/argv binding and unchanged original-design/native checks; not a comparative routing gain.",
+  "fixture_construction": "Exact project-owned smoke copy plus two 5mm F.Cu SIGNAL_A/B segments with fixed UUIDs; original immutable geometry/nets/pads/rules/zones are unchanged.",
+  "source_files": {
+    "smoke.kicad_pcb": "ae0b004142c0de5fd0e7e4e969754df52c9bdbb64538bbb4927198e48ea077b5",
+    "smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+    "smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643"
+  },
+  "presets": {
+    "partial.json": "169eca29234027ef6a062381b0dc2eecd5c6535c6229e2be342b9aa09ac08190",
+    "placement.json": "7f450b088ec5d7eabe3d1e58daa2a058f0216f7b6ee6fd5a1f9555e764ee0f5a"
+  },
+  "cases": [
+    {
+      "id": "native-partial",
+      "board": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-native-input-001/project/smoke.kicad_pcb",
+      "settings": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-native-input-001/partial.json",
+      "overrides": [],
+      "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-native-partial-001",
+      "expected_protected_route_items": 2,
+      "wall_cpu_seconds": 120
+    },
+    {
+      "id": "native-whole-override",
+      "board": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-native-input-001/project/smoke.kicad_pcb",
+      "settings": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-native-input-001/partial.json",
+      "overrides": [
+        "--scope",
+        "whole",
+        "--seconds",
+        "60",
+        "--scoring-preference",
+        "via_low"
+      ],
+      "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-native-whole-001",
+      "expected_protected_route_items": 0,
+      "wall_cpu_seconds": 60
+    },
+    {
+      "id": "placement-override",
+      "board": "/Users/faisal/Projects/KiCad-Autorouter-local/evidence/placement-area-native-001/allowed_placement/candidate/fixture.kicad_pcb",
+      "settings": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-native-input-001/placement.json",
+      "overrides": [
+        "--seconds",
+        "60"
+      ],
+      "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-placement-001",
+      "expected_protected_route_items": 0,
+      "wall_cpu_seconds": 60
+    }
+  ],
+  "acceptance": "Each actual route must pass existing original-design/native acceptance and central readback. Exact presets, effective scope/budget/profile/scoring and complete engine argv must match. Preserve every failure; no automatic retry or constraint relaxation.",
+  "additional_controls": [
+    "Reuse scripts/native_cancellation.py once per SIGINT/SIGTERM; only spawned CLI/group signaled.",
+    "If partial accepts, remove exactly one protected input segment from a new disposable copy; actual original-rule KiCad must reject the broken connection and central protected-route guard must reject application."
+  ],
+  "resources": "One sequential native/engine worker, existing per-route caps/2GiB heap/4GiB group polling. Additional outer process receipts include exit/wall/waited-child CPU and cleanup. No benchmark claim or paid services."
+}

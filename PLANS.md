@@ -31,6 +31,10 @@ Active specification: `MASTER_PROMPT.md`, read completely. Work only in the sele
 - Sonde C is 101.396471 mm shorter than stronger B2 with equal two vias, using more compute under equal 120-second caps. Interf C accepts where tested B0/B1/B2 reject; exact bridge removal restores the thermal failure. These are narrow exposed-input findings.
 - Placement v2 accepted the fixed 20 µm margin/default-cost policy while zero margin and low-via-cost variants rejected. A separate fixed local translation failed its positive predicate by creating four adjacent-track clearances. Adapter gains are separate from C novelty.
 
+## Active next step after restored resume checkpoint
+
+Saved preferences source is frozen with 566 passing root tests and independent review; checkpoint before native execution. Run the three fixed cases in `.runs/preferences-native-input-001/protocol.json` sequentially, then shared `scripts/native_cancellation.py` once each with SIGINT and SIGTERM. Preserve failed results. If partial completion accepts, test removal of one protected original track on a separate copied project with actual original-rule DRC and the shared protected-route guard. Do not repeat completed custom-pad area/parity/GUI/installation experiments. Independently review the ignored layer-mask import-only draft, then checkpoint and qualify only its frozen import hypothesis. Production layers remain source_all. Incremental backup follows the milestone; full restoration already passed for the backup-system change.
+
 ## Immediate sequence
 
 1. Completed: independent native/raw/population review, audited milestone push/read-back at ee431c0, and full archive/restoration. The write freeze is released; proceed to the following milestones.

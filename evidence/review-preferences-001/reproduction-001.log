@@ -1,0 +1,56 @@
+[
+  {
+    "case": "binding_unchanged",
+    "extra": [],
+    "accepted_by_preference_binding": true
+  },
+  {
+    "case": "optimizer_alias",
+    "extra": [
+      "--optimizer.enabled=false"
+    ],
+    "accepted_by_preference_binding": true
+  },
+  {
+    "case": "short_pass_alias",
+    "extra": [
+      "-mp",
+      "999"
+    ],
+    "accepted_by_preference_binding": true
+  },
+  {
+    "case": "scoring_alias",
+    "extra": [
+      "--optimizer-scoring-version=v1"
+    ],
+    "accepted_by_preference_binding": true
+  },
+  {
+    "case": "native_unchanged",
+    "mutation": null,
+    "error": null,
+    "returned_accepted": true,
+    "canonical_accepted": true,
+    "canonical_profile": "standard",
+    "returned_profile": "standard"
+  },
+  {
+    "case": "native_interrupt",
+    "mutation": "interrupt_after_positive_write",
+    "error": "KeyboardInterrupt: owned pure control",
+    "returned_accepted": null,
+    "canonical_accepted": true,
+    "canonical_profile": "standard",
+    "returned_profile": null
+  },
+  {
+    "case": "native_canonical_mutation",
+    "mutation": "canonical_after_checker",
+    "error": null,
+    "returned_accepted": true,
+    "canonical_accepted": true,
+    "canonical_profile": "tuned",
+    "returned_profile": "standard"
+  }
+]

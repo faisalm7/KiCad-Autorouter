@@ -1,12 +1,58 @@
 """Offline routing CLI; outputs separate review candidates only."""
 import argparse
 import json
+import os
+from pathlib import Path
 import platform
 import shutil
 import subprocess
 import sys
 from . import config as c
 from .pipeline import route, sha, check_result
+
+
+def preference_arguments(parser):
+    parser.add_argument('--settings',help='Explicit persistent JSON preset; never loaded globally')
+    parser.add_argument('--seconds',type=float,default=None)
+    scope=parser.add_mutually_exclusive_group()
+    scope.add_argument('--keep-existing',action='store_true',default=None,help='Protect every existing route')
+    scope.add_argument('--scope',choices=['whole','partial'],default=None)
+    parser.add_argument('--adapter',choices=['none','graphics','planes','both'],default=None)
+    parser.add_argument('--profile',choices=['standard','tuned','completion-only'],default=None)
+    parser.add_argument('--guidance',choices=['native','board-floors-v1','placement-clearance-v1'],default=None)
+    parser.add_argument('--scoring-preference',choices=['via_default','via_low','via_high'],default=None)
+
+
+def explicit_preferences(args):
+    result={key:getattr(args,key) for key in ('seconds','adapter','profile','guidance','scoring_preference') if getattr(args,key) is not None}
+    if args.keep_existing or args.scope=='partial':result['scope']='partial_completion'
+    elif args.scope=='whole':result['scope']='whole_board_unlocked_routing'
+    return result
+
+
+def preview(board,settings=None,overrides=None):
+    """Read the same static guards as routing; no engine, native validation or writes."""
+    from . import preferences as pref, pipeline as p, sexpr as sx, placement_clearance as pc
+    from .handoff import real_path
+    captured=pref.load(settings) if settings is not None else None
+    effective=pref.resolve(captured,overrides)
+    source=real_path(board);before=pc.inventory(source.parent)
+    original=p.preflight(source)
+    if effective['guidance']!='native':
+        from . import board_floor as g
+        if p.netclass_policy(source) is not None:raise p.Rejected('unsupported: floor policy requires one Default class')
+        g.qualify_scope(json.loads(source.with_suffix('.kicad_pro').read_text()),g.task_from_source(original))
+        if effective['guidance']=='placement-clearance-v1':pc.narrow_source(original)
+    protected=[item for item in p.routes(original) if effective['scope']=='partial_completion' or p.locked(item)]
+    copper=[sx.unquote(row[1]) for row in sx.one(original,'layers',[])[1:] if isinstance(row,list) and len(row)>2 and sx.unquote(row[1]).endswith('.Cu')]
+    pref.check_fresh(captured)
+    if pc.inventory(source.parent)!=before:raise p.Rejected('source changed during preview')
+    return {'status':'preview','static_preflight_passed':True,'native_validation_performed':False,
+            'source':str(source),'source_sha256':before[source.name],'effective_preferences':effective,
+            'copper_layers':copper,'existing_route_items':len(p.routes(original)),
+            'protected_route_items':len(protected),'rerouted_route_items':len(p.routes(original))-len(protected),
+            'scope_description':'Complete remaining connections while preserving every existing route' if effective['scope']=='partial_completion' else 'Reroute unlocked copper while preserving locked routes',
+            'next_step':'Run route with these settings to create a separate candidate. Acceptance still requires original-design checks and native KiCad refill/DRC.'}
 
 def doctor():
     checks={}
@@ -25,15 +71,30 @@ def main():
     p=argparse.ArgumentParser(prog='python -m autorouter')
     sub=p.add_subparsers(dest='command',required=True)
     sub.add_parser('doctor')
+    settings=sub.add_parser('settings-init',help='Create an explicit editable JSON preset without overwriting a file')
+    settings.add_argument('--output',required=True)
+    view=sub.add_parser('preview',help='Preview settings, protected routing and static support without changing the board')
+    view.add_argument('board');preference_arguments(view)
     review=sub.add_parser('review-copy');review.add_argument('receipt');review.add_argument('--output',required=True)
     improve=sub.add_parser('improve');improve.add_argument('board');improve.add_argument('--output',required=True);improve.add_argument('--seconds',type=float,default=120);improve.add_argument('--proposal-policy',choices=['single','feedback'],default='single')
     recover=sub.add_parser('recover',help='Experimental whole-board routing with bounded thermal repair');recover.add_argument('board');recover.add_argument('--output',required=True);recover.add_argument('--seconds',type=float,default=120)
     verify=sub.add_parser('check-result');verify.add_argument('receipt')
-    r=sub.add_parser('route'); r.add_argument('board'); r.add_argument('--output',required=True); r.add_argument('--seconds',type=float,default=120); r.add_argument('--keep-existing',action='store_true');r.add_argument('--adapter',choices=['none','graphics','planes','both'],default='none');r.add_argument('--profile',choices=['standard','tuned','completion-only'],default='standard')
-    r.add_argument('--guidance',choices=['native','board-floors-v1','placement-clearance-v1'],default='native')
+    r=sub.add_parser('route');r.add_argument('board');r.add_argument('--output',required=True);preference_arguments(r)
     a=p.parse_args()
     if a.command=='doctor':
         result=doctor();print(json.dumps(result,indent=2));return 0 if result['ready'] else 2
+    if a.command in {'settings-init','preview'}:
+        try:
+            if a.command=='preview':result=preview(a.board,a.settings,explicit_preferences(a))
+            else:
+                from . import preferences as pref
+                from .handoff import real_path
+                target=real_path(a.output,existing=False)
+                with os.fdopen(os.open(target,os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o600),'w') as stream:
+                    json.dump(pref.validate(dict(pref.DEFAULTS)),stream,indent=2);stream.write('\n')
+                result={'created':str(target),'usage':'Pass this file explicitly with --settings; command-line options override only their named settings.'}
+            print(json.dumps(result,indent=2));return 0
+        except Exception as exc:print(json.dumps({'status':'rejected','reason':str(exc)}));return 2
     if a.command=='review-copy':
         from .handoff import review_copy
         try: print(json.dumps(review_copy(a.receipt,a.output),indent=2));return 0
@@ -48,7 +109,7 @@ def main():
         elif a.command=='recover':
             from .recovery import recover
             result=recover(a.board,a.output,a.seconds)
-        else: result=route(a.board,a.output,a.seconds,a.keep_existing,a.adapter,a.profile,guidance_policy=a.guidance)
+        else: result=route(a.board,a.output,settings_path=a.settings,preference_overrides=explicit_preferences(a))
     except Exception as exc:
         print(json.dumps({'accepted':False,'error':str(exc)}));return 2
     print(json.dumps({k:v for k,v in result.items() if k in ('status','accepted','reason','candidate','wall_seconds','total_cpu_seconds','metrics')},indent=2))

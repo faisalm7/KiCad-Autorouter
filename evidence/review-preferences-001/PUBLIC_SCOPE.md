@@ -1,0 +1,1 @@
+Project-owned independent review scripts and exact compact controls. Toy worker/receipt fixtures are mocked; no native success follows. Full initial snapshots and duplicate mock project trees remain local. Final root integration suite is recorded separately.

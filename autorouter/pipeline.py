@@ -14,6 +14,7 @@ from pathlib import Path
 import resource
 import re
 import shutil
+import signal
 import subprocess
 import time
 from . import config as c, sexpr as sx
@@ -468,16 +469,97 @@ def engine_baseline(profile,adapter):
     raise Rejected('unknown engine profile')
 
 
-def route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native'):
+def capture_preferences(report, output, request):
+    """Keep the exact explicit preset and resolved overrides beside the candidate."""
+    if request is None:return
+    from . import preferences as pref
+    raw=request['snapshot']
+    effective=pref.readback(raw,request['effective'])
+    path=Path(output)/'routing-preferences.json'
+    with path.open('xb') as stream:stream.write(raw)
+    report['routing_preferences']={'file':path.name,'sha256':hashlib.sha256(raw).hexdigest(),'effective':effective}
+    preferences_fresh(output,request)
+
+
+def engine_argv(directory, settings):
+    """One exact invocation for native and floor guidance, also used by readback."""
+    directory=Path(directory)
+    return ['/usr/bin/sandbox-exec','-p','(version 1)(allow default)(deny network*)',str(c.JAVA),
+        '-Xms128m','-Xmx2g','-XX:ActiveProcessorCount=1','-Djava.awt.headless=true','-jar',str(c.JAR),
+        '--gui.enabled=false','--api_server.enabled=false','--mcp_server.enabled=false','-da',
+        '--user_data_path='+str(directory/'engine-config'),'--logging.file.enabled=false',*settings,
+        '-de',str(directory/'task.dsn'),'-do',str(directory/'routes.ses')]
+
+
+def preferences_fresh(output, request):
+    if request is None:return
+    from . import preferences as pref
+    from .placement_clearance import read_bytes
+    pref.check_fresh(request['captured'])
+    if read_bytes(Path(output)/'routing-preferences.json',64*1024)!=request['snapshot']:
+        raise Rejected('captured routing preferences changed during execution')
+
+
+def check_preferences_record(directory, data):
+    """Recompute the captured choice and bind it to the actual engine invocation."""
+    path=Path(directory)/'routing-preferences.json'
+    if 'routing_preferences' not in data and not path.exists() and not path.is_symlink():return
+    from . import preferences as pref
+    from .placement_clearance import read_bytes
+    from .floor_route import read_json
+    binding=data.get('routing_preferences')
+    if not isinstance(binding,dict) or set(binding)!={'file','sha256','effective'} or binding['file']!=path.name:
+        raise Rejected('missing or malformed routing preferences binding')
+    raw=read_bytes(path,64*1024)
+    if hashlib.sha256(raw).hexdigest()!=binding['sha256']:raise Rejected('routing preferences snapshot changed')
+    effective=pref.readback(raw,binding['effective'])
+    scoring='via_default' if effective['guidance']=='placement-clearance-v1' else effective['scoring_preference']
+    expected={'scope':effective['scope'],'budget_seconds':effective['seconds'],'cpu_budget_seconds':effective['seconds'],
+              'adapter':effective['adapter'],'engine_profile':effective['profile'],'scoring_variant':scoring}
+    if any(data.get(key)!=value for key,value in expected.items()) or data.get('input_policy','native')!=effective['guidance']:
+        raise Rejected('routing result differs from captured preferences')
+    assigned=data.get('engine_budget',{})
+    settings=engine_profile_settings(effective['profile'],assigned.get('remaining_outer_wall_seconds_at_assignment'),
+        strict_class_targets=effective['guidance']!='native' or data.get('netclass_policy') is not None,scoring_variant=scoring)
+    settings.update(outer_task_wall_budget_seconds=effective['seconds'],outer_task_cpu_budget_seconds=effective['seconds'])
+    if settings!=assigned:raise Rejected('engine budget differs from captured preferences')
+    steps=[step for step in data.get('steps',[]) if step.get('name')=='engine']
+    if len(steps)!=1:raise Rejected('missing unique preference-bound engine step')
+    process=read_json(Path(directory)/'engine-process.json')
+    if process!=steps[0] or process.get('status')!='success' or process.get('exit_code')!=0 or process.get('cleanup_complete') is not True:
+        raise Rejected('engine preference process provenance differs')
+    if process.get('argv')!=engine_argv(directory,settings['argv']) or process.get('cwd')!=str(directory):
+        raise Rejected('engine argv or cwd differs from captured preferences')
+
+
+def route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native', settings_path=None, preference_overrides=None, _preferences=None):
+    if settings_path is not None or preference_overrides is not None:
+        if (seconds!=120 or keep_existing is not False or adapter!='none' or engine_profile!='standard'
+                or scoring_variant is not None or guidance_policy!='native' or _preferences is not None):
+            raise Rejected('pass explicit settings overrides through preference_overrides, not mixed route arguments')
+        from . import preferences as pref
+        from .floor_route import child_cpu
+        request={'started':time.monotonic(),'parent_cpu':time.process_time(),'child_cpu':child_cpu(),
+                 'started_utc':datetime.datetime.now(datetime.timezone.utc).isoformat()}
+        captured=pref.load(settings_path) if settings_path is not None else None
+        effective=pref.resolve(captured,preference_overrides)
+        request.update(captured=captured,effective=effective,snapshot=pref.snapshot(captured,preference_overrides))
+        def interrupted(signum,frame):raise KeyboardInterrupt
+        handlers={sig:signal.getsignal(sig) for sig in (signal.SIGINT,signal.SIGTERM)}
+        try:
+            for sig in handlers:signal.signal(sig,interrupted)
+            return route(source,output,**pref.route_arguments(effective),_preferences=request)
+        finally:
+            for sig,handler in handlers.items():signal.signal(sig,handler)
     if guidance_policy not in {'native','board-floors-v1','placement-clearance-v1'}: raise Rejected('unknown guidance policy')
     if guidance_policy in {'board-floors-v1','placement-clearance-v1'}:
         from .floor_route import route as floor_route
-        return floor_route(source,output,seconds,keep_existing,adapter,engine_profile,scoring_variant,guidance_policy=guidance_policy)
+        return floor_route(source,output,seconds,keep_existing,adapter,engine_profile,scoring_variant,guidance_policy=guidance_policy,preferences=_preferences)
     if engine_profile not in {'standard','tuned','completion-only'}: raise Rejected('unknown engine profile')
     engine_scoring_settings(scoring_variant)
-    operation_started=time.monotonic()
-    operation_started_utc=datetime.datetime.now(datetime.timezone.utc).isoformat()
-    operation_cpu=time.process_time()
+    operation_started=_preferences['started'] if _preferences else time.monotonic()
+    operation_started_utc=_preferences['started_utc'] if _preferences else datetime.datetime.now(datetime.timezone.utc).isoformat()
+    operation_cpu=_preferences['parent_cpu'] if _preferences else time.process_time()
     source=Path(source).resolve(strict=True); output=Path(output).resolve()
     if source.parent==output or source.parent in output.parents: raise Rejected('output must be outside source project')
     if not math.isfinite(seconds) or seconds<5 or seconds>900: raise Rejected('budget must be 5–900 seconds')
@@ -491,6 +573,7 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
             'started_utc':operation_started_utc,'budget_seconds':seconds,'cpu_budget_seconds':seconds,'cpu_budget_enforcement':'postcompletion acceptance cap; no total-CPU preemption','baseline':engine_baseline(engine_profile,adapter),'adapter':adapter,'engine_profile':engine_profile,'scoring_variant':scoring_variant,'scope':'partial_completion' if keep_existing else 'whole_board_unlocked_routing',
             'tools':tool_manifest()}
     try:
+        capture_preferences(report,output,_preferences)
         before=tree_hash(source.parent); report['source_hashes']=before
         original=preflight(source)
         shutil.copytree(source.parent,output/'snapshot'); shutil.copytree(source.parent,output/'candidate')
@@ -531,10 +614,8 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
         report['engine_budget']['outer_task_wall_budget_seconds']=seconds
         report['engine_budget']['outer_task_cpu_budget_seconds']=seconds
         engine_settings=report['engine_budget']['argv']
-        job.step('engine',['/usr/bin/sandbox-exec','-p','(version 1)(allow default)(deny network*)',c.JAVA,'-Xms128m','-Xmx2g','-XX:ActiveProcessorCount=1','-Djava.awt.headless=true','-jar',c.JAR,
-            '--gui.enabled=false','--api_server.enabled=false','--mcp_server.enabled=false','-da','--user_data_path='+str(config_dir),'--logging.file.enabled=false',
-            *engine_settings,
-            '-de',output/'task.dsn','-do',output/'routes.ses'])
+        preferences_fresh(output,_preferences)
+        job.step('engine',engine_argv(output,engine_settings))
         if engine_profile=='tuned':
             report['optimizer_threshold_audit']=optimizer_threshold_audit(output/'engine.log',0.1)
         if not (output/'routes.ses').is_file(): raise Rejected('engine emitted no SES')
@@ -556,6 +637,10 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
         report['status']='routing_accepted' if valid else 'drc_rejected'
         report['accepted']=valid
         report['whole_project_drc_clean']=valid and report['native']['warnings']==0
+        preferences_fresh(output,_preferences)
+    except KeyboardInterrupt:
+        if _preferences is None:raise
+        report.update(accepted=False,status='cancelled',reason='interrupted route')
     except Exception as exc:
         report['reason']=type(exc).__name__+': '+str(exc)
         report['status']='unsupported' if 'unsupported:' in str(exc) else 'rejected'
@@ -573,6 +658,27 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
     elif report['total_cpu_seconds']>seconds:
         report['accepted']=False; report['status']='cpu_budget_exceeded'
     report['resource_accounting_point']='Summary sampled before final receipt write; wall and measured CPU acceptance caps rechecked after that write. No hard total-CPU preemption.'
+    if _preferences is not None:
+        from .floor_route import publish,child_cpu,evidence_inventory
+        completed=evidence_inventory(output)
+        def remaining():
+            return min(job.deadline-time.monotonic(),seconds-(time.process_time()-job.cpu_started+child_cpu()-_preferences['child_cpu']))
+        def account():
+            report.update(wall_seconds=time.monotonic()-job.started,parent_cpu_seconds=time.process_time()-job.cpu_started)
+            report['control_child_cpu_seconds']=max(0,child_cpu()-_preferences['child_cpu']-report['child_cpu_seconds']-report['monitor_cpu_seconds'])
+            report['total_cpu_seconds']=sum(report[key] for key in ('parent_cpu_seconds','child_cpu_seconds','monitor_cpu_seconds','control_child_cpu_seconds'))
+            report['resource_accounting_point']='Stored totals precede guarded publication; final wall/full CPU acceptance caps include all preference intake, readback and freshness checks.'
+            if report['wall_seconds']>seconds or report['total_cpu_seconds']>seconds:
+                report.update(accepted=False,status='budget_exceeded')
+            if not report['accepted']:report['whole_project_drc_clean']=False
+        def stable():
+            if report['accepted']:
+                if tool_manifest()!=report['tools']:raise Rejected('runtime changed during preference publication')
+                if evidence_inventory(output)!=completed:raise Rejected('completed preference routing evidence changed')
+                if tree_hash(source.parent)!=before or tree_hash(output/'snapshot')!=before:
+                    raise Rejected('source changed during preference publication')
+            preferences_fresh(output,_preferences)  # Last: metadata reads above may yield to another writer.
+        return publish(output,report,stable,account,remaining)
     save_json(output/'result.json',report)
     # Receipt serialization/fsync must not let an accepted result cross its cap.
     # The corrective rejected receipt need not finish inside the acceptance cap.
@@ -708,6 +814,7 @@ def check_result(path):
     if len(matching)!=1 or any(matching[0].get(key)!=value for key,value in process.items()) or matching[0].get('validated_input_sha256')!=data['candidate_sha256'] or matching[0].get('emitted_candidate')!=str(candidate):
         raise Rejected('final native step differs from process or input binding')
     if any(step.get('status')=='cancelled' or step.get('cleanup_complete') is not True for step in steps): raise Rejected('cancelled or incomplete process cleanup in receipt')
+    check_preferences_record(path.parent,data)
 
     def number(value):
         if isinstance(value,bool) or not isinstance(value,(int,float)) or not math.isfinite(value) or value<0: raise Rejected('invalid resource accounting')
@@ -742,4 +849,8 @@ def check_result(path):
         from .placement_clearance import final_freshness
         final_freshness(path.parent,data)
         if hashlib.sha256(bounded_bytes(path)).hexdigest()!=receipt_digest:raise Rejected('placement receipt changed during readback')
+    if 'routing_preferences' in data or (path.parent/'routing-preferences.json').exists():
+        check_preferences_record(path.parent,data)
+        if hashlib.sha256(bounded_bytes(path)).hexdigest()!=receipt_digest:
+            raise Rejected('preference receipt changed during readback')
     return result

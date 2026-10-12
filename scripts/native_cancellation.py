@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Real engine-stage SIGINT control on the project-owned smoke fixture.
+"""Real engine-stage SIGINT/SIGTERM control on the project-owned smoke fixture.
 
 Signals only the specifically spawned routing CLI PID. Native/engine execution
 is real; run only in a quiet slot after other routing experiments finish.
@@ -52,14 +52,15 @@ def output_bytes(root):
     return total
 
 
-def control(out):
+def control(out, cancel_signal=signal.SIGINT):
+    if cancel_signal not in (signal.SIGINT,signal.SIGTERM):raise ValueError('unsupported control signal')
     out.mkdir(parents=True, exist_ok=False)
     started = time.monotonic()
     source = c.ROOT / "fixtures/smoke/smoke.kicad_pcb"
     route_out = out / "route"
     log = out / "cli.log"
     report = {"schema": 1, "status": "incomplete", "passed": False,
-              "control": "real CLI SIGINT during owned engine execution",
+              "control": "real CLI "+signal.Signals(cancel_signal).name+" during owned engine execution",
               "source": str(source), "signals": [], "output": str(out),
               "limitations": "Only engine-stage cancellation is tested. Interstage cancellation, editor cancellation and OS crashes are not qualified. PID/group absence is an immediate observation, not a persistent monitor."}
     child = None
@@ -116,13 +117,13 @@ def control(out):
                         report["observed_owned_engine"] = owned_engine
                         report["engine_log_bytes_at_signal"] = engine_log.stat().st_size
                         report["engine_observed_elapsed_seconds"] = time.monotonic() - started
-                        signal_cli(signal.SIGINT)
+                        signal_cli(cancel_signal)
                         break
                 time.sleep(0.01)
             if owned_engine is None:
                 raise RuntimeError("did not observe a running engine before CLI exit/startup deadline")
             if not wait_cli(time.monotonic() + 15):
-                raise RuntimeError("CLI did not finish within 15 seconds after SIGINT")
+                raise RuntimeError("CLI did not finish within 15 seconds after requested cancellation")
         report["cli_exit_code"] = child.returncode
         receipt_path = route_out / "result.json"
         engine_receipt_path = route_out / "engine-process.json"
@@ -139,7 +140,7 @@ def control(out):
         report["checks"] = {
             "cli_rejected": child.returncode == 2 and result.get("accepted") is False,
             "engine_pid_bound": engine.get("pid") == owned_engine["pid"],
-            "engine_cancelled_by_sigint": engine.get("status") == "cancelled" and engine.get("cancel_signal") == "SIGINT",
+            "engine_cancelled_by_requested_signal": engine.get("status") == "cancelled" and engine.get("cancel_signal") == signal.Signals(cancel_signal).name,
             "runner_cleanup_complete": engine.get("cleanup_complete") is True,
             "engine_group_absent": not remaining,
             "source_unchanged": report["source_unchanged"],
@@ -155,7 +156,7 @@ def control(out):
         if child is not None and child.poll() is None:
             # Signal only our CLI; its runner owns termination of native worker
             # groups. Allow that bounded cleanup before the final own-PID fallback.
-            signal_cli(signal.SIGINT)
+            signal_cli(cancel_signal)
             if not wait_cli(time.monotonic() + 5):
                 signal_cli(signal.SIGTERM)
                 if not wait_cli(max(time.monotonic() + 5, started + 130)):
@@ -193,6 +194,7 @@ def control(out):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", required=True, help="new directory under this checkout's .runs")
+    parser.add_argument("--signal",choices=['SIGINT','SIGTERM'],default='SIGINT',help='signal only the CLI spawned by this control')
     args = parser.parse_args()
     out = Path(args.output).resolve()
     if c.ROOT / ".runs" not in out.parents:
@@ -201,7 +203,7 @@ def main():
         raise KeyboardInterrupt
     previous = {sig: signal.signal(sig, interrupted) for sig in (signal.SIGINT, signal.SIGTERM)}
     try:
-        return control(out)
+        return control(out,getattr(signal,args.signal))
     finally:
         for sig, handler in previous.items():
             signal.signal(sig, handler)

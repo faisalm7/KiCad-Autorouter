@@ -4,7 +4,7 @@ Updated October 11, 2026 (America/Los_Angeles). **Active local reconstruction; i
 
 ## Durable local work and backup boundary
 
-Checkout: `/Users/faisal/Projects/KiCad-Autorouter-local` on this Mac; branch `rebuild/local-20261010-015447`. Latest verified source push/read-back before this checkpoint is **`ab1dcee5991c74d27f7854b195b8edb5772384d5`** ([receipt](evidence/backups/checkpoint-ab1dcee.json)). G0 began at `683e41a`; no cloud/worktree was used.
+Checkout: `/Users/faisal/Projects/KiCad-Autorouter-local` on this Mac; branch `rebuild/local-20261010-015447`. Latest verified source push/read-back before this checkpoint is **`d1c166f196f64042154bb30be5eb38d8e0b97d74`** (local receipt `.runs/checkpoint-d1c166f.json`). G0 began at `683e41a`; no cloud/worktree was used.
 
 Latest **full** archive: **a258c4a**. Restoration verified all Git references, **49,824 non-Git files / 1,539,941,941 bytes**, and CLI help ([verification](evidence/backups/restore-a258c4a.json)). Location: `.local-backups/checkpoint-20261010T163457Z-5ac7f7159bb541efb566c74039d69f46`. It includes all prior raw evidence, actual padstack import, failed and completed native severity batches, all new audits/API declarations, the parity proposal and the explicitly incomplete area-probe draft. GitHub holds audited source and selected evidence. Full archives remain on this Mac only; independent off-Mac storage awaits the owner. No previous archive or original source was removed. Later changes require a later archive.
 
@@ -13,6 +13,10 @@ Latest **incremental snapshot ab1dcee** is fully restored and verified from that
 The incremental backup extension now passes independent review, including reproduced/fixed archive replacement and real SIGTERM cancellation defects. The full current integration suite passes **535 tests in 13.492 seconds**. These small controls do not establish a real project restoration: the full incremental-chain reconstruction now passes. Current installation004 passed as recorded below. See [review](evidence/review-incremental-backup-001/REPORT.md).
 
 Current **installation004 at4807b39** passes all20 commands,535 tests in a fresh local test checkout/venv, and the actual placement route/readback. Native result: zero findings, one required via,67.933738mm;6.614863wall/4.674714fullCPU seconds within60. Complete installation:39.983485wall/36.883169CPU seconds,222,833,178sampled scratch bytes, within600wall/512MiB. It reused installed pinned dependencies and the verified cached engine with network denied; it is not a fresh-Mac/package qualification. Independent reused readback verifies the complete9,159-file clone, native bindings and159 public files; post-run reporting edits are distinguished explicitly ([review](evidence/review-installation-004/REPORT.md)). Full raw tree is preserved locally and selected exact evidence is in [installation004](evidence/installation-004/result.json).
+
+## Persistent routing preferences: source qualification
+
+Explicit saved presets now support scope, time budgets, adapter/profile and via-cost preferences with static preview and exact captured settings bound to final native receipts. Only `source_all` is accepted for layers; unsupported restrictions fail explicitly. Full integrated software suite: **566 tests pass in13.682seconds**. Independent review found and fixed four publication/binding defect groups; native settings/protected-route/cancellation qualification remains prospective under the frozen three-case protocol. [Source evidence](evidence/preferences-source-001/ROOT_INTEGRATION.md), [review](evidence/review-preferences-001/REPORT.md), [protocol](evidence/preferences-native-protocol-001/protocol.json). Historical installation004 predates this change.
 
 ## Current custom-pad and parity diagnostics
 

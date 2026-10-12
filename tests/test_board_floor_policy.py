@@ -172,7 +172,8 @@ class FloorReceipt(unittest.TestCase):
   from contextlib import redirect_stdout
   from autorouter import __main__ as cli
   with patch('sys.argv',['autorouter','route','board','--output','out','--adapter','both','--guidance','board-floors-v1']),patch.object(cli,'route',return_value={'accepted':False}) as route,redirect_stdout(io.StringIO()):
-   self.assertEqual(cli.main(),2);self.assertEqual(route.call_args.kwargs['guidance_policy'],'board-floors-v1')
+   self.assertEqual(cli.main(),2)
+   self.assertEqual(route.call_args.kwargs['preference_overrides']['guidance'],'board-floors-v1')
 
  def test_matching_process_status_and_zero_exit_contradiction(self):
   self.data['steps'][1]['status']='nonzero_exit'
