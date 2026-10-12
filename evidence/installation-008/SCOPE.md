@@ -1,0 +1,1 @@
+Actual failed008:643tests, one stale backup constant assertion; no native route. Fresh root suite after the one-line assertion correction passes643tests. Complete isolated checkout and dependencies retained locally, not republished. Fresh009 command remains prospective. Routing constraints and acceptance unchanged.

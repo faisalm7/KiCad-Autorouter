@@ -10,7 +10,7 @@ class BackupCapacity(unittest.TestCase):
                 'files':[{'path':'.runs/evidence.bin','size':size,'sha256':'0'*64}],
                 'total_file_bytes':size}
     def test_exact_finite_capacity_and_existing_population(self):
-        self.assertEqual(backup.LIMIT,3*1024**3);self.assertEqual(backup.MAX_FILES,100000)
+        self.assertEqual(backup.LIMIT,3*1024**3);self.assertEqual(backup.MAX_FILES,120000)
         self.assertEqual(backup.SCOPES,('.runs','.data','.local-reference'))
     def test_previous_one_gib_inventory_still_valid(self):
         for size in (0,1017693214,1024**3):
