@@ -73,45 +73,45 @@ def clearances(board,pcbnew,*,api_types=None):
     if len(rows)!=247 or len({r['uuid'] for r in rows})!=247:raise ValueError('original pad identity population differs')
     return sorted(rows,key=lambda r:r['uuid'])
 
-def callback(report):
-    state={}
-    diagnostic=report.with_name('clearance-initialization.json')
-    if diagnostic.exists() or diagnostic.is_symlink():raise ValueError('fresh initialization observation required')
+OBSERVATION_SCOPE='Same LoadBoard own/local/class queries; initialization success and pairwise rule enforcement are unqualified.'
+
+def observation_reference(observed):
+    # Keep full rows/type observations in the bounded sidecar. Binding a compact
+    # reference avoids duplicating them in floor_context's existing1MiB output.
+    raw=(json.dumps(observed,sort_keys=True,allow_nan=False,separators=(',',':'))+'\n').encode()
+    return {k:observed[k] for k in ('scope','initialization_qualified','pairwise_rules_qualified','drc_report_executed')} | {
+        'observation_sha256':hashlib.sha256(raw).hexdigest()}
+
+def callback(diagnostic):
+    if diagnostic.exists() or diagnostic.is_symlink():raise ValueError('fresh clearance observation required')
+    state={};calls=0
     def save():
         raw=(json.dumps(state,sort_keys=True,allow_nan=False)+'\n').encode()
-        if len(raw)>2*1024**2:raise ValueError('initialization observation bound')
+        if len(raw)>2*1024**2:raise ValueError('clearance observation bound')
         partial=diagnostic.with_suffix('.json.partial');partial.write_bytes(raw);partial.replace(diagnostic)
     def observe(board,pcbnew):
-        if not state:
-            try:
-                state['pre_initialization_api_types']=[]
-                state['pre_initialization']=clearances(board,pcbnew,api_types=state['pre_initialization_api_types']);save()
-                # Cached exact helper source explicitly calls InitEngine before RunTests.
-                result=pcbnew.WriteDRCReport(board,str(report),pcbnew.EDA_UNITS_MM,True)
-                state['initialization_return_type']=type(result).__name__
-                state['initialization_returned']=result if type(result) is bool else None;save()
-                if type(result) is not bool or result is not True:raise ValueError('explicit same-board DRC initialization/report failed')
-                if report.is_symlink() or not report.is_file() or not 0<report.stat().st_size<=2*1024**2:raise ValueError('native initialization report bound')
-                raw=report.read_bytes()
-                if len(raw)>2*1024**2:raise ValueError('native initialization report growth')
-                state.update(report_sha256=hashlib.sha256(raw).hexdigest(),report_bytes=len(raw));save()
-            except Exception as exc:
-                state['initialization_error_type']=type(exc).__name__;save();raise
+        nonlocal calls
+        if calls>=2:raise ValueError('exactly two export observations allowed')
+        stage=('before_export','after_export')[calls];calls+=1
+        observed={'scope':OBSERVATION_SCOPE,'initialization_qualified':False,'pairwise_rules_qualified':False,
+                  'drc_report_executed':False,'api_types':[]}
+        state[stage]=observed
         try:
-            state['post_initialization_api_types']=[]
-            post=clearances(board,pcbnew,api_types=state['post_initialization_api_types']);save()
+            observed['rows']=clearances(board,pcbnew,api_types=observed['api_types']);save()
+            geometry=original.observe(board,pcbnew)
         except Exception as exc:
-            state['post_initialization_error_type']=type(exc).__name__;save();raise
-        return {**original.observe(board,pcbnew),'clearance_observation':{**state,
-            'post_initialization':post,'pairwise_rules_qualified':False,
-            'interpretation':'Own-clearance cache queries and separately labelled net-class preferences; local optionals may be unsupported. Text report is retained, not a routing acceptance report.'}}
+            observed['error_type']=type(exc).__name__;save();raise
+        # No WriteDRCReport: actual004 crashed in that call. LoadBoard's cached
+        # InitEngine source catches exceptions; its success is not inferred.
+        return {**geometry,'clearance_observation':observation_reference(observed)}
     return observe
 
 def main(argv=None):
     args=sys.argv[1:] if argv is None else argv
-    if len(args)!=5:raise ValueError('source/context/DSN/custom/report required')
-    source,context,dsn,custom,report=map(Path,args)
-    if report.parent!=context.parent or report.exists() or report.is_symlink():raise ValueError('fresh adjacent initialization report required')
-    fc.collect('export',source,context,dsn,observation_output=custom,observer=callback(report))
+    if len(args)!=5:raise ValueError('source/context/DSN/custom/clearance-observation required')
+    source,context,dsn,custom,diagnostic=map(Path,args)
+    if diagnostic.parent!=context.parent or diagnostic in (context,dsn,custom) or diagnostic.exists() or diagnostic.is_symlink():
+        raise ValueError('fresh distinct adjacent clearance observation required')
+    fc.collect('export',source,context,dsn,observation_output=custom,observer=callback(diagnostic))
 
 if __name__=='__main__':main()

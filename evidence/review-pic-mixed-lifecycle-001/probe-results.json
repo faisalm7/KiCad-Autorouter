@@ -1,0 +1,68 @@
+{
+  "schema": 1,
+  "passed": true,
+  "source_pins": {
+    "worker.py": "f71062a47a3d1761223919736932eb90534d9b4763153b5ea8c6751478f4eaa4",
+    "driver.py": "740b25b6356d8600f5144246d14134b66b23f8746d32d1aefb9913428cccaf62",
+    "test_draft.py": "a2061c8d85dd8407b730622fad2003dc7956572578d6b5d968e91a1b66c14099",
+    "PROTOCOL.json": "c59c97ab3049160c77af1345e6c13fbb181980c8a6c55c572ab9f58786d3bf72",
+    "README.md": "053303c48bb7b6eee3bf15d7e99f0cf2730f3064e69360108b4680a404073691"
+  },
+  "methods": [
+    "test_load_observation_does_not_call_unsupported_drc",
+    "test_load_observation_binding_and_scope",
+    "test_rejected_netcode_type_retained_without_drc"
+  ],
+  "cases": [
+    {
+      "case": "retained_actual_rows_synthetic_two_stage_positive",
+      "rejected": false
+    },
+    {
+      "case": "false_flag_integer_zero",
+      "rejected": true,
+      "error": "load-only observation scope/binding differs"
+    },
+    {
+      "case": "false_flag_true",
+      "rejected": true,
+      "error": "load-only observation scope/binding differs"
+    },
+    {
+      "case": "missing_sidecar_stage",
+      "rejected": true,
+      "error": "load-only observation scope/binding differs"
+    },
+    {
+      "case": "sidecar_row_mismatch",
+      "rejected": true,
+      "error": "load-only observation scope/binding differs"
+    },
+    {
+      "case": "all_stage_wrong_class",
+      "rejected": true,
+      "error": "assigned class metadata differs from same-board context"
+    },
+    {
+      "case": "after_export_own_change",
+      "rejected": true,
+      "error": "export changed clearance observations"
+    },
+    {
+      "case": "extra_initialized_claim",
+      "rejected": true,
+      "error": "load-only observation scope/binding differs"
+    },
+    {
+      "case": "missing_original_terminal",
+      "rejected": true,
+      "error": "clearance terminal census differs"
+    }
+  ],
+  "scope": "Actual retained pre-call rows reused in synthetic two-stage contracts. No export/initialization/native behavior newly established.",
+  "original004_sidecar_sha256": "add4801a88dee4f143feede1f2614208634292e1abbf33d61e96399570512800",
+  "prior_context_sha256": "8b114666765a2265320802826a58d87008dd3c33a10e63fe1fe3bd78a00d2031",
+  "native_jobs": 0,
+  "jvm_jobs": 0,
+  "remaining_blockers": []
+}

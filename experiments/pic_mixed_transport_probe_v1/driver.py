@@ -11,6 +11,7 @@ from experiments.pic_custom_observer_v1 import driver as original,mapping
 from autorouter import runner,placement_clearance as io,sexpr as sx,floor_route as floor
 sys.path.insert(0,str(HERE))
 import transport
+from experiments.pic_mixed_transport_probe_v1.worker import OBSERVATION_SCOPE,observation_reference
 
 SECONDS=180.0;LIMIT=64*1024**2
 HELPERS=('driver.py','worker.py','transport.py','MixedClassProbe.java','test_draft.py','PROTOCOL.json','README.md')
@@ -51,6 +52,21 @@ def verify_clearance_rows(observed,context,notes):
                 or row.get('netclass') is not None or row.get('class_clearance_nm') is not None):
             raise ValueError('netless class metadata must remain unavailable')
 
+def verify_load_observations(custom,saved,context,notes):
+    observations=[]
+    for stage in ('before_export','after_export'):
+        clear=saved[stage]
+        reference=custom['observation_'+stage]['clearance_observation']
+        if (set(clear)!={'scope','initialization_qualified','pairwise_rules_qualified','drc_report_executed','api_types','rows'}
+                or clear['scope']!=OBSERVATION_SCOPE or any(clear[k] is not False for k in ('initialization_qualified','pairwise_rules_qualified','drc_report_executed'))
+                or type(clear['api_types']) is not list or reference!=observation_reference(clear)
+                or any(reference[k] is not False for k in ('initialization_qualified','pairwise_rules_qualified','drc_report_executed'))):
+            raise ValueError('load-only observation scope/binding differs')
+        verify_clearance_rows(clear['rows'],context,notes);observations.append(clear)
+    if set(saved)!={'before_export','after_export'} or observations[0]!=observations[1]:
+        raise ValueError('export changed clearance observations')
+    return observations[0]
+
 def verify_native(out,source_hashes,notes):
     context=base.decode(base.content(out/'context.json',2*1024**2));custom=base.decode(base.content(out/'custom.json',4*1024**2));raw=base.content(out/'native.dsn',1024**2)
     board=out/'observe-input'/original.SOURCE.name
@@ -60,15 +76,12 @@ def verify_native(out,source_hashes,notes):
     if custom.get('floor_context_sha256')!=base.sha(base.content(out/'context.json')):raise ValueError('custom context digest differs')
     mapping.floor_identity(context,notes,base.decode(base.content(board.with_suffix('.kicad_pro'))))
     rows=mapping.custom_identity(custom,context,notes)
-    clear=custom['observation_before_export']['clearance_observation']
-    report=base.content(out/'initialization-drc.txt',2*1024**2)
-    if clear['initialization_returned'] is not True or clear['report_sha256']!=base.sha(report) or clear['report_bytes']!=len(report):raise ValueError('explicit initialized same-board report binding differs')
-    for stage in ('pre_initialization','post_initialization'):
-        verify_clearance_rows(clear[stage],context,notes)
+    clear=verify_load_observations(custom,base.decode(base.content(out/'clearance-observation.json',2*1024**2)),context,notes)
     derived,expected=transport.derive(raw,context,custom,notes)
-    return derived,expected,{'initialized':True,'pairwise_rules_qualified':False,
-        'local_optional_observations_supported':all(x['status']=='observed' for r in clear['post_initialization'] for x in (r['pad_local'],r['footprint_local'],r['pad_override'])),
-        'report_sha256':base.sha(report),'custom_pad_own_clearance':[{k:r[k] for k in ('uuid','net','netcode','netclass','class_clearance_nm','class_metadata','net_metadata_return_types','pad_net_return_types','own','pad_local','footprint_local','pad_override')} for r in clear['post_initialization'] if r['uuid'] in {p['uuid'] for p in rows}]}
+    return derived,expected,{'initialization_qualified':False,'drc_report_executed':False,'pairwise_rules_qualified':False,
+        'scope':OBSERVATION_SCOPE,
+        'local_optional_observations_supported':all(x['status']=='observed' for r in clear['rows'] for x in (r['pad_local'],r['footprint_local'],r['pad_override'])),
+        'custom_pad_own_clearance':[{k:r[k] for k in ('uuid','net','netcode','netclass','class_clearance_nm','class_metadata','net_metadata_return_types','pad_net_return_types','own','pad_local','footprint_local','pad_override')} for r in clear['rows'] if r['uuid'] in {p['uuid'] for p in rows}]}
 
 def experiment(out,*,started=None,cpu_started=None):
     if HERE.relative_to(ROOT).as_posix()!='experiments/pic_mixed_transport_probe_v1':raise ValueError('promote and commit reviewed helper before execution')
@@ -127,7 +140,7 @@ def experiment(out,*,started=None,cpu_started=None):
             if result['status']!='success' or result['exit_code']!=0 or result.get('cleanup_complete') is not True:raise ValueError(name+' failed; raw artifacts retained')
             stable()
         code=out/'code'/str(HERE.relative_to(ROOT));tools=protocol['tools']
-        step('native-observe',[*base.SANDBOX,tools['native_python']['path'],str(code/'worker.py'),str(out/'observe-input'/original.SOURCE.name),str(out/'context.json'),str(out/'native.dsn'),str(out/'custom.json'),str(out/'initialization-drc.txt')],60)
+        step('native-observe',[*base.SANDBOX,tools['native_python']['path'],str(code/'worker.py'),str(out/'observe-input'/original.SOURCE.name),str(out/'context.json'),str(out/'native.dsn'),str(out/'custom.json'),str(out/'clearance-observation.json')],60)
         derived,expected,native=verify_native(out,before['original'],notes);record['native']=native
         (out/'mixed.dsn').write_bytes(derived);base.write(out/'expectations.json',expected);capture()
         jar=str(ROOT/tools['jar']['path'])

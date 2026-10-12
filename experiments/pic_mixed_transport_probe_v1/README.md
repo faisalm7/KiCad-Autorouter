@@ -1,13 +1,15 @@
-# Original PIC mixed-class import prerequisite — prospective draft
+# Original PIC mixed-class import prerequisite — load-only amendment
 
-This diagnostic has not been run in KiCad or Java. It does not route, write SES,
-save a board, admit production support, or establish local-rule equivalence.
-The ROOT lead must review, promote these seven files to
-`experiments/pic_mixed_transport_probe_v1`, commit/push/read back, and hold the
-single native/JVM lane before invoking:
+Actual001–003 failed on native API/type handling before initialization/export.
+Actual004 captured all247pad own/local/class observations, then crashed during
+`WriteDRCReport` (native exit-11, Pgm process assertion). All failures remain
+preserved. This exposed amendment removes that unavailable reporting path;
+initialized-rule success remains explicitly unqualified. It does not route,
+write SES, save a board, admit production support, or establish rule equivalence.
+After review and verified source checkpoint, ROOT alone runs a fresh output:
 
 ```
-python3 -B experiments/pic_mixed_transport_probe_v1/driver.py --run-probe --output .runs/pic-mixed-transport-probe-001
+python3 -B experiments/pic_mixed_transport_probe_v1/driver.py --run-probe --output .runs/pic-mixed-transport-probe-005
 ```
 
 The explicit `--run-probe` is required. The shared foreground lock and 180-second
@@ -24,12 +26,11 @@ clock; reported samples precede final checks, whose cost is still capped.
 1. Verify the existing 15-file licensed acquisition and copy the complete project.
    No original, rule, severity, library reference, routing or plane is removed.
 2. Reuse the qualified same-load original custom-pad observer and floor context.
-   Capture `GetOwnClearance(actual layer)` before explicit initialization. Call
-   exposed `WriteDRCReport` once on that same BOARD, retaining its Boolean,
-   exceptions and bounded raw text report, then capture the post-initialization
-   getters and export. Before/after-export geometry and clearance observations
-   must be identical. A side JSON retains initialization facts even if later
-   work fails. There is no inferred clean-DRC verdict from this text report.
+   Capture `GetOwnClearance(actual layer)` and local/class metadata on that same
+   loaded BOARD before/after export, preserving exact equality and side JSON
+   even if later work fails. Raw return types are recorded. There is no DRC
+   report call or successful-initialization claim. The actual pre-call004
+   observations established API availability, not pairwise enforcement.
 3. Record pad/footprint local optional getters only when the returned value is
    literally `None` or a nonnegative Python `int` excluding `bool`. Opaque SWIG
    objects, exceptions and other types remain unsupported. No pointer/repr or
@@ -68,7 +69,7 @@ clock; reported samples precede final checks, whose cost is still capped.
 Raw imported trace normalization and original fixed-route connectivity remain
 observations. This diagnostic does not assert exact imported trace union or
 future SES survival. Original POWER and Default clearances may disagree with
-the initialized own/local observations: retain that discrepancy as the next
+the load-only own/local observations: retain that discrepancy as the next
 transport blocker. Original plane flags are preserved and reported; there is
 no claim that they are false or that plane shortcuts have been qualified.
 Matrix class changes are not evidence of electrical legality.
@@ -90,13 +91,13 @@ Its deferred post-load processing is awaited and charged; no routing scheduler
 is constructed. The source is cached in `.runs/pic-clearance-api-001/source/`.
 
 At KiCad commit `0feeca2a807f428ad2b3fa7c1e39625cb769f02c`, cached
-`pcbnew_scripting_helpers.cpp` lines537–594 explicitly initialize the same
-board's DRC engine in `WriteDRCReport`, returning false for rule parse errors;
-the function then runs tests and writes the report without SaveBoard. The
-LoadBoard initialization earlier in that file is best effort and catches
-exceptions, so it is not credited as explicit successful initialization.
-`BOARD_CONNECTED_ITEM::GetOwnClearance` returns zero without an engine; that
-pre-initialization value alone is not a clearance measurement.
+`pcbnew_scripting_helpers.cpp` lines247–256 attempt InitEngine in LoadBoard,
+catching exceptions. Successful initialization is therefore not inferred.
+Lines537 onward explicitly initialize then run tests in WriteDRCReport, but
+actual004 crashed with a Pgm assertion during that call on this Mac. This
+amendment keeps load-only observations; it does not pretend that removing the
+unavailable diagnostic call qualifies native rules. GetOwnClearance returns
+zero without an engine, and nonzero values alone do not prove pairwise rules.
 
 PIC original geometry is from the pinned KiCad demos acquisition and retains
 its existing CC BY-SA notices (`data/sources.json` and the source `_licenses/`

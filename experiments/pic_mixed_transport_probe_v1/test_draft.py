@@ -196,18 +196,18 @@ class Pure(unittest.TestCase):
         driver.verify_clearance_rows(rows,context,notes)
         table[WxString('N')]=SimpleNamespace(GetNetCode=lambda:3)
         with self.assertRaisesRegex(ValueError,'identity differs'):worker.clearances(board,pcb)
-    def test_rejected_netcode_type_retained_before_initialization(self):
+    def test_rejected_netcode_type_retained_without_drc(self):
         for code in (True,1.0,'1'):
             with self.subTest(code=code),tempfile.TemporaryDirectory(dir=HERE) as temp:
                 board,pcb,_,nets,*_=self.clearance_fixture()
                 nets['N'].GetNetCode=lambda code=code:code
                 def forbidden(*args):raise AssertionError('no native initialization allowed after failed census')
                 pcb.WriteDRCReport=forbidden
-                cb=worker.callback(Path(temp)/'report.txt')
+                cb=worker.callback(Path(temp)/'clearance-observation.json')
                 with self.assertRaisesRegex(ValueError,'native netcode type differs'):cb(board,pcb)
-                saved=json.loads((Path(temp)/'clearance-initialization.json').read_text())
-                self.assertEqual(saved['initialization_error_type'],'ValueError')
-                self.assertEqual(saved['pre_initialization_api_types'][0]['raw_return_types'],
+                saved=json.loads((Path(temp)/'clearance-observation.json').read_text())
+                self.assertEqual(saved['before_export']['error_type'],'ValueError')
+                self.assertEqual(saved['before_export']['api_types'][0]['raw_return_types'],
                                  {'key':'str','netcode':type(code).__name__})
                 self.assertNotIn('initialization_returned',saved)
 
@@ -229,24 +229,49 @@ class Pure(unittest.TestCase):
             before=driver.runtime(p);extension.write_bytes(b'changed library');after=driver.runtime(p)
             self.assertNotEqual(before,after)
             self.assertNotEqual(before['tools']['pcbnew']['sha256'],after['tools']['pcbnew']['sha256'])
-    def test_same_board_initialization_once_and_failure_retention(self):
-        for success in (True,False):
-            with self.subTest(success=success),tempfile.TemporaryDirectory(dir=HERE) as temp:
-                report=Path(temp)/'init.txt';native=object();calls=[]
-                class P:
-                    EDA_UNITS_MM=1
-                    @staticmethod
-                    def WriteDRCReport(board,path,unit,all_errors):
-                        calls.append((board,unit,all_errors));Path(path).write_text('actual-format placeholder only');return success
-                cb=worker.callback(report)
-                with patch.object(worker,'clearances',return_value=[]),patch.object(worker.original,'observe',return_value={'base':True}):
-                    if success:
-                        a=cb(native,P);b=cb(native,P);self.assertEqual(a,b)
-                    else:
-                        with self.assertRaises(ValueError):cb(native,P)
-                self.assertEqual(calls,[(native,1,True)])
-                saved=json.loads((Path(temp)/'clearance-initialization.json').read_text());self.assertEqual(saved['initialization_returned'],success)
-                self.assertIn('pre_initialization',saved)
+    def test_load_observation_does_not_call_unsupported_drc(self):
+        with tempfile.TemporaryDirectory(dir=HERE) as temp:
+            path=Path(temp)/'clearance-observation.json';native=object()
+            class P:
+                @staticmethod
+                def WriteDRCReport(*args):raise AssertionError('crashing API must not be called')
+            cb=worker.callback(path)
+            with patch.object(worker,'clearances',return_value=[]),patch.object(worker.original,'observe',return_value={'base':True}):
+                a=cb(native,P);b=cb(native,P);self.assertEqual(a,b)
+                with self.assertRaises(ValueError):cb(native,P)
+            saved=json.loads(path.read_text());self.assertEqual(set(saved),{'before_export','after_export'})
+            self.assertEqual(worker.observation_reference(saved['before_export']),a['clearance_observation'])
+            self.assertIs(saved['before_export']['initialization_qualified'],False)
+            self.assertIs(saved['before_export']['drc_report_executed'],False)
+    def test_load_observation_binding_and_scope(self):
+        clear={'scope':worker.OBSERVATION_SCOPE,'initialization_qualified':False,'pairwise_rules_qualified':False,
+               'drc_report_executed':False,'api_types':[],'rows':[]}
+        custom={'observation_'+s:{'clearance_observation':worker.observation_reference(clear)} for s in ('before_export','after_export')}
+        saved={s:copy.deepcopy(clear) for s in ('before_export','after_export')}
+        with patch.object(driver,'verify_clearance_rows') as verify:
+            self.assertEqual(driver.verify_load_observations(custom,saved,{},{}),clear);self.assertEqual(verify.call_count,2)
+            for key in ('initialization_qualified','pairwise_rules_qualified','drc_report_executed'):
+                for value in (True,0,None):
+                    bad=copy.deepcopy(custom);bad['observation_before_export']['clearance_observation'][key]=value
+                    with self.assertRaises(ValueError):driver.verify_load_observations(bad,saved,{},{})
+            for stage in saved:
+                bad=copy.deepcopy(saved);bad[stage]['rows']=['changed']
+                with self.assertRaises(ValueError):driver.verify_load_observations(custom,bad,{},{})
+            bad=copy.deepcopy(custom);changed=copy.deepcopy(saved);changed['after_export']['api_types']=[{}]
+            bad['observation_after_export']['clearance_observation']=worker.observation_reference(changed['after_export'])
+            with self.assertRaises(ValueError):driver.verify_load_observations(bad,changed,{},{})
+    def test_actual_clearance_sidecar_keeps_existing_context_bound(self):
+        actual=json.loads((ROOT/'evidence/pic-mixed-transport-probe-004/clearance-initialization.json').read_text())
+        clear={'scope':worker.OBSERVATION_SCOPE,'initialization_qualified':False,'pairwise_rules_qualified':False,
+               'drc_report_executed':False,'api_types':actual['pre_initialization_api_types'],'rows':actual['pre_initialization']}
+        bulky=copy.deepcopy(self.custom);compact=copy.deepcopy(self.custom)
+        for stage in ('observation_before_export','observation_after_export'):
+            bulky[stage]['clearance_observation']=clear
+            compact[stage]['clearance_observation']=worker.observation_reference(clear)
+        self.assertGreater(len((json.dumps(bulky,indent=2)+'\n').encode()),1024**2)
+        self.assertLess(len((json.dumps(compact,indent=2)+'\n').encode()),1024**2)
+        saved={s:clear for s in ('before_export','after_export')}
+        self.assertEqual(driver.verify_load_observations(compact,saved,self.context,self.notes),clear)
     def test_shared_publication_invalidates_late_material(self):
         for which in ('positive','evidence','cancel'):
             with self.subTest(which=which),tempfile.TemporaryDirectory(dir=HERE) as temp:
@@ -295,7 +320,7 @@ class Pure(unittest.TestCase):
                     return {'status':'success','exit_code':0,'cleanup_complete':True,'pid':123,'argv':argv,'cwd':str(out)}
                 for obj,name,value in [(driver,'ROOT',root),(driver,'HERE',here),(driver.original,'SOURCE',source),
                     (driver,'runtime',runtime),(driver.subprocess,'run',git),(driver.mapping,'source_notes',lambda *_:{}),
-                    (driver,'verify_native',lambda *_:(self.derived,self.expected,{'initialized':True})),
+                    (driver,'verify_native',lambda *_:(self.derived,self.expected,{'initialization_qualified':False})),
                     (driver.runner,'run',run),(driver.base,'write',write),(driver.base,'cpu',cpu)]:stack.enter_context(patch.object(obj,name,value))
                 result=driver.experiment(out)
                 self.assertEqual(len(result['steps']),1 if variant=='capture-failure' else 3)

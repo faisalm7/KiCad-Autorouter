@@ -1,0 +1,7 @@
+# Load-only transport diagnostic amendment
+
+Actual004 captured247native rows then exited-11 during WriteDRCReport. The Pgm assertion is retained; the internal crash point is not established by a stack trace. Cached pinned LoadBoard source attempts InitEngine but catches exceptions, so the amendment removes the unavailable reporting call and explicitly declares initialization and pairwise-rule enforcement unqualified. Production validation and support are unchanged.
+
+Same-BOARD before/after export observations retain all247own/local/class rows and111assigned net identities, exact original/context comparisons, raw type names, and strict false qualification flags. Full observations are saved in the bounded2MiB sidecar and hash-bound from the existing1MiB custom/geometry output. Root reproduced that duplicating actual004 data would need1,082,101bytes and exceed the original1,048,576byte cap; compact references preserve the complete data without raising any resource cap. The actual-data regression is retained.
+
+Root21focused methods pass0.695seconds (earlier20method log retained). Original001–004 failures are unchanged. Existing process control, pin/contact/matrix validators, Java, transport, budgets and source immutability are reused. Only the unavailable initialization-report subquestion is deferred; native005 is still prospective after independent review and source checkpoint. This cannot turn an incomplete diagnostic into native routing acceptance.

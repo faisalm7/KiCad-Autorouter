@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "passed": true,
+  "source_pins": {
+    "worker.py": "93639677dfe99af7e84014dd9c6bdd2f383945a264e0fb46c20fa998de21647d",
+    "driver.py": "7ba01390f639fe8bf528b8322deff4a3c31459e8e517cf2943b8a48366fadb6b",
+    "test_draft.py": "88f184763ce88db3d27f3f69ec56056954c2cb2ce81e21f725573301f0089308",
+    "PROTOCOL.json": "c59c97ab3049160c77af1345e6c13fbb181980c8a6c55c572ab9f58786d3bf72",
+    "README.md": "053303c48bb7b6eee3bf15d7e99f0cf2730f3064e69360108b4680a404073691"
+  },
+  "prior_manifest_sha256": "9b8a46fdda3299852dc75e43bc63ebe263491b9a660a03322e60aa3f4c8acfcd",
+  "existing_methods": [
+    "test_load_observation_does_not_call_unsupported_drc",
+    "test_load_observation_binding_and_scope",
+    "test_actual_clearance_sidecar_keeps_existing_context_bound"
+  ],
+  "cases": [
+    {
+      "case": "retained_rows_compact_positive",
+      "rejected": false
+    },
+    {
+      "case": "wrong_hash",
+      "rejected": true,
+      "error": "load-only observation scope/binding differs"
+    },
+    {
+      "case": "reference_false_as_zero",
+      "rejected": true,
+      "error": "load-only observation scope/binding differs"
+    },
+    {
+      "case": "reference_true",
+      "rejected": true,
+      "error": "load-only observation scope/binding differs"
+    },
+    {
+      "case": "sidecar_false_as_zero_rehash",
+      "rejected": true,
+      "error": "load-only observation scope/binding differs"
+    },
+    {
+      "case": "sidecar_true_rehash",
+      "rejected": true,
+      "error": "load-only observation scope/binding differs"
+    },
+    {
+      "case": "class_rows_rehashed",
+      "rejected": true,
+      "error": "assigned class metadata differs from same-board context"
+    },
+    {
+      "case": "terminal_removed_rehashed",
+      "rejected": true,
+      "error": "clearance terminal census differs"
+    },
+    {
+      "case": "sidecar_changed_no_rehash",
+      "rejected": true,
+      "error": "load-only observation scope/binding differs"
+    },
+    {
+      "case": "after_export_own_rehashed",
+      "rejected": true,
+      "error": "export changed clearance observations"
+    },
+    {
+      "case": "unknown_field_rehashed",
+      "rejected": true,
+      "error": "load-only observation scope/binding differs"
+    }
+  ],
+  "composition_bytes": {
+    "bulky": 1082101,
+    "compact": 317387,
+    "context_limit": 1048576,
+    "sidecar": 468136,
+    "sidecar_limit": 2097152
+  },
+  "scope": "Synthetic two-stage composition of retained actual004 rows and original002 geometry; not a new native execution or successful export.",
+  "source_and_prior_review_unchanged": true,
+  "native_jobs": 0,
+  "jvm_jobs": 0,
+  "remaining_blockers": []
+}

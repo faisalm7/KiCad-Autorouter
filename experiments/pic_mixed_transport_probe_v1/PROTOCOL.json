@@ -139,6 +139,8 @@
   ],
   "claims": {
     "custom_pad_support_qualified": false,
+    "drc_report_executed": false,
+    "initialization_qualified": false,
     "mixed_clearance_equivalence_qualified": false,
     "routing_accepted": false,
     "ses_executed": false
@@ -153,7 +155,7 @@
   },
   "limitations": [
     "Own clearance is not pairwise EvalRules. Opaque optional local values remain unsupported.",
-    "Schematic parity not invoked by WriteDRCReport. Existing native reports are not reused as fresh DRC acceptance.",
+    "No fresh DRC or schematic parity invoked. Existing native reports are not reused as fresh acceptance.",
     "Original mixed-clearance mismatches remain observations; raw matrix is not silently changed.",
     "Original imported plane flags and retained connectivity are recorded; no unrouted completion or contact gain claim."
   ],
@@ -163,8 +165,9 @@
     "output_bytes": 67108864,
     "wall_seconds": 180
   },
-  "native_initialization": "same loaded BOARD: pre getter \u2192 WriteDRCReport bool/raw report \u2192 post getter \u2192 export \u2192 identical post observation",
+  "native_initialization": "LoadBoard attempts InitEngine with exceptions caught in pinned source; success is UNQUALIFIED. No WriteDRCReport call after actual004 SIGSEGV. Same-BOARD own/local/class observations must match before/after export.",
   "original_source": "data/sources.json pinned acquisition, 15 immutable source files; existing routes and GND plane preserved",
+  "revision": "1.1-load-observation",
   "schema": 1,
   "scope": "Original retained-route PIC mixed-class import observation, no solver/SES/production support",
   "tools": {

@@ -65,7 +65,7 @@ python3 -B -m unittest discover -s tests
 python3 -B scripts/backup.py
 ```
 
-Use fresh output names; never overwrite completed or failed attempts. One bounded worker, immutable originals, fully charged wall/CPU caps and isolated network-denied native execution. Polling and measured CPU acceptance limits are not OS quotas. Archive ceiling 2 GiB / 100,000 files; preserve old archives. No background/auto-resume loops, new spending, private uploads, global preference changes or cloud access. Independent off-Mac backup destination remains an owner gate.
+Use fresh output names; never overwrite completed or failed attempts. One bounded worker, immutable originals, fully charged wall/CPU caps and isolated network-denied native execution. Polling and measured CPU acceptance limits are not OS quotas. Current archive ceiling 3 GiB / 100,000 files (raised and restored at ea29344); preserve old archives. No background/auto-resume loops, new spending, private uploads, global preference changes or cloud access. Independent off-Mac backup destination remains an owner gate.
 
 Next data work: checkpoint the prospective bounded first-three acquisition helper before any fetch. Preserve all312existing acquired files, use a declared64MiB aggregate acquired-data ceiling plus unchanged10MiB/project/invocation limits, then inspect original references/notices statically before promotion or native use. The current16-board population and reserved lineages stay unchanged until actual acquisition and a complete outcome extension are recorded. Do not treat metadata proposals as complete projects or independent families.
 
@@ -118,3 +118,5 @@ Mixed001 completed and failed on an actual PAD API mismatch before initializatio
 Mixed002 completed and failed before initialization/export/import on an opaque PAD class-return binding. Preserve001/002; do not repeat them. After review/root tests/checkpoint of the existing NETINFO_ITEM metadata path correction, run `python3 -B .runs/run-pic-mixed-transport-probe-003.py`. Keep netclass defaults, pad own clearance, local optional support and pairwise equivalence distinct.
 
 Mixed003 completed and failed before initialization/export/import on an additional strict name/code type guard. Do not repeat001/002/003. After narrow source review/root tests/checkpoint, run `python3 -B .runs/run-pic-mixed-transport-probe-004.py`. Capture actual return types, use existing proven native string conversion/placeholder semantics, and preserve all exact original/context checks.
+
+Mixed004 retained complete pre-call clearance observations but crashed during WriteDRCReport. Do not repeat001–004. Review/checkpoint the explicit load-only1.1 amendment, then root runs `python3 -B .runs/run-pic-mixed-transport-probe-005.py`. No DRC initialization or pairwise equivalence is inferred from LoadBoard, whose pinned source catches initialization exceptions. Original mixed manager-import capability remains the immediate question.

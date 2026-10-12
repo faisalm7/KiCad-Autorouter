@@ -1,0 +1,74 @@
+{
+  "schema": 1,
+  "passed": true,
+  "run": ".runs/pic-mixed-transport-probe-004",
+  "head": "c4cf7ef59edd5b3fb949a1bfd79e0d8eaef9f08b",
+  "bound_artifacts": {
+    "summary.json": "7311584f2dba74ce1a7628f60db84c382d0e307af6d8e03e3c7493dfbf1d281f",
+    "native-observe-process.json": "9f9b488258e9fc13d6f3381bed0156a31d198c9760540a4d5b06e8e1f8c3bafc",
+    "native-observe.log": "126d6d874e3596658ed7cce267b6606ced7bce241634df44289f8c1ddb96b827",
+    "clearance-initialization.json": "add4801a88dee4f143feede1f2614208634292e1abbf33d61e96399570512800"
+  },
+  "original_files": 15,
+  "pre_rows": 247,
+  "assigned_rows": 236,
+  "netless_rows": 11,
+  "observed_net_metadata": 111,
+  "nonpositive_placeholder_entries": 1,
+  "observed_key_type": "wxString",
+  "observed_netcode_type": "int",
+  "process_exit_code": -11,
+  "cleanup_complete": true,
+  "absent_artifacts": [
+    "initialization-drc.txt",
+    "context.json",
+    "custom.json",
+    "native.dsn",
+    "mixed.dsn",
+    "compile-process.json",
+    "import-process.json",
+    "observations.json"
+  ],
+  "initialization_return_unobserved": true,
+  "crash_scope": "After complete pre-call observation was saved, while WriteDRCReport had not returned. Pgm assertion present; exact internal crash stack unobserved.",
+  "wall_seconds": 1.7243937499879394,
+  "total_cpu_seconds": 1.05865,
+  "outer": {
+    "argv": [
+      "python3",
+      "-B",
+      "experiments/pic_mixed_transport_probe_v1/driver.py",
+      "--run-probe",
+      "--output",
+      ".runs/pic-mixed-transport-probe-004"
+    ],
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local",
+    "git_head": "c4cf7ef59edd5b3fb949a1bfd79e0d8eaef9f08b",
+    "started_utc": "2026-10-12T04:43:55.437976+00:00",
+    "exit_code": 1,
+    "wall_seconds": 1.9253930830163881,
+    "waited_child_cpu_seconds": 1.2103009999999998,
+    "cleanup_signals": [],
+    "log_sha256": "4c7e5390d49837f1cfe9525ef607330ff49cf09ee7f37c14d899b6eb630da683",
+    "log_bytes": 112,
+    "wrapper_sha256": "41f520d3fb1888d29b44bb20eaf50d08fb89168c2fa60534442eadf5b068c6be",
+    "scope": "One original-project initialized native-clearance observation and two sequential retained-route manager imports only; no router, SES, support admission or routing acceptance."
+  },
+  "cached_primary_source": {
+    "url": "https://raw.githubusercontent.com/KiCad/kicad-source-mirror/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/pcbnew/python/scripting/pcbnew_scripting_helpers.cpp",
+    "bytes": 18821,
+    "sha256": "42a827912a06c0d7c96f2cd790f87b2f01549ed04a58f728366d899b8dca90dd",
+    "git_blob_sha1": "ee3d6edd64156d86297c8fc55c1ed2a809d57cc9",
+    "path": "source/pcbnew/python/scripting/pcbnew_scripting_helpers.cpp"
+  },
+  "source_lines": {
+    "LoadBoard_project_load": "150-185",
+    "LoadBoard_InitEngine_catch_all": "244-256",
+    "LoadBoard_connectivity_sync": "258-264",
+    "WriteDRCReport_InitEngine": "579-587",
+    "WriteDRCReport_RunTests": "619-625"
+  },
+  "original_and_failed_run_unchanged": true,
+  "native_jobs": 0,
+  "jvm_jobs": 0
+}
