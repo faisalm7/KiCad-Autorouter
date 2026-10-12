@@ -14,7 +14,7 @@ def polygon(shape):
     if any(len(pt)!=2 or any(type(n) is not int or abs(n)>10**10 for n in pt) for pt in points):raise ValueError('invalid polygon coordinates')
     return fx.poly_ring(points)
 
-def observe(native,custom,raw,scene,project):
+def observe(native,custom,raw,scene,project,*,expected_classes=None):
     """Exact original settings + fixed geometry precede every DRC interpretation."""
     expected={r['uuid']:r for r in scene['pads']};routes={r['uuid']:r for r in scene['tracks']}
     layer=scene['copper_layer'];back=scene['variant']=='back90';angle=90 if back else 0
@@ -28,10 +28,14 @@ def observe(native,custom,raw,scene,project):
     cls=classes[0]
     dims={a:int(Decimal(str(cls[b]))*1000000) for a,b in [('width_nm','track_width'),('clearance_nm','clearance'),('via_diameter_nm','via_diameter'),('via_drill_nm','via_drill')]}
     if dims['width_nm']!=500000 or dims['clearance_nm']!=250000:raise ValueError('original Default intent changed')
+    expected_classes={'CONTACT':'Default','FOREIGN':'Default'} if expected_classes is None else expected_classes
     rows=native['nets'];codes={r['name']:r['netcode'] for r in rows}
-    if len(rows)!=2 or set(codes)!={'CONTACT','FOREIGN'} or len(set(codes.values()))!=2 or any(type(code) is not int or code<=0 for code in codes.values()):raise ValueError('native two-net identity differs')
+    if len(rows)!=2 or set(codes)!=set(expected_classes) or len(set(codes.values()))!=2 or any(type(code) is not int or code<=0 for code in codes.values()):raise ValueError('native two-net identity differs')
     for row in rows:
-        if row!={'name':row['name'],'netcode':codes[row['name']],'class':'Default','copper_pad_count':2,**dims}:raise ValueError('native Default dimensions/resolution differs')
+        selected=[c for c in project['net_settings']['classes'] if c['name']==expected_classes[row['name']]]
+        if len(selected)!=1:raise ValueError('expected class ambiguous')
+        net_dims={a:int(Decimal(str(selected[0][b]))*1000000) for a,b in [('width_nm','track_width'),('clearance_nm','clearance'),('via_diameter_nm','via_diameter'),('via_drill_nm','via_drill')]}
+        if row!={'name':row['name'],'netcode':codes[row['name']],'class':expected_classes[row['name']],'copper_pad_count':2,**net_dims}:raise ValueError('native class dimensions/resolution differs')
     floors={key:int(Decimal(str(project['board']['design_settings']['rules'][key]))*1000000) for key in g.FLOORS}
     if native['floors_nm']!=floors:raise ValueError('native original floors differ')
     for row in native['pads']:
@@ -96,7 +100,7 @@ def observe(native,custom,raw,scene,project):
             place[4]!=('back' if back else 'front') or Decimal(place[5])!=(270 if back else 0) or
             place[6][0]!='PN' or len(place[6])!=2 or sx.unquote(place[6][1])!='Owned_'+item['reference']):
             raise ValueError('native DSN placement transform differs')
-    return {'geometry_matches_fixed_recipe':True,'default_only_settings_observed':True,'nondefault_resolution_qualified':False,
+    return {'geometry_matches_fixed_recipe':True,'default_only_settings_observed':set(expected_classes.values())=={'Default'},'nondefault_resolution_qualified':False,
         'arbitrary_reflection_qualified':False,'custom_routing_support_qualified':False,'correspondence':correspondence,
         'native_floors_nm':floors,'native_nets':copy.deepcopy(rows)}
 

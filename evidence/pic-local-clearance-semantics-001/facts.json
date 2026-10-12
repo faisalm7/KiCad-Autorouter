@@ -1,0 +1,101 @@
+{
+  "schema": 1,
+  "native_rerun": false,
+  "network_used": false,
+  "scope": "Cached source interpretation and prospective controls; no new qualification",
+  "original_native_status": "failed",
+  "native_before_after_equal": true,
+  "native_initialization_qualified": false,
+  "native_pairwise_rules_qualified": false,
+  "native_drc_report_executed": false,
+  "JP1_rows": [
+    {
+      "reference": "JP1",
+      "number": "1",
+      "uuid": "3acb5a29-7227-4ce2-8aa0-d92094ccdfdc",
+      "net": "VCC",
+      "netclass": "POWER",
+      "class_clearance_nm": 280000,
+      "pad_local": {
+        "status": "observed",
+        "value_nm": null
+      },
+      "footprint_local": {
+        "status": "observed",
+        "value_nm": 250000
+      },
+      "pad_override": {
+        "status": "observed",
+        "value_nm": 250000
+      },
+      "own": [
+        {
+          "layer": "B.Cu",
+          "value_nm": 250000
+        }
+      ],
+      "class_metadata": {
+        "meaning": "Net metadata class preference; not a pad-local, own-clearance, or pairwise rule result.",
+        "source": "BOARD.GetNetsByName -> NETINFO_ITEM.GetNetClassSlow",
+        "status": "observed"
+      }
+    },
+    {
+      "reference": "JP1",
+      "number": "2",
+      "uuid": "5b196d03-cd44-4c2b-9a91-fadc24ae5f4b",
+      "net": "/pic_sockets/VCC_PIC",
+      "netclass": "Default",
+      "class_clearance_nm": 250000,
+      "pad_local": {
+        "status": "observed",
+        "value_nm": null
+      },
+      "footprint_local": {
+        "status": "observed",
+        "value_nm": 250000
+      },
+      "pad_override": {
+        "status": "observed",
+        "value_nm": 250000
+      },
+      "own": [
+        {
+          "layer": "B.Cu",
+          "value_nm": 250000
+        }
+      ],
+      "class_metadata": {
+        "meaning": "Net metadata class preference; not a pad-local, own-clearance, or pairwise rule result.",
+        "source": "BOARD.GetNetsByName -> NETINFO_ITEM.GetNetClassSlow",
+        "status": "observed"
+      }
+    }
+  ],
+  "project_min_clearance_nm": 0,
+  "project_max_error_mm": 0.01,
+  "class_preferences": [
+    {
+      "name": "Default",
+      "clearance": 0.25,
+      "track_width": 0.5
+    },
+    {
+      "name": "POWER",
+      "clearance": 0.28,
+      "track_width": 0.8
+    }
+  ],
+  "class_assignments": [
+    {
+      "netclass": "POWER",
+      "pattern": "GND"
+    },
+    {
+      "netclass": "POWER",
+      "pattern": "VCC"
+    }
+  ],
+  "source_pin": "0feeca2a807f428ad2b3fa7c1e39625cb769f02c",
+  "source_license": "Original cached C++ headers state GPL-2.0-or-later. No upstream source copied into this report folder."
+}

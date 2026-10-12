@@ -7,7 +7,7 @@ HERE=Path(__file__).resolve().parent
 sys.dont_write_bytecode=True;sys.path.insert(0,str(ROOT))
 from autorouter import config as c,pipeline as p,sexpr as sx,floor_route as f,placement_clearance as io
 from autorouter.runner import run
-import fixture,checks,recipes
+import fixture,checks,recipes,clearance_controls
 SOURCE=ROOT/'.data/boards/kicad-pic-programmer/pic_programmer.kicad_pcb'
 RECEIPT=ROOT/'data/sources.json'
 RECEIPT_SHA='a2a8e9e22ff3e109de94733aa8f5e99ca5fd476ef9ec20be837c54100036eac1'
@@ -16,7 +16,7 @@ PROJECT_SHA='3b0ac39da5af86d0baa2a64da55a89c39ba00148dc82b54f3062f5c3650a5cc5'
 WRAPPER=c.PYTHON.parent.parent/'lib/python3.9/site-packages/pcbnew.py'
 WRAPPER_SHA='cd1c06c4709c653256ebd0c98c66d80cd72033767fac27c34ea01b5ec586116a'
 SECONDS=180;LIMIT=32*1024*1024;RESERVE=2*1024*1024
-HELPERS=('driver.py','worker.py','fixture.py','checks.py','recipes.py','test_controls.py','test_recipes.py','PROTOCOL.json','README.md')
+HELPERS=('driver.py','worker.py','fixture.py','checks.py','recipes.py','test_controls.py','test_recipes.py','PROTOCOL.json','README.md','clearance_controls.py','test_clearance_controls.py','CLEARANCE_PROTOCOL.json')
 DEPENDENCIES=('experiments/pic_custom_observer_v1/mapping.py',)
 BASELINE_REPORT_REL='evidence/pic-custom-observation-002/original-drc.json'
 BASELINE_REPORT_SHA='a3ae0798c019ee60d3fb37171a18bc940043c6329dbf1f24dc9c9463f1df01d7'
@@ -115,14 +115,14 @@ class ControlJob(f.FloorJob):
         if (result['exit_code']==0)==bool(native['findings']):raise p.Rejected('DRC exit/report mismatch')
         return native
 
-def observation_binding(out,hashes,scene,project):
+def observation_binding(out,hashes,scene,project,observer=checks.observe):
     native=read(out/'observation.json');custom=read(out/'custom-pads.json');raw=io.read_bytes(out/'native.dsn',20*1024**2)
     if not raw:raise p.Rejected('empty native DSN')
     f.context_binding(native,out/'observe-input'/SOURCE.name,hashes,'export',sha_bytes(raw))
     for key in ('context_schema','native_version','units','mode','source','board_sha256','project_sha256','dsn_sha256','input_hashes_before','input_hashes_after'):
         if custom.get(key)!=native.get(key):raise p.Rejected('custom/floor binding differs')
     if custom.get('floor_context_sha256')!=digest(out/'observation.json'):raise p.Rejected('custom floor digest differs')
-    return checks.observe(native,custom,raw,scene,project)
+    return observer(native,custom,raw,scene,project)
 
 def drc_binding(out,steps,hashes,native):
     source=out/'observe-input'/SOURCE.name;target=out/'original-drc-input'/SOURCE.name
@@ -152,15 +152,23 @@ def publish(out,record,stable,account,remaining):
         except (Exception,KeyboardInterrupt):invalidate()
     return record
 
-def experiment(out,*,run_native=False):
+def experiment(out,*,run_native=False,suite="geometry"):
+    if suite not in ("geometry",clearance_controls.SUITE):raise p.Rejected("unknown control suite")
+    extended=suite==clearance_controls.SUITE
+    order=clearance_controls.ORDER if extended else fixture.ORDER
+    prepare=clearance_controls.prepare if extended else fixture.prepare
+    observer=clearance_controls.observe if extended else checks.observe
+    predicate=clearance_controls.predicate if extended else checks.predicate
+    protocol_file="CLEARANCE_PROTOCOL.json" if extended else "PROTOCOL.json"
+    def paired_case(case):return clearance_controls.POSITIVE[case] if extended else "positive"
     if run_native is not True:raise p.Rejected('--run-native required; ROOT-only execution')
     start=time.monotonic();cpu0=cpu();out=owned(out,output=True);out.mkdir()
     remaining=lambda:max(0,min(SECONDS-(time.monotonic()-start),SECONDS-(cpu()-cpu0)))
-    record={'schema':1,'status':'incomplete','controls_passed':False,**FALSE_CLAIMS,'source':str(SOURCE),
+    record={'schema':1,'suite':suite,'status':'incomplete','controls_passed':False,**FALSE_CLAIMS,'source':str(SOURCE),
         'budget_seconds':SECONDS,'cpu_budget_seconds':SECONDS,'output_ceiling_bytes':LIMIT,
-        'scope':'Six fixed owned development controls; original complete project and all rules preserved. No routing engine, production eligibility, arbitrary geometry/reflection, nondefault or new-severity enforcement qualification.',
+        'scope':'Fixed owned development controls; original complete project and all rules preserved. No routing engine, production eligibility, arbitrary geometry/reflection, generalized nondefault or new-severity enforcement qualification.',
         'accounting_point':'Stored totals precede final publication freshness/size checks; acceptance caps include them. Wall/full self+waited-child CPU are measured caps, not hard OS quotas. Finite samples are not atomic authentication.',
-        'cases':[{'variant':v,'case':c,'status':'not_attempted','native_executed':False,'control_passed':False,'stages':{}} for v,c in fixture.ORDER]}
+        'cases':[{'variant':v,'case':c,'status':'not_attempted','native_executed':False,'control_passed':False,'stages':{}} for v,c in order]}
     authorized=False;frozen=None;completed={};jobs={};hashes={};project=None;original=None;whole=None
     def account():
         steps=[step for job in jobs.values() for step in job.steps]
@@ -181,7 +189,7 @@ def experiment(out,*,run_native=False):
     def stable():
         if not authorized:return
         if any(record.get(key) is not value for key,value in FALSE_CLAIMS.items()):raise p.Rejected('diagnostic scope changed')
-        if ([(row.get('variant'),row.get('case')) for row in record['cases']]!=list(fixture.ORDER)
+        if ([(row.get('variant'),row.get('case')) for row in record['cases']]!=list(order)
                 or record.get('source_hashes')!=hashes):raise p.Rejected('fixed case/source identity changed')
         if frozen is not None and p.tool_manifest()!=record['tools']:raise p.Rejected('code/tool/HEAD changed')
         material()
@@ -196,18 +204,22 @@ def experiment(out,*,run_native=False):
                 if row['stages'].get(stage)!=entries:raise p.Rejected('recorded stage evidence differs')
             if any(digest(caseout/name)!=sha for name,sha in job.binding_evidence.items()) or row.get('binding_evidence',{})!=job.binding_evidence:raise p.Rejected('native binding evidence changed')
             if row.get('input_hashes') is not None and inventory(caseout/'observe-input')!=row['input_hashes']:raise p.Rejected('authored fixture copy changed')
+            if row.get('input_hashes') is not None:
+                derived,scene=prepare(original,row['case'],row['variant'])
+                expected=dict(hashes);expected[SOURCE.name]=sha_bytes(derived)
+                if row['input_hashes']!=expected or f.canonical(scene)!=f.canonical(row.get('scene')):raise p.Rejected('fixed recipe or original project binding changed')
             if row.get('geometry_verified'):
-                observed=observation_binding(caseout,row['input_hashes'],row['scene'],project)
+                observed=observation_binding(caseout,row['input_hashes'],row['scene'],project,observer)
                 if observed!=row['observation']:raise p.Rejected('recorded geometry observation changed')
                 f.process_check(caseout,{'steps':job.steps},'observe',observe_argv(caseout))
             if row.get('native_binding') is not None:
                 if drc_binding(caseout,job.steps,row['input_hashes'],row['native'])!=row['native_binding']:raise p.Rejected('native report/binding changed')
-                passed,hits=checks.predicate(row['case'],row['native'],read(caseout/'original-drc.json'),row['scene'],ignored)
+                passed,hits=predicate(row['case'],row['native'],read(caseout/'original-drc.json'),row['scene'],ignored)
                 if passed is not row['expected_predicate_met'] or hits!=row['target_findings']:raise p.Rejected('recorded expected findings changed')
-                positive=row['case']=='positive' or any(r['variant']==row['variant'] and r['case']=='positive' and r.get('expected_predicate_met') is True and r.get('geometry_verified') is True for r in record['cases'])
+                positive=row['case']==paired_case(row['case']) or any(r['variant']==row['variant'] and r['case']==paired_case(row['case']) and r.get('expected_predicate_met') is True and r.get('geometry_verified') is True for r in record['cases'])
                 if row.get('paired_positive_passed') is not positive or row['control_passed'] is not (passed and positive):raise p.Rejected('paired control qualification differs')
             elif row.get('control_passed') is not False:raise p.Rejected('unvalidated case cannot pass')
-        if record['controls_passed'] is True and (len(completed)!=6 or not all(row['control_passed'] is True for row in record['cases'])):raise p.Rejected('batch pass lacks all six qualified cases')
+        if record['controls_passed'] is True and (len(completed)!=len(order) or not all(row['control_passed'] is True for row in record['cases'])):raise p.Rejected('batch pass lacks all fixed qualified cases')
         material()
     try:
         p.check_storage();hashes,total=source_binding();authorized=True;project=read(SOURCE.with_suffix('.kicad_pro'));original=sx.read(SOURCE)
@@ -222,29 +234,29 @@ def experiment(out,*,run_native=False):
         record.update(source_hashes=hashes,source_bytes=total,source_file_count=len(hashes),acquisition_receipt_sha256=RECEIPT_SHA,
             source_explicit_ignored_checks=source_ignored,original_observed_effective_ignored_checks=ignored,
             original_native_report={'path':BASELINE_REPORT_REL,'sha256':BASELINE_REPORT_SHA})
-        record['protocol']=read(HERE/'PROTOCOL.json');record['protocol_sha256']=digest(HERE/'PROTOCOL.json')
-        if record['protocol']!=protocol():raise p.Rejected('committed protocol differs from fixed implementation')
+        record['protocol']=read(HERE/protocol_file);record['protocol_sha256']=digest(HERE/protocol_file)
+        if record['protocol']!=protocol(suite):raise p.Rejected('committed protocol differs from fixed implementation')
         record['tools']=p.tool_manifest();record['runtime_sources']=snapshot(out,record['tools'],remaining);frozen=inventory(out/'code')
-        if size(out)+12*total+RESERVE>LIMIT:raise p.Rejected('twelve project copies exceed reserved32MiB ceiling')
-        record['planned_project_copy_bytes_upper_bound']=12*total
+        if size(out)+2*len(order)*total+RESERVE>LIMIT:raise p.Rejected('project copies exceed reserved32MiB ceiling')
+        record['planned_project_copy_bytes_upper_bound']=2*len(order)*total
         for row in record['cases']:
             key=row['variant']+'-'+row['case']
             if remaining()<=0:raise p.Rejected('shared budget exhausted before next case')
             job=ControlJob(out/key,remaining,out);jobs[key]=job
             try:
-                stable();board,scene=fixture.prepare(original,row['case'],row['variant']);row['scene']=json.loads(f.canonical(scene))
+                stable();board,scene=prepare(original,row['case'],row['variant']);row['scene']=json.loads(f.canonical(scene))
                 expected=dict(hashes);expected[SOURCE.name]=sha_bytes(board);row['input_hashes']=expected
                 shutil.copytree(SOURCE.parent,job.out/'observe-input');(job.out/'observe-input'/SOURCE.name).write_bytes(board)
                 if inventory(job.out/'observe-input')!=expected:raise p.Rejected('fixture derivation/project copy differs')
                 p.save_json(job.out/'recipe.json',row['scene'])
                 job.step('observe',observe_argv(job.out),already_sandboxed=True);row['stages']=copy.deepcopy(job.stage_evidence)
                 row.update(native_executed=True,dsn_export_succeeded=True,native_dsn_sha256=row['stages']['observe']['native.dsn'])
-                row['observation']=observation_binding(job.out,expected,row['scene'],project);row['geometry_verified']=True
+                row['observation']=observation_binding(job.out,expected,row['scene'],project,observer);row['geometry_verified']=True
                 f.process_check(job.out,{'steps':job.steps},'observe',observe_argv(job.out));stable()
                 native=job.drc('original-drc',job.out/'observe-input'/SOURCE.name,save=False);row['stages']=copy.deepcopy(job.stage_evidence);row['binding_evidence']=dict(job.binding_evidence)
                 row['native']=native;row['native_binding']=drc_binding(job.out,job.steps,expected,native)
-                passed,hits=checks.predicate(row['case'],native,read(job.out/'original-drc.json'),row['scene'],ignored)
-                positive=row['case']=='positive' or any(r['variant']==row['variant'] and r['case']=='positive' and r['control_passed'] is True for r in record['cases'])
+                passed,hits=predicate(row['case'],native,read(job.out/'original-drc.json'),row['scene'],ignored)
+                positive=row['case']==paired_case(row['case']) or any(r['variant']==row['variant'] and r['case']==paired_case(row['case']) and r['control_passed'] is True for r in record['cases'])
                 row.update(expected_predicate_met=passed,target_findings=hits,paired_positive_passed=positive,control_passed=passed and positive,status='passed' if passed and positive else 'failed_expected_predicate')
             except (Exception,KeyboardInterrupt) as exc:
                 row.update(status='cancelled' if isinstance(exc,KeyboardInterrupt) else 'failed',control_passed=False,error=type(exc).__name__+': '+str(exc))
@@ -263,24 +275,27 @@ def experiment(out,*,run_native=False):
         record.update(status='cancelled' if isinstance(exc,KeyboardInterrupt) else 'failed',controls_passed=False,error=type(exc).__name__+': '+str(exc))
     return publish(out,record,stable,account,remaining)
 
-def protocol():
-    return {'schema':1,'name':'owned-custom-native-controls-v1.1','order':[{'variant':v,'case':c} for v,c in fixture.ORDER],
+def protocol(suite="geometry"):
+    base={'schema':1,'name':'owned-custom-native-controls-v1.1','order':[{'variant':v,'case':c} for v,c in fixture.ORDER],
         'wall_seconds':SECONDS,'full_cpu_seconds':SECONDS,'output_bytes':LIMIT,'source_board_sha256':BOARD_SHA,'source_project_sha256':PROJECT_SHA,
         'original_native_report_sha256':BASELINE_REPORT_SHA,'expected_effective_ignored_checks':list(OBSERVED_IGNORED),
         'width_nm':500000,'clearance_nm':250000,'board_saved':False,'routing_engine':False,'production_custom_support':False,
         'intrusion_predicate':'Require nonexcluded same CONCAVE/FOREIGN_TRACK copper shorting_items or clearance error; allow at most one additional same-pair solder_mask_bridge error. Mask-only and unrelated errors fail. All raw findings retained.',
         'prior_exposed_run':{'path':'.runs/pic-custom-native-controls-001/summary.json','sha256':'dadb2512fef6bc4147ae522868acdc983d1d36bc8363bf14cd140e422f2f07db','status_preserved':'failed_controls'},
         'transform':'front0 identity; back90 T(x,y)=(40-y,40-x)mm; exact native world rings required. Y-symmetric shapes do not qualify arbitrary chiral reflection.'}
+    if suite=="geometry":return base
+    if suite==clearance_controls.SUITE:return clearance_controls.protocol(base)
+    raise ValueError("unknown control suite")
 
 def main(argv=None):
-    ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--output',type=Path,required=True);ap.add_argument('--run-native',action='store_true');args=ap.parse_args(argv)
+    ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--output',type=Path,required=True);ap.add_argument('--run-native',action='store_true');ap.add_argument('--suite',choices=('geometry',clearance_controls.SUITE),default='geometry');args=ap.parse_args(argv)
     if not args.run_native:ap.error('--run-native required; ROOT-only execution')
     previous={sig:signal.getsignal(sig) for sig in (signal.SIGINT,signal.SIGTERM)}
     def interrupted(*_):raise KeyboardInterrupt
     try:
         for sig in previous:signal.signal(sig,interrupted)
         with owned(ROOT/'.runs/quality-experiment.lock').open('a') as stream:
-            fcntl.flock(stream,fcntl.LOCK_EX|fcntl.LOCK_NB);record=experiment(args.output,run_native=True)
+            fcntl.flock(stream,fcntl.LOCK_EX|fcntl.LOCK_NB);record=experiment(args.output,run_native=True,suite=args.suite)
     finally:
         for sig,handler in previous.items():signal.signal(sig,handler)
     print(json.dumps({'status':record['status'],'controls_passed':record['controls_passed'],'routing_accepted':False}))

@@ -1,0 +1,74 @@
+{
+  "schema": 1,
+  "name": "owned-custom-local-clearance-v1",
+  "order": [
+    {
+      "variant": "front0",
+      "case": "class_290_positive"
+    },
+    {
+      "variant": "front0",
+      "case": "override_260_positive"
+    },
+    {
+      "variant": "front0",
+      "case": "class_260_negative"
+    },
+    {
+      "variant": "front0",
+      "case": "override_240_negative"
+    }
+  ],
+  "wall_seconds": 180,
+  "full_cpu_seconds": 180,
+  "output_bytes": 33554432,
+  "source_board_sha256": "1ca70b620506818eb0227e2863bbd573d1fec1672072dc43d0dbe8475e69c8fb",
+  "source_project_sha256": "3b0ac39da5af86d0baa2a64da55a89c39ba00148dc82b54f3062f5c3650a5cc5",
+  "original_native_report_sha256": "a3ae0798c019ee60d3fb37171a18bc940043c6329dbf1f24dc9c9463f1df01d7",
+  "expected_effective_ignored_checks": [
+    "footprint_filters_mismatch",
+    "silk_edge_clearance",
+    "track_not_centered_on_via",
+    "tuning_profile_track_geometries"
+  ],
+  "width_nm": 500000,
+  "clearance_nm": null,
+  "board_saved": false,
+  "routing_engine": false,
+  "production_custom_support": false,
+  "intrusion_predicate": "Exactly one nonexcluded clearance error with the CONCAVE/FOREIGN_TRACK UUID pair; no opens or unrelated errors. Positive uses unchanged central native_accepted.",
+  "prior_exposed_run": null,
+  "transform": "front0 only; no new reflection qualification.",
+  "scope": "Four front0 owned geometry controls using unchanged original PIC project rules. VCC resolves POWER; FOREIGN resolves Default. Only CONCAVE footprint gets explicit 0.25mm in two cases.",
+  "cases": {
+    "class_290_positive": {
+      "gap_nm": 290000,
+      "footprint_override_nm": null,
+      "expected_native_accepted": true,
+      "required_paired_positive": "class_290_positive"
+    },
+    "override_260_positive": {
+      "gap_nm": 260000,
+      "footprint_override_nm": 250000,
+      "expected_native_accepted": true,
+      "required_paired_positive": "override_260_positive"
+    },
+    "class_260_negative": {
+      "gap_nm": 260000,
+      "footprint_override_nm": null,
+      "expected_native_accepted": false,
+      "required_paired_positive": "class_290_positive"
+    },
+    "override_240_negative": {
+      "gap_nm": 240000,
+      "footprint_override_nm": 250000,
+      "expected_native_accepted": false,
+      "required_paired_positive": "override_260_positive"
+    }
+  },
+  "native_classes": {
+    "VCC": "POWER",
+    "FOREIGN": "Default"
+  },
+  "claim_limit": "No routing, engine transport equivalence, pairwise generalization, pad-local precedence, multiple local overrides or board-floor clamp qualification."
+}

@@ -1,0 +1,74 @@
+{
+  "schema": 1,
+  "status": "prospective_not_executed",
+  "implementation": "Narrow new control mode reusing experiments/pic_custom_native_controls_v1 runner, snapshots, ControlJob.drc and raw predicates; no new controller, DSN, JVM or router needed.",
+  "source_project": "Complete immutable original PIC project; unchanged .kicad_pro, rules, severities, exclusions and libraries in each copy. Owned board only.",
+  "variant": "front0 only; previously qualified native polygon scene retained",
+  "fixture_delta": "Rename CONTACT to VCC so original literal pattern selects POWER; FOREIGN remains Default. Extend FOREIGN_TRACK from existing start(20,6) through FOREIGN_B(20,9) toward CONCAVE flat top y14.25. Vary only endpoint and exact optional CONCAVE footprint clearance. Keep explicit pad override absent.",
+  "contact_track_width": "Keep original500000nm only if explicitly declared; POWER preferred800000nm is metadata, board min250000nm is native hard width. Do not reuse production exact-target check.",
+  "foreign_track_width_nm": 500000,
+  "target_pad": "CONCAVE",
+  "foreign_track": "FOREIGN_TRACK",
+  "cases": [
+    {
+      "id": "wide_no_override",
+      "gap_nm": 290000,
+      "foreign_end_nm": [
+        20000000,
+        13710000
+      ],
+      "footprint_override_nm": null,
+      "expected": "positive",
+      "expected_source_rule_nm": 280000
+    },
+    {
+      "id": "local_override_positive",
+      "gap_nm": 260000,
+      "foreign_end_nm": [
+        20000000,
+        13740000
+      ],
+      "footprint_override_nm": 250000,
+      "expected": "positive",
+      "expected_source_rule_nm": 250000
+    },
+    {
+      "id": "class_baseline_negative",
+      "gap_nm": 260000,
+      "foreign_end_nm": [
+        20000000,
+        13740000
+      ],
+      "footprint_override_nm": null,
+      "expected": "targeted clearance error",
+      "expected_source_rule_nm": 280000
+    },
+    {
+      "id": "local_override_negative",
+      "gap_nm": 240000,
+      "foreign_end_nm": [
+        20000000,
+        13760000
+      ],
+      "footprint_override_nm": 250000,
+      "expected": "targeted clearance error",
+      "expected_source_rule_nm": 250000
+    }
+  ],
+  "native_predicate": "Positive:0opens/0blocking/0exclusions, no critical/unknown findings, all warnings retained. Negative: nonexcluded error clearance bound to exactly CONCAVE pad UUID plus FOREIGN_TRACK UUID; reject unrelated blockers and preserve all raw failures. Do not count merely nonzero DRC as success. Exact expected required/actual dimensions retained when report supplies them.",
+  "qualification_limits": [
+    "No actual results yet; flat-edge arithmetic must be confirmed against loaded native geometry and reported pair.",
+    "Proves only this footprint override against mixed POWER/Default pair, not pad-local precedence, two opposing local overrides, board-minimum clamp, zones, holes, net ties or user-rule precedence.",
+    "No original-board transport/SES/routing acceptance or initialization success inferred."
+  ],
+  "runtime": {
+    "wall_seconds": 60,
+    "full_cpu_seconds": 60,
+    "output_bytes": 33554432,
+    "max_native_stage_seconds": 15,
+    "foreground_workers": 1,
+    "network": "denied",
+    "save_board": false,
+    "all_failed_cases_retained": true
+  }
+}

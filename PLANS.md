@@ -126,3 +126,11 @@ Mixed005 ran allthreeprocessstages successfully and retains both imports; do not
 After reviewedsourcecheckpoint, run `python3 -B .runs/run-default-tuning-native-001.py` once for the unconditionalprofileguard compatibility; retainfullnativecandidate/originalchecks. PIC005originalreceipt remainsfailed; separateexposed namespace reanalysis uses its unchanged outputs anddoesnot justify a duplicate native run. Freeze allwriters after milestone for incrementalartifactbackup from ea29344receipt; no fullrestoration repetition required for thisminorcorrection.
 
 Checkpoint1523e39 and its incremental artifact chain are verified (85,671 files, 2,313,555,432 bytes). Native default-tuning compatibility above is complete; do not repeat it. Next: establish pairwise local-clearance semantics using cached primary source and the existing custom native-control helper, then test the smallest new discriminating native controls. Mixed005 stays a failed frozen checker result with separately successful posthoc label analysis; no duplicate native run is warranted for spelling.
+
+The next frozen diagnostic is the existing custom-control runner's `--suite local-clearance`: four front0 VCC/POWER-versus-FOREIGN/Default cases at290/260/260/240µm, with250µm footprint override in two. Original project and all14other files remain exact. Source confirms pad/footprint override returns before netclass comparison; native positive+negative evidence is still required. Reuse180wall/fullCPU seconds and32MiB cap; no JVM, production admission or WriteDRCReport. Run after source review/checkpoint:
+
+```sh
+python3 -B .runs/run-pic-local-clearance-native-001.py
+```
+
+Do not repeat six completed geometry controls or actual mixed005 for its corrected label.

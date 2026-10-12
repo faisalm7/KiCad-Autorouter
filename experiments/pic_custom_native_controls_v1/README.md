@@ -1,4 +1,34 @@
-# Six owned custom-pad native controls — unexecuted draft
+# Owned custom-pad native controls
+
+The original six geometry controls completed as recorded in
+`evidence/pic-custom-native-controls-002/summary.json`; failed001 is retained.
+The additional `--suite local-clearance` is a prospective four-case diagnostic
+specified in `CLEARANCE_PROTOCOL.json`. It reuses this runner, exact geometry
+observer, process limits, original-rule native DRC and report checks.
+
+All four new cases are front0. VCC uses the original POWER class (preferred
+width0.8mm/clearance0.28mm); FOREIGN uses Default (0.5mm/0.25mm). Existing0.5mm
+tracks remain legal relative to the original0.25mm hard width floor. No project
+setting changes. A foreign track approaches CONCAVE's flat top with an exact
+capsule gap of0.29,0.26 or0.24mm. The two override cases add only the original
+JP1-style0.25mm footprint clearance to CONCAVE. Expected outcomes:0.29 without
+override passes;0.26 with override passes;0.26 without override and0.24 with
+override each produce exactly one targeted clearance error. Every negative
+requires its corresponding positive. All warnings remain recorded.
+
+This tests one footprint override against a Default foreign track. It does not
+qualify pad-local precedence, two local overrides, board-floor clamping,
+zone-local rules, Freerouting equivalence, SES survival or production custom
+support. Source reading informs these hypotheses; only actual native outputs
+can qualify the four predicates. No `WriteDRCReport` call is used.
+
+Run only after a committed source snapshot, on ROOT's sequential native lane:
+
+```sh
+python3 -B experiments/pic_custom_native_controls_v1/driver.py --suite local-clearance --run-native --output .runs/pic-local-clearance-native-001
+```
+
+The remaining text describes the original default `--suite geometry`.
 
 These fixed development fixtures test the two exact five-point custom primitives
 from official KiCad `pic_programmer` under the complete original project rules.
