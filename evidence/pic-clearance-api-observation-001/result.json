@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "purpose": "Public compiled signatures only; no board/native load/routing/API behavior qualification",
+  "request": {
+    "classes": [
+      "app.freerouting.management.HeadlessBoardManager",
+      "app.freerouting.core.RoutingJob",
+      "app.freerouting.io.specctra.SesWriter",
+      "app.freerouting.rules.NetClass",
+      "app.freerouting.rules.DefaultItemClearanceClasses",
+      "app.freerouting.rules.DefaultItemClearanceClasses$ItemClass"
+    ],
+    "execution_owner": "ROOT; no request to execute in this author task",
+    "jar_sha256": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+    "native_requirement": "GetOwnClearance needs demonstrated same-load DRC initialization; no signature alone establishes initialized or pairwise semantics.",
+    "purpose": "pin only missing public signatures before writing minimal mixed-class/SES extension",
+    "schema": 1,
+    "status": "request only; not executed"
+  },
+  "request_sha256": "a74fcc24bb967bf40906c76d4f1516bbf479bfb089a4a947506bfbd56075354b",
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 0.31589608400827274,
+    "cpu_seconds": 0.407132,
+    "max_rss_bytes": 84312064,
+    "supervisor_cpu_seconds": 0.005054999999999976,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 80166912,
+    "sampled_peak_workdir_bytes": 8885,
+    "resource_guards": {
+      "max_group_rss_bytes": 536870912,
+      "max_workdir_bytes": 2097152,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/javap",
+      "-J-Xms16m",
+      "-J-Xmx128m",
+      "-J-XX:ActiveProcessorCount=1",
+      "-public",
+      "-classpath",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar",
+      "app.freerouting.management.HeadlessBoardManager",
+      "app.freerouting.core.RoutingJob",
+      "app.freerouting.io.specctra.SesWriter",
+      "app.freerouting.rules.NetClass",
+      "app.freerouting.rules.DefaultItemClearanceClasses",
+      "app.freerouting.rules.DefaultItemClearanceClasses$ItemClass"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-clearance-api-observation-001/javap.log",
+    "log_bytes": 8885,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-clearance-api-observation-001",
+    "signal_cancellation_enabled": true,
+    "pid": 36800
+  },
+  "input_hashes": {
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+    "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+    "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/javap": "97d16635e8fe8f1591ed2710228aba14cb9c838303a0a146b4c7b9c04e86c615",
+    ".runs/pic-clearance-api-001/api-request.json": "a74fcc24bb967bf40906c76d4f1516bbf479bfb089a4a947506bfbd56075354b",
+    "autorouter/runner.py": "0e81ab1badf20cd84adc2fed586641dd97a489a5a6af03febe6fb597bb1d2718"
+  },
+  "unchanged": true,
+  "log_sha256": "7eaddfca0f3ddff2624a3d11754131136a48975a70d0761497e9d3207335e1b0",
+  "log_bytes": 8885,
+  "wall_seconds": 0.4352667079947423,
+  "total_cpu_seconds": 0.518895,
+  "observed_utc": "2026-10-12T03:37:15.110612+00:00"
+}

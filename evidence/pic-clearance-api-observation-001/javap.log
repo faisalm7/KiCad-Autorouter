@@ -1,0 +1,145 @@
+Compiled from "HeadlessBoardManager.java"
+public class app.freerouting.management.HeadlessBoardManager implements app.freerouting.management.BoardManager {
+  public app.freerouting.management.jobs.ThreadActionListener autorouterListener;
+  public app.freerouting.management.HeadlessBoardManager(app.freerouting.core.RoutingJob);
+  public app.freerouting.board.facade.RoutingBoard getRoutingBoard();
+  public synchronized void replaceRoutingBoard(app.freerouting.board.facade.RoutingBoard);
+  public void createBoard(app.freerouting.geometry.planar.IntBox, app.freerouting.board.model.structure.LayerStructure, app.freerouting.geometry.planar.PolylineShape[], java.lang.String, app.freerouting.rules.BoardRules, app.freerouting.board.state.Communication);
+  public app.freerouting.core.RoutingJob getCurrentRoutingJob();
+  public long calculateCrc32();
+  public app.freerouting.io.BoardReadResult loadFromSpecctraDsn(java.io.InputStream, app.freerouting.board.state.BoardObservers, app.freerouting.datastructures.IdGenerator);
+  public app.freerouting.io.BoardReadResult applyParsedBoardResult(app.freerouting.io.BoardReadResult, java.lang.String, java.lang.String);
+  public app.freerouting.io.BoardReadResult loadFromKiCadJson(java.io.InputStream, app.freerouting.board.state.BoardObservers, app.freerouting.datastructures.IdGenerator);
+  public boolean saveAsSpecctraSessionSes(java.io.OutputStream, java.lang.String);
+  public boolean saveAsFusionScriptScr(java.io.OutputStream, java.lang.String);
+}
+Compiled from "RoutingJob.java"
+public class app.freerouting.core.RoutingJob implements java.io.Serializable, java.lang.Comparable<app.freerouting.core.RoutingJob> {
+  public static final java.lang.String DSN_FILE_EXTENSION;
+  public static final java.lang.String BINARY_FILE_EXTENSION;
+  public final java.util.UUID id;
+  public final java.time.Instant createdAt;
+  public java.lang.String shortName;
+  public java.lang.String name;
+  public java.time.Instant startedAt;
+  public java.time.Instant finishedAt;
+  public app.freerouting.core.RoutingJobState state;
+  public app.freerouting.core.RoutingStage stage;
+  public app.freerouting.core.RoutingJobPriority priority;
+  public java.util.UUID sessionId;
+  public java.util.UUID userId;
+  public transient java.lang.String apiKeyHash;
+  public app.freerouting.core.BoardFileDetails input;
+  public app.freerouting.core.BoardFileDetails output;
+  public app.freerouting.core.BoardFileDetails rules;
+  public app.freerouting.core.BoardFileDetails initialSession;
+  public java.lang.String hostCad;
+  public java.lang.String hostVersion;
+  public app.freerouting.core.BoardFileDetails drc;
+  public app.freerouting.settings.RouterSettings routerSettings;
+  public app.freerouting.settings.DesignRulesCheckerSettings drcSettings;
+  public app.freerouting.core.RouterJobResourceUsage resourceUsage;
+  public transient app.freerouting.core.StoppableThread thread;
+  public transient app.freerouting.board.facade.RoutingBoard board;
+  public transient app.freerouting.core.results.RoutingResultManifest$PhaseMetrics resultPhaseMetrics;
+  public transient java.time.Instant timeoutAt;
+  public boolean isCancelledByUser();
+  public void setCancelledByUser(boolean);
+  public app.freerouting.core.RoutingJob();
+  public app.freerouting.core.RoutingJob(java.util.UUID);
+  public static app.freerouting.io.FileFormat getFileFormat(byte[]);
+  public static app.freerouting.io.FileFormat getFileFormat(java.nio.file.Path);
+  public int getCurrentPass();
+  public void setCurrentPass(int);
+  public java.time.Duration getDuration();
+  public boolean setInput(byte[]);
+  public void setInput(java.lang.String) throws java.io.IOException;
+  public void setInput(java.io.File) throws java.io.IOException;
+  public boolean setRules(byte[]);
+  public void setRules(java.lang.String) throws java.io.IOException;
+  public void setRules(java.io.File) throws java.io.IOException;
+  public boolean setInitialSession(byte[], java.lang.String);
+  public void setInitialSession(java.io.File) throws java.io.IOException;
+  public java.io.File getRulesFile();
+  public java.io.File getFusionScriptFile();
+  public void setDummyInputFile(java.lang.String);
+  public boolean tryToSetOutputFile(java.io.File);
+  public java.lang.String getInputFileDetails();
+  public java.lang.String getOutputFileDetails();
+  public int compareTo(app.freerouting.core.RoutingJob);
+  public app.freerouting.core.BoardFileDetails getInput();
+  public boolean setSettings(app.freerouting.settings.RouterSettings);
+  public void addSettingsUpdatedEventListener(app.freerouting.core.events.RoutingJobUpdatedEventListener);
+  public void fireSettingsUpdatedEvent();
+  public void addInputUpdatedEventListener(app.freerouting.core.events.RoutingJobUpdatedEventListener);
+  public void fireInputUpdatedEvent();
+  public void addOutputUpdatedEventListener(app.freerouting.core.events.RoutingJobUpdatedEventListener);
+  public void fireOutputUpdatedEvent();
+  public void addLogEntryAddedEventListener(app.freerouting.core.events.RoutingJobLogEntryAddedEventListener);
+  public void fireLogEntryAddedEvent(app.freerouting.logger.LogEntry);
+  public void logInfo(java.lang.String);
+  public void logWarning(java.lang.String);
+  public void logError(java.lang.String, java.lang.Throwable);
+  public void logDebug(java.lang.String);
+  public java.lang.String getDetectedHost();
+  public com.google.gson.JsonObject toCompactJsonObject();
+  public int compareTo(java.lang.Object);
+}
+Compiled from "SesWriter.java"
+public final class app.freerouting.io.specctra.SesWriter {
+  public static void write(app.freerouting.board.facade.BasicBoard, java.io.OutputStream, java.lang.String) throws java.io.IOException;
+}
+Compiled from "NetClass.java"
+public class app.freerouting.rules.NetClass implements java.io.Serializable,app.freerouting.board.actions.ItemInfoPrinter$Printable {
+  public app.freerouting.rules.DefaultItemClearanceClasses defaultItemClearanceClasses;
+  public boolean isIgnoredByAutorouter;
+  public app.freerouting.rules.NetClass(java.lang.String, app.freerouting.board.model.structure.LayerStructure, app.freerouting.rules.ClearanceMatrix, boolean);
+  public java.lang.String toString();
+  public java.lang.String getName();
+  public void setName(java.lang.String);
+  public void setTraceHalfWidth(int);
+  public void setTraceHalfWidth(int, int);
+  public void setTraceHalfWidthOnInner(int);
+  public int layerCount();
+  public int getTraceHalfWidth(int);
+  public int getTraceClearanceClass();
+  public void setTraceClearanceClass(int);
+  public app.freerouting.rules.ViaRule getViaRule();
+  public void setViaRule(app.freerouting.rules.ViaRule);
+  public boolean isShoveFixed();
+  public void setShoveFixed(boolean);
+  public boolean getPullTight();
+  public void setPullTight(boolean);
+  public boolean getIgnoreCyclesWithAreas();
+  public void setIgnoreCyclesWithAreas(boolean);
+  public double getMinimumTraceLength();
+  public void setMinimumTraceLength(double);
+  public double getMaximumTraceLength();
+  public void setMaximumTraceLength(double);
+  public boolean isActiveRoutingLayer(int);
+  public void setActiveRoutingLayer(int, boolean);
+  public void setAllLayersActive(boolean);
+  public void setAllInnerLayersActive(boolean);
+  public void printInfo(app.freerouting.board.actions.ItemInfoPrinter, java.util.Locale);
+  public boolean traceWidthIsLayerDependent();
+  public boolean traceWidthIsInnerLayerDependent();
+}
+Compiled from "DefaultItemClearanceClasses.java"
+public class app.freerouting.rules.DefaultItemClearanceClasses implements java.io.Serializable {
+  public app.freerouting.rules.DefaultItemClearanceClasses();
+  public app.freerouting.rules.DefaultItemClearanceClasses(app.freerouting.rules.DefaultItemClearanceClasses);
+  public int get(app.freerouting.rules.DefaultItemClearanceClasses$ItemClass);
+  public void set(app.freerouting.rules.DefaultItemClearanceClasses$ItemClass, int);
+  public void setAll(int);
+}
+Compiled from "DefaultItemClearanceClasses.java"
+public final class app.freerouting.rules.DefaultItemClearanceClasses$ItemClass extends java.lang.Enum<app.freerouting.rules.DefaultItemClearanceClasses$ItemClass> {
+  public static final app.freerouting.rules.DefaultItemClearanceClasses$ItemClass NONE;
+  public static final app.freerouting.rules.DefaultItemClearanceClasses$ItemClass TRACE;
+  public static final app.freerouting.rules.DefaultItemClearanceClasses$ItemClass VIA;
+  public static final app.freerouting.rules.DefaultItemClearanceClasses$ItemClass PIN;
+  public static final app.freerouting.rules.DefaultItemClearanceClasses$ItemClass SMD;
+  public static final app.freerouting.rules.DefaultItemClearanceClasses$ItemClass AREA;
+  public static app.freerouting.rules.DefaultItemClearanceClasses$ItemClass[] values();
+  public static app.freerouting.rules.DefaultItemClearanceClasses$ItemClass valueOf(java.lang.String);
+}

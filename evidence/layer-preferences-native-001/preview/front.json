@@ -1,0 +1,35 @@
+{
+  "status": "preview",
+  "static_preflight_passed": true,
+  "native_validation_performed": false,
+  "source": "/Users/faisal/Projects/KiCad-Autorouter-local/fixtures/smoke/smoke.kicad_pcb",
+  "source_sha256": "618b0b1d23f082283a5136b514ff64ee54b3a058f068689bf64668a436d7c5ea",
+  "effective_preferences": {
+    "schema": 1,
+    "scope": "whole_board_unlocked_routing",
+    "seconds": 120,
+    "adapter": "both",
+    "profile": "completion-only",
+    "guidance": "native",
+    "layers": [
+      "F.Cu"
+    ],
+    "scoring_preference": null
+  },
+  "copper_layers": [
+    "F.Cu",
+    "B.Cu"
+  ],
+  "existing_route_items": 0,
+  "protected_route_items": 0,
+  "rerouted_route_items": 0,
+  "layer_restriction": {
+    "allowed_new_route_layers": [
+      "F.Cu"
+    ],
+    "protected_items_outside_allowed_layers": 0,
+    "description": "Exact original protected copper is preserved, including layers outside the requested new-route list. New through vias require both copper layers."
+  },
+  "scope_description": "Reroute unlocked copper while preserving locked routes",
+  "next_step": "Run route with these settings to create a separate candidate. Acceptance still requires original-design checks and native KiCad refill/DRC."
+}
