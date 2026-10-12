@@ -1,0 +1,55 @@
+{
+  "passed": true,
+  "scope": "Seven finite synthetic cases; no native/JVM execution",
+  "source_files": {
+    "experiments/pic_mixed_transport_probe_v1/SelectiveAreaProbe.java": {
+      "bytes": 11370,
+      "sha256": "7f8460c6e718000843de1921ad15657b6ad5bcf141a3b0601c32bdbab6015e57"
+    },
+    "experiments/pic_mixed_transport_probe_v1/selective.py": {
+      "bytes": 12314,
+      "sha256": "ab16714c20bf18e5a35a7735e69152bf2f3c512a14dd6dbb04f1dc9b41f4d88c"
+    },
+    "experiments/pic_mixed_transport_probe_v1/test_selective.py": {
+      "bytes": 10182,
+      "sha256": "054a48193dbead17403fa97e333feea6a8d3da3bf088ba7e63b31a3923720c9c"
+    }
+  },
+  "cases": [
+    {
+      "case": "positive",
+      "accepted": true,
+      "error": null
+    },
+    {
+      "case": "zero_trace",
+      "accepted": false,
+      "error": "indexed item entries must validate"
+    },
+    {
+      "case": "nonnull_zero_outline",
+      "accepted": false,
+      "error": "unindexed outline must have exact zero/null witness"
+    },
+    {
+      "case": "invalid_indexed",
+      "accepted": false,
+      "error": "indexed item entries must validate"
+    },
+    {
+      "case": "valid_flag_laundered",
+      "accepted": false,
+      "error": "search-tree population counts/raw validation differ"
+    },
+    {
+      "case": "wrong_counts",
+      "accepted": false,
+      "error": "search-tree population counts/raw validation differ"
+    },
+    {
+      "case": "before_after_drift",
+      "accepted": false,
+      "error": "tree entry population/witness changed after selective refresh"
+    }
+  ]
+}

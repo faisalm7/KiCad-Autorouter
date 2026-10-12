@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "status": "requested_not_executed",
+  "commands": [
+    [
+      "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/javap",
+      "-classpath",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar",
+      "-protected",
+      "app.freerouting.core.StoppableThread"
+    ],
+    [
+      "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/javap",
+      "-classpath",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar",
+      "-public",
+      "app.freerouting.autoroute.pipeline.RoutingPipeline"
+    ]
+  ],
+  "purpose": "Confirm source-level subclass and direct pipeline entry against actual pinned JAR; ROOT only via existing bounded runner"
+}

@@ -1,0 +1,19 @@
+# Selective001 tree-entry eligibility diagnosis
+
+The actual run remains failed. Compilation exited 0; import exited 2 with `complete search-tree entry validation failed`. The full 1,222-entry record has exactly 619 false validations, all exact class `app.freerouting.board.model.items.ComponentOutline`. The other 603 entries are true: 339 traces, 240 pins, 14 obstacle areas, 6 vias, 3 conduction areas and one board outline. The same ID population appears in captured state and entry rows. The local250 baseline state is exact; all three areas still have false obstacle flags and `ignore_conduction` remains true. No selective override or post-selective state was reached.
+
+The stored job cost is 2.336660 seconds wall / 3.509539 full CPU. All original 15 files, run inventory, frozen artifacts and recorded source snapshots were checked; originals/run remained unchanged. This is a stored-evidence readback, not another native/JVM execution.
+
+The pinned implementation explains a test precondition mismatch. `ComponentOutline.tileShapeCount` returns zero and its tree-shape calculation returns an empty array. Insertion returns for a nonpositive shape count without assigning entries. [ComponentOutline at the pinned commit](https://raw.githubusercontent.com/freerouting/freerouting/b647a2f824cfbc54bc4dcaee71b03b7cd945eb76/src/main/java/app/freerouting/board/model/items/ComponentOutline.java), [ShapeTree at the same commit](https://raw.githubusercontent.com/freerouting/freerouting/b647a2f824cfbc54bc4dcaee71b03b7cd945eb76/src/main/java/app/freerouting/datastructures/ShapeTree.java).
+
+Cached `Item.java` resolves `treeShapeCount` from the calculated array and returns null for absent tree entries. Cached `ShapeSearchTree.validateEntries` returns false for null entries, even though a zero-shape item need not be indexed. `SearchTreeManager` aggregates that raw validator over its active trees. Actual pinned-JAR public declarations already expose `treeShapeCount(ShapeTree)`, `getSearchTreeEntries(ShapeSearchTree)`, `tileShapeCount()` and `isOnTheBoard()`. Source/API hashes are recorded in `actual-diagnosis.json`; only the two missing source files were downloaded, 15,167 bytes total, with exact URL/hash receipt. No downloaded code was executed.
+
+This is a source-backed explanation, not an observed zero-shape/null-entry fact: selective001 only recorded ID and raw validation Boolean. Do not relabel it as passing or waive all outlines by class.
+
+## Minimal proposed observation guard
+
+For every existing item before and after the selective mutation, capture its exact ID/kind, on-board state, tile count, default-tree shape count, whether default entries are null, entry-array length (null when absent), and raw manager validation Boolean. Capture default-tree validation too if desired; do not replace raw false with true.
+
+Allow an explicitly **unindexed** category only for the exact ComponentOutline class, on-board true, zero tile/default-tree shapes, null entries and raw validation false. Any unexpected negative count, nonnull/zero-length contradiction, positive-shape outline failure, or zero-shape different class rejects. For every other item require positive bounded shape count, nonnull entry array of matching length with no null leaves, and raw manager validation true. Preserve the entire 1,222-ID population and its before/after membership. Record separate indexed-valid and expected-unindexed totals; a combined obligations-satisfied field must not be called all raw entries valid.
+
+Keep all existing exact state/route/flag checks. Useful pure falsifiers are zero-shape trace, nonzero-shape outline with false validation, outline with unexpected entries, indexed item with absent/mismatched entries, missing item, and changed classification after refresh. The next ROOT-run observation must supply the missing runtime witnesses. This changes diagnostic eligibility only, not routing rules, source geometry or production support.

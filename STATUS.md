@@ -4,6 +4,8 @@ Updated October 11, 2026 (America/Los_Angeles). **Active local reconstruction; i
 
 ## Latest work — October 12 UTC
 
+Actual selective001 at6848ee4 stopped before mutation:619 ComponentOutline raw tree validations false,603 indexed items true. Pinned source shows zero-shape outlines are intentionally unindexed. The amended observer requires exact zero tile/tree shapes, null entries and raw false for this class only; all other entries remain strict, and raw false totals stay visible. Eight ROOT targeted tests and seven independent focused controls pass. Prior failed run and source diagnosis are public; fresh selective002 is next. No solver/native/support gain yet.
+
 The single-import selective obstacle observer is integrated into the existing driver and passes45 focused methods. It enables only the two identified custom bodies, explicitly changes the globalignore flag, and requires the complete original plane/state/routes and all tree entries to survive. Cached native005and local250evidence are reused. Independent source review and one fresh compiled observation are next; no production admission or solver result yet.
 
 Native SES001 at `985f0e6` imported the saved writer output in actual KiCad, then correctly failed the original-project guard: `SaveBoard` added a rule-severity default and two metadata fields in the disposable project copy. Original15files are unchanged. Baseline DRC has0opens/0blocking/41librarywarnings/0exclusions. Positive DRC and negative stages were not reached. Raw imported immutable content equals the original; exact370→368segment preservation still fails. Actual failed receipts and separate costs remain in `evidence/pic-custom-ses-native-001`.

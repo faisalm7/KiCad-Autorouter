@@ -152,6 +152,22 @@
       "bytes": 29054,
       "sha256": "6b99b9a8a6bc40e72916298b38bfccac243c3e39f31e51079bb9f20fec678ed9"
     },
+    ".runs/pic-selective-area-observation-001/summary.json": {
+      "bytes": 47974,
+      "sha256": "9138956f7c860e15fd17b94ba280be9375366fb7f74e1b9720644d2efd8f929e"
+    },
+    ".runs/review-pic-selective-source-001/eligibility-001/actual-diagnosis.json": {
+      "bytes": 2373,
+      "sha256": "920c58805e0558ca4f3a5c75c2fca83b352f7f0029dff9184d16563e69b3cb4e"
+    },
+    ".runs/review-pic-selective-source-001/eligibility-001/source/ComponentOutline.java": {
+      "bytes": 6324,
+      "sha256": "36cabd4b2fd3080dcee6a6921ada2201791f3572d2d7b4b23032b8d47e0b0f12"
+    },
+    ".runs/review-pic-selective-source-001/eligibility-001/source/ShapeTree.java": {
+      "bytes": 8843,
+      "sha256": "052743a43b40771263fdc10734217eaf020e3ccd5271ab05cd9dc4fe55c072cb"
+    },
     ".runs/support-scope-review-001/source/pcbnew/drc/drc_engine.cpp": {
       "bytes": 106259,
       "sha256": "ddd99dc45baea9aa94997eb074e8529c34374b58492668ef80667f6d4a9ea775"
@@ -202,9 +218,10 @@
   "post_load_change": "Qualified two local250 assignments, then exactly two USER_FIXED bodies obstacle true; globalignoreConduction true\u2192false; originalSYSTEM_FIXEDGND false; complete state/route preservation and all itemtreeentries.",
   "reuse_local": ".runs/pic-local-clearance-transport-001",
   "reuse_native": ".runs/pic-mixed-transport-probe-005",
-  "revision": "1.6-selective-obstacle-observation",
+  "revision": "1.7-selective-zero-shape-witness",
   "schema": 1,
   "scope": "One fresh false-global manager import with local250; enable only2custombodies, explicitly disable ignoreConduction, refresh full tree and observe predicates. No solver, SES or fresh native.",
+  "search_tree_eligibility": "Every item remains in before/after census with raw validation. Exact ComponentOutline requires on-board, zero tile/default-tree shapes, null entries and raw false; every other item requires positive bounded shapes, matching nonnull entries and raw true. Before/after witnesses exact. No blanket invalid-tree exemption.",
   "tools": {
     "jar": {
       "bytes": 64599107,

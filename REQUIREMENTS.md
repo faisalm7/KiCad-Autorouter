@@ -1,5 +1,7 @@
 # Requirements to evidence
 
+October12 selective-tree diagnostic: `evidence/pic-selective-area-observation-001` is an actual pre-mutation failure. `evidence/pic-selective-tree-eligibility-001` explains it from pinned source; `evidence/review-pic-selective-eligibility-patch-001` binds the amended runtime-witness guard and negative tests. New JVM observation pending; no acceptance/support gate closed.
+
 Current evidence update (October12UTC): persistent scope/time/optimization and bounded allowed-new-layer preferences are implemented. Actual partial/locked preservation, cancellation and layer-positive/negative controls pass their narrow predicates. Installation006 passed608tests and a real native route/readback; full-chain restoration passed85,030non-Git files at ea29344. Parity001 and area002 are complete diagnostics. PIC mixed004 crashed during its DRC-report call after capturing247pad observations; the revised load-only probe remains prospective. None establishes generalized gains, independent-family coverage, untouched evaluation, selected-net/live-undo support, human/physical review or release readiness. Chronological notes below preserve earlier states.
 
 Updated October 10, 2026. Evidence describes the exact recorded implementation and inputs; it does not qualify later edits automatically.

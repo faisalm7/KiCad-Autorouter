@@ -50,11 +50,20 @@ public final class SelectiveAreaProbe {
       "item_count",board.getItems().size(),"areas",areas,"trace_queries",queries,"tree_entries",entries));
     if(board.getConductionAreas().size()!=3||routes.size()>2560||board.getItems().size()>4096)
       throw new IllegalArgumentException("predicate census bound; counts retained");
-    boolean valid=true;
+    boolean valid=true,rawValid=true;int indexed=0,unindexed=0;
+    var tree=board.searchTreeManager.getDefaultTree();
     for(Item item:board.getItems()){
-      boolean one=board.searchTreeManager.validateEntries(item);entries.add(map("id",item.getId(),"valid",one));valid&=one;
+      boolean one=board.searchTreeManager.validateEntries(item);int shapes=item.treeShapeCount(tree),tiles=item.tileShapeCount();
+      var leaves=item.getSearchTreeEntries(tree);
+      entries.add(map("id",item.getId(),"kind",item.getClass().getName(),"on_board",item.isOnTheBoard(),
+        "shape_count",shapes,"tile_shape_count",tiles,"entry_count",leaves==null?null:leaves.length,"valid",one));
+      boolean outline=item.getClass()==ComponentOutline.class&&shapes==0&&tiles==0&&leaves==null&&!one;
+      boolean included=shapes>0&&shapes<=16384&&leaves!=null&&leaves.length==shapes&&one;
+      valid&=item.isOnTheBoard()&&(outline||included);rawValid&=one;
+      if(outline)unindexed++;else if(included)indexed++;
     }
-    out.put("all_tree_entries_valid",valid);
+    out.putAll(map("all_tree_entries_valid",rawValid,"search_tree_population_verified",valid,
+      "indexed_items",indexed,"unindexed_zero_shape_outlines",unindexed));
     for(ConductionArea area:board.getConductionAreas()){
       List<Object> rows=new ArrayList<>();areas.add(map("id",area.getId(),"filled",area.getIsFilled(),
         "obstacle",area.getIsObstacle(),"routes",rows));

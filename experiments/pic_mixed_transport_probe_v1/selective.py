@@ -45,9 +45,29 @@ def predicates(data, state, geometry):
         if type(data.get(key)) is not int or data[key] != count:
             raise ValueError('predicate census differs')
     entries = by_id(data['tree_entries'], 'tree entries')
-    if (set(entries) != set(items) or data.get('all_tree_entries_valid') is not True
-            or any(set(row) != {'id', 'valid'} or row['valid'] is not True for row in entries.values())):
-        raise ValueError('complete search-tree entry proof missing')
+    if set(entries) != set(items) or data.get('search_tree_population_verified') is not True:
+        raise ValueError('complete search-tree population proof missing')
+    indexed = unindexed = 0
+    for identity, row in entries.items():
+        if (set(row) != {'id', 'kind', 'on_board', 'shape_count', 'tile_shape_count', 'entry_count', 'valid'}
+                or row['kind'] != items[identity]['kind'] or row['on_board'] is not True
+                or type(row['shape_count']) is not int or not 0 <= row['shape_count'] <= 16384
+                or type(row['tile_shape_count']) is not int or not 0 <= row['tile_shape_count'] <= 16384
+                or type(row['valid']) is not bool):
+            raise ValueError('search-tree item witness differs')
+        if row['kind'] == 'app.freerouting.board.model.items.ComponentOutline':
+            if row['shape_count'] != 0 or row['tile_shape_count'] != 0 or row['entry_count'] is not None or row['valid'] is not False:
+                raise ValueError('unindexed outline must have exact zero/null witness')
+            unindexed += 1
+        else:
+            if row['shape_count'] <= 0 or type(row['entry_count']) is not int or row['entry_count'] != row['shape_count'] or row['valid'] is not True:
+                raise ValueError('indexed item entries must validate')
+            indexed += 1
+    if (type(data.get('all_tree_entries_valid')) is not bool
+            or data['all_tree_entries_valid'] != all(r['valid'] for r in entries.values())
+            or type(data.get('indexed_items')) is not int or data['indexed_items'] != indexed
+            or type(data.get('unindexed_zero_shape_outlines')) is not int or data['unindexed_zero_shape_outlines'] != unindexed):
+        raise ValueError('search-tree population counts/raw validation differ')
     observed = by_id(data['areas'], 'predicate areas')
     if set(observed) != set(areas):
         raise ValueError('predicate area membership differs')
@@ -152,6 +172,8 @@ def compare(observed, expected, verified_local_observation):
     if (audit.get('changed_area_ids') != sorted(targets) or audit.get('global_ignore_before') is not True
             or audit.get('global_ignore_after') is not False or audit.get('tree_refresh_completed') is not True):
         raise ValueError('selective mutation/refresh audit differs')
+    equal(row['predicates_before']['tree_entries'], row['predicates_after']['tree_entries'],
+          'tree entry population/witness changed after selective refresh')
     before_areas, before_queries = predicates(row['predicates_before'], old, row['route_geometry'])
     after_areas, after_queries = predicates(row['predicates_after'], new, row['route_geometry_after_selective'])
     for aid in areas:

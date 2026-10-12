@@ -54,8 +54,13 @@ class Controls(unittest.TestCase):
                 queries.append({'id':trace['id'],'shape_count':1,'tree_trace_check_clear':not bool(filtered),
                     'raw_overlap_ids':raw,'flag_filtered_overlap_ids':filtered})
             row[phase]={'area_count':3,'route_count':len(traces)+len(vias),'item_count':len(state['items']),
-                'areas':area_records,'trace_queries':queries,'tree_entries':[{'id':x['id'],'valid':True} for x in state['items']],
-                'all_tree_entries_valid':True,'trace_shape_count':len(traces)}
+                'areas':area_records,'trace_queries':queries,'tree_entries':[{'id':x['id'],'kind':x['kind'],'on_board':True,
+                    'shape_count':0 if x['kind'].endswith('.ComponentOutline') else 1,
+                    'tile_shape_count':0 if x['kind'].endswith('.ComponentOutline') else 1,
+                    'entry_count':None if x['kind'].endswith('.ComponentOutline') else 1,
+                    'valid':not x['kind'].endswith('.ComponentOutline')} for x in state['items']],
+                'all_tree_entries_valid':False,'search_tree_population_verified':True,
+                'indexed_items':603,'unindexed_zero_shape_outlines':619,'trace_shape_count':len(traces)}
         return {'schema':1,'mode':'selective_local250','routing_executed':False,'ses_executed':False,'case':row}
 
     def check(self,o=None,b=None):return c.compare(o or self.observation(),self.expected,b or self.baseline)
@@ -77,7 +82,7 @@ class Controls(unittest.TestCase):
           lambda r:next(a for a in r['state_after_selective']['areas'] if a['id']==r['selective_override']['changed_area_ids'][0]).update(obstacle=False),
           lambda r:r['selective_override'].update(tree_refresh_completed=False),
           lambda r:r['predicates_after']['tree_entries'].pop(),
-          lambda r:r['predicates_after']['tree_entries'][0].update(valid=False),
+          lambda r:next(x for x in r['predicates_after']['tree_entries'] if x['valid']).update(valid=False),
           lambda r:r['predicates_after']['areas'][0].update(filled=False)]
         for change in changes:
             with self.subTest(change=change):
@@ -120,6 +125,19 @@ class Controls(unittest.TestCase):
             o=self.observation();o['case']['route_geometry_after_selective'][field].pop()
             with self.assertRaises(ValueError):self.check(o)
         o=self.observation();o['case']['predicates_after']['tree_entries'].append(o['case']['predicates_after']['tree_entries'][0])
+        with self.assertRaises(ValueError):self.check(o)
+
+    def test_zero_shape_outline_exception_requires_full_witness(self):
+        for kind,value in [('shape_count',1),('tile_shape_count',1),('entry_count',0),('valid',True),('on_board',False),('kind','unknown')]:
+            o=self.observation()
+            for phase in ('predicates_before','predicates_after'):
+                row=next(x for x in o['case'][phase]['tree_entries'] if x['kind'].endswith('.ComponentOutline'))
+                row[kind]=value
+            with self.subTest(kind=kind),self.assertRaises(ValueError):self.check(o)
+        o=self.observation()
+        for phase in ('predicates_before','predicates_after'):
+            row=next(x for x in o['case'][phase]['tree_entries'] if x['valid'])
+            row.update(shape_count=0,tile_shape_count=0,entry_count=None,valid=False)
         with self.assertRaises(ValueError):self.check(o)
 
 if __name__=='__main__':unittest.main()
