@@ -138,3 +138,5 @@ G2 severity002 detects the exact named-profile, board/footprint Edge.Cuts and fr
 G2 exact area/contact transport is a reviewed, software-tested prospective probe over six unchanged native scenes. [Source review](evidence/review-custom-pad-area-probe-001/REVIEW.md). No actual import capability, original POWER-class transport, SES survival, routing or G4 improvement is established yet.
 
 Incremental backup integration: [independent review](evidence/review-incremental-backup-001/REPORT.md) verifies both original failures and corrected actual signal/archive controls. [Full source suite](evidence/incremental-backup-source-001/integration-suite.log):535 tests pass. Complete project-chain restoration and current installation remain pending; these tests do not qualify routing performance.
+
+Installation004 at4807b39 now passes all20 actual commands/535 tests and native placement route/readback with zero findings and one required via. [Current evidence](evidence/installation-004/result.json) preserves original candidate/report bindings. This is local clean-checkout/venv qualification, not a new Mac, formal package or broad routing result.
