@@ -18,7 +18,10 @@ from datetime import datetime, timezone
 
 ROOT = Path(__file__).resolve().parents[1]
 SCOPES = (".runs", ".data", ".local-reference")
-LIMIT = 2 * 1024 ** 3
+# Retaining failed and successful clean-install trees takes the complete artifact
+# population above 2 GiB. Keep a finite 3 GiB archive/target/bundle ceiling; the
+# existing file-count, chain, secret, path and streaming checks remain unchanged.
+LIMIT = 3 * 1024 ** 3
 MAX_FILES = 100000
 MAX_CHAIN = 16
 MAX_RECEIPT_BYTES = 32 * 1024 ** 2
@@ -160,7 +163,7 @@ def inventory(root):
                     raise BackupError("Hard-linked input requires explicit review before backup")
                 total += st.st_size
                 if total > LIMIT or len(files) >= MAX_FILES:
-                    raise BackupError("Non-Git snapshot exceeds the 2 GiB/file-count ceiling")
+                    raise BackupError("Non-Git snapshot exceeds the 3 GiB/file-count ceiling")
                 # Catch common embedded private-key/token forms, without logging
                 # their contents. This is a guard, not exhaustive secret detection.
                 h = hashlib.sha256()
@@ -191,7 +194,7 @@ class LimitedWriter:
 
     def write(self, data):
         if self.size + len(data) > LIMIT:
-            raise BackupError("Compressed archive exceeds 2 GiB ceiling")
+            raise BackupError("Compressed archive exceeds 3 GiB ceiling")
         written = self.stream.write(data)
         self.size += written
         return written
@@ -367,7 +370,7 @@ def create(root=ROOT, parent=None):
     git(root, "bundle", "create", str(bundle), "--all")
     os.chmod(bundle, 0o600)
     if bundle.stat().st_size > LIMIT:
-        raise BackupError("Git bundle exceeds 2 GiB ceiling; retained for review")
+        raise BackupError("Git bundle exceeds 3 GiB ceiling; retained for review")
     git(root, "bundle", "verify", str(bundle))
     archive = backup / "non-git.tar.gz"
     make_archive(root, archive, delta["inventory"] if delta else manifest)

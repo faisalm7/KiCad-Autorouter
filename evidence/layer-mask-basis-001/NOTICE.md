@@ -1,0 +1,5 @@
+# Freerouting source and API research basis
+
+The seven `.java` source files are unmodified excerpts from Freerouting at commit `b647a2f824cfbc54bc4dcaee71b03b7cd945eb76`, copyright their original authors/contributors, licensed under GNU GPL version3. All original source notices remain intact. Their exact upstream URLs and byte hashes are in provenance.json; LICENSE.freerouting is the upstream license retrieved at that commit. No warranty is provided. These files are retained as research evidence and are not compiled or loaded by the shipped router. No engine binary is included.
+
+The remaining declarations/process/pin files are our exact recorded observations from the pinned engine. The prior ignored originals remain untouched. The import-only diagnostic now verifies these tracked bytes so clean copies can run the same strict tests and reproduce the probe without this Mac's private research directories. This packaging correction does not add a routing claim or repeat the completed probe.

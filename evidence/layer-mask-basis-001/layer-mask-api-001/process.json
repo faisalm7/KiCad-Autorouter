@@ -1,0 +1,44 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 0.35849612500169314,
+  "cpu_seconds": 0.384386,
+  "max_rss_bytes": 83869696,
+  "supervisor_cpu_seconds": 0.004041000000000017,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 66945024,
+  "sampled_peak_workdir_bytes": 387,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 10485760,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/javap",
+    "-J-Xmx128m",
+    "-J-XX:ActiveProcessorCount=1",
+    "-classpath",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar",
+    "app.freerouting.settings.sources.DsnFileSettings"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/layer-mask-api-001/javap.log",
+  "log_bytes": 387,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/layer-mask-api-001",
+  "signal_cancellation_enabled": true,
+  "pid": 91047
+}

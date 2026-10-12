@@ -1,0 +1,3 @@
+# Failed installation005
+
+Actual local clean-checkout/venv attempt at3c8dabca38d3c4d748a5c807b6e7f037ba37aeee. The608-test run failed exactly one missing pinned basis-file test because the helper depended on ignored `.runs` research files. Native routing was never reached; this is not an installation pass. Full scratch checkout/venv remains on this Mac in `.runs/installation-005`; only exact small receipts and command logs are published here. Large source inventory and NUL-delimited file lists remain local with public hash/size bindings. No engine binary or clone/venv payload is published. The original failure remains unchanged.

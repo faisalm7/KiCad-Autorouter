@@ -77,7 +77,10 @@ class Layers(unittest.TestCase):
 
     def test_exact_retained_dsn_and_basis(self):
         self.assertEqual(b.sha(b.content(ROOT/m.DSN_REL,65536)),m.DSN_SHA)
-        for path,want in m.LAYER_BASIS.items():self.assertEqual(b.sha(b.content(ROOT/path,1024**2)),want,path)
+        for path,want in m.LAYER_BASIS.items():
+            self.assertTrue(path.startswith('evidence/'), 'research basis must ship in a clean checkout')
+            self.assertNotIn('.runs',Path(path).parts)
+            self.assertEqual(b.sha(b.content(ROOT/path,1024**2)),want,path)
 
     def test_default_behavior_fragments_retained(self):
         # Source comparison only: Java execution remains a ROOT qualification.

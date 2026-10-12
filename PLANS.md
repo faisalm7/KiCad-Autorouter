@@ -17,6 +17,10 @@ python3 -B -m autorouter check-result .runs/shared-preservation-native-001/resul
 python3 -B -m unittest discover -s tests
 ```
 
+## Immediate continuation after layer workflow qualification
+
+Layer native five-case batch, disallowed-layer native control and separate review-copy are complete; preserve their results without rerunning. Installation005 failed only the missing tracked layer-basis dependency before any native route. Checkpoint the reviewed basis relocation,3GiB backup cap and passing targeted tests, then run fresh installation006 via the existing helper with placement guidance. Independently audit actual results; freeze artifact writers and perform an incremental snapshot from417450a plus full-chain restoration because backup implementation changed. After that, continue the narrow original-PIC mixed-class/initialized-clearance import prerequisite; no solver/SES or production admission is yet supported.
+
 ## Historical progress notes
 
 The notes below preserve earlier decisions and chronology; their old “next” commands are superseded by the current continuation above.
