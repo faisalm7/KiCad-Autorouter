@@ -14,7 +14,7 @@ import transport
 from experiments.pic_mixed_transport_probe_v1.worker import OBSERVATION_SCOPE,observation_reference
 
 SECONDS=180.0;LIMIT=64*1024**2
-HELPERS=('driver.py','worker.py','transport.py','MixedClassProbe.java','test_draft.py','PROTOCOL.json','README.md','LOCAL_CLEARANCE_PROTOCOL.json','test_local_transport.py','SES_PROTOCOL.json','ses_checks.py','ses_native.py','test_ses.py','SES_NATIVE_PROTOCOL.json')
+HELPERS=('driver.py','worker.py','transport.py','MixedClassProbe.java','test_draft.py','PROTOCOL.json','README.md','LOCAL_CLEARANCE_PROTOCOL.json','test_local_transport.py','SES_PROTOCOL.json','ses_checks.py','ses_native.py','test_ses.py','SES_NATIVE_PROTOCOL.json','SES_FINISH_PROTOCOL.json')
 REUSE=('experiments/custom_pad_area_probe_v1/driver.py','experiments/custom_pad_area_probe_v1/derive.py',
     'experiments/custom_pad_area_probe_v1/checks.py','experiments/custom_pad_area_probe_v1/AreaContactProbe.java',
     'experiments/pic_custom_observer_v1/driver.py','experiments/pic_custom_observer_v1/worker.py','experiments/pic_custom_observer_v1/mapping.py')
@@ -22,15 +22,18 @@ REUSE=('experiments/custom_pad_area_probe_v1/driver.py','experiments/custom_pad_
 def inventory(path):return io.inventory(path,max_bytes=LIMIT,max_files=2000,max_entries=4000)
 def source_paths():return [HERE/n for n in HELPERS]+[ROOT/n for n in REUSE]+list(sorted((ROOT/'autorouter').glob('*.py')))+[ROOT/'toolchain.lock.json',ROOT/'data/sources.json']
 def runtime(protocol):
-    cached=None;cached_ses=None
-    if protocol.get('mode') in ('local250','local250-ses','local250-ses-cached'):
+    cached=None;cached_ses=None;cached_positive=None
+    if protocol.get('mode') in ('local250','local250-ses','local250-ses-cached','local250-ses-finish'):
         if protocol.get('reuse_native')!='.runs/pic-mixed-transport-probe-005':raise ValueError('fixed cached-native source required')
         # The larger cached scan precedes the protected current-material reads.
         # Late changes during that scan must appear in the returned witness.
         cached=inventory(ROOT/protocol['reuse_native'])
-    if protocol.get('mode')=='local250-ses-cached':
+    if protocol.get('mode') in ('local250-ses-cached','local250-ses-finish'):
         if protocol.get('reuse_ses')!='.runs/pic-custom-ses-roundtrip-001':raise ValueError('fixed cached SES source required')
         cached_ses=inventory(ROOT/protocol['reuse_ses'])
+    if protocol.get('mode')=='local250-ses-finish':
+        if protocol.get('reuse_positive')!='.runs/pic-custom-ses-native-001':raise ValueError('fixed cached positive source required')
+        cached_positive=inventory(ROOT/protocol['reuse_positive'])
     git=base.head_witness()
     tools={name:base.content(Path(row['path']) if Path(row['path']).is_absolute() else ROOT/row['path'],row['bytes'],digest=True) for name,row in protocol['tools'].items()}
     sources={str(p.relative_to(ROOT)):base.content(p,2*1024**2,digest=True) for p in source_paths()}
@@ -39,6 +42,7 @@ def runtime(protocol):
     result={'git':git,'tools':tools,'sources':sources,'basis':basis,'original':original_hashes,'original_bytes':total}
     if cached is not None:result['cached_native_inventory']=cached
     if cached_ses is not None:result['cached_ses_inventory']=cached_ses
+    if cached_positive is not None:result['cached_positive_inventory']=cached_positive
     return result
 
 def verify_clearance_rows(observed,context,notes):
@@ -95,13 +99,14 @@ def verify_native(out,source_hashes,notes):
         'local_optional_observations_supported':all(x['status']=='observed' for r in clear['rows'] for x in (r['pad_local'],r['footprint_local'],r['pad_override'])),
         'custom_pad_own_clearance':[{k:r[k] for k in ('uuid','net','netcode','netclass','class_clearance_nm','class_metadata','net_metadata_return_types','pad_net_return_types','own','pad_local','footprint_local','pad_override')} for r in clear['rows'] if r['uuid'] in {p['uuid'] for p in rows}]}
 
-def experiment(out,*,started=None,cpu_started=None,local_clearance=False,ses_roundtrip=False,native_from_ses=False):
+def experiment(out,*,started=None,cpu_started=None,local_clearance=False,ses_roundtrip=False,native_from_ses=False,finish_native=False):
     if HERE.relative_to(ROOT).as_posix()!='experiments/pic_mixed_transport_probe_v1':raise ValueError('promote and commit reviewed helper before execution')
     start=time.monotonic() if started is None else started;cpu0=base.cpu() if cpu_started is None else cpu_started;out=base.real(out)
     if out.parent!=ROOT/'.runs' or out.exists():raise ValueError('fresh direct .runs output required')
+    native_from_ses=native_from_ses or finish_native
     ses_roundtrip=ses_roundtrip or native_from_ses
     local_clearance=local_clearance or ses_roundtrip
-    protocol=base.decode(base.content(HERE/('SES_NATIVE_PROTOCOL.json' if native_from_ses else 'SES_PROTOCOL.json' if ses_roundtrip else 'LOCAL_CLEARANCE_PROTOCOL.json' if local_clearance else 'PROTOCOL.json')));record={'schema':1,'status':'preparing','observations_complete':False,
+    protocol=base.decode(base.content(HERE/('SES_FINISH_PROTOCOL.json' if finish_native else 'SES_NATIVE_PROTOCOL.json' if native_from_ses else 'SES_PROTOCOL.json' if ses_roundtrip else 'LOCAL_CLEARANCE_PROTOCOL.json' if local_clearance else 'PROTOCOL.json')));record={'schema':1,'status':'preparing','observations_complete':False,
         'routing_accepted':False,'custom_pad_support_qualified':False,'mixed_clearance_equivalence_qualified':False,
         'routing_executed':False,'ses_executed':False,'native_process_executed':False,'import_process_executed':False,
         'steps':[],'wall_budget_seconds':SECONDS,'cpu_budget_seconds':SECONDS,
@@ -155,7 +160,7 @@ def experiment(out,*,started=None,cpu_started=None,local_clearance=False,ses_rou
             stable();return result
         code=out/'code'/str(HERE.relative_to(ROOT));tools=protocol['tools']
         if local_clearance:
-            if protocol.get('mode')!=('local250-ses-cached' if native_from_ses else 'local250-ses' if ses_roundtrip else 'local250'):raise ValueError('local-clearance protocol mode differs')
+            if protocol.get('mode')!=('local250-ses-finish' if finish_native else 'local250-ses-cached' if native_from_ses else 'local250-ses' if ses_roundtrip else 'local250'):raise ValueError('local-clearance protocol mode differs')
             cached=ROOT/protocol['reuse_native'];old=base.decode(base.content(cached/'summary.json'))
             if (old.get('status')!='failed' or old.get('error')!='ValueError: engine original class/width differs'
                     or old['runtime']['original']!=before['original']
@@ -219,7 +224,12 @@ def experiment(out,*,started=None,cpu_started=None,local_clearance=False,ses_rou
             record.update(ses_executed=True,writer=writer,ses_transport=survival,case_comparison=comparisons);capture()
             # A safely parsed retained-route mismatch may still receive diagnostic
             # native DRC; no reconstructed candidate can pass that failed obligation.
-            native_ses=ses_native.execute(out,out/'observe-input'/original.SOURCE.name,tree,expected,survival,remaining,step,env,capture,record)
+            reuse=None
+            if finish_native:
+                cached=ROOT/protocol['reuse_positive']
+                if base.content(cached/'raw.ses')!=raw:raise ValueError('cached positive SES differs')
+                reuse=ses_native.cached_positive(cached,before,before['cached_positive_inventory'])
+            native_ses=ses_native.execute(out,out/'observe-input'/original.SOURCE.name,tree,expected,survival,remaining,step,env,capture,record,reuse=reuse)
             record.update(status='completed' if native_ses['completed'] else 'observed-incomplete',observations_complete=native_ses['completed'])
         else:
             comparisons=(transport.validate_local(observed,expected) if local_clearance else transport.validate(observed,expected))
@@ -231,10 +241,10 @@ def experiment(out,*,started=None,cpu_started=None,local_clearance=False,ses_rou
 
 def main(argv=None):
     started=time.monotonic();cpu_started=base.cpu()
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--run-probe',action='store_true');parser.add_argument('--output',type=Path,required=True);parser.add_argument('--local-clearance',action='store_true');parser.add_argument('--ses-roundtrip',action='store_true');parser.add_argument('--native-from-ses',action='store_true');args=parser.parse_args(argv)
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--run-probe',action='store_true');parser.add_argument('--output',type=Path,required=True);parser.add_argument('--local-clearance',action='store_true');parser.add_argument('--ses-roundtrip',action='store_true');parser.add_argument('--native-from-ses',action='store_true');parser.add_argument('--finish-native',action='store_true');args=parser.parse_args(argv)
     if not args.run_probe:parser.error('--run-probe required')
     with base.cancellation(),base.real(ROOT/'.runs/quality-experiment.lock').open('a') as lock:
-        fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);result=experiment(args.output,started=started,cpu_started=cpu_started,local_clearance=args.local_clearance,ses_roundtrip=args.ses_roundtrip,native_from_ses=args.native_from_ses)
+        fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);result=experiment(args.output,started=started,cpu_started=cpu_started,local_clearance=args.local_clearance,ses_roundtrip=args.ses_roundtrip,native_from_ses=args.native_from_ses,finish_native=args.finish_native)
     print(base.canonical({k:result.get(k) for k in ('status','observations_complete','wall_seconds','total_cpu_seconds')}).decode(),end='')
     return 0 if result['observations_complete'] else 1
 

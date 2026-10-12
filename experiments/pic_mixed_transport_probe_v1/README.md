@@ -175,3 +175,7 @@ Actual SES001 successfully compiled/imported/wrote59,412bytes, then failed a fra
 ```sh
 python3 -B experiments/pic_mixed_transport_probe_v1/driver.py --run-probe --native-from-ses --output .runs/pic-custom-ses-native-001
 ```
+
+### Finish the retained native diagnostic
+
+`python3 -B experiments/pic_mixed_transport_probe_v1/driver.py --run-probe --finish-native --output .runs/pic-custom-ses-native-002` uses the fixed `SES_FINISH_PROTOCOL.json`. It verifies complete saved native001 evidence and reuses its actual baseline DRC and positive imported PCB. It runs only the missing positive DRC, negative import and negative DRC. Raw imports are isolated from the complete original-project validation copies; no generated project defaults are admitted. Original failed receipts, prior costs, route-survival failures and all warnings remain visible. No solver or production custom-pad admission follows.

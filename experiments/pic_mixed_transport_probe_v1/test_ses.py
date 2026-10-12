@@ -138,4 +138,52 @@ class SesChecks(unittest.TestCase):
         other=copy.deepcopy(row);other['findings'][0]['description']='b'
         self.assertFalse(ses_native.same_findings(row,other))
 
+class NativeContinuation(unittest.TestCase):
+    def test_validation_uses_original_rules_and_exact_imported_board_only(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);source=root/'source';source.mkdir();raw=root/'raw';raw.mkdir()
+            (source/'board.kicad_pcb').write_text('original-board')
+            (source/'board.kicad_pro').write_text('original-rules')
+            (source/'rules.kicad_dru').write_text('original-custom-rules')
+            (raw/'board.kicad_pcb').write_text('actual-import')
+            (raw/'board.kicad_pro').write_text('changed-rules')
+            (raw/'board.kicad_prl').write_text('generated')
+            board=ses_native.validation_copy(source/'board.kicad_pcb',root/'validation',raw/'board.kicad_pcb')
+            self.assertEqual(board.read_text(),'actual-import')
+            self.assertEqual((board.parent/'board.kicad_pro').read_text(),'original-rules')
+            self.assertEqual((board.parent/'rules.kicad_dru').read_text(),'original-custom-rules')
+            self.assertFalse((board.parent/'board.kicad_prl').exists())
+            self.assertEqual((source/'board.kicad_pcb').read_text(),'original-board')
+            self.assertEqual((raw/'board.kicad_pro').read_text(),'changed-rules')
+
+    def test_cached_baseline_and_positive_actual_binding_and_falsifiers(self):
+        from unittest.mock import patch
+        from experiments.pic_mixed_transport_probe_v1 import driver
+        proto=driver.base.decode(driver.base.content(driver.HERE/'SES_FINISH_PROTOCOL.json'))
+        before=driver.runtime(proto);cached=driver.ROOT/proto['reuse_positive']
+        inventory=before['cached_positive_inventory'];read=ses_native.floor.read_json
+        baseline,raw,binding=ses_native.cached_positive(cached,before,inventory)
+        self.assertEqual(baseline['warnings'],41);self.assertEqual(baseline['opens'],0)
+        self.assertFalse(binding['new_baseline_execution']);self.assertFalse(binding['new_positive_import_execution'])
+        self.assertEqual(binding['raw_board_sha256'],ses_native.p.sha(raw))
+        for kind in ('status','frozen','tool','worker','binding','report','process','cleanup','truncated','extra-stage'):
+            def mutated(path):
+                data=copy.deepcopy(read(path))
+                if path.name=='summary.json':
+                    if kind=='status':data['status']='completed'
+                    elif kind=='frozen':data['frozen_evidence']['raw.ses']='0'*64
+                    elif kind=='tool':data['runtime']['tools']['native_cli']['sha256']='0'*64
+                    elif kind=='worker':data['runtime']['sources']['autorouter/native.py']['sha256']='0'*64
+                    elif kind=='report':data['native_ses']['baseline']['warnings']=0
+                    elif kind=='extra-stage':data['steps'].append(copy.deepcopy(data['steps'][0]))
+                elif path.name=='baseline-binding.json' and kind=='binding':data['saved']=True
+                elif path.name=='ses-import-positive-process.json':
+                    if kind=='process':data['argv'][-1]='different.ses'
+                    elif kind=='cleanup':data['cleanup_complete']=False
+                    elif kind=='truncated':data['log_truncated']=True
+                return data
+            with self.subTest(kind=kind),patch.object(ses_native.floor,'read_json',side_effect=mutated),self.assertRaises(ValueError):
+                ses_native.cached_positive(cached,before,inventory)
+
 if __name__=='__main__':unittest.main()
