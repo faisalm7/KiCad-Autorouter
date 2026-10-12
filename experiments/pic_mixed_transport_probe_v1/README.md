@@ -179,3 +179,7 @@ python3 -B experiments/pic_mixed_transport_probe_v1/driver.py --run-probe --nati
 ### Finish the retained native diagnostic
 
 `python3 -B experiments/pic_mixed_transport_probe_v1/driver.py --run-probe --finish-native --output .runs/pic-custom-ses-native-002` uses the fixed `SES_FINISH_PROTOCOL.json`. It verifies complete saved native001 evidence and reuses its actual baseline DRC and positive imported PCB. It runs only the missing positive DRC, negative import and negative DRC. Raw imports are isolated from the complete original-project validation copies; no generated project defaults are admitted. Original failed receipts, prior costs, route-survival failures and all warnings remain visible. No solver or production custom-pad admission follows.
+
+### Selective custom-body obstacle observation
+
+`python3 -B experiments/pic_mixed_transport_probe_v1/driver.py --run-probe --selective-obstacles --output .runs/pic-selective-area-observation-001` uses fixed `SELECTIVE_PROTOCOL.json`. It reuses completed005native and local250baseline evidence; one new manager import observes exactly two enabled custom bodies and an unchanged nonblocking original GND plane. Complete state, imported route geometry, all item tree entries and ordinary-route predicates are compared. No solver/SES/new native run or production support is requested. Original retained-route precision failures stay unresolved.
