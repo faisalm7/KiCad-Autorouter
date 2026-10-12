@@ -1,0 +1,289 @@
+{
+  "schema": 1,
+  "passed": true,
+  "scope": "Stored experiment readback using existing helpers; no native/JVM rerun.",
+  "git_head": "3b5ec56ac852a5216597fa2812e3235c439a2c2e",
+  "summary_sha256": "9b68d1a483c4a9bd3f316997c3938badee72d79baae5653475320057e82df1c9",
+  "source_and_cached005_unchanged": true,
+  "committed_sources": 40,
+  "basis_pins": 37,
+  "original_files": 15,
+  "original_bytes": 1366598,
+  "native_reuse": {
+    "git_head": "569959f493ca347730c8ce2def5864f1576c8ba6",
+    "new_native_execution": false,
+    "original_status": "failed",
+    "prior_run_total_cpu_seconds": 3.900163,
+    "prior_run_wall_seconds": 2.972174291993724,
+    "run": ".runs/pic-mixed-transport-probe-005",
+    "scope": "Existing005native observation/export reused; original failed checker receipt unchanged. New JVM import/matrix experiment only.",
+    "summary_sha256": "6b99b9a8a6bc40e72916298b38bfccac243c3e39f31e51079bb9f20fec678ed9"
+  },
+  "cases": [
+    {
+      "plane_as_obstacle": false,
+      "changes": [
+        {
+          "id": 1222,
+          "old_class": 1,
+          "new_class": 5,
+          "kind": "app.freerouting.board.model.items.ConductionArea",
+          "nets": [
+            "/pic_sockets/VCC_PIC"
+          ]
+        },
+        {
+          "id": 1221,
+          "old_class": 3,
+          "new_class": 5,
+          "kind": "app.freerouting.board.model.items.ConductionArea",
+          "nets": [
+            "VCC"
+          ]
+        },
+        {
+          "id": 870,
+          "old_class": 2,
+          "new_class": 5,
+          "kind": "app.freerouting.board.model.items.Pin",
+          "nets": [
+            "/pic_sockets/VCC_PIC"
+          ]
+        },
+        {
+          "id": 869,
+          "old_class": 3,
+          "new_class": 5,
+          "kind": "app.freerouting.board.model.items.Pin",
+          "nets": [
+            "VCC"
+          ]
+        }
+      ],
+      "targets": [
+        {
+          "reference": "JP1",
+          "number": "1",
+          "net": "VCC",
+          "pin_id": 869,
+          "area_id": 1221,
+          "original_pin_class": 3,
+          "original_area_class": 3,
+          "preserved_board_edge_raw_board_units": [
+            2500,
+            2500
+          ]
+        },
+        {
+          "reference": "JP1",
+          "number": "2",
+          "net": "/pic_sockets/VCC_PIC",
+          "pin_id": 870,
+          "area_id": 1222,
+          "original_pin_class": 2,
+          "original_area_class": 1,
+          "preserved_board_edge_raw_board_units": [
+            2500,
+            2500
+          ]
+        }
+      ],
+      "tree_entry_checks": [
+        {
+          "id": 869,
+          "valid": true
+        },
+        {
+          "id": 1221,
+          "valid": true
+        },
+        {
+          "id": 870,
+          "valid": true
+        },
+        {
+          "id": 1222,
+          "valid": true
+        }
+      ],
+      "tree_refresh_completed": true,
+      "census_before": {
+        "items": 1222,
+        "pins": 240,
+        "traces": 339,
+        "vias": 6,
+        "areas": 3,
+        "components": 63,
+        "layers": 2,
+        "max_net_number": 111,
+        "clearance_classes": 5
+      },
+      "census_after": {
+        "items": 1222,
+        "pins": 240,
+        "traces": 339,
+        "vias": 6,
+        "areas": 3,
+        "components": 63,
+        "layers": 2,
+        "max_net_number": 111,
+        "clearance_classes": 6
+      },
+      "old_matrix_cells": 50,
+      "new_matrix_cells": 72,
+      "raw_local_clearance_um": 250,
+      "compensated_local_clearance_um": 251.6,
+      "null_raw_um": 0,
+      "null_compensated_um": 1.6,
+      "parser_warnings": [],
+      "routing_disabled": true
+    },
+    {
+      "plane_as_obstacle": true,
+      "changes": [
+        {
+          "id": 1222,
+          "old_class": 1,
+          "new_class": 5,
+          "kind": "app.freerouting.board.model.items.ConductionArea",
+          "nets": [
+            "/pic_sockets/VCC_PIC"
+          ]
+        },
+        {
+          "id": 1221,
+          "old_class": 3,
+          "new_class": 5,
+          "kind": "app.freerouting.board.model.items.ConductionArea",
+          "nets": [
+            "VCC"
+          ]
+        },
+        {
+          "id": 870,
+          "old_class": 2,
+          "new_class": 5,
+          "kind": "app.freerouting.board.model.items.Pin",
+          "nets": [
+            "/pic_sockets/VCC_PIC"
+          ]
+        },
+        {
+          "id": 869,
+          "old_class": 3,
+          "new_class": 5,
+          "kind": "app.freerouting.board.model.items.Pin",
+          "nets": [
+            "VCC"
+          ]
+        }
+      ],
+      "targets": [
+        {
+          "reference": "JP1",
+          "number": "1",
+          "net": "VCC",
+          "pin_id": 869,
+          "area_id": 1221,
+          "original_pin_class": 3,
+          "original_area_class": 3,
+          "preserved_board_edge_raw_board_units": [
+            2500,
+            2500
+          ]
+        },
+        {
+          "reference": "JP1",
+          "number": "2",
+          "net": "/pic_sockets/VCC_PIC",
+          "pin_id": 870,
+          "area_id": 1222,
+          "original_pin_class": 2,
+          "original_area_class": 1,
+          "preserved_board_edge_raw_board_units": [
+            2500,
+            2500
+          ]
+        }
+      ],
+      "tree_entry_checks": [
+        {
+          "id": 869,
+          "valid": true
+        },
+        {
+          "id": 1221,
+          "valid": true
+        },
+        {
+          "id": 870,
+          "valid": true
+        },
+        {
+          "id": 1222,
+          "valid": true
+        }
+      ],
+      "tree_refresh_completed": true,
+      "census_before": {
+        "items": 1222,
+        "pins": 240,
+        "traces": 339,
+        "vias": 6,
+        "areas": 3,
+        "components": 63,
+        "layers": 2,
+        "max_net_number": 111,
+        "clearance_classes": 5
+      },
+      "census_after": {
+        "items": 1222,
+        "pins": 240,
+        "traces": 339,
+        "vias": 6,
+        "areas": 3,
+        "components": 63,
+        "layers": 2,
+        "max_net_number": 111,
+        "clearance_classes": 6
+      },
+      "old_matrix_cells": 50,
+      "new_matrix_cells": 72,
+      "raw_local_clearance_um": 250,
+      "compensated_local_clearance_um": 251.6,
+      "null_raw_um": 0,
+      "null_compensated_um": 1.6,
+      "parser_warnings": [],
+      "routing_disabled": true
+    }
+  ],
+  "steps": [
+    {
+      "name": "compile",
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.6141375000006519,
+      "cpu_seconds": 1.156733,
+      "max_rss_bytes": 169836544
+    },
+    {
+      "name": "import",
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.674145957978908,
+      "cpu_seconds": 1.433204,
+      "max_rss_bytes": 341622784
+    }
+  ],
+  "wall_seconds": 2.3917763749777805,
+  "full_cpu_seconds": 3.637034,
+  "outer_wall_seconds": 2.5734627079800703,
+  "outer_waited_cpu_seconds": 3.7967350000000004,
+  "native_process_executed": false,
+  "observed_log_fixed_trace_via_warnings": 287,
+  "parser_warnings_empty": true,
+  "accounting_point": "Stored totals precede final publication checks; acceptance caps include them.",
+  "raw_run_files": 71,
+  "raw_run_bytes": 4988280,
+  "routing_accepted": false
+}

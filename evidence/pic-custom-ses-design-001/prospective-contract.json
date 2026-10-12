@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "status": "prospective_not_executed",
+  "reuse": "experiments/pic_mixed_transport_probe_v1/driver.py",
+  "manager_api": "boolean HeadlessBoardManager.saveAsSpecctraSessionSes(OutputStream,String)",
+  "write_case": {
+    "plane_as_obstacle": true,
+    "local_clearance": "local250",
+    "router": false,
+    "optimizer": false
+  },
+  "native_helper_argv": [
+    "pinned_native_python",
+    "autorouter/native.py",
+    "import",
+    "<complete-original-copy>/pic_programmer.kicad_pcb",
+    "<raw-import>/pic_programmer.kicad_pcb",
+    "<fresh raw.ses>"
+  ],
+  "bounds": {
+    "wall_seconds": 180,
+    "total_cpu_seconds": 180,
+    "output_bytes": 67108864,
+    "each_ses_bytes": 4194304,
+    "java_xmx_mib": 256,
+    "heavy_workers": 1
+  },
+  "positive_input": "unmodified raw SES including both exactly bound synthetic polygon wires",
+  "optional_native_negative": "remove only all VCC_PIC ordinary path/via SES nodes, guarded original zone/locked-route disconnection preconditions",
+  "required_scope_flags": {
+    "routing_executed": false,
+    "routing_accepted": false,
+    "ses_survival_qualified": false,
+    "production_support_qualified": false
+  },
+  "note": "Flags remain false until actual scoped observations; no command here was executed."
+}

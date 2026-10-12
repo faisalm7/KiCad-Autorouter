@@ -4,6 +4,10 @@ Updated October 11, 2026 (America/Los_Angeles). **Active local reconstruction; i
 
 ## Latest work — October 12 UTC
 
+Independent source and actual-output review of the local-clearance transport now passes, including exact public copies and all 287 retained engine warnings. The next gate is retained-route SES transfer into a complete copied native project with unchanged original pads and rules. Its pinned-source plan is in `evidence/pic-custom-ses-design-001/PLAN.md`; no SES execution has occurred yet. An incremental artifact snapshot follows this evidence checkpoint.
+
+The fresh local250engine diagnostic now succeeds at3b5ec56: both manager settings preserve the old5×5clearance matrix and otherobservedstate, while exactly the twoJP1anchors and two custombodies use250µm. Allfour refreshed search-tree entries validate. It reused completed005KiCad evidence; newcompile/import cost2.391776wall/3.637034CPU seconds. The originalplane true-mode287fixed-collision warning remains, and fulltrace geometry, SES and routing acceptance remain unqualified. A late source-freshness gap and inconsistent redundant audit fields were reproduced, fixed and regression-tested before this run.
+
 Four new original-rule native controls now confirm footprint-clearance precedence: a260µm gap passes with the250µm override and fails without it under POWER280µm;240µm with the override also fails exactly as required. Both paired positives and both targeted negatives pass, with all5fixture warnings retained per case. Native cost13.348007wall/10.586078CPU seconds. This is a narrow diagnostic; no new PIC route, family or generalized gain. The existing shared runner was extended, and no completed native experiment was repeated. See `evidence/pic-local-clearance-native-001/summary.json`.
 
 The real original-PIC mixed import now runs through KiCad export and both Freerouting manager loads. Its frozen checker failed on the engine's default-class spelling; a separate analysis of unchanged outputs resolves that label mismatch. Both custom polygons and all240 exported pins survive, but local-clearance equivalence and SES transfer remain unqualified. All five attempts, including the native DRC-report crash, are preserved. No PIC routing success is claimed.
@@ -14,7 +18,7 @@ The source/evidence checkpoint is verified at `1523e39`. Its incremental backup 
 
 ## Durable local work and backup boundary
 
-Checkout: `/Users/faisal/Projects/KiCad-Autorouter-local` on this Mac; branch `rebuild/local-20261010-015447`. Latest verified source push/read-back before this checkpoint is **`1523e39a75a1be2bb5a65ae0a3497cac88abf48f`** (verified remote SHA and native result bytes; receipt `.runs/checkpoint-1523e39.json`). G0 began at `683e41a`; no cloud/worktree was used.
+Checkout: `/Users/faisal/Projects/KiCad-Autorouter-local` on this Mac; branch `rebuild/local-20261010-015447`. Latest verified source push/read-back before this checkpoint is **`3b5ec56ac852a5216597fa2812e3235c439a2c2e`** (verified remote SHA and transport helper bytes; receipt `.runs/checkpoint-3b5ec56.json`). G0 began at `683e41a`; no cloud/worktree was used.
 
 Latest **full** archive: **a258c4a**. Restoration verified all Git references, **49,824 non-Git files / 1,539,941,941 bytes**, and CLI help ([verification](evidence/backups/restore-a258c4a.json)). Location: `.local-backups/checkpoint-20261010T163457Z-5ac7f7159bb541efb566c74039d69f46`. It includes all prior raw evidence, actual padstack import, failed and completed native severity batches, all new audits/API declarations, the parity proposal and the explicitly incomplete area-probe draft. GitHub holds audited source and selected evidence. Full archives remain on this Mac only; independent off-Mac storage awaits the owner. No previous archive or original source was removed. Later changes require a later archive.
 

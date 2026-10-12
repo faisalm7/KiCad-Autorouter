@@ -1,0 +1,13 @@
+# Actual local-clearance transport readback
+
+The stored experiment at `3b5ec56ac852a5216597fa2812e3235c439a2c2e` passes independent readback using the existing `verify_native`, `local_override_basis`, and `validate_local` helpers. No native process, Java process, or compiler was rerun. This additive review preserves the earlier source review and its reproduced/fixed defects.
+
+`actual-audit.json` binds the summary, 40 committed source files, 37 basis pins, both process receipts/argv/logs, and 71 complete raw files (70 frozen entries plus summary). All 15 original project files and the complete cached failed005 run remained unchanged. Failed005 still records its original class-checker failure; its earlier native cost is visible separately, rather than represented as fresh work in this experiment.
+
+Both independent manager loads (plane obstacle false/true) changed only IDs 869/1221 (JP1 pin1 and same-net VCC area, class3) and 870/1222 (JP1 pin2 class2 and same-net `/pic_sockets/VCC_PIC` area class1) to class5. All four tree-entry checks and refresh flags pass. The original 50 matrix cells remain exact; the new 72-cell matrix has raw250 µm and compensated251.6 µm, with null raw0/compensated1.6 µm. The two original board-edge entries remain250 µm. Contacts remain reciprocal and all other observed item fields match. Census remains1,222 items/240 pins/339 traces/6 vias/3 areas/63 components/2 layers, apart from clearance classes5→6.
+
+Compile and import both exited0 with complete cleanup. Stored wall/fullCPU are2.391776/3.637034 seconds; outer wall/waitedCPU are2.573463/3.796735 seconds. These remain under the180-second limits. Import peak childRSS was341,622,784B: the256MiB option is a JVM heap setting, not an RSS promise; the runner's group bound is2GiB. Full output is4,988,280B, below64MiB.
+
+Both parser-warning lists are empty, but `import.log` retains287 pre-existing fixed trace/via clearance violations after the plane=true load. They were neither corrected nor treated as KiCad DRC. The evidence qualifies only this two-footprint override matrix transport and its observed fields. It does not establish preservation of every original trace polyline, pairwise collision-query behavior, SES transport, routing acceptance, native initialization, or production custom-pad support.
+
+`actual-public.json` records the selected-public byte comparison and explicitly separates copied artifacts from authored metadata. The original reviewer process-format mismatch and a guessed public-readback filename failure are retained in failed audit scripts/logs; neither changed experimental evidence. Final manifests are finite byte samples, not an atomic authenticity claim.
