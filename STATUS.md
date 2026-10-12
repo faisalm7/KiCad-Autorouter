@@ -4,6 +4,8 @@ Updated October 11, 2026 (America/Los_Angeles). **Active local reconstruction; i
 
 ## Latest work — October 12 UTC
 
+Four new original-rule native controls now confirm footprint-clearance precedence: a260µm gap passes with the250µm override and fails without it under POWER280µm;240µm with the override also fails exactly as required. Both paired positives and both targeted negatives pass, with all5fixture warnings retained per case. Native cost13.348007wall/10.586078CPU seconds. This is a narrow diagnostic; no new PIC route, family or generalized gain. The existing shared runner was extended, and no completed native experiment was repeated. See `evidence/pic-local-clearance-native-001/summary.json`.
+
 The real original-PIC mixed import now runs through KiCad export and both Freerouting manager loads. Its frozen checker failed on the engine's default-class spelling; a separate analysis of unchanged outputs resolves that label mismatch. Both custom polygons and all240 exported pins survive, but local-clearance equivalence and SES transfer remain unqualified. All five attempts, including the native DRC-report crash, are preserved. No PIC routing success is claimed.
 
 A reproduced production bug let active tuning profiles bypass preflight for a single Default class. The shared guard now rejects that intent. The full616-test suite, independent source review, four saved-route readbacks and a fresh native route pass. The fresh route has zero findings, one via and67.933738mm of track. This is a correctness and compatibility result, not a new board-family or comparative gain.

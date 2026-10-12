@@ -1,0 +1,307 @@
+{
+  "schema": 1,
+  "passed": true,
+  "scope": "Saved-evidence readback; no fresh native, engine, Java or GUI execution.",
+  "git_head": "1f983c1d4eacd1d37d05a1161dc3ec815cbb9d90",
+  "summary_sha256": "d1cbd6027ef98f15a35566afca13aba8735cb9e5e64827b9628c7f136bdb7698",
+  "source_original_files": 15,
+  "source_original_bytes": 1366598,
+  "source_and_run_unchanged": true,
+  "runtime_committed_files_verified": 37,
+  "cases": [
+    {
+      "case": "class_290_positive",
+      "counts": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 5,
+        "exclusions": 0
+      },
+      "warnings": {
+        "track_dangling": 1,
+        "missing_courtyard": 4
+      },
+      "target_findings": [],
+      "native_binding": {
+        "board_sha256": "6d097315ee336ae318267528ef31fba9a2c1c04340ec18f091d1faa2810d4259",
+        "project_sha256": "3b0ac39da5af86d0baa2a64da55a89c39ba00148dc82b54f3062f5c3650a5cc5",
+        "report_sha256": "93e9e9b27532eceba73e7e0ca520cf6a809eb695e673c8acbfa88e5a26f0c782",
+        "binding_sha256": "605c6d9d297dbfe88f6fc0cea25c2a85dbb3469f4a7dce412b904b04e9396eed"
+      },
+      "native_classes": [
+        {
+          "name": "FOREIGN",
+          "netcode": 2,
+          "class": "Default",
+          "width_nm": 500000,
+          "clearance_nm": 250000,
+          "via_diameter_nm": 1600000,
+          "via_drill_nm": 600000,
+          "copper_pad_count": 2
+        },
+        {
+          "name": "VCC",
+          "netcode": 1,
+          "class": "POWER",
+          "width_nm": 800000,
+          "clearance_nm": 280000,
+          "via_diameter_nm": 1600000,
+          "via_drill_nm": 600000,
+          "copper_pad_count": 2
+        }
+      ],
+      "paired_positive": "class_290_positive"
+    },
+    {
+      "case": "override_260_positive",
+      "counts": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 5,
+        "exclusions": 0
+      },
+      "warnings": {
+        "track_dangling": 1,
+        "missing_courtyard": 4
+      },
+      "target_findings": [],
+      "native_binding": {
+        "board_sha256": "9077e343f0a390f27a64ac61de2ae94d9fb43ca50650d485ce05f22bbefb6d7d",
+        "project_sha256": "3b0ac39da5af86d0baa2a64da55a89c39ba00148dc82b54f3062f5c3650a5cc5",
+        "report_sha256": "680c5481258c038e174ab620ff7903fa15e76b51b426c5d4fb28b67d57642b1d",
+        "binding_sha256": "0b9424ba0208e5200fbb3585950a1928180c8acd351e87ede426a0b36bf55199"
+      },
+      "native_classes": [
+        {
+          "name": "FOREIGN",
+          "netcode": 2,
+          "class": "Default",
+          "width_nm": 500000,
+          "clearance_nm": 250000,
+          "via_diameter_nm": 1600000,
+          "via_drill_nm": 600000,
+          "copper_pad_count": 2
+        },
+        {
+          "name": "VCC",
+          "netcode": 1,
+          "class": "POWER",
+          "width_nm": 800000,
+          "clearance_nm": 280000,
+          "via_diameter_nm": 1600000,
+          "via_drill_nm": 600000,
+          "copper_pad_count": 2
+        }
+      ],
+      "paired_positive": "override_260_positive"
+    },
+    {
+      "case": "class_260_negative",
+      "counts": {
+        "opens": 0,
+        "blocking": 1,
+        "warnings": 5,
+        "exclusions": 0
+      },
+      "warnings": {
+        "track_dangling": 1,
+        "missing_courtyard": 4
+      },
+      "target_findings": [
+        {
+          "description": "Clearance violation ( clearance 0.2800 mm; actual 0.2600 mm)",
+          "items": [
+            {
+              "description": "Pad 1 [VCC] of CONCAVE on top_layer",
+              "pos": {
+                "x": 20.0,
+                "y": 15.0
+              },
+              "uuid": "622642c5-7358-52c5-87c8-6145902a09f9"
+            },
+            {
+              "description": "Track [FOREIGN] on top_layer, length 7.7400 mm",
+              "pos": {
+                "x": 20.0,
+                "y": 6.0
+              },
+              "uuid": "66ce1ed5-9aa2-521f-964d-6f7881db6f8c"
+            }
+          ],
+          "severity": "error",
+          "type": "clearance"
+        }
+      ],
+      "native_binding": {
+        "board_sha256": "c976a9f7ad59a5d3b1a2c15d52f7a6b253ea1da251befe132ab21f5d07447a13",
+        "project_sha256": "3b0ac39da5af86d0baa2a64da55a89c39ba00148dc82b54f3062f5c3650a5cc5",
+        "report_sha256": "3d9d9ab1ffa9ac46bc85e40f1940ac811b6f75b5a5940e2e9e6491ad322653f0",
+        "binding_sha256": "1ac3550cc4ca8af86eabfc0b0ce1e460de760d1f3bd6c33d8d4d8cdddb9d1557"
+      },
+      "native_classes": [
+        {
+          "name": "FOREIGN",
+          "netcode": 2,
+          "class": "Default",
+          "width_nm": 500000,
+          "clearance_nm": 250000,
+          "via_diameter_nm": 1600000,
+          "via_drill_nm": 600000,
+          "copper_pad_count": 2
+        },
+        {
+          "name": "VCC",
+          "netcode": 1,
+          "class": "POWER",
+          "width_nm": 800000,
+          "clearance_nm": 280000,
+          "via_diameter_nm": 1600000,
+          "via_drill_nm": 600000,
+          "copper_pad_count": 2
+        }
+      ],
+      "paired_positive": "class_290_positive"
+    },
+    {
+      "case": "override_240_negative",
+      "counts": {
+        "opens": 0,
+        "blocking": 1,
+        "warnings": 5,
+        "exclusions": 0
+      },
+      "warnings": {
+        "track_dangling": 1,
+        "missing_courtyard": 4
+      },
+      "target_findings": [
+        {
+          "description": "Clearance violation (footprint CONCAVE clearance 0.2500 mm; actual 0.2400 mm)",
+          "items": [
+            {
+              "description": "Pad 1 [VCC] of CONCAVE on top_layer",
+              "pos": {
+                "x": 20.0,
+                "y": 15.0
+              },
+              "uuid": "622642c5-7358-52c5-87c8-6145902a09f9"
+            },
+            {
+              "description": "Track [FOREIGN] on top_layer, length 7.7600 mm",
+              "pos": {
+                "x": 20.0,
+                "y": 6.0
+              },
+              "uuid": "66ce1ed5-9aa2-521f-964d-6f7881db6f8c"
+            }
+          ],
+          "severity": "error",
+          "type": "clearance"
+        }
+      ],
+      "native_binding": {
+        "board_sha256": "6b8259020f230a4d4b29e97184ce81961ffed2f994da5ddf4e1f25765aef83fe",
+        "project_sha256": "3b0ac39da5af86d0baa2a64da55a89c39ba00148dc82b54f3062f5c3650a5cc5",
+        "report_sha256": "fde9fcdd7a681457577c93548d2547dac2344caf7c0420280536b1c0be551033",
+        "binding_sha256": "f6f936d82a8819052099773270837d69a80d62db14deaff37c97f138ccc9b744"
+      },
+      "native_classes": [
+        {
+          "name": "FOREIGN",
+          "netcode": 2,
+          "class": "Default",
+          "width_nm": 500000,
+          "clearance_nm": 250000,
+          "via_diameter_nm": 1600000,
+          "via_drill_nm": 600000,
+          "copper_pad_count": 2
+        },
+        {
+          "name": "VCC",
+          "netcode": 1,
+          "class": "POWER",
+          "width_nm": 800000,
+          "clearance_nm": 280000,
+          "via_diameter_nm": 1600000,
+          "via_drill_nm": 600000,
+          "copper_pad_count": 2
+        }
+      ],
+      "paired_positive": "override_260_positive"
+    }
+  ],
+  "steps": [
+    {
+      "name": "observe",
+      "exit_code": 0,
+      "wall_seconds": 1.0838124160072766,
+      "cpu_seconds": 0.44831,
+      "max_rss_bytes": 92372992
+    },
+    {
+      "name": "original-drc",
+      "exit_code": 5,
+      "wall_seconds": 0.9458060000033583,
+      "cpu_seconds": 0.647377,
+      "max_rss_bytes": 174555136
+    },
+    {
+      "name": "observe",
+      "exit_code": 0,
+      "wall_seconds": 0.350972374988487,
+      "cpu_seconds": 0.344533,
+      "max_rss_bytes": 92389376
+    },
+    {
+      "name": "original-drc",
+      "exit_code": 5,
+      "wall_seconds": 0.7799037500226405,
+      "cpu_seconds": 0.614987,
+      "max_rss_bytes": 174555136
+    },
+    {
+      "name": "observe",
+      "exit_code": 0,
+      "wall_seconds": 0.35198279199539684,
+      "cpu_seconds": 0.344987,
+      "max_rss_bytes": 92389376
+    },
+    {
+      "name": "original-drc",
+      "exit_code": 5,
+      "wall_seconds": 0.807326792011736,
+      "cpu_seconds": 0.604181,
+      "max_rss_bytes": 181469184
+    },
+    {
+      "name": "observe",
+      "exit_code": 0,
+      "wall_seconds": 0.3543256250268314,
+      "cpu_seconds": 0.346757,
+      "max_rss_bytes": 92487680
+    },
+    {
+      "name": "original-drc",
+      "exit_code": 5,
+      "wall_seconds": 0.7819910830003209,
+      "cpu_seconds": 0.591199,
+      "max_rss_bytes": 183533568
+    }
+  ],
+  "wall_seconds": 13.34800687499228,
+  "full_cpu_seconds": 10.586077999999999,
+  "outer_wall_seconds": 13.818080124998232,
+  "outer_waited_cpu_seconds": 11.026903,
+  "accounting_point": "Stored totals precede final publication freshness/size checks; acceptance caps include them. Wall/full self+waited-child CPU are measured caps, not hard OS quotas. Finite samples are not atomic authentication.",
+  "raw_run_bytes": 6932324,
+  "raw_run_file_count": 234,
+  "public_manifest_sha256": "341e7b0fd60eb777b147b5ede31054039b64c72d85a80caf517037ef2b8e5f7d",
+  "public_manifest_files": 56,
+  "public_manifest_bytes": 448543,
+  "public_raw_copies_verified": 55,
+  "public_raw_copy_bytes": 447594,
+  "additional_public_scope_bytes": 949,
+  "outer_sha256": "7f25508cda48db11afdc7479756178c6fbbc4ce72f292c0334859fbfa39fe66b",
+  "native_rerun": false,
+  "routing_accepted": false
+}
