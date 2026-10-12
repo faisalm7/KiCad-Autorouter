@@ -1,0 +1,371 @@
+{
+  "passed": true,
+  "scope": "Stored failed native001 diagnosis; no new processes",
+  "head": "985f0e6bee1f87939629e132bea25400db6cfa2a",
+  "summary_sha256": "72e336678b22eaa3ad1a592fc4bb387514a5e9db380cbc7267ea7f801c173b23",
+  "frozen_files": 116,
+  "complete_run_files": 117,
+  "source_pins": 45,
+  "original_files": 15,
+  "original_and_run_unchanged": true,
+  "processes": [
+    {
+      "name": "ses-baseline",
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 2.0652094170218334,
+      "cpu_seconds": 1.069102,
+      "max_rss_bytes": 317308928
+    },
+    {
+      "name": "ses-import-positive",
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.45791820899466984,
+      "cpu_seconds": 0.408922,
+      "max_rss_bytes": 107692032
+    }
+  ],
+  "baseline": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 41,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "key": "silk_edge_clearance"
+      }
+    ]
+  },
+  "warning_types": {
+    "lib_footprint_issues": 41
+  },
+  "raw_board_sha256": "ce61776f3d739a0cf557d63158c27dac53929b3107a7f3442aaed85943cb150c",
+  "raw_immutable_equal": true,
+  "original_segments": 370,
+  "raw_segments": 368,
+  "routes": {
+    "equal": false,
+    "expected_segments": 370,
+    "actual_segments": 368,
+    "missing": [
+      {
+        "geometry": "('/DATA-RB7', 'bottom_layer', Decimal('500.0'), (Decimal('186690.00'), Decimal('-123190.00')), (Decimal('192405.000'), Decimal('-123190.00')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/DATA-RB7', 'bottom_layer', Decimal('500.0'), (Decimal('192405.000'), Decimal('-123190.00')), (Decimal('201930.00'), Decimal('-123190.00')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/PC-CLOCK-OUT', 'bottom_layer', Decimal('500.0'), (Decimal('77470.00'), Decimal('-117203.63000')), (Decimal('78628.63000'), Decimal('-116045.000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/PC-CLOCK-OUT', 'bottom_layer', Decimal('500.0'), (Decimal('77470.00'), Decimal('-117475.000')), (Decimal('77470.00'), Decimal('-117203.63000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/PC-CLOCK-OUT', 'bottom_layer', Decimal('500.0'), (Decimal('78628.63000'), Decimal('-116045.000')), (Decimal('79760.00'), Decimal('-116045.000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/PC-DATA-IN', 'bottom_layer', Decimal('500.0'), (Decimal('100954.001000'), Decimal('-113187.001000')), (Decimal('100984.002000'), Decimal('-113157.000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/PC-DATA-IN', 'bottom_layer', Decimal('500.0'), (Decimal('100984.002000'), Decimal('-113157.000')), (Decimal('106665.998000'), Decimal('-113157.000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/PC-DATA-IN', 'bottom_layer', Decimal('500.0'), (Decimal('106665.998000'), Decimal('-113157.000')), (Decimal('106725.999000'), Decimal('-113217.001000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/PC-DATA-IN', 'bottom_layer', Decimal('500.0'), (Decimal('106725.999000'), Decimal('-113217.001000')), (Decimal('109174.001000'), Decimal('-113217.001000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/PC-DATA-IN', 'bottom_layer', Decimal('500.0'), (Decimal('109174.001000'), Decimal('-113217.001000')), (Decimal('109234.002000'), Decimal('-113157.000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/PC-DATA-IN', 'bottom_layer', Decimal('500.0'), (Decimal('109234.002000'), Decimal('-113157.000')), (Decimal('111887.000'), Decimal('-113157.000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/PC-DATA-IN', 'bottom_layer', Decimal('500.0'), (Decimal('84963.000'), Decimal('-113157.000')), (Decimal('99675.998000'), Decimal('-113157.000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/PC-DATA-IN', 'bottom_layer', Decimal('500.0'), (Decimal('99675.998000'), Decimal('-113157.000')), (Decimal('99705.999000'), Decimal('-113187.001000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/PC-DATA-IN', 'bottom_layer', Decimal('500.0'), (Decimal('99705.999000'), Decimal('-113187.001000')), (Decimal('100954.001000'), Decimal('-113187.001000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/PC-DATA-OUT', 'bottom_layer', Decimal('500.0'), (Decimal('82600.0'), Decimal('-111890.00')), (Decimal('84512.37000'), Decimal('-111890.00')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/PC-DATA-OUT', 'bottom_layer', Decimal('500.0'), (Decimal('84512.37000'), Decimal('-111890.00')), (Decimal('85277.37000'), Decimal('-111125.000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/PC-DATA-OUT', 'bottom_layer', Decimal('500.0'), (Decimal('85277.37000'), Decimal('-111125.000')), (Decimal('87630.00'), Decimal('-111125.000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/VPP{slash}MCLR', 'bottom_layer', Decimal('500.0'), (Decimal('176530.00'), Decimal('-46355.000')), (Decimal('207645.000'), Decimal('-46355.000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/VPP{slash}MCLR', 'bottom_layer', Decimal('500.0'), (Decimal('207645.000'), Decimal('-46355.000')), (Decimal('219710.00'), Decimal('-46355.000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/pic_sockets/VCC_PIC', 'bottom_layer', Decimal('400.0'), (Decimal('204734.01000'), Decimal('-119390.01000')), (Decimal('208829.197000'), Decimal('-119390.01000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/pic_sockets/VCC_PIC', 'bottom_layer', Decimal('400.0'), (Decimal('208829.197000'), Decimal('-119390.01000')), (Decimal('208839.207000'), Decimal('-119380.00')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/pic_sockets/VCC_PIC', 'bottom_layer', Decimal('400.0'), (Decimal('208839.207000'), Decimal('-119380.00')), (Decimal('210185.000'), Decimal('-119380.00')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/pic_sockets/VCC_PIC', 'bottom_layer', Decimal('500.0'), (Decimal('204724.000'), Decimal('-119380.00')), (Decimal('204734.01000'), Decimal('-119390.01000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('Net-(Q2-B)', 'bottom_layer', Decimal('500.0'), (Decimal('140081.000'), Decimal('-60833.000')), (Decimal('141212.37000'), Decimal('-60833.000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('Net-(Q2-B)', 'bottom_layer', Decimal('500.0'), (Decimal('141212.37000'), Decimal('-60833.000')), (Decimal('142855.369000'), Decimal('-62475.999000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('Net-(Q2-B)', 'bottom_layer', Decimal('500.0'), (Decimal('142855.369000'), Decimal('-62475.999000')), (Decimal('146312.001000'), Decimal('-62475.999000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('Net-(Q2-B)', 'bottom_layer', Decimal('500.0'), (Decimal('146312.001000'), Decimal('-62475.999000')), (Decimal('146812.000'), Decimal('-61976.000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('Net-(Q2-C)', 'bottom_layer', Decimal('500.0'), (Decimal('148082.000'), Decimal('-61413.106000')), (Decimal('148082.000'), Decimal('-60706.000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('Net-(Q2-C)', 'bottom_layer', Decimal('500.0'), (Decimal('148082.000'), Decimal('-61413.106000')), (Decimal('149225.000'), Decimal('-62556.106000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('Net-(Q2-C)', 'bottom_layer', Decimal('500.0'), (Decimal('149225.000'), Decimal('-65405.000')), (Decimal('149225.000'), Decimal('-62556.106000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('Net-(R13-Pad1)', 'bottom_layer', Decimal('500.0'), (Decimal('130810.00'), Decimal('-109626.4000')), (Decimal('132689.6000'), Decimal('-107746.8000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('Net-(R13-Pad1)', 'bottom_layer', Decimal('500.0'), (Decimal('130810.00'), Decimal('-111760.00')), (Decimal('130810.00'), Decimal('-109626.4000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('Net-(R13-Pad1)', 'bottom_layer', Decimal('500.0'), (Decimal('132689.6000'), Decimal('-107746.8000')), (Decimal('138404.6000'), Decimal('-107746.8000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('Net-(R13-Pad1)', 'bottom_layer', Decimal('500.0'), (Decimal('138404.6000'), Decimal('-107746.8000')), (Decimal('140335.000'), Decimal('-109677.2000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('Net-(R13-Pad1)', 'bottom_layer', Decimal('500.0'), (Decimal('140335.000'), Decimal('-111760.00')), (Decimal('140335.000'), Decimal('-109677.2000')))",
+        "count": 1
+      }
+    ],
+    "extra": [
+      {
+        "geometry": "('/DATA-RB7', 'bottom_layer', Decimal('500.0'), (Decimal('186690.00'), Decimal('-123190.00')), (Decimal('201930.00'), Decimal('-123190.00')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/PC-CLOCK-OUT', 'bottom_layer', Decimal('500.0'), (Decimal('77470.00'), Decimal('-117204.000')), (Decimal('78628.6000'), Decimal('-116045.000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/PC-CLOCK-OUT', 'bottom_layer', Decimal('500.0'), (Decimal('77470.00'), Decimal('-117475.000')), (Decimal('77470.00'), Decimal('-117204.000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/PC-CLOCK-OUT', 'bottom_layer', Decimal('500.0'), (Decimal('78628.6000'), Decimal('-116045.000')), (Decimal('79760.00'), Decimal('-116045.000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/PC-DATA-IN', 'bottom_layer', Decimal('500.0'), (Decimal('100954.000'), Decimal('-113187.000')), (Decimal('100984.000'), Decimal('-113157.000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/PC-DATA-IN', 'bottom_layer', Decimal('500.0'), (Decimal('100984.000'), Decimal('-113157.000')), (Decimal('106666.000'), Decimal('-113157.000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/PC-DATA-IN', 'bottom_layer', Decimal('500.0'), (Decimal('106666.000'), Decimal('-113157.000')), (Decimal('106726.000'), Decimal('-113217.000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/PC-DATA-IN', 'bottom_layer', Decimal('500.0'), (Decimal('106726.000'), Decimal('-113217.000')), (Decimal('109174.000'), Decimal('-113217.000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/PC-DATA-IN', 'bottom_layer', Decimal('500.0'), (Decimal('109174.000'), Decimal('-113217.000')), (Decimal('109234.000'), Decimal('-113157.000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/PC-DATA-IN', 'bottom_layer', Decimal('500.0'), (Decimal('109234.000'), Decimal('-113157.000')), (Decimal('111887.000'), Decimal('-113157.000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/PC-DATA-IN', 'bottom_layer', Decimal('500.0'), (Decimal('84963.000'), Decimal('-113157.000')), (Decimal('99676.000'), Decimal('-113157.000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/PC-DATA-IN', 'bottom_layer', Decimal('500.0'), (Decimal('99676.000'), Decimal('-113157.000')), (Decimal('99706.000'), Decimal('-113187.000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/PC-DATA-IN', 'bottom_layer', Decimal('500.0'), (Decimal('99706.000'), Decimal('-113187.000')), (Decimal('100954.000'), Decimal('-113187.000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/PC-DATA-OUT', 'bottom_layer', Decimal('500.0'), (Decimal('82600.0'), Decimal('-111890.00')), (Decimal('84512.4000'), Decimal('-111890.00')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/PC-DATA-OUT', 'bottom_layer', Decimal('500.0'), (Decimal('84512.4000'), Decimal('-111890.00')), (Decimal('85277.4000'), Decimal('-111125.000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/PC-DATA-OUT', 'bottom_layer', Decimal('500.0'), (Decimal('85277.4000'), Decimal('-111125.000')), (Decimal('87630.00'), Decimal('-111125.000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/VPP{slash}MCLR', 'bottom_layer', Decimal('500.0'), (Decimal('176530.00'), Decimal('-46355.000')), (Decimal('219710.00'), Decimal('-46355.000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/pic_sockets/VCC_PIC', 'bottom_layer', Decimal('400.0'), (Decimal('204734.000'), Decimal('-119390.00')), (Decimal('208829.000'), Decimal('-119390.00')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/pic_sockets/VCC_PIC', 'bottom_layer', Decimal('400.0'), (Decimal('208829.000'), Decimal('-119390.00')), (Decimal('208839.000'), Decimal('-119380.00')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/pic_sockets/VCC_PIC', 'bottom_layer', Decimal('400.0'), (Decimal('208839.000'), Decimal('-119380.00')), (Decimal('210185.000'), Decimal('-119380.00')))",
+        "count": 1
+      },
+      {
+        "geometry": "('/pic_sockets/VCC_PIC', 'bottom_layer', Decimal('500.0'), (Decimal('204724.000'), Decimal('-119380.00')), (Decimal('204734.000'), Decimal('-119390.00')))",
+        "count": 1
+      },
+      {
+        "geometry": "('Net-(Q2-B)', 'bottom_layer', Decimal('500.0'), (Decimal('140081.000'), Decimal('-60833.000')), (Decimal('141212.000'), Decimal('-60833.000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('Net-(Q2-B)', 'bottom_layer', Decimal('500.0'), (Decimal('141212.000'), Decimal('-60833.000')), (Decimal('142855.000'), Decimal('-62476.000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('Net-(Q2-B)', 'bottom_layer', Decimal('500.0'), (Decimal('142855.000'), Decimal('-62476.000')), (Decimal('146312.000'), Decimal('-62476.000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('Net-(Q2-B)', 'bottom_layer', Decimal('500.0'), (Decimal('146312.000'), Decimal('-62476.000')), (Decimal('146812.000'), Decimal('-61976.000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('Net-(Q2-C)', 'bottom_layer', Decimal('500.0'), (Decimal('148082.000'), Decimal('-61413.1000')), (Decimal('148082.000'), Decimal('-60706.000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('Net-(Q2-C)', 'bottom_layer', Decimal('500.0'), (Decimal('148082.000'), Decimal('-61413.1000')), (Decimal('149225.000'), Decimal('-62556.1000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('Net-(Q2-C)', 'bottom_layer', Decimal('500.0'), (Decimal('149225.000'), Decimal('-65405.000')), (Decimal('149225.000'), Decimal('-62556.1000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('Net-(R13-Pad1)', 'bottom_layer', Decimal('500.0'), (Decimal('130810.00'), Decimal('-109626.000')), (Decimal('132690.00'), Decimal('-107747.000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('Net-(R13-Pad1)', 'bottom_layer', Decimal('500.0'), (Decimal('130810.00'), Decimal('-111760.00')), (Decimal('130810.00'), Decimal('-109626.000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('Net-(R13-Pad1)', 'bottom_layer', Decimal('500.0'), (Decimal('132690.00'), Decimal('-107747.000')), (Decimal('138405.000'), Decimal('-107747.000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('Net-(R13-Pad1)', 'bottom_layer', Decimal('500.0'), (Decimal('138405.000'), Decimal('-107747.000')), (Decimal('140335.000'), Decimal('-109677.000')))",
+        "count": 1
+      },
+      {
+        "geometry": "('Net-(R13-Pad1)', 'bottom_layer', Decimal('500.0'), (Decimal('140335.000'), Decimal('-111760.00')), (Decimal('140335.000'), Decimal('-109677.000')))",
+        "count": 1
+      }
+    ]
+  },
+  "vias_equal": true,
+  "project_deltas": [
+    {
+      "path": "/board/design_settings/rule_severities/track_not_centered_on_via",
+      "change": "added",
+      "after": "ignore"
+    },
+    {
+      "path": "/board/ipc2581/bom_rev",
+      "change": "added",
+      "after": ""
+    },
+    {
+      "path": "/board/ipc2581/sch_revision",
+      "change": "added",
+      "after": ""
+    }
+  ],
+  "added_file": "pic_programmer.kicad_prl",
+  "guard_rejection": "candidate project/rules/file set changed",
+  "unreached": [
+    "positive DRC",
+    "negative import",
+    "negative DRC",
+    "candidate emission"
+  ],
+  "stored_wall_seconds": 4.0747491249931045,
+  "stored_cpu_seconds": 2.9851919999999996,
+  "outer_wall_seconds": 4.315879915986443,
+  "outer_waited_cpu_seconds": 3.168445
+}

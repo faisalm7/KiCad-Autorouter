@@ -1,0 +1,7 @@
+# Native SES continuation002: observations complete, preservation obligation failed
+
+At12db491 only the missing positive DRC, negative import and negative DRC ran. Cached writer001, baseline and positive import were reused with prior costs separately recorded; their failed receipts remain unchanged. Positive native DRC exactly matches the original baseline:0opens/0blocking/41librarywarnings/0exclusions. Deleting58ordinary route nodes for the specified11-terminal net yields10actual native opens, including original JP1/2; all41warnings remain. Both raw imports preserve original immutable geometry/content and both validation projects retain the complete original rules/dependencies.
+
+Overall status remains observed-incomplete: original→DSN coordinate changes and collinear joins fail exact370→368segment preservation. No candidate, accepted route, newly supported board family or comparative gain. Fresh stored cost6.062517wall/4.839870fullCPU; outer6.327535wall/5.051759waitedCPU,exit1 by the failed overall obligation. No old stage or failed receipt was rewritten.
+
+This exact public selection includes both raw boards, native reports/bindings, process/log receipts and the synthetic negative SES. Complete copied projects, code and caches remain local. Official KiCad pic_programmer at69cafb907ebc09e7722a2a464b1d466fc2e3608d underCC BY-SA4.0, notices included. Diagnostic code is project-owned GPL3; no private inputs or engine binaries.

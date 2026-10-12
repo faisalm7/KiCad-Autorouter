@@ -1,0 +1,13 @@
+# Actual finish-native002: independent readback
+
+The diagnostic remains **observed-incomplete**, with no candidate and no routing acceptance. The new original-rule positive DRC has 0 opens, 0 blocking errors, 41 `lib_footprint_issues` warnings and 0 exclusions; its complete findings and ignored-check list equal the cached baseline. The deliberately disconnected control has 10 opens, 0 blocking errors, the same 41 warnings and 0 exclusions. Its new raw unconnected-error findings include original JP1/2 UUID `5b196d03-cd44-4c2b-9a91-fadc24ae5f4b` on `/pic_sockets/VCC_PIC`.
+
+Exactly three new stages ran: positive DRC, negative import, negative DRC. Their sandboxed argv/cwd, raw process receipts, exit codes, cleanup and log lengths agree with the summary. Baseline DRC and positive import were reused from failed native001; no writer/JVM/baseline/positive-import repetition occurred. The complete 15-file original project supplied both new validation copies. Each DRC input binding passes the shared unchanged-project check. Only the imported board was taken from raw output, never its rewritten project settings.
+
+Both raw imported boards preserve the original immutable AST. The disconnected SES exactly matches the shared deletion recipe (58 path/via nodes for the one named net, 11 terminals), and all other-net route geometry is exactly unchanged from the positive import. Original-to-SES precision and segment-survival obligations still fail, so matching positive native DRC does not permit a candidate or establish faithful route transport, solver performance, custom-pad production support or physical validation.
+
+Verified 156 frozen files within 157 complete run files, 46 recorded source snapshots, complete original project inventory, and all three cached-run inventories. These and the original files remained unchanged during the audit. Source checkpoint: `12db4911c1271920b0673bcb3923514dcd3e6eba`. Actual summary SHA: `acc1153af85f76fe37fd7aab02b399aa9d19d71dd6358fefc56c21bd6ccbf0e3`.
+
+New stored cost: 6.062517 s wall / 4.839870 s full CPU; outer wrapper: 6.327535 s wall / 5.051759 s waited CPU, exit 1. Prior native001 cost remains separate: 4.074749 s wall / 2.985192 s CPU. Earlier cached observation and writer costs remain in the actual receipt and are not counted as fresh executions here. Stored totals precede final publication checks; the existing acceptance cap includes those checks.
+
+Reproduction: `python3 -B .runs/review-pic-ses-native-001/audit_actual002.py`. The audit uses shared stored-evidence helpers only, with no native/JVM/compiler/network/full-suite execution. No material discrepancy was found.
