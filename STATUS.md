@@ -8,11 +8,11 @@ The real original-PIC mixed import now runs through KiCad export and both Freero
 
 A reproduced production bug let active tuning profiles bypass preflight for a single Default class. The shared guard now rejects that intent. The full616-test suite, independent source review, four saved-route readbacks and a fresh native route pass. The fresh route has zero findings, one via and67.933738mm of track. This is a correctness and compatibility result, not a new board-family or comparative gain.
 
-The source checkpoint is verified at9945672. Incremental raw-artifact backup follows the current evidence checkpoint; the last full restoration remains ea29344. Older chronological notes below retain their original observations and pending statements; this section and the latest PLANS entry govern continuation.
+The source/evidence checkpoint is verified at `1523e39`. Its incremental backup passed archive, bundle and parent-chain integrity: 85,671 files / 2,313,555,432 bytes, with 646 changed/new files and no deletions. The last full restoration remains `ea29344`. All artifact archives remain on this Mac only. Older chronological notes below retain their original observations and pending statements; this section and the latest PLANS entry govern continuation.
 
 ## Durable local work and backup boundary
 
-Checkout: `/Users/faisal/Projects/KiCad-Autorouter-local` on this Mac; branch `rebuild/local-20261010-015447`. Latest verified source push/read-back before this checkpoint is **`99456722fc78019d155057bbb361690b4f8f9c92`** (verified remote SHA and `autorouter/netclass.py` bytes; receipt `.runs/checkpoint-9945672.json`). G0 began at `683e41a`; no cloud/worktree was used.
+Checkout: `/Users/faisal/Projects/KiCad-Autorouter-local` on this Mac; branch `rebuild/local-20261010-015447`. Latest verified source push/read-back before this checkpoint is **`1523e39a75a1be2bb5a65ae0a3497cac88abf48f`** (verified remote SHA and native result bytes; receipt `.runs/checkpoint-1523e39.json`). G0 began at `683e41a`; no cloud/worktree was used.
 
 Latest **full** archive: **a258c4a**. Restoration verified all Git references, **49,824 non-Git files / 1,539,941,941 bytes**, and CLI help ([verification](evidence/backups/restore-a258c4a.json)). Location: `.local-backups/checkpoint-20261010T163457Z-5ac7f7159bb541efb566c74039d69f46`. It includes all prior raw evidence, actual padstack import, failed and completed native severity batches, all new audits/API declarations, the parity proposal and the explicitly incomplete area-probe draft. GitHub holds audited source and selected evidence. Full archives remain on this Mac only; independent off-Mac storage awaits the owner. No previous archive or original source was removed. Later changes require a later archive.
 
