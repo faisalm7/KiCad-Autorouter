@@ -239,6 +239,22 @@ def native_accepted(native):
     return not native_rejection_reasons(native)
 
 
+def check_drc_project(before, after, board_name, *, saved=False):
+    """Preserve original files; native DRC may add only its local UI-state file."""
+    if (not isinstance(before,dict) or not isinstance(after,dict)
+            or not isinstance(board_name,str) or Path(board_name).name!=board_name
+            or not board_name.endswith('.kicad_pcb') or board_name not in before
+            or type(saved) is not bool):
+        raise Rejected('invalid native project binding')
+    for filename,digest in before.items():
+        if saved and filename==board_name:
+            if filename not in after: raise Rejected('native DRC removed saved board')
+            continue
+        if after.get(filename)!=digest: raise Rejected('native DRC modified input or rules: '+filename)
+    if set(after)-set(before)-{Path(board_name).with_suffix('.kicad_prl').name}:
+        raise Rejected('native DRC created unexpected project files')
+
+
 class Job:
     def __init__(self, out, seconds):
         self.out=Path(out).resolve(); self.out.mkdir(parents=True,exist_ok=False)
@@ -273,11 +289,7 @@ class Job:
         if save: argv+=['--save-board']
         result=self.step(name,argv+[board],allowed=(0,5))
         after=tree_hash(board.parent)
-        for filename,digest in before.items():
-            if save and filename==board.name: continue
-            if after.get(filename)!=digest: raise Rejected('native DRC modified input or rules: '+filename)
-        unexpected=set(after)-set(before)-{board.with_suffix('.kicad_prl').name}
-        if unexpected: raise Rejected('native DRC created unexpected project files')
+        check_drc_project(before,after,board.name,saved=save)
         result['validated_input_sha256']=before[board.name]
         result['emitted_candidate']=str(original_input)
         save_json(self.out/(name+'-binding.json'),{'source':str(original_input),'input':str(board),'before':before,'after':after,'saved':save})
@@ -670,8 +682,7 @@ def check_result(path):
     if binding.get('source')!=str(candidate) or binding.get('input')!=str(native_input) or binding.get('saved') is not False or binding.get('before')!=expected:
         raise Rejected('final native input binding differs from candidate')
     after=binding.get('after')
-    if not isinstance(after,dict) or any(after.get(name)!=digest for name,digest in expected.items()) or set(after)-set(expected)-{candidate.with_suffix('.kicad_prl').name}:
-        raise Rejected('native validation changed board or rules')
+    check_drc_project(expected,after,candidate.name)
     if tree_hash(native_input.parent)!=after: raise Rejected('retained native input changed')
     if sha(path.parent/'final-drc.json')!=data['native_report_sha256']: raise Rejected('native report changed')
     if input_policy=='placement-clearance-v1':read_json(path.parent/'final-drc.json')

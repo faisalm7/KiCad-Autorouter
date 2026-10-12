@@ -1,5 +1,7 @@
 # Requirements to evidence
 
+Current evidence update (October 11): shared original-file validation is consolidated and passes the 521-test suite; real compatibility replay is pending. The independently reviewed 31-test parity helper has not yet run native. Area/contact actual001 finished but failed all six hypothesis checks; its raw result and diagnosis are retained. GUI observation002 has a clean fixture but unresolved multichannel GUI/CLI warnings and project default changes; it does not satisfy full G5. Neither these diagnostics nor test counts satisfy broader family coverage, beyond-B2 generalization, untouched evaluation, human/physical review or release gates. See the current STATUS and PLANS sections; older pending annotations below are historical where superseded.
+
 Updated October 10, 2026. Evidence describes the exact recorded implementation and inputs; it does not qualify later edits automatically.
 
 | Requirement | Implementation / executable check | Stored evidence | Status and limits |

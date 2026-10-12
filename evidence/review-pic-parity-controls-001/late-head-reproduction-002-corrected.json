@@ -1,0 +1,30 @@
+{
+  "scope": "actual owned project and output files, mocked native and committed-source metadata; no native/Git/network",
+  "driver_sha256": "8bc30fcf9ef1352a6d60053129f23246e95d2764bd49866701ab3ce86e6722ec",
+  "results": [
+    {
+      "variant": "unchanged",
+      "source_mutated": false,
+      "source_equals_initial": true,
+      "post_write_head_calls": 2,
+      "status": "controls_passed",
+      "returned_controls_passed": true,
+      "canonical_controls_passed": true,
+      "error": null
+    },
+    {
+      "variant": "late_original_project",
+      "source_mutated": true,
+      "source_equals_initial": false,
+      "post_write_head_calls": 2,
+      "status": "invalidated",
+      "returned_controls_passed": false,
+      "canonical_controls_passed": false,
+      "error": "Rejected: original source/acquisition changed"
+    }
+  ],
+  "metadata_correction": {
+    "original_report_sha256": "4c05027c03dfcdc8279c0c648743d610ee5aa2d4971681b55da73731e9cdfa6f",
+    "reason": "The fixed reproducer imported source-002 correctly, but its reporting-only driver hash expression retained source-001/driver.py. Raw report and executed script remain preserved; results are unchanged."
+  }
+}

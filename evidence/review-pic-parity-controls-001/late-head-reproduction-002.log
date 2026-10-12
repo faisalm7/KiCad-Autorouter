@@ -1,0 +1,26 @@
+{
+  "scope": "actual owned project and output files, mocked native and committed-source metadata; no native/Git/network",
+  "driver_sha256": "4130262021f3527e8ff76fccdde345c0eec0ec5b624c37a92b7faf9baad0a10c",
+  "results": [
+    {
+      "variant": "unchanged",
+      "source_mutated": false,
+      "source_equals_initial": true,
+      "post_write_head_calls": 2,
+      "status": "controls_passed",
+      "returned_controls_passed": true,
+      "canonical_controls_passed": true,
+      "error": null
+    },
+    {
+      "variant": "late_original_project",
+      "source_mutated": true,
+      "source_equals_initial": false,
+      "post_write_head_calls": 2,
+      "status": "invalidated",
+      "returned_controls_passed": false,
+      "canonical_controls_passed": false,
+      "error": "Rejected: original source/acquisition changed"
+    }
+  ]
+}

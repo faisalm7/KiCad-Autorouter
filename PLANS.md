@@ -1,5 +1,28 @@
 # Execution plan
 
+## Current continuation — October 11, 2026
+
+This section supersedes the older chronological next-step notes below. Continue the existing Mac checkout; do not repeat completed area001, custom native002, severity002, or prior routing comparisons.
+
+1. Checkpoint the shared DRC preservation helper, reviewed parity diagnostic, failed area001 evidence/diagnosis and actual GUI observations. Verify GitHub SHA and exact file bytes.
+2. Root runs the first actual parity diagnostic, then the reviewed amended area import probe in fresh directories, sequentially with their original bounded process controls. Preserve failed prerequisites and all six area outcomes. No original PIC four-arm routing or custom-pad production admission until transport and applicable rule gates qualify.
+3. Run one fresh production native compatibility check for the shared preservation change. Diagnose the new multichannel GUI connection-width/library discrepancy and exact project-default additions; do not suppress warnings or claim GUI qualification prematurely.
+4. Extend the existing artifact backup helper with reviewed incremental support, then perform a full restoration test because the backup system changed. Preserve all old archives; report on-Mac-only storage honestly.
+5. Continue broader supported families, equal-budget B0/B1/B2/C evidence, protected routing, persistent scope/layer/budget/preferences, and safe preview/acceptance/cancellation/install. Use the existing helpers and targeted iteration tests; full/native suites at integration/release milestones. Freeze untouched evaluation before use. All unmet requirements remain gates.
+
+At most two narrow subagents, no recursive delegation and one sequential native worker. Existing $0/publication/privacy limits persist. Exact next commands after verified source checkpoint:
+
+```sh
+python3 -B experiments/pic_parity_controls_v1/driver.py --run-native --output .runs/pic-parity-controls-001
+python3 -B experiments/custom_pad_area_probe_v1/driver.py --run-import --output .runs/custom-pad-area-probe-002
+```
+
+Both must use a retained bounded outer execution receipt. The first area probe001 is complete and must not be rerun or overwritten.
+
+## Historical progress notes
+
+The notes below preserve earlier decisions and chronology; their old “next” commands are superseded by the current continuation above.
+
 Active specification: `MASTER_PROMPT.md`, read completely. Work only in the selected local Mac checkout on `rebuild/local-20261010-015447`. One lead integrates source and owns the single native/engine lane. This remains an incomplete development study.
 
 ## Current evidence

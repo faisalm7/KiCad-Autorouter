@@ -231,10 +231,8 @@ def audit_transport(directory,data,task,candidate):
         if (binding.get('source')!=str(source) or binding.get('input')!=str(input_path)
                 or binding.get('saved') is not saved or binding.get('before')!=before or not isinstance(after,dict)):
             raise p.Rejected('floor '+name+' binding differs')
-        for filename,digest in before.items():
-            if saved and filename==candidate.name:continue
-            if after.get(filename)!=digest:raise p.Rejected('floor native stage changed original rules/input')
-        if set(after)-set(before)-{candidate.with_suffix('.kicad_prl').name} or p.tree_hash(input_path.parent)!=after:
+        p.check_drc_project(before,after,candidate.name,saved=saved)
+        if p.tree_hash(input_path.parent)!=after:
             raise p.Rejected('retained floor native stage input changed')
         native=p.parse_report(directory/(name+'.json'),candidate.name)
         argv=[*SANDBOX,str(c.CLI),'pcb','drc','--format','json','--severity-all','--all-track-errors','--refill-zones',

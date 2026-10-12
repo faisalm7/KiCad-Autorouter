@@ -1,0 +1,38 @@
+{
+  "source_evidence": "evidence/pic-custom-observation-002/original-drc-binding.json",
+  "binding_sha256": "5cf30ecbd23056bb29148bd470ffa90e4e737c27eabdcd29bf1fc1c611227e9e",
+  "before_files": 15,
+  "after_files": 16,
+  "original_files_unchanged": true,
+  "added_files": [
+    "pic_programmer.kicad_prl"
+  ],
+  "prl": {
+    "path": ".runs/pic-custom-observation-002/original-drc-input/pic_programmer.kicad_prl",
+    "bytes": 2301,
+    "sha256": "76cd12bad2eb64ef16184b89f9b6826085733a663df6ade3829f48c74f79f759"
+  },
+  "native_argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+    "pcb",
+    "drc",
+    "--format",
+    "json",
+    "--severity-all",
+    "--all-track-errors",
+    "--refill-zones",
+    "--exit-code-violations",
+    "--output",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-custom-observation-002/original-drc.json",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-custom-observation-002/original-drc-input/pic_programmer.kicad_pcb"
+  ],
+  "process": {
+    "status": "nonzero_exit",
+    "exit_code": 5,
+    "cleanup_complete": true
+  },
+  "conclusion": "Existing successful nonsaving DRC emitted only a new basename-matching PRL. Parity current strict inventory equality would reject this observed normal bookkeeping pattern. It has not yet been observed with schematic parity; permit the exact previously proven additional basename only while preserving every original byte and binding full after inventory."
+}

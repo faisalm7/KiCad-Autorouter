@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "status": "blocked_pending_narrow_fix",
+  "author_manifest_sha256": "9a94d90dc48155b8379a88d81165318b74633440af9e72359996bbf7e3e0ee29",
+  "manifest_files_verified": 18,
+  "focused_pure_methods_passed": 7,
+  "source_review_complete": true,
+  "native_or_java_or_network_executed": false,
+  "finding": {
+    "id": "R1",
+    "file": "driver.py",
+    "function": "experiment.material",
+    "problem": "The final head_witness call follows original/runtime source hashes. A rule-severity change during that last metadata read survives the final material check and leaves canonical/returned controls_passed true.",
+    "baseline_passes": true,
+    "counterexample_reproduced": true,
+    "fix": "Check head_witness first within material (when code/head are bound), then hash original, acquisition, runtime code, tools and completed evidence. Keep final canonical comparison and caps after stable."
+  },
+  "other_review": {
+    "field_only_changes": "Two original field insertions; negative differs only in copied PCB value. Whole AST equality and original 15-file pin preserved.",
+    "predicates": "Exact targeted warning/UUID/field description and parity log count, nonparity full-record baseline equality, stop after either prerequisite failure.",
+    "scope": "Diagnostic flags remain false; no production gate changes.",
+    "raw_stage_capture": "Reports/log/process captured before parse, rechecked after interpretation.",
+    "publication": "Final size before stable/canonical/caps; cancellation and failed correction vacate positive summary."
+  }
+}

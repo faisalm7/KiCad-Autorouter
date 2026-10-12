@@ -1,0 +1,19 @@
+# Original PIC parity controls — independent review
+
+The amended source is cleared for ROOT's bounded native qualification after checkpointing. This review ran no KiCad, Java/compiler, engine, network or GUI operation. The original frozen draft and all failed evidence remain preserved.
+
+The original 18-entry author manifest `9a94d90dc48155b8379a88d81165318b74633440af9e72359996bbf7e3e0ee29` was verified before/after review. All 15 acquired original files still match their receipt pins. The final promoted helper and shared guard hashes are in `review.json`.
+
+Two narrow corrections were required. First, a real copied-project rule change during the last post-publication HEAD observation left both returned and canonical `controls_passed=true`. The unchanged baseline passed. Moving HEAD observation before the original/core/tool/output hash samples makes that exact unchanged reproducer invalidate the late mutation while keeping the positive. The original/fixed results are retained. A reporting-only old source-hash path in the fixed repro is corrected explicitly in a separate JSON; it did not affect execution.
+
+Second, the draft's identical-file-set requirement rejected normal bookkeeping already observed in original PIC nonsaving DRC: 15 unchanged originals plus a single 2,301-byte `pic_programmer.kicad_prl`. The amendment reuses the shared production guard, preserving every original file and any existing PRL while allowing only one newly created exact basename PRL. Its complete after-inventory is frozen in the binding and checked again; arbitrary file additions and later PRL changes remain failures. The extraction preserves previous production behavior and additionally requires the saved board to remain present.
+
+The three cases remain strictly ordered: untouched complete project, matching hidden field on the exact existing R1 symbol/footprint, then only the copied PCB value changed. Source-span insertion is checked by whole AST equality; negative bytes differ only in that value. A failed prerequisite prevents later execution and preserves the full three-case denominator. The parser adapter's validation/count AST equals the existing production parser body.
+
+The expected negative is exactly one warning in raw `schematic_parity`, with the target UUID and exact field/value description. The enabled-parity log count must exist once and agree with the report; skip/fetch/annotation failures reject. Ordinary findings are compared as sorted complete records, preserving severity, descriptions, identities, positions, exclusion flags and duplicate multiplicity. The four effective ignored keys remain distinct from the three original explicit settings. No source setting is relaxed.
+
+Raw reports, logs and process files freeze before interpretation and are rechecked afterward. Final tool/source/project/evidence checks and strict canonical metadata checks surround publication; failure and scoped cancellation vacate positives. Shared wall/full SELF+waited-CHILDREN CPU limits and bounded copied/output files are retained. Their finite sampling is not atomic authentication or a hard OS CPU quota.
+
+Seven initial focused pure methods passed. The independent two-case lifecycle counterexample was rerun unchanged against the fix. Three final focused methods passed: the full fake-native PRL-positive flow and two shared project-preservation controls. A mistaken initial PRL test invocation failed during imports; its log is preserved separately and the corrected invocation passed. This is source/consistency evidence only. Actual parity execution, native prerequisite behavior and field propagation remain unqualified until ROOT's fresh run.
+
+The selected public pack excludes all generated mock project/output trees and duplicate fixed snapshots. It includes the original seven-file source snapshot for the pre-fix reproduction, compact scripts, results, logs and hashes. ROOT owns publication review and the sole native lane.

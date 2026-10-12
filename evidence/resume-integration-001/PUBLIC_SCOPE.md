@@ -1,0 +1,1 @@
+Project-owned test logs: 521 integration tests, 31 parity helper tests and the targeted stale-source regression. Pure/fake-native checks do not establish native validity. Existing original rule/board preservation now uses one shared helper; actual compatibility execution remains pending.

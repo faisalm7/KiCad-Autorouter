@@ -1,0 +1,1 @@
+Independent read-only analysis of preserved actual001, with bindings to its frozen source and native-derived basis. It does not execute Java/native/routing. Source excerpts are not redistributed; cached upstream API references are provenance leads. No production admission or generalized result.

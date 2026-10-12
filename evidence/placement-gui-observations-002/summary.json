@@ -1,0 +1,46 @@
+{
+  "schema": 1,
+  "status": "observations_completed_qualification_unresolved",
+  "started_utc": "2026-10-12T01:37:42.934650+00:00",
+  "completed_utc": "2026-10-12T01:46:28.529771+00:00",
+  "elapsed_seconds": 525.595121,
+  "active_limit_seconds": 900,
+  "within_limit": true,
+  "cases": [
+    {
+      "case": "fixture",
+      "counts": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0
+      },
+      "finding_types": {},
+      "native_policy_rejection_reasons": [],
+      "gui_qualified": false,
+      "board_unchanged": true,
+      "original_and_run_unchanged": true
+    },
+    {
+      "case": "multichannel",
+      "counts": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 129,
+        "exclusions": 0
+      },
+      "finding_types": {
+        "connection_width": 9,
+        "silk_edge_clearance": 1,
+        "lib_footprint_issues": 114,
+        "silk_over_copper": 4,
+        "nonmirrored_text_on_back_layer": 1
+      },
+      "native_policy_rejection_reasons": [],
+      "gui_qualified": false,
+      "board_unchanged": true,
+      "original_and_run_unchanged": true
+    }
+  ],
+  "conclusion": "No GUI qualification claimed. Nine native connection_width warnings appear only in multichannel GUI report; all 129 findings retained. Library warnings also differ. Native CLI receipts and all original files remain untouched. Project default additions require assessment. No live application, undo, plugin qualification or human review occurred."
+}
