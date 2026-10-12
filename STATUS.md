@@ -4,6 +4,8 @@ Updated October 11, 2026 (America/Los_Angeles). **Active local reconstruction; i
 
 ## Latest work — October 12 UTC
 
+Actual retained SES001 at8d5965e completed compilation, manager import and a59,412byte writer output, then failed the fractional-width checker before new KiCad execution. The failed receipt is retained. Corrected offline analysis confirms the two polygons/all63placements/6vias and exact engine→SES368segments. Original→DSN31segment precision loss and two importer collinear joins remain failed exact-survival obligations. The reviewed native continuation reuses those exact saved bytes; fresh native baseline/positive/negative are next.
+
 The retained SES transfer helper is implemented and source-reviewed, with35 targeted checks passing. Preparation identified31 original segments quantized by the existing DSN export; exact route survival remains a required failed obligation, never widened. Fresh Java/SES and copied-project native positive/negative execution are next, under the unchanged180-second caps. No new candidate or native result is claimed yet.
 
 Independent source and actual-output review of the local-clearance transport now passes, including exact public copies and all 287 retained engine warnings. The next gate is retained-route SES transfer into a complete copied native project with unchanged original pads and rules. Its pinned-source plan is in `evidence/pic-custom-ses-design-001/PLAN.md`; no SES execution has occurred yet. An incremental artifact snapshot follows this evidence checkpoint.

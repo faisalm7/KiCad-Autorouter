@@ -167,3 +167,11 @@ ROOT command after exact source checkpoint/review:
 ```sh
 python3 -B experiments/pic_mixed_transport_probe_v1/driver.py --run-probe --ses-roundtrip --output .runs/pic-custom-ses-roundtrip-001
 ```
+
+Actual SES001 successfully compiled/imported/wrote59,412bytes, then failed a fractional-width checker before native execution. The retained failed receipt is immutable. The source-backed package label/angle and exact JSON-decimal corrections now allow offline structural analysis of those same bytes. Native→DSN31segment quantization and two DSN→engine collinear merges remain failed exact obligations. Engine→SES368segments and6vias match exactly.
+
+`--native-from-ses` selects `SES_NATIVE_PROTOCOL.json`, binds the complete saved001 inventory and its actual successful process/Java/tool/source records, and executes only the fresh native stages. It does not repeat the compiler or engine writer, or relabel001 as passed:
+
+```sh
+python3 -B experiments/pic_mixed_transport_probe_v1/driver.py --run-probe --native-from-ses --output .runs/pic-custom-ses-native-001
+```

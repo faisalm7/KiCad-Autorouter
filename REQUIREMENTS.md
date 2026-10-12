@@ -191,3 +191,5 @@ Fresh `evidence/pic-local-clearance-transport-001/summary.json` at3b5ec56 observ
 
 
 Retained custom-pad SES diagnostic source: `experiments/pic_mixed_transport_probe_v1/{ses_checks,ses_native}.py`, fixed `SES_PROTOCOL.json`,35 targeted software checks and independent negative-predicate review. Native execution is pending. The pure original→DSN comparison exposes31 quantized segments; it remains failed exact preservation, not admitted tolerance. No current support, physical or comparative gate advances. Evidence: `evidence/pic-ses-source-001`, `evidence/review-pic-ses-source-001`.
+
+Retained SES001 executed the actual writer successfully but stopped on a checker defect before KiCad. The current source fixes exact decimal/angle/package comparisons with36 targeted checks and eight independent cached-reuse branch controls. Existing source quantization and collinear joining are preserved failures; native continuation is pending. Exact saved outputs, errors and separate prior costs: `evidence/pic-custom-ses-roundtrip-001`, `evidence/pic-ses-continuation-source-001`, `evidence/review-pic-ses-continuation-001`.

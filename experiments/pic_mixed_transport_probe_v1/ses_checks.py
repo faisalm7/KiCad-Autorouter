@@ -1,6 +1,7 @@
 """Strict retained-route SES diagnostic. No production acceptance or tolerance widening."""
 import copy
 import hashlib
+import re
 from collections import Counter
 from decimal import Decimal
 from autorouter import sexpr as sx, pipeline as p
@@ -40,13 +41,17 @@ def placements(node,scale,dsn=False):
     result={}
     for component in sx.children(node,'component'):
         children_only(component,{'place'},2)
-        package=imported_name(sx.unquote(component[1]))
+        package=sx.unquote(component[1])
+        if dsn:
+            # Pinned Library.readScope normalizes package labels before deduplication.
+            # Actual all-pin/ref checks and native immutable footprint checks remain required.
+            package=re.sub(r'::[0-9]+$', '', package)
         for place in sx.children(component,'place'):
             children_only(place,{'PN'} if dsn else set(),6)
             ref=sx.unquote(place[1])
             if ref in result:raise ValueError('duplicate SES placement')
             if place[4] not in ('front','back'):raise ValueError('unknown placement side')
-            result[ref]=(package,number(place[2])/scale,number(place[3])/scale,place[4],number(place[5])%360)
+            result[ref]=(package,number(place[2])/scale,number(place[3])/scale,place[4],(number(place[5])%360+360)%360)
     return result
 
 def library(node,scale):
@@ -187,7 +192,7 @@ def geometry_check(geometry,state):
             if any(row.get(k)!=v for k,v in items[row['id']].items()):raise ValueError('engine route identity differs')
             if key=='traces':
                 if (row['corner_count']!=len(row['corners_um']) or row['corner_count']!=len(row['corners_board_integer'])
-                        or row['corner_count']!=len(row['corner_classes']) or row['width_um']!=row['half_width_board_units']*2/scale
+                        or row['corner_count']!=len(row['corner_classes']) or number(row['width_um'])!=number(row['half_width_board_units'])*2/scale
                         or row['layer']!=state['layers'][row['layer_index']] or row['layer_index']!=row['first_layer'] or row['first_layer']!=row['last_layer']):raise ValueError('engine route shape metadata differs')
                 for integer,um in zip(row['corners_board_integer'],row['corners_um']):point(integer,um)
             else:

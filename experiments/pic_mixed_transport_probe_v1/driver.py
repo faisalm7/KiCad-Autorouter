@@ -14,7 +14,7 @@ import transport
 from experiments.pic_mixed_transport_probe_v1.worker import OBSERVATION_SCOPE,observation_reference
 
 SECONDS=180.0;LIMIT=64*1024**2
-HELPERS=('driver.py','worker.py','transport.py','MixedClassProbe.java','test_draft.py','PROTOCOL.json','README.md','LOCAL_CLEARANCE_PROTOCOL.json','test_local_transport.py','SES_PROTOCOL.json','ses_checks.py','ses_native.py','test_ses.py')
+HELPERS=('driver.py','worker.py','transport.py','MixedClassProbe.java','test_draft.py','PROTOCOL.json','README.md','LOCAL_CLEARANCE_PROTOCOL.json','test_local_transport.py','SES_PROTOCOL.json','ses_checks.py','ses_native.py','test_ses.py','SES_NATIVE_PROTOCOL.json')
 REUSE=('experiments/custom_pad_area_probe_v1/driver.py','experiments/custom_pad_area_probe_v1/derive.py',
     'experiments/custom_pad_area_probe_v1/checks.py','experiments/custom_pad_area_probe_v1/AreaContactProbe.java',
     'experiments/pic_custom_observer_v1/driver.py','experiments/pic_custom_observer_v1/worker.py','experiments/pic_custom_observer_v1/mapping.py')
@@ -22,12 +22,15 @@ REUSE=('experiments/custom_pad_area_probe_v1/driver.py','experiments/custom_pad_
 def inventory(path):return io.inventory(path,max_bytes=LIMIT,max_files=2000,max_entries=4000)
 def source_paths():return [HERE/n for n in HELPERS]+[ROOT/n for n in REUSE]+list(sorted((ROOT/'autorouter').glob('*.py')))+[ROOT/'toolchain.lock.json',ROOT/'data/sources.json']
 def runtime(protocol):
-    cached=None
-    if protocol.get('mode') in ('local250','local250-ses'):
+    cached=None;cached_ses=None
+    if protocol.get('mode') in ('local250','local250-ses','local250-ses-cached'):
         if protocol.get('reuse_native')!='.runs/pic-mixed-transport-probe-005':raise ValueError('fixed cached-native source required')
         # The larger cached scan precedes the protected current-material reads.
         # Late changes during that scan must appear in the returned witness.
         cached=inventory(ROOT/protocol['reuse_native'])
+    if protocol.get('mode')=='local250-ses-cached':
+        if protocol.get('reuse_ses')!='.runs/pic-custom-ses-roundtrip-001':raise ValueError('fixed cached SES source required')
+        cached_ses=inventory(ROOT/protocol['reuse_ses'])
     git=base.head_witness()
     tools={name:base.content(Path(row['path']) if Path(row['path']).is_absolute() else ROOT/row['path'],row['bytes'],digest=True) for name,row in protocol['tools'].items()}
     sources={str(p.relative_to(ROOT)):base.content(p,2*1024**2,digest=True) for p in source_paths()}
@@ -35,6 +38,7 @@ def runtime(protocol):
     original_hashes,total=original.source_binding()
     result={'git':git,'tools':tools,'sources':sources,'basis':basis,'original':original_hashes,'original_bytes':total}
     if cached is not None:result['cached_native_inventory']=cached
+    if cached_ses is not None:result['cached_ses_inventory']=cached_ses
     return result
 
 def verify_clearance_rows(observed,context,notes):
@@ -91,12 +95,13 @@ def verify_native(out,source_hashes,notes):
         'local_optional_observations_supported':all(x['status']=='observed' for r in clear['rows'] for x in (r['pad_local'],r['footprint_local'],r['pad_override'])),
         'custom_pad_own_clearance':[{k:r[k] for k in ('uuid','net','netcode','netclass','class_clearance_nm','class_metadata','net_metadata_return_types','pad_net_return_types','own','pad_local','footprint_local','pad_override')} for r in clear['rows'] if r['uuid'] in {p['uuid'] for p in rows}]}
 
-def experiment(out,*,started=None,cpu_started=None,local_clearance=False,ses_roundtrip=False):
+def experiment(out,*,started=None,cpu_started=None,local_clearance=False,ses_roundtrip=False,native_from_ses=False):
     if HERE.relative_to(ROOT).as_posix()!='experiments/pic_mixed_transport_probe_v1':raise ValueError('promote and commit reviewed helper before execution')
     start=time.monotonic() if started is None else started;cpu0=base.cpu() if cpu_started is None else cpu_started;out=base.real(out)
     if out.parent!=ROOT/'.runs' or out.exists():raise ValueError('fresh direct .runs output required')
+    ses_roundtrip=ses_roundtrip or native_from_ses
     local_clearance=local_clearance or ses_roundtrip
-    protocol=base.decode(base.content(HERE/('SES_PROTOCOL.json' if ses_roundtrip else 'LOCAL_CLEARANCE_PROTOCOL.json' if local_clearance else 'PROTOCOL.json')));record={'schema':1,'status':'preparing','observations_complete':False,
+    protocol=base.decode(base.content(HERE/('SES_NATIVE_PROTOCOL.json' if native_from_ses else 'SES_PROTOCOL.json' if ses_roundtrip else 'LOCAL_CLEARANCE_PROTOCOL.json' if local_clearance else 'PROTOCOL.json')));record={'schema':1,'status':'preparing','observations_complete':False,
         'routing_accepted':False,'custom_pad_support_qualified':False,'mixed_clearance_equivalence_qualified':False,
         'routing_executed':False,'ses_executed':False,'native_process_executed':False,'import_process_executed':False,
         'steps':[],'wall_budget_seconds':SECONDS,'cpu_budget_seconds':SECONDS,
@@ -150,7 +155,7 @@ def experiment(out,*,started=None,cpu_started=None,local_clearance=False,ses_rou
             stable();return result
         code=out/'code'/str(HERE.relative_to(ROOT));tools=protocol['tools']
         if local_clearance:
-            if protocol.get('mode')!=('local250-ses' if ses_roundtrip else 'local250'):raise ValueError('local-clearance protocol mode differs')
+            if protocol.get('mode')!=('local250-ses-cached' if native_from_ses else 'local250-ses' if ses_roundtrip else 'local250'):raise ValueError('local-clearance protocol mode differs')
             cached=ROOT/protocol['reuse_native'];old=base.decode(base.content(cached/'summary.json'))
             if (old.get('status')!='failed' or old.get('error')!='ValueError: engine original class/width differs'
                     or old['runtime']['original']!=before['original']
@@ -173,8 +178,25 @@ def experiment(out,*,started=None,cpu_started=None,local_clearance=False,ses_rou
         record['native']=native
         (out/'mixed.dsn').write_bytes(derived);base.write(out/'expectations.json',expected);capture()
         jar=str(ROOT/tools['jar']['path'])
-        step('compile',[*base.SANDBOX,tools['javac']['path'],'-J-Xmx256m','-J-Duser.home='+env['HOME'],'-proc:none','-classpath',jar,'-d',str(out/'classes'),str(code/'MixedClassProbe.java'),str(out/'code/experiments/custom_pad_area_probe_v1/AreaContactProbe.java')],30)
-        step('import',[*base.SANDBOX,tools['java']['path'],'-Xmx256m','-Djava.awt.headless=true','-Duser.home='+env['HOME'],'-Djava.io.tmpdir='+env['TMPDIR'],'-cp',str(out/'classes')+os.pathsep+jar,'MixedClassProbe',str(out/'mixed.dsn'),str(out/'observations.json'),*(['local250-ses' if ses_roundtrip else 'local250'] if local_clearance else [])],60)
+        if native_from_ses:
+            cached=ROOT/protocol['reuse_ses'];prior_run=base.decode(base.content(cached/'summary.json'))
+            if (prior_run.get('status')!='failed' or prior_run.get('error')!='ValueError: engine route shape metadata differs'
+                    or prior_run['runtime']['original']!=before['original'] or prior_run['runtime']['tools']!=before['tools']
+                    or any(before['cached_ses_inventory'].get(k)!=v for k,v in prior_run['frozen_evidence'].items())
+                    or inventory(cached/'observe-input')!=before['original']
+                    or base.content(cached/'mixed.dsn')!=derived or base.decode(base.content(cached/'expectations.json'))!=expected
+                    or prior_run['runtime']['sources'][str(HERE.relative_to(ROOT)/'MixedClassProbe.java')]!=before['sources'][str(HERE.relative_to(ROOT)/'MixedClassProbe.java')]
+                    or [(r['name'],r['status'],r['exit_code'],r.get('cleanup_complete')) for r in prior_run['steps']]!=[('compile','success',0,True),('import','success',0,True)]):
+                raise ValueError('cached actual writer source/process/evidence differs')
+            for name in ('observations.json','raw.ses'):(out/name).write_bytes(base.content(cached/name,16*1024**2))
+            record['ses_reuse']={'run':protocol['reuse_ses'],'summary_sha256':base.sha(base.content(cached/'summary.json')),
+                'git_head':prior_run['runtime']['git']['head'],'original_status':prior_run['status'],
+                'prior_run_wall_seconds':prior_run['wall_seconds'],'prior_run_total_cpu_seconds':prior_run['total_cpu_seconds'],
+                'new_writer_execution':False,'scope':'Reuse completed actual writer output after a strict checker correction; original failed receipt retained. Fresh native stages only.'}
+            capture()
+        else:
+            step('compile',[*base.SANDBOX,tools['javac']['path'],'-J-Xmx256m','-J-Duser.home='+env['HOME'],'-proc:none','-classpath',jar,'-d',str(out/'classes'),str(code/'MixedClassProbe.java'),str(out/'code/experiments/custom_pad_area_probe_v1/AreaContactProbe.java')],30)
+            step('import',[*base.SANDBOX,tools['java']['path'],'-Xmx256m','-Djava.awt.headless=true','-Duser.home='+env['HOME'],'-Djava.io.tmpdir='+env['TMPDIR'],'-cp',str(out/'classes')+os.pathsep+jar,'MixedClassProbe',str(out/'mixed.dsn'),str(out/'observations.json'),*(['local250-ses' if ses_roundtrip else 'local250'] if local_clearance else [])],60)
         observed=base.decode(base.content(out/'observations.json',16*1024**2))
         if ses_roundtrip:
             import copy
@@ -209,10 +231,10 @@ def experiment(out,*,started=None,cpu_started=None,local_clearance=False,ses_rou
 
 def main(argv=None):
     started=time.monotonic();cpu_started=base.cpu()
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--run-probe',action='store_true');parser.add_argument('--output',type=Path,required=True);parser.add_argument('--local-clearance',action='store_true');parser.add_argument('--ses-roundtrip',action='store_true');args=parser.parse_args(argv)
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--run-probe',action='store_true');parser.add_argument('--output',type=Path,required=True);parser.add_argument('--local-clearance',action='store_true');parser.add_argument('--ses-roundtrip',action='store_true');parser.add_argument('--native-from-ses',action='store_true');args=parser.parse_args(argv)
     if not args.run_probe:parser.error('--run-probe required')
     with base.cancellation(),base.real(ROOT/'.runs/quality-experiment.lock').open('a') as lock:
-        fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);result=experiment(args.output,started=started,cpu_started=cpu_started,local_clearance=args.local_clearance,ses_roundtrip=args.ses_roundtrip)
+        fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);result=experiment(args.output,started=started,cpu_started=cpu_started,local_clearance=args.local_clearance,ses_roundtrip=args.ses_roundtrip,native_from_ses=args.native_from_ses)
     print(base.canonical({k:result.get(k) for k in ('status','observations_complete','wall_seconds','total_cpu_seconds')}).decode(),end='')
     return 0 if result['observations_complete'] else 1
 

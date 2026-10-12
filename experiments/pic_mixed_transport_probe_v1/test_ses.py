@@ -1,5 +1,5 @@
 """Pure falsifiers over a constructed SES from retained original DSN; no native pass claim."""
-import copy,json,unittest
+import copy,json,re,unittest
 from pathlib import Path
 from autorouter import sexpr as sx
 from autorouter.adapter import _parse_dsn
@@ -15,7 +15,7 @@ class SesChecks(unittest.TestCase):
         dsn=_parse_dsn(cls.raw.decode());place=['placement',['resolution','um','10']]
         def scaled(x):return str(c.number(x)*10)
         for node in sx.children(sx.one(dsn,'placement'),'component'):
-            comp=['component',json.dumps(c.imported_name(sx.unquote(node[1])))]
+            comp=['component',json.dumps(re.sub(r'::[0-9]+$', '', sx.unquote(node[1])))]
             for x in sx.children(node,'place'):comp.append(['place',x[1],scaled(x[2]),scaled(x[3]),x[4],str(c.number(x[5])%360)])
             place.append(comp)
         wiring=sx.one(dsn,'wiring');network=['network_out'];nets={};via_names=set()
@@ -23,14 +23,14 @@ class SesChecks(unittest.TestCase):
             n=sx.unquote(sx.one(x,'net')[1]);net=nets.setdefault(n,['net',json.dumps(n)])
             node=copy.deepcopy(x);node[:]=[v for v in node if not isinstance(v,list) or v[0] not in ('net','type')]
             if node[0]=='via':
-                via_names.add(c.imported_name(sx.unquote(node[1])));node[1]=json.dumps(c.imported_name(sx.unquote(node[1])));node[2:4]=list(map(scaled,node[2:4]))
+                via_names.add(c.imported_name(sx.unquote(node[1])));node[1]=json.dumps(re.sub(r'::[0-9]+$', '', sx.unquote(node[1])));node[2:4]=list(map(scaled,node[2:4]))
             else:
                 shape=node[1];shape[2:]=list(map(scaled,shape[2:]))
             net.append(node)
         network.extend(nets.values());lib=['library_out']
         for x in sx.children(sx.one(dsn,'library'),'padstack'):
             if c.imported_name(sx.unquote(x[1])) not in via_names:continue
-            node=copy.deepcopy(x);node[1]=json.dumps(c.imported_name(sx.unquote(node[1])))
+            node=copy.deepcopy(x);node[1]=json.dumps(re.sub(r'::[0-9]+$', '', sx.unquote(node[1])))
             for shape in sx.children(node,'shape'):shape[1][2:]=list(map(scaled,shape[1][2:]));shape[1].extend(['0','0'])
             lib.append(node)
         # Pure positive fixture uses exactly the DSN's integer-um retained copper.
@@ -52,6 +52,12 @@ class SesChecks(unittest.TestCase):
     def polygon(self,tree):return next(w for n in sx.children(sx.one(sx.one(tree,'routes'),'network_out'),'net') for w in sx.children(n,'wire') if sx.one(w,'polygon'))
     def test_constructed_exact(self):
         _,r=self.audit(self.tree);c.require_faithful(r);self.assertEqual(r['ses_segments'],370);self.assertEqual(r['ses_vias'],6)
+    def test_package_namespace_and_negative_angle_are_exact(self):
+        source=['placement',['component','"Pkg.50::2"',['place','REF','10','20','front','-90']]]
+        session=['placement',['component','"Pkg.50"',['place','REF','100','200','front','270']]]
+        self.assertEqual(c.placements(source,1,True),c.placements(session,10))
+        session[1][1]='"Pkg.50::99"'
+        self.assertNotEqual(c.placements(source,1,True),c.placements(session,10))
     def test_original_export_quantization_stays_failed(self):
         _,r=c.audit((sx.dump(self.tree)+'\n').encode(),self.raw,self.expected,self.source)
         self.assertFalse(r['native_to_dsn']['equal']);self.assertTrue(r['dsn_to_ses']['equal'])
@@ -68,9 +74,11 @@ class SesChecks(unittest.TestCase):
                 elif change=='hole':w.append(['window',['polygon','bottom_layer','0','0','0','1','0','1','1']])
                 with self.assertRaises(ValueError):self.audit(t)
     def test_placement_resolution_and_net_duplicates(self):
-        for mutation in ('placement','resolution','duplicate','unknown','swap'):
+        for mutation in ('placement','package','angle','resolution','duplicate','unknown','swap'):
             t=copy.deepcopy(self.tree)
             if mutation=='placement':sx.children(sx.children(sx.one(t,'placement'),'component')[0],'place')[0][2]='0'
+            elif mutation=='package':sx.children(sx.one(t,'placement'),'component')[0][1]='UNKNOWN_PACKAGE'
+            elif mutation=='angle':sx.children(sx.children(sx.one(t,'placement'),'component')[0],'place')[0][5]='0.000001'
             elif mutation=='resolution':sx.one(sx.one(t,'routes'),'resolution')[2]='100'
             elif mutation=='duplicate':sx.one(sx.one(t,'routes'),'network_out').append(copy.deepcopy(self.net(t,'VCC')))
             elif mutation=='unknown':self.net(t,'VCC')[1]='UNKNOWN'
@@ -101,6 +109,10 @@ class SesChecks(unittest.TestCase):
         state={'board_units_per_um':10,'board_origin_dsn_um':[0,0],'items':[item],'census':{'traces':1,'vias':0},'layers':['top_layer','bottom_layer']}
         geometry={'traces':[row],'vias':[]}
         c.geometry_check(geometry,state)
+        fractional=copy.deepcopy(geometry);fractional['traces'][0].update(half_width_board_units=2159,width_um=431.8)
+        c.geometry_check(fractional,state)
+        fractional['traces'][0]['width_um']=431.800001
+        with self.assertRaises(ValueError):c.geometry_check(fractional,state)
         for key,value in [('corners_board_integer',[[0,0],None]),('corners_um',[[0,0],[11,0]]),('width_um',501),('corner_count',3),('layer','bottom_layer')]:
             changed=copy.deepcopy(geometry);changed['traces'][0][key]=value
             with self.subTest(key=key),self.assertRaises(ValueError):c.geometry_check(changed,state)

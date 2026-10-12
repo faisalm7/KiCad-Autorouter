@@ -147,3 +147,6 @@ Actual local-clearance-transport001 at3b5ec56 passedbothobservations; do not rep
 
 
 Retained SES source is ready after35 targeted checks and scoped independent review. Next ROOT command is `python3 -B .runs/run-pic-custom-ses-roundtrip-001.py` after audited source push/readback. Preserve observed export precision differences, all engine warnings and any native failure. Do not rerun completed local-clearance/native contact/parity controls.
+
+
+Saved writer001 is complete but its checker receipt failed; do not repeat Java. After source checkpoint, execute `python3 -B .runs/run-pic-custom-ses-native-001.py` using fixed `--native-from-ses`. Original001 stays failed. Preserve quantization/collinear merge obligations, native original invariants and all warnings. Then investigate selective custom-body obstacle activation with original GND plane nonblocking, per `evidence/pic-selective-area-plan-001/PLAN.md`; no solver/support claim yet.
