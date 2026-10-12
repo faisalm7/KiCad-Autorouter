@@ -154,3 +154,16 @@ python3 -B experiments/pic_mixed_transport_probe_v1/driver.py --run-probe --loca
 The source, tool, cached run and native-control basis are pinned in
 `LOCAL_CLEARANCE_PROTOCOL.json`. Shared180wall/fullCPU seconds,64MiB output,
 256MiB Java heap, network denial and process cleanup remain in force.
+
+
+### Retained SES diagnostic
+
+`--ses-roundtrip` uses the fixed `SES_PROTOCOL.json`. It reuses the completed005 native export and runs a fresh bounded writer, then native original-rule baseline/import/refill/DRC on complete copies. The raw SES retains both custom polygons. Exact original immutable content is checked before any route transplant; exact segment/via geometry, warnings, exclusions and final candidate/report hashes remain obligations. A safely parsed route mismatch may receive raw native DRC to diagnose it, but cannot produce a qualified reconstructed candidate.
+
+Pure preparation already exposes original sub-micrometre track coordinates quantized by the retained KiCad DSN export. This remains a failed exact-survival obligation; no tolerance is widened. The pure positive fixture uses explicitly reconstructed DSN coordinates and is not native evidence. A fresh native negative removes only ordinary paths/vias on `/pic_sockets/VCC_PIC`; it must produce new named-net opens on actual original terminals. No solver, PIC production support or comparative routing claim follows.
+
+ROOT command after exact source checkpoint/review:
+
+```sh
+python3 -B experiments/pic_mixed_transport_probe_v1/driver.py --run-probe --ses-roundtrip --output .runs/pic-custom-ses-roundtrip-001
+```

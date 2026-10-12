@@ -14,7 +14,7 @@ import transport
 from experiments.pic_mixed_transport_probe_v1.worker import OBSERVATION_SCOPE,observation_reference
 
 SECONDS=180.0;LIMIT=64*1024**2
-HELPERS=('driver.py','worker.py','transport.py','MixedClassProbe.java','test_draft.py','PROTOCOL.json','README.md','LOCAL_CLEARANCE_PROTOCOL.json','test_local_transport.py')
+HELPERS=('driver.py','worker.py','transport.py','MixedClassProbe.java','test_draft.py','PROTOCOL.json','README.md','LOCAL_CLEARANCE_PROTOCOL.json','test_local_transport.py','SES_PROTOCOL.json','ses_checks.py','ses_native.py','test_ses.py')
 REUSE=('experiments/custom_pad_area_probe_v1/driver.py','experiments/custom_pad_area_probe_v1/derive.py',
     'experiments/custom_pad_area_probe_v1/checks.py','experiments/custom_pad_area_probe_v1/AreaContactProbe.java',
     'experiments/pic_custom_observer_v1/driver.py','experiments/pic_custom_observer_v1/worker.py','experiments/pic_custom_observer_v1/mapping.py')
@@ -23,7 +23,7 @@ def inventory(path):return io.inventory(path,max_bytes=LIMIT,max_files=2000,max_
 def source_paths():return [HERE/n for n in HELPERS]+[ROOT/n for n in REUSE]+list(sorted((ROOT/'autorouter').glob('*.py')))+[ROOT/'toolchain.lock.json',ROOT/'data/sources.json']
 def runtime(protocol):
     cached=None
-    if protocol.get('mode')=='local250':
+    if protocol.get('mode') in ('local250','local250-ses'):
         if protocol.get('reuse_native')!='.runs/pic-mixed-transport-probe-005':raise ValueError('fixed cached-native source required')
         # The larger cached scan precedes the protected current-material reads.
         # Late changes during that scan must appear in the returned witness.
@@ -91,11 +91,12 @@ def verify_native(out,source_hashes,notes):
         'local_optional_observations_supported':all(x['status']=='observed' for r in clear['rows'] for x in (r['pad_local'],r['footprint_local'],r['pad_override'])),
         'custom_pad_own_clearance':[{k:r[k] for k in ('uuid','net','netcode','netclass','class_clearance_nm','class_metadata','net_metadata_return_types','pad_net_return_types','own','pad_local','footprint_local','pad_override')} for r in clear['rows'] if r['uuid'] in {p['uuid'] for p in rows}]}
 
-def experiment(out,*,started=None,cpu_started=None,local_clearance=False):
+def experiment(out,*,started=None,cpu_started=None,local_clearance=False,ses_roundtrip=False):
     if HERE.relative_to(ROOT).as_posix()!='experiments/pic_mixed_transport_probe_v1':raise ValueError('promote and commit reviewed helper before execution')
     start=time.monotonic() if started is None else started;cpu0=base.cpu() if cpu_started is None else cpu_started;out=base.real(out)
     if out.parent!=ROOT/'.runs' or out.exists():raise ValueError('fresh direct .runs output required')
-    protocol=base.decode(base.content(HERE/('LOCAL_CLEARANCE_PROTOCOL.json' if local_clearance else 'PROTOCOL.json')));record={'schema':1,'status':'preparing','observations_complete':False,
+    local_clearance=local_clearance or ses_roundtrip
+    protocol=base.decode(base.content(HERE/('SES_PROTOCOL.json' if ses_roundtrip else 'LOCAL_CLEARANCE_PROTOCOL.json' if local_clearance else 'PROTOCOL.json')));record={'schema':1,'status':'preparing','observations_complete':False,
         'routing_accepted':False,'custom_pad_support_qualified':False,'mixed_clearance_equivalence_qualified':False,
         'routing_executed':False,'ses_executed':False,'native_process_executed':False,'import_process_executed':False,
         'steps':[],'wall_budget_seconds':SECONDS,'cpu_budget_seconds':SECONDS,
@@ -139,17 +140,17 @@ def experiment(out,*,started=None,cpu_started=None,local_clearance=False):
         base.write(out/'runtime.json',before);capture();record['runtime']=before
         notes=mapping.source_notes(sx.parse(base.content(out/'observe-input'/original.SOURCE.name).decode()),base.decode(base.content(out/'observe-input'/original.SOURCE.with_suffix('.kicad_pro').name)))
         env={'HOME':str(out/'home'),'TMPDIR':str(out/'tmp'),'PATH':'/usr/bin:/bin','LANG':'C','LC_ALL':'C','PYTHONDONTWRITEBYTECODE':'1'}
-        def step(name,argv,cap):
-            stable();result=runner.run(argv,cwd=out,log=out/(name+'.log'),timeout=min(cap,remaining()),env=env,max_log_bytes=1024**2,max_workdir_bytes=LIMIT,max_group_rss_bytes=2*1024**3)
-            if name=='native-observe':record['native_process_executed']=type(result.get('pid')) is int
+        def step(name,argv,cap,*,allowed=(0,),cwd=None,env_override=None):
+            stable();result=runner.run(argv,cwd=cwd or out,log=out/(name+'.log'),timeout=min(cap,remaining()),env=env_override or env,max_log_bytes=1024**2,max_workdir_bytes=LIMIT,max_group_rss_bytes=2*1024**3)
+            if name=='native-observe' or name.startswith('ses-'):record['native_process_executed']=type(result.get('pid')) is int
             if name=='import':record['import_process_executed']=type(result.get('pid')) is int
             record['steps'].append({'name':name,**result});base.write(out/(name+'-process.json'),result);capture()
             if result['status']=='cancelled':raise KeyboardInterrupt('owned worker cancelled')
-            if result['status']!='success' or result['exit_code']!=0 or result.get('cleanup_complete') is not True:raise ValueError(name+' failed; raw artifacts retained')
-            stable()
+            if result['status'] not in ('success','nonzero_exit') or result['exit_code'] not in allowed or result.get('cleanup_complete') is not True:raise ValueError(name+' failed; raw artifacts retained')
+            stable();return result
         code=out/'code'/str(HERE.relative_to(ROOT));tools=protocol['tools']
         if local_clearance:
-            if protocol.get('mode')!='local250':raise ValueError('local-clearance protocol mode differs')
+            if protocol.get('mode')!=('local250-ses' if ses_roundtrip else 'local250'):raise ValueError('local-clearance protocol mode differs')
             cached=ROOT/protocol['reuse_native'];old=base.decode(base.content(cached/'summary.json'))
             if (old.get('status')!='failed' or old.get('error')!='ValueError: engine original class/width differs'
                     or old['runtime']['original']!=before['original']
@@ -161,7 +162,7 @@ def experiment(out,*,started=None,cpu_started=None,local_clearance=False):
             record['native_reuse']={'run':protocol['reuse_native'],'summary_sha256':base.sha(base.content(cached/'summary.json')),
                 'git_head':old['runtime']['git']['head'],'original_status':old['status'],'new_native_execution':False,
                 'prior_run_wall_seconds':old['wall_seconds'],'prior_run_total_cpu_seconds':old['total_cpu_seconds'],
-                'scope':'Existing005native observation/export reused; original failed checker receipt unchanged. New JVM import/matrix experiment only.'}
+                'scope':'Existing005 native observation/export reused; original failed checker receipt unchanged. Fresh native SES stages, if requested, are separately recorded.'}
             (out/'cached-native').mkdir()
             for name in ('context.json','custom.json','clearance-observation.json','native.dsn','summary.json'):
                 (out/'cached-native'/name).write_bytes(base.content(cached/name,4*1024**2))
@@ -173,21 +174,45 @@ def experiment(out,*,started=None,cpu_started=None,local_clearance=False):
         (out/'mixed.dsn').write_bytes(derived);base.write(out/'expectations.json',expected);capture()
         jar=str(ROOT/tools['jar']['path'])
         step('compile',[*base.SANDBOX,tools['javac']['path'],'-J-Xmx256m','-J-Duser.home='+env['HOME'],'-proc:none','-classpath',jar,'-d',str(out/'classes'),str(code/'MixedClassProbe.java'),str(out/'code/experiments/custom_pad_area_probe_v1/AreaContactProbe.java')],30)
-        step('import',[*base.SANDBOX,tools['java']['path'],'-Xmx256m','-Djava.awt.headless=true','-Duser.home='+env['HOME'],'-Djava.io.tmpdir='+env['TMPDIR'],'-cp',str(out/'classes')+os.pathsep+jar,'MixedClassProbe',str(out/'mixed.dsn'),str(out/'observations.json'),*(['local250'] if local_clearance else [])],60)
+        step('import',[*base.SANDBOX,tools['java']['path'],'-Xmx256m','-Djava.awt.headless=true','-Duser.home='+env['HOME'],'-Djava.io.tmpdir='+env['TMPDIR'],'-cp',str(out/'classes')+os.pathsep+jar,'MixedClassProbe',str(out/'mixed.dsn'),str(out/'observations.json'),*(['local250-ses' if ses_roundtrip else 'local250'] if local_clearance else [])],60)
         observed=base.decode(base.content(out/'observations.json',16*1024**2))
-        comparisons=(transport.validate_local(observed,expected) if local_clearance else transport.validate(observed,expected))
-        record.update(status='completed',observations_complete=all(r['observed'] for r in comparisons),case_comparison=comparisons)
-        if not record['observations_complete']:record['status']='observed-incomplete'
+        if ses_roundtrip:
+            import copy
+            from experiments.pic_mixed_transport_probe_v1 import ses_checks,ses_native
+            record['ses_executed']=observed.get('ses_executed') is True
+            if len(observed.get('cases',[]))==2:
+                record['writer']=observed['cases'][1].get('ses')
+            if observed.get('ses_executed') is not True:raise ValueError('SES writer did not complete')
+            prior=copy.deepcopy(observed);prior['ses_executed']=False
+            comparisons=transport.validate_local(prior,expected)
+            if not all(r['observed'] for r in comparisons):raise ValueError('SES input local state incomplete')
+            for case in observed['cases']:
+                if case['route_geometry_before_local']!=case['route_geometry']:raise ValueError('local clearance changed ordinary routing geometry')
+                ses_checks.geometry_check(case['route_geometry'],case['state'])
+            row=observed['cases'][1];writer=row['ses'];raw=base.content(out/'raw.ses',ses_checks.MAX_SES)
+            if (writer!={'executed':True,'returned':True,'closed':True,'bytes':len(raw),'sha256':base.sha(raw),'path':'raw.ses','write_completed':True,'stream_accepted_bytes':len(raw)}
+                    or row['state']!=row['state_after_ses'] or row['route_geometry']!=row['route_geometry_after_ses']):
+                raise ValueError('SES writer binding or unchanged engine state differs')
+            tree,survival=ses_checks.audit(raw,derived,expected,sx.parse(base.content(out/'observe-input'/original.SOURCE.name).decode()),row['route_geometry'])
+            record.update(ses_executed=True,writer=writer,ses_transport=survival,case_comparison=comparisons);capture()
+            # A safely parsed retained-route mismatch may still receive diagnostic
+            # native DRC; no reconstructed candidate can pass that failed obligation.
+            native_ses=ses_native.execute(out,out/'observe-input'/original.SOURCE.name,tree,expected,survival,remaining,step,env,capture,record)
+            record.update(status='completed' if native_ses['completed'] else 'observed-incomplete',observations_complete=native_ses['completed'])
+        else:
+            comparisons=(transport.validate_local(observed,expected) if local_clearance else transport.validate(observed,expected))
+            record.update(status='completed',observations_complete=all(r['observed'] for r in comparisons),case_comparison=comparisons)
+            if not record['observations_complete']:record['status']='observed-incomplete'
     except (Exception,KeyboardInterrupt) as exc:record.update(status='cancelled' if isinstance(exc,KeyboardInterrupt) else 'failed',error=type(exc).__name__+': '+str(exc))
     record['frozen_evidence']=frozen
     return base.publish(out,record,stable,account,remaining)
 
 def main(argv=None):
     started=time.monotonic();cpu_started=base.cpu()
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--run-probe',action='store_true');parser.add_argument('--output',type=Path,required=True);parser.add_argument('--local-clearance',action='store_true');args=parser.parse_args(argv)
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--run-probe',action='store_true');parser.add_argument('--output',type=Path,required=True);parser.add_argument('--local-clearance',action='store_true');parser.add_argument('--ses-roundtrip',action='store_true');args=parser.parse_args(argv)
     if not args.run_probe:parser.error('--run-probe required')
     with base.cancellation(),base.real(ROOT/'.runs/quality-experiment.lock').open('a') as lock:
-        fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);result=experiment(args.output,started=started,cpu_started=cpu_started,local_clearance=args.local_clearance)
+        fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);result=experiment(args.output,started=started,cpu_started=cpu_started,local_clearance=args.local_clearance,ses_roundtrip=args.ses_roundtrip)
     print(base.canonical({k:result.get(k) for k in ('status','observations_complete','wall_seconds','total_cpu_seconds')}).decode(),end='')
     return 0 if result['observations_complete'] else 1
 

@@ -144,3 +144,6 @@ Local-clearance-native001 completed all4predicates at1f983c1; the command above 
 Next exact command after cached-native/local250source review and checkpoint: `python3 -B .runs/run-pic-local-clearance-transport-001.py`. It reuses untouched actual005native inputs, compiles/imports two settings sequentially, and requires old5×5matrix/allobservedfields equality after reversing4itemclass changes. It deliberately does not claim fulltracepolyline/SES equivalence.
 
 Actual local-clearance-transport001 at3b5ec56 passedbothobservations; do not repeat the previous command. Nextfeasiblegate: retainrawSES polygons and test realKiCad import oncopiedoriginalproject; pinnedKiCadsource indicates polygonwires ignored in favor oforiginalzones, so do not preemptivelystripthem. Rawimportedfootprints/routesmustbeinspectedbeforeusingexistingroute-onlytransplant and original-ruleDRC. No solver/routingcompletion claim follows fromretained-routeSES roundtrip.
+
+
+Retained SES source is ready after35 targeted checks and scoped independent review. Next ROOT command is `python3 -B .runs/run-pic-custom-ses-roundtrip-001.py` after audited source push/readback. Preserve observed export precision differences, all engine warnings and any native failure. Do not rerun completed local-clearance/native contact/parity controls.

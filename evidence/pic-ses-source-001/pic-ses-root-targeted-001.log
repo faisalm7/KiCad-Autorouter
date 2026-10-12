@@ -1,0 +1,29 @@
+E..E..
+======================================================================
+ERROR: test_constructed_exact (experiments.pic_mixed_transport_probe_v1.test_ses.SesChecks.test_constructed_exact)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/pic_mixed_transport_probe_v1/test_ses.py", line 42, in test_constructed_exact
+    _,r=self.audit(self.tree);c.require_faithful(r);self.assertEqual(r['ses_segments'],370);self.assertEqual(r['ses_vias'],6)
+                              ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/pic_mixed_transport_probe_v1/ses_checks.py", line 162, in require_faithful
+    if result.get('safe_structure') is not True or result.get('exact_route_survival') is not True:raise ValueError('retained route geometry changed across SES transport')
+                                                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: retained route geometry changed across SES transport
+
+======================================================================
+ERROR: test_polygon_mutations (experiments.pic_mixed_transport_probe_v1.test_ses.SesChecks.test_polygon_mutations) (change='net')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/pic_mixed_transport_probe_v1/test_ses.py", line 50, in test_polygon_mutations
+    self.net(t,'VCC').remove(w);self.net(t,'GND').append(w)
+                                ^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/pic_mixed_transport_probe_v1/test_ses.py", line 39, in net
+    def net(self,tree,name):return next(n for n in sx.children(sx.one(sx.one(tree,'routes'),'network_out'),'net') if sx.unquote(n[1])==name)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.699s
+
+FAILED (errors=2)

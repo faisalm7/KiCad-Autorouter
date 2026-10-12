@@ -4,6 +4,8 @@ Updated October 11, 2026 (America/Los_Angeles). **Active local reconstruction; i
 
 ## Latest work — October 12 UTC
 
+The retained SES transfer helper is implemented and source-reviewed, with35 targeted checks passing. Preparation identified31 original segments quantized by the existing DSN export; exact route survival remains a required failed obligation, never widened. Fresh Java/SES and copied-project native positive/negative execution are next, under the unchanged180-second caps. No new candidate or native result is claimed yet.
+
 Independent source and actual-output review of the local-clearance transport now passes, including exact public copies and all 287 retained engine warnings. The next gate is retained-route SES transfer into a complete copied native project with unchanged original pads and rules. Its pinned-source plan is in `evidence/pic-custom-ses-design-001/PLAN.md`; no SES execution has occurred yet. An incremental artifact snapshot follows this evidence checkpoint.
 
 The fresh local250engine diagnostic now succeeds at3b5ec56: both manager settings preserve the old5×5clearance matrix and otherobservedstate, while exactly the twoJP1anchors and two custombodies use250µm. Allfour refreshed search-tree entries validate. It reused completed005KiCad evidence; newcompile/import cost2.391776wall/3.637034CPU seconds. The originalplane true-mode287fixed-collision warning remains, and fulltrace geometry, SES and routing acceptance remain unqualified. A late source-freshness gap and inconsistent redundant audit fields were reproduced, fixed and regression-tested before this run.

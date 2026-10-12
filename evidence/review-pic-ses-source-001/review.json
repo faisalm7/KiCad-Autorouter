@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "disposition": "cleared_for_bounded_diagnostic_execution",
+  "native_or_jvm_executed": false,
+  "full_suite_executed": false,
+  "source_pins": {
+    "experiments/pic_mixed_transport_probe_v1/driver.py": {
+      "bytes": 20045,
+      "sha256": "a558f946c7960d2edb93729576ce22396acb0c807ff061fe058dd08eb30d9784"
+    },
+    "experiments/pic_mixed_transport_probe_v1/ses_checks.py": {
+      "bytes": 13881,
+      "sha256": "024f3ed7496c7a810a34d47528c5e9d1a16dfb7b03c36f2083e2a7a35004c595"
+    },
+    "experiments/pic_mixed_transport_probe_v1/ses_native.py": {
+      "bytes": 5626,
+      "sha256": "c4016992c5437cd3b2b80178c746e770b9df30759b2262c9414a08704d08a8a2"
+    },
+    "experiments/pic_mixed_transport_probe_v1/test_ses.py": {
+      "bytes": 10012,
+      "sha256": "3a2a6cd1f3cb99f7e774e63df4a336b909c24e17e28b73521e418de5a2f2d628"
+    },
+    "experiments/pic_mixed_transport_probe_v1/SES_PROTOCOL.json": {
+      "bytes": 12884,
+      "sha256": "29d802fc43d206d68e88991446ee62c28c284802779ddd81c50ecc120fd1c6dd"
+    },
+    "experiments/pic_mixed_transport_probe_v1/MixedClassProbe.java": {
+      "bytes": 21393,
+      "sha256": "9a387fc9956b89eb9331aca972198fa5452e6c4c912efd862a14de39606cf49b"
+    },
+    "experiments/pic_mixed_transport_probe_v1/README.md": {
+      "bytes": 11254,
+      "sha256": "d65f897263eb5945604e8744fa6671602f6dcdaed8e78809a7d830a751c117c6"
+    }
+  },
+  "fixed_findings": [
+    "negative finding severity/exclusion/raw-section specificity",
+    "writer execution fact before validation"
+  ],
+  "independent_negative_cases": 5,
+  "focused_test_methods": 8,
+  "pending": "Actual pinned Java compilation, SES write/import and native diagnostics; no transport or production qualification."
+}
