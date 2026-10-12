@@ -1,0 +1,97 @@
+{
+  "scope": "Synthetic import JSON against real retained DSN/native expectation, no worker jobs",
+  "source_sha256": "f0a9fd1b7e3c14e674eea1bc489a487a468e715979861296e075e63594d02ac5",
+  "native_total_pads": 247,
+  "assigned_native_copper_pads": 236,
+  "dsn_placed_pins": 240,
+  "dsn_unassigned_pins": [
+    [
+      "J1",
+      "SH"
+    ],
+    [
+      "J1",
+      "SH@1"
+    ],
+    [
+      "P3",
+      "@1"
+    ],
+    [
+      "P3",
+      "@2"
+    ]
+  ],
+  "cases": [
+    {
+      "case": "positive",
+      "observations_complete": true,
+      "expected_complete": true,
+      "matches_expectation": true,
+      "error": null
+    },
+    {
+      "case": "post_router_enabled",
+      "observations_complete": false,
+      "expected_complete": false,
+      "matches_expectation": true,
+      "error": "routing must remain disabled"
+    },
+    {
+      "case": "post_optimizer_enabled",
+      "observations_complete": false,
+      "expected_complete": false,
+      "matches_expectation": true,
+      "error": "routing must remain disabled"
+    },
+    {
+      "case": "post_load_not_awaited",
+      "observations_complete": false,
+      "expected_complete": false,
+      "matches_expectation": true,
+      "error": "post-load completion must be explicitly observed"
+    },
+    {
+      "case": "post_load_marker_missing",
+      "observations_complete": false,
+      "expected_complete": false,
+      "matches_expectation": true,
+      "error": "post-load completion must be explicitly observed"
+    },
+    {
+      "case": "ses_executed",
+      "observations_complete": false,
+      "expected_complete": false,
+      "matches_expectation": true,
+      "error": "mixed observation schema/cases differ"
+    },
+    {
+      "case": "boolean_schema",
+      "observations_complete": false,
+      "expected_complete": false,
+      "matches_expectation": true,
+      "error": "mixed observation schema/cases differ"
+    },
+    {
+      "case": "missing_four_unassigned",
+      "observations_complete": false,
+      "expected_complete": false,
+      "matches_expectation": true,
+      "error": "complete placed DSN pin census differs"
+    },
+    {
+      "case": "extra_unassigned",
+      "observations_complete": false,
+      "expected_complete": false,
+      "matches_expectation": true,
+      "error": "complete placed DSN pin census differs"
+    },
+    {
+      "case": "moved_unassigned",
+      "observations_complete": false,
+      "expected_complete": false,
+      "matches_expectation": true,
+      "error": "placed DSN pin net/position differs"
+    }
+  ]
+}
