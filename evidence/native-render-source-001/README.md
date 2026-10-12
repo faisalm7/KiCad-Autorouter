@@ -1,0 +1,1 @@
+Source integration:620production tests pass15.513s,4new preview boundary tests pass,29existing handoff tests pass. Initial Mac /var alias test error is retained; resolving the temporary test path allowed actual SVG control assertions to run. No native plotting result yet. Actual CLI SVG help binds command semantics. Protocol and bounded wrapper are prospective.

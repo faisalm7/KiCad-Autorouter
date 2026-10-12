@@ -1,0 +1,485 @@
+{
+  "actual_argv": [
+    "--router.autorouter.enabled=false",
+    "--router.optimizer.enabled=false",
+    "--router.plane_as_obstacle=false",
+    "--router.fanout.enabled=false",
+    "--router.automatic_neckdown=false",
+    "--router.neck_width_um=0",
+    "--router.autorouter.max_passes=30",
+    "--router.autorouter.algorithm=freerouting-router",
+    "--router.max_threads=1",
+    "--router.scoring.via_costs=25",
+    "--router.scoring.plane_via_costs=3"
+  ],
+  "bindings": {
+    "observations.json": "cfdee64872ddabf503f3de245c232ee11e0e58aaa8fce93f26effe1bb7b47fa2",
+    "raw.ses": "9c301c9cb577432110d256bcdeb13b39385016c869d1f64f17c3f74fcb75ed23",
+    "routing-native/final-drc-binding.json": "26afa6abebdc997e5522fa2117ef928ecb1a9f173987822b1263aa9c5afe8768",
+    "routing-native/final-drc.json": "f5c1975531ed696060ce6522e905c964514e79e7c7db2557c6df44ddf3983929",
+    "routing-native/final-netclass-audit.json": "be7e82bcc9779655137141e18f2048c0decd504671346d3e42cb9770e0f10bf8",
+    "runtime.json": "35f546c4abd8ef8b8c3a2d3b88b45a2b33a49eb9077e94826f9e409b16716490",
+    "summary.json": "52d0ab0ce933d5b31531a3107748158aecd660f2b3abb24685e37ec0e1ed58c0"
+  },
+  "candidate_original_rules_and_immutable_geometry_equal": true,
+  "candidate_sha256": "ff59099f8a3752f97d1c26e30a1427b01015b9911d1b0ec8059615a7f04a0739",
+  "captured_source_snapshot_hashes_exact": true,
+  "comparison": {
+    "completion_gain": false,
+    "cost_scope": "New invocation includes fresh compile/router/SES and six native stages; prior default native001 was a continuation of a separately charged failed routing001. Costs are not interchangeable or a paired speed claim.",
+    "default_metrics": {
+      "copper_layers": 2,
+      "footprints": 63,
+      "pads": 247,
+      "track_length_mm": 1803.1234651721395,
+      "version": "10.0.0",
+      "vias": 0,
+      "zones": 1
+    },
+    "default_native_cost": {
+      "total_cpu_seconds": 8.948096,
+      "wall_seconds": 10.848155875020893
+    },
+    "default_native_counts": {
+      "blocking": 0,
+      "exclusions": 0,
+      "opens": 5,
+      "warnings": 41
+    },
+    "default_routing_reuse": {
+      "git_head": "ad5b64878ce1a0b63c1291feff444ee6f31948b4",
+      "new_routing_execution": false,
+      "new_ses_writer_execution": false,
+      "original_error": "ValueError: corrected adapter changed other imported constraints",
+      "prior_run_total_cpu_seconds": 11.280382,
+      "prior_run_wall_seconds": 6.452533292002045,
+      "run": ".runs/pic-corrected-adapter-routing-001",
+      "scope": "Native diagnosis of saved generated proposal. Original failed receipt retained; no repeated compiler/solver/writer or production acceptance.",
+      "summary_sha256": "c8addb8d3e168e87958f2a47e6a7a6088b666a994523aec522c325af5db376a3"
+    },
+    "quality_comparison_admissible": false,
+    "same_derived_task_bytes": true
+  },
+  "cost": {
+    "accounting_point": "Stored totals precede final publication checks; acceptance caps include them.",
+    "cpu_enforcement": "Measured self plus waited children, acceptance cap; not hard CPU preemption.",
+    "total_cpu_seconds": 19.651377,
+    "wall_seconds": 15.882476500002667
+  },
+  "declared_post_run_source_divergence": {
+    "autorouter/__main__.py": {
+      "captured": {
+        "bytes": 9241,
+        "sha256": "02616e72ca26dff8d5ed5a9f58161c89f86c175d440f188792e512c522ec72c3"
+      },
+      "current": {
+        "bytes": 9381,
+        "sha256": "2b616e7e514a3f5c990bd65206fc8f4452d7bbdfd171d2b86333fc5c37dcfbb5"
+      }
+    },
+    "autorouter/handoff.py": {
+      "captured": {
+        "bytes": 11025,
+        "sha256": "69b8c700f9a16e0244087eb79d966af31a48bbf856d340cd2e89ea3804364a8b"
+      },
+      "current": {
+        "bytes": 12884,
+        "sha256": "ee68b54100260b7848a47225f3422f9b740777db78ca4b67d3b93869bb8ba695"
+      }
+    },
+    "autorouter/review_view.py": {
+      "captured": null,
+      "current": {
+        "bytes": 6332,
+        "sha256": "532e7ad820a5edd58b5131740a15e057047f9fae38df740a14cddce9f80a93ed"
+      }
+    }
+  },
+  "effective_scoring": {
+    "settings_enabled": {
+      "bend_penalty": 10.0,
+      "clearance_violation_penalty": 1000000.0,
+      "default_bend_cost": 0.0,
+      "default_preferred_direction_trace_cost": 1.0,
+      "default_undesired_direction_trace_cost": 1.0,
+      "plane_via_costs": 3,
+      "start_ripup_costs": 100,
+      "unrouted_net_penalty": 5000000.0,
+      "via_costs": 25
+    },
+    "settings_final": {
+      "bend_penalty": 10.0,
+      "clearance_violation_penalty": 1000000.0,
+      "default_bend_cost": 0.0,
+      "default_preferred_direction_trace_cost": 1.0,
+      "default_undesired_direction_trace_cost": 1.0,
+      "plane_via_costs": 3,
+      "start_ripup_costs": 100,
+      "unrouted_net_penalty": 5000000.0,
+      "via_costs": 25
+    },
+    "settings_loaded": {
+      "bend_penalty": 10.0,
+      "clearance_violation_penalty": 1000000.0,
+      "default_bend_cost": 0.0,
+      "default_preferred_direction_trace_cost": 1.0,
+      "default_undesired_direction_trace_cost": 1.0,
+      "plane_via_costs": 3,
+      "start_ripup_costs": 100,
+      "unrouted_net_penalty": 5000000.0,
+      "via_costs": 25
+    }
+  },
+  "engine_SES_raw_final_exact_segments": 335,
+  "engine_traces": 176,
+  "frozen_files": 249,
+  "full_run_files_unchanged": 250,
+  "git_head": "467f7bb9f2fb751a17a3560d2531225b6f6eb676",
+  "metrics": {
+    "copper_layers": 2,
+    "footprints": 63,
+    "pads": 247,
+    "track_length_mm": 1803.1552047465532,
+    "version": "10.0.0",
+    "vias": 0,
+    "zones": 1
+  },
+  "native_class_generated_dimensions": {
+    "checked": {
+      "arcs": 0,
+      "protected": 0,
+      "segments": 335,
+      "vias": 0
+    },
+    "passed": true,
+    "policy": "exact effective native targets for new routes; protected originals unchanged"
+  },
+  "native_open_items": [
+    {
+      "description": "Missing connection between items",
+      "items": [
+        {
+          "description": "Track [/VPP/MCLR] on bottom_layer, length 44.0401 mm",
+          "pos": {
+            "x": 196.5562,
+            "y": 105.9289
+          },
+          "uuid": "aec3f291-13b8-4aff-841f-4afa60cc1a5d"
+        },
+        {
+          "description": "Track [/VPP/MCLR] on bottom_layer, length 15.2400 mm",
+          "pos": {
+            "x": 160.02,
+            "y": 50.8
+          },
+          "uuid": "3e460de9-fa30-4bbf-8c4d-a8e037cb0d33"
+        }
+      ],
+      "severity": "error",
+      "type": "unconnected_items"
+    },
+    {
+      "description": "Missing connection between items",
+      "items": [
+        {
+          "description": "Track [/CLOCK-RB6] on bottom_layer, length 8.0931 mm",
+          "pos": {
+            "x": 184.1707,
+            "y": 116.8193
+          },
+          "uuid": "7af3a42e-3615-4b40-a715-540c8552eddd"
+        },
+        {
+          "description": "PTH pad 2 [/CLOCK-RB6] of R13",
+          "pos": {
+            "x": 140.335,
+            "y": 121.92
+          },
+          "uuid": "5c911a2b-7346-48e0-a508-06c47ded0b0c"
+        }
+      ],
+      "severity": "error",
+      "type": "unconnected_items"
+    },
+    {
+      "description": "Missing connection between items",
+      "items": [
+        {
+          "description": "Track [/CLOCK-RB6] on bottom_layer, length 1.7017 mm",
+          "pos": {
+            "x": 186.69,
+            "y": 125.73
+          },
+          "uuid": "a95f412a-7488-4f83-b91f-8c5647aaeaff"
+        },
+        {
+          "description": "PTH pad 12 [/CLOCK-RB6] of U5",
+          "pos": {
+            "x": 215.519,
+            "y": 123.19
+          },
+          "uuid": "9c19e8e8-f25c-4f60-9a43-187ff08aa55b"
+        }
+      ],
+      "severity": "error",
+      "type": "unconnected_items"
+    },
+    {
+      "description": "Missing connection between items",
+      "items": [
+        {
+          "description": "Track [/CLOCK-RB6] on bottom_layer, length 11.3957 mm",
+          "pos": {
+            "x": 190.5,
+            "y": 53.34
+          },
+          "uuid": "d9b6b85e-77c5-427a-8049-853bb9ef9f78"
+        },
+        {
+          "description": "Track [/CLOCK-RB6] on bottom_layer, length 3.5628 mm",
+          "pos": {
+            "x": 186.69,
+            "y": 114.3
+          },
+          "uuid": "4abe6556-5205-426c-8947-ebf81f4827e8"
+        }
+      ],
+      "severity": "error",
+      "type": "unconnected_items"
+    },
+    {
+      "description": "Missing connection between items",
+      "items": [
+        {
+          "description": "Track [/DATA-RB7] on bottom_layer, length 2.4648 mm",
+          "pos": {
+            "x": 133.5121,
+            "y": 113.5029
+          },
+          "uuid": "e86a971d-a43f-44a2-bdcb-8df5de48de1d"
+        },
+        {
+          "description": "Track [/DATA-RB7] on bottom_layer, length 4.5165 mm",
+          "pos": {
+            "x": 184.9224,
+            "y": 118.6076
+          },
+          "uuid": "97a2f6ca-a5ab-47ae-8228-23813d7bef5b"
+        }
+      ],
+      "severity": "error",
+      "type": "unconnected_items"
+    }
+  ],
+  "native_scope_passed": false,
+  "original_files_unchanged": 15,
+  "outer_execution": {
+    "argv": [
+      "python3",
+      "-B",
+      "experiments/pic_mixed_transport_probe_v1/driver.py",
+      "--run-probe",
+      "--adapter-proposal",
+      "--adapter-via-low",
+      "--output",
+      ".runs/pic-low-via-routing-001"
+    ],
+    "cleanup_signals": [],
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local",
+    "exit_code": 1,
+    "git_head": "467f7bb9f2fb751a17a3560d2531225b6f6eb676",
+    "log_bytes": 127,
+    "log_sha256": "3e0764db98864fc9a85bc42a84944b497bfeab0a110dff4133ab67d08a9b50fe",
+    "scope": "One prospectively fixed via_low25/3 preference on the zero-seed corrected-adapter task; native original zones/dimensions/rules unchanged. Same180wall/fullCPU and60secondengine caps; prior cached costs separate. B2-style diagnostic, no production admission or C novelty.",
+    "started_utc": "2026-10-12T08:30:16.824814+00:00",
+    "waited_child_cpu_seconds": 19.897275,
+    "wall_seconds": 16.179194583004573,
+    "wrapper_sha256": "75e790b677f0f3017a8ccf1d786267dd2b8813463911f12a74a571ec7edff768"
+  },
+  "raw_import_immutable_equal": true,
+  "reports": {
+    "final-drc": {
+      "binding_sha256": "26afa6abebdc997e5522fa2117ef928ecb1a9f173987822b1263aa9c5afe8768",
+      "counts": {
+        "blocking": 0,
+        "exclusions": 0,
+        "opens": 5,
+        "warnings": 41
+      },
+      "finding_types": {
+        "lib_footprint_issues": 41,
+        "unconnected_items": 5
+      },
+      "ignored_checks": [
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "Silkscreen clipped by board edge",
+          "key": "silk_edge_clearance"
+        }
+      ],
+      "report_sha256": "f5c1975531ed696060ce6522e905c964514e79e7c7db2557c6df44ddf3983929"
+    },
+    "generated-raw-drc": {
+      "binding_sha256": "01251c10b28168a62774a9f3b7b3d5f79c3db9c6e12e561c53da4813a604a20c",
+      "counts": {
+        "blocking": 0,
+        "exclusions": 0,
+        "opens": 5,
+        "warnings": 41
+      },
+      "finding_types": {
+        "lib_footprint_issues": 41,
+        "unconnected_items": 5
+      },
+      "ignored_checks": [
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "Silkscreen clipped by board edge",
+          "key": "silk_edge_clearance"
+        }
+      ],
+      "report_sha256": "c7e5dbe84b91af497e7f9a12d7a626e27814fc42048304e8d2f5f90b0e39f949"
+    },
+    "refill-drc": {
+      "binding_sha256": "f520b8b5d0434f9971933de110447fbe18c62a0af9d7c077de8c54bc4ccec227",
+      "counts": {
+        "blocking": 0,
+        "exclusions": 0,
+        "opens": 5,
+        "warnings": 41
+      },
+      "finding_types": {
+        "lib_footprint_issues": 41,
+        "unconnected_items": 5
+      },
+      "ignored_checks": [
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "Silkscreen clipped by board edge",
+          "key": "silk_edge_clearance"
+        }
+      ],
+      "report_sha256": "3d61ee629db972f068f664724040283e7d182b0200518513bdf27bc1c89ef230"
+    }
+  },
+  "routing_accepted": false,
+  "scope": "Independent stored evidence and shared pure-helper readback only; no native/JVM/compiler/solver/network/Git command",
+  "status": "observed-incomplete",
+  "steps": [
+    {
+      "cleanup_complete": true,
+      "cpu_seconds": 1.359129,
+      "exit_code": 0,
+      "name": "compile",
+      "status": "success",
+      "wall_seconds": 0.7135608329845127
+    },
+    {
+      "cleanup_complete": true,
+      "cpu_seconds": 8.574850999999999,
+      "exit_code": 0,
+      "name": "import",
+      "status": "success",
+      "wall_seconds": 3.922788458003197
+    },
+    {
+      "cleanup_complete": true,
+      "cpu_seconds": 0.402498,
+      "exit_code": 0,
+      "name": "ses-generated-import",
+      "status": "success",
+      "wall_seconds": 0.6416326659964398
+    },
+    {
+      "cleanup_complete": true,
+      "cpu_seconds": 0.9244159999999999,
+      "exit_code": 5,
+      "name": "ses-generated-raw-drc",
+      "status": "nonzero_exit",
+      "wall_seconds": 1.4052012920146808
+    },
+    {
+      "cleanup_complete": true,
+      "cpu_seconds": 0.91957,
+      "exit_code": 5,
+      "name": "ses-refill-drc",
+      "status": "nonzero_exit",
+      "wall_seconds": 1.293815209006425
+    },
+    {
+      "cleanup_complete": true,
+      "cpu_seconds": 0.374909,
+      "exit_code": 0,
+      "name": "ses-final-netclasses",
+      "status": "success",
+      "wall_seconds": 0.37905720801791176
+    },
+    {
+      "cleanup_complete": true,
+      "cpu_seconds": 0.955328,
+      "exit_code": 5,
+      "name": "ses-final-drc",
+      "status": "nonzero_exit",
+      "wall_seconds": 1.3018827499763574
+    },
+    {
+      "cleanup_complete": true,
+      "cpu_seconds": 0.375155,
+      "exit_code": 0,
+      "name": "ses-generated-metrics",
+      "status": "success",
+      "wall_seconds": 0.3785414170124568
+    }
+  ],
+  "strict_routing_comparison": {
+    "cancel_control": false,
+    "final_traces": 176,
+    "final_vias": 0,
+    "geometry_verified": true,
+    "lifecycle_verified": true,
+    "ordinary_seed_routes": 0,
+    "production_support_qualified": false,
+    "routing_accepted": false
+  },
+  "tools_basis_original_current_exact": true,
+  "unsupported": [
+    "custom pads not qualified",
+    "unknown rule severity semantics: footprint_symbol_field_mismatch",
+    "unknown rule severity semantics: missing_tuning_profile",
+    "unknown rule severity semantics: text_on_edge_cuts",
+    "unknown rule severity semantics: track_on_post_machined_layer"
+  ]
+}

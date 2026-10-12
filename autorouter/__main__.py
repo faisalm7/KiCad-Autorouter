@@ -88,6 +88,7 @@ def main():
     view=sub.add_parser('preview',help='Preview settings, protected routing and static support without changing the board')
     view.add_argument('board');preference_arguments(view)
     review=sub.add_parser('review-copy');review.add_argument('receipt');review.add_argument('--output',required=True)
+    review.add_argument('--render',action='store_true',help='Add native before/after copper plots and a local HTML review')
     improve=sub.add_parser('improve');improve.add_argument('board');improve.add_argument('--output',required=True);improve.add_argument('--seconds',type=float,default=120);improve.add_argument('--proposal-policy',choices=['single','feedback'],default='single')
     recover=sub.add_parser('recover',help='Experimental whole-board routing with bounded thermal repair');recover.add_argument('board');recover.add_argument('--output',required=True);recover.add_argument('--seconds',type=float,default=120)
     verify=sub.add_parser('check-result');verify.add_argument('receipt')
@@ -109,7 +110,7 @@ def main():
         except Exception as exc:print(json.dumps({'status':'rejected','reason':str(exc)}));return 2
     if a.command=='review-copy':
         from .handoff import review_copy
-        try: print(json.dumps(review_copy(a.receipt,a.output),indent=2));return 0
+        try: print(json.dumps(review_copy(a.receipt,a.output,render=a.render),indent=2));return 0
         except Exception as exc: print(json.dumps({'status':'rejected','reason':str(exc)}));return 2
     if a.command=='check-result':
         try: print(json.dumps(check_result(a.receipt),indent=2));return 0

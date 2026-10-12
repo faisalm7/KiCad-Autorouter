@@ -46,8 +46,8 @@ def runtime_inventory():
     return result
 
 
-def _review_copy(receipt, output, start, cpu_start):
-    destination = None; created = False
+def _review_copy(receipt, output, start, cpu_start, render=False):
+    destination = None; created = False; before_created = False; preview = None
     record = {'schema': 1, 'status': 'rejected', 'native_validation_performed': False,
               'budget_seconds': SECONDS, 'cpu_budget_seconds': SECONDS,
               'accounting_point': 'Stored totals precede final publication checks; final wall and parent-plus-waited-child CPU caps include them. These are observed acceptance ceilings, not OS quotas.'}
@@ -71,7 +71,7 @@ def _review_copy(receipt, output, start, cpu_start):
     def invalidate():
         # Only metadata in this invocation's new directory is moved. Keep the
         # disposable project and all interrupted/ready bytes as evidence.
-        for path in (destination / 'review.json', destination / 'review.json.partial'):
+        for path in (destination / 'review.json', destination / 'review.json.partial', destination / 'preview.html'):
             if path.exists() or path.is_symlink():
                 path.rename(destination / ('invalidated-review-' + uuid.uuid4().hex + '-' + path.name))
 
@@ -98,6 +98,9 @@ def _review_copy(receipt, output, start, cpu_start):
         # reads remain sampled rather than race-free. Never adopt later trees.
         evidence_hashes = inventory(receipt.parent, evidence=True)
         source_hashes = inventory(source.parent)
+        original_capture = inventory(source.parent, contents=True) if render else None
+        if render and {name: digest(value) for name, value in original_capture.items()} != source_hashes:
+            raise Rejected('source changed during preview capture')
         captured = inventory(candidate.parent, contents=True)
         candidate_hashes = {name: digest(value) for name, value in captured.items()}
         runtime_hashes = runtime_inventory(); cap()
@@ -127,6 +130,15 @@ def _review_copy(receipt, output, start, cpu_start):
                 raise Rejected('candidate project changed while preparing review copy')
             if created and inventory(project) != candidate_hashes:
                 raise Rejected('copied project changed while preparing review copy')
+            if before_created and inventory(destination / 'before') != source_hashes:
+                raise Rejected('copied original changed while preparing review preview')
+            if preview is not None:
+                from .pipeline import sha
+                if sha(c.CLI) != preview['plotter_sha256']:
+                    raise Rejected('review plotter changed after rendering')
+                for name, expected in preview['files'].items():
+                    if digest(pc.read_bytes(destination / name, PROJECT_BYTES)) != expected:
+                        raise Rejected('review preview changed after rendering')
             cap()
 
         def central_check():
@@ -148,6 +160,18 @@ def _review_copy(receipt, output, start, cpu_start):
                 stream.write(payload)
         del captured
         material()
+        if render:
+            before = destination / 'before'; before.mkdir()
+            for relative, payload in original_capture.items():
+                cap(); target = before / relative; target.parent.mkdir(parents=True, exist_ok=True)
+                with target.open('xb') as stream:
+                    stream.write(payload)
+            before_created = True; del original_capture
+            material()
+            from .review_view import render as render_view
+            remaining = lambda: max(0, min(SECONDS - (time.monotonic() - start), SECONDS - (cpu_seconds() - cpu_start)))
+            preview = render_view(destination, before / source.name, project / candidate.name, report, remaining, material)
+            material(); record['preview'] = preview
         record.update(status='ready_for_manual_review', input_policy=policy,
                       source_receipt_schema=report['schema'], receipt=str(receipt),
                       receipt_sha256=receipt_digest, verified_candidate_sha256=identity['candidate_sha256'],
@@ -188,7 +212,7 @@ def _review_copy(receipt, output, start, cpu_start):
         raise
 
 
-def review_copy(receipt, output):
+def review_copy(receipt, output, *, render=False):
     """Create one new disposable project from centrally verified captured bytes."""
     start = time.monotonic(); cpu_start = cpu_seconds()
     previous = {sig: signal.getsignal(sig) for sig in (signal.SIGINT, signal.SIGTERM)}
@@ -199,7 +223,9 @@ def review_copy(receipt, output):
     try:
         for sig in previous:
             signal.signal(sig, interrupted)
-        return _review_copy(receipt, output, start, cpu_start)
+        if type(render) is not bool:
+            raise Rejected('render must be a Boolean')
+        return _review_copy(receipt, output, start, cpu_start, render)
     finally:
         for sig, handler in previous.items():
             signal.signal(sig, handler)

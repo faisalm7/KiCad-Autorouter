@@ -1,0 +1,84 @@
+{
+  "scope": "Pure final-size boundary injections on exact frozen controller; no native or Git execution",
+  "rows": [
+    {
+      "case": "lipo-positive",
+      "expected_complete": true,
+      "status": "observations_complete",
+      "observations_complete": true,
+      "error": null,
+      "events": [],
+      "canonical_sha256": "0f3b5de6e132aab00f58e241e405a2cb70f1ad1d4e381c7972ec7bb98607c3ed",
+      "mock_native_stages": 2,
+      "actual_native_processes": 0,
+      "passed": true
+    },
+    {
+      "case": "paw3395-positive",
+      "expected_complete": true,
+      "status": "observations_complete",
+      "observations_complete": true,
+      "error": null,
+      "events": [],
+      "canonical_sha256": "a411e9acd02454d0ea2363a247f02be91964a2fe8230c051eafbc8f54f1ceea5",
+      "mock_native_stages": 2,
+      "actual_native_processes": 0,
+      "passed": true
+    },
+    {
+      "case": "paw3395-source",
+      "expected_complete": false,
+      "status": "invalidated",
+      "observations_complete": false,
+      "error": "Rejected: original source/acquisition changed",
+      "events": [
+        {
+          "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-paw-native-source-001/probe-001/paw3395-source/unchanged/.data/expansion005/paw3395/paw3395.kicad_pro",
+          "before": "4a0b352b482dd49a22aeea5599c44444e2d1dfad2ac77880c63152002445cdad",
+          "after": "d3c952329dc9acdcb958562b5809b2990a827ffe4c07a98d08164f5d9f657903"
+        }
+      ],
+      "canonical_sha256": "6571d87207560aa44a777ad369c27e7502e13a2c705eb7d80b850caadd429166",
+      "mock_native_stages": 2,
+      "actual_native_processes": 0,
+      "passed": true
+    },
+    {
+      "case": "paw3395-report",
+      "expected_complete": false,
+      "status": "invalidated",
+      "observations_complete": false,
+      "error": "Rejected: stage-two native report evidence changed",
+      "events": [
+        {
+          "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-paw-native-source-001/probe-001/paw3395-report/unchanged/.runs/out/original-drc.json",
+          "before": "2bf74464fcc73dd4e3b9fca86c054d5bd10bdc6f7fe85e07d23f946fe792c866",
+          "after": "a61dbb793f9c61ac6bf094b8a6da2f237e073fa697f6af37d73072471c02b10a"
+        }
+      ],
+      "canonical_sha256": "fb6f49f71cbfcc2c37bfdc75fdc312f14469564340a6fe25550b590607ddd2c1",
+      "mock_native_stages": 2,
+      "actual_native_processes": 0,
+      "passed": true
+    },
+    {
+      "case": "paw3395-stage_log",
+      "expected_complete": false,
+      "status": "invalidated",
+      "observations_complete": false,
+      "error": "Rejected: stage-one observation evidence changed",
+      "events": [
+        {
+          "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-paw-native-source-001/probe-001/paw3395-stage_log/unchanged/.runs/out/observe.log",
+          "before": "2290150785f54d3ff1ef02769b786703cbbe381a503c41f4e19d2297c1ea4a48",
+          "after": "ad08a594e4d52934d0621735fb805d56f1d393e009f892bcf24c395efa9cc372"
+        }
+      ],
+      "canonical_sha256": "6652e6a69a263aaa0a845bebdba30d3f8339e9a9fa9d98f5bb783c693d5a4a43",
+      "mock_native_stages": 2,
+      "actual_native_processes": 0,
+      "passed": true
+    }
+  ],
+  "passed": true
+}

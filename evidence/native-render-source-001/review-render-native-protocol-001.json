@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "purpose": "Qualify optional actual before/after native plots; no routing quality claim",
+  "case": "owned required-via accepted fixture",
+  "receipt": ".runs/default-tuning-native-001/result.json",
+  "receipt_sha256": "5b008c5c40002fbf3fb77a17106662eb6b14d4b60973943bc5b9769d6c352a2a",
+  "source_revision": "next reviewed committed source",
+  "command": "python3 -B .runs/run-review-render-fixture-001.py",
+  "outer_wall_cap": 45,
+  "shared_wall_full_cpu_cap": 30,
+  "expected": "ready_for_manual_review, four native copper SVGs, original source and accepted run unchanged, preview binding matches all files",
+  "failure_handling": "Preserve failure and partial plots; diagnose actual compatibility before expanding. No automatic retries.",
+  "next_cases_if_positive": [
+    "accepted multichannel96warning project",
+    "actual first-plot tampering rejection",
+    "real SIGTERM during native plotting"
+  ],
+  "native_benchmark_concurrency": 1,
+  "publication": "No formal release; project-owned fixture and selected source evidence only"
+}

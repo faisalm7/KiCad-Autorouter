@@ -1,0 +1,584 @@
+{
+  "schema": 1,
+  "scope": "Static read-only, exposed development input; no native/engine/GUI/network or dataset execution.",
+  "acquisition": {
+    "receipt": ".runs/licensed-acquisition-005-run-001/receipt.json",
+    "receipt_sha256": "370f1c09157a7090fb725018bd7fa3ebb3d184d9163c1ee807110c674f2ac629",
+    "head": "467f7bb9f2fb751a17a3560d2531225b6f6eb676",
+    "new_files": 14,
+    "new_bytes": 2163350,
+    "old_files_verified": 345,
+    "old_bytes": 37408570,
+    "aggregate_files": 359,
+    "aggregate_bytes": 39571920,
+    "all_response_blobs_sha256_sizes_exact": true,
+    "recorded_wall_seconds": 6.117656874994282,
+    "runtime_files_exact": true
+  },
+  "source_files": {
+    ".gitignore": {
+      "bytes": 542,
+      "sha256": "45f7f3fe544780aac038d924c9465292c16b72ea434a00a8c9137e87b83a517f"
+    },
+    "LICENSE": {
+      "bytes": 8852,
+      "sha256": "6e471d647db50527d0c75ee5f1a55a74012ab177c73282bef0bdc7f6562b7ded"
+    },
+    "README.md": {
+      "bytes": 2208,
+      "sha256": "cf84c6835f86d50025c90e980ef135cf024f619ffe12a398d5834e50a8010950"
+    },
+    "board-3d.png": {
+      "bytes": 363443,
+      "sha256": "4896c11b02d6347541c88996b97ad27b63b32931c0e06f15f3d853aa23d3fe98"
+    },
+    "board.png": {
+      "bytes": 347053,
+      "sha256": "0b1c4c4adc4b0bcc9d1a63f55c49029771a90df9b3b9691b18761f59c9ae2da9"
+    },
+    "fabrication-toolkit-options.json": {
+      "bytes": 141,
+      "sha256": "ce350c9fbf50056a42d119dcf2d2e4b06f8c4cae569151e41d6789035f81447d"
+    },
+    "fp-lib-table": {
+      "bytes": 133,
+      "sha256": "2ab78b5c4bb3b7cc2c93b39453694c320ce4cf5a4a24eaca2be0c0e1c5b57718"
+    },
+    "paw3395.kicad_pcb": {
+      "bytes": 204947,
+      "sha256": "c2e8cebd0da804eb3912c6559ad6b3e725c1b29f744d616e1ebb22f1229f7740"
+    },
+    "paw3395.kicad_prl": {
+      "bytes": 1276,
+      "sha256": "59ef02a971d7d463743b8d497c0f10b6a9546f5c687f68f6eb464204bbd3a486"
+    },
+    "paw3395.kicad_pro": {
+      "bytes": 14539,
+      "sha256": "4a0b352b482dd49a22aeea5599c44444e2d1dfad2ac77880c63152002445cdad"
+    },
+    "paw3395.kicad_sch": {
+      "bytes": 74016,
+      "sha256": "ef0cb4a88b019935d896e1851cb4c4e6c4a443e04a65a182e4e3a980b428ea15"
+    },
+    "paw3395_pcb.pretty/PAW3395.kicad_mod": {
+      "bytes": 7882,
+      "sha256": "6ce69d5bce48db2806300bb92105d67eb18becd8955a83b4dd77bbc7891f9b51"
+    },
+    "photo-1.jpg": {
+      "bytes": 579799,
+      "sha256": "2410ed6f4eae32ddae3febe12d9c8f178d1f74050486441ae35c741044f907d5"
+    },
+    "photo-3950.jpg": {
+      "bytes": 558519,
+      "sha256": "548aef29ad448ca39a5a743ebe649918b9b8b5074d81cf2aaf97b8f6adeb12b8"
+    }
+  },
+  "preflight": {
+    "accepted": false,
+    "error": "unsupported: unknown rule severity semantics: zone_has_empty_net; unqualified board format version"
+  },
+  "board": {
+    "format": "20240108",
+    "generator": "8.0",
+    "copper_layers": [
+      [
+        "0",
+        "\"F.Cu\"",
+        "signal"
+      ],
+      [
+        "31",
+        "\"B.Cu\"",
+        "signal"
+      ]
+    ],
+    "footprints": 18,
+    "unique_references": true,
+    "pads": 56,
+    "unique_pad_uuids": true,
+    "positive_nets": 16,
+    "pads_with_net": 56,
+    "pad_shapes": {
+      "smd/roundrect": 33,
+      "thru_hole/rect": 4,
+      "thru_hole/oval": 5,
+      "thru_hole/circle": 14
+    },
+    "segments": 201,
+    "route_arcs": 0,
+    "vias": 19,
+    "protected_routes": 0,
+    "route_widths_mm": {
+      "0.25": 197,
+      "0.35": 4
+    },
+    "via_sizes_mm": {
+      "(['0.8'], ['0.4'], ['F.Cu', 'B.Cu'])": 19
+    },
+    "edge_counts": {
+      "gr_line": 4,
+      "gr_arc": 4
+    },
+    "edge_endpoints_pairwise_joined": true,
+    "edge_extent_mm": [
+      "15.45",
+      "28"
+    ],
+    "outline_observation": "one rounded outer outline, four straight lines and four corner arcs; no separate internal Edge.Cuts path observed; not native geometry validation",
+    "stackup": [
+      "stackup",
+      [
+        "layer",
+        "\"F.SilkS\"",
+        [
+          "type",
+          "\"Top Silk Screen\""
+        ]
+      ],
+      [
+        "layer",
+        "\"F.Paste\"",
+        [
+          "type",
+          "\"Top Solder Paste\""
+        ]
+      ],
+      [
+        "layer",
+        "\"F.Mask\"",
+        [
+          "type",
+          "\"Top Solder Mask\""
+        ],
+        [
+          "thickness",
+          "0.01"
+        ]
+      ],
+      [
+        "layer",
+        "\"F.Cu\"",
+        [
+          "type",
+          "\"copper\""
+        ],
+        [
+          "thickness",
+          "0.035"
+        ]
+      ],
+      [
+        "layer",
+        "\"dielectric 1\"",
+        [
+          "type",
+          "\"core\""
+        ],
+        [
+          "thickness",
+          "1.51"
+        ],
+        [
+          "material",
+          "\"FR4\""
+        ],
+        [
+          "epsilon_r",
+          "4.5"
+        ],
+        [
+          "loss_tangent",
+          "0.02"
+        ]
+      ],
+      [
+        "layer",
+        "\"B.Cu\"",
+        [
+          "type",
+          "\"copper\""
+        ],
+        [
+          "thickness",
+          "0.035"
+        ]
+      ],
+      [
+        "layer",
+        "\"B.Mask\"",
+        [
+          "type",
+          "\"Bottom Solder Mask\""
+        ],
+        [
+          "thickness",
+          "0.01"
+        ]
+      ],
+      [
+        "layer",
+        "\"B.Paste\"",
+        [
+          "type",
+          "\"Bottom Solder Paste\""
+        ]
+      ],
+      [
+        "layer",
+        "\"B.SilkS\"",
+        [
+          "type",
+          "\"Bottom Silk Screen\""
+        ]
+      ],
+      [
+        "copper_finish",
+        "\"None\""
+      ],
+      [
+        "dielectric_constraints",
+        "no"
+      ]
+    ],
+    "zones": [
+      {
+        "net": [
+          "GND"
+        ],
+        "layers": [
+          "F&B.Cu"
+        ],
+        "connect_pads": [
+          "connect_pads",
+          [
+            "clearance",
+            "0.1508"
+          ]
+        ],
+        "fill": [
+          "fill",
+          "yes",
+          [
+            "thermal_gap",
+            "0.5"
+          ],
+          [
+            "thermal_bridge_width",
+            "0.5"
+          ]
+        ],
+        "filled_polygon_count": 7
+      }
+    ],
+    "rule_areas": 0,
+    "net_ties": 0,
+    "custom_pads": 0,
+    "pad_overrides": [],
+    "footprint_clearance_overrides": [],
+    "copper_board_text_count": 0
+  },
+  "mandatory_project_material": {
+    "board_project_stem_matches": true,
+    "pcb_project_schematic_count": [
+      1,
+      1,
+      1
+    ],
+    "dru_present": false,
+    "project_prl_preserved": true,
+    "schematic_sheets": 0,
+    "all_footprint_sheetfiles_resolve": true,
+    "schematic_version": "20231120",
+    "embedded_symbol_count": 8,
+    "all_placed_symbols_have_embedded_definition": true,
+    "local_footprint_resolved": {
+      "uri": "${KIPRJMOD}/paw3395_pcb.pretty",
+      "name": "paw3395_pcb:PAW3395",
+      "file": "paw3395_pcb.pretty/PAW3395.kicad_mod",
+      "pad_count": 16,
+      "pad_definitions_equal_embedded_ignoring_net_pinlabels_uuid": true
+    }
+  },
+  "project_constraints": {
+    "net_settings": {
+      "classes": [
+        {
+          "bus_width": 12,
+          "clearance": 0.2,
+          "diff_pair_gap": 0.25,
+          "diff_pair_via_gap": 0.25,
+          "diff_pair_width": 0.2,
+          "line_style": 0,
+          "microvia_diameter": 0.3,
+          "microvia_drill": 0.1,
+          "name": "Default",
+          "pcb_color": "rgba(0, 0, 0, 0.000)",
+          "schematic_color": "rgba(0, 0, 0, 0.000)",
+          "track_width": 0.25,
+          "via_diameter": 0.8,
+          "via_drill": 0.4,
+          "wire_width": 6
+        }
+      ],
+      "meta": {
+        "version": 3
+      },
+      "net_colors": null,
+      "netclass_assignments": null,
+      "netclass_patterns": []
+    },
+    "floors_and_rules": {
+      "allow_blind_buried_vias": false,
+      "allow_microvias": false,
+      "max_error": 0.005,
+      "min_clearance": 0.0,
+      "min_connection": 0.0,
+      "min_copper_edge_clearance": 0.0,
+      "min_hole_clearance": 0.25,
+      "min_hole_to_hole": 0.25,
+      "min_microvia_diameter": 0.2,
+      "min_microvia_drill": 0.1,
+      "min_resolved_spokes": 2,
+      "min_silk_clearance": 0.0,
+      "min_text_height": 0.8,
+      "min_text_thickness": 0.08,
+      "min_through_hole_diameter": 0.3,
+      "min_track_width": 0.2,
+      "min_via_annular_width": 0.05,
+      "min_via_diameter": 0.4,
+      "solder_mask_clearance": 0.0,
+      "solder_mask_min_width": 0.0,
+      "solder_mask_to_copper_clearance": 0.005,
+      "use_height_for_length_calcs": true
+    },
+    "rule_severities": {
+      "annular_width": "error",
+      "clearance": "error",
+      "connection_width": "warning",
+      "copper_edge_clearance": "error",
+      "copper_sliver": "warning",
+      "courtyards_overlap": "warning",
+      "diff_pair_gap_out_of_range": "error",
+      "diff_pair_uncoupled_length_too_long": "error",
+      "drill_out_of_range": "error",
+      "duplicate_footprints": "warning",
+      "extra_footprint": "warning",
+      "footprint": "error",
+      "footprint_symbol_mismatch": "warning",
+      "footprint_type_mismatch": "error",
+      "hole_clearance": "error",
+      "hole_near_hole": "error",
+      "holes_co_located": "warning",
+      "invalid_outline": "error",
+      "isolated_copper": "warning",
+      "item_on_disabled_layer": "error",
+      "items_not_allowed": "error",
+      "length_out_of_range": "error",
+      "lib_footprint_issues": "warning",
+      "lib_footprint_mismatch": "ignore",
+      "malformed_courtyard": "error",
+      "microvia_drill_out_of_range": "error",
+      "missing_courtyard": "ignore",
+      "missing_footprint": "warning",
+      "net_conflict": "warning",
+      "npth_inside_courtyard": "ignore",
+      "padstack": "error",
+      "pth_inside_courtyard": "ignore",
+      "shorting_items": "error",
+      "silk_edge_clearance": "warning",
+      "silk_over_copper": "warning",
+      "silk_overlap": "warning",
+      "skew_out_of_range": "error",
+      "solder_mask_bridge": "error",
+      "starved_thermal": "error",
+      "text_height": "ignore",
+      "text_thickness": "warning",
+      "through_hole_pad_without_hole": "error",
+      "too_many_vias": "error",
+      "track_dangling": "warning",
+      "track_width": "error",
+      "tracks_crossing": "error",
+      "unconnected_items": "error",
+      "unresolved_variable": "error",
+      "via_dangling": "warning",
+      "zone_has_empty_net": "error",
+      "zones_intersect": "error"
+    },
+    "drc_exclusions": [],
+    "tuning_profiles_present": false,
+    "teardrop_options": [
+      {
+        "td_onpadsmd": true,
+        "td_onroundshapesonly": false,
+        "td_ontrackend": false,
+        "td_onviapad": true
+      }
+    ],
+    "teardrop_parameters": [
+      {
+        "td_allow_use_two_tracks": true,
+        "td_curve_segcount": 0,
+        "td_height_ratio": 1.0,
+        "td_length_ratio": 0.5,
+        "td_maxheight": 2.0,
+        "td_maxlen": 1.0,
+        "td_on_pad_in_zone": false,
+        "td_target_name": "td_round_shape",
+        "td_width_to_size_filter_ratio": 0.9
+      },
+      {
+        "td_allow_use_two_tracks": true,
+        "td_curve_segcount": 0,
+        "td_height_ratio": 1.0,
+        "td_length_ratio": 0.5,
+        "td_maxheight": 2.0,
+        "td_maxlen": 1.0,
+        "td_on_pad_in_zone": false,
+        "td_target_name": "td_rect_shape",
+        "td_width_to_size_filter_ratio": 0.9
+      },
+      {
+        "td_allow_use_two_tracks": true,
+        "td_curve_segcount": 0,
+        "td_height_ratio": 1.0,
+        "td_length_ratio": 0.5,
+        "td_maxheight": 2.0,
+        "td_maxlen": 1.0,
+        "td_on_pad_in_zone": false,
+        "td_target_name": "td_track_end",
+        "td_width_to_size_filter_ratio": 0.9
+      }
+    ],
+    "note": "Teardrop preferences are configured, but only one ordinary GND zone and no per-pad teardrop nodes were observed. Effective native behavior untested."
+  },
+  "dependencies": {
+    "footprint_library_ids": {
+      "Resistor_SMD:R_0603_1608Metric": [
+        "R1",
+        "R3",
+        "R2"
+      ],
+      "Capacitor_SMD:C_0603_1608Metric": [
+        "C5",
+        "C3",
+        "C9",
+        "C10",
+        "C11",
+        "C1",
+        "C8",
+        "C4",
+        "C6",
+        "C2",
+        "C7"
+      ],
+      "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical": [
+        "J1"
+      ],
+      "Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical": [
+        "J2"
+      ],
+      "Package_TO_SOT_SMD:SOT-23-5_HandSoldering": [
+        "U1"
+      ],
+      "paw3395_pcb:PAW3395": [
+        "U2"
+      ]
+    },
+    "symbol_library_ids": {
+      "Device:C_Small": 11,
+      "pmw3610_pcb:TLV74318PDBVR": 1,
+      "power:+1V8": 3,
+      "power:GND": 7,
+      "Connector_Generic:Conn_01x02": 1,
+      "Connector_Generic:Conn_01x05": 1,
+      "Device:R_Small": 3,
+      "mysymbol:PAW3395": 1
+    },
+    "model_uris": {
+      "${KICAD8_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_0603_1608Metric.wrl": [
+        "R1",
+        "R3",
+        "R2"
+      ],
+      "${KICAD8_3DMODEL_DIR}/Capacitor_SMD.3dshapes/C_0603_1608Metric.wrl": [
+        "C5",
+        "C3",
+        "C9",
+        "C10",
+        "C11",
+        "C1",
+        "C8",
+        "C4",
+        "C6",
+        "C2",
+        "C7"
+      ],
+      "${KICAD8_3DMODEL_DIR}/Connector_PinHeader_2.54mm.3dshapes/PinHeader_1x02_P2.54mm_Vertical.wrl": [
+        "J1"
+      ],
+      "${KICAD8_3DMODEL_DIR}/Connector_PinHeader_2.54mm.3dshapes/PinHeader_1x05_P2.54mm_Vertical.wrl": [
+        "J2"
+      ],
+      "${KICAD8_3DMODEL_DIR}/Package_TO_SOT_SMD.3dshapes/SOT-23-5.wrl": [
+        "U1"
+      ],
+      "${MYLIB_DIR}/3dmodels/peripherals/PMW3360 v12.step": [
+        "U2",
+        "local-footprint-file"
+      ]
+    },
+    "missing_external_model_files": 6,
+    "missing_global_stock_footprint_ids": [
+      "Resistor_SMD:R_0603_1608Metric",
+      "Capacitor_SMD:C_0603_1608Metric",
+      "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical",
+      "Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical",
+      "Package_TO_SOT_SMD:SOT-23-5_HandSoldering"
+    ],
+    "symbol_library_tables_present": false,
+    "custom_cached_symbols_without_external_library": [
+      "mysymbol:PAW3395",
+      "pmw3610_pcb:TLV74318PDBVR"
+    ],
+    "dependency_closure_verified": false,
+    "scope": "All embedded copper/pad and symbol definitions are retained. Unresolved stock library revision/identity, custom symbol libraries and six model URIs are external closure gaps. Models are optional 3D references; library availability is relevant to library checking/editing and warnings, not proof that original-board native loading or a nonsaving diagnostic is impossible. No reference substituted."
+  },
+  "rights": {
+    "publisher": "badjeff/paw3395-pcb",
+    "commit": "b71e346fc04ef18c26e0e8638ce0333395d41a14",
+    "declared_license": "CERN-OHL-P-2.0",
+    "basis": "Explicit acquired README License paragraph and complete LICENSE at pinned commit.",
+    "text_file_exceptions": "No separate copyright/license header found in PCB, project, schematic or local footprint. Embedded stock footprint descriptions identify KiCad generators and standards; external ancestry/version and custom symbol/model origins remain unverified, not automatically relicensed by repository grant.",
+    "media": "Four acquired PNG/JPEG files retained unchanged. README captions associate them with board/PAW3950 variant; individual authorship/third-party content not authenticated. No designs/media selected for publication.",
+    "full_project_redistribution_approved": false
+  },
+  "population": {
+    "previous_boards": 19,
+    "new_boards": 1,
+    "acquired_boards": 20,
+    "old_boards_unchanged": true,
+    "independent_family_established": false,
+    "new_native_support": false,
+    "ancestry": "README explicitly treats PAW3395/PAW3950 as variants of this PCB and links two firmware drivers; custom symbol alias pmw3610_pcb is an ancestry lead, not proof of common-family or independence. No new network/history exploration or holdout exposure occurred."
+  },
+  "unchanged_after_readback": {
+    "all_data": true,
+    "raw_run": true,
+    "all_data_inventory_sha256": "bdc1bec851883241be2b2867617d8b5427afafac2c9b102e2fec3a28d6db522b",
+    "run_inventory_sha256": "132349a20ae9ddca0a5a5cc50d5727ef48c0981901b377a63de67cb11fb78dc4"
+  },
+  "audit_code_pins": {
+    "experiments/licensed_acquisition_v1/fetch.py": {
+      "bytes": 27545,
+      "sha256": "6f398e9a576e51c9b0252d53fd8d5a8a62b5c8f5b954f3d61d1b5b8a3489c110"
+    },
+    "autorouter/pipeline.py": {
+      "bytes": 67060,
+      "sha256": "266ffd1fb0ec4fea30a4b7d73df9d387c727b690ef2b13f3eeda6870cbd6a8fa"
+    },
+    "autorouter/sexpr.py": {
+      "bytes": 2045,
+      "sha256": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd"
+    }
+  }
+}

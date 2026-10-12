@@ -1,0 +1,20 @@
+...E
+======================================================================
+ERROR: test_linked_and_active_content_rejected (test_review_view.SvgControls.test_linked_and_active_content_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_review_view.py", line 21, in test_linked_and_active_content_rejected
+    self.assertEqual(view.svg_bytes(path), path.read_bytes())
+                     ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/review_view.py", line 11, in svg_bytes
+    raw = pc.read_bytes(path, 8 * 1024 * 1024)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/placement_clearance.py", line 30, in read_bytes
+    if any(x.is_symlink() for x in (path,*path.parents)):raise p.Rejected('placement symlink unsupported')
+                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+autorouter.pipeline.Rejected: placement symlink unsupported
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.119s
+
+FAILED (errors=1)

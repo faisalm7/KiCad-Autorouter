@@ -6,10 +6,18 @@ import driver as d
 
 def digest(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 
-def flow_case(OUT,name,observation='export'):
-    base=OUT/name;base.mkdir(parents=True);(base/'.runs').mkdir();source=base/'source';source.mkdir()
-    for path in (d.SOURCE,d.SOURCE.with_suffix('.kicad_pro')):shutil.copyfile(path,source/path.name)
-    board=source/d.SOURCE.name;receipt=base/'acquisition.json';receipt.write_text('{"mocked_scope":true}')
+def flow_case(OUT,name,observation='export',source_profile='lipo'):
+    # Real board/project bytes, fabricated process/context. This never runs native.
+    spec=d.source_spec(source_profile)
+    base=OUT/name;base.mkdir(parents=True);(base/'.runs').mkdir()
+    source=base/'source' if source_profile=='lipo' else base/spec.source.parent.relative_to(d.ROOT)
+    source.mkdir(parents=True)
+    for path in (spec.source,spec.source.with_suffix('.kicad_pro')):shutil.copyfile(path,source/path.name)
+    board=source/spec.source.name
+    if source_profile=='lipo':
+        receipt=base/'acquisition.json';receipt.write_text('{"mocked_scope":true}')
+    else:
+        receipt=base/spec.receipt.relative_to(d.ROOT);receipt.parent.mkdir(parents=True);shutil.copyfile(spec.receipt,receipt)
     helper=base/'helper.py';helper.write_text('# tiny frozen helper\n')
     hashes=d.inventory(source);total=sum(p.stat().st_size for p in source.iterdir());out=base/'.runs/out'
     tool=base/'synthetic-tool';tool.write_bytes(b'not executable')
@@ -47,7 +55,7 @@ def flow_case(OUT,name,observation='export'):
     def run(argv,*,cwd,log,**kwargs):
         log=Path(log);log.write_text('synthetic native observation; no process executed\n');calls.append(argv)
         if log.stem=='observe':
-            notes=d.source_notes(d.sx.read(board),d.read(board.with_suffix('.kicad_pro')))
+            notes=d.source_notes(d.sx.read(board),d.read(board.with_suffix('.kicad_pro')),source_profile)
             if observation=='export' or name=='unexpected_dsn':(out/'native.dsn').write_text('(pcb synthetic)')
             observed={'context_schema':1,'native_version':'10.0.0','units':'integer nanometres','mode':d.observation_mode(observation),'source':str(out/'observe-input'/board.name),
                 'board_sha256':hashes[board.name],'project_sha256':hashes[board.with_suffix('.kicad_pro').name],'dsn_sha256':digest(out/'native.dsn') if observation=='export' else None,
@@ -55,6 +63,7 @@ def flow_case(OUT,name,observation='export'):
                 'pads':notes['source_pads_identity'],'routes':[{'uuid':uid} for uid in notes['source_route_ids']],
                 'nets':[{'name':name} for name in notes['source_nonempty_nets']],
                 'floors_nm':{'min_track_width':100000,'min_clearance':100000,'min_via_diameter':400000,'min_through_hole_diameter':200000,'min_via_annular_width':100000}}
+            if name=='mapping_failure':observed['pads'][0]['net']='wrong-native-net'
             d.p.save_json(out/'observation.json',observed)
         elif log.stem=='original-drc':
             native={'$schema':'https://schemas.kicad.org/drc.v1.json','kicad_version':'10.0.0','source':board.name,'violations':[],'unconnected_items':[],
@@ -73,12 +82,18 @@ def flow_case(OUT,name,observation='export'):
             changed=copy.deepcopy(value);changed['floors_nm']['min_clearance']=999999
             mutation.update(path=str(path),before=digest(Path(path)));d.p.save_json(Path(path),changed);mutation['after']=digest(Path(path))
         return value
-    with mock.patch.object(d,'read',side_effect=read_hook),mock.patch.object(d,'ROOT',base),mock.patch.object(d,'SOURCE',board),mock.patch.object(d,'RECEIPT',receipt),mock.patch.object(d,'RECEIPT_SHA',digest(receipt)),\
+    original_size=d.size
+    def size(path):
+        result=original_size(path)
+        if name=='final_scan_source' and (out/'summary.json').exists() and not mutation:
+            mutation.update(path=str(board),before=digest(board));board.write_bytes(board.read_bytes()+b'\n');mutation['after']=digest(board)
+        return result
+    with mock.patch.object(d,'size',side_effect=size),mock.patch.object(d,'read',side_effect=read_hook),mock.patch.object(d,'ROOT',base),mock.patch.object(d,'SOURCE',board),mock.patch.object(d,'RECEIPT',receipt),mock.patch.object(d,'RECEIPT_SHA',digest(receipt)),\
          mock.patch.object(d,'source_binding',return_value=(hashes,total)),mock.patch.object(d,'snapshot',side_effect=snapshot),mock.patch.object(d,'read',side_effect=read),mock.patch.object(d,'drc_binding',side_effect=binding),mock.patch.object(d.p,'parse_report',side_effect=parse_report),\
          mock.patch.object(d.p,'tool_manifest',side_effect=tool_manifest),mock.patch.object(d.p,'check_storage',return_value=0),mock.patch.object(d,'run',side_effect=run):
-        result=d.experiment(out,run_native=True,observation=observation)
+        result=d.experiment(out,run_native=True,observation=observation,source_profile=source_profile)
     saved=d.read(out/'summary.json');observed=d.read(out/'observation.json')
-    return {'case':name,'observations_complete':saved['observations_complete'],'status':saved['status'],'error':saved.get('error'),
+    return {'case':name,'source_profile':saved['source_profile'],'source_spec':saved['source_spec'],'native_original_pad_route_identities_match':saved.get('native_original_pad_route_identities_match'),'production_gate_rejection':saved.get('production_gate_rejection'),'observations_complete':saved['observations_complete'],'status':saved['status'],'error':saved.get('error'),
         'reported_observation_sha256':saved.get('observation_sha256'),'actual_observation_sha256':digest(out/'observation.json'),
         'reported_floor':saved.get('native_effective_floors_nm',{}).get('min_clearance'),'actual_floor':observed['floors_nm']['min_clearance'],
         'observation':saved['observation'],'native_observation_mode':saved['native_observation_mode'],'dsn_export_requested':saved['dsn_export_requested'],'dsn_export_succeeded':saved['dsn_export_succeeded'],'native_dsn_sha256':saved['native_dsn_sha256'],'stage_one_evidence':saved.get('stage_one_evidence'),'steps':saved['steps'],
@@ -181,6 +196,60 @@ class Controls(unittest.TestCase):
                 out=root/'.runs/run';self.assertEqual(d.main(['--output',str(out),'--run-native',*args]),0)
                 experiment.assert_called_once_with(out,run_native=True,observation=selected)
                 self.assertEqual({sig:d.signal.getsignal(sig) for sig in previous},previous)
+
+    def test_paw_original_binding_format_and_exact_two_reasons(self):
+        spec=d.source_spec('paw3395');hashes,total=d.source_binding('paw3395')
+        self.assertEqual((len(hashes),total),(14,2163350))
+        notes=d.source_notes(d.sx.read(spec.source),d.read(spec.source.with_suffix('.kicad_pro')),'paw3395')
+        self.assertEqual((notes['format'],len(notes['source_pads_identity']),len(notes['source_nonempty_nets']),len(notes['source_route_ids']),len(notes['source_zone_intent_ast'])),('20240108',56,16,220,1))
+        with self.assertRaises(d.p.Rejected) as caught:d.p.preflight(spec.source)
+        self.assertEqual(str(caught.exception),spec.gate_rejection)
+        self.assertEqual(notes['source_design_settings']['rule_severities']['zone_has_empty_net'],'error')
+        self.assertIs(notes['format_support_qualified'],False)
+        with mock.patch.object(d,'size',return_value=0):d.reserve_copy(self.out,total,2)
+    def test_profile_selector_is_finite_and_wrong_profile_rejects(self):
+        for value in ('../paw3395','PAW3395',True,None,{}):
+            with self.subTest(value=value),self.assertRaisesRegex(d.p.Rejected,'unknown source profile'):d.experiment(self.out/'never-created',run_native=True,source_profile=value)
+        self.assertFalse((self.out/'never-created').exists())
+        spec=d.source_spec('paw3395');board=d.sx.read(spec.source);project=d.read(spec.source.with_suffix('.kicad_pro'))
+        with self.assertRaisesRegex(d.p.Rejected,'format'):d.source_notes(board,project,'lipo')
+        for field in ('pad-id','reference'):
+            wrong=copy.deepcopy(board);fp=d.sx.children(wrong,'footprint')[0]
+            if field=='pad-id':d.sx.one(d.sx.children(fp,'pad')[0],'uuid')[0]='tstamp'
+            else:
+                ref=next(x for x in d.sx.children(fp,'property') if d.sx.unquote(x[1])=='Reference');ref[1]='"NotReference"'
+            with self.subTest(field=field),self.assertRaises(d.p.Rejected):d.source_notes(wrong,project,'paw3395')
+    def test_paw_cli_and_exact_worker_paths(self):
+        root=self.out/'root';(root/'.runs').mkdir(parents=True)
+        with mock.patch.object(d,'ROOT',root),mock.patch.object(d,'experiment',return_value={'status':'observations_complete','observations_complete':True}) as experiment,mock.patch('builtins.print'):
+            out=root/'.runs/run';self.assertEqual(d.main(['--output',str(out),'--run-native','--source-profile','paw3395','--observation','export']),0)
+            experiment.assert_called_once_with(out,run_native=True,observation='export',source_profile='paw3395')
+        spec=d.source_spec('paw3395')
+        self.assertEqual(d.observe_argv(self.out,'export','paw3395'),d.f.context_argv('export',self.out/'observe-input'/spec.source.name,self.out/'observation.json',self.out/'native.dsn'))
+        self.assertEqual(d.drc_argv(self.out,'paw3395')[-1],str(self.out/'original-drc-input'/spec.source.name))
+        job=object.__new__(d.ObservationJob);job.out=self.out;job.observation='export';job.source_profile='paw3395';job.remaining=lambda:30
+        with mock.patch.object(d,'run') as worker,self.assertRaisesRegex(d.p.Rejected,'exact nonsaving'):job.step('observe',d.observe_argv(self.out),already_sandboxed=True)
+        worker.assert_not_called()
+    def test_paw_mocked_two_stage_positive_and_first_mapping_failure(self):
+        for case in ('unchanged','mapping_failure'):
+            with self.subTest(case=case):
+                row=flow_case(self.out,case,source_profile='paw3395')
+                self.assertEqual(row['source_profile'],'paw3395');self.assertEqual(row['source_spec']['pads'],56)
+                self.assertTrue(row['expectation_satisfied']);self.assertTrue(row['actual_source_unchanged'])
+                self.assertIs(row['dsn_export_succeeded'],True)
+                self.assertEqual(row['native_dsn_sha256'],row['stage_one_evidence']['native.dsn'])
+                self.assertEqual(row['mock_native_stages'],2 if case=='unchanged' else 1)
+                self.assertIs(row['native_original_pad_route_identities_match'],case=='unchanged')
+                if case=='mapping_failure':self.assertIn('native original terminal identities differ',row['error'])
+    def test_final_output_scan_source_change_is_not_rebased(self):
+        row=flow_case(self.out,'final_scan_source')
+        self.assertFalse(row['observations_complete']);self.assertFalse(row['actual_source_unchanged'])
+        self.assertIn('original source/acquisition changed',row['error'])
+    def test_source_profiles_module_and_tests_snapshotted(self):
+        def git(argv,**kwargs):return subprocess.CompletedProcess(argv,0,(d.ROOT/argv[2].split(':',1)[1]).read_bytes(),b'')
+        with mock.patch.object(d.subprocess,'run',side_effect=git):hashes=d.snapshot(self.out,{'git_head':'mock-head','implementation_sha256':{}})
+        for name in ('driver.py','test_driver.py','source_profiles.py','README.md'):
+            self.assertEqual(hashes[str((d.HERE/name).relative_to(d.ROOT))],digest(d.HERE/name))
 
     def test_whole_flow_mock_positive(self):
         row=flow_case(self.out,'unchanged');self.assertTrue(row['expectation_satisfied']);self.assertTrue(row['actual_source_unchanged'])
@@ -302,6 +371,24 @@ class Controls(unittest.TestCase):
         result=d.publish(self.out,self.record(),lambda:None,lambda:None,lambda:1)
         self.assertTrue(result['observations_complete']);self.assertFalse(result['routing_accepted'])
         self.assertEqual(d.read(self.out/'summary.json'),result)
+    def test_final_size_scan_cannot_leave_stale_positive(self):
+        for variant in ('canonical','memory','budget'):
+            with self.subTest(variant=variant):
+                out=self.out/variant;out.mkdir();record=self.record();expired=False
+                def scan(path):
+                    nonlocal expired
+                    if variant=='canonical':
+                        changed=d.read(out/'summary.json');changed['routing_accepted']=True;d.p.save_json(out/'summary.json',changed)
+                    elif variant=='memory':record['format_support_qualified']=True
+                    else:expired=True
+                    return 0
+                with mock.patch.object(d,'size',side_effect=scan):
+                    result=d.publish(out,record,lambda:None,lambda:None,lambda:0 if expired else 1)
+                self.assertFalse(result['observations_complete'])
+                self.assertFalse(d.read(out/'summary.json')['observations_complete'])
+                self.assertFalse(result.get('routing_accepted',False))
+                self.assertFalse(result.get('format_support_qualified',False))
+
     def test_postwrite_stale_invalidates(self):
         with mock.patch.object(d,'size',return_value=0):
             result=d.publish(self.out,self.record(),mock.Mock(side_effect=[None,d.p.Rejected('stale')]),lambda:None,lambda:1)
