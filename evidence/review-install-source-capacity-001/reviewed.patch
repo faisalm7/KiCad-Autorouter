@@ -1,0 +1,63 @@
+diff --git a/scripts/install_smoke.py b/scripts/install_smoke.py
+index a1b2a0e..3948872 100644
+--- a/scripts/install_smoke.py
++++ b/scripts/install_smoke.py
+@@ -30,6 +30,8 @@ from autorouter.runner import run
+ 
+ 
+ MAX_BYTES = 512 * 1024**2
++SOURCE_MAX_BYTES = 192 * 1024**2
++SOURCE_MAX_FILES = 12000
+ TOTAL_SECONDS = 600.0
+ NETWORK_DENIAL = ["/usr/bin/sandbox-exec", "-p", "(version 1)(allow default)(deny network*)"]
+ 
+@@ -217,11 +219,11 @@ def tracked_inventory(root, listing):
+         absolute = root / path
+         if not absolute.is_file():
+             raise RuntimeError("tracked file missing: " + relative)
+-        if len(inventory) >= 10000:
++        if len(inventory) >= SOURCE_MAX_FILES:
+             raise RuntimeError("tracked source inventory exceeds installation test bound")
+-        raw = pc.read_bytes(absolute, 128 * 1024**2 - total)
++        raw = pc.read_bytes(absolute, SOURCE_MAX_BYTES - total)
+         total += len(raw)
+-        if total > 128 * 1024**2:
++        if total > SOURCE_MAX_BYTES:
+             raise RuntimeError("tracked source inventory exceeds installation test bound")
+         inventory[relative] = hashlib.sha256(raw).hexdigest()
+     return inventory
+@@ -236,7 +238,7 @@ def install_test(out, guidance="native"):
+     report = {"schema": 2, "selected_qualification": selected, "status": "incomplete", "passed": False,
+               "started_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+               "source_checkout": str(c.ROOT), "output": str(out), "commands": [], "actions": [],
+-              "limits": {"wall_seconds": TOTAL_SECONDS, "scratch_bytes": MAX_BYTES, "log_bytes_per_command": 2_000_000,
++              "limits": {"wall_seconds": TOTAL_SECONDS, "scratch_bytes": MAX_BYTES, "source_bytes": SOURCE_MAX_BYTES, "source_files": SOURCE_MAX_FILES, "log_bytes_per_command": 2_000_000,
+                          "memory_guard": "4 GiB direct process-group polling; native pipeline applies its own per-worker guards"},
+               "qualification": "Fresh local clone and Python venv on the existing Mac, not fresh OS/application installation. Official verified JAR cache and installed KiCad/Java/Python are reused. No pip dependencies or downloads.",
+               "concurrency": "Shared project experiment lock; one installation command at a time. Lead keeps all other native/engine experiments idle.",
+diff --git a/tests/test_install_smoke.py b/tests/test_install_smoke.py
+index a544a47..0e2233d 100644
+--- a/tests/test_install_smoke.py
++++ b/tests/test_install_smoke.py
+@@ -73,9 +73,20 @@ class InstallSmokeTests(unittest.TestCase):
+         self.assertEqual(m.tracked_inventory(source, 'a\0'), {'a': m.hashlib.sha256(b'ok').hexdigest()})
+         with mock.patch.object(m.pc, 'read_bytes', side_effect=ValueError('oversize')) as reader:
+             with self.assertRaisesRegex(ValueError, 'oversize'): m.tracked_inventory(source, 'a\0')
+-            self.assertEqual(reader.call_args.args[1], 128 * 1024**2)
++            self.assertEqual(reader.call_args.args[1], m.SOURCE_MAX_BYTES)
+         with self.assertRaises(RuntimeError): m.tracked_inventory(source, '../other\0')
+ 
++    def test_source_inventory_cumulative_cap_still_rejects(self):
++        source = self.root / 'source'; source.mkdir()
++        (source / 'a').write_bytes(b'abc')
++        (source / 'b').write_bytes(b'def')
++        with mock.patch.object(m, 'SOURCE_MAX_BYTES', 5):
++            with self.assertRaises(m.p.Rejected):
++                m.tracked_inventory(source, 'a\0b\0')
++        with mock.patch.object(m, 'SOURCE_MAX_FILES', 1):
++            with self.assertRaisesRegex(RuntimeError, 'inventory exceeds'):
++                m.tracked_inventory(source, 'a\0b\0')
++
+     def test_git_identity_supports_packed_branch_and_rejects_ambiguity(self):
+         gitdir = self.root / '.git'; gitdir.mkdir()
+         head = 'a' * 40

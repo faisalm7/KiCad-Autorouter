@@ -73,8 +73,19 @@ class InstallSmokeTests(unittest.TestCase):
         self.assertEqual(m.tracked_inventory(source, 'a\0'), {'a': m.hashlib.sha256(b'ok').hexdigest()})
         with mock.patch.object(m.pc, 'read_bytes', side_effect=ValueError('oversize')) as reader:
             with self.assertRaisesRegex(ValueError, 'oversize'): m.tracked_inventory(source, 'a\0')
-            self.assertEqual(reader.call_args.args[1], 128 * 1024**2)
+            self.assertEqual(reader.call_args.args[1], m.SOURCE_MAX_BYTES)
         with self.assertRaises(RuntimeError): m.tracked_inventory(source, '../other\0')
+
+    def test_source_inventory_cumulative_cap_still_rejects(self):
+        source = self.root / 'source'; source.mkdir()
+        (source / 'a').write_bytes(b'abc')
+        (source / 'b').write_bytes(b'def')
+        with mock.patch.object(m, 'SOURCE_MAX_BYTES', 5):
+            with self.assertRaises(m.p.Rejected):
+                m.tracked_inventory(source, 'a\0b\0')
+        with mock.patch.object(m, 'SOURCE_MAX_FILES', 1):
+            with self.assertRaisesRegex(RuntimeError, 'inventory exceeds'):
+                m.tracked_inventory(source, 'a\0b\0')
 
     def test_git_identity_supports_packed_branch_and_rejects_ambiguity(self):
         gitdir = self.root / '.git'; gitdir.mkdir()

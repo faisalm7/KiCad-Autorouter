@@ -152,7 +152,10 @@ def _review_copy(receipt, output, start, cpu_start):
                       source_receipt_schema=report['schema'], receipt=str(receipt),
                       receipt_sha256=receipt_digest, verified_candidate_sha256=identity['candidate_sha256'],
                       candidate_sha256=candidate_hashes[candidate.name], project=str(project),
-                      board=str(project / candidate.name), initial_project_hashes=candidate_hashes,
+                      board=str(project / candidate.name),
+                      project_file=str(project / candidate.with_suffix('.kicad_pro').name),
+                      review_instructions='Open project_file in KiCad project manager, then Tools > PCB Editor. Run DRC with zone refill and all severities visible. Review every warning. Close and discard to reject; originals remain unchanged.',
+                      initial_project_hashes=candidate_hashes,
                       source_project_hashes=source_hashes, routing_evidence_hashes=evidence_hashes,
                       runtime_source_sha256=runtime_hashes,
                       limits='Disposable complete project files for manual review only; no fresh native check, applied result, GUI opening or live-editor approval. Saving/editing invalidates the original validation claim. Local bounded inventories are finite samples, not atomic authentication or protection against hostile concurrent writers, abrupt termination or power loss. Installed native tool binaries are not revalidated by this copy command.')

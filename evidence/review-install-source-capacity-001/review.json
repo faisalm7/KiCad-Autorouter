@@ -1,0 +1,42 @@
+{
+  "changed_function_bodies": [
+    "tracked_inventory",
+    "install_test"
+  ],
+  "current_git_tracked_file_stat_inventory": {
+    "bytes": 143039891,
+    "files": 8985,
+    "scope": "Stat-only current tracked working files, including reviewed uncommitted changes; not native/installation evidence",
+    "source_bytes_headroom": 58286701
+  },
+  "disposition": "No scoped blocker found",
+  "head_at_review": "7a74955f2e49c65a76f8c081326219d464af005a",
+  "new_source_limits": {
+    "bytes": 201326592,
+    "files": 12000
+  },
+  "original_files_unchanged_by_review": true,
+  "patch_sha256": "4905b8022576da4ed0d3a1d5287efa106952e2bf7a33a8c8bba0fb824d3ff90e",
+  "previous_source_limits": {
+    "bytes": 134217728,
+    "files": 10000
+  },
+  "review_findings": [
+    "Change affects only bounded source inventory constants, their use in tracked_inventory, and explicit receipt limit fields.",
+    "Cumulative remaining byte limit is still passed to the bounded reader before reading/hashing each file; file count checked before adding each entry.",
+    "Path traversal, parent/file symlink checks and missing-file rejection are unchanged.",
+    "Whole scratch512MiB,600s timeout, network denial, stage/native freshness, scoped signals and publication guards are unchanged.",
+    "Added tiny real-file regression rejects aggregate6B under5B and2files under1file; existing bounded-read sentinel now asserts selected constant.",
+    "The separate128MiB read bound remaining in stable_material is for interpreter/configuration/command-log artifacts, not tracked source payload; no need to widen it.",
+    "Larger source bound does not guarantee clone/venv/Git metadata fit scratch512MiB; actual fresh install must still reject if that unchanged ceiling is crossed."
+  ],
+  "reviewed_sha256": {
+    "scripts/install_smoke.py": "573bff0244a9a08cb51a743be6004cb70ef33c9be8b0aeaa1ff678f87a02b663",
+    "tests/test_install_smoke.py": "87d276c7c60b0cb5b4031a16a2d58b3edf6f0d73c578ef4f2a0d3f9187377d18"
+  },
+  "schema": 1,
+  "scope": "Independent read-only review of installer source-inventory capacity diff only; no installation/native/test suite execution",
+  "tests_executed_by_this_review": false,
+  "unchanged_scratch_limit_bytes": 536870912,
+  "unchanged_wall_seconds": 600
+}

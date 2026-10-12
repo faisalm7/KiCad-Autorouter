@@ -1,0 +1,812 @@
+{
+  "all_inputs_unchanged": true,
+  "candidate_sha256": "65dd3b0e6e0bfe6bf45a84b58d94eb4388a8b318967c47c40c26714b6777a0ef",
+  "checks": [
+    {
+      "check": "complete original project equals receipt and handoff",
+      "passed": true
+    },
+    {
+      "check": "complete accepted run equals original handoff inventory",
+      "passed": true
+    },
+    {
+      "check": "complete disposable GUI project equals retained postclose inventory",
+      "passed": true
+    },
+    {
+      "check": "same prepared complete project",
+      "passed": true
+    },
+    {
+      "check": "CLI report receipt digest",
+      "passed": true
+    },
+    {
+      "check": "GUI report observation digest",
+      "passed": true
+    },
+    {
+      "check": "handoff exact routing receipt",
+      "passed": true
+    },
+    {
+      "check": "GUI and CLI final saved board exact",
+      "passed": true
+    },
+    {
+      "check": "CLI exact candidate/input binding",
+      "passed": true
+    },
+    {
+      "check": "CLI original rules at final DRC",
+      "passed": true
+    },
+    {
+      "check": "CLI exact final DRC command and cleanup",
+      "passed": true
+    },
+    {
+      "check": "CLI native log count",
+      "passed": true
+    },
+    {
+      "check": "report metadata exact: $schema",
+      "passed": true
+    },
+    {
+      "check": "report metadata exact: coordinate_units",
+      "passed": true
+    },
+    {
+      "check": "report metadata exact: kicad_version",
+      "passed": true
+    },
+    {
+      "check": "report metadata exact: source",
+      "passed": true
+    },
+    {
+      "check": "report metadata exact: included_severities",
+      "passed": true
+    },
+    {
+      "check": "report metadata exact: ignored_checks",
+      "passed": true
+    },
+    {
+      "check": "report metadata exact: unconnected_items",
+      "passed": true
+    },
+    {
+      "check": "report metadata exact: schematic_parity",
+      "passed": true
+    },
+    {
+      "check": "both have only warning violations",
+      "passed": true
+    },
+    {
+      "check": "all fifteen complete nonlibrary records equal with multiplicity",
+      "passed": true
+    },
+    {
+      "check": "nine connection widths and six other",
+      "passed": true
+    },
+    {
+      "check": "exact library conditions",
+      "passed": true
+    },
+    {
+      "check": "GUI library records cover each of 114 footprint identities once",
+      "passed": true
+    },
+    {
+      "check": "all CLI library identities included in GUI set once",
+      "passed": true
+    },
+    {
+      "check": "all sixteen project JSON differences match saved report",
+      "passed": true
+    },
+    {
+      "check": "no existing DRC severity change",
+      "passed": true
+    },
+    {
+      "check": "all original hard-rule values unchanged",
+      "passed": true
+    },
+    {
+      "check": "Default dimensions unchanged plus empty tuning profile only",
+      "passed": true
+    },
+    {
+      "check": "library table/files and all original project files except pro unchanged",
+      "passed": true
+    },
+    {
+      "check": "cached primary source pin pcbnew/drc/drc_item.cpp",
+      "passed": true
+    },
+    {
+      "check": "cached primary source pin pcbnew/drc/drc_test_provider_library_parity.cpp",
+      "passed": true
+    },
+    {
+      "check": "cached primary source pin pcbnew/board_design_settings.cpp",
+      "passed": true
+    },
+    {
+      "check": "cached primary source pin common/project/net_settings.cpp",
+      "passed": true
+    },
+    {
+      "check": "four cached primary sources pinned",
+      "passed": true
+    },
+    {
+      "check": "source-freeze digest",
+      "passed": true
+    },
+    {
+      "check": "frozen runtime environment code pipeline.py",
+      "passed": true
+    },
+    {
+      "check": "frozen runtime environment code floor_route.py",
+      "passed": true
+    },
+    {
+      "check": "historical wrong summary preserved",
+      "passed": true
+    },
+    {
+      "check": "all originals/run/disposable evidence unchanged by this audit",
+      "passed": true
+    }
+  ],
+  "cli_library_mismatch_by_footprint_name": {
+    "multichannel_mixer:CAPC3216X140N": 29,
+    "multichannel_mixer:RESC3216X65N": 47,
+    "multichannel_mixer:SOIC127P600X175-8N": 5
+  },
+  "cli_process": {
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+      "pcb",
+      "drc",
+      "--format",
+      "json",
+      "--severity-all",
+      "--all-track-errors",
+      "--refill-zones",
+      "--exit-code-violations",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-production-multichannel-001/final-drc.json",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-production-multichannel-001/final-drc-input/multichannel_mixer.kicad_pcb"
+    ],
+    "cleanup_complete": true,
+    "cpu_seconds": 1.321855,
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-production-multichannel-001",
+    "exit_code": 5,
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-production-multichannel-001/final-drc.log",
+    "log_bytes": 171,
+    "log_truncated": false,
+    "max_rss_bytes": 274415616,
+    "monitor_cpu_seconds": 0.0,
+    "name": "final-drc",
+    "pid": 16608,
+    "resource_accounting": {
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "memory_limit_enforced": false,
+      "method": "wait4 child rusage",
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds",
+      "native_rss_unit": "bytes",
+      "rss_scope": "kernel peak, not simultaneous process-tree total"
+    },
+    "resource_guards": {
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed.",
+      "max_group_rss_bytes": 4294967296,
+      "max_workdir_bytes": 536870912,
+      "os_enforced": false,
+      "poll_interval_seconds": 0.25
+    },
+    "sampled_peak_group_rss_bytes": 265895936,
+    "sampled_peak_workdir_bytes": 29713681,
+    "signal_cancellation_enabled": true,
+    "status": "nonzero_exit",
+    "supervisor_cpu_seconds": 0.02771200000000018,
+    "wall_seconds": 2.00642733299901
+  },
+  "connection_width_records": [
+    {
+      "description": "Copper connection too narrow (board setup constraints minimum connection width 0.3000 mm; actual 0.2641 mm) (B.Cu)",
+      "items": [
+        {
+          "description": "Zone [GND] on F.Cu and B.Cu, priority 1",
+          "pos": {
+            "x": 199.46,
+            "y": 154.66
+          },
+          "uuid": "2a2e83ed-a77d-476f-8432-6de9bc7f83ed"
+        }
+      ],
+      "severity": "warning",
+      "type": "connection_width"
+    },
+    {
+      "description": "Copper connection too narrow (board setup constraints minimum connection width 0.3000 mm; actual 0.2641 mm) (B.Cu)",
+      "items": [
+        {
+          "description": "Zone [GND] on F.Cu and B.Cu, priority 1",
+          "pos": {
+            "x": 199.46,
+            "y": 154.66
+          },
+          "uuid": "2a2e83ed-a77d-476f-8432-6de9bc7f83ed"
+        }
+      ],
+      "severity": "warning",
+      "type": "connection_width"
+    },
+    {
+      "description": "Copper connection too narrow (board setup constraints minimum connection width 0.3000 mm; actual 0.2819 mm) (F.Cu)",
+      "items": [
+        {
+          "description": "Zone [GND] on F.Cu and B.Cu, priority 1",
+          "pos": {
+            "x": 199.46,
+            "y": 154.66
+          },
+          "uuid": "2a2e83ed-a77d-476f-8432-6de9bc7f83ed"
+        }
+      ],
+      "severity": "warning",
+      "type": "connection_width"
+    },
+    {
+      "description": "Copper connection too narrow (board setup constraints minimum connection width 0.3000 mm; actual 0.2751 mm) (B.Cu)",
+      "items": [
+        {
+          "description": "Zone [GND] on F.Cu and B.Cu, priority 1",
+          "pos": {
+            "x": 199.46,
+            "y": 154.66
+          },
+          "uuid": "2a2e83ed-a77d-476f-8432-6de9bc7f83ed"
+        }
+      ],
+      "severity": "warning",
+      "type": "connection_width"
+    },
+    {
+      "description": "Copper connection too narrow (board setup constraints minimum connection width 0.3000 mm; actual 0.2668 mm) (F.Cu)",
+      "items": [
+        {
+          "description": "Zone [GND] on F.Cu and B.Cu, priority 1",
+          "pos": {
+            "x": 199.46,
+            "y": 154.66
+          },
+          "uuid": "2a2e83ed-a77d-476f-8432-6de9bc7f83ed"
+        }
+      ],
+      "severity": "warning",
+      "type": "connection_width"
+    },
+    {
+      "description": "Copper connection too narrow (board setup constraints minimum connection width 0.3000 mm; actual 0.2641 mm) (B.Cu)",
+      "items": [
+        {
+          "description": "Zone [GND] on F.Cu and B.Cu, priority 1",
+          "pos": {
+            "x": 199.46,
+            "y": 154.66
+          },
+          "uuid": "2a2e83ed-a77d-476f-8432-6de9bc7f83ed"
+        }
+      ],
+      "severity": "warning",
+      "type": "connection_width"
+    },
+    {
+      "description": "Copper connection too narrow (board setup constraints minimum connection width 0.3000 mm; actual 0.2163 mm) (F.Cu)",
+      "items": [
+        {
+          "description": "Zone [GND] on F.Cu and B.Cu, priority 1",
+          "pos": {
+            "x": 199.46,
+            "y": 154.66
+          },
+          "uuid": "2a2e83ed-a77d-476f-8432-6de9bc7f83ed"
+        }
+      ],
+      "severity": "warning",
+      "type": "connection_width"
+    },
+    {
+      "description": "Copper connection too narrow (board setup constraints minimum connection width 0.3000 mm; actual 0.2577 mm) (B.Cu)",
+      "items": [
+        {
+          "description": "Zone [GND] on F.Cu and B.Cu, priority 1",
+          "pos": {
+            "x": 199.46,
+            "y": 154.66
+          },
+          "uuid": "2a2e83ed-a77d-476f-8432-6de9bc7f83ed"
+        }
+      ],
+      "severity": "warning",
+      "type": "connection_width"
+    },
+    {
+      "description": "Copper connection too narrow (board setup constraints minimum connection width 0.3000 mm; actual 0.1689 mm) (F.Cu)",
+      "items": [
+        {
+          "description": "Zone [GND] on F.Cu and B.Cu, priority 1",
+          "pos": {
+            "x": 199.46,
+            "y": 154.66
+          },
+          "uuid": "2a2e83ed-a77d-476f-8432-6de9bc7f83ed"
+        }
+      ],
+      "severity": "warning",
+      "type": "connection_width"
+    }
+  ],
+  "counts": {
+    "cli": {
+      "connection_width": 9,
+      "lib_footprint_mismatch": 81,
+      "nonmirrored_text_on_back_layer": 1,
+      "silk_edge_clearance": 1,
+      "silk_over_copper": 4
+    },
+    "gui": {
+      "connection_width": 9,
+      "lib_footprint_issues": 114,
+      "nonmirrored_text_on_back_layer": 1,
+      "silk_edge_clearance": 1,
+      "silk_over_copper": 4
+    }
+  },
+  "frozen_routing_code_head": "eab7540924b5c8d68263fb68eb4bce6ab9540783",
+  "gui_library_issue_all_footprints": 114,
+  "gui_qualified": false,
+  "ignored_checks": [
+    {
+      "description": "Footprint has no courtyard defined",
+      "key": "missing_courtyard"
+    },
+    {
+      "description": "Track endpoint not centered on via",
+      "key": "track_not_centered_on_via"
+    },
+    {
+      "description": "Tuning profile track geometries",
+      "key": "tuning_profile_track_geometries"
+    },
+    {
+      "description": "Footprint doesn't match symbol's footprint filters",
+      "key": "footprint_filters_mismatch"
+    },
+    {
+      "description": "PTH inside courtyard",
+      "key": "pth_inside_courtyard"
+    },
+    {
+      "description": "NPTH inside courtyard",
+      "key": "npth_inside_courtyard"
+    },
+    {
+      "description": "Footprint component type doesn't match footprint pads",
+      "key": "footprint_type_mismatch"
+    }
+  ],
+  "input_pins": {
+    ".runs/placement-gui-multichannel-001/project/fp-lib-table": {
+      "bytes": 147,
+      "sha256": "8a1e7e5ab227455c8865598b3c4c36db1e75c8abced3b2c0aee4fde54176a328"
+    },
+    ".runs/placement-gui-multichannel-001/project/multichannel_mixer.kicad_pro": {
+      "bytes": 16227,
+      "sha256": "afd236cda75abd253a673c8190b0ad4245482220de523aeaebdeecb50e857864"
+    },
+    ".runs/placement-gui-multichannel-001/review.json": {
+      "bytes": 28786,
+      "sha256": "4111d796d53e436dafba78ce5a305589610d102a8573c0a5649931b7a705e192"
+    },
+    ".runs/placement-production-multichannel-001/candidate/multichannel_mixer.kicad_pcb": {
+      "bytes": 1978422,
+      "sha256": "65dd3b0e6e0bfe6bf45a84b58d94eb4388a8b318967c47c40c26714b6777a0ef"
+    },
+    ".runs/placement-production-multichannel-001/candidate/multichannel_mixer.kicad_pro": {
+      "bytes": 15273,
+      "sha256": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538"
+    },
+    ".runs/placement-production-multichannel-001/code/floor_route.py": {
+      "bytes": 28887,
+      "sha256": "403582db57db73c5d10b4083b3e050f70966b07d3b219cd3ad0f3c387aa51b88"
+    },
+    ".runs/placement-production-multichannel-001/code/pipeline.py": {
+      "bytes": 48987,
+      "sha256": "435b55852ec1616c2a546ac89c5aa67a198cedd864691b67df56332bf4af6f4e"
+    },
+    ".runs/placement-production-multichannel-001/final-drc-binding.json": {
+      "bytes": 4363,
+      "sha256": "0b176c6a3adf21cf4e5166e338a376113bb918dc91fc49f9346bd7f958903ce9"
+    },
+    ".runs/placement-production-multichannel-001/final-drc-process.json": {
+      "bytes": 2016,
+      "sha256": "59a79eb10a674d9c0aa73a533fd66d8853dfa647f3a3ceeecd1f8554e1ebe4f5"
+    },
+    ".runs/placement-production-multichannel-001/final-drc.json": {
+      "bytes": 53445,
+      "sha256": "ce780053bb51d2b131db586c87ec02d81ea8619eaf5bbe8967439259e768d5a6"
+    },
+    ".runs/placement-production-multichannel-001/final-drc.log": {
+      "bytes": 171,
+      "sha256": "a4ba6ae4999afd13a33cbc5c8bf189edad246df3346ab56c21f6a7f10907847d"
+    },
+    ".runs/placement-production-multichannel-001/placement-source-freeze.json": {
+      "bytes": 2228,
+      "sha256": "7cfbb0205e5a1573297b2b05e2ac57fd7c28ccb3ba81d92839e10a2fe035a1ba"
+    },
+    ".runs/placement-production-multichannel-001/result.json": {
+      "bytes": 152280,
+      "sha256": "c8501cf4b14634a0c9c2d38504717f8f9d7e7991b461446642cf7a3ecca6f4e3"
+    },
+    "evidence/placement-gui-observations-002/multichannel-gui-drc.json": {
+      "bytes": 71597,
+      "sha256": "81c2b25dfc984a15c639756d475fe910728fa211b8089d3c10bda2b54a4077d2"
+    },
+    "evidence/placement-gui-observations-002/multichannel-observation.json": {
+      "bytes": 71371,
+      "sha256": "4fd648f98bef3448c4ba4eb982858626c0e7a3f2e2de7b1a2e10172ecb7dbab7"
+    },
+    "evidence/placement-gui-observations-002/multichannel-project-changes.json": {
+      "bytes": 3288,
+      "sha256": "d562c5a025b1d18c62fe9c93da077099d0e5177d26c586d13472ba3c1a432401"
+    },
+    "evidence/placement-gui-observations-002/summary.json": {
+      "bytes": 1508,
+      "sha256": "b032a68d9b6adcca87069697e5fc52e883d91e4ef14be296b95bd6f1fd94f5b2"
+    }
+  },
+  "inventories": {
+    ".data/boards/kicad-multichannel": {
+      "files": 17,
+      "sha256_of_canonical_inventory": "15344d24f234a021cc7cd949e0f7b82b18ae28a2e19bca07a2e0b4db7e96a849"
+    },
+    ".runs/placement-gui-multichannel-001/project": {
+      "files": 53,
+      "sha256_of_canonical_inventory": "4ef06963a6897d43eebdc28648ebe7597bfca0d9cc3c546d2b87238a33e4f058"
+    },
+    ".runs/placement-production-multichannel-001": {
+      "files": 175,
+      "sha256_of_canonical_inventory": "6d9942cbb4bd785afea55a824388135a4bf1c94fd7932aa6d1b920d2ec3c1aa9"
+    }
+  },
+  "library_delta": 33,
+  "library_runtime_root_cause_established": false,
+  "new_validation_performed": false,
+  "nonlibrary_full_record_multisets_equal": true,
+  "other_nonlibrary_records": [
+    {
+      "description": "Silkscreen clipped by board edge",
+      "items": [
+        {
+          "description": "Segment on Edge.Cuts",
+          "pos": {
+            "x": 89.46,
+            "y": 154.66
+          },
+          "uuid": "934dde10-2d04-4cc1-8a7d-b02236d5b3e7"
+        },
+        {
+          "description": "Reference field of J9",
+          "pos": {
+            "x": 89.785,
+            "y": 59.285
+          },
+          "uuid": "ab7ba046-f239-4f75-b208-08d8f747ca88"
+        }
+      ],
+      "severity": "warning",
+      "type": "silk_edge_clearance"
+    },
+    {
+      "description": "Silkscreen clipped by solder mask",
+      "items": [
+        {
+          "description": "Reference field of IC3",
+          "pos": {
+            "x": 120.359,
+            "y": 84.1
+          },
+          "uuid": "28520b16-c5fa-4c24-bc71-6965d0761a5e"
+        },
+        {
+          "description": "Pad 2 [+12V] of C21 on B.Cu",
+          "pos": {
+            "x": 119.5,
+            "y": 84.4
+          },
+          "uuid": "88e58f92-c2a4-468b-acf1-7e0e78a26bc3"
+        }
+      ],
+      "severity": "warning",
+      "type": "silk_over_copper"
+    },
+    {
+      "description": "Silkscreen clipped by solder mask",
+      "items": [
+        {
+          "description": "Reference field of IC5",
+          "pos": {
+            "x": 98.359,
+            "y": 84.1
+          },
+          "uuid": "8720a952-c5fc-4caa-b673-006377c6ab25"
+        },
+        {
+          "description": "Pad 2 [+12V] of C39 on B.Cu",
+          "pos": {
+            "x": 97.5,
+            "y": 84.4
+          },
+          "uuid": "c6d97c51-38e3-4b00-a640-106a38baad50"
+        }
+      ],
+      "severity": "warning",
+      "type": "silk_over_copper"
+    },
+    {
+      "description": "Silkscreen clipped by solder mask",
+      "items": [
+        {
+          "description": "Reference field of IC2",
+          "pos": {
+            "x": 142.359,
+            "y": 84.1
+          },
+          "uuid": "7fa181e1-69d9-464a-ae81-9bced51542f0"
+        },
+        {
+          "description": "Pad 2 [+12V] of C12 on B.Cu",
+          "pos": {
+            "x": 141.5,
+            "y": 84.4
+          },
+          "uuid": "b350806d-e28e-4fb1-beba-6501898e83b7"
+        }
+      ],
+      "severity": "warning",
+      "type": "silk_over_copper"
+    },
+    {
+      "description": "Silkscreen clipped by solder mask",
+      "items": [
+        {
+          "description": "Reference field of IC4",
+          "pos": {
+            "x": 164.359,
+            "y": 84.1
+          },
+          "uuid": "1e456e2e-f3a0-4432-8014-887b72a52c34"
+        },
+        {
+          "description": "Pad 2 [+12V] of C30 on B.Cu",
+          "pos": {
+            "x": 163.5,
+            "y": 84.4
+          },
+          "uuid": "0e483a8e-b18c-4eeb-8e8c-760f6b306309"
+        }
+      ],
+      "severity": "warning",
+      "type": "silk_over_copper"
+    },
+    {
+      "description": "Non-Mirrored text on back layer",
+      "items": [
+        {
+          "description": "Reference field of R3",
+          "pos": {
+            "x": 195.65,
+            "y": 111.06
+          },
+          "uuid": "4cbe1a4d-c11a-4c56-b91c-c730a4af03f8"
+        }
+      ],
+      "severity": "warning",
+      "type": "nonmirrored_text_on_back_layer"
+    }
+  ],
+  "project_changes": [
+    {
+      "after": false,
+      "change": "added",
+      "path": "/board/design_settings/defaults/apply_defaults_to_fp_barcodes"
+    },
+    {
+      "after": false,
+      "change": "added",
+      "path": "/board/design_settings/defaults/apply_defaults_to_fp_dimensions"
+    },
+    {
+      "after": "warning",
+      "change": "added",
+      "path": "/board/design_settings/rule_severities/footprint_symbol_field_mismatch"
+    },
+    {
+      "after": "warning",
+      "change": "added",
+      "path": "/board/design_settings/rule_severities/missing_tuning_profile"
+    },
+    {
+      "after": "error",
+      "change": "added",
+      "path": "/board/design_settings/rule_severities/text_on_edge_cuts"
+    },
+    {
+      "after": "ignore",
+      "change": "added",
+      "path": "/board/design_settings/rule_severities/track_not_centered_on_via"
+    },
+    {
+      "after": "error",
+      "change": "added",
+      "path": "/board/design_settings/rule_severities/track_on_post_machined_layer"
+    },
+    {
+      "after": "ignore",
+      "change": "added",
+      "path": "/board/design_settings/rule_severities/tuning_profile_track_geometries"
+    },
+    {
+      "after": "",
+      "change": "added",
+      "path": "/board/ipc2581/bom_rev"
+    },
+    {
+      "after": "",
+      "change": "added",
+      "path": "/board/ipc2581/sch_revision"
+    },
+    {
+      "after": {
+        "assignments": [],
+        "meta": {
+          "version": 0
+        },
+        "sheet_component_classes": {
+          "enabled": false
+        }
+      },
+      "change": "added",
+      "path": "/component_class_settings"
+    },
+    {
+      "after": [
+        {
+          "bus_width": 12,
+          "clearance": 0.2,
+          "diff_pair_gap": 0.25,
+          "diff_pair_via_gap": 0.25,
+          "diff_pair_width": 0.2,
+          "line_style": 0,
+          "microvia_diameter": 0.3,
+          "microvia_drill": 0.1,
+          "name": "Default",
+          "pcb_color": "rgba(0, 0, 0, 0.000)",
+          "priority": 2147483647,
+          "schematic_color": "rgba(0, 0, 0, 0.000)",
+          "track_width": 0.2,
+          "tuning_profile": "",
+          "via_diameter": 0.6,
+          "via_drill": 0.3,
+          "wire_width": 6
+        }
+      ],
+      "before": [
+        {
+          "bus_width": 12,
+          "clearance": 0.2,
+          "diff_pair_gap": 0.25,
+          "diff_pair_via_gap": 0.25,
+          "diff_pair_width": 0.2,
+          "line_style": 0,
+          "microvia_diameter": 0.3,
+          "microvia_drill": 0.1,
+          "name": "Default",
+          "pcb_color": "rgba(0, 0, 0, 0.000)",
+          "priority": 2147483647,
+          "schematic_color": "rgba(0, 0, 0, 0.000)",
+          "track_width": 0.2,
+          "via_diameter": 0.6,
+          "via_drill": 0.3,
+          "wire_width": 6
+        }
+      ],
+      "change": "changed",
+      "path": "/net_settings/classes"
+    },
+    {
+      "after": 5,
+      "before": 4,
+      "change": "changed",
+      "path": "/net_settings/meta/version"
+    },
+    {
+      "after": {},
+      "change": "added",
+      "path": "/schematic/bus_aliases"
+    },
+    {
+      "after": [
+        {
+          "filename": "multichannel_mixer.kicad_sch",
+          "name": "multichannel_mixer",
+          "uuid": "00000000-0000-0000-0000-000000000000"
+        }
+      ],
+      "change": "added",
+      "path": "/schematic/top_level_sheets"
+    },
+    {
+      "after": {
+        "meta": {
+          "version": 0
+        },
+        "tuning_profiles_impedance_geometric": []
+      },
+      "change": "added",
+      "path": "/tuning_profiles"
+    }
+  ],
+  "schema": 1,
+  "scope": "Offline retained-evidence comparison; no native/GUI/engine/network execution or rule changes",
+  "source_pins": [
+    {
+      "commit": "0feeca2a807f428ad2b3fa7c1e39625cb769f02c",
+      "path": ".runs/support-scope-review-001/source/pcbnew/drc/drc_item.cpp",
+      "receipt": ".runs/support-scope-review-001/source-receipt.json",
+      "receipt_sha256": "0bb76d9afc1ac3ed2111b52f549f6c775f6dbcbc11ab2d97011b8656d597577b",
+      "sha256": "ab014f2d70866bb1da53773b55fb3ce9912af501fa49c08b3a6f697dcdac3f51",
+      "url": "https://raw.githubusercontent.com/KiCad/kicad-source-mirror/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/pcbnew/drc/drc_item.cpp"
+    },
+    {
+      "commit": "0feeca2a807f428ad2b3fa7c1e39625cb769f02c",
+      "path": ".runs/support-scope-review-001/source/pcbnew/drc/drc_test_provider_library_parity.cpp",
+      "receipt": ".runs/support-scope-review-001/source-receipt.json",
+      "receipt_sha256": "0bb76d9afc1ac3ed2111b52f549f6c775f6dbcbc11ab2d97011b8656d597577b",
+      "sha256": "237ab02d234ba0f981c0edf9cd38139cfd9b53caed9bba5b9d3b6ac90fbb1288",
+      "url": "https://raw.githubusercontent.com/KiCad/kicad-source-mirror/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/pcbnew/drc/drc_test_provider_library_parity.cpp"
+    },
+    {
+      "commit": "0feeca2a807f428ad2b3fa7c1e39625cb769f02c",
+      "path": ".runs/support-scope-review-001/source/pcbnew/board_design_settings.cpp",
+      "receipt": ".runs/support-scope-review-001/source-receipt.json",
+      "receipt_sha256": "0bb76d9afc1ac3ed2111b52f549f6c775f6dbcbc11ab2d97011b8656d597577b",
+      "sha256": "1e9176e7273612767cf1ec21992ac0cc75f157f6929097c71ab160f90711a731",
+      "url": "https://raw.githubusercontent.com/KiCad/kicad-source-mirror/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/pcbnew/board_design_settings.cpp"
+    },
+    {
+      "commit": "0feeca2a807f428ad2b3fa7c1e39625cb769f02c",
+      "path": ".runs/pic-severity-scope-review-001/source/common/project/net_settings.cpp",
+      "receipt": ".runs/pic-severity-scope-review-001/source-receipt.json",
+      "receipt_sha256": "7a164a51d6117ff1bb3ebe21387a2296343b32ee329ece758ac8162e63d92f08",
+      "sha256": "bbc0a1c6d197886521dae5a0f806eaf7c363c6840b6e7c87ab8bcd891cb687c0",
+      "url": "https://raw.githubusercontent.com/KiCad/kicad-source-mirror/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/common/project/net_settings.cpp"
+    }
+  ],
+  "status": "completed",
+  "wall_seconds": 0.29446116599137895
+}

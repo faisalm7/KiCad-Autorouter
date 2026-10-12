@@ -4,20 +4,18 @@
 
 This section supersedes the older chronological next-step notes below. Continue the existing Mac checkout; do not repeat completed area001, custom native002, severity002, or prior routing comparisons.
 
-1. Checkpoint the shared DRC preservation helper, reviewed parity diagnostic, failed area001 evidence/diagnosis and actual GUI observations. Verify GitHub SHA and exact file bytes.
-2. Root runs the first actual parity diagnostic, then the reviewed amended area import probe in fresh directories, sequentially with their original bounded process controls. Preserve failed prerequisites and all six area outcomes. No original PIC four-arm routing or custom-pad production admission until transport and applicable rule gates qualify.
-3. Run one fresh production native compatibility check for the shared preservation change. Diagnose the new multichannel GUI connection-width/library discrepancy and exact project-default additions; do not suppress warnings or claim GUI qualification prematurely.
-4. Extend the existing artifact backup helper with reviewed incremental support, then perform a full restoration test because the backup system changed. Preserve all old archives; report on-Mac-only storage honestly.
-5. Continue broader supported families, equal-budget B0/B1/B2/C evidence, protected routing, persistent scope/layer/budget/preferences, and safe preview/acceptance/cancellation/install. Use the existing helpers and targeted iteration tests; full/native suites at integration/release milestones. Freeze untouched evaluation before use. All unmet requirements remain gates.
+1. Parity001, amended area002 and fresh production compatibility001 are complete and pass their narrow predicates. Preserve original failed area001. Checkpoint their complete selected evidence and GUI interpretation correction; do not repeat these runs without a new question.
+2. Finish independent GUI report/default assessment. Both reports have identical nonlibrary findings; different project-library resolution explains the different library-warning branch. Do not suppress any warning. If warranted, test opening a new disposable project through the KiCad manager as a separate prospective GUI hypothesis.
+3. Integrate incremental support in the existing backup helper after review and focused tests. Run full integration tests, verified source checkpoint, then the current bounded fresh installation test. Test complete restoration of the incremental chain because the backup system changed; keep all archives and report on-Mac-only storage honestly.
+4. Next custom-pad work must qualify the original PIC mixed-class transport and session roundtrip before any routing comparison/production admission. Reuse exact native geometry, existing process control and original-design checks. The frozen B0/B1/B2/C preselection remains unexecuted. A corrected custom-pad adapter is B1 capability, not C novelty.
+5. Continue broader supported families, equal-budget evidence, protected routing, persistent scope/layer/budget/preferences, and safe preview/acceptance/cancellation/install. Targeted iteration tests; full/native suites at integration/release milestones. Freeze untouched evaluation before use. All unmet requirements remain gates.
 
-At most two narrow subagents, no recursive delegation and one sequential native worker. Existing $0/publication/privacy limits persist. Exact next commands after verified source checkpoint:
+At most two narrow subagents, no recursive delegation and one sequential native worker. Existing $0/publication/privacy limits persist. Use fresh outputs and the existing outer process receipt pattern. Current exact readbacks:
 
 ```sh
-python3 -B experiments/pic_parity_controls_v1/driver.py --run-native --output .runs/pic-parity-controls-001
-python3 -B experiments/custom_pad_area_probe_v1/driver.py --run-import --output .runs/custom-pad-area-probe-002
+python3 -B -m autorouter check-result .runs/shared-preservation-native-001/result.json
+python3 -B -m unittest discover -s tests
 ```
-
-Both must use a retained bounded outer execution receipt. The first area probe001 is complete and must not be rerun or overwritten.
 
 ## Historical progress notes
 

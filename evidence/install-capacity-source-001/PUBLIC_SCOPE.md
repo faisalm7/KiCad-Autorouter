@@ -1,0 +1,1 @@
+Project-owned source/test evidence. Increased bounded installation inventory due observed source size; full fresh installation remains pending. Handoff change exposes the tested .kicad_pro manager entry and user instructions; no native policy or automatic GUI action changes.
