@@ -1,4 +1,6 @@
-# Legacy zone capability controls (unexecuted draft)
+# Legacy zone capability controls
+
+Actual001 at8f9ffeb completed all six processes. Predicate outcomes are pass/reject/exempt as declared; native DRC retains2/0/0,3/0/1,3/0/1 opens/blocking/warnings, with no legacy-key error. Direct Build/GetPadCount return behavior is observed for these three scenes only; no broader or physical-contact support follows. Do not rerun001. Exact raw evidence and independent audit are under `evidence/legacy-zone-controls-001` and `evidence/review-legacy-zone-actual-001`. The protocol statements below describe its pre-run design.
 
 Three new, owned fixtures derive from the complete `fixtures/smoke` project. No original file changes. The board remains unrouted; a successful historical zone predicate is not routing acceptance or DRC cleanliness.
 

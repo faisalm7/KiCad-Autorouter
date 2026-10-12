@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-legacy-zone-actual-001/audit.py", line 62, in <module>
+    try:main()
+        ^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-legacy-zone-actual-001/audit.py", line 24, in main
+    declaration=wrapper.read_text();ck('def Build(self, aBoard):' in declaration and 'CONNECTIVITY_DATA_GetPadCount' in declaration,'live connectivity declaration names')
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-legacy-zone-actual-001/audit.py", line 12, in ck
+    if not value:raise AssertionError(name)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: live connectivity declaration names
