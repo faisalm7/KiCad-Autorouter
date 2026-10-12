@@ -206,13 +206,17 @@
   ],
   "claims": {
     "custom_pad_support_qualified": false,
-    "drc_report_executed": false,
-    "initialization_qualified": false,
+    "generalized_gain": false,
     "mixed_clearance_equivalence_qualified": false,
-    "routing_accepted": false,
-    "ses_executed": false
+    "production_support_qualified": false,
+    "scope": "Prospective limitations only. Actual routing/SES/native execution and candidate results are recorded per run, never asserted by this protocol."
   },
   "engine_lifecycle": "DefaultSettings + actual DsnFileSettings + fixed CLI; assign RoutingJob.routerSettings before HeadlessBoardManager.loadFromSpecctraDsn; awaitPostLoad",
+  "execution_plan": {
+    "cancel_mode": "One actual pipeline with stop requested before entry; require zero generated copper and no routing acceptance.",
+    "reuse": "All prior completed native observations/controls remain cached, with their costs separate.",
+    "routing_mode": "One actual direct pipeline then SES; original-rule native stages only after engine/transport checks."
+  },
   "hypotheses": [
     "Selectively enabled exact custom bodies can survive real solver history and export while original ground plane remains passable.",
     "Zero ordinary copper import prevents reference-route seeding. No claim about retained-route precision failures.",
@@ -226,10 +230,10 @@
     "scope": "Exact raw DSN orthogonal placed-pin centers; no assertion that seven other netless native pads are DSN pin declarations."
   },
   "limitations": [
-    "Representation observation only; no routing/SES/native/candidate acceptance.",
-    "Original retained-route precision/merge failures remain; no protected-route or production custom-pad support.",
-    "Global ignore flag explicitly changes; other original flags/settings/geometry/classes/contacts must remain exact.",
-    "Raw tree hits are separate from flag-filtered blockers; arbitrary pin obstacle test is not a required positive."
+    "Finite routing/SES/native diagnostic; production support and comparative gains remain unqualified even if its final native candidate passes.",
+    "Original retained-route precision/merge failures remain failed; no protected-route transport waiver.",
+    "Before/after selective refresh preserves complete observed state. Routing necessarily changes ordinary copper and connectivity; static guards cover captured nonrouting fields, not every internal engine shape. Original native invariant/DRC checks remain essential.",
+    "Raw tree hits remain distinct from flag-filtered blockers. Engine contacts/pipeline completion never substitute for native connectivity."
   ],
   "limits": {
     "full_cpu_seconds": 180,
@@ -247,7 +251,7 @@
   "revision": "1.8-direct-routing-diagnostic",
   "schema": 1,
   "scope": "One direct synchronous pipeline on a derived DSN with zero ordinary seed routes; exact local/selective guards,60second cooperative stop,90second engine outer cap within180second total wall/fullCPU. No comparative or production-support claim. Separate --cancel-routing mode is actual pre-routing cancellation control.",
-  "search_tree_eligibility": "Every item remains in before/after census with raw validation. Exact ComponentOutline requires on-board, zero tile/default-tree shapes, null entries and raw false; every other item requires positive bounded shapes, matching nonnull entries and raw true. Before/after witnesses exact. No blanket invalid-tree exemption.",
+  "search_tree_eligibility": "Every item remains in before/after census with raw validation. Exact ComponentOutline requires on-board, zero tile/default-tree shapes, null entries and raw false; every other item requires positive bounded shapes, matching nonnull entries and raw true. Before/after witnesses exact. No blanket invalid-tree exemption. Exact before/after equality applies to the selective transition; final routing has a fresh full census including newly generated routes.",
   "tools": {
     "cli": {
       "bytes": 2131968,
