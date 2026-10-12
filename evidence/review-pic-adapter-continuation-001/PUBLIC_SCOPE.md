@@ -1,0 +1,1 @@
+Exact selected project-authored cached-continuation source review, GPL-3.0. Actual cached positives and negative guards ran offline; native constructor tests are mocked. No compiler, solver or native validation was repeated. Original failed routing receipt and complete local review tree remain preserved.

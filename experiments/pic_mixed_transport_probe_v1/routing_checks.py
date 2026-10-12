@@ -25,7 +25,8 @@ def static_state(state, *, renumber=False):
         result[section].sort(key=s.canonical)
     for net in result['nets']:
         net.pop('connected_sets')
-        if renumber:net.pop('terminal_ids')
+        if renumber:net.pop('terminal_ids');net.pop('number')
+    if renumber:result['nets'].sort(key=lambda row:row['name'])
     return result
 
 def adapter_projection(state, retained, receipt):

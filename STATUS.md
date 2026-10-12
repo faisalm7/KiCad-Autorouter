@@ -4,6 +4,10 @@ Updated October 12, 2026 (America/Los_Angeles). **Active local reconstruction; i
 
 ## Latest work — October 12 UTC
 
+Corrected-adapter routing001 atad5b648 completed actual compile/import/solver/SES, then failed cross-import internal net-number comparison. Independent readback finds only GND/VCC runtime numbers swapped; named net constraints and all240 pin memberships survive. Cross-import comparison now normalizes those internal numbers by name; same-instance pre/post routing checks remain exact. All19 text rectangles and the absent engine plane are observed. Final176traces/0vias,513integer corners; exact engine→SES337segments now verifies. The engine reports13remaining connections, so no completion is inferred. Stored6.452533wall/11.280382CPU. Original failed receipt remains unchanged.
+
+The22focused tests pass after correction. Next: `python3 -B .runs/run-pic-corrected-adapter-native-001.py` after continuation source checkpoint. It reuses completed solver/writer outputs and runs only original-rule native stages. Do not rerun corrected-adapter-routing001. This remains B1 diagnostic scope, not production support or comparative gain.
+
 Checkpoint60dacfe is verified on GitHub. Its incremental backup verifies87,698files/2,445,778,403bytes with1,028new or changed files/87,579,836bytes and no deletions; full restoration last passed at e7a948a. The next parent is `.local-backups/checkpoint-20261012T073429Z-8d4624175dbb4f5ea90f5b5d6895936c/receipt.json`. Archives remain on this Mac only.
 
 Corrected-adapter source is in progress: existing graphics+plane adapter, all19 outward-snapped native text rectangles, zero seed, exact allowed AST edit, explicit two-area engine mode and exact rational witness capture. The prospective fresh command is `python3 -B .runs/run-pic-corrected-adapter-routing-001.py` after source checks/checkpoint. It remains a diagnostic proposal with acceptance false; no current failed result is relabeled.

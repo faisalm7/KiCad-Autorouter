@@ -1,0 +1,101 @@
+{
+  "cache_guards": [
+    {
+      "cache_guard_passed": true,
+      "case": "positive",
+      "error": null
+    },
+    {
+      "cache_guard_passed": false,
+      "case": "unrouted_bytes",
+      "error": "cached failed routing provenance differs"
+    },
+    {
+      "cache_guard_passed": false,
+      "case": "helper_digest",
+      "error": "cached executed Java source differs"
+    },
+    {
+      "cache_guard_passed": false,
+      "case": "frozen_observations",
+      "error": "cached failed routing provenance differs"
+    },
+    {
+      "cache_guard_passed": false,
+      "case": "source_hashes",
+      "error": "cached failed routing provenance differs"
+    }
+  ],
+  "failed_summary_unchanged": "c8addb8d3e168e87958f2a47e6a7a6088b666a994523aec522c325af5db376a3",
+  "full_check_artifact": {
+    "bytes": 137465,
+    "sha256": "13d0ab0b26143cd08021ddc6f0b91d46e17b6e39210fb83b81ac4497efc0d5f7"
+  },
+  "full_failed_run_files_unchanged": 108,
+  "generated_transport": {
+    "engine_to_ses": {
+      "actual_segments": 337,
+      "equal": true,
+      "expected_segments": 337,
+      "extra": [],
+      "missing": []
+    },
+    "engine_vias_equal": true,
+    "generated_engine_to_ses_exact": true,
+    "proposal_only": false,
+    "safe_structure": true,
+    "scope": "New ordinary routing from zero seed; retained-route survival is not the acceptance obligation."
+  },
+  "native_gate": [
+    {
+      "case": "positive",
+      "reached_mock_native_boundary": true
+    },
+    {
+      "case": "structure_false",
+      "reached_mock_native_boundary": false
+    },
+    {
+      "case": "exact_null",
+      "reached_mock_native_boundary": false
+    },
+    {
+      "case": "adapter_absent",
+      "reached_mock_native_boundary": false
+    },
+    {
+      "case": "bool_string",
+      "reached_mock_native_boundary": false
+    }
+  ],
+  "original_files_unchanged": 15,
+  "scope": "Actual cached bytes and shared pure checkers; native job constructor mocked only to stop at gate. No native/JVM/compiler/solver.",
+  "source": {
+    "ADAPTER_NATIVE_PROTOCOL.json": {
+      "bytes": 18071,
+      "sha256": "0f84be8e748a248f7d3c7b967d620e4aa24f7332f42b511f83fb275ee04d2bb2"
+    },
+    "driver.py": {
+      "bytes": 40872,
+      "sha256": "6f3fc23e34d4271f6df235290495d1743f57b6eefd553a52985da800561ae746"
+    },
+    "routing_checks.py": {
+      "bytes": 12180,
+      "sha256": "94bcef3847c144c51d35632bfbeb863fa5d89376058d0741996a888c567f52d4"
+    },
+    "routing_native.py": {
+      "bytes": 4416,
+      "sha256": "530468dfc26883032f28e2382a15724ca95857209eb0c913131bfa35e03aab6c"
+    }
+  },
+  "strict": {
+    "cancel_control": false,
+    "final_traces": 176,
+    "final_vias": 0,
+    "geometry_verified": true,
+    "lifecycle_verified": true,
+    "ordinary_seed_routes": 0,
+    "production_support_qualified": false,
+    "routing_accepted": false
+  }
+}

@@ -1,0 +1,39 @@
+2026-10-12 00:49:53.855 INFO   [61577E] Loading board file...
+2026-10-12 00:49:54.047 INFO   [61577E] Pipeline thread limits: autorouter pass is single-threaded, optimizer.max_threads=7.
+2026-10-12 00:49:54.077 INFO   [61577E] Auto-routing stage started on board '6b6a853daff1184890504619cda99a93' with baseline score 10.50 for 125 unrouted items.
+2026-10-12 00:49:55.232 INFO   [61577E] Auto-routing pass #1 on board '6b6a853daff1184890504619cda99a93' was completed in 1.13 seconds with score 947.51 (5 unrouted and 0 violations).
+2026-10-12 00:49:55.330 INFO   [61577E] Auto-routing pass #2 on board '5ac29f027a78f3630e8626ac377090c5' was completed in 0.09 seconds with score 926.51 (7 unrouted and 0 violations).
+2026-10-12 00:49:55.427 INFO   [61577E] Auto-routing pass #3 on board 'f0f32d669b334dd640e0d0b154f162aa' was completed in 0.09 seconds with score 863.52 (13 unrouted and 0 violations).
+2026-10-12 00:49:55.579 INFO   [61577E] Auto-routing pass #4 on board 'bde6d4a243f1d070375ebfa4a050bee3' was completed in 0.14 seconds with score 884.51 (11 unrouted and 0 violations).
+2026-10-12 00:49:55.703 INFO   [61577E] Auto-routing pass #5 on board 'aa02c804d5782eab60ea9b8d57b2a800' was completed in 0.11 seconds with score 863.52 (13 unrouted and 0 violations).
+2026-10-12 00:49:55.828 INFO   [61577E] Auto-routing pass #6 on board 'c3954695d896537af39b4758d9f8b77c' was completed in 0.12 seconds with score 863.52 (13 unrouted and 0 violations).
+2026-10-12 00:49:55.958 INFO   [61577E] Auto-routing pass #7 on board 'ba30a8fe24ed96d567fff5b9b2d4f92c' was completed in 0.12 seconds with score 863.52 (13 unrouted and 0 violations).
+2026-10-12 00:49:56.121 INFO   [61577E] Auto-routing pass #8 on board '5ac29f027a78f3630e8626ac377090c5' was completed in 0.00 seconds with score 947.51 (5 unrouted and 0 violations).
+2026-10-12 00:49:56.204 INFO   [61577E] Auto-routing pass #9 on board '5ac29f027a78f3630e8626ac377090c5' was completed in 0.08 seconds with score 926.51 (7 unrouted and 0 violations).
+2026-10-12 00:49:56.275 INFO   [61577E] Auto-routing pass #10 on board 'f0f32d669b334dd640e0d0b154f162aa' was completed in 0.07 seconds with score 863.52 (13 unrouted and 0 violations).
+2026-10-12 00:49:56.390 INFO   [61577E] Auto-routing pass #11 on board '28025523693bd541831e653351bc59aa' was completed in 0.11 seconds with score 874.02 (12 unrouted and 0 violations).
+2026-10-12 00:49:56.518 INFO   [61577E] Auto-routing pass #12 on board '5ac29f027a78f3630e8626ac377090c5' was completed in 0.00 seconds with score 947.51 (5 unrouted and 0 violations).
+2026-10-12 00:49:56.597 INFO   [61577E] Auto-routing pass #13 on board '5ac29f027a78f3630e8626ac377090c5' was completed in 0.07 seconds with score 926.51 (7 unrouted and 0 violations).
+2026-10-12 00:49:56.670 INFO   [61577E] Auto-routing pass #14 on board 'f0f32d669b334dd640e0d0b154f162aa' was completed in 0.07 seconds with score 863.52 (13 unrouted and 0 violations).
+2026-10-12 00:49:56.777 INFO   [61577E] Auto-routing pass #15 on board '28025523693bd541831e653351bc59aa' was completed in 0.10 seconds with score 874.02 (12 unrouted and 0 violations).
+2026-10-12 00:49:56.896 INFO   [61577E] Auto-routing pass #16 on board '5ac29f027a78f3630e8626ac377090c5' was completed in 0.00 seconds with score 947.51 (5 unrouted and 0 violations).
+2026-10-12 00:49:56.977 INFO   [61577E] Auto-routing pass #17 on board '5ac29f027a78f3630e8626ac377090c5' was completed in 0.08 seconds with score 926.51 (7 unrouted and 0 violations).
+2026-10-12 00:49:57.050 INFO   [61577E] Auto-routing pass #18 on board 'f0f32d669b334dd640e0d0b154f162aa' was completed in 0.07 seconds with score 863.52 (13 unrouted and 0 violations).
+2026-10-12 00:49:57.054 INFO   [61577E] The router's best score (947.51) has not improved by more than 0.5 points since pass #8. Stopping the auto-router after 18 passes (5 items still unconnected).
+The following connections could not be routed -- please review your design (e.g. check pad clearances, trace width rules, and available routing space):
+  Net '/VPP{slash}MCLR' (3 unrouted connections):
+    - U6-4  ->  U5-4
+    - P2-1  ->  P3-1
+    - U5-4  ->  P2-1
+  Net '/CLOCK-RB6' (5 unrouted connections):
+    - U6-6  ->  U1-6
+    - P2-27  ->  P3-39
+    - U6-6  ->  U5-12
+    - R13-2  ->  U6-6
+    - P3-39  ->  U1-6
+  Net '/DATA-RB7' (5 unrouted connections):
+    - U1-5  ->  U6-7
+    - P2-28  ->  P3-40
+    - U6-7  ->  U5-13
+    - R12-2  ->  U1-5
+    - P3-40  ->  U1-5

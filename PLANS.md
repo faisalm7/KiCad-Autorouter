@@ -1,5 +1,7 @@
 # Execution plan
 
+Newest continuation: corrected-adapter-routing001 has completed solver/SES; internal GND/VCC numbering check corrected offline, exact337segment transport passes. No solver repeat. Checkpoint then run `python3 -B .runs/run-pic-corrected-adapter-native-001.py` once for pending native stages. Preserve engine13unrouted result and compare actual native connectivity/failures; wider family-priority investigation is separate.
+
 Active source work after verified60dacfe backup: integrate the finite `--adapter-proposal` mode in the existing driver, preserving old modes and original native constraints. Run focused controls and scoped review, checkpoint exact source, then execute `python3 -B .runs/run-pic-corrected-adapter-routing-001.py` once. All earlier routing/native stages are complete and must not be repeated. New mode always reports diagnostic-only, regardless of native outcome.
 
 Newest state: saved-routing-native001 is complete, rejected with1open/3blocking/41warnings. Do not rerun it. Checkpoint its actual final candidate and original-rule evidence, then incremental artifact backup from e7a948a. Next implement the smallest existing graphics/plane adapter reuse for a prospectively frozen fresh task, retaining original native zone/rules and strict final checks. Original rational-coordinate failure stays explicit; no acceptance waiver or C claim from adapter correction.

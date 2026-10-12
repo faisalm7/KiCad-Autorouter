@@ -203,6 +203,15 @@ class RoutingChecks(unittest.TestCase):
             else:bad['adapter_obstacles'][-1].update(ring_unavailable=True,border_class='app.freerouting.geometry.planar.Circle',corner_count=0)
             with self.subTest(case=case),self.assertRaises(ValueError):c.adapter_projection(bad,retained,receipt)
 
+    def test_import_projection_normalizes_only_internal_net_numbers(self):
+        old=copy.deepcopy(self.retained['case']['state_after_selective']);new=copy.deepcopy(old)
+        new['nets'][0]['number'],new['nets'][1]['number']=new['nets'][1]['number'],new['nets'][0]['number']
+        new['nets'][0],new['nets'][1]=new['nets'][1],new['nets'][0]
+        self.assertEqual(c.static_state(old,renumber=True),c.static_state(new,renumber=True))
+        self.assertNotEqual(c.static_state(old),c.static_state(new))
+        new['nets'][0]['width_um'][0]+=1
+        self.assertNotEqual(c.static_state(old,renumber=True),c.static_state(new,renumber=True))
+
     def test_native_task_copy_retains_original_intent_and_rules(self):
         with tempfile.TemporaryDirectory(dir=ROOT/'.runs') as td:
             target=routing_native.task_copy(ROOT/'.data/boards/kicad-pic-programmer/pic_programmer.kicad_pcb',Path(td)/'task')

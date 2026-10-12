@@ -15,7 +15,7 @@ import transport
 from experiments.pic_mixed_transport_probe_v1.worker import OBSERVATION_SCOPE,observation_reference
 
 SECONDS=180.0;LIMIT=64*1024**2
-HELPERS=('driver.py','worker.py','transport.py','MixedClassProbe.java','test_draft.py','PROTOCOL.json','README.md','LOCAL_CLEARANCE_PROTOCOL.json','test_local_transport.py','SES_PROTOCOL.json','ses_checks.py','ses_native.py','test_ses.py','SES_NATIVE_PROTOCOL.json','SES_FINISH_PROTOCOL.json','SELECTIVE_PROTOCOL.json','SelectiveAreaProbe.java','selective.py','test_selective.py','ROUTING_PROTOCOL.json','SelectiveRoutingProbe.java','routing_input.py','test_routing_input.py','routing_checks.py','routing_native.py','test_routing.py','ROUTING_NATIVE_PROTOCOL.json','ADAPTER_PROTOCOL.json','routing_adapter.py','test_routing_adapter.py','ExactPointWitness.java')
+HELPERS=('driver.py','worker.py','transport.py','MixedClassProbe.java','test_draft.py','PROTOCOL.json','README.md','LOCAL_CLEARANCE_PROTOCOL.json','test_local_transport.py','SES_PROTOCOL.json','ses_checks.py','ses_native.py','test_ses.py','SES_NATIVE_PROTOCOL.json','SES_FINISH_PROTOCOL.json','SELECTIVE_PROTOCOL.json','SelectiveAreaProbe.java','selective.py','test_selective.py','ROUTING_PROTOCOL.json','SelectiveRoutingProbe.java','routing_input.py','test_routing_input.py','routing_checks.py','routing_native.py','test_routing.py','ROUTING_NATIVE_PROTOCOL.json','ADAPTER_PROTOCOL.json','ADAPTER_NATIVE_PROTOCOL.json','routing_adapter.py','test_routing_adapter.py','ExactPointWitness.java')
 REUSE=('experiments/custom_pad_area_probe_v1/driver.py','experiments/custom_pad_area_probe_v1/derive.py',
     'experiments/custom_pad_area_probe_v1/checks.py','experiments/custom_pad_area_probe_v1/AreaContactProbe.java',
     'experiments/pic_custom_observer_v1/driver.py','experiments/pic_custom_observer_v1/worker.py','experiments/pic_custom_observer_v1/mapping.py')
@@ -24,7 +24,7 @@ def inventory(path):return io.inventory(path,max_bytes=LIMIT,max_files=2000,max_
 def source_paths():return [HERE/n for n in HELPERS]+[ROOT/n for n in REUSE]+list(sorted((ROOT/'autorouter').glob('*.py')))+[ROOT/'toolchain.lock.json',ROOT/'data/sources.json']
 def runtime(protocol):
     cached=None;cached_ses=None;cached_positive=None;cached_local=None;cached_selective=None;cached_routing=None
-    if protocol.get('mode') in ('local250','local250-ses','local250-ses-cached','local250-ses-finish','local250-selective','local250-routing','local250-routing-native','local250-routing-adapter'):
+    if protocol.get('mode') in ('local250','local250-ses','local250-ses-cached','local250-ses-finish','local250-selective','local250-routing','local250-routing-native','local250-routing-adapter','local250-routing-adapter-native'):
         if protocol.get('reuse_native')!='.runs/pic-mixed-transport-probe-005':raise ValueError('fixed cached-native source required')
         # The larger cached scan precedes the protected current-material reads.
         # Late changes during that scan must appear in the returned witness.
@@ -35,14 +35,15 @@ def runtime(protocol):
     if protocol.get('mode')=='local250-ses-finish':
         if protocol.get('reuse_positive')!='.runs/pic-custom-ses-native-001':raise ValueError('fixed cached positive source required')
         cached_positive=inventory(ROOT/protocol['reuse_positive'])
-    if protocol.get('mode') in ('local250-selective','local250-routing','local250-routing-native','local250-routing-adapter'):
+    if protocol.get('mode') in ('local250-selective','local250-routing','local250-routing-native','local250-routing-adapter','local250-routing-adapter-native'):
         if protocol.get('reuse_local')!='.runs/pic-local-clearance-transport-001':raise ValueError('fixed local basis required')
         cached_local=inventory(ROOT/protocol['reuse_local'])
-    if protocol.get('mode') in ('local250-routing','local250-routing-native','local250-routing-adapter'):
+    if protocol.get('mode') in ('local250-routing','local250-routing-native','local250-routing-adapter','local250-routing-adapter-native'):
         if protocol.get('reuse_selective')!='.runs/pic-selective-area-observation-002':raise ValueError('fixed selective prerequisite required')
         cached_selective=inventory(ROOT/protocol['reuse_selective'])
-    if protocol.get('mode')=='local250-routing-native':
-        if protocol.get('reuse_routing')!='.runs/pic-selective-routing-001':raise ValueError('fixed failed routing source required')
+    if protocol.get('mode') in ('local250-routing-native','local250-routing-adapter-native'):
+        wanted='.runs/pic-corrected-adapter-routing-001' if protocol['mode']=='local250-routing-adapter-native' else '.runs/pic-selective-routing-001'
+        if protocol.get('reuse_routing')!=wanted:raise ValueError('fixed failed routing source required')
         cached_routing=inventory(ROOT/protocol['reuse_routing'])
     git=base.head_witness()
     tools={name:base.content(Path(row['path']) if Path(row['path']).is_absolute() else ROOT/row['path'],row['bytes'],digest=True) for name,row in protocol['tools'].items()}
@@ -133,14 +134,14 @@ def experiment(out,*,started=None,cpu_started=None,local_clearance=False,ses_rou
     if out.parent!=ROOT/'.runs' or out.exists():raise ValueError('fresh direct .runs output required')
     if selective_obstacles and (local_clearance or ses_roundtrip or native_from_ses or finish_native):raise ValueError('selective mode cannot be combined with other modes')
     if native_from_routing and (routing_probe or cancel_routing):raise ValueError('native continuation cannot combine routing/cancel modes')
-    if adapter_proposal and (routing_probe or native_from_routing or cancel_routing):raise ValueError('adapter proposal mode must stand alone')
+    if adapter_proposal and (routing_probe or cancel_routing):raise ValueError('adapter proposal mode must stand alone')
     routing_probe=routing_probe or native_from_routing or adapter_proposal
     if routing_probe and (local_clearance or ses_roundtrip or native_from_ses or finish_native or selective_obstacles):raise ValueError('routing mode must stand alone')
     if cancel_routing and not routing_probe:raise ValueError('cancel control requires routing mode')
     native_from_ses=native_from_ses or finish_native
     ses_roundtrip=ses_roundtrip or native_from_ses
     local_clearance=local_clearance or ses_roundtrip or selective_obstacles or routing_probe
-    protocol=base.decode(base.content(HERE/('ADAPTER_PROTOCOL.json' if adapter_proposal else 'ROUTING_NATIVE_PROTOCOL.json' if native_from_routing else 'ROUTING_PROTOCOL.json' if routing_probe else 'SELECTIVE_PROTOCOL.json' if selective_obstacles else 'SES_FINISH_PROTOCOL.json' if finish_native else 'SES_NATIVE_PROTOCOL.json' if native_from_ses else 'SES_PROTOCOL.json' if ses_roundtrip else 'LOCAL_CLEARANCE_PROTOCOL.json' if local_clearance else 'PROTOCOL.json')));record={'schema':1,'status':'preparing','observations_complete':False,
+    protocol=base.decode(base.content(HERE/('ADAPTER_NATIVE_PROTOCOL.json' if adapter_proposal and native_from_routing else 'ADAPTER_PROTOCOL.json' if adapter_proposal else 'ROUTING_NATIVE_PROTOCOL.json' if native_from_routing else 'ROUTING_PROTOCOL.json' if routing_probe else 'SELECTIVE_PROTOCOL.json' if selective_obstacles else 'SES_FINISH_PROTOCOL.json' if finish_native else 'SES_NATIVE_PROTOCOL.json' if native_from_ses else 'SES_PROTOCOL.json' if ses_roundtrip else 'LOCAL_CLEARANCE_PROTOCOL.json' if local_clearance else 'PROTOCOL.json')));record={'schema':1,'status':'preparing','observations_complete':False,
         'routing_accepted':False,'custom_pad_support_qualified':False,'mixed_clearance_equivalence_qualified':False,
         'routing_executed':False,'ses_executed':False,'native_process_executed':False,'import_process_executed':False,
         'steps':[],'wall_budget_seconds':SECONDS,'cpu_budget_seconds':SECONDS,
@@ -199,7 +200,7 @@ def experiment(out,*,started=None,cpu_started=None,local_clearance=False,ses_rou
             stable();return result
         code=out/'code'/str(HERE.relative_to(ROOT));tools=protocol['tools']
         if local_clearance:
-            if protocol.get('mode')!=('local250-routing-adapter' if adapter_proposal else 'local250-routing-native' if native_from_routing else 'local250-routing' if routing_probe else 'local250-selective' if selective_obstacles else 'local250-ses-finish' if finish_native else 'local250-ses-cached' if native_from_ses else 'local250-ses' if ses_roundtrip else 'local250'):raise ValueError('local-clearance protocol mode differs')
+            if protocol.get('mode')!=('local250-routing-adapter-native' if adapter_proposal and native_from_routing else 'local250-routing-adapter' if adapter_proposal else 'local250-routing-native' if native_from_routing else 'local250-routing' if routing_probe else 'local250-selective' if selective_obstacles else 'local250-ses-finish' if finish_native else 'local250-ses-cached' if native_from_ses else 'local250-ses' if ses_roundtrip else 'local250'):raise ValueError('local-clearance protocol mode differs')
             cached=ROOT/protocol['reuse_native'];old=base.decode(base.content(cached/'summary.json'))
             if (old.get('status')!='failed' or old.get('error')!='ValueError: engine original class/width differs'
                     or old['runtime']['original']!=before['original']
@@ -269,7 +270,8 @@ def experiment(out,*,started=None,cpu_started=None,local_clearance=False,ses_rou
             capture()
         if native_from_routing:
             cached=ROOT/protocol['reuse_routing'];prior_routing=base.decode(base.content(cached/'summary.json'))
-            if (prior_routing.get('status')!='failed' or prior_routing.get('error')!='ValueError: exact integer engine point required'
+            cached_error='ValueError: corrected adapter changed other imported constraints' if adapter_proposal else 'ValueError: exact integer engine point required'
+            if (prior_routing.get('status')!='failed' or prior_routing.get('error')!=cached_error
                     or prior_routing.get('routing_executed') is not True or prior_routing.get('ses_executed') is not True
                     or prior_routing['runtime']['original']!=before['original'] or prior_routing['runtime']['tools']!=before['tools']
                     or any(before['cached_routing_inventory'].get(k)!=v for k,v in prior_routing['frozen_evidence'].items())
@@ -280,7 +282,7 @@ def experiment(out,*,started=None,cpu_started=None,local_clearance=False,ses_rou
                     or base.decode(base.content(cached/'removal-ledger.json'))!=removal
                     or [(r['name'],r['status'],r['exit_code'],r.get('cleanup_complete')) for r in prior_routing['steps']]!=[('compile','success',0,True),('import','success',0,True)]):
                 raise ValueError('cached failed routing provenance differs')
-            for name in ('MixedClassProbe.java','SelectiveAreaProbe.java','SelectiveRoutingProbe.java'):
+            for name in ('MixedClassProbe.java','SelectiveAreaProbe.java','SelectiveRoutingProbe.java',*(['ExactPointWitness.java'] if adapter_proposal else [])):
                 key=str(HERE.relative_to(ROOT)/name)
                 if prior_routing['runtime']['sources'][key]!=before['sources'][key]:raise ValueError('cached executed Java source differs')
             key='experiments/custom_pad_area_probe_v1/AreaContactProbe.java'
@@ -290,7 +292,7 @@ def experiment(out,*,started=None,cpu_started=None,local_clearance=False,ses_rou
             record['routing_reuse']={'run':protocol['reuse_routing'],'summary_sha256':base.sha(base.content(cached/'summary.json')),
                 'git_head':prior_routing['runtime']['git']['head'],'original_error':prior_routing['error'],
                 'prior_run_wall_seconds':prior_routing['wall_seconds'],'prior_run_total_cpu_seconds':prior_routing['total_cpu_seconds'],
-                'new_routing_execution':False,'new_ses_writer_execution':False,'scope':'Native diagnosis of saved generated proposal. Failed exact-coordinate obligation remains unqualified; never routing acceptance.'}
+                'new_routing_execution':False,'new_ses_writer_execution':False,'scope':'Native diagnosis of saved generated proposal. Original failed receipt retained; no repeated compiler/solver/writer or production acceptance.'}
             capture()
         jar=str(ROOT/tools['jar']['path'])
         if native_from_ses:
@@ -318,7 +320,7 @@ def experiment(out,*,started=None,cpu_started=None,local_clearance=False,ses_rou
             record['routing_executed']=observed.get('routing_executed') is True and not native_from_routing
             record['ses_executed']=observed.get('ses_executed') is True and not native_from_routing
             if observed.get('cancel_before_routing') is not cancel_routing:raise ValueError('observed cancellation mode differs from requested action')
-            if native_from_routing:
+            if native_from_routing and not adapter_proposal:
                 try:routing_checks.compare(observed,route_expected,retained_selective)
                 except ValueError as exc:
                     if str(exc)!='exact integer engine point required':raise
@@ -326,7 +328,7 @@ def experiment(out,*,started=None,cpu_started=None,local_clearance=False,ses_rou
                 else:raise ValueError('expected retained strict geometry failure absent')
                 record['routing_comparison']=routing_checks.compare(observed,route_expected,retained_selective,native_diagnostic=True)
             elif adapter_proposal:
-                try:routing_checks.compare(observed,route_expected,retained_selective,adapter_receipt=record['routing_adapter'])
+                try:record['strict_routing_comparison']=routing_checks.compare(observed,route_expected,retained_selective,adapter_receipt=record['routing_adapter'])
                 except ValueError as exc:
                     if str(exc)!='exact integer engine point required':raise
                     record['strict_geometry_error']='ValueError: '+str(exc)
@@ -339,10 +341,11 @@ def experiment(out,*,started=None,cpu_started=None,local_clearance=False,ses_rou
             # The shared native task recipe has zero ordinary routes and unchanged source intent.
             task=routing_native.task_copy(out/'observe-input'/original.SOURCE.name,out/'task-project')
             if native_from_routing or adapter_proposal:
-                _,survival=ses_checks.audit(raw,unrouted,route_expected,sx.parse(base.content(task).decode()),generated=True,proposal_only=True)
-                survival.update(generated_engine_to_ses_exact=False,retained_routing_failure=record.get('retained_routing_failure'),
+                exact_geometry=observed['final_geometry'] if record.get('strict_routing_comparison',{}).get('geometry_verified') is True else None
+                _,survival=ses_checks.audit(raw,unrouted,route_expected,sx.parse(base.content(task).decode()),exact_geometry,generated=True,proposal_only=exact_geometry is None)
+                survival.update(retained_routing_failure=record.get('retained_routing_failure'),
                     adapter_proposal_only=adapter_proposal,strict_geometry_error=record.get('strict_geometry_error'),
-                    scope='Structurally checked new routing proposal for native diagnosis only; exact engine geometry remains unqualified.')
+                    scope='Generated proposal for original-rule native diagnosis; exact transport verdict recorded separately from experimental production admission.')
             else:
                 _,survival=ses_checks.audit(raw,unrouted,route_expected,sx.parse(base.content(task).decode()),observed['final_geometry'],generated=True)
             record['generated_transport']=survival;capture()
