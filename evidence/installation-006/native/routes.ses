@@ -1,0 +1,72 @@
+(session task
+  (base_design task)
+  (placement
+    (resolution um 10)
+    (component "floor_control_terminal"
+      (place J1 100000 -100000 front 0)
+      (place J2 400000 -100000 back 180)
+      (place J3 100000 -200000 front 0)
+      (place J4 400000 -200000 front 0)
+    )
+  )
+  (was_is
+  )
+  (routes 
+    (resolution um 10)
+    (parser
+      (host_cad "KiCad's Pcbnew")
+      (host_version "10.0.0")
+    )
+    (library_out 
+      (padstack "Via[0-1]_1500:300_um"
+        (shape
+          (circle F.Cu 15000 0 0)
+        )
+        (shape
+          (circle B.Cu 15000 0 0)
+        )
+        (attach off)
+      )
+    )
+    (network_out 
+      (net "SIGNAL_A"
+        (wire
+          (path B.Cu 3000
+            400000 -100000
+            400000 -114717
+          )
+        )
+        (wire
+          (path F.Cu 3000
+            100000 -100000
+            114717 -100000
+          )
+        )
+        (wire
+          (path F.Cu 3000
+            416500 -139600
+            154317 -139600
+            114717 -100000
+          )
+        )
+        (via "Via[0-1]_1500:300_um" 416500 -139600
+        )
+        (wire
+          (path B.Cu 3000
+            400000 -114717
+            416500 -131217
+            416500 -139600
+          )
+        )
+      )
+      (net "SIGNAL_B"
+        (wire
+          (path F.Cu 3000
+            400000 -200000
+            100000 -200000
+          )
+        )
+      )
+    )
+  )
+)
