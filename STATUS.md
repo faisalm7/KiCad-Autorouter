@@ -56,7 +56,7 @@ Installation006 at eae1f39 passed20commands/608then-current tests in a new local
 
 ## Checkpoints and backups
 
-Latest independently verified GitHub checkpoint: **8f9ffeb68ab1e250163ae26214c8d7fd6894adf6**; remote SHA and legacy-controller bytes match (`.runs/checkpoint-8f9ffeb.json`). Installed workflow evidence and prospective legacy controls are included. Actual legacy001 follows that cutoff.
+Latest independently verified GitHub checkpoint: **8a8bf2c88ddb41a6217b30ce65e0ae081e21d517**; remote SHA and restoration-receipt bytes match (`.runs/checkpoint-8a8bf2c.json`). Actual legacy001 and its independent audit, installed workflow evidence and full restoration receipt are included. The protected-input diagnostic is now reviewed/promoted with eight pure tests passing; its actual canary/native invocation is pending this prospective checkpoint.
 
 Full backup/restoration at8f9ffeb verifies115,829non-Git files/3,151,968,106bytes, allGitrefs, bundle and restoredCLIhelp. [Receipt](evidence/backups/restore-8f9ffeb.json). The complete successful/failed installation trees, prior raw evidence and private references are preserved. Archive992,313,342bytes; all older archives remain. This is the new incremental parent, with full restoration after the backup-capacity change. Actual legacy001 and subsequent draft work follow this cutoff.
 
