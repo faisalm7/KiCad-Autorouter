@@ -74,7 +74,81 @@ public final class MixedClassProbe {
         "default_item_classes",defaults,"contains_plane",net.containsPlane(),"terminal_ids",ids(net.getTerminalItems()),"connected_sets",groups));
     }
   }
-  static void run(byte[] raw,boolean flag,Map<String,Object> row)throws Exception{
+  /** Finite post-load diagnostic for the two captured JP1 footprint overrides only. */
+  static void applyLocal250(RoutingBoard b,Map<String,Object> row){
+    var ct=b.communication.coordinateTransform;var m=b.rules.clearanceMatrix;
+    String[] names={"null","default","smd","POWER","board_edge"};
+    if(m.getClassCount()!=names.length||m.getLayerCount()!=2||b.getLayerCount()!=2)
+      throw new IllegalArgumentException("local override requires original five-class/two-layer matrix");
+    for(int c=0;c<names.length;c++)if(!names[c].equals(m.getName(c)))
+      throw new IllegalArgumentException("original clearance class name/order differs");
+    String className="native_local_250";
+    if(m.getNo(className)>=0)throw new IllegalArgumentException("local class already exists");
+    double converted=ct.dsnToBoard(250.0);
+    if(!Double.isFinite(converted)||converted<=0||converted>Integer.MAX_VALUE||converted!=Math.rint(converted))
+      throw new IllegalArgumentException("local clearance is not exact integer board units");
+    int local=(int)converted;
+    if((local&1)!=0||ct.boardToDsn(local)!=250.0)
+      throw new IllegalArgumentException("local clearance would be rounded by matrix");
+    String[] numbers={"1","2"},netNames={"VCC","/pic_sockets/VCC_PIC"};
+    int[] pinClasses={3,2},areaClasses={3,1};
+    List<Item> targets=new ArrayList<>();List<Object> targetAudit=new ArrayList<>();
+    for(int k=0;k<numbers.length;k++){
+      Pin pin=null;
+      for(Pin p:b.getPins())if("JP1".equals(p.componentName())&&numbers[k].equals(p.name())){
+        if(pin!=null)throw new IllegalArgumentException("duplicate JP1 target pin");pin=p;
+      }
+      if(pin==null||pin.netCount()!=1||!netNames[k].equals(b.rules.nets.get(pin.getNetNumber(0)).name)
+          ||pin.clearanceClassIndex()!=pinClasses[k]||pin.firstLayer()!=1||pin.lastLayer()!=1)
+        throw new IllegalArgumentException("JP1 target pin identity/class/layer differs");
+      ConductionArea area=null;
+      for(ConductionArea a:b.getConductionAreas())if(a.sharesNet(pin)){
+        if(area!=null)throw new IllegalArgumentException("ambiguous same-net synthetic area");area=a;
+      }
+      if(area==null||area.netCount()!=1||area.getNetNumber(0)!=pin.getNetNumber(0)
+          ||area.clearanceClassIndex()!=areaClasses[k]||area.getLayer()!=1||!"USER_FIXED".equals(area.getFixedState().name())
+          ||!pin.getNormalContacts().contains(area)||!area.getNormalContacts().contains(pin))
+        throw new IllegalArgumentException("unique reciprocal synthetic body identity differs");
+      List<Integer> edge=new ArrayList<>();
+      for(int l=0;l<2;l++){
+        int value=m.getValue(pin.clearanceClassIndex(),4,l,false);
+        if(value!=local||m.getValue(4,pin.clearanceClassIndex(),l,false)!=value)
+          throw new IllegalArgumentException("original JP1 board-edge clearance is not symmetric 250um");
+        edge.add(value);
+      }
+      targets.add(pin);targets.add(area);
+      targetAudit.add(map("reference","JP1","number",numbers[k],"net",netNames[k],"pin_id",pin.getId(),"area_id",area.getId(),
+        "original_pin_class",pin.clearanceClassIndex(),"original_area_class",area.clearanceClassIndex(),"preserved_board_edge_raw_board_units",edge));
+    }
+    if(new HashSet<>(targets).size()!=4)throw new IllegalArgumentException("four distinct local items required");
+    List<Integer> changed=new ArrayList<>();List<Object> rowAudit=new ArrayList<>(),treeChecks=new ArrayList<>();
+    var audit=map("class_name",className,"class_index",5,"changed_item_ids",changed,"targets",targetAudit,
+      "raw_row",rowAudit,"tree_entry_checks",treeChecks,"tree_refresh_completed",false,"tree_entries_valid",false,
+      "apis",List.of("ClearanceMatrix.appendClass","ClearanceMatrix.setValue(int,int,int,int)","Item.changeClearanceClassIndex",
+        "SearchTreeManager.clearanceValueChanged","SearchTreeManager.reinsertTreeItems","SearchTreeManager.validateEntries"));
+    row.put("local_override",audit);
+    if(!m.appendClass(className)||m.getClassCount()!=6||m.getNo(className)!=5)
+      throw new IllegalArgumentException("exact local class append failed");
+    for(int c=0;c<6;c++)for(int l=0;l<2;l++){
+      int value=c==0?0:local;
+      m.setValue(5,c,l,value);m.setValue(c,5,l,value);
+      if(m.getValue(5,c,l,false)!=value||m.getValue(c,5,l,false)!=value)
+        throw new IllegalArgumentException("local matrix symmetric readback differs");
+      rowAudit.add(map("other_class",c,"layer",l,"raw_board_units",value,"raw_um",ct.boardToDsn(value)));
+    }
+    for(Item i:targets){
+      i.changeClearanceClassIndex(5);
+      if(i.clearanceClassIndex()!=5)throw new IllegalArgumentException("local item assignment failed");
+      changed.add(i.getId());
+    }
+    Collections.sort(changed);
+    b.searchTreeManager.clearanceValueChanged();b.searchTreeManager.reinsertTreeItems();audit.put("tree_refresh_completed",true);
+    boolean valid=true;
+    for(Item i:targets){boolean one=b.searchTreeManager.validateEntries(i);treeChecks.add(map("id",i.getId(),"valid",one));valid&=one;}
+    audit.put("tree_entries_valid",valid);
+    if(!valid)throw new IllegalArgumentException("local item search-tree entries invalid after refresh");
+  }
+  static void run(byte[] raw,boolean flag,Map<String,Object> row,boolean local250)throws Exception{
     String[] argv={"--router.autorouter.enabled=false","--router.optimizer.enabled=false","--router.plane_as_obstacle="+flag};
     CliSettings cli=new CliSettings(argv);
     SettingsSource[] sources={new DefaultSettings(),new DsnFileSettings(new ByteArrayInputStream(raw),"original-mixed.dsn"),cli};
@@ -87,10 +161,13 @@ public final class MixedClassProbe {
     if(!(result instanceof BoardReadResult.Success success)||!(success.board() instanceof RoutingBoard board))throw new IllegalArgumentException("successful RoutingBoard required");
     if(manager.getRoutingBoard()!=board)throw new IllegalArgumentException("manager identity differs");
     board.awaitPostLoad();row.putAll(map("post_load_awaited",true,"parser_warnings",success.warnings(),"settings_after",settings(job.routerSettings)));
+    if(local250){var before=map();row.put("state_before_local",before);observe(board,before);applyLocal250(board,row);}
     var state=map();row.put("state",state);observe(board,state);row.put("status","observed");
   }
   public static void main(String[] args)throws Exception{
-    if(args.length!=2)throw new IllegalArgumentException("input DSN and output JSON required");
+    if(args.length!=2&&(args.length!=3||!"local250".equals(args[2])))
+      throw new IllegalArgumentException("input DSN, output JSON and optional literal local250 required");
+    boolean local250=args.length==3;
     Path input=Path.of(args[0]),output=Path.of(args[1]);
     if(Files.isSymbolicLink(input)||!Files.isRegularFile(input)||Files.exists(output))throw new IllegalArgumentException("regular input/fresh output required");
     byte[] raw;try(InputStream stream=Files.newInputStream(input)){raw=stream.readNBytes(1048577);}
@@ -98,7 +175,7 @@ public final class MixedClassProbe {
     List<Object> cases=new ArrayList<>();var result=map("schema",1,"routing_executed",false,"ses_executed",false,"cases",cases);
     for(boolean flag:new boolean[]{false,true}){
       var row=map("requested_obstacle",flag,"status","failed","input_sha256",AreaContactProbe.sha(raw));cases.add(row);
-      try{run(raw,flag,row);}catch(Exception e){row.put("error",e.getClass().getName()+": "+e.getMessage());}
+      try{run(raw,flag,row,local250);}catch(Exception e){row.put("error",e.getClass().getName()+": "+e.getMessage());}
       byte[] saved=(AreaContactProbe.json(result)+"\n").getBytes(java.nio.charset.StandardCharsets.UTF_8);
       if(saved.length>16*1024*1024)throw new IllegalArgumentException("observation output bound");
       Files.write(output,saved);

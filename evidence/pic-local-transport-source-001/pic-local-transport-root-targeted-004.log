@@ -1,0 +1,27 @@
+test_changes_during_cached_scan_invalidate_current_material_witness (test_local_transport.LocalTransport.test_changes_during_cached_scan_invalidate_current_material_witness) ... ERROR
+test_exact_finite_synthetic_change_not_rule_equivalence (test_local_transport.LocalTransport.test_exact_finite_synthetic_change_not_rule_equivalence) ... ok
+test_original_local_basis_is_narrow_and_exact (test_local_transport.LocalTransport.test_original_local_basis_is_narrow_and_exact) ... ok
+test_unchanged_old_geometry_or_matrix_cannot_masquerade_as_local (test_local_transport.LocalTransport.test_unchanged_old_geometry_or_matrix_cannot_masquerade_as_local) ... ok
+
+======================================================================
+ERROR: test_changes_during_cached_scan_invalidate_current_material_witness (test_local_transport.LocalTransport.test_changes_during_cached_scan_invalidate_current_material_witness)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/pic_mixed_transport_probe_v1/test_local_transport.py", line 101, in test_changes_during_cached_scan_invalidate_current_material_witness
+    baseline=d.runtime(protocol)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/pic_mixed_transport_probe_v1/driver.py", line 30, in runtime
+    cached=inventory(ROOT/protocol['reuse_native'])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/pic_mixed_transport_probe_v1/driver.py", line 22, in inventory
+    def inventory(path):return io.inventory(path,max_bytes=LIMIT,max_files=2000,max_entries=4000)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/placement_clearance.py", line 46, in inventory
+    if not folder.is_dir() or any(x.is_symlink() for x in (folder,*folder.parents)):raise p.Rejected('real placement directory required')
+                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+autorouter.pipeline.Rejected: real placement directory required
+
+----------------------------------------------------------------------
+Ran 4 tests in 1.675s
+
+FAILED (errors=1)

@@ -14,7 +14,7 @@ import transport
 from experiments.pic_mixed_transport_probe_v1.worker import OBSERVATION_SCOPE,observation_reference
 
 SECONDS=180.0;LIMIT=64*1024**2
-HELPERS=('driver.py','worker.py','transport.py','MixedClassProbe.java','test_draft.py','PROTOCOL.json','README.md')
+HELPERS=('driver.py','worker.py','transport.py','MixedClassProbe.java','test_draft.py','PROTOCOL.json','README.md','LOCAL_CLEARANCE_PROTOCOL.json','test_local_transport.py')
 REUSE=('experiments/custom_pad_area_probe_v1/driver.py','experiments/custom_pad_area_probe_v1/derive.py',
     'experiments/custom_pad_area_probe_v1/checks.py','experiments/custom_pad_area_probe_v1/AreaContactProbe.java',
     'experiments/pic_custom_observer_v1/driver.py','experiments/pic_custom_observer_v1/worker.py','experiments/pic_custom_observer_v1/mapping.py')
@@ -22,12 +22,20 @@ REUSE=('experiments/custom_pad_area_probe_v1/driver.py','experiments/custom_pad_
 def inventory(path):return io.inventory(path,max_bytes=LIMIT,max_files=2000,max_entries=4000)
 def source_paths():return [HERE/n for n in HELPERS]+[ROOT/n for n in REUSE]+list(sorted((ROOT/'autorouter').glob('*.py')))+[ROOT/'toolchain.lock.json',ROOT/'data/sources.json']
 def runtime(protocol):
+    cached=None
+    if protocol.get('mode')=='local250':
+        if protocol.get('reuse_native')!='.runs/pic-mixed-transport-probe-005':raise ValueError('fixed cached-native source required')
+        # The larger cached scan precedes the protected current-material reads.
+        # Late changes during that scan must appear in the returned witness.
+        cached=inventory(ROOT/protocol['reuse_native'])
     git=base.head_witness()
     tools={name:base.content(Path(row['path']) if Path(row['path']).is_absolute() else ROOT/row['path'],row['bytes'],digest=True) for name,row in protocol['tools'].items()}
     sources={str(p.relative_to(ROOT)):base.content(p,2*1024**2,digest=True) for p in source_paths()}
     basis={name:base.content(ROOT/name,row['bytes'],digest=True) for name,row in protocol['basis'].items()}
     original_hashes,total=original.source_binding()
-    return {'git':git,'tools':tools,'sources':sources,'basis':basis,'original':original_hashes,'original_bytes':total}
+    result={'git':git,'tools':tools,'sources':sources,'basis':basis,'original':original_hashes,'original_bytes':total}
+    if cached is not None:result['cached_native_inventory']=cached
+    return result
 
 def verify_clearance_rows(observed,context,notes):
     if type(observed) is not list or len(observed)!=247:raise ValueError('clearance terminal census differs')
@@ -83,11 +91,11 @@ def verify_native(out,source_hashes,notes):
         'local_optional_observations_supported':all(x['status']=='observed' for r in clear['rows'] for x in (r['pad_local'],r['footprint_local'],r['pad_override'])),
         'custom_pad_own_clearance':[{k:r[k] for k in ('uuid','net','netcode','netclass','class_clearance_nm','class_metadata','net_metadata_return_types','pad_net_return_types','own','pad_local','footprint_local','pad_override')} for r in clear['rows'] if r['uuid'] in {p['uuid'] for p in rows}]}
 
-def experiment(out,*,started=None,cpu_started=None):
+def experiment(out,*,started=None,cpu_started=None,local_clearance=False):
     if HERE.relative_to(ROOT).as_posix()!='experiments/pic_mixed_transport_probe_v1':raise ValueError('promote and commit reviewed helper before execution')
     start=time.monotonic() if started is None else started;cpu0=base.cpu() if cpu_started is None else cpu_started;out=base.real(out)
     if out.parent!=ROOT/'.runs' or out.exists():raise ValueError('fresh direct .runs output required')
-    protocol=base.decode(base.content(HERE/'PROTOCOL.json'));record={'schema':1,'status':'preparing','observations_complete':False,
+    protocol=base.decode(base.content(HERE/('LOCAL_CLEARANCE_PROTOCOL.json' if local_clearance else 'PROTOCOL.json')));record={'schema':1,'status':'preparing','observations_complete':False,
         'routing_accepted':False,'custom_pad_support_qualified':False,'mixed_clearance_equivalence_qualified':False,
         'routing_executed':False,'ses_executed':False,'native_process_executed':False,'import_process_executed':False,
         'steps':[],'wall_budget_seconds':SECONDS,'cpu_budget_seconds':SECONDS,
@@ -140,13 +148,34 @@ def experiment(out,*,started=None,cpu_started=None):
             if result['status']!='success' or result['exit_code']!=0 or result.get('cleanup_complete') is not True:raise ValueError(name+' failed; raw artifacts retained')
             stable()
         code=out/'code'/str(HERE.relative_to(ROOT));tools=protocol['tools']
-        step('native-observe',[*base.SANDBOX,tools['native_python']['path'],str(code/'worker.py'),str(out/'observe-input'/original.SOURCE.name),str(out/'context.json'),str(out/'native.dsn'),str(out/'custom.json'),str(out/'clearance-observation.json')],60)
-        derived,expected,native=verify_native(out,before['original'],notes);record['native']=native
+        if local_clearance:
+            if protocol.get('mode')!='local250':raise ValueError('local-clearance protocol mode differs')
+            cached=ROOT/protocol['reuse_native'];old=base.decode(base.content(cached/'summary.json'))
+            if (old.get('status')!='failed' or old.get('error')!='ValueError: engine original class/width differs'
+                    or old['runtime']['original']!=before['original']
+                    or any(before['cached_native_inventory'].get(k)!=v for k,v in old['frozen_evidence'].items())
+                    or inventory(cached/'observe-input')!=before['original']):raise ValueError('cached failed run/native material differs')
+            derived,expected,native=verify_native(cached,before['original'],notes)
+            if derived!=base.content(cached/'mixed.dsn'):raise ValueError('cached DSN changed under current derivation')
+            record['local_basis']=transport.local_override_basis(base.decode(base.content(cached/'clearance-observation.json',2*1024**2)),base.decode(base.content(original.SOURCE.with_suffix('.kicad_pro'))))
+            record['native_reuse']={'run':protocol['reuse_native'],'summary_sha256':base.sha(base.content(cached/'summary.json')),
+                'git_head':old['runtime']['git']['head'],'original_status':old['status'],'new_native_execution':False,
+                'prior_run_wall_seconds':old['wall_seconds'],'prior_run_total_cpu_seconds':old['total_cpu_seconds'],
+                'scope':'Existing005native observation/export reused; original failed checker receipt unchanged. New JVM import/matrix experiment only.'}
+            (out/'cached-native').mkdir()
+            for name in ('context.json','custom.json','clearance-observation.json','native.dsn','summary.json'):
+                (out/'cached-native'/name).write_bytes(base.content(cached/name,4*1024**2))
+            capture()
+        else:
+            step('native-observe',[*base.SANDBOX,tools['native_python']['path'],str(code/'worker.py'),str(out/'observe-input'/original.SOURCE.name),str(out/'context.json'),str(out/'native.dsn'),str(out/'custom.json'),str(out/'clearance-observation.json')],60)
+            derived,expected,native=verify_native(out,before['original'],notes)
+        record['native']=native
         (out/'mixed.dsn').write_bytes(derived);base.write(out/'expectations.json',expected);capture()
         jar=str(ROOT/tools['jar']['path'])
         step('compile',[*base.SANDBOX,tools['javac']['path'],'-J-Xmx256m','-J-Duser.home='+env['HOME'],'-proc:none','-classpath',jar,'-d',str(out/'classes'),str(code/'MixedClassProbe.java'),str(out/'code/experiments/custom_pad_area_probe_v1/AreaContactProbe.java')],30)
-        step('import',[*base.SANDBOX,tools['java']['path'],'-Xmx256m','-Djava.awt.headless=true','-Duser.home='+env['HOME'],'-Djava.io.tmpdir='+env['TMPDIR'],'-cp',str(out/'classes')+os.pathsep+jar,'MixedClassProbe',str(out/'mixed.dsn'),str(out/'observations.json')],60)
-        comparisons=transport.validate(base.decode(base.content(out/'observations.json',16*1024**2)),expected)
+        step('import',[*base.SANDBOX,tools['java']['path'],'-Xmx256m','-Djava.awt.headless=true','-Duser.home='+env['HOME'],'-Djava.io.tmpdir='+env['TMPDIR'],'-cp',str(out/'classes')+os.pathsep+jar,'MixedClassProbe',str(out/'mixed.dsn'),str(out/'observations.json'),*(['local250'] if local_clearance else [])],60)
+        observed=base.decode(base.content(out/'observations.json',16*1024**2))
+        comparisons=(transport.validate_local(observed,expected) if local_clearance else transport.validate(observed,expected))
         record.update(status='completed',observations_complete=all(r['observed'] for r in comparisons),case_comparison=comparisons)
         if not record['observations_complete']:record['status']='observed-incomplete'
     except (Exception,KeyboardInterrupt) as exc:record.update(status='cancelled' if isinstance(exc,KeyboardInterrupt) else 'failed',error=type(exc).__name__+': '+str(exc))
@@ -155,10 +184,10 @@ def experiment(out,*,started=None,cpu_started=None):
 
 def main(argv=None):
     started=time.monotonic();cpu_started=base.cpu()
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--run-probe',action='store_true');parser.add_argument('--output',type=Path,required=True);args=parser.parse_args(argv)
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--run-probe',action='store_true');parser.add_argument('--output',type=Path,required=True);parser.add_argument('--local-clearance',action='store_true');args=parser.parse_args(argv)
     if not args.run_probe:parser.error('--run-probe required')
     with base.cancellation(),base.real(ROOT/'.runs/quality-experiment.lock').open('a') as lock:
-        fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);result=experiment(args.output,started=started,cpu_started=cpu_started)
+        fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);result=experiment(args.output,started=started,cpu_started=cpu_started,local_clearance=args.local_clearance)
     print(base.canonical({k:result.get(k) for k in ('status','observations_complete','wall_seconds','total_cpu_seconds')}).decode(),end='')
     return 0 if result['observations_complete'] else 1
 

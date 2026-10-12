@@ -124,3 +124,33 @@ tool/API pins, Git identity and frozen output are sampled again around final
 publication. This detects sampled staleness; mutable files are not signatures
 or atomic protection against arbitrary concurrent writers. Historical runs
 remain unchanged and all new failed artifacts must be retained.
+
+## Prospective post-load local-clearance mode
+
+`--local-clearance` reuses the exact native observation/export from failed005;
+it does not run KiCad again or change005's failed receipt. Both original manager
+loads run anew with routing disabled. The proposed operation creates a distinct
+clearance class after manager initialization, assigns only JP1's two anchors and
+their synthetic copper bodies, and refreshes the search trees. Netclasses and
+preferred widths stay unchanged. Exact old matrix cells, other observed item
+state, contacts, fixed flags and original planes must remain identical. This
+observer does not export every original trace polyline; complete routing
+geometry preservation is not established by this matrix experiment.
+
+The native four-case control at1f983c1 now supports the250µm footprint-override
+interpretation for its specific mixed-class pair. This new experiment checks
+matrix/item transport only; neither initialized pair-collision behavior, SES
+survival nor production custom-pad routing is established. All earlier plane
+collision warnings remain visible. Only originalJP1 has the two observed local
+values; other245pads have no observed local override. The raw null-class row
+remains0, while the engine's compensated getter still reports its+1.6µm margin.
+
+After committing the reviewed source, ROOT may run one bounded foreground job:
+
+```sh
+python3 -B experiments/pic_mixed_transport_probe_v1/driver.py --run-probe --local-clearance --output .runs/pic-local-clearance-transport-001
+```
+
+The source, tool, cached run and native-control basis are pinned in
+`LOCAL_CLEARANCE_PROTOCOL.json`. Shared180wall/fullCPU seconds,64MiB output,
+256MiB Java heap, network denial and process cleanup remain in force.

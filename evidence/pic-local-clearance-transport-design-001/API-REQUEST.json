@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "status": "prospective root-only declaration request; not executed",
+  "class": "app.freerouting.board.searchtree.SearchTreeManager",
+  "needed_public_methods": [
+    "clearanceValueChanged()",
+    "reinsertTreeItems()"
+  ],
+  "basis": "pinned source describes matrix/tree invalidation; actual pinned JAR public declaration not yet captured in existing API receipts",
+  "already_declared_methods": [
+    "Item.changeClearanceClassIndex(int)",
+    "Item.clearanceClassIndex()",
+    "ClearanceMatrix.appendClass(String)",
+    "ClearanceMatrix.getNo(String)",
+    "ClearanceMatrix.setValue(int,int,int,int)",
+    "ClearanceMatrix.getValue(int,int,int,boolean)"
+  ],
+  "suggested_argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "<pinned javap>",
+    "-J-Xmx256m",
+    "-public",
+    "-classpath",
+    "<pinned freerouting-2.5.0.jar>",
+    "app.freerouting.board.searchtree.SearchTreeManager"
+  ],
+  "no_new_jvm_execution_by_author": true
+}

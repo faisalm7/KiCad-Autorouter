@@ -136,3 +136,5 @@ python3 -B .runs/run-pic-local-clearance-native-001.py
 Do not repeat six completed geometry controls or actual mixed005 for its corrected label.
 
 Local-clearance-native001 completed all4predicates at1f983c1; the command above is now historical and must not be rerun. Next: test a post-load per-item clearance class on both original JP1 anchors and synthetic bodies using cached005native material. Preserve old5×5matrix, allotheritems, netclasses/widths and geometry. Reuse the mixed transport driver with explicit cached-native provenance; no new KiCad export is needed. This only addresses two local overrides; plane collisions/SES/routing remain separate.
+
+Next exact command after cached-native/local250source review and checkpoint: `python3 -B .runs/run-pic-local-clearance-transport-001.py`. It reuses untouched actual005native inputs, compiles/imports two settings sequentially, and requires old5×5matrix/allobservedfields equality after reversing4itemclass changes. It deliberately does not claim fulltracepolyline/SES equivalence.

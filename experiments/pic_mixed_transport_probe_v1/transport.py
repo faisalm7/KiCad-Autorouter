@@ -190,3 +190,88 @@ def validate(observed,expected):
         comparisons.append({'observed':True,'obstacle_setting':setting,'bodies':matched,
             'interpretation':'Class/matrix observation only; original plane and retained routes remain; no solver/SES or rule-equivalence qualification.'})
     return comparisons
+
+def local_override_basis(clearance,project):
+    """Admit only the two observed JP1 footprint overrides in this frozen input."""
+    if clearance.get('before_export')!=clearance.get('after_export'):raise ValueError('local basis changed during export')
+    rows=clearance['before_export']['rows']
+    if len(rows)!=247 or len({r['uuid'] for r in rows})!=247:raise ValueError('local basis census differs')
+    found=[]
+    for row in rows:
+        target=row['reference']=='JP1' and row['number'] in ('1','2')
+        for key,value in (('pad_local',None),('footprint_local',250000 if target else None),('pad_override',250000 if target else None)):
+            if row[key]!={'status':'observed','value_nm':value}:raise ValueError('unqualified local override basis')
+        if target:found.append((row['number'],row['net']))
+    if sorted(found)!=[('1','VCC'),('2','/pic_sockets/VCC_PIC')]:raise ValueError('local override target identity differs')
+    if project['board']['design_settings']['rules']['min_clearance']!=0:raise ValueError('local override floor changed')
+    return {'targets':[{'reference':'JP1','number':number,'net':net,'footprint_override_nm':250000} for number,net in sorted(found)],
+        'new_class':'native_local_250','original_board_min_clearance_nm':0,
+        'scope':'Only the two observed nonzero footprint overrides; not arbitrary pairwise rules.'}
+
+def validate_local(observed,expected):
+    """Prove the finite post-load change without relabelling matrix data as DRC."""
+    after_comparison=validate(observed,expected)
+    before=copy.deepcopy(observed)
+    for row in before['cases']:
+        if row.get('status')!='observed':raise ValueError('every local case must be observed')
+        row['state']=row['state_before_local']
+    before_comparison=validate(before,expected)
+    result=[]
+    for row,before_result,after_result in zip(observed['cases'],before_comparison,after_comparison):
+        if any(b['own_normal_contacts_reciprocal'] is not True for c in (before_result,after_result) for b in c['bodies']):
+            raise ValueError('local anchor/body contact missing')
+        old=row['state_before_local'];new=row['state']
+        names=['null','default','smd','POWER','board_edge']
+        if old['clearance_class_names']!=names or new['clearance_class_names']!=names+['native_local_250']:
+            raise ValueError('local class inventory differs')
+        if type(new['census']['clearance_classes']) is not int or new['census']['clearance_classes']!=6:
+            raise ValueError('local class census differs')
+        ids={v for b in before_result['bodies'] for v in (b['pin_id'],b['area_id'])}
+        if len(ids)!=4:raise ValueError('exactly four local items required')
+        # Reverse exactly the permitted class assignments and matrix extension;
+        # all observed net classes/widths, IDs, pad/area geometry and contacts stay
+        # exact. This observer does not export every original trace polyline.
+        restored=copy.deepcopy(new)
+        restored['clearance_class_names']=names
+        restored['census']['clearance_classes']=5
+        restored['matrix']=[cell for cell in restored['matrix'] if cell['a']<5 and cell['b']<5]
+        for section in ('items','pins','areas'):
+            old_by_id={x['id']:x for x in old[section]}
+            for item in restored[section]:
+                if item['id'] in ids:
+                    if item['clearance_class_index']!=5:raise ValueError('anchor and body must both use local class')
+                    item['clearance_class_index']=old_by_id[item['id']]['clearance_class_index']
+        if restored!=old:raise ValueError('post-load change affected unrelated original state')
+        scale=new['board_units_per_um'];margin=new['clearance_safety_margin_board_units']
+        if type(margin) is not int or margin<0:raise ValueError('invalid engine margin')
+        for cell in new['matrix']:
+            if 5 not in (cell['a'],cell['b']):continue
+            raw=0 if 0 in (cell['a'],cell['b']) else 250*scale
+            if cell['raw_board_units']!=raw:raise ValueError('symmetric local matrix row differs')
+            # Actual005 reports the same +16 margin even for raw null entries.
+            if cell['compensated_board_units']!=raw+margin:raise ValueError('local compensated clearance differs')
+        audit=row['local_override']
+        if audit.get('class_name')!='native_local_250' or audit.get('class_index')!=5 or sorted(audit.get('changed_item_ids',[]))!=sorted(ids):
+            raise ValueError('local mutation audit differs')
+        if audit.get('tree_refresh_completed') is not True or audit.get('tree_entries_valid') is not True:
+            raise ValueError('refreshed search-tree entries unverified')
+        tree_checks=audit.get('tree_entry_checks',[])
+        if (len(tree_checks)!=4 or {r.get('id') for r in tree_checks}!=ids
+                or any(set(r)!={'id','valid'} or r['valid'] is not True for r in tree_checks)):
+            raise ValueError('individual search-tree entry evidence differs')
+        raw_row=[{'other_class':c,'layer':l,'raw_board_units':0 if c==0 else 250*scale,
+                  'raw_um':0 if c==0 else 250} for c in range(6) for l in (0,1)]
+        if audit.get('raw_row')!=raw_row:raise ValueError('local row audit disagrees with matrix')
+        old_matrix={(c['a'],c['b'],c['layer']):c for c in old['matrix']}
+        target_audit=[]
+        for want,body in zip(expected['areas'],before_result['bodies']):
+            target_audit.append({'reference':want['reference'],'number':want['number'],'net':want['net'],
+                'pin_id':body['pin_id'],'area_id':body['area_id'],'original_pin_class':body['pin_class'],
+                'original_area_class':body['area_class'],
+                'preserved_board_edge_raw_board_units':[old_matrix[body['pin_class'],4,l]['raw_board_units'] for l in (0,1)]})
+        if audit.get('targets')!=target_audit:raise ValueError('local target audit disagrees with original state')
+        result.append({'observed':True,'obstacle_setting':row['requested_obstacle'],'changed_item_ids':sorted(ids),
+            'old_state_restored_exactly':True,'local_raw_clearance_um':250,'body_anchor_class':5,
+            'routing_accepted':False,'pairwise_rule_equivalence_qualified':False,'ses_qualified':False,
+            'interpretation':'Exact two-override change in observed matrix/item fields with native control basis; original trace polylines are not fully observed. No solver, pair-collision query, SES or original-board acceptance.'})
+    return result
