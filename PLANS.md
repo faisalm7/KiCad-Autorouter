@@ -19,7 +19,7 @@ python3 -B -m unittest discover -s tests
 
 ## Immediate continuation after layer workflow qualification
 
-Layer native five-case batch, disallowed-layer native control and separate review-copy are complete; preserve their results without rerunning. Installation005 failed only the missing tracked layer-basis dependency before any native route. The reviewed basis/cap fix is checkpointed at eae1f39. Fresh installation006 completed all20commands/608tests and the zero-finding native placement route. Independently audit its actual results; freeze artifact writers and perform an incremental snapshot from417450a plus full-chain restoration because backup implementation changed. After that, continue the narrow original-PIC mixed-class/initialized-clearance import prerequisite; no solver/SES or production admission is yet supported.
+Layer native five-case batch, disallowed-layer native control and separate review-copy are complete; preserve their results without rerunning. Installation005 failed only the missing tracked layer-basis dependency before any native route. The reviewed basis/cap fix is checkpointed at eae1f39. Fresh installation006 completed all20commands/608tests and the zero-finding native placement route. Independent actual audit passes389checks and162exactpubliccopies. Both subagents are frozen; freeze root artifact writers and perform an incremental snapshot from417450a plus full-chain restoration because backup implementation changed. After that, continue the narrow original-PIC mixed-class/initialized-clearance import prerequisite; no solver/SES or production admission is yet supported.
 
 ## Historical progress notes
 
