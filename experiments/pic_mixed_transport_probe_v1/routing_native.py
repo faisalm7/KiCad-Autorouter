@@ -17,11 +17,13 @@ def task_copy(source,destination):
     p.verify_candidate_files(task,p.tree_hash(source.parent))
     return task
 
-def execute(out,source,expected,transport,remaining,dispatch,env,capture,record,pending_candidate):
-    if transport.get('generated_engine_to_ses_exact') is not True:
+def execute(out,source,expected,transport,remaining,dispatch,env,capture,record,pending_candidate,*,diagnostic_only=False):
+    if not diagnostic_only and transport.get('generated_engine_to_ses_exact') is not True:
         raise ValueError('new engine-to-SES geometry differs')
+    if diagnostic_only and (transport.get('safe_structure') is not True or transport.get('retained_routing_failure')!='ValueError: exact integer engine point required'):
+        raise ValueError('finite failed-transport native diagnostic required')
     job=ses_native.SesJob(out/'routing-native',remaining,dispatch,env)
-    result={'candidate_emitted':False,'routing_accepted':False,'production_support_qualified':False}
+    result={'candidate_emitted':False,'routing_accepted':False,'production_support_qualified':False,'diagnostic_only':diagnostic_only}
     record['native_routing']=result
     task=task_copy(source,job.out/'task-project');capture()
     result['task_sha256']=p.sha(task);result['task_ordinary_routes']=len(p.routes(sx.read(task)))
@@ -40,10 +42,15 @@ def execute(out,source,expected,transport,remaining,dispatch,env,capture,record,
         sx.write(candidate,rebuilt);capture()
         final_hash,native=p.validate_candidate(job,original,candidate,p.tree_hash(source.parent),())
     p.verify_candidate_files(candidate,p.tree_hash(source.parent),final_hash)
+    try:
+        p.preflight(source);unsupported=[]
+    except p.Rejected as exc:
+        if not str(exc).startswith('unsupported: '):raise
+        unsupported=str(exc).removeprefix('unsupported: ').split('; ')
     result.update(candidate_emitted=True,candidate_sha256=final_hash,final_native=native,
         final_bound_report=str(job.out/'final-drc.json'),final_bound_report_sha256=p.sha(job.out/'final-drc.json'),
-        final_binding_sha256=p.sha(job.out/'final-drc-binding.json'),routing_accepted=p.native_accepted(native),
-        original_preflight_reasons=p.preflight(source))
+        final_binding_sha256=p.sha(job.out/'final-drc-binding.json'),native_routing_scope_passed=p.native_accepted(native),routing_accepted=p.native_accepted(native) and not diagnostic_only,
+        original_preflight_reasons=unsupported)
     if p.immutable(sx.read(candidate))!=p.immutable(original):raise ValueError('final candidate changed source intent')
     job.native('generated-metrics','metrics',candidate,job.out/'metrics.json')
     result['metrics']=floor.read_json(job.out/'metrics.json');result['steps']=job.steps

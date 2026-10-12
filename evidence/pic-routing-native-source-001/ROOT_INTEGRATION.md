@@ -1,0 +1,1 @@
+Saved routing native continuation: 23 focused software checks pass. Actual saved routing001 still fails exact integer point proof; proposal-only parsing preserves exact placements/polygons and reports no engine geometry equivalence. No fresh native run yet. Scoped independent source review is retained locally pending public curation.

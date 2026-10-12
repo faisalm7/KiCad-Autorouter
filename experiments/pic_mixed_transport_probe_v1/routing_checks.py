@@ -40,7 +40,7 @@ def effective(value):
         raise ValueError('exact two active routing layers required')
     return {'configuration':config,'layers':layers,'board_specific_costs_applied':value['board_specific_costs_applied']}
 
-def compare(observed,expected,retained_selective):
+def compare(observed,expected,retained_selective,*,native_diagnostic=False):
     if (type(observed.get('schema')) is not int or observed['schema']!=1 or observed.get('mode')!='selective_route_diagnostic'
             or observed.get('status')!='observed' or observed.get('routing_executed') is not True
             or observed.get('ses_executed') is not True or type(observed.get('cancel_before_routing')) is not bool):
@@ -56,8 +56,6 @@ def compare(observed,expected,retained_selective):
             'stripped import changed nonrouting constraints')
     before=row['state_after_selective'];after=observed['final_state'];geometry=observed['final_geometry']
     s.equal(static_state(before),static_state(after),'routing changed nonrouting constraints')
-    s.route_geometry(geometry,after)
-    s.predicates(observed['final_predicates'],after,geometry)
     loaded=effective(observed['settings_loaded']);enabled=effective(observed['settings_enabled']);final=effective(observed['settings_final'])
     expected_enabled=copy.deepcopy(loaded)
     if expected_enabled['configuration']['autorouter']['enabled'] is not False:raise ValueError('router enabled before explicit transition')
@@ -95,6 +93,9 @@ def compare(observed,expected,retained_selective):
     writer=observed['writer']
     s.equal(writer['state_after_ses'],after,'SES write changed final board')
     s.equal(writer['route_geometry_after_ses'],geometry,'SES write changed final routing')
+    if not native_diagnostic:
+        s.route_geometry(geometry,after)
+        s.predicates(observed['final_predicates'],after,geometry)
     return {'lifecycle_verified':True,'ordinary_seed_routes':0,'final_traces':len(geometry['traces']),
-            'final_vias':len(geometry['vias']),'cancel_control':observed['cancel_before_routing'],
+            'final_vias':len(geometry['vias']),'geometry_verified':not native_diagnostic,'cancel_control':observed['cancel_before_routing'],
             'routing_accepted':False,'production_support_qualified':False}

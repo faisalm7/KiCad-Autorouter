@@ -4,6 +4,10 @@ Updated October 11, 2026 (America/Los_Angeles). **Active local reconstruction; i
 
 ## Latest work — October 12 UTC
 
+Actual zero-seed routing001 at9c0b274 generated126 traces/0vias, with the engine reporting zero remaining connections, but strict transport validation failed on three RationalPoint corners. No KiCad routing success is claimed. Saved SES contains126 paths/252 segments, exact63 placements and both custom polygons. Stored5.286989wall/8.149004CPU seconds. Actual cancellation001 completed the pre-routing stop with no generated copper (3.817831wall/4.962176CPU). Both original runs and all original15files are retained.
+
+The native-only continuation now structurally checks the saved SES and revalidates its complete provenance, without repeating compilation, solving or writing. It must reproduce the exact strict failure and cannot mark routing accepted even if native checks pass. Eleven focused tests pass. Next command after source checkpoint: `python3 -B .runs/run-pic-selective-routing-native-001.py`. This diagnoses a proposal, not production support or comparative gain.
+
 Selective002 at541a11d passes the fresh representation observation:603indexed items validate and619exact zero-shape/null-entry outlines retain rawfalse; onlytwo custom bodies enabled, originalGND unchanged, all345routes/368shapes/settings exact. Stored4.835331wall/5.093529CPU. Independent captured-source readback passes83frozen artifacts/50source pins and original15files; no routing/native/support gain.
 
 The next direct-routing diagnostic is implemented with an exact reversible339path+6via removal ledger, synchronous60second cooperative stop, explicit completion-only settings, final job.board checks, shared SES/native validation and original-rule candidate handling. Source reviews found and fixed contradictory settings, negative layer indices, null route-clearance class, cancellation-mode binding and candidate-refill freezing. Pure controls are preliminary; actual cancellation and routing runs are next. Production PIC remains unsupported and all broader/holdout/release gates stay open.

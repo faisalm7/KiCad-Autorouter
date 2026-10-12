@@ -87,7 +87,8 @@ def source_routes(board):
         else:raise ValueError('retained arcs outside exact-survival scope')
     return result,vias
 
-def audit(raw,dsn_raw,expected,source,geometry=None,*,generated=False):
+def audit(raw,dsn_raw,expected,source,geometry=None,*,generated=False,proposal_only=False):
+    if proposal_only and (not generated or geometry is not None):raise ValueError('proposal-only mode must not claim engine geometry')
     if not raw or len(raw)>MAX_SES:raise ValueError('SES byte bound')
     tree=sx.parse(raw.decode());dsn=_parse_dsn(dsn_raw.decode())
     children_only(tree,{'base_design','placement','was_is','routes'},2)
@@ -113,7 +114,7 @@ def audit(raw,dsn_raw,expected,source,geometry=None,*,generated=False):
         name=imported_name(sx.unquote(via[1]));needed.add(name)
         dsn_vias[(sx.unquote(sx.one(via,'net')[1]),name,tuple(number(x) for x in via[2:4]))]+=1
     if generated:
-        if dsn_paths or dsn_vias or p.routes(source) or geometry is None:raise ValueError('generated mode requires empty seed and final geometry')
+        if dsn_paths or dsn_vias or p.routes(source) or (geometry is None and not proposal_only):raise ValueError('generated mode requires empty seed and final geometry')
         needed=set(stacks)
     wanted_library=['library_out',*[copy.deepcopy(n) for n in sx.children(sx.one(dsn,'library'),'padstack') if imported_name(sx.unquote(n[1])) in needed]]
     if stacks!=library(wanted_library,1):raise ValueError('SES via library differs')
@@ -165,7 +166,8 @@ def audit(raw,dsn_raw,expected,source,geometry=None,*,generated=False):
         result.update(dsn_to_engine=diff(dsn_paths,engine_paths),engine_to_ses=diff(engine_paths,paths),engine_vias_equal=engine_vias==vias)
     result['exact_route_survival']=all(v['equal'] for v in result.values() if isinstance(v,dict) and 'equal' in v) and all(result[k] for k in ('dsn_vias_equal','native_vias_equal')) and result.get('engine_vias_equal',True)
     if generated:
-        result['generated_engine_to_ses_exact']=result['engine_to_ses']['equal'] and result['engine_vias_equal']
+        result['generated_engine_to_ses_exact']=not proposal_only and result['engine_to_ses']['equal'] and result['engine_vias_equal']
+        result['proposal_only']=proposal_only
         result['scope']='New ordinary routing from zero seed; retained-route survival is not the acceptance obligation.'
     return tree,result
 

@@ -138,6 +138,33 @@ class RoutingChecks(unittest.TestCase):
             value['writer']={'state_after_ses':copy.deepcopy(value['final_state']),'route_geometry_after_ses':copy.deepcopy(value['final_geometry'])}
             with self.assertRaises(ValueError):c.compare(value,expected,self.retained)
 
+    def test_native_diagnostic_retains_strict_geometry_failure_and_static_guards(self):
+        value,expected=self.routing_positive()
+        value['final_geometry']['traces'][0]['corners_board_integer'][0]=None
+        value['writer']['route_geometry_after_ses']=copy.deepcopy(value['final_geometry'])
+        with self.assertRaisesRegex(ValueError,'exact integer engine point required'):
+            c.compare(value,expected,self.retained)
+        result=c.compare(value,expected,self.retained,native_diagnostic=True)
+        self.assertFalse(result['geometry_verified']);self.assertFalse(result['routing_accepted'])
+        self.wrong_class(value)
+        value['writer']={'state_after_ses':copy.deepcopy(value['final_state']),'route_geometry_after_ses':copy.deepcopy(value['final_geometry'])}
+        with self.assertRaisesRegex(ValueError,'clearance class'):
+            c.compare(value,expected,self.retained,native_diagnostic=True)
+
+    def test_saved_proposal_audit_never_claims_exact_engine_geometry(self):
+        raw=(ROOT/'evidence/pic-custom-ses-roundtrip-001/raw.ses').read_bytes()
+        task=sx.parse(self.source.decode());task[:]=[n for n in task if not isinstance(n,list) or not n or n[0] not in p.ROUTES]
+        _,result=ses_checks.audit(raw,self.unrouted,self.expected,task,generated=True,proposal_only=True)
+        self.assertTrue(result['safe_structure']);self.assertFalse(result['generated_engine_to_ses_exact'])
+        self.assertNotIn('engine_to_ses',result)
+        for kwargs in ({'proposal_only':True},{'generated':True},{'generated':True,'proposal_only':True,'geometry':{}}):
+            with self.subTest(kwargs=kwargs),self.assertRaises(ValueError):
+                ses_checks.audit(raw,self.unrouted,self.expected,task,**kwargs)
+        with self.assertRaisesRegex(ValueError,'empty seed'):
+            ses_checks.audit(raw,self.mixed,self.expected,task,generated=True,proposal_only=True)
+        with self.assertRaisesRegex(ValueError,'SES net'):
+            ses_checks.audit(raw.replace(b'Net-(Q2-C)',b'unknown-net'),self.unrouted,self.expected,task,generated=True,proposal_only=True)
+
     def test_native_task_copy_retains_original_intent_and_rules(self):
         with tempfile.TemporaryDirectory(dir=ROOT/'.runs') as td:
             target=routing_native.task_copy(ROOT/'.data/boards/kicad-pic-programmer/pic_programmer.kicad_pcb',Path(td)/'task')
