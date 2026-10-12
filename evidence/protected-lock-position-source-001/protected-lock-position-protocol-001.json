@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "previous_failed_run": ".runs/preferences-native-locked-001",
+  "policy": "exact_non_uuid_lock_position_v2; normalize only position of a single exact locked yes node, retain all other non-UUID order and exact original node",
+  "cases": [
+    {
+      "id": "locked-position-fixed",
+      "board": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/protected-import-input-001/locked-project/smoke.kicad_pcb",
+      "settings": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-native-input-001/partial.json",
+      "overrides": [
+        "--scope",
+        "whole"
+      ],
+      "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-native-locked-002",
+      "wall_cpu_seconds": 120,
+      "expected_protected_routes": 2
+    }
+  ],
+  "source_hashes": {
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-native-input-001/project": {
+      "smoke.kicad_pcb": "ae0b004142c0de5fd0e7e4e969754df52c9bdbb64538bbb4927198e48ea077b5",
+      "smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+      "smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643"
+    },
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/protected-import-input-001/locked-project": {
+      "smoke.kicad_pcb": "0128013a9fef4767a938b9698978d1d557f53415efbb9b16c3947336cf3ee7b1",
+      "smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+      "smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643"
+    }
+  },
+  "preset_sha256": "169eca29234027ef6a062381b0dc2eecd5c6535c6229e2be342b9aa09ac08190",
+  "scope": "One correction to demonstrated native lock-field serialization, same original input/rules/budget; no routing performance claim."
+}

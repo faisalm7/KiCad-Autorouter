@@ -1,0 +1,337 @@
+{
+  "schema": 1,
+  "git_head": "9ef0a64e78bd2d7834e158a6ca1081786673d950",
+  "scope": "Actual partial completion and deliberate removal; retained locked metadata-order failure; import-only layer masks. No broad support/performance claim.",
+  "cases": {
+    "preferences-native-partial-002": {
+      "receipt_sha256": "9fff3bd0fd67de44e5ee5cdb2a84eff9957eae3ac0e94053405089c387104b64",
+      "status": "routing_accepted",
+      "accepted": true,
+      "passed": null,
+      "reason": null,
+      "error": null,
+      "wall_seconds": 10.226936457998818,
+      "total_cpu_seconds": 5.896305,
+      "candidate_sha256": "5736b7b31ccd9f325efca78a4be0cc5b46653b86b4a6327becff3a89218dcdba",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": []
+      },
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 6,
+        "footprints": 6,
+        "zones": 1,
+        "vias": 0,
+        "track_length_mm": 90.0,
+        "copper_layers": 2
+      },
+      "protected_route_import": {
+        "imported_sha256": "e8809b6996bb1e5f1341fa462d43c99be3a37eefbc12690a8f7eeb70e5d39602",
+        "policy": "exact_non_uuid_v1",
+        "matches": [
+          {
+            "original_uuid": "\"938c1c14-f4a8-48c1-a41b-b4e3e79fc5bf\"",
+            "imported_uuid": "\"8f792abd-59ea-45f7-bdcc-a9b719e3714f\"",
+            "non_uuid_sha256": "497473879197e39f03f20523f560df3037a20fda96f00ee90579bdd55eadcfb7"
+          },
+          {
+            "original_uuid": "\"5d0bc178-dd16-4b76-8870-a3e0bbf8d139\"",
+            "imported_uuid": "\"a2ecc2f6-a387-423b-8997-c02970d2717c\"",
+            "non_uuid_sha256": "3e69d47c61c72c2fbae7394e9b6024c775128ad4adadb2012b412c1549af4265"
+          }
+        ],
+        "transplanted_routes_sha256": "67a1912eb21cb99817d3619bc91b1da49002bcacdacce9f04eba3ac2c79122ad"
+      },
+      "case_comparison": null,
+      "central_readback": {
+        "current": true,
+        "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-native-partial-002/candidate/smoke.kicad_pcb",
+        "candidate_sha256": "5736b7b31ccd9f325efca78a4be0cc5b46653b86b4a6327becff3a89218dcdba",
+        "applied": false,
+        "authentication": "none; mutable local evidence consistency only",
+        "warning": "Fresh native validation is required before application; human PCB review and electrical/physical validation remain required."
+      },
+      "outer_execution": {
+        "argv": [
+          "python3",
+          "-B",
+          "-m",
+          "autorouter",
+          "route",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-native-input-001/project/smoke.kicad_pcb",
+          "--settings",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-native-input-001/partial.json",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-native-partial-002"
+        ],
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local",
+        "git_head": "9ef0a64e78bd2d7834e158a6ca1081786673d950",
+        "started_utc": "2026-10-12T02:53:26.933735+00:00",
+        "exit_code": 0,
+        "wall_seconds": 10.663434666988906,
+        "waited_child_cpu_seconds": 6.159401999999999,
+        "cleanup_signals": [],
+        "log_sha256": "61b1ed7f6a84037c32a189e6a54eb71ce46c337468e8179dec5f12daf682b558",
+        "log_bytes": 417,
+        "wrapper_sha256": "48aa6dd7c800e7edd73ad76894702ee3a8ff09c004f94150a534cdfc7b372cf9",
+        "scope": "Prospectively frozen protected identity restoration and locked-scope qualification; not a comparative routing gain."
+      }
+    },
+    "preferences-native-locked-001": {
+      "receipt_sha256": "1149405be21a1f78817f4858650e61dbbac9f5260b40ab8127105a4f79c80713",
+      "status": "rejected",
+      "accepted": false,
+      "passed": null,
+      "reason": "Rejected: protected route missing, changed or ambiguous after import",
+      "error": null,
+      "wall_seconds": 6.424330000008922,
+      "total_cpu_seconds": 4.361278,
+      "candidate_sha256": null,
+      "native": null,
+      "metrics": null,
+      "protected_route_import": null,
+      "case_comparison": null,
+      "outer_execution": {
+        "argv": [
+          "python3",
+          "-B",
+          "-m",
+          "autorouter",
+          "route",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/protected-import-input-001/locked-project/smoke.kicad_pcb",
+          "--settings",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-native-input-001/partial.json",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-native-locked-001",
+          "--scope",
+          "whole"
+        ],
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local",
+        "git_head": "9ef0a64e78bd2d7834e158a6ca1081786673d950",
+        "started_utc": "2026-10-12T02:54:11.651097+00:00",
+        "exit_code": 2,
+        "wall_seconds": 6.542967708024662,
+        "waited_child_cpu_seconds": 4.426086,
+        "cleanup_signals": [],
+        "log_sha256": "904f6b756a9bce5169ccb93f07ad6f78a2df45077afa8f8d0ca9f16b6235415c",
+        "log_bytes": 202,
+        "wrapper_sha256": "48aa6dd7c800e7edd73ad76894702ee3a8ff09c004f94150a534cdfc7b372cf9",
+        "scope": "Prospectively frozen protected identity restoration and locked-scope qualification; not a comparative routing gain."
+      }
+    },
+    "protected-removal-native-001": {
+      "receipt_sha256": "c3b2bfd50bc272ea0146863f5f50e4a3e8e5249ef7032a7a8a58dbac25d05833",
+      "status": null,
+      "accepted": null,
+      "passed": true,
+      "reason": null,
+      "error": null,
+      "wall_seconds": 1.6570197500113863,
+      "total_cpu_seconds": 0.7347769999999999,
+      "candidate_sha256": "7b4985f10bb1f674a914bcd6c7202a546231398ac3745f773282d646ccd30ba5",
+      "native": {
+        "opens": 1,
+        "blocking": 0,
+        "warnings": 1,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Track has unconnected end",
+            "items": [
+              {
+                "description": "Track [SIGNAL_A] on F.Cu, length 25.0000 mm",
+                "pos": {
+                  "x": 15.0,
+                  "y": 10.0
+                },
+                "uuid": "5700d20f-1747-417b-b768-dab044748043"
+              }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+          },
+          {
+            "description": "Missing connection between items",
+            "items": [
+              {
+                "description": "PTH pad 1 [SIGNAL_A] of J1",
+                "pos": {
+                  "x": 10.0,
+                  "y": 10.0
+                },
+                "uuid": "2259717b-f87b-4741-851c-4246b16698d8"
+              },
+              {
+                "description": "Track [SIGNAL_A] on F.Cu, length 25.0000 mm",
+                "pos": {
+                  "x": 15.0,
+                  "y": 10.0
+                },
+                "uuid": "5700d20f-1747-417b-b768-dab044748043"
+              }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+          }
+        ]
+      },
+      "metrics": null,
+      "protected_route_import": null,
+      "case_comparison": null,
+      "guard_rejection": "protected route changed",
+      "outer_execution": {
+        "argv": [
+          "python3",
+          "-B",
+          ".runs/run-protected-removal-native-001.py"
+        ],
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local",
+        "git_head": "9ef0a64e78bd2d7834e158a6ca1081786673d950",
+        "started_utc": "2026-10-12T02:55:27.384484+00:00",
+        "exit_code": 0,
+        "wall_seconds": 1.7157058749871794,
+        "waited_child_cpu_seconds": 0.780968,
+        "cleanup_signals": [],
+        "log_sha256": "128ed708cc695a16f2e008478b542f7673df4859c3e7dfd43090fa40330dff84",
+        "log_bytes": 1376,
+        "wrapper_sha256": "dc0783c5a9591146d4f2b14b6ab59256810e10964e404506b3ce44b0afb45f80",
+        "scope": "Preselected deliberately invalid protected-segment removal control; shared original-rule native Job and guard."
+      }
+    },
+    "layer-mask-probe-001": {
+      "receipt_sha256": "f0c61f59d4bf89c7c5ff8b4b14403fa470f8053ebc9ee4f84e8d26d3c79ab097",
+      "status": "completed",
+      "accepted": null,
+      "passed": true,
+      "reason": null,
+      "error": null,
+      "wall_seconds": 1.1970392920193262,
+      "total_cpu_seconds": 1.7747739999999999,
+      "candidate_sha256": null,
+      "native": null,
+      "metrics": null,
+      "protected_route_import": null,
+      "case_comparison": [
+        {
+          "case": "source-all",
+          "enabled_names": [
+            "F.Cu",
+            "B.Cu"
+          ],
+          "expected_semantic_rejection": false,
+          "mask_transport_observed": true,
+          "requested_names": [
+            "F.Cu",
+            "B.Cu"
+          ],
+          "semantic_mapping_accepted": true
+        },
+        {
+          "case": "front-only",
+          "enabled_names": [
+            "F.Cu"
+          ],
+          "expected_semantic_rejection": false,
+          "mask_transport_observed": true,
+          "requested_names": [
+            "F.Cu"
+          ],
+          "semantic_mapping_accepted": true
+        },
+        {
+          "case": "back-only",
+          "enabled_names": [
+            "B.Cu"
+          ],
+          "expected_semantic_rejection": false,
+          "mask_transport_observed": true,
+          "requested_names": [
+            "B.Cu"
+          ],
+          "semantic_mapping_accepted": true
+        },
+        {
+          "case": "reversed-mapping-negative",
+          "enabled_names": [
+            "B.Cu"
+          ],
+          "expected_semantic_rejection": true,
+          "mask_transport_observed": true,
+          "requested_names": [
+            "F.Cu"
+          ],
+          "semantic_mapping_accepted": false
+        }
+      ],
+      "outer_execution": {
+        "argv": [
+          "python3",
+          "-B",
+          "scripts/probe_engine_profiles.py",
+          "--layer-mask",
+          "--output",
+          ".runs/layer-mask-probe-001"
+        ],
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local",
+        "git_head": "9ef0a64e78bd2d7834e158a6ca1081786673d950",
+        "started_utc": "2026-10-12T02:55:59.977372+00:00",
+        "exit_code": 0,
+        "wall_seconds": 1.3249184589949436,
+        "waited_child_cpu_seconds": 1.859303,
+        "cleanup_signals": [],
+        "log_sha256": "ae2a2823ea5545f39844a8df2d34f4d825baa10936a1d68acfadd6bd949020d3",
+        "log_bytes": 148,
+        "wrapper_sha256": "15b6c818da11cc207e40335f6e2d67ffc40171744aee09c288d405523aa0b600",
+        "scope": "Frozen four-case import-only layer-mask hypothesis; no native routing or production layer-support claim."
+      }
+    }
+  }
+}

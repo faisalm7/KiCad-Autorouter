@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "status": "proposed_not_implemented_or_executed",
+  "scope": "original_pic_transport_diagnostic",
+  "existing_components": {
+    "native_observer": "experiments/pic_custom_observer_v1",
+    "area_import": "experiments/custom_pad_area_probe_v1",
+    "native_rules_and_intent": "experiments/pic_severity_controls_v1",
+    "ses_import": "autorouter/native.py import",
+    "route_only_transplant_and_final_native": "autorouter/pipeline.py"
+  },
+  "command_skeleton": "python3 -B <reviewed-existing-harness-extension> --protocol <frozen-transport-protocol.json> --output .runs/pic-original-transport-001",
+  "command_warning": "This is a design skeleton, not an existing executable CLI. Confirm SES writer and actual routing-lifecycle obstacle APIs before implementation.",
+  "source": ".data/boards/kicad-pic-programmer/pic_programmer.kicad_pcb",
+  "source_board_sha256": "1ca70b620506818eb0227e2863bbd573d1fec1672072dc43d0dbe8475e69c8fb",
+  "source_project_sha256": "3b0ac39da5af86d0baa2a64da55a89c39ba00148dc82b54f3062f5c3650a5cc5",
+  "budget": {"shared_wall_seconds": 180, "shared_full_cpu_seconds": 180, "output_bytes": 67108864, "heavy_workers": 1},
+  "stages": [
+    "Freeze complete source, current reviewed helper/core/tool bytes and protocol; derive ordinary unlocked-routing task without reference-route use.",
+    "Same-load native raw DSN/custom-pad/netclass/local-clearance observation on disposable task; bind complete terminal and physical geometry inventories.",
+    "Exact common-adapter and anchor+area derivation with reverse AST proof; mixed/local rule, padstack-name and net/terminal checks.",
+    "Import and observe actual routing-entry board: raw and compensated clearance matrices, correct area class/net/layer, reciprocal contacts, no plane shortcuts and active foreign search-tree obstruction. Stop on unresolved semantics.",
+    "One fixed completion-only/default-cost attempt if all gates hold; existing timeout reserves and shared caps authoritative.",
+    "Retain SES/native import, reconstruct routes into untouched original pad/footprint/rule task, preserve protected identity; final refill/DRC bound to candidate.",
+    "New SES-boundary falsifier using unchanged existing back90 false_hull owned scene; require targeted original concave-pad open. Record unrun if budget exhausted."
+  ],
+  "mandatory_false_claims": {"production_support_changed": false, "general_custom_pad_support": false, "routing_comparison": false, "C_novelty": false, "electrical_validation": false, "library_parity": false},
+  "preserve": ["all previous failed and successful evidence", "all attempted/failed/unrun rows", "raw native/DSN/SES/import artifacts", "original source bytes and rule severities"],
+  "not_qualified_by_prior_area002": ["mixed Default/POWER/local clearance", "full original primitive-pad inventory", "actual solver lifecycle obstacle setting", "SES area transport", "new-route native validity"]
+}

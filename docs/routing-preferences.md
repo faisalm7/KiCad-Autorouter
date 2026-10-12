@@ -1,6 +1,6 @@
 # Saved routing preferences
 
-Saved preferences capture routing choices without editing KiCad project settings or the source board. They preserve the current board-support and acceptance requirements. The initial native whole-board and placement cases pass. The first partial-completion case was safely rejected because KiCad regenerated protected segment IDs during SES import; its correction is pending. Both engine-stage cancellation signals pass real controls.
+Saved preferences capture routing choices without editing KiCad project settings or the source board. They preserve the current board-support and acceptance requirements. Native whole-board, placement and corrected partial-completion cases pass, including exact preservation of the two original fixture tracks. Deliberate protected-track removal produces a real open and is rejected. Both engine-stage cancellation signals pass. A separate locked-track case exposed native lock-field reordering; its versioned correction awaits fresh native qualification. Layer masks remain import-only research and are not yet accepted settings.
 
 Create a preset once, edit its values, then preview and route using that file:
 

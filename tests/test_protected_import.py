@@ -1,5 +1,6 @@
 """Regression for observed SES UUID regeneration; no native success is mocked."""
 import copy
+import json
 from pathlib import Path
 import tempfile
 import unittest
@@ -103,6 +104,39 @@ class ProtectedImportTests(unittest.TestCase):
     def test_historical_transplant_and_no_binding_keep_default_behavior(self):
         self.assertEqual(p.routes(p.transplant_routes(self.original,self.imported)),p.routes(self.imported))
         p.check_protected_import(ROOT/'.runs/nonexistent',{},self.original,ROOT/'nonexistent',self.protected)
+
+    def test_actual_locked_field_position_is_versioned(self):
+        base=ROOT/'evidence/protected-layer-native-001/preferences-native-locked-001'
+        original=sx.read(base/'snapshot/smoke.kicad_pcb');imported=sx.read(base/'imported.kicad_pcb');protected=p.routes(original)
+        with self.assertRaises(p.Rejected):p.transplant_routes(original,imported,protected=protected)
+        audit={};result=p.transplant_routes(original,imported,protected=protected,audit=audit,policy='exact_non_uuid_lock_position_v2')
+        self.assertTrue(all(route in p.routes(result) for route in protected))
+        self.assertEqual(len(p.routes(result)),len(p.routes(imported)))
+        self.assertEqual(audit['policy'],'exact_non_uuid_lock_position_v2')
+        self.assertTrue(all(row['original_uuid']==row['imported_uuid'] for row in audit['matches']))
+
+    def test_v2_preserves_exact_lock_presence_form_and_other_field_order(self):
+        original=copy.deepcopy(self.original);p.routes(original)[0].insert(1,['locked','yes'])
+        imported=copy.deepcopy(self.imported);p.routes(imported)[0].insert(4,['locked','yes'])
+        call=lambda tree:p.transplant_routes(original,tree,protected=p.routes(original),policy='exact_non_uuid_lock_position_v2')
+        call(imported)
+        for value in [None,['locked'],['locked','no'],['locked','true'],'locked']:
+            changed=copy.deepcopy(imported);r=p.routes(changed)[0];r.remove(sx.one(r,'locked'))
+            if value is not None:r.append(value)
+            with self.subTest(lock=value),self.assertRaises(p.Rejected):call(changed)
+        for change in ['duplicate-lock','reordered-other','duplicate-match']:
+            changed=copy.deepcopy(imported);r=p.routes(changed)[0]
+            if change=='duplicate-lock':r.append(['locked','yes'])
+            if change=='reordered-other':r.remove(sx.one(r,'width'));r.append(['width','0.25'])
+            if change=='duplicate-match':
+                duplicate=copy.deepcopy(r);sx.one(duplicate,'uuid')[1]='"duplicate"';duplicate.remove(sx.one(duplicate,'locked'));duplicate.insert(1,['locked','yes']);changed.append(duplicate)
+            with self.subTest(change=change),self.assertRaises(p.Rejected):call(changed)
+
+    def test_actual_accepted_v1_receipt_keeps_original_signature_semantics(self):
+        base=ROOT/'evidence/protected-layer-native-001/preferences-native-partial-002'
+        data=json.loads((base/'result.json').read_text());original=sx.read(base/'snapshot/smoke.kicad_pcb')
+        self.assertEqual(data['protected_route_import']['policy'],'exact_non_uuid_v1')
+        p.check_protected_import(base,data,original,base/'candidate/smoke.kicad_pcb',p.routes(original))
 
     def test_locked_via_and_arc_exact_matching_only(self):
         for route in ['(via (at 2 2) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net 1) (locked yes) (uuid "original"))',

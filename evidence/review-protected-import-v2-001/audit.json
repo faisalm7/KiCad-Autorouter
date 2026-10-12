@@ -1,0 +1,107 @@
+{
+  "scope": "Pure saved-file/native-evidence reconstruction and central receipt readback; no fresh native/JVM/routing/network.",
+  "source_pins": {
+    "autorouter/pipeline.py": "779705e14db01f4dcd32f09d9b966dbdf203f72b278b49f0a6c395be31a56dbc",
+    "tests/test_protected_import.py": "eb9bffa909035ad3daf60cb442f621baf04521f105fb3e8491ae65ffdcc615ed"
+  },
+  "actual_locked_result_sha256": "1149405be21a1f78817f4858650e61dbbac9f5260b40ab8127105a4f79c80713",
+  "actual_locked_board_sha256": "0128013a9fef4767a938b9698978d1d557f53415efbb9b16c3947336cf3ee7b1",
+  "actual_locked_import_sha256": "ba537301466d6448ce21a198b4d0c12fddfaeb8899cde5b685259c0946bf47a8",
+  "actual_partial_v1_receipt_sha256": "9fff3bd0fd67de44e5ee5cdb2a84eff9957eae3ac0e94053405089c387104b64",
+  "actual_locked_failure": "Rejected: protected route missing, changed or ambiguous after import",
+  "original_and_evidence_unchanged": true,
+  "exact_original_locked_nodes_restored": true,
+  "remaining_nonuuid_nonlock_atoms_and_order_unchanged": true,
+  "reconciliation": {
+    "imported_sha256": "ba537301466d6448ce21a198b4d0c12fddfaeb8899cde5b685259c0946bf47a8",
+    "policy": "exact_non_uuid_lock_position_v2",
+    "matches": [
+      {
+        "original_uuid": "\"938c1c14-f4a8-48c1-a41b-b4e3e79fc5bf\"",
+        "imported_uuid": "\"938c1c14-f4a8-48c1-a41b-b4e3e79fc5bf\"",
+        "non_uuid_sha256": "9bc022566a0017fa45d9a51b79bbabff88afa8147de80fe7f63483aa4054e22c"
+      },
+      {
+        "original_uuid": "\"5d0bc178-dd16-4b76-8870-a3e0bbf8d139\"",
+        "imported_uuid": "\"5d0bc178-dd16-4b76-8870-a3e0bbf8d139\"",
+        "non_uuid_sha256": "c1eed8ec1dacf2424d120aaa8024d960e341639bcdd6f6c8617ee3ad4d3a7e84"
+      }
+    ],
+    "transplanted_routes_sha256": "32f02751dfcf7dbcad397f55145d8701a3e110b435f4fce8ae61997f259ac6f2"
+  },
+  "cases": [
+    {
+      "case": "actual_locked_v1_remains_rejected",
+      "accepted": false,
+      "expected": false,
+      "error": "Rejected: protected route missing, changed or ambiguous after import"
+    },
+    {
+      "case": "actual_locked_v2_reconstructs",
+      "accepted": true,
+      "expected": true,
+      "error": null
+    },
+    {
+      "case": "v2_copied_file_binding",
+      "accepted": true,
+      "expected": true,
+      "error": null
+    },
+    {
+      "case": "reject_policy_exact_non_uuid_v1",
+      "accepted": false,
+      "expected": false,
+      "error": "Rejected: protected route missing, changed or ambiguous after import"
+    },
+    {
+      "case": "reject_policy_unknown",
+      "accepted": false,
+      "expected": false,
+      "error": "Rejected: unknown protected import policy"
+    },
+    {
+      "case": "reject_policy_None",
+      "accepted": false,
+      "expected": false,
+      "error": "Rejected: unknown protected import policy"
+    },
+    {
+      "case": "remove_lock",
+      "accepted": false,
+      "expected": false,
+      "error": "Rejected: protected route missing, changed or ambiguous after import"
+    },
+    {
+      "case": "false_lock",
+      "accepted": false,
+      "expected": false,
+      "error": "Rejected: protected import requires absent or single explicit locked yes"
+    },
+    {
+      "case": "duplicate_lock",
+      "accepted": false,
+      "expected": false,
+      "error": "Rejected: protected import requires absent or single explicit locked yes"
+    },
+    {
+      "case": "other_field_order",
+      "accepted": false,
+      "expected": false,
+      "error": "Rejected: protected route missing, changed or ambiguous after import"
+    },
+    {
+      "case": "normalized_duplicate",
+      "accepted": false,
+      "expected": false,
+      "error": "Rejected: protected route missing, changed or ambiguous after import"
+    },
+    {
+      "case": "actual_accepted_partial_v1_central_readback",
+      "accepted": true,
+      "expected": true,
+      "error": null
+    }
+  ],
+  "all_passed": true
+}

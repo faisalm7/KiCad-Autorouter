@@ -159,7 +159,9 @@ def convert_route_nets(route, native_tree, original):
         else: n[:]=['net',name]
     return route
 
-def transplant_routes(original, imported, *, protected=(), audit=None):
+def transplant_routes(original, imported, *, protected=(), audit=None, policy='exact_non_uuid_v1'):
+    if policy not in {'exact_non_uuid_v1','exact_non_uuid_lock_position_v2'}:
+        raise Rejected('unknown protected import policy')
     imported_routes=[convert_route_nets(n,imported,original) for n in routes(imported)]
     reconciled=[]
     if protected:
@@ -172,7 +174,14 @@ def transplant_routes(original, imported, *, protected=(), audit=None):
                 raise Rejected('protected import requires unique route UUIDs')
             return ids[0][1]
         def signature(route):
-            return sx.dump([n for n in route if not isinstance(n,list) or not n or n[0]!='uuid'])
+            fields=[n for n in route if not isinstance(n,list) or not n or n[0]!='uuid']
+            if policy=='exact_non_uuid_lock_position_v2':
+                locks=[n for n in fields if n=='locked' or isinstance(n,list) and n and n[0]=='locked']
+                if len(locks)>1 or locks and locks[0]!=['locked','yes']:
+                    raise Rejected('protected import requires absent or single explicit locked yes')
+                if locks:
+                    fields.remove(locks[0]);fields.append(locks[0])
+            return sx.dump(fields)
         original_counts={}
         for route in routes(original):
             key=sx.dump(route)
@@ -202,7 +211,7 @@ def transplant_routes(original, imported, *, protected=(), audit=None):
     out[:]=[n for n in out if not isinstance(n,list) or not n or n[0] not in ROUTES]
     out.extend(imported_routes)
     if audit is not None:
-        audit.update(policy='exact_non_uuid_v1',matches=reconciled,
+        audit.update(policy=policy,matches=reconciled,
             transplanted_routes_sha256=hashlib.sha256(sx.dump(imported_routes).encode()).hexdigest())
     return out
 
@@ -214,7 +223,9 @@ def check_protected_import(directory, data, original, candidate, protected):
     imported=Path(directory)/'imported.kicad_pcb'
     raw=read_bytes(imported,20*1024*1024)
     audit={'imported_sha256':hashlib.sha256(raw).hexdigest()}
-    rebuilt=transplant_routes(original,sx.parse(raw.decode('utf-8')),protected=protected,audit=audit)
+    binding=data['protected_route_import']
+    if not isinstance(binding,dict):raise Rejected('malformed protected import record')
+    rebuilt=transplant_routes(original,sx.parse(raw.decode('utf-8')),protected=protected,audit=audit,policy=binding.get('policy'))
     if canonical(audit)!=canonical(data['protected_route_import']):raise Rejected('protected import reconciliation differs')
     if routes(sx.read(candidate))!=routes(rebuilt):raise Rejected('protected import routes differ from final candidate')
 
@@ -675,7 +686,8 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
         imported=output/'imported.kicad_pcb'
         job.native('import','import',candidate,imported,output/'routes.ses')
         reconciliation={}
-        sx.write(candidate,transplant_routes(task,sx.read(imported),protected=protected,audit=reconciliation))
+        sx.write(candidate,transplant_routes(task,sx.read(imported),protected=protected,audit=reconciliation,
+            policy='exact_non_uuid_lock_position_v2'))
         if protected:report['protected_route_import']={'imported_sha256':sha(imported),**reconciliation}
         final_hash, native = validate_candidate(job, original, candidate, before, protected)
         report['native']=native

@@ -1,0 +1,400 @@
+{
+  "area_probe": {
+    "all_six_match": true,
+    "routing_executed": false,
+    "scope": "owned_area_contact_import_only"
+  },
+  "class_counts": {
+    "Default": 109,
+    "POWER": 2
+  },
+  "class_settings": [
+    {
+      "bus_width": 12,
+      "clearance": 0.25,
+      "diff_pair_gap": 0.25,
+      "diff_pair_via_gap": 0.25,
+      "diff_pair_width": 0.25,
+      "line_style": 0,
+      "microvia_diameter": 0.508,
+      "microvia_drill": 0.127,
+      "name": "Default",
+      "pcb_color": "rgba(0, 0, 0, 0.000)",
+      "priority": 2147483647,
+      "schematic_color": "rgba(0, 0, 0, 0.000)",
+      "track_width": 0.5,
+      "tuning_profile": "",
+      "via_diameter": 1.6,
+      "via_drill": 0.6,
+      "wire_width": 6
+    },
+    {
+      "bus_width": 12,
+      "clearance": 0.28,
+      "diff_pair_gap": 0.28,
+      "diff_pair_via_gap": 0.25,
+      "diff_pair_width": 0.28,
+      "line_style": 0,
+      "microvia_diameter": 0.508,
+      "microvia_drill": 0.127,
+      "name": "POWER",
+      "pcb_color": "rgba(0, 0, 0, 0.000)",
+      "priority": 0,
+      "schematic_color": "rgba(0, 0, 0, 0.000)",
+      "track_width": 0.8,
+      "tuning_profile": "",
+      "via_diameter": 1.6,
+      "via_drill": 0.6,
+      "wire_width": 6
+    }
+  ],
+  "custom_pad_local_rules": [
+    {
+      "footprint_clearance_ast": [
+        "clearance",
+        "0.25"
+      ],
+      "layers": [
+        "layers",
+        "\"B.Cu\"",
+        "\"B.Mask\""
+      ],
+      "net": "VCC",
+      "number": "1",
+      "pad_local_clearance_ast": null,
+      "pad_uuid": "3acb5a29-7227-4ce2-8aa0-d92094ccdfdc"
+    },
+    {
+      "footprint_clearance_ast": [
+        "clearance",
+        "0.25"
+      ],
+      "layers": [
+        "layers",
+        "\"B.Cu\"",
+        "\"B.Mask\""
+      ],
+      "net": "/pic_sockets/VCC_PIC",
+      "number": "2",
+      "pad_local_clearance_ast": null,
+      "pad_uuid": "5b196d03-cd44-4c2b-9a91-fadc24ae5f4b"
+    }
+  ],
+  "dsn_network_nets": 111,
+  "dsn_network_pins": 236,
+  "dsn_structure_rules": [
+    [
+      "rule",
+      [
+        "width",
+        "500"
+      ],
+      [
+        "clearance",
+        "250"
+      ],
+      [
+        "clearance",
+        "62.5",
+        [
+          "type",
+          "smd_smd"
+        ]
+      ]
+    ]
+  ],
+  "native_floors_nm": {
+    "min_clearance": 0,
+    "min_through_hole_diameter": 500000,
+    "min_track_width": 250000,
+    "min_via_annular_width": 50000,
+    "min_via_diameter": 900000
+  },
+  "native_pads": 247,
+  "original_native_counts": {
+    "blocking": 0,
+    "exclusions": 0,
+    "opens": 0,
+    "warnings": 41
+  },
+  "parity_controls": [
+    {
+      "case": "original_parity",
+      "log_count": 0,
+      "ordinary_warning_count": 41,
+      "parity_count": 0,
+      "raw_report_sha256": "1c526e88f9f837b701315538804c9d7cc59e59a980b962eb64d903ae3b21daa5"
+    },
+    {
+      "case": "matched_custom_field",
+      "log_count": 0,
+      "ordinary_warning_count": 41,
+      "parity_count": 0,
+      "raw_report_sha256": "2a7cbf104feb13e2ca4ae6b2dbecfd1683be93f4a648676c002b43fb201bb958"
+    },
+    {
+      "case": "mismatched_custom_field",
+      "log_count": 1,
+      "ordinary_warning_count": 41,
+      "parity_count": 1,
+      "raw_report_sha256": "65658bd8c721e0e307727251007bee7024ff0a929a917999e6669fe18d59d370"
+    }
+  ],
+  "production_admission": false,
+  "sampled_evidence_sha256": {
+    ".runs/custom-pad-area-probe-002/observations.json": "7e424c96fe9f9e603f91613c106d1afd118d1c5f0a17cb2eeb3edde504f18c43",
+    ".runs/custom-pad-area-probe-002/summary.json": "e8a1f3b2821a45e1cf0aa0cceea37434a81fda12dd5c55e9bbb84e457ab5531a",
+    ".runs/custom-pad-transport-options-001/REPORT.md": "4feb1b0b995bd93889d98aec625ec13c2a29409581970a1f0e4891e3019d458b",
+    ".runs/custom-pad-transport-options-001/Wiring.java": "46a81a6595f3c130374d307151ae2f422b7991ef4ec57eae1cf7421df20eaedb",
+    ".runs/next-evidence-milestone-audit-001/REPORT.md": "50e097eaaeefcc2835cd7def51eaf9b4977ef07e878d3045d6af7f48c7c348e7",
+    ".runs/optimizer-budget-research-001/RoutingJobScheduler.java": "d94f979b94e786ae486754ae236fbd40834bb54059ba8ecd22326234646e9b69",
+    ".runs/pic-custom-observation-002/custom-pads.json": "b169bf991e0f23c93a446f1ffa21ed012e0cca99a93bde33e43feaa3793c3530",
+    ".runs/pic-custom-observation-002/native.dsn": "c79231c991250beb6081fd9835356ddcb03fb2954824f45936edfbe4e6607312",
+    ".runs/pic-custom-observation-002/observation.json": "8b114666765a2265320802826a58d87008dd3c33a10e63fe1fe3bd78a00d2031",
+    ".runs/pic-custom-observation-002/original-drc.json": "a3ae0798c019ee60d3fb37171a18bc940043c6329dbf1f24dc9c9463f1df01d7",
+    ".runs/pic-custom-observation-002/summary.json": "5a192888d1db6c3b607288ff2059dd6a9ce3ce3e28aba122f5a8f051959b97d4",
+    ".runs/pic-four-arm-preselection-001/preselection.json": "e0d944afc7eb17f6f792691eb937e299613f1d1d82c2af3edb9774113b338458",
+    ".runs/pic-parity-controls-001/summary.json": "2a9be6583b58bf72c5b661d7a7715fb06b06e6d15a538c7032f251d67ea7bf91",
+    ".runs/pic-severity-controls-002/summary.json": "e205d0d79d2c021290950e91078e1e622b01431da21af8404520f5a42d5dc48f",
+    "experiments/custom_pad_area_probe_v1/checks.py": "0cb67ad1d5eaa6cff1f7d17f0a582ead8f6df221a7d7d0bf31c3ea5073804c5f",
+    "experiments/custom_pad_area_probe_v1/derive.py": "dc021d4303ce3ecf21a35a7c1505f6ef613c650284db5309c08ac9537bf4c159",
+    "experiments/pic_severity_controls_v1/intent.py": "a8e5824e9ae1ef2a8f706db25313454ece753ca099d4b1e16129401c172986e4"
+  },
+  "schema": 1,
+  "scope": "Static integration assessment using completed exposed evidence, not a new experiment or full duplicate audit.",
+  "severity_controls": [
+    {
+      "case": "positive",
+      "controls_passed": true,
+      "counts": {
+        "blocking": 0,
+        "exclusions": 0,
+        "opens": 0,
+        "warnings": 4
+      },
+      "predicate": {
+        "coverage_outcome": null,
+        "coverage_probe": false,
+        "predicate_met": true,
+        "provider_detected": false,
+        "schematic_parity_qualified": false,
+        "target_findings": []
+      },
+      "raw_report_sha256": "a6aa396d4524d63923b127737cb17a38b40a4a24547315376ea086f49b9064eb"
+    },
+    {
+      "case": "missing_named_profile",
+      "controls_passed": true,
+      "counts": {
+        "blocking": 0,
+        "exclusions": 0,
+        "opens": 0,
+        "warnings": 5
+      },
+      "predicate": {
+        "coverage_outcome": null,
+        "coverage_probe": false,
+        "predicate_met": true,
+        "provider_detected": true,
+        "schematic_parity_qualified": false,
+        "target_findings": [
+          {
+            "description": "Missing tuning profile (Net Class: POWER, Tuning Profile: MissingOwnedProfile)",
+            "items": [],
+            "severity": "warning",
+            "type": "missing_tuning_profile"
+          }
+        ]
+      },
+      "raw_report_sha256": "389f4a3fcfb8f469fd142eb5421109814d928bbf8476ad4f258ff59fdc589907"
+    },
+    {
+      "case": "missing_default_profile",
+      "controls_passed": true,
+      "counts": {
+        "blocking": 0,
+        "exclusions": 0,
+        "opens": 0,
+        "warnings": 4
+      },
+      "predicate": {
+        "coverage_outcome": "finding_omitted_despite_loaded_intent",
+        "coverage_probe": true,
+        "predicate_met": true,
+        "provider_detected": false,
+        "schematic_parity_qualified": false,
+        "target_findings": []
+      },
+      "raw_report_sha256": "46d6d4a6ecdeae87d6b470f31d254a7357d9d92f9b1a5b19837d61d6a9e82a26"
+    },
+    {
+      "case": "board_edge_text",
+      "controls_passed": true,
+      "counts": {
+        "blocking": 1,
+        "exclusions": 0,
+        "opens": 0,
+        "warnings": 4
+      },
+      "predicate": {
+        "coverage_outcome": null,
+        "coverage_probe": false,
+        "predicate_met": true,
+        "provider_detected": true,
+        "schematic_parity_qualified": false,
+        "target_findings": [
+          {
+            "description": "Text (or dimension) on Edge.Cuts layer",
+            "items": [
+              {
+                "description": "PCB text 'Owned board text' on Edge.Cuts",
+                "pos": {
+                  "x": 20.0,
+                  "y": 5.0
+                },
+                "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d"
+              }
+            ],
+            "severity": "error",
+            "type": "text_on_edge_cuts"
+          }
+        ]
+      },
+      "raw_report_sha256": "04ef6f6c07101e4e05406e98a797f371183dc431e2012dd40c588b38b5e5e925"
+    },
+    {
+      "case": "footprint_edge_text",
+      "controls_passed": true,
+      "counts": {
+        "blocking": 1,
+        "exclusions": 0,
+        "opens": 0,
+        "warnings": 4
+      },
+      "predicate": {
+        "coverage_outcome": null,
+        "coverage_probe": false,
+        "predicate_met": true,
+        "provider_detected": true,
+        "schematic_parity_qualified": false,
+        "target_findings": [
+          {
+            "description": "Text (or dimension) on Edge.Cuts layer",
+            "items": [
+              {
+                "description": "Footprint text of P1 (Owned footprint text)",
+                "pos": {
+                  "x": 10.0,
+                  "y": 15.0
+                },
+                "uuid": "c8fe43a2-1bc2-5702-b488-91f43d743de8"
+              }
+            ],
+            "severity": "error",
+            "type": "text_on_edge_cuts"
+          }
+        ]
+      },
+      "raw_report_sha256": "7ef48045a20a41cc0abffb30f6016b8fd5a24172e7b554399290990045258e28"
+    },
+    {
+      "case": "pad_front_counterbore",
+      "controls_passed": true,
+      "counts": {
+        "blocking": 1,
+        "exclusions": 0,
+        "opens": 0,
+        "warnings": 4
+      },
+      "predicate": {
+        "coverage_outcome": null,
+        "coverage_probe": false,
+        "predicate_met": true,
+        "provider_detected": true,
+        "schematic_parity_qualified": false,
+        "target_findings": [
+          {
+            "description": "Track connected to post-machined or backdrilled layer",
+            "items": [
+              {
+                "description": "Track [SIGNAL_A] on top_layer, length 20.0000 mm",
+                "pos": {
+                  "x": 10.0,
+                  "y": 20.0
+                },
+                "uuid": "a9f93540-3cea-5be0-a0b7-b3a73215bbca"
+              },
+              {
+                "description": "PTH pad 1 [SIGNAL_A] of P3",
+                "pos": {
+                  "x": 10.0,
+                  "y": 20.0
+                },
+                "uuid": "94d28fd3-035e-5d28-89ad-f3eff6d69666"
+              }
+            ],
+            "severity": "error",
+            "type": "track_on_post_machined_layer"
+          }
+        ]
+      },
+      "raw_report_sha256": "8825051611b85cb6e2ad4642d5f74f53e3096145b9ccb5912f44ca18d82532e2"
+    }
+  ],
+  "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.data/boards/kicad-pic-programmer/pic_programmer.kicad_pcb",
+  "source_explicit_vs_native_ignored": {
+    "drc_memory_refill_requested": true,
+    "native_exclusions": 0,
+    "native_ignored_keys": [
+      "footprint_filters_mismatch",
+      "silk_edge_clearance",
+      "track_not_centered_on_via",
+      "tuning_profile_track_geometries"
+    ],
+    "native_severities_included": [
+      "error",
+      "warning",
+      "exclusion"
+    ],
+    "project_bytes_unchanged": true,
+    "saved_fill_or_full_semantic_equivalence_observed": false,
+    "source_exclusions": [],
+    "source_ignored_keys": [
+      "footprint_filters_mismatch",
+      "silk_edge_clearance",
+      "tuning_profile_track_geometries"
+    ]
+  },
+  "source_files_verified": 15,
+  "source_hashes": {
+    "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+    "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    "fp-lib-table": "e81a9c021142c92ce2795b9b94b37d4e7f04956dfe10c3d7869518c601e25ad8",
+    "libs/3d_shapes/adjustable_rx2v4.wrl": "f3dd9c781da7cfe705faef8f8999899a597088d7afbe727429823beec278ae54",
+    "libs/3d_shapes/textool_40.wrl": "ef484084ef42b8c2e61363426b63838e6069975a5a260bfd66f172227bf7f2c0",
+    "libs/pic_programmer_fp.pretty/40tex-Ell600.kicad_mod": "61c5b4297088827ba2d02143edc9cf031802ec0072e057cb8d8e5483b5d6fa9a",
+    "libs/pic_programmer_fp.pretty/RV2X4.kicad_mod": "64add84809f19b9eb77d86695ac19b2f87677e6849cdc1b103219c18ff8780cd",
+    "libs/pic_programmer_fp.pretty/SolderJumper-2_P1.3mm_Open_TrianglePad1.0x1.5mm.kicad_mod": "0449fc32c1f0ed8fc10f686bb06953dbcfcf06849c41c9ebde3876df60ace016",
+    "libs/pic_programmer_fp.pretty/TO-92.kicad_mod": "ee34a946728dbf06ab4fbcfe6d940c202f737420b010927eb537c0e911fe3a62",
+    "pic_programmer.kicad_pcb": "1ca70b620506818eb0227e2863bbd573d1fec1672072dc43d0dbe8475e69c8fb",
+    "pic_programmer.kicad_pro": "3b0ac39da5af86d0baa2a64da55a89c39ba00148dc82b54f3062f5c3650a5cc5",
+    "pic_programmer.kicad_sch": "cf92bff8aebe19e45444f13b2ccd1c8ad578df6a226acd5381e2eff95e2fc08f",
+    "pic_programmer.kicad_sym": "311bf43e2f3999072cad00a00b8c894c6adbaec5b97ada2256b0db1d2115039a",
+    "pic_sockets.kicad_sch": "8cbf575b53b205280ca277df8affc6477cf20c5d06c63c267cd6fb19b6d771ae",
+    "sym-lib-table": "0115c6d84c88e0da8c7b47db401ae4f93f197ee9645b9dc4fbdad8d55a22a0e8"
+  },
+  "source_pad_types": {
+    "('np_thru_hole', 'circle')": 7,
+    "('smd', 'custom')": 2,
+    "('thru_hole', 'circle')": 92,
+    "('thru_hole', 'oval')": 119,
+    "('thru_hole', 'rect')": 6,
+    "('thru_hole', 'roundrect')": 21
+  },
+  "tuning_profiles": {
+    "meta": {
+      "version": 0
+    },
+    "tuning_profiles_impedance_geometric": []
+  }
+}

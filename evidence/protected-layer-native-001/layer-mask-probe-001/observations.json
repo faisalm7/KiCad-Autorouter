@@ -1,0 +1,1330 @@
+{
+  "schema": 1,
+  "mode": "import_only_layer_masks",
+  "input_sha256": "53bcbd2c1978ce85ffaeeabdc28adf0c590d786de63345ccfc1e23b4b61eeb22",
+  "routing_executed": false,
+  "native_executed": false,
+  "layer_support_qualified": false,
+  "cases": [
+    {
+      "case": "source-all",
+      "status": "observed",
+      "argv": [
+        "--router.autorouter.enabled\u003dfalse",
+        "--router.optimizer.enabled\u003dfalse",
+        "--router.layers.routable\u003dtrue,true"
+      ],
+      "parsed_cli_arguments": {
+        "router.layers.routable": "true,true",
+        "router.autorouter.enabled": "false",
+        "router.optimizer.enabled": "false"
+      },
+      "sources": [
+        {
+          "class": "app.freerouting.settings.sources.DefaultSettings",
+          "name": "Default Settings",
+          "priority": 0
+        },
+        {
+          "class": "app.freerouting.settings.sources.DsnFileSettings",
+          "name": "DSN file: fixture.dsn",
+          "priority": 20
+        },
+        {
+          "class": "app.freerouting.settings.sources.CliSettings",
+          "name": "CLI Arguments",
+          "priority": 60
+        }
+      ],
+      "input_sha256": "53bcbd2c1978ce85ffaeeabdc28adf0c590d786de63345ccfc1e23b4b61eeb22",
+      "parser_result_class": "app.freerouting.io.BoardReadResult$Success",
+      "parser_warnings": [],
+      "states": [
+        {
+          "name": "before_init",
+          "settings_layer_count": 2,
+          "flags": [
+            {
+              "index": 0,
+              "raw_routable": true,
+              "active": true
+            },
+            {
+              "index": 1,
+              "raw_routable": true,
+              "active": true
+            }
+          ],
+          "board": {
+            "layer_count": 2,
+            "item_count": 7,
+            "pin_count": 4,
+            "trace_count": 0,
+            "via_count": 0,
+            "bounded": true,
+            "layers": [
+              {
+                "index": 0,
+                "name": "F.Cu",
+                "signal": true
+              },
+              {
+                "index": 1,
+                "name": "B.Cu",
+                "signal": true
+              }
+            ],
+            "items": [
+              {
+                "id": 1,
+                "class": "app.freerouting.board.model.structure.BoardOutline",
+                "first_layer": 0,
+                "last_layer": 1,
+                "nets": []
+              },
+              {
+                "id": 2,
+                "class": "app.freerouting.board.model.items.ObstacleArea",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": []
+              },
+              {
+                "id": 3,
+                "class": "app.freerouting.board.model.items.ObstacleArea",
+                "first_layer": 1,
+                "last_layer": 1,
+                "nets": []
+              },
+              {
+                "id": 4,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": [
+                  1
+                ]
+              },
+              {
+                "id": 5,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 1,
+                "last_layer": 1,
+                "nets": [
+                  1
+                ]
+              },
+              {
+                "id": 6,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": [
+                  2
+                ]
+              },
+              {
+                "id": 7,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": [
+                  2
+                ]
+              }
+            ]
+          },
+          "autorouter_enabled": false,
+          "optimizer_enabled": false,
+          "ignored_netclasses": []
+        },
+        {
+          "name": "after_init",
+          "settings_layer_count": 2,
+          "flags": [
+            {
+              "index": 0,
+              "raw_routable": true,
+              "active": true
+            },
+            {
+              "index": 1,
+              "raw_routable": true,
+              "active": true
+            }
+          ],
+          "board": {
+            "layer_count": 2,
+            "item_count": 7,
+            "pin_count": 4,
+            "trace_count": 0,
+            "via_count": 0,
+            "bounded": true,
+            "layers": [
+              {
+                "index": 0,
+                "name": "F.Cu",
+                "signal": true
+              },
+              {
+                "index": 1,
+                "name": "B.Cu",
+                "signal": true
+              }
+            ],
+            "items": [
+              {
+                "id": 1,
+                "class": "app.freerouting.board.model.structure.BoardOutline",
+                "first_layer": 0,
+                "last_layer": 1,
+                "nets": []
+              },
+              {
+                "id": 2,
+                "class": "app.freerouting.board.model.items.ObstacleArea",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": []
+              },
+              {
+                "id": 3,
+                "class": "app.freerouting.board.model.items.ObstacleArea",
+                "first_layer": 1,
+                "last_layer": 1,
+                "nets": []
+              },
+              {
+                "id": 4,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": [
+                  1
+                ]
+              },
+              {
+                "id": 5,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 1,
+                "last_layer": 1,
+                "nets": [
+                  1
+                ]
+              },
+              {
+                "id": 6,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": [
+                  2
+                ]
+              },
+              {
+                "id": 7,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": [
+                  2
+                ]
+              }
+            ]
+          },
+          "autorouter_enabled": false,
+          "optimizer_enabled": false,
+          "ignored_netclasses": []
+        },
+        {
+          "name": "after_if_needed",
+          "settings_layer_count": 2,
+          "flags": [
+            {
+              "index": 0,
+              "raw_routable": true,
+              "active": true
+            },
+            {
+              "index": 1,
+              "raw_routable": true,
+              "active": true
+            }
+          ],
+          "board": {
+            "layer_count": 2,
+            "item_count": 7,
+            "pin_count": 4,
+            "trace_count": 0,
+            "via_count": 0,
+            "bounded": true,
+            "layers": [
+              {
+                "index": 0,
+                "name": "F.Cu",
+                "signal": true
+              },
+              {
+                "index": 1,
+                "name": "B.Cu",
+                "signal": true
+              }
+            ],
+            "items": [
+              {
+                "id": 1,
+                "class": "app.freerouting.board.model.structure.BoardOutline",
+                "first_layer": 0,
+                "last_layer": 1,
+                "nets": []
+              },
+              {
+                "id": 2,
+                "class": "app.freerouting.board.model.items.ObstacleArea",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": []
+              },
+              {
+                "id": 3,
+                "class": "app.freerouting.board.model.items.ObstacleArea",
+                "first_layer": 1,
+                "last_layer": 1,
+                "nets": []
+              },
+              {
+                "id": 4,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": [
+                  1
+                ]
+              },
+              {
+                "id": 5,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 1,
+                "last_layer": 1,
+                "nets": [
+                  1
+                ]
+              },
+              {
+                "id": 6,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": [
+                  2
+                ]
+              },
+              {
+                "id": 7,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": [
+                  2
+                ]
+              }
+            ]
+          },
+          "autorouter_enabled": false,
+          "optimizer_enabled": false,
+          "ignored_netclasses": []
+        }
+      ]
+    },
+    {
+      "case": "front-only",
+      "status": "observed",
+      "argv": [
+        "--router.autorouter.enabled\u003dfalse",
+        "--router.optimizer.enabled\u003dfalse",
+        "--router.layers.routable\u003dtrue,false"
+      ],
+      "parsed_cli_arguments": {
+        "router.layers.routable": "true,false",
+        "router.autorouter.enabled": "false",
+        "router.optimizer.enabled": "false"
+      },
+      "sources": [
+        {
+          "class": "app.freerouting.settings.sources.DefaultSettings",
+          "name": "Default Settings",
+          "priority": 0
+        },
+        {
+          "class": "app.freerouting.settings.sources.DsnFileSettings",
+          "name": "DSN file: fixture.dsn",
+          "priority": 20
+        },
+        {
+          "class": "app.freerouting.settings.sources.CliSettings",
+          "name": "CLI Arguments",
+          "priority": 60
+        }
+      ],
+      "input_sha256": "53bcbd2c1978ce85ffaeeabdc28adf0c590d786de63345ccfc1e23b4b61eeb22",
+      "parser_result_class": "app.freerouting.io.BoardReadResult$Success",
+      "parser_warnings": [],
+      "states": [
+        {
+          "name": "before_init",
+          "settings_layer_count": 2,
+          "flags": [
+            {
+              "index": 0,
+              "raw_routable": true,
+              "active": true
+            },
+            {
+              "index": 1,
+              "raw_routable": false,
+              "active": false
+            }
+          ],
+          "board": {
+            "layer_count": 2,
+            "item_count": 7,
+            "pin_count": 4,
+            "trace_count": 0,
+            "via_count": 0,
+            "bounded": true,
+            "layers": [
+              {
+                "index": 0,
+                "name": "F.Cu",
+                "signal": true
+              },
+              {
+                "index": 1,
+                "name": "B.Cu",
+                "signal": true
+              }
+            ],
+            "items": [
+              {
+                "id": 1,
+                "class": "app.freerouting.board.model.structure.BoardOutline",
+                "first_layer": 0,
+                "last_layer": 1,
+                "nets": []
+              },
+              {
+                "id": 2,
+                "class": "app.freerouting.board.model.items.ObstacleArea",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": []
+              },
+              {
+                "id": 3,
+                "class": "app.freerouting.board.model.items.ObstacleArea",
+                "first_layer": 1,
+                "last_layer": 1,
+                "nets": []
+              },
+              {
+                "id": 4,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": [
+                  1
+                ]
+              },
+              {
+                "id": 5,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 1,
+                "last_layer": 1,
+                "nets": [
+                  1
+                ]
+              },
+              {
+                "id": 6,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": [
+                  2
+                ]
+              },
+              {
+                "id": 7,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": [
+                  2
+                ]
+              }
+            ]
+          },
+          "autorouter_enabled": false,
+          "optimizer_enabled": false,
+          "ignored_netclasses": []
+        },
+        {
+          "name": "after_init",
+          "settings_layer_count": 2,
+          "flags": [
+            {
+              "index": 0,
+              "raw_routable": true,
+              "active": true
+            },
+            {
+              "index": 1,
+              "raw_routable": false,
+              "active": false
+            }
+          ],
+          "board": {
+            "layer_count": 2,
+            "item_count": 7,
+            "pin_count": 4,
+            "trace_count": 0,
+            "via_count": 0,
+            "bounded": true,
+            "layers": [
+              {
+                "index": 0,
+                "name": "F.Cu",
+                "signal": true
+              },
+              {
+                "index": 1,
+                "name": "B.Cu",
+                "signal": true
+              }
+            ],
+            "items": [
+              {
+                "id": 1,
+                "class": "app.freerouting.board.model.structure.BoardOutline",
+                "first_layer": 0,
+                "last_layer": 1,
+                "nets": []
+              },
+              {
+                "id": 2,
+                "class": "app.freerouting.board.model.items.ObstacleArea",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": []
+              },
+              {
+                "id": 3,
+                "class": "app.freerouting.board.model.items.ObstacleArea",
+                "first_layer": 1,
+                "last_layer": 1,
+                "nets": []
+              },
+              {
+                "id": 4,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": [
+                  1
+                ]
+              },
+              {
+                "id": 5,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 1,
+                "last_layer": 1,
+                "nets": [
+                  1
+                ]
+              },
+              {
+                "id": 6,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": [
+                  2
+                ]
+              },
+              {
+                "id": 7,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": [
+                  2
+                ]
+              }
+            ]
+          },
+          "autorouter_enabled": false,
+          "optimizer_enabled": false,
+          "ignored_netclasses": []
+        },
+        {
+          "name": "after_if_needed",
+          "settings_layer_count": 2,
+          "flags": [
+            {
+              "index": 0,
+              "raw_routable": true,
+              "active": true
+            },
+            {
+              "index": 1,
+              "raw_routable": false,
+              "active": false
+            }
+          ],
+          "board": {
+            "layer_count": 2,
+            "item_count": 7,
+            "pin_count": 4,
+            "trace_count": 0,
+            "via_count": 0,
+            "bounded": true,
+            "layers": [
+              {
+                "index": 0,
+                "name": "F.Cu",
+                "signal": true
+              },
+              {
+                "index": 1,
+                "name": "B.Cu",
+                "signal": true
+              }
+            ],
+            "items": [
+              {
+                "id": 1,
+                "class": "app.freerouting.board.model.structure.BoardOutline",
+                "first_layer": 0,
+                "last_layer": 1,
+                "nets": []
+              },
+              {
+                "id": 2,
+                "class": "app.freerouting.board.model.items.ObstacleArea",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": []
+              },
+              {
+                "id": 3,
+                "class": "app.freerouting.board.model.items.ObstacleArea",
+                "first_layer": 1,
+                "last_layer": 1,
+                "nets": []
+              },
+              {
+                "id": 4,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": [
+                  1
+                ]
+              },
+              {
+                "id": 5,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 1,
+                "last_layer": 1,
+                "nets": [
+                  1
+                ]
+              },
+              {
+                "id": 6,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": [
+                  2
+                ]
+              },
+              {
+                "id": 7,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": [
+                  2
+                ]
+              }
+            ]
+          },
+          "autorouter_enabled": false,
+          "optimizer_enabled": false,
+          "ignored_netclasses": []
+        }
+      ]
+    },
+    {
+      "case": "back-only",
+      "status": "observed",
+      "argv": [
+        "--router.autorouter.enabled\u003dfalse",
+        "--router.optimizer.enabled\u003dfalse",
+        "--router.layers.routable\u003dfalse,true"
+      ],
+      "parsed_cli_arguments": {
+        "router.layers.routable": "false,true",
+        "router.autorouter.enabled": "false",
+        "router.optimizer.enabled": "false"
+      },
+      "sources": [
+        {
+          "class": "app.freerouting.settings.sources.DefaultSettings",
+          "name": "Default Settings",
+          "priority": 0
+        },
+        {
+          "class": "app.freerouting.settings.sources.DsnFileSettings",
+          "name": "DSN file: fixture.dsn",
+          "priority": 20
+        },
+        {
+          "class": "app.freerouting.settings.sources.CliSettings",
+          "name": "CLI Arguments",
+          "priority": 60
+        }
+      ],
+      "input_sha256": "53bcbd2c1978ce85ffaeeabdc28adf0c590d786de63345ccfc1e23b4b61eeb22",
+      "parser_result_class": "app.freerouting.io.BoardReadResult$Success",
+      "parser_warnings": [],
+      "states": [
+        {
+          "name": "before_init",
+          "settings_layer_count": 2,
+          "flags": [
+            {
+              "index": 0,
+              "raw_routable": false,
+              "active": false
+            },
+            {
+              "index": 1,
+              "raw_routable": true,
+              "active": true
+            }
+          ],
+          "board": {
+            "layer_count": 2,
+            "item_count": 7,
+            "pin_count": 4,
+            "trace_count": 0,
+            "via_count": 0,
+            "bounded": true,
+            "layers": [
+              {
+                "index": 0,
+                "name": "F.Cu",
+                "signal": true
+              },
+              {
+                "index": 1,
+                "name": "B.Cu",
+                "signal": true
+              }
+            ],
+            "items": [
+              {
+                "id": 1,
+                "class": "app.freerouting.board.model.structure.BoardOutline",
+                "first_layer": 0,
+                "last_layer": 1,
+                "nets": []
+              },
+              {
+                "id": 2,
+                "class": "app.freerouting.board.model.items.ObstacleArea",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": []
+              },
+              {
+                "id": 3,
+                "class": "app.freerouting.board.model.items.ObstacleArea",
+                "first_layer": 1,
+                "last_layer": 1,
+                "nets": []
+              },
+              {
+                "id": 4,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": [
+                  1
+                ]
+              },
+              {
+                "id": 5,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 1,
+                "last_layer": 1,
+                "nets": [
+                  1
+                ]
+              },
+              {
+                "id": 6,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": [
+                  2
+                ]
+              },
+              {
+                "id": 7,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": [
+                  2
+                ]
+              }
+            ]
+          },
+          "autorouter_enabled": false,
+          "optimizer_enabled": false,
+          "ignored_netclasses": []
+        },
+        {
+          "name": "after_init",
+          "settings_layer_count": 2,
+          "flags": [
+            {
+              "index": 0,
+              "raw_routable": false,
+              "active": false
+            },
+            {
+              "index": 1,
+              "raw_routable": true,
+              "active": true
+            }
+          ],
+          "board": {
+            "layer_count": 2,
+            "item_count": 7,
+            "pin_count": 4,
+            "trace_count": 0,
+            "via_count": 0,
+            "bounded": true,
+            "layers": [
+              {
+                "index": 0,
+                "name": "F.Cu",
+                "signal": true
+              },
+              {
+                "index": 1,
+                "name": "B.Cu",
+                "signal": true
+              }
+            ],
+            "items": [
+              {
+                "id": 1,
+                "class": "app.freerouting.board.model.structure.BoardOutline",
+                "first_layer": 0,
+                "last_layer": 1,
+                "nets": []
+              },
+              {
+                "id": 2,
+                "class": "app.freerouting.board.model.items.ObstacleArea",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": []
+              },
+              {
+                "id": 3,
+                "class": "app.freerouting.board.model.items.ObstacleArea",
+                "first_layer": 1,
+                "last_layer": 1,
+                "nets": []
+              },
+              {
+                "id": 4,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": [
+                  1
+                ]
+              },
+              {
+                "id": 5,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 1,
+                "last_layer": 1,
+                "nets": [
+                  1
+                ]
+              },
+              {
+                "id": 6,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": [
+                  2
+                ]
+              },
+              {
+                "id": 7,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": [
+                  2
+                ]
+              }
+            ]
+          },
+          "autorouter_enabled": false,
+          "optimizer_enabled": false,
+          "ignored_netclasses": []
+        },
+        {
+          "name": "after_if_needed",
+          "settings_layer_count": 2,
+          "flags": [
+            {
+              "index": 0,
+              "raw_routable": false,
+              "active": false
+            },
+            {
+              "index": 1,
+              "raw_routable": true,
+              "active": true
+            }
+          ],
+          "board": {
+            "layer_count": 2,
+            "item_count": 7,
+            "pin_count": 4,
+            "trace_count": 0,
+            "via_count": 0,
+            "bounded": true,
+            "layers": [
+              {
+                "index": 0,
+                "name": "F.Cu",
+                "signal": true
+              },
+              {
+                "index": 1,
+                "name": "B.Cu",
+                "signal": true
+              }
+            ],
+            "items": [
+              {
+                "id": 1,
+                "class": "app.freerouting.board.model.structure.BoardOutline",
+                "first_layer": 0,
+                "last_layer": 1,
+                "nets": []
+              },
+              {
+                "id": 2,
+                "class": "app.freerouting.board.model.items.ObstacleArea",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": []
+              },
+              {
+                "id": 3,
+                "class": "app.freerouting.board.model.items.ObstacleArea",
+                "first_layer": 1,
+                "last_layer": 1,
+                "nets": []
+              },
+              {
+                "id": 4,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": [
+                  1
+                ]
+              },
+              {
+                "id": 5,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 1,
+                "last_layer": 1,
+                "nets": [
+                  1
+                ]
+              },
+              {
+                "id": 6,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": [
+                  2
+                ]
+              },
+              {
+                "id": 7,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": [
+                  2
+                ]
+              }
+            ]
+          },
+          "autorouter_enabled": false,
+          "optimizer_enabled": false,
+          "ignored_netclasses": []
+        }
+      ]
+    },
+    {
+      "case": "reversed-mapping-negative",
+      "status": "observed",
+      "argv": [
+        "--router.autorouter.enabled\u003dfalse",
+        "--router.optimizer.enabled\u003dfalse",
+        "--router.layers.routable\u003dfalse,true"
+      ],
+      "parsed_cli_arguments": {
+        "router.layers.routable": "false,true",
+        "router.autorouter.enabled": "false",
+        "router.optimizer.enabled": "false"
+      },
+      "sources": [
+        {
+          "class": "app.freerouting.settings.sources.DefaultSettings",
+          "name": "Default Settings",
+          "priority": 0
+        },
+        {
+          "class": "app.freerouting.settings.sources.DsnFileSettings",
+          "name": "DSN file: fixture.dsn",
+          "priority": 20
+        },
+        {
+          "class": "app.freerouting.settings.sources.CliSettings",
+          "name": "CLI Arguments",
+          "priority": 60
+        }
+      ],
+      "input_sha256": "53bcbd2c1978ce85ffaeeabdc28adf0c590d786de63345ccfc1e23b4b61eeb22",
+      "parser_result_class": "app.freerouting.io.BoardReadResult$Success",
+      "parser_warnings": [],
+      "states": [
+        {
+          "name": "before_init",
+          "settings_layer_count": 2,
+          "flags": [
+            {
+              "index": 0,
+              "raw_routable": false,
+              "active": false
+            },
+            {
+              "index": 1,
+              "raw_routable": true,
+              "active": true
+            }
+          ],
+          "board": {
+            "layer_count": 2,
+            "item_count": 7,
+            "pin_count": 4,
+            "trace_count": 0,
+            "via_count": 0,
+            "bounded": true,
+            "layers": [
+              {
+                "index": 0,
+                "name": "F.Cu",
+                "signal": true
+              },
+              {
+                "index": 1,
+                "name": "B.Cu",
+                "signal": true
+              }
+            ],
+            "items": [
+              {
+                "id": 1,
+                "class": "app.freerouting.board.model.structure.BoardOutline",
+                "first_layer": 0,
+                "last_layer": 1,
+                "nets": []
+              },
+              {
+                "id": 2,
+                "class": "app.freerouting.board.model.items.ObstacleArea",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": []
+              },
+              {
+                "id": 3,
+                "class": "app.freerouting.board.model.items.ObstacleArea",
+                "first_layer": 1,
+                "last_layer": 1,
+                "nets": []
+              },
+              {
+                "id": 4,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": [
+                  1
+                ]
+              },
+              {
+                "id": 5,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 1,
+                "last_layer": 1,
+                "nets": [
+                  1
+                ]
+              },
+              {
+                "id": 6,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": [
+                  2
+                ]
+              },
+              {
+                "id": 7,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": [
+                  2
+                ]
+              }
+            ]
+          },
+          "autorouter_enabled": false,
+          "optimizer_enabled": false,
+          "ignored_netclasses": []
+        },
+        {
+          "name": "after_init",
+          "settings_layer_count": 2,
+          "flags": [
+            {
+              "index": 0,
+              "raw_routable": false,
+              "active": false
+            },
+            {
+              "index": 1,
+              "raw_routable": true,
+              "active": true
+            }
+          ],
+          "board": {
+            "layer_count": 2,
+            "item_count": 7,
+            "pin_count": 4,
+            "trace_count": 0,
+            "via_count": 0,
+            "bounded": true,
+            "layers": [
+              {
+                "index": 0,
+                "name": "F.Cu",
+                "signal": true
+              },
+              {
+                "index": 1,
+                "name": "B.Cu",
+                "signal": true
+              }
+            ],
+            "items": [
+              {
+                "id": 1,
+                "class": "app.freerouting.board.model.structure.BoardOutline",
+                "first_layer": 0,
+                "last_layer": 1,
+                "nets": []
+              },
+              {
+                "id": 2,
+                "class": "app.freerouting.board.model.items.ObstacleArea",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": []
+              },
+              {
+                "id": 3,
+                "class": "app.freerouting.board.model.items.ObstacleArea",
+                "first_layer": 1,
+                "last_layer": 1,
+                "nets": []
+              },
+              {
+                "id": 4,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": [
+                  1
+                ]
+              },
+              {
+                "id": 5,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 1,
+                "last_layer": 1,
+                "nets": [
+                  1
+                ]
+              },
+              {
+                "id": 6,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": [
+                  2
+                ]
+              },
+              {
+                "id": 7,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": [
+                  2
+                ]
+              }
+            ]
+          },
+          "autorouter_enabled": false,
+          "optimizer_enabled": false,
+          "ignored_netclasses": []
+        },
+        {
+          "name": "after_if_needed",
+          "settings_layer_count": 2,
+          "flags": [
+            {
+              "index": 0,
+              "raw_routable": false,
+              "active": false
+            },
+            {
+              "index": 1,
+              "raw_routable": true,
+              "active": true
+            }
+          ],
+          "board": {
+            "layer_count": 2,
+            "item_count": 7,
+            "pin_count": 4,
+            "trace_count": 0,
+            "via_count": 0,
+            "bounded": true,
+            "layers": [
+              {
+                "index": 0,
+                "name": "F.Cu",
+                "signal": true
+              },
+              {
+                "index": 1,
+                "name": "B.Cu",
+                "signal": true
+              }
+            ],
+            "items": [
+              {
+                "id": 1,
+                "class": "app.freerouting.board.model.structure.BoardOutline",
+                "first_layer": 0,
+                "last_layer": 1,
+                "nets": []
+              },
+              {
+                "id": 2,
+                "class": "app.freerouting.board.model.items.ObstacleArea",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": []
+              },
+              {
+                "id": 3,
+                "class": "app.freerouting.board.model.items.ObstacleArea",
+                "first_layer": 1,
+                "last_layer": 1,
+                "nets": []
+              },
+              {
+                "id": 4,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": [
+                  1
+                ]
+              },
+              {
+                "id": 5,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 1,
+                "last_layer": 1,
+                "nets": [
+                  1
+                ]
+              },
+              {
+                "id": 6,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": [
+                  2
+                ]
+              },
+              {
+                "id": 7,
+                "class": "app.freerouting.board.model.items.Pin",
+                "first_layer": 0,
+                "last_layer": 0,
+                "nets": [
+                  2
+                ]
+              }
+            ]
+          },
+          "autorouter_enabled": false,
+          "optimizer_enabled": false,
+          "ignored_netclasses": []
+        }
+      ]
+    }
+  ]
+}
