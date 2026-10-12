@@ -171,6 +171,46 @@ class Pure(unittest.TestCase):
                 bad=copy.deepcopy(rows);change(bad)
                 with self.assertRaises(ValueError):driver.verify_clearance_rows(bad,context,notes)
 
+    def test_wxstring_labels_and_placeholder_order_match_context_convention(self):
+        class WxString:
+            def __init__(self,text):self.text=text
+            def __str__(self):return self.text
+        class PlaceholderKey:
+            def __str__(self):raise AssertionError('nonpositive net name must not be normalized')
+        board,pcb,pads,nets,classes,effective,_,_=self.clearance_fixture()
+        table={PlaceholderKey():SimpleNamespace(GetNetCode=lambda:0),
+               WxString('N'):nets['N'],WxString('VCC'):nets['VCC']}
+        board.GetNetsByName=lambda:table
+        classes[1].GetName=lambda:WxString('Default');classes[2].GetName=lambda:WxString('POWER')
+        for pad in pads:
+            name=pad.GetNetname();pad.GetNetname=lambda name=name:WxString(name)
+        api=[];rows=worker.clearances(board,pcb,api_types=api)
+        self.assertEqual(effective,[]);self.assertEqual(api[0]['status'],'skipped_nonpositive')
+        self.assertEqual(api[0]['raw_return_types'],{'key':'PlaceholderKey','netcode':'int'})
+        self.assertEqual(api[1]['raw_return_types']['key'],'WxString')
+        self.assertEqual(api[1]['raw_return_types']['class_label'],'WxString')
+        self.assertTrue(all(r['pad_net_return_types']=={'name':'WxString','netcode':'int'} for r in rows))
+        notes={'source_pads_identity':{r['uuid']:{k:r[k] for k in ('reference','number','net')} for r in rows}}
+        context={'nets':[{'name':'N','netcode':1,'class':'Default','clearance_nm':250000},
+                         {'name':'VCC','netcode':2,'class':'POWER','clearance_nm':280000}]}
+        driver.verify_clearance_rows(rows,context,notes)
+        table[WxString('N')]=SimpleNamespace(GetNetCode=lambda:3)
+        with self.assertRaisesRegex(ValueError,'identity differs'):worker.clearances(board,pcb)
+    def test_rejected_netcode_type_retained_before_initialization(self):
+        for code in (True,1.0,'1'):
+            with self.subTest(code=code),tempfile.TemporaryDirectory(dir=HERE) as temp:
+                board,pcb,_,nets,*_=self.clearance_fixture()
+                nets['N'].GetNetCode=lambda code=code:code
+                def forbidden(*args):raise AssertionError('no native initialization allowed after failed census')
+                pcb.WriteDRCReport=forbidden
+                cb=worker.callback(Path(temp)/'report.txt')
+                with self.assertRaisesRegex(ValueError,'native netcode type differs'):cb(board,pcb)
+                saved=json.loads((Path(temp)/'clearance-initialization.json').read_text())
+                self.assertEqual(saved['initialization_error_type'],'ValueError')
+                self.assertEqual(saved['pre_initialization_api_types'][0]['raw_return_types'],
+                                 {'key':'str','netcode':type(code).__name__})
+                self.assertNotIn('initialization_returned',saved)
+
     def test_optional_never_guesses(self):
         for value in (None,250000):self.assertEqual(worker.optional(lambda:value),{'status':'observed','value_nm':value})
         for value in (True,'250000',object(),250000.0,-1):self.assertEqual(worker.optional(lambda:value)['status'],'unsupported')

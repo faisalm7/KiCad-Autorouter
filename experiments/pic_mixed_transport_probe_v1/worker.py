@@ -20,19 +20,32 @@ def optional(call):
 CLASS_SOURCE='BOARD.GetNetsByName -> NETINFO_ITEM.GetNetClassSlow'
 CLASS_MEANING='Net metadata class preference; not a pad-local, own-clearance, or pairwise rule result.'
 
-def clearances(board,pcbnew):
-    # This NETINFO_ITEM path is qualified by floor_context.collect on this build.
-    # PAD.GetEffectiveNetClass returned an opaque SwigPyObject in actual002.
-    classes={};codes=set()
-    for name,net in board.GetNetsByName().items():
+def clearances(board,pcbnew,*,api_types=None):
+    # Use the same str(wxString) convention as qualified floor_context.collect.
+    # Actual003 did not record whether its strict key or code type guard failed.
+    # Codes/clearances remain primitive integers; no optional/SWIG coercion.
+    classes={};codes=set();types=[] if api_types is None else api_types
+    for raw_name,net in board.GetNetsByName().items():
+        if len(types)>=fc.LIMITS['nets']:raise ValueError('native net metadata population bound')
         code=net.GetNetCode()
-        if type(name) is not str or type(code) is not int:raise ValueError('native net identity type differs')
-        if not name or code<=0:continue
-        if len(classes)>=fc.LIMITS['nets'] or name in classes or code in codes:raise ValueError('native net metadata population/identity differs')
-        cls=net.GetNetClassSlow();label=cls.GetName();clearance=cls.GetClearance()
-        if type(label) is not str or not label or type(clearance) is not int or not 0<=clearance<=10**9:
-            raise ValueError('native assigned netclass metadata unsupported')
-        classes[name]={'netcode':code,'netclass':label,'class_clearance_nm':clearance};codes.add(code)
+        raw_types={'key':type(raw_name).__name__,'netcode':type(code).__name__}
+        observed={'raw_return_types':raw_types,'status':'pending'};types.append(observed)
+        if type(code) is not int:raise ValueError('native netcode type differs: '+type(code).__name__)
+        observed['netcode']=code
+        if code<=0:
+            observed['status']='skipped_nonpositive';continue
+        name=str(raw_name);observed['name']=name
+        if not name:
+            observed['status']='skipped_empty_name';continue
+        if name in classes or code in codes:raise ValueError('native net metadata identity differs')
+        cls=net.GetNetClassSlow();raw_types['class_object']=type(cls).__name__
+        raw_label=cls.GetName();raw_types['class_label']=type(raw_label).__name__
+        label=str(raw_label);clearance=cls.GetClearance();raw_types['class_clearance']=type(clearance).__name__
+        if not label or type(clearance) is not int or not 0<=clearance<=10**9:
+            raise ValueError('native assigned netclass metadata unsupported; label type='+type(raw_label).__name__+'; clearance type='+type(clearance).__name__)
+        classes[name]={'netcode':code,'netclass':label,'class_clearance_nm':clearance,
+                       'net_metadata_return_types':dict(raw_types)};codes.add(code)
+        observed.update(status='observed',netclass=label)
     rows=[]
     for pad in board.GetPads():
         if len(rows)>=512:raise ValueError('native pad bound')
@@ -42,17 +55,19 @@ def clearances(board,pcbnew):
             value=pad.GetOwnClearance(layer)
             if type(value) is not int or not 0<=value<=10**9:raise ValueError('own-clearance integer/range unsupported')
             own.append({'layer':name,'value_nm':value})
-        fp=pad.GetParentFootprint();name=pad.GetNetname();code=pad.GetNetCode()
-        if type(name) is not str or type(code) is not int:raise ValueError('native pad net identity type differs')
+        fp=pad.GetParentFootprint();raw_name=pad.GetNetname();code=pad.GetNetCode()
+        if type(code) is not int:raise ValueError('native pad netcode type differs: '+type(code).__name__+'; name type='+type(raw_name).__name__)
+        name=str(raw_name)
         if name:
             metadata=classes.get(name)
             if metadata is None or metadata['netcode']!=code:raise ValueError('assigned pad net metadata differs')
             status='observed'
         else:
             if code!=0:raise ValueError('netless pad netcode differs')
-            metadata={'netcode':0,'netclass':None,'class_clearance_nm':None};status='unavailable_netless'
+            metadata={'netcode':0,'netclass':None,'class_clearance_nm':None,'net_metadata_return_types':None};status='unavailable_netless'
         rows.append({'uuid':str(pad.m_Uuid.AsString()),'reference':str(fp.GetReference()),'number':str(pad.GetNumber()),
-            'net':name,**metadata,'class_metadata':{'status':status,'source':CLASS_SOURCE,'meaning':CLASS_MEANING},
+            'net':name,**metadata,'pad_net_return_types':{'name':type(raw_name).__name__,'netcode':type(code).__name__},
+            'class_metadata':{'status':status,'source':CLASS_SOURCE,'meaning':CLASS_MEANING},
             'own':own,'pad_local':optional(pad.GetLocalClearance),'footprint_local':optional(fp.GetLocalClearance),
             'pad_override':optional(lambda:pad.GetClearanceOverrides(None))})
     if len(rows)!=247 or len({r['uuid'] for r in rows})!=247:raise ValueError('original pad identity population differs')
@@ -69,7 +84,8 @@ def callback(report):
     def observe(board,pcbnew):
         if not state:
             try:
-                state['pre_initialization']=clearances(board,pcbnew);save()
+                state['pre_initialization_api_types']=[]
+                state['pre_initialization']=clearances(board,pcbnew,api_types=state['pre_initialization_api_types']);save()
                 # Cached exact helper source explicitly calls InitEngine before RunTests.
                 result=pcbnew.WriteDRCReport(board,str(report),pcbnew.EDA_UNITS_MM,True)
                 state['initialization_return_type']=type(result).__name__
@@ -81,8 +97,13 @@ def callback(report):
                 state.update(report_sha256=hashlib.sha256(raw).hexdigest(),report_bytes=len(raw));save()
             except Exception as exc:
                 state['initialization_error_type']=type(exc).__name__;save();raise
+        try:
+            state['post_initialization_api_types']=[]
+            post=clearances(board,pcbnew,api_types=state['post_initialization_api_types']);save()
+        except Exception as exc:
+            state['post_initialization_error_type']=type(exc).__name__;save();raise
         return {**original.observe(board,pcbnew),'clearance_observation':{**state,
-            'post_initialization':clearances(board,pcbnew),'pairwise_rules_qualified':False,
+            'post_initialization':post,'pairwise_rules_qualified':False,
             'interpretation':'Own-clearance cache queries and separately labelled net-class preferences; local optionals may be unsupported. Text report is retained, not a routing acceptance report.'}}
     return observe
 

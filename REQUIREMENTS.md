@@ -174,3 +174,5 @@ G2 original-PIC mixed transport prerequisite source is independently reviewed an
 G2 mixed001 is an actual failed native attempt before initialized clearance or Java import:PAD.GetNetClassSlow is unavailable. [Raw failure](evidence/pic-mixed-transport-probe-001/summary.json). Exact source/copy retained; one-method correction to exposed GetEffectiveNetClass passes15focused tests. Native002 remains prospective, with all production/custom/mixed-rule support gates unchanged.
 
 G2 mixed002 remains failed:actualPAD.GetEffectiveNetClass returned opaque SwigPyObject before initialization/export/import. [Evidence](evidence/pic-mixed-transport-probe-002/summary.json). Qualified NETINFO_ITEM class metadata query is the next correction; no native clearance/class-import/support claim yet. Both original failures are retained.
+
+G2 mixed003 failed before initialization/export/import on the diagnostic's added exact name/code type guard. [Evidence](evidence/pic-mixed-transport-probe-003/summary.json). No raw return types were recorded; do not infer them. Source/copy unchanged; qualified native query-path alignment and fresh004 remain prospective.

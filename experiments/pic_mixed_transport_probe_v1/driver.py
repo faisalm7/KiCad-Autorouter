@@ -68,7 +68,7 @@ def verify_native(out,source_hashes,notes):
     derived,expected=transport.derive(raw,context,custom,notes)
     return derived,expected,{'initialized':True,'pairwise_rules_qualified':False,
         'local_optional_observations_supported':all(x['status']=='observed' for r in clear['post_initialization'] for x in (r['pad_local'],r['footprint_local'],r['pad_override'])),
-        'report_sha256':base.sha(report),'custom_pad_own_clearance':[{k:r[k] for k in ('uuid','net','netcode','netclass','class_clearance_nm','class_metadata','own','pad_local','footprint_local','pad_override')} for r in clear['post_initialization'] if r['uuid'] in {p['uuid'] for p in rows}]}
+        'report_sha256':base.sha(report),'custom_pad_own_clearance':[{k:r[k] for k in ('uuid','net','netcode','netclass','class_clearance_nm','class_metadata','net_metadata_return_types','pad_net_return_types','own','pad_local','footprint_local','pad_override')} for r in clear['post_initialization'] if r['uuid'] in {p['uuid'] for p in rows}]}
 
 def experiment(out,*,started=None,cpu_started=None):
     if HERE.relative_to(ROOT).as_posix()!='experiments/pic_mixed_transport_probe_v1':raise ValueError('promote and commit reviewed helper before execution')

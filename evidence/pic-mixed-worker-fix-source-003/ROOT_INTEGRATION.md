@@ -1,0 +1,5 @@
+# Native label normalization correction
+
+Actual003 failed on an added compound exact-type guard before initialization/export/import. Its raw return types were not captured and remain unknown. The correction uses the existing qualified floor_context string conversion for net/class labels, skips nonpositive placeholders before normalization, retains strict integer codes and clearance values, and keeps exact original/context identity comparisons. Raw API type names are retained on success or failure. No optional/SWIG numeric value is guessed.
+
+Root reviewed the complete three-file diff and reran19focused methods successfully in0.649seconds. Independent review reproduced the old rejection on a hypothetical proxy-label fixture and the corrected247-row result, with identity/type falsifiers retained. These are software controls; actual004 remains required after verified source checkpoint. Driver resource/publication logic, protocol, transport, Java and production code are unchanged. Original001/002/003 remain failed and preserved.
