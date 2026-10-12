@@ -87,7 +87,7 @@ def source_routes(board):
         else:raise ValueError('retained arcs outside exact-survival scope')
     return result,vias
 
-def audit(raw,dsn_raw,expected,source,geometry=None):
+def audit(raw,dsn_raw,expected,source,geometry=None,*,generated=False):
     if not raw or len(raw)>MAX_SES:raise ValueError('SES byte bound')
     tree=sx.parse(raw.decode());dsn=_parse_dsn(dsn_raw.decode())
     children_only(tree,{'base_design','placement','was_is','routes'},2)
@@ -112,6 +112,9 @@ def audit(raw,dsn_raw,expected,source,geometry=None):
     for via in sx.children(wiring,'via'):
         name=imported_name(sx.unquote(via[1]));needed.add(name)
         dsn_vias[(sx.unquote(sx.one(via,'net')[1]),name,tuple(number(x) for x in via[2:4]))]+=1
+    if generated:
+        if dsn_paths or dsn_vias or p.routes(source) or geometry is None:raise ValueError('generated mode requires empty seed and final geometry')
+        needed=set(stacks)
     wanted_library=['library_out',*[copy.deepcopy(n) for n in sx.children(sx.one(dsn,'library'),'padstack') if imported_name(sx.unquote(n[1])) in needed]]
     if stacks!=library(wanted_library,1):raise ValueError('SES via library differs')
     network=sx.one(routes,'network_out');children_only(network,{'net'},1)
@@ -161,6 +164,9 @@ def audit(raw,dsn_raw,expected,source,geometry=None):
         if geometry['trace_count']!=len(geometry['traces']) or geometry['via_count']!=len(geometry['vias']):raise ValueError('engine geometry census differs')
         result.update(dsn_to_engine=diff(dsn_paths,engine_paths),engine_to_ses=diff(engine_paths,paths),engine_vias_equal=engine_vias==vias)
     result['exact_route_survival']=all(v['equal'] for v in result.values() if isinstance(v,dict) and 'equal' in v) and all(result[k] for k in ('dsn_vias_equal','native_vias_equal')) and result.get('engine_vias_equal',True)
+    if generated:
+        result['generated_engine_to_ses_exact']=result['engine_to_ses']['equal'] and result['engine_vias_equal']
+        result['scope']='New ordinary routing from zero seed; retained-route survival is not the acceptance obligation.'
     return tree,result
 
 def require_faithful(result):
@@ -190,7 +196,9 @@ def geometry_check(geometry,state):
         if len(ids)!=len(set(ids)) or set(ids)!={i for i,r in items.items() if r['kind']==kind} or len(ids)!=state['census'][key]:raise ValueError('complete exact engine route census required')
         for row in rows:
             if any(row.get(k)!=v for k,v in items[row['id']].items()):raise ValueError('engine route identity differs')
+            if any(type(row[k]) is not int or not 0<=row[k]<len(state['layers']) for k in ('first_layer','last_layer')):raise ValueError('engine route layer indices out of bounds')
             if key=='traces':
+                if type(row['layer_index']) is not int or not 0<=row['layer_index']<len(state['layers']):raise ValueError('engine trace layer index out of bounds')
                 if (row['corner_count']!=len(row['corners_um']) or row['corner_count']!=len(row['corners_board_integer'])
                         or row['corner_count']!=len(row['corner_classes']) or number(row['width_um'])!=number(row['half_width_board_units'])*2/scale
                         or row['layer']!=state['layers'][row['layer_index']] or row['layer_index']!=row['first_layer'] or row['first_layer']!=row['last_layer']):raise ValueError('engine route shape metadata differs')

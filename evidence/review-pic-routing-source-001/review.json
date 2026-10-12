@@ -1,0 +1,63 @@
+{
+  "scope": "narrow source and pure consistency review",
+  "cleared_within_scope": true,
+  "findings": [
+    {
+      "id": "R1",
+      "state": "fixed",
+      "evidence": [
+        "probe-original.json",
+        "probe-fixed.json"
+      ]
+    },
+    {
+      "id": "R2",
+      "state": "fixed",
+      "evidence": [
+        "route-probe-original.json",
+        "route-probe-fixed.json"
+      ]
+    }
+  ],
+  "positive_count": 2,
+  "rejected_falsifier_count": 7,
+  "source_final": {
+    "experiments/pic_mixed_transport_probe_v1/SelectiveRoutingProbe.java": {
+      "bytes": 6640,
+      "sha256": "623969aaee1a575bc8f11c5e9b9031089c8964b8fc1dde4231972bbc0d7874dc"
+    },
+    "experiments/pic_mixed_transport_probe_v1/routing_checks.py": {
+      "bytes": 7080,
+      "sha256": "8e8b5df0bf4d2af66919e6dea886f5dd67379327399caf7fa2d6a3bd198a47a5"
+    },
+    "experiments/pic_mixed_transport_probe_v1/SelectiveAreaProbe.java": {
+      "bytes": 11614,
+      "sha256": "a202ebdb6992c01239367a234ae9f3257fd7ca9c1b7743eed185b331fa1c6cec"
+    },
+    "experiments/pic_mixed_transport_probe_v1/selective.py": {
+      "bytes": 12467,
+      "sha256": "a847cd03445c6390bbf5c668a180c0c59b4fcc7ec153b5e2e4f44bce6a5b94fa"
+    },
+    "experiments/pic_mixed_transport_probe_v1/transport.py": {
+      "bytes": 22245,
+      "sha256": "ee45224a21a12ab07c1e7afb1998169f89e741d8b4648057394b1f5ee611c818"
+    },
+    "experiments/pic_mixed_transport_probe_v1/ses_checks.py": {
+      "bytes": 14961,
+      "sha256": "a1a648cb8b292030adfb0010e56e00e0340f2692fc613dff7b8741b26072ebd1"
+    },
+    "experiments/pic_mixed_transport_probe_v1/test_routing.py": {
+      "bytes": 10472,
+      "sha256": "d8a1927729b561772fb50823ce2a4d300c06fe7dc0a2001c8f60dad1da6ce7cd"
+    },
+    "autorouter/preferences.py": {
+      "bytes": 9472,
+      "sha256": "caa75beef5263258fe6a408b5008be893df52d47c19b734c42ec06ec449d8fef"
+    }
+  },
+  "basis_unchanged": true,
+  "native_executed": false,
+  "jvm_executed": false,
+  "driver_native_ses_generated_reviewed": false,
+  "routing_acceptance_established": false
+}

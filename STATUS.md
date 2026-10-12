@@ -4,6 +4,10 @@ Updated October 11, 2026 (America/Los_Angeles). **Active local reconstruction; i
 
 ## Latest work — October 12 UTC
 
+Selective002 at541a11d passes the fresh representation observation:603indexed items validate and619exact zero-shape/null-entry outlines retain rawfalse; onlytwo custom bodies enabled, originalGND unchanged, all345routes/368shapes/settings exact. Stored4.835331wall/5.093529CPU. Independent captured-source readback passes83frozen artifacts/50source pins and original15files; no routing/native/support gain.
+
+The next direct-routing diagnostic is implemented with an exact reversible339path+6via removal ledger, synchronous60second cooperative stop, explicit completion-only settings, final job.board checks, shared SES/native validation and original-rule candidate handling. Source reviews found and fixed contradictory settings, negative layer indices, null route-clearance class, cancellation-mode binding and candidate-refill freezing. Pure controls are preliminary; actual cancellation and routing runs are next. Production PIC remains unsupported and all broader/holdout/release gates stay open.
+
 Actual selective001 at6848ee4 stopped before mutation:619 ComponentOutline raw tree validations false,603 indexed items true. Pinned source shows zero-shape outlines are intentionally unindexed. The amended observer requires exact zero tile/tree shapes, null entries and raw false for this class only; all other entries remain strict, and raw false totals stay visible. Eight ROOT targeted tests and seven independent focused controls pass. Prior failed run and source diagnosis are public; fresh selective002 is next. No solver/native/support gain yet.
 
 The single-import selective obstacle observer is integrated into the existing driver and passes45 focused methods. It enables only the two identified custom bodies, explicitly changes the globalignore flag, and requires the complete original plane/state/routes and all tree entries to survive. Cached native005and local250evidence are reused. Independent source review and one fresh compiled observation are next; no production admission or solver result yet.

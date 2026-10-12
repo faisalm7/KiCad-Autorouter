@@ -1,0 +1,13 @@
+# Finite fully-unrouted PIC derivation
+
+Only `routing_input.py` and `test_routing_input.py` were added to the existing experiment. No Java, protocol, controller, native source, rule file or original evidence was edited.
+
+`derive(mixed_raw, expected, native_raw, context)` returns new DSN bytes and a ledger receipt. `restore(unrouted_raw, receipt)` reconstructs the original AST for comparison. `verify(mixed_raw, expected, native_raw, context, unrouted_raw, receipt)` rederives and compares exact output bytes and type-strict canonical receipt. Inputs are captured bytes/dictionaries; these functions never read or write a project. Caller remains responsible for complete project/source/process/tool provenance and final freshness. Hashes and a caller-supplied context are consistency evidence, not authentication.
+
+Actual retained public evidence derives 339 ordinary path wires + six route vias into zero ordinary routes; both native-derived protected custom polygons, the original plane and all other AST fields are preserved. The ledger reverses the whole DSN AST exactly. The unchanged native source independently matches all 370 segment + six via UUID/geometry observations, with no locks, arcs or unqualified route fields. The full 240 placed pins (236 assigned) are checked using the existing transform helper. This finite grammar explicitly blocks unfamiliar inputs; it is not generalized DSN support.
+
+The helper retains the upstream expected object unchanged: `receipt.unrouted_dsn_sha256` is the new engine-input identity. Do not overwrite the original mixed-input hash or claim the existing retained-route comparator qualifies the zero-route import. ROOT must supply the separate zero-route observed census and original immutable constraint checks. A new derived input does not erase the earlier failed retained-route exact-survival/quantization result.
+
+Nine targeted pure methods passed in 6.403 seconds. Tests use committed public DSN/expectations/context records and the already acquired immutable public original PIC board, whose hash is asserted against the committed context. Counterexamples include malformed/fixed/locked routes, changed body/layer/terminal membership, native UUID/geometry changes, stale digests and rehashed ledger/output mutations. Initial tests001 correctly caught a no-op test mutation (pin X was already zero); its original source and full failure log remain preserved, and the corrected mutation increments X.
+
+The concrete derived DSN and full ledger are retained locally; the selected metadata contains no extra board payload. No native, JVM, compiler or routing execution occurred. Selective-area runtime qualification and actual routing/native validation remain separate ROOT gates.

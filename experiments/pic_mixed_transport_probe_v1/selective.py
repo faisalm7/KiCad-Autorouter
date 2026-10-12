@@ -133,6 +133,12 @@ def compare(observed, expected, verified_local_observation):
         equal(row[field], baseline[field], 'fresh false import/local basis differs: ' + field)
     if row['input_sha256'] != expected['derived_dsn_sha256']:
         raise ValueError('input digest differs')
+    result=transition(row)
+    result['baseline_false_state_exact']=True
+    return result
+
+def transition(row):
+    """Check the same exact transition on one independently validated import."""
     equal(row['settings_after_selective'], row['settings_after'], 'manager settings changed')
     for phase in ('settings_before', 'settings_after', 'settings_after_selective'):
         setting = row[phase]
@@ -145,7 +151,7 @@ def compare(observed, expected, verified_local_observation):
     route_geometry(row['route_geometry_before_local'], row['state_before_local'])
     route_geometry(row['route_geometry'], old)
     route_geometry(row['route_geometry_after_selective'], new)
-    targets = {body['area_id'] for body in baseline['local_override']['targets']}
+    targets = {body['area_id'] for body in row['local_override']['targets']}
     areas = by_id(old['areas'], 'old areas')
     originals = set(areas) - targets
     if (len(targets) != 2 or len(areas) != 3 or len(originals) != 1 or old['ignore_conduction'] is not True
@@ -188,6 +194,6 @@ def compare(observed, expected, verified_local_observation):
         if before['tree_trace_check_clear'] is False and after['tree_trace_check_clear'] is True:
             raise ValueError('enabling bodies unexpectedly cleared trace check')
     return {'selective_transition_verified': True, 'changed_area_ids': sorted(targets), 'preserved_area_ids': sorted(originals),
-            'baseline_false_state_exact': True, 'ordinary_imported_routes_unchanged': True,
+            'ordinary_imported_routes_unchanged': True,
             'routing_accepted': False, 'native_route_survival_qualified': False, 'solver_lifecycle_qualified': False,
             'interpretation': 'Single retained-board representation observation against a revalidated actual local basis; no solver/SES/native equivalence.'}

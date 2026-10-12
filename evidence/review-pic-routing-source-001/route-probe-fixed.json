@@ -1,0 +1,29 @@
+{
+  "scope": "Synthetic new trace built from retained actual002 geometry; never routing evidence",
+  "source_sha256": "8e8b5df0bf4d2af66919e6dea886f5dd67379327399caf7fa2d6a3bd198a47a5",
+  "results": [
+    {
+      "case": "synthetic_generated_positive",
+      "accepted": true,
+      "result": {
+        "lifecycle_verified": true,
+        "ordinary_seed_routes": 0,
+        "final_traces": 1,
+        "final_vias": 0,
+        "cancel_control": false,
+        "routing_accepted": false,
+        "production_support_qualified": false
+      }
+    },
+    {
+      "case": "negative_layer_index",
+      "accepted": false,
+      "error": "ValueError: engine route layer indices out of bounds"
+    },
+    {
+      "case": "null_route_clearance_class",
+      "accepted": false,
+      "error": "ValueError: generated route bypasses original clearance class"
+    }
+  ]
+}

@@ -124,8 +124,13 @@ def validate(observed,expected):
     if (type(observed.get('schema')) is not int or observed['schema']!=1 or observed.get('routing_executed') is not False
             or observed.get('ses_executed') is not False or len(observed.get('cases',[]))!=2):
         raise ValueError('mixed observation schema/cases differ')
+    return validate_rows(observed['cases'],expected,(False,True))
+
+def validate_rows(rows,expected,settings):
+    """Check actual individual imports without inventing a second observation."""
+    if len(rows)!=len(settings) or any(type(s) is not bool for s in settings):raise ValueError('case settings population differs')
     comparisons=[]
-    for setting,row in zip((False,True),observed['cases']):
+    for setting,row in zip(settings,rows):
         if row.get('requested_obstacle') is not setting or row.get('input_sha256')!=expected['derived_dsn_sha256']:
             raise ValueError('case input/settings differ')
         if row.get('status')!='observed':comparisons.append({'observed':False,'error':row.get('error')});continue
@@ -210,14 +215,18 @@ def local_override_basis(clearance,project):
 
 def validate_local(observed,expected):
     """Prove the finite post-load change without relabelling matrix data as DRC."""
-    after_comparison=validate(observed,expected)
-    before=copy.deepcopy(observed)
-    for row in before['cases']:
+    validate(observed,expected)
+    return validate_local_rows(observed['cases'],expected,(False,True))
+
+def validate_local_rows(rows,expected,settings):
+    after_comparison=validate_rows(rows,expected,settings)
+    before=copy.deepcopy(rows)
+    for row in before:
         if row.get('status')!='observed':raise ValueError('every local case must be observed')
         row['state']=row['state_before_local']
-    before_comparison=validate(before,expected)
+    before_comparison=validate_rows(before,expected,settings)
     result=[]
-    for row,before_result,after_result in zip(observed['cases'],before_comparison,after_comparison):
+    for row,before_result,after_result in zip(rows,before_comparison,after_comparison):
         if any(b['own_normal_contacts_reciprocal'] is not True for c in (before_result,after_result) for b in c['bodies']):
             raise ValueError('local anchor/body contact missing')
         old=row['state_before_local'];new=row['state']

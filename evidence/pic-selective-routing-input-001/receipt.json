@@ -1,0 +1,122 @@
+{
+  "actual_derivation": {
+    "assigned_dsn_pins": 236,
+    "complete_dsn_pins": 240,
+    "native_segments": 370,
+    "native_vias": 6,
+    "outputs": [
+      {
+        "bytes": 87985,
+        "path": ".runs/pic-selective-routing-input-001/unrouted.dsn",
+        "sha256": "29fac563a4675c1c3dacacc7cdaabe4e761e48221547f96fbdddd46b4ce817e9"
+      },
+      {
+        "bytes": 133417,
+        "path": ".runs/pic-selective-routing-input-001/derivation.json",
+        "sha256": "35b6e4647fa4a176022dd99b51125a9a3115f343a1c3279407a4f8707dbec1d9"
+      }
+    ],
+    "preserved_bodies": 2,
+    "preserved_planes": 1,
+    "protected_native_routes": 0,
+    "removed_path_wires": 339,
+    "removed_vias": 6,
+    "self_cpu_seconds": 0.295737,
+    "strict_receipt_rederivation": true,
+    "wall_seconds": 0.3089463340002112,
+    "whole_ast_reverse_equal": true
+  },
+  "command": [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "experiments.pic_mixed_transport_probe_v1.test_routing_input",
+    "-v"
+  ],
+  "head_at_recording": "541a11d84b9dff3906b157ebf02bdcadd119443a",
+  "inputs_unchanged": true,
+  "jvm_executed": false,
+  "kind": "pure retained-evidence derivation, not new native or engine execution",
+  "native_executed": false,
+  "routing_accepted": false,
+  "routing_executed": false,
+  "schema": 1,
+  "sources_and_basis": [
+    {
+      "bytes": 12770,
+      "path": "experiments/pic_mixed_transport_probe_v1/routing_input.py",
+      "sha256": "4b02ca51e21873851894e8bfc7e6d3b58e25ba103dd88110a7c70dea3a6d1cd9"
+    },
+    {
+      "bytes": 10610,
+      "path": "experiments/pic_mixed_transport_probe_v1/test_routing_input.py",
+      "sha256": "3505ed2f75c98741b0afd2fa0daf9a499f36eadc269c88c95c4f7d3436446fb0"
+    },
+    {
+      "bytes": 2045,
+      "path": "autorouter/sexpr.py",
+      "sha256": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd"
+    },
+    {
+      "bytes": 12219,
+      "path": "autorouter/adapter.py",
+      "sha256": "509feca807ccee112b0b6a071fd0944c88177ba83f5b77422ec8be5cdf63d25b"
+    },
+    {
+      "bytes": 67060,
+      "path": "autorouter/pipeline.py",
+      "sha256": "266ffd1fb0ec4fea30a4b7d73df9d387c727b690ef2b13f3eeda6870cbd6a8fa"
+    },
+    {
+      "bytes": 22245,
+      "path": "experiments/pic_mixed_transport_probe_v1/transport.py",
+      "sha256": "ee45224a21a12ab07c1e7afb1998169f89e741d8b4648057394b1f5ee611c818"
+    },
+    {
+      "bytes": 14616,
+      "path": "experiments/pic_mixed_transport_probe_v1/ses_checks.py",
+      "sha256": "d015035cf1e9e1f2ae8fbd367685d492482ed8371a63d63565156556e446c01e"
+    },
+    {
+      "bytes": 12089,
+      "path": "experiments/custom_pad_area_probe_v1/derive.py",
+      "sha256": "dc021d4303ce3ecf21a35a7c1505f6ef613c650284db5309c08ac9537bf4c159"
+    },
+    {
+      "bytes": 120086,
+      "path": "evidence/pic-local-clearance-transport-001/mixed.dsn",
+      "sha256": "90a6635023098216645a3ecb852c8a463a3d489a4ee68d048a1fe0a40926f817"
+    },
+    {
+      "bytes": 56596,
+      "path": "evidence/pic-local-clearance-transport-001/expectations.json",
+      "sha256": "32fb0cb8a112baa2f061ec20035eaebbabcdd7d47c84b9bb6132605f8ae32bb7"
+    },
+    {
+      "bytes": 219793,
+      "path": "evidence/pic-mixed-transport-probe-005/context.json",
+      "sha256": "b4da59c31f10616c46b538a9fe00a722215f3d3444a6402853c7c1efc0bc8ac9"
+    },
+    {
+      "bytes": 643403,
+      "path": ".data/boards/kicad-pic-programmer/pic_programmer.kicad_pcb",
+      "sha256": "1ca70b620506818eb0227e2863bbd573d1fec1672072dc43d0dbe8475e69c8fb"
+    }
+  ],
+  "tests": {
+    "log": {
+      "bytes": 1700,
+      "path": ".runs/pic-selective-routing-input-001/tests-002.log",
+      "sha256": "e95de91143afcae89eedf5419663062df08d1f275d373dec8218bb0579f2ed46"
+    },
+    "methods": 9,
+    "passed": true,
+    "prior_failure": {
+      "bytes": 500,
+      "path": ".runs/pic-selective-routing-input-001/failure-001.json",
+      "sha256": "1a2142e8185d5788696d855f7f7c0751ebe9a6256417faefba594ef44e25b73d"
+    },
+    "reported_wall_seconds": 6.403
+  }
+}

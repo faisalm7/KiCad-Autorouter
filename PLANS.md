@@ -1,6 +1,6 @@
 # Execution plan
 
-Active next step: run fresh selective002 with witnessed zero-shape eligibility; preserve failed001. After a passing observation, integrate direct synchronous RoutingPipeline with cooperative deadline, stripped ordinary copper and final job.board checks; use original native rules for final validation. No repeated completed native/SES controls.
+Active next step: checkpoint reviewed direct routing source, run `python3 -B experiments/pic_mixed_transport_probe_v1/driver.py --run-probe --routing-probe --cancel-routing --output .runs/pic-selective-routing-cancel-001`, then fresh `.runs/pic-selective-routing-001` without `--cancel-routing`. No repeated completed native/SES controls; retain failed/incomplete results. Follow with integration/full native checks and incremental artifact backup.
 
 ## Immediate next gate — October 12 UTC
 

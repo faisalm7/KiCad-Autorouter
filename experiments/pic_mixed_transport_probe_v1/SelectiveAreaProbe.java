@@ -94,11 +94,12 @@ public final class SelectiveAreaProbe {
     if(!valid)throw new IllegalArgumentException("complete search-tree entry validation failed");
   }
 
-  static void run(byte[] raw,Map<String,Object> row)throws Exception{
-    CliSettings cli=new CliSettings(ARGV);
+  record Prepared(RoutingJob job,HeadlessBoardManager manager,RoutingBoard board) {}
+  static Prepared prepare(byte[] raw,Map<String,Object> row,String[] argv)throws Exception{
+    CliSettings cli=new CliSettings(argv);
     SettingsSource[] sources={new DefaultSettings(),new DsnFileSettings(new ByteArrayInputStream(raw),"original-mixed.dsn"),cli};
     RouterSettings settings=new SettingsMerger(sources).merge();RoutingJob job=new RoutingJob();job.routerSettings=settings;
-    row.putAll(map("requested_obstacle",false,"argv",Arrays.asList(ARGV),"settings_before",MixedClassProbe.settings(settings),
+    row.putAll(map("requested_obstacle",false,"argv",Arrays.asList(argv),"settings_before",MixedClassProbe.settings(settings),
       "input_sha256",AreaContactProbe.sha(raw)));
     HeadlessBoardManager manager=new HeadlessBoardManager(job);
     BoardReadResult loaded=manager.loadFromSpecctraDsn(new ByteArrayInputStream(raw),null,null);
@@ -135,7 +136,9 @@ public final class SelectiveAreaProbe {
     catch(Exception e){row.put("settings_capture_error",MixedClassProbe.boundedError(e));if(failure==null)failure=e;}
     if(failure!=null)throw failure;
     row.put("status","observed");
+    return new Prepared(job,manager,board);
   }
+  static void run(byte[] raw,Map<String,Object> row)throws Exception{prepare(raw,row,ARGV);}
 
   public static void main(String[] args)throws Exception{
     if(args.length!=2)throw new IllegalArgumentException("input DSN and fresh output JSON required");
