@@ -18,7 +18,7 @@ The real original-PIC mixed import now runs through KiCad export and both Freero
 
 A reproduced production bug let active tuning profiles bypass preflight for a single Default class. The shared guard now rejects that intent. The full616-test suite, independent source review, four saved-route readbacks and a fresh native route pass. The fresh route has zero findings, one via and67.933738mm of track. This is a correctness and compatibility result, not a new board-family or comparative gain.
 
-The source/evidence checkpoint is verified at `75229be`. Its incremental backup passed archive, bundle and parent-chain integrity: 86,081 files / 2,325,891,992 bytes, with 410 changed/new files and 0 deletions. The last full restoration remains `ea29344`. All artifact archives remain on this Mac only. Older chronological notes below retain their original observations and pending statements; this section and the latest PLANS entry govern continuation.
+Source/evidence checkpoint `e7a948a` is verified on GitHub. The next incremental attempt hit the unchanged128MiB aggregate receipt bound and remains uncertified/preserved. A new full base now passes actual restoration: **86,673files / 2,358,228,144bytes**, allGitrefs and restoredCLIhelp (`evidence/backups/restore-e7a948a.json`). No backup code/limit changed and no earlier archive was removed. All artifact archives remain on this Mac only. Next increments use `.local-backups/checkpoint-20261012T062614Z-5545ea42c51343c98abf4ff681ac2a66/receipt.json`. Later bookkeeping/draft changes follow that cutoff. Older chronological pending statements below are historical; latest section/PLANS govern continuation.
 
 ## Durable local work and backup boundary
 
