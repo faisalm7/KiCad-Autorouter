@@ -1,5 +1,9 @@
 # Execution plan
 
+## Immediate next gate — October 12 UTC
+
+Local clearance controls and engine transport are complete and independently checked. Verified checkpoint `75229be` and its incremental artifact backup preserve all 86,081 non-Git files. The write freeze is released. Implement the retained-route SES gate in the existing mixed driver, then perform fresh native import/refill/DRC and a deliberately disconnected copy under original rules. Do not repeat completed geometry, parity or local-clearance controls. Next backup parent: `.local-backups/checkpoint-20261012T054201Z-0d2c1c7e6e3548e1a7c62bf4bec1ff89/receipt.json`. Last full restoration remains ea29344; perform another at the next major integration/release milestone.
+
 ## Current continuation — October 11, 2026
 
 This section supersedes the older chronological next-step notes below. Continue the existing Mac checkout; do not repeat completed area001, custom native002, severity002, or prior routing comparisons.
