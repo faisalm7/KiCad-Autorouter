@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "scope": "installation test capacity only",
+  "outside_constants_and_tracked_inventory_ast_unchanged": true,
+  "failed_installation_007_all_five_files_unchanged": true,
+  "original_failed_status_preserved": true,
+  "new_source_limits": {
+    "bytes": 268435456,
+    "files": 16000
+  },
+  "unchanged_limits": {
+    "scratch_bytes": 536870912,
+    "wall_seconds": 600.0,
+    "worker_group_rss_bytes": 4294967296
+  },
+  "files": {
+    "scripts/install_smoke.py": {
+      "bytes": 26681,
+      "sha256": "ec224dd3871f0fc1ba87978d80007bf7ef37cdb139314f7b53cc04ae02806ee9"
+    },
+    "tests/test_install_smoke.py": {
+      "bytes": 20491,
+      "sha256": "121fd4c7106528882dcf5daa0c56c5b590d33b72030e162280c13ee6efc4f644"
+    }
+  },
+  "focused_test_command": "python3 -B -m unittest discover -s tests -p test_install_smoke.py -v",
+  "focused_result": {
+    "methods": 24,
+    "passed": true,
+    "reported_seconds": 0.749
+  },
+  "old_source_control_result": {
+    "methods": 4,
+    "passed": 1,
+    "failures": 1,
+    "errors": 2,
+    "interpretation": "Requested capacity and explicit ceiling regressions fail on original source; unsafe/invalid-file control already passes."
+  },
+  "execution_limits": "Only tiny local filesystem fixtures and mocked installer flows. No actual install/native/JVM/network/Git invocation."
+}

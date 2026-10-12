@@ -1,0 +1,78 @@
+{
+  "schema": 1,
+  "mode": "cancel",
+  "passed": true,
+  "observed": [
+    {
+      "live_native_group": 9291,
+      "signal_target": 9290,
+      "signal": "SIGTERM",
+      "at_monotonic": 217207.898021416
+    }
+  ],
+  "error": "Rejected: before-F.Cu: cancelled exit=-15",
+  "status": "rejected",
+  "source_and_routing_evidence_unchanged": true,
+  "no_ready_html": true,
+  "native_processes": [
+    {
+      "status": "cancelled",
+      "exit_code": -15,
+      "wall_seconds": 0.02896845800569281,
+      "cpu_seconds": 0.013498,
+      "max_rss_bytes": 1032192,
+      "supervisor_cpu_seconds": 0.0024150000000000005,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 327680,
+      "sampled_peak_workdir_bytes": 58145,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "export",
+        "svg",
+        "--mode-single",
+        "--layers",
+        "F.Cu,Edge.Cuts",
+        "--fit-page-to-board",
+        "--exclude-drawing-sheet",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-render-cancel-001/plot-work/native-plots/before-F.Cu.svg",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-render-cancel-001/plot-work/before-F.Cu-input/fixture.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-render-cancel-001/plot-work/before-F.Cu.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-render-cancel-001/plot-work",
+      "signal_cancellation_enabled": true,
+      "pid": 9291,
+      "cancel_signal": "SIGTERM",
+      "name": "before-F.Cu"
+    }
+  ],
+  "source_sha256": {
+    "autorouter/review_view.py": "8f765624a8527df770a98594a7b27fe88776b300ec276f809c179ec7f6f60fb7",
+    "autorouter/handoff.py": "b197c058b34885288adf3cf5dba3d8779a7678c81f837a95a09348c355f00814",
+    "autorouter/runner.py": "0e81ab1badf20cd84adc2fed586641dd97a489a5a6af03febe6fb597bb1d2718"
+  },
+  "control_sha256": "8c39832e1eab0388c530e0548cdf5650b57e9704b4d50144db840959ef3109a3",
+  "scope": "Actual native plot stages, intentional post-stage display mutation or real supervisor SIGTERM. No new routing/DRC/GUI claim."
+}

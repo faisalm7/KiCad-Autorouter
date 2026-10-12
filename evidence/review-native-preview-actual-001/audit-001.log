@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-native-preview-actual-001/audit.py", line 122, in <module>
+    result['unchanged_inventories']=[{'path':str(Path(path).relative_to(ROOT)),'files':len(value),'inventory_sha256':digest(value)} for path,value in initial.items()]
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-native-preview-actual-001/audit.py", line 122, in <listcomp>
+    result['unchanged_inventories']=[{'path':str(Path(path).relative_to(ROOT)),'files':len(value),'inventory_sha256':digest(value)} for path,value in initial.items()]
+                                                                                                                     ^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-native-preview-actual-001/audit.py", line 10, in digest
+    def digest(value):return hashlib.sha256(f.canonical(value)).hexdigest()
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Strings must be encoded before hashing

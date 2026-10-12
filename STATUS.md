@@ -4,7 +4,9 @@ Updated October 12, 2026. **Active local reconstruction; not release-ready.** Du
 
 ## Latest actual result
 
-Preview001 rejected the observed SVG1.1 declaration. Compatibility/substitution/active-content fixes passed independent controls atc3fa13f, but actual002 then exposed KiCad creating a PRL in the advertised original copy; exact-copy guard rejected, with source/accepted run unchanged. The new fix uses private per-plot project copies, binds their exact file sets through publication, and keeps the generic existing-PRL guard strict. Native003 and actual tampering/SIGTERM controls are next; no ready preview is claimed yet. [Failures](evidence/review-render-fixture-002/review.json).
+Actual native preview now passes at5d4703d on the required-via fixture and multichannel: four plots each, exact original/candidate copies and per-stage input bindings. Fixture outer cost2.514372wall/2.159179CPU; multichannel15.361793/14.704250, retaining all96warnings. Real display tampering and SIGTERM reject without ready HTML; cancelled native group is cleaned up. The actual DRC evidence control preserves a clean positive and an existing-PRL migration rejection even though both raw reports are clean. [Independent readback](evidence/review-native-preview-actual-001/REPORT.md). Failed preview001/002 remain immutable.
+
+Browser visual inspection was blocked by the local-file URL security policy; no workaround or visual approval is claimed. The existing external KiCad project-manager procedure remains the native GUI evidence. Plotting is optional and performs no new DRC or source application. Installation007 stopped before its test checkout because tracked source/evidence exceeded the old192MiB/12,000-file limit. The bounded256MiB/16,000-file capacity fix is reviewed; fresh008 remains pending.
 
 PAW3395 diagnostic001 completed export (56pads/16nets/220routes) and original-rule nonsaving DRC, then rejected because KiCad changed the existing disposable PRL. Original14files remain exact; only the DRC copy's PRL changed. Separate posthoc readback finds0opens/0blocking/17librarywarnings/0exclusions, but the original controller never published a stage-two binding. It remains failed, not production-qualified or newly routed. Do not repeat completed native stages. [Raw failure](evidence/paw3395-native-diagnostic-001/summary.json), [diagnosis](evidence/paw3395-native-diagnosis-001/REPORT.md).
 
@@ -29,7 +31,7 @@ python3 -B -m autorouter doctor
 python3 -B -m autorouter settings-init --output routing-settings.json
 python3 -B -m autorouter preview /path/to/board.kicad_pcb --settings routing-settings.json
 python3 -B -m autorouter route /path/to/board.kicad_pcb --settings routing-settings.json --output .runs/my-route-001
-python3 -B -m autorouter review-copy .runs/my-route-001/result.json --output .runs/my-review-001
+python3 -B -m autorouter review-copy .runs/my-route-001/result.json --render --output .runs/my-review-001
 ```
 
 Use fresh output paths. Persistent choices cover whole/partial scope,5–900second budgets, adapter/profile/via-cost preferences and narrowly qualified two-layer allowed-new-layer lists. Locked/protected copper remains exact. See [preferences](docs/routing-preferences.md) and [GUI procedure](docs/gui-workflow.md).
@@ -46,20 +48,20 @@ Population: **20 acquired development boards,3 statically eligible/17 unsupporte
 
 ## Testing and installation
 
-Latest full production suite:620tests pass15.513seconds (`.runs/review-render-integration-full-001.log`), including four new preview boundary controls; actual new plotting qualification is pending. The corrected adapter, low-via and shared acquisition integration passes65 targeted controls in9.356seconds; the first invocation retained a mistyped test-module error. Independent reviews preserve and reject demonstrated compiler/argv and late-acquisition-mutation defects. Later experimental-only changes have targeted tests/reviews; test counts are not routing quality. Actual controls cover custom-pad contact/disconnection/intrusion, local clearance, invalid geometry/rules, protected routes, allowed layers and real SIGINT/SIGTERM cleanup. Schematic parity001 and amended area/contact002 are complete; do not rerun interrupted probes.
+Latest full production suite:639tests pass15.807seconds (`.runs/preview-integration-full-001.log`) before the resource-capacity-only changes; 24installer and29backup controls pass separately. Actual plotting, display-tampering, SIGTERM and DRC-failure-evidence controls pass; browser visual inspection remains unverified. The corrected adapter, low-via and shared acquisition integration passes65 targeted controls in9.356seconds; the first invocation retained a mistyped test-module error. Independent reviews preserve and reject demonstrated compiler/argv and late-acquisition-mutation defects. Later experimental-only changes have targeted tests/reviews; test counts are not routing quality. Actual controls cover custom-pad contact/disconnection/intrusion, local clearance, invalid geometry/rules, protected routes, allowed layers and real SIGINT/SIGTERM cleanup. Schematic parity001 and amended area/contact002 are complete; do not rerun interrupted probes.
 
 Installation006 at eae1f39 passed20commands/608then-current tests in a new local checkout/venv, plus actual native0findings/1via/67.933738mm and receipt readback. It reused installed tools/verified cache under network denial: not a fresh Mac or current release package qualification. [Evidence](evidence/installation-006/result.json). Rerun installation at the next major integration/release milestone.
 
 ## Checkpoints and backups
 
-Latest independently verified GitHub checkpoint: **c3fa13fee77df16acffe4467daaf69efa7b9540c**; remote SHA and reviewed SVG code bytes match (`.runs/checkpoint-c3fa13f.json`). Preview002/private-copy and shared DRC failure-evidence changes follow this cutoff.
+Latest independently verified GitHub checkpoint: **5d4703dc573d6f82469f1ef0066c702d4a01db45**; remote SHA and shared DRC code bytes match (`.runs/checkpoint-5d4703d.json`). Actual preview/failure-control results and resource-capacity adjustments follow this cutoff.
 
 Latest incremental archive at0e8ed9d verifies88,824non-Git files/2,514,749,096bytes,1,126changed/new files/68,970,693bytes,0deletions; chain length3 and delta integrity pass, without a repeated full restore. [Receipt](evidence/backups/incremental-0e8ed9d.json). Last full restoration at e7a948a verifies86,673files/2,358,228,144bytes, allGitrefs and restoredCLIhelp. The retained old chain hit the unchanged128MiB metadata bound; a tested new full base replaced its next-parent role. No evidence was deleted. See [next parent and work](PLANS.md).
 
-GitHub holds audited source/selected licensed evidence. Complete datasets/raw runs/private references/archives remain on this Mac; independent off-Mac protection is unmet. Full restoration cadence: major milestones, backup-system changes and pre-release; incremental snapshots preserve intervening work.
+GitHub holds audited source/selected licensed evidence. Complete datasets/raw runs/private references/archives remain on this Mac; independent off-Mac protection is unmet. The next full snapshot uses120,000file/directory capacity to preserve another complete installation test;3GiB total,32MiB receipts and128MiB chain memory bounds remain. Full restoration is required after this change. Full restoration cadence: major milestones, backup-system changes and pre-release; incremental snapshots preserve intervening work.
 
 ## Remaining gates
 
 G3 representative30–50-family audit, generalized G4 gain beyond B1/B2, full G5 workflow, G7 untouched family-disjoint evaluation and G8 experimental RC remain open. Custom pads, unqualified format/rule semantics, advanced constraints and authentic library closure limit support. Learning is not justified; no model exists. Human/physical review and formal publication require separate authorization.
 
-Continue [PLANS.md](PLANS.md): compatibility review/checkpoint, fresh actual before/after plotting controls, and source-backed PAW PRL/format/severity qualification. No native/engine worker remains after preview001 and PAW diagnostic001. Previous chronological status is preserved byte-for-byte in [history](docs/history/2026-10-12-2199621/STATUS.md); its old pending commands are superseded here.
+Continue [PLANS.md](PLANS.md): checkpoint, installation008 plus installed preview, full backup/restoration, then legacy-zone native controls and PAW format/PRL qualification. No native/engine worker remains after the completed preview/DRC controls and failed installation007. Previous chronological status is preserved byte-for-byte in [history](docs/history/2026-10-12-2199621/STATUS.md); its old pending commands are superseded here.

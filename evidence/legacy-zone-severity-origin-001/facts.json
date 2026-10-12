@@ -1,0 +1,87 @@
+{
+  "schema": 1,
+  "historical_version": {
+    "tag": "6.0.0",
+    "commit": "7545e2dfee8f86d155723e049501fb7c3f497e10"
+  },
+  "first_checked_absent_version": {
+    "tag": "7.0.0",
+    "commit": "0677b11a926d2eeabe5194c48dfef7076d022a33"
+  },
+  "current_version": {
+    "tag": "10.0.0",
+    "commit": "0feeca2a807f428ad2b3fa7c1e39625cb769f02c"
+  },
+  "predicate": "For each board-level zone on copper: violation if netcode < 0 or (netcode > 0 and rebuilt connectivity.GetPadCount(netcode) == 0). netcode == 0 is intentionally exempt.",
+  "meaning": "Existence of valid connectivity pad items on the assigned net, not physical pad-zone contact and not an empty label test.",
+  "removal_commit_or_rationale_known": false,
+  "guard_implemented": false,
+  "native_executed": false,
+  "cache": {
+    "pcbnew/drc/drc_item.cpp": {
+      "local_path": ".runs/support-scope-review-001/source/pcbnew/drc/drc_item.cpp",
+      "sha256": "ab014f2d70866bb1da53773b55fb3ce9912af501fa49c08b3a6f697dcdac3f51",
+      "bytes": 24445,
+      "url": "https://raw.githubusercontent.com/KiCad/kicad-source-mirror/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/pcbnew/drc/drc_item.cpp",
+      "legacy_key_occurrences": 0
+    },
+    "pcbnew/board_design_settings.cpp": {
+      "local_path": ".runs/support-scope-review-001/source/pcbnew/board_design_settings.cpp",
+      "sha256": "1e9176e7273612767cf1ec21992ac0cc75f157f6929097c71ab160f90711a731",
+      "bytes": 70988,
+      "url": "https://raw.githubusercontent.com/KiCad/kicad-source-mirror/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/pcbnew/board_design_settings.cpp",
+      "legacy_key_occurrences": 0
+    }
+  },
+  "source_observation": {
+    "board_sha256": "c2e8cebd0da804eb3912c6559ad6b3e725c1b29f744d616e1ebb22f1229f7740",
+    "project_sha256": "4a0b352b482dd49a22aeea5599c44444e2d1dfad2ac77880c63152002445cdad",
+    "legacy_severity": "error",
+    "observation_path": ".runs/paw3395-native-diagnostic-001/observation.json",
+    "observation_sha256": "6ac09f6fa05300b7eba1143689f6808123e073c42f992b5075b6e6e71d94b3cc",
+    "zones": [
+      {
+        "uuid": "d471c9f9-2d09-48a9-8587-f740a31511fb",
+        "source_netcode": 2,
+        "source_net_name": "GND",
+        "source_layers": [
+          "\"F&B.Cu\""
+        ],
+        "static_source_matching_pad_count": 15,
+        "retained_native_observer_pad_rows": 15,
+        "historical_GetPadCount_observed": false,
+        "native_zone_scope_observed": false
+      }
+    ]
+  },
+  "installed_declarations": {
+    "path": "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/pcbnew.py",
+    "sha256": "cd1c06c4709c653256ebd0c98c66d80cd72033767fac27c34ea01b5ec586116a",
+    "lines": {
+      "CONNECTIVITY_DATA.Build": [
+        12271,
+        12276
+      ],
+      "CONNECTIVITY_DATA.GetPadCount": [
+        12331,
+        12333
+      ],
+      "BOARD.BuildConnectivity": [
+        21819,
+        21821
+      ]
+    },
+    "new_runtime_calls_qualified": false
+  },
+  "fetches": {
+    "attempted": 14,
+    "successful": 13,
+    "bytes": 164689,
+    "caps": {
+      "requests": 14,
+      "bytes": 1048576,
+      "per_file_bytes": 262144
+    },
+    "failures_retained": "One404 for guessed6.0.0 provider filename; correct directory/provider fetched. A planned7.0.0 provider read stopped locally at the14-request assertion before network; not acquired."
+  }
+}

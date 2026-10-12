@@ -30,8 +30,8 @@ from autorouter.runner import run
 
 
 MAX_BYTES = 512 * 1024**2
-SOURCE_MAX_BYTES = 192 * 1024**2
-SOURCE_MAX_FILES = 12000
+SOURCE_MAX_BYTES = 256 * 1024**2
+SOURCE_MAX_FILES = 16000
 TOTAL_SECONDS = 600.0
 NETWORK_DENIAL = ["/usr/bin/sandbox-exec", "-p", "(version 1)(allow default)(deny network*)"]
 
@@ -219,12 +219,17 @@ def tracked_inventory(root, listing):
         absolute = root / path
         if not absolute.is_file():
             raise RuntimeError("tracked file missing: " + relative)
+        metadata = absolute.lstat()
+        if not stat.S_ISREG(metadata.st_mode):
+            raise RuntimeError("tracked file is not regular: " + relative)
         if len(inventory) >= SOURCE_MAX_FILES:
-            raise RuntimeError("tracked source inventory exceeds installation test bound")
+            raise RuntimeError(f"tracked source file ceiling exceeded: {len(inventory) + 1} > {SOURCE_MAX_FILES} files at {relative}")
+        if metadata.st_size > SOURCE_MAX_BYTES - total:
+            raise RuntimeError(f"tracked source byte ceiling exceeded: {total + metadata.st_size} > {SOURCE_MAX_BYTES} bytes at {relative}")
         raw = pc.read_bytes(absolute, SOURCE_MAX_BYTES - total)
         total += len(raw)
         if total > SOURCE_MAX_BYTES:
-            raise RuntimeError("tracked source inventory exceeds installation test bound")
+            raise RuntimeError(f"tracked source byte ceiling exceeded: {total} > {SOURCE_MAX_BYTES} bytes at {relative}")
         inventory[relative] = hashlib.sha256(raw).hexdigest()
     return inventory
 

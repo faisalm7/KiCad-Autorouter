@@ -81,11 +81,43 @@ class InstallSmokeTests(unittest.TestCase):
         (source / 'a').write_bytes(b'abc')
         (source / 'b').write_bytes(b'def')
         with mock.patch.object(m, 'SOURCE_MAX_BYTES', 5):
-            with self.assertRaises(m.p.Rejected):
+            with self.assertRaisesRegex(RuntimeError, 'byte ceiling exceeded: 6 > 5 bytes at b'):
                 m.tracked_inventory(source, 'a\0b\0')
         with mock.patch.object(m, 'SOURCE_MAX_FILES', 1):
-            with self.assertRaisesRegex(RuntimeError, 'inventory exceeds'):
+            with self.assertRaisesRegex(RuntimeError, 'file ceiling exceeded: 2 > 1 files at b'):
                 m.tracked_inventory(source, 'a\0b\0')
+
+    def test_source_capacity_is_bounded_without_changing_scratch_or_wall(self):
+        self.assertEqual(m.SOURCE_MAX_BYTES, 256 * 1024**2)
+        self.assertEqual(m.SOURCE_MAX_FILES, 16000)
+        self.assertEqual(m.MAX_BYTES, 512 * 1024**2)
+        self.assertEqual(m.TOTAL_SECONDS, 600.0)
+
+    def test_source_capacity_exact_boundary_and_excess_before_read(self):
+        source = self.root / 'source'; source.mkdir()
+        (source / 'a').write_bytes(b'abc')
+        (source / 'b').write_bytes(b'de')
+        (source / 'empty').write_bytes(b'')
+        with mock.patch.object(m, 'SOURCE_MAX_BYTES', 5), mock.patch.object(m, 'SOURCE_MAX_FILES', 3):
+            self.assertEqual(len(m.tracked_inventory(source, 'a\0b\0empty\0')), 3)
+        (source / 'b').write_bytes(b'def')
+        with mock.patch.object(m, 'SOURCE_MAX_BYTES', 5), mock.patch.object(m.pc, 'read_bytes', wraps=m.pc.read_bytes) as reader:
+            with self.assertRaisesRegex(RuntimeError, 'byte ceiling exceeded'):
+                m.tracked_inventory(source, 'a\0b\0')
+            self.assertEqual(reader.call_count, 1)
+            self.assertEqual(reader.call_args.args, (source / 'a', 5))
+
+    def test_capacity_errors_do_not_mask_unsafe_or_invalid_file(self):
+        source = self.root / 'source'; source.mkdir()
+        (source / 'real').write_bytes(b'abc')
+        (source / 'link').symlink_to(source / 'real')
+        (source / 'directory').mkdir()
+        with mock.patch.object(m, 'SOURCE_MAX_BYTES', 0), mock.patch.object(m, 'SOURCE_MAX_FILES', 0):
+            with self.assertRaisesRegex(RuntimeError, 'unsafe tracked path'):
+                m.tracked_inventory(source, 'link\0')
+            for name in ('directory', 'missing'):
+                with self.subTest(name=name), self.assertRaisesRegex(RuntimeError, 'tracked file missing'):
+                    m.tracked_inventory(source, name + '\0')
 
     def test_git_identity_supports_packed_branch_and_rejects_ambiguity(self):
         gitdir = self.root / '.git'; gitdir.mkdir()

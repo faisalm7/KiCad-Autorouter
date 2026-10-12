@@ -1,0 +1,54 @@
+test_source_inventory_cumulative_cap_still_rejects (capacity_tests.InstallSmokeTests.test_source_inventory_cumulative_cap_still_rejects) ... ERROR
+test_source_capacity_is_bounded_without_changing_scratch_or_wall (capacity_tests.InstallSmokeTests.test_source_capacity_is_bounded_without_changing_scratch_or_wall) ... FAIL
+test_source_capacity_exact_boundary_and_excess_before_read (capacity_tests.InstallSmokeTests.test_source_capacity_exact_boundary_and_excess_before_read) ... ERROR
+test_capacity_errors_do_not_mask_unsafe_or_invalid_file (capacity_tests.InstallSmokeTests.test_capacity_errors_do_not_mask_unsafe_or_invalid_file) ... ok
+
+======================================================================
+ERROR: test_source_inventory_cumulative_cap_still_rejects (capacity_tests.InstallSmokeTests.test_source_inventory_cumulative_cap_still_rejects)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_install_smoke.py", line 85, in test_source_inventory_cumulative_cap_still_rejects
+    m.tracked_inventory(source, 'a\0b\0')
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-source-capacity-001/before/scripts/install_smoke.py", line 224, in tracked_inventory
+    raw = pc.read_bytes(absolute, SOURCE_MAX_BYTES - total)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/placement_clearance.py", line 34, in read_bytes
+    if not stat.S_ISREG(before.st_mode) or before.st_size>limit:raise p.Rejected('placement bounded regular file required')
+                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+autorouter.pipeline.Rejected: placement bounded regular file required
+
+======================================================================
+ERROR: test_source_capacity_exact_boundary_and_excess_before_read (capacity_tests.InstallSmokeTests.test_source_capacity_exact_boundary_and_excess_before_read)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_install_smoke.py", line 106, in test_source_capacity_exact_boundary_and_excess_before_read
+    m.tracked_inventory(source, 'a\0b\0')
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-source-capacity-001/before/scripts/install_smoke.py", line 224, in tracked_inventory
+    raw = pc.read_bytes(absolute, SOURCE_MAX_BYTES - total)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/unittest/mock.py", line 1124, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/unittest/mock.py", line 1201, in _execute_mock_call
+    return self._mock_wraps(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/placement_clearance.py", line 34, in read_bytes
+    if not stat.S_ISREG(before.st_mode) or before.st_size>limit:raise p.Rejected('placement bounded regular file required')
+                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+autorouter.pipeline.Rejected: placement bounded regular file required
+
+======================================================================
+FAIL: test_source_capacity_is_bounded_without_changing_scratch_or_wall (capacity_tests.InstallSmokeTests.test_source_capacity_is_bounded_without_changing_scratch_or_wall)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_install_smoke.py", line 91, in test_source_capacity_is_bounded_without_changing_scratch_or_wall
+    self.assertEqual(m.SOURCE_MAX_BYTES, 256 * 1024**2)
+AssertionError: 201326592 != 268435456
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.006s
+
+FAILED (failures=1, errors=2)

@@ -20,9 +20,12 @@ ROOT = Path(__file__).resolve().parents[1]
 SCOPES = (".runs", ".data", ".local-reference")
 # Retaining failed and successful clean-install trees takes the complete artifact
 # population above 2 GiB. Keep a finite 3 GiB archive/target/bundle ceiling; the
-# existing file-count, chain, secret, path and streaming checks remain unchanged.
+# existing byte, chain, secret, path and streaming checks remain enforced.
 LIMIT = 3 * 1024 ** 3
-MAX_FILES = 100000
+# A new complete installation copy adds about 13,000 files to the verified
+# 88,824-file snapshot. Retain a finite 120,000-file/directory bound; receipt
+# memory (32 MiB each/128 MiB chain) and 3 GiB total bytes stay unchanged.
+MAX_FILES = 120000
 MAX_CHAIN = 16
 MAX_RECEIPT_BYTES = 32 * 1024 ** 2
 MAX_CHAIN_RECEIPT_BYTES = 128 * 1024 ** 2
