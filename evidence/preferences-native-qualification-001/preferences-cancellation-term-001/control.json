@@ -1,0 +1,165 @@
+{
+  "schema": 1,
+  "status": "passed",
+  "passed": true,
+  "control": "real CLI SIGTERM during owned engine execution",
+  "source": "/Users/faisal/Projects/KiCad-Autorouter-local/fixtures/smoke/smoke.kicad_pcb",
+  "signals": [
+    {
+      "pid": 1812,
+      "signal": "SIGTERM",
+      "elapsed_seconds": 4.846015957999043
+    }
+  ],
+  "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-cancellation-term-001",
+  "limitations": "Only engine-stage cancellation is tested. Interstage cancellation, editor cancellation and OS crashes are not qualified. PID/group absence is an immediate observation, not a persistent monitor.",
+  "source_hashes": {
+    "smoke.kicad_pcb": "618b0b1d23f082283a5136b514ff64ee54b3a058f068689bf64668a436d7c5ea",
+    "smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+    "smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643"
+  },
+  "tools": {
+    "implementation_sha256": {
+      "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+      "autorouter/__main__.py": "cbf3913d1916aba1c89361693a07dbe5af7901ba7dde5f7744ab08d9dacb16e9",
+      "autorouter/adapter.py": "509feca807ccee112b0b6a071fd0944c88177ba83f5b77422ec8be5cdf63d25b",
+      "autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+      "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+      "autorouter/floor_context.py": "8c00a443a9a6bd5e05c416b031b0f2dcc4f6e836f3769acab9ceced4fba91c14",
+      "autorouter/floor_route.py": "eddc2f9b0df3710f3b8b0a5e486ae000546882863b927053ffec55dcb014116a",
+      "autorouter/handoff.py": "69b8c700f9a16e0244087eb79d966af31a48bbf856d340cd2e89ea3804364a8b",
+      "autorouter/native.py": "7257496b007fbc449adb3cc8b999712aed8ea0aa881a116ba337d18e2ab87c02",
+      "autorouter/netclass.py": "d0d26610b550b0655a1eafc3022196e31f59f719b5b3f0a727c464f9c90eda61",
+      "autorouter/pipeline.py": "874c183bb8634f6a13c4bb0459399f423bf39f7682e2fc4c0db5b9e7cca026bc",
+      "autorouter/placement_clearance.py": "b1d891d0bc8284bcac80a20cff11263afc8966e30ce8baaf35f1ae78e27ff152",
+      "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+      "autorouter/preferences.py": "384fdd3cd0ceb26873abdfb357afe6a7550a4263716b6aaa2478137783fd3dca",
+      "autorouter/recovery.py": "95cebb44d8eac6e9903bd33e65b5cef887d8b1531f67375b940442f1237c2f9a",
+      "autorouter/runner.py": "0e81ab1badf20cd84adc2fed586641dd97a489a5a6af03febe6fb597bb1d2718",
+      "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+      "autorouter/strategy.py": "a85e9097f3f20508a0d72f50078dad531a3cccc2f41b85da3a74c0a826b1d558",
+      "autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+      "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+      "autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455"
+    },
+    "git_head": "a24807430a4e4a4d57daa28e2f62db4742ad0276",
+    "kicad": "10.0.0",
+    "freerouting": "2.5.0",
+    "files": {
+      "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+      "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219"
+    },
+    "network": "engine sandbox-exec deny network*"
+  },
+  "script_sha256": "85af3f48a81283c2401d07fad1830b0fb93187ee53c10a16f9a424ddf5aaed6e",
+  "argv": [
+    "/Users/faisal/.pyenv/versions/3.11.9/bin/python3",
+    "-m",
+    "autorouter",
+    "route",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/fixtures/smoke/smoke.kicad_pcb",
+    "--output",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-cancellation-term-001/route",
+    "--seconds",
+    "120"
+  ],
+  "cli_pid": 1812,
+  "observed_owned_engine": {
+    "pid": 1838,
+    "ppid": 1812,
+    "pgid": 1838
+  },
+  "engine_log_bytes_at_signal": 75,
+  "engine_observed_elapsed_seconds": 4.845982416998595,
+  "cli_exit_code": 2,
+  "route_receipt": {
+    "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-cancellation-term-001/route/result.json",
+    "sha256": "c678ae5c3b74eefd9dada75da06db0198cb26f4a0e4c64cb357a0626aa3c7cfb"
+  },
+  "engine_receipt": {
+    "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-cancellation-term-001/route/engine-process.json",
+    "sha256": "bb4ae06e5267737454315c36fac170247c18260f381ea7c5f83eca834047afa3",
+    "data": {
+      "status": "cancelled",
+      "exit_code": -9,
+      "wall_seconds": 0.5697159169940278,
+      "cpu_seconds": 0.477981,
+      "max_rss_bytes": 115884032,
+      "supervisor_cpu_seconds": 0.005314999999999959,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 93077504,
+      "sampled_peak_workdir_bytes": 446884,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java",
+        "-Xms128m",
+        "-Xmx2g",
+        "-XX:ActiveProcessorCount=1",
+        "-Djava.awt.headless=true",
+        "-jar",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar",
+        "--gui.enabled=false",
+        "--api_server.enabled=false",
+        "--mcp_server.enabled=false",
+        "-da",
+        "--user_data_path=/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-cancellation-term-001/route/engine-config",
+        "--logging.file.enabled=false",
+        "--router.autorouter.max_passes=30",
+        "--router.job_timeout=00:01:00",
+        "--router.optimizer.max_threads=1",
+        "--router.optimizer.max_passes=10",
+        "--router.optimizer.timeout=00:00:30",
+        "-de",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-cancellation-term-001/route/task.dsn",
+        "-do",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-cancellation-term-001/route/routes.ses"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-cancellation-term-001/route/engine.log",
+      "log_bytes": 75,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-cancellation-term-001/route",
+      "signal_cancellation_enabled": true,
+      "pid": 1838,
+      "cancel_signal": "SIGTERM",
+      "name": "engine"
+    }
+  },
+  "route_status": "rejected",
+  "route_accepted": false,
+  "source_unchanged": true,
+  "tools_and_code_unchanged": true,
+  "remaining_owned_engine_group": [],
+  "checks": {
+    "cli_rejected": true,
+    "engine_pid_bound": true,
+    "engine_cancelled_by_requested_signal": true,
+    "runner_cleanup_complete": true,
+    "engine_group_absent": true,
+    "source_unchanged": true,
+    "tools_and_code_unchanged": true
+  },
+  "wall_seconds": 5.26332233301946,
+  "cli_log_sha256": "f9bf52f86bb6a25f6ab0394a0f7933b4d7b43d777f8fd6176debb9d09d57d151",
+  "output_bytes": 469786
+}

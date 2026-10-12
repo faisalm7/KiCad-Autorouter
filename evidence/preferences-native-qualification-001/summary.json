@@ -1,0 +1,337 @@
+{
+  "schema": 1,
+  "git_head": "a24807430a4e4a4d57daa28e2f62db4742ad0276",
+  "scope": "First saved-settings native qualification, not routing performance. Preserve the failed partial case.",
+  "cases": {
+    "preferences-native-partial-001": {
+      "raw_receipt_sha256": "e4aecbced0899d162cb7f0c9ff77690eee3a07603d07dd53d63390a6e4487411",
+      "status": "rejected",
+      "accepted": false,
+      "reason": "Rejected: protected route changed",
+      "scope": "partial_completion",
+      "candidate_sha256": null,
+      "native": null,
+      "metrics": null,
+      "wall_seconds": 8.10291991700069,
+      "total_cpu_seconds": 4.712405,
+      "routing_preferences": {
+        "file": "routing-preferences.json",
+        "sha256": "55626a9d583f6e7e65d78549db9d3edfe54b5dc28091ef4e2709941357fbf98c",
+        "effective": {
+          "schema": 1,
+          "scope": "partial_completion",
+          "seconds": 120,
+          "adapter": "both",
+          "profile": "completion-only",
+          "guidance": "native",
+          "layers": "source_all",
+          "scoring_preference": "via_high"
+        }
+      },
+      "outer_execution": {
+        "argv": [
+          "python3",
+          "-B",
+          "-m",
+          "autorouter",
+          "route",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-native-input-001/project/smoke.kicad_pcb",
+          "--settings",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-native-input-001/partial.json",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-native-partial-001"
+        ],
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local",
+        "git_head": "a24807430a4e4a4d57daa28e2f62db4742ad0276",
+        "started_utc": "2026-10-12T02:39:35.070388+00:00",
+        "exit_code": 2,
+        "wall_seconds": 8.202758500003256,
+        "waited_child_cpu_seconds": 4.768902,
+        "cleanup_signals": [],
+        "log_sha256": "3d464112605d1b011229d0007615418443a466237236f8e5f9b605c0a83f56bb",
+        "log_bytes": 166,
+        "wrapper_sha256": "ff79e809fa141a4fe5eea963f8215eb494c1f47f46ca33d5da22078b3df98d3f",
+        "scope": "Prospectively frozen saved-preferences native qualification; not a comparative routing gain."
+      }
+    },
+    "preferences-native-whole-001": {
+      "raw_receipt_sha256": "b8504db03b587fdd38fe7d23c00106939a406f6ad8bcc28536f9b3eddebd1ac9",
+      "status": "routing_accepted",
+      "accepted": true,
+      "reason": null,
+      "scope": "whole_board_unlocked_routing",
+      "candidate_sha256": "11790f1ea46f2b1f80cf425a67fab9af187716e3c5eee2ef915f56ea18fa9731",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": []
+      },
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 6,
+        "footprints": 6,
+        "zones": 1,
+        "vias": 1,
+        "track_length_mm": 90.00024852813743,
+        "copper_layers": 2
+      },
+      "wall_seconds": 9.711107165989233,
+      "total_cpu_seconds": 6.98051,
+      "routing_preferences": {
+        "file": "routing-preferences.json",
+        "sha256": "8fbcb9fd934072b8e75e445d7f6fd242daef32e5927228d8453dc1a6b9e96b9a",
+        "effective": {
+          "schema": 1,
+          "scope": "whole_board_unlocked_routing",
+          "seconds": 60.0,
+          "adapter": "both",
+          "profile": "completion-only",
+          "guidance": "native",
+          "layers": "source_all",
+          "scoring_preference": "via_low"
+        }
+      },
+      "central_readback": {
+        "current": true,
+        "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-native-whole-001/candidate/smoke.kicad_pcb",
+        "candidate_sha256": "11790f1ea46f2b1f80cf425a67fab9af187716e3c5eee2ef915f56ea18fa9731",
+        "applied": false,
+        "authentication": "none; mutable local evidence consistency only",
+        "warning": "Fresh native validation is required before application; human PCB review and electrical/physical validation remain required."
+      },
+      "outer_execution": {
+        "argv": [
+          "python3",
+          "-B",
+          "-m",
+          "autorouter",
+          "route",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-native-input-001/project/smoke.kicad_pcb",
+          "--settings",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-native-input-001/partial.json",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-native-whole-001",
+          "--scope",
+          "whole",
+          "--seconds",
+          "60",
+          "--scoring-preference",
+          "via_low"
+        ],
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local",
+        "git_head": "a24807430a4e4a4d57daa28e2f62db4742ad0276",
+        "started_utc": "2026-10-12T02:40:00.080098+00:00",
+        "exit_code": 0,
+        "wall_seconds": 9.970987458975287,
+        "waited_child_cpu_seconds": 7.205027,
+        "cleanup_signals": [],
+        "log_sha256": "c7fa7a29325ef6d47ec084670d88cf0919fa4f4db121730280894fd6c4035f67",
+        "log_bytes": 426,
+        "wrapper_sha256": "ff79e809fa141a4fe5eea963f8215eb494c1f47f46ca33d5da22078b3df98d3f",
+        "scope": "Prospectively frozen saved-preferences native qualification; not a comparative routing gain."
+      }
+    },
+    "preferences-placement-001": {
+      "raw_receipt_sha256": "46f33c03bc89c23ccd165ae8c42d14d5aa0392eb60d8c1b7c0ae88ea5b4befa8",
+      "status": "routing_accepted",
+      "accepted": true,
+      "reason": null,
+      "scope": "whole_board_unlocked_routing",
+      "candidate_sha256": "1deca0672a64922946c9433929de1dbe45adcb890ef1d902d742d4bcf14e024f",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": []
+      },
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 4,
+        "footprints": 4,
+        "zones": 1,
+        "vias": 1,
+        "track_length_mm": 67.93373808491306,
+        "copper_layers": 2
+      },
+      "wall_seconds": 7.607609416998457,
+      "total_cpu_seconds": 5.672310000000001,
+      "routing_preferences": {
+        "file": "routing-preferences.json",
+        "sha256": "e13595e47a67961df8065e9e605b8d385957fa2fe37f459eb2b4b7e35cf21c53",
+        "effective": {
+          "schema": 1,
+          "scope": "whole_board_unlocked_routing",
+          "seconds": 60.0,
+          "adapter": "both",
+          "profile": "completion-only",
+          "guidance": "placement-clearance-v1",
+          "layers": "source_all",
+          "scoring_preference": null
+        }
+      },
+      "central_readback": {
+        "current": true,
+        "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-placement-001/candidate/fixture.kicad_pcb",
+        "candidate_sha256": "1deca0672a64922946c9433929de1dbe45adcb890ef1d902d742d4bcf14e024f",
+        "applied": false,
+        "authentication": "none; mutable local evidence consistency only",
+        "warning": "Fresh native validation is required before application; human PCB review and electrical/physical validation remain required.",
+        "input_policy": "placement-clearance-v1"
+      },
+      "outer_execution": {
+        "argv": [
+          "python3",
+          "-B",
+          "-m",
+          "autorouter",
+          "route",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/evidence/placement-area-native-001/allowed_placement/candidate/fixture.kicad_pcb",
+          "--settings",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-native-input-001/placement.json",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-placement-001",
+          "--seconds",
+          "60"
+        ],
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local",
+        "git_head": "a24807430a4e4a4d57daa28e2f62db4742ad0276",
+        "started_utc": "2026-10-12T02:40:21.561982+00:00",
+        "exit_code": 0,
+        "wall_seconds": 7.927324999996927,
+        "waited_child_cpu_seconds": 5.967318000000001,
+        "cleanup_signals": [],
+        "log_sha256": "e795604d1cdd969e90b10f8b2ac38a0daa37b634ef05c2403a2a6a37a71c136d",
+        "log_bytes": 435,
+        "wrapper_sha256": "ff79e809fa141a4fe5eea963f8215eb494c1f47f46ca33d5da22078b3df98d3f",
+        "scope": "Prospectively frozen saved-preferences native qualification; not a comparative routing gain."
+      }
+    },
+    "preferences-cancellation-int-001": {
+      "raw_receipt_sha256": "b3983034f3918ad30ecbe3afc907bd48b378cbed8328536515056e712ea149df",
+      "status": "passed",
+      "checks": {
+        "cli_rejected": true,
+        "engine_pid_bound": true,
+        "engine_cancelled_by_requested_signal": true,
+        "runner_cleanup_complete": true,
+        "engine_group_absent": true,
+        "source_unchanged": true,
+        "tools_and_code_unchanged": true
+      },
+      "wall_seconds": 4.917158083000686,
+      "outer_execution": {
+        "argv": [
+          "python3",
+          "-B",
+          "scripts/native_cancellation.py",
+          "--output",
+          ".runs/preferences-cancellation-int-001",
+          "--signal",
+          "SIGINT"
+        ],
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local",
+        "git_head": "a24807430a4e4a4d57daa28e2f62db4742ad0276",
+        "started_utc": "2026-10-12T02:40:42.227401+00:00",
+        "exit_code": 0,
+        "wall_seconds": 5.012413124990417,
+        "waited_child_cpu_seconds": 4.16272,
+        "cleanup_signals": [],
+        "log_sha256": "a5988f1243f9a24ae622b4578c5232f40db32e38189b39d7c3050b09d397aeb6",
+        "log_bytes": 149,
+        "wrapper_sha256": "fad22cc251b59dbca89bcb14ad1712bc84fb7093b83205a789f81ce59d5ce043",
+        "scope": "Real engine-stage saved-preferences cancellation control; outer waited-child CPU includes the control and native workers."
+      }
+    },
+    "preferences-cancellation-term-001": {
+      "raw_receipt_sha256": "7f1d7a918d8c658ac4c0a62ec5c27917007052f7a9e3c26d575aca00dd722309",
+      "status": "passed",
+      "checks": {
+        "cli_rejected": true,
+        "engine_pid_bound": true,
+        "engine_cancelled_by_requested_signal": true,
+        "runner_cleanup_complete": true,
+        "engine_group_absent": true,
+        "source_unchanged": true,
+        "tools_and_code_unchanged": true
+      },
+      "wall_seconds": 5.26332233301946,
+      "outer_execution": {
+        "argv": [
+          "python3",
+          "-B",
+          "scripts/native_cancellation.py",
+          "--output",
+          ".runs/preferences-cancellation-term-001",
+          "--signal",
+          "SIGTERM"
+        ],
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local",
+        "git_head": "a24807430a4e4a4d57daa28e2f62db4742ad0276",
+        "started_utc": "2026-10-12T02:41:08.992849+00:00",
+        "exit_code": 0,
+        "wall_seconds": 5.340060041984543,
+        "waited_child_cpu_seconds": 4.280595,
+        "cleanup_signals": [],
+        "log_sha256": "07be4027ed0811fce43f52e62e0eef72df6281518af7ac7b19ab4fd3822bf765",
+        "log_bytes": 150,
+        "wrapper_sha256": "fad22cc251b59dbca89bcb14ad1712bc84fb7093b83205a789f81ce59d5ce043",
+        "scope": "Real engine-stage saved-preferences cancellation control; outer waited-child CPU includes the control and native workers."
+      }
+    }
+  }
+}

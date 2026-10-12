@@ -1,6 +1,6 @@
 # Saved routing preferences
 
-Saved preferences capture routing choices without editing KiCad project settings or the source board. They preserve the current board-support and acceptance requirements. Native qualification of this new entry point is pending.
+Saved preferences capture routing choices without editing KiCad project settings or the source board. They preserve the current board-support and acceptance requirements. The initial native whole-board and placement cases pass. The first partial-completion case was safely rejected because KiCad regenerated protected segment IDs during SES import; its correction is pending. Both engine-stage cancellation signals pass real controls.
 
 Create a preset once, edit its values, then preview and route using that file:
 
