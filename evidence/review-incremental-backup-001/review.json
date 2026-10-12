@@ -1,0 +1,31 @@
+{
+  "final_author_manifest": {
+    "entries_verified": 6,
+    "path": ".runs/incremental-backup-draft-002/manifest.json",
+    "sha256": "b197f92f3da8e1e4f0927da8410f0755d73c4f037f043f89db7041c773b78f4a"
+  },
+  "findings_resolved": [
+    "R1 second-pass path/type/member guard",
+    "R2 scoped SIGTERM cancellation and canonical proof invalidation"
+  ],
+  "fixed_reproducer_only_harness_delta": "output directory changed to preserve original artifacts; all fixture and signal operations identical",
+  "focused_methods": {
+    "after_fix": 4,
+    "all_passed": true,
+    "before_fix": 4
+  },
+  "independent_reproduction_cases_per_version": 5,
+  "native_engine_gui_java_network_executed": false,
+  "original_author_manifest_sha256": "440b803f5b3482de997591df61a09f36c1962c8460a7d0cf6a76f9f119a32bc9",
+  "original_failing_reproduction": "reproduction-001.json",
+  "production_archive_or_restore_executed": false,
+  "reviewed_source_sha256": {
+    "scripts/backup.py": "5489148a49c577ee60bff6ea3b042b13f2ce1e674bf0bddb1d8047cb228383a6",
+    "tests/test_backup.py": "39fffc805691665b89433577a633ddc6929b5d0aba13f75c1a66db8ca03cd97a",
+    "tests/test_backup_incremental.py": "0f7b86c2fec8af1b499524e82b653bdbe89188aaa93d1473b82e42bab10b95f1"
+  },
+  "schema": 1,
+  "scope": "Independent source and small-file consistency review. Real chain restoration remains ROOT next; local mutable hashes are not authentication or atomic hostile-concurrency protection.",
+  "status": "review_complete_no_remaining_scoped_blocker",
+  "unchanged_falsifier_fixed_run": "fixed-001/reproduction-001.json"
+}

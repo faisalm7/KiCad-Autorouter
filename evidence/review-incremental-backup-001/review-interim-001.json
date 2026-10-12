@@ -1,0 +1,43 @@
+{
+  "author_manifest_entries_verified": 8,
+  "author_manifest_sha256": "440b803f5b3482de997591df61a09f36c1962c8460a7d0cf6a76f9f119a32bc9",
+  "findings": [
+    {
+      "id": "R1",
+      "location": "restore_archive second tar iteration",
+      "observed": "A valid archive replaced after audit caused ../unexpected-outside-restore to be written before KeyError. Unchanged archive restores correctly.",
+      "reproduction": "tar-swap case in reproduction-001.json",
+      "required_fix": "Check exact safe member path/type/size/duplicate whitelist in the extraction stream before opening a target; enforce complete membership and bounds in that pass.",
+      "risk": "write outside fresh restore tree"
+    },
+    {
+      "id": "R2",
+      "location": "publish_check",
+      "observed": "SIGTERM after positive exclusive_json exits -15 leaving verified=true. Positive succeeds; SIGINT invalidates.",
+      "reproduction": "actual self-SIGTERM in owned child, publication-SIGTERM",
+      "required_fix": "Scoped SIGTERM cancellation handling covering proof publication and correction, preserving/restoring previous signal handler and invalidated evidence.",
+      "risk": "cancelled process leaves successful canonical proof"
+    }
+  ],
+  "focused_existing_methods": {
+    "count": 4,
+    "coverage": [
+      "two-delta complete inventory/file-directory/ref restoration",
+      "unchanged delta and old schema1 full restoration",
+      "omitted deletion/payload/directory accounting",
+      "rehashed malicious delta payload"
+    ],
+    "passed": true,
+    "seconds": 1.635
+  },
+  "schema": 1,
+  "scope_limits": [
+    "No production backup or restoration.",
+    "No native, engine, Java, GUI, network or unrelated configuration use.",
+    "Actual Git/archive tests only on tiny reviewer-owned fixtures.",
+    "Local hashes establish consistency, not authentication or atomic concurrent-writer protection."
+  ],
+  "source_freeze_files_verified": 3,
+  "source_sha256": "bbf34dbcdc43d8817abdb260a87a142bc376f4c475fb8272383700b2311e8aad",
+  "status": "blocked_pending_two_narrow_fixes"
+}

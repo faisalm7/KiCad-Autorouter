@@ -1,0 +1,45 @@
+{
+  "script_sha256": "5489148a49c577ee60bff6ea3b042b13f2ce1e674bf0bddb1d8047cb228383a6",
+  "tar": [
+    {
+      "mutation": false,
+      "error": null,
+      "expected_file_preserved": true,
+      "outside_restore_file_created": false,
+      "restored_payload": "original"
+    },
+    {
+      "mutation": true,
+      "error": "BackupError: Archive/inventory path is outside the exact backup scopes",
+      "expected_file_preserved": true,
+      "outside_restore_file_created": false,
+      "restored_payload": null
+    }
+  ],
+  "publication": [
+    {
+      "signal": "none",
+      "exit_code": 0,
+      "canonical_exists": true,
+      "canonical": {
+        "verified": true
+      },
+      "invalidated_count": 0
+    },
+    {
+      "signal": "SIGINT",
+      "exit_code": -2,
+      "canonical_exists": false,
+      "canonical": null,
+      "invalidated_count": 1
+    },
+    {
+      "signal": "SIGTERM",
+      "exit_code": -2,
+      "canonical_exists": false,
+      "canonical": null,
+      "invalidated_count": 1
+    }
+  ],
+  "production_artifacts_touched": false
+}

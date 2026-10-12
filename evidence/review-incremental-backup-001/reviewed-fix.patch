@@ -1,0 +1,142 @@
+--- backup-before.py
++++ scripts/backup.py
+@@ -7,6 +7,7 @@
+ import os
+ from pathlib import Path, PurePosixPath
+ import re
++import signal
+ import stat
+ import subprocess
+ import sys
+@@ -265,6 +266,41 @@
+             "deleted_directories": sorted(old_dirs - new_dirs)}
+ 
+ 
++def archive_member(item, files, dirs, seen):
++    """Check each observed header before any payload or destination is opened."""
++    name = item.name.rstrip("/") if item.isdir() else item.name
++    validate_name(name)
++    if (name in seen or item.type not in (tarfile.REGTYPE, tarfile.AREGTYPE, tarfile.DIRTYPE)
++            or item.sparse is not None):
++        raise BackupError("Duplicate, linked, or special archive member")
++    if item.isdir():
++        if name not in dirs or item.size:
++            raise BackupError("Unexpected archive directory")
++    elif name not in files or item.size != files[name]["size"]:
++        raise BackupError("Unexpected archive file or size")
++    seen.add(name)
++    return name
++
++
++def archive_payload(source, item, row, output=None):
++    """Read no more than the declared payload plus one overflow sentinel byte."""
++    remaining = row["size"]
++    hashed = hashlib.sha256()
++    with source.extractfile(item) as payload:
++        while remaining:
++            chunk = payload.read(min(1024 * 1024, remaining))
++            if not chunk or len(chunk) > remaining:
++                raise BackupError("Archive payload size mismatch")
++            remaining -= len(chunk)
++            hashed.update(chunk)
++            if output is not None:
++                output.write(chunk)
++        if payload.read(1):
++            raise BackupError("Archive payload exceeds inventory size")
++    if hashed.hexdigest() != row["sha256"]:
++        raise BackupError("Restored non-Git file hash mismatch")
++
++
+ def audit_archive(archive, manifest):
+     """Exact safe member and payload validation without restoring any files."""
+     files, dirs = check_manifest(manifest)
+@@ -273,50 +309,36 @@
+     seen = set()
+     with tarfile.open(archive, "r|gz") as source:
+         for item in source:
+-            name = item.name.rstrip("/") if item.isdir() else item.name
+-            validate_name(name)
+-            if name in seen or not (item.isdir() or item.isreg()):
+-                raise BackupError("Duplicate, linked, or special archive member")
+-            seen.add(name)
+-            if item.isdir():
+-                if name not in dirs or item.size:
+-                    raise BackupError("Unexpected archive directory")
+-            elif name not in files or item.size != files[name]["size"]:
+-                raise BackupError("Unexpected archive file or size")
+-            else:
+-                h = hashlib.sha256()
+-                with source.extractfile(item) as payload:
+-                    for chunk in iter(lambda: payload.read(1024 * 1024), b""):
+-                        h.update(chunk)
+-                if h.hexdigest() != files[name]["sha256"]:
+-                    raise BackupError("Restored non-Git file hash mismatch")
++            name = archive_member(item, files, dirs, seen)
++            if item.isreg():
++                archive_payload(source, item, files[name])
+     if seen != set(files) | dirs:
+         raise BackupError("Archive does not exactly match inventory")
+     return files, dirs
+ 
+ 
+ def restore_archive(archive, destination, manifest):
+-    """Whitelist archive members before writing; never use extractall."""
++    """Whitelist both archive passes; never trust the earlier audit or extractall."""
+     if destination.exists() or destination.is_symlink():
+         raise BackupError("Refusing restore destination collision")
+     files, dirs = audit_archive(archive, manifest)
++    if archive.stat().st_size > LIMIT:
++        raise BackupError("Archive exceeds compressed-size limit")
+     destination.mkdir(mode=0o700)
+     for name in sorted(dirs, key=lambda x: (len(PurePosixPath(x).parts), x)):
+         (destination / name).mkdir(mode=0o700)
++    seen = set()
+     with tarfile.open(archive, "r|gz") as source:
+         for item in source:
++            name = archive_member(item, files, dirs, seen)
+             if not item.isreg():
+                 continue
+-            target = destination / item.name
+-            with source.extractfile(item) as payload, target.open("xb") as output:
++            target = destination / name
++            with target.open("xb") as output:
+                 os.chmod(target, 0o600)
+-                while True:
+-                    chunk = payload.read(1024 * 1024)
+-                    if not chunk:
+-                        break
+-                    output.write(chunk)
+-            if digest(target) != files[item.name]["sha256"]:
+-                raise BackupError("Restored non-Git file hash mismatch")
++                archive_payload(source, item, files[name], output)
++    if seen != set(files) | dirs:
++        raise BackupError("Archive does not exactly match inventory")
+ 
+ 
+ def create(root=ROOT, parent=None):
+@@ -505,9 +527,15 @@
+ 
+ 
+ def publish_check(path, result, stable):
+-    """Never leave a positive proof after a detected final write/cancellation failure."""
++    """Invalidate a detected failed proof; catch SIGTERM only during publication."""
+     expected = json.loads(json.dumps(result, allow_nan=False))
++    previous_term = signal.getsignal(signal.SIGTERM)
++
++    def cancel(signum, frame):
++        raise KeyboardInterrupt("Backup proof publication cancelled by SIGTERM")
++
+     try:
++        signal.signal(signal.SIGTERM, cancel)
+         stable()
+         exclusive_json(path, result)
+         stable()
+@@ -517,6 +545,8 @@
+         if path.exists() or path.is_symlink():
+             path.rename(path.parent / ("invalidated-" + uuid.uuid4().hex + "-" + path.name))
+         raise
++    finally:
++        signal.signal(signal.SIGTERM, previous_term)
+ 
+ 
+ def checkpoint(receipt_path, root=ROOT):

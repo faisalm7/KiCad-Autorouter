@@ -1,0 +1,47 @@
+{
+  "script_sha256": "bbf34dbcdc43d8817abdb260a87a142bc376f4c475fb8272383700b2311e8aad",
+  "tar": [
+    {
+      "mutation": false,
+      "error": null,
+      "expected_file_preserved": true,
+      "outside_restore_file_created": false,
+      "restored_payload": "original"
+    },
+    {
+      "mutation": true,
+      "error": "KeyError: '../unexpected-outside-restore'",
+      "expected_file_preserved": true,
+      "outside_restore_file_created": true,
+      "restored_payload": null
+    }
+  ],
+  "publication": [
+    {
+      "signal": "none",
+      "exit_code": 0,
+      "canonical_exists": true,
+      "canonical": {
+        "verified": true
+      },
+      "invalidated_count": 0
+    },
+    {
+      "signal": "SIGINT",
+      "exit_code": -2,
+      "canonical_exists": false,
+      "canonical": null,
+      "invalidated_count": 1
+    },
+    {
+      "signal": "SIGTERM",
+      "exit_code": -15,
+      "canonical_exists": true,
+      "canonical": {
+        "verified": true
+      },
+      "invalidated_count": 0
+    }
+  ],
+  "production_artifacts_touched": false
+}

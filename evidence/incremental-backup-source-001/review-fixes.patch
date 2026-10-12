@@ -1,0 +1,248 @@
+--- before/scripts/backup.py
++++ scripts/backup.py
+@@ -7,6 +7,7 @@
+ import os
+ from pathlib import Path, PurePosixPath
+ import re
++import signal
+ import stat
+ import subprocess
+ import sys
+@@ -265,6 +266,41 @@
+             "deleted_directories": sorted(old_dirs - new_dirs)}
+ 
+ 
++def archive_member(item, files, dirs, seen):
++    """Check each observed header before any payload or destination is opened."""
++    name = item.name.rstrip("/") if item.isdir() else item.name
++    validate_name(name)
++    if (name in seen or item.type not in (tarfile.REGTYPE, tarfile.AREGTYPE, tarfile.DIRTYPE)
++            or item.sparse is not None):
++        raise BackupError("Duplicate, linked, or special archive member")
++    if item.isdir():
++        if name not in dirs or item.size:
++            raise BackupError("Unexpected archive directory")
++    elif name not in files or item.size != files[name]["size"]:
++        raise BackupError("Unexpected archive file or size")
++    seen.add(name)
++    return name
++
++
++def archive_payload(source, item, row, output=None):
++    """Read no more than the declared payload plus one overflow sentinel byte."""
++    remaining = row["size"]
++    hashed = hashlib.sha256()
++    with source.extractfile(item) as payload:
++        while remaining:
++            chunk = payload.read(min(1024 * 1024, remaining))
++            if not chunk or len(chunk) > remaining:
++                raise BackupError("Archive payload size mismatch")
++            remaining -= len(chunk)
++            hashed.update(chunk)
++            if output is not None:
++                output.write(chunk)
++        if payload.read(1):
++            raise BackupError("Archive payload exceeds inventory size")
++    if hashed.hexdigest() != row["sha256"]:
++        raise BackupError("Restored non-Git file hash mismatch")
++
++
+ def audit_archive(archive, manifest):
+     """Exact safe member and payload validation without restoring any files."""
+     files, dirs = check_manifest(manifest)
+@@ -273,50 +309,36 @@
+     seen = set()
+     with tarfile.open(archive, "r|gz") as source:
+         for item in source:
+-            name = item.name.rstrip("/") if item.isdir() else item.name
+-            validate_name(name)
+-            if name in seen or not (item.isdir() or item.isreg()):
+-                raise BackupError("Duplicate, linked, or special archive member")
+-            seen.add(name)
+-            if item.isdir():
+-                if name not in dirs or item.size:
+-                    raise BackupError("Unexpected archive directory")
+-            elif name not in files or item.size != files[name]["size"]:
+-                raise BackupError("Unexpected archive file or size")
+-            else:
+-                h = hashlib.sha256()
+-                with source.extractfile(item) as payload:
+-                    for chunk in iter(lambda: payload.read(1024 * 1024), b""):
+-                        h.update(chunk)
+-                if h.hexdigest() != files[name]["sha256"]:
+-                    raise BackupError("Restored non-Git file hash mismatch")
++            name = archive_member(item, files, dirs, seen)
++            if item.isreg():
++                archive_payload(source, item, files[name])
+     if seen != set(files) | dirs:
+         raise BackupError("Archive does not exactly match inventory")
+     return files, dirs
+ 
+ 
+ def restore_archive(archive, destination, manifest):
+-    """Whitelist archive members before writing; never use extractall."""
++    """Whitelist both archive passes; never trust the earlier audit or extractall."""
+     if destination.exists() or destination.is_symlink():
+         raise BackupError("Refusing restore destination collision")
+     files, dirs = audit_archive(archive, manifest)
++    if archive.stat().st_size > LIMIT:
++        raise BackupError("Archive exceeds compressed-size limit")
+     destination.mkdir(mode=0o700)
+     for name in sorted(dirs, key=lambda x: (len(PurePosixPath(x).parts), x)):
+         (destination / name).mkdir(mode=0o700)
++    seen = set()
+     with tarfile.open(archive, "r|gz") as source:
+         for item in source:
++            name = archive_member(item, files, dirs, seen)
+             if not item.isreg():
+                 continue
+-            target = destination / item.name
+-            with source.extractfile(item) as payload, target.open("xb") as output:
++            target = destination / name
++            with target.open("xb") as output:
+                 os.chmod(target, 0o600)
+-                while True:
+-                    chunk = payload.read(1024 * 1024)
+-                    if not chunk:
+-                        break
+-                    output.write(chunk)
+-            if digest(target) != files[item.name]["sha256"]:
+-                raise BackupError("Restored non-Git file hash mismatch")
++                archive_payload(source, item, files[name], output)
++    if seen != set(files) | dirs:
++        raise BackupError("Archive does not exactly match inventory")
+ 
+ 
+ def create(root=ROOT, parent=None):
+@@ -505,9 +527,15 @@
+ 
+ 
+ def publish_check(path, result, stable):
+-    """Never leave a positive proof after a detected final write/cancellation failure."""
++    """Invalidate a detected failed proof; catch SIGTERM only during publication."""
+     expected = json.loads(json.dumps(result, allow_nan=False))
++    previous_term = signal.getsignal(signal.SIGTERM)
++
++    def cancel(signum, frame):
++        raise KeyboardInterrupt("Backup proof publication cancelled by SIGTERM")
++
+     try:
++        signal.signal(signal.SIGTERM, cancel)
+         stable()
+         exclusive_json(path, result)
+         stable()
+@@ -517,6 +545,8 @@
+         if path.exists() or path.is_symlink():
+             path.rename(path.parent / ("invalidated-" + uuid.uuid4().hex + "-" + path.name))
+         raise
++    finally:
++        signal.signal(signal.SIGTERM, previous_term)
+ 
+ 
+ def checkpoint(receipt_path, root=ROOT):
+--- before/tests/test_backup_incremental.py
++++ tests/test_backup_incremental.py
+@@ -1,8 +1,12 @@
+ """Small actual Git/archive chains; no project-wide backups or native execution."""
+ import copy
+ import importlib.util
++import io
+ import json
+ from pathlib import Path
++import subprocess
++import sys
++import tarfile
+ import unittest
+ from unittest.mock import patch
+ from scripts import backup
+@@ -144,4 +148,90 @@
+                 self.assertFalse(out.exists());self.assertEqual(len(list(self.root.glob('invalidated-*-'+out.name))),1)
+ 
+ 
++    def test_second_archive_pass_rechecks_whitelist_before_opening_targets(self):
++        for kind in ('escape', 'unknown', 'directory', 'symlink', 'size', 'duplicate', 'missing'):
++            with self.subTest(kind=kind):
++                root=self.root/kind;root.mkdir();(root/'.data').mkdir()
++                (root/'.data/payload').write_bytes(b'original')
++                manifest=backup.inventory(root);archive=root/'data.tgz'
++                backup.make_archive(root,archive,manifest);real=backup.audit_archive
++                def audit(*args,**kwargs):
++                    result=real(*args,**kwargs)
++                    with tarfile.open(archive,'w:gz') as writer:
++                        directory=tarfile.TarInfo('.data');directory.type=tarfile.DIRTYPE
++                        writer.addfile(directory)
++                        if kind=='directory':
++                            extra=tarfile.TarInfo('.data/unknown');extra.type=tarfile.DIRTYPE;writer.addfile(extra)
++                        if kind!='missing':
++                            name={'escape':'../outside','unknown':'.data/unlisted'}.get(kind,'.data/payload')
++                            item=tarfile.TarInfo(name)
++                            if kind=='symlink':
++                                item.type=tarfile.SYMTYPE;item.linkname='../outside';writer.addfile(item)
++                            else:
++                                raw=b'originalx' if kind=='size' else b'original'
++                                item.size=len(raw);writer.addfile(item,io.BytesIO(raw))
++                                if kind=='duplicate':writer.addfile(item,io.BytesIO(raw))
++                    return result
++                with patch.object(backup,'audit_archive',side_effect=audit),self.assertRaises(backup.BackupError):
++                    backup.restore_archive(archive,root/'restore',manifest)
++                self.assertFalse((root/'outside').exists())
++                self.assertFalse((root/'restore/.data/unlisted').exists())
++                self.assertFalse((root/'restore/.data/unknown').exists())
++                if kind!='duplicate':self.assertFalse((root/'restore/.data/payload').exists())
++                self.assertEqual((root/'.data/payload').read_bytes(),b'original')
++
++    def test_archive_payload_read_is_bounded_and_rejects_truncation_or_overflow(self):
++        class Source:
++            def __init__(self,raw):self.raw=raw;self.read_sizes=[]
++            def extractfile(self,item):
++                outer=self
++                class Payload(io.BytesIO):
++                    def read(self,size=-1):
++                        outer.read_sizes.append(size);return super().read(size)
++                return Payload(self.raw)
++        row={'size':8,'sha256':backup.hashlib.sha256(b'original').hexdigest()}
++        for raw in (b'original',b'orig',b'original-excess'):
++            source=Source(raw);out=io.BytesIO()
++            if raw==b'original':backup.archive_payload(source,None,row,out)
++            else:
++                with self.assertRaises(backup.BackupError):backup.archive_payload(source,None,row,out)
++            self.assertLessEqual(len(out.getvalue()),8)
++            self.assertTrue(all(0<size<=8 for size in source.read_sizes))
++            if len(raw)>=8:self.assertEqual(source.read_sizes,[8,1])
++
++    def test_actual_child_signals_after_proof_write_invalidate_and_restore_handler(self):
++        script = r'''from pathlib import Path
++import json,os,signal,sys
++sys.path.insert(0,sys.argv[1])
++from scripts import backup
++proof=Path(sys.argv[2]);which=sys.argv[3];original=backup.exclusive_json
++def prior_term(signum,frame):pass
++signal.signal(signal.SIGTERM,prior_term)
++previous_int=signal.getsignal(signal.SIGINT)
++def write(path,value):
++    original(path,value)
++    if which!='none':os.kill(os.getpid(),getattr(signal,which))
++backup.exclusive_json=write
++cancelled=False
++try:backup.publish_check(proof,{'verified':True},lambda:None)
++except KeyboardInterrupt:cancelled=True
++print(json.dumps({'cancelled':cancelled,'term_restored':signal.getsignal(signal.SIGTERM) is prior_term,
++                  'int_restored':signal.getsignal(signal.SIGINT) is previous_int}))
++sys.exit(3 if cancelled else 0)
++'''
++        for which in ('none','SIGINT','SIGTERM'):
++            with self.subTest(which=which):
++                out=self.root/('signal-'+which+'.json')
++                result=subprocess.run([sys.executable,'-B','-c',script,str(backup.ROOT),str(out),which],
++                                      capture_output=True,text=True,timeout=10)
++                self.assertEqual(result.returncode,0 if which=='none' else 3,result.stderr)
++                state=json.loads(result.stdout)
++                self.assertTrue(state['term_restored']);self.assertTrue(state['int_restored'])
++                self.assertEqual(state['cancelled'],which!='none')
++                invalidated=list(self.root.glob('invalidated-*-'+out.name))
++                self.assertEqual(out.exists(),which=='none')
++                self.assertEqual(len(invalidated),0 if which=='none' else 1)
++                if invalidated:self.assertEqual(json.loads(invalidated[0].read_text()),{'verified':True})
++
++
+ if __name__=='__main__':unittest.main()

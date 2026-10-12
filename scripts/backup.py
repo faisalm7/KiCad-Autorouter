@@ -7,6 +7,7 @@ import json
 import os
 from pathlib import Path, PurePosixPath
 import re
+import signal
 import stat
 import subprocess
 import sys
@@ -19,6 +20,9 @@ ROOT = Path(__file__).resolve().parents[1]
 SCOPES = (".runs", ".data", ".local-reference")
 LIMIT = 2 * 1024 ** 3
 MAX_FILES = 100000
+MAX_CHAIN = 16
+MAX_RECEIPT_BYTES = 32 * 1024 ** 2
+MAX_CHAIN_RECEIPT_BYTES = 128 * 1024 ** 2
 LIMITATION = "On-Mac only; a second folder on this disk provides no disk-failure protection."
 SECRET_NAMES = {".env", ".ssh", ".aws", ".gnupg", "credentials", "credentials.json", "secrets", "secrets.json", "id_rsa", "id_ed25519"}
 SECRET_SUFFIXES = {".pem", ".key", ".p12", ".pfx", ".keychain", ".keychain-db"}
@@ -79,6 +83,28 @@ def exclusive_json(path, value):
         stream.write("\n")
 
 
+def read_json(path):
+    """Bounded regular-file, duplicate-key-free receipt read."""
+    fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+    with os.fdopen(fd, "rb") as stream:
+        before = os.fstat(stream.fileno())
+        if not stat.S_ISREG(before.st_mode) or before.st_nlink != 1 or before.st_size > MAX_RECEIPT_BYTES:
+            raise BackupError("Receipt exceeds regular-file/size bounds")
+        raw = stream.read(MAX_RECEIPT_BYTES + 1)
+        after = os.fstat(stream.fileno())
+    if len(raw) != before.st_size or (before.st_ino, before.st_size, before.st_mtime_ns) != (after.st_ino, after.st_size, after.st_mtime_ns):
+        raise BackupError("Receipt changed during bounded read")
+    def pairs(items):
+        value = {}
+        for key, entry in items:
+            if key in value: raise BackupError("Duplicate receipt key")
+            value[key] = entry
+        return value
+    value = json.loads(raw, object_pairs_hook=pairs,
+                       parse_constant=lambda value: (_ for _ in ()).throw(BackupError("Nonfinite receipt value")))
+    return value, hashlib.sha256(raw).hexdigest(), len(raw)
+
+
 def backups_directory(root):
     path = root / ".local-backups"
     if path.is_symlink():
@@ -119,6 +145,8 @@ def inventory(root):
         for current, dirs, names in os.walk(base, followlinks=False):
             current = Path(current)
             directories.append(current.relative_to(root).as_posix())
+            if len(directories) > MAX_FILES:
+                raise BackupError("Non-Git snapshot exceeds directory-count ceiling")
             for name in sorted(dirs + names):
                 path = current / name
                 relative = path.relative_to(root).as_posix()
@@ -203,6 +231,13 @@ def check_manifest(manifest):
         if name in dirs:
             raise BackupError("Duplicate directory in inventory")
         dirs.add(name)
+    if len(dirs) > MAX_FILES:
+        raise BackupError("Inventory directory-count bound")
+    for name in dirs:
+        if name not in SCOPES and str(PurePosixPath(name).parent) not in dirs:
+            raise BackupError("Inventory omits a parent directory")
+    if "absent_scopes" in manifest and manifest["absent_scopes"] != [s for s in SCOPES if s not in dirs]:
+        raise BackupError("Absent scopes do not match inventory directories")
     total = 0
     for row in manifest["files"]:
         name = row["path"]
@@ -220,48 +255,93 @@ def check_manifest(manifest):
     return files, dirs
 
 
-def restore_archive(archive, destination, manifest):
-    """Whitelist archive members before writing; never use extractall."""
-    if destination.exists() or destination.is_symlink():
-        raise BackupError("Refusing restore destination collision")
+def delta_inventory(previous, current):
+    old, old_dirs = check_manifest(previous)
+    new, new_dirs = check_manifest(current)
+    changed = [row for name, row in sorted(new.items()) if old.get(name) != row]
+    # All target directory names keep the existing standalone extraction guard.
+    # Directory entries carry no payload; only changed/new files are archived.
+    delta = {**current, "files": changed, "total_file_bytes": sum(row["size"] for row in changed)}
+    return {"inventory": delta, "deleted_files": sorted(set(old) - set(new)),
+            "deleted_directories": sorted(old_dirs - new_dirs)}
+
+
+def archive_member(item, files, dirs, seen):
+    """Check each observed header before any payload or destination is opened."""
+    name = item.name.rstrip("/") if item.isdir() else item.name
+    validate_name(name)
+    if (name in seen or item.type not in (tarfile.REGTYPE, tarfile.AREGTYPE, tarfile.DIRTYPE)
+            or item.sparse is not None):
+        raise BackupError("Duplicate, linked, or special archive member")
+    if item.isdir():
+        if name not in dirs or item.size:
+            raise BackupError("Unexpected archive directory")
+    elif name not in files or item.size != files[name]["size"]:
+        raise BackupError("Unexpected archive file or size")
+    seen.add(name)
+    return name
+
+
+def archive_payload(source, item, row, output=None):
+    """Read no more than the declared payload plus one overflow sentinel byte."""
+    remaining = row["size"]
+    hashed = hashlib.sha256()
+    with source.extractfile(item) as payload:
+        while remaining:
+            chunk = payload.read(min(1024 * 1024, remaining))
+            if not chunk or len(chunk) > remaining:
+                raise BackupError("Archive payload size mismatch")
+            remaining -= len(chunk)
+            hashed.update(chunk)
+            if output is not None:
+                output.write(chunk)
+        if payload.read(1):
+            raise BackupError("Archive payload exceeds inventory size")
+    if hashed.hexdigest() != row["sha256"]:
+        raise BackupError("Restored non-Git file hash mismatch")
+
+
+def audit_archive(archive, manifest):
+    """Exact safe member and payload validation without restoring any files."""
     files, dirs = check_manifest(manifest)
     if archive.stat().st_size > LIMIT:
         raise BackupError("Archive exceeds compressed-size limit")
     seen = set()
     with tarfile.open(archive, "r|gz") as source:
         for item in source:
-            name = item.name.rstrip("/") if item.isdir() else item.name
-            validate_name(name)
-            if name in seen or not (item.isdir() or item.isreg()):
-                raise BackupError("Duplicate, linked, or special archive member")
-            seen.add(name)
-            if item.isdir():
-                if name not in dirs or item.size:
-                    raise BackupError("Unexpected archive directory")
-            elif name not in files or item.size != files[name]["size"]:
-                raise BackupError("Unexpected archive file or size")
+            name = archive_member(item, files, dirs, seen)
+            if item.isreg():
+                archive_payload(source, item, files[name])
     if seen != set(files) | dirs:
         raise BackupError("Archive does not exactly match inventory")
+    return files, dirs
+
+
+def restore_archive(archive, destination, manifest):
+    """Whitelist both archive passes; never trust the earlier audit or extractall."""
+    if destination.exists() or destination.is_symlink():
+        raise BackupError("Refusing restore destination collision")
+    files, dirs = audit_archive(archive, manifest)
+    if archive.stat().st_size > LIMIT:
+        raise BackupError("Archive exceeds compressed-size limit")
     destination.mkdir(mode=0o700)
     for name in sorted(dirs, key=lambda x: (len(PurePosixPath(x).parts), x)):
         (destination / name).mkdir(mode=0o700)
+    seen = set()
     with tarfile.open(archive, "r|gz") as source:
         for item in source:
+            name = archive_member(item, files, dirs, seen)
             if not item.isreg():
                 continue
-            target = destination / item.name
-            with source.extractfile(item) as payload, target.open("xb") as output:
+            target = destination / name
+            with target.open("xb") as output:
                 os.chmod(target, 0o600)
-                while True:
-                    chunk = payload.read(1024 * 1024)
-                    if not chunk:
-                        break
-                    output.write(chunk)
-            if digest(target) != files[item.name]["sha256"]:
-                raise BackupError("Restored non-Git file hash mismatch")
+                archive_payload(source, item, files[name], output)
+    if seen != set(files) | dirs:
+        raise BackupError("Archive does not exactly match inventory")
 
 
-def create(root=ROOT):
+def create(root=ROOT, parent=None):
     root = Path(root).resolve()
     if Path(git(root, "rev-parse", "--show-toplevel")).resolve() != root:
         raise BackupError("Run only in the selected Git checkout")
@@ -269,7 +349,16 @@ def create(root=ROOT):
         raise BackupError("Commit/audit safe source first; backup refuses uncommitted or untracked nonignored files")
     head = git(root, "rev-parse", "HEAD")
     refs = git(root, "show-ref")
+    chain = load_chain(parent, root) if parent is not None else None
+    anchor = None
+    if chain:
+        if chain[-1]["receipt"]["source_root"] != str(root):
+            raise BackupError("Incremental parent belongs to a different original source root")
+        if len(chain) >= MAX_CHAIN:
+            raise BackupError("Incremental chain ceiling reached; create a new full backup")
+        anchor = chain[-1]["receipt"].get("base_verification") or find_base_verification(chain[0], root)
     manifest = inventory(root)
+    delta = delta_inventory(chain[-1]["receipt"]["inventory"], manifest) if chain else None
     base = backups_directory(root)
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     backup = base / ("checkpoint-" + stamp + "-" + uuid.uuid4().hex)
@@ -281,7 +370,7 @@ def create(root=ROOT):
         raise BackupError("Git bundle exceeds 2 GiB ceiling; retained for review")
     git(root, "bundle", "verify", str(bundle))
     archive = backup / "non-git.tar.gz"
-    make_archive(root, archive, manifest)
+    make_archive(root, archive, delta["inventory"] if delta else manifest)
     if manifest != inventory(root) or head != git(root, "rev-parse", "HEAD") or refs != git(root, "show-ref") or git(root, "status", "--porcelain=v1", "--untracked-files=normal"):
         raise BackupError("Source changed during snapshot; partial backup retained but not certified")
     receipt = {"schema": 1, "created_utc": stamp, "source_root": str(root), "git_head": head,
@@ -289,24 +378,39 @@ def create(root=ROOT):
                "excluded": [".tools", "credentials", "other ignored directories"],
                "bundle": {"name": bundle.name, "sha256": digest(bundle), "size": bundle.stat().st_size},
                "archive": {"name": archive.name, "sha256": digest(archive), "size": archive.stat().st_size}}
+    if chain:
+        receipt.update(schema=2, kind="incremental", delta=delta, base_verification=anchor,
+                       parent={"name": chain[-1]["path"].relative_to(base).as_posix(), "sha256": chain[-1]["sha256"]})
     path = backup / "receipt.json"
     exclusive_json(path, receipt)
     return path
 
 
-def verify(receipt_path, root=ROOT):
-    root = Path(root).resolve()
-    base = backups_directory(root)
+def receipt_location(receipt_path, base):
     original = Path(receipt_path).absolute()
-    if original.is_symlink() or original.parent.is_symlink() or original.resolve().parent.parent != base.resolve() or original.name != "receipt.json":
+    if (".." in original.parts or original.is_symlink() or original.parent.is_symlink()
+            or original.parent.parent != base or original.name != "receipt.json"):
         raise BackupError("Receipt must be a regular receipt.json directly inside a local backup")
-    receipt = json.loads(original.read_text())
-    if receipt.get("schema") != 1 or not re.fullmatch(r"[0-9a-f]{40,64}", receipt.get("git_head", "")):
+    return original
+
+
+def local_reference(base, entry, filename):
+    name = entry["name"]
+    parts = PurePosixPath(name).parts if isinstance(name, str) else ()
+    if (len(parts) != 2 or PurePosixPath(name).is_absolute() or parts[-1] != filename or str(PurePosixPath(name)) != name
+            or parts[0] in (".", "..") or "\\" in name or not re.fullmatch(r"[0-9a-f]{64}", entry["sha256"])):
+        raise BackupError("Unsafe local backup reference")
+    return receipt_location(base / name, base) if filename == "receipt.json" else base / name
+
+
+def check_artifacts(original, receipt):
+    if receipt.get("schema") not in (1, 2) or not re.fullmatch(r"[0-9a-f]{40,64}", receipt.get("git_head", "")):
         raise BackupError("Unsupported or malformed backup receipt")
+    check_manifest(receipt["inventory"])
     artifacts = {}
     for kind, name in (("bundle", "repository.bundle"), ("archive", "non-git.tar.gz")):
         path, entry = original.parent / name, receipt[kind]
-        if entry["name"] != name or path.is_symlink() or not path.is_file() or path.stat().st_size != entry["size"] or path.stat().st_size > LIMIT or digest(path) != entry["sha256"]:
+        if entry["name"] != name or path.is_symlink() or not path.is_file() or path.stat().st_nlink != 1 or path.stat().st_size != entry["size"] or path.stat().st_size > LIMIT or digest(path) != entry["sha256"]:
             raise BackupError("Backup artifact size/hash mismatch")
         artifacts[kind] = path
     # A full bundle must not rely on prerequisites in the current repository.
@@ -321,6 +425,151 @@ def verify(receipt_path, root=ROOT):
                 break
             if line.startswith(b"-"):
                 raise BackupError("Incremental bundle cannot independently restore full history")
+    return artifacts
+
+
+def check_base_verification(entry, full, root):
+    base = backups_directory(root)
+    name = PurePosixPath(entry["name"]).name
+    if not re.fullmatch(r"verification-[0-9a-f]{32}\.json", name):
+        raise BackupError("Restore verification reference required")
+    path = local_reference(base, entry, name)
+    if path.parent != full["path"].parent or path.is_symlink() or path.parent.is_symlink():
+        raise BackupError("Verification must belong to the full base backup")
+    data, hashed, _ = read_json(path)
+    if (hashed != entry["sha256"] or data.get("verified") is not True
+            or data.get("receipt_sha256") != full["sha256"]
+            or data.get("restored_git_head") != full["receipt"]["git_head"]
+            or data.get("all_refs_restored") is not True
+            or data.get("git_bundle_verified_in_empty_repository") is not True
+            or data.get("non_git_files_verified") != len(full["receipt"]["inventory"]["files"])
+            or data.get("cli_smoke", {}).get("exit") != 0):
+        raise BackupError("Base full backup lacks matching successful restoration evidence")
+
+
+def find_base_verification(full, root):
+    candidates = []
+    with os.scandir(full["path"].parent) as entries:
+        for count, item in enumerate(entries):
+            if count >= 256: raise BackupError("Backup verification directory entry bound")
+            if re.fullmatch(r"verification-[0-9a-f]{32}\.json", item.name): candidates.append(Path(item.path))
+    for path in sorted(candidates):
+        _, hashed, _ = read_json(path)
+        entry = {"name": path.relative_to(backups_directory(root)).as_posix(), "sha256": hashed}
+        check_base_verification(entry, full, root)
+        return entry
+    raise BackupError("Incremental requires an existing restore-verified full base")
+
+
+def load_chain(receipt_path, root=ROOT):
+    """Old full receipts remain roots; each new delta is independently recomputed."""
+    root = Path(root).resolve(); base = backups_directory(root)
+    path = receipt_location(receipt_path, base); reverse = []; seen = set(); expected = None; total = 0
+    while True:
+        if path in seen or len(reverse) >= MAX_CHAIN:
+            raise BackupError("Backup parent cycle or chain-length bound")
+        seen.add(path); receipt, hashed, size = read_json(path); total += size
+        if total > MAX_CHAIN_RECEIPT_BYTES: raise BackupError("Chain receipt-memory bound")
+        if expected is not None and hashed != expected: raise BackupError("Parent receipt hash mismatch")
+        artifacts = check_artifacts(path, receipt)
+        reverse.append({"path": path, "receipt": receipt, "sha256": hashed, "artifacts": artifacts})
+        if receipt["schema"] == 1:
+            if any(k in receipt for k in ("parent", "delta", "base_verification")): raise BackupError("Full receipt cannot hide incremental metadata")
+            break
+        if receipt.get("kind") != "incremental": raise BackupError("Unknown backup kind")
+        path = local_reference(base, receipt["parent"], "receipt.json"); expected = receipt["parent"]["sha256"]
+    chain = list(reversed(reverse))
+    for previous, current in zip(chain, chain[1:]):
+        data = current["receipt"]
+        if data["source_root"] != previous["receipt"]["source_root"] or data["delta"] != delta_inventory(previous["receipt"]["inventory"], data["inventory"]):
+            raise BackupError("Incremental inventory/deletion accounting mismatch")
+        check_base_verification(data["base_verification"], chain[0], root)
+        audit_archive(current["artifacts"]["archive"], data["delta"]["inventory"])
+    return chain
+
+
+def apply_delta(node, previous, destination, staging):
+    """Only this newly created restoration tree is changed; backups are immutable."""
+    data = node["receipt"]; delta = data["delta"]
+    restore_archive(node["artifacts"]["archive"], staging, delta["inventory"])
+    if inventory(destination) != previous:
+        raise BackupError("Scratch restore differs from its parent inventory")
+    old, _ = check_manifest(previous)
+    replacements = {row["path"] for row in delta["inventory"]["files"]} & set(old)
+    for name in sorted(set(delta["deleted_files"]) | replacements):
+        (destination / name).unlink()  # Exact known regular files in our fresh private scratch only.
+    for name in sorted(delta["deleted_directories"], key=lambda n: (-len(PurePosixPath(n).parts), n)):
+        (destination / name).rmdir()  # Nonempty/unknown contents fail; no recursive deletion.
+    for name in sorted(data["inventory"]["directories"], key=lambda n: (len(PurePosixPath(n).parts), n)):
+        (destination / name).mkdir(mode=0o700, exist_ok=True)
+    for row in delta["inventory"]["files"]:
+        target = destination / row["path"]
+        if target.exists() or target.is_symlink(): raise BackupError("Incremental restore collision")
+        source = staging / row["path"]
+        with source.open("rb") as incoming, target.open("xb") as outgoing:
+            os.chmod(target, 0o600)
+            for chunk in iter(lambda: incoming.read(1024 * 1024), b""):
+                outgoing.write(chunk)
+        if digest(target) != row["sha256"]: raise BackupError("Incremental copied file hash mismatch")
+        source.unlink()  # Only the fresh, already verified extraction staging copy.
+    if inventory(destination) != data["inventory"]:
+        raise BackupError("Complete incremental restoration inventory mismatch")
+
+
+def check_chain_unchanged(chain):
+    for node in chain:
+        receipt, hashed, _ = read_json(node["path"])
+        if hashed != node["sha256"] or receipt != node["receipt"]:
+            raise BackupError("Receipt changed during verification")
+        check_artifacts(node["path"], node["receipt"])
+        if receipt["schema"] == 2:
+            check_base_verification(receipt["base_verification"], chain[0], node["path"].parent.parent.parent)
+
+
+def publish_check(path, result, stable):
+    """Invalidate a detected failed proof; catch SIGTERM only during publication."""
+    expected = json.loads(json.dumps(result, allow_nan=False))
+    previous_term = signal.getsignal(signal.SIGTERM)
+
+    def cancel(signum, frame):
+        raise KeyboardInterrupt("Backup proof publication cancelled by SIGTERM")
+
+    try:
+        signal.signal(signal.SIGTERM, cancel)
+        stable()
+        exclusive_json(path, result)
+        stable()
+        if read_json(path)[0] != expected or result != expected:
+            raise BackupError("Backup proof changed during publication")
+    except (Exception, KeyboardInterrupt):
+        if path.exists() or path.is_symlink():
+            path.rename(path.parent / ("invalidated-" + uuid.uuid4().hex + "-" + path.name))
+        raise
+    finally:
+        signal.signal(signal.SIGTERM, previous_term)
+
+
+def checkpoint(receipt_path, root=ROOT):
+    """Integrity checkpoint only; deliberately does not claim a full restoration."""
+    chain = load_chain(receipt_path, root); node = chain[-1]
+    if node["receipt"]["schema"] != 2: raise BackupError("Incremental checkpoint requires a delta receipt")
+    # Validate the new payload using the same whitelist/hash restoration guard,
+    # without copying the unchanged full population. Scratch is retained.
+    base = backups_directory(Path(root).resolve()); scratch = base / ("delta-check-" + uuid.uuid4().hex)
+    restore_archive(node["artifacts"]["archive"], scratch, node["receipt"]["delta"]["inventory"])
+    result = {"schema": 2, "integrity_checked": True, "full_restoration_tested": False,
+              "receipt": str(node["path"]), "receipt_sha256": node["sha256"], "chain_length": len(chain),
+              "delta_files_verified": len(node["receipt"]["delta"]["inventory"]["files"]),
+              "scratch_directory": str(scratch), "limitation": LIMITATION}
+    path = node["path"].parent / ("integrity-" + uuid.uuid4().hex + ".json")
+    publish_check(path, result, lambda: check_chain_unchanged(chain))
+    return path
+
+
+def verify(receipt_path, root=ROOT):
+    root = Path(root).resolve(); base = backups_directory(root)
+    chain = load_chain(receipt_path, root); node = chain[-1]
+    original, receipt, artifacts = node["path"], node["receipt"], node["artifacts"]
     restore = base / ("restore-" + uuid.uuid4().hex)
     restore.mkdir(mode=0o700)
     checkout = restore / "checkout"
@@ -337,31 +586,45 @@ def verify(receipt_path, root=ROOT):
     git(checkout, "checkout", "--quiet", "--detach", receipt["git_head"])
     if git(checkout, "rev-parse", "HEAD") != receipt["git_head"]:
         raise BackupError("Restored Git HEAD mismatch")
-    restore_archive(artifacts["archive"], restore / "non-git", receipt["inventory"])
-    smoke = subprocess.run([sys.executable, "-m", "autorouter", "--help"], cwd=checkout,
+    restore_archive(chain[0]["artifacts"]["archive"], restore / "non-git", chain[0]["receipt"]["inventory"])
+    for index in range(1, len(chain)):
+        apply_delta(chain[index], chain[index-1]["receipt"]["inventory"], restore / "non-git", restore / ("delta-" + str(index)))
+    smoke = subprocess.run([sys.executable, "-B", "-m", "autorouter", "--help"], cwd=checkout,
                            capture_output=True, text=True, timeout=20,
                            env={k: v for k, v in os.environ.items() if k not in ("PYTHONPATH", "PYTHONHOME")})
     if smoke.returncode != 0 or "usage:" not in smoke.stdout.lower():
         raise BackupError("Restored CLI --help smoke failed: " + smoke.stderr[-2000:])
+    def restored_stable():
+        if (git(checkout, "rev-parse", "HEAD") != receipt["git_head"]
+                or git(checkout, "show-ref").splitlines() != receipt["git_refs"]
+                or git(checkout, "status", "--porcelain=v1", "--untracked-files=normal")):
+            raise BackupError("Final restored Git state changed")
+        if inventory(restore / "non-git") != receipt["inventory"]:
+            raise BackupError("Final complete restored inventory mismatch")
+        check_chain_unchanged(chain)
     result = {"schema": 1, "verified": True, "receipt": str(original),
               "receipt_sha256": digest(original), "restored_git_head": receipt["git_head"],
               "restore_directory": str(restore), "git_bundle_verified_in_empty_repository": True,
               "all_refs_restored": True, "non_git_files_verified": len(receipt["inventory"]["files"]),
-              "cli_smoke": {"command": [sys.executable, "-m", "autorouter", "--help"], "exit": smoke.returncode,
+              "chain_length": len(chain), "full_restoration_tested": True,
+              "cli_smoke": {"command": [sys.executable, "-B", "-m", "autorouter", "--help"], "exit": smoke.returncode,
                             "output": smoke.stdout[:16000]}, "limitation": LIMITATION}
     verification = original.parent / ("verification-" + uuid.uuid4().hex + ".json")
-    exclusive_json(verification, result)
+    publish_check(verification, result, restored_stable)
     return verification
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--verify", metavar="RECEIPT", help="Recheck an existing receipt in .local-backups")
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument("--verify", metavar="RECEIPT", help="Restore a complete existing full/incremental chain")
+    mode.add_argument("--incremental", metavar="PARENT_RECEIPT", help="Changed/new artifact checkpoint from a verified full-base chain; no full restoration")
     args = parser.parse_args()
     try:
-        receipt = Path(args.verify) if args.verify else create()
-        verified = verify(receipt)
-        print(json.dumps({"receipt": str(receipt), "verification": str(verified), "limitation": LIMITATION}, indent=2))
+        receipt = Path(args.verify) if args.verify else create(parent=args.incremental)
+        verified = checkpoint(receipt) if args.incremental else verify(receipt)
+        print(json.dumps({"receipt": str(receipt), "integrity_check" if args.incremental else "verification": str(verified),
+                          "full_restoration_tested": not bool(args.incremental), "limitation": LIMITATION}, indent=2))
         return 0
     except (BackupError, OSError, ValueError, KeyError, TypeError, tarfile.TarError, subprocess.SubprocessError) as exc:
         print(json.dumps({"verified": False, "error": str(exc), "limitation": LIMITATION}), file=sys.stderr)

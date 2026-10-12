@@ -1,0 +1,33 @@
+{
+  "changes": [
+    "Second archive pass independently validates path, type, size, duplicate and complete membership before writing each target; payload reads are bounded to the inventory size plus one overflow byte.",
+    "SIGTERM becomes KeyboardInterrupt only during proof publication; the previous handler is restored on success or failure; invalidated proof bytes are preserved under a unique name."
+  ],
+  "documentation": "README was not edited in this repair; root made declared unrelated README updates.",
+  "existing_test_backup_unchanged": true,
+  "files": {
+    "scripts/backup.py": {
+      "bytes": 32878,
+      "sha256": "5489148a49c577ee60bff6ea3b042b13f2ce1e674bf0bddb1d8047cb228383a6"
+    },
+    "tests/test_backup.py": {
+      "bytes": 8501,
+      "sha256": "39fffc805691665b89433577a633ddc6929b5d0aba13f75c1a66db8ca03cd97a"
+    },
+    "tests/test_backup_incremental.py": {
+      "bytes": 15600,
+      "sha256": "0f7b86c2fec8af1b499524e82b653bdbe89188aaa93d1473b82e42bab10b95f1"
+    }
+  },
+  "limitations": "Finite mutable sampling; no authentication or atomic concurrent-writer guarantee. On-Mac-only copies do not protect against disk failure.",
+  "prior_failed_evidence": ".runs/review-incremental-backup-001/reproduction-001.json",
+  "schema": 1,
+  "scope": "Tiny temporary Git/archive fixtures and owned Python signal children only; no full project backup, native job, network, or existing evidence mutation.",
+  "tests": {
+    "command": "python3 -B -m unittest discover -s tests -p 'test_backup*.py' -v",
+    "log": "tests-001.log",
+    "methods": 40,
+    "passed": true,
+    "wall_seconds": 4.99
+  }
+}

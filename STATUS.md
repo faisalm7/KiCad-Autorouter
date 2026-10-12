@@ -4,9 +4,11 @@ Updated October 11, 2026 (America/Los_Angeles). **Active local reconstruction; i
 
 ## Durable local work and backup boundary
 
-Checkout: `/Users/faisal/Projects/KiCad-Autorouter-local` on this Mac; branch `rebuild/local-20261010-015447`. Latest verified source push/read-back before this checkpoint is **`7fba706afbfd9c57c99738b7337834cf67dfef19`** ([receipt](evidence/backups/checkpoint-7fba706.json)). G0 began at `683e41a`; no cloud/worktree was used.
+Checkout: `/Users/faisal/Projects/KiCad-Autorouter-local` on this Mac; branch `rebuild/local-20261010-015447`. Latest verified source push/read-back before this checkpoint is **`f351923c98b27f847a4fd93759d9a269b88e865f`** ([receipt](evidence/backups/checkpoint-f351923.json)). G0 began at `683e41a`; no cloud/worktree was used.
 
 Latest **full** archive: **a258c4a**. Restoration verified all Git references, **49,824 non-Git files / 1,539,941,941 bytes**, and CLI help ([verification](evidence/backups/restore-a258c4a.json)). Location: `.local-backups/checkpoint-20261010T163457Z-5ac7f7159bb541efb566c74039d69f46`. It includes all prior raw evidence, actual padstack import, failed and completed native severity batches, all new audits/API declarations, the parity proposal and the explicitly incomplete area-probe draft. GitHub holds audited source and selected evidence. Full archives remain on this Mac only; independent off-Mac storage awaits the owner. No previous archive or original source was removed. Later changes require a later archive.
+
+The incremental backup extension now passes independent review, including reproduced/fixed archive replacement and real SIGTERM cancellation defects. The full current integration suite passes **535 tests in 13.492 seconds**. These small controls do not establish a real project restoration: the fresh installation and full incremental-chain reconstruction are next, after the source checkpoint. See [review](evidence/review-incremental-backup-001/REPORT.md).
 
 ## Current custom-pad and parity diagnostics
 
