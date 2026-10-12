@@ -1,0 +1,1 @@
+Selected authored source/control/review evidence; failed falsifiers and corrected controls retained. Mocked native stages qualify only file/evidence control, not native routing/DRC/GUI. Original source snapshots and test versions are identified explicitly.

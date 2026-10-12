@@ -4,7 +4,7 @@ Updated October 12, 2026. **Active local reconstruction; not release-ready.** Du
 
 ## Latest actual result
 
-At0e8ed9d, preview001 produced one successful native SVG then correctly rejected its unsupported standard SVG1.1 declaration; no ready HTML was published. The compatibility fix retains raw plots and separately binds display bytes. Independent review also reproduced intended-byte substitution and processing-instruction gaps; fixes pass7targeted controls, with rereview/native retry pending. [Failure](evidence/review-render-fixture-001/review.json).
+Preview001 rejected the observed SVG1.1 declaration. Compatibility/substitution/active-content fixes passed independent controls atc3fa13f, but actual002 then exposed KiCad creating a PRL in the advertised original copy; exact-copy guard rejected, with source/accepted run unchanged. The new fix uses private per-plot project copies, binds their exact file sets through publication, and keeps the generic existing-PRL guard strict. Native003 and actual tampering/SIGTERM controls are next; no ready preview is claimed yet. [Failures](evidence/review-render-fixture-002/review.json).
 
 PAW3395 diagnostic001 completed export (56pads/16nets/220routes) and original-rule nonsaving DRC, then rejected because KiCad changed the existing disposable PRL. Original14files remain exact; only the DRC copy's PRL changed. Separate posthoc readback finds0opens/0blocking/17librarywarnings/0exclusions, but the original controller never published a stage-two binding. It remains failed, not production-qualified or newly routed. Do not repeat completed native stages. [Raw failure](evidence/paw3395-native-diagnostic-001/summary.json), [diagnosis](evidence/paw3395-native-diagnosis-001/REPORT.md).
 
@@ -52,7 +52,7 @@ Installation006 at eae1f39 passed20commands/608then-current tests in a new local
 
 ## Checkpoints and backups
 
-Latest independently verified GitHub checkpoint: **0e8ed9db34405b66e2e2350e48b4e25be248e604**; remote SHA and finite SourceSpec bytes match (`.runs/checkpoint-0e8ed9d.json`). Actual first preview/PAW results and compatibility fixes follow this cutoff.
+Latest independently verified GitHub checkpoint: **c3fa13fee77df16acffe4467daaf69efa7b9540c**; remote SHA and reviewed SVG code bytes match (`.runs/checkpoint-c3fa13f.json`). Preview002/private-copy and shared DRC failure-evidence changes follow this cutoff.
 
 Latest incremental archive at0e8ed9d verifies88,824non-Git files/2,514,749,096bytes,1,126changed/new files/68,970,693bytes,0deletions; chain length3 and delta integrity pass, without a repeated full restore. [Receipt](evidence/backups/incremental-0e8ed9d.json). Last full restoration at e7a948a verifies86,673files/2,358,228,144bytes, allGitrefs and restoredCLIhelp. The retained old chain hit the unchanged128MiB metadata bound; a tested new full base replaced its next-parent role. No evidence was deleted. See [next parent and work](PLANS.md).
 

@@ -348,23 +348,59 @@ class Job:
     def drc(self,name,board,save=False):
         original_input=board
         before=tree_hash(board.parent)
-        if not save:
-            work=self.out/(name+'-input')
-            shutil.copytree(board.parent,work)
-            board=work/board.name
-        report=self.out/(name+'.json')
-        argv=[c.CLI,'pcb','drc','--format','json','--severity-all','--all-track-errors','--refill-zones','--exit-code-violations','--output',report]
-        if save: argv+=['--save-board']
-        result=self.step(name,argv+[board],allowed=(0,5))
-        after=tree_hash(board.parent)
-        check_drc_project(before,after,board.name,saved=save)
-        result['validated_input_sha256']=before[board.name]
-        result['emitted_candidate']=str(original_input)
-        save_json(self.out/(name+'-binding.json'),{'source':str(original_input),'input':str(board),'before':before,'after':after,'saved':save})
-        parsed=parse_report(report,board.name)
-        any_findings=bool(parsed['findings'])
-        if (result['exit_code']==0)==any_findings: raise Rejected('DRC exit/report mismatch')
-        return parsed
+        validation_before=None; phase='copy'
+        try:
+            if not save:
+                work=self.out/(name+'-input')
+                board=work/board.name
+                shutil.copytree(original_input.parent,work)
+            phase='input_snapshot'; validation_before=tree_hash(board.parent)
+            if validation_before!=before: raise Rejected('native DRC validation copy differs before native')
+            report=self.out/(name+'.json')
+            argv=[c.CLI,'pcb','drc','--format','json','--severity-all','--all-track-errors','--refill-zones','--exit-code-violations','--output',report]
+            if save: argv+=['--save-board']
+            phase='native'; result=self.step(name,argv+[board],allowed=(0,5))
+            phase='output_snapshot'; after=tree_hash(board.parent)
+            phase='project_preservation'; check_drc_project(before,after,board.name,saved=save)
+            result['validated_input_sha256']=before[board.name]
+            result['emitted_candidate']=str(original_input)
+            phase='binding_publication'
+            save_json(self.out/(name+'-binding.json'),{'source':str(original_input),'input':str(board),'before':before,'after':after,'saved':save})
+            phase='report_parse'; parsed=parse_report(report,board.name)
+            any_findings=bool(parsed['findings'])
+            phase='exit_report'
+            if (result['exit_code']==0)==any_findings: raise Rejected('DRC exit/report mismatch')
+            return parsed
+        except (Exception,KeyboardInterrupt) as exc:
+            # Evidence only: retain the first failure and never normalize a
+            # modified project or turn an unavailable report into a pass.
+            errors=[]; after=None
+            try: after=tree_hash(board.parent)
+            except (Exception,KeyboardInterrupt) as capture:
+                errors.append('after snapshot: '+type(capture).__name__+': '+str(capture))
+            binding={'source':str(original_input),'input':str(board),'before':before,'after':after,'saved':save}
+            try: save_json(self.out/(name+'-binding.json'),binding)
+            except (Exception,KeyboardInterrupt) as capture:
+                errors.append('binding publication: '+type(capture).__name__+': '+str(capture))
+            artifacts={}
+            for suffix in ('.json','.log','-process.json'):
+                path=self.out/(name+suffix); artifacts[path.name]=None
+                try:
+                    if path.is_symlink(): raise Rejected('symlink in DRC failure artifact')
+                    if path.exists():
+                        if not path.is_file() or path.stat().st_size>100*1024*1024:
+                            raise Rejected('invalid or oversized DRC failure artifact')
+                        artifacts[path.name]={'sha256':sha(path),'bytes':path.stat().st_size}
+                except (Exception,KeyboardInterrupt) as capture:
+                    errors.append(path.name+': '+type(capture).__name__+': '+str(capture))
+            failure={'schema':1,'passed':False,'phase':phase,
+                     'error':{'type':type(exc).__name__,'message':str(exc)},'binding':binding,
+                     'validation_copy_before':validation_before,'artifacts':artifacts,'capture_errors':errors}
+            try: save_json(self.out/(name+'-failure.json'),failure)
+            except (Exception,KeyboardInterrupt) as capture:
+                errors.append('failure publication: '+type(capture).__name__+': '+str(capture))
+            for error in errors: exc.add_note('DRC failure evidence: '+error)
+            raise
 
 def verify_candidate_files(candidate, original_hashes, final_hash=None):
     actual=tree_hash(candidate.parent)

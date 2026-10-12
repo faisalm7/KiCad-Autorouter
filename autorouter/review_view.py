@@ -4,6 +4,7 @@ from pathlib import Path
 import hashlib
 import json
 import re
+import shutil
 import xml.etree.ElementTree as ET
 from . import config as c, floor_route as f, pipeline as p, placement_clearance as pc, sexpr as sx
 
@@ -62,19 +63,36 @@ def render(destination, source, candidate, report, remaining, material):
     job = f.FloorJob(destination / 'plot-work', remaining(), remaining)
     plots = job.out / 'plots'; plots.mkdir()
     native_plots = job.out / 'native-plots'; native_plots.mkdir()
-    rows = []; frozen = {}
+    rows = []; frozen = {}; input_trees = {}
     def stable():
         material()
+        for directory, expected in input_trees.items():
+            if pc.inventory(directory) != expected:
+                raise p.Rejected('completed preview input file set changed')
         for name, expected in frozen.items():
             if p.sha(destination / name) != expected:
                 raise p.Rejected('completed preview stage changed')
     for layer in layers:
         images = []
         for label, board in [('before', source), ('after', candidate)]:
-            target = native_plots / (label + '-' + layer + '.svg')
+            name = label + '-' + layer
+            work = job.out / (name + '-input')
+            before = pc.inventory(board.parent)
+            shutil.copytree(board.parent, work)
+            if pc.inventory(work) != before:
+                raise p.Rejected('native plot input copy differs')
+            target = native_plots / (name + '.svg')
             job.step(label + '-' + layer, [c.CLI, 'pcb', 'export', 'svg', '--mode-single',
                      '--layers', layer + ',Edge.Cuts', '--fit-page-to-board', '--exclude-drawing-sheet',
-                     '--output', target, board])
+                     '--output', target, work / board.name])
+            after = pc.inventory(work)
+            p.check_drc_project(before, after, board.name)
+            input_trees[work] = after
+            for relative, digest in after.items():
+                frozen[str((work / relative).relative_to(destination))] = digest
+            binding = job.out / (name + '-input-binding.json')
+            payload = {'source': str(board), 'input': str(work / board.name), 'before': before, 'after': after}
+            frozen[str(binding.relative_to(destination))] = write_bound(binding, (json.dumps(payload, indent=2) + '\n').encode())
             native_raw = svg_bytes(target)
             frozen[str(target.relative_to(destination))] = hashlib.sha256(native_raw).hexdigest()
             display = plots / target.name
@@ -117,4 +135,5 @@ def render(destination, source, candidate, report, remaining, material):
             'html': str(destination / 'preview.html'), 'native_validation_performed': False,
             'zone_refill_performed': False, 'rendered_input_routes': len(p.routes(tree)),
             'display_derivation': 'Exact native SVG bytes with only the observed standard SVG1.1 DOCTYPE removed; raw native plots retained separately. No external DTD or entity is loaded.',
+            'input_trees': {str(directory.relative_to(destination)): expected for directory, expected in input_trees.items()},
             'files': frozen}

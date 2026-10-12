@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "review_view_sha256": "8f765624a8527df770a98594a7b27fe88776b300ec276f809c179ec7f6f60fb7",
+  "native_executed": false,
+  "cases": [
+    {
+      "case": "unchanged",
+      "render_returned": true,
+      "error": null,
+      "originals_unchanged": true,
+      "mock_plot_calls": 4,
+      "mutation": null,
+      "late_file_in_frozen_files": null,
+      "expected_render_returned": true,
+      "expectation_satisfied": true
+    },
+    {
+      "case": "added_prl",
+      "render_returned": true,
+      "error": null,
+      "originals_unchanged": true,
+      "mock_plot_calls": 4,
+      "mutation": null,
+      "late_file_in_frozen_files": null,
+      "expected_render_returned": true,
+      "expectation_satisfied": true
+    },
+    {
+      "case": "changed_existing_prl",
+      "render_returned": false,
+      "error": "Rejected: native DRC modified input or rules: board.kicad_prl",
+      "originals_unchanged": true,
+      "mock_plot_calls": 1,
+      "mutation": null,
+      "late_file_in_frozen_files": null,
+      "expected_render_returned": false,
+      "expectation_satisfied": true
+    },
+    {
+      "case": "late_existing_file",
+      "render_returned": false,
+      "error": "Rejected: completed preview input file set changed",
+      "originals_unchanged": true,
+      "mock_plot_calls": 2,
+      "mutation": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-native-plot-copies-001/probe-fixed-001/late_existing_file/review/plot-work/before-F.Cu-input/board.kicad_pro",
+      "late_file_in_frozen_files": null,
+      "expected_render_returned": false,
+      "expectation_satisfied": true
+    },
+    {
+      "case": "late_added_rule",
+      "render_returned": false,
+      "error": "Rejected: completed preview input file set changed",
+      "originals_unchanged": true,
+      "mock_plot_calls": 2,
+      "mutation": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-native-plot-copies-001/probe-fixed-001/late_added_rule/review/plot-work/before-F.Cu-input/unexpected.kicad_dru",
+      "late_file_in_frozen_files": null,
+      "expected_render_returned": false,
+      "expectation_satisfied": true
+    }
+  ],
+  "all_expectations_met": true
+}

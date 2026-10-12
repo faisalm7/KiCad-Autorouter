@@ -1,0 +1,1 @@
+FAILED native preview002: standard SVG parsed, but KiCad added fixture.kicad_prl to the advertised before copy, so exact-copy guard rejected. No ready HTML. Source and accepted run unchanged. Raw and derived fixture SVG retained. Private per-stage plot copies are the proposed correction, not retroactive qualification.

@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "source_commit": "0feeca2a807f428ad2b3fa7c1e39625cb769f02c",
+  "fresh_files": 5,
+  "fresh_bytes": 311654,
+  "source_hash_checks_passed": true,
+  "prl_can_affect_copper_fill": true,
+  "cli_refill_uses_same_zone_filler": true,
+  "whole_prl_is_not_ui_only": true,
+  "paw_original_prl_sha256": "59ef02a971d7d463743b8d497c0f10b6a9546f5c687f68f6eb464204bbd3a486",
+  "paw_drc_prl_sha256": "b05e949805d10c9f0f9d3e597294ef8a03753ea87bfde378e3f722fbd7057283",
+  "paw_prototype_before": "absent; pinned parameter default false",
+  "paw_prototype_after": false,
+  "paw_prototype_effective_value_preserved_by_declared_default": true,
+  "missing_false_equivalence_is_source_inference_not_native_field_observation": true,
+  "source_locations": {
+    "default": "common/project/project_local_settings.cpp:208",
+    "header": "include/project/project_local_settings.h:133",
+    "zone_fill": "pcbnew/zone_filler.cpp:2811",
+    "cli_refill": "pcbnew/pcbnew_jobs_handler.cpp:2404",
+    "headless_fill": "pcbnew/tools/zone_filler_tool.cpp:122",
+    "display_apply": "pcbnew/pcb_edit_frame.cpp:1928",
+    "migration": "common/project/project_local_settings.cpp:450"
+  },
+  "proposed_scope": "Only fixed typed PAW001 migration under pinned source/PRL before+after hashes; retain strict generic existing-PRL rejection. Do not treat PRL as inert or discard it.",
+  "new_native_execution": false,
+  "routing_or_format_qualified": false
+}

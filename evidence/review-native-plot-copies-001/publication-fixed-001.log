@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "source_sha256": {
+    "autorouter/review_view.py": "8f765624a8527df770a98594a7b27fe88776b300ec276f809c179ec7f6f60fb7",
+    "autorouter/handoff.py": "b197c058b34885288adf3cf5dba3d8779a7678c81f837a95a09348c355f00814",
+    "tests/test_review_view.py": "84f622fcecad0741bb95da1d366f7a7831dc8990dc8bb2e00b8b5cd3283f3847"
+  },
+  "native_executed": false,
+  "central_checker_mocked": true,
+  "renderer_mocked": true,
+  "runtime_inventory_mocked": "isolates handoff review from separately owned pipeline edits",
+  "cases": [
+    {
+      "case": "unchanged",
+      "returned_status": "ready_for_manual_review",
+      "canonical_status": "ready_for_manual_review",
+      "error": null,
+      "injected": [],
+      "preview_exists": true,
+      "invalidated_files": [],
+      "originals_unchanged": true,
+      "expectation_satisfied": true
+    },
+    {
+      "case": "late_added_rule",
+      "returned_status": null,
+      "canonical_status": "rejected",
+      "error": "Rejected: review preview input file set changed after rendering",
+      "injected": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-native-plot-copies-001/publication-fixed-001/late_added_rule/review/plot-work/before-F.Cu-input/unexpected.kicad_dru"
+      ],
+      "preview_exists": false,
+      "invalidated_files": [
+        "invalidated-review-5fb0485101544e5a89f0278d231f45e1-preview.html",
+        "invalidated-review-82cf3a25bd654357b63fae3f02b9a89b-review.json"
+      ],
+      "originals_unchanged": true,
+      "expectation_satisfied": true
+    }
+  ],
+  "all_expectations_met": true
+}

@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "review_view_sha256": "e8c2b22373995f2dea9004d58e1c9ef5a99e633daf5df60afd872e41596480e4",
+  "native_executed": false,
+  "cases": [
+    {
+      "case": "unchanged",
+      "render_returned": true,
+      "error": null,
+      "originals_unchanged": true,
+      "mock_plot_calls": 4,
+      "mutation": null,
+      "late_file_in_frozen_files": null,
+      "expected_render_returned": true,
+      "expectation_satisfied": true
+    },
+    {
+      "case": "added_prl",
+      "render_returned": true,
+      "error": null,
+      "originals_unchanged": true,
+      "mock_plot_calls": 4,
+      "mutation": null,
+      "late_file_in_frozen_files": null,
+      "expected_render_returned": true,
+      "expectation_satisfied": true
+    },
+    {
+      "case": "changed_existing_prl",
+      "render_returned": false,
+      "error": "Rejected: native DRC modified input or rules: board.kicad_prl",
+      "originals_unchanged": true,
+      "mock_plot_calls": 1,
+      "mutation": null,
+      "late_file_in_frozen_files": null,
+      "expected_render_returned": false,
+      "expectation_satisfied": true
+    },
+    {
+      "case": "late_existing_file",
+      "render_returned": false,
+      "error": "Rejected: completed preview stage changed",
+      "originals_unchanged": true,
+      "mock_plot_calls": 2,
+      "mutation": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-native-plot-copies-001/probe-before-001/late_existing_file/review/plot-work/before-F.Cu-input/board.kicad_pro",
+      "late_file_in_frozen_files": null,
+      "expected_render_returned": false,
+      "expectation_satisfied": true
+    },
+    {
+      "case": "late_added_rule",
+      "render_returned": true,
+      "error": null,
+      "originals_unchanged": true,
+      "mock_plot_calls": 4,
+      "mutation": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-native-plot-copies-001/probe-before-001/late_added_rule/review/plot-work/before-F.Cu-input/unexpected.kicad_dru",
+      "late_file_in_frozen_files": false,
+      "expected_render_returned": false,
+      "expectation_satisfied": false
+    }
+  ],
+  "all_expectations_met": false
+}

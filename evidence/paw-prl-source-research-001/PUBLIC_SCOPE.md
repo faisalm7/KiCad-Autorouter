@@ -1,0 +1,1 @@
+Exact compact primary-source research/receipts, excluding downloaded KiCad source and design payloads. Findings are source inferences, not additional native tests or a PRL-preservation exception. Strict production guards remain.

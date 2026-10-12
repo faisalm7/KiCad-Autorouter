@@ -136,6 +136,9 @@ def _review_copy(receipt, output, start, cpu_start, render=False):
                 from .pipeline import sha
                 if sha(c.CLI) != preview['plotter_sha256']:
                     raise Rejected('review plotter changed after rendering')
+                for name, expected in preview.get('input_trees', {}).items():
+                    if inventory(destination / name) != expected:
+                        raise Rejected('review preview input file set changed after rendering')
                 for name, expected in preview['files'].items():
                     if digest(pc.read_bytes(destination / name, PROJECT_BYTES)) != expected:
                         raise Rejected('review preview changed after rendering')
@@ -182,7 +185,7 @@ def _review_copy(receipt, output, start, cpu_start, render=False):
                       initial_project_hashes=candidate_hashes,
                       source_project_hashes=source_hashes, routing_evidence_hashes=evidence_hashes,
                       runtime_source_sha256=runtime_hashes,
-                      limits='Disposable complete project files for manual review only; no fresh native check, applied result, GUI opening or live-editor approval. Saving/editing invalidates the original validation claim. Local bounded inventories are finite samples, not atomic authentication or protection against hostile concurrent writers, abrupt termination or power loss. Installed native tool binaries are not revalidated by this copy command.')
+                      limits='Disposable complete project files for manual review only; no fresh native check, applied result, GUI opening or live-editor approval. Saving/editing invalidates the original validation claim. Local bounded inventories are finite samples, not atomic authentication or protection against hostile concurrent writers, abrupt termination or power loss. Optional rendering checks the pinned plotter binary; this copy command does not rerun native validation or revalidate other installed native tools.')
         central_check(); account(); cap()
         expected = f.canonical(record)
         save_json(destination / 'review.json', record)

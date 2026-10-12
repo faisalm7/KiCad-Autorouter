@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "purpose": "Qualify optional actual before/after native plots; no routing quality claim",
+  "case": "owned required-via accepted fixture",
+  "receipt": ".runs/default-tuning-native-001/result.json",
+  "receipt_sha256": "5b008c5c40002fbf3fb77a17106662eb6b14d4b60973943bc5b9769d6c352a2a",
+  "source_revision": "next reviewed committed source",
+  "command": "python3 -B .runs/run-review-render-fixture-003.py",
+  "outer_wall_cap": 45,
+  "shared_wall_full_cpu_cap": 30,
+  "expected": "ready_for_manual_review, four exact raw native SVGs and four declaration-stripped display copies, expected-byte hashes, unchanged original/accepted run",
+  "failure_handling": "Preserve failure and partial plots; diagnose actual compatibility before expanding. No automatic retries.",
+  "next_cases_if_positive": [
+    "accepted multichannel96warning project",
+    "actual first-plot tampering rejection",
+    "real SIGTERM during native plotting"
+  ],
+  "native_benchmark_concurrency": 1,
+  "publication": "No formal release; project-owned fixture and selected source evidence only",
+  "amendment": "Preview002 passed SVG parsing then correctly rejected newly generated PRL in advertised original copy. Fresh003 isolates native plot inputs; complete originals and candidate remain exact; same caps.",
+  "follow_up_commands": [
+    "python3 -B .runs/run-review-render-multichannel-001.py",
+    "python3 -B .runs/run-review-render-tamper-001.py",
+    "python3 -B .runs/run-review-render-cancel-001.py"
+  ]
+}
