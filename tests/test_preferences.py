@@ -67,9 +67,17 @@ class PreferencesTests(unittest.TestCase):
                 captured = self.write(scoring_preference=name)
                 self.assertEqual(pref.route_arguments(pref.readback(pref.snapshot(captured)))['scoring_variant'], name)
 
-    def test_source_all_is_only_supported_layer_choice(self):
+    def test_explicit_layers_require_qualified_profile_and_roundtrip_independently(self):
         for layers in (['F.Cu'], 'F.Cu', [], None, True, 'all', 'source-all'):
             with self.subTest(layers=layers),self.assertRaises(pref.PreferenceError):self.write(layers=layers)
+        for layers in (['F.Cu'], ['B.Cu'], ['B.Cu','F.Cu']):
+            captured=self.write(layers=layers,profile='completion-only')
+            self.assertEqual(pref.readback(pref.snapshot(captured))['layers'],layers)
+            effective=pref.resolve(captured);effective['layers'].clear()
+            self.assertEqual(pref.resolve(captured)['layers'],layers)
+        for layers in ([], ['F.Cu','F.Cu'], ['source_all','F.Cu'], 'F.Cu', None, True):
+            with self.subTest(layers=layers),self.assertRaises(pref.PreferenceError):
+                self.write(layers=layers,profile='completion-only')
 
     def test_unsupported_and_incompatible_guidance_is_rejected(self):
         for guidance in ('board-floors-v1', 'placement-clearance-v1'):

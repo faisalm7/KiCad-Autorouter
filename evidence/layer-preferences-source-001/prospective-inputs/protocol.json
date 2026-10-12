@@ -1,0 +1,227 @@
+{
+  "schema": 1,
+  "kind": "prospective owned layer preference qualification, not routing-quality or family comparison",
+  "source": "/Users/faisal/Projects/KiCad-Autorouter-local/fixtures/smoke",
+  "source_hashes": {
+    "smoke.kicad_pcb": "618b0b1d23f082283a5136b514ff64ee54b3a058f068689bf64668a436d7c5ea",
+    "smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+    "smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643"
+  },
+  "preserve_original_rules": true,
+  "cases": [
+    {
+      "id": "front",
+      "board": "/Users/faisal/Projects/KiCad-Autorouter-local/fixtures/smoke/smoke.kicad_pcb",
+      "settings": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/layer-native-input-001/settings.json",
+      "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/layers-native-front-001",
+      "overrides": [
+        "--layers",
+        "F.Cu"
+      ],
+      "wall_cpu_seconds": 120,
+      "predicate": "accepted native zero opens/blocking; only new front segments; zero new through vias"
+    },
+    {
+      "id": "back",
+      "board": "/Users/faisal/Projects/KiCad-Autorouter-local/fixtures/smoke/smoke.kicad_pcb",
+      "settings": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/layer-native-input-001/settings.json",
+      "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/layers-native-back-001",
+      "overrides": [
+        "--layers",
+        "B.Cu"
+      ],
+      "wall_cpu_seconds": 120,
+      "predicate": "accepted native zero opens/blocking; only new back segments; zero new through vias"
+    },
+    {
+      "id": "partial-front",
+      "board": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/layer-native-input-001/partial/smoke.kicad_pcb",
+      "settings": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/layer-native-input-001/settings.json",
+      "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/layers-native-partial-front-001",
+      "overrides": [
+        "--scope",
+        "partial",
+        "--layers",
+        "F.Cu"
+      ],
+      "wall_cpu_seconds": 120,
+      "predicate": "accepted with exact original B.Cu protected tracks and only front new copper"
+    },
+    {
+      "id": "required-via-both",
+      "board": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/layer-native-input-001/required-via/smoke.kicad_pcb",
+      "settings": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/layer-native-input-001/settings.json",
+      "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/layers-native-required-via-both-001",
+      "overrides": [
+        "--layers",
+        "F.Cu",
+        "B.Cu"
+      ],
+      "wall_cpu_seconds": 120,
+      "predicate": "accepted and at least one native through via joining front/back SIGNAL_A pads"
+    },
+    {
+      "id": "required-via-front",
+      "board": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/layer-native-input-001/required-via/smoke.kicad_pcb",
+      "settings": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/layer-native-input-001/settings.json",
+      "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/layers-native-required-via-front-001",
+      "overrides": [
+        "--layers",
+        "F.Cu"
+      ],
+      "wall_cpu_seconds": 120,
+      "predicate": "rejected: missing required back access or disallowed copper; no board/rule changes"
+    }
+  ],
+  "partial_changes": "Add two original B.Cu segments only; all other source AST unchanged",
+  "required_via_changes": [
+    {
+      "reference": "J1",
+      "pad_before": [
+        "pad",
+        "\"1\"",
+        "thru_hole",
+        "circle",
+        [
+          "at",
+          "0",
+          "0"
+        ],
+        [
+          "size",
+          "2",
+          "2"
+        ],
+        [
+          "drill",
+          "0.8"
+        ],
+        [
+          "layers",
+          "\"*.Cu\""
+        ],
+        [
+          "remove_unused_layers",
+          "no"
+        ],
+        [
+          "net",
+          "\"SIGNAL_A\""
+        ],
+        [
+          "uuid",
+          "\"2259717b-f87b-4741-851c-4246b16698d8\""
+        ]
+      ],
+      "pad_after": [
+        "pad",
+        "\"1\"",
+        "smd",
+        "rect",
+        [
+          "at",
+          "0",
+          "0"
+        ],
+        [
+          "size",
+          "2",
+          "2"
+        ],
+        [
+          "layers",
+          "\"F.Cu\""
+        ],
+        [
+          "net",
+          "\"SIGNAL_A\""
+        ],
+        [
+          "uuid",
+          "\"2259717b-f87b-4741-851c-4246b16698d8\""
+        ]
+      ],
+      "footprint_layer": "F.Cu",
+      "attribute": "smd"
+    },
+    {
+      "reference": "J2",
+      "pad_before": [
+        "pad",
+        "\"1\"",
+        "thru_hole",
+        "circle",
+        [
+          "at",
+          "0",
+          "0"
+        ],
+        [
+          "size",
+          "2",
+          "2"
+        ],
+        [
+          "drill",
+          "0.8"
+        ],
+        [
+          "layers",
+          "\"*.Cu\""
+        ],
+        [
+          "remove_unused_layers",
+          "no"
+        ],
+        [
+          "net",
+          "\"SIGNAL_A\""
+        ],
+        [
+          "uuid",
+          "\"08f93607-b33b-46bf-b3b6-1629e09d1df5\""
+        ]
+      ],
+      "pad_after": [
+        "pad",
+        "\"1\"",
+        "smd",
+        "rect",
+        [
+          "at",
+          "0",
+          "0"
+        ],
+        [
+          "size",
+          "2",
+          "2"
+        ],
+        [
+          "layers",
+          "\"B.Cu\""
+        ],
+        [
+          "net",
+          "\"SIGNAL_A\""
+        ],
+        [
+          "uuid",
+          "\"08f93607-b33b-46bf-b3b6-1629e09d1df5\""
+        ]
+      ],
+      "footprint_layer": "B.Cu",
+      "attribute": "smd"
+    }
+  ],
+  "input_hashes": {
+    "partial/smoke.kicad_pcb": "fbacd856f97c1bb2c6d64ca0996f878855930122be01352ac894efa618d2cc17",
+    "partial/smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+    "partial/smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643",
+    "required-via/smoke.kicad_pcb": "080d2202bb3f4b2b232d3e8d477fa38e4c472ad8f6df6be92684f1ccea4590e1",
+    "required-via/smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+    "required-via/smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643",
+    "settings.json": "d6f65ebbbc81dfc9e5198a55c1c2cd47ed6cacfbf65b156e63e2d78667fb0b36"
+  },
+  "followup": "If front accepts, a separate copy will move an entire source-pad-to-pad generated net to B.Cu. Run actual unchanged-rule DRC, then require layer guard rejection even if native clean. Also central readback tamper controls, never mutate accepted original evidence."
+}

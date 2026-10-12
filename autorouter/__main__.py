@@ -21,12 +21,15 @@ def preference_arguments(parser):
     parser.add_argument('--profile',choices=['standard','tuned','completion-only'],default=None)
     parser.add_argument('--guidance',choices=['native','board-floors-v1','placement-clearance-v1'],default=None)
     parser.add_argument('--scoring-preference',choices=['via_default','via_low','via_high'],default=None)
+    parser.add_argument('--layers',nargs='+',choices=['source_all','F.Cu','B.Cu'],default=None,
+                        help='Allowed NEW routing copper; explicit lists require native completion-only on qualified two-layer boards')
 
 
 def explicit_preferences(args):
     result={key:getattr(args,key) for key in ('seconds','adapter','profile','guidance','scoring_preference') if getattr(args,key) is not None}
     if args.keep_existing or args.scope=='partial':result['scope']='partial_completion'
     elif args.scope=='whole':result['scope']='whole_board_unlocked_routing'
+    if args.layers is not None:result['layers']='source_all' if args.layers==['source_all'] else args.layers
     return result
 
 
@@ -45,12 +48,21 @@ def preview(board,settings=None,overrides=None):
         if effective['guidance']=='placement-clearance-v1':pc.narrow_source(original)
     protected=[item for item in p.routes(original) if effective['scope']=='partial_completion' or p.locked(item)]
     copper=[sx.unquote(row[1]) for row in sx.one(original,'layers',[])[1:] if isinstance(row,list) and len(row)>2 and sx.unquote(row[1]).endswith('.Cu')]
+    layer_preview=None
+    if effective['layers']!='source_all':
+        from . import layer_policy as lp
+        lp._source_layers(original)
+        lp._route_map(original)
+        layer_preview={'allowed_new_route_layers':effective['layers'],
+            'protected_items_outside_allowed_layers':sum(not set(lp._route_layers(item))<=set(effective['layers']) for item in protected),
+            'description':'Exact original protected copper is preserved, including layers outside the requested new-route list. New through vias require both copper layers.'}
     pref.check_fresh(captured)
     if pc.inventory(source.parent)!=before:raise p.Rejected('source changed during preview')
     return {'status':'preview','static_preflight_passed':True,'native_validation_performed':False,
             'source':str(source),'source_sha256':before[source.name],'effective_preferences':effective,
             'copper_layers':copper,'existing_route_items':len(p.routes(original)),
             'protected_route_items':len(protected),'rerouted_route_items':len(p.routes(original))-len(protected),
+            'layer_restriction':layer_preview,
             'scope_description':'Complete remaining connections while preserving every existing route' if effective['scope']=='partial_completion' else 'Reroute unlocked copper while preserving locked routes',
             'next_step':'Run route with these settings to create a separate candidate. Acceptance still requires original-design checks and native KiCad refill/DRC.'}
 

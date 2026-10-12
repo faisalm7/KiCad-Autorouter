@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "status": "no remaining blocker in scoped source/pure review; actual routing enforcement pending",
+  "runtime_source_pins": {
+    "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+    "autorouter/pipeline.py": "77c57906b8ba4b04d145c381e5b90338526d21b3d04607d9e8d016f25d92bb45",
+    "autorouter/preferences.py": "caa75beef5263258fe6a408b5008be893df52d47c19b734c42ec06ec449d8fef",
+    "autorouter/__main__.py": "02616e72ca26dff8d5ed5a9f58161c89f86c175d440f188792e512c522ec72c3",
+    "autorouter/floor_route.py": "eddc2f9b0df3710f3b8b0a5e486ae000546882863b927053ffec55dcb014116a",
+    "autorouter/placement_clearance.py": "b1d891d0bc8284bcac80a20cff11263afc8966e30ce8baaf35f1ae78e27ff152"
+  },
+  "tested_pipeline_sha256": "0a2bf8b67d34c383e61585a3f64fde92d41b84741f7287c5d485b401fcc1108b",
+  "final_source_only_delta": "Add _route_map(original) immediately after _source_layers(original) in route and preview; central checker unchanged. Independently read exact diff.",
+  "helper_manifest_sha256": "c132080689467286373cba20fe81aef0c067cf317c77fb29dea652bee42753b6",
+  "native_executed": false,
+  "jvm_executed": false,
+  "full_suite_executed": false,
+  "scope": "Existing synthetic native receipt records, real small files, actual central checker, controlled concurrent mutation hooks. Not native evidence.",
+  "findings": [
+    {
+      "id": "R1",
+      "original": "interleaved source copper declarations passed pure helper",
+      "fix": "require both copper declarations first",
+      "resolved": true
+    },
+    {
+      "id": "R2",
+      "original": "unknown/missing ordinary route fields passed pure helper",
+      "fix": "strict supported route field grammar",
+      "resolved": true
+    },
+    {
+      "id": "R3",
+      "original": "five late original/candidate/snapshot/native-input project or native-report changes passed standalone readback",
+      "fix": "captured complete bounded run witness plus final full source equality",
+      "resolved": true
+    },
+    {
+      "id": "R4",
+      "original": "candidate F.Cu to B.Cu or task.dsn changed after final layer audit still passed",
+      "fix": "same final complete witness after late process reads",
+      "resolved": true
+    }
+  ],
+  "corrected_cases": {
+    "helper": 9,
+    "central_readback": 9,
+    "final_engine_read": 3
+  },
+  "limitations": [
+    "Finite consistency samples, not atomic authentication.",
+    "Routing publication already had full material guards; the reproduced defects concerned standalone readback.",
+    "Explicit layers restricted to native completion-only; no new floor/placement/recovery propagation.",
+    "No actual routing support or broader board coverage claim."
+  ]
+}

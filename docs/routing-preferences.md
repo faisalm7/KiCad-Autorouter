@@ -1,6 +1,6 @@
 # Saved routing preferences
 
-Saved preferences capture routing choices without editing KiCad project settings or the source board. They preserve the current board-support and acceptance requirements. Native whole-board, placement and corrected partial-completion cases pass, including exact preservation of the two original fixture tracks. Deliberate protected-track removal produces a real open and is rejected. Both engine-stage cancellation signals pass. The corrected locked-track case also passes while retaining both original locked nodes exactly. Its earlier field-order rejection is preserved. Layer masks remain import-only research and are not yet accepted settings.
+Saved preferences capture routing choices without editing KiCad project settings or the source board. They preserve the current board-support and acceptance requirements. Native whole-board, placement and corrected partial-completion cases pass, including exact preservation of the two original fixture tracks. Deliberate protected-track removal produces a real open and is rejected. Both engine-stage cancellation signals pass. The corrected locked-track case also passes while retaining both original locked nodes exactly. Its earlier field-order rejection is preserved. Explicit allowed-new-layer lists are implemented behind a narrow native completion-only contract; fresh routing qualification is pending. The previous Java import observation alone is not routing proof.
 
 Create a preset once, edit its values, then preview and route using that file:
 
@@ -12,7 +12,7 @@ python3 -B -m autorouter route /path/to/board.kicad_pcb --settings routing-setti
 
 Use a new output directory for each route. Preview lists the resolved choices, source copper layers and existing routes that will be protected or rerouted. It reads the board without running a router or KiCad validation. A passing preview does not promise routing success. The resulting candidate still needs native validation and manual review through `review-copy`.
 
-An explicit command option overrides only that choice for the current run. For example, add `--seconds 180 --scope partial` to preserve all existing routes with a 180-second budget. `--keep-existing` remains an alias for partial scope. Other choices are `--adapter`, `--profile`, `--guidance` and `--scoring-preference`. These overrides do not rewrite the saved preset. Without `--settings`, the command uses the documented defaults; no personal configuration is loaded automatically.
+An explicit command option overrides only that choice for the current run. For example, add `--seconds 180 --scope partial` to preserve all existing routes with a 180-second budget. `--keep-existing` remains an alias for partial scope. Other choices are `--adapter`, `--profile`, `--guidance`, `--scoring-preference` and `--layers`. These overrides do not rewrite the saved preset. Without `--settings`, the command uses the documented defaults; no personal configuration is loaded automatically.
 
 A preset is a UTF-8 JSON object with these fields. All are required except `scoring_preference`, whose default is `null`:
 
@@ -38,7 +38,7 @@ Use an explicitly selected file outside the immutable input project. There is no
 | `adapter` | `none`, `graphics`, `planes`, or `both`, subject to the chosen guidance policy. |
 | `profile` | `standard`, `tuned`, or `completion-only`. These select the existing bounded engine profiles. |
 | `guidance` | `native`, `board-floors-v1`, or `placement-clearance-v1`. Existing board-format and constraint checks remain authoritative. |
-| `layers` | Only `source_all`. Individual layer masks and preferred directions are not qualified by this feature and are rejected. Original stackup, layers and rules remain intact. |
+| `layers` | `"source_all"` (unchanged default), or an explicit unique list such as `["F.Cu"]`, `["B.Cu"]` or `["F.Cu", "B.Cu"]`. Lists require native completion-only mode and the qualified two-layer 20260206 source format. New copper outside the list rejects; exact protected originals remain intact. Four-layer, other formats, optimizer/guidance modes and preferred directions remain unsupported for lists. |
 | `scoring_preference` | `null`, `via_default`, `via_low`, or `via_high`. Null preserves existing behavior. Named values select existing search-cost presets; they do not promise a particular via count, length or routing success. |
 
 Both non-native guidance policies require whole-board scope, `adapter: "both"` and `scoring_preference: null`. Placement guidance additionally requires `profile: "completion-only"`. Its established internal default costs remain fixed. Saving preferences does not enable these policies for `improve` or `recover`.
@@ -54,3 +54,13 @@ During execution, `check_fresh` compares the live preset bytes with the initial 
 The API is `load(path)`, `validate(config)`, `resolve(captured=None, overrides=None)`, `snapshot(captured=None, overrides=None)`, `readback(snapshot_bytes, expected_effective=None)`, `check_fresh(captured)` and `route_arguments(effective)`. `snapshot` returns bytes for the caller to write exclusively; `readback` recomputes all relationships and optionally checks a complete normalized effective configuration. `DEFAULTS` is a read-only mapping; use `dict(DEFAULTS)` for an independent editable copy. Snapshots are limited to 64 KiB. Historical receipts without preference snapshots retain their existing validation contract; adding this helper is not a retrospective qualification of new controls.
 
 Focused tests use real small preset files and captured JSON mutations. They cover round trips, explicit override precedence, stale inputs, symlinks/FIFOs, bounds, duplicate/nonfinite data, aliases and rehashed inconsistent snapshots. They do not establish native routing behavior, GUI support or layer-mask enforcement.
+
+## Explicit allowed new routing layers
+
+For example, save `"profile": "completion-only"`, `"guidance": "native"` and `"layers": ["F.Cu"]` in the preset, or add `--profile completion-only --layers F.Cu` to preview/route. `--layers source_all` explicitly restores the default for that run. A mixture such as `--layers source_all F.Cu` rejects. Request order never changes physical layer order.
+
+This controls new route copper. Original pad layers, stackup, rules, zones and protected routes are immutable. In partial mode all original tracks/vias remain protected; in whole-board mode locked originals remain protected. Preview separately counts originals extending outside the requested list. These exact originals may remain on other layers; generated copper cannot acquire that exemption by adding a lock. A new through via spans both layers and therefore requires both. No blind/micro/custom-padstack via support is implied.
+
+The controller independently reads the source and both retained DSNs, verifies exact named physical order, derives one Freerouting layer mask and binds that flag to the captured preferences. Known segment/arc/ordinary-through-via grammar and unique route identities are required. The candidate is audited before and after saved native refill; the existing original-rule final native DRC, source preservation, cancellation and budget gates remain mandatory. Central receipt readback repeats the layer audit against actual final bytes. Missing, inconsistent or partially removed contracts reject. This layer check is not native acceptance by itself.
+
+Source controls are implemented; current actual native qualification results will be recorded in STATUS.md. Explicit lists do not imply generalized routing gains, selected-net support or live-editor apply/undo.

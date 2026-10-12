@@ -191,5 +191,43 @@ class PreferencePublicationTests(unittest.TestCase):
                         self.assertTrue(triggered)
                     else: self.assertTrue(p.check_result(fixture.receipt)['current'])
 
+    def test_complete_material_freshness_after_late_code_inventory(self):
+        for mutation in ('source_project','candidate_project','snapshot_project','native_report','native_input_project'):
+            with self.subTest(mutation=mutation):
+                fixture=self.receipt_fixture();inventory=p.tree_hash;triggered=[]
+                targets={'source_project':fixture.source.with_suffix('.kicad_pro'),
+                    'candidate_project':fixture.candidate.with_suffix('.kicad_pro'),
+                    'snapshot_project':(fixture.run/'snapshot'/fixture.source.name).with_suffix('.kicad_pro'),
+                    'native_report':fixture.native,
+                    'native_input_project':(fixture.run/'final-drc-input'/fixture.source.name).with_suffix('.kicad_pro')}
+                def late(path):
+                    value=inventory(path)
+                    if Path(path)==fixture.run/'code' and not triggered:
+                        target=targets[mutation];target.write_bytes(target.read_bytes()+b'\n');triggered.append(True)
+                    return value
+                with patch.object(p,'tree_hash',late),self.assertRaises(p.Rejected):p.check_result(fixture.receipt)
+                self.assertTrue(triggered)
+
+    def test_material_changes_during_final_engine_read_reject(self):
+        for mutation in (None,'candidate','task_dsn'):
+            with self.subTest(mutation=mutation):
+                fixture=self.receipt_fixture();dsn=fixture.run/'task.dsn';dsn.write_text('(pcb fixture)')
+                read=f.read_json;calls=[];triggered=[]
+                def late(path):
+                    value=read(path)
+                    if Path(path)==fixture.run/'engine-process.json':
+                        calls.append(True)
+                        # source_all checks both absence of layer flags and the
+                        # exact process, twice. Trigger the final fourth read.
+                        if mutation and len(calls)==4:
+                            target=fixture.candidate if mutation=='candidate' else dsn
+                            target.write_bytes(target.read_bytes()+b'\n');triggered.append(True)
+                    return value
+                with patch.object(f,'read_json',late):
+                    if mutation:
+                        with self.assertRaises(p.Rejected):p.check_result(fixture.receipt)
+                        self.assertTrue(triggered)
+                    else:self.assertTrue(p.check_result(fixture.receipt)['current'])
+
 
 if __name__ == '__main__': unittest.main()

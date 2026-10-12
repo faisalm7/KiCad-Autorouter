@@ -1,0 +1,11 @@
+# Allowed-new-layer source integration
+
+The explicit saved layer list is connected to static preview, exact source/native/task layer mapping, one pinned engine argument, full argv readback, and imported/final saved candidate checks. The unchanged native final DRC/original-design/guarded publication/budget paths remain mandatory. Default source_all and direct API behavior remain. Scope is native completion-only on the qualified two-layer 20260206 format; four-layer, other formats, optimizer/floor/placement, selected nets and custom via padstack are unsupported. Original protected copper is exact and explicitly exempt, never inferred from generated locks.
+
+The reviewed pure draft corrected two scope gaps: copper declarations must precede technical rows; unknown/malformed route grammar rejects. Root integration initially failed its null-binding regression and fixed the demonstrated bypass. Independent actual central-checker probes then reproduced late rule/project/report and final-engine-read mutations passing standalone readback. The fix reuses the bounded complete evidence inventory plus final full original-project comparison for every captured-preference run. Original failures and corrected controls remain retained. No mocked check establishes native routing.
+
+Root final suite:608 tests PASS14.767seconds. Earlier606test suite and initial failed targeted log are retained. Four actual prior accepted partial-v1/locked-v2/whole/placement receipts read back current with unchanged run files. These are consistency checks, not fresh DRC.
+
+Five prospectively fixed native cases have not run: front, back, partial-front with two protected B.Cu tracks, required-via both, required-via front negative. Each gets120second wall/fullCPU caps, original rule files, sequential engine/native execution and exact final validation. The required-via owned fixture changes only documented pad type/layer/drill and footprint side/attribute; it is a new exposed diagnostic, not a corpus board or relaxed original. Conditional copied-candidate disallowed-layer negative follows a successful front run. Source corpus originals remain untouched.
+
+Project-owned code/tests/docs and owned smoke-derived fixture evidence only; no downloaded binary, private source board or cloud material. No routing-quality/generalized/GUI/package claim or formal publication.

@@ -26,7 +26,6 @@ CHOICES = {
     'adapter': {'none', 'graphics', 'planes', 'both'},
     'profile': {'standard', 'tuned', 'completion-only'},
     'guidance': {'native', 'board-floors-v1', 'placement-clearance-v1'},
-    'layers': {'source_all'},
 }
 SCORING = {'via_default', 'via_low', 'via_high'}
 
@@ -113,6 +112,13 @@ def validate(config):
             raise PreferenceError('guidance requires whole-board scope, adapter both and no scoring override')
         if result['guidance'] == 'placement-clearance-v1' and result['profile'] != 'completion-only':
             raise PreferenceError('placement guidance requires completion-only profile')
+    if result['layers'] != 'source_all':
+        from .layer_policy import validate_request
+        try:
+            result['layers'] = validate_request(result['layers'], scope=result['scope'],
+                engine_profile=result['profile'], guidance_policy=result['guidance'])
+        except ValueError as exc:
+            raise PreferenceError(str(exc)) from exc
     return result
 
 

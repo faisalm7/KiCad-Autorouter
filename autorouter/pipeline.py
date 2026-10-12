@@ -418,7 +418,7 @@ def audit_candidate_netclasses(candidate, protected, native):
     return {'native':mapping,'route_dimensions':dimensions,'candidate_sha256':sha(candidate),
             'project_sha256':sha(project)}
 
-def validate_candidate(job, original, candidate, source_hashes, protected, *, guidance_contract=None):
+def validate_candidate(job, original, candidate, source_hashes, protected, *, guidance_contract=None, layer_contract=None):
     check_rule_area_support(original)
     if guidance_contract is not None:
         from .floor_route import validate_contract
@@ -426,12 +426,14 @@ def validate_candidate(job, original, candidate, source_hashes, protected, *, gu
     # Reject mutations before native tooling is allowed to normalize anything.
     if immutable(sx.read(candidate))!=immutable(original): raise Rejected('immutable geometry changed')
     if any(n not in routes(sx.read(candidate)) for n in protected): raise Rejected('protected route changed')
+    if layer_contract is not None:layer_contract['audit']=audit_layer_contract(candidate,layer_contract)
     verify_candidate_files(candidate,source_hashes)
     shutil.copytree(candidate.parent,job.out/'refill')
     refill=job.out/'refill'/candidate.name
     job.drc('refill-drc',refill,save=True)
     sx.write(candidate,transplant_fill(sx.read(candidate),sx.read(refill)))
     if immutable(sx.read(candidate))!=immutable(original): raise Rejected('immutable geometry changed after refill')
+    if layer_contract is not None:layer_contract['audit']=audit_layer_contract(candidate,layer_contract)
     final_hash=sha(candidate)
     if guidance_contract is not None:
         from .floor_route import final_context
@@ -564,13 +566,56 @@ def preferences_fresh(output, request):
         raise Rejected('captured routing preferences changed during execution')
 
 
+def layer_contract(directory, source, effective, binding=None):
+    """Bind source and both retained exports to independently captured choices."""
+    from . import layer_policy as lp
+    from .placement_clearance import read_bytes
+    from .floor_route import canonical
+    arguments={'allowed_names':effective['layers'],'scope':effective['scope'],
+        'engine_profile':effective['profile'],'guidance_policy':effective['guidance']}
+    raw=(read_bytes(Path(source),lp.MAX_BOARD_BYTES),
+         read_bytes(Path(directory)/'native.dsn',lp.MAX_DSN_BYTES),
+         read_bytes(Path(directory)/'task.dsn',lp.MAX_DSN_BYTES))
+    derived=lp.bind(*raw,**arguments)
+    if binding is not None and canonical(binding)!=canonical(derived):
+        raise Rejected('layer binding differs from captured choices and source exports')
+    return {'source':Path(source),'directory':Path(directory),'effective':copy.deepcopy(effective),'binding':derived}
+
+
+def audit_layer_contract(candidate, contract):
+    from . import layer_policy as lp
+    from .placement_clearance import read_bytes
+    effective=contract['effective'];directory=contract['directory']
+    return lp.audit_candidate(read_bytes(contract['source'],lp.MAX_BOARD_BYTES),
+        read_bytes(candidate,lp.MAX_BOARD_BYTES),read_bytes(directory/'native.dsn',lp.MAX_DSN_BYTES),
+        read_bytes(directory/'task.dsn',lp.MAX_DSN_BYTES),contract['binding'],
+        allowed_names=effective['layers'],scope=effective['scope'],
+        engine_profile=effective['profile'],guidance_policy=effective['guidance'])
+
+
+def layer_markers(directory, data):
+    """Do not downgrade an incompletely removed layer contract to legacy evidence."""
+    if 'layer_binding' in data or 'layer_audit' in data:return True
+    def reserved(argv):
+        return isinstance(argv,list) and any(isinstance(arg,str) and arg.startswith('--router.layers') for arg in argv)
+    if reserved(data.get('engine_budget',{}).get('argv')):return True
+    if any(reserved(step.get('argv')) for step in data.get('steps',[]) if isinstance(step,dict)):return True
+    path=Path(directory)/'engine-process.json'
+    if path.exists() or path.is_symlink():
+        from .floor_route import read_json
+        return reserved(read_json(path).get('argv'))
+    return False
+
+
 def check_preferences_record(directory, data):
     """Recompute the captured choice and bind it to the actual engine invocation."""
     path=Path(directory)/'routing-preferences.json'
-    if 'routing_preferences' not in data and not path.exists() and not path.is_symlink():return
+    if 'routing_preferences' not in data and not path.exists() and not path.is_symlink():
+        if layer_markers(directory,data):raise Rejected('layer evidence requires captured routing preferences')
+        return
     from . import preferences as pref
     from .placement_clearance import read_bytes
-    from .floor_route import read_json
+    from .floor_route import read_json, canonical
     binding=data.get('routing_preferences')
     if not isinstance(binding,dict) or set(binding)!={'file','sha256','effective'} or binding['file']!=path.name:
         raise Rejected('missing or malformed routing preferences binding')
@@ -586,6 +631,14 @@ def check_preferences_record(directory, data):
     settings=engine_profile_settings(effective['profile'],assigned.get('remaining_outer_wall_seconds_at_assignment'),
         strict_class_targets=effective['guidance']!='native' or data.get('netclass_policy') is not None,scoring_variant=scoring)
     settings.update(outer_task_wall_budget_seconds=effective['seconds'],outer_task_cpu_budget_seconds=effective['seconds'])
+    if effective['layers']!='source_all':
+        if type(data.get('layer_binding')) is not dict or type(data.get('layer_audit')) is not dict:
+            raise Rejected('missing final layer binding or audit')
+        contract=layer_contract(directory,data['source'],effective,data['layer_binding'])
+        audited=audit_layer_contract(Path(data['candidate']),contract)
+        if canonical(audited)!=canonical(data['layer_audit']):raise Rejected('final layer audit differs from actual candidate')
+        settings['argv'].append(contract['binding']['engine_argument'])
+    elif layer_markers(directory,data):raise Rejected('unexpected layer restriction without captured explicit layers')
     if settings!=assigned:raise Rejected('engine budget differs from captured preferences')
     steps=[step for step in data.get('steps',[]) if step.get('name')=='engine']
     if len(steps)!=1:raise Rejected('missing unique preference-bound engine step')
@@ -640,6 +693,10 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
         capture_preferences(report,output,_preferences)
         before=tree_hash(source.parent); report['source_hashes']=before
         original=preflight(source)
+        if _preferences is not None and _preferences['effective']['layers']!='source_all':
+            from .layer_policy import _source_layers, _route_map
+            _source_layers(original)
+            _route_map(original)
         shutil.copytree(source.parent,output/'snapshot'); shutil.copytree(source.parent,output/'candidate')
         snapshot=output/'snapshot'/source.name; candidate=output/'candidate'/source.name
         if tree_hash(output/'snapshot')!=before: raise Rejected('source changed during snapshot')
@@ -673,11 +730,16 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
         if policy is not None:
             report['netclass_task_audit']=audit_dsn(output/'task.dsn',native_classes,json.loads(candidate.with_suffix('.kicad_pro').read_text()))
         report['task_dsn_sha256']=sha(output/'task.dsn')
+        layers=None
+        if _preferences is not None and _preferences['effective']['layers']!='source_all':
+            layers=layer_contract(output,source,_preferences['effective'])
+            report['layer_binding']=layers['binding']
         config_dir=output/'engine-config'; config_dir.mkdir()
         report['engine_budget']=engine_profile_settings(engine_profile,job.deadline-time.monotonic(),strict_class_targets=policy is not None,scoring_variant=scoring_variant)
         report['engine_budget']['outer_task_wall_budget_seconds']=seconds
         report['engine_budget']['outer_task_cpu_budget_seconds']=seconds
         engine_settings=report['engine_budget']['argv']
+        if layers is not None:engine_settings.append(layers['binding']['engine_argument'])
         preferences_fresh(output,_preferences)
         job.step('engine',engine_argv(output,engine_settings))
         if engine_profile=='tuned':
@@ -689,7 +751,8 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
         sx.write(candidate,transplant_routes(task,sx.read(imported),protected=protected,audit=reconciliation,
             policy='exact_non_uuid_lock_position_v2'))
         if protected:report['protected_route_import']={'imported_sha256':sha(imported),**reconciliation}
-        final_hash, native = validate_candidate(job, original, candidate, before, protected)
+        final_hash, native = validate_candidate(job, original, candidate, before, protected,layer_contract=layers)
+        if layers is not None:report['layer_audit']=layers['audit']
         report['native']=native
         job.native('metrics','metrics',candidate,output/'metrics.json')
         report['metrics']=json.loads((output/'metrics.json').read_text())
@@ -773,6 +836,15 @@ def check_result(path):
     # Parse once strictly before policy dispatch; duplicate selectors cannot hide schema3.
     data=read_json(path)
     input_policy=receipt_policy(data,path.parent)
+    # Captured-choice runs use the shared bounded reader for a complete witness,
+    # including original rule copies and native evidence, before interpreting it.
+    # Recheck after every late settings/process read; board-only layer checks
+    # cannot detect a concurrently changed project file or native report.
+    preferences_guarded=('routing_preferences' in data or (path.parent/'routing-preferences.json').exists()
+        or (path.parent/'routing-preferences.json').is_symlink() or layer_markers(path.parent,data))
+    if preferences_guarded:
+        from .placement_clearance import evidence_inventory as bounded_evidence, inventory as bounded_inventory
+        readback_material=bounded_evidence(path.parent)
     if input_policy=='placement-clearance-v1':
         from .placement_clearance import evidence_inventory as bounded_evidence
         bounded_evidence(path.parent)  # Bound the whole malformed tree before common legacy reads.
@@ -917,8 +989,8 @@ def check_result(path):
         from .placement_clearance import final_freshness
         final_freshness(path.parent,data)
         if hashlib.sha256(bounded_bytes(path)).hexdigest()!=receipt_digest:raise Rejected('placement receipt changed during readback')
-    if 'routing_preferences' in data or (path.parent/'routing-preferences.json').exists():
-        check_preferences_record(path.parent,data)
+    check_preferences_record(path.parent,data)
+    if 'routing_preferences' in data or (path.parent/'routing-preferences.json').exists() or layer_markers(path.parent,data):
         if hashlib.sha256(bounded_bytes(path)).hexdigest()!=receipt_digest:
             raise Rejected('preference receipt changed during readback')
     if 'protected_route_import' in data:
@@ -926,4 +998,9 @@ def check_result(path):
         verify_candidate_files(candidate,data['source_hashes'],data['candidate_sha256'])
         if hashlib.sha256(bounded_bytes(path)).hexdigest()!=receipt_digest:
             raise Rejected('protected import receipt changed during readback')
+    if preferences_guarded:
+        if bounded_inventory(source.parent,max_bytes=100*1024*1024)!=data['source_hashes']:
+            raise Rejected('source project changed during preference readback')
+        if bounded_evidence(path.parent)!=readback_material:
+            raise Rejected('complete preference routing evidence changed during readback')
     return result
