@@ -53,6 +53,25 @@ class Controls(unittest.TestCase):
         self.assertEqual((self.original['file_count'], self.original['bytes']), (312, 32392408))
         self.assertEqual(self.original['bytes'] + self.plan['planned_bytes'], 37408570)
 
+    def test_legacy_default_and_explicit_destination(self):
+        self.assertEqual(f.profile()['directory'], 'experiments/licensed_acquisition_v1')
+        self.assertIn('expansion004', f.extend(self.baseline, {})['directories'])
+        changed = f.extend(self.baseline, {'one': {'bytes': 1, 'sha256': 'a' * 64}},
+                           destination_root='expansion005')
+        self.assertIn('expansion005/one', changed['files'])
+        self.assertNotIn('expansion004', changed['directories'])
+        with self.assertRaisesRegex(ValueError, 'destination root'):
+            f.extend(self.baseline, {}, destination_root='../elsewhere')
+
+    def test_cross_profile_and_unknown_profile_refused(self):
+        with self.assertRaisesRegex(ValueError, 'scope'):
+            f.validate_protocol(self.plan, self.original, 'v2')
+        with self.assertRaisesRegex(ValueError, 'protocol pin'):
+            f.load(HERE, 'v2')
+        for profile_id in ('v3', '../v1', True, None):
+            with self.subTest(profile_id=profile_id), self.assertRaisesRegex(ValueError, 'unreviewed'):
+                f.profile(profile_id)
+
     def test_unsafe_paths(self):
         for path in ('/absolute', '../escape', 'a//b', 'a/./b', 'a\\b', 'a\x00b', ''):
             with self.subTest(path=path), self.assertRaises(ValueError):

@@ -15,7 +15,7 @@ import transport
 from experiments.pic_mixed_transport_probe_v1.worker import OBSERVATION_SCOPE,observation_reference
 
 SECONDS=180.0;LIMIT=64*1024**2
-HELPERS=('driver.py','worker.py','transport.py','MixedClassProbe.java','test_draft.py','PROTOCOL.json','README.md','LOCAL_CLEARANCE_PROTOCOL.json','test_local_transport.py','SES_PROTOCOL.json','ses_checks.py','ses_native.py','test_ses.py','SES_NATIVE_PROTOCOL.json','SES_FINISH_PROTOCOL.json','SELECTIVE_PROTOCOL.json','SelectiveAreaProbe.java','selective.py','test_selective.py','ROUTING_PROTOCOL.json','SelectiveRoutingProbe.java','routing_input.py','test_routing_input.py','routing_checks.py','routing_native.py','test_routing.py','ROUTING_NATIVE_PROTOCOL.json','ADAPTER_PROTOCOL.json','ADAPTER_NATIVE_PROTOCOL.json','routing_adapter.py','test_routing_adapter.py','ExactPointWitness.java')
+HELPERS=('driver.py','worker.py','transport.py','MixedClassProbe.java','test_draft.py','PROTOCOL.json','README.md','LOCAL_CLEARANCE_PROTOCOL.json','test_local_transport.py','SES_PROTOCOL.json','ses_checks.py','ses_native.py','test_ses.py','SES_NATIVE_PROTOCOL.json','SES_FINISH_PROTOCOL.json','SELECTIVE_PROTOCOL.json','SelectiveAreaProbe.java','selective.py','test_selective.py','ROUTING_PROTOCOL.json','SelectiveRoutingProbe.java','routing_input.py','test_routing_input.py','routing_checks.py','routing_native.py','test_routing.py','ROUTING_NATIVE_PROTOCOL.json','ADAPTER_PROTOCOL.json','ADAPTER_NATIVE_PROTOCOL.json','routing_adapter.py','test_routing_adapter.py','ExactPointWitness.java','ADAPTER_LOW_VIA_PROTOCOL.json')
 REUSE=('experiments/custom_pad_area_probe_v1/driver.py','experiments/custom_pad_area_probe_v1/derive.py',
     'experiments/custom_pad_area_probe_v1/checks.py','experiments/custom_pad_area_probe_v1/AreaContactProbe.java',
     'experiments/pic_custom_observer_v1/driver.py','experiments/pic_custom_observer_v1/worker.py','experiments/pic_custom_observer_v1/mapping.py')
@@ -128,20 +128,24 @@ def pending_candidate(out,path,frozen,mutable_files,capture):
     finally:
         mutable_files.remove(relative);capture()
 
-def experiment(out,*,started=None,cpu_started=None,local_clearance=False,ses_roundtrip=False,native_from_ses=False,finish_native=False,selective_obstacles=False,routing_probe=False,cancel_routing=False,native_from_routing=False,adapter_proposal=False):
+def compile_argv(code,out,tools,env,jar,*,selective_obstacles=False,routing_probe=False):
+    return [*base.SANDBOX,tools['javac']['path'],'-J-Xmx256m','-J-Duser.home='+env['HOME'],'-proc:none','-classpath',jar,'-d',str(out/'classes'),str(code/'MixedClassProbe.java'),str(code/'ExactPointWitness.java'),str(out/'code/experiments/custom_pad_area_probe_v1/AreaContactProbe.java'),*([str(code/'SelectiveAreaProbe.java')] if selective_obstacles or routing_probe else []),*([str(code/'SelectiveRoutingProbe.java')] if routing_probe else [])]
+
+def experiment(out,*,started=None,cpu_started=None,local_clearance=False,ses_roundtrip=False,native_from_ses=False,finish_native=False,selective_obstacles=False,routing_probe=False,cancel_routing=False,native_from_routing=False,adapter_proposal=False,adapter_via_low=False):
     if HERE.relative_to(ROOT).as_posix()!='experiments/pic_mixed_transport_probe_v1':raise ValueError('promote and commit reviewed helper before execution')
     start=time.monotonic() if started is None else started;cpu0=base.cpu() if cpu_started is None else cpu_started;out=base.real(out)
     if out.parent!=ROOT/'.runs' or out.exists():raise ValueError('fresh direct .runs output required')
     if selective_obstacles and (local_clearance or ses_roundtrip or native_from_ses or finish_native):raise ValueError('selective mode cannot be combined with other modes')
     if native_from_routing and (routing_probe or cancel_routing):raise ValueError('native continuation cannot combine routing/cancel modes')
     if adapter_proposal and (routing_probe or cancel_routing):raise ValueError('adapter proposal mode must stand alone')
+    if adapter_via_low and (not adapter_proposal or native_from_routing):raise ValueError('low-via requires fresh adapter proposal')
     routing_probe=routing_probe or native_from_routing or adapter_proposal
     if routing_probe and (local_clearance or ses_roundtrip or native_from_ses or finish_native or selective_obstacles):raise ValueError('routing mode must stand alone')
     if cancel_routing and not routing_probe:raise ValueError('cancel control requires routing mode')
     native_from_ses=native_from_ses or finish_native
     ses_roundtrip=ses_roundtrip or native_from_ses
     local_clearance=local_clearance or ses_roundtrip or selective_obstacles or routing_probe
-    protocol=base.decode(base.content(HERE/('ADAPTER_NATIVE_PROTOCOL.json' if adapter_proposal and native_from_routing else 'ADAPTER_PROTOCOL.json' if adapter_proposal else 'ROUTING_NATIVE_PROTOCOL.json' if native_from_routing else 'ROUTING_PROTOCOL.json' if routing_probe else 'SELECTIVE_PROTOCOL.json' if selective_obstacles else 'SES_FINISH_PROTOCOL.json' if finish_native else 'SES_NATIVE_PROTOCOL.json' if native_from_ses else 'SES_PROTOCOL.json' if ses_roundtrip else 'LOCAL_CLEARANCE_PROTOCOL.json' if local_clearance else 'PROTOCOL.json')));record={'schema':1,'status':'preparing','observations_complete':False,
+    protocol=base.decode(base.content(HERE/('ADAPTER_LOW_VIA_PROTOCOL.json' if adapter_via_low else 'ADAPTER_NATIVE_PROTOCOL.json' if adapter_proposal and native_from_routing else 'ADAPTER_PROTOCOL.json' if adapter_proposal else 'ROUTING_NATIVE_PROTOCOL.json' if native_from_routing else 'ROUTING_PROTOCOL.json' if routing_probe else 'SELECTIVE_PROTOCOL.json' if selective_obstacles else 'SES_FINISH_PROTOCOL.json' if finish_native else 'SES_NATIVE_PROTOCOL.json' if native_from_ses else 'SES_PROTOCOL.json' if ses_roundtrip else 'LOCAL_CLEARANCE_PROTOCOL.json' if local_clearance else 'PROTOCOL.json')));record={'schema':1,'status':'preparing','observations_complete':False,
         'routing_accepted':False,'custom_pad_support_qualified':False,'mixed_clearance_equivalence_qualified':False,
         'routing_executed':False,'ses_executed':False,'native_process_executed':False,'import_process_executed':False,
         'steps':[],'wall_budget_seconds':SECONDS,'cpu_budget_seconds':SECONDS,
@@ -312,8 +316,8 @@ def experiment(out,*,started=None,cpu_started=None,local_clearance=False,ses_rou
                 'new_writer_execution':False,'scope':'Reuse completed actual writer output after a strict checker correction; original failed receipt retained. Fresh native stages only.'}
             capture()
         elif not native_from_routing:
-            step('compile',[*base.SANDBOX,tools['javac']['path'],'-J-Xmx256m','-J-Duser.home='+env['HOME'],'-proc:none','-classpath',jar,'-d',str(out/'classes'),str(code/'MixedClassProbe.java'),str(code/'ExactPointWitness.java'),str(out/'code/experiments/custom_pad_area_probe_v1/AreaContactProbe.java'),*([str(code/'SelectiveAreaProbe.java')] if selective_obstacles or routing_probe else []),*([str(code/'SelectiveRoutingProbe.java')] if routing_probe else [])],30)
-            step('import',[*base.SANDBOX,tools['java']['path'],'-Xmx256m','-Djava.awt.headless=true','-Duser.home='+env['HOME'],'-Djava.io.tmpdir='+env['TMPDIR'],'-cp',str(out/'classes')+os.pathsep+jar,'SelectiveRoutingProbe' if routing_probe else 'SelectiveAreaProbe' if selective_obstacles else 'MixedClassProbe',str(out/('unrouted.dsn' if routing_probe else 'mixed.dsn')),str(out/'observations.json'),*(['adapter-route' if adapter_proposal else 'cancel' if cancel_routing else 'route'] if routing_probe else ['local250-ses' if ses_roundtrip else 'local250'] if local_clearance and not selective_obstacles else [])],90 if routing_probe else 60)
+            step('compile',compile_argv(code,out,tools,env,jar,selective_obstacles=selective_obstacles,routing_probe=routing_probe),30)
+            step('import',[*base.SANDBOX,tools['java']['path'],'-Xmx256m','-Djava.awt.headless=true','-Duser.home='+env['HOME'],'-Djava.io.tmpdir='+env['TMPDIR'],'-cp',str(out/'classes')+os.pathsep+jar,'SelectiveRoutingProbe' if routing_probe else 'SelectiveAreaProbe' if selective_obstacles else 'MixedClassProbe',str(out/('unrouted.dsn' if routing_probe else 'mixed.dsn')),str(out/'observations.json'),*(['adapter-low-via' if adapter_via_low else 'adapter-route' if adapter_proposal else 'cancel' if cancel_routing else 'route'] if routing_probe else ['local250-ses' if ses_roundtrip else 'local250'] if local_clearance and not selective_obstacles else [])],90 if routing_probe else 60)
         observed=base.decode(base.content(out/'observations.json',16*1024**2))
         if routing_probe:
             from experiments.pic_mixed_transport_probe_v1 import routing_checks,routing_native,ses_checks
@@ -328,11 +332,11 @@ def experiment(out,*,started=None,cpu_started=None,local_clearance=False,ses_rou
                 else:raise ValueError('expected retained strict geometry failure absent')
                 record['routing_comparison']=routing_checks.compare(observed,route_expected,retained_selective,native_diagnostic=True)
             elif adapter_proposal:
-                try:record['strict_routing_comparison']=routing_checks.compare(observed,route_expected,retained_selective,adapter_receipt=record['routing_adapter'])
+                try:record['strict_routing_comparison']=routing_checks.compare(observed,route_expected,retained_selective,adapter_receipt=record['routing_adapter'],scoring_variant='via_low' if adapter_via_low else None)
                 except ValueError as exc:
                     if str(exc)!='exact integer engine point required':raise
                     record['strict_geometry_error']='ValueError: '+str(exc)
-                record['routing_comparison']=routing_checks.compare(observed,route_expected,retained_selective,native_diagnostic=True,adapter_receipt=record['routing_adapter'])
+                record['routing_comparison']=routing_checks.compare(observed,route_expected,retained_selective,native_diagnostic=True,adapter_receipt=record['routing_adapter'],scoring_variant='via_low' if adapter_via_low else None)
             else:
                 record['routing_comparison']=routing_checks.compare(observed,route_expected,retained_selective)
             raw=base.content(out/'raw.ses',ses_checks.MAX_SES);writer=observed['writer']['ses']
@@ -398,10 +402,10 @@ def experiment(out,*,started=None,cpu_started=None,local_clearance=False,ses_rou
 
 def main(argv=None):
     started=time.monotonic();cpu_started=base.cpu()
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--run-probe',action='store_true');parser.add_argument('--output',type=Path,required=True);parser.add_argument('--local-clearance',action='store_true');parser.add_argument('--ses-roundtrip',action='store_true');parser.add_argument('--native-from-ses',action='store_true');parser.add_argument('--finish-native',action='store_true');parser.add_argument('--selective-obstacles',action='store_true');parser.add_argument('--routing-probe',action='store_true');parser.add_argument('--cancel-routing',action='store_true');parser.add_argument('--native-from-routing',action='store_true');parser.add_argument('--adapter-proposal',action='store_true');args=parser.parse_args(argv)
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--run-probe',action='store_true');parser.add_argument('--output',type=Path,required=True);parser.add_argument('--local-clearance',action='store_true');parser.add_argument('--ses-roundtrip',action='store_true');parser.add_argument('--native-from-ses',action='store_true');parser.add_argument('--finish-native',action='store_true');parser.add_argument('--selective-obstacles',action='store_true');parser.add_argument('--routing-probe',action='store_true');parser.add_argument('--cancel-routing',action='store_true');parser.add_argument('--native-from-routing',action='store_true');parser.add_argument('--adapter-proposal',action='store_true');parser.add_argument('--adapter-via-low',action='store_true');args=parser.parse_args(argv)
     if not args.run_probe:parser.error('--run-probe required')
     with base.cancellation(),base.real(ROOT/'.runs/quality-experiment.lock').open('a') as lock:
-        fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);result=experiment(args.output,started=started,cpu_started=cpu_started,local_clearance=args.local_clearance,ses_roundtrip=args.ses_roundtrip,native_from_ses=args.native_from_ses,finish_native=args.finish_native,selective_obstacles=args.selective_obstacles,routing_probe=args.routing_probe,cancel_routing=args.cancel_routing,native_from_routing=args.native_from_routing,adapter_proposal=args.adapter_proposal)
+        fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);result=experiment(args.output,started=started,cpu_started=cpu_started,local_clearance=args.local_clearance,ses_roundtrip=args.ses_roundtrip,native_from_ses=args.native_from_ses,finish_native=args.finish_native,selective_obstacles=args.selective_obstacles,routing_probe=args.routing_probe,cancel_routing=args.cancel_routing,native_from_routing=args.native_from_routing,adapter_proposal=args.adapter_proposal,adapter_via_low=args.adapter_via_low)
     print(base.canonical({k:result.get(k) for k in ('status','observations_complete','wall_seconds','total_cpu_seconds')}).decode(),end='')
     return 0 if result['observations_complete'] else 1
 

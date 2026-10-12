@@ -1,0 +1,36 @@
+{
+  "synthetic_mutations_of_retained_data_not_solver_evidence": true,
+  "checker_sha256": "f50a6d73e0ac5bf3779504346afbdfdcb6c20e2dabe2f03b58f17e4d8437cd09",
+  "results": [
+    {
+      "case": "unchanged_default",
+      "accepted_checker": true,
+      "routing_accepted": false
+    },
+    {
+      "case": "declared_low",
+      "accepted_checker": true,
+      "routing_accepted": false
+    },
+    {
+      "case": "prefix_removed",
+      "accepted_checker": false,
+      "exception": "ValueError: requested via scoring flags differ"
+    },
+    {
+      "case": "extra_flag",
+      "accepted_checker": false,
+      "exception": "ValueError: requested via scoring flags differ"
+    },
+    {
+      "case": "wrong_cost",
+      "accepted_checker": false,
+      "exception": "ValueError: requested via scoring differs"
+    },
+    {
+      "case": "wrong_mode",
+      "accepted_checker": false,
+      "exception": "ValueError: finite adapter low-via diagnostic required"
+    }
+  ]
+}

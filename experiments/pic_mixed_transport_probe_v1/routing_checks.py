@@ -98,7 +98,7 @@ def effective(value):
         raise ValueError('exact two active routing layers required')
     return {'configuration':config,'layers':layers,'board_specific_costs_applied':value['board_specific_costs_applied']}
 
-def compare(observed,expected,retained_selective,*,native_diagnostic=False,adapter_receipt=None):
+def compare(observed,expected,retained_selective,*,native_diagnostic=False,adapter_receipt=None,scoring_variant=None):
     if (type(observed.get('schema')) is not int or observed['schema']!=1 or observed.get('mode')!='selective_route_diagnostic'
             or observed.get('status')!='observed' or observed.get('routing_executed') is not True
             or observed.get('ses_executed') is not True or type(observed.get('cancel_before_routing')) is not bool):
@@ -125,6 +125,20 @@ def compare(observed,expected,retained_selective,*,native_diagnostic=False,adapt
     s.equal(enabled,expected_enabled,'enabling router changed other settings')
     s.equal(final,enabled,'pipeline changed frozen routing settings')
     config=enabled['configuration']
+    if scoring_variant is not None:
+        from autorouter.pipeline import engine_scoring_settings
+        if scoring_variant!='via_low' or adapter_receipt is None:
+            raise ValueError('finite adapter low-via diagnostic required')
+        costs=engine_scoring_settings(scoring_variant)
+        if any(type(config.get('scoring',{}).get(k)) is not int or config['scoring'][k]!=costs[k]
+               for k in ('via_costs','plane_via_costs')):
+            raise ValueError('requested via scoring differs')
+        required=['--router.autorouter.enabled=false','--router.optimizer.enabled=false',
+            '--router.plane_as_obstacle=false','--router.fanout.enabled=false','--router.automatic_neckdown=false',
+            '--router.neck_width_um=0','--router.autorouter.max_passes=30',
+            '--router.autorouter.algorithm=freerouting-router','--router.max_threads=1',*costs['argv']]
+        if row['argv']!=required:
+            raise ValueError('requested via scoring flags differ')
     if (config['autorouter']['algorithm']!='freerouting-router' or config['autorouter']['max_passes']!=30
             or config['optimizer']['enabled'] is not False or config['fanout']['enabled'] is not False
             or config['automatic_neckdown'] is not False or config['neck_width_um']!=0

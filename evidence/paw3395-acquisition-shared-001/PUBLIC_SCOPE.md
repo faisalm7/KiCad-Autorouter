@@ -1,0 +1,1 @@
+Exact selected project-owned source preparation and independent review evidence. Includes preserved failed controls followed by corrected controls. No source boards, third-party binaries or private data copied. Original manifests may describe local-only omitted snapshots. No native, engine or acquisition execution by this curation.

@@ -10,6 +10,16 @@ from autorouter import sexpr as sx, pipeline as p
 ROOT=Path(__file__).resolve().parents[2]
 
 class RoutingChecks(unittest.TestCase):
+    def test_real_compile_command_construction_for_each_mode(self):
+        from experiments.pic_mixed_transport_probe_v1 import driver
+        code=Path('/owned/code');out=Path('/owned/run')
+        for selective,routing,wanted in ((False,False,3),(True,False,4),(False,True,5)):
+            argv=driver.compile_argv(code,out,{'javac':{'path':'/pinned/javac'}},{'HOME':'/owned/home'},'/pinned/engine.jar',selective_obstacles=selective,routing_probe=routing)
+            self.assertTrue(all(type(arg) is str for arg in argv))
+            self.assertIn(str(code/'ExactPointWitness.java'),argv)
+            self.assertEqual(len([arg for arg in argv if arg.endswith('.java')]),wanted)
+            self.assertFalse(any(arg.endswith('.json') for arg in argv))
+
     @classmethod
     def setUpClass(cls):
         src=ROOT/'evidence/pic-selective-area-observation-002'
@@ -211,6 +221,34 @@ class RoutingChecks(unittest.TestCase):
         self.assertNotEqual(c.static_state(old),c.static_state(new))
         new['nets'][0]['width_um'][0]+=1
         self.assertNotEqual(c.static_state(old,renumber=True),c.static_state(new,renumber=True))
+
+    def test_low_via_requires_exact_requested_costs_and_flags(self):
+        src=ROOT/'evidence/pic-corrected-adapter-routing-001'
+        observed=json.loads((src/'observations.json').read_text())
+        expected=json.loads((src/'routing-expectations.json').read_text())
+        receipt=json.loads((src/'summary.json').read_text())['routing_adapter']
+        for key in ('settings_loaded','settings_enabled','settings_final'):
+            config=json.loads(observed[key]['configuration_json'])
+            config['scoring'].update(via_costs=25,plane_via_costs=3)
+            observed[key]['configuration_json']=json.dumps(config)
+        observed['case']['argv']+=p.engine_scoring_settings('via_low')['argv']
+        # This altered saved observation is a checker control, never a routing result.
+        self.assertTrue(c.compare(observed,expected,self.retained,adapter_receipt=receipt,scoring_variant='via_low')['geometry_verified'])
+        for mode in ('via_default','unknown',True):
+            with self.subTest(mode=mode),self.assertRaises(ValueError):
+                c.compare(observed,expected,self.retained,adapter_receipt=receipt,scoring_variant=mode)
+        for key in ('via_costs','plane_via_costs'):
+            bad=copy.deepcopy(observed)
+            for phase in ('settings_loaded','settings_enabled','settings_final'):
+                config=json.loads(bad[phase]['configuration_json']);config['scoring'][key]=True
+                bad[phase]['configuration_json']=json.dumps(config)
+            with self.subTest(key=key),self.assertRaisesRegex(ValueError,'via scoring'):
+                c.compare(bad,expected,self.retained,adapter_receipt=receipt,scoring_variant='via_low')
+        for argv in (observed['case']['argv'][:-1],observed['case']['argv'][-2:],
+                     ['--router.scoring.via_costs=999',*observed['case']['argv']]):
+            bad=copy.deepcopy(observed);bad['case']['argv']=argv
+            with self.subTest(argv=argv),self.assertRaisesRegex(ValueError,'via scoring flags'):
+                c.compare(bad,expected,self.retained,adapter_receipt=receipt,scoring_variant='via_low')
 
     def test_native_task_copy_retains_original_intent_and_rules(self):
         with tempfile.TemporaryDirectory(dir=ROOT/'.runs') as td:

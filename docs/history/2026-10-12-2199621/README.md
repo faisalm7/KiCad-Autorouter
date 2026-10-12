@@ -1,0 +1,1 @@
+Exact documentation snapshots from checkpoint2199621 before consolidating the current status. Historical next-step commands here are superseded by the root STATUS.md and PLANS.md. Source and all experimental evidence remain preserved; this archive removes no prior result.

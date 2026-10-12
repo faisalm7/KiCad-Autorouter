@@ -1,0 +1,101 @@
+{
+  "acquisition_executed": false,
+  "added_functions": [
+    "material_paths",
+    "profile"
+  ],
+  "baseline_bytes": 37408570,
+  "baseline_files": 345,
+  "data_fetch_and_sources_unchanged": true,
+  "failed_preparation_cause": "literal replacement incorrectly referred to selected during PROFILES initialization; fixed before any plan/acquisition; no requests",
+  "failed_preparation_logs_retained": [
+    "v1-tests-001.log",
+    "v2-tests-001.log"
+  ],
+  "limits_changed": false,
+  "native_or_jvm": false,
+  "network_requests": 0,
+  "old_ignored_draft_unchanged": true,
+  "original_all_data_inventory_unchanged": true,
+  "planned_bytes": 2163350,
+  "planned_files": 14,
+  "post_bytes": 39571920,
+  "preserved_function_ast": [
+    "sha",
+    "safe",
+    "contained",
+    "bounded",
+    "decode",
+    "inventory",
+    "git",
+    "git_identity",
+    "payload",
+    "alarm",
+    "NoRedirect",
+    "fetch_one",
+    "write_json",
+    "publish",
+    "cancellation"
+  ],
+  "profile_plumbing_or_material_functions_changed": [
+    "extend",
+    "validate_protocol",
+    "load",
+    "material",
+    "committed",
+    "acquire",
+    "execute",
+    "main"
+  ],
+  "schema": 1,
+  "scope": "true shared-controller source preparation, no acquisitions",
+  "source_mutations_only": [
+    "experiments/licensed_acquisition_v1/fetch.py",
+    "experiments/licensed_acquisition_v1/test_fetch.py",
+    "experiments/licensed_acquisition_v2 six exact profile files"
+  ],
+  "tests": [
+    {
+      "command": "python3 -B experiments/licensed_acquisition_v1/test_fetch.py",
+      "log": {
+        "bytes": 3446,
+        "sha256": "97868eac1f9d64b53c763ca1dbcaa3dd9525aabdb9f61577d2a284bd6992831d"
+      },
+      "methods": 33,
+      "passed": true,
+      "wall_seconds_unittest": 0.117
+    },
+    {
+      "command": "python3 -B experiments/licensed_acquisition_v2/test_fetch.py",
+      "legacy_methods_reused": 33,
+      "log": {
+        "bytes": 5622,
+        "sha256": "5c8fb56a3ae3596e8bffef95d56250c60eebf4b8a647a6d2c841ba9568846842"
+      },
+      "methods": 40,
+      "passed": true,
+      "wall_seconds_unittest": 0.19
+    }
+  ],
+  "v1_default_protocol_sha256": "23239f00d5d249611d2403eec0e41d8d6db22881aa76dd3d76e94bd764b24427",
+  "v1_runtime_files": [
+    "fetch.py",
+    "test_fetch.py",
+    "protocol.json",
+    "existing-data-inventory.json",
+    "README.md",
+    "STATIC_AUDIT.md"
+  ],
+  "v2_frozen_protocol_inventory_audit_exact_prior_draft": true,
+  "v2_protocol_sha256": "94c5d74bfa34da80278db89bc2fc48ba165ed4bb293cb2f3d8382f3150241a66",
+  "v2_runtime_files": [
+    "fetch.py",
+    "test_fetch.py",
+    "protocol.json",
+    "existing-data-inventory.json",
+    "README.md",
+    "STATIC_AUDIT.md",
+    "shared/fetch.py",
+    "shared/test_fetch.py"
+  ]
+}

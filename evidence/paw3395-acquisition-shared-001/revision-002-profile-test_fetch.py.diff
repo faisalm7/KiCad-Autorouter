@@ -1,0 +1,43 @@
+--- before/experiments/licensed_acquisition_v2/test_fetch.py
++++ after/experiments/licensed_acquisition_v2/test_fetch.py
+@@ -119,6 +119,40 @@
+         with mock.patch.object(f, 'git', side_effect=self.git), mock.patch.object(f, 'git_identity', side_effect=witness), self.assertRaisesRegex(ValueError, 'after metadata'):
+             f.committed(self.root, self.here, 'v2')
+ 
++    def test_final_head_witness_cannot_rebase_data_or_response(self):
++        for case in ('original', 'acquired', 'response'):
++            with self.subTest(case=case):
++                fixture = SharedProfileControls()
++                fixture.setUp()
++                try:
++                    calls = 0
++                    fired = False
++                    actual = f.git_identity
++                    def witness(root):
++                        nonlocal calls, fired
++                        value = actual(root)
++                        receipt = fixture.out / 'receipt.json'
++                        if receipt.exists() and json.loads(receipt.read_bytes()).get('status') == 'acquired_unqualified':
++                            calls += 1
++                            # The final material() witness follows committed()'s two samples.
++                            if calls == 3:
++                                target = {'original': fixture.root / '.data/original',
++                                          'acquired': fixture.root / '.data/expansion005/paw3395/.gitignore',
++                                          'response': fixture.out / 'response-000.bin'}[case]
++                                target.write_bytes(b'changed')
++                                fired = True
++                        return value
++                    with mock.patch.object(f, 'git', side_effect=fixture.git), mock.patch.object(f, 'git_identity', side_effect=witness):
++                        with self.assertRaises(ValueError):
++                            fixture.run_small()
++                    self.assertTrue(fired)
++                    saved = json.loads((fixture.out / 'receipt.json').read_bytes())
++                    self.assertEqual(saved['status'], 'failed')
++                    self.assertFalse(saved['original_inputs_unchanged'])
++                    self.assertTrue((fixture.out / 'receipt.invalidated.json').is_file())
++                finally:
++                    fixture.doCleanups()
++
+     def test_final_output_scan_shared_and_profile_material(self):
+         targets = ('shared/fetch.py', 'shared/test_fetch.py', 'fetch.py', 'protocol.json')
+         for index, name in enumerate(targets):

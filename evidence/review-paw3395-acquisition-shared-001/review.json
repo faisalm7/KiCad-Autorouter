@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "disposition": "cleared_after_one_reproduced_freshness_fix",
+  "source_sha256": "6f398e9a576e51c9b0252d53fd8d5a8a62b5c8f5b954f3d61d1b5b8a3489c110",
+  "test_source_sha256": "480c9a09b76544407ddfd9a933fe6108607e569d039b1637ddfb2b8b5b31c92a",
+  "controls": {
+    "initial_copied_author_methods": 40,
+    "final_copied_author_methods": 41,
+    "final_seconds": 0.258,
+    "independent_whole_flow_cases_each_revision": 5,
+    "initial_false_successes": 3,
+    "fixed_false_successes": 0
+  },
+  "fix": "After the final material/HEAD sample, compare complete data inventory and each frozen response again before canonical receipt equality and deadline.",
+  "profiles": {
+    "v1": {
+      "default": true,
+      "planned_files": 33,
+      "planned_bytes": 5016162
+    },
+    "v2": {
+      "planned_files": 14,
+      "planned_bytes": 2163350,
+      "all_pinned_tree_blobs": true
+    }
+  },
+  "source_files_exact_after_review": true,
+  "remaining_blockers": [],
+  "scope": "Offline source/consistency controls with small real files and mocked transport/Git; no actual acquisition, sockets, native/JVM, production/source edits or family/support qualification. Finite freshness samples do not establish atomic hostile-concurrency protection.",
+  "failures_retained": [
+    "probe-001/results.json",
+    "probe-001/late_original/receipt.json",
+    "probe-001/late_response/receipt.json",
+    "probe-001/late_acquired/receipt.json"
+  ],
+  "raw_evidence": [
+    "before-bindings.json",
+    "fixed-bindings.json",
+    "scope.json",
+    "focused-001.log",
+    "focused-002.log",
+    "probe-001/results.json",
+    "probe-002/results.json",
+    "fix.diff"
+  ],
+  "author_revision_manifest_sha256": "e2abfdb2e8ecd8306f8820ed8ee38b969e9df9d122ef99dc8775ce95260ea52b",
+  "author_final_entries_verified": 33
+}

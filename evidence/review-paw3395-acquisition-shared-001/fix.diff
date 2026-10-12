@@ -1,0 +1,14 @@
+--- before/fetch.py
++++ fixed/fetch.py
+@@ -452,6 +452,11 @@
+             if sha(bounded(out / name)) != digest:
+                 raise ValueError('completed response evidence changed')
+         material(root, here, runtime, profile_id)
++        # Recheck data after material's final HEAD witness; do not rebase any hashes.
++        inventory(root / '.data', extend(baseline, acquired, destination_root=selected['destination_root']))
++        for name, digest in frozen_outputs.items():
++            if sha(bounded(out / name)) != digest:
++                raise ValueError('completed response evidence changed')
+         remaining()
+     out.mkdir()
+     destination.mkdir()

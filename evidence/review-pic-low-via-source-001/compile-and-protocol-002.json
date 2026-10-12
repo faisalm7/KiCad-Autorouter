@@ -1,0 +1,105 @@
+{
+  "driver_sha256": "d804aa0dedd7465e1e199a86de33013add473a380690f8d406bd500dc3e230a9",
+  "constructed_compile_commands": [
+    {
+      "mode": "ordinary",
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/pinned/javac",
+        "-J-Xmx256m",
+        "-J-Duser.home=/bounded-home",
+        "-proc:none",
+        "-classpath",
+        "/pinned.jar",
+        "-d",
+        "/bounded-scratch/classes",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/pic_mixed_transport_probe_v1/MixedClassProbe.java",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/pic_mixed_transport_probe_v1/ExactPointWitness.java",
+        "/bounded-scratch/code/experiments/custom_pad_area_probe_v1/AreaContactProbe.java"
+      ],
+      "java_source_count": 3
+    },
+    {
+      "mode": "selective",
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/pinned/javac",
+        "-J-Xmx256m",
+        "-J-Duser.home=/bounded-home",
+        "-proc:none",
+        "-classpath",
+        "/pinned.jar",
+        "-d",
+        "/bounded-scratch/classes",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/pic_mixed_transport_probe_v1/MixedClassProbe.java",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/pic_mixed_transport_probe_v1/ExactPointWitness.java",
+        "/bounded-scratch/code/experiments/custom_pad_area_probe_v1/AreaContactProbe.java",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/pic_mixed_transport_probe_v1/SelectiveAreaProbe.java"
+      ],
+      "java_source_count": 4
+    },
+    {
+      "mode": "routing",
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/pinned/javac",
+        "-J-Xmx256m",
+        "-J-Duser.home=/bounded-home",
+        "-proc:none",
+        "-classpath",
+        "/pinned.jar",
+        "-d",
+        "/bounded-scratch/classes",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/pic_mixed_transport_probe_v1/MixedClassProbe.java",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/pic_mixed_transport_probe_v1/ExactPointWitness.java",
+        "/bounded-scratch/code/experiments/custom_pad_area_probe_v1/AreaContactProbe.java",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/pic_mixed_transport_probe_v1/SelectiveAreaProbe.java",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/pic_mixed_transport_probe_v1/SelectiveRoutingProbe.java"
+      ],
+      "java_source_count": 5
+    }
+  ],
+  "executed": false,
+  "identical_protocol_keys": [
+    "cases",
+    "claims",
+    "engine_lifecycle",
+    "execution_plan",
+    "hypotheses",
+    "importer_pin_census",
+    "limitations",
+    "limits",
+    "mode",
+    "native_initialization",
+    "original_source",
+    "post_load_change",
+    "reuse_local",
+    "reuse_native",
+    "reuse_selective",
+    "schema",
+    "search_tree_eligibility",
+    "tools",
+    "transformation"
+  ],
+  "changed_protocol_keys": [
+    "basis",
+    "comparison",
+    "hypothesis",
+    "revision",
+    "scope",
+    "scoring",
+    "scoring_variant",
+    "selection"
+  ],
+  "prior_basis_retained": true,
+  "extra_basis": [
+    ".runs/pic-corrected-adapter-native-001/summary.json",
+    ".runs/pic-corrected-adapter-routing-001/summary.json"
+  ]
+}
