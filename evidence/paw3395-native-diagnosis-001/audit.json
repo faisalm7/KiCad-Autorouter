@@ -1,0 +1,493 @@
+{
+  "audit_passed": true,
+  "checkpoint_receipt_sha256": "8efeafaee2d6228d9e8306ad75259b5635c0dacd7e228b9642919d4424bb910d",
+  "code_inventory_exact": true,
+  "costs": {
+    "outer_exit_code": 2,
+    "outer_waited_cpu_seconds": 4.004075,
+    "outer_wall_seconds": 5.218898041988723,
+    "steps": [
+      {
+        "cleanup_complete": true,
+        "cpu_seconds": 0.45580299999999996,
+        "exit_code": 0,
+        "name": "observe",
+        "status": "success",
+        "wall_seconds": 0.760661957989214
+      },
+      {
+        "cleanup_complete": true,
+        "cpu_seconds": 0.680028,
+        "exit_code": 5,
+        "name": "original-drc",
+        "status": "nonzero_exit",
+        "wall_seconds": 1.3577245000051335
+      }
+    ],
+    "stored_total_cpu_seconds": 3.761144,
+    "stored_wall_seconds": 4.910198375000618
+  },
+  "drc_input_changed_files": [
+    "paw3395.kicad_prl"
+  ],
+  "drc_non_prl_files_exact": 13,
+  "failure_boundary": "Both actual processes completed. Existing-PRL comparison failed before binding JSON save, parse_report return and stage_two/completed evidence publication.",
+  "finding_types": {
+    "lib_footprint_issues:warning": 17
+  },
+  "format_support_qualified": false,
+  "head": "0e8ed9db34405b66e2e2350e48b4e25be248e604",
+  "historical_code_snapshot_exact": true,
+  "historical_failure": "Rejected: native DRC modified input or rules: paw3395.kicad_prl",
+  "historical_stage_two_digest_present": false,
+  "library_warning_descriptions": {
+    "The current configuration does not include the footprint library 'Capacitor_SMD'": 11,
+    "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'": 2,
+    "The current configuration does not include the footprint library 'Package_TO_SOT_SMD'": 1,
+    "The current configuration does not include the footprint library 'Resistor_SMD'": 3
+  },
+  "native_added_ignored_keys": [
+    "footprint_filters_mismatch",
+    "track_not_centered_on_via",
+    "tuning_profile_track_geometries"
+  ],
+  "native_dsn_sha256": "429278a9056f2731b3dad09dd532903040ead6dc8de0abaf2a2693735906aa36",
+  "native_ignored_keys": [
+    "footprint_filters_mismatch",
+    "lib_footprint_mismatch",
+    "missing_courtyard",
+    "npth_inside_courtyard",
+    "pth_inside_courtyard",
+    "text_height",
+    "track_not_centered_on_via",
+    "tuning_profile_track_geometries"
+  ],
+  "native_report": {
+    "blocking": 0,
+    "exclusions": 0,
+    "opens": 0,
+    "warnings": 17
+  },
+  "no_new_native_processes": true,
+  "nonempty_nets": 16,
+  "observe_input_exact": true,
+  "observed_class_rows": [
+    {
+      "class": "Default",
+      "clearance_nm": 200000,
+      "copper_pad_count": 8,
+      "name": "+1V8",
+      "netcode": 1,
+      "via_diameter_nm": 800000,
+      "via_drill_nm": 400000,
+      "width_nm": 250000
+    },
+    {
+      "class": "Default",
+      "clearance_nm": 200000,
+      "copper_pad_count": 15,
+      "name": "GND",
+      "netcode": 2,
+      "via_diameter_nm": 800000,
+      "via_drill_nm": 400000,
+      "width_nm": 250000
+    },
+    {
+      "class": "Default",
+      "clearance_nm": 200000,
+      "copper_pad_count": 3,
+      "name": "MISO",
+      "netcode": 10,
+      "via_diameter_nm": 800000,
+      "via_drill_nm": 400000,
+      "width_nm": 250000
+    },
+    {
+      "class": "Default",
+      "clearance_nm": 200000,
+      "copper_pad_count": 2,
+      "name": "MOSI",
+      "netcode": 11,
+      "via_diameter_nm": 800000,
+      "via_drill_nm": 400000,
+      "width_nm": 250000
+    },
+    {
+      "class": "Default",
+      "clearance_nm": 200000,
+      "copper_pad_count": 2,
+      "name": "MOTION",
+      "netcode": 13,
+      "via_diameter_nm": 800000,
+      "via_drill_nm": 400000,
+      "width_nm": 250000
+    },
+    {
+      "class": "Default",
+      "clearance_nm": 200000,
+      "copper_pad_count": 2,
+      "name": "Net-(U1-NC)",
+      "netcode": 15,
+      "via_diameter_nm": 800000,
+      "via_drill_nm": 400000,
+      "width_nm": 250000
+    },
+    {
+      "class": "Default",
+      "clearance_nm": 200000,
+      "copper_pad_count": 2,
+      "name": "Net-(U2-LED_P)",
+      "netcode": 4,
+      "via_diameter_nm": 800000,
+      "via_drill_nm": 400000,
+      "width_nm": 250000
+    },
+    {
+      "class": "Default",
+      "clearance_nm": 200000,
+      "copper_pad_count": 2,
+      "name": "Net-(U2-NRESET)",
+      "netcode": 5,
+      "via_diameter_nm": 800000,
+      "via_drill_nm": 400000,
+      "width_nm": 250000
+    },
+    {
+      "class": "Default",
+      "clearance_nm": 200000,
+      "copper_pad_count": 3,
+      "name": "Net-(U2-VDDREG)",
+      "netcode": 3,
+      "via_diameter_nm": 800000,
+      "via_drill_nm": 400000,
+      "width_nm": 250000
+    },
+    {
+      "class": "Default",
+      "clearance_nm": 200000,
+      "copper_pad_count": 2,
+      "name": "SCLK",
+      "netcode": 12,
+      "via_diameter_nm": 800000,
+      "via_drill_nm": 400000,
+      "width_nm": 250000
+    },
+    {
+      "class": "Default",
+      "clearance_nm": 200000,
+      "copper_pad_count": 9,
+      "name": "VIN",
+      "netcode": 14,
+      "via_diameter_nm": 800000,
+      "via_drill_nm": 400000,
+      "width_nm": 250000
+    },
+    {
+      "class": "Default",
+      "clearance_nm": 200000,
+      "copper_pad_count": 2,
+      "name": "nCS",
+      "netcode": 16,
+      "via_diameter_nm": 800000,
+      "via_drill_nm": 400000,
+      "width_nm": 250000
+    },
+    {
+      "class": "Default",
+      "clearance_nm": 200000,
+      "copper_pad_count": 1,
+      "name": "unconnected-(U2-NC-Pad1)",
+      "netcode": 7,
+      "via_diameter_nm": 800000,
+      "via_drill_nm": 400000,
+      "width_nm": 250000
+    },
+    {
+      "class": "Default",
+      "clearance_nm": 200000,
+      "copper_pad_count": 1,
+      "name": "unconnected-(U2-NC-Pad16)",
+      "netcode": 8,
+      "via_diameter_nm": 800000,
+      "via_drill_nm": 400000,
+      "width_nm": 250000
+    },
+    {
+      "class": "Default",
+      "clearance_nm": 200000,
+      "copper_pad_count": 1,
+      "name": "unconnected-(U2-NC-Pad2)",
+      "netcode": 9,
+      "via_diameter_nm": 800000,
+      "via_drill_nm": 400000,
+      "width_nm": 250000
+    },
+    {
+      "class": "Default",
+      "clearance_nm": 200000,
+      "copper_pad_count": 1,
+      "name": "unconnected-(U2-NC-Pad6)",
+      "netcode": 6,
+      "via_diameter_nm": 800000,
+      "via_drill_nm": 400000,
+      "width_nm": 250000
+    }
+  ],
+  "observed_floors_nm": {
+    "min_clearance": 0,
+    "min_through_hole_diameter": 300000,
+    "min_track_width": 200000,
+    "min_via_annular_width": 50000,
+    "min_via_diameter": 400000
+  },
+  "original_ignored_keys": [
+    "lib_footprint_mismatch",
+    "missing_courtyard",
+    "npth_inside_courtyard",
+    "pth_inside_courtyard",
+    "text_height"
+  ],
+  "originals_unchanged": true,
+  "pads": 56,
+  "posthoc_report_hash_observation_only": true,
+  "prl": {
+    "drc_bytes": 2224,
+    "drc_sha256": "b05e949805d10c9f0f9d3e597294ef8a03753ea87bfde378e3f722fbd7057283",
+    "json_changes": [
+      {
+        "after": 0,
+        "before": 37,
+        "path": "/board/active_layer"
+      },
+      {
+        "added": 1.0,
+        "path": "/board/opacity/shapes"
+      },
+      {
+        "added": false,
+        "path": "/board/prototype_zone_fills"
+      },
+      {
+        "after": [
+          "vias",
+          "footprint_anchors",
+          "ratsnest",
+          "grid",
+          "footprints_front",
+          "footprints_back",
+          "footprint_values",
+          "footprint_references",
+          "tracks",
+          "drc_errors",
+          "drawing_sheet",
+          "bitmaps",
+          "pads",
+          "zones",
+          "drc_warnings",
+          "locked_item_shadows",
+          "conflict_shadows",
+          "shapes"
+        ],
+        "before": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          32,
+          33,
+          34,
+          35,
+          36,
+          39,
+          40
+        ],
+        "path": "/board/visible_items"
+      },
+      {
+        "after": "00000000_00000000_0fffdfff_ffffffff",
+        "before": "fffdfff_ffffffff",
+        "path": "/board/visible_layers"
+      },
+      {
+        "added": false,
+        "path": "/git/integration_disabled"
+      },
+      {
+        "after": 5,
+        "before": 3,
+        "path": "/meta/version"
+      },
+      {
+        "added": {
+          "col_hidden": [],
+          "col_order": [],
+          "col_widths": [],
+          "custom_group_rules": [],
+          "expanded_rows": [],
+          "filter_by_net_name": true,
+          "filter_by_netclass": true,
+          "filter_text": "",
+          "group_by_constraint": false,
+          "group_by_netclass": false,
+          "show_time_domain_details": false,
+          "show_unconnected_nets": false,
+          "show_zero_pad_nets": false,
+          "sort_ascending": true,
+          "sorting_column": -1
+        },
+        "path": "/net_inspector_panel"
+      },
+      {
+        "added": [],
+        "path": "/open_jobsets"
+      },
+      {
+        "added": {
+          "hierarchy_collapsed": [],
+          "selection_filter": {
+            "graphics": true,
+            "images": true,
+            "labels": true,
+            "lockedItems": false,
+            "otherItems": true,
+            "pins": true,
+            "ruleAreas": true,
+            "symbols": true,
+            "text": true,
+            "wires": true
+          }
+        },
+        "path": "/schematic"
+      }
+    ],
+    "observe_sha256": "59ef02a971d7d463743b8d497c0f10b6a9546f5c687f68f6eb464204bbd3a486",
+    "original_bytes": 1276,
+    "original_sha256": "59ef02a971d7d463743b8d497c0f10b6a9546f5c687f68f6eb464204bbd3a486"
+  },
+  "report_sha256": "36a1b5d4eae128312ed808d34e7b9046883e1661b73a946054abfaa1a6fbcd35",
+  "routes": 220,
+  "routing_accepted": false,
+  "run_inventory": {
+    "code/autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+    "code/autorouter/__main__.py": "2b616e7e514a3f5c990bd65206fc8f4452d7bbdfd171d2b86333fc5c37dcfbb5",
+    "code/autorouter/adapter.py": "509feca807ccee112b0b6a071fd0944c88177ba83f5b77422ec8be5cdf63d25b",
+    "code/autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+    "code/autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+    "code/autorouter/floor_context.py": "8c00a443a9a6bd5e05c416b031b0f2dcc4f6e836f3769acab9ceced4fba91c14",
+    "code/autorouter/floor_route.py": "eddc2f9b0df3710f3b8b0a5e486ae000546882863b927053ffec55dcb014116a",
+    "code/autorouter/handoff.py": "ee68b54100260b7848a47225f3422f9b740777db78ca4b67d3b93869bb8ba695",
+    "code/autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+    "code/autorouter/native.py": "7257496b007fbc449adb3cc8b999712aed8ea0aa881a116ba337d18e2ab87c02",
+    "code/autorouter/netclass.py": "96a7425112bc5a5ce5d2f15f69efc334fbfbb97aa9deee1ee33ce984d25a8ea6",
+    "code/autorouter/pipeline.py": "266ffd1fb0ec4fea30a4b7d73df9d387c727b690ef2b13f3eeda6870cbd6a8fa",
+    "code/autorouter/placement_clearance.py": "b1d891d0bc8284bcac80a20cff11263afc8966e30ce8baaf35f1ae78e27ff152",
+    "code/autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+    "code/autorouter/preferences.py": "caa75beef5263258fe6a408b5008be893df52d47c19b734c42ec06ec449d8fef",
+    "code/autorouter/recovery.py": "95cebb44d8eac6e9903bd33e65b5cef887d8b1531f67375b940442f1237c2f9a",
+    "code/autorouter/review_view.py": "a64a27b0c28c265e69927b339720f8ef6d19cb5285e64ce530dda50d963510b4",
+    "code/autorouter/runner.py": "0e81ab1badf20cd84adc2fed586641dd97a489a5a6af03febe6fb597bb1d2718",
+    "code/autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+    "code/autorouter/strategy.py": "a85e9097f3f20508a0d72f50078dad531a3cccc2f41b85da3a74c0a826b1d558",
+    "code/autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+    "code/autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+    "code/autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455",
+    "code/experiments/lipo_native_diagnostic_v1/README.md": "435ea774f2518f2d2e0b009ff417f17848461485b6425771e1f92314b4f65622",
+    "code/experiments/lipo_native_diagnostic_v1/driver.py": "aafec0c2916531649ad56942c985f39bf29d95a376dc55403e6c15a440f58b58",
+    "code/experiments/lipo_native_diagnostic_v1/source_profiles.py": "36ae19656d58f182d0bc6acd86d75dd203cf5da67a9c4f897d4d0d200e3997a6",
+    "code/experiments/lipo_native_diagnostic_v1/test_driver.py": "926ff95d7086afaa616d32724086ffed559924b6d3483861a4b96fe6219a77c1",
+    "code/toolchain.lock.json": "f04be5cdf6f64bddc16a6c5efd217b2f5e0a1341906ff44033f5807971154efe",
+    "kicad-config/10.0/3d_viewer.json": "196678c94fed37c15510bb4b54d6e4eec989a0c3f9b4d30ff1be0d1425992bf3",
+    "kicad-config/10.0/cvpcb.json": "b93174a3b1470f1ce0e43c90268ce83976432c5210d906a3846ee7976ea9d272",
+    "kicad-config/10.0/eeschema.json": "ce1d47af13c60254b736992e8a387cf93b06c83f302e3aaa4c6836acb05d3502",
+    "kicad-config/10.0/fpedit.json": "e88988497732f32bf92cccd726d7d28ea7dfe1922d693448a38cb4c063f9d368",
+    "kicad-config/10.0/kicad.json": "026a2e3d05986b554bc6f5aa8590c69e847090527e0e718287e1005dbd905015",
+    "kicad-config/10.0/kicad_common.json": "e97ab90a5b69f52e4d4148f51a0e6a956ae2a25982a1c267bcbda168354045de",
+    "kicad-config/10.0/pcbnew.json": "f0822c67ee74c2e6189603de283b6d288e77a6a201c65d2f6b60afd119c95845",
+    "kicad-config/10.0/symbol_editor.json": "a3212dc53c3cbfd170a2bb6ae42db289bc6f4c3cf6df9abc4a5c856d22d2f86a",
+    "native.dsn": "429278a9056f2731b3dad09dd532903040ead6dc8de0abaf2a2693735906aa36",
+    "observation.json": "6ac09f6fa05300b7eba1143689f6808123e073c42f992b5075b6e6e71d94b3cc",
+    "observe-input/.gitignore": "45f7f3fe544780aac038d924c9465292c16b72ea434a00a8c9137e87b83a517f",
+    "observe-input/LICENSE": "6e471d647db50527d0c75ee5f1a55a74012ab177c73282bef0bdc7f6562b7ded",
+    "observe-input/README.md": "cf84c6835f86d50025c90e980ef135cf024f619ffe12a398d5834e50a8010950",
+    "observe-input/board-3d.png": "4896c11b02d6347541c88996b97ad27b63b32931c0e06f15f3d853aa23d3fe98",
+    "observe-input/board.png": "0b1c4c4adc4b0bcc9d1a63f55c49029771a90df9b3b9691b18761f59c9ae2da9",
+    "observe-input/fabrication-toolkit-options.json": "ce350c9fbf50056a42d119dcf2d2e4b06f8c4cae569151e41d6789035f81447d",
+    "observe-input/fp-lib-table": "2ab78b5c4bb3b7cc2c93b39453694c320ce4cf5a4a24eaca2be0c0e1c5b57718",
+    "observe-input/paw3395.kicad_pcb": "c2e8cebd0da804eb3912c6559ad6b3e725c1b29f744d616e1ebb22f1229f7740",
+    "observe-input/paw3395.kicad_prl": "59ef02a971d7d463743b8d497c0f10b6a9546f5c687f68f6eb464204bbd3a486",
+    "observe-input/paw3395.kicad_pro": "4a0b352b482dd49a22aeea5599c44444e2d1dfad2ac77880c63152002445cdad",
+    "observe-input/paw3395.kicad_sch": "ef0cb4a88b019935d896e1851cb4c4e6c4a443e04a65a182e4e3a980b428ea15",
+    "observe-input/paw3395_pcb.pretty/PAW3395.kicad_mod": "6ce69d5bce48db2806300bb92105d67eb18becd8955a83b4dd77bbc7891f9b51",
+    "observe-input/photo-1.jpg": "2410ed6f4eae32ddae3febe12d9c8f178d1f74050486441ae35c741044f907d5",
+    "observe-input/photo-3950.jpg": "548aef29ad448ca39a5a743ebe649918b9b8b5074d81cf2aaf97b8f6adeb12b8",
+    "observe-process.json": "b0f0df6e3c833a88fa15843325a137534f32703c5c36ba0cf9dd71324d05eeaa",
+    "observe.log": "1000b3b356c1f63cee1f39aa7e040d772906be92ab432169d8f23f7461759682",
+    "original-drc-input/.gitignore": "45f7f3fe544780aac038d924c9465292c16b72ea434a00a8c9137e87b83a517f",
+    "original-drc-input/LICENSE": "6e471d647db50527d0c75ee5f1a55a74012ab177c73282bef0bdc7f6562b7ded",
+    "original-drc-input/README.md": "cf84c6835f86d50025c90e980ef135cf024f619ffe12a398d5834e50a8010950",
+    "original-drc-input/board-3d.png": "4896c11b02d6347541c88996b97ad27b63b32931c0e06f15f3d853aa23d3fe98",
+    "original-drc-input/board.png": "0b1c4c4adc4b0bcc9d1a63f55c49029771a90df9b3b9691b18761f59c9ae2da9",
+    "original-drc-input/fabrication-toolkit-options.json": "ce350c9fbf50056a42d119dcf2d2e4b06f8c4cae569151e41d6789035f81447d",
+    "original-drc-input/fp-lib-table": "2ab78b5c4bb3b7cc2c93b39453694c320ce4cf5a4a24eaca2be0c0e1c5b57718",
+    "original-drc-input/paw3395.kicad_pcb": "c2e8cebd0da804eb3912c6559ad6b3e725c1b29f744d616e1ebb22f1229f7740",
+    "original-drc-input/paw3395.kicad_prl": "b05e949805d10c9f0f9d3e597294ef8a03753ea87bfde378e3f722fbd7057283",
+    "original-drc-input/paw3395.kicad_pro": "4a0b352b482dd49a22aeea5599c44444e2d1dfad2ac77880c63152002445cdad",
+    "original-drc-input/paw3395.kicad_sch": "ef0cb4a88b019935d896e1851cb4c4e6c4a443e04a65a182e4e3a980b428ea15",
+    "original-drc-input/paw3395_pcb.pretty/PAW3395.kicad_mod": "6ce69d5bce48db2806300bb92105d67eb18becd8955a83b4dd77bbc7891f9b51",
+    "original-drc-input/photo-1.jpg": "2410ed6f4eae32ddae3febe12d9c8f178d1f74050486441ae35c741044f907d5",
+    "original-drc-input/photo-3950.jpg": "548aef29ad448ca39a5a743ebe649918b9b8b5074d81cf2aaf97b8f6adeb12b8",
+    "original-drc-process.json": "3b5aa97bead501ce5b8e20c3e2707f66c2f98460a5dbd33c5f92364a6736dd47",
+    "original-drc.json": "36a1b5d4eae128312ed808d34e7b9046883e1661b73a946054abfaa1a6fbcd35",
+    "original-drc.log": "c209ae9c14a760f391490f063cff0935dff13bef6ee6e3ab370644a0cff954e3",
+    "summary.json": "b0884703ac845ea99938f7fd13c3eeaa5b685d80c580b3c9a61cf6d53555e4bc"
+  },
+  "run_inventory_before_after_equal": true,
+  "schema": 1,
+  "scope": "Retained failed diagnostic readback only; no source, native, JVM, Git, or network actions. No acceptance or enforcement qualification.",
+  "source_bytes": 2163350,
+  "source_file_count": 14,
+  "source_files": {
+    ".gitignore": "45f7f3fe544780aac038d924c9465292c16b72ea434a00a8c9137e87b83a517f",
+    "LICENSE": "6e471d647db50527d0c75ee5f1a55a74012ab177c73282bef0bdc7f6562b7ded",
+    "README.md": "cf84c6835f86d50025c90e980ef135cf024f619ffe12a398d5834e50a8010950",
+    "board-3d.png": "4896c11b02d6347541c88996b97ad27b63b32931c0e06f15f3d853aa23d3fe98",
+    "board.png": "0b1c4c4adc4b0bcc9d1a63f55c49029771a90df9b3b9691b18761f59c9ae2da9",
+    "fabrication-toolkit-options.json": "ce350c9fbf50056a42d119dcf2d2e4b06f8c4cae569151e41d6789035f81447d",
+    "fp-lib-table": "2ab78b5c4bb3b7cc2c93b39453694c320ce4cf5a4a24eaca2be0c0e1c5b57718",
+    "paw3395.kicad_pcb": "c2e8cebd0da804eb3912c6559ad6b3e725c1b29f744d616e1ebb22f1229f7740",
+    "paw3395.kicad_prl": "59ef02a971d7d463743b8d497c0f10b6a9546f5c687f68f6eb464204bbd3a486",
+    "paw3395.kicad_pro": "4a0b352b482dd49a22aeea5599c44444e2d1dfad2ac77880c63152002445cdad",
+    "paw3395.kicad_sch": "ef0cb4a88b019935d896e1851cb4c4e6c4a443e04a65a182e4e3a980b428ea15",
+    "paw3395_pcb.pretty/PAW3395.kicad_mod": "6ce69d5bce48db2806300bb92105d67eb18becd8955a83b4dd77bbc7891f9b51",
+    "photo-1.jpg": "2410ed6f4eae32ddae3febe12d9c8f178d1f74050486441ae35c741044f907d5",
+    "photo-3950.jpg": "548aef29ad448ca39a5a743ebe649918b9b8b5074d81cf2aaf97b8f6adeb12b8"
+  },
+  "source_format": "20240108",
+  "stage_two_binding_present": false,
+  "zone_has_empty_net_enforcement_qualified": false,
+  "zone_has_empty_net_original_severity": "error"
+}

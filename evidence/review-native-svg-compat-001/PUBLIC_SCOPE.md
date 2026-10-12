@@ -1,0 +1,1 @@
+Independent review of the SVG compatibility change, including preserved concrete substitution and active-content falsifiers and fixed control reruns. Pure file/transaction controls do not establish native or GUI rendering. Complete original review retained locally; selected authored evidence only.

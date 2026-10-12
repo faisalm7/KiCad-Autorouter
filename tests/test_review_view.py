@@ -8,10 +8,43 @@ from autorouter import handoff as h, review_view as view, pipeline as p
 
 
 class SvgControls(unittest.TestCase):
+    def test_only_observed_kicad_doctype_admitted_and_removed(self):
+        header = b'<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" \n "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">'
+        drawing = b'<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0 L1 1"/></svg>'
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp).resolve() / 'plot.svg'; path.write_bytes(header + drawing)
+            self.assertEqual(view.svg_bytes(path), header + drawing)
+            self.assertEqual(view.display_svg(view.svg_bytes(path)), drawing)
+            for bad in (header.replace(b'www.w3.org', b'example.com'), header + header,
+                        header.replace(b'>', b' [<!ENTITY x "bad">]>'), b'<!DOCTYPE svg SYSTEM "file:///tmp/no">'):
+                path.write_bytes(bad + drawing)
+                with self.subTest(header=bad), self.assertRaises(p.Rejected): view.svg_bytes(path)
+
+    def test_processing_instructions_rejected_except_initial_xml_declaration(self):
+        drawing = b'<svg xmlns="http://www.w3.org/2000/svg"/>'
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp).resolve() / 'plot.svg'
+            path.write_bytes(b'<?xml version="1.0"?>' + drawing)
+            self.assertEqual(view.svg_bytes(path), path.read_bytes())
+            for instruction in (b'<?xml-stylesheet href="https://example.com/a.css"?>', b'<?unsafe value?>'):
+                path.write_bytes(instruction + drawing)
+                with self.subTest(instruction=instruction), self.assertRaises(p.Rejected): view.svg_bytes(path)
+
+    def test_written_display_and_html_must_match_intended_bytes(self):
+        original = Path.write_bytes
+        with tempfile.TemporaryDirectory() as tmp:
+            for name in ('display.svg', 'preview.html'):
+                path = Path(tmp).resolve() / name
+                def mutate(target, raw):
+                    return original(target, b'replaced after write')
+                with self.subTest(name=name), patch.object(Path, 'write_bytes', mutate), self.assertRaises(p.Rejected):
+                    view.write_bound(path, b'intended content')
+
     def test_linked_and_active_content_rejected(self):
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp).resolve() / 'plot.svg'
             for inner in ('<script/>', '<foreignObject/>', '<image href="https://example.com/a"/>',
+                          '<set attributeName="opacity" to="0"/>', '<animate/>',
                           '<path onload="alert(1)"/>', '<path fill="url(https://example.com/a)"/>'):
                 path.write_text('<svg xmlns="http://www.w3.org/2000/svg">' + inner + '</svg>')
                 with self.subTest(inner=inner), self.assertRaises(p.Rejected): view.svg_bytes(path)
