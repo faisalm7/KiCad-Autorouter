@@ -1,0 +1,13 @@
+./src/common/stdpbase.cpp(59): assert ""traits"" failed in Get(): create wxApp before calling this
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-mixed-transport-probe-001/code/experiments/pic_mixed_transport_probe_v1/worker.py", line 73, in <module>
+    if __name__=='__main__':main()
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-mixed-transport-probe-001/code/experiments/pic_mixed_transport_probe_v1/worker.py", line 71, in main
+    fc.collect('export',source,context,dsn,observation_output=custom,observer=callback(report))
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-mixed-transport-probe-001/code/autorouter/floor_context.py", line 103, in collect
+    observation_before=observer(native,pcbnew) if observer is not None else None
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-mixed-transport-probe-001/code/experiments/pic_mixed_transport_probe_v1/worker.py", line 49, in observe
+    state['pre_initialization']=clearances(board,pcbnew);save()
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pic-mixed-transport-probe-001/code/experiments/pic_mixed_transport_probe_v1/worker.py", line 30, in clearances
+    fp=pad.GetParentFootprint();nc=pad.GetNetClassSlow()
+AttributeError: 'PAD' object has no attribute 'GetNetClassSlow'

@@ -103,6 +103,24 @@ class Pure(unittest.TestCase):
         for side,angle in [('front','45'),('back','90'),('unknown','0')]:
             tree=_parse_dsn(self.raw.decode());place=sx.children(sx.children(sx.one(tree,'placement'),'component')[0],'place')[0];place[4:6]=[side,angle]
             with self.assertRaisesRegex(ValueError,'unqualified DSN placement'):transport.placed_pins(tree)
+    def test_clearance_census_uses_pad_effective_class_api(self):
+        # PAD inherits GetEffectiveNetClass; GetNetClassSlow belongs to NETINFO_ITEM.
+        # Deliberately supply no GetNetClassSlow fallback: this failed natively in001.
+        effective=SimpleNamespace(GetName=lambda:'Default',GetClearance=lambda:250000)
+        fp=SimpleNamespace(GetReference=lambda:'P',GetLocalClearance=lambda:None)
+        pads=[];calls=[]
+        for index in range(247):
+            def get_class(i=index):calls.append(i);return effective
+            pads.append(SimpleNamespace(m_Uuid=SimpleNamespace(AsString=lambda i=index:str(i)),
+                IsOnLayer=lambda layer:layer==0,GetOwnClearance=lambda layer:250000,
+                GetParentFootprint=lambda:fp,GetEffectiveNetClass=get_class,
+                GetNumber=lambda i=index:str(i),GetNetname=lambda:'N',
+                GetLocalClearance=lambda:None,GetClearanceOverrides=lambda source:None))
+        rows=worker.clearances(SimpleNamespace(GetPads=lambda:pads),SimpleNamespace(F_Cu=0,B_Cu=2))
+        self.assertEqual(calls,list(range(247)));self.assertEqual(len(rows),247)
+        self.assertTrue(all(row['netclass']=='Default' and row['class_clearance_nm']==250000
+            and row['own']==[{'layer':'F.Cu','value_nm':250000}] for row in rows))
+
     def test_optional_never_guesses(self):
         for value in (None,250000):self.assertEqual(worker.optional(lambda:value),{'status':'observed','value_nm':value})
         for value in (True,'250000',object(),250000.0,-1):self.assertEqual(worker.optional(lambda:value)['status'],'unsupported')

@@ -27,7 +27,7 @@ def clearances(board,pcbnew):
             value=pad.GetOwnClearance(layer)
             if type(value) is not int or not 0<=value<=10**9:raise ValueError('own-clearance integer/range unsupported')
             own.append({'layer':name,'value_nm':value})
-        fp=pad.GetParentFootprint();nc=pad.GetNetClassSlow()
+        fp=pad.GetParentFootprint();nc=pad.GetEffectiveNetClass()
         rows.append({'uuid':str(pad.m_Uuid.AsString()),'reference':str(fp.GetReference()),'number':str(pad.GetNumber()),
             'net':str(pad.GetNetname()),'netclass':str(nc.GetName()),'class_clearance_nm':int(nc.GetClearance()),
             'own':own,'pad_local':optional(pad.GetLocalClearance),'footprint_local':optional(fp.GetLocalClearance),
