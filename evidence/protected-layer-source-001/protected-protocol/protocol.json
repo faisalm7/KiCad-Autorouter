@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "scope": "Correct demonstrated identity-only partial import failure; independently test locked preservation. No comparative claim.",
+  "previous_failed_run": ".runs/preferences-native-partial-001",
+  "source_hashes": {
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-native-input-001/project": {
+      "smoke.kicad_pcb": "ae0b004142c0de5fd0e7e4e969754df52c9bdbb64538bbb4927198e48ea077b5",
+      "smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+      "smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643"
+    },
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/protected-import-input-001/locked-project": {
+      "smoke.kicad_pcb": "0128013a9fef4767a938b9698978d1d557f53415efbb9b16c3947336cf3ee7b1",
+      "smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+      "smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643"
+    }
+  },
+  "preset_sha256": "169eca29234027ef6a062381b0dc2eecd5c6535c6229e2be342b9aa09ac08190",
+  "policy": "Restore full original node only after unique exact non-UUID imported match; keep protected/native/rule guards unchanged. No geometric normalization or missing copper repair.",
+  "cases": [
+    {
+      "id": "partial-fixed",
+      "board": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-native-input-001/project/smoke.kicad_pcb",
+      "settings": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-native-input-001/partial.json",
+      "overrides": [],
+      "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-native-partial-002",
+      "wall_cpu_seconds": 120,
+      "expected_protected_routes": 2
+    },
+    {
+      "id": "locked-whole",
+      "board": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/protected-import-input-001/locked-project/smoke.kicad_pcb",
+      "settings": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-native-input-001/partial.json",
+      "overrides": [
+        "--scope",
+        "whole"
+      ],
+      "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/preferences-native-locked-001",
+      "wall_cpu_seconds": 120,
+      "expected_protected_routes": 2
+    }
+  ],
+  "conditional_negative": "If partial accepts, remove exactly its original SIGNAL_A 5mm segment from a separate copy, run actual original-rule DRC and shared protected guard. Expect one open and guard rejection; preserve all observations.",
+  "retries": "No automatic retry; preserve any failure and diagnose before new protocol."
+}

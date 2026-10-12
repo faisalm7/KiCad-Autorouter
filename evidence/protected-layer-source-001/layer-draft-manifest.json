@@ -1,0 +1,60 @@
+{
+  "base_files": {
+    "docs/layer-mask-probe.md": null,
+    "scripts/EngineProfileProbe.java": "6522f4077ce97148c4d34127bf962d971862de53b99e26ea91b106ce52d6459a",
+    "scripts/probe_engine_profiles.py": "4827ceebbfdc60ef815f68d5b61f2c32b2d38103cf87ddf1c077baab9b7b3bc4",
+    "tests/test_layer_mask_probe.py": null
+  },
+  "checks": {
+    "final_log": "tests-004.log",
+    "first_failure": "tests-001.log: temporary /var alias rejected, fixed in tests by resolving path",
+    "result": "8 methods pass, 0.119 seconds; 10 real-file mocked-worker scenarios include self INT and TERM",
+    "test_command": "python3 -B -m unittest discover -s .runs/layer-mask-probe-draft-001/tests -p test_layer_mask_probe.py -v"
+  },
+  "files": {
+    "docs/layer-mask-probe.md": {
+      "bytes": 5696,
+      "sha256": "d00253bbf9d64b1dfa56ffc9a41d35407f2e2c5374f40854ca637e15813c6243"
+    },
+    "promotion.patch": {
+      "bytes": 46792,
+      "sha256": "7807b87b4e8fd60ad3621c0b06967857ece4bb6226d6202dd4b1de75c4086efc"
+    },
+    "scripts/EngineProfileProbe.java": {
+      "bytes": 12406,
+      "sha256": "eb3f855c0ced0e9b90547f0ed34de471a52975b93896f427328ac6b092ba19c6"
+    },
+    "scripts/probe_engine_profiles.py": {
+      "bytes": 22697,
+      "sha256": "59f7f5e2e85ea2fef71121d5fed617647cabdcac053e6ce96c7dfbe0e751ec84"
+    },
+    "tests-001.log": {
+      "bytes": 11189,
+      "sha256": "ba6e0a1974d0cbfe6459605124292aa3f0376e4fbbacdfe3d33313348abf8a1d"
+    },
+    "tests-002.log": {
+      "bytes": 1070,
+      "sha256": "65892ca566f6b12a2126d2aef34c91be2e7adbd99fd03f746e24dff4ccbe1804"
+    },
+    "tests-003.log": {
+      "bytes": 1070,
+      "sha256": "cf3cc91d84a26d73d57dab09c76600ac6c1a83037147b251b67ac77b4bc82089"
+    },
+    "tests-004.log": {
+      "bytes": 1070,
+      "sha256": "2cffdc377018d9395ab90d46e7fdc24b21610fc39ab9a6c8120aabeca8fa53b4"
+    },
+    "tests/test_layer_mask_probe.py": {
+      "bytes": 11966,
+      "sha256": "1d87b6ca4637f2e6a05cf031d853833005a4d6e9604ead04b5c0ad68f6b354c9"
+    }
+  },
+  "promotion_files": [
+    "scripts/EngineProfileProbe.java",
+    "scripts/probe_engine_profiles.py",
+    "tests/test_layer_mask_probe.py",
+    "docs/layer-mask-probe.md"
+  ],
+  "schema": 1,
+  "scope": "Draft import-only mask probe; pure tests only; no JVM/native/engine/compiler/network execution. No tracked edits."
+}

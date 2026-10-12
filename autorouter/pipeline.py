@@ -159,11 +159,64 @@ def convert_route_nets(route, native_tree, original):
         else: n[:]=['net',name]
     return route
 
-def transplant_routes(original, imported):
+def transplant_routes(original, imported, *, protected=(), audit=None):
+    imported_routes=[convert_route_nets(n,imported,original) for n in routes(imported)]
+    reconciled=[]
+    if protected:
+        # KiCad SES import regenerates UUIDs even for unchanged protected tracks.
+        # Restore identity only after an unambiguous exact non-UUID match. Never
+        # infer copper equivalence, merge/split routes or repair missing geometry.
+        def identity(route):
+            ids=sx.children(route,'uuid')
+            if len(ids)!=1 or len(ids[0])!=2 or not isinstance(ids[0][1],str):
+                raise Rejected('protected import requires unique route UUIDs')
+            return ids[0][1]
+        def signature(route):
+            return sx.dump([n for n in route if not isinstance(n,list) or not n or n[0]!='uuid'])
+        original_counts={}
+        for route in routes(original):
+            key=sx.dump(route)
+            original_counts[key]=original_counts.get(key,0)+1
+        matches={}
+        for index,route in enumerate(imported_routes):
+            matches.setdefault(signature(route),[]).append(index)
+        used=set()
+        for route in protected:
+            if original_counts.get(sx.dump(route))!=1:
+                raise Rejected('protected import route is not a unique original')
+            identity(route)
+            indices=matches.get(signature(route),[])
+            if len(indices)!=1 or indices[0] in used:
+                raise Rejected('protected route missing, changed or ambiguous after import')
+            used.add(indices[0])
+        ids=[identity(route) for route in imported_routes]
+        if len(set(ids))!=len(ids):raise Rejected('duplicate imported route UUID')
+        for route in protected:
+            index=matches[signature(route)][0]
+            reconciled.append({'original_uuid':identity(route),'imported_uuid':identity(imported_routes[index]),
+                'non_uuid_sha256':hashlib.sha256(signature(route).encode()).hexdigest()})
+            imported_routes[index]=copy.deepcopy(route)
+        ids=[identity(route) for route in imported_routes]
+        if len(set(ids))!=len(ids):raise Rejected('restored protected route UUID collision')
     out=copy.deepcopy(original)
     out[:]=[n for n in out if not isinstance(n,list) or not n or n[0] not in ROUTES]
-    out.extend(convert_route_nets(n,imported,original) for n in routes(imported))
+    out.extend(imported_routes)
+    if audit is not None:
+        audit.update(policy='exact_non_uuid_v1',matches=reconciled,
+            transplanted_routes_sha256=hashlib.sha256(sx.dump(imported_routes).encode()).hexdigest())
     return out
+
+
+def check_protected_import(directory, data, original, candidate, protected):
+    if 'protected_route_import' not in data:return  # Historical receipts keep their exact original guard.
+    from .floor_route import canonical
+    from .placement_clearance import read_bytes
+    imported=Path(directory)/'imported.kicad_pcb'
+    raw=read_bytes(imported,20*1024*1024)
+    audit={'imported_sha256':hashlib.sha256(raw).hexdigest()}
+    rebuilt=transplant_routes(original,sx.parse(raw.decode('utf-8')),protected=protected,audit=audit)
+    if canonical(audit)!=canonical(data['protected_route_import']):raise Rejected('protected import reconciliation differs')
+    if routes(sx.read(candidate))!=routes(rebuilt):raise Rejected('protected import routes differ from final candidate')
 
 def transplant_fill(original, filled):
     out=copy.deepcopy(original)
@@ -621,7 +674,9 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
         if not (output/'routes.ses').is_file(): raise Rejected('engine emitted no SES')
         imported=output/'imported.kicad_pcb'
         job.native('import','import',candidate,imported,output/'routes.ses')
-        sx.write(candidate,transplant_routes(task,sx.read(imported)))
+        reconciliation={}
+        sx.write(candidate,transplant_routes(task,sx.read(imported),protected=protected,audit=reconciliation))
+        if protected:report['protected_route_import']={'imported_sha256':sha(imported),**reconciliation}
         final_hash, native = validate_candidate(job, original, candidate, before, protected)
         report['native']=native
         job.native('metrics','metrics',candidate,output/'metrics.json')
@@ -730,6 +785,7 @@ def check_result(path):
     if data.get('scope') not in {'whole_board_unlocked_routing','partial_completion'}: raise Rejected('unknown protected routing scope')
     protected=[route for route in routes(original) if data['scope']=='partial_completion' or locked(route)]
     if any(route not in routes(current) for route in protected): raise Rejected('protected route changed')
+    check_protected_import(path.parent,data,original,candidate,protected)
 
     def evidence(name):
         file=path.parent/name
@@ -853,4 +909,9 @@ def check_result(path):
         check_preferences_record(path.parent,data)
         if hashlib.sha256(bounded_bytes(path)).hexdigest()!=receipt_digest:
             raise Rejected('preference receipt changed during readback')
+    if 'protected_route_import' in data:
+        check_protected_import(path.parent,data,original,candidate,protected)
+        verify_candidate_files(candidate,data['source_hashes'],data['candidate_sha256'])
+        if hashlib.sha256(bounded_bytes(path)).hexdigest()!=receipt_digest:
+            raise Rejected('protected import receipt changed during readback')
     return result

@@ -1,0 +1,24 @@
+test_actual_failed_native_import_restores_only_original_ids (test_protected_import.ProtectedImportTests.test_actual_failed_native_import_restores_only_original_ids) ... ok
+test_changes_to_any_nonidentity_field_reject (test_protected_import.ProtectedImportTests.test_changes_to_any_nonidentity_field_reject) ... ok
+test_duplicate_or_colliding_import_ids_reject (test_protected_import.ProtectedImportTests.test_duplicate_or_colliding_import_ids_reject) ... ok
+test_explicit_net_mapping_precedes_identity_match (test_protected_import.ProtectedImportTests.test_explicit_net_mapping_precedes_identity_match) ... ERROR
+test_locked_via_and_arc_exact_matching_only (test_protected_import.ProtectedImportTests.test_locked_via_and_arc_exact_matching_only) ... ok
+test_malformed_ids_and_unknown_protected_nodes_reject (test_protected_import.ProtectedImportTests.test_malformed_ids_and_unknown_protected_nodes_reject) ... ok
+test_missing_duplicate_and_split_geometry_reject (test_protected_import.ProtectedImportTests.test_missing_duplicate_and_split_geometry_reject) ... ok
+test_unique_match_restores_exact_node_and_preserves_other_routes (test_protected_import.ProtectedImportTests.test_unique_match_restores_exact_node_and_preserves_other_routes) ... ok
+
+======================================================================
+ERROR: test_explicit_net_mapping_precedes_identity_match (test_protected_import.ProtectedImportTests.test_explicit_net_mapping_precedes_identity_match)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_protected_import.py", line 79, in test_explicit_net_mapping_precedes_identity_match
+    sx.one(self.imported,'net')[1]='9';sx.one(p.routes(self.imported)[0],'net')[1]='9'
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/sexpr.py", line 57, in one
+    raise ValueError('duplicate singleton ' + key)
+ValueError: duplicate singleton net
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.008s
+
+FAILED (errors=1)

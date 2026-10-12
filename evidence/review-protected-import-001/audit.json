@@ -1,0 +1,89 @@
+{
+  "scope": "Offline reconstruction from actual failed native import plus pure mutation controls; no new routing or native success.",
+  "source_sha256": {
+    "autorouter/pipeline.py": "986285cc841bf7efbfdd36fc615ae0d374429f384efcbab94259e7ecb4649fdf",
+    "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+    "tests/test_protected_import.py": "952ff816bd6b339ab814ca0b4745f98bd00d2b216e581b40490d58b78f4c9075"
+  },
+  "actual_failed_result_sha256": "e4aecbced0899d162cb7f0c9ff77690eee3a07603d07dd53d63390a6e4487411",
+  "actual_imported_sha256": "27b7f41cc3d33dafbec319f546db341f67cb63f9b12219844eb916228b63dc74",
+  "actual_original_sha256": "ae0b004142c0de5fd0e7e4e969754df52c9bdbb64538bbb4927198e48ea077b5",
+  "actual_failure": "Rejected: protected route changed",
+  "original_protected_count": 2,
+  "imported_route_count": 5,
+  "restored_identities": [
+    {
+      "original_uuid": "938c1c14-f4a8-48c1-a41b-b4e3e79fc5bf",
+      "imported_uuid": "99bca935-216c-4fb2-a456-6f2c7878fb88",
+      "signature_sha256": "497473879197e39f03f20523f560df3037a20fda96f00ee90579bdd55eadcfb7"
+    },
+    {
+      "original_uuid": "5d0bc178-dd16-4b76-8870-a3e0bbf8d139",
+      "imported_uuid": "eb2f6880-8dcd-40ec-b0aa-3ed95790f6e9",
+      "signature_sha256": "3e69d47c61c72c2fbae7394e9b6024c775128ad4adadb2012b412c1549af4265"
+    }
+  ],
+  "checks": [
+    {
+      "name": "exactly_two_original_protected_segments",
+      "passed": true
+    },
+    {
+      "name": "all_original_protected_nodes_exact",
+      "passed": true
+    },
+    {
+      "name": "all_imported_nonuuid_AST_fields_unchanged",
+      "passed": true
+    },
+    {
+      "name": "immutable_geometry_unchanged",
+      "passed": true
+    },
+    {
+      "name": "arguments_unchanged",
+      "passed": true
+    },
+    {
+      "name": "unique_match_\"938c1c14-f4a8-48c1-a41b-b4e3e79fc5bf\"",
+      "passed": true
+    },
+    {
+      "name": "unique_match_\"5d0bc178-dd16-4b76-8870-a3e0bbf8d139\"",
+      "passed": true
+    },
+    {
+      "name": "reject_unknown_field",
+      "passed": true
+    },
+    {
+      "name": "reject_route_kind",
+      "passed": true
+    },
+    {
+      "name": "reject_start_offset",
+      "passed": true
+    },
+    {
+      "name": "reject_endpoint_reversed",
+      "passed": true
+    },
+    {
+      "name": "reject_numeric_spelling",
+      "passed": true
+    },
+    {
+      "name": "reject_lock_added",
+      "passed": true
+    },
+    {
+      "name": "public_run_all_bytes_unchanged",
+      "passed": true
+    },
+    {
+      "name": "reviewed_source_unchanged",
+      "passed": true
+    }
+  ],
+  "all_passed": true
+}

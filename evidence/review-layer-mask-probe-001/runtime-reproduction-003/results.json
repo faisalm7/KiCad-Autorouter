@@ -1,0 +1,51 @@
+{
+  "source_sha256": "054b3f071d06629ca35a47f8d862521d68b7389530a3bd95d1d394604253456c",
+  "scope": "Actual controller/runtime hashing and files; fake committed-file responses and JVM output; no JVM/native/network",
+  "cases": [
+    {
+      "case": "positive",
+      "triggered": false,
+      "returned_passed": true,
+      "canonical_passed": true,
+      "status": "completed",
+      "error": null,
+      "changed_target": null
+    },
+    {
+      "case": "late_source",
+      "triggered": true,
+      "returned_passed": false,
+      "canonical_passed": false,
+      "status": "invalidated",
+      "error": "ValueError: runtime/source/tool/HEAD changed",
+      "changed_target": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-layer-mask-probe-001/runtime-reproduction-003/late_source/scripts/probe_engine_profiles.py"
+    },
+    {
+      "case": "late_basis",
+      "triggered": true,
+      "returned_passed": false,
+      "canonical_passed": false,
+      "status": "invalidated",
+      "error": "ValueError: pinned source/API/DSN differs: basis.txt",
+      "changed_target": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-layer-mask-probe-001/runtime-reproduction-003/late_basis/basis.txt"
+    },
+    {
+      "case": "late_python",
+      "triggered": true,
+      "returned_passed": false,
+      "canonical_passed": false,
+      "status": "invalidated",
+      "error": "ValueError: runtime/source/tool/HEAD changed",
+      "changed_target": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-layer-mask-probe-001/runtime-reproduction-003/late_python/tools/python"
+    },
+    {
+      "case": "late_dsn",
+      "triggered": true,
+      "returned_passed": false,
+      "canonical_passed": false,
+      "status": "invalidated",
+      "error": "ValueError: pinned source/API/DSN differs: fixture-original.dsn",
+      "changed_target": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-layer-mask-probe-001/runtime-reproduction-003/late_dsn/fixture-original.dsn"
+    }
+  ]
+}
