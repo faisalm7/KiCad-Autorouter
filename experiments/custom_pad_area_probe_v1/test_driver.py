@@ -26,16 +26,17 @@ def observed(split=False):
         for mode in ('imported','obstacle_false','obstacle_true'):
             pins=[];areas=[];traces=[];graph={i:set() for i in range(1,10 if split else 9)}
             for n,p in enumerate(want['pins'],1):
-                row=copy.deepcopy(p);x,y=p['position_um'];row.update(id=n,bounds_um=[x-150,y-150,x+150,y+150],layers=[want['layer']]);pins.append(row)
+                row=copy.deepcopy(p);x,y=p['position_um'];row.update(id=n,padstack_name=p['imported_padstack_name'],bounds_um=[x-150,y-150,x+150,y+150],layers=[want['layer']]);pins.append(row)
             refs={p['reference']:p['id'] for p in pins}
             def edge(a,b):graph[a].add(b);graph[b].add(a)
             for n,a in enumerate(want['areas'],5):
-                row=copy.deepcopy(a);row.update(id=n,holes=0,obstacle=mode=='obstacle_true',ring_board_integer=copy.deepcopy(a['ring_um']),ring_classes=[IP]*len(a['ring_um']));areas.append(row)
+                row=copy.deepcopy(a);row.update(id=n,holes=0,area_api_um2=0,obstacle=mode=='obstacle_true',ring_board_integer=copy.deepcopy(a['ring_um']),ring_classes=[IP]*len(a['ring_um']));areas.append(row)
                 edge(n,refs[a['reference']])
                 if a['reference']=='CONVEX' or want['kind']!='false_hull':edge(n,7)
             for n,t in enumerate(want['tracks'],7):
                 row=copy.deepcopy(t);row.update(id=n,layer=want['layer'],corners_um=[t['start_um'],t['end_um']],corner_classes=[IP,IP],
-                  area_clearances_um={str(a['id']):250 for a in areas},tree_trace_check_clear=True,tree_overlap_ids=[])
+                  area_clearances_um={str(a['id']):266 for a in areas},area_raw_clearances_um={str(a['id']):250 for a in areas},
+                  area_raw_clearances_reverse_um={str(a['id']):250 for a in areas},tree_trace_check_clear=True,tree_overlap_ids=[])
                 if t['net']=='FOREIGN' and mode=='obstacle_true' and want['kind']=='foreign_intrusion':
                     row.update(tree_trace_check_clear=False,tree_overlap_ids=[a['id'] for a in areas if a['reference']=='CONCAVE'])
                 traces.append(row)
@@ -53,10 +54,10 @@ def observed(split=False):
                     for target in graph[todo.pop()]-reached:reached.add(target);todo.append(target)
                 item.update(contacts=sorted(graph[item['id']]),connected=sorted(reached))
             nets=[{'name':n,'contains_plane':False,'trace_width_um':500} for n in ('CONTACT','FOREIGN')]
-            states.append({'mode':mode,'board_units_per_um':1,'board_origin_dsn_um':[0,0],'ignore_conduction':mode!='obstacle_true','pins':pins,'areas':areas,'traces':traces,'nets':nets,
+            states.append({'mode':mode,'clearance_safety_margin_board_units':16,'board_units_per_um':1,'board_origin_dsn_um':[0,0],'ignore_conduction':mode!='obstacle_true','pins':pins,'areas':areas,'traces':traces,'nets':nets,
               'census':{'pins':4,'areas':2,'traces':len(traces),'vias':0,'components':4,'layers':2,'max_net_number':2}})
         cases.append({'case':want['case'],'status':'observed','input_sha256':want['derived_sha256'],'parser_warnings':[],'states':states})
-    return {'schema':1,'scope':'owned_area_contact_import_only','units':'micrometres','routing_executed':False,'native_executed':False,'cases':cases}
+    return {'schema':2,'scope':'owned_area_contact_import_only','units':'micrometres','routing_executed':False,'native_executed':False,'cases':cases}
 
 
 class Controls(unittest.TestCase):
@@ -102,6 +103,38 @@ class Controls(unittest.TestCase):
             elif kind=='unblocked':state['traces'][1]['tree_trace_check_clear']=True
             else:state['traces'][1]['tree_overlap_ids']=[6]
             with self.subTest(kind=kind):self.assertFalse(checks.validate(value,EXPECTED)[2]['expected_observation_matches'])
+    def test_amended_name_area_raw_matrix_and_scaled_margin_obligations(self):
+        for kind in ('name','ring','raw','reverse','margin','effective'):
+            value=observed();state=value['cases'][0]['states'][-1]
+            if kind=='name':state['pins'][0]['padstack_name']+='unobserved'
+            elif kind=='ring':state['areas'][0]['ring_board_integer'][0][0]+=1
+            elif kind=='raw':state['traces'][1]['area_raw_clearances_um']['5']=249
+            elif kind=='reverse':state['traces'][1]['area_raw_clearances_reverse_um']['5']=249
+            elif kind=='margin':state['clearance_safety_margin_board_units']=15
+            else:state['traces'][1]['area_clearances_um']['5']=250
+            with self.subTest(kind=kind):self.assertFalse(checks.validate(value,EXPECTED)[0]['expected_observation_matches'])
+        value=observed()
+        for case in value['cases']:
+            for s in case['states']:
+                s['board_units_per_um']=10
+                for a in s['areas']:a['ring_board_integer']=[[10*x for x in p]for p in a['ring_board_integer']]
+                for t in s['traces']:
+                    t['corners_board_integer']=[[10*x for x in p]for p in t['corners_board_integer']]
+                    t['area_clearances_um']={key:251.6 for key in t['area_clearances_um']}
+        self.assertTrue(all(r['expected_observation_matches'] for r in checks.validate(value,EXPECTED)))
+    def test_false_mode_anchor_confound_retained_but_true_mode_obligations_remain(self):
+        value=observed()
+        for i in (2,5):
+            for state in value['cases'][i]['states'][:2]:
+                state['traces'][1].update(tree_trace_check_clear=False,tree_overlap_ids=[1,5])
+        self.assertTrue(all(r['expected_observation_matches'] for r in checks.validate(value,EXPECTED)))
+        for i in (0,1,3,4):
+            v=copy.deepcopy(value);v['cases'][i]['states'][-1]['traces'][1]['tree_trace_check_clear']=False
+            self.assertFalse(checks.validate(v,EXPECTED)[i]['expected_observation_matches'])
+        # Real001 interior-pin loss must still fail even after measurement fixes.
+        v=observed();s=v['cases'][2]['states'][-1];pin=next(p for p in s['pins']if p['reference']=='FOREIGN_B')
+        pin.update(contacts=[],connected=[pin['id']]);s['traces'][1]['contacts'].remove(pin['id'])
+        self.assertFalse(checks.validate(v,EXPECTED)[2]['expected_observation_matches'])
     def test_unexpected_bounded_census_is_retained_mismatch(self):
         value=observed();state=value['cases'][0]['states'][-1];state['census']['vias']=1
         row=checks.validate(value,EXPECTED)[0];self.assertFalse(row['expected_observation_matches']);self.assertEqual(row['states'][-1]['observed_census']['traces'],2)

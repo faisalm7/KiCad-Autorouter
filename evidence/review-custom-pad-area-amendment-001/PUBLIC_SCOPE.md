@@ -1,0 +1,1 @@
+Project-owned GPL-3.0 independent amendment review and pure controls. Actual002 remains pending. No upstream binaries/implementation source, native execution, production qualification or routing claim.

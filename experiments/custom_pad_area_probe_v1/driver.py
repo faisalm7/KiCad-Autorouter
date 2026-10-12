@@ -147,7 +147,7 @@ def experiment(out, *, started=None, cpu_started=None):
     cpu_started = cpu() if cpu_started is None else cpu_started
     out = real(out)
     if out.parent != ROOT / '.runs' or out.exists(): raise ValueError('fresh direct project .runs output required')
-    protocol = decode(content(HERE / 'PROTOCOL.json')); record = {'schema': 1, 'scope': 'owned_area_contact_import_only',
+    protocol = decode(content(HERE / 'PROTOCOL.json')); record = {'schema': 2, 'scope': 'owned_area_contact_import_only',
         'status': 'preparing', 'observations_complete': False, 'routing_accepted': False, 'custom_pad_support_qualified': False,
         'native_executed': False, 'routing_executed': False, 'import_process_requested': False, 'import_process_executed': False, 'steps': [],
         'budget_seconds': SECONDS, 'cpu_budget_seconds': SECONDS, 'max_output_bytes': LIMIT,
@@ -172,7 +172,7 @@ def experiment(out, *, started=None, cpu_started=None):
         if any(observed.get(name) != row for name, row in frozen.items()): raise ValueError('completed evidence stale after runtime scan')
         remaining()
     try:
-        if protocol['case_ids'] != list(IDS) or protocol['expected'] != fixtures_and_expected()[1] or protocol['limits'] != {'wall_seconds': 60, 'full_cpu_seconds': 60, 'output_bytes': LIMIT, 'java_heap': '256m'}:
+        if protocol['schema'] != 2 or protocol['case_ids'] != list(IDS) or protocol['expected'] != fixtures_and_expected()[1] or protocol['limits'] != {'wall_seconds': 60, 'full_cpu_seconds': 60, 'output_bytes': LIMIT, 'java_heap': '256m'}:
             raise ValueError('fixed six-scene prospective protocol differs')
         if set(protocol['tools']) != {'jar', 'java', 'javac', 'sandbox', 'python'} or Path(sys.executable).resolve() != Path(protocol['tools']['python']['path']):
             raise ValueError('fixed tool set/invoking Python differs')

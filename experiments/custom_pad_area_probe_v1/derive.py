@@ -2,6 +2,8 @@
 import copy
 import hashlib
 import json
+import re
+from fractions import Fraction
 from pathlib import Path
 from autorouter import sexpr as sx
 from autorouter.adapter import _parse_dsn, _dump_dsn
@@ -37,6 +39,40 @@ def area(points):
     return abs(sum(a[0]*b[1]-a[1]*b[0] for a,b in zip(points,points[1:]+points[:1]))) / 2
 
 
+def imported_name(name):
+    # Pinned Library.readPadstackScope and package lookup use this exact replacement.
+    return re.sub(r'\.\d+', '', name, flags=re.ASCII)
+
+
+def split_wire(wire, target, pads, copper_layer, layer):
+    """Subdivide only at original same-net/layer terminal centers; copper is unchanged."""
+    path=exact_one(wire,'path'); net=exact_one(wire,'net')
+    start=coord(target['start']); end=coord(target['end']); width=target['width_nm']//1000
+    if target['width_nm']%1000 or net!=['net',target['net']] or path!=['path',layer,str(width),*[str(v) for p in (start,end) for v in p]]:
+        raise ValueError('original trace/recipe identity differs')
+    delta=[end[i]-start[i] for i in (0,1)]; axis=0 if delta[0] else 1
+    if delta[axis]==0: raise ValueError('zero original segment')
+    interior={}
+    for pad in pads:
+        if pad['net']!=target['net'] or copper_layer not in pad['copper_layers']:continue
+        if pad['copper_layers']!=[copper_layer]:raise ValueError('single-layer terminal required')
+        point=coord(pad['position_nm']); diff=[point[i]-start[i] for i in (0,1)]
+        if diff[0]*delta[1]!=diff[1]*delta[0]:continue
+        t=Fraction(diff[axis],delta[axis])
+        if 0<t<1:
+            if t in interior:raise ValueError('ambiguous co-located interior terminals')
+            interior[t]={'reference':pad['reference'],'uuid':pad['uuid'],'position_um':point}
+    positions=[start,*[v['position_um'] for _,v in sorted(interior.items())],end]
+    pieces=[]
+    for a,b in zip(positions,positions[1:]):
+        piece=copy.deepcopy(wire); piece[piece.index(exact_one(piece,'path'))]=['path',layer,str(width),*[str(v) for p in (a,b) for v in p]]
+        # Every non-coordinate atom is preserved; ordered consecutive endpoints give exact union.
+        reverted=copy.deepcopy(piece); reverted[reverted.index(exact_one(reverted,'path'))]=copy.deepcopy(path)
+        if reverted!=wire or a==b:raise ValueError('split changed original trace metadata')
+        pieces.append(piece)
+    return pieces,[v for _,v in sorted(interior.items())]
+
+
 def derive(raw, custom, context, recipe):
     """Byte-pinned callers retain originals; this only produces a separate DSN and expectations."""
     before = _parse_dsn(raw.decode()); tree = copy.deepcopy(before)
@@ -56,10 +92,18 @@ def derive(raw, custom, context, recipe):
     if sx.children(structure,'plane') or len(sx.children(wiring,'wire'))!=2: raise ValueError('no planes; exact original two traces')
     images={unquote(x[1]):x for x in sx.children(lib,'image')}
     stacks={unquote(x[1]):x for x in sx.children(lib,'padstack')}
+    normalized={name:imported_name(name) for name in stacks}
+    if not all(normalized.values()) or len(set(normalized.values()))!=len(normalized):raise ValueError('importer padstack name collision')
     places={unquote(p[1]):(unquote(comp[1]),p) for comp in sx.children(placement,'component') for p in sx.children(comp,'place')}
-    if len(places)!=4 or len(images)!=3 or len(stacks)!=4: raise ValueError('library/placement census')
+    if len(places)!=4 or len(images)!=3 or len(stacks)!=4 or len(sx.children(lib,'padstack'))!=4: raise ValueError('library/placement census')
     netpins={unquote(n[1]):[unquote(p) for p in exact_one(n,'pins')[1:]] for n in sx.children(network,'net')}
     if netpins!={'CONTACT':['CONVEX-1','CONCAVE-1'],'FOREIGN':['FOREIGN_A-1','FOREIGN_B-1']}: raise ValueError('terminal mapping')
+    original_wires=copy.deepcopy(sx.children(wiring,'wire')); split_wires=[]; splits=[]
+    if len(wiring)!=3 or len(recipe['tracks'])!=2:raise ValueError('only two original wire nodes required')
+    for wire,target in zip(original_wires,recipe['tracks']):
+        pieces,centers=split_wire(wire,target,context['pads'],recipe['copper_layer'],layer)
+        split_wires.extend(pieces); splits.append({'track_id':target['id'],'centers':centers,'piece_count':len(pieces)})
+    wiring[1:]=split_wires
     edits=[]; areas=[]
     for pad in sorted(pads,key=lambda p:p['reference']):
         if (pad['anchor']!='rect' or pad['size_nm']!=[300000,300000] or pad['offset_nm']!=[0,0]
@@ -80,9 +124,11 @@ def derive(raw, custom, context, recipe):
         areas.append({'reference':pad['reference'],'pad_uuid':pad['uuid'],'net':'CONTACT','layer':layer,
                       'position_um':coord(pad['position_nm']),'anchor_size_um':[300,300],
                       'area_um2':area(points),'ring_um':points,'fixed':'USER_FIXED'})
-    # Reverse exactly the two shape replacements and two appended areas, then demand whole AST identity.
+    # Reverse exactly the proven subdivision, two shape replacements and two appended areas.
     reverse=copy.deepcopy(tree); rlib=exact_one(reverse,'library'); rwiring=exact_one(reverse,'wiring')
     del rwiring[-2:]
+    if rwiring[1:]!=split_wires:raise ValueError('split wiring changed after derivation')
+    rwiring[1:]=original_wires
     for name,index,old in edits:
         matches=[x for x in sx.children(rlib,'padstack') if x[1]==name]
         if len(matches)!=1: raise ValueError('padstack alias')
@@ -91,7 +137,9 @@ def derive(raw, custom, context, recipe):
     expected={'case':variant+'-'+recipe['case'],'variant':variant,'kind':recipe['case'],'layer':layer,'areas':areas,
               'pins':[{'reference':p['reference'],'number':p['number'],'net':p['net'],'uuid':p['uuid'],
                        'position_um':coord(p['position_nm']),
-                       'padstack_name':unquote(exact_one(images[places[p['reference']][0]],'pin')[1])} for p in context['pads']],
+                       'padstack_name':unquote(exact_one(images[places[p['reference']][0]],'pin')[1]),
+                       'imported_padstack_name':imported_name(unquote(exact_one(images[places[p['reference']][0]],'pin')[1]))} for p in context['pads']],
+              'padstack_name_map':normalized,'trace_splits':splits,
               'net_targets':{n['name']:{'width_um':n['width_nm']/1000,'clearance_um':n['clearance_nm']/1000} for n in context['nets']},
               'tracks':[{'id':t['id'],'net':t['net'],'start_um':coord(t['start']),'end_um':coord(t['end']),
                          'width_um':t['width_nm']//1000} for t in recipe['tracks']],

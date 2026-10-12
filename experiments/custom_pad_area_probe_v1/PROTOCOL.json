@@ -1,5 +1,5 @@
 {
-  "schema": 1,
+  "schema": 2,
   "scope": "owned_area_contact_import_only",
   "case_ids": [
     "front0-positive",
@@ -45,10 +45,10 @@
   "input_sha256": {
     "front0-positive.dsn": "452d87004ce88ea212dbc3d6833fb72a4c03ee3d5cb73942c936e29de6820883",
     "front0-false_hull.dsn": "2e2177fa85e6a0ad8a4144d9510645ab768ae1bb9429fd06d93cf653a71e16b0",
-    "front0-foreign_intrusion.dsn": "15013a55871a747831846cef85c1d632271992d43280b25df8acc3f6c442db68",
+    "front0-foreign_intrusion.dsn": "8b52dbb22882a375503abe8056c81af8d26baddb0ec8c684af65a01c995c1831",
     "back90-positive.dsn": "ea1f24c636b96dab6d7c14efe6e1ac768edd9a9e7945d81b2477eae3e2158e13",
     "back90-false_hull.dsn": "f27f155c83fde7e564b0783eb73437344a2768036b9fefd094537c6bcac39719",
-    "back90-foreign_intrusion.dsn": "426fd713f4cd1cd7497c59d49059201820ac14882ae03df2e882111e93e75e46"
+    "back90-foreign_intrusion.dsn": "6eac773b683b57987f97c2665cec0c40bb5310175b7a6dee3ff2f48d1220593d"
   },
   "expected": [
     {
@@ -144,7 +144,8 @@
             10000,
             -15000
           ],
-          "padstack_name": "Cust[T]Pad_300.000000x300.000000_1500.000000x1500.000000_6_um_4F9F87CB620F18FA2F4FD38FD52DC8B8"
+          "padstack_name": "Cust[T]Pad_300.000000x300.000000_1500.000000x1500.000000_6_um_4F9F87CB620F18FA2F4FD38FD52DC8B8",
+          "imported_padstack_name": "Cust[T]Pad_300x300_1500x1500_6_um_4F9F87CB620F18FA2F4FD38FD52DC8B8"
         },
         {
           "reference": "CONCAVE",
@@ -155,7 +156,8 @@
             20000,
             -15000
           ],
-          "padstack_name": "Cust[T]Pad_300.000000x300.000000_1150.000000x1500.000000_5_um_4994A2648203C86F3D6EDA91726DD99D"
+          "padstack_name": "Cust[T]Pad_300.000000x300.000000_1150.000000x1500.000000_5_um_4994A2648203C86F3D6EDA91726DD99D",
+          "imported_padstack_name": "Cust[T]Pad_300x300_1150x1500_5_um_4994A2648203C86F3D6EDA91726DD99D"
         },
         {
           "reference": "FOREIGN_A",
@@ -166,7 +168,8 @@
             20000,
             -6000
           ],
-          "padstack_name": "Round[T]Pad_1500.000000_um"
+          "padstack_name": "Round[T]Pad_1500.000000_um",
+          "imported_padstack_name": "Round[T]Pad_1500_um"
         },
         {
           "reference": "FOREIGN_B",
@@ -177,7 +180,26 @@
             20000,
             -9000
           ],
-          "padstack_name": "Round[T]Pad_1500.000000_um"
+          "padstack_name": "Round[T]Pad_1500.000000_um",
+          "imported_padstack_name": "Round[T]Pad_1500_um"
+        }
+      ],
+      "padstack_name_map": {
+        "Round[T]Pad_1500.000000_um": "Round[T]Pad_1500_um",
+        "Cust[T]Pad_300.000000x300.000000_1500.000000x1500.000000_6_um_4F9F87CB620F18FA2F4FD38FD52DC8B8": "Cust[T]Pad_300x300_1500x1500_6_um_4F9F87CB620F18FA2F4FD38FD52DC8B8",
+        "Cust[T]Pad_300.000000x300.000000_1150.000000x1500.000000_5_um_4994A2648203C86F3D6EDA91726DD99D": "Cust[T]Pad_300x300_1150x1500_5_um_4994A2648203C86F3D6EDA91726DD99D",
+        "Via[0-1]_1600:600_um": "Via[0-1]_1600:600_um"
+      },
+      "trace_splits": [
+        {
+          "track_id": "CONTACT_TRACK",
+          "centers": [],
+          "piece_count": 1
+        },
+        {
+          "track_id": "FOREIGN_TRACK",
+          "centers": [],
+          "piece_count": 1
         }
       ],
       "net_targets": {
@@ -318,7 +340,8 @@
             10000,
             -15000
           ],
-          "padstack_name": "Cust[T]Pad_300.000000x300.000000_1500.000000x1500.000000_6_um_4F9F87CB620F18FA2F4FD38FD52DC8B8"
+          "padstack_name": "Cust[T]Pad_300.000000x300.000000_1500.000000x1500.000000_6_um_4F9F87CB620F18FA2F4FD38FD52DC8B8",
+          "imported_padstack_name": "Cust[T]Pad_300x300_1500x1500_6_um_4F9F87CB620F18FA2F4FD38FD52DC8B8"
         },
         {
           "reference": "CONCAVE",
@@ -329,7 +352,8 @@
             20000,
             -15000
           ],
-          "padstack_name": "Cust[T]Pad_300.000000x300.000000_1150.000000x1500.000000_5_um_4994A2648203C86F3D6EDA91726DD99D"
+          "padstack_name": "Cust[T]Pad_300.000000x300.000000_1150.000000x1500.000000_5_um_4994A2648203C86F3D6EDA91726DD99D",
+          "imported_padstack_name": "Cust[T]Pad_300x300_1150x1500_5_um_4994A2648203C86F3D6EDA91726DD99D"
         },
         {
           "reference": "FOREIGN_A",
@@ -340,7 +364,8 @@
             20000,
             -6000
           ],
-          "padstack_name": "Round[T]Pad_1500.000000_um"
+          "padstack_name": "Round[T]Pad_1500.000000_um",
+          "imported_padstack_name": "Round[T]Pad_1500_um"
         },
         {
           "reference": "FOREIGN_B",
@@ -351,7 +376,26 @@
             20000,
             -9000
           ],
-          "padstack_name": "Round[T]Pad_1500.000000_um"
+          "padstack_name": "Round[T]Pad_1500.000000_um",
+          "imported_padstack_name": "Round[T]Pad_1500_um"
+        }
+      ],
+      "padstack_name_map": {
+        "Round[T]Pad_1500.000000_um": "Round[T]Pad_1500_um",
+        "Cust[T]Pad_300.000000x300.000000_1500.000000x1500.000000_6_um_4F9F87CB620F18FA2F4FD38FD52DC8B8": "Cust[T]Pad_300x300_1500x1500_6_um_4F9F87CB620F18FA2F4FD38FD52DC8B8",
+        "Cust[T]Pad_300.000000x300.000000_1150.000000x1500.000000_5_um_4994A2648203C86F3D6EDA91726DD99D": "Cust[T]Pad_300x300_1150x1500_5_um_4994A2648203C86F3D6EDA91726DD99D",
+        "Via[0-1]_1600:600_um": "Via[0-1]_1600:600_um"
+      },
+      "trace_splits": [
+        {
+          "track_id": "CONTACT_TRACK",
+          "centers": [],
+          "piece_count": 1
+        },
+        {
+          "track_id": "FOREIGN_TRACK",
+          "centers": [],
+          "piece_count": 1
         }
       ],
       "net_targets": {
@@ -492,7 +536,8 @@
             10000,
             -15000
           ],
-          "padstack_name": "Cust[T]Pad_300.000000x300.000000_1500.000000x1500.000000_6_um_4F9F87CB620F18FA2F4FD38FD52DC8B8"
+          "padstack_name": "Cust[T]Pad_300.000000x300.000000_1500.000000x1500.000000_6_um_4F9F87CB620F18FA2F4FD38FD52DC8B8",
+          "imported_padstack_name": "Cust[T]Pad_300x300_1500x1500_6_um_4F9F87CB620F18FA2F4FD38FD52DC8B8"
         },
         {
           "reference": "CONCAVE",
@@ -503,7 +548,8 @@
             20000,
             -15000
           ],
-          "padstack_name": "Cust[T]Pad_300.000000x300.000000_1150.000000x1500.000000_5_um_4994A2648203C86F3D6EDA91726DD99D"
+          "padstack_name": "Cust[T]Pad_300.000000x300.000000_1150.000000x1500.000000_5_um_4994A2648203C86F3D6EDA91726DD99D",
+          "imported_padstack_name": "Cust[T]Pad_300x300_1150x1500_5_um_4994A2648203C86F3D6EDA91726DD99D"
         },
         {
           "reference": "FOREIGN_A",
@@ -514,7 +560,8 @@
             20000,
             -6000
           ],
-          "padstack_name": "Round[T]Pad_1500.000000_um"
+          "padstack_name": "Round[T]Pad_1500.000000_um",
+          "imported_padstack_name": "Round[T]Pad_1500_um"
         },
         {
           "reference": "FOREIGN_B",
@@ -525,7 +572,35 @@
             20000,
             -9000
           ],
-          "padstack_name": "Round[T]Pad_1500.000000_um"
+          "padstack_name": "Round[T]Pad_1500.000000_um",
+          "imported_padstack_name": "Round[T]Pad_1500_um"
+        }
+      ],
+      "padstack_name_map": {
+        "Round[T]Pad_1500.000000_um": "Round[T]Pad_1500_um",
+        "Cust[T]Pad_300.000000x300.000000_1500.000000x1500.000000_6_um_4F9F87CB620F18FA2F4FD38FD52DC8B8": "Cust[T]Pad_300x300_1500x1500_6_um_4F9F87CB620F18FA2F4FD38FD52DC8B8",
+        "Cust[T]Pad_300.000000x300.000000_1150.000000x1500.000000_5_um_4994A2648203C86F3D6EDA91726DD99D": "Cust[T]Pad_300x300_1150x1500_5_um_4994A2648203C86F3D6EDA91726DD99D",
+        "Via[0-1]_1600:600_um": "Via[0-1]_1600:600_um"
+      },
+      "trace_splits": [
+        {
+          "track_id": "CONTACT_TRACK",
+          "centers": [],
+          "piece_count": 1
+        },
+        {
+          "track_id": "FOREIGN_TRACK",
+          "centers": [
+            {
+              "reference": "FOREIGN_B",
+              "uuid": "b8246065-8e21-5f48-b68d-6d60044ca9e1",
+              "position_um": [
+                20000,
+                -9000
+              ]
+            }
+          ],
+          "piece_count": 2
         }
       ],
       "net_targets": {
@@ -571,7 +646,7 @@
       "source_project_sha256": "3b0ac39da5af86d0baa2a64da55a89c39ba00148dc82b54f3062f5c3650a5cc5",
       "plane_nets_expected": false,
       "connectivity_expected": true,
-      "derived_sha256": "15013a55871a747831846cef85c1d632271992d43280b25df8acc3f6c442db68"
+      "derived_sha256": "8b52dbb22882a375503abe8056c81af8d26baddb0ec8c684af65a01c995c1831"
     },
     {
       "case": "back90-positive",
@@ -666,7 +741,8 @@
             25000,
             -30000
           ],
-          "padstack_name": "Cust[T]Pad_300.000000x300.000000_1500.000000x1500.000000_6_um_4F9F87CB620F18FA2F4FD38FD52DC8B8"
+          "padstack_name": "Cust[T]Pad_300.000000x300.000000_1500.000000x1500.000000_6_um_4F9F87CB620F18FA2F4FD38FD52DC8B8",
+          "imported_padstack_name": "Cust[T]Pad_300x300_1500x1500_6_um_4F9F87CB620F18FA2F4FD38FD52DC8B8"
         },
         {
           "reference": "CONCAVE",
@@ -677,7 +753,8 @@
             25000,
             -20000
           ],
-          "padstack_name": "Cust[T]Pad_300.000000x300.000000_1500.000000x1150.000000_5_um_4994A2648203C86F3D6EDA91726DD99D"
+          "padstack_name": "Cust[T]Pad_300.000000x300.000000_1500.000000x1150.000000_5_um_4994A2648203C86F3D6EDA91726DD99D",
+          "imported_padstack_name": "Cust[T]Pad_300x300_1500x1150_5_um_4994A2648203C86F3D6EDA91726DD99D"
         },
         {
           "reference": "FOREIGN_A",
@@ -688,7 +765,8 @@
             34000,
             -20000
           ],
-          "padstack_name": "Round[T]Pad_1500.000000_um"
+          "padstack_name": "Round[T]Pad_1500.000000_um",
+          "imported_padstack_name": "Round[T]Pad_1500_um"
         },
         {
           "reference": "FOREIGN_B",
@@ -699,7 +777,26 @@
             31000,
             -20000
           ],
-          "padstack_name": "Round[T]Pad_1500.000000_um"
+          "padstack_name": "Round[T]Pad_1500.000000_um",
+          "imported_padstack_name": "Round[T]Pad_1500_um"
+        }
+      ],
+      "padstack_name_map": {
+        "Round[T]Pad_1500.000000_um": "Round[T]Pad_1500_um",
+        "Cust[T]Pad_300.000000x300.000000_1500.000000x1500.000000_6_um_4F9F87CB620F18FA2F4FD38FD52DC8B8": "Cust[T]Pad_300x300_1500x1500_6_um_4F9F87CB620F18FA2F4FD38FD52DC8B8",
+        "Cust[T]Pad_300.000000x300.000000_1500.000000x1150.000000_5_um_4994A2648203C86F3D6EDA91726DD99D": "Cust[T]Pad_300x300_1500x1150_5_um_4994A2648203C86F3D6EDA91726DD99D",
+        "Via[0-1]_1600:600_um": "Via[0-1]_1600:600_um"
+      },
+      "trace_splits": [
+        {
+          "track_id": "CONTACT_TRACK",
+          "centers": [],
+          "piece_count": 1
+        },
+        {
+          "track_id": "FOREIGN_TRACK",
+          "centers": [],
+          "piece_count": 1
         }
       ],
       "net_targets": {
@@ -840,7 +937,8 @@
             25000,
             -30000
           ],
-          "padstack_name": "Cust[T]Pad_300.000000x300.000000_1500.000000x1500.000000_6_um_4F9F87CB620F18FA2F4FD38FD52DC8B8"
+          "padstack_name": "Cust[T]Pad_300.000000x300.000000_1500.000000x1500.000000_6_um_4F9F87CB620F18FA2F4FD38FD52DC8B8",
+          "imported_padstack_name": "Cust[T]Pad_300x300_1500x1500_6_um_4F9F87CB620F18FA2F4FD38FD52DC8B8"
         },
         {
           "reference": "CONCAVE",
@@ -851,7 +949,8 @@
             25000,
             -20000
           ],
-          "padstack_name": "Cust[T]Pad_300.000000x300.000000_1500.000000x1150.000000_5_um_4994A2648203C86F3D6EDA91726DD99D"
+          "padstack_name": "Cust[T]Pad_300.000000x300.000000_1500.000000x1150.000000_5_um_4994A2648203C86F3D6EDA91726DD99D",
+          "imported_padstack_name": "Cust[T]Pad_300x300_1500x1150_5_um_4994A2648203C86F3D6EDA91726DD99D"
         },
         {
           "reference": "FOREIGN_A",
@@ -862,7 +961,8 @@
             34000,
             -20000
           ],
-          "padstack_name": "Round[T]Pad_1500.000000_um"
+          "padstack_name": "Round[T]Pad_1500.000000_um",
+          "imported_padstack_name": "Round[T]Pad_1500_um"
         },
         {
           "reference": "FOREIGN_B",
@@ -873,7 +973,26 @@
             31000,
             -20000
           ],
-          "padstack_name": "Round[T]Pad_1500.000000_um"
+          "padstack_name": "Round[T]Pad_1500.000000_um",
+          "imported_padstack_name": "Round[T]Pad_1500_um"
+        }
+      ],
+      "padstack_name_map": {
+        "Round[T]Pad_1500.000000_um": "Round[T]Pad_1500_um",
+        "Cust[T]Pad_300.000000x300.000000_1500.000000x1500.000000_6_um_4F9F87CB620F18FA2F4FD38FD52DC8B8": "Cust[T]Pad_300x300_1500x1500_6_um_4F9F87CB620F18FA2F4FD38FD52DC8B8",
+        "Cust[T]Pad_300.000000x300.000000_1500.000000x1150.000000_5_um_4994A2648203C86F3D6EDA91726DD99D": "Cust[T]Pad_300x300_1500x1150_5_um_4994A2648203C86F3D6EDA91726DD99D",
+        "Via[0-1]_1600:600_um": "Via[0-1]_1600:600_um"
+      },
+      "trace_splits": [
+        {
+          "track_id": "CONTACT_TRACK",
+          "centers": [],
+          "piece_count": 1
+        },
+        {
+          "track_id": "FOREIGN_TRACK",
+          "centers": [],
+          "piece_count": 1
         }
       ],
       "net_targets": {
@@ -1014,7 +1133,8 @@
             25000,
             -30000
           ],
-          "padstack_name": "Cust[T]Pad_300.000000x300.000000_1500.000000x1500.000000_6_um_4F9F87CB620F18FA2F4FD38FD52DC8B8"
+          "padstack_name": "Cust[T]Pad_300.000000x300.000000_1500.000000x1500.000000_6_um_4F9F87CB620F18FA2F4FD38FD52DC8B8",
+          "imported_padstack_name": "Cust[T]Pad_300x300_1500x1500_6_um_4F9F87CB620F18FA2F4FD38FD52DC8B8"
         },
         {
           "reference": "CONCAVE",
@@ -1025,7 +1145,8 @@
             25000,
             -20000
           ],
-          "padstack_name": "Cust[T]Pad_300.000000x300.000000_1500.000000x1150.000000_5_um_4994A2648203C86F3D6EDA91726DD99D"
+          "padstack_name": "Cust[T]Pad_300.000000x300.000000_1500.000000x1150.000000_5_um_4994A2648203C86F3D6EDA91726DD99D",
+          "imported_padstack_name": "Cust[T]Pad_300x300_1500x1150_5_um_4994A2648203C86F3D6EDA91726DD99D"
         },
         {
           "reference": "FOREIGN_A",
@@ -1036,7 +1157,8 @@
             34000,
             -20000
           ],
-          "padstack_name": "Round[T]Pad_1500.000000_um"
+          "padstack_name": "Round[T]Pad_1500.000000_um",
+          "imported_padstack_name": "Round[T]Pad_1500_um"
         },
         {
           "reference": "FOREIGN_B",
@@ -1047,7 +1169,35 @@
             31000,
             -20000
           ],
-          "padstack_name": "Round[T]Pad_1500.000000_um"
+          "padstack_name": "Round[T]Pad_1500.000000_um",
+          "imported_padstack_name": "Round[T]Pad_1500_um"
+        }
+      ],
+      "padstack_name_map": {
+        "Round[T]Pad_1500.000000_um": "Round[T]Pad_1500_um",
+        "Cust[T]Pad_300.000000x300.000000_1500.000000x1500.000000_6_um_4F9F87CB620F18FA2F4FD38FD52DC8B8": "Cust[T]Pad_300x300_1500x1500_6_um_4F9F87CB620F18FA2F4FD38FD52DC8B8",
+        "Cust[T]Pad_300.000000x300.000000_1500.000000x1150.000000_5_um_4994A2648203C86F3D6EDA91726DD99D": "Cust[T]Pad_300x300_1500x1150_5_um_4994A2648203C86F3D6EDA91726DD99D",
+        "Via[0-1]_1600:600_um": "Via[0-1]_1600:600_um"
+      },
+      "trace_splits": [
+        {
+          "track_id": "CONTACT_TRACK",
+          "centers": [],
+          "piece_count": 1
+        },
+        {
+          "track_id": "FOREIGN_TRACK",
+          "centers": [
+            {
+              "reference": "FOREIGN_B",
+              "uuid": "fc143a94-46e1-58bc-af43-d88fbde6c71c",
+              "position_um": [
+                31000,
+                -20000
+              ]
+            }
+          ],
+          "piece_count": 2
         }
       ],
       "net_targets": {
@@ -1093,7 +1243,7 @@
       "source_project_sha256": "3b0ac39da5af86d0baa2a64da55a89c39ba00148dc82b54f3062f5c3650a5cc5",
       "plane_nets_expected": false,
       "connectivity_expected": true,
-      "derived_sha256": "426fd713f4cd1cd7497c59d49059201820ac14882ae03df2e882111e93e75e46"
+      "derived_sha256": "6eac773b683b57987f97c2665cec0c40bb5310175b7a6dee3ff2f48d1220593d"
     }
   ],
   "native_source_pins": {
@@ -1271,9 +1421,18 @@
     }
   },
   "changes": [
-    "Only two hull padstack shapes replaced by their unchanged native rectangular anchors.",
-    "Only two same-net protected native-world wiring polygons appended; all other DSN AST identical.",
-    "Explicit false/true area obstacle toggles on imported in-memory board; no routing or save."
+    "Exactly two original custom hull shapes become their unchanged native rectangular anchors; exactly two protected same-net native-world polygons are appended.",
+    "Original traces are subdivided only at original same-net/layer pin centers strictly inside each segment; metadata and exact complete copper union are preserved and all edits reverse to the original whole DSN AST.",
+    "Explicit false/true in-memory area obstacle flags; no routing, native CAD, SES or save."
   ],
-  "interpretation": "Mismatch remains a measured observation, not acceptance. True state requires exact geometry, reciprocal contacts, terminal partition and foreign obstacle. False state must allow foreign intrusion, proving activation effect. No generalized reflection, custom routing support, SES or native acceptance is claimed. Exact full-polyline union permits splitting only; no gap/overlap/excursion/width/net/layer change. Actual IntPoint coordinates are retained and checked against the observed coordinate transform; RationalPoint is retained but unqualified. Both Default 500um width and area-to-foreign-trace 250um matrix values must match. These target dimensions do not qualify unused POWER or cross-class smd_smd equivalence."
+  "interpretation": "Amended prospective import-only observations. Keep prior001 completed observations with six expected-hypothesis failures unchanged. Require exact integer native rings/area, injective pinned importer name mapping, raw native250um area/foreign-trace clearance, compensated raw+16boardunits value, original500um width, reciprocal graph and original-terminal partition. Require true-mode positive/false-hull clearance and foreign intrusion blockage including concave area overlap. False/imported-mode obstruction is recorded but not an isolation predicate because original anchors already confound it. No original mixed-class/POWER/smd_smd equivalence, routing, SES, general reflection or production support.",
+  "amendment": {
+    "prior_run": ".runs/custom-pad-area-probe-001",
+    "prior_summary_sha256": "934dc6664cc5b878cfd0b831409763459e73bdb057773a2d6aeaa44438271857",
+    "prior_observations_sha256": "a6f3f5e02d659785810b8be93aa5e7b0af409d2c475d63d36c162549e34e1743",
+    "reason": "Observed naming/API area/safety-margin assumptions plus actual interior-terminal graph mismatch and anchor-confounded false-mode obstruction; no native/source rule relaxation.",
+    "clearance_api_receipt_sha256": "84b252e12c305de76a25dbaefe7a1927326ff5635772835e799c05079424ef9d",
+    "clearance_getValue_boolean": "false returns stored raw matrix value; true adds exactly16 integer board units (pinned bytecode offsets104\u2013119).",
+    "polygon_area_api": "Retain zero API result; pinned PolygonShape.area dimension<=2 branch is not used as contour-area oracle."
+  }
 }

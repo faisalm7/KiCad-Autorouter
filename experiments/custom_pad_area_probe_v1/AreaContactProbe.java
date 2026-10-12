@@ -82,7 +82,8 @@ public final class AreaContactProbe {
         var counts=map("pins",board.getPins().size(),"traces",board.getTraces().size(),"areas",board.getConductionAreas().size(),
           "vias",board.getVias().size(),"components",board.components.count(),"layers",board.getLayerCount(),"max_net_number",board.rules.nets.maxNetNumber());
         state.putAll(map("mode",mode,"census",counts,"ignore_conduction",board.rules.getIgnoreConduction(),
-          "board_units_per_um",ct.dsnToBoard(1.0),"board_origin_dsn_um",point(ct,new FloatPoint(0,0))));
+          "board_units_per_um",ct.dsnToBoard(1.0),"board_origin_dsn_um",point(ct,new FloatPoint(0,0)),
+          "clearance_safety_margin_board_units",app.freerouting.rules.ClearanceMatrix.clearance_safety_margin));
         if(board.getPins().size()>16||board.getTraces().size()>32||board.getConductionAreas().size()>8
            ||board.getVias().size()>8||board.components.count()>16||board.getLayerCount()>8||board.rules.nets.maxNetNumber()>8)
            throw new IllegalArgumentException("imported population above observation bound; actual census retained");
@@ -102,7 +103,7 @@ public final class AreaContactProbe {
             if(border.borderLineCount()!=pts.length)throw new IllegalArgumentException("border corner count mismatch");
             for(int k=0;k<pts.length;k++){Point pt=border.corner(k);ring.add(point(ct,pt.toFloat()));integerRing.add(integerPoint(pt));ringClasses.add(pt.getClass().getName());}
             double scale=ct.boardToDsn(1.0);
-            row.putAll(map("ring_um",ring,"ring_board_integer",integerRing,"ring_classes",ringClasses,"area_um2",shape.getBorder().area()*scale*scale,"holes",shape.getHoles().length,
+            row.putAll(map("ring_um",ring,"ring_board_integer",integerRing,"ring_classes",ringClasses,"area_api_um2",shape.getBorder().area()*scale*scale,"holes",shape.getHoles().length,
               "layer",board.layerStructure.layers[a.getLayer()].name,"obstacle",a.getIsObstacle()));areas.add(row);
         }
         for(Trace t:board.getTraces()) {
@@ -113,9 +114,17 @@ public final class AreaContactProbe {
             List<Object> corners=new ArrayList<>(),integerCorners=new ArrayList<>();List<String> cornerClasses=new ArrayList<>();
             for(int k=0;k<n;k++){Point pt=poly.polyline().corner(k);corners.add(point(ct,pt.toFloat()));integerCorners.add(integerPoint(pt));cornerClasses.add(pt.getClass().getName());}
             row.putAll(map("corners_um",corners,"corners_board_integer",integerCorners,"corner_classes",cornerClasses));
-            Map<String,Object> clearance=new LinkedHashMap<>();
-            for(ConductionArea a:board.getConductionAreas())clearance.put(Integer.toString(a.getId()),ct.boardToDsn(board.clearanceValue(a.clearanceClassIndex(),t.clearanceClassIndex(),t.getLayer())));
-            row.put("area_clearances_um",clearance);Set<Integer> overlap=new TreeSet<>();
+            Map<String,Object> clearance=new LinkedHashMap<>(),rawClearance=new LinkedHashMap<>(),reverseClearance=new LinkedHashMap<>();
+            for(ConductionArea a:board.getConductionAreas()) {
+                int ac=a.clearanceClassIndex(),tc=t.clearanceClassIndex(),layer=t.getLayer();
+                if(ac<0||tc<0||ac>=board.rules.clearanceMatrix.getClassCount()||tc>=board.rules.clearanceMatrix.getClassCount())
+                    throw new IllegalArgumentException("clearance class outside actual matrix");
+                String key=Integer.toString(a.getId());
+                clearance.put(key,ct.boardToDsn(board.clearanceValue(ac,tc,layer)));
+                rawClearance.put(key,ct.boardToDsn(board.rules.clearanceMatrix.getValue(ac,tc,layer,false)));
+                reverseClearance.put(key,ct.boardToDsn(board.rules.clearanceMatrix.getValue(tc,ac,layer,false)));
+            }
+            row.put("area_clearances_um",clearance);row.put("area_raw_clearances_um",rawClearance);row.put("area_raw_clearances_reverse_um",reverseClearance);Set<Integer> overlap=new TreeSet<>();
             int count=t.tileShapeCount();if(count<1||count>32)throw new IllegalArgumentException("trace shape bound");
             for(int i=0;i<count;i++) {
                 TileShape shape=t.getTileShape(i);
@@ -165,7 +174,7 @@ public final class AreaContactProbe {
         if(args.length!=2)throw new IllegalArgumentException("input-directory output-json");
         Path in=Path.of(args[0]),out=Path.of(args[1]);if(Files.exists(out))throw new IllegalArgumentException("fresh output required");
         List<Object> rows=new ArrayList<>();for(String c:CASES)rows.add(map("case",c,"status","not_run"));
-        var result=map("schema",1,"scope","owned_area_contact_import_only","units","micrometres",
+        var result=map("schema",2,"scope","owned_area_contact_import_only","units","micrometres",
           "routing_executed",false,"native_executed",false,"cases",rows);save(out,result);boolean complete=true;
         for(int i=0;i<CASES.length;i++){
             Map<String,Object> row=map("case",CASES[i],"status","starting");rows.set(i,row);

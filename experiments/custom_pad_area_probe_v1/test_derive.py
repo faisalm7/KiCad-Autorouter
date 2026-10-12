@@ -47,5 +47,43 @@ class Derivation(unittest.TestCase):
             if p.name=='observation.json':raw+=b' '
             return raw
         with self.assertRaisesRegex(ValueError,'recorded stage'):d.prepare(ROOT,read)
+    def test_actual_intrusion_subdivision_only_at_original_pin(self):
+        from autorouter.adapter import _parse_dsn
+        from autorouter import sexpr as sx
+        for ident in d.IDS:
+            raw,*rest=self.rows(ident); derived,expected=d.derive(raw,*rest)
+            tree=_parse_dsn(derived.decode()); wires=sx.children(d.exact_one(tree,'wiring'),'wire')
+            paths=[d.exact_one(w,'path') for w in wires if sx.children(w,'path')]
+            self.assertEqual(len(paths),3 if 'intrusion' in ident else 2)
+            splits=expected['trace_splits'][1]
+            if 'intrusion' in ident:
+                point=splits['centers'][0]['position_um']; self.assertEqual(splits['centers'][0]['reference'],'FOREIGN_B')
+                foreign=paths[1:]; self.assertEqual(foreign[0][-2:],[str(x) for x in point]); self.assertEqual(foreign[1][3:5],[str(x) for x in point])
+            else:self.assertEqual(splits['centers'],[])
+    def test_split_rejects_recipe_drift_and_ambiguous_terminal(self):
+        from autorouter.adapter import _parse_dsn
+        r=self.rows('front0-foreign_intrusion');tree=_parse_dsn(r[0].decode());wire=d.exact_one(tree,'wiring')[2]
+        args=[wire,r[3]['tracks'][1],r[2]['pads'],'F.Cu','top_layer']
+        for kind in ('width','path','duplicate','fractional'):
+            a=copy.deepcopy(args)
+            if kind=='width':a[1]['width_nm']+=1000
+            elif kind=='path':d.exact_one(a[0],'path')[-1]='-14401'
+            elif kind=='duplicate':a[2].append(copy.deepcopy(a[2][3]))
+            else:a[2][3]['position_nm'][0]+=1
+            with self.subTest(kind=kind),self.assertRaises(ValueError):d.split_wire(*a)
+        for kind in ('wrong_net','wrong_layer','off_segment'):
+            a=copy.deepcopy(args)
+            if kind=='wrong_net':a[2][3]['net']='CONTACT'
+            elif kind=='wrong_layer':a[2][3]['copper_layers']=['B.Cu']
+            else:a[2][3]['position_nm'][0]+=1000
+            pieces,centers=d.split_wire(*a);self.assertEqual(pieces,[wire]);self.assertEqual(centers,[])
+    def test_importer_name_normalization_collision_rejected(self):
+        from autorouter.adapter import _parse_dsn,_dump_dsn
+        self.assertEqual(d.imported_name('pad12.750.0'), 'pad12')
+        self.assertEqual(d.imported_name('pad.١'), 'pad.١')  # Java default regex digit class is ASCII.
+        r=self.rows();tree=_parse_dsn(r[0].decode());stacks=d.sx.children(d.exact_one(tree,'library'),'padstack')
+        stacks[0][1]='collision.1';stacks[1][1]='collision.2'
+        r[0]=_dump_dsn(tree).encode();r[1]['dsn_sha256']=r[2]['dsn_sha256']=d.sha(r[0])
+        with self.assertRaisesRegex(ValueError,'name collision'):d.derive(*r)
 
 if __name__=='__main__':unittest.main()

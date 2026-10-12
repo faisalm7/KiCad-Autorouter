@@ -56,6 +56,12 @@ def integer_coordinate_witness(item, state, *, area=False):
     return True
 
 
+def exact_area(item,state):
+    if not integer_coordinate_witness(item,state,area=True):return None
+    ring=item['ring_board_integer']; scale=number(state['board_units_per_um'])
+    return abs(sum(a[0]*b[1]-a[1]*b[0] for a,b in zip(ring,ring[1:]+ring[:1])))/(2*scale**2)
+
+
 def state_comparison(state,want):
     pins=state['pins'];areas=state['areas'];traces=state['traces'];nets=state['nets']
     if not all(isinstance(v,list) for v in (pins,areas,traces,nets)):raise ValueError('item lists required')
@@ -73,13 +79,17 @@ def state_comparison(state,want):
     pin_ok=exact_census and len(pmap)==4 and set(pmap)=={p['reference'] for p in want['pins']}
     for p in want['pins']:
         q=pmap.get(p['reference'],{})
-        pin_ok &= all(q.get(k)==p[k] for k in ('number','net','position_um','padstack_name')) and q.get('layers')==[want['layer']]
+        pin_ok &= all(q.get(k)==p[k] for k in ('number','net','position_um')) and q.get('layers')==[want['layer']]
+        pin_ok &= q.get('padstack_name')==p['imported_padstack_name']
+    name_map=want['padstack_name_map']
+    pin_ok &= len(set(name_map.values()))==len(name_map) and all(name_map[p['padstack_name']]==p['imported_padstack_name'] for p in want['pins'])
     for a in want['areas']:
         found=[x for x in areas if canonical_ring(x['ring_um'])==canonical_ring(a['ring_um'])]
         if len(found)==1:amap[a['reference']]=found[0]
     area_ok=len(amap)==2 and len(areas)==2 and all(integer_coordinate_witness(x,state,area=True) and x['holes']==0 and x['net']=='CONTACT' and x['layer']==want['layer']
-             and x['fixed']=='USER_FIXED' and x['area_um2']==next(a['area_um2'] for a in want['areas'] if a['reference']==ref)
+             and x['fixed']=='USER_FIXED' and exact_area(x,state)==next(a['area_um2'] for a in want['areas'] if a['reference']==ref)
              for ref,x in amap.items())
+    for x in areas:number(x['area_api_um2'])  # Retain the API result, not a polygon-area oracle.
     anchor_ok=all(pmap.get(p['reference'],{}).get('bounds_um')==[p['position_um'][0]-150,p['position_um'][1]-150,p['position_um'][0]+150,p['position_um'][1]+150]
                   for p in want['pins'] if p['reference'] in ('CONCAVE','CONVEX'))
     traces_ok={t.get('net') for t in traces}=={'CONTACT','FOREIGN'};tmap={}
@@ -88,10 +98,15 @@ def state_comparison(state,want):
         traces_ok &= exact_trace_union(members,t,want['layer']) and all(integer_coordinate_witness(x,state) for x in members)
     plane_ok={n['name'] for n in nets}=={'CONTACT','FOREIGN'} and all(n['contains_plane'] is False for n in nets)
     widths_ok=all(n.get('trace_width_um')==want['net_targets'][n['name']]['width_um'] for n in nets if n['name'] in want['net_targets']) and len(nets)==2
-    # Every imported area uses the unchanged native 250um class target against every foreign trace.
+    # Matrix(false) is raw; pinned matrix(true) adds16 board units (not16 micrometres).
+    margin=state.get('clearance_safety_margin_board_units')
+    margin_ok=type(margin)is int and margin==16
     matrix_ok=bool(areas) and bool(tmap['FOREIGN_TRACK']) and all(
-        t.get('area_clearances_um',{}).get(str(a['id']))==want['net_targets']['CONTACT']['clearance_um']
+        t.get('area_raw_clearances_um',{}).get(str(a['id']))==want['net_targets']['CONTACT']['clearance_um']
+        and t.get('area_raw_clearances_reverse_um',{}).get(str(a['id']))==want['net_targets']['CONTACT']['clearance_um']
+        and number(t.get('area_clearances_um',{}).get(str(a['id'])))==number(want['net_targets']['CONTACT']['clearance_um'])+Fraction(16)/number(state['board_units_per_um'])
         for t in tmap['FOREIGN_TRACK'] for a in areas)
+    matrix_ok &= margin_ok
     reciprocal=terminal_ok=False
     if pin_ok and area_ok and traces_ok and known_contacts:
         graph={i['id']:set(i['contacts']) for i in allitems}
@@ -111,10 +126,12 @@ def state_comparison(state,want):
             terminal_ok &= engine==peers and (pin_ids&reached)==peers
     obstacle=state['mode']=='obstacle_true'
     flags_ok=bool(areas) and all(a['obstacle'] is obstacle for a in areas) and (state['mode']=='imported' or state['ignore_conduction'] is not obstacle)
-    foreign=tmap['FOREIGN_TRACK'];blocked=obstacle and want['kind']=='foreign_intrusion'
+    foreign=tmap['FOREIGN_TRACK'];blocked=want['kind']=='foreign_intrusion'
     clear_values=[t.get('tree_trace_check_clear') for t in foreign]
-    obstruction_ok=bool(foreign) and all(type(v)is bool for v in clear_values) and all(clear_values) is not blocked
-    if blocked:
+    # An anchor already blocks intrusion in001: false/imported states are observed, not isolation controls.
+    obstruction_ok=bool(foreign) and all(type(v)is bool for v in clear_values)
+    if obstacle:obstruction_ok &= all(clear_values) is not blocked
+    if blocked and obstacle:
         obstruction_ok &= any(t.get('tree_trace_check_clear') is False and amap.get('CONCAVE',{}).get('id') in t.get('tree_overlap_ids',[]) for t in foreign)
     geometry_ok=pin_ok and anchor_ok and area_ok and traces_ok and plane_ok
     return {'mode':state['mode'],'observed_census':{'pins':len(pins),'areas':len(areas),'traces':len(traces),'nets':len(nets)},
@@ -125,7 +142,7 @@ def state_comparison(state,want):
 
 
 def validate(observation,expected):
-    if (observation.get('schema')!=1 or observation.get('scope')!='owned_area_contact_import_only'
+    if (observation.get('schema')!=2 or observation.get('scope')!='owned_area_contact_import_only'
         or observation.get('routing_executed') is not False or observation.get('native_executed') is not False
         or observation.get('units')!='micrometres'):raise ValueError('observation scope')
     rows=observation.get('cases')

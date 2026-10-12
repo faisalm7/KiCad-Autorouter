@@ -1,0 +1,1 @@
+Project-owned source freeze and final 24-method pure test log; earlier logs and full patch remain local. Manifest names those omitted local artifacts explicitly; PUBLIC_MANIFEST binds the actual public subset. Exact source is committed under experiments/custom_pad_area_probe_v1. Actual001 remains unchanged. No production admission.
