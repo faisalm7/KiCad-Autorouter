@@ -103,23 +103,73 @@ class Pure(unittest.TestCase):
         for side,angle in [('front','45'),('back','90'),('unknown','0')]:
             tree=_parse_dsn(self.raw.decode());place=sx.children(sx.children(sx.one(tree,'placement'),'component')[0],'place')[0];place[4:6]=[side,angle]
             with self.assertRaisesRegex(ValueError,'unqualified DSN placement'):transport.placed_pins(tree)
-    def test_clearance_census_uses_pad_effective_class_api(self):
-        # PAD inherits GetEffectiveNetClass; GetNetClassSlow belongs to NETINFO_ITEM.
-        # Deliberately supply no GetNetClassSlow fallback: this failed natively in001.
-        effective=SimpleNamespace(GetName=lambda:'Default',GetClearance=lambda:250000)
+    def clearance_fixture(self):
+        # Actual002 PAD return had no GetName; it must never be invoked here.
+        opaque=type('SwigPyObject',(),{})();effective_calls=[];own_calls=[];net_calls=[]
         fp=SimpleNamespace(GetReference=lambda:'P',GetLocalClearance=lambda:None)
-        pads=[];calls=[]
+        classes={1:SimpleNamespace(GetName=lambda:'Default',GetClearance=lambda:250000),
+                 2:SimpleNamespace(GetName=lambda:'POWER',GetClearance=lambda:280000)}
+        def get_class(code):net_calls.append(code);return classes[code]
+        nets={name:SimpleNamespace(GetNetCode=lambda code=code:code,
+            GetNetClassSlow=lambda code=code:get_class(code)) for name,code in [('N',1),('VCC',2)]}
+        pads=[]
         for index in range(247):
-            def get_class(i=index):calls.append(i);return effective
+            name,code=('VCC',2) if index==0 else ('N',1) if index<236 else ('',0)
+            def effective(i=index):effective_calls.append(i);return opaque
+            def own(layer,i=index):own_calls.append((i,layer));return 250000
             pads.append(SimpleNamespace(m_Uuid=SimpleNamespace(AsString=lambda i=index:str(i)),
-                IsOnLayer=lambda layer:layer==0,GetOwnClearance=lambda layer:250000,
-                GetParentFootprint=lambda:fp,GetEffectiveNetClass=get_class,
-                GetNumber=lambda i=index:str(i),GetNetname=lambda:'N',
+                IsOnLayer=lambda layer:layer==0,GetOwnClearance=own,
+                GetParentFootprint=lambda:fp,GetEffectiveNetClass=effective,
+                GetNumber=lambda i=index:str(i),GetNetname=lambda name=name:name,GetNetCode=lambda code=code:code,
                 GetLocalClearance=lambda:None,GetClearanceOverrides=lambda source:None))
-        rows=worker.clearances(SimpleNamespace(GetPads=lambda:pads),SimpleNamespace(F_Cu=0,B_Cu=2))
-        self.assertEqual(calls,list(range(247)));self.assertEqual(len(rows),247)
-        self.assertTrue(all(row['netclass']=='Default' and row['class_clearance_nm']==250000
-            and row['own']==[{'layer':'F.Cu','value_nm':250000}] for row in rows))
+        board=SimpleNamespace(GetPads=lambda:pads,GetNetsByName=lambda:nets)
+        return board,SimpleNamespace(F_Cu=0,B_Cu=2),pads,nets,classes,effective_calls,own_calls,net_calls
+    def test_clearance_census_uses_qualified_netinfo_not_opaque_pad(self):
+        board,pcb,pads,nets,classes,effective,own,calls=self.clearance_fixture()
+        rows=worker.clearances(board,pcb);byid={r['uuid']:r for r in rows}
+        self.assertEqual(effective,[]);self.assertEqual(sorted(calls),[1,2]);self.assertEqual(len(own),247)
+        self.assertEqual(len(rows),247);self.assertEqual(byid['0']['netclass'],'POWER')
+        self.assertEqual(byid['0']['class_clearance_nm'],280000)
+        self.assertEqual(byid['1']['class_clearance_nm'],250000)
+        for row in rows:
+            self.assertEqual(row['class_metadata']['source'],worker.CLASS_SOURCE)
+            self.assertEqual(row['class_metadata']['meaning'],worker.CLASS_MEANING)
+            self.assertEqual(row['own'],[{'layer':'F.Cu','value_nm':250000}])
+            self.assertEqual(row['pad_local'],{'status':'observed','value_nm':None})
+            if not row['net']:
+                self.assertEqual(row['class_metadata']['status'],'unavailable_netless')
+                self.assertIsNone(row['netclass']);self.assertIsNone(row['class_clearance_nm'])
+        self.assertEqual(sum(not row['net'] for row in rows),11)
+    def test_assigned_net_metadata_fails_closed(self):
+        for which in ('missing','code','opaque','bool-clearance','empty-class','netless-code'):
+            with self.subTest(which=which):
+                board,pcb,pads,nets,classes,*_=self.clearance_fixture()
+                if which=='missing':del nets['N']
+                if which=='code':pads[1].GetNetCode=lambda:2
+                if which=='opaque':nets['N'].GetNetClassSlow=lambda:object()
+                if which=='bool-clearance':classes[1].GetClearance=lambda:True
+                if which=='empty-class':classes[1].GetName=lambda:''
+                if which=='netless-code':pads[246].GetNetCode=lambda:1
+                with self.assertRaises((ValueError,AttributeError)):worker.clearances(board,pcb)
+    def test_net_metadata_bound_to_same_board_context(self):
+        board,pcb,*_=self.clearance_fixture();rows=worker.clearances(board,pcb)
+        notes={'source_pads_identity':{r['uuid']:{k:r[k] for k in ('reference','number','net')} for r in rows}}
+        context={'nets':[{'name':'N','netcode':1,'class':'Default','clearance_nm':250000},
+                         {'name':'VCC','netcode':2,'class':'POWER','clearance_nm':280000}]}
+        driver.verify_clearance_rows(rows,context,notes)
+        def assigned(value):return next(r for r in value if r['net']=='VCC')
+        def netless(value):return next(r for r in value if not r['net'])
+        changes=[lambda r:assigned(r).update(netclass='Default'),
+            lambda r:assigned(r).update(class_clearance_nm=250000),
+            lambda r:assigned(r).update(class_clearance_nm=True),
+            lambda r:assigned(r)['class_metadata'].update(source='PAD.GetEffectiveNetClass'),
+            lambda r:assigned(r)['class_metadata'].update(status='unsupported'),
+            lambda r:netless(r).update(netclass='Default',class_clearance_nm=250000),
+            lambda r:r.append(copy.deepcopy(r[0]))]
+        for change in changes:
+            with self.subTest(change=change):
+                bad=copy.deepcopy(rows);change(bad)
+                with self.assertRaises(ValueError):driver.verify_clearance_rows(bad,context,notes)
 
     def test_optional_never_guesses(self):
         for value in (None,250000):self.assertEqual(worker.optional(lambda:value),{'status':'observed','value_nm':value})

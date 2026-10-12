@@ -28,6 +28,29 @@ def runtime(protocol):
     original_hashes,total=original.source_binding()
     return {'git':git,'tools':tools,'sources':sources,'basis':basis,'original':original_hashes,'original_bytes':total}
 
+def verify_clearance_rows(observed,context,notes):
+    if type(observed) is not list or len(observed)!=247:raise ValueError('clearance terminal census differs')
+    rows={r['uuid']:r for r in observed}
+    if len(rows)!=247 or set(rows)!=set(notes['source_pads_identity']):raise ValueError('clearance terminal census differs')
+    nets={r['name']:r for r in context['nets']}
+    if len(nets)!=len(context['nets']):raise ValueError('duplicate native context net')
+    for uid,row in rows.items():
+        if any(row[k]!=notes['source_pads_identity'][uid][k] for k in ('reference','number','net')):raise ValueError('clearance terminal identity differs')
+        metadata=row.get('class_metadata',{})
+        if (metadata.get('source')!='BOARD.GetNetsByName -> NETINFO_ITEM.GetNetClassSlow'
+                or metadata.get('meaning')!='Net metadata class preference; not a pad-local, own-clearance, or pairwise rule result.'):
+            raise ValueError('clearance class metadata origin differs')
+        if row['net']:
+            net=nets.get(row['net'])
+            if (net is None or metadata.get('status')!='observed' or type(row.get('netcode')) is not int
+                    or type(row.get('class_clearance_nm')) is not int or type(row.get('netclass')) is not str
+                    or row['netcode']!=net['netcode'] or row['netclass']!=net['class']
+                    or row['class_clearance_nm']!=net['clearance_nm']):
+                raise ValueError('assigned class metadata differs from same-board context')
+        elif (metadata.get('status')!='unavailable_netless' or type(row.get('netcode')) is not int or row['netcode']!=0
+                or row.get('netclass') is not None or row.get('class_clearance_nm') is not None):
+            raise ValueError('netless class metadata must remain unavailable')
+
 def verify_native(out,source_hashes,notes):
     context=base.decode(base.content(out/'context.json',2*1024**2));custom=base.decode(base.content(out/'custom.json',4*1024**2));raw=base.content(out/'native.dsn',1024**2)
     board=out/'observe-input'/original.SOURCE.name
@@ -41,14 +64,11 @@ def verify_native(out,source_hashes,notes):
     report=base.content(out/'initialization-drc.txt',2*1024**2)
     if clear['initialization_returned'] is not True or clear['report_sha256']!=base.sha(report) or clear['report_bytes']!=len(report):raise ValueError('explicit initialized same-board report binding differs')
     for stage in ('pre_initialization','post_initialization'):
-        observed={r['uuid']:r for r in clear[stage]}
-        if len(observed)!=247 or set(observed)!=set(notes['source_pads_identity']):raise ValueError('clearance terminal census differs')
-        for uid,row in observed.items():
-            if any(row[k]!=notes['source_pads_identity'][uid][k] for k in ('reference','number','net')):raise ValueError('clearance terminal identity differs')
+        verify_clearance_rows(clear[stage],context,notes)
     derived,expected=transport.derive(raw,context,custom,notes)
     return derived,expected,{'initialized':True,'pairwise_rules_qualified':False,
         'local_optional_observations_supported':all(x['status']=='observed' for r in clear['post_initialization'] for x in (r['pad_local'],r['footprint_local'],r['pad_override'])),
-        'report_sha256':base.sha(report),'custom_pad_own_clearance':[{k:r[k] for k in ('uuid','net','netclass','class_clearance_nm','own','pad_local','footprint_local','pad_override')} for r in clear['post_initialization'] if r['uuid'] in {p['uuid'] for p in rows}]}
+        'report_sha256':base.sha(report),'custom_pad_own_clearance':[{k:r[k] for k in ('uuid','net','netcode','netclass','class_clearance_nm','class_metadata','own','pad_local','footprint_local','pad_override')} for r in clear['post_initialization'] if r['uuid'] in {p['uuid'] for p in rows}]}
 
 def experiment(out,*,started=None,cpu_started=None):
     if HERE.relative_to(ROOT).as_posix()!='experiments/pic_mixed_transport_probe_v1':raise ValueError('promote and commit reviewed helper before execution')

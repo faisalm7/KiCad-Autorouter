@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "passed": true,
+  "source15_unchanged": true,
+  "failed002_inventory_unchanged": true,
+  "failed002_summary_sha256": "2e4d2050bcec0aedf7acf98f65018f867694260e68dbe4a518ed6d429faf1922",
+  "failed002_native_log_sha256": "3e2333344ce412d42a67e0372704d1ff26510433795de654cb1a081e05ea0930",
+  "failure": "PAD.GetEffectiveNetClass returned opaque SwigPyObject without GetName",
+  "initialization_export_import_not_reached": true,
+  "costs": {
+    "wall_seconds": 1.2612376250035595,
+    "total_cpu_seconds": 0.9719169999999999,
+    "outer": {
+      "argv": [
+        "python3",
+        "-B",
+        "experiments/pic_mixed_transport_probe_v1/driver.py",
+        "--run-probe",
+        "--output",
+        ".runs/pic-mixed-transport-probe-002"
+      ],
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local",
+      "git_head": "f5b5888d5d727e3bdcd2aa1f6a28d518beb5f692",
+      "started_utc": "2026-10-12T04:27:10.731430+00:00",
+      "exit_code": 1,
+      "wall_seconds": 1.4493680839950684,
+      "waited_child_cpu_seconds": 1.1235629999999999,
+      "cleanup_signals": [],
+      "log_sha256": "06ab1cfe6891cb89e7219610bd924a0f21e44aaa5fc888eea4be6909be528f3a",
+      "log_bytes": 123,
+      "wrapper_sha256": "ae1a1929552263f092163b1e93cf1555129a80d5249f3fdae9470372e7d2f8d7",
+      "scope": "One original-project initialized native-clearance observation and two sequential retained-route manager imports only; no router, SES, support admission or routing acceptance."
+    }
+  },
+  "prior_qualified_lookup": {
+    "run": "evidence/pic-custom-observation-002",
+    "summary_sha256": "5a192888d1db6c3b607288ff2059dd6a9ce3ce3e28aba122f5a8f051959b97d4",
+    "observation_sha256": "8b114666765a2265320802826a58d87008dd3c33a10e63fe1fe3bd78a00d2031",
+    "floor_context_sha256": "8c00a443a9a6bd5e05c416b031b0f2dcc4f6e836f3769acab9ceced4fba91c14",
+    "head": "129dde00902ea4aa775e9827db5a6def976e7384",
+    "native_net_rows": 111,
+    "classes": [
+      "Default",
+      "POWER"
+    ],
+    "lookup": "BOARD.GetNetsByName -> NETINFO_ITEM.GetNetClassSlow -> GetName/GetClearance",
+    "scope": "net metadata path only, not pad effective or pairwise clearance"
+  },
+  "native_or_jvm_jobs": 0
+}
