@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "name": "legacy-zone-controls-v1",
+  "base_sha256": {
+    "smoke.kicad_pcb": "618b0b1d23f082283a5136b514ff64ee54b3a058f068689bf64668a436d7c5ea",
+    "smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+    "smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643"
+  },
+  "cases": [
+    "assigned_gnd",
+    "assigned_padless",
+    "net_zero"
+  ],
+  "generated_rule_delta": {
+    "board.design_settings.rule_severities.zone_has_empty_net": "error"
+  },
+  "historical_predicate": "netcode < 0 || (netcode > 0 && connectivity.GetPadCount(netcode) == 0); netcode0 exempt",
+  "expected_historical_violations": [
+    false,
+    true,
+    false
+  ],
+  "net0_encoding": "Omit zone net node, matching pinned KiCad10 zone writer; require actual native code0/name empty.",
+  "budgets": {
+    "wall_seconds": 30,
+    "full_cpu_seconds": 30,
+    "output_bytes": 20971520,
+    "native_processes": 6,
+    "concurrency": 1
+  },
+  "scope": "Owned unrouted predicate controls, not clean routing results. All existing opens/warnings/exclusions retained. No PAW/engine/save/import/routing or production admission.",
+  "pcbnew_wrapper": {
+    "path": "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/pcbnew.py",
+    "sha256": "cd1c06c4709c653256ebd0c98c66d80cd72033767fac27c34ea01b5ec586116a",
+    "bytes": 989468
+  },
+  "research": [
+    {
+      "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/legacy-zone-severity-origin-001/REPORT.md",
+      "sha256": "5caaa9b7c8969f9d411db09a415795692df6202c66c12cff30b9b2b5ad484f3b",
+      "bytes": 6425
+    },
+    {
+      "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/legacy-zone-severity-origin-001/facts.json",
+      "sha256": "2ba80f716cb7b9cff475fca4f6b08eee5d3d73c07b30cd31e362f385ad9e326a",
+      "bytes": 3385
+    },
+    {
+      "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-export-review-001/source/pcbnew/pcb_io/kicad_sexpr/pcb_io_kicad_sexpr.cpp",
+      "sha256": "bb199faa5ba4f017188dfac6e87ab75c626aa327560f9bde27989c0313faf647",
+      "bytes": 124253
+    },
+    {
+      "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-area-export-review-001/source/pcbnew/pcb_io/kicad_sexpr/pcb_io_kicad_sexpr_parser.cpp",
+      "sha256": "78f6380806e15b2a25300f8134c6492cd343d6dfb538546e299d60d26a62ec27",
+      "bytes": 261784
+    }
+  ],
+  "unqualified_apis": [
+    "Direct CONNECTIVITY_DATA ownership, Build(BOARD)->bool, GetPadCount(code)->unsigned int need actual runtime qualification; declaration/source inspection only."
+  ],
+  "source_commit": "0feeca2a807f428ad2b3fa7c1e39625cb769f02c",
+  "writer_lines": "2850\u20132855",
+  "parser_lines": "296\u2013343"
+}

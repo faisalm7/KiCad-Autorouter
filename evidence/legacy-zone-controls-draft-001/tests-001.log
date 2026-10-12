@@ -1,0 +1,65 @@
+EE...EE
+======================================================================
+ERROR: test_fixed_case_delta_and_identical_rule (__main__.Controls.test_fixed_case_delta_and_identical_rule)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/legacy-zone-controls-draft-001/test_controls.py", line 32, in test_fixed_case_delta_and_identical_rule
+    board,project,context,obs=fixture(case);projects.append(project)
+                              ^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/legacy-zone-controls-draft-001/test_controls.py", line 14, in fixture
+    board,project=k.derive((BASE/'smoke.kicad_pcb').read_bytes(),(BASE/'smoke.kicad_pro').read_bytes(),case)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/legacy-zone-controls-draft-001/controls.py", line 13, in derive
+    if len(zones)!=1 or sx.one(zones[0],'uuid')!=['uuid',sx.quote(ZONE_UUID)] or sx.one(zones[0],'net')!=['net','"GND"']:
+                                                         ^^^^^^^^
+AttributeError: module 'autorouter.sexpr' has no attribute 'quote'
+
+======================================================================
+ERROR: test_net_identity_and_route_census_rejects (__main__.Controls.test_net_identity_and_route_census_rejects)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/legacy-zone-controls-draft-001/test_controls.py", line 56, in test_net_identity_and_route_census_rejects
+    board,_,context,obs=fixture('assigned_gnd');mutate(context)
+                        ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/legacy-zone-controls-draft-001/test_controls.py", line 14, in fixture
+    board,project=k.derive((BASE/'smoke.kicad_pcb').read_bytes(),(BASE/'smoke.kicad_pro').read_bytes(),case)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/legacy-zone-controls-draft-001/controls.py", line 13, in derive
+    if len(zones)!=1 or sx.one(zones[0],'uuid')!=['uuid',sx.quote(ZONE_UUID)] or sx.one(zones[0],'net')!=['net','"GND"']:
+                                                         ^^^^^^^^
+AttributeError: module 'autorouter.sexpr' has no attribute 'quote'
+
+======================================================================
+ERROR: test_worker_build_type_and_no_zero_count_call (__main__.Controls.test_worker_build_type_and_no_zero_count_call)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/legacy-zone-controls-draft-001/test_controls.py", line 64, in test_worker_build_type_and_no_zero_count_call
+    _,_,_,expected=fixture(case);calls=[]
+                   ^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/legacy-zone-controls-draft-001/test_controls.py", line 14, in fixture
+    board,project=k.derive((BASE/'smoke.kicad_pcb').read_bytes(),(BASE/'smoke.kicad_pro').read_bytes(),case)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/legacy-zone-controls-draft-001/controls.py", line 13, in derive
+    if len(zones)!=1 or sx.one(zones[0],'uuid')!=['uuid',sx.quote(ZONE_UUID)] or sx.one(zones[0],'net')!=['net','"GND"']:
+                                                         ^^^^^^^^
+AttributeError: module 'autorouter.sexpr' has no attribute 'quote'
+
+======================================================================
+ERROR: test_wrong_native_count_identity_geometry_or_type_rejects (__main__.Controls.test_wrong_native_count_identity_geometry_or_type_rejects)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/legacy-zone-controls-draft-001/test_controls.py", line 47, in test_wrong_native_count_identity_geometry_or_type_rejects
+    board,_,context,obs=fixture('assigned_gnd');mutation(obs)
+                        ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/legacy-zone-controls-draft-001/test_controls.py", line 14, in fixture
+    board,project=k.derive((BASE/'smoke.kicad_pcb').read_bytes(),(BASE/'smoke.kicad_pro').read_bytes(),case)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/legacy-zone-controls-draft-001/controls.py", line 13, in derive
+    if len(zones)!=1 or sx.one(zones[0],'uuid')!=['uuid',sx.quote(ZONE_UUID)] or sx.one(zones[0],'net')!=['net','"GND"']:
+                                                         ^^^^^^^^
+AttributeError: module 'autorouter.sexpr' has no attribute 'quote'
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.013s
+
+FAILED (errors=4)

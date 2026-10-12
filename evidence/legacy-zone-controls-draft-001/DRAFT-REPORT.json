@@ -1,0 +1,120 @@
+{
+  "schema": 1,
+  "status": "pure_controls_pass_native_unexecuted",
+  "source_original_before": {
+    "smoke.kicad_pcb": "618b0b1d23f082283a5136b514ff64ee54b3a058f068689bf64668a436d7c5ea",
+    "smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+    "smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643"
+  },
+  "source_original_after": {
+    "smoke.kicad_pcb": "618b0b1d23f082283a5136b514ff64ee54b3a058f068689bf64668a436d7c5ea",
+    "smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+    "smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643"
+  },
+  "derived_cases": [
+    {
+      "case": "assigned_gnd",
+      "derived_file_sha256": {
+        "smoke.kicad_pcb": "618b0b1d23f082283a5136b514ff64ee54b3a058f068689bf64668a436d7c5ea",
+        "smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+        "smoke.kicad_pro": "9278f383f35d1d5998ac7f84cac77e3aa50450df24f37dd9165a518a79b8535b"
+      },
+      "board_bytes": 9702,
+      "project_bytes": 194,
+      "native_executed": false
+    },
+    {
+      "case": "assigned_padless",
+      "derived_file_sha256": {
+        "smoke.kicad_pcb": "086fb61fe2401b16fdcd1a64c143600ac95f15c97629699437733eb8f81a817a",
+        "smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+        "smoke.kicad_pro": "9278f383f35d1d5998ac7f84cac77e3aa50450df24f37dd9165a518a79b8535b"
+      },
+      "board_bytes": 8212,
+      "project_bytes": 194,
+      "native_executed": false
+    },
+    {
+      "case": "net_zero",
+      "derived_file_sha256": {
+        "smoke.kicad_pcb": "74cf9d9e8a97dfd0c01b32b8378ae921be479b2bf811f6469647f4fd3d8dac2f",
+        "smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+        "smoke.kicad_pro": "9278f383f35d1d5998ac7f84cac77e3aa50450df24f37dd9165a518a79b8535b"
+      },
+      "board_bytes": 8190,
+      "project_bytes": 194,
+      "native_executed": false
+    }
+  ],
+  "native_executed": false,
+  "routing_accepted": false,
+  "tests": {
+    "command": "python3 -B .runs/legacy-zone-controls-draft-001/test_controls.py",
+    "log": "tests-004.log",
+    "methods": 7
+  },
+  "read_runtime_hashes": {
+    "autorouter/pipeline.py": "fb6547cb78b7928c398c237dc0055dd05d8c0fd6115a8c265887de7ba35236ad",
+    "autorouter/floor_route.py": "eddc2f9b0df3710f3b8b0a5e486ae000546882863b927053ffec55dcb014116a",
+    "autorouter/floor_context.py": "8c00a443a9a6bd5e05c416b031b0f2dcc4f6e836f3769acab9ceced4fba91c14",
+    "autorouter/placement_clearance.py": "b1d891d0bc8284bcac80a20cff11263afc8966e30ce8baaf35f1ae78e27ff152",
+    "autorouter/runner.py": "0e81ab1badf20cd84adc2fed586641dd97a489a5a6af03febe6fb597bb1d2718",
+    "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+    "autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+    "toolchain.lock.json": "f04be5cdf6f64bddc16a6c5efd217b2f5e0a1341906ff44033f5807971154efe",
+    "experiments/lipo_native_diagnostic_v1/driver.py": "aafec0c2916531649ad56942c985f39bf29d95a376dc55403e6c15a440f58b58",
+    "experiments/lipo_native_diagnostic_v1/test_driver.py": "926ff95d7086afaa616d32724086ffed559924b6d3483861a4b96fe6219a77c1",
+    "experiments/lipo_native_diagnostic_v1/source_profiles.py": "36ae19656d58f182d0bc6acd86d75dd203cf5da67a9c4f897d4d0d200e3997a6",
+    "experiments/lipo_native_diagnostic_v1/README.md": "435ea774f2518f2d2e0b009ff417f17848461485b6425771e1f92314b4f65622"
+  },
+  "promotion": [
+    {
+      "source": "driver.py",
+      "destination": "experiments/legacy_zone_controls_v1/driver.py",
+      "sha256": "1751c7e9020db99e6a6418094725bb7fe2a28b2a25e8ae0655bb9d5e57a47e3b",
+      "bytes": 13894
+    },
+    {
+      "source": "worker.py",
+      "destination": "experiments/legacy_zone_controls_v1/worker.py",
+      "sha256": "eebc86972293cab08eedd06160eb60f15b4a817dc63b218986cf486dfdebca04",
+      "bytes": 3063
+    },
+    {
+      "source": "controls.py",
+      "destination": "experiments/legacy_zone_controls_v1/controls.py",
+      "sha256": "aeb454b04569ba36309a6477dfe85871b02b7b46e1548f017f4267b7797957a9",
+      "bytes": 5462
+    },
+    {
+      "source": "test_controls.py",
+      "destination": "experiments/legacy_zone_controls_v1/test_controls.py",
+      "sha256": "23bf4c570b82aea90898ab855e8f333ecadf25a09e5b20b03207a9e9ae7ed4eb",
+      "bytes": 9723
+    },
+    {
+      "source": "PROTOCOL.json",
+      "destination": "experiments/legacy_zone_controls_v1/PROTOCOL.json",
+      "sha256": "0ff312cae55d7d22234175dbccb7a6a4c6f1ebdda9075179e91d735559248f43",
+      "bytes": 2804
+    },
+    {
+      "source": "README.md",
+      "destination": "experiments/legacy_zone_controls_v1/README.md",
+      "sha256": "e1e62c0a7f296778ba3ebdc2afb638ae502da3eed580d0ad76c6f850b8eee42e",
+      "bytes": 4450
+    }
+  ],
+  "limits": {
+    "wall_seconds": 30,
+    "full_cpu_seconds": 30,
+    "output_bytes": 20971520,
+    "native_processes": 6,
+    "concurrency": 1
+  },
+  "notes": [
+    "First failed pure log and source preserved; no native/engine/Git/network was executed for this draft.",
+    "No KiCad10 legacy-key enforcement qualification; historical predicate uses actual GetPadCount when ROOT later executes.",
+    "Finite consistency samples and shared observed resource caps are not atomic authentication."
+  ]
+}
