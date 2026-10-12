@@ -1,0 +1,192 @@
+{
+  "schema": 1,
+  "passed": true,
+  "scope": "Fresh owned-fixture native compatibility evidence readback, not new routing or comparison. No native/JVM work performed by review.",
+  "checker_result": {
+    "current": true,
+    "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/default-tuning-native-001/candidate/fixture.kicad_pcb",
+    "candidate_sha256": "1e6e9d71d85db5999e6791e88eda0a95af50a75dce0db27a7521dcead11e4394",
+    "applied": false,
+    "authentication": "none; mutable local evidence consistency only",
+    "warning": "Fresh native validation is required before application; human PCB review and electrical/physical validation remain required.",
+    "input_policy": "placement-clearance-v1"
+  },
+  "run_head": "99456722fc78019d155057bbb361690b4f8f9c92",
+  "source_file_count": 10,
+  "run_file_count": 136,
+  "bound_artifacts": {
+    "result.json": "5b008c5c40002fbf3fb77a17106662eb6b14d4b60973943bc5b9769d6c352a2a",
+    "final-drc.json": "6bdd829b552e011dd895208d5303246e61a2f999de93f4ea0a46f0d679050257",
+    "final-drc-binding.json": "7d4d8639d32ed3d340773a92220262aac768bceaeafd5e328e2b1ffcb728733d",
+    "metrics.json": "7e7a9eee5762a9cfb7c59692dc00bd40f9533b1619e2d71e0bfedbf85f58fd48",
+    "fixture.kicad_pcb": "1e2216f05fd7540a2a4edf894a18addc389c056854bc6bb5fa2169f90753f7dd",
+    "fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538"
+  },
+  "candidate_sha256": "1e6e9d71d85db5999e6791e88eda0a95af50a75dce0db27a7521dcead11e4394",
+  "native": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 0,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "PTH inside courtyard",
+        "key": "pth_inside_courtyard"
+      },
+      {
+        "description": "NPTH inside courtyard",
+        "key": "npth_inside_courtyard"
+      },
+      {
+        "description": "Footprint component type doesn't match footprint pads",
+        "key": "footprint_type_mismatch"
+      }
+    ],
+    "findings": []
+  },
+  "metrics": {
+    "version": "10.0.0",
+    "pads": 4,
+    "footprints": 4,
+    "zones": 1,
+    "vias": 1,
+    "track_length_mm": 67.93373808491306,
+    "copper_layers": 2
+  },
+  "steps": [
+    {
+      "name": "source-drc",
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 1.368826292018639,
+      "cpu_seconds": 0.469869,
+      "monitor_cpu_seconds": 0.0,
+      "max_rss_bytes": 91766784,
+      "cleanup_complete": true
+    },
+    {
+      "name": "floor-export",
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.41430075000971556,
+      "cpu_seconds": 0.348827,
+      "monitor_cpu_seconds": 0.0,
+      "max_rss_bytes": 90816512,
+      "cleanup_complete": true
+    },
+    {
+      "name": "engine",
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 2.5287174170080107,
+      "cpu_seconds": 1.4506729999999999,
+      "monitor_cpu_seconds": 0.0,
+      "max_rss_bytes": 194199552,
+      "cleanup_complete": true
+    },
+    {
+      "name": "import",
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.3442081659741234,
+      "cpu_seconds": 0.33572799999999997,
+      "monitor_cpu_seconds": 0.0,
+      "max_rss_bytes": 90112000,
+      "cleanup_complete": true
+    },
+    {
+      "name": "refill-drc",
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.6538919169979636,
+      "cpu_seconds": 0.38886799999999994,
+      "monitor_cpu_seconds": 0.0,
+      "max_rss_bytes": 92160000,
+      "cleanup_complete": true
+    },
+    {
+      "name": "floor-final",
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.33815404199413024,
+      "cpu_seconds": 0.331275,
+      "monitor_cpu_seconds": 0.0,
+      "max_rss_bytes": 90537984,
+      "cleanup_complete": true
+    },
+    {
+      "name": "final-drc",
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.6439276250021067,
+      "cpu_seconds": 0.38070999999999994,
+      "monitor_cpu_seconds": 0.0,
+      "max_rss_bytes": 91766784,
+      "cleanup_complete": true
+    },
+    {
+      "name": "metrics",
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.33635825000237674,
+      "cpu_seconds": 0.327852,
+      "monitor_cpu_seconds": 0.0,
+      "max_rss_bytes": 89456640,
+      "cleanup_complete": true
+    }
+  ],
+  "wall_seconds": 10.424823333014501,
+  "total_cpu_seconds": 6.712858,
+  "outer": {
+    "argv": [
+      "python3",
+      "-B",
+      "-m",
+      "autorouter",
+      "route",
+      "evidence/placement-area-native-001/allowed_placement/candidate/fixture.kicad_pcb",
+      "--guidance",
+      "placement-clearance-v1",
+      "--adapter",
+      "both",
+      "--profile",
+      "completion-only",
+      "--seconds",
+      "60",
+      "--output",
+      ".runs/default-tuning-native-001"
+    ],
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local",
+    "git_head": "99456722fc78019d155057bbb361690b4f8f9c92",
+    "started_utc": "2026-10-12T05:01:28.318812+00:00",
+    "exit_code": 0,
+    "wall_seconds": 10.76387633298873,
+    "waited_child_cpu_seconds": 7.013853,
+    "cleanup_signals": [],
+    "log_sha256": "0c594a30d72580aa8d61997166db185647c3969ebabe1987dee478e6d6e693bb",
+    "log_bytes": 427,
+    "wrapper_sha256": "d70e920cc37b8b8cada887ce2c01303b7c887d077922e27a9fb03ff0ee638b3d",
+    "scope": "Fresh default-path native route compatibility after unconditional active-tuning-profile rejection; no new comparative claim."
+  },
+  "whole_project_drc_clean": true,
+  "source_and_candidate_project_identical": true,
+  "source_and_run_unchanged": true,
+  "native_jobs": 0,
+  "jvm_jobs": 0
+}

@@ -182,3 +182,5 @@ G2 mixed004 captured all247pre-call pad rows then crashed during WriteDRCReport,
 G2 actualmixed005 has successfulnative/export/compile/import processes but fails diagnosticclasslabel equality; [fullrawresult](evidence/pic-mixed-transport-probe-005/summary.json). Native109Default widths500um and2POWER800um survive; retainedwarnings/localoverride mismatches remain. No new family/completion/SES/native-rule qualification.
 
 G2profileintent correctness: actualDefault-only preflight bypass reproduced and closed with shared sourceguard;616tests/4historicalreadbacks and independent16case review pass. [Source](evidence/default-tuning-guard-source-001/ROOT_INTEGRATION.md). No newseverity support; freshnativecompatibility pending.
+
+The unconditional profile guard now also passes a fresh real routing/native compatibility test at99456722: zero findings, one requiredvia, originaldesign preserved. [Actualresult](evidence/default-tuning-native-001/result.json). Independent actual audit and incrementalartifactbackup follow; no admission or population change.
