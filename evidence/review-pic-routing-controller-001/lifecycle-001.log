@@ -1,0 +1,17 @@
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-pic-routing-controller-001/reproduce_lifecycle.py", line 77, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-pic-routing-controller-001/reproduce_lifecycle.py", line 73, in main
+    'fixed_changed_refill':run(out/'fixed-changed',new,True,True,True)}
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-pic-routing-controller-001/reproduce_lifecycle.py", line 58, in run
+    tree=sx.read(candidate);tree.append(['segment',['start','100','100'],['end','101','100'],['width','0.8'],['layer','"F.Cu"'],['net','"VCC"']]);sx.write(candidate,tree)
+         ^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/sexpr.py", line 39, in read
+    if p.stat().st_size > MAX_BYTES:
+       ^^^^^^^^
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/pathlib.py", line 1013, in stat
+    return os.stat(self, follow_symlinks=follow_symlinks)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-pic-routing-controller-001/lifecycle-001/fixed-changed/routing-native/candidate/pic_programmer.kicad_pcb'

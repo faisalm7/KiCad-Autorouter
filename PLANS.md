@@ -1,5 +1,7 @@
 # Execution plan
 
+Newest state: saved-routing-native001 is complete, rejected with1open/3blocking/41warnings. Do not rerun it. Checkpoint its actual final candidate and original-rule evidence, then incremental artifact backup from e7a948a. Next implement the smallest existing graphics/plane adapter reuse for a prospectively frozen fresh task, retaining original native zone/rules and strict final checks. Original rational-coordinate failure stays explicit; no acceptance waiver or C claim from adapter correction.
+
 Current continuation: cancellation001 and routing001 are completed experiments; do not repeat either solver run. The saved routing proposal failed exact integer-coordinate proof at three rational corners. After source checkpoint run `python3 -B .runs/run-pic-selective-routing-native-001.py` once, reusing saved SES with strict failure retained. Diagnose actual KiCad original-rule results, curate evidence and make an incremental backup from the restored e7a948a full base. No release/support/comparative gate is waived.
 
 Active next step: checkpoint reviewed direct routing source, run `python3 -B experiments/pic_mixed_transport_probe_v1/driver.py --run-probe --routing-probe --cancel-routing --output .runs/pic-selective-routing-cancel-001`, then fresh `.runs/pic-selective-routing-001` without `--cancel-routing`. No repeated completed native/SES controls; retain failed/incomplete results. Follow with integration/full native checks and incremental artifact backup.

@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "scope": "Retained exploratory harness failures, not native execution evidence",
+  "attempts": [
+    {
+      "path": "reproduction-001.log",
+      "outcome": "schema bool comparison raised after ROOT concurrently hardened the validator; no final reproduction summary"
+    },
+    {
+      "path": "lifecycle-001.log",
+      "outcome": "review harness used prior nested pending_candidate signature after ROOT made it standalone; candidate never created for fixed case; corrected in reproduce_lifecycle_v2.py"
+    },
+    {
+      "path": "boundary-001",
+      "outcome": "AST selector captured outer routing branch, causing NameError routing_probe in mock evaluation; corrected to select ast.Compare in v2",
+      "stderr": "NameError: name routing_probe is not defined",
+      "stderr_origin": "tool command output, not retained log; stdout log empty"
+    },
+    {
+      "path": "boundary-002/results.json",
+      "outcome": "Real-files positive exposed direct p.preflight rejection of original PIC; product finding sent ROOT. Candidate digest mutation still rejected and both cancellation mismatches rejected. Assertion halted before metrics-case mutation",
+      "stderr": "AssertionError at positive returned assertion",
+      "stderr_origin": "tool command output, not retained log; stdout log empty"
+    }
+  ]
+}

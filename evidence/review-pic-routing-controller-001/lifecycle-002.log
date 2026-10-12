@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "source_sha256": "af6c6ab552b4fe71d8b0371e2d44161d8687a89cb81199d7439649981f084f02",
+  "native_executed": false,
+  "jvm_executed": false,
+  "old_unchanged": {
+    "stages": [
+      "refill-drc",
+      "final-netclasses"
+    ],
+    "error": "RuntimeError: next native stage reached without native execution",
+    "candidate_sealed": true,
+    "after_seal_mutation": null,
+    "immutable_equal": true,
+    "source_unchanged": true
+  },
+  "old_changed_refill": {
+    "stages": [
+      "refill-drc"
+    ],
+    "error": "ValueError: retained evidence changed",
+    "candidate_sealed": true,
+    "after_seal_mutation": null,
+    "immutable_equal": true,
+    "source_unchanged": true
+  },
+  "fixed_changed_refill": {
+    "stages": [
+      "refill-drc",
+      "final-netclasses"
+    ],
+    "error": "RuntimeError: next native stage reached without native execution",
+    "candidate_sealed": true,
+    "after_seal_mutation": "ValueError: retained evidence changed",
+    "immutable_equal": true,
+    "source_unchanged": true
+  },
+  "source_unchanged_during_test": true
+}

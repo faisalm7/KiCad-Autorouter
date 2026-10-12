@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "native_executed": false,
+  "jvm_executed": false,
+  "source_pins": {
+    "driver.py": {
+      "bytes": 38163,
+      "sha256": "6b1692378613856d3c8617c6bdeb393c0d93df22a569ae0e17e5dd1991a57cc0"
+    },
+    "routing_checks.py": {
+      "bytes": 7186,
+      "sha256": "6cbb98e1168ca93311aa36fa1602974be64d5112044b0dca00a3029543e3b552"
+    },
+    "routing_native.py": {
+      "bytes": 4203,
+      "sha256": "ebb2bd3b5ceb428c149965696c96dd7fa0b21e906a200ee99c5df4d3e4f9ae84"
+    },
+    "ses_checks.py": {
+      "bytes": 15208,
+      "sha256": "f3d6c3ff951ea09337cedc59e950bb9d40bd324ebe91695e258d6ee62f149443"
+    },
+    "ROUTING_NATIVE_PROTOCOL.json": {
+      "bytes": 15960,
+      "sha256": "b67214e335643093f3e2bae4b9895d3b1eada6213139c69f905c570208d62eac"
+    }
+  },
+  "cache_summary": {
+    "bytes": 62432,
+    "sha256": "8a3317fa9b04fb92af23ec6aecd163a83d6e08dee37ecc5848e486133f5d5265"
+  },
+  "cache_file_count": 100,
+  "cache_unchanged": true,
+  "strict_failure": "ValueError: exact integer engine point required",
+  "diagnostic_comparison": {
+    "lifecycle_verified": true,
+    "ordinary_seed_routes": 0,
+    "final_traces": 126,
+    "final_vias": 0,
+    "geometry_verified": false,
+    "cancel_control": false,
+    "routing_accepted": false,
+    "production_support_qualified": false
+  },
+  "proposal_summary": {
+    "safe_structure": true,
+    "exact_custom_polygons": 2,
+    "placements": 63,
+    "ses_paths": 126,
+    "ses_segments": 252,
+    "ses_vias": 0,
+    "generated_engine_to_ses_exact": false,
+    "proposal_only": true
+  },
+  "proposal_negative_controls": {
+    "with_geometry": "proposal-only mode must not claim engine geometry",
+    "without_generated": "proposal-only mode must not claim engine geometry"
+  },
+  "mock_native_positive": {
+    "mutation": "none",
+    "mutated": false,
+    "stages": [
+      "generated-import",
+      "generated-metrics"
+    ],
+    "error": null,
+    "returned": true,
+    "candidate_sealed": true,
+    "digest_matches_validation": true,
+    "source_unchanged": true
+  },
+  "mock_native_verdict": {
+    "candidate_emitted": true,
+    "native_routing_scope_passed": true,
+    "routing_accepted": false,
+    "production_support_qualified": false,
+    "completed": false,
+    "original_preflight_reasons": [
+      "custom pads not qualified",
+      "unknown rule severity semantics: footprint_symbol_field_mismatch",
+      "unknown rule severity semantics: missing_tuning_profile",
+      "unknown rule severity semantics: text_on_edge_cuts",
+      "unknown rule severity semantics: track_on_post_machined_layer"
+    ]
+  },
+  "scope": "Saved-byte checks and real-file mock native. Actual new native run is still unexecuted by this review."
+}

@@ -1,0 +1,75 @@
+{
+  "schema": 1,
+  "native_executed": false,
+  "jvm_executed": false,
+  "scope": "Mock-native stages with real complete candidate bytes; no routing/DRC qualification",
+  "source_pins": {
+    "experiments/pic_mixed_transport_probe_v1/driver.py": "af6c6ab552b4fe71d8b0371e2d44161d8687a89cb81199d7439649981f084f02",
+    "experiments/pic_mixed_transport_probe_v1/routing_native.py": "a38f0d683728e74592b4f3358c90117393c44f5d054639bd71b61669143625d1",
+    "experiments/pic_mixed_transport_probe_v1/routing_checks.py": "8e8b5df0bf4d2af66919e6dea886f5dd67379327399caf7fa2d6a3bd198a47a5"
+  },
+  "candidate_boundaries": [
+    {
+      "mutation": "none",
+      "mutated": false,
+      "stages": [
+        "generated-import"
+      ],
+      "error": "Rejected: unsupported: custom pads not qualified; unknown rule severity semantics: footprint_symbol_field_mismatch; unknown rule severity semantics: missing_tuning_profile; unknown rule severity semantics: text_on_edge_cuts; unknown rule severity semantics: track_on_post_machined_layer",
+      "returned": false,
+      "candidate_sealed": true,
+      "digest_matches_validation": true,
+      "source_unchanged": true
+    },
+    {
+      "mutation": "seal",
+      "mutated": true,
+      "stages": [
+        "generated-import"
+      ],
+      "error": "Rejected: candidate project/rules/file set changed",
+      "returned": false,
+      "candidate_sealed": true,
+      "digest_matches_validation": false,
+      "source_unchanged": true
+    },
+    {
+      "mutation": "metrics",
+      "mutated": false,
+      "stages": [
+        "generated-import"
+      ],
+      "error": "Rejected: unsupported: custom pads not qualified; unknown rule severity semantics: footprint_symbol_field_mismatch; unknown rule severity semantics: missing_tuning_profile; unknown rule severity semantics: text_on_edge_cuts; unknown rule severity semantics: track_on_post_machined_layer",
+      "returned": false,
+      "candidate_sealed": true,
+      "digest_matches_validation": true,
+      "source_unchanged": true
+    }
+  ],
+  "cancel_mode": [
+    {
+      "requested": false,
+      "observed": false,
+      "independent_observation_valid": true,
+      "error": null
+    },
+    {
+      "requested": false,
+      "observed": true,
+      "independent_observation_valid": true,
+      "error": "observed cancellation mode differs from requested action"
+    },
+    {
+      "requested": true,
+      "observed": false,
+      "independent_observation_valid": true,
+      "error": "observed cancellation mode differs from requested action"
+    },
+    {
+      "requested": true,
+      "observed": true,
+      "independent_observation_valid": true,
+      "error": null
+    }
+  ]
+}
