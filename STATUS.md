@@ -1,6 +1,6 @@
 # Current status
 
-Updated October13,2026. Existing Mac checkout `/Users/faisal/Projects/KiCad-Autorouter-local`, branch `rebuild/local-20261010-015447`. Latest verified source checkpoint491b6b8f854c0f63f6570e56f67b0220fae54d26 on GitHub; production core remains the installed1156596 implementation. No cloud/worktree/reset. Experimental: broad evaluation and release gates remain open. [Exact preceding status](docs/history/2026-10-13-d610a2c/STATUS.md) preserves all earlier results and failures.
+Updated October13,2026. Existing Mac checkout `/Users/faisal/Projects/KiCad-Autorouter-local`, branch `rebuild/local-20261010-015447`. Latest verified source checkpointac0cd8afd2e48c653026e9af614116e1678e0e7b on GitHub; production core remains the installed1156596 implementation. No cloud/worktree/reset. Experimental: broad evaluation and release gates remain open. [Exact preceding status](docs/history/2026-10-13-d610a2c/STATUS.md) preserves all earlier results and failures.
 
 ## Usable workflow
 
@@ -35,3 +35,5 @@ Current installation/workflow/full restoration milestone is complete. Next: fini
 Current parity-availability fix requires an actual native completion footer/count, exact untruncated log and no skipped-schematic message whenever complete parity is promised. Actual owned unavailable-schematic worker demonstrates the old acceptance defect; current readback rejects it and retains prior actual positives without rerouting. [Native defect/fix](evidence/parity-availability-native-002/SCOPE.md). Complete-schematic optimizer finals already use the shared parity validator.
 
 Finite current capacity is6GiB/235000backup files/directories and18000source files/320MiB for installation, with512MiB scratch/600seconds unchanged. Stored forecast227213non-Git files/6,241,372,642B includes failed015 and one bounded nextinstall; actual current restoration6633a79 now passes. Exact/overlimit guards pass; the earlier mistaken cap assertion remains visible. No evidence is deleted to fit. [Forecast/control records](evidence/installation-015-failure/SCOPE.md).
+
+Current integration019 fullroot suite passes895/outer33.901698wall30.951764CPU. Actual fresh Sonde native integration is separate; this count is not routingquality. Failed017prelaunch/018discovery controllers remain visible. [Checks](evidence/full-integration-019/SCOPE.md).

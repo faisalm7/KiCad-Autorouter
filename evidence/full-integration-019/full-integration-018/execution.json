@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "git_head": "ac0cd8afd2e48c653026e9af614116e1678e0e7b",
+  "process": {
+    "status": "nonzero_exit",
+    "exit_code": 1,
+    "wall_seconds": 0.04362083300657105,
+    "cpu_seconds": 0.033096,
+    "max_rss_bytes": 18006016,
+    "supervisor_cpu_seconds": 0.003717999999999999,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 180224,
+    "sampled_peak_workdir_bytes": 1210,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 2097152,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/tests",
+      "-t",
+      "/Users/faisal/Projects/KiCad-Autorouter-local",
+      "-v"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/full-integration-018/command.log",
+    "log_bytes": 1210,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/full-integration-018",
+    "signal_cancellation_enabled": true,
+    "pid": 19584
+  },
+  "wall_seconds": 0.19098141600261442,
+  "full_cpu_seconds": 0.149956,
+  "controller_sha256": "18c157ad003185ac47685b496df10ca54af1fe7746adae86c2bbc59cb097d392",
+  "log_sha256": "4367ec9af22816fb9fe911fc941332c11f208f6fc812eb33b8166defbaeb7002",
+  "scope": "Full current root suite after integration of current Sonde and GUI evidence and strict bound metadata transformer. Source/runtime core exact installed1156596. Native Sonde comparison is separate real integration evidence; test counts do not establish routing quality."
+}
