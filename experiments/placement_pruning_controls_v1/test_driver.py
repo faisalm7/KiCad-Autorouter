@@ -1,5 +1,5 @@
 """Pure source mutation and control-decision threats; no native execution."""
-import copy,importlib.util,json,unittest
+import copy,importlib.util,json,tempfile,unittest
 from pathlib import Path
 from unittest.mock import patch
 HERE=Path(__file__).resolve().parent
@@ -43,6 +43,14 @@ class Controls(unittest.TestCase):
         bad=self.native(1,[row]);self.assertTrue(d.control_observation('necessary',self.native(),bad,{}, {})[0])
         altered=copy.deepcopy(bad);altered['findings'][0]['items'][0]['uuid']='unrelated';self.assertFalse(d.control_observation('necessary',self.native(),altered,{}, {})[0])
         altered=copy.deepcopy(bad);altered['exclusions']=1;self.assertFalse(d.control_observation('necessary',self.native(),altered,{}, {})[0])
+    def test_fresh_monitored_output_is_narrow_and_cannot_reuse_attempt(self):
+        with tempfile.TemporaryDirectory(dir=d.ROOT/'.runs',prefix='placement-pruning-controls-owned-') as tmp:
+            outer=Path(tmp);target=outer/'run'
+            self.assertEqual(d.control_output(target),target)
+            for wrong in (outer/'other',outer/'nested/run'):
+                with self.assertRaises(d.p.Rejected):d.control_output(wrong)
+            target.mkdir()
+            with self.assertRaises(d.p.Rejected):d.control_output(target)
     def test_no_explicit_native_flag_or_unpromoted_draft_can_create_output(self):
         with patch.object(d,'HERE',d.ROOT/'.runs/placement-pruning-controls-draft-001'),patch.object(d,'shared') as shared:
             with self.assertRaisesRegex(d.p.Rejected,'promote'):d.experiment(d.ROOT/'.runs/must-not-exist',run_native=True)

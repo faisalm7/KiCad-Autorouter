@@ -21,6 +21,14 @@ def inventory(path):return pc.inventory(path,max_bytes=LIMIT,max_files=4000,max_
 def size(path):return sum((path/name).stat().st_size for name in inventory(path))
 
 
+def control_output(path):
+    path=shared.owned(path)
+    direct=path.parent==ROOT/'.runs'
+    monitored=(path.name=='run' and path.parent.parent==ROOT/'.runs' and path.parent.name.startswith('placement-pruning-controls-') and path.parent.is_dir())
+    if path.exists() or not (direct or monitored):raise p.Rejected('fresh direct or monitored control output required')
+    return path
+
+
 def derive(board,case):
     """Create owned control sources before routing; never mutate caller bytes."""
     if case not in CASES:raise p.Rejected('unknown pruning control')
@@ -82,7 +90,7 @@ def validate(folder,source,basis,before_tree,remaining,steps):
 def experiment(output,*,run_native=False):
     if run_native is not True or HERE!=ROOT/'experiments/placement_pruning_controls_v1':raise p.Rejected('ROOT must promote/checkpoint reviewed helpers before --run-native')
     start=time.monotonic();cpu0=shared.cpu();remaining=lambda:max(0,min(SECONDS-(time.monotonic()-start),SECONDS-(shared.cpu()-cpu0)))
-    out=shared.owned(output,output=True);out.mkdir();protocol=f.read_json(HERE/'PROTOCOL.json');steps=[];completed={};sources={};arms={};frozen=None
+    out=control_output(output);out.mkdir();protocol=f.read_json(HERE/'PROTOCOL.json');steps=[];completed={};sources={};arms={};frozen=None
     record={'schema':1,'status':'incomplete','accepted':False,'controls_passed':False,'observations_complete':False,'routing_quality_gain_claim':False,
         'production_support_extended':False,'family_comparison_eligible':False,'physical_electrical_validation':False,'budget_seconds':SECONDS,'cpu_budget_seconds':SECONDS,
         'output_ceiling_bytes':LIMIT,'started_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'protocol_sha256':p.sha(HERE/'PROTOCOL.json'),
