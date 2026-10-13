@@ -1,0 +1,59 @@
+"""Regress the reproduced selected-scope downgrade with the existing receipt seam.
+
+All native/process/report data here are synthetic; this is no PCB qualification.
+"""
+import copy,json,unittest,uuid
+from autorouter import pipeline as p,preferences as pref,routing_scope as rs,sexpr as sx
+import test_result as fixtures
+
+class SelectedEvidence(unittest.TestCase):
+    def setUp(self):
+        self.fixture=fixtures.ResultFreshnessTests('test_matching_files_remain_current_without_applying_anything')
+        self.fixture.setUp();self.addCleanup(self.fixture.doCleanups);x=self.fixture
+        original=sx.read(x.source);original.extend([['net','0','""'],['net','1','"GND"']])
+        for index,route in enumerate(p.routes(original)):
+            sx.one(route,'net')[:]=['net','1'];route.append(['uuid',json.dumps(str(uuid.uuid5(uuid.NAMESPACE_URL,'selected-receipt:'+str(index))))])
+        raw=(sx.dump(original)+'\n').encode()
+        for path in [x.source,x.run/'snapshot'/x.source.name,x.candidate,x.run/'final-drc-input'/x.source.name]:path.write_bytes(raw)
+        x.data.update(scope='selected_nets',source_hashes=p.tree_hash(x.source_dir),candidate_sha256=p.sha(x.candidate),
+                      adapter='none',engine_profile='completion-only',scoring_variant=None,
+                      schematic_parity='unavailable: no native schematic in source project',
+                      selected_net_binding=rs.bind(raw,['GND']),selected_net_audit=rs.audit(original,original,['GND']),
+                      task_sha256=rs.bind(raw,['GND'])['task_sha256'])
+        x.binding.update(before=p.tree_hash(x.candidate.parent),after=p.tree_hash(x.candidate.parent));p.save_json(x.run/'final-drc-binding.json',x.binding)
+        x.data['steps'][0]['validated_input_sha256']=p.sha(x.candidate)
+        request={'captured':None,'effective':pref.resolve(overrides={'scope':'selected_nets','nets':['GND'],'profile':'completion-only'}),
+                 'snapshot':pref.snapshot(overrides={'scope':'selected_nets','nets':['GND'],'profile':'completion-only'})}
+        p.capture_preferences(x.data,x.run,request)
+        settings=p.engine_profile_settings('completion-only',100);settings.update(outer_task_wall_budget_seconds=120,outer_task_cpu_budget_seconds=120)
+        process={'name':'engine','argv':p.engine_argv(x.run,settings['argv']),'cwd':str(x.run),
+                 'status':'success','exit_code':0,'cleanup_complete':True,'wall_seconds':0.1,'cpu_seconds':0.1,'monitor_cpu_seconds':0.}
+        p.save_json(x.run/'engine-process.json',process);x.data['engine_budget']=settings;x.data['steps'].insert(0,process)
+        x.data.update(child_cpu_seconds=1.1,total_cpu_seconds=1.4)
+        for name,field in [('native.dsn','native_dsn_sha256'),('task.dsn','task_dsn_sha256')]:
+            (x.run/name).write_text('fabricated export for consistency seam only\n');x.data[field]=p.sha(x.run/name)
+        imported=x.run/'imported.kicad_pcb';imported.write_bytes(raw);audit={'imported_sha256':p.sha(imported)}
+        p.transplant_routes(original,original,protected=rs.protected_routes(original,['GND']),audit=audit,policy='exact_non_uuid_lock_position_v2')
+        x.data['protected_route_import']=audit;x.save_receipt()
+
+    def test_selected_receipt_requires_both_exports_even_without_literal_classes(self):
+        x=self.fixture;self.assertTrue(p.check_result(x.receipt)['current']);good=copy.deepcopy(x.data)
+        for missing in [('native_dsn_sha256',),('task_dsn_sha256',),('native_dsn_sha256','task_dsn_sha256')]:
+            x.data=copy.deepcopy(good)
+            for key in missing:del x.data[key]
+            x.save_receipt()
+            with self.subTest(missing=missing),self.assertRaisesRegex(p.Rejected,'routing export'):p.check_result(x.receipt)
+        x.data=copy.deepcopy(good)
+        for name in ('native.dsn','task.dsn'):
+            path=x.run/name;original=path.read_bytes();path.write_bytes(b'unrelated task\n');x.save_receipt()
+            with self.subTest(name=name),self.assertRaisesRegex(p.Rejected,'routing export'):p.check_result(x.receipt)
+            path.write_bytes(original)
+
+    def test_selected_protection_reconciliation_and_task_binding_are_mandatory(self):
+        x=self.fixture;self.assertTrue(p.check_result(x.receipt)['current']);good=copy.deepcopy(x.data)
+        del x.data['protected_route_import'];x.save_receipt()
+        with self.assertRaisesRegex(p.Rejected,'complete protected import'):p.check_result(x.receipt)
+        x.data=copy.deepcopy(good);x.data['task_sha256']='0'*64;x.save_receipt()
+        with self.assertRaisesRegex(p.Rejected,'selected-net source binding'):p.check_result(x.receipt)
+
+if __name__=='__main__':unittest.main()

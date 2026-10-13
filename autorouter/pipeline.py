@@ -257,7 +257,10 @@ def transplant_routes(original, imported, *, protected=(), audit=None, policy='e
 
 
 def check_protected_import(directory, data, original, candidate, protected):
-    if 'protected_route_import' not in data:return  # Historical receipts keep their exact original guard.
+    if 'protected_route_import' not in data:
+        if data.get('scope')=='selected_nets' and protected:
+            raise Rejected('selected scope requires complete protected import reconciliation')
+        return  # Historical receipts keep their exact original guard.
     from .floor_route import canonical
     from .placement_clearance import read_bytes
     imported=Path(directory)/'imported.kicad_pcb'
@@ -1147,7 +1150,7 @@ def _check_result_uncached(path):
 
     # New runs retain both representations. Older receipts remain explicitly
     # limited to the evidence they originally captured; never synthesize it.
-    if 'native_dsn_sha256' in data or 'task_dsn_sha256' in data:
+    if data.get('scope')=='selected_nets' or 'native_dsn_sha256' in data or 'task_dsn_sha256' in data:
         for name,field in [('native.dsn','native_dsn_sha256'),('task.dsn','task_dsn_sha256')]:
             file=path.parent/name
             if file.is_symlink() or not file.is_file() or data.get(field)!=sha(file):
