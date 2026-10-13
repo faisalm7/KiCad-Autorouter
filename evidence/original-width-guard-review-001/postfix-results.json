@@ -1,0 +1,42 @@
+{
+  "native_validation_performed": false,
+  "subprocesses_executed": 0,
+  "source_sha256_before": "eef664a05c85b1a08966353df87f53c357439d38acd3e3bb43f480a0d3b2a922",
+  "source_sha256_after": "eef664a05c85b1a08966353df87f53c357439d38acd3e3bb43f480a0d3b2a922",
+  "results": [
+    {
+      "case": "same controlling positive",
+      "expected": "passed",
+      "outcome": "reject",
+      "matched": false,
+      "detail": {
+        "reason": "engine preference process provenance differs"
+      }
+    },
+    {
+      "case": "same missing guard/rebased profile",
+      "expected": "reject",
+      "outcome": "reject",
+      "matched": true,
+      "detail": {
+        "reason": "current native width policy requires original width guard"
+      }
+    },
+    {
+      "case": "actual archived pre-width-policy source fragment compatibility",
+      "outcome": "passed",
+      "expected": "passed",
+      "matched": true,
+      "archived_source_sha256": "94eab85e89798ac89e989fe90830751a05bdfa3817ca8a0dd9f8f9546aadcdc2"
+    },
+    {
+      "case": "same boolTrue/original1 record alias",
+      "outcome": "reject",
+      "expected": "reject",
+      "matched": true,
+      "detail": {
+        "reason": "original width guard or engine reduction policy differs"
+      }
+    }
+  ]
+}

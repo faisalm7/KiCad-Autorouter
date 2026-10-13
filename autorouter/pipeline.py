@@ -757,6 +757,7 @@ def minimum_width_guard(source, adapter):
 
 
 def check_minimum_width_record(data, directory=None):
+    if data.get('adapter')=='none' and 'minimum_width_guard' not in data:return None
     guard=minimum_width_guard(data['source'],data['adapter'])
     if 'minimum_width_guard' not in data:
         # Historical native receipts predate this policy. Bind compatibility to

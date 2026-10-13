@@ -1,0 +1,34 @@
+{
+  "native_validation_performed": false,
+  "subprocesses_executed": 0,
+  "source_sha256_before": "4560009ef95dc58c996748df092b28c91cdc3fb79223e3ae499801cc98023710",
+  "source_sha256_after": "4560009ef95dc58c996748df092b28c91cdc3fb79223e3ae499801cc98023710",
+  "results": [
+    {
+      "case": "same controlling positive",
+      "expected": "passed",
+      "outcome": "passed",
+      "matched": true,
+      "detail": {}
+    },
+    {
+      "case": "same missing guard/rebased profile",
+      "expected": "reject",
+      "outcome": "reject",
+      "matched": true,
+      "detail": {
+        "reason": "current native width policy requires original width guard"
+      }
+    },
+    {
+      "case": "same boolTrue/original1 record alias",
+      "outcome": "reject",
+      "expected": "reject",
+      "matched": true,
+      "detail": {
+        "reason": "original width guard or engine reduction policy differs"
+      }
+    }
+  ],
+  "preserved_previous_control_error": "postfix_probe built both engine-process records before checking first, overwriting the controlling positive process; its log/JSON stay intact. Only controlling positive, exactmissing and bool are repeated here."
+}

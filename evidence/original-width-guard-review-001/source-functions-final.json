@@ -1,0 +1,23 @@
+{
+  "pipeline_sha256": "4560009ef95dc58c996748df092b28c91cdc3fb79223e3ae499801cc98023710",
+  "functions": {
+    "minimum_width_guard": {
+      "line": 744,
+      "source": "def minimum_width_guard(source, adapter):\n    \"\"\"Prevent engine neckdown below a positive original board width minimum.\n\n    Stock B0 keeps its ordinary settings. Corrected workflows retain all class\n    targets and disable automatic width reduction; native DRC remains authority.\n    \"\"\"\n    if adapter=='none':return None\n    project=Path(source).with_suffix('.kicad_pro')\n    value=json.loads(project.read_text()).get('board',{}).get('design_settings',{}).get('rules',{}).get('min_track_width',0)\n    if type(value) not in (int,float) or not math.isfinite(value) or value<0:raise Rejected('unsupported: malformed original track-width minimum')\n    if value==0:return None\n    return {'policy':'original-positive-minimum-no-automatic-neckdown-v1',\n            'min_track_width_mm':value,'original_project_sha256':sha(project)}\n"
+    },
+    "check_minimum_width_record": {
+      "line": 759,
+      "source": "def check_minimum_width_record(data, directory=None):\n    if data.get('adapter')=='none' and 'minimum_width_guard' not in data:return None\n    guard=minimum_width_guard(data['source'],data['adapter'])\n    if 'minimum_width_guard' not in data:\n        # Historical native receipts predate this policy. Bind compatibility to\n        # their retained implementation, rather than an editable JSON opt-out.\n        if guard is not None and directory is not None and data.get('input_policy','native')=='native':\n            from .placement_clearance import read_bytes\n            if b'\\ndef minimum_width_guard(' in read_bytes(Path(directory)/'code/pipeline.py'):\n                raise Rejected('current native width policy requires original width guard')\n        return None\n    from .floor_route import canonical\n    if guard is None or canonical(data['minimum_width_guard'])!=canonical(guard) or data.get('engine_budget',{}).get('strict_class_targets') is not True:\n        raise Rejected('original width guard or engine reduction policy differs')\n    return guard\n"
+    }
+  },
+  "caller_directory_lines": [
+    "def check_minimum_width_record(data, directory=None):",
+    "    width_guard=check_minimum_width_record(data,directory)",
+    "    if 'engine_budget' in data:check_minimum_width_record(data,path.parent)"
+  ],
+  "guard_engine_flags": [
+    "--router.automatic_neckdown=false",
+    "--router.fanout.enabled=false",
+    "--router.neck_width_um=0"
+  ]
+}

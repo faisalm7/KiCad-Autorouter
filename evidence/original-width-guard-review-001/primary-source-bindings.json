@@ -1,0 +1,26 @@
+{
+  "already_cached_primary_sources": [
+    {
+      "url": "https://raw.githubusercontent.com/freerouting/freerouting/b647a2f824cfbc54bc4dcaee71b03b7cd945eb76/src/main/java/app/freerouting/autoroute/pipeline/AutorouteConnectionRouter.java",
+      "path": ".runs/interf-width-diagnosis-001/AutorouteConnectionRouter.java",
+      "sha256": "bc2b6169107877b5074cdafeed53f7b16168c64106e168350c8ed399480a6b3a"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/freerouting/freerouting/b647a2f824cfbc54bc4dcaee71b03b7cd945eb76/src/main/java/app/freerouting/autoroute/maze/AutorouteControl.java",
+      "path": ".runs/interf-width-diagnosis-001/AutorouteControl.java",
+      "sha256": "62a335baec5d0a2bffab176271a6d8ec577a7857a6cf3a64e8556fc95e7dab96"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/freerouting/freerouting/b647a2f824cfbc54bc4dcaee71b03b7cd945eb76/src/main/java/app/freerouting/autoroute/path/FoundConnectionInserter.java",
+      "path": ".runs/interf-width-diagnosis-001/FoundConnectionInserter.java",
+      "sha256": "aa840d6a8b9b4681d7859f28a3b9f433f1331ba4925bc6119f6d0eddb27f1916"
+    }
+  ],
+  "no_network_or_JVM": true,
+  "source_logic": {
+    "AutorouteControl.java": "line168 withNeckdown=settings.getAutomaticNeckdown()",
+    "FoundConnectionInserter.java": "lines241\u2013247 micro neckdown requires isFanout OR withNeckdown;500\u2013501 candidates base*3/4 andbase*3/5",
+    "AutorouteConnectionRouter.java": "lines127\u2013129 narrower retry requires getNeckWidthUm()>0"
+  },
+  "observed_ratio_inference": ".8*3/4=.6 and.8*3/5=.48; matches actual width findings, but no per-track engine trace proves which insertion path ran"
+}

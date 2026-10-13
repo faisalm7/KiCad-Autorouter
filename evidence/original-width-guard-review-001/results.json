@@ -1,0 +1,217 @@
+{
+  "native_validation_performed": false,
+  "subprocesses_executed": 0,
+  "source_sha256_before": "550bcb3d591ed3319b1ffdfbb0b7f3a2bcfbd86bb80ebb99e8d8d1ba8f8be942",
+  "source_sha256_after": "550bcb3d591ed3319b1ffdfbb0b7f3a2bcfbd86bb80ebb99e8d8d1ba8f8be942",
+  "stock_guard": null,
+  "results": [
+    {
+      "case": "original value missing",
+      "expected": "none",
+      "outcome": "none",
+      "matched": true,
+      "project_unchanged": true,
+      "detail": null
+    },
+    {
+      "case": "original value zero-int",
+      "expected": "none",
+      "outcome": "none",
+      "matched": true,
+      "project_unchanged": true,
+      "detail": null
+    },
+    {
+      "case": "original value zero-float",
+      "expected": "none",
+      "outcome": "none",
+      "matched": true,
+      "project_unchanged": true,
+      "detail": null
+    },
+    {
+      "case": "original value negative",
+      "expected": "reject",
+      "outcome": "reject",
+      "matched": true,
+      "project_unchanged": true,
+      "detail": {
+        "type": "Rejected",
+        "reason": "unsupported: malformed original track-width minimum"
+      }
+    },
+    {
+      "case": "original value boolean-true",
+      "expected": "reject",
+      "outcome": "reject",
+      "matched": true,
+      "project_unchanged": true,
+      "detail": {
+        "type": "Rejected",
+        "reason": "unsupported: malformed original track-width minimum"
+      }
+    },
+    {
+      "case": "original value boolean-false",
+      "expected": "reject",
+      "outcome": "reject",
+      "matched": true,
+      "project_unchanged": true,
+      "detail": {
+        "type": "Rejected",
+        "reason": "unsupported: malformed original track-width minimum"
+      }
+    },
+    {
+      "case": "original value string",
+      "expected": "reject",
+      "outcome": "reject",
+      "matched": true,
+      "project_unchanged": true,
+      "detail": {
+        "type": "Rejected",
+        "reason": "unsupported: malformed original track-width minimum"
+      }
+    },
+    {
+      "case": "original value NaN",
+      "expected": "reject",
+      "outcome": "reject",
+      "matched": true,
+      "project_unchanged": true,
+      "detail": {
+        "type": "Rejected",
+        "reason": "unsupported: malformed original track-width minimum"
+      }
+    },
+    {
+      "case": "original value positive-infinity",
+      "expected": "reject",
+      "outcome": "reject",
+      "matched": true,
+      "project_unchanged": true,
+      "detail": {
+        "type": "Rejected",
+        "reason": "unsupported: malformed original track-width minimum"
+      }
+    },
+    {
+      "case": "original value negative-infinity",
+      "expected": "reject",
+      "outcome": "reject",
+      "matched": true,
+      "project_unchanged": true,
+      "detail": {
+        "type": "Rejected",
+        "reason": "unsupported: malformed original track-width minimum"
+      }
+    },
+    {
+      "case": "original value positive",
+      "expected": "guard",
+      "outcome": "guard",
+      "matched": true,
+      "project_unchanged": true,
+      "detail": {
+        "policy": "original-positive-minimum-no-automatic-neckdown-v1",
+        "min_track_width_mm": 0.65,
+        "original_project_sha256": "14909e98ac30d1f48332f89159a5dfe01cfb352e6fefa907a6a554d4c1fa3c8b"
+      }
+    },
+    {
+      "case": "captured corrected preferences with positive original minimum",
+      "expected": "passed",
+      "outcome": "passed",
+      "matched": true,
+      "detail": {}
+    },
+    {
+      "case": "guard negative receipt value",
+      "expected": "reject",
+      "outcome": "reject",
+      "matched": true,
+      "detail": {
+        "type": "Rejected",
+        "reason": "original width guard or engine reduction policy differs"
+      }
+    },
+    {
+      "case": "guard boolean receipt value with original.65",
+      "expected": "reject",
+      "outcome": "reject",
+      "matched": true,
+      "detail": {
+        "type": "Rejected",
+        "reason": "original width guard or engine reduction policy differs"
+      }
+    },
+    {
+      "case": "guard NaN receipt value",
+      "expected": "reject",
+      "outcome": "reject",
+      "matched": true,
+      "detail": {
+        "type": "Rejected",
+        "reason": "original width guard or engine reduction policy differs"
+      }
+    },
+    {
+      "case": "guard original project hash changed",
+      "expected": "reject",
+      "outcome": "reject",
+      "matched": true,
+      "detail": {
+        "type": "Rejected",
+        "reason": "original width guard or engine reduction policy differs"
+      }
+    },
+    {
+      "case": "guard strict-class boolean false",
+      "expected": "reject",
+      "outcome": "reject",
+      "matched": true,
+      "detail": {
+        "type": "Rejected",
+        "reason": "original width guard or engine reduction policy differs"
+      }
+    },
+    {
+      "case": "fanout flag stripped and process rebound",
+      "expected": "reject",
+      "outcome": "reject",
+      "matched": true,
+      "detail": {
+        "type": "Rejected",
+        "reason": "engine budget differs from captured preferences"
+      }
+    },
+    {
+      "case": "guard missing without budget rebase",
+      "expected": "reject",
+      "outcome": "reject",
+      "matched": true,
+      "detail": {
+        "type": "Rejected",
+        "reason": "engine budget differs from captured preferences"
+      }
+    },
+    {
+      "case": "guard missing with all engine settings/process rebased to historical profile",
+      "expected": "reject",
+      "outcome": "passed",
+      "matched": false,
+      "detail": {}
+    },
+    {
+      "case": "receipt booleanTrue equals original numeric1 via dict equality",
+      "expected": "reject",
+      "outcome": "passed",
+      "matched": false,
+      "detail": {
+        "policy": "original-positive-minimum-no-automatic-neckdown-v1",
+        "min_track_width_mm": 1,
+        "original_project_sha256": "b0dbcb3e8e75fe33c45b1978bf5bf19cfaf23f2804960095249c50cb3bd50699"
+      }
+    }
+  ]
+}

@@ -7,6 +7,7 @@ class OriginalWidthGuard(unittest.TestCase):
  def test_current_guard_cannot_be_stripped_or_replace_numeric_minimum_with_bool(self):
   with tempfile.TemporaryDirectory() as tmp:
    root=Path(tmp).resolve();board=root/'board.kicad_pcb';board.with_suffix('.kicad_pro').write_text(json.dumps({'board':{'design_settings':{'rules':{'min_track_width':1}}}}))
+   self.assertIsNone(p.check_minimum_width_record({'adapter':'none'},root))
    data={'source':str(board),'adapter':'both','engine_budget':{'strict_class_targets':True},'minimum_width_guard':p.minimum_width_guard(board,'both')}
    self.assertIsNotNone(p.check_minimum_width_record(data,root))
    data['minimum_width_guard']['min_track_width_mm']=True

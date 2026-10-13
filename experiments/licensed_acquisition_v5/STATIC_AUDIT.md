@@ -1,0 +1,5 @@
+Reuse existing bounded acquisition and exclusive snapshot copy helpers. All nine file sizes/SHA256/Git blobs/source paths are literal in protocol.json. Retain source LICENSE, README, CODEOWNERS, native triple, tables and local switch footprint. No scripts, models, archives, plugin installation or arbitrary source selectors.
+
+Current unchanged preflight rejects copper-pour prohibition and B.SilkS knockout-text layer grammar. The area allows tracks/vias/pads/footprints and prohibits only copperpour. Do not claim the old failed restricted-area validator now detects it: ROOT must qualify exact original semantics with deliberate invalid controls, while every other restriction remains blocked. No severities/exclusions/rules are removed or downgraded.
+
+CERN-OHL-P repository publication is observed, not certified independent authorship. Third-party switch model attribution is retained and optional model closure remains false. Stock embedded library exception is separate from standalone local module/model redistribution. No native acceptance, routing-quality or family-independence claim arises from acquisition or mocked tests.

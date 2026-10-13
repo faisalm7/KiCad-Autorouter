@@ -1,0 +1,108 @@
+{
+  "new_native_execution": false,
+  "scope": "Only existing B1 failure/settings/source bindings; not full paired comparative qualification",
+  "result_sha256": "872601df561fea0804c474d1aa570beb67dd1bdfcdb8a8af5b853917f4928821",
+  "before_inventory_sha256": "751b5e7626fd82dd7482c2b3cd7d33bd5e88c8901a42480eb97ac44d178186e7",
+  "source_project_sha256": "a8d30fcebb58ed6d65334bcf839428d457e6cd1efabb1bbad6fd192e5ef9facb",
+  "source_minimum_width_mm": 0.65,
+  "source_default_target_width_mm": 0.8,
+  "candidate_project_identical_original": true,
+  "actual_code_git_head": "3d79185206d6bd38e5b1666596be436dc401043d",
+  "actual_frozen_pipeline_sha256": "657c6a1b198d5158d465ceedfad7ca7af09cd1a9bc78d5401800fbadf3e01242",
+  "accepted": false,
+  "status": "drc_rejected",
+  "native_counts": {
+    "opens": 0,
+    "blocking": 4,
+    "warnings": 12,
+    "exclusions": 0
+  },
+  "source_parity_conflicts_exact": true,
+  "parity_net_conflict_count": 4,
+  "source_pad_types": {
+    "thru_hole": 36
+  },
+  "engine_fanout_skip_line": "2026-10-13 10:46:23.594 INFO   [8F82AA\\3FFEB4] Fanout stage is enabled but skipped because the board has no SMD pins.",
+  "engine_argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java",
+    "-Xms128m",
+    "-Xmx2g",
+    "-XX:ActiveProcessorCount=1",
+    "-Djava.awt.headless=true",
+    "-jar",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar",
+    "--gui.enabled=false",
+    "--api_server.enabled=false",
+    "--mcp_server.enabled=false",
+    "-da",
+    "--user_data_path=/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B1/engine-config",
+    "--logging.file.enabled=false",
+    "--router.autorouter.max_passes=30",
+    "--router.job_timeout=00:01:00",
+    "--router.optimizer.max_threads=1",
+    "--router.optimizer.max_passes=10",
+    "--router.optimizer.timeout=00:00:30",
+    "-de",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B1/task.dsn",
+    "-do",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B1/routes.ses"
+  ],
+  "recorded_strict_class_targets": false,
+  "widths_in_original_and_adapted_DSN": {
+    "native.dsn": {
+      "structure": "800",
+      "classes": [
+        "800"
+      ]
+    },
+    "task.dsn": {
+      "structure": "800",
+      "classes": [
+        "800"
+      ]
+    }
+  },
+  "native_width_violations": [
+    {
+      "type": "track_width",
+      "severity": "error",
+      "description": "Track width (board setup constraints min width 0.6500 mm; actual 0.4800 mm)",
+      "UUID": "bb7da06b-0dca-41e3-a8b7-bde6312e8347",
+      "candidate_width_mm": "0.48",
+      "generated_UUID_absent_original": true
+    },
+    {
+      "type": "track_width",
+      "severity": "error",
+      "description": "Track width (board setup constraints min width 0.6500 mm; actual 0.4800 mm)",
+      "UUID": "cabc640e-1de7-4732-ba8b-ff5d53c2aeb5",
+      "candidate_width_mm": "0.48",
+      "generated_UUID_absent_original": true
+    },
+    {
+      "type": "track_width",
+      "severity": "error",
+      "description": "Track width (board setup constraints min width 0.6500 mm; actual 0.6000 mm)",
+      "UUID": "15235c05-51d0-467b-873d-9bc5f81031a5",
+      "candidate_width_mm": "0.6",
+      "generated_UUID_absent_original": true
+    },
+    {
+      "type": "track_width",
+      "severity": "error",
+      "description": "Track width (board setup constraints min width 0.6500 mm; actual 0.6000 mm)",
+      "UUID": "c8fbfd92-3596-4d90-9830-6d4abc9488a5",
+      "candidate_width_mm": "0.6",
+      "generated_UUID_absent_original": true
+    }
+  ],
+  "all_actual_evidence_unchanged": true,
+  "retained_code_exact": true,
+  "final_native_binding_process_summary_exact": true,
+  "immutables_preserved": true,
+  "candidate_sha256": "73965400c8eefe8c142411ccef7e3383afab409fb5e48a37c63cccd51d9d5edf",
+  "native_report_sha256": "0a9a17a039852eb977fb49723912367b95bcc6953d15329080f99aff775a2cc1"
+}

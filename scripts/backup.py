@@ -18,14 +18,16 @@ from datetime import datetime, timezone
 
 ROOT = Path(__file__).resolve().parents[1]
 SCOPES = (".runs", ".data", ".local-reference")
-# The measured retained population is 139,253 files / 4,136,814,925 bytes.
-# Installation011 can add up to 16,000 files / 512 MiB. Keep finite 5 GiB
-# archive/target/bundle and 160,000 file/directory ceilings, without removing
+# The measured retained population after failed011 is156,259files/4,538,952,147B.
+# Retaining a fresh corrected installation forecasts172,259files/5,075,823,059B.
+# Keep finite5GiB archive/target/bundle and180,000 file/directory ceilings, without removing
 # evidence or changing scopes, secret/path checks, streaming or chain limits.
 LIMIT = 5 * 1024 ** 3
-MAX_FILES = 160000
+MAX_FILES = 180000
 MAX_CHAIN = 16
-MAX_RECEIPT_BYTES = 48 * 1024 ** 2
+# The prior139,253-file receipt is39,044,114B. The next forecast nearly fills
+# 48MiB at that measured bytes-per-entry;64MiB gives finite metadata headroom.
+MAX_RECEIPT_BYTES = 64 * 1024 ** 2
 MAX_CHAIN_RECEIPT_BYTES = 128 * 1024 ** 2
 LIMITATION = "On-Mac only; a second folder on this disk provides no disk-failure protection."
 SECRET_NAMES = {".env", ".ssh", ".aws", ".gnupg", "credentials", "credentials.json", "secrets", "secrets.json", "id_rsa", "id_ed25519"}
