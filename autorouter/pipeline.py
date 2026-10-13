@@ -388,6 +388,7 @@ class Job:
         self.started=time.monotonic(); self.cpu_started=time.process_time()
         self.deadline=self.started+seconds; self.steps=[]; self.seconds=seconds
         self.env=os.environ.copy()
+        self.env.update(LANG='C',LC_ALL='C')  # Stable pinned native diagnostics.
         # Avoid writing personal KiCad settings. No model/API/network used in route time.
         for key, relative in [('KICAD_CONFIG_HOME','kicad-config'),('KICAD_CACHE_HOME','kicad-cache'),('KICAD_DOCUMENTS_HOME','kicad-documents')]:
             base=self.out/relative
@@ -431,6 +432,9 @@ class Job:
             phase='exit_report'
             if (result['exit_code']==0)==any_findings: raise Rejected('DRC exit/report mismatch')
             from . import schematic_field_evidence as fields
+            if schematic_parity:
+                phase='schematic_parity_availability'
+                fields.check_availability(self.out,name,result,json.loads(report.read_text()))
             if fields.has_fields(parsed['findings']) and schematic_parity:
                 phase='complete_field_observation'
                 fields.collect(self,name,board,json.loads(report.read_text()))

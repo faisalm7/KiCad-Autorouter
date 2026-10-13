@@ -1,0 +1,49 @@
+{
+  "process": {
+    "status": "nonzero_exit",
+    "exit_code": 2,
+    "wall_seconds": 1.8739082090032753,
+    "cpu_seconds": 0.983389,
+    "max_rss_bytes": 211599360,
+    "supervisor_cpu_seconds": 0.009212999999999999,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 197935104,
+    "sampled_peak_workdir_bytes": 4705,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 536870912,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/parity-availability-draft-001/native_control.py",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/parity-unavailable-native-002"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/parity-unavailable-native-002-execution/command.log",
+    "log_bytes": 198,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/parity-unavailable-native-002-execution",
+    "signal_cancellation_enabled": true,
+    "pid": 6821
+  },
+  "wall_seconds": 1.8740183750051074,
+  "full_cpu_seconds": 0.9927099999999999,
+  "wrapper_sha256": "34e07442f25e68a88051973e4ddbc8261aeae73e18c4f3675346360c2678eb4e",
+  "scope": "Completeforegroundnativeavailabilitycontrol, intentionalnegativeexit2; noacceptedroute/solver/benchmark."
+}

@@ -80,9 +80,30 @@ def readback(report,raw):
     if f.read_json(proof)!=actual:raise p.Rejected('effective-field proof differs from retained native observations')
     return actual
 
+def check_availability(directory,stage,process,raw):
+    """A requested native check is unavailable unless its completion is proved."""
+    from . import pipeline as p,placement_clearance as pc
+    import re
+    if '--schematic-parity' not in process.get('argv',[]):return
+    path=Path(directory)/(stage+'.log')
+    if (process.get('log')!=str(path) or process.get('log_truncated') is not False
+            or type(process.get('log_bytes')) is not int):
+        raise p.Rejected('native schematic parity availability log binding missing')
+    log=pc.read_bytes(path,2*1024**2)
+    if len(log)!=process['log_bytes']:
+        raise p.Rejected('native schematic parity availability log size differs')
+    if (b'Failed to fetch schematic netlist for parity tests.' in log
+            or b'Schematic parity tests require a fully annotated schematic.' in log):
+        raise p.Rejected('native schematic parity was skipped or unavailable')
+    counts=re.findall(rb'^Found ([0-9]+) schematic parity issues\r?$',log,re.MULTILINE)
+    if counts!=[str(len(raw['schematic_parity'])).encode()]:
+        raise p.Rejected('native schematic parity completion missing or differs from report')
+
 def check_processes(directory,data,stage,board,*,sandboxed):
     from . import pipeline as p,floor_route as f
     raw=f.read_json(Path(directory)/(stage+'.json'))
+    drc=[row for row in data.get('steps',[]) if row.get('name')==stage and row.get('cwd')==str(directory)]
+    if len(drc)==1:check_availability(directory,stage,drc[0],raw)
     findings=raw['violations']+raw['unconnected_items']+raw['schematic_parity']
     artifacts=paths(directory,stage)
     if not has_fields(findings):

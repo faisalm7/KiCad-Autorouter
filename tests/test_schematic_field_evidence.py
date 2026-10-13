@@ -39,7 +39,7 @@ class FieldEvidenceControls(unittest.TestCase):
             for path in evidence.paths(folder,'final-drc'):path.write_text('{}')
             def read(path):return {'input':str(board)} if path.name.endswith('-binding.json') else raw
             data={'steps':[{'name':'final-drc','cwd':str(folder),'argv':['drc']}]}
-            with patch.object(evidence,'readback',return_value=None),patch('autorouter.floor_route.read_json',side_effect=read),patch('autorouter.floor_route.process_check') as check:
+            with patch.object(evidence,'check_availability'),patch.object(evidence,'readback',return_value=None),patch('autorouter.floor_route.read_json',side_effect=read),patch('autorouter.floor_route.process_check') as check:
                 with self.assertRaisesRegex(p.Rejected,'actual complete native schematic parity'):
                     evidence.check_processes(folder,data,'final-drc',board,sandboxed=True)
                 check.assert_not_called()
