@@ -97,7 +97,8 @@ def check_candidate_stage(directory,record,original,source_hashes,basis,before_t
     rebuilt=p.transplant_fill(before_tree,sx.read(refill))
     if (sx.dump(rebuilt)+'\n').encode()!=pc.read_bytes(candidate):raise p.Rejected('pruning deletion/refill lineage differs')
     gc=f.read_json(basis/'floor-policy.json')
-    f.check_final_context(directory,record,original,candidate,[],gc,guidance_basis=basis)
+    if 'source_hashes' in record and record['source_hashes']!=source_hashes:raise p.Rejected('pruning source binding differs')
+    f.check_final_context(directory,dict(record,source_hashes=source_hashes),original,candidate,[],gc,guidance_basis=basis)
     expected=dict(source_hashes);expected[candidate.name]=record['candidate_sha256']
     native=f.check_drc_stage(directory,record,'final-drc',candidate,directory/'final-drc-input'/candidate.name,False,expected)
     if native!=record['native'] or p.sha(directory/'final-drc.json')!=record['native_report_sha256']:

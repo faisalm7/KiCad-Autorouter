@@ -107,6 +107,9 @@ def experiment(output,*,run_native=False,resume=None):
         if frozen is None:return
         if p.tool_manifest()!=record['tools'] or inventory(out/'code')!=frozen:raise p.Rejected('runtime/code/HEAD changed')
         if p.sha(HERE/'PROTOCOL.json')!=record['protocol_sha256']:raise p.Rejected('protocol changed')
+        if resume is not None:
+            for rel,expected in protocol.get('preserved_prefixes',{}).items():
+                if inventory(ROOT/rel)!=expected:raise p.Rejected('prior invocation changed')
         for rel,expected in protocol['input_trees'].items():
             if inventory(ROOT/rel)!=expected:raise p.Rejected('original control seed changed')
         for rel,sha in runtime.items():
@@ -129,16 +132,25 @@ def experiment(output,*,run_native=False,resume=None):
         if resume is not None:
             resume=shared.owned(resume);pin=protocol['resumable_prefix']
             if resume!=ROOT/pin['directory'] or inventory(resume)!=pin['inventory'] or p.sha(resume/'result.json')!=pin['result_sha256']:raise p.Rejected('resumed prefix differs')
+            if p.sha(resume.parent/'execution.json')!=pin['execution_sha256']:raise p.Rejected('prefix execution changed')
             prior=f.read_json(resume/'result.json');execution=f.read_json(resume.parent/'execution.json')
             if prior['status']!='failed' or prior['controls_passed'] is not False or prior['observations_complete'] is not False:raise p.Rejected('resumed prefix state differs')
-            prior_wall=execution['wall_seconds'];prior_cpu=execution['full_cpu_seconds']
+            prior_wall=execution['wall_seconds']+prior.get('resumed_prefix',{}).get('wall_seconds',0)
+            prior_cpu=execution['full_cpu_seconds']+prior.get('resumed_prefix',{}).get('total_cpu_seconds',0)
+            additional=pin.get('additional_prior_execution')
+            if additional:
+                old=ROOT/additional['path']
+                if p.sha(old)!=additional['sha256']:raise p.Rejected('earlier setup failure changed')
+                cost=f.read_json(old);prior_wall+=cost['wall_seconds'];prior_cpu+=cost['full_cpu_seconds']
             if not all(type(x) in (int,float) and 0<=x<SECONDS for x in (prior_wall,prior_cpu)):raise p.Rejected('invalid resumed cost')
             steps.extend(prior['steps']);completed[str(resume)]=pin['inventory']
             record['resumed_prefix']={'directory':str(resume),'result_sha256':pin['result_sha256'],'wall_seconds':prior_wall,'total_cpu_seconds':prior_cpu,'all_prior_failures_retained':True}
-            for arm in pin['reused_arms']:
-                folder=resume/arm;receipt=f.read_json(folder/'result.json');p.check_result(folder/'result.json')
+            for arm,arm_pin in pin['reused_arms'].items():
+                folder=shared.owned(ROOT/arm_pin['directory'])
+                if p.sha(folder/'result.json')!=arm_pin['result_sha256']:raise p.Rejected('completed arm changed')
+                receipt=f.read_json(folder/'result.json');p.check_result(folder/'result.json')
                 if receipt['accepted'] is not True or receipt['input_policy']!=f.SEARCH_POLICY or receipt['engine_profile']!=arm or receipt['scoring_variant']!='via_default':raise p.Rejected('resumed arm differs')
-                arms[arm]=receipt;arm_dirs[arm]=folder;record['arms'].append({'arm':arm,'reused_completed_control':True,'result_sha256':p.sha(folder/'result.json'),'accepted':True,'status':receipt['status'],'native':receipt['native'],'metrics':receipt['metrics']})
+                arms[arm]=receipt;arm_dirs[arm]=folder;record['arms'].append({'arm':arm,'reused_completed_control':True,'receipt':str(folder/'result.json'),'result_sha256':p.sha(folder/'result.json'),'accepted':True,'status':receipt['status'],'native':receipt['native'],'metrics':receipt['metrics']})
         record['runtime_sources']=runtime;frozen=inventory(out/'code');record['code_inventory']=frozen
         for case in CASES:
             folder=out/'sources'/case;folder.mkdir(parents=True);source=folder/'fixture.kicad_pcb'
@@ -155,7 +167,7 @@ def experiment(output,*,run_native=False,resume=None):
                 receipt=ps.prune(source,folder,cap) if arm=='C' else f.route(source,folder,cap,False,'both','standard' if arm=='standard' else 'tuned','via_default',guidance_policy=f.SEARCH_POLICY)
             finally:
                 if (folder/'result.json').is_file():
-                    actual=f.read_json(folder/'result.json');steps.extend(actual.get('steps',[]));record['arms'].append({'arm':arm,'result_sha256':p.sha(folder/'result.json'),'accepted':actual['accepted'],'status':actual['status'],'native':actual.get('native'),'metrics':actual.get('metrics')})
+                    actual=f.read_json(folder/'result.json');steps.extend(actual.get('steps',[]));record['arms'].append({'arm':arm,'receipt':str(folder/'result.json'),'result_sha256':p.sha(folder/'result.json'),'accepted':actual['accepted'],'status':actual['status'],'native':actual.get('native'),'metrics':actual.get('metrics')})
             if receipt['accepted'] is not True:raise p.Rejected('fresh '+arm+' rejected: '+str(receipt.get('reason',receipt['status'])))
             p.check_result(folder/'result.json');arms[arm]=receipt;arm_dirs[arm]=folder;completed[str(folder)]=inventory(folder);stable()
         for case,basis_arm in (('redundant','tuned'),('necessary','necessary_tuned')):

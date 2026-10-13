@@ -23,6 +23,11 @@ class SharedStages(unittest.TestCase):
         self.assertEqual(metrics,self.data['metrics'])
         row['steps'].append(step)
         with self.assertRaises(p.Rejected):ps.check_candidate_stage(self.out,row,self.original,self.hashes,self.out,before)
+    def test_actual_minimal_trial_shape_uses_bound_original_source_hashes(self):
+        row,before=self.stage();row.pop('source_hashes')
+        self.assertEqual(ps.check_candidate_stage(self.out,row,self.original,self.hashes,self.out,before)[0],self.candidate)
+        row['source_hashes']={'fake':'wrong'}
+        with self.assertRaises(p.Rejected):ps.check_candidate_stage(self.out,row,self.original,self.hashes,self.out,before)
     def test_reconstructed_parent_cannot_change_even_with_unchanged_final(self):
         row,before=self.stage();ps.check_candidate_stage(self.out,row,self.original,self.hashes,self.out,before)
         changed=copy.deepcopy(before);changed.remove(p.routes(changed)[0])
