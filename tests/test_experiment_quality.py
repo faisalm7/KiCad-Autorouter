@@ -11,6 +11,20 @@ spec=importlib.util.spec_from_file_location('experiment_quality',Path(__file__).
 e=importlib.util.module_from_spec(spec);spec.loader.exec_module(e)
 
 class ProtocolControls(unittest.TestCase):
+ def test_fixed_ardujoy_snapshot_requires_complete_exact_notice_tree(self):
+  from experiments.licensed_acquisition_v4 import native_snapshot
+  with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parents[1]/'.cache') as tmp:
+   root=Path(tmp);base=root/'.runs/ardujoy-original-native-001/original/Ardujoy_HW';base.mkdir(parents=True)
+   files={'Ardujoy_HW/Ardujoy_HW.kicad_pcb':b'board','Ardujoy_HW/Ardujoy_HW.kicad_pro':b'rules','Ardujoy_HW/_licenses/LICENSE.creator':b'notice','README.md':b'outer notice'}
+   for name,raw in files.items():
+    if name.startswith('Ardujoy_HW/'):
+     path=base/name.removeprefix('Ardujoy_HW/');path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(raw)
+   with patch.object(e.c,'ROOT',root),patch.object(native_snapshot,'capture',return_value=files):
+    board,family=e.selected_source('ardujoy-c64');self.assertEqual(board,base/'Ardujoy_HW.kicad_pcb');self.assertIn('development-exposed',family)
+    (base/'_licenses/LICENSE.creator').write_bytes(b'changed notice')
+    with self.assertRaisesRegex(e.p.Rejected,'exact original'):e.selected_source('ardujoy-c64')
+    (base/'_licenses/LICENSE.creator').write_bytes(files['Ardujoy_HW/_licenses/LICENSE.creator']);(base/'extra.kicad_pro').write_bytes(b'extra')
+    with self.assertRaisesRegex(e.p.Rejected,'exact original'):e.selected_source('ardujoy-c64')
  def test_wrong_or_missing_policy_refuses_otherwise_valid_receipt(self):
   with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parents[1]/".cache") as tmp:
    out=Path(tmp);(out/'incumbent').mkdir()

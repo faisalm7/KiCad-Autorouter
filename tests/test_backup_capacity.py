@@ -10,17 +10,17 @@ class BackupCapacity(unittest.TestCase):
                 'files':[{'path':'.runs/evidence.bin','size':size,'sha256':'0'*64}],
                 'total_file_bytes':size}
     def test_exact_finite_capacity_and_existing_population(self):
-        self.assertEqual(backup.LIMIT,4*1024**3);self.assertEqual(backup.MAX_FILES,140000)
+        self.assertEqual(backup.LIMIT,5*1024**3);self.assertEqual(backup.MAX_FILES,160000)
         self.assertEqual(backup.MAX_RECEIPT_BYTES,48*1024**2)
         self.assertEqual(backup.MAX_CHAIN_RECEIPT_BYTES,128*1024**2)
         self.assertEqual(backup.SCOPES,('.runs','.data','.local-reference'))
     def test_previous_one_gib_inventory_still_valid(self):
         for size in (0,1017693214,1024**3):
             with self.subTest(size=size):self.assertEqual(backup.check_manifest(self.manifest(size))[0]['.runs/evidence.bin']['size'],size)
-    def test_previous_range_and_exact_four_gib_boundary_without_allocation(self):
-        for size in (1024**3+1,2*1024**3,2*1024**3+1,3*1024**3,4*1024**3):
+    def test_previous_range_and_exact_five_gib_boundary_without_allocation(self):
+        for size in (1024**3+1,2*1024**3,2*1024**3+1,3*1024**3,4*1024**3,4*1024**3+1,5*1024**3):
             with self.subTest(size=size):backup.check_manifest(self.manifest(size))
-        with self.assertRaises(backup.BackupError):backup.check_manifest(self.manifest(4*1024**3+1))
+        with self.assertRaises(backup.BackupError):backup.check_manifest(self.manifest(5*1024**3+1))
     def test_stream_guard_rejects_first_byte_over_new_boundary(self):
         output=io.BytesIO();writer=backup.LimitedWriter(output);writer.size=backup.LIMIT-1
         self.assertEqual(writer.write(b'x'),1);self.assertEqual(writer.size,backup.LIMIT)

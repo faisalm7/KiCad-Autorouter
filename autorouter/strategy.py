@@ -290,6 +290,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single"):
         protected = copy.deepcopy([route for route in p.routes(original) if p.locked(route)])
         nets = zone_net_ids(original)
         report["source_hashes"] = source_hashes
+        report['schematic_parity']=p.parity_declaration(source,source_hashes)
         report["zone_net_ids"] = sorted(nets)
         report["protected_routes"] = len(protected)
         report["tools"] = p.tool_manifest()

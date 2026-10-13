@@ -103,6 +103,7 @@ def _recover(source, output, seconds):
         original = p.preflight(source)
         protected = copy.deepcopy([r for r in p.routes(original) if p.locked(r)])
         report.update(source_hashes=hashes, tools=p.tool_manifest())
+        report['schematic_parity']=p.parity_declaration(source,hashes)
         shutil.copytree(source.parent, output / "snapshot")
         (output / "code").mkdir()
         for relative, expected in report["tools"]["implementation_sha256"].items():

@@ -18,14 +18,12 @@ from datetime import datetime, timezone
 
 ROOT = Path(__file__).resolve().parents[1]
 SCOPES = (".runs", ".data", ".local-reference")
-# Retaining failed and successful clean-install trees takes the complete artifact
-# population above 3 GiB. Keep a finite 4 GiB archive/target/bundle ceiling; the
-# existing byte, chain, secret, path and streaming checks remain enforced.
-LIMIT = 4 * 1024 ** 3
-# The measured integration population is 119,950 files; one retained clean
-# installation adds 12,838. Keep finite 140,000-file/directory and 48 MiB receipt
-# bounds. The 4 GiB byte, 128 MiB chain and 16-node limits/scopes stay unchanged.
-MAX_FILES = 140000
+# The measured retained population is 139,253 files / 4,136,814,925 bytes.
+# Installation011 can add up to 16,000 files / 512 MiB. Keep finite 5 GiB
+# archive/target/bundle and 160,000 file/directory ceilings, without removing
+# evidence or changing scopes, secret/path checks, streaming or chain limits.
+LIMIT = 5 * 1024 ** 3
+MAX_FILES = 160000
 MAX_CHAIN = 16
 MAX_RECEIPT_BYTES = 48 * 1024 ** 2
 MAX_CHAIN_RECEIPT_BYTES = 128 * 1024 ** 2

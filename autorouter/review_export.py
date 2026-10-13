@@ -117,6 +117,8 @@ def check_stage(folder,data,binding,report,basis,contract,layers):
     """Reuse original-rule refill/final/process/native-context validators."""
     if report.get('scope')=='selected_nets' and data.get('schematic_parity')!=report.get('schematic_parity'):
         raise p.Rejected('export selected-net schematic parity declaration differs')
+    if data.get('schematic_parity')!=p.parity_declaration(binding['source'],binding['source_hashes']):
+        raise p.Rejected('export schematic parity declaration differs from original source')
     original=p.preflight(Path(binding['source']));candidate=folder/'candidate'/Path(binding['source']).name
     before=sx.read(Path(binding['validated_candidate']));protected=p.protected_for_record(report,original)
     if candidate!=Path(data['candidate']):raise p.Rejected('export candidate escaped validation directory')
@@ -131,7 +133,7 @@ def check_stage(folder,data,binding,report,basis,contract,layers):
         f.check_drc_stage(folder,data,'refill-drc',refill,refill,True,expected)
         if (sx.dump(p.transplant_fill(before,sx.read(refill)))+'\n').encode()!=pc.read_bytes(candidate):raise p.Rejected('export refill reconstruction changed')
         expected[candidate.name]=data['candidate_sha256']
-        extra={'schematic_parity':True} if p.selected_parity_required(report) else {}
+        extra={'schematic_parity':True} if data.get('schematic_parity')=='checked by final native DRC' else {}
         native=f.check_drc_stage(folder,data,'final-drc',candidate,folder/'final-drc-input'/candidate.name,False,expected,**extra)
         if native!=data['native']:raise p.Rejected('export actual final native report differs')
         if p.netclass_policy(candidate) is not None:
@@ -300,7 +302,7 @@ def export(choice_path,output,seconds=SECONDS):
             protected=p.protected_for_record(report,original)
             names=p.selected_scope_names(report)
             extra={'selected_names':names,'schematic_parity':p.selected_parity_required(report)} if names is not None else {}
-            if names is not None:record['schematic_parity']=report['schematic_parity']
+            record['schematic_parity']=p.parity_declaration(binding['source'],binding['source_hashes'])
             digest,native=p.validate_candidate(job,original,candidate,binding['source_hashes'],protected,
                 guidance_contract=contract,guidance_basis=basis,layer_contract=layers,**extra)
             job.native('metrics','metrics',candidate,job.out/'metrics.json');metrics=f.read_json(job.out/'metrics.json');account();cap()

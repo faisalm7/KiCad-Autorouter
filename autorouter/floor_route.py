@@ -418,6 +418,7 @@ def _route(source,output,seconds,profile,guidance_policy=POLICY,preferences=None
         g.qualify_scope(json.loads(source.with_suffix('.kicad_pro').read_text()),task)
         if new_policy:pc.narrow_source(original)
         report.update(source_hashes=hashes,tools=p.tool_manifest())
+        report['schematic_parity']=p.parity_declaration(source,hashes)
         if new_policy:
             freeze=pc.capture_freeze(report['tools']);shutil.copy2(c.ROOT/'toolchain.lock.json',output/'placement-toolchain.lock.json')
             p.save_json(output/'placement-source-freeze.json',freeze)

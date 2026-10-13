@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Paired exposed-development experiment: B2 portfolio, then C feedback.
+"""Exposed-development comparison: paired legacy or four-arm native/placement.
 
 Public callable: experiment(out: Path, project_name='sonde') -> summary dict.
 CLI after promotion: python3 scripts/experiment_paired.py --project sonde
@@ -184,10 +184,11 @@ def verify_thermal_incumbent(directory, result, board, frozen):
 
 def experiment(out, project_name='sonde', system='feedback'):
     batch_started, batch_cpu = time.monotonic(), q.total_process_cpu()
-    if system not in {'feedback','thermal','placement','placement-standard'}:
+    if system not in {'feedback','thermal','placement','placement-standard','native-all'}:
         raise p.Rejected('unknown paired system')
     placement=system in {'placement','placement-standard'}
-    c_arm = ({**C_ARM,'operation':'placement_prune','input_policy':ps.POLICY,'strategy':ps.STRATEGY} if placement else C_ARM if system=='feedback' else THERMAL_ARM)
+    four_arm=placement or system=='native-all'
+    c_arm = ({**C_ARM,'operation':'placement_prune','input_policy':ps.POLICY,'strategy':ps.STRATEGY} if placement else C_ARM if system in {'feedback','native-all'} else THERMAL_ARM)
     if system=='placement-standard':
         c_arm.update(engine_profile='standard',pruning_allocation=ps.STANDARD_ALLOCATION,
                      pruning_allocation_contract=ps.contract(ps.STANDARD_ALLOCATION))
@@ -201,11 +202,11 @@ def experiment(out, project_name='sonde', system='feedback'):
         'results': [], 'comparisons': [], 'claims_limit': 'one exposed family; no population, novelty, human-review, or electrical-adequacy claim'}
     completed_arms={}
     def stable_arms():
-        if placement:
+        if four_arm:
             for folder,expected in completed_arms.items():
                 if ps.pc.inventory(folder,max_bytes=ps.LIMIT,max_files=ps.MAX_FILES,max_entries=ps.MAX_FILES*2)!=expected:raise p.Rejected('completed comparison arm changed')
     # Entry and exit are inside shared accounting, before final publication.
-    with p.validation_readback_session() if placement else nullcontext():
+    with p.validation_readback_session() if four_arm else nullcontext():
         try:
             if BUDGET != q.BUDGET or BUDGET != portfolio.BUDGET:
                 raise p.Rejected('imported arm budgets differ')
@@ -224,19 +225,25 @@ def experiment(out, project_name='sonde', system='feedback'):
                 if p.sha(target) != digest:
                     raise p.Rejected('code changed while preserving paired freeze')
             protocol = {'schema': 1, 'freeze': frozen, 'family': family, 'source': str(board),
-                'arm_order': (['B0','B1','B2_portfolio',c_arm['id']] if placement else ['B2_portfolio', c_arm['id']]), 'wall_budget_per_arm_seconds': BUDGET,
+                'arm_order': (['B0','B1','B2_portfolio',c_arm['id']] if four_arm else ['B2_portfolio', c_arm['id']]), 'wall_budget_per_arm_seconds': BUDGET,
                 'cpu_budget_per_arm_seconds': BUDGET, 'cpu_enforcement': 'measured acceptance cap, not OS preemption',
                 'baseline': 'fixed three search-cost variants, same adapter and native constraints; full frontier retained',
-                'system': ('fresh standard default-cost incumbent capped at85 seconds, individual-first pruning and25-second final reserve' if system=='placement-standard' else 'single tuned default-cost incumbent plus feedback pruning' if system in {'feedback','placement'} else 'fresh completion-only default-cost incumbent, fresh native geometry and bounded thermal bridge recovery')+'; no free use of the portfolio winner',
+                'system': ('fresh standard default-cost incumbent capped at85 seconds, individual-first pruning and25-second final reserve' if system=='placement-standard' else 'single tuned default-cost incumbent plus feedback pruning' if system in {'feedback','placement','native-all'} else 'fresh completion-only default-cost incumbent, fresh native geometry and bounded thermal bridge recovery')+'; no free use of the portfolio winner',
                 'system_contract': c_arm,
                 'accounting': 'each raw enclosing arm includes pre/post freeze verification, invocation, failed attempts, receipt checks, and arm-index emission; the entire shared initial freeze/copy/paired-summary overhead is then conservatively charged to EACH arm, with caps rechecked after final publication',
                 'fairness_limit': 'equal total budgets and constraints, different predeclared allocation policies; C is not initialized by the portfolio',
                 'editor_policy': 'operator closes PCB Editor and keeps other native/engine jobs idle',
                 'claims_limit': summary['claims_limit']}
-            if placement:
-                protocol.update(guidance_policy='placement-search-v1',system_contract={**c_arm,'strategy':ps.STRATEGY},
+            if four_arm:
+                protocol.update(
                     allocation_formula='120 - max(shared setup wall, shared setup CPU) - 5; same frozen inner allowance for all four arms',
                     wrapper_reserve_seconds=5,baseline_order=['B0stock','B1standard','B2tuned-default-low-high','Cfresh-tuned-default-feedback'])
+                if placement:
+                    protocol.update(guidance_policy='placement-search-v1',system_contract={**c_arm,'strategy':ps.STRATEGY})
+                else:
+                    protocol.update(paired_system='native-all',guidance_policy=None,
+                        pruning_scope='only original copper-zone nets; zero-zone/no-proposal cases remain in the comparison',
+                        task_policy='whole-board unlocked reference routing removed; original geometry/rules and locked routing preserved')
                 if system=='placement-standard':
                     protocol['baseline_order'][-1]='Cfresh-standard-max85-individual-first-reserve25-feedback'
                     protocol['pruning_allocation']=ps.STANDARD_ALLOCATION
@@ -250,6 +257,7 @@ def experiment(out, project_name='sonde', system='feedback'):
                 row = {'id': arm_id, 'accepted': False, 'status': 'invocation_error',
                     'started_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(),
                     'host_load_average_1_5_15_minutes_begin': list(os.getloadavg())}
+                if system=='native-all':row['assigned_seconds']=assigned
                 summary['results'].append(row)
                 material=None;directory=out/arm_id
                 try:
@@ -257,30 +265,45 @@ def experiment(out, project_name='sonde', system='feedback'):
                     stable_arms()
                     if arm_id == 'B2_portfolio':
                         result = (portfolio.experiment(directory, project_name,guidance_policy='placement-search-v1',budget=assigned)
-                                  if placement else portfolio.experiment(directory, project_name))
-                        if placement:material=ps.pc.inventory(directory,max_bytes=ps.LIMIT,max_files=ps.MAX_FILES,max_entries=ps.MAX_FILES*2)
+                                  if placement else portfolio.experiment(directory, project_name,budget=assigned)
+                                  if four_arm else portfolio.experiment(directory, project_name))
+                        if four_arm:material=ps.pc.inventory(directory,max_bytes=ps.LIMIT,max_files=ps.MAX_FILES,max_entries=ps.MAX_FILES*2)
                         row.update(verify_portfolio(directory, result, board, frozen))
                         if placement:
                             if result.get('guidance_policy')!='placement-search-v1' or result.get('wall_budget_seconds')!=assigned or result.get('cpu_budget_seconds')!=assigned:raise p.Rejected('placement portfolio allocation differs')
                             if any(x.get('guidance_policy')!='placement-search-v1' for x in result['trials']):raise p.Rejected('mixed placement portfolio trials')
+                        elif four_arm:
+                            if result.get('guidance_policy') is not None or result.get('wall_budget_seconds')!=assigned or result.get('cpu_budget_seconds')!=assigned:raise p.Rejected('native portfolio allocation differs')
+                            if any(x.get('guidance_policy') is not None for x in result['trials']):raise p.Rejected('mixed native portfolio trials')
                     else:
                         selected_arm=c_arm
-                        if placement:
+                        if four_arm:
                             if arm_id=='B0':
                                 selected_arm={'id':'B0','adapter':'none','engine_profile':'standard','operation':'route'}
                                 result=p.route(board,directory,assigned,False,'none','standard')
                             elif arm_id=='B1':
                                 selected_arm={'id':'B1','adapter':'both','engine_profile':'standard','operation':'route'}
-                                result=f.route(board,directory,assigned,False,'both','standard','via_default',guidance_policy='placement-search-v1')
+                                result=(f.route(board,directory,assigned,False,'both','standard','via_default',guidance_policy='placement-search-v1')
+                                        if placement else p.route(board,directory,assigned,False,'both','standard'))
                             else:
                                 result=(ps.prune(board,directory,assigned,allocation=ps.STANDARD_ALLOCATION)
-                                        if system=='placement-standard' else ps.prune(board,directory,assigned))
+                                        if system=='placement-standard' else ps.prune(board,directory,assigned)
+                                        if placement else prune(board,directory,assigned,proposal_policy='feedback'))
                         else:
                             result = (prune(board, directory, BUDGET, proposal_policy='feedback')
                                       if system=='feedback' else recover(board, directory, BUDGET))
-                        if placement:material=ps.pc.inventory(directory,max_bytes=ps.LIMIT,max_files=ps.MAX_FILES,max_entries=ps.MAX_FILES*2)
+                        if four_arm:material=ps.pc.inventory(directory,max_bytes=ps.LIMIT,max_files=ps.MAX_FILES,max_entries=ps.MAX_FILES*2)
                         row.update(q.summarize(selected_arm, directory, result,
                             time.monotonic()-started, q.total_process_cpu()-cpu_started))
+                        if system=='native-all':
+                            if result.get('budget_seconds')!=assigned or result.get('cpu_budget_seconds')!=assigned:raise p.Rejected('native arm allocation differs')
+                            if result.get('input_policy') is not None or result.get('guidance_policy') is not None:raise p.Rejected('native arm used non-native guidance')
+                            if selected_arm['operation']=='prune':
+                                trials=result.get('trials')
+                                row.update(zone_net_ids=result.get('zone_net_ids'),
+                                    pruning_trial_count=len(trials) if isinstance(trials,list) else None,
+                                    pruning_improvements=result.get('improvements'),
+                                    zone_pruning_opportunity='no_declared_zone_nets' if result.get('zone_net_ids')==[] else 'declared_zone_nets' if result.get('zone_net_ids') else 'unobserved')
                         if system=='thermal' and result.get('strategy')!=THERMAL_ARM['strategy']:
                             raise p.Rejected('thermal strategy contract mismatch')
                         if system=='thermal' and result.get('accepted') is True:
@@ -315,7 +338,7 @@ def experiment(out, project_name='sonde', system='feedback'):
                         row.update(accepted=False, within_enclosing_budgets=False,
                             invocation_wall_seconds=wall, invocation_cpu_seconds=cpu)
                         publish(out/(arm_id+'-invocation.json'), row)
-                if placement and directory.is_dir():
+                if four_arm and directory.is_dir():
                     current=ps.pc.inventory(directory,max_bytes=ps.LIMIT,max_files=ps.MAX_FILES,max_entries=ps.MAX_FILES*2)
                     if material is not None and current!=material:raise p.Rejected('current comparison arm changed during readback/publication')
                     completed_arms[directory]=current if material is None else material
@@ -349,10 +372,10 @@ def experiment(out, project_name='sonde', system='feedback'):
     summary['shared_charge_policy'] = 'entire measured shared overhead charged to EACH arm; raw invocation measurements retained separately'
     summary['accounting_point'] = 'sample before final summary write; full charged caps rechecked after publication; any over-cap correction is rejected and may finish outside cap'
     try:
-        if placement:q.verify_freeze(frozen,board);stable_arms()
+        if four_arm:q.verify_freeze(frozen,board);stable_arms()
         account_shared()
         publish(out/'paired-summary.json', summary)
-        if placement:q.verify_freeze(frozen,board);stable_arms()
+        if four_arm:q.verify_freeze(frozen,board);stable_arms()
         published_eligibility = [row['accepted'] for row in summary['results']]
         account_shared()
         if published_eligibility != [row['accepted'] for row in summary['results']]:
@@ -370,7 +393,10 @@ def experiment(out, project_name='sonde', system='feedback'):
         cancelled_publication(out/'paired-summary.json', summary)
     except Exception as exc:
         summary.update(status='invalidated',comparisons=[],reason=type(exc).__name__+': '+str(exc))
-        for row in summary['results']:row['accepted']=False
+        for row in summary['results']:
+            row['accepted']=False
+            if system=='native-all':
+                for observation in row.get('observations',[]):observation['final_delivery_accepted']=False
         publish(out/'paired-summary.json',summary)
     return summary
 
@@ -379,7 +405,7 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', required=True)
     parser.add_argument('--project', choices=tuple(q.PROJECTS), default='sonde')
-    parser.add_argument('--system', choices=('feedback','thermal','placement','placement-standard'), default='feedback')
+    parser.add_argument('--system', choices=('feedback','thermal','placement','placement-standard','native-all'), default='feedback')
     args=parser.parse_args()
     lock_path=c.ROOT/'.runs/quality-experiment.lock';lock_path.parent.mkdir(exist_ok=True)
     if lock_path.is_symlink():parser.error('experiment lock must not be a symlink')

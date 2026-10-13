@@ -305,7 +305,7 @@ def parse_report(path, board_name):
 # Finding types are not project-setting keys: KiCad's padstack_invalid has no
 # editable severity. Keep parse_report's native summary schema unchanged so old
 # evidence can be rechecked under this stricter application acceptance policy.
-CRITICAL_FINDINGS = CRITICAL_CHECKS | {'padstack_invalid','text_on_edge_cuts'}
+CRITICAL_FINDINGS = CRITICAL_CHECKS | {'padstack_invalid','text_on_edge_cuts','net_conflict'}
 
 
 def native_rejection_reasons(native):
@@ -499,6 +499,9 @@ def audit_candidate_netclasses(candidate, protected, native):
             'project_sha256':sha(project)}
 
 def validate_candidate(job, original, candidate, source_hashes, protected, *, guidance_contract=None, guidance_basis=None, layer_contract=None, selected_names=None, schematic_parity=False):
+    # A complete captured native schematic must participate in final acceptance
+    # for every routing scope, including optimizer trials and fresh exports.
+    schematic_parity=schematic_parity or Path(candidate).with_suffix('.kicad_sch').name in source_hashes
     check_rule_area_support(original)
     if guidance_basis is not None and guidance_contract is None:raise Rejected('guidance basis requires a contract')
     if guidance_contract is not None:
@@ -733,11 +736,19 @@ def protected_for_record(data,original):
     return [r for r in routes(original) if data['scope']=='partial_completion' or locked(r)]
 
 
+def parity_declaration(source, source_hashes):
+    return ('checked by final native DRC' if Path(source).with_suffix('.kicad_sch').name in source_hashes
+            else 'unavailable: no native schematic in source project')
+
+
 def selected_parity_required(data):
-    if data.get('scope')!='selected_nets':return False
+    # Historical whole-board receipts explicitly did not check parity. Keep
+    # their evidence readable; new receipts declare the actual complete-input
+    # check, and their retained native argv must agree with that declaration.
+    if (data.get('scope')!='selected_nets' and data.get('schematic_parity') not in
+            {'checked by final native DRC','unavailable: no native schematic in source project'}):return False
     required=Path(data['source']).with_suffix('.kicad_sch').name in data['source_hashes']
-    expected='checked by final native DRC' if required else 'unavailable: no native schematic in source project'
-    if data.get('schematic_parity')!=expected:raise Rejected('selected-net schematic parity declaration differs from complete source')
+    if data.get('schematic_parity')!=parity_declaration(data['source'],data['source_hashes']):raise Rejected('schematic parity declaration differs from complete source')
     return required
 
 
@@ -851,14 +862,13 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
         before=tree_hash(source.parent); report['source_hashes']=before
         original=preflight(source)
         selected=_preferences['effective'].get('nets') if _preferences and _preferences['effective']['scope']=='selected_nets' else None
-        parity=False
+        parity=source.with_suffix('.kicad_sch').name in before
+        report['schematic_parity']=parity_declaration(source,before)
         if selected is not None:
             from . import routing_scope as rs
             from .placement_clearance import read_bytes
             report['scope']='selected_nets'
             report['selected_net_binding']=rs.bind(read_bytes(source),selected)
-            parity=source.with_suffix('.kicad_sch').name in before
-            report['schematic_parity']='checked by final native DRC' if parity else 'unavailable: no native schematic in source project'
         if _preferences is not None and _preferences['effective']['layers']!='source_all':
             from .layer_policy import _source_layers, _route_map
             _source_layers(original)

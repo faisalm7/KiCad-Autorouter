@@ -154,7 +154,8 @@ def check_candidate_stage(directory,record,original,source_hashes,basis,before_t
     if 'source_hashes' in record and record['source_hashes']!=source_hashes:raise p.Rejected('pruning source binding differs')
     f.check_final_context(directory,dict(record,source_hashes=source_hashes),original,candidate,[],gc,guidance_basis=basis)
     expected=dict(source_hashes);expected[candidate.name]=record['candidate_sha256']
-    native=f.check_drc_stage(directory,record,'final-drc',candidate,directory/'final-drc-input'/candidate.name,False,expected)
+    extra={'schematic_parity':True} if record.get('schematic_parity')=='checked by final native DRC' else {}
+    native=f.check_drc_stage(directory,record,'final-drc',candidate,directory/'final-drc-input'/candidate.name,False,expected,**extra)
     if native!=record['native'] or p.sha(directory/'final-drc.json')!=record['native_report_sha256']:
         raise p.Rejected('pruning final native record differs')
     f.process_check(directory,record,'metrics',[*f.SANDBOX,str(c.PYTHON),str(c.ROOT/'autorouter/native.py'),'metrics',str(candidate),str(directory/'metrics.json')])
@@ -183,7 +184,8 @@ def trial_process_history(directory,row):
         if name=='floor-final':return f.context_argv('final',candidate,directory/'floor-final-context.json')
         if name=='metrics':return [*f.SANDBOX,str(c.PYTHON),str(c.ROOT/'autorouter/native.py'),'metrics',str(candidate),str(directory/'metrics.json')]
         target=directory/('refill' if name=='refill-drc' else 'final-drc-input')/candidate.name
-        return [*f.SANDBOX,str(c.CLI),'pcb','drc','--format','json','--severity-all','--all-track-errors','--refill-zones','--exit-code-violations',
+        return [*f.SANDBOX,str(c.CLI),'pcb','drc','--format','json','--severity-all','--all-track-errors','--refill-zones',
+            *(['--schematic-parity'] if name=='final-drc' and row.get('schematic_parity')=='checked by final native DRC' else []),'--exit-code-violations',
             '--output',str(directory/(name+'.json')),*(['--save-board'] if name=='refill-drc' else []),str(target)]
     child=monitor=elapsed=0.
     for name,step in zip(names,steps):
@@ -297,6 +299,7 @@ def _prune(source,output,seconds,*,allocation=LEGACY_ALLOCATION):
         p.check_storage();hashes=pc.inventory(source.parent);original=p.preflight(source);pc.narrow_source(original)
         if any(p.locked(x) for x in p.routes(original)):raise p.Rejected('unsupported: placement pruning excludes protected routing')
         report.update(source_hashes=hashes,tools=p.tool_manifest());shutil.copytree(source.parent,output/'snapshot');(output/'code').mkdir()
+        report['schematic_parity']=p.parity_declaration(source,hashes)
         for rel,expected in report['tools']['implementation_sha256'].items():
             dest=output/'code'/Path(rel).name;shutil.copy2(c.ROOT/rel,dest)
             if p.sha(dest)!=expected:raise p.Rejected('pruning code snapshot differs')
@@ -334,6 +337,7 @@ def _prune(source,output,seconds,*,allocation=LEGACY_ALLOCATION):
             row={'index':index,'proposal':proposal,'parent':str(best),'parent_sha256':p.sha(best),'accepted':False,'completed':False,'assigned_seconds':cap,'candidate':str(candidate),'status':'failed'}
             try:
                 shutil.copytree(best.parent,candidate.parent);sx.write(candidate,deletion(best,proposal,nets))
+                row['schematic_parity']=p.parity_declaration(source,hashes)
                 digest,native=p.validate_candidate(trial,original,candidate,hashes,[],guidance_contract=gc,guidance_basis=basis)
                 trial.native('metrics','metrics',candidate,folder/'metrics.json');metrics=f.read_json(folder/'metrics.json');pc.verify_candidate(candidate,hashes,digest)
                 if left()<=0:raise p.Rejected('trial wall/full CPU cap exhausted')
