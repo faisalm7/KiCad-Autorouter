@@ -1,0 +1,78 @@
+{
+  "schema": 1,
+  "status": "audit_passed_original_controller_failed",
+  "native_executed": false,
+  "subprocess_executed": false,
+  "guard_count": 1403,
+  "summary_sha256": "b4041f1b51f90753b7e4be42659b394c7bf8709f2ead1fad21addb55ab0ab0eb",
+  "execution_sha256": "7d7c979fab09e731a342f2d5d4a65f992ad1d26e3aa5c6f5846400c88964be5f",
+  "recorded_checkpoint": "3f757c032beb4c9ff36c21e70ad2f657771da445",
+  "prefix_readback": {
+    "status": "failed",
+    "actual_native_processes": 13,
+    "summary_sha256": "33c52ebd702d2c7e303f1ae6fd4d987a270f9041cbb81f015373623b0cf1b782",
+    "execution_sha256": "677345d99cd272fdb9a789223ffbcd7d6dcd47d883eb2262787f320b6c94c2de"
+  },
+  "all_unique_actual_processes_with_prefix": 21,
+  "posthoc_original_complete_inventory_exact": true,
+  "controller_original_inputs_unchanged": null,
+  "native_drc_counts": {
+    "opens": 0,
+    "blocking": 3,
+    "warnings": 0,
+    "exclusions": 0
+  },
+  "native_drc_types": [
+    {
+      "type": "courtyards_overlap",
+      "severity": "error",
+      "uuid": [
+        "372bcfe0-5b14-4454-a22f-d1e29f9ce173",
+        "4399644c-c42f-4f1c-89b5-c6d997656181"
+      ]
+    },
+    {
+      "type": "courtyards_overlap",
+      "severity": "error",
+      "uuid": [
+        "39df7587-b064-41db-b342-99b751571195",
+        "c98f1ab6-0a22-432f-a230-31fdbb47258a"
+      ]
+    },
+    {
+      "type": "courtyards_overlap",
+      "severity": "error",
+      "uuid": [
+        "4399644c-c42f-4f1c-89b5-c6d997656181",
+        "7d572180-1b42-49eb-bd08-7a6741cdcd43"
+      ]
+    }
+  ],
+  "native_ignored_check_keys": [
+    "missing_courtyard",
+    "track_not_centered_on_via",
+    "tuning_profile_track_geometries",
+    "footprint_filters_mismatch",
+    "silk_overlap",
+    "silk_over_copper",
+    "pth_inside_courtyard",
+    "npth_inside_courtyard",
+    "footprint_type_mismatch",
+    "lib_footprint_issues"
+  ],
+  "saved_final_native_exact_equal": true,
+  "costs": {
+    "wall_seconds": 11.036072250004509,
+    "full_cpu_seconds": 7.438014999999999,
+    "cumulative_wall_seconds": 25.137507459003245,
+    "cumulative_full_cpu_seconds": 16.52282
+  },
+  "summed_new_worker_cpu_seconds": 3.5486629999999995,
+  "retained_cleanup_fixture_symlinks": {
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-handoff-search-cleanup-fix-001/path-final-symlink/new-created-output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-handoff-search-cleanup-fix-001/path-final-symlink/preexisting-owned",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-handoff-search-cleanup-fix-001/path-ownership/new-created-output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-handoff-search-cleanup-fix-001/path-ownership/preexisting-owned"
+  },
+  "audit_wall_seconds": 0.5608230830039247,
+  "audit_parent_cpu_seconds": 0.49019,
+  "scope": "No frozen failure normalization, routing/format/SES admission, native reexecution or raw board geometry publication. UUID/type/full-record hashes establish ordering-only comparison failure; full route payloads remain in original local run."
+}

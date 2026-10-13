@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "status": "source_integrated_native_qualification_pending",
+  "source_files": {
+    "autorouter/review_export.py": {
+      "sha256": "c1fee2e0d859d8773a619ece925d981369251d669f42c03f9021220919fb806e",
+      "bytes": 26865
+    },
+    "autorouter/pipeline.py": {
+      "sha256": "34525c04cb7c9c5984cfc0a069bd857b055b184111bdf52e7e6f6356208447a5",
+      "bytes": 76105
+    },
+    "autorouter/__main__.py": {
+      "sha256": "86d86f7647cf6d5687a0cd2ec9e3373ec6b16c0181d2211fef77068587970421",
+      "bytes": 12049
+    },
+    "tests/test_review_export.py": {
+      "sha256": "171594e7263c589da5d9193b89ebb39ad966936a045d110392b953ea0a26cd53",
+      "bytes": 19931
+    }
+  },
+  "defects_fixed": [
+    "negative/nonfinite parent or component CPU",
+    "sequential stage wall exceeding whole wall",
+    "derived cleanliness differing from actual warning count",
+    "project path/geometry/preview/final-hash/output-limit claims differing from checked output"
+  ],
+  "helper_reuse": "Central check_resource_accounting is extracted without changing routing receipt checks, then reused for export accounting. Actual parent/native-child/control-child totals are separately bound.",
+  "pure_targeted_tests": 22,
+  "pure_targeted_seconds": 1.698,
+  "full_suite_tests": 757,
+  "full_suite_seconds": 30.881,
+  "native_validation_executed_for_new_export": false,
+  "final_skeptical_fix_review": "pending",
+  "actual_native_and_GUI_gate": "pending",
+  "scope": "Separate project only, no live application, human approval, electrical certification or completedG5/G8 claim."
+}

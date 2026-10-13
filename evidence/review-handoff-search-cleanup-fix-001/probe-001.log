@@ -1,0 +1,135 @@
+{
+  "schema": 1,
+  "handoff_sha256": "6cf77d36a6a473cc86bf71ad70e3e7f5cc7831a765b648d9f86c40ef66d1a852",
+  "receipt_sha256": "a91c204f4fbce68d31f951ce39a4b447273d56a1e8d533f8ce84c195a7c0c01b",
+  "controls": [
+    {
+      "case": "normal_actual_schema5",
+      "ready": "ready_for_manual_review",
+      "disposition": "disposition_recorded",
+      "native_validation_performed": false,
+      "routing_accepted": false,
+      "applied": false
+    },
+    {
+      "case": "review_cleanup_KeyboardInterrupt",
+      "raised": "Rejected: review copy cancelled during session cleanup",
+      "current_exists": true,
+      "canonical_status": "cancelled",
+      "canonical_choice_recorded": false,
+      "native_validation_performed": false,
+      "routing_accepted": null,
+      "invalidated_files": 1,
+      "handlers_restored": true
+    },
+    {
+      "case": "review_cleanup_Rejected",
+      "raised": "Rejected: injected cache cleanup failure",
+      "current_exists": true,
+      "canonical_status": "rejected",
+      "canonical_choice_recorded": false,
+      "native_validation_performed": false,
+      "routing_accepted": null,
+      "invalidated_files": 1,
+      "handlers_restored": true
+    },
+    {
+      "case": "review_preexisting_preserved",
+      "raised": "Rejected: review output already exists",
+      "current_exists": true,
+      "canonical_status": "preexisting-owned-sentinel",
+      "canonical_choice_recorded": null,
+      "native_validation_performed": null,
+      "routing_accepted": null,
+      "invalidated_files": 0,
+      "handlers_restored": true,
+      "complete_preexisting_inventory_unchanged": true
+    },
+    {
+      "case": "review_cleanup_corrective_write_failure",
+      "raised": "Rejected: review runtime source or toolchain lock changed",
+      "current_exists": false,
+      "canonical_status": null,
+      "canonical_choice_recorded": null,
+      "native_validation_performed": null,
+      "routing_accepted": null,
+      "invalidated_files": 0,
+      "handlers_restored": true,
+      "no_canonical_or_partial": true
+    },
+    {
+      "case": "review_budget_corrective_write_failure",
+      "raised": "OSError: injected corrective write failure",
+      "current_exists": true,
+      "canonical_status": "ready_for_manual_review",
+      "canonical_choice_recorded": null,
+      "native_validation_performed": false,
+      "routing_accepted": null,
+      "invalidated_files": 1,
+      "handlers_restored": true,
+      "no_canonical_or_partial": false
+    },
+    {
+      "case": "choice_cleanup_KeyboardInterrupt",
+      "raised": "Rejected: review choice cancelled during session cleanup",
+      "current_exists": true,
+      "canonical_status": "cancelled",
+      "canonical_choice_recorded": false,
+      "native_validation_performed": false,
+      "routing_accepted": false,
+      "invalidated_files": 1,
+      "handlers_restored": true
+    },
+    {
+      "case": "choice_cleanup_Rejected",
+      "raised": "Rejected: injected cache cleanup failure",
+      "current_exists": true,
+      "canonical_status": "rejected",
+      "canonical_choice_recorded": false,
+      "native_validation_performed": false,
+      "routing_accepted": false,
+      "invalidated_files": 1,
+      "handlers_restored": true
+    },
+    {
+      "case": "choice_preexisting_preserved",
+      "raised": "Rejected: review choice output already exists",
+      "current_exists": true,
+      "canonical_status": "preexisting-owned-sentinel",
+      "canonical_choice_recorded": null,
+      "native_validation_performed": null,
+      "routing_accepted": null,
+      "invalidated_files": 0,
+      "handlers_restored": true,
+      "complete_preexisting_inventory_unchanged": true
+    },
+    {
+      "case": "choice_cleanup_corrective_write_failure",
+      "raised": "Rejected: review choice cancelled during session cleanup",
+      "current_exists": false,
+      "canonical_status": null,
+      "canonical_choice_recorded": null,
+      "native_validation_performed": null,
+      "routing_accepted": null,
+      "invalidated_files": 3,
+      "handlers_restored": true,
+      "no_canonical_or_partial": true
+    },
+    {
+      "case": "choice_budget_corrective_write_failure",
+      "raised": "OSError: injected corrective write failure",
+      "current_exists": true,
+      "canonical_status": "disposition_recorded",
+      "canonical_choice_recorded": true,
+      "native_validation_performed": false,
+      "routing_accepted": false,
+      "invalidated_files": 1,
+      "handlers_restored": true,
+      "no_canonical_or_partial": false
+    }
+  ],
+  "source_and_retained_evidence_unchanged": true,
+  "native_executed": false,
+  "subprocess_executed": false,
+  "head_scope": "Exact current tool_manifest body with only Git lookup replaced by stored historical receipt HEAD. Actual tools/core/lock hashed. No current HEAD verification or native approval claim."
+}

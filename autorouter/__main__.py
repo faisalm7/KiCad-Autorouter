@@ -91,7 +91,13 @@ def main():
     review.add_argument('--render',action='store_true',help='Add native before/after copper plots and a local HTML review')
     choice=sub.add_parser('review-choice',help='Record accept/reject intent for a separate project; no PCB approval or application')
     choice.add_argument('review');choice.add_argument('--choice',required=True,choices=['accept','reject']);choice.add_argument('--output',required=True)
-    improve=sub.add_parser('improve');improve.add_argument('board');improve.add_argument('--output',required=True);improve.add_argument('--seconds',type=float,default=120);improve.add_argument('--proposal-policy',choices=['single','feedback'],default='single')
+    export_cmd=sub.add_parser('review-export',help='Fresh native validation into a new separate project after accept intent; no live apply')
+    export_cmd.add_argument('choice');export_cmd.add_argument('--output',required=True);export_cmd.add_argument('--seconds',type=float,default=120)
+    export_check=sub.add_parser('review-export-check',help='Check stored export/source/report consistency; does not run fresh DRC')
+    export_check.add_argument('receipt')
+    improve=sub.add_parser('improve');improve.add_argument('board');improve.add_argument('--output',required=True);improve.add_argument('--seconds',type=float,default=120);improve.add_argument('--proposal-policy',choices=['single','feedback'],default=None)
+    improve.add_argument('--guidance',choices=['native','placement-search-v1'],default='native',help='Explicit experimental planning policy; original rules are still enforced')
+    improve.add_argument('--allocation',choices=['standard-85-v1','legacy-tuned'],default=None,help='Placement pruning budget/proposal allocation; defaults to the measured standard85 variant')
     recover=sub.add_parser('recover',help='Experimental whole-board routing with bounded thermal repair');recover.add_argument('board');recover.add_argument('--output',required=True);recover.add_argument('--seconds',type=float,default=120)
     verify=sub.add_parser('check-result');verify.add_argument('receipt')
     r=sub.add_parser('route');r.add_argument('board');r.add_argument('--output',required=True);preference_arguments(r)
@@ -121,10 +127,27 @@ def main():
     if a.command=='check-result':
         try: print(json.dumps(check_result(a.receipt),indent=2));return 0
         except Exception as exc: print(json.dumps({'current':False,'reason':str(exc)}));return 2
+    if a.command=='review-export':
+        from .review_export import export
+        try:
+            result=export(a.choice,a.output,a.seconds)
+            print(json.dumps({key:result.get(key) for key in ('status','export_accepted','project_file','candidate_sha256','native_report_sha256','wall_seconds','total_cpu_seconds')},indent=2))
+            return 0 if result['export_accepted'] else 2
+        except Exception as exc:print(json.dumps({'status':'rejected','reason':str(exc)}));return 2
+    if a.command=='review-export-check':
+        from .review_export import check_export
+        try:print(json.dumps(check_export(a.receipt),indent=2));return 0
+        except Exception as exc:print(json.dumps({'current':False,'reason':str(exc)}));return 2
     try:
         if a.command=='improve':
-            from .strategy import prune
-            result=prune(a.board,a.output,a.seconds,proposal_policy=a.proposal_policy)
+            if a.guidance=='placement-search-v1':
+                if a.proposal_policy not in (None,'feedback'):raise ValueError('placement pruning requires its declared feedback proposal policy')
+                from .placement_strategy import prune,STANDARD_ALLOCATION
+                result=prune(a.board,a.output,a.seconds,allocation=a.allocation or STANDARD_ALLOCATION)
+            else:
+                if a.allocation is not None:raise ValueError('--allocation requires placement-search-v1 guidance')
+                from .strategy import prune
+                result=prune(a.board,a.output,a.seconds,proposal_policy=a.proposal_policy or 'single')
         elif a.command=='recover':
             from .recovery import recover
             result=recover(a.board,a.output,a.seconds)

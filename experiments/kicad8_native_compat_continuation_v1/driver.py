@@ -32,6 +32,26 @@ def duplicate_references(census):
     groups={}
     for row in census:groups.setdefault(row['reference'],[]).append(row)
     return {name:rows for name,rows in sorted(groups.items()) if len(rows)>1}
+def emission_equal_by_uuid(first,second):
+    """Exact non-fill AST and every route record; list order is not geometry."""
+    if p.immutable(first)!=p.immutable(second):raise p.Rejected('native non-fill geometry differs')
+    def records(board):
+        result={}
+        for route in p.routes(board):
+            identifiers=sx.children(route,'uuid')
+            if len(identifiers)!=1 or len(identifiers[0])!=2:raise p.Rejected('ambiguous native route UUID')
+            key=sx.unquote(identifiers[0][1])
+            if not key or key in result:raise p.Rejected('duplicate/empty native route UUID')
+            result[key]=route
+        return result
+    a,b=records(first),records(second)
+    if a!=b:raise p.Rejected('native route geometry, identity or population differs')
+    return {'comparison':'exact-native-emission-by-uuid-v1','non_fill_native_ast_equal':True,
+            'native_routes_equal_by_uuid':True,'route_count':len(a),'route_list_order_equal':p.routes(first)==p.routes(second),
+            'non_fill_native_ast_sha256':digest((sx.dump(p.immutable(first))+'\n').encode()),
+            'route_records_sha256':digest(f.canonical(a).encode()),
+            'first_route_list_sha256':digest(sx.dump(p.routes(first)).encode()),
+            'second_route_list_sha256':digest(sx.dump(p.routes(second)).encode())}
 def prefix_readback(protocol):
     """Read retained native controls; never execute them again."""
     pin=protocol['prefix'];folder=shared.owned(ROOT/pin['directory'])
@@ -115,8 +135,8 @@ def ideal_probe(job,source):
         if (sx.dump(prior.old_shell(original,sx.read(saved)))+'\n').encode()!=io.read_bytes(candidate):raise p.Rejected('shared original-shell reconstruction differs')
         reloaded=observe_final(job,'saved-context',saved);native_saved=prior.roundtrip(job,'saved-native',saved)
         candidate_context=observe_final(job,'shell-context',candidate);native_candidate=prior.roundtrip(job,'shell-native',candidate)
-        row['native_serialization_equivalence']=prior.emission_equal(native_original,native_saved)
-        row['shell_serialization_equivalence']=prior.emission_equal(native_original,native_candidate)
+        row['native_serialization_equivalence']=emission_equal_by_uuid(native_original,native_saved)
+        row['shell_serialization_equivalence']=emission_equal_by_uuid(native_original,native_candidate)
         if not prior.geometry(original_context)==prior.geometry(reloaded)==prior.geometry(candidate_context):raise p.Rejected('saved/original-shell same-load geometry or rules changed')
         if footprint_census(native_saved)!=native_census or footprint_census(native_candidate)!=native_census:raise p.Rejected('saved/original-shell native footprint census differs')
         if final!=saved_native:raise p.Rejected('saved and original-shell native findings/ignored checks differ')

@@ -974,6 +974,28 @@ def check_result(path):
         raise
 
 
+def check_resource_accounting(data, *, child_key='child_cpu_seconds'):
+    """Shared sequential receipt budgets and finite parent/child CPU algebra."""
+    def number(value):
+        if isinstance(value,bool) or not isinstance(value,(int,float)) or not math.isfinite(value) or value<0:
+            raise Rejected('invalid resource accounting')
+        return value
+    steps=data['steps']
+    wall,budget=number(data.get('wall_seconds')),number(data.get('budget_seconds'))
+    cpu_budget=number(data.get('cpu_budget_seconds'))
+    if not 5<=cpu_budget<=900 or number(data.get('total_cpu_seconds'))>cpu_budget:
+        raise Rejected('receipt exceeds its recorded CPU budget')
+    if not 5<=budget<=900 or wall>budget or sum(number(step.get('wall_seconds')) for step in steps)>wall+1e-6:
+        raise Rejected('receipt exceeds its recorded wall budget')
+    child=sum(number(step.get('cpu_seconds')) for step in steps)
+    monitor=sum(number(step.get('monitor_cpu_seconds')) for step in steps)
+    control_child=number(data.get('control_child_cpu_seconds',0))
+    if (abs(number(data.get(child_key))-child)>1e-6
+            or abs(number(data.get('monitor_cpu_seconds'))-monitor)>1e-6
+            or abs(number(data.get('total_cpu_seconds'))-(number(data.get('parent_cpu_seconds'))+child+monitor+control_child))>1e-6):
+        raise Rejected('inconsistent CPU accounting')
+
+
 def _check_result_uncached(path):
     """Check local evidence consistency; this is not authentication or fresh DRC.
 
@@ -1112,18 +1134,7 @@ def _check_result_uncached(path):
     if any(step.get('status')=='cancelled' or step.get('cleanup_complete') is not True for step in steps): raise Rejected('cancelled or incomplete process cleanup in receipt')
     check_preferences_record(path.parent,data)
 
-    def number(value):
-        if isinstance(value,bool) or not isinstance(value,(int,float)) or not math.isfinite(value) or value<0: raise Rejected('invalid resource accounting')
-        return value
-
-    wall,budget=number(data.get('wall_seconds')),number(data.get('budget_seconds'))
-    cpu_budget=number(data.get('cpu_budget_seconds'))
-    if not 5<=cpu_budget<=900 or number(data.get('total_cpu_seconds'))>cpu_budget: raise Rejected('receipt exceeds its recorded CPU budget')
-    if not 5<=budget<=900 or wall>budget or sum(number(step.get('wall_seconds')) for step in steps)>wall+1e-6: raise Rejected('receipt exceeds its recorded wall budget')
-    child=sum(number(step.get('cpu_seconds')) for step in steps)
-    monitor=sum(number(step.get('monitor_cpu_seconds')) for step in steps)
-    control_child=number(data.get('control_child_cpu_seconds',0))
-    if abs(number(data.get('child_cpu_seconds'))-child)>1e-6 or abs(number(data.get('monitor_cpu_seconds'))-monitor)>1e-6 or abs(number(data.get('total_cpu_seconds'))-(number(data.get('parent_cpu_seconds'))+child+monitor+control_child))>1e-6: raise Rejected('inconsistent CPU accounting')
+    check_resource_accounting(data)
 
     tools=data.get('tools',{})
     implementation=tools.get('implementation_sha256')

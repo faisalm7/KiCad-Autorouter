@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "git_head": "3f757c032beb4c9ff36c21e70ad2f657771da445",
+  "started_utc": "2026-10-13T13:20:02.908030+00:00",
+  "process": {
+    "status": "nonzero_exit",
+    "exit_code": 2,
+    "wall_seconds": 10.922693166998215,
+    "cpu_seconds": 7.279826,
+    "max_rss_bytes": 306135040,
+    "supervisor_cpu_seconds": 0.05892799999999998,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 304414720,
+    "sampled_peak_workdir_bytes": 13965931,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 20971520,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/kicad8_native_compat_continuation_v1/driver.py",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/kicad8-native-compat-continuation-001/run",
+      "--run-native"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/kicad8-native-compat-continuation-001/command.log",
+    "log_bytes": 88,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/kicad8-native-compat-continuation-001",
+    "signal_cancellation_enabled": true,
+    "pid": 63641
+  },
+  "wall_seconds": 11.036072250004509,
+  "full_cpu_seconds": 7.438014999999999,
+  "cumulative_wall_seconds": 25.137507459003245,
+  "cumulative_full_cpu_seconds": 16.52282,
+  "wrapper_sha256": "319633a12017dfcf14336e928f67406e336665b90774210299d7fedb4a9b30d0",
+  "log_sha256": "4149c491e74965098a8af23167907d96c84efb4758b4b0a71bc857957d8044bc",
+  "scope": "Remaining8ideal-only final-mode/nativeSave/refill observations; no priorcontrols/DSN retry. Includesoriginal001 fulloutercosts in cumulative90wall/fullCPU cap,20MiB boundedoutput. Admissionfalse; originalboards/labels/constraints unchanged."
+}

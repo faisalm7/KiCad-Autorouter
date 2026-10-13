@@ -1,0 +1,173 @@
+{
+  "schema": 1,
+  "status": "failed",
+  "error": "Rejected: native saved/reloaded non-fill geometry or routes differ",
+  "observations_complete": false,
+  "original_inputs_unchanged": null,
+  "budget_seconds": 90,
+  "cpu_budget_seconds": 90,
+  "protocol_sha256": "b414e1d3622558ee96740b2220ad882e1fefb292afbf53e54788648d3d987aaa",
+  "wall_seconds": 24.795830791998014,
+  "total_cpu_seconds": 16.151745000000002,
+  "within_budget": true,
+  "dsn_export_supported": false,
+  "routing_accepted": false,
+  "production_supported": false,
+  "format_support_qualified": false,
+  "ses_import_qualified": false,
+  "physical_electrical_validation": false,
+  "raw_summary_sha256": "b4041f1b51f90753b7e4be42659b394c7bf8709f2ead1fad21addb55ab0ab0eb",
+  "raw_case_sha256": "88e5fe2ee5bfc13781ba63934ed3dd760044356146d2622198854591adcd9616",
+  "raw_geometry_withheld": true,
+  "original_duplicate_reference_groups": 2,
+  "executed_stage_names": [
+    "original-context",
+    "original-native",
+    "refill-drc",
+    "final-drc",
+    "saved-context",
+    "saved-native",
+    "shell-context",
+    "shell-native"
+  ],
+  "native": {
+    "saved_drc": {
+      "opens": 0,
+      "blocking": 3,
+      "warnings": 0,
+      "exclusions": 0,
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "Silkscreen clearance",
+          "key": "silk_overlap"
+        },
+        {
+          "description": "Silkscreen clipped by solder mask",
+          "key": "silk_over_copper"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        },
+        {
+          "description": "Footprint not found in libraries",
+          "key": "lib_footprint_issues"
+        }
+      ]
+    },
+    "final_drc": {
+      "opens": 0,
+      "blocking": 3,
+      "warnings": 0,
+      "exclusions": 0,
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "Silkscreen clearance",
+          "key": "silk_overlap"
+        },
+        {
+          "description": "Silkscreen clipped by solder mask",
+          "key": "silk_over_copper"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        },
+        {
+          "description": "Footprint not found in libraries",
+          "key": "lib_footprint_issues"
+        }
+      ]
+    }
+  },
+  "finding_types": {
+    "saved_drc": [
+      {
+        "type": "courtyards_overlap",
+        "severity": "error",
+        "excluded": false,
+        "item_count": 2
+      },
+      {
+        "type": "courtyards_overlap",
+        "severity": "error",
+        "excluded": false,
+        "item_count": 2
+      },
+      {
+        "type": "courtyards_overlap",
+        "severity": "error",
+        "excluded": false,
+        "item_count": 2
+      }
+    ],
+    "final_drc": [
+      {
+        "type": "courtyards_overlap",
+        "severity": "error",
+        "excluded": false,
+        "item_count": 2
+      },
+      {
+        "type": "courtyards_overlap",
+        "severity": "error",
+        "excluded": false,
+        "item_count": 2
+      },
+      {
+        "type": "courtyards_overlap",
+        "severity": "error",
+        "excluded": false,
+        "item_count": 2
+      }
+    ]
+  }
+}

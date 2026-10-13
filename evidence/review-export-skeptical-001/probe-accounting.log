@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "actual_exporter_sha256": "f2fab670134f6cf3a8e29767a51b3003cf3e5bfe4db230897e6e5ca5585cbd93",
+  "draft_exporter_sha256": "f2fab670134f6cf3a8e29767a51b3003cf3e5bfe4db230897e6e5ca5585cbd93",
+  "source_stable_before_after": true,
+  "controls": [
+    {
+      "case": "negative-parent-cpu",
+      "owned_output": "tmpo6dvd8m9/export",
+      "fresh_native_processes_are_mocked": true,
+      "real_native_execution": false,
+      "control_returned_current": true,
+      "counterexample_returned_current": true,
+      "counterexample_export_accepted": true,
+      "declared_parent_cpu_seconds": -1.0,
+      "declared_total_cpu_seconds": 0.0,
+      "declared_wall_seconds": 0.02093383399915183,
+      "sum_retained_sequential_native_wall_seconds": 0.0,
+      "sum_retained_native_cpu_seconds": 0.0,
+      "candidate_sha256": "2aeeac8867ccf3e308e09a351f60def2b0a94ad2639d283d422f523a4bee487b",
+      "original_source_and_review_unchanged": true
+    },
+    {
+      "case": "wall-history",
+      "owned_output": "tmpm4fq1bxm/export",
+      "fresh_native_processes_are_mocked": true,
+      "real_native_execution": false,
+      "control_returned_current": true,
+      "counterexample_returned_current": true,
+      "counterexample_export_accepted": true,
+      "declared_parent_cpu_seconds": 0.020532999999999996,
+      "declared_total_cpu_seconds": 0.02053499999999997,
+      "declared_wall_seconds": 0.0216471659950912,
+      "sum_retained_sequential_native_wall_seconds": 3.0,
+      "sum_retained_native_cpu_seconds": 0.0,
+      "candidate_sha256": "2aeeac8867ccf3e308e09a351f60def2b0a94ad2639d283d422f523a4bee487b",
+      "original_source_and_review_unchanged": true
+    }
+  ],
+  "native_subprocess_Git_network_executed": false,
+  "scope": "Real shared exporter/finalizer/readback filesystem and process-binding paths with explicit mocked native/checker/tool seams. No native validation or actual CPU/wall performance claim; malformed metadata acceptance is the finding."
+}

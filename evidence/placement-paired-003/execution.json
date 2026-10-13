@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "git_head": "3f757c032beb4c9ff36c21e70ad2f657771da445",
+  "started_utc": "2026-10-13T13:21:53.719101+00:00",
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 300.7399650419975,
+    "cpu_seconds": 353.260488,
+    "max_rss_bytes": 973602816,
+    "supervisor_cpu_seconds": 4.6322280000000005,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 888225792,
+    "sampled_peak_workdir_bytes": 166018937,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 536870912,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/experiment_paired.py",
+      "--project",
+      "multichannel",
+      "--system",
+      "placement-standard",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-paired-003/run"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-paired-003/command.log",
+    "log_bytes": 135,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-paired-003",
+    "signal_cancellation_enabled": true,
+    "pid": 63739
+  },
+  "wall_seconds": 300.83185420899827,
+  "full_cpu_seconds": 357.98356,
+  "wrapper_sha256": "27beac56bd984c0418bbde21ff5c2549e8e8a92d4ed790dd564e41f466146438",
+  "log_sha256": "e6c9e1fcb6d9c6d796c639b25c1443678c5ff929caaff790f95048efe6f18bba",
+  "scope": "Four fresh sequential exposed-development arms B0/B1/B2portfolio/Cplacement, each120wall/fullCPU including shared charges; same original constraints. Outer512MiB polling and540s timeout; native validation required."
+}

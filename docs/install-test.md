@@ -1,10 +1,10 @@
 # Fresh-checkout installation test
 
-Current qualification: installation003 at `6c34110262795bb029dbecdcb62cb95d971faa17` passed all20 actual commands in a fresh local clone/venv,494 controls, the explicit placement fixture route and strict readback under network denial. The candidate has zero findings, one via and67.933738mm. All7,673 tracked source/clone files match; the independent217-check audit passes. See `evidence/installation-003` and `evidence/review-installation-003`. This is one clean checkout/venv on the existing Mac, not a fresh Mac installation. Use a fresh output for future qualifications; do not overwrite completed003.
+Earlier qualification: installation003 at `6c34110262795bb029dbecdcb62cb95d971faa17` passed all20 actual commands in a fresh local clone/venv,494 controls, the explicit placement fixture route and strict readback under network denial. The candidate has zero findings, one via and67.933738mm. All7,673 tracked source/clone files match; the independent217-check audit passes. See `evidence/installation-003` and `evidence/review-installation-003`. This is one clean checkout/venv on the existing Mac, not a fresh Mac installation. Use a fresh output for future qualifications; do not overwrite completed003.
 
 Historical failure: installation 001 at `e1e585f` stopped after clone/setup/doctor because the sandbox denied the old `/bin/ps` monitor. Its 19 failed controls and original logs remain in `evidence/installation-001`. The scoped libproc fix and actual installation 002 resolved that failure without disabling network denial.
 ```sh
-python3 scripts/install_smoke.py --output .runs/installation-004 --guidance placement-clearance-v1
+ .venv/bin/python -B scripts/install_smoke.py --output .runs/installation-NEW --guidance placement-clearance-v1
 ```
 
 Omitting `--guidance` preserves the legacy `native` smoke choice (120 seconds). The explicit `placement-clearance-v1` choice runs exactly one owned placement fixture with the existing fixed 20 µm planning margin, default 50/5 costs, both adapter fixes and completion-only profile (60-second native wall/CPU caps). Both choices run the full clean-venv test suite; the installer creates an empty clone `.runs` before tests. This placement invocation does not repeat the larger-board comparison, all diagnostic native controls or cancellation experiments.
@@ -51,8 +51,7 @@ CPU is measured for installation diagnosis, not capped as a routing comparison. 
 a 10-minute overall command budget, 2 MB capped command logs, 4 GiB process-group
 RSS polling and a 512 MiB scratch ceiling. Polling can overshoot; it is not an OS
 filesystem or memory quota. Nested native workers also use the pipeline's own
-bounds. The tracked source inventory additionally remains bounded to 10,000 files and
-128 MiB. A shared project experiment lock prevents overlapping cooperating
+bounds. The current tracked source inventory is bounded to16,000files and256MiB; all files are compared. Earlier bounds and their actual failures are retained below. A shared project experiment lock prevents overlapping cooperating
 harnesses; the lead keeps all other heavy workers idle. These polling and
 post-completion checks are not hard kernel resource guarantees.
 
@@ -80,3 +79,5 @@ October12 capacity follow-up: installation007 at5d4703d stopped before clone bec
 Installation008 at71440d8 progressed through the isolated clone/venv/doctor and full643-test suite, then failed solely because test_backup_capacity still expected100000files.642other tests passed; no native route ran. The expectation is corrected to the reviewed120000file ceiling, retaining scaled exact/over-limit controls. Fresh009 remains pending; failed008 stays intact.
 
 Installation009 at339e539 passed20network-denied commands and643tests from its isolated clone/venv, actual native0opens/0blocking/0warnings/0exclusions,1via/67.933738mm and current receipt readback. All7effective ignoredchecks remain (5explicit original settings plus2native defaults). Stored51.365890wall/49.224024CPU precede publication; outer58.060935/55.496116 includes it. A separate command from the same clone/venv produced four valid before/after native plots in3.237173wall/2.472345CPU. [Actual evidence](../evidence/installation-009/result.json), [independent audit](../evidence/review-installation009-preview-001/REPORT.md). Existing Mac and cached dependencies were reused; no fresh OS or package-publication claim.
+
+Current integration: source at3f757c0 has727passing root tests and new pruning/handoff safety fixes. Installation009 remains qualification of339e539, not this source. Run a fresh installation010 after the current sequential native comparisons and accepted-project integration; preserve every failed tree. Use the existing `.venv/bin/python`3.11.9 to invoke the helper, since this Mac's barepython3 currently resolves to3.9.6. Full restoration follows at the scheduled major integration/capacity-change gate.

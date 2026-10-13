@@ -61,6 +61,15 @@ Open the printed `.kicad_pro` in KiCad project manager, then Tools → PCB Edito
 
 These choices record intent only. Neither choice applies a board or records native, human PCB, electrical or manufacturing approval. Rejection preserves the original, review copy and evidence. Accept intent requires the exact review board to match the validated candidate; an edited board fails. KiCad may change project/local settings even after Discard Changes. Those actual changes are recorded as unvalidated and never replace original rules. Source, candidate, receipt, complete routing evidence and bound preview must still match; stale material or cancellation invalidates the choice record.
 
-A successful accept-intent record explicitly requires fresh native validation before any separate accepted-project export. That exporter remains unfinished. It must start from the bound original candidate and unchanged complete original project/rules, preserve original geometry/protected routing and guidance constraints, refill/reload, and bind the actual final DRC to the exported final SHA. It must not copy changed GUI rules into the accepted design. An edited GUI board is a new unvalidated design.
+A successful accept-intent record explicitly requires fresh native validation before any separate accepted-project export. The exporter is implemented with native qualification pending. It starts from the bound original candidate and unchanged complete original project/rules, preserve original geometry/protected routing and guidance constraints, refill/reload, and bind the actual final DRC to the exported final SHA. It does not copy changed GUI rules into the accepted design. An edited GUI board is a new unvalidated design.
 
 The command retains the existing 30-second wall/full CPU and finite inventory limits. It starts no engine, native worker, editor or service. Successful exit means only that the intent record was written and read back; rejection intent is also a successful recorded choice. `choice.json` always has `routing_accepted=false`, `applied=false`, `native_validation_performed=false` and `human_pcb_approval_observed=false`.
+
+`review-export` runs fresh native refill/final DRC and route metrics against the bound original project/rules, then writes a new separate project. The intended sequence after accept intent is:
+
+```sh
+.venv/bin/python -B -m autorouter review-export .runs/new-accept-intent/choice.json --seconds 120 --output .runs/new-export
+.venv/bin/python -B -m autorouter review-export-check .runs/new-export/export.json
+```
+
+This implementation still needs actual native qualification before being described as a usable release workflow. Export has its own30–120second wall/fullCPU allowance and up to256MiB/12,000files; its compute is additional to original routing and must be charged for every method in any full-workflow comparison. The printed `.kicad_pro` points to a separate validated project, never the original. `export.json` binds the actual final candidate/report hashes and visible warnings/ignored checks. Export acceptance does not apply anything to an editor or record human/electrical approval. `review-export-check` checks saved consistency and invokes no fresh native validation. Keep both original routing and export evidence. Cancel with Ctrl-C; interrupted outputs are retained and rejected.
