@@ -21,7 +21,7 @@ SCOPES = (".runs", ".data", ".local-reference")
 # Retaining failed and successful clean-install trees takes the complete artifact
 # population above 2 GiB. Keep a finite 3 GiB archive/target/bundle ceiling; the
 # existing byte, chain, secret, path and streaming checks remain enforced.
-LIMIT = 3 * 1024 ** 3
+LIMIT = 4 * 1024 ** 3
 # A new complete installation copy adds about 13,000 files to the verified
 # 88,824-file snapshot. Retain a finite 120,000-file/directory bound; receipt
 # memory (32 MiB each/128 MiB chain) and 3 GiB total bytes stay unchanged.

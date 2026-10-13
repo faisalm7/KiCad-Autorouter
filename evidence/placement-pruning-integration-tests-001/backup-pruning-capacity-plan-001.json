@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "previous_full_inventory_bytes": 3151968106,
+  "previous_full_files": 115829,
+  "planned_native_control_cap_bytes": 67108864,
+  "planned_comparison_arm_caps_bytes": {
+    "B0": 536870912,
+    "B1": 104857600,
+    "B2": 314572800,
+    "C": 536870912
+  },
+  "selected_backup_limit_bytes": 4294967296,
+  "file_limit_unchanged": 120000,
+  "receipt_limit_unchanged_bytes": 33554432,
+  "scope": "Finite byte-cap increase using existing backup; no archive deletion, scope change or redesign. Full restoration due at actual integration. Larger aggregate worst-case requires capacity admission before extending work; normal measured batches checked incrementally.",
+  "required_outer_comparison_cap_bytes": 536870912,
+  "planned_aggregate_additional_caps_bytes": 603979776,
+  "reason": "Whole comparison uses shared outer512MiB polling rather than sum of internal arm ceilings; planned aggregate3.15GB+576MiB fits4GiB. Polling overshoot remains visible."
+}

@@ -41,7 +41,7 @@ FEEDBACK_ARMS = (*ARMS[:3],
     {**ARMS[3], "id": "C_feedback", "proposal_policy": "feedback"},
 )
 SCRIPT = Path(__file__).resolve()
-PROJECTS = {"sonde": "kicad-sonde-xilinx", "interf_u": "kicad-interf-u"}
+PROJECTS = {"sonde": "kicad-sonde-xilinx", "interf_u": "kicad-interf-u", "multichannel": "kicad-multichannel"}
 SUPPORT = (SCRIPT, c.ROOT / "toolchain.lock.json", c.ROOT / "data/sources.json")
 
 
@@ -54,9 +54,14 @@ def total_process_cpu():
 def selected_source(name):
     manifest = json.loads((c.ROOT / "data/sources.json").read_text())
     project = next(row for row in manifest["projects"] if row["project_id"] == PROJECTS[name])
-    if project["split"] != "development" or len(project["boards"]) != 1:
+    entries=project["boards"]
+    if name=="multichannel":
+        if {Path(x["board"]).name for x in entries}!={"multichannel_mixer.kicad_pcb","multichannel_mixer-unrouted.kicad_pcb"}:
+            raise p.Rejected("multichannel source population differs")
+        entries=[x for x in entries if Path(x["board"]).name=="multichannel_mixer.kicad_pcb"]
+    if project["split"] != "development" or len(entries) != 1:
         raise p.Rejected("only the predeclared single-board development projects are supported")
-    entry = project["boards"][0]
+    entry = entries[0]
     if entry["same_basename_project"] is not True:
         raise p.Rejected("native project binding is required")
     base = (c.ROOT / ".data" / project["destination"]).resolve()
@@ -143,10 +148,26 @@ def summarize(arm, directory, result, invocation_wall, invocation_cpu):
                 and incumbent.get("accepted") is True)
         except (OSError, ValueError):
             row["protocol_contract_verified"] = False
+    if arm["operation"] == "placement_prune":
+        from autorouter import placement_strategy as ps,floor_route as f
+        try:
+            incumbent_path=directory/'incumbent/result.json';incumbent=f.read_json(incumbent_path)
+            row['protocol_contract_verified']=row['protocol_contract_verified'] and (
+                arm.get('input_policy')==ps.POLICY and arm.get('strategy')==ps.STRATEGY
+                and result.get('proposal_policy')=='feedback' and ps.recognize(result,directory)
+                and incumbent.get('schema')==4 and incumbent.get('input_policy')=='placement-search-v1'
+                and incumbent.get('accepted') is True and incumbent.get('engine_profile')=='tuned'
+                and incumbent.get('scoring_variant')=='via_default'
+                and result.get('incumbent_receipt_sha256')==p.sha(incumbent_path))
+        except (OSError,ValueError,p.Rejected):row['protocol_contract_verified']=False
     row["receipt_verified"] = False
     if row["accepted_in_receipt"]:
         try:
-            p.check_result(directory / "result.json")
+            from autorouter.floor_route import read_json,canonical
+            receipt=directory/'result.json'
+            if canonical(read_json(receipt))!=canonical(result):raise p.Rejected('returned result differs from retained receipt')
+            p.check_result(receipt)
+            if p.sha(receipt)!=row['result_sha256'] or canonical(read_json(receipt))!=canonical(result):raise p.Rejected('receipt changed during summary readback')
             row["receipt_verified"] = True
         except Exception as exc:
             row["receipt_verification_error"] = type(exc).__name__ + ": " + str(exc)
@@ -156,6 +177,18 @@ def summarize(arm, directory, result, invocation_wall, invocation_cpu):
 
 def observations(directory, result, row):
     observed = []
+    if row['operation']=='placement_prune':
+        for item in [result.get('incumbent_observation'),*result.get('trials',[])]:
+            if not item:continue
+            wall,cpu=item.get('elapsed_seconds'),item.get('observed_full_cpu_seconds')
+            observed.append({'kind':'validated_incumbent' if 'index' not in item else 'pruning_trial',
+                'trial':item.get('index'),'elapsed_seconds':wall,'observed_cpu_seconds':cpu,'status':item.get('status'),
+                'native_accepted':item.get('completed') is True and item.get('accepted') is True,
+                'metrics':item.get('metrics'),'candidate_sha256':item.get('candidate_sha256'),
+                'within_budgets_when_observed':all(finite_nonnegative(value) and value<=BUDGET for value in (wall,cpu)),
+                'final_delivery_accepted':row['accepted'],
+                'meaning':'charged native observation; final budget, freshness and native delivery remain authoritative'})
+        return observed
     if row["operation"] == "prune":
         for relative in result.get("checkpoints", []):
             path = directory / relative

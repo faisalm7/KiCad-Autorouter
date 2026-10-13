@@ -1,0 +1,59 @@
+{
+  "scope": "Isolate deterministic proposal replay with real failed trial files; native predicates are mocked.\nNo native process or whole accepted receipt is claimed. This checks provenance,\nnot whether any altered schedule produces an invalid final board.\n",
+  "snapshot_sha256": "5c313c1ce9e7b06f0db3e017150f047d77c317527b29b38916a090fb010e06c1",
+  "results": [
+    {
+      "variant": "whole_then_longest",
+      "lineage_checker_passes": true,
+      "error": null,
+      "proposal_kinds": [
+        "whole_zone_net",
+        "individual_segment"
+      ],
+      "route_ids": [
+        [
+          "2638ca2e35481dbbe4b2a0c128abbb04e8d14ecba56c5c739f962b16cbc7a96e",
+          "bfd3fc4d4a4ae16199252a9ee934dd7136b7d4e16d782f432c9d4926236ea447"
+        ],
+        [
+          "bfd3fc4d4a4ae16199252a9ee934dd7136b7d4e16d782f432c9d4926236ea447"
+        ]
+      ]
+    },
+    {
+      "variant": "individual_before_whole",
+      "lineage_checker_passes": false,
+      "error": "Rejected: pruning proposal order differs from candidate-only policy",
+      "proposal_kinds": [
+        "individual_segment",
+        "whole_zone_net"
+      ],
+      "route_ids": [
+        [
+          "bfd3fc4d4a4ae16199252a9ee934dd7136b7d4e16d782f432c9d4926236ea447"
+        ],
+        [
+          "2638ca2e35481dbbe4b2a0c128abbb04e8d14ecba56c5c739f962b16cbc7a96e",
+          "bfd3fc4d4a4ae16199252a9ee934dd7136b7d4e16d782f432c9d4926236ea447"
+        ]
+      ]
+    },
+    {
+      "variant": "duplicate_base_attempt",
+      "lineage_checker_passes": false,
+      "error": "Rejected: pruning proposal order differs from candidate-only policy",
+      "proposal_kinds": [
+        "individual_segment",
+        "individual_segment"
+      ],
+      "route_ids": [
+        [
+          "bfd3fc4d4a4ae16199252a9ee934dd7136b7d4e16d782f432c9d4926236ea447"
+        ],
+        [
+          "bfd3fc4d4a4ae16199252a9ee934dd7136b7d4e16d782f432c9d4926236ea447"
+        ]
+      ]
+    }
+  ]
+}

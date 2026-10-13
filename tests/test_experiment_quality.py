@@ -12,7 +12,7 @@ e=importlib.util.module_from_spec(spec);spec.loader.exec_module(e)
 
 class ProtocolControls(unittest.TestCase):
  def test_wrong_or_missing_policy_refuses_otherwise_valid_receipt(self):
-  with tempfile.TemporaryDirectory() as tmp:
+  with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parents[1]/".cache") as tmp:
    out=Path(tmp);(out/'incumbent').mkdir()
    incumbent={'adapter':'both','engine_profile':'tuned','scope':'whole_board_unlocked_routing','accepted':True}
    (out/'incumbent/result.json').write_text(json.dumps(incumbent))
@@ -21,9 +21,35 @@ class ProtocolControls(unittest.TestCase):
    for policy,expected in [(None,False),('single',False),('feedback',True)]:
     with self.subTest(policy=policy),patch.object(e.p,'check_result',return_value={'current':True}):
      result['proposal_policy']=policy
+     (out/'result.json').write_text(json.dumps(result))
      row=e.summarize(arm,out,result,1,1)
      self.assertEqual(row['accepted'],expected)
      self.assertEqual(row['protocol_contract_verified'],expected)
+ def test_placement_pruning_summary_uses_explicit_new_contract(self):
+  from autorouter import placement_strategy as ps
+  with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parents[1]/'.cache') as tmp:
+   out=Path(tmp);(out/'incumbent').mkdir();marker=out/'pruning-contract.json';e.p.save_json(marker,ps.contract())
+   inc={'schema':4,'input_policy':'placement-search-v1','adapter':'both','engine_profile':'tuned','scoring_variant':'via_default','scope':'whole_board_unlocked_routing','accepted':True}
+   e.p.save_json(out/'incumbent/result.json',inc)
+   result={'schema':5,'input_policy':ps.POLICY,'strategy':ps.STRATEGY,'baseline':'C-prototype','adapter':'both','engine_profile':'tuned','scoring_variant':'via_default',
+    'scope':'whole_board_unlocked_routing','proposal_policy':'feedback','accepted':True,'status':'routing_accepted','wall_seconds':1.,'total_cpu_seconds':1.,
+    'incumbent_receipt_sha256':e.p.sha(out/'incumbent/result.json'),'pruning_contract':{'file':marker.name,'sha256':e.p.sha(marker)}}
+   arm={'id':'C_feedback','adapter':'both','engine_profile':'tuned','operation':'placement_prune','input_policy':ps.POLICY,'strategy':ps.STRATEGY}
+   e.p.save_json(out/'result.json',result)
+   with patch.object(e.p,'check_result',return_value={'current':True}):
+    row=e.summarize(arm,out,result,1.,1.);self.assertTrue(row['accepted'])
+    changed=copy.deepcopy(result);changed['incumbent_receipt_sha256']='wrong';e.p.save_json(out/'result.json',changed)
+    self.assertFalse(e.summarize(arm,out,changed,1.,1.)['accepted'])
+ def test_returned_result_and_readback_must_bind_same_receipt(self):
+  with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parents[1]/'.cache') as tmp:
+   out=Path(tmp);result={'adapter':'both','engine_profile':'standard','scope':'whole_board_unlocked_routing','accepted':True,'status':'routing_accepted','wall_seconds':1,'total_cpu_seconds':1}
+   arm={'id':'B1','adapter':'both','engine_profile':'standard','operation':'route'}
+   e.p.save_json(out/'result.json',dict(result,total_cpu_seconds=2))
+   with patch.object(e.p,'check_result',return_value={'current':True}) as call:
+    row=e.summarize(arm,out,result,1,1);self.assertFalse(row['accepted']);call.assert_not_called()
+   e.p.save_json(out/'result.json',result)
+   def late(_):e.p.save_json(out/'result.json',dict(result,total_cpu_seconds=2))
+   with patch.object(e.p,'check_result',side_effect=late):self.assertFalse(e.summarize(arm,out,result,1,1)['accepted'])
  def test_no_comparison_uses_rejected_candidate_length(self):
   rows=[{'id':name,'accepted':False,'length_mm':0} for name in ('B1','B2','C_single','C_feedback')]
   result=e.comparisons(rows)

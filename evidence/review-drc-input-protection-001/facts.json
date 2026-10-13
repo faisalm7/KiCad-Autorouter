@@ -1,0 +1,395 @@
+{
+  "schema": 1,
+  "audit_passed": true,
+  "no_new_native_execution": true,
+  "stored_head": "13d8db4d10cccaca715151184ecbaf16eb55d02f",
+  "summary_sha256": "8388c3788f883c1cd1d6e20d55c99da097f6518de181dc8f697b8d8380c04da3",
+  "outer_execution_sha256": "c1ea75a7e98e8b8c4fb74e36386a4d7568b3d184afb35ad444db029ed6a4cef9",
+  "wrapper_sha256": "2e1c361e377113510259d2914a0cf55142aa6bb48cd9da56a0cfaeeef22d8c75",
+  "protocol_sha256": "919320a0ba4aee1f795a5ef7d167f0d017b5c9bc7eb09e765f7637b57fc74ed2",
+  "run_inventory": {
+    "file_count": 140,
+    "bytes": 3260607,
+    "sha256": "7b3323b0c9b6291a2ca4b60bcef3fc989195259a075ffff05dc5853bf1477e78"
+  },
+  "original_inventory_counts": {
+    ".runs/default-tuning-native-001": 136,
+    "evidence/placement-area-native-001/allowed_placement/candidate": 10,
+    ".runs/native-drc-failure-evidence-control-001/legacy-prl-input": 11,
+    ".runs/paw3395-native-diagnostic-001": 72,
+    ".data/expansion005/paw3395": 14,
+    ".runs/licensed-acquisition-005-run-001": 15
+  },
+  "original_and_run_unchanged": true,
+  "captured_code_inventory_exact": true,
+  "used_shared_function_asts_exact": true,
+  "current_runtime_file_differences": [
+    "autorouter/pipeline.py"
+  ],
+  "recorded_tool_files_still_exact": true,
+  "cases": [
+    {
+      "case": "canary",
+      "process_sha256": "7240fcddc7d4caa171e1d27559025dd3a751ad431b66ad3002b509daa8d4d3de",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "report_sha256": "41e991ba55b1ceed06f65e13a434191035b41e5f7ebf29e5b108693d156b5130",
+      "exit_code": 0,
+      "wall_seconds": 0.07010295800864697,
+      "cpu_seconds": 0.03128,
+      "cleanup_complete": true,
+      "actual_argv": [
+        "/usr/bin/sandbox-exec",
+        "-D",
+        "INPUT=/Users/faisal/Projects/KiCad-Autorouter-local/.runs/drc-input-protection-001/canary/canary-input",
+        "-p",
+        "(version 1)(allow default)(deny network*)(deny file-write* (literal (param \"INPUT\")) (subpath (param \"INPUT\")))",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/drc_input_protection_v1/canary.py",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/drc-input-protection-001/canary/canary-input",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/drc-input-protection-001/canary/canary.json"
+      ],
+      "attempts": [
+        {
+          "name": "overwrite",
+          "denied": true,
+          "errno": 1
+        },
+        {
+          "name": "append",
+          "denied": true,
+          "errno": 1
+        },
+        {
+          "name": "truncate",
+          "denied": true,
+          "errno": 1
+        },
+        {
+          "name": "create",
+          "denied": true,
+          "errno": 1
+        },
+        {
+          "name": "mkdir",
+          "denied": true,
+          "errno": 1
+        },
+        {
+          "name": "unlink",
+          "denied": true,
+          "errno": 1
+        },
+        {
+          "name": "rename",
+          "denied": true,
+          "errno": 1
+        },
+        {
+          "name": "replace",
+          "denied": true,
+          "errno": 1
+        },
+        {
+          "name": "chmod",
+          "denied": true,
+          "errno": 1
+        },
+        {
+          "name": "rename_root",
+          "denied": true,
+          "errno": 1
+        }
+      ],
+      "outside_write_succeeded": true
+    },
+    {
+      "case": "positive",
+      "process_sha256": "e1dc11da19cf702ed6ae5bf5af957245e90e2e358b2b85a9b12fd86c7762b4e6",
+      "log_sha256": "931e123d40d83aa507e2d4a92161d146836709ce11d5383a7cb4e2250a332eed",
+      "report_sha256": "6a0efefc128811cd4edcc3b48aba009de22a2668f7fd6c64e22f7ae3a7e81ae2",
+      "exit_code": 0,
+      "wall_seconds": 1.1906157909834292,
+      "cpu_seconds": 0.465354,
+      "cleanup_complete": true,
+      "actual_argv": [
+        "/usr/bin/sandbox-exec",
+        "-D",
+        "INPUT=/Users/faisal/Projects/KiCad-Autorouter-local/.runs/drc-input-protection-001/positive/drc-input",
+        "-p",
+        "(version 1)(allow default)(deny network*)(deny file-write* (literal (param \"INPUT\")) (subpath (param \"INPUT\")))",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/drc-input-protection-001/positive/drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/drc-input-protection-001/positive/drc-input/fixture.kicad_pcb"
+      ],
+      "native_counts": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0
+      },
+      "finding_types": {},
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ],
+      "explicit_ignored": [
+        "footprint_filters_mismatch",
+        "footprint_type_mismatch",
+        "missing_courtyard",
+        "npth_inside_courtyard",
+        "pth_inside_courtyard"
+      ],
+      "prl_sha256": "f5a290eeefb3583de916429190cd85bb88081b8bb40444139364df8e8bfdb49d",
+      "original_project_files": 11,
+      "binding_sha256": "c14a4f3773f7b9c029cbf71d6ec2957f33ed93a069d6a959f81f3c9110d9965b",
+      "target_witness": {
+        "clean_native_control": true
+      }
+    },
+    {
+      "case": "missing_via",
+      "process_sha256": "1b8c02129908c3ddc49884dd147fe4932d7abf307a0d78565d7bd87d0b4e0178",
+      "log_sha256": "6e4de092cad0cc5de6fdc2d3ccd705d2831b42fe17e96d482c32bf9fec900af0",
+      "report_sha256": "b616f466f5f0876bae888ac9f6aa5b8d443e70f0fae3d8ca9c02d3572661cfad",
+      "exit_code": 5,
+      "wall_seconds": 0.719598291994771,
+      "cpu_seconds": 0.399415,
+      "cleanup_complete": true,
+      "actual_argv": [
+        "/usr/bin/sandbox-exec",
+        "-D",
+        "INPUT=/Users/faisal/Projects/KiCad-Autorouter-local/.runs/drc-input-protection-001/missing_via/drc-input",
+        "-p",
+        "(version 1)(allow default)(deny network*)(deny file-write* (literal (param \"INPUT\")) (subpath (param \"INPUT\")))",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/drc-input-protection-001/missing_via/drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/drc-input-protection-001/missing_via/drc-input/fixture.kicad_pcb"
+      ],
+      "native_counts": {
+        "opens": 1,
+        "blocking": 0,
+        "warnings": 2,
+        "exclusions": 0
+      },
+      "finding_types": {
+        "track_dangling:warning": 2,
+        "unconnected_items:error": 1
+      },
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ],
+      "explicit_ignored": [
+        "footprint_filters_mismatch",
+        "footprint_type_mismatch",
+        "missing_courtyard",
+        "npth_inside_courtyard",
+        "pth_inside_courtyard"
+      ],
+      "prl_sha256": "f5a290eeefb3583de916429190cd85bb88081b8bb40444139364df8e8bfdb49d",
+      "original_project_files": 11,
+      "binding_sha256": "52f6d1ecdb516a9d83b421a01ee4ca874eabefa99cace4207d7397b55ed70c58",
+      "target_witness": {
+        "target_uuids": [
+          "91c6777a-91e9-49aa-bccc-465e81fabbbe",
+          "e0e96db1-7033-4eaa-a505-eb55f5730467"
+        ],
+        "raw_target_opens": [
+          {
+            "description": "Missing connection between items",
+            "items": [
+              {
+                "description": "Track [SIGNAL_A] on B.Cu, length 0.8383 mm",
+                "pos": {
+                  "x": 41.65,
+                  "y": 13.1217
+                },
+                "uuid": "e0e96db1-7033-4eaa-a505-eb55f5730467"
+              },
+              {
+                "description": "Track [SIGNAL_A] on F.Cu, length 26.2183 mm",
+                "pos": {
+                  "x": 41.65,
+                  "y": 13.96
+                },
+                "uuid": "91c6777a-91e9-49aa-bccc-465e81fabbbe"
+              }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+          }
+        ]
+      }
+    },
+    {
+      "case": "paw3395",
+      "process_sha256": "ef0389ba8cdb576555383410757e6124ce3063d75885731b7ca63b405593e502",
+      "log_sha256": "05c7321cec5cd240c770308ad3f7db22c3f9767e69ab2686624734ce614b4a78",
+      "report_sha256": "e3021c6163239a570217e3e14f40f86bf3a699bf0285a67c549ee80fd7d297ae",
+      "exit_code": 5,
+      "wall_seconds": 1.1909452079853509,
+      "cpu_seconds": 0.630264,
+      "cleanup_complete": true,
+      "actual_argv": [
+        "/usr/bin/sandbox-exec",
+        "-D",
+        "INPUT=/Users/faisal/Projects/KiCad-Autorouter-local/.runs/drc-input-protection-001/paw3395/drc-input",
+        "-p",
+        "(version 1)(allow default)(deny network*)(deny file-write* (literal (param \"INPUT\")) (subpath (param \"INPUT\")))",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/drc-input-protection-001/paw3395/drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/drc-input-protection-001/paw3395/drc-input/paw3395.kicad_pcb"
+      ],
+      "native_counts": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 17,
+        "exclusions": 0
+      },
+      "finding_types": {
+        "lib_footprint_issues:warning": 17
+      },
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "Text height out of range",
+          "key": "text_height"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        },
+        {
+          "description": "Footprint doesn't match copy in library",
+          "key": "lib_footprint_mismatch"
+        }
+      ],
+      "explicit_ignored": [
+        "lib_footprint_mismatch",
+        "missing_courtyard",
+        "npth_inside_courtyard",
+        "pth_inside_courtyard",
+        "text_height"
+      ],
+      "prl_sha256": "59ef02a971d7d463743b8d497c0f10b6a9546f5c687f68f6eb464204bbd3a486",
+      "original_project_files": 14,
+      "binding_sha256": "a1d53a2a439c7df1838c923135d2e8e92792be09fad458f20ebe801f17c670f3",
+      "target_witness": {
+        "retained_raw_report_equivalent": true,
+        "new_protection_hypothesis_only": true
+      }
+    }
+  ],
+  "costs": {
+    "stored_wall_seconds": 5.310857792006573,
+    "stored_full_cpu_seconds": 3.171531,
+    "outer_wall_seconds": 5.565150167007232,
+    "outer_waited_cpu_seconds": 3.3840209999999997,
+    "stored_accounting_point": "Stored totals precede last publication checks; observed wall/parent+waited-child CPU caps include final checks, not hard atomic quotas."
+  },
+  "old_paw001": {
+    "status": "failed",
+    "observations_complete": false,
+    "error": "Rejected: native DRC modified input or rules: paw3395.kicad_prl",
+    "summary_sha256": "b0884703ac845ea99938f7fd13c3eeaa5b685d80c580b3c9a61cf6d53555e4bc"
+  },
+  "scope": "Observed protected-input diagnostic only; no production, legacy format/severity, library closure, save/import or routing qualification. Finite hash/readback samples; no claim of atomic authentication."
+}

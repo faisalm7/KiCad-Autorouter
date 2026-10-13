@@ -23,7 +23,7 @@ import sys
 import time
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from autorouter import config as c, pipeline as p
+from autorouter import config as c, pipeline as p, floor_route as f, placement_strategy as ps
 from autorouter.strategy import prune
 from autorouter.recovery import recover
 from scripts import experiment_portfolio as portfolio, experiment_quality as q
@@ -110,10 +110,10 @@ def comparisons(rows):
     by_id = {row['id']: row for row in rows}
     baseline = by_id.get('B2_portfolio')
     system = by_id.get('C_feedback') or by_id.get('C_thermal')
-    if not baseline or not system or not baseline['accepted'] or not system['accepted']:
+    if not system or not system['accepted']:
         return []
     result = []
-    for row in baseline['trials']:
+    for row in (baseline['trials'] if baseline and baseline['accepted'] else []):
         if row['id'] not in baseline['pareto_frontier']:
             continue
         length_delta = system['length_mm'] - row['length_mm']
@@ -123,6 +123,12 @@ def comparisons(rows):
             'length_delta_mm': length_delta, 'via_delta': via_delta,
             'C_dominates_with_1e_6mm_tolerance': length_delta <= 1e-6 and via_delta <= 0 and (length_delta < -1e-6 or via_delta < 0),
             'baseline_dominates_with_1e_6mm_tolerance': length_delta >= -1e-6 and via_delta >= 0 and (length_delta > 1e-6 or via_delta > 0)})
+    for name in ('B0','B1'):
+        row=by_id.get(name)
+        if row and row['accepted']:
+            length_delta=system['length_mm']-row['length_mm'];via_delta=system['vias']-row['vias']
+            result.append({'baseline':name,'system':system['id'],'length_delta_mm':length_delta,'via_delta':via_delta,
+                'pareto_improvement':length_delta<=1e-9 and via_delta<=0 and (length_delta< -1e-9 or via_delta<0)})
     return result
 
 
@@ -176,9 +182,10 @@ def verify_thermal_incumbent(directory, result, board, frozen):
 
 
 def experiment(out, project_name='sonde', system='feedback'):
-    if system not in {'feedback','thermal'}:
+    if system not in {'feedback','thermal','placement'}:
         raise p.Rejected('unknown paired system')
-    c_arm = C_ARM if system=='feedback' else THERMAL_ARM
+    c_arm = ({**C_ARM,'operation':'placement_prune','input_policy':ps.POLICY,'strategy':ps.STRATEGY} if system=='placement' else C_ARM if system=='feedback' else THERMAL_ARM)
+    if system=='placement' and project_name!='multichannel':raise p.Rejected('placement comparison currently frozen for multichannel')
     batch_started, batch_cpu = time.monotonic(), q.total_process_cpu()
     out = Path(out).resolve()
     if c.ROOT/'.runs' not in out.parents:
@@ -187,6 +194,11 @@ def experiment(out, project_name='sonde', system='feedback'):
     summary = {'schema': 1, 'kind': 'paired_development_comparison', 'status': 'incomplete',
         'started_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(),
         'results': [], 'comparisons': [], 'claims_limit': 'one exposed family; no population, novelty, human-review, or electrical-adequacy claim'}
+    completed_arms={}
+    def stable_arms():
+        if system=='placement':
+            for folder,expected in completed_arms.items():
+                if ps.pc.inventory(folder,max_bytes=ps.LIMIT,max_files=ps.MAX_FILES,max_entries=ps.MAX_FILES*2)!=expected:raise p.Rejected('completed comparison arm changed')
     try:
         if BUDGET != q.BUDGET or BUDGET != portfolio.BUDGET:
             raise p.Rejected('imported arm budgets differ')
@@ -205,15 +217,22 @@ def experiment(out, project_name='sonde', system='feedback'):
             if p.sha(target) != digest:
                 raise p.Rejected('code changed while preserving paired freeze')
         protocol = {'schema': 1, 'freeze': frozen, 'family': family, 'source': str(board),
-            'arm_order': ['B2_portfolio', c_arm['id']], 'wall_budget_per_arm_seconds': BUDGET,
+            'arm_order': (['B0','B1','B2_portfolio',c_arm['id']] if system=='placement' else ['B2_portfolio', c_arm['id']]), 'wall_budget_per_arm_seconds': BUDGET,
             'cpu_budget_per_arm_seconds': BUDGET, 'cpu_enforcement': 'measured acceptance cap, not OS preemption',
             'baseline': 'fixed three search-cost variants, same adapter and native constraints; full frontier retained',
-            'system': ('single tuned default-cost incumbent plus feedback pruning' if system=='feedback' else 'fresh completion-only default-cost incumbent, fresh native geometry and bounded thermal bridge recovery')+'; no free use of the portfolio winner',
+            'system': ('single tuned default-cost incumbent plus feedback pruning' if system in {'feedback','placement'} else 'fresh completion-only default-cost incumbent, fresh native geometry and bounded thermal bridge recovery')+'; no free use of the portfolio winner',
             'system_contract': c_arm,
             'accounting': 'each raw enclosing arm includes pre/post freeze verification, invocation, failed attempts, receipt checks, and arm-index emission; the entire shared initial freeze/copy/paired-summary overhead is then conservatively charged to EACH arm, with caps rechecked after final publication',
             'fairness_limit': 'equal total budgets and constraints, different predeclared allocation policies; C is not initialized by the portfolio',
             'editor_policy': 'operator closes PCB Editor and keeps other native/engine jobs idle',
             'claims_limit': summary['claims_limit']}
+        if system=='placement':
+            protocol.update(guidance_policy='placement-search-v1',system_contract={**c_arm,'strategy':ps.STRATEGY},
+                allocation_formula='120 - max(shared setup wall, shared setup CPU) - 5; same frozen inner allowance for all four arms',
+                wrapper_reserve_seconds=5,baseline_order=['B0stock','B1standard','B2tuned-default-low-high','Cfresh-tuned-default-feedback'])
+            protocol['inner_allowance_seconds']=BUDGET-max(time.monotonic()-batch_started,q.total_process_cpu()-batch_cpu)-5
+            if protocol['inner_allowance_seconds']<60:raise p.Rejected('shared setup leaves insufficient equal inner allowance')
+        assigned=protocol.get('inner_allowance_seconds',BUDGET)
         p.save_json(out/'protocol.json', protocol)
         summary['protocol_sha256'] = p.sha(out/'protocol.json')
         for arm_id in protocol['arm_order']:
@@ -222,16 +241,33 @@ def experiment(out, project_name='sonde', system='feedback'):
                 'started_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(),
                 'host_load_average_1_5_15_minutes_begin': list(os.getloadavg())}
             summary['results'].append(row)
+            material=None;directory=out/arm_id
             try:
                 q.verify_freeze(frozen, board)
-                directory = out/arm_id
+                stable_arms()
                 if arm_id == 'B2_portfolio':
-                    result = portfolio.experiment(directory, project_name)
+                    result = (portfolio.experiment(directory, project_name,guidance_policy='placement-search-v1',budget=assigned)
+                              if system=='placement' else portfolio.experiment(directory, project_name))
+                    if system=='placement':material=ps.pc.inventory(directory,max_bytes=ps.LIMIT,max_files=ps.MAX_FILES,max_entries=ps.MAX_FILES*2)
                     row.update(verify_portfolio(directory, result, board, frozen))
+                    if system=='placement':
+                        if result.get('guidance_policy')!='placement-search-v1' or result.get('wall_budget_seconds')!=assigned or result.get('cpu_budget_seconds')!=assigned:raise p.Rejected('placement portfolio allocation differs')
+                        if any(x.get('guidance_policy')!='placement-search-v1' for x in result['trials']):raise p.Rejected('mixed placement portfolio trials')
                 else:
-                    result = (prune(board, directory, BUDGET, proposal_policy='feedback')
-                              if system=='feedback' else recover(board, directory, BUDGET))
-                    row.update(q.summarize(c_arm, directory, result,
+                    selected_arm=c_arm
+                    if system=='placement':
+                        if arm_id=='B0':
+                            selected_arm={'id':'B0','adapter':'none','engine_profile':'standard','operation':'route'}
+                            result=p.route(board,directory,assigned,False,'none','standard')
+                        elif arm_id=='B1':
+                            selected_arm={'id':'B1','adapter':'both','engine_profile':'standard','operation':'route'}
+                            result=f.route(board,directory,assigned,False,'both','standard','via_default',guidance_policy='placement-search-v1')
+                        else:result=ps.prune(board,directory,assigned)
+                    else:
+                        result = (prune(board, directory, BUDGET, proposal_policy='feedback')
+                                  if system=='feedback' else recover(board, directory, BUDGET))
+                    if system=='placement':material=ps.pc.inventory(directory,max_bytes=ps.LIMIT,max_files=ps.MAX_FILES,max_entries=ps.MAX_FILES*2)
+                    row.update(q.summarize(selected_arm, directory, result,
                         time.monotonic()-started, q.total_process_cpu()-cpu_started))
                     if system=='thermal' and result.get('strategy')!=THERMAL_ARM['strategy']:
                         raise p.Rejected('thermal strategy contract mismatch')
@@ -267,7 +303,11 @@ def experiment(out, project_name='sonde', system='feedback'):
                     row.update(accepted=False, within_enclosing_budgets=False,
                         invocation_wall_seconds=wall, invocation_cpu_seconds=cpu)
                     publish(out/(arm_id+'-invocation.json'), row)
-        q.verify_freeze(frozen, board)
+            if system=='placement' and directory.is_dir():
+                current=ps.pc.inventory(directory,max_bytes=ps.LIMIT,max_files=ps.MAX_FILES,max_entries=ps.MAX_FILES*2)
+                if material is not None and current!=material:raise p.Rejected('current comparison arm changed during readback/publication')
+                completed_arms[directory]=current if material is None else material
+        q.verify_freeze(frozen, board);stable_arms()
         summary.update(status='completed', comparisons=comparisons(summary['results']))
     except KeyboardInterrupt:
         summary.update(status='cancelled', comparisons=[])
@@ -297,8 +337,10 @@ def experiment(out, project_name='sonde', system='feedback'):
     summary['shared_charge_policy'] = 'entire measured shared overhead charged to EACH arm; raw invocation measurements retained separately'
     summary['accounting_point'] = 'sample before final summary write; full charged caps rechecked after publication; any over-cap correction is rejected and may finish outside cap'
     try:
+        if system=='placement':q.verify_freeze(frozen,board);stable_arms()
         account_shared()
         publish(out/'paired-summary.json', summary)
+        if system=='placement':q.verify_freeze(frozen,board);stable_arms()
         published_eligibility = [row['accepted'] for row in summary['results']]
         account_shared()
         if published_eligibility != [row['accepted'] for row in summary['results']]:
@@ -314,6 +356,10 @@ def experiment(out, project_name='sonde', system='feedback'):
             publish(out/'paired-summary.json', summary)
     except KeyboardInterrupt:
         cancelled_publication(out/'paired-summary.json', summary)
+    except Exception as exc:
+        summary.update(status='invalidated',comparisons=[],reason=type(exc).__name__+': '+str(exc))
+        for row in summary['results']:row['accepted']=False
+        publish(out/'paired-summary.json',summary)
     return summary
 
 
@@ -321,7 +367,7 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', required=True)
     parser.add_argument('--project', choices=tuple(q.PROJECTS), default='sonde')
-    parser.add_argument('--system', choices=('feedback','thermal'), default='feedback')
+    parser.add_argument('--system', choices=('feedback','thermal','placement'), default='feedback')
     args=parser.parse_args()
     lock_path=c.ROOT/'.runs/quality-experiment.lock';lock_path.parent.mkdir(exist_ok=True)
     if lock_path.is_symlink():parser.error('experiment lock must not be a symlink')

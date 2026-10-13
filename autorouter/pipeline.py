@@ -457,11 +457,12 @@ def audit_candidate_netclasses(candidate, protected, native):
     return {'native':mapping,'route_dimensions':dimensions,'candidate_sha256':sha(candidate),
             'project_sha256':sha(project)}
 
-def validate_candidate(job, original, candidate, source_hashes, protected, *, guidance_contract=None, layer_contract=None):
+def validate_candidate(job, original, candidate, source_hashes, protected, *, guidance_contract=None, guidance_basis=None, layer_contract=None):
     check_rule_area_support(original)
+    if guidance_basis is not None and guidance_contract is None:raise Rejected('guidance basis requires a contract')
     if guidance_contract is not None:
         from .floor_route import validate_contract
-        validate_contract(original,candidate,source_hashes,protected,guidance_contract,job.out)
+        validate_contract(original,candidate,source_hashes,protected,guidance_contract,job.out,guidance_basis=guidance_basis)
     # Reject mutations before native tooling is allowed to normalize anything.
     if immutable(sx.read(candidate))!=immutable(original): raise Rejected('immutable geometry changed')
     if any(n not in routes(sx.read(candidate)) for n in protected): raise Rejected('protected route changed')
@@ -476,7 +477,7 @@ def validate_candidate(job, original, candidate, source_hashes, protected, *, gu
     final_hash=sha(candidate)
     if guidance_contract is not None:
         from .floor_route import final_context
-        final_context(job,original,candidate,source_hashes,protected,guidance_contract)
+        final_context(job,original,candidate,source_hashes,protected,guidance_contract,guidance_basis=guidance_basis)
     elif netclass_policy(candidate) is not None:
         mapping=job.out/'final-netclasses.json'
         job.native('final-netclasses','netclasses',candidate,mapping)
@@ -874,7 +875,9 @@ def check_result(path):
     receipt_digest=hashlib.sha256(bounded_bytes(path)).hexdigest()
     # Parse once strictly before policy dispatch; duplicate selectors cannot hide schema3.
     data=read_json(path)
-    input_policy=receipt_policy(data,path.parent)
+    from . import placement_strategy as ps
+    input_policy=ps.POLICY if ps.recognize(data,path.parent) else receipt_policy(data,path.parent)
+    placement_backed=input_policy in {'placement-clearance-v1','placement-search-v1',ps.POLICY}
     # Captured-choice runs use the shared bounded reader for a complete witness,
     # including original rule copies and native evidence, before interpreting it.
     # Recheck after every late settings/process read; board-only layer checks
@@ -884,21 +887,21 @@ def check_result(path):
     if preferences_guarded:
         from .placement_clearance import evidence_inventory as bounded_evidence, inventory as bounded_inventory
         readback_material=bounded_evidence(path.parent)
-    if input_policy=='placement-clearance-v1':
+    if placement_backed:
         from .placement_clearance import evidence_inventory as bounded_evidence
-        bounded_evidence(path.parent)  # Bound the whole malformed tree before common legacy reads.
-        bounded_bytes(path.parent/'native.dsn',20*1024*1024)
-    if data.get('schema') not in (1,2,3) or data.get('accepted') is not True or data.get('status')!='routing_accepted':
+        (ps.evidence_inventory if input_policy==ps.POLICY else bounded_evidence)(path.parent)
+        if input_policy!=ps.POLICY:bounded_bytes(path.parent/'native.dsn',20*1024*1024)
+    if data.get('schema') not in (1,2,3,4,5) or data.get('accepted') is not True or data.get('status')!='routing_accepted':
         raise Rejected('receipt is not an accepted routing result')
     source=Path(data['source'])
     source_inventory=tree_hash
-    if input_policy=='placement-clearance-v1':
+    if placement_backed:
         from .placement_clearance import inventory as source_inventory
     if source_inventory(source.parent)!=data['source_hashes']: raise Rejected('stale source project')
     if source_inventory(path.parent/'snapshot')!=data['source_hashes']: raise Rejected('source snapshot changed')
     candidate=Path(data['candidate'])
     if candidate.is_symlink() or candidate.parent.is_symlink() or candidate!=path.parent/'candidate'/source.name: raise Rejected('candidate does not belong to this run')
-    if input_policy=='placement-clearance-v1':
+    if placement_backed:
         from .placement_clearance import verify_candidate as bounded_candidate
         bounded_candidate(candidate,data['source_hashes'],data['candidate_sha256'])
     else:verify_candidate_files(candidate,data['source_hashes'],data['candidate_sha256'])
@@ -913,7 +916,7 @@ def check_result(path):
     def evidence(name):
         file=path.parent/name
         if file.is_symlink(): raise Rejected('symlink in run evidence: '+name)
-        return read_json(file) if input_policy=='placement-clearance-v1' else json.loads(file.read_text())
+        return read_json(file) if placement_backed else json.loads(file.read_text())
 
     # New runs retain both representations. Older receipts remain explicitly
     # limited to the evidence they originally captured; never synthesize it.
@@ -923,9 +926,11 @@ def check_result(path):
             if file.is_symlink() or not file.is_file() or data.get(field)!=sha(file):
                 raise Rejected('retained routing export changed or incomplete: '+name)
 
-    if input_policy in {'board-floors-v1','placement-clearance-v1'}:
+    if input_policy in {'board-floors-v1','placement-clearance-v1','placement-search-v1'}:
         from .floor_route import check_floor_result
         check_floor_result(path.parent,data,original,candidate,protected)
+    elif input_policy==ps.POLICY:
+        ps.check_pruning_result(path.parent,data,original,candidate,protected)
     if netclass_policy(candidate) is not None:
         from .netclass import audit_dsn, audit_native
         native_classes=evidence('final-netclasses.json')
@@ -970,7 +975,7 @@ def check_result(path):
     check_drc_project(expected,after,candidate.name)
     if tree_hash(native_input.parent)!=after: raise Rejected('retained native input changed')
     if sha(path.parent/'final-drc.json')!=data['native_report_sha256']: raise Rejected('native report changed')
-    if input_policy=='placement-clearance-v1':read_json(path.parent/'final-drc.json')
+    if placement_backed:read_json(path.parent/'final-drc.json')
     native=parse_report(path.parent/'final-drc.json',candidate.name)
     reasons=native_rejection_reasons(native)
     if reasons: raise Rejected('native findings reject candidate: '+'; '.join(reasons))
@@ -981,7 +986,7 @@ def check_result(path):
 
     process=evidence('final-drc-process.json')
     expected_argv=[str(c.CLI),'pcb','drc','--format','json','--severity-all','--all-track-errors','--refill-zones','--exit-code-violations','--output',str(path.parent/'final-drc.json'),str(native_input)]
-    if input_policy in {'board-floors-v1','placement-clearance-v1'}:
+    if input_policy in {'board-floors-v1','placement-clearance-v1','placement-search-v1',ps.POLICY}:
         from .floor_route import SANDBOX
         expected_argv=SANDBOX+expected_argv
     findings=bool(native['findings'])
@@ -1023,10 +1028,10 @@ def check_result(path):
     pins=json.loads((c.ROOT/'toolchain.lock.json').read_text())['tools']
     if any(tools.get('files',{}).get(str(c.resolve_tool_path(pin['path'])))!=pin['sha256'] for pin in pins.values()): raise Rejected('recorded tool pins differ from qualified toolchain')
     result={'current':True,'candidate':str(candidate),'candidate_sha256':data['candidate_sha256'],'applied':False,'authentication':'none; mutable local evidence consistency only','warning':'Fresh native validation is required before application; human PCB review and electrical/physical validation remain required.'}
-    if input_policy in {'board-floors-v1','placement-clearance-v1'}: result['input_policy']=input_policy
-    if input_policy=='placement-clearance-v1':
+    if input_policy in {'board-floors-v1','placement-clearance-v1','placement-search-v1',ps.POLICY}: result['input_policy']=input_policy
+    if placement_backed:
         from .placement_clearance import final_freshness
-        final_freshness(path.parent,data)
+        (ps.final_freshness if input_policy==ps.POLICY else final_freshness)(path.parent,data)
         if hashlib.sha256(bounded_bytes(path)).hexdigest()!=receipt_digest:raise Rejected('placement receipt changed during readback')
     check_preferences_record(path.parent,data)
     if 'routing_preferences' in data or (path.parent/'routing-preferences.json').exists() or layer_markers(path.parent,data):

@@ -1,0 +1,264 @@
+--- before/autorouter/floor_route.py
++++ autorouter/floor_route.py
+@@ -19,7 +19,9 @@
+ 
+ POLICY='board-floors-v1'
+ PLACEMENT_POLICY='placement-clearance-v1'
+-GUIDANCE_POLICIES={POLICY,PLACEMENT_POLICY}
++SEARCH_POLICY='placement-search-v1'
++PLACEMENT_POLICIES={PLACEMENT_POLICY,SEARCH_POLICY}
++GUIDANCE_POLICIES={POLICY,*PLACEMENT_POLICIES}
+ SANDBOX=['/usr/bin/sandbox-exec','-p','(version 1)(allow default)(deny network*)']
+ 
+ 
+@@ -51,6 +53,7 @@
+         for count,entry in enumerate(entries,1):
+             if count>4000:raise p.Rejected('bounded evidence entry ceiling')
+             if entry.name.startswith(('placement-','planning-')):markers.add('placement')
++            if entry.name.startswith('placement-search'):markers.add('search')
+             if entry.name.startswith('floor-'):markers.add('floor')
+     return markers
+ 
+@@ -58,6 +61,21 @@
+ def receipt_policy(data,directory):
+     """Refuse single-field downgrade while preserving old native/C receipts."""
+     markers=evidence_markers(directory)
++    if data.get('schema')==4 or data.get('input_policy')==SEARCH_POLICY or 'placement_search' in data or 'search' in markers:
++        from .placement_clearance import parameters
++        if (type(data.get('schema')) is not int or data['schema']!=4 or data.get('input_policy')!=SEARCH_POLICY
++                or data.get('adapter')!='both' or data.get('scope')!='whole_board_unlocked_routing'
++                or canonical(data.get('planning_parameters'))!=canonical(parameters())
++                or any(key in data for key in ('strategy','netclass_policy','guidance_policy','diagnostic_schema','production_qualified','routing_preferences'))
++                or (directory/'routing-preferences.json').exists() or (directory/'routing-preferences.json').is_symlink()):
++            raise p.Rejected('missing, mixed or downgraded placement search policy')
++        expected=search_contract(data.get('engine_profile'),data.get('scoring_variant'))
++        path=directory/'placement-search.json'
++        if (data.get('baseline')!=p.engine_baseline(data['engine_profile'],'both')
++                or canonical(read_json(path))!=canonical(expected)
++                or data.get('placement_search')!={'file':path.name,'sha256':p.sha(path)}):
++            raise p.Rejected('placement search contract differs')
++        return SEARCH_POLICY
+     new_artifacts='placement' in markers
+     new_claims=any(key.startswith(('placement_','planning_')) for key in data) or data.get('input_policy')==PLACEMENT_POLICY
+     if data.get('schema')==3 or new_artifacts or new_claims:
+@@ -81,6 +99,17 @@
+     return 'native'
+ 
+ 
++def search_contract(profile,scoring_variant):
++    """Finite experimental search choices; the base placement DSN is unchanged."""
++    if type(profile) is not str or profile not in {'standard','tuned','completion-only'}:
++        raise p.Rejected('unknown placement search profile')
++    if type(scoring_variant) is not str or scoring_variant not in {'via_default','via_low','via_high'}:
++        raise p.Rejected('unknown placement search scoring variant')
++    return {'schema':1,'policy':SEARCH_POLICY,'base_policy':PLACEMENT_POLICY,
++            'engine_profile':profile,'scoring_variant':scoring_variant,
++            'scoring':p.engine_scoring_settings(scoring_variant),'strict_class_targets':True}
++
++
+ def evidence_inventory(directory):
+     if 'placement' in evidence_markers(directory):
+         from .placement_clearance import evidence_inventory as bounded_inventory
+@@ -126,20 +155,24 @@
+                   'project_sha256':g.sha(project),'transformation':audit}
+ 
+ 
+-def validate_contract(original,candidate,source_hashes,protected,contract,out):
++def validate_contract(original,candidate,source_hashes,protected,contract,out,*,guidance_basis=None):
+     if protected or p.netclass_policy(candidate) is not None:raise p.Rejected('floor policy excludes retained routes and literal netclasses')
+     task=g.task_from_source(original)
+-    native=read_json(out/'floor-export-context.json');raw=(out/'native.dsn').read_bytes()
++    basis=Path(out if guidance_basis is None else guidance_basis)
++    if guidance_basis is not None and any(path.is_symlink() for path in (basis,*basis.parents)):
++        raise p.Rejected('floor guidance basis must not use symlinks')
++    from .placement_clearance import read_bytes
++    native=read_json(basis/'floor-export-context.json');raw=read_bytes(basis/'native.dsn')
+     guided,expected=policy_contract(raw,native,candidate.with_suffix('.kicad_pro').read_bytes(),task,source_hashes)
+     if canonical(contract)!=canonical(expected):raise p.Rejected('floor validation contract differs from original task')
+-    if (out/'floor-guided.dsn').read_bytes()!=guided:raise p.Rejected('floor guided bytes changed')
++    if read_bytes(basis/'floor-guided.dsn')!=guided:raise p.Rejected('floor guided bytes changed')
+     context=g.qualify(json.loads(candidate.with_suffix('.kicad_pro').read_text()),native,task)
+     g.audit_generated_routes(sx.read(candidate),context)
+     return task,context
+ 
+ 
+-def final_context(job,original,candidate,source_hashes,protected,contract):
+-    task,_=validate_contract(original,candidate,source_hashes,protected,contract,job.out)
++def final_context(job,original,candidate,source_hashes,protected,contract,*,guidance_basis=None):
++    task,_=validate_contract(original,candidate,source_hashes,protected,contract,job.out,guidance_basis=guidance_basis)
+     native=acquire_context(job,'final',candidate)
+     context=g.qualify(json.loads(candidate.with_suffix('.kicad_pro').read_text()),native,task)
+     audit={'candidate_sha256':p.sha(candidate),'native_context_sha256':p.sha(job.out/'floor-final-context.json'),
+@@ -163,10 +196,27 @@
+     return p.engine_argv(directory,settings)
+ 
+ 
++def check_final_context(directory,data,original,candidate,protected,contract,guidance_basis=None):
++    """Check this candidate's fresh final observation against its export basis.
++
++    The caller additionally binds/validates any external incumbent receipt and
++    complete evidence tree. This helper does not authenticate a loose basis.
++    """
++    task,_=validate_contract(original,candidate,data['source_hashes'],protected,contract,directory,guidance_basis=guidance_basis)
++    final_native=read_json(directory/'floor-final-context.json');expected=dict(data['source_hashes']);expected[candidate.name]=data['candidate_sha256']
++    context_binding(final_native,candidate,expected,'final')
++    final_policy=g.qualify(json.loads(candidate.with_suffix('.kicad_pro').read_text()),final_native,task)
++    audited={'candidate_sha256':p.sha(candidate),'native_context_sha256':p.sha(directory/'floor-final-context.json'),
++             'generated':g.audit_generated_routes(sx.read(candidate),final_policy),'native_routes':g.audit_native_routes(sx.read(candidate),final_native)}
++    if read_json(directory/'floor-final-audit.json')!=audited:raise p.Rejected('final floor route audit differs')
++    process_check(directory,data,'floor-final',context_argv('final',candidate,directory/'floor-final-context.json'))
++    return audited
++
++
+ def check_floor_result(directory,data,original,candidate,protected):
+     policy=receipt_policy(data,directory)
+     if policy not in GUIDANCE_POLICIES:raise p.Rejected('floor-backed policy required')
+-    new_policy=policy==PLACEMENT_POLICY
++    new_policy=policy in PLACEMENT_POLICIES
+     required_code={'autorouter/board_floor.py','autorouter/floor_context.py','autorouter/floor_route.py','autorouter/adapter.py'}
+     if new_policy:required_code.update({'autorouter/placement_transform.py','autorouter/placement_clearance.py'})
+     if not required_code<=set(data.get('tools',{}).get('implementation_sha256',{})):raise p.Rejected('floor implementation provenance incomplete')
+@@ -194,15 +244,9 @@
+     elif g.verify_chain(raw,guided,adapted,native,candidate.with_suffix('.kicad_pro').read_bytes(),(sx.dump(task)+'\n').encode())!=contract['transformation']:
+         raise p.Rejected('floor derivation receipt differs')
+     if data.get('floor_guided_dsn_sha256')!=g.sha(guided):raise p.Rejected('guided DSN hash differs')
+-    final_native=read_json(directory/'floor-final-context.json');expected=dict(data['source_hashes']);expected[candidate.name]=data['candidate_sha256']
+-    context_binding(final_native,candidate,expected,'final')
+-    final_policy=g.qualify(json.loads(candidate.with_suffix('.kicad_pro').read_text()),final_native,task)
+-    audited={'candidate_sha256':p.sha(candidate),'native_context_sha256':p.sha(directory/'floor-final-context.json'),
+-             'generated':g.audit_generated_routes(sx.read(candidate),final_policy),'native_routes':g.audit_native_routes(sx.read(candidate),final_native)}
+-    if read_json(directory/'floor-final-audit.json')!=audited:raise p.Rejected('final floor route audit differs')
+-    process_check(directory,data,'floor-final',context_argv('final',candidate,directory/'floor-final-context.json'))
++    check_final_context(directory,data,original,candidate,protected,contract)
+     settings=data.get('engine_budget',{})
+-    expected_settings=p.engine_profile_settings(data['engine_profile'],settings.get('remaining_outer_wall_seconds_at_assignment'),strict_class_targets=True,scoring_variant='via_default' if new_policy else None)
++    expected_settings=p.engine_profile_settings(data['engine_profile'],settings.get('remaining_outer_wall_seconds_at_assignment'),strict_class_targets=True,scoring_variant=data['scoring_variant'] if new_policy else None)
+     expected_settings.update(outer_task_wall_budget_seconds=data['budget_seconds'],outer_task_cpu_budget_seconds=data['cpu_budget_seconds'])
+     if settings!=expected_settings:raise p.Rejected('floor engine configuration differs')
+     process_check(directory,data,'engine',engine_argv(directory,settings['argv']))
+@@ -215,6 +259,27 @@
+     if {step.get('name') for step in data.get('steps',[])}!=required or len(data['steps'])!=len(required):raise p.Rejected('unexpected/missing floor execution stages')
+ 
+ 
++def check_drc_stage(directory,data,name,source,input_path,saved,before):
++    """Verify a retained original-rule DRC stage, including exact saved input."""
++    binding=read_json(directory/(name+'-binding.json'));after=binding.get('after')
++    if (binding.get('source')!=str(source) or binding.get('input')!=str(input_path)
++            or binding.get('saved') is not saved or binding.get('before')!=before or not isinstance(after,dict)):
++        raise p.Rejected('floor '+name+' binding differs')
++    p.check_drc_project(before,after,source.name,saved=saved)
++    if p.tree_hash(input_path.parent)!=after:
++        raise p.Rejected('retained floor native stage input changed')
++    native=p.parse_report(directory/(name+'.json'),source.name)
++    argv=[*SANDBOX,str(c.CLI),'pcb','drc','--format','json','--severity-all','--all-track-errors','--refill-zones',
++          '--exit-code-violations','--output',str(directory/(name+'.json'))]
++    if saved:argv.append('--save-board')
++    argv.append(str(input_path))
++    process_check(directory,data,name,argv,allowed=(5 if native['findings'] else 0,))
++    matching=next(step for step in data['steps'] if step['name']==name)
++    if matching.get('validated_input_sha256')!=before[source.name] or matching.get('emitted_candidate')!=str(source):
++        raise p.Rejected('floor native stage step/input mismatch')
++    return native
++
++
+ def audit_transport(directory,data,task,candidate):
+     """Reconstruct final bytes from retained import and saved native refill."""
+     ses=directory/'routes.ses';imported=directory/'imported.kicad_pcb'
+@@ -223,29 +288,11 @@
+     if imported.is_symlink() or not imported.is_file():raise p.Rejected('missing retained native import')
+     before_refill=p.transplant_routes(task,sx.read(imported))
+     before_hash=g.sha((sx.dump(before_refill)+'\n').encode())
+-    def native_stage(name,source,input_path,saved,before):
+-        binding=read_json(directory/(name+'-binding.json'));after=binding.get('after')
+-        if (binding.get('source')!=str(source) or binding.get('input')!=str(input_path)
+-                or binding.get('saved') is not saved or binding.get('before')!=before or not isinstance(after,dict)):
+-            raise p.Rejected('floor '+name+' binding differs')
+-        p.check_drc_project(before,after,candidate.name,saved=saved)
+-        if p.tree_hash(input_path.parent)!=after:
+-            raise p.Rejected('retained floor native stage input changed')
+-        native=p.parse_report(directory/(name+'.json'),candidate.name)
+-        argv=[*SANDBOX,str(c.CLI),'pcb','drc','--format','json','--severity-all','--all-track-errors','--refill-zones',
+-              '--exit-code-violations','--output',str(directory/(name+'.json'))]
+-        if saved:argv.append('--save-board')
+-        argv.append(str(input_path))
+-        process_check(directory,data,name,argv,allowed=(5 if native['findings'] else 0,))
+-        matching=next(step for step in data['steps'] if step['name']==name)
+-        if matching.get('validated_input_sha256')!=before[candidate.name] or matching.get('emitted_candidate')!=str(source):
+-            raise p.Rejected('floor native stage step/input mismatch')
+-        return native
+-    source_native=native_stage('source-drc',directory/'snapshot'/candidate.name,directory/'source-drc-input'/candidate.name,False,data['source_hashes'])
++    source_native=check_drc_stage(directory,data,'source-drc',directory/'snapshot'/candidate.name,directory/'source-drc-input'/candidate.name,False,data['source_hashes'])
+     if data.get('source_drc')!=source_native:raise p.Rejected('floor source DRC summary differs')
+     before=dict(data['source_hashes']);before[candidate.name]=before_hash
+     refill=directory/'refill'/candidate.name
+-    native_stage('refill-drc',refill,refill,True,before)
++    check_drc_stage(directory,data,'refill-drc',refill,refill,True,before)
+     expected=p.transplant_fill(before_refill,sx.read(refill))
+     if (sx.dump(expected)+'\n').encode()!=candidate.read_bytes():raise p.Rejected('final candidate differs from task/import/refill reconstruction')
+ 
+@@ -287,7 +334,11 @@
+ 
+ def route(source,output,seconds,keep_existing,adapter,profile,scoring_variant,*,guidance_policy=POLICY,preferences=None):
+     if guidance_policy not in GUIDANCE_POLICIES:raise p.Rejected('unknown floor-backed guidance policy')
+-    if keep_existing or adapter!='both' or scoring_variant is not None:raise p.Rejected('unsupported: guidance requires whole-board adapter=both without scoring overrides')
++    if guidance_policy==SEARCH_POLICY:
++        if keep_existing or adapter!='both' or preferences is not None:raise p.Rejected('unsupported: placement search requires whole-board adapter=both without preferences')
++        scoring_variant='via_default' if scoring_variant is None else scoring_variant
++        search_contract(profile,scoring_variant)
++    elif keep_existing or adapter!='both' or scoring_variant is not None:raise p.Rejected('unsupported: guidance requires whole-board adapter=both without scoring overrides')
+     if guidance_policy==PLACEMENT_POLICY and profile!='completion-only':raise p.Rejected('unsupported: placement policy requires completion-only profile')
+     p.engine_scoring_settings(scoring_variant)
+     if profile not in {'standard','tuned','completion-only'}:raise p.Rejected('unknown engine profile')
+@@ -297,13 +348,18 @@
+     handlers={sig:signal.getsignal(sig) for sig in (signal.SIGINT,signal.SIGTERM)}
+     try:
+         for sig in handlers:signal.signal(sig,interrupted)
++        if guidance_policy==SEARCH_POLICY:
++            return _route(source,output,seconds,profile,guidance_policy,preferences,scoring_variant=scoring_variant)
+         return _route(source,output,seconds,profile,guidance_policy,preferences)
+     finally:
+         for sig,handler in handlers.items():signal.signal(sig,handler)
+ 
+ 
+-def _route(source,output,seconds,profile,guidance_policy=POLICY,preferences=None):
+-    new_policy=guidance_policy==PLACEMENT_POLICY
++def _route(source,output,seconds,profile,guidance_policy=POLICY,preferences=None,*,scoring_variant=None):
++    search=guidance_policy==SEARCH_POLICY
++    search_parameters=search_contract(profile,scoring_variant) if search else None
++    if search and preferences is not None:raise p.Rejected('unsupported: placement search excludes preferences')
++    new_policy=guidance_policy in PLACEMENT_POLICIES
+     if new_policy:from . import placement_clearance as pc
+     started,parent_start,child_start=time.monotonic(),time.process_time(),child_cpu()
+     if preferences is not None:
+@@ -314,10 +370,10 @@
+     if source.parent==output or source.parent in output.parents:raise p.Rejected('output must be outside source project')
+     def remaining():return max(0,min(started+seconds-time.monotonic(),seconds-(time.process_time()-parent_start+child_cpu()-child_start)))
+     job=FloorJob(output,seconds,remaining);job.started=started;job.cpu_started=parent_start
+-    report={'schema':3 if new_policy else 2,'input_policy':guidance_policy,'status':'rejected','accepted':False,'physical_electrical_validation':False,'schematic_parity':'not checked',
++    report={'schema':4 if search else 3 if new_policy else 2,'input_policy':guidance_policy,'status':'rejected','accepted':False,'physical_electrical_validation':False,'schematic_parity':'not checked',
+         'source':str(source),'started_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'budget_seconds':seconds,'cpu_budget_seconds':seconds,
+         'cpu_budget_enforcement':'remaining wall/CPU assignment and final acceptance cap; no hard total-CPU quota','baseline':p.engine_baseline(profile,'both'),
+-        'adapter':'both','engine_profile':profile,'scoring_variant':'via_default' if new_policy else None,'scope':'whole_board_unlocked_routing'}
++        'adapter':'both','engine_profile':profile,'scoring_variant':scoring_variant if search else 'via_default' if new_policy else None,'scope':'whole_board_unlocked_routing'}
+     if new_policy:report['planning_parameters']=pc.parameters()
+     frozen=False;completed=None
+     def stable():
+@@ -343,6 +399,9 @@
+         if not report['accepted']:report['whole_project_drc_clean']=False
+     try:
+         p.capture_preferences(report,output,preferences)
++        if search:
++            p.save_json(output/'placement-search.json',search_parameters)
++            report['placement_search']={'file':'placement-search.json','sha256':p.sha(output/'placement-search.json')}
+         p.check_storage()
+         hashes=pc.placement.inventory(pc.files(source.parent)) if new_policy else p.tree_hash(source.parent)
+         original=p.preflight(source)
+@@ -379,7 +438,7 @@
+             g.verify_chain((output/'native.dsn').read_bytes(),guided,(output/'task.dsn').read_bytes(),native,candidate.with_suffix('.kicad_pro').read_bytes(),(sx.dump(task)+'\n').encode())
+         report.update(native_dsn_sha256=p.sha(output/'native.dsn'),floor_guided_dsn_sha256=g.sha(guided),task_dsn_sha256=p.sha(output/'task.dsn'),floor_policy={'file':'floor-policy.json','sha256':p.sha(output/'floor-policy.json')})
+         (output/'engine-config').mkdir()
+-        settings=p.engine_profile_settings(profile,remaining(),strict_class_targets=True,scoring_variant='via_default' if new_policy else None)
++        settings=p.engine_profile_settings(profile,remaining(),strict_class_targets=True,scoring_variant=report['scoring_variant'])
+         settings.update(outer_task_wall_budget_seconds=seconds,outer_task_cpu_budget_seconds=seconds);report['engine_budget']=settings
+         job.step('engine',engine_argv(output,settings['argv']),already_sandboxed=True)
+         if profile=='tuned':report['optimizer_threshold_audit']=p.optimizer_threshold_audit(output/'engine.log',0.1)

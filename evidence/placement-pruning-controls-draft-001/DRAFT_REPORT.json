@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "status": "draft_only",
+  "native_executed": false,
+  "engine_executed": false,
+  "sandbox_executed": false,
+  "git_command_executed_by_agent": false,
+  "promote_to": "experiments/placement_pruning_controls_v1",
+  "pure_tests": {
+    "methods": 8,
+    "passed": 8,
+    "seconds": 0.028,
+    "log": "pure-tests-003.log",
+    "runtime": "project .venv Python3.11.9"
+  },
+  "control_design": "Two new owned six-pad sources with unchanged project template: full GND zone versus zone rightedge24mm and outsidepad40,30. All-allowed placementarea retained. Standard/tuned/C fullzone and tunedpartialzone are fresh sequential engine-native runs.",
+  "parent_recipe": "Remove ALL generated eligibleGND routing then author exactlyone30mm0.3mmwide B.Cu bridge. Fresh validate_candidate+four-native-stage lineage readback beforedeletion. Positive checks strict Pareto nativeaccepted/noaddedwarning; negative checks exact unexcluded nativeopen pair.",
+  "reused_helpers": [
+    "floor_route.route",
+    "floor_route.FloorJob",
+    "pipeline.validate_candidate",
+    "pipeline.check_result",
+    "placement_strategy.prune",
+    "placement_strategy.deletion",
+    "placement_strategy.check_candidate_stage",
+    "strategy.proposals",
+    "lipo_native_diagnostic_v1.snapshot",
+    "floor_route.publish"
+  ],
+  "budgets": {
+    "wall_seconds": 180,
+    "full_cpu_seconds": 180,
+    "per_search_maximum_seconds": 60,
+    "C_maximum_seconds": 60,
+    "whole_output_bytes": 67108864,
+    "concurrency": 1
+  },
+  "outer_requirement": "ROOT existing runner with max_workdir_bytes=64MiB polling. Driver observes whole acceptance cap betweenstages; inner floor/C retainexistingfinitecaps.",
+  "qualification": {
+    "routing_quality_gain_claim": false,
+    "independent_family_comparison": false,
+    "production_support_extended": false,
+    "physical_electrical": false
+  },
+  "known_review_points": [
+    "Native predicates unexecuted; KiCad actualconnectionitems may falsify exact negative expectation. Preservefailure beforeamendment.",
+    "Engine assignment maxima sum240s but sharedobservedcap180s remainsstrict; anylatearmreserverefusal isretainedfailure.",
+    "C may legitimately finishwithoutdeletions ifplaneadapteralreadyremovedredundantneed; engineeredbridge controls validateoperatormechanismseparately."
+  ],
+  "first_pure_failure_retained_as": "DRAFT_HISTORY.json records two initial failclosed assertions causedbyomitted ignoredmetadata in purefixtures; acceptanceunchanged.",
+  "write_ownership": "Only .runs/placement-pruning-controls-draft-001; ROOT promotes source and performs actual native/JVM/checkpoint. No recursive delegation."
+}

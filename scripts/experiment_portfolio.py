@@ -21,7 +21,7 @@ import sys
 import time
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from autorouter import config as c, pipeline as p
+from autorouter import config as c, pipeline as p, floor_route as f
 from scripts import experiment_quality as q
 
 BUDGET = 120.0
@@ -73,13 +73,15 @@ def verify_row(row, board, frozen):
     if (data.get('source') != str(board) or data.get('source_hashes') != frozen['source_hashes']
             or data.get('tools') != frozen['tools'] or data.get('engine_profile') != 'tuned'
             or data.get('adapter') != 'both' or data.get('scoring_variant') != row['id']
+            or (row.get('guidance_policy')=='placement-search-v1' and (data.get('schema')!=4 or data.get('input_policy')!='placement-search-v1'))
+            or (row.get('guidance_policy') is None and data.get('input_policy') is not None)
             or data.get('scope') != 'whole_board_unlocked_routing'
             or data.get('budget_seconds') != row['assigned_seconds']
             or data.get('cpu_budget_seconds') != row['assigned_seconds']):
         raise p.Rejected('trial differs from frozen portfolio contract')
     engine = data.get('engine_budget', {})
     expected = p.engine_profile_settings('tuned', engine.get('remaining_outer_wall_seconds_at_assignment'),
-        strict_class_targets=data.get('netclass_policy') is not None, scoring_variant=row['id'])
+        strict_class_targets=data.get('netclass_policy') is not None or row.get('guidance_policy')=='placement-search-v1', scoring_variant=row['id'])
     if (any(engine.get(key) != value for key, value in expected.items())
             or engine.get('outer_task_wall_budget_seconds') != row['assigned_seconds']
             or engine.get('outer_task_cpu_budget_seconds') != row['assigned_seconds']):
@@ -109,7 +111,9 @@ def verify_row(row, board, frozen):
     return verified
 
 
-def experiment(out, project_name='sonde'):
+def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET):
+    if guidance_policy not in (None,'placement-search-v1'):raise p.Rejected('unsupported portfolio guidance')
+    if not q.finite_nonnegative(budget) or not 60<=budget<=BUDGET:raise p.Rejected('invalid bounded portfolio allowance')
     started, cpu_started = time.monotonic(), q.total_process_cpu()
     started_utc = datetime.datetime.now(datetime.timezone.utc).isoformat()
     out = Path(out).resolve()
@@ -117,8 +121,8 @@ def experiment(out, project_name='sonde'):
         raise p.Rejected('portfolio output must be under this checkout .runs')
     out.mkdir(parents=True, exist_ok=False)
     summary = {'schema': 1, 'kind': 'experimental_baseline_portfolio', 'status': 'incomplete',
-               'comparison_eligible': False, 'selected': None, 'trials': [], 'pareto_frontier': [],
-               'wall_budget_seconds': BUDGET, 'cpu_budget_seconds': BUDGET,
+               'comparison_eligible': False, 'selected': None, 'trials': [], 'pareto_frontier': [], 'guidance_policy':guidance_policy,
+               'wall_budget_seconds': budget, 'cpu_budget_seconds': budget,
                'cpu_enforcement': 'postcompletion acceptance cap; no total-CPU preemption',
                'selection_rule': 'minimum (native via count, native track length, fixed attempt index)',
                'started_utc': started_utc,
@@ -132,7 +136,7 @@ def experiment(out, project_name='sonde'):
 
     def remaining():
         wall, cpu = totals()
-        return min(BUDGET - wall, BUDGET - cpu)
+        return min(budget - wall, budget - cpu)
 
     def preserve_partial():
         partial = out / 'portfolio-summary.json.partial'
@@ -154,10 +158,10 @@ def experiment(out, project_name='sonde'):
             if p.sha(copied) != digest:
                 raise p.Rejected('frozen code changed while copying')
         protocol = {'schema': 1, 'family': family, 'source': str(board), 'freeze': frozen,
-                    'variants': list(VARIANTS), 'fixed_order': True,
+                    'variants': list(VARIANTS), 'fixed_order': True, 'guidance_policy':guidance_policy,
                     'scoring': {name: p.engine_scoring_settings(name) for name in VARIANTS},
-                    'selection_rule': summary['selection_rule'], 'wall_budget_seconds': BUDGET,
-                    'cpu_budget_seconds': BUDGET, 'root_finalization_reserve_seconds': FINAL_RESERVE,
+                    'selection_rule': summary['selection_rule'], 'wall_budget_seconds': budget,
+                    'cpu_budget_seconds': budget, 'root_finalization_reserve_seconds': FINAL_RESERVE,
                     'attempt_allocation': 'min(remaining global wall, remaining global CPU) minus finalization reserve; route helper then withholds its engine grace/native reserves',
                     'constraints': 'same immutable source, targets, adapter, native validation, and per-board support policy for every attempt',
                     'validation': 'every accepted trial receives native validation; final selection rechecks exact unchanged receipt/candidate. No candidate is copied or mutated during selection.',
@@ -177,12 +181,12 @@ def experiment(out, project_name='sonde'):
             before_wall, before_cpu = time.monotonic(), q.total_process_cpu()
             trial_started_utc = datetime.datetime.now(datetime.timezone.utc).isoformat()
             try:
-                result = p.route(board, directory, assigned, False, 'both', 'tuned', scoring_variant=variant)
+                result = p.route(board, directory, assigned, False, 'both', 'tuned', scoring_variant=variant) if guidance_policy is None else f.route(board,directory,assigned,False,'both','tuned',variant,guidance_policy=guidance_policy)
             except (Exception, KeyboardInterrupt) as exc:
                 # Preserve an invocation failure even when route() fails before
                 # creating its own receipt. Cancellation invalidates the whole
                 # portfolio and is never hidden by an earlier accepted trial.
-                summary['trials'].append({'index': index, 'id': variant, 'assigned_seconds': assigned,
+                summary['trials'].append({'index': index, 'id': variant, 'assigned_seconds': assigned, 'guidance_policy':guidance_policy,
                     'status': 'cancelled' if isinstance(exc, KeyboardInterrupt) else 'invocation_error',
                     'eligible': False, 'reason': type(exc).__name__ + ': ' + str(exc),
                     'invocation_wall_seconds': time.monotonic() - before_wall,
@@ -192,7 +196,7 @@ def experiment(out, project_name='sonde'):
             trial_wall, trial_cpu = time.monotonic() - before_wall, q.total_process_cpu() - before_cpu
             receipt = directory / 'result.json'
             metrics = result.get('metrics', {})
-            row = {'index': index, 'id': variant, 'assigned_seconds': assigned,
+            row = {'index': index, 'id': variant, 'assigned_seconds': assigned, 'guidance_policy':guidance_policy,
                    'started_utc': trial_started_utc,
                    'finished_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(),
                    'status': result.get('status'), 'reason': result.get('reason'),
@@ -246,7 +250,7 @@ def experiment(out, project_name='sonde'):
     def account():
         wall, cpu = totals()
         summary.update(wall_seconds=wall, total_cpu_seconds=cpu)
-        if not all(q.finite_nonnegative(value) and value <= BUDGET for value in (wall, cpu)):
+        if not all(q.finite_nonnegative(value) and value <= budget for value in (wall, cpu)):
             summary.update(status='budget_exceeded', comparison_eligible=False, selected=None)
 
     summary['accounting_point'] = 'sample before summary write; caps checked again after write; over-cap correction can finish outside cap'
