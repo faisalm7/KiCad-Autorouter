@@ -87,16 +87,16 @@ def validate(folder,source,basis,before_tree,remaining,steps):
         steps.extend(job.steps);p.save_json(folder/'witness.json',row)
 
 
-def experiment(output,*,run_native=False):
+def experiment(output,*,run_native=False,resume=None):
     if run_native is not True or HERE!=ROOT/'experiments/placement_pruning_controls_v1':raise p.Rejected('ROOT must promote/checkpoint reviewed helpers before --run-native')
-    start=time.monotonic();cpu0=shared.cpu();remaining=lambda:max(0,min(SECONDS-(time.monotonic()-start),SECONDS-(shared.cpu()-cpu0)))
-    out=control_output(output);out.mkdir();protocol=f.read_json(HERE/'PROTOCOL.json');steps=[];completed={};sources={};arms={};frozen=None
+    start=time.monotonic();cpu0=shared.cpu();prior_wall=prior_cpu=0.;remaining=lambda:max(0,min(SECONDS-prior_wall-(time.monotonic()-start),SECONDS-prior_cpu-(shared.cpu()-cpu0)))
+    out=control_output(output);out.mkdir();protocol=f.read_json(HERE/'PROTOCOL.json');steps=[];completed={};sources={};arms={};arm_dirs={};frozen=None
     record={'schema':1,'status':'incomplete','accepted':False,'controls_passed':False,'observations_complete':False,'routing_quality_gain_claim':False,
         'production_support_extended':False,'family_comparison_eligible':False,'physical_electrical_validation':False,'budget_seconds':SECONDS,'cpu_budget_seconds':SECONDS,
         'output_ceiling_bytes':LIMIT,'started_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'protocol_sha256':p.sha(HERE/'PROTOCOL.json'),
         'arms':[],'cases':[],'scope':'Fresh engineered six-pad controls; actual search/C final readback and redundant/necessary GND deletion. No measured-board performance claim.'}
     def account():
-        record.update(steps=steps,wall_seconds=time.monotonic()-start,total_cpu_seconds=shared.cpu()-cpu0,child_step_cpu_seconds=sum(x.get('cpu_seconds') or 0 for x in steps),
+        record.update(steps=steps,wall_seconds=prior_wall+time.monotonic()-start,total_cpu_seconds=prior_cpu+shared.cpu()-cpu0,child_step_cpu_seconds=sum(x.get('cpu_seconds') or 0 for x in steps),
             monitor_cpu_seconds=sum(x.get('monitor_cpu_seconds') or 0 for x in steps),native_executed=bool(steps))
         record['within_budget']=remaining()>0
         record['accounting_point']='Stored totals precede summary publication. Final freshness/readback and every parent/waited-child CPU are charged; observed limits, not OS aggregate quotas.'
@@ -126,6 +126,19 @@ def experiment(output,*,run_native=False):
             blob=subprocess.run(['git','show',tools['git_head']+':'+rel],cwd=ROOT,capture_output=True,check=True,timeout=max(.001,min(3,remaining()))).stdout
             if raw!=blob:raise p.Rejected('commit exact control seed/helper first: '+rel)
             target=out/'code'/rel;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(raw);runtime[rel]=shared.sha_bytes(raw)
+        if resume is not None:
+            resume=shared.owned(resume);pin=protocol['resumable_prefix']
+            if resume!=ROOT/pin['directory'] or inventory(resume)!=pin['inventory'] or p.sha(resume/'result.json')!=pin['result_sha256']:raise p.Rejected('resumed prefix differs')
+            prior=f.read_json(resume/'result.json');execution=f.read_json(resume.parent/'execution.json')
+            if prior['status']!='failed' or prior['controls_passed'] is not False or prior['observations_complete'] is not False:raise p.Rejected('resumed prefix state differs')
+            prior_wall=execution['wall_seconds'];prior_cpu=execution['full_cpu_seconds']
+            if not all(type(x) in (int,float) and 0<=x<SECONDS for x in (prior_wall,prior_cpu)):raise p.Rejected('invalid resumed cost')
+            steps.extend(prior['steps']);completed[str(resume)]=pin['inventory']
+            record['resumed_prefix']={'directory':str(resume),'result_sha256':pin['result_sha256'],'wall_seconds':prior_wall,'total_cpu_seconds':prior_cpu,'all_prior_failures_retained':True}
+            for arm in pin['reused_arms']:
+                folder=resume/arm;receipt=f.read_json(folder/'result.json');p.check_result(folder/'result.json')
+                if receipt['accepted'] is not True or receipt['input_policy']!=f.SEARCH_POLICY or receipt['engine_profile']!=arm or receipt['scoring_variant']!='via_default':raise p.Rejected('resumed arm differs')
+                arms[arm]=receipt;arm_dirs[arm]=folder;record['arms'].append({'arm':arm,'reused_completed_control':True,'result_sha256':p.sha(folder/'result.json'),'accepted':True,'status':receipt['status'],'native':receipt['native'],'metrics':receipt['metrics']})
         record['runtime_sources']=runtime;frozen=inventory(out/'code');record['code_inventory']=frozen
         for case in CASES:
             folder=out/'sources'/case;folder.mkdir(parents=True);source=folder/'fixture.kicad_pcb'
@@ -133,8 +146,9 @@ def experiment(output,*,run_native=False):
             shutil.copytree(TEMPLATE/'_licenses',folder/'_licenses');(folder/'PROVENANCE.md').write_text(NOTICE)
             sources[str(source)]=inventory(folder);p.preflight(source);record.setdefault('source_hashes',{})[case]=sources[str(source)]
         for arm in ARMS:
+            if arm in arms:continue
             stable();source=Path(next(key for key in sources if Path(key).parent.name==('necessary' if arm=='necessary_tuned' else 'redundant')))
-            cap=60
+            cap=protocol['arm_assignment_seconds'][arm]
             if remaining()<cap+15:raise p.Rejected('control next-stage reserve unavailable')
             folder=out/arm
             try:
@@ -143,9 +157,9 @@ def experiment(output,*,run_native=False):
                 if (folder/'result.json').is_file():
                     actual=f.read_json(folder/'result.json');steps.extend(actual.get('steps',[]));record['arms'].append({'arm':arm,'result_sha256':p.sha(folder/'result.json'),'accepted':actual['accepted'],'status':actual['status'],'native':actual.get('native'),'metrics':actual.get('metrics')})
             if receipt['accepted'] is not True:raise p.Rejected('fresh '+arm+' rejected: '+str(receipt.get('reason',receipt['status'])))
-            p.check_result(folder/'result.json');arms[arm]=receipt;completed[str(folder)]=inventory(folder);stable()
+            p.check_result(folder/'result.json');arms[arm]=receipt;arm_dirs[arm]=folder;completed[str(folder)]=inventory(folder);stable()
         for case,basis_arm in (('redundant','tuned'),('necessary','necessary_tuned')):
-            stable();basis=out/basis_arm;receipt=arms[basis_arm];source=Path(receipt['source']);tree=sx.read(Path(receipt['candidate']));nets=s.zone_net_ids(p.preflight(source))
+            stable();basis=arm_dirs[basis_arm];receipt=arms[basis_arm];source=Path(receipt['source']);tree=sx.read(Path(receipt['candidate']));nets=s.zone_net_ids(p.preflight(source))
             before,recipe=bridge_parent(tree,nets);row={'case':case,'passed':False,'parent_recipe':recipe};record['cases'].append(row)
             parent=validate(out/'controls'/case/'parent',source,basis,before,remaining,steps);row['parent']=parent
             if not p.native_accepted(parent['native']) or not ps.warnings(parent['native'])<=ps.warnings(receipt['native']):raise p.Rejected('engineered bridge parent rejected or adds warnings')
@@ -166,14 +180,14 @@ def experiment(output,*,run_native=False):
 
 
 def main(argv=None):
-    ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--output',type=Path,required=True);ap.add_argument('--run-native',action='store_true');args=ap.parse_args(argv)
+    ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--output',type=Path,required=True);ap.add_argument('--run-native',action='store_true');ap.add_argument('--resume',type=Path);args=ap.parse_args(argv)
     if not args.run_native:ap.error('--run-native required after committed promotion')
     prior={sig:signal.getsignal(sig) for sig in (signal.SIGINT,signal.SIGTERM)}
     def interrupted(*_):raise KeyboardInterrupt
     try:
         for sig in prior:signal.signal(sig,interrupted)
         with shared.owned(ROOT/'.runs/quality-experiment.lock').open('a') as lock:
-            fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);result=experiment(args.output,run_native=True)
+            fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);result=experiment(args.output,run_native=True,resume=args.resume)
     finally:
         for sig,handler in prior.items():signal.signal(sig,handler)
     print(json.dumps({key:result[key] for key in ('status','controls_passed','routing_quality_gain_claim')}))
