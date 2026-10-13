@@ -1,5 +1,7 @@
 # Fresh-checkout installation test
 
+Current clean installation016 at1156596 passes20network-denied commands/full886 suite and native placement route/check0opens/0blocking/0warnings67.933738mm1via. Outer91.488196wall/96.415649CPU includes final checks. Seven additional installed complete-schematic NUS commands pass route/check/fourplots/acceptintent/freshnativeexport/proofcheck/reject; original0/0/10 retained,2vias71.884325mm, whole-project cleanliness false. Outer39.294178wall/42.072631CPU under180caps. Existing Mac/tools/cache reused; no freshOS/GUI/physical/package claim. [Actual qualification](../evidence/installation-016/SCOPE.md).
+
 Earlier qualification: installation003 at `6c34110262795bb029dbecdcb62cb95d971faa17` passed all20 actual commands in a fresh local clone/venv,494 controls, the explicit placement fixture route and strict readback under network denial. The candidate has zero findings, one via and67.933738mm. All7,673 tracked source/clone files match; the independent217-check audit passes. See `evidence/installation-003` and `evidence/review-installation-003`. This is one clean checkout/venv on the existing Mac, not a fresh Mac installation. Use a fresh output for future qualifications; do not overwrite completed003.
 
 Historical failure: installation 001 at `e1e585f` stopped after clone/setup/doctor because the sandbox denied the old `/bin/ps` monitor. Its 19 failed controls and original logs remain in `evidence/installation-001`. The scoped libproc fix and actual installation 002 resolved that failure without disabling network denial.
@@ -51,7 +53,7 @@ CPU is measured for installation diagnosis, not capped as a routing comparison. 
 a 10-minute overall command budget, 2 MB capped command logs, 4 GiB process-group
 RSS polling and a 512 MiB scratch ceiling. Polling can overshoot; it is not an OS
 filesystem or memory quota. Nested native workers also use the pipeline's own
-bounds. The current tracked source inventory is bounded to16,000files and320MiB; all files are compared. Earlier bounds and their actual failures are retained below. A shared project experiment lock prevents overlapping cooperating
+bounds. The current tracked source inventory is bounded to18,000files and320MiB; all files are compared. Earlier bounds and their actual failures are retained below. A shared project experiment lock prevents overlapping cooperating
 harnesses; the lead keeps all other heavy workers idle. These polling and
 post-completion checks are not hard kernel resource guarantees.
 
@@ -87,3 +89,5 @@ Installation010 preparation measures287200372tracked bytes before3945880bytes of
 Installation010 atd1c40cc64a97dde7f0b6e85eafbfaeb012cec040 passes20networkdeniedcommands/763tests32.668s and actual native0findings/1via/67.933738mm; completeouter76.455530wall/79.126278CPU, scratch378767185bytes. Installed CLI fourplots/acceptintent/fresh nativeexport/proofcheck/reject passes; its stored16.805164wall/18.366797CPU excludes initial/final tracked-byte checks. The complete envelope is unmeasured and cannot establish budget fairness. [Evidence](evidence/installation-010/SCOPE.md). Subsequent review identifies cancelled-export missingbudget fields (safe rejection); early bound initialization/regression is implemented, new actual final-DRC cancellation control passes3.859929wall/3.193144CPU with120second bounds and shared accounting; real group terminates, no native-algorithm entry inferred. This minor post-install patch is not yet installed qualification. Full restoration is due after writers freeze; current forecast138082files/4115919831bytes fits existing4GiB/140000bounds.
 
 Current installation013 at79c4c78 stops before clone/fullsuite/native:16,624trackedfiles/302,098,185B exceeds16,000file cap. Finite source cap now17,000files with unchanged320MiBsource/512MiBscratch/600seconds/networkdenial/native gates; existing exact/overlimit/path guards retained. New014 is due; no evidence deletion.
+
+Current016 source allowance18000files/320MiB preserves all audited evidence; scratch512MiB/time600/networkdenial remain unchanged. Prior013cap,014acquired-board unit dependency and015overstrict no-SCH parity guard failures remain exact. No failed clone was edited or reused.
