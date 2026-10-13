@@ -1,0 +1,229 @@
+{
+  "actual_complete_tree": {
+    "digest": "c8e1917090989d2be5bd02ad7943e38c8f66df7e4ed488291d97d1f3d406b850",
+    "directories": 104,
+    "files": 281
+  },
+  "actual_head": "34a86742b0356a00682c6a276ffedfbf3c438f5b",
+  "case_audits": [
+    {
+      "all_native_bindings_and_original_rules_verified": true,
+      "candidate_sha256": "275b6cb6362111f45caead18f9afb241847c8dc64d208ad032f4bf82300e1cd0",
+      "case": "warning_positive",
+      "native_counts": {
+        "blocking": 0,
+        "exclusions": 0,
+        "opens": 0,
+        "warnings": 4
+      },
+      "native_rejection_reasons": [],
+      "project_sha256": "3327e64e94c0d5cf672cd98f4a9074d3fd3a7c22c4fcc5e17ef9cf7366c273ed",
+      "report_sha256": "d1896c85ea1f1dfadbf670a581422606296bf9dbcac1476629e47a76e5d5e504",
+      "stored_control_passed": true,
+      "stored_status": "passed"
+    },
+    {
+      "all_native_bindings_and_original_rules_verified": true,
+      "candidate_sha256": "19fbf42a2b5fd9094898ae658965099486094564841db841e9a24a45d3971c53",
+      "case": "warning_board_edge",
+      "native_counts": {
+        "blocking": 0,
+        "exclusions": 0,
+        "opens": 0,
+        "warnings": 5
+      },
+      "native_rejection_reasons": [
+        "policy-critical native finding: text_on_edge_cuts (warning)"
+      ],
+      "project_sha256": "3327e64e94c0d5cf672cd98f4a9074d3fd3a7c22c4fcc5e17ef9cf7366c273ed",
+      "report_sha256": "e394ecf09f699769f5c196f174b5eaae29f7626640d5ac1ba5fcbb75744235c0",
+      "stored_control_passed": true,
+      "stored_status": "passed"
+    },
+    {
+      "all_native_bindings_and_original_rules_verified": true,
+      "candidate_sha256": "275b6cb6362111f45caead18f9afb241847c8dc64d208ad032f4bf82300e1cd0",
+      "case": "ignore_positive",
+      "native_counts": {
+        "blocking": 0,
+        "exclusions": 0,
+        "opens": 0,
+        "warnings": 4
+      },
+      "native_rejection_reasons": [
+        "disabled policy-critical native check: text_on_edge_cuts"
+      ],
+      "project_sha256": "9f817814b51011e2d5418feba0bcc23cca6eee38edbd71f51fae74c0973e98fb",
+      "report_sha256": "c1afb2f8c9131d7ba1f089e17421d4d1b7d3ec21e77c94458332e9f18af54b8d",
+      "stored_control_passed": true,
+      "stored_status": "passed"
+    },
+    {
+      "all_native_bindings_and_original_rules_verified": true,
+      "candidate_sha256": "19fbf42a2b5fd9094898ae658965099486094564841db841e9a24a45d3971c53",
+      "case": "ignore_board_edge",
+      "native_counts": {
+        "blocking": 0,
+        "exclusions": 0,
+        "opens": 0,
+        "warnings": 4
+      },
+      "native_rejection_reasons": [
+        "disabled policy-critical native check: text_on_edge_cuts"
+      ],
+      "project_sha256": "9f817814b51011e2d5418feba0bcc23cca6eee38edbd71f51fae74c0973e98fb",
+      "report_sha256": "b2eb19d67265f2f7e3a3b7f43f4058716a5cdbba5b85001dde924052a585dd43",
+      "stored_control_passed": true,
+      "stored_status": "passed"
+    },
+    {
+      "all_native_bindings_and_original_rules_verified": true,
+      "candidate_sha256": "a9cc4fecb23d773d1d903ed07e8f072cd66235cdf695cbca25c80fcc517d75f3",
+      "case": "hole_positive",
+      "native_counts": {
+        "blocking": 0,
+        "exclusions": 0,
+        "opens": 0,
+        "warnings": 0
+      },
+      "native_rejection_reasons": [],
+      "project_sha256": "f38a173b02ed42409f7189100c23a6e0f2ed917dc01a9b89862d612f11034ccd",
+      "report_sha256": "c6335ea04ac4216de58ce388fe14449722d7a5702e93d9fdbb4a71b7c9ec25fd",
+      "stored_control_passed": true,
+      "stored_status": "passed"
+    },
+    {
+      "all_native_bindings_and_original_rules_verified": true,
+      "candidate_sha256": "d37387138c48bef40d7b8ff969339258e45f7c74a90fd17e54c178e3fdefd7c5",
+      "case": "hole_negative",
+      "native_counts": {
+        "blocking": 0,
+        "exclusions": 0,
+        "opens": 0,
+        "warnings": 1
+      },
+      "native_rejection_reasons": [
+        "policy-critical native finding: hole_to_hole (warning)"
+      ],
+      "project_sha256": "f38a173b02ed42409f7189100c23a6e0f2ed917dc01a9b89862d612f11034ccd",
+      "report_sha256": "a8aebbca26a33a415f0e7cb8541a87b3f7493d2f348165117555ea47c4a0ec43",
+      "stored_control_passed": false,
+      "stored_status": "failed"
+    }
+  ],
+  "full_outer_cost": {
+    "full_cpu_seconds": 6.886507000000001,
+    "wall_seconds": 8.568163459000061
+  },
+  "hole_warning_policy_rejection_verified": true,
+  "inner_cost": {
+    "child_step_cpu_seconds": 4.837447,
+    "monitor_cpu_seconds": 0,
+    "total_cpu_seconds": 6.446903,
+    "wall_seconds": 8.10735383300198
+  },
+  "old_error002_reused": {
+    "native_reexecuted": false,
+    "scope": "Historical explicit-error board/footprint text controls only; prior whole run cost stays visible.",
+    "stored_cpu_seconds": 14.038842,
+    "stored_wall_seconds": 15.808914416003972,
+    "summary_sha256": "e205d0d79d2c021290950e91078e1e622b01431da21af8404520f5a42d5dc48f"
+  },
+  "original_controller_still_failed": true,
+  "original_error": "Rejected: declared native predicate failed: hole_negative",
+  "pad_movement_preservation_negative_verified": true,
+  "processes": [
+    {
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "pid": 76993,
+      "process_sha256": "4e80792d0ae5b1273a37bc7f29368af9a74d1d15775b78c77ac4bc2e70359a15",
+      "stage": "observe-warning_positive",
+      "status": "success"
+    },
+    {
+      "exit_code": 5,
+      "log_sha256": "5b349c9fb159c51c42395d73538a2bdf3e6deb6dedd568add22b0813e8bcaf03",
+      "pid": 76995,
+      "process_sha256": "5dabeb9864d30dea4c5dea868d2b59c90635edbaa7be7afadca44d4d8e96dbc8",
+      "stage": "warning_positive-drc",
+      "status": "nonzero_exit"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "pid": 76997,
+      "process_sha256": "d21824181cf80fdf4faafd6f21134f2670fd3b8758f3802b4ab931310f9a7f65",
+      "stage": "observe-warning_board_edge",
+      "status": "success"
+    },
+    {
+      "exit_code": 5,
+      "log_sha256": "796b772c9694014841db0279774586dfbe5f547d0db6029029348074f0289ef9",
+      "pid": 76998,
+      "process_sha256": "1b6a81d3ad4872ad19df1782ad10fe98bf5e1e424419bfc7b7b3a2e467eb2d0e",
+      "stage": "warning_board_edge-drc",
+      "status": "nonzero_exit"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "pid": 77000,
+      "process_sha256": "fb817eb807e131bd4d07dae1632ad9a4baab52a8ac44ab99a87feeb682813986",
+      "stage": "observe-ignore_positive",
+      "status": "success"
+    },
+    {
+      "exit_code": 5,
+      "log_sha256": "d3a82d06ddd9203e1fd3fa9c8c3b990fdd1c381e8f3dbefbaa410ab4c5f8e06c",
+      "pid": 77001,
+      "process_sha256": "054d454fad6586dd1191e6338b81edec0e44cc85dd32ad48b25720270dcff305",
+      "stage": "ignore_positive-drc",
+      "status": "nonzero_exit"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "pid": 77003,
+      "process_sha256": "8cb6dc4e319dec480a6de6f6c70222e859a3dfe82b751e3f9cbdb363a43e1a25",
+      "stage": "observe-ignore_board_edge",
+      "status": "success"
+    },
+    {
+      "exit_code": 5,
+      "log_sha256": "fc06a2d97486bc9649327d605705deb2cb81223293dc433057d97b8048af2e42",
+      "pid": 77004,
+      "process_sha256": "820ceaf1cc9e946a9e066f2863fd2726d060d58537bcc2c5eb5f1bc67bfed0e5",
+      "stage": "ignore_board_edge-drc",
+      "status": "nonzero_exit"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "2bf58f50c3e4f86c685738be198718f8dcb85c66ee85f87acc87b732d8f1fdd7",
+      "pid": 77006,
+      "process_sha256": "e5d0a5c7cdf6994fa034c63fcaad8f360b4187520e4d5e49a23ccfcb5e01202e",
+      "stage": "hole_positive-drc",
+      "status": "success"
+    },
+    {
+      "exit_code": 5,
+      "log_sha256": "b42e1d8229c5a13de01f36e2403089e19648d5599f967ed6ddf6936a159b4fd1",
+      "pid": 77008,
+      "process_sha256": "d3ca681403d8a2c2c943ec646a50f6ca70ad2e637f2eee42841166ad9541a5cd",
+      "stage": "hole_negative-drc",
+      "status": "nonzero_exit"
+    }
+  ],
+  "raw_evidence_and_original_sources_unchanged": true,
+  "raw_hole_negative_actual_mm": "0.1000",
+  "raw_hole_negative_reported_effective_min_mm": "0.2495",
+  "raw_rule_nominal_min_hole_to_hole_mm": "0.25",
+  "reviewer_native_Git_JVM_subprocess_execution": false,
+  "schema": 1,
+  "scope": "Warning/ignore board text semantics, isolated NPTH warning and geometry preservation diagnostics only. Not production route/format admission, routing novelty, native field/textbox/dimension qualification, GUI or physical approval.",
+  "separate_primary_source_fetch": "threshold-primary-source-001/retrieval.json",
+  "source_freeze_unchanged": true,
+  "status": "failed_original_controller_independently_verified",
+  "threshold_predicate_still_failed": true,
+  "unique_actual_processes": 10
+}

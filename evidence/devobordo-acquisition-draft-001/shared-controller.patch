@@ -1,0 +1,26 @@
+--- a/experiments/licensed_acquisition_v1/fetch.py
++++ b/experiments/licensed_acquisition_v1/fetch.py
+@@ -36,6 +36,10 @@
+            'destination_root': 'expansion005', 'directory': 'experiments/licensed_acquisition_v2',
+            'output_prefix': 'licensed-acquisition-005-run-', 'files': 14, 'bytes': 2163350,
+            'identities': [('paw3395', 'badjeff/paw3395-pcb', 'b71e346fc04ef18c26e0e8638ce0333395d41a14')]},
++    'v3': {'protocol_sha256': '076396da8d78940618dc4c3502fac5a2f8b8303a77d786b523dc0468c8e30c6b',
++           'destination_root': 'expansion006', 'directory': 'experiments/licensed_acquisition_v3',
++           'output_prefix': 'licensed-acquisition-006-run-', 'files': 5, 'bytes': 754649,
++           'identities': [('devobordo', 'Travis8795/devobordo', '5823d7a0d7fc3d1d520dd00f87bc5a42e413d04b')]},
+ }
+ 
+ 
+@@ -271,9 +275,11 @@
+ def material_paths(root, here, profile_id='v1'):
+     profile(profile_id)
+     paths = {name: here / name for name in MATERIAL}
+-    if profile_id == 'v2':
++    if profile_id in ('v2', 'v3'):
+         for name in ('fetch.py', 'test_fetch.py'):
+             paths['shared/' + name] = root / PROFILES['v1']['directory'] / name
++    if profile_id == 'v3':
++        paths['native_snapshot.py'] = here / 'native_snapshot.py'
+     return paths
+ 
+ 

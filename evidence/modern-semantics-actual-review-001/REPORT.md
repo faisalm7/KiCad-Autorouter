@@ -1,0 +1,28 @@
+# Actual modern semantics control review
+
+The original six-case controller at34a86742b0356a00682c6a276ffedfbf3c438f5b remains FAILED, controls_passed false and accepted false. All six native cases executed once. Its last predicate requires a literal0.25mm reported minimum, while KiCad reports0.2495mm. No raw report, rule file, original input, prior control or controller status was changed by this reviewer.
+
+| Case | Stored control status | Opens/blocking/warnings/exclusions |
+| --- | --- | --- |
+| warning_positive | passed | 0/0/4/0 |
+| warning_board_edge | passed | 0/0/5/0 |
+| ignore_positive | passed | 0/0/4/0 |
+| ignore_board_edge | passed | 0/0/4/0 |
+| hole_positive | passed | 0/0/0/0 |
+| hole_negative | failed | 0/0/1/0 |
+
+All10 distinct native workers (four same-load observers, six DRC processes) match actual argv, process JSON, full-severity original-rule DRC, source/candidate/project hashes, logs and cleanup. All candidate copies preserve their authored source geometry, pad identity and project rules. Exact native same-load text/terminal/route observations match the declared scenes. Every four inherited courtyard warning is preserved as an exact complete finding multiset in all four text cases.
+
+Warning-board text yields the one intended UUID-bound warning and remains rejected by the critical finding policy. Ignore-board text yields no text finding but preserves actual Edge.Cuts intent, and the ignored key is explicitly retained; both ignore controls are diagnostic passes, not accepted production routing. Their native policy rejects disabled text_on_edge_cuts. No field/textbox/dimension native behavior is established by these board-text controls. Completed explicit-error board/footprint text controls002 remain hash-pinned and reused without repetition; their full historical stored15.808914416wall/14.038842CPU cost remains visible separately.
+
+The hole-positive scene has two1mm NPTH drills at1.4mm centers, no native findings and exact unchanged authored candidate/project. The negative scene at1.1mm centers retains exactly one hole_to_hole warning on NPTH UUIDs1c591b52-7865-5475-afd5-056fc19438aa and43f595f8-b014-512d-922e-47d7d242105c. There are no opens, blocking findings, exclusions or other warnings. Native rejection is exactly policy-critical native finding: hole_to_hole (warning). Both original min_hole_clearance and min_hole_to_hole stay0.25mm, and all other project rule fields remain exact. A separate movement counterfactual is rejected before native calls by immutable geometry; it does not stand in for the isolated warning result.
+
+The frozen negative predicate is false because the actual description says board setup constraints min0.2495mm and actual0.1000mm. The nominal original rule is0.25mm. Exact threshold semantics are explained by pinned primary source, fetched additively under a combined1MiB bound (48,219bytes received): [hole provider](https://github.com/KiCad/kicad-source-mirror/blob/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/pcbnew/drc/drc_test_provider_hole_to_hole.cpp#L298) subtracts GetDRCEpsilon from the evaluated constraint and reports that adjusted minimum; [advanced config](https://github.com/KiCad/kicad-source-mirror/blob/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/common/advanced_config.cpp#L244) defaults epsilon to0.0005mm. Cached [settings loader](https://github.com/KiCad/kicad-source-mirror/blob/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/pcbnew/board_design_settings.cpp#L300) binds min_hole_to_hole, and [implicit rule construction](https://github.com/KiCad/kicad-source-mirror/blob/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/pcbnew/drc/drc_engine.cpp#L192) uses that original minimum. Therefore0.25−0.0005=0.2495mm is the source-default derivation matching the retained report. The setting is advanced-configurable; no separate runtime epsilon API observation was captured, so this review does not invent one. No kicad_advanced file exists in the retained control tree. The report and original rule are not rounded, normalized or rewritten, and no new tolerance is introduced into production acceptance.
+
+A separate corrected readback may qualify these completed controls against the source-explained observed threshold while preserving the original failed protocol/controller, complete prefix costs and no-new-native status. This review itself preserves the frozen predicate failure and establishes no formal production admission from it. Repeating the six completed cases is unnecessary.
+
+Full outer new-control cost is8.568163459wall/6.886507CPU, including the failed last predicate and all ten workers, below90wall/90CPU and20MiB output bounds. Inner stored8.107353833wall/6.446903CPU is not substituted for the full outer envelope. Polling limits remain sampled resource controls, not OS aggregate quotas. Exact source/tool freeze and every pinned original input remain unchanged; the retained complete tree is 281 files / 104 directories.
+
+Separate fresh pure probes verify the former empty, unknown and numeric layer gap now rejects; a declared Dwgs.User text literally displaying Edge.Cuts is still admitted. The prior layer-gap review is unchanged. Pure probes establish parser behavior only, not KiCad grammar/enforcement or candidate routing quality.
+
+No reviewer native/JVM/Git/subprocess worker or delegation occurred; the only network was the explicit bounded primary-source follow-up. No tracked edit, production route, novelty, broad board-family, native field/textbox/dimension, GUI, human PCB or physical/electrical claim is made. All writes belong to this new review directory, and raw actual boards/native files remain in their original local evidence paths.

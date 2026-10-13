@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "process": {
+    "status": "nonzero_exit",
+    "exit_code": 2,
+    "wall_seconds": 8.429121083005157,
+    "cpu_seconds": 6.757446,
+    "max_rss_bytes": 294944768,
+    "supervisor_cpu_seconds": 0.022558999999999996,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 207831040,
+    "sampled_peak_workdir_bytes": 66,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 20971520,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/modern_semantics_controls_v1/driver.py",
+      "--run-native",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/modern-semantics-controls-001"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/modern-semantics-controls-execution-001/command.log",
+    "log_bytes": 66,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/modern-semantics-controls-execution-001",
+    "signal_cancellation_enabled": true,
+    "pid": 76955
+  },
+  "wall_seconds": 8.568163459000061,
+  "full_cpu_seconds": 6.886507000000001,
+  "wrapper_sha256": "3ee0e3d1d15c07389c43b94fa1cef8fcc9894a60e25f0a206f2c8bb6f0a78b5d",
+  "log_sha256": "2ba47a01a3e8030acd0aae480e9b2e0bd6d834150d7d53855bdadd1e1b1824f0",
+  "git_head": "34a86742b0356a00682c6a276ffedfbf3c438f5b",
+  "scope": "New warning/ignore text and isolatedhole-warning controls only; no previouserrorcontrol rerun/solver/production candidate. Shared native originalrule/candidate/process/ownership/readback, sequential; completeouter90wall/fullCPU required."
+}

@@ -68,7 +68,7 @@ class Controls(unittest.TestCase):
             f.validate_protocol(self.plan, self.original, 'v2')
         with self.assertRaisesRegex(ValueError, 'protocol pin'):
             f.load(HERE, 'v2')
-        for profile_id in ('v3', '../v1', True, None):
+        for profile_id in ('v4', '../v1', True, None):
             with self.subTest(profile_id=profile_id), self.assertRaisesRegex(ValueError, 'unreviewed'):
                 f.profile(profile_id)
 
