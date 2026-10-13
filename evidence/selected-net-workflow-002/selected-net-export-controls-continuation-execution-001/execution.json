@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 1.9332869579957332,
+    "cpu_seconds": 1.815459,
+    "max_rss_bytes": 203718656,
+    "supervisor_cpu_seconds": 0.006324000000000003,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 203685888,
+    "sampled_peak_workdir_bytes": 109,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 33554432,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/selected-net-export-controls-continuation-001.py"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/selected-net-export-controls-continuation-execution-001/command.log",
+    "log_bytes": 109,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/selected-net-export-controls-continuation-execution-001",
+    "signal_cancellation_enabled": true,
+    "pid": 84296
+  },
+  "wall_seconds": 1.933311250002589,
+  "full_cpu_seconds": 1.821807,
+  "wrapper_sha256": "c56390c93205f387fd366eb3f3fece88d183355f4775c7869db5db1e577a96ca",
+  "controller_sha256": "e8614d9fb349cabf1223cccd9f3aee6c42c3108d449b5c37a48a1b5736adb0fa",
+  "log_sha256": "5d6b6673a551e174afa0f3f4b44a996ced8a40d4517317b28eff4d1b90722271",
+  "git_head": "3d79185206d6bd38e5b1666596be436dc401043d",
+  "scope": "Actual export failure controls, additional workflow cost. Existing sharednetworkdenial/runner/native APIs, one sequential worker. Output bound controls runner cwd; total300wall/fullCPU inside controller."
+}

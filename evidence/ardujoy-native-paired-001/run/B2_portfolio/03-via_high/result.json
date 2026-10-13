@@ -1,0 +1,970 @@
+{
+  "schema": 1,
+  "status": "drc_rejected",
+  "accepted": false,
+  "physical_electrical_validation": false,
+  "schematic_parity": "checked by final native DRC",
+  "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-original-native-001/original/Ardujoy_HW/Ardujoy_HW.kicad_pcb",
+  "started_utc": "2026-10-13T17:46:50.835879+00:00",
+  "budget_seconds": 76.24167391599622,
+  "cpu_budget_seconds": 76.24167391599622,
+  "cpu_budget_enforcement": "postcompletion acceptance cap; no total-CPU preemption",
+  "baseline": "B2_tuned",
+  "adapter": "both",
+  "engine_profile": "tuned",
+  "scoring_variant": "via_high",
+  "scope": "whole_board_unlocked_routing",
+  "tools": {
+    "implementation_sha256": {
+      "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+      "autorouter/__main__.py": "a4f6ca97f5dadc2547825ca5bf7be585a8fb6845db1956815679a43474c26113",
+      "autorouter/adapter.py": "509feca807ccee112b0b6a071fd0944c88177ba83f5b77422ec8be5cdf63d25b",
+      "autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+      "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+      "autorouter/floor_context.py": "956bfe206c0e41847a74b810292c64995ad514ec0427aff98da1644d85240168",
+      "autorouter/floor_route.py": "6ede5231e65c9bad24f5d83ede5d73155f86852251e253611e888d69afb706fb",
+      "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+      "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+      "autorouter/native.py": "7257496b007fbc449adb3cc8b999712aed8ea0aa881a116ba337d18e2ab87c02",
+      "autorouter/netclass.py": "96a7425112bc5a5ce5d2f15f69efc334fbfbb97aa9deee1ee33ce984d25a8ea6",
+      "autorouter/pipeline.py": "657c6a1b198d5158d465ceedfad7ca7af09cd1a9bc78d5401800fbadf3e01242",
+      "autorouter/placement_clearance.py": "f846a73367bc60dfbb48386233e405cb4bf1382f056d379787d7b823c3905feb",
+      "autorouter/placement_strategy.py": "1a497363ea3b1d594fdcd4676e36ca6812c692e4d2e1ce5e0fc1f08c04f2b0e3",
+      "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+      "autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+      "autorouter/recovery.py": "8a2bf1470cb69e7d8d334bbe7aef18110322a7aa786b965d397a89ddbc932ee5",
+      "autorouter/review_export.py": "7dc8e726edb7469ccaba34760567f0fac9120aa38b48d63f59a559d8593a7e95",
+      "autorouter/review_view.py": "8f765624a8527df770a98594a7b27fe88776b300ec276f809c179ec7f6f60fb7",
+      "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+      "autorouter/runner.py": "0e81ab1badf20cd84adc2fed586641dd97a489a5a6af03febe6fb597bb1d2718",
+      "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+      "autorouter/strategy.py": "cb867d2e0c4a143931d7e4943a6219c76142437a7d7d78d8fb4b7ed710b0df17",
+      "autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+      "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+      "autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455"
+    },
+    "git_head": "3d79185206d6bd38e5b1666596be436dc401043d",
+    "kicad": "10.0.0",
+    "freerouting": "2.5.0",
+    "files": {
+      "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+      "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219"
+    },
+    "network": "engine sandbox-exec deny network*"
+  },
+  "source_hashes": {
+    "Ardujoy_HW.kicad_pcb": "9a43c366418402a8a9de08ab9a3a8efa2eabf887e0c64a9bec0388671951e33b",
+    "Ardujoy_HW.kicad_pro": "a8d30fcebb58ed6d65334bcf839428d457e6cd1efabb1bbad6fd192e5ef9facb",
+    "Ardujoy_HW.kicad_sch": "0e92894a678b24ed36cbf1137051b9e9370a7bfb60ebe7e519962d0a35055571",
+    "Mine.kicad_sym": "31e6d185294f4ab22d8e2ecfbb26a2212b7ca7b35add69f458b3b605a2cf5b95",
+    "_licenses/creator/LICENSE": "88686ab84737e9ed4ccd6ac965e56b7467765851bfb66ee70382fbfdd5f4f428",
+    "_licenses/creator/README.md": "9cd2136862115f518ccd619cd2c05f27d202582133c940145680774a887e7486"
+  },
+  "task_sha256": "b8b4166481370d275e4c5d630e5eb1cb57ff94fe66dc8538fe05df65c31ddcdc",
+  "source_drc": {
+    "opens": 0,
+    "blocking": 1,
+    "warnings": 8,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "PTH inside courtyard",
+        "key": "pth_inside_courtyard"
+      },
+      {
+        "description": "NPTH inside courtyard",
+        "key": "npth_inside_courtyard"
+      },
+      {
+        "description": "Footprint component type doesn't match footprint pads",
+        "key": "footprint_type_mismatch"
+      }
+    ],
+    "findings": [
+      {
+        "description": "Track width (board setup constraints min width 0.6500 mm; actual 0.5000 mm)",
+        "items": [
+          {
+            "description": "Track [Net-(C64JA1-J1_down)] on B.Cu, length 0.0566 mm",
+            "pos": {
+              "x": 130.0,
+              "y": 98.96
+            },
+            "uuid": "81eef7a2-9645-493d-bb3b-ef51783ed5ce"
+          }
+        ],
+        "severity": "error",
+        "type": "track_width"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Connector_JST'",
+        "items": [
+          {
+            "description": "Footprint C64JA1",
+            "pos": {
+              "x": 127.5,
+              "y": 85.0
+            },
+            "uuid": "850390dc-036b-48e1-b696-e06a023ea064"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+        "items": [
+          {
+            "description": "Footprint JoyMod1",
+            "pos": {
+              "x": 149.5,
+              "y": 98.42
+            },
+            "uuid": "90d4b0b7-ffa3-457d-aba0-3ed9a1e0f003"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+        "items": [
+          {
+            "description": "Footprint C1",
+            "pos": {
+              "x": 141.5,
+              "y": 105.5
+            },
+            "uuid": "c7bfe82c-6998-4324-8330-b874cc3d0115"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+        "items": [
+          {
+            "description": "Footprint R1",
+            "pos": {
+              "x": 127.38,
+              "y": 94.0
+            },
+            "uuid": "ccb42b1e-2e0f-4fa5-851d-f85199e1a9d5"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Connector_JST'",
+        "items": [
+          {
+            "description": "Footprint C64JB1",
+            "pos": {
+              "x": 141.0,
+              "y": 85.0
+            },
+            "uuid": "ddc9932e-e63d-43d3-8fa4-bf60a0e13e62"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Package_DIP'",
+        "items": [
+          {
+            "description": "Footprint U1",
+            "pos": {
+              "x": 135.04,
+              "y": 99.0
+            },
+            "uuid": "e7731b9e-7f24-4a56-b6fa-eebfecaa5a57"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Button_Switch_THT'",
+        "items": [
+          {
+            "description": "Footprint SW1",
+            "pos": {
+              "x": 93.25,
+              "y": 99.5
+            },
+            "uuid": "ffd21bef-3ee2-4e75-ae12-7ce48948e716"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "Silkscreen clearance",
+        "items": [
+          {
+            "description": "Reference field of JoyMod1",
+            "pos": {
+              "x": 149.5,
+              "y": 96.04
+            },
+            "uuid": "4edf1d63-734c-4dbc-93b4-b39ae01ba14c"
+          },
+          {
+            "description": "Rectangle on F.Silkscreen",
+            "pos": {
+              "x": 147.5,
+              "y": 90.5
+            },
+            "uuid": "5045c096-7722-4215-b93b-f329f6c0b9e6"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_overlap"
+      }
+    ]
+  },
+  "native_dsn_sha256": "820fde349f868776968667982d6b18195f92bb26ed328fa202f94eb3a142cbe6",
+  "adapter_transformations": {
+    "classification": "B1_adapter_only",
+    "mode": "both",
+    "input_sha256": "820fde349f868776968667982d6b18195f92bb26ed328fa202f94eb3a142cbe6",
+    "output_sha256": "b3a9dd80b0c64035cebe987a5e8fd06d4d1709bbb88630201dd3e969b3ba43c9",
+    "input_bytes": 17251,
+    "output_bytes": 14624,
+    "planes_removed": 0,
+    "graphics_keepouts_added": 1,
+    "net_pin_mapping": {
+      "nets": 17,
+      "pins": 36,
+      "semantic_sha256": "208841dba5806be7a5ed102b4363151434f1e6010ca25d1453dd3e967dbfbd86"
+    },
+    "net_pin_mapping_unchanged": true,
+    "native_project_modified": false,
+    "transformations": [
+      {
+        "kind": "native_graphic_bbox_keepout",
+        "obstacle_index": 0,
+        "native_layer": "B.Cu",
+        "dsn_layer": "B.Cu",
+        "bbox_mm": [
+          151.417865,
+          79.717533,
+          175.0,
+          83.672312
+        ],
+        "rect_um": [
+          "151417.865",
+          "-83672.312",
+          "175000",
+          "-79717.533"
+        ],
+        "keepout": "kicad_autorouter_graphic_820fde349f86_0"
+      }
+    ],
+    "limitations": [
+      "Graphics use conservative bounding rectangles, not exact copper contours.",
+      "Plane suppression is an all-terminal over-routing surrogate; native zones must remain unchanged."
+    ]
+  },
+  "task_dsn_sha256": "b3a9dd80b0c64035cebe987a5e8fd06d4d1709bbb88630201dd3e969b3ba43c9",
+  "engine_budget": {
+    "profile": "tuned",
+    "argv": [
+      "--router.autorouter.max_passes=100",
+      "--router.job_timeout=00:00:32",
+      "--router.optimizer.max_threads=1",
+      "--router.optimizer.max_passes=50",
+      "--router.optimizer.timeout=00:00:32",
+      "--router.optimizer.improvement_threshold=0.001",
+      "--router.optimizer.enable_preflight_guards=false",
+      "--router.optimizer.max_consecutive_failures=100",
+      "--router.optimizer.max_consecutive_failures_pass1=100",
+      "--router.scoring.via_costs=100",
+      "--router.scoring.plane_via_costs=10"
+    ],
+    "scoring": {
+      "variant": "via_high",
+      "via_costs": 100,
+      "plane_via_costs": 10,
+      "argv": [
+        "--router.scoring.via_costs=100",
+        "--router.scoring.plane_via_costs=10"
+      ]
+    },
+    "strict_class_targets": false,
+    "remaining_outer_wall_seconds_at_assignment": 72.18203379100305,
+    "assigned_job_timeout_seconds": 32,
+    "assigned_optimizer_timeout_seconds": 32,
+    "native_finalization_reserve_seconds": 10,
+    "engine_grace_reserve_seconds": 30,
+    "internal_deadlines": "cooperative planning caps; external supervision and measured CPU acceptance cap remain authoritative",
+    "outer_task_wall_budget_seconds": 76.24167391599622,
+    "outer_task_cpu_budget_seconds": 76.24167391599622
+  },
+  "optimizer_threshold_audit": {
+    "expected_percent": 0.1,
+    "observed_stop_threshold_percent": [
+      0.1
+    ],
+    "runtime_observation": "matched"
+  },
+  "native": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 12,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "PTH inside courtyard",
+        "key": "pth_inside_courtyard"
+      },
+      {
+        "description": "NPTH inside courtyard",
+        "key": "npth_inside_courtyard"
+      },
+      {
+        "description": "Footprint component type doesn't match footprint pads",
+        "key": "footprint_type_mismatch"
+      }
+    ],
+    "findings": [
+      {
+        "description": "The current configuration does not include the footprint library 'Connector_JST'",
+        "items": [
+          {
+            "description": "Footprint C64JA1",
+            "pos": {
+              "x": 127.5,
+              "y": 85.0
+            },
+            "uuid": "850390dc-036b-48e1-b696-e06a023ea064"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+        "items": [
+          {
+            "description": "Footprint JoyMod1",
+            "pos": {
+              "x": 149.5,
+              "y": 98.42
+            },
+            "uuid": "90d4b0b7-ffa3-457d-aba0-3ed9a1e0f003"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+        "items": [
+          {
+            "description": "Footprint C1",
+            "pos": {
+              "x": 141.5,
+              "y": 105.5
+            },
+            "uuid": "c7bfe82c-6998-4324-8330-b874cc3d0115"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+        "items": [
+          {
+            "description": "Footprint R1",
+            "pos": {
+              "x": 127.38,
+              "y": 94.0
+            },
+            "uuid": "ccb42b1e-2e0f-4fa5-851d-f85199e1a9d5"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Connector_JST'",
+        "items": [
+          {
+            "description": "Footprint C64JB1",
+            "pos": {
+              "x": 141.0,
+              "y": 85.0
+            },
+            "uuid": "ddc9932e-e63d-43d3-8fa4-bf60a0e13e62"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Package_DIP'",
+        "items": [
+          {
+            "description": "Footprint U1",
+            "pos": {
+              "x": 135.04,
+              "y": 99.0
+            },
+            "uuid": "e7731b9e-7f24-4a56-b6fa-eebfecaa5a57"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Button_Switch_THT'",
+        "items": [
+          {
+            "description": "Footprint SW1",
+            "pos": {
+              "x": 93.25,
+              "y": 99.5
+            },
+            "uuid": "ffd21bef-3ee2-4e75-ae12-7ce48948e716"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "Silkscreen clearance",
+        "items": [
+          {
+            "description": "Reference field of JoyMod1",
+            "pos": {
+              "x": 149.5,
+              "y": 96.04
+            },
+            "uuid": "4edf1d63-734c-4dbc-93b4-b39ae01ba14c"
+          },
+          {
+            "description": "Rectangle on F.Silkscreen",
+            "pos": {
+              "x": 147.5,
+              "y": 90.5
+            },
+            "uuid": "5045c096-7722-4215-b93b-f329f6c0b9e6"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_overlap"
+      },
+      {
+        "description": "Pad net (Net-(C64JA1-J0_up)) doesn't match net given by schematic (Net-(C64JA1-J1_up))",
+        "items": [
+          {
+            "description": "PTH pad 1 [Net-(C64JA1-J0_up)] of C64JA1",
+            "pos": {
+              "x": 127.5,
+              "y": 85.0
+            },
+            "uuid": "c7d9d56a-d21d-4479-afd0-b56458318bb8"
+          }
+        ],
+        "severity": "warning",
+        "type": "net_conflict"
+      },
+      {
+        "description": "Pad net (Net-(C64JA1-J1_down)) doesn't match net given by schematic (Net-(C64JA1-J2_down))",
+        "items": [
+          {
+            "description": "PTH pad 2 [Net-(C64JA1-J1_down)] of C64JA1",
+            "pos": {
+              "x": 125.0,
+              "y": 85.0
+            },
+            "uuid": "b2ac38a8-c157-4ea2-bd7b-773996233e82"
+          }
+        ],
+        "severity": "warning",
+        "type": "net_conflict"
+      },
+      {
+        "description": "Pad net (Net-(C64JA1-J0_up)) doesn't match net given by schematic (Net-(C64JA1-J1_up))",
+        "items": [
+          {
+            "description": "PTH pad 2 [Net-(C64JA1-J0_up)] of U1",
+            "pos": {
+              "x": 132.5,
+              "y": 99.0
+            },
+            "uuid": "bc24719c-f118-4457-aa90-c778d2743209"
+          }
+        ],
+        "severity": "warning",
+        "type": "net_conflict"
+      },
+      {
+        "description": "Pad net (Net-(C64JA1-J1_down)) doesn't match net given by schematic (Net-(C64JA1-J2_down))",
+        "items": [
+          {
+            "description": "PTH pad 3 [Net-(C64JA1-J1_down)] of U1",
+            "pos": {
+              "x": 129.96,
+              "y": 99.0
+            },
+            "uuid": "2eebd6e9-1cf6-4690-93f1-d10002d56fea"
+          }
+        ],
+        "severity": "warning",
+        "type": "net_conflict"
+      }
+    ]
+  },
+  "metrics": {
+    "version": "10.0.0",
+    "pads": 36,
+    "footprints": 7,
+    "zones": 0,
+    "vias": 0,
+    "track_length_mm": 327.21344455952396,
+    "copper_layers": 2
+  },
+  "native_report_sha256": "cd9dfe00c1699eb234a61ff372f6aad195eec32153a26d6187c9631fe884cea4",
+  "candidate_sha256": "66561058e8ceaf9f7a9b03c440cf0c37ebf2f22d3a9613a40e22d3b8f12543c9",
+  "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B2_portfolio/03-via_high/candidate/Ardujoy_HW.kicad_pcb",
+  "invariants_unchanged": true,
+  "native_rejection_reasons": [
+    "policy-critical native finding: net_conflict (warning)"
+  ],
+  "whole_project_drc_clean": false,
+  "steps": [
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 0.7532754999992903,
+      "cpu_seconds": 0.464187,
+      "max_rss_bytes": 219693056,
+      "supervisor_cpu_seconds": 0.006640999999998343,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 99696640,
+      "sampled_peak_workdir_bytes": 953138,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B2_portfolio/03-via_high/source-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B2_portfolio/03-via_high/source-drc-input/Ardujoy_HW.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B2_portfolio/03-via_high/source-drc.log",
+      "log_bytes": 188,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B2_portfolio/03-via_high",
+      "signal_cancellation_enabled": true,
+      "pid": 84131,
+      "name": "source-drc",
+      "validated_input_sha256": "9a43c366418402a8a9de08ab9a3a8efa2eabf887e0c64a9bec0388671951e33b",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B2_portfolio/03-via_high/snapshot/Ardujoy_HW.kicad_pcb"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.34265449999656994,
+      "cpu_seconds": 0.337272,
+      "max_rss_bytes": 97353728,
+      "supervisor_cpu_seconds": 0.00499900000000153,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 34865152,
+      "sampled_peak_workdir_bytes": 974008,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+        "export",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B2_portfolio/03-via_high/candidate/Ardujoy_HW.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B2_portfolio/03-via_high/task.dsn"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B2_portfolio/03-via_high/export.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B2_portfolio/03-via_high",
+      "signal_cancellation_enabled": true,
+      "pid": 84132,
+      "name": "export"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.3382671670115087,
+      "cpu_seconds": 0.33322299999999994,
+      "max_rss_bytes": 96534528,
+      "supervisor_cpu_seconds": 0.004355000000000331,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 34930688,
+      "sampled_peak_workdir_bytes": 993326,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+        "obstacles",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B2_portfolio/03-via_high/candidate/Ardujoy_HW.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B2_portfolio/03-via_high/obstacles.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B2_portfolio/03-via_high/obstacles.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B2_portfolio/03-via_high",
+      "signal_cancellation_enabled": true,
+      "pid": 84133,
+      "name": "obstacles"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 2.700012125002104,
+      "cpu_seconds": 2.393185,
+      "max_rss_bytes": 226328576,
+      "supervisor_cpu_seconds": 0.03821800000000053,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 226197504,
+      "sampled_peak_workdir_bytes": 1003145,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java",
+        "-Xms128m",
+        "-Xmx2g",
+        "-XX:ActiveProcessorCount=1",
+        "-Djava.awt.headless=true",
+        "-jar",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar",
+        "--gui.enabled=false",
+        "--api_server.enabled=false",
+        "--mcp_server.enabled=false",
+        "-da",
+        "--user_data_path=/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B2_portfolio/03-via_high/engine-config",
+        "--logging.file.enabled=false",
+        "--router.autorouter.max_passes=100",
+        "--router.job_timeout=00:00:32",
+        "--router.optimizer.max_threads=1",
+        "--router.optimizer.max_passes=50",
+        "--router.optimizer.timeout=00:00:32",
+        "--router.optimizer.improvement_threshold=0.001",
+        "--router.optimizer.enable_preflight_guards=false",
+        "--router.optimizer.max_consecutive_failures=100",
+        "--router.optimizer.max_consecutive_failures_pass1=100",
+        "--router.scoring.via_costs=100",
+        "--router.scoring.plane_via_costs=10",
+        "-de",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B2_portfolio/03-via_high/task.dsn",
+        "-do",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B2_portfolio/03-via_high/routes.ses"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B2_portfolio/03-via_high/engine.log",
+      "log_bytes": 3391,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B2_portfolio/03-via_high",
+      "signal_cancellation_enabled": true,
+      "pid": 84134,
+      "name": "engine"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.3684141669946257,
+      "cpu_seconds": 0.35622699999999996,
+      "max_rss_bytes": 100073472,
+      "supervisor_cpu_seconds": 0.008070999999997497,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 34406400,
+      "sampled_peak_workdir_bytes": 1089975,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+        "import",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B2_portfolio/03-via_high/candidate/Ardujoy_HW.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B2_portfolio/03-via_high/imported.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B2_portfolio/03-via_high/routes.ses"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B2_portfolio/03-via_high/import.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B2_portfolio/03-via_high",
+      "signal_cancellation_enabled": true,
+      "pid": 84135,
+      "name": "import"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 0.7546183329977794,
+      "cpu_seconds": 0.467118,
+      "max_rss_bytes": 220332032,
+      "supervisor_cpu_seconds": 0.007639000000001062,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 100122624,
+      "sampled_peak_workdir_bytes": 1241095,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B2_portfolio/03-via_high/refill-drc.json",
+        "--save-board",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B2_portfolio/03-via_high/refill/Ardujoy_HW.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B2_portfolio/03-via_high/refill-drc.log",
+      "log_bytes": 200,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B2_portfolio/03-via_high",
+      "signal_cancellation_enabled": true,
+      "pid": 84136,
+      "name": "refill-drc",
+      "validated_input_sha256": "66561058e8ceaf9f7a9b03c440cf0c37ebf2f22d3a9613a40e22d3b8f12543c9",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B2_portfolio/03-via_high/refill/Ardujoy_HW.kicad_pcb"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 0.8408787909866078,
+      "cpu_seconds": 0.515693,
+      "max_rss_bytes": 226869248,
+      "supervisor_cpu_seconds": 0.009797000000002498,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 221265920,
+      "sampled_peak_workdir_bytes": 1380193,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--schematic-parity",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B2_portfolio/03-via_high/final-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B2_portfolio/03-via_high/final-drc-input/Ardujoy_HW.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B2_portfolio/03-via_high/final-drc.log",
+      "log_bytes": 219,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B2_portfolio/03-via_high",
+      "signal_cancellation_enabled": true,
+      "pid": 84137,
+      "name": "final-drc",
+      "validated_input_sha256": "66561058e8ceaf9f7a9b03c440cf0c37ebf2f22d3a9613a40e22d3b8f12543c9",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B2_portfolio/03-via_high/candidate/Ardujoy_HW.kicad_pcb"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.3457119169906946,
+      "cpu_seconds": 0.338968,
+      "max_rss_bytes": 96010240,
+      "supervisor_cpu_seconds": 0.006115000000001203,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 34619392,
+      "sampled_peak_workdir_bytes": 1383985,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+        "metrics",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B2_portfolio/03-via_high/candidate/Ardujoy_HW.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B2_portfolio/03-via_high/metrics.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B2_portfolio/03-via_high/metrics.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-native-paired-001/run/B2_portfolio/03-via_high",
+      "signal_cancellation_enabled": true,
+      "pid": 84138,
+      "name": "metrics"
+    }
+  ],
+  "wall_seconds": 9.123358833996463,
+  "parent_cpu_seconds": 2.7574260000000006,
+  "child_cpu_seconds": 5.2058729999999995,
+  "monitor_cpu_seconds": 0,
+  "total_cpu_seconds": 7.963299,
+  "peak_child_rss_bytes": 226869248,
+  "resource_limitations": "One sequential worker; Java 2GiB heap; group RSS4GiB and workdir512MiB polling guards may overshoot;10GiB total cache checked before task. Peak direct-child RSS and polled group RSS are different metrics. CPU descendants only if accounted for by child wait; monitoring CPU included.",
+  "resource_accounting_point": "Summary sampled before final receipt write; wall and measured CPU acceptance caps rechecked after that write. No hard total-CPU preemption."
+}

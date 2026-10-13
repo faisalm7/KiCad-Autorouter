@@ -1,0 +1,33 @@
+# Ardujoy original-native independent review
+
+The retained five-stage diagnostic is internally bound and preserves the original acquired project. It is **not an accepted routing result**: the original board has one native width error, and its separate complete-schematic check adds four net-conflict warnings. This reviewer executed no native KiCad, solver, JVM, subprocess, Git or network operations. All existing native evidence remains unchanged.
+
+## Actual retained results
+
+At actual implementation HEAD6342aed1239b54a0d56d66f3223f6e82701f1a07 and original source commit1b63471d9726fb6a38f8544ca73ebf10c7f19820, original DRC reports0opens/1blocking/8warnings/0exclusions. The width error is native track_width on UUID81eef7a2-9645-493d-bb3b-ef51783ed5ce: original board minimum0.6500mm, actual source segment0.5000mm. The original Default target is0.8mm. No rule or severity was reduced. Seven footprint-library warnings and one silkscreen overlap warning remain visible.
+
+The separate parity DRC reports0opens/1blocking/12warnings/0exclusions. Its regular original findings and ignored-check metadata are identical; it adds exactly four warning net_conflict findings. C64JA1 pad1 and U1 pad2 use PCB Net-(C64JA1-J0_up) while the schematic supplies Net-(C64JA1-J1_up). C64JA1 pad2 and U1 pad3 use PCB Net-(C64JA1-J1_down) while the schematic supplies Net-(C64JA1-J2_down). Exact item UUIDs and descriptions are retained in the compact audit. These are original electrical-mapping issues, not routing-induced failures, and their raw warning severities remain unchanged.
+
+The independent audit reused shared `check_drc_stage`, `process_check`, bounded inventory and immutable/route helpers. Both raw DRC summaries, full original-rule input copies, complete same-basename schematic, exact argv, step/input enrichment and all five raw process/log receipts agree. DRC stages correctly exited5; export, metrics and roundtrip exited0; every worker reports completed cleanup. The acquired notice-bearing snapshot, acquisition receipt, original inventory and all frozen implementation files agree exactly. All31 audit predicates passed; no original experiment was repeated.
+
+## Original geometry, task and roundtrip
+
+Original and native-saved boards contain67segments,0vias,0arcs,0locked routes and67canonical unique nonempty route UUIDs. Saved UUID population is unchanged. Every route's full AST record matches after the existing explicit legacy-numeric-to-native-name net conversion; route ordering also matches. Hashes for all67 original, converted and reconciled records are retained without publishing route geometry.
+
+The native-saved non-fill AST differs from the original, as the original controller honestly records. The existing strict original-shell reconciliation restores the original non-fill geometry and every full route record exactly; this is not normalization of a raw saved board into a pass. No via compatibility was inferred. The whole-board task reconstruction removes exactly67unlocked reference segments and no locked route, leaves0route items, and preserves the complete original immutable AST. There are0zones. Original project/rules/severities/exclusions, pads, nets and terminal mapping remain exact. No source route was used as an improvement oracle.
+
+The current experiment selector returns precisely the original notice-bearing Ardujoy project and the development-exposed family label after comparing its full inventory to the licensed snapshot. It does not create a relaxed task or substitute a converted source project.
+
+## Parity coverage defect and correction
+
+The actual diagnostic's frozen pipeline94eab85e89798ac89e989fe90830751a05bdfa3817ca8a0dd9f8f9546aadcdc2 requested final parity only through the selected-net path. Native whole-board validation and fresh whole-board export did not automatically include it even when the complete schematic was captured. The original diagnostic's separate parity stage therefore did not establish candidate parity coverage.
+
+An executable pure probe loads that actual frozen pipeline and exercises its shared validator with a copied same-basename schematic. Its final DRC argv omits --schematic-parity. Every process/report in that probe is deliberately fabricated; it is a mechanical call/binding counterexample, not PCB qualification. The lead's current validator independently derives the requirement from the captured complete project for every call. Default invocation, explicitFalse and explicitTrue now all insert --schematic-parity and preserve the copied project and candidate exactly. The same actual four warning net_conflict findings, isolated without modifying their payloads, were accepted by the historical application policy and are rejected by current policy while retaining severitywarning.
+
+Fresh export now derives its own parity declaration from original source inputs even for a historical whole-board routing receipt marked notchecked. The narrow export metadata gate rejects false/unavailable declarations for this complete Ardujoy source and advances an accurate declaration to the next geometry guard. That gate probe intentionally stops before geometry/native validation and is not full export qualification. Historical receipts remain explicitly limited to their recorded evidence; no old native run was repeated or retroactively assigned parity.
+
+## Costs and remaining gate
+
+Stored diagnostic accounting is3.925601499999175wall seconds and2.5197039999999995full parent-plus-waited-child CPU seconds under90/90seconds and20MiB. Native-stage sums are retained. The aggregate includes source/code provenance work, while only five native stages are listed. Output was sampled before publishing result.json; there is no independent enclosing execution receipt, so this review does not present those stored numbers as an exact full-function envelope.
+
+The original diagnostic remains observed/acceptedFalse/native_routing_scope_acceptedFalse. The new candidate parity invocation and stricter warning policy are mechanically checked, but fresh current-code positive/negative candidate/export native qualification is still separate. Because pads and the complete schematic remain immutable, rerouting the short undersized reference segment alone cannot establish complete-project acceptance while the original net conflicts remain. Keep Ardujoy and its unsupported/electrical-mapping gate in full-population reporting. Do not silently repair mappings, suppress warnings, relax constraints or count this diagnostic as a routing improvement, broad superiority, physical/electrical approval or a release candidate.

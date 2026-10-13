@@ -1,0 +1,50 @@
+{
+  "source_sha256": {
+    "autorouter/pipeline.py": "657c6a1b198d5158d465ceedfad7ca7af09cd1a9bc78d5401800fbadf3e01242",
+    "autorouter/floor_route.py": "6ede5231e65c9bad24f5d83ede5d73155f86852251e253611e888d69afb706fb",
+    "autorouter/strategy.py": "cb867d2e0c4a143931d7e4943a6219c76142437a7d7d78d8fb4b7ed710b0df17",
+    "autorouter/recovery.py": "8a2bf1470cb69e7d8d334bbe7aef18110322a7aa786b965d397a89ddbc932ee5",
+    "autorouter/placement_strategy.py": "1a497363ea3b1d594fdcd4676e36ca6812c692e4d2e1ce5e0fc1f08c04f2b0e3",
+    "autorouter/review_export.py": "7dc8e726edb7469ccaba34760567f0fac9120aa38b48d63f59a559d8593a7e95",
+    "experiments/original_project_native_v1/driver.py": "85b81b6346ed34b098cccd8350b68d0e7249be7b26496a6d6865221b53375684",
+    "scripts/experiment_quality.py": "6003d8a6af4240b180a540e712fcf2d4de15453453f73ed28d262feb17ba7eaf",
+    "tests/test_parity_acceptance.py": "93f5d324b0beba276b8739aeca12572bcb75c670855f78d152ed288f26685d9d"
+  },
+  "excerpts": {
+    "autorouter/pipeline.py": {
+      "sha256": "657c6a1b198d5158d465ceedfad7ca7af09cd1a9bc78d5401800fbadf3e01242",
+      "functions": {
+        "parity_declaration": {
+          "line": 739,
+          "source": "def parity_declaration(source, source_hashes):\n    return ('checked by final native DRC' if Path(source).with_suffix('.kicad_sch').name in source_hashes\n            else 'unavailable: no native schematic in source project')\n"
+        },
+        "selected_parity_required": {
+          "line": 744,
+          "source": "def selected_parity_required(data):\n    # Historical whole-board receipts explicitly did not check parity. Keep\n    # their evidence readable; new receipts declare the actual complete-input\n    # check, and their retained native argv must agree with that declaration.\n    if (data.get('scope')!='selected_nets' and data.get('schematic_parity') not in\n            {'checked by final native DRC','unavailable: no native schematic in source project'}):return False\n    required=Path(data['source']).with_suffix('.kicad_sch').name in data['source_hashes']\n    if data.get('schematic_parity')!=parity_declaration(data['source'],data['source_hashes']):raise Rejected('schematic parity declaration differs from complete source')\n    return required\n"
+        }
+      },
+      "automatic_final_parity": {
+        "head": "def validate_candidate(job, original, candidate, source_hashes, protected, *, guidance_contract=None, guidance_basis=None, layer_contract=None, selected_names=None, schematic_parity=False):\n    # A complete captured native schematic must participate in final acceptance\n    # for every routing scope, including optimizer trials and fresh exports.\n    schematic_parity=schematic_parity or Path(candidate).with_suffix('.kicad_sch').name in source_hashes\n",
+        "final_call": "    native=job.drc('final-drc',candidate,schematic_parity=True) if schematic_parity else job.drc('final-drc',candidate)",
+        "critical_findings_line": "CRITICAL_FINDINGS = CRITICAL_CHECKS | {'padstack_invalid','text_on_edge_cuts','net_conflict'}"
+      }
+    },
+    "scripts/experiment_quality.py": {
+      "sha256": "6003d8a6af4240b180a540e712fcf2d4de15453453f73ed28d262feb17ba7eaf",
+      "functions": {
+        "selected_source": {
+          "line": 57,
+          "source": "def selected_source(name):\n    if name=='ardujoy-c64':\n        from experiments.licensed_acquisition_v4 import native_snapshot\n        files=native_snapshot.capture()\n        base=c.ROOT/'.runs/ardujoy-original-native-001/original/Ardujoy_HW'\n        expected={name.removeprefix('Ardujoy_HW/'):hashlib.sha256(raw).hexdigest()\n                  for name,raw in files.items() if name.startswith('Ardujoy_HW/')}\n        if p.tree_hash(base)!=expected:raise p.Rejected('exact original notice-bearing Ardujoy snapshot required')\n        return base/'Ardujoy_HW.kicad_pcb','ArdujoyC64-ATtiny84-joystick-development-exposed'\n"
+        }
+      }
+    },
+    "autorouter/review_export.py": {
+      "sha256": "7dc8e726edb7469ccaba34760567f0fac9120aa38b48d63f59a559d8593a7e95",
+      "metadata_gate": "def check_stage(folder,data,binding,report,basis,contract,layers):\n    \"\"\"Reuse original-rule refill/final/process/native-context validators.\"\"\"\n    if report.get('scope')=='selected_nets' and data.get('schematic_parity')!=report.get('schematic_parity'):\n        raise p.Rejected('export selected-net schematic parity declaration differs')\n    if data.get('schematic_parity')!=p.parity_declaration(binding['source'],binding['source_hashes']):\n        raise p.Rejected('export schematic parity declaration differs from original source')\n",
+      "final_parity_arguments": [
+        "        extra={'schematic_parity':True} if data.get('schematic_parity')=='checked by final native DRC' else {}",
+        "            record['schematic_parity']=p.parity_declaration(binding['source'],binding['source_hashes'])"
+      ]
+    }
+  }
+}

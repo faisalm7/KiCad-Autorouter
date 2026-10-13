@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 8.110138874995755,
+    "cpu_seconds": 6.161887,
+    "max_rss_bytes": 196853760,
+    "supervisor_cpu_seconds": 0.024978000000000007,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 194772992,
+    "sampled_peak_workdir_bytes": 117,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 33554432,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qualify-selected-net-workflow-002.py"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/selected-net-workflow-execution-002/command.log",
+    "log_bytes": 117,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/selected-net-workflow-execution-002",
+    "signal_cancellation_enabled": true,
+    "pid": 83941
+  },
+  "wall_seconds": 8.110177166992798,
+  "full_cpu_seconds": 6.186904,
+  "wrapper_sha256": "164967f005248285cceb34f546fd5f3d9a8635f9a6dad981bbdbeaf3a3493ce3",
+  "controller_sha256": "e7f8b61389b6a07a7e8017c06883df13c36c39057b72241dddb0cc578ebff0a3",
+  "log_sha256": "0656edac6d189390886203b7cead3a4f03411e4cc4c4cd07be50794d0ed9181f",
+  "git_head": "3d79185206d6bd38e5b1666596be436dc401043d",
+  "scope": "Actual selected CLI workflow, additional workflow cost. Existing sharednetworkdenial/runner/native APIs, one sequential worker. Output bound controls runner cwd; total180wall/fullCPU inside controller."
+}

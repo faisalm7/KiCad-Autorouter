@@ -1,0 +1,127 @@
+{
+  "native_validation_performed": false,
+  "subprocesses_executed": 0,
+  "historical_pipeline_sha256": "94eab85e89798ac89e989fe90830751a05bdfa3817ca8a0dd9f8f9546aadcdc2",
+  "current_pipeline_sha256_before": "657c6a1b198d5158d465ceedfad7ca7af09cd1a9bc78d5401800fbadf3e01242",
+  "current_pipeline_sha256_after": "657c6a1b198d5158d465ceedfad7ca7af09cd1a9bc78d5401800fbadf3e01242",
+  "results": [
+    {
+      "case": "historical-default",
+      "pipeline_sha256": "94eab85e89798ac89e989fe90830751a05bdfa3817ca8a0dd9f8f9546aadcdc2",
+      "schematic_captured": true,
+      "explicit_kwargs": {},
+      "final_argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-original-native-review-001/historical-default/job/final-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-original-native-review-001/historical-default/job/final-drc-input/probe.kicad_pcb"
+      ],
+      "parity_requested": false,
+      "complete_project_same_in_final_copy": true,
+      "candidate_preserved": true,
+      "candidate_sha256": "a7830486d4826e2ecde44aeb34f1b20f6ca9c563bf1656b8faeba1fb2e9a72fb",
+      "native_validation_performed": false
+    },
+    {
+      "case": "current-default",
+      "pipeline_sha256": "657c6a1b198d5158d465ceedfad7ca7af09cd1a9bc78d5401800fbadf3e01242",
+      "schematic_captured": true,
+      "explicit_kwargs": {},
+      "final_argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--schematic-parity",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-original-native-review-001/current-default/job/final-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-original-native-review-001/current-default/job/final-drc-input/probe.kicad_pcb"
+      ],
+      "parity_requested": true,
+      "complete_project_same_in_final_copy": true,
+      "candidate_preserved": true,
+      "candidate_sha256": "a7830486d4826e2ecde44aeb34f1b20f6ca9c563bf1656b8faeba1fb2e9a72fb",
+      "native_validation_performed": false
+    },
+    {
+      "case": "current-forced-false",
+      "pipeline_sha256": "657c6a1b198d5158d465ceedfad7ca7af09cd1a9bc78d5401800fbadf3e01242",
+      "schematic_captured": true,
+      "explicit_kwargs": {
+        "schematic_parity": false
+      },
+      "final_argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--schematic-parity",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-original-native-review-001/current-forced-false/job/final-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-original-native-review-001/current-forced-false/job/final-drc-input/probe.kicad_pcb"
+      ],
+      "parity_requested": true,
+      "complete_project_same_in_final_copy": true,
+      "candidate_preserved": true,
+      "candidate_sha256": "a7830486d4826e2ecde44aeb34f1b20f6ca9c563bf1656b8faeba1fb2e9a72fb",
+      "native_validation_performed": false
+    },
+    {
+      "case": "current-explicit-true",
+      "pipeline_sha256": "657c6a1b198d5158d465ceedfad7ca7af09cd1a9bc78d5401800fbadf3e01242",
+      "schematic_captured": true,
+      "explicit_kwargs": {
+        "schematic_parity": true
+      },
+      "final_argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--schematic-parity",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-original-native-review-001/current-explicit-true/job/final-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ardujoy-original-native-review-001/current-explicit-true/job/final-drc-input/probe.kicad_pcb"
+      ],
+      "parity_requested": true,
+      "complete_project_same_in_final_copy": true,
+      "candidate_preserved": true,
+      "candidate_sha256": "a7830486d4826e2ecde44aeb34f1b20f6ca9c563bf1656b8faeba1fb2e9a72fb",
+      "native_validation_performed": false
+    },
+    {
+      "case": "same actual four net_conflict warnings isolated for application-policy comparison",
+      "historical_accepted": true,
+      "current_accepted": false,
+      "original_severities_preserved": true,
+      "count": 4,
+      "current_rejection_reasons": [
+        "policy-critical native finding: net_conflict (warning)"
+      ],
+      "no_new_native": true
+    }
+  ]
+}

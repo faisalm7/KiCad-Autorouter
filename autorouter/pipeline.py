@@ -741,6 +741,37 @@ def parity_declaration(source, source_hashes):
             else 'unavailable: no native schematic in source project')
 
 
+def minimum_width_guard(source, adapter):
+    """Prevent engine neckdown below a positive original board width minimum.
+
+    Stock B0 keeps its ordinary settings. Corrected workflows retain all class
+    targets and disable automatic width reduction; native DRC remains authority.
+    """
+    if adapter=='none':return None
+    project=Path(source).with_suffix('.kicad_pro')
+    value=json.loads(project.read_text()).get('board',{}).get('design_settings',{}).get('rules',{}).get('min_track_width',0)
+    if type(value) not in (int,float) or not math.isfinite(value) or value<0:raise Rejected('unsupported: malformed original track-width minimum')
+    if value==0:return None
+    return {'policy':'original-positive-minimum-no-automatic-neckdown-v1',
+            'min_track_width_mm':value,'original_project_sha256':sha(project)}
+
+
+def check_minimum_width_record(data, directory=None):
+    guard=minimum_width_guard(data['source'],data['adapter'])
+    if 'minimum_width_guard' not in data:
+        # Historical native receipts predate this policy. Bind compatibility to
+        # their retained implementation, rather than an editable JSON opt-out.
+        if guard is not None and directory is not None and data.get('input_policy','native')=='native':
+            from .placement_clearance import read_bytes
+            if b'\ndef minimum_width_guard(' in read_bytes(Path(directory)/'code/pipeline.py'):
+                raise Rejected('current native width policy requires original width guard')
+        return None
+    from .floor_route import canonical
+    if guard is None or canonical(data['minimum_width_guard'])!=canonical(guard) or data.get('engine_budget',{}).get('strict_class_targets') is not True:
+        raise Rejected('original width guard or engine reduction policy differs')
+    return guard
+
+
 def selected_parity_required(data):
     # Historical whole-board receipts explicitly did not check parity. Keep
     # their evidence readable; new receipts declare the actual complete-input
@@ -774,8 +805,9 @@ def check_preferences_record(directory, data):
     if any(data.get(key)!=value for key,value in expected.items()) or data.get('input_policy','native')!=effective['guidance']:
         raise Rejected('routing result differs from captured preferences')
     assigned=data.get('engine_budget',{})
+    width_guard=check_minimum_width_record(data,directory)
     settings=engine_profile_settings(effective['profile'],assigned.get('remaining_outer_wall_seconds_at_assignment'),
-        strict_class_targets=effective['guidance']!='native' or data.get('netclass_policy') is not None or effective['scope']=='selected_nets',scoring_variant=scoring)
+        strict_class_targets=effective['guidance']!='native' or data.get('netclass_policy') is not None or effective['scope']=='selected_nets' or width_guard is not None,scoring_variant=scoring)
     settings.update(outer_task_wall_budget_seconds=effective['seconds'],outer_task_cpu_budget_seconds=effective['seconds'])
     if effective['layers']!='source_all':
         if type(data.get('layer_binding')) is not dict or type(data.get('layer_audit')) is not dict:
@@ -918,7 +950,9 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
             layers=layer_contract(output,source,_preferences['effective'])
             report['layer_binding']=layers['binding']
         config_dir=output/'engine-config'; config_dir.mkdir()
-        report['engine_budget']=engine_profile_settings(engine_profile,job.deadline-time.monotonic(),strict_class_targets=policy is not None or selected is not None,scoring_variant=scoring_variant)
+        width_guard=minimum_width_guard(source,adapter)
+        if width_guard is not None:report['minimum_width_guard']=width_guard
+        report['engine_budget']=engine_profile_settings(engine_profile,job.deadline-time.monotonic(),strict_class_targets=policy is not None or selected is not None or width_guard is not None,scoring_variant=scoring_variant)
         report['engine_budget']['outer_task_wall_budget_seconds']=seconds
         report['engine_budget']['outer_task_cpu_budget_seconds']=seconds
         engine_settings=report['engine_budget']['argv']
@@ -1281,6 +1315,8 @@ def _check_result_uncached(path):
         raise Rejected('final native step differs from process or input binding')
     if any(step.get('status')=='cancelled' or step.get('cleanup_complete') is not True for step in steps): raise Rejected('cancelled or incomplete process cleanup in receipt')
     check_preferences_record(path.parent,data)
+
+    if 'engine_budget' in data:check_minimum_width_record(data,path.parent)
 
     check_resource_accounting(data)
 
