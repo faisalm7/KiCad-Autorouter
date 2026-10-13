@@ -162,12 +162,21 @@ def check_candidate_stage(directory,record,original,source_hashes,basis,before_t
     metrics=f.read_json(directory/'metrics.json');s._quality(metrics)
     if metrics!=record['metrics'] or metrics.get('version')!='10.0.0':raise p.Rejected('pruning metrics differ')
     stages=[x['name'] for x in record['steps'] if x['cwd']==str(directory)]
-    if sorted(stages)!=['final-drc','floor-final','metrics','refill-drc']:raise p.Rejected('pruning native stages differ')
+    from . import schematic_field_evidence as fields
+    expected_stages=['final-drc','floor-final','metrics','refill-drc']
+    if fields.has_fields(native['findings']):expected_stages.extend(fields.names('final-drc'))
+    if sorted(stages)!=sorted(expected_stages):raise p.Rejected('pruning native stages differ')
     return candidate,native,metrics
 
 def trial_process_history(directory,row):
     """Bind failed workers too; an outer file hash cannot establish their cost."""
     names=('refill-drc','floor-final','final-drc','metrics')
+    from . import schematic_field_evidence as fields
+    raw_report=directory/'final-drc.json'
+    if raw_report.exists():
+        raw=f.read_json(raw_report)
+        if fields.has_fields(raw.get('violations',[])+raw.get('unconnected_items',[])+raw.get('schematic_parity',[])):
+            names=names[:-1]+fields.names('final-drc')+names[-1:]
     steps=row.get('steps');cap=row.get('assigned_seconds')
     if (not isinstance(steps,list) or len(steps)>len(names) or type(cap) not in (int,float)
         or not math.isfinite(cap) or not s.MIN_TRIAL_SECONDS<=cap<=s.MAX_TRIAL_SECONDS):raise p.Rejected('invalid pruning trial allowance/history')
@@ -181,6 +190,8 @@ def trial_process_history(directory,row):
     if retained!={name+'-process.json' for name in names[:len(steps)]}:raise p.Rejected('failed pruning process omitted or invented')
     candidate=directory/'candidate'/Path(row['candidate']).name
     def argv(name):
+        if name in fields.names('final-drc'):
+            return [*f.SANDBOX,*fields.arguments(directory,'final-drc',directory/'final-drc-input'/candidate.name)[fields.names('final-drc').index(name)]]
         if name=='floor-final':return f.context_argv('final',candidate,directory/'floor-final-context.json')
         if name=='metrics':return [*f.SANDBOX,str(c.PYTHON),str(c.ROOT/'autorouter/native.py'),'metrics',str(candidate),str(directory/'metrics.json')]
         target=directory/('refill' if name=='refill-drc' else 'final-drc-input')/candidate.name

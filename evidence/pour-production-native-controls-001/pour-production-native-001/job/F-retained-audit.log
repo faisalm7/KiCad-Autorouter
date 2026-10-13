@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py", line 88, in <module>
+    main()
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py", line 62, in main
+    result=audit(board,source,before)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pour_rule_area_native.py", line 13, in audit
+    tree=sx.parse(raw.decode());areas=policy.qualify(tree)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pour_rule_area.py", line 103, in qualify
+    _metadata(zone);row=_geometry(zone)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pour_rule_area.py", line 49, in _metadata
+    if sx.one(zone,'net')!=['net','0']:fail('pour-only area requires explicit net 0')
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pour_rule_area.py", line 20, in fail
+    def fail(message):raise ValueError(message)
+ValueError: pour-only area requires explicit net 0

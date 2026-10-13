@@ -1,0 +1,191 @@
+{
+  "schema": 1,
+  "status": "pinned_primary_source_trace",
+  "commit": "0feeca2a807f428ad2b3fa7c1e39625cb769f02c",
+  "native_jvm_git_execution": false,
+  "production_edits": false,
+  "recursive_agents": false,
+  "native_matching_input_qualification": false,
+  "retrieved_bytes": 697688,
+  "retrieval_cap_bytes": 1048576,
+  "findings": [
+    {
+      "topic": "legacy exact tilde normalization",
+      "proved": true,
+      "source": "eeschema/sch_io/kicad_sexpr/sch_io_kicad_sexpr_parser.cpp",
+      "lines": [
+        1105,
+        1108,
+        2320,
+        2323
+      ],
+      "meaning": "Both library and instantiated property parsing normalize exact tilde to empty when file version is earlier than20250318. Other values and newer formats preserve literal contents. NUS schematic version20250114 is within the legacy branch. This is parsing, not GetShownText or UnescapeString blanket normalization."
+    },
+    {
+      "topic": "headless DRC netlist",
+      "proved": true,
+      "source": "pcbnew/pcbnew_jobs_handler.cpp",
+      "lines": [
+        2345,
+        2401
+      ],
+      "meaning": "Headless PCB DRC fetches same-basename schematic using KIFACE_NETLIST_SCHEMATIC, parses returned S-expression using KICAD_NETLIST_READER, and supplies that NETLIST to DRC engine. GUI mail path differs."
+    },
+    {
+      "topic": "DRC exporter options",
+      "proved": true,
+      "source": "eeschema/eeschema.cpp",
+      "lines": [
+        166,
+        173,
+        409,
+        410
+      ],
+      "meaning": "KIFACE address maps to generateSchematicNetlist, which constructs NETLIST_EXPORTER_KICAD and Format(GNL_ALL|GNL_OPT_KICAD)."
+    },
+    {
+      "topic": "CLI kicadsexpr exporter options",
+      "proved": true,
+      "sources": [
+        "kicad/cli/command_sch_export_netlist.cpp",
+        "eeschema/eeschema_jobs_handler.cpp",
+        "eeschema/netlist_exporters/netlist_exporter_kicad.cpp"
+      ],
+      "lines": [
+        [
+          63,
+          65
+        ],
+        [
+          463,
+          465
+        ],
+        [
+          36,
+          42
+        ]
+      ],
+      "meaning": "Explicit kicadsexpr selects the same exporter. WriteNetlist uses identical Format(GNL_ALL|GNL_OPT_KICAD). Use explicit format and no variable/variant overrides."
+    },
+    {
+      "topic": "complete effective field map",
+      "proved": true,
+      "sources": [
+        "eeschema/netlist_exporters/netlist_exporter_xml.h",
+        "eeschema/netlist_exporters/netlist_exporter_xml.cpp",
+        "pcbnew/netlist_reader/kicad_netlist_reader.cpp"
+      ],
+      "lines": [
+        [
+          64,
+          66
+        ],
+        [
+          105,
+          247
+        ],
+        [
+          449,
+          478,
+          837,
+          841
+        ]
+      ],
+      "meaning": "Default exporter resolves text vars; single-unit and multi-unit selection produce nonprivate custom fields plus Footprint, Datasheet and Description. Every field, including empty value, is emitted. Reader stores all field records in ordered COMPONENT fields, consumed by parity. Do not use raw property guesses or truncated first-mismatch report."
+    },
+    {
+      "topic": "parity comparisons",
+      "proved": true,
+      "source": "pcbnew/drc/drc_test_provider_schematic_parity.cpp",
+      "lines": [
+        210,
+        247
+      ],
+      "meaning": "PCB native fields exclude Reference, Value and Component Class; schematic effective map removes Reference, Value, Footprint and Component Class. Comparison is schematic-field driven and breaks on the first discrepancy. Extra PCB-only custom fields are not parity errors in this pinned implementation."
+    },
+    {
+      "topic": "XML non-equivalence",
+      "proved": true,
+      "sources": [
+        "eeschema/eeschema_jobs_handler.cpp",
+        "eeschema/netlist_exporters/netlist_exporter_xml.cpp"
+      ],
+      "lines": [
+        [
+          457,
+          489,
+          491,
+          526
+        ],
+        [
+          61,
+          81,
+          84,
+          305,
+          315
+        ]
+      ],
+      "meaning": "CLI XML receives netlist options0 so makeRoot(GNL_ALL) lacks GNL_OPT_KICAD. It includes symbols excluded from board and omits board groups/variants; not interchangeable with DRC kicadsexpr population."
+    },
+    {
+      "topic": "default variant",
+      "proved": true,
+      "sources": [
+        "kicad/cli/command_sch_export_netlist.cpp",
+        "eeschema/eeschema_jobs_handler.cpp",
+        "eeschema/sch_field.h",
+        "eeschema/schematic.cpp"
+      ],
+      "lines": [
+        [
+          54
+        ],
+        [
+          421,
+          429
+        ],
+        [
+          138,
+          139
+        ],
+        [
+          2204,
+          2224
+        ]
+      ],
+      "meaning": "No CLI variant arguments select no override; explicit-path field getter defaults variant argument to empty; empty variant is default. Bind argv without variant/define-variable overrides. No nondefault variant equivalence claimed."
+    },
+    {
+      "topic": "loader difference",
+      "proved": true,
+      "sources": [
+        "eeschema/eeschema.cpp",
+        "eeschema/eeschema_helpers.cpp",
+        "eeschema/eeschema_jobs_handler.cpp"
+      ],
+      "lines": [
+        [
+          119,
+          159
+        ],
+        [
+          134,
+          176
+        ],
+        [
+          175,
+          207
+        ]
+      ],
+      "meaning": "DRC helper always restores symbol instance data and directly recalculates hierarchy connectivity; CLI helper conditionally restores old symbol data, updates sheet instances, performs GLOBAL_CLEANUP and recalculation. Same exporter options do not establish identical pre-export schematic state for all hierarchical/legacy inputs."
+    }
+  ],
+  "recommendation": "Use retained native kicadsexpr export as complete effective native field observation; compare all fields after exact pinned exclusions and constrain any benign Datasheet exception to verified legacy-unset context. Qualify source-bound default single-sheet correspondence and a masked later-field negative; retain broader loader-equivalence uncertainty. Reuse completed export including allowed PRL reconciliation, never rerun solely because the controller PRL assertion failed.",
+  "remaining_gates": [
+    "Original project/schematic/input/hash and exact CLI process binding, including unchanged rules and allowed PRL creation",
+    "Actual positive plus later-field mismatch hidden behind the sentinel, URL/value/error/exclusion/ignored-check negatives",
+    "Full field census, duplicate/reference mapping rejection and candidate native PCB GetFields parity observation",
+    "No generalized hierarchy/multiunit/nondefault-variant admission from source trace alone",
+    "Original all-reject NUS pair remains immutable and failed"
+  ]
+}

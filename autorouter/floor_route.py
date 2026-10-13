@@ -256,6 +256,8 @@ def check_floor_result(directory,data,original,candidate,protected):
         process_check(directory,data,name,[*SANDBOX,str(c.PYTHON),str(c.ROOT/'autorouter/native.py'),action,str(candidate),str(output),*[str(x) for x in extra]])
     audit_transport(directory,data,task,candidate)
     required={'source-drc','floor-export','engine','import','refill-drc','floor-final','final-drc','metrics'}
+    from . import schematic_field_evidence as fields
+    if fields.has_fields(data.get('native',{}).get('findings',[])):required.update(fields.names('final-drc'))
     if {step.get('name') for step in data.get('steps',[])}!=required or len(data['steps'])!=len(required):raise p.Rejected('unexpected/missing floor execution stages')
 
 
@@ -278,6 +280,8 @@ def check_drc_stage(directory,data,name,source,input_path,saved,before,*,schemat
     matching=next(step for step in data['steps'] if step['name']==name and step['cwd']==str(directory))
     if matching.get('validated_input_sha256')!=before[source.name] or matching.get('emitted_candidate')!=str(source):
         raise p.Rejected('floor native stage step/input mismatch')
+    from . import schematic_field_evidence as fields
+    fields.check_processes(directory,data,name,input_path,sandboxed=sandboxed)
     return native
 
 

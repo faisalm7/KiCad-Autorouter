@@ -99,7 +99,7 @@ def lineage(binding,report):
 class ExportJob(f.FloorJob):
     """Existing DRC/copy/first-failure path with finite native-only process caps."""
     def step(self,name,argv,allowed=(0,),*,already_sandboxed=False):
-        if name not in {'refill-drc','pour-keepout-audit','floor-final','final-netclasses','final-drc','metrics'}:
+        if name not in {'refill-drc','pour-keepout-audit','floor-final','final-netclasses','final-drc','final-drc-fields-netlist','final-drc-fields-audit','metrics'}:
             raise p.Rejected('export prohibits solver/import/export stages')
         available=min(30,self.remaining())
         if available<=0:raise p.Rejected('export native budget exhausted')
@@ -156,7 +156,8 @@ def check_stage(folder,data,binding,report,basis,contract,layers):
         or data['native']['ignored_checks']!=report['native']['ignored_checks'] or not ps.warnings(data['native'])<=ps.warnings(report['native'])):
         raise p.Rejected('fresh export native acceptance/metrics/warnings/original ignore settings differ')
     from .pour_rule_area import qualify
-    expected_names=['refill-drc',*(['pour-keepout-audit'] if qualify(original) else []),*(['floor-final'] if contract is not None else ['final-netclasses'] if p.netclass_policy(candidate) is not None else []),'final-drc','metrics']
+    from . import schematic_field_evidence as fields
+    expected_names=['refill-drc',*(['pour-keepout-audit'] if qualify(original) else []),*(['floor-final'] if contract is not None else ['final-netclasses'] if p.netclass_policy(candidate) is not None else []),'final-drc',*(fields.names('final-drc') if fields.has_fields(data['native']['findings']) else []),'metrics']
     if [s['name'] for s in data['steps']]!=expected_names or any(s['cwd']!=str(folder) for s in data['steps']):raise p.Rejected('export native-only stage history differs')
     for step in data['steps']:
         log=Path(step['log'])

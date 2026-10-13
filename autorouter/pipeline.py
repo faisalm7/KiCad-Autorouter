@@ -165,6 +165,7 @@ def check_rule_area_support(tree):
 
 # Registered KiCad10 metadata; global outline-text refusal remains mandatory.
 KNOWN_CHECKS |= {'text_on_edge_cuts'}
+KNOWN_CHECKS |= {'footprint_symbol_field_mismatch'}
 
 def preflight(board):
     t=sx.read(board)
@@ -309,15 +310,20 @@ def parse_report(path, board_name):
             raise Rejected('invalid finding schema')
         if 'excluded' in v and type(v['excluded']) is not bool:
             raise Rejected('invalid finding exclusion flag')
-    return {'opens':len(data['unconnected_items']), 'blocking':sum(v['severity']=='error' for v in data['violations']+data['schematic_parity']),
+    result={'opens':len(data['unconnected_items']), 'blocking':sum(v['severity']=='error' for v in data['violations']+data['schematic_parity']),
             'warnings':sum(v['severity']=='warning' for v in findings), 'exclusions':sum(v['severity']=='exclusion' or v.get('excluded',False) for v in findings),
             'ignored_checks':data['ignored_checks'],'findings':findings}
+    from . import schematic_field_evidence as fields
+    if fields.has_fields(findings):
+        proof=fields.readback(path,data)
+        if proof is not None:result['field_parity']=proof
+    return result
 
 
 # Finding types are not project-setting keys: KiCad's padstack_invalid has no
 # editable severity. Keep parse_report's native summary schema unchanged so old
 # evidence can be rechecked under this stricter application acceptance policy.
-CRITICAL_FINDINGS = CRITICAL_CHECKS | {'padstack_invalid','text_on_edge_cuts','net_conflict'}
+CRITICAL_FINDINGS = CRITICAL_CHECKS | {'padstack_invalid','text_on_edge_cuts','net_conflict','footprint_symbol_field_mismatch'}
 
 
 def native_rejection_reasons(native):
@@ -350,7 +356,8 @@ def native_rejection_reasons(native):
         if finding['severity']=='error': reasons.append('native error finding: '+finding['type'])
         if finding['severity']=='exclusion' or finding.get('excluded',False):
             reasons.append('excluded native finding: '+finding['type'])
-        if finding['type'] in CRITICAL_FINDINGS:
+        from . import schematic_field_evidence as fields
+        if finding['type'] in CRITICAL_FINDINGS and not (finding['type']==fields.TYPE and fields.qualified(native)):
             reasons.append('policy-critical native finding: '+finding['type']+' ('+finding['severity']+')')
     return sorted(set(reasons))
 
@@ -423,6 +430,11 @@ class Job:
             any_findings=bool(parsed['findings'])
             phase='exit_report'
             if (result['exit_code']==0)==any_findings: raise Rejected('DRC exit/report mismatch')
+            from . import schematic_field_evidence as fields
+            if fields.has_fields(parsed['findings']) and schematic_parity:
+                phase='complete_field_observation'
+                fields.collect(self,name,board,json.loads(report.read_text()))
+                parsed=parse_report(report,board.name)
             return parsed
         except (Exception,KeyboardInterrupt) as exc:
             # Evidence only: retain the first failure and never normalize a
@@ -1132,11 +1144,13 @@ def validation_readback_session():
     """
     from . import (adapter,board_floor,floor_context,floor_route,layer_policy,
                    netclass,placement_clearance,placement_strategy,
-                   placement_transform,pour_rule_area,preferences,runner,strategy)
+                   placement_transform,pour_rule_area,preferences,runner,strategy,
+                   schematic_fields,schematic_field_evidence)
     import sys
     modules=(sys.modules[__name__],c,sx,adapter,board_floor,floor_context,
              floor_route,layer_policy,netclass,placement_clearance,
-             placement_strategy,placement_transform,pour_rule_area,preferences,runner,strategy)
+             placement_strategy,placement_transform,pour_rule_area,preferences,runner,strategy,
+             schematic_fields,schematic_field_evidence)
     existing=_readback_session.get()
     state=existing if existing is not None else {'entries':{},'modules':modules}
     token=_readback_session.set(state)
@@ -1390,6 +1404,9 @@ def _check_result_uncached(path):
     matching=[step for step in steps if step.get('name')=='final-drc' and step.get('cwd')==str(path.parent)]
     if len(matching)!=1 or any(matching[0].get(key)!=value for key,value in process.items()) or matching[0].get('validated_input_sha256')!=data['candidate_sha256'] or matching[0].get('emitted_candidate')!=str(candidate):
         raise Rejected('final native step differs from process or input binding')
+    from . import schematic_field_evidence as fields
+    fields.check_processes(path.parent,data,'final-drc',native_input,
+        sandboxed=input_policy in {'board-floors-v1','placement-clearance-v1','placement-search-v1',ps.POLICY})
     if any(step.get('status')=='cancelled' or step.get('cleanup_complete') is not True for step in steps): raise Rejected('cancelled or incomplete process cleanup in receipt')
     check_pour_evidence(path.parent,data,original,candidate)
     check_preferences_record(path.parent,data)

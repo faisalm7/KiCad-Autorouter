@@ -1,0 +1,13 @@
+# Complete schematic fields and the Datasheet placeholder
+
+Pinned KiCad10.0.0 reports only the first differing field per footprint. A Datasheet warning can conceal a later field difference, so its description alone is insufficient for routing acceptance.
+
+For the qualified flat schematic format20250114, the source parser converts exact `~` to empty while loading the schematic. The PCB keeps `~`. Headless DRC and an explicit `kicadsexpr` netlist export share the pinned exporter/options. XML uses different options and is not an equivalent input. Their schematic loaders differ; hierarchical, newer and other legacy formats are not covered by this exception. [Pinned source trace](../evidence/schematic-field-primary-review-001/REPORT.json).
+
+When a final native DRC contains `footprint_symbol_field_mismatch`, the pipeline additionally captures a complete effective schematic netlist and native PCB field census. It compares every effective schematic field after KiCad's exact Reference/Value/Footprint/Component Class exclusions. Extra PCB fields stay protected by source invariants and hashes. Only PCB Datasheet `~` versus effective schematic empty qualifies, with the exact warning, one matching footprint UUID, enabled check and complete severity coverage. Every original warning remains visible. Other symbol/value mismatches, real URLs, changed/missing required fields, aliases/duplicates, excluded/error findings or missing/stale/incomplete proof reject.
+
+These observations use the same complete original project and final candidate hash as DRC. Process history includes both added native stages and charges their CPU/wall cost. Central readback and fresh separate-project export reconstruct the proof and process provenance; accepting a saved intent never bypasses validation. Original schematic, PCB fields, rules and severities are not changed.
+
+Actual native controls preserve all originals: the positive has0opens/0blocking/10warnings; a Description mismatch after Datasheet has the same five first-mismatch warnings but fails the complete comparison; a real Datasheet URL difference fails. Fifteen sequential workers, no new routing-quality claim. [Evidence](../evidence/schematic-fields-native-controls-001/SCOPE.md). Pure custom-field/Value/disabled/alias controls supplement these observations; mocks do not qualify native routing.
+
+This is narrowly qualified metadata interpretation. It does not establish full-project DRC cleanliness, correct assembly, human PCB approval or electrical/physical validation. Old failed comparison receipts remain failed under their recorded validator.

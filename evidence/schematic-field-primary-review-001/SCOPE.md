@@ -1,0 +1,1 @@
+Metadata-only pinned KiCad10.0.0 source trace: legacy parser maps exact ~ to empty before20250318; NUS20250114 observed. Headless DRC and CLI kicadsexpr share exporter/options, XML differs; loader equivalence is not generalized. First mismatch loop can hide later custom-field disagreement. Raw19source files stay local, no native execution or acceptance claim.
