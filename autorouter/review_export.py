@@ -252,6 +252,10 @@ def export(choice_path,output,seconds=SECONDS):
     lifecycle.update(record=record,account=account)
     try:
         if not finite(seconds) or not 30<=seconds<=SECONDS:raise p.Rejected('export budget must be30–120 seconds')
+        # Early native cancellation/failure must retain the declared accounting
+        # bounds too; acceptance remains false until all checks finish.
+        record.update(budget_seconds=seconds,cpu_budget_seconds=seconds,
+            output_ceiling_bytes=OUTPUT_BYTES,output_file_ceiling=OUTPUT_FILES)
         for sig in previous:signal.signal(sig,interrupted)
         with p.validation_readback_session():
             cap();binding,report=bind(choice_path);out=h.real_path(output,existing=False)

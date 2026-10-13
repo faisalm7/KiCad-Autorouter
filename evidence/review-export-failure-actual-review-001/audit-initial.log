@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-export-failure-actual-review-001/audit.py", line 65, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-export-failure-actual-review-001/audit.py", line 53, in main
+    p.check_resource_accounting(proof,child_key='child_step_cpu_seconds')
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 984, in check_resource_accounting
+    wall,budget=number(data.get('wall_seconds')),number(data.get('budget_seconds'))
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 981, in number
+    raise Rejected('invalid resource accounting')
+autorouter.pipeline.Rejected: invalid resource accounting

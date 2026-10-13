@@ -1,0 +1,392 @@
+{
+  "schema": 1,
+  "kind": "installed-review-export-cli-v1",
+  "status": "completed",
+  "accepted": false,
+  "controls_passed": true,
+  "commands": [
+    {
+      "name": "review-copy",
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 3.080430375004653,
+        "cpu_seconds": 2.704223,
+        "max_rss_bytes": 196837376,
+        "supervisor_cpu_seconds": 0.8086990000000001,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 196788224,
+        "sampled_peak_workdir_bytes": 374948032,
+        "resource_guards": {
+          "max_group_rss_bytes": 2147483648,
+          "max_workdir_bytes": 536870912,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-010/checkout/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "review-copy",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-010/checkout/.runs/install-placement-smoke/result.json",
+          "--render",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-010/checkout/.runs/install-review-export-010"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-010-review-export/review-copy.log",
+        "log_bytes": 46890,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-010/checkout",
+        "signal_cancellation_enabled": true,
+        "pid": 73891
+      },
+      "log_sha256": "59227d1e7331b5e1f42e5de0b670ad69f5799a7f919d0fdc4c26627ad9b081a7"
+    },
+    {
+      "name": "accept-intent",
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 1.0898147920015617,
+        "cpu_seconds": 0.928506,
+        "max_rss_bytes": 196001792,
+        "supervisor_cpu_seconds": 0.3750370000000003,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 195985408,
+        "sampled_peak_workdir_bytes": 374973394,
+        "resource_guards": {
+          "max_group_rss_bytes": 2147483648,
+          "max_workdir_bytes": 536870912,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-010/checkout/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "review-choice",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-010/checkout/.runs/install-review-export-010/review.json",
+          "--choice",
+          "accept",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-010/checkout/.runs/install-intent-010"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-010-review-export/accept-intent.log",
+        "log_bytes": 25362,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-010/checkout",
+        "signal_cancellation_enabled": true,
+        "pid": 73902
+      },
+      "log_sha256": "36a4602019b1905327b63c7575f399de5e83f22b324aabb0ab6183e85967fd3f"
+    },
+    {
+      "name": "export",
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 4.740317249998043,
+        "cpu_seconds": 4.003933,
+        "max_rss_bytes": 198311936,
+        "supervisor_cpu_seconds": 1.2319430000000002,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 198279168,
+        "sampled_peak_workdir_bytes": 375834773,
+        "resource_guards": {
+          "max_group_rss_bytes": 2147483648,
+          "max_workdir_bytes": 536870912,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-010/checkout/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "review-export",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-010/checkout/.runs/install-intent-010/choice.json",
+          "--seconds",
+          "120",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-010/checkout/.runs/install-export-010"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-010-review-export/export.log",
+        "log_bytes": 479,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-010/checkout",
+        "signal_cancellation_enabled": true,
+        "pid": 73909
+      },
+      "log_sha256": "d7bfba0373d3441bc99a6e15902b9d675b7ffc2f6b82ac103c367df8506e1f14"
+    },
+    {
+      "name": "check",
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 1.013052374997642,
+        "cpu_seconds": 0.8524999999999999,
+        "max_rss_bytes": 197689344,
+        "supervisor_cpu_seconds": 0.3748420000000001,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 197656576,
+        "sampled_peak_workdir_bytes": 375834773,
+        "resource_guards": {
+          "max_group_rss_bytes": 2147483648,
+          "max_workdir_bytes": 536870912,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-010/checkout/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "review-export-check",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-010/checkout/.runs/install-export-010/export.json"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-010-review-export/check.log",
+        "log_bytes": 654,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-010/checkout",
+        "signal_cancellation_enabled": true,
+        "pid": 73934
+      },
+      "log_sha256": "7d7ad72611eec409bc616e10426baf93aa2adc176d8ccf7188278d44c645a58e"
+    },
+    {
+      "name": "reject-intent",
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 1.1500992079963908,
+        "cpu_seconds": 0.9636909999999999,
+        "max_rss_bytes": 196050944,
+        "supervisor_cpu_seconds": 0.3943689999999993,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 195903488,
+        "sampled_peak_workdir_bytes": 375860058,
+        "resource_guards": {
+          "max_group_rss_bytes": 2147483648,
+          "max_workdir_bytes": 536870912,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-010/checkout/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "review-choice",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-010/checkout/.runs/install-review-export-010/review.json",
+          "--choice",
+          "reject",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-010/checkout/.runs/install-reject-010"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-010-review-export/reject-intent.log",
+        "log_bytes": 25285,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-010/checkout",
+        "signal_cancellation_enabled": true,
+        "pid": 73940
+      },
+      "log_sha256": "9af5fa48acbf787a1588dff5b5e34cf40e23d762eb41c51dd2f854fb14445149"
+    }
+  ],
+  "budget_seconds": 180,
+  "cpu_budget_seconds": 180,
+  "installation_head": "d1c40cc64a97dde7f0b6e85eafbfaeb012cec040",
+  "controller_sha256": "790bd28222cb729b9f86ab33a73f7c967a5797c65c9ec173edca97b3e0873dd2",
+  "human_pcb_approval_observed": false,
+  "new_solver_execution": false,
+  "scope": "Actual freshvenv installed CLI reviewcopy+fourplots+typedacceptintent+freshnativeexport+proofcheck+rejection. Existing installed placement route reused; additional workflow cost, no physical/GUI/freshMac qualification.",
+  "candidate_sha256": "828958f9a17b9d015bec3913fc7b9055b4784e368160e16ee07502612256d8b8",
+  "native_report_sha256": "be93c07682e03934d5d5cd7993a4ff5d3d0b742121fa6a80f4f17e87f08903fd",
+  "native": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 0,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "PTH inside courtyard",
+        "key": "pth_inside_courtyard"
+      },
+      {
+        "description": "NPTH inside courtyard",
+        "key": "npth_inside_courtyard"
+      },
+      {
+        "description": "Footprint component type doesn't match footprint pads",
+        "key": "footprint_type_mismatch"
+      }
+    ],
+    "findings": []
+  },
+  "metrics": {
+    "version": "10.0.0",
+    "pads": 4,
+    "footprints": 4,
+    "zones": 1,
+    "vias": 1,
+    "track_length_mm": 67.93373808491305,
+    "copper_layers": 2
+  },
+  "export_proof_sha256": "b56ca197eade458b3eabcbe45c143bdb22db42dfe70352b10dfd23cca675bae3",
+  "export_path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-010/checkout/.runs/install-export-010/export.json",
+  "plots": {
+    "plot-work/before-F.Cu-input/PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+    "plot-work/before-F.Cu-input/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+    "plot-work/before-F.Cu-input/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    "plot-work/before-F.Cu-input/candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+    "plot-work/before-F.Cu-input/export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+    "plot-work/before-F.Cu-input/final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+    "plot-work/before-F.Cu-input/final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+    "plot-work/before-F.Cu-input/fixture.kicad_pcb": "1e2216f05fd7540a2a4edf894a18addc389c056854bc6bb5fa2169f90753f7dd",
+    "plot-work/before-F.Cu-input/fixture.kicad_prl": "f92cdf44f7d7e8caa87ef7674a3d165d8b41ad63269d30068ffb91ca2dfe9a9d",
+    "plot-work/before-F.Cu-input/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+    "plot-work/before-F.Cu-input/native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2",
+    "plot-work/before-F.Cu-input-binding.json": "340891c3cefa269166b06d29abbfd674ce5a26f26fd53c3fc950ae70b2c076f7",
+    "plot-work/native-plots/before-F.Cu.svg": "aa9177a0bedfd566c939f0bcd11928f45b47cc3163d3eb80552f97953663ad28",
+    "plot-work/plots/before-F.Cu.svg": "0b6346dc7d3a2bdc7fe22d2787edd28bf90ddb624e6b694bc66d51dfd96c5197",
+    "plot-work/before-F.Cu.log": "c4cafb6b610ae6c51649ecd48434a7f1d3e0354708afe6a21af41ff5156a2a56",
+    "plot-work/before-F.Cu-process.json": "3fd765ea459aace6211c3333cb5abb553594ccb49834c8303e14f39a93b0592d",
+    "plot-work/after-F.Cu-input/PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+    "plot-work/after-F.Cu-input/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+    "plot-work/after-F.Cu-input/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    "plot-work/after-F.Cu-input/candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+    "plot-work/after-F.Cu-input/export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+    "plot-work/after-F.Cu-input/final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+    "plot-work/after-F.Cu-input/final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+    "plot-work/after-F.Cu-input/fixture.kicad_pcb": "828958f9a17b9d015bec3913fc7b9055b4784e368160e16ee07502612256d8b8",
+    "plot-work/after-F.Cu-input/fixture.kicad_prl": "f92cdf44f7d7e8caa87ef7674a3d165d8b41ad63269d30068ffb91ca2dfe9a9d",
+    "plot-work/after-F.Cu-input/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+    "plot-work/after-F.Cu-input/native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2",
+    "plot-work/after-F.Cu-input-binding.json": "c737d7f0e680e92d6ea2238ac401cfa2fe85b956de464393d21869406bceac9a",
+    "plot-work/native-plots/after-F.Cu.svg": "b8ea39ae25600dcfda7532d1ac80c38c8999febf79166a5d50b3c6f09387fcc5",
+    "plot-work/plots/after-F.Cu.svg": "99ad00fddd9dd474ffd6418fd9bc6359cf4f1f8765c9dc196e173af7cad8738b",
+    "plot-work/after-F.Cu.log": "258d363aafe0380849d40df647ae049c0e930ffa2e7c905d99b68580dd6c0bb7",
+    "plot-work/after-F.Cu-process.json": "211f9282ea22e1b2feddaa2fe51bdd11fb89168206c72817590b5c125fbcb42e",
+    "plot-work/before-B.Cu-input/PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+    "plot-work/before-B.Cu-input/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+    "plot-work/before-B.Cu-input/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    "plot-work/before-B.Cu-input/candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+    "plot-work/before-B.Cu-input/export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+    "plot-work/before-B.Cu-input/final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+    "plot-work/before-B.Cu-input/final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+    "plot-work/before-B.Cu-input/fixture.kicad_pcb": "1e2216f05fd7540a2a4edf894a18addc389c056854bc6bb5fa2169f90753f7dd",
+    "plot-work/before-B.Cu-input/fixture.kicad_prl": "f92cdf44f7d7e8caa87ef7674a3d165d8b41ad63269d30068ffb91ca2dfe9a9d",
+    "plot-work/before-B.Cu-input/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+    "plot-work/before-B.Cu-input/native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2",
+    "plot-work/before-B.Cu-input-binding.json": "e36a492bfb242db134f5a467252ba439ab35255a7b6edfd0c056c14189a878e7",
+    "plot-work/native-plots/before-B.Cu.svg": "4b3cf8155e81d4de377abc8676ee8180bc1d8c8f0655032c15b0a11017b4c700",
+    "plot-work/plots/before-B.Cu.svg": "1d08218581ac89939c2240535857f590ab8e89ab06dfa7a30b4f99d74bc88396",
+    "plot-work/before-B.Cu.log": "2857f00894de4ae43f509c9ce7a26421ce23731f6a2950e9a9d0d37f76da0c88",
+    "plot-work/before-B.Cu-process.json": "66a48b309b0bd7d2e5f801f0e8503fda4aa96daeef231b0ea07588340344290e",
+    "plot-work/after-B.Cu-input/PROVENANCE.md": "5fc68baee38443283014e7f8d7a81ef08cce191e7944206c5678d51ede824dea",
+    "plot-work/after-B.Cu-input/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+    "plot-work/after-B.Cu-input/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    "plot-work/after-B.Cu-input/candidate.kicad_pcb": "c1a82c6e4749250ce3ce96ac5455bd38f71458bbfeefdf6fd7671eb096e3991a",
+    "plot-work/after-B.Cu-input/export-context.json": "21781ab52c95154f622098829798fb0ee318209cf0ce7575b56805d32e590873",
+    "plot-work/after-B.Cu-input/final-context.json": "e7d5fa2d61cbf9e4d79fbfc55e1ea5cd73914ad2a17f41fae1e49c86581b96d9",
+    "plot-work/after-B.Cu-input/final-drc.json": "6be6649367d9505505fcc0b11be84d561559b5267127170357c6a74c2f13b525",
+    "plot-work/after-B.Cu-input/fixture.kicad_pcb": "828958f9a17b9d015bec3913fc7b9055b4784e368160e16ee07502612256d8b8",
+    "plot-work/after-B.Cu-input/fixture.kicad_prl": "f92cdf44f7d7e8caa87ef7674a3d165d8b41ad63269d30068ffb91ca2dfe9a9d",
+    "plot-work/after-B.Cu-input/fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+    "plot-work/after-B.Cu-input/native.dsn": "14775672862961407a7ae275085f14785d89b7c27b8da467b38c852ffc7496e2",
+    "plot-work/after-B.Cu-input-binding.json": "6090ea1dc96852d76af70e56ddd0784fe8bac4bead081ea805a65fb765670f46",
+    "plot-work/native-plots/after-B.Cu.svg": "c63351c4f4a1dfae64275c483e4cc51b4de55e65c9c6bda127c13d5f4b434660",
+    "plot-work/plots/after-B.Cu.svg": "19b92f448dd571715a54a493b0be2e2ed3639d7c7fbc3e2ac8dec9eda5e56350",
+    "plot-work/after-B.Cu.log": "b86a1699de49e4f47f906555b684cd5e1b4f38d3fcda6472d8ff3fc24374e43b",
+    "plot-work/after-B.Cu-process.json": "cda37914795daf9727d76c59a03d92b84732db396f51c58957a46fa68c5b8ecd",
+    "preview.html": "ea4d686b6897075d0d4db172b3c0a26a243c5043a2041770ca2a2344128b0c3d"
+  },
+  "source_and_installed_tracked_unchanged": true,
+  "wall_seconds": 16.805164249999507,
+  "total_cpu_seconds": 18.366797,
+  "within_budget": true
+}

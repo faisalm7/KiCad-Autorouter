@@ -1,0 +1,217 @@
+{
+  "actual_head": "f4a56cccf7bdf40dfeb409f0a998a97ea33ccb40",
+  "actual_result_hashes": {
+    ".runs/review-export-controls-001/result.json": "db5bb8b66aa9df39fa92ff1203f0c97ef97f91afd127d6fd5e3e55d31585fd6f",
+    ".runs/review-export-controls-continuation-001/result.json": "b6333af810f5bbd408806b2ec5227c0ba84a2078c23fa614a43193d1875ad930",
+    ".runs/review-export-controls-continuation-execution-001/execution.json": "936e7fa1f0b9117bf55658ccc1a1de16570e6e05aea8f57db4f8126d51ffc7ab",
+    ".runs/review-export-controls-execution-001/execution.json": "554e041ffddadcca6adedcec61b8d46ba340e61594d0e0fb012e30664329b227"
+  },
+  "all_actual_artifacts_and_source_stable_before_after": true,
+  "audit_wall_seconds": 0.8624632920036674,
+  "checks": [
+    {
+      "export_project_sha256": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "fresh_export_proof_current_under_actual_source_and_recorded_HEAD": true,
+      "gui_project_sha256": "0d2e5c51bb249eba097766d34193bbea08e66096014e4dea944789607399eb25",
+      "name": "gui_rule_metadata",
+      "native_counts": {
+        "blocking": 0,
+        "exclusions": 0,
+        "opens": 0,
+        "warnings": 0
+      },
+      "original_project_sha256": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538"
+    },
+    {
+      "name": "stale_board",
+      "native_steps": 0,
+      "output_exists": false,
+      "rejection": "original/candidate/review/evidence changed since recorded choice",
+      "source_routing_unchanged": true
+    },
+    {
+      "candidate_sha256": "8cfd4f65a83a69e7a335e47d869e9f704c2634c73b1c0e5ec90aff737608abd9",
+      "derivative_native_quality_not_accepted": true,
+      "exactly_one_original_validated_via_removed": true,
+      "export_accepted": false,
+      "export_error": "Rejected: export changed original geometry or validated route copper",
+      "name": "missing_required_via",
+      "native_counts": {
+        "blocking": 0,
+        "exclusions": 0,
+        "opens": 1,
+        "warnings": 2
+      },
+      "native_report_sha256": "311235921095f48c01bacc847412daa13500d3d09aa289d4a2563c503e64b4d9",
+      "other_route_records_and_immutable_design_exact": true,
+      "shared_native_context_metrics_DRC_bindings_pass": true
+    },
+    {
+      "cleanup_complete": true,
+      "controller_signal_pid": 70662,
+      "export_accepted": false,
+      "failure_sha256": "92f27d27e3b1a7bffd08092f3edbfad78374843fdde7c3077f4808a12d42970c",
+      "live_group_gone_observed_by_original_controller": true,
+      "name": "cancel_native",
+      "native_attempt_only": true,
+      "native_process_pid": 70700,
+      "no_native_report": true,
+      "positive_proof_rejected": true,
+      "signal": "SIGTERM",
+      "status": "cancelled",
+      "stored_budget_fields_missing": true,
+      "stored_resource_guard_rejected": "invalid resource accounting"
+    }
+  ],
+  "controller_source_hashes": {
+    "review-export-native-controls-001.py": "307f721d688614c8f659e3962424cc714526c8fa1c150ccbe0206e6fee79fa47",
+    "review-export-native-controls-continuation-001.py": "070e4431ab92f3cb420c4d7e97354de6c63fe8c997bedb658c621d9d6e00310f"
+  },
+  "inner_cumulative_cost": {
+    "cumulative_full_cpu_seconds": 15.292442000000001,
+    "cumulative_wall_seconds": 16.966512500002864
+  },
+  "original_failed_controller_status_preserved": "failed",
+  "original_failure_reason": "TypeError: parse_report() missing 1 required positional argument: 'board_name'",
+  "original_project_and_routing_inputs_unchanged": true,
+  "outer_cumulative_cost": {
+    "full_cpu_seconds": 15.621887000000001,
+    "wall_seconds": 17.2919511670043
+  },
+  "prior_inventory_directories": 78,
+  "prior_inventory_files": 220,
+  "processes": [
+    {
+      "case": "gui_rule_metadata",
+      "cpu_seconds": 0.443318,
+      "exit_code": 0,
+      "log_sha256": "e10ac7aee765ebf772391b921d2262dec8a44002716c864ac0c812b5223e06e1",
+      "name": "refill-drc",
+      "pid": 70562,
+      "process_sha256": "1af0122328c3d1649c652512ba1e80c37deb73fbbfbcac3eb6732d578ff89eb7",
+      "status": "success",
+      "wall_seconds": 0.9856845829999656
+    },
+    {
+      "case": "gui_rule_metadata",
+      "cpu_seconds": 0.34682,
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "floor-final",
+      "pid": 70563,
+      "process_sha256": "569872443f1781d33adea0b6a9bd17a8c2333624c97deea9278c8a3968254353",
+      "status": "success",
+      "wall_seconds": 0.3852126249985304
+    },
+    {
+      "case": "gui_rule_metadata",
+      "cpu_seconds": 0.388591,
+      "exit_code": 0,
+      "log_sha256": "45fa1b7202540a1edb8c30eaed957af384cff6d4a77ed1beaf96ef82684b3d94",
+      "name": "final-drc",
+      "pid": 70564,
+      "process_sha256": "7487e5c955b4c6dc51d52d36206e4af8f24925eb2136de96ec550b4cd30a2e46",
+      "status": "success",
+      "wall_seconds": 0.6563913330028299
+    },
+    {
+      "case": "gui_rule_metadata",
+      "cpu_seconds": 0.33951699999999996,
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "metrics",
+      "pid": 70565,
+      "process_sha256": "fb2bd26b80014c3dba435f748532d3db5fcdf31b032c46bc908bf8687b65d8cc",
+      "status": "success",
+      "wall_seconds": 0.34766912500344915
+    },
+    {
+      "case": "missing_required_via",
+      "cpu_seconds": 0.395497,
+      "exit_code": 5,
+      "log_sha256": "530dea501eb2b64ddf2da281bd8b99995dd4ceebd5adf58be309ef0415828792",
+      "name": "refill-drc",
+      "pid": 70617,
+      "process_sha256": "23e217efd7c562b879d927cfd4cbfe4c9aa2e8afdb06161a497acbe303d429ae",
+      "status": "nonzero_exit",
+      "wall_seconds": 0.7143533749986091
+    },
+    {
+      "case": "missing_required_via",
+      "cpu_seconds": 0.32839599999999997,
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "floor-final",
+      "pid": 70618,
+      "process_sha256": "226c72e724fa7cf2ba0f57297aa44dcddcfb82c0b286cce03ceac4dc639383dc",
+      "status": "success",
+      "wall_seconds": 0.3345539160000044
+    },
+    {
+      "case": "missing_required_via",
+      "cpu_seconds": 0.39712899999999995,
+      "exit_code": 5,
+      "log_sha256": "c5968be2c9dec8632be4bb69fa746b3d33514e922aa72d97b9b49e47e234e055",
+      "name": "final-drc",
+      "pid": 70619,
+      "process_sha256": "853dcf3c3e4f279ca58ec545506f017c32cc09f46b5750729b4b18984d042dc4",
+      "status": "nonzero_exit",
+      "wall_seconds": 0.7404661670007044
+    },
+    {
+      "case": "missing_required_via",
+      "cpu_seconds": 0.33117399999999997,
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "metrics",
+      "pid": 70620,
+      "process_sha256": "408b1dfee7864126d817c123a9ec1402774360c6b9aba48484170def7244f71e",
+      "status": "success",
+      "wall_seconds": 0.33800337499997113
+    },
+    {
+      "case": "cancel_native",
+      "cpu_seconds": 0.013626,
+      "exit_code": -15,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "refill-drc",
+      "pid": 70700,
+      "process_sha256": "c69b256eba894d81a655caf5c0c884176adff6ad20a49453441448ead74f4529",
+      "status": "cancelled",
+      "wall_seconds": 0.030106208003417123
+    }
+  ],
+  "reviewer_native_Git_subprocess_network_executed": false,
+  "schema": 1,
+  "scope": "Owned failure seams with actual native work, one exposed placement fixture. No rerouted original, GUI live-editor, broader board or physical validation claim. Cancelled worker never emitted native DRC report; controller-recorded group disappearance is historical evidence, not new PID probing.",
+  "source_hashes": {
+    "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+    "autorouter/__main__.py": "86d86f7647cf6d5687a0cd2ec9e3373ec6b16c0181d2211fef77068587970421",
+    "autorouter/adapter.py": "509feca807ccee112b0b6a071fd0944c88177ba83f5b77422ec8be5cdf63d25b",
+    "autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+    "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+    "autorouter/floor_context.py": "956bfe206c0e41847a74b810292c64995ad514ec0427aff98da1644d85240168",
+    "autorouter/floor_route.py": "e8f435a33ff0e86afe71a67caf1b441d98d7855209c6593e7c6bbbb56213ef51",
+    "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+    "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+    "autorouter/native.py": "7257496b007fbc449adb3cc8b999712aed8ea0aa881a116ba337d18e2ab87c02",
+    "autorouter/netclass.py": "96a7425112bc5a5ce5d2f15f69efc334fbfbb97aa9deee1ee33ce984d25a8ea6",
+    "autorouter/pipeline.py": "34525c04cb7c9c5984cfc0a069bd857b055b184111bdf52e7e6f6356208447a5",
+    "autorouter/placement_clearance.py": "f846a73367bc60dfbb48386233e405cb4bf1382f056d379787d7b823c3905feb",
+    "autorouter/placement_strategy.py": "7eed1308281141915a84cc9eed924b5c51493e39a2aca8205d11c6c78c014130",
+    "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+    "autorouter/preferences.py": "caa75beef5263258fe6a408b5008be893df52d47c19b734c42ec06ec449d8fef",
+    "autorouter/recovery.py": "95cebb44d8eac6e9903bd33e65b5cef887d8b1531f67375b940442f1237c2f9a",
+    "autorouter/review_export.py": "e4a7decd5dbfab1bf4f2df34df417ec79899cf4f92b915a1aadd874bf3f06d9a",
+    "autorouter/review_view.py": "8f765624a8527df770a98594a7b27fe88776b300ec276f809c179ec7f6f60fb7",
+    "autorouter/runner.py": "0e81ab1badf20cd84adc2fed586641dd97a489a5a6af03febe6fb597bb1d2718",
+    "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+    "autorouter/strategy.py": "a85e9097f3f20508a0d72f50078dad531a3cccc2f41b85da3a74c0a826b1d558",
+    "autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+    "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+    "autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455",
+    "toolchain.lock.json": "f04be5cdf6f64bddc16a6c5efd217b2f5e0a1341906ff44033f5807971154efe"
+  },
+  "status": "retained_actual_controls_verified",
+  "unique_native_processes": 9
+}

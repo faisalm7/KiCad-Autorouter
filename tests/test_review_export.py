@@ -138,6 +138,10 @@ class ExportControls(unittest.TestCase):
         with self.assertRaisesRegex(p.Rejected,'cancelled'):self.export()
         self.assertEqual({sig:signal.getsignal(sig) for sig in prior},prior);self.no_positive();self.preserved()
         self.assertTrue((self.output/'validation/refill-drc-failure.json').exists())
+        failed=json.loads((self.output/'export.json').read_text())
+        self.assertEqual(failed['budget_seconds'],e.SECONDS)
+        self.assertEqual(failed['cpu_budget_seconds'],e.SECONDS)
+        p.check_resource_accounting(failed,child_key='child_step_cpu_seconds')
     def test_session_cleanup_signal_and_full_cpu_overshoot_cannot_leave_positive(self):
         for mode in ('signal','CPU'):
             with self.subTest(mode=mode):
