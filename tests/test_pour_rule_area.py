@@ -128,10 +128,15 @@ class Controls(unittest.TestCase):
     def test_unit_change_and_layer_declaration_collision_rejected(self):
         t=dsn();s.one(t,'unit')[1]='mm';self.reject(t=t)
         t=dsn();s.one(t,'structure').append(['layer','F.Cu',['type','signal']]);self.reject(t=t)
-    def test_actual_pinned_nus_source_qualifies_without_native_export_claim(self):
-        path=ROOT/'.data/expansion008/nus-usb-led/src/usb_led.kicad_pcb';data=path.read_bytes()
-        self.assertEqual(hashlib.sha256(data).hexdigest(),'a8e69c14ceec9dd0954c3027cc89ca6bbb9c0b0ec3aeede5feacfdd47736f362')
-        before=hashlib.sha256(data).hexdigest();rows=m.qualify(s.parse(data.decode()))
-        self.assertEqual(len(rows),1);self.assertEqual(rows[0]['uuid'],'1abd2188-f015-4692-bf4a-117c7482b9fc');self.assertEqual(rows[0]['layers'],['F.Cu'])
-        self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),before)
+    def test_serialized_authored_source_is_immutable_and_binds_qualification(self):
+        z=zone();b=board([z]);data=raw(b);before=data
+        rows=m.qualify(s.parse(data.decode()))
+        self.assertEqual(len(rows),1)
+        self.assertEqual(rows[0]['uuid'],s.unquote(s.one(z,'uuid')[1]))
+        self.assertEqual(rows[0]['layers'],['F.Cu'])
+        self.assertEqual(data,before)
+        out,record=m.correct(data,m._dump_dsn(dsn([z])).encode())
+        self.assertEqual(record['source_board_sha256'],hashlib.sha256(data).hexdigest())
+        tampered=copy.deepcopy(b);s.one(s.one(tampered,'zone'),'polygon')[1][1][1]='11'
+        with self.assertRaises(ValueError):m.correct(raw(tampered),m._dump_dsn(dsn([z])).encode())
 if __name__=='__main__':unittest.main(verbosity=2)

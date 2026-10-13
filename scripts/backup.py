@@ -24,7 +24,7 @@ SCOPES = (".runs", ".data", ".local-reference")
 # archive/target/bundle and200,000 file/directory ceilings, without removing
 # evidence or changing scopes, secret/path checks, streaming or chain limits.
 LIMIT = 11 * 1024 ** 3 // 2
-MAX_FILES = 200000
+MAX_FILES = 215000
 MAX_CHAIN = 16
 # The prior139,253-file receipt is39,044,114B. The next forecast nearly fills
 # 48MiB at that measured bytes-per-entry;64MiB gives finite metadata headroom.

@@ -1,0 +1,6 @@
+    def test_actual_pinned_nus_source_qualifies_without_native_export_claim(self):
+        path=ROOT/'.data/expansion008/nus-usb-led/src/usb_led.kicad_pcb';data=path.read_bytes()
+        self.assertEqual(hashlib.sha256(data).hexdigest(),'a8e69c14ceec9dd0954c3027cc89ca6bbb9c0b0ec3aeede5feacfdd47736f362')
+        before=hashlib.sha256(data).hexdigest();rows=m.qualify(s.parse(data.decode()))
+        self.assertEqual(len(rows),1);self.assertEqual(rows[0]['uuid'],'1abd2188-f015-4692-bf4a-117c7482b9fc');self.assertEqual(rows[0]['layers'],['F.Cu'])
+        self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),before)
