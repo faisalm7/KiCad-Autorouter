@@ -70,7 +70,7 @@ def qualify(output,*,run_native=False):
                 result=e.export(case_dir/'intent/choice.json',case_dir/'export',min(e.SECONDS,remaining()))
                 checked=e.check_export(case_dir/'export/export.json');stable()
                 if not result['export_accepted'] or not checked['current']:raise p.Rejected('fresh export/proof rejected')
-                entry.update(passed=True,review_sha256=p.sha(case_dir/'review/review.json'),choice_sha256=p.sha(case_dir/'intent/choice.json'),
+                entry.update(review_sha256=p.sha(case_dir/'review/review.json'),choice_sha256=p.sha(case_dir/'intent/choice.json'),
                     export_sha256=p.sha(case_dir/'export/export.json'),exported_project=result['project_file'],candidate_sha256=result['candidate_sha256'],
                     final_native_report_sha256=result['native_report_sha256'],native={k:result['native'][k] for k in ('opens','blocking','warnings','exclusions','ignored_checks')},
                     metrics=result['metrics'],native_steps=[x['name'] for x in result['steps']],
@@ -79,8 +79,9 @@ def qualify(output,*,run_native=False):
                 rejected=h.review_choice(case_dir/'review/review.json',case_dir/'rejection','reject')
                 if rejected['choice']!='reject' or rejected['routing_accepted'] is not False:raise p.Rejected('rejection intent inconsistent')
                 entry['rejection_sha256']=p.sha(case_dir/'rejection/choice.json')
+                entry['passed']=True
             except (Exception,KeyboardInterrupt) as exc:
-                entry.update(error=type(exc).__name__+': '+str(exc))
+                entry.update(passed=False,error=type(exc).__name__+': '+str(exc))
                 if cancelled(exc):raise KeyboardInterrupt from exc
             finally:
                 entry.update(wall_seconds=time.monotonic()-case_start,full_cpu_seconds=time.process_time()+f.child_cpu()-case_cpu)

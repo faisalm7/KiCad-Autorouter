@@ -316,7 +316,9 @@ def publish(output,report,stable,account,remaining,*,owned=None):
         if owned is not None:owned()
         for name,prefix in [('result.json','invalidated-result-'),('result.json.partial','interrupted-result-')]:
             path=output/name
-            if path.exists():path.rename(output/(prefix+uuid.uuid4().hex+path.suffix))
+            if path.exists():
+                if owned is not None:owned()
+                path.rename(output/(prefix+uuid.uuid4().hex+path.suffix))
     try:
         stable();account();expected=canonical(report)
         if owned is not None:owned()
