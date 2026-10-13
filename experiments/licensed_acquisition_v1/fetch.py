@@ -40,6 +40,10 @@ PROFILES = {
            'destination_root': 'expansion006', 'directory': 'experiments/licensed_acquisition_v3',
            'output_prefix': 'licensed-acquisition-006-run-', 'files': 5, 'bytes': 754649,
            'identities': [('devobordo', 'Travis8795/devobordo', '5823d7a0d7fc3d1d520dd00f87bc5a42e413d04b')]},
+    'v4': {'protocol_sha256': '9d01b698ce07c1521b69360d00f14a6f1bfea1fa51a345606c0426f31563103d',
+           'destination_root': 'expansion007', 'directory': 'experiments/licensed_acquisition_v4',
+           'output_prefix': 'licensed-acquisition-007-run-', 'files': 6, 'bytes': 135772,
+           'identities': [('ardujoy-c64', 'eduardofv/ArdujoyC64', '1b63471d9726fb6a38f8544ca73ebf10c7f19820')]},
 }
 
 
@@ -275,10 +279,10 @@ def git_identity(root):
 def material_paths(root, here, profile_id='v1'):
     profile(profile_id)
     paths = {name: here / name for name in MATERIAL}
-    if profile_id in ('v2', 'v3'):
+    if profile_id in ('v2', 'v3', 'v4'):
         for name in ('fetch.py', 'test_fetch.py'):
             paths['shared/' + name] = root / PROFILES['v1']['directory'] / name
-    if profile_id == 'v3':
+    if profile_id in ('v3', 'v4'):
         paths['native_snapshot.py'] = here / 'native_snapshot.py'
     return paths
 

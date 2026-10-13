@@ -241,3 +241,63 @@ def audit(original, candidate, names):
             'requested_names': selected, 'protected_count': len(protected),
             'protected_routes': _protected_records(mapping, protected),
             'selected_route_count': len(generated), 'selected_routes': generated}
+
+
+def partition_dsn(raw, names):
+    """Split engine classes with identical rules; retain every net and pin.
+
+    The pinned engine can skip entire classes. Protected class copies change
+    routing activity only, never native class assignment or geometric rules.
+    Fanout and optimization must be disabled by the caller. Final scope and
+    whole-board native validation remain mandatory even if this hint works.
+    """
+    from .adapter import _parse_dsn, _dump_dsn
+    selected=validate_names(names)
+    if type(raw) is not bytes or not 0<len(raw)<=20*1024**2:
+        raise ValueError('bounded exported DSN bytes required')
+    tree=_parse_dsn(raw.decode('utf-8'));network=_one(tree,'network')
+    if network is None:raise p.Rejected('selected scope requires DSN network')
+    if any(type(row) is not list or not row or row[0] not in {'net','class'} for row in network[1:]):
+        raise p.Rejected('unsupported selected DSN network reference semantics')
+    nets=sx.children(network,'net');net_names=[sx.unquote(row[1]) for row in nets if len(row)>=2]
+    if len(net_names)!=len(nets) or len(set(net_names))!=len(nets) or not set(selected)<=set(net_names):
+        raise p.Rejected('selected DSN net identities differ')
+    if any(any(type(field) is not list or not field or field[0]!='pins' for field in row[2:]) for row in nets):
+        raise p.Rejected('unsupported selected DSN per-net reference semantics')
+    classes=sx.children(network,'class')
+    if not 1<=len(classes)<=2:raise p.Rejected('selected DSN class population unqualified')
+    class_names=[sx.unquote(row[1]) for row in classes if len(row)>=2]
+    identities=['default' if x.casefold() in {'default','kicad_default'} else x.casefold() for x in class_names]
+    if len(class_names)!=len(classes) or len(set(identities))!=len(classes):
+        raise p.Rejected('selected DSN class names ambiguous')
+    protected_names=[];members=[];replacements=[]
+    token=_sha(json.dumps(selected,ensure_ascii=False,separators=(',',':')).encode())[:16]
+    for index,row in enumerate(classes):
+        split=next((i for i,x in enumerate(row[2:],2) if type(x) is list),len(row))
+        atoms=row[2:split];rules=row[split:]
+        if any(type(x) is not str for x in atoms) or any(type(x) is not list for x in rules):
+            raise p.Rejected('selected DSN class grammar unqualified')
+        members.extend(sx.unquote(x) for x in atoms)
+        chosen=[x for x in atoms if sx.unquote(x) in selected];others=[x for x in atoms if sx.unquote(x) not in selected]
+        if chosen:replacements.append([row[0],row[1],*chosen,*copy.deepcopy(rules)])
+        if others:
+            name='__kicad_scope_'+token+'_'+str(index)
+            if name.casefold() in {x.casefold() for x in class_names}:raise p.Rejected('reserved selected DSN class collision')
+            protected_names.append(name);replacements.append([row[0],json.dumps(name),*others,*copy.deepcopy(rules)])
+    if len(members)!=len(set(members)) or set(members)!=set(net_names):
+        raise p.Rejected('selected DSN requires exact unique class membership for every net')
+    transformed=copy.deepcopy(tree);changed=_one(transformed,'network')
+    changed[:]=[x for x in changed if x not in sx.children(changed,'class')]+replacements
+    emitted=_dump_dsn(transformed).encode()
+    if _parse_dsn(emitted.decode())!=transformed:raise p.Rejected('selected DSN emission changed parsed board')
+    # The complete board except class membership is unchanged. Each original
+    # member still has exactly the same full rule/circuit payload in its copy.
+    original_without_classes=copy.deepcopy(tree);base=_one(original_without_classes,'network')
+    base[:]=[x for x in base if x not in sx.children(base,'class')]
+    output_without_classes=copy.deepcopy(transformed);base=_one(output_without_classes,'network')
+    base[:]=[x for x in base if x not in sx.children(base,'class')]
+    if output_without_classes!=original_without_classes:raise p.Rejected('selected DSN changed pins, geometry or constraints')
+    argument='--router.autorouter.ignore_net_classes='+','.join(protected_names) if protected_names else None
+    return emitted,{'schema':1,'policy':POLICY,'input_sha256':_sha(raw),'output_sha256':_sha(emitted),
+        'requested_names':selected,'ignored_engine_classes':protected_names,'engine_argument':argument,
+        'all_nets_and_pins_retained':True,'class_rules_copied_exactly':True,'native_classes_changed':False}

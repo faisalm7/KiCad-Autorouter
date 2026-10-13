@@ -25,13 +25,16 @@ class SelectedEvidence(unittest.TestCase):
         request={'captured':None,'effective':pref.resolve(overrides={'scope':'selected_nets','nets':['GND'],'profile':'completion-only'}),
                  'snapshot':pref.snapshot(overrides={'scope':'selected_nets','nets':['GND'],'profile':'completion-only'})}
         p.capture_preferences(x.data,x.run,request)
-        settings=p.engine_profile_settings('completion-only',100);settings.update(outer_task_wall_budget_seconds=120,outer_task_cpu_budget_seconds=120)
+        dsn=b'(pcb fixture (parser (string_quote ")) (network (net GND (pins J1-1)) (class kicad_default GND (rule (width 200)))))\n'
+        emitted,dsn_binding=rs.partition_dsn(dsn,['GND']);x.data['selected_dsn_binding']=dsn_binding
+        (x.run/'routing-scope-input.dsn').write_bytes(dsn)
+        settings=p.engine_profile_settings('completion-only',100,strict_class_targets=True);settings.update(outer_task_wall_budget_seconds=120,outer_task_cpu_budget_seconds=120)
         process={'name':'engine','argv':p.engine_argv(x.run,settings['argv']),'cwd':str(x.run),
                  'status':'success','exit_code':0,'cleanup_complete':True,'wall_seconds':0.1,'cpu_seconds':0.1,'monitor_cpu_seconds':0.}
         p.save_json(x.run/'engine-process.json',process);x.data['engine_budget']=settings;x.data['steps'].insert(0,process)
         x.data.update(child_cpu_seconds=1.1,total_cpu_seconds=1.4)
         for name,field in [('native.dsn','native_dsn_sha256'),('task.dsn','task_dsn_sha256')]:
-            (x.run/name).write_text('fabricated export for consistency seam only\n');x.data[field]=p.sha(x.run/name)
+            (x.run/name).write_bytes(dsn if name=='native.dsn' else emitted);x.data[field]=p.sha(x.run/name)
         imported=x.run/'imported.kicad_pcb';imported.write_bytes(raw);audit={'imported_sha256':p.sha(imported)}
         p.transplant_routes(original,original,protected=rs.protected_routes(original,['GND']),audit=audit,policy='exact_non_uuid_lock_position_v2')
         x.data['protected_route_import']=audit;x.save_receipt()
@@ -55,5 +58,11 @@ class SelectedEvidence(unittest.TestCase):
         with self.assertRaisesRegex(p.Rejected,'complete protected import'):p.check_result(x.receipt)
         x.data=copy.deepcopy(good);x.data['task_sha256']='0'*64;x.save_receipt()
         with self.assertRaisesRegex(p.Rejected,'selected-net source binding'):p.check_result(x.receipt)
+
+    def test_complete_selector_removal_cannot_hide_retained_scoped_input(self):
+        x=self.fixture;self.assertTrue(p.check_result(x.receipt)['current'])
+        for key in ['selected_net_binding','selected_net_audit','selected_dsn_binding','routing_preferences','protected_route_import']:del x.data[key]
+        (x.run/'routing-preferences.json').unlink();x.data['scope']='whole_board_unlocked_routing';x.save_receipt()
+        with self.assertRaisesRegex(p.Rejected,'cannot downgrade'):p.check_result(x.receipt)
 
 if __name__=='__main__':unittest.main()

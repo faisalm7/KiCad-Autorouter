@@ -695,7 +695,7 @@ def layer_markers(directory, data):
 def selected_scope_names(data):
     """Selection is authorized only by the captured, centrally checked preset."""
     if data.get('scope')!='selected_nets':
-        if any(key in data for key in ('selected_net_binding','selected_net_audit')):
+        if any(key in data for key in ('selected_net_binding','selected_net_audit','selected_dsn_binding')):
             raise Rejected('selected-net evidence without selected scope')
         return None
     from . import preferences as pref, routing_scope as rs
@@ -703,9 +703,24 @@ def selected_scope_names(data):
     if (effective['scope']!='selected_nets' or data.get('schema')!=1
             or data.get('input_policy','native')!='native'
             or type(data.get('selected_net_binding')) is not dict
-            or type(data.get('selected_net_audit')) is not dict):
+            or type(data.get('selected_net_audit')) is not dict
+            or type(data.get('selected_dsn_binding')) is not dict):
         raise Rejected('missing selected-net choice or preservation evidence')
     return rs.validate_names(effective['nets'])
+
+
+def selected_scope_markers(directory,data):
+    if any(key in data for key in ('selected_net_binding','selected_net_audit','selected_dsn_binding')):return True
+    path=Path(directory)/'routing-scope-input.dsn'
+    if path.exists() or path.is_symlink():return True
+    def reserved(argv):
+        return isinstance(argv,list) and any(isinstance(arg,str) and arg.startswith('--router.autorouter.ignore_net_classes') for arg in argv)
+    if reserved(data.get('engine_budget',{}).get('argv')):return True
+    path=Path(directory)/'engine-process.json'
+    if path.exists() or path.is_symlink():
+        from .floor_route import read_json
+        return reserved(read_json(path).get('argv'))
+    return False
 
 
 def protected_for_record(data,original):
@@ -731,6 +746,7 @@ def check_preferences_record(directory, data):
     path=Path(directory)/'routing-preferences.json'
     if 'routing_preferences' not in data and not path.exists() and not path.is_symlink():
         if layer_markers(directory,data):raise Rejected('layer evidence requires captured routing preferences')
+        if selected_scope_markers(directory,data):raise Rejected('selected-net evidence requires captured routing preferences')
         return
     from . import preferences as pref
     from .placement_clearance import read_bytes
@@ -748,7 +764,7 @@ def check_preferences_record(directory, data):
         raise Rejected('routing result differs from captured preferences')
     assigned=data.get('engine_budget',{})
     settings=engine_profile_settings(effective['profile'],assigned.get('remaining_outer_wall_seconds_at_assignment'),
-        strict_class_targets=effective['guidance']!='native' or data.get('netclass_policy') is not None,scoring_variant=scoring)
+        strict_class_targets=effective['guidance']!='native' or data.get('netclass_policy') is not None or effective['scope']=='selected_nets',scoring_variant=scoring)
     settings.update(outer_task_wall_budget_seconds=effective['seconds'],outer_task_cpu_budget_seconds=effective['seconds'])
     if effective['layers']!='source_all':
         if type(data.get('layer_binding')) is not dict or type(data.get('layer_audit')) is not dict:
@@ -766,6 +782,16 @@ def check_preferences_record(directory, data):
                 or data.get('task_sha256')!=data['selected_net_binding'].get('task_sha256')
                 or canonical(rs.audit(preflight(source),sx.read(candidate),names))!=canonical(data['selected_net_audit'])):
             raise Rejected('selected-net source binding or final copper audit differs')
+        emitted,dsn_binding=rs.partition_dsn(read_bytes(Path(directory)/'routing-scope-input.dsn',20*1024**2),names)
+        if (canonical(dsn_binding)!=canonical(data['selected_dsn_binding'])
+                or emitted!=read_bytes(Path(directory)/'task.dsn',20*1024**2)):
+            raise Rejected('selected-net engine class partition differs')
+        if data['adapter']=='none':
+            if read_bytes(Path(directory)/'native.dsn',20*1024**2)!=read_bytes(Path(directory)/'routing-scope-input.dsn',20*1024**2):
+                raise Rejected('selected-net unadapted export differs')
+        elif data.get('adapter_transformations',{}).get('output_sha256')!=dsn_binding['input_sha256']:
+            raise Rejected('selected-net adapter/partition lineage differs')
+        if dsn_binding['engine_argument'] is not None:settings['argv'].append(dsn_binding['engine_argument'])
         selected_parity_required(data)
     if settings!=assigned:raise Rejected('engine budget differs from captured preferences')
     steps=[step for step in data.get('steps',[]) if step.get('name')=='engine']
@@ -867,17 +893,24 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
             report['adapter_transformations']=adapt_dsn(output/'task.dsn',adapter,json.loads((output/'obstacles.json').read_text()))
         if policy is not None:
             report['netclass_task_audit']=audit_dsn(output/'task.dsn',native_classes,json.loads(candidate.with_suffix('.kicad_pro').read_text()))
+        selection_argument=None
+        if selected is not None:
+            shutil.copy2(output/'task.dsn',output/'routing-scope-input.dsn')
+            emitted,report['selected_dsn_binding']=rs.partition_dsn((output/'routing-scope-input.dsn').read_bytes(),selected)
+            (output/'task.dsn').write_bytes(emitted)
+            selection_argument=report['selected_dsn_binding']['engine_argument']
         report['task_dsn_sha256']=sha(output/'task.dsn')
         layers=None
         if _preferences is not None and _preferences['effective']['layers']!='source_all':
             layers=layer_contract(output,source,_preferences['effective'])
             report['layer_binding']=layers['binding']
         config_dir=output/'engine-config'; config_dir.mkdir()
-        report['engine_budget']=engine_profile_settings(engine_profile,job.deadline-time.monotonic(),strict_class_targets=policy is not None,scoring_variant=scoring_variant)
+        report['engine_budget']=engine_profile_settings(engine_profile,job.deadline-time.monotonic(),strict_class_targets=policy is not None or selected is not None,scoring_variant=scoring_variant)
         report['engine_budget']['outer_task_wall_budget_seconds']=seconds
         report['engine_budget']['outer_task_cpu_budget_seconds']=seconds
         engine_settings=report['engine_budget']['argv']
         if layers is not None:engine_settings.append(layers['binding']['engine_argument'])
+        if selection_argument is not None:engine_settings.append(selection_argument)
         preferences_fresh(output,_preferences)
         job.step('engine',engine_argv(output,engine_settings))
         if engine_profile=='tuned':
@@ -1106,6 +1139,8 @@ def _check_result_uncached(path):
     receipt_digest=hashlib.sha256(bounded_bytes(path)).hexdigest()
     # Parse once strictly before policy dispatch; duplicate selectors cannot hide schema3.
     data=read_json(path)
+    if selected_scope_markers(path.parent,data) and data.get('scope')!='selected_nets':
+        raise Rejected('selected-net evidence cannot downgrade routing scope')
     from . import placement_strategy as ps
     input_policy=ps.POLICY if ps.recognize(data,path.parent) else receipt_policy(data,path.parent)
     placement_backed=input_policy in {'placement-clearance-v1','placement-search-v1',ps.POLICY}
@@ -1196,7 +1231,7 @@ def _check_result_uncached(path):
             audit_native(exported,project)
             if (data.get('netclass_policy')!=netclass_policy(candidate)
                     or data.get('netclass_export_audit')!=audit_dsn(path.parent/'native.dsn',exported,project)
-                    or data.get('netclass_task_audit')!=audit_dsn(path.parent/'task.dsn',exported,project)):
+                    or data.get('netclass_task_audit')!=audit_dsn(path.parent/('routing-scope-input.dsn' if data['scope']=='selected_nets' else 'task.dsn'),exported,project)):
                 raise Rejected('retained DSN netclass audits differ from exported evidence')
 
     binding=evidence('final-drc-binding.json')
