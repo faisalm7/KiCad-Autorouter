@@ -1,0 +1,31 @@
+{
+  "controls": [
+    {
+      "case": "required_rejection_intent_failure",
+      "controller_status": "failed",
+      "controls_passed": false,
+      "entry_error": "Rejected: deliberate rejection-intent persistence failure",
+      "entry_passed": false,
+      "scope": "Controller APIs and commit check explicitly mocked; one-case seam only, no native qualification or real report claim."
+    },
+    {
+      "case": "publisher_replacement_between_archival_renames",
+      "raised": "Rejected: owned review output directory was replaced",
+      "replacement_current_partial_exists": true,
+      "replacement_files": [
+        "result.json.partial"
+      ],
+      "replacement_inventory_unchanged": true,
+      "scope": "Only owned regular scratch directories swapped; no live symlinks or original project files touched."
+    }
+  ],
+  "live_symlinks": false,
+  "native_subprocess_JVM_Git_network_executed": false,
+  "schema": 1,
+  "source_stable_before_after": true,
+  "sources": {
+    "autorouter/floor_route.py": "e8f435a33ff0e86afe71a67caf1b441d98d7855209c6593e7c6bbbb56213ef51",
+    "autorouter/review_export.py": "e4a7decd5dbfab1bf4f2df34df417ec79899cf4f92b915a1aadd874bf3f06d9a",
+    "scripts/qualify_review_export.py": "01b256ab0c2d0064991a597580549b2ba0663e5b864c4990ac7971e2e4d1a1dd"
+  }
+}

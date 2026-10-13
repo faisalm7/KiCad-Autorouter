@@ -1,0 +1,162 @@
+{
+  "schema": 1,
+  "source_pin": "0feeca2a807f428ad2b3fa7c1e39625cb769f02c",
+  "key": "text_on_edge_cuts",
+  "source_default": "error",
+  "error_native_controls_already_complete": [
+    {
+      "case": "positive",
+      "report": ".runs/pic-severity-controls-002/positive/original-drc.json",
+      "sha256": "a6aa396d4524d63923b127737cb17a38b40a4a24547315376ea086f49b9064eb",
+      "source": "pic_programmer.kicad_pcb",
+      "included_severities": [
+        "error",
+        "warning",
+        "exclusion"
+      ],
+      "target_findings": [],
+      "other_warning_count": 4,
+      "ignored_checks": [
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "Silkscreen clipped by board edge",
+          "key": "silk_edge_clearance"
+        }
+      ],
+      "new_native_execution": false
+    },
+    {
+      "case": "board_edge_text",
+      "report": ".runs/pic-severity-controls-002/board_edge_text/original-drc.json",
+      "sha256": "04ef6f6c07101e4e05406e98a797f371183dc431e2012dd40c588b38b5e5e925",
+      "source": "pic_programmer.kicad_pcb",
+      "included_severities": [
+        "error",
+        "warning",
+        "exclusion"
+      ],
+      "target_findings": [
+        {
+          "description": "Text (or dimension) on Edge.Cuts layer",
+          "items": [
+            {
+              "description": "PCB text 'Owned board text' on Edge.Cuts",
+              "pos": {
+                "x": 20.0,
+                "y": 5.0
+              },
+              "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d"
+            }
+          ],
+          "severity": "error",
+          "type": "text_on_edge_cuts"
+        }
+      ],
+      "other_warning_count": 4,
+      "ignored_checks": [
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "Silkscreen clipped by board edge",
+          "key": "silk_edge_clearance"
+        }
+      ],
+      "new_native_execution": false
+    },
+    {
+      "case": "footprint_edge_text",
+      "report": ".runs/pic-severity-controls-002/footprint_edge_text/original-drc.json",
+      "sha256": "7ef48045a20a41cc0abffb30f6016b8fd5a24172e7b554399290990045258e28",
+      "source": "pic_programmer.kicad_pcb",
+      "included_severities": [
+        "error",
+        "warning",
+        "exclusion"
+      ],
+      "target_findings": [
+        {
+          "description": "Text (or dimension) on Edge.Cuts layer",
+          "items": [
+            {
+              "description": "Footprint text of P1 (Owned footprint text)",
+              "pos": {
+                "x": 10.0,
+                "y": 15.0
+              },
+              "uuid": "c8fe43a2-1bc2-5702-b488-91f43d743de8"
+            }
+          ],
+          "severity": "error",
+          "type": "text_on_edge_cuts"
+        }
+      ],
+      "other_warning_count": 4,
+      "ignored_checks": [
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "Silkscreen clipped by board edge",
+          "key": "silk_edge_clearance"
+        }
+      ],
+      "new_native_execution": false
+    }
+  ],
+  "warning_ignore_native_qualification": "not executed",
+  "new_native_processes": 0,
+  "new_JVM_processes": 0,
+  "new_raw_REST_download_bytes": 0,
+  "source_bindings": {
+    ".runs/support-scope-review-001/source/pcbnew/drc/drc_item.cpp": "ab014f2d70866bb1da53773b55fb3ce9912af501fa49c08b3a6f697dcdac3f51",
+    ".runs/support-scope-review-001/source/pcbnew/drc/drc_test_provider_disallow.cpp": "e9ab0984ab4328cc1e3bae22114fd60b5fdde1da12d7472cbefee603e25afcf2",
+    ".runs/support-scope-review-001/source/pcbnew/board_design_settings.cpp": "1e9176e7273612767cf1ec21992ac0cc75f157f6929097c71ab160f90711a731",
+    ".runs/support-scope-review-001/source/pcbnew/drc/drc_engine.cpp": "ddd99dc45baea9aa94997eb074e8529c34374b58492668ef80667f6d4a9ea775",
+    ".runs/pic-severity-controls-002/summary.json": "e205d0d79d2c021290950e91078e1e622b01431da21af8404520f5a42d5dc48f",
+    "experiments/pic_severity_controls_v1/fixture.py": "3b423afcacd7ad3e681446f21fed9a1c5b62cb47904a307ce6f9b594a29cde73",
+    "experiments/pic_severity_controls_v1/worker.py": "28c8e00c9ee1257752260ab21ea501a21e35ab1480d8c7f0335c8a343a5350a2",
+    "experiments/pic_severity_controls_v1/checks.py": "aafda05256566dd0e72b0fcefa7020a5235f2af25716def225aaaea84bdab832",
+    "autorouter/pipeline.py": "34525c04cb7c9c5984cfc0a069bd857b055b184111bdf52e7e6f6356208447a5",
+    ".runs/pic-severity-controls-002/positive/original-drc.json": "a6aa396d4524d63923b127737cb17a38b40a4a24547315376ea086f49b9064eb",
+    ".runs/pic-severity-controls-002/positive/original-drc-input/pic_programmer.kicad_pro": "3b0ac39da5af86d0baa2a64da55a89c39ba00148dc82b54f3062f5c3650a5cc5",
+    ".runs/pic-severity-controls-002/board_edge_text/original-drc.json": "04ef6f6c07101e4e05406e98a797f371183dc431e2012dd40c588b38b5e5e925",
+    ".runs/pic-severity-controls-002/board_edge_text/original-drc-input/pic_programmer.kicad_pro": "3b0ac39da5af86d0baa2a64da55a89c39ba00148dc82b54f3062f5c3650a5cc5",
+    ".runs/pic-severity-controls-002/footprint_edge_text/original-drc.json": "7ef48045a20a41cc0abffb30f6016b8fd5a24172e7b554399290990045258e28",
+    ".runs/pic-severity-controls-002/footprint_edge_text/original-drc-input/pic_programmer.kicad_pro": "3b0ac39da5af86d0baa2a64da55a89c39ba00148dc82b54f3062f5c3650a5cc5"
+  },
+  "existing_complete_six_case_cost": {
+    "wall_seconds": 15.808914416003972,
+    "full_cpu_seconds": 14.038842
+  },
+  "production_changes": false
+}

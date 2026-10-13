@@ -51,7 +51,7 @@ CPU is measured for installation diagnosis, not capped as a routing comparison. 
 a 10-minute overall command budget, 2 MB capped command logs, 4 GiB process-group
 RSS polling and a 512 MiB scratch ceiling. Polling can overshoot; it is not an OS
 filesystem or memory quota. Nested native workers also use the pipeline's own
-bounds. The current tracked source inventory is bounded to16,000files and256MiB; all files are compared. Earlier bounds and their actual failures are retained below. A shared project experiment lock prevents overlapping cooperating
+bounds. The current tracked source inventory is bounded to16,000files and320MiB; all files are compared. Earlier bounds and their actual failures are retained below. A shared project experiment lock prevents overlapping cooperating
 harnesses; the lead keeps all other heavy workers idle. These polling and
 post-completion checks are not hard kernel resource guarantees.
 
@@ -81,3 +81,5 @@ Installation008 at71440d8 progressed through the isolated clone/venv/doctor and 
 Installation009 at339e539 passed20network-denied commands and643tests from its isolated clone/venv, actual native0opens/0blocking/0warnings/0exclusions,1via/67.933738mm and current receipt readback. All7effective ignoredchecks remain (5explicit original settings plus2native defaults). Stored51.365890wall/49.224024CPU precede publication; outer58.060935/55.496116 includes it. A separate command from the same clone/venv produced four valid before/after native plots in3.237173wall/2.472345CPU. [Actual evidence](../evidence/installation-009/result.json), [independent audit](../evidence/review-installation009-preview-001/REPORT.md). Existing Mac and cached dependencies were reused; no fresh OS or package-publication claim.
 
 Current integration: source at3f757c0 has727passing root tests and new pruning/handoff safety fixes. Installation009 remains qualification of339e539, not this source. Run a fresh installation010 after the current sequential native comparisons and accepted-project integration; preserve every failed tree. Use the existing `.venv/bin/python`3.11.9 to invoke the helper, since this Mac's barepython3 currently resolves to3.9.6. Full restoration follows at the scheduled major integration/capacity-change gate.
+
+Installation010 preparation measures287200372tracked bytes before3945880bytes of new workflow curation, above the prior256MiB source allowance. The same installer now retains all source under a finite320MiB/16000file cap;512MiB scratch/600seconds/networkdenial and every native acceptance check remain. Existing exact/excess/unsafe-path capacity regressions remain; targeted24controls pass. Actual fresh installation is pending.

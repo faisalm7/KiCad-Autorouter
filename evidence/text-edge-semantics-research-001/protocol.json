@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "status": "proposal_only",
+  "reuse_existing_error_cases": ".runs/pic-severity-controls-002",
+  "reuse_fixture": "experiments.pic_severity_controls_v1.fixture.prepare",
+  "order": [
+    "warning_positive",
+    "warning_board_edge",
+    "ignore_positive",
+    "ignore_board_edge"
+  ],
+  "shared_wall_seconds": 90,
+  "shared_full_cpu_seconds": 90,
+  "output_bytes": 20971520,
+  "sequential_native": true,
+  "solver": false,
+  "original_source_project_changed": false,
+  "owned_copied_project_delta": [
+    "board",
+    "design_settings",
+    "rule_severities",
+    "text_on_edge_cuts"
+  ],
+  "warning_target": [
+    "text_on_edge_cuts",
+    "warning",
+    "2759e828-b0ff-5615-9b85-470ce02fdf5d"
+  ],
+  "ignore_expected": "zero target findings plus exact ignored key and unchanged same-load target UUID/Edge.Cuts geometry; suppression is not acceptance",
+  "optional_explicit_default_extension": [
+    "unset_key_positive",
+    "unset_key_board_edge"
+  ],
+  "default_expected": "error exact UUID, key not ignored; no repeated explicit-error cases",
+  "shared_helpers": [
+    "fixture.prepare",
+    "worker.observe",
+    "checks.geometry",
+    "pipeline.drc",
+    "process_control",
+    "runner",
+    "protected input-copy behavior"
+  ],
+  "all_reports_inputs_candidates_bound": true,
+  "preserve_all_inherited_warnings": true,
+  "fail_closed": true,
+  "global_preflight_bypass": false,
+  "new_validator_framework": false
+}

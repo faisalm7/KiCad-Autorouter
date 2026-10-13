@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "git_head": "470bd4aa63ed928d8a1669284d5db3dd61d91d98",
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 193.82340954199753,
+    "cpu_seconds": 184.030345,
+    "max_rss_bytes": 1315192832,
+    "supervisor_cpu_seconds": 2.727735,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 1314865152,
+    "sampled_peak_workdir_bytes": 76944573,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 268435456,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/qualify_review_export.py",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-export-native-001/run",
+      "--run-native"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-export-native-001/command.log",
+    "log_bytes": 164,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-export-native-001",
+    "signal_cancellation_enabled": true,
+    "pid": 69981
+  },
+  "wall_seconds": 193.9535944579984,
+  "full_cpu_seconds": 186.86576100000002,
+  "wrapper_sha256": "7e37dd6f5e67a64665fb1acc43ebcf7730e8709d858d43bd209c53527f2f30cd",
+  "log_sha256": "400794cc71576f9172988b06f272d211252438a050f07ac81903730c00b3213b",
+  "scope": "Sequential five existing receipts through new review/intent/fresh native export/proof and rejection. No solver/previousnative repetition; separate workflow qualification cost, no GUI/human/physical approval. Existing sandbox/runner used,600cumulativewall/fullCPU +full outerrecord,256MiB output bound."
+}

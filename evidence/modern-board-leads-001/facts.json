@@ -1,0 +1,605 @@
+{
+  "schema": 1,
+  "scope": "At most three new primary creator project leads; all development-exposed by this static research, not acquired production corpus members",
+  "original_population_unchanged": {
+    "acquired": 20,
+    "statically_eligible": 3,
+    "unsupported": 17,
+    "untouched_holdout": false
+  },
+  "prior48_ledger_sha256": "f79d84fa9898992c60defb47c85892dcd4a3eef47a57142780b306125b87b63f",
+  "actual_allowed_formats": [
+    "20241229",
+    "20260206"
+  ],
+  "requested20260101_is_not_production_admitted": true,
+  "live_guard_sha256": "34525c04cb7c9c5984cfc0a069bd857b055b184111bdf52e7e6f6356208447a5",
+  "sexpr_sha256": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+  "new_raw_response_bytes": 1056905,
+  "max_new_raw_response_bytes": 5242880,
+  "network_requests": 44,
+  "failed_requests": [],
+  "raw_board_payloads_read": 3,
+  "new_native_jobs": 0,
+  "new_engine_jobs": 0,
+  "git_subprocesses": 0,
+  "new_external_spending": 0,
+  "leads": [
+    {
+      "repository": "siderakb/pmw3610-pcb",
+      "source_commit": "02658835a74cb683d0237ab21a1538de79452a9e",
+      "fork": false,
+      "declared_creator": "siderakb",
+      "board": "pmw3610_pcb.kicad_pcb",
+      "board_sha256": "e8a870703d555e3fa4ce88f3f53015165dc6b460bb0dc6bb277ec8ec300d5d46",
+      "source_primary_url": "https://github.com/siderakb/pmw3610-pcb/tree/02658835a74cb683d0237ab21a1538de79452a9e",
+      "format": "20241229",
+      "copper_layers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "footprints": 24,
+      "pads": 72,
+      "custom_pads": 4,
+      "zones": 1,
+      "native_preflight": {
+        "eligible": false,
+        "exact_rejection": "unsupported: custom pads not qualified; netclass bindings not qualified: Only unique literal identifier assignments qualified; unknown rule severity semantics: text_on_edge_cuts",
+        "native_validation_performed": false
+      },
+      "source_title": [
+        [
+          "title_block",
+          [
+            "title",
+            "\"PMW3610 PCB\""
+          ],
+          [
+            "rev",
+            "\"2.1\""
+          ],
+          [
+            "company",
+            "\"SideraKB\""
+          ],
+          [
+            "comment",
+            "1",
+            "\"Open Source Hardware, CERN-OHL-P v2\""
+          ],
+          [
+            "comment",
+            "2",
+            "\"PMW3610DM-SUDU laser mouse sensor breakout board\""
+          ]
+        ]
+      ],
+      "native_net_names": [
+        "",
+        "GND",
+        "+1V8",
+        "VDDIO",
+        "VIN",
+        "nRESET",
+        "SDIO",
+        "SCLK",
+        "nCS",
+        "MOTION",
+        "Net-(U1-CN)",
+        "Net-(U1-CP)",
+        "Net-(U1-+VCSEL)",
+        "Net-(U1-VCP)",
+        "Net-(U2-NC)",
+        "unconnected-(U1-NC-Pad4)",
+        "Net-(U1--VCSEL)",
+        "unconnected-(J2-Pin_4-Pad4)",
+        "unconnected-(J2-MountPin-PadMP)",
+        "unconnected-(J2-MountPin-PadMP)_1",
+        "Net-(J2-Pin_8)"
+      ],
+      "classes": {
+        "classes": [
+          {
+            "bus_width": 12,
+            "clearance": 0.2,
+            "diff_pair_gap": 0.25,
+            "diff_pair_via_gap": 0.25,
+            "diff_pair_width": 0.2,
+            "line_style": 0,
+            "microvia_diameter": 0.3,
+            "microvia_drill": 0.1,
+            "name": "Default",
+            "pcb_color": "rgba(0, 0, 0, 0.000)",
+            "priority": 2147483647,
+            "schematic_color": "rgba(0, 0, 0, 0.000)",
+            "track_width": 0.2,
+            "via_diameter": 0.6,
+            "via_drill": 0.3,
+            "wire_width": 6
+          },
+          {
+            "clearance": 0.2,
+            "name": "Power",
+            "pcb_color": "rgba(0, 0, 0, 0.000)",
+            "priority": 0,
+            "schematic_color": "rgba(0, 0, 0, 0.000)",
+            "track_width": 0.3,
+            "via_diameter": 0.6,
+            "via_drill": 0.3
+          }
+        ],
+        "meta": {
+          "version": 4
+        },
+        "net_colors": null,
+        "netclass_assignments": null,
+        "netclass_patterns": [
+          {
+            "netclass": "Power",
+            "pattern": "GND"
+          },
+          {
+            "netclass": "Power",
+            "pattern": "*V*"
+          }
+        ]
+      },
+      "unknown_severity_keys": [
+        "text_on_edge_cuts"
+      ],
+      "nonblocking_critical_original_severities": {
+        "padstack": "warning"
+      },
+      "drc_exclusions": [],
+      "library_tables": {
+        "fp-lib-table": "(fp_lib_table\n  (version 7)\n  (lib (name \"pmw3610_pcb\")(type \"KiCad\")(uri \"${KIPRJMOD}/pmw3610_pcb.pretty\")(options \"\")(descr \"\"))\n)\n",
+        "sym-lib-table": "(sym_lib_table\n  (version 7)\n  (lib (name \"pmw3610_pcb\")(type \"KiCad\")(uri \"${KIPRJMOD}/pmw3610_pcb.kicad_sym\")(options \"\")(descr \"\"))\n)\n"
+      },
+      "embedded_schematic_library_ids": [
+        "Connector:TestPoint",
+        "Connector_Generic:Conn_01x07",
+        "Connector_Generic_MountingPin:Conn_01x08_MountingPin",
+        "Device:C_Small",
+        "Device:R_Small",
+        "Jumper:SolderJumper_2_Open",
+        "Jumper:SolderJumper_3_Open",
+        "Mechanical:MountingHole",
+        "pmw3610_pcb:PMW3610DM-SUDU",
+        "pmw3610_pcb:TLV74318PDBVR",
+        "power:+1V8",
+        "power:GND",
+        "power:VDD"
+      ],
+      "embedded_board_footprint_ids": [
+        "Capacitor_SMD:C_0603_1608Metric",
+        "Capacitor_SMD:C_0805_2012Metric",
+        "Connector_PinHeader_2.54mm:PinHeader_1x07_P2.54mm_Vertical",
+        "Jumper:SolderJumper-2_P1.3mm_Open_RoundedPad1.0x1.5mm",
+        "Jumper:SolderJumper-3_P1.3mm_Open_RoundedPad1.0x1.5mm_NumberLabels",
+        "MountingHole:MountingHole_3.2mm_M3_ISO14580",
+        "Package_TO_SOT_SMD:SOT-23-5_HandSoldering",
+        "Resistor_SMD:R_0603_1608Metric",
+        "TestPoint:TestPoint_Pad_D1.5mm",
+        "pmw3610_pcb:FPC_8P_0.5mm_AFC01-S08FCA-00",
+        "pmw3610_pcb:PMW3610DM-SUDU 16Pin"
+      ],
+      "model_references": [
+        "${KICAD6_3DMODEL_DIR}/Capacitor_SMD.3dshapes/C_0603_1608Metric.wrl",
+        "${KICAD6_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_0603_1608Metric.wrl",
+        "${KICAD9_3DMODEL_DIR}/Capacitor_SMD.3dshapes/C_0805_2012Metric.step",
+        "${KICAD9_3DMODEL_DIR}/Connector_PinHeader_2.54mm.3dshapes/PinHeader_1x07_P2.54mm_Vertical.step",
+        "${KICAD9_3DMODEL_DIR}/Package_TO_SOT_SMD.3dshapes/SOT-23-5.step"
+      ],
+      "custom_rule_paths_in_pinned_tree": [],
+      "submodules": [],
+      "notice_hashes": {
+        "LICENSE": "6e471d647db50527d0c75ee5f1a55a74012ab177c73282bef0bdc7f6562b7ded",
+        "README.md": "3f11ab3c7c922f7876544a33fdf1259937d1daa2d36e41d420ac8f16947226ac"
+      },
+      "pinned_board_path_history": [
+        {
+          "sha": "02658835a74cb683d0237ab21a1538de79452a9e",
+          "author_name": "ziteh",
+          "author_date": "2025-10-18T05:09:27Z",
+          "message": "feat: add jumper JP2 for FFC/FPC and nRESET pin"
+        },
+        {
+          "sha": "999ac3e8fd744f0f09b88cc309761bc9b74c524c",
+          "author_name": "ZiTe",
+          "author_date": "2025-09-07T05:35:56Z",
+          "message": "feat: add axis mark"
+        },
+        {
+          "sha": "a26d6d3c71ffbe98694ea50f771d23567983a714",
+          "author_name": "ziteh",
+          "author_date": "2025-07-22T13:43:21Z",
+          "message": "feat: update part number of J2"
+        },
+        {
+          "sha": "e2da480c2f1eeed9c3679c4a484b44a3a397b377",
+          "author_name": "ziteh",
+          "author_date": "2025-07-22T13:34:37Z",
+          "message": "feat: changed the J2 to the top layer"
+        },
+        {
+          "sha": "5a65de0c6cb9cf3ec1c42d4f1e9079c56f752c88",
+          "author_name": "ziteh",
+          "author_date": "2025-07-20T07:30:39Z",
+          "message": "feat: update FPC connector symbol"
+        },
+        {
+          "sha": "d95da421799ddcabfac2acead004cbcadbcaebbd",
+          "author_name": "ziteh",
+          "author_date": "2025-07-18T15:04:11Z",
+          "message": "feat: increase the copper to board edge clearance to 0.4mm for better V-cut panelization"
+        },
+        {
+          "sha": "edb8f6b1f0b9b2b760ba15925315cd11cf90c251",
+          "author_name": "ziteh",
+          "author_date": "2025-07-18T14:35:48Z",
+          "message": "feat: update PMW3610 footprint"
+        },
+        {
+          "sha": "19aa4ab1f1d3bffd08bb9a999bf033c4b8b69db1",
+          "author_name": "ziteh",
+          "author_date": "2025-07-17T13:58:30Z",
+          "message": "feat: update PCB rev 1.1"
+        },
+        {
+          "sha": "258040442eabb6eb9b34b4867a03335f2df679a5",
+          "author_name": "ZiTe",
+          "author_date": "2023-10-08T02:10:28Z",
+          "message": "Create LICENSE"
+        },
+        {
+          "sha": "e6e5820723c37979d1421e92caf14f1d968e217a",
+          "author_name": "ziteh",
+          "author_date": "2023-10-20T14:37:19Z",
+          "message": "Add `J2` FPC/FFC connecter"
+        },
+        {
+          "sha": "4878cb3cb784d79a912ea81315813c36700a9f57",
+          "author_name": "ziteh",
+          "author_date": "2023-10-07T14:42:14Z",
+          "message": "Add KiCad project files"
+        },
+        {
+          "sha": "ec085c0d7b610e30958a246eb3132f6b2eb0c674",
+          "author_name": "ziteh",
+          "author_date": "2023-10-07T10:12:23Z",
+          "message": "Init commit"
+        }
+      ],
+      "history_first_page_100_only": true,
+      "inspected_original_file_hashes": {
+        "CHANGELOG.md": "9d07164cacc367d0c4890e7dfddfe09ea635cc15e40c33e9f9cf6bec74425c0d",
+        "LICENSE": "6e471d647db50527d0c75ee5f1a55a74012ab177c73282bef0bdc7f6562b7ded",
+        "README.md": "3f11ab3c7c922f7876544a33fdf1259937d1daa2d36e41d420ac8f16947226ac",
+        "firmware/hid-mouse/README.md": "ec79e021af404270b4e1f76dc81cb8f32a91e1499b73179ec22bf294a26a8494",
+        "fp-lib-table": "df5a666a091c8e86d1e386c8b71bb82b131c5263d3d6a267ab12bdb3ec3f1a35",
+        "pmw3610_pcb.kicad_pcb": "e8a870703d555e3fa4ce88f3f53015165dc6b460bb0dc6bb277ec8ec300d5d46",
+        "pmw3610_pcb.kicad_prl": "7166bc699aa239700b3b51fffe454d17924e0c84e8f416888bd931133d79f9de",
+        "pmw3610_pcb.kicad_pro": "69056e20a2da38b87bf719425f15fbaab667f2639f5d99b3e14fa29e426f2781",
+        "pmw3610_pcb.kicad_sch": "b881c240c13b3836055b416a3a3ac1c15bddf5a1a2f3e27a29fbd4e059b948af",
+        "pmw3610_pcb.kicad_sym": "fa63a4e5b303bd648739e28ee65f6b3f9826e6cbd2dddf4db451924418133f68",
+        "pmw3610_pcb.pretty/FPC_8P_0.5mm_AFC01-S08FCA-00.kicad_mod": "720cbdd373aa830f14db444091bc7c2663a56f4adf78f50a4c16d4695fa932e8",
+        "pmw3610_pcb.pretty/PMW3610DM-SUDU 16Pin.kicad_mod": "cfef92e91bccbde2ba2620b6c7289986e41a1016f5669469464ee8a53167daec",
+        "sym-lib-table": "0847416d86b3f54b6285690118c4c97ad9a453ca08f7245a214c4720f30c5b48"
+      },
+      "originals_unchanged_during_guard": true,
+      "acquisition_promoted": false,
+      "functional_or_independent_ancestry_certification": false
+    },
+    {
+      "repository": "XavierBerger/RotaryEncoderDebounced",
+      "source_commit": "7c262d6ab9485d6d3c98bd584a0eb71310526d42",
+      "fork": false,
+      "declared_creator": "XavierBerger",
+      "board": "hardware/RotaryEncoderDebounced.kicad_pcb",
+      "board_sha256": "a6c9f528514a8309e1ad83fbc89a894f74e097f806debf436f6c36a0d07a98a2",
+      "source_primary_url": "https://github.com/XavierBerger/RotaryEncoderDebounced/tree/7c262d6ab9485d6d3c98bd584a0eb71310526d42",
+      "format": "20241229",
+      "copper_layers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "footprints": 16,
+      "pads": 50,
+      "custom_pads": 0,
+      "zones": 1,
+      "native_preflight": {
+        "eligible": false,
+        "exact_rejection": "unsupported: DRC exclusions not qualified; core native check not blocking: hole_to_hole; unknown rule severity semantics: text_on_edge_cuts",
+        "native_validation_performed": false
+      },
+      "source_title": [],
+      "native_net_names": [
+        "",
+        "GND",
+        "+3V3",
+        "SW",
+        "A",
+        "B",
+        "unconnected-(U3-Pad12)",
+        "unconnected-(U3-Pad9)",
+        "unconnected-(U3-Pad8)",
+        "unconnected-(U3-Pad11)",
+        "unconnected-(U3-Pad10)",
+        "unconnected-(U3-Pad13)",
+        "unconnected-(J3-Pin_1-Pad1)",
+        "unconnected-(J2-Pin_1-Pad1)",
+        "/Rotary_A",
+        "/Rotary_B",
+        "/TS_SW",
+        "/TS_A",
+        "/TS_B",
+        "/Rotary_SW"
+      ],
+      "classes": {
+        "classes": [
+          {
+            "bus_width": 12,
+            "clearance": 0.127,
+            "diff_pair_gap": 0.254,
+            "diff_pair_via_gap": 0.25,
+            "diff_pair_width": 0.1524,
+            "line_style": 0,
+            "microvia_diameter": 0.6858,
+            "microvia_drill": 0.3302,
+            "name": "Default",
+            "pcb_color": "rgba(0, 0, 0, 0.000)",
+            "priority": 2147483647,
+            "schematic_color": "rgba(0, 0, 0, 0.000)",
+            "track_width": 0.127,
+            "via_diameter": 0.6,
+            "via_drill": 0.3,
+            "wire_width": 6
+          }
+        ],
+        "meta": {
+          "version": 4
+        },
+        "net_colors": null,
+        "netclass_assignments": null,
+        "netclass_patterns": []
+      },
+      "unknown_severity_keys": [
+        "text_on_edge_cuts"
+      ],
+      "nonblocking_critical_original_severities": {
+        "hole_to_hole": "warning",
+        "padstack": "warning"
+      },
+      "drc_exclusions": [
+        [
+          "lib_footprint_mismatch|25470200|25552050|bc446fad-6d29-4aaf-8908-79c640aa09e8|00000000-0000-0000-0000-000000000000",
+          "Silkscreen updated : move a little bit pin 1 marker"
+        ]
+      ],
+      "library_tables": {},
+      "embedded_schematic_library_ids": [
+        "74xx:74HC14",
+        "Connector:Conn_01x01_Pin",
+        "Connector:Conn_01x05_Pin",
+        "Device:C",
+        "Device:R",
+        "Device:RotaryEncoder_Switch_MP",
+        "power:+3V3",
+        "power:GND",
+        "power:PWR_FLAG"
+      ],
+      "embedded_board_footprint_ids": [
+        "Capacitor_SMD:C_0805_2012Metric",
+        "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical",
+        "Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical",
+        "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm",
+        "Resistor_SMD:R_0805_2012Metric",
+        "Rotary_Encoder:RotaryEncoder_Alps_EC11E-Switch_Vertical_H20mm"
+      ],
+      "model_references": [
+        "${KICAD9_3DMODEL_DIR}/Capacitor_SMD.3dshapes/C_0805_2012Metric.step",
+        "${KICAD9_3DMODEL_DIR}/Connector_PinHeader_2.54mm.3dshapes/PinHeader_1x01_P2.54mm_Vertical.step",
+        "${KICAD9_3DMODEL_DIR}/Connector_PinHeader_2.54mm.3dshapes/PinHeader_1x05_P2.54mm_Vertical.step",
+        "${KICAD9_3DMODEL_DIR}/Package_SO.3dshapes/SOIC-14_3.9x8.7mm_P1.27mm.step",
+        "${KICAD9_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_0805_2012Metric.step",
+        "/home/xavierberger/Workspace/advanced-alarm-clock/hardware/3D/EC11B-SW-Vert-15F-green.step"
+      ],
+      "custom_rule_paths_in_pinned_tree": [],
+      "submodules": [],
+      "notice_hashes": {
+        "README.md": "7ea2ce418226b50b5ec097ce8abb309467ccac8187678ca69946406acd33e7ed",
+        "LICENCE.txt": "6e471d647db50527d0c75ee5f1a55a74012ab177c73282bef0bdc7f6562b7ded"
+      },
+      "pinned_board_path_history": [
+        {
+          "sha": "4eccce9bc96712bacff1b3a19202624d878f38b1",
+          "author_name": "Xavier Berger",
+          "author_date": "2025-07-05T19:35:38Z",
+          "message": "feat(hardware): Add KiCad design"
+        }
+      ],
+      "history_first_page_100_only": true,
+      "inspected_original_file_hashes": {
+        "LICENCE.txt": "6e471d647db50527d0c75ee5f1a55a74012ab177c73282bef0bdc7f6562b7ded",
+        "README.md": "7ea2ce418226b50b5ec097ce8abb309467ccac8187678ca69946406acd33e7ed",
+        "hardware/RotaryEncoderDebounced.kicad_pcb": "a6c9f528514a8309e1ad83fbc89a894f74e097f806debf436f6c36a0d07a98a2",
+        "hardware/RotaryEncoderDebounced.kicad_pro": "18831e334ba4416978cf8281d805f11965817086269f2a244f5dc27af40cc167",
+        "hardware/RotaryEncoderDebounced.kicad_sch": "683c69626fe5f2f1ed4a1257bb5d99264f9ad6024b02bb7460f8acd1d1321342"
+      },
+      "originals_unchanged_during_guard": true,
+      "acquisition_promoted": false,
+      "functional_or_independent_ancestry_certification": false
+    },
+    {
+      "repository": "nushackers/hsp-pcb-intro",
+      "source_commit": "ad3fbd582e3915b585c453ea202f591720a1f427",
+      "fork": false,
+      "declared_creator": "nushackers",
+      "board": "src/usb_led.kicad_pcb",
+      "board_sha256": "a8e69c14ceec9dd0954c3027cc89ca6bbb9c0b0ec3aeede5feacfdd47736f362",
+      "source_primary_url": "https://github.com/nushackers/hsp-pcb-intro/tree/ad3fbd582e3915b585c453ea202f591720a1f427",
+      "format": "20241229",
+      "copper_layers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "footprints": 6,
+      "pads": 22,
+      "custom_pads": 0,
+      "zones": 2,
+      "native_preflight": {
+        "eligible": false,
+        "exact_rejection": "unsupported: core native check not blocking: hole_to_hole; rule-area restrictions not qualified by pinned native validator; unknown rule severity semantics: text_on_edge_cuts",
+        "native_validation_performed": false
+      },
+      "source_title": [
+        [
+          "title_block",
+          [
+            "title",
+            "\"LED with USB-C\""
+          ],
+          [
+            "date",
+            "\"2026-02-04\""
+          ],
+          [
+            "rev",
+            "\"v1.0.0\""
+          ],
+          [
+            "company",
+            "\"NUS Hackers\""
+          ],
+          [
+            "comment",
+            "1",
+            "\"Hackerspace: Intro to PCB Design\""
+          ],
+          [
+            "comment",
+            "2",
+            "\"Licensed under CERN-OHL-P-2.0\""
+          ]
+        ]
+      ],
+      "native_net_names": [
+        "",
+        "GND",
+        "Net-(D1-A)",
+        "Net-(J1-VBUS-PadA9)",
+        "Net-(J1-CC1)",
+        "Net-(J1-CC2)",
+        "Net-(R1-Pad1)"
+      ],
+      "classes": {
+        "classes": [
+          {
+            "bus_width": 12,
+            "clearance": 0.2,
+            "diff_pair_gap": 0.25,
+            "diff_pair_via_gap": 0.25,
+            "diff_pair_width": 0.2,
+            "line_style": 0,
+            "microvia_diameter": 0.3,
+            "microvia_drill": 0.1,
+            "name": "Default",
+            "pcb_color": "rgba(0, 0, 0, 0.000)",
+            "priority": 2147483647,
+            "schematic_color": "rgba(0, 0, 0, 0.000)",
+            "track_width": 0.5,
+            "via_diameter": 1.0,
+            "via_drill": 0.5,
+            "wire_width": 6
+          }
+        ],
+        "meta": {
+          "version": 4
+        },
+        "net_colors": null,
+        "netclass_assignments": null,
+        "netclass_patterns": []
+      },
+      "unknown_severity_keys": [
+        "text_on_edge_cuts"
+      ],
+      "nonblocking_critical_original_severities": {
+        "hole_to_hole": "warning",
+        "padstack": "warning"
+      },
+      "drc_exclusions": [],
+      "library_tables": {
+        "src/fp-lib-table": "(fp_lib_table\n  (version 7)\n  (lib (name \"usb_led\")(type \"KiCad\")(uri \"${KIPRJMOD}/footprints/usb_led.pretty\")(options \"\")(descr \"\"))\n)\n",
+        "src/sym-lib-table": "(sym_lib_table\n  (version 7)\n)\n"
+      },
+      "embedded_schematic_library_ids": [
+        "Connector:USB_C_Receptacle_PowerOnly_6P",
+        "Device:LED",
+        "Device:R",
+        "Switch:SW_Push",
+        "power:GND",
+        "power:PWR_FLAG"
+      ],
+      "embedded_board_footprint_ids": [
+        "Connector_USB:USB_C_Receptacle_GCT_USB4125-xx-x_6P_TopMnt_Horizontal",
+        "LED_SMD:LED_0603_1608Metric_Pad1.05x0.95mm_HandSolder",
+        "Resistor_SMD:R_0402_1005Metric_Pad0.72x0.64mm_HandSolder",
+        "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder",
+        "usb_led:SW_Push_1P1T_XKB_TS-1187A"
+      ],
+      "model_references": [
+        "${KICAD9_3DMODEL_DIR}/Connector_USB.3dshapes/USB_C_Receptacle_GCT_USB4125-xx-x_6P_TopMnt_Horizontal.step",
+        "${KICAD9_3DMODEL_DIR}/LED_SMD.3dshapes/LED_0603_1608Metric.step",
+        "${KICAD9_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_0402_1005Metric.step",
+        "${KICAD9_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_0603_1608Metric.step",
+        "${KIPRJMOD}/3dmodels/usb_led.3dshapes/TS-1187A-B-A-B.step"
+      ],
+      "custom_rule_paths_in_pinned_tree": [],
+      "submodules": [],
+      "notice_hashes": {
+        "CODEOWNERS": "96b9c05a47d8d7698678d48d6de65d3936d100b359c3dbd7ae02df76da996e84",
+        "LICENSE.md": "1221d052e504de62ee82c8fdb9f10e46576264b763efddfbe8dc1260aff8de24",
+        "README.md": "d9153d78b4be0ca452372ba80ffd23f7cfda797e49fe09e27b169e4ad064ae10"
+      },
+      "pinned_board_path_history": [
+        {
+          "sha": "a08eb2fa64e402930075baf601309c6f00a75a9c",
+          "author_name": "Yik Jin",
+          "author_date": "2026-02-04T10:55:28Z",
+          "message": "docs: add JLCPCB plugin documentation\n\nAdd usage of Bouni's KiCAD JLCPCB tools plugin to README file.\n\nAdd PCB copper traces between important GND pads.\n\nAdd final PCB 3D render image to README file."
+        },
+        {
+          "sha": "2089087b9a3bdb10a697e018dec2b416af27c860",
+          "author_name": "Yik Jin",
+          "author_date": "2026-02-04T06:34:22Z",
+          "message": "chore: init\n\nAdd KiCad hardware source files."
+        }
+      ],
+      "history_first_page_100_only": true,
+      "inspected_original_file_hashes": {
+        "CODEOWNERS": "96b9c05a47d8d7698678d48d6de65d3936d100b359c3dbd7ae02df76da996e84",
+        "LICENSE.md": "1221d052e504de62ee82c8fdb9f10e46576264b763efddfbe8dc1260aff8de24",
+        "README.md": "d9153d78b4be0ca452372ba80ffd23f7cfda797e49fe09e27b169e4ad064ae10",
+        "src/footprints/usb_led.pretty/SW_Push_1P1T_XKB_TS-1187A.kicad_mod": "58c47a1c7ee9518a2862e547bf96ad8b9cd46463c90364e18eedb80e2bdb72b1",
+        "src/fp-lib-table": "15bf189b65b5ae2db205de28c62b43d5f70b1efeeb1546809588b65b19cc2052",
+        "src/sym-lib-table": "2a1efc4ebfe0099500e0b00444101581b26bc4a3352f24cb09381b9f12311701",
+        "src/usb_led.kicad_pcb": "a8e69c14ceec9dd0954c3027cc89ca6bbb9c0b0ec3aeede5feacfdd47736f362",
+        "src/usb_led.kicad_pro": "b89aeb862b5008aeb62a32b06b1b4094b5ea556d24fba5e62189814523dcc2a8",
+        "src/usb_led.kicad_sch": "425a817f1c236363eefd6ff8cb23365d2641a43d5f1e057191497046dcf20d75"
+      },
+      "originals_unchanged_during_guard": true,
+      "acquisition_promoted": false,
+      "functional_or_independent_ancestry_certification": false
+    }
+  ],
+  "button_model_origin": {
+    "creator_repository": "MaloufSleep/ME-ESP8266",
+    "commit": "1df367492b63a795cc0bf031f4a8e1b91a916008",
+    "source_path": "3D_Models/Button_Switch_SMD.3dShapes/TS-1187A-B-A-B.step",
+    "original_copy_path": "src/3dmodels/usb_led.3dshapes/TS-1187A-B-A-B.step",
+    "same_git_blob_sha1": "f031c7e0099545cde0d3e16528092850c25e7dee",
+    "bytes": 224581,
+    "payload_downloaded": false,
+    "limit": "Exact copied object and publisher root MIT notice observed; asset-specific original authorship remains unproved. Preserve MIT attribution with any permitted future acquisition; no model redistribution authorized by this audit."
+  }
+}
