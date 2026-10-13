@@ -25,6 +25,18 @@ class ProtocolControls(unittest.TestCase):
     with self.assertRaisesRegex(e.p.Rejected,'exact original'):e.selected_source('ardujoy-c64')
     (base/'_licenses/LICENSE.creator').write_bytes(files['Ardujoy_HW/_licenses/LICENSE.creator']);(base/'extra.kicad_pro').write_bytes(b'extra')
     with self.assertRaisesRegex(e.p.Rejected,'exact original'):e.selected_source('ardujoy-c64')
+ def test_fixed_nus_snapshot_binds_original_notices_even_after_failed_diagnostic(self):
+  from experiments.licensed_acquisition_v5 import native_snapshot
+  with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parents[1]/'.cache') as tmp:
+   root=Path(tmp);base=root/'.runs/nus-original-native-001/original/src';base.mkdir(parents=True)
+   files={'src/usb_led.kicad_pcb':b'board','src/usb_led.kicad_pro':b'rules','src/_licenses/creator/LICENSE.md':b'notice','LICENSE.md':b'outer notice'}
+   for name,raw in files.items():
+    if name.startswith('src/'):
+     path=base/name.removeprefix('src/');path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(raw)
+   with patch.object(e.c,'ROOT',root),patch.object(native_snapshot,'capture',return_value=files):
+    board,family=e.selected_source('nus-usb-led');self.assertEqual(board,base/'usb_led.kicad_pcb');self.assertIn('development-exposed',family)
+    (base/'_licenses/creator/LICENSE.md').write_bytes(b'changed notice')
+    with self.assertRaisesRegex(e.p.Rejected,'exact original'):e.selected_source('nus-usb-led')
  def test_wrong_or_missing_policy_refuses_otherwise_valid_receipt(self):
   with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parents[1]/".cache") as tmp:
    out=Path(tmp);(out/'incumbent').mkdir()

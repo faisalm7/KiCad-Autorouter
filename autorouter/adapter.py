@@ -141,24 +141,10 @@ def _network_summary(tree):
             "semantic_sha256": _digest(sx.dump(network).encode("utf-8"))}
 
 
-def adapt_dsn(path, mode, obstacles):
-    """Atomically correct an exported DSN and return auditable transformations.
-
-    ``obstacles`` is a list of native ``layer`` / ``bbox_mm`` records. An optional
-    ``dsn_layer`` explicitly supplies the exporter's layer mapping. Without it,
-    exact DSN layer names and KiCad F.Cu/B.Cu outer-layer aliases are accepted.
-    Bounding boxes include the native object's stroke/font extents; this module
-    adds no guessed clearance. The routing engine still applies DSN clearance.
-    """
-    if mode not in ("graphics", "planes", "both"):
-        raise ValueError("Adapter mode must be graphics, planes, or both")
-    path = Path(path)
-    if path.is_symlink() or path.suffix.lower() != ".dsn" or not path.is_file():
-        raise ValueError("Adapter requires a regular exported .dsn file")
-    original_stat = path.stat()
-    if original_stat.st_size > sx.MAX_BYTES:
-        raise ValueError("DSN exceeds size limit")
-    raw = path.read_bytes()
+def adapt_bytes(raw, mode, obstacles):
+    """The existing exact adapter transform, without filesystem mutation."""
+    if not isinstance(raw,bytes) or len(raw)>sx.MAX_BYTES:raise ValueError("bounded DSN bytes required")
+    if mode not in ("graphics","planes","both"):raise ValueError("unknown adapter mode")
     original = _parse_dsn(raw.decode("utf-8"))
     _check_units(original)
     for required in ("placement", "library"):
@@ -245,6 +231,35 @@ def adapt_dsn(path, mode, obstacles):
         raise ValueError("DSN semantic roundtrip failed")
     if len(encoded) > sx.MAX_BYTES:
         raise ValueError("Adapted DSN exceeds size limit")
+    return encoded, {"classification": "B1_adapter_only", "mode": mode,
+            "input_sha256": _digest(raw), "output_sha256": _digest(encoded),
+            "input_bytes": len(raw), "output_bytes": len(encoded),
+            "planes_removed": len(removed_planes), "graphics_keepouts_added": len(inserted),
+            "net_pin_mapping": before_network, "net_pin_mapping_unchanged": True,
+            "native_project_modified": False, "transformations": transformations,
+            "limitations": ["Graphics use conservative bounding rectangles, not exact copper contours.",
+                            "Plane suppression is an all-terminal over-routing surrogate; native zones must remain unchanged."]}
+
+
+def adapt_dsn(path, mode, obstacles):
+    """Atomically correct an exported DSN and return auditable transformations.
+
+    ``obstacles`` is a list of native ``layer`` / ``bbox_mm`` records. An optional
+    ``dsn_layer`` explicitly supplies the exporter's layer mapping. Without it,
+    exact DSN layer names and KiCad F.Cu/B.Cu outer-layer aliases are accepted.
+    Bounding boxes include the native object's stroke/font extents; this module
+    adds no guessed clearance. The routing engine still applies DSN clearance.
+    """
+    if mode not in ("graphics", "planes", "both"):
+        raise ValueError("Adapter mode must be graphics, planes, or both")
+    path = Path(path)
+    if path.is_symlink() or path.suffix.lower() != ".dsn" or not path.is_file():
+        raise ValueError("Adapter requires a regular exported .dsn file")
+    original_stat = path.stat()
+    if original_stat.st_size > sx.MAX_BYTES:
+        raise ValueError("DSN exceeds size limit")
+    raw = path.read_bytes()
+    encoded, record = adapt_bytes(raw, mode, obstacles)
     temporary = None
     try:
         with tempfile.NamedTemporaryFile(dir=path.parent, prefix=".adapter-", delete=False) as handle:
@@ -259,11 +274,4 @@ def adapt_dsn(path, mode, obstacles):
     finally:
         if temporary is not None:
             temporary.unlink(missing_ok=True)
-    return {"classification": "B1_adapter_only", "mode": mode,
-            "input_sha256": _digest(raw), "output_sha256": _digest(encoded),
-            "input_bytes": len(raw), "output_bytes": len(encoded),
-            "planes_removed": len(removed_planes), "graphics_keepouts_added": len(inserted),
-            "net_pin_mapping": before_network, "net_pin_mapping_unchanged": True,
-            "native_project_modified": False, "transformations": transformations,
-            "limitations": ["Graphics use conservative bounding rectangles, not exact copper contours.",
-                            "Plane suppression is an all-terminal over-routing surrogate; native zones must remain unchanged."]}
+    return record

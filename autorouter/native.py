@@ -36,7 +36,7 @@ def netclasses(board, source, before):
 def main():
     action, source, output = sys.argv[1:4]
     mapping_requested = action == 'netclasses' or (action == 'export' and len(sys.argv) == 5)
-    before = (file_hash(source), file_hash(Path(source).with_suffix('.kicad_pro'))) if mapping_requested else None
+    before = (file_hash(source), file_hash(Path(source).with_suffix('.kicad_pro'))) if mapping_requested or action=='pour-audit' else None
     board = pcbnew.LoadBoard(source)
     if not board:
         raise RuntimeError('KiCad could not load board')
@@ -56,6 +56,12 @@ def main():
         pcbnew.SaveBoard(output, board)
     elif action == 'roundtrip':
         pcbnew.SaveBoard(output, board)
+    elif action == 'pour-audit':
+        sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+        from autorouter.pour_rule_area_native import audit
+        result=audit(board,source,before)
+        Path(output).write_text(json.dumps(result,indent=2)+'\n')
+        if result['passed'] is not True:raise RuntimeError('stored copper intersects prohibited pour area')
     elif action == 'obstacles':
         graphics=list(board.GetDrawings())
         for fp in board.GetFootprints():

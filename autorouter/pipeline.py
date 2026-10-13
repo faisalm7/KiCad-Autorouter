@@ -137,10 +137,14 @@ def check_rule_area_support(tree):
 
     Actual placement-area-native-001 controls missed crossing prohibited
     tracks/vias in KiCad 10.0.0. Preserving a DSN obstacle is not independent
-    validation. Only explicitly unrestricted areas remain in supported scope.
+    validation. Explicitly unrestricted areas retain their previous scope;
+    narrow root pour-only areas require an independent saved-fill audit.
     """
     if sx.children(tree,'module'):
         raise Rejected('legacy module footprints not qualified')
+    from .pour_rule_area import qualify
+    try:qualified={row['uuid'] for row in qualify(tree)}
+    except ValueError as exc:raise Rejected('rule-area restrictions not qualified: '+str(exc)) from exc
     flags={'tracks','vias','pads','copperpour','footprints'}
     zones=list(sx.children(tree,'zone'))
     for footprint in sx.children(tree,'footprint'):
@@ -150,6 +154,8 @@ def check_rule_area_support(tree):
         placement=sx.one(zone,'placement')
         if keepout is None and placement is None:
             continue
+        uid=sx.one(zone,'uuid')
+        if uid is not None and len(uid)==2 and isinstance(uid[1],str) and sx.unquote(uid[1]) in qualified:continue
         if (keepout is None or len(keepout)!=6
                 or any(not isinstance(n,list) or len(n)!=2
                        or n[0] not in flags or n[1]!='allowed' for n in keepout[1:])
@@ -504,6 +510,54 @@ def audit_candidate_netclasses(candidate, protected, native):
     return {'native':mapping,'route_dimensions':dimensions,'candidate_sha256':sha(candidate),
             'project_sha256':sha(project)}
 
+def check_pour_evidence(directory,data,original,candidate,*,source_hashes=None,correction=True,sandboxed=None):
+    """Require saved-refill/native-fill proof from source intent, never a flag."""
+    from . import pour_rule_area as pour, floor_route as f
+    from .placement_clearance import read_bytes
+    directory=Path(directory);candidate=Path(candidate);areas=pour.qualify(original)
+    names=('pour-before-refill.kicad_pcb','pour-keepout-audit.json','pour-dsn-correction.json','pour-corrected.dsn')
+    if not areas:
+        if any((directory/n).exists() or (directory/n).is_symlink() for n in names):raise Rejected('pour evidence without qualified source intent')
+        return
+    if sandboxed is None:sandboxed=data.get('input_policy') in {'board-floors-v1','placement-clearance-v1','placement-search-v1','placement-pruning-v1'}
+    prefix=f.SANDBOX if sandboxed else []
+    audit=f.read_json(directory/'pour-keepout-audit.json')
+    try:pour.verify_native_record(audit,candidate)
+    except ValueError as exc:raise Rejected(str(exc)) from exc
+    f.process_check(directory,data,'pour-keepout-audit',[*prefix,str(c.PYTHON),str(c.ROOT/'autorouter/native.py'),'pour-audit',str(candidate),str(directory/'pour-keepout-audit.json')])
+    before_path=directory/'pour-before-refill.kicad_pcb';before=sx.parse(read_bytes(before_path).decode())
+    if immutable(before)!=immutable(original) or routes(before)!=routes(sx.read(candidate)):raise Rejected('pour refill changed original geometry/routing')
+    hashes=dict(source_hashes if source_hashes is not None else data['source_hashes']);hashes[candidate.name]=sha(before_path)
+    refill=directory/'refill'/candidate.name
+    f.check_drc_stage(directory,data,'refill-drc',refill,refill,True,hashes,sandboxed=sandboxed)
+    if (sx.dump(transplant_fill(before,sx.read(refill)))+'\n').encode()!=read_bytes(candidate):raise Rejected('pour saved-refill reconstruction differs')
+    if not correction:return
+    engine=[s for s in data.get('steps',[]) if s.get('name')=='engine' and s.get('cwd')==str(directory)]
+    if not engine:
+        if data.get('baseline')!='C-prototype':raise Rejected('pour correction requires original native engine lineage')
+        check_result(directory/'incumbent/result.json')
+        return
+    if len(engine)!=1:raise Rejected('ambiguous pour correction engine lineage')
+    if data.get('adapter')=='none':
+        if ('pour_dsn_correction' in data or 'adapter_transformations' in data
+                or any((directory/n).exists() or (directory/n).is_symlink() for n in names[2:])):
+            raise Rejected('stock workflow cannot claim pour adapter correction')
+        input_path=directory/('routing-scope-input.dsn' if data.get('scope')=='selected_nets' else 'task.dsn')
+        if read_bytes(input_path)!=read_bytes(directory/'native.dsn'):raise Rejected('stock pour workflow raw engine input differs')
+        return
+    source_bytes=read_bytes(directory/'snapshot'/candidate.name)
+    corrected,record=pour.correct(source_bytes,read_bytes(directory/'native.dsn'))
+    if (f.canonical(data.get('pour_dsn_correction'))!=f.canonical(record)
+            or f.canonical(f.read_json(directory/'pour-dsn-correction.json'))!=f.canonical(record)
+            or read_bytes(directory/'pour-corrected.dsn')!=corrected
+            or data.get('adapter_transformations',{}).get('input_sha256')!=pour.sha(corrected)):
+        raise Rejected('missing/downgraded pour DSN correction lineage')
+    from .adapter import adapt_bytes
+    adapted,adapter_record=adapt_bytes(corrected,data['adapter'],f.read_json(directory/'obstacles.json'))
+    engine_input=directory/('routing-scope-input.dsn' if data.get('scope')=='selected_nets' else 'task.dsn')
+    if read_bytes(engine_input)!=adapted or f.canonical(data.get('adapter_transformations'))!=f.canonical(adapter_record):
+        raise Rejected('pour corrected-to-adapter engine input differs')
+
 def validate_candidate(job, original, candidate, source_hashes, protected, *, guidance_contract=None, guidance_basis=None, layer_contract=None, selected_names=None, schematic_parity=False):
     # A complete captured native schematic must participate in final acceptance
     # for every routing scope, including optimizer trials and fresh exports.
@@ -521,6 +575,11 @@ def validate_candidate(job, original, candidate, source_hashes, protected, *, gu
         rs.audit(original,sx.read(candidate),selected_names)
     if layer_contract is not None:layer_contract['audit']=audit_layer_contract(candidate,layer_contract)
     verify_candidate_files(candidate,source_hashes)
+    from . import pour_rule_area as pour
+    pour_areas=pour.qualify(original)
+    if pour_areas:
+        before_refill=job.out/'pour-before-refill.kicad_pcb'
+        with before_refill.open('xb') as stream:stream.write(candidate.read_bytes())
     shutil.copytree(candidate.parent,job.out/'refill')
     refill=job.out/'refill'/candidate.name
     job.drc('refill-drc',refill,save=True)
@@ -528,6 +587,9 @@ def validate_candidate(job, original, candidate, source_hashes, protected, *, gu
     if immutable(sx.read(candidate))!=immutable(original): raise Rejected('immutable geometry changed after refill')
     if layer_contract is not None:layer_contract['audit']=audit_layer_contract(candidate,layer_contract)
     final_hash=sha(candidate)
+    if pour_areas:
+        job.native('pour-keepout-audit','pour-audit',candidate,job.out/'pour-keepout-audit.json')
+        pour.verify_native_record(json.loads((job.out/'pour-keepout-audit.json').read_text()),candidate)
     if guidance_contract is not None:
         from .floor_route import final_context
         final_context(job,original,candidate,source_hashes,protected,guidance_contract,guidance_basis=guidance_basis)
@@ -940,6 +1002,14 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
             report['netclass_export_audit']=audit_dsn(output/'native.dsn',native_classes,json.loads(candidate.with_suffix('.kicad_pro').read_text()))
         report['native_dsn_sha256']=sha(output/'native.dsn')
         if adapter!='none':
+            from . import pour_rule_area as pour
+            if pour.qualify(original):
+                corrected,correction=pour.correct(snapshot.read_bytes(),(output/'native.dsn').read_bytes())
+                (output/'pour-corrected.dsn').write_bytes(corrected)
+                (output/'task.dsn').write_bytes(corrected)
+                save_json(output/'pour-dsn-correction.json',correction)
+                report['pour_dsn_correction']=correction
+        if adapter!='none':
             from .adapter import adapt_dsn
             job.native('obstacles','obstacles',candidate,output/'obstacles.json')
             report['adapter_transformations']=adapt_dsn(output/'task.dsn',adapter,json.loads((output/'obstacles.json').read_text()))
@@ -1062,11 +1132,11 @@ def validation_readback_session():
     """
     from . import (adapter,board_floor,floor_context,floor_route,layer_policy,
                    netclass,placement_clearance,placement_strategy,
-                   placement_transform,preferences,runner,strategy)
+                   placement_transform,pour_rule_area,preferences,runner,strategy)
     import sys
     modules=(sys.modules[__name__],c,sx,adapter,board_floor,floor_context,
              floor_route,layer_policy,netclass,placement_clearance,
-             placement_strategy,placement_transform,preferences,runner,strategy)
+             placement_strategy,placement_transform,pour_rule_area,preferences,runner,strategy)
     existing=_readback_session.get()
     state=existing if existing is not None else {'entries':{},'modules':modules}
     token=_readback_session.set(state)
@@ -1321,6 +1391,7 @@ def _check_result_uncached(path):
     if len(matching)!=1 or any(matching[0].get(key)!=value for key,value in process.items()) or matching[0].get('validated_input_sha256')!=data['candidate_sha256'] or matching[0].get('emitted_candidate')!=str(candidate):
         raise Rejected('final native step differs from process or input binding')
     if any(step.get('status')=='cancelled' or step.get('cleanup_complete') is not True for step in steps): raise Rejected('cancelled or incomplete process cleanup in receipt')
+    check_pour_evidence(path.parent,data,original,candidate)
     check_preferences_record(path.parent,data)
 
     if 'engine_budget' in data:check_minimum_width_record(data,path.parent)

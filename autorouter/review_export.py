@@ -99,7 +99,7 @@ def lineage(binding,report):
 class ExportJob(f.FloorJob):
     """Existing DRC/copy/first-failure path with finite native-only process caps."""
     def step(self,name,argv,allowed=(0,),*,already_sandboxed=False):
-        if name not in {'refill-drc','floor-final','final-netclasses','final-drc','metrics'}:
+        if name not in {'refill-drc','pour-keepout-audit','floor-final','final-netclasses','final-drc','metrics'}:
             raise p.Rejected('export prohibits solver/import/export stages')
         available=min(30,self.remaining())
         if available<=0:raise p.Rejected('export native budget exhausted')
@@ -143,6 +143,7 @@ def check_stage(folder,data,binding,report,basis,contract,layers):
             f.process_check(folder,data,'final-netclasses',[*f.SANDBOX,str(c.PYTHON),str(c.ROOT/'autorouter/native.py'),'netclasses',str(candidate),str(folder/'final-netclasses.json')])
         f.process_check(folder,data,'metrics',[*f.SANDBOX,str(c.PYTHON),str(c.ROOT/'autorouter/native.py'),'metrics',str(candidate),str(folder/'metrics.json')])
     if any(r not in p.routes(sx.read(candidate)) for r in protected):raise p.Rejected('export protected copper changed')
+    p.check_pour_evidence(folder,data,original,candidate,source_hashes=binding['source_hashes'],correction=False,sandboxed=True)
     names=p.selected_scope_names(report)
     if names is not None:
         from . import routing_scope as rs
@@ -154,7 +155,8 @@ def check_stage(folder,data,binding,report,basis,contract,layers):
         or metrics!=report['metrics'] or not p.native_accepted(data['native'])
         or data['native']['ignored_checks']!=report['native']['ignored_checks'] or not ps.warnings(data['native'])<=ps.warnings(report['native'])):
         raise p.Rejected('fresh export native acceptance/metrics/warnings/original ignore settings differ')
-    expected_names=['refill-drc',*(['floor-final'] if contract is not None else ['final-netclasses'] if p.netclass_policy(candidate) is not None else []),'final-drc','metrics']
+    from .pour_rule_area import qualify
+    expected_names=['refill-drc',*(['pour-keepout-audit'] if qualify(original) else []),*(['floor-final'] if contract is not None else ['final-netclasses'] if p.netclass_policy(candidate) is not None else []),'final-drc','metrics']
     if [s['name'] for s in data['steps']]!=expected_names or any(s['cwd']!=str(folder) for s in data['steps']):raise p.Rejected('export native-only stage history differs')
     for step in data['steps']:
         log=Path(step['log'])

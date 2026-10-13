@@ -1,0 +1,229 @@
+{
+  "schema": 1,
+  "status": "observed",
+  "passed": true,
+  "production_admission": false,
+  "front_saved_text_exact": true,
+  "back_saved_text_exact_from_completed_refill": true,
+  "plot_outputs": {
+    "front": {
+      "sha256": "539d72921ef8319e40984f3f11c4d42a8d57ddccf32a1fae1ef846611ec7c434",
+      "bytes": 24335,
+      "layer": "F.SilkS"
+    },
+    "back": {
+      "sha256": "e775aab792f704ca9b261d145015328dfad2258eb4b7c7e97b549647b76e7a6c",
+      "bytes": 39237,
+      "layer": "B.SilkS"
+    },
+    "back-no-knockout": {
+      "sha256": "59e221a698507b750d6dbc20d28345e1b0cd1fbba311c410234a9974f8ff72b3",
+      "bytes": 29406,
+      "layer": "B.SilkS"
+    }
+  },
+  "visual_plot_inspection": "pending; native plot generation and byte difference do not prove appearance",
+  "steps": [
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.5244952499924693,
+      "cpu_seconds": 0.39700199999999997,
+      "max_rss_bytes": 92602368,
+      "supervisor_cpu_seconds": 0.0045419999999999905,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 33423360,
+      "sampled_peak_workdir_bytes": 0,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+        "roundtrip",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/silkscreen-knockout-native-001/front/usb_led.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/silkscreen-knockout-native-001/front-saved.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/silkscreen-knockout-native-001/job/front-roundtrip.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/silkscreen-knockout-native-001/job",
+      "signal_cancellation_enabled": true,
+      "pid": 94524,
+      "name": "front-roundtrip"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.7117474580009002,
+      "cpu_seconds": 0.503351,
+      "max_rss_bytes": 199229440,
+      "supervisor_cpu_seconds": 0.00584800000000002,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 71532544,
+      "sampled_peak_workdir_bytes": 65083,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "export",
+        "svg",
+        "--mode-single",
+        "--layers",
+        "F.SilkS,Edge.Cuts",
+        "--fit-page-to-board",
+        "--exclude-drawing-sheet",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/silkscreen-knockout-native-001/front.svg",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/silkscreen-knockout-native-001/front-plot-input/usb_led.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/silkscreen-knockout-native-001/job/front-plot.log",
+      "log_bytes": 113,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/silkscreen-knockout-native-001/job",
+      "signal_cancellation_enabled": true,
+      "pid": 94525,
+      "name": "front-plot"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.4537085420015501,
+      "cpu_seconds": 0.444387,
+      "max_rss_bytes": 199311360,
+      "supervisor_cpu_seconds": 0.005292999999999992,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 52232192,
+      "sampled_peak_workdir_bytes": 67177,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "export",
+        "svg",
+        "--mode-single",
+        "--layers",
+        "B.SilkS,Edge.Cuts",
+        "--fit-page-to-board",
+        "--exclude-drawing-sheet",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/silkscreen-knockout-native-001/back.svg",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/silkscreen-knockout-native-001/back-plot-input/usb_led.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/silkscreen-knockout-native-001/job/back-plot.log",
+      "log_bytes": 112,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/silkscreen-knockout-native-001/job",
+      "signal_cancellation_enabled": true,
+      "pid": 94534,
+      "name": "back-plot"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.4310490000061691,
+      "cpu_seconds": 0.425189,
+      "max_rss_bytes": 198868992,
+      "supervisor_cpu_seconds": 0.004398999999999986,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 52445184,
+      "sampled_peak_workdir_bytes": 69280,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "export",
+        "svg",
+        "--mode-single",
+        "--layers",
+        "B.SilkS,Edge.Cuts",
+        "--fit-page-to-board",
+        "--exclude-drawing-sheet",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/silkscreen-knockout-native-001/back-no-knockout.svg",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/silkscreen-knockout-native-001/back-no-knockout-plot-input/usb_led.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/silkscreen-knockout-native-001/job/back-no-knockout-plot.log",
+      "log_bytes": 124,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/silkscreen-knockout-native-001/job",
+      "signal_cancellation_enabled": true,
+      "pid": 94535,
+      "name": "back-no-knockout-plot"
+    }
+  ],
+  "source_unchanged": true,
+  "wall_seconds": 2.341525833006017,
+  "full_cpu_seconds": 1.977804,
+  "within_budget": true
+}
