@@ -30,11 +30,11 @@ from autorouter.runner import run
 
 
 MAX_BYTES = 512 * 1024**2
-# Retained pair002/003 and workflow evidence exceed the prior 256 MiB source
-# cap (287,200,372 bytes before the new 3,945,880-byte curation). Preserve all
-# audited tracked files under a finite 320 MiB ceiling; scratch stays 512 MiB.
+# Current retained source/evidence is 16,624 files / 302,098,185 bytes.
+# Preserve it under finite 17,000-file / 320 MiB source bounds; installation
+# scratch remains 512 MiB. No native acceptance or secret/path guard changes.
 SOURCE_MAX_BYTES = 320 * 1024**2
-SOURCE_MAX_FILES = 16000
+SOURCE_MAX_FILES = 17000
 TOTAL_SECONDS = 600.0
 NETWORK_DENIAL = ["/usr/bin/sandbox-exec", "-p", "(version 1)(allow default)(deny network*)"]
 
