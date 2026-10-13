@@ -97,6 +97,35 @@ def netclass_policy(board):
     except (ValueError,TypeError,KeyError) as exc:
         raise Rejected('unsupported: netclass bindings not qualified: '+str(exc)) from exc
 
+def check_edge_text_support(tree):
+    """Refuse outline text intent independently of editable DRC severity.
+
+    KiCad10 registers text_on_edge_cuts, including warning/ignore settings.
+    Recognizing that metadata never permits text to become board geometry.
+    Only explicit unambiguous layer selectors are qualified for surface text,
+    fields, textboxes and dimensions; ordinary non-surface properties remain.
+    """
+    text_items={'gr_text','fp_text','gr_text_box','fp_text_box','dimension'}
+    table=sx.one(tree,'layers',[])
+    declared={sx.unquote(row[1]) for row in table[1:] if isinstance(row,list)
+        and len(row)>=3 and isinstance(row[1],str) and sx.unquote(row[1])}
+    def visit(node):
+        if not isinstance(node,list) or not node:return
+        key=node[0]
+        if not isinstance(key,str):raise Rejected('malformed board item in text-layer check')
+        surface_field=key=='property' and any(sx.children(node,k) for k in ('at','effects','layer'))
+        if key in text_items or surface_field:
+            layers=sx.children(node,'layer')
+            if len(layers)!=1 or len(layers[0])!=2 or not isinstance(layers[0][1],str):
+                raise Rejected('text/field/dimension layer semantics not qualified')
+            if sx.unquote(layers[0][1])=='Edge.Cuts':
+                raise Rejected('text/field/textbox/dimension on Edge.Cuts not qualified')
+            if sx.unquote(layers[0][1]) not in declared:
+                raise Rejected('text/field/dimension layer is not a declared source layer')
+        for child in node[1:]:visit(child)
+    visit(tree)
+
+
 def check_rule_area_support(tree):
     """Block restrictions the pinned native validator did not detect.
 
@@ -122,6 +151,9 @@ def check_rule_area_support(tree):
             raise Rejected('rule-area restrictions not qualified by pinned native validator')
 
 
+# Registered KiCad10 metadata; global outline-text refusal remains mandatory.
+KNOWN_CHECKS |= {'text_on_edge_cuts'}
+
 def preflight(board):
     t=sx.read(board)
     reasons=[]
@@ -138,10 +170,12 @@ def preflight(board):
         if settings.get('drc_exclusions'): reasons.append('DRC exclusions not qualified')
         for key,val in settings.get('rule_severities',{}).items():
             if key not in KNOWN_CHECKS or val not in {'error','warning','ignore'}: reasons.append('unknown rule severity semantics: '+key)
-            if key in CRITICAL_CHECKS and val!='error' and (key,val)!=('padstack','warning'): reasons.append('core native check not blocking: '+key)
+            if key in CRITICAL_CHECKS and val!='error' and (key,val) not in {('padstack','warning'),('hole_to_hole','warning')}: reasons.append('core native check not blocking: '+key)
     rules=board.with_suffix('.kicad_dru')
     if rules.exists() and rules.read_text().strip(): reasons.append('custom rules not qualified')
     try: check_rule_area_support(t)
+    except Rejected as exc: reasons.append(str(exc))
+    try: check_edge_text_support(t)
     except Rejected as exc: reasons.append(str(exc))
     for fp in sx.children(t,'footprint'):
         if sx.children(fp,'net_tie_pad_groups'): reasons.append('net ties not qualified')
@@ -268,7 +302,7 @@ def parse_report(path, board_name):
 # Finding types are not project-setting keys: KiCad's padstack_invalid has no
 # editable severity. Keep parse_report's native summary schema unchanged so old
 # evidence can be rechecked under this stricter application acceptance policy.
-CRITICAL_FINDINGS = CRITICAL_CHECKS | {'padstack_invalid'}
+CRITICAL_FINDINGS = CRITICAL_CHECKS | {'padstack_invalid','text_on_edge_cuts'}
 
 
 def native_rejection_reasons(native):
