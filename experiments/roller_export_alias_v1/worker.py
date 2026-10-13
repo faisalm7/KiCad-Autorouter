@@ -1,5 +1,5 @@
 """Prospective KiCad3.9 memory-only alias export; ROOT sequential lane only."""
-import copy,json,sys
+import copy,hashlib,json,sys
 from pathlib import Path
 ROOT=next(p for p in Path(__file__).resolve().parents if (p/'autorouter/floor_context.py').is_file())
 HERE=Path(__file__).resolve().parent
@@ -102,7 +102,13 @@ def export(source,context,dsn,diagnostic,namespace,before_board,after_board):
             if not pcbnew.SaveBoard(str(after_board),board):raise ValueError('native restored-reference emission failed')
             if sx.read(before_board)!=sx.read(after_board):raise ValueError('original-reference native emission changed after export')
             events.append({'phase':'restored','result':result,'observation':observe(board,pcbnew)})
-        return snapshot
+        # Keep the shared one-MiB diagnostic bounded. Full during/restored
+        # geometry remains in alias-evidence.json, bound below; no vertices or
+        # observed source properties are dropped from the actual comparison.
+        encoded=json.dumps(snapshot,sort_keys=True,separators=(',',':'),allow_nan=False).encode()
+        return {'schema':1,'native_observation_sha256':hashlib.sha256(encoded).hexdigest(),
+                'footprints':len(snapshot['footprints']),'pads':len(snapshot['pads']),
+                'routes':len(snapshot['routes']),'zones':len(snapshot['zones'])}
     fc.collect('final',source,context,observation_output=diagnostic,observer=callback)
     if len(events)!=2 or not dsn.is_file() or not 0<dsn.stat().st_size<=20*1024**2:raise ValueError('missing bounded native export evidence')
     evidence={'schema':1,'namespace':namespace,'source_sha256':fc.sha(source),'context_sha256':fc.sha(context),'diagnostic_sha256':fc.sha(diagnostic),'dsn_sha256':fc.sha(dsn),'before_board_sha256':fc.sha(before_board),'after_board_sha256':fc.sha(after_board),'events':events,'accepted':False,'production_support':False}
