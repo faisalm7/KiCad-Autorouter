@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "process": {
+    "status": "nonzero_exit",
+    "exit_code": 2,
+    "wall_seconds": 2.931764708002447,
+    "cpu_seconds": 2.412909,
+    "max_rss_bytes": 331694080,
+    "supervisor_cpu_seconds": 0.009477000000000013,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 192200704,
+    "sampled_peak_workdir_bytes": 168,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 33554432,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/launch-roller-export-alias-native-001.py"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/roller-export-alias-native-001-execution/command.log",
+    "log_bytes": 168,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/roller-export-alias-native-001-execution",
+    "signal_cancellation_enabled": true,
+    "pid": 15094
+  },
+  "wall_seconds": 3.170886166000855,
+  "full_cpu_seconds": 2.540272,
+  "git_head": "942126674a0f5a7e50efac7c702502691fdb4b6f",
+  "controller_sha256": "bb42d18554e47eb2e7ee528946d3888af06ca2985a49ee483ac976a97f6dcd35",
+  "launcher_sha256": "6f14c0e81d9e65129f234ff071f232b727e39d9f5c208505e2d23a38bed30f30",
+  "log_sha256": "2efcc47322842be30e8335df256c8c559036889b1ab13e4448689c8bdc24a205",
+  "scope": "Complete child startup/native/candidate/driver emission plus parent work after labhelper imports. Diagnostic only; no engine or production admission. Fixed60wall/fullCPU with retained original baseline, source constraints and all11 protected tracks.",
+  "within60": true
+}

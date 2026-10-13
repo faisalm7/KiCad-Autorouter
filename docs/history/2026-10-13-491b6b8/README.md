@@ -1,0 +1,69 @@
+# KiCad-Autorouter — local reconstruction
+
+Experimental offline CLI for routing a **separate copy** of a KiCad project with Freerouting and checking it using native KiCad. Combined adapter corrections pass native checks on one public development board where the stock representation fails. Experimental pruning improves a route-length proxy there; bounded thermal recovery passes another exposed board where a fixed tuned portfolio remains rejected. Generalized improvement beyond the adapter is not established. See [STATUS.md](STATUS.md) for actual results and gaps.
+
+For a new checkout, use a Python3.11 interpreter to create the local environment. In this existing project the environment is already prepared; start with `.venv/bin/python -m autorouter doctor`. Do not replace it. A bare `python3` can resolve to an unsupported system interpreter.
+
+The tested Mac has KiCad10.0.0 at `/Applications/KiCad`, its bundled Python3.9, Java25.0.2, and Python3.11. Installed applications are not changed. The pinned binaries are recorded in `toolchain.lock.json`.
+
+```sh
+python3.11 -m venv .venv
+.venv/bin/python scripts/setup_engine.py
+.venv/bin/python -m autorouter doctor
+.venv/bin/python -m autorouter route fixtures/smoke/smoke.kicad_pcb --output .runs/my-smoke --seconds 120
+.venv/bin/python -m autorouter check-result .runs/my-smoke/result.json
+.venv/bin/python -m unittest discover -s tests -v
+.venv/bin/python data/fetch.py
+.venv/bin/python data/fetch.py --verify
+```
+
+Use a new output directory for every run; existing results are never overwritten. Exit0 from `route` means routing-scope acceptance, not electrical or manufacturing approval. `result.json` contains native findings, tool/source/candidate hashes and timing. Failed candidates remain inspectable and explicitly rejected. `--keep-existing` protects every existing route for partial completion. Originals are never automatically replaced; inspect the separate candidate in KiCad before deciding what to keep. The separate-copy GUI workflow opens the copied .kicad_pro in KiCad project manager, then Tools → PCB Editor; its multichannel report matches every CLI finding. Automatic application/undo is not implemented. See [GUI workflow and limitations](docs/gui-workflow.md).
+
+Create reusable choices with `.venv/bin/python -B -m autorouter settings-init --output routing-settings.json`, then use `preview BOARD --settings routing-settings.json` before `route`. Explicit command options override only their named choices. See [saved routing preferences](docs/routing-preferences.md) for scope, budgets and optimization settings. Saved choices, partial completion, locked-route preservation and cancellation have native qualification on the recorded fixtures. Allowed new layers and selected nets are supported only in their documented native completion modes; incompatible combinations reject. Original rules and protected copper remain enforced.
+
+Only the narrow constraints described in [architecture](docs/architecture.md) are currently supported experimentally. Custom rules/pads, arbitrary or composite netclass patterns, active tuning profiles, exclusions, advanced vias and net ties are blocked. A narrow literal two-class, two-layer mapping is supported with native membership and dimension checks. No model, untouched final evaluation corpus, formal release package, human review or physical validation exists. Research scope and operating instructions remain in MASTER_PROMPT.md and AGENTS.md.
+
+Original code and diagnostic fixtures: GPL-3.0-or-later. Downloaded hardware: separate rights documented in [provenance](docs/data-provenance.md). Downloaded engines, datasets and `.local-reference/` are excluded from Git. `.venv/bin/python scripts/backup.py` creates a full private backup and tests restoration after a clean commit. Between major milestones, `.venv/bin/python scripts/backup.py --incremental PARENT_RECEIPT` creates a checkpoint from an existing restore-verified full backup chain: each checkpoint keeps a standalone all-refs Git bundle, archives only changed/new files in `.runs`, `.data`, and `.local-reference`, and records the complete expected inventory and explicit deletions. This checks chain/artifact integrity and the new delta payload; it **does not claim a complete restoration test**. Run `.venv/bin/python scripts/backup.py --verify RECEIPT` at major milestones, after backup implementation changes, and before release preparation to reconstruct the complete chain, verify every artifact and Git ref, and run the restored CLI help. Older full receipts remain supported. Chains are limited to16receipts (64MiB each,128MiB combined metadata); current target/archive ceilings are6GiB/235,000files/directories after measured current-install forecast; current full restoration6633a79 verifies226971files/allGitrefs/CLI. Earlier full18434c0/incremental52387d9 and failures remain in STATUS.md; later evidence needs its own checkpoint. A forecast is not a backup. Start a new full backup at the chain ceiling. Full backups, parent receipts, failed attempts and source evidence are never overwritten or deleted; explicit deletions apply only to a new restoration tree. Keep the entire parent chain and its bound full-restoration proof. These mutable local hashes provide consistency checks, not authentication or atomic protection from concurrent writers. All backups remain **on-Mac-only**, with no disk-failure protection, independently of audited source checkpoints on GitHub.
+
+Development experiments (every output directory must be new):
+
+```sh
+.venv/bin/python scripts/experiment_adapter.py --output .runs/adapter-ablation-NEW
+.venv/bin/python -m autorouter route '.data/boards/kicad-sonde-xilinx/sonde xilinx.kicad_pcb' --adapter both --profile tuned --seconds 120 --output .runs/tuned-NEW
+.venv/bin/python -m autorouter improve '.data/boards/kicad-sonde-xilinx/sonde xilinx.kicad_pcb' --seconds 120 --output .runs/prune-NEW
+```
+
+`improve` is an experimental strategy: obtain and charge a valid tuned B2 incumbent, then remove potentially redundant zone-net routes only when repeated native checks preserve completion, constraints, warnings and route quality. It is not a new geometric routing algorithm. The entire attempt, including failed trials and final checks, shares one wall budget. The acquired development population contains23canonical boards; its fresh full static census has6eligible/17unsupported; static support is not native acceptance. All are development-exposed; no untouched evaluation set or proven independent-family count is established. Family independence remains unqualified. The fresh thermal experiment provides one narrow end-to-end two-class success. All exclusions remain in [current status](STATUS.md).
+
+`recover` is an experimental completion strategy for a sole supported native thermal failure. It derives a short bridge from the freshly routed board and accepts only after another full native validation, within the same total budget:
+
+```sh
+.venv/bin/python -m autorouter recover '.data/boards/kicad-interf-u/interf_u.kicad_pcb' --seconds 120 --output .runs/thermal-NEW
+.venv/bin/python scripts/experiment_paired.py --project interf_u --system thermal --output .runs/thermal-paired-NEW
+```
+
+Unsupported thermal geometry or any other blocking finding remains rejected. The saved copper-path witness does not qualify current capacity, heat flow or manufacturing. Original rule severities and ignored checks remain unchanged; native acceptance alone is not physical validation.
+
+The [thermal experiment](docs/thermal-experiment.md) records fresh B0/B1/completion-only/B2 outcomes, the accepted recovery candidate, exact bridge-removal control, full costs and limitations.
+
+`route --guidance board-floors-v1 --adapter both` explicitly honors original board minima when native Default-class preferences are smaller. This narrow two-layer whole-board policy passed an owned required-via fixture; multichannel still rejects with160opens/one thermal. It preserves original settings and is not yet available to `improve`, `recover`, portfolio or GUI handoff. See [floor guidance evidence](docs/board-floor-guidance.md).
+
+Pinned KiCad10.0.0 missed deliberate track/via keepout violations in new native controls. Routing rejects unqualified track/via/pad restrictions, ambiguous or footprint rule areas and legacy `module` syntax. Narrow root pour-only F/B.Cu polygons now require independent native stored-fill intersection proof plus saving-refill reconstruction; original pour intent remains exact. Original constraints are preserved, never removed to pass preflight. Ordinary copper zones and explicitly unrestricted areas remain subject to all other checks. See [native limitations and current diagnostic](docs/placement-area-diagnostics.md).
+
+`route --guidance placement-clearance-v1 --adapter both --profile completion-only` combines the floor correction with exact handling of explicitly unrestricted placement areas and a fixed 20 µm planning clearance margin. The owned fixture and full multichannel development board pass fresh native checks; the full board retains 96 warnings. This adapter improvement is separate from the pruning and thermal strategies. A bounded schema3 `review-copy` can prepare a complete disposable project; its native positive/invalid copy controls pass, and the actual separate-copy GUI observation reproduces every CLI finding when opened through the project manager. Live application/undo remain blocked. Schema4 search/schema5 pruning now retain the same guidance constraints, with their separate workflow qualification pending. See [placement guidance and exact evidence](docs/placement-clearance-guidance.md).
+
+Current clean installation016 at1156596 passes20network-denied commands/full886 suite and native placement route/check0opens/0blocking/0warnings67.933738mm1via. Outer91.488196wall/96.415649CPU includes final checks. Seven additional installed complete-schematic NUS commands pass route/check/fourplots/acceptintent/freshnativeexport/proofcheck/reject; original0/0/10 retained,2vias71.884325mm, whole-project cleanliness false. Outer39.294178wall/42.072631CPU under180caps. Existing Mac/tools/cache reused; no freshOS/GUI/physical/package claim. [Installation evidence](evidence/installation-016/SCOPE.md), [scope](docs/install-test.md).
+
+Saved preferences and static preview cover scope, budgets and optimization choices. On qualified two-layer boards, `--profile completion-only --layers F.Cu` restricts new routing to the front while preserving exact original protected copper. See [saved settings, allowed layers and limits](docs/routing-preferences.md); actual native positives and required-via/forbidden-layer negatives are retained.
+
+Historical multichannel pair003 measures72.9833mm shorter routing than corrected B1 and tunedB2 at19vias/96warnings under120second caps. Fresh complete-schematic export later discovers115additional warnings and correctly rejects increased coverage; this is not a current complete-schematic success. It uses more compute and remains one exposed development input. Earlier Cbudget failure and tie remain visible. The measured allocation is explicit and experimental:
+
+```sh
+.venv/bin/python -B -m autorouter improve BOARD.kicad_pcb --guidance placement-search-v1 --seconds 120 --output .runs/improved-NEW
+```
+
+This narrow placement path obtains its own standard incumbent and validates each individual removal natively. Original rules remain authoritative; protected/partial/layer-restricted optimization is unsupported and blocks rather than weakening the task. Use ordinary `route` for the documented protected-copper scopes. Persistent `review-choice` records accept/reject intent for a separate review project; it does not apply a design or grant approval. `review-export` now implements fresh native validation of a separate project after that intent; five actual native copy/export paths now pass with warnings preserved; current complete-schematic NUS workflow now passes real preview/intent/fresh native export/check/rejection with0opens/0blocking/10retained warnings; current installation and complete-schematic GUI qualification remain pending. Follow [current outcomes and remaining gates](STATUS.md); no release-ready or generalized-superiority claim is made.
+
+Complete-field validation compares every effective native schematic field before qualifying the exact legacy Datasheet absence placeholder; a changed later field or real URL still rejects, even when the first native warning is identical. [Scope and actual controls](docs/schematic-field-scope.md). Source fields, rules and findings are never rewritten.
+
+Fresh NUS native-feedback C gives35.128656mm at2vias versus corrected B1's71.884325mm at2vias, with0opens/0blocking/10unchanged warnings. The completed tuned/restart B2 continuation selects71.769712mm at2vias; C improves36.641056mm with identical native warnings. Only unattempted variants were resumed; original failed receipts remain unchanged. All arms fit equal120wall/fullCPU caps including complete interrupted work and conservative final-audit costs, with the calendar gap disclosed. See [actual result and scope](evidence/nus-b2-continuation-001/SCOPE.md). Old failed runs stay failed. Use `improve BOARD --proposal-policy feedback --seconds 120 --output .runs/improved-NEW` only for the documented experimental unlocked scope; original constraints and native acceptance remain mandatory. No generalized superiority, physical review or release readiness is claimed.

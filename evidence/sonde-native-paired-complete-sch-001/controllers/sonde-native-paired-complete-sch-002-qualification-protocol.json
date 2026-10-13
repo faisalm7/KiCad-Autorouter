@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "prospective": true,
+  "kind": "audit-only-correction-v1",
+  "native_rerun": false,
+  "unchanged_native_protocol_sha256": "23a649ff3bf9dcedbc6f112926c33d0be34da381ab4a51c6b3152d05485553dc",
+  "prior_failed_audit_result_sha256": "7894aaa8dac8e25d5ed6e8806643c1bdcbc399af997d91ba142b999abf01fead",
+  "prior_failed_audit_execution_sha256": "d26ba01c95612ab051050d383e81c1728c50e7fa32f03230a57dd2b7b5eb992b",
+  "correction": "Original qualifier compared a trial summary to the full trial receipt; bind exact receipt path and all declared summary fields, then actual full native/candidate/original checks. Preserve failed audit and every completed native artifact.",
+  "failed_prior_audit_fixed_charge_to_every_arm_wall_full_cpu_seconds": 5,
+  "new_audit_fixed_charge_to_every_arm_wall_full_cpu_seconds": 5,
+  "equal_wall_full_cpu_caps_unchanged": 120,
+  "rule": "Prior audit observed whole2.417719wall/1.910539CPU fits original5second bound; conservatively charge entire5 plus new5 to EACHarm, so both failed and corrective readback costs are included. Reject any native/result/metadata/budget failure; corrected audit must itself fit5. No native experiment/protocol overwrite.",
+  "controller_sha256": "45f7cc7ab552687635b466b2b2fa4948d5fa8c8d850875d1d13d5d717a471d21"
+}

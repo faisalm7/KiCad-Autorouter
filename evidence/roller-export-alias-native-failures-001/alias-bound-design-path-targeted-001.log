@@ -1,0 +1,59 @@
+test_geometry_difference_not_normalized (tests.test_alias_design_path.BoundDesignPath.test_geometry_difference_not_normalized) ... ERROR
+test_only_exact_bound_absolute_metadata_normalizes (tests.test_alias_design_path.BoundDesignPath.test_only_exact_bound_absolute_metadata_normalizes) ... ERROR
+test_wrong_relative_traversal_or_other_role_rejects (tests.test_alias_design_path.BoundDesignPath.test_wrong_relative_traversal_or_other_role_rejects) ... ERROR
+test_changed_geometry_net_metadata_or_nonnrouting_refused (tests.test_alias_protected_order.ProtectedOrder.test_changed_geometry_net_metadata_or_nonnrouting_refused) ... ok
+test_missing_extra_or_duplicate_identity_refused (tests.test_alias_protected_order.ProtectedOrder.test_missing_extra_or_duplicate_identity_refused) ... ok
+test_only_order_changes_all_full_nodes_remain_exact (tests.test_alias_protected_order.ProtectedOrder.test_only_order_changes_all_full_nodes_remain_exact) ... ok
+test_legacy_reference_value_and_current_variable_macros_reject (tests.test_padless_alias_scope.AliasMacroScope.test_legacy_reference_value_and_current_variable_macros_reject) ... ok
+test_literal_surface_and_original_bytes_preserved (tests.test_padless_alias_scope.AliasMacroScope.test_literal_surface_and_original_bytes_preserved) ... ok
+test_macro_on_root_copper_text_rejects (tests.test_padless_alias_scope.AliasMacroScope.test_macro_on_root_copper_text_rejects) ... ok
+
+======================================================================
+ERROR: test_geometry_difference_not_normalized (tests.test_alias_design_path.BoundDesignPath.test_geometry_difference_not_normalized)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_alias_design_path.py", line 31, in test_geometry_difference_not_normalized
+    self.assertNotEqual(a.normalize_dsn(data,raw,plan,export_path=path),a.normalize_dsn(changed,raw,plan,export_path=path))
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/roller_export_alias_v1/padless_alias.py", line 122, in normalize_dsn
+    tree,slots=dsn_aliases(raw,source,binding);by={r['alias']:r for r in binding['aliases']}
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/roller_export_alias_v1/padless_alias.py", line 90, in dsn_aliases
+    tree=_parse_dsn(raw.decode());_check_units(tree);placement=sx.one(tree,'placement');library=sx.one(tree,'library');network=sx.one(tree,'network')
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/adapter.py", line 70, in _parse_dsn
+    raise ValueError("Expected exactly one KiCad string_quote declaration")
+ValueError: Expected exactly one KiCad string_quote declaration
+
+======================================================================
+ERROR: test_only_exact_bound_absolute_metadata_normalizes (tests.test_alias_design_path.BoundDesignPath.test_only_exact_bound_absolute_metadata_normalizes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_alias_design_path.py", line 19, in test_only_exact_bound_absolute_metadata_normalizes
+    self.assertNotEqual(a.normalize_dsn(da,raw,pa),a.normalize_dsn(db,raw,pb))
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/roller_export_alias_v1/padless_alias.py", line 122, in normalize_dsn
+    tree,slots=dsn_aliases(raw,source,binding);by={r['alias']:r for r in binding['aliases']}
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/roller_export_alias_v1/padless_alias.py", line 90, in dsn_aliases
+    tree=_parse_dsn(raw.decode());_check_units(tree);placement=sx.one(tree,'placement');library=sx.one(tree,'library');network=sx.one(tree,'network')
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/adapter.py", line 70, in _parse_dsn
+    raise ValueError("Expected exactly one KiCad string_quote declaration")
+ValueError: Expected exactly one KiCad string_quote declaration
+
+======================================================================
+ERROR: test_wrong_relative_traversal_or_other_role_rejects (tests.test_alias_design_path.BoundDesignPath.test_wrong_relative_traversal_or_other_role_rejects)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_alias_design_path.py", line 26, in test_wrong_relative_traversal_or_other_role_rejects
+    tree=_parse_dsn(data.decode());tree.append(['unknown','"'+path+'"'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/adapter.py", line 70, in _parse_dsn
+    raise ValueError("Expected exactly one KiCad string_quote declaration")
+ValueError: Expected exactly one KiCad string_quote declaration
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.088s
+
+FAILED (errors=3)

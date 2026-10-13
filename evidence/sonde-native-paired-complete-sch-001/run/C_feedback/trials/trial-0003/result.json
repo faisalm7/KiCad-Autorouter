@@ -1,0 +1,605 @@
+{
+  "id": "trial-0003",
+  "proposal": {
+    "kind": "native_warning_cleanup",
+    "net": "13",
+    "route_ids": [
+      "c4b45dd136cc4866b5c55fe7b46b3541d10d792d400ff58044fb33d8c84fbf59",
+      "cc74faf7f50a1850bf0dcce96171e074e135a2dfd3e5bc9cfbde7264fa35f7eb",
+      "d7fbf94cbe94002bafa3aad15720ea2a0b5565da48c4a219802507801ebe9717"
+    ],
+    "feedback_depth": 1,
+    "feedback_added_routes": 2,
+    "root_kind": "individual_segment",
+    "added_route_uuids": [
+      "19cc9019-bdf4-4686-a8e5-9c282aabf549",
+      "ed4c0f13-9437-4410-b78d-462e3d621438"
+    ],
+    "trigger_warning_signatures": [
+      "{\"items\": [\"19cc9019-bdf4-4686-a8e5-9c282aabf549\"], \"type\": \"track_dangling\"}",
+      "{\"items\": [\"ed4c0f13-9437-4410-b78d-462e3d621438\"], \"type\": \"track_dangling\"}"
+    ],
+    "parent_trial": "trial-0002"
+  },
+  "status": "improvement_validated",
+  "accepted": true,
+  "started_elapsed_seconds": 52.23718516700319,
+  "base_candidate_sha256": "bababe01bed190688900b8ef13a140162f9fc9245dea6960d04045331269ddd2",
+  "candidate_sha256": "28af64367b3c28068a94d56b16f2ccee7db02468ee7d40b493058c7aeb782b12",
+  "native": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 26,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Copper connection too narrow",
+        "key": "connection_width"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      }
+    ],
+    "findings": [
+      {
+        "description": "Footprint 'DSUB-9_Male_EdgeMount_P2.77mm' does not match copy in library 'sonde-xilinx'",
+        "items": [
+          {
+            "description": "Footprint J2",
+            "pos": {
+              "x": 181.61,
+              "y": 90.1192
+            },
+            "uuid": "00000000-0000-0000-0000-00005a73b143"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_mismatch"
+      },
+      {
+        "description": "sonde-xilinx:C_Axial_L5.1mm_D3.1mm_P12.50mm_Horizontal doesn't match footprint given by symbol (Capacitor_THT:C_Axial_L5.1mm_D3.1mm_P12.50mm_Horizontal)",
+        "items": [
+          {
+            "description": "Footprint C1",
+            "pos": {
+              "x": 134.62,
+              "y": 76.2
+            },
+            "uuid": "00000000-0000-0000-0000-00005a5834a9"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "sonde-xilinx:C_Disc_D5.1mm_W3.2mm_P5.00mm doesn't match footprint given by symbol (Capacitor_THT:C_Disc_D5.1mm_W3.2mm_P5.00mm)",
+        "items": [
+          {
+            "description": "Footprint C2",
+            "pos": {
+              "x": 140.97,
+              "y": 102.87
+            },
+            "uuid": "00000000-0000-0000-0000-00005a59b9b3"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "sonde-xilinx:C_Disc_D5.1mm_W3.2mm_P5.00mm doesn't match footprint given by symbol (Capacitor_THT:C_Disc_D5.1mm_W3.2mm_P5.00mm)",
+        "items": [
+          {
+            "description": "Footprint C3",
+            "pos": {
+              "x": 151.13,
+              "y": 69.85
+            },
+            "uuid": "00000000-0000-0000-0000-00005a59b99f"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "sonde-xilinx:C_Disc_D5.1mm_W3.2mm_P5.00mm doesn't match footprint given by symbol (Capacitor_THT:C_Disc_D5.1mm_W3.2mm_P5.00mm)",
+        "items": [
+          {
+            "description": "Footprint C4",
+            "pos": {
+              "x": 149.0,
+              "y": 102.87
+            },
+            "uuid": "00000000-0000-0000-0000-00005a59b98b"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "sonde-xilinx:C_Disc_D5.1mm_W3.2mm_P5.00mm doesn't match footprint given by symbol (Capacitor_THT:C_Disc_D5.1mm_W3.2mm_P5.00mm)",
+        "items": [
+          {
+            "description": "Footprint C5",
+            "pos": {
+              "x": 145.0,
+              "y": 102.87
+            },
+            "uuid": "00000000-0000-0000-0000-00005a59b977"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "sonde-xilinx:D_A-405_P7.62mm_Horizontal doesn't match footprint given by symbol (Diode_THT:D_A-405_P7.62mm_Horizontal)",
+        "items": [
+          {
+            "description": "Footprint D1",
+            "pos": {
+              "x": 134.62,
+              "y": 72.39
+            },
+            "uuid": "00000000-0000-0000-0000-00005a56d054"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "sonde-xilinx:D_A-405_P7.62mm_Horizontal doesn't match footprint given by symbol (Diode_THT:D_A-405_P7.62mm_Horizontal)",
+        "items": [
+          {
+            "description": "Footprint D2",
+            "pos": {
+              "x": 160.02,
+              "y": 78.74
+            },
+            "uuid": "00000000-0000-0000-0000-00005a56d036"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "sonde-xilinx:DSUB-25_Male_EdgeMount_P2.77mm doesn't match footprint given by symbol (Connector_Dsub:DSUB-25_Male_EdgeMount_P2.77mm)",
+        "items": [
+          {
+            "description": "Footprint J1",
+            "pos": {
+              "x": 105.5116,
+              "y": 89.1032
+            },
+            "uuid": "00000000-0000-0000-0000-00005a73ac29"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "sonde-xilinx:DSUB-9_Male_EdgeMount_P2.77mm doesn't match footprint given by symbol (Connector_Dsub:DSUB-9_Male_EdgeMount_P2.77mm)",
+        "items": [
+          {
+            "description": "Footprint J2",
+            "pos": {
+              "x": 181.61,
+              "y": 90.1192
+            },
+            "uuid": "00000000-0000-0000-0000-00005a73b143"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "sonde-xilinx:PinHeader_1x06_P2.54mm_Vertical doesn't match footprint given by symbol (Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical)",
+        "items": [
+          {
+            "description": "Footprint P1",
+            "pos": {
+              "x": 169.672,
+              "y": 80.137
+            },
+            "uuid": "00000000-0000-0000-0000-00005a583d55"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "sonde-xilinx:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal)",
+        "items": [
+          {
+            "description": "Footprint R1",
+            "pos": {
+              "x": 121.92,
+              "y": 73.8632
+            },
+            "uuid": "00000000-0000-0000-0000-00005a56d255"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "sonde-xilinx:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal)",
+        "items": [
+          {
+            "description": "Footprint R2",
+            "pos": {
+              "x": 137.16,
+              "y": 72.39
+            },
+            "uuid": "00000000-0000-0000-0000-00005a56cf9c"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "sonde-xilinx:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal)",
+        "items": [
+          {
+            "description": "Footprint R4",
+            "pos": {
+              "x": 121.92,
+              "y": 104.14
+            },
+            "uuid": "00000000-0000-0000-0000-00005a56cf02"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "sonde-xilinx:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal)",
+        "items": [
+          {
+            "description": "Footprint R5",
+            "pos": {
+              "x": 151.13,
+              "y": 73.66
+            },
+            "uuid": "00000000-0000-0000-0000-00005a56cfc8"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "sonde-xilinx:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal)",
+        "items": [
+          {
+            "description": "Footprint R6",
+            "pos": {
+              "x": 121.9327,
+              "y": 83.82
+            },
+            "uuid": "00000000-0000-0000-0000-00005a56cf86"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "sonde-xilinx:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal)",
+        "items": [
+          {
+            "description": "Footprint R7",
+            "pos": {
+              "x": 121.92,
+              "y": 92.71
+            },
+            "uuid": "00000000-0000-0000-0000-00005a56cf70"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "sonde-xilinx:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal)",
+        "items": [
+          {
+            "description": "Footprint R8",
+            "pos": {
+              "x": 121.92,
+              "y": 87.63
+            },
+            "uuid": "00000000-0000-0000-0000-00005a56cf5a"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "sonde-xilinx:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal)",
+        "items": [
+          {
+            "description": "Footprint R9",
+            "pos": {
+              "x": 121.92,
+              "y": 80.518
+            },
+            "uuid": "00000000-0000-0000-0000-00005a56ceec"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "sonde-xilinx:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal)",
+        "items": [
+          {
+            "description": "Footprint R10",
+            "pos": {
+              "x": 121.92,
+              "y": 77.216
+            },
+            "uuid": "00000000-0000-0000-0000-00005a56cfde"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "sonde-xilinx:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal)",
+        "items": [
+          {
+            "description": "Footprint R11",
+            "pos": {
+              "x": 162.56,
+              "y": 93.98
+            },
+            "uuid": "00000000-0000-0000-0000-00005a56cf44"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "sonde-xilinx:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal)",
+        "items": [
+          {
+            "description": "Footprint R12",
+            "pos": {
+              "x": 162.56,
+              "y": 99.06
+            },
+            "uuid": "00000000-0000-0000-0000-00005a56cf2e"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "sonde-xilinx:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal)",
+        "items": [
+          {
+            "description": "Footprint R13",
+            "pos": {
+              "x": 162.56,
+              "y": 105.41
+            },
+            "uuid": "00000000-0000-0000-0000-00005a56cf18"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "sonde-xilinx:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal)",
+        "items": [
+          {
+            "description": "Footprint R14",
+            "pos": {
+              "x": 162.56,
+              "y": 88.9
+            },
+            "uuid": "00000000-0000-0000-0000-00005a56ced6"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "sonde-xilinx:DIP-14_W7.62mm_LongPads doesn't match footprint given by symbol (Package_DIP:DIP-14_W7.62mm_LongPads)",
+        "items": [
+          {
+            "description": "Footprint U1",
+            "pos": {
+              "x": 127.0,
+              "y": 82.55
+            },
+            "uuid": "00000000-0000-0000-0000-00005a58f5ad"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "sonde-xilinx:DIP-14_W7.62mm_LongPads doesn't match footprint given by symbol (Package_DIP:DIP-14_W7.62mm_LongPads)",
+        "items": [
+          {
+            "description": "Footprint U2",
+            "pos": {
+              "x": 140.97,
+              "y": 82.55
+            },
+            "uuid": "00000000-0000-0000-0000-00005a58f58c"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      }
+    ]
+  },
+  "native_report_sha256": "ea720191891219ffb057aabe0aea9f2a3ce23035a792d6003fb674e382a83db2",
+  "metrics": {
+    "version": "10.0.0",
+    "pads": 108,
+    "footprints": 25,
+    "zones": 1,
+    "vias": 0,
+    "track_length_mm": 716.6723025012584,
+    "copper_layers": 2
+  },
+  "steps": [
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.159755041997414,
+      "cpu_seconds": 0.586259,
+      "max_rss_bytes": 225509376,
+      "supervisor_cpu_seconds": 0.0111259999999902,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 219004928,
+      "sampled_peak_workdir_bytes": 1406001,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-native-paired-complete-sch-001/run/C_feedback/trials/trial-0003/refill-drc.json",
+        "--save-board",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-native-paired-complete-sch-001/run/C_feedback/trials/trial-0003/refill/sonde xilinx.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-native-paired-complete-sch-001/run/C_feedback/trials/trial-0003/refill-drc.log",
+      "log_bytes": 215,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-native-paired-complete-sch-001/run/C_feedback/trials/trial-0003",
+      "signal_cancellation_enabled": true,
+      "pid": 16849,
+      "name": "refill-drc",
+      "validated_input_sha256": "28af64367b3c28068a94d56b16f2ccee7db02468ee7d40b493058c7aeb782b12",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-native-paired-complete-sch-001/run/C_feedback/trials/trial-0003/refill/sonde xilinx.kicad_pcb",
+      "phase": "trial-0003"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.2386395409994293,
+      "cpu_seconds": 0.655051,
+      "max_rss_bytes": 246038528,
+      "supervisor_cpu_seconds": 0.01762499999999534,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 240566272,
+      "sampled_peak_workdir_bytes": 2081250,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--schematic-parity",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-native-paired-complete-sch-001/run/C_feedback/trials/trial-0003/final-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-native-paired-complete-sch-001/run/C_feedback/trials/trial-0003/final-drc-input/sonde xilinx.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-native-paired-complete-sch-001/run/C_feedback/trials/trial-0003/final-drc.log",
+      "log_bytes": 235,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-native-paired-complete-sch-001/run/C_feedback/trials/trial-0003",
+      "signal_cancellation_enabled": true,
+      "pid": 16853,
+      "name": "final-drc",
+      "validated_input_sha256": "28af64367b3c28068a94d56b16f2ccee7db02468ee7d40b493058c7aeb782b12",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-native-paired-complete-sch-001/run/C_feedback/trials/trial-0003/candidate/sonde xilinx.kicad_pcb",
+      "phase": "trial-0003"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.5010876669985009,
+      "cpu_seconds": 0.43538899999999997,
+      "max_rss_bytes": 202047488,
+      "supervisor_cpu_seconds": 0.00719600000000753,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 34324480,
+      "sampled_peak_workdir_bytes": 2087736,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+        "metrics",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-native-paired-complete-sch-001/run/C_feedback/trials/trial-0003/candidate/sonde xilinx.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-native-paired-complete-sch-001/run/C_feedback/trials/trial-0003/metrics.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-native-paired-complete-sch-001/run/C_feedback/trials/trial-0003/metrics.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-native-paired-complete-sch-001/run/C_feedback/trials/trial-0003",
+      "signal_cancellation_enabled": true,
+      "pid": 16869,
+      "name": "metrics",
+      "phase": "trial-0003"
+    }
+  ],
+  "finished_elapsed_seconds": 55.42070233399863,
+  "finished_observed_cpu_seconds": 51.430431
+}

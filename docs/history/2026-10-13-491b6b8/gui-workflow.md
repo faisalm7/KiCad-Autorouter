@@ -1,0 +1,79 @@
+# Safe external KiCad workflow — experimental
+
+The tested workflow writes a separate complete candidate project and never replaces an open board. It does not detect unsaved editor changes or support transactional editor undo. Save and close the source project before routing; use the exact board path, including its matching project/rules/library files. Selected-net routing is available through saved preferences for the narrowly qualified native completion-only/source_all scope; it retains whole-project native acceptance and all protected copper. See routing-preferences.md. Whole-board mode removes only unlocked routing; `--keep-existing` protects all original routes for partial completion.
+
+```sh
+python3 -m autorouter route '.data/boards/kicad-sonde-xilinx/sonde xilinx.kicad_pcb' --adapter both --seconds 120 --output .runs/manual-route-001
+python3 -m autorouter check-result .runs/manual-route-001/result.json
+python3 -m autorouter review-copy .runs/manual-route-001/result.json --output .runs/manual-review-001
+```
+
+`review-copy` admits centrally accepted native/schema3 receipts and explicitly recognized schema4 search/schema5 pruning receipts. The new search/pruning extension is still awaiting its separate native qualification described below. Schema2 `board-floors-v1`, unknown and diagnostic policies remain blocked. The schema3 extension prepares disposable complete project files; its new native-copy qualification passes the controls below, and real GUI observations now include the project-manager entry described below. It is separate from the historical native GUI observation below. The command runs no engine, native validation worker or editor, and does not apply anything to a live board.
+
+A review record binds the input policy/schema, receipt hash, original candidate hash and every copied project file, along with the original source and complete run evidence. It captures bounded bytes before copying, repeats the central checker, and repeats material/readback checks before and after publication. A rejected or cancelled copy is retained for inspection; any previously ready metadata is moved to `invalidated-review-*` and is not a current ready record. Scoped SIGINT/SIGTERM handlers are restored after the command.
+
+The observed wall and total parent-plus-waited-child CPU ceilings are 30 seconds. Stored timing is sampled before final publication checks; acceptance additionally checks the final totals. Project captures allow 32 MiB, 2,000 files, 4,000 entries; complete evidence scans allow 100 MiB, 4,000 files, 8,000 entries, retaining the previously demonstrated historical C run with 2,271 files. There is no hard CPU preemption or atomic protection against concurrent writers/power loss. Installed native binaries are not rechecked by a filesystem copy. Larger unsupported inputs fail explicitly rather than bypassing the central validator.
+
+For a local before/after view, add `--render` to `review-copy`. This invokes the pinned KiCad plotter sequentially for each copper layer and creates `preview.html` alongside the disposable project. Open that file locally; no network service is used. The left view shows the original project (which may contain reference routes), and the right shows the candidate. Both include the board edge. Saved zone fills are plotted without a new refill. The page retains saved native findings, candidate metrics and ignored-check metadata; plotting is not new DRC or electrical approval. This optional mode shares the review copy's30second wall/fullCPU ceiling, captures both complete projects and binds every plot/process/log and private plot input file set. Native plotting uses its own complete work copies, since KiCad can add local settings even during export. Raw SVGs are preserved separately from display copies with the exact standard document declaration removed. Failure or stale inputs invalidate the ready page and metadata while preserving diagnostic artifacts. Live GUI behavior remains governed by the tested project-manager procedure below.
+
+Native attempts001/002 exposed document-header and generated-local-settings behavior and were rejected without a ready page. Corrected fixture003 and multichannel001 now generate four actual plots each, preserve complete review projects, and pass independent raw readback. Multichannel retains all96warnings. Real plot-tampering and SIGTERM controls reject without a ready page. Browser visual inspection remains unverified because the browser tool blocked local file URLs; no alternate browser workaround was attempted. See [actual audit](../evidence/review-native-preview-actual-001/REPORT.md).
+
+Each output path must be new. `check-result` checks consistency of local saved evidence and current source/candidate files. It is not fresh DRC or cryptographic authentication of editable JSON. `review-copy` makes a disposable copy after these checks. Open the printed `project_file` (`.kicad_pro`) in **KiCad project manager**, then choose **Tools → PCB Editor**. This entry loaded the existing project library correctly in the actual test below; opening the board directly produced different library warnings. Inspect the routes and metrics, then run **Inspect → Design Rules Checker → Refill all zones → Run DRC**, with errors, warnings and exclusions visible. A native routing acceptance is not manufacturing or electrical approval. Whole-project warnings and ignored rules remain visible.
+
+To reject, close the disposable project and discard its board changes; the original and accepted evidence are preserved. To keep working on a candidate, use this separate project as a new design version after PCB review. Do not overwrite a source that has changed since routing. Saving or editing a review copy creates a new, unvalidated design; rerun validation before relying on its earlier result. No command applies it automatically to a live editor. A fully qualified production acceptance/undo flow remains unfinished.
+
+## Actual GUI test on this Mac
+
+October9,2026: KiCad10.0.0 PCB Editor opened a disposable copy of the combined B1 result from `adapter-ablation-001`. The actual board rendered with108pads,3vias,257tracksegments,42nonzero nets and0unrouted. The native GUI DRC, with zone refill enabled, reported0errors,0unconnected,25warnings and0exclusions. Schematic parity was not run. The raw GUI-exported report and hash inventory are in `evidence/gui-inspection/`.
+
+All25warnings were the existing GUI configuration not enabling the project footprint library `sonde-xilinx`. The isolated CLI run instead reports one DSUB9 library-footprint mismatch. No application preferences or library settings were changed to suppress either result. This is a real configuration difference, so the GUI test is not a byte-identical reproduction of the CLI report.
+
+The four ignored GUI checks were copper connection width, track endpoint centering, tuning-profile geometry, and footprint filters. Original rule severities were retained by the routing pipeline; these are not evidence of full electrical correctness. No ignored-rule settings were changed during the test.
+
+Closing with **Discard Changes** preserved the disposable board's bytes, but KiCad still upgraded its `.kicad_pro` defaults/version and created `.kicad_prl` and a local `.history` repository. This observed behavior is why GUI review must use a disposable complete project copy. The accepted run and source were never opened in the editor. PCB Editor was confirmed closed afterwards. No screenshot was saved; the actual exported report and recorded tool observations are the durable evidence. Plugin execution, multiple open boards, unsaved-change detection, cancellation from GUI and undo are not qualified.
+
+## Placement copy native qualification and resumed GUI observation
+
+Atc29fc88, actual native copy-control001 validates the exact new fixture review project under the original rules: unchanged positive has0opens/0blocking/0warnings/0exclusions; removing exactly its required via gives1open and2dangling warnings at the expected adjoining route UUIDs. Both nonsaving refill checks pass their declared predicates; original source, accepted run and handoff remain unchanged. Stored prepublication samples5.412086wall/3.678899CPU fit shared60second caps. Independent review passes156 bindings. This qualifies the copied-project native boundary, not a new routing improvement. See `evidence/placement-handoff-native-001` and `evidence/review-placement-handoff-native-001`.
+
+Fresh fixture and multichannel GUI copies were prepared. The first actual UI access onOctober10 reported that the Mac was locked; no PCB Editor was opened and no GUI DRC ran. That initial access gate was later cleared; the completed October11 observations are recorded below. `evidence/placement-gui-protocol-001` requires both raw report predicates and original/rule preservation; `evidence/placement-gui-observations-001` retains the incomplete attempt. Earlier sonde GUI observations do not qualify this new placement policy.
+
+
+October 11: resumed observation002 opened both prepared copies directly in PCB Editor. The fixture had zero findings. Multichannel had129warnings versus96in the saved CLI report. Independent comparison established that all15nonlibrary records were identical, including all9connection-width warnings; the difference was114project-library-not-enabled records versus81library-footprint mismatches. The initial claim that connection-width warnings were GUI-only was incorrect and is explicitly corrected in the retained evidence. No warnings or settings were suppressed.
+
+A prospectively bounded follow-up opened a **new untouched copy through its `.kicad_pro` in KiCad project manager**, then **Tools → PCB Editor**. GUI refill/DRC now reproduced **all96CLI warning records exactly**, along with identical unconnected/parity/ignored-check/severity arrays. This includes81library mismatches and15other warnings; it is not a whole-project clean result. The board SHA remained `65dd3b0e6e0bfe6bf45a84b58d94eb4388a8b318967c47c40c26714b6777a0ef`. Original project and accepted run remained byte-identical. Manual observation took169.426seconds under a15-minute cap, outside routing benchmark budgets. See [actual manager-entry result](../evidence/placement-gui-project-manager-001/summary.json).
+
+Closing with Discard Changes preserved board bytes, while KiCad materialized16project JSON deltas (new defaults/schema fields) and local state/history. No existing hard dimension/rule was edited; complete effective-setting equivalence is not inferred solely from matching findings. Continue to use disposable review copies. This establishes the observed external entry procedure on this Mac, not plugin execution, live-editor application, transactional undo, human PCB review or electrical approval.
+
+The new captured-layer run has also passed actual `review-copy` preparation: [receipt](../evidence/layer-review-copy-001/review.json) preserves the required-via candidate SHA and complete original project. Copy preparation performs consistency checks, not a new native or GUI run. Use the same project-manager procedure; no live apply or editor undo is claimed.
+
+## Search/pruning handoff and persistent review choice (qualification pending)
+
+After exact central validation, `review-copy` can prepare a separate complete review project for schema4 `placement-search-v1` and schema5 `placement-pruning-v1` receipts. The candidate's original rules and all saved findings remain visible. This policy extension still requires its own native copied-project positive/invalid controls before being described as qualified. Existing native/schema3 observations do not establish this new gate.
+
+Open the printed `.kicad_pro` in KiCad project manager, then Tools → PCB Editor. Inspect the full design and run DRC with refill and every severity visible. Close the editor before recording a choice. Each destination must be new:
+
+```sh
+.venv/bin/python -m autorouter review-copy PATH_TO_RESULT_JSON --output .runs/new-review --render
+.venv/bin/python -m autorouter review-choice .runs/new-review/review.json --choice reject --output .runs/new-rejection
+.venv/bin/python -m autorouter review-choice .runs/new-review/review.json --choice accept --output .runs/new-accept-intent
+```
+
+These choices record intent only. Neither choice applies a board or records native, human PCB, electrical or manufacturing approval. Rejection preserves the original, review copy and evidence. Accept intent requires the exact review board to match the validated candidate; an edited board fails. KiCad may change project/local settings even after Discard Changes. Those actual changes are recorded as unvalidated and never replace original rules. Source, candidate, receipt, complete routing evidence and bound preview must still match; stale material or cancellation invalidates the choice record.
+
+A successful accept-intent record explicitly requires fresh native validation before any separate accepted-project export. Five native export paths are qualified narrowly at470bd4a; their original warnings remain. It starts from the bound original candidate and unchanged complete original project/rules, preserve original geometry/protected routing and guidance constraints, refill/reload, and bind the actual final DRC to the exported final SHA. It does not copy changed GUI rules into the accepted design. An edited GUI board is a new unvalidated design.
+
+The command retains the existing 30-second wall/full CPU and finite inventory limits. It starts no engine, native worker, editor or service. Successful exit means only that the intent record was written and read back; rejection intent is also a successful recorded choice. `choice.json` always has `routing_accepted=false`, `applied=false`, `native_validation_performed=false` and `human_pcb_approval_observed=false`.
+
+`review-export` runs fresh native refill/final DRC and route metrics against the bound original project/rules, then writes a new separate project. The intended sequence after accept intent is:
+
+```sh
+.venv/bin/python -B -m autorouter review-export .runs/new-accept-intent/choice.json --seconds 120 --output .runs/new-export
+.venv/bin/python -B -m autorouter review-export-check .runs/new-export/export.json
+```
+
+Five native copy/export paths plus original-rule, stale-board, missing-via and actual SIGTERM controls now pass narrowly. Current clean installation and this new workflow’s GUI test remain pending; the Mac is locked. Export has its own30–120second wall/fullCPU allowance and up to256MiB/12,000files; its compute is additional to original routing and must be charged for every method in any full-workflow comparison. The printed `.kicad_pro` points to a separate validated project, never the original. `export.json` binds the actual final candidate/report hashes and visible warnings/ignored checks. Export acceptance does not apply anything to an editor or record human/electrical approval. `review-export-check` checks saved consistency and invokes no fresh native validation. Keep both original routing and export evidence. Cancel with Ctrl-C; interrupted outputs are retained and rejected.
+
+## Current installed export GUI observation
+
+October13,2026: the unlocked Mac opened a separate copy of installed012export through KiCad manager → Tools → PCB Editor. Actual refill-all-zones DRC reports0violations/0unconnected items with all errors/warnings/exclusions visible and7original ignored checks retained. This fixture has no schematic; parity isnotrun. GUI project/settings/history changed; board bytes and authoritative export/proof remain exact. The saved GUI report is [retained here](../evidence/current-export-gui-001/project/DRC.rpt). No live apply/undo, human PCB review or broader platform support is implied.

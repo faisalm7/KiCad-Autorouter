@@ -5,6 +5,7 @@ separately qualified native geometry/source/DSN/SES/DRC controls before use.
 """
 import copy,hashlib,json,uuid
 from collections import Counter
+from pathlib import PurePosixPath
 from autorouter import sexpr as sx
 from autorouter.adapter import _parse_dsn,_dump_dsn,_check_units
 from experiments.pic_mixed_transport_probe_v1 import ses_checks as ses
@@ -117,9 +118,23 @@ def dsn_aliases(raw,source,binding):
     if scan(other):raise ValueError('alias occurs outside DSN placement identity')
     return tree,slots
 
-def normalize_dsn(raw,source,binding):
+def normalize_dsn(raw,source,binding,*,export_path=None):
     tree,slots=dsn_aliases(raw,source,binding);by={r['alias']:r for r in binding['aliases']}
     for place in slots:place[1]=json.dumps('KAR_UUID_'+by[sx.unquote(place[1])]['uuid'])
+    if export_path is not None:
+        if type(export_path) is not str:raise ValueError('native DSN absolute design path differs from bound export')
+        path=PurePosixPath(export_path)
+        if (not path.is_absolute() or path.name!='native.dsn'
+                or '..' in path.parts or '\\' in export_path or str(path)!=export_path
+                or sx.unquote(tree[1])!=export_path):
+            raise ValueError('native DSN absolute design path differs from bound export')
+        # Comparison only: the pinned exporter writes its output filename here.
+        # Raw DSN and SES base_design remain untouched for actual import.
+        def occurrences(node):
+            if isinstance(node,list):return sum(occurrences(x) for x in node)
+            return int(isinstance(node,str) and sx.unquote(node)==export_path)
+        if occurrences(tree)!=1:raise ValueError('design path used outside root metadata')
+        tree[1]=json.dumps('native.dsn')
     return _dump_dsn(tree).encode()
 
 def strip_ses_placements(raw,dsn_raw,source,binding):

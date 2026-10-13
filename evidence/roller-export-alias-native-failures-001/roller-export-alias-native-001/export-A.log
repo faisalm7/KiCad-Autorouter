@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/roller_export_alias_v1/worker.py", line 110, in <module>
+    if __name__=='__main__':export(*sys.argv[1:])
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/roller_export_alias_v1/worker.py", line 106, in export
+    fc.collect('final',source,context,observation_output=diagnostic,observer=callback)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/floor_context.py", line 181, in collect
+    if len(raw.encode())>1024*1024:raise ValueError('diagnostic output cap')
+ValueError: diagnostic output cap

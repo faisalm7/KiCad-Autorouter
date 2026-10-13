@@ -1,0 +1,12 @@
+# Active execution plan
+
+October13,2026. One lead, one sequential native/JVM lane, at most two narrow agents. Existing local checkout and authorized rebuild branch; no cloud/worktree/reset/auto-resume. Exact preceding records remain in docs/history.
+
+1. Completed actual015 correction/currentfull/Roller observation checkpoint1156596 and cleaninstallation016 plus installed complete-schematic workflow. Curate evidence, update claims and verify new push; no native comparison repeated.
+2. Broader alias draft review found legacy%R/%V macro scope hazard. Refuse before mutation, retain regression and during-alias native copper proof. All drafts must freeze before backup.
+3. Completed full restoration6633a79:226971files/allGitrefs/CLI. Current capacity milestone passes. Preserve later evidence with incremental integrity at smaller checkpoints, full restore at next major milestone/backup change/release. On-Mac-only limitation remains.
+4. Complete prepared complete-schematic export GUI check if actual Mac access permits. Manager->PCBEditor/refill/DRC, all warnings/severities/exclusions retained; authoritative files untouched. Existing no-schematic GUI evidence remains distinct.
+5. Broader existing Roller support: original native0/0/1 and inactiveDefault observations are now captured; source DSN export still fails on padless duplicate references. Review/freeze already prepared in-memory UUID alias transformer and strict SES placement filter. Run bounded dual-namespace native copper/DSN equivalence and protected original-route roundtrip before any shared production admission. No candidate/source renames, class/layer/rule relaxation or new quality claim from adapter work.
+6. Continue strongest measured strategy hypotheses across unrelated boards beyond corrected/tunedB1/B2 under equal complete budgets. Keep all23canonical boards/6staticeligible/17unsupported, exposed ancestry uncertainty and regressions visible. Freeze family-disjoint evaluation when feasible. Complete current workflow/docs/human-review pack; no training/chat novelty or unmet RC claims.
+
+Current NUS C improves36.641056mm versus strongB2 at2vias and identical0/0/10 under120wall/fullCPU including conservative complete audit charge; one exposed tutorial board and calendar interruption, not broad/heldout/speedup/electrical superiority. Representative30–50-family audit, wider gains, untouched confirmatory evaluation, human/physical review and independent off-Mac archive protection remain open.

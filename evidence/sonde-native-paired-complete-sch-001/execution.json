@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "git_head": "491b6b8f854c0f63f6570e56f67b0220fae54d26",
+  "started_utc": "2026-10-13T23:29:54.119449+00:00",
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 199.34809316700557,
+    "cpu_seconds": 188.764757,
+    "max_rss_bytes": 483442688,
+    "supervisor_cpu_seconds": 6.111554,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 372506624,
+    "sampled_peak_workdir_bytes": 50522963,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 100663296,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/experiment_paired.py",
+      "--project",
+      "sonde",
+      "--system",
+      "native-all",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-native-paired-complete-sch-001/run"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-native-paired-complete-sch-001/command.log",
+    "log_bytes": 151,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sonde-native-paired-complete-sch-001",
+    "signal_cancellation_enabled": true,
+    "pid": 16660
+  },
+  "wall_seconds": 199.5237442499929,
+  "full_cpu_seconds": 195.048773,
+  "wrapper_sha256": "ebda6ac7f500a60d56944ea43a455fecc37f765acb523164d915e189b8ac8a58",
+  "log_sha256": "99b5d722e1a36638f19ed23f1be8ffe78fee5948d8c407eecd46057c16c89113",
+  "scope": "Four fresh sequential exposed-development arms B0/B1/B2portfolio/Cnative-feedback, each120wall/fullCPU including shared charges; same original constraints. Outer96MiB polling and540s timeout; native validation required.",
+  "outer_charge_requires_final_readback": true,
+  "prospective_protocol_sha256": "23a649ff3bf9dcedbc6f112926c33d0be34da381ab4a51c6b3152d05485553dc"
+}

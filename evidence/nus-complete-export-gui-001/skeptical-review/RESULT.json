@@ -1,0 +1,122 @@
+{
+  "GUI_added_class_defaults": {
+    "Default": {
+      "tuning_profile": ""
+    }
+  },
+  "GUI_library_findings": [
+    {
+      "description": "Footprint 'USB_C_Receptacle_GCT_USB4125-xx-x_6P_TopMnt_Horizontal' does not match copy in library 'Connector_USB'",
+      "references": [
+        "Footprint J1"
+      ],
+      "severity": "warning",
+      "type": "lib_footprint_mismatch"
+    }
+  ],
+  "GUI_metadata_added_keys": [
+    "/board/design_settings/defaults/apply_defaults_to_fp_barcodes",
+    "/board/design_settings/defaults/apply_defaults_to_fp_dimensions",
+    "/board/design_settings/rule_severities/footprint_symbol_field_mismatch",
+    "/board/design_settings/rule_severities/missing_tuning_profile",
+    "/board/design_settings/rule_severities/track_not_centered_on_via",
+    "/board/design_settings/rule_severities/track_on_post_machined_layer",
+    "/board/design_settings/rule_severities/tuning_profile_track_geometries",
+    "/board/ipc2581/bom_rev",
+    "/board/ipc2581/sch_revision",
+    "/component_class_settings",
+    "/erc/rule_severities/field_name_whitespace",
+    "/erc/rule_severities/ground_pin_not_ground",
+    "/erc/rule_severities/isolated_pin_label",
+    "/erc/rule_severities/stacked_pin_name",
+    "/schematic/annotation",
+    "/schematic/bus_aliases",
+    "/schematic/drawing/hop_over_size_choice",
+    "/schematic/reuse_designators",
+    "/schematic/top_level_sheets",
+    "/schematic/used_designators",
+    "/schematic/variants",
+    "/tuning_profiles"
+  ],
+  "GUI_metadata_changed_container_paths": [
+    "/net_settings/classes",
+    "/net_settings/meta/version"
+  ],
+  "GUI_netclass_schema_before_after": [
+    4,
+    5
+  ],
+  "GUI_observed_counts": {
+    "errors": 0,
+    "exclusions": 0,
+    "opens": 0,
+    "warnings": 6
+  },
+  "all_original_explicit_netclass_values_unchanged": true,
+  "all_original_explicit_severities_unchanged": true,
+  "authoritative_candidate_inventory_unchanged": true,
+  "authoritative_export_proof_unchanged": true,
+  "authoritative_native_counts": {
+    "errors": 0,
+    "exclusions": 0,
+    "opens": 0,
+    "warnings": 10
+  },
+  "board_bytes_unchanged": true,
+  "conclusion": "Library-context diagnostic difference: five Native missing-library findings become one GUI loaded-library mismatch plus four absent library findings. No ignored-check/rule weakening, model-migration cause or GUI qualification is asserted.",
+  "explicit_rules_unchanged": true,
+  "native_gui_process_executed": false,
+  "native_library_findings": [
+    {
+      "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+      "references": [
+        "Footprint R1"
+      ],
+      "severity": "warning",
+      "type": "lib_footprint_issues"
+    },
+    {
+      "description": "The current configuration does not include the footprint library 'Connector_USB'",
+      "references": [
+        "Footprint J1"
+      ],
+      "severity": "warning",
+      "type": "lib_footprint_issues"
+    },
+    {
+      "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+      "references": [
+        "Footprint R2"
+      ],
+      "severity": "warning",
+      "type": "lib_footprint_issues"
+    },
+    {
+      "description": "The current configuration does not include the footprint library 'LED_SMD'",
+      "references": [
+        "Footprint D1"
+      ],
+      "severity": "warning",
+      "type": "lib_footprint_issues"
+    },
+    {
+      "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+      "references": [
+        "Footprint R3"
+      ],
+      "severity": "warning",
+      "type": "lib_footprint_issues"
+    }
+  ],
+  "report_and_input_sha256": {
+    ".runs/nus-complete-export-gui-001/project/DRC.json": "9d4d2631badbf0ae11b1fe0ced11650cf78859fe2bb6c0b39ad3b655cb10517d",
+    ".runs/nus-complete-export-gui-001/project/usb_led.kicad_pcb": "889fb588dc4f114a050dfe5dc97dfd21357d85422c2fa1116c44655f2bc9bb6a",
+    ".runs/nus-complete-export-gui-001/project/usb_led.kicad_pro": "dc07432185530f3e300a57bbe3bc3e3bfbb63c916399766e2da570000c712055",
+    ".runs/nus-complete-schematic-workflow-export-002/export.json": "435019d96a80a513b6b5eb4544206bab73cdca3b4504f8e955adb187fca39445",
+    ".runs/nus-complete-schematic-workflow-export-002/validation/candidate/usb_led.kicad_pro": "b89aeb862b5008aeb62a32b06b1b4094b5ea556d24fba5e62189814523dcc2a8",
+    ".runs/nus-complete-schematic-workflow-export-002/validation/final-drc.json": "09054aa432bb2a52ecd31fca51c68dba91583257f8604dcf5b04f0562922c11d"
+  },
+  "same_exact_five_parity_findings": true,
+  "same_exact_two_ignored_checks": true,
+  "schema": 1
+}
