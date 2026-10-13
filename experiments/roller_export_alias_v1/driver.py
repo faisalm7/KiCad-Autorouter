@@ -8,7 +8,7 @@ from autorouter import config as c,pipeline as p,floor_route as f,handoff as h,p
 from autorouter.runner import run
 from experiments.pic_mixed_transport_probe_v1 import ses_native as sn
 from padless_alias import plan,normalize_dsn,unused_class_proof
-from retained_ses import build
+from retained_ses import build,restore_protected_order
 SECONDS=60.;LIMIT=32*1024**2
 SOURCE=ROOT/'.data/corpus-expansion-audit-001/sparkfun__SparkFun_Roller_Encoder_Breakout'
 NAME='SparkFun_Roller_Encoder_Breakout.kicad_pcb'
@@ -75,6 +75,7 @@ def _experiment(output):
         semantic=sn.semantic_diff(sx.read(a['emission']),sx.read(imported))
         if not semantic['equal']:raise p.Rejected('native import changed original native nonrouting emission')
         protected_audit={};rebuilt=p.transplant_routes(original,sx.read(imported),protected=tuple(p.routes(original)),audit=protected_audit)
+        rebuilt=restore_protected_order(original,rebuilt)
         if p.immutable(rebuilt)!=p.immutable(original) or p.routes(rebuilt)!=p.routes(original):raise p.Rejected('all original routing/nonrouting must survive exactly')
         candidate=packet(out/'candidate');sx.write(candidate,rebuilt);hashes=inventory(a['board'].parent);p.verify_candidate_files(candidate,hashes)
         saved=out/'saved';shutil.copytree(candidate.parent,saved);savedboard=saved/NAME;before=inventory(saved);refill=job.drc('candidate-refill',savedboard,save=True)

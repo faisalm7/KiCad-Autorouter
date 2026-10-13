@@ -7,6 +7,25 @@ from experiments.pic_mixed_transport_probe_v1 import ses_checks as sc
 from padless_alias import dsn_aliases,strip_ses_placements
 
 def render(value):return str(value.to_integral()) if value==value.to_integral() else format(value,'f')
+
+def restore_protected_order(original,rebuilt):
+    """Reorder only after every original protected node survives exactly."""
+    if p.immutable(original)!=p.immutable(rebuilt):raise ValueError('nonrouting source changed')
+    def records(tree):
+        rows={}
+        for node in p.routes(tree):
+            identity=sx.one(node,'uuid',sx.one(node,'tstamp'))
+            if identity is None or len(identity)!=2 or identity[1] in rows:
+                raise ValueError('unique protected route identity required')
+            rows[identity[1]]=node
+        return rows
+    before,after=records(original),records(rebuilt)
+    if not before or before!=after:raise ValueError('exact protected route population changed')
+    result=copy.deepcopy(rebuilt);ordered=iter(copy.deepcopy(p.routes(original)))
+    for i,node in enumerate(result):
+        if isinstance(node,list) and node and node[0] in p.ROUTES:result[i]=next(ordered)
+    return result
+
 def build(raw,source,binding):
     dsn,_=dsn_aliases(raw,source,binding);original=sx.parse(source.decode());wanted,vias=sc.source_routes(original)
     if vias or len(p.routes(original))!=11 or any(r[0]!='segment' for r in p.routes(original)):raise ValueError('exact Roller eleven-segment/no-via diagnostic required')
