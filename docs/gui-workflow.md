@@ -1,6 +1,6 @@
 # Safe external KiCad workflow — experimental
 
-The tested workflow writes a separate complete candidate project and never replaces an open board. It does not detect unsaved editor changes or support transactional editor undo. Save and close the source project before routing; use the exact board path, including its matching project/rules/library files. Selected-net routing is unavailable. Whole-board mode removes only unlocked routing; `--keep-existing` protects all original routes for partial completion.
+The tested workflow writes a separate complete candidate project and never replaces an open board. It does not detect unsaved editor changes or support transactional editor undo. Save and close the source project before routing; use the exact board path, including its matching project/rules/library files. Selected-net routing is available through saved preferences for the narrowly qualified native completion-only/source_all scope; it retains whole-project native acceptance and all protected copper. See routing-preferences.md. Whole-board mode removes only unlocked routing; `--keep-existing` protects all original routes for partial completion.
 
 ```sh
 python3 -m autorouter route '.data/boards/kicad-sonde-xilinx/sonde xilinx.kicad_pcb' --adapter both --seconds 120 --output .runs/manual-route-001
@@ -73,3 +73,7 @@ The command retains the existing 30-second wall/full CPU and finite inventory li
 ```
 
 Five native copy/export paths plus original-rule, stale-board, missing-via and actual SIGTERM controls now pass narrowly. Current clean installation and this new workflow’s GUI test remain pending; the Mac is locked. Export has its own30–120second wall/fullCPU allowance and up to256MiB/12,000files; its compute is additional to original routing and must be charged for every method in any full-workflow comparison. The printed `.kicad_pro` points to a separate validated project, never the original. `export.json` binds the actual final candidate/report hashes and visible warnings/ignored checks. Export acceptance does not apply anything to an editor or record human/electrical approval. `review-export-check` checks saved consistency and invokes no fresh native validation. Keep both original routing and export evidence. Cancel with Ctrl-C; interrupted outputs are retained and rejected.
+
+## Current installed export GUI observation
+
+October13,2026: the unlocked Mac opened a separate copy of installed012export through KiCad manager → Tools → PCB Editor. Actual refill-all-zones DRC reports0violations/0unconnected items with all errors/warnings/exclusions visible and7original ignored checks retained. This fixture has no schematic; parity isnotrun. GUI project/settings/history changed; board bytes and authoritative export/proof remain exact. The saved GUI report is [retained here](../evidence/current-export-gui-001/project/DRC.rpt). No live apply/undo, human PCB review or broader platform support is implied.

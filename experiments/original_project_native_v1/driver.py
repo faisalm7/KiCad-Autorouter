@@ -10,7 +10,10 @@ from autorouter import pipeline as p,config as c,sexpr as sx,floor_route as f,pl
 from autorouter.runner import run
 from experiments.placement_handoff_native_v1.driver import copy_bytes
 LIMIT=20*1024**2;SECONDS=90
-CASES={'ardujoy-c64':('v4','Ardujoy_HW/Ardujoy_HW.kicad_pcb','1b63471d9726fb6a38f8544ca73ebf10c7f19820','.runs/licensed-acquisition-007-run-001/receipt.json')}
+CASES={
+    'ardujoy-c64':('v4','Ardujoy_HW/Ardujoy_HW.kicad_pcb','1b63471d9726fb6a38f8544ca73ebf10c7f19820','.runs/licensed-acquisition-007-run-001/receipt.json'),
+    'nus-usb-led':('v5','src/usb_led.kicad_pcb','ad3fbd582e3915b585c453ea202f591720a1f427','.runs/licensed-acquisition-008-run-001/receipt.json'),
+}
 
 def route_records(tree):
     result={}
@@ -47,7 +50,14 @@ def experiment(project,output,*,run_native=False):
         for name,raw in code.items():
             committed=subprocess.run(['git','show',record['tools']['git_head']+':'+name],cwd=ROOT,capture_output=True,check=True,timeout=min(3,remaining())).stdout
             if raw!=committed:raise p.Rejected('commit exact native implementation before observations')
-        copy_bytes(code,out/'code');record['static_supported']=p.preflight(board) is not None
+        copy_bytes(code,out/'code')
+        # Observation of an original unsupported board does not admit it to
+        # production routing. Keep its literal preflight refusal in evidence,
+        # then inspect native behavior without changing any source constraint.
+        try:
+            record['static_supported']=p.preflight(board) is not None
+        except p.Rejected as exc:
+            record.update(static_supported=False,static_unsupported_reason=str(exc))
         job=BoundJob(out/'job',SECONDS,remaining);record['original_native']=job.drc('original-drc',board)
         record['parity_native']=job.drc('parity-drc',board,schematic_parity=True)
         job.native('original-export','export',board,job.out/'original.dsn',job.out/'original-netclasses.json')
