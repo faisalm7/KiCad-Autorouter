@@ -1,0 +1,150 @@
+{
+  "schema": 1,
+  "policy": "placement-clearance-v1",
+  "parameters": {
+    "clearance_margin_nm": 20000,
+    "scoring_variant": "via_default",
+    "via_costs": 50,
+    "plane_via_costs": 5
+  },
+  "source_hashes": {
+    "PROVENANCE.md": "e3252ae21f0ab31a1f45f0ad3a15b5d12d107f173990059ea6ef1d89bc691331",
+    "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+    "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    "fixture.kicad_pcb": "85076852ba91f36a8599c395c80c67ef496f05cfe1a346cfaf1fa907b25457d3",
+    "fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538"
+  },
+  "task_sha256": "85076852ba91f36a8599c395c80c67ef496f05cfe1a346cfaf1fa907b25457d3",
+  "project_sha256": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+  "floor_context_sha256": "f097368f1332349345cbc046c5d425b0d1810870f8902c3ba84ad69ccc8c2da8",
+  "area_context_sha256": "748c0e7f0a7fc049a3fca231321f0ee17a4f683e1cdaedded8049cccc69116ac",
+  "floor_policy_sha256": "0d2223a9e9b43edf4f2322281fa385a24ed73e95e3781ee2e520f8a7910efafd",
+  "native_dsn_sha256": "26bb5ad872ccd9a91bbdb52cd6936cbdf04c7d45f22825a18645927b73647cd1",
+  "floor_guided_dsn_sha256": "b84b1575b03d7c76d924f7aa830696a263c63684fa20151c37d83fff9238aa3f",
+  "outputs_sha256": {
+    "placement-guided.dsn": "0e2bd7ee9cf68519da5eda2be3b358f074a4c0b1997cd1496df72efb3d1bee5d",
+    "planning-guided.dsn": "24be2c18f7e5811c365a6cc2cdbe786a7f82d978ba91d9cb9120d2e6a129047d",
+    "task.dsn": "2519b8aa9efee73c272278df3b5b8424a824b379dc01f14a4e7cff7d8c357305"
+  },
+  "removal": {
+    "schema": 1,
+    "policy": "placement-area-diagnostic-v1",
+    "order": "raw -> externally audited floor guidance -> this placement transform -> both adapter",
+    "original_project_sha256": {
+      "PROVENANCE.md": "e3252ae21f0ab31a1f45f0ad3a15b5d12d107f173990059ea6ef1d89bc691331",
+      "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "fixture.kicad_pcb": "85076852ba91f36a8599c395c80c67ef496f05cfe1a346cfaf1fa907b25457d3",
+      "fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538"
+    },
+    "native_input_sha256": {
+      "PROVENANCE.md": "e3252ae21f0ab31a1f45f0ad3a15b5d12d107f173990059ea6ef1d89bc691331",
+      "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "fixture.kicad_pcb": "85076852ba91f36a8599c395c80c67ef496f05cfe1a346cfaf1fa907b25457d3",
+      "fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538"
+    },
+    "observation_sha256": "5394b4f05ab529887a48944fbe061c46c1db71dc31ac710800b66719bd763495",
+    "raw_dsn_sha256": "26bb5ad872ccd9a91bbdb52cd6936cbdf04c7d45f22825a18645927b73647cd1",
+    "guided_input_sha256": "b84b1575b03d7c76d924f7aa830696a263c63684fa20151c37d83fff9238aa3f",
+    "output_sha256": "0e2bd7ee9cf68519da5eda2be3b358f074a4c0b1997cd1496df72efb3d1bee5d",
+    "removed": [
+      {
+        "source_zone_uuid": "b174e2d7-dd52-4aba-bb1a-8049a0a48564",
+        "layer": "B.Cu",
+        "structure_index": 6,
+        "entry": [
+          "keepout",
+          "\"\"",
+          [
+            "polygon",
+            "B.Cu",
+            "0",
+            "20000",
+            "-19000",
+            "30000",
+            "-19000",
+            "30000",
+            "-21000",
+            "20000",
+            "-21000",
+            "20000",
+            "-19000"
+          ]
+        ]
+      },
+      {
+        "source_zone_uuid": "b174e2d7-dd52-4aba-bb1a-8049a0a48564",
+        "layer": "F.Cu",
+        "structure_index": 5,
+        "entry": [
+          "keepout",
+          "\"\"",
+          [
+            "polygon",
+            "F.Cu",
+            "0",
+            "20000",
+            "-19000",
+            "30000",
+            "-19000",
+            "30000",
+            "-21000",
+            "20000",
+            "-21000",
+            "20000",
+            "-19000"
+          ]
+        ]
+      }
+    ],
+    "removed_count": 2,
+    "kept_keepout_count": 0,
+    "source_zone_count": 2,
+    "unmatched_entries_ast_identical": true,
+    "routing_accepted": false,
+    "native_qualification": false,
+    "scope": "bounded pure interchange attribution only; caller authenticates same-load process/tool provenance, upstream guidance and final native acceptance",
+    "limits": {
+      "project_files": 2000,
+      "project_bytes": 33554432,
+      "zones": 64,
+      "points_per_outline": 128,
+      "dsn_keepouts": 256
+    }
+  },
+  "planning": {
+    "schema": 1,
+    "policy": "placement-clearance-v1",
+    "parameters": {
+      "clearance_margin_nm": 20000,
+      "scoring_variant": "via_default",
+      "via_costs": 50,
+      "plane_via_costs": 5
+    },
+    "input_sha256": "0e2bd7ee9cf68519da5eda2be3b358f074a4c0b1997cd1496df72efb3d1bee5d",
+    "output_sha256": "24be2c18f7e5811c365a6cc2cdbe786a7f82d978ba91d9cb9120d2e6a129047d",
+    "original_floor_context_sha256": "8e709243c33eca4b97806363f9c74ec0d47e176140122b1a9f5ffebd09e5245a",
+    "original_derived_nm": {
+      "width_nm": 300000,
+      "clearance_nm": 300000,
+      "via_diameter_nm": 1500000,
+      "via_drill_nm": 300000
+    },
+    "planning_clearance_nm": 320000,
+    "clearance_atom_addresses": [
+      "structure/rule/clearance",
+      "structure/rule/clearance/type=smd_smd",
+      "network/class/rule/clearance"
+    ],
+    "audit": {
+      "exact_declared_ast_change": true,
+      "clearance_atom_count": 3,
+      "routing_accepted": false
+    },
+    "native_rules_changed": false,
+    "routing_accepted": false
+  },
+  "routing_accepted": false,
+  "native_rules_changed": false
+}

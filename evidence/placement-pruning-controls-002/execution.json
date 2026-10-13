@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "git_head": "aedde9cee357411217db154d46a82bb20da87568",
+  "started_utc": "2026-10-13T11:10:34.421600+00:00",
+  "process": {
+    "status": "nonzero_exit",
+    "exit_code": 2,
+    "wall_seconds": 32.70888862499851,
+    "cpu_seconds": 24.837069999999997,
+    "max_rss_bytes": 292225024,
+    "supervisor_cpu_seconds": 0.351112,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 282836992,
+    "sampled_peak_workdir_bytes": 3651614,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 67108864,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/placement_pruning_controls_v1/driver.py",
+      "--run-native",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-pruning-controls-002/run"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-pruning-controls-002/command.log",
+    "log_bytes": 84,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-pruning-controls-002",
+    "signal_cancellation_enabled": true,
+    "pid": 46524
+  },
+  "wall_seconds": 32.84002191699983,
+  "full_cpu_seconds": 25.296173,
+  "wrapper_sha256": "7054af199ea446ceb4ba4d8d6e4642d31b61924baafb1d01b18386ceaa336fcd",
+  "log_sha256": "7963ccc54f938ffd940064a964ce5bf296ac4c12e90eaa5fecc3ee2abb09bf18",
+  "scope": "Four engineered search/C integration arms plus two parent/deletion witnesses; no public-board gain claim. Shared inner180wall/fullCPU and outer64MiB polling."
+}

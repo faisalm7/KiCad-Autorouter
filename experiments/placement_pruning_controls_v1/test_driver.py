@@ -41,6 +41,7 @@ class Controls(unittest.TestCase):
     def test_negative_requires_exact_native_disconnected_pad_pair_and_no_exclusions(self):
         row={'type':'unconnected_items','severity':'error','excluded':False,'items':[{'uuid':d.OUTSIDE_PAD},{'uuid':d.ZONE_UUID}]}
         bad=self.native(1,[row]);self.assertTrue(d.control_observation('necessary',self.native(),bad,{}, {})[0])
+        absent=copy.deepcopy(bad);absent['findings'][0].pop('excluded');self.assertTrue(d.control_observation('necessary',self.native(),absent,{}, {})[0])
         altered=copy.deepcopy(bad);altered['findings'][0]['items'][0]['uuid']='unrelated';self.assertFalse(d.control_observation('necessary',self.native(),altered,{}, {})[0])
         altered=copy.deepcopy(bad);altered['exclusions']=1;self.assertFalse(d.control_observation('necessary',self.native(),altered,{}, {})[0])
     def test_fresh_monitored_output_is_narrow_and_cannot_reuse_attempt(self):

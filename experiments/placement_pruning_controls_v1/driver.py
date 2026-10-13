@@ -66,7 +66,7 @@ def control_observation(case,parent_native,native,parent_metrics,metrics):
     if not p.native_accepted(parent_native):return False,[]
     if native['exclusions'] or not ps.warnings(native)<=ps.warnings(parent_native):return False,[]
     if case=='redundant':return p.native_accepted(native) and ps.improves(metrics,parent_metrics,native,parent_native),[]
-    targets=[row for row in native['findings'] if row['type']=='unconnected_items' and row['severity']=='error' and row.get('excluded') is False
+    targets=[row for row in native['findings'] if row['type']=='unconnected_items' and row['severity']=='error' and row.get('excluded',False) is False
         and OUTSIDE_PAD in {item.get('uuid') for item in row['items']} and {INSIDE_PAD,ZONE_UUID}&{item.get('uuid') for item in row['items']}]
     return native['opens']>0 and not p.native_accepted(native) and bool(targets),targets
 

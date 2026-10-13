@@ -1,0 +1,213 @@
+{
+  "context_schema": 1,
+  "native_version": "10.0.0",
+  "units": "integer nanometres",
+  "mode": "final",
+  "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-pruning-controls-004/run/controls/redundant/parent/candidate/fixture.kicad_pcb",
+  "board_sha256": "ced83643e1a27148789a50acf8c7fb53a26bcb1d7b5a4804814c8393b543ba38",
+  "project_sha256": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+  "dsn_sha256": null,
+  "floors_nm": {
+    "min_track_width": 300000,
+    "min_clearance": 300000,
+    "min_via_diameter": 1500000,
+    "min_through_hole_diameter": 300000,
+    "min_via_annular_width": 300000
+  },
+  "pads": [
+    {
+      "uuid": "2259717b-f87b-4741-851c-4246b16698d8",
+      "reference": "J1",
+      "number": "1",
+      "netcode": 1,
+      "net": "SIGNAL_A",
+      "copper_layers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "position_nm": [
+        10000000,
+        10000000
+      ]
+    },
+    {
+      "uuid": "a06354ce-d76c-45d5-b28a-d51f06164d89",
+      "reference": "J4",
+      "number": "1",
+      "netcode": 2,
+      "net": "SIGNAL_B",
+      "copper_layers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "position_nm": [
+        40000000,
+        20000000
+      ]
+    },
+    {
+      "uuid": "6588aca0-021d-49ec-8333-8ac58765813d",
+      "reference": "J3",
+      "number": "1",
+      "netcode": 2,
+      "net": "SIGNAL_B",
+      "copper_layers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "position_nm": [
+        10000000,
+        20000000
+      ]
+    },
+    {
+      "uuid": "3770420a-a201-4704-85a8-70c7666bf2cf",
+      "reference": "J5",
+      "number": "1",
+      "netcode": 3,
+      "net": "GND",
+      "copper_layers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "position_nm": [
+        10000000,
+        30000000
+      ]
+    },
+    {
+      "uuid": "91b55d41-261e-40fb-b066-cea4f05adfc3",
+      "reference": "J6",
+      "number": "1",
+      "netcode": 3,
+      "net": "GND",
+      "copper_layers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "position_nm": [
+        40000000,
+        30000000
+      ]
+    },
+    {
+      "uuid": "08f93607-b33b-46bf-b3b6-1629e09d1df5",
+      "reference": "J2",
+      "number": "1",
+      "netcode": 1,
+      "net": "SIGNAL_A",
+      "copper_layers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "position_nm": [
+        40000000,
+        10000000
+      ]
+    }
+  ],
+  "nets": [
+    {
+      "name": "GND",
+      "netcode": 3,
+      "class": "Default",
+      "width_nm": 200000,
+      "clearance_nm": 200000,
+      "via_diameter_nm": 600000,
+      "via_drill_nm": 300000,
+      "copper_pad_count": 2
+    },
+    {
+      "name": "SIGNAL_A",
+      "netcode": 1,
+      "class": "Default",
+      "width_nm": 200000,
+      "clearance_nm": 200000,
+      "via_diameter_nm": 600000,
+      "via_drill_nm": 300000,
+      "copper_pad_count": 2
+    },
+    {
+      "name": "SIGNAL_B",
+      "netcode": 2,
+      "class": "Default",
+      "width_nm": 200000,
+      "clearance_nm": 200000,
+      "via_diameter_nm": 600000,
+      "via_drill_nm": 300000,
+      "copper_pad_count": 2
+    }
+  ],
+  "routes": [
+    {
+      "uuid": "febf6cc2-f3f1-4eeb-a960-5da51e9fbb03",
+      "net": "SIGNAL_A",
+      "width_nm": 300000,
+      "kind": "segment",
+      "start_nm": [
+        40000000,
+        10000000
+      ],
+      "end_nm": [
+        10000000,
+        10000000
+      ],
+      "layer": "F.Cu"
+    },
+    {
+      "uuid": "14360b8c-30ef-4ab4-83ee-4e994b0ac619",
+      "net": "SIGNAL_B",
+      "width_nm": 300000,
+      "kind": "segment",
+      "start_nm": [
+        10000000,
+        20000000
+      ],
+      "end_nm": [
+        40000000,
+        20000000
+      ],
+      "layer": "B.Cu"
+    },
+    {
+      "uuid": "7372ac93-5b96-4a58-8d4e-b5f715a12451",
+      "net": "GND",
+      "width_nm": 300000,
+      "kind": "segment",
+      "start_nm": [
+        10000000,
+        30000000
+      ],
+      "end_nm": [
+        40000000,
+        30000000
+      ],
+      "layer": "B.Cu"
+    }
+  ],
+  "obstacles": [],
+  "input_hashes_before": {
+    "PROVENANCE.md": "e3252ae21f0ab31a1f45f0ad3a15b5d12d107f173990059ea6ef1d89bc691331",
+    "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+    "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    "fixture.kicad_pcb": "ced83643e1a27148789a50acf8c7fb53a26bcb1d7b5a4804814c8393b543ba38",
+    "fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538"
+  },
+  "input_hashes_after": {
+    "PROVENANCE.md": "e3252ae21f0ab31a1f45f0ad3a15b5d12d107f173990059ea6ef1d89bc691331",
+    "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+    "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    "fixture.kicad_pcb": "ced83643e1a27148789a50acf8c7fb53a26bcb1d7b5a4804814c8393b543ba38",
+    "fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538"
+  },
+  "board_saved": false,
+  "limits": {
+    "project_bytes": 104857600,
+    "project_files": 2000,
+    "pads": 10000,
+    "nets": 10000,
+    "routes": 100000,
+    "graphics": 10000
+  },
+  "routing_accepted": false
+}

@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/placement_pruning_controls_v1/driver.py", line 173, in <module>
+    if __name__=='__main__':raise SystemExit(main())
+                                             ^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/placement_pruning_controls_v1/driver.py", line 168, in main
+    fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);result=experiment(args.output,run_native=True)
+                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/placement_pruning_controls_v1/driver.py", line 85, in experiment
+    out=shared.owned(output,output=True);out.mkdir();protocol=f.read_json(HERE/'PROTOCOL.json');steps=[];completed={};sources={};arms={};frozen=None
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/lipo_native_diagnostic_v1/driver.py", line 32, in owned
+    if output and (path.parent!=ROOT/'.runs' or path.exists()):raise p.Rejected('fresh direct .runs output required')
+                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+autorouter.pipeline.Rejected: fresh direct .runs output required

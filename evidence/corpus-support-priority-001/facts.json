@@ -1,0 +1,1858 @@
+{
+  "schema": 1,
+  "scope": "Existing20development-exposed logical inputs, not every duplicate PCB path; offline static read only. No native/engine/network/Git.",
+  "normalization": "Terminal geometry excludes pad names, net/pin labels and UUIDs; footprint local pad geometry retains pad numbers and relative coordinates but excludes absolute board placement. Connectivity screen is three-round colored bipartite footprint/net multigraph refinement with pad labels; removes refdes/netnames/UUIDs/routes. This is a coarse screen, not graph-isomorphism proof, rotation-invariant geometry proof or ancestry evidence.",
+  "boards": [
+    {
+      "board": ".data/boards/kicad-sonde-xilinx/sonde xilinx.kicad_pcb",
+      "source_sha256": "d0dee876715fcdd3f656dd6a77cc1141c39bec4d6f8492a3784d38edd6b9a998",
+      "format": "20241229",
+      "footprints": 25,
+      "pads": 108,
+      "connected_pad_terminals": 108,
+      "named_nets_used_by_pads": 42,
+      "pad_shapes": {
+        "circle": 22,
+        "oval": 47,
+        "rect": 39
+      },
+      "net_degree_histogram": {
+        "1": 16,
+        "2": 13,
+        "3": 9,
+        "4": 1,
+        "5": 1,
+        "7": 1,
+        "23": 1
+      },
+      "footprint_pad_count_histogram": {
+        "2": 20,
+        "6": 1,
+        "9": 1,
+        "14": 2,
+        "25": 1
+      },
+      "copper_layers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "route_counts": {
+        "segment": 208,
+        "via": 3
+      },
+      "zones": 1,
+      "custom_pad_count": 0,
+      "net_tie_footprints": 0,
+      "project_exists": true,
+      "project_sha256": "ee60a96f93cc36549b52da9b3eea9547d5ea1e83a671c449668987edfb73a901",
+      "class_names": [
+        "Default"
+      ],
+      "class_patterns": [],
+      "unknown_severity_keys": [],
+      "existing_ignored_checks": [
+        "connection_width",
+        "footprint_filters_mismatch"
+      ],
+      "current_static_unsupported_reason": null,
+      "stored_completeness": "manifested complete project",
+      "stored_predecessor_reason": null,
+      "terminal_geometry_multiset_sha256": "228eeefe1b2caf704899e837b0eb03c0936a6674eef482faa81d1400196d033e",
+      "footprint_local_pad_geometry_multiset_sha256": "0027e7c91537dea7fa028834008fa6e8af58a08c2c26bb0970bad94594f8fc0b",
+      "connectivity_wl3_screen_sha256": "292f9e4df9cf0f2b5df61b01bc5785c2fa15887d8922b81aabfe2dfe33417cb6",
+      "footprint_library_ids": {
+        "sonde-xilinx:C_Axial_L5.1mm_D3.1mm_P12.50mm_Horizontal": 1,
+        "sonde-xilinx:C_Disc_D5.1mm_W3.2mm_P5.00mm": 4,
+        "sonde-xilinx:DIP-14_W7.62mm_LongPads": 2,
+        "sonde-xilinx:DSUB-25_Male_EdgeMount_P2.77mm": 1,
+        "sonde-xilinx:DSUB-9_Male_EdgeMount_P2.77mm": 1,
+        "sonde-xilinx:D_A-405_P7.62mm_Horizontal": 2,
+        "sonde-xilinx:PinHeader_1x06_P2.54mm_Vertical": 1,
+        "sonde-xilinx:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal": 13
+      }
+    },
+    {
+      "board": ".data/boards/kicad-pic-programmer/pic_programmer.kicad_pcb",
+      "source_sha256": "1ca70b620506818eb0227e2863bbd573d1fec1672072dc43d0dbe8475e69c8fb",
+      "format": "20260206",
+      "footprints": 63,
+      "pads": 247,
+      "connected_pad_terminals": 236,
+      "named_nets_used_by_pads": 111,
+      "pad_shapes": {
+        "circle": 99,
+        "custom": 2,
+        "oval": 119,
+        "rect": 6,
+        "roundrect": 21
+      },
+      "net_degree_histogram": {
+        "1": 77,
+        "2": 14,
+        "3": 8,
+        "4": 5,
+        "5": 1,
+        "6": 2,
+        "7": 1,
+        "11": 1,
+        "12": 1,
+        "40": 1
+      },
+      "footprint_pad_count_histogram": {
+        "1": 6,
+        "2": 44,
+        "3": 4,
+        "4": 1,
+        "8": 3,
+        "11": 1,
+        "14": 1,
+        "18": 1,
+        "28": 1,
+        "42": 1
+      },
+      "copper_layers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "route_counts": {
+        "segment": 370,
+        "via": 6
+      },
+      "zones": 1,
+      "custom_pad_count": 2,
+      "net_tie_footprints": 0,
+      "project_exists": true,
+      "project_sha256": "3b0ac39da5af86d0baa2a64da55a89c39ba00148dc82b54f3062f5c3650a5cc5",
+      "class_names": [
+        "Default",
+        "POWER"
+      ],
+      "class_patterns": [
+        {
+          "netclass": "POWER",
+          "pattern": "GND"
+        },
+        {
+          "netclass": "POWER",
+          "pattern": "VCC"
+        }
+      ],
+      "unknown_severity_keys": [
+        "footprint_symbol_field_mismatch",
+        "missing_tuning_profile",
+        "text_on_edge_cuts",
+        "track_on_post_machined_layer"
+      ],
+      "existing_ignored_checks": [
+        "footprint_filters_mismatch",
+        "silk_edge_clearance",
+        "tuning_profile_track_geometries"
+      ],
+      "current_static_unsupported_reason": "Rejected: unsupported: custom pads not qualified; unknown rule severity semantics: footprint_symbol_field_mismatch; unknown rule severity semantics: missing_tuning_profile; unknown rule severity semantics: text_on_edge_cuts; unknown rule severity semantics: track_on_post_machined_layer",
+      "stored_completeness": "manifested complete project",
+      "stored_predecessor_reason": "Rejected: unsupported: custom pads not qualified; unknown rule severity semantics: footprint_symbol_field_mismatch; unknown rule severity semantics: missing_tuning_profile; unknown rule severity semantics: text_on_edge_cuts; unknown rule severity semantics: track_on_post_machined_layer",
+      "terminal_geometry_multiset_sha256": "f348bc56bece0749524b5f852b0c795fefeb7c5eaef45f38559dbcb9a2d1e6fc",
+      "footprint_local_pad_geometry_multiset_sha256": "e6acc932cf038aafa743aaa1cd110d35d7decba9b197f71905bdf92379d3ad1c",
+      "connectivity_wl3_screen_sha256": "1e1b60ceacfe9faa11e0e9f435ac68c9d2719982103680752fb55b1845d151e3",
+      "footprint_library_ids": {
+        "Capacitor_THT:CP_Axial_L18.0mm_D6.5mm_P25.00mm_Horizontal": 2,
+        "Capacitor_THT:C_Axial_L12.0mm_D6.5mm_P20.00mm_Horizontal": 1,
+        "Capacitor_THT:C_Disc_D5.1mm_W3.2mm_P5.00mm": 5,
+        "Connector_Dsub:DSUB-9_Socket_Horizontal_P2.77x2.84mm_EdgePinOffset7.70mm_Housed_MountingHolesOffset9.12mm": 1,
+        "Diode_THT:D_DO-35_SOD27_P12.70mm_Horizontal": 2,
+        "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal": 7,
+        "Inductor_THT:L_Radial_D7.8mm_P5.00mm_Fastron_07HCP": 1,
+        "Jumper:SolderJumper-2_P1.3mm_Open_TrianglePad1.0x1.5mm": 1,
+        "LED_THT:LED_D5.0mm": 3,
+        "MountingHole:MountingHole_4.3mm_M4": 6,
+        "Package_DIP:DIP-14_W7.62mm_LongPads": 1,
+        "Package_DIP:DIP-18_W7.62mm_Socket_LongPads": 1,
+        "Package_DIP:DIP-28_W7.62mm_Socket_LongPads": 1,
+        "Package_DIP:DIP-8_W7.62mm_LongPads": 1,
+        "Package_DIP:DIP-8_W7.62mm_Socket_LongPads": 2,
+        "Package_TO_SOT_THT:TO-220-3_Horizontal_TabDown": 1,
+        "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal": 21,
+        "TerminalBlock_Altech:Altech_AK300_1x02_P5.00mm_45-Degree": 1,
+        "footprints:40tex-Ell600": 1,
+        "footprints:RV2X4": 1,
+        "footprints:TO-92": 3
+      }
+    },
+    {
+      "board": ".data/boards/kicad-complex-hierarchy/complex_hierarchy.kicad_pcb",
+      "source_sha256": "d5f4162d4c766448832723d139f9e0fcb88a17c82340f10f6f6dc6c2042f0d69",
+      "format": "20241229",
+      "footprints": 68,
+      "pads": 165,
+      "connected_pad_terminals": 164,
+      "named_nets_used_by_pads": 52,
+      "pad_shapes": {
+        "circle": 54,
+        "oval": 61,
+        "rect": 32,
+        "roundrect": 18
+      },
+      "net_degree_histogram": {
+        "1": 2,
+        "2": 23,
+        "3": 19,
+        "4": 5,
+        "5": 1,
+        "8": 1,
+        "26": 1
+      },
+      "footprint_pad_count_histogram": {
+        "2": 54,
+        "3": 11,
+        "8": 3
+      },
+      "copper_layers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "route_counts": {
+        "segment": 364
+      },
+      "zones": 166,
+      "custom_pad_count": 0,
+      "net_tie_footprints": 0,
+      "project_exists": true,
+      "project_sha256": "55438416ca7fd46b5bad22da2693e9c43240060977d06daabcba084aa17e2804",
+      "class_names": [
+        "Default",
+        "power"
+      ],
+      "class_patterns": [
+        {
+          "netclass": "power",
+          "pattern": "-VAA"
+        },
+        {
+          "netclass": "power",
+          "pattern": "/12Vext"
+        },
+        {
+          "netclass": "power",
+          "pattern": "GND"
+        },
+        {
+          "netclass": "power",
+          "pattern": "HT"
+        },
+        {
+          "netclass": "power",
+          "pattern": "VCC"
+        }
+      ],
+      "unknown_severity_keys": [
+        "zone_has_empty_net"
+      ],
+      "existing_ignored_checks": [
+        "footprint_filters_mismatch"
+      ],
+      "current_static_unsupported_reason": "Rejected: unsupported: netclass bindings not qualified: Only unique literal identifier assignments qualified; unknown rule severity semantics: zone_has_empty_net",
+      "stored_completeness": "manifested complete project",
+      "stored_predecessor_reason": "Rejected: unsupported: netclass bindings not qualified: Only unique literal identifier assignments qualified; unknown rule severity semantics: zone_has_empty_net",
+      "terminal_geometry_multiset_sha256": "e7dea977247545d49be7ab67ada04af18be4fe35fb3a80b8aee1a94dff0e2588",
+      "footprint_local_pad_geometry_multiset_sha256": "725c9969717ef8e1fd1a3c3db0ef2e70d3b2704add8c64420594c0a5335ef7f8",
+      "connectivity_wl3_screen_sha256": "1fabc47215ae6d2103494bac3ca7306b2f0ac5db18d068bf7548bf2f1b6b6cc9",
+      "footprint_library_ids": {
+        "complex_hierarchy:Altech_AK300_1x02_P5.00mm_45-Degree": 6,
+        "complex_hierarchy:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal": 4,
+        "complex_hierarchy:CP_Axial_L11.0mm_D6.0mm_P18.00mm_Horizontal": 1,
+        "complex_hierarchy:C_Disc_D5.0mm_W2.5mm_P5.00mm": 8,
+        "complex_hierarchy:DIP-8_W7.62mm_LongPads": 3,
+        "complex_hierarchy:D_DO-35_SOD27_P7.62mm_Horizontal": 8,
+        "complex_hierarchy:D_DO-41_SOD81_P12.70mm_Horizontal": 1,
+        "complex_hierarchy:Potentiometer_Bourns_3266W_Vertical": 2,
+        "complex_hierarchy:R_Axial_DIN0204_L3.6mm_D1.6mm_P7.62mm_Horizontal": 26,
+        "complex_hierarchy:TO-92_HandSolder": 9
+      }
+    },
+    {
+      "board": ".data/boards/kicad-interf-u/interf_u.kicad_pcb",
+      "source_sha256": "a740ce7fde77ab6af191e23ece21e57d36bb3c29325879248520dcd9ab47b57e",
+      "format": "20241229",
+      "footprints": 25,
+      "pads": 379,
+      "connected_pad_terminals": 373,
+      "named_nets_used_by_pads": 173,
+      "pad_shapes": {
+        "circle": 158,
+        "oval": 144,
+        "rect": 77
+      },
+      "net_degree_histogram": {
+        "1": 63,
+        "2": 81,
+        "3": 25,
+        "4": 2,
+        "23": 1,
+        "42": 1
+      },
+      "footprint_pad_count_histogram": {
+        "0": 1,
+        "2": 14,
+        "10": 1,
+        "16": 1,
+        "20": 3,
+        "24": 1,
+        "27": 1,
+        "32": 1,
+        "62": 1,
+        "120": 1
+      },
+      "copper_layers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "route_counts": {
+        "segment": 731,
+        "via": 84
+      },
+      "zones": 1,
+      "custom_pad_count": 0,
+      "net_tie_footprints": 0,
+      "project_exists": true,
+      "project_sha256": "b9908a96e6113e6e51f488482108dc87aa5d9bcd838f9e3345c85e0db09bffa9",
+      "class_names": [
+        "Default",
+        "Power"
+      ],
+      "class_patterns": [
+        {
+          "netclass": "Power",
+          "pattern": "GND"
+        },
+        {
+          "netclass": "Power",
+          "pattern": "VCC"
+        }
+      ],
+      "unknown_severity_keys": [],
+      "existing_ignored_checks": [
+        "connection_width",
+        "footprint_filters_mismatch",
+        "missing_courtyard",
+        "npth_inside_courtyard",
+        "pth_inside_courtyard"
+      ],
+      "current_static_unsupported_reason": null,
+      "stored_completeness": "manifested complete project",
+      "stored_predecessor_reason": null,
+      "terminal_geometry_multiset_sha256": "36d96a21eabe76ea0b960eeca48c714054898ef43029505380019e08a7e6913e",
+      "footprint_local_pad_geometry_multiset_sha256": "5ec3dd13951d729569bfa60a3510c718d02e3f35e770e8c36ec7aa8737295b84",
+      "connectivity_wl3_screen_sha256": "a3a5de7161690e5afa1a37cf265aac8eb5ed9b5dea8cb63c49c124408d955ab1",
+      "footprint_library_ids": {
+        "interf_u:BUS_PC": 1,
+        "interf_u:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal": 4,
+        "interf_u:C_Disc_D3.0mm_W2.0mm_P2.50mm": 2,
+        "interf_u:Crystal_HC18-U_Horizontal": 1,
+        "interf_u:DIP-20_W7.62mm": 3,
+        "interf_u:DIP-24_W7.62mm": 1,
+        "interf_u:DIP-32_W15.24mm": 1,
+        "interf_u:DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm": 1,
+        "interf_u:LED_D5.0mm": 2,
+        "interf_u:PGA120": 1,
+        "interf_u:PinHeader_2x08_P2.54mm_Vertical": 1,
+        "interf_u:R_Array_SIP10": 1,
+        "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal": 5,
+        "interf_u:tux": 1
+      }
+    },
+    {
+      "board": ".data/boards/kicad-multichannel/multichannel_mixer-unrouted.kicad_pcb",
+      "source_sha256": "149b2dce16e0f59adb78f87068f4137b7dafca0e991a0b21fdd967c873fd5ee9",
+      "format": "20241030",
+      "footprints": 114,
+      "pads": 327,
+      "connected_pad_terminals": 280,
+      "named_nets_used_by_pads": 80,
+      "pad_shapes": {
+        "circle": 73,
+        "rect": 219,
+        "roundrect": 35
+      },
+      "net_degree_histogram": {
+        "1": 1,
+        "2": 37,
+        "3": 21,
+        "4": 5,
+        "5": 8,
+        "6": 5,
+        "12": 2,
+        "28": 1
+      },
+      "footprint_pad_count_histogram": {
+        "2": 87,
+        "3": 1,
+        "5": 16,
+        "6": 5,
+        "8": 5
+      },
+      "copper_layers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "route_counts": {
+        "segment": 140,
+        "via": 19
+      },
+      "zones": 5,
+      "custom_pad_count": 0,
+      "net_tie_footprints": 0,
+      "project_exists": false,
+      "project_sha256": null,
+      "class_names": [],
+      "class_patterns": null,
+      "unknown_severity_keys": [],
+      "existing_ignored_checks": [],
+      "current_static_unsupported_reason": "Rejected: unsupported: complete .kicad_pro required; unqualified board format version",
+      "stored_completeness": "manifested complete project",
+      "stored_predecessor_reason": "Rejected: unsupported: complete .kicad_pro required; unqualified board format version",
+      "terminal_geometry_multiset_sha256": "b8a77902abd89d8f33b125d5e610d3359927c32932a70afb659ccbfa66ccc26a",
+      "footprint_local_pad_geometry_multiset_sha256": "ed50ac0adedfac6077a808864e128cdff1f774a97cbec5e525a52b7fab561f0c",
+      "connectivity_wl3_screen_sha256": "11886760bba8f0d112e9030498b52f17dc0d895926da385e44a42264f8780dba",
+      "footprint_library_ids": {
+        "Capacitors SMD:CAPC3216X140N": 29,
+        "Capacitors THD:CAPPRB254-500X840": 11,
+        "Connector_Audio:Jack_6.35mm_Neutrik_NMJ6HCD2_Horizontal": 5,
+        "ICs And Semiconductors SMD:SOIC127P600X175-8N": 5,
+        "Miscellaneous THD:CLIFF_FC68148(DC-10A)": 1,
+        "Potentiometer_THT:Potentiometer_Alps_RK09K_Single_Vertical": 16,
+        "Resistors SMD:RESC3216X65N": 47
+      }
+    },
+    {
+      "board": ".data/boards/kicad-multichannel/multichannel_mixer.kicad_pcb",
+      "source_sha256": "44b7c119a0d05c98e9f294659879184038a5f6c30073c04d9536990429ca413e",
+      "format": "20241229",
+      "footprints": 114,
+      "pads": 327,
+      "connected_pad_terminals": 280,
+      "named_nets_used_by_pads": 80,
+      "pad_shapes": {
+        "circle": 73,
+        "rect": 219,
+        "roundrect": 35
+      },
+      "net_degree_histogram": {
+        "1": 1,
+        "2": 37,
+        "3": 21,
+        "4": 5,
+        "5": 8,
+        "6": 5,
+        "12": 2,
+        "28": 1
+      },
+      "footprint_pad_count_histogram": {
+        "2": 87,
+        "3": 1,
+        "5": 16,
+        "6": 5,
+        "8": 5
+      },
+      "copper_layers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "route_counts": {
+        "segment": 576,
+        "via": 29
+      },
+      "zones": 6,
+      "custom_pad_count": 0,
+      "net_tie_footprints": 0,
+      "project_exists": true,
+      "project_sha256": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "class_names": [
+        "Default"
+      ],
+      "class_patterns": [],
+      "unknown_severity_keys": [],
+      "existing_ignored_checks": [
+        "footprint_filters_mismatch",
+        "footprint_type_mismatch",
+        "missing_courtyard",
+        "npth_inside_courtyard",
+        "pth_inside_courtyard"
+      ],
+      "current_static_unsupported_reason": null,
+      "stored_completeness": "manifested complete project",
+      "stored_predecessor_reason": null,
+      "terminal_geometry_multiset_sha256": "b8a77902abd89d8f33b125d5e610d3359927c32932a70afb659ccbfa66ccc26a",
+      "footprint_local_pad_geometry_multiset_sha256": "ed50ac0adedfac6077a808864e128cdff1f774a97cbec5e525a52b7fab561f0c",
+      "connectivity_wl3_screen_sha256": "11886760bba8f0d112e9030498b52f17dc0d895926da385e44a42264f8780dba",
+      "footprint_library_ids": {
+        "multichannel_mixer:CAPC3216X140N": 29,
+        "multichannel_mixer:CAPPRB254-500X840": 11,
+        "multichannel_mixer:CLIFF_FC68148(DC-10A)": 1,
+        "multichannel_mixer:Jack_6.35mm_Neutrik_NMJ6HCD2_Horizontal": 5,
+        "multichannel_mixer:Potentiometer_Alps_RK09K_Single_Vertical": 16,
+        "multichannel_mixer:RESC3216X65N": 47,
+        "multichannel_mixer:SOIC127P600X175-8N": 5
+      }
+    },
+    {
+      "board": ".data/boards/kicad-coldfire-xilinx/kit-dev-coldfire-xilinx_5213.kicad_pcb",
+      "source_sha256": "392cf6bf4b9b62beb435f965ccd7671a46decb17f947b74bfde482acd2132a5e",
+      "format": "20241229",
+      "footprints": 160,
+      "pads": 825,
+      "connected_pad_terminals": 816,
+      "named_nets_used_by_pads": 278,
+      "pad_shapes": {
+        "circle": 54,
+        "oval": 182,
+        "rect": 57,
+        "roundrect": 532
+      },
+      "net_degree_histogram": {
+        "1": 69,
+        "2": 142,
+        "3": 41,
+        "4": 12,
+        "5": 9,
+        "6": 1,
+        "7": 2,
+        "99": 1,
+        "128": 1
+      },
+      "footprint_pad_count_histogram": {
+        "1": 6,
+        "2": 118,
+        "3": 9,
+        "4": 6,
+        "5": 1,
+        "6": 2,
+        "8": 5,
+        "10": 1,
+        "11": 3,
+        "14": 1,
+        "16": 3,
+        "26": 1,
+        "40": 1,
+        "60": 1,
+        "100": 1,
+        "144": 1
+      },
+      "copper_layers": [
+        "F.Cu",
+        "In1.Cu",
+        "In2.Cu",
+        "B.Cu"
+      ],
+      "route_counts": {
+        "segment": 2935,
+        "via": 253
+      },
+      "zones": 3,
+      "custom_pad_count": 0,
+      "net_tie_footprints": 0,
+      "project_exists": true,
+      "project_sha256": "d6ca906944730a3eae31ba3d9240c6966424b0d80ba76e80710e39d7b23c4637",
+      "class_names": [
+        "Default",
+        "POWER"
+      ],
+      "class_patterns": [
+        {
+          "netclass": "POWER",
+          "pattern": "+3.3V"
+        },
+        {
+          "netclass": "POWER",
+          "pattern": "GND"
+        },
+        {
+          "netclass": "POWER",
+          "pattern": "GNDA"
+        }
+      ],
+      "unknown_severity_keys": [],
+      "existing_ignored_checks": [
+        "copper_sliver",
+        "footprint_filters_mismatch",
+        "silk_edge_clearance"
+      ],
+      "current_static_unsupported_reason": "Rejected: unsupported: core native check not blocking: starved_thermal; netclass bindings not qualified: Only unique literal identifier assignments qualified",
+      "stored_completeness": "manifested complete project",
+      "stored_predecessor_reason": "Rejected: unsupported: core native check not blocking: starved_thermal; netclass bindings not qualified: Only unique literal identifier assignments qualified",
+      "terminal_geometry_multiset_sha256": "a758f598ec879bf58aebb85f9b4cd654ee1cee9582ef49f5808edcaf527993ea",
+      "footprint_local_pad_geometry_multiset_sha256": "c448c9ccdca92e1568f82a7a1d5a9814d5003bcd9cc2a540844d5b3cfc19568c",
+      "connectivity_wl3_screen_sha256": "9296921e119aea5c9d18ad4d60a47809d1cfe8bba47e868fbc3ad162f720105e",
+      "footprint_library_ids": {
+        "kit-dev-coldfire:Altech_AK300_1x02_P5.00mm_45-Degree": 1,
+        "kit-dev-coldfire:CP_Radial_D8.0mm_P5.00mm": 2,
+        "kit-dev-coldfire:C_0805_2012Metric": 47,
+        "kit-dev-coldfire:Crystal_HC18-U_Horizontal": 1,
+        "kit-dev-coldfire:DSUB-9_Female_Horizontal_P2.77x2.84mm_EdgePinOffset7.70mm_Housed_MountingHolesOffset9.12mm": 3,
+        "kit-dev-coldfire:D_DO-15_P12.70mm_Horizontal": 1,
+        "kit-dev-coldfire:D_SOT-23_ANK": 2,
+        "kit-dev-coldfire:FSUPCMS": 1,
+        "kit-dev-coldfire:JACK_ALIM": 1,
+        "kit-dev-coldfire:LED_1206_3216Metric": 9,
+        "kit-dev-coldfire:LQFP-100_14x14mm_P0.5mm": 1,
+        "kit-dev-coldfire:PinHeader_1x01_P2.54mm_Vertical": 6,
+        "kit-dev-coldfire:PinHeader_1x02_P2.54mm_Vertical": 5,
+        "kit-dev-coldfire:PinHeader_1x03_P2.54mm_Vertical": 3,
+        "kit-dev-coldfire:PinHeader_1x06_P2.54mm_Vertical": 1,
+        "kit-dev-coldfire:PinHeader_2x02_P2.54mm_Vertical": 2,
+        "kit-dev-coldfire:PinHeader_2x03_P2.54mm_Vertical": 1,
+        "kit-dev-coldfire:PinHeader_2x04_P2.54mm_Vertical": 4,
+        "kit-dev-coldfire:PinHeader_2x13_P2.54mm_Vertical": 1,
+        "kit-dev-coldfire:PinHeader_2x20_P2.54mm_Vertical": 1,
+        "kit-dev-coldfire:PinHeader_2x30_P2.54mm_Vertical": 1,
+        "kit-dev-coldfire:R_0805_2012Metric": 45,
+        "kit-dev-coldfire:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder": 3,
+        "kit-dev-coldfire:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal": 1,
+        "kit-dev-coldfire:SM1206POL": 2,
+        "kit-dev-coldfire:SOIC-14_3.9x8.7mm_P1.27mm": 1,
+        "kit-dev-coldfire:SOIC-16_3.9x9.9mm_P1.27mm": 3,
+        "kit-dev-coldfire:SOIC-8_3.9x4.9mm_P1.27mm": 1,
+        "kit-dev-coldfire:SOT23EBC": 1,
+        "kit-dev-coldfire:SOT353": 1,
+        "kit-dev-coldfire:SW_PUSH_SMALL": 4,
+        "kit-dev-coldfire:SW_SPDT": 1,
+        "kit-dev-coldfire:TO-263-5_TabPin3": 1,
+        "kit-dev-coldfire:TO-92": 1,
+        "kit-dev-coldfire:TQFP-144_20x20mm_P0.5mm": 1
+      }
+    },
+    {
+      "board": ".data/corpus-expansion-audit-001/Protocentral__protocentral_fdc2214_hardware/hardware/brk_fdc2214_v2.kicad_pcb",
+      "source_sha256": "7cbe2ddbc2264291a62ac3a1027db57916ad3f01c1c1e72fb2c489d841d8f23a",
+      "format": "20260206",
+      "footprints": 38,
+      "pads": 112,
+      "connected_pad_terminals": 102,
+      "named_nets_used_by_pads": 22,
+      "pad_shapes": {
+        "circle": 21,
+        "custom": 6,
+        "rect": 24,
+        "roundrect": 61
+      },
+      "net_degree_histogram": {
+        "1": 3,
+        "2": 2,
+        "3": 4,
+        "4": 8,
+        "5": 3,
+        "15": 1,
+        "21": 1
+      },
+      "footprint_pad_count_histogram": {
+        "0": 3,
+        "1": 6,
+        "2": 20,
+        "3": 1,
+        "4": 1,
+        "5": 1,
+        "6": 4,
+        "8": 1,
+        "22": 1
+      },
+      "copper_layers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "route_counts": {
+        "segment": 215,
+        "via": 22
+      },
+      "zones": 2,
+      "custom_pad_count": 6,
+      "net_tie_footprints": 2,
+      "project_exists": true,
+      "project_sha256": "4933fe813ac6bcf21632ea3ce97ce62b2c43983002f89dc9878ede5662f195a3",
+      "class_names": [
+        "Default",
+        "USB",
+        "USBpair",
+        "gnd",
+        "usbvcc"
+      ],
+      "class_patterns": [
+        {
+          "netclass": "gnd",
+          "pattern": "GND"
+        }
+      ],
+      "unknown_severity_keys": [
+        "footprint_symbol_field_mismatch",
+        "missing_tuning_profile",
+        "text_on_edge_cuts",
+        "track_on_post_machined_layer"
+      ],
+      "existing_ignored_checks": [
+        "clearance",
+        "copper_edge_clearance",
+        "footprint_filters_mismatch",
+        "footprint_type_mismatch",
+        "lib_footprint_issues",
+        "lib_footprint_mismatch",
+        "missing_courtyard",
+        "npth_inside_courtyard",
+        "pth_inside_courtyard",
+        "silk_overlap",
+        "solder_mask_bridge",
+        "starved_thermal",
+        "track_not_centered_on_via",
+        "tuning_profile_track_geometries"
+      ],
+      "current_static_unsupported_reason": "Rejected: unsupported: core native check not blocking: clearance; core native check not blocking: copper_edge_clearance; core native check not blocking: hole_to_hole; core native check not blocking: starved_thermal; custom pads not qualified; net ties not qualified; netclass bindings not qualified: Only one or two fully specified netclasses qualified; unknown rule severity semantics: footprint_symbol_field_mismatch; unknown rule severity semantics: missing_tuning_profile; unknown rule severity semantics: text_on_edge_cuts; unknown rule severity semantics: track_on_post_machined_layer",
+      "stored_completeness": "incomplete dependency and rights closure",
+      "stored_predecessor_reason": "Rejected: unsupported: core native check not blocking: clearance; core native check not blocking: copper_edge_clearance; core native check not blocking: hole_to_hole; core native check not blocking: starved_thermal; custom pads not qualified; net ties not qualified; netclass bindings not qualified: Only one or two fully specified netclasses qualified; unknown rule severity semantics: footprint_symbol_field_mismatch; unknown rule severity semantics: missing_tuning_profile; unknown rule severity semantics: text_on_edge_cuts; unknown rule severity semantics: track_on_post_machined_layer",
+      "terminal_geometry_multiset_sha256": "e9e7e78761c1f33588214674a40617fa66c652dfbe30d394aa799dde0c3f1da5",
+      "footprint_local_pad_geometry_multiset_sha256": "f4eeafb54d7eebdb5b4a0b71b970ce0f25206b272db5031bbb466406bb092e00",
+      "connectivity_wl3_screen_sha256": "88c9ffbd017fedbc0e8f4b7a8c01e5b03249e0b22976b52ba3101fc086fa90d3",
+      "footprint_library_ids": {
+        "Capacitor_SMD:C_0402_1005Metric": 10,
+        "Connector_JST:JST_SH_SM04B-SRSS-TB_1x04-1MP_P1.00mm_Horizontal": 2,
+        "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical": 1,
+        "Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Vertical": 1,
+        "Inductor_SMD:L_1210_3225Metric": 4,
+        "Jumper:SolderJumper-2_P1.3mm_Bridged2Bar_RoundedPad1.0x1.5mm": 1,
+        "Jumper:SolderJumper-3_P1.3mm_Bridged12_RoundedPad1.0x1.5mm": 1,
+        "LOGO": 1,
+        "MountingHole:MountingHole_2.2mm_M2": 4,
+        "Oscillator:Oscillator_SMD_Kyocera_KC2520Z-4Pin_2.5x2.0mm": 1,
+        "Package_TO_SOT_SMD:SOT-23-5": 1,
+        "Package_TO_SOT_SMD:SOT-363_SC-70-6": 1,
+        "Resistor_SMD:R_0402_1005Metric": 5,
+        "SparkFun-Aesthetic:qwiic_4mm": 2,
+        "kicad_protocentral_footprints:PC_LOGO_GOLD": 2,
+        "kicad_protocentral_footprints:RGH0016A": 1
+      }
+    },
+    {
+      "board": ".data/corpus-expansion-audit-001/sparkfun__SparkFun_Ambient_Light_Sensor-VEML7700/Hardware/SparkFun_VEML7700.kicad_pcb",
+      "source_sha256": "d88abec2f3ca3314e694587a11872a467ef019a29cba14fdf6aa17d4b7d75e76",
+      "format": "20241229",
+      "footprints": 43,
+      "pads": 47,
+      "connected_pad_terminals": 39,
+      "named_nets_used_by_pads": 13,
+      "pad_shapes": {
+        "circle": 12,
+        "rect": 21,
+        "roundrect": 14
+      },
+      "net_degree_histogram": {
+        "1": 4,
+        "2": 4,
+        "4": 1,
+        "5": 2,
+        "6": 1,
+        "7": 1
+      },
+      "footprint_pad_count_histogram": {
+        "0": 22,
+        "1": 8,
+        "2": 8,
+        "3": 1,
+        "4": 2,
+        "6": 2
+      },
+      "copper_layers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "route_counts": {
+        "segment": 80,
+        "via": 32
+      },
+      "zones": 3,
+      "custom_pad_count": 0,
+      "net_tie_footprints": 2,
+      "project_exists": true,
+      "project_sha256": "eacd5299ee0be61324906600a16c07fd4ccd85491b472a657d8774bd495b8870",
+      "class_names": [
+        "Default",
+        "5mil"
+      ],
+      "class_patterns": [],
+      "unknown_severity_keys": [
+        "text_on_edge_cuts"
+      ],
+      "existing_ignored_checks": [
+        "footprint_filters_mismatch",
+        "footprint_type_mismatch",
+        "lib_footprint_issues",
+        "missing_courtyard",
+        "npth_inside_courtyard",
+        "pth_inside_courtyard",
+        "silk_over_copper",
+        "silk_overlap"
+      ],
+      "current_static_unsupported_reason": "Rejected: unsupported: net ties not qualified; netclass bindings not qualified: Netclass identifier outside narrow scope; rule-area restrictions not qualified by pinned native validator; unknown rule severity semantics: text_on_edge_cuts",
+      "stored_completeness": "incomplete dependency and rights closure",
+      "stored_predecessor_reason": "Rejected: unsupported: net ties not qualified; netclass bindings not qualified: Netclass identifier outside narrow scope; rule-area restrictions not qualified by pinned native validator; unknown rule severity semantics: text_on_edge_cuts",
+      "terminal_geometry_multiset_sha256": "d8f71cd57cd319f919b3c9d6a1f0647e190f6adf0135355265e791a54337ecf0",
+      "footprint_local_pad_geometry_multiset_sha256": "2ccffd3c5959b6f76ea9acaa5b9a60cb7e1338f823bbfa2d0b5883b10b24dd02",
+      "connectivity_wl3_screen_sha256": "76316ea49e9b48d8bb810c520ba97645cfd5351601bff0ceee9154c258080f3c",
+      "footprint_library_ids": {
+        "SparkFun-Aesthetic:Creative_Commons_License": 1,
+        "SparkFun-Aesthetic:Fiducial_0.5mm_Mask1mm": 4,
+        "SparkFun-Aesthetic:OSHW_Logo_2.5mm": 1,
+        "SparkFun-Aesthetic:SparkFun_Logo_10mm": 2,
+        "SparkFun-Aesthetic:qwiic_5mm": 2,
+        "SparkFun-Capacitor:C_0402_1005Metric": 2,
+        "SparkFun-Connector:1x04": 1,
+        "SparkFun-Connector:JST_SMD_1.0mm-4_Black": 2,
+        "SparkFun-Hardware:Standoff": 4,
+        "SparkFun-Jumper:Jumper_2_NC_Trace": 1,
+        "SparkFun-Jumper:Jumper_3_NC-2_Trace": 1,
+        "SparkFun-LED:LED_0603_1608Metric_Red": 1,
+        "SparkFun-Resistor:R_0402_1005Metric": 4,
+        "SparkFun-Sensor:VEML7700-TT": 1,
+        "kibuzzard-65A8A8B4": 1,
+        "kibuzzard-67BF7C99": 1,
+        "kibuzzard-67BF7CAB": 1,
+        "kibuzzard-67BF7CFE": 1,
+        "kibuzzard-67BF7D12": 1,
+        "kibuzzard-67BF7EBF": 1,
+        "kibuzzard-67BF7ED9": 1,
+        "kibuzzard-67BF7F13": 1,
+        "kibuzzard-67BF7F2F": 1,
+        "kibuzzard-67D9D97F": 1,
+        "kibuzzard-67D9E7C1": 1,
+        "kibuzzard-680A7834": 2,
+        "kibuzzard-680A784B": 2,
+        "kibuzzard-680BA25F": 1
+      }
+    },
+    {
+      "board": ".data/corpus-expansion-audit-001/sparkfun__SparkFun_Qwiic_ADC_ADS1219/Hardware/Qwiic_ADC_ADS1219.kicad_pcb",
+      "source_sha256": "c2ecbd687854b01a8483543bb254dca09d791b127e6815431bbce3a08bf4c0bc",
+      "format": "20241229",
+      "footprints": 77,
+      "pads": 95,
+      "connected_pad_terminals": 89,
+      "named_nets_used_by_pads": 23,
+      "pad_shapes": {
+        "circle": 24,
+        "rect": 35,
+        "roundrect": 36
+      },
+      "net_degree_histogram": {
+        "1": 4,
+        "2": 10,
+        "3": 2,
+        "5": 3,
+        "7": 2,
+        "13": 1,
+        "17": 1
+      },
+      "footprint_pad_count_histogram": {
+        "0": 43,
+        "1": 6,
+        "2": 21,
+        "3": 1,
+        "4": 1,
+        "6": 4,
+        "16": 1
+      },
+      "copper_layers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "route_counts": {
+        "segment": 238,
+        "via": 48
+      },
+      "zones": 3,
+      "custom_pad_count": 0,
+      "net_tie_footprints": 5,
+      "project_exists": true,
+      "project_sha256": "b8a048f079052142d294855a14d94c000ebc099a3271aa023d2ba96e2b2f2feb",
+      "class_names": [
+        "Default",
+        "5mil"
+      ],
+      "class_patterns": [],
+      "unknown_severity_keys": [
+        "text_on_edge_cuts"
+      ],
+      "existing_ignored_checks": [
+        "footprint_filters_mismatch",
+        "footprint_type_mismatch",
+        "lib_footprint_issues",
+        "missing_courtyard",
+        "npth_inside_courtyard",
+        "pth_inside_courtyard",
+        "silk_over_copper",
+        "silk_overlap"
+      ],
+      "current_static_unsupported_reason": "Rejected: unsupported: net ties not qualified; netclass bindings not qualified: Netclass identifier outside narrow scope; rule-area restrictions not qualified by pinned native validator; unknown rule severity semantics: text_on_edge_cuts",
+      "stored_completeness": "incomplete dependency and rights closure",
+      "stored_predecessor_reason": "Rejected: unsupported: net ties not qualified; netclass bindings not qualified: Netclass identifier outside narrow scope; rule-area restrictions not qualified by pinned native validator; unknown rule severity semantics: text_on_edge_cuts",
+      "terminal_geometry_multiset_sha256": "1000838f4f193f5ab91677155d2a6878ec004ffbddb967617a84219a70e78d7a",
+      "footprint_local_pad_geometry_multiset_sha256": "16cf1e7f7f545e02e419bb2887ca546ac6c3887ecd755860bce7dbd78da04422",
+      "connectivity_wl3_screen_sha256": "e88258fac9fa473eece0c90c8fbd7f79cf979fb4f936f526b6b9c4649948dad9",
+      "footprint_library_ids": {
+        "SparkFun-Aesthetic:Fiducial_0.5mm_Mask1mm": 2,
+        "SparkFun-Aesthetic:SparkFun_Logo_NoFlame_12.5mm": 1,
+        "SparkFun-Aesthetic:qwiic_5.5mm": 1,
+        "SparkFun-Capacitor:C_0603_1608Metric": 4,
+        "SparkFun-Connector:1x02": 1,
+        "SparkFun-Connector:1x04": 1,
+        "SparkFun-Connector:1x06": 2,
+        "SparkFun-Connector:JST_SMD_1.0mm-4_Black": 2,
+        "SparkFun-Hardware:Standoff": 4,
+        "SparkFun-Jumper:Jumper_2_NC_Trace": 4,
+        "SparkFun-Jumper:Jumper_2_NO": 6,
+        "SparkFun-Jumper:Jumper_3_NC-2_Trace": 1,
+        "SparkFun-LED:LED_0603_1608Metric_Red": 1,
+        "SparkFun-Resistor:R_0603_1608Metric": 5,
+        "SparkFun-Semiconductor-Standard:TSSOP-16": 1,
+        "kibuzzard-64C36D1A": 1,
+        "kibuzzard-64C36D2D": 1,
+        "kibuzzard-64C36D47": 1,
+        "kibuzzard-64C36D5B": 1,
+        "kibuzzard-64C36D6C": 1,
+        "kibuzzard-64C36D91": 1,
+        "kibuzzard-64C37A88": 1,
+        "kibuzzard-64C37CC9": 1,
+        "kibuzzard-64C38090": 1,
+        "kibuzzard-64C3B30F": 1,
+        "kibuzzard-64C3BD7A": 1,
+        "kibuzzard-67BCC03F": 1,
+        "kibuzzard-67BCE7E0": 1,
+        "kibuzzard-67BCE805": 1,
+        "kibuzzard-67BCE809": 1,
+        "kibuzzard-67BCE80E": 1,
+        "kibuzzard-67BCE889": 1,
+        "kibuzzard-67BCE896": 1,
+        "kibuzzard-67BCE899": 1,
+        "kibuzzard-67BCE89D": 1,
+        "kibuzzard-67BCE9A5": 1,
+        "kibuzzard-67BCE9C9": 1,
+        "kibuzzard-67BCE9CD": 1,
+        "kibuzzard-67BCE9E1": 1,
+        "kibuzzard-67BCEA1E": 1,
+        "kibuzzard-67BCEA31": 1,
+        "kibuzzard-67BCEA3A": 1,
+        "kibuzzard-67BCEA48": 1,
+        "kibuzzard-67BCEA55": 1,
+        "kibuzzard-67BCEA65": 1,
+        "kibuzzard-67BCEA70": 1,
+        "kibuzzard-67BCEAAB": 1,
+        "kibuzzard-67BCEAC6": 5,
+        "kibuzzard-67BCEAE1": 1,
+        "kibuzzard-67BCEB15": 1,
+        "kibuzzard-67BCEB1D": 1,
+        "kibuzzard-67BCEB32": 1
+      }
+    },
+    {
+      "board": ".data/corpus-expansion-audit-001/sparkfun__SparkFun_Qwiic_Formaldehyde_Sensor_SFA40/Hardware/SparkFun_Qwiic_Formaldehyde_Sensor_SFA40.kicad_pcb",
+      "source_sha256": "76db6ca88004faecd3d844b378badb6796af5c26eb260b3783d240c2c0372455",
+      "format": "20260206",
+      "footprints": 41,
+      "pads": 45,
+      "connected_pad_terminals": 36,
+      "named_nets_used_by_pads": 12,
+      "pad_shapes": {
+        "circle": 12,
+        "rect": 17,
+        "roundrect": 16
+      },
+      "net_degree_histogram": {
+        "1": 4,
+        "2": 4,
+        "5": 2,
+        "7": 2
+      },
+      "footprint_pad_count_histogram": {
+        "0": 22,
+        "1": 8,
+        "2": 6,
+        "3": 1,
+        "4": 1,
+        "6": 3
+      },
+      "copper_layers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "route_counts": {
+        "segment": 92,
+        "via": 27
+      },
+      "zones": 1,
+      "custom_pad_count": 0,
+      "net_tie_footprints": 2,
+      "project_exists": true,
+      "project_sha256": "c14b16ca00d3e1d2eab8220c2c67251461333d797b9a77df97eca63184b526c2",
+      "class_names": [
+        "Default",
+        "5mil"
+      ],
+      "class_patterns": [],
+      "unknown_severity_keys": [
+        "footprint_symbol_field_mismatch",
+        "missing_tuning_profile",
+        "text_on_edge_cuts",
+        "track_on_post_machined_layer"
+      ],
+      "existing_ignored_checks": [
+        "footprint_filters_mismatch",
+        "footprint_type_mismatch",
+        "lib_footprint_issues",
+        "missing_courtyard",
+        "npth_inside_courtyard",
+        "pth_inside_courtyard",
+        "silk_over_copper",
+        "silk_overlap",
+        "track_not_centered_on_via",
+        "tuning_profile_track_geometries"
+      ],
+      "current_static_unsupported_reason": "Rejected: unsupported: DRC exclusions not qualified; net ties not qualified; netclass bindings not qualified: Netclass identifier outside narrow scope; unknown rule severity semantics: footprint_symbol_field_mismatch; unknown rule severity semantics: missing_tuning_profile; unknown rule severity semantics: text_on_edge_cuts; unknown rule severity semantics: track_on_post_machined_layer",
+      "stored_completeness": "incomplete dependency and rights closure",
+      "stored_predecessor_reason": "Rejected: unsupported: DRC exclusions not qualified; net ties not qualified; netclass bindings not qualified: Netclass identifier outside narrow scope; unknown rule severity semantics: footprint_symbol_field_mismatch; unknown rule severity semantics: missing_tuning_profile; unknown rule severity semantics: text_on_edge_cuts; unknown rule severity semantics: track_on_post_machined_layer",
+      "terminal_geometry_multiset_sha256": "3fa759e874420ce1a08590e40d065765cac62d0edb2290076d75c28d91c3cecf",
+      "footprint_local_pad_geometry_multiset_sha256": "47a536eedb29705c9a446e5dbf12c1686957f18f49a0d8a2f892155a64a16aa1",
+      "connectivity_wl3_screen_sha256": "5a808f35bfd54f0713773cfe4fcc8f101846dceb852f9cfc576113bb803c1e5a",
+      "footprint_library_ids": {
+        "SparkFun-Aesthetic:Creative_Commons_License": 1,
+        "SparkFun-Aesthetic:Fiducial_0.5mm_Mask1mm": 4,
+        "SparkFun-Aesthetic:OSHW_Logo_4mm": 1,
+        "SparkFun-Aesthetic:SparkFun_Flame_4mm": 1,
+        "SparkFun-Aesthetic:SparkFun_Logo_10mm": 1,
+        "SparkFun-Aesthetic:SparkFun_Logo_NoFlame_10mm": 1,
+        "SparkFun-Aesthetic:qwiic_5mm": 1,
+        "SparkFun-Capacitor:C_0603_1608Metric": 1,
+        "SparkFun-Connector:1x04_P2.54mm": 1,
+        "SparkFun-Connector:JST_1x04_P1.0mm_Horizontal_SMD": 2,
+        "SparkFun-Hardware:Standoff": 4,
+        "SparkFun-Jumper:Jumper_2_NC_Trace": 1,
+        "SparkFun-Jumper:Jumper_3_NC-2_Trace": 1,
+        "SparkFun-LED:LED_0603_1608Metric_Red": 1,
+        "SparkFun-Resistor:R_0603_1608Metric": 3,
+        "SparkFun-Sensor:SFA40": 1,
+        "kibuzzard-689A642E": 1,
+        "kibuzzard-689A66E2": 1,
+        "kibuzzard-689A66EE": 1,
+        "kibuzzard-689A66F4": 1,
+        "kibuzzard-689A6711": 1,
+        "kibuzzard-689A6718": 1,
+        "kibuzzard-689A6728": 1,
+        "kibuzzard-689A6796": 1,
+        "kibuzzard-6A0365C6": 1,
+        "kibuzzard-6A172007": 1,
+        "kibuzzard-6A233140": 1,
+        "kibuzzard-6A23318A": 1,
+        "kibuzzard-6A233190": 1,
+        "kibuzzard-6A233774": 1,
+        "kibuzzard-6A233784": 1,
+        "kibuzzard-6A23378A": 1
+      }
+    },
+    {
+      "board": ".data/corpus-expansion-audit-001/sparkfun__SparkFun_Roller_Encoder_Breakout/Hardware/SparkFun_Roller_Encoder_Breakout.kicad_pcb",
+      "source_sha256": "3086590581f2c33fc646f8a5c5e9ffaeeec12ba7d31b31e0afb8c414d5260ff5",
+      "format": "20241229",
+      "footprints": 23,
+      "pads": 15,
+      "connected_pad_terminals": 9,
+      "named_nets_used_by_pads": 4,
+      "pad_shapes": {
+        "circle": 15
+      },
+      "net_degree_histogram": {
+        "2": 3,
+        "3": 1
+      },
+      "footprint_pad_count_histogram": {
+        "0": 17,
+        "1": 4,
+        "4": 1,
+        "7": 1
+      },
+      "copper_layers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "route_counts": {
+        "segment": 11
+      },
+      "zones": 1,
+      "custom_pad_count": 0,
+      "net_tie_footprints": 0,
+      "project_exists": true,
+      "project_sha256": "2a3df77393af19e5c8dfb2e8d9e44dac19f359585c17f119718751a5cc2a9bab",
+      "class_names": [
+        "Default",
+        "5mil"
+      ],
+      "class_patterns": [],
+      "unknown_severity_keys": [
+        "text_on_edge_cuts"
+      ],
+      "existing_ignored_checks": [
+        "footprint_filters_mismatch",
+        "lib_footprint_issues",
+        "missing_courtyard",
+        "npth_inside_courtyard",
+        "pth_inside_courtyard",
+        "silk_over_copper",
+        "silk_overlap"
+      ],
+      "current_static_unsupported_reason": "Rejected: unsupported: netclass bindings not qualified: Netclass identifier outside narrow scope; unknown rule severity semantics: text_on_edge_cuts",
+      "stored_completeness": "incomplete dependency and rights closure",
+      "stored_predecessor_reason": "Rejected: unsupported: netclass bindings not qualified: Netclass identifier outside narrow scope; unknown rule severity semantics: text_on_edge_cuts",
+      "terminal_geometry_multiset_sha256": "928990f53a39dfa20d6be771234a2b6570c55620cf5cc450d8e7056851f4c05c",
+      "footprint_local_pad_geometry_multiset_sha256": "ad4c8cd5dbad03a80e5f0fd8890c3cac8dcdbd647f6bd4468b38a54080eb631a",
+      "connectivity_wl3_screen_sha256": "f0e28f770b84012a5b14e8ced0eba6e167fff57bcd7fd9b9e2531e782790e650",
+      "footprint_library_ids": {
+        "RollerEncoder:RollerEncoder": 1,
+        "SparkFun-Aesthetic:Creative_Commons_License": 1,
+        "SparkFun-Aesthetic:OSHW_Logo_4mm": 1,
+        "SparkFun-Aesthetic:SparkFun_Logo_10mm": 2,
+        "SparkFun-Connector:1x04": 1,
+        "SparkFun-Hardware:Standoff": 4,
+        "kibuzzard-679465CE": 2,
+        "kibuzzard-679465D4": 2,
+        "kibuzzard-6794660B": 1,
+        "kibuzzard-6794662B": 1,
+        "kibuzzard-67946CBF": 1,
+        "kibuzzard-67946CF5": 1,
+        "kibuzzard-67946D1E": 1,
+        "kibuzzard-67946D71": 1,
+        "kibuzzard-67946D7C": 1,
+        "kibuzzard-67946D9A": 1,
+        "kibuzzard-67946DB3": 1
+      }
+    },
+    {
+      "board": ".data/corpus-expansion-audit-001/sparkfun__SparkFun_Triple_Axis_Acclerometer-LIS3DH/Hardware/Micro/SparkFun_LIS3DH_Micro.kicad_pcb",
+      "source_sha256": "0d085ac9ef7a484d7b4424c459e4840fae485c4c0b7cc7c62b100e3e93620603",
+      "format": "20241229",
+      "footprints": 35,
+      "pads": 52,
+      "connected_pad_terminals": 47,
+      "named_nets_used_by_pads": 17,
+      "pad_shapes": {
+        "circle": 5,
+        "rect": 29,
+        "roundrect": 18
+      },
+      "net_degree_histogram": {
+        "1": 7,
+        "2": 5,
+        "3": 1,
+        "4": 2,
+        "9": 1,
+        "10": 1
+      },
+      "footprint_pad_count_histogram": {
+        "0": 14,
+        "1": 9,
+        "2": 9,
+        "3": 1,
+        "6": 1,
+        "16": 1
+      },
+      "copper_layers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "route_counts": {
+        "segment": 92,
+        "via": 15
+      },
+      "zones": 1,
+      "custom_pad_count": 0,
+      "net_tie_footprints": 2,
+      "project_exists": true,
+      "project_sha256": "74c21f0b5553ea976fbbfb16551cb24a9de2366748e4c6a233c46771361730ef",
+      "class_names": [
+        "Default",
+        "5mil"
+      ],
+      "class_patterns": [],
+      "unknown_severity_keys": [
+        "text_on_edge_cuts"
+      ],
+      "existing_ignored_checks": [
+        "footprint_filters_mismatch",
+        "footprint_type_mismatch",
+        "lib_footprint_issues",
+        "missing_courtyard",
+        "npth_inside_courtyard",
+        "pth_inside_courtyard",
+        "silk_over_copper",
+        "silk_overlap"
+      ],
+      "current_static_unsupported_reason": "Rejected: unsupported: net ties not qualified; netclass bindings not qualified: Netclass identifier outside narrow scope; rule-area restrictions not qualified by pinned native validator; unknown rule severity semantics: text_on_edge_cuts",
+      "stored_completeness": "incomplete dependency and rights closure",
+      "stored_predecessor_reason": "Rejected: unsupported: net ties not qualified; netclass bindings not qualified: Netclass identifier outside narrow scope; rule-area restrictions not qualified by pinned native validator; unknown rule severity semantics: text_on_edge_cuts",
+      "terminal_geometry_multiset_sha256": "ba7eb1c4742c48bc465052c07c2e1f420ea2b9fbeab44b38fe3d847b6b2c8e3e",
+      "footprint_local_pad_geometry_multiset_sha256": "89c05717e3ee1aa62f84da83791f8636fd2b857d7af39408827a8f5e0c855a6d",
+      "connectivity_wl3_screen_sha256": "9e44029d7b5e0b8fde5a2802de45f9b4c9a23fc9b16f4fbac1bcc446992319f4",
+      "footprint_library_ids": {
+        "SparkFun-Aesthetic:Creative_Commons_License": 1,
+        "SparkFun-Aesthetic:Fiducial_0.5mm_Mask1mm": 2,
+        "SparkFun-Aesthetic:OSHW_Logo_2.5mm": 1,
+        "SparkFun-Aesthetic:SparkFun_Flame_2.5mm": 1,
+        "SparkFun-Aesthetic:qwiic_3mm": 1,
+        "SparkFun-Capacitor:C_0402_1005Metric": 2,
+        "SparkFun-Connector:1x01_1x1mm": 2,
+        "SparkFun-Connector:JST_SMD_1.0mm-4_Black": 1,
+        "SparkFun-Connector:TestPoint-0.75mm": 4,
+        "SparkFun-Hardware:Standoff": 1,
+        "SparkFun-Jumper:Jumper_2_NC_Trace": 1,
+        "SparkFun-Jumper:Jumper_2_NO": 1,
+        "SparkFun-Jumper:Jumper_3_NC-2_Trace": 1,
+        "SparkFun-LED:LED_0402_1005Metric_Red": 1,
+        "SparkFun-Resistor:R_0402_1005Metric": 4,
+        "SparkFun-Sensor:ST_LGA-16_3x3mm_P0.5mm_5x3": 1,
+        "kibuzzard-6841DC10": 2,
+        "kibuzzard-6841DC42": 1,
+        "kibuzzard-6841DC70": 1,
+        "kibuzzard-6841DC9E": 1,
+        "kibuzzard-68489829": 1,
+        "kibuzzard-68489831": 1,
+        "kibuzzard-685C51A0": 1,
+        "kibuzzard-685C52CC": 1,
+        "kibuzzard-685C52E1": 1
+      }
+    },
+    {
+      "board": ".data/corpus-expansion-audit-001/sparkfun__SparkFun_Triple_Axis_Acclerometer-LIS3DH/Hardware/Qwiic 1x1/SparkFun_LIS3DH.kicad_pcb",
+      "source_sha256": "55dca06685c4278b1f58159841536c3c0da168228cdcbe830726145cf96d55e8",
+      "format": "20241229",
+      "footprints": 67,
+      "pads": 70,
+      "connected_pad_terminals": 60,
+      "named_nets_used_by_pads": 19,
+      "pad_shapes": {
+        "circle": 19,
+        "rect": 35,
+        "roundrect": 16
+      },
+      "net_degree_histogram": {
+        "1": 4,
+        "2": 9,
+        "3": 1,
+        "4": 1,
+        "5": 2,
+        "10": 1,
+        "11": 1
+      },
+      "footprint_pad_count_histogram": {
+        "0": 42,
+        "1": 8,
+        "2": 11,
+        "3": 1,
+        "4": 1,
+        "5": 1,
+        "6": 2,
+        "16": 1
+      },
+      "copper_layers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "route_counts": {
+        "segment": 139,
+        "via": 41
+      },
+      "zones": 1,
+      "custom_pad_count": 0,
+      "net_tie_footprints": 2,
+      "project_exists": true,
+      "project_sha256": "a71daf98cd11922093306c56f3b534dbaa9cabde046057976ab273a8756cb396",
+      "class_names": [
+        "Default",
+        "5mil"
+      ],
+      "class_patterns": [],
+      "unknown_severity_keys": [
+        "text_on_edge_cuts"
+      ],
+      "existing_ignored_checks": [
+        "footprint_filters_mismatch",
+        "footprint_type_mismatch",
+        "lib_footprint_issues",
+        "missing_courtyard",
+        "npth_inside_courtyard",
+        "pth_inside_courtyard",
+        "silk_over_copper",
+        "silk_overlap"
+      ],
+      "current_static_unsupported_reason": "Rejected: unsupported: DRC exclusions not qualified; net ties not qualified; netclass bindings not qualified: Netclass identifier outside narrow scope; rule-area restrictions not qualified by pinned native validator; unknown rule severity semantics: text_on_edge_cuts",
+      "stored_completeness": "incomplete dependency and rights closure",
+      "stored_predecessor_reason": "Rejected: unsupported: DRC exclusions not qualified; net ties not qualified; netclass bindings not qualified: Netclass identifier outside narrow scope; rule-area restrictions not qualified by pinned native validator; unknown rule severity semantics: text_on_edge_cuts",
+      "terminal_geometry_multiset_sha256": "3be9b43740aac70cf5d3b8188b429629d6bfce62f83c9a53f2b8bcb04de0fe18",
+      "footprint_local_pad_geometry_multiset_sha256": "c1639367cb145653944ce6985d394bd68dbc21b409cd1bf5ea13cceddf1bceab",
+      "connectivity_wl3_screen_sha256": "9beb67be6b438c7955aba5cc27218916ebce2c41d5e07c0681d492da8c77e9ec",
+      "footprint_library_ids": {
+        "SparkFun-Aesthetic:Creative_Commons_License": 1,
+        "SparkFun-Aesthetic:Fiducial_0.5mm_Mask1mm": 4,
+        "SparkFun-Aesthetic:OSHW_Logo_2.5mm": 1,
+        "SparkFun-Aesthetic:SparkFun_Flame_3mm": 1,
+        "SparkFun-Aesthetic:SparkFun_Logo_NoFlame_9mm": 1,
+        "SparkFun-Aesthetic:qwiic_5mm": 1,
+        "SparkFun-Capacitor:C_0603_1608Metric": 2,
+        "SparkFun-Connector:1x02": 1,
+        "SparkFun-Connector:1x04": 1,
+        "SparkFun-Connector:1x05": 1,
+        "SparkFun-Connector:JST_SMD_1.0mm-4_Black": 2,
+        "SparkFun-Hardware:Standoff": 4,
+        "SparkFun-Jumper:Jumper_2_NC_Trace": 1,
+        "SparkFun-Jumper:Jumper_2_NO": 1,
+        "SparkFun-Jumper:Jumper_3_NC-2_Trace": 1,
+        "SparkFun-LED:LED_0603_1608Metric_Red": 1,
+        "SparkFun-Resistor:R_0603_1608Metric": 5,
+        "SparkFun-Sensor:ST_LGA-16_3x3mm_P0.5mm_5x3": 1,
+        "kibuzzard-65A8A8B4": 1,
+        "kibuzzard-67D9D97F": 1,
+        "kibuzzard-68376F48": 1,
+        "kibuzzard-68376F54": 1,
+        "kibuzzard-68377305": 1,
+        "kibuzzard-68377311": 1,
+        "kibuzzard-6837731A": 1,
+        "kibuzzard-6838B6EB": 1,
+        "kibuzzard-6838B744": 1,
+        "kibuzzard-6838B970": 1,
+        "kibuzzard-6838B976": 1,
+        "kibuzzard-6838B97C": 1,
+        "kibuzzard-6838B980": 1,
+        "kibuzzard-6838B984": 1,
+        "kibuzzard-6838B988": 1,
+        "kibuzzard-6838BA4A": 1,
+        "kibuzzard-6838BBAA": 1,
+        "kibuzzard-68489282": 1,
+        "kibuzzard-6848928D": 1,
+        "kibuzzard-68489296": 1,
+        "kibuzzard-684892AC": 1,
+        "kibuzzard-684892BE": 1,
+        "kibuzzard-68489323": 1,
+        "kibuzzard-68489388": 1,
+        "kibuzzard-6848939E": 1,
+        "kibuzzard-68489408": 1,
+        "kibuzzard-68489728": 1,
+        "kibuzzard-685C51A0": 2,
+        "kibuzzard-685C52CC": 2,
+        "kibuzzard-685C52E1": 2,
+        "kibuzzard-685C549D": 1,
+        "kibuzzard-685C54A5": 1,
+        "kibuzzard-685C54B5": 1,
+        "kibuzzard-685C54BC": 1
+      }
+    },
+    {
+      "board": ".data/expansion003/pmod-to-qwiic/pmod_to_qwiic.kicad_pcb",
+      "source_sha256": "67e1a533771d8918e53f7451171df3fdb58bfa315cb95cee4a8efd14ca0083f7",
+      "format": "20201116",
+      "footprints": 4,
+      "pads": 18,
+      "connected_pad_terminals": 14,
+      "named_nets_used_by_pads": 6,
+      "pad_shapes": {
+        "oval": 5,
+        "rect": 1,
+        "roundrect": 12
+      },
+      "net_degree_histogram": {
+        "1": 2,
+        "3": 4
+      },
+      "footprint_pad_count_histogram": {
+        "0": 1,
+        "6": 3
+      },
+      "copper_layers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "route_counts": {
+        "segment": 29,
+        "via": 4
+      },
+      "zones": 1,
+      "custom_pad_count": 0,
+      "net_tie_footprints": 0,
+      "project_exists": true,
+      "project_sha256": "bc747a79ad6a3eb60e36e69c3ada43cb22c1f4e446403e9b748dc788d3db1777",
+      "class_names": [
+        "Default",
+        "Power"
+      ],
+      "class_patterns": null,
+      "unknown_severity_keys": [
+        "drill_too_small",
+        "keepout",
+        "microvia_drill_too_small",
+        "via_hole_larger_than_pad",
+        "zone_has_empty_net"
+      ],
+      "existing_ignored_checks": [
+        "missing_courtyard",
+        "npth_inside_courtyard",
+        "pth_inside_courtyard"
+      ],
+      "current_static_unsupported_reason": "Rejected: unsupported: netclass bindings not qualified: A bounded list of literal assignments is required; unknown rule severity semantics: drill_too_small; unknown rule severity semantics: keepout; unknown rule severity semantics: microvia_drill_too_small; unknown rule severity semantics: via_hole_larger_than_pad; unknown rule severity semantics: zone_has_empty_net; unqualified board format version",
+      "stored_completeness": "incomplete development acquisition",
+      "stored_predecessor_reason": "unsupported: netclass bindings not qualified: A bounded list of literal assignments is required; unknown rule severity semantics: drill_too_small; unknown rule severity semantics: keepout; unknown rule severity semantics: microvia_drill_too_small; unknown rule severity semantics: via_hole_larger_than_pad; unknown rule severity semantics: zone_has_empty_net; unqualified board format version",
+      "terminal_geometry_multiset_sha256": "c5921e2b870f3831f6cb7aa48bd88432d55fadf416874c686ed230b53caf710d",
+      "footprint_local_pad_geometry_multiset_sha256": "8f0b4ab28825b1cedf04a461c7f7944d91cbe14a60ff7cff2ef7488cadd9f495",
+      "connectivity_wl3_screen_sha256": "de30b7425e0e6503cd0b9f1b281cf8dac087f8a43c4180682f976f3827f3db15",
+      "footprint_library_ids": {
+        "Connector_JST:JST_SH_SM04B-SRSS-TB_1x04-1MP_P1.00mm_Horizontal": 2,
+        "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical": 1,
+        "Symbols_Extra:SolderParty-New-Logo_5x4.2mm_SilkScreen": 1
+      }
+    },
+    {
+      "board": ".data/expansion003/lipo-disconnector/lipo_disconnector.kicad_pcb",
+      "source_sha256": "3ef2141230ce971115381107486892bdf06a724c5d31d9ef2103622e113cf4e0",
+      "format": "20220621",
+      "footprints": 13,
+      "pads": 10,
+      "connected_pad_terminals": 6,
+      "named_nets_used_by_pads": 3,
+      "pad_shapes": {
+        "circle": 1,
+        "oval": 1,
+        "roundrect": 8
+      },
+      "net_degree_histogram": {
+        "2": 3
+      },
+      "footprint_pad_count_histogram": {
+        "0": 10,
+        "2": 1,
+        "4": 2
+      },
+      "copper_layers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "route_counts": {
+        "segment": 6,
+        "via": 2
+      },
+      "zones": 3,
+      "custom_pad_count": 0,
+      "net_tie_footprints": 0,
+      "project_exists": true,
+      "project_sha256": "8bc2dc577fb98404f317730b10ba2945f213a14e212b7a0b3e7fba7943a8d95e",
+      "class_names": [
+        "Default"
+      ],
+      "class_patterns": null,
+      "unknown_severity_keys": [],
+      "existing_ignored_checks": [
+        "connection_width",
+        "missing_courtyard",
+        "npth_inside_courtyard",
+        "pth_inside_courtyard"
+      ],
+      "current_static_unsupported_reason": "Rejected: unsupported: unqualified board format version",
+      "stored_completeness": "incomplete development acquisition",
+      "stored_predecessor_reason": "unsupported: unqualified board format version",
+      "terminal_geometry_multiset_sha256": "99d592ccc7234c0b7e1af39bb6fc7254a7f725743bb555d023d98d64954abbfa",
+      "footprint_local_pad_geometry_multiset_sha256": "935238f734e960448ff79c6b11ce2c2e609f3381b7acff7f2b050b171ff8751b",
+      "connectivity_wl3_screen_sha256": "079f0c2780f072975dc125c9fa38d4ea59c51e283e3fb7a6053cc225a9e51b4d",
+      "footprint_library_ids": {
+        "Connector_JST:JST_PH_S2B-PH-SM4-TB_1x02-1MP_P2.00mm_Horizontal": 2,
+        "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical": 1,
+        "Symbols_Extra:SolderParty-New-Logo_3x2.5mm_SilkScreen": 1,
+        "kibuzzard-62E1C2B7": 4,
+        "kibuzzard-62E1C3A6": 1,
+        "kibuzzard-62E1C4AB": 1,
+        "kibuzzard-62E2BF27": 1,
+        "kibuzzard-62E2BF3F": 1,
+        "kibuzzard-62E2BF4D": 1
+      }
+    },
+    {
+      "board": ".data/expansion004/ideal-diode/Hardware/SparkFun_Ideal_Diode_Breakout.kicad_pcb",
+      "source_sha256": "ed9a908eaf21ad72595d6de3d3cc39470ba5fbfb63270330d2221f8455e3e789",
+      "format": "20240108",
+      "footprints": 37,
+      "pads": 64,
+      "connected_pad_terminals": 62,
+      "named_nets_used_by_pads": 17,
+      "pad_shapes": {
+        "circle": 12,
+        "rect": 36,
+        "roundrect": 16
+      },
+      "net_degree_histogram": {
+        "3": 12,
+        "4": 4,
+        "10": 1
+      },
+      "footprint_pad_count_histogram": {
+        "0": 17,
+        "1": 2,
+        "2": 8,
+        "3": 4,
+        "5": 2,
+        "6": 4
+      },
+      "copper_layers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "route_counts": {
+        "segment": 101,
+        "via": 12
+      },
+      "zones": 2,
+      "custom_pad_count": 0,
+      "net_tie_footprints": 0,
+      "project_exists": true,
+      "project_sha256": "36c86f7fda3dbfd2d190f46b54f7ef4875d9c968bf384b269942b6b910e296d0",
+      "class_names": [
+        "Default"
+      ],
+      "class_patterns": [],
+      "unknown_severity_keys": [],
+      "existing_ignored_checks": [
+        "footprint_type_mismatch",
+        "lib_footprint_issues",
+        "missing_courtyard",
+        "npth_inside_courtyard",
+        "pth_inside_courtyard",
+        "silk_over_copper",
+        "silk_overlap"
+      ],
+      "current_static_unsupported_reason": "Rejected: unsupported: unqualified board format version",
+      "stored_completeness": "incomplete_original_external_references",
+      "stored_predecessor_reason": null,
+      "terminal_geometry_multiset_sha256": "c132608fb9a8600445879ec5b59229822141f1024a4c67d8f3b05cff56981c8a",
+      "footprint_local_pad_geometry_multiset_sha256": "0b17b1d5efcd498158fd540a32bb504168183bab016920c4e9b27f4adbe81125",
+      "connectivity_wl3_screen_sha256": "a5abecb46abe60fadadd6548d415f954b5cf3862ec0d317c322864bac1e2f7e6",
+      "footprint_library_ids": {
+        "SparkFun-Aesthetic:Creative_Commons_License": 1,
+        "SparkFun-Aesthetic:Fiducial_0.5mm_Mask1mm": 2,
+        "SparkFun-Aesthetic:OSHW_Logo_2.5mm": 1,
+        "SparkFun-Aesthetic:SparkFun_Flame_2.5mm": 1,
+        "SparkFun-Connector:1x05": 2,
+        "SparkFun-Resistor:R_0402_1005Metric": 8,
+        "SparkFun-Semiconductor-Standard:SOT-323": 4,
+        "SparkFun-Semiconductor-Standard:SOT23-3": 4,
+        "kibuzzard-6765BB94": 1,
+        "kibuzzard-6765BBA3": 1,
+        "kibuzzard-6765D0F5": 1,
+        "kibuzzard-6765D0FB": 1,
+        "kibuzzard-6765D145": 1,
+        "kibuzzard-6765D14E": 1,
+        "kibuzzard-6765D154": 1,
+        "kibuzzard-6765D159": 1,
+        "kibuzzard-6765D15F": 1,
+        "kibuzzard-6765D166": 1,
+        "kibuzzard-6765D25C": 2,
+        "kibuzzard-6765D292": 2
+      }
+    },
+    {
+      "board": ".data/expansion004/hstx-pth/Hardware/SparkFun_HSTX_PTH_Breakout.kicad_pcb",
+      "source_sha256": "612a26c3f67fad86be02e8ee5d69e69a63df1b445f02aac9f848a6aa59f0b796",
+      "format": "20240108",
+      "footprints": 43,
+      "pads": 45,
+      "connected_pad_terminals": 39,
+      "named_nets_used_by_pads": 16,
+      "pad_shapes": {
+        "circle": 21,
+        "rect": 24
+      },
+      "net_degree_histogram": {
+        "2": 15,
+        "9": 1
+      },
+      "footprint_pad_count_histogram": {
+        "0": 37,
+        "1": 4,
+        "17": 1,
+        "24": 1
+      },
+      "copper_layers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "route_counts": {
+        "segment": 87,
+        "via": 28
+      },
+      "zones": 1,
+      "custom_pad_count": 0,
+      "net_tie_footprints": 0,
+      "project_exists": true,
+      "project_sha256": "c25541b38cc80d2f395ff866b67d763541d042d850d2774125eb57f8797f52bb",
+      "class_names": [
+        "Default",
+        "Power"
+      ],
+      "class_patterns": [
+        {
+          "netclass": "Power",
+          "pattern": "/3.3V"
+        }
+      ],
+      "unknown_severity_keys": [],
+      "existing_ignored_checks": [
+        "footprint_type_mismatch",
+        "missing_courtyard",
+        "npth_inside_courtyard",
+        "pth_inside_courtyard"
+      ],
+      "current_static_unsupported_reason": "Rejected: unsupported: netclass bindings not qualified: Only unique literal identifier assignments qualified; unqualified board format version",
+      "stored_completeness": "incomplete_original_external_references",
+      "stored_predecessor_reason": null,
+      "terminal_geometry_multiset_sha256": "1e804d4c159e081ff2ecae2764e393abf3b3b0587031fc88b0a377ea5227424e",
+      "footprint_local_pad_geometry_multiset_sha256": "e72582d76b8f3938993dc7f0d2bec970fcc772cac6755b3f6fcfe4bbf925d6c8",
+      "connectivity_wl3_screen_sha256": "e320ba924f022affe146a4508299b7a9116e8b9a29d6b4d7d6e43c6ceb1ca2d8",
+      "footprint_library_ids": {
+        "SparkFun-Aesthetic:Creative_Commons_License": 1,
+        "SparkFun-Aesthetic:Fiducial_0.5mm_Mask1mm": 2,
+        "SparkFun-Aesthetic:OSHW_Logo_4mm": 1,
+        "SparkFun-Aesthetic:SparkFun_Flame_5mm_Mask": 1,
+        "SparkFun-Aesthetic:SparkFun_Logo_20mm": 1,
+        "SparkFun-Connector:1x17": 1,
+        "SparkFun-Connector:FPC_0.5mm-22_RA": 1,
+        "SparkFun-Hardware:Standoff": 2,
+        "kibuzzard-67BF6752": 1,
+        "kibuzzard-67BF6833": 1,
+        "kibuzzard-67BF6954": 1,
+        "kibuzzard-67BF695F": 1,
+        "kibuzzard-67BF697D": 1,
+        "kibuzzard-67BF699A": 1,
+        "kibuzzard-67BF69B8": 1,
+        "kibuzzard-67BF69C7": 1,
+        "kibuzzard-67BF69DC": 1,
+        "kibuzzard-67BF69ED": 1,
+        "kibuzzard-67BF6A06": 1,
+        "kibuzzard-67BF6A11": 1,
+        "kibuzzard-67BF6A20": 1,
+        "kibuzzard-67BF6A29": 1,
+        "kibuzzard-67BF6A35": 1,
+        "kibuzzard-67BF6A49": 1,
+        "kibuzzard-67BF6A52": 1,
+        "kibuzzard-67BF6AC0": 1,
+        "kibuzzard-67BF6D17": 1,
+        "kibuzzard-67BF6D28": 1,
+        "kibuzzard-67BF6D37": 1,
+        "kibuzzard-67BF6D5F": 1,
+        "kibuzzard-67BF6DE3": 1,
+        "kibuzzard-67BF6F3F": 1,
+        "kibuzzard-67BF6F48": 1,
+        "kibuzzard-67BF6F4E": 1,
+        "kibuzzard-67BF6F54": 1,
+        "kibuzzard-67BF6F5A": 1,
+        "kibuzzard-67BF6F60": 1,
+        "kibuzzard-67BF6F6A": 1,
+        "kibuzzard-67BF6F6F": 1,
+        "kibuzzard-67BF6FC2": 1,
+        "kibuzzard-67BF6FC7": 1
+      }
+    },
+    {
+      "board": ".data/expansion004/olimex-ice40-dio/ICE40-DIO_Rev_A.kicad_pcb",
+      "source_sha256": "82a1e7d91157f50c6e5a7e555ef68e674fea94946f1d2c9ad4d7b64c432c80d0",
+      "format": "20170123",
+      "footprints": 51,
+      "pads": 287,
+      "connected_pad_terminals": 284,
+      "named_nets_used_by_pads": 77,
+      "pad_shapes": {
+        "circle": 114,
+        "rect": 173
+      },
+      "net_degree_histogram": {
+        "1": 8,
+        "2": 30,
+        "3": 26,
+        "4": 4,
+        "5": 3,
+        "6": 2,
+        "10": 1,
+        "13": 1,
+        "20": 1,
+        "52": 1
+      },
+      "footprint_pad_count_histogram": {
+        "0": 7,
+        "1": 3,
+        "2": 32,
+        "6": 2,
+        "10": 1,
+        "14": 1,
+        "20": 1,
+        "34": 2,
+        "48": 2
+      },
+      "copper_layers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "route_counts": {
+        "segment": 1703,
+        "via": 205
+      },
+      "zones": 6,
+      "custom_pad_count": 0,
+      "net_tie_footprints": 0,
+      "project_exists": false,
+      "project_sha256": null,
+      "class_names": [],
+      "class_patterns": null,
+      "unknown_severity_keys": [],
+      "existing_ignored_checks": [],
+      "current_static_unsupported_reason": "Rejected: unsupported: complete .kicad_pro required; legacy module footprints not qualified; unqualified board format version",
+      "stored_completeness": "incomplete_original_external_references",
+      "stored_predecessor_reason": null,
+      "terminal_geometry_multiset_sha256": "6167d24e2c8786cae5d97ddc5514c63cb88295c68b67885f5ca0a16e64afcb32",
+      "footprint_local_pad_geometry_multiset_sha256": "fcc21c897196694572a72b441c63899ab20bcd21aa9f6f4b3accc8a5a1acfdec",
+      "connectivity_wl3_screen_sha256": "0d9b17ba760649f3199a3b2b5f8ae8bea39d9111eb48de9162cb45b7a9e4cb0c",
+      "footprint_library_ids": {
+        "OLIMEX_Connectors-FP:BH10S": 1,
+        "OLIMEX_Connectors-FP:BH14S": 1,
+        "OLIMEX_Connectors-FP:BH20S": 1,
+        "OLIMEX_Connectors-FP:BH34R": 1,
+        "OLIMEX_Connectors-FP:HN1x2": 4,
+        "OLIMEX_Connectors-FP:IDC34R_PCB": 1,
+        "OLIMEX_Diodes-FP:SOD-123_1C-2A_KA": 1,
+        "OLIMEX_IC-FP:SC70-6_Pitch-0.65_2.00x2.10x1.00mm": 1,
+        "OLIMEX_IC-FP:SSOP48_Pitch-0.635_16.00x10.40x2.80mm": 2,
+        "OLIMEX_LOGOs-FP:LOGO_ANTISTATIC_1": 1,
+        "OLIMEX_LOGOs-FP:LOGO_OLIMEX_80": 1,
+        "OLIMEX_LOGOs-FP:LOGO_OPENHARDWARE_8x8": 1,
+        "OLIMEX_LOGOs-FP:LOGO_PBFREE": 1,
+        "OLIMEX_LOGOs-FP:LOGO_RECYCLEBIN_1": 1,
+        "OLIMEX_LOGOs-FP:LOGO_ROHS_1": 1,
+        "OLIMEX_LOGOs-FP:OLIMEX_LOGO_TB": 1,
+        "OLIMEX_Other-FP:Fiducial1x3": 3,
+        "OLIMEX_RLC-FP:C_0402_5MIL_DWS": 11,
+        "OLIMEX_RLC-FP:C_0603_5MIL_DWS": 4,
+        "OLIMEX_RLC-FP:L_0805_5MIL_DWS": 1,
+        "OLIMEX_RLC-FP:R_0402_5MIL_DWS": 11,
+        "OLIMEX_Regulators-FP:SOT-223-5_Pitch-1.27_6.50x7.00x1.80": 1
+      }
+    },
+    {
+      "board": ".data/expansion005/paw3395/paw3395.kicad_pcb",
+      "source_sha256": "c2e8cebd0da804eb3912c6559ad6b3e725c1b29f744d616e1ebb22f1229f7740",
+      "format": "20240108",
+      "footprints": 18,
+      "pads": 56,
+      "connected_pad_terminals": 56,
+      "named_nets_used_by_pads": 16,
+      "pad_shapes": {
+        "circle": 14,
+        "oval": 5,
+        "rect": 4,
+        "roundrect": 33
+      },
+      "net_degree_histogram": {
+        "1": 4,
+        "2": 7,
+        "3": 2,
+        "8": 1,
+        "9": 1,
+        "15": 1
+      },
+      "footprint_pad_count_histogram": {
+        "2": 15,
+        "5": 2,
+        "16": 1
+      },
+      "copper_layers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "route_counts": {
+        "segment": 201,
+        "via": 19
+      },
+      "zones": 1,
+      "custom_pad_count": 0,
+      "net_tie_footprints": 0,
+      "project_exists": true,
+      "project_sha256": "4a0b352b482dd49a22aeea5599c44444e2d1dfad2ac77880c63152002445cdad",
+      "class_names": [
+        "Default"
+      ],
+      "class_patterns": [],
+      "unknown_severity_keys": [
+        "zone_has_empty_net"
+      ],
+      "existing_ignored_checks": [
+        "lib_footprint_mismatch",
+        "missing_courtyard",
+        "npth_inside_courtyard",
+        "pth_inside_courtyard",
+        "text_height"
+      ],
+      "current_static_unsupported_reason": "Rejected: unsupported: unknown rule severity semantics: zone_has_empty_net; unqualified board format version",
+      "stored_completeness": "complete acquired original repository; external editing/model identity closure incomplete",
+      "stored_predecessor_reason": null,
+      "terminal_geometry_multiset_sha256": "8d0fbcbdee56a21f5f791dde4f94c760c98faf73b8830f74fa433a602a693f8a",
+      "footprint_local_pad_geometry_multiset_sha256": "4b67f8b5c4a6381d40aa720182727e03d72d3fd427c8240201346d064bb8f402",
+      "connectivity_wl3_screen_sha256": "662a9e8cde23fd1e040b4a07b9ecd70432e9476a3d8e1db16bbdff9aa1dc7126",
+      "footprint_library_ids": {
+        "Capacitor_SMD:C_0603_1608Metric": 11,
+        "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical": 1,
+        "Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical": 1,
+        "Package_TO_SOT_SMD:SOT-23-5_HandSoldering": 1,
+        "Resistor_SMD:R_0603_1608Metric": 3,
+        "paw3395_pcb:PAW3395": 1
+      }
+    }
+  ],
+  "counts": {
+    "population": 20,
+    "current_statically_eligible": 3,
+    "native_new": 0,
+    "proven_independent_ancestry": 0
+  },
+  "matching_screens": {
+    "terminal_geometry_multiset_sha256": [
+      {
+        "sha256": "b8a77902abd89d8f33b125d5e610d3359927c32932a70afb659ccbfa66ccc26a",
+        "boards": [
+          ".data/boards/kicad-multichannel/multichannel_mixer-unrouted.kicad_pcb",
+          ".data/boards/kicad-multichannel/multichannel_mixer.kicad_pcb"
+        ]
+      }
+    ],
+    "footprint_local_pad_geometry_multiset_sha256": [
+      {
+        "sha256": "ed50ac0adedfac6077a808864e128cdff1f774a97cbec5e525a52b7fab561f0c",
+        "boards": [
+          ".data/boards/kicad-multichannel/multichannel_mixer-unrouted.kicad_pcb",
+          ".data/boards/kicad-multichannel/multichannel_mixer.kicad_pcb"
+        ]
+      }
+    ],
+    "connectivity_wl3_screen_sha256": [
+      {
+        "sha256": "11886760bba8f0d112e9030498b52f17dc0d895926da385e44a42264f8780dba",
+        "boards": [
+          ".data/boards/kicad-multichannel/multichannel_mixer-unrouted.kicad_pcb",
+          ".data/boards/kicad-multichannel/multichannel_mixer.kicad_pcb"
+        ]
+      }
+    ]
+  },
+  "source_bindings": {
+    "evidence/placement-production-qualification-001/summary.json": "a694044b83f1a3b7d7b001fe11be3463f8413b8d0d9c39292de20f59fca70b86",
+    "evidence/licensed-acquisition-004/population-extension.json": "19cbaa8fcabd88f90a02cf572d341fea488f9d0b63793924c4c430bccbb3e6aa",
+    "evidence/licensed-acquisition-003/population-extension.json": "fc4ec32089caa7f5b958a655f3db57f17ef13792136b40ca6e1cdedd0067fa54",
+    "evidence/licensed-closure-audit-003/audit.json": "2cd1637a3bc280a116c98c8986270e5614e0ee20467a21986b7fb47a10708443",
+    "evidence/licensed-closure-audit-004/compact-records.json": "77e9019d2b5b0c194bad74156d9a68c55bff4cab136846a7ba8921688b6118e4",
+    "evidence/paw3395-static-audit-001/audit.json": "83df84a10961e71dafe97f4466ad6de1b2edc10464da2a8f6d5f8826eabc9304",
+    "data/sources.json": "a2a8e9e22ff3e109de94733aa8f5e99ca5fd476ef9ec20be837c54100036eac1",
+    "autorouter/pipeline.py": "2624cb7a75d561499d21d3af3d7efa56ba26f99cb9007c3daa70ea5592cdb025",
+    "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+    "autorouter/placement_clearance.py": "b1d891d0bc8284bcac80a20cff11263afc8966e30ce8baaf35f1ae78e27ff152"
+  }
+}

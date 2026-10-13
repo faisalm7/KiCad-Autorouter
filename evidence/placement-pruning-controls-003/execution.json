@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "git_head": "3457ae7f715b2c703c507df3df3d885274094029",
+  "started_utc": "2026-10-13T11:13:36.653017+00:00",
+  "process": {
+    "status": "nonzero_exit",
+    "exit_code": 2,
+    "wall_seconds": 22.837217124993913,
+    "cpu_seconds": 17.304529000000002,
+    "max_rss_bytes": 276692992,
+    "supervisor_cpu_seconds": 0.25572700000000004,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 273874944,
+    "sampled_peak_workdir_bytes": 2801520,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 67108864,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/placement_pruning_controls_v1/driver.py",
+      "--run-native",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-pruning-controls-003/run",
+      "--resume",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-pruning-controls-002/run"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-pruning-controls-003/command.log",
+    "log_bytes": 84,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-pruning-controls-003",
+    "signal_cancellation_enabled": true,
+    "pid": 46873
+  },
+  "wall_seconds": 22.97325316700153,
+  "full_cpu_seconds": 17.675821000000003,
+  "wrapper_sha256": "d19ae55e199f47a5300b6d6190a61b9ae4b627c05880b484d348b66accb54dea",
+  "log_sha256": "7963ccc54f938ffd940064a964ce5bf296ac4c12e90eaa5fecc3ee2abb09bf18",
+  "scope": "Four engineered search/C integration arms plus two parent/deletion witnesses; no public-board gain claim. Shared inner180wall/fullCPU and outer64MiB polling."
+}

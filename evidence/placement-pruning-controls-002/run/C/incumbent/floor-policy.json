@@ -1,0 +1,69 @@
+{
+  "schema": 1,
+  "policy": "board-floors-v1",
+  "source_hashes": {
+    "PROVENANCE.md": "e3252ae21f0ab31a1f45f0ad3a15b5d12d107f173990059ea6ef1d89bc691331",
+    "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+    "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    "fixture.kicad_pcb": "85076852ba91f36a8599c395c80c67ef496f05cfe1a346cfaf1fa907b25457d3",
+    "fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538"
+  },
+  "task_sha256": "85076852ba91f36a8599c395c80c67ef496f05cfe1a346cfaf1fa907b25457d3",
+  "project_sha256": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+  "transformation": {
+    "schema": 1,
+    "policy": "board-floors-v1",
+    "input_sha256": "3328d14e677be08fc1cb09616b63fccc18c56b5fc4888c187c6c6bbabe5ea3ae",
+    "output_sha256": "9608e4b488206adde8f39c356d32cb60ca34c368d88563086ce65ede3779466a",
+    "project_sha256": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+    "task_sha256": "85076852ba91f36a8599c395c80c67ef496f05cfe1a346cfaf1fa907b25457d3",
+    "native_context_content_sha256": "ee2adad3b8f0c0189e3c39d8c0059e7692a2235bbb002e074aed868221357e35",
+    "raw_nm": {
+      "width_nm": 200000,
+      "clearance_nm": 200000,
+      "via_diameter_nm": 600000,
+      "via_drill_nm": 300000
+    },
+    "original_floors_nm": {
+      "min_track_width": 300000,
+      "min_clearance": 300000,
+      "min_via_diameter": 1500000,
+      "min_through_hole_diameter": 300000,
+      "min_via_annular_width": 300000
+    },
+    "derived_nm": {
+      "width_nm": 300000,
+      "clearance_nm": 300000,
+      "via_diameter_nm": 1500000,
+      "via_drill_nm": 300000
+    },
+    "engine_requirements": {
+      "automatic_neckdown": false,
+      "fanout.enabled": false,
+      "neck_width_um": 0
+    },
+    "raw_audit": {
+      "passed": true,
+      "policy": "board-floors-v1",
+      "guided": false,
+      "terminal_count": 6,
+      "declared_copper_terminal_nets": 3,
+      "source_class_nets": 3,
+      "via_id": "Via[0-1]_600:300_um",
+      "routing_accepted": false,
+      "physical_geometry_qualification": false
+    },
+    "edit_audit": {
+      "passed": true,
+      "exact_allowed_change": true,
+      "routing_accepted": false
+    },
+    "routing_accepted": false,
+    "production_support_qualified": false,
+    "limitations": [
+      "Caller must bind real native process and all original project/rule files.",
+      "No independent physical pad geometry/import qualification; full native validation remains required.",
+      "Run existing geometry/plane adapter after floor guidance; preserve each distinct stage."
+    ]
+  }
+}
