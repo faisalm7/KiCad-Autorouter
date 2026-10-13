@@ -28,3 +28,6 @@ Incremental parent: `.local-backups/checkpoint-20261013T151235Z-0e3fdfe54f8b489c
 
 
 Current correction: selected nativepositive001 failed on unselected GND over-routing. Do not rerun old completed stages for their own sake; qualify the changed class-partition source in fresh positive002, then execute the still-unrun negative. Reuse original immutable input protocol, bind actual current committed execution pins; initial preparation pins are historical. No source/terminal/rule weakened. v4 Ardujoy acquisition is prepared/offline-tested; audit/commit before fetch007, then exact notice snapshot and sequential original native/parity/transport checks. No-zone C applicability remains visible.
+
+
+Selected positive002 and unselected-open negative001 are now complete; do not rerun them. Full801production tests pass31.019s. Ardujoy acquisition007 is complete; native original five-stage diagnostic remains unexecuted using the shared `experiments/original_project_native_v1/driver.py` command in STATUS.md. Next execute it once, finish selected invalid/cancel/preview/fresh-export controls, current installation and integration restoration. Current artifact census139249files/4136801622bytes leaves751files/158165674bytes at oldbounds; another retained install exceeds both, so a measured finite capacity increase/full restore is due at integration.
