@@ -1,0 +1,44 @@
+test_failed_corrective_write (tests.test_additive_publication.AdditivePublicationTests.test_failed_corrective_write) ... ok
+test_final_execution_cancel (tests.test_additive_publication.AdditivePublicationTests.test_final_execution_cancel) ... ERROR
+test_final_execution_write_failure (tests.test_additive_publication.AdditivePublicationTests.test_final_execution_write_failure) ... ERROR
+
+======================================================================
+ERROR: test_final_execution_cancel (tests.test_additive_publication.AdditivePublicationTests.test_final_execution_cancel)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_additive_publication.py", line 33, in test_final_execution_cancel
+    def test_final_execution_cancel(self):self.check_failure(KeyboardInterrupt())
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_additive_publication.py", line 30, in check_failure
+    if (out/'result.json').exists():self.assertFalse(f.read_json(out/'result.json')['comparison_eligible'])
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/floor_route.py", line 42, in read_json
+    return json.loads(read_bytes(path),object_pairs_hook=pairs,parse_constant=constant)
+                      ^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/placement_clearance.py", line 30, in read_bytes
+    if any(x.is_symlink() for x in (path,*path.parents)):raise p.Rejected('placement symlink unsupported')
+                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+autorouter.pipeline.Rejected: placement symlink unsupported
+
+======================================================================
+ERROR: test_final_execution_write_failure (tests.test_additive_publication.AdditivePublicationTests.test_final_execution_write_failure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_additive_publication.py", line 32, in test_final_execution_write_failure
+    def test_final_execution_write_failure(self):self.check_failure(OSError('execution receipt failed'))
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_additive_publication.py", line 30, in check_failure
+    if (out/'result.json').exists():self.assertFalse(f.read_json(out/'result.json')['comparison_eligible'])
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/floor_route.py", line 42, in read_json
+    return json.loads(read_bytes(path),object_pairs_hook=pairs,parse_constant=constant)
+                      ^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/placement_clearance.py", line 30, in read_bytes
+    if any(x.is_symlink() for x in (path,*path.parents)):raise p.Rejected('placement symlink unsupported')
+                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+autorouter.pipeline.Rejected: placement symlink unsupported
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.014s
+
+FAILED (errors=2)

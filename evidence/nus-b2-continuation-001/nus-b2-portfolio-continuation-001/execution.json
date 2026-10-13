@@ -1,0 +1,74 @@
+{
+  "schema": 1,
+  "status": "executed",
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 41.86661762501171,
+    "cpu_seconds": 42.182795999999996,
+    "max_rss_bytes": 475774976,
+    "supervisor_cpu_seconds": 0.41684400000000005,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 321142784,
+    "sampled_peak_workdir_bytes": 4116930,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 67108864,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/experiment_portfolio.py",
+      "--project",
+      "nus-usb-led",
+      "--budget",
+      "114.40275062499859",
+      "--resume-plan",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portfolio-resume-draft-001/resume-plan.json",
+      "--resume-plan-sha256",
+      "f09a9320e77bea8e5d62f8c87634397e91ffea29766177b752b1a90b67948719",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/nus-b2-portfolio-continuation-001/portfolio"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/nus-b2-portfolio-continuation-001/command.log",
+    "log_bytes": 157,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/nus-b2-portfolio-continuation-001",
+    "signal_cancellation_enabled": true,
+    "pid": 3986
+  },
+  "protocol_sha256": "89ce7b4df774489601552e30e06ce8c207ad78cd0382ee92406cfcc819dc9c58",
+  "whole_new_wall_seconds": 41.96049924999534,
+  "whole_new_full_cpu_seconds": 42.691900000000004,
+  "prior_entire_invocation": {
+    "wall_seconds": 19.723558500001673,
+    "full_cpu_seconds": 19.94571
+  },
+  "combined_active_wall_seconds": 61.68405774999701,
+  "combined_full_cpu_seconds": 62.63761,
+  "same_arm_allowance_seconds": 114.40275062499859,
+  "within_enclosing_budget": true,
+  "calendar_gap": "Prior invocation completed before C; active-work wall reported separately from uninterrupted elapsed calendar time.",
+  "new_native_variants": [
+    "via_low",
+    "via_high"
+  ],
+  "retained_default_rerun": false,
+  "finished_utc": "2026-10-13T21:24:26.490864+00:00",
+  "accounting_point": "Whole foreground process including new startup/publication; later additive all-arm readback/publication needs its own charge."
+}

@@ -1,0 +1,50 @@
+test_failed_corrective_write (tests.test_additive_publication.AdditivePublicationTests.test_failed_corrective_write) ... ERROR
+test_final_execution_cancel (tests.test_additive_publication.AdditivePublicationTests.test_final_execution_cancel) ... ERROR
+test_final_execution_write_failure (tests.test_additive_publication.AdditivePublicationTests.test_final_execution_write_failure) ... ERROR
+
+======================================================================
+ERROR: test_failed_corrective_write (tests.test_additive_publication.AdditivePublicationTests.test_failed_corrective_write)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_additive_publication.py", line 34, in test_failed_corrective_write
+    def test_failed_corrective_write(self):self.check_failure(OSError('execution receipt failed'),True)
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_additive_publication.py", line 26, in check_failure
+    exec(compile(suffix,str(PRODUCER),'exec'),env)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/evidence/nus-additive-publication-fix-002/producer.py", line 101, in <module>
+    print(json.dumps({k:report[k] for k in ('status','comparison_eligible','observed_audit_wall_seconds','observed_audit_full_cpu_seconds')}));raise SystemExit(0 if report['comparison_eligible'] else 2)
+          ^^^^
+NameError: name 'json' is not defined
+
+======================================================================
+ERROR: test_final_execution_cancel (tests.test_additive_publication.AdditivePublicationTests.test_final_execution_cancel)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_additive_publication.py", line 33, in test_final_execution_cancel
+    def test_final_execution_cancel(self):self.check_failure(KeyboardInterrupt())
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_additive_publication.py", line 26, in check_failure
+    exec(compile(suffix,str(PRODUCER),'exec'),env)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/evidence/nus-additive-publication-fix-002/producer.py", line 101, in <module>
+    print(json.dumps({k:report[k] for k in ('status','comparison_eligible','observed_audit_wall_seconds','observed_audit_full_cpu_seconds')}));raise SystemExit(0 if report['comparison_eligible'] else 2)
+          ^^^^
+NameError: name 'json' is not defined
+
+======================================================================
+ERROR: test_final_execution_write_failure (tests.test_additive_publication.AdditivePublicationTests.test_final_execution_write_failure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_additive_publication.py", line 32, in test_final_execution_write_failure
+    def test_final_execution_write_failure(self):self.check_failure(OSError('execution receipt failed'))
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_additive_publication.py", line 26, in check_failure
+    exec(compile(suffix,str(PRODUCER),'exec'),env)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/evidence/nus-additive-publication-fix-002/producer.py", line 101, in <module>
+    print(json.dumps({k:report[k] for k in ('status','comparison_eligible','observed_audit_wall_seconds','observed_audit_full_cpu_seconds')}));raise SystemExit(0 if report['comparison_eligible'] else 2)
+          ^^^^
+NameError: name 'json' is not defined
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.065s
+
+FAILED (errors=3)
