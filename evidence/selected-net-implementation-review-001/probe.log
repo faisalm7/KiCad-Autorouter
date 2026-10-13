@@ -1,0 +1,28 @@
+{"case": "complete legacy Default selected/parity synthetic positive", "detail": {"applied": false, "authentication": "none; mutable local evidence consistency only", "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/selected-net-implementation-review-001/synthetic/run/candidate/board.kicad_pcb", "candidate_sha256": "c714b0a57e76c707d3a841e5d613e02c641d5dfba90f1932c37b2c60858311d9", "current": true, "warning": "Fresh native validation is required before application; human PCB review and electrical/physical validation remain required."}, "expected": "current", "matched": true, "outcome": "current"}
+{"case": "missing source task hash", "detail": {"reason": "selected-net source binding or final copper audit differs", "type": "Rejected"}, "expected": "reject", "matched": true, "outcome": "reject"}
+{"case": "rehashed incorrect source task hash", "detail": {"reason": "selected-net source binding or final copper audit differs", "type": "Rejected"}, "expected": "reject", "matched": true, "outcome": "reject"}
+{"case": "missing selected binding", "detail": {"reason": "missing selected-net choice or preservation evidence", "type": "Rejected"}, "expected": "reject", "matched": true, "outcome": "reject"}
+{"case": "missing selected audit", "detail": {"reason": "missing selected-net choice or preservation evidence", "type": "Rejected"}, "expected": "reject", "matched": true, "outcome": "reject"}
+{"case": "downgraded whole scope retaining selection markers", "detail": {"reason": "selected-net evidence without selected scope", "type": "Rejected"}, "expected": "reject", "matched": true, "outcome": "reject"}
+{"case": "downgraded schema", "detail": {"reason": "missing, mixed or downgraded floor policy", "type": "Rejected"}, "expected": "reject", "matched": true, "outcome": "reject"}
+{"case": "rehashed bogus binding", "detail": {"reason": "selected-net source binding or final copper audit differs", "type": "Rejected"}, "expected": "reject", "matched": true, "outcome": "reject"}
+{"case": "rehashed bogus audit", "detail": {"reason": "selected-net source binding or final copper audit differs", "type": "Rejected"}, "expected": "reject", "matched": true, "outcome": "reject"}
+{"case": "rehashed captured selection disagreement", "detail": {"reason": "protected route changed", "type": "Rejected"}, "expected": "reject", "matched": true, "outcome": "reject"}
+{"case": "extra unselected copper with all final hashes rebound", "detail": {"reason": "new or changed route uses nonselected or unknown net", "type": "Rejected"}, "expected": "reject", "matched": true, "outcome": "reject"}
+{"case": "extra unknown copper with all final hashes rebound", "detail": {"reason": "new or changed route uses nonselected or unknown net", "type": "Rejected"}, "expected": "reject", "matched": true, "outcome": "reject"}
+{"case": "protected loss with all final hashes rebound", "detail": {"reason": "protected route changed", "type": "Rejected"}, "expected": "reject", "matched": true, "outcome": "reject"}
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/selected-net-implementation-review-001/probe.py", line 83, in <module>
+    check('changed netlist with all final hashes rebound',lambda d:copper(d,'changednetlist'))
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/selected-net-implementation-review-001/probe.py", line 53, in check
+    if mutation:mutation(d)
+                ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/selected-net-implementation-review-001/probe.py", line 83, in <lambda>
+    check('changed netlist with all final hashes rebound',lambda d:copper(d,'changednetlist'))
+                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/selected-net-implementation-review-001/probe.py", line 77, in copper
+    elif kind=='changednetlist':sx.one(tree,'net')[2]='"ALTERED"'
+                                ^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/sexpr.py", line 57, in one
+    raise ValueError('duplicate singleton ' + key)
+ValueError: duplicate singleton net

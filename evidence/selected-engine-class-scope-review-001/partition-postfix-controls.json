@@ -1,0 +1,85 @@
+{
+  "native_validation_performed": false,
+  "results": [
+    {
+      "case": "class-class-input.dsn",
+      "exception": "Rejected",
+      "expected": "reject",
+      "matched": true,
+      "outcome": "reject",
+      "reason": "unsupported selected DSN network reference semantics"
+    },
+    {
+      "case": "default-alias-input.dsn",
+      "exception": "Rejected",
+      "expected": "reject",
+      "matched": true,
+      "outcome": "reject",
+      "reason": "selected DSN class names ambiguous"
+    },
+    {
+      "all_nonnetwork_sections_exact": true,
+      "binding": {
+        "all_nets_and_pins_retained": true,
+        "class_rules_copied_exactly": true,
+        "engine_argument": "--router.autorouter.ignore_net_classes=__kicad_scope_daf0eb1fc6e6a568_0",
+        "ignored_engine_classes": [
+          "__kicad_scope_daf0eb1fc6e6a568_0"
+        ],
+        "input_sha256": "8ea36bca3e3e38ae4fc6f2400a30ccd8e17db8709d3f8372ded91a9fae5799b3",
+        "native_classes_changed": false,
+        "output_sha256": "3bfce535ec5b63887795c2c49c5de4fa1d7eb0adcbae688ebc0987371a8f7b8b",
+        "policy": "selected-nets-v1",
+        "requested_names": [
+          "SIGNAL_A"
+        ],
+        "schema": 1
+      },
+      "case": "actual-single-default",
+      "expected": "exact-preservation",
+      "full_net_pin_rows_exact": true,
+      "full_per_net_class_payload_exact": true,
+      "input_sha256": "8ea36bca3e3e38ae4fc6f2400a30ccd8e17db8709d3f8372ded91a9fae5799b3",
+      "matched": true,
+      "output_sha256": "3bfce535ec5b63887795c2c49c5de4fa1d7eb0adcbae688ebc0987371a8f7b8b",
+      "reparse_passed": true
+    },
+    {
+      "all_nonnetwork_sections_exact": true,
+      "binding": {
+        "all_nets_and_pins_retained": true,
+        "class_rules_copied_exactly": true,
+        "engine_argument": "--router.autorouter.ignore_net_classes=__kicad_scope_fbd4fc996954188f_0",
+        "ignored_engine_classes": [
+          "__kicad_scope_fbd4fc996954188f_0"
+        ],
+        "input_sha256": "3d6baf6bf8c75908f2bcaf795130706c38c8fa02c9c1eb2761fc85f00ad6be45",
+        "native_classes_changed": false,
+        "output_sha256": "f8630dcd0e0ae9460b63db2a0ede9cc830c40726c6693b5ac4fd1e78db4188be",
+        "policy": "selected-nets-v1",
+        "requested_names": [
+          "SIGNAL_A",
+          "SIGNAL_B"
+        ],
+        "schema": 1
+      },
+      "case": "synthetic-two-classes",
+      "expected": "exact-preservation",
+      "full_net_pin_rows_exact": true,
+      "full_per_net_class_payload_exact": true,
+      "input_sha256": "3d6baf6bf8c75908f2bcaf795130706c38c8fa02c9c1eb2761fc85f00ad6be45",
+      "matched": true,
+      "output_sha256": "f8630dcd0e0ae9460b63db2a0ede9cc830c40726c6693b5ac4fd1e78db4188be",
+      "reparse_passed": true
+    }
+  ],
+  "source_sha256_after": {
+    "autorouter/pipeline.py": "6f697c010384f1af2b12c79b2551ff9fc37655fd8fc71d3fd951c3cdfc02432f",
+    "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e"
+  },
+  "source_sha256_before": {
+    "autorouter/pipeline.py": "6f697c010384f1af2b12c79b2551ff9fc37655fd8fc71d3fd951c3cdfc02432f",
+    "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e"
+  },
+  "subprocesses_executed": 0
+}

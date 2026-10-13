@@ -1,0 +1,49 @@
+"""Read-only retained Devobordo diagnostic; no semantic normalization approval."""
+from pathlib import Path
+from collections import Counter
+import sys,json,hashlib,copy,subprocess
+from unittest.mock import patch
+sys.dont_write_bytecode=True
+ROOT=Path(__file__).resolve().parents[2];sys.path.insert(0,str(ROOT));HERE=Path(__file__).resolve().parent
+from autorouter import pipeline as p,floor_route as f,review_export as e,sexpr as sx,placement_clearance as pc,config as c
+from experiments.licensed_acquisition_v3 import native_snapshot
+R=ROOT/'.runs/devobordo-original-native-001';J=R/'job'
+def forbidden(*a,**k):raise AssertionError('External execution prohibited')
+def canon(x):return json.dumps(x,sort_keys=True,separators=(',',':'))
+def main():
+ record=f.read_json(R/'result.json');before=e.witness(R);board=R/'original/KiCad/devboard.kicad_pcb';saved=J/'roundtrip.kicad_pcb';original=sx.read(board);native=sx.read(saved)
+ assert record['status']=='failed' and record['accepted'] is False and record['error']=='Rejected: protected route missing, changed or ambiguous after import' and record['routing_executed'] is False
+ assert p.sha(ROOT/'.runs/run-devobordo-original-native-001.py')==record['helper_sha256'];assert p.tree_hash(R/'original')==record['original_hashes'];assert p.sha(ROOT/'.runs/licensed-acquisition-006-run-001/receipt.json')==record['acquisition_receipt_sha256'];assert {n:hashlib.sha256(raw).hexdigest() for n,raw in native_snapshot.capture().items()}==record['original_hashes'];assert pc.inventory(R/'code')==record['tools']['implementation_sha256']
+ assert record['original_preserved'] is True and record['acquired_source_still_exact'] is True and record['within_budget'] is True and max(record['wall_seconds'],record['total_cpu_seconds'])<90 and record['output_bytes']<20*1024**2
+ assert [s['name'] for s in record['steps']]==['original-drc','parity-drc','original-export','original-metrics','original-roundtrip']
+ with patch.object(subprocess,'run',forbidden),patch.object(subprocess,'Popen',forbidden):
+  original_native=f.check_drc_stage(J,record,'original-drc',board,J/'original-drc-input'/board.name,False,p.tree_hash(board.parent));assert original_native==record['original_native']
+  parity=f.read_json(J/'parity-drc-binding.json');assert parity['source']==str(board) and parity['input']==str(J/'parity-input'/board.name) and parity['saved'] is False and parity['before']==p.tree_hash(board.parent);p.check_drc_project(parity['before'],parity['after'],board.name);assert parity['after']==p.tree_hash(J/'parity-input')
+  argv=[*f.SANDBOX,str(c.CLI),'pcb','drc','--format','json','--severity-all','--all-track-errors','--refill-zones','--schematic-parity','--exit-code-violations','--output',str(J/'parity-drc.json'),str(J/'parity-input'/board.name)];f.process_check(J,record,'parity-drc',argv,allowed=(5,));parity_native=p.parse_report(J/'parity-drc.json',board.name);assert parity_native==record['parity_native']
+  for name,action,output,extra in [('original-export','export',J/'original.dsn',[J/'original-netclasses.json']),('original-metrics','metrics',J/'original-metrics.json',[]),('original-roundtrip','roundtrip',saved,[])]:f.process_check(J,record,name,[*f.SANDBOX,str(c.PYTHON),str(ROOT/'autorouter/native.py'),action,str(board),str(output),*[str(x) for x in extra]])
+  classes=f.read_json(J/'original-netclasses.json');assert classes['board_saved'] is False and classes['native_version']=='10.0.0' and classes['source']==str(board) and classes['board_sha256']==p.sha(board) and classes['project_sha256']==p.sha(board.with_suffix('.kicad_pro'))
+  assert f.read_json(J/'original-metrics.json')==record['metrics']
+  thermal=[v for v in original_native['findings'] if v['severity']=='error'];assert len(thermal)==1 and thermal[0]['type']=='starved_thermal' and thermal[0]['description']=='Thermal relief connection to zone incomplete (layer F.Cu; zone min spoke count 2; actual 1)' and {i['uuid'] for i in thermal[0]['items']}=={'56318b7a-6662-4b7b-a969-87c738eae8c2','0066e363-aea5-4faf-b540-29dacdacf00e'};assert original_native['opens']==0 and original_native['blocking']==1 and original_native['warnings']==40 and original_native['exclusions']==0
+  assert all(v['type']=='lib_footprint_issues' and v['severity']=='warning' for v in original_native['findings'] if v['severity']=='warning')
+  parity_raw=f.read_json(J/'parity-drc.json');original_raw=f.read_json(J/'original-drc.json');assert Counter(canon(x) for x in parity_raw['violations'])==Counter(canon(x) for x in original_raw['violations']);extra=parity_raw['schematic_parity'];assert len(extra)==34 and all(x['type']=='footprint_symbol_field_mismatch' and x['severity']=='warning' for x in extra) and parity_native['warnings']==74 and parity_native['blocking']==1 and parity_native['opens']==parity_native['exclusions']==0 and parity_native['ignored_checks']==original_native['ignored_checks']
+  key=lambda n:sx.unquote(sx.one(n,'uuid')[1]);a={key(n):n for n in p.routes(original)};b={key(n):n for n in p.routes(native)};assert len(a)==len(b)==619 and set(a)==set(b);assert Counter(n[0] for n in a.values())=={'segment':569,'via':46,'arc':4}
+  expected={'capping':['capping','no'],'covering':['covering',['front','no'],['back','no']],'plugging':['plugging',['front','no'],['back','no']],'filling':['filling','no']};route_changes=Counter();removed=Counter()
+  for uid,n in a.items():
+   converted=p.convert_route_nets(b[uid],native,original);assert converted[0]==n[0]
+   if n[0]=='via':
+    assert all(not sx.children(n,k) and sx.children(converted,k)==[v] for k,v in expected.items());reduced=[x for x in converted if not isinstance(x,list) or not x or x[0] not in expected];assert reduced==n;route_changes['via']=route_changes['via']+1;removed.update(expected)
+   else:assert converted==n
+  try:p.transplant_routes(original,native,protected=copy.deepcopy(p.routes(original)),policy='exact_non_uuid_lock_position_v2')
+  except p.Rejected as exc:rejection=str(exc)
+  else:raise AssertionError('Strict failure unexpectedly accepted')
+  assert rejection==record['error'].removeprefix('Rejected: ');assert p.immutable(original)!=p.immutable(native) and record['native_saved_nonfill_ast_equal'] is False
+  populations={}
+  for label,get in [('footprints',lambda t:sx.children(t,'footprint')),('pads',lambda t:[pad for fp in sx.children(t,'footprint') for pad in sx.children(fp,'pad')])]:
+   am={key(n):n for n in get(original)};bm={key(n):n for n in get(native)};assert set(am)==set(bm);populations[label]={'count':len(am),'unique_uuid_population_preserved':True}
+ assert len({s['pid'] for s in record['steps']})==5 and sum(s['cpu_seconds']+s['monitor_cpu_seconds'] for s in record['steps'])<=record['total_cpu_seconds'] and sum(s['wall_seconds'] for s in record['steps'])<=record['wall_seconds']
+ processes=[]
+ for step in record['steps']:
+  process=f.read_json(J/(step['name']+'-process.json'));assert all(step.get(k)==v for k,v in process.items()) and set(step)-set(process)<={'validated_input_sha256','emitted_candidate'} and step['cleanup_complete'] is True and step['log_truncated'] is False and Path(step['log']).stat().st_size==step['log_bytes'];processes.append({'name':step['name'],'pid':step['pid'],'status':step['status'],'exit_code':step['exit_code'],'process_sha256':p.sha(J/(step['name']+'-process.json')),'log_sha256':p.sha(Path(step['log']))})
+ assert e.witness(R)==before and p.tree_hash(R/'original')==record['original_hashes']
+ output={'schema':1,'status':'failed_original_diagnostic_independently_verified','actual_source_head':record['tools']['git_head'],'actual_original_source_commit':record['source_commit'],'controller_sha256':record['helper_sha256'],'original_result_sha256':p.sha(R/'result.json'),'original_failed_status_preserved':True,'strict_roundtrip_rejection':rejection,'routes':{'count':619,'unique_nonempty_original_and_saved_UUIDs':True,'types':{'segment':569,'via':46,'arc':4},'legacy_net_mapping_required':True,'segments_arcs_full_AST_exact_after_existing_net_conversion':True,'all_46_vias_exact_only_after_removing_four_added_explicit_no_fields':True,'added_field_shapes':expected,'actual_loss_of_route_objects_demonstrated':False,'new_normalization_policy_authorized':False},'nonroute_full_AST_equal':False,'native_populations':populations,'native_counts':{k:original_native[k] for k in ('opens','blocking','warnings','exclusions')},'sole_critical_failure':{'type':'starved_thermal','pad_reference':'J1/S1','required_spokes':2,'actual_spokes':1,'zone_uuid':'56318b7a-6662-4b7b-a969-87c738eae8c2','pad_uuid':'0066e363-aea5-4faf-b540-29dacdacf00e'},'original_warnings':{'lib_footprint_issues':40},'parity_counts':{k:parity_native[k] for k in ('opens','blocking','warnings','exclusions')},'extra_parity_warnings':{'footprint_symbol_field_mismatch':34},'parity_original_findings_exact_multiset':True,'metrics':record['metrics'],'processes':processes,'original_inputs_and_acquired_bytes_unchanged':True,'recorded_full_diagnostic_sample':{'wall_seconds':record['wall_seconds'],'total_cpu_seconds':record['total_cpu_seconds'],'output_bytes':record['output_bytes']},'cost_scope':'Controller starts before acquisition/copy/native and samples in finally before final result publication. No external enclosing process receipt exists in this task directory; no exact post-publication full-envelope claim is invented.','no_reviewer_native_Git_JVM_subprocess_network_execution':True,'scope':'Original-board diagnostic and serialization counterexample only, not GPIO routing, production format admission, normalized protected-copper equivalence, schematic parity approval or physical validation.'};(HERE/'audit.json').write_text(json.dumps(output,indent=2,sort_keys=True)+'\n');print(json.dumps({'original_failed':True,'route_UUIDs':619,'via_serialization_changes':46,'original_native':'0/1/40','parity':'0/1/74','original_evidence_unchanged':True}))
+if __name__=='__main__':main()

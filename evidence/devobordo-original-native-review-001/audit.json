@@ -1,0 +1,154 @@
+{
+  "actual_original_source_commit": "5823d7a0d7fc3d1d520dd00f87bc5a42e413d04b",
+  "actual_source_head": "b6688de93b81ac7910e8cf7ae2625d340f370bc7",
+  "controller_sha256": "4247b519d19b7ebc20053843f53b25c1db1ba4e9331de79a842f2ef35cc2ffac",
+  "cost_scope": "Controller starts before acquisition/copy/native and samples in finally before final result publication. No external enclosing process receipt exists in this task directory; no exact post-publication full-envelope claim is invented.",
+  "extra_parity_warnings": {
+    "footprint_symbol_field_mismatch": 34
+  },
+  "metrics": {
+    "copper_layers": 2,
+    "footprints": 40,
+    "pads": 207,
+    "track_length_mm": 971.4514435598487,
+    "version": "10.0.0",
+    "vias": 46,
+    "zones": 1
+  },
+  "native_counts": {
+    "blocking": 1,
+    "exclusions": 0,
+    "opens": 0,
+    "warnings": 40
+  },
+  "native_populations": {
+    "footprints": {
+      "count": 40,
+      "unique_uuid_population_preserved": true
+    },
+    "pads": {
+      "count": 207,
+      "unique_uuid_population_preserved": true
+    }
+  },
+  "no_reviewer_native_Git_JVM_subprocess_network_execution": true,
+  "nonroute_full_AST_equal": false,
+  "original_failed_status_preserved": true,
+  "original_inputs_and_acquired_bytes_unchanged": true,
+  "original_result_sha256": "88761b3073781891598c0db8521966c0856ca63292e7ee0405a648df1589834d",
+  "original_warnings": {
+    "lib_footprint_issues": 40
+  },
+  "parity_counts": {
+    "blocking": 1,
+    "exclusions": 0,
+    "opens": 0,
+    "warnings": 74
+  },
+  "parity_original_findings_exact_multiset": true,
+  "processes": [
+    {
+      "exit_code": 5,
+      "log_sha256": "088f92674a549dab89619b5550283f05d04fb3d717ac8495d580ed5d97ccbdaa",
+      "name": "original-drc",
+      "pid": 77826,
+      "process_sha256": "1128b54b870733d838ab6fea510bf956ee49572ded5cdac5f1e8480722f6b2c7",
+      "status": "nonzero_exit"
+    },
+    {
+      "exit_code": 5,
+      "log_sha256": "6a068a76e07f4d8542440e34996783f43920545059a0f128dd7bf0dc23598f2d",
+      "name": "parity-drc",
+      "pid": 77827,
+      "process_sha256": "c3d858e41ece6f4315e178769927cab1a5940a44a2e2aa43e9e9331d0e6df0c7",
+      "status": "nonzero_exit"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "original-export",
+      "pid": 77828,
+      "process_sha256": "0fcab96265f8cc31f184729a58af41aaf428770fef4b0655f0bc7d24131e7889",
+      "status": "success"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "original-metrics",
+      "pid": 77829,
+      "process_sha256": "85a9babbbc9d6a7d73085e9a2f68b8386487d0a899cf0a7943a88e53b57e01c3",
+      "status": "success"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "original-roundtrip",
+      "pid": 77831,
+      "process_sha256": "6b0e5583771dc49fe2827a9573dcbb051897efc2c7476bb3a52f9269eab2caa7",
+      "status": "success"
+    }
+  ],
+  "recorded_full_diagnostic_sample": {
+    "output_bytes": 3531893,
+    "total_cpu_seconds": 3.064917,
+    "wall_seconds": 4.200632500003849
+  },
+  "routes": {
+    "actual_loss_of_route_objects_demonstrated": false,
+    "added_field_shapes": {
+      "capping": [
+        "capping",
+        "no"
+      ],
+      "covering": [
+        "covering",
+        [
+          "front",
+          "no"
+        ],
+        [
+          "back",
+          "no"
+        ]
+      ],
+      "filling": [
+        "filling",
+        "no"
+      ],
+      "plugging": [
+        "plugging",
+        [
+          "front",
+          "no"
+        ],
+        [
+          "back",
+          "no"
+        ]
+      ]
+    },
+    "all_46_vias_exact_only_after_removing_four_added_explicit_no_fields": true,
+    "count": 619,
+    "legacy_net_mapping_required": true,
+    "new_normalization_policy_authorized": false,
+    "segments_arcs_full_AST_exact_after_existing_net_conversion": true,
+    "types": {
+      "arc": 4,
+      "segment": 569,
+      "via": 46
+    },
+    "unique_nonempty_original_and_saved_UUIDs": true
+  },
+  "schema": 1,
+  "scope": "Original-board diagnostic and serialization counterexample only, not GPIO routing, production format admission, normalized protected-copper equivalence, schematic parity approval or physical validation.",
+  "sole_critical_failure": {
+    "actual_spokes": 1,
+    "pad_reference": "J1/S1",
+    "pad_uuid": "0066e363-aea5-4faf-b540-29dacdacf00e",
+    "required_spokes": 2,
+    "type": "starved_thermal",
+    "zone_uuid": "56318b7a-6662-4b7b-a969-87c738eae8c2"
+  },
+  "status": "failed_original_diagnostic_independently_verified",
+  "strict_roundtrip_rejection": "protected route missing, changed or ambiguous after import"
+}

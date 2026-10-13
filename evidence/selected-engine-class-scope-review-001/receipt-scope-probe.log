@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/selected-engine-class-scope-review-001/receipt-scope-probe.py", line 17, in <module>
+    data=json.loads(receipt.read_text());names=['SEL'];choices={'scope':'selected_nets','nets':names,'profile':'completion-only','adapter':'both'};request={'captured':None,'effective':pref.resolve(overrides=choices),'snapshot':pref.snapshot(overrides=choices)};p.capture_preferences(data,run,request);data['adapter']='both'
+                                                                                                                                                                                                                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 630, in capture_preferences
+    with path.open('xb') as stream:stream.write(raw)
+         ^^^^^^^^^^^^^^^
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileExistsError: [Errno 17] File exists: '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/selected-engine-class-scope-review-001/receipt-seam/run/routing-preferences.json'

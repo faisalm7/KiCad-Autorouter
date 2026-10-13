@@ -1,0 +1,92 @@
+{
+  "native_validation_performed": false,
+  "subprocesses_executed": 0,
+  "source_sha256_before": {
+    "autorouter/pipeline.py": "6f697c010384f1af2b12c79b2551ff9fc37655fd8fc71d3fd951c3cdfc02432f",
+    "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e"
+  },
+  "source_sha256_after": {
+    "autorouter/pipeline.py": "6f697c010384f1af2b12c79b2551ff9fc37655fd8fc71d3fd951c3cdfc02432f",
+    "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e"
+  },
+  "results": [
+    {
+      "case": "complete selected Default/both-adapter partition positive",
+      "outcome": "current",
+      "expected": "current",
+      "matched": true,
+      "detail": {
+        "current": true,
+        "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/selected-engine-class-scope-review-001/receipt-seam/run/candidate/board.kicad_pcb",
+        "candidate_sha256": "c714b0a57e76c707d3a841e5d613e02c641d5dfba90f1932c37b2c60858311d9",
+        "applied": false,
+        "authentication": "none; mutable local evidence consistency only",
+        "warning": "Fresh native validation is required before application; human PCB review and electrical/physical validation remain required."
+      }
+    },
+    {
+      "case": "rehashed scope input weakens original Native DSN class width via adapter lineage",
+      "outcome": "current",
+      "expected": "reject",
+      "matched": false,
+      "detail": {
+        "current": true,
+        "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/selected-engine-class-scope-review-001/receipt-seam/run/candidate/board.kicad_pcb",
+        "candidate_sha256": "c714b0a57e76c707d3a841e5d613e02c641d5dfba90f1932c37b2c60858311d9",
+        "applied": false,
+        "authentication": "none; mutable local evidence consistency only",
+        "warning": "Fresh native validation is required before application; human PCB review and electrical/physical validation remain required."
+      }
+    },
+    {
+      "case": "ignore flag removed with process and engine-budget rebound",
+      "outcome": "reject",
+      "expected": "reject",
+      "matched": true,
+      "detail": {
+        "type": "Rejected",
+        "reason": "engine budget differs from captured preferences"
+      }
+    },
+    {
+      "case": "fanout safety flag removed with process and engine-budget rebound",
+      "outcome": "reject",
+      "expected": "reject",
+      "matched": true,
+      "detail": {
+        "type": "Rejected",
+        "reason": "engine budget differs from captured preferences"
+      }
+    },
+    {
+      "case": "optimizer safety flag removed with process and engine-budget rebound",
+      "outcome": "reject",
+      "expected": "reject",
+      "matched": true,
+      "detail": {
+        "type": "Rejected",
+        "reason": "engine budget differs from captured preferences"
+      }
+    },
+    {
+      "case": "missing partition binding",
+      "outcome": "reject",
+      "expected": "reject",
+      "matched": true,
+      "detail": {
+        "type": "Rejected",
+        "reason": "missing selected-net choice or preservation evidence"
+      }
+    },
+    {
+      "case": "scope downgrade retaining actual scoped-input marker",
+      "outcome": "reject",
+      "expected": "reject",
+      "matched": true,
+      "detail": {
+        "type": "Rejected",
+        "reason": "selected-net evidence cannot downgrade routing scope"
+      }
+    }
+  ]
+}

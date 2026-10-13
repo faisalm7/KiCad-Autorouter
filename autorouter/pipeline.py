@@ -791,6 +791,9 @@ def check_preferences_record(directory, data):
                 raise Rejected('selected-net unadapted export differs')
         elif data.get('adapter_transformations',{}).get('output_sha256')!=dsn_binding['input_sha256']:
             raise Rejected('selected-net adapter/partition lineage differs')
+        from .adapter import _parse_dsn
+        if sx.one(_parse_dsn(read_bytes(Path(directory)/'native.dsn',20*1024**2).decode()),'network')!=sx.one(_parse_dsn(read_bytes(Path(directory)/'routing-scope-input.dsn',20*1024**2).decode()),'network'):
+            raise Rejected('selected-net adapter changed original network or class rules')
         if dsn_binding['engine_argument'] is not None:settings['argv'].append(dsn_binding['engine_argument'])
         selected_parity_required(data)
     if settings!=assigned:raise Rejected('engine budget differs from captured preferences')

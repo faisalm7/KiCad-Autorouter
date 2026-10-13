@@ -1,0 +1,230 @@
+{
+  "kind": "synthetic consistency controls only",
+  "native_validation_performed": false,
+  "subprocesses_executed": 0,
+  "source_sha256_before": {
+    "autorouter/routing_scope.py": "0ee2df2ecbbd095e4929534b6058e940978afc7fc466f07dcb2f0cf01486e7d3",
+    "autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+    "autorouter/pipeline.py": "ce6f5998a6583553f64effa0671bea87b08bbbaf4d4d694581ae2e53dcf5d745",
+    "autorouter/floor_route.py": "e9497a28b02111056332a1f731d5d6375e36efa5f373ec725fb3e6f0aa39efa1",
+    "autorouter/review_export.py": "f2940f70b0eae199ce8ac3b7616ceb05e37abf041fbf8a98d34978b0ca41b6d7",
+    "autorouter/__main__.py": "a4f6ca97f5dadc2547825ca5bf7be585a8fb6845db1956815679a43474c26113"
+  },
+  "source_sha256_after": {
+    "autorouter/routing_scope.py": "0ee2df2ecbbd095e4929534b6058e940978afc7fc466f07dcb2f0cf01486e7d3",
+    "autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+    "autorouter/pipeline.py": "ce6f5998a6583553f64effa0671bea87b08bbbaf4d4d694581ae2e53dcf5d745",
+    "autorouter/floor_route.py": "e9497a28b02111056332a1f731d5d6375e36efa5f373ec725fb3e6f0aa39efa1",
+    "autorouter/review_export.py": "f2940f70b0eae199ce8ac3b7616ceb05e37abf041fbf8a98d34978b0ca41b6d7",
+    "autorouter/__main__.py": "a4f6ca97f5dadc2547825ca5bf7be585a8fb6845db1956815679a43474c26113"
+  },
+  "preserved_controller_error": "probe.log original changed-netlist mutation called sx.one on multiple root nets; remaining cases resumed here without repeating first13",
+  "results": [
+    {
+      "case": "complete legacy Default selected/parity synthetic positive",
+      "detail": {
+        "applied": false,
+        "authentication": "none; mutable local evidence consistency only",
+        "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/selected-net-implementation-review-001/synthetic/run/candidate/board.kicad_pcb",
+        "candidate_sha256": "c714b0a57e76c707d3a841e5d613e02c641d5dfba90f1932c37b2c60858311d9",
+        "current": true,
+        "warning": "Fresh native validation is required before application; human PCB review and electrical/physical validation remain required."
+      },
+      "expected": "current",
+      "matched": true,
+      "outcome": "current"
+    },
+    {
+      "case": "missing source task hash",
+      "detail": {
+        "reason": "selected-net source binding or final copper audit differs",
+        "type": "Rejected"
+      },
+      "expected": "reject",
+      "matched": true,
+      "outcome": "reject"
+    },
+    {
+      "case": "rehashed incorrect source task hash",
+      "detail": {
+        "reason": "selected-net source binding or final copper audit differs",
+        "type": "Rejected"
+      },
+      "expected": "reject",
+      "matched": true,
+      "outcome": "reject"
+    },
+    {
+      "case": "missing selected binding",
+      "detail": {
+        "reason": "missing selected-net choice or preservation evidence",
+        "type": "Rejected"
+      },
+      "expected": "reject",
+      "matched": true,
+      "outcome": "reject"
+    },
+    {
+      "case": "missing selected audit",
+      "detail": {
+        "reason": "missing selected-net choice or preservation evidence",
+        "type": "Rejected"
+      },
+      "expected": "reject",
+      "matched": true,
+      "outcome": "reject"
+    },
+    {
+      "case": "downgraded whole scope retaining selection markers",
+      "detail": {
+        "reason": "selected-net evidence without selected scope",
+        "type": "Rejected"
+      },
+      "expected": "reject",
+      "matched": true,
+      "outcome": "reject"
+    },
+    {
+      "case": "downgraded schema",
+      "detail": {
+        "reason": "missing, mixed or downgraded floor policy",
+        "type": "Rejected"
+      },
+      "expected": "reject",
+      "matched": true,
+      "outcome": "reject"
+    },
+    {
+      "case": "rehashed bogus binding",
+      "detail": {
+        "reason": "selected-net source binding or final copper audit differs",
+        "type": "Rejected"
+      },
+      "expected": "reject",
+      "matched": true,
+      "outcome": "reject"
+    },
+    {
+      "case": "rehashed bogus audit",
+      "detail": {
+        "reason": "selected-net source binding or final copper audit differs",
+        "type": "Rejected"
+      },
+      "expected": "reject",
+      "matched": true,
+      "outcome": "reject"
+    },
+    {
+      "case": "rehashed captured selection disagreement",
+      "detail": {
+        "reason": "protected route changed",
+        "type": "Rejected"
+      },
+      "expected": "reject",
+      "matched": true,
+      "outcome": "reject"
+    },
+    {
+      "case": "extra unselected copper with all final hashes rebound",
+      "detail": {
+        "reason": "new or changed route uses nonselected or unknown net",
+        "type": "Rejected"
+      },
+      "expected": "reject",
+      "matched": true,
+      "outcome": "reject"
+    },
+    {
+      "case": "extra unknown copper with all final hashes rebound",
+      "detail": {
+        "reason": "new or changed route uses nonselected or unknown net",
+        "type": "Rejected"
+      },
+      "expected": "reject",
+      "matched": true,
+      "outcome": "reject"
+    },
+    {
+      "case": "protected loss with all final hashes rebound",
+      "detail": {
+        "reason": "protected route changed",
+        "type": "Rejected"
+      },
+      "expected": "reject",
+      "matched": true,
+      "outcome": "reject"
+    },
+    {
+      "case": "resumed controlling positive",
+      "expected": "current",
+      "outcome": "current",
+      "matched": true,
+      "detail": {
+        "current": true,
+        "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/selected-net-implementation-review-001/synthetic/run/candidate/board.kicad_pcb",
+        "candidate_sha256": "c714b0a57e76c707d3a841e5d613e02c641d5dfba90f1932c37b2c60858311d9",
+        "applied": false,
+        "authentication": "none; mutable local evidence consistency only",
+        "warning": "Fresh native validation is required before application; human PCB review and electrical/physical validation remain required."
+      }
+    },
+    {
+      "case": "changed netlist with all final hashes rebound",
+      "expected": "reject",
+      "outcome": "reject",
+      "matched": true,
+      "detail": {
+        "type": "Rejected",
+        "reason": "immutable geometry changed"
+      }
+    },
+    {
+      "case": "false schematic parity declaration",
+      "expected": "reject",
+      "outcome": "reject",
+      "matched": true,
+      "detail": {
+        "type": "Rejected",
+        "reason": "selected-net schematic parity declaration differs from complete source"
+      }
+    },
+    {
+      "case": "final native parity argv missing despite copied schematic",
+      "expected": "reject",
+      "outcome": "reject",
+      "matched": true,
+      "detail": {
+        "type": "Rejected",
+        "reason": "native process provenance is inconsistent"
+      }
+    },
+    {
+      "case": "selected DSN provenance downgraded by removing both retained hash fields",
+      "expected": "reject",
+      "outcome": "current",
+      "matched": false,
+      "detail": {
+        "current": true,
+        "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/selected-net-implementation-review-001/synthetic/run/candidate/board.kicad_pcb",
+        "candidate_sha256": "c714b0a57e76c707d3a841e5d613e02c641d5dfba90f1932c37b2c60858311d9",
+        "applied": false,
+        "authentication": "none; mutable local evidence consistency only",
+        "warning": "Fresh native validation is required before application; human PCB review and electrical/physical validation remain required."
+      }
+    },
+    {
+      "case": "changed retained routing exports with downgrade hash fields removed",
+      "expected": "reject",
+      "outcome": "current",
+      "matched": false,
+      "detail": {
+        "current": true,
+        "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/selected-net-implementation-review-001/synthetic/run/candidate/board.kicad_pcb",
+        "candidate_sha256": "c714b0a57e76c707d3a841e5d613e02c641d5dfba90f1932c37b2c60858311d9",
+        "applied": false,
+        "authentication": "none; mutable local evidence consistency only",
+        "warning": "Fresh native validation is required before application; human PCB review and electrical/physical validation remain required."
+      }
+    }
+  ]
+}

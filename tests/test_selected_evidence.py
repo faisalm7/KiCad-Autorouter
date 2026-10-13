@@ -65,4 +65,18 @@ class SelectedEvidence(unittest.TestCase):
         (x.run/'routing-preferences.json').unlink();x.data['scope']='whole_board_unlocked_routing';x.save_receipt()
         with self.assertRaisesRegex(p.Rejected,'cannot downgrade'):p.check_result(x.receipt)
 
+    def test_rehashed_adapter_input_cannot_change_native_exported_class_rules(self):
+        x=self.fixture;x.data['adapter']='both';x.data['routing_preferences']['effective']['adapter']='both'
+        path=x.run/'routing-preferences.json';request={'captured':None,
+            'effective':pref.resolve(overrides={'scope':'selected_nets','nets':['GND'],'profile':'completion-only','adapter':'both'}),
+            'snapshot':pref.snapshot(overrides={'scope':'selected_nets','nets':['GND'],'profile':'completion-only','adapter':'both'})}
+        path.unlink();p.capture_preferences(x.data,x.run,request)
+        base=x.run/'routing-scope-input.dsn';x.data['adapter_transformations']={'output_sha256':p.sha(base)};x.save_receipt()
+        self.assertTrue(p.check_result(x.receipt)['current'])
+        base.write_bytes(base.read_bytes().replace(b'width 200',b'width 100'))
+        emitted,binding=rs.partition_dsn(base.read_bytes(),['GND']);(x.run/'task.dsn').write_bytes(emitted)
+        x.data.update(task_dsn_sha256=p.sha(x.run/'task.dsn'),selected_dsn_binding=binding)
+        x.data['adapter_transformations']['output_sha256']=p.sha(base);x.save_receipt()
+        with self.assertRaisesRegex(p.Rejected,'original network or class rules'):p.check_result(x.receipt)
+
 if __name__=='__main__':unittest.main()

@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/run-selected-net-native-001.py", line 18, in <module>
+    report=f.read_json(out/'result.json');record['routing_receipt_sha256']=p.sha(out/'result.json');record['routing_status']=report['status'];record['routing_accepted']=report['accepted'];record['routing_reason']=report.get('reason');record['native']=report.get('native');record['metrics']=report.get('metrics')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/floor_route.py", line 33, in read_json
+    if path.is_symlink() or path.stat().st_size>sx.MAX_BYTES:raise p.Rejected('invalid bounded floor evidence')
+                            ^^^^^^^^^^^
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/pathlib.py", line 1013, in stat
+    return os.stat(self, follow_symlinks=follow_symlinks)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/selected-net-native-positive-001/result.json'
