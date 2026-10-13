@@ -1,0 +1,217 @@
+{
+    "$schema": "https://schemas.kicad.org/drc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-10-13T13:36:21",
+    "ignored_checks": [
+        {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+        },
+        {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning",
+        "exclusion"
+    ],
+    "kicad_version": "10.0.0",
+    "schematic_parity": [],
+    "source": "usb_led.kicad_pcb",
+    "unconnected_items": [
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Zone 'GND fill' [GND] on F.Cu and B.Cu, priority 0",
+                    "pos": {
+                        "x": 139.065,
+                        "y": 85.725
+                    },
+                    "uuid": "dfa0e7ea-2a61-476a-a3f5-ea904df613e8"
+                },
+                {
+                    "description": "Zone 'GND fill' [GND] on F.Cu and B.Cu, priority 0",
+                    "pos": {
+                        "x": 139.065,
+                        "y": 85.725
+                    },
+                    "uuid": "dfa0e7ea-2a61-476a-a3f5-ea904df613e8"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        }
+    ],
+    "violations": [
+        {
+            "description": "Board edge clearance violation (board setup constraints edge clearance 0.5000 mm; actual 0.4692 mm)",
+            "items": [
+                {
+                    "description": "Segment on Edge.Cuts",
+                    "pos": {
+                        "x": 161.29,
+                        "y": 86.725
+                    },
+                    "uuid": "106f506b-28f6-4c7e-864d-2e8834ad027f"
+                },
+                {
+                    "description": "Track [Net-(D1-A)] on F.Cu, length 0.4953 mm",
+                    "pos": {
+                        "x": 160.6333,
+                        "y": 90.9681
+                    },
+                    "uuid": "4b8fe333-f5dd-498a-a368-3c933eb686a3"
+                }
+            ],
+            "severity": "error",
+            "type": "copper_edge_clearance"
+        },
+        {
+            "description": "Board edge clearance violation (board setup constraints edge clearance 0.5000 mm; actual 0.4692 mm)",
+            "items": [
+                {
+                    "description": "Segment on Edge.Cuts",
+                    "pos": {
+                        "x": 161.29,
+                        "y": 86.725
+                    },
+                    "uuid": "106f506b-28f6-4c7e-864d-2e8834ad027f"
+                },
+                {
+                    "description": "Track [Net-(D1-A)] on F.Cu, length 0.2881 mm",
+                    "pos": {
+                        "x": 160.6333,
+                        "y": 91.4634
+                    },
+                    "uuid": "c4521cec-9511-44b0-a10c-7f6d61701cfe"
+                }
+            ],
+            "severity": "error",
+            "type": "copper_edge_clearance"
+        },
+        {
+            "description": "Board edge clearance violation (board setup constraints edge clearance 0.5000 mm; actual 0.4067 mm)",
+            "items": [
+                {
+                    "description": "Segment on Edge.Cuts",
+                    "pos": {
+                        "x": 161.29,
+                        "y": 86.725
+                    },
+                    "uuid": "106f506b-28f6-4c7e-864d-2e8834ad027f"
+                },
+                {
+                    "description": "Track [Net-(D1-A)] on F.Cu, length 1.1287 mm",
+                    "pos": {
+                        "x": 159.8352,
+                        "y": 90.17
+                    },
+                    "uuid": "fbdb4363-1cfb-4f2a-8fab-ee97e31c1227"
+                }
+            ],
+            "severity": "error",
+            "type": "copper_edge_clearance"
+        },
+        {
+            "description": "Thermal relief connection to zone incomplete (layer F.Cu; zone min spoke count 2; actual 1)",
+            "items": [
+                {
+                    "description": "Zone 'GND fill' [GND] on F.Cu and B.Cu, priority 0",
+                    "pos": {
+                        "x": 139.065,
+                        "y": 85.725
+                    },
+                    "uuid": "dfa0e7ea-2a61-476a-a3f5-ea904df613e8"
+                },
+                {
+                    "description": "Pad 2 [GND] of R3 on F.Cu",
+                    "pos": {
+                        "x": 148.59,
+                        "y": 89.5725
+                    },
+                    "uuid": "8b909a45-5ebb-474d-a115-11efeeb2dfd8"
+                }
+            ],
+            "severity": "error",
+            "type": "starved_thermal"
+        },
+        {
+            "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+            "items": [
+                {
+                    "description": "Footprint R1",
+                    "pos": {
+                        "x": 158.75,
+                        "y": 92.71
+                    },
+                    "uuid": "062ffc51-f8df-48c0-b56f-39bfdde7c55a"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+        },
+        {
+            "description": "The current configuration does not include the footprint library 'Connector_USB'",
+            "items": [
+                {
+                    "description": "Footprint J1",
+                    "pos": {
+                        "x": 142.24,
+                        "y": 91.44
+                    },
+                    "uuid": "4775161d-c60f-42e5-ad80-435909b61f2d"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+        },
+        {
+            "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+            "items": [
+                {
+                    "description": "Footprint R2",
+                    "pos": {
+                        "x": 148.59,
+                        "y": 92.71
+                    },
+                    "uuid": "4a3ce698-031a-4c20-ad71-0a64d26989ba"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+        },
+        {
+            "description": "The current configuration does not include the footprint library 'LED_SMD'",
+            "items": [
+                {
+                    "description": "Footprint D1",
+                    "pos": {
+                        "x": 158.75,
+                        "y": 90.17
+                    },
+                    "uuid": "99392dee-077f-4d4f-ae18-c7d97279f19d"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+        },
+        {
+            "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+            "items": [
+                {
+                    "description": "Footprint R3",
+                    "pos": {
+                        "x": 148.59,
+                        "y": 90.17
+                    },
+                    "uuid": "ec73cd38-13d2-4a9e-b1aa-f2ebf851cc08"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+        }
+    ]
+}

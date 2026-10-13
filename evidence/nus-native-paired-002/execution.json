@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "git_head": "64227b98683ae628931be2c1d4e22c40f27f33be",
+  "started_utc": "2026-10-13T20:36:07.762644+00:00",
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 83.09855862500262,
+    "cpu_seconds": 75.670402,
+    "max_rss_bytes": 338526208,
+    "supervisor_cpu_seconds": 1.5556459999999999,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 323141632,
+    "sampled_peak_workdir_bytes": 10189944,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 100663296,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/experiment_paired.py",
+      "--project",
+      "nus-usb-led",
+      "--system",
+      "native-all",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/nus-native-paired-002/run"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/nus-native-paired-002/command.log",
+    "log_bytes": 136,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/nus-native-paired-002",
+    "signal_cancellation_enabled": true,
+    "pid": 281
+  },
+  "wall_seconds": 83.28371187498851,
+  "full_cpu_seconds": 77.405262,
+  "wrapper_sha256": "cc4fc1ddbf6d59303827c5adf229162a3c058605ee3f689c0dad3263a824e720",
+  "log_sha256": "e605093794203edebfd8c2a38c1592ad28f27d70b87d1aaaa6477afe55ae9ca9",
+  "scope": "Four fresh sequential exposed-development arms B0/B1/B2portfolio/Cnative-feedback, each120wall/fullCPU including shared charges; same original constraints. Outer96MiB polling and540s timeout; native validation required.",
+  "outer_charge_requires_final_readback": true,
+  "prospective_protocol_sha256": "f86e3b4dc1bea4a398b059a2e21c15f139fcbd6fb83a51499e67126c73b46cb2"
+}

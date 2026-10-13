@@ -1,0 +1,16 @@
+======================================================================
+ERROR: test_original_width_guard_is_required_in_tuned_profile_readback (test_portfolio.PortfolioControls.test_original_width_guard_is_required_in_tuned_profile_readback)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_portfolio.py", line 90, in test_original_width_guard_is_required_in_tuned_profile_readback
+    self.assertTrue(m.verify_row(row,self.board,self.frozen)['current'])
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/experiment_portfolio.py", line 108, in verify_row
+    or data.get('native_report_sha256') != row['native_report_sha256']):
+                                           ~~~^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'native_report_sha256'
+
+----------------------------------------------------------------------
+Ran 22 tests in 0.129s
+
+FAILED (errors=1)

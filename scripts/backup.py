@@ -18,12 +18,13 @@ from datetime import datetime, timezone
 
 ROOT = Path(__file__).resolve().parents[1]
 SCOPES = (".runs", ".data", ".local-reference")
-# The measured retained population after failed011 is156,259files/4,538,952,147B.
-# Retaining a fresh corrected installation forecasts172,259files/5,075,823,059B.
-# Keep finite5GiB archive/target/bundle and180,000 file/directory ceilings, without removing
+# The52387d9 inventory is173,915files/4,992,294,089B. Retained install012
+# measures16,062files/386,468,788B; another current install forecasts at least
+#189,977files/5,378,762,877B before newer controls. Keep finite5.5GiB
+# archive/target/bundle and200,000 file/directory ceilings, without removing
 # evidence or changing scopes, secret/path checks, streaming or chain limits.
-LIMIT = 5 * 1024 ** 3
-MAX_FILES = 180000
+LIMIT = 11 * 1024 ** 3 // 2
+MAX_FILES = 200000
 MAX_CHAIN = 16
 # The prior139,253-file receipt is39,044,114B. The next forecast nearly fills
 # 48MiB at that measured bytes-per-entry;64MiB gives finite metadata headroom.

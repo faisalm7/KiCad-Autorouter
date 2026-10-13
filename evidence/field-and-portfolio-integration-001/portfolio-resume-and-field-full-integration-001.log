@@ -1,0 +1,21 @@
+======================================================================
+FAIL: test_exact_finite_capacity_and_existing_population (test_backup_capacity.BackupCapacity.test_exact_finite_capacity_and_existing_population)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_backup_capacity.py", line 13, in test_exact_finite_capacity_and_existing_population
+    self.assertEqual(backup.LIMIT,5*1024**3);self.assertEqual(backup.MAX_FILES,180000)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 5905580032 != 5368709120
+
+======================================================================
+FAIL: test_previous_range_and_exact_five_gib_boundary_without_allocation (test_backup_capacity.BackupCapacity.test_previous_range_and_exact_five_gib_boundary_without_allocation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_backup_capacity.py", line 23, in test_previous_range_and_exact_five_gib_boundary_without_allocation
+    with self.assertRaises(backup.BackupError):backup.check_manifest(self.manifest(5*1024**3+1))
+AssertionError: BackupError not raised
+
+----------------------------------------------------------------------
+Ran 877 tests in 35.051s
+
+FAILED (failures=2)

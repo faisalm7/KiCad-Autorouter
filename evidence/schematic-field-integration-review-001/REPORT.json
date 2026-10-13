@@ -1,0 +1,64 @@
+{
+  "schema": 1,
+  "status": "frozen_skeptical_integration_review",
+  "production_edits": false,
+  "native_jvm_git_execution": false,
+  "delegation": false,
+  "pure_controls": 18,
+  "native_acceptance_claim": false,
+  "resolved_findings": [
+    {
+      "id": "all-findings-family-api",
+      "problem": "Integration passed all native findings into an API requiring the exact field-warning subset, falsely rejecting sentinel plus normal library warnings.",
+      "resolution": "Filter only the field family at the qualification call; retain every other finding in native application checks.",
+      "control": "Complete field plus library positive passes; reconstructed whole-population call rejects."
+    },
+    {
+      "id": "export-stage-history",
+      "problem": "Native-only allowlist permitted two field workers but final expected stage history omitted them.",
+      "resolution": "Expected export history now includes both source-driven final-drc-fields workers.",
+      "control": "Exact captured current expected expression requires both workers."
+    },
+    {
+      "id": "mandatory-name-collapse",
+      "problem": "Raw duplicate guard checked literal spelling, while pinned parser folds mandatory field names then overwrites by ID; Datasheet/datasheet alias concealed one raw value.",
+      "resolution": "Current check_source_fields rejects noncanonical mandatory spellings and duplicates.",
+      "control": "Explicit reconstructed pre-fix source guard qualifies the alias; current source guard rejects with the flat positive still qualified."
+    },
+    {
+      "id": "hidden-negative-field-order",
+      "problem": "Controller mutated LCSC Part # before Datasheet in the actual exported component map, so it would not exercise the concealed-later mismatch.",
+      "resolution": "Controller now changes Description, observed after Datasheet.",
+      "proof": "Pinned COMPONENT SetFields/GetFields take/store/return nlohmann::ordered_map at pcb_netlist.h:160\u2013164; real retained D1 field order was Sim.Pins,LCSC Part #,Footprint,Datasheet,Description."
+    },
+    {
+      "id": "extra-native-PCB-field-rejection",
+      "problem": "Pure comparison initially demanded identical field keys although pinned parity iterates every schematic field and permits extra PCB-only fields.",
+      "resolution": "Comparison now requires every schematic field and preserves extra PCB fields in hashed observation/invariants.",
+      "scope_correction": "NUS raw ki_fp_filters properties are dropped as native fields by pinned PCB parser; they are not demonstrated extra native PCB fields. The general extra-field false rejection is separately controlled."
+    }
+  ],
+  "retractions": [
+    {
+      "id": "collector-PRL",
+      "meaning": "Original standalone export creating PRL was not a demonstrated collector defect. Production collector runs against retained post-DRC input, already including DRC-created PRL. Strict tree equality remains; no safe-UI-state waiver proposed."
+    }
+  ],
+  "safety_controls": [
+    "Ignored field parity, net_conflict and track_width reject",
+    "Error/excluded/real URL/other-field raw findings reject despite supplied proof",
+    "Duplicate native footprint UUID/reference reject",
+    "Newer schematic schema and hierarchy remain unqualified",
+    "Matched flat20250114 source remains qualified",
+    "Native fields pre-load triple hashes occur before LoadBoard and are compared before observation publication",
+    "Current final process replay uses explicit sandbox prefix and adds field workers to shared history/accounting"
+  ],
+  "fixture_failure": "Initial CONTROL assertion expected a before-fix guard, but captured derive already called the fixed helper. Empty stdout and failure explanation preserved; continuation uses explicitly reconstructed observed pre-fix body.",
+  "limits": [
+    "All controls are authored pure seams and source inspection; no native qualification performed by this reviewer.",
+    "Lead reports fresh three-case native qualification including hidden Description and URL negatives; actual evidence remains lead-owned, not independently audited in this narrow review.",
+    "Original NUS paired001 rejection and completed standalone export/PRL failure remain unchanged.",
+    "Same exporter/default format proof does not grant broader hierarchy/multiunit/nondefault-variant admission."
+  ],
+  "source_pin": "0feeca2a807f428ad2b3fa7c1e39625cb769f02c"
+}

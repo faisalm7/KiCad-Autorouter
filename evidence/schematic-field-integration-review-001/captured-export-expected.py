@@ -1,0 +1,1 @@
+expected_names=['refill-drc',*(['pour-keepout-audit'] if qualify(original) else []),*(['floor-final'] if contract is not None else ['final-netclasses'] if p.netclass_policy(candidate) is not None else []),'final-drc',*(fields.names('final-drc') if fields.has_fields(data['native']['findings']) else []),'metrics']

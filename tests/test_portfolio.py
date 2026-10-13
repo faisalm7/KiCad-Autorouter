@@ -33,6 +33,7 @@ class PortfolioControls(unittest.TestCase):
         self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup)
         self.root=Path(self.temp.name).resolve();(self.root/'.runs').mkdir();(self.root/'source').mkdir()
         self.board=self.root/'source/board.kicad_pcb';self.board.write_text('fixture')
+        self.board.with_suffix('.kicad_pro').write_text('{}')
         self.wall=0.;self.cpu=0.;self.calls=[];self.out=self.root/'.runs/portfolio'
         self.frozen={'tools':{},'source_hashes':{},'files_sha256':{}}
         self.sizes=[(2,100.),(3,80.),(2,90.)];self.costs=[(18.,25.)]*3
@@ -73,6 +74,24 @@ class PortfolioControls(unittest.TestCase):
         self.assertEqual(result['selected']['id'],'via_high')
         self.assertEqual(result['pareto_frontier'],['via_low','via_high'])
         self.assertNotIn('accepted',result)
+
+    def test_original_width_guard_is_required_in_tuned_profile_readback(self):
+        project=self.board.with_suffix('.kicad_pro')
+        project.write_text(json.dumps({'board':{'design_settings':{'rules':{'min_track_width':0.2}}}}))
+        directory=self.root/'.runs/guarded';data=self.route(self.board,directory,100,False,'both','tuned',scoring_variant='via_default')
+        engine=p.engine_profile_settings('tuned',100,strict_class_targets=True,scoring_variant='via_default')
+        engine.update(outer_task_wall_budget_seconds=100,outer_task_cpu_budget_seconds=100)
+        data['engine_budget']=engine;data['minimum_width_guard']=p.minimum_width_guard(self.board,'both')
+        data['steps'][0]['argv']=['java',*engine['argv']]
+        p.save_json(directory/'engine-process.json',data['steps'][0]);receipt=directory/'result.json';p.save_json(receipt,data)
+        row={'result':str(receipt),'result_sha256':p.sha(receipt),'id':'via_default','assigned_seconds':100,
+            'vias':data['metrics']['vias'],'length_mm':data['metrics']['track_length_mm'],
+            'candidate':data['candidate'],'candidate_sha256':data['candidate_sha256'],
+            'native_report_sha256':data['native_report_sha256']}
+        self.assertTrue(m.verify_row(row,self.board,self.frozen)['current'])
+        data['minimum_width_guard']['original_project_sha256']='0'*64;p.save_json(receipt,data);row['result_sha256']=p.sha(receipt)
+        with self.assertRaisesRegex(p.Rejected,'original width guard'):
+            m.verify_row(row,self.board,self.frozen)
 
     def test_prep_and_selection_costs_are_in_global_budget(self):
         def frozen(board):self.wall+=5.;self.cpu+=6.;return self.frozen
