@@ -1,0 +1,312 @@
+{
+  "case": "narrow_track",
+  "status": "observed",
+  "source_sha256": "73edbe85dc70b9d727847cf6a099b67e726cd13b608b079c977c7e01e92f7305",
+  "source_hashes": {
+    "PROVENANCE.md": "24a3ae4d255ba826528553ba63a2efe62b7838a201ddd4b4d21ca2c5eade059a",
+    "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+    "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    "fixture.kicad_pcb": "73edbe85dc70b9d727847cf6a099b67e726cd13b608b079c977c7e01e92f7305",
+    "fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538"
+  },
+  "steps": [
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.0768085829986376,
+      "cpu_seconds": 0.404483,
+      "max_rss_bytes": 101728256,
+      "supervisor_cpu_seconds": 0.01052300000000006,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 99958784,
+      "sampled_peak_workdir_bytes": 146487,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/kicad8-native-compat-001/run/narrow_track/refill-drc.json",
+        "--save-board",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/kicad8-native-compat-001/run/narrow_track/refill/fixture.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/kicad8-native-compat-001/run/narrow_track/refill-drc.log",
+      "log_bytes": 187,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/kicad8-native-compat-001/run/narrow_track",
+      "signal_cancellation_enabled": true,
+      "pid": 55452,
+      "name": "refill-drc",
+      "validated_input_sha256": "73edbe85dc70b9d727847cf6a099b67e726cd13b608b079c977c7e01e92f7305",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/kicad8-native-compat-001/run/narrow_track/refill/fixture.kicad_pcb"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.097032792000391,
+      "cpu_seconds": 0.419172,
+      "max_rss_bytes": 101842944,
+      "supervisor_cpu_seconds": 0.013301999999999925,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 100483072,
+      "sampled_peak_workdir_bytes": 193469,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/kicad8-native-compat-001/run/narrow_track/final-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/kicad8-native-compat-001/run/narrow_track/final-drc-input/fixture.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/kicad8-native-compat-001/run/narrow_track/final-drc.log",
+      "log_bytes": 174,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/kicad8-native-compat-001/run/narrow_track",
+      "signal_cancellation_enabled": true,
+      "pid": 55453,
+      "name": "final-drc",
+      "validated_input_sha256": "c911e479d6f6496251009011d80468666c107b3a82b9125784c760ce26f11bf2",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/kicad8-native-compat-001/run/narrow_track/candidate/fixture.kicad_pcb"
+    }
+  ],
+  "original_format": "20240108",
+  "routing_accepted": false,
+  "production_supported": false,
+  "format_support_qualified": false,
+  "ses_import_qualified": false,
+  "dependency_complete": false,
+  "physical_electrical_validation": false,
+  "shared_validation_invoked": true,
+  "saved_drc": {
+    "native": {
+      "opens": 0,
+      "blocking": 1,
+      "warnings": 1,
+      "exclusions": 0,
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ],
+      "findings": [
+        {
+          "description": "Track width (board setup constraints min width 0.3000 mm; actual 0.2000 mm)",
+          "items": [
+            {
+              "description": "Track [SIGNAL] on F.Cu, length 10.0000 mm",
+              "pos": {
+                "x": 10.0,
+                "y": 10.0
+              },
+              "uuid": "3cbba632-8a4f-5ee8-820b-b5bc2cc113f7"
+            }
+          ],
+          "severity": "error",
+          "type": "track_width"
+        },
+        {
+          "description": "Copper connection too narrow (board setup constraints minimum connection width 0.3000 mm; actual 0.2000 mm) (F.Cu)",
+          "items": [
+            {
+              "description": "PTH pad 1 [SIGNAL] of J1",
+              "pos": {
+                "x": 10.0,
+                "y": 10.0
+              },
+              "uuid": "52de9dfa-6810-5e97-96e8-130c07feded4"
+            },
+            {
+              "description": "Track [SIGNAL] on F.Cu, length 10.0000 mm",
+              "pos": {
+                "x": 10.0,
+                "y": 10.0
+              },
+              "uuid": "3cbba632-8a4f-5ee8-820b-b5bc2cc113f7"
+            }
+          ],
+          "severity": "warning",
+          "type": "connection_width"
+        }
+      ]
+    },
+    "report_sha256": "5a0e1a256d70712321fddc3efefadb4df8c0bb6c26a9932df619572d5521979b",
+    "binding_sha256": "8910f35b3ae2fb791ee72c0bc6df737b0c72db21a7953f6ff9026b17c8643160"
+  },
+  "final_drc": {
+    "native": {
+      "opens": 0,
+      "blocking": 1,
+      "warnings": 1,
+      "exclusions": 0,
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ],
+      "findings": [
+        {
+          "description": "Track width (board setup constraints min width 0.3000 mm; actual 0.2000 mm)",
+          "items": [
+            {
+              "description": "Track [SIGNAL] on F.Cu, length 10.0000 mm",
+              "pos": {
+                "x": 10.0,
+                "y": 10.0
+              },
+              "uuid": "3cbba632-8a4f-5ee8-820b-b5bc2cc113f7"
+            }
+          ],
+          "severity": "error",
+          "type": "track_width"
+        },
+        {
+          "description": "Copper connection too narrow (board setup constraints minimum connection width 0.3000 mm; actual 0.2000 mm) (F.Cu)",
+          "items": [
+            {
+              "description": "PTH pad 1 [SIGNAL] of J1",
+              "pos": {
+                "x": 10.0,
+                "y": 10.0
+              },
+              "uuid": "52de9dfa-6810-5e97-96e8-130c07feded4"
+            },
+            {
+              "description": "Track [SIGNAL] on F.Cu, length 10.0000 mm",
+              "pos": {
+                "x": 10.0,
+                "y": 10.0
+              },
+              "uuid": "3cbba632-8a4f-5ee8-820b-b5bc2cc113f7"
+            }
+          ],
+          "severity": "warning",
+          "type": "connection_width"
+        }
+      ]
+    },
+    "report_sha256": "4c52e00b17906d1f52330576a74636dc32bdb331cb0e5311fa3c3098773c702c",
+    "binding_sha256": "677323e85c81d5f3b79a659814635fd89f1cf18eb0662606acfcdb2856461fd0"
+  },
+  "full_geometry_observation": "Not repeated for exact one-route invalid controls; native saved/final DRC and original-shell invariants are checked.",
+  "expected_native_outcome": true,
+  "targeted_findings": [
+    {
+      "description": "Track width (board setup constraints min width 0.3000 mm; actual 0.2000 mm)",
+      "items": [
+        {
+          "description": "Track [SIGNAL] on F.Cu, length 10.0000 mm",
+          "pos": {
+            "x": 10.0,
+            "y": 10.0
+          },
+          "uuid": "3cbba632-8a4f-5ee8-820b-b5bc2cc113f7"
+        }
+      ],
+      "severity": "error",
+      "type": "track_width"
+    }
+  ],
+  "observations_complete": true,
+  "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/kicad8-native-compat-001/run/narrow_track/candidate/fixture.kicad_pcb",
+  "candidate_sha256": "c911e479d6f6496251009011d80468666c107b3a82b9125784c760ce26f11bf2",
+  "original_inputs_unchanged": true
+}

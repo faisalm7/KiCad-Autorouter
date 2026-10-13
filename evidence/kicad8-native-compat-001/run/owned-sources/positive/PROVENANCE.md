@@ -1,0 +1,1 @@
+Original authored KiCad8 numeric-net/layer grammar control under GPL-3.0. Unchanged attributed KiCad multichannel project settings retain CC-BY-SA4.0 and original notices. Case: positive. No real source board adapted or relabelled.

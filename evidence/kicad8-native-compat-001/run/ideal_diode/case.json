@@ -1,0 +1,67 @@
+{
+  "case": "ideal_diode",
+  "status": "failed",
+  "source_sha256": "ed9a908eaf21ad72595d6de3d3cc39470ba5fbfb63270330d2221f8455e3e789",
+  "source_hashes": {
+    "SparkFun_Ideal_Diode_Breakout.kicad_pcb": "ed9a908eaf21ad72595d6de3d3cc39470ba5fbfb63270330d2221f8455e3e789",
+    "SparkFun_Ideal_Diode_Breakout.kicad_pro": "36c86f7fda3dbfd2d190f46b54f7ef4875d9c968bf384b269942b6b910e296d0",
+    "SparkFun_Ideal_Diode_Breakout.kicad_sch": "5c95ac5f2669dc5a4748ed8e2a533f4346767743808cbab4967a72bdccb6591a",
+    "SparkFun_Ideal_Diode_Breakout.step": "bc4c7786b44ab7273adc04539e9a09877354c1a263d8aae39feeb472bc906cc3"
+  },
+  "steps": [
+    {
+      "status": "nonzero_exit",
+      "exit_code": 1,
+      "wall_seconds": 0.3892390830005752,
+      "cpu_seconds": 0.372596,
+      "max_rss_bytes": 200687616,
+      "supervisor_cpu_seconds": 0.003737999999999797,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 37781504,
+      "sampled_peak_workdir_bytes": 3023497,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/floor_context.py",
+        "export",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/kicad8-native-compat-001/run/ideal_diode/observe-input/SparkFun_Ideal_Diode_Breakout.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/kicad8-native-compat-001/run/ideal_diode/original-export-context.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/kicad8-native-compat-001/run/ideal_diode/original-export.dsn"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/kicad8-native-compat-001/run/ideal_diode/original-export.log",
+      "log_bytes": 3118,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/kicad8-native-compat-001/run/ideal_diode",
+      "signal_cancellation_enabled": true,
+      "pid": 55456,
+      "name": "original-export"
+    }
+  ],
+  "original_format": "20240108",
+  "routing_accepted": false,
+  "production_supported": false,
+  "format_support_qualified": false,
+  "ses_import_qualified": false,
+  "dependency_complete": false,
+  "physical_electrical_validation": false,
+  "observations_complete": false,
+  "error": "Rejected: original-export: nonzero_exit exit=1"
+}

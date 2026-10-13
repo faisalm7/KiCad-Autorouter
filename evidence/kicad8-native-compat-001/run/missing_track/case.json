@@ -1,0 +1,290 @@
+{
+  "case": "missing_track",
+  "status": "observed",
+  "source_sha256": "74b02fdb305712086da40f665df03d8064b3bee0145504799c02dd8fc77afcd1",
+  "source_hashes": {
+    "PROVENANCE.md": "785d5b1c48996154361464849310056026f8c3f94d6ab7ce2b07e4a473e29838",
+    "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+    "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    "fixture.kicad_pcb": "74b02fdb305712086da40f665df03d8064b3bee0145504799c02dd8fc77afcd1",
+    "fixture.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538"
+  },
+  "steps": [
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 0.802849833999062,
+      "cpu_seconds": 0.3857,
+      "max_rss_bytes": 101662720,
+      "supervisor_cpu_seconds": 0.008372000000000046,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 89538560,
+      "sampled_peak_workdir_bytes": 145599,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/kicad8-native-compat-001/run/missing_track/refill-drc.json",
+        "--save-board",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/kicad8-native-compat-001/run/missing_track/refill/fixture.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/kicad8-native-compat-001/run/missing_track/refill-drc.log",
+      "log_bytes": 188,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/kicad8-native-compat-001/run/missing_track",
+      "signal_cancellation_enabled": true,
+      "pid": 55448,
+      "name": "refill-drc",
+      "validated_input_sha256": "74b02fdb305712086da40f665df03d8064b3bee0145504799c02dd8fc77afcd1",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/kicad8-native-compat-001/run/missing_track/refill/fixture.kicad_pcb"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 0.7857459579972783,
+      "cpu_seconds": 0.39321199999999995,
+      "max_rss_bytes": 101548032,
+      "supervisor_cpu_seconds": 0.009527000000000285,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 89948160,
+      "sampled_peak_workdir_bytes": 191834,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/kicad8-native-compat-001/run/missing_track/final-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/kicad8-native-compat-001/run/missing_track/final-drc-input/fixture.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/kicad8-native-compat-001/run/missing_track/final-drc.log",
+      "log_bytes": 175,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/kicad8-native-compat-001/run/missing_track",
+      "signal_cancellation_enabled": true,
+      "pid": 55449,
+      "name": "final-drc",
+      "validated_input_sha256": "2c8a7e8ea27fb22697ff0c1f4c7e9c50beeb3ad91f88e246332f8c11aee526d8",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/kicad8-native-compat-001/run/missing_track/candidate/fixture.kicad_pcb"
+    }
+  ],
+  "original_format": "20240108",
+  "routing_accepted": false,
+  "production_supported": false,
+  "format_support_qualified": false,
+  "ses_import_qualified": false,
+  "dependency_complete": false,
+  "physical_electrical_validation": false,
+  "shared_validation_invoked": true,
+  "saved_drc": {
+    "native": {
+      "opens": 1,
+      "blocking": 0,
+      "warnings": 0,
+      "exclusions": 0,
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ],
+      "findings": [
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "PTH pad 1 [SIGNAL] of J1",
+              "pos": {
+                "x": 10.0,
+                "y": 10.0
+              },
+              "uuid": "52de9dfa-6810-5e97-96e8-130c07feded4"
+            },
+            {
+              "description": "PTH pad 1 [SIGNAL] of J2",
+              "pos": {
+                "x": 20.0,
+                "y": 10.0
+              },
+              "uuid": "62a6f7ec-9967-5462-a6bb-a98b3781969e"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        }
+      ]
+    },
+    "report_sha256": "fb5f73b4161c329867cea1ec514475c3bcc1d25d7bd6dc597b878932ff1d76ba",
+    "binding_sha256": "dc77994e4aff66ba9bb37aa88327f1056f5b313612eace9f664865b9ca58e658"
+  },
+  "final_drc": {
+    "native": {
+      "opens": 1,
+      "blocking": 0,
+      "warnings": 0,
+      "exclusions": 0,
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ],
+      "findings": [
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "PTH pad 1 [SIGNAL] of J1",
+              "pos": {
+                "x": 10.0,
+                "y": 10.0
+              },
+              "uuid": "52de9dfa-6810-5e97-96e8-130c07feded4"
+            },
+            {
+              "description": "PTH pad 1 [SIGNAL] of J2",
+              "pos": {
+                "x": 20.0,
+                "y": 10.0
+              },
+              "uuid": "62a6f7ec-9967-5462-a6bb-a98b3781969e"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        }
+      ]
+    },
+    "report_sha256": "829ed8b45d8c8d73f5fa044c7ba8285641b87c5a21e30f3f2a665335895aec5b",
+    "binding_sha256": "d6ad694a8f219e65e7ff2199c3a149461821f07c7849b274821cddb7af96e543"
+  },
+  "full_geometry_observation": "Not repeated for exact one-route invalid controls; native saved/final DRC and original-shell invariants are checked.",
+  "expected_native_outcome": true,
+  "targeted_findings": [
+    {
+      "description": "Missing connection between items",
+      "items": [
+        {
+          "description": "PTH pad 1 [SIGNAL] of J1",
+          "pos": {
+            "x": 10.0,
+            "y": 10.0
+          },
+          "uuid": "52de9dfa-6810-5e97-96e8-130c07feded4"
+        },
+        {
+          "description": "PTH pad 1 [SIGNAL] of J2",
+          "pos": {
+            "x": 20.0,
+            "y": 10.0
+          },
+          "uuid": "62a6f7ec-9967-5462-a6bb-a98b3781969e"
+        }
+      ],
+      "severity": "error",
+      "type": "unconnected_items"
+    }
+  ],
+  "observations_complete": true,
+  "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/kicad8-native-compat-001/run/missing_track/candidate/fixture.kicad_pcb",
+  "candidate_sha256": "2c8a7e8ea27fb22697ff0c1f4c7e9c50beeb3ad91f88e246332f8c11aee526d8",
+  "original_inputs_unchanged": true
+}

@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "git_head": "28da8928557434bb6f53876ddb44e248fff5ab74",
+  "started_utc": "2026-10-13T12:14:45.983079+00:00",
+  "process": {
+    "status": "nonzero_exit",
+    "exit_code": 2,
+    "wall_seconds": 13.953945124994789,
+    "cpu_seconds": 8.818619,
+    "max_rss_bytes": 259391488,
+    "supervisor_cpu_seconds": 0.151574,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 254935040,
+    "sampled_peak_workdir_bytes": 4573123,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 20971520,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/kicad8_native_compat_v1/driver.py",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/kicad8-native-compat-001/run",
+      "--run-native"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/kicad8-native-compat-001/command.log",
+    "log_bytes": 88,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/kicad8-native-compat-001",
+    "signal_cancellation_enabled": true,
+    "pid": 55395
+  },
+  "wall_seconds": 14.101435208998737,
+  "full_cpu_seconds": 9.084805000000001,
+  "wrapper_sha256": "ab2acecf7448b2cb4d7d27f8151f04ce8a3fec0e1aeb2d5c61d2f9207bbb446f",
+  "log_sha256": "4149c491e74965098a8af23167907d96c84efb4758b4b0a71bc857957d8044bc",
+  "scope": "Original20240108 compatibility observation only. Three owned positive/criticalinvalid native controls before unchanged acquired ideal-diode;90wall/fullCPU innercap,20MiB polling outerbound; no productionformat/SES admission."
+}
