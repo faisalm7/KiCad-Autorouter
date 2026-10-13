@@ -73,6 +73,15 @@ class DrcFailureBinding(unittest.TestCase):
         self.assertEqual(binding['before'],self.before);self.assertEqual(set(binding['after'])-set(self.before),{'board.kicad_prl'})
         self.assertFalse((self.job.out/'drc-failure.json').exists());self.assertEqual(p.tree_hash(self.source),self.before)
 
+    def test_parity_request_checks_the_same_preserved_full_project(self):
+        self.board.with_suffix('.kicad_sch').write_text('captured schematic; fabricated native seam')
+        self.before=p.tree_hash(self.source)
+        self.assertTrue(p.native_accepted(self.job.drc('drc',self.board,schematic_parity=True)))
+        process=json.loads((self.job.out/'drc-process.json').read_text())
+        self.assertIn('--schematic-parity',process['argv'])
+        self.assertEqual(self.validated.with_suffix('.kicad_sch').read_bytes(),self.board.with_suffix('.kicad_sch').read_bytes())
+        self.assertEqual(p.tree_hash(self.source),self.before)
+
     def test_changed_copy_cannot_be_restored_by_native_to_hide_bad_input(self):
         copytree=p.shutil.copytree; native=self.job.step; calls=[]
         def changed_copy(source,target):

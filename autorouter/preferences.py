@@ -22,7 +22,7 @@ DEFAULTS = MappingProxyType({
 })
 REQUIRED = frozenset(DEFAULTS) - {'scoring_preference'}
 CHOICES = {
-    'scope': {'whole_board_unlocked_routing', 'partial_completion'},
+    'scope': {'whole_board_unlocked_routing', 'partial_completion', 'selected_nets'},
     'adapter': {'none', 'graphics', 'planes', 'both'},
     'profile': {'standard', 'tuned', 'completion-only'},
     'guidance': {'native', 'board-floors-v1', 'placement-clearance-v1'},
@@ -90,8 +90,8 @@ def _read(path):
 
 
 def validate(config):
-    """Validate a complete preset; the only optional key is scoring_preference."""
-    if type(config) is not dict or not REQUIRED <= set(config) or set(config) - set(DEFAULTS):
+    """Validate a complete preset; selected scope additionally requires nets."""
+    if type(config) is not dict or not REQUIRED <= set(config) or set(config) - (set(DEFAULTS) | {'nets'}):
         raise PreferenceError('missing or unknown preferences keys')
     if type(config['schema']) is not int or config['schema'] != 1:
         raise PreferenceError('unsupported preferences schema')
@@ -106,6 +106,15 @@ def validate(config):
     scoring = result['scoring_preference']
     if scoring is not None and (type(scoring) is not str or scoring not in SCORING):
         raise PreferenceError('unsupported scoring preference')
+    if result['scope'] == 'selected_nets':
+        from .routing_scope import validate_names
+        try: result['nets'] = validate_names(result.get('nets'))
+        except ValueError as exc: raise PreferenceError(str(exc)) from exc
+        if (result['guidance'] != 'native' or result['profile'] != 'completion-only'
+                or result['layers'] != 'source_all'):
+            raise PreferenceError('selected nets require native completion-only routing and source_all layers')
+    elif 'nets' in result:
+        raise PreferenceError('nets require selected_nets scope; remove nets when changing scope')
     if result['guidance'] != 'native':
         if (result['scope'] != 'whole_board_unlocked_routing' or result['adapter'] != 'both'
                 or scoring is not None):
@@ -146,7 +155,7 @@ def _captured(captured):
 def _overrides(overrides):
     if overrides is None:
         return {}
-    if type(overrides) is not dict or set(overrides) - (set(DEFAULTS) - {'schema'}):
+    if type(overrides) is not dict or set(overrides) - ((set(DEFAULTS) - {'schema'}) | {'nets'}):
         raise PreferenceError('unknown or aliased preferences override')
     return dict(overrides)
 

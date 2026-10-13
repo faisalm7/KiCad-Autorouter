@@ -259,7 +259,7 @@ def check_floor_result(directory,data,original,candidate,protected):
     if {step.get('name') for step in data.get('steps',[])}!=required or len(data['steps'])!=len(required):raise p.Rejected('unexpected/missing floor execution stages')
 
 
-def check_drc_stage(directory,data,name,source,input_path,saved,before):
+def check_drc_stage(directory,data,name,source,input_path,saved,before,*,schematic_parity=False):
     """Verify a retained original-rule DRC stage, including exact saved input."""
     binding=read_json(directory/(name+'-binding.json'));after=binding.get('after')
     if (binding.get('source')!=str(source) or binding.get('input')!=str(input_path)
@@ -271,6 +271,7 @@ def check_drc_stage(directory,data,name,source,input_path,saved,before):
     native=p.parse_report(directory/(name+'.json'),source.name)
     argv=[*SANDBOX,str(c.CLI),'pcb','drc','--format','json','--severity-all','--all-track-errors','--refill-zones',
           '--exit-code-violations','--output',str(directory/(name+'.json'))]
+    if schematic_parity:argv.insert(len(SANDBOX)+8,'--schematic-parity')
     if saved:argv.append('--save-board')
     argv.append(str(input_path))
     process_check(directory,data,name,argv,allowed=(5 if native['findings'] else 0,))

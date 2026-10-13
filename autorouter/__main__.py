@@ -16,7 +16,8 @@ def preference_arguments(parser):
     parser.add_argument('--seconds',type=float,default=None)
     scope=parser.add_mutually_exclusive_group()
     scope.add_argument('--keep-existing',action='store_true',default=None,help='Protect every existing route')
-    scope.add_argument('--scope',choices=['whole','partial'],default=None)
+    scope.add_argument('--scope',choices=['whole','partial','selected'],default=None)
+    parser.add_argument('--nets',nargs='+',default=None,help='Exact native net names; requires selected scope and completion-only profile')
     parser.add_argument('--adapter',choices=['none','graphics','planes','both'],default=None)
     parser.add_argument('--profile',choices=['standard','tuned','completion-only'],default=None)
     parser.add_argument('--guidance',choices=['native','board-floors-v1','placement-clearance-v1'],default=None)
@@ -29,6 +30,8 @@ def explicit_preferences(args):
     result={key:getattr(args,key) for key in ('seconds','adapter','profile','guidance','scoring_preference') if getattr(args,key) is not None}
     if args.keep_existing or args.scope=='partial':result['scope']='partial_completion'
     elif args.scope=='whole':result['scope']='whole_board_unlocked_routing'
+    elif args.scope=='selected':result['scope']='selected_nets'
+    if args.nets is not None:result['nets']=args.nets
     if args.layers is not None:result['layers']='source_all' if args.layers==['source_all'] else args.layers
     return result
 
@@ -47,6 +50,9 @@ def preview(board,settings=None,overrides=None):
         g.qualify_scope(json.loads(source.with_suffix('.kicad_pro').read_text()),g.task_from_source(original))
         if effective['guidance']=='placement-clearance-v1':pc.narrow_source(original)
     protected=[item for item in p.routes(original) if effective['scope']=='partial_completion' or p.locked(item)]
+    if effective['scope']=='selected_nets':
+        from . import routing_scope as rs
+        protected=rs.protected_routes(original,effective['nets'])
     copper=[sx.unquote(row[1]) for row in sx.one(original,'layers',[])[1:] if isinstance(row,list) and len(row)>2 and sx.unquote(row[1]).endswith('.Cu')]
     layer_preview=None
     if effective['layers']!='source_all':
@@ -63,7 +69,9 @@ def preview(board,settings=None,overrides=None):
             'copper_layers':copper,'existing_route_items':len(p.routes(original)),
             'protected_route_items':len(protected),'rerouted_route_items':len(p.routes(original))-len(protected),
             'layer_restriction':layer_preview,
-            'scope_description':'Complete remaining connections while preserving every existing route' if effective['scope']=='partial_completion' else 'Reroute unlocked copper while preserving locked routes',
+            'scope_description':{'partial_completion':'Complete remaining connections while preserving every existing route',
+                'selected_nets':'Reroute only selected unlocked nets; preserve all other original copper. Full native DRC remains mandatory.',
+                'whole_board_unlocked_routing':'Reroute unlocked copper while preserving locked routes'}[effective['scope']],
             'next_step':'Run route with these settings to create a separate candidate. Acceptance still requires original-design checks and native KiCad refill/DRC.'}
 
 def doctor():

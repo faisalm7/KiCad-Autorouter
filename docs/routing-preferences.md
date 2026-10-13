@@ -33,7 +33,7 @@ Use an explicitly selected file outside the immutable input project. There is no
 
 | Field | Supported values and limits |
 |---|---|
-| `scope` | `whole_board_unlocked_routing` or `partial_completion`. The latter maps to existing-route protection. Selected nets remain unsupported. |
+| `scope` | `whole_board_unlocked_routing` or `partial_completion`. The latter maps to existing-route protection. `selected_nets` additionally requires a `nets` list of exact native names, native completion-only profile and source_all layers. Its new native qualification is pending. |
 | `seconds` | Finite JSON number from 5 through 900, excluding booleans. This supplies the existing wall and measured-CPU acceptance budgets. A valid value does not promise completion: the engine needs its existing 30-second grace plus 10-second native-finalization planning reserves, in addition to preparation. The default is 120 seconds. |
 | `adapter` | `none`, `graphics`, `planes`, or `both`, subject to the chosen guidance policy. |
 | `profile` | `standard`, `tuned`, or `completion-only`. These select the existing bounded engine profiles. |
@@ -64,3 +64,17 @@ This controls new route copper. Original pad layers, stackup, rules, zones and p
 The controller independently reads the source and both retained DSNs, verifies exact named physical order, derives one Freerouting layer mask and binds that flag to the captured preferences. Known segment/arc/ordinary-through-via grammar and unique route identities are required. The candidate is audited before and after saved native refill; the existing original-rule final native DRC, source preservation, cancellation and budget gates remain mandatory. Central receipt readback repeats the layer audit against actual final bytes. Missing, inconsistent or partially removed contracts reject. This layer check is not native acceptance by itself.
 
 Source controls and the owned native cases are recorded in [the exact native batch](../evidence/layer-preferences-native-001/summary.json). These observations qualify the declared narrow workflow; they do not establish every board geometry. Explicit lists do not imply generalized routing gains, selected-net support or live-editor apply/undo.
+
+
+## Selected net rerouting
+
+The new selected scope removes only selected unlocked routes. All nonselected or unnamed original tracks/vias/arcs and every locked selected route remain protected by exact identity and full record. The engine may see other nets, but additions or changes outside the captured selected names reject. Full original-rule native refill/DRC remains mandatory: an existing open or blocking failure on another net cannot be excluded to claim success. Unchanged zone definitions are refilled; their derived copper may change.
+
+```sh
+.venv/bin/python -B -m autorouter preview /path/to/board.kicad_pcb --scope selected --nets SIGNAL_A --profile completion-only --adapter both
+.venv/bin/python -B -m autorouter route /path/to/board.kicad_pcb --scope selected --nets SIGNAL_A --profile completion-only --adapter both --output .runs/selected-route-001
+```
+
+For persistent choices, set `"scope": "selected_nets"`, `"nets": ["SIGNAL_A"]`, `"profile": "completion-only"`, `"guidance": "native"` and `"layers": "source_all"` in the existing preset. All other required fields remain. Remove the nets field when changing to whole/partial scope; contradictory choices reject. Exact names are case-sensitive, unique, nonempty and bounded to64; patterns and unknown/unassigned nets reject. Completion-only describes the engine profile: selected unlocked source routes are rerouted, while locked selected routes stay exact.
+
+Captured original bytes, names, protected records and task hash bind the result. Central readback reconstructs the selection and audits the final copper; fresh separate-project export repeats those guards and native checks. When a complete native `.kicad_sch` exists in the source, selected final DRC requests schematic parity and retains every finding. Missing native schematics are explicitly unavailable, never a parity pass. This is additive implementation with software controls; the prepared real native batch, current installation and GUI qualification remain pending. It establishes no routing-quality gain or electrical-performance guarantee. Legacy protected via serialization can still reject, as the Devobordo diagnostic shows.

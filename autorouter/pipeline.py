@@ -382,7 +382,7 @@ class Job:
         return result
     def native(self,name,action,board,output,*args):
         return self.step(name,[c.PYTHON,c.ROOT/'autorouter/native.py',action,board,output,*args])
-    def drc(self,name,board,save=False):
+    def drc(self,name,board,save=False,*,schematic_parity=False):
         original_input=board
         before=tree_hash(board.parent)
         validation_before=None; phase='copy'
@@ -395,6 +395,7 @@ class Job:
             if validation_before!=before: raise Rejected('native DRC validation copy differs before native')
             report=self.out/(name+'.json')
             argv=[c.CLI,'pcb','drc','--format','json','--severity-all','--all-track-errors','--refill-zones','--exit-code-violations','--output',report]
+            if schematic_parity:argv.insert(8,'--schematic-parity')
             if save: argv+=['--save-board']
             phase='native'; result=self.step(name,argv+[board],allowed=(0,5))
             phase='output_snapshot'; after=tree_hash(board.parent)
@@ -494,7 +495,7 @@ def audit_candidate_netclasses(candidate, protected, native):
     return {'native':mapping,'route_dimensions':dimensions,'candidate_sha256':sha(candidate),
             'project_sha256':sha(project)}
 
-def validate_candidate(job, original, candidate, source_hashes, protected, *, guidance_contract=None, guidance_basis=None, layer_contract=None):
+def validate_candidate(job, original, candidate, source_hashes, protected, *, guidance_contract=None, guidance_basis=None, layer_contract=None, selected_names=None, schematic_parity=False):
     check_rule_area_support(original)
     if guidance_basis is not None and guidance_contract is None:raise Rejected('guidance basis requires a contract')
     if guidance_contract is not None:
@@ -503,6 +504,9 @@ def validate_candidate(job, original, candidate, source_hashes, protected, *, gu
     # Reject mutations before native tooling is allowed to normalize anything.
     if immutable(sx.read(candidate))!=immutable(original): raise Rejected('immutable geometry changed')
     if any(n not in routes(sx.read(candidate)) for n in protected): raise Rejected('protected route changed')
+    if selected_names is not None:
+        from . import routing_scope as rs
+        rs.audit(original,sx.read(candidate),selected_names)
     if layer_contract is not None:layer_contract['audit']=audit_layer_contract(candidate,layer_contract)
     verify_candidate_files(candidate,source_hashes)
     shutil.copytree(candidate.parent,job.out/'refill')
@@ -521,7 +525,8 @@ def validate_candidate(job, original, candidate, source_hashes, protected, *, gu
         audited=audit_candidate_netclasses(candidate,protected,json.loads(mapping.read_text()))
         audited['native_map_file_sha256']=sha(mapping)
         save_json(job.out/'final-netclass-audit.json',audited)
-    native=job.drc('final-drc',candidate)
+    if selected_names is not None:rs.audit(original,sx.read(candidate),selected_names)
+    native=job.drc('final-drc',candidate,schematic_parity=True) if schematic_parity else job.drc('final-drc',candidate)
     verify_candidate_files(candidate,source_hashes,final_hash)
     return final_hash,native
 
@@ -684,6 +689,40 @@ def layer_markers(directory, data):
     return False
 
 
+def selected_scope_names(data):
+    """Selection is authorized only by the captured, centrally checked preset."""
+    if data.get('scope')!='selected_nets':
+        if any(key in data for key in ('selected_net_binding','selected_net_audit')):
+            raise Rejected('selected-net evidence without selected scope')
+        return None
+    from . import preferences as pref, routing_scope as rs
+    effective=pref.validate(data.get('routing_preferences',{}).get('effective'))
+    if (effective['scope']!='selected_nets' or data.get('schema')!=1
+            or data.get('input_policy','native')!='native'
+            or type(data.get('selected_net_binding')) is not dict
+            or type(data.get('selected_net_audit')) is not dict):
+        raise Rejected('missing selected-net choice or preservation evidence')
+    return rs.validate_names(effective['nets'])
+
+
+def protected_for_record(data,original):
+    names=selected_scope_names(data)
+    if names is not None:
+        from . import routing_scope as rs
+        return rs.protected_routes(original,names)
+    if data.get('scope') not in {'whole_board_unlocked_routing','partial_completion'}:
+        raise Rejected('unknown protected routing scope')
+    return [r for r in routes(original) if data['scope']=='partial_completion' or locked(r)]
+
+
+def selected_parity_required(data):
+    if data.get('scope')!='selected_nets':return False
+    required=Path(data['source']).with_suffix('.kicad_sch').name in data['source_hashes']
+    expected='checked by final native DRC' if required else 'unavailable: no native schematic in source project'
+    if data.get('schematic_parity')!=expected:raise Rejected('selected-net schematic parity declaration differs from complete source')
+    return required
+
+
 def check_preferences_record(directory, data):
     """Recompute the captured choice and bind it to the actual engine invocation."""
     path=Path(directory)/'routing-preferences.json'
@@ -716,6 +755,15 @@ def check_preferences_record(directory, data):
         if canonical(audited)!=canonical(data['layer_audit']):raise Rejected('final layer audit differs from actual candidate')
         settings['argv'].append(contract['binding']['engine_argument'])
     elif layer_markers(directory,data):raise Rejected('unexpected layer restriction without captured explicit layers')
+    names=selected_scope_names(data)
+    if names is not None:
+        from . import routing_scope as rs
+        source=Path(data['source']);candidate=Path(data['candidate'])
+        if (canonical(rs.bind(read_bytes(source),names))!=canonical(data['selected_net_binding'])
+                or data.get('task_sha256')!=data['selected_net_binding'].get('task_sha256')
+                or canonical(rs.audit(preflight(source),sx.read(candidate),names))!=canonical(data['selected_net_audit'])):
+            raise Rejected('selected-net source binding or final copper audit differs')
+        selected_parity_required(data)
     if settings!=assigned:raise Rejected('engine budget differs from captured preferences')
     steps=[step for step in data.get('steps',[]) if step.get('name')=='engine']
     if len(steps)!=1:raise Rejected('missing unique preference-bound engine step')
@@ -770,6 +818,15 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
         capture_preferences(report,output,_preferences)
         before=tree_hash(source.parent); report['source_hashes']=before
         original=preflight(source)
+        selected=_preferences['effective'].get('nets') if _preferences and _preferences['effective']['scope']=='selected_nets' else None
+        parity=False
+        if selected is not None:
+            from . import routing_scope as rs
+            from .placement_clearance import read_bytes
+            report['scope']='selected_nets'
+            report['selected_net_binding']=rs.bind(read_bytes(source),selected)
+            parity=source.with_suffix('.kicad_sch').name in before
+            report['schematic_parity']='checked by final native DRC' if parity else 'unavailable: no native schematic in source project'
         if _preferences is not None and _preferences['effective']['layers']!='source_all':
             from .layer_policy import _source_layers, _route_map
             _source_layers(original)
@@ -778,7 +835,8 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
         snapshot=output/'snapshot'/source.name; candidate=output/'candidate'/source.name
         if tree_hash(output/'snapshot')!=before: raise Rejected('source changed during snapshot')
         task=copy.deepcopy(original)
-        if not keep_existing: task[:]=[n for n in task if not isinstance(n,list) or not n or n[0] not in ROUTES or locked(n)]
+        if selected is not None:task=rs.task(original,selected)
+        elif not keep_existing: task[:]=[n for n in task if not isinstance(n,list) or not n or n[0] not in ROUTES or locked(n)]
         for z in sx.children(task,'zone'):
             z[:]=[n for n in z if not isinstance(n,list) or not n or n[0] not in DERIVED_ZONE]
         protected=copy.deepcopy(routes(task))
@@ -828,7 +886,9 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
         sx.write(candidate,transplant_routes(task,sx.read(imported),protected=protected,audit=reconciliation,
             policy='exact_non_uuid_lock_position_v2'))
         if protected:report['protected_route_import']={'imported_sha256':sha(imported),**reconciliation}
-        final_hash, native = validate_candidate(job, original, candidate, before, protected,layer_contract=layers)
+        extra={'selected_names':selected,'schematic_parity':parity} if selected is not None else {}
+        final_hash, native = validate_candidate(job, original, candidate, before, protected,layer_contract=layers,**extra)
+        if selected is not None:report['selected_net_audit']=rs.audit(original,sx.read(candidate),selected)
         if layers is not None:report['layer_audit']=layers['audit']
         report['native']=native
         job.native('metrics','metrics',candidate,output/'metrics.json')
@@ -1076,8 +1136,7 @@ def _check_result_uncached(path):
     original=preflight(source)
     current=sx.read(candidate)
     if immutable(current)!=immutable(original): raise Rejected('immutable geometry changed')
-    if data.get('scope') not in {'whole_board_unlocked_routing','partial_completion'}: raise Rejected('unknown protected routing scope')
-    protected=[route for route in routes(original) if data['scope']=='partial_completion' or locked(route)]
+    protected=protected_for_record(data,original)
     if any(route not in routes(current) for route in protected): raise Rejected('protected route changed')
     check_protected_import(path.parent,data,original,candidate,protected)
 
@@ -1117,7 +1176,10 @@ def _check_result_uncached(path):
             # Reconstruct the exact native export input from the frozen source,
             # never from the already-routed candidate or receipt assertions.
             task=copy.deepcopy(original)
-            if data['scope']=='whole_board_unlocked_routing':
+            if data['scope']=='selected_nets':
+                from . import routing_scope as rs
+                task=rs.task(original,selected_scope_names(data))
+            elif data['scope']=='whole_board_unlocked_routing':
                 task[:]=[node for node in task if not isinstance(node,list) or not node or node[0] not in ROUTES or locked(node)]
             for zone in sx.children(task,'zone'):
                 zone[:]=[node for node in zone if not isinstance(node,list) or not node or node[0] not in DERIVED_ZONE]
@@ -1154,6 +1216,7 @@ def _check_result_uncached(path):
 
     process=evidence('final-drc-process.json')
     expected_argv=[str(c.CLI),'pcb','drc','--format','json','--severity-all','--all-track-errors','--refill-zones','--exit-code-violations','--output',str(path.parent/'final-drc.json'),str(native_input)]
+    if selected_parity_required(data):expected_argv.insert(8,'--schematic-parity')
     if input_policy in {'board-floors-v1','placement-clearance-v1','placement-search-v1',ps.POLICY}:
         from .floor_route import SANDBOX
         expected_argv=SANDBOX+expected_argv
