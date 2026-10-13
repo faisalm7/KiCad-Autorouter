@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 80.79056245800166,
+    "cpu_seconds": 83.241585,
+    "max_rss_bytes": 402456576,
+    "supervisor_cpu_seconds": 0.15163000000000001,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 402423808,
+    "sampled_peak_workdir_bytes": 131,
+    "resource_guards": {
+      "max_group_rss_bytes": 4294967296,
+      "max_workdir_bytes": 33554432,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/install_smoke.py",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-012",
+      "--guidance",
+      "placement-clearance-v1"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-012-execution/command.log",
+    "log_bytes": 131,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-012-execution",
+    "signal_cancellation_enabled": true,
+    "pid": 88834
+  },
+  "wall_seconds": 81.0030171249964,
+  "full_cpu_seconds": 83.516084,
+  "wrapper_sha256": "4d4854fefcdae0f0798bba8722f3a93603b5db4e20d8bd14d7ec280e569e6968",
+  "log_sha256": "6fbb81d58fb9ceeae60b2bf4ebd21ff6a6b6874c481f3b14a6b8015bbb0e284d",
+  "git_head": "66f9097aeb89ddc05c6561e6c594ed98a75cb887",
+  "scope": "Current clean source integration install, complete fresh localclonevenv suite and actual placementroute/check under networkdenial. Existing Mac/tools/cache, no freshOS/formalpackage qualification."
+}

@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "process": {
+    "status": "nonzero_exit",
+    "exit_code": 2,
+    "wall_seconds": 71.24513470799138,
+    "cpu_seconds": 69.238429,
+    "max_rss_bytes": 620249088,
+    "supervisor_cpu_seconds": 0.134474,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 418480128,
+    "sampled_peak_workdir_bytes": 107,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 33554432,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qualify-pruning-complete-schematic-workflow-001.py"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pruning-complete-schematic-workflow-execution-001/command.log",
+    "log_bytes": 107,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pruning-complete-schematic-workflow-execution-001",
+    "signal_cancellation_enabled": true,
+    "pid": 90183
+  },
+  "wall_seconds": 71.24516095800209,
+  "full_cpu_seconds": 69.372928,
+  "wrapper_sha256": "b11edf1146088c35a60444d713e5a957188e531ec6b83121e70527d4d7da912c",
+  "controller_sha256": "70e756b6627418afa5354d917d4a714ad22de2ae0dad1775b0cf464655cb7e7f",
+  "log_sha256": "5d54831f9ed192155fbb707f9ebec4b7665ae3872f362e41e7d4227ddae03cfa",
+  "git_head": "66f9097aeb89ddc05c6561e6c594ed98a75cb887",
+  "scope": "Actual complete-schematic retained-pruning CLI workflow, additional workflow cost. Existing sharednetworkdenial/runner/native APIs, one sequential worker. Output bound controls runner cwd; total180wall/fullCPU inside controller."
+}
