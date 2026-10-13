@@ -1,0 +1,82 @@
+{
+  "schema": 1,
+  "pure_binding_controls_only": true,
+  "real_native_jvm_git_network_execution": false,
+  "production_edits": false,
+  "results": [
+    {
+      "control": "matched_positive",
+      "outcome": "accepted",
+      "expected": true
+    },
+    {
+      "control": "reconstructed_pre_fix_stale_board",
+      "outcome": "accepted_bad_bytes",
+      "expected": true
+    },
+    {
+      "control": "changed_during_load",
+      "outcome": "rejected",
+      "reason": "source changed across native board load",
+      "expected": true
+    },
+    {
+      "control": "reconstructed_pre_fix_stock_downgrade",
+      "scope": "whole_board_unlocked_routing",
+      "outcome": "accepted",
+      "expected": true
+    },
+    {
+      "control": "stock_positive",
+      "scope": "whole_board_unlocked_routing",
+      "outcome": "accepted",
+      "expected": true
+    },
+    {
+      "control": "stock_corrected_input",
+      "scope": "whole_board_unlocked_routing",
+      "outcome": "rejected",
+      "reason": "stock pour workflow raw engine input differs",
+      "expected": true
+    },
+    {
+      "control": "stock_adapter_marker",
+      "scope": "whole_board_unlocked_routing",
+      "outcome": "rejected",
+      "reason": "stock workflow cannot claim pour adapter correction",
+      "expected": true
+    },
+    {
+      "control": "reconstructed_pre_fix_stock_downgrade",
+      "scope": "selected_nets",
+      "outcome": "accepted",
+      "expected": true
+    },
+    {
+      "control": "stock_positive",
+      "scope": "selected_nets",
+      "outcome": "accepted",
+      "expected": true
+    },
+    {
+      "control": "stock_corrected_input",
+      "scope": "selected_nets",
+      "outcome": "rejected",
+      "reason": "stock pour workflow raw engine input differs",
+      "expected": true
+    },
+    {
+      "control": "stock_adapter_marker",
+      "scope": "selected_nets",
+      "outcome": "rejected",
+      "reason": "stock workflow cannot claim pour adapter correction",
+      "expected": true
+    },
+    {
+      "control": "twenty_ordinary_zones_no_pour",
+      "outcome": "compatible",
+      "expected": true
+    }
+  ],
+  "control_count": 12
+}

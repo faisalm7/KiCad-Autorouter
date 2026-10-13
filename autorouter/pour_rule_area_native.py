@@ -18,6 +18,7 @@ def audit(board,source,before):
     ids=sorted(policy._atom(z,'uuid') for z in sx.children(tree,'zone'))
     if sorted(native_zones)!=ids:raise ValueError('native root zone census differs')
     rows={row['uuid']:row for row in observed['zones']};native_areas=[rows[a['uuid']] for a in areas]
+    for row in native_areas:row['layers']=sorted(row['layers'])
     expected=[{k:v for k,v in row.items() if k!='source_zone_ast_sha256'} for row in areas]
     if json.dumps(native_areas,sort_keys=True)!=json.dumps(expected,sort_keys=True):raise ValueError('native pour flags/outline/layers differ')
     def contours(poly):

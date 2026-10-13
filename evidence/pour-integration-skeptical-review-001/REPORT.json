@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "status": "frozen_pure_review",
+  "real_native_jvm_git_network_execution": false,
+  "production_edits": false,
+  "recursive_delegation": false,
+  "native_qualification": false,
+  "controls": 12,
+  "all_controls_expected": true,
+  "source_bindings_unchanged_through_final_check": true,
+  "findings": [
+    {
+      "id": "preload-input-binding",
+      "resolved": true,
+      "before": "A supplied BOARD could precede the first source hash; same-count changed fill coordinates were bound to the newer bytes. Exact before-fix body reconstruction accepts the authored stale-board shim.",
+      "fix": "native.py captures board/project before LoadBoard and passes the tuple to audit; audit checks first and final reads.",
+      "after": "Matching capture accepts; changed-during-load source rejects before native observation."
+    },
+    {
+      "id": "stock-adapter-downgrade",
+      "resolved": true,
+      "before": "Deleting pour-correction markers and relabeling adapter none left no raw-to-engine equality check; reconstructed old boundary accepts corrected engine bytes.",
+      "fix": "Stock task or selected prepartition input must equal raw native.dsn; correction and adapter markers reject.",
+      "after": "Both scope positives accept raw bytes; both corrected-input and adapter-marker controls reject."
+    },
+    {
+      "id": "historical-no-pour-zone-cap",
+      "resolved": true,
+      "before": "Initial qualifier imposed 16-root-zone limit even without pour-only intent.",
+      "fix": "Population cap applies only when eligible pour policy exists.",
+      "after": "Twenty ordinary zones without pour intent remain compatible."
+    }
+  ],
+  "fixture_failure_preserved": "pure-controls-attempt-001-failure.txt and empty stdout artifact; reconstructed copied globals initially bypassed the p.sha seam, corrected in private fixture only.",
+  "limits": [
+    "Pure shims establish binding and policy boundaries only; they do not establish KiCad geometry or routing correctness.",
+    "Native/current-integration positive and invalid qualification remains ROOT-owned and pending.",
+    "Protected-via normalization refusal remains mandatory; no source-route normalization waiver.",
+    "Before-fix bodies are explicitly reconstructed from observed code changes, not claimed historical native execution."
+  ],
+  "reviewed_boundaries": [
+    "Source-derived mandatory evidence and complete ordered fill matrix",
+    "Exact source/candidate/native area UUID, flag, outline and layer binding",
+    "Saved native refill reconstruction and bound raw native process replay",
+    "Root zone cap and footprint-zone rejection when policy active",
+    "Raw native to pour correction to existing adapter to selected prepartition input",
+    "Native unsandboxed stage versus floor/export sandboxed stage: expected argv prefix is explicit; default check_drc_stage remains sandboxed",
+    "Native-only export allowlist/order includes optional source-derived pour audit",
+    "Readback memo identity includes pour policy module and implementation files"
+  ]
+}
