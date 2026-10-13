@@ -1,0 +1,72 @@
+diff --git a/autorouter/pipeline.py b/autorouter/pipeline.py
+index bf03de4..ae78a9f 100644
+--- a/autorouter/pipeline.py
++++ b/autorouter/pipeline.py
+@@ -863,7 +863,8 @@ def selected_parity_required(data,directory=None):
+     # check, and their retained native argv must agree with that declaration.
+     if (data.get('scope')!='selected_nets' and data.get('schematic_parity') not in
+             {'checked by final native DRC','unavailable: no native schematic in source project'}):
+-        if directory is not None:
++        if (directory is not None and Path(data.get('source','')).with_suffix('.kicad_sch').name
++                in data.get('source_hashes',{})):
+             from .placement_clearance import read_bytes
+             # A new availability-aware worker cannot use an editable declaration
+             # to opt out. Old retained code remains an explicitly historical read.
+diff --git a/scripts/backup.py b/scripts/backup.py
+index 37321d2..f06bca9 100644
+--- a/scripts/backup.py
++++ b/scripts/backup.py
+@@ -23,8 +23,8 @@ SCOPES = (".runs", ".data", ".local-reference")
+ #189,977files/5,378,762,877B before newer controls. Keep finite5.5GiB
+ # archive/target/bundle and200,000 file/directory ceilings, without removing
+ # evidence or changing scopes, secret/path checks, streaming or chain limits.
+-LIMIT = 11 * 1024 ** 3 // 2
+-MAX_FILES = 215000
++LIMIT = 6 * 1024 ** 3
++MAX_FILES = 235000
+ MAX_CHAIN = 16
+ # The prior139,253-file receipt is39,044,114B. The next forecast nearly fills
+ # 48MiB at that measured bytes-per-entry;64MiB gives finite metadata headroom.
+diff --git a/scripts/install_smoke.py b/scripts/install_smoke.py
+index 56d38b0..a780c14 100644
+--- a/scripts/install_smoke.py
++++ b/scripts/install_smoke.py
+@@ -31,10 +31,10 @@ from autorouter.runner import run
+ 
+ MAX_BYTES = 512 * 1024**2
+ # Current retained source/evidence is 16,624 files / 302,098,185 bytes.
+-# Preserve it under finite 17,000-file / 320 MiB source bounds; installation
++# Preserve it under finite 18,000-file / 320 MiB source bounds; installation
+ # scratch remains 512 MiB. No native acceptance or secret/path guard changes.
+ SOURCE_MAX_BYTES = 320 * 1024**2
+-SOURCE_MAX_FILES = 17000
++SOURCE_MAX_FILES = 18000
+ TOTAL_SECONDS = 600.0
+ NETWORK_DENIAL = ["/usr/bin/sandbox-exec", "-p", "(version 1)(allow default)(deny network*)"]
+ 
+diff --git a/tests/test_backup_capacity.py b/tests/test_backup_capacity.py
+index 5f5c91a..e29737c 100644
+--- a/tests/test_backup_capacity.py
++++ b/tests/test_backup_capacity.py
+@@ -10,7 +10,7 @@ class BackupCapacity(unittest.TestCase):
+                 'files':[{'path':'.runs/evidence.bin','size':size,'sha256':'0'*64}],
+                 'total_file_bytes':size}
+     def test_exact_finite_capacity_and_existing_population(self):
+-        self.assertEqual(backup.LIMIT,11*1024**3//2);self.assertEqual(backup.MAX_FILES,215000)
++        self.assertEqual(backup.LIMIT,6*1024**3);self.assertEqual(backup.MAX_FILES,235000)
+         self.assertEqual(backup.MAX_RECEIPT_BYTES,64*1024**2)
+         self.assertEqual(backup.MAX_CHAIN_RECEIPT_BYTES,128*1024**2)
+         self.assertEqual(backup.SCOPES,('.runs','.data','.local-reference'))
+diff --git a/tests/test_install_smoke.py b/tests/test_install_smoke.py
+index d956c83..7c03c60 100644
+--- a/tests/test_install_smoke.py
++++ b/tests/test_install_smoke.py
+@@ -89,7 +89,7 @@ class InstallSmokeTests(unittest.TestCase):
+ 
+     def test_source_capacity_is_bounded_without_changing_scratch_or_wall(self):
+         self.assertEqual(m.SOURCE_MAX_BYTES, 320 * 1024**2)
+-        self.assertEqual(m.SOURCE_MAX_FILES, 17000)
++        self.assertEqual(m.SOURCE_MAX_FILES, 18000)
+         self.assertEqual(m.MAX_BYTES, 512 * 1024**2)
+         self.assertEqual(m.TOTAL_SECONDS, 600.0)
+ 

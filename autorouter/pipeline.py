@@ -863,7 +863,8 @@ def selected_parity_required(data,directory=None):
     # check, and their retained native argv must agree with that declaration.
     if (data.get('scope')!='selected_nets' and data.get('schematic_parity') not in
             {'checked by final native DRC','unavailable: no native schematic in source project'}):
-        if directory is not None:
+        if (directory is not None and Path(data.get('source','')).with_suffix('.kicad_sch').name
+                in data.get('source_hashes',{})):
             from .placement_clearance import read_bytes
             # A new availability-aware worker cannot use an editable declaration
             # to opt out. Old retained code remains an explicitly historical read.
