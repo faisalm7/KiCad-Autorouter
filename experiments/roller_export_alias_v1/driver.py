@@ -1,5 +1,5 @@
 """Prospective ROOT-controlled native alias roundtrip. Not production admission."""
-import json,shutil,signal,sys,time
+import hashlib,json,shutil,signal,sys,time
 from pathlib import Path
 ROOT=next(p for p in Path(__file__).resolve().parents if (p/'autorouter/pipeline.py').is_file())
 HERE=Path(__file__).resolve().parent
@@ -9,6 +9,7 @@ from autorouter.runner import run
 from experiments.pic_mixed_transport_probe_v1 import ses_native as sn
 from padless_alias import plan,normalize_dsn,unused_class_proof
 from retained_ses import build,restore_protected_order
+from worker import without_authorized_reference_display
 SECONDS=60.;LIMIT=32*1024**2
 SOURCE=ROOT/'.data/corpus-expansion-audit-001/sparkfun__SparkFun_Roller_Encoder_Breakout'
 NAME='SparkFun_Roller_Encoder_Breakout.kicad_pcb'
@@ -68,6 +69,19 @@ def _experiment(output):
             context=f.read_json(ctx);f.context_binding(context,board,before,'final',None);extra=f.read_json(diag);events=f.read_json(case/'alias-evidence.json')
             if extra['dsn_sha256'] is not None or extra['observation_before_export']!=extra['observation_after_export'] or events['dsn_sha256']!=p.sha(dsn):raise p.Rejected('same-load diagnostic/export binding differs')
             binding=plan(board.read_bytes(),namespace);normalized.append(normalize_dsn(dsn.read_bytes(),board.read_bytes(),binding));classproof=unused_class_proof(board.read_bytes(),board.with_suffix('.kicad_pro').read_bytes(),context,dsn.read_bytes())
+            if (events.get('source_sha256')!=p.sha(board) or events.get('context_sha256')!=p.sha(ctx)
+                    or events.get('diagnostic_sha256')!=p.sha(diag)
+                    or events.get('before_board_sha256')!=p.sha(emission)
+                    or events.get('after_board_sha256')!=p.sha(case/'after.kicad_pcb')):
+                raise p.Rejected('full alias geometry sidecar binding differs')
+            phases=events.get('events',[])
+            if len(phases)!=2 or [x.get('phase') for x in phases]!=['during_alias','restored']:
+                raise p.Rejected('full alias geometry phases missing')
+            restored=phases[1]['observation'];during=phases[0]['observation']
+            digest=hashlib.sha256(json.dumps(restored,sort_keys=True,separators=(',',':'),allow_nan=False).encode()).hexdigest()
+            if (extra['observation_before_export'].get('native_observation_sha256')!=digest
+                    or without_authorized_reference_display(during,binding,True)!=without_authorized_reference_display(restored,binding)):
+                raise p.Rejected('full active/restored geometry differs from shared diagnostic')
             exports[namespace]={'board':board,'dsn':dsn,'emission':emission,'binding':binding,'class_proof':classproof};stable()
         if normalized[0]!=normalized[1]:raise p.Rejected('dual native alias namespaces differ outside authorized placement identity')
         a=exports['A'];original=sx.read(a['board']);raw,filtered,transport=build(a['dsn'].read_bytes(),a['board'].read_bytes(),a['binding']);(out/'retained.ses').write_bytes(raw);(out/'filtered.ses').write_bytes(filtered)
