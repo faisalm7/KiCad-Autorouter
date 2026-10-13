@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "process": {
+    "status": "nonzero_exit",
+    "exit_code": 2,
+    "wall_seconds": 4.760550250008237,
+    "cpu_seconds": 2.910093,
+    "max_rss_bytes": 225574912,
+    "supervisor_cpu_seconds": 0.01725199999999999,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 197165056,
+    "sampled_peak_workdir_bytes": 420,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 33554432,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/original_project_native_v1/driver.py",
+      "--project",
+      "nus-usb-led",
+      "--run-native",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/nus-original-native-001"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/nus-original-native-001-execution/command.log",
+    "log_bytes": 420,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/nus-original-native-001-execution",
+    "signal_cancellation_enabled": true,
+    "pid": 92851
+  },
+  "wall_seconds": 4.981561125008739,
+  "full_cpu_seconds": 3.048695,
+  "git_head": "18434c0f335f72379d7702e8e8b9494aac4712e2",
+  "wrapper_sha256": "56b06e518af0084c3d144f744336b8c2faf0b5013f4bf7824bf4ae39a08030af",
+  "log_sha256": "0271003b653ba43b1a1f57c0a6e063744e6e5d354cc0fe92d910645beed8626d",
+  "scope": "Original unchanged NUS native observations only; static unsupported reason retained, no engine/admission/physical approval. Outer includes startup/metadata."
+}

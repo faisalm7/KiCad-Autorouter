@@ -109,6 +109,7 @@ def check_edge_text_support(tree):
     table=sx.one(tree,'layers',[])
     declared={sx.unquote(row[1]) for row in table[1:] if isinstance(row,list)
         and len(row)>=3 and isinstance(row[1],str) and sx.unquote(row[1])}
+    root_texts={id(node) for node in sx.children(tree,'gr_text')}
     def visit(node):
         if not isinstance(node,list) or not node:return
         key=node[0]
@@ -116,7 +117,12 @@ def check_edge_text_support(tree):
         surface_field=key=='property' and any(sx.children(node,k) for k in ('at','effects','layer'))
         if key in text_items or surface_field:
             layers=sx.children(node,'layer')
-            if len(layers)!=1 or len(layers[0])!=2 or not isinstance(layers[0][1],str):
+            silk_knockout=(len(layers)==1 and len(layers[0])==3
+                and id(node) in root_texts and key=='gr_text'
+                and isinstance(layers[0][1],str)
+                and sx.unquote(layers[0][1]) in {'F.SilkS','B.SilkS'}
+                and layers[0][2]=='knockout')
+            if len(layers)!=1 or (len(layers[0])!=2 and not silk_knockout) or not isinstance(layers[0][1],str):
                 raise Rejected('text/field/dimension layer semantics not qualified')
             if sx.unquote(layers[0][1])=='Edge.Cuts':
                 raise Rejected('text/field/textbox/dimension on Edge.Cuts not qualified')
