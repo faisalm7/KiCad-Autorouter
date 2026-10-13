@@ -1,0 +1,15 @@
+{
+  "scope": "Actual bounded inventory plus the exact checker directory-population predicate.\nNo cache implementation, accepted receipt or native qualification is claimed.\n",
+  "source_sha256": "09c14548add78b21ed9599d1c2df25f24b09d3dcdeefe6b80682f293da3dee33",
+  "exact_checker_condition": "{x.name for x in (directory / 'trials').iterdir()} != {f'{i:04d}' for i in range(len(rows))}",
+  "file_hash_inventory_unchanged": true,
+  "checker_rejects_before": false,
+  "checker_rejects_after_empty_directory": true,
+  "before_file_inventory": {
+    "receipt.json": "8a0d26d40334cc741e712ac1773597a92160e8e9f0152dc9db6e6e0e857e1e5f"
+  },
+  "after_file_inventory": {
+    "receipt.json": "8a0d26d40334cc741e712ac1773597a92160e8e9f0152dc9db6e6e0e857e1e5f"
+  },
+  "conclusion": "A cache keyed only by pc.inventory file hashes would hit, although full checker rejects the changed trial population."
+}

@@ -4,6 +4,8 @@ Experimental whole-board completion only. Original projects are never written.
 """
 from __future__ import annotations
 import copy
+from contextlib import contextmanager
+from contextvars import ContextVar
 import datetime
 from decimal import Decimal, InvalidOperation
 import hashlib
@@ -17,6 +19,7 @@ import shutil
 import signal
 import subprocess
 import time
+from types import FunctionType, MappingProxyType
 from . import config as c, sexpr as sx
 from .runner import run
 
@@ -862,7 +865,116 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
     return report
 
 
+_readback_session=ContextVar('autorouter_validated_readback_session',default=None)
+
+
+@contextmanager
+def validation_readback_session():
+    """Reuse bounded placement consistency checks only within this invocation.
+
+    Every reuse hashes the complete evidence/source trees and actual tool/code
+    identity twice. Native execution and candidate acceptance are never cached.
+    Hot replacement of checker functions invalidates reuse. No disk cache exists.
+    """
+    from . import (adapter,board_floor,floor_context,floor_route,layer_policy,
+                   netclass,placement_clearance,placement_strategy,
+                   placement_transform,preferences,runner,strategy)
+    import sys
+    modules=(sys.modules[__name__],c,sx,adapter,board_floor,floor_context,
+             floor_route,layer_policy,netclass,placement_clearance,
+             placement_strategy,placement_transform,preferences,runner,strategy)
+    existing=_readback_session.get()
+    state=existing if existing is not None else {'entries':{},'modules':modules}
+    token=_readback_session.set(state)
+    try:
+        yield
+    except BaseException:
+        state['entries'].clear()
+        raise
+    finally:
+        if existing is None:state['entries'].clear()
+        _readback_session.reset(token)
+
+
+def _readback_live_identity(modules):
+    """Bound current policy constants as well as callable/code identities."""
+    count=0
+    def value(item,depth=0):
+        nonlocal count
+        count+=1
+        if count>20000 or depth>16:raise Rejected('readback policy identity exceeds bounds')
+        kind=type(item).__name__
+        if item is None or type(item) in (str,bool,int,float):return (kind,item)
+        if isinstance(item,Path):return ('path',str(item))
+        if isinstance(item,re.Pattern):return ('regex',item.pattern,item.flags)
+        if type(item) is bytes:return ('bytes',item.hex())
+        if isinstance(item,(dict,MappingProxyType)):
+            return (kind,tuple(sorted((value(k,depth+1),value(v,depth+1)) for k,v in item.items())))
+        if type(item) in (tuple,list,set,frozenset):
+            rows=tuple(value(x,depth+1) for x in item)
+            return (kind,tuple(sorted(rows)) if type(item) in (set,frozenset) else rows)
+        raise Rejected('unsupported mutable readback policy identity')
+    rows=[]
+    for module in modules:
+        for name,item in sorted(vars(module).items()):
+            if callable(item):
+                function=(id(item.__code__),value(item.__defaults__),value(item.__kwdefaults__)) if isinstance(item,FunctionType) else None
+                rows.append((module.__name__,name,id(item),function))
+            elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+    if len(repr(rows).encode())>1024*1024:raise Rejected('readback policy identity byte ceiling')
+    return tuple(rows)
+
+
+def _readback_witness(path,data,state):
+    from . import placement_clearance as pc,placement_strategy as ps
+    source=Path(data['source'])
+    if not source.is_absolute() or source!=source.resolve(strict=True):
+        raise Rejected('noncanonical placement source in readback session')
+    limit,files=(ps.LIMIT,ps.MAX_FILES) if data['schema']==5 else (100*1024*1024,2000)
+    evidence=pc.inventory(path.parent,max_bytes=limit,max_files=files,
+                          max_entries=files*2,with_directories=True)
+    original=pc.inventory(source.parent,with_directories=True)
+    live=_readback_live_identity(state['modules'])
+    return (evidence,original,hashlib.sha256(pc.read_bytes(c.ROOT/'toolchain.lock.json')).hexdigest(),
+            tool_manifest(),live,str(c.ROOT),str(c.CLI),str(c.PYTHON),str(c.PCBNEW),str(c.JAVA),str(c.JAR))
+
+
 def check_result(path):
+    """Check evidence; optional scoped reuse never substitutes fresh native DRC."""
+    state=_readback_session.get()
+    if state is None:return _check_result_uncached(path)
+    try:
+        from .floor_route import read_json
+        from .placement_clearance import read_bytes
+        target=Path(path).absolute()
+        raw=read_bytes(target)  # Reject symlink aliases before resolving them.
+        data=read_json(target)
+        if (target.name!='result.json' or target!=target.resolve(strict=True)
+                or type(data.get('schema')) is not int or data['schema'] not in (3,4,5)
+                or data.get('accepted') is not True or data.get('status')!='routing_accepted'
+                or data.get('input_policy') not in {'placement-clearance-v1','placement-search-v1','placement-pruning-v1'}):
+            return _check_result_uncached(path)
+        before=_readback_witness(target,data,state)
+        if before[0][0].get(target.name)!=hashlib.sha256(raw).hexdigest():
+            raise Rejected('placement receipt changed before cached readback')
+        entry=state['entries'].get(target)
+        if entry is not None and entry[0]==before:
+            if _readback_witness(target,data,state)!=before:
+                raise Rejected('placement evidence changed during cached readback')
+            return copy.deepcopy(entry[1])
+        state['entries'].pop(target,None)
+        result=_check_result_uncached(target)
+        if _readback_witness(target,data,state)!=before:
+            raise Rejected('placement evidence changed during full readback')
+        if len(state['entries'])>=8:state['entries'].pop(next(iter(state['entries'])))
+        state['entries'][target]=(before,copy.deepcopy(result))
+        return result
+    except BaseException:
+        state['entries'].clear()
+        raise
+
+
+def _check_result_uncached(path):
     """Check local evidence consistency; this is not authentication or fresh DRC.
 
     All receipts are mutable local JSON. A party rewriting the complete evidence

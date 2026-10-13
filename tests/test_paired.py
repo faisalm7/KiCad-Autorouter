@@ -1,5 +1,6 @@
 """Pure wrapper controls; no native or engine qualification is implied."""
 import json
+from contextlib import contextmanager
 from pathlib import Path
 import tempfile
 from types import SimpleNamespace
@@ -147,6 +148,33 @@ class PairedControls(unittest.TestCase):
         self.assertEqual(row['invocation_cpu_seconds'],35.)
         self.assertEqual(row['charged_cpu_seconds'],43.)
         self.assertEqual(result['comparisons'],[])
+
+    def test_placement_cache_entry_and_cleanup_are_charged_before_delivery(self):
+        @contextmanager
+        def session():
+            self.wall+=1.;self.cpu+=1.
+            try:yield
+            finally:self.wall+=2.;self.cpu+=2.
+        def route(*args,**kwargs):
+            self.wall+=20.;self.cpu+=20.
+            return {'tools':{'git_head':'synthetic'},'source_hashes':{},'status':'routing_accepted','accepted':True,'steps':[]}
+        def prune(*args):
+            value=route();self.wall+=88.;self.cpu+=88.;return value
+        def portfolio(directory,project,**kwargs):
+            value=self.portfolio(directory,project)
+            value.update(guidance_policy='placement-search-v1',wall_budget_seconds=kwargs['budget'],cpu_budget_seconds=kwargs['budget'])
+            for row in value['trials']:row['guidance_policy']='placement-search-v1'
+            return value
+        def summarize(arm,*args):return {'id':arm['id'],'status':'routing_accepted','accepted':True,'vias':2,'length_mm':700.}
+        with patch.object(m.p,'validation_readback_session',session),patch.object(m.p,'route',route),patch.object(m.f,'route',route),patch.object(m.ps,'prune',prune),patch.object(m.ps.pc,'inventory',return_value={}),patch.object(m.portfolio,'experiment',portfolio),patch.object(m.q,'summarize',summarize):
+            result=m.experiment(self.out,project_name='multichannel',system='placement')
+        self.assertEqual(result['shared_overhead_cpu_seconds'],11.)
+        # Freeze10 + entry1 + exit2 are shared13, while the10wall/8CPU
+        # fixture's CPU freeze is8. C108+11=119 here, still under120.
+        self.assertEqual(result['results'][-1]['charged_cpu_seconds'],119.)
+        self.assertEqual(result['results'][-1]['charged_wall_seconds'],121.)
+        self.assertFalse(result['results'][-1]['accepted'])
+        self.assertTrue(result['results'][-1]['accepted_before_shared_charge'])
 
 
 if __name__=='__main__':unittest.main()

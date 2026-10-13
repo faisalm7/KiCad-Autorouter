@@ -38,12 +38,13 @@ def read_bytes(path,limit=sx.MAX_BYTES):
     return raw
 
 
-def inventory(directory,*,contents=False,max_bytes=32*1024*1024,max_files=2000,max_entries=4000):
+def inventory(directory,*,contents=False,max_bytes=32*1024*1024,max_files=2000,max_entries=4000,with_directories=False):
     """Streaming entry bounds apply before any project payload read or sort."""
-    directory=Path(directory);result={};total=0;entries=0;pending=[directory]
+    directory=Path(directory);result={};directories=[];total=0;entries=0;pending=[directory]
     while pending:
         folder=pending.pop()
         if not folder.is_dir() or any(x.is_symlink() for x in (folder,*folder.parents)):raise p.Rejected('real placement directory required')
+        if with_directories:directories.append(str(folder.relative_to(directory)))
         with os.scandir(folder) as iterator:
             for item in iterator:
                 entries+=1
@@ -54,7 +55,8 @@ def inventory(directory,*,contents=False,max_bytes=32*1024*1024,max_files=2000,m
                 if len(result)>=max_files:raise p.Rejected('placement project file ceiling')
                 raw=read_bytes(item.path,max_bytes-total);total+=len(raw)
                 result[str(Path(item.path).relative_to(directory))]=raw if contents else g.sha(raw)
-    return dict(sorted(result.items()))
+    files=dict(sorted(result.items()))
+    return (files,tuple(sorted(directories))) if with_directories else files
 
 
 def files(directory):

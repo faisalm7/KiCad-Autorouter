@@ -1,0 +1,1 @@
+Read-only repeated consistency-cost observation on unchanged prior inneraccepted C receipt; no new native process/routing, no acceptance of rejected delivery or speedup claim. This measurement precedes the later in-memory policy-global identity fix; source hashes in result bind exact code.

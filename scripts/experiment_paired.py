@@ -10,6 +10,7 @@ must keep the native/engine lane idle; CLI shares the existing experiment lock.
 from __future__ import annotations
 
 import argparse
+from contextlib import nullcontext
 import datetime
 import fcntl
 import hashlib
@@ -182,11 +183,11 @@ def verify_thermal_incumbent(directory, result, board, frozen):
 
 
 def experiment(out, project_name='sonde', system='feedback'):
+    batch_started, batch_cpu = time.monotonic(), q.total_process_cpu()
     if system not in {'feedback','thermal','placement'}:
         raise p.Rejected('unknown paired system')
     c_arm = ({**C_ARM,'operation':'placement_prune','input_policy':ps.POLICY,'strategy':ps.STRATEGY} if system=='placement' else C_ARM if system=='feedback' else THERMAL_ARM)
     if system=='placement' and project_name!='multichannel':raise p.Rejected('placement comparison currently frozen for multichannel')
-    batch_started, batch_cpu = time.monotonic(), q.total_process_cpu()
     out = Path(out).resolve()
     if c.ROOT/'.runs' not in out.parents:
         raise p.Rejected('paired output must be a new project-local .runs directory')
@@ -199,122 +200,124 @@ def experiment(out, project_name='sonde', system='feedback'):
         if system=='placement':
             for folder,expected in completed_arms.items():
                 if ps.pc.inventory(folder,max_bytes=ps.LIMIT,max_files=ps.MAX_FILES,max_entries=ps.MAX_FILES*2)!=expected:raise p.Rejected('completed comparison arm changed')
-    try:
-        if BUDGET != q.BUDGET or BUDGET != portfolio.BUDGET:
-            raise p.Rejected('imported arm budgets differ')
-        board, family = q.selected_source(project_name)
-        frozen = portfolio.freeze(board)
-        relative = str(SCRIPT.relative_to(c.ROOT))
-        committed = subprocess.run(['git', 'show', frozen['tools']['git_head'] + ':' + relative],
-                                   cwd=c.ROOT, capture_output=True, check=True).stdout
-        if hashlib.sha256(committed).hexdigest() != p.sha(SCRIPT):
-            raise p.Rejected('commit exact paired wrapper before running')
-        frozen['files_sha256'][relative] = p.sha(SCRIPT)
-        for name, digest in frozen['files_sha256'].items():
-            target = out/'frozen-code'/name
-            target.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(c.ROOT/name, target)
-            if p.sha(target) != digest:
-                raise p.Rejected('code changed while preserving paired freeze')
-        protocol = {'schema': 1, 'freeze': frozen, 'family': family, 'source': str(board),
-            'arm_order': (['B0','B1','B2_portfolio',c_arm['id']] if system=='placement' else ['B2_portfolio', c_arm['id']]), 'wall_budget_per_arm_seconds': BUDGET,
-            'cpu_budget_per_arm_seconds': BUDGET, 'cpu_enforcement': 'measured acceptance cap, not OS preemption',
-            'baseline': 'fixed three search-cost variants, same adapter and native constraints; full frontier retained',
-            'system': ('single tuned default-cost incumbent plus feedback pruning' if system in {'feedback','placement'} else 'fresh completion-only default-cost incumbent, fresh native geometry and bounded thermal bridge recovery')+'; no free use of the portfolio winner',
-            'system_contract': c_arm,
-            'accounting': 'each raw enclosing arm includes pre/post freeze verification, invocation, failed attempts, receipt checks, and arm-index emission; the entire shared initial freeze/copy/paired-summary overhead is then conservatively charged to EACH arm, with caps rechecked after final publication',
-            'fairness_limit': 'equal total budgets and constraints, different predeclared allocation policies; C is not initialized by the portfolio',
-            'editor_policy': 'operator closes PCB Editor and keeps other native/engine jobs idle',
-            'claims_limit': summary['claims_limit']}
-        if system=='placement':
-            protocol.update(guidance_policy='placement-search-v1',system_contract={**c_arm,'strategy':ps.STRATEGY},
-                allocation_formula='120 - max(shared setup wall, shared setup CPU) - 5; same frozen inner allowance for all four arms',
-                wrapper_reserve_seconds=5,baseline_order=['B0stock','B1standard','B2tuned-default-low-high','Cfresh-tuned-default-feedback'])
-            protocol['inner_allowance_seconds']=BUDGET-max(time.monotonic()-batch_started,q.total_process_cpu()-batch_cpu)-5
-            if protocol['inner_allowance_seconds']<60:raise p.Rejected('shared setup leaves insufficient equal inner allowance')
-        assigned=protocol.get('inner_allowance_seconds',BUDGET)
-        p.save_json(out/'protocol.json', protocol)
-        summary['protocol_sha256'] = p.sha(out/'protocol.json')
-        for arm_id in protocol['arm_order']:
-            started, cpu_started = time.monotonic(), q.total_process_cpu()
-            row = {'id': arm_id, 'accepted': False, 'status': 'invocation_error',
-                'started_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(),
-                'host_load_average_1_5_15_minutes_begin': list(os.getloadavg())}
-            summary['results'].append(row)
-            material=None;directory=out/arm_id
-            try:
-                q.verify_freeze(frozen, board)
-                stable_arms()
-                if arm_id == 'B2_portfolio':
-                    result = (portfolio.experiment(directory, project_name,guidance_policy='placement-search-v1',budget=assigned)
-                              if system=='placement' else portfolio.experiment(directory, project_name))
-                    if system=='placement':material=ps.pc.inventory(directory,max_bytes=ps.LIMIT,max_files=ps.MAX_FILES,max_entries=ps.MAX_FILES*2)
-                    row.update(verify_portfolio(directory, result, board, frozen))
-                    if system=='placement':
-                        if result.get('guidance_policy')!='placement-search-v1' or result.get('wall_budget_seconds')!=assigned or result.get('cpu_budget_seconds')!=assigned:raise p.Rejected('placement portfolio allocation differs')
-                        if any(x.get('guidance_policy')!='placement-search-v1' for x in result['trials']):raise p.Rejected('mixed placement portfolio trials')
-                else:
-                    selected_arm=c_arm
-                    if system=='placement':
-                        if arm_id=='B0':
-                            selected_arm={'id':'B0','adapter':'none','engine_profile':'standard','operation':'route'}
-                            result=p.route(board,directory,assigned,False,'none','standard')
-                        elif arm_id=='B1':
-                            selected_arm={'id':'B1','adapter':'both','engine_profile':'standard','operation':'route'}
-                            result=f.route(board,directory,assigned,False,'both','standard','via_default',guidance_policy='placement-search-v1')
-                        else:result=ps.prune(board,directory,assigned)
+    # Entry and exit are inside shared accounting, before final publication.
+    with p.validation_readback_session() if system=='placement' else nullcontext():
+        try:
+            if BUDGET != q.BUDGET or BUDGET != portfolio.BUDGET:
+                raise p.Rejected('imported arm budgets differ')
+            board, family = q.selected_source(project_name)
+            frozen = portfolio.freeze(board)
+            relative = str(SCRIPT.relative_to(c.ROOT))
+            committed = subprocess.run(['git', 'show', frozen['tools']['git_head'] + ':' + relative],
+                                       cwd=c.ROOT, capture_output=True, check=True).stdout
+            if hashlib.sha256(committed).hexdigest() != p.sha(SCRIPT):
+                raise p.Rejected('commit exact paired wrapper before running')
+            frozen['files_sha256'][relative] = p.sha(SCRIPT)
+            for name, digest in frozen['files_sha256'].items():
+                target = out/'frozen-code'/name
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(c.ROOT/name, target)
+                if p.sha(target) != digest:
+                    raise p.Rejected('code changed while preserving paired freeze')
+            protocol = {'schema': 1, 'freeze': frozen, 'family': family, 'source': str(board),
+                'arm_order': (['B0','B1','B2_portfolio',c_arm['id']] if system=='placement' else ['B2_portfolio', c_arm['id']]), 'wall_budget_per_arm_seconds': BUDGET,
+                'cpu_budget_per_arm_seconds': BUDGET, 'cpu_enforcement': 'measured acceptance cap, not OS preemption',
+                'baseline': 'fixed three search-cost variants, same adapter and native constraints; full frontier retained',
+                'system': ('single tuned default-cost incumbent plus feedback pruning' if system in {'feedback','placement'} else 'fresh completion-only default-cost incumbent, fresh native geometry and bounded thermal bridge recovery')+'; no free use of the portfolio winner',
+                'system_contract': c_arm,
+                'accounting': 'each raw enclosing arm includes pre/post freeze verification, invocation, failed attempts, receipt checks, and arm-index emission; the entire shared initial freeze/copy/paired-summary overhead is then conservatively charged to EACH arm, with caps rechecked after final publication',
+                'fairness_limit': 'equal total budgets and constraints, different predeclared allocation policies; C is not initialized by the portfolio',
+                'editor_policy': 'operator closes PCB Editor and keeps other native/engine jobs idle',
+                'claims_limit': summary['claims_limit']}
+            if system=='placement':
+                protocol.update(guidance_policy='placement-search-v1',system_contract={**c_arm,'strategy':ps.STRATEGY},
+                    allocation_formula='120 - max(shared setup wall, shared setup CPU) - 5; same frozen inner allowance for all four arms',
+                    wrapper_reserve_seconds=5,baseline_order=['B0stock','B1standard','B2tuned-default-low-high','Cfresh-tuned-default-feedback'])
+                protocol['inner_allowance_seconds']=BUDGET-max(time.monotonic()-batch_started,q.total_process_cpu()-batch_cpu)-5
+                if protocol['inner_allowance_seconds']<60:raise p.Rejected('shared setup leaves insufficient equal inner allowance')
+            assigned=protocol.get('inner_allowance_seconds',BUDGET)
+            p.save_json(out/'protocol.json', protocol)
+            summary['protocol_sha256'] = p.sha(out/'protocol.json')
+            for arm_id in protocol['arm_order']:
+                started, cpu_started = time.monotonic(), q.total_process_cpu()
+                row = {'id': arm_id, 'accepted': False, 'status': 'invocation_error',
+                    'started_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                    'host_load_average_1_5_15_minutes_begin': list(os.getloadavg())}
+                summary['results'].append(row)
+                material=None;directory=out/arm_id
+                try:
+                    q.verify_freeze(frozen, board)
+                    stable_arms()
+                    if arm_id == 'B2_portfolio':
+                        result = (portfolio.experiment(directory, project_name,guidance_policy='placement-search-v1',budget=assigned)
+                                  if system=='placement' else portfolio.experiment(directory, project_name))
+                        if system=='placement':material=ps.pc.inventory(directory,max_bytes=ps.LIMIT,max_files=ps.MAX_FILES,max_entries=ps.MAX_FILES*2)
+                        row.update(verify_portfolio(directory, result, board, frozen))
+                        if system=='placement':
+                            if result.get('guidance_policy')!='placement-search-v1' or result.get('wall_budget_seconds')!=assigned or result.get('cpu_budget_seconds')!=assigned:raise p.Rejected('placement portfolio allocation differs')
+                            if any(x.get('guidance_policy')!='placement-search-v1' for x in result['trials']):raise p.Rejected('mixed placement portfolio trials')
                     else:
-                        result = (prune(board, directory, BUDGET, proposal_policy='feedback')
-                                  if system=='feedback' else recover(board, directory, BUDGET))
-                    if system=='placement':material=ps.pc.inventory(directory,max_bytes=ps.LIMIT,max_files=ps.MAX_FILES,max_entries=ps.MAX_FILES*2)
-                    row.update(q.summarize(selected_arm, directory, result,
-                        time.monotonic()-started, q.total_process_cpu()-cpu_started))
-                    if system=='thermal' and result.get('strategy')!=THERMAL_ARM['strategy']:
-                        raise p.Rejected('thermal strategy contract mismatch')
-                    if system=='thermal' and result.get('accepted') is True:
-                        verify_thermal_incumbent(directory, result, board, frozen)
-                    if q.cancelled(result):
-                        raise KeyboardInterrupt
-                    if result.get('tools') != frozen['tools'] or result.get('source_hashes') != frozen['source_hashes']:
-                        raise p.Rejected('C receipt differs from paired source/code freeze')
-                    row['observations'] = q.observations(directory, result, row)
-                    if row['accepted'] and not portfolio.valid_metrics({'vias': row['vias'], 'track_length_mm': row['length_mm']}):
-                        raise p.Rejected('invalid C metrics for comparison')
-                q.verify_freeze(frozen, board)
-            except KeyboardInterrupt:
-                row.update(status='cancelled', accepted=False)
-                raise
-            except Exception as exc:
-                row.update(accepted=False, status='invocation_error', reason=type(exc).__name__+': '+str(exc))
-                # Failed outcomes are retained, but source/code changes must
-                # invalidate the pair rather than running a mismatched next arm.
-                q.verify_freeze(frozen, board)
-            finally:
-                row.update(invocation_wall_seconds=time.monotonic()-started,
-                    invocation_cpu_seconds=q.total_process_cpu()-cpu_started,
-                    finished_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),
-                    host_load_average_1_5_15_minutes_end=list(os.getloadavg()))
-                row['within_enclosing_budgets'] = all(q.finite_nonnegative(value) and value <= BUDGET
-                    for value in (row['invocation_wall_seconds'], row['invocation_cpu_seconds']))
-                row['accepted'] = row['accepted'] and row['within_enclosing_budgets']
-                publish(out/(arm_id+'-invocation.json'), row)
-                wall, cpu = time.monotonic()-started, q.total_process_cpu()-cpu_started
-                if wall > BUDGET or cpu > BUDGET:
-                    row.update(accepted=False, within_enclosing_budgets=False,
-                        invocation_wall_seconds=wall, invocation_cpu_seconds=cpu)
+                        selected_arm=c_arm
+                        if system=='placement':
+                            if arm_id=='B0':
+                                selected_arm={'id':'B0','adapter':'none','engine_profile':'standard','operation':'route'}
+                                result=p.route(board,directory,assigned,False,'none','standard')
+                            elif arm_id=='B1':
+                                selected_arm={'id':'B1','adapter':'both','engine_profile':'standard','operation':'route'}
+                                result=f.route(board,directory,assigned,False,'both','standard','via_default',guidance_policy='placement-search-v1')
+                            else:result=ps.prune(board,directory,assigned)
+                        else:
+                            result = (prune(board, directory, BUDGET, proposal_policy='feedback')
+                                      if system=='feedback' else recover(board, directory, BUDGET))
+                        if system=='placement':material=ps.pc.inventory(directory,max_bytes=ps.LIMIT,max_files=ps.MAX_FILES,max_entries=ps.MAX_FILES*2)
+                        row.update(q.summarize(selected_arm, directory, result,
+                            time.monotonic()-started, q.total_process_cpu()-cpu_started))
+                        if system=='thermal' and result.get('strategy')!=THERMAL_ARM['strategy']:
+                            raise p.Rejected('thermal strategy contract mismatch')
+                        if system=='thermal' and result.get('accepted') is True:
+                            verify_thermal_incumbent(directory, result, board, frozen)
+                        if q.cancelled(result):
+                            raise KeyboardInterrupt
+                        if result.get('tools') != frozen['tools'] or result.get('source_hashes') != frozen['source_hashes']:
+                            raise p.Rejected('C receipt differs from paired source/code freeze')
+                        row['observations'] = q.observations(directory, result, row)
+                        if row['accepted'] and not portfolio.valid_metrics({'vias': row['vias'], 'track_length_mm': row['length_mm']}):
+                            raise p.Rejected('invalid C metrics for comparison')
+                    q.verify_freeze(frozen, board)
+                except KeyboardInterrupt:
+                    row.update(status='cancelled', accepted=False)
+                    raise
+                except Exception as exc:
+                    row.update(accepted=False, status='invocation_error', reason=type(exc).__name__+': '+str(exc))
+                    # Failed outcomes are retained, but source/code changes must
+                    # invalidate the pair rather than running a mismatched next arm.
+                    q.verify_freeze(frozen, board)
+                finally:
+                    row.update(invocation_wall_seconds=time.monotonic()-started,
+                        invocation_cpu_seconds=q.total_process_cpu()-cpu_started,
+                        finished_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                        host_load_average_1_5_15_minutes_end=list(os.getloadavg()))
+                    row['within_enclosing_budgets'] = all(q.finite_nonnegative(value) and value <= BUDGET
+                        for value in (row['invocation_wall_seconds'], row['invocation_cpu_seconds']))
+                    row['accepted'] = row['accepted'] and row['within_enclosing_budgets']
                     publish(out/(arm_id+'-invocation.json'), row)
-            if system=='placement' and directory.is_dir():
-                current=ps.pc.inventory(directory,max_bytes=ps.LIMIT,max_files=ps.MAX_FILES,max_entries=ps.MAX_FILES*2)
-                if material is not None and current!=material:raise p.Rejected('current comparison arm changed during readback/publication')
-                completed_arms[directory]=current if material is None else material
-        q.verify_freeze(frozen, board);stable_arms()
-        summary.update(status='completed', comparisons=comparisons(summary['results']))
-    except KeyboardInterrupt:
-        summary.update(status='cancelled', comparisons=[])
-        for row in summary['results']:row['accepted']=False
-    except Exception as exc:
-        summary.update(status='invalidated', comparisons=[], reason=type(exc).__name__+': '+str(exc))
-        for row in summary['results']:row['accepted']=False
+                    wall, cpu = time.monotonic()-started, q.total_process_cpu()-cpu_started
+                    if wall > BUDGET or cpu > BUDGET:
+                        row.update(accepted=False, within_enclosing_budgets=False,
+                            invocation_wall_seconds=wall, invocation_cpu_seconds=cpu)
+                        publish(out/(arm_id+'-invocation.json'), row)
+                if system=='placement' and directory.is_dir():
+                    current=ps.pc.inventory(directory,max_bytes=ps.LIMIT,max_files=ps.MAX_FILES,max_entries=ps.MAX_FILES*2)
+                    if material is not None and current!=material:raise p.Rejected('current comparison arm changed during readback/publication')
+                    completed_arms[directory]=current if material is None else material
+            q.verify_freeze(frozen, board);stable_arms()
+            summary.update(status='completed', comparisons=comparisons(summary['results']))
+        except KeyboardInterrupt:
+            summary.update(status='cancelled', comparisons=[])
+            for row in summary['results']:row['accepted']=False
+        except Exception as exc:
+            summary.update(status='invalidated', comparisons=[], reason=type(exc).__name__+': '+str(exc))
+            for row in summary['results']:row['accepted']=False
     for row in summary['results']:
         row['accepted_before_shared_charge'] = row['accepted']
     def account_shared():
