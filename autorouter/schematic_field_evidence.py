@@ -80,11 +80,13 @@ def readback(report,raw):
     if f.read_json(proof)!=actual:raise p.Rejected('effective-field proof differs from retained native observations')
     return actual
 
-def check_availability(directory,stage,process,raw):
+def check_availability(directory,stage,process,raw,*,required=False):
     """A requested native check is unavailable unless its completion is proved."""
     from . import pipeline as p,placement_clearance as pc
     import re
-    if '--schematic-parity' not in process.get('argv',[]):return
+    if '--schematic-parity' not in process.get('argv',[]):
+        if required:raise p.Rejected('requested native schematic parity flag missing from process')
+        return
     path=Path(directory)/(stage+'.log')
     if (process.get('log')!=str(path) or process.get('log_truncated') is not False
             or type(process.get('log_bytes')) is not int):

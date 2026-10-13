@@ -1,0 +1,39 @@
+{
+  "findings": [
+    {
+      "issue": "Final size scan occurred after the last stable/source/material check. Frozen original tail returned and saved controls_passed=true despite deliberate retained-source mutation during that scan.",
+      "resolution": "Current ROOT tail rechecks stable/ownership after size; shared publisher archives the prior positive and emits invalidated controls_passed=false. Exact-source seam reproduces corrected behavior.",
+      "severity": "resolved correctness"
+    },
+    {
+      "issue": "Invalidation/accounting could retain controls_passed=true when publication failed.",
+      "resolution": "Current ROOT account clears controls_passed for every status other than controls_passed; deliberate one-time OSError after publication yields invalidated controls_passed=false and preserves the displaced positive.",
+      "severity": "resolved failure consistency"
+    },
+    {
+      "issue": "Job.step accepts broad internal native-command prefixes rather than complete argument grammar.",
+      "reachability": "No untrusted public argv surface identified. Fixed committed driver/shared Job constructs arguments; subsequent shared process checks bind exact native provenance. Not a native-execution blocker for this diagnostic.",
+      "severity": "scope hardening only"
+    }
+  ],
+  "git_or_network_calls": 0,
+  "native_or_jvm_executions": 0,
+  "preserved_initial_attempt": "probe.py initial assertions failed as ROOT concurrently added fixes; all scratch result files retained. probe-current.py then ran a fresh named current-source seam; no native repeats.",
+  "production_edits": false,
+  "remaining_gates": [
+    "Actual ROOT sequential native observation and positive/negative checks remain unrun by this review.",
+    "Original library/model/source-rights gaps remain; no admission or router superiority claim."
+  ],
+  "reviewed_contracts": [
+    "Runtime capture_freeze binds committed helpers/core/lock; current p.tool_manifest and complete input hashes checked.",
+    "Real copied sources/notices only in owned output, original data never a native write target.",
+    "Actual context/DSN/DRC processes use shared exact provenance checks; all findings retained.",
+    "Source failure is recorded per case and cannot become controls_passed; KeyboardInterrupt and shared caps stop the batch.",
+    "Owned destination identity guards corrective publication.",
+    "Controls accepted=false; production support, dependency closure and independent-family proof remain false."
+  ],
+  "reviewed_driver_sha256": "fd412b96c05f1c30b53436a874433518fb2270437a935947a414147560cb076a",
+  "schema": 1,
+  "source_unchanged_after_review": true,
+  "status": "scoped_publication_defect_fixed_and_pure_reproduced"
+}

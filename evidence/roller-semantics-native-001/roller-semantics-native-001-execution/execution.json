@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "process": {
+    "status": "nonzero_exit",
+    "exit_code": 2,
+    "wall_seconds": 9.900934707999113,
+    "cpu_seconds": 7.8284,
+    "max_rss_bytes": 214892544,
+    "supervisor_cpu_seconds": 0.03459800000000002,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 213581824,
+    "sampled_peak_workdir_bytes": 56,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 33554432,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "-c",
+      "from pathlib import Path; import sys; sys.path.insert(0,'/Users/faisal/Projects/KiCad-Autorouter-local'); from experiments.roller_support_v1.driver import experiment; import json; r=experiment(Path('/Users/faisal/Projects/KiCad-Autorouter-local/.runs/roller-semantics-native-001'),run_native=True); print(json.dumps({k:r[k] for k in ('status','controls_passed')})); raise SystemExit(0 if r['controls_passed'] else 2)"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/roller-semantics-native-001-execution/command.log",
+    "log_bytes": 56,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/roller-semantics-native-001-execution",
+    "signal_cancellation_enabled": true,
+    "pid": 7082
+  },
+  "wall_seconds": 9.901185082999291,
+  "full_cpu_seconds": 7.863151,
+  "within120_wall_full_cpu": true,
+  "protocol_sha256": "72a252f89dfc8e011f36491ab21d98fd2fa4fbe02222daa0685629047c5d9d17",
+  "wrapper_sha256": "e1ecbe6b0cfce3f5c9fbe13fc9746c2d693617981b92abab152182870ae1a985",
+  "actual_result_sha256": "c749b42e6611ea5ef698e1899dfbab3e433ee56b20d8a1c8b963fffeb85b9251",
+  "scope": "Sequential native observer/refill/DRC support controls only; noengine orproductionadmission; exactoriginalclasses/layer/text/rules retained."
+}

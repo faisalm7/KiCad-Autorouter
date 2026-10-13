@@ -434,7 +434,7 @@ class Job:
             from . import schematic_field_evidence as fields
             if schematic_parity:
                 phase='schematic_parity_availability'
-                fields.check_availability(self.out,name,result,json.loads(report.read_text()))
+                fields.check_availability(self.out,name,result,json.loads(report.read_text()),required=True)
             if fields.has_fields(parsed['findings']) and schematic_parity:
                 phase='complete_field_observation'
                 fields.collect(self,name,board,json.loads(report.read_text()))
@@ -857,12 +857,19 @@ def check_minimum_width_record(data, directory=None):
     return guard
 
 
-def selected_parity_required(data):
+def selected_parity_required(data,directory=None):
     # Historical whole-board receipts explicitly did not check parity. Keep
     # their evidence readable; new receipts declare the actual complete-input
     # check, and their retained native argv must agree with that declaration.
     if (data.get('scope')!='selected_nets' and data.get('schematic_parity') not in
-            {'checked by final native DRC','unavailable: no native schematic in source project'}):return False
+            {'checked by final native DRC','unavailable: no native schematic in source project'}):
+        if directory is not None:
+            from .placement_clearance import read_bytes
+            # A new availability-aware worker cannot use an editable declaration
+            # to opt out. Old retained code remains an explicitly historical read.
+            if b'fields.check_availability(self.out,name,result' in read_bytes(Path(directory)/'code/pipeline.py'):
+                raise Rejected('current retained implementation requires schematic parity declaration')
+        return False
     required=Path(data['source']).with_suffix('.kicad_sch').name in data['source_hashes']
     if data.get('schematic_parity')!=parity_declaration(data['source'],data['source_hashes']):raise Rejected('schematic parity declaration differs from complete source')
     return required
@@ -1396,7 +1403,7 @@ def _check_result_uncached(path):
 
     process=evidence('final-drc-process.json')
     expected_argv=[str(c.CLI),'pcb','drc','--format','json','--severity-all','--all-track-errors','--refill-zones','--exit-code-violations','--output',str(path.parent/'final-drc.json'),str(native_input)]
-    if selected_parity_required(data):expected_argv.insert(8,'--schematic-parity')
+    if selected_parity_required(data,path.parent):expected_argv.insert(8,'--schematic-parity')
     if input_policy in {'board-floors-v1','placement-clearance-v1','placement-search-v1',ps.POLICY}:
         from .floor_route import SANDBOX
         expected_argv=SANDBOX+expected_argv

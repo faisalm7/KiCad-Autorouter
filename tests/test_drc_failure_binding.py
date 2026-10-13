@@ -25,6 +25,9 @@ class DrcFailureBinding(unittest.TestCase):
         board = Path(argv[-1]); self.validated = board
         (self.job.out / (name+'.log')).write_text('fabricated stage; no native execution\n')
         result = {'name':name,'status':'success','exit_code':0,'argv':[str(x) for x in argv]}
+        if '--schematic-parity' in result['argv']:
+            log=self.job.out/(name+'.log');log.write_text('Found 0 schematic parity issues\n')
+            result.update(log=str(log),log_bytes=log.stat().st_size,log_truncated=False)
         self.job.steps.append(result); p.save_json(self.job.out/(name+'-process.json'),result)
         if self.mode in ('prl','project','rules'):
             suffix = {'prl':'.kicad_prl','project':'.kicad_pro','rules':'.kicad_dru'}[self.mode]

@@ -1,0 +1,45 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 0.40530566600500606,
+  "cpu_seconds": 0.396234,
+  "max_rss_bytes": 197591040,
+  "supervisor_cpu_seconds": 0.007911000000000001,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 34439168,
+  "sampled_peak_workdir_bytes": 1709980,
+  "resource_guards": {
+    "max_group_rss_bytes": 2147483648,
+    "max_workdir_bytes": 33554432,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/roller_support_v1/worker.py",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/roller-semantics-native-001/signal_crossing/observe-input/fixture.kicad_pcb",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/roller-semantics-native-001/signal_crossing/original-context.json",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/roller-semantics-native-001/signal_crossing/original.dsn",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/roller-semantics-native-001/signal_crossing/original-observation.json"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/roller-semantics-native-001/signal_crossing-original.log",
+  "log_bytes": 0,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/roller-semantics-native-001",
+  "signal_cancellation_enabled": true,
+  "pid": 7144,
+  "name": "signal_crossing-original"
+}

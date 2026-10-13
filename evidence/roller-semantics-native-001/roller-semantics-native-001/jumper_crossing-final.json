@@ -1,0 +1,69 @@
+{
+    "$schema": "https://schemas.kicad.org/drc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-10-13T14:52:31",
+    "ignored_checks": [
+        {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+        },
+        {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+        },
+        {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+        },
+        {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+        },
+        {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+        },
+        {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+        },
+        {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning",
+        "exclusion"
+    ],
+    "kicad_version": "10.0.0",
+    "schematic_parity": [],
+    "source": "fixture.kicad_pcb",
+    "unconnected_items": [],
+    "violations": [
+        {
+            "description": "Clearance violation (board minimum clearance 0.3000 mm; actual 0.0000 mm)",
+            "items": [
+                {
+                    "description": "Track [SIGNAL_A] on B.Cu, length 10.0000 mm",
+                    "pos": {
+                        "x": 25.0,
+                        "y": 20.0
+                    },
+                    "uuid": "49fbb38f-d93b-57b7-8a61-bdac474a383d"
+                },
+                {
+                    "description": "PCB text 'X' on B.Cu",
+                    "pos": {
+                        "x": 30.0,
+                        "y": 20.0
+                    },
+                    "uuid": "d2f6edde-ce91-5e9b-a3cb-445fad0327a3"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        }
+    ]
+}

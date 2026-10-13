@@ -1,0 +1,16 @@
+def selected_parity_required(data,directory=None):
+    # Historical whole-board receipts explicitly did not check parity. Keep
+    # their evidence readable; new receipts declare the actual complete-input
+    # check, and their retained native argv must agree with that declaration.
+    if (data.get('scope')!='selected_nets' and data.get('schematic_parity') not in
+            {'checked by final native DRC','unavailable: no native schematic in source project'}):
+        if directory is not None:
+            from .placement_clearance import read_bytes
+            # A new availability-aware worker cannot use an editable declaration
+            # to opt out. Old retained code remains an explicitly historical read.
+            if b'fields.check_availability(self.out,name,result' in read_bytes(Path(directory)/'code/pipeline.py'):
+                raise Rejected('current retained implementation requires schematic parity declaration')
+        return False
+    required=Path(data['source']).with_suffix('.kicad_sch').name in data['source_hashes']
+    if data.get('schematic_parity')!=parity_declaration(data['source'],data['source_hashes']):raise Rejected('schematic parity declaration differs from complete source')
+    return required

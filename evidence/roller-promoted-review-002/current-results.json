@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "promoted_driver_sha256": "fd412b96c05f1c30b53436a874433518fb2270437a935947a414147560cb076a",
+  "old_author_driver_sha256": "cd910e48f47ebfc50b2b38a6965baaf773678e4961aa387b2e741f80d471f53a",
+  "scope": "Exact extracted source tails and current actual account; fabricated completed controls with actual shared publisher; no native/solver/Git",
+  "rows": [
+    {
+      "case": "original-late-size",
+      "returned_status": "controls_passed",
+      "returned_controls_passed": true,
+      "disk_status": "controls_passed",
+      "disk_controls_passed": true,
+      "source_changed": true,
+      "injections": [
+        "late-size-mutation"
+      ],
+      "invalidated_positive_records": [],
+      "native_executions": 0
+    },
+    {
+      "case": "current-late-size",
+      "returned_status": "invalidated",
+      "returned_controls_passed": false,
+      "disk_status": "invalidated",
+      "disk_controls_passed": false,
+      "source_changed": true,
+      "injections": [
+        "late-size-mutation"
+      ],
+      "invalidated_positive_records": [
+        "invalidated-result-5ef10041fa554db1a20b3d3792a2b45e.json"
+      ],
+      "native_executions": 0
+    },
+    {
+      "case": "current-publication-failure",
+      "returned_status": "invalidated",
+      "returned_controls_passed": false,
+      "disk_status": "invalidated",
+      "disk_controls_passed": false,
+      "source_changed": false,
+      "injections": [
+        "one-time publication OSError after write"
+      ],
+      "invalidated_positive_records": [
+        "invalidated-result-b073947d46d847b1bacd212862a973ed.json"
+      ],
+      "native_executions": 0
+    },
+    {
+      "case": "proposed-account-fix-publication-failure",
+      "returned_status": "invalidated",
+      "returned_controls_passed": false,
+      "disk_status": "invalidated",
+      "disk_controls_passed": false,
+      "source_changed": false,
+      "injections": [
+        "one-time publication OSError after write"
+      ],
+      "invalidated_positive_records": [
+        "invalidated-result-fbbff198cea54d82aea6b08fce445d7c.json"
+      ],
+      "native_executions": 0
+    }
+  ]
+}

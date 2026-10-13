@@ -103,9 +103,9 @@ def collect(mode,source,output,dsn=None,area_output=None,*,observation_output=No
         raise ValueError('fresh distinct export-only area context required')
     observation_output=canonical_path(observation_output) if observation_output is not None else None
     if ((observation_output is None)!=(observer is None) or (observer is not None and not callable(observer))
-            or (observation_output is not None and (mode!='export' or observation_output.parent!=output.parent
+            or (observation_output is not None and (observation_output.parent!=output.parent
                 or observation_output.exists() or observation_output in {output,dsn,area_output}))):
-        raise ValueError('fresh export-only diagnostic callback/output pair required')
+        raise ValueError('fresh diagnostic callback/output pair required')
     if not board.is_file() or not project.is_file():raise ValueError('complete project required')
     before=inventory(board.parent)
     import pcbnew
@@ -173,7 +173,7 @@ def collect(mode,source,output,dsn=None,area_output=None,*,observation_output=No
 
     if observation_output is not None:
         diagnostic={'context_schema':1,'native_version':'10.0.0','units':'integer nanometres','mode':mode,'source':str(board),
-            'board_sha256':sha(board),'project_sha256':sha(project),'dsn_sha256':sha(dsn),
+            'board_sha256':sha(board),'project_sha256':sha(project),'dsn_sha256':sha(dsn) if dsn is not None else None,
             'floor_context_sha256':sha(output),'input_hashes_before':before,'input_hashes_after':after,
             'observation_before_export':observation_before,'observation_after_export':observation_after,
             'same_loaded_board':True,'board_saved':False,'routing_accepted':False,'geometry_qualified':False}
