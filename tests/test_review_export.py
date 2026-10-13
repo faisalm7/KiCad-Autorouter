@@ -32,7 +32,8 @@ class ExportControls(unittest.TestCase):
         changes={'whole_project_drc_clean':True,'project_file':str(self.source/'board.kicad_pro'),
                  'original_geometry_and_routing_unchanged':False,'source_hashes':{},
                  'preview_board_sha256':'0'*64,'final_sha_changed_after_refill':not original['final_sha_changed_after_refill'],
-                 'output_ceiling_bytes':e.OUTPUT_BYTES+1,'output_file_ceiling':e.OUTPUT_FILES+1}
+                 'output_ceiling_bytes':e.OUTPUT_BYTES+1,'output_file_ceiling':e.OUTPUT_FILES+1,
+                 'original_routing_receipt_compute':{'budget_seconds':1.,'cpu_budget_seconds':1.,'wall_seconds':0.,'total_cpu_seconds':0.}}
         for key,value in changes.items():
             with self.subTest(field=key):
                 path.write_text(json.dumps({**original,key:value}))

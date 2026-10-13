@@ -1,0 +1,1323 @@
+{
+  "schema": 1,
+  "scope": "Three accepted original KiCad development projects plus multichannel sibling; offline pedigree audit only",
+  "native_processes": 0,
+  "engine_processes": 0,
+  "network_requests": 0,
+  "git_subprocesses": 0,
+  "population_unchanged": {
+    "acquired_logical_boards": 20,
+    "statically_eligible": 3,
+    "unsupported": 17,
+    "proven_independent_families": 0,
+    "holdout": false
+  },
+  "structural_screen_reuse": {
+    "facts": ".runs/corpus-support-priority-001/facts.json",
+    "normalizer": ".runs/corpus-support-priority-001/inspect.py",
+    "native_or_full_population_experiments_repeated": false,
+    "method_limits": "Terminal geometry excludes pad names, net/pin labels and UUIDs; footprint local pad geometry retains pad numbers and relative coordinates but excludes absolute board placement. Connectivity screen is three-round colored bipartite footprint/net multigraph refinement with pad labels; removes refdes/netnames/UUIDs/routes. This is a coarse screen, not graph-isomorphism proof, rotation-invariant geometry proof or ancestry evidence.",
+    "interpretation": "Three different whole-design screens, not an independence/ancestry/isomorphism proof"
+  },
+  "common_origin": {
+    "repository": "KiCad/kicad-source-mirror",
+    "canonical_repository": "https://gitlab.com/kicad/code/kicad",
+    "revision": "69cafb907ebc09e7722a2a464b1d466fc2e3608d",
+    "tag": "10.0.7",
+    "source_scope": "demos/*",
+    "license": "CC-BY-SA-4.0",
+    "license_scope_evidence": "LICENSE.README at source commit explicitly assigns all demos/* files to CC BY-SA 4.0"
+  },
+  "historical_observation": {
+    "parent_revision": "a3ca8095665a10d01b02555417a7a273d2332fb1",
+    "child_commit_date": "2009-02-21T07:28:14Z",
+    "child_committer_name": "charras",
+    "limit": "Directory entries for sonde/interf_u already existed in parent of 2009 commit; neither original circuit author nor continuous file ancestry is established. This is cached coldfire-query metadata, not a path-history query for these three designs."
+  },
+  "projects": [
+    {
+      "project_id": "kicad-sonde-xilinx",
+      "source_directory": "demos/sonde xilinx",
+      "source_revision": "69cafb907ebc09e7722a2a464b1d466fc2e3608d",
+      "original_files": 14,
+      "original_bytes": 668217,
+      "verified_files_including_notices": 16,
+      "verified_bytes_including_notices": 685767,
+      "license": "CC-BY-SA-4.0",
+      "license_notice_paths": [
+        "boards/kicad-sonde-xilinx/_licenses/LICENSE.README",
+        "boards/kicad-sonde-xilinx/_licenses/LICENSE.CC-BY-SA-4.0"
+      ],
+      "additional_rights_evidence": null,
+      "pedigree_independence": "unverified; distinct circuitry is not documented independent authorship/ancestry",
+      "cached_2009_predecessor_directory_entry": [
+        {
+          "name": "sonde xilinx",
+          "path": "demos/sonde xilinx",
+          "sha": "b96401a56c98dce7860df2502e85c6b26747366c",
+          "size": 0,
+          "url": "https://api.github.com/repos/KiCad/kicad-source-mirror/contents/demos/sonde%20xilinx?ref=a3ca8095665a10d01b02555417a7a273d2332fb1",
+          "html_url": "https://github.com/KiCad/kicad-source-mirror/tree/a3ca8095665a10d01b02555417a7a273d2332fb1/demos/sonde%20xilinx",
+          "git_url": "https://api.github.com/repos/KiCad/kicad-source-mirror/git/trees/b96401a56c98dce7860df2502e85c6b26747366c",
+          "download_url": null,
+          "type": "dir",
+          "_links": {
+            "self": "https://api.github.com/repos/KiCad/kicad-source-mirror/contents/demos/sonde%20xilinx?ref=a3ca8095665a10d01b02555417a7a273d2332fb1",
+            "git": "https://api.github.com/repos/KiCad/kicad-source-mirror/git/trees/b96401a56c98dce7860df2502e85c6b26747366c",
+            "html": "https://github.com/KiCad/kicad-source-mirror/tree/a3ca8095665a10d01b02555417a7a273d2332fb1/demos/sonde%20xilinx"
+          }
+        }
+      ],
+      "boards": [
+        {
+          "board": ".data/boards/kicad-sonde-xilinx/sonde xilinx.kicad_pcb",
+          "source_sha256": "d0dee876715fcdd3f656dd6a77cc1141c39bec4d6f8492a3784d38edd6b9a998",
+          "footprints": 25,
+          "pads": 108,
+          "connected_pad_terminals": 108,
+          "named_nets_used_by_pads": 42,
+          "terminal_geometry_multiset_sha256": "228eeefe1b2caf704899e837b0eb03c0936a6674eef482faa81d1400196d033e",
+          "footprint_local_pad_geometry_multiset_sha256": "0027e7c91537dea7fa028834008fa6e8af58a08c2c26bb0970bad94594f8fc0b",
+          "connectivity_wl3_screen_sha256": "292f9e4df9cf0f2b5df61b01bc5785c2fa15887d8922b81aabfe2dfe33417cb6"
+        }
+      ],
+      "source_observations": [
+        {
+          "path": ".data/boards/kicad-sonde-xilinx/fp-lib-table",
+          "title_block": [],
+          "embedded_library_property_credits": [],
+          "model_references": [],
+          "exact_table_ast": [
+            "fp_lib_table",
+            [
+              "version",
+              "7"
+            ],
+            [
+              "lib",
+              [
+                "name",
+                "\"sonde-xilinx\""
+              ],
+              [
+                "type",
+                "\"KiCad\""
+              ],
+              [
+                "uri",
+                "\"${KIPRJMOD}/sonde-xilinx.pretty\""
+              ],
+              [
+                "options",
+                "\"\""
+              ],
+              [
+                "descr",
+                "\"\""
+              ]
+            ]
+          ]
+        },
+        {
+          "path": ".data/boards/kicad-sonde-xilinx/sonde xilinx.kicad_pcb",
+          "title_block": [
+            [
+              "title_block",
+              [
+                "rev",
+                "\"1\""
+              ],
+              [
+                "company",
+                "\"Kicad Demo\""
+              ]
+            ]
+          ],
+          "embedded_library_property_credits": [],
+          "model_references": [
+            "${KICAD6_3DMODEL_DIR}/Capacitor_THT.3dshapes/C_Axial_L5.1mm_D3.1mm_P12.50mm_Horizontal.wrl",
+            "${KICAD6_3DMODEL_DIR}/Capacitor_THT.3dshapes/C_Disc_D5.1mm_W3.2mm_P5.00mm.wrl",
+            "${KICAD6_3DMODEL_DIR}/Connector_PinHeader_2.54mm.3dshapes/PinHeader_1x06_P2.54mm_Vertical.wrl",
+            "${KICAD6_3DMODEL_DIR}/Diode_THT.3dshapes/D_A-405_P7.62mm_Horizontal.wrl",
+            "${KICAD6_3DMODEL_DIR}/Package_DIP.3dshapes/DIP-14_W7.62mm.wrl",
+            "${KICAD6_3DMODEL_DIR}/Resistor_THT.3dshapes/R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal.wrl",
+            "${KICAD8_3DMODEL_DIR}/Connector_Dsub.3dshapes/DSUB-25_Male_EdgeMount_P2.77mm.wrl",
+            "${KICAD8_3DMODEL_DIR}/Connector_Dsub.3dshapes/DSUB-9_Male_EdgeMount_P2.77mm.wrl"
+          ],
+          "top_level_graphic_text": [
+            "TMS-PROG",
+            "TDO-DONE",
+            "GND",
+            "TCK-CCL",
+            "Component Side",
+            "VCC",
+            "TDI-TIN",
+            "Copper layer"
+          ],
+          "component_values": {
+            "100": 10,
+            "100pF": 4,
+            "1K": 1,
+            "1uF": 1,
+            "47": 1,
+            "5,1K": 1,
+            "74LS125": 2,
+            "BAT46": 2,
+            "CONN_6": 1,
+            "DB25MALE": 1,
+            "DB9MALE": 1
+          }
+        },
+        {
+          "path": ".data/boards/kicad-sonde-xilinx/sonde xilinx.kicad_sch",
+          "title_block": [
+            [
+              "title_block",
+              [
+                "title",
+                "\"PARALLEL CABLE III\""
+              ],
+              [
+                "date",
+                "\"Sun 22 Mar 2015\""
+              ],
+              [
+                "rev",
+                "\"1\""
+              ]
+            ]
+          ],
+          "embedded_library_property_credits": [],
+          "model_references": [],
+          "top_level_text": [],
+          "repeated_sheet_files": {}
+        },
+        {
+          "path": ".data/boards/kicad-sonde-xilinx/sonde-xilinx.pretty/C_Axial_L5.1mm_D3.1mm_P12.50mm_Horizontal.kicad_mod",
+          "title_block": [],
+          "embedded_library_property_credits": [],
+          "model_references": [
+            "${KICAD6_3DMODEL_DIR}/Capacitor_THT.3dshapes/C_Axial_L5.1mm_D3.1mm_P12.50mm_Horizontal.wrl"
+          ]
+        },
+        {
+          "path": ".data/boards/kicad-sonde-xilinx/sonde-xilinx.pretty/C_Disc_D5.1mm_W3.2mm_P5.00mm.kicad_mod",
+          "title_block": [],
+          "embedded_library_property_credits": [],
+          "model_references": [
+            "${KICAD6_3DMODEL_DIR}/Capacitor_THT.3dshapes/C_Disc_D5.1mm_W3.2mm_P5.00mm.wrl"
+          ]
+        },
+        {
+          "path": ".data/boards/kicad-sonde-xilinx/sonde-xilinx.pretty/DIP-14_W7.62mm_LongPads.kicad_mod",
+          "title_block": [],
+          "embedded_library_property_credits": [],
+          "model_references": [
+            "${KICAD6_3DMODEL_DIR}/Package_DIP.3dshapes/DIP-14_W7.62mm.wrl"
+          ]
+        },
+        {
+          "path": ".data/boards/kicad-sonde-xilinx/sonde-xilinx.pretty/DSUB-25_Male_EdgeMount_P2.77mm.kicad_mod",
+          "title_block": [],
+          "embedded_library_property_credits": [],
+          "model_references": [
+            "${KICAD8_3DMODEL_DIR}/Connector_Dsub.3dshapes/DSUB-25_Male_EdgeMount_P2.77mm.wrl"
+          ]
+        },
+        {
+          "path": ".data/boards/kicad-sonde-xilinx/sonde-xilinx.pretty/DSUB-9_Male_EdgeMount_P2.77mm.kicad_mod",
+          "title_block": [],
+          "embedded_library_property_credits": [],
+          "model_references": [
+            "${KICAD8_3DMODEL_DIR}/Connector_Dsub.3dshapes/DSUB-9_Male_EdgeMount_P2.77mm.wrl"
+          ]
+        },
+        {
+          "path": ".data/boards/kicad-sonde-xilinx/sonde-xilinx.pretty/D_A-405_P7.62mm_Horizontal.kicad_mod",
+          "title_block": [],
+          "embedded_library_property_credits": [],
+          "model_references": [
+            "${KICAD6_3DMODEL_DIR}/Diode_THT.3dshapes/D_A-405_P7.62mm_Horizontal.wrl"
+          ]
+        },
+        {
+          "path": ".data/boards/kicad-sonde-xilinx/sonde-xilinx.pretty/PinHeader_1x06_P2.54mm_Vertical.kicad_mod",
+          "title_block": [],
+          "embedded_library_property_credits": [],
+          "model_references": [
+            "${KICAD6_3DMODEL_DIR}/Connector_PinHeader_2.54mm.3dshapes/PinHeader_1x06_P2.54mm_Vertical.wrl"
+          ]
+        },
+        {
+          "path": ".data/boards/kicad-sonde-xilinx/sonde-xilinx.pretty/R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal.kicad_mod",
+          "title_block": [],
+          "embedded_library_property_credits": [],
+          "model_references": [
+            "${KICAD6_3DMODEL_DIR}/Resistor_THT.3dshapes/R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal.wrl"
+          ]
+        },
+        {
+          "path": ".data/boards/kicad-sonde-xilinx/sonde_xilinx.kicad_sym",
+          "title_block": [],
+          "embedded_library_property_credits": [],
+          "model_references": []
+        },
+        {
+          "path": ".data/boards/kicad-sonde-xilinx/sym-lib-table",
+          "title_block": [],
+          "embedded_library_property_credits": [],
+          "model_references": [],
+          "exact_table_ast": [
+            "sym_lib_table",
+            [
+              "version",
+              "7"
+            ],
+            [
+              "lib",
+              [
+                "name",
+                "\"sonde_xilinx\""
+              ],
+              [
+                "type",
+                "\"KiCad\""
+              ],
+              [
+                "uri",
+                "\"${KIPRJMOD}/sonde_xilinx.kicad_sym\""
+              ],
+              [
+                "options",
+                "\"\""
+              ],
+              [
+                "descr",
+                "\"\""
+              ]
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "project_id": "kicad-interf-u",
+      "source_directory": "demos/interf_u",
+      "source_revision": "69cafb907ebc09e7722a2a464b1d466fc2e3608d",
+      "original_files": 23,
+      "original_bytes": 1473421,
+      "verified_files_including_notices": 25,
+      "verified_bytes_including_notices": 1490971,
+      "license": "CC-BY-SA-4.0",
+      "license_notice_paths": [
+        "boards/kicad-interf-u/_licenses/LICENSE.README",
+        "boards/kicad-interf-u/_licenses/LICENSE.CC-BY-SA-4.0"
+      ],
+      "additional_rights_evidence": {
+        "subject": "Tux artwork",
+        "attribution": "Larry Ewing and The GIMP",
+        "source": "https://www.kernel.org/faq.html",
+        "note": "Official Linux FAQ identifies author and permits use including commercial with author credit; KiCad root demo license scopes the native project. No separate local notice is present."
+      },
+      "pedigree_independence": "unverified; distinct circuitry is not documented independent authorship/ancestry",
+      "cached_2009_predecessor_directory_entry": [
+        {
+          "name": "interf_u",
+          "path": "demos/interf_u",
+          "sha": "0b6f71ef77e06f7f5a37d1fb9f2759a1ee1fdfb2",
+          "size": 0,
+          "url": "https://api.github.com/repos/KiCad/kicad-source-mirror/contents/demos/interf_u?ref=a3ca8095665a10d01b02555417a7a273d2332fb1",
+          "html_url": "https://github.com/KiCad/kicad-source-mirror/tree/a3ca8095665a10d01b02555417a7a273d2332fb1/demos/interf_u",
+          "git_url": "https://api.github.com/repos/KiCad/kicad-source-mirror/git/trees/0b6f71ef77e06f7f5a37d1fb9f2759a1ee1fdfb2",
+          "download_url": null,
+          "type": "dir",
+          "_links": {
+            "self": "https://api.github.com/repos/KiCad/kicad-source-mirror/contents/demos/interf_u?ref=a3ca8095665a10d01b02555417a7a273d2332fb1",
+            "git": "https://api.github.com/repos/KiCad/kicad-source-mirror/git/trees/0b6f71ef77e06f7f5a37d1fb9f2759a1ee1fdfb2",
+            "html": "https://github.com/KiCad/kicad-source-mirror/tree/a3ca8095665a10d01b02555417a7a273d2332fb1/demos/interf_u"
+          }
+        }
+      ],
+      "boards": [
+        {
+          "board": ".data/boards/kicad-interf-u/interf_u.kicad_pcb",
+          "source_sha256": "a740ce7fde77ab6af191e23ece21e57d36bb3c29325879248520dcd9ab47b57e",
+          "footprints": 25,
+          "pads": 379,
+          "connected_pad_terminals": 373,
+          "named_nets_used_by_pads": 173,
+          "terminal_geometry_multiset_sha256": "36d96a21eabe76ea0b960eeca48c714054898ef43029505380019e08a7e6913e",
+          "footprint_local_pad_geometry_multiset_sha256": "5ec3dd13951d729569bfa60a3510c718d02e3f35e770e8c36ec7aa8737295b84",
+          "connectivity_wl3_screen_sha256": "a3a5de7161690e5afa1a37cf265aac8eb5ed9b5dea8cb63c49c124408d955ab1"
+        }
+      ],
+      "source_observations": [
+        {
+          "path": ".data/boards/kicad-interf-u/fp-lib-table",
+          "title_block": [],
+          "embedded_library_property_credits": [],
+          "model_references": [],
+          "exact_table_ast": [
+            "fp_lib_table",
+            [
+              "version",
+              "7"
+            ],
+            [
+              "lib",
+              [
+                "name",
+                "\"interf_u\""
+              ],
+              [
+                "type",
+                "\"KiCad\""
+              ],
+              [
+                "uri",
+                "\"$(KIPRJMOD)/interf_u.pretty\""
+              ],
+              [
+                "options",
+                "\"\""
+              ],
+              [
+                "descr",
+                "\"\""
+              ]
+            ]
+          ]
+        },
+        {
+          "path": ".data/boards/kicad-interf-u/interf_u.kicad_pcb",
+          "title_block": [
+            [
+              "title_block",
+              [
+                "title",
+                "\"Demo\""
+              ],
+              [
+                "rev",
+                "\"2.C\""
+              ],
+              [
+                "company",
+                "\"Kicad\""
+              ]
+            ]
+          ],
+          "embedded_library_property_credits": [],
+          "model_references": [
+            "${KICAD6_3DMODEL_DIR}/Capacitor_THT.3dshapes/CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal.wrl",
+            "${KICAD6_3DMODEL_DIR}/Capacitor_THT.3dshapes/C_Disc_D3.0mm_W2.0mm_P2.50mm.wrl",
+            "${KICAD6_3DMODEL_DIR}/Connector_PinHeader_2.54mm.3dshapes/PinHeader_2x08_P2.54mm_Vertical.wrl",
+            "${KICAD6_3DMODEL_DIR}/Crystal.3dshapes/Crystal_HC18-U_Horizontal.wrl",
+            "${KICAD6_3DMODEL_DIR}/Package_DIP.3dshapes/DIP-20_W7.62mm.wrl",
+            "${KICAD6_3DMODEL_DIR}/Package_DIP.3dshapes/DIP-24_W7.62mm.wrl",
+            "${KICAD6_3DMODEL_DIR}/Package_DIP.3dshapes/DIP-32_W15.24mm.wrl",
+            "${KICAD6_3DMODEL_DIR}/Resistor_THT.3dshapes/R_Array_SIP10.wrl",
+            "${KICAD6_3DMODEL_DIR}/Resistor_THT.3dshapes/R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal.wrl",
+            "${KICAD8_3DMODEL_DIR}/Connector_Dsub.3dshapes/DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm.wrl",
+            "${KICAD8_3DMODEL_DIR}/LED_THT.3dshapes/LED_D5.0mm.wrl",
+            "Sockets.3dshapes/PGA120.wrl"
+          ],
+          "top_level_graphic_text": [
+            "2",
+            "V02",
+            "INTERF_U",
+            "V02",
+            "1",
+            "INTERF_U",
+            "INTERF_U",
+            "V02"
+          ],
+          "component_values": {
+            "100K": 1,
+            "10K": 1,
+            "1K": 1,
+            "330": 2,
+            "4003APG120": 1,
+            "47pF": 2,
+            "47uF": 4,
+            "628128": 1,
+            "74LS245": 1,
+            "74LS541": 1,
+            "74LS688": 1,
+            "8MHz": 1,
+            "9x1K": 1,
+            "BUSPC": 1,
+            "CONN_8X2": 1,
+            "DB25FEMELLE": 1,
+            "EP600": 1,
+            "LED": 2,
+            "LOGO": 1
+          }
+        },
+        {
+          "path": ".data/boards/kicad-interf-u/interf_u.kicad_sch",
+          "title_block": [
+            [
+              "title_block",
+              [
+                "title",
+                "\"UNIVERSAL INTERFACE\""
+              ],
+              [
+                "date",
+                "\"Sun 22 Mar 2015\""
+              ],
+              [
+                "rev",
+                "\"2B\""
+              ],
+              [
+                "company",
+                "\"KICAD\""
+              ],
+              [
+                "comment",
+                "1",
+                "\"Comment 1\""
+              ],
+              [
+                "comment",
+                "2",
+                "\"Comment 2\""
+              ],
+              [
+                "comment",
+                "3",
+                "\"Comment 3\""
+              ],
+              [
+                "comment",
+                "4",
+                "\"Comment 4\""
+              ]
+            ]
+          ],
+          "embedded_library_property_credits": [],
+          "model_references": [],
+          "top_level_text": [
+            "Selection"
+          ],
+          "repeated_sheet_files": {}
+        },
+        {
+          "path": ".data/boards/kicad-interf-u/interf_u.kicad_sym",
+          "title_block": [],
+          "embedded_library_property_credits": [],
+          "model_references": []
+        },
+        {
+          "path": ".data/boards/kicad-interf-u/interf_u.pretty/BUS_PC.kicad_mod",
+          "title_block": [],
+          "embedded_library_property_credits": [],
+          "model_references": []
+        },
+        {
+          "path": ".data/boards/kicad-interf-u/interf_u.pretty/CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal.kicad_mod",
+          "title_block": [],
+          "embedded_library_property_credits": [],
+          "model_references": [
+            "${KICAD6_3DMODEL_DIR}/Capacitor_THT.3dshapes/CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal.wrl"
+          ]
+        },
+        {
+          "path": ".data/boards/kicad-interf-u/interf_u.pretty/C_Disc_D3.0mm_W2.0mm_P2.50mm.kicad_mod",
+          "title_block": [],
+          "embedded_library_property_credits": [],
+          "model_references": [
+            "${KICAD6_3DMODEL_DIR}/Capacitor_THT.3dshapes/C_Disc_D3.0mm_W2.0mm_P2.50mm.wrl"
+          ]
+        },
+        {
+          "path": ".data/boards/kicad-interf-u/interf_u.pretty/Crystal_HC18-U_Horizontal.kicad_mod",
+          "title_block": [],
+          "embedded_library_property_credits": [],
+          "model_references": [
+            "${KICAD6_3DMODEL_DIR}/Crystal.3dshapes/Crystal_HC18-U_Horizontal.wrl"
+          ]
+        },
+        {
+          "path": ".data/boards/kicad-interf-u/interf_u.pretty/DIP-20_W7.62mm.kicad_mod",
+          "title_block": [],
+          "embedded_library_property_credits": [],
+          "model_references": [
+            "${KICAD6_3DMODEL_DIR}/Package_DIP.3dshapes/DIP-20_W7.62mm.wrl"
+          ]
+        },
+        {
+          "path": ".data/boards/kicad-interf-u/interf_u.pretty/DIP-24_W7.62mm.kicad_mod",
+          "title_block": [],
+          "embedded_library_property_credits": [],
+          "model_references": [
+            "${KICAD6_3DMODEL_DIR}/Package_DIP.3dshapes/DIP-24_W7.62mm.wrl"
+          ]
+        },
+        {
+          "path": ".data/boards/kicad-interf-u/interf_u.pretty/DIP-32_W15.24mm.kicad_mod",
+          "title_block": [],
+          "embedded_library_property_credits": [],
+          "model_references": [
+            "${KICAD6_3DMODEL_DIR}/Package_DIP.3dshapes/DIP-32_W15.24mm.wrl"
+          ]
+        },
+        {
+          "path": ".data/boards/kicad-interf-u/interf_u.pretty/DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm.kicad_mod",
+          "title_block": [],
+          "embedded_library_property_credits": [],
+          "model_references": [
+            "${KICAD8_3DMODEL_DIR}/Connector_Dsub.3dshapes/DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm.wrl"
+          ]
+        },
+        {
+          "path": ".data/boards/kicad-interf-u/interf_u.pretty/LED_D5.0mm.kicad_mod",
+          "title_block": [],
+          "embedded_library_property_credits": [],
+          "model_references": [
+            "${KICAD8_3DMODEL_DIR}/LED_THT.3dshapes/LED_D5.0mm.wrl"
+          ]
+        },
+        {
+          "path": ".data/boards/kicad-interf-u/interf_u.pretty/PGA120.kicad_mod",
+          "title_block": [],
+          "embedded_library_property_credits": [],
+          "model_references": [
+            "Sockets.3dshapes/PGA120.wrl"
+          ]
+        },
+        {
+          "path": ".data/boards/kicad-interf-u/interf_u.pretty/PinHeader_2x08_P2.54mm_Vertical.kicad_mod",
+          "title_block": [],
+          "embedded_library_property_credits": [],
+          "model_references": [
+            "${KICAD6_3DMODEL_DIR}/Connector_PinHeader_2.54mm.3dshapes/PinHeader_2x08_P2.54mm_Vertical.wrl"
+          ]
+        },
+        {
+          "path": ".data/boards/kicad-interf-u/interf_u.pretty/R_Array_SIP10.kicad_mod",
+          "title_block": [],
+          "embedded_library_property_credits": [],
+          "model_references": [
+            "${KICAD6_3DMODEL_DIR}/Resistor_THT.3dshapes/R_Array_SIP10.wrl"
+          ]
+        },
+        {
+          "path": ".data/boards/kicad-interf-u/interf_u.pretty/R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal.kicad_mod",
+          "title_block": [],
+          "embedded_library_property_credits": [],
+          "model_references": [
+            "${KICAD6_3DMODEL_DIR}/Resistor_THT.3dshapes/R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal.wrl"
+          ]
+        },
+        {
+          "path": ".data/boards/kicad-interf-u/interf_u.pretty/tux.kicad_mod",
+          "title_block": [],
+          "embedded_library_property_credits": [],
+          "model_references": []
+        },
+        {
+          "path": ".data/boards/kicad-interf-u/sym-lib-table",
+          "title_block": [],
+          "embedded_library_property_credits": [],
+          "model_references": [],
+          "exact_table_ast": [
+            "sym_lib_table",
+            [
+              "version",
+              "7"
+            ],
+            [
+              "lib",
+              [
+                "name",
+                "\"tux\""
+              ],
+              [
+                "type",
+                "\"KiCad\""
+              ],
+              [
+                "uri",
+                "\"${KIPRJMOD}/tux.kicad_sym\""
+              ],
+              [
+                "options",
+                "\"Legacy\""
+              ],
+              [
+                "descr",
+                "\"\""
+              ]
+            ],
+            [
+              "lib",
+              [
+                "name",
+                "\"interf_u\""
+              ],
+              [
+                "type",
+                "\"KiCad\""
+              ],
+              [
+                "uri",
+                "\"${KIPRJMOD}/interf_u.kicad_sym\""
+              ],
+              [
+                "options",
+                "\"\""
+              ],
+              [
+                "descr",
+                "\"\""
+              ]
+            ]
+          ]
+        },
+        {
+          "path": ".data/boards/kicad-interf-u/tux.kicad_sym",
+          "title_block": [],
+          "embedded_library_property_credits": [],
+          "model_references": []
+        }
+      ]
+    },
+    {
+      "project_id": "kicad-multichannel",
+      "source_directory": "demos/multichannel",
+      "source_revision": "69cafb907ebc09e7722a2a464b1d466fc2e3608d",
+      "original_files": 15,
+      "original_bytes": 4543845,
+      "verified_files_including_notices": 17,
+      "verified_bytes_including_notices": 4561395,
+      "license": "CC-BY-SA-4.0",
+      "license_notice_paths": [
+        "boards/kicad-multichannel/_licenses/LICENSE.README",
+        "boards/kicad-multichannel/_licenses/LICENSE.CC-BY-SA-4.0"
+      ],
+      "additional_rights_evidence": null,
+      "pedigree_independence": "unverified; distinct circuitry is not documented independent authorship/ancestry",
+      "cached_2009_predecessor_directory_entry": [],
+      "boards": [
+        {
+          "board": ".data/boards/kicad-multichannel/multichannel_mixer-unrouted.kicad_pcb",
+          "source_sha256": "149b2dce16e0f59adb78f87068f4137b7dafca0e991a0b21fdd967c873fd5ee9",
+          "footprints": 114,
+          "pads": 327,
+          "connected_pad_terminals": 280,
+          "named_nets_used_by_pads": 80,
+          "terminal_geometry_multiset_sha256": "b8a77902abd89d8f33b125d5e610d3359927c32932a70afb659ccbfa66ccc26a",
+          "footprint_local_pad_geometry_multiset_sha256": "ed50ac0adedfac6077a808864e128cdff1f774a97cbec5e525a52b7fab561f0c",
+          "connectivity_wl3_screen_sha256": "11886760bba8f0d112e9030498b52f17dc0d895926da385e44a42264f8780dba"
+        },
+        {
+          "board": ".data/boards/kicad-multichannel/multichannel_mixer.kicad_pcb",
+          "source_sha256": "44b7c119a0d05c98e9f294659879184038a5f6c30073c04d9536990429ca413e",
+          "footprints": 114,
+          "pads": 327,
+          "connected_pad_terminals": 280,
+          "named_nets_used_by_pads": 80,
+          "terminal_geometry_multiset_sha256": "b8a77902abd89d8f33b125d5e610d3359927c32932a70afb659ccbfa66ccc26a",
+          "footprint_local_pad_geometry_multiset_sha256": "ed50ac0adedfac6077a808864e128cdff1f774a97cbec5e525a52b7fab561f0c",
+          "connectivity_wl3_screen_sha256": "11886760bba8f0d112e9030498b52f17dc0d895926da385e44a42264f8780dba"
+        }
+      ],
+      "source_observations": [
+        {
+          "path": ".data/boards/kicad-multichannel/channel_strip.kicad_sch",
+          "title_block": [],
+          "embedded_library_property_credits": [
+            [
+              "Author",
+              "CERN DEM JLC"
+            ],
+            [
+              "Author",
+              "CERN DEM JMW"
+            ]
+          ],
+          "model_references": [],
+          "top_level_text": [],
+          "repeated_sheet_files": {}
+        },
+        {
+          "path": ".data/boards/kicad-multichannel/fp-lib-table",
+          "title_block": [],
+          "embedded_library_property_credits": [],
+          "model_references": [],
+          "exact_table_ast": [
+            "fp_lib_table",
+            [
+              "version",
+              "7"
+            ],
+            [
+              "lib",
+              [
+                "name",
+                "\"multichannel_mixer\""
+              ],
+              [
+                "type",
+                "\"KiCad\""
+              ],
+              [
+                "uri",
+                "\"${KIPRJMOD}/multichannel_mixer.pretty\""
+              ],
+              [
+                "options",
+                "\"\""
+              ],
+              [
+                "descr",
+                "\"\""
+              ]
+            ]
+          ]
+        },
+        {
+          "path": ".data/boards/kicad-multichannel/multichannel_mixer-unrouted.kicad_pcb",
+          "title_block": [],
+          "embedded_library_property_credits": [
+            [
+              "Author",
+              "CERN DEM JLC"
+            ],
+            [
+              "Author",
+              "CERN DEM JMW"
+            ]
+          ],
+          "model_references": [
+            "${KICAD6_3DMODEL_DIR}/Connector_Audio.3dshapes/Jack_6.35mm_Neutrik_NMJ6HCD2_Horizontal.wrl",
+            "${KICAD6_3DMODEL_DIR}/Potentiometer_THT.3dshapes/Potentiometer_Alps_RK09K_Single_Vertical.wrl"
+          ],
+          "top_level_graphic_text": [
+            "KiCad Multichannel Tool\\nDemo Board\\nTW 2024",
+            "WARNING, this is just a demo board for the multichannel design tools, not a working audio mixer. If you'll make one, it won't work :-)\\n- select the rule area over the leftmost channel\\n- go to Tools->MultiChannel->Repeat layout\\n- have a look at applicable layers in each RA (2nd channel clones only top layer components)\\n\\n"
+          ],
+          "component_values": {
+            "Bass": 4,
+            "CC1206_100NF_50V_10%_X7R": 29,
+            "CH1": 5,
+            "CTEB_2.2UF_35V_10%_254-500X840": 11,
+            "Mid": 4,
+            "Power": 1,
+            "R1206_10K_1%_0.25W_100PPM": 47,
+            "TL072CD": 5,
+            "Treble": 4,
+            "Volume": 4
+          }
+        },
+        {
+          "path": ".data/boards/kicad-multichannel/multichannel_mixer.kicad_pcb",
+          "title_block": [],
+          "embedded_library_property_credits": [
+            [
+              "Author",
+              "CERN DEM JLC"
+            ],
+            [
+              "Author",
+              "CERN DEM JMW"
+            ]
+          ],
+          "model_references": [
+            "${KICAD6_3DMODEL_DIR}/Connector_Audio.3dshapes/Jack_6.35mm_Neutrik_NMJ6HCD2_Horizontal.wrl",
+            "${KICAD6_3DMODEL_DIR}/Potentiometer_THT.3dshapes/Potentiometer_Alps_RK09K_Single_Vertical.wrl"
+          ],
+          "top_level_graphic_text": [
+            "KiCad Multichannel Tool\\nDemo Board\\nTW 2024",
+            "WARNING, this is just a demo board, not a working audio mixer. If you'll make one, it won't work :-)"
+          ],
+          "component_values": {
+            "Bass": 4,
+            "CC1206_100NF_50V_10%_X7R": 29,
+            "CH1": 5,
+            "CTEB_2.2UF_35V_10%_254-500X840": 11,
+            "Mid": 4,
+            "Power": 1,
+            "R1206_10K_1%_0.25W_100PPM": 47,
+            "TL072CD": 5,
+            "Treble": 4,
+            "Volume": 4
+          }
+        },
+        {
+          "path": ".data/boards/kicad-multichannel/multichannel_mixer.kicad_sch",
+          "title_block": [],
+          "embedded_library_property_credits": [
+            [
+              "Author",
+              "CERN DEM JLC"
+            ],
+            [
+              "Author",
+              "CERN DEM JMW"
+            ]
+          ],
+          "model_references": [],
+          "top_level_text": [
+            "WARNING, this is just a demo board, not a working audio mixer. If you'll make one, it won't work :-)",
+            "KiCad V9 Multichannel Tool demo design"
+          ],
+          "repeated_sheet_files": {
+            "channel_strip.kicad_sch": 4
+          }
+        },
+        {
+          "path": ".data/boards/kicad-multichannel/multichannel_mixer.kicad_sym",
+          "title_block": [],
+          "embedded_library_property_credits": [
+            [
+              "Author",
+              "CERN DEM JLC"
+            ],
+            [
+              "Author",
+              "CERN DEM JMW"
+            ]
+          ],
+          "model_references": []
+        },
+        {
+          "path": ".data/boards/kicad-multichannel/multichannel_mixer.pretty/CAPC3216X140N.kicad_mod",
+          "title_block": [],
+          "embedded_library_property_credits": [
+            [
+              "Author",
+              "CERN DEM JLC"
+            ]
+          ],
+          "model_references": []
+        },
+        {
+          "path": ".data/boards/kicad-multichannel/multichannel_mixer.pretty/CAPPRB254-500X840.kicad_mod",
+          "title_block": [],
+          "embedded_library_property_credits": [
+            [
+              "Author",
+              "CERN DEM JLC"
+            ]
+          ],
+          "model_references": []
+        },
+        {
+          "path": ".data/boards/kicad-multichannel/multichannel_mixer.pretty/CLIFF_FC68148(DC-10A).kicad_mod",
+          "title_block": [],
+          "embedded_library_property_credits": [
+            [
+              "Author",
+              "CERN DEM JLC"
+            ]
+          ],
+          "model_references": []
+        },
+        {
+          "path": ".data/boards/kicad-multichannel/multichannel_mixer.pretty/Jack_6.35mm_Neutrik_NMJ6HCD2_Horizontal.kicad_mod",
+          "title_block": [],
+          "embedded_library_property_credits": [],
+          "model_references": [
+            "${KICAD6_3DMODEL_DIR}/Connector_Audio.3dshapes/Jack_6.35mm_Neutrik_NMJ6HCD2_Horizontal.wrl"
+          ]
+        },
+        {
+          "path": ".data/boards/kicad-multichannel/multichannel_mixer.pretty/Potentiometer_Alps_RK09K_Single_Vertical.kicad_mod",
+          "title_block": [],
+          "embedded_library_property_credits": [],
+          "model_references": [
+            "${KICAD6_3DMODEL_DIR}/Potentiometer_THT.3dshapes/Potentiometer_Alps_RK09K_Single_Vertical.wrl"
+          ]
+        },
+        {
+          "path": ".data/boards/kicad-multichannel/multichannel_mixer.pretty/RESC3216X65N.kicad_mod",
+          "title_block": [],
+          "embedded_library_property_credits": [
+            [
+              "Author",
+              "CERN DEM JLC"
+            ]
+          ],
+          "model_references": []
+        },
+        {
+          "path": ".data/boards/kicad-multichannel/multichannel_mixer.pretty/SOIC127P600X175-8N.kicad_mod",
+          "title_block": [],
+          "embedded_library_property_credits": [
+            [
+              "Author",
+              "CERN DEM JMW"
+            ]
+          ],
+          "model_references": []
+        },
+        {
+          "path": ".data/boards/kicad-multichannel/sym-lib-table",
+          "title_block": [],
+          "embedded_library_property_credits": [],
+          "model_references": [],
+          "exact_table_ast": [
+            "sym_lib_table",
+            [
+              "version",
+              "7"
+            ],
+            [
+              "lib",
+              [
+                "name",
+                "\"multichannel_mixer\""
+              ],
+              [
+                "type",
+                "\"KiCad\""
+              ],
+              [
+                "uri",
+                "\"${KIPRJMOD}/multichannel_mixer.kicad_sym\""
+              ],
+              [
+                "options",
+                "\"\""
+              ],
+              [
+                "descr",
+                "\"\""
+              ]
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "cross_project_reuse": [
+    {
+      "projects": [
+        "kicad-sonde-xilinx",
+        "kicad-interf-u"
+      ],
+      "shared_board_footprint_uuids": [],
+      "shared_local_symbol_names": [
+        "C",
+        "CP",
+        "GND",
+        "PWR_FLAG",
+        "R",
+        "VCC"
+      ],
+      "identical_full_local_symbol_asts": []
+    },
+    {
+      "projects": [
+        "kicad-sonde-xilinx",
+        "kicad-multichannel"
+      ],
+      "shared_board_footprint_uuids": [],
+      "shared_local_symbol_names": [
+        "GND"
+      ],
+      "identical_full_local_symbol_asts": []
+    },
+    {
+      "projects": [
+        "kicad-interf-u",
+        "kicad-multichannel"
+      ],
+      "shared_board_footprint_uuids": [],
+      "shared_local_symbol_names": [
+        "GND"
+      ],
+      "identical_full_local_symbol_asts": []
+    }
+  ],
+  "identical_cross_project_files": [
+    {
+      "sha256": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "files": [
+        {
+          "project": "kicad-sonde-xilinx",
+          "path": ".data/boards/kicad-sonde-xilinx/_licenses/LICENSE.CC-BY-SA-4.0",
+          "bytes": 15164
+        },
+        {
+          "project": "kicad-interf-u",
+          "path": ".data/boards/kicad-interf-u/_licenses/LICENSE.CC-BY-SA-4.0",
+          "bytes": 15164
+        },
+        {
+          "project": "kicad-multichannel",
+          "path": ".data/boards/kicad-multichannel/_licenses/LICENSE.CC-BY-SA-4.0",
+          "bytes": 15164
+        }
+      ]
+    },
+    {
+      "sha256": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "files": [
+        {
+          "project": "kicad-sonde-xilinx",
+          "path": ".data/boards/kicad-sonde-xilinx/_licenses/LICENSE.README",
+          "bytes": 2386
+        },
+        {
+          "project": "kicad-interf-u",
+          "path": ".data/boards/kicad-interf-u/_licenses/LICENSE.README",
+          "bytes": 2386
+        },
+        {
+          "project": "kicad-multichannel",
+          "path": ".data/boards/kicad-multichannel/_licenses/LICENSE.README",
+          "bytes": 2386
+        }
+      ]
+    }
+  ],
+  "existing_measured_results": [
+    {
+      "board": "sonde",
+      "strategy": "native-input tuned-incumbent feedback pruning",
+      "summary": "evidence/portfolio-paired-001/paired-summary.json",
+      "summary_sha256": "1dc0922ab7497d36483fa6c55a28ffc0c2a2d437dc47671ea6b5d743e81d1c66",
+      "comparisons": [
+        {
+          "baseline_variant": "via_low",
+          "system": "C_feedback",
+          "baseline_selected": true,
+          "length_delta_mm": -101.39647127526564,
+          "via_delta": 0,
+          "C_dominates_with_1e_6mm_tolerance": true,
+          "baseline_dominates_with_1e_6mm_tolerance": false
+        }
+      ],
+      "arms": [
+        {
+          "id": "B2_portfolio",
+          "accepted": true,
+          "status": "completed",
+          "charged_wall_seconds": 55.89524904200516,
+          "charged_cpu_seconds": 75.89225999999998
+        },
+        {
+          "id": "C_feedback",
+          "accepted": true,
+          "status": "routing_accepted",
+          "length_mm": 648.0451713373182,
+          "vias": 2,
+          "opens": 0,
+          "blocking": 0,
+          "warnings": 1,
+          "charged_wall_seconds": 105.42557887500152,
+          "charged_cpu_seconds": 85.34977899999998
+        }
+      ],
+      "this_audit_reperformed_native_or_full_receipt_validation": false
+    },
+    {
+      "board": "interf_u",
+      "strategy": "native-input completion plus thermal bridge recovery",
+      "summary": "evidence/thermal-paired-001/paired-summary.json",
+      "summary_sha256": "fbeba480de0cb55966be2da272857f8ca84709105ab274f47c61c8068e154e4e",
+      "comparisons": [],
+      "arms": [
+        {
+          "id": "B2_portfolio",
+          "accepted": false,
+          "status": "no_valid_candidate",
+          "charged_wall_seconds": 72.94851787399239,
+          "charged_cpu_seconds": 91.88207
+        },
+        {
+          "id": "C_thermal",
+          "accepted": true,
+          "status": "routing_accepted",
+          "length_mm": 4996.393150337764,
+          "vias": 35,
+          "opens": 0,
+          "blocking": 0,
+          "warnings": 0,
+          "charged_wall_seconds": 42.04486216699297,
+          "charged_cpu_seconds": 54.759603999999996
+        }
+      ],
+      "this_audit_reperformed_native_or_full_receipt_validation": false
+    },
+    {
+      "board": "multichannel",
+      "strategy": "placement standard-85-v1 individual-first pruning",
+      "summary": "evidence/placement-paired-003/run/paired-summary.json",
+      "summary_sha256": "93025ca7aa5809ddff34327f752f863413147c61309a1db3f3e90fc3a19e6f6d",
+      "comparisons": [
+        {
+          "baseline_variant": "via_default",
+          "system": "C_feedback",
+          "baseline_selected": true,
+          "length_delta_mm": -72.98330000000215,
+          "via_delta": 0,
+          "C_dominates_with_1e_6mm_tolerance": true,
+          "baseline_dominates_with_1e_6mm_tolerance": false
+        },
+        {
+          "baseline": "B1",
+          "system": "C_feedback",
+          "length_delta_mm": -72.98330000000033,
+          "via_delta": 0,
+          "pareto_improvement": true
+        }
+      ],
+      "arms": [
+        {
+          "id": "B0",
+          "accepted": false,
+          "status": "drc_rejected",
+          "length_mm": 107.58221550741293,
+          "vias": 1,
+          "opens": 160,
+          "blocking": 49,
+          "warnings": 125,
+          "charged_wall_seconds": 73.82387195900083,
+          "charged_cpu_seconds": 81.19512
+        },
+        {
+          "id": "B1",
+          "accepted": true,
+          "status": "routing_accepted",
+          "length_mm": 2640.198552639061,
+          "vias": 19,
+          "opens": 0,
+          "blocking": 0,
+          "warnings": 96,
+          "charged_wall_seconds": 56.51436012599879,
+          "charged_cpu_seconds": 73.77578299999996
+        },
+        {
+          "id": "B2_portfolio",
+          "accepted": true,
+          "status": "completed",
+          "charged_wall_seconds": 78.22401333400194,
+          "charged_cpu_seconds": 94.75132199999999
+        },
+        {
+          "id": "C_feedback",
+          "accepted": true,
+          "status": "routing_accepted",
+          "length_mm": 2567.2152526390605,
+          "vias": 19,
+          "opens": 0,
+          "blocking": 0,
+          "warnings": 96,
+          "charged_wall_seconds": 95.29533770900161,
+          "charged_cpu_seconds": 106.22037699999998
+        }
+      ],
+      "this_audit_reperformed_native_or_full_receipt_validation": false,
+      "conservative_complete_outer_charging": {
+        "outer_wall_seconds": 300.83185420899827,
+        "outer_full_cpu_seconds": 357.98356,
+        "method": "Assign the full outer cost beyond the sum of arm invocations to every arm, separately",
+        "arms": [
+          {
+            "id": "B0",
+            "wall_seconds": 74.24408741799562,
+            "full_cpu_seconds": 86.22778300000002
+          },
+          {
+            "id": "B1",
+            "wall_seconds": 56.93457558499358,
+            "full_cpu_seconds": 78.80844599999998
+          },
+          {
+            "id": "B2_portfolio",
+            "wall_seconds": 78.64422879299673,
+            "full_cpu_seconds": 99.783985
+          },
+          {
+            "id": "C_feedback",
+            "wall_seconds": 95.7155531679964,
+            "full_cpu_seconds": 111.25304
+          }
+        ]
+      }
+    }
+  ],
+  "source_bindings": {
+    "data/sources.json": "a2a8e9e22ff3e109de94733aa8f5e99ca5fd476ef9ec20be837c54100036eac1",
+    ".runs/corpus-support-priority-001/facts.json": "24db3c19c626cf73d22285e45495462392cb51cd7d46dd1c87da669a097ab055",
+    ".runs/corpus-support-priority-001/MANIFEST.json": "9f9f442739b3b0608b813683587235dc8bb31968486cad632b4dfdc9cc8b6150",
+    ".runs/corpus-support-priority-001/inspect.py": "a6106edb3d2566da95090cda21c946ad201386bba7ceb43a3889638635484bc3",
+    "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+    "autorouter/pipeline.py": "34525c04cb7c9c5984cfc0a069bd857b055b184111bdf52e7e6f6356208447a5",
+    "evidence/coverage.json": "d5594ba912d97f1c8b40b907a65700654643dbe04d3ee298c8794a3f6c480c75",
+    ".runs/coldfire-audit-001/predecessor-demo-inventory.json": "46b88c1456e3c05a3ec8e8914eff263f132127ae112442da3072db25e57e33e8",
+    ".runs/coldfire-audit-001/oldest-path-commit.json": "414a5a523469def0501fa79c4b169f8d6f2f66dc8bf7e4010dcb2349da93d5d1",
+    ".data/boards/kicad-sonde-xilinx/fp-lib-table": "cc8af24e493a4d6d8ff8206d7c58d9b4209779095abeb4edbc0e5b2dc555cc9f",
+    ".data/boards/kicad-sonde-xilinx/sonde xilinx.kicad_pcb": "d0dee876715fcdd3f656dd6a77cc1141c39bec4d6f8492a3784d38edd6b9a998",
+    ".data/boards/kicad-sonde-xilinx/sonde xilinx.kicad_pro": "ee60a96f93cc36549b52da9b3eea9547d5ea1e83a671c449668987edfb73a901",
+    ".data/boards/kicad-sonde-xilinx/sonde xilinx.kicad_sch": "5271d5d1472d4dab645870f97e62785be9eb95b793e1b8cf0d8ca607de95a985",
+    ".data/boards/kicad-sonde-xilinx/sonde-xilinx.pretty/C_Axial_L5.1mm_D3.1mm_P12.50mm_Horizontal.kicad_mod": "ea2b7f922393cb792135103efd8304d933b476ca15ab957e7d2d85452abf2710",
+    ".data/boards/kicad-sonde-xilinx/sonde-xilinx.pretty/C_Disc_D5.1mm_W3.2mm_P5.00mm.kicad_mod": "1aecdb4ad2120e99d792a4388eff86462154afbbc64cc1b06041a2c9c1e6fe65",
+    ".data/boards/kicad-sonde-xilinx/sonde-xilinx.pretty/DIP-14_W7.62mm_LongPads.kicad_mod": "bfc91319c5905ed84ce72c8a8c3c19b0c6767f812083a063559c5407ecdc1146",
+    ".data/boards/kicad-sonde-xilinx/sonde-xilinx.pretty/DSUB-25_Male_EdgeMount_P2.77mm.kicad_mod": "97e783488fc12772d98e9b734cd14a9b07632d2b9e5db4760b7ffec74e0520e4",
+    ".data/boards/kicad-sonde-xilinx/sonde-xilinx.pretty/DSUB-9_Male_EdgeMount_P2.77mm.kicad_mod": "ad60738ef94ffc9848a1137ea9dbde55f8b2a2238d519098c5d5d33cee73238b",
+    ".data/boards/kicad-sonde-xilinx/sonde-xilinx.pretty/D_A-405_P7.62mm_Horizontal.kicad_mod": "9299977270227d4a3f4bf01f88c1b9c8a2be3ac20212ec06000506d8a534bc0f",
+    ".data/boards/kicad-sonde-xilinx/sonde-xilinx.pretty/PinHeader_1x06_P2.54mm_Vertical.kicad_mod": "4cf2a6eea9a9dc960638d14dcd8729452a5443f1a21bdb8ed1c6f5f56908ce8c",
+    ".data/boards/kicad-sonde-xilinx/sonde-xilinx.pretty/R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal.kicad_mod": "48e73c07df158b05eaaf9281beffa4ac8c4aac1bec213ac21710f837d0901cd7",
+    ".data/boards/kicad-sonde-xilinx/sonde_xilinx.kicad_sym": "67477c8ef19c1e2da41f760328c030dc04283805b2c76005d5ae48acd1fc365e",
+    ".data/boards/kicad-sonde-xilinx/sym-lib-table": "b928ea6f61eb0e8804340a842a259e678b9a5fd8d5f9e69306160882361e6456",
+    ".data/boards/kicad-sonde-xilinx/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    ".data/boards/kicad-sonde-xilinx/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+    ".data/boards/kicad-interf-u/fp-lib-table": "ad284a80461d1f9636df60453296b6801e7621a4e1722ce759862b57f888ac7a",
+    ".data/boards/kicad-interf-u/interf_u.kicad_pcb": "a740ce7fde77ab6af191e23ece21e57d36bb3c29325879248520dcd9ab47b57e",
+    ".data/boards/kicad-interf-u/interf_u.kicad_pro": "b9908a96e6113e6e51f488482108dc87aa5d9bcd838f9e3345c85e0db09bffa9",
+    ".data/boards/kicad-interf-u/interf_u.kicad_sch": "b3b8c3b199382f414e4b4b6661978f9b72e0879a99453cdfbbb6dd366c5a5a13",
+    ".data/boards/kicad-interf-u/interf_u.kicad_sym": "bde2596f4cd4436450953b4cb7d1ef1bd6160b5860595210b4fbea1c082d4c2a",
+    ".data/boards/kicad-interf-u/interf_u.pretty/BUS_PC.kicad_mod": "477e3bfd386a1db622c71e105ca1e62a834e9abd52074e7b6794615201435783",
+    ".data/boards/kicad-interf-u/interf_u.pretty/CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal.kicad_mod": "4f35e4f1113d31592bfa499c7297891120c95e6a0e3f4824e9292a80f4655824",
+    ".data/boards/kicad-interf-u/interf_u.pretty/C_Disc_D3.0mm_W2.0mm_P2.50mm.kicad_mod": "1c673956dc522e3f534c8472f071177864ddfabc571ea43ff84c450627325b9a",
+    ".data/boards/kicad-interf-u/interf_u.pretty/Crystal_HC18-U_Horizontal.kicad_mod": "2470713718992af9bfb035fa52e60e0e39214b287caee64f00d6cc90097be0e7",
+    ".data/boards/kicad-interf-u/interf_u.pretty/DIP-20_W7.62mm.kicad_mod": "e689ca410f6fa678748435296b0d1bbaf63a81a792990b74142e174b57549891",
+    ".data/boards/kicad-interf-u/interf_u.pretty/DIP-24_W7.62mm.kicad_mod": "256a295e9270c1d9afd3de447c61da1b09076ba3b8ce2b78bbf656dc34e2e0bd",
+    ".data/boards/kicad-interf-u/interf_u.pretty/DIP-32_W15.24mm.kicad_mod": "b0004a160ff4f1ef131d3a6a791e4f4c6edbb57028891b6292955b9bb87046f1",
+    ".data/boards/kicad-interf-u/interf_u.pretty/DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm.kicad_mod": "aa891ab1b3d9479397c498c7b129ee522e00dea88082955499ccc50d91bde451",
+    ".data/boards/kicad-interf-u/interf_u.pretty/LED_D5.0mm.kicad_mod": "faf833f3d780613ec0ee7d190055a43e65697bf5da781a58278deec3e6c85c57",
+    ".data/boards/kicad-interf-u/interf_u.pretty/PGA120.kicad_mod": "950ba1b13bc6fee91b2c66439964f633f4d7003ec445e2eabd62725e14f74c50",
+    ".data/boards/kicad-interf-u/interf_u.pretty/PinHeader_2x08_P2.54mm_Vertical.kicad_mod": "95c777c54a691a08bd96d9066015efd4910fc32a3e53190cbfd6269bd28ecd70",
+    ".data/boards/kicad-interf-u/interf_u.pretty/R_Array_SIP10.kicad_mod": "67caf0574cae84e115fc2f08932fdbdb8b4320b4bf36b7028a8a35332dfe9ac9",
+    ".data/boards/kicad-interf-u/interf_u.pretty/R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal.kicad_mod": "c4476880f1bdde2caddcfec35b3be5ea005c145519258ec8c3cfa07ce9470cf1",
+    ".data/boards/kicad-interf-u/interf_u.pretty/tux.kicad_mod": "e951d3c5adf3098ea965e544e2fe88e22c4a35ba32c595a72f8b03cbcde439fb",
+    ".data/boards/kicad-interf-u/pagelayout_logo.kicad_wks": "85694b7288a2361d0042058dd374c94bb181f4f353169ae20b8d96b5bade301b",
+    ".data/boards/kicad-interf-u/sym-lib-table": "7d0c18d563384df77919dc964e0511bbf2086aeadbc7befa4a3ae9b5ce1c1ed3",
+    ".data/boards/kicad-interf-u/tux.bmp": "89a17e4b73847e9afddfa1ce25619b4d7e12b61063a9ebe972e9351ccbd181a4",
+    ".data/boards/kicad-interf-u/tux.kicad_sym": "3dd62b35fd887752da0718069d58a42729841be74fc717e4f0461c53175b07ed",
+    ".data/boards/kicad-interf-u/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    ".data/boards/kicad-interf-u/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+    ".data/boards/kicad-multichannel/channel_strip.kicad_sch": "2c98b5d37f5b60c9187474017d7b754e8b4a1d45f4115dcbecf1a745ab175e0e",
+    ".data/boards/kicad-multichannel/fp-lib-table": "8a1e7e5ab227455c8865598b3c4c36db1e75c8abced3b2c0aee4fde54176a328",
+    ".data/boards/kicad-multichannel/multichannel_mixer-unrouted.kicad_pcb": "149b2dce16e0f59adb78f87068f4137b7dafca0e991a0b21fdd967c873fd5ee9",
+    ".data/boards/kicad-multichannel/multichannel_mixer.kicad_pcb": "44b7c119a0d05c98e9f294659879184038a5f6c30073c04d9536990429ca413e",
+    ".data/boards/kicad-multichannel/multichannel_mixer.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+    ".data/boards/kicad-multichannel/multichannel_mixer.kicad_sch": "e47aecee9416d51fb5aed36d008a0442d3d6d68abfc5224bcdb5c5bb4a690fcf",
+    ".data/boards/kicad-multichannel/multichannel_mixer.kicad_sym": "7e0793cc48f3a20ea84f3c4c8643ffeb1be79dd05faba8ae1278dc39dbf7cf8b",
+    ".data/boards/kicad-multichannel/multichannel_mixer.pretty/CAPC3216X140N.kicad_mod": "3e6145d55866da5a696cefe075a68d26cf30fde90403ff2e006d2e4ae1461474",
+    ".data/boards/kicad-multichannel/multichannel_mixer.pretty/CAPPRB254-500X840.kicad_mod": "6e1ac6aeba9d1c87ba73b30104162d35ae05625364c80ed204127c90e0542775",
+    ".data/boards/kicad-multichannel/multichannel_mixer.pretty/CLIFF_FC68148(DC-10A).kicad_mod": "96f4e07509d06c0157dfca2b336f761541ed5d2daead790baafe6b90d23e658e",
+    ".data/boards/kicad-multichannel/multichannel_mixer.pretty/Jack_6.35mm_Neutrik_NMJ6HCD2_Horizontal.kicad_mod": "b8a282923219bb3b01bf82278a7ded099fac556385eaf8707d777fc92cc32fc3",
+    ".data/boards/kicad-multichannel/multichannel_mixer.pretty/Potentiometer_Alps_RK09K_Single_Vertical.kicad_mod": "ce94093ebd8cd8cd35a75442db46854414f78ca9be4f3b4234a7819650b938aa",
+    ".data/boards/kicad-multichannel/multichannel_mixer.pretty/RESC3216X65N.kicad_mod": "a12fbb5040e28dd960364f0319773d1450c0610c18ab9844d0671b6bf6c9f6d7",
+    ".data/boards/kicad-multichannel/multichannel_mixer.pretty/SOIC127P600X175-8N.kicad_mod": "0b5f066de991d39015aab71847ce9a17e3a60394391350e46650fa8e7d274f80",
+    ".data/boards/kicad-multichannel/sym-lib-table": "68b0633966d91fd9e81c05b7706abcddc892d1c71c9994c8cb757e38216787f7",
+    ".data/boards/kicad-multichannel/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    ".data/boards/kicad-multichannel/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+    "evidence/portfolio-paired-001/paired-summary.json": "1dc0922ab7497d36483fa6c55a28ffc0c2a2d437dc47671ea6b5d743e81d1c66",
+    "evidence/thermal-paired-001/paired-summary.json": "fbeba480de0cb55966be2da272857f8ca84709105ab274f47c61c8068e154e4e",
+    "evidence/placement-paired-003/run/paired-summary.json": "93025ca7aa5809ddff34327f752f863413147c61309a1db3f3e90fc3a19e6f6d",
+    "evidence/placement-paired-003/execution.json": "e26eb490d3dc44c21ba7c6e93e434a8dc06051b0b4e27f3311b407803b9e9341",
+    "evidence/review-portfolio-001/review.json": "ccb9e3ca7e39ebabdefa2a3b96de07aac5b5cda41d053ddc0aeee1da79b99115",
+    "evidence/review-thermal-paired-001/audit.json": "c6a64ccbd118fe4b15bfd6fdbfb4ad7e1168da9d5da1a5dfb7db389e20c95076",
+    "evidence/review-placement-paired-003/REPORT.md": "16f8f6201d7c4c80cba391d2de85589f073a09d6dee9a8eca952f88d4235841e",
+    "docs/data-provenance.md": "48b3948bca66f24d0522cd891c594122235e3c77df29b6b18d325ad981c3c5e7"
+  }
+}

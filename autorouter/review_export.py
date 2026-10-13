@@ -155,6 +155,7 @@ def check_stage(folder,data,binding,report,basis,contract,layers):
         or data.get('whole_project_drc_clean') is not (p.native_accepted(data['native']) and data['native']['warnings']==0)
         or data.get('original_geometry_and_routing_unchanged') is not True
         or data.get('source_hashes')!=binding['source_hashes']
+        or data.get('original_routing_receipt_compute')!={key:report.get(key) for key in ('budget_seconds','cpu_budget_seconds','wall_seconds','total_cpu_seconds')}
         or data.get('preview_board_sha256')!=binding['validated_candidate_sha256']
         or data.get('final_sha_changed_after_refill') is not (data['candidate_sha256']!=binding['validated_candidate_sha256'])
         or data.get('output_ceiling_bytes')!=OUTPUT_BYTES or data.get('output_file_ceiling')!=OUTPUT_FILES):

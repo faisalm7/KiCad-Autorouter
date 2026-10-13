@@ -310,14 +310,17 @@ class FloorJob(p.Job):
         return super().step(name,argv if already_sandboxed else [*SANDBOX,*argv],allowed)
 
 
-def publish(output,report,stable,account,remaining):
+def publish(output,report,stable,account,remaining,*,owned=None):
     """No canonical positive survives cancellation, staleness or write failure."""
     def archive():
+        if owned is not None:owned()
         for name,prefix in [('result.json','invalidated-result-'),('result.json.partial','interrupted-result-')]:
             path=output/name
             if path.exists():path.rename(output/(prefix+uuid.uuid4().hex+path.suffix))
     try:
-        stable();account();expected=canonical(report);p.save_json(output/'result.json',report)
+        stable();account();expected=canonical(report)
+        if owned is not None:owned()
+        p.save_json(output/'result.json',report)
         if canonical(read_json(output/'result.json'))!=expected:raise p.Rejected('floor receipt changed after publication')
         stable()
         if report['accepted']:p.check_result(output/'result.json')
@@ -327,7 +330,9 @@ def publish(output,report,stable,account,remaining):
     except (Exception,KeyboardInterrupt) as exc:
         archive();report.update(accepted=False,whole_project_drc_clean=False,status='cancelled' if isinstance(exc,KeyboardInterrupt) else 'invalidated',reason=type(exc).__name__+': '+str(exc))
         account()
-        try:p.save_json(output/'result.json',report)
+        try:
+            if owned is not None:owned()
+            p.save_json(output/'result.json',report)
         except (Exception,KeyboardInterrupt):archive()
     return report
 

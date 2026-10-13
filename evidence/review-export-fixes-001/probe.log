@@ -1,0 +1,74 @@
+{
+  "schema": 1,
+  "source_stable_before_after": true,
+  "sources": {
+    "autorouter/review_export.py": "c1fee2e0d859d8773a619ece925d981369251d669f42c03f9021220919fb806e",
+    "autorouter/pipeline.py": "34525c04cb7c9c5984cfc0a069bd857b055b184111bdf52e7e6f6356208447a5",
+    "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+    "tests/test_review_export.py": "171594e7263c589da5d9193b89ebb39ad966936a045d110392b953ea0a26cd53"
+  },
+  "controls": [
+    {
+      "case": "positive_control",
+      "current": true,
+      "warning_count": 1,
+      "whole_project_drc_clean": false,
+      "source_and_review_unchanged": true
+    },
+    {
+      "case": "negative_parent_cpu",
+      "rejected": "invalid resource accounting",
+      "restored_positive_current": true,
+      "source_and_review_unchanged": true
+    },
+    {
+      "case": "false_clean_with_warning",
+      "rejected": "export delivery fields differ from validated project",
+      "restored_positive_current": true,
+      "source_and_review_unchanged": true
+    },
+    {
+      "case": "project_file_points_original",
+      "rejected": "export delivery fields differ from validated project",
+      "restored_positive_current": true,
+      "source_and_review_unchanged": true
+    },
+    {
+      "case": "original_routing_compute_metadata_changed",
+      "rejected": null,
+      "counterexample_current": true,
+      "actual_recorded_original_compute": {
+        "budget_seconds": null,
+        "cpu_budget_seconds": null,
+        "wall_seconds": null,
+        "total_cpu_seconds": null
+      },
+      "changed_original_compute": {
+        "budget_seconds": 120.0,
+        "cpu_budget_seconds": 120.0,
+        "wall_seconds": 0.0,
+        "total_cpu_seconds": 0.0
+      },
+      "source_and_review_unchanged": true
+    },
+    {
+      "case": "sequential_wall_history",
+      "rejected": "receipt exceeds its recorded wall budget",
+      "corrective_export_accepted": false,
+      "corrective_record_sha256": "d84f60a04d0dea962b478c63bd2f04f6b47bd6b8606544878e93ec6e3d143777",
+      "source_and_review_unchanged": true
+    },
+    {
+      "case": "test_gui_rules_before_choice_are_never_export_authority",
+      "assertions_passed": true,
+      "explicit_native_process_seams": true
+    },
+    {
+      "case": "test_protected_original_copper_and_empty_original_directories_survive_export",
+      "assertions_passed": true,
+      "explicit_native_process_seams": true
+    }
+  ],
+  "native_subprocess_JVM_Git_network_executed": false,
+  "scope": "Existing mocked native/checker/tool seams with real shared validation, capture, stage/readback/publication paths. No native qualification, real performance or actual PCB approval claim."
+}
