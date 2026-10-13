@@ -1,0 +1,27 @@
+test_actual_first_attempt_reaches_validation_under_time_reserve_for_both_paths (allocation_defect_control.AllocationControls.test_actual_first_attempt_reaches_validation_under_time_reserve_for_both_paths) ... 
+  test_actual_first_attempt_reaches_validation_under_time_reserve_for_both_paths (allocation_defect_control.AllocationControls.test_actual_first_attempt_reaches_validation_under_time_reserve_for_both_paths) (allocation='legacy-tuned') ... FAIL
+  test_actual_first_attempt_reaches_validation_under_time_reserve_for_both_paths (allocation_defect_control.AllocationControls.test_actual_first_attempt_reaches_validation_under_time_reserve_for_both_paths) (allocation='standard-85-v1') ... FAIL
+
+======================================================================
+FAIL: test_actual_first_attempt_reaches_validation_under_time_reserve_for_both_paths (allocation_defect_control.AllocationControls.test_actual_first_attempt_reaches_validation_under_time_reserve_for_both_paths) (allocation='legacy-tuned')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-pruning-allocation-draft-002/test_placement_allocation.py", line 138, in test_actual_first_attempt_reaches_validation_under_time_reserve_for_both_paths
+    self.assertEqual(len(reached),1,result.get('reason'));self.assertFalse(result['accepted']);self.assertEqual(len(result['trials']),1)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : UnboundLocalError: cannot access local variable 'reserve' where it is not associated with a value
+
+======================================================================
+FAIL: test_actual_first_attempt_reaches_validation_under_time_reserve_for_both_paths (allocation_defect_control.AllocationControls.test_actual_first_attempt_reaches_validation_under_time_reserve_for_both_paths) (allocation='standard-85-v1')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-pruning-allocation-draft-002/test_placement_allocation.py", line 138, in test_actual_first_attempt_reaches_validation_under_time_reserve_for_both_paths
+    self.assertEqual(len(reached),1,result.get('reason'));self.assertFalse(result['accepted']);self.assertEqual(len(result['trials']),1)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : UnboundLocalError: cannot access local variable 'reserve' where it is not associated with a value
+
+----------------------------------------------------------------------
+Ran 1 test in 0.015s
+
+FAILED (failures=2)
+EXPECTED_FROZEN001_DEFECT_REPRODUCED=True

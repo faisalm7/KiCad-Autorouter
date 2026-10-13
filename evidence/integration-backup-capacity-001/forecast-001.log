@@ -1,0 +1,116 @@
+{
+  "schema": 1,
+  "status": "read_only_forecast_not_certified_snapshot",
+  "started_cutoff_utc": "2026-10-13T13:06:05.124132+00:00",
+  "finished_utc": "2026-10-13T13:06:44.216974+00:00",
+  "wall_seconds": 39.09299925000232,
+  "no_exclusions_added": true,
+  "no_evidence_deleted": true,
+  "native_git_network_or_subprocess_executed": false,
+  "tracked_or_global_caps_changed": false,
+  "existing_caps": {
+    "LIMIT": 4294967296,
+    "MAX_FILES": 120000,
+    "MAX_RECEIPT_BYTES": 33554432,
+    "MAX_CHAIN_RECEIPT_BYTES": 134217728,
+    "MAX_CHAIN": 16
+  },
+  "in_memory_MAX_FILES": 120000,
+  "in_memory_elevated_only_if_actual_count_exceeded": false,
+  "pre_hash_stat_population": {
+    ".runs": {
+      "files": 119585,
+      "directories": 29141,
+      "file_bytes": 3426373474
+    },
+    ".data": {
+      "files": 359,
+      "directories": 62,
+      "file_bytes": 39571920
+    },
+    ".local-reference": {
+      "files": 6,
+      "directories": 1,
+      "file_bytes": 62155
+    }
+  },
+  "actual_shared_inventory_population": {
+    ".runs": {
+      "files": 119585,
+      "directories": 29141,
+      "file_bytes": 3426373474
+    },
+    ".data": {
+      "files": 359,
+      "directories": 62,
+      "file_bytes": 39571920
+    },
+    ".local-reference": {
+      "files": 6,
+      "directories": 1,
+      "file_bytes": 62155
+    }
+  },
+  "actual_inventory": {
+    "files": 119950,
+    "directories": 29204,
+    "file_bytes": 3466007549,
+    "absent_scopes": [],
+    "canonical_sha256": "a4a670d29262e213d81ca7b74f388385afd504d43623e0949a53242dab3201bb"
+  },
+  "prior_receipt": {
+    "path": ".local-backups/checkpoint-20261012T094930Z-5027fbfe1fbf49639151d24e106d18fa/receipt.json",
+    "sha256": "9ca8f58ac5b197ec784c1fbdd15fc0d12985a6ee93b7c337e92f272aef9c5fc4",
+    "bytes": 29878286,
+    "files": 115829,
+    "directories": 27837,
+    "file_bytes": 3151968106
+  },
+  "existing_chain_receipts": [
+    {
+      "receipt": ".local-backups/checkpoint-20261012T094930Z-5027fbfe1fbf49639151d24e106d18fa/receipt.json",
+      "sha256": "9ca8f58ac5b197ec784c1fbdd15fc0d12985a6ee93b7c337e92f272aef9c5fc4",
+      "bytes": 29878286,
+      "schema": 1,
+      "files": 115829
+    }
+  ],
+  "existing_chain_receipt_bytes": 29878286,
+  "retained_installation009": {
+    "prefix": ".runs/installation-009",
+    "files": 12838,
+    "directories": 1832,
+    "file_bytes": 300484533,
+    "result_sha256": "9927824a2286cc183877c862adde8fd24b379d1688b151e90dc331f7e9534161",
+    "result_fields": {
+      "status": "passed",
+      "passed": true,
+      "accepted": null,
+      "head": null,
+      "git_head": "339e539600798a221f423a7e70b53242f17a062f",
+      "tests": null
+    }
+  },
+  "one_installation009_shape_addition_forecast": {
+    "prefix": ".runs/installation-010-forecast-only",
+    "files": 132788,
+    "directories": 31036,
+    "file_bytes": 3766492082,
+    "full_receipt_bytes": 34413340,
+    "incremental_from_current_receipt_bytes": 40665765,
+    "shape_assumption": "One extra complete retained installation009 tree, unchanged size/content distribution. Current source/evidence growth and different install behavior may increase it; not actual future installation proof."
+  },
+  "receipt_serialization_forecast": {
+    "current_full_bytes": 30908154,
+    "current_incremental_from_latest_bytes": 34483456,
+    "current_delta_files": 4121,
+    "current_delta_file_bytes": 314039443,
+    "metadata_assumption": "Existing exact receipt metadata reused; unknown future bundle/archive hashes/sizes/head/time are small unmeasured metadata differences. Full inventories and actual path lengths preserved; forecast names explicitly fictional."
+  },
+  "disk": {
+    "free_bytes": 406685786112,
+    "total_bytes": 994662584320,
+    "note": "Filesystem capacity at cutoff, not a reservation. Archive compressed size and restored Git checkout/bundle must be measured by actual backup/restore."
+  },
+  "concurrency_limit": "Other .runs writers may run during the inventory; per-file shared guard checks pass, but no second complete inventory equality or Git-state certification occurred. This is a cutoff forecast only, not a backup or completed restoration."
+}

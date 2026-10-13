@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "policy": "placement-search-v1",
+  "base_policy": "placement-clearance-v1",
+  "engine_profile": "standard",
+  "scoring_variant": "via_default",
+  "scoring": {
+    "variant": "via_default",
+    "via_costs": 50,
+    "plane_via_costs": 5,
+    "argv": [
+      "--router.scoring.via_costs=50",
+      "--router.scoring.plane_via_costs=5"
+    ]
+  },
+  "strict_class_targets": true
+}

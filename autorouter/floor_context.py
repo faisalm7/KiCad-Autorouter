@@ -17,6 +17,20 @@ LIMITS={'project_bytes':100*1024*1024,'project_files':2000,'pads':10000,'nets':1
 def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def route_width(track,pcbnew):
+    """Observe uniform through-via copper diameters using explicit layers.
+
+    KiCad10's no-layer PCB_VIA.GetWidth warns and reads ALL_LAYERS. It does
+    not qualify an individual layer's padstack diameter.
+    """
+    if not isinstance(track,pcbnew.PCB_VIA):return int(track.GetWidth())
+    if int(track.GetViaType())!=4 or not all(track.IsOnLayer(layer) for layer in (pcbnew.F_Cu,pcbnew.B_Cu)):
+        raise ValueError('non-through via outside qualified floor observation')
+    widths=[int(track.GetWidth(layer)) for layer in (pcbnew.F_Cu,pcbnew.B_Cu)]
+    if widths[0]<=0 or widths[0]!=widths[1]:raise ValueError('nonuniform via copper diameters unqualified')
+    return widths[0]
+
+
 def inventory(root):
     result={};size=0
     if root.is_symlink() or not root.is_dir():raise ValueError('real project directory required')
@@ -118,7 +132,7 @@ def collect(mode,source,output,dsn=None,area_output=None,*,observation_output=No
              'via_drill_nm':cls.GetViaDrill(),'copper_pad_count':counts.get(str(name),0)})
     for track in native.GetTracks():
         if len(routes)>=LIMITS['routes']:raise ValueError('native route population ceiling')
-        row={'uuid':str(track.m_Uuid.AsString()),'net':str(track.GetNetname()),'width_nm':int(track.GetWidth())}
+        row={'uuid':str(track.m_Uuid.AsString()),'net':str(track.GetNetname()),'width_nm':route_width(track,pcbnew)}
         if isinstance(track,pcbnew.PCB_VIA):
             pos=track.GetPosition();row.update(kind='via',position_nm=[pos.x,pos.y],drill_nm=int(track.GetDrillValue()),
                 via_type=int(track.GetViaType()),layers=[name for layer,name in [(pcbnew.F_Cu,'F.Cu'),(pcbnew.B_Cu,'B.Cu')] if track.IsOnLayer(layer)])

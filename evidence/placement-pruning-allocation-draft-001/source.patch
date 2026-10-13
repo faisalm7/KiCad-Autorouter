@@ -1,0 +1,360 @@
+--- a/autorouter/placement_strategy.py
++++ b/autorouter/placement_strategy.py
+@@ -15,25 +15,67 @@
+ STRATEGY='placement-native-pruning-v1'
+ LIMIT=512*1024**2
+ MAX_FILES=16000
+-
+-def contract():
+-    return {'schema':1,'policy':POLICY,'strategy':STRATEGY,'incumbent_policy':'placement-search-v1',
++LEGACY_ALLOCATION='legacy-tuned'
++STANDARD_ALLOCATION='standard-85-v1'
++STANDARD_INCUMBENT_MAX_SECONDS=85.0
++
++def contract(allocation=LEGACY_ALLOCATION):
++    if type(allocation) is not str or allocation not in {LEGACY_ALLOCATION,STANDARD_ALLOCATION}:
++        raise p.Rejected('unknown placement pruning allocation')
++    value={'schema':1,'policy':POLICY,'strategy':STRATEGY,'incumbent_policy':'placement-search-v1',
+         'incumbent_profile':'tuned','incumbent_scoring':'via_default','proposal_policy':'feedback',
+         'max_trials':s.MAX_TRIALS,'max_trial_seconds':s.MAX_TRIAL_SECONDS,'min_trial_seconds':s.MIN_TRIAL_SECONDS,
+         'final_reserve_seconds':s.FINAL_RESERVE_SECONDS,'feedback_max_depth':s.MAX_FEEDBACK_DEPTH,
+         'feedback_max_added_routes':s.MAX_FEEDBACK_ADDED_ROUTES,'output_bytes':LIMIT,'output_files':MAX_FILES}
++    if allocation==STANDARD_ALLOCATION:
++        value.update(schema=2,allocation=allocation,incumbent_profile='standard',incumbent_max_seconds=STANDARD_INCUMBENT_MAX_SECONDS,
++                     proposal_order='individual-first',final_reserve_seconds=25.0)
++    return value
++
++def receipt_allocation(data):
++    if 'pruning_allocation' not in data:return LEGACY_ALLOCATION
++    if data['pruning_allocation']!=STANDARD_ALLOCATION or type(data['pruning_allocation']) is not str:
++        raise p.Rejected('unknown or downgraded pruning allocation marker')
++    return STANDARD_ALLOCATION
++
++def incumbent_assignment(seconds,wall,cpu,allocation):
++    settings=contract(allocation)
++    if any(type(x) not in (int,float) or not math.isfinite(x) or x<0 for x in (seconds,wall,cpu)):
++        raise p.Rejected('invalid incumbent allocation observation')
++    available=max(0,min(seconds-wall,seconds-cpu)-settings['final_reserve_seconds'])
++    return min(settings['incumbent_max_seconds'],available) if allocation==STANDARD_ALLOCATION else available
++
++def check_incumbent_allocation(data,inc):
++    """Bind the exact declared profile and finite allocation; central SEARCH checks remain required."""
++    allocation=receipt_allocation(data);settings=contract(allocation)
++    assigned=data.get('incumbent_assigned_seconds')
++    if (inc.get('engine_profile')!=settings['incumbent_profile']
++        or inc.get('budget_seconds')!=assigned or inc.get('cpu_budget_seconds')!=assigned
++        or type(assigned) not in (int,float) or not math.isfinite(assigned)
++        or not 5<=assigned<=data['budget_seconds']-settings['final_reserve_seconds']):
++        raise p.Rejected('pruning incumbent allocation/profile differs')
++    if allocation==STANDARD_ALLOCATION:
++        observed=data.get('incumbent_assignment_observation')
++        if (not isinstance(observed,dict) or set(observed)!={'elapsed_wall_seconds','elapsed_full_cpu_seconds'}
++            or assigned!=incumbent_assignment(data['budget_seconds'],observed['elapsed_wall_seconds'],observed['elapsed_full_cpu_seconds'],allocation)):
++            raise p.Rejected('pruning incumbent assignment differs from frozen allocation')
++    elif 'incumbent_assignment_observation' in data:
++        raise p.Rejected('legacy pruning receipt has undeclared allocation observation')
++    return allocation
+ 
+ def recognize(data,directory):
+     marker=Path(directory)/'pruning-contract.json'
+     active=(marker.exists() or marker.is_symlink() or data.get('schema')==5
+-        or data.get('input_policy')==POLICY or data.get('strategy')==STRATEGY or 'pruning_evidence_hashes' in data)
++        or data.get('input_policy')==POLICY or data.get('strategy')==STRATEGY or 'pruning_evidence_hashes' in data or 'pruning_allocation' in data)
+     if not active:return False
++    allocation=receipt_allocation(data);settings=contract(allocation)
+     if (type(data.get('schema')) is not int or data['schema']!=5 or data.get('input_policy')!=POLICY
+         or data.get('strategy')!=STRATEGY or data.get('baseline')!='C-prototype'
+-        or data.get('adapter')!='both' or data.get('engine_profile')!='tuned' or data.get('scoring_variant')!='via_default'
++        or data.get('adapter')!='both' or data.get('engine_profile')!=settings['incumbent_profile'] or data.get('scoring_variant')!='via_default'
+         or data.get('scope')!='whole_board_unlocked_routing' or data.get('proposal_policy')!='feedback'
+         or any(key in data for key in ('routing_preferences','layer_policy','netclass_policy','guidance_policy','diagnostic_schema'))
+-        or f.read_json(marker)!=contract() or data.get('pruning_contract')!={'file':marker.name,'sha256':p.sha(marker)}):
++        or (allocation==LEGACY_ALLOCATION and 'incumbent_assignment_observation' in data)
++        or f.read_json(marker)!=settings or data.get('pruning_contract')!={'file':marker.name,'sha256':p.sha(marker)}):
+         raise p.Rejected('missing, mixed or downgraded placement pruning policy')
+     return True
+ 
+@@ -65,9 +107,21 @@
+     return s.feedback_proposal(sx.read(failed['candidate']),failed['proposal'],failed['native'],best_native,nets,[])
+ 
+ 
+-def next_base_proposal(state,best,nets):
+-    """Shared deterministic whole-net then longest-route proposal progression."""
++def next_base_proposal(state,best,nets,order='whole-first'):
++    """Shared deterministic finite proposal progression, replayed by readback."""
++    if type(order) is not str or order not in {'whole-first','individual-first'}:
++        raise p.Rejected('unknown pruning proposal order')
+     available={s.route_id(x) for x in s.eligible_routes(sx.read(best),nets,[])}
++    if order=='individual-first':
++        if state['individual'] is None:state['individual']=s.proposals(sx.read(best),nets,[],False)
++        while state['individual']:
++            proposal=state['individual'].pop(0)
++            if set(proposal['route_ids'])<=available:return proposal
++        if state['grouped'] is None:state['grouped']=s.proposals(sx.read(best),nets,[],True)
++        while state['grouped']:
++            proposal=state['grouped'].pop(0)
++            if set(proposal['route_ids'])<=available:return proposal
++        return None
+     while state['grouped']:
+         proposal=state['grouped'].pop(0)
+         if set(proposal['route_ids'])<=available:return proposal
+@@ -144,8 +198,10 @@
+ def check_pruning_result(directory,data,original,candidate,protected):
+     if protected or p.netclass_policy(candidate) is not None:raise p.Rejected('pruning excludes protected routes or literal classes')
+     recognize(data,directory);final_freshness(directory,data)
++    settings=contract(receipt_allocation(data));order=settings.get('proposal_order','whole-first')
+     basis=directory/'incumbent';receipt=basis/'result.json';inc=f.read_json(receipt)
+-    if (inc.get('schema')!=4 or inc.get('input_policy')!='placement-search-v1' or inc.get('engine_profile')!='tuned'
++    check_incumbent_allocation(data,inc)
++    if (inc.get('schema')!=4 or inc.get('input_policy')!='placement-search-v1'
+         or inc.get('scoring_variant')!='via_default' or inc.get('source')!=data['source'] or inc.get('source_hashes')!=data['source_hashes']
+         or inc.get('tools')!=data['tools'] or data.get('incumbent_receipt_sha256')!=p.sha(receipt)
+         or inc.get('budget_seconds')!=data.get('incumbent_assigned_seconds')
+@@ -155,7 +211,7 @@
+     rows=data.get('trials');nets=s.zone_net_ids(original)
+     if not isinstance(rows,list) or len(rows)>s.MAX_TRIALS:raise p.Rejected('invalid pruning attempt population')
+     if {x.name for x in (directory/'trials').iterdir()}!={f'{i:04d}' for i in range(len(rows))}:raise p.Rejected('missing or omitted pruning attempt')
+-    improvements=0;proposal_state={'grouped':s.proposals(sx.read(best),nets,[],True),'individual':None}
++    improvements=0;proposal_state={'grouped':None if order=='individual-first' else s.proposals(sx.read(best),nets,[],True),'individual':None}
+     for i,row in enumerate(rows):
+         folder=directory/'trials'/f'{i:04d}'
+         if row!=f.read_json(folder/'trial.json') or row.get('index')!=i or row.get('parent')!=str(best) or row.get('parent_sha256')!=p.sha(best):
+@@ -167,7 +223,7 @@
+             failed=rows[parent_index]
+             decision=feedback_decision(failed,best,best_native,nets)
+             if not decision['proposed'] or proposal!=dict(decision['proposal'],parent_trial=parent_index):raise p.Rejected('feedback derivation differs')
+-        elif proposal!=next_base_proposal(proposal_state,best,nets):
++        elif proposal!=next_base_proposal(proposal_state,best,nets,order):
+             raise p.Rejected('pruning proposal order differs from candidate-only policy')
+         before=deletion(best,proposal,nets)
+         cap=row.get('assigned_seconds')
+@@ -193,30 +249,32 @@
+     if data['steps']!=steps+final_steps:raise p.Rejected('pruning failed stages omitted or duplicated')
+     if data.get('source_drc')!=inc['source_drc'] or data.get('task_sha256')!=inc['task_sha256']:raise p.Rejected('pruning original task differs')
+ 
+-def prune(source,output,seconds=120):
++def prune(source,output,seconds=120,*,allocation=LEGACY_ALLOCATION):
+     def interrupted(*_):raise KeyboardInterrupt
+     previous={sig:signal.getsignal(sig) for sig in (signal.SIGINT,signal.SIGTERM)}
+     try:
+         for sig in previous:signal.signal(sig,interrupted)
+-        return _prune(source,output,seconds)
++        return _prune(source,output,seconds,allocation=allocation)
+     finally:
+         for sig,handler in previous.items():signal.signal(sig,handler)
+ 
+-def _prune(source,output,seconds):
++def _prune(source,output,seconds,*,allocation=LEGACY_ALLOCATION):
+     start,parent_start,child_start=time.monotonic(),time.process_time(),f.child_cpu()
+     if isinstance(seconds,bool) or not isinstance(seconds,(int,float)) or not math.isfinite(seconds) or not 60<=seconds<=900:
+         raise p.Rejected('placement pruning budget must be 60–900 seconds')
++    settings=contract(allocation);order=settings.get('proposal_order','whole-first');reserve=settings['final_reserve_seconds']
+     source,output=Path(source).absolute(),Path(output).absolute()
+     if any(x.is_symlink() for x in (source,*source.parents,output,*output.parents)):raise p.Rejected('pruning symlink unsupported')
+     source=source.resolve(strict=True);output=output.resolve()
+     if source.parent==output or source.parent in output.parents:raise p.Rejected('output must be outside original project')
+     def remaining(reserve=0):return max(0,min(seconds-(time.monotonic()-start),seconds-(time.process_time()-parent_start+f.child_cpu()-child_start))-reserve)
+-    job=f.FloorJob(output,seconds,remaining);(output/'trials').mkdir();p.save_json(output/'pruning-contract.json',contract())
+-    report={'schema':5,'input_policy':POLICY,'strategy':STRATEGY,'baseline':'C-prototype','adapter':'both','engine_profile':'tuned','scoring_variant':'via_default',
++    job=f.FloorJob(output,seconds,remaining);(output/'trials').mkdir();p.save_json(output/'pruning-contract.json',settings)
++    report={'schema':5,'input_policy':POLICY,'strategy':STRATEGY,'baseline':'C-prototype','adapter':'both','engine_profile':settings['incumbent_profile'],'scoring_variant':'via_default',
+         'proposal_policy':'feedback','scope':'whole_board_unlocked_routing','source':str(source),'budget_seconds':seconds,'cpu_budget_seconds':seconds,
+         'status':'rejected','accepted':False,'physical_electrical_validation':False,'schematic_parity':'not checked','trials':[],'improvements':0,
+         'started_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'reference_routes_used_for_selection':False,'novel_routing_algorithm_claim':False,
+         'pruning_contract':{'file':'pruning-contract.json','sha256':p.sha(output/'pruning-contract.json')}}
++    if allocation==STANDARD_ALLOCATION:report['pruning_allocation']=allocation
+     completed={};all_steps=[];frozen=False;final_inventory=None
+     def stable():
+         if frozen:
+@@ -242,9 +300,16 @@
+         for rel,expected in report['tools']['implementation_sha256'].items():
+             dest=output/'code'/Path(rel).name;shutil.copy2(c.ROOT/rel,dest)
+             if p.sha(dest)!=expected:raise p.Rejected('pruning code snapshot differs')
+-        frozen=True;stable();assigned=remaining(s.FINAL_RESERVE_SECONDS);report['incumbent_assigned_seconds']=assigned
++        frozen=True;stable()
++        if allocation==STANDARD_ALLOCATION:
++            observed={'elapsed_wall_seconds':time.monotonic()-start,
++                      'elapsed_full_cpu_seconds':time.process_time()-parent_start+f.child_cpu()-child_start}
++            report['incumbent_assignment_observation']=observed
++            assigned=incumbent_assignment(seconds,observed['elapsed_wall_seconds'],observed['elapsed_full_cpu_seconds'],allocation)
++        else:assigned=remaining(reserve)
++        report['incumbent_assigned_seconds']=assigned
+         basis=output/'incumbent'
+-        inc=f.route(source,basis,assigned,False,'both','tuned','via_default',guidance_policy='placement-search-v1')
++        inc=f.route(source,basis,assigned,False,'both',settings['incumbent_profile'],'via_default',guidance_policy='placement-search-v1')
+         all_steps.extend(inc['steps']);report.update(incumbent_receipt_sha256=p.sha(basis/'result.json'),source_drc=inc.get('source_drc'),task_sha256=inc.get('task_sha256'))
+         completed[str(basis)]=pc.evidence_inventory(basis);stable()
+         if inc['status']=='cancelled':raise KeyboardInterrupt
+@@ -255,7 +320,7 @@
+             'observed_full_cpu_seconds':time.process_time()-parent_start+f.child_cpu()-child_start,'metrics':copy.deepcopy(best_metrics),'candidate_sha256':p.sha(best)}
+         def attempt(proposal):
+             nonlocal best,best_metrics,best_native
+-            if len(report['trials'])>=s.MAX_TRIALS or remaining(s.FINAL_RESERVE_SECONDS)<s.MIN_TRIAL_SECONDS:return None
++            if len(report['trials'])>=s.MAX_TRIALS or remaining(reserve)<s.MIN_TRIAL_SECONDS:return None
+             stable()
+             # Keep finite complete evidence headroom before creating another full
+             # candidate/refill/DRC set. No earlier evidence is removed to fit.
+@@ -263,8 +328,8 @@
+             reserve=4*sum((best.parent/name).stat().st_size for name in hashes)+4*1024**2
+             if used+reserve>LIMIT:report['stop_reason']='complete evidence capacity reserve';return None
+             index=len(report['trials']);folder=output/'trials'/f'{index:04d}';trial_start=time.monotonic();trial_cpu=time.process_time()+f.child_cpu()
+-            cap=min(s.MAX_TRIAL_SECONDS,remaining(s.FINAL_RESERVE_SECONDS))
+-            left=lambda:max(0,min(remaining(s.FINAL_RESERVE_SECONDS),cap-(time.monotonic()-trial_start),cap-(time.process_time()+f.child_cpu()-trial_cpu)))
++            cap=min(s.MAX_TRIAL_SECONDS,remaining(reserve))
++            left=lambda:max(0,min(remaining(reserve),cap-(time.monotonic()-trial_start),cap-(time.process_time()+f.child_cpu()-trial_cpu)))
+             trial=f.FloorJob(folder,cap,left);candidate=folder/'candidate'/source.name
+             row={'index':index,'proposal':proposal,'parent':str(best),'parent_sha256':p.sha(best),'accepted':False,'completed':False,'assigned_seconds':cap,'candidate':str(candidate),'status':'failed'}
+             try:
+@@ -284,9 +349,9 @@
+                 all_steps.extend(trial.steps);p.save_json(folder/'trial.json',row);report['trials'].append(row);completed[str(folder)]=pc.evidence_inventory(folder)
+             if row['status']=='cancelled' or any(x.get('status')=='cancelled' for x in trial.steps):raise KeyboardInterrupt
+             stable();p.save_json(output/'pruning-progress.json',{'trials':report['trials'],'selected':str(best)});return row
+-        proposal_state={'grouped':s.proposals(sx.read(best),nets,[],True),'individual':None}
++        proposal_state={'grouped':None if order=='individual-first' else s.proposals(sx.read(best),nets,[],True),'individual':None}
+         while True:
+-            proposal=next_base_proposal(proposal_state,best,nets)
++            proposal=next_base_proposal(proposal_state,best,nets,order)
+             if proposal is None:break
+             row=attempt(proposal)
+             if row is None:break
+--- a/scripts/experiment_paired.py
++++ b/scripts/experiment_paired.py
+@@ -184,10 +184,14 @@
+ 
+ def experiment(out, project_name='sonde', system='feedback'):
+     batch_started, batch_cpu = time.monotonic(), q.total_process_cpu()
+-    if system not in {'feedback','thermal','placement'}:
++    if system not in {'feedback','thermal','placement','placement-standard'}:
+         raise p.Rejected('unknown paired system')
+-    c_arm = ({**C_ARM,'operation':'placement_prune','input_policy':ps.POLICY,'strategy':ps.STRATEGY} if system=='placement' else C_ARM if system=='feedback' else THERMAL_ARM)
+-    if system=='placement' and project_name!='multichannel':raise p.Rejected('placement comparison currently frozen for multichannel')
++    placement=system in {'placement','placement-standard'}
++    c_arm = ({**C_ARM,'operation':'placement_prune','input_policy':ps.POLICY,'strategy':ps.STRATEGY} if placement else C_ARM if system=='feedback' else THERMAL_ARM)
++    if system=='placement-standard':
++        c_arm.update(engine_profile='standard',pruning_allocation=ps.STANDARD_ALLOCATION,
++                     pruning_allocation_contract=ps.contract(ps.STANDARD_ALLOCATION))
++    if placement and project_name!='multichannel':raise p.Rejected('placement comparison currently frozen for multichannel')
+     out = Path(out).resolve()
+     if c.ROOT/'.runs' not in out.parents:
+         raise p.Rejected('paired output must be a new project-local .runs directory')
+@@ -197,11 +201,11 @@
+         'results': [], 'comparisons': [], 'claims_limit': 'one exposed family; no population, novelty, human-review, or electrical-adequacy claim'}
+     completed_arms={}
+     def stable_arms():
+-        if system=='placement':
++        if placement:
+             for folder,expected in completed_arms.items():
+                 if ps.pc.inventory(folder,max_bytes=ps.LIMIT,max_files=ps.MAX_FILES,max_entries=ps.MAX_FILES*2)!=expected:raise p.Rejected('completed comparison arm changed')
+     # Entry and exit are inside shared accounting, before final publication.
+-    with p.validation_readback_session() if system=='placement' else nullcontext():
++    with p.validation_readback_session() if placement else nullcontext():
+         try:
+             if BUDGET != q.BUDGET or BUDGET != portfolio.BUDGET:
+                 raise p.Rejected('imported arm budgets differ')
+@@ -220,19 +224,22 @@
+                 if p.sha(target) != digest:
+                     raise p.Rejected('code changed while preserving paired freeze')
+             protocol = {'schema': 1, 'freeze': frozen, 'family': family, 'source': str(board),
+-                'arm_order': (['B0','B1','B2_portfolio',c_arm['id']] if system=='placement' else ['B2_portfolio', c_arm['id']]), 'wall_budget_per_arm_seconds': BUDGET,
++                'arm_order': (['B0','B1','B2_portfolio',c_arm['id']] if placement else ['B2_portfolio', c_arm['id']]), 'wall_budget_per_arm_seconds': BUDGET,
+                 'cpu_budget_per_arm_seconds': BUDGET, 'cpu_enforcement': 'measured acceptance cap, not OS preemption',
+                 'baseline': 'fixed three search-cost variants, same adapter and native constraints; full frontier retained',
+-                'system': ('single tuned default-cost incumbent plus feedback pruning' if system in {'feedback','placement'} else 'fresh completion-only default-cost incumbent, fresh native geometry and bounded thermal bridge recovery')+'; no free use of the portfolio winner',
++                'system': ('fresh standard default-cost incumbent capped at85 seconds, individual-first pruning and25-second final reserve' if system=='placement-standard' else 'single tuned default-cost incumbent plus feedback pruning' if system in {'feedback','placement'} else 'fresh completion-only default-cost incumbent, fresh native geometry and bounded thermal bridge recovery')+'; no free use of the portfolio winner',
+                 'system_contract': c_arm,
+                 'accounting': 'each raw enclosing arm includes pre/post freeze verification, invocation, failed attempts, receipt checks, and arm-index emission; the entire shared initial freeze/copy/paired-summary overhead is then conservatively charged to EACH arm, with caps rechecked after final publication',
+                 'fairness_limit': 'equal total budgets and constraints, different predeclared allocation policies; C is not initialized by the portfolio',
+                 'editor_policy': 'operator closes PCB Editor and keeps other native/engine jobs idle',
+                 'claims_limit': summary['claims_limit']}
+-            if system=='placement':
++            if placement:
+                 protocol.update(guidance_policy='placement-search-v1',system_contract={**c_arm,'strategy':ps.STRATEGY},
+                     allocation_formula='120 - max(shared setup wall, shared setup CPU) - 5; same frozen inner allowance for all four arms',
+                     wrapper_reserve_seconds=5,baseline_order=['B0stock','B1standard','B2tuned-default-low-high','Cfresh-tuned-default-feedback'])
++                if system=='placement-standard':
++                    protocol['baseline_order'][-1]='Cfresh-standard-max85-individual-first-reserve25-feedback'
++                    protocol['pruning_allocation']=ps.STANDARD_ALLOCATION
+                 protocol['inner_allowance_seconds']=BUDGET-max(time.monotonic()-batch_started,q.total_process_cpu()-batch_cpu)-5
+                 if protocol['inner_allowance_seconds']<60:raise p.Rejected('shared setup leaves insufficient equal inner allowance')
+             assigned=protocol.get('inner_allowance_seconds',BUDGET)
+@@ -250,26 +257,28 @@
+                     stable_arms()
+                     if arm_id == 'B2_portfolio':
+                         result = (portfolio.experiment(directory, project_name,guidance_policy='placement-search-v1',budget=assigned)
+-                                  if system=='placement' else portfolio.experiment(directory, project_name))
+-                        if system=='placement':material=ps.pc.inventory(directory,max_bytes=ps.LIMIT,max_files=ps.MAX_FILES,max_entries=ps.MAX_FILES*2)
++                                  if placement else portfolio.experiment(directory, project_name))
++                        if placement:material=ps.pc.inventory(directory,max_bytes=ps.LIMIT,max_files=ps.MAX_FILES,max_entries=ps.MAX_FILES*2)
+                         row.update(verify_portfolio(directory, result, board, frozen))
+-                        if system=='placement':
++                        if placement:
+                             if result.get('guidance_policy')!='placement-search-v1' or result.get('wall_budget_seconds')!=assigned or result.get('cpu_budget_seconds')!=assigned:raise p.Rejected('placement portfolio allocation differs')
+                             if any(x.get('guidance_policy')!='placement-search-v1' for x in result['trials']):raise p.Rejected('mixed placement portfolio trials')
+                     else:
+                         selected_arm=c_arm
+-                        if system=='placement':
++                        if placement:
+                             if arm_id=='B0':
+                                 selected_arm={'id':'B0','adapter':'none','engine_profile':'standard','operation':'route'}
+                                 result=p.route(board,directory,assigned,False,'none','standard')
+                             elif arm_id=='B1':
+                                 selected_arm={'id':'B1','adapter':'both','engine_profile':'standard','operation':'route'}
+                                 result=f.route(board,directory,assigned,False,'both','standard','via_default',guidance_policy='placement-search-v1')
+-                            else:result=ps.prune(board,directory,assigned)
++                            else:
++                                result=(ps.prune(board,directory,assigned,allocation=ps.STANDARD_ALLOCATION)
++                                        if system=='placement-standard' else ps.prune(board,directory,assigned))
+                         else:
+                             result = (prune(board, directory, BUDGET, proposal_policy='feedback')
+                                       if system=='feedback' else recover(board, directory, BUDGET))
+-                        if system=='placement':material=ps.pc.inventory(directory,max_bytes=ps.LIMIT,max_files=ps.MAX_FILES,max_entries=ps.MAX_FILES*2)
++                        if placement:material=ps.pc.inventory(directory,max_bytes=ps.LIMIT,max_files=ps.MAX_FILES,max_entries=ps.MAX_FILES*2)
+                         row.update(q.summarize(selected_arm, directory, result,
+                             time.monotonic()-started, q.total_process_cpu()-cpu_started))
+                         if system=='thermal' and result.get('strategy')!=THERMAL_ARM['strategy']:
+@@ -306,7 +315,7 @@
+                         row.update(accepted=False, within_enclosing_budgets=False,
+                             invocation_wall_seconds=wall, invocation_cpu_seconds=cpu)
+                         publish(out/(arm_id+'-invocation.json'), row)
+-                if system=='placement' and directory.is_dir():
++                if placement and directory.is_dir():
+                     current=ps.pc.inventory(directory,max_bytes=ps.LIMIT,max_files=ps.MAX_FILES,max_entries=ps.MAX_FILES*2)
+                     if material is not None and current!=material:raise p.Rejected('current comparison arm changed during readback/publication')
+                     completed_arms[directory]=current if material is None else material
+@@ -340,10 +349,10 @@
+     summary['shared_charge_policy'] = 'entire measured shared overhead charged to EACH arm; raw invocation measurements retained separately'
+     summary['accounting_point'] = 'sample before final summary write; full charged caps rechecked after publication; any over-cap correction is rejected and may finish outside cap'
+     try:
+-        if system=='placement':q.verify_freeze(frozen,board);stable_arms()
++        if placement:q.verify_freeze(frozen,board);stable_arms()
+         account_shared()
+         publish(out/'paired-summary.json', summary)
+-        if system=='placement':q.verify_freeze(frozen,board);stable_arms()
++        if placement:q.verify_freeze(frozen,board);stable_arms()
+         published_eligibility = [row['accepted'] for row in summary['results']]
+         account_shared()
+         if published_eligibility != [row['accepted'] for row in summary['results']]:
+@@ -370,7 +379,7 @@
+     parser=argparse.ArgumentParser(description=__doc__)
+     parser.add_argument('--output', required=True)
+     parser.add_argument('--project', choices=tuple(q.PROJECTS), default='sonde')
+-    parser.add_argument('--system', choices=('feedback','thermal','placement'), default='feedback')
++    parser.add_argument('--system', choices=('feedback','thermal','placement','placement-standard'), default='feedback')
+     args=parser.parse_args()
+     lock_path=c.ROOT/'.runs/quality-experiment.lock';lock_path.parent.mkdir(exist_ok=True)
+     if lock_path.is_symlink():parser.error('experiment lock must not be a symlink')
+--- a/scripts/experiment_quality.py
++++ b/scripts/experiment_quality.py
+@@ -156,7 +156,11 @@
+                 arm.get('input_policy')==ps.POLICY and arm.get('strategy')==ps.STRATEGY
+                 and result.get('proposal_policy')=='feedback' and ps.recognize(result,directory)
+                 and incumbent.get('schema')==4 and incumbent.get('input_policy')=='placement-search-v1'
+-                and incumbent.get('accepted') is True and incumbent.get('engine_profile')=='tuned'
++                and incumbent.get('accepted') is True and incumbent.get('engine_profile')==arm['engine_profile']
++                and result.get('pruning_allocation')==arm.get('pruning_allocation')
++                and (ps.receipt_allocation(result)==ps.LEGACY_ALLOCATION or (
++                    arm.get('pruning_allocation_contract')==ps.contract(ps.STANDARD_ALLOCATION)
++                    and ps.check_incumbent_allocation(result,incumbent)==ps.STANDARD_ALLOCATION))
+                 and incumbent.get('scoring_variant')=='via_default'
+                 and result.get('incumbent_receipt_sha256')==p.sha(incumbent_path))
+         except (OSError,ValueError,p.Rejected):row['protocol_contract_verified']=False

@@ -1,0 +1,100 @@
+{
+  "schema": 1,
+  "status": "prospective_not_executed",
+  "hypothesis": "Own standard-profile incumbent capped85, individual-first deterministic pruning, final reserve25; composite exposed-development experiment, no causal allocation/order ablation claim",
+  "legacy": {
+    "root_allocation_field": "absent",
+    "contract_schema": 1,
+    "contract_sha256": "e2f71244b7f297cb8d5a858ae253ac35e123090fcb5592eff0123053945ea744",
+    "incumbent_profile": "tuned",
+    "proposal_order": "whole-first",
+    "final_reserve_seconds": 15,
+    "paired_system": "placement",
+    "unchanged": true
+  },
+  "variant": {
+    "root_field": "pruning_allocation",
+    "root_value": "standard-85-v1",
+    "contract_schema": 2,
+    "incumbent_profile": "standard",
+    "incumbent_max_seconds": 85,
+    "incumbent_scoring": "via_default",
+    "proposal_order": "individual-first",
+    "final_reserve_seconds": 25,
+    "paired_system": "placement-standard",
+    "assignment_formula": "min(85, max(0,min(total\u2212elapsed_wall,total\u2212elapsed_full_cpu)\u221225))",
+    "assignment_observation_fields": [
+      "elapsed_wall_seconds",
+      "elapsed_full_cpu_seconds"
+    ],
+    "default_changed": false,
+    "free_baseline_candidate": false
+  },
+  "prior_recorded_context": {
+    "summary": ".runs/placement-paired-002/run/paired-summary.json",
+    "summary_sha256": "a9e3782a05cbe36d3ca2a1d7a045b9d817a80be852b85d18fd7a23056839b85b",
+    "C_receipt": ".runs/placement-paired-002/run/C_feedback/result.json",
+    "C_receipt_sha256": "85942aa9cee348fcf5d42c25d5517f2b83ed476d0c40bb04583a9e5a09a06aa1",
+    "git_head_recorded": "e984d7c49193da9688c21fe9017cb409c9fd3164",
+    "B0": "rejected160 opens/49 blocking/125 warnings",
+    "B1": "accepted2640.198552639mm,19vias,96warnings,73.878290chargedCPU",
+    "B2": "accepted samequality,94.822581chargedCPU",
+    "C": "accepted samequality,112.677601chargedCPU; zero improvements",
+    "C_trial": "one whole-net failed:6.213624assigned seconds,6.245893observed wall,5.666676fullCPU; final-DRC timeout; no completed trial acceptance",
+    "claim": "Pair001/002 remain no measured gain; do not reinterpret intermediate refill as final validation"
+  },
+  "supervisor": "explicit project .venv/bin/python3.11.9; native worker remains pinned KiCad3.9",
+  "native_owner": "ROOT; one sequential worker under established process-control and reporting helpers",
+  "comparison": {
+    "project": "multichannel",
+    "arm_order": [
+      "B0",
+      "B1",
+      "B2_portfolio",
+      "C_feedback"
+    ],
+    "wall_seconds_per_arm": 120,
+    "full_cpu_seconds_per_arm": 120,
+    "same_inner_formula": "120\u2212max(sharedsetupwall,sharedsetupCPU)\u22125",
+    "same_wrapper_reserve_seconds": 5,
+    "candidate_selection": "C owns fresh incumbent; all accepted final candidates receive actual original-rule native validation; no B1/B2 candidate borrowing",
+    "source": "original complete project immutable, constraints/warnings/protected policies unchanged",
+    "full_frontier_retained": true,
+    "failed_trials_charged": true,
+    "shared_overhead_charged_to_each_arm": true,
+    "native_concurrent_execution": false
+  },
+  "root_steps": [
+    "Verify exact base source hashes; merge the three focused source changes and test. Integrate ROOT native-context/handoff fixes independently. Commit exact runtime/helpers and wrapper before native execution.",
+    "Run targeted promoted allocation/PS/paired/quality controls, then the established full suite once at this integration milestone.",
+    "Freeze a new matched comparison003 and bounded outer launcher. Use project multichannel and system placement-standard; do not overwrite pair001/002. Both policy and timing helper changed, so old baseline runs cannot substitute for the matched fresh comparison.",
+    "Use the existing original-source/code/tool freeze and single native lane. Preserve all attempted stages/failed costs/raw warnings and exact final candidate/original-rule report hashes for every delivered arm.",
+    "Independent readback must bind new schema2 contract/root marker, assignment observation and both caps, actual standard engine argv/SEARCH contract, individual-first deterministic ancestry, failed-process population/costs, final original-rule native DRC and unchanged geometry.",
+    "Report all B0/B1/B2/C outcomes and the whole B2 frontier. A tie, failed85-second incumbent, lost board or budget rejection remains visible. If85 fails, preserve that actual stop and freeze a later allocation separately; never relax engine/native reserves or rules.",
+    "Follow established checkpoint/artifact backup cadence. Full restoration at the integration/release milestone; no per-edit backup redesign."
+  ],
+  "acceptance_unchanged": [
+    "actual pinned refill/reload/finalDRC and candidate SHA",
+    "unchanged original complete rule files/geometry/terminal mapping",
+    "strict route-dimension/placement guidance/SES incumbent checks",
+    "native warning multiset cannot worsen for a quality improvement",
+    "every failed/partial attempt retained and charged",
+    "final publication and outer120wall/fullCPU delivery caps"
+  ],
+  "pure_controls": {
+    "methods": 27,
+    "new_methods": 13,
+    "existing_paired_quality_methods": 14,
+    "test_runner_seconds": 0.059,
+    "log": "targeted-controls-004.log",
+    "native_engine_central_mocked": true,
+    "native_quality_proof": false
+  },
+  "limits": [
+    "One exposed family; no unrelated-board or generalized superiority claim",
+    "Composite policy, no causal attribution",
+    "No native result in this draft",
+    "No release, plugin, live application, electrical/human review claim",
+    "Hard aggregate CPU quota is not claimed; actual observed caps remain authoritative"
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "status": "source_proposal_pure_controls_pass",
+  "native_or_jvm_executed": false,
+  "tracked_files_changed_by_agent": false,
+  "scope": "Owned ignored draft only; root integration and actual native proof pending",
+  "exact_current_bases": {
+    "autorouter/handoff.py": {
+      "snapshot": "handoff-before.py",
+      "sha256": "b197c058b34885288adf3cf5dba3d8779a7678c81f837a95a09348c355f00814",
+      "current_matches_snapshot": true
+    },
+    "autorouter/__main__.py": {
+      "snapshot": "__main__-before.py",
+      "sha256": "2b616e7e514a3f5c990bd65206fc8f4452d7bbdfd171d2b86333fc5c37dcfbb5",
+      "current_matches_snapshot": true
+    }
+  },
+  "pure_controls": {
+    "methods": 45,
+    "new_policy_disposition_methods": 16,
+    "existing_handoff_methods": 29,
+    "test_runner_seconds": 1.045,
+    "log": "targeted-controls-final.log",
+    "passed": true,
+    "central_checks_mocked": true
+  },
+  "behavior": {
+    "policy_dispatch": "placement_strategy.recognize before floor_route.receipt_policy; exact schema1/3/4/5 only; central checker remains authoritative",
+    "render_changes": false,
+    "typed_choices": [
+      "accept",
+      "reject"
+    ],
+    "accept_requires_same_board_sha": true,
+    "gui_metadata_changes": "recorded as unvalidated only; never adopted as original rules",
+    "source_candidate_receipt_complete_evidence_guard": true,
+    "bound_preview_guard": true,
+    "approval_or_application_recorded": false,
+    "native_export_implemented": false
+  },
+  "preserved_failure_tests": [
+    "stale original/candidate/receipt/evidence",
+    "policy switch/downgrade",
+    "edited review board accept failure",
+    "existing/protected output",
+    "mid-check project change",
+    "late publication metadata tamper",
+    "actual own SIGTERM with restoration",
+    "missing/stale preview binding",
+    "final full CPU ceiling invalidation"
+  ],
+  "root_native_gate": "Two actual policy-copy positives and owned necessary-route negative using shared validate_candidate/guidance basis; no engine rerun solely for handoff. Fresh native accepted-project export remains unfinished.",
+  "negative_receipt_leads_not_positive": {
+    "controls-002_C": "rejected insufficient incumbent finalization reserves",
+    "controls-003_C": "invalidated KeyError source_hashes",
+    "paired-001_C": "inner accepted native receipt but delivery rejected >120 CPU, zero trials and zero gains"
+  },
+  "limitations": [
+    "Finite sampled inventories; no hostile concurrent writer or abrupt termination authentication",
+    "Saved report consistency is not fresh native DRC",
+    "Pure methods establish no GUI or routing quality qualification",
+    "Accept intent is not candidate application or human PCB approval"
+  ]
+}

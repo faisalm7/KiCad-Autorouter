@@ -1,0 +1,9 @@
+# Frozen standard-85-v1 allocation/order proposal
+
+Three source proposals and one new regression test are ready for ROOT integration. All exact base snapshots still match current source files. The final targeted run passes27 methods in0.059seconds, including13 new and14 existing wrapper/summary methods. Native/engine/central checks are mocked; no native/JVM/Git/network or tracked edits occurred.
+
+Legacy default receipt/contract/profile/order/reserve behavior is preserved, including the actual schema1 contract serialization hash. The explicit new variant declares a schema2 contract, root allocation marker, standard profile,85-second maximum, individual-first order and25-second final reserve. Central readback binds assignment wall/fullCPU observations, actual both incumbent caps/profile and shared deterministic proposal progression; the complete SEARCH/native validator remains authoritative. Failed trial accounting and warnings are unchanged. The quality summarizer verifies the exact declared new variant.
+
+Pair002 remains a tie: B1/B2/C accepted19vias/2640.198552639mm with96warnings; C made no gain and its one6.213624-second whole-net attempt timed out during finalDRC. This motivated the composite change. It does not prove that a standard85-second incumbent reproduces B1's route quality: its cooperative engine budget is smaller after the unchanged40-second reserves.
+
+ROOT must run a new matched four-arm comparison under equal120wall/fullCPU budgets and unchanged original constraints after committing integration. Any failed incumbent, final DRC, warning regression or delivery cap remains a failure. Later reallocations require new frozen variants; old results cannot be relabeled or discarded. `protocol.json` gives exact prospective gates. Earlier draft logs are retained, including one incorrect test expectation corrected to the existing individual_segment label.

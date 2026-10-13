@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-placement-paired-002/audit.py", line 105, in <module>
+    require(len(thermal)==1 and len(opens)==1 and any('Pad2' in x.get('description','').replace(' ','') and 'C2' in x.get('description','') for x in thermal[0]['items']),'actual thermal/open target differs')
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-placement-paired-002/audit.py", line 16, in require
+    if not condition:raise ValueError(message)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: actual thermal/open target differs

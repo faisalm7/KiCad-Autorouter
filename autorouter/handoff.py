@@ -4,10 +4,11 @@ import hashlib
 import os
 import resource
 import signal
+import stat
 import time
 import uuid
 from . import config as c, floor_route as f, placement_clearance as pc
-from .pipeline import Rejected, check_result, save_json
+from .pipeline import Rejected, check_result, save_json, validation_readback_session
 
 SECONDS = 30
 PROJECT_BYTES = 32 * 1024 * 1024
@@ -46,11 +47,80 @@ def runtime_inventory():
     return result
 
 
-def _review_copy(receipt, output, start, cpu_start, render=False):
+def evidence_witness(path):
+    files, directories = pc.inventory(path, max_bytes=EVIDENCE_BYTES,
+        max_files=4000, max_entries=8000, with_directories=True)
+    return {'files': files, 'directories': list(directories)}
+
+
+def review_policy(report, directory):
+    """Same explicit policy dispatch as the central checker; no inferred downgrade."""
+    from . import placement_strategy as ps
+    policy = ps.POLICY if ps.recognize(report, directory) else f.receipt_policy(report, directory)
+    schemas = {'native': 1, pc.POLICY: 3, f.SEARCH_POLICY: 4, ps.POLICY: 5}
+    if (type(report.get('schema')) is not int or report['schema'] != schemas.get(policy)
+            or policy not in schemas or 'diagnostic_schema' in report):
+        raise Rejected('guidance-policy GUI handoff is not yet qualified for this receipt')
+    return policy
+
+
+def owned_destination(lifecycle):
+    """A saved pathname alone cannot authorize corrections after replacement."""
+    path=real_path(lifecycle['destination'])
+    current=path.lstat()
+    if not stat.S_ISDIR(current.st_mode) or (current.st_dev,current.st_ino)!=lifecycle['directory_identity']:
+        raise Rejected('owned review output directory was replaced')
+    return path
+
+
+def capture_destination(lifecycle,destination):
+    if lifecycle is not None:
+        info=destination.lstat()
+        lifecycle.update(created=True,destination=destination,directory_identity=(info.st_dev,info.st_ino))
+
+
+def finish_session(record, output, start, cpu_start, name, lifecycle=None):
+    """Include memo cleanup in delivery caps; retain any over-cap publication."""
+    destination=owned_destination(lifecycle) if lifecycle is not None else real_path(output)
+    wall, cpu = time.monotonic() - start, cpu_seconds() - cpu_start
+    if wall <= SECONDS and cpu <= SECONDS:return record
+    for filename in (name, 'preview.html' if name == 'review.json' else None):
+        if filename is not None and (destination / filename).exists():
+            (destination / filename).rename(destination / ('invalidated-session-' + uuid.uuid4().hex + '-' + filename))
+    record.update(status='rejected', choice_recorded=False, within_budget=False,
+                  wall_seconds=wall, total_cpu_seconds=cpu, error='session cleanup exceeded delivery budget')
+    save_json(destination / name, record)
+    raise Rejected('session cleanup exceeded delivery budget')
+
+
+def failed_session(lifecycle, exc):
+    """Correct only a positive publication created by this invocation."""
+    if not lifecycle.get('created'):return
+    record=lifecycle['record']
+    if not lifecycle.get('completed') and record.get('status') not in {'ready_for_manual_review','disposition_recorded'}:return
+    destination=owned_destination(lifecycle);name=lifecycle['name']
+    def retain():
+        for filename in (name,name+'.partial','preview.html' if name=='review.json' else None):
+            if filename is not None:
+                path=destination/filename
+                if path.exists() or path.is_symlink():path.rename(destination/('invalidated-session-'+uuid.uuid4().hex+'-'+filename))
+    retain()
+    record.update(status='cancelled' if isinstance(exc,KeyboardInterrupt) else 'rejected',
+                  choice_recorded=False,error=type(exc).__name__+': '+str(exc))
+    expected=f.canonical(record)
+    try:
+        save_json(destination/name,record)
+        if f.canonical(record)!=expected or f.canonical(f.read_json(destination/name))!=expected:
+            raise Rejected('corrective session publication changed')
+    except BaseException:retain()  # No current positive after corrective-write failure.
+
+
+def _review_copy(receipt, output, start, cpu_start, render=False, lifecycle=None):
     destination = None; created = False; before_created = False; preview = None
     record = {'schema': 1, 'status': 'rejected', 'native_validation_performed': False,
               'budget_seconds': SECONDS, 'cpu_budget_seconds': SECONDS,
               'accounting_point': 'Stored totals precede final publication checks; final wall and parent-plus-waited-child CPU caps include them. These are observed acceptance ceilings, not OS quotas.'}
+    if lifecycle is not None:lifecycle.update(record=record,name='review.json')
 
     def cap():
         if time.monotonic() - start > SECONDS or cpu_seconds() - cpu_start > SECONDS:
@@ -58,7 +128,7 @@ def _review_copy(receipt, output, start, cpu_start, render=False):
 
     def inventory(path, *, contents=False, evidence=False):
         cap()
-        value = pc.inventory(path, contents=contents,
+        value = evidence_witness(path) if evidence else pc.inventory(path, contents=contents,
                              max_bytes=EVIDENCE_BYTES if evidence else PROJECT_BYTES,
                              max_files=4000 if evidence else 2000, max_entries=8000 if evidence else 4000)
         cap(); return value
@@ -104,12 +174,7 @@ def _review_copy(receipt, output, start, cpu_start, render=False):
         captured = inventory(candidate.parent, contents=True)
         candidate_hashes = {name: digest(value) for name, value in captured.items()}
         runtime_hashes = runtime_inventory(); cap()
-        policy = f.receipt_policy(report, receipt.parent)
-        if ((policy == 'native' and (type(report.get('schema')) is not int or report['schema'] != 1))
-                or (policy == pc.POLICY and report.get('schema') != 3)
-                or policy not in {'native', pc.POLICY}
-                or 'diagnostic_schema' in report):
-            raise Rejected('guidance-policy GUI handoff is not yet qualified for this receipt')
+        policy = review_policy(report, receipt.parent)
         identity = {'candidate': str(candidate), 'candidate_sha256': report['candidate_sha256'],
                     'input_policy': policy}
         if candidate_hashes.get(candidate.name) != identity['candidate_sha256']:
@@ -156,6 +221,7 @@ def _review_copy(receipt, output, start, cpu_start, render=False):
 
         central_check()
         destination.mkdir(parents=True, exist_ok=False); created = True
+        capture_destination(lifecycle,destination)
         project.mkdir()
         for relative, payload in captured.items():
             cap(); target = project / relative; target.parent.mkdir(parents=True, exist_ok=True)
@@ -219,6 +285,7 @@ def review_copy(receipt, output, *, render=False):
     """Create one new disposable project from centrally verified captured bytes."""
     start = time.monotonic(); cpu_start = cpu_seconds()
     previous = {sig: signal.getsignal(sig) for sig in (signal.SIGINT, signal.SIGTERM)}
+    lifecycle={}
 
     def interrupted(*_):
         raise KeyboardInterrupt
@@ -228,7 +295,174 @@ def review_copy(receipt, output, *, render=False):
             signal.signal(sig, interrupted)
         if type(render) is not bool:
             raise Rejected('render must be a Boolean')
-        return _review_copy(receipt, output, start, cpu_start, render)
+        with validation_readback_session():
+            record = _review_copy(receipt, output, start, cpu_start, render, lifecycle)
+            lifecycle['completed']=True
+        return finish_session(record, output, start, cpu_start, 'review.json',lifecycle)
+    except BaseException as exc:
+        try:failed_session(lifecycle,exc)
+        except BaseException as correction:
+            raise Rejected('review cleanup could not safely invalidate owned output: '+str(correction)) from exc
+        if isinstance(exc,KeyboardInterrupt):raise Rejected('review copy cancelled during session cleanup') from exc
+        raise
     finally:
         for sig, handler in previous.items():
             signal.signal(sig, handler)
+
+
+def _review_choice(review_path, output, choice, start, cpu_start, lifecycle=None):
+    """Record a design choice; it never approves/applies a PCB or invokes KiCad."""
+    destination = None; created = False
+    record = {'schema': 1, 'status': 'rejected', 'choice_recorded': False,
+              'routing_accepted': False, 'applied': False,
+              'native_validation_performed': False, 'human_pcb_approval_observed': False,
+              'fresh_native_validation_required': True,
+              'budget_seconds': SECONDS, 'cpu_budget_seconds': SECONDS}
+    if lifecycle is not None:lifecycle.update(record=record,name='choice.json')
+    def cap():
+        if time.monotonic() - start > SECONDS or cpu_seconds() - cpu_start > SECONDS:
+            raise Rejected('review choice exceeded 30-second wall or full CPU ceiling')
+    def inventory(path, *, evidence=False):
+        cap(); value = evidence_witness(path) if evidence else pc.inventory(path, max_bytes=EVIDENCE_BYTES if evidence else PROJECT_BYTES,
+                max_files=4000 if evidence else 2000, max_entries=8000 if evidence else 4000)
+        cap(); return value
+    def account():
+        record.update(wall_seconds=time.monotonic() - start,
+                      total_cpu_seconds=cpu_seconds() - cpu_start)
+        record['within_budget'] = record['wall_seconds'] <= SECONDS and record['total_cpu_seconds'] <= SECONDS
+    def invalidate():
+        for name in ('choice.json', 'choice.json.partial'):
+            path = destination / name
+            if path.exists() or path.is_symlink():
+                path.rename(destination / ('invalidated-choice-' + uuid.uuid4().hex + '-' + name))
+    try:
+        if type(choice) is not str or choice not in {'accept', 'reject'}:
+            raise Rejected('review choice must be accept or reject')
+        review_path = real_path(review_path); review_hash = digest(pc.read_bytes(review_path, PROJECT_BYTES))
+        review = f.read_json(review_path)
+        if (type(review.get('schema')) is not int or review['schema'] != 1
+                or review.get('status') != 'ready_for_manual_review'):
+            raise Rejected('current ready review record required')
+        receipt = real_path(review['receipt']); receipt_hash = digest(pc.read_bytes(receipt, PROJECT_BYTES))
+        if receipt_hash != review['receipt_sha256']:
+            raise Rejected('reviewed routing receipt changed')
+        report = f.read_json(receipt); policy = review_policy(report, receipt.parent)
+        source = real_path(report['source']); candidate = real_path(report['candidate'])
+        project = real_path(review['project'])
+        if (candidate != receipt.parent / 'candidate' / source.name
+                or project != review_path.parent / 'project'
+                or review.get('board') != str(project / source.name)
+                or review.get('input_policy') != policy
+                or review.get('source_receipt_schema') != report['schema']
+                or review.get('verified_candidate_sha256') != report['candidate_sha256']):
+            raise Rejected('review/receipt/candidate identity differs')
+        source_hashes = inventory(source.parent); evidence_hashes = inventory(receipt.parent, evidence=True)
+        candidate_hashes = inventory(candidate.parent); project_hashes = inventory(project)
+        if (source_hashes != review['source_project_hashes']
+                or evidence_hashes != review['routing_evidence_hashes']
+                or candidate_hashes != review['initial_project_hashes']
+                or candidate_hashes.get(source.name) != report['candidate_sha256']):
+            raise Rejected('reviewed source, candidate or routing evidence changed')
+        board_same = project_hashes.get(source.name) == report['candidate_sha256']
+        if choice == 'accept' and not board_same:
+            raise Rejected('reviewed board changed; obtain a newly validated review before accepting')
+        runtime = runtime_inventory(); preview = review.get('preview')
+        if (review_path.parent / 'preview.html').exists() and not isinstance(preview, dict):
+            raise Rejected('preview binding missing')
+        def preview_material():
+            if preview is None: return
+            from .pipeline import sha
+            if sha(c.CLI) != preview['plotter_sha256']:
+                raise Rejected('review plotter pin changed')
+            if inventory(review_path.parent / 'before') != source_hashes:
+                raise Rejected('reviewed original preview changed')
+            for name, expected in preview['input_trees'].items():
+                path = real_path(review_path.parent / name)
+                if not path.is_relative_to(review_path.parent) or inventory(path) != expected:
+                    raise Rejected('review preview input changed')
+            for name, expected in preview['files'].items():
+                path = real_path(review_path.parent / name)
+                if not path.is_relative_to(review_path.parent) or digest(pc.read_bytes(path, PROJECT_BYTES)) != expected:
+                    raise Rejected('review preview changed')
+        identity = {'candidate': str(candidate), 'candidate_sha256': report['candidate_sha256'], 'input_policy': policy}
+        def material():
+            cap()
+            if (digest(pc.read_bytes(review_path, PROJECT_BYTES)) != review_hash
+                    or digest(pc.read_bytes(receipt, PROJECT_BYTES)) != receipt_hash
+                    or runtime_inventory() != runtime):
+                raise Rejected('review/receipt/runtime changed during choice')
+            if (inventory(source.parent) != source_hashes or inventory(receipt.parent, evidence=True) != evidence_hashes
+                    or inventory(candidate.parent) != candidate_hashes or inventory(project) != project_hashes):
+                raise Rejected('review choice material changed')
+            preview_material(); cap()
+        def central_check():
+            material(); verified = check_result(receipt); cap()
+            if (verified.get('current') is not True or verified.get('applied') is not False
+                    or any(verified.get(key, 'native' if key == 'input_policy' else None) != value for key, value in identity.items())):
+                raise Rejected('central reviewed candidate identity changed')
+            material()
+        destination = real_path(output, existing=False)
+        if destination.exists(): raise Rejected('review choice output already exists')
+        for protected in (source.parent, receipt.parent, review_path.parent):
+            if destination == protected or protected in destination.parents:
+                raise Rejected('choice output must be outside source, routing evidence and review')
+        central_check(); destination.mkdir(parents=True, exist_ok=False); created = True
+        capture_destination(lifecycle,destination)
+        names = set(candidate_hashes) | set(project_hashes)
+        changes = {'added': sorted(set(project_hashes) - set(candidate_hashes)),
+                   'removed': sorted(set(candidate_hashes) - set(project_hashes)),
+                   'changed': sorted(name for name in names & set(candidate_hashes) & set(project_hashes)
+                                     if candidate_hashes[name] != project_hashes[name])}
+        record.update(status='disposition_recorded', choice_recorded=True, choice=choice,
+            meaning='Separate-project design choice only. No candidate application, native acceptance, human PCB approval or electrical/manufacturing approval is recorded.',
+            review=str(review_path), review_sha256=review_hash, receipt=str(receipt), receipt_sha256=receipt_hash,
+            input_policy=policy, source_receipt_schema=report['schema'], validated_candidate=str(candidate),
+            validated_candidate_sha256=report['candidate_sha256'], review_project=str(project),
+            observed_review_project_hashes=project_hashes, candidate_board_unchanged=board_same,
+            review_project_matches_recorded_candidate=project_hashes == candidate_hashes, review_project_changes=changes,
+            original_source_hashes=source_hashes, routing_evidence_hashes=evidence_hashes, runtime_source_sha256=runtime,
+            saved_native_findings=report['native'], saved_metrics=report['metrics'],
+            next_action=('Freshly validate the bound original candidate against its unchanged original complete project before exporting any separate accepted project. Edited GUI rules/metadata are not authoritative.'
+                         if choice == 'accept' else 'Keep the original project. The review copy and evidence remain available; this command deletes nothing.'),
+            accounting_point='Stored totals precede final publication. Whole wall/parent-plus-waited-child CPU caps and all material checks include final readback; observed ceilings, not OS quotas.')
+        central_check(); account(); cap(); expected = f.canonical(record)
+        save_json(destination / 'choice.json', record)
+        if f.canonical(f.read_json(destination / 'choice.json')) != expected or f.canonical(record) != expected:
+            raise Rejected('review choice changed during publication')
+        central_check()
+        if f.canonical(f.read_json(destination / 'choice.json')) != expected or f.canonical(record) != expected:
+            raise Rejected('review choice changed during final readback')
+        cap(); return record
+    except (Exception, KeyboardInterrupt) as exc:
+        if created:
+            invalidate(); record.update(status='cancelled' if isinstance(exc, KeyboardInterrupt) else 'rejected',
+                choice_recorded=False, error=type(exc).__name__ + ': ' + str(exc))
+            account()
+            try:
+                save_json(destination / 'choice.json', record)
+                if f.canonical(f.read_json(destination / 'choice.json')) != f.canonical(record): invalidate()
+            except (Exception, KeyboardInterrupt): invalidate()
+        if isinstance(exc, KeyboardInterrupt): raise Rejected('review choice cancelled') from exc
+        raise
+
+
+def review_choice(review, output, choice):
+    """Persist accept/reject intent with stale checks; no PCB application/approval."""
+    start = time.monotonic(); cpu_start = cpu_seconds()
+    previous = {sig: signal.getsignal(sig) for sig in (signal.SIGINT, signal.SIGTERM)}
+    lifecycle={}
+    def interrupted(*_): raise KeyboardInterrupt
+    try:
+        for sig in previous: signal.signal(sig, interrupted)
+        with validation_readback_session():
+            record = _review_choice(review, output, choice, start, cpu_start,lifecycle)
+            lifecycle['completed']=True
+        return finish_session(record, output, start, cpu_start, 'choice.json',lifecycle)
+    except BaseException as exc:
+        try:failed_session(lifecycle,exc)
+        except BaseException as correction:
+            raise Rejected('choice cleanup could not safely invalidate owned output: '+str(correction)) from exc
+        if isinstance(exc,KeyboardInterrupt):raise Rejected('review choice cancelled during session cleanup') from exc
+        raise
+    finally:
+        for sig, handler in previous.items(): signal.signal(sig, handler)

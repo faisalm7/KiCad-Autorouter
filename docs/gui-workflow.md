@@ -8,7 +8,7 @@ python3 -m autorouter check-result .runs/manual-route-001/result.json
 python3 -m autorouter review-copy .runs/manual-route-001/result.json --output .runs/manual-review-001
 ```
 
-`review-copy` admits centrally accepted native receipts and schema3 `placement-clearance-v1` receipts only. Schema2 `board-floors-v1`, unknown and diagnostic policies remain blocked. The schema3 extension prepares disposable complete project files; its new native-copy qualification passes the controls below, and real GUI observations now include the project-manager entry described below. It is separate from the historical native GUI observation below. The command runs no engine, native validation worker or editor, and does not apply anything to a live board.
+`review-copy` admits centrally accepted native/schema3 receipts and explicitly recognized schema4 search/schema5 pruning receipts. The new search/pruning extension is still awaiting its separate native qualification described below. Schema2 `board-floors-v1`, unknown and diagnostic policies remain blocked. The schema3 extension prepares disposable complete project files; its new native-copy qualification passes the controls below, and real GUI observations now include the project-manager entry described below. It is separate from the historical native GUI observation below. The command runs no engine, native validation worker or editor, and does not apply anything to a live board.
 
 A review record binds the input policy/schema, receipt hash, original candidate hash and every copied project file, along with the original source and complete run evidence. It captures bounded bytes before copying, repeats the central checker, and repeats material/readback checks before and after publication. A rejected or cancelled copy is retained for inspection; any previously ready metadata is moved to `invalidated-review-*` and is not a current ready record. Scoped SIGINT/SIGTERM handlers are restored after the command.
 
@@ -46,3 +46,21 @@ A prospectively bounded follow-up opened a **new untouched copy through its `.ki
 Closing with Discard Changes preserved board bytes, while KiCad materialized16project JSON deltas (new defaults/schema fields) and local state/history. No existing hard dimension/rule was edited; complete effective-setting equivalence is not inferred solely from matching findings. Continue to use disposable review copies. This establishes the observed external entry procedure on this Mac, not plugin execution, live-editor application, transactional undo, human PCB review or electrical approval.
 
 The new captured-layer run has also passed actual `review-copy` preparation: [receipt](../evidence/layer-review-copy-001/review.json) preserves the required-via candidate SHA and complete original project. Copy preparation performs consistency checks, not a new native or GUI run. Use the same project-manager procedure; no live apply or editor undo is claimed.
+
+## Search/pruning handoff and persistent review choice (qualification pending)
+
+After exact central validation, `review-copy` can prepare a separate complete review project for schema4 `placement-search-v1` and schema5 `placement-pruning-v1` receipts. The candidate's original rules and all saved findings remain visible. This policy extension still requires its own native copied-project positive/invalid controls before being described as qualified. Existing native/schema3 observations do not establish this new gate.
+
+Open the printed `.kicad_pro` in KiCad project manager, then Tools → PCB Editor. Inspect the full design and run DRC with refill and every severity visible. Close the editor before recording a choice. Each destination must be new:
+
+```sh
+.venv/bin/python -m autorouter review-copy PATH_TO_RESULT_JSON --output .runs/new-review --render
+.venv/bin/python -m autorouter review-choice .runs/new-review/review.json --choice reject --output .runs/new-rejection
+.venv/bin/python -m autorouter review-choice .runs/new-review/review.json --choice accept --output .runs/new-accept-intent
+```
+
+These choices record intent only. Neither choice applies a board or records native, human PCB, electrical or manufacturing approval. Rejection preserves the original, review copy and evidence. Accept intent requires the exact review board to match the validated candidate; an edited board fails. KiCad may change project/local settings even after Discard Changes. Those actual changes are recorded as unvalidated and never replace original rules. Source, candidate, receipt, complete routing evidence and bound preview must still match; stale material or cancellation invalidates the choice record.
+
+A successful accept-intent record explicitly requires fresh native validation before any separate accepted-project export. That exporter remains unfinished. It must start from the bound original candidate and unchanged complete original project/rules, preserve original geometry/protected routing and guidance constraints, refill/reload, and bind the actual final DRC to the exported final SHA. It must not copy changed GUI rules into the accepted design. An edited GUI board is a new unvalidated design.
+
+The command retains the existing 30-second wall/full CPU and finite inventory limits. It starts no engine, native worker, editor or service. Successful exit means only that the intent record was written and read back; rejection intent is also a successful recorded choice. `choice.json` always has `routing_accepted=false`, `applied=false`, `native_validation_performed=false` and `human_pcb_approval_observed=false`.

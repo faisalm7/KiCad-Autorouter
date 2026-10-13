@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "status": "frozen_corrected_source_proposal",
+  "revision": 2,
+  "prior_frozen_draft_unchanged": true,
+  "prior_manifest_sha256": "16323746faf40f4301b01aa2e3e6cd702b16869fed20ca7fef6e50e99a973a8c",
+  "prior_source_sha256": "ebd7de5908a4e1ec7bab7f41cc2e30a9081a4726a361a01fc8d9edb40378b08e",
+  "defect_reproduced_both_paths": true,
+  "defect_reproduction_log": "frozen001-defect-reproduction.log",
+  "correction": "temporal time_reserve vs byte space_reserve",
+  "actual_first_attempt_regression_both_paths": true,
+  "new_temporal_work_cap_control_seconds": 10,
+  "legacy_temporal_work_cap_control_seconds": 12,
+  "pure_controls": {
+    "methods": 28,
+    "new_methods": 14,
+    "existing_paired_quality_methods": 14,
+    "test_runner_seconds": 0.082,
+    "log": "targeted-controls-003.log",
+    "native_engine_central_mocked": true,
+    "native_quality_proof": false,
+    "actual_prune_first_attempt": "both default/new paths reach mocked validation under temporal reserve and real owned candidate copy/deletion; reject and retain failed cost"
+  },
+  "source_bases_exact": true,
+  "native_or_jvm_executed": false,
+  "git_or_network_executed": false,
+  "tracked_edits": false,
+  "native_quality_or_gain_claim": false,
+  "new_native_comparison_required": true
+}

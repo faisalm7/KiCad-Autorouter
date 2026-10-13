@@ -1,0 +1,42 @@
+--- frozen001/autorouter/placement_strategy.py
++++ corrected002/autorouter/placement_strategy.py
+@@ -262,7 +262,7 @@
+     start,parent_start,child_start=time.monotonic(),time.process_time(),f.child_cpu()
+     if isinstance(seconds,bool) or not isinstance(seconds,(int,float)) or not math.isfinite(seconds) or not 60<=seconds<=900:
+         raise p.Rejected('placement pruning budget must be 60–900 seconds')
+-    settings=contract(allocation);order=settings.get('proposal_order','whole-first');reserve=settings['final_reserve_seconds']
++    settings=contract(allocation);order=settings.get('proposal_order','whole-first');time_reserve=settings['final_reserve_seconds']
+     source,output=Path(source).absolute(),Path(output).absolute()
+     if any(x.is_symlink() for x in (source,*source.parents,output,*output.parents)):raise p.Rejected('pruning symlink unsupported')
+     source=source.resolve(strict=True);output=output.resolve()
+@@ -306,7 +306,7 @@
+                       'elapsed_full_cpu_seconds':time.process_time()-parent_start+f.child_cpu()-child_start}
+             report['incumbent_assignment_observation']=observed
+             assigned=incumbent_assignment(seconds,observed['elapsed_wall_seconds'],observed['elapsed_full_cpu_seconds'],allocation)
+-        else:assigned=remaining(reserve)
++        else:assigned=remaining(time_reserve)
+         report['incumbent_assigned_seconds']=assigned
+         basis=output/'incumbent'
+         inc=f.route(source,basis,assigned,False,'both',settings['incumbent_profile'],'via_default',guidance_policy='placement-search-v1')
+@@ -320,16 +320,16 @@
+             'observed_full_cpu_seconds':time.process_time()-parent_start+f.child_cpu()-child_start,'metrics':copy.deepcopy(best_metrics),'candidate_sha256':p.sha(best)}
+         def attempt(proposal):
+             nonlocal best,best_metrics,best_native
+-            if len(report['trials'])>=s.MAX_TRIALS or remaining(reserve)<s.MIN_TRIAL_SECONDS:return None
++            if len(report['trials'])>=s.MAX_TRIALS or remaining(time_reserve)<s.MIN_TRIAL_SECONDS:return None
+             stable()
+             # Keep finite complete evidence headroom before creating another full
+             # candidate/refill/DRC set. No earlier evidence is removed to fit.
+             used=sum((output/name).stat().st_size for name in evidence_inventory(output))
+-            reserve=4*sum((best.parent/name).stat().st_size for name in hashes)+4*1024**2
+-            if used+reserve>LIMIT:report['stop_reason']='complete evidence capacity reserve';return None
++            space_reserve=4*sum((best.parent/name).stat().st_size for name in hashes)+4*1024**2
++            if used+space_reserve>LIMIT:report['stop_reason']='complete evidence capacity reserve';return None
+             index=len(report['trials']);folder=output/'trials'/f'{index:04d}';trial_start=time.monotonic();trial_cpu=time.process_time()+f.child_cpu()
+-            cap=min(s.MAX_TRIAL_SECONDS,remaining(reserve))
+-            left=lambda:max(0,min(remaining(reserve),cap-(time.monotonic()-trial_start),cap-(time.process_time()+f.child_cpu()-trial_cpu)))
++            cap=min(s.MAX_TRIAL_SECONDS,remaining(time_reserve))
++            left=lambda:max(0,min(remaining(time_reserve),cap-(time.monotonic()-trial_start),cap-(time.process_time()+f.child_cpu()-trial_cpu)))
+             trial=f.FloorJob(folder,cap,left);candidate=folder/'candidate'/source.name
+             row={'index':index,'proposal':proposal,'parent':str(best),'parent_sha256':p.sha(best),'accepted':False,'completed':False,'assigned_seconds':cap,'candidate':str(candidate),'status':'failed'}
+             try:

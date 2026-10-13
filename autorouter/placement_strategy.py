@@ -15,25 +15,67 @@ POLICY='placement-pruning-v1'
 STRATEGY='placement-native-pruning-v1'
 LIMIT=512*1024**2
 MAX_FILES=16000
+LEGACY_ALLOCATION='legacy-tuned'
+STANDARD_ALLOCATION='standard-85-v1'
+STANDARD_INCUMBENT_MAX_SECONDS=85.0
 
-def contract():
-    return {'schema':1,'policy':POLICY,'strategy':STRATEGY,'incumbent_policy':'placement-search-v1',
+def contract(allocation=LEGACY_ALLOCATION):
+    if type(allocation) is not str or allocation not in {LEGACY_ALLOCATION,STANDARD_ALLOCATION}:
+        raise p.Rejected('unknown placement pruning allocation')
+    value={'schema':1,'policy':POLICY,'strategy':STRATEGY,'incumbent_policy':'placement-search-v1',
         'incumbent_profile':'tuned','incumbent_scoring':'via_default','proposal_policy':'feedback',
         'max_trials':s.MAX_TRIALS,'max_trial_seconds':s.MAX_TRIAL_SECONDS,'min_trial_seconds':s.MIN_TRIAL_SECONDS,
         'final_reserve_seconds':s.FINAL_RESERVE_SECONDS,'feedback_max_depth':s.MAX_FEEDBACK_DEPTH,
         'feedback_max_added_routes':s.MAX_FEEDBACK_ADDED_ROUTES,'output_bytes':LIMIT,'output_files':MAX_FILES}
+    if allocation==STANDARD_ALLOCATION:
+        value.update(schema=2,allocation=allocation,incumbent_profile='standard',incumbent_max_seconds=STANDARD_INCUMBENT_MAX_SECONDS,
+                     proposal_order='individual-first',final_reserve_seconds=25.0)
+    return value
+
+def receipt_allocation(data):
+    if 'pruning_allocation' not in data:return LEGACY_ALLOCATION
+    if data['pruning_allocation']!=STANDARD_ALLOCATION or type(data['pruning_allocation']) is not str:
+        raise p.Rejected('unknown or downgraded pruning allocation marker')
+    return STANDARD_ALLOCATION
+
+def incumbent_assignment(seconds,wall,cpu,allocation):
+    settings=contract(allocation)
+    if any(type(x) not in (int,float) or not math.isfinite(x) or x<0 for x in (seconds,wall,cpu)):
+        raise p.Rejected('invalid incumbent allocation observation')
+    available=max(0,min(seconds-wall,seconds-cpu)-settings['final_reserve_seconds'])
+    return min(settings['incumbent_max_seconds'],available) if allocation==STANDARD_ALLOCATION else available
+
+def check_incumbent_allocation(data,inc):
+    """Bind the exact declared profile and finite allocation; central SEARCH checks remain required."""
+    allocation=receipt_allocation(data);settings=contract(allocation)
+    assigned=data.get('incumbent_assigned_seconds')
+    if (inc.get('engine_profile')!=settings['incumbent_profile']
+        or inc.get('budget_seconds')!=assigned or inc.get('cpu_budget_seconds')!=assigned
+        or type(assigned) not in (int,float) or not math.isfinite(assigned)
+        or not 5<=assigned<=data['budget_seconds']-settings['final_reserve_seconds']):
+        raise p.Rejected('pruning incumbent allocation/profile differs')
+    if allocation==STANDARD_ALLOCATION:
+        observed=data.get('incumbent_assignment_observation')
+        if (not isinstance(observed,dict) or set(observed)!={'elapsed_wall_seconds','elapsed_full_cpu_seconds'}
+            or assigned!=incumbent_assignment(data['budget_seconds'],observed['elapsed_wall_seconds'],observed['elapsed_full_cpu_seconds'],allocation)):
+            raise p.Rejected('pruning incumbent assignment differs from frozen allocation')
+    elif 'incumbent_assignment_observation' in data:
+        raise p.Rejected('legacy pruning receipt has undeclared allocation observation')
+    return allocation
 
 def recognize(data,directory):
     marker=Path(directory)/'pruning-contract.json'
     active=(marker.exists() or marker.is_symlink() or data.get('schema')==5
-        or data.get('input_policy')==POLICY or data.get('strategy')==STRATEGY or 'pruning_evidence_hashes' in data)
+        or data.get('input_policy')==POLICY or data.get('strategy')==STRATEGY or 'pruning_evidence_hashes' in data or 'pruning_allocation' in data)
     if not active:return False
+    allocation=receipt_allocation(data);settings=contract(allocation)
     if (type(data.get('schema')) is not int or data['schema']!=5 or data.get('input_policy')!=POLICY
         or data.get('strategy')!=STRATEGY or data.get('baseline')!='C-prototype'
-        or data.get('adapter')!='both' or data.get('engine_profile')!='tuned' or data.get('scoring_variant')!='via_default'
+        or data.get('adapter')!='both' or data.get('engine_profile')!=settings['incumbent_profile'] or data.get('scoring_variant')!='via_default'
         or data.get('scope')!='whole_board_unlocked_routing' or data.get('proposal_policy')!='feedback'
         or any(key in data for key in ('routing_preferences','layer_policy','netclass_policy','guidance_policy','diagnostic_schema'))
-        or f.read_json(marker)!=contract() or data.get('pruning_contract')!={'file':marker.name,'sha256':p.sha(marker)}):
+        or (allocation==LEGACY_ALLOCATION and 'incumbent_assignment_observation' in data)
+        or f.read_json(marker)!=settings or data.get('pruning_contract')!={'file':marker.name,'sha256':p.sha(marker)}):
         raise p.Rejected('missing, mixed or downgraded placement pruning policy')
     return True
 
@@ -65,9 +107,21 @@ def feedback_decision(failed,best,best_native,nets):
     return s.feedback_proposal(sx.read(failed['candidate']),failed['proposal'],failed['native'],best_native,nets,[])
 
 
-def next_base_proposal(state,best,nets):
-    """Shared deterministic whole-net then longest-route proposal progression."""
+def next_base_proposal(state,best,nets,order='whole-first'):
+    """Shared deterministic finite proposal progression, replayed by readback."""
+    if type(order) is not str or order not in {'whole-first','individual-first'}:
+        raise p.Rejected('unknown pruning proposal order')
     available={s.route_id(x) for x in s.eligible_routes(sx.read(best),nets,[])}
+    if order=='individual-first':
+        if state['individual'] is None:state['individual']=s.proposals(sx.read(best),nets,[],False)
+        while state['individual']:
+            proposal=state['individual'].pop(0)
+            if set(proposal['route_ids'])<=available:return proposal
+        if state['grouped'] is None:state['grouped']=s.proposals(sx.read(best),nets,[],True)
+        while state['grouped']:
+            proposal=state['grouped'].pop(0)
+            if set(proposal['route_ids'])<=available:return proposal
+        return None
     while state['grouped']:
         proposal=state['grouped'].pop(0)
         if set(proposal['route_ids'])<=available:return proposal
@@ -144,8 +198,10 @@ def trial_process_history(directory,row):
 def check_pruning_result(directory,data,original,candidate,protected):
     if protected or p.netclass_policy(candidate) is not None:raise p.Rejected('pruning excludes protected routes or literal classes')
     recognize(data,directory);final_freshness(directory,data)
+    settings=contract(receipt_allocation(data));order=settings.get('proposal_order','whole-first')
     basis=directory/'incumbent';receipt=basis/'result.json';inc=f.read_json(receipt)
-    if (inc.get('schema')!=4 or inc.get('input_policy')!='placement-search-v1' or inc.get('engine_profile')!='tuned'
+    check_incumbent_allocation(data,inc)
+    if (inc.get('schema')!=4 or inc.get('input_policy')!='placement-search-v1'
         or inc.get('scoring_variant')!='via_default' or inc.get('source')!=data['source'] or inc.get('source_hashes')!=data['source_hashes']
         or inc.get('tools')!=data['tools'] or data.get('incumbent_receipt_sha256')!=p.sha(receipt)
         or inc.get('budget_seconds')!=data.get('incumbent_assigned_seconds')
@@ -155,7 +211,7 @@ def check_pruning_result(directory,data,original,candidate,protected):
     rows=data.get('trials');nets=s.zone_net_ids(original)
     if not isinstance(rows,list) or len(rows)>s.MAX_TRIALS:raise p.Rejected('invalid pruning attempt population')
     if {x.name for x in (directory/'trials').iterdir()}!={f'{i:04d}' for i in range(len(rows))}:raise p.Rejected('missing or omitted pruning attempt')
-    improvements=0;proposal_state={'grouped':s.proposals(sx.read(best),nets,[],True),'individual':None}
+    improvements=0;proposal_state={'grouped':None if order=='individual-first' else s.proposals(sx.read(best),nets,[],True),'individual':None}
     for i,row in enumerate(rows):
         folder=directory/'trials'/f'{i:04d}'
         if row!=f.read_json(folder/'trial.json') or row.get('index')!=i or row.get('parent')!=str(best) or row.get('parent_sha256')!=p.sha(best):
@@ -167,7 +223,7 @@ def check_pruning_result(directory,data,original,candidate,protected):
             failed=rows[parent_index]
             decision=feedback_decision(failed,best,best_native,nets)
             if not decision['proposed'] or proposal!=dict(decision['proposal'],parent_trial=parent_index):raise p.Rejected('feedback derivation differs')
-        elif proposal!=next_base_proposal(proposal_state,best,nets):
+        elif proposal!=next_base_proposal(proposal_state,best,nets,order):
             raise p.Rejected('pruning proposal order differs from candidate-only policy')
         before=deletion(best,proposal,nets)
         cap=row.get('assigned_seconds')
@@ -193,30 +249,32 @@ def check_pruning_result(directory,data,original,candidate,protected):
     if data['steps']!=steps+final_steps:raise p.Rejected('pruning failed stages omitted or duplicated')
     if data.get('source_drc')!=inc['source_drc'] or data.get('task_sha256')!=inc['task_sha256']:raise p.Rejected('pruning original task differs')
 
-def prune(source,output,seconds=120):
+def prune(source,output,seconds=120,*,allocation=LEGACY_ALLOCATION):
     def interrupted(*_):raise KeyboardInterrupt
     previous={sig:signal.getsignal(sig) for sig in (signal.SIGINT,signal.SIGTERM)}
     try:
         for sig in previous:signal.signal(sig,interrupted)
-        return _prune(source,output,seconds)
+        return _prune(source,output,seconds,allocation=allocation)
     finally:
         for sig,handler in previous.items():signal.signal(sig,handler)
 
-def _prune(source,output,seconds):
+def _prune(source,output,seconds,*,allocation=LEGACY_ALLOCATION):
     start,parent_start,child_start=time.monotonic(),time.process_time(),f.child_cpu()
     if isinstance(seconds,bool) or not isinstance(seconds,(int,float)) or not math.isfinite(seconds) or not 60<=seconds<=900:
         raise p.Rejected('placement pruning budget must be 60–900 seconds')
+    settings=contract(allocation);order=settings.get('proposal_order','whole-first');time_reserve=settings['final_reserve_seconds']
     source,output=Path(source).absolute(),Path(output).absolute()
     if any(x.is_symlink() for x in (source,*source.parents,output,*output.parents)):raise p.Rejected('pruning symlink unsupported')
     source=source.resolve(strict=True);output=output.resolve()
     if source.parent==output or source.parent in output.parents:raise p.Rejected('output must be outside original project')
     def remaining(reserve=0):return max(0,min(seconds-(time.monotonic()-start),seconds-(time.process_time()-parent_start+f.child_cpu()-child_start))-reserve)
-    job=f.FloorJob(output,seconds,remaining);(output/'trials').mkdir();p.save_json(output/'pruning-contract.json',contract())
-    report={'schema':5,'input_policy':POLICY,'strategy':STRATEGY,'baseline':'C-prototype','adapter':'both','engine_profile':'tuned','scoring_variant':'via_default',
+    job=f.FloorJob(output,seconds,remaining);(output/'trials').mkdir();p.save_json(output/'pruning-contract.json',settings)
+    report={'schema':5,'input_policy':POLICY,'strategy':STRATEGY,'baseline':'C-prototype','adapter':'both','engine_profile':settings['incumbent_profile'],'scoring_variant':'via_default',
         'proposal_policy':'feedback','scope':'whole_board_unlocked_routing','source':str(source),'budget_seconds':seconds,'cpu_budget_seconds':seconds,
         'status':'rejected','accepted':False,'physical_electrical_validation':False,'schematic_parity':'not checked','trials':[],'improvements':0,
         'started_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'reference_routes_used_for_selection':False,'novel_routing_algorithm_claim':False,
         'pruning_contract':{'file':'pruning-contract.json','sha256':p.sha(output/'pruning-contract.json')}}
+    if allocation==STANDARD_ALLOCATION:report['pruning_allocation']=allocation
     completed={};all_steps=[];frozen=False;final_inventory=None
     def stable():
         if frozen:
@@ -242,9 +300,16 @@ def _prune(source,output,seconds):
         for rel,expected in report['tools']['implementation_sha256'].items():
             dest=output/'code'/Path(rel).name;shutil.copy2(c.ROOT/rel,dest)
             if p.sha(dest)!=expected:raise p.Rejected('pruning code snapshot differs')
-        frozen=True;stable();assigned=remaining(s.FINAL_RESERVE_SECONDS);report['incumbent_assigned_seconds']=assigned
+        frozen=True;stable()
+        if allocation==STANDARD_ALLOCATION:
+            observed={'elapsed_wall_seconds':time.monotonic()-start,
+                      'elapsed_full_cpu_seconds':time.process_time()-parent_start+f.child_cpu()-child_start}
+            report['incumbent_assignment_observation']=observed
+            assigned=incumbent_assignment(seconds,observed['elapsed_wall_seconds'],observed['elapsed_full_cpu_seconds'],allocation)
+        else:assigned=remaining(time_reserve)
+        report['incumbent_assigned_seconds']=assigned
         basis=output/'incumbent'
-        inc=f.route(source,basis,assigned,False,'both','tuned','via_default',guidance_policy='placement-search-v1')
+        inc=f.route(source,basis,assigned,False,'both',settings['incumbent_profile'],'via_default',guidance_policy='placement-search-v1')
         all_steps.extend(inc['steps']);report.update(incumbent_receipt_sha256=p.sha(basis/'result.json'),source_drc=inc.get('source_drc'),task_sha256=inc.get('task_sha256'))
         completed[str(basis)]=pc.evidence_inventory(basis);stable()
         if inc['status']=='cancelled':raise KeyboardInterrupt
@@ -255,16 +320,16 @@ def _prune(source,output,seconds):
             'observed_full_cpu_seconds':time.process_time()-parent_start+f.child_cpu()-child_start,'metrics':copy.deepcopy(best_metrics),'candidate_sha256':p.sha(best)}
         def attempt(proposal):
             nonlocal best,best_metrics,best_native
-            if len(report['trials'])>=s.MAX_TRIALS or remaining(s.FINAL_RESERVE_SECONDS)<s.MIN_TRIAL_SECONDS:return None
+            if len(report['trials'])>=s.MAX_TRIALS or remaining(time_reserve)<s.MIN_TRIAL_SECONDS:return None
             stable()
             # Keep finite complete evidence headroom before creating another full
             # candidate/refill/DRC set. No earlier evidence is removed to fit.
             used=sum((output/name).stat().st_size for name in evidence_inventory(output))
-            reserve=4*sum((best.parent/name).stat().st_size for name in hashes)+4*1024**2
-            if used+reserve>LIMIT:report['stop_reason']='complete evidence capacity reserve';return None
+            space_reserve=4*sum((best.parent/name).stat().st_size for name in hashes)+4*1024**2
+            if used+space_reserve>LIMIT:report['stop_reason']='complete evidence capacity reserve';return None
             index=len(report['trials']);folder=output/'trials'/f'{index:04d}';trial_start=time.monotonic();trial_cpu=time.process_time()+f.child_cpu()
-            cap=min(s.MAX_TRIAL_SECONDS,remaining(s.FINAL_RESERVE_SECONDS))
-            left=lambda:max(0,min(remaining(s.FINAL_RESERVE_SECONDS),cap-(time.monotonic()-trial_start),cap-(time.process_time()+f.child_cpu()-trial_cpu)))
+            cap=min(s.MAX_TRIAL_SECONDS,remaining(time_reserve))
+            left=lambda:max(0,min(remaining(time_reserve),cap-(time.monotonic()-trial_start),cap-(time.process_time()+f.child_cpu()-trial_cpu)))
             trial=f.FloorJob(folder,cap,left);candidate=folder/'candidate'/source.name
             row={'index':index,'proposal':proposal,'parent':str(best),'parent_sha256':p.sha(best),'accepted':False,'completed':False,'assigned_seconds':cap,'candidate':str(candidate),'status':'failed'}
             try:
@@ -284,9 +349,9 @@ def _prune(source,output,seconds):
                 all_steps.extend(trial.steps);p.save_json(folder/'trial.json',row);report['trials'].append(row);completed[str(folder)]=pc.evidence_inventory(folder)
             if row['status']=='cancelled' or any(x.get('status')=='cancelled' for x in trial.steps):raise KeyboardInterrupt
             stable();p.save_json(output/'pruning-progress.json',{'trials':report['trials'],'selected':str(best)});return row
-        proposal_state={'grouped':s.proposals(sx.read(best),nets,[],True),'individual':None}
+        proposal_state={'grouped':None if order=='individual-first' else s.proposals(sx.read(best),nets,[],True),'individual':None}
         while True:
-            proposal=next_base_proposal(proposal_state,best,nets)
+            proposal=next_base_proposal(proposal_state,best,nets,order)
             if proposal is None:break
             row=attempt(proposal)
             if row is None:break

@@ -1,0 +1,46 @@
+{
+  "schema": 1,
+  "status": "frozen_source_proposal",
+  "source_bases_exact": true,
+  "native_or_jvm_executed": false,
+  "git_or_network_executed": false,
+  "tracked_edits": false,
+  "new_variant": {
+    "root_field": "pruning_allocation",
+    "root_value": "standard-85-v1",
+    "contract_schema": 2,
+    "incumbent_profile": "standard",
+    "incumbent_max_seconds": 85,
+    "incumbent_scoring": "via_default",
+    "proposal_order": "individual-first",
+    "final_reserve_seconds": 25,
+    "paired_system": "placement-standard",
+    "assignment_formula": "min(85, max(0,min(total\u2212elapsed_wall,total\u2212elapsed_full_cpu)\u221225))",
+    "assignment_observation_fields": [
+      "elapsed_wall_seconds",
+      "elapsed_full_cpu_seconds"
+    ],
+    "default_changed": false,
+    "free_baseline_candidate": false
+  },
+  "pure_controls": {
+    "methods": 27,
+    "new_methods": 13,
+    "existing_paired_quality_methods": 14,
+    "test_runner_seconds": 0.059,
+    "log": "targeted-controls-004.log",
+    "native_engine_central_mocked": true,
+    "native_quality_proof": false
+  },
+  "default_legacy_contract_byte_sha256": "e2f71244b7f297cb8d5a858ae253ac35e123090fcb5592eff0123053945ea744",
+  "prior_pair002_no_gain": true,
+  "proposal_changes_native_constraints": false,
+  "new_native_comparison_required": true,
+  "source_targets": [
+    "autorouter/placement_strategy.py",
+    "scripts/experiment_paired.py",
+    "scripts/experiment_quality.py"
+  ],
+  "test_target": "tests/test_placement_allocation.py",
+  "initial_test_failure": "control003 assertion used single_route; existing shared proposal actually individual_segment. Only assertion changed; log retained."
+}

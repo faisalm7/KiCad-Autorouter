@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "handoff_sha256": "0d153d8ab762b45a909f3ace39fd8c93d51fb3b79b9bb978ab4995a5f5f7462e",
+  "receipt": ".runs/placement-pruning-controls-004/run/C/result.json",
+  "receipt_sha256": "a91c204f4fbce68d31f951ce39a4b447273d56a1e8d533f8ce84c195a7c0c01b",
+  "controls": [
+    {
+      "case": "actual_schema5_normal_control",
+      "ready": "ready_for_manual_review",
+      "disposition": "disposition_recorded",
+      "choice_recorded": true,
+      "native_validation_performed": false,
+      "routing_accepted": false,
+      "applied": false
+    },
+    {
+      "case": "review_cleanup_keyboard_interrupt",
+      "raised": "KeyboardInterrupt: injected cache cleanup failure",
+      "canonical_status": "ready_for_manual_review",
+      "native_validation_performed": false,
+      "invalidated_files": 0
+    },
+    {
+      "case": "choice_cleanup_keyboard_interrupt",
+      "raised": "KeyboardInterrupt: injected cache cleanup failure",
+      "canonical_status": "disposition_recorded",
+      "canonical_choice_recorded": true,
+      "routing_accepted": false,
+      "native_validation_performed": false,
+      "invalidated_files": 0
+    },
+    {
+      "case": "review_cleanup_rejected",
+      "raised": "Rejected: injected cache cleanup failure",
+      "canonical_status": "ready_for_manual_review",
+      "native_validation_performed": false,
+      "invalidated_files": 0
+    },
+    {
+      "case": "choice_cleanup_rejected",
+      "raised": "Rejected: injected cache cleanup failure",
+      "canonical_status": "disposition_recorded",
+      "canonical_choice_recorded": true,
+      "routing_accepted": false,
+      "native_validation_performed": false,
+      "invalidated_files": 0
+    }
+  ],
+  "source_and_retained_evidence_unchanged": true,
+  "native_executed": false,
+  "subprocess_executed": false,
+  "head_scope": "Only exact current manifest Git lookup replaced with historical receipt HEAD; actual tool/core/lock hashes checked; no current HEAD verification or native approval claim."
+}

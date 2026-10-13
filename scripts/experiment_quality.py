@@ -156,7 +156,11 @@ def summarize(arm, directory, result, invocation_wall, invocation_cpu):
                 arm.get('input_policy')==ps.POLICY and arm.get('strategy')==ps.STRATEGY
                 and result.get('proposal_policy')=='feedback' and ps.recognize(result,directory)
                 and incumbent.get('schema')==4 and incumbent.get('input_policy')=='placement-search-v1'
-                and incumbent.get('accepted') is True and incumbent.get('engine_profile')=='tuned'
+                and incumbent.get('accepted') is True and incumbent.get('engine_profile')==arm['engine_profile']
+                and result.get('pruning_allocation')==arm.get('pruning_allocation')
+                and (ps.receipt_allocation(result)==ps.LEGACY_ALLOCATION or (
+                    arm.get('pruning_allocation_contract')==ps.contract(ps.STANDARD_ALLOCATION)
+                    and ps.check_incumbent_allocation(result,incumbent)==ps.STANDARD_ALLOCATION))
                 and incumbent.get('scoring_variant')=='via_default'
                 and result.get('incumbent_receipt_sha256')==p.sha(incumbent_path))
         except (OSError,ValueError,p.Rejected):row['protocol_contract_verified']=False

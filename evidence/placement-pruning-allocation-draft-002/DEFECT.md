@@ -1,0 +1,11 @@
+# Frozen001 closure defect and correction
+
+ROOT found a correctness defect before native promotion. Frozen001 introduced an enclosing temporal variable named `reserve`, while the existing nested `attempt()` also assigned a byte-space value to `reserve`. Python therefore treated it as local throughout `attempt()`. Its first `remaining(reserve)` raised UnboundLocalError before creating a trial or reaching validation, in both legacy and standard paths.
+
+Frozen001 remains unchanged: manifest SHA `16323746faf40f4301b01aa2e3e6cd702b16869fed20ca7fef6e50e99a973a8c`, placement source SHA `ebd7de5908a4e1ec7bab7f41cc2e30a9081a4726a361a01fc8d9edb40378b08e`. Its27 pure helper/wrapper methods passed but did not enter the actual first attempt. The old statement of preserved default runtime behavior was unsupported and is corrected here. Do not promote frozen001.
+
+The corrected002 source uses `time_reserve` (seconds) and `space_reserve` (bytes), retaining each original limit and comparison. `closure-fix.patch` shows only that correction relative to frozen001. `source.patch` contains the complete proposal against unchanged tracked bases.
+
+One added regression executes actual `_prune` through its own mocked incumbent, deterministic proposal, full candidate copy/deletion, first temporal budget and byte-headroom checks, and a validation callback. It proves both paths reach validation. The new path is additionally tested at10seconds of work allowance after its25-second reserve; the legacy path permits12seconds after its15-second reserve. The callback deliberately raises and advances the synthetic clock. Each failed attempt is stored, all synthetic cost remains, final native reserve fails, and no candidate is accepted. No native worker, JVM, Git or network runs.
+
+Against untouched frozen001, the same regression fails in BOTH subcases with the exact UnboundLocalError before validation. `frozen001-defect-reproduction.log` preserves those expected failures and `EXPECTED_FROZEN001_DEFECT_REPRODUCED=True`. This diagnostic command succeeds only when that exact old failure reproduces; it is not a successful routing test. Against corrected002, the complete targeted set passes28 methods in0.082seconds, including14 new and14 existing wrapper/summary methods. These pure checks establish runtime consistency, not native routing correctness or quality.
