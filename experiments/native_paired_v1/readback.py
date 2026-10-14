@@ -24,6 +24,22 @@ from scripts import experiment_paired as paired, experiment_quality as q
 CPU0 += f.child_cpu()
 
 
+def native_class_readback(folder, data, candidate, protected):
+    """Require the same explicit class-map gate as the production validator."""
+    policy = p.netclass_policy(candidate)
+    mapping = folder/'final-netclasses.json'
+    if policy is None:
+        if mapping.exists() or mapping.is_symlink():
+            raise p.Rejected('unexpected class map for native Default-only task')
+        return None, False
+    classes = f.read_json(mapping)
+    audit = p.audit_candidate_netclasses(candidate, protected, classes)
+    from autorouter import config as c
+    f.process_check(folder, data, 'final-netclasses', [str(c.PYTHON),
+        str(c.ROOT/'autorouter/native.py'), 'netclasses', str(candidate), str(mapping)])
+    return audit, True
+
+
 def final_candidate_readback(folder, data, board, original, source_hashes):
     candidate = folder/'candidate'/board.name
     p.verify_candidate_files(candidate, source_hashes, data['candidate_sha256'])
@@ -43,18 +59,14 @@ def final_candidate_readback(folder, data, board, original, source_hashes):
         schematic_parity=True, sandboxed=False)
     if native != data['native'] or p.sha(folder/'final-drc.json') != data['native_report_sha256']:
         raise p.Rejected('final native report differs')
-    classes = f.read_json(folder/'final-netclasses.json')
-    class_audit = p.audit_candidate_netclasses(candidate, protected, classes)
-    from autorouter import config as c
-    f.process_check(folder, data, 'final-netclasses', [str(c.PYTHON),
-        str(c.ROOT/'autorouter/native.py'), 'netclasses', str(candidate),
-        str(folder/'final-netclasses.json')])
+    class_audit, class_required = native_class_readback(folder,data,candidate,protected)
     return dict(path=str(candidate), candidate_sha256=data['candidate_sha256'],
         native_report_sha256=data['native_report_sha256'],
         native_counts={k:native[k] for k in ('opens','blocking','warnings','exclusions')},
         native_rejection_reasons=p.native_rejection_reasons(native),
         original_design_checks=True, complete_schematic_native_checks=True,
-        original_native_class_targets=class_audit)
+        original_native_class_targets=class_audit,
+        original_native_class_audit_required=class_required)
 
 
 def qualify(base, prospective, output, source_receipt, source_readback):
@@ -109,7 +121,10 @@ def qualify(base, prospective, output, source_receipt, source_readback):
                           (source_readback,'original_readback_sha256')):
             if p.sha(path) != report[key]:
                 raise p.Rejected('prospective or original evidence changed')
-        source = {name: meta['sha256'] for name, meta in spec['source_five_files'].items()}
+        source_files = spec.get('source_files', spec.get('source_five_files'))
+        if not isinstance(source_files, dict) or not source_files:
+            raise p.Rejected('complete original source inventory missing')
+        source = {name: meta['sha256'] for name, meta in source_files.items()}
         if p.tree_hash(source_receipt.parent/'original') != source:
             raise p.Rejected('original complete notice-bearing source changed')
         if report['comparison_eligible'] and remaining() <= 0:

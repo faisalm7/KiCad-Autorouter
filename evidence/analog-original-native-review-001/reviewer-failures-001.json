@@ -1,0 +1,19 @@
+{
+  "failures": [
+    {
+      "phase": "exploratory retained receipt read",
+      "error": "FileNotFoundError: fresh-analog-filter-fetch-001/execution.json",
+      "cause": "Acquisition supervisor stores result.json, not execution.json. Wrong reviewer filename only; no actual controller/native failure.",
+      "cost": "Internal timing/full CPU unsampled; review preparation, not algorithm runtime."
+    },
+    {
+      "phase": "pure reused native readback",
+      "error": "Rejected: candidate project/rules/file set changed",
+      "cause": "Reviewer compared analog candidate kicad subtree to whole seven-file acquisition packet; correct helper scope is original/kicad. Source/native evidence unchanged.",
+      "source_snapshot": "audit-source-failed-001.py",
+      "cost": "Failed first invocation internal timing/full CPU not emitted. Preserve honest uncertainty; conservative one-second wall/full-CPU allowance for this short pure failure is charged inside proposed5s original-audit reserve."
+    }
+  ],
+  "native_rerun": false,
+  "GET_rerun": false
+}
