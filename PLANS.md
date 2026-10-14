@@ -29,12 +29,13 @@ Completed, do not repeat:
 
 Execute next, continue between checkpoints:
 
-1. Preserve/checkpoint actual Audio original002, PRL positive/negative controls002,
-   their earlier failures and corrected shared reader003; no repeated Native.
-   Audio remains unsupported with six inherited courtyard errors and two warnings.
-2. Fresh installation026 from committed current source distribution, actual offline
-   Native smoke, installed new targeted regressions and shared installed reader.
-   Keep existing source/file/time/storage and native acceptance guards.
+1. Audio original002/controls/readers/installation026 and7db9incremental completed;
+   do not repeat. PAW fixed capture/targeted52 integrated: checkpoint then execute
+   missing savedrefill/originalshell/fullSCH002 via existing protected driver and
+   shared reader. Original source remains blocked for oldformat/legacyrule.
+2. Legacy zone_has_empty_net Native10 misses already demonstrated; no repeated
+   control. Investigate strict ordinary copperpad witness compatibility and
+   source/candidate invariants; never ignore oldrule or infer fullpadcount.
 3. Pursue broader supported families and stronger baseline/strategy comparisons
    from actual remaining sources. Connectivity-only hint is falsified by thermal
    counterexample; preserve all native thermal rules and benchmark costs.
@@ -48,4 +49,4 @@ Execute next, continue between checkpoints:
 
 Milestones are checkpoints, not completion claims or reasons to stop. Read actual
 receipts and preserve unfinished artifacts. Exact next command after checkpoint:
-`.venv/bin/python -B .runs/run-installation-026.py` (prepare from025 first).
+`.venv/bin/python -B .runs/run-paw3395-original-native-002.py` (freeze protocol002 first).

@@ -11,6 +11,7 @@ from autorouter.runner import run
 from experiments.placement_handoff_native_v1.driver import copy_bytes
 LIMIT=20*1024**2;SECONDS=90
 CASES={
+    'paw3395':('v2','paw3395.kicad_pcb','b71e346fc04ef18c26e0e8638ce0333395d41a14','.runs/licensed-acquisition-005-run-001/receipt.json'),
     'audio-player-my1690x':('portable-demo','Hardware/SparkFun_Audio_Player_Breakout_MY1690X-16S.kicad_pcb','49d66d63eb43105b7dbe437cc9299c637c69c61d',None),
     'navigation-switch':('portable-demo','Hardware/SparkFun_Qwiic_Navigation.kicad_pcb','b64c0dac2134d69963bf28120305bd79aad3c8ac',None),
     'uv-dosimeter':('portable-demo','hardware/AOL_PD_2.kicad_pcb','63153ac5ca9879299f57e3fb68df606bf78d96f8',None),
@@ -23,7 +24,7 @@ CASES={
     'ardujoy-c64':('v4','Ardujoy_HW/Ardujoy_HW.kicad_pcb','1b63471d9726fb6a38f8544ca73ebf10c7f19820','.runs/licensed-acquisition-007-run-001/receipt.json'),
     'nus-usb-led':('v5','src/usb_led.kicad_pcb','ad3fbd582e3915b585c453ea202f591720a1f427','.runs/licensed-acquisition-008-run-001/receipt.json'),
 }
-REFILLED_ORIGINALS=frozenset({'als311-clock','push-button-led','arcdice','interf_u','analog-filter','cellscan','uv-dosimeter','navigation-switch','audio-player-my1690x'})
+REFILLED_ORIGINALS=frozenset({'paw3395','als311-clock','push-button-led','arcdice','interf_u','analog-filter','cellscan','uv-dosimeter','navigation-switch','audio-player-my1690x'})
 
 def capture_interf_source():
     """Read the already acquired fixed complete project; never stage or fetch."""
@@ -133,6 +134,10 @@ def experiment(project,output,*,run_native=False,protect_local_settings=False):
                 relative='experiments/arcdice_native_class_v1/'+name;code[relative]=io.read_bytes(ROOT/relative)
         if version=='managed-interf':
             for relative in ('data/fetch.py','data/sources.json','scripts/experiment_quality.py'):
+                code[relative]=io.read_bytes(ROOT/relative)
+        if version=='v2':
+            for relative in ('experiments/licensed_acquisition_v2/native_snapshot.py','experiments/licensed_acquisition_v2/protocol.json',
+                    'experiments/licensed_acquisition_v2/existing-data-inventory.json','experiments/licensed_acquisition_v1/fetch.py'):
                 code[relative]=io.read_bytes(ROOT/relative)
         if version=='portable-demo':
             for relative in ('scripts/fetch_led_demo.py','experiments/licensed_acquisition_v1/fetch.py'):
