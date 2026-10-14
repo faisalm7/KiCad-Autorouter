@@ -48,6 +48,10 @@ PROFILES = {
            'destination_root': 'expansion008', 'directory': 'experiments/licensed_acquisition_v5',
            'output_prefix': 'licensed-acquisition-008-run-', 'files': 9, 'bytes': 146916,
            'identities': [('nus-usb-led', 'nushackers/hsp-pcb-intro', 'ad3fbd582e3915b585c453ea202f591720a1f427')]},
+    'v6': {'protocol_sha256': '876b0b80dee374bd17606d3537568358b94ce689ece4c956bfd61f2e4ea89ff8',
+           'destination_root': 'expansion009', 'directory': 'experiments/licensed_acquisition_v6',
+           'output_prefix': 'licensed-acquisition-009-run-', 'files': 10, 'bytes': 741742,
+           'identities': [('als311-clock', 'ugolnikovE/als311-clock', '494ab6baf40746d313fe11379425900ebe97c319')]},
 }
 
 
@@ -283,11 +287,12 @@ def git_identity(root):
 def material_paths(root, here, profile_id='v1'):
     profile(profile_id)
     paths = {name: here / name for name in MATERIAL}
-    if profile_id in ('v2', 'v3', 'v4', 'v5'):
+    if profile_id in ('v2', 'v3', 'v4', 'v5', 'v6'):
         for name in ('fetch.py', 'test_fetch.py'):
             paths['shared/' + name] = root / PROFILES['v1']['directory'] / name
-    if profile_id in ('v3', 'v4', 'v5'):
+    if profile_id in ('v3', 'v4', 'v5', 'v6'):
         paths['native_snapshot.py'] = here / 'native_snapshot.py'
+    if profile_id=='v6':paths['cache_transport.py']=here/'cache_transport.py'
     return paths
 
 

@@ -1,0 +1,1 @@
+Actual fullroot integration020 at1a06c934 passes900tests, outer33.352969wall30.735758CPU/cleanupcomplete. Count doesnotmeasure routingquality; actualSonde/currentNative003 separate. Same rootdiscovery/localadapter as019, no newinstallation or repeatedNativeexperiment.
