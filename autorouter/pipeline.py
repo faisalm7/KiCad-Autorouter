@@ -808,10 +808,47 @@ def check_legacy_zone_evidence(directory,original,candidate,*,implementation=Non
     else:
         try:actual=read_json(path)
         except (OSError,ValueError) as exc:raise Rejected('missing or changed legacy zone witness') from exc
+        if implementation is not None:
+            current=expected['implementation_sha256']
+            recorded=actual.get('implementation_sha256') if type(actual) is dict else None
+            if (type(implementation) is not dict or type(recorded) is not dict
+                    or set(recorded)!=set(current)
+                    or any(type(pin) is not str or not re.fullmatch(r'[0-9a-f]{64}',pin)
+                           or implementation.get(name)!=pin for name,pin in recorded.items())):
+                raise Rejected('legacy zone compatibility implementation provenance missing or changed')
+            if recorded!=current:
+                from .placement_clearance import read_bytes
+                import stat
+                directory=Path(directory);runs=c.ROOT/'.runs'
+                try:
+                    relative=directory.relative_to(runs)
+                    if (not relative.parts or '..' in directory.parts or not directory.is_absolute()
+                            or directory.resolve(strict=True)!=directory
+                            or any(node.is_symlink() for node in (directory,*directory.parents))):
+                        raise Rejected('legacy zone captured producer requires canonical project .runs directory')
+                    locations=[directory/'code']
+                    if len(relative.parts)>1:locations.append(directory.parent/'code')
+                    locations=[node for node in locations if node.exists() or node.is_symlink()]
+                    if len(locations)!=1:raise Rejected('legacy zone captured producer code missing or ambiguous')
+                    code=locations[0]
+                    if not code.is_dir() or code.resolve(strict=True)!=code:
+                        raise Rejected('legacy zone captured producer code alias')
+                    owner=code.stat()
+                    for name,pin in recorded.items():
+                        source=code/Path(name).name
+                        before=source.lstat();raw=read_bytes(source,1024*1024);after=source.lstat()
+                        identity=lambda info:(info.st_dev,info.st_ino,info.st_mode,info.st_nlink,info.st_size,info.st_mtime_ns)
+                        if (not stat.S_ISREG(before.st_mode) or before.st_nlink!=1
+                                or identity(before)!=identity(after) or hashlib.sha256(raw).hexdigest()!=pin):
+                            raise Rejected('legacy zone captured producer file missing, aliased or changed')
+                    if (owner.st_dev,owner.st_ino)!=(code.stat().st_dev,code.stat().st_ino):
+                        raise Rejected('legacy zone captured producer directory changed')
+                except (OSError,ValueError) as exc:
+                    raise Rejected('legacy zone captured producer provenance missing or changed') from exc
+            # Only producer metadata may differ. All semantics were rederived
+            # above by current code; captured source is checked, never executed.
+            expected['implementation_sha256']=recorded
         if canonical(actual)!=canonical(expected):raise Rejected('missing or changed legacy zone witness')
-        if implementation is not None and (type(implementation) is not dict
-                or any(implementation.get(name)!=pin for name,pin in expected['implementation_sha256'].items())):
-            raise Rejected('legacy zone compatibility implementation provenance missing or changed')
 
 
 def validate_candidate(job, original, candidate, source_hashes, protected, *, guidance_contract=None, guidance_basis=None, layer_contract=None, selected_names=None, schematic_parity=False):

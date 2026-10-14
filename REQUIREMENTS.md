@@ -101,3 +101,5 @@ Actual [SES003/import readback](evidence/fixed-placement-ses-native003-001.json)
 [Current installation028](evidence/installation028-native-001.json) passes22offline commands/72fixed+119targeted installed controls, exact20705original/572distribution files and realNative60mm/0via/0findings/sharedreadback. ExistingMac/apps/cache, no fullinstalledsuite/freshOS/GUI/package claim.
 
 [Actual hardminimum Nativequalification](evidence/native-minimum-controls-prospective-paw-001.json): ten saved/finalreports verifypositiveandwidth/via/drill/annulus negatives under exact originalrules. One prospectivelyfrozen B2minimum+SMD configuration awaits actualPAWtrial; no routinggain/novelty/DSNSESdecode/electricalapproval assumed.
+
+[Retained producing-code compatibility](evidence/retained-legacy-provenance-source-001.json) keeps strictdefault and currentsemantic rederivation, explicitly older metadata requires sixboundedcapturedproducer hashes; missing/tampered/alias/mixed witnesses refuse. Full067passes; firstminimumprobe failedbeforeNative/JVM, allcostcharged in002. No constraints/evidence rewritten.

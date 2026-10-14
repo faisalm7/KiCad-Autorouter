@@ -13,12 +13,12 @@ Five hardminimumsize Nativecontrols and ten saved/finalreports pass with all
 original source/preferred/hardrules exact. Do not repeat these workers or GETs.
 PAW10/14/11+4thermal candidates reject; CP2102source13immutablegaperrors blocks.
 
-1. Reviewed/frozen experiments/paw_minimum_profile_v1 actor+input-pins:
+1. Reviewed/frozen experiments/paw_minimum_profile_v2 actor+input-pins:
    originalhard200width/400:300via/50annulus, clearance200 unchanged; typedSMD
    strengthening50→200 disclosed. One B2via_low/bothadapter config, no novelty.
    After sourcecheckpoint/push/readback run only:
-   `.venv/bin/python -B .runs/run-paw-minimum-profile-native-001.py`.
-   Cumulative180wall/fullCPU, prior80.188069wall83.283654CPU includes everyprior
+   `.venv/bin/python -B .runs/run-paw-minimum-profile-native-002.py`.
+   Cumulative180wall/fullCPU, prior84.504191wall87.347623CPU includes everyprior
    route/failedprefix and genericnewNativecontrols/readback. No old120rescue.
    ConditionalwrongMISO only ifrealpositivepasses. Retain actualfinalhashes,
    originalfullSCH/rules/PRL/SES/legacy/geometry/warnings/process/proof and costs.
@@ -37,3 +37,5 @@ PAW10/14/11+4thermal candidates reject; CP2102source13immutablegaperrors blocks.
 
 Milestones are checkpoints, not a stoprequest. Ifareallimitinterrupts, save exact
 continuation state and preserve unfinishedwork withoutclaiming projectcomplete.
+
+Actual001 failed beforeanyNative/JVM in oldlegacywitnesscodepin replay. Sharedfix/currentsemantic+capturedproducer guards and full067pass; source001 unchanged, allfirstcostcharged inprospective002. Do not rerun001.

@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "kind": "minimum-probe001-pre-engine-retained-proof-failure",
+  "accepted": false,
+  "source": "96e81bfa3d5832cb936875f07d0358bf8b4ce34a",
+  "status": "failed_before_engine",
+  "native_workers_executed": 0,
+  "jvm_executed": false,
+  "candidate_produced": false,
+  "error": "Rejected: missing or changed legacy zone witness",
+  "cause": "Shared legacy-zone readback rederives witness with current helper SHA metadata, so earlier valid captured witness cannot be checked after unrelated pipeline/board_floor edits. Original source/constraints/proof remain unchanged. No provenance waiver applied.",
+  "outer_wall_seconds": 2.4590771670045797,
+  "outer_full_cpu_seconds": 2.157188,
+  "cumulative_wall_seconds": 82.64714620800805,
+  "cumulative_full_cpu_seconds": 85.440842,
+  "actor_conservative_charged_wall_seconds": 84.50419129099464,
+  "actor_conservative_charged_full_cpu_seconds": 87.347623,
+  "next_minimum_prior_wall_seconds": 84.50419129099464,
+  "next_minimum_prior_full_cpu_seconds": 87.347623,
+  "original_constraints_unchanged": true,
+  "evidence": [
+    {
+      "path": ".runs/paw-minimum-profile-native-001/result.json",
+      "sha256": "767139f10f2e18c04e794863553e80b0c9dc15fb1cf1ba34e5dc8d7b03ad77a1",
+      "bytes": 7568
+    },
+    {
+      "path": ".runs/paw-minimum-profile-execution-001/execution.json",
+      "sha256": "fa8e6b35bbc1e1ff7b97075f05ffc7cb2155e70f08ad591ab181677856888958",
+      "bytes": 7458
+    }
+  ],
+  "next": "Minimal shared semantic rederivation plus exact captured-producing provenance; targeted regressions/fullintegration/checkpoint, then fresh missing-engine continuation with all001costs. Never repeat oldNative/JVM/export trials or overwrite001."
+}
