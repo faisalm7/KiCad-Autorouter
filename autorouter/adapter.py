@@ -29,6 +29,109 @@ def _digest(data):
     return hashlib.sha256(data).hexdigest()
 
 
+def fixed_placement_session(raw):
+    """Keep native footprint poses; import only the unchanged SES routing.
+
+    Freerouting's placement grid can be coarser than the native board. KiCad
+    applies that optional section, so omit it for this fixed-placement tool.
+    This does not qualify the routes: original-design/native checks still run.
+    """
+    if type(raw) is not bytes or not raw or len(raw)>sx.MAX_BYTES:
+        raise ValueError('bounded SES bytes required')
+    tree=sx.parse(raw.decode('utf-8'))
+    if (len(tree)!=6 or tree[0]!='session' or type(tree[1]) is not str
+            or not sx.unquote(tree[1])
+            or any(type(n) is not list or not n or type(n[0]) is not str for n in tree[2:])
+            or sorted(n[0] for n in tree[2:])!=['base_design','placement','routes','was_is']):
+        raise ValueError('qualified fixed-placement SES root required')
+    base=sx.one(tree,'base_design')
+    if len(base)!=2 or type(base[1]) is not str or not sx.unquote(base[1]) or sx.one(tree,'was_is')!=['was_is']:
+        raise ValueError('SES design renaming is not qualified')
+    routes=sx.one(tree,'routes')
+    for key in ('resolution','library_out','network_out'):
+        if len(sx.children(routes,key))!=1:raise ValueError('unique SES routing '+key+' required')
+    resolution=sx.one(routes,'resolution')
+    if (len(resolution)!=3 or resolution[1]!='um' or type(resolution[2]) is not str
+            or re.fullmatch(r'[1-9][0-9]{0,6}',resolution[2]) is None or int(resolution[2])>1000000):
+        raise ValueError('qualified SES routing resolution required')
+    filtered=[n for n in tree if not isinstance(n,list) or not n or n[0]!='placement']
+    encoded=(sx.dump(filtered)+'\n').encode('utf-8')
+    decoded=sx.parse(encoded.decode('utf-8'))
+    if decoded!=filtered or sx.one(decoded,'routes')!=routes:
+        raise ValueError('SES routing changed during placement removal')
+    return encoded,dict(schema=1,policy='fixed-placement-session-v1',input_sha256=_digest(raw),
+        output_sha256=_digest(encoded),removed_root_placement_count=1,routing_ast_unchanged=True,
+        original_footprint_poses_preserved_by_omission=True,routing_accepted=False)
+
+
+def check_fixed_placement_import(root,data,retained):
+    """Reuse captured-policy and worker inventories to require every import proof."""
+    from . import pipeline as p
+    from .floor_route import read_json,canonical as encode,SANDBOX
+    from .local_settings import canonical,policy_declaration
+    from .placement_clearance import read_bytes
+    root=canonical(Path(root));pins=data.get('tools',{}).get('implementation_sha256',{})
+    producer=root/'code/native.py';raw=read_bytes(producer,1024**2)
+    if _digest(raw)!=pins.get('autorouter/native.py'):raise p.Rejected('captured Native import producer differs')
+    policy=policy_declaration(raw,name='FIXED_PLACEMENT_SESSION_POLICY',expected='fixed-placement-session-v1')
+    if policy is None:return  # Genuine older producers did not filter placement.
+    if _digest(read_bytes(root/'code/adapter.py',1024**2))!=pins.get('autorouter/adapter.py'):
+        raise p.Rejected('captured fixed-placement adapter differs')
+    def command(argv):
+        if type(argv) is not list:return None
+        args=argv[len(SANDBOX):] if argv[:len(SANDBOX)]==SANDBOX else argv
+        if len(args)<3 or type(args[1]) is not str or Path(args[1]).name!='native.py':return None
+        if args[2]!='import':return None
+        if (len(args)!=6 or any(type(a) is not str for a in args)
+                or args[:2]!=[str(p.c.PYTHON),str(p.c.ROOT/'autorouter/native.py')]):
+            raise p.Rejected('unqualified fixed-placement import command')
+        return args
+    census={name[:-len('-process.json')] for name in retained if name.endswith('-process.json')
+            and command(read_json(root/name).get('argv')) is not None}
+    declared=set();proofs=set();transports=set()
+    for step in data.get('steps',[]):
+        args=command(step.get('argv'))
+        if args is None:continue
+        cwd=canonical(Path(step['cwd']));name=step['name']
+        if (cwd!=root and root not in cwd.parents) or type(name) is not str or re.fullmatch(r'[A-Za-z0-9_-]{1,128}',name) is None:
+            raise p.Rejected('fixed-placement import worker escaped evidence')
+        identity=str((cwd/name).relative_to(root))
+        if identity in declared:raise p.Rejected('duplicate fixed-placement import worker')
+        declared.add(identity);process=read_json(cwd/(name+'-process.json'))
+        annotations=set(step)-set(process)
+        if (any(encode(step.get(key))!=encode(value) for key,value in process.items())
+                or (annotations and (annotations!={'phase'} or step['phase']!='incumbent'))
+                or process.get('status')!='success'
+                or type(process.get('exit_code')) is not int or process['exit_code']!=0
+                or process.get('cleanup_complete') is not True):
+            raise p.Rejected('fixed-placement import process differs')
+        source,output,session=(canonical(Path(n)) for n in args[3:])
+        if any(root not in n.parents for n in (source,output,session)) or output.parent!=cwd:
+            raise p.Rejected('fixed-placement import files escaped evidence')
+        read_bytes(source)
+        imported_digest=_digest(read_bytes(output))
+        filtered,expected=fixed_placement_session(read_bytes(session))
+        derived=output.with_suffix('.routes-only.ses')
+        proofs.update(str(n.relative_to(root)) for n in (derived,derived.with_suffix('.json')))
+        expected.update(source_session=str(session),import_session=str(derived),imported_board_sha256=imported_digest)
+        if output.name=='imported.kicad_pcb' and session==cwd/'routes.ses':
+            transports.add(str(output.relative_to(root)))
+        if (read_bytes(derived)!=filtered
+                or encode(read_json(derived.with_suffix('.json')))!=encode(expected)):
+            raise p.Rejected('fixed-placement import proof differs')
+    if census!=declared:raise p.Rejected('fixed-placement retained import population differs from steps')
+    retained_proofs={name for name in retained if name.endswith(('.routes-only.ses','.routes-only.json'))}
+    if retained_proofs!=proofs:raise p.Rejected('orphan or missing fixed-placement import proof')
+    # Source boards may themselves be named imported.kicad_pcb. Standard
+    # project-copy roles are inputs, whereas the worker's direct imported file
+    # must keep its proof even after all other import lineage is removed.
+    def project_copy(name):
+        return any(part in {'snapshot','candidate','original','refill'} or part.endswith('-input')
+                   for part in Path(name).parts[:-1])
+    retained_transports={name for name in retained if Path(name).name=='imported.kicad_pcb' and not project_copy(name)}
+    if retained_transports!=transports:raise p.Rejected('retained SES/imported board lost its import proof')
+
+
 def _parse_dsn(text):
     """Normalize only KiCad's bare quote declaration, outside strings/comments."""
     if _QUOTE_SENTINEL in text:

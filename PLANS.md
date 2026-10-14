@@ -22,18 +22,20 @@ Completed and preserved:
 
 Next actions, sequential heavy lane:
 
-1. Restricted ordinary-oval DSN path correction, targeted40/full0611179
-   regression and skeptical review closure passed and checkpointed atc8529dd8. Preserve actual PAW001 failed audit,
-   all five completed Native format workers and zero-route export; do not rerun.
-   Actual001 outer6.000073wall5.19436CPU, no engine yet. Incremental99d1975 is
-   verified from restoredc81; later executed PAW/path evidence after cutoff.
-2. Review/audit/commit/push/read back frozen missing-stage continuation source
-   (actor586c25aa/protocol2c010e8a), then run fresh002 with:
-   `.venv/bin/python -B .runs/run-paw-format-ses-native-002.py`. Reuse001 task/export and
-   original Native emission binding; only missing obstacles/engine/import/final
-   fullSCH and meaningful invalid imported-net control. Cumulative120wall/fullCPU
-   includes001 cost, new startup, all replay and final publication. Root and
-   production admission remain false; preserve any failure and resume missing work.
+1. Oval path correction/full061 is pushed/read back atc8529dd8. Actual002
+   reused all001 format/export workers and completed obstacles/engine/SESimport,
+   then rejected an exact48nm U1 placement shift caused by SES100nm grid. Both
+   prefixes stay failed; no final DRC or invalid imported-net control ran.
+2. Correct fixed-placement import by dropping only optional root SES placement,
+   preserving every remaining atom and source pose. Shared captured-policy,
+   bounded worker inventory and raw/filtered/imported-board proof enforce it.
+   Preserve failed full062 synthetic fixture run and exact pinned source; close
+   real inherited-incumbent annotation and deletion gaps with regression tests.
+   After full064/review/checkpoint, run only missing import/final controls:
+   `.venv/bin/python -B .runs/run-paw-format-ses-native-003.py`.
+   Actor6de6cd1a/protocol2edfd06b, cumulative120wall/fullCPU includes both failed
+   outer prefixes16.981912wall19.669657CPU plus newbootstrap3. Existing engine,
+   obstacles/exports/format are reused, not rerun; no source-format admission.
 3. Only qualified exact same-load/SES/original-rule proof can justify a bounded
    preflight format admission. Preserve every other geometry/rule gate and add
    regressions. Then test the actual normal PAW pipeline and freeze distinct

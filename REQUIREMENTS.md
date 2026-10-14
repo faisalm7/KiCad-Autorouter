@@ -75,3 +75,5 @@ No new family/routing-quality/GUI/human/physical claim; installed026 is older.
 PAW format support and actual SES proof remain pending; frozen actor is next.
 
 PAW completed format001 adds actual five reload/export observations and independent zero-route task export. Ordinary native oval DSN path rejection is fixed narrowly with exact nanometre/bounds/outer-layer controls; no custom-pad/source-format admission or routing gain follows. [Source/failure/pure audit](evidence/paw-dsn-path-source-001.json). Current normalPRL workflow backup now verified through99d1975, [scalar receipt](evidence/backups/incremental-normal-prl-native-99d1975.json); newer executed PAW/path artifacts remain after cutoff.
+
+Actual002 exact preservation check rejected48nm SES placement rounding. [Route-only fixed-placement source/continuation](evidence/fixed-placement-ses-source-001.json) preserves source pose and routing AST with forced raw/filtered/imported-board proof; no tolerance or constraint waiver. Existing001+002 observations/engine are reused in003, cumulative16.981912wall19.669657CPU before missing actual import/final controls. Old20240108 source remains blocked.

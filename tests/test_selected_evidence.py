@@ -36,8 +36,20 @@ class SelectedEvidence(unittest.TestCase):
         for name,field in [('native.dsn','native_dsn_sha256'),('task.dsn','task_dsn_sha256')]:
             (x.run/name).write_bytes(dsn if name=='native.dsn' else emitted);x.data[field]=p.sha(x.run/name)
         imported=x.run/'imported.kicad_pcb';imported.write_bytes(raw);audit={'imported_sha256':p.sha(imported)}
+        # Complete the authored import lineage too; this is synthetic receipt
+        # syntax/provenance, never evidence that SES produced this board.
+        session=x.run/'routes.ses'
+        process={'name':'import','argv':[str(p.c.PYTHON),str(p.c.ROOT/'autorouter/native.py'),
+                    'import',str(x.candidate),str(imported),str(session)],'cwd':str(x.run),
+                 'status':'success','exit_code':0,'cleanup_complete':True,
+                 'wall_seconds':0.1,'cpu_seconds':0.1,'monitor_cpu_seconds':0.}
+        p.save_json(x.run/'import-process.json',process);x.data['steps'].insert(1,process)
+        x.data.update(child_cpu_seconds=1.2,total_cpu_seconds=1.5)
         p.transplant_routes(original,original,protected=rs.protected_routes(original,['GND']),audit=audit,policy='exact_non_uuid_lock_position_v2')
-        x.data['protected_route_import']=audit;x.save_receipt()
+        x.data['protected_route_import']=audit
+        from tests.normal_prl_fixture import mark_authored_receipt
+        mark_authored_receipt(x.run,x.data,test_root=x.root,fixed_imports=True)
+        x.save_receipt()
 
     def test_selected_receipt_requires_both_exports_even_without_literal_classes(self):
         x=self.fixture;self.assertTrue(p.check_result(x.receipt)['current']);good=copy.deepcopy(x.data)

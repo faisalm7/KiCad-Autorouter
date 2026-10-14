@@ -127,7 +127,7 @@ class FloorReceipt(unittest.TestCase):
    'tools':{'kicad':'10.0.0','implementation_sha256':implementation,'files':{str(p.c.resolve_tool_path(pin['path'])):pin['sha256'] for pin in pins.values()}}}
   self.data['source_drc']=p.parse_report(self.out/'source-drc.json',self.source.name)
   from tests.normal_prl_fixture import mark_authored_receipt
-  mark_authored_receipt(self.out,self.data,test_root=self.root)
+  mark_authored_receipt(self.out,self.data,test_root=self.root,fixed_imports=True)
   self.save()
  def save(self):self.data['floor_evidence_hashes']=f.evidence_inventory(self.out);self.receipt.write_text(json.dumps(self.data))
  def check(self):return p.check_result(self.receipt)

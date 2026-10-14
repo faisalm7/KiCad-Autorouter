@@ -1,0 +1,131 @@
+{
+  "schema": 1,
+  "kind": "fixed_placement_ses_import_source_and_missing_native_continuation",
+  "status": "software_passed_missing_native_ready",
+  "accepted": false,
+  "production_admitted": false,
+  "format_admitted": false,
+  "new_routing_gain": false,
+  "demonstrated_failure": {
+    "schema": 1,
+    "qualified": false,
+    "accepted": false,
+    "source_native_sha256": "6f7ed90ef40e27af2ecb511a8687f254254be25a18d3dcbd5e4417a089d17b8a",
+    "failed_import_sha256": "2a390a21a00ae5e067b25ca2a8cf531b74ac32944e84a4246237cbf9c178bfb8",
+    "raw_ses_sha256": "2e170e121f756eec178b8783ee953a773b949514545b0d92679b0fe8ba961ec0",
+    "exact_immutable_differences": [
+      {
+        "path": [
+          23,
+          4,
+          2
+        ],
+        "before": "80.908052",
+        "after": "80.9081"
+      }
+    ],
+    "footprint_uuid": "9f6dab53-2a66-4d26-a7a2-b67753618bed",
+    "footprint_reference": "U1",
+    "shift_nm": 48,
+    "pure_filter_proof": {
+      "schema": 1,
+      "policy": "fixed-placement-session-v1",
+      "input_sha256": "2e170e121f756eec178b8783ee953a773b949514545b0d92679b0fe8ba961ec0",
+      "output_sha256": "7c461dc6fd8a5f7a20558e44b38ae09270e1aa6d4d78482c27d409da1e44bef3",
+      "removed_root_placement_count": 1,
+      "routing_ast_unchanged": true,
+      "original_footprint_poses_preserved_by_omission": true,
+      "routing_accepted": false
+    },
+    "original_ses_unchanged": true,
+    "native_rerun": false,
+    "scope": "Pure diagnosis of real rejected002 import; no tolerance or Native acceptance. Route-only correction still needs actual import/final fullSCH and invalid control."
+  },
+  "failed_native002": {
+    "execution_sha256": "83abe0a9f66b3c93149c114fb14357bd93be89c316c355c3c375637f9d8320fd",
+    "wall_seconds": 10.981839040992782,
+    "full_cpu_seconds": 14.475297,
+    "engine_completed": true,
+    "exact_footprint_preservation": false,
+    "final_native_validation_executed": false,
+    "invalid_imported_net_executed": false
+  },
+  "source_sha256": {
+    "autorouter/adapter.py": "8f5ae2e9b905aef012d12149d3061df109907c24f4d726d0514901f1912c9b9e",
+    "autorouter/native.py": "2fa28bbca1a364d96efd54c8aaf3fdd0b116acd6285c2ff8742ff1e4dd183d3c",
+    "autorouter/local_settings.py": "eb7fed5ddb3b4e93a3830fb8745f24b39060c88615eafdd6aaf29fe0fb53c3bd",
+    "tests/test_fixed_placement_session.py": "f767a976a1a3a7a12fa6d6bc52b9818a71cfcfc8fbec4717663a44e80ca36e71",
+    "tests/normal_prl_fixture.py": "cf9fe7ddd986f8194d4cb890c4a0e878e55b31e26bbdbd799171fe9a1bca15e6",
+    "tests/test_selected_evidence.py": "b796e7ccd8954873e2c4fd600c47c946bb2aaab9b3b4689a853beeae7e7788e5"
+  },
+  "fix": "Fixed-placement route-only native SES import: remove exactly optional root placement, preserve remaining full routing AST; retain raw/derived/imported-board hashes. Captured native producer literal forces proof/census via existing shared policy parser and normal bounded worker inventory. Exact original nonroute comparison/final Native/originalrules remain mandatory; no tolerances or source migration.",
+  "full_integration": {
+    "methods": 1194,
+    "test_seconds": 47.907,
+    "wall_seconds": 48.29467612502049,
+    "full_cpu_seconds": 45.324715,
+    "execution_sha256": "04e6b3d189184f24b46b543db930b27df0f317986a068d5c63d718e03ee25c09"
+  },
+  "failed_software_prefixes": [
+    {
+      "run": "full062",
+      "execution_sha256": "33d7f31788536da380998cf1660ee9a0c1aedf6959f9dbe77ad0d6e790c8bcd0",
+      "wall_seconds": 41.98078129198984,
+      "full_cpu_seconds": 38.936612,
+      "status": "nonzero_exit",
+      "scope": "Full integration after actual SES placement quantization moved one footprint48nm: fixed-placement import removes onlyoptionalrootplacement, exactremainingroutingAST and originalsource preserved. Shared capturedliteral-policy parser and existing normal-policy boundedworker inventory require every newproducer raw/filtered proof. Old genuineproducer receipts remain legacy; no footprint tolerance/source-format admission/route-quality claim.",
+      "exact_source_preserved": true
+    },
+    {
+      "run": "full063",
+      "execution_sha256": "03f49920b7a62141365a90bafa134e1cd05d624ba3c16a09c7c598ad647c46e2",
+      "wall_seconds": 47.88269283299451,
+      "full_cpu_seconds": 44.969080000000005,
+      "status": "nonzero_exit",
+      "scope": "Full integration after preserving full062 synthetic fixture failures and closing parent incumbent-phase annotation, combined import-proof deletion and imported-output hash/existence gaps. Valid authored proof fixtures retained geometry/report controls. Actual SES placement quantization moved one footprint48nm: fixed-placement import removes onlyoptionalrootplacement, exactremainingroutingAST and originalsource preserved. Shared capturedliteral-policy parser and existing normal-policy boundedworker inventory require every newproducer raw/filtered proof. Old genuineproducer receipts remain legacy; no footprint tolerance/source-format admission/route-quality claim.",
+      "exact_source_preserved": true
+    }
+  ],
+  "targeted": [
+    {
+      "path": ".local-backups/fixed-placement-session-tests-review-001/targeted-execution-003.json",
+      "sha256": "65c50018bf349b3e0a4b6aa6fe37d299f96c5fa3a1f0e20ab9839034769e78d9"
+    },
+    {
+      "path": ".runs/fixed-placement-session-targeted-004/execution.json",
+      "sha256": "d79438233dcfb9824c13e3515537f17fedbd84b56c5d75ee31c64c1ffc5d9a30"
+    },
+    {
+      "path": ".runs/fixed-placement-session-targeted-005/execution.json",
+      "sha256": "acf5dfd4c8ebc6ba89ff2deaa8974a9df3fb4ae8a2f6b6c31e1cbec0cde49d58"
+    },
+    {
+      "path": ".runs/fixed-placement-selected-targeted-001/execution.json",
+      "sha256": "67f944273adfbc7c9a9fce6d5c85370792b8e89b894a04d8ad87886a9ae03375"
+    }
+  ],
+  "skeptical_review": {
+    "result_sha256": "0e024fa38667386a7db7d482a7cb9a027468b47508efddffb6e7cb871ea435f2",
+    "findings_closed": [
+      "Use generic bounded SES S-expression parser, not PCB-DSN quote/root codec",
+      "Capture literal native policy and core/adapter pins; require raw/filtered proof through existing bounded normal worker inventory",
+      "Bind actual imported board hash after Native SaveBoard and require owned input/output existence",
+      "Permit only phase=incumbent parent annotation, retain typed comparison of every process field",
+      "Census both derivedproof files and retained direct imported board even after step/process/rawSES removal; separate explicit project-copy input roles"
+    ],
+    "native_executed": false
+  },
+  "continuation": {
+    "command": ".venv/bin/python -B .runs/run-paw-format-ses-native-003.py",
+    "actor_sha256": "6de6cd1aa1b572ad2e214d7368b8b80b4785957877be6cffb5c1d9b3c9d7860f",
+    "protocol_sha256": "2edfd06b377c3b6c2a86a9989c6f7e6d30b9fe8d64ae494d1e851ec2a9fc6a14",
+    "controller_sha256": "64cfa282325adabfa567c112c9bd15395c0352c6c5e10bdbec301402293d0133",
+    "cumulative_prior_wall_seconds": 16.981912123970687,
+    "cumulative_prior_full_cpu_seconds": 19.669657,
+    "whole_wall_full_cpu_cap_seconds": 120,
+    "new_bootstrap_allowance_seconds": 3,
+    "old_workers_reexecuted": false,
+    "no_optin_control_sha256": "a2856edaa1066de837f7ecab579db5ee4dfe7a18052bf9738c6fa1c030730147",
+    "scope": "Only corrected import and fresh positive/invalid fullSCH/refill/final; retainedengine96s canonical argument reference is not a recovered unlogged assignment. No format admission or fair routingcomparison."
+  }
+}

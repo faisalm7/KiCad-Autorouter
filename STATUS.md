@@ -1,6 +1,6 @@
 # Current status
 
-Updated October 14, 2026 in the existing Mac checkout `/Users/faisal/Projects/KiCad-Autorouter-local`, branch `rebuild/local-20261010-015447`. Last verified GitHub checkpoint: `c8529dd8a5bbb85df000ddc0eef2caee676f3ba6`. This is an experimental local tool. Representative coverage, confirmation and release gates remain incomplete. Prior status versions and every raw failure remain in Git history and immutable evidence.
+Updated October 14, 2026 in the existing Mac checkout `/Users/faisal/Projects/KiCad-Autorouter-local`, branch `rebuild/local-20261010-015447`. Last verified GitHub checkpoint: `8dcdbf4a066e1220e829bdca0770a5ace4af759d`. This is an experimental local tool. Representative coverage, confirmation and release gates remain incomplete. Prior status versions and every raw failure remain in Git history and immutable evidence.
 
 ## Usable workflow
 
@@ -100,3 +100,7 @@ PAW source-format/SES actor is frozen; follow the current compact `PLANS.md`.
 PAW format001 executed all five missing Native reload/export observations and the zero-route task export. These passed; the next pure adapter audit rejected an ordinary oval pad exported as a two-point DSN path. No engine/SES trial ran. The narrow grammar fix preserves exact outer-layer path geometry and rejects fractional-nanometre, underflow, malformed and unknown shapes; production20240108 admission remains blocked. Existing Native observations will be reused, with all001cost charged, in the missing SES continuation. [Current source/failure packet](evidence/paw-dsn-path-source-001.json).
 
 The [99d1975 incremental](evidence/backups/incremental-normal-prl-native-99d1975.json) verifies267691files/8005372207B from fully restoredc81, including the completed normal PRL workflow and frozen PAW source. Delta3194files/166117430B;235.334425wall188.081184CPU. OnMaconly by explicit owner choice, no repeated full restoration. Actual executed PAWformat001 and later path fix are after this cutoff.
+
+Actual PAWSES002 reused all completed001 format/export workers, then produced a real engine SES/import. Exact immutable comparison rejected a48nm U1 footprint shift (80.908052→80.9081mm); no final candidate DRC or negative ran. Both prefixes charge16.981912wall19.669657CPU. The fixed-placement import correction removes only the optional root SES placement and preserves every routing atom. Captured producer policy forces the raw/filtered/imported-board proof through the existing bounded worker reader. Full062 synthetic fixture failures and exact source are preserved; current full064 and prospective003 close only missing import/fullSCH validation, with no engine rerun or format admission. [Source and continuation](evidence/fixed-placement-ses-source-001.json).
+
+Fixed-placement source now passes full0641194software controls,48.294676wall45.324715CPU. Full0621191/21errorblocks and full0631194/4selected-fixture errors remain with exact source; corrected authored fixtures retain all geometry/report/protected assertions. Targeted101/15/4 controls close actual inherited-phase and deletion/output-proof gaps. Actual003 Native correction remains pending; next command is in PLANS.

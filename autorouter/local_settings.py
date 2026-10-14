@@ -141,13 +141,13 @@ def check_event(directory,binding,process,*,allow_worker_failure=False):
         raise p.Rejected('PRL guard event differs from exact Native input')
 
 
-def policy_declaration(raw):
+def policy_declaration(raw,*,name='NORMAL_DRC_LOCAL_SETTINGS_POLICY',expected=JOB_POLICY):
     """Inspect bounded captured code as data; never execute a receipt's source."""
     import ast
     if type(raw) is not bytes or len(raw)>1024**2:raise p.Rejected('bounded captured pipeline source required')
     try:tree=ast.parse(raw)
     except (SyntaxError,ValueError,RecursionError) as exc:raise p.Rejected('invalid captured pipeline policy source') from exc
-    name='NORMAL_DRC_LOCAL_SETTINGS_POLICY';declarations=[]
+    declarations=[]
     for node in ast.walk(tree):
         targets=node.targets if isinstance(node,ast.Assign) else [node.target] if isinstance(node,(ast.AnnAssign,ast.AugAssign,ast.NamedExpr)) else []
         if any(isinstance(item,ast.Name) and item.id==name for target in targets for item in ast.walk(target)):
@@ -157,9 +157,9 @@ def policy_declaration(raw):
     if (len(declarations)!=1 or node not in tree.body or not isinstance(node,(ast.Assign,ast.AnnAssign))
             or (isinstance(node,ast.Assign) and (len(node.targets)!=1 or not isinstance(node.targets[0],ast.Name)))
             or (isinstance(node,ast.AnnAssign) and not isinstance(node.target,ast.Name))
-            or not isinstance(node.value,ast.Constant) or type(node.value.value) is not str or node.value.value!=JOB_POLICY):
+            or not isinstance(node.value,ast.Constant) or type(node.value.value) is not str or node.value.value!=expected):
         raise p.Rejected('ambiguous or unsupported captured normal DRC policy')
-    return JOB_POLICY
+    return expected
 
 
 def check_normal_policy(directory,data,*,max_bytes=None,max_files=None):
@@ -191,6 +191,8 @@ def check_normal_policy(directory,data,*,max_bytes=None,max_files=None):
         max_bytes=default_bytes if max_bytes is None else max_bytes
         max_files=default_files if max_files is None else max_files
     retained=inventory(root,max_bytes=max_bytes,max_files=max_files,max_entries=max_files*2)
+    from .adapter import check_fixed_placement_import
+    check_fixed_placement_import(root,data,retained)
     def is_drc(argv):
         if type(argv) is not list:return False
         command=argv[len(SANDBOX):] if argv[:len(SANDBOX)]==SANDBOX else argv

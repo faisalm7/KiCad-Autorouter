@@ -7,6 +7,8 @@ import pcbnew
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from autorouter.netclass_native import observe_class
 
+FIXED_PLACEMENT_SESSION_POLICY='fixed-placement-session-v1'
+
 def file_hash(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
@@ -64,9 +66,20 @@ def main():
     elif action == 'netclasses':
         Path(output).write_text(json.dumps(netclasses(board, source, before), indent=2) + '\n')
     elif action == 'import':
-        if not pcbnew.ImportSpecctraSES(board, sys.argv[4]):
+        from autorouter.adapter import fixed_placement_session
+        from autorouter.placement_clearance import read_bytes
+        filtered,session_record=fixed_placement_session(read_bytes(Path(sys.argv[4])))
+        if session_record['policy']!=FIXED_PLACEMENT_SESSION_POLICY:
+            raise RuntimeError('fixed-placement session policy differs')
+        session_path=Path(output).with_suffix('.routes-only.ses')
+        with session_path.open('xb') as stream:stream.write(filtered)
+        session_record.update(source_session=str(Path(sys.argv[4])),import_session=str(session_path))
+        if not pcbnew.ImportSpecctraSES(board, str(session_path)):
             raise RuntimeError('SES import failed')
         pcbnew.SaveBoard(output, board)
+        session_record['imported_board_sha256']=file_hash(output)
+        with session_path.with_suffix('.json').open('x') as stream:
+            stream.write(json.dumps(session_record,indent=2)+'\n')
     elif action == 'roundtrip':
         pcbnew.SaveBoard(output, board)
     elif action == 'pour-audit':

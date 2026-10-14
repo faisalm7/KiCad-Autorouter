@@ -5,9 +5,9 @@ what the fake worker fixture represents; it never runs Native or sets a flag.
 """
 import copy,stat
 from pathlib import Path
-from autorouter import pipeline as p,floor_route as f,local_settings as ls
+from autorouter import pipeline as p,floor_route as f,local_settings as ls,adapter,sexpr as sx
 
-def mark_authored_receipt(directory,data,*,test_root):
+def mark_authored_receipt(directory,data,*,test_root,fixed_imports=False):
     root=ls.canonical(Path(test_root));directory=ls.canonical(Path(directory))
     project=Path(__file__).resolve().parents[1]
     if (not any(base in root.parents for base in (project/'tests',project/'.cache'))
@@ -50,4 +50,28 @@ def mark_authored_receipt(directory,data,*,test_root):
     for binding_path,binding,process_path,process,step in updates:
         p.save_json(binding_path,binding);p.save_json(process_path,process)
         step['local_settings_policy']=policy;step['local_settings_protection']=copy.deepcopy(process['local_settings_protection'])
+    if fixed_imports:
+        # Explicitly authored SES syntax/process metadata for current-code
+        # receipt tests. No claim that these bytes produced the fixture board.
+        for step in data['steps']:
+            argv=step.get('argv');args=argv[len(f.SANDBOX):] if type(argv) is list and argv[:len(f.SANDBOX)]==f.SANDBOX else argv
+            if type(args) is not list or args[:3]!=[str(p.c.PYTHON),str(p.c.ROOT/'autorouter/native.py'),'import']:continue
+            if len(args)!=6:raise AssertionError('authored import command must have source/output/session')
+            folder=ls.canonical(Path(step['cwd']));board,output,session=(ls.canonical(Path(n))for n in args[3:])
+            if (root not in folder.parents or output.parent!=folder
+                    or any(root not in n.parents for n in (board,output,session))
+                    or not board.is_file() or not output.is_file()):raise AssertionError('authored import input/output must exist in owned test root')
+            process=f.read_json(folder/(step['name']+'-process.json'))
+            if (process.get('argv')!=argv or process.get('name')!=step['name']
+                    or process.get('cwd')!=str(folder) or process.get('status')!='success'
+                    or type(process.get('exit_code'))is not int or process['exit_code']!=0
+                    or process.get('cleanup_complete')is not True):raise AssertionError('authored import worker must be complete')
+            authored=['session','"authored-receipt.ses"',['base_design','"authored-receipt.dsn"'],
+                      ['placement',['resolution','um','10']],['was_is'],
+                      ['routes',['resolution','um','10'],['library_out'],['network_out']]]
+            session.write_bytes((sx.dump(authored)+'\n').encode())
+            filtered,proof=adapter.fixed_placement_session(session.read_bytes());derived=output.with_suffix('.routes-only.ses')
+            derived.write_bytes(filtered)
+            proof.update(source_session=str(session),import_session=str(derived),imported_board_sha256=p.sha(output))
+            p.save_json(derived.with_suffix('.json'),proof)
     return len(updates)

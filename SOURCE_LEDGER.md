@@ -229,3 +229,16 @@ The fixed MY1690X16S source profile at49d66d63eb43105b7dbe437cc9299c637c69c61d i
 Audio actual original002 evidence: [native observation](evidence/audio-original-native-002.json); fullSCH 0/6/2/0, all original320route records/PRL/rules exact. Source licensed-hardware statements remain distinct from unclosed individual artwork/model/ancestry rights. No admission or raw redistribution.
 
 [PAW original002 observation](evidence/paw-original-native-002.json): fullSCH0/0/17/0/all220routes/rules/PRL exact. Original CERN-OHL-P2 notice retained, asset/model/ancestry closure pending. Native counts do not enforce legacyzone error, oldformat still blocked. Existing cached-primary [rule origin](https://github.com/KiCad/kicad-source-mirror/blob/7545e2dfee8f86d155723e049501fb7c3f497e10/pcbnew/drc/drc_test_provider_connectivity.cpp#L120) and [current count semantics](https://github.com/KiCad/kicad-source-mirror/blob/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/pcbnew/connectivity/connectivity_data.cpp#L727) reviewed anew, actual legacy-zone-controls001 already demonstrates Native10 omission; no new rerun.
+
+## October 14: fixed-placement SES import diagnosis
+
+Actual PAWformat/SES002 exported U1 at y=-80908.052um but Freerouting wrote
+placement -809081 at resolution um10; KiCad imported y80.9081mm instead of
+original80.908052mm. The exact nonroute check rejected this48nm shift. Cached
+pinned official [KiCad10 importer](https://github.com/KiCad/kicad-source-mirror/blob/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/pcbnew/specctra_import_export/specctra_import.cpp#L405-L466)
+checks optional placement separately from route import. Cache SHA256
+`d9b6965c5cb0853c943026a43d7449731fcaca36febe0cf9039d176ab50a285e`,
+original source receipt at `.runs/pic-custom-ses-design-001/network-receipt.json`.
+New pure transform removes only that root placement section and preserves all
+remaining routing AST atoms. Native route-only import/final qualification is
+pending; neither source positions nor original constraints are rounded/waived.
