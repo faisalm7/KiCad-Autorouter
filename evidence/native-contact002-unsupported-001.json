@@ -1,0 +1,95 @@
+{
+  "schema": 1,
+  "kind": "actual-contact-continuation002-unsupported",
+  "accepted": false,
+  "method_qualified": false,
+  "production_admitted": false,
+  "source_commit": "44ffeebe88af5612f9bdf76af189b4d2c8b92b1b",
+  "status": "unsupported-contact-domain",
+  "candidate_sha256": "5fa5d1e2500bcc8f804156a6c9216e8de69fc1cc34fb3d207bce410b0c9d4a91",
+  "final_report_sha256": "bb6bee270de3c2337241dc38582eb3c544032252a2381ed78c97d8844cbffeff",
+  "geometry_sha256": "6c822f4c8e7c605942842c66097029e33ce00ba0fb72f263edcb754d0ed7954f",
+  "repair_sha256": "bcd2b7c8b83adf686c9a0a1cf1ee900e8ab4399b9adbf077ea1382de75b2148a",
+  "counts": {
+    "opens": 0,
+    "blocking": 1,
+    "warnings": 10,
+    "exclusions": 0
+  },
+  "pristine_counts": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 10,
+    "exclusions": 0
+  },
+  "geometry_facts": {
+    "layer": "F.Cu",
+    "zone_layers": [
+      "F.Cu",
+      "B.Cu"
+    ],
+    "outlines": 1,
+    "vertices": 1350,
+    "native_self_intersecting": true,
+    "repeated_vertices": 2,
+    "holes": 0,
+    "arcs": 0,
+    "api_errors": 0
+  },
+  "disposition": "Unsupported: ambiguous target-layer filled domain",
+  "proposals_or_trials_executed": false,
+  "new_worker_names": [
+    "pristine-original",
+    "pristine-original-fields-netlist",
+    "pristine-original-fields-audit",
+    "refill-drc",
+    "pour-keepout-audit",
+    "final-drc",
+    "final-drc-fields-netlist",
+    "final-drc-fields-audit",
+    "thermal-geometry"
+  ],
+  "costs": {
+    "actor": {
+      "new_wall_seconds": 8.217598042014288,
+      "new_full_cpu_seconds": 6.053234000000001,
+      "charged_wall_seconds": 41.72308066798723,
+      "charged_full_cpu_seconds": 31.701799
+    },
+    "outer": {
+      "charged_wall_seconds": 42.202058833965566,
+      "charged_full_cpu_seconds": 32.196483
+    },
+    "lead": {
+      "wall_seconds": 10.122848291997798,
+      "total_cpu_seconds": 7.922943000000001,
+      "charged_wall_seconds": 43.62833091797074,
+      "charged_full_cpu_seconds": 33.571508
+    },
+    "independent_reader": {
+      "wall_seconds": 1.4824566250026692,
+      "full_cpu_seconds": 1.3869129999999998
+    },
+    "reader_startup_allowance_seconds": 2,
+    "minimum_next_prior": {
+      "wall_seconds": 47.11078754297341,
+      "full_cpu_seconds": 36.958421
+    }
+  },
+  "evidence": {
+    "actual": ".runs/nus-native-connected-contact120-002",
+    "actual_result_sha256": "cc8ac32ef32c96b4be5115d884d685f65d7a8568741aa38f175f71138b56f31e",
+    "reader": ".runs/native-contact002-review-preserved-001",
+    "reader_result_sha256": "1ebf97c12235fb43bf36d52d4903f8ede7819b5b5928174e85c358710c1e7aa6",
+    "reader_execution_sha256": "fc9853aa16c087ca348b8b91cf21ab4c23f7a64f727ab9dbd11fbd74df49b26a",
+    "reader_source_sha256": "5af6bd8a999705d4007237b94cde9a1df26011926e9528c8b0cba9578439bd4f"
+  },
+  "limitations": [
+    "No classifier or first engine repeated.",
+    "Saved contour Native reports self-intersection and two repeated vertices; conservative prototype scope refusal is not geometric infeasibility.",
+    "No contact proposals, trials, whole-final, removal-negative or routing gain.",
+    "All original rules, geometry, PRL, full schematic and ten inherited warnings retained.",
+    "Own failed001+002 and reader costs carry forward under cumulative120; earlier active/pair/setup exploration remains separately retained.",
+    "Experimental only, no production/human/physical/independent-family claim."
+  ]
+}

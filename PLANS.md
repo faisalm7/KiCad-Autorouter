@@ -1,45 +1,15 @@
 # Active continuation
 
-Existing local Mac checkout, rebuild/local-20261010-015447. Latest verified4230f9c.
-No cloud/reset/reclone/worktree/discard/spending/formalpublication. Preserve all
-failed/current source and raw evidence. One lead, at most two narrow agents;
-Native/JVM lane sequential; reuse shared validation/process/report/backup helpers.
+Existing local Mac checkout, rebuild/local-20261010-015447. Latest verified44ffeebe88af5612f9bdf76af189b4d2c8b92b1b.
+No cloud/reset/reclone/worktree/discard/spending/formal publication. Preserve failed and unfinished source/evidence. One lead, at most two narrow agents; Native/JVM lane sequential. Reuse shared validation, process, reporting and backup helpers.
 
-Completed six exposed fixed B1/B2/C pairs, all actual source/native/final checks,
-normal PRL/preview/cancel/review-export and scoped legacy workflow; hardminimum
-positive/invalid controls; full0671233softwarechecks and installed029/source4230
-(22offline/72fixed+128targeted/realNative/sharedreader). Test counts aren't quality.
-PAW SES00310opens, via_low14, retainedplanes11+4thermal and minimum0021+1thermal
-all reject. No wrongMISOstage after incompletepositive. CP2102 has13immutable pad
-gaps and3missingdevices; no routing/source repair/waiver. No completedworker repeat.
+1. Do not repeat completed contact001 or continuation002. Actual002 observes a1350vertex F.Cu contour with Native self-intersection/two repeats; conservative helper refuses before proposals/trials. Candidate remains0/1thermal/10warnings/0exclusions. Independent shared reader passes. Source eight files, original geometry/rules/PRL/fullSCH/allwarnings exact. This is not geometric infeasibility or routing gain.
+2. Integrate/review/freeze the prepared selected-GND completion-only feedback fallback. Preserve all own completed signal routes exactly via existing selected/protected import checks. Use only own001002 candidate, no new classifier/first engine/original baseline/geometry. Charge prior47.11078754297341wall/36.958421CPU (max actual002 + reader +2startup), new bootstrap, entire additional pipeline, whole-original Native/fullSCH/metrics, read-back and controller publication under cumulative120. Current core/tool bytes must equal7aea; retain old producer HEADs literally. Refuse if insufficient existing engine/native reserve plus final reserve. Audit/push/read back before Native. No contact novelty, freshB2 or general claim.
+3. At integration milestone run current full suite and installation030 with real Native positive/invalid controls/shared reader. Full069 core is1238pass, installed029/source4230 passes22offline/72fixed+128targeted and realNative. Counts are software coverage, not routingquality.
+4. Major fdbff8a fullrestore complete:272571files/8423268906B/allrefs/restoredCLI. No repeat majorrestore per edit. Next incremental at actual outcome milestone from fully restoredc81; contactsource/full068069/actual001002 after prior cutoff. Owner chose on-Mac-only artifacts. Preserve all evidence; diagnose actual finite capacity refusal before changes.
+5. Pursue strongest measured approach and unrelated supported families. Six exposed fixed B1/B2/C quality pairs remain configuration-specific; no established independent pedigrees/representative30–50families/untouched confirmation. Stronger ownfresh Native-feedback B2 comparison remains required before superiority claims. Keep all failed/unsupported inputs in population. HSTX original source draft is preserved/unapplied; no Native/support assumption. PAWminimum002 remains1open/1thermal; new justified profile must charge at least104.372408wall108.569899CPU under cumulative180. CP2102 has13immutable pad gaps/3missing devices; no routing/source repair/waiver.
+6. Complete available GUIcopy004 complete-schematic workflow when access permits; repeated locked observations remain distinct from earlier GUI003 qualification. No repeated unlock questions. Human PCB review, physical/electrical checks and formal publication remain external/unapproved.
 
-1. Actualincremental/fullchainrestore throughfdbff8a is complete:272571files,
-   8423268906B/allGitrefs/restoredCLI,280000file/8GiBguards tested. OnMaconly.
-   Newcontactsource/full068 is aftercutoff; next incremental at actualmilestone.
-2. Contactsource/pairharness integrated,84targeted/full0691238 pass, skeptical
-   review no concreteblocker. Defaults and certifiedrepair unchanged. Commit/push
-   and remote-readback then run exactly once:
-   `.venv/bin/python -B .runs/run-native-contact120-001-fixed-helper.py`.
-   FreshNUSclassifier+ownselectedroute+explicitsolethermal contact proposals,
-   exactwholeoriginalNative/fullSCH/finalmetrics/warnings and conditionalremoval
-   negative, actual120wall/fullCPU plusouterpublicationcharge required. Preserve
-   failedchild/geometry/API errors/allfinals; no oldfreecandidate, no generalclaim.
-   Prior active002/reader costs separatelydisclosed; oldB2/pruningC unchanged.
-   PAWminimum002 remains1open/1thermal; any newprofile charges at least104.372408/
-   108.569899 prior under180. HSTXoriginalcapture unapplied/unrun, supportgates stay.
-3. Pursue justified stronger mechanisms and broader supported families; freeze
-   prospective protocol, own fresh incumbent/features, equal wall/fullCPU budgets,
-   actual finalhash/fullSCH/rules/PRL/geometry/warnings/process evidence mandatory.
-   Preserve all populations/failures; zero independentpedigrees established.
-4. GUIcopy004 complete project prepared, Mac locked at open. Earlier GUI003 is
-   separate qualification. Continue independent work, no repeat unlock questions.
-   Representative/untouched confirmation, humanPCB and physical gates remain open.
+Milestones are checkpoints, not stop requests. Continue feasible authorized work. At a real limit preserve exact missing-stage command/state, verify safe GitHub checkpoint and incremental artifacts; never claim unmet release gates complete.
 
-Milestones are checkpoints, not stop requests. If a real limit interrupts, preserve
-exact continuation commands/state and do not claim the project complete.
-
-Actualimport gate fixed before anycontactengine: flatcode/native.py couldnotimport projectpackage. SharedJob now requires exactlive/capturedhelperSHA and usesprojectpath, env unchanged. Nativeclassmap positive succeeds; v1protocol remainsunexecuted. Usefrozenv2 only.
-
-Actualcontact001completedfresh classifier/engine, child0/1thermal/10warnings, thenreaderwarnparityassertion failed. No contact/parent phase ran. Correctedchildreader passes actualevidence and85targetedcontrols. Do notexecute priorrun commands again. Integrate/freeze/review missing-stagecontinuation from fourimmutable001prefixes; charge >=32.505483wall24.648565CPU priorunder120. Sourcecore/toolbinsunchanged7aea; newexperiments-only readercode current.
-
-Reviewed/frozen missing-stage actor is ready. Aftercurrentcheckpoint/readback runonly `.venv/bin/python -B .runs/run-native-contact120-continuation-002.py`. ContactNative/negative notyetobserved. Cumulative120 prior32.505482625973wall24.648565CPU; wholeleadcharges callback+1publication. Do notrunolder001commands. Ifcontactworks, measurestronger ownfresh Native-feedback FRwarmstart B2 beforemechanismclaim, plusbroaderfamilies; existingselected/GND APIs supportit, no additionalspending.
+[Selected-GND feedback source](evidence/native-feedback-engine-source-001.json) is reviewed/frozen,65current codepins/10immutable prefixes/eight original files. NFE1 failed-child evidence continuity fixed with a filesystem mutation/deletion regression;86targeted software controls pass. Same cumulative120 prior47.11078754297341wall36.958421CPU. After checkpoint/read-back run once `.venv/bin/python -B .runs/run-native-feedback-engine120-003.py`; no result assumed.
