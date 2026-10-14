@@ -1,0 +1,923 @@
+{
+  "schema": 2,
+  "family": "VorosEgyes-ArcDice-development-exposed",
+  "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-original-native-001/original/hardware/ArcDice.kicad_pcb",
+  "freeze": {
+    "tools": {
+      "implementation_sha256": {
+        "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+        "autorouter/__main__.py": "a4f6ca97f5dadc2547825ca5bf7be585a8fb6845db1956815679a43474c26113",
+        "autorouter/adapter.py": "95211455104334e338b83c77aecf8541ee24b0b4f7cd6c3043bcb71d478ddfca",
+        "autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+        "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+        "autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+        "autorouter/floor_route.py": "787d0a309d8511628b0ada7a2f06ea7df1080fa2636b1c2ab540d182eba29b5a",
+        "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+        "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+        "autorouter/native.py": "ded5cdfceac8dac94033e7a1c249efc87c9ad7dcae450a9ea4291bbdf2fde7a1",
+        "autorouter/netclass.py": "79d4b7e98c7b46fe924816ddcc7fa384672bf646d1c06f81e134ce6d97e0a7de",
+        "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+        "autorouter/pipeline.py": "5f593d60ac3a83a3ab98a9d742625cd5a38aa754aa5cc974a73d3d5efc6816fe",
+        "autorouter/placement_clearance.py": "f846a73367bc60dfbb48386233e405cb4bf1382f056d379787d7b823c3905feb",
+        "autorouter/placement_strategy.py": "b75a2291eed37d8ddb9f052c0b715faafcc2dfd258ae32f9e2763fcd01db0e97",
+        "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+        "autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+        "autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+        "autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+        "autorouter/recovery.py": "8a2bf1470cb69e7d8d334bbe7aef18110322a7aa786b965d397a89ddbc932ee5",
+        "autorouter/review_export.py": "716b369af61faa8c15f60ef58a0846772e4b175cff4a75af0c2c5ea45f24aea7",
+        "autorouter/review_view.py": "8f765624a8527df770a98594a7b27fe88776b300ec276f809c179ec7f6f60fb7",
+        "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+        "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+        "autorouter/schematic_field_evidence.py": "d7e1012b05bb7e0fb03358bbc3573b845ff06d03760a88137cf52db71090641b",
+        "autorouter/schematic_fields.py": "7d9043a14bac69d18830b2f51cb7d118c648df9290337505db1bf8503d931a71",
+        "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+        "autorouter/strategy.py": "4f13680269d2062798d998a6074e4194442c7ec2aa447a4c23ddec3b14f83c3a",
+        "autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+        "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+        "autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455"
+      },
+      "git_head": "c7ffada31e03a638b41d0b202d858f9400e0a6db",
+      "kicad": "10.0.0",
+      "freerouting": "2.5.0",
+      "files": {
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+        "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219"
+      },
+      "network": "engine sandbox-exec deny network*"
+    },
+    "source_hashes": {
+      "ArcDice.kicad_pcb": "098e90725279e698f61d7f4a5f0281202ba32f655b9c430047c019783a60bf96",
+      "ArcDice.kicad_pro": "be12f193331f3091ef31b9df28dc968119be56269adddcd5b2ed2921523223f6",
+      "ArcDice.kicad_sch": "388bb0410c3372c2331c84b44ba8a45e10c4b34206a3b28b65cb90057129e4de"
+    },
+    "files_sha256": {
+      "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+      "autorouter/__main__.py": "a4f6ca97f5dadc2547825ca5bf7be585a8fb6845db1956815679a43474c26113",
+      "autorouter/adapter.py": "95211455104334e338b83c77aecf8541ee24b0b4f7cd6c3043bcb71d478ddfca",
+      "autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+      "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+      "autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+      "autorouter/floor_route.py": "787d0a309d8511628b0ada7a2f06ea7df1080fa2636b1c2ab540d182eba29b5a",
+      "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+      "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+      "autorouter/native.py": "ded5cdfceac8dac94033e7a1c249efc87c9ad7dcae450a9ea4291bbdf2fde7a1",
+      "autorouter/netclass.py": "79d4b7e98c7b46fe924816ddcc7fa384672bf646d1c06f81e134ce6d97e0a7de",
+      "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+      "autorouter/pipeline.py": "5f593d60ac3a83a3ab98a9d742625cd5a38aa754aa5cc974a73d3d5efc6816fe",
+      "autorouter/placement_clearance.py": "f846a73367bc60dfbb48386233e405cb4bf1382f056d379787d7b823c3905feb",
+      "autorouter/placement_strategy.py": "b75a2291eed37d8ddb9f052c0b715faafcc2dfd258ae32f9e2763fcd01db0e97",
+      "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+      "autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+      "autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+      "autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+      "autorouter/recovery.py": "8a2bf1470cb69e7d8d334bbe7aef18110322a7aa786b965d397a89ddbc932ee5",
+      "autorouter/review_export.py": "716b369af61faa8c15f60ef58a0846772e4b175cff4a75af0c2c5ea45f24aea7",
+      "autorouter/review_view.py": "8f765624a8527df770a98594a7b27fe88776b300ec276f809c179ec7f6f60fb7",
+      "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+      "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+      "autorouter/schematic_field_evidence.py": "d7e1012b05bb7e0fb03358bbc3573b845ff06d03760a88137cf52db71090641b",
+      "autorouter/schematic_fields.py": "7d9043a14bac69d18830b2f51cb7d118c648df9290337505db1bf8503d931a71",
+      "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+      "autorouter/strategy.py": "4f13680269d2062798d998a6074e4194442c7ec2aa447a4c23ddec3b14f83c3a",
+      "autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+      "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+      "autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455",
+      "scripts/experiment_quality.py": "e7f6224b92912929c1b94ee5d0fd9de17aaaa240abc3d56d7a2bc96df8f8220a",
+      "toolchain.lock.json": "f04be5cdf6f64bddc16a6c5efd217b2f5e0a1341906ff44033f5807971154efe",
+      "data/sources.json": "a2a8e9e22ff3e109de94733aa8f5e99ca5fd476ef9ec20be837c54100036eac1",
+      "scripts/fetch_led_demo.py": "0ef143db419f81b0f12df5fb44feca34d02f5727571d7c402bad0adbe2426ca0",
+      "experiments/arcdice_native_class_v1/source.py": "98bde7a79b31f3915c709c396fe766c8f3cd43351d9bff42d3bfce01e2394818",
+      "experiments/licensed_acquisition_v4/native_snapshot.py": "eec4058cb0a31b8484f72a0e984c8d71ddc0505cb231ed02fab50629a8564ed6",
+      "experiments/licensed_acquisition_v4/protocol.json": "9d01b698ce07c1521b69360d00f14a6f1bfea1fa51a345606c0426f31563103d",
+      "experiments/licensed_acquisition_v5/native_snapshot.py": "e3c829b2b56c9f8206db396ad8deb76b9740c7cb381316d26b07beb61e06b3bb",
+      "experiments/licensed_acquisition_v5/protocol.json": "dea994df5eadb5fea182efdb1a33374df21695dca9209a6b6a8f0fee2d66e711",
+      "experiments/licensed_acquisition_v7/native_snapshot.py": "b891c299ca666a1058454c47df506c16a55683c3bec9ed6834e7a7d027c2b5f2",
+      "experiments/licensed_acquisition_v7/protocol.json": "8a1d89b9f924b1d25d3ff9af855a8e486ced7d01046982fe70ab0322765ab42e",
+      "experiments/licensed_acquisition_v1/fetch.py": "56902cfc2b281323801279ba613cd3429b19a51810283aa31e4254d36a5c10c8",
+      "scripts/experiment_portfolio.py": "d296adaedddf7bea66bd369b1f178ccd2d93abe48c17e1388dff32a1e0be328f"
+    }
+  },
+  "variants": [
+    "via_default",
+    "via_low",
+    "via_high"
+  ],
+  "fixed_order": true,
+  "guidance_policy": null,
+  "scoring": {
+    "via_default": {
+      "variant": "via_default",
+      "via_costs": 50,
+      "plane_via_costs": 5,
+      "argv": [
+        "--router.scoring.via_costs=50",
+        "--router.scoring.plane_via_costs=5"
+      ]
+    },
+    "via_low": {
+      "variant": "via_low",
+      "via_costs": 25,
+      "plane_via_costs": 3,
+      "argv": [
+        "--router.scoring.via_costs=25",
+        "--router.scoring.plane_via_costs=3"
+      ]
+    },
+    "via_high": {
+      "variant": "via_high",
+      "via_costs": 100,
+      "plane_via_costs": 10,
+      "argv": [
+        "--router.scoring.via_costs=100",
+        "--router.scoring.plane_via_costs=10"
+      ]
+    }
+  },
+  "selection_rule": "minimum (native via count, native track length, fixed attempt index)",
+  "wall_budget_seconds": 100.0,
+  "cpu_budget_seconds": 100.0,
+  "root_finalization_reserve_seconds": 15.0,
+  "attempt_allocation": "min(remaining global wall, remaining global CPU) minus finalization reserve; route helper then withholds its engine grace/native reserves",
+  "constraints": "same immutable source, targets, adapter, native validation, and per-board support policy for every attempt",
+  "validation": "every accepted trial receives native validation; final selection rechecks exact unchanged receipt/candidate. No candidate is copied or mutated during selection.",
+  "cpu_accounting": "RUSAGE_SELF + RUSAGE_CHILDREN deltas over this whole invocation, including all setup, attempts, checks, and selection; never sum nested receipt CPU into this value",
+  "claim_scope": "exposed development experiment; no population superiority or electrical adequacy claim",
+  "resume": {
+    "plan_path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portfolio-completed-prefix-resume-draft-001/prospective-resume-plan.json",
+    "plan_sha256": "5bf4bd50fb6d29f2aaaa54eea3a6b0982f1ca4eecdd5033a5bfc2bd1cd21c627",
+    "plan": {
+      "schema": 2,
+      "policy": "completed-default-prefix-resume-v1",
+      "project": "arcdice",
+      "guidance_policy": null,
+      "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-original-native-001/original/hardware/ArcDice.kicad_pcb",
+      "old_directory": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-native-paired-complete-sch-003/run/B2_portfolio",
+      "artifacts": {
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-native-paired-complete-sch-003/run/paired-summary.json": "a6403bf267ba0c8d9e936b2e5948f3bfa1790550237afd93ebc1c565b35f25b9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-native-paired-complete-sch-003/run/protocol.json": "653156c76bbd3c48043874595281136a03f55e03efa6a1c4316cc0713eb0e223",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-native-paired-complete-sch-003/run/B2_portfolio-invocation.json": "7e1445215809c1d8124574efd284238fcd213e1e682a476df7224c892e79c4fa",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-native-paired-complete-sch-003/run/B2_portfolio/portfolio-summary.json": "d729bd28e9f727d328d8224e0605ec0741b5d18f9fb5274ad8a7a83dc4588996",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-native-paired-complete-sch-003/run/B2_portfolio/protocol.json": "9435428916627a68562a160be4926c10e7bffd5714ada7263b80e8ae12081dc6"
+      },
+      "budget_seconds": 100.0,
+      "old_budget_seconds": 74.3810895409988,
+      "new_budget_seconds": 100.0,
+      "outer_arm_budget_seconds": 120.0,
+      "full_arm_charge_required": true,
+      "prior_invocation_wall_seconds": 21.451293707999866,
+      "prior_invocation_cpu_seconds": 19.567585,
+      "retained_variants": [
+        "via_default"
+      ],
+      "continue_variants": [
+        "via_low",
+        "via_high"
+      ],
+      "allowed_compatibility_changes": [
+        "tools.git_head",
+        "files_sha256/scripts/experiment_portfolio.py"
+      ],
+      "retained_inventory_sha256": "ace12b706d8a900a3829e1e704fff12c6a7c76c53b1dbfdea3a6482fe2964d56"
+    },
+    "prior_freeze": {
+      "tools": {
+        "implementation_sha256": {
+          "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+          "autorouter/__main__.py": "a4f6ca97f5dadc2547825ca5bf7be585a8fb6845db1956815679a43474c26113",
+          "autorouter/adapter.py": "95211455104334e338b83c77aecf8541ee24b0b4f7cd6c3043bcb71d478ddfca",
+          "autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+          "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+          "autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+          "autorouter/floor_route.py": "787d0a309d8511628b0ada7a2f06ea7df1080fa2636b1c2ab540d182eba29b5a",
+          "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+          "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+          "autorouter/native.py": "ded5cdfceac8dac94033e7a1c249efc87c9ad7dcae450a9ea4291bbdf2fde7a1",
+          "autorouter/netclass.py": "79d4b7e98c7b46fe924816ddcc7fa384672bf646d1c06f81e134ce6d97e0a7de",
+          "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+          "autorouter/pipeline.py": "5f593d60ac3a83a3ab98a9d742625cd5a38aa754aa5cc974a73d3d5efc6816fe",
+          "autorouter/placement_clearance.py": "f846a73367bc60dfbb48386233e405cb4bf1382f056d379787d7b823c3905feb",
+          "autorouter/placement_strategy.py": "b75a2291eed37d8ddb9f052c0b715faafcc2dfd258ae32f9e2763fcd01db0e97",
+          "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+          "autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+          "autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+          "autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+          "autorouter/recovery.py": "8a2bf1470cb69e7d8d334bbe7aef18110322a7aa786b965d397a89ddbc932ee5",
+          "autorouter/review_export.py": "716b369af61faa8c15f60ef58a0846772e4b175cff4a75af0c2c5ea45f24aea7",
+          "autorouter/review_view.py": "8f765624a8527df770a98594a7b27fe88776b300ec276f809c179ec7f6f60fb7",
+          "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+          "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+          "autorouter/schematic_field_evidence.py": "d7e1012b05bb7e0fb03358bbc3573b845ff06d03760a88137cf52db71090641b",
+          "autorouter/schematic_fields.py": "7d9043a14bac69d18830b2f51cb7d118c648df9290337505db1bf8503d931a71",
+          "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+          "autorouter/strategy.py": "4f13680269d2062798d998a6074e4194442c7ec2aa447a4c23ddec3b14f83c3a",
+          "autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+          "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+          "autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455"
+        },
+        "git_head": "6da5c4b7b06a44b845f5359a5880bc09524e9efe",
+        "kicad": "10.0.0",
+        "freerouting": "2.5.0",
+        "files": {
+          "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+          "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+          "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+          "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219"
+        },
+        "network": "engine sandbox-exec deny network*"
+      },
+      "source_hashes": {
+        "ArcDice.kicad_pcb": "098e90725279e698f61d7f4a5f0281202ba32f655b9c430047c019783a60bf96",
+        "ArcDice.kicad_pro": "be12f193331f3091ef31b9df28dc968119be56269adddcd5b2ed2921523223f6",
+        "ArcDice.kicad_sch": "388bb0410c3372c2331c84b44ba8a45e10c4b34206a3b28b65cb90057129e4de"
+      },
+      "files_sha256": {
+        "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+        "autorouter/__main__.py": "a4f6ca97f5dadc2547825ca5bf7be585a8fb6845db1956815679a43474c26113",
+        "autorouter/adapter.py": "95211455104334e338b83c77aecf8541ee24b0b4f7cd6c3043bcb71d478ddfca",
+        "autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+        "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+        "autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+        "autorouter/floor_route.py": "787d0a309d8511628b0ada7a2f06ea7df1080fa2636b1c2ab540d182eba29b5a",
+        "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+        "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+        "autorouter/native.py": "ded5cdfceac8dac94033e7a1c249efc87c9ad7dcae450a9ea4291bbdf2fde7a1",
+        "autorouter/netclass.py": "79d4b7e98c7b46fe924816ddcc7fa384672bf646d1c06f81e134ce6d97e0a7de",
+        "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+        "autorouter/pipeline.py": "5f593d60ac3a83a3ab98a9d742625cd5a38aa754aa5cc974a73d3d5efc6816fe",
+        "autorouter/placement_clearance.py": "f846a73367bc60dfbb48386233e405cb4bf1382f056d379787d7b823c3905feb",
+        "autorouter/placement_strategy.py": "b75a2291eed37d8ddb9f052c0b715faafcc2dfd258ae32f9e2763fcd01db0e97",
+        "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+        "autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+        "autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+        "autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+        "autorouter/recovery.py": "8a2bf1470cb69e7d8d334bbe7aef18110322a7aa786b965d397a89ddbc932ee5",
+        "autorouter/review_export.py": "716b369af61faa8c15f60ef58a0846772e4b175cff4a75af0c2c5ea45f24aea7",
+        "autorouter/review_view.py": "8f765624a8527df770a98594a7b27fe88776b300ec276f809c179ec7f6f60fb7",
+        "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+        "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+        "autorouter/schematic_field_evidence.py": "d7e1012b05bb7e0fb03358bbc3573b845ff06d03760a88137cf52db71090641b",
+        "autorouter/schematic_fields.py": "7d9043a14bac69d18830b2f51cb7d118c648df9290337505db1bf8503d931a71",
+        "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+        "autorouter/strategy.py": "4f13680269d2062798d998a6074e4194442c7ec2aa447a4c23ddec3b14f83c3a",
+        "autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+        "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+        "autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455",
+        "scripts/experiment_quality.py": "e7f6224b92912929c1b94ee5d0fd9de17aaaa240abc3d56d7a2bc96df8f8220a",
+        "toolchain.lock.json": "f04be5cdf6f64bddc16a6c5efd217b2f5e0a1341906ff44033f5807971154efe",
+        "data/sources.json": "a2a8e9e22ff3e109de94733aa8f5e99ca5fd476ef9ec20be837c54100036eac1",
+        "scripts/fetch_led_demo.py": "0ef143db419f81b0f12df5fb44feca34d02f5727571d7c402bad0adbe2426ca0",
+        "experiments/arcdice_native_class_v1/source.py": "98bde7a79b31f3915c709c396fe766c8f3cd43351d9bff42d3bfce01e2394818",
+        "experiments/licensed_acquisition_v4/native_snapshot.py": "eec4058cb0a31b8484f72a0e984c8d71ddc0505cb231ed02fab50629a8564ed6",
+        "experiments/licensed_acquisition_v4/protocol.json": "9d01b698ce07c1521b69360d00f14a6f1bfea1fa51a345606c0426f31563103d",
+        "experiments/licensed_acquisition_v5/native_snapshot.py": "e3c829b2b56c9f8206db396ad8deb76b9740c7cb381316d26b07beb61e06b3bb",
+        "experiments/licensed_acquisition_v5/protocol.json": "dea994df5eadb5fea182efdb1a33374df21695dca9209a6b6a8f0fee2d66e711",
+        "experiments/licensed_acquisition_v7/native_snapshot.py": "b891c299ca666a1058454c47df506c16a55683c3bec9ed6834e7a7d027c2b5f2",
+        "experiments/licensed_acquisition_v7/protocol.json": "8a1d89b9f924b1d25d3ff9af855a8e486ced7d01046982fe70ab0322765ab42e",
+        "experiments/licensed_acquisition_v1/fetch.py": "56902cfc2b281323801279ba613cd3429b19a51810283aa31e4254d36a5c10c8",
+        "scripts/experiment_portfolio.py": "94feae5458e1d4cb0d093812bac03827d946e2fa8156490518964796be0b1b80"
+      }
+    },
+    "retained_trial": {
+      "index": 0,
+      "id": "via_default",
+      "assigned_seconds": 55.216732415996375,
+      "guidance_policy": null,
+      "started_utc": "2026-10-14T05:18:35.107246+00:00",
+      "finished_utc": "2026-10-14T05:18:50.131711+00:00",
+      "status": "routing_accepted",
+      "reason": null,
+      "accepted_in_trial_receipt": true,
+      "eligible": true,
+      "invocation_wall_seconds": 15.024400791007793,
+      "invocation_cpu_seconds": 13.831879000000004,
+      "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-native-paired-complete-sch-003/run/B2_portfolio/01-via_default/result.json",
+      "result_sha256": "c786a611631cf74841d5d19fd33760d888e9751827fc89775038fbd7639bd06c",
+      "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-native-paired-complete-sch-003/run/B2_portfolio/01-via_default/candidate/ArcDice.kicad_pcb",
+      "candidate_sha256": "42ac7df81e81b4b82df7221527a4621cb4cd52bd8a08374741322a4697991a61",
+      "native_report_sha256": "46b2f66edd94314aa3e3af84c2092c241974dad3411b6b4a56bff0b938dfbdde",
+      "vias": 0,
+      "length_mm": 636.9890979739067,
+      "peak_child_rss_bytes": 348651520,
+      "peak_polled_group_rss_bytes": 348520448,
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 26,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D4",
+                "pos": {
+                  "x": 133.73,
+                  "y": 75.0
+                },
+                "uuid": "10adda4f-e2e9-4db0-b4c9-bb826d187ffa"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D7",
+                "pos": {
+                  "x": 143.73,
+                  "y": 85.0
+                },
+                "uuid": "14934184-dc81-44d9-ba6a-73aa145ab7f0"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R7",
+                "pos": {
+                  "x": 147.06,
+                  "y": 90.5
+                },
+                "uuid": "21da4687-c643-40b6-8d73-857a9ff85a3b"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'MountingHole'",
+            "items": [
+              {
+                "description": "Footprint H3",
+                "pos": {
+                  "x": 104.0,
+                  "y": 44.0
+                },
+                "uuid": "2788a2ed-4d9f-4630-a994-021aa3447175"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D6",
+                "pos": {
+                  "x": 123.73,
+                  "y": 85.0
+                },
+                "uuid": "378a7737-67d8-49c4-9900-5ed5f92e04c1"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R2",
+                "pos": {
+                  "x": 150.5,
+                  "y": 61.44
+                },
+                "uuid": "487a96b4-0ceb-4783-bc6d-d3f76336443b"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R3",
+                "pos": {
+                  "x": 119.5,
+                  "y": 67.56
+                },
+                "uuid": "502212ce-a247-4c63-a135-bd5bd7102129"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R5",
+                "pos": {
+                  "x": 139.06,
+                  "y": 80.75
+                },
+                "uuid": "5d7eeb68-dd82-46fa-8c32-b4e4ecc8bf65"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R6",
+                "pos": {
+                  "x": 119.75,
+                  "y": 78.31
+                },
+                "uuid": "62413f4c-41a8-43c3-8d63-5487e23a014a"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Button_Switch_THT'",
+            "items": [
+              {
+                "description": "Footprint SW2",
+                "pos": {
+                  "x": 131.75,
+                  "y": 43.5
+                },
+                "uuid": "68ef80ed-031f-4d4a-8cd1-251eb0852ec2"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R1",
+                "pos": {
+                  "x": 140.0,
+                  "y": 72.56
+                },
+                "uuid": "6fa0116f-6feb-42bf-a468-73f3dd480a5b"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Button_Switch_THT'",
+            "items": [
+              {
+                "description": "Footprint SW1",
+                "pos": {
+                  "x": 155.25,
+                  "y": 52.25
+                },
+                "uuid": "721b697b-dd6a-4997-b0b5-4596253006c8"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D1",
+                "pos": {
+                  "x": 123.73,
+                  "y": 65.0
+                },
+                "uuid": "7900e8d1-ca01-414e-92fe-c65a2a12c2df"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'MountingHole'",
+            "items": [
+              {
+                "description": "Footprint H4",
+                "pos": {
+                  "x": 166.0,
+                  "y": 106.0
+                },
+                "uuid": "7aaf7735-a5ef-4add-ae9a-2553e9976b87"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'MountingHole'",
+            "items": [
+              {
+                "description": "Footprint H1",
+                "pos": {
+                  "x": 166.0,
+                  "y": 44.0
+                },
+                "uuid": "7d0d67bb-5f8b-4231-8fec-b5931349d564"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R4",
+                "pos": {
+                  "x": 130.25,
+                  "y": 72.81
+                },
+                "uuid": "927c9e3b-878e-4076-bf4b-4dbcc7178ece"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D3",
+                "pos": {
+                  "x": 123.73,
+                  "y": 75.0
+                },
+                "uuid": "92f867f8-a632-46e7-a0e2-40ba7ca96952"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R8",
+                "pos": {
+                  "x": 120.06,
+                  "y": 44.25
+                },
+                "uuid": "a9add2dd-e09e-4274-a332-ece0be82e46b"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'MountingHole'",
+            "items": [
+              {
+                "description": "Footprint H2",
+                "pos": {
+                  "x": 104.0,
+                  "y": 106.0
+                },
+                "uuid": "aa3f1460-34fc-4bb3-953f-33eafa7917fd"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D5",
+                "pos": {
+                  "x": 143.73,
+                  "y": 75.0
+                },
+                "uuid": "c760fe96-8797-4456-a19b-ca9b34305d28"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D2",
+                "pos": {
+                  "x": 143.73,
+                  "y": 65.0
+                },
+                "uuid": "dc5722e8-b38d-4d33-8bd6-2f0812afd44c"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+            "items": [
+              {
+                "description": "Footprint C2",
+                "pos": {
+                  "x": 108.205113,
+                  "y": 55.0
+                },
+                "uuid": "698196cc-c1fd-4eea-8d24-9d78ea941632"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'MyFootprints'",
+            "items": [
+              {
+                "description": "Footprint U2",
+                "pos": {
+                  "x": 150.995,
+                  "y": 103.005
+                },
+                "uuid": "d5421e99-eb39-4620-9dbe-424e9040eddb"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+            "items": [
+              {
+                "description": "Footprint C1",
+                "pos": {
+                  "x": 108.75,
+                  "y": 49.75
+                },
+                "uuid": "d592e5e2-cf82-48c7-af74-b9af4b4a06f7"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Battery'",
+            "items": [
+              {
+                "description": "Footprint BT1",
+                "pos": {
+                  "x": 121.0,
+                  "y": 99.25
+                },
+                "uuid": "e7507d54-477b-4580-95f4-315f716a6fea"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Package_DIP'",
+            "items": [
+              {
+                "description": "Footprint U1",
+                "pos": {
+                  "x": 120.06,
+                  "y": 48.19
+                },
+                "uuid": "f8464d79-bd52-46a8-97c7-0248620e1167"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          }
+        ]
+      },
+      "retained_from": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-native-paired-complete-sch-003/run/B2_portfolio/portfolio-summary.json",
+      "retained_contract_sha256": "d49bec7ac93b9b2eea08d4ba4443e92a4c2d030d4eab1711fc32296ff3d482b6"
+    },
+    "prior_wall_seconds": 21.451293707999866,
+    "prior_cpu_seconds": 19.567585,
+    "retained_inventory": [
+      {
+        "01-via_default/candidate/ArcDice.kicad_pcb": "42ac7df81e81b4b82df7221527a4621cb4cd52bd8a08374741322a4697991a61",
+        "01-via_default/candidate/ArcDice.kicad_pro": "be12f193331f3091ef31b9df28dc968119be56269adddcd5b2ed2921523223f6",
+        "01-via_default/candidate/ArcDice.kicad_sch": "388bb0410c3372c2331c84b44ba8a45e10c4b34206a3b28b65cb90057129e4de",
+        "01-via_default/code/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+        "01-via_default/code/__main__.py": "a4f6ca97f5dadc2547825ca5bf7be585a8fb6845db1956815679a43474c26113",
+        "01-via_default/code/adapter.py": "95211455104334e338b83c77aecf8541ee24b0b4f7cd6c3043bcb71d478ddfca",
+        "01-via_default/code/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+        "01-via_default/code/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+        "01-via_default/code/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+        "01-via_default/code/floor_route.py": "787d0a309d8511628b0ada7a2f06ea7df1080fa2636b1c2ab540d182eba29b5a",
+        "01-via_default/code/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+        "01-via_default/code/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+        "01-via_default/code/native.py": "ded5cdfceac8dac94033e7a1c249efc87c9ad7dcae450a9ea4291bbdf2fde7a1",
+        "01-via_default/code/netclass.py": "79d4b7e98c7b46fe924816ddcc7fa384672bf646d1c06f81e134ce6d97e0a7de",
+        "01-via_default/code/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+        "01-via_default/code/pipeline.py": "5f593d60ac3a83a3ab98a9d742625cd5a38aa754aa5cc974a73d3d5efc6816fe",
+        "01-via_default/code/placement_clearance.py": "f846a73367bc60dfbb48386233e405cb4bf1382f056d379787d7b823c3905feb",
+        "01-via_default/code/placement_strategy.py": "b75a2291eed37d8ddb9f052c0b715faafcc2dfd258ae32f9e2763fcd01db0e97",
+        "01-via_default/code/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+        "01-via_default/code/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+        "01-via_default/code/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+        "01-via_default/code/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+        "01-via_default/code/recovery.py": "8a2bf1470cb69e7d8d334bbe7aef18110322a7aa786b965d397a89ddbc932ee5",
+        "01-via_default/code/review_export.py": "716b369af61faa8c15f60ef58a0846772e4b175cff4a75af0c2c5ea45f24aea7",
+        "01-via_default/code/review_view.py": "8f765624a8527df770a98594a7b27fe88776b300ec276f809c179ec7f6f60fb7",
+        "01-via_default/code/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+        "01-via_default/code/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+        "01-via_default/code/schematic_field_evidence.py": "d7e1012b05bb7e0fb03358bbc3573b845ff06d03760a88137cf52db71090641b",
+        "01-via_default/code/schematic_fields.py": "7d9043a14bac69d18830b2f51cb7d118c648df9290337505db1bf8503d931a71",
+        "01-via_default/code/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+        "01-via_default/code/strategy.py": "4f13680269d2062798d998a6074e4194442c7ec2aa447a4c23ddec3b14f83c3a",
+        "01-via_default/code/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+        "01-via_default/code/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+        "01-via_default/code/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455",
+        "01-via_default/engine-config/freerouting.json": "384553fd4eb22ec27f96db9f06307e0abb0d9ff6a9d545fe99062ff2b5d0f830",
+        "01-via_default/engine-process.json": "33c5f750f399f7298881b897cd6cabaaa10aa05f9093b51e31853c204f50e376",
+        "01-via_default/engine.log": "426969a1b5130126be7aa0a31b2eef67ee8af82c5c9153b75f13759c68cbfb9c",
+        "01-via_default/export-netclasses.json": "3e5139b1980afb62210dbf3f061cd2d709fecc5ca9f9e7cd597331dc25f60142",
+        "01-via_default/export-process.json": "5b24c260a38bcc997036a3151abbef9ac815c48dd11f9b5cad57957f4cb410f6",
+        "01-via_default/export.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "01-via_default/final-drc-binding.json": "346a458f8a1575585f44ea33584008f8d1b0eff2cbbd3e92b3d3a822c778c523",
+        "01-via_default/final-drc-input/ArcDice.kicad_pcb": "42ac7df81e81b4b82df7221527a4621cb4cd52bd8a08374741322a4697991a61",
+        "01-via_default/final-drc-input/ArcDice.kicad_prl": "4893e8317a8b32a1845ec2011c070cbd729f114f5efe0a1fe4de75b64a2ec448",
+        "01-via_default/final-drc-input/ArcDice.kicad_pro": "be12f193331f3091ef31b9df28dc968119be56269adddcd5b2ed2921523223f6",
+        "01-via_default/final-drc-input/ArcDice.kicad_sch": "388bb0410c3372c2331c84b44ba8a45e10c4b34206a3b28b65cb90057129e4de",
+        "01-via_default/final-drc-process.json": "01ed26475ef215e0c79f3910aa1b5a04e49c36477d311f29e2544d5043107074",
+        "01-via_default/final-drc.json": "46b2f66edd94314aa3e3af84c2092c241974dad3411b6b4a56bff0b938dfbdde",
+        "01-via_default/final-drc.log": "a55e50e74023bb6120588a583ada6cf6d6c8bda9a99c0a742328acc8dd1d01f5",
+        "01-via_default/final-netclass-audit.json": "839d95826660349ed2be21c37b700e30c805ee9128a49f0597203dd9d0470439",
+        "01-via_default/final-netclasses-process.json": "2f2cb38b0f0e74bad2cef2c66f2b9460d78b15e556f7eb990ffb042535c83a08",
+        "01-via_default/final-netclasses.json": "d50c38de005ae9bea590c1948e80336a3a41252147ba7c6fb7aaa23fc22df923",
+        "01-via_default/final-netclasses.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "01-via_default/import-process.json": "e19bc12fd00a1efd62d43d4d070b2f43c13625bb318a5f2769034cee57f56f1d",
+        "01-via_default/import.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "01-via_default/imported.kicad_pcb": "300175f2ea43cb7094aa829150d7cb786d687577d90d36717907801b25c3b208",
+        "01-via_default/imported.kicad_prl": "7d9ad4476f33f37f2a7260669e933885b08555cc667b8a58a3980a10d5e0a4dd",
+        "01-via_default/imported.kicad_pro": "b3a1c14287200ad97dbe8cd73fdf7eda5bf9d56b3f8b5424b25e272c74b342fd",
+        "01-via_default/kicad-config/10.0/3d_viewer.json": "196678c94fed37c15510bb4b54d6e4eec989a0c3f9b4d30ff1be0d1425992bf3",
+        "01-via_default/kicad-config/10.0/cvpcb.json": "b93174a3b1470f1ce0e43c90268ce83976432c5210d906a3846ee7976ea9d272",
+        "01-via_default/kicad-config/10.0/eeschema.json": "ce1d47af13c60254b736992e8a387cf93b06c83f302e3aaa4c6836acb05d3502",
+        "01-via_default/kicad-config/10.0/fpedit.json": "e88988497732f32bf92cccd726d7d28ea7dfe1922d693448a38cb4c063f9d368",
+        "01-via_default/kicad-config/10.0/kicad.json": "026a2e3d05986b554bc6f5aa8590c69e847090527e0e718287e1005dbd905015",
+        "01-via_default/kicad-config/10.0/kicad_common.json": "fc076ee32c7ca6047268007030e2e0bb09b81317ad36db3046229175019e8647",
+        "01-via_default/kicad-config/10.0/pcbnew.json": "f0822c67ee74c2e6189603de283b6d288e77a6a201c65d2f6b60afd119c95845",
+        "01-via_default/kicad-config/10.0/symbol_editor.json": "a3212dc53c3cbfd170a2bb6ae42db289bc6f4c3cf6df9abc4a5c856d22d2f86a",
+        "01-via_default/metrics-process.json": "f0d44016677534fa4e94727363adc644a23d8391dae00fe7ad0c72546ca465c5",
+        "01-via_default/metrics.json": "4ac6f035e623902b7238d867cf3327bfdaa56092afa012e7c4ffdb556bda177c",
+        "01-via_default/metrics.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "01-via_default/native.dsn": "42c8091ee2f526676cf19170dac902fd61d0e0452d42fce710f9f2663e1e84aa",
+        "01-via_default/obstacles-process.json": "85cf3c97a0afeff8ae1e659f81264fbc33fadc7dbad0214520e2320427d629ec",
+        "01-via_default/obstacles.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "01-via_default/obstacles.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "01-via_default/refill-drc-binding.json": "98cfaf8f29afc0e2ffecae887a81fa847995ff301cb17baa0cd3f7183d3feadc",
+        "01-via_default/refill-drc-process.json": "70ce0199b37e68f9e7f1676bdf4ce352e7d930aa233cc05415d8d47d5acefcb1",
+        "01-via_default/refill-drc.json": "8e9a37eb84c0c62e50850be28eb85d01cc223afb81332ba16b8e316d5ab9a5d1",
+        "01-via_default/refill-drc.log": "b86e853ef6ed6ca2383ecc68fef888dc5a1deb63b66435a5272e40d77177abbb",
+        "01-via_default/refill/ArcDice.kicad_pcb": "9e38278b6d0a2cbdc225023b28bcbb5dd500ba03b970e84a667ea607c696feef",
+        "01-via_default/refill/ArcDice.kicad_prl": "4893e8317a8b32a1845ec2011c070cbd729f114f5efe0a1fe4de75b64a2ec448",
+        "01-via_default/refill/ArcDice.kicad_pro": "be12f193331f3091ef31b9df28dc968119be56269adddcd5b2ed2921523223f6",
+        "01-via_default/refill/ArcDice.kicad_sch": "388bb0410c3372c2331c84b44ba8a45e10c4b34206a3b28b65cb90057129e4de",
+        "01-via_default/result.json": "c786a611631cf74841d5d19fd33760d888e9751827fc89775038fbd7639bd06c",
+        "01-via_default/routes.ses": "0b75a337a8ff988684326322ee0e85f8f7f409af10da0b74383cedcc6adfe454",
+        "01-via_default/snapshot/ArcDice.kicad_pcb": "098e90725279e698f61d7f4a5f0281202ba32f655b9c430047c019783a60bf96",
+        "01-via_default/snapshot/ArcDice.kicad_pro": "be12f193331f3091ef31b9df28dc968119be56269adddcd5b2ed2921523223f6",
+        "01-via_default/snapshot/ArcDice.kicad_sch": "388bb0410c3372c2331c84b44ba8a45e10c4b34206a3b28b65cb90057129e4de",
+        "01-via_default/source-drc-binding.json": "0f417692421f3bc66a2ec8adf082bae77bd02fd14731fde1c05a059da7f67118",
+        "01-via_default/source-drc-input/ArcDice.kicad_pcb": "098e90725279e698f61d7f4a5f0281202ba32f655b9c430047c019783a60bf96",
+        "01-via_default/source-drc-input/ArcDice.kicad_prl": "4893e8317a8b32a1845ec2011c070cbd729f114f5efe0a1fe4de75b64a2ec448",
+        "01-via_default/source-drc-input/ArcDice.kicad_pro": "be12f193331f3091ef31b9df28dc968119be56269adddcd5b2ed2921523223f6",
+        "01-via_default/source-drc-input/ArcDice.kicad_sch": "388bb0410c3372c2331c84b44ba8a45e10c4b34206a3b28b65cb90057129e4de",
+        "01-via_default/source-drc-process.json": "7d7ae823a61796fddfa4234d22599fd865d8a4acc25b6d6c4a82c79332218503",
+        "01-via_default/source-drc.json": "d721774f65e20034860976297fe8b22c4de83df24abd4120e8e968097f680dc5",
+        "01-via_default/source-drc.log": "e806b2fa828fc11589dbf5c12470b289ad838edf513a03fc0fd858ebf68c96f9",
+        "01-via_default/task.dsn": "e295e62f6fc6a17e3332951770b3f116e646ca68c014b017903b7805bd9a3183",
+        "frozen-code/autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+        "frozen-code/autorouter/__main__.py": "a4f6ca97f5dadc2547825ca5bf7be585a8fb6845db1956815679a43474c26113",
+        "frozen-code/autorouter/adapter.py": "95211455104334e338b83c77aecf8541ee24b0b4f7cd6c3043bcb71d478ddfca",
+        "frozen-code/autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+        "frozen-code/autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+        "frozen-code/autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+        "frozen-code/autorouter/floor_route.py": "787d0a309d8511628b0ada7a2f06ea7df1080fa2636b1c2ab540d182eba29b5a",
+        "frozen-code/autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+        "frozen-code/autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+        "frozen-code/autorouter/native.py": "ded5cdfceac8dac94033e7a1c249efc87c9ad7dcae450a9ea4291bbdf2fde7a1",
+        "frozen-code/autorouter/netclass.py": "79d4b7e98c7b46fe924816ddcc7fa384672bf646d1c06f81e134ce6d97e0a7de",
+        "frozen-code/autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+        "frozen-code/autorouter/pipeline.py": "5f593d60ac3a83a3ab98a9d742625cd5a38aa754aa5cc974a73d3d5efc6816fe",
+        "frozen-code/autorouter/placement_clearance.py": "f846a73367bc60dfbb48386233e405cb4bf1382f056d379787d7b823c3905feb",
+        "frozen-code/autorouter/placement_strategy.py": "b75a2291eed37d8ddb9f052c0b715faafcc2dfd258ae32f9e2763fcd01db0e97",
+        "frozen-code/autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+        "frozen-code/autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+        "frozen-code/autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+        "frozen-code/autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+        "frozen-code/autorouter/recovery.py": "8a2bf1470cb69e7d8d334bbe7aef18110322a7aa786b965d397a89ddbc932ee5",
+        "frozen-code/autorouter/review_export.py": "716b369af61faa8c15f60ef58a0846772e4b175cff4a75af0c2c5ea45f24aea7",
+        "frozen-code/autorouter/review_view.py": "8f765624a8527df770a98594a7b27fe88776b300ec276f809c179ec7f6f60fb7",
+        "frozen-code/autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+        "frozen-code/autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+        "frozen-code/autorouter/schematic_field_evidence.py": "d7e1012b05bb7e0fb03358bbc3573b845ff06d03760a88137cf52db71090641b",
+        "frozen-code/autorouter/schematic_fields.py": "7d9043a14bac69d18830b2f51cb7d118c648df9290337505db1bf8503d931a71",
+        "frozen-code/autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+        "frozen-code/autorouter/strategy.py": "4f13680269d2062798d998a6074e4194442c7ec2aa447a4c23ddec3b14f83c3a",
+        "frozen-code/autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+        "frozen-code/autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+        "frozen-code/autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455",
+        "frozen-code/data/sources.json": "a2a8e9e22ff3e109de94733aa8f5e99ca5fd476ef9ec20be837c54100036eac1",
+        "frozen-code/experiments/arcdice_native_class_v1/source.py": "98bde7a79b31f3915c709c396fe766c8f3cd43351d9bff42d3bfce01e2394818",
+        "frozen-code/experiments/licensed_acquisition_v1/fetch.py": "56902cfc2b281323801279ba613cd3429b19a51810283aa31e4254d36a5c10c8",
+        "frozen-code/experiments/licensed_acquisition_v4/native_snapshot.py": "eec4058cb0a31b8484f72a0e984c8d71ddc0505cb231ed02fab50629a8564ed6",
+        "frozen-code/experiments/licensed_acquisition_v4/protocol.json": "9d01b698ce07c1521b69360d00f14a6f1bfea1fa51a345606c0426f31563103d",
+        "frozen-code/experiments/licensed_acquisition_v5/native_snapshot.py": "e3c829b2b56c9f8206db396ad8deb76b9740c7cb381316d26b07beb61e06b3bb",
+        "frozen-code/experiments/licensed_acquisition_v5/protocol.json": "dea994df5eadb5fea182efdb1a33374df21695dca9209a6b6a8f0fee2d66e711",
+        "frozen-code/experiments/licensed_acquisition_v7/native_snapshot.py": "b891c299ca666a1058454c47df506c16a55683c3bec9ed6834e7a7d027c2b5f2",
+        "frozen-code/experiments/licensed_acquisition_v7/protocol.json": "8a1d89b9f924b1d25d3ff9af855a8e486ced7d01046982fe70ab0322765ab42e",
+        "frozen-code/scripts/experiment_portfolio.py": "94feae5458e1d4cb0d093812bac03827d946e2fa8156490518964796be0b1b80",
+        "frozen-code/scripts/experiment_quality.py": "e7f6224b92912929c1b94ee5d0fd9de17aaaa240abc3d56d7a2bc96df8f8220a",
+        "frozen-code/scripts/fetch_led_demo.py": "0ef143db419f81b0f12df5fb44feca34d02f5727571d7c402bad0adbe2426ca0",
+        "frozen-code/toolchain.lock.json": "f04be5cdf6f64bddc16a6c5efd217b2f5e0a1341906ff44033f5807971154efe",
+        "portfolio-summary.json": "d729bd28e9f727d328d8224e0605ec0741b5d18f9fb5274ad8a7a83dc4588996",
+        "protocol.json": "9435428916627a68562a160be4926c10e7bffd5714ada7263b80e8ae12081dc6"
+      },
+      [
+        ".",
+        "01-via_default",
+        "01-via_default/candidate",
+        "01-via_default/code",
+        "01-via_default/engine-config",
+        "01-via_default/final-drc-input",
+        "01-via_default/kicad-cache",
+        "01-via_default/kicad-cache/kicad",
+        "01-via_default/kicad-cache/kicad/10.0",
+        "01-via_default/kicad-config",
+        "01-via_default/kicad-config/10.0",
+        "01-via_default/kicad-config/10.0/colors",
+        "01-via_default/kicad-documents",
+        "01-via_default/kicad-documents/kicad",
+        "01-via_default/kicad-documents/kicad/10.0",
+        "01-via_default/kicad-documents/kicad/10.0/3dmodels",
+        "01-via_default/kicad-documents/kicad/10.0/3rdparty",
+        "01-via_default/kicad-documents/kicad/10.0/footprints",
+        "01-via_default/kicad-documents/kicad/10.0/plugins",
+        "01-via_default/kicad-documents/kicad/10.0/projects",
+        "01-via_default/kicad-documents/kicad/10.0/scripting",
+        "01-via_default/kicad-documents/kicad/10.0/symbols",
+        "01-via_default/kicad-documents/kicad/10.0/template",
+        "01-via_default/refill",
+        "01-via_default/snapshot",
+        "01-via_default/source-drc-input",
+        "frozen-code",
+        "frozen-code/autorouter",
+        "frozen-code/data",
+        "frozen-code/experiments",
+        "frozen-code/experiments/arcdice_native_class_v1",
+        "frozen-code/experiments/licensed_acquisition_v1",
+        "frozen-code/experiments/licensed_acquisition_v4",
+        "frozen-code/experiments/licensed_acquisition_v5",
+        "frozen-code/experiments/licensed_acquisition_v7",
+        "frozen-code/scripts"
+      ]
+    ]
+  },
+  "completed_prefix_allocation": {
+    "policy": "completed-default-prefix-resume-v1",
+    "old_budget_seconds": 74.3810895409988,
+    "new_budget_seconds": 100.0,
+    "outer_arm_budget_seconds": 120.0,
+    "full_arm_charge_required": true,
+    "accounting_limit": "Planning budget includes full prior invocation plus new helper costs; caller must additionally charge all old/new shared, prerequisite, startup, outer and final audit costs to unchanged120wall/fullCPU before a paired claim."
+  }
+}

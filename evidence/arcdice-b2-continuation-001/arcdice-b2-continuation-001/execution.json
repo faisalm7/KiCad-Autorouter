@@ -1,0 +1,76 @@
+{
+  "schema": 1,
+  "status": "executed",
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 24.840241375000915,
+    "cpu_seconds": 20.42877,
+    "max_rss_bytes": 395755520,
+    "supervisor_cpu_seconds": 0.137984,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 220086272,
+    "sampled_peak_workdir_bytes": 4963197,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 67108864,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/experiment_portfolio.py",
+      "--project",
+      "arcdice",
+      "--budget",
+      "100.0",
+      "--resume-plan",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portfolio-completed-prefix-resume-draft-001/prospective-resume-plan.json",
+      "--resume-plan-sha256",
+      "5bf4bd50fb6d29f2aaaa54eea3a6b0982f1ca4eecdd5033a5bfc2bd1cd21c627",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-b2-continuation-001/portfolio"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-b2-continuation-001/command.log",
+    "log_bytes": 151,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-b2-continuation-001",
+    "signal_cancellation_enabled": true,
+    "pid": 66726
+  },
+  "protocol_sha256": "219aea87ef275e001f2f25e22ced2b5ec7ae32fbcbca07aae0807b4d06f65cf1",
+  "whole_new_wall_seconds": 24.946467333997134,
+  "whole_new_full_cpu_seconds": 20.664449,
+  "prior_entire_invocation": {
+    "wall_seconds": 21.451293707999866,
+    "full_cpu_seconds": 19.567585
+  },
+  "combined_active_wall_seconds": 46.397761041997,
+  "combined_full_cpu_seconds": 40.232034,
+  "same_arm_allowance_seconds": 100.0,
+  "within_enclosing_budget": true,
+  "calendar_gap": "Prior invocation completed before C; active-work wall reported separately from uninterrupted elapsed calendar time.",
+  "new_native_variants": [
+    "via_low",
+    "via_high"
+  ],
+  "outer_arm_budget_seconds": 120.0,
+  "final_comparison_requires_all_original_shared_outer_and_audit_costs": true,
+  "retained_default_rerun": false,
+  "finished_utc": "2026-10-14T05:53:18.284603+00:00",
+  "accounting_point": "Whole foreground process including new startup/publication; later additive all-arm readback/publication needs its own charge."
+}

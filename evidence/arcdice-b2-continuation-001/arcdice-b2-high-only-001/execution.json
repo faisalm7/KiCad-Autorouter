@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 15.105542875011452,
+    "cpu_seconds": 11.526024,
+    "max_rss_bytes": 256884736,
+    "supervisor_cpu_seconds": 0.08741499999999999,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 203751424,
+    "sampled_peak_workdir_bytes": 4074924,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 67108864,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/run-arcdice-b2-high-only-001.py",
+      "--inner"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-b2-high-only-001/command.log",
+    "log_bytes": 65,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-b2-high-only-001",
+    "signal_cancellation_enabled": true,
+    "pid": 66954
+  },
+  "protocol_sha256": "0d572da9dd5617fc61c85e370cee9a3683e623f27e679e6ebf8dd4b20f303e45",
+  "wrapper_sha256": "150a6fb0adca6bc6482cc4e23321893ec601672ba9e1f97e4d3a2e8836016567",
+  "whole_new_wall_seconds": 15.32674337500066,
+  "whole_new_full_cpu_seconds": 11.737331999999999,
+  "already_committed_charge": {
+    "wall_seconds": 96.72042612699437,
+    "full_cpu_seconds": 89.943471
+  },
+  "combined_charged_wall_seconds": 112.04716950199503,
+  "combined_charged_full_cpu_seconds": 101.680803,
+  "finished_utc": "2026-10-14T05:57:02.142347+00:00",
+  "original_completed_native_repeated": false,
+  "nominal_planning_never_exempts_full120_caps": true,
+  "small_receipt_publication_covered_by_separate_startup_charge": true,
+  "within_full120_caps": true
+}

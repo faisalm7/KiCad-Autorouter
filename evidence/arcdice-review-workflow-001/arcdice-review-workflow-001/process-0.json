@@ -1,0 +1,56 @@
+{
+  "argv": [
+    "review-copy",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-native-paired-complete-sch-003/run/C_feedback/result.json",
+    "--render",
+    "--output",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-review-workflow-001/review"
+  ],
+  "process": {
+    "status": "nonzero_exit",
+    "exit_code": 2,
+    "wall_seconds": 2.043962499999907,
+    "cpu_seconds": 1.2136740000000001,
+    "max_rss_bytes": 70090752,
+    "supervisor_cpu_seconds": 0.005720000000000003,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 68829184,
+    "sampled_peak_workdir_bytes": null,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": null,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "-m",
+      "autorouter",
+      "review-copy",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-native-paired-complete-sch-003/run/C_feedback/result.json",
+      "--render",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-review-workflow-001/review"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-review-workflow-001/command-0.log",
+    "log_bytes": 71,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local",
+    "signal_cancellation_enabled": true,
+    "pid": 63750
+  }
+}

@@ -1,6 +1,6 @@
 # KiCad-Autorouter — local reconstruction
 
-Experimental offline CLI that routes a **separate copy** of a KiCad project and validates it with native KiCad. Current complete-schematic experiments show shorter accepted routes than corrected and tuned/restart Freerouting on NUS, Sonde and one small LED support board, with all original warnings retained. These are exposed development results; broad completion superiority is unproven. Start with the [local demo guide](docs/quickstart.md). See [STATUS.md](STATUS.md) for measured outcomes and open gates.
+Experimental offline CLI that routes a **separate copy** of a KiCad project and validates it with native KiCad. Current complete-schematic experiments show shorter accepted routes than corrected and tuned/restart Freerouting on NUS, Sonde, one small LED support board and ArcDice, with all original warnings retained. These are exposed development results; broad completion superiority is unproven. Start with the [local demo guide](docs/quickstart.md). See [STATUS.md](STATUS.md) for measured outcomes and open gates.
 
 For a new checkout, use a Python3.11 interpreter to create the local environment. In this existing project the environment is already prepared; start with `.venv/bin/python -m autorouter doctor`. Do not replace it. A bare `python3` can resolve to an unsupported system interpreter.
 
