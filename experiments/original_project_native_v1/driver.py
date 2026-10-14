@@ -11,6 +11,7 @@ from autorouter.runner import run
 from experiments.placement_handoff_native_v1.driver import copy_bytes
 LIMIT=20*1024**2;SECONDS=90
 CASES={
+    'arcdice':('arcdice-source','hardware/ArcDice.kicad_pcb','5908d99db1ef98b5996b380c75e5aee8bb8caaa6',None),
     'push-button-led':('v7','PushButtonLed.kicad_pcb','29c46b7c03d2afd9fe3a58fe2070309b12f94b42','.runs/licensed-acquisition-010-run-001/receipt.json'),
     'als311-clock':('v6','hardware/hardware.kicad_pcb','494ab6baf40746d313fe11379425900ebe97c319','.runs/licensed-acquisition-009-run-001/receipt.json'),
     'ardujoy-c64':('v4','Ardujoy_HW/Ardujoy_HW.kicad_pcb','1b63471d9726fb6a38f8544ca73ebf10c7f19820','.runs/licensed-acquisition-007-run-001/receipt.json'),
@@ -45,10 +46,19 @@ def experiment(project,output,*,run_native=False):
     before=files=job=None
     try:
         from importlib import import_module
-        snapshot=import_module('experiments.licensed_acquisition_'+version+'.native_snapshot')
+        snapshot=import_module('experiments.arcdice_native_class_v1.source' if version=='arcdice-source' else 'experiments.licensed_acquisition_'+version+'.native_snapshot')
         files=snapshot.capture();copy_bytes(files,out/'original');before=p.tree_hash(out/'original');board=out/'original'/relative
-        record.update(original_hashes=before,acquisition_receipt_sha256=p.sha(ROOT/acquisition),tools=p.tool_manifest())
+        record.update(original_hashes=before,tools=p.tool_manifest())
+        if project=='arcdice':
+            record.update(source_origin='frozen public source lead; no managed acquisition or new download',
+                source_metadata_sha256={name:p.sha(ROOT/'.runs/arcdice-native-class-scope-001'/name) for name in ('SOURCE_BINDINGS.json','inspection-001.json')},
+                custom_asset_closure_qualified=False)
+        else:record['acquisition_receipt_sha256']=p.sha(ROOT/acquisition)
         code={n:io.read_bytes(ROOT/n) for n in record['tools']['implementation_sha256']}
+        if project=='arcdice':
+            for name in ('source.py','worker.py'):
+                relative='experiments/arcdice_native_class_v1/'+name;code[relative]=io.read_bytes(ROOT/relative)
+            record['additional_implementation_sha256']={name:p.sha(ROOT/name) for name in code if name.startswith('experiments/')}
         for name,raw in code.items():
             committed=subprocess.run(['git','show',record['tools']['git_head']+':'+name],cwd=ROOT,capture_output=True,check=True,timeout=min(3,remaining())).stdout
             if raw!=committed:raise p.Rejected('commit exact native implementation before observations')
@@ -61,12 +71,26 @@ def experiment(project,output,*,run_native=False):
         except p.Rejected as exc:
             record.update(static_supported=False,static_unsupported_reason=str(exc))
         job=BoundJob(out/'job',SECONDS,remaining)
-        if project in {'als311-clock','push-button-led'}:
+        if project in {'als311-clock','push-button-led','arcdice'}:
             # Narrow new original diagnostic: no solver/export or repeated
             # source baseline. Exact original-shell candidate, fresh saved fill
             # and complete finalSCH check. Native serialization differences
             # remain evidence; this branch never grants production support.
             import shutil
+            if project=='arcdice':
+                # One same-load export/parent observation, using the existing
+                # context's before/after Source and native-state binding.
+                class_source=job.out/'class-source';shutil.copytree(board.parent,class_source)
+                context=job.out/'class-context.json';observation=job.out/'class-observation.json';dsn=job.out/'original.dsn'
+                job.step('class-context',[c.PYTHON,ROOT/'experiments/arcdice_native_class_v1/worker.py',class_source/board.name,context,dsn,observation])
+                observed=f.read_json(observation);native_context=f.read_json(context)
+                if (observed['input_hashes_before']!=p.tree_hash(board.parent) or observed['input_hashes_after']!=observed['input_hashes_before']
+                        or native_context['input_hashes_before']!=observed['input_hashes_before'] or observed['floor_context_sha256']!=p.sha(context)
+                        or observed['dsn_sha256']!=p.sha(dsn) or observed['observation_before_export']!=observed['observation_after_export']):
+                    raise p.Rejected('class observation/export Source binding differs')
+                record.update(class_context_sha256=p.sha(context),class_observation_sha256=p.sha(observation),
+                    original_dsn_sha256=p.sha(dsn),class_observation=observed['observation_before_export'],
+                    class_transport_qualified=False,production_support_qualified=False)
             original=sx.read(board);saved=out/'saved';shutil.copytree(board.parent,saved);savedboard=saved/board.name;saved_before=p.tree_hash(saved)
             refill=job.drc('original-refill',savedboard,save=True)
             if f.check_drc_stage(job.out,{'steps':job.steps},'original-refill',savedboard,savedboard,True,saved_before)!=refill:raise p.Rejected('saved original native binding differs')
@@ -103,6 +127,7 @@ def experiment(project,output,*,run_native=False):
             if before is not None:
                 if p.tree_hash(out/'original')!=before or snapshot.capture()!=files:raise p.Rejected('original/acquired source changed')
             if record.get('tools') is not None and p.tool_manifest()!=record['tools']:raise p.Rejected('original diagnostic tool/code/HEAD changed')
+            if any(p.sha(ROOT/name)!=digest for name,digest in record.get('additional_implementation_sha256',{}).items()):raise p.Rejected('additional original diagnostic implementation changed')
         def account():
             if before is not None:record.update(original_preserved=p.tree_hash(out/'original')==before,acquired_source_still_exact=snapshot.capture()==files)
             record.update(wall_seconds=time.monotonic()-started,total_cpu_seconds=time.process_time()+f.child_cpu()-cpu0,output_bytes=size())

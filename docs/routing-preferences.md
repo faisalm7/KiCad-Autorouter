@@ -5,9 +5,9 @@ Saved preferences capture routing choices without editing KiCad project settings
 Create a preset once, edit its values, then preview and route using that file:
 
 ```sh
-python3 -B -m autorouter settings-init --output routing-settings.json
-python3 -B -m autorouter preview /path/to/board.kicad_pcb --settings routing-settings.json
-python3 -B -m autorouter route /path/to/board.kicad_pcb --settings routing-settings.json --output .runs/my-route-001
+.venv/bin/python -B -m autorouter settings-init --output routing-settings.json
+.venv/bin/python -B -m autorouter preview /path/to/board.kicad_pcb --settings routing-settings.json
+.venv/bin/python -B -m autorouter route /path/to/board.kicad_pcb --settings routing-settings.json --output .runs/my-route-001
 ```
 
 Use a new output directory for each route. Preview lists the resolved choices, source copper layers and existing routes that will be protected or rerouted. It reads the board without running a router or KiCad validation. A passing preview does not promise routing success. The resulting candidate still needs native validation and manual review through `review-copy`.
@@ -33,7 +33,7 @@ Use an explicitly selected file outside the immutable input project. There is no
 
 | Field | Supported values and limits |
 |---|---|
-| `scope` | `whole_board_unlocked_routing` or `partial_completion`. The latter maps to existing-route protection. `selected_nets` additionally requires a `nets` list of exact native names, native completion-only profile and source_all layers. Its new native qualification is pending. |
+| `scope` | `whole_board_unlocked_routing` or `partial_completion`. The latter maps to existing-route protection. `selected_nets` additionally requires a `nets` list of exact native names, native completion-only profile and source_all layers. Actual selected positive002 preserves three protected records with0opens/0blocking/0warnings and60mm/0vias; invalid unselected-open/stale/rule/cancellation controls reject. |
 | `seconds` | Finite JSON number from 5 through 900, excluding booleans. This supplies the existing wall and measured-CPU acceptance budgets. A valid value does not promise completion: the engine needs its existing 30-second grace plus 10-second native-finalization planning reserves, in addition to preparation. The default is 120 seconds. |
 | `adapter` | `none`, `graphics`, `planes`, or `both`, subject to the chosen guidance policy. |
 | `profile` | `standard`, `tuned`, or `completion-only`. These select the existing bounded engine profiles. |
