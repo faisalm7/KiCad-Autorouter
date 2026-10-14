@@ -31,6 +31,9 @@ FINAL_RESERVE = 15.0
 VARIANTS = ('via_default', 'via_low', 'via_high')
 SCRIPT = Path(__file__).resolve()
 RESUME_POLICY = 'single-default-strict-targets-resume-v1'
+COMPLETED_PREFIX_POLICY = 'completed-default-prefix-resume-v1'
+COMPLETED_PREFIX_PROJECTS = ('arcdice',)
+COMPLETED_PREFIX_BUDGET = 100.0
 RESUME_SCRIPT = 'scripts/experiment_portfolio.py'
 
 
@@ -142,9 +145,17 @@ def resume_basis(path,pin,board,current,budget,project_name,guidance_policy):
     path=_resume_path(path);raw=pc.read_bytes(path,32*1024*1024)
     if hashlib.sha256(raw).hexdigest()!=pin:raise p.Rejected('resume plan pin differs')
     plan=json.loads(raw);directory=_resume_path(plan['old_directory']);base=directory.parent
+    completed=plan.get('policy')==COMPLETED_PREFIX_POLICY
+    old_budget=plan.get('old_budget_seconds') if completed else budget
+    if completed and (project_name not in COMPLETED_PREFIX_PROJECTS or budget!=COMPLETED_PREFIX_BUDGET
+            or not q.finite_nonnegative(old_budget) or not 60<=old_budget<budget
+            or plan.get('new_budget_seconds')!=budget or plan.get('outer_arm_budget_seconds')!=BUDGET
+            or plan.get('full_arm_charge_required') is not True):
+        raise p.Rejected('unsupported completed-prefix allocation/outer-charge contract')
     paths={str(base/name) for name in ('paired-summary.json','protocol.json','B2_portfolio-invocation.json')}
     paths|={str(directory/name) for name in ('portfolio-summary.json','protocol.json')}
-    if (plan.get('schema')!=1 or plan.get('policy')!=RESUME_POLICY or project_name!='nus-usb-led'
+    if (plan.get('schema')!=(2 if completed else 1)
+            or (not completed and (plan.get('policy')!=RESUME_POLICY or project_name!='nus-usb-led'))
             or plan.get('project')!=project_name or guidance_policy is not None or plan.get('guidance_policy') is not None
             or plan.get('source')!=str(board) or plan.get('budget_seconds')!=budget
             or plan.get('retained_variants')!=['via_default'] or plan.get('continue_variants')!=['via_low','via_high']
@@ -159,18 +170,22 @@ def resume_basis(path,pin,board,current,budget,project_name,guidance_policy):
     rows=[r for r in pair['results'] if r.get('id')=='B2_portfolio']
     if len(rows)!=1:raise p.Rejected('unique paired cost witness required')
     charged=rows[0];prior=(plan['prior_invocation_wall_seconds'],plan['prior_invocation_cpu_seconds'])
-    if (any(not q.finite_nonnegative(x) or x>budget for x in prior)
+    if (any(not q.finite_nonnegative(x) or x>old_budget for x in prior)
             or tuple(charged.get(k) for k in ('invocation_wall_seconds','invocation_cpu_seconds'))!=prior
             or tuple(invoice.get(k) for k in ('invocation_wall_seconds','invocation_cpu_seconds'))!=prior
-            or charged.get('assigned_seconds')!=budget or charged.get('result')!=str(directory/'portfolio-summary.json')
+            or charged.get('assigned_seconds')!=old_budget or charged.get('result')!=str(directory/'portfolio-summary.json')
             or charged.get('result_sha256')!=plan['artifacts'][str(directory/'portfolio-summary.json')]
-            or paired_protocol.get('inner_allowance_seconds')!=budget):
+            or paired_protocol.get('inner_allowance_seconds')!=old_budget):
         raise p.Rejected('resume must charge complete measured paired invocation')
-    if (old.get('status')!='invalidated' or old.get('comparison_eligible') is not False or old.get('selected') is not None
-            or old.get('reason')!='Rejected: trial engine profile differs from declared variant'
+    prefix_valid=(old.get('status')=='completed' and old.get('comparison_eligible') is True
+        and old.get('stop_reason')=='insufficient remaining budget for another attempt and reserves'
+        and isinstance(old.get('selected'),dict) and old['selected'].get('id')=='via_default') if completed else (
+        old.get('status')=='invalidated' and old.get('comparison_eligible') is False and old.get('selected') is None
+        and old.get('reason')=='Rejected: trial engine profile differs from declared variant')
+    if (not prefix_valid
             or old.get('source')!=str(board) or old.get('guidance_policy') is not None
             or old.get('protocol_sha256')!=plan['artifacts'][str(directory/'protocol.json')]
-            or any(old.get(k)!=budget or protocol.get(k)!=budget for k in ('wall_budget_seconds','cpu_budget_seconds'))
+            or any(old.get(k)!=old_budget or protocol.get(k)!=old_budget for k in ('wall_budget_seconds','cpu_budget_seconds'))
             or protocol.get('variants')!=list(VARIANTS) or protocol.get('fixed_order') is not True
             or protocol.get('guidance_policy') is not None or protocol.get('source')!=str(board)
             or protocol.get('scoring')!={name:p.engine_scoring_settings(name) for name in VARIANTS}
@@ -178,19 +193,29 @@ def resume_basis(path,pin,board,current,budget,project_name,guidance_policy):
             or len(old.get('trials',[]))!=1):
         raise p.Rejected('only the exact interrupted default portfolio may resume')
     row=copy.deepcopy(old['trials'][0]);trial=directory/'01-via_default/result.json'
-    if (row.get('index')!=0 or row.get('id')!='via_default' or row.get('eligible') is not False
+    if (row.get('index')!=0 or row.get('id')!='via_default' or row.get('eligible') is not (True if completed else False)
             or row.get('accepted_in_trial_receipt') is not True or row.get('status')!='routing_accepted'
             or row.get('guidance_policy') is not None or row.get('result')!=str(trial)
             or {x.name for x in directory.iterdir()}!={'portfolio-summary.json','protocol.json','frozen-code','01-via_default'}
             or any(not q.finite_nonnegative(row.get(k)) or row[k]>row['assigned_seconds'] for k in ('invocation_wall_seconds','invocation_cpu_seconds'))
             or any(not q.finite_nonnegative(old.get(k)) or old[k]>prior[i] for i,k in enumerate(('wall_seconds','total_cpu_seconds')))):
         raise p.Rejected('retained trial prefix or costs differ')
+    if completed:
+        if (paired_protocol.get('wall_budget_per_arm_seconds')!=BUDGET
+                or paired_protocol.get('cpu_budget_per_arm_seconds')!=BUDGET
+                or any(old['selected'].get(key)!=row.get(key) for key in (
+                    'id','result','result_sha256','candidate','candidate_sha256','native_report_sha256','vias','length_mm'))
+                or old.get('pareto_frontier')!=['via_default']
+                or not q.finite_nonnegative(row.get('assigned_seconds')) or row['assigned_seconds']>old_budget):
+            raise p.Rejected('completed default selection or old allocation differs')
     compatible_resume_freeze(protocol['freeze'],current)
     if pc.inventory(directory/'frozen-code')!=protocol['freeze']['files_sha256']:
         raise p.Rejected('retained frozen portfolio code differs from original contract')
     if protocol['freeze']['tools']!=paired_protocol['freeze']['tools'] or protocol['freeze']['source_hashes']!=paired_protocol['freeze']['source_hashes']:
         raise p.Rejected('old portfolio/paired frozen contract differs')
     retained=json.loads(f.canonical(pc.inventory(directory,with_directories=True)))
+    if completed and hashlib.sha256(f.canonical(retained).encode()).hexdigest()!=plan.get('retained_inventory_sha256'):
+        raise p.Rejected('completed prefix artifact population differs from prospective pin')
     verify_row(row,board,protocol['freeze']);row['eligible']=True
     row.update(retained_from=str(directory/'portfolio-summary.json'),retained_contract_sha256=hashlib.sha256(f.canonical(protocol['freeze']).encode()).hexdigest())
     return {'plan_path':str(path),'plan_sha256':pin,'plan':plan,'prior_freeze':protocol['freeze'],'retained_trial':row,
@@ -294,7 +319,13 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
                     'validation': 'every accepted trial receives native validation; final selection rechecks exact unchanged receipt/candidate. No candidate is copied or mutated during selection.',
                     'cpu_accounting': 'RUSAGE_SELF + RUSAGE_CHILDREN deltas over this whole invocation, including all setup, attempts, checks, and selection; never sum nested receipt CPU into this value',
                     'claim_scope': summary['claims_limit']}
-        if basis:protocol.update(schema=2,resume=basis)
+        if basis:
+            protocol.update(schema=2,resume=basis)
+            if basis['plan']['policy']==COMPLETED_PREFIX_POLICY:
+                allocation={'policy':COMPLETED_PREFIX_POLICY,'old_budget_seconds':basis['plan']['old_budget_seconds'],
+                    'new_budget_seconds':budget,'outer_arm_budget_seconds':BUDGET,'full_arm_charge_required':True,
+                    'accounting_limit':'Planning budget includes full prior invocation plus new helper costs; caller must additionally charge all old/new shared, prerequisite, startup, outer and final audit costs to unchanged120wall/fullCPU before a paired claim.'}
+                protocol['completed_prefix_allocation']=allocation;summary['completed_prefix_allocation']=copy.deepcopy(allocation)
         p.save_json(out / 'protocol.json', protocol)
         summary.update(protocol_sha256=p.sha(out / 'protocol.json'), source=str(board), family=family)
         def stable():
