@@ -1,0 +1,157 @@
+{
+  "schema": 1,
+  "accepted": false,
+  "native_execution": false,
+  "routing_executed": false,
+  "scope": "Reviewed explicit experimental classifier and classification-only driver; not production admission or measured benefit. Original source reference routing stripped before connectivity features. Initialtwo outerlayers<=64/no-footprintzones/no-protected/all-connected refusal. Shared actual Native/process/material/publication proof required before qualification.",
+  "source_sha256": {
+    "autorouter/native_connected.py": "85ff83f9c311966c73b1a7819d2ae9ad50e09ca6d53288dd65d8b53d6b56a31b",
+    "tests/test_native_connected.py": "87204962adf7961dd97de720036c8d3e9128ca79f7910b2e2038aa7b9f49e005",
+    "experiments/native_connected_v1/__init__.py": "869eb696f4cc65d6636817e27ba8409e688321783c83c841a87ad3357e4750da",
+    "experiments/native_connected_v1/driver.py": "966bcfc174e86b1e52da6e890d1d611ae112e1ca2b3b17734cb5cc0ba78f9915",
+    "experiments/native_connected_v1/README.md": "4773895b2fbacc566d11d75068aa4f736ad6ab9a817470a0d0a8c581f051d3ea"
+  },
+  "targeted_001": {
+    "schema": 1,
+    "process": {
+      "status": "nonzero_exit",
+      "exit_code": 1,
+      "wall_seconds": 0.317608665995067,
+      "cpu_seconds": 0.214772,
+      "max_rss_bytes": 39436288,
+      "supervisor_cpu_seconds": 0.004318000000000002,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 39157760,
+      "sampled_peak_workdir_bytes": 9346,
+      "resource_guards": {
+        "max_group_rss_bytes": 1073741824,
+        "max_workdir_bytes": 2097152,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+        "-B",
+        "-m",
+        "unittest",
+        "tests.test_native_connected",
+        "tests.test_native_toolchain",
+        "tests.test_native_diagnostic_publication",
+        "tests.test_storage_scan",
+        "-v"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-connected-targeted-001/command.log",
+      "log_bytes": 9346,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-connected-targeted-001",
+      "signal_cancellation_enabled": true,
+      "pid": 27940
+    },
+    "source_sha256": {
+      "autorouter/native_connected.py": "85ff83f9c311966c73b1a7819d2ae9ad50e09ca6d53288dd65d8b53d6b56a31b",
+      "tests/test_native_connected.py": "409db2bc3c30812f963fe9843d1322c49e2be4c9f84ff6eed6664fb04835fa97",
+      "experiments/native_connected_v1/driver.py": "966bcfc174e86b1e52da6e890d1d611ae112e1ca2b3b17734cb5cc0ba78f9915",
+      "autorouter/pipeline.py": "be986fb8616396c372472b7dd497d7471b2956194bc1099754fa8548c7069ef9",
+      "autorouter/floor_route.py": "a0e06ee951a08bebb393c1bbfd57ce12f0dfafa462f28f99f04dec323fc5ba33",
+      "autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+      "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e"
+    },
+    "controller_sha256": "20b0d347b27c7b121741b5102527ccb50eb83b903f6667504652776a40223c36",
+    "log_sha256": "4efe17ffc05f97fd13117a3058c8e191fea643f7804820679b37a9305e7e40e8",
+    "wall_seconds": 0.31811704198480584,
+    "full_cpu_seconds": 0.21959799999999996,
+    "scope": "Experimental classifier14 controls, explicit Native context/publication9 and storage10; software only. Backup creation completed before this targeted run; full restoration is separate heavy lane, no Native/JVM/benchmark overlap."
+  },
+  "targeted_002": {
+    "schema": 1,
+    "process": {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.3095917080063373,
+      "cpu_seconds": 0.239244,
+      "max_rss_bytes": 39911424,
+      "supervisor_cpu_seconds": 0.005506999999999998,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 39698432,
+      "sampled_peak_workdir_bytes": 6002,
+      "resource_guards": {
+        "max_group_rss_bytes": 1073741824,
+        "max_workdir_bytes": 2097152,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+        "-B",
+        "-m",
+        "unittest",
+        "tests.test_native_connected",
+        "tests.test_native_toolchain",
+        "tests.test_native_diagnostic_publication",
+        "tests.test_storage_scan",
+        "-v"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-connected-targeted-002/command.log",
+      "log_bytes": 6002,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-connected-targeted-002",
+      "signal_cancellation_enabled": true,
+      "pid": 27967
+    },
+    "source_sha256": {
+      "autorouter/native_connected.py": "85ff83f9c311966c73b1a7819d2ae9ad50e09ca6d53288dd65d8b53d6b56a31b",
+      "tests/test_native_connected.py": "87204962adf7961dd97de720036c8d3e9128ca79f7910b2e2038aa7b9f49e005",
+      "experiments/native_connected_v1/driver.py": "966bcfc174e86b1e52da6e890d1d611ae112e1ca2b3b17734cb5cc0ba78f9915",
+      "autorouter/pipeline.py": "be986fb8616396c372472b7dd497d7471b2956194bc1099754fa8548c7069ef9",
+      "autorouter/floor_route.py": "a0e06ee951a08bebb393c1bbfd57ce12f0dfafa462f28f99f04dec323fc5ba33",
+      "autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+      "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e"
+    },
+    "controller_sha256": "3cffd07d3c68ecbffe5846752e15fd929e125f89a95a4f5104bf04e7ad78c4dc",
+    "log_sha256": "7c39b2b9a828a7467f5e72e0ed44535577ec8a15eed2fc9aa5858d533d1159bc",
+    "wall_seconds": 0.31011004201718606,
+    "full_cpu_seconds": 0.24526900000000001,
+    "scope": "Experimental classifier14 controls, explicit Native context/publication9 and storage10; software only. Backup creation completed before this targeted run; full restoration is separate heavy lane, no Native/JVM/benchmark overlap."
+  },
+  "actual_targeted_tests": 33,
+  "failures_retained": "Targeted00133tests had2failures/1error because the new publisher fixture used Mac /var symlink. Resolving the test temporary path exercises intended material/cancel cases with all path guards retained; targeted002 passes. Initialdraft12controls were unexecuted until this integration.",
+  "review_findings_fixed": [
+    "Inner-only copper pad witness gap: explicit2outerlayer refusal/test.",
+    "Nested footprint zone derived fill: explicitrefusal/test.",
+    "Canonical result self-inventory invalidation: shared f.evidence_inventory excludes receipt artifacts.",
+    "Late invalidation/cancel leaving qualification true: account_probe clears qualification whenever status is not completed, actual shared publisher regression."
+  ],
+  "reviews": {
+    "SUPPLEMENT-PROBE.md": {
+      "sha256": "586e729acc7e50fe2a9bc718dac577dba41c44dc6cf7c24c39a5172e42abe409",
+      "text": "# Classification-only probe: static supplement\n\nReviewed `.local-backups/native-connected-probe-draft-001/native_connected.py`,\n`test_native_connected.py`, and `driver.py`, plus the relevant existing shared\npublisher, inventory, DRC/process, and destination-ownership helpers. No tests,\nNative, JVM, network, Git commands, dataset geometry, `.runs` access/writes,\nproduction changes, or recursive agents occurred. This note remains on this Mac,\nexcluded from the lead's in-progress snapshot.\n\nThe revised classifier explicitly requires the two outer copper layer identities\nand refuses footprint zones. These changes close NC-S1 and NC-S2 from the initial\nreview at the static code level. The new authored control covers an inner-only\npad with an added inner copper layer and a nested filled zone. That control was\nread, not run. Strict saved nonfill AST/route equality remains an intentional\nnative falsification condition, including refusal of native normalization.\n\nTwo concrete driver defects were reported promptly and corrected by the lead:\n\n1. **NC-P1:** The first driver froze raw `pc.evidence_inventory`, which includes\n   `result.json`. Shared publication creates that file before its next stability\n   check, inevitably invalidating every otherwise completed probe. The revised\n   driver uses `f.evidence_inventory` consistently for capture and comparison;\n   that shared helper excludes current/partial/invalidated publication files.\n2. **NC-P2:** Shared publication can set a late-failure status without knowing the\n   probe's custom positive `eligibility_qualified` field. The revised `account`\n   clears that field for every status other than `completed`, including late\n   cancellation, staleness, and budget failure. `initial_failure` also preserves\n   an earlier diagnostic when publication supplies a subsequent failure reason.\n\nThe corrected lines were reread. No further concrete blocker was identified in\nthis quick static pass. The driver remains classification-only with\n`accepted=false` and no engine. Shared publisher late-mutation/cancellation\nregressions and the actual sequential native probe are still lead-owned and\nunexecuted by this reviewer. Native classifier eligibility, routing acceptance,\ncomparison fairness, and improvement remain unestablished.\n\nReviewed final draft SHA256 values:\n\n- `native_connected.py`: `85ff83f9c311966c73b1a7819d2ae9ad50e09ca6d53288dd65d8b53d6b56a31b`\n- `test_native_connected.py`: `ab4583e2ff73d2a95dbb546314cd74a748c4357cee1e44545aa9b4f3c669c5d3`\n- `driver.py`: `c117d2fd8185ba5938b8a9bd5a1020e3b6e129f3831ab448e65b80b8cd20b825`\n"
+    },
+    "REVIEW.md": {
+      "sha256": "01d1e12080136be84da77083f3977f1f4f02f1e3c0740b4e7964e4aae357d6ba",
+      "text": "# Native-connected classifier: narrow static review\n\nReviewed the unexecuted draft against `AGENTS.md`, the complete\n`MASTER_PROMPT.md`, and the relevant shared source helpers. Draft manifest SHA256:\n`ff8847bed29201aabc4c17bb3ca5ea9014a9e87c10d8a4068fd37fb0bdcf5180`.\nAll eight current helper/toolchain input hashes match `input-pins.json`.\n\nNo tests, Native, JVM, network, Git commands, dataset geometry inspection,\nproduction edits, or recursive delegation occurred. This review is static;\nit establishes no routing, GUI, native connectivity, cancellation, or benchmark\nqualification. The review directory remains on this Mac and is excluded while\nthe lead makes the current snapshot.\n\n## Required initial-scope fixes\n\n1. **P1 \u2014 Four-layer admission does not establish complete copper terminals.**\n   `native_connected.py:67-81` uses `g.task_pads`; that helper recognizes only\n   F.Cu/B.Cu and `*.Cu`, while production `preflight` admits single-default\n   four-layer sources. Authored counterexample: add an `In1.Cu`-only copper pad\n   with a unique reference/pad number and net to the draft fixture. It is absent\n   from the computed terminal map. A faithful DSN containing that terminal is\n   refused, while a DSN omitting it matches the supposedly complete map. This\n   is a static counterexample, not an executed/native reproduction. The smallest\n   safe initial fix is an explicit two-outer-copper-layer classifier guard plus\n   a targeted inner-layer refusal control. Lead has acknowledged this fix; it\n   was not implemented by this reviewer.\n\n2. **P2 \u2014 Nested zone fill survives the claimed fill-free task.**\n   `g.task_from_source` and `p.immutable` process derived fill only in root zones,\n   but `native_connected.py:84-85` also indexes footprint zones, and production\n   preflight does not generally refuse them. Authored counterexample: put a zone\n   containing `filled_polygon` under a footprint. The old filled polygon remains\n   in the reconstructed task. If the saved refill retains it, the classifier's\n   geometry equality permits it; if native changes it, the same check rejects it\n   as immutable geometry. The advertised all-derived-fill strip therefore does\n   not hold for this admitted AST. Native support/exploitability is unmeasured.\n   Refuse footprint zones in the initial bounded classifier until qualified;\n   broad shared-helper changes are unnecessary for this experiment.\n\n## Driver work already declared by the draft\n\n`derive` is deliberately a pure hint, and `readback` correctly invokes the\nexisting saved DRC stage/process/before-after witness, rederives the record,\nand compares the exact retained/receipt copies. Complete terminal rows and\nnative network/class payloads are retained; unknown/mixed/null/duplicate open\nidentities refuse rather than guessing. No additional direct receipt defect\nwas identified within this narrow static pass.\n\nThis does not close the README's pending driver gates: mandatory policy and\nretained-code/marker dispatch, export process/input binding, independently\nfrozen all-active control method, exact partition/actual engine argv readback,\ninactive-route audit on task identities, common cancellation/resource accounting,\nfull late freshness witness, and final original-rule native acceptance on the\nactual candidate hash. In particular, `readback` alone does not bind the native\nexport process or enforce actual engine settings; that is an acknowledged driver\nresponsibility rather than an executed feature. Missing-marker/downgrade,\nlate-material mutation, cancellation, and final-refill-disconnection controls\nremain required at integration.\n\nThe lead's proposed first classification-only native probe (`accepted=false`,\nno engine) can falsify the exact saved-refill AST/UUID/terminal assumptions once\nthe two initial scope fixes and required checkpoint are in place. No positive\nnative outcome or generalized-comparator improvement is implied by this review.\n"
+    }
+  },
+  "actual_native_probe_pending": true,
+  "full_suite_pending": true,
+  "comparative_routing_pending": true
+}
