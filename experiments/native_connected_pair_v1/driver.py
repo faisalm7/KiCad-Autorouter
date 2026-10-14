@@ -18,6 +18,14 @@ SECONDS=120;BOOTSTRAP=1;FINAL_RESERVE=20
 def remaining():return min(SECONDS-BOOTSTRAP-(time.monotonic()-START),SECONDS-BOOTSTRAP-(cpu()-CPU0))
 def warnings(native):return sorted(f.canonical(x) for x in native['findings'] if x['severity']=='warning')
 
+def check_source_warning_lineage(source_native,final_native):
+    # source-drc has no schematic parity; the final fullSCH check can add
+    # inherited schematic findings. None of the ordinary source warnings may
+    # disappear. Adoption still requires exact fresh whole-original fullSCH
+    # warning equality in _contact_treatment/_contact_replay.
+    if not set(warnings(source_native))<=set(warnings(final_native)):
+        raise p.Rejected('contact child removed an original source warning')
+
 def _contact_child(child,data,task,task_hashes,settings,names):
     """Shared rejected-child checks; never turn its receipt into an accepted one."""
     from autorouter import local_settings,thermal
@@ -37,8 +45,8 @@ def _contact_child(child,data,task,task_hashes,settings,names):
     native=f.check_drc_stage(child,data,'final-drc',candidate,child/'final-drc-input'/task.name,False,{**task_hashes,task.name:data['candidate_sha256']},schematic_parity=True,sandboxed=False)
     expected=p.transplant_fill(prefill,sx.read(child/'refill'/task.name))
     if (pc.read_bytes(candidate)!=(sx.dump(expected)+'\n').encode() or native!=data['native']
-            or p.sha(child/'final-drc.json')!=data['native_report_sha256'] or source_native!=data['source_drc']
-            or warnings(native)!=warnings(source_native)):raise p.Rejected('contact child source/import/refill/report/warnings differ')
+            or p.sha(child/'final-drc.json')!=data['native_report_sha256'] or source_native!=data['source_drc']):raise p.Rejected('contact child source/import/refill/report/warnings differ')
+    check_source_warning_lineage(source_native,native)
     if data['accepted'] is True:
         if p.check_result(child/'result.json')['current'] is not True:raise p.Rejected('accepted contact child stale')
     elif data['status']!='drc_rejected' or thermal.sole_thermal(native) is None:
@@ -67,7 +75,7 @@ def _contact_proof(state):
     if geometry.get('finding')!=thermal.sole_thermal(state['phases']['whole']['native']) or geometry.get('project_sha256')!=p.sha(base.with_suffix('.kicad_pro')):raise p.Rejected('contact observation report/project differs')
     thermal_contact.fill_binding(state['base_tree'],geometry,sx)
     f.process_check(directory,{'steps':state['whole'].steps},'thermal-geometry',[*f.SANDBOX,str(p.c.PYTHON),'-B',str(directory/'worker.py'),str(directory/'input'/base.name),str(directory/'request.json'),str(directory/'geometry.json')])
-    thermal_contact.verify_proposals(geometry,proposals,remaining_seconds=remaining)
+    thermal_contact.verify_proposals(geometry,proposals,remaining_seconds=state['_remaining'])
 
 
 def _contact_phase_readback(entry,original,hashes):
@@ -82,14 +90,17 @@ def _contact_phase_readback(entry,original,hashes):
     return native
 
 
-def _contact_treatment(state,record,out,source,original,hashes,task,child,child_record,settings_data,tools):
+def _contact_treatment(state,record,out,source,original,hashes,task,child,child_record,settings_data,tools,*,remaining_seconds=None):
     from autorouter import thermal
+    left=remaining if remaining_seconds is None else remaining_seconds
+    if not callable(left):raise p.Rejected('contact shared remaining budget must be callable')
+    state['_remaining']=left
     if state['spec'].get('experimental_contact') is not True:raise p.Rejected('contact mode not prospectively enabled')
     if child_record.get('tools')!=tools:raise p.Rejected('fresh contact child tool/code differs')
     state.update(child=child,child_record=child_record,task=task,settings=settings_data,jobs=[],phases={})
     _contact_child(child,child_record,task,record['task_hashes'],settings_data,record['selected_names'])
     def job(name):
-        value=f.FloorJob(out/name,remaining(),remaining,protect_local_settings=True);state['jobs'].append(value)
+        value=f.FloorJob(out/name,left(),left,protect_local_settings=True);state['jobs'].append(value)
         copy_bytes({Path(n).name:pc.read_bytes(ROOT/n) for n in tools['implementation_sha256']},value.out/'code')
         copy_bytes(pc.inventory(source.parent,contents=True),value.out/'snapshot')
         return value
@@ -113,7 +124,7 @@ def _contact_treatment(state,record,out,source,original,hashes,task,child,child_
         if thermal.sole_thermal(native) is None:raise p.Rejected('whole-original candidate is not sole thermal')
         repair=thermal.attempt_repair(whole,original,candidate,hashes,[],native,
             report_path=whole.out/'final-drc.json',binding_path=whole.out/'final-drc-binding.json',
-            remaining_seconds=lambda:max(0,remaining()-6),out=whole.out/'contact-repair',experimental_contact=True)
+            remaining_seconds=lambda:max(0,left()-6),out=whole.out/'contact-repair',experimental_contact=True)
         state['repair']=repair;record['contact_repair']=repair
         if repair.get('validation_passed') is not True or repair.get('candidate') is None:raise p.Rejected('no actual Native-validated contact repair')
         _contact_proof(state)
@@ -133,7 +144,7 @@ def _contact_treatment(state,record,out,source,original,hashes,task,child,child_
     record.update(metrics=metrics,metrics_sha256=p.sha(final_job.out/'metrics.json'),contact_candidate_native_validated=True,contact_control_qualified='added_track' not in state)
     if 'added_track' in state:
         record['contact_control']={'status':'not_run','reason':'less than six seconds of whole120 budget remain'}
-        if remaining()<6:raise p.Rejected('fresh contact candidate valid but removal control reserve exhausted')
+        if left()<6:raise p.Rejected('fresh contact candidate valid but removal control reserve exhausted')
         negative=job('contact-negative');bad=sx.read(candidate)
         matches=[node for node in p.routes(bad) if node==state['added_track']]
         if len(matches)!=1:raise p.Rejected('added contact segment identity ambiguous')

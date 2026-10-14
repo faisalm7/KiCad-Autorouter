@@ -39,3 +39,5 @@ Milestones are checkpoints, not stop requests. If a real limit interrupts, prese
 exact continuation commands/state and do not claim the project complete.
 
 Actualimport gate fixed before anycontactengine: flatcode/native.py couldnotimport projectpackage. SharedJob now requires exactlive/capturedhelperSHA and usesprojectpath, env unchanged. Nativeclassmap positive succeeds; v1protocol remainsunexecuted. Usefrozenv2 only.
+
+Actualcontact001completedfresh classifier/engine, child0/1thermal/10warnings, thenreaderwarnparityassertion failed. No contact/parent phase ran. Correctedchildreader passes actualevidence and85targetedcontrols. Do notexecute priorrun commands again. Integrate/freeze/review missing-stagecontinuation from fourimmutable001prefixes; charge >=32.505483wall24.648565CPU priorunder120. Sourcecore/toolbinsunchanged7aea; newexperiments-only readercode current.

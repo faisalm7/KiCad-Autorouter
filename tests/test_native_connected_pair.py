@@ -87,4 +87,13 @@ class OuterWitness(unittest.TestCase):
             path.unlink()
 
 
+class WarningLineage(unittest.TestCase):
+    def test_full_schematic_additions_keep_ordinary_source_findings(self):
+        library={'severity':'warning','type':'lib_footprint_issues','items':[{'uuid':'pad'}]}
+        parity={'severity':'warning','type':'footprint_symbol_field_mismatch','items':[{'uuid':'fp'}]}
+        source={'findings':[library]};final={'findings':[library,parity]}
+        d.check_source_warning_lineage(source,final)
+        with self.assertRaises(p.Rejected):d.check_source_warning_lineage(source,{'findings':[parity]})
+
+
 if __name__=='__main__':unittest.main()
