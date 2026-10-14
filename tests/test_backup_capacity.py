@@ -43,5 +43,13 @@ class BackupCapacity(unittest.TestCase):
     def test_scope_credentials_and_traversal_guards_remain(self):
         for name in ('/outside','.runs/../escape','.tools/engine.jar','.runs/.env','.runs/x.key'):
             with self.subTest(name=name),self.assertRaises(backup.BackupError):backup.validate_name(name)
+    def test_actual_installation_suffix_exception_is_exact_path_and_public_hash(self):
+        name='.runs/installation-021-current965/checkout/tests/test_backup.py'
+        digest='39fffc805691665b89433577a633ddc6929b5d0aba13f75c1a66db8ca03cd97a'
+        self.assertTrue(backup.audited_nonsecret_test_source(name,digest))
+        for path,pin in ((name,'0'*64),(name.replace('021','022'),digest),
+                         (name.replace('test_backup.py','other.py'),digest)):
+            with self.subTest(path=path,pin=pin):
+                self.assertFalse(backup.audited_nonsecret_test_source(path,pin))
 
 if __name__=='__main__':unittest.main()

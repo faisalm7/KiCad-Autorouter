@@ -41,6 +41,11 @@ SECRET_SUFFIXES = {".pem", ".key", ".p12", ".pfx", ".keychain", ".keychain-db"}
 # Any content change or different path still fails. Reviewed at dd2cce9.
 NONSECRET_TEST_SOURCE = "6d010b7d95db21e6921d9c2af9647e29a33725bdc835d03136928648e69d63ee"
 AUDITED_DRAFT_TEST_SOURCES = {
+    # Actual installation021 uses a descriptive suffix, outside the legacy
+    # numeric-install regex. Byte-identical to public tests/test_backup.py;
+    # only this exact path/hash of the synthetic-header test is exempt.
+    ".runs/installation-021-current965/checkout/tests/test_backup.py":
+        "39fffc805691665b89433577a633ddc6929b5d0aba13f75c1a66db8ca03cd97a",
     # Byte-identical public test source; inspected after the d183c43 guard stop.
     ".runs/board-floor-production-draft-001/tests/test_backup.py":
         "39fffc805691665b89433577a633ddc6929b5d0aba13f75c1a66db8ca03cd97a",
