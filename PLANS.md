@@ -1,32 +1,55 @@
 # Active execution plan
 
-October 14, 2026, existing local Mac checkout and authorized rebuild branch. One lead, at most two narrow agents, one sequential Native/JVM/heavy worker. Preserve all source, failures and unfinished artifacts. Milestones are checkpoints, not stopping points.
+October14,2026; existing local Mac checkout, authorized rebuild branch. One lead,
+at most two narrow agents; Native/JVM/heavy work sequential. No Cloud/worktree,
+reset, discarded evidence, backgroundloop, new spending or formal publication.
 
-1. Completed: six exposed circuit comparisons. Five smaller circuits use equal 120-second full wall/CPU caps; CellScan has a distinct cumulative 360-second experiment. C improves route length beyond valid B1/strong B2 with original constraints/warnings. All failed profiles, trial observations, prior costs and descriptive caveats remain. Do not repeat these experiments.
-2. Completed: e6 persistent native-pruning preferences/CLI, actual 120-second positive and stale-preset negative, five-command preview/intent/fresh-export workflow, full045, fresh local installation022 and installed followup controls. Read actual packet and byte-specific proofs; no broad/GUI/human/physical inference.
-3. Completed: audited add9 product checkpoint/independent GitHub SHA/file and existing full snapshot/restoration:262521files/7623204184B/allrefs/restoredCLI,644.167857wall535.654243CPU. The new full base uses unchanged guards and supersedes the near-memory-limit chain for future incremental backups; all old archives remain. OnMaconly byownerchoice. Later GUIdocs/UVwork outside cutoff; incremental checkpoint next after actual source milestone.
-4. Completed UV fixed11/14source/cache/originalNative/sharedreadback. Original constraints/routes exact, production unsupported and native scope false. Official10.0.7 image continuation and normal signed/notarized project-local copy/loadedversion now pass; mountdetached, original app/pins unchanged. Reviewed explicit diagnostic tool/version and final-publication helpers plus fixed Navigation source profile pass targeted/full049; failed048retained. Completed actual four area controls, Navigation acquisition/source inspection/original-native/shared readbacks; preserve rejected Navigation and experimental-only area scope. Installation024 pre-command storage refusal now has finite16GiB capacity correction and full050. Current installation025/93additional installed controls/shared reader complete; commit/checkpoint then major full snapshot/restoration with existing helper. No production migration/admission until its required controls pass. Keep Audio/old/reserved cohort dispositions visible.
-5. Continue representative 30–50-family development audit and source ancestry. Compare complementary hypotheses only when measured failures justify them; no chat/training novelty. Freeze a new untouched pedigreed confirmation set only after adequate coverage and protocol maturity.
-6. Complete feasible release checks with shared validation/process/reporting helpers. Finite installation source bound352MiB fixes actual341-byte refusal without dropping retained files; existing boundary controls/full047/skeptical review pass. Verified196c345 checkpoint, fresh offline installation023/native smoke,62additional installed controls and shared installed readback completed. Current new evidence needs next milestone artifact backup; restoredadd9/UVincremental cutoffs remain exact. Existing cancellation/protected/scope/layer/crash controls remain; add tests for demonstrated defects. Full suites/native checks/restoration at integration/major/release cadence. Actual GUI gates can remain blocked while independent work continues. Human/physical reviews require actual authorized execution; no contacts/spending/formal publication.
+Completed, do not repeat:
 
-Continuation reads STATUS/REQUIREMENTS and actual `.runs` receipts. Do not normalize original source, omit warnings, reset work, duplicate experiments or claim completion of unmet gates.
+- Six exposed fixed B1/B2/C comparisons with actual original-rule/fullSCH checks;
+  CellScan has distinct cumulative360cap, others120. No established independent
+  pedigree, broadcompletion/speedup or untouched confirmation claim.
+- Persistent improve/route scope/layer/budget/scoring preferences, protected copper,
+  preview/intent/reject/freshseparateexport/cancel controls. Current installation025
+  sourceae2269d qualified on existing Mac/apps/cache. GUI003 earlieractual;
+  freshGUI006stilllocked. Human/physical gates remain.
+- Signed separate1007 tool/actual fourarea controls, rejected UV/Navigation native,
+  fullmajorc81restoration; old archives intact. Production10.0.0 unchanged.
+- Native classifier002positive and disconnectedground negative, independent
+  readbacks; pair001 preengine stackup failure and exact-container parserfix.
+  Full054/strictduplicateregressions pass. Original001 protocol/files preserved.
+- Pair002 all-active accepted diagnostic0/0/10/0,83.315883mm2vias; active-only
+  rejects0/1/10/0 at R3thermalminimum2/actual1spoke. Both actualcosts/readback
+  retained; no newgain/policy admitted. Do not repeat these experiments.
+- Incremental from restoredc81 verified265593files/7853057052B,1096deltafiles;
+  onMaconly byownerchoice. Every later Native/pair raw artifact througha6b and
+  Audio unapplieddraft/review included. AppliedAudio source aftercutoff.
+- Audio fixedsource profile/cache refactor applied afterreview;52targeted and
+  full0551127pass. All7original+9notice/PRL/staleREADME retained. No sourceGETyet.
 
-Fixed UV source/cache helper now passes45targeted and full0461076software checks (whole37.536015wall34.827686CPU). Failed targeted001 metadata-semantic expectation is retained; cache freshness has its own required field while copied-source exactness remains literal. [Source integration](evidence/uv-source-helper-001.json). Actual UV acquisition/originalNative/readback has since completed as an unsupported/rejected source, detailed below; no routing-quality or pedigree claim. Current usable routing/installed qualification remains e6; this later helper/source outside restoredadd9 cutoff.
+Execute next, continue between checkpoints:
 
-UV actual acquisition/original Native/readback now closes:8newGET466268B/3cached35778B,11original502046B/14notice535087B. Saved-refill0/0/74/0; fullSCHfinal0/0/88/0 includes14schematic findings (duplicate/extra identities,4missing pins,7Datasheet fields). Original14files/rules/geometry/all274routes exact in original-shell; Native serializer differences remain unqualified. Production still refuses genuine track/via rule areas; native scope acceptance false. [Actual immutable outcome](evidence/uv-source-original-001.json). No UV routing, source repair, family independence or physical/medical approval claimed. The [UV incremental](evidence/backups/incremental-uv-d882081.json) now verifies262710files/7628588719B,189deltafiles/5384535B,220.475446wall174.506625CPU. It is delta integrity from restoredadd9, not another full restoration; onMaconly. Separately signed official10.0.7 toolchain qualification is next; installed10.0.0/production pins unchanged.
+1. Audit/commit/push/readback current Audio source/prospective protocol and backup
+   receipt. Then fixed fourpayload acquisition with explicit threecachednotices:
+   `.venv/bin/python -B scripts/fetch_led_demo.py --project audio-player-my1690x --fetch --reuse-audio-notices --output .data/audio-player-my1690x-demo-001`.
+   Use existing boundedrunner/300wall/fullCPU+3MiB profile; preserve failures,
+   unknownoldmetadata costs and everyfile. No script/model/firmware download.
+2. Inspect complete immutable Audio geometry/rules/companions/referenceassets;
+   actual original-project Native/sharedreadback via existing registry. Retain
+   originalPRL even if companionguardrefuses. Native eligibility not assumed;
+   do not relax originalconstraints or sourcewarnings to admit it.
+3. Follow measured gaps toward broader30–50family audit/support and strong
+   baselines. Connectivity-only hint is falsified by realthermalcounterexample;
+   any next repair must preserve native thermal rules. Reuse sharedhelpers;
+   no chatbot/training novelty or repeated metadata screens.
+4. At next source/product integration checkpoint run fresh installation026,
+   installed newcontrols/sharedreader and actualNative smoke. Fullintegration,
+   native regressions and major restoration at established milestones/release;
+   incremental at measured milestones, no backup/audit redesign.
+5. Reconcile STATUS/REQUIREMENTS/claims, source/license/population/failures and
+   exactcosts. Prepare honest experimentalRC and family-disjoint confirmation
+   only after adequate coverage/protocol maturity. Actualhuman/physicalreview,
+   GUI access and formalpublication remain separate real gates.
 
-Next routing hypothesis: native task-connectivity-aware corrected baseline. Strip every unprotected source route and derived fill; use fresh native task connectivity to skip only wholly connected nets, retaining all terminals/rules. Compare completion-only all-active versus native-connected under newly frozen equal budgets; retain existing tunedB2/C evidence separately. Classifier initiallyNUS<=64/no-locked; CellScan85explicitlyunsupported, no public scope-bound increase. Native final original-design validation is mandatory and can falsify changed pour connectivity. No benefit presumed; inspect classifier draft before bounded actual experiment.
-
-Prepared actual probe (after major heavy lane completes): `.venv/bin/python -B experiments/native_connected_v1/driver.py --run-native --output "$PWD/.runs/native-connected-task-probe-001"`. Source/runtime/protocol freeze before execution;33targeted controls pass, failed initial2/1temporary-path fixture retained. Full suite/native proof/paired engine comparison remain; no new routing receipt or all-connected shortcut exists.
-
-Majorc81 full restoration now complete, existing guards unchanged; laterprototype artifacts outsidecutoff. Do not repeat actual001: saved-format refusal preserved. Next corrected original-shell002 after sourcecheckpoint; native task GND appears connected but no engine gain established. Use `.runs/run-native-connected-task-probe-002.py` once prepared; actual finalfull/readonly counterexamples then equal-budget all-active/native-connected routing only when Native provenance and central acceptance integration qualify. Audio source-profile draft remains unapplied in `.local-backups/audio-source-profile-draft-001`, preserving full source/rights/capacity gaps.
-
-Completed original-shell002+independent14counterexamples; do not repeat. Next `.runs/run-native-connected-ground-control-001.py` once prepared uses owned copy with only one GNDpour removed (source original unchanged), expected all6netsactive. Then reviewed selected-pipeline composition: each arm fresh classifier/zero-route task source, selected all6vsderived5, completion-only/both/source_all. Child central accepted receipt plus outer fresh-copy unchanged-pristine-original/fullSCH0opens mandatory; whole120wall/fullCPU incl everyprep/failure/final/readback/publication. Aggregate diagnosticacceptedFalse until product admission; no new core bypass/framework.
-
-Current continuation supersedes earlier pendingprobe instructions: Native002,14readback falsifiers and actual disconnected-GND control completed; do not repeat. Paired NC-PAIR1 material/identity fix and full0531120pass, independent review closed. Next sequential fresh all-active/native-connected arms per experiments/native_connected_pair_v1/README.md frozenb3d2b3a protocol; then independent final readback, reconcile NUSbaselineclaim, incremental from c81fullbase. GUI006stilllocked; independent work continues.
-
-Actual pair001 both failed before JVM at legitimate root stackup repeated-layer parser error; outer all19.518427wall13.355192CPU, active16.053900wall13.373394CPU. Exact root-container correction preserves geometry/edge semantics, strict duplicate checks and original001 protocol; targeted20/full0541122pass39.518903wall36.537157CPU, skeptical review no blocker. New prospective protocol-stackup-v2 SHA7ff8dc2fa0953eb8e52644f43f30ff1d5b772cd34e5c59a9f4804cf194635a2b; fresh002arms next. [Failure/correction/compute](evidence/native-connected-pair001-stackup-failure-001.json). Do not repeat/overwrite001 or oldprotocol. No new routing gain.
-
-Actual pair002 closes as a negative connectivity-only hypothesis. All-active final0/0/10/0,83.315882927mm/two vias, outer35.956295wall26.107099CPU; actor+outer methodqualified. Active child final0/1/10/0,36.354501168mm/zero vias, starved_thermal at R3pad2/GND: one spoke versus originalminimumtwo. It remains rejected; no parent final/accepted receipt invented. Outer23.452824wall18.648718CPU, both fresh classifiers/all per-arm costs under120. Whole zero opens alone does not prove original thermal legality. Independent shared saved/final/pristine/source/rule/geometry/protected/scope/metrics/process readback passes1.841760wall1.781649CPU plus conservative reader2s allowance; no Native/JVM rerun. [Actual pair and readback](evidence/native-connected-pair002-native-001.json). Prior001fails/pins/costs remain. No new routing gain, productionhint, generalization or speedup claim. Current six-circuit B1/B2/C evidence stays configuration-specific; strongest-baseline search remains open.
-
-Next: existing c81base incremental preserves all later Native001/002/ground/pair raw artifacts with unchanged backup guards; onMaconly byownerchoice. Then apply the already preserved/reviewed Audio fixed-source profile, targeted existing acquisition controls, checkpoint, bounded source acquisition, immutable original inspection/native diagnostic; no support/independence assumed. Current GUI006stilllocked. Continue broader families and RC gates; do not repeat these completed trials.
+Milestones are checkpoints, not completion claims or reasons to stop. Read the
+actual receipts, preserve unfinished artifacts and maintain verified Git backups.

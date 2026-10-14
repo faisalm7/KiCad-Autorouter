@@ -11,6 +11,7 @@ from autorouter.runner import run
 from experiments.placement_handoff_native_v1.driver import copy_bytes
 LIMIT=20*1024**2;SECONDS=90
 CASES={
+    'audio-player-my1690x':('portable-demo','Hardware/SparkFun_Audio_Player_Breakout_MY1690X-16S.kicad_pcb','49d66d63eb43105b7dbe437cc9299c637c69c61d',None),
     'navigation-switch':('portable-demo','Hardware/SparkFun_Qwiic_Navigation.kicad_pcb','b64c0dac2134d69963bf28120305bd79aad3c8ac',None),
     'uv-dosimeter':('portable-demo','hardware/AOL_PD_2.kicad_pcb','63153ac5ca9879299f57e3fb68df606bf78d96f8',None),
     'cellscan':('portable-demo','hardware/CellScan_Schematic.kicad_pcb','628c8a7d80f9de07c24d86102dfca9e353c038ce',None),
@@ -22,7 +23,7 @@ CASES={
     'ardujoy-c64':('v4','Ardujoy_HW/Ardujoy_HW.kicad_pcb','1b63471d9726fb6a38f8544ca73ebf10c7f19820','.runs/licensed-acquisition-007-run-001/receipt.json'),
     'nus-usb-led':('v5','src/usb_led.kicad_pcb','ad3fbd582e3915b585c453ea202f591720a1f427','.runs/licensed-acquisition-008-run-001/receipt.json'),
 }
-REFILLED_ORIGINALS=frozenset({'als311-clock','push-button-led','arcdice','interf_u','analog-filter','cellscan','uv-dosimeter','navigation-switch'})
+REFILLED_ORIGINALS=frozenset({'als311-clock','push-button-led','arcdice','interf_u','analog-filter','cellscan','uv-dosimeter','navigation-switch','audio-player-my1690x'})
 
 def capture_interf_source():
     """Read the already acquired fixed complete project; never stage or fetch."""

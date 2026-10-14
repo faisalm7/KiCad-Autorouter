@@ -105,6 +105,138 @@ NAV_PROFILE = dict(schema=1, profile_id='navigation-switch', project_id='navigat
         'Actual copper layers, rules, pads, external references, jumper protection and physical function remain unknown.',
         'Only five fixed originals and two exact notice copies; no models, firmware, assets or scripts fetched/executed.'])
 
+
+AUDIO_PROFILE = {'schema': 1,
+ 'profile_id': 'audio-player-my1690x',
+ 'project_id': 'audio-player-my1690x',
+ 'repository': 'sparkfun/SparkFun_Audio_Player_Breakout_MY1690X-16S',
+ 'commit': '49d66d63eb43105b7dbe437cc9299c637c69c61d',
+ 'rows': [{'bytes': 2885,
+           'commit': '49d66d63eb43105b7dbe437cc9299c637c69c61d',
+           'git_blob_sha1': 'a66ad56c300f117554b167ce494e39fd2d30c372',
+           'mode': '100644',
+           'raw_url': 'https://raw.githubusercontent.com/sparkfun/SparkFun_Audio_Player_Breakout_MY1690X-16S/49d66d63eb43105b7dbe437cc9299c637c69c61d/LICENSE.md',
+           'repository': 'sparkfun/SparkFun_Audio_Player_Breakout_MY1690X-16S',
+           'rights_basis': 'Original publisher hardware CC-BY-SA4 notice/attribution retained; code MIT is '
+                           'separate. Per-asset libraries/models remain unclosed.',
+           'sha256': 'cc2731bed1b3d28242eaa4bc9992864b28650bdc69fb4c558ce6e0b7bfc74680',
+           'source_path': 'LICENSE.md',
+           'destination': 'audio-player-my1690x/LICENSE.md',
+           'blob_url': 'https://github.com/sparkfun/SparkFun_Audio_Player_Breakout_MY1690X-16S/blob/49d66d63eb43105b7dbe437cc9299c637c69c61d/LICENSE.md'},
+          {'bytes': 2797,
+           'commit': '49d66d63eb43105b7dbe437cc9299c637c69c61d',
+           'git_blob_sha1': '6061de716d286499d8ae9e583cbcd04537be77f8',
+           'mode': '100644',
+           'raw_url': 'https://raw.githubusercontent.com/sparkfun/SparkFun_Audio_Player_Breakout_MY1690X-16S/49d66d63eb43105b7dbe437cc9299c637c69c61d/README.md',
+           'repository': 'sparkfun/SparkFun_Audio_Player_Breakout_MY1690X-16S',
+           'rights_basis': 'Original publisher hardware CC-BY-SA4 notice/attribution retained; code MIT is '
+                           'separate. Per-asset libraries/models remain unclosed.',
+           'sha256': '8ca8cbb4b5e9f0283f8f257f185b2e7c84bc6b25904fadd52cfce6037c121c21',
+           'source_path': 'README.md',
+           'destination': 'audio-player-my1690x/README.md',
+           'blob_url': 'https://github.com/sparkfun/SparkFun_Audio_Player_Breakout_MY1690X-16S/blob/49d66d63eb43105b7dbe437cc9299c637c69c61d/README.md'},
+          {'bytes': 948809,
+           'commit': '49d66d63eb43105b7dbe437cc9299c637c69c61d',
+           'git_blob_sha1': '1d9dc6ce54ebed10841644789984ac7d028ab218',
+           'mode': '100644',
+           'raw_url': 'https://raw.githubusercontent.com/sparkfun/SparkFun_Audio_Player_Breakout_MY1690X-16S/49d66d63eb43105b7dbe437cc9299c637c69c61d/Hardware/SparkFun_Audio_Player_Breakout_MY1690X-16S.kicad_pcb',
+           'repository': 'sparkfun/SparkFun_Audio_Player_Breakout_MY1690X-16S',
+           'rights_basis': 'Original publisher hardware CC-BY-SA4 notice/attribution retained; code MIT is '
+                           'separate. Per-asset libraries/models remain unclosed.',
+           'source_path': 'Hardware/SparkFun_Audio_Player_Breakout_MY1690X-16S.kicad_pcb',
+           'destination': 'audio-player-my1690x/Hardware/SparkFun_Audio_Player_Breakout_MY1690X-16S.kicad_pcb',
+           'blob_url': 'https://github.com/sparkfun/SparkFun_Audio_Player_Breakout_MY1690X-16S/blob/49d66d63eb43105b7dbe437cc9299c637c69c61d/Hardware/SparkFun_Audio_Player_Breakout_MY1690X-16S.kicad_pcb'},
+          {'bytes': 15642,
+           'commit': '49d66d63eb43105b7dbe437cc9299c637c69c61d',
+           'git_blob_sha1': '38a1fc1883b51484e720ddbbb7e0937041bfb20f',
+           'mode': '100644',
+           'raw_url': 'https://raw.githubusercontent.com/sparkfun/SparkFun_Audio_Player_Breakout_MY1690X-16S/49d66d63eb43105b7dbe437cc9299c637c69c61d/Hardware/SparkFun_Audio_Player_Breakout_MY1690X-16S.kicad_pro',
+           'repository': 'sparkfun/SparkFun_Audio_Player_Breakout_MY1690X-16S',
+           'rights_basis': 'Original publisher hardware CC-BY-SA4 notice/attribution retained; code MIT is '
+                           'separate. Per-asset libraries/models remain unclosed.',
+           'source_path': 'Hardware/SparkFun_Audio_Player_Breakout_MY1690X-16S.kicad_pro',
+           'destination': 'audio-player-my1690x/Hardware/SparkFun_Audio_Player_Breakout_MY1690X-16S.kicad_pro',
+           'blob_url': 'https://github.com/sparkfun/SparkFun_Audio_Player_Breakout_MY1690X-16S/blob/49d66d63eb43105b7dbe437cc9299c637c69c61d/Hardware/SparkFun_Audio_Player_Breakout_MY1690X-16S.kicad_pro'},
+          {'bytes': 300392,
+           'commit': '49d66d63eb43105b7dbe437cc9299c637c69c61d',
+           'git_blob_sha1': '74ae3de26ab37eeffed989bf1c9bc7a815629ee7',
+           'mode': '100644',
+           'raw_url': 'https://raw.githubusercontent.com/sparkfun/SparkFun_Audio_Player_Breakout_MY1690X-16S/49d66d63eb43105b7dbe437cc9299c637c69c61d/Hardware/SparkFun_Audio_Player_Breakout_MY1690X-16S.kicad_sch',
+           'repository': 'sparkfun/SparkFun_Audio_Player_Breakout_MY1690X-16S',
+           'rights_basis': 'Original publisher hardware CC-BY-SA4 notice/attribution retained; code MIT is '
+                           'separate. Per-asset libraries/models remain unclosed.',
+           'source_path': 'Hardware/SparkFun_Audio_Player_Breakout_MY1690X-16S.kicad_sch',
+           'destination': 'audio-player-my1690x/Hardware/SparkFun_Audio_Player_Breakout_MY1690X-16S.kicad_sch',
+           'blob_url': 'https://github.com/sparkfun/SparkFun_Audio_Player_Breakout_MY1690X-16S/blob/49d66d63eb43105b7dbe437cc9299c637c69c61d/Hardware/SparkFun_Audio_Player_Breakout_MY1690X-16S.kicad_sch'},
+          {'bytes': 2160,
+           'commit': '49d66d63eb43105b7dbe437cc9299c637c69c61d',
+           'git_blob_sha1': 'aefa6026ba41f01801b0ab0ec0862fd01445394c',
+           'mode': '100644',
+           'raw_url': 'https://raw.githubusercontent.com/sparkfun/SparkFun_Audio_Player_Breakout_MY1690X-16S/49d66d63eb43105b7dbe437cc9299c637c69c61d/Hardware/SparkFun_Audio_Player_Breakout_MY1690X-16S.kicad_prl',
+           'repository': 'sparkfun/SparkFun_Audio_Player_Breakout_MY1690X-16S',
+           'rights_basis': 'Original publisher hardware CC-BY-SA4 notice/attribution retained; code MIT is '
+                           'separate. Per-asset libraries/models remain unclosed.',
+           'source_path': 'Hardware/SparkFun_Audio_Player_Breakout_MY1690X-16S.kicad_prl',
+           'destination': 'audio-player-my1690x/Hardware/SparkFun_Audio_Player_Breakout_MY1690X-16S.kicad_prl',
+           'blob_url': 'https://github.com/sparkfun/SparkFun_Audio_Player_Breakout_MY1690X-16S/blob/49d66d63eb43105b7dbe437cc9299c637c69c61d/Hardware/SparkFun_Audio_Player_Breakout_MY1690X-16S.kicad_prl'},
+          {'bytes': 292,
+           'commit': '49d66d63eb43105b7dbe437cc9299c637c69c61d',
+           'git_blob_sha1': '8ff294343ad0fc2d90cb9a0ea0097ce2fc69351f',
+           'mode': '100644',
+           'raw_url': 'https://raw.githubusercontent.com/sparkfun/SparkFun_Audio_Player_Breakout_MY1690X-16S/49d66d63eb43105b7dbe437cc9299c637c69c61d/Hardware/README.md',
+           'repository': 'sparkfun/SparkFun_Audio_Player_Breakout_MY1690X-16S',
+           'rights_basis': 'Original publisher hardware CC-BY-SA4 notice/attribution retained; code MIT is '
+                           'separate. Per-asset libraries/models remain unclosed.',
+           'sha256': '6add188e18eb48c055d25c6cb3c9e2865bcec753e4da3b3bc97602b7f613f683',
+           'source_path': 'Hardware/README.md',
+           'destination': 'audio-player-my1690x/Hardware/README.md',
+           'blob_url': 'https://github.com/sparkfun/SparkFun_Audio_Player_Breakout_MY1690X-16S/blob/49d66d63eb43105b7dbe437cc9299c637c69c61d/Hardware/README.md'}],
+ 'directories': ['Hardware'],
+ 'board_path': 'Hardware/SparkFun_Audio_Player_Breakout_MY1690X-16S.kicad_pcb',
+ 'output_prefix': 'audio-player-my1690x-demo-',
+ 'default_output': '.data/audio-player-my1690x-demo-001',
+ 'file_count': 7,
+ 'bytes': 1272977,
+ 'max_requests': 7,
+ 'network_byte_cap': 1272984,
+ 'max_single_response_bytes': 948810,
+ 'output_byte_cap': 3145728,
+ 'wall_budget_seconds': 300,
+ 'cpu_budget_seconds': 300,
+ 'request_wall_seconds': 30,
+ 'native_packet_notice_copies': {'Hardware/_licenses/creator/LICENSE.md': 'LICENSE.md',
+                                 'Hardware/_licenses/creator/README.md': 'README.md'},
+ 'native_packet_files': 9,
+ 'native_packet_bytes': 1278659,
+ 'development_exposed': True,
+ 'independent_ancestry_established': False,
+ 'native_validation_performed_by_fetch': False,
+ 'raw_assets_public': False,
+ 'warnings': ['Exact seven original Audio files including PRL and stale Hardware README; native/routing '
+              'support remains unqualified.',
+              'SparkFun root hardware CC-BY-SA4 notice and original README copied beside native source; '
+              'software MIT separately stated, no firmware fetched.',
+              'Hardware/README.md is the original stale Eagle placeholder; root README/tree identify KiCad. '
+              'Discrepancy retained without correction.',
+              'MY1690X shield and production panel share the provisional ancestry group; no '
+              'independent-family/holdout claim.',
+              'Actual layers/rules/pads/protection and USB/SD/audio/power intent remain unseen; no '
+              'unrestricted reroute, physical or electrical approval.',
+              'Production panel, assembly STEP/models and manufacturing outputs remain explicitly considered '
+              'outside fixed core source; any mandatory reference blocks closure. No scripts/models/firmware '
+              'acquired or executed.']}
+AUDIO_CACHE_DIRECTORY = '.runs/corpus-next-001/metadata/sparkfun__SparkFun_Audio_Player_Breakout_MY1690X-16S'
+AUDIO_ROOT_NOTICES = ('LICENSE.md','README.md')
+AUDIO_CACHE_PINS = {
+    '.runs/corpus-next-001/metadata-sha256.json':'e0ed391a8bfdd7d4bc7ef72202ab8f152961cf86df43cba2ba51a77cc4a5b422',
+    AUDIO_CACHE_DIRECTORY+'/summary.json':'7640530c6ec9129031c89f702d3f8ea2178e4485aeb3f0e69a3712c61d939002',
+    AUDIO_CACHE_DIRECTORY+'/tree.json':'aa4479f585e50240b96a7d6013f7a8880aaa2943cf28ab07d46bdc50b7f542da'}
+AUDIO_METADATA_DIRECTORY = '.runs/next-family-acquisition-readiness-001'
+AUDIO_METADATA_PINS = {
+    'metadata-receipt.json':'60e531c306d351c64333692e77b3326df0023689acc208db166d82c404cb8d30',
+    'metadata-execution.json':'ad8777a3a3700a491fa4339b9804a93e07c82c9b769e659333520ce45eaff3ff',
+    'closure.json':'c7041f90420487a60e54d98e4c2142fa873e7610239553814520cfa8adae3342'}
+
 def _cache_bodies(root, cfg, names, directory, witness, caps):
     """Shared bounded immutable notice body capture; no cache search/fallback."""
     from autorouter.placement_clearance import read_bytes
@@ -117,48 +249,97 @@ def _cache_bodies(root, cfg, names, directory, witness, caps):
         witness[relative]=info['sha256'];caps[relative]=row['bytes']
     return files
 
-def navigation_notice_cache(root, cfg):
+def _root_notice_cache(root, cfg, directory, proof_pins, names, label):
     """Exact old metadata witness; its unmeasured old timing is never invented."""
     from autorouter.placement_clearance import read_bytes
-    if cfg['profile_id']!='navigation-switch':raise ValueError('Navigation notice reuse requires Navigation profile')
     witness={};caps={};proofs={}
-    for name,pin in NAV_CACHE_PINS.items():
+    for name,pin in proof_pins.items():
         raw=read_bytes(shared.contained(root,root/shared.safe(name)),64*1024)
-        if shared.sha(raw)!=pin:raise ValueError('Navigation cached metadata pin differs')
+        if shared.sha(raw)!=pin:raise ValueError(label+' cached metadata pin differs')
         proofs[name]=shared.decode(raw);witness[name]=pin;caps[name]=64*1024
-    summary_name=NAV_CACHE_DIRECTORY+'/summary.json';summary=proofs[summary_name]
-    tree_name=NAV_CACHE_DIRECTORY+'/tree.json';tree=proofs[tree_name]
+    summary_name=directory+'/summary.json';summary=proofs[summary_name]
+    tree_name=directory+'/tree.json';tree=proofs[tree_name]
     manifest=proofs['.runs/corpus-next-001/metadata-sha256.json']
     if (summary.get('repository')!=cfg['repository'] or summary.get('commit')!=cfg['commit']
             or summary.get('source_url')!='https://github.com/'+cfg['repository']+'/tree/'+cfg['commit']
             or summary.get('tree_sha')!=cfg['commit'] or summary.get('metadata_complete') is not True
             or summary.get('board_payloads_downloaded')!=0 or summary.get('status')!='metadata_only_not_acquired'
             or tree.get('sha')!=cfg['commit'] or tree.get('truncated') is not False
-            or manifest.get('schema')!=1):raise ValueError('Navigation cached metadata scope differs')
+            or manifest.get('schema')!=1):raise ValueError(label+' cached metadata scope differs')
     documents=summary.get('metadata_documents',[])
-    if len(documents)!=2 or {r.get('path') for r in documents}!=set(NAV_NOTICE_NAMES):
-        raise ValueError('Navigation cached notice population differs')
-    files=_cache_bodies(root,cfg,NAV_NOTICE_NAMES,NAV_CACHE_DIRECTORY,witness,caps)
+    if len(documents)!=2 or {r.get('path') for r in documents}!=set(names):
+        raise ValueError(label+' cached notice population differs')
+    files=_cache_bodies(root,cfg,names,directory,witness,caps)
     for row in cfg['rows']:
         entries=[r for r in tree.get('tree',[]) if r.get('path')==row['source_path']]
         if len(entries)!=1 or any(entries[0].get(k)!=v for k,v in
                 {'type':'blob','mode':row['mode'],'size':row['bytes'],'sha':row['git_blob_sha1']}.items()):
-            raise ValueError('Navigation cached tree/file pin differs')
+            raise ValueError(label+' cached tree/file pin differs')
     for name,item in files.items():
         row=next(r for r in cfg['rows'] if r['source_path']==name)
         prior=next(r for r in documents if r['path']==name)
         if any(prior.get(k)!=v for k,v in {'url':row['raw_url'],'bytes':row['bytes'],'sha256':item['sha256']}.items()):
-            raise ValueError('Navigation cached notice provenance differs')
+            raise ValueError(label+' cached notice provenance differs')
     for name,pin in witness.items():
         if name!='.runs/corpus-next-001/metadata-sha256.json' and manifest.get('files',{}).get(name[len('.runs/corpus-next-001/'):])!=pin:
-            raise ValueError('Navigation cached manifest binding differs')
-    return {'files':files,'witness':witness,'caps':caps,'label':'Navigation cached notice',
+            raise ValueError(label+' cached manifest binding differs')
+    return {'files':files,'witness':witness,'caps':caps,'label':label+' cached notice',
         'prior_acquisition':{'receipt':summary_name,'sha256':witness[summary_name],
             'proof_kind':'pinned metadata summary/tree/manifest; not a timed HTTP receipt',
-            'retained_metadata_bodies':2,'retained_metadata_bytes':7412,
+            'retained_metadata_bodies':len(files),'retained_metadata_bytes':sum(len(item['raw']) for item in files.values()),
             'new_network_requests':None,'received_bytes':None,'wall_seconds':None,'full_cpu_seconds':None,
             'bootstrap_emission_allowance_seconds':None,'cost_status':'unmeasured prior development metadata; not zero',
             'comparative_accounting_complete':False}}
+
+def navigation_notice_cache(root, cfg):
+    if cfg['profile_id']!='navigation-switch':raise ValueError('Navigation notice reuse requires Navigation profile')
+    return _root_notice_cache(root,cfg,NAV_CACHE_DIRECTORY,NAV_CACHE_PINS,NAV_NOTICE_NAMES,'Navigation')
+
+def audio_notice_cache(root, cfg):
+    """Reuse two untimed root notices and one separately timed text-body proof."""
+    from autorouter.placement_clearance import read_bytes
+    if cfg['profile_id']!='audio-player-my1690x':raise ValueError('Audio notice reuse requires Audio profile')
+    cache=_root_notice_cache(root,cfg,AUDIO_CACHE_DIRECTORY,AUDIO_CACHE_PINS,AUDIO_ROOT_NOTICES,'Audio')
+    proofs={}
+    for name,pin in AUDIO_METADATA_PINS.items():
+        relative=AUDIO_METADATA_DIRECTORY+'/'+name
+        raw=read_bytes(shared.contained(root,root/shared.safe(relative)),64*1024)
+        if shared.sha(raw)!=pin:raise ValueError('Audio cached hardware metadata pin differs')
+        proofs[name]=shared.decode(raw);cache['witness'][relative]=pin;cache['caps'][relative]=64*1024
+    receipt=proofs['metadata-receipt.json'];execution=proofs['metadata-execution.json'];closure=proofs['closure.json']
+    if (receipt.get('passed') is not True or receipt.get('failures')!=[] or receipt.get('new_primary_requests')!=3
+            or len(receipt.get('requests',[]))!=3 or sum(r.get('received_bytes',0) for r in receipt['requests'])!=28855
+            or receipt.get('received_bytes')!=28855 or receipt.get('new_geometry_payloads')!=0
+            or receipt.get('new_native_or_engine_jobs')!=0 or closure.get('passed') is not True
+            or execution.get('receipt_sha256')!=AUDIO_METADATA_PINS['metadata-receipt.json']
+            or closure.get('metadata_receipt_sha256')!=AUDIO_METADATA_PINS['metadata-receipt.json']
+            or closure.get('metadata_execution_sha256')!=AUDIO_METADATA_PINS['metadata-execution.json']
+            or closure.get('conservative_preparation_bootstrap_emission_allowance_seconds')!=3
+            or closure.get('actual_metadata_outer_wall_seconds')!=execution.get('wall_seconds')
+            or closure.get('actual_metadata_outer_full_cpu_seconds')!=execution.get('full_cpu_seconds')):
+        raise ValueError('Audio cached hardware metadata scope/cost differs')
+    process=execution.get('process',{})
+    if (process.get('status')!='success' or process.get('exit_code')!=0 or process.get('cleanup_complete') is not True
+            or process.get('log_truncated') is not False):
+        raise ValueError('Audio cached hardware metadata process incomplete')
+    names=('Hardware/README.md',);directory=AUDIO_METADATA_DIRECTORY+'/metadata/'+cfg['repository'].replace('/','__')
+    files=_cache_bodies(root,cfg,names,directory,cache['witness'],cache['caps'])
+    row=next(r for r in cfg['rows'] if r['source_path']==names[0]);item=files[names[0]]
+    matches=[r for r in receipt.get('requests',[]) if r.get('repository')==cfg['repository'] and r.get('source_path')==names[0]]
+    expected={'url':row['raw_url'],'final_url':row['raw_url'],'http_status':200,'payload_verified':True,
+        'bytes':row['bytes'],'received_bytes':row['bytes'],'sha256':item['sha256'],'response_sha256':item['sha256'],
+        'artifact':item['path'][len(AUDIO_METADATA_DIRECTORY+'/'):],'status':'response_received'}
+    if len(matches)!=1 or any(matches[0].get(k)!=v for k,v in expected.items()):raise ValueError('Audio cached hardware README provenance differs')
+    item['prior_receipt']={'file':AUDIO_METADATA_DIRECTORY+'/metadata-receipt.json','sha256':AUDIO_METADATA_PINS['metadata-receipt.json']}
+    cache['files'].update(files)
+    cache['prior_acquisition']['additional_metadata_batch']={
+        'receipt':AUDIO_METADATA_DIRECTORY+'/metadata-receipt.json','sha256':AUDIO_METADATA_PINS['metadata-receipt.json'],
+        'execution':AUDIO_METADATA_DIRECTORY+'/metadata-execution.json','execution_sha256':AUDIO_METADATA_PINS['metadata-execution.json'],
+        'retained_file_count':1,'retained_bytes':292,'original_batch_requests':3,'original_batch_bytes':28855,
+        'wall_seconds':execution['wall_seconds'],'full_cpu_seconds':execution['full_cpu_seconds'],
+        'bootstrap_emission_allowance_seconds':3,'accounting':'Entire three-text batch retained conservatively; prior root metadata timing remains unmeasured, not zero.'}
+    return cache
+
 
 def uv_license_cache(root, cfg):
     """Explicit fixed prior licence evidence only; no cache search or fallback."""
@@ -197,6 +378,7 @@ def check_uv_cache(root, cache):
             raise ValueError(cache.get('label','UV cached licence')+' input changed during acquisition')
 
 def fixed_profile(profile_id='led'):
+    if profile_id=='audio-player-my1690x':return copy.deepcopy(AUDIO_PROFILE)
     if profile_id=='navigation-switch':return copy.deepcopy(NAV_PROFILE)
     if profile_id=='uv-dosimeter':return copy.deepcopy(UV_PROFILE)
     if profile_id=='cellscan':return copy.deepcopy(CELL_SCAN_PROFILE)
@@ -275,25 +457,26 @@ class OwnedFile:
         try:os.stat(self.path.name,dir_fd=self.directory_fd,follow_symlinks=False);return True
         except FileNotFoundError:return False
 
-def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fetch_one,started=None,cpu_started=None,reuse_uv_licenses=False,reuse_navigation_notices=False):
+def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fetch_one,started=None,cpu_started=None,reuse_uv_licenses=False,reuse_navigation_notices=False,reuse_audio_notices=False):
     started=time.monotonic() if started is None else started;cpu_started=cpu() if cpu_started is None else cpu_started
     cfg=fixed_profile(profile_id);root=Path(root).absolute();out=destination(root,name,profile_id=profile_id);rows=cfg['rows'];network_cap=cfg['network_byte_cap'];planned=cfg['bytes'];nested=bool(cfg['native_packet_notice_copies'])
     count=cfg.get('file_count',5);max_requests=cfg.get('max_requests',5);output_cap=cfg.get('output_byte_cap',OUTPUT_BYTES)
     if len(rows)!=count or count!=max_requests:raise ValueError('fixed source/request population differs')
     if type(reuse_uv_licenses) is not bool or reuse_uv_licenses and profile_id!='uv-dosimeter':raise ValueError('explicit UV-only licence reuse flag required')
     if type(reuse_navigation_notices) is not bool or reuse_navigation_notices and profile_id!='navigation-switch':raise ValueError('explicit Navigation-only notice reuse flag required')
-    direct=profile_id=='navigation-switch'
+    if type(reuse_audio_notices) is not bool or reuse_audio_notices and profile_id!='audio-player-my1690x':raise ValueError('explicit Audio-only notice reuse flag required')
+    direct=profile_id in ('navigation-switch','audio-player-my1690x');direct_label='Audio' if profile_id=='audio-player-my1690x' else 'Navigation'
     if direct and (cfg['directories']!=['Hardware'] or any(shared.safe(r['source_path']).parent not in (Path('.'),Path('Hardware')) for r in rows)):
-        raise ValueError('fixed Navigation direct response hierarchy differs')
+        raise ValueError('fixed '+direct_label+' direct response hierarchy differs')
     if out.exists():raise ValueError('destination already exists; preserve earlier attempts')
     if fetch is not True:
         plan={'schema':1,'action':'plan_only','destination':str(out),'source_commit':rows[0]['commit'],
             'planned_files':count,'planned_bytes':planned,'network_requests':0,'native_accepted':False,
-            'planned_network_requests':count-(3 if reuse_uv_licenses else 2 if reuse_navigation_notices else 0),'planned_cached_licenses':3 if reuse_uv_licenses else 0,
-            'command':'scripts/fetch_led_demo.py --project '+profile_id+' --fetch --output '+name+(' --reuse-uv-licenses' if reuse_uv_licenses else ' --reuse-navigation-notices' if reuse_navigation_notices else '')}
-        if direct:plan['planned_cached_notices']=2 if reuse_navigation_notices else 0
+            'planned_network_requests':count-(3 if reuse_uv_licenses else 2 if reuse_navigation_notices else 3 if reuse_audio_notices else 0),'planned_cached_licenses':3 if reuse_uv_licenses else 0,
+            'command':'scripts/fetch_led_demo.py --project '+profile_id+' --fetch --output '+name+(' --reuse-uv-licenses' if reuse_uv_licenses else ' --reuse-navigation-notices' if reuse_navigation_notices else ' --reuse-audio-notices' if reuse_audio_notices else '')}
+        if direct:plan['planned_cached_notices']=2 if reuse_navigation_notices else 3 if reuse_audio_notices else 0
         return plan
-    cache=uv_license_cache(root,cfg) if reuse_uv_licenses else navigation_notice_cache(root,cfg) if reuse_navigation_notices else None
+    cache=uv_license_cache(root,cfg) if reuse_uv_licenses else navigation_notice_cache(root,cfg) if reuse_navigation_notices else audio_notice_cache(root,cfg) if reuse_audio_notices else None
     extra=ARC_MATERIAL if nested else ()
     def material():return {n:shared.sha(shared.bounded(shared.contained(root,root/n))) for n in (*MATERIAL,*extra)}
     witness=material();owner={};project_owner={};native_owner={};response_owner={};completed={};requests=[];received={};raw_fd=None;hardware_owner={};hardware_fd=None
@@ -307,7 +490,7 @@ def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fe
         if hardware_fd is not None:
             identity=os.fstat(hardware_fd);named=os.stat('Hardware',dir_fd=raw_fd,follow_symlinks=False)
             if (not stat.S_ISDIR(named.st_mode) or (named.st_dev,named.st_ino)!=hardware_owner['directory_identity']
-                    or (identity.st_dev,identity.st_ino)!=hardware_owner['directory_identity']):raise ValueError('owned Navigation response parent differs')
+                    or (identity.st_dev,identity.st_ino)!=hardware_owner['directory_identity']):raise ValueError('owned '+direct_label+' response parent differs')
         return out
     def remaining():
         left=min(SECONDS-(time.monotonic()-started),SECONDS-(cpu()-cpu_started))
@@ -392,7 +575,7 @@ def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fe
                 item=cache['files'][row['source_path']];raw=item['raw']
                 with OwnedFile(out/artifact,owned,response_fd).open('xb') as stream:stream.write(raw)
                 req.update(status='verified_cache_copied',received_bytes=0,cached_bytes=len(raw),response_sha256=shared.sha(raw),
-                    cache_body={'file':item['path'],'sha256':item['sha256']},prior_receipt={'file':cache['prior_acquisition']['receipt'],'sha256':cache['prior_acquisition']['sha256']})
+                    cache_body={'file':item['path'],'sha256':item['sha256']},prior_receipt=item.get('prior_receipt',{'file':cache['prior_acquisition']['receipt'],'sha256':cache['prior_acquisition']['sha256']}))
             else:raw=transport(row,req,OwnedFile(out/artifact,owned,response_fd),allowance,remaining)
             owned();remaining()
             if sum(r.get('received_bytes',0) for r in requests)>network_cap:raise ValueError('network byte cap exceeded')
@@ -429,9 +612,9 @@ def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fe
         raise
 
 def main():
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--fetch',action='store_true');parser.add_argument('--project',choices=('led','arcdice','analog-filter','cellscan','uv-dosimeter','navigation-switch'),default='led');parser.add_argument('--output');parser.add_argument('--reuse-uv-licenses',action='store_true',help='Explicitly reuse only the three pinned prior UV licence bodies; no fallback');parser.add_argument('--reuse-navigation-notices',action='store_true',help='Explicitly reuse only two pinned prior Navigation notices; old timing unmeasured, no fallback');args=parser.parse_args();args.output=args.output or fixed_profile(args.project)['default_output']
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--fetch',action='store_true');parser.add_argument('--project',choices=('led','arcdice','analog-filter','cellscan','uv-dosimeter','navigation-switch','audio-player-my1690x'),default='led');parser.add_argument('--output');parser.add_argument('--reuse-uv-licenses',action='store_true',help='Explicitly reuse only the three pinned prior UV licence bodies; no fallback');parser.add_argument('--reuse-navigation-notices',action='store_true',help='Explicitly reuse only two pinned prior Navigation notices; old timing unmeasured, no fallback');parser.add_argument('--reuse-audio-notices',action='store_true',help='Explicit fixed Audio root notices and stale Hardware README reuse; no fallback, prior untimed cost retained');args=parser.parse_args();args.output=args.output or fixed_profile(args.project)['default_output']
     try:
-        with shared.cancellation(),shared.alarm(SECONDS):record=fetch_demo(args.output,profile_id=args.project,fetch=args.fetch,started=START,cpu_started=CPU_START,reuse_uv_licenses=args.reuse_uv_licenses,reuse_navigation_notices=args.reuse_navigation_notices)
+        with shared.cancellation(),shared.alarm(SECONDS):record=fetch_demo(args.output,profile_id=args.project,fetch=args.fetch,started=START,cpu_started=CPU_START,reuse_uv_licenses=args.reuse_uv_licenses,reuse_navigation_notices=args.reuse_navigation_notices,reuse_audio_notices=args.reuse_audio_notices)
     except (Exception,KeyboardInterrupt) as exc:
         print(json.dumps({'status':'failed','reason':type(exc).__name__+': '+str(exc),'accepted':False}));return 2
     print(json.dumps({k:record[k] for k in ('action','status','destination','project','planned_files','planned_bytes','new_network_requests','received_bytes','wall_seconds','total_cpu_seconds','source_files_exact','cache_inputs_current','within_budget') if k in record}));return 0 if record.get('action')=='plan_only' or record.get('status')=='acquired_unqualified' and record.get('within_budget') and record.get('source_files_exact') and record.get('cache_inputs_current') is True else 2
