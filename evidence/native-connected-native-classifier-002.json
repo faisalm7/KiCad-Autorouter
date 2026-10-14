@@ -1,0 +1,824 @@
+{
+  "schema": 1,
+  "accepted": false,
+  "routing_executed": false,
+  "production_admitted": false,
+  "classification_qualified": true,
+  "actual_native_head": "147dfe5eb75fb31182d8f3da81aee58ce8a8aece",
+  "actual_native_source_sha256": {
+    "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+    "autorouter/__main__.py": "9e34e95cf21b4ab7c872365f0a8c835876713691ef39f1049d2bd52bcb0b09e6",
+    "autorouter/adapter.py": "95211455104334e338b83c77aecf8541ee24b0b4f7cd6c3043bcb71d478ddfca",
+    "autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+    "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+    "autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+    "autorouter/floor_route.py": "a0e06ee951a08bebb393c1bbfd57ce12f0dfafa462f28f99f04dec323fc5ba33",
+    "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+    "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+    "autorouter/native.py": "7cf0f7cd8d18b59d21b365d51398f0cc99885d3644721a1a842e4f36a7306060",
+    "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+    "autorouter/native_edge.py": "d66f287319189ca0925072a41942ec06f4d8b259966e511d16f9ebcdb52505c1",
+    "autorouter/netclass.py": "79d4b7e98c7b46fe924816ddcc7fa384672bf646d1c06f81e134ce6d97e0a7de",
+    "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+    "autorouter/pipeline.py": "be986fb8616396c372472b7dd497d7471b2956194bc1099754fa8548c7069ef9",
+    "autorouter/placement_clearance.py": "f846a73367bc60dfbb48386233e405cb4bf1382f056d379787d7b823c3905feb",
+    "autorouter/placement_strategy.py": "b75a2291eed37d8ddb9f052c0b715faafcc2dfd258ae32f9e2763fcd01db0e97",
+    "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+    "autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+    "autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+    "autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+    "autorouter/recovery.py": "8a2bf1470cb69e7d8d334bbe7aef18110322a7aa786b965d397a89ddbc932ee5",
+    "autorouter/review_export.py": "716b369af61faa8c15f60ef58a0846772e4b175cff4a75af0c2c5ea45f24aea7",
+    "autorouter/review_view.py": "8f765624a8527df770a98594a7b27fe88776b300ec276f809c179ec7f6f60fb7",
+    "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+    "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+    "autorouter/schematic_field_evidence.py": "d7e1012b05bb7e0fb03358bbc3573b845ff06d03760a88137cf52db71090641b",
+    "autorouter/schematic_fields.py": "7d9043a14bac69d18830b2f51cb7d118c648df9290337505db1bf8503d931a71",
+    "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+    "autorouter/strategy.py": "a7fb17f35f390430fb45d335efa43dd7190546ae9df932c75925d05fe4ab137e",
+    "autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+    "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+    "autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455"
+  },
+  "native_receipt_sha256": "bb05d1414100bbf61d1a61861e8dac1fd7c88214e46e9b1347ca1fc016508412",
+  "final_counts": {
+    "opens": 8,
+    "blocking": 0,
+    "warnings": 10,
+    "exclusions": 0
+  },
+  "all_final_findings_by_type": {
+    "lib_footprint_issues": 5,
+    "unconnected_items": 8,
+    "footprint_symbol_field_mismatch": 5
+  },
+  "all_ignored_checks": [
+    {
+      "description": "Track endpoint not centered on via",
+      "key": "track_not_centered_on_via"
+    },
+    {
+      "description": "Tuning profile track geometries",
+      "key": "tuning_profile_track_geometries"
+    }
+  ],
+  "classification": {
+    "schema": 1,
+    "policy": "experimental-native-connected-nets-v1",
+    "routing_accepted": false,
+    "original_sha256": "a8e69c14ceec9dd0954c3027cc89ca6bbb9c0b0ec3aeede5feacfdd47736f362",
+    "task_sha256": "4bb83f2024dad243e1e0726ffed04e6b12f3db1daac0b7bca75152af3a9ff82d",
+    "filled_task_sha256": "b03788753c0a5e039bcb7fb1f6964b0c5abfcb00bd2c94f2d92f58caa8137ce2",
+    "native_report_sha256": "7de52b569fb8427f092a78f1addde87bf35e19e42b3400d5613c9c208f0694e4",
+    "native_dsn_sha256": "da13b94724cfc3d8d5cb911f0dfea0cab0baa175249ee030eb87405752a601f4",
+    "source_hashes": {
+      "_licenses/creator/LICENSE.md": "1221d052e504de62ee82c8fdb9f10e46576264b763efddfbe8dc1260aff8de24",
+      "_licenses/creator/README.md": "d9153d78b4be0ca452372ba80ffd23f7cfda797e49fe09e27b169e4ad064ae10",
+      "footprints/usb_led.pretty/SW_Push_1P1T_XKB_TS-1187A.kicad_mod": "58c47a1c7ee9518a2862e547bf96ad8b9cd46463c90364e18eedb80e2bdb72b1",
+      "fp-lib-table": "15bf189b65b5ae2db205de28c62b43d5f70b1efeeb1546809588b65b19cc2052",
+      "sym-lib-table": "2a1efc4ebfe0099500e0b00444101581b26bc4a3352f24cb09381b9f12311701",
+      "usb_led.kicad_pcb": "a8e69c14ceec9dd0954c3027cc89ca6bbb9c0b0ec3aeede5feacfdd47736f362",
+      "usb_led.kicad_pro": "b89aeb862b5008aeb62a32b06b1b4094b5ea556d24fba5e62189814523dcc2a8",
+      "usb_led.kicad_sch": "425a817f1c236363eefd6ff8cb23365d2641a43d5f1e057191497046dcf20d75"
+    },
+    "source_name": "usb_led.kicad_pcb",
+    "all_names": [
+      "GND",
+      "Net-(D1-A)",
+      "Net-(J1-CC1)",
+      "Net-(J1-CC2)",
+      "Net-(J1-VBUS-PadA9)",
+      "Net-(R1-Pad1)"
+    ],
+    "active_names": [
+      "Net-(D1-A)",
+      "Net-(J1-CC1)",
+      "Net-(J1-CC2)",
+      "Net-(J1-VBUS-PadA9)",
+      "Net-(R1-Pad1)"
+    ],
+    "inactive_names": [
+      "GND"
+    ],
+    "complete_terminal_count": 22,
+    "terminal_sha256": "e2a5b0740ffe4c2f5fce42ea6ab352f07685315c1b503e56b23b798fe9b794e8",
+    "native_network_sha256": "bdcc524cf45cf7ae8a32954ed8ceefa38dc386b6b92e3cdc8d2f08d5caa5edfa",
+    "mapped_open_count": 8,
+    "engine_profile": "completion-only",
+    "engine_requirements": {
+      "fanout": false,
+      "optimizer": false,
+      "automatic_neckdown": false,
+      "neck_width_um": 0
+    },
+    "reference_routes_used_for_selection": false,
+    "scope": "whole_board_unlocked_routing",
+    "eligibility_basis": "absence of exact mapped opens in fresh original-shell DRC after saved refill; hint only"
+  },
+  "native_witness": "saved-refill-and-final-original-shell-v1",
+  "original_shell_sha256": "b03788753c0a5e039bcb7fb1f6964b0c5abfcb00bd2c94f2d92f58caa8137ce2",
+  "saved_nonfill_ast_equal": false,
+  "saved_routes_equal": true,
+  "source_hashes": {
+    "_licenses/creator/LICENSE.md": "1221d052e504de62ee82c8fdb9f10e46576264b763efddfbe8dc1260aff8de24",
+    "_licenses/creator/README.md": "d9153d78b4be0ca452372ba80ffd23f7cfda797e49fe09e27b169e4ad064ae10",
+    "footprints/usb_led.pretty/SW_Push_1P1T_XKB_TS-1187A.kicad_mod": "58c47a1c7ee9518a2862e547bf96ad8b9cd46463c90364e18eedb80e2bdb72b1",
+    "fp-lib-table": "15bf189b65b5ae2db205de28c62b43d5f70b1efeeb1546809588b65b19cc2052",
+    "sym-lib-table": "2a1efc4ebfe0099500e0b00444101581b26bc4a3352f24cb09381b9f12311701",
+    "usb_led.kicad_pcb": "a8e69c14ceec9dd0954c3027cc89ca6bbb9c0b0ec3aeede5feacfdd47736f362",
+    "usb_led.kicad_pro": "b89aeb862b5008aeb62a32b06b1b4094b5ea556d24fba5e62189814523dcc2a8",
+    "usb_led.kicad_sch": "425a817f1c236363eefd6ff8cb23365d2641a43d5f1e057191497046dcf20d75"
+  },
+  "actual_native_outer": {
+    "schema": 1,
+    "process": {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 12.873118749994319,
+      "cpu_seconds": 7.571019,
+      "max_rss_bytes": 225722368,
+      "supervisor_cpu_seconds": 0.030862,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 199540736,
+      "sampled_peak_workdir_bytes": 147,
+      "resource_guards": {
+        "max_group_rss_bytes": 2147483648,
+        "max_workdir_bytes": 2097152,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/native_connected_v1/driver.py",
+        "--run-native",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-connected-task-probe-002"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-connected-task-probe-execution-002/command.log",
+      "log_bytes": 147,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-connected-task-probe-execution-002",
+      "signal_cancellation_enabled": true,
+      "pid": 29648
+    },
+    "tools": {
+      "implementation_sha256": {
+        "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+        "autorouter/__main__.py": "9e34e95cf21b4ab7c872365f0a8c835876713691ef39f1049d2bd52bcb0b09e6",
+        "autorouter/adapter.py": "95211455104334e338b83c77aecf8541ee24b0b4f7cd6c3043bcb71d478ddfca",
+        "autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+        "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+        "autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+        "autorouter/floor_route.py": "a0e06ee951a08bebb393c1bbfd57ce12f0dfafa462f28f99f04dec323fc5ba33",
+        "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+        "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+        "autorouter/native.py": "7cf0f7cd8d18b59d21b365d51398f0cc99885d3644721a1a842e4f36a7306060",
+        "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+        "autorouter/native_edge.py": "d66f287319189ca0925072a41942ec06f4d8b259966e511d16f9ebcdb52505c1",
+        "autorouter/netclass.py": "79d4b7e98c7b46fe924816ddcc7fa384672bf646d1c06f81e134ce6d97e0a7de",
+        "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+        "autorouter/pipeline.py": "be986fb8616396c372472b7dd497d7471b2956194bc1099754fa8548c7069ef9",
+        "autorouter/placement_clearance.py": "f846a73367bc60dfbb48386233e405cb4bf1382f056d379787d7b823c3905feb",
+        "autorouter/placement_strategy.py": "b75a2291eed37d8ddb9f052c0b715faafcc2dfd258ae32f9e2763fcd01db0e97",
+        "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+        "autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+        "autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+        "autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+        "autorouter/recovery.py": "8a2bf1470cb69e7d8d334bbe7aef18110322a7aa786b965d397a89ddbc932ee5",
+        "autorouter/review_export.py": "716b369af61faa8c15f60ef58a0846772e4b175cff4a75af0c2c5ea45f24aea7",
+        "autorouter/review_view.py": "8f765624a8527df770a98594a7b27fe88776b300ec276f809c179ec7f6f60fb7",
+        "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+        "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+        "autorouter/schematic_field_evidence.py": "d7e1012b05bb7e0fb03358bbc3573b845ff06d03760a88137cf52db71090641b",
+        "autorouter/schematic_fields.py": "7d9043a14bac69d18830b2f51cb7d118c648df9290337505db1bf8503d931a71",
+        "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+        "autorouter/strategy.py": "a7fb17f35f390430fb45d335efa43dd7190546ae9df932c75925d05fe4ab137e",
+        "autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+        "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+        "autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455"
+      },
+      "git_head": "147dfe5eb75fb31182d8f3da81aee58ce8a8aece",
+      "kicad": "10.0.0",
+      "freerouting": "2.5.0",
+      "files": {
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+        "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219"
+      },
+      "network": "engine sandbox-exec deny network*"
+    },
+    "controller_sha256": "6c5d2d1bf620f78ebcd96c9e2c057093bd84883b5c62cc95bf1d3e19ca957e21",
+    "log_sha256": "eac99d98ee3f4abdb60c9e27684fe8cb8d221965897451bcef9863c4fe71a827",
+    "wall_seconds": 13.04840787500143,
+    "full_cpu_seconds": 7.710073,
+    "scope": "Actual saved refill plus exact original-shell/fullSCH final native task connectivity and native DSN, production-pinned1000, no engine or routing acceptance. After completedc81 major full snapshot/restoration. Prior001safe format refusal retained; narrow same-net physical-pad alias witness now qualified by native export; every refusal preserved; source/source-routing features unchanged or stripped as required."
+  },
+  "actual_shared_reader": {
+    "schema": 1,
+    "kind": "independent-native-connected-task-readback",
+    "status": "verified",
+    "passed": true,
+    "accepted": false,
+    "routing_executed": false,
+    "new_native_execution": false,
+    "new_jvm_execution": false,
+    "new_network_requests": 0,
+    "budget_seconds": 60,
+    "cpu_budget_seconds": 60,
+    "checks": {
+      "code_tools_source_snapshot_and_completed_inventory": true,
+      "actual_original_shell_and_both_native_stages": true,
+      "full_schematic_and_field_process_evidence": true,
+      "actual_all_six_workers": [
+        {
+          "name": "refill-drc",
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 1.5997925410047174,
+          "cpu_seconds": 0.613266,
+          "cleanup_complete": true,
+          "process_sha256": "6e8fcdcbeb9f34c8a89f008df6084b2da7f9421a05917a1d9f7034f781464c7e",
+          "log_sha256": "c88c0089bad74e9033fe7d49a26383923993ab62369ba0258ba1183bb6f3bb04"
+        },
+        {
+          "name": "pour-keepout-audit",
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.491064166999422,
+          "cpu_seconds": 0.398678,
+          "cleanup_complete": true,
+          "process_sha256": "ad4d52fef6a2b06b15f31413f6684304660da0938f0d7e1a49a494978959f3e2",
+          "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "final-drc",
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 1.001806166023016,
+          "cpu_seconds": 0.6047159999999999,
+          "cleanup_complete": true,
+          "process_sha256": "0dfea51ac89f7a4eb4847579cdef8c63deb3cc014af09ecd4084cc468984375a",
+          "log_sha256": "18c4643df397482cc7360daaac69d6300eb103100f7fa9a018f2532639e21c74"
+        },
+        {
+          "name": "final-drc-fields-netlist",
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.47229712500120513,
+          "cpu_seconds": 0.464617,
+          "cleanup_complete": true,
+          "process_sha256": "e63e59d25bb35ff42abdfd2290e489ff09633efc5f52cc2afc68078f8225df99",
+          "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "final-drc-fields-audit",
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.33772316700196825,
+          "cpu_seconds": 0.332616,
+          "cleanup_complete": true,
+          "process_sha256": "042b6975b93b8a0c142d10d979540ab10a165955831595f6e7d9f43fbce759c9",
+          "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "task-export",
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.3357702500070445,
+          "cpu_seconds": 0.33019699999999996,
+          "cleanup_complete": true,
+          "process_sha256": "9aab16941a9b4aab6533073221a154451ede68d24fd734885849e46db7ca3ac7",
+          "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "final_counts": {
+        "opens": 8,
+        "blocking": 0,
+        "warnings": 10,
+        "exclusions": 0
+      },
+      "saved_refill_counts": {
+        "opens": 8,
+        "blocking": 0,
+        "warnings": 5,
+        "exclusions": 0
+      },
+      "final_findings_by_type": {
+        "lib_footprint_issues:warning": 5,
+        "unconnected_items:error": 8,
+        "footprint_symbol_field_mismatch:warning": 5
+      },
+      "saved_findings_by_type": {
+        "lib_footprint_issues:warning": 5,
+        "unconnected_items:error": 8
+      },
+      "final_ignored_checks": [
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        }
+      ],
+      "saved_ignored_checks": [
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        }
+      ],
+      "final_native_rejection_reasons": [
+        "native error finding: unconnected_items",
+        "native opens=8",
+        "policy-critical native finding: unconnected_items (error)"
+      ],
+      "original_shell_sha256": "b03788753c0a5e039bcb7fb1f6964b0c5abfcb00bd2c94f2d92f58caa8137ce2",
+      "final_report_sha256": "7de52b569fb8427f092a78f1addde87bf35e19e42b3400d5613c9c208f0694e4",
+      "saved_report_sha256": "aa1364c6cf70b54ed30503e4f799f9780f6fb8446b7f4d4ef0b2161fa57ea31b",
+      "native_dsn_sha256": "da13b94724cfc3d8d5cb911f0dfea0cab0baa175249ee030eb87405752a601f4",
+      "terminal_count": 22,
+      "terminal_aliases": [
+        "D1-1",
+        "D1-2",
+        "J1-A12",
+        "J1-A5",
+        "J1-A9",
+        "J1-B12",
+        "J1-B5",
+        "J1-B9",
+        "J1-S1",
+        "J1-S1@1",
+        "J1-S1@2",
+        "J1-S1@3",
+        "R1-1",
+        "R1-2",
+        "R2-1",
+        "R2-2",
+        "R3-1",
+        "R3-2",
+        "SW1-1",
+        "SW1-1@1",
+        "SW1-2",
+        "SW1-2@1"
+      ],
+      "native_terminal_net_mapping": {
+        "R1-1": "Net-(R1-Pad1)",
+        "R1-2": "Net-(D1-A)",
+        "J1-A5": "Net-(J1-CC1)",
+        "J1-A9": "Net-(J1-VBUS-PadA9)",
+        "J1-A12": "GND",
+        "J1-B5": "Net-(J1-CC2)",
+        "J1-B9": "Net-(J1-VBUS-PadA9)",
+        "J1-B12": "GND",
+        "J1-S1": "GND",
+        "J1-S1@1": "GND",
+        "J1-S1@2": "GND",
+        "J1-S1@3": "GND",
+        "R2-1": "Net-(J1-CC2)",
+        "R2-2": "GND",
+        "D1-1": "GND",
+        "D1-2": "Net-(D1-A)",
+        "SW1-1": "Net-(J1-VBUS-PadA9)",
+        "SW1-1@1": "Net-(J1-VBUS-PadA9)",
+        "SW1-2": "Net-(R1-Pad1)",
+        "SW1-2@1": "Net-(R1-Pad1)",
+        "R3-1": "Net-(J1-CC1)",
+        "R3-2": "GND"
+      },
+      "all_names": [
+        "GND",
+        "Net-(D1-A)",
+        "Net-(J1-CC1)",
+        "Net-(J1-CC2)",
+        "Net-(J1-VBUS-PadA9)",
+        "Net-(R1-Pad1)"
+      ],
+      "active_names": [
+        "Net-(D1-A)",
+        "Net-(J1-CC1)",
+        "Net-(J1-CC2)",
+        "Net-(J1-VBUS-PadA9)",
+        "Net-(R1-Pad1)"
+      ],
+      "inactive_names": [
+        "GND"
+      ],
+      "mapped_open_count": 8,
+      "saved_nonfill_ast_equal": false,
+      "original_shell_nonfill_ast_equal": true,
+      "original_shell_routes_equal": true,
+      "original_probe_wall_seconds": 12.43216945900349,
+      "original_probe_full_cpu_seconds": 7.1418930000000005,
+      "original_controller_wall_seconds": 13.04840787500143,
+      "original_controller_full_cpu_seconds": 7.710073
+    },
+    "mutations": [
+      {
+        "case": "native_witness:mutated",
+        "rejected": true,
+        "reason": "connected-net final native witness claims differ"
+      },
+      {
+        "case": "native_witness:omitted",
+        "rejected": true,
+        "reason": "connected-net final native witness claims differ"
+      },
+      {
+        "case": "original_shell_sha256:mutated",
+        "rejected": true,
+        "reason": "connected-net final native witness claims differ"
+      },
+      {
+        "case": "original_shell_sha256:omitted",
+        "rejected": true,
+        "reason": "connected-net final native witness claims differ"
+      },
+      {
+        "case": "task_native_report_sha256:mutated",
+        "rejected": true,
+        "reason": "connected-net final native witness claims differ"
+      },
+      {
+        "case": "task_native_report_sha256:omitted",
+        "rejected": true,
+        "reason": "connected-net final native witness claims differ"
+      },
+      {
+        "case": "task_native:mutated",
+        "rejected": true,
+        "reason": "connected-net final native witness claims differ"
+      },
+      {
+        "case": "task_native:omitted",
+        "rejected": true,
+        "reason": "connected-net final native witness claims differ"
+      },
+      {
+        "case": "native_connected_classification:mutated",
+        "rejected": true,
+        "reason": "connected-net classification changed or missing"
+      },
+      {
+        "case": "native_connected_classification:omitted",
+        "rejected": true,
+        "reason": "connected-net classification changed or missing"
+      },
+      {
+        "case": "steps:mutated",
+        "rejected": true,
+        "reason": "floor native stage step/input mismatch"
+      },
+      {
+        "case": "steps:omitted",
+        "rejected": true,
+        "reason": "floor step differs from retained process: refill-drc"
+      },
+      {
+        "case": "task-export:mutated",
+        "rejected": true,
+        "reason": "floor step differs from retained process: task-export"
+      },
+      {
+        "case": "task-export:omitted",
+        "rejected": true,
+        "reason": "floor step differs from retained process: task-export"
+      }
+    ],
+    "scope": "One exposed development classifier witness; no engine, routing acceptance, production admission, quality or generalization claim.",
+    "tools": {
+      "implementation_sha256": {
+        "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+        "autorouter/__main__.py": "9e34e95cf21b4ab7c872365f0a8c835876713691ef39f1049d2bd52bcb0b09e6",
+        "autorouter/adapter.py": "95211455104334e338b83c77aecf8541ee24b0b4f7cd6c3043bcb71d478ddfca",
+        "autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+        "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+        "autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+        "autorouter/floor_route.py": "a0e06ee951a08bebb393c1bbfd57ce12f0dfafa462f28f99f04dec323fc5ba33",
+        "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+        "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+        "autorouter/native.py": "7cf0f7cd8d18b59d21b365d51398f0cc99885d3644721a1a842e4f36a7306060",
+        "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+        "autorouter/native_edge.py": "d66f287319189ca0925072a41942ec06f4d8b259966e511d16f9ebcdb52505c1",
+        "autorouter/netclass.py": "79d4b7e98c7b46fe924816ddcc7fa384672bf646d1c06f81e134ce6d97e0a7de",
+        "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+        "autorouter/pipeline.py": "be986fb8616396c372472b7dd497d7471b2956194bc1099754fa8548c7069ef9",
+        "autorouter/placement_clearance.py": "f846a73367bc60dfbb48386233e405cb4bf1382f056d379787d7b823c3905feb",
+        "autorouter/placement_strategy.py": "b75a2291eed37d8ddb9f052c0b715faafcc2dfd258ae32f9e2763fcd01db0e97",
+        "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+        "autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+        "autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+        "autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+        "autorouter/recovery.py": "8a2bf1470cb69e7d8d334bbe7aef18110322a7aa786b965d397a89ddbc932ee5",
+        "autorouter/review_export.py": "716b369af61faa8c15f60ef58a0846772e4b175cff4a75af0c2c5ea45f24aea7",
+        "autorouter/review_view.py": "8f765624a8527df770a98594a7b27fe88776b300ec276f809c179ec7f6f60fb7",
+        "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+        "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+        "autorouter/schematic_field_evidence.py": "d7e1012b05bb7e0fb03358bbc3573b845ff06d03760a88137cf52db71090641b",
+        "autorouter/schematic_fields.py": "7d9043a14bac69d18830b2f51cb7d118c648df9290337505db1bf8503d931a71",
+        "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+        "autorouter/strategy.py": "a7fb17f35f390430fb45d335efa43dd7190546ae9df932c75925d05fe4ab137e",
+        "autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+        "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+        "autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455"
+      },
+      "git_head": "147dfe5eb75fb31182d8f3da81aee58ce8a8aece",
+      "kicad": "10.0.0",
+      "freerouting": "2.5.0",
+      "files": {
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+        "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219"
+      },
+      "network": "engine sandbox-exec deny network*"
+    },
+    "reader_sha256": "38be79068eb2128158f4259aeb5f36109b93729fabd9c4337b1c9115704ff757",
+    "original_evidence_sha256": "0005f23ba34b4617e09194df0765d218b11c0bd254ecef8a3a8c32434a305a47",
+    "original_execution_sha256": "aab9fa59bc4fa882e602341a185d18c0333ff13724e027ff165447f55265539c",
+    "original_receipt_sha256": "bb05d1414100bbf61d1a61861e8dac1fd7c88214e46e9b1347ca1fc016508412",
+    "wall_seconds": 1.3756370830233209,
+    "full_cpu_seconds": 1.316252,
+    "accounting_point": "Stored totals precede final publication/readback; final wall/full CPU cap includes them. Outer runner stores measured complete execution plus at most3 seconds preparation allowance."
+  },
+  "actual_reader_outer": {
+    "schema": 1,
+    "kind": "independent-readback-execution",
+    "process": {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 1.6466685000050347,
+      "cpu_seconds": 1.581129,
+      "max_rss_bytes": 200654848,
+      "supervisor_cpu_seconds": 0.005313999999999999,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 200638464,
+      "sampled_peak_workdir_bytes": 27563,
+      "resource_guards": {
+        "max_group_rss_bytes": 1073741824,
+        "max_workdir_bytes": 16777216,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-connected-task-readback-002/reader.py"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-connected-task-readback-002/command.log",
+      "log_bytes": 121,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-connected-task-readback-002",
+      "signal_cancellation_enabled": true,
+      "pid": 29767
+    },
+    "wall_seconds": 1.7219520840153564,
+    "full_cpu_seconds": 1.641013,
+    "budget_seconds": 60,
+    "preparation_allowance_seconds": 3,
+    "whole_delivery_cap_seconds": 63,
+    "reader_sha256": "38be79068eb2128158f4259aeb5f36109b93729fabd9c4337b1c9115704ff757",
+    "supervisor_sha256": "5b1943765cf5d9b4d812f5795293f8c6a84ec19f3369713b76fdbeb7dfb8ccfb",
+    "log_sha256": "bffe58e062f91cef66532caac924af0ac2144754a37a3e06722ad601a21d2b75",
+    "new_native_execution": false,
+    "new_jvm_execution": false,
+    "new_network_requests": 0,
+    "passed": true
+  },
+  "readback_mutation_controls": 14,
+  "full052": {
+    "schema": 1,
+    "git_head": "147dfe5eb75fb31182d8f3da81aee58ce8a8aece",
+    "tools": {
+      "implementation_sha256": {
+        "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+        "autorouter/__main__.py": "9e34e95cf21b4ab7c872365f0a8c835876713691ef39f1049d2bd52bcb0b09e6",
+        "autorouter/adapter.py": "95211455104334e338b83c77aecf8541ee24b0b4f7cd6c3043bcb71d478ddfca",
+        "autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+        "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+        "autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+        "autorouter/floor_route.py": "a0e06ee951a08bebb393c1bbfd57ce12f0dfafa462f28f99f04dec323fc5ba33",
+        "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+        "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+        "autorouter/native.py": "7cf0f7cd8d18b59d21b365d51398f0cc99885d3644721a1a842e4f36a7306060",
+        "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+        "autorouter/native_edge.py": "d66f287319189ca0925072a41942ec06f4d8b259966e511d16f9ebcdb52505c1",
+        "autorouter/netclass.py": "79d4b7e98c7b46fe924816ddcc7fa384672bf646d1c06f81e134ce6d97e0a7de",
+        "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+        "autorouter/pipeline.py": "be986fb8616396c372472b7dd497d7471b2956194bc1099754fa8548c7069ef9",
+        "autorouter/placement_clearance.py": "f846a73367bc60dfbb48386233e405cb4bf1382f056d379787d7b823c3905feb",
+        "autorouter/placement_strategy.py": "b75a2291eed37d8ddb9f052c0b715faafcc2dfd258ae32f9e2763fcd01db0e97",
+        "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+        "autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+        "autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+        "autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+        "autorouter/recovery.py": "8a2bf1470cb69e7d8d334bbe7aef18110322a7aa786b965d397a89ddbc932ee5",
+        "autorouter/review_export.py": "716b369af61faa8c15f60ef58a0846772e4b175cff4a75af0c2c5ea45f24aea7",
+        "autorouter/review_view.py": "8f765624a8527df770a98594a7b27fe88776b300ec276f809c179ec7f6f60fb7",
+        "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+        "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+        "autorouter/schematic_field_evidence.py": "d7e1012b05bb7e0fb03358bbc3573b845ff06d03760a88137cf52db71090641b",
+        "autorouter/schematic_fields.py": "7d9043a14bac69d18830b2f51cb7d118c648df9290337505db1bf8503d931a71",
+        "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+        "autorouter/strategy.py": "a7fb17f35f390430fb45d335efa43dd7190546ae9df932c75925d05fe4ab137e",
+        "autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+        "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+        "autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455"
+      },
+      "git_head": "147dfe5eb75fb31182d8f3da81aee58ce8a8aece",
+      "kicad": "10.0.0",
+      "freerouting": "2.5.0",
+      "files": {
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+        "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219"
+      },
+      "network": "engine sandbox-exec deny network*"
+    },
+    "process": {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 39.825774875003844,
+      "cpu_seconds": 36.625493999999996,
+      "max_rss_bytes": 220889088,
+      "supervisor_cpu_seconds": 0.11831699999999998,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 238010368,
+      "sampled_peak_workdir_bytes": 171450,
+      "resource_guards": {
+        "max_group_rss_bytes": 2147483648,
+        "max_workdir_bytes": 2097152,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/full-suite-local-root-019.py"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/full-integration-052/command.log",
+      "log_bytes": 171450,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/full-integration-052",
+      "signal_cancellation_enabled": true,
+      "pid": 29846
+    },
+    "wall_seconds": 39.82585387499421,
+    "full_cpu_seconds": 36.743886999999994,
+    "controller_sha256": "898b21f942408161fb68eafbe9327147c8e2cbc639ccf4f9d317151b59ee8829",
+    "log_sha256": "541525014bae958c936958946a925296f70d2a4940a616030d3c3985606a5dae",
+    "scope": "Full integration after exact native duplicate-claim guards, source-owned project parameter for actual disconnected-GND control and existing classifier/publication/alias controls. Actual002shared native/readback qualifies classifier only, never routing; immutable001 refusal retained. No engine comparison yet.",
+    "extra_source_sha256": {
+      "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+      "tests/test_native_connected.py": "cda0e61bd69a53ddc6a925dd2928f6108e6d1ac2b3b02d31e392565fd354bb3f",
+      "experiments/native_connected_v1/driver.py": "1f6af65f5793d0fc7e3432f3b00612be46a0ea221c8a2bb7525836b2a542f385",
+      "tests/test_storage_scan.py": "17cc5de5ed9655c83ae1a0752b91b010a620f633fc682030d4d6d3dd2a12fb60",
+      "autorouter/pipeline.py": "be986fb8616396c372472b7dd497d7471b2956194bc1099754fa8548c7069ef9",
+      "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+      "tests/test_drc_failure_binding.py": "ec22b8e688b7cf197aa52bcfc27d5c3368b14be7db9da40e09f2730cd9c149c9",
+      "tests/test_native_toolchain.py": "028e31f3701ed3d610ff526391816d0f08bb70cf2b3c903647893b894303756e",
+      "tests/test_native_diagnostic_publication.py": "fe71d235d87bc8ab3bf9bfc846dd6b880509f9051d583ab65fb9fd28ba66189f",
+      "tests/test_navigation_demo_fetch.py": "52edc3db236529dbdd7764585b8f5783166ddb87bc060812c1ab7e3a001c7355",
+      "autorouter/native.py": "7cf0f7cd8d18b59d21b365d51398f0cc99885d3644721a1a842e4f36a7306060",
+      "experiments/native_rule_area_toolchain_v1/driver.py": "057c756f29304a2f5e6545fd9545c2831c0dcc150e7b827ad7a3fdc10e991748",
+      "experiments/native_rule_area_toolchain_v1/native_areas.py": "95b7ec911a96a8df96be7024421d0ccd24320e9aeb911dedef4808ca68f4abb2",
+      "experiments/native_rule_area_toolchain_v1/native_expected.py": "825befaaa0d942522c2b07327dd3d6ab8f6a386b8647a67fe9ba7716c409b1df",
+      "experiments/native_rule_area_toolchain_v1/fixture_recipe.py": "26c0a0aaf8511ded1ab895778f181413ece06b15fd00df8dd6f5620bf6f914d9",
+      "tests/test_uv_demo_fetch.py": "95bae7f68bae363f1d15d3fd3f1e745a40952643b13ba9eb459de2fed768aaf2",
+      "tests/test_pruning_preferences_freshness.py": "acbfbb7d9d0cc570ae338335dd8387610d40111ba67df6421c5e5641546bbd56",
+      "tests/test_pruning_preferences.py": "7d27a9fae5fc64696aed13a5d484fe9b40ee8dfa80734b511f185c90b7661b83",
+      "tests/test_improve_preferences_cli.py": "12b4921aaa9514fc6d53492407073e467203b4b4ed2c3a2f77f4c7d2a9606096",
+      "autorouter/strategy.py": "a7fb17f35f390430fb45d335efa43dd7190546ae9df932c75925d05fe4ab137e",
+      "autorouter/__main__.py": "9e34e95cf21b4ab7c872365f0a8c835876713691ef39f1049d2bd52bcb0b09e6",
+      "scripts/backup.py": "557172fa7467e2f02e09554e2a5da908141869b2636ae3975df29f507dda8004",
+      "tests/test_backup_capacity.py": "2d09f6e321c1c556ec867d6c0e61a1e793d29b2e608b41ce831ca9e6d2e90aad",
+      "scripts/experiment_portfolio.py": "8477cfa084bf7351eff8b18f58529a73437f1f0891513e13935628ca99ed07ff",
+      "tests/test_portfolio_allocation.py": "92a10cc6bdc0b6d2605b7526eacc526ecee94413059655606309fa5c03fd9415",
+      "tests/test_result.py": "d18bea1f183f5a37db03aab340c39f296e1651ed0f26f5aa7e079104d92df519",
+      "autorouter/native_edge.py": "d66f287319189ca0925072a41942ec06f4d8b259966e511d16f9ebcdb52505c1",
+      "scripts/native_edge_controls.py": "ff02d209a32e8e10d14cf341f54e7b2db01f78720a658bb1d60afd2e8145b2db",
+      "tests/test_native_edge.py": "8d0fbc803e6ad8dbb201cc17dc7cc519a5ef3bfc436dd94a949d8faad9ca3141",
+      "tests/test_native_edge_record.py": "f39551a63fe3a9f4d742cf181c6afc5e0d39052c82c98bb95aaf1d8027281ef0",
+      "tests/test_selected_evidence.py": "28a9c764e7f69f4009f13d9e8f2965e9095b4ae9366607226d93e5f0b220a979",
+      "tests/test_cellscan_demo.py": "c884451f94c4a98529569be9c93c75dff2e8bbe498a9e9853f40fdddfe445dff",
+      "tests/test_pruning_scoring.py": "82e2c9fade4f5e489932dd1b8befc266f1f9850f349154ab4694d21860fb8e44",
+      "tests/test_inherited_trial_readback.py": "0b2a77936721b363c5b488c2ea9bed87401e4ae6d3acdb37ad59a12a8ebfea3f",
+      "tests/test_native_class_readback.py": "4540114a9c1292ca95998a5fb3d17467174002231c9b2ba3606f77f38d73836b",
+      "tests/test_analog_filter_demo.py": "051c3e3802054389ddf9d972f5f1cbf8c904f287495d865c68f74e478bd34b97",
+      "experiments/original_project_native_v1/driver.py": "15667d833436d4b2aa7f3967e14fde3d4a3f2bc113d11b56880aec1b860b7a6c",
+      "scripts/fetch_led_demo.py": "8d6f3997d6c3f8f5c605f7794160f31639cf6bb6b8f11627a2b9c20e1245644b",
+      "scripts/experiment_quality.py": "2485d82f6553f97fcab38e0d4f9fe29c7e42fb06c471299d1cb5228a51b090ee",
+      "scripts/install_smoke.py": "0fa439795825183020a7cfec054d9309a024eae4b6fdecc78c16c584aba0e4e7",
+      "experiments/placement_handoff_native_v1/driver.py": "a84176cbab44199c5d10c80860f391d56f624b2624da2d157eb8810266796f8c",
+      "tests/test_arcdice_demo_fetch.py": "af612b52095492a005e4964a4a46e9ccf00bc89ee39a045531265d914df077ef",
+      "tests/test_install_smoke.py": "263d53b41951968c3f0f30325b08dcf185038f89f6f7d76f51a0f2f2738b1282",
+      "tests/test_netclass_parent_policy.py": "90d55d95a568fa733b558b73736d09146b7d211233df33dac2b7a97b8c59c8ff",
+      "experiments/native_paired_v1/readback.py": "6fc7e7bc665cacc57bcfe728e026234a66876782acf84e3601a4884b7780e067"
+    }
+  },
+  "full_tests": 1116,
+  "targeted005": {
+    "schema": 1,
+    "process": {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.32789474999299273,
+      "cpu_seconds": 0.21722799999999998,
+      "max_rss_bytes": 39731200,
+      "supervisor_cpu_seconds": 0.004373000000000002,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 38944768,
+      "sampled_peak_workdir_bytes": 6765,
+      "resource_guards": {
+        "max_group_rss_bytes": 1073741824,
+        "max_workdir_bytes": 2097152,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+        "-B",
+        "-m",
+        "unittest",
+        "tests.test_native_connected",
+        "tests.test_native_toolchain",
+        "tests.test_native_diagnostic_publication",
+        "tests.test_storage_scan",
+        "-v"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-connected-targeted-005/command.log",
+      "log_bytes": 6765,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-connected-targeted-005",
+      "signal_cancellation_enabled": true,
+      "pid": 29842
+    },
+    "source_sha256": {
+      "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+      "tests/test_native_connected.py": "cda0e61bd69a53ddc6a925dd2928f6108e6d1ac2b3b02d31e392565fd354bb3f",
+      "experiments/native_connected_v1/driver.py": "1f6af65f5793d0fc7e3432f3b00612be46a0ea221c8a2bb7525836b2a542f385",
+      "autorouter/pipeline.py": "be986fb8616396c372472b7dd497d7471b2956194bc1099754fa8548c7069ef9",
+      "autorouter/floor_route.py": "a0e06ee951a08bebb393c1bbfd57ce12f0dfafa462f28f99f04dec323fc5ba33",
+      "autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+      "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e"
+    },
+    "controller_sha256": "5de5bc805e4b4d883799679cbaa737ec136b9f8f544a97be5b4e63b307cfeb4e",
+    "log_sha256": "c869f144f4ef92032e0ea55e9df4821a082d920b1ade2fd5108baa54bcf3ec2b",
+    "wall_seconds": 0.3283984170120675,
+    "full_cpu_seconds": 0.22210199999999997,
+    "scope": "Experimental classifier18 controls, explicit Native context/publication9 and storage10; software only. Backup creation completed before this targeted run; full restoration is separate heavy lane, no Native/JVM/benchmark overlap."
+  },
+  "current_targeted_tests": 37,
+  "current_driver_scope_caveat": "Actual Native002/readback executed at147dfe exact pins. Later full052 adds optional .runs-owned project parameter and boundary control; default NUS path unchanged. Disconnected-ground control and pairedengine tests not yet run. No routing-quality/whole-board completion claim.",
+  "scope": "One exposed six-net development task; every original route removed before features. Native original-shell/fullSCH8opens0blocking10warnings0exclusions,22complete physical terminals including repeated-pad aliases,5active nets/GNDonlyinactive. Both actual saved/final processes/constraints and original-design shell exact; saved KiCad9\u219210 representation difference remains visible. Fourteen actual in-memory stale/missing/changed claim/classification/step/export controls reject without Native rerun. No runtime model/account/spending/source/reference route feature or source repair. Later than testedc81raw cutoff; next incremental after measured milestone."
+}

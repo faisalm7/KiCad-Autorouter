@@ -254,6 +254,16 @@ class NativeConnectedDraft(unittest.TestCase):
 
 
 class ProbePublicationTests(unittest.TestCase):
+    def test_explicit_project_outside_owned_run_scope_refuses_before_native(self):
+        import tempfile
+        from pathlib import Path
+        from experiments.native_connected_v1 import driver as d
+        output = d.ROOT / '.runs' / ('unused-connectivity-control-' + str(uuid.uuid4()))
+        with tempfile.TemporaryDirectory() as scratch:
+            with self.assertRaisesRegex(p.Rejected, 'owned diagnostic source'):
+                d.experiment(output, project=Path(scratch) / 'not-read.kicad_pcb')
+        self.assertFalse(output.exists())
+
     def test_actual_shared_publication_keeps_only_current_probe_qualification(self):
         import tempfile
         from pathlib import Path

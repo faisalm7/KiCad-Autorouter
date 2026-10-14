@@ -13,10 +13,18 @@ def account_probe(record,job,started,cpu,remaining):
     if not record['within_budget']:record.update(status='budget_exceeded')
     if record['status']!='completed':record['eligibility_qualified']=False
 
-def experiment(output):
+def experiment(output, *, project=None):
     started=time.monotonic();cpu=time.process_time()+f.child_cpu()
     if output.parent!=ROOT/'.runs' or output.exists() or output.is_symlink():raise p.Rejected('fresh direct .runs output required')
-    source,family=selected_source('nus-usb-led');original=p.preflight(source);hashes=p.tree_hash(source.parent)
+    if project is None:
+        source,family=selected_source('nus-usb-led')
+    else:
+        source=Path(project).absolute()
+        if (ROOT/'.runs' not in source.parents
+                or any(x.is_symlink() for x in (source,*source.parents))):
+            raise p.Rejected('owned diagnostic source must be a real project inside .runs')
+        source=source.resolve(strict=True);family='explicit-local-copied-diagnostic-development'
+    original=p.preflight(source);hashes=p.tree_hash(source.parent)
     tools=p.tool_manifest();code={str(x.relative_to(ROOT)):p.sha(x) for x in Path(__file__).parent.glob('*.py')}
     p.check_storage();job=p.Job(output,SECONDS);job.started=started;job.deadline=started+SECONDS
     owner={};h.capture_destination(owner,output);completed=None
@@ -67,8 +75,10 @@ def experiment(output):
     return record['status']=='completed' and record['eligibility_qualified']
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--run-native',action='store_true');parser.add_argument('--output',type=Path,required=True);args=parser.parse_args()
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--run-native',action='store_true');parser.add_argument('--output',type=Path,required=True)
+    parser.add_argument('--project',type=Path,help='Optional owned copied diagnostic project inside .runs; no production admission')
+    args=parser.parse_args()
     if not args.run_native:parser.error('explicit --run-native required')
     def interrupted(*_):raise KeyboardInterrupt
     for sig in (signal.SIGINT,signal.SIGTERM):signal.signal(sig,interrupted)
-    raise SystemExit(0 if experiment(args.output) else 2)
+    raise SystemExit(0 if experiment(args.output,project=args.project) else 2)
