@@ -1,0 +1,61 @@
+{
+  "schema": 1,
+  "git_head": "74b9e93e81ce3073504e8b722d57f751e5559a96",
+  "started_utc": "2026-10-14T11:44:45.811272+00:00",
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 144.37898254100583,
+    "cpu_seconds": 185.316937,
+    "max_rss_bytes": 684097536,
+    "supervisor_cpu_seconds": 1.9541430000000002,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 247808000,
+    "sampled_peak_workdir_bytes": 38361397,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 268435456,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/experiment_paired.py",
+      "--project",
+      "cellscan",
+      "--system",
+      "native-all",
+      "--external-reserve-seconds",
+      "40",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/cellscan-native-paired-complete-sch-001/run"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/cellscan-native-paired-complete-sch-001/command.log",
+    "log_bytes": 154,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/cellscan-native-paired-complete-sch-001",
+    "signal_cancellation_enabled": true,
+    "pid": 98485
+  },
+  "wall_seconds": 144.6334850830026,
+  "full_cpu_seconds": 187.48384800000002,
+  "wrapper_sha256": "579df8fa9225301da756af7ff7961eaebcfa06eafcf2895aa6ae00200594d88c",
+  "log_sha256": "4770c0ef53541061925d72e56b8bc8fa360f8a3a6f155798e2b0a68dde6fdbb9",
+  "scope": "Four fresh sequential exposed-development arms B0/B1/B2portfolio/Cnative-feedback, each120wall/fullCPU including shared charges; same original constraints. Outer256MiB polling and540s timeout; native validation required.",
+  "outer_charge_requires_final_readback": true,
+  "prospective_protocol_sha256": "49927100ca259b4977f52ae0f4e8885816407e8a4237ca0db94c0417ce474a57"
+}

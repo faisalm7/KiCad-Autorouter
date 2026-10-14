@@ -1,0 +1,467 @@
+{
+  "schema": 1,
+  "kind": "read_only_failure_diagnosis",
+  "created_utc": "2026-10-14T12:00:08.454014+00:00",
+  "accepted": false,
+  "native_or_engine_repeated": false,
+  "source_reference_routing_inspected": false,
+  "arms": [
+    {
+      "arm": "B0",
+      "status": "drc_rejected",
+      "accepted": false,
+      "native": {
+        "opens": 32,
+        "blocking": 3,
+        "warnings": 221,
+        "exclusions": 0
+      },
+      "engine_budget": {
+        "profile": "standard",
+        "argv": [
+          "--router.autorouter.max_passes=30",
+          "--router.job_timeout=00:00:27",
+          "--router.optimizer.max_threads=1",
+          "--router.optimizer.max_passes=10",
+          "--router.optimizer.timeout=00:00:27"
+        ],
+        "scoring": {
+          "variant": null,
+          "argv": []
+        },
+        "strict_class_targets": false,
+        "remaining_outer_wall_seconds_at_assignment": 67.66757079199306,
+        "assigned_job_timeout_seconds": 27,
+        "assigned_optimizer_timeout_seconds": 27,
+        "native_finalization_reserve_seconds": 10,
+        "engine_grace_reserve_seconds": 30,
+        "internal_deadlines": "cooperative planning caps; external supervision and measured CPU acceptance cap remain authoritative",
+        "outer_task_wall_budget_seconds": 74.44224354199832,
+        "outer_task_cpu_budget_seconds": 74.44224354199832
+      },
+      "engine_wall_seconds": 31.316035291994922,
+      "engine_cpu_seconds": 46.721213999999996,
+      "native_violation_types": {
+        "copper_edge_clearance": 3,
+        "via_dangling": 12,
+        "silk_edge_clearance": 1,
+        "lib_footprint_issues": 65,
+        "silk_overlap": 46,
+        "silk_over_copper": 47
+      },
+      "engine_terminal_log": [
+        "2026-10-14 04:45:24.316 INFO   [93E233\\91B620] Auto-routing stage completed with timeout: started with 107 unrouted nets, completed in 28.19 seconds, final score: 939.09 (9 unrouted and 0 violations), using 24.96 total CPU seconds, 29.22 GB total allocated, and 320.8 MB peak heap usage.",
+        "2026-10-14 04:45:24.331 INFO   [93E233\\91B620] Job '93E233\\91B620' finished with state: TIMED_OUT (elapsed: 28.60 seconds, finished at UTC: 2026-10-14T11:45:24.331393Z)."
+      ],
+      "engine_profile_journal_check_passed": true,
+      "candidate_sha256": "5243b0d926658b817b75fce2023cd51a9d4a3a8b1a6f7317f9d67a97c62ad136",
+      "native_report_sha256": "581f4ea035114fee5280b8e237d0676e667e13ac6c95cfcea0a5d14b9ba7df15"
+    },
+    {
+      "arm": "B1",
+      "status": "drc_rejected",
+      "accepted": false,
+      "native": {
+        "opens": 1,
+        "blocking": 0,
+        "warnings": 221,
+        "exclusions": 0
+      },
+      "engine_budget": {
+        "profile": "standard",
+        "argv": [
+          "--router.autorouter.max_passes=30",
+          "--router.job_timeout=00:00:28",
+          "--router.optimizer.max_threads=1",
+          "--router.optimizer.max_passes=10",
+          "--router.optimizer.timeout=00:00:28"
+        ],
+        "scoring": {
+          "variant": null,
+          "argv": []
+        },
+        "strict_class_targets": false,
+        "remaining_outer_wall_seconds_at_assignment": 68.23807291701087,
+        "assigned_job_timeout_seconds": 28,
+        "assigned_optimizer_timeout_seconds": 28,
+        "native_finalization_reserve_seconds": 10,
+        "engine_grace_reserve_seconds": 30,
+        "internal_deadlines": "cooperative planning caps; external supervision and measured CPU acceptance cap remain authoritative",
+        "outer_task_wall_budget_seconds": 74.44224354199832,
+        "outer_task_cpu_budget_seconds": 74.44224354199832
+      },
+      "engine_wall_seconds": 31.017879292019643,
+      "engine_cpu_seconds": 47.462855,
+      "native_violation_types": {
+        "via_dangling": 12,
+        "silk_edge_clearance": 1,
+        "lib_footprint_issues": 65,
+        "silk_overlap": 46,
+        "silk_over_copper": 47
+      },
+      "engine_terminal_log": [
+        "2026-10-14 04:46:07.264 INFO   [A6C0D7\\94199C] Last-mile rip-up removed 24 blocking trace(s) or via(s) around 1 remaining connection(s).",
+        "2026-10-14 04:46:07.563 INFO   [A6C0D7\\94199C] Auto-routing stage completed with timeout: started with 195 unrouted nets, completed in 28.39 seconds, final score: 993.16 (1 unrouted and 0 violations), using 24.77 total CPU seconds, 43.31 GB total allocated, and 563.6 MB peak heap usage.",
+        "2026-10-14 04:46:07.583 INFO   [A6C0D7\\94199C] Job 'A6C0D7\\94199C' finished with state: TIMED_OUT (elapsed: 28.49 seconds, finished at UTC: 2026-10-14T11:46:07.582845Z)."
+      ],
+      "engine_profile_journal_check_passed": true,
+      "candidate_sha256": "e7a019f45186bba6468f94e738d5e7031ff268b4b9cad61d2cc94f68fe2f7249",
+      "native_report_sha256": "2f8508729b691f297ddd5265b46e418d0e63c47380b09dda3be8ab83f0a84638"
+    },
+    {
+      "arm": "B2_portfolio/01-via_default",
+      "status": "drc_rejected",
+      "accepted": false,
+      "native": {
+        "opens": 52,
+        "blocking": 0,
+        "warnings": 258,
+        "exclusions": 0
+      },
+      "engine_budget": {
+        "profile": "tuned",
+        "argv": [
+          "--router.autorouter.max_passes=100",
+          "--router.job_timeout=00:00:09",
+          "--router.optimizer.max_threads=1",
+          "--router.optimizer.max_passes=50",
+          "--router.optimizer.timeout=00:00:09",
+          "--router.optimizer.improvement_threshold=0.001",
+          "--router.optimizer.enable_preflight_guards=false",
+          "--router.optimizer.max_consecutive_failures=100",
+          "--router.optimizer.max_consecutive_failures_pass1=100",
+          "--router.scoring.via_costs=50",
+          "--router.scoring.plane_via_costs=5"
+        ],
+        "scoring": {
+          "variant": "via_default",
+          "via_costs": 50,
+          "plane_via_costs": 5,
+          "argv": [
+            "--router.scoring.via_costs=50",
+            "--router.scoring.plane_via_costs=5"
+          ]
+        },
+        "strict_class_targets": false,
+        "remaining_outer_wall_seconds_at_assignment": 49.517246208997676,
+        "assigned_job_timeout_seconds": 9,
+        "assigned_optimizer_timeout_seconds": 9,
+        "native_finalization_reserve_seconds": 10,
+        "engine_grace_reserve_seconds": 30,
+        "internal_deadlines": "cooperative planning caps; external supervision and measured CPU acceptance cap remain authoritative",
+        "outer_task_wall_budget_seconds": 55.66726120898966,
+        "outer_task_cpu_budget_seconds": 55.66726120898966
+      },
+      "engine_wall_seconds": 11.674917249998543,
+      "engine_cpu_seconds": 19.955434,
+      "native_violation_types": {
+        "via_dangling": 49,
+        "silk_edge_clearance": 1,
+        "lib_footprint_issues": 65,
+        "silk_overlap": 46,
+        "silk_over_copper": 47
+      },
+      "engine_terminal_log": [
+        "2026-10-14 04:46:35.448 INFO   [108CA9\\A7030C] Auto-routing stage completed with timeout: started with 195 unrouted nets, completed in 9.10 seconds, final score: 589.74 (60 unrouted and 0 violations), using 8.10 total CPU seconds, 13.69 GB total allocated, and 203.4 MB peak heap usage.",
+        "2026-10-14 04:46:35.454 INFO   [108CA9\\A7030C] Job '108CA9\\A7030C' finished with state: TIMED_OUT (elapsed: 9.17 seconds, finished at UTC: 2026-10-14T11:46:35.453541Z)."
+      ],
+      "engine_profile_journal_check_passed": true,
+      "candidate_sha256": "db0b967c60d7bcd53058ddcc4cce34282996ed4f98a14da8ed2307385c0c2ce5",
+      "native_report_sha256": "159eb673e04b4613f59c02270d2cc4e1a5d7a7a20bccf10d8dd8275f7d3b7987"
+    },
+    {
+      "arm": "C_feedback/incumbent",
+      "status": "drc_rejected",
+      "accepted": false,
+      "native": {
+        "opens": 43,
+        "blocking": 1,
+        "warnings": 253,
+        "exclusions": 0
+      },
+      "engine_budget": {
+        "profile": "tuned",
+        "argv": [
+          "--router.autorouter.max_passes=100",
+          "--router.job_timeout=00:00:10",
+          "--router.optimizer.max_threads=1",
+          "--router.optimizer.max_passes=50",
+          "--router.optimizer.timeout=00:00:10",
+          "--router.optimizer.improvement_threshold=0.001",
+          "--router.optimizer.enable_preflight_guards=false",
+          "--router.optimizer.max_consecutive_failures=100",
+          "--router.optimizer.max_consecutive_failures_pass1=100"
+        ],
+        "scoring": {
+          "variant": null,
+          "argv": []
+        },
+        "strict_class_targets": false,
+        "remaining_outer_wall_seconds_at_assignment": 50.08163941701059,
+        "assigned_job_timeout_seconds": 10,
+        "assigned_optimizer_timeout_seconds": 10,
+        "native_finalization_reserve_seconds": 10,
+        "engine_grace_reserve_seconds": 30,
+        "internal_deadlines": "cooperative planning caps; external supervision and measured CPU acceptance cap remain authoritative",
+        "outer_task_wall_budget_seconds": 56.21172487500007,
+        "outer_task_cpu_budget_seconds": 56.21172487500007
+      },
+      "engine_wall_seconds": 12.649803084001178,
+      "engine_cpu_seconds": 21.914778,
+      "native_violation_types": {
+        "copper_edge_clearance": 1,
+        "via_dangling": 44,
+        "silk_edge_clearance": 1,
+        "lib_footprint_issues": 65,
+        "silk_overlap": 46,
+        "silk_over_copper": 47
+      },
+      "engine_terminal_log": [
+        "2026-10-14 04:47:03.623 INFO   [0312CF\\A1FCD6] Auto-routing stage completed with timeout: started with 195 unrouted nets, completed in 10.11 seconds, final score: 651.28 (51 unrouted and 0 violations), using 9.02 total CPU seconds, 15.07 GB total allocated, and 204.9 MB peak heap usage.",
+        "2026-10-14 04:47:03.629 INFO   [0312CF\\A1FCD6] Job '0312CF\\A1FCD6' finished with state: TIMED_OUT (elapsed: 10.18 seconds, finished at UTC: 2026-10-14T11:47:03.629188Z)."
+      ],
+      "engine_profile_journal_check_passed": true,
+      "candidate_sha256": "adca73ecda3499b1033b2d33217c8cfeadddbfcb9b4980043e733d50617ef03b",
+      "native_report_sha256": "75e2d5c9e618e72cda7df656ce135b460430e4b99d6b6fa27a514457167444c6"
+    }
+  ],
+  "B2_attempted_variants": [
+    "via_default"
+  ],
+  "B2_stop_reason": "insufficient remaining budget for another attempt and reserves",
+  "B2_strong_portfolio_coverage_complete": false,
+  "B1_sole_native_open": {
+    "description": "Missing connection between items",
+    "items": [
+      {
+        "description": "Track [Net-(RED1-A)] on F.Cu, length 0.8884 mm",
+        "pos": {
+          "x": 97.1282,
+          "y": 21.1282
+        },
+        "uuid": "b8d9342b-e3ac-47dd-9e57-7d02b3ff3e53"
+      },
+      {
+        "description": "Pad 7 [Net-(RED1-A)] of U7 on F.Cu",
+        "pos": {
+          "x": 185.675,
+          "y": 37.065
+        },
+        "uuid": "cf9e2e7a-fe8f-4799-86ba-f2b40f3c2c6e"
+      }
+    ],
+    "severity": "error",
+    "type": "unconnected_items"
+  },
+  "B1_RED1_A_DSN_network": [
+    "(net \"Net-(RED1-A)\" (pins U7-7 RED1-2))"
+  ],
+  "B1_RED1_A_SES_sections": [
+    "(net \"Net-(RED1-A)\" (wire (path F.Cu 2000 971282 -211282 965000 -205000)) (via \"Via[0-1]_600:300_um\" 971282 -211282))"
+  ],
+  "B1_RED1_A_native_routes": [
+    "(segment (start 97.1282 21.1282) (end 96.5 20.5) (width 0.2) (layer \"F.Cu\") (net 79) (uuid \"b8d9342b-e3ac-47dd-9e57-7d02b3ff3e53\"))",
+    "(via (at 97.1282 21.1282) (size 0.6) (drill 0.3) (layers \"F.Cu\" \"B.Cu\") (net 79) (uuid \"53e470cb-c06e-450b-b9b6-043d228bda17\"))"
+  ],
+  "B1_new_via_dangling": [
+    {
+      "uuid": "428f6e68-85e6-452b-839c-4a3c5df7fd41",
+      "net": "/CELL3_POS",
+      "position_mm": [
+        186.2764,
+        65.6292
+      ],
+      "matching_SES_vias": 1,
+      "SES_center_vertex_layers": [
+        "F.Cu"
+      ],
+      "native_center_endpoint_layers": [
+        "F.Cu"
+      ],
+      "locked": false
+    },
+    {
+      "uuid": "5297bc81-98d3-427d-b64f-8d363eb413df",
+      "net": "/CELL4_NEG",
+      "position_mm": [
+        183.1773,
+        87.3215
+      ],
+      "matching_SES_vias": 1,
+      "SES_center_vertex_layers": [
+        "F.Cu"
+      ],
+      "native_center_endpoint_layers": [
+        "F.Cu"
+      ],
+      "locked": false
+    },
+    {
+      "uuid": "d76d7d1f-599e-46b5-9986-23244f289126",
+      "net": "Net-(U2-SC2)",
+      "position_mm": [
+        178.9512,
+        118.3425
+      ],
+      "matching_SES_vias": 1,
+      "SES_center_vertex_layers": [
+        "F.Cu"
+      ],
+      "native_center_endpoint_layers": [
+        "F.Cu"
+      ],
+      "locked": false
+    },
+    {
+      "uuid": "3280e755-f0fb-43da-a891-ece8959df2ee",
+      "net": "Net-(U2-SD3)",
+      "position_mm": [
+        181.3418,
+        89.2092
+      ],
+      "matching_SES_vias": 1,
+      "SES_center_vertex_layers": [
+        "F.Cu"
+      ],
+      "native_center_endpoint_layers": [
+        "F.Cu"
+      ],
+      "locked": false
+    },
+    {
+      "uuid": "239ebb0c-6c9a-42a7-a29b-d59101b9cfa5",
+      "net": "Net-(U2-SC3)",
+      "position_mm": [
+        180.8291,
+        90.6165
+      ],
+      "matching_SES_vias": 1,
+      "SES_center_vertex_layers": [
+        "F.Cu"
+      ],
+      "native_center_endpoint_layers": [
+        "F.Cu"
+      ],
+      "locked": false
+    },
+    {
+      "uuid": "bd826bc8-b8a1-4822-ad5b-9f70067d2dde",
+      "net": "+5V",
+      "position_mm": [
+        92.2071,
+        31.2829
+      ],
+      "matching_SES_vias": 1,
+      "SES_center_vertex_layers": [
+        "F.Cu"
+      ],
+      "native_center_endpoint_layers": [
+        "F.Cu"
+      ],
+      "locked": false
+    },
+    {
+      "uuid": "f33cea3c-c498-46d5-a40a-5a9120eb3a0b",
+      "net": "+5V",
+      "position_mm": [
+        180.725,
+        40.4289
+      ],
+      "matching_SES_vias": 1,
+      "SES_center_vertex_layers": [
+        "F.Cu"
+      ],
+      "native_center_endpoint_layers": [
+        "F.Cu"
+      ],
+      "locked": false
+    },
+    {
+      "uuid": "071d7c7d-103c-438c-8b69-60026b74e6e7",
+      "net": "Net-(J3-CC1)",
+      "position_mm": [
+        97.8495,
+        39.6405
+      ],
+      "matching_SES_vias": 1,
+      "SES_center_vertex_layers": [
+        "F.Cu"
+      ],
+      "native_center_endpoint_layers": [
+        "F.Cu"
+      ],
+      "locked": false
+    },
+    {
+      "uuid": "a1247841-7082-4562-8e01-319ee200cc20",
+      "net": "/CE_CH3",
+      "position_mm": [
+        184.4543,
+        78.9743
+      ],
+      "matching_SES_vias": 1,
+      "SES_center_vertex_layers": [
+        "F.Cu"
+      ],
+      "native_center_endpoint_layers": [
+        "F.Cu"
+      ],
+      "locked": false
+    },
+    {
+      "uuid": "6d66396c-1b8f-43f4-b212-52f0ae8754eb",
+      "net": "Net-(RED3-K)",
+      "position_mm": [
+        99.1157,
+        105.8693
+      ],
+      "matching_SES_vias": 1,
+      "SES_center_vertex_layers": [
+        "F.Cu"
+      ],
+      "native_center_endpoint_layers": [
+        "F.Cu"
+      ],
+      "locked": false
+    },
+    {
+      "uuid": "91d63998-76f1-4ca4-ba02-1e2b02de3248",
+      "net": "Net-(RED3-K)",
+      "position_mm": [
+        97.53,
+        66.8297
+      ],
+      "matching_SES_vias": 1,
+      "SES_center_vertex_layers": [
+        "F.Cu"
+      ],
+      "native_center_endpoint_layers": [
+        "F.Cu"
+      ],
+      "locked": false
+    },
+    {
+      "uuid": "53e470cb-c06e-450b-b9b6-043d228bda17",
+      "net": "Net-(RED1-A)",
+      "position_mm": [
+        97.1282,
+        21.1282
+      ],
+      "matching_SES_vias": 1,
+      "SES_center_vertex_layers": [
+        "F.Cu"
+      ],
+      "native_center_endpoint_layers": [
+        "F.Cu"
+      ],
+      "locked": false
+    }
+  ],
+  "SES_duplicate_net_sections_B1": {},
+  "matching_tolerance_mm": 7.1e-05,
+  "geometry_limits": "Via matching and center vertices/endpoints are correspondence evidence, not an independent copper connectivity proof. Native warnings remain authoritative.",
+  "cost_scope": "This script only. Prior inspection calls and AI latency are outside this process measurement; lead must charge any required comparative review under its existing protocol.",
+  "script_wall_seconds": 0.15820599999278784,
+  "script_cpu_seconds": 0.15728799999999998,
+  "input_files": 35
+}

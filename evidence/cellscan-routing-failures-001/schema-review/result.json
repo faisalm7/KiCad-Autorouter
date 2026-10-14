@@ -1,0 +1,46 @@
+{
+  "accepted": false,
+  "code_sha256": {
+    "experiments/native_paired_v1/readback.py": "ab6c3259241c0ec6f3baa20177e8ae93cdc36c6854b23a5e8050eadc11167570",
+    "tests/test_source_evidence_readback.py": "965eb74222d58ceddf330177f4268aca01d7a47165f363a447e2d8f4fa85b069"
+  },
+  "input_sha256": {
+    ".runs/cellscan-native-paired-complete-sch-001-protocol.json": "49927100ca259b4977f52ae0f4e8885816407e8a4237ca0db94c0417ce474a57",
+    ".runs/cellscan-original-actual-review-001/checks.json": "da6b2f72b9aa6de90e28a1c9bda551f35654d2813aebf5da9bbe2387ee5f9235",
+    ".runs/cellscan-original-native-001/result.json": "2270d2703b15f4ad856903e3d4aef99fb5eb219a514ba57b7e858bcb5a6ab09a"
+  },
+  "kind": "narrow frozen-source schema implementation and rejection controls",
+  "limitations": [
+    "Actual full CellScan readback has not run here; lead owns that invocation and cumulative Audit15 closure.",
+    "Synthetic controls reject broken evidence schemas; they do not establish native routing correctness.",
+    "No acceptance criteria, routing code, source, existing receipts or frozen prospective were edited.",
+    "Only default B2 variant was attempted in the frozen batch; strong B2 coverage is incomplete.",
+    "No native or engine invocation, commit, push, backup, recursive agent or release ran."
+  ],
+  "native_files": 6,
+  "native_original_counts": {
+    "blocking": 0,
+    "exclusions": 0,
+    "opens": 24,
+    "warnings": 209
+  },
+  "new_engine_execution": false,
+  "new_native_execution": false,
+  "original_native_accepted": false,
+  "original_prospective_modified": false,
+  "pure_schema_probe": {
+    "charged_separately_inside_cumulative_audit": true,
+    "full_cpu_seconds": 0.09468700000000001,
+    "wall_seconds": 0.10821562499040738
+  },
+  "root_original_files": 8,
+  "schema": 1,
+  "source_schema": "independent-original-review-cellscan-v1",
+  "status": "targeted_controls_passed",
+  "targeted_controls": {
+    "command": ".venv/bin/python -B -m unittest tests.test_source_evidence_readback tests.test_native_class_readback tests.test_inherited_trial_readback tests.test_additive_publication -q",
+    "passed": true,
+    "reported_seconds": 0.032,
+    "tests": 20
+  }
+}

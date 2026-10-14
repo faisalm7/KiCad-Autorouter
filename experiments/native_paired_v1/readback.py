@@ -93,6 +93,157 @@ def final_candidate_readback(folder, data, board, original, source_hashes, *, re
         original_native_class_audit_required=class_required)
 
 
+def source_evidence_contract(spec, record, review, receipt_pin, review_pin,
+                             original_files, native_files):
+    """Read either frozen source-evidence schema without inventing proof flags."""
+    if spec['source_original_native_receipt_sha256'] != receipt_pin:
+        raise p.Rejected('original receipt differs from prospective source pin')
+    legacy = 'source_original_native_readback_sha256' in spec
+    if legacy:
+        files = spec.get('source_files', spec.get('source_five_files'))
+        if not isinstance(files, dict) or not files:
+            raise p.Rejected('complete original source inventory missing')
+        expected = {name: meta['sha256'] for name, meta in files.items()}
+        if (spec['source_original_native_readback_sha256'] != review_pin
+                or any(review.get(key) is not True for key in
+                    ('controls_passed', 'source_exact', 'original_constraints_and_all_routes_exact'))
+                or expected != original_files or review['native'] != record['parity_native']):
+            raise p.Rejected('legacy original readback differs from its frozen source evidence')
+        return dict(schema='original-native-readback', source_files=expected,
+                    native=review['native'], claims_limit=spec['limits'])
+
+    # This independently reviewed source schema was frozen before the larger
+    # CellScan run. Its reviewer observes an incomplete original, not acceptance.
+    if (spec.get('kind') != 'prospective larger CellScan complete-schematic four-arm development experiment'
+            or spec.get('source_original_native_review_sha256') != review_pin
+            or any(key in spec for key in ('source_files', 'source_five_files'))
+            or record.get('project') != 'cellscan'
+            or record.get('kind') != 'original_hardware_native_diagnostic'
+            or record.get('status') != 'observed'
+            or review.get('kind') != 'CellScan original actual native diagnostic independent readback'
+            or review.get('passed') is not True or review.get('failures') != []
+            or review.get('new_native_execution') is not False
+            or review.get('new_network_requests') != 0):
+        raise p.Rejected('unsupported or unbound independent original review schema')
+    checks = review['checks']
+    required = ('exact_acquired_source_and_eight_input_files',
+                'exact_original_shell_routes_and_protection',
+                'actual_native_refill_full_schematic_and_all_workers',
+                'exact_fifty_field_mismatch_descriptions_and_original_fields',
+                'whole_costs_and_immutable_retained_evidence')
+    if (any(key not in checks for key in required)
+            or any(check.get('passed') is not True for check in checks.values())):
+        raise p.Rejected('independent original review has missing or failed checks')
+    source, design, stages, fields, costs = (checks[key] for key in required)
+    expected_native = spec['original_source_sha256']
+    root_native = {name.removeprefix('hardware/'): digest
+                   for name, digest in original_files.items() if name.startswith('hardware/')}
+    if (original_files != record['original_hashes']
+            or source['copied_original_hashes'] != original_files
+            or len(original_files) != 8 or source['native_input_files'] != 8
+            or record['source_file_count'] != 8 or len(expected_native) != 6
+            or source['native_input_bytes'] != record['source_bytes']
+            or native_files != expected_native or root_native != expected_native
+            or spec['freeze']['source_hashes'] != expected_native
+            or source.get('source_unchanged') is not True
+            or source['source_commit'] != record['source_commit']
+            or record['source_commit'] != spec['source_revision']
+            or any(record.get(key) is not True for key in ('original_preserved',
+                'acquired_source_still_exact', 'original_shell_nonfill_ast_equal', 'all_original_route_records_exact'))
+            or any(design.get(key) is not True for key in
+                ('all_original_route_records_exact', 'immutable_original_design_and_companions_exact'))
+            or design['candidate_sha256'] != record['final_candidate_sha256']
+            or costs['native_receipt_sha256'] != receipt_pin
+            or costs.get('all_retained_evidence_unchanged') is not True
+            or costs['record_wall_seconds'] != record['wall_seconds']
+            or costs['record_full_cpu_seconds'] != record['total_cpu_seconds']
+            or spec['shared_original_qualification_cost']['wall_seconds'] != 25
+            or spec['shared_original_qualification_cost']['full_cpu_seconds'] != 25
+            or spec['final_readback_allowance_wall_full_cpu_seconds'] != 15
+            or spec['bootstrap_publication_allowance_seconds_each_arm'] != 1):
+        raise p.Rejected('independent original review source or immutable design differs')
+    native = record['parity_native']
+    if (stages.get('worker_count') != len(record['steps'])
+            or stages.get('worker_count') != 4 or stages.get('drc_worker_count') != 2
+            or stages.get('additional_field_netlist_and_audit_workers') != 2
+            or stages.get('native_acceptance') != p.native_accepted(native)
+            or stages['native_rejection_reasons'] != p.native_rejection_reasons(native)
+            or fields['ignored_checks'] != native['ignored_checks']
+            or fields.get('native_observation_not_normalized_or_waived') is not True):
+        raise p.Rejected('independent original review native observations differ')
+    return dict(schema='independent-original-review-cellscan-v1', source_files=original_files,
+                native=native, claims_limit=[spec['coverage'], spec['initial_reference_feasibility'], spec['warnings']])
+
+
+def original_review_native_readback(folder, record, review, board):
+    """Check retained original workers and candidate with existing native helpers."""
+    from experiments.original_project_native_v1.driver import completed_evidence, route_records
+    witness = completed_evidence(folder)
+    if hashlib.sha256(f.canonical(witness).encode()).hexdigest() != record['completed_evidence_sha256']:
+        raise p.Rejected('independently reviewed original native evidence changed')
+    source = folder/'original/hardware'/board.name
+    candidate = Path(record['final_candidate'])
+    if candidate != folder/'candidate'/board.name:
+        raise p.Rejected('original candidate path differs')
+    p.verify_candidate_files(candidate, p.tree_hash(source.parent), record['final_candidate_sha256'])
+    original, tree = sx.read(source), sx.read(candidate)
+    if p.immutable(original) != p.immutable(tree) or route_records(original) != route_records(tree):
+        raise p.Rejected('reviewed original constraints or route records differ')
+    design = review['checks']['exact_original_shell_routes_and_protection']
+    if design['original_route_records'] != len(route_records(original)):
+        raise p.Rejected('reviewed original route count differs')
+    job = folder/'job'
+    stages = review['checks']['actual_native_refill_full_schematic_and_all_workers']
+    observed = []
+    for name, native_board, saved, key in (
+            ('original-refill', folder/'saved'/board.name, True, 'original_native'),
+            ('original-final', candidate, False, 'parity_native')):
+        binding = f.read_json(job/(name+'-binding.json'))
+        native = f.check_drc_stage(job, record, name, native_board,
+            native_board if saved else job/(name+'-input')/board.name,
+            saved, binding['before'], schematic_parity=not saved)
+        if native != record[key]:
+            raise p.Rejected('reviewed original retained native report differs')
+        observed.append(dict(name=name, report_sha256=p.sha(job/(name+'.json')),
+            binding_sha256=p.sha(job/(name+'-binding.json')),
+            native_counts={k:native[k] for k in ('opens','blocking','warnings','exclusions')},
+            full_schematic_parity_requested=not saved))
+    if (observed != stages['native_drc_stages']
+            or p.sha(job/'original-final.json') != record['final_native_report_sha256']):
+        raise p.Rejected('reviewed original native stage pins differ')
+    workers = []
+    for step in record['steps']:
+        f.process_check(job, record, step['name'], step['argv'], allowed=(0,5))
+        workers.append({**{k:step[k] for k in ('name','status','exit_code','wall_seconds','cpu_seconds','cleanup_complete')},
+            'process_sha256':p.sha(job/(step['name']+'-process.json')),
+            'log_sha256':p.sha(Path(step['log']))})
+    if workers != stages['workers'] or completed_evidence(folder) != witness:
+        raise p.Rejected('reviewed original worker journals changed')
+    for outer in review['checks']['whole_costs_and_immutable_retained_evidence']['outer_executions']:
+        path = Path(outer['path'])
+        if p.sha(path) != outer['sha256'] or f.read_json(path) != outer['record']:
+            raise p.Rejected('reviewed original outer execution changed')
+
+
+def pruning_incumbent_readback(folder, parent, board, original, source_hashes):
+    """Retain native proof for the fresh incumbent even when pruning rejects it."""
+    path = folder/'incumbent/result.json'
+    data = f.read_json(path)
+    marker = parent['incumbent']
+    p.check_resource_accounting(parent)
+    if (marker['receipt'] != str(path)
+            or any(marker[key] != data[key] for key in ('status','accepted','metrics','wall_seconds'))
+            or data['tools'] != parent['tools'] or data['source_hashes'] != source_hashes
+            or data['source'] != str(board)
+            or [dict(step,phase='incumbent') for step in data['steps']]
+                != [step for step in parent['steps'] if step.get('phase')=='incumbent']
+            or data['wall_seconds'] > parent['wall_seconds']+1e-6
+            or data['total_cpu_seconds'] > parent['total_cpu_seconds']+1e-6):
+        raise p.Rejected('fresh pruning incumbent differs from charged parent')
+    p.check_engine_profile_record(data, path.parent)
+    return data, final_candidate_readback(path.parent,data,board,original,source_hashes)
+
+
 def qualify(base, prospective, output, source_receipt, source_readback, *, completion_prospective=None):
     base, prospective, output = map(lambda x: Path(x).resolve(), (base, prospective, output))
     source_receipt, source_readback = map(lambda x: Path(x).resolve(), (source_receipt, source_readback))
@@ -118,7 +269,8 @@ def qualify(base, prospective, output, source_receipt, source_readback, *, compl
     original = p.preflight(board)
     original_record = f.read_json(source_receipt)
     original_readback = f.read_json(source_readback)
-    original_native = original_readback['native']
+    original_native = original_record['parity_native']
+    source_contract = None
     def signatures(native):
         return f.canonical([x for x in native['findings'] if x['severity']=='warning'])
     rows = []
@@ -134,7 +286,7 @@ def qualify(base, prospective, output, source_receipt, source_readback, *, compl
                   audit_wall_and_full_cpu_charge_seconds=cap,
                   startup_allowance_wall_full_cpu_seconds=1,
                   shared_original_qualification_cost=spec['shared_original_qualification_cost'],
-                  claims_limit=spec['limits'],
+                  claims_limit=spec.get('limits', []),
                   stock_scope='raw stock DSN with the same class-target safety settings; not untouched Freerouting defaults')
     if completion:
         report.update(completion_prospective_sha256=completion_pin,
@@ -161,12 +313,11 @@ def qualify(base, prospective, output, source_receipt, source_readback, *, compl
                           (source_readback,'original_readback_sha256')):
             if p.sha(path) != report[key]:
                 raise p.Rejected('prospective or original evidence changed')
-        source_files = spec.get('source_files', spec.get('source_five_files'))
-        if not isinstance(source_files, dict) or not source_files:
-            raise p.Rejected('complete original source inventory missing')
-        source = {name: meta['sha256'] for name, meta in source_files.items()}
-        if p.tree_hash(source_receipt.parent/'original') != source:
-            raise p.Rejected('original complete notice-bearing source changed')
+        contract = source_evidence_contract(spec, original_record, original_readback,
+            report['original_receipt_sha256'], report['original_readback_sha256'],
+            p.tree_hash(source_receipt.parent/'original'), p.tree_hash(board.parent))
+        if source_contract is not None and contract != source_contract:
+            raise p.Rejected('original source evidence changed during readback')
         if report['comparison_eligible'] and remaining() <= 0:
             raise p.Rejected('complete readback exceeds its prospective allowance')
 
@@ -201,15 +352,20 @@ def qualify(base, prospective, output, source_receipt, source_readback, *, compl
     try:
         with p.validation_readback_session():
             stable()
+            source_contract = source_evidence_contract(spec, original_record, original_readback,
+                report['original_receipt_sha256'], report['original_readback_sha256'],
+                p.tree_hash(source_receipt.parent/'original'), p.tree_hash(board.parent))
+            report.update(source_evidence_schema=source_contract['schema'],
+                          claims_limit=source_contract['claims_limit'])
+            if source_contract['schema']=='independent-original-review-cellscan-v1':
+                original_review_native_readback(source_receipt.parent,original_record,original_readback,board)
             assert spec['system']=='native-all' and spec['git_head']==protocol['freeze']['tools']['git_head']
             assert spec['tools']==protocol['freeze']['tools']
             assert spec.get('external_reserve_seconds',0)==protocol.get('external_reserve_seconds',0)
             assert spec['wall_budget_per_arm_seconds']==spec['full_cpu_budget_per_arm_seconds']==120
             assert spec['source_original_native_receipt_sha256']==report['original_receipt_sha256']
-            assert spec['source_original_native_readback_sha256']==report['original_readback_sha256']
-            assert original_readback['controls_passed'] and original_readback['source_exact'] and original_readback['original_constraints_and_all_routes_exact']
             assert original_record['original_hashes']==p.tree_hash(source_receipt.parent/'original')
-            assert original_native==original_record['parity_native']
+            assert original_native==source_contract['native']
             assert {k:original_native[k] for k in spec['original_expected_native']}==spec['original_expected_native']
             assert outer['prospective_protocol_sha256']==p.sha(prospective)
             assert outer['process']['status']=='success' and outer['process']['exit_code']==0 and outer['process']['cleanup_complete']
@@ -260,6 +416,10 @@ def qualify(base, prospective, output, source_receipt, source_readback, *, compl
             c_path=base/'run/C_feedback/result.json'
             if c_path.is_file():
                 c=f.read_json(c_path)
+                if c.get('incumbent'):
+                    data, final = pruning_incumbent_readback(c_path.parent,c,board,original,protocol['freeze']['source_hashes'])
+                    final['unchanged_original_warning_signatures'] = signatures(data['native'])==signatures(original_native)
+                    finals.append(dict(id='C/incumbent',status=data['status'],**final))
                 for trial in c.get('trials',[]):
                     folder=base/'run/C_feedback/trials'/trial['id'];data=f.read_json(folder/'result.json')
                     assert trial['receipt']==str(folder/'result.json')

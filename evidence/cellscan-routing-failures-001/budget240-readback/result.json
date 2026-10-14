@@ -1,0 +1,114 @@
+{
+  "schema": 1,
+  "kind": "CellScan longer-budget B1 shared native failure readback",
+  "status": "readback_closed_native_failure",
+  "accepted": false,
+  "passed": true,
+  "comparison_eligible": false,
+  "new_native_execution": false,
+  "new_engine_execution": false,
+  "physical_electrical_validation": false,
+  "prospective_protocol_sha256": "24454e53add2c0566f51ab981ba381eec6fe4dbbdfe681ad43347e880a049185",
+  "controller_sha256": "953433070c00b1ad13127805505b9e9d66fd3a84eeed454da619150020b3287c",
+  "shared_reader_sha256": "ab6c3259241c0ec6f3baa20177e8ae93cdc36c6854b23a5e8050eadc11167570",
+  "inputs_sha256": {
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/cellscan-native-paired-complete-sch-001/execution.json": "03c30f65ae2bb993012f663e19259c83bb8f85fe97381573bf5cffbe5b9838a3",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/cellscan-native-paired-complete-sch-001/run/paired-summary.json": "ffcbcfe36f9b4c0ea6b79faab89e4ad424904a33726ca57601ceadef67c14926",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/cellscan-native-paired-complete-sch-001/run/protocol.json": "4361489123851b459b3e1c4b0df4d88e24b266db535ea535896e9d7dcbf0efbb",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/cellscan-native-paired-complete-sch-001/run/B1/result.json": "12d60d968457a182f16ca98ccdbeb317411387ad2c0951187da4a81cfa70353b",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/cellscan-native-paired-complete-sch-001-protocol.json": "49927100ca259b4977f52ae0f4e8885816407e8a4237ca0db94c0417ce474a57",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/cellscan-original-native-001/result.json": "2270d2703b15f4ad856903e3d4aef99fb5eb219a514ba57b7e858bcb5a6ab09a",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/cellscan-original-actual-review-001/checks.json": "da6b2f72b9aa6de90e28a1c9bda551f35654d2813aebf5da9bbe2387ee5f9235",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/run-cellscan-b1-budget240-001.py": "32147f1bf3ebd0db1bd0fbd4758bb82dfee1be6968cf65eeb26d906e464b5f91",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/cellscan-b1-budget240-001-protocol.json": "24454e53add2c0566f51ab981ba381eec6fe4dbbdfe681ad43347e880a049185",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/cellscan-b1-budget240-001/execution.json": "17a74870b48ed309d58a235e841fa3ae38956837a50cafc01f71955009db6f21",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/cellscan-native-paired-complete-sch-001-qualification-001/result.json": "7f0693283f3262989a302d094786b5fc7a41bde41ba077da1b88ca45bdf93bec",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/cellscan-native-paired-complete-sch-001-qualification-001/execution.json": "d6114465d279fcb5a510dad759549d52a09fc6a02150c81735ef14197a76e5f0",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/cellscan-readback-schema-review-001/result.json": "4fac7dce7c5fbad524709444da985b324d0e33392854833c191a113398b5cdd3",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/cellscan-b1-budget240-readback-001/audit.py": "953433070c00b1ad13127805505b9e9d66fd3a84eeed454da619150020b3287c"
+  },
+  "claims_limit": "One exposed circuit, longer budget hypothesis only; strong B2 Low/High and C at matching240 not yet attempted. No comparative, electrical, physical or general completion claim.",
+  "final_candidate": {
+    "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/cellscan-b1-budget240-001/trial/candidate/CellScan_Schematic.kicad_pcb",
+    "candidate_sha256": "231246dd743d9382634a82c156d365b6c88a234a01938985c667902630f288c1",
+    "native_report_sha256": "6cb9e4ff6634a978e5809975553b41ab42e9671212a35181475f86d9913a7687",
+    "native_counts": {
+      "opens": 0,
+      "blocking": 1,
+      "warnings": 209,
+      "exclusions": 0
+    },
+    "native_rejection_reasons": [
+      "native blocking=1",
+      "native error finding: copper_edge_clearance",
+      "policy-critical native finding: copper_edge_clearance (error)"
+    ],
+    "original_design_checks": true,
+    "complete_schematic_native_checks": true,
+    "original_native_class_targets": null,
+    "original_native_class_audit_required": false
+  },
+  "unchanged_all209_original_warning_signatures": true,
+  "error_findings": [
+    {
+      "description": "Board edge clearance violation (board setup constraints edge clearance 0.3000 mm; actual 0.2827 mm)",
+      "items": [
+        {
+          "description": "Rectangle on Edge.Cuts",
+          "pos": {
+            "x": 87.95,
+            "y": 18.495
+          },
+          "uuid": "06873821-d7e7-43af-b4ff-f0bb84238cfc"
+        },
+        {
+          "description": "Via [Net-(GREEN1-A)] on F.Cu - B.Cu",
+          "pos": {
+            "x": 187.3673,
+            "y": 34.3974
+          },
+          "uuid": "bfe505b5-5d0c-4bcd-8ecf-c7b705eb722e"
+        }
+      ],
+      "severity": "error",
+      "type": "copper_edge_clearance"
+    }
+  ],
+  "process_log_sha256": "2a8d4a12fa1e951f318ba741cd3b6b5c9a1b10e4dd5d6d1efb192f6bdaad4179",
+  "process_status": "nonzero_exit",
+  "process_exit_code": 2,
+  "cleanup_complete": true,
+  "prior120_failed_charge": {
+    "wall_seconds": 85.86800520899124,
+    "full_cpu_seconds": 102.478656
+  },
+  "new_bootstrap_charge_seconds": 1,
+  "new_outer_wall_seconds": 76.56527170800837,
+  "new_outer_full_cpu_seconds": 93.41037800000001,
+  "combined_charged_wall_full_cpu_seconds": {
+    "wall_seconds": 163.4332769169996,
+    "full_cpu_seconds": 196.889034
+  },
+  "within_cumulative240_caps": true,
+  "original120_result_unchanged": true,
+  "wrapper_expectation": "Inner correctly emits2 for rejected candidate; outer success-status conjunction returns2 despite allowing exit2. Controller/protocol remain exact; completed Native failure is not process success or routing acceptance.",
+  "longer_budget_finding": "Longer unchanged standard search closes the sole signal open and removes12 generated via_dangling warnings, but adds one native copper-edge violation. Candidate remains rejected.",
+  "skipped_comparators": "Matching240 B2 Low/High/C not executed by this probe; no comparative superiority claim.",
+  "audit_cost": {
+    "active_wall_seconds": 1.0232691670244094,
+    "active_full_cpu_seconds": 0.9490090000000001,
+    "bootstrap_allowance_seconds": 1,
+    "emission_allowance_seconds": 1,
+    "charged_wall_seconds": 3.0232691670244094,
+    "charged_full_cpu_seconds": 2.949009,
+    "prior_qualification_final_wall_seconds": 3.7525984999956563,
+    "prior_qualification_final_full_cpu_seconds": 3.355012,
+    "prior_qualification_conservative_emission_allowance_seconds": 1,
+    "prior_schema_probe_charged_wall_seconds": 2.1082156249904074,
+    "prior_schema_probe_charged_full_cpu_seconds": 2.094687,
+    "cumulative_original15_wall_seconds": 9.884083292010473,
+    "cumulative_original15_full_cpu_seconds": 9.398708000000001,
+    "within_original15_caps": true,
+    "scope": "No new audit charge added to route cost: all measured readbacks plus conservative bootstrap/emission allowances close inside the original charged15. Prior qualification startup is already separately charged by its original row."
+  }
+}

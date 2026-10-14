@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "process": {
+    "status": "nonzero_exit",
+    "exit_code": 2,
+    "wall_seconds": 76.47754283298855,
+    "cpu_seconds": 92.899306,
+    "max_rss_bytes": 844316672,
+    "supervisor_cpu_seconds": 0.4243549999999999,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 211550208,
+    "sampled_peak_workdir_bytes": 8439000,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 67108864,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/run-cellscan-b1-budget240-001.py",
+      "--inner"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/cellscan-b1-budget240-001/command.log",
+    "log_bytes": 209,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/cellscan-b1-budget240-001",
+    "signal_cancellation_enabled": true,
+    "pid": 99051
+  },
+  "protocol_sha256": "24454e53add2c0566f51ab981ba381eec6fe4dbbdfe681ad43347e880a049185",
+  "wrapper_sha256": "32147f1bf3ebd0db1bd0fbd4758bb82dfee1be6968cf65eeb26d906e464b5f91",
+  "whole_new_wall_seconds": 76.56527170800837,
+  "whole_new_full_cpu_seconds": 93.41037800000001,
+  "already_committed_charge": {
+    "wall_seconds": 86.86800520899124,
+    "full_cpu_seconds": 103.478656
+  },
+  "combined_charged_wall_seconds": 163.4332769169996,
+  "combined_charged_full_cpu_seconds": 196.889034,
+  "finished_utc": "2026-10-14T11:58:10.847090+00:00",
+  "old120_result_unchanged": true,
+  "comparison_eligible": false,
+  "claims_limit": "One exposed circuit, longer budget hypothesis only; strong B2 Low/High and C at matching240 not yet attempted. No comparative, electrical, physical or general completion claim.",
+  "within_cumulative240_caps": true
+}
