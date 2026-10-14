@@ -106,6 +106,39 @@ NAV_PROFILE = dict(schema=1, profile_id='navigation-switch', project_id='navigat
         'Only five fixed originals and two exact notice copies; no models, firmware, assets or scripts fetched/executed.'])
 
 
+FLIPPER_COMMIT='50f29ca0f4a3703f07c40d846c40da844663a85c'
+FLIPPER_REPOSITORY='sparkfun/SparkFun_Pico_Add_On_Flipper'
+FLIPPER_CACHE_DIRECTORY='.runs/corpus-next-001/metadata/sparkfun__SparkFun_Pico_Add_On_Flipper'
+FLIPPER_NOTICE_NAMES=('LICENSE.md','README.md')
+FLIPPER_CACHE_PINS={
+    '.runs/corpus-next-001/metadata-sha256.json':'e0ed391a8bfdd7d4bc7ef72202ab8f152961cf86df43cba2ba51a77cc4a5b422',
+    FLIPPER_CACHE_DIRECTORY+'/summary.json':'f660c99b8892f92065e5784e5241e612b2a001cc26519c4c02b61becffceb9c4',
+    FLIPPER_CACHE_DIRECTORY+'/tree.json':'a062c58c71ce3751fe2e3ac9f68fff2df7f3d0833b52a72ca5f21dc0e24823a2'}
+FLIPPER_RIGHTS='Pinned root LICENSE.md explicitly assigns hardware CC-BY-SA4.0, separate MIT code; retain SparkFun attribution, license link and exact README. Same publisher/templates and different circuit role do not prove independent ancestry. External models/library/embedded assets and electrical/physical adequacy remain unqualified; no scripts/model fetch or source mutation.'
+FLIPPER_PROFILE=dict(schema=1,profile_id='pico-flipper',project_id='pico-flipper',repository=FLIPPER_REPOSITORY,commit=FLIPPER_COMMIT,
+    rows=[dict(source_path=name,bytes=size,git_blob_sha1=blob,mode='100644',repository=FLIPPER_REPOSITORY,commit=FLIPPER_COMMIT,
+        destination='pico-flipper/'+name,raw_url='https://raw.githubusercontent.com/'+FLIPPER_REPOSITORY+'/'+FLIPPER_COMMIT+'/'+name,
+        blob_url='https://github.com/'+FLIPPER_REPOSITORY+'/blob/'+FLIPPER_COMMIT+'/'+name,rights_basis=FLIPPER_RIGHTS,**({'sha256':pin} if pin else {}))
+        for name,size,blob,pin in (
+            ('LICENSE.md',2887,'779c526bbfbeabc5aafe9bf871f22b8189ab91ab','e6560063f9b94f2bc9230cd3079a50a077b4c5e04a1137299850e8aa0e73dc85'),
+            ('README.md',4547,'658ffbf5a3dcf41cdab8e586b17f246ef875ad92','12420a29e1d5f713c1ed342f08d6c9c38da80f3cc710d452a4c98a73b812df5d'),
+            ('Hardware/SparkFun_Pico_Add_On_Flipper.kicad_pcb',907883,'aac482eb9a0bbeae21331f03637ce61d7b1d4ca1',None),
+            ('Hardware/SparkFun_Pico_Add_On_Flipper.kicad_pro',16697,'60cb5524918696bc6ed870f09901d6d1ff4b8cf8',None),
+            ('Hardware/SparkFun_Pico_Add_On_Flipper.kicad_sch',179646,'44a502d5741684317eb5bc895a25b106dd023927',None))],
+    directories=['Hardware'],board_path='Hardware/SparkFun_Pico_Add_On_Flipper.kicad_pcb',
+    output_prefix='pico-flipper-demo-',default_output='.data/pico-flipper-demo-001',file_count=5,bytes=1111660,max_requests=5,
+    network_byte_cap=1111665,max_single_response_bytes=907884,output_byte_cap=4*1024**2,
+    wall_budget_seconds=300,cpu_budget_seconds=300,request_wall_seconds=30,
+    native_packet_notice_copies={'Hardware/_licenses/creator/LICENSE.md':'LICENSE.md','Hardware/_licenses/creator/README.md':'README.md'},
+    native_packet_files=7,native_packet_bytes=1119094,development_exposed=True,independent_ancestry_established=False,
+    native_validation_performed_by_fetch=False,raw_assets_public=False,warnings=[
+        'Five exact originals and seven-file notice packet only; native/routing support remains unqualified.',
+        'Passive Pico-header remapping/Qwiic/reset role differs from measured circuits; source history and library/template ancestry remain unproven.',
+        'Actual native format/layers/classes/pads/constraints/full schematic and external assets remain unknown.',
+        'README stale Eagle repository wording retained; root CC-BY-SA4 hardware notice and separate code MIT retained.',
+        'Four MiB output bound explicitly accounts for immutable originals+native packet above two MiB; no original or notice dropped.',
+        'No models, scripts, ZIPs, firmware or additional dependencies fetched/executed; no electrical/physical claim.'])
+
 AUDIO_PROFILE = {'schema': 1,
  'profile_id': 'audio-player-my1690x',
  'project_id': 'audio-player-my1690x',
@@ -295,6 +328,10 @@ def navigation_notice_cache(root, cfg):
     if cfg['profile_id']!='navigation-switch':raise ValueError('Navigation notice reuse requires Navigation profile')
     return _root_notice_cache(root,cfg,NAV_CACHE_DIRECTORY,NAV_CACHE_PINS,NAV_NOTICE_NAMES,'Navigation')
 
+def flipper_notice_cache(root,cfg):
+    if cfg['profile_id']!='pico-flipper':raise ValueError('Flipper notice reuse requires Flipper profile')
+    return _root_notice_cache(root,cfg,FLIPPER_CACHE_DIRECTORY,FLIPPER_CACHE_PINS,FLIPPER_NOTICE_NAMES,'Flipper')
+
 def audio_notice_cache(root, cfg):
     """Reuse two untimed root notices and one separately timed text-body proof."""
     from autorouter.placement_clearance import read_bytes
@@ -378,6 +415,7 @@ def check_uv_cache(root, cache):
             raise ValueError(cache.get('label','UV cached licence')+' input changed during acquisition')
 
 def fixed_profile(profile_id='led'):
+    if profile_id=='pico-flipper':return copy.deepcopy(FLIPPER_PROFILE)
     if profile_id=='audio-player-my1690x':return copy.deepcopy(AUDIO_PROFILE)
     if profile_id=='navigation-switch':return copy.deepcopy(NAV_PROFILE)
     if profile_id=='uv-dosimeter':return copy.deepcopy(UV_PROFILE)
@@ -457,7 +495,7 @@ class OwnedFile:
         try:os.stat(self.path.name,dir_fd=self.directory_fd,follow_symlinks=False);return True
         except FileNotFoundError:return False
 
-def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fetch_one,started=None,cpu_started=None,reuse_uv_licenses=False,reuse_navigation_notices=False,reuse_audio_notices=False):
+def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fetch_one,started=None,cpu_started=None,reuse_uv_licenses=False,reuse_navigation_notices=False,reuse_audio_notices=False,reuse_flipper_notices=False):
     started=time.monotonic() if started is None else started;cpu_started=cpu() if cpu_started is None else cpu_started
     cfg=fixed_profile(profile_id);root=Path(root).absolute();out=destination(root,name,profile_id=profile_id);rows=cfg['rows'];network_cap=cfg['network_byte_cap'];planned=cfg['bytes'];nested=bool(cfg['native_packet_notice_copies'])
     count=cfg.get('file_count',5);max_requests=cfg.get('max_requests',5);output_cap=cfg.get('output_byte_cap',OUTPUT_BYTES)
@@ -465,18 +503,19 @@ def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fe
     if type(reuse_uv_licenses) is not bool or reuse_uv_licenses and profile_id!='uv-dosimeter':raise ValueError('explicit UV-only licence reuse flag required')
     if type(reuse_navigation_notices) is not bool or reuse_navigation_notices and profile_id!='navigation-switch':raise ValueError('explicit Navigation-only notice reuse flag required')
     if type(reuse_audio_notices) is not bool or reuse_audio_notices and profile_id!='audio-player-my1690x':raise ValueError('explicit Audio-only notice reuse flag required')
-    direct=profile_id in ('navigation-switch','audio-player-my1690x');direct_label='Audio' if profile_id=='audio-player-my1690x' else 'Navigation'
+    if type(reuse_flipper_notices) is not bool or reuse_flipper_notices and profile_id!='pico-flipper':raise ValueError('explicit Flipper-only notice reuse flag required')
+    direct=profile_id in ('navigation-switch','audio-player-my1690x','pico-flipper');direct_label='Flipper' if profile_id=='pico-flipper' else 'Audio' if profile_id=='audio-player-my1690x' else 'Navigation'
     if direct and (cfg['directories']!=['Hardware'] or any(shared.safe(r['source_path']).parent not in (Path('.'),Path('Hardware')) for r in rows)):
         raise ValueError('fixed '+direct_label+' direct response hierarchy differs')
     if out.exists():raise ValueError('destination already exists; preserve earlier attempts')
     if fetch is not True:
         plan={'schema':1,'action':'plan_only','destination':str(out),'source_commit':rows[0]['commit'],
             'planned_files':count,'planned_bytes':planned,'network_requests':0,'native_accepted':False,
-            'planned_network_requests':count-(3 if reuse_uv_licenses else 2 if reuse_navigation_notices else 3 if reuse_audio_notices else 0),'planned_cached_licenses':3 if reuse_uv_licenses else 0,
-            'command':'scripts/fetch_led_demo.py --project '+profile_id+' --fetch --output '+name+(' --reuse-uv-licenses' if reuse_uv_licenses else ' --reuse-navigation-notices' if reuse_navigation_notices else ' --reuse-audio-notices' if reuse_audio_notices else '')}
-        if direct:plan['planned_cached_notices']=2 if reuse_navigation_notices else 3 if reuse_audio_notices else 0
+            'planned_network_requests':count-(3 if reuse_uv_licenses else 2 if reuse_navigation_notices else 3 if reuse_audio_notices else 2 if reuse_flipper_notices else 0),'planned_cached_licenses':3 if reuse_uv_licenses else 0,
+            'command':'scripts/fetch_led_demo.py --project '+profile_id+' --fetch --output '+name+(' --reuse-uv-licenses' if reuse_uv_licenses else ' --reuse-navigation-notices' if reuse_navigation_notices else ' --reuse-audio-notices' if reuse_audio_notices else ' --reuse-flipper-notices' if reuse_flipper_notices else '')}
+        if direct:plan['planned_cached_notices']=2 if reuse_navigation_notices or reuse_flipper_notices else 3 if reuse_audio_notices else 0
         return plan
-    cache=uv_license_cache(root,cfg) if reuse_uv_licenses else navigation_notice_cache(root,cfg) if reuse_navigation_notices else audio_notice_cache(root,cfg) if reuse_audio_notices else None
+    cache=uv_license_cache(root,cfg) if reuse_uv_licenses else navigation_notice_cache(root,cfg) if reuse_navigation_notices else audio_notice_cache(root,cfg) if reuse_audio_notices else flipper_notice_cache(root,cfg) if reuse_flipper_notices else None
     extra=ARC_MATERIAL if nested else ()
     def material():return {n:shared.sha(shared.bounded(shared.contained(root,root/n))) for n in (*MATERIAL,*extra)}
     witness=material();owner={};project_owner={};native_owner={};response_owner={};completed={};requests=[];received={};raw_fd=None;hardware_owner={};hardware_fd=None
@@ -612,9 +651,9 @@ def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fe
         raise
 
 def main():
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--fetch',action='store_true');parser.add_argument('--project',choices=('led','arcdice','analog-filter','cellscan','uv-dosimeter','navigation-switch','audio-player-my1690x'),default='led');parser.add_argument('--output');parser.add_argument('--reuse-uv-licenses',action='store_true',help='Explicitly reuse only the three pinned prior UV licence bodies; no fallback');parser.add_argument('--reuse-navigation-notices',action='store_true',help='Explicitly reuse only two pinned prior Navigation notices; old timing unmeasured, no fallback');parser.add_argument('--reuse-audio-notices',action='store_true',help='Explicit fixed Audio root notices and stale Hardware README reuse; no fallback, prior untimed cost retained');args=parser.parse_args();args.output=args.output or fixed_profile(args.project)['default_output']
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--fetch',action='store_true');parser.add_argument('--project',choices=('led','arcdice','analog-filter','cellscan','uv-dosimeter','navigation-switch','audio-player-my1690x','pico-flipper'),default='led');parser.add_argument('--output');parser.add_argument('--reuse-uv-licenses',action='store_true',help='Explicitly reuse only the three pinned prior UV licence bodies; no fallback');parser.add_argument('--reuse-navigation-notices',action='store_true',help='Explicitly reuse only two pinned prior Navigation notices; old timing unmeasured, no fallback');parser.add_argument('--reuse-audio-notices',action='store_true',help='Explicit fixed Audio root notices and stale Hardware README reuse; no fallback, prior untimed cost retained');parser.add_argument('--reuse-flipper-notices',action='store_true',help='Explicitly reuse two pinned prior Flipper notices; prior metadata cost unmeasured, no fallback');args=parser.parse_args();args.output=args.output or fixed_profile(args.project)['default_output']
     try:
-        with shared.cancellation(),shared.alarm(SECONDS):record=fetch_demo(args.output,profile_id=args.project,fetch=args.fetch,started=START,cpu_started=CPU_START,reuse_uv_licenses=args.reuse_uv_licenses,reuse_navigation_notices=args.reuse_navigation_notices,reuse_audio_notices=args.reuse_audio_notices)
+        with shared.cancellation(),shared.alarm(SECONDS):record=fetch_demo(args.output,profile_id=args.project,fetch=args.fetch,started=START,cpu_started=CPU_START,reuse_uv_licenses=args.reuse_uv_licenses,reuse_navigation_notices=args.reuse_navigation_notices,reuse_audio_notices=args.reuse_audio_notices,reuse_flipper_notices=args.reuse_flipper_notices)
     except (Exception,KeyboardInterrupt) as exc:
         print(json.dumps({'status':'failed','reason':type(exc).__name__+': '+str(exc),'accepted':False}));return 2
     print(json.dumps({k:record[k] for k in ('action','status','destination','project','planned_files','planned_bytes','new_network_requests','received_bytes','wall_seconds','total_cpu_seconds','source_files_exact','cache_inputs_current','within_budget') if k in record}));return 0 if record.get('action')=='plan_only' or record.get('status')=='acquired_unqualified' and record.get('within_budget') and record.get('source_files_exact') and record.get('cache_inputs_current') is True else 2

@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "kind": "actual-feedback003-protected-import-rejection",
+  "accepted": false,
+  "production_admitted": false,
+  "method_qualified": false,
+  "source_commit": "7e2bc97d21bd9edbb34384b0e99e99fbe72c134c",
+  "status": "rejected-before-final-native",
+  "reason": "Rejected: protected route missing, changed or ambiguous after import",
+  "completed_workers": [
+    "source-drc",
+    "export",
+    "obstacles",
+    "engine",
+    "import"
+  ],
+  "source_native_counts": {
+    "opens": 0,
+    "blocking": 1,
+    "warnings": 5,
+    "exclusions": 0
+  },
+  "raw_ses_sha256": "ce5264fa1b460c61e0dd6895fcc8b5e130ddd7052ea74cb722809ac42a0c4d94",
+  "imported_board_sha256": "c58cf2a69e04b350bc4acd57bb7a2f2cc564d2c2e4e07e1960ac6896792c4354",
+  "diagnosis": {
+    "protected_segments_each_source_DSN_SES_import": 22,
+    "source_segments_quantized_at_native_export": 18,
+    "max_observed_coordinate_change_nm": 500,
+    "raw_DSN_SES_import_geometry_equal_after_exact_units_and_Y_normalization": true,
+    "observed_engine_protected_geometry_change": false,
+    "pure_selected_only_plus_exact_source_restoration_scope_passed": true,
+    "selected_imported_GND_segments": 18,
+    "native_acceptance_performed": false
+  },
+  "costs": {
+    "new_lead_wall_seconds": 15.808446624985663,
+    "new_lead_full_cpu_seconds": 13.342228,
+    "max_cumulative_wall_seconds": 63.919234167959075,
+    "max_cumulative_full_cpu_seconds": 51.300649,
+    "both_actual_reader_costs": {
+      "wall_seconds": 1.5724187910091132,
+      "full_cpu_seconds": 1.2066499999999998
+    },
+    "both_startup_allowances_seconds": 4,
+    "next_minimum_cumulative_prior": {
+      "wall_seconds": 69.49165295896819,
+      "full_cpu_seconds": 56.507299
+    }
+  },
+  "review": {
+    "path": ".runs/native-feedback-engine003-review-preserved-001",
+    "corrected_result_sha256": "f3b31585666bcaf4064405ff77419ae291d118df4143bbc604b30755d9781b95",
+    "corrected_execution_sha256": "00f2d2de6726bcc13adf7eac887d823ea16673040f8c73fd2266bc86119fb24d",
+    "readme_sha256": "14ee8af0d91db1164b4e46f93dfa152ebcb87e27e9376ad0a10a8303160d48ec",
+    "first_attempt_retained": "First diagnostic omitted DSN/SES Y inversion; full corrected read-back authoritative, both actual costs charged."
+  },
+  "limitations": [
+    "No new refill/fullSCH/metrics or accepted whole candidate; no routing gain.",
+    "Strict exact-source guard correctly refused quantization; no tolerance or source change allowed.",
+    "Next missing-stage continuation may use selected proposals plus exact source protected restoration, but fresh whole-original Native/rules/fullSCH/warnings remain mandatory.",
+    "All original failed001002 costs remain in same cumulative120; no engine repeat or newbudget."
+  ]
+}

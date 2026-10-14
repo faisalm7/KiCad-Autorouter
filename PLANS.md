@@ -1,6 +1,6 @@
 # Active continuation
 
-Existing local Mac checkout, rebuild/local-20261010-015447. Latest verified44ffeebe88af5612f9bdf76af189b4d2c8b92b1b.
+Existing local Mac checkout, rebuild/local-20261010-015447. Latest verified7e2bc97d21bd9edbb34384b0e99e99fbe72c134c.
 No cloud/reset/reclone/worktree/discard/spending/formal publication. Preserve failed and unfinished source/evidence. One lead, at most two narrow agents; Native/JVM lane sequential. Reuse shared validation, process, reporting and backup helpers.
 
 1. Do not repeat completed contact001 or continuation002. Actual002 observes a1350vertex F.Cu contour with Native self-intersection/two repeats; conservative helper refuses before proposals/trials. Candidate remains0/1thermal/10warnings/0exclusions. Independent shared reader passes. Source eight files, original geometry/rules/PRL/fullSCH/allwarnings exact. This is not geometric infeasibility or routing gain.
@@ -13,3 +13,7 @@ No cloud/reset/reclone/worktree/discard/spending/formal publication. Preserve fa
 Milestones are checkpoints, not stop requests. Continue feasible authorized work. At a real limit preserve exact missing-stage command/state, verify safe GitHub checkpoint and incremental artifacts; never claim unmet release gates complete.
 
 [Selected-GND feedback source](evidence/native-feedback-engine-source-001.json) is reviewed/frozen,65current codepins/10immutable prefixes/eight original files. NFE1 failed-child evidence continuity fixed with a filesystem mutation/deletion regression;86targeted software controls pass. Same cumulative120 prior47.11078754297341wall36.958421CPU. After checkpoint/read-back run once `.venv/bin/python -B .runs/run-native-feedback-engine120-003.py`; no result assumed.
+
+[Actual feedback003 import failure](evidence/native-feedback003-import-failure-001.json): completed source/export/obstacles/engine/import; original22protected segments become18coordinate-quantized at Native DSNexport(max500nm). Normalized rawDSN=SES=import, no observed FRchange. Strict guard rejects before finalNative. Both pure-reader attempts/correction retained and charged; next prior69.49165295896819wall56.507299CPU under same120. Do not repeatengine; proposed narrow selected-only import plus exactsource protection still needs fresh wholeNative.
+
+[Flipper fixed source profile](evidence/flipper-source-integration-001.json) passes55authored portable-fetch/cache controls and exact cached notice scope. After source checkpoint/read-back acquire exactly3new payloads+2cached notices; original5files1111660B/native7files1119094B. Explicit Flipper-only4MiB combined-output cap; no admission/Native/family-independence assumed.
