@@ -73,15 +73,56 @@ def drc_step(job,name,argv):
             result['local_settings_policy']=JOB_POLICY;result['local_settings_protection']=event
             p.save_json(job.out/(name+'-process.json'),result)
 
-def check_event(directory,binding,process):
+def check_event(directory,binding,process,*,allow_worker_failure=False):
     """Strict opt-in marker/event replay; legacy unmarked receipts unchanged."""
     marker=binding.get('local_settings_policy');worker_marker=process.get('local_settings_policy')
     if marker is None and worker_marker is None:return
     if marker!=JOB_POLICY or worker_marker!=JOB_POLICY:raise p.Rejected('PRL Job policy marker differs')
     root=canonical(Path(directory));board=canonical(Path(binding['input']));path=board.with_suffix('.kicad_prl')
     if root not in board.parents:raise p.Rejected('PRL validation input outside Job root')
+    argv=process.get('argv')
+    if (type(argv) is not list or not argv or argv[-1]!=str(board)
+            or type(binding.get('saved')) is not bool or binding['saved'] is not ('--save-board' in argv[:-1])):
+        raise p.Rejected('PRL saved-input identity differs from worker command')
     if process.get('cleanup_complete') is not True:raise p.Rejected('PRL child cleanup not confirmed')
     event=process.get('local_settings_protection');before=binding['before']
+    if allow_worker_failure:
+        from .floor_route import read_json,canonical as encode
+        from .placement_clearance import inventory,read_bytes
+        if (type(event) is not dict or process.get('status') not in
+                {'timeout','memory_limit','disk_limit','log_limit','descendants_left_running','spawn_error','runner_error','nonzero_exit'}
+                or (process.get('status')=='nonzero_exit' and process.get('exit_code') in (0,5))):
+            raise p.Rejected('PRL failure replay requires an actual rejected worker')
+        error=event.get('native_error')
+        if type(error) is not str or not 0<len(error.encode())<=4096 or event.get('guard_error')!=error:
+            raise p.Rejected('PRL failed-worker preservation error differs')
+        failure=read_json(Path(directory)/(process['name']+'-failure.json'))
+        cause=failure.get('error',{})
+        if (type(failure.get('schema')) is not int or failure['schema']!=1
+                or failure.get('passed') is not False or failure.get('phase')!='native'
+                or error!=str(cause.get('type'))+': '+str(cause.get('message'))
+                or encode(failure.get('binding'))!=encode(binding)
+                or encode(failure.get('validation_copy_before'))!=encode(before)
+                or failure.get('capture_errors')!=[]
+                or encode(inventory(board.parent))!=encode(binding.get('after'))):
+            raise p.Rejected('PRL failed-worker journal differs')
+        p.check_drc_project(before,binding['after'],board.name,saved=binding.get('saved'))
+        artifacts=failure.get('artifacts');name=process['name']
+        if type(artifacts) is not dict or set(artifacts)!={name+'.json',name+'.log',name+'-process.json'}:
+            raise p.Rejected('PRL failed-worker artifact inventory differs')
+        for filename,expected in artifacts.items():
+            path=canonical(root/filename)
+            if expected is None:
+                if path.exists():raise p.Rejected('PRL failed-worker absent artifact now exists')
+            else:
+                raw=read_bytes(path,100*1024**2)
+                import hashlib
+                if (type(expected) is not dict or set(expected)!={'sha256','bytes'}
+                        or type(expected.get('bytes')) is not int or expected['bytes']!=len(raw)
+                        or expected.get('sha256')!=hashlib.sha256(raw).hexdigest()):
+                    raise p.Rejected('PRL failed-worker artifact pin differs')
+        path=board.with_suffix('.kicad_prl')
+        event={key:value for key,value in event.items() if key not in {'native_error','guard_error'}}
     if path.exists():
         canonical(path)
         if not stat.S_ISREG(path.lstat().st_mode) or path.stat().st_nlink!=1 or path.stat().st_flags!=0:raise p.Rejected('PRL retained current file/flags differ')
@@ -95,3 +136,103 @@ def check_event(directory,binding,process):
     if (type(event) is not dict or set(event)!=set(expected)
             or any(type(event[k]) is not type(v) or event[k]!=v for k,v in expected.items())):
         raise p.Rejected('PRL guard event differs from exact Native input')
+
+
+def policy_declaration(raw):
+    """Inspect bounded captured code as data; never execute a receipt's source."""
+    import ast
+    if type(raw) is not bytes or len(raw)>1024**2:raise p.Rejected('bounded captured pipeline source required')
+    try:tree=ast.parse(raw)
+    except (SyntaxError,ValueError,RecursionError) as exc:raise p.Rejected('invalid captured pipeline policy source') from exc
+    name='NORMAL_DRC_LOCAL_SETTINGS_POLICY';declarations=[]
+    for node in ast.walk(tree):
+        targets=node.targets if isinstance(node,ast.Assign) else [node.target] if isinstance(node,(ast.AnnAssign,ast.AugAssign,ast.NamedExpr)) else []
+        if any(isinstance(item,ast.Name) and item.id==name for target in targets for item in ast.walk(target)):
+            declarations.append(node)
+    if not declarations:return None
+    node=declarations[0]
+    if (len(declarations)!=1 or node not in tree.body or not isinstance(node,(ast.Assign,ast.AnnAssign))
+            or (isinstance(node,ast.Assign) and (len(node.targets)!=1 or not isinstance(node.targets[0],ast.Name)))
+            or (isinstance(node,ast.AnnAssign) and not isinstance(node.target,ast.Name))
+            or not isinstance(node.value,ast.Constant) or type(node.value.value) is not str or node.value.value!=JOB_POLICY):
+        raise p.Rejected('ambiguous or unsupported captured normal DRC policy')
+    return JOB_POLICY
+
+
+def check_normal_policy(directory,data,*,max_bytes=None,max_files=None):
+    """Close optional-marker deletion using the mandatory captured producer.
+
+    A fully rewritten consistent fabricated history is not authenticated by
+    this local reader. Genuine pre-policy source snapshots keep legacy checks.
+    """
+    from .floor_route import read_json,canonical as encode,SANDBOX
+    from .placement_clearance import read_bytes,inventory
+    root=canonical(Path(directory));implementation=data.get('tools',{}).get('implementation_sha256',{})
+    pipeline=root/'code/pipeline.py';raw=read_bytes(pipeline,1024**2)
+    if p.sha(pipeline)!=implementation.get('autorouter/pipeline.py'):raise p.Rejected('normal DRC producer source pin differs')
+    policy=policy_declaration(raw)
+    if policy is None:
+        if 'normal_drc_local_settings_policy' in data.get('tools',{}):raise p.Rejected('normal DRC source declaration missing')
+        return
+    if data.get('tools',{}).get('normal_drc_local_settings_policy')!=policy:raise p.Rejected('normal DRC policy declaration missing from tools')
+    for name in ('local_settings.py','handoff.py','floor_route.py','placement_clearance.py'):
+        helper=root/'code'/name
+        if not helper.is_file() or helper.is_symlink() or p.sha(helper)!=implementation.get('autorouter/'+name):
+            raise p.Rejected('normal DRC compatibility implementation provenance missing')
+    # Census retained workers as well as declared steps. A removed source,
+    # refill or failed-trial row must not hide its still-retained DRC evidence.
+    # Reuse the existing whole-evidence bounds, including pruning's larger cap.
+    if max_bytes is None or max_files is None:
+        from . import placement_strategy as ps
+        default_bytes,default_files=(ps.LIMIT,ps.MAX_FILES) if data.get('schema')==5 else (100*1024**2,2000)
+        max_bytes=default_bytes if max_bytes is None else max_bytes
+        max_files=default_files if max_files is None else max_files
+    retained=inventory(root,max_bytes=max_bytes,max_files=max_files,max_entries=max_files*2)
+    def is_drc(argv):
+        if type(argv) is not list:return False
+        command=argv[len(SANDBOX):] if argv[:len(SANDBOX)]==SANDBOX else argv
+        return command[:3]==[str(p.c.CLI),'pcb','drc']
+    census=set()
+    for name in retained:
+        if name.endswith('-process.json'):
+            item=read_json(root/name)
+            if is_drc(item.get('argv')) or 'local_settings_policy' in item:
+                census.add(str(Path(name).with_name(Path(name).name[:-len('-process.json')])))
+        elif name.endswith('-binding.json'):
+            item=read_json(root/name)
+            # Saved is a mandatory Job.drc binding field; plot/input bindings
+            # use a different contract and are not Native DRC workers.
+            if 'saved' in item or 'local_settings_policy' in item:
+                census.add(str(Path(name).with_name(Path(name).name[:-len('-binding.json')])))
+    stages=[];declared=set()
+    for step in data.get('steps',[]):
+        argv=step.get('argv',[])
+        if is_drc(argv):
+            cwd=canonical(Path(step['cwd']));name=step['name']
+            if cwd!=root and root not in cwd.parents:raise p.Rejected('normal DRC worker escaped routing evidence')
+            if (type(name) is not str or not 0<len(name.encode())<=128 or name in ('.','..')
+                    or any(ch in name for ch in ('/',chr(92))) or any(ord(ch)<32 for ch in name)):
+                raise p.Rejected('normal DRC worker stage name invalid')
+            identity=str((cwd/name).relative_to(root))
+            if identity in declared:raise p.Rejected('duplicate normal DRC worker lineage')
+            declared.add(identity)
+            process=read_json(cwd/(name+'-process.json'));binding=read_json(cwd/(name+'-binding.json'))
+            if (process.get('argv')!=argv or process.get('cwd')!=str(cwd) or process.get('name')!=name
+                    or any(encode(step.get(key))!=encode(value) for key,value in process.items())
+                    or binding.get('input')!=argv[-1]
+                    or process.get('local_settings_policy')!=policy or binding.get('local_settings_policy')!=policy):
+                raise p.Rejected('normal DRC worker policy or lineage missing')
+            status,exit_code=process.get('status'),process.get('exit_code')
+            if ((status=='success' and (type(exit_code) is not int or exit_code!=0))
+                    or (status=='nonzero_exit' and (type(exit_code) is not int or exit_code==0))
+                    or (exit_code is not None and type(exit_code) is not int)):
+                raise p.Rejected('normal DRC worker status/exit pair differs')
+            failed=process.get('status')!='success' and not (process.get('status')=='nonzero_exit' and process.get('exit_code')==5)
+            if type(data.get('source_hashes')) is dict:
+                p.check_drc_project(data['source_hashes'],binding['before'],Path(binding['input']).name,saved=True)
+            check_event(cwd,binding,process,allow_worker_failure=failed)
+            stages.append((cwd,binding,process,failed))
+    if not stages:raise p.Rejected('normal DRC policy has no native workers')
+    if census!=declared:raise p.Rejected('normal DRC retained worker population differs from steps')
+    # Repeat current flags after all process/journal/code reads.
+    for cwd,binding,process,failed in stages:check_event(cwd,binding,process,allow_worker_failure=failed)

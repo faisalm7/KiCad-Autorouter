@@ -67,6 +67,8 @@ class FloorReceipt(unittest.TestCase):
    'wall_seconds':2.,'budget_seconds':120.,'cpu_budget_seconds':120.,'parent_cpu_seconds':.1,'child_cpu_seconds':.4,'monitor_cpu_seconds':0.,'total_cpu_seconds':.5,
    'tools':{'kicad':'10.0.0','implementation_sha256':implementation,'files':{str(p.c.resolve_tool_path(pin['path'])):pin['sha256'] for pin in pins.values()}}}
   self.data['source_drc']=p.parse_report(self.out/'source-drc.json',self.source.name)
+  from tests.normal_prl_fixture import mark_authored_receipt
+  mark_authored_receipt(self.out,self.data,test_root=self.root)
   self.save()
  def save(self):self.data['floor_evidence_hashes']=f.evidence_inventory(self.out);self.receipt.write_text(json.dumps(self.data))
  def check(self):return p.check_result(self.receipt)

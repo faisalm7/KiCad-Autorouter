@@ -198,6 +198,8 @@ def _check_export(path,guard):
     if witness(path.parent/'validation/snapshot',project=True)!=binding['input_witnesses'][str(Path(binding['source']).parent)]:raise p.Rejected('export original snapshot changed')
     expected_code={Path(name).name:digest for name,digest in data['tools']['implementation_sha256'].items()}
     if pc.inventory(path.parent/'validation/code')!=data['code_inventory'] or data['code_inventory']!=expected_code:raise p.Rejected('export helper snapshot changed')
+    from .local_settings import check_normal_policy
+    check_normal_policy(path.parent/'validation',data,max_bytes=OUTPUT_BYTES,max_files=OUTPUT_FILES)
     if p.sha(path)!=before_hash or bind(binding['choice'])[0]!=binding or evidence(path.parent)!=data['export_evidence']:
         raise p.Rejected('export changed during final readback')
     guard()
@@ -288,7 +290,7 @@ def export(choice_path,output,seconds=SECONDS):
                 if lifecycle.get('evidence') is not None and evidence(out)!=lifecycle['evidence']:raise p.Rejected('export completed evidence changed')
                 cap()
             stable();out.mkdir(parents=True,exist_ok=False);h.capture_destination(lifecycle,out)
-            job=ExportJob(out/'validation',seconds,remaining)
+            job=ExportJob(out/'validation',seconds,remaining,protect_local_settings=True)
             for folder,capture,original_path in [(job.out/'snapshot',source_capture,source.parent),(job.out/'candidate',candidate_capture,Path(binding['validated_candidate']).parent)]:
                 folder.mkdir()
                 for name in binding['input_witnesses'][str(original_path)]['directories']:(folder/name).mkdir(parents=True,exist_ok=True)

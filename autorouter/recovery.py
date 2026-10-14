@@ -43,10 +43,12 @@ def _recover(source, output, seconds):
     started, parent_start, child_start = time.monotonic(), time.process_time(), child_cpu()
     if isinstance(seconds, bool) or not isinstance(seconds, (int, float)) or not math.isfinite(seconds) or not 90 <= seconds <= 900:
         raise p.Rejected("thermal recovery budget must be 90–900 seconds")
+    from .local_settings import canonical
+    canonical(Path(source).absolute());canonical(Path(output).absolute())
     source, output = Path(source).resolve(strict=True), Path(output).resolve()
     if source.parent == output or source.parent in output.parents:
         raise p.Rejected("output must be outside source project")
-    job = p.Job(output, seconds)
+    job = p.Job(output, seconds, protect_local_settings=True)
     job.started, job.deadline, job.cpu_started = started, started + seconds, parent_start
     report = {"schema": 1, "status": "rejected", "accepted": False, "baseline": "C-prototype",
               "strategy": "native_validated_thermal_bridge", "adapter": "both",

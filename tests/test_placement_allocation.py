@@ -84,7 +84,9 @@ class AllocationControls(unittest.TestCase):
         # Route is mocked and deliberately rejected before any validator/worker.
         source=self.folder/'source';source.mkdir();board=source/'board.kicad_pcb';board.write_text('pure original')
         results=[]
-        def job(out,seconds,remaining):out.mkdir();return SimpleNamespace(out=out,steps=[])
+        def job(out,seconds,remaining,*,protect_local_settings=False):
+            self.assertIs(protect_local_settings,True)
+            out.mkdir();return SimpleNamespace(out=out,steps=[],protect_local_settings=True)
         def failed(*args,**kwargs):
             results.append((args,kwargs));basis=args[1];basis.mkdir();p.save_json(basis/'result.json',{'accepted':False})
             return {'steps':[],'accepted':False,'status':'drc_rejected','reason':'declared synthetic incumbent rejection'}
@@ -111,7 +113,9 @@ class AllocationControls(unittest.TestCase):
                 original=sx.parse('(kicad_pcb (segment (net 1) (start 0 0) (end 8 0) (uuid "long")) (segment (net 1) (start 0 1) (end 1 1) (uuid "short")) (zone (net 1)))')
                 sx.write(board,original);board.with_suffix('.kicad_pro').write_text('{}')
                 clock={'wall':0.,'cpu':0.};reached=[]
-                def job(out,seconds,remaining):out.mkdir();return SimpleNamespace(out=out,steps=[],seconds=seconds,remaining=remaining)
+                def job(out,seconds,remaining,*,protect_local_settings=False):
+                    self.assertIs(protect_local_settings,True)
+                    out.mkdir();return SimpleNamespace(out=out,steps=[],seconds=seconds,remaining=remaining,protect_local_settings=True)
                 def own_incumbent(*args,**kwargs):
                     basis=args[1];basis.mkdir();candidate=basis/'candidate'/board.name
                     ps.shutil.copytree(source,candidate.parent)

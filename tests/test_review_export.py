@@ -56,7 +56,12 @@ class ExportControls(unittest.TestCase):
         self.identity={'current':True,'applied':False,'candidate':self.report['candidate'],'candidate_sha256':self.report['candidate_sha256']}
         self.stack=ExitStack();self.addCleanup(self.stack.close)
         self.stack.enter_context(patch.object(h,'check_result',return_value=self.identity));self.stack.enter_context(patch.object(p,'check_result',return_value=self.identity))
-        self.stack.enter_context(patch.object(p,'tool_manifest',return_value={'implementation_sha256':{},'files':{}}))
+        # The workers remain synthetic, but their captured producer source is
+        # real current code. The real Job emits each absent-PRL guard event.
+        # Empty tool-file pins explicitly provide no native binary proof.
+        tools={'implementation_sha256':{'autorouter/'+path.name:p.sha(path) for path in (ROOT/'autorouter').glob('*.py')},
+               'files':{},'normal_drc_local_settings_policy':p.NORMAL_DRC_LOCAL_SETTINGS_POLICY}
+        self.stack.enter_context(patch.object(p,'tool_manifest',return_value=tools))
         self.stack.enter_context(patch.object(e,'run',side_effect=self.native_run))
         h.review_copy(self.receipt,self.root/'review');self.choice=self.root/'choice/choice.json';h.review_choice(self.root/'review/review.json',self.choice.parent,'accept')
         self.output=self.root/'export';self.inputs={str(path):e.witness(path) for path in (self.source,self.run,self.root/'review',self.choice.parent)}

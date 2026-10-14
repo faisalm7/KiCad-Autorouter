@@ -95,6 +95,9 @@ class ResultFreshnessTests(unittest.TestCase):
             "tools": {"kicad": "10.0.0", "implementation_sha256": implementation,
                       "files": {str(p.c.resolve_tool_path(pin["path"])): pin["sha256"] for pin in pins.values()}},
         }
+        from tests.normal_prl_fixture import mark_authored_receipt
+        mark_authored_receipt(self.run,self.data,test_root=self.root)
+        self.binding = json.loads((self.run / "final-drc-binding.json").read_text())
         self.save_receipt()
 
     def save_receipt(self):
@@ -293,8 +296,29 @@ class ResultFreshnessTests(unittest.TestCase):
             p.check_result(self.receipt)
 
     def test_finalization_step_selection_handles_nested_final_drc_names(self):
-        nested = copy.deepcopy(self.data["steps"][0])
-        nested.update(cwd=str(self.run / "incumbent"), phase="incumbent")
+        # A nested worker needs its own retained input and journal, even in this
+        # synthetic consistency fixture. No Native process is being claimed.
+        folder = self.run / "incumbent"
+        folder.mkdir()
+        for name in ("candidate", "final-drc-input"):
+            shutil.copytree(self.run / name, folder / name)
+        shutil.copy2(self.native, folder / self.native.name)
+
+        def rebase(value):
+            if isinstance(value, str):
+                return value.replace(str(self.run), str(folder))
+            if isinstance(value, list):
+                return [rebase(item) for item in value]
+            if isinstance(value, dict):
+                return {key: rebase(item) for key, item in value.items()}
+            return value
+
+        process = rebase(json.loads((self.run / "final-drc-process.json").read_text()))
+        binding = rebase(json.loads((self.run / "final-drc-binding.json").read_text()))
+        p.save_json(folder / "final-drc-process.json", process)
+        p.save_json(folder / "final-drc-binding.json", binding)
+        nested = rebase(copy.deepcopy(self.data["steps"][0]))
+        nested["phase"] = "incumbent"
         self.data["steps"].insert(0, nested)
         self.data.update(wall_seconds=3, child_cpu_seconds=2, monitor_cpu_seconds=0.2, total_cpu_seconds=2.4)
         self.save_receipt()

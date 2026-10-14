@@ -69,6 +69,8 @@ class Receipt(unittest.TestCase):
     'child_cpu_seconds':sum(step['cpu_seconds'] for step in data['steps']),'monitor_cpu_seconds':sum(step['monitor_cpu_seconds'] for step in data['steps']),
     'total_cpu_seconds':data['total_cpu_seconds']}
   self.data['control_child_cpu_seconds']=self.data['total_cpu_seconds']-sum(self.data[key] for key in ('parent_cpu_seconds','child_cpu_seconds','monitor_cpu_seconds'))
+  from tests.normal_prl_fixture import mark_authored_receipt
+  mark_authored_receipt(self.out,self.data,test_root=self.root)
   self.save()
  def save(self):self.data['floor_evidence_hashes']=f.evidence_inventory(self.out);self.receipt.write_text(json.dumps(self.data))
  def check(self):return p.check_result(self.receipt)

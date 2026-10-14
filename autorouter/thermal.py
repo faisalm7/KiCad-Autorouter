@@ -61,7 +61,7 @@ class _SharedJob(p.Job):
         self.parent_job=parent;self.shared_remaining=remaining;self.native_helper=native_helper
         left=remaining()
         if left<=0:raise p.Rejected('thermal shared budget exhausted')
-        super().__init__(path,left)
+        super().__init__(path,left,protect_local_settings=True)
         kept={k:v for k,v in self.env.items() if not k.startswith('KICAD_') and k not in ('PYTHONPATH','PYTHONHOME')}
         for key in ('KICAD_CONFIG_HOME','KICAD_CACHE_HOME','KICAD_DOCUMENTS_HOME'):kept[key]=self.env[key]
         (self.out/'tmp').mkdir();kept.update(PYTHONNOUSERSITE='1',PYTHONDONTWRITEBYTECODE='1',TMPDIR=str(self.out/'tmp'));self.env=kept

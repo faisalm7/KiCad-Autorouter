@@ -278,11 +278,13 @@ def _prune(source,output,seconds,*,allocation=LEGACY_ALLOCATION):
         raise p.Rejected('placement pruning budget must be 60–900 seconds')
     settings=contract(allocation);order=settings.get('proposal_order','whole-first');time_reserve=settings['final_reserve_seconds']
     source,output=Path(source).absolute(),Path(output).absolute()
+    from .local_settings import canonical
+    canonical(source);canonical(output)
     if any(x.is_symlink() for x in (source,*source.parents,output,*output.parents)):raise p.Rejected('pruning symlink unsupported')
     source=source.resolve(strict=True);output=output.resolve()
     if source.parent==output or source.parent in output.parents:raise p.Rejected('output must be outside original project')
     def remaining(reserve=0):return max(0,min(seconds-(time.monotonic()-start),seconds-(time.process_time()-parent_start+f.child_cpu()-child_start))-reserve)
-    job=f.FloorJob(output,seconds,remaining);(output/'trials').mkdir();p.save_json(output/'pruning-contract.json',settings)
+    job=f.FloorJob(output,seconds,remaining,protect_local_settings=True);(output/'trials').mkdir();p.save_json(output/'pruning-contract.json',settings)
     report={'schema':5,'input_policy':POLICY,'strategy':STRATEGY,'baseline':'C-prototype','adapter':'both','engine_profile':settings['incumbent_profile'],'scoring_variant':'via_default',
         'proposal_policy':'feedback','scope':'whole_board_unlocked_routing','source':str(source),'budget_seconds':seconds,'cpu_budget_seconds':seconds,
         'status':'rejected','accepted':False,'physical_electrical_validation':False,'schematic_parity':'not checked','trials':[],'improvements':0,
@@ -345,7 +347,7 @@ def _prune(source,output,seconds,*,allocation=LEGACY_ALLOCATION):
             index=len(report['trials']);folder=output/'trials'/f'{index:04d}';trial_start=time.monotonic();trial_cpu=time.process_time()+f.child_cpu()
             cap=min(s.MAX_TRIAL_SECONDS,remaining(time_reserve))
             left=lambda:max(0,min(remaining(time_reserve),cap-(time.monotonic()-trial_start),cap-(time.process_time()+f.child_cpu()-trial_cpu)))
-            trial=f.FloorJob(folder,cap,left);candidate=folder/'candidate'/source.name
+            trial=f.FloorJob(folder,cap,left,protect_local_settings=True);candidate=folder/'candidate'/source.name
             row={'index':index,'proposal':proposal,'parent':str(best),'parent_sha256':p.sha(best),'accepted':False,'completed':False,'assigned_seconds':cap,'candidate':str(candidate),'status':'failed'}
             try:
                 shutil.copytree(best.parent,candidate.parent);sx.write(candidate,deletion(best,proposal,nets))

@@ -390,11 +390,13 @@ def _route(source,output,seconds,profile,guidance_policy=POLICY,preferences=None
     if preferences is not None:
         started,parent_start,child_start=preferences['started'],preferences['parent_cpu'],preferences['child_cpu']
     source,output=Path(source).absolute(),Path(output).absolute()
+    from .local_settings import canonical
+    canonical(source);canonical(output)
     if any(path.is_symlink() for path in (source,*source.parents,output,*output.parents)):raise p.Rejected('floor paths must not use symlinks')
     source,output=source.resolve(strict=True),output.resolve()
     if source.parent==output or source.parent in output.parents:raise p.Rejected('output must be outside source project')
     def remaining():return max(0,min(started+seconds-time.monotonic(),seconds-(time.process_time()-parent_start+child_cpu()-child_start)))
-    job=FloorJob(output,seconds,remaining);job.started=started;job.cpu_started=parent_start
+    job=FloorJob(output,seconds,remaining,protect_local_settings=True);job.started=started;job.cpu_started=parent_start
     report={'schema':4 if search else 3 if new_policy else 2,'input_policy':guidance_policy,'status':'rejected','accepted':False,'physical_electrical_validation':False,'schematic_parity':'not checked',
         'source':str(source),'started_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'budget_seconds':seconds,'cpu_budget_seconds':seconds,
         'cpu_budget_enforcement':'remaining wall/CPU assignment and final acceptance cap; no hard total-CPU quota','baseline':p.engine_baseline(profile,'both'),

@@ -24,7 +24,10 @@ SCRATCH = ROOT / '.cache'
 
 class FakeWorkerJob:
     """No subprocesses: emit only enough files to reach real publication code."""
-    def __init__(self, out, seconds, remaining=None):
+    def __init__(self, out, seconds, remaining=None, *, protect_local_settings=False):
+        if protect_local_settings is not True:
+            raise AssertionError('production publication must request PRL protection')
+        self.protect_local_settings = protect_local_settings
         self.out = Path(out); self.out.mkdir(); self.steps = []
         self.started = time.monotonic(); self.deadline = self.started + seconds
         self.cpu_started = time.process_time()

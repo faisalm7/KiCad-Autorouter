@@ -25,6 +25,7 @@ from . import config as c, sexpr as sx
 from .runner import run, _workdir_bytes
 
 ROUTES={'segment','via','arc'}
+NORMAL_DRC_LOCAL_SETTINGS_POLICY='job-owned-prl-immutable-v1'
 DERIVED_ZONE={'filled_polygon','fill_segments'}
 CRITICAL_CHECKS={'hole_clearance','hole_to_hole','hole_near_hole','starved_thermal','zones_intersect','padstack','items_not_allowed','through_hole_pad_without_hole','unconnected_items','shorting_items','clearance','track_width','via_diameter','annular_width','drill_out_of_range','copper_edge_clearance','invalid_outline','tracks_crossing'}
 CRITICAL_CHECKS |= {'track_on_post_machined_layer'}
@@ -845,7 +846,8 @@ def tool_manifest():
         if files.get(str(path))!=pin['sha256']: raise Rejected('pinned tool changed or missing: '+name)
     implementation={str(p.relative_to(c.ROOT)):sha(p) for p in sorted((c.ROOT/'autorouter').glob('*.py'))}
     git_head=subprocess.run(['git','rev-parse','HEAD'],cwd=c.ROOT,capture_output=True,text=True,check=True).stdout.strip()
-    return {'implementation_sha256':implementation,'git_head':git_head,'kicad':'10.0.0','freerouting':'2.5.0','files':files,'network':'engine sandbox-exec deny network*'}
+    return {'implementation_sha256':implementation,'git_head':git_head,'kicad':'10.0.0','freerouting':'2.5.0','files':files,'network':'engine sandbox-exec deny network*',
+            'normal_drc_local_settings_policy':NORMAL_DRC_LOCAL_SETTINGS_POLICY}
 
 def optimizer_threshold_audit(log, expected_percent):
     """Reject a logged stop threshold inconsistent with the declared profile.
@@ -1254,12 +1256,14 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
     operation_started=_preferences['started'] if _preferences else time.monotonic()
     operation_started_utc=_preferences['started_utc'] if _preferences else datetime.datetime.now(datetime.timezone.utc).isoformat()
     operation_cpu=_preferences['parent_cpu'] if _preferences else time.process_time()
+    from .local_settings import canonical
+    canonical(Path(source).absolute());canonical(Path(output).absolute())
     source=Path(source).resolve(strict=True); output=Path(output).resolve()
     if source.parent==output or source.parent in output.parents: raise Rejected('output must be outside source project')
     if not math.isfinite(seconds) or seconds<5 or seconds>900: raise Rejected('budget must be 5–900 seconds')
     if sha(c.JAR)!=c.JAR_SHA256: raise Rejected('engine hash mismatch')
     check_storage()
-    job=Job(output,seconds)
+    job=Job(output,seconds,protect_local_settings=True)
     job.started=operation_started; job.deadline=operation_started+seconds; job.cpu_started=operation_cpu
     code=output/'code'; code.mkdir()
     for path in (c.ROOT/'autorouter').glob('*.py'): shutil.copy2(path,code/path.name)
@@ -1798,5 +1802,7 @@ def _check_result_uncached(path):
             raise Rejected('source project changed during preference readback')
         if bounded_evidence(path.parent)!=readback_material:
             raise Rejected('complete preference routing evidence changed during readback')
+    from .local_settings import check_normal_policy
+    check_normal_policy(path.parent,data)
     check_event(path.parent,binding,process)  # Flags/link counts are outside byte witnesses.
     return result

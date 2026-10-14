@@ -343,12 +343,14 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
         raise p.Rejected("unknown pruning proposal policy")
     if isinstance(seconds, bool) or not isinstance(seconds, (int, float)) or not math.isfinite(seconds) or not 30 <= seconds <= 900:
         raise p.Rejected("pruning budget must be 30–900 seconds")
+    from .local_settings import canonical
+    canonical(Path(source).absolute());canonical(Path(output).absolute())
     source = Path(source).resolve(strict=True)
     output = Path(output).resolve()
     if source.parent == output or source.parent in output.parents:
         raise p.Rejected("output must be outside source project")
     deadline = started + seconds
-    final_job = p.Job(output, seconds)
+    final_job = p.Job(output, seconds, protect_local_settings=True)
     owner = {}; capture_destination(owner, output)
     final_job.started, final_job.deadline, final_job.cpu_started = started, deadline, cpu_started
     (output / "checkpoints").mkdir()
@@ -464,7 +466,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
             p.check_storage()
             trial_id = f"trial-{len(report['trials']):04d}"
             trial_job = p.Job(output / "trials" / trial_id,
-                              min(MAX_TRIAL_SECONDS, remaining_work_budget()))
+                              min(MAX_TRIAL_SECONDS, remaining_work_budget()), protect_local_settings=True)
             trial_job.deadline = min(trial_job.deadline, deadline - FINAL_RESERVE_SECONDS)
             candidate = trial_job.out / "candidate" / source.name
             record = {"id": trial_id, "proposal": proposal, "status": "rejected", "accepted": False,
