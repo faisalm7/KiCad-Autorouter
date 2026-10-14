@@ -41,12 +41,14 @@ FEEDBACK_ARMS = (*ARMS[:3],
     {**ARMS[3], "id": "C_feedback", "proposal_policy": "feedback"},
 )
 SCRIPT = Path(__file__).resolve()
-PROJECTS = {"sonde": "kicad-sonde-xilinx", "interf_u": "kicad-interf-u", "multichannel": "kicad-multichannel", "ardujoy-c64":"eduardofv-ArdujoyC64", "nus-usb-led":"nushackers-hsp-pcb-intro"}
+PROJECTS = {"sonde": "kicad-sonde-xilinx", "interf_u": "kicad-interf-u", "multichannel": "kicad-multichannel", "ardujoy-c64":"eduardofv-ArdujoyC64", "nus-usb-led":"nushackers-hsp-pcb-intro", "push-button-led":"gurusaeth12-push-button-led-kicad"}
 SUPPORT = (SCRIPT, c.ROOT / "toolchain.lock.json", c.ROOT / "data/sources.json",
            c.ROOT/'experiments/licensed_acquisition_v4/native_snapshot.py',
            c.ROOT/'experiments/licensed_acquisition_v4/protocol.json',
            c.ROOT/'experiments/licensed_acquisition_v5/native_snapshot.py',
            c.ROOT/'experiments/licensed_acquisition_v5/protocol.json',
+           c.ROOT/'experiments/licensed_acquisition_v7/native_snapshot.py',
+           c.ROOT/'experiments/licensed_acquisition_v7/protocol.json',
            c.ROOT/'experiments/licensed_acquisition_v1/fetch.py')
 
 
@@ -57,6 +59,12 @@ def total_process_cpu():
 
 
 def selected_source(name):
+    if name=='push-button-led':
+        from experiments.licensed_acquisition_v7 import native_snapshot
+        files=native_snapshot.capture();base=c.ROOT/'.runs/push-button-led-original-native-001/original'
+        expected={name:hashlib.sha256(raw).hexdigest() for name,raw in files.items()}
+        if p.tree_hash(base)!=expected:raise p.Rejected('exact original notice-bearing LED snapshot required')
+        return base/'PushButtonLed.kicad_pcb','PushButtonLED-development-exposed-support-control'
     if name=='nus-usb-led':
         from experiments.licensed_acquisition_v5 import native_snapshot
         files=native_snapshot.capture()

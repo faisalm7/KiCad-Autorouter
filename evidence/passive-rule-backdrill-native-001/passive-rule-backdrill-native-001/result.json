@@ -1,0 +1,393 @@
+{
+  "schema": 1,
+  "kind": "passive-rule-backdrill-native-control",
+  "accepted": false,
+  "controls_passed": true,
+  "status": "controls_passed",
+  "budget_seconds": 60,
+  "cpu_budget_seconds": 60,
+  "routing_executed": false,
+  "machining_support": false,
+  "tools": {
+    "implementation_sha256": {
+      "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+      "autorouter/__main__.py": "a4f6ca97f5dadc2547825ca5bf7be585a8fb6845db1956815679a43474c26113",
+      "autorouter/adapter.py": "95211455104334e338b83c77aecf8541ee24b0b4f7cd6c3043bcb71d478ddfca",
+      "autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+      "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+      "autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+      "autorouter/floor_route.py": "787d0a309d8511628b0ada7a2f06ea7df1080fa2636b1c2ab540d182eba29b5a",
+      "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+      "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+      "autorouter/native.py": "f942bbe1f12cb1dfdaef0eda3ec4bc2f37dee6f347f00f32724a90d6ed3296bf",
+      "autorouter/netclass.py": "96a7425112bc5a5ce5d2f15f69efc334fbfbb97aa9deee1ee33ce984d25a8ea6",
+      "autorouter/pipeline.py": "7cde23f15b725a5fdef0554b2fe88bbda23dca0742ccb3b83baf611b20a0e952",
+      "autorouter/placement_clearance.py": "f846a73367bc60dfbb48386233e405cb4bf1382f056d379787d7b823c3905feb",
+      "autorouter/placement_strategy.py": "b75a2291eed37d8ddb9f052c0b715faafcc2dfd258ae32f9e2763fcd01db0e97",
+      "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+      "autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+      "autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+      "autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+      "autorouter/recovery.py": "8a2bf1470cb69e7d8d334bbe7aef18110322a7aa786b965d397a89ddbc932ee5",
+      "autorouter/review_export.py": "716b369af61faa8c15f60ef58a0846772e4b175cff4a75af0c2c5ea45f24aea7",
+      "autorouter/review_view.py": "8f765624a8527df770a98594a7b27fe88776b300ec276f809c179ec7f6f60fb7",
+      "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+      "autorouter/runner.py": "0e81ab1badf20cd84adc2fed586641dd97a489a5a6af03febe6fb597bb1d2718",
+      "autorouter/schematic_field_evidence.py": "d7e1012b05bb7e0fb03358bbc3573b845ff06d03760a88137cf52db71090641b",
+      "autorouter/schematic_fields.py": "7d9043a14bac69d18830b2f51cb7d118c648df9290337505db1bf8503d931a71",
+      "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+      "autorouter/strategy.py": "cb867d2e0c4a143931d7e4943a6219c76142437a7d7d78d8fb4b7ed710b0df17",
+      "autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+      "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+      "autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455"
+    },
+    "git_head": "2740d8dbf341a82ebc2ab7e1e83179aecb1b5e7d",
+    "kicad": "10.0.0",
+    "freerouting": "2.5.0",
+    "files": {
+      "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+      "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219"
+    },
+    "network": "engine sandbox-exec deny network*"
+  },
+  "code_sha256": {
+    "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+    "autorouter/__main__.py": "a4f6ca97f5dadc2547825ca5bf7be585a8fb6845db1956815679a43474c26113",
+    "autorouter/adapter.py": "95211455104334e338b83c77aecf8541ee24b0b4f7cd6c3043bcb71d478ddfca",
+    "autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+    "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+    "autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+    "autorouter/floor_route.py": "787d0a309d8511628b0ada7a2f06ea7df1080fa2636b1c2ab540d182eba29b5a",
+    "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+    "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+    "autorouter/native.py": "f942bbe1f12cb1dfdaef0eda3ec4bc2f37dee6f347f00f32724a90d6ed3296bf",
+    "autorouter/netclass.py": "96a7425112bc5a5ce5d2f15f69efc334fbfbb97aa9deee1ee33ce984d25a8ea6",
+    "autorouter/pipeline.py": "7cde23f15b725a5fdef0554b2fe88bbda23dca0742ccb3b83baf611b20a0e952",
+    "autorouter/placement_clearance.py": "f846a73367bc60dfbb48386233e405cb4bf1382f056d379787d7b823c3905feb",
+    "autorouter/placement_strategy.py": "b75a2291eed37d8ddb9f052c0b715faafcc2dfd258ae32f9e2763fcd01db0e97",
+    "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+    "autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+    "autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+    "autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+    "autorouter/recovery.py": "8a2bf1470cb69e7d8d334bbe7aef18110322a7aa786b965d397a89ddbc932ee5",
+    "autorouter/review_export.py": "716b369af61faa8c15f60ef58a0846772e4b175cff4a75af0c2c5ea45f24aea7",
+    "autorouter/review_view.py": "8f765624a8527df770a98594a7b27fe88776b300ec276f809c179ec7f6f60fb7",
+    "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+    "autorouter/runner.py": "0e81ab1badf20cd84adc2fed586641dd97a489a5a6af03febe6fb597bb1d2718",
+    "autorouter/schematic_field_evidence.py": "d7e1012b05bb7e0fb03358bbc3573b845ff06d03760a88137cf52db71090641b",
+    "autorouter/schematic_fields.py": "7d9043a14bac69d18830b2f51cb7d118c648df9290337505db1bf8503d931a71",
+    "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+    "autorouter/strategy.py": "cb867d2e0c4a143931d7e4943a6219c76142437a7d7d78d8fb4b7ed710b0df17",
+    "autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+    "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+    "autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455",
+    "experiments/passive_rule_controls_v1/driver.py": "5e859ee1a5e8265e052aecc039d7f3cf58931802539a4ed973871f57f3a5569e",
+    "experiments/passive_rule_controls_v1/PROTOCOL.json": "dc70dd152b25a845b758efb7fc35f16f5b3d5c7de816d15302156d44fbe22a97",
+    "experiments/modern_semantics_controls_v1/driver.py": "41ca021bb2ecef2df70e7edd47060fd316c79ffbfcafcfbc647bd24c1784e667",
+    "experiments/pic_severity_controls_v1/fixture.py": "3b423afcacd7ad3e681446f21fed9a1c5b62cb47904a307ce6f9b594a29cde73",
+    "experiments/pic_severity_controls_v1/checks.py": "aafda05256566dd0e72b0fcefa7020a5235f2af25716def225aaaea84bdab832",
+    "toolchain.lock.json": "f04be5cdf6f64bddc16a6c5efd217b2f5e0a1341906ff44033f5807971154efe"
+  },
+  "original_project_inventory": {
+    "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+    "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    "fp-lib-table": "e81a9c021142c92ce2795b9b94b37d4e7f04956dfe10c3d7869518c601e25ad8",
+    "libs/3d_shapes/adjustable_rx2v4.wrl": "f3dd9c781da7cfe705faef8f8999899a597088d7afbe727429823beec278ae54",
+    "libs/3d_shapes/textool_40.wrl": "ef484084ef42b8c2e61363426b63838e6069975a5a260bfd66f172227bf7f2c0",
+    "libs/pic_programmer_fp.pretty/40tex-Ell600.kicad_mod": "61c5b4297088827ba2d02143edc9cf031802ec0072e057cb8d8e5483b5d6fa9a",
+    "libs/pic_programmer_fp.pretty/RV2X4.kicad_mod": "64add84809f19b9eb77d86695ac19b2f87677e6849cdc1b103219c18ff8780cd",
+    "libs/pic_programmer_fp.pretty/SolderJumper-2_P1.3mm_Open_TrianglePad1.0x1.5mm.kicad_mod": "0449fc32c1f0ed8fc10f686bb06953dbcfcf06849c41c9ebde3876df60ace016",
+    "libs/pic_programmer_fp.pretty/TO-92.kicad_mod": "ee34a946728dbf06ab4fbcfe6d940c202f737420b010927eb537c0e911fe3a62",
+    "pic_programmer.kicad_pcb": "1ca70b620506818eb0227e2863bbd573d1fec1672072dc43d0dbe8475e69c8fb",
+    "pic_programmer.kicad_pro": "3b0ac39da5af86d0baa2a64da55a89c39ba00148dc82b54f3062f5c3650a5cc5",
+    "pic_programmer.kicad_sch": "cf92bff8aebe19e45444f13b2ccd1c8ad578df6a226acd5381e2eff95e2fc08f",
+    "pic_programmer.kicad_sym": "311bf43e2f3999072cad00a00b8c894c6adbaec5b97ada2256b0db1d2115039a",
+    "pic_sockets.kicad_sch": "8cbf575b53b205280ca277df8affc6477cf20c5d06c63c267cd6fb19b6d771ae",
+    "sym-lib-table": "0115c6d84c88e0da8c7b47db401ae4f93f197ee9645b9dc4fbdad8d55a22a0e8"
+  },
+  "source_hashes": {
+    "owned.kicad_pcb": "92ad13ff5fc89f583cb32d0fc2dfa493c86ec0573d0d1718353a592e01eeaeff",
+    "owned.kicad_pro": "cd065a8aa63bc50a934759e9ed7a01de437ef34fb53f09628d3922bf38fac69d"
+  },
+  "scene": {
+    "case": "positive",
+    "pads": [
+      {
+        "uuid": "f94fd449-1080-5bfe-bc75-ffb34d09b58b",
+        "footprint_uuid": "c070eaf4-8ccd-50af-808c-83d90d76d4af",
+        "reference": "P1",
+        "number": "1",
+        "net": "GND",
+        "position_nm": [
+          10000000,
+          10000000
+        ],
+        "post_machined": false
+      },
+      {
+        "uuid": "2a1ac4a8-eef8-575b-84d8-41c76155e5dd",
+        "footprint_uuid": "8a29508f-4464-5ea6-98ac-79d915faab6d",
+        "reference": "P2",
+        "number": "1",
+        "net": "GND",
+        "position_nm": [
+          30000000,
+          10000000
+        ],
+        "post_machined": false
+      },
+      {
+        "uuid": "94d28fd3-035e-5d28-89ad-f3eff6d69666",
+        "footprint_uuid": "1eb9bf85-be18-5dce-b9d6-ba981e04323c",
+        "reference": "P3",
+        "number": "1",
+        "net": "SIGNAL_A",
+        "position_nm": [
+          10000000,
+          20000000
+        ],
+        "post_machined": false
+      },
+      {
+        "uuid": "3cd0996e-5a4c-542a-9454-16bcd993a381",
+        "footprint_uuid": "20bcb423-a57f-504d-9d1f-db870bbe0e2a",
+        "reference": "P4",
+        "number": "1",
+        "net": "SIGNAL_A",
+        "position_nm": [
+          30000000,
+          20000000
+        ],
+        "post_machined": false
+      }
+    ],
+    "tracks": [
+      {
+        "uuid": "af158420-2f97-5b0f-b747-bac57651d158",
+        "net": "GND",
+        "start_nm": [
+          10000000,
+          10000000
+        ],
+        "end_nm": [
+          30000000,
+          10000000
+        ],
+        "width_nm": 800000,
+        "layer": "F.Cu"
+      },
+      {
+        "uuid": "a9f93540-3cea-5be0-a0b7-b3a73215bbca",
+        "net": "SIGNAL_A",
+        "start_nm": [
+          10000000,
+          20000000
+        ],
+        "end_nm": [
+          30000000,
+          20000000
+        ],
+        "width_nm": 500000,
+        "layer": "F.Cu"
+      }
+    ],
+    "texts": [
+      {
+        "uuid": "c8fe43a2-1bc2-5702-b488-91f43d743de8",
+        "text": "Owned footprint text",
+        "layer": "F.Fab",
+        "parent": "footprint"
+      },
+      {
+        "uuid": "2759e828-b0ff-5615-9b85-470ce02fdf5d",
+        "text": "Owned board text",
+        "layer": "Dwgs.User",
+        "parent": "board"
+      }
+    ],
+    "target_class": null,
+    "profile": "",
+    "board_saved": false,
+    "routing_accepted": false,
+    "schematic_parity_qualified": false
+  },
+  "production_preflight_rejected": "unsupported: backdrilled/post-machined pads or vias not qualified",
+  "native": {
+    "opens": 0,
+    "blocking": 1,
+    "warnings": 4,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "key": "silk_edge_clearance"
+      }
+    ],
+    "findings": [
+      {
+        "description": "Track connected to post-machined or backdrilled layer",
+        "items": [
+          {
+            "description": "Track [SIGNAL_A] on top_layer, length 20.0000 mm",
+            "pos": {
+              "x": 10.0,
+              "y": 20.0
+            },
+            "uuid": "a9f93540-3cea-5be0-a0b7-b3a73215bbca"
+          },
+          {
+            "description": "PTH pad 1 [SIGNAL_A] of P3",
+            "pos": {
+              "x": 10.0,
+              "y": 20.0
+            },
+            "uuid": "94d28fd3-035e-5d28-89ad-f3eff6d69666"
+          }
+        ],
+        "severity": "error",
+        "type": "track_on_post_machined_layer"
+      },
+      {
+        "description": "Footprint has no courtyard defined",
+        "items": [
+          {
+            "description": "Footprint P1",
+            "pos": {
+              "x": 10.0,
+              "y": 10.0
+            },
+            "uuid": "c070eaf4-8ccd-50af-808c-83d90d76d4af"
+          }
+        ],
+        "severity": "warning",
+        "type": "missing_courtyard"
+      },
+      {
+        "description": "Footprint has no courtyard defined",
+        "items": [
+          {
+            "description": "Footprint P2",
+            "pos": {
+              "x": 30.0,
+              "y": 10.0
+            },
+            "uuid": "8a29508f-4464-5ea6-98ac-79d915faab6d"
+          }
+        ],
+        "severity": "warning",
+        "type": "missing_courtyard"
+      },
+      {
+        "description": "Footprint has no courtyard defined",
+        "items": [
+          {
+            "description": "Footprint P3",
+            "pos": {
+              "x": 10.0,
+              "y": 20.0
+            },
+            "uuid": "1eb9bf85-be18-5dce-b9d6-ba981e04323c"
+          }
+        ],
+        "severity": "warning",
+        "type": "missing_courtyard"
+      },
+      {
+        "description": "Footprint has no courtyard defined",
+        "items": [
+          {
+            "description": "Footprint P4",
+            "pos": {
+              "x": 30.0,
+              "y": 20.0
+            },
+            "uuid": "20bcb423-a57f-504d-9d1f-db870bbe0e2a"
+          }
+        ],
+        "severity": "warning",
+        "type": "missing_courtyard"
+      }
+    ]
+  },
+  "native_report_sha256": "afe1e7011d1bd03674caf7bb60dd103375248b5c7b2a0808a3cdde0204c07ee1",
+  "final_candidate_sha256": "92ad13ff5fc89f583cb32d0fc2dfa493c86ec0573d0d1718353a592e01eeaeff",
+  "expected_items": [
+    "94d28fd3-035e-5d28-89ad-f3eff6d69666",
+    "a9f93540-3cea-5be0-a0b7-b3a73215bbca"
+  ],
+  "native_detection_passed": true,
+  "wall_seconds": 1.705828209000174,
+  "total_cpu_seconds": 1.051018,
+  "output_bytes": 703718,
+  "steps": [
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.1277409159956733,
+      "cpu_seconds": 0.513864,
+      "max_rss_bytes": 208437248,
+      "supervisor_cpu_seconds": 0.009666000000000008,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 207175680,
+      "sampled_peak_workdir_bytes": 700942,
+      "resource_guards": {
+        "max_group_rss_bytes": 2147483648,
+        "max_workdir_bytes": 20971520,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/passive-rule-backdrill-native-001/backdrill-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/passive-rule-backdrill-native-001/backdrill-drc-input/owned.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/passive-rule-backdrill-native-001/backdrill-drc.log",
+      "log_bytes": 170,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/passive-rule-backdrill-native-001",
+      "signal_cancellation_enabled": true,
+      "pid": 32809,
+      "name": "backdrill-drc",
+      "validated_input_sha256": "92ad13ff5fc89f583cb32d0fc2dfa493c86ec0573d0d1718353a592e01eeaeff",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/passive-rule-backdrill-native-001/original/owned.kicad_pcb"
+    }
+  ],
+  "within_budget": true
+}
