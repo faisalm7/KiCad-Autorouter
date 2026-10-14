@@ -47,3 +47,5 @@ seven warnings retained; a disconnected candidate is rejected and real engine
 cancellation cleans up. See [the Native workflow evidence](../evidence/normal-prl-native-workflow-001.json).
 This extends CLI/workflow qualification; GUI008 still reports the Mac locked.
 Installation026 predates this source change.
+
+Current scoped-source complete-schematic export is Native-validated with all seven warnings preserved. Its exact disposable GUIcopy004 was prepared, but the Mac locked again at the open-project command. No new GUI qualification follows. [Current real controls](../evidence/scoped-native-workflows-001.json).

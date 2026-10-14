@@ -18,13 +18,12 @@ from datetime import datetime, timezone
 
 ROOT = Path(__file__).resolve().parents[1]
 SCOPES = (".runs", ".data", ".local-reference")
-# Actual October14 stat forecast retains260,600files/7,498,045,240B after
-# CellScan trials and installation021. It exceeds the old260,000file ceiling
-# and leaves only18,147,528B below7GiB before the matched stock trial. Keep
-# all evidence: finite8GiB/270,000 ceilings, unchanged scopes/secret/path guards,
-# receipt-memory caps/streaming/chains. Actual backup and full restore required.
+# Actual October14 census after scoped transport/current Native workflows:
+# 270,296 files / 8,190,906,764 bytes. Preserve all evidence under a finite
+# 280,000-file ceiling; the8GiB byte cap, scopes, secret/path/hardlink guards,
+# receipt-memory caps and chain logic stay unchanged. Full restore required.
 LIMIT = 8 * 1024 ** 3
-MAX_FILES = 270000
+MAX_FILES = 280000
 MAX_CHAIN = 16
 # Actual229,196-file receipt is63,984,764B. The249,270-file forecast needs
 # about70MB at that measured ratio;80MiB permits finite headroom. Two such

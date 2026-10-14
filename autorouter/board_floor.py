@@ -16,6 +16,7 @@ from autorouter.adapter import _parse_dsn, _dump_dsn, _check_units
 from autorouter.netclass import qualify_project
 
 POLICY='board-floors-v1'
+MINIMUM_POLICY='experimental-native-minimum-v1'
 ENGINE_REQUIREMENTS={'automatic_neckdown':False,'fanout.enabled':False,'neck_width_um':0}
 DIMENSIONS={'width_nm':'track_width','clearance_nm':'clearance',
             'via_diameter_nm':'via_diameter','via_drill_nm':'via_drill'}
@@ -63,16 +64,32 @@ def atom_um(value):
     return value.rstrip('0').rstrip('.') if '.' in value else value
 
 
-def derive(raw,floors):
+def derive(raw,floors,*,target_policy=POLICY):
+    if target_policy not in (POLICY,MINIMUM_POLICY):raise ValueError('unknown dimension target policy')
     if set(raw)!=set(DIMENSIONS) or set(floors)!=set(FLOORS):raise ValueError('missing or unexpected dimensions')
     if any(type(x) is not int or x<=0 for x in raw.values()) or any(type(x) is not int or x<0 for x in floors.values()):
         raise ValueError('integer native dimensions required')
     if any(raw[k]%(400 if k=='clearance_nm' else 200 if k in {'width_nm','via_diameter_nm'} else 100) for k in raw):
         raise ValueError('off-grid raw guidance unsupported')
-    width=max(raw['width_nm'],floors['min_track_width'])
-    clearance=max(raw['clearance_nm'],floors['min_clearance'])
-    drill=max(raw['via_drill_nm'],floors['min_through_hole_diameter'])
-    diameter=max(raw['via_diameter_nm'],floors['min_via_diameter'],drill+2*floors['min_via_annular_width'])
+    if target_policy==MINIMUM_POLICY:
+        # Experimental targets come only from positive original hard limits.
+        # Original class clearance remains hard; typed SMD clearance is still
+        # strengthened by expected_edit, explicitly disclosed in transform.
+        if any(floors[key]<=0 for key in FLOORS if key!='min_clearance'):
+            raise ValueError('minimum experiment requires positive hard dimensions')
+        for key,step in (('min_track_width',200),('min_via_diameter',200),
+                ('min_through_hole_diameter',100),('min_via_annular_width',100)):
+            if floors[key]%step:raise ValueError('off-grid minimum dimension unsupported')
+        if raw['clearance_nm']<floors['min_clearance']:
+            raise ValueError('minimum experiment cannot change class clearance')
+        width=floors['min_track_width'];clearance=raw['clearance_nm']
+        drill=floors['min_through_hole_diameter']
+        diameter=max(floors['min_via_diameter'],drill+2*floors['min_via_annular_width'])
+    else:
+        width=max(raw['width_nm'],floors['min_track_width'])
+        clearance=max(raw['clearance_nm'],floors['min_clearance'])
+        drill=max(raw['via_drill_nm'],floors['min_through_hole_diameter'])
+        diameter=max(raw['via_diameter_nm'],floors['min_via_diameter'],drill+2*floors['min_via_annular_width'])
     targets={'width_nm':width,'clearance_nm':clearance,'via_diameter_nm':diameter,'via_drill_nm':drill}
     if diameter<=drill:raise ValueError('derived via has no annulus')
     # Conservative explicitly supported grid; no hidden quantization or rounding.
@@ -168,13 +185,16 @@ def qualify_scope(project,task):
                 if value is not None and (len(value)!=2 or value[1]!='0'):raise ValueError('local pad/footprint rule override unsupported')
 
 
-def qualify(project,native,task):
+def qualify(project,native,task,*,target_policy=POLICY):
     if not isinstance(native,dict):raise ValueError('native context object required')
     qualify_scope(project,task)
     if (native.get('context_schema')!=1 or type(native.get('context_schema')) is not int or
         native.get('native_version')!='10.0.0' or native.get('units')!='integer nanometres' or
         native.get('board_saved') is not False):raise ValueError('unsupported native context')
     settings=project['board']['design_settings']
+    if target_policy==MINIMUM_POLICY and (settings.get('custom_rules') or project.get('custom_rules')
+            or any(sx.children(fp,'zone') for fp in sx.children(task,'footprint'))):
+        raise ValueError('minimum experiment excludes custom rules and footprint zones')
     if settings.get('drc_exclusions'):raise ValueError('DRC exclusions unsupported')
     raw={key:millimetres(project['net_settings']['classes'][0][value]) for key,value in DIMENSIONS.items()}
     floors={key:millimetres(settings['rules'][key],zero=True) for key in FLOORS}
@@ -207,7 +227,7 @@ def qualify(project,native,task):
         elif pad['net']:raise ValueError('netless pad has a name')
     for row in rows:
         if pad_counts.get(row['name'],0)!=row['copper_pad_count']:raise ValueError('native terminal count mismatch')
-    return {'policy':POLICY,'raw_nm':raw,'floors_nm':floors,'derived_nm':derive(raw,floors),
+    return {'policy':target_policy,'raw_nm':raw,'floors_nm':floors,'derived_nm':derive(raw,floors,target_policy=target_policy),
             'nets':copy.deepcopy(rows),'pads':copy.deepcopy(pads),'engine_requirements':dict(ENGINE_REQUIREMENTS)}
 
 
@@ -337,7 +357,7 @@ def audit_export(tree,context,*,guided=False):
             if token in observed or token not in native or native[token]['net']!=sx.unquote(net[1]):raise ValueError('pin mapping mismatch')
             observed[token]=native[token]['uuid']
     if set(observed)!=set(native):raise ValueError('missing terminal')
-    return {'passed':True,'policy':POLICY,'guided':guided,'terminal_count':len(observed),'declared_copper_terminal_nets':len(exported),'source_class_nets':len(context['nets']),'via_id':vid,
+    return {'passed':True,'policy':context.get('policy',POLICY),'guided':guided,'terminal_count':len(observed),'declared_copper_terminal_nets':len(exported),'source_class_nets':len(context['nets']),'via_id':vid,
             'routing_accepted':False,'physical_geometry_qualification':False}
 
 
@@ -361,19 +381,19 @@ def verify_edit(raw,guided,context):
     return {'passed':True,'exact_allowed_change':True,'routing_accepted':False}
 
 
-def transform(raw_dsn_bytes,native,project_bytes,task_bytes):
+def transform(raw_dsn_bytes,native,project_bytes,task_bytes,*,target_policy=POLICY):
     if not isinstance(native,dict):raise ValueError('native context object required')
     for value in (raw_dsn_bytes,project_bytes,task_bytes):
         if not isinstance(value,bytes) or len(value)>sx.MAX_BYTES:raise ValueError('bounded input bytes required')
     if (native.get('dsn_sha256')!=sha(raw_dsn_bytes) or native.get('board_sha256')!=sha(task_bytes) or
             native.get('project_sha256')!=sha(project_bytes)):
         raise ValueError('native context/source/DSN byte binding mismatch')
-    context=qualify(json.loads(project_bytes),native,sx.parse(task_bytes.decode('utf-8')))
+    context=qualify(json.loads(project_bytes),native,sx.parse(task_bytes.decode('utf-8')),target_policy=target_policy)
     raw=_parse_dsn(raw_dsn_bytes.decode('utf-8'));raw_audit=audit_export(raw,context)
     guided=expected_edit(raw,context);edit_audit=verify_edit(raw,guided,context)
     encoded=_dump_dsn(guided).encode('utf-8')
     if _parse_dsn(encoded.decode('utf-8'))!=guided or len(encoded)>sx.MAX_BYTES:raise ValueError('guided DSN roundtrip/size failed')
-    receipt={'schema':1,'policy':POLICY,'input_sha256':sha(raw_dsn_bytes),'output_sha256':sha(encoded),
+    receipt={'schema':1,'policy':target_policy,'input_sha256':sha(raw_dsn_bytes),'output_sha256':sha(encoded),
              'project_sha256':sha(project_bytes),'task_sha256':sha(task_bytes),
              'native_context_content_sha256':sha(json.dumps(native,sort_keys=True,separators=(',',':')).encode()),
              'raw_nm':context['raw_nm'],'original_floors_nm':context['floors_nm'],'derived_nm':context['derived_nm'],
@@ -382,6 +402,12 @@ def transform(raw_dsn_bytes,native,project_bytes,task_bytes):
              'limitations':['Caller must bind real native process and all original project/rule files.',
                'No independent physical pad geometry/import qualification; full native validation remains required.',
                'Run existing geometry/plane adapter after floor guidance; preserve each distinct stage.']}
+    if target_policy==MINIMUM_POLICY:
+        receipt['preference_tradeoff']={'original_preferred_nm':copy.deepcopy(context['raw_nm']),
+            'experimental_targets_nm':copy.deepcopy(context['derived_nm']),
+            'typed_smd_clearance_nm':{'original':context['raw_nm']['clearance_nm']//4,
+                'guided':context['derived_nm']['clearance_nm']},
+            'width_via_and_smd_clearance_change':True,'electrical_adequacy_qualified':False}
     return encoded,receipt
 
 

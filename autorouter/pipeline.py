@@ -991,14 +991,85 @@ def native_edge_context(board):
     return context
 
 
+def native_minimum_markers(directory,data):
+    """Recognize partial experimental evidence; never enable a normal receipt."""
+    names=('minimum-preferences.dsn','minimum-preferences.json','minimum-export-context.json')
+    return (any(key in data for key in ('native_minimum_preferences','native_minimum_export_context_sha256'))
+        or any((Path(directory)/name).exists() or (Path(directory)/name).is_symlink() for name in names))
+
+
+def native_minimum_contract(directory,data):
+    """Recompute a diagnostic-only fixed basis, without accepting a candidate.
+
+    The frozen actor must additionally check the retained real export process
+    and its prospective prefix pins, and always call check_native_minimum_transport.
+    Context/source/process paths are never rewritten to a new producer.
+    """
+    from . import board_floor as g,adapter,native_edge,floor_route as f,netclass,sexpr,floor_context
+    from .placement_clearance import read_bytes
+    from .local_settings import canonical as canonical_path
+    directory=Path(directory)
+    if (data.get('accepted') is not False or data.get('production_support_qualified') is not False
+            or data.get('input_policy','native')!='native' or data.get('guidance_policy','native')!='native'
+            or data.get('scope')!='whole_board_unlocked_routing' or data.get('adapter') not in ('graphics','both')
+            or data.get('protected_routes',0)!=0 or 'protected_route_import' in data
+            or selected_scope_markers(directory,data) or layer_markers(directory,data)):
+        raise Rejected('minimum experiment requires diagnostic whole native/source-all lineage')
+    from . import preferences as pref
+    for key in ('routing_preferences','pruning_preferences'):
+        if key in data:
+            effective=pref.validate(data[key]['effective'])
+            if (effective['scope'],effective['guidance'],effective['layers'])!=('whole_board_unlocked_routing','native','source_all'):
+                raise Rejected('minimum experiment preference scope differs')
+    if ('pour_dsn_correction' in data or 'floor_policy' in data
+            or any((directory/name).exists() or (directory/name).is_symlink()
+                for name in ('pour-corrected.dsn','pour-dsn-correction.json','floor-guided.dsn','floor-policy.json'))):
+        raise Rejected('minimum experiment cannot relabel pour/floor guidance')
+    board=directory/'snapshot'/Path(data['source']).name
+    if tree_hash(board.parent)!=data['source_hashes'] or board.with_suffix('.kicad_dru').exists() or board.with_suffix('.kicad_dru').is_symlink():
+        raise Rejected('minimum experiment original snapshot/rules differ')
+    task_bytes=(sx.dump(g.task_from_source(sx.read(board)))+'\n').encode()
+    raw=read_bytes(directory/'native.dsn');context_path=directory/'minimum-export-context.json'
+    context=f.read_json(context_path)
+    if (data.get('native_dsn_sha256')!=g.sha(raw)
+            or data.get('native_minimum_export_context_sha256')!=sha(context_path)):
+        raise Rejected('minimum experiment retained native export/context pin differs')
+    native_input=Path(context['source']);canonical_path(native_input)
+    if not native_input.is_relative_to(c.ROOT/'.runs'):
+        raise Rejected('minimum experiment native input must be a retained run copy')
+    expected=dict(data['source_hashes']);expected[board.name]=g.sha(task_bytes)
+    f.context_binding(context,native_input,expected,'export',g.sha(raw))
+    if tree_hash(native_input.parent)!=expected or read_bytes(native_input)!=task_bytes:
+        raise Rejected('minimum experiment actual export input differs from reconstructed task')
+    modules=(g,adapter,native_edge,f,netclass,sexpr,floor_context)
+    required={'autorouter/'+Path(module.__file__).name:sha(Path(module.__file__)) for module in modules}
+    required['autorouter/pipeline.py']=sha(Path(__file__))
+    required['autorouter/native.py']=sha(Path(__file__).with_name('native.py'))
+    implementation=data.get('tools',{}).get('implementation_sha256',{})
+    if any(implementation.get(name)!=digest or sha(directory/'code'/Path(name).name)!=digest for name,digest in required.items()):
+        raise Rejected('minimum experiment captured/live implementation differs')
+    derived,transformation=g.transform(raw,context,read_bytes(board.with_suffix('.kicad_pro')),task_bytes,target_policy=g.MINIMUM_POLICY)
+    contract={'schema':1,'policy':g.MINIMUM_POLICY,'source_hashes':data['source_hashes'],
+        'native_context_sha256':sha(context_path),'implementation_sha256':required,'transformation':transformation}
+    return derived,contract
+
+
+def check_native_minimum_transport(directory,data):
+    """Mandatory experimental actor reader: total proof deletion cannot downgrade."""
+    if not native_minimum_markers(directory,data):raise Rejected('minimum experiment lost its mandatory transport proof')
+    return check_native_edge_transport(directory,data)
+
+
 def check_native_edge_transport(directory,data):
     """Replay the narrow edge-only correction from unchanged snapshot bytes."""
     from . import native_edge,adapter
     from .placement_clearance import read_bytes
     from .floor_route import read_json,canonical
     directory=Path(directory); marker=directory/'native-edge-correction.json';prior=directory/'edge-adapter-input.dsn'
+    minimum=native_minimum_markers(directory,data)
     if ('native_edge_correction' not in data and not marker.exists() and not marker.is_symlink()
             and not prior.exists() and not prior.is_symlink()):
+        if minimum:raise Rejected('minimum experiment requires its edge transport chain')
         direct_native=('engine_budget' in data
             or any((directory/name).exists() or (directory/name).is_symlink() for name in ('native.dsn','engine-process.json'))
             or any(step.get('name')=='engine' and step.get('cwd')==str(directory) for step in data.get('steps',[])))
@@ -1013,8 +1084,18 @@ def check_native_edge_transport(directory,data):
     if tree_hash(board.parent)!=data['source_hashes']:
         raise Rejected('edge correction original snapshot differs')
     context=native_edge_context(board)
-    base=directory/('pour-corrected.dsn' if 'pour_dsn_correction' in data else 'native.dsn')
-    adapted,adapter_record=adapter.adapt_bytes(read_bytes(base),data['adapter'],read_json(directory/'obstacles.json'))
+    if minimum:
+        from . import board_floor as g
+        base,contract=native_minimum_contract(directory,data)
+        proof=directory/'minimum-preferences.json'
+        expected={'file':proof.name,'sha256':sha(proof),'policy':g.MINIMUM_POLICY}
+        if (canonical(data.get('native_minimum_preferences'))!=canonical(expected)
+                or canonical(read_json(proof))!=canonical(contract)
+                or read_bytes(directory/'minimum-preferences.dsn')!=base):
+            raise Rejected('minimum experiment proof, targets or native basis differ')
+    else:
+        base=read_bytes(directory/('pour-corrected.dsn' if 'pour_dsn_correction' in data else 'native.dsn'))
+    adapted,adapter_record=adapter.adapt_bytes(base,data['adapter'],read_json(directory/'obstacles.json'))
     corrected,record=native_edge.correct(adapted,context)
     engine_input=directory/('routing-scope-input.dsn' if data.get('scope')=='selected_nets' else 'task.dsn')
     if (read_bytes(prior)!=adapted or read_bytes(engine_input)!=corrected
@@ -1633,6 +1714,8 @@ def _check_result_uncached(path):
     receipt_digest=hashlib.sha256(bounded_bytes(path)).hexdigest()
     # Parse once strictly before policy dispatch; duplicate selectors cannot hide schema3.
     data=read_json(path)
+    if native_minimum_markers(path.parent,data):
+        raise Rejected('experimental native-minimum transport is not a normal routing receipt')
     scoring_marker=path.parent/'pruning-scoring.json'
     pruning_marker=path.parent/'pruning-preferences.json'
     if (data.get('strategy')=='native_validated_zone_net_pruning' or scoring_marker.exists()
