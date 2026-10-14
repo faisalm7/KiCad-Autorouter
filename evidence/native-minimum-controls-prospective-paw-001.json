@@ -1,0 +1,201 @@
+{
+  "schema": 1,
+  "kind": "actual-original-hardminimum-native-qualification",
+  "accepted": false,
+  "source": "bd1c2368fa6fdaf144d03f7c930806f6cb287bc7",
+  "controls_passed": true,
+  "source_hashes": {
+    "owned-minimum.kicad_pcb": "b067c2e8525887d7b5fcc766b88f98d0ae9c00f64ca0ee1d02b707d6024d326c",
+    "owned-minimum.kicad_pro": "376ef1f9051f9409ac91a249d4bf95383670d8aa868d5226bbc45f8fded03b47"
+  },
+  "original_preferred_nm": {
+    "width_nm": 250000,
+    "clearance_nm": 200000,
+    "via_diameter_nm": 800000,
+    "via_drill_nm": 400000
+  },
+  "original_hard_floors_nm": {
+    "min_track_width": 200000,
+    "min_clearance": 0,
+    "min_via_diameter": 400000,
+    "min_through_hole_diameter": 300000,
+    "min_via_annular_width": 50000
+  },
+  "source_derived_targets_nm": {
+    "width_nm": 200000,
+    "clearance_nm": 200000,
+    "via_diameter_nm": 400000,
+    "via_drill_nm": 300000
+  },
+  "cases": [
+    {
+      "case": "positive",
+      "passed": true,
+      "dimensions_mm": {
+        "first_track": ".2",
+        "other_track": ".2",
+        "via_diameter": ".4",
+        "via_drill": ".3"
+      },
+      "candidate_sha256": "b892e282a07eb7148db4b329cef20d02f30c555f8e3cc6b995103cf1265814e1",
+      "saved_report_sha256": "0f22a98c34ab90c4dd36ea066fb11d2d1fef226a96697637c057173fb8b3ba39",
+      "final_report_sha256": "0f22a98c34ab90c4dd36ea066fb11d2d1fef226a96697637c057173fb8b3ba39",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0
+      },
+      "probe_uuid": "8510590f-18f5-5b1e-b3c3-1a26e30c194b",
+      "detected_error_types": [
+        [],
+        []
+      ]
+    },
+    {
+      "case": "track_under",
+      "passed": true,
+      "dimensions_mm": {
+        "first_track": ".1998",
+        "other_track": ".2",
+        "via_diameter": ".4",
+        "via_drill": ".3"
+      },
+      "candidate_sha256": "280b3da0206780298b71815246406de9f2aadab02822e7439693a85528436a07",
+      "saved_report_sha256": "3c12fb17883040fdb97b4ef743d512db222be788638affc61749ca3a7ad79c41",
+      "final_report_sha256": "cda5fa5e38e9ba53fb0c7cbd7ec30c086c6a4c4b7d0d49b05104e49c43900aaa",
+      "native": {
+        "opens": 0,
+        "blocking": 1,
+        "warnings": 0,
+        "exclusions": 0
+      },
+      "probe_uuid": "c5a28b0a-0dc0-5755-977b-c35c20565def",
+      "detected_error_types": [
+        [
+          "track_width"
+        ],
+        [
+          "track_width"
+        ]
+      ]
+    },
+    {
+      "case": "via_under",
+      "passed": true,
+      "dimensions_mm": {
+        "first_track": ".2",
+        "other_track": ".2",
+        "via_diameter": ".3998",
+        "via_drill": ".3"
+      },
+      "candidate_sha256": "3989f8a2d79ef982f1ca2ca50ded2c24d6b3829c55c2a5d9a5edabf1e4c1113c",
+      "saved_report_sha256": "78850f86df67b6377bc393dc2d3f86000a3803d03245cd8a8159e1e962f98d56",
+      "final_report_sha256": "ad7e0c70104376a3770baad1ffe35f79dbd9c647190d2d678009816de6a84e0d",
+      "native": {
+        "opens": 0,
+        "blocking": 2,
+        "warnings": 0,
+        "exclusions": 0
+      },
+      "probe_uuid": "8510590f-18f5-5b1e-b3c3-1a26e30c194b",
+      "detected_error_types": [
+        [
+          "annular_width",
+          "via_diameter"
+        ],
+        [
+          "annular_width",
+          "via_diameter"
+        ]
+      ]
+    },
+    {
+      "case": "hole_under",
+      "passed": true,
+      "dimensions_mm": {
+        "first_track": ".2",
+        "other_track": ".2",
+        "via_diameter": ".4",
+        "via_drill": ".2998"
+      },
+      "candidate_sha256": "18b3385176a9a34e8432b505be2c57a1fca7e2a7e58865ea888177fea3634bbc",
+      "saved_report_sha256": "09f63a64887cc9398c9817660b765907f7a4d2defec9a2815000b5f528cc8a0d",
+      "final_report_sha256": "09f63a64887cc9398c9817660b765907f7a4d2defec9a2815000b5f528cc8a0d",
+      "native": {
+        "opens": 0,
+        "blocking": 1,
+        "warnings": 0,
+        "exclusions": 0
+      },
+      "probe_uuid": "8510590f-18f5-5b1e-b3c3-1a26e30c194b",
+      "detected_error_types": [
+        [
+          "drill_out_of_range"
+        ],
+        [
+          "drill_out_of_range"
+        ]
+      ]
+    },
+    {
+      "case": "annulus_under",
+      "passed": true,
+      "dimensions_mm": {
+        "first_track": ".2",
+        "other_track": ".2",
+        "via_diameter": ".4",
+        "via_drill": ".3002"
+      },
+      "candidate_sha256": "4a5f795e53381eb07ff56fa7c4d543c1d5e90479c86448d50421af7061d16258",
+      "saved_report_sha256": "157756690d0016bed8a471106c0b4f0e79cbeaf9751698886d5b0cc0b8550560",
+      "final_report_sha256": "157756690d0016bed8a471106c0b4f0e79cbeaf9751698886d5b0cc0b8550560",
+      "native": {
+        "opens": 0,
+        "blocking": 1,
+        "warnings": 0,
+        "exclusions": 0
+      },
+      "probe_uuid": "8510590f-18f5-5b1e-b3c3-1a26e30c194b",
+      "detected_error_types": [
+        [
+          "annular_width"
+        ],
+        [
+          "annular_width"
+        ]
+      ]
+    }
+  ],
+  "native_worker_count": 10,
+  "wall_seconds": 12.119173709012102,
+  "full_cpu_seconds": 8.884585,
+  "independent_readback": {
+    "passed": true,
+    "findings_sha256": "6c5cfba75970f1e17e6bcd6c8807684798430763aad843a0cdda5fde14887ba9",
+    "wall_seconds": 0.6124969999946188,
+    "full_cpu_seconds": 0.60426,
+    "additional_allowance_seconds": 2,
+    "new_native": false
+  },
+  "prospective_paw_probe": {
+    "protocol_sha256": "f0d49e188f7bda9ca02f2ea6a83afb194a912562f2bd7f945236f7cdfa697ed9",
+    "actor_sha256": "0cb41272ebe02534e28896ad6e1a7ab1ebd86f7daadfbf95b4896c003953782f",
+    "budget_seconds": 180,
+    "prior_costs": {
+      "wall_seconds": 80.18806904100347,
+      "full_cpu_seconds": 83.283654,
+      "scope": "Conservative prior maxplaneactor/outer + priorreaders recursively includes allSES/low/plane work. Also charges actual genericNative5case controls outermax +actualindependentreader+2allowance. BOOT3 added byactor, finaldelivery outerseparate. Earlier120 results neverrescued."
+    },
+    "prefixes": 23,
+    "code_files": 54,
+    "executed": false,
+    "review_fix": "Caught before execution: independent readback input_receipt_sha256 is path/hash map, now bound to allthreeactualreceiptpins. Initial draft/protocol preserved; no Nativeworker repeated."
+  },
+  "limitations": [
+    "Whollyauthored nativephysicalsize controls, no schematic/referenceinput or electricaladequacy/DSNviaID/SESdecode/PAWcompletion qualification",
+    "One proposed B2 width/via+SMD configuration, no algorithmic novelty or currentrouting gain",
+    "Normalroute defaults/sourcepreferred dimensions unchanged; diagnosticminimum receipt refused bynormalchecker",
+    "Actualnextprobe must keep every finalnative/original/warning/failedcompute outcome"
+  ]
+}

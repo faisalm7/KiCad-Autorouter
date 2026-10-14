@@ -1,47 +1,39 @@
 # Active continuation
 
-Use the existing Mac checkout and `rebuild/local-20261010-015447`. Latest verified
-checkpoint1ca86b7; preserve scoped source edits and all unfinished evidence.
-No cloud, reset, new worktree, spending or formal publication.
+ExistinglocalMac checkout, rebuild/local-20261010-015447. Latest verifiedbd1c236.
+No cloud/reset/reclone/worktree/discard/spending/formalpublication. Preserve all
+failed/current source and raw evidence. Onelead≤2narrowagents, native/JVM lane
+sequential, existing sharedvalidation/process/publication/backup helpers.
 
-Completed: six exposed B1/B2/C comparisons; connectivity-only thermal failure;
-normal PRL/SVG/preview/export/invalid/cancellation; PAW original/core controls,
-five format/export observations and route-only SES proof. PAW003/via_low/planes
-reject at10/14/11opens respectively; planes also4thermal errors. CP2102original
-rejects7opens/35blocking/52warnings, including13immutable footprint-internal gaps
-and3missingdevices. Do not repeat these workers, GETs, engine or original checks.
+Completed: sixexposed fixed B1/B2/Cpairs; connectivitythermalnegative; normalPRL/
+SVG/cancel/export; PAWoriginal/MISO/fivereloadexports/partialSES; scopedlegacy
+normalNativeworkflow0/0/0/0+negative2opens andmodernfullSCHfresh0/0/7/0; full066;
+installed028/source4b03a78 (22offline/72fixed+119targeted/realNative/sharedreader).
+Five hardminimumsize Nativecontrols and ten saved/finalreports pass with all
+original source/preferred/hardrules exact. Do not repeat these workers or GETs.
+PAW10/14/11+4thermal candidates reject; CP2102source13immutablegaperrors blocks.
 
-1. Scoped20240108 transport passes83targeted/full0651203software checks.
-   Defaultclosed unless exact whole/native/source_all/twoCu/literalDefault/
-   unlocked scope; selected/protected/layer/floor/placement/otherlegacy stayclosed.
-   Existing PAW native evidence supports transport, never solved routing.
-2. Reviewed authored legacy-tag workflow actor is now in
-   `experiments/legacy_scope_native_v1/driver.py`. Commit/push/readback before:
-   `.venv/bin/python -B .runs/run-legacy-normal-workflow-native-001.py`.
-   Lead outercontroller enforces exact source/helper/fixturepins, whole180wall/
-   fullCPU and cleanup; no simultaneous Native workers. One fresh native pruning
-   incumbent, shared rendered review/export, route-removed native negative.
-   NoSCH; genuinePAW remains separate. Preserve successful stages onfailure.
-3. GUI access is available again. Prior modern normalPRL export correctly refuses
-   currentchecker because runtime pins changed. Failed copy preparation retained.
-   Generate only missing fresh current-source export via shared qualifier from
-   existingaccepted routing receipt, then exact disposable GUIcopy/fullrefill/
-   parity/allfilters. No solverrepeat or sourceoverwrite.
-4. Experimental source-only hard-minimum transport prototype is being prepared
-   outside main source. Defaults/clearance/sourcepreferences unchanged; record
-   any SMD strengthening explicitly. Review tamper/deletion guards, then actual
-   Nativewidth/via/annulus negatives before engine. One prospective cumulative180
-   B2profile only if qualified; no retroactive120rescue, novelty or referenceleakage.
-5. Installed027/source663cd1c is older; next current-source installation028 at
-   integration milestone using sharedhelpers. Major2bce fullchain restoration
-   alreadypassed269340files/allrefs/CLI; newerraw needs incremental, no repeated
-   fullrestore forminor edits. Owner chose onMac-only artifacts.
+1. Reviewed/frozen experiments/paw_minimum_profile_v1 actor+input-pins:
+   originalhard200width/400:300via/50annulus, clearance200 unchanged; typedSMD
+   strengthening50→200 disclosed. One B2via_low/bothadapter config, no novelty.
+   After sourcecheckpoint/push/readback run only:
+   `.venv/bin/python -B .runs/run-paw-minimum-profile-native-001.py`.
+   Cumulative180wall/fullCPU, prior80.188069wall83.283654CPU includes everyprior
+   route/failedprefix and genericnewNativecontrols/readback. No old120rescue.
+   ConditionalwrongMISO only ifrealpositivepasses. Retain actualfinalhashes,
+   originalfullSCH/rules/PRL/SES/legacy/geometry/warnings/process/proof and costs.
+2. Read actualprobe with existing sharedreaders; never interpretselfreported
+   solvercompletion asNativepass or repeatcompleted workers. Continue strongest
+   justifiedapproaches and broader unrelatedsupportedfamilies from actualoutcome.
+3. Commit verified outcome. Then actualincremental from fullyrestoredc81 and
+   fullchainrestoration required after finitefilecap270000→280000 change;
+   actualcensus270296/8.19GB,8GiB/receipt/scopes/secret/path guards unchanged.
+   Majorprevious2bce restore269340files passes; newerrawaftercutoff. Ownerchose
+   onMac-only rawbackups. Keep scopewritersidle; no evidence deletion.
+4. GUIcopy004 exactcompleteprojectprepared; Macrelockedatopencommand. Earlier
+   GUI003 remainsqualified separately. Continue independentwork without repeated
+   unlockquestions. HumanPCB/physical/representative/untouchedconfirmation gates
+   remainopen. No generalcompletion/speedup/independentpedigree/releaseclaim.
 
-Continue strongest measured unchanged-constraint approaches, unrelated supported
-families, usable workflow and reproducible evaluation. All inputs are exposed,
-zero independent pedigrees established. Representative coverage, untouched
-confirmation, actual human PCB review and physical validation remain open.
-
-One lead, at most two narrow nonrecursive agents. Native/JVM lane sequential.
-Reuse existing validation/process/report/backup helpers; milestones do not end
-this continuous assignment.
+Milestones are checkpoints, not a stoprequest. Ifareallimitinterrupts, save exact
+continuation state and preserve unfinishedwork withoutclaiming projectcomplete.
