@@ -1,0 +1,161 @@
+{
+  "schema": 1,
+  "kind": "actual_retained_plane_negative_and_new_fixed_source_acquired",
+  "source_head": "2ded3bfbc173eb0b51fb536a878f8b93624f990f",
+  "plane_factor": {
+    "status": "failed",
+    "error": "Rejected: retained-plane candidate fails original Native acceptance",
+    "qualified": false,
+    "accepted": false,
+    "format_admitted": false,
+    "production_admitted": false,
+    "new_routing_gain": false,
+    "source_result_sha256": "500b0ef1018a7f8fb2451a84b25dbe53ecbeff76c5cfbc1187508616d5f6526f",
+    "candidate_sha256": "57599d6302b70e31d399e64bb3270178838f417b96c2197d9c45283ba8f31cb6",
+    "final_report_sha256": "8ccac8fadcbe36e3b223b42503afb41d7424c5762cc7cfe42fb8bc0a94976f25",
+    "native": {
+      "opens": 11,
+      "blocking": 4,
+      "warnings": 17,
+      "exclusions": 0
+    },
+    "blocking_types": {
+      "starved_thermal": 4
+    },
+    "new_workers": [
+      "engine",
+      "import",
+      "refill-drc",
+      "final-drc"
+    ],
+    "negative_case_executed": false,
+    "engine_budget": {
+      "profile": "tuned",
+      "argv": [
+        "--router.autorouter.max_passes=100",
+        "--router.job_timeout=00:00:13",
+        "--router.automatic_neckdown=false",
+        "--router.fanout.enabled=false",
+        "--router.neck_width_um=0",
+        "--router.optimizer.max_threads=1",
+        "--router.optimizer.max_passes=50",
+        "--router.optimizer.timeout=00:00:13",
+        "--router.optimizer.improvement_threshold=0.001",
+        "--router.optimizer.enable_preflight_guards=false",
+        "--router.optimizer.max_consecutive_failures=100",
+        "--router.optimizer.max_consecutive_failures_pass1=100",
+        "--router.scoring.via_costs=25",
+        "--router.scoring.plane_via_costs=3"
+      ],
+      "scoring": {
+        "variant": "via_low",
+        "via_costs": 25,
+        "plane_via_costs": 3,
+        "argv": [
+          "--router.scoring.via_costs=25",
+          "--router.scoring.plane_via_costs=3"
+        ]
+      },
+      "strict_class_targets": true,
+      "remaining_outer_wall_seconds_at_assignment": 53.868577,
+      "assigned_job_timeout_seconds": 13,
+      "assigned_optimizer_timeout_seconds": 13,
+      "native_finalization_reserve_seconds": 10,
+      "engine_grace_reserve_seconds": 30,
+      "internal_deadlines": "cooperative planning caps; external supervision and measured CPU acceptance cap remain authoritative",
+      "outer_task_wall_budget_seconds": 120,
+      "outer_task_cpu_budget_seconds": 120
+    },
+    "outer": {
+      "wall_seconds": 14.67358020899701,
+      "total_cpu_seconds": 16.993417,
+      "cumulative_wall_seconds": 60.931980414985446,
+      "cumulative_full_cpu_seconds": 67.268827,
+      "whole_delivery_within_budget": true,
+      "source_current": true
+    },
+    "outer_execution_sha256": "2b3d3206074b2f91ab13b28ec4d295fb79e8ad163c4d3f8d4b97efaf9e0cf33b",
+    "reader": {
+      "schema": 1,
+      "passed": true,
+      "accepted": false,
+      "routing_accepted": false,
+      "source_format_admitted": false,
+      "exact_native_import_geometry": true,
+      "retained_plane_factor_assignment": true,
+      "original_shell_rules_and_prl_preserved": true,
+      "full_schematic_native_checked": true,
+      "negative_case_executed": false,
+      "native": {
+        "opens": 11,
+        "blocking": 4,
+        "warnings": 17,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Text height out of range",
+            "key": "text_height"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint doesn't match copy in library",
+            "key": "lib_footprint_mismatch"
+          }
+        ]
+      },
+      "route_count": 35,
+      "candidate_sha256": "57599d6302b70e31d399e64bb3270178838f417b96c2197d9c45283ba8f31cb6",
+      "native_report_sha256": "8ccac8fadcbe36e3b223b42503afb41d7424c5762cc7cfe42fb8bc0a94976f25",
+      "source_result_sha256": "500b0ef1018a7f8fb2451a84b25dbe53ecbeff76c5cfbc1187508616d5f6526f",
+      "controller_sha256": "c0465bad0944161c7c97c12b4c41c85a4576291a887f6d4c2e2e2d1034b269b6",
+      "wall_seconds": 0.536498917004792,
+      "full_cpu_seconds": 0.5312209999999999,
+      "scope": "Pure shared-reader proof of real corrected import and actually incomplete11open4blocking fullSCH candidate. No Native/JVM/engine/GET rerun; original constraints unchanged, aggregate remains failed/no format admission."
+    },
+    "reader_sha256": "29f16492f621cb178d1496d75af4c60eb27fc25ad2a1e51b87aa71288ef5e049",
+    "reader_allowance_seconds": 2,
+    "interpretation": "Retaining rawGNDplanes with samevia_low profile failed11opens and4original minimum-two-spoke thermal constraints. Lowboth14opens0blocking and earlierdefaultboth10opens0blocking remain rejected too. No selector/profile/format admission is justified by these incomplete candidates."
+  },
+  "new_cp2102_source": {
+    "status": "acquired_unqualified",
+    "repository": "MAATHES-THILAK-K/USB_TO_UART-CP2102",
+    "commit": "eecf7bb08afbd1494f3136a5124f4b6b6ea6c63e",
+    "files": 5,
+    "bytes": 347566,
+    "original_inputs_unchanged": true,
+    "receipt_sha256": "4518d5eeefc512a60d6517096151a871d9a99cfa72bf4b2eca78bbe37c6748fd",
+    "execution_sha256": "899a7cabc90cddc3813e5f5c9a1e16afa743a0f57a5c1411464a7a2451dcda54",
+    "whole_wall_seconds": 2.6947013330063783,
+    "whole_full_cpu_seconds": 1.8442850000000002,
+    "source_current": true,
+    "native_executed": false,
+    "engine_executed": false,
+    "independent_families_established": false,
+    "redistribution_approved": false,
+    "gate": "Complete exactfivefile nativeproject+MITnotices acquired. Native/originalrule/edge0.5mm/line-arcs/assets/model/ancestry/USB validation remains unqualified; no source repair or model fetch. Managedcanonicalpopulation26, all previousdispositionsretained."
+  },
+  "backup": "Unique new raw artifacts after restored2bcebf cutoff await nextincremental; no evidence deleted."
+}

@@ -27,13 +27,12 @@ PAW003 exact pose/routing proof passes but actual final has10opens/0blocking/
 4. Major incremental/full-chain restoration is complete through2bcebf:269340
    files/allrefs/restoredCLI, existingguards unchanged. NewCP2102/helper/plane
    preparation aftercutoff needs nextincremental, no repeatedfullrestore now.
-   After this checkpoint run ONLY:
-   `.venv/bin/python -B .runs/run-paw-retained-plane-native-001.py`.
-   Then existing helper fixed5GET acquisition:
-   `.venv/bin/python -B experiments/licensed_acquisition_v8/fetch.py --fetch --output .runs/licensed-acquisition-011-run-001`.
-   Use boundedouter and Native/JVM sequential; capture real acquisitionreceipt
-   before adding fixed original-project snapshot/diagnostic. Preserve .5mm edge
-   gate and asset/ancestry/USB limitations; no support/gain result assumed.
+   Retained-plane Native and CP2102 acquisition are now completed. Do not rerun.
+   Plane factor rejects11opens+4starvedthermals; exact finalchecks preserved.
+   CP2102receipt4518d5ee binds5files347566B; prepare/review frozen sourcecapture
+   and existing original-project Native registration, thencheckpoint andrunonly
+   missing original savedrefill/freshfullSCH. Preserve original .5mm edge,
+   line/arc geometry, every rule/asset limitation and all priorfailedcompute.
 5. Continue stronger unchanged-constraint routing hypotheses, unrelated supported
    families, actual normal workflow and reproducible evaluation. All inputs so
    far are exposed, no independent pedigrees established. Current GUI009locked;
@@ -41,3 +40,9 @@ PAW003 exact pose/routing proof passes but actual final has10opens/0blocking/
 
 One lead, at most two narrow nonrecursive agents; Native/JVM lane sequential.
 Reuse validation/process/report helpers. Milestones do not end the assignment.
+
+Current fixed CP2102 snapshot/registration is implemented and purecapture/stale
+controls pass; oldv2capture remains exact. After this checkpoint run exactly
+`.venv/bin/python -B .runs/run-cp2102-original-native-001.py`. No completed
+Native/GET/export/engine trial is repeated. Then use existing sharedoriginal
+reader on actualfinalreport and allsource/route/rule/companion evidence.
