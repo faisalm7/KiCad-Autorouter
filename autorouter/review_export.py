@@ -119,7 +119,7 @@ def check_stage(folder,data,binding,report,basis,contract,layers):
         raise p.Rejected('export selected-net schematic parity declaration differs')
     if data.get('schematic_parity')!=p.parity_declaration(binding['source'],binding['source_hashes']):
         raise p.Rejected('export schematic parity declaration differs from original source')
-    original=p.preflight(Path(binding['source']));candidate=folder/'candidate'/Path(binding['source']).name
+    original=p.preflight(Path(binding['source']),task_scope=p.task_scope_for_record(report,Path(binding['receipt']).parent,input_policy=binding['input_policy']));candidate=folder/'candidate'/Path(binding['source']).name
     before=sx.read(Path(binding['validated_candidate']));protected=p.protected_for_record(report,original)
     if candidate!=Path(data['candidate']):raise p.Rejected('export candidate escaped validation directory')
     pc.verify_candidate(candidate,binding['source_hashes'],data['candidate_sha256'])
@@ -277,7 +277,7 @@ def export(choice_path,output,seconds=SECONDS):
             if out.exists():raise p.Rejected('export output already exists')
             for protected in [Path(x).parent for x in (binding['source'],binding['receipt'],binding['review'],binding['choice'])]:
                 if out==protected or protected in out.parents:raise p.Rejected('export must be outside source/routing/review/choice trees')
-            source=Path(binding['source']);original=p.preflight(source);basis,contract,layers=lineage(binding,report)
+            source=Path(binding['source']);original=p.preflight(source,task_scope=p.task_scope_for_record(report,Path(binding['receipt']).parent,input_policy=binding['input_policy']));basis,contract,layers=lineage(binding,report)
             candidate_capture=pc.inventory(Path(binding['validated_candidate']).parent,contents=True);source_capture=pc.inventory(source.parent,contents=True)
             if {name:h.digest(raw) for name,raw in candidate_capture.items()}!=binding['candidate_hashes'] or {name:h.digest(raw) for name,raw in source_capture.items()}!=binding['source_hashes']:
                 raise p.Rejected('export captured authoritative projects changed')

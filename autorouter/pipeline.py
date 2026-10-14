@@ -254,17 +254,49 @@ def check_hole_machining_support(tree):
         for pad in sx.children(fp,'pad'):visit(pad)
     for via in sx.children(tree,'via'):visit(via)
 
-def preflight(board):
+def task_scope_for_record(data,directory,*,input_policy=None):
+    """Derive task choices for narrow legacy syntax; never an acceptance flag.
+
+    Existing captured-choice/process readers still verify their full proofs.
+    Missing/mixed choices return no admission context. Modern preflight ignores
+    this context; 20240108 requires the exact whole/native/source_all tuple.
+    """
+    from . import preferences as pref
+    if type(data) is not dict:return None
+    scope=data.get('scope');policy=data.get('input_policy','native') if input_policy is None else input_policy
+    layers='source_all'
+    if data.get('guidance_policy',policy)!=policy:return None
+    for key in ('routing_preferences','pruning_preferences'):
+        if key not in data:continue
+        try:effective=pref.validate(data[key]['effective'])
+        except (ValueError,TypeError,KeyError):return None
+        if effective['scope']!=scope or effective['guidance']!=policy:return None
+        if layers!='source_all' and effective['layers']!=layers:return None
+        layers=effective['layers']
+    if (selected_scope_markers(directory,data) or layer_markers(directory,data)
+            or 'protected_route_import' in data or data.get('protected_routes',0)!=0):return None
+    return (scope,policy,layers)
+
+
+def preflight(board,*,task_scope=None):
     t=sx.read(board)
     reasons=[]
     if t[0]!='kicad_pcb': reasons.append('not a KiCad board')
-    if sx.one(t,'version')[1] not in {'20241229','20260206'}: reasons.append('unqualified board format version')
+    version=sx.one(t,'version')[1]
+    legacy=(version=='20240108' and type(task_scope) is tuple
+        and len(task_scope)==3 and all(type(v) is str for v in task_scope)
+        and task_scope==('whole_board_unlocked_routing','native','source_all'))
+    if version not in {'20241229','20260206'} and not legacy: reasons.append('unqualified board format version')
     layers=sx.one(t,'layers',[])
     if sum(isinstance(x,list) and len(x)>2 and re.fullmatch(r'(?:F|B|In[0-9]+)\.Cu',sx.unquote(x[1])) is not None for x in layers) not in (2,4): reasons.append('requires 2 or 4 copper layers')
     project=board.with_suffix('.kicad_pro')
     if not project.is_file(): reasons.append('complete .kicad_pro required')
     else:
         p=json.loads(project.read_text()); settings=p.get('board',{}).get('design_settings',{})
+        if legacy:
+            from . import board_floor as g
+            try:g.qualify_scope(p,g.task_from_source(t))
+            except (ValueError,TypeError,KeyError) as exc:reasons.append('legacy 20240108 task scope: '+str(exc))
         try: netclass_policy(board)
         except Rejected as exc: reasons.append(str(exc).removeprefix('unsupported: '))
         if settings.get('drc_exclusions'): reasons.append('DRC exclusions not qualified')
@@ -1273,8 +1305,10 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
     try:
         capture_preferences(report,output,_preferences)
         before=tree_hash(source.parent); report['source_hashes']=before
-        original=preflight(source)
         selected=_preferences['effective'].get('nets') if _preferences and _preferences['effective']['scope']=='selected_nets' else None
+        scope=_preferences['effective']['scope'] if _preferences else report['scope']
+        layers=_preferences['effective']['layers'] if _preferences else 'source_all'
+        original=preflight(source,task_scope=(scope,guidance_policy,layers))
         from .netclass import PARENT_POLICY
         source_policy=netclass_policy(source)
         if selected is not None and source_policy is not None and source_policy['mode']==PARENT_POLICY:
@@ -1645,7 +1679,7 @@ def _check_result_uncached(path):
         from .placement_clearance import verify_candidate as bounded_candidate
         bounded_candidate(candidate,data['source_hashes'],data['candidate_sha256'])
     else:verify_candidate_files(candidate,data['source_hashes'],data['candidate_sha256'])
-    original=preflight(source)
+    original=preflight(source,task_scope=task_scope_for_record(data,path.parent,input_policy=input_policy))
     current=sx.read(candidate)
     check_hole_machining_support(current)
     if immutable(current)!=immutable(original): raise Rejected('immutable geometry changed')

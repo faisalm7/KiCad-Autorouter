@@ -32,7 +32,7 @@ def qualify(output,*,run_native=False):
     record={'schema':1,'kind':'review-export-native-qualification-v1','status':'failed','accepted':False,'controls_passed':False,
         'routing_accepted':False,'human_pcb_approval_observed':False,'live_application_qualified':False,'new_routing_executed':False,
         'budget_seconds':SECONDS,'cpu_budget_seconds':SECONDS,'cases':[],
-        'scope':'Five retained native1/placement3/search4/pruning5 projects; new copy/intent/export/proof, one native worker, no solver rerun. Intent is a test input, no human approval.',
+        'scope':f'{len(CASES)} retained qualified project(s); new copy/intent/export/proof, sequential native workers, no solver rerun. Intent is a test input, no human approval.',
         'compute_scope':'Additional full workflow qualification cost, separate from original measured routing comparisons. Existing routing compute retained explicitly.'}
     remaining=lambda:max(0,min(SECONDS-(time.monotonic()-start),SECONDS-(time.process_time()+f.child_cpu()-cpu0)))
     completed={};inputs={};tools=None;code=None

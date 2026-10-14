@@ -410,7 +410,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
     try:
         p.check_storage()
         source_hashes = p.tree_hash(source.parent)
-        original = p.preflight(source)
+        original = p.preflight(source,task_scope=(effective['scope'],effective['guidance'],effective['layers']))
         protected = copy.deepcopy([route for route in p.routes(original) if p.locked(route)])
         nets = zone_net_ids(original)
         report["source_hashes"] = source_hashes

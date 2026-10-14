@@ -43,7 +43,7 @@ def preview(board,settings=None,overrides=None):
     captured=pref.load(settings) if settings is not None else None
     effective=pref.resolve(captured,overrides)
     source=real_path(board);before=pc.inventory(source.parent)
-    original=p.preflight(source)
+    original=p.preflight(source,task_scope=(effective['scope'],effective['guidance'],effective['layers']))
     if effective['guidance']!='native':
         from . import board_floor as g
         if p.netclass_policy(source) is not None:raise p.Rejected('unsupported: floor policy requires one Default class')
