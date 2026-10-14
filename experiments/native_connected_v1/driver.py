@@ -36,25 +36,28 @@ def experiment(output):
         account_probe(record,job,started,cpu,remaining)
     def readback():
         if record['eligibility_qualified']:
-            nc.readback(output,record,source,task,refill,output/'native.dsn')
+            nc.readback(output,record,source,task,refill,candidate,output/'native.dsn')
         stable()
     try:
-        shutil.copytree(source.parent,output/'snapshot');shutil.copytree(source.parent,output/'task');shutil.copytree(source.parent,output/'task-refill')
-        task=output/'task'/source.name;refill=output/'task-refill'/source.name
-        sx.write(task,g.task_from_source(original));shutil.copyfile(task,refill)
+        shutil.copytree(source.parent,output/'snapshot');shutil.copytree(source.parent,output/'task')
+        task=output/'task'/source.name
+        sx.write(task,g.task_from_source(original))
         before=p.tree_hash(task.parent);stable()
-        native=job.drc(nc.STAGE,refill,save=True)
-        if f.check_drc_stage(output,{'steps':job.steps},nc.STAGE,refill,refill,True,before,sandboxed=False)!=native:raise p.Rejected('task saved Native readback differs')
+        shutil.copytree(task.parent,output/'candidate');candidate=output/'candidate'/source.name
+        digest,native=p.validate_candidate(job,sx.read(task),candidate,before,[])
+        refill=output/'refill'/source.name
         record['task_native']=native
-        record['task_native_report_sha256']=p.sha(output/(nc.STAGE+'.json'))
+        record['task_native_report_sha256']=p.sha(output/'final-drc.json')
+        record['original_shell_sha256']=digest
+        record['native_witness']='saved-refill-and-final-original-shell-v1'
         record['saved_nonfill_ast_equal']=p.immutable(sx.read(task))==p.immutable(sx.read(refill))
         record['saved_route_records_equal']=p.routes(sx.read(task))==p.routes(sx.read(refill))
         job.native('task-export','export',task,output/'native.dsn')
         f.process_check(output,{'steps':job.steps},'task-export',[str(p.c.PYTHON),str(ROOT/'autorouter/native.py'),'export',str(task),str(output/'native.dsn')])
         if p.tree_hash(task.parent)!=before:raise p.Rejected('task export modified original task project')
-        classification=nc.derive(pc.read_bytes(source),pc.read_bytes(task),pc.read_bytes(refill),native,pc.read_bytes(output/'native.dsn',20*1024**2),hashes,source_name=source.name,report_sha256=record['task_native_report_sha256'])
+        classification=nc.derive(pc.read_bytes(source),pc.read_bytes(task),pc.read_bytes(candidate),native,pc.read_bytes(output/'native.dsn',20*1024**2),hashes,source_name=source.name,report_sha256=record['task_native_report_sha256'])
         p.save_json(output/nc.RECORD_FILE,classification);record['native_connected_classification']=classification
-        record.update(status='completed',eligibility_qualified=True)
+        record.update(status='completed',eligibility_qualified=True,steps=job.steps)
         readback()
     except (Exception,KeyboardInterrupt) as exc:
         record.update(status='cancelled' if isinstance(exc,KeyboardInterrupt) else 'failed',eligibility_qualified=False,reason=type(exc).__name__+': '+str(exc),initial_failure=type(exc).__name__+': '+str(exc))

@@ -1,0 +1,97 @@
+{
+  "schema": 1,
+  "kind": "major full snapshot and actual restoration",
+  "snapshot_head": "c81c1dbdcfd92d2442d0a9745e5e52baf2285acf",
+  "receipt": {
+    "path": ".local-backups/checkpoint-20261014T173633Z-25df3d1147a344aaa01871c2bab8508e/receipt.json",
+    "bytes": 68203282,
+    "sha256": "6adc5e93cbd3f9d9748c2ae6c1d2afa5f4c19a0057ac8dc836d6680809bda001"
+  },
+  "non_git_files": 264497,
+  "non_git_bytes": 7839254777,
+  "archive": {
+    "name": "non-git.tar.gz",
+    "sha256": "9e3b3363adf1390713a2621b212e982d3b55362bfd270fbf4885d9786348c020",
+    "size": 2690812799
+  },
+  "bundle": {
+    "name": "repository.bundle",
+    "sha256": "f96cb2d8f4195b78dc8519c2311481e0d5e1bb087dd2a1dfd6d3dd93a2434495",
+    "size": 19404291
+  },
+  "actual_full_verification": {
+    "all_refs_restored": true,
+    "chain_length": 1,
+    "cli_smoke": {
+      "command": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+        "-B",
+        "-m",
+        "autorouter",
+        "--help"
+      ],
+      "exit": 0,
+      "output": "usage: python -m autorouter [-h]\n                            {doctor,settings-init,preview,review-copy,review-choice,review-export,review-export-check,improve,recover,check-result,route}\n                            ...\n\npositional arguments:\n  {doctor,settings-init,preview,review-copy,review-choice,review-export,review-export-check,improve,recover,check-result,route}\n    settings-init       Create an explicit editable JSON preset without\n                        overwriting a file\n    preview             Preview settings, protected routing and static support\n                        without changing the board\n    review-choice       Record accept/reject intent for a separate project; no\n                        PCB approval or application\n    review-export       Fresh native validation into a new separate project\n                        after accept intent; no live apply\n    review-export-check\n                        Check stored export/source/report consistency; does\n                        not run fresh DRC\n    recover             Experimental whole-board routing with bounded thermal\n                        repair\n\noptions:\n  -h, --help            show this help message and exit\n"
+    },
+    "full_restoration_tested": true,
+    "git_bundle_verified_in_empty_repository": true,
+    "limitation": "On-Mac only; a second folder on this disk provides no disk-failure protection.",
+    "non_git_files_verified": 264497,
+    "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/checkpoint-20261014T173633Z-25df3d1147a344aaa01871c2bab8508e/receipt.json",
+    "receipt_sha256": "6adc5e93cbd3f9d9748c2ae6c1d2afa5f4c19a0057ac8dc836d6680809bda001",
+    "restore_directory": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/restore-d18a9eb053a34d53bcd0a6447927eb54",
+    "restored_git_head": "c81c1dbdcfd92d2442d0a9745e5e52baf2285acf",
+    "schema": 1,
+    "verified": true
+  },
+  "verification_sha256": "bb747994295f425d6a3a467f4a4547bf60846cdd507778f69dd5eea0f1317fd4",
+  "actual_whole_execution": {
+    "schema": 1,
+    "process": {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 661.3186223750236,
+      "cpu_seconds": 550.135955,
+      "max_rss_bytes": 450707456,
+      "supervisor_cpu_seconds": 1.171147,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 450707456,
+      "sampled_peak_workdir_bytes": 481,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 2097152,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/backup.py"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/native-navigation-full-execution-001/command.log",
+      "log_bytes": 481,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/native-navigation-full-execution-001",
+      "signal_cancellation_enabled": true,
+      "pid": 27611
+    },
+    "wall_seconds": 661.318694000016,
+    "full_cpu_seconds": 551.307174,
+    "source_head_at_launch": "c81c1dbdcfd92d2442d0a9745e5e52baf2285acf",
+    "backup_helper_sha256": "557172fa7467e2f02e09554e2a5da908141869b2636ae3975df29f507dda8004",
+    "controller_sha256": "fb12d034e9a86bdcba3d1d4e97ece62f8e18538803553266260a195b8526469d",
+    "log_sha256": "0254f8eae729adfb5f6655420aadb97043852e5675ee12d6210cbc048717fc6c",
+    "scope": "Existing full snapshot and complete actual restoration into fresh private scratch. All backup-scope writers idle during snapshot. Includes current installation025, signed-tool acquisition/proof receipts,12area Native workers/readbacks, rejected Navigation acquisition/original Native and all prior raw experiments; preserved unexecuted classifier draft included. Downloaded tools/images intentionally excluded as reproducible dependencies; unique proof retained. Existing8GiB270k/80MiB single192MiB chain/path/secret/hardlink/archive guards unchanged. OnMac only by owner choice; no offdisk/freshOS/newNative/formalpublication claim."
+  },
+  "scope": "Snapshotc81 includes all unique raw acquired/source/native/failed/readback/installation025 evidence and preserved initial unexecuted connectivity draft. Actual264497files restored and every Git ref/CLI checked. Existing backup guards unchanged. Later368prototype appliedsource/targeted tests and subsequent Native probe are outside cutoff. Downloaded tools/images remain excluded as public reproducible dependencies; exact unique setup/assessment/proof receipts retained. OnMaconly by owner choice, no disk-failure/offdisk/Native rerun/freshOS/formalrelease claim."
+}

@@ -86,6 +86,47 @@ class NativeConnectedDraft(unittest.TestCase):
             with self.subTest(mode=mode), self.assertRaisesRegex(p.Rejected, reason):
                 self.derive(original_bytes=raw(original), task_bytes=task, filled_bytes=task, source_hashes=hashes)
 
+    def test_same_net_repeated_physical_pads_require_every_native_alias(self):
+        original = sx.parse(self.original.decode())
+        fp = sx.children(original, 'footprint')[0]
+        duplicate = copy.deepcopy(sx.children(fp, 'pad')[0])
+        sx.one(duplicate, 'uuid')[1] = '"' + uid('J1-duplicate') + '"'
+        fp.append(duplicate)
+        task = raw(g.task_from_source(original))
+        hashes = self.hashes | {'owned.kicad_pcb': hashlib.sha256(raw(original)).hexdigest()}
+        dsn = self.dsn.replace(b'J1-1 J2-1', b'J1-1 J1-1@1 J2-1')
+        args = dict(original_bytes=raw(original), task_bytes=task, filled_bytes=task, source_hashes=hashes)
+        record = self.derive(native_dsn=dsn, **args)
+        self.assertEqual(record['complete_terminal_count'], 5)
+        self.assertEqual(record['inactive_names'], ['GND'])
+        for invalid in (self.dsn, dsn.replace(b'J1-1@1', b'J1-1@2'),
+                        dsn.replace(b'J3-1 J4-1', b'J3-1 J4-1 J1-1@1')):
+            with self.subTest(dsn=invalid), self.assertRaises(p.Rejected):
+                self.derive(native_dsn=invalid, **args)
+        sx.one(duplicate, 'net')[:] = ['net', '2', '"SIGNAL"']
+        task = raw(g.task_from_source(original))
+        hashes = self.hashes | {'owned.kicad_pcb': hashlib.sha256(raw(original)).hexdigest()}
+        with self.assertRaisesRegex(p.Rejected, 'repeated connectivity terminal net'):
+            self.derive(original_bytes=raw(original), task_bytes=task, filled_bytes=task, source_hashes=hashes)
+
+    def test_real_at_sign_pad_number_cannot_collide_with_exporter_alias(self):
+        original = sx.parse(self.original.decode())
+        sx.children(sx.children(original, 'footprint')[0], 'pad')[0][1] = '"1@1"'
+        task = raw(g.task_from_source(original))
+        hashes = self.hashes | {'owned.kicad_pcb': hashlib.sha256(raw(original)).hexdigest()}
+        with self.assertRaisesRegex(p.Rejected, 'reserved connectivity terminal alias'):
+            self.derive(original_bytes=raw(original), task_bytes=task, filled_bytes=task, source_hashes=hashes)
+
+    def test_distinct_reference_number_pairs_cannot_merge_by_token_collision(self):
+        original = sx.parse(self.original.decode())
+        for fp, reference, number in zip(sx.children(original, 'footprint')[:2], ('J', 'J-1'), ('1-1', '1')):
+            sx.children(fp, 'property')[0][2] = '"' + reference + '"'
+            sx.children(fp, 'pad')[0][1] = '"' + number + '"'
+        task = raw(g.task_from_source(original))
+        hashes = self.hashes | {'owned.kicad_pcb': hashlib.sha256(raw(original)).hexdigest()}
+        with self.assertRaisesRegex(p.Rejected, 'ambiguous connectivity DSN terminal'):
+            self.derive(original_bytes=raw(original), task_bytes=task, filled_bytes=task, source_hashes=hashes)
+
     def test_positive_hint_is_whole_net_only_and_never_accepts_routing(self):
         record = self.derive()
         self.assertEqual(record['active_names'], ['SIGNAL'])

@@ -2,7 +2,7 @@
 
 Initial complete net population max64 reuses the existing selected partition.
 This does not change public preferences, original class assignment or terminals.
-Use only fresh saved-refill DRC and mandatory shared process/readback evidence.
+Use saved refill plus fresh original-shell DRC and shared process/readback proof.
 """
 from __future__ import annotations
 
@@ -20,7 +20,7 @@ POLICY = 'experimental-native-connected-nets-v1'
 MAX_NETS = 64  # Initial six-net prototype; CellScan85 is explicitly unqualified.
 MAX_ITEMS = 10000
 RECORD_FILE = 'task-connectivity.json'
-STAGE = 'task-refill-drc'
+STAGE = 'refill-drc'
 
 
 def _sha(raw):
@@ -89,7 +89,7 @@ def _index(task):
             visit(child)
     visit(task)
     pads = g.task_pads(task)
-    endpoints, terminals, nets_by_ref = {}, {}, {}
+    endpoints, terminals, nets_by_ref, groups, identities = {}, {}, {}, {}, {}
     for identity, row in pads.items():
         endpoints[identity.lower()] = {row['net']} if row['net'] else set()
         if row['net']:
@@ -98,11 +98,25 @@ def _index(task):
             if not row['reference'] or not row['number']:
                 raise p.Rejected('ambiguous connectivity terminal identity')
             token = row['reference'] + '-' + row['number']
-            # Repeated pad numbers and pin-token collisions need explicit native
-            # terminal qualification; do not collapse physical pads by guessing.
-            if token in terminals:
+            identity = (row['reference'], row['number'])
+            if token in identities and identities[token] != identity:
                 raise p.Rejected('ambiguous connectivity DSN terminal')
-            terminals[token] = row['net']
+            identities[token] = identity
+            # Native exports repeated same-net pads as base, base@1, ... .
+            # Their order is irrelevant to whole-net activity; retain one
+            # token per physical pad and refuse reserved-name collisions.
+            if '@' in row['reference'] or '@' in row['number']:
+                raise p.Rejected('reserved connectivity terminal alias')
+            group = groups.setdefault(token, [])
+            if group and group[0] != row['net']:
+                raise p.Rejected('ambiguous repeated connectivity terminal net')
+            group.append(row['net'])
+    for token, nets in groups.items():
+        for index, name in enumerate(nets):
+            alias = token if index == 0 else token + '@' + str(index)
+            if alias in terminals:
+                raise p.Rejected('ambiguous connectivity DSN terminal')
+            terminals[alias] = name
     for fp in sx.children(task, 'footprint'):
         endpoints[_uuid(fp)] = nets_by_ref.get(_reference(fp), set())
     zones = [*sx.children(task, 'zone'),
@@ -222,7 +236,7 @@ def derive(original_bytes, task_bytes, filled_bytes, native, native_dsn,
                                       'automatic_neckdown': False, 'neck_width_um': 0},
               'reference_routes_used_for_selection': False,
               'scope': 'whole_board_unlocked_routing',
-              'eligibility_basis': 'absence of exact mapped opens in complete fresh saved-refill DRC; hint only'}
+              'eligibility_basis': 'absence of exact mapped opens in fresh original-shell DRC after saved refill; hint only'}
     return record
 
 
@@ -265,23 +279,47 @@ def engine_settings(remaining_seconds, partition_binding):
     return settings
 
 
-def readback(directory, data, source, task, refill, native_dsn):
-    """Use the existing actual saved-stage/process witness; no JSON opt-out."""
-    directory, source, task, refill, native_dsn = map(Path, (directory, source, task, refill, native_dsn))
+def readback(directory, data, source, task, refill, candidate, native_dsn):
+    """Require saved refill, exact original shell and its fresh final Native.
+
+    Native may serialize an older task differently. Its saved file is retained
+    as evidence, never substituted for original intent or the final report.
+    """
+    directory, source, task, refill, candidate, native_dsn = map(
+        Path, (directory, source, task, refill, candidate, native_dsn))
     hashes = data['source_hashes']
     if p.tree_hash(source.parent) != hashes:
         raise p.Rejected('connected-net source project changed')
     p.preflight(source)
     before = {**hashes, source.name: _sha(read_bytes(task))}
-    native = f.check_drc_stage(directory, data, STAGE, refill, refill, True, before, sandboxed=False)
+    f.check_drc_stage(directory, data, STAGE, refill, refill, True, before, sandboxed=False)
+    expected = _raw(p.transplant_fill(sx.read(task), sx.read(refill)))
+    if read_bytes(candidate) != expected:
+        raise p.Rejected('connected-net original-shell reconstruction differs')
+    digest = _sha(expected)
+    p.verify_candidate_files(candidate, hashes, digest)
+    native = f.check_drc_stage(directory, data, 'final-drc', candidate,
+        directory / 'final-drc-input' / source.name, False,
+        {**hashes, source.name: digest},
+        schematic_parity=source.with_suffix('.kicad_sch').name in hashes,
+        sandboxed=False)
     # Initial comparator uses production-pinned10.0.0. Toolchain migration and
     # experimental10.0.7 area qualification are separate and must not bleed in.
-    report = directory / (STAGE + '.json')
+    report = directory / 'final-drc.json'
+    report_digest = _sha(read_bytes(report))
+    if (data.get('native_witness') != 'saved-refill-and-final-original-shell-v1'
+            or data.get('original_shell_sha256') != digest
+            or data.get('task_native_report_sha256') != report_digest
+            or f.canonical(data.get('task_native')) != f.canonical(native)):
+        raise p.Rejected('connected-net final native witness claims differ')
     retained = f.read_json(directory / RECORD_FILE)
     result = verify_record(retained, original_bytes=read_bytes(source), task_bytes=read_bytes(task),
-                           filled_bytes=read_bytes(refill), native=native,
+                           filled_bytes=read_bytes(candidate), native=native,
                            native_dsn=read_bytes(native_dsn, 20 * 1024**2), source_hashes=hashes,
-                           source_name=source.name, report_sha256=_sha(read_bytes(report)))
+                           source_name=source.name, report_sha256=report_digest)
     if f.canonical(data.get('native_connected_classification')) != f.canonical(result):
         raise p.Rejected('connected-net classification changed or missing')
+    f.process_check(directory, data, 'task-export',
+        [str(p.c.PYTHON), str(p.c.ROOT / 'autorouter/native.py'),
+         'export', str(task), str(native_dsn)])
     return result
