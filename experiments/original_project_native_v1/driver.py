@@ -66,7 +66,8 @@ def completed_evidence(out):
            and not name.startswith(('invalidated-result-','interrupted-result-'))}
     return {'files':files,'directories':list(directories)}
 
-def experiment(project,output,*,run_native=False):
+def experiment(project,output,*,run_native=False,protect_local_settings=False):
+    if type(protect_local_settings) is not bool:raise p.Rejected('explicit local-settings guard flag required')
     if run_native is not True or project not in CASES:raise p.Rejected('explicit fixed source and --run-native required')
     started=time.monotonic();cpu0=time.process_time()+f.child_cpu();out=Path(output).absolute()
     if not out.is_relative_to(ROOT/'.runs') or '..' in out.parts or any(x.is_symlink() for x in (out,*out.parents)):raise p.Rejected('fresh canonical checkout output required')
@@ -77,12 +78,28 @@ def experiment(project,output,*,run_native=False):
         def step(self,name,argv,allowed=(0,),*,already_sandboxed=False):
             if remaining()<=0:raise p.Rejected('whole original diagnostic budget exhausted')
             actual=[str(a) for a in (argv if already_sandboxed else [*f.SANDBOX,*argv])]
-            step=run(actual,cwd=self.out,log=self.out/(name+'.log'),timeout=min(30,remaining()),env=self.env,max_log_bytes=256*1024,max_workdir_bytes=LIMIT,max_group_rss_bytes=2*1024**3)
-            step['name']=name;self.steps.append(step);p.save_json(self.out/(name+'-process.json'),step)
+            def execute():return run(actual,cwd=self.out,log=self.out/(name+'.log'),timeout=min(30,remaining()),env=self.env,max_log_bytes=256*1024,max_workdir_bytes=LIMIT,max_group_rss_bytes=2*1024**3)
+            step=protection=None
+            try:
+                if protect_local_settings and [str(x) for x in argv[:3]]==[str(c.CLI),'pcb','drc']:
+                    from experiments.original_project_native_v1.local_settings import preserve
+                    cleanup={'complete':False}
+                    with preserve(Path(argv[-1]).with_suffix('.kicad_prl'),out,owner,cleanup_complete=lambda:cleanup['complete']) as protection:
+                        step=execute();cleanup['complete']=step.get('cleanup_complete') is True
+                else:step=execute()
+            except (Exception,KeyboardInterrupt) as exc:
+                if protection is not None:protection['guard_error']=type(exc).__name__+': '+str(exc)
+                raise
+            finally:
+                # Retain the real process and protection outcome even when
+                # restoration refuses or child cleanup was not confirmed.
+                if step is not None:
+                    if protection is not None:step['local_settings_protection']=protection
+                    step['name']=name;self.steps.append(step);p.save_json(self.out/(name+'-process.json'),step)
             if step['status'] not in ('success','nonzero_exit') or step['exit_code'] not in allowed or step.get('cleanup_complete') is not True:raise p.Rejected('native stage failed: '+name)
             if remaining()<=0 or size()>LIMIT:raise p.Rejected('whole original diagnostic cap exceeded')
             return step
-    record={'schema':1,'kind':'original_hardware_native_diagnostic','project':project,'accepted':False,'physical_electrical_validation':False,'status':'incomplete','budget_seconds':SECONDS,'cpu_budget_seconds':SECONDS,'output_cap_bytes':LIMIT,'source_commit':commit,'routing_executed':False,'helper_sha256':p.sha(Path(__file__))}
+    record={'schema':1,'kind':'original_hardware_native_diagnostic','project':project,'accepted':False,'physical_electrical_validation':False,'status':'incomplete','budget_seconds':SECONDS,'cpu_budget_seconds':SECONDS,'output_cap_bytes':LIMIT,'source_commit':commit,'routing_executed':False,'helper_sha256':p.sha(Path(__file__)),'protect_local_settings':protect_local_settings}
     before=files=job=completed=bound_native=None
     try:
         from importlib import import_module
@@ -109,6 +126,8 @@ def experiment(project,output,*,run_native=False):
         code={n:io.read_bytes(ROOT/n) for n in record['tools']['implementation_sha256']}
         for relative in ('experiments/original_project_native_v1/driver.py','experiments/placement_handoff_native_v1/driver.py'):
             code[relative]=io.read_bytes(ROOT/relative)
+        if protect_local_settings:
+            relative='experiments/original_project_native_v1/local_settings.py';code[relative]=io.read_bytes(ROOT/relative)
         if project=='arcdice':
             for name in ('source.py','worker.py','PROTOCOL.json'):
                 relative='experiments/arcdice_native_class_v1/'+name;code[relative]=io.read_bytes(ROOT/relative)
@@ -232,8 +251,8 @@ def experiment(project,output,*,run_native=False):
     return record
 
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('--project',choices=list(CASES),required=True);parser.add_argument('--output',required=True);parser.add_argument('--run-native',action='store_true');args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('--project',choices=list(CASES),required=True);parser.add_argument('--output',required=True);parser.add_argument('--run-native',action='store_true');parser.add_argument('--protect-local-settings',action='store_true',help='Experimental Mac immutable PRL in owned native input copies; no field waiver');args=parser.parse_args()
     with (ROOT/'.runs/experiment.lock').open('a+') as lock:
-        fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);result=experiment(args.project,args.output,run_native=args.run_native)
+        fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);result=experiment(args.project,args.output,run_native=args.run_native,protect_local_settings=args.protect_local_settings)
     print(json.dumps({k:result.get(k) for k in ('status','error','native_routing_scope_accepted','schematic_parity_findings','metrics','wall_seconds','total_cpu_seconds','within_budget')}));return 0 if result['status']=='observed' else 2
 if __name__=='__main__':raise SystemExit(main())

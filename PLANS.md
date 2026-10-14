@@ -53,3 +53,5 @@ Execute next, continue between checkpoints:
 
 Milestones are checkpoints, not completion claims or reasons to stop. Read the
 actual receipts, preserve unfinished artifacts and maintain verified Git backups.
+
+Audioactual acquisition/native001 now completed as failedcompanionpreservation, not eligible:4GET/1267003B+3cached5974B,7original1272977B/9notice1278659B exact. FourCu/74FP130pads39nets/320routes/3netties/2FPareas/41modelrefs. Native rewrites8localPRLUI/schema paths; originals exact, preservationguardrejects, rawsaved0/6/2/0 unqualified, nofinalfullSCH. [Actual source/failure/guardpreparation](evidence/audio-source-native-prl-failure-001.json). Initialinspection001substringmistake retained, correctedmetadata002excludesEdge.Cuts; existinglayerpolicyformatrefusal unchanged. Opt-in immutable-PRL diagnostic guard now reviewed/fixed/tested27targeted/full0561134pass40.558834wall37.291334CPU; no productionchange/fieldwaiver. Next commit/push then actualownedpositive+disconnectedPRLNativecontrols, followedonlyifqualified by freshAudio002 --protect-local-settings. AppliedAudio/newraw artifacts aftera6bincrementalcutoff.
