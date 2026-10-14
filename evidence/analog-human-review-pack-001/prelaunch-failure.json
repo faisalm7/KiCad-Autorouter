@@ -1,0 +1,9 @@
+{
+  "kind": "wrapper prelaunch failure",
+  "observed": "No command.log existed; wrapper then raised FileNotFoundError hashing missing log",
+  "reason": "cwd incorrectly set to whole project with2MiB workdir guard; guard refused before launch",
+  "native_launched": false,
+  "controller_launched": false,
+  "elapsed_charge": "Not sampled due wrapper failure; retain conservative1s bootstrap allowance in preparation accounting",
+  "fix": "use isolated wrapper output cwd for log-only2MiB scope; controller retains1GiB completepack cap"
+}

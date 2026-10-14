@@ -1,20 +1,22 @@
 # Local experimental source handoff
 
-The tested runtime source is commit `4b1e8713ecf93ec00373804206d53740d7eed55a`. The actual independent local Git source-distribution checkout is `.runs/installation-019/checkout`; its venv and verified cached engine are present, and its full ArcDice route/review/export evidence remains beside it. This is a durable tested local source distribution, not a published binary package or a fresh-Mac installation. The primary checkout contains updated owner documentation and the complete preserved evidence.
+Current tested runtime source is `33c52d3b9b69f4ead414883b24bed25c0fbb2f4e`. The actual source-distribution checkout is `.runs/installation-020/checkout` with its fresh venv and verified cached engine. This durable local folder is the experimental source handoff. It is not a published package or fresh-Mac installation. The primary folder retains all original evidence and updated documentation.
 
-Use the existing primary folder and [start guide](../START_HERE.md). The supported normal operation needs no network or AI subscription. Installation/demo acquisition is explicit. Do not move a venv or reinterpret a source tar without Git metadata as the tested installation: runtime evidence binds Git revision and tool hashes.
+Use [START_HERE](../START_HERE.md), [quickstart](quickstart.md), [saved settings](routing-preferences.md) and [KiCad separate-project workflow](gui-workflow.md). Normal routing needs no internet or AI account; acquisition is explicit. Keep the tested checkout/venv at its existing path. A source tar without Git metadata or a moved venv does not inherit this qualification.
 
-| Executed gate | Evidence | Limit |
+| Executed gate | Evidence | Scope |
 |---|---|---|
-| Complete software integration | [full028](../evidence/full-integration-028/SCOPE.md) |981 software tests; not route quality |
-| Fresh local source distribution/venv | [installation019](../evidence/installation-019/SCOPE.md) | Existing Mac/tools/cache;65 listed installed tests |
-| Cold public source and offline native workflow | [installed actual readback](../evidence/current-installation019-actual-review-001/REPORT.txt) | Full original design/parity retained;26 warnings; no human approval |
-| Real GUI external workflow | [installed LED GUI003](../evidence/installed-led-export-gui-003/SCOPE.md) | Library context differs from CLI; no live apply/undo |
-| Equal-budget stronger-baseline comparisons | [current results](../STATUS.md) | Four exposed circuits, zero proven pedigrees; no general completion claim |
-| Private actual full restoration | [full3a](../evidence/backups/restore-3a27160.json) | Later acquisition/install artifacts need incremental and final milestone restoration |
+| Full original software integration | [full037](../evidence/full-integration-037/SCOPE.md) | Current runtime/tool hashes,999software tests; not routing quality |
+| Fresh local distribution/venv | [installation020](../evidence/installation-020/SCOPE.md), [actual readback](../evidence/current-installation020-review-001/REPORT.md) |22offline commands/72listed tests/20218original and493installed files/native smoke; existing Mac/apps/cache |
+| Complete-project offline workflow | [earlier installed Arc workflow](../evidence/current-installation019-actual-review-001/REPORT.txt) | Full original design/parity;26warnings; earlier019 bytes, distinct from020smoke |
+| Actual GUI external workflow | [installed LED GUI003](../evidence/installed-led-export-gui-003/SCOPE.md) | Full refill/parity observed; CLI warnings retained; no live apply/undo |
+| Stronger-baseline improvements | [current results](../STATUS.md) | Five exposed circuits, equal120wall/CPU caps, zero proven independent pedigrees |
+| Private restoration | [full3a](../evidence/backups/restore-3a27160.json) | Old cutoff; current new full restoration still pending after incremental guard refusal |
 
-Reproducible commands are [the demo](quickstart.md), [ArcDice/four-arm benchmark](arcdice-demo.md) and [installation qualification](install-test.md). Tests run with `.venv/bin/python -B -m unittest discover -s tests`; run actual native/JVM work sequentially and always use fresh outputs. A new benchmark needs its own frozen protocol, final native/original checks and complete overhead/audit charges. Retained completed experiments are not rerun merely to fix metadata.
+The fixed fresh-High pruning API/controller is experimentally qualified on the four-layer Analog circuit; High was chosen after observed default-C tradeoffs. This is not an adaptive selector or untouched result. All combined configuration exploration, failures, warnings and unsupported cases stay visible. [Current audit closure](../evidence/analog-high-cumulative-audit-001/SCOPE.md).
 
-The complete managed population remains25canonical boards/8staticeligible/17unsupported, plus separately recorded ArcDice. Keep every unsupported reason, warning, failed trial and regression. Source notices and unresolved footprint/model origins are documented in [provenance](data-provenance.md). No raw third-party geometry/models, private boards, downloaded binaries or references are in the public packet.
+Managed population remains25canonical boards/8staticeligible/17unsupported, plus separate ArcDice and the unchanged six-member new-source cohort. Static eligibility is not native success. Source assets/models and pedigree gaps remain explicit in [provenance](data-provenance.md). No raw third-party geometry, private boards, engines or references are pushed.
 
-Before calling a final release candidate qualified: finish the representative family audit/strong comparisons and untouched pedigreed evaluation; run final installation/native regressions if runtime changes; close all reproduced release-blocking correctness defects; perform the scheduled full restoration including final private artifacts; prepare the human PCB review pack. Human and physical approval remain actual separate gates. No formal release/tag/package publication, spending or external reviewer contact is authorized.
+The [actual local review pack](../evidence/analog-human-review-pack-001/SCOPE.md) now has3fresh native-validated complete projects and C8four-layer plots. Forms remain blank; mapping/rawgeometry are private. Original publisher and first SVG-count closure failures are preserved; closure002 is authoritative, no Native work repeated.
+
+Before calling the final experimental RC fully qualified, perform the scheduled full restoration of current private artifacts, and reconcile the final evidence index. Representative30–50family audit, pedigreed untouched confirmation, actual human PCB review and physical validation remain separate unmet research/release gates. No formal release/tag/package publication, contact or spending is authorized.

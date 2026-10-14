@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "process": {
+    "status": "nonzero_exit",
+    "exit_code": 2,
+    "wall_seconds": 24.55588820799312,
+    "cpu_seconds": 20.592731,
+    "max_rss_bytes": 233177088,
+    "supervisor_cpu_seconds": 0.058196,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 212336640,
+    "sampled_peak_workdir_bytes": 29602,
+    "resource_guards": {
+      "max_group_rss_bytes": 3221225472,
+      "max_workdir_bytes": 2097152,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/analog-human-review-pack-draft-001/controller.py",
+      "--prepare"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/analog-human-review-pack-execution-002/command.log",
+    "log_bytes": 29602,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/analog-human-review-pack-execution-002",
+    "signal_cancellation_enabled": true,
+    "pid": 93457
+  },
+  "wall_seconds": 24.555938833000255,
+  "full_cpu_seconds": 20.650977,
+  "controller_sha256": "3c417f7ec9b765ec198ad95157402ca4a560a7f631a2302f09049c1d069b5c06",
+  "log_sha256": "f153c9aa70f65389a67face18fe1ecc29ecd937b89441be387f139260a3c6569",
+  "scope": "Fresh native separate-project review exports for3exact matched/exposed Analog finals, plus C8four-layer NativeSVG previews, using existing CLI/handoff/export/validators/process caps. Not new solver or comparison; no contact/sharing/human/physical approval. Controller900wall/fullCPU1GiB bound plus stronger independent915wall/3GiBpolledRSS wrapper. Private input mapping/rawgeometry retained locally; all failures preserved."
+}
