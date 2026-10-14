@@ -43,6 +43,7 @@ FEEDBACK_ARMS = (*ARMS[:3],
 SCRIPT = Path(__file__).resolve()
 PROJECTS = {"sonde": "kicad-sonde-xilinx", "interf_u": "kicad-interf-u", "multichannel": "kicad-multichannel", "ardujoy-c64":"eduardofv-ArdujoyC64", "nus-usb-led":"nushackers-hsp-pcb-intro", "push-button-led":"gurusaeth12-push-button-led-kicad"}
 SUPPORT = (SCRIPT, c.ROOT / "toolchain.lock.json", c.ROOT / "data/sources.json",
+           c.ROOT/'scripts/fetch_led_demo.py',
            c.ROOT/'experiments/licensed_acquisition_v4/native_snapshot.py',
            c.ROOT/'experiments/licensed_acquisition_v4/protocol.json',
            c.ROOT/'experiments/licensed_acquisition_v5/native_snapshot.py',
@@ -60,8 +61,21 @@ def total_process_cpu():
 
 def selected_source(name):
     if name=='push-button-led':
-        from experiments.licensed_acquisition_v7 import native_snapshot
-        files=native_snapshot.capture();base=c.ROOT/'.runs/push-button-led-original-native-001/original'
+        base=c.ROOT/'.runs/push-button-led-original-native-001/original'
+        if base.exists():
+            from experiments.licensed_acquisition_v7 import native_snapshot
+            files=native_snapshot.capture()
+        else:
+            # A fresh public checkout can reproduce the fixed source without
+            # the ignored research cache or the other development boards.
+            from scripts.fetch_led_demo import verify_project
+            demo=c.ROOT/'.data/led-demo-001/project';verified=verify_project(demo)
+            files={n:(demo/n).read_bytes() for n in verified['files']}
+            if any(hashlib.sha256(raw).hexdigest()!=verified['files'][n]['sha256'] for n,raw in files.items()) or verify_project(demo)!=verified:
+                raise p.Rejected('fixed demo changed during benchmark capture')
+            # Original LICENSE/README already reside beside the native files.
+            # Select them read-only; selection never stages or overwrites files.
+            base=demo
         expected={name:hashlib.sha256(raw).hexdigest() for name,raw in files.items()}
         if p.tree_hash(base)!=expected:raise p.Rejected('exact original notice-bearing LED snapshot required')
         return base/'PushButtonLed.kicad_pcb','PushButtonLED-development-exposed-support-control'
