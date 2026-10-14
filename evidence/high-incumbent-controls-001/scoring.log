@@ -1,0 +1,41 @@
+.EE.
+======================================================================
+ERROR: test_explicit_preset_requires_actual_incumbent_validation (test_pruning_scoring.PruningScoring.test_explicit_preset_requires_actual_incumbent_validation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_pruning_scoring.py", line 19, in test_explicit_preset_requires_actual_incumbent_validation
+    s.check_incumbent_scoring(self.root,self.parent);check.assert_called_once_with(self.path)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 230, in check_incumbent_scoring
+    path=Path(directory)/'incumbent/result.json';inc=f.read_json(path)
+                                                     ^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/floor_route.py", line 42, in read_json
+    return json.loads(read_bytes(path),object_pairs_hook=pairs,parse_constant=constant)
+                      ^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/placement_clearance.py", line 30, in read_bytes
+    if any(x.is_symlink() for x in (path,*path.parents)):raise p.Rejected('placement symlink unsupported')
+                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+autorouter.pipeline.Rejected: placement symlink unsupported
+
+======================================================================
+ERROR: test_legacy_default_is_preserved_but_unknown_preset_never_creates_output (test_pruning_scoring.PruningScoring.test_legacy_default_is_preserved_but_unknown_preset_never_creates_output)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_pruning_scoring.py", line 36, in test_legacy_default_is_preserved_but_unknown_preset_never_creates_output
+    with patch.object(p,'check_result') as check:s.check_incumbent_scoring(self.root,data);check.assert_called_once_with(self.path)
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 230, in check_incumbent_scoring
+    path=Path(directory)/'incumbent/result.json';inc=f.read_json(path)
+                                                     ^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/floor_route.py", line 42, in read_json
+    return json.loads(read_bytes(path),object_pairs_hook=pairs,parse_constant=constant)
+                      ^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/placement_clearance.py", line 30, in read_bytes
+    if any(x.is_symlink() for x in (path,*path.parents)):raise p.Rejected('placement symlink unsupported')
+                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+autorouter.pipeline.Rejected: placement symlink unsupported
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.025s
+
+FAILED (errors=2)

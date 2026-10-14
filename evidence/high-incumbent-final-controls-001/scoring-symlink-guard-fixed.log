@@ -1,0 +1,17 @@
+......F
+======================================================================
+FAIL: test_symlink_contract_rejects_before_any_marker_digest (test_pruning_scoring.PruningScoring.test_symlink_contract_rejects_before_any_marker_digest)
+----------------------------------------------------------------------
+autorouter.pipeline.Rejected: invalid bounded floor evidence
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_pruning_scoring.py", line 75, in test_symlink_contract_rejects_before_any_marker_digest
+    with (patch.object(p,'sha',side_effect=AssertionError('digest must not follow marker symlink')),
+AssertionError: "symlink" does not match "invalid bounded floor evidence"
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.032s
+
+FAILED (failures=1)

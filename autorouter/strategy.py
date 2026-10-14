@@ -224,7 +224,35 @@ def _check_original(source, snapshot, expected):
         raise p.Rejected("source or frozen snapshot changed during pruning")
 
 
-def prune(source, output, seconds=120, *, proposal_policy="single"):
+def check_incumbent_scoring(directory, data):
+    """Bind an explicitly chosen scoring preset to the fresh charged solve."""
+    from . import floor_route as f
+    path=Path(directory)/'incumbent/result.json';inc=f.read_json(path)
+    marker=Path(directory)/'pruning-scoring.json'
+    variant=data.get('incumbent_scoring_variant')
+    p.engine_scoring_settings(variant)
+    if (data.get('strategy')!='native_validated_zone_net_pruning'
+            or inc.get('scoring_variant')!=variant or inc.get('engine_profile')!='tuned'
+            or inc.get('adapter')!='both' or inc.get('scope')!='whole_board_unlocked_routing'
+            or inc.get('source')!=data['source'] or inc.get('source_hashes')!=data['source_hashes']
+            or inc.get('tools')!=data['tools'] or inc.get('input_policy') not in (None,'native')):
+        raise p.Rejected('pruning scoring differs from its fresh incumbent')
+    if variant is not None:
+        contract=f.read_json(marker)
+        if (data.get('incumbent_receipt_sha256')!=p.sha(path)
+                or data.get('incumbent_scoring_contract')!={'file':marker.name,'sha256':p.sha(marker)}
+                or contract!={'schema':1,'strategy':data['strategy'],'incumbent_scoring_variant':variant}):
+            raise p.Rejected('explicit pruning incumbent contract changed')
+    elif ('incumbent_receipt_sha256' in data or 'incumbent_scoring_contract' in data or marker.exists() or marker.is_symlink()):
+        raise p.Rejected('explicit pruning scoring marker missing')
+    expected=[dict(step,phase='incumbent') for step in inc['steps']]
+    if expected!=[step for step in data['steps'] if step.get('phase')=='incumbent']:
+        raise p.Rejected('fresh pruning incumbent workers differ')
+    p.check_engine_profile_record(inc,path.parent)
+    p.check_result(path)
+
+
+def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_scoring=None):
     """Run tuned B2 plus greedy pruning within one wall/CPU budget, retaining trials.
 
     A 15-second reserve is withheld from B2/trials for final emission and native
@@ -232,6 +260,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single"):
     finish. Exhausting the global budget always rejects the root result.
     """
     started, cpu_started = time.monotonic(), time.process_time()
+    p.engine_scoring_settings(incumbent_scoring)
     if not isinstance(proposal_policy, str) or proposal_policy not in {"single", "feedback"}:
         raise p.Rejected("unknown pruning proposal policy")
     if isinstance(seconds, bool) or not isinstance(seconds, (int, float)) or not math.isfinite(seconds) or not 30 <= seconds <= 900:
@@ -260,6 +289,11 @@ def prune(source, output, seconds=120, *, proposal_policy="single"):
               "started_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
               "physical_electrical_validation": False, "schematic_parity": "not checked",
               "trials": [], "checkpoints": [], "steps": [], "improvements": 0}
+    if incumbent_scoring is not None:
+        report['incumbent_scoring_variant']=incumbent_scoring
+        marker=output/'pruning-scoring.json'
+        p.save_json(marker,{'schema':1,'strategy':report['strategy'],'incumbent_scoring_variant':incumbent_scoring})
+        report['incumbent_scoring_contract']={'file':marker.name,'sha256':p.sha(marker)}
     all_steps = []
 
     def cpu_used(extra_steps=()):
@@ -306,7 +340,11 @@ def prune(source, output, seconds=120, *, proposal_policy="single"):
         incumbent_seconds = remaining_work_budget()
         if incumbent_seconds < 5:
             raise p.Rejected("insufficient budget for incumbent and finalization reserve")
-        incumbent = p.route(source, output / "incumbent", incumbent_seconds, False, "both", "tuned")
+        if incumbent_scoring is None:
+            incumbent = p.route(source, output / "incumbent", incumbent_seconds, False, "both", "tuned")
+        else:
+            incumbent = p.route(source, output / "incumbent", incumbent_seconds, False, "both", "tuned",scoring_variant=incumbent_scoring)
+            report['incumbent_receipt_sha256']=p.sha(output/'incumbent/result.json')
         all_steps.extend(dict(step, phase="incumbent") for step in incumbent.get("steps", []))
         report["incumbent"] = {"receipt": str(output / "incumbent/result.json"),
                                "status": incumbent["status"], "accepted": incumbent["accepted"],

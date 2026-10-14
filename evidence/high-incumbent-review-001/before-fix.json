@@ -1,0 +1,47 @@
+{
+  "kind": "actual retained HIGH evidence with receipt-label-only observation mutation",
+  "controls": [
+    {
+      "edited_scoring_label": "via_high",
+      "central_check_passed": true,
+      "candidate_sha256": "296fd31c0ef8fda2f58883910b35c5cdcbbfa2130ac5e3bbb301739b06c640d4"
+    },
+    {
+      "edited_scoring_label": null,
+      "central_check_passed": true,
+      "candidate_sha256": "296fd31c0ef8fda2f58883910b35c5cdcbbfa2130ac5e3bbb301739b06c640d4"
+    },
+    {
+      "edited_scoring_label": "via_low",
+      "central_check_passed": true,
+      "candidate_sha256": "296fd31c0ef8fda2f58883910b35c5cdcbbfa2130ac5e3bbb301739b06c640d4"
+    }
+  ],
+  "actual_engine_scoring": {
+    "variant": "via_high",
+    "via_costs": 100,
+    "plane_via_costs": 10,
+    "argv": [
+      "--router.scoring.via_costs=100",
+      "--router.scoring.plane_via_costs=10"
+    ]
+  },
+  "actual_engine_score_flags": [
+    "--router.scoring.via_costs=100",
+    "--router.scoring.plane_via_costs=10"
+  ],
+  "actual_receipt_sha256": "e9ce4479ec4a6bbf72ce4ebf0c8fb4ff192d5acd22aca47bdc72a1e9e7eae60f",
+  "actual_evidence_unchanged": true,
+  "new_native_execution": false,
+  "validation_not_mocked": true,
+  "seam": "Only observed receipt JSON/raw bytes replaced in memory; all original board/project/source/code/native/report/process/metric files and central validator ran unchanged. No Native approval simulation.",
+  "pipeline_sha256": "d681d62450f50db2c533e176d982c4ea46faa385384b60aaebf074aa1d19a9c4",
+  "strategy_sha256": "33bbe4b89d54226dcf842c5e5f69c9bf5f84469ebfc4f76213109aa500a81054",
+  "tests_sha256": "6d1a7d09ba9d409905ab963cfddc02ffa3caf9830786f9358493a5487cb8db29",
+  "wall_seconds": 0.2616395829973044,
+  "lifetime_self_CPU_seconds": 0.238624,
+  "waited_child_CPU_seconds": 0.0,
+  "bootstrap_allowance_seconds": 1,
+  "emission_allowance_seconds": 1,
+  "cost_scope": "Development correctness review, not future route/benchmark budget. Early code reads/import bootstrap/packet emission separate; no native/JVM/GET/Git/full suite."
+}

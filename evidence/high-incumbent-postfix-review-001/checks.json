@@ -1,0 +1,53 @@
+{
+  "kind": "requested actual HIGH labels and legacy-strategy postfix control",
+  "controls": [
+    {
+      "passed": true,
+      "candidate_sha256": "296fd31c0ef8fda2f58883910b35c5cdcbbfa2130ac5e3bbb301739b06c640d4",
+      "case": "HIGH scoring label 'via_high'"
+    },
+    {
+      "passed": false,
+      "reason": "declared native engine profile differs from its execution journal",
+      "case": "HIGH scoring label None"
+    },
+    {
+      "passed": false,
+      "reason": "declared native engine profile differs from its execution journal",
+      "case": "HIGH scoring label 'via_low'"
+    },
+    {
+      "passed": true,
+      "candidate_sha256": "7a06d45f9406d1b650c5505a15f292e36d3426cee39e7dfab66bc461c133e37c",
+      "case": "genuine legacy Analog C"
+    },
+    {
+      "passed": false,
+      "reason": "incumbent workers require their recognized strategy",
+      "case": "legacy Analog C strategy removed"
+    }
+  ],
+  "actual_receipt_hashes": {
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/analog-filter-b2-high-only-001/trial/result.json": "e9ce4479ec4a6bbf72ce4ebf0c8fb4ff192d5acd22aca47bdc72a1e9e7eae60f",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/analog-filter-native-paired-complete-sch-001/run/C_feedback/result.json": "36b2584726d0c5c1cf1b6c5eb739f343f3f240cf91784be3568a09ccf39615fa"
+  },
+  "disk_native_evidence_unchanged": true,
+  "new_native_execution": false,
+  "validation_not_mocked": true,
+  "source_sha256_at_probe_start": {
+    "autorouter/pipeline.py": "28286efcb799e0daf63bb8f80d9a88ce7b80a4f151865c7e84ff25e20845da46",
+    "autorouter/strategy.py": "d699b875b8a96aced66d8b09c0c9b2a277d713476217ec8aa20a6f4d8feca9d7",
+    "tests/test_pruning_scoring.py": "d76a766dd16c042b17dc2a360f34b21e74f69f9c19454af6032bd1df32ddd44d"
+  },
+  "source_sha256_at_probe_end": {
+    "autorouter/pipeline.py": "28286efcb799e0daf63bb8f80d9a88ce7b80a4f151865c7e84ff25e20845da46",
+    "autorouter/strategy.py": "d699b875b8a96aced66d8b09c0c9b2a277d713476217ec8aa20a6f4d8feca9d7",
+    "tests/test_pruning_scoring.py": "d76a766dd16c042b17dc2a360f34b21e74f69f9c19454af6032bd1df32ddd44d"
+  },
+  "observed_wall_seconds": 0.3390578749967972,
+  "lifetime_self_CPU_seconds": 0.308792,
+  "child_CPU_seconds": 0.0,
+  "bootstrap_allowance_seconds": 1,
+  "packet_emission_allowance_seconds": 1,
+  "scope": "Development review only; receipt observations changed in memory, all source/Native/code/report/process checks ran normally. No Native gain or fresh HIGH-C proof."
+}

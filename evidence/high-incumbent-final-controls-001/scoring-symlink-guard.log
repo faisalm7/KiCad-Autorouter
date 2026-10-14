@@ -1,0 +1,21 @@
+E
+======================================================================
+ERROR: test_pruning_scoring (unittest.loader._FailedTest.test_pruning_scoring)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_pruning_scoring
+Traceback (most recent call last):
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/unittest/loader.py", line 419, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/unittest/loader.py", line 362, in _get_module_from_name
+    __import__(name)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_pruning_scoring.py", line 75
+    with patch.object(p,'sha',side_effect=AssertionError('digest must not follow marker symlink')),
+                                                                                                   ^
+SyntaxError: invalid syntax
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (errors=1)

@@ -765,6 +765,31 @@ def engine_profile_settings(profile, remaining_seconds, *, strict_class_targets=
             'engine_grace_reserve_seconds':ENGINE_GRACE_RESERVE_SECONDS,
             'internal_deadlines':'cooperative planning caps; external supervision and measured CPU acceptance cap remain authoritative'}
 
+def check_engine_profile_record(data,directory):
+    """Replay declared native settings against the retained actual engine argv."""
+    from .floor_route import read_json
+    directory=Path(directory)
+    captured=directory/'routing-preferences.json'
+    if 'routing_preferences' in data or captured.exists() or captured.is_symlink():
+        return check_preferences_record(directory,data)
+    width=check_minimum_width_record(data,directory)
+    engine=data['engine_budget']
+    expected=engine_profile_settings(data['engine_profile'],engine['remaining_outer_wall_seconds_at_assignment'],
+        strict_class_targets=data.get('netclass_policy') is not None or data.get('scope')=='selected_nets' or width is not None,
+        scoring_variant=data.get('scoring_variant'))
+    workers=[step for step in data['steps'] if step.get('name')=='engine']
+    if (any(engine.get(key)!=value for key,value in expected.items())
+            or engine.get('outer_task_wall_budget_seconds')!=data['budget_seconds']
+            or engine.get('outer_task_cpu_budget_seconds')!=data['cpu_budget_seconds']
+            or len(workers)!=1
+            or workers[0].get('argv')!=engine_argv(directory,expected['argv'])
+            or workers[0].get('cwd')!=str(directory)
+            or workers[0].get('status')!='success' or workers[0].get('exit_code')!=0
+            or workers[0].get('cleanup_complete') is not True
+            or read_json(Path(directory)/'engine-process.json')!=workers[0]):
+        raise Rejected('declared native engine profile differs from its execution journal')
+
+
 def engine_baseline(profile,adapter):
     if profile=='completion-only': return 'completion_only_probe'
     if profile=='tuned': return 'B2_tuned'
@@ -1362,6 +1387,15 @@ def _check_result_uncached(path):
     receipt_digest=hashlib.sha256(bounded_bytes(path)).hexdigest()
     # Parse once strictly before policy dispatch; duplicate selectors cannot hide schema3.
     data=read_json(path)
+    scoring_marker=path.parent/'pruning-scoring.json'
+    if (data.get('strategy')=='native_validated_zone_net_pruning' or scoring_marker.exists()
+            or scoring_marker.is_symlink() or 'incumbent_scoring_contract' in data):
+        from .strategy import check_incumbent_scoring
+        check_incumbent_scoring(path.parent,data)
+    elif 'incumbent_scoring_variant' in data or 'incumbent_receipt_sha256' in data:
+        # Placement-backed pruning has its separate explicit incumbent contract.
+        if data.get('input_policy')!='placement-pruning-v1':
+            raise Rejected('pruning scoring marker on another routing policy')
     if selected_scope_markers(path.parent,data) and data.get('scope')!='selected_nets':
         raise Rejected('selected-net evidence cannot downgrade routing scope')
     from . import placement_strategy as ps
@@ -1476,6 +1510,10 @@ def _check_result_uncached(path):
     native=parse_report(path.parent/'final-drc.json',candidate.name)
     reasons=native_rejection_reasons(native)
     if reasons: raise Rejected('native findings reject candidate: '+'; '.join(reasons))
+    if ((any(step.get('phase')=='incumbent' and step.get('name')=='engine' for step in data.get('steps',[]))
+            or (path.parent/'incumbent/result.json').exists())
+            and data.get('strategy') not in {'native_validated_zone_net_pruning','native_validated_thermal_bridge','placement-native-pruning-v1'}):
+        raise Rejected('incumbent workers require their recognized strategy')
     if data.get('native')!=native or data.get('invariants_unchanged') is not True: raise Rejected('receipt native summary differs from raw evidence')
     if data.get('whole_project_drc_clean') is not (native['warnings']==0): raise Rejected('receipt cleanliness claim differs from native evidence')
     metrics=evidence('metrics.json')
@@ -1502,7 +1540,9 @@ def _check_result_uncached(path):
     check_pour_evidence(path.parent,data,original,candidate)
     check_preferences_record(path.parent,data)
 
-    if 'engine_budget' in data:check_minimum_width_record(data,path.parent)
+    if 'engine_budget' in data:
+        check_minimum_width_record(data,path.parent)
+        if input_policy=='native':check_engine_profile_record(data,path.parent)
 
     check_resource_accounting(data)
 

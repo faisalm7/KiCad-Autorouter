@@ -1,0 +1,1 @@
+Full034998tests has2assertion failures: new unrecognized-incumbent guard rejected before existing critical-warning negative controls; Native rejection was never admitted. Warning precedence fixed; full035 passes after that repair.

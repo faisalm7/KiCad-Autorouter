@@ -1,0 +1,1 @@
+Full035998tests passes35.517s; whole35.883146459wall/33.120982CPU; source/tool hashes exact and cleanup complete. Final small bounded-contract-before-hash repair and seventh symlink control occur after this cutoff and are checked separately. No new Native gain, installed-current-code or route-quality claim from count.
