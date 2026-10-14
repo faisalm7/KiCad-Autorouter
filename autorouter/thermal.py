@@ -72,7 +72,13 @@ class _SharedJob(p.Job):
         try:return super().step(name,['/usr/bin/sandbox-exec','-p','(version 1)(allow default)(deny network*)',*argv],allowed)
         finally:self.parent_job.steps.extend(self.steps[before:])
     def native(self,name,action,board,output,*extra):
-        return self.step(name,[cfg.PYTHON,'-B',self.native_helper,action,board,output,*extra])
+        # native.py imports the project package. Its flat retained code copy is
+        # evidence, not an executable package. Use the bound project helper,
+        # requiring byte identity to that capture before every launch.
+        live=cfg.ROOT/'autorouter/native.py'
+        if Path(self.native_helper).is_symlink() or p.sha(self.native_helper)!=p.sha(live):
+            raise p.Rejected('thermal native helper differs from captured code')
+        return self.step(name,[cfg.PYTHON,'-B',live,action,board,output,*extra])
 
 def _audit_map(candidate, protected, mapping):
     # Explicit even if a caller's broad netclass policy omits Default-only work.

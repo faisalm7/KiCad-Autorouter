@@ -105,6 +105,17 @@ class Controls(unittest.TestCase):
         n=self.native();n['exclusions']=1;self.assertIsNone(t.sole_thermal(n))
     def test_boolean_counter_rejected(self):
         n=self.native();n['opens']=False;self.assertIsNone(t.sole_thermal(n))
+    def test_native_uses_project_package_and_refuses_changed_capture(self):
+        with tempfile.TemporaryDirectory(dir=HERE) as tmp:
+            root=Path(tmp);capture=root/'native.py';live=ROOT/'autorouter/native.py'
+            capture.write_bytes(live.read_bytes())
+            job=t._SharedJob(SimpleNamespace(steps=[]),root/'job',lambda:4,capture)
+            with patch.object(job,'step',return_value={'status':'success'}) as launch:
+                job.native('map','netclasses',root/'board',root/'map')
+                self.assertEqual(launch.call_args.args[1],[t.cfg.PYTHON,'-B',live,'netclasses',root/'board',root/'map'])
+                launch.reset_mock();capture.write_text('changed')
+                with self.assertRaises(t.p.Rejected):job.native('map','netclasses',root/'board',root/'map')
+                launch.assert_not_called()
     def test_child_receipts_success_error_cancel_once(self):
         for error in (None,t.p.Rejected('failure'),KeyboardInterrupt()):
             with self.subTest(error=type(error).__name__),tempfile.TemporaryDirectory(dir=HERE) as tmp:

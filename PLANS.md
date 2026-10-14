@@ -16,10 +16,10 @@ gaps and3missingdevices; no routing/source repair/waiver. No completedworker rep
 1. Actualincremental/fullchainrestore throughfdbff8a is complete:272571files,
    8423268906B/allGitrefs/restoredCLI,280000file/8GiBguards tested. OnMaconly.
    Newcontactsource/full068 is aftercutoff; next incremental at actualmilestone.
-2. Contactsource/pairharness integrated,83targeted/full0681237 pass, skeptical
+2. Contactsource/pairharness integrated,84targeted/full0691238 pass, skeptical
    review no concreteblocker. Defaults and certifiedrepair unchanged. Commit/push
    and remote-readback then run exactly once:
-   `.venv/bin/python -B .runs/run-native-contact120-001.py`.
+   `.venv/bin/python -B .runs/run-native-contact120-001-fixed-helper.py`.
    FreshNUSclassifier+ownselectedroute+explicitsolethermal contact proposals,
    exactwholeoriginalNative/fullSCH/finalmetrics/warnings and conditionalremoval
    negative, actual120wall/fullCPU plusouterpublicationcharge required. Preserve
@@ -37,3 +37,5 @@ gaps and3missingdevices; no routing/source repair/waiver. No completedworker rep
 
 Milestones are checkpoints, not stop requests. If a real limit interrupts, preserve
 exact continuation commands/state and do not claim the project complete.
+
+Actualimport gate fixed before anycontactengine: flatcode/native.py couldnotimport projectpackage. SharedJob now requires exactlive/capturedhelperSHA and usesprojectpath, env unchanged. Nativeclassmap positive succeeds; v1protocol remainsunexecuted. Usefrozenv2 only.

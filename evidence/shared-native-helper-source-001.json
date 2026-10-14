@@ -1,0 +1,78 @@
+{
+  "schema": 1,
+  "kind": "actual-flat-native-helper-import-defect-and-bound-project-helper-correction",
+  "accepted": false,
+  "routing_gain": false,
+  "previous_checkpoint": "003525972bef5de07a77238091731d7f44338ef8",
+  "defect": "Flat capturedcode/native.py cannot import autorouter.netclass_native under sanitized pinnedNativePython; import-only control actually fails ModuleNotFoundError before board loading.",
+  "fix": "SharedJob native actions use projecthelper only after exact SHA match to captured native.py; original source/capture remain watched. Environment/PYTHONPATH not loosened. ActualNative classmap throughSharedJob succeeds with originals and map source hashes unchanged.",
+  "controls": {
+    "targeted_methods": 84,
+    "targeted_wall_seconds": 0.6282039170037024,
+    "targeted_full_cpu_seconds": 0.6095579999999998,
+    "full_methods": 1238,
+    "full_wall_seconds": 55.30231762499898,
+    "full_cpu_seconds": 51.48851200000001,
+    "native_import_negative": {
+      "wall_seconds": 0.724689541006228,
+      "full_cpu_seconds": 0.44594999999999996,
+      "exit_code": 1
+    },
+    "native_map_positive": {
+      "wall_seconds": 0.47966929199174047,
+      "full_cpu_seconds": 0.415352,
+      "passed": true
+    }
+  },
+  "evidence": [
+    {
+      "path": ".runs/native-helper-import-probe-001/execution.json",
+      "sha256": "c3bb4ff5b4a274f0db256fe5c594b69d30d4bb64cc9ca190abffb12d1755ecff",
+      "bytes": 5517
+    },
+    {
+      "path": ".runs/native-helper-import-probe-002/execution.json",
+      "sha256": "d795430691ca5d23d3318582bdde51d1fef49463dc988ef66c11bffd4acd1bfd",
+      "bytes": 3540
+    },
+    {
+      "path": ".runs/native-contact-targeted-002/execution.json",
+      "sha256": "249bf9635efe79c40fd8e4718ad26d8e7f26e37bc028a3f66d74933952ce6f15",
+      "bytes": 3232
+    },
+    {
+      "path": ".runs/full-integration-069/execution.json",
+      "sha256": "732c33bffefd4a83ab5960583a9f91a4fe5da08183a25d951470bb778be6f075",
+      "bytes": 16204
+    },
+    {
+      "path": ".runs/shared-thermal-helper-review-preserved-001/README.md",
+      "sha256": "1cc5c9fedbc0e9cf44d20fbcca510721db5314718d74c1d6eb9c04aff3375ab9",
+      "bytes": 2471
+    },
+    {
+      "path": ".runs/run-native-contact120-001-fixed-helper.py",
+      "sha256": "97b6658b7f04465df15d0a02e480ba7a15ddfef8cbc633ad1257068d67ef2e55",
+      "bytes": 3396
+    }
+  ],
+  "source": [
+    {
+      "path": "autorouter/thermal.py",
+      "sha256": "2fa7ff7260ba6e8b5a8003d8e1f51314b5ff548ef635fb94b29bdee4c741102d",
+      "bytes": 19650
+    },
+    {
+      "path": "tests/test_thermal.py",
+      "sha256": "c28f80871a48d9f4faef096edef87795a15f83f2330a0b437ed90e519950e1eb",
+      "bytes": 13159
+    },
+    {
+      "path": "experiments/native_connected_pair_v1/protocol-contact-v2.json",
+      "sha256": "c83060c0a1b6b08be15553bab65461194608e0bbef23267990ffdf6e98c42349",
+      "bytes": 12111
+    }
+  ],
+  "next_command": ".venv/bin/python -B .runs/run-native-contact120-001-fixed-helper.py",
+  "scope": "Originalcontactv1protocol/wrapper and full068 source retained, never routed. Newprospectivev2 charges own fresh120/onepublicationallowance and discloses prerequisite/pilotcosts. Contactgeometry/API/positive/removalnegative still unexecuted; no result/production/confirmationclaim."
+}
