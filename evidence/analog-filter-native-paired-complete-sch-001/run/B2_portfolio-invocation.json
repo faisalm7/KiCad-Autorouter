@@ -1,0 +1,575 @@
+{
+  "id": "B2_portfolio",
+  "accepted": true,
+  "status": "completed",
+  "started_utc": "2026-10-14T08:37:20.507271+00:00",
+  "host_load_average_1_5_15_minutes_begin": [
+    2.94189453125,
+    2.5087890625,
+    2.37109375
+  ],
+  "assigned_seconds": 84.33599258300092,
+  "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/analog-filter-native-paired-complete-sch-001/run/B2_portfolio/portfolio-summary.json",
+  "result_sha256": "e33a1e27b14bc25275218dcf9bcd95273066d8758f85c1161a10d9810cd1e070",
+  "selected": {
+    "id": "via_default",
+    "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/analog-filter-native-paired-complete-sch-001/run/B2_portfolio/01-via_default/result.json",
+    "result_sha256": "a267355bb450f34561819829df53b09cb23457b26be07b635936f65ea5d2f97d",
+    "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/analog-filter-native-paired-complete-sch-001/run/B2_portfolio/01-via_default/candidate/analog_filter_module.kicad_pcb",
+    "candidate_sha256": "4c834ed2c9daf06478cfcabf8661ad7c6b193a9d91d22a52a91a430e13249b1f",
+    "native_report_sha256": "1ed43068c3158faf1845980a10ac81b53c1ae1d40fb438aa4adc314f1826649d",
+    "vias": 1,
+    "length_mm": 227.68748819018728,
+    "consistency": {
+      "current": true,
+      "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/analog-filter-native-paired-complete-sch-001/run/B2_portfolio/01-via_default/candidate/analog_filter_module.kicad_pcb",
+      "candidate_sha256": "4c834ed2c9daf06478cfcabf8661ad7c6b193a9d91d22a52a91a430e13249b1f",
+      "applied": false,
+      "authentication": "none; mutable local evidence consistency only",
+      "warning": "Fresh native validation is required before application; human PCB review and electrical/physical validation remain required."
+    }
+  },
+  "pareto_frontier": [
+    "via_default",
+    "via_low"
+  ],
+  "trials": [
+    {
+      "index": 0,
+      "id": "via_default",
+      "assigned_seconds": 65.74937033299648,
+      "guidance_policy": null,
+      "started_utc": "2026-10-14T08:37:24.207528+00:00",
+      "finished_utc": "2026-10-14T08:37:36.807311+00:00",
+      "status": "routing_accepted",
+      "reason": null,
+      "accepted_in_trial_receipt": true,
+      "eligible": true,
+      "invocation_wall_seconds": 12.599775291004335,
+      "invocation_cpu_seconds": 10.523174999999995,
+      "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/analog-filter-native-paired-complete-sch-001/run/B2_portfolio/01-via_default/result.json",
+      "result_sha256": "a267355bb450f34561819829df53b09cb23457b26be07b635936f65ea5d2f97d",
+      "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/analog-filter-native-paired-complete-sch-001/run/B2_portfolio/01-via_default/candidate/analog_filter_module.kicad_pcb",
+      "candidate_sha256": "4c834ed2c9daf06478cfcabf8661ad7c6b193a9d91d22a52a91a430e13249b1f",
+      "native_report_sha256": "1ed43068c3158faf1845980a10ac81b53c1ae1d40fb438aa4adc314f1826649d",
+      "vias": 1,
+      "length_mm": 227.68748819018728,
+      "peak_child_rss_bytes": 253968384,
+      "peak_polled_group_rss_bytes": 253837312,
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 14,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+              {
+                "description": "Footprint J2",
+                "pos": {
+                  "x": 114.02,
+                  "y": 100.755
+                },
+                "uuid": "05a3baaa-840a-4e56-ae9b-77c073814354"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Package_TO_SOT_SMD'",
+            "items": [
+              {
+                "description": "Footprint U1",
+                "pos": {
+                  "x": 118.845,
+                  "y": 91.845
+                },
+                "uuid": "24b1976c-c6e5-4048-bdf1-0b782a09dd67"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Package_SO'",
+            "items": [
+              {
+                "description": "Footprint U2",
+                "pos": {
+                  "x": 124.525,
+                  "y": 115.035
+                },
+                "uuid": "47d26c48-8063-4262-8536-ae4085a9f8b9"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+            "items": [
+              {
+                "description": "Footprint C1",
+                "pos": {
+                  "x": 113.765,
+                  "y": 93.905
+                },
+                "uuid": "61fc94f9-d6b7-44fc-9087-772fd18e8ad2"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+            "items": [
+              {
+                "description": "Footprint C2",
+                "pos": {
+                  "x": 128.27,
+                  "y": 89.8
+                },
+                "uuid": "665d2ab0-6d9d-4080-9188-314e27d81528"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+            "items": [
+              {
+                "description": "Footprint C4",
+                "pos": {
+                  "x": 117.79,
+                  "y": 107.95
+                },
+                "uuid": "6689d2c3-43e2-44a0-830b-71134149a578"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+              {
+                "description": "Footprint J1",
+                "pos": {
+                  "x": 118.795,
+                  "y": 84.245
+                },
+                "uuid": "6f3f9d12-98f5-44b8-8315-29d57db26ab2"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+            "items": [
+              {
+                "description": "Footprint C5",
+                "pos": {
+                  "x": 126.9,
+                  "y": 108.5
+                },
+                "uuid": "7bfb0412-4445-4bf7-82d6-6ba53378620a"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R3",
+                "pos": {
+                  "x": 127.065,
+                  "y": 102.415
+                },
+                "uuid": "96dbd16b-b1d0-4994-9349-aa3a17324d3a"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R2",
+                "pos": {
+                  "x": 119.445,
+                  "y": 98.115
+                },
+                "uuid": "974a713c-bf04-4adb-ae7c-27b4c98d49c2"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+              {
+                "description": "Footprint J3",
+                "pos": {
+                  "x": 132.385,
+                  "y": 115.685
+                },
+                "uuid": "b0cd2e53-6128-4c07-a46c-f55674d76a55"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+            "items": [
+              {
+                "description": "Footprint C3",
+                "pos": {
+                  "x": 130.315,
+                  "y": 108.685
+                },
+                "uuid": "c6379944-3bb6-4ada-8871-4f47266b5abf"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R1",
+                "pos": {
+                  "x": 128.27,
+                  "y": 84.465
+                },
+                "uuid": "d7be4b29-85a7-49c1-a913-3266332b4f71"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D1",
+                "pos": {
+                  "x": 135.89,
+                  "y": 97.79
+                },
+                "uuid": "f18cdc2d-fbc1-4a15-9394-857d14b57e01"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          }
+        ]
+      }
+    },
+    {
+      "index": 1,
+      "id": "via_low",
+      "assigned_seconds": 52.93032574999961,
+      "guidance_policy": null,
+      "started_utc": "2026-10-14T08:37:37.026590+00:00",
+      "finished_utc": "2026-10-14T08:37:51.039413+00:00",
+      "status": "routing_accepted",
+      "reason": null,
+      "accepted_in_trial_receipt": true,
+      "eligible": true,
+      "invocation_wall_seconds": 14.012813708002795,
+      "invocation_cpu_seconds": 13.536535,
+      "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/analog-filter-native-paired-complete-sch-001/run/B2_portfolio/02-via_low/result.json",
+      "result_sha256": "e5e93d94e4da4baba175f1989328b067f8e74ee40a03e65b31b73115c609965f",
+      "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/analog-filter-native-paired-complete-sch-001/run/B2_portfolio/02-via_low/candidate/analog_filter_module.kicad_pcb",
+      "candidate_sha256": "fd58dd656a83604d4827a3c6b1919d28b00a6315bcc70c384e22ac66412f249f",
+      "native_report_sha256": "2217b33c9c6bb08752d6ced5db070f55fe2634565833d439b499daf95714dc25",
+      "vias": 2,
+      "length_mm": 223.89872654993354,
+      "peak_child_rss_bytes": 394838016,
+      "peak_polled_group_rss_bytes": 394706944,
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 14,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+              {
+                "description": "Footprint J2",
+                "pos": {
+                  "x": 114.02,
+                  "y": 100.755
+                },
+                "uuid": "05a3baaa-840a-4e56-ae9b-77c073814354"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Package_TO_SOT_SMD'",
+            "items": [
+              {
+                "description": "Footprint U1",
+                "pos": {
+                  "x": 118.845,
+                  "y": 91.845
+                },
+                "uuid": "24b1976c-c6e5-4048-bdf1-0b782a09dd67"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Package_SO'",
+            "items": [
+              {
+                "description": "Footprint U2",
+                "pos": {
+                  "x": 124.525,
+                  "y": 115.035
+                },
+                "uuid": "47d26c48-8063-4262-8536-ae4085a9f8b9"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+            "items": [
+              {
+                "description": "Footprint C1",
+                "pos": {
+                  "x": 113.765,
+                  "y": 93.905
+                },
+                "uuid": "61fc94f9-d6b7-44fc-9087-772fd18e8ad2"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+            "items": [
+              {
+                "description": "Footprint C2",
+                "pos": {
+                  "x": 128.27,
+                  "y": 89.8
+                },
+                "uuid": "665d2ab0-6d9d-4080-9188-314e27d81528"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+            "items": [
+              {
+                "description": "Footprint C4",
+                "pos": {
+                  "x": 117.79,
+                  "y": 107.95
+                },
+                "uuid": "6689d2c3-43e2-44a0-830b-71134149a578"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+              {
+                "description": "Footprint J1",
+                "pos": {
+                  "x": 118.795,
+                  "y": 84.245
+                },
+                "uuid": "6f3f9d12-98f5-44b8-8315-29d57db26ab2"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+            "items": [
+              {
+                "description": "Footprint C5",
+                "pos": {
+                  "x": 126.9,
+                  "y": 108.5
+                },
+                "uuid": "7bfb0412-4445-4bf7-82d6-6ba53378620a"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R3",
+                "pos": {
+                  "x": 127.065,
+                  "y": 102.415
+                },
+                "uuid": "96dbd16b-b1d0-4994-9349-aa3a17324d3a"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R2",
+                "pos": {
+                  "x": 119.445,
+                  "y": 98.115
+                },
+                "uuid": "974a713c-bf04-4adb-ae7c-27b4c98d49c2"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+              {
+                "description": "Footprint J3",
+                "pos": {
+                  "x": 132.385,
+                  "y": 115.685
+                },
+                "uuid": "b0cd2e53-6128-4c07-a46c-f55674d76a55"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+            "items": [
+              {
+                "description": "Footprint C3",
+                "pos": {
+                  "x": 130.315,
+                  "y": 108.685
+                },
+                "uuid": "c6379944-3bb6-4ada-8871-4f47266b5abf"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R1",
+                "pos": {
+                  "x": 128.27,
+                  "y": 84.465
+                },
+                "uuid": "d7be4b29-85a7-49c1-a913-3266332b4f71"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D1",
+                "pos": {
+                  "x": 135.89,
+                  "y": 97.79
+                },
+                "uuid": "f18cdc2d-fbc1-4a15-9394-857d14b57e01"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          }
+        ]
+      }
+    }
+  ],
+  "peak_child_rss_bytes": 394838016,
+  "peak_polled_group_rss_bytes": 394706944,
+  "invocation_wall_seconds": 31.233517458007555,
+  "invocation_cpu_seconds": 28.552858,
+  "finished_utc": "2026-10-14T08:37:51.740796+00:00",
+  "host_load_average_1_5_15_minutes_end": [
+    3.15234375,
+    2.6015625,
+    2.4091796875
+  ],
+  "within_enclosing_budgets": true
+}

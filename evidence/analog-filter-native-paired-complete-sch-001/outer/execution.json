@@ -1,0 +1,61 @@
+{
+  "schema": 1,
+  "git_head": "cb6ce5c888562c582a3a2b4404726b8fdf83d768",
+  "started_utc": "2026-10-14T08:36:51.709393+00:00",
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 132.60038887501287,
+    "cpu_seconds": 103.188583,
+    "max_rss_bytes": 394838016,
+    "supervisor_cpu_seconds": 3.6141,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 225394688,
+    "sampled_peak_workdir_bytes": 21682579,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 100663296,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/experiment_paired.py",
+      "--project",
+      "analog-filter",
+      "--system",
+      "native-all",
+      "--external-reserve-seconds",
+      "30",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/analog-filter-native-paired-complete-sch-001/run"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/analog-filter-native-paired-complete-sch-001/command.log",
+    "log_bytes": 159,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/analog-filter-native-paired-complete-sch-001",
+    "signal_cancellation_enabled": true,
+    "pid": 78873
+  },
+  "wall_seconds": 132.7939287090121,
+  "full_cpu_seconds": 106.98997899999999,
+  "wrapper_sha256": "4558b6e64ff1cdb976f585fbf2f2be3f740709fdb54f5b28059ff2fbaf9fe3d7",
+  "log_sha256": "41d40f429e90964fdd8f8cb9e77e36575d11f95a103ef770fe5b51020ade7f93",
+  "scope": "Four fresh sequential exposed-development arms B0/B1/B2portfolio/Cnative-feedback, each120wall/fullCPU including shared charges; same original constraints. Outer96MiB polling and540s timeout; native validation required.",
+  "outer_charge_requires_final_readback": true,
+  "prospective_protocol_sha256": "0aca7b5e0ef3093939ba7925f8effc284a296cd6a00a02f478c6b763e7b76b15"
+}

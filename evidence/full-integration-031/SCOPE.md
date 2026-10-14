@@ -1,0 +1,1 @@
+Current full integration passes992software tests/34.431s after inherited-trial/directHigh readback repairs, whole34.827349667wall/32.091180fullCPU. Tools/source unchanged; cleanup complete. Actual Native/GUI/install qualification remains separate; no routing-quality claim from counts.

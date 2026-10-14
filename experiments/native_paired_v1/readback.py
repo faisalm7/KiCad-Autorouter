@@ -12,6 +12,7 @@ import argparse
 import copy
 import hashlib
 import json
+import math
 import signal
 import sys
 
@@ -40,7 +41,29 @@ def native_class_readback(folder, data, candidate, protected):
     return audit, True
 
 
-def final_candidate_readback(folder, data, board, original, source_hashes):
+def inherited_trial_accounting(folder, data, parent):
+    """Bind strategy trial workers to their actually charged parent envelope."""
+    p.check_resource_accounting(parent)
+    references=[row for row in parent.get('trials',[]) if row.get('id')==data.get('id')]
+    if (len(references)!=1 or references[0].get('receipt')!=str(folder/'result.json')
+            or any(references[0].get(key)!=data.get(key) for key in ('id','status','accepted'))):
+        raise p.Rejected('trial is not bound to its charged parent')
+    steps=data.get('steps')
+    if not isinstance(steps,list) or steps!=[step for step in parent['steps'] if step.get('phase')==data['id']]:
+        raise p.Rejected('trial workers differ from charged parent history')
+    def number(value):
+        if type(value) not in (int,float) or not math.isfinite(value) or value<0:
+            raise p.Rejected('invalid inherited trial accounting')
+        return value
+    start=number(data.get('started_elapsed_seconds'));finish=number(data.get('finished_elapsed_seconds'))
+    cpu=number(data.get('finished_observed_cpu_seconds'))
+    if (finish<start or finish>parent['wall_seconds']+1e-6 or cpu>parent['total_cpu_seconds']+1e-6
+            or sum(number(step.get('wall_seconds')) for step in steps)>finish-start+1e-6
+            or sum(number(step.get('cpu_seconds'))+number(step.get('monitor_cpu_seconds')) for step in steps)>cpu+1e-6):
+        raise p.Rejected('trial exceeds its charged parent envelope')
+
+
+def final_candidate_readback(folder, data, board, original, source_hashes, *, resource_parent=None):
     candidate = folder/'candidate'/board.name
     p.verify_candidate_files(candidate, source_hashes, data['candidate_sha256'])
     tree = sx.read(candidate)
@@ -51,7 +74,8 @@ def final_candidate_readback(folder, data, board, original, source_hashes):
         raise p.Rejected('final protected copper differs')
     p.check_protected_import(folder,data,original,candidate,protected)
     p.check_pour_evidence(folder,data,original,candidate,correction=data.get('adapter') in ('planes','both'))
-    p.check_resource_accounting(data)
+    if resource_parent is None:p.check_resource_accounting(data)
+    else:inherited_trial_accounting(folder,data,resource_parent)
     before = dict(source_hashes)
     before[board.name] = data['candidate_sha256']
     native = f.check_drc_stage(folder, data, 'final-drc', candidate,
@@ -69,13 +93,19 @@ def final_candidate_readback(folder, data, board, original, source_hashes):
         original_native_class_audit_required=class_required)
 
 
-def qualify(base, prospective, output, source_receipt, source_readback):
+def qualify(base, prospective, output, source_receipt, source_readback, *, completion_prospective=None):
     base, prospective, output = map(lambda x: Path(x).resolve(), (base, prospective, output))
     source_receipt, source_readback = map(lambda x: Path(x).resolve(), (source_receipt, source_readback))
     output.mkdir()
     owner = {}
     h.capture_destination(owner, output)
     spec = f.read_json(prospective)
+    completion_path = Path(completion_prospective).resolve() if completion_prospective else None
+    completion = f.read_json(completion_path) if completion_path else None
+    direct = completion_path.with_name(completion_path.name.removesuffix('-protocol.json')) if completion else None
+    direct_witness = pc.inventory(direct,max_bytes=64*1024**2,max_files=6000,max_entries=12000,with_directories=True) if direct else None
+    completion_pin = p.sha(completion_path) if completion else None
+    high_outer = f.read_json(direct/'execution.json') if direct else None
     cap = spec['final_readback_allowance_wall_full_cpu_seconds']
     if not q.finite_nonnegative(cap) or not 1 <= cap <= 30:
         raise p.Rejected('invalid prospective audit allowance')
@@ -106,6 +136,10 @@ def qualify(base, prospective, output, source_receipt, source_readback):
                   shared_original_qualification_cost=spec['shared_original_qualification_cost'],
                   claims_limit=spec['limits'],
                   stock_scope='raw stock DSN with the same class-target safety settings; not untouched Freerouting defaults')
+    if completion:
+        report.update(completion_prospective_sha256=completion_pin,
+                      cumulative_audit_closure_required=True,
+                      cumulative_audit_closure_passed=False)
 
     def remaining():
         return min(cap-(time.monotonic()-START), cap-(time.process_time()+f.child_cpu()-CPU0))
@@ -113,6 +147,12 @@ def qualify(base, prospective, output, source_receipt, source_readback):
     def stable():
         h.owned_destination(owner)
         q.verify_freeze(protocol['freeze'], board)
+        if completion:
+            q.verify_freeze(completion['freeze'],board)
+            if p.sha(completion_path)!=completion_pin or pc.inventory(direct,max_bytes=64*1024**2,max_files=6000,max_entries=12000,with_directories=True)!=direct_witness:
+                raise p.Rejected('direct completion evidence changed')
+            for name,pin in completion['artifacts'].items():
+                if p.sha(Path(name))!=pin:raise p.Rejected('completed prefix pin changed')
         if pc.inventory(base, max_bytes=96*1024**2, max_files=6000,
                         max_entries=12000, with_directories=True) != witness:
             raise p.Rejected('completed comparison changed during readback')
@@ -130,8 +170,8 @@ def qualify(base, prospective, output, source_receipt, source_readback):
         if report['comparison_eligible'] and remaining() <= 0:
             raise p.Rejected('complete readback exceeds its prospective allowance')
 
-    def final_candidate(folder, data):
-        result = final_candidate_readback(folder,data,board,original,protocol['freeze']['source_hashes'])
+    def final_candidate(folder, data, *, resource_parent=None):
+        result = final_candidate_readback(folder,data,board,original,protocol['freeze']['source_hashes'],resource_parent=resource_parent)
         result['unchanged_original_warning_signatures'] = signatures(data['native'])==signatures(original_native)
         return result
 
@@ -143,10 +183,16 @@ def qualify(base, prospective, output, source_receipt, source_readback):
             shared = spec['shared_original_qualification_cost']
             row['charged_wall_seconds'] = row['paired_charged_wall_seconds'] + max(0,outer['wall_seconds']-summary['batch_wall_seconds']) + cap + 1 + shared['wall_seconds']
             row['charged_full_cpu_seconds'] = row['paired_charged_full_cpu_seconds'] + max(0,outer['full_cpu_seconds']-summary['batch_cpu_seconds']) + cap + 1 + shared['full_cpu_seconds']
+            if completion:
+                row['charged_wall_seconds'] += completion['additional_shared_original_qualification_seconds']
+                row['charged_full_cpu_seconds'] += completion['additional_shared_original_qualification_seconds']
+                if row['id']=='B2_portfolio':
+                    row['charged_wall_seconds'] += high_outer['whole_new_wall_seconds']+1
+                    row['charged_full_cpu_seconds'] += high_outer['whole_new_full_cpu_seconds']+1
             row['within_equal120_wall_full_cpu_caps'] = max(row['charged_wall_seconds'],row['charged_full_cpu_seconds']) <= 120
             row['accepted'] = valid and row['native_accepted'] and row['within_equal120_wall_full_cpu_caps']
         by_id = {row['id']:row for row in rows}
-        report.update(results=rows, comparison_eligible=valid and all(by_id.get(k,{}).get('accepted') for k in ('B1','B2_portfolio','C_feedback')),
+        report.update(results=rows, comparison_eligible=valid and not completion and all(by_id.get(k,{}).get('accepted') for k in ('B1','B2_portfolio','C_feedback')),
                       comparisons=paired.comparisons(rows) if valid else [])
         if remaining() <= 0:
             report.update(status='budget_exceeded', comparison_eligible=False, comparisons=[])
@@ -170,6 +216,22 @@ def qualify(base, prospective, output, source_receipt, source_readback):
             assert summary['status']=='completed' and protocol['arm_order']==['B0','B1','B2_portfolio','C_feedback']
             portfolio = f.read_json(base/'run/B2_portfolio/portfolio-summary.json')
             paired.verify_portfolio(base/'run/B2_portfolio',portfolio,board,protocol['freeze'])
+            if completion:
+                from scripts import experiment_portfolio as portfolio_module
+                if (completion['freeze']!=portfolio_module.freeze(board)
+                        or completion['source']!=str(board) or completion['variant']!='via_high'
+                        or completion['earlier_variants']!=['via_default','via_low']
+                        or [row['id'] for row in portfolio['trials']]!=completion['earlier_variants']
+                        or portfolio['stop_reason']!='insufficient remaining budget for another attempt and reserves'
+                        or completion['outer_wall_full_cpu_cap_seconds']!=120
+                        or completion['new_final_readback_allowance_wall_full_cpu_seconds']!=cap
+                        or completion['additional_shared_original_qualification_seconds']!=3
+                        or completion['shared_original_qualification_total_seconds']!=18
+                        or high_outer['protocol_sha256']!=completion_pin
+                        or high_outer['process']['status']!='success' or high_outer['process']['exit_code'] not in (0,2)
+                        or high_outer['process']['cleanup_complete'] is not True
+                        or high_outer['already_committed_charge']!=completion['already_committed_charge']):
+                    raise p.Rejected('direct High differs from unchanged completed prefix')
             finals, trials = [], []
             for old in summary['results']:
                 row = copy.deepcopy(old)
@@ -202,15 +264,48 @@ def qualify(base, prospective, output, source_receipt, source_readback):
                     folder=base/'run/C_feedback/trials'/trial['id'];data=f.read_json(folder/'result.json')
                     assert trial['receipt']==str(folder/'result.json')
                     assert all(trial[k]==data[k] for k in ('id','status','accepted'))
+                    inherited_trial_accounting(folder,data,c)
                     row=dict(id=data['id'],status=data['status'],accepted_by_strategy=data['accepted'])
                     if data.get('candidate_sha256') and data.get('native_report_sha256'):
-                        row.update(final_candidate(folder,data))
+                        row.update(final_candidate(folder,data,resource_parent=c))
                         if data['accepted'] and not row['unchanged_original_warning_signatures']:
                             raise p.Rejected('accepted C trial original warnings changed')
                     else:row['final_native_available']=False
                     trials.append(row)
+            if completion:
+                high_path=direct/'trial/result.json';high=f.read_json(high_path)
+                highrow=dict(index=2,id='via_high',assigned_seconds=completion['assigned_inner_seconds'],guidance_policy=None,
+                    result=str(high_path),result_sha256=p.sha(high_path),candidate=high['candidate'],candidate_sha256=high['candidate_sha256'],
+                    native_report_sha256=high['native_report_sha256'],vias=high['metrics']['vias'],length_mm=high['metrics']['track_length_mm'],
+                    eligible=high.get('accepted') is True,status=high['status'],native=high['native'])
+                if highrow['eligible']:portfolio_module.verify_row(highrow,board,completion['freeze'])
+                elif high['status']!='drc_rejected' or not p.native_rejection_reasons(high['native']):
+                    raise p.Rejected('unqualified direct High terminal state')
+                final=final_candidate(direct/'trial',high)
+                if highrow['eligible'] and not final['unchanged_original_warning_signatures']:
+                    raise p.Rejected('direct High changed original warnings')
+                finals.append(dict(id='B2/via_high',status=high['status'],**final))
+                all_trials=copy.deepcopy(portfolio['trials'])+[highrow]
+                chosen=min((row for row in all_trials if row['eligible']),key=portfolio_module.rank)
+                b2=next(row for row in rows if row['id']=='B2_portfolio')
+                inherited={'wall_seconds':b2['paired_charged_wall_seconds']+max(0,outer['wall_seconds']-summary['batch_wall_seconds'])+cap+1+spec['shared_original_qualification_cost']['wall_seconds']+3+1,
+                    'full_cpu_seconds':b2['paired_charged_full_cpu_seconds']+max(0,outer['full_cpu_seconds']-summary['batch_cpu_seconds'])+cap+1+spec['shared_original_qualification_cost']['full_cpu_seconds']+3+1}
+                if (inherited!=completion['already_committed_charge']
+                        or completion['inherited_remaining_wall_seconds']!=120-inherited['wall_seconds']
+                        or completion['inherited_remaining_full_cpu_seconds']!=120-inherited['full_cpu_seconds']
+                        or any(not q.finite_nonnegative(high_outer[key]) for key in ('whole_new_wall_seconds','whole_new_full_cpu_seconds'))
+                        or high_outer['combined_charged_wall_seconds']!=inherited['wall_seconds']+high_outer['whole_new_wall_seconds']
+                        or high_outer['combined_charged_full_cpu_seconds']!=inherited['full_cpu_seconds']+high_outer['whole_new_full_cpu_seconds']):
+                    raise p.Rejected('direct High inherited costs differ')
+                b2.update(trials=all_trials,selected=chosen,pareto_frontier=portfolio_module.frontier(all_trials),
+                    selected_receipt_is_trial_only=True,aggregate_cost_index=str(output/'result.json'))
+                b2.update({key:chosen[key] for key in ('result','result_sha256','candidate_sha256','native_report_sha256','vias','length_mm')})
+                report.update(strong_B2_variants=list(portfolio_module.VARIANTS),direct_high_execution_sha256=p.sha(direct/'execution.json'),
+                    additional_shared_source_wall_full_cpu_charge_seconds=3,shared_source_total_wall_full_cpu_charge_seconds=18,
+                    audit_policy='Original15 allowance retained once. All failed/successful readbacks, probe, independent audits and bootstrap/emission costs must close cumulatively before comparison eligibility.',
+                    calendar_gap='Costs are cumulative active wall; original completed candidates and trials were not rerouted.')
             report.update(status='completed', final_candidates=finals, C_trial_candidates=trials,
-                          strong_B2_selected=portfolio.get('selected'),
+                          strong_B2_selected=b2['selected'] if completion else portfolio.get('selected'),
                           source_sha256=protocol['freeze']['source_hashes'],tools=protocol['freeze']['tools'])
     except (Exception,KeyboardInterrupt) as exc:
         report.update(status='cancelled' if isinstance(exc,KeyboardInterrupt) else 'failed',
@@ -355,8 +450,9 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     for name in ('base','prospective','output','source-receipt','source-readback'):
         parser.add_argument('--'+name,required=True,type=Path)
+    parser.add_argument('--completion-prospective',type=Path)
     args=parser.parse_args()
-    result=qualify(args.base,args.prospective,args.output,args.source_receipt,args.source_readback)
+    result=qualify(args.base,args.prospective,args.output,args.source_receipt,args.source_readback,completion_prospective=args.completion_prospective)
     print(json.dumps({k:result.get(k) for k in ('status','comparison_eligible','reason','observed_audit_wall_seconds','observed_audit_full_cpu_seconds')}))
     return 0 if result['status']=='completed' else 2
 
