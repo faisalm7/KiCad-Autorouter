@@ -1,0 +1,910 @@
+{
+  "schema": 1,
+  "kind": "installed-review-export-cli-v1",
+  "status": "completed",
+  "accepted": false,
+  "controls_passed": true,
+  "commands": [
+    {
+      "name": "preview",
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 0.17628883400175255,
+        "cpu_seconds": 0.162056,
+        "max_rss_bytes": 44498944,
+        "supervisor_cpu_seconds": 0.01244999999999985,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 131072,
+        "sampled_peak_workdir_bytes": 94684236,
+        "resource_guards": {
+          "max_group_rss_bytes": 2147483648,
+          "max_workdir_bytes": 536870912,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-019/checkout/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "preview",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-019/checkout/.data/arcdice-demo-001/native-project/hardware/ArcDice.kicad_pcb",
+          "--adapter",
+          "both"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-019-review-export/preview.log",
+        "log_bytes": 1004,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-019/checkout",
+        "signal_cancellation_enabled": true,
+        "pid": 71689
+      },
+      "log_sha256": "cacf1e3741c8185ba36ef71090c6fbc87514df25c94aa5dd764ca1e77620f338"
+    },
+    {
+      "name": "route",
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 11.150864499999443,
+        "cpu_seconds": 9.915946,
+        "max_rss_bytes": 262930432,
+        "supervisor_cpu_seconds": 0.286184,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 214384640,
+        "sampled_peak_workdir_bytes": 98776732,
+        "resource_guards": {
+          "max_group_rss_bytes": 2147483648,
+          "max_workdir_bytes": 536870912,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-019/checkout/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "route",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-019/checkout/.data/arcdice-demo-001/native-project/hardware/ArcDice.kicad_pcb",
+          "--adapter",
+          "both",
+          "--seconds",
+          "120",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-019/checkout/.runs/install-arcdice-route-019"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-019-review-export/route.log",
+        "log_bytes": 461,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-019/checkout",
+        "signal_cancellation_enabled": true,
+        "pid": 71690
+      },
+      "log_sha256": "7f24cc3f61fed6c876d16f111b2affec136c101dfe0e067781769e14ef46483e"
+    },
+    {
+      "name": "check-route",
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 0.5104175840097014,
+        "cpu_seconds": 0.49422399999999994,
+        "max_rss_bytes": 52396032,
+        "supervisor_cpu_seconds": 0.01948300000000014,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 48988160,
+        "sampled_peak_workdir_bytes": 98776732,
+        "resource_guards": {
+          "max_group_rss_bytes": 2147483648,
+          "max_workdir_bytes": 536870912,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-019/checkout/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "check-result",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-019/checkout/.runs/install-arcdice-route-019/result.json"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-019-review-export/check-route.log",
+        "log_bytes": 498,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-019/checkout",
+        "signal_cancellation_enabled": true,
+        "pid": 71707
+      },
+      "log_sha256": "45aec67823cbe77ad3fc6d4927e79b1320b98dd0197c98465fa7138d31451dc6"
+    },
+    {
+      "name": "review-copy",
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 3.4048456250020536,
+        "cpu_seconds": 3.367133,
+        "max_rss_bytes": 204161024,
+        "supervisor_cpu_seconds": 0.08087599999999995,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 60473344,
+        "sampled_peak_workdir_bytes": 102988049,
+        "resource_guards": {
+          "max_group_rss_bytes": 2147483648,
+          "max_workdir_bytes": 536870912,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-019/checkout/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "review-copy",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-019/checkout/.runs/install-arcdice-route-019/result.json",
+          "--render",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-019/checkout/.runs/install-review-export-019"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-019-review-export/review-copy.log",
+        "log_bytes": 39080,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-019/checkout",
+        "signal_cancellation_enabled": true,
+        "pid": 71708
+      },
+      "log_sha256": "030f3c573535553501728d0c14cca1314f15f7bdf6e97b3cc94d77c68755e8cc"
+    },
+    {
+      "name": "accept-intent",
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 1.4942389999923762,
+        "cpu_seconds": 1.480418,
+        "max_rss_bytes": 57344000,
+        "supervisor_cpu_seconds": 0.04574400000000001,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 56721408,
+        "sampled_peak_workdir_bytes": 103021075,
+        "resource_guards": {
+          "max_group_rss_bytes": 2147483648,
+          "max_workdir_bytes": 536870912,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-019/checkout/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "review-choice",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-019/checkout/.runs/install-review-export-019/review.json",
+          "--choice",
+          "accept",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-019/checkout/.runs/install-intent-019"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-019-review-export/accept-intent.log",
+        "log_bytes": 33026,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-019/checkout",
+        "signal_cancellation_enabled": true,
+        "pid": 71713
+      },
+      "log_sha256": "5e9a2ab33d5dc603c0367c528e6eda8440468fbdb0b72b500004dba65ad3b256"
+    },
+    {
+      "name": "export",
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 8.491785499994876,
+        "cpu_seconds": 7.382752,
+        "max_rss_bytes": 246136832,
+        "supervisor_cpu_seconds": 0.22773500000000002,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 227344384,
+        "sampled_peak_workdir_bytes": 106105487,
+        "resource_guards": {
+          "max_group_rss_bytes": 2147483648,
+          "max_workdir_bytes": 536870912,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-019/checkout/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "review-export",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-019/checkout/.runs/install-intent-019/choice.json",
+          "--seconds",
+          "120",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-019/checkout/.runs/install-export-019"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-019-review-export/export.log",
+        "log_bytes": 478,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-019/checkout",
+        "signal_cancellation_enabled": true,
+        "pid": 71714
+      },
+      "log_sha256": "b3980542c03a456e56be5d068ebad46f27588bb3300ac48a19bf3141f6692a54"
+    },
+    {
+      "name": "check",
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 1.6608732909953687,
+        "cpu_seconds": 1.6389749999999998,
+        "max_rss_bytes": 220168192,
+        "supervisor_cpu_seconds": 0.05396499999999982,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 218972160,
+        "sampled_peak_workdir_bytes": 106105487,
+        "resource_guards": {
+          "max_group_rss_bytes": 2147483648,
+          "max_workdir_bytes": 536870912,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-019/checkout/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "review-export-check",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-019/checkout/.runs/install-export-019/export.json"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-019-review-export/check.log",
+        "log_bytes": 656,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-019/checkout",
+        "signal_cancellation_enabled": true,
+        "pid": 71727
+      },
+      "log_sha256": "f9bb2adcd077240ca54fea0809808e4ae4dda4a72b4e1e7e2e76f9c8e990b4b3"
+    },
+    {
+      "name": "reject-intent",
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 1.540041416999884,
+        "cpu_seconds": 1.5177059999999998,
+        "max_rss_bytes": 57802752,
+        "supervisor_cpu_seconds": 0.05308500000000027,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 57769984,
+        "sampled_peak_workdir_bytes": 106138426,
+        "resource_guards": {
+          "max_group_rss_bytes": 2147483648,
+          "max_workdir_bytes": 536870912,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-019/checkout/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "review-choice",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-019/checkout/.runs/install-review-export-019/review.json",
+          "--choice",
+          "reject",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-019/checkout/.runs/install-reject-019"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-019-review-export/reject-intent.log",
+        "log_bytes": 32939,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-019/checkout",
+        "signal_cancellation_enabled": true,
+        "pid": 71729
+      },
+      "log_sha256": "54ec0bd4af004bf02f1e2772bf693139e5f4effd23b5a04af2839a53154a9a50"
+    }
+  ],
+  "budget_seconds": 180,
+  "cpu_budget_seconds": 180,
+  "installation_head": "4b1e8713ecf93ec00373804206d53740d7eed55a",
+  "controller_sha256": "9d734bf19be4dfa950760d639382461b4ff0548ad57bfb4a17c7d4548740f46e",
+  "human_pcb_approval_observed": false,
+  "new_solver_execution": true,
+  "scope": "Actual freshvenv installed CLI reviewcopy+fourplots+typedacceptintent+freshnativeexport+proofcheck+rejection. One fresh installed ArcDice native-parent-class route from actual fixed public five-file fetch qualifies complete-schematic packaging; installation/workflow cost only, no new comparative experiment, no physical/GUI/freshMac qualification.",
+  "candidate_sha256": "71bf8ee0ed4a828eda01b8ca23c33051633eec173db27a51714f45f941821310",
+  "native_report_sha256": "d945ff17e30fef953514112755e511a9f27968f165948c1849c277637b2dcc27",
+  "native": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 26,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "Footprint component type doesn't match footprint pads",
+        "key": "footprint_type_mismatch"
+      }
+    ],
+    "findings": [
+      {
+        "description": "The current configuration does not include the footprint library 'LED_THT'",
+        "items": [
+          {
+            "description": "Footprint D4",
+            "pos": {
+              "x": 133.73,
+              "y": 75.0
+            },
+            "uuid": "10adda4f-e2e9-4db0-b4c9-bb826d187ffa"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'LED_THT'",
+        "items": [
+          {
+            "description": "Footprint D7",
+            "pos": {
+              "x": 143.73,
+              "y": 85.0
+            },
+            "uuid": "14934184-dc81-44d9-ba6a-73aa145ab7f0"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+        "items": [
+          {
+            "description": "Footprint R7",
+            "pos": {
+              "x": 147.06,
+              "y": 90.5
+            },
+            "uuid": "21da4687-c643-40b6-8d73-857a9ff85a3b"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'MountingHole'",
+        "items": [
+          {
+            "description": "Footprint H3",
+            "pos": {
+              "x": 104.0,
+              "y": 44.0
+            },
+            "uuid": "2788a2ed-4d9f-4630-a994-021aa3447175"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'LED_THT'",
+        "items": [
+          {
+            "description": "Footprint D6",
+            "pos": {
+              "x": 123.73,
+              "y": 85.0
+            },
+            "uuid": "378a7737-67d8-49c4-9900-5ed5f92e04c1"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+        "items": [
+          {
+            "description": "Footprint R2",
+            "pos": {
+              "x": 150.5,
+              "y": 61.44
+            },
+            "uuid": "487a96b4-0ceb-4783-bc6d-d3f76336443b"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+        "items": [
+          {
+            "description": "Footprint R3",
+            "pos": {
+              "x": 119.5,
+              "y": 67.56
+            },
+            "uuid": "502212ce-a247-4c63-a135-bd5bd7102129"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+        "items": [
+          {
+            "description": "Footprint R5",
+            "pos": {
+              "x": 139.06,
+              "y": 80.75
+            },
+            "uuid": "5d7eeb68-dd82-46fa-8c32-b4e4ecc8bf65"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+        "items": [
+          {
+            "description": "Footprint R6",
+            "pos": {
+              "x": 119.75,
+              "y": 78.31
+            },
+            "uuid": "62413f4c-41a8-43c3-8d63-5487e23a014a"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Button_Switch_THT'",
+        "items": [
+          {
+            "description": "Footprint SW2",
+            "pos": {
+              "x": 131.75,
+              "y": 43.5
+            },
+            "uuid": "68ef80ed-031f-4d4a-8cd1-251eb0852ec2"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+        "items": [
+          {
+            "description": "Footprint R1",
+            "pos": {
+              "x": 140.0,
+              "y": 72.56
+            },
+            "uuid": "6fa0116f-6feb-42bf-a468-73f3dd480a5b"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Button_Switch_THT'",
+        "items": [
+          {
+            "description": "Footprint SW1",
+            "pos": {
+              "x": 155.25,
+              "y": 52.25
+            },
+            "uuid": "721b697b-dd6a-4997-b0b5-4596253006c8"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'LED_THT'",
+        "items": [
+          {
+            "description": "Footprint D1",
+            "pos": {
+              "x": 123.73,
+              "y": 65.0
+            },
+            "uuid": "7900e8d1-ca01-414e-92fe-c65a2a12c2df"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'MountingHole'",
+        "items": [
+          {
+            "description": "Footprint H4",
+            "pos": {
+              "x": 166.0,
+              "y": 106.0
+            },
+            "uuid": "7aaf7735-a5ef-4add-ae9a-2553e9976b87"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'MountingHole'",
+        "items": [
+          {
+            "description": "Footprint H1",
+            "pos": {
+              "x": 166.0,
+              "y": 44.0
+            },
+            "uuid": "7d0d67bb-5f8b-4231-8fec-b5931349d564"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+        "items": [
+          {
+            "description": "Footprint R4",
+            "pos": {
+              "x": 130.25,
+              "y": 72.81
+            },
+            "uuid": "927c9e3b-878e-4076-bf4b-4dbcc7178ece"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'LED_THT'",
+        "items": [
+          {
+            "description": "Footprint D3",
+            "pos": {
+              "x": 123.73,
+              "y": 75.0
+            },
+            "uuid": "92f867f8-a632-46e7-a0e2-40ba7ca96952"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+        "items": [
+          {
+            "description": "Footprint R8",
+            "pos": {
+              "x": 120.06,
+              "y": 44.25
+            },
+            "uuid": "a9add2dd-e09e-4274-a332-ece0be82e46b"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'MountingHole'",
+        "items": [
+          {
+            "description": "Footprint H2",
+            "pos": {
+              "x": 104.0,
+              "y": 106.0
+            },
+            "uuid": "aa3f1460-34fc-4bb3-953f-33eafa7917fd"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'LED_THT'",
+        "items": [
+          {
+            "description": "Footprint D5",
+            "pos": {
+              "x": 143.73,
+              "y": 75.0
+            },
+            "uuid": "c760fe96-8797-4456-a19b-ca9b34305d28"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'LED_THT'",
+        "items": [
+          {
+            "description": "Footprint D2",
+            "pos": {
+              "x": 143.73,
+              "y": 65.0
+            },
+            "uuid": "dc5722e8-b38d-4d33-8bd6-2f0812afd44c"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+        "items": [
+          {
+            "description": "Footprint C2",
+            "pos": {
+              "x": 108.205113,
+              "y": 55.0
+            },
+            "uuid": "698196cc-c1fd-4eea-8d24-9d78ea941632"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'MyFootprints'",
+        "items": [
+          {
+            "description": "Footprint U2",
+            "pos": {
+              "x": 150.995,
+              "y": 103.005
+            },
+            "uuid": "d5421e99-eb39-4620-9dbe-424e9040eddb"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+        "items": [
+          {
+            "description": "Footprint C1",
+            "pos": {
+              "x": 108.75,
+              "y": 49.75
+            },
+            "uuid": "d592e5e2-cf82-48c7-af74-b9af4b4a06f7"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Battery'",
+        "items": [
+          {
+            "description": "Footprint BT1",
+            "pos": {
+              "x": 121.0,
+              "y": 99.25
+            },
+            "uuid": "e7507d54-477b-4580-95f4-315f716a6fea"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Package_DIP'",
+        "items": [
+          {
+            "description": "Footprint U1",
+            "pos": {
+              "x": 120.06,
+              "y": 48.19
+            },
+            "uuid": "f8464d79-bd52-46a8-97c7-0248620e1167"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      }
+    ]
+  },
+  "metrics": {
+    "version": "10.0.0",
+    "pads": 63,
+    "footprints": 26,
+    "zones": 1,
+    "vias": 0,
+    "track_length_mm": 636.9890979739067,
+    "copper_layers": 2
+  },
+  "export_proof_sha256": "3adc311b2c2389be6ca5ca26896119dfa870b789658a41025d80792aeb982efd",
+  "export_path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-019/checkout/.runs/install-export-019/export.json",
+  "plots": {
+    "plot-work/before-F.Cu-input/ArcDice.kicad_pcb": "098e90725279e698f61d7f4a5f0281202ba32f655b9c430047c019783a60bf96",
+    "plot-work/before-F.Cu-input/ArcDice.kicad_prl": "4893e8317a8b32a1845ec2011c070cbd729f114f5efe0a1fe4de75b64a2ec448",
+    "plot-work/before-F.Cu-input/ArcDice.kicad_pro": "be12f193331f3091ef31b9df28dc968119be56269adddcd5b2ed2921523223f6",
+    "plot-work/before-F.Cu-input/ArcDice.kicad_sch": "388bb0410c3372c2331c84b44ba8a45e10c4b34206a3b28b65cb90057129e4de",
+    "plot-work/before-F.Cu-input/_licenses/creator/LICENSE": "13aa5751cc47416650ad3c976d1c001f32ca3b3d49caac777ae66e819a437298",
+    "plot-work/before-F.Cu-input/_licenses/creator/README.md": "876a106e288ec606cf29239d6129d07b79a134005769ba50ef0d450622c1751b",
+    "plot-work/before-F.Cu-input-binding.json": "d8af69f8b940f4d13372e58a9fdfa77ec72044a8bfedd6aee36fde8886182ce6",
+    "plot-work/native-plots/before-F.Cu.svg": "ea4fe51d95bad36c58080e7b6d2085a601820161c7f984f00ab0f6c741588438",
+    "plot-work/plots/before-F.Cu.svg": "f6772109c52a0a09459fcf8089ba774771f5fa65671c205695b185ca102c0465",
+    "plot-work/before-F.Cu.log": "efc367fa8049f20c27fe939f015d0bcdec8b924db194900b6daa58cbf5e01cb2",
+    "plot-work/before-F.Cu-process.json": "6642ef96b20aa509b9591a28c76ee98fc31db5b8298d84b76f50ed6e7d6a2af0",
+    "plot-work/after-F.Cu-input/ArcDice.kicad_pcb": "71bf8ee0ed4a828eda01b8ca23c33051633eec173db27a51714f45f941821310",
+    "plot-work/after-F.Cu-input/ArcDice.kicad_prl": "4893e8317a8b32a1845ec2011c070cbd729f114f5efe0a1fe4de75b64a2ec448",
+    "plot-work/after-F.Cu-input/ArcDice.kicad_pro": "be12f193331f3091ef31b9df28dc968119be56269adddcd5b2ed2921523223f6",
+    "plot-work/after-F.Cu-input/ArcDice.kicad_sch": "388bb0410c3372c2331c84b44ba8a45e10c4b34206a3b28b65cb90057129e4de",
+    "plot-work/after-F.Cu-input/_licenses/creator/LICENSE": "13aa5751cc47416650ad3c976d1c001f32ca3b3d49caac777ae66e819a437298",
+    "plot-work/after-F.Cu-input/_licenses/creator/README.md": "876a106e288ec606cf29239d6129d07b79a134005769ba50ef0d450622c1751b",
+    "plot-work/after-F.Cu-input-binding.json": "62f3091f7e7a21e3ea53114bba331ea7cf3f1495344fd1caed2723a277d90531",
+    "plot-work/native-plots/after-F.Cu.svg": "dfb591e60aa422d42e4740b3c4b80e85f319d22690cacec370ce255ed07c8afb",
+    "plot-work/plots/after-F.Cu.svg": "77a88c720182fc50ab2ca5b28b48d9dfe5209774d6c9aa9f16260de62117bb7f",
+    "plot-work/after-F.Cu.log": "a70ce942e96454b384d39197cbdf3192e0c64bf3cdd3f5e1245faabf56b3ae0b",
+    "plot-work/after-F.Cu-process.json": "d6aab8d25b42c8fd288232900a18a65c783c668a8f99f4e0c1481dafff5a08b1",
+    "plot-work/before-B.Cu-input/ArcDice.kicad_pcb": "098e90725279e698f61d7f4a5f0281202ba32f655b9c430047c019783a60bf96",
+    "plot-work/before-B.Cu-input/ArcDice.kicad_prl": "4893e8317a8b32a1845ec2011c070cbd729f114f5efe0a1fe4de75b64a2ec448",
+    "plot-work/before-B.Cu-input/ArcDice.kicad_pro": "be12f193331f3091ef31b9df28dc968119be56269adddcd5b2ed2921523223f6",
+    "plot-work/before-B.Cu-input/ArcDice.kicad_sch": "388bb0410c3372c2331c84b44ba8a45e10c4b34206a3b28b65cb90057129e4de",
+    "plot-work/before-B.Cu-input/_licenses/creator/LICENSE": "13aa5751cc47416650ad3c976d1c001f32ca3b3d49caac777ae66e819a437298",
+    "plot-work/before-B.Cu-input/_licenses/creator/README.md": "876a106e288ec606cf29239d6129d07b79a134005769ba50ef0d450622c1751b",
+    "plot-work/before-B.Cu-input-binding.json": "08bdfbcc327ec427576751ff67c5f0f226f721b9fa61aaa80501b4606b086c8d",
+    "plot-work/native-plots/before-B.Cu.svg": "b1502c96f311e615d7f7d8f49b73c8a60bc8388316d3e847cb22ceadf3f34aa7",
+    "plot-work/plots/before-B.Cu.svg": "62c4bb8311a5a90e2aa2b719f4e17f215ddb70cbfe5f02add20165285fc3407e",
+    "plot-work/before-B.Cu.log": "f4090f6f04145fe6f2c718c282e0a103c219608220c9d95eb071be2d447b829a",
+    "plot-work/before-B.Cu-process.json": "5f2f0633145c464591d018259e1d046eeae031b090836977c9507f29d858f9ab",
+    "plot-work/after-B.Cu-input/ArcDice.kicad_pcb": "71bf8ee0ed4a828eda01b8ca23c33051633eec173db27a51714f45f941821310",
+    "plot-work/after-B.Cu-input/ArcDice.kicad_prl": "4893e8317a8b32a1845ec2011c070cbd729f114f5efe0a1fe4de75b64a2ec448",
+    "plot-work/after-B.Cu-input/ArcDice.kicad_pro": "be12f193331f3091ef31b9df28dc968119be56269adddcd5b2ed2921523223f6",
+    "plot-work/after-B.Cu-input/ArcDice.kicad_sch": "388bb0410c3372c2331c84b44ba8a45e10c4b34206a3b28b65cb90057129e4de",
+    "plot-work/after-B.Cu-input/_licenses/creator/LICENSE": "13aa5751cc47416650ad3c976d1c001f32ca3b3d49caac777ae66e819a437298",
+    "plot-work/after-B.Cu-input/_licenses/creator/README.md": "876a106e288ec606cf29239d6129d07b79a134005769ba50ef0d450622c1751b",
+    "plot-work/after-B.Cu-input-binding.json": "433212dd929f7a94824f9e3e7beb4963354a8c99b6642ddb5cb6c94c938f2eda",
+    "plot-work/native-plots/after-B.Cu.svg": "0ff9a145cdef20df0c8181d108cfa025ceef147662252838f45dd8c81c3e58ea",
+    "plot-work/plots/after-B.Cu.svg": "9baf9c606cc6ae4d2697538d318d60b925abda78fb8a82397f45fd7c47221c9a",
+    "plot-work/after-B.Cu.log": "fee7eff29128a7061871347063681271a73972ff6c63b1c5e9ef3d63795a4161",
+    "plot-work/after-B.Cu-process.json": "ae81f8fc98d40de5d9b4e0e5f4512a05950ae27d3dde67bee715287ba2ff97e9",
+    "preview.html": "044099d046e67fa73f1cee65be297212e5e107a1e35ffa97c570d3010a6a09ca"
+  },
+  "source_and_installed_tracked_unchanged": true,
+  "source_packet_unchanged": true,
+  "complete_original_source_file_count": 19345,
+  "installed_distribution_file_count": 479,
+  "wall_seconds": 34.055862624998554,
+  "total_cpu_seconds": 32.065186,
+  "within_budget": true
+}

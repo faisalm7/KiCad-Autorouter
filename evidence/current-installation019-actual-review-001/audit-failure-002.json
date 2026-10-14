@@ -1,0 +1,10 @@
+{
+  "error": "AssertionError",
+  "message": "",
+  "new_native_execution": false,
+  "review_children": 0,
+  "review_lifetime_self_cpu_seconds": 4.840463,
+  "review_wall_seconds": 6.2929980420012726,
+  "status": "failed",
+  "traceback": "Traceback (most recent call last):\n  File \"/Users/faisal/Projects/KiCad-Autorouter-local/.runs/current-installation019-actual-review-001/audit.py\", line 111, in <module>\n    with patch.object(subprocess,'run',no_process),patch.object(subprocess,'Popen',no_process):record=run()\n                                                                                                      ^^^^^\n  File \"/Users/faisal/Projects/KiCad-Autorouter-local/.runs/current-installation019-actual-review-001/audit.py\", line 92, in run\n    b=f.read_json(review_path.parent/'plot-work'/(name+'-input-binding.json'));before_hash=p.tree_hash(board.parent);assert b['source']==str(board)and b['before']==before_hash and b['input']==str(work/source.name)\n                                                                                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+}
