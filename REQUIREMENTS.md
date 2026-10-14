@@ -6,6 +6,7 @@ October 14, 2026. Current tested runtime e6aacc8; exact source/tools are bound i
 |---|---|---|
 | G0 local checkpoint | Mac/local branch; staged audit and independent GitHub SHA/file, d882081 | Audited development backups only; no formal publication |
 | Offline native routing | `pipeline`, `native`, `runner`; `doctor`, `route`, `check-result`; pinned KiCad10/FR2.5/Java25.0.2 actual positives/invalid controls | Qualified Mac/apps only; no runtime AI/network/account |
+| Current native rule-area validator | [Official signed10.0.7 copy/version](evidence/kicad-1007-signed-bundle-001.json); [explicit diagnostic helpers/full049](evidence/native-toolchain-navigation-source-001.json) | Actual positive/prohibited-area controls pending; production10.0.0 remains, no broader support from binary metadata |
 | Original rules / protected copper | Preflight, immutable/scope/layer checks and original-rule native validation; actual protected import/invalid controls | Unknown/custom/advanced semantics block |
 | Final native proof | Shared final saved-refill/DRC/connectivity/class/pour/protection/report-hash readers | Missing/stale/corrupt/unsupported evidence rejects |
 | Complete schematic | Native parity, bound narrow legacy-field bridge; real mismatch negatives | Qualified flat formats only; hierarchy/critical mismatches remain refused |

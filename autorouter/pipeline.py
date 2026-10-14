@@ -7,6 +7,7 @@ import copy
 from contextlib import contextmanager
 from contextvars import ContextVar
 import datetime
+from dataclasses import dataclass
 from decimal import Decimal, InvalidOperation
 import hashlib
 import json
@@ -33,6 +34,57 @@ KNOWN_CHECKS = CRITICAL_CHECKS | set('annular_width clearance connection_width c
 
 class Rejected(Exception):
     pass
+
+@dataclass(frozen=True)
+class ExperimentalNativeToolchain:
+    """Explicit 10.0.7 diagnostic tools; not production admission or signing proof."""
+    cli: Path
+    python: Path
+    pcbnew: Path
+    expected_version: str
+    cli_sha256: str
+    python_sha256: str
+    pcbnew_sha256: str
+
+    def __post_init__(self):
+        if self.expected_version!='10.0.7':raise Rejected('unsupported experimental native version')
+        self.check()
+
+    def check(self):
+        from .placement_clearance import read_bytes
+        for name in ('cli','python','pcbnew'):
+            path=getattr(self,name);pin=getattr(self,name+'_sha256')
+            if (not isinstance(path,Path) or not path.is_absolute() or '..' in path.parts
+                    or not isinstance(pin,str) or not re.fullmatch(r'[0-9a-f]{64}',pin)):
+                raise Rejected('canonical explicitly pinned experimental tool required')
+            raw=read_bytes(path,128*1024*1024)
+            if hashlib.sha256(raw).hexdigest()!=pin:raise Rejected('experimental native tool changed: '+name)
+
+    def record(self):
+        return {'schema':1,'mode':'experimental-native-qualification','expected_version':self.expected_version,
+                'tools':{name:{'path':str(getattr(self,name)),'sha256':getattr(self,name+'_sha256')}
+                         for name in ('cli','python','pcbnew')}}
+
+    @classmethod
+    def from_record(cls,record):
+        if (type(record)is not dict or set(record)!={'schema','mode','expected_version','tools'}
+                or type(record['schema'])is not int or record['schema']!=1
+                or record['mode']!='experimental-native-qualification'
+                or type(record['tools'])is not dict or set(record['tools'])!={'cli','python','pcbnew'}):
+            raise Rejected('invalid experimental native tool record')
+        args={'expected_version':record['expected_version']}
+        for name,row in record['tools'].items():
+            if type(row)is not dict or set(row)!={'path','sha256'} or type(row['path'])is not str:
+                raise Rejected('invalid experimental tool path/pin record')
+            args[name]=Path(row['path']);args[name+'_sha256']=row['sha256']
+        return cls(**args)
+
+
+def experimental_native_version(toolchain):
+    if toolchain is None:return '10.0.0'
+    if type(toolchain)is not ExperimentalNativeToolchain:raise Rejected('explicit experimental native toolchain required')
+    toolchain.check();return toolchain.expected_version
+
 
 def sha(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
@@ -328,9 +380,10 @@ def transplant_fill(original, filled):
         z.extend(copy.deepcopy(n) for n in fill_by_id[zid] if isinstance(n,list) and n and n[0] in DERIVED_ZONE)
     return out
 
-def parse_report(path, board_name):
+def parse_report(path, board_name, *, native_toolchain=None):
+    expected_version=experimental_native_version(native_toolchain)
     data=json.loads(Path(path).read_text())
-    if data.get('$schema')!='https://schemas.kicad.org/drc.v1.json' or data.get('kicad_version')!='10.0.0' or data.get('source')!=board_name:
+    if data.get('$schema')!='https://schemas.kicad.org/drc.v1.json' or data.get('kicad_version')!=expected_version or data.get('source')!=board_name:
         raise Rejected('validator report identity/schema/version mismatch')
     for key in ('violations','unconnected_items','schematic_parity','ignored_checks','included_severities'):
         if not isinstance(data.get(key),list): raise Rejected('validator report missing '+key)
@@ -416,18 +469,26 @@ def check_drc_project(before, after, board_name, *, saved=False):
 
 
 class Job:
-    def __init__(self, out, seconds):
+    def __init__(self, out, seconds, *, native_toolchain=None):
+        experimental_native_version(native_toolchain)
+        self.native_toolchain=native_toolchain
+        self.native_cli=c.CLI if native_toolchain is None else native_toolchain.cli
+        self.native_python=c.PYTHON if native_toolchain is None else native_toolchain.python
         self.out=Path(out).resolve(); self.out.mkdir(parents=True,exist_ok=False)
         self.started=time.monotonic(); self.cpu_started=time.process_time()
         self.deadline=self.started+seconds; self.steps=[]; self.seconds=seconds
         self.env=os.environ.copy()
         self.env.update(LANG='C',LC_ALL='C')  # Stable pinned native diagnostics.
+        if native_toolchain is not None:
+            for key in ('PYTHONPATH','PYTHONHOME'):self.env.pop(key,None)
+            self.env.update(PYTHONNOUSERSITE='1',PYTHONDONTWRITEBYTECODE='1')
         # Avoid writing personal KiCad settings. No model/API/network used in route time.
         for key, relative in [('KICAD_CONFIG_HOME','kicad-config'),('KICAD_CACHE_HOME','kicad-cache'),('KICAD_DOCUMENTS_HOME','kicad-documents')]:
             base=self.out/relative
             (base/('10.0' if key=='KICAD_CONFIG_HOME' else 'kicad/10.0')).mkdir(parents=True)
             self.env[key]=str(base)
     def step(self, name, argv, allowed=(0,)):
+        experimental_native_version(self.native_toolchain)
         remaining=self.deadline-time.monotonic()
         if remaining<=0: raise Rejected('timeout: whole task budget exhausted')
         result=run([str(a) for a in argv],cwd=self.out,log=self.out/(name+'.log'),timeout=remaining,env=self.env)
@@ -435,10 +496,14 @@ class Job:
         save_json(self.out/(name+'-process.json'),result)
         if result['status'] not in ('success','nonzero_exit') or result['exit_code'] not in allowed:
             raise Rejected(name+': '+result['status']+' exit='+str(result['exit_code']))
+        experimental_native_version(self.native_toolchain)
         return result
     def native(self,name,action,board,output,*args):
-        return self.step(name,[c.PYTHON,c.ROOT/'autorouter/native.py',action,board,output,*args])
+        prefix=[] if self.native_toolchain is None else ['--experimental-native',json.dumps(self.native_toolchain.record(),sort_keys=True)]
+        return self.step(name,[self.native_python,c.ROOT/'autorouter/native.py',*prefix,action,board,output,*args])
     def drc(self,name,board,save=False,*,schematic_parity=False):
+        if self.native_toolchain is not None and schematic_parity:
+            raise Rejected('experimental area qualification does not admit schematic parity yet')
         original_input=board
         before=tree_hash(board.parent)
         validation_before=None; phase='copy'
@@ -450,7 +515,7 @@ class Job:
             phase='input_snapshot'; validation_before=tree_hash(board.parent)
             if validation_before!=before: raise Rejected('native DRC validation copy differs before native')
             report=self.out/(name+'.json')
-            argv=[c.CLI,'pcb','drc','--format','json','--severity-all','--all-track-errors','--refill-zones','--exit-code-violations','--output',report]
+            argv=[self.native_cli,'pcb','drc','--format','json','--severity-all','--all-track-errors','--refill-zones','--exit-code-violations','--output',report]
             if schematic_parity:argv.insert(8,'--schematic-parity')
             if save: argv+=['--save-board']
             phase='native'; result=self.step(name,argv+[board],allowed=(0,5))
@@ -459,8 +524,9 @@ class Job:
             result['validated_input_sha256']=before[board.name]
             result['emitted_candidate']=str(original_input)
             phase='binding_publication'
-            save_json(self.out/(name+'-binding.json'),{'source':str(original_input),'input':str(board),'before':before,'after':after,'saved':save})
-            phase='report_parse'; parsed=parse_report(report,board.name)
+            save_json(self.out/(name+'-binding.json'),{'source':str(original_input),'input':str(board),'before':before,'after':after,'saved':save,
+                **({'experimental_native_toolchain':self.native_toolchain.record()} if self.native_toolchain is not None else {})})
+            phase='report_parse'; parsed=parse_report(report,board.name,native_toolchain=self.native_toolchain)
             any_findings=bool(parsed['findings'])
             phase='exit_report'
             if (result['exit_code']==0)==any_findings: raise Rejected('DRC exit/report mismatch')
@@ -471,7 +537,7 @@ class Job:
             if fields.has_fields(parsed['findings']) and schematic_parity:
                 phase='complete_field_observation'
                 fields.collect(self,name,board,json.loads(report.read_text()))
-                parsed=parse_report(report,board.name)
+                parsed=parse_report(report,board.name,native_toolchain=self.native_toolchain)
             return parsed
         except (Exception,KeyboardInterrupt) as exc:
             # Evidence only: retain the first failure and never normalize a
@@ -480,7 +546,8 @@ class Job:
             try: after=tree_hash(board.parent)
             except (Exception,KeyboardInterrupt) as capture:
                 errors.append('after snapshot: '+type(capture).__name__+': '+str(capture))
-            binding={'source':str(original_input),'input':str(board),'before':before,'after':after,'saved':save}
+            binding={'source':str(original_input),'input':str(board),'before':before,'after':after,'saved':save,
+                **({'experimental_native_toolchain':self.native_toolchain.record()} if self.native_toolchain is not None else {})}
             try: save_json(self.out/(name+'-binding.json'),binding)
             except (Exception,KeyboardInterrupt) as capture:
                 errors.append('binding publication: '+type(capture).__name__+': '+str(capture))

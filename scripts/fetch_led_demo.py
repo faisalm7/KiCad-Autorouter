@@ -66,6 +66,100 @@ UV_PROFILE = dict(schema=1, profile_id='uv-dosimeter', project_id='uv-dosimeter'
     raw_assets_public=False, warnings=['Original11-file UV source not acquired/native qualified by profile registration.', 'Hardware CERN-OHL-S2 licence retained at hardware/LICENSE; root notice/README+CC-BY-SA4 documentation licence preserved beside native project.', 'Creator CTU-course mirror/author credits and local Waveshare footprint/symbol origins retained; independent ancestry/unresolved assets not proven.', 'Battery/charging/BLE/RF and analog measurement requirements remain unknown; no unrestricted reroute or medical/electrical/physical approval.', 'Only exact11public originals; no firmware/app/math/assets/models/scripts downloaded or executed. Source bytes/names/hierarchy never normalized.'])
 
 
+
+NAV_COMMIT = 'b64c0dac2134d69963bf28120305bd79aad3c8ac'
+NAV_REPOSITORY = 'sparkfun/SparkFun_Qwiic_Navigation_Switch'
+NAV_CACHE_DIRECTORY = '.runs/corpus-next-001/metadata/sparkfun__SparkFun_Qwiic_Navigation_Switch'
+NAV_NOTICE_NAMES = ('LICENSE.md', 'README.md')
+NAV_CACHE_PINS = {
+    '.runs/corpus-next-001/metadata-sha256.json': 'e0ed391a8bfdd7d4bc7ef72202ab8f152961cf86df43cba2ba51a77cc4a5b422',
+    NAV_CACHE_DIRECTORY+'/summary.json': '2dfb849f12cd7b39e5624b4b30009f4747488b4bd3c89188000bf974aa3985b8',
+    NAV_CACHE_DIRECTORY+'/tree.json': '1cc332989db59aea0e35feb80947807dda49dc61839848af3aa170e48eec116d'}
+NAV_RIGHTS = 'Root LICENSE.md explicitly assigns hardware CC-BY-SA4.0, separately software/firmware MIT; retain exact SparkFun attribution and README beside native project. Unacquired models/assets and embedded/external dependencies remain unclosed. No physical, electrical, ancestry or routing-support claim.'
+NAV_PROFILE = dict(schema=1, profile_id='navigation-switch', project_id='navigation-switch',
+    repository=NAV_REPOSITORY, commit=NAV_COMMIT, rows=[
+        dict(source_path=name, bytes=size, git_blob_sha1=blob, mode='100644',
+             repository=NAV_REPOSITORY, commit=NAV_COMMIT, destination='navigation-switch/'+name,
+             raw_url='https://raw.githubusercontent.com/'+NAV_REPOSITORY+'/'+NAV_COMMIT+'/'+name,
+             blob_url='https://github.com/'+NAV_REPOSITORY+'/blob/'+NAV_COMMIT+'/'+name,
+             rights_basis=NAV_RIGHTS, **({'sha256':pin} if pin else {}))
+        for name,size,blob,pin in (
+            ('LICENSE.md', 2883, '37238686da3d06815b45154961d5744d28516153', '60350b68666a0d4903a7197114c723fc6d398d72218b785cc074013e39db374d'),
+            ('README.md', 4529, '4aefc290f41ee819f5b20959f47d4a0a1688d6be', '8bb25df4388a5600546fdbf0e9d168b1b7ff2d36309a9c11da368952600bc1d3'),
+            ('Hardware/SparkFun_Qwiic_Navigation.kicad_pcb', 676230, 'e042366a1aa0e33acdb3b81111fa5aabd018b175', None),
+            ('Hardware/SparkFun_Qwiic_Navigation.kicad_pro', 14759, '7d16ce1658d50c44566614c640eaba90606a262b', None),
+            ('Hardware/SparkFun_Qwiic_Navigation.kicad_sch', 271174, '014fc8bd4f03c9b245907a72dbcf478e092a2d37', None),
+        )], directories=['Hardware'], board_path='Hardware/SparkFun_Qwiic_Navigation.kicad_pcb',
+    output_prefix='navigation-switch-demo-', default_output='.data/navigation-switch-demo-001',
+    file_count=5, bytes=969575, max_requests=5, network_byte_cap=969580,
+    max_single_response_bytes=676231, output_byte_cap=2*1024**2,
+    wall_budget_seconds=300, cpu_budget_seconds=300, request_wall_seconds=30,
+    native_packet_notice_copies={'Hardware/_licenses/creator/LICENSE.md':'LICENSE.md',
+        'Hardware/_licenses/creator/README.md':'README.md'},
+    native_packet_files=7, native_packet_bytes=976987, development_exposed=True,
+    independent_ancestry_established=False, native_validation_performed_by_fetch=False,
+    raw_assets_public=False, warnings=[
+        'Original five-file Navigation source; acquisition alone does not establish native/routing support.',
+        'Exact SparkFun CC-BY-SA4 hardware attribution and README retained beside native project.',
+        'PCA9554/input-switch/RGB topology and sibling Directional Pad ancestry remain unqualified.',
+        'Actual copper layers, rules, pads, external references, jumper protection and physical function remain unknown.',
+        'Only five fixed originals and two exact notice copies; no models, firmware, assets or scripts fetched/executed.'])
+
+def _cache_bodies(root, cfg, names, directory, witness, caps):
+    """Shared bounded immutable notice body capture; no cache search/fallback."""
+    from autorouter.placement_clearance import read_bytes
+    rows={r['source_path']:r for r in cfg['rows']};files={}
+    for name in names:
+        row=rows[name];relative=directory+'/'+name
+        raw=read_bytes(shared.contained(root,root/shared.safe(relative)),row['bytes'])
+        info=shared.payload(row,raw)
+        files[name]={'raw':raw,'path':relative,'sha256':info['sha256']}
+        witness[relative]=info['sha256'];caps[relative]=row['bytes']
+    return files
+
+def navigation_notice_cache(root, cfg):
+    """Exact old metadata witness; its unmeasured old timing is never invented."""
+    from autorouter.placement_clearance import read_bytes
+    if cfg['profile_id']!='navigation-switch':raise ValueError('Navigation notice reuse requires Navigation profile')
+    witness={};caps={};proofs={}
+    for name,pin in NAV_CACHE_PINS.items():
+        raw=read_bytes(shared.contained(root,root/shared.safe(name)),64*1024)
+        if shared.sha(raw)!=pin:raise ValueError('Navigation cached metadata pin differs')
+        proofs[name]=shared.decode(raw);witness[name]=pin;caps[name]=64*1024
+    summary_name=NAV_CACHE_DIRECTORY+'/summary.json';summary=proofs[summary_name]
+    tree_name=NAV_CACHE_DIRECTORY+'/tree.json';tree=proofs[tree_name]
+    manifest=proofs['.runs/corpus-next-001/metadata-sha256.json']
+    if (summary.get('repository')!=cfg['repository'] or summary.get('commit')!=cfg['commit']
+            or summary.get('source_url')!='https://github.com/'+cfg['repository']+'/tree/'+cfg['commit']
+            or summary.get('tree_sha')!=cfg['commit'] or summary.get('metadata_complete') is not True
+            or summary.get('board_payloads_downloaded')!=0 or summary.get('status')!='metadata_only_not_acquired'
+            or tree.get('sha')!=cfg['commit'] or tree.get('truncated') is not False
+            or manifest.get('schema')!=1):raise ValueError('Navigation cached metadata scope differs')
+    documents=summary.get('metadata_documents',[])
+    if len(documents)!=2 or {r.get('path') for r in documents}!=set(NAV_NOTICE_NAMES):
+        raise ValueError('Navigation cached notice population differs')
+    files=_cache_bodies(root,cfg,NAV_NOTICE_NAMES,NAV_CACHE_DIRECTORY,witness,caps)
+    for row in cfg['rows']:
+        entries=[r for r in tree.get('tree',[]) if r.get('path')==row['source_path']]
+        if len(entries)!=1 or any(entries[0].get(k)!=v for k,v in
+                {'type':'blob','mode':row['mode'],'size':row['bytes'],'sha':row['git_blob_sha1']}.items()):
+            raise ValueError('Navigation cached tree/file pin differs')
+    for name,item in files.items():
+        row=next(r for r in cfg['rows'] if r['source_path']==name)
+        prior=next(r for r in documents if r['path']==name)
+        if any(prior.get(k)!=v for k,v in {'url':row['raw_url'],'bytes':row['bytes'],'sha256':item['sha256']}.items()):
+            raise ValueError('Navigation cached notice provenance differs')
+    for name,pin in witness.items():
+        if name!='.runs/corpus-next-001/metadata-sha256.json' and manifest.get('files',{}).get(name[len('.runs/corpus-next-001/'):])!=pin:
+            raise ValueError('Navigation cached manifest binding differs')
+    return {'files':files,'witness':witness,'caps':caps,'label':'Navigation cached notice',
+        'prior_acquisition':{'receipt':summary_name,'sha256':witness[summary_name],
+            'proof_kind':'pinned metadata summary/tree/manifest; not a timed HTTP receipt',
+            'retained_metadata_bodies':2,'retained_metadata_bytes':7412,
+            'new_network_requests':None,'received_bytes':None,'wall_seconds':None,'full_cpu_seconds':None,
+            'bootstrap_emission_allowance_seconds':None,'cost_status':'unmeasured prior development metadata; not zero',
+            'comparative_accounting_complete':False}}
+
 def uv_license_cache(root, cfg):
     """Explicit fixed prior licence evidence only; no cache search or fallback."""
     from autorouter.placement_clearance import read_bytes
@@ -79,19 +173,16 @@ def uv_license_cache(root, cfg):
             or proof.get('new_network_requests')!=3 or proof.get('received_bytes')!=35778
             or len(requests)!=3 or {r.get('source_path') for r in requests}!=set(UV_LICENSE_NAMES)):
         raise ValueError('UV cached licence receipt scope differs')
-    rows={r['source_path']:r for r in cfg['rows']}; files={}; witness={proof_name:shared.sha(proof_raw)}; caps={proof_name:64*1024}
+    rows={r['source_path']:r for r in cfg['rows']}; witness={proof_name:shared.sha(proof_raw)}; caps={proof_name:64*1024}
+    files=_cache_bodies(root,cfg,UV_LICENSE_NAMES,UV_CACHE_DIRECTORY+'/licenses',witness,caps)
     for name in UV_LICENSE_NAMES:
-        row=rows[name]; prior=next(r for r in requests if r['source_path']==name)
-        relative=UV_CACHE_DIRECTORY+'/licenses/'+name
-        path=shared.contained(root,root/shared.safe(relative))
-        raw=read_bytes(path,row['bytes']); info=shared.payload(row,raw)
+        row=rows[name]; prior=next(r for r in requests if r['source_path']==name);info=files[name]
         if (prior.get('url')!=row['raw_url'] or prior.get('final_url')!=row['raw_url']
                 or prior.get('http_status')!=200 or prior.get('payload_verified') is not True
                 or prior.get('bytes')!=row['bytes'] or prior.get('received_bytes')!=row['bytes']
                 or prior.get('git_blob_sha1')!=row['git_blob_sha1']
                 or prior.get('sha256')!=info['sha256'] or prior.get('response_sha256')!=info['sha256']):
             raise ValueError('UV cached licence response provenance differs')
-        files[name]={'raw':raw,'path':relative,'sha256':info['sha256']}; witness[relative]=info['sha256']; caps[relative]=row['bytes']
     return {'files':files,'witness':witness,'caps':caps,'prior_acquisition':{
         'receipt':proof_name,'sha256':shared.sha(proof_raw),'new_network_requests':3,'received_bytes':35778,
         'wall_seconds':proof['wall_seconds'],'full_cpu_seconds':proof['full_cpu_seconds'],
@@ -103,9 +194,10 @@ def check_uv_cache(root, cache):
     from autorouter.placement_clearance import read_bytes
     for name,pin in cache['witness'].items():
         if shared.sha(read_bytes(shared.contained(root,root/shared.safe(name)),cache['caps'][name]))!=pin:
-            raise ValueError('UV cached licence input changed during acquisition')
+            raise ValueError(cache.get('label','UV cached licence')+' input changed during acquisition')
 
 def fixed_profile(profile_id='led'):
+    if profile_id=='navigation-switch':return copy.deepcopy(NAV_PROFILE)
     if profile_id=='uv-dosimeter':return copy.deepcopy(UV_PROFILE)
     if profile_id=='cellscan':return copy.deepcopy(CELL_SCAN_PROFILE)
     if profile_id=='arcdice':return copy.deepcopy(ARC_PROFILE)
@@ -183,39 +275,56 @@ class OwnedFile:
         try:os.stat(self.path.name,dir_fd=self.directory_fd,follow_symlinks=False);return True
         except FileNotFoundError:return False
 
-def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fetch_one,started=None,cpu_started=None,reuse_uv_licenses=False):
+def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fetch_one,started=None,cpu_started=None,reuse_uv_licenses=False,reuse_navigation_notices=False):
     started=time.monotonic() if started is None else started;cpu_started=cpu() if cpu_started is None else cpu_started
     cfg=fixed_profile(profile_id);root=Path(root).absolute();out=destination(root,name,profile_id=profile_id);rows=cfg['rows'];network_cap=cfg['network_byte_cap'];planned=cfg['bytes'];nested=bool(cfg['native_packet_notice_copies'])
     count=cfg.get('file_count',5);max_requests=cfg.get('max_requests',5);output_cap=cfg.get('output_byte_cap',OUTPUT_BYTES)
     if len(rows)!=count or count!=max_requests:raise ValueError('fixed source/request population differs')
     if type(reuse_uv_licenses) is not bool or reuse_uv_licenses and profile_id!='uv-dosimeter':raise ValueError('explicit UV-only licence reuse flag required')
+    if type(reuse_navigation_notices) is not bool or reuse_navigation_notices and profile_id!='navigation-switch':raise ValueError('explicit Navigation-only notice reuse flag required')
+    direct=profile_id=='navigation-switch'
+    if direct and (cfg['directories']!=['Hardware'] or any(shared.safe(r['source_path']).parent not in (Path('.'),Path('Hardware')) for r in rows)):
+        raise ValueError('fixed Navigation direct response hierarchy differs')
     if out.exists():raise ValueError('destination already exists; preserve earlier attempts')
     if fetch is not True:
-        return {'schema':1,'action':'plan_only','destination':str(out),'source_commit':rows[0]['commit'],
+        plan={'schema':1,'action':'plan_only','destination':str(out),'source_commit':rows[0]['commit'],
             'planned_files':count,'planned_bytes':planned,'network_requests':0,'native_accepted':False,
-            'planned_network_requests':count-(3 if reuse_uv_licenses else 0),'planned_cached_licenses':3 if reuse_uv_licenses else 0,
-            'command':'scripts/fetch_led_demo.py --project '+profile_id+' --fetch --output '+name+(' --reuse-uv-licenses' if reuse_uv_licenses else '')}
-    cache=uv_license_cache(root,cfg) if reuse_uv_licenses else None
+            'planned_network_requests':count-(3 if reuse_uv_licenses else 2 if reuse_navigation_notices else 0),'planned_cached_licenses':3 if reuse_uv_licenses else 0,
+            'command':'scripts/fetch_led_demo.py --project '+profile_id+' --fetch --output '+name+(' --reuse-uv-licenses' if reuse_uv_licenses else ' --reuse-navigation-notices' if reuse_navigation_notices else '')}
+        if direct:plan['planned_cached_notices']=2 if reuse_navigation_notices else 0
+        return plan
+    cache=uv_license_cache(root,cfg) if reuse_uv_licenses else navigation_notice_cache(root,cfg) if reuse_navigation_notices else None
     extra=ARC_MATERIAL if nested else ()
     def material():return {n:shared.sha(shared.bounded(shared.contained(root,root/n))) for n in (*MATERIAL,*extra)}
-    witness=material();owner={};project_owner={};native_owner={};response_owner={};completed={};requests=[];received={};raw_fd=None
+    witness=material();owner={};project_owner={};native_owner={};response_owner={};completed={};requests=[];received={};raw_fd=None;hardware_owner={};hardware_fd=None
     def owned():
         h.owned_destination(owner)
-        for scope in (project_owner,native_owner,response_owner):
+        for scope in (project_owner,native_owner,response_owner,hardware_owner):
             if scope.get('created'):h.owned_destination(scope)
         if raw_fd is not None:
-            identity=os.fstat(raw_fd);scope=response_owner if nested else project_owner
+            identity=os.fstat(raw_fd);scope=response_owner if nested and not direct else project_owner
             if (identity.st_dev,identity.st_ino)!=scope['directory_identity']:raise ValueError('owned response parent descriptor differs')
+        if hardware_fd is not None:
+            identity=os.fstat(hardware_fd);named=os.stat('Hardware',dir_fd=raw_fd,follow_symlinks=False)
+            if (not stat.S_ISDIR(named.st_mode) or (named.st_dev,named.st_ino)!=hardware_owner['directory_identity']
+                    or (identity.st_dev,identity.st_ino)!=hardware_owner['directory_identity']):raise ValueError('owned Navigation response parent differs')
         return out
     def remaining():
         left=min(SECONDS-(time.monotonic()-started),SECONDS-(cpu()-cpu_started))
         if left<=0:raise TimeoutError('whole LED demo acquisition wall/CPU budget exhausted')
         return left
     shared.contained(root,out.parent);out.parent.mkdir(exist_ok=True);shared.contained(root,out.parent);out.mkdir();h.capture_destination(owner,out);project=out/'project'
-    raw_root=out/'responses' if nested else project;raw_root.mkdir();h.capture_destination(response_owner if nested else project_owner,raw_root)
+    raw_root=out/'responses' if nested and not direct else project;raw_root.mkdir();h.capture_destination(response_owner if nested and not direct else project_owner,raw_root)
     raw_fd=os.open(raw_root,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW|getattr(os,'O_CLOEXEC',0))
-    try:owned()
-    except BaseException:os.close(raw_fd);raw_fd=None;raise
+    try:
+        owned()
+        if direct:
+            os.mkdir('Hardware',dir_fd=raw_fd)
+            hardware_fd=os.open('Hardware',os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW|getattr(os,'O_CLOEXEC',0),dir_fd=raw_fd)
+            h.capture_destination(hardware_owner,project/'Hardware');owned()
+    except BaseException:
+        if hardware_fd is not None:os.close(hardware_fd);hardware_fd=None
+        os.close(raw_fd);raw_fd=None;raise
     record={'schema':1,'kind':'fixed_public_'+profile_id.replace('-','_')+'_source_acquisition','status':'running','accepted':False,
         'native_accepted':False,'physical_electrical_validation':False,'routing_support':'unqualified',
         'destination':str(out),'project':str(project),'repository':rows[0]['repository'],'source_commit':rows[0]['commit'],
@@ -235,6 +344,7 @@ def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fe
           'Original missing_tuning_profile warning and track_on_post_machined_layer error remain unchanged.'],
         'accounting':'Controller clock begins before project imports for CLI. Stored wall/fullCPU sample precedes final publication; final cap covers publication/readback. No speedup or routing-quality claim.'}
     record.update(transfer_count=0,reused_input_files=0,reused_input_bytes=0,cache_inputs_current=True,prior_cache_acquisition=None if cache is None else cache['prior_acquisition'])
+    if direct:record['response_layout']='project'
     if nested:record.update(warnings=cfg['warnings'],native_project=str(out/'native-project'),native_packet_prepared=False,native_packet_hashes=None)
     def exact_source():
         if nested:
@@ -275,14 +385,15 @@ def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fe
     try:
         stable()
         for index,row in enumerate(rows):
-            stable();artifact=('responses/'+str(index+1).zfill(2)+'.payload') if nested else 'project/'+row['source_path'];req={'index':index,'source_path':row['source_path'],'artifact':artifact,'transport':'verified_cache' if cache is not None and row['source_path'] in cache['files'] else 'network'};requests.append(req)
+            stable();artifact=('responses/'+str(index+1).zfill(2)+'.payload') if nested and not direct else 'project/'+row['source_path'];req={'index':index,'source_path':row['source_path'],'artifact':artifact,'transport':'verified_cache' if cache is not None and row['source_path'] in cache['files'] else 'network'};requests.append(req)
+            response_fd=hardware_fd if direct and shared.safe(row['source_path']).parent==Path('Hardware') else raw_fd
             allowance=network_cap-sum(r.get('received_bytes',0) for r in requests)
             if req['transport']=='verified_cache':
                 item=cache['files'][row['source_path']];raw=item['raw']
-                with OwnedFile(out/artifact,owned,raw_fd).open('xb') as stream:stream.write(raw)
+                with OwnedFile(out/artifact,owned,response_fd).open('xb') as stream:stream.write(raw)
                 req.update(status='verified_cache_copied',received_bytes=0,cached_bytes=len(raw),response_sha256=shared.sha(raw),
                     cache_body={'file':item['path'],'sha256':item['sha256']},prior_receipt={'file':cache['prior_acquisition']['receipt'],'sha256':cache['prior_acquisition']['sha256']})
-            else:raw=transport(row,req,OwnedFile(out/artifact,owned,raw_fd),allowance,remaining)
+            else:raw=transport(row,req,OwnedFile(out/artifact,owned,response_fd),allowance,remaining)
             owned();remaining()
             if sum(r.get('received_bytes',0) for r in requests)>network_cap:raise ValueError('network byte cap exceeded')
             info=shared.payload(row,raw)
@@ -290,7 +401,10 @@ def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fe
             completed[artifact]=info;received[row['source_path']]=raw;record['files'].append({**row,**info});stable()
         if nested:
             from experiments.placement_handoff_native_v1.driver import copy_bytes
-            owned();project_owner.update(copy_bytes(received,project,expected_parent_owner=owner));owned()
+            owned()
+            if direct:verify_project(project,profile_id=profile_id)
+            else:project_owner.update(copy_bytes(received,project,expected_parent_owner=owner))
+            owned()
             packet=dict(received)
             for name,origin in cfg['native_packet_notice_copies'].items():packet[name]=received[origin]
             native_owner.update(copy_bytes(packet,out/'native-project',expected_parent_owner=owner));owned()
@@ -302,6 +416,7 @@ def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fe
     except (Exception,KeyboardInterrupt) as exc:
         record.update(status='cancelled' if isinstance(exc,KeyboardInterrupt) else 'failed',first_failure=type(exc).__name__+': '+str(exc))
     finally:
+        if hardware_fd is not None:os.close(hardware_fd);hardware_fd=None
         if raw_fd is not None:os.close(raw_fd);raw_fd=None
     publication.publish(out,record,stable,account,remaining,owned=owned)
     try:
@@ -314,9 +429,9 @@ def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fe
         raise
 
 def main():
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--fetch',action='store_true');parser.add_argument('--project',choices=('led','arcdice','analog-filter','cellscan','uv-dosimeter'),default='led');parser.add_argument('--output');parser.add_argument('--reuse-uv-licenses',action='store_true',help='Explicitly reuse only the three pinned prior UV licence bodies; no fallback');args=parser.parse_args();args.output=args.output or fixed_profile(args.project)['default_output']
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--fetch',action='store_true');parser.add_argument('--project',choices=('led','arcdice','analog-filter','cellscan','uv-dosimeter','navigation-switch'),default='led');parser.add_argument('--output');parser.add_argument('--reuse-uv-licenses',action='store_true',help='Explicitly reuse only the three pinned prior UV licence bodies; no fallback');parser.add_argument('--reuse-navigation-notices',action='store_true',help='Explicitly reuse only two pinned prior Navigation notices; old timing unmeasured, no fallback');args=parser.parse_args();args.output=args.output or fixed_profile(args.project)['default_output']
     try:
-        with shared.cancellation(),shared.alarm(SECONDS):record=fetch_demo(args.output,profile_id=args.project,fetch=args.fetch,started=START,cpu_started=CPU_START,reuse_uv_licenses=args.reuse_uv_licenses)
+        with shared.cancellation(),shared.alarm(SECONDS):record=fetch_demo(args.output,profile_id=args.project,fetch=args.fetch,started=START,cpu_started=CPU_START,reuse_uv_licenses=args.reuse_uv_licenses,reuse_navigation_notices=args.reuse_navigation_notices)
     except (Exception,KeyboardInterrupt) as exc:
         print(json.dumps({'status':'failed','reason':type(exc).__name__+': '+str(exc),'accepted':False}));return 2
     print(json.dumps({k:record[k] for k in ('action','status','destination','project','planned_files','planned_bytes','new_network_requests','received_bytes','wall_seconds','total_cpu_seconds','source_files_exact','cache_inputs_current','within_budget') if k in record}));return 0 if record.get('action')=='plan_only' or record.get('status')=='acquired_unqualified' and record.get('within_budget') and record.get('source_files_exact') and record.get('cache_inputs_current') is True else 2

@@ -34,6 +34,18 @@ def netclasses(board, source, before):
             'board_saved': False, 'nets': sorted(rows, key=lambda row: row['name'])}
 
 def main():
+    if len(sys.argv)>1 and sys.argv[1]=='--experimental-native':
+        if len(sys.argv)<6 or len(sys.argv[2])>16*1024:raise RuntimeError('bounded explicit experimental record required')
+        from autorouter.pipeline import ExperimentalNativeToolchain
+        toolchain=ExperimentalNativeToolchain.from_record(json.loads(sys.argv[2]))
+        import _pcbnew
+        if (pcbnew.GetBuildVersion()!=toolchain.expected_version
+                or Path(sys.executable).resolve()!=toolchain.python
+                or Path(_pcbnew.__file__).resolve()!=toolchain.pcbnew):
+            raise RuntimeError('loaded experimental Python/pcbnew version or path differs')
+        sys.argv=[sys.argv[0],*sys.argv[3:]]
+    elif pcbnew.GetBuildVersion()!='10.0.0':
+        raise RuntimeError('production native worker requires exact10.0.0')
     action, source, output = sys.argv[1:4]
     mapping_requested = action == 'netclasses' or (action == 'export' and len(sys.argv) == 5)
     before = (file_hash(source), file_hash(Path(source).with_suffix('.kicad_pro'))) if mapping_requested or action=='pour-audit' else None

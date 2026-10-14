@@ -17,7 +17,7 @@ class DrcFailureBinding(unittest.TestCase):
                            'board.kicad_dru':'(version 1)', 'board.kicad_prl':'{"state":"original"}'}.items():
             (self.source / name).write_text(data)
         self.before = p.tree_hash(self.source)
-        self.job = object.__new__(p.Job); self.job.out = self.root / 'run'; self.job.out.mkdir(); self.job.steps = []
+        self.job = p.Job(self.root / 'run', 30)
         self.problem = None; self.mode = 'positive'
         self.job.step = self.step
 

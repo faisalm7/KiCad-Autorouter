@@ -261,17 +261,21 @@ def check_floor_result(directory,data,original,candidate,protected):
     if {step.get('name') for step in data.get('steps',[])}!=required or len(data['steps'])!=len(required):raise p.Rejected('unexpected/missing floor execution stages')
 
 
-def check_drc_stage(directory,data,name,source,input_path,saved,before,*,schematic_parity=False,sandboxed=True):
+def check_drc_stage(directory,data,name,source,input_path,saved,before,*,schematic_parity=False,sandboxed=True,native_toolchain=None):
     """Verify a retained original-rule DRC stage, including exact saved input."""
+    p.experimental_native_version(native_toolchain)
+    if native_toolchain is not None and schematic_parity:raise p.Rejected('experimental schematic parity is unqualified')
     binding=read_json(directory/(name+'-binding.json'));after=binding.get('after')
+    expected_toolchain=None if native_toolchain is None else native_toolchain.record()
+    if binding.get('experimental_native_toolchain')!=expected_toolchain:raise p.Rejected('DRC experimental toolchain binding differs')
     if (binding.get('source')!=str(source) or binding.get('input')!=str(input_path)
             or binding.get('saved') is not saved or binding.get('before')!=before or not isinstance(after,dict)):
         raise p.Rejected('floor '+name+' binding differs')
     p.check_drc_project(before,after,source.name,saved=saved)
     if p.tree_hash(input_path.parent)!=after:
         raise p.Rejected('retained floor native stage input changed')
-    native=p.parse_report(directory/(name+'.json'),source.name)
-    argv=[*(SANDBOX if sandboxed else []),str(c.CLI),'pcb','drc','--format','json','--severity-all','--all-track-errors','--refill-zones',
+    native=p.parse_report(directory/(name+'.json'),source.name,native_toolchain=native_toolchain)
+    argv=[*(SANDBOX if sandboxed else []),str(c.CLI if native_toolchain is None else native_toolchain.cli),'pcb','drc','--format','json','--severity-all','--all-track-errors','--refill-zones',
           '--exit-code-violations','--output',str(directory/(name+'.json'))]
     if schematic_parity:argv.insert((len(SANDBOX) if sandboxed else 0)+8,'--schematic-parity')
     if saved:argv.append('--save-board')
@@ -282,6 +286,7 @@ def check_drc_stage(directory,data,name,source,input_path,saved,before,*,schemat
         raise p.Rejected('floor native stage step/input mismatch')
     from . import schematic_field_evidence as fields
     fields.check_processes(directory,data,name,input_path,sandboxed=sandboxed)
+    p.experimental_native_version(native_toolchain)
     return native
 
 
@@ -303,8 +308,8 @@ def audit_transport(directory,data,task,candidate):
 
 
 class FloorJob(p.Job):
-    def __init__(self,out,seconds,remaining):
-        super().__init__(out,seconds);self.remaining=remaining
+    def __init__(self,out,seconds,remaining,*,native_toolchain=None):
+        super().__init__(out,seconds,native_toolchain=native_toolchain);self.remaining=remaining
         self.env={key:value for key,value in self.env.items() if key not in {'PYTHONPATH','PYTHONHOME'} and (not key.startswith('KICAD_') or key in {'KICAD_CONFIG_HOME','KICAD_CACHE_HOME','KICAD_DOCUMENTS_HOME'})}
         (self.out/'tmp').mkdir();self.env.update(PYTHONNOUSERSITE='1',PYTHONDONTWRITEBYTECODE='1',TMPDIR=str(self.out/'tmp'))
     def step(self,name,argv,allowed=(0,),*,already_sandboxed=False):
@@ -315,7 +320,7 @@ class FloorJob(p.Job):
         return super().step(name,argv if already_sandboxed else [*SANDBOX,*argv],allowed)
 
 
-def publish(output,report,stable,account,remaining,*,owned=None):
+def publish(output,report,stable,account,remaining,*,owned=None,final_check=None):
     """No canonical positive survives cancellation, staleness or write failure."""
     def archive():
         if owned is not None:owned()
@@ -334,6 +339,11 @@ def publish(output,report,stable,account,remaining,*,owned=None):
         stable()
         if canonical(read_json(output/'result.json'))!=expected:raise p.Rejected('floor receipt changed during final readback')
         if report['accepted'] and remaining()<=0:raise p.Rejected('floor budget exceeded during final publication')
+        if final_check is not None:
+            final_check()
+            if remaining()<=0:raise p.Rejected('floor budget exceeded during final check')
+            if canonical(report)!=expected or canonical(read_json(output/'result.json'))!=expected:
+                raise p.Rejected('floor receipt changed during final check')
     except (Exception,KeyboardInterrupt) as exc:
         archive();report.update(accepted=False,whole_project_drc_clean=False,status='cancelled' if isinstance(exc,KeyboardInterrupt) else 'invalidated',reason=type(exc).__name__+': '+str(exc))
         account()
