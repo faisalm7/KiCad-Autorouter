@@ -46,3 +46,13 @@ controls pass; oldv2capture remains exact. After this checkpoint run exactly
 `.venv/bin/python -B .runs/run-cp2102-original-native-001.py`. No completed
 Native/GET/export/engine trial is repeated. Then use existing sharedoriginal
 reader on actualfinalreport and allsource/route/rule/companion evidence.
+
+CP2102 originalNative/readback/UUIDdiagnosis completed: fixedsource13padgap
+errors and3missingdevices block unchanged-geometry qualification. Do not rerun
+GET/Native/engine or alter originalsource. Counts7/35/52 andall221routes stay.
+Next: scoped20240108 syntaxtransport implementation can reuse existingactual
+sourcepositive/MISOnegative/partialSES proof; solvedrouting remains unmet and
+allfailedroutesstillreject. Keep selected/protected/layers/4Cu/nonDefault and
+otherlegacy paths closed. Investigate only justified untouchedconstraint
+profiles; preferredclasssettings are not automaticallyhardrules, but never
+change originaldefaults/clearance or derive solverpresetsfromhumanreferencepaths.
