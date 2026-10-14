@@ -24,10 +24,16 @@ PAW003 exact pose/routing proof passes but actual final has10opens/0blocking/
    missing-only successes. The missing101 authored fixture files were copied
    afterward; initial554-file distribution remains honestly separate. Shared
    reader passes. Publish small sanitized summary without repeating tests.
-4. Refresh incremental artifact backup from the already fully restoredc81 base
-   after writers idle. At this integrated production/installation milestone,
-   perform full restoration with existing helpers. No backup redesign; owner
-   explicitly chose on-Mac-only artifact storage. Keep prior evidence.
+4. Major incremental/full-chain restoration is complete through2bcebf:269340
+   files/allrefs/restoredCLI, existingguards unchanged. NewCP2102/helper/plane
+   preparation aftercutoff needs nextincremental, no repeatedfullrestore now.
+   After this checkpoint run ONLY:
+   `.venv/bin/python -B .runs/run-paw-retained-plane-native-001.py`.
+   Then existing helper fixed5GET acquisition:
+   `.venv/bin/python -B experiments/licensed_acquisition_v8/fetch.py --fetch --output .runs/licensed-acquisition-011-run-001`.
+   Use boundedouter and Native/JVM sequential; capture real acquisitionreceipt
+   before adding fixed original-project snapshot/diagnostic. Preserve .5mm edge
+   gate and asset/ancestry/USB limitations; no support/gain result assumed.
 5. Continue stronger unchanged-constraint routing hypotheses, unrelated supported
    families, actual normal workflow and reproducible evaluation. All inputs so
    far are exposed, no independent pedigrees established. Current GUI009locked;

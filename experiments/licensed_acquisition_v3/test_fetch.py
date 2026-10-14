@@ -35,7 +35,7 @@ class Controls(unittest.TestCase):
   self.assertTrue(all(row['sha256'] for row in self.rows));self.assertEqual(self.plan['capacity_change']['post_acquisition_expected_bytes'],40326569)
   with self.assertRaises(ValueError):f.load(self.here,'v1')
   with self.assertRaises(ValueError):f.validate_protocol(self.plan,self.baseline,'v2')
-  with self.assertRaises(ValueError):f.profile('v8')
+  with self.assertRaises(ValueError):f.profile('v9')
  def test_protocol_mutations_cannot_relax_identity_or_caps(self):
   for key,value in [('destination','devobordo/devboard.kicad_pcb'),('raw_url','https://example.invalid/board'),('mode','100755'),('commit','0'*40)]:
    changed=copy.deepcopy(self.plan);changed['projects'][0]['files'][0][key]=value

@@ -1,38 +1,55 @@
 # Local experimental source handoff
 
-The currently installed/tested source is `31c0f53c69474ff361f625bbb110634e4952383d`. Its fresh local source-distribution checkout and venv are `.runs/installation-026/checkout`. Keep that checkout at its existing path; a moved venv or source tar without Git metadata does not inherit qualification. Pruning's actual preset/stale/export controls remain byte-bound to the earlier e6 packet. This is a usable experimental local workflow, not a published package, fresh-Mac test or completed general-superiority result.
+Use the existing local checkout. The current installed qualification is source
+`663cd1cb5454958384c7d6d8e28a71a7e8a08d92`, with its source distribution and venv
+at `.runs/installation-027/checkout`. Keep that environment at its tested path.
+Normal routing runs offline without an AI account. This is an experimental
+source handoff; representative coverage and confirmatory release gates remain.
 
-Use [START_HERE](../START_HERE.md), [quickstart](quickstart.md), [saved settings](routing-preferences.md) and [KiCad separate-project workflow](gui-workflow.md). Normal routing needs no internet or AI account; public-source acquisition is explicit.
+[Start here](../START_HERE.md), [quickstart](quickstart.md),
+[saved settings](routing-preferences.md), and the
+[KiCad separate-project workflow](gui-workflow.md) explain the usable commands.
+The normal workflow snapshots the complete project, preserves original rules
+and protected copper, produces a separate candidate, and requires fresh native
+validation. Preview, accept/reject intent, export and Control-C cancellation are
+implemented. Source-editor save/close steps remain necessary because this
+external workflow cannot inspect unsaved buffers or provide live-editor undo.
 
-| Executed gate | Evidence | Scope |
+| Executed gate | Evidence | Limits |
 |---|---|---|
-| Current software integration | [full047/source capacity](../evidence/installation-source-capacity-002.json) |Existing guards and complete retained source; finite352MiB cap; failed044 retained; software coverage is not routing quality |
-| Fresh local distribution/venv | [installation023](../evidence/installation023-native-001.json) |22offline commands/72fixed tests/20598original509installed files/native60mm0via0findings smoke;62additionalinstalled preference/capacity/UV-helper tests; shared installed readback |
-| Persistent pruning / stale preset | [actual Native controls](../evidence/pruning-preferences-native-product-003/SCOPE.md) |120second High preset positive0/0/7/0; external edit after real accepted incumbent rejects;60second reserve failure retained |
-| Preview/intent/fresh export | [current five-command workflow](../evidence/pruning-preferences-native-product-003/SCOPE.md) |Four2CuNativeplots; test accept/reject intent; separate fresh full-SCH/native export with seven original warnings |
-| Actual GUI external workflow | [earlier installed LED GUI003](../evidence/installed-led-export-gui-003/SCOPE.md) |Full refill/parity/all filters observed, CLI warnings retained; current later GUI access locked; no live apply/undo |
-| Stronger-baseline improvements | [six circuit results](../STATUS.md), [CellScan360](../evidence/cellscan-native-pruning360-001/SCOPE.md) |Five exposed circuits at120caps,CellScan atcumulative360; zero established independent pedigrees |
-| Private restoration | [fc921 full-chain closure](../evidence/backups/restore-cellscan360-fc921.json) |260760files/7506835316B/allrefs/restoredCLI; later add9 full restoration passes262521files/7623204184B/allrefs/CLI, including current e6 product evidence |
+| Current source integration | [fixed-placement source/full064](../evidence/fixed-placement-ses-source-001.json) | Actual48nm SES pose change fixed without tolerance; software checks are not routing-quality evidence; failed062063 retained |
+| Current installation | [installation027](../evidence/installation027-native-001.json) |22offlinecommands/72fixed controls,20676original/554initialdistribution files and actual Native60mm/0via/0findings; existingMac/apps/cache |
+| Selected installed checks | [installation027](../evidence/installation027-native-001.json) |232successes+12setup errors, then12missing-only successes after101supplemental authored fixtures;256attempts, no fullsuite/freshOS/package claim |
+| Persistent settings/pruning | [actual preset/stale controls](../evidence/pruning-preferences-native-product-003/SCOPE.md) |Whole/native/tuned/both/source_all; fresh own incumbent and all failed compute charged |
+| Normal preview/export/cancellation | [actual current workflow](../evidence/normal-prl-native-workflow-001.json) |PRL/rules remain exact; actual0/0/7/0 positive,9/0/7/0 invalid, fourSVG workers and realengineSIGINT/cleanup; no human approval |
+| Actual GUI | [installedLED GUI003](../evidence/installed-led-export-gui-003/SCOPE.md) |Earlier actual refill/parity/allfilters; later access remains locked, no newGUI/liveapply/undo claim |
+| Routing improvements | [six exposed circuit comparisons](../STATUS.md) |Configuration-specific length/via evidence under equal per-comparison budgets; zero established independent pedigrees, no broadcompletion/speedup claim |
+| Broader-board failure | [PAW exact-import failure](../evidence/fixed-placement-ses-native003-001.json), [via-low failure](../evidence/paw-via-low-native-001.json) |Native10opens and14opens; originalformat remains blocked, all17warnings and constraints retained |
 
-Native improvement accepts persistent settings: `settings-init --purpose improve --output FILE`, then `improve BOARD --settings FILE --seconds 120 --scoring-preference via_high --proposal-policy feedback --output NEW`. It obtains and charges its own fresh incumbent. Whole-board/native/tuned/both/source_all only; locked originals remain protected and incompatible presets reject before a worker. Use `route` for qualified partial/selected/layer choices. All original rules remain enforced. The actual new preset product test is not an additional matched-budget routing-gain claim.
+Whole, qualified partial and selected routing, allowed new layers, time budgets
+and optimization preferences are persistent. Use `settings-init` then `route`
+or `improve` as described in the preferences guide. Locked copper remains
+protected. Unsupported geometry, rules and settings combinations block the task;
+no preference weakens an original design constraint.
 
-Managed population remains25canonical/8staticeligible/17unsupported, plus ArcDice and the unchanged six-member source cohort. Source asset/model and ancestry gaps remain visible; no raw third-party geometry/models or private boards are pushed. The Analog three-case review pack has fresh native projects and four-layer plots, but forms remain blank and no reviewer was contacted.
+The current routing gains come from deterministic native-validated pruning
+beyond the fixed measured adapter/tuned configurations. A candidate's shorter
+geometry is useful only after original-rule native acceptance. The
+native-connected-only alternative failed a real thermal constraint. The
+broader PAW via-cost probe also failed; neither invalid shorter routes nor
+software test counts count as routing improvement.
 
-The snapshot cutoff and tested runtime are distinct. Audited source/small evidence are on the authorized GitHub development branch; private raw evidence and archives stay on this Mac by owner choice. The [add9 full snapshot/restoration](../evidence/backups/restore-pruning-product-add9d53.json) passes with existing guards. The [UV incremental](../evidence/backups/incremental-uv-d882081.json) verifies later UV source/native/diagnostic evidence; newer installation023 and incomplete toolchain transfer receipts are outside those cutoffs and require the next milestone snapshot. Representative30–50family audit, pedigreed untouched confirmation, actual human PCB review and physical validation remain unmet. Formal release/tag/package publication, contacts and new spending remain unapproved.
+Representative30–50family audit, untouched pedigreed confirmation, latest GUI,
+actual human PCB review and physical validation remain unmet. The Analog review
+pack is prepared but blank; nobody was contacted. No learned model is justified
+or required. Third-party model/asset and ancestry rights remain incomplete, and
+raw board/model redistribution is excluded. No formal release/tag/package,
+contacts, spending, private uploads or automatic background continuation occurred.
 
-Later4b7 source integration adds explicit experimental10.0.7 area tools and Navigation fixed acquisition, full049. [Actual area controls](../evidence/native-rule-area-1007-001.json) pass; [Navigation original](../evidence/navigation-source-original-001.json) rejects two courtyard errors and production gates. Installation024 failed before commands at the operational storage ceiling; [finite16GiB correction/full050](../evidence/storage-capacity-001.json) counts every retained artifact. Installation023 remains the qualified installed checkout; fresh025 and a major raw snapshot/restoration are next. Normal routing remains pinned10.0.0. No broad completion/GUI/human/physical/formal release inference.
+Audited source and small evidence are pushed and independently read back on the
+authorized development branch. Unique raw artifacts and archives remain on this
+Mac by explicit owner choice. Backup/restoration receipts state their exact
+cutoff; a local second copy does not protect against disk failure. Later prepared
+or executed artifacts do not inherit an older cutoff.
 
-Fresh installation025 atae2269d passes22offline commands/72fixed tests,20614original/518installed files and real native0/0/0/0,60mm/zero vias; whole37.007236wall26.354855CPU. Another93installed preference/capacity/UV/Navigation/toolchain/publication/storage controls pass3.459296wall3.395535CPU. Shared installed reader passes all source/rules/protection/refill/final/code/tool/sevenworker checks4.131851wall2.448498CPU plus2s allowance; no Native repeats. [Current installed qualification](../evidence/installation025-native-001.json). Existing Mac/apps/cache, source distribution/venv, no freshOS/fullinstalledsuite/formalpackage claim. Major full raw snapshot/restoration next.
-
-The [c81 major full restoration](../evidence/backups/restore-native-navigation-c81c1db.json) now includes installation025/area1007/Navigation raw evidence. Later connectivity prototype is experimental, unqualified for routing; its first strict Native001 refusal is retained. A stronger native task-connectivity-aware baseline remains unmeasured and could explain part of existing NUS gain. Representative coverage/untouched/human/physical gates remain. Latest actual GUI attempt still reports locked; no new GUI qualification.
-
-Current installed026/source31c0f53 supersedes previous installed statements:22offline commands,72fixed+143selected controls,20644original/535installed files, native60mm0via0/0/0/0 plus shared readback. [Actual installed proof](../evidence/installation026-native-001.json). Whole37.702652wall27.983788CPU. Current GUI007remainslocked; no new GUI observation. Six exposed comparisons remain configuration-specific, while native-connected-only comparator is rejected by a thermal error. Audio original002 rejects sixcourtyard errors/twowarnings, not new support. Fullc81restore+a6incremental supersede earlier backup next-step statements; installed026/Audio raw aftera6cutoff.
-
-Current source has [actual complete-project older-settings workflow proof](../evidence/normal-prl-native-workflow-001.json):
-normal pruning and four SVG plots preserve exact PRL bytes; fresh full-schematic
-export0/0/7/0, deliberately disconnected9/0/7/0, real SIGINT/cleanup and shared
-readback pass. Both real failures and all cumulative costs remain. Full0601175
-software checks pass. This is not another routing comparison or current GUI
-qualification. Tested installation026 is older; current installation, broader
-supported coverage and confirmatory evaluation remain gates. PAW old-format
-transport is a frozen prospective diagnostic, with production admission false.
+The [current major restored snapshot](../evidence/backups/restore-fixed-placement-installation027-2bcebf.json) verifies269340files/8164238130B, allGitrefs and restoredCLI at2bcebf. Laternewsource/retained-plane preparation and execution are outside that cutoff.

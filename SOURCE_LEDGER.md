@@ -242,3 +242,7 @@ original source receipt at `.runs/pic-custom-ses-design-001/network-receipt.json
 New pure transform removes only that root placement section and preserves all
 remaining routing AST atoms. Native route-only import/final qualification is
 pending; neither source positions nor original constraints are rounded/waived.
+
+## Checked CP2102 development lead, October14
+
+Primary repository `MAATHES-THILAK-K/USB_TO_UART-CP2102` at `eecf7bb08afbd1494f3136a5124f4b6b6ea6c63e` was inspected: README explicitly applies MIT to hardware and matching LICENSE is present. Exact five-file347566B recipe in `experiments/licensed_acquisition_v8/protocol.json`. PCB20241229/SCH20250114,2CuDefault,flat ordinarypads are static observations, not Native support. Original edge.5mm/line-arcs, private-path model, embedded logo/library ancestry and same-function reserved SolderParty CP2102 remain unqualified. No rawpayload/model redistribution. [Primary README](https://github.com/MAATHES-THILAK-K/USB_TO_UART-CP2102/blob/eecf7bb08afbd1494f3136a5124f4b6b6ea6c63e/README.md), [license](https://github.com/MAATHES-THILAK-K/USB_TO_UART-CP2102/blob/eecf7bb08afbd1494f3136a5124f4b6b6ea6c63e/LICENSE). LoadShed imported-library rights and motor-driver conflicting license body defer those leads; exact checkedpins remain in `.runs/new-family-leads-20261014-preserved-001/leads.json`.

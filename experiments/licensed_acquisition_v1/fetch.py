@@ -56,6 +56,10 @@ PROFILES = {
            'destination_root': 'expansion010', 'directory': 'experiments/licensed_acquisition_v7',
            'output_prefix': 'licensed-acquisition-010-run-', 'files': 5, 'bytes': 161071,
            'identities': [('push-button-led', 'gurusaeth12/push-button-led-kicad', '29c46b7c03d2afd9fe3a58fe2070309b12f94b42')]},
+    'v8': {'protocol_sha256': '4a398878909d5807107d6c760cbbc0a0ff39f17ee13f0704dc9f62a4a6edab55',
+           'destination_root': 'expansion011', 'directory': 'experiments/licensed_acquisition_v8',
+           'output_prefix': 'licensed-acquisition-011-run-', 'files': 5, 'bytes': 347566,
+           'identities': [('cp2102-uart', 'MAATHES-THILAK-K/USB_TO_UART-CP2102', 'eecf7bb08afbd1494f3136a5124f4b6b6ea6c63e')]},
 }
 
 
@@ -291,7 +295,7 @@ def git_identity(root):
 def material_paths(root, here, profile_id='v1'):
     profile(profile_id)
     paths = {name: here / name for name in MATERIAL}
-    if profile_id in ('v2', 'v3', 'v4', 'v5', 'v6', 'v7'):
+    if profile_id in ('v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8'):
         for name in ('fetch.py', 'test_fetch.py'):
             paths['shared/' + name] = root / PROFILES['v1']['directory'] / name
     if profile_id in ('v3', 'v4', 'v5', 'v6', 'v7'):

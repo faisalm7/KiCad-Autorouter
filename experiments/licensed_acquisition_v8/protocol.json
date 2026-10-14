@@ -1,0 +1,178 @@
+{
+  "baseline_derivation": {
+    "all_previous_sources_retained": true,
+    "draft_capture_cost": {
+      "cpu_seconds": 0.072599,
+      "wall_seconds": 0.18407625
+    },
+    "method": "Actual existing shared.inventory(ROOT/.data) read/hash-only under unchanged finite caps; no source mutation or omitted .data root. Frozen complete inventory is rechecked by shared.execute before plan completion or any GET.",
+    "v7_receipt_sha256": "e912ec6bb0166b19d29fc8e8784c4bdd441853ab2f9f4ece17d00793867e070c"
+  },
+  "baseline_sha256": "bf635c435550967064dc16cd391f3b008a0ef332d689d9732124493714d65411",
+  "capacity_change": {
+    "changes_existing_limits": false,
+    "post_acquisition_expected_bytes": 54267246,
+    "post_acquisition_expected_files": 523,
+    "preexisting_bytes": 53919680,
+    "preexisting_files": 518,
+    "requires_committed_fixed_profile": true
+  },
+  "caps": {
+    "aggregate_all_data_bytes": 67108864,
+    "invocation_network_bytes": 10485760,
+    "invocation_wall_seconds": 300,
+    "max_data_entries": 4096,
+    "max_data_files": 2048,
+    "max_requests": 5,
+    "project_bytes": 10485760,
+    "request_wall_seconds": 30
+  },
+  "destination": ".data/expansion011",
+  "new_native_validation": "not_run",
+  "other_leads_unchanged": "All prior considered, acquired, rejected and reserved sources remain unchanged. No substitutions for IdealDiode, UV, Navigation, Audio, HSTX, LiPo, PAW, SparkFun or the reserved SolderParty CP2102 source.",
+  "planned_bytes": 347566,
+  "planned_files": 5,
+  "post_acquisition_population_if_complete": {
+    "canonical_boards": 26,
+    "independent_families_established": false,
+    "native_acceptance": false,
+    "split": "development"
+  },
+  "prior_population": {
+    "all_retained": true,
+    "canonical_boards": 25
+  },
+  "projects": [
+    {
+      "ancestry_caveat": "Prior48 reserve solderparty/type-c_plug_cp2102 has same chip/function; it is untouched. Different author and fork=False do not establish independent ancestry.",
+      "bytes": 347566,
+      "checked_static_source": {
+        "copper_layers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "drc_exclusions": [],
+        "edge_geometry": "Multiple lines and arcs; not the dedicated single-rectangle edge-adapter scope. No edge change is proposed.",
+        "embedded_file_container_present": false,
+        "footprints": 17,
+        "keepout_nodes": 0,
+        "min_copper_edge_clearance_mm": 0.5,
+        "net_tie_pad_group_nodes": 0,
+        "netclass_assignments": null,
+        "netclass_patterns": [],
+        "netclasses": [
+          "Default"
+        ],
+        "pad_shapes": [
+          "circle",
+          "oval",
+          "rect",
+          "roundrect"
+        ],
+        "pads": 117,
+        "padstack_nodes": 0,
+        "pcb_format": 20241229,
+        "root_schematic_sheets": 0,
+        "root_schematic_symbols": 28,
+        "schematic_format": 20250114,
+        "zones_including_footprints": 1
+      },
+      "commit": "eecf7bb08afbd1494f3136a5124f4b6b6ea6c63e",
+      "creator": "MAATHES-THILAK-K",
+      "family": "CP2102-USB-UART-development-exposed-ancestry-unverified",
+      "files": [
+        {
+          "bytes": 228814,
+          "commit": "eecf7bb08afbd1494f3136a5124f4b6b6ea6c63e",
+          "destination": "cp2102-uart/CP2102.kicad_pcb",
+          "git_blob_sha1": "bbd5347751d3d1795fb7513919bd14f9dd700d5d",
+          "mode": "100644",
+          "raw_url": "https://raw.githubusercontent.com/MAATHES-THILAK-K/USB_TO_UART-CP2102/eecf7bb08afbd1494f3136a5124f4b6b6ea6c63e/CP2102.kicad_pcb",
+          "repository": "MAATHES-THILAK-K/USB_TO_UART-CP2102",
+          "rights_basis": "Pinned README expressly releases this hardware design under MIT; retain exact MIT LICENSE and README. Embedded logo/library ancestry and external model rights remain unclosed; no model acquisition or public raw-board publication is authorized by this development profile.",
+          "sha256": "887adc8cffc8c13eb9ada40be7ac5ccf7bca7abb1cdc58c8e277670de205603b",
+          "source_path": "CP2102.kicad_pcb"
+        },
+        {
+          "bytes": 15239,
+          "commit": "eecf7bb08afbd1494f3136a5124f4b6b6ea6c63e",
+          "destination": "cp2102-uart/CP2102.kicad_pro",
+          "git_blob_sha1": "c4375ba6a68fba62b33342f1d1e954b1d83827ea",
+          "mode": "100644",
+          "raw_url": "https://raw.githubusercontent.com/MAATHES-THILAK-K/USB_TO_UART-CP2102/eecf7bb08afbd1494f3136a5124f4b6b6ea6c63e/CP2102.kicad_pro",
+          "repository": "MAATHES-THILAK-K/USB_TO_UART-CP2102",
+          "rights_basis": "Pinned README expressly releases this hardware design under MIT; retain exact MIT LICENSE and README. Embedded logo/library ancestry and external model rights remain unclosed; no model acquisition or public raw-board publication is authorized by this development profile.",
+          "sha256": "1c1190ece973ff698366ec793979c6e7a217c7fe081361986676e8fa06077a66",
+          "source_path": "CP2102.kicad_pro"
+        },
+        {
+          "bytes": 98769,
+          "commit": "eecf7bb08afbd1494f3136a5124f4b6b6ea6c63e",
+          "destination": "cp2102-uart/CP2102.kicad_sch",
+          "git_blob_sha1": "e29c4370f955e04bd715f2d592f7658f3dbf1f40",
+          "mode": "100644",
+          "raw_url": "https://raw.githubusercontent.com/MAATHES-THILAK-K/USB_TO_UART-CP2102/eecf7bb08afbd1494f3136a5124f4b6b6ea6c63e/CP2102.kicad_sch",
+          "repository": "MAATHES-THILAK-K/USB_TO_UART-CP2102",
+          "rights_basis": "Pinned README expressly releases this hardware design under MIT; retain exact MIT LICENSE and README. Embedded logo/library ancestry and external model rights remain unclosed; no model acquisition or public raw-board publication is authorized by this development profile.",
+          "sha256": "2a30a962771e7ef068a89ae8597032758b99a3a50099b1e0cfcaf84b81bd4839",
+          "source_path": "CP2102.kicad_sch"
+        },
+        {
+          "bytes": 1073,
+          "commit": "eecf7bb08afbd1494f3136a5124f4b6b6ea6c63e",
+          "destination": "cp2102-uart/LICENSE",
+          "git_blob_sha1": "9c066e58d1287e1537c1664b45bc6e0a7eb8905a",
+          "mode": "100644",
+          "raw_url": "https://raw.githubusercontent.com/MAATHES-THILAK-K/USB_TO_UART-CP2102/eecf7bb08afbd1494f3136a5124f4b6b6ea6c63e/LICENSE",
+          "repository": "MAATHES-THILAK-K/USB_TO_UART-CP2102",
+          "rights_basis": "Pinned README expressly releases this hardware design under MIT; retain exact MIT LICENSE and README. Embedded logo/library ancestry and external model rights remain unclosed; no model acquisition or public raw-board publication is authorized by this development profile.",
+          "sha256": "39158b2681fd712adc8a413d92f3582ffd6db08111be59a1b15e399e4708e376",
+          "source_path": "LICENSE"
+        },
+        {
+          "bytes": 3671,
+          "commit": "eecf7bb08afbd1494f3136a5124f4b6b6ea6c63e",
+          "destination": "cp2102-uart/README.md",
+          "git_blob_sha1": "1280ec2e34fbedc9c18e98a91fb5fc5262f8ab22",
+          "mode": "100644",
+          "raw_url": "https://raw.githubusercontent.com/MAATHES-THILAK-K/USB_TO_UART-CP2102/eecf7bb08afbd1494f3136a5124f4b6b6ea6c63e/README.md",
+          "repository": "MAATHES-THILAK-K/USB_TO_UART-CP2102",
+          "rights_basis": "Pinned README expressly releases this hardware design under MIT; retain exact MIT LICENSE and README. Embedded logo/library ancestry and external model rights remain unclosed; no model acquisition or public raw-board publication is authorized by this development profile.",
+          "sha256": "0eb15a30a21be6588e19becb8095d28efb49ce6be4f93f29ee083ac08e7a5511",
+          "source_path": "README.md"
+        }
+      ],
+      "files_count": 5,
+      "independent_ancestry": false,
+      "license": "MIT",
+      "models_acquired": 0,
+      "native_qualified": false,
+      "native_snapshot_status": "not implemented or registered; only after actual acquisition receipt and immutable managed-source verification",
+      "physical_testing_claimed": false,
+      "purpose": "One additional exposed circuit-function development candidate; not a holdout or independent-family/routing claim.",
+      "remaining_risks": [
+        "PCB embeds geometry and SCH embeds symbol definitions, but native full-schematic parity/DRC and library warning behavior are unmeasured.",
+        "Embedded LOGO.preety footprints and standard-library derivatives need notice/ownership review before any redistribution; do not infer provenance from the repository name.",
+        "A 3D model points to the author's unavailable /home/... path; another model refers to the standard KiCad9 library. Do not fetch or substitute the author's external STEP. Missing models remain visible.",
+        "README says KiCad6+ but actual source formats are PCB20241229 and SCH20250114; use the observed formats.",
+        "The contour has near-coincident arc/line endpoints; actual native outline validation is required.",
+        "USB differential-pair electrical performance and current/thermal/manufacturing correctness are unqualified; preserve actual source constraints."
+      ],
+      "repository": "MAATHES-THILAK-K/USB_TO_UART-CP2102",
+      "rights_basis": "Pinned README expressly releases this hardware design under MIT; retain exact MIT LICENSE and README. Embedded logo/library ancestry and external model rights remain unclosed; no model acquisition or public raw-board publication is authorized by this development profile.",
+      "slug": "cp2102-uart"
+    }
+  ],
+  "redistribution_scope": "Explicit MIT hardware source basis supports this bounded development acquisition. Do not publish raw board/private-path strings/models or assume third-party logo/asset rights are closed.",
+  "schema": 1,
+  "source_research": {
+    "new_acquisition_expected_bytes": 347566,
+    "new_acquisition_requests": 5,
+    "no_cache_fallback": true,
+    "previous_primary_raw_reads_retained_as_cache": false,
+    "prior_research_cpu_wall": "unmeasured development work; no cost invented or comparative speed claim",
+    "record": ".local-backups/new-family-leads-20261014-001/leads.json",
+    "sha256": "5ecef294ce07bf025dd223ded4c3b998576c35089a8d536d62a3dc7795660cfa"
+  },
+  "split": "development"
+}

@@ -27,17 +27,22 @@ class Controls(unittest.TestCase):
  def test_fixed_identity_path_caps_and_prior_contracts(self):
   self.assertEqual((len(self.rows),sum(x['bytes'] for x in self.rows)),(5,161071));self.assertEqual((self.baseline['file_count'],self.baseline['bytes']),(389,41350999))
   self.assertEqual((f.profile('v1')['bytes'],f.profile('v6')['bytes']),(5016162,741742))
-  with self.assertRaises(ValueError):f.profile('v8')
+  with self.assertRaises(ValueError):f.profile('v9')
   changed=copy.deepcopy(self.plan);changed['caps']['max_requests']=6
   with self.assertRaises(ValueError):f.validate_protocol(changed,self.baseline,'v7')
   for key,val in [('raw_url','https://example.invalid/board'),('destination','push-button-led/../other'),('commit','0'*40),('mode','100755'),('bytes',0)]:
    changed=copy.deepcopy(self.plan);changed['projects'][0]['files'][0][key]=val
    with self.subTest(key=key),self.assertRaises(ValueError):f.validate_protocol(changed,self.baseline,'v7')
- def test_plan_only_reads_real_frozen_baseline_without_network_or_git(self):
-  before=f.inventory(ROOT/'.data')
-  with mock.patch.object(f,'fetch_one',side_effect=AssertionError('no HTTP')),mock.patch.object(f,'committed',side_effect=AssertionError('no Git')):
-   result=driver.execute(SimpleNamespace(reuse_cache=False,output=''),time.monotonic())
-  self.assertEqual((result['planned_files'],result['planned_bytes'],result['post_acquisition_data_files']),(5,161071,394));self.assertTrue(result['cache_lineage_verified']);self.assertEqual(f.inventory(ROOT/'.data'),before)
+ def test_plan_only_owned_inventory_and_stale_inputs_without_network_or_git(self):
+  # Historical profiles deliberately reject the later expanded live population.
+  # Exercise the real inventory/cache guards on an owned temporary baseline.
+  before=f.inventory(self.root/'.data')
+  with mock.patch.object(f,'load',return_value=(self.plan,before,self.rows)),mock.patch.object(f,'fetch_one',side_effect=AssertionError('no HTTP')),mock.patch.object(f,'committed',side_effect=AssertionError('no Git')):
+   result=driver.execute(SimpleNamespace(reuse_cache=False,output=''),time.monotonic(),root=self.root)
+   self.assertEqual((result['planned_files'],result['planned_bytes'],result['post_acquisition_data_files']),(5,161071,6));self.assertTrue(result['cache_lineage_verified']);self.assertEqual(f.inventory(self.root/'.data'),before)
+   (self.root/'.data/unexpected').mkdir()
+   with self.assertRaisesRegex(ValueError,'unexpected directory'):
+    driver.execute(SimpleNamespace(reuse_cache=False,output=''),time.monotonic(),root=self.root)
  def test_cached_acquisition_preserves_bytes_no_network_and_retains_receipt(self):
   with mock.patch.object(f,'fetch_one',side_effect=AssertionError('no HTTP')):result=self.acquire()
   self.assertEqual((result['status'],result['acquired_files'],result['acquired_bytes']),('acquired_unqualified',5,161071));self.assertEqual((self.root/'.data/original').read_bytes(),b'original')
