@@ -56,6 +56,16 @@ class CellScanDemoControls(unittest.TestCase):
         self.fetch();path=self.out/'native-project/hardware/_licenses/creator/README.md';raw=path.read_bytes();path.write_bytes(b'z'+raw[1:]);before=demo.shared.inventory(self.root)
         with self.assertRaises(ValueError):demo.capture_native_source('cellscan',root=self.root)
         self.assertEqual(demo.shared.inventory(self.root),before)
+    def test_benchmark_selection_is_exact_readonly_and_has_no_fallback(self):
+        from scripts import experiment_quality as q
+        self.fetch();before=demo.shared.inventory(self.root)
+        with mock.patch.object(q.c,'ROOT',self.root):
+            board,family=q.selected_source('cellscan')
+            self.assertEqual(board,self.out/'native-project/hardware/CellScan_Schematic.kicad_pcb')
+            self.assertEqual(family,'cellscan-two-layer-development-exposed')
+            self.assertEqual(demo.shared.inventory(self.root),before)
+            raw=board.read_bytes();board.write_bytes(b'z'+raw[1:])
+            with self.assertRaises(ValueError):q.selected_source('cellscan')
     def test_count_request_mismatch_precedes_output_or_transport(self):
         for key in ('file_count','max_requests'):
             old=self.cfg[key];self.cfg[key]=5

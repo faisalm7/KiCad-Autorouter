@@ -41,7 +41,7 @@ FEEDBACK_ARMS = (*ARMS[:3],
     {**ARMS[3], "id": "C_feedback", "proposal_policy": "feedback"},
 )
 SCRIPT = Path(__file__).resolve()
-PROJECTS = {"analog-filter":"Myrto-Angeliki-analog-filter", "sonde": "kicad-sonde-xilinx", "interf_u": "kicad-interf-u", "multichannel": "kicad-multichannel", "ardujoy-c64":"eduardofv-ArdujoyC64", "nus-usb-led":"nushackers-hsp-pcb-intro", "push-button-led":"gurusaeth12-push-button-led-kicad", "arcdice":"VorosEgyes-ArcDice"}
+PROJECTS = {"cellscan":"Studented0-18650-Tester", "analog-filter":"Myrto-Angeliki-analog-filter", "sonde": "kicad-sonde-xilinx", "interf_u": "kicad-interf-u", "multichannel": "kicad-multichannel", "ardujoy-c64":"eduardofv-ArdujoyC64", "nus-usb-led":"nushackers-hsp-pcb-intro", "push-button-led":"gurusaeth12-push-button-led-kicad", "arcdice":"VorosEgyes-ArcDice"}
 SUPPORT = (SCRIPT, c.ROOT / "toolchain.lock.json", c.ROOT / "data/sources.json",
            c.ROOT/'scripts/fetch_led_demo.py',
            c.ROOT/'experiments/arcdice_native_class_v1/source.py',
@@ -61,6 +61,12 @@ def total_process_cpu():
 
 
 def selected_source(name):
+    if name=='cellscan':
+        from scripts.fetch_led_demo import capture_native_source
+        base,files=capture_native_source('cellscan',root=c.ROOT)
+        if p.tree_hash(base)!={n:hashlib.sha256(raw).hexdigest() for n,raw in files.items()}:
+            raise p.Rejected('exact fixed CellScan original notice packet required')
+        return base/'hardware/CellScan_Schematic.kicad_pcb','cellscan-two-layer-development-exposed'
     if name=='analog-filter':
         from scripts.fetch_led_demo import capture_native_source
         base,files=capture_native_source('analog-filter',root=c.ROOT)

@@ -4,7 +4,7 @@ October 14, 2026 UTC. [Exact preceding matrix](docs/history/2026-10-14-c7ffada/R
 
 | Requirement | Implemented check and actual evidence | Remaining gate / limit |
 |---|---|---|
-| G0 local checkpoint | Darwin/local branch; staged audit and independent GitHub SHA/file readback, latest verifiedcfa721c6; restoration/source-profile checkpoint pending | Public audited development backups only; no formal publication |
+| G0 local checkpoint | Darwin/local branch; staged audit and independent GitHub SHA/file readback, latest verified31ab4278; CellScanoriginal/selector checkpoint pending | Public audited development backups only; no formal publication |
 | Offline native routing | pipeline/native/runner, pinned KiCad10/FR2.5/Java25.0.2; actual positives/invalid controls | Qualified Mac only; no runtime AI/account/network |
 | Original constraints / protected copper | preflight/immutable/scope/layer and original-rule checks; actual protected import/invalid controls | Unknown/custom/advanced semantics block; no weakening |
 | Final native proof | saved refill/full DRC/connectivity/class targets/pour/protection/report hashes | Missing/stale/corrupt/unsupported proof rejects |
