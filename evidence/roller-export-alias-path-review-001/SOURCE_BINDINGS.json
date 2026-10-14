@@ -1,0 +1,35 @@
+{
+  "actual_root_path_observation_from_completed_export_A_B": true,
+  "cached_primary_files": {
+    ".runs/lipo-export-failure-research-001/source/pcbnew/python/scripting/pcbnew_scripting_helpers.cpp": {
+      "bytes": 18821,
+      "sha256": "42a827912a06c0d7c96f2cd790f87b2f01549ed04a58f728366d899b8dca90dd"
+    },
+    ".runs/pic-custom-ses-design-001/specctra_import.cpp": {
+      "bytes": 20233,
+      "sha256": "d9b6965c5cb0853c943026a43d7449731fcaca36febe0cf9039d176ab50a285e"
+    },
+    ".runs/support-scope-review-001/source/pcbnew/specctra_import_export/specctra_export.cpp": {
+      "bytes": 62520,
+      "sha256": "069625125a481565f608a7e0780f393351bc7ce4528f1ce94ae0d80c049ab05d"
+    }
+  },
+  "original_result_hashes": {
+    "001": "0e9fc0c6456a56b7412b5f0c49e1b0d3b109766dd8aa150650308811f4ca57e4",
+    "002": "a51c3784c5e4a9c562cf10a05ab2dfa648715c3942de7c77b36f863a81d3e687"
+  },
+  "primary_observed_call_chain": [
+    "pcbnew_scripting_helpers.cpp:404-417 passes aFullFilename to DSN::ExportBoardToSpecctraFile",
+    "specctra_export.cpp:113-145 passes aFullFilename to db.ExportPCB at134",
+    "specctra_export.cpp:1573-1630 maps track starts/ends/width to exported wiring and concatenates connected equal-class tracks"
+  ],
+  "primary_pin": "KiCad10.0.0/0feeca2a807f428ad2b3fa7c1e39625cb769f02c",
+  "review_bound_current_project_code": {
+    "experiments/roller_export_alias_v1/driver.py": "1ebed5987a921b3db2c445d285c5a5c75d6c90491e3d336f8a2ff2568ce61e6f",
+    "experiments/roller_export_alias_v1/padless_alias.py": "0ae6d68279944d866388e02937033f5e4af619ba09017cf15e5a6b27a3cab458",
+    "experiments/roller_export_alias_v1/retained_ses.py": "c445137814ff053f7aa29c5ce09fd574bb529b2b97321caa9778fd6aaf1d3c01",
+    "experiments/roller_export_alias_v1/worker.py": "7431df122c38f9b7ba14a68125861290c10944afa6e8db590d1d74350978f089"
+  },
+  "schema": 1,
+  "underlying_ExportPCB_root_name_and_PATH_number_formatter_source_not_cached": true
+}

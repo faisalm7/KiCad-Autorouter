@@ -1,0 +1,40 @@
+{
+  "exact_suffix_ast_sha256": "1dd245983a6a501c63554068044297cf3385251f5230950eb618e2e69a28922d",
+  "native_execution": false,
+  "rows": [
+    {
+      "canonical_controls_passed_after_exception": true,
+      "exception": "OSError: injected outer execution-write failure",
+      "in_memory_within60": true,
+      "label": "execution_write_oserror",
+      "outer_receipt_exists": false,
+      "writes_attempted": [
+        ".runs/roller-export-alias-native-003-execution/execution.json"
+      ]
+    },
+    {
+      "canonical_controls_passed_after_exception": true,
+      "exception": "KeyboardInterrupt: injected outer execution-write cancellation",
+      "in_memory_within60": true,
+      "label": "execution_write_keyboardinterrupt",
+      "outer_receipt_exists": false,
+      "writes_attempted": [
+        ".runs/roller-export-alias-native-003-execution/execution.json"
+      ]
+    },
+    {
+      "canonical_controls_passed_after_exception": true,
+      "exception": "OSError: injected outer execution-write failure",
+      "in_memory_within60": false,
+      "label": "late_cap_corrective_execution_write_oserror",
+      "outer_receipt_exists": true,
+      "writes_attempted": [
+        ".runs/roller-export-alias-native-003-execution/execution.json",
+        ".runs/roller-export-alias-native-003-execution/execution.json"
+      ]
+    }
+  ],
+  "schema": 1,
+  "source_wrapper_sha256": "076877b3a56e8bc16eb74545b93dd01c066b909b574b1f667a97962708ed3582",
+  "subprocess_execution": false
+}

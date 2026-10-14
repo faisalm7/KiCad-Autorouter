@@ -1,5 +1,5 @@
 """Prospective ROOT-controlled native alias roundtrip. Not production admission."""
-import hashlib,json,shutil,signal,sys,time
+import ast,hashlib,json,shutil,signal,subprocess,sys,time
 from pathlib import Path
 ROOT=next(p for p in Path(__file__).resolve().parents if (p/'autorouter/pipeline.py').is_file())
 HERE=Path(__file__).resolve().parent
@@ -24,18 +24,75 @@ class Job(f.FloorJob):
         if result['status'] not in ('success','nonzero_exit') or result['exit_code'] not in allowed or result.get('cleanup_complete') is not True:raise p.Rejected(name+': '+result['status'])
         return result
 
-def experiment(output,*,run_native=False):
+def resume_basis():
+    """Bind completed002 exports; never execute or copy their native stages again."""
+    basis=f.read_json(HERE/'CONTINUATION_PROTOCOL.json')
+    if basis.get('policy')!='exact-source-protected-alias-continuation-v1' or basis.get('prospective') is not True:
+        raise p.Rejected('explicit prospective continuation required')
+    expected={'.runs/roller-export-alias-native-'+n+suffix for n in ('001','002') for suffix in ('','-execution')}
+    if (set(basis['retained_inventories'])!=expected or basis.get('wall_full_cpu_caps')!=SECONDS
+            or set(basis['code_sha256'])!={'driver.py','worker.py','retained_ses.py','padless_alias.py'}
+            or any(p.sha(HERE/n)!=v for n,v in basis['code_sha256'].items())):
+        raise p.Rejected('continuation paths/code/budget differ from prospective contract')
+    for relative,expected in basis['retained_inventories'].items():
+        actual=io.inventory(ROOT/relative,max_bytes=LIMIT,max_files=4000,max_entries=8000,with_directories=True)
+        if f.canonical(actual)!=f.canonical(expected):raise p.Rejected('retained native evidence changed: '+relative)
+    previous=f.read_json(ROOT/'.runs/roller-export-alias-native-002/result.json')
+    if previous.get('status')!='failed' or previous.get('reason')!='Rejected: dual native alias namespaces differ outside authorized placement identity' or [x['name'] for x in previous['steps']]!=['export-A','export-B']:
+        raise p.Rejected('completed dual export failure differs')
+    tools=p.tool_manifest();oldtools=dict(previous['tools']);newtools=dict(tools)
+    oldtools.pop('git_head');newtools.pop('git_head')
+    if oldtools!=newtools:raise p.Rejected('native/code compatibility differs')
+    changed={'experiments/roller_export_alias_v1/'+n for n in ('driver.py','padless_alias.py','retained_ses.py')}
+    for name,digest in previous['runtime_source_sha256'].items():
+        committed=subprocess.run(['git','show',previous['tools']['git_head']+':'+name],cwd=ROOT,capture_output=True,check=True).stdout
+        if hashlib.sha256(committed).hexdigest()!=digest:raise p.Rejected('old committed runtime differs')
+        if name not in changed and p.sha(ROOT/name)!=digest:raise p.Rejected('old native worker/dependency changed')
+        if name.endswith('/padless_alias.py'):
+            def unchanged_functions(raw):
+                tree=ast.parse(raw)
+                tree.body=[n for n in tree.body if not (isinstance(n,ast.FunctionDef) and n.name=='normalize_dsn') and not (isinstance(n,ast.ImportFrom) and n.module=='pathlib' and [x.name for x in n.names]==['PurePosixPath'])]
+                return ast.dump(tree,include_attributes=False)
+            if unchanged_functions(committed)!=unchanged_functions((ROOT/name).read_bytes()):raise p.Rejected('native alias mutation/geometry functions changed')
+    costs=[]
+    for number in ('001','002'):
+        folder=ROOT/('.runs/roller-export-alias-native-'+number+'-execution');execution=f.read_json(folder/'execution.json')
+        if (execution['process']['status']!='nonzero_exit' or execution['process']['exit_code']!=2 or execution['process']['cleanup_complete'] is not True or execution['log_sha256']!=p.sha(folder/'command.log')):raise p.Rejected('prior failed outer execution differs')
+        costs.append(execution)
+    baseline=f.read_json(HERE/'native-pins.json')['prior_baseline']
+    wall=baseline['combined_active_wall_seconds']+sum(x['wall_seconds'] for x in costs)
+    cpu=baseline['combined_full_cpu_seconds']+sum(x['full_cpu_seconds'] for x in costs)
+    if wall!=basis['prior_active_wall_seconds'] or cpu!=basis['prior_full_cpu_seconds']:raise p.Rejected('prior baseline/failure costs differ')
+    return basis,previous
+
+def finalize_controls(out,record,stable,account,remaining,owned):
+    f.publish(out,record,stable,account,remaining,owned=owned)
+    try:
+        owned();stable();published=f.read_json(out/'result.json');account();owned()
+        # A post-publication cap observation must invalidate the old positive,
+        # rather than clear only the in-memory return value.
+        if published.get('controls_passed') is True and record['controls_passed'] is not True:
+            raise p.Rejected('final native diagnostic budget/readback invalidated positive')
+    except (Exception,KeyboardInterrupt) as exc:
+        record.update(status='cancelled' if isinstance(exc,KeyboardInterrupt) else 'invalidated',controls_passed=False,reason=type(exc).__name__+': '+str(exc));f.publish(out,record,lambda:(_ for _ in ()).throw(p.Rejected(record['reason'])),account,remaining,owned=owned)
+    return record
+
+def experiment(output,*,run_native=False,resume_completed_exports=False):
     if run_native is not True:raise p.Rejected('ROOT sequential lane only')
     previous={s:signal.getsignal(s) for s in (signal.SIGINT,signal.SIGTERM)}
     def interrupted(*_):raise KeyboardInterrupt
     try:
         for s in previous:signal.signal(s,interrupted)
-        return _experiment(output)
+        return _experiment(output,resume_completed_exports=resume_completed_exports)
     finally:
         for s,handler in previous.items():signal.signal(s,handler)
 
-def _experiment(output):
-    start=time.monotonic();cpu0=h.cpu_seconds();remaining=lambda:max(0,min(SECONDS+start-time.monotonic(),SECONDS+cpu0-h.cpu_seconds()))
+def _experiment(output,*,resume_completed_exports=False):
+    if type(resume_completed_exports) is not bool:raise p.Rejected('explicit continuation flag required')
+    start=time.monotonic();cpu0=h.cpu_seconds();prior_wall=prior_cpu=0.;basis=previous=None
+    if resume_completed_exports:
+        basis,previous=resume_basis();prior_wall=basis['prior_active_wall_seconds'];prior_cpu=basis['prior_full_cpu_seconds']
+    remaining=lambda:max(0,min(SECONDS-prior_wall+start-time.monotonic(),SECONDS-prior_cpu+cpu0-h.cpu_seconds()))
     out=h.real_path(output,existing=False)
     if out.parent!=ROOT/'.runs' or out.exists():raise p.Rejected('exclusive fresh direct .runs output required')
     job=Job(out,SECONDS,remaining);ownership={};h.capture_destination(ownership,out);runtime={};tools=None;material={};pins=f.read_json(HERE/'native-pins.json')
@@ -43,6 +100,10 @@ def _experiment(output):
     def owned():h.owned_destination(ownership)
     def stable():
         owned()
+        if basis is not None:
+            for relative,expected in basis['retained_inventories'].items():
+                actual=io.inventory(ROOT/relative,max_bytes=LIMIT,max_files=4000,max_entries=8000,with_directories=True)
+                if f.canonical(actual)!=f.canonical(expected):raise p.Rejected('completed exports/failures changed')
         for name,digest in pins['files_sha256'].items():
             if p.sha(ROOT/name)!=digest:raise p.Rejected('pinned source/evidence/helper changed: '+name)
         if inventory(SOURCE)!=pins['source_inventory']:raise p.Rejected('original source population changed')
@@ -51,7 +112,7 @@ def _experiment(output):
         for n,v in material.items():
             if p.sha(out/n)!=v:raise p.Rejected('completed evidence changed: '+n)
     def account():
-        record.update(wall_seconds=time.monotonic()-start,full_cpu_seconds=h.cpu_seconds()-cpu0,steps=job.steps)
+        record.update(wall_seconds=time.monotonic()-start,full_cpu_seconds=h.cpu_seconds()-cpu0,steps=job.steps,combined_active_wall_seconds=prior_wall+time.monotonic()-start,combined_full_cpu_seconds=prior_cpu+h.cpu_seconds()-cpu0)
         if remaining()<=0 or sum((out/n).stat().st_size for n in inventory(out))>LIMIT:record.update(status='budget_exceeded',controls_passed=False)
         if record['status']!='controls_passed':record['controls_passed']=False
     def packet(where):
@@ -60,15 +121,21 @@ def _experiment(output):
         return inp/NAME
     try:
         stable();tools=p.tool_manifest();extras=[HERE/n for n in ('driver.py','worker.py','retained_ses.py','padless_alias.py','native-pins.json','PROTOCOL.json')]
+        if basis is not None:extras.append(HERE/'CONTINUATION_PROTOCOL.json');record.update(resume=basis,completed_exports_reexecuted=False,prior_active_wall_seconds=prior_wall,prior_full_cpu_seconds=prior_cpu)
         runtime=io.capture_freeze({**tools,'implementation_sha256':{**tools['implementation_sha256'],**{str(x.relative_to(ROOT)):p.sha(x) for x in extras}}})['files_sha256']
         record.update(tools=tools,runtime_source_sha256=runtime,pins=pins)
         baseline=f.read_json(ROOT/'.runs/roller-no-export-continuation-001/result.json')['original_native'];exports={};normalized=[]
         for namespace in ('A','B'):
-            stage='export-'+namespace;case=out/namespace;board=packet(case);before=inventory(board.parent);ctx=case/'context.json';dsn=case/'native.dsn';diag=case/'diagnostic.json';emission=case/'before.kicad_pcb'
-            argv=[c.PYTHON,HERE/'worker.py',board,ctx,dsn,diag,namespace,emission,case/'after.kicad_pcb'];job.step(stage,argv);f.process_check(out,{'steps':job.steps},stage,[*f.SANDBOX,*map(str,argv)])
+            stage='export-'+namespace;case=(ROOT/'.runs/roller-export-alias-native-002'/namespace if basis is not None else out/namespace);board=(case/'input'/NAME if basis is not None else packet(case));before=inventory(board.parent);ctx=case/'context.json';dsn=case/'native.dsn';diag=case/'diagnostic.json';emission=case/'before.kicad_pcb'
+            expected={n.removeprefix('Hardware/'):v for n,v in pins['source_inventory'].items() if n.startswith('Hardware/')}
+            expected.update({'_licenses/creator/'+n:pins['source_inventory'][n] for n in ('LICENSE.md','README.md')})
+            if before!=expected:raise p.Rejected('export original project/notices differ')
+            argv=[c.PYTHON,HERE/'worker.py',board,ctx,dsn,diag,namespace,emission,case/'after.kicad_pcb']
+            if basis is None:job.step(stage,argv)
+            f.process_check((ROOT/'.runs/roller-export-alias-native-002' if basis is not None else out),(previous if basis is not None else {'steps':job.steps}),stage,[*f.SANDBOX,*map(str,argv)])
             context=f.read_json(ctx);f.context_binding(context,board,before,'final',None);extra=f.read_json(diag);events=f.read_json(case/'alias-evidence.json')
             if extra['dsn_sha256'] is not None or extra['observation_before_export']!=extra['observation_after_export'] or events['dsn_sha256']!=p.sha(dsn):raise p.Rejected('same-load diagnostic/export binding differs')
-            binding=plan(board.read_bytes(),namespace);normalized.append(normalize_dsn(dsn.read_bytes(),board.read_bytes(),binding));classproof=unused_class_proof(board.read_bytes(),board.with_suffix('.kicad_pro').read_bytes(),context,dsn.read_bytes())
+            binding=plan(board.read_bytes(),namespace);normalized.append(normalize_dsn(dsn.read_bytes(),board.read_bytes(),binding,export_path=str(dsn)));classproof=unused_class_proof(board.read_bytes(),board.with_suffix('.kicad_pro').read_bytes(),context,dsn.read_bytes())
             if (events.get('source_sha256')!=p.sha(board) or events.get('context_sha256')!=p.sha(ctx)
                     or events.get('diagnostic_sha256')!=p.sha(diag)
                     or events.get('before_board_sha256')!=p.sha(emission)
@@ -84,7 +151,7 @@ def _experiment(output):
                 raise p.Rejected('full active/restored geometry differs from shared diagnostic')
             exports[namespace]={'board':board,'dsn':dsn,'emission':emission,'binding':binding,'class_proof':classproof};stable()
         if normalized[0]!=normalized[1]:raise p.Rejected('dual native alias namespaces differ outside authorized placement identity')
-        a=exports['A'];original=sx.read(a['board']);raw,filtered,transport=build(a['dsn'].read_bytes(),a['board'].read_bytes(),a['binding']);(out/'retained.ses').write_bytes(raw);(out/'filtered.ses').write_bytes(filtered)
+        a=exports['A'];original=sx.read(a['board']);raw,filtered,transport=build(a['dsn'].read_bytes(),a['board'].read_bytes(),a['binding'],geometry_source='original_protected_source' if basis is not None else 'native_dsn');(out/'retained.ses').write_bytes(raw);(out/'filtered.ses').write_bytes(filtered)
         imported=out/'imported.kicad_pcb';job.native('pristine-import','import',a['board'],imported,out/'filtered.ses');f.process_check(out,{'steps':job.steps},'pristine-import',[*f.SANDBOX,str(c.PYTHON),str(c.ROOT/'autorouter/native.py'),'import',str(a['board']),str(imported),str(out/'filtered.ses')])
         semantic=sn.semantic_diff(sx.read(a['emission']),sx.read(imported))
         if not semantic['equal']:raise p.Rejected('native import changed original native nonrouting emission')
@@ -102,13 +169,4 @@ def _experiment(output):
         record.update(controls_passed=True,status='controls_passed',native=final,transport=transport,raw_import_immutable=semantic,protected_import=protected_audit,class_proofs={k:v['class_proof'] for k,v in exports.items()},final_candidate=str(candidate),final_candidate_sha256=p.sha(candidate),final_report_sha256=p.sha(out/'candidate-final.json'),prior_baseline_reexecuted=False)
         material.update({n:p.sha(out/n) for n in inventory(out)});record['artifacts_sha256']=material;stable();account()
     except (Exception,KeyboardInterrupt) as exc:record.update(status='cancelled' if isinstance(exc,KeyboardInterrupt) else 'failed',controls_passed=False,reason=type(exc).__name__+': '+str(exc))
-    f.publish(out,record,stable,account,remaining,owned=owned)
-    try:
-        owned();stable();published=f.read_json(out/'result.json');account();owned()
-        # A post-publication cap observation must invalidate the old positive,
-        # rather than clear only the in-memory return value.
-        if published.get('controls_passed') is True and record['controls_passed'] is not True:
-            raise p.Rejected('final native diagnostic budget/readback invalidated positive')
-    except (Exception,KeyboardInterrupt) as exc:
-        record.update(status='cancelled' if isinstance(exc,KeyboardInterrupt) else 'invalidated',controls_passed=False,reason=type(exc).__name__+': '+str(exc));f.publish(out,record,lambda:(_ for _ in ()).throw(p.Rejected(record['reason'])),account,remaining,owned=owned)
-    return record
+    return finalize_controls(out,record,stable,account,remaining,owned)

@@ -1,0 +1,124 @@
+{
+  "accepted": false,
+  "cases": {
+    "A": {
+      "all23_raw_native_placements_retained_before_filter": true,
+      "all_ses_geometry_on_exact100nm_grid": true,
+      "exact_source_route_counter": true,
+      "filtered_ses_bytes": 1956,
+      "maximum_observed_raw_dsn_endpoint_delta_um": 0.5,
+      "native_import_not_executed": true,
+      "only6_padless_alias_placements_removed": true,
+      "raw_absolute_base_design_preserved": true,
+      "raw_dsn_changed_segments": 9,
+      "raw_dsn_sha256": "2d6cd2ddddcd4978d322c91913d1a01906a48ef50b69ef343c38b950a4dc1bb2",
+      "raw_ses_bytes": 2411,
+      "raw_source_and_dsn_unchanged": true,
+      "ses_filtered_sha256": "397ad98822d6ef92825215494bd59c4d0cd80f28905a81504f2144ba13522fe6",
+      "ses_raw_sha256": "b6ad63b18761ccde9b128fb0527e48c422792c02f94bd9f80c320c5de282f74c",
+      "source_segments": 11,
+      "source_sha256": "3086590581f2c33fc646f8a5c5e9ffaeeec12ba7d31b31e0afb8c414d5260ff5"
+    },
+    "B": {
+      "all23_raw_native_placements_retained_before_filter": true,
+      "all_ses_geometry_on_exact100nm_grid": true,
+      "exact_source_route_counter": true,
+      "filtered_ses_bytes": 1956,
+      "maximum_observed_raw_dsn_endpoint_delta_um": 0.5,
+      "native_import_not_executed": true,
+      "only6_padless_alias_placements_removed": true,
+      "raw_absolute_base_design_preserved": true,
+      "raw_dsn_changed_segments": 9,
+      "raw_dsn_sha256": "eff76b36d43c0b39f51ec8abc310161a10fb398c497470d1e0c503bced158053",
+      "raw_ses_bytes": 2411,
+      "raw_source_and_dsn_unchanged": true,
+      "ses_filtered_sha256": "3bad1297480b1b6a529bf0864910e135ae344e5221a7f47adee567c3fdc19656",
+      "ses_raw_sha256": "a233d490e419b1271466852513bc000627208af65e6579340467f7167f67f154",
+      "source_segments": 11,
+      "source_sha256": "3086590581f2c33fc646f8a5c5e9ffaeeec12ba7d31b31e0afb8c414d5260ff5"
+    }
+  },
+  "charges": {
+    "all_new_complete_foreground_outer_charge_still_required": true,
+    "driver_remaining_cpu_seconds_at_start": 41.424583999999996,
+    "driver_remaining_wall_seconds_at_start": 36.3735672509938,
+    "prior_active_wall_seconds": 23.6264327490062,
+    "prior_full_cpu_seconds": 18.575416
+  },
+  "controls": {
+    "default_raw_dsn_rejection_A": {
+      "reason": "native DSN does not preserve exact original route population",
+      "rejected": true,
+      "type": "ValueError"
+    },
+    "default_raw_dsn_rejection_B": {
+      "reason": "native DSN does not preserve exact original route population",
+      "rejected": true,
+      "type": "ValueError"
+    },
+    "negative_source_width": {
+      "reason": "route width/layer differs",
+      "rejected": true,
+      "type": "ValueError"
+    },
+    "source_net_removed_from_dsn": {
+      "reason": "protected source route absent from native DSN net population",
+      "rejected": true,
+      "type": "ValueError"
+    },
+    "source_route_loss": {
+      "reason": "exact Roller eleven-segment/no-via diagnostic required",
+      "rejected": true,
+      "type": "ValueError"
+    },
+    "stale_plan_source": {
+      "reason": "stale or altered alias/source contract",
+      "rejected": true,
+      "type": "ValueError"
+    },
+    "subgrid_source_point": {
+      "reason": "protected source geometry outside exact SES grid",
+      "rejected": true,
+      "type": "ValueError"
+    },
+    "unknown_geometry_mode": {
+      "reason": "unknown retained geometry source",
+      "rejected": true,
+      "type": "ValueError"
+    },
+    "unknown_source_layer": {
+      "reason": "'In1.Cu'",
+      "rejected": true,
+      "type": "KeyError"
+    },
+    "unknown_source_net": {
+      "reason": "protected source route absent from native DSN net population",
+      "rejected": true,
+      "type": "ValueError"
+    }
+  },
+  "kind": "independent-exact-source-session-review",
+  "native_continuation_unexecuted": true,
+  "native_execution": false,
+  "old_failed_results_unchanged": true,
+  "old_nonexception_runtime_files_match": true,
+  "production_support": false,
+  "protocol_sha256": "6eab402241dd0a22d346460356b374d7d07a2e87685f2f5e0e8d7045b857717a",
+  "retained_inventory_digest": "2c4992e04aa6553f8c747a33785d0d87568b02b3ee557ede60ed1cb99a79cabe",
+  "retained_tree_bytes": {
+    ".runs/roller-export-alias-native-001": 1054773,
+    ".runs/roller-export-alias-native-001-execution": 2552,
+    ".runs/roller-export-alias-native-002": 33496010,
+    ".runs/roller-export-alias-native-002-execution": 2604
+  },
+  "review_wall_seconds": 1.0400488329905784,
+  "reviewed_code_sha256": {
+    "driver.py": "1352cb6efe81c9958d4a62deb4a04aee3c350e77d8a2de0b5bc1b7d3eb06e7fd",
+    "padless_alias.py": "0ae6d68279944d866388e02937033f5e4af619ba09017cf15e5a6b27a3cab458",
+    "retained_ses.py": "dc731ed1c9d77b2ab1eace991094e747d155636915d759a09c135a1438440315",
+    "worker.py": "7431df122c38f9b7ba14a68125861290c10944afa6e8db590d1d74350978f089"
+  },
+  "schema": 1,
+  "solver_execution": false,
+  "whole_retained_inventory_matches": true
+}
