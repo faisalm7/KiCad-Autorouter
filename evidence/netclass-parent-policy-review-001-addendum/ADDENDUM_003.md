@@ -1,0 +1,3 @@
+# Persistent regression (additive)
+
+At the lead's explicit request, the reviewer added only `experiments/netclass_parent_transport_v1/test_binding.py`. It retains the demonstrated controller publication defect as a self-contained unittest: exact extracted final bound closure, real shared process and raw-file guards, explicitly synthetic stable DRC/geometry/DSN state, one controlling positive, seven late-drift subtests, and restored positive. It uses resolved TemporaryDirectory scratch, forbids subprocess calls, and needs no .runs input or repository output. The targeted unittest passed. No controller/core/native execution or production admission changed. All earlier frozen artifacts remain intact.

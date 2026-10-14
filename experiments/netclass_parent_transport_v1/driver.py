@@ -162,7 +162,90 @@ def experiment(output,*,run_native=False):
   record.update(status='budget_exceeded',controls_passed=False);f.publish(out,record,stable,account,remaining,owned=owned)
  return record
 
+def continue_preserved(output,*,run_native=False):
+ """Run only missing protected negatives after read-only completed-stage audit."""
+ if run_native is not True:raise p.Rejected('explicit --run-native required')
+ from experiments.netclass_parent_transport_v1 import readback
+ start=time.monotonic();cpu0=h.cpu_seconds();out=h.real_path(output,existing=False)
+ if out.exists() or not out.is_relative_to(ROOT/'.runs'):raise p.Rejected('fresh checkout-owned continuation output required')
+ out.mkdir();owner={};h.capture_destination(owner,out)
+ remaining=lambda:max(0,min(90-time.monotonic()+start,90-h.cpu_seconds()+cpu0))
+ record={'schema':1,'kind':'netclass-parent-transport-continuation-v1','accepted':False,'whole_project_drc_clean':False,
+  'status':'incomplete','controls_passed':False,'production_support_changed':False,'budget_seconds':90,'cpu_budget_seconds':90,
+  'combined_budget_seconds':180,'combined_cpu_budget_seconds':180,'output_ceiling_bytes':LIMIT,'new_engine_execution':False,
+  'new_native_stages':['wrong-width-drc','removed-protected-drc'],'schematic_parity':'unavailable; owned diagnostic fixture'}
+ foundation=tools=runtime=job=witness=None;checks=[]
+ def owned():h.owned_destination(owner)
+ def account():
+  record.update(wall_seconds=time.monotonic()-start,total_cpu_seconds=h.cpu_seconds()-cpu0,steps=[] if job is None else job.steps,
+   within_budget=remaining()>0 and size(out)<=LIMIT)
+  if foundation is not None:
+   record.update(combined_inner_wall_seconds=foundation['prior_wall_seconds']+record['wall_seconds'],combined_inner_cpu_seconds=foundation['prior_cpu_seconds']+record['total_cpu_seconds'])
+   if max(record['combined_inner_wall_seconds'],record['combined_inner_cpu_seconds'])>180:record['within_budget']=False
+  if not record['within_budget'] or record['status'] in ('failed','invalidated','cancelled'):record['controls_passed']=False
+ def stable():
+  owned()
+  if tools is not None and p.tool_manifest()!=tools:raise p.Rejected('current tool/implementation freeze changed')
+  if runtime is not None and inventory(out/'code')!=runtime:raise p.Rejected('captured continuation code changed')
+  if foundation is not None and readback.qualify()!=foundation:raise p.Rejected('retained actual foundation changed')
+  for name,board,before,native in checks:
+   if p.tree_hash(board.parent)!=before or native_binding(job,name,board,before)!=native:
+    raise p.Rejected('new actual negative source/native binding changed')
+   base=next(row for row in foundation['cases'] if row['case']=='partial_protected')
+   tree=sx.read(Path(base['candidate']));protected=p.routes(sx.read(Path(base['source'])))
+   if name=='removed-protected-drc':tree.remove(protected[0])
+   elif name=='wrong-width-drc':
+    names={x[1]:sx.unquote(x[2]) for x in sx.children(tree,'net')}
+    target=next(x for x in p.routes(tree) if x[0]=='segment' and x not in protected and names.get(sx.one(x,'net')[1],sx.unquote(sx.one(x,'net')[1]))=='/PWR_PAIR')
+    sx.one(target,'width')[1]='0.4'
+   else:raise p.Rejected('unexpected continuation native stage')
+   if (sx.dump(tree)+'\n').encode()!=io.read_bytes(board):raise p.Rejected('negative differs from exact preserved candidate mutation')
+  if witness is not None and completed_evidence(out)!=witness:raise p.Rejected('continuation evidence changed')
+  if record['accepted'] is not False or record['production_support_changed'] is not False:raise p.Rejected('diagnostic scope changed')
+ try:
+  tools=p.tool_manifest();foundation=readback.qualify();record['preserved_foundation']=foundation
+  code={name:io.read_bytes(ROOT/name) for name in tools['implementation_sha256']}
+  for name in ('driver.py','readback.py','CONTINUATION_PROTOCOL.json','PROTOCOL.json','fixture.py'):
+   path='experiments/netclass_parent_transport_v1/'+name;code[path]=io.read_bytes(ROOT/path)
+  for name in ('experiments/placement_handoff_native_v1/driver.py','experiments/original_project_native_v1/driver.py'):code[name]=io.read_bytes(ROOT/name)
+  for name,raw in code.items():
+   committed=subprocess.run(['git','show',tools['git_head']+':'+name],cwd=ROOT,capture_output=True,check=True,timeout=min(3,remaining())).stdout
+   if committed!=raw:raise p.Rejected('commit exact continuation before new native stages')
+  copy_bytes(code,out/'code');runtime=inventory(out/'code');record.update(tools=tools,runtime_source_sha256=runtime,protocol_sha256=p.sha(HERE/'CONTINUATION_PROTOCOL.json'))
+  row=next(row for row in foundation['cases'] if row['case']=='partial_protected');source=Path(row['source']);candidate=Path(row['candidate']);original=sx.read(source);protected=p.routes(original)
+  if len(protected)!=1:raise p.Rejected('one exact original protected route required')
+  project=f.read_json(source.with_suffix('.kicad_pro'));mapping=f.read_json(Path(row['job'])/'final-netclasses.json');hashes=row['source_hashes']
+  job=f.FloorJob(out/'job',90,remaining);files=io.inventory(candidate.parent,contents=True,max_bytes=LIMIT,max_files=2048,max_entries=4096)
+  copy_bytes(files,out/'wrong-width');wrong=out/'wrong-width'/candidate.name;tree=sx.read(wrong);names={x[1]:sx.unquote(x[2]) for x in sx.children(tree,'net')}
+  target=next(x for x in p.routes(tree) if x[0]=='segment' and x not in protected and names.get(sx.one(x,'net')[1],sx.unquote(sx.one(x,'net')[1]))=='/PWR_PAIR')
+  sx.one(target,'width')[1]='0.4';sx.write(wrong,tree)
+  try:p.audit_route_dimensions(tree,protected,mapping)
+  except p.Rejected as exc:reason=str(exc)
+  else:raise p.Rejected('protected wrong class-target copper accepted')
+  if reason!='generated track differs from native netclass target: /PWR_PAIR':raise p.Rejected('unexpected target refusal')
+  before=p.tree_hash(wrong.parent);native=job.drc('wrong-width-drc',wrong);checks.append(('wrong-width-drc',wrong,before,native))
+  record['wrong_width']={'class_audit_rejected':True,'reason':reason,'candidate_sha256':p.sha(wrong),'native':native,'native_minimums_accepted':p.native_accepted(native),'original_min_width':project['board']['design_settings']['rules']['min_track_width']}
+  stable();copy_bytes(files,out/'removed-protected');missing=out/'removed-protected'/candidate.name;tree=sx.read(missing);tree.remove(protected[0]);sx.write(missing,tree)
+  class NeverNative:
+   calls=0
+   def drc(self,*args,**kwargs):self.calls+=1;raise AssertionError('lost protection reached validator native')
+  never=NeverNative()
+  try:p.validate_candidate(never,original,missing,hashes,protected)
+  except p.Rejected as exc:reason=str(exc)
+  else:raise p.Rejected('missing protection not rejected')
+  if reason!='protected route changed' or never.calls:raise p.Rejected('unexpected protection refusal')
+  before=p.tree_hash(missing.parent);native=job.drc('removed-protected-drc',missing);checks.append(('removed-protected-drc',missing,before,native))
+  if native['opens']<1 or p.native_accepted(native):raise p.Rejected('actual protected-loss negative not invalid')
+  record['removed_protected']={'pre_native_rejected':True,'reason':reason,'validator_native_calls':never.calls,'candidate_sha256':p.sha(missing),'native':native}
+  stable();witness=completed_evidence(out);stable();record.update(status='controls_passed',controls_passed=True);account()
+ except (Exception,KeyboardInterrupt) as exc:
+  record.update(status='cancelled' if isinstance(exc,KeyboardInterrupt) else 'failed',controls_passed=False,error=type(exc).__name__+': '+str(exc))
+ f.publish(out,record,stable,account,remaining,owned=owned);owned()
+ if remaining()<=0 or size(out)>LIMIT:
+  record.update(status='budget_exceeded',controls_passed=False);f.publish(out,record,stable,account,remaining,owned=owned)
+ return record
+
 if __name__=='__main__':
- parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--output',required=True);parser.add_argument('--run-native',action='store_true');args=parser.parse_args()
- with cancellation():result=experiment(args.output,run_native=args.run_native)
+ parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--output',required=True);parser.add_argument('--run-native',action='store_true');parser.add_argument('--continue-preserved',action='store_true');args=parser.parse_args()
+ with cancellation():result=(continue_preserved if args.continue_preserved else experiment)(args.output,run_native=args.run_native)
  print(json.dumps({k:result[k] for k in ('status','controls_passed','accepted')}));raise SystemExit(0 if result['controls_passed'] else 2)
