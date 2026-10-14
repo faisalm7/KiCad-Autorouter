@@ -1,0 +1,170 @@
+{
+  "schema": 1,
+  "kind": "actual_paw_via_low_failed_tuning_probe",
+  "source_commit": "5f8ddc38354ef5b29ba0ea12e1a606365120dd3c",
+  "accepted": false,
+  "qualified": false,
+  "routing_accepted": false,
+  "format_admitted": false,
+  "production_admitted": false,
+  "new_routing_gain": false,
+  "status": "failed",
+  "error": "Rejected: explicit via_low candidate fails original Native acceptance",
+  "candidate_sha256": "e963f839cd4fe77016d6662bb19d7983c08b69b1d452693a257a95ba78d26f04",
+  "final_report_sha256": "29e61928e4ca37e9568ec3f72692188255834a72c1da0af68b46cab1f02ce907",
+  "native": {
+    "opens": 14,
+    "blocking": 0,
+    "warnings": 17,
+    "exclusions": 0
+  },
+  "saved_native": {
+    "opens": 14,
+    "blocking": 0,
+    "warnings": 17,
+    "exclusions": 0
+  },
+  "engine_budget": {
+    "profile": "tuned",
+    "argv": [
+      "--router.autorouter.max_passes=100",
+      "--router.job_timeout=00:00:37",
+      "--router.automatic_neckdown=false",
+      "--router.fanout.enabled=false",
+      "--router.neck_width_um=0",
+      "--router.optimizer.max_threads=1",
+      "--router.optimizer.max_passes=50",
+      "--router.optimizer.timeout=00:00:37",
+      "--router.optimizer.improvement_threshold=0.001",
+      "--router.optimizer.enable_preflight_guards=false",
+      "--router.optimizer.max_consecutive_failures=100",
+      "--router.optimizer.max_consecutive_failures_pass1=100",
+      "--router.scoring.via_costs=25",
+      "--router.scoring.plane_via_costs=3"
+    ],
+    "scoring": {
+      "variant": "via_low",
+      "via_costs": 25,
+      "plane_via_costs": 3,
+      "argv": [
+        "--router.scoring.via_costs=25",
+        "--router.scoring.plane_via_costs=3"
+      ]
+    },
+    "strict_class_targets": true,
+    "remaining_outer_wall_seconds_at_assignment": 77.145791,
+    "assigned_job_timeout_seconds": 37,
+    "assigned_optimizer_timeout_seconds": 37,
+    "native_finalization_reserve_seconds": 10,
+    "engine_grace_reserve_seconds": 30,
+    "internal_deadlines": "cooperative planning caps; external supervision and measured CPU acceptance cap remain authoritative",
+    "outer_task_wall_budget_seconds": 120,
+    "outer_task_cpu_budget_seconds": 120
+  },
+  "new_worker_census": [
+    "engine",
+    "import",
+    "refill-drc",
+    "final-drc"
+  ],
+  "negative_case_executed": false,
+  "actual_outer": {
+    "schema": 1,
+    "protocol_sha256": "d475983cb8448a0f382ffdbe29faef8787f620dc4ec8779c678eba3cdf9156fb",
+    "controller_sha256": "d0b06105162377f88356a3d3adb8f1dd487ff0919a7aee8b04bc0ed3f8da98b4",
+    "log_sha256": "1fff418b8fbaaefe5470688ee87ad8c178e6f637ab4d6b56410b419b60fa6454",
+    "outer_qualified": false,
+    "outer_error": "AssertionError: ",
+    "source_current": true,
+    "wall_seconds": 15.072785541007761,
+    "total_cpu_seconds": 18.580349,
+    "cumulative_wall_seconds": 41.56887578900205,
+    "cumulative_full_cpu_seconds": 45.676972,
+    "whole_delivery_within_budget": true,
+    "scope": "One new explicit via_low25/3 tuned B2 configuration with unchanged geometry/rules/physicalaperture and conditional freshMISOwrongnet Native control; no priorworker/export/obstacle repeat. Whole cumulative120wall/fullCPU includes three actual failed prefixes plus pure readermeasured+2sallowance:26.496090wall27.096623CPU. No source-format admission, novelmechanism or fair routingcomparison claim."
+  },
+  "process": {
+    "status": "nonzero_exit",
+    "exit_code": 2,
+    "cleanup_complete": true,
+    "wall_seconds": 14.787268499989295,
+    "cpu_seconds": 18.272851
+  },
+  "shared_readback": {
+    "schema": 1,
+    "passed": true,
+    "accepted": false,
+    "routing_accepted": false,
+    "source_format_admitted": false,
+    "exact_native_import_geometry": true,
+    "retained_explicit_via_low_assignment": true,
+    "original_shell_rules_and_prl_preserved": true,
+    "full_schematic_native_checked": true,
+    "negative_case_executed": false,
+    "native": {
+      "opens": 14,
+      "blocking": 0,
+      "warnings": 17,
+      "exclusions": 0,
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "Text height out of range",
+          "key": "text_height"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        },
+        {
+          "description": "Footprint doesn't match copy in library",
+          "key": "lib_footprint_mismatch"
+        }
+      ]
+    },
+    "route_count": 66,
+    "candidate_sha256": "e963f839cd4fe77016d6662bb19d7983c08b69b1d452693a257a95ba78d26f04",
+    "native_report_sha256": "29e61928e4ca37e9568ec3f72692188255834a72c1da0af68b46cab1f02ce907",
+    "source_result_sha256": "0214a188c79a7d5deb6ddeeec4339df878a5aa9af12a2d51149f02ad1d2c0889",
+    "controller_sha256": "7beec6510ff312f1c548c124bd4f949a979390a01b482a14a23959b3fd96a973",
+    "wall_seconds": 0.6313664159970358,
+    "full_cpu_seconds": 0.551869,
+    "scope": "Pure shared-reader proof of real corrected import and actually incomplete14open fullSCH candidate. No Native/JVM/engine/GET rerun; original constraints unchanged, aggregate remains failed/no format admission."
+  },
+  "reader_allowance_seconds": 2,
+  "reader_cost_is_separate": true,
+  "hashes": {
+    ".runs/paw-low-profile-native-001/result.json": "0214a188c79a7d5deb6ddeeec4339df878a5aa9af12a2d51149f02ad1d2c0889",
+    ".runs/paw-low-profile-native-001/route/case.json": "e513c71f0a67caf4aa6e9d459da5e769c923c400822e37362c6bf66c514affab",
+    ".runs/paw-low-profile-native-001/route/engine-budget.json": "ec50694ad5f4113219c4a1ca7e49322a7cee2238aa6c4ff9c06b2d7022571b26",
+    ".runs/paw-low-profile-execution-001/execution.json": "721f54ad78e1812f3a9caaa32edfdae7446ec84221f389c6addf2c3ab3f3e84b",
+    ".runs/paw-low-profile-readback-001/result.json": "7bb8a62dd95b102fa654a4a7486ce45fcecf74fcfb255b57e857fb645a941ee9",
+    ".runs/readback-paw-low-profile-001.py": "7beec6510ff312f1c548c124bd4f949a979390a01b482a14a23959b3fd96a973"
+  },
+  "interpretation": "Existing via_low25/3 tuned B2 probe worsens native10opens to14; no candidate accepted. Exact Native import/nonroute/original-shell/refill/fullSCH/rule/PRL/legacy/mandatorySES proof pass as evidence checks only. Actual002 omitted via flags, so no50-to25 comparison. Do not repeat completed export/obstacles/engine trials or remove original physical aperture.",
+  "limits": [
+    "All17warnings/ignoredchecks preserved. No new fieldfinding, severity waiver or original source changes.",
+    "One exposed board, no family-independent/fair-comparison/novel mechanism claim.",
+    "All original class dimensions, no-autoneckdown/fanout and final checks remain mandatory.",
+    "No raw PCB/model redistribution; onMac raw evidence backup refresh follows."
+  ]
+}
