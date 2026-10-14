@@ -1,4 +1,4 @@
-"""Fetch five files from a fixed public design into a fresh local demo directory."""
+"""Fetch a fixed public source packet into a fresh local demo directory."""
 import time,resource
 START=time.monotonic()
 def cpu():
@@ -23,7 +23,10 @@ ARC_PROFILE={'schema': 1, 'profile_id': 'arcdice', 'project_id': 'arcdice', 'rep
 
 ANALOG_PROFILE={'schema': 1, 'profile_id': 'analog-filter', 'project_id': 'analog-filter', 'repository': 'Myrto-Angeliki/analog-filter', 'commit': '6a34b221758fe32f33eca20d735e88028346753a', 'rows': [{'bytes': 1071, 'commit': '6a34b221758fe32f33eca20d735e88028346753a', 'git_blob_sha1': '178b2e83363bc879439704ba181a3262e4037c24', 'mode': '100644', 'raw_url': 'https://raw.githubusercontent.com/Myrto-Angeliki/analog-filter/6a34b221758fe32f33eca20d735e88028346753a/LICENSE', 'repository': 'Myrto-Angeliki/analog-filter', 'rights_basis': 'Pinned root MIT2026 Myrto-Angeliki notice and README preserved; no separately licensed hardware/library entries present in immutable tree. Optional stock KiCad10 models not acquired or qualified.', 'sha256': '63b530c020ac3fb94410ce68da27ae4f1b91408e159f76b799c5d2c2e46186b9', 'source_path': 'LICENSE', 'destination': 'analog-filter/LICENSE'}, {'bytes': 7898, 'commit': '6a34b221758fe32f33eca20d735e88028346753a', 'git_blob_sha1': 'fea2bbb2b7fe9e1cb43e156d225f114eaea7c373', 'mode': '100644', 'raw_url': 'https://raw.githubusercontent.com/Myrto-Angeliki/analog-filter/6a34b221758fe32f33eca20d735e88028346753a/README.md', 'repository': 'Myrto-Angeliki/analog-filter', 'rights_basis': 'Pinned root MIT2026 Myrto-Angeliki notice and README preserved; no separately licensed hardware/library entries present in immutable tree. Optional stock KiCad10 models not acquired or qualified.', 'sha256': '093d92eedb9c6d603ec876d9c4998909249e0749f6a44022abb3cff00a435be6', 'source_path': 'README.md', 'destination': 'analog-filter/README.md'}, {'bytes': 85910, 'commit': '6a34b221758fe32f33eca20d735e88028346753a', 'git_blob_sha1': 'a450339e182d855f4a43e2d189dc7d43f5794aee', 'mode': '100644', 'raw_url': 'https://raw.githubusercontent.com/Myrto-Angeliki/analog-filter/6a34b221758fe32f33eca20d735e88028346753a/kicad/analog_filter_module.kicad_pcb', 'repository': 'Myrto-Angeliki/analog-filter', 'rights_basis': 'Pinned root MIT2026 Myrto-Angeliki notice and README preserved; no separately licensed hardware/library entries present in immutable tree. Optional stock KiCad10 models not acquired or qualified.', 'sha256': '8867dc5ff9d80ba3789f40832454a6cb6085c4dcb0856e97008bfc43eeb03f34', 'source_path': 'kicad/analog_filter_module.kicad_pcb', 'destination': 'analog-filter/kicad/analog_filter_module.kicad_pcb'}, {'bytes': 17143, 'commit': '6a34b221758fe32f33eca20d735e88028346753a', 'git_blob_sha1': 'd6bdf2231abdd1d3954642df33e9119d393accd9', 'mode': '100644', 'raw_url': 'https://raw.githubusercontent.com/Myrto-Angeliki/analog-filter/6a34b221758fe32f33eca20d735e88028346753a/kicad/analog_filter_module.kicad_pro', 'repository': 'Myrto-Angeliki/analog-filter', 'rights_basis': 'Pinned root MIT2026 Myrto-Angeliki notice and README preserved; no separately licensed hardware/library entries present in immutable tree. Optional stock KiCad10 models not acquired or qualified.', 'sha256': '13281fa714b165cec0239ba5891cab8984a0f026fdc067ac8fe209de44cea2dc', 'source_path': 'kicad/analog_filter_module.kicad_pro', 'destination': 'analog-filter/kicad/analog_filter_module.kicad_pro'}, {'bytes': 77314, 'commit': '6a34b221758fe32f33eca20d735e88028346753a', 'git_blob_sha1': 'f1891ad8dd2f993663cac59d4f91c790ae9c4ee1', 'mode': '100644', 'raw_url': 'https://raw.githubusercontent.com/Myrto-Angeliki/analog-filter/6a34b221758fe32f33eca20d735e88028346753a/kicad/analog_filter_module.kicad_sch', 'repository': 'Myrto-Angeliki/analog-filter', 'rights_basis': 'Pinned root MIT2026 Myrto-Angeliki notice and README preserved; no separately licensed hardware/library entries present in immutable tree. Optional stock KiCad10 models not acquired or qualified.', 'sha256': '5afb13ba0dae7856b5a79cde0c7251a36a1d111cf9b1e568393c2fb6a1b0252d', 'source_path': 'kicad/analog_filter_module.kicad_sch', 'destination': 'analog-filter/kicad/analog_filter_module.kicad_sch'}], 'directories': ['kicad'], 'bytes': 189336, 'network_byte_cap': 189341, 'output_prefix': 'analog-filter-demo-', 'default_output': '.data/analog-filter-demo-001', 'native_packet_notice_copies': {'kicad/_licenses/creator/LICENSE': 'LICENSE', 'kicad/_licenses/creator/README.md': 'README.md'}, 'native_packet_files': 7, 'native_packet_bytes': 198305, 'warnings': ['Source board is FOUR copper layers; README two-layer sentence disagrees. Preserve actual Source4Cu.', 'Fourteen stock KiCad footprint/model declarations have unclosed optional model assets; no model/library/script download or physical/electrical qualification.', 'Root MIT2026 Myrto-Angeliki and original README retained; no independent pedigree or redistribution claim for unresolved third-party models.']}
 
+CELL_SCAN_PROFILE={'schema': 1, 'profile_id': 'cellscan', 'project_id': 'cellscan', 'repository': 'Studented0/18650-Tester', 'commit': '628c8a7d80f9de07c24d86102dfca9e353c038ce', 'rows': [{'blob_url': 'https://github.com/Studented0/18650-Tester/blob/628c8a7d80f9de07c24d86102dfca9e353c038ce/LICENSE', 'bytes': 1072, 'commit': '628c8a7d80f9de07c24d86102dfca9e353c038ce', 'destination': 'cellscan/LICENSE', 'git_blob_sha1': 'af62e679521739bc3d3d425517637122877aa7fb', 'mode': '100644', 'raw_url': 'https://raw.githubusercontent.com/Studented0/18650-Tester/628c8a7d80f9de07c24d86102dfca9e353c038ce/LICENSE', 'repository': 'Studented0/18650-Tester', 'sha256': '15833c1331f62081f123fd35c017bb44f6697ba60c706e98116760cb3e35ddf1', 'source_path': 'LICENSE'}, {'blob_url': 'https://github.com/Studented0/18650-Tester/blob/628c8a7d80f9de07c24d86102dfca9e353c038ce/README.md', 'bytes': 4780, 'commit': '628c8a7d80f9de07c24d86102dfca9e353c038ce', 'destination': 'cellscan/README.md', 'git_blob_sha1': '294b7bbae423225a055852b1199a8ac77c3b6b20', 'mode': '100644', 'raw_url': 'https://raw.githubusercontent.com/Studented0/18650-Tester/628c8a7d80f9de07c24d86102dfca9e353c038ce/README.md', 'repository': 'Studented0/18650-Tester', 'source_path': 'README.md'}, {'blob_url': 'https://github.com/Studented0/18650-Tester/blob/628c8a7d80f9de07c24d86102dfca9e353c038ce/hardware/CellScan_Schematic.kicad_pcb', 'bytes': 982968, 'commit': '628c8a7d80f9de07c24d86102dfca9e353c038ce', 'destination': 'cellscan/hardware/CellScan_Schematic.kicad_pcb', 'git_blob_sha1': 'db571061c6bc4eab51636c8b1897c20a6b21de37', 'mode': '100644', 'raw_url': 'https://raw.githubusercontent.com/Studented0/18650-Tester/628c8a7d80f9de07c24d86102dfca9e353c038ce/hardware/CellScan_Schematic.kicad_pcb', 'repository': 'Studented0/18650-Tester', 'source_path': 'hardware/CellScan_Schematic.kicad_pcb'}, {'blob_url': 'https://github.com/Studented0/18650-Tester/blob/628c8a7d80f9de07c24d86102dfca9e353c038ce/hardware/CellScan_Schematic.kicad_pro', 'bytes': 16243, 'commit': '628c8a7d80f9de07c24d86102dfca9e353c038ce', 'destination': 'cellscan/hardware/CellScan_Schematic.kicad_pro', 'git_blob_sha1': 'e8dee6e6c6468efe9cbfd1b60ed780f6b07cfaa6', 'mode': '100644', 'raw_url': 'https://raw.githubusercontent.com/Studented0/18650-Tester/628c8a7d80f9de07c24d86102dfca9e353c038ce/hardware/CellScan_Schematic.kicad_pro', 'repository': 'Studented0/18650-Tester', 'source_path': 'hardware/CellScan_Schematic.kicad_pro'}, {'blob_url': 'https://github.com/Studented0/18650-Tester/blob/628c8a7d80f9de07c24d86102dfca9e353c038ce/hardware/CellScan_Schematic.kicad_sch', 'bytes': 290345, 'commit': '628c8a7d80f9de07c24d86102dfca9e353c038ce', 'destination': 'cellscan/hardware/CellScan_Schematic.kicad_sch', 'git_blob_sha1': '42612c5987c30a6daa7f75b648a78ee0dc36abd0', 'mode': '100644', 'raw_url': 'https://raw.githubusercontent.com/Studented0/18650-Tester/628c8a7d80f9de07c24d86102dfca9e353c038ce/hardware/CellScan_Schematic.kicad_sch', 'repository': 'Studented0/18650-Tester', 'source_path': 'hardware/CellScan_Schematic.kicad_sch'}, {'blob_url': 'https://github.com/Studented0/18650-Tester/blob/628c8a7d80f9de07c24d86102dfca9e353c038ce/hardware/libraries/ESP32-DevKitC-30PIN.kicad_mod', 'bytes': 3822, 'commit': '628c8a7d80f9de07c24d86102dfca9e353c038ce', 'destination': 'cellscan/hardware/libraries/ESP32-DevKitC-30PIN.kicad_mod', 'git_blob_sha1': '8338c7af4bdc5c7181691f127ed7a6973ec54294', 'mode': '100644', 'raw_url': 'https://raw.githubusercontent.com/Studented0/18650-Tester/628c8a7d80f9de07c24d86102dfca9e353c038ce/hardware/libraries/ESP32-DevKitC-30PIN.kicad_mod', 'repository': 'Studented0/18650-Tester', 'source_path': 'hardware/libraries/ESP32-DevKitC-30PIN.kicad_mod'}], 'directories': ['hardware', 'hardware/libraries'], 'board_path': 'hardware/CellScan_Schematic.kicad_pcb', 'output_prefix': 'cellscan-demo-', 'default_output': '.data/cellscan-demo-001', 'file_count': 6, 'bytes': 1299230, 'max_requests': 6, 'network_byte_cap': 1299236, 'max_single_response_bytes': 982969, 'output_byte_cap': 4194304, 'wall_budget_seconds': 300, 'cpu_budget_seconds': 300, 'request_wall_seconds': 30, 'native_packet_notice_copies': {'hardware/_licenses/creator/LICENSE': 'LICENSE', 'hardware/_licenses/creator/README.md': 'README.md'}, 'native_packet_files': 8, 'native_packet_bytes': 1305082, 'development_exposed': True, 'independent_ancestry_established': False, 'native_validation_performed_by_fetch': False, 'raw_assets_public': False, 'warnings': ['Raw six-file source is not acquired or native-qualified by this registration.', 'Pinned root LICENSE identity and exact README are retained on acquisition; optional assets/custom footprint provenance remain unqualified.', '18650 battery measurement/electrical/physical safety and independent ancestry remain unqualified.', 'Only the six fixed public originals are requested; no models, firmware, scripts, images or additional libraries are downloaded. Original source hierarchy/bytes are never normalized.']}
+
 def fixed_profile(profile_id='led'):
+    if profile_id=='cellscan':return copy.deepcopy(CELL_SCAN_PROFILE)
     if profile_id=='arcdice':return copy.deepcopy(ARC_PROFILE)
     if profile_id=='analog-filter':return copy.deepcopy(ANALOG_PROFILE)
     if profile_id!='led':raise ValueError('unknown fixed public source profile')
@@ -42,17 +45,24 @@ def verify_project(path,*,profile_id='led',native_packet=False):
     cfg=fixed_profile(profile_id)
     if type(native_packet) is not bool or native_packet and not cfg['native_packet_notice_copies']:raise ValueError('unsupported notice-packet request')
     path=Path(path).absolute();shared.contained(path,path)
-    rows=cfg['rows'];expected={r['source_path']:{'bytes':r['bytes'],'sha256':r['sha256']} for r in rows};directories=list(cfg['directories'])
-    copies=cfg['native_packet_notice_copies'] if native_packet else {}
-    for name,origin in copies.items():expected[name]=dict(expected[origin])
+    rows=cfg['rows'];count=cfg.get('file_count',5);cap=cfg.get('output_byte_cap',OUTPUT_BYTES)
+    if len(rows)!=count or len({r['source_path'] for r in rows})!=count:raise ValueError('fixed source population differs')
+    copies=cfg['native_packet_notice_copies'] if native_packet else {};directories=list(cfg['directories'])
+    names={r['source_path'] for r in rows}|set(copies)
     if copies:
         directories=sorted(set(directories)|{str(parent) for name in copies for parent in Path(name).parents if str(parent)!='.'})
-    before=shared.inventory(path,cap=OUTPUT_BYTES)
-    if before['files']!=expected or before['directories']!=directories:raise ValueError('exact five original LED project files required' if profile_id=='led' else 'exact fixed original source/notice project required')
-    for row in rows:shared.payload(row,shared.bounded(path/shared.safe(row['source_path'])))
+    before=shared.inventory(path,cap=cap)
+    if set(before['files'])!=names or before['directories']!=directories:raise ValueError('exact five original LED project files required' if profile_id=='led' else 'exact fixed original source/notice project required')
+    # Derive SHA256 from actual bytes validated against size/Git-blob pins. Some
+    # first-acquisition profiles intentionally have no prior SHA256 for a row.
+    expected={row['source_path']:shared.payload(row,shared.bounded(path/shared.safe(row['source_path']))) for row in rows}
     for name,origin in copies.items():
-        row=next(r for r in rows if r['source_path']==origin);shared.payload(row,shared.bounded(path/shared.safe(name)))
-    shared.inventory(path,before,cap=OUTPUT_BYTES)
+        row=next(r for r in rows if r['source_path']==origin)
+        copied=shared.payload(row,shared.bounded(path/shared.safe(name)))
+        if copied!=expected[origin]:raise ValueError('creator notice copy differs from original bytes')
+        expected[name]=copied
+    if before['files']!=expected:raise ValueError('fixed source bytes changed during verification')
+    shared.inventory(path,before,cap=cap)
     return {'schema':1,'verified':True,'project':str(path),'repository':rows[0]['repository'],
         'source_commit':rows[0]['commit'],'file_count':len(expected),'bytes':sum(x['bytes'] for x in expected.values()),
         'files':expected,'native_accepted':False}
@@ -95,10 +105,12 @@ class OwnedFile:
 def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fetch_one,started=None,cpu_started=None):
     started=time.monotonic() if started is None else started;cpu_started=cpu() if cpu_started is None else cpu_started
     cfg=fixed_profile(profile_id);root=Path(root).absolute();out=destination(root,name,profile_id=profile_id);rows=cfg['rows'];network_cap=cfg['network_byte_cap'];planned=cfg['bytes'];nested=bool(cfg['native_packet_notice_copies'])
+    count=cfg.get('file_count',5);max_requests=cfg.get('max_requests',5);output_cap=cfg.get('output_byte_cap',OUTPUT_BYTES)
+    if len(rows)!=count or count!=max_requests:raise ValueError('fixed source/request population differs')
     if out.exists():raise ValueError('destination already exists; preserve earlier attempts')
     if fetch is not True:
         return {'schema':1,'action':'plan_only','destination':str(out),'source_commit':rows[0]['commit'],
-            'planned_files':5,'planned_bytes':planned,'network_requests':0,'native_accepted':False,
+            'planned_files':count,'planned_bytes':planned,'network_requests':0,'native_accepted':False,
             'command':'scripts/fetch_led_demo.py --project '+profile_id+' --fetch --output '+name}
     extra=ARC_MATERIAL if nested else ()
     def material():return {n:shared.sha(shared.bounded(shared.contained(root,root/n))) for n in (*MATERIAL,*extra)}
@@ -123,10 +135,10 @@ def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fe
     record={'schema':1,'kind':'fixed_public_'+profile_id.replace('-','_')+'_source_acquisition','status':'running','accepted':False,
         'native_accepted':False,'physical_electrical_validation':False,'routing_support':'unqualified',
         'destination':str(out),'project':str(project),'repository':rows[0]['repository'],'source_commit':rows[0]['commit'],
-        'source_profile':('fixed five-file public '+('ArcDice' if profile_id=='arcdice' else profile_id)+' selection') if nested else 'licensed_acquisition_v7 fixed five-file public LED selection',
+        'source_profile':('fixed '+('six' if count==6 else 'five')+'-file public '+('ArcDice' if profile_id=='arcdice' else profile_id)+' selection') if nested else 'licensed_acquisition_v7 fixed five-file public LED selection',
         'runtime_sha256':witness,'budget_seconds':SECONDS,'cpu_budget_seconds':SECONDS,
-        'max_requests':5,'network_byte_cap':network_cap,'output_byte_cap':OUTPUT_BYTES,
-        'planned_files':5,'planned_bytes':planned,'requests':requests,'files':[],
+        'max_requests':max_requests,'network_byte_cap':network_cap,'output_byte_cap':output_cap,
+        'planned_files':count,'planned_bytes':planned,'requests':requests,'files':[],
         'new_network_requests':0,'received_bytes':0,'engine_jobs':0,'native_jobs':0,'models_downloaded':0,
         'independent_ancestry_established':False,'split':'development-exposed',
         'source_files_exact':False,'original_source_constraints_modified':False,
@@ -145,8 +157,8 @@ def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fe
             verify_project(project,profile_id=profile_id);verified=verify_project(out/'native-project',profile_id=profile_id,native_packet=True)
             if verified['files']!=record['native_packet_hashes']:raise ValueError('native notice packet differs')
             return True
-        return len(completed)==5
-    def scan():return shared.inventory(owned(),cap=OUTPUT_BYTES)
+        return len(completed)==count
+    def scan():return shared.inventory(owned(),cap=output_cap)
     def stable():
         owned();remaining()
         if material()!=witness:raise ValueError('acquisition implementation changed during execution')
@@ -167,7 +179,7 @@ def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fe
         owned();actual=scan();record.update(wall_seconds=time.monotonic()-started,total_cpu_seconds=cpu()-cpu_started,output_bytes=actual['bytes'],
           new_network_requests=len(requests),received_bytes=sum(x.get('received_bytes',0) for x in requests))
         record['source_files_exact']=exact_source() and all(actual['files'].get(n)==info for n,info in completed.items())
-        record['within_budget']=record['wall_seconds']<=SECONDS and record['total_cpu_seconds']<=SECONDS and actual['bytes']<=OUTPUT_BYTES and len(requests)<=5 and record['received_bytes']<=network_cap
+        record['within_budget']=record['wall_seconds']<=SECONDS and record['total_cpu_seconds']<=SECONDS and actual['bytes']<=output_cap and len(requests)<=max_requests and record['received_bytes']<=network_cap
         if not record['within_budget'] or record['status']=='acquired_unqualified' and not record['source_files_exact']:record.update(status='failed',accepted=False)
     try:
         stable()
@@ -205,7 +217,7 @@ def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fe
         raise
 
 def main():
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--fetch',action='store_true');parser.add_argument('--project',choices=('led','arcdice','analog-filter'),default='led');parser.add_argument('--output');args=parser.parse_args();args.output=args.output or fixed_profile(args.project)['default_output']
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--fetch',action='store_true');parser.add_argument('--project',choices=('led','arcdice','analog-filter','cellscan'),default='led');parser.add_argument('--output');args=parser.parse_args();args.output=args.output or fixed_profile(args.project)['default_output']
     try:
         with shared.cancellation(),shared.alarm(SECONDS):record=fetch_demo(args.output,profile_id=args.project,fetch=args.fetch,started=START,cpu_started=CPU_START)
     except (Exception,KeyboardInterrupt) as exc:

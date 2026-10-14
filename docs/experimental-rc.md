@@ -11,7 +11,7 @@ Use [START_HERE](../START_HERE.md), [quickstart](quickstart.md), [saved settings
 | Complete-project offline workflow | [earlier installed Arc workflow](../evidence/current-installation019-actual-review-001/REPORT.txt) | Full original design/parity;26warnings; earlier019 bytes, distinct from020smoke |
 | Actual GUI external workflow | [installed LED GUI003](../evidence/installed-led-export-gui-003/SCOPE.md) | Full refill/parity observed; CLI warnings retained; no live apply/undo |
 | Stronger-baseline improvements | [current results](../STATUS.md) | Five exposed circuits, equal120wall/CPU caps, zero proven independent pedigrees |
-| Private restoration | [full3a](../evidence/backups/restore-3a27160.json) | Old cutoff; current new full restoration still pending after incremental guard refusal |
+| Private restoration | [current fullcfa](../evidence/backups/restore-cfa721c.json) | Newfullcfa actual restoration257275files/7219146037bytes/allrefs/CLI passes; failed incremental guard refusal retained |
 
 The fixed fresh-High pruning API/controller is experimentally qualified on the four-layer Analog circuit; High was chosen after observed default-C tradeoffs. This is not an adaptive selector or untouched result. All combined configuration exploration, failures, warnings and unsupported cases stay visible. [Current audit closure](../evidence/analog-high-cumulative-audit-001/SCOPE.md).
 
@@ -19,4 +19,4 @@ Managed population remains25canonical boards/8staticeligible/17unsupported, plus
 
 The [actual local review pack](../evidence/analog-human-review-pack-001/SCOPE.md) now has3fresh native-validated complete projects and C8four-layer plots. Forms remain blank; mapping/rawgeometry are private. Original publisher and first SVG-count closure failures are preserved; closure002 is authoritative, no Native work repeated.
 
-Before calling the final experimental RC fully qualified, perform the scheduled full restoration of current private artifacts, and reconcile the final evidence index. Representative30–50family audit, pedigreed untouched confirmation, actual human PCB review and physical validation remain separate unmet research/release gates. No formal release/tag/package publication, contact or spending is authorized.
+Current limited experimental source handoff now has actual installation/native/workflow/integration/restoration evidence. Use it for the documented supported research scope; later acquisition helpers in the primary checkout are separate from tested020 distribution bytes. Representative30–50family audit, pedigreed untouched confirmation, actual human PCB review and physical validation remain separate unmet research/release gates. No formal release/tag/package publication, contact or spending is authorized.

@@ -1,0 +1,11 @@
+# CellScan integration and retained-source readback
+
+PASS. No new material correctness defect found in the current fixed-profile integration. verify_project computes expectedSHA256 by applying shared.payload to actual bounded source bytes, checking exact length/Git-blob identity and optional priorSHA256. It checks exact source/notice members and directories, binds notice copies to those observed originals and repeats the full inventory. Five CellScan rows intentionally lack priorSHA256; an authored payload seam passed without it and rejected both wrong same-size Git-blob bytes and wrong size.
+
+LED/ArcDice/Analog remain5 requests/2MiB with their old labels; CellScan alone is6 requests/4MiB. Count equals the fixed unique row population and request cap, and existing account/stable publication paths enforce output/count budgets. Partial nested acquisition requires both owned original/notice roots before completeness and exact source verification before acquired_unqualified publication. These partial-state assertions are code inspection, not newly executed failure-injection tests.
+
+Existing capture_native_source ran on actual retained Analog and ArcDice packets without staging, fallback, GET, native or solver work. Analog raw5/189336bytes and native7/198305bytes passed; ArcDice raw5/595341bytes and native7/599338bytes passed. Entire acquisition inventories and old receipt labels/hashes remained unchanged. Current runtime and SOURCE_LEDGER hashes are bound and unchanged. All metadata is in checks.json; raw boards/assets were not copied into the review.
+
+One pure audit measured0.115919250005 wall/0.108613000000 fullCPU seconds from before project imports through checks, zero child CPU. Explicit1-second bootstrap and1-second packet-emission allowances produce2.115919250005/2.108613000000 review charge. Earlier read-only source inspection is separately unmeasured development review. No tests, GET, Git, native, JVM or production/source edits were performed in this packet.
+
+CellScan source acquisition, actual license body/custom-asset observation, original native/rule/parity checks and battery electrical/physical review remain unqualified. This verifies retained-source compatibility and source transport semantics, not production admission, a routing comparison or physical approval.
