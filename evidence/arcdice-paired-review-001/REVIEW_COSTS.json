@@ -1,0 +1,50 @@
+{
+  "actual_input_receipts_unchanged": true,
+  "additive_charge_pending_lead": true,
+  "claim_scope": "Stored producer accepted B1/B2 charges remain historical. Any final cumulative claim must include additional review/failure costs and unsampled preparation policy; C remains over both120 caps regardless.",
+  "declared15_insufficient_for_combined_observed_review": true,
+  "outside_samples": [
+    "Reviewer interpreter/import startup for three invocations",
+    "Source/read-only inspection and audit-script preparation",
+    "Review metadata/report/manifest emission",
+    "Any later integrating readback or publication"
+  ],
+  "producer_declared_allowance_each_arm_seconds": 15,
+  "producer_final_qualification_execution": {
+    "fixed_charge_seconds": 15,
+    "full_cpu_seconds": 4.974423999999999,
+    "result_sha256": "e1a8943b1eb718ae663f0d9206ee54de954901991ac2e792ce4faf6a67542186",
+    "scope": "Before imports through final publication; interpreter startup separately charged1second to each arm.",
+    "wall_seconds": 5.23990225000307
+  },
+  "producer_plus_reviewer_sampled_full_cpu_seconds": 24.552524,
+  "producer_plus_reviewer_sampled_wall_seconds": 25.50359741698776,
+  "review_audits": [
+    {
+      "child_processes": 0,
+      "file": "audit-failure-001.json",
+      "full_cpu_seconds": 5.580991,
+      "status": "failed",
+      "wall_seconds": 5.7587650420027785
+    },
+    {
+      "child_processes": 0,
+      "file": "audit-failure-002.json",
+      "full_cpu_seconds": 5.662971,
+      "status": "failed",
+      "wall_seconds": 5.731100791992503
+    },
+    {
+      "child_processes": 0,
+      "file": "actual-readback.json",
+      "full_cpu_seconds": 8.334138000000001,
+      "status": "passed",
+      "wall_seconds": 8.773829332989408
+    }
+  ],
+  "review_sampled_full_cpu_seconds": 19.5781,
+  "review_sampled_wall_seconds": 20.26369516698469,
+  "sampling_scope": "Each audit START after Python/imports and constant path preparation through result construction; result JSON write/printing excluded. No reviewer child processes were launched. Full CPU equals sampled process CPU.",
+  "schema": 1,
+  "unmeasured_work_assumed_zero": false
+}

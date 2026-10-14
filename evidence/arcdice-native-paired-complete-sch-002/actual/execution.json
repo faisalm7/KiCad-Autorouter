@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "git_head": "0fd644dc39426c1d46fcf4ca96b96ba5fe166aad",
+  "started_utc": "2026-10-14T04:40:07.103698+00:00",
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 197.8829460410052,
+    "cpu_seconds": 171.63177000000002,
+    "max_rss_bytes": 422674432,
+    "supervisor_cpu_seconds": 4.53265,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 392953856,
+    "sampled_peak_workdir_bytes": 42397112,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 100663296,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/experiment_paired.py",
+      "--project",
+      "arcdice",
+      "--system",
+      "native-all",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-native-paired-complete-sch-002/run"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-native-paired-complete-sch-002/command.log",
+    "log_bytes": 153,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-native-paired-complete-sch-002",
+    "signal_cancellation_enabled": true,
+    "pid": 55384
+  },
+  "wall_seconds": 198.0796600419999,
+  "full_cpu_seconds": 176.352998,
+  "wrapper_sha256": "6590406e3a4e181e6148b8e8d6f98bb949777649ec32dc4aebd74e129d2ccb0f",
+  "log_sha256": "d5d8496c2c00689e8f581f259a3fc1af6f7d5b7467fffcd68229fafd35daccbd",
+  "scope": "Four fresh sequential exposed-development arms B0/B1/B2portfolio/Cnative-feedback, each120wall/fullCPU including shared charges; same original constraints. Outer96MiB polling and540s timeout; native validation required.",
+  "outer_charge_requires_final_readback": true,
+  "prospective_protocol_sha256": "460d9c06f124c1cdfcf85c3320fd3e7c7a63df3df9e1f5c18ff71af78a24647a"
+}
