@@ -1,10 +1,13 @@
 """Boundary regressions only; real KiCad rendering is a separate native test."""
 import json
+import os
 from pathlib import Path
+import stat
+import sys
 import tempfile
 import unittest
 from unittest.mock import patch
-from autorouter import handoff as h, review_view as view, pipeline as p
+from autorouter import handoff as h, review_view as view, pipeline as p, local_settings as ls
 
 
 class SvgControls(unittest.TestCase):
@@ -122,40 +125,111 @@ class PreviewTransaction(unittest.TestCase):
 
 
 class PlotCopyControls(unittest.TestCase):
+    def projects(self, root, *, old_prl=False):
+        source = root / 'source'; source.mkdir()
+        candidate = root / 'candidate'; candidate.mkdir()
+        out = root / 'review'; out.mkdir()
+        tree = '(kicad_pcb (layers (0 "F.Cu" signal) (31 "B.Cu" signal)))'
+        for directory in (source, candidate):
+            (directory / 'board.kicad_pcb').write_text(tree)
+            (directory / 'board.kicad_pro').write_text('{}')
+            if old_prl: (directory / 'board.kicad_prl').write_bytes(b'{"old_schema":"retain these bytes"}\n')
+        tool = root / 'tool'; tool.write_text('authored plotter placeholder, never executed')
+        return source, candidate, out, tool
+
+    def plot_worker(self, source, candidate, operation, calls, *, cleanup=True):
+        # Only the process seam is authored: real FloorJob, copy and OS guard run.
+        def run(argv, *, cwd, log, timeout, env):
+            calls.append(argv); board = Path(argv[-1])
+            self.assertNotIn(board.parent, (source, candidate))
+            self.assertIn(Path(cwd), board.parents)
+            state = operation(board, Path(cwd), len(calls)) or ('success', 0)
+            target = Path(argv[argv.index('--output') + 1])
+            target.write_text('<svg xmlns="http://www.w3.org/2000/svg"/>')
+            Path(log).write_text('authored process seam; no Native plot executed\n')
+            return {'argv': argv, 'cwd': str(cwd), 'log': str(log),
+                    'status': state[0], 'exit_code': state[1], 'cleanup_complete': cleanup,
+                    'wall_seconds': 0, 'cpu_seconds': 0, 'monitor_cpu_seconds': 0,
+                    'log_bytes': Path(log).stat().st_size, 'log_truncated': False}
+        return run
+
+    def render(self, out, source, candidate, tool, worker):
+        pin = {'tools': {'kicad_cli': {'path': str(tool), 'sha256': p.sha(tool)}}}
+        original_read = view.f.read_json
+        def read(path):
+            return pin if Path(path) == view.c.ROOT / 'toolchain.lock.json' else original_read(path)
+        with patch.object(view.c, 'CLI', tool), patch.object(view.f, 'read_json', side_effect=read), patch.object(p, 'run', side_effect=worker):
+            return view.render(out, source / 'board.kicad_pcb', candidate / 'board.kicad_pcb', {}, lambda: 30, lambda: None)
+
     def test_native_added_prl_is_confined_and_original_changes_reject(self):
         for mutation in ('added_prl', 'changed_board', 'changed_existing_prl', 'late_added_rule'):
             with self.subTest(mutation=mutation), tempfile.TemporaryDirectory() as tmp:
-                root = Path(tmp).resolve(); source = root / 'source'; source.mkdir()
-                candidate = root / 'candidate'; candidate.mkdir(); out = root / 'review'; out.mkdir()
-                tree = '(kicad_pcb (layers (0 "F.Cu" signal) (31 "B.Cu" signal)))'
-                for directory in (source, candidate):
-                    (directory / 'board.kicad_pcb').write_text(tree)
-                    (directory / 'board.kicad_pro').write_text('{}')
-                    if mutation == 'changed_existing_prl': (directory / 'board.kicad_prl').write_text('{"old":true}')
+                root = Path(tmp).resolve()
+                source, candidate, out, tool = self.projects(root, old_prl=mutation == 'changed_existing_prl')
                 before = [h.pc.inventory(source), h.pc.inventory(candidate)]
-                tool = root / 'tool'; tool.write_text('fake plotter')
                 calls = []
-                class Job:
-                    def __init__(self, path, *_):
-                        self.out = path; path.mkdir(); self.steps = []
-                    def step(self, name, argv):
-                        calls.append(argv); board = Path(argv[-1])
-                        assert board.parent not in (source, candidate)
-                        target = Path(argv[argv.index('--output') + 1])
-                        target.write_text('<svg xmlns="http://www.w3.org/2000/svg"/>')
-                        if mutation == 'changed_board': board.write_text('altered board')
-                        else: board.with_suffix('.kicad_prl').write_text('{"generated":true}')
-                        (self.out / (name + '.log')).write_text('controlled fake plot')
-                        (self.out / (name + '-process.json')).write_text('{}')
-                        if mutation == 'late_added_rule' and len(calls) == 2:
-                            (self.out / 'before-F.Cu-input/extra.kicad_dru').write_text('(version 1)')
-                pin = {'tools': {'kicad_cli': {'path': str(tool), 'sha256': p.sha(tool)}}}
-                with patch.object(view.c, 'CLI', tool), patch.object(view.f, 'read_json', return_value=pin), patch.object(view.f, 'FloorJob', Job):
-                    if mutation == 'added_prl':
-                        result = view.render(out, source / 'board.kicad_pcb', candidate / 'board.kicad_pcb', {}, lambda: 30, lambda: None)
-                        self.assertEqual(len(calls), 4)
-                        self.assertTrue(all(p.sha(out / name) == digest for name, digest in result['files'].items()))
+                def operation(board, cwd, count):
+                    if mutation == 'changed_board': board.write_text('altered board')
                     else:
-                        with self.assertRaises(p.Rejected):
-                            view.render(out, source / 'board.kicad_pcb', candidate / 'board.kicad_pcb', {}, lambda: 30, lambda: None)
+                        try: board.with_suffix('.kicad_prl').write_text('{"generated":true}')
+                        except PermissionError: return ('nonzero_exit', 1)
+                    if mutation == 'late_added_rule' and count == 2:
+                        (cwd / 'before-F.Cu-input/extra.kicad_dru').write_text('(version 1)')
+                worker = self.plot_worker(source, candidate, operation, calls)
+                if mutation == 'added_prl':
+                    result = self.render(out, source, candidate, tool, worker)
+                    self.assertEqual(len(calls), 4)
+                    self.assertTrue(all(p.sha(out / name) == digest for name, digest in result['files'].items()))
+                else:
+                    with self.assertRaises(p.Rejected): self.render(out, source, candidate, tool, worker)
                 self.assertEqual([h.pc.inventory(source), h.pc.inventory(candidate)], before)
+
+    @unittest.skipUnless(sys.platform == 'darwin' and hasattr(os, 'chflags'), 'actual Mac flags required')
+    def test_plot_workers_protect_existing_prl_and_bind_restored_bytes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            source, candidate, out, tool = self.projects(Path(tmp).resolve(), old_prl=True)
+            before = [h.pc.inventory(source), h.pc.inventory(candidate)]; calls = []
+            def operation(board, cwd, count):
+                copied = board.with_suffix('.kicad_prl')
+                self.assertEqual(copied.stat().st_flags, stat.UF_IMMUTABLE)
+                with self.assertRaises(PermissionError): copied.write_bytes(b'forbidden plot rewrite')
+                self.assertEqual([d.joinpath(copied.name).stat().st_flags for d in (source, candidate)], [0, 0])
+            result = self.render(out, source, candidate, tool, self.plot_worker(source, candidate, operation, calls))
+            self.assertEqual(len(calls), 4)
+            self.assertFalse(result['native_validation_performed']); self.assertFalse(result['zone_refill_performed'])
+            for step in result['steps']:
+                process = view.f.read_json(out / 'plot-work' / (step['name'] + '-process.json'))
+                binding = view.f.read_json(out / 'plot-work' / (step['name'] + '-input-binding.json'))
+                ls.check_event(out / 'plot-work', binding, process)
+                event = process['local_settings_protection']; copied = Path(event['path'])
+                self.assertTrue(event['present']); self.assertTrue(event['flags_restored']); self.assertTrue(event['bytes_unchanged'])
+                self.assertEqual(copied.stat().st_flags, 0)
+                self.assertEqual(p.sha(copied), binding['before'][copied.name])
+            self.assertEqual([h.pc.inventory(source), h.pc.inventory(candidate)], before)
+
+    @unittest.skipUnless(sys.platform == 'darwin' and hasattr(os, 'chflags'), 'actual Mac flags required')
+    def test_plot_unknown_cleanup_refuses_preview_and_keeps_owned_prl_immutable(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            source, candidate, out, tool = self.projects(Path(tmp).resolve(), old_prl=True)
+            before = [h.pc.inventory(source), h.pc.inventory(candidate)]; calls = []
+            copied = out / 'plot-work/before-F.Cu-input/board.kicad_prl'
+            def operation(board, cwd, count):
+                self.assertEqual(board.with_suffix('.kicad_prl').stat().st_flags, stat.UF_IMMUTABLE)
+                return ('timeout', -15)
+            try:
+                worker = self.plot_worker(source, candidate, operation, calls, cleanup=False)
+                with self.assertRaisesRegex(p.Rejected, 'cleanup not confirmed'):
+                    self.render(out, source, candidate, tool, worker)
+                process = view.f.read_json(out / 'plot-work/before-F.Cu-process.json')
+                event = process['local_settings_protection']
+                self.assertFalse(process['cleanup_complete']); self.assertFalse(event['flags_restored'])
+                self.assertIn('timeout exit=-15', event['native_error'])
+                self.assertIn('cleanup not confirmed', event['guard_error'])
+                self.assertEqual(copied.stat().st_flags, stat.UF_IMMUTABLE)
+                self.assertEqual(p.sha(copied), before[0][copied.name])
+                self.assertFalse((out / 'preview.html').exists()); self.assertEqual(len(calls), 1)
+                self.assertEqual([h.pc.inventory(source), h.pc.inventory(candidate)], before)
+                self.assertEqual([d.joinpath(copied.name).stat().st_flags for d in (source, candidate)], [0, 0])
+            finally:
+                # Only this authored owned test copy is released after refusal.
+                if copied.exists() and copied.stat().st_flags: os.chflags(copied, 0, follow_symlinks=False)

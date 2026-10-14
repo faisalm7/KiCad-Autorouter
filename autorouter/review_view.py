@@ -7,6 +7,7 @@ import re
 import shutil
 import xml.etree.ElementTree as ET
 from . import config as c, floor_route as f, pipeline as p, placement_clearance as pc, sexpr as sx
+from . import local_settings as ls
 
 
 KICAD_DOCTYPE = re.compile(rb'<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"\s+"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">')
@@ -60,7 +61,7 @@ def render(destination, source, candidate, report, remaining, material):
               if isinstance(x, list) and len(x) > 2 and re.fullmatch(r'(F|B|In[0-9]+)\.Cu', sx.unquote(x[1]))]
     if len(layers) not in (2, 4) or len(layers) != len(set(layers)):
         raise p.Rejected('review plots require two or four distinct copper layers')
-    job = f.FloorJob(destination / 'plot-work', remaining(), remaining)
+    job = f.FloorJob(destination / 'plot-work', remaining(), remaining, protect_local_settings=True)
     plots = job.out / 'plots'; plots.mkdir()
     native_plots = job.out / 'native-plots'; native_plots.mkdir()
     rows = []; frozen = {}; input_trees = {}
@@ -82,7 +83,7 @@ def render(destination, source, candidate, report, remaining, material):
             if pc.inventory(work) != before:
                 raise p.Rejected('native plot input copy differs')
             target = native_plots / (name + '.svg')
-            job.step(label + '-' + layer, [c.CLI, 'pcb', 'export', 'svg', '--mode-single',
+            process = ls.protected_step(job, name, [c.CLI, 'pcb', 'export', 'svg', '--mode-single',
                      '--layers', layer + ',Edge.Cuts', '--fit-page-to-board', '--exclude-drawing-sheet',
                      '--output', target, work / board.name])
             after = pc.inventory(work)
@@ -91,7 +92,9 @@ def render(destination, source, candidate, report, remaining, material):
             for relative, digest in after.items():
                 frozen[str((work / relative).relative_to(destination))] = digest
             binding = job.out / (name + '-input-binding.json')
-            payload = {'source': str(board), 'input': str(work / board.name), 'before': before, 'after': after}
+            payload = {'source': str(board), 'input': str(work / board.name), 'before': before, 'after': after,
+                       'saved': False, 'local_settings_policy': ls.JOB_POLICY}
+            ls.check_event(job.out, payload, process)
             frozen[str(binding.relative_to(destination))] = write_bound(binding, (json.dumps(payload, indent=2) + '\n').encode())
             native_raw = svg_bytes(target)
             frozen[str(target.relative_to(destination))] = hashlib.sha256(native_raw).hexdigest()

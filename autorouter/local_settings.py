@@ -46,15 +46,15 @@ def preserve(path,owned_root,owner,*,cleanup_complete=lambda:True):
         event['flags_restored']=path.stat().st_flags==0;event['bytes_unchanged']=p.sha(path)==digest
         if not event['flags_restored'] or not event['bytes_unchanged']:raise p.Rejected('PRL bytes/flags changed during native execution')
 
-def drc_step(job,name,argv):
-    """Journal real worker and guard outcomes even if step/cleanup rejects."""
+def protected_step(job,name,argv,*,allowed=(0,)):
+    """Journal one owned Native worker's guard, including plotting failures."""
     start=len(job.steps);state={'complete':False};event=None;native_error=None
     def worker():
         matches=[s for s in job.steps[start:] if s.get('name')==name and s.get('cwd')==str(job.out)]
         return matches[0] if len(matches)==1 else None
     try:
         with preserve(Path(argv[-1]).with_suffix('.kicad_prl'),job.out,job._local_settings_owner,cleanup_complete=lambda:state['complete']) as event:
-            try:result=job.step(name,argv,allowed=(0,5))
+            try:result=job.step(name,argv,allowed=allowed)
             except (Exception,KeyboardInterrupt) as exc:
                 native_error=type(exc).__name__+': '+str(exc);raise
             finally:
@@ -72,6 +72,9 @@ def drc_step(job,name,argv):
             if h.owned_destination(job._local_settings_owner)!=job.out:raise p.Rejected('PRL Job root changed before worker journal')
             result['local_settings_policy']=JOB_POLICY;result['local_settings_protection']=event
             p.save_json(job.out/(name+'-process.json'),result)
+
+def drc_step(job,name,argv):
+    return protected_step(job,name,argv,allowed=(0,5))
 
 def check_event(directory,binding,process,*,allow_worker_failure=False):
     """Strict opt-in marker/event replay; legacy unmarked receipts unchanged."""
