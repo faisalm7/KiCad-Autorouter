@@ -1,0 +1,49 @@
+{
+  "status": "nonzero_exit",
+  "exit_code": 5,
+  "wall_seconds": 1.115809666007408,
+  "cpu_seconds": 0.585465,
+  "max_rss_bytes": 228933632,
+  "supervisor_cpu_seconds": 0.0119290000000003,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 222789632,
+  "sampled_peak_workdir_bytes": 3193430,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 536870912,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+    "pcb",
+    "drc",
+    "--format",
+    "json",
+    "--severity-all",
+    "--all-track-errors",
+    "--refill-zones",
+    "--exit-code-violations",
+    "--output",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-native-paired-complete-sch-003/run/B2_portfolio/01-via_default/refill-drc.json",
+    "--save-board",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-native-paired-complete-sch-003/run/B2_portfolio/01-via_default/refill/ArcDice.kicad_pcb"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-native-paired-complete-sch-003/run/B2_portfolio/01-via_default/refill-drc.log",
+  "log_bytes": 217,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-native-paired-complete-sch-003/run/B2_portfolio/01-via_default",
+  "signal_cancellation_enabled": true,
+  "pid": 61167,
+  "name": "refill-drc"
+}

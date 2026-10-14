@@ -1,0 +1,634 @@
+{
+  "B2_stop_reason": "insufficient remaining budget for another attempt and reserves",
+  "actual_qualification_sha256": "5f7bf8775cb0575875a2a30c8c8cbc276cdc13e5473d5c76d5b090af08da0167",
+  "all_inputs_unchanged": true,
+  "central_accepted_receipts": [
+    "B1",
+    "B2/via_default",
+    "C/own_incumbent",
+    "C/final"
+  ],
+  "comparison_eligible": true,
+  "comparisons": [
+    {
+      "C_dominates_with_1e_6mm_tolerance": true,
+      "baseline_dominates_with_1e_6mm_tolerance": false,
+      "baseline_selected": true,
+      "baseline_variant": "via_default",
+      "length_delta_mm": -55.69389600066961,
+      "system": "C_feedback",
+      "via_delta": 0
+    },
+    {
+      "baseline": "B1",
+      "length_delta_mm": -55.69389600066961,
+      "pareto_improvement": true,
+      "system": "C_feedback",
+      "via_delta": 0
+    }
+  ],
+  "core_sha256": {
+    "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+    "autorouter/__main__.py": "a4f6ca97f5dadc2547825ca5bf7be585a8fb6845db1956815679a43474c26113",
+    "autorouter/adapter.py": "95211455104334e338b83c77aecf8541ee24b0b4f7cd6c3043bcb71d478ddfca",
+    "autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+    "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+    "autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+    "autorouter/floor_route.py": "787d0a309d8511628b0ada7a2f06ea7df1080fa2636b1c2ab540d182eba29b5a",
+    "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+    "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+    "autorouter/native.py": "ded5cdfceac8dac94033e7a1c249efc87c9ad7dcae450a9ea4291bbdf2fde7a1",
+    "autorouter/netclass.py": "79d4b7e98c7b46fe924816ddcc7fa384672bf646d1c06f81e134ce6d97e0a7de",
+    "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+    "autorouter/pipeline.py": "5f593d60ac3a83a3ab98a9d742625cd5a38aa754aa5cc974a73d3d5efc6816fe",
+    "autorouter/placement_clearance.py": "f846a73367bc60dfbb48386233e405cb4bf1382f056d379787d7b823c3905feb",
+    "autorouter/placement_strategy.py": "b75a2291eed37d8ddb9f052c0b715faafcc2dfd258ae32f9e2763fcd01db0e97",
+    "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+    "autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+    "autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+    "autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+    "autorouter/recovery.py": "8a2bf1470cb69e7d8d334bbe7aef18110322a7aa786b965d397a89ddbc932ee5",
+    "autorouter/review_export.py": "716b369af61faa8c15f60ef58a0846772e4b175cff4a75af0c2c5ea45f24aea7",
+    "autorouter/review_view.py": "8f765624a8527df770a98594a7b27fe88776b300ec276f809c179ec7f6f60fb7",
+    "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+    "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+    "autorouter/schematic_field_evidence.py": "d7e1012b05bb7e0fb03358bbc3573b845ff06d03760a88137cf52db71090641b",
+    "autorouter/schematic_fields.py": "7d9043a14bac69d18830b2f51cb7d118c648df9290337505db1bf8503d931a71",
+    "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+    "autorouter/strategy.py": "4f13680269d2062798d998a6074e4194442c7ec2aa447a4c23ddec3b14f83c3a",
+    "autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+    "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+    "autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455"
+  },
+  "external_reserve_seconds": 40,
+  "finals": [
+    {
+      "candidate_sha256": "238a7fcc69c95d5dab4085b6d20e647d19c9d28ffa262e17103626c3e68f9c62",
+      "complete_schematic_parity_bound": true,
+      "full_warning_signature_sha256": "07a62da44a4d24589fea3b4d4881fc7d88a876b3c8d8c9e8f28e58122442651a",
+      "id": "B0",
+      "metrics": {
+        "copper_layers": 2,
+        "footprints": 26,
+        "pads": 63,
+        "track_length_mm": 446.44772570637093,
+        "version": "10.0.0",
+        "vias": 1,
+        "zones": 1
+      },
+      "native": {
+        "blocking": 2,
+        "exclusions": 0,
+        "opens": 0,
+        "warnings": 26
+      },
+      "native_accepted": false,
+      "native_class_dimensions": {
+        "checked": {
+          "arcs": 0,
+          "protected": 0,
+          "segments": 60,
+          "vias": 1
+        },
+        "passed": true,
+        "policy": "exact effective native targets for new routes; protected originals unchanged"
+      },
+      "native_class_map_sha256": "0f9a614e5b7a8fd2f80af3cb9904df0bddcac70afe9d865b99e953bb76ccce65",
+      "native_report_sha256": "2fcde91c081d988c1004a90b30564f3b10613206b2f87357305d21d38602cfc1",
+      "original_design_exact": true,
+      "receipt_sha256": "2663cbdecd9497f2220b4d9fa35c78e4a3b4c1a6372c83d8cf38a6e0453875e4",
+      "rejection_types": [
+        "starved_thermal"
+      ],
+      "saved_refill_reconstruction_exact": true
+    },
+    {
+      "candidate_sha256": "3cf4e8afdfeb1e1f127c91072205519b2adb3166800a7e4444488483125a50c8",
+      "complete_schematic_parity_bound": true,
+      "full_warning_signature_sha256": "07a62da44a4d24589fea3b4d4881fc7d88a876b3c8d8c9e8f28e58122442651a",
+      "id": "B1",
+      "metrics": {
+        "copper_layers": 2,
+        "footprints": 26,
+        "pads": 63,
+        "track_length_mm": 636.9890979739067,
+        "version": "10.0.0",
+        "vias": 0,
+        "zones": 1
+      },
+      "native": {
+        "blocking": 0,
+        "exclusions": 0,
+        "opens": 0,
+        "warnings": 26
+      },
+      "native_accepted": true,
+      "native_class_dimensions": {
+        "checked": {
+          "arcs": 0,
+          "protected": 0,
+          "segments": 91,
+          "vias": 0
+        },
+        "passed": true,
+        "policy": "exact effective native targets for new routes; protected originals unchanged"
+      },
+      "native_class_map_sha256": "2994296aa8bb3b8b6615ff6149076356ee3ce137546c9dea9b02891a0a7e2b08",
+      "native_report_sha256": "41136cbc0043876bccee6a398ab3585f3501fca59e5edb1df97a20be05137a5e",
+      "original_design_exact": true,
+      "receipt_sha256": "9541cbf5208b6f7bba3bc1c6673300fb07d6831db3a13743e64ab3a00a0f98bc",
+      "rejection_types": [],
+      "saved_refill_reconstruction_exact": true
+    },
+    {
+      "candidate_sha256": "42ac7df81e81b4b82df7221527a4621cb4cd52bd8a08374741322a4697991a61",
+      "complete_schematic_parity_bound": true,
+      "full_warning_signature_sha256": "07a62da44a4d24589fea3b4d4881fc7d88a876b3c8d8c9e8f28e58122442651a",
+      "id": "B2/via_default",
+      "metrics": {
+        "copper_layers": 2,
+        "footprints": 26,
+        "pads": 63,
+        "track_length_mm": 636.9890979739067,
+        "version": "10.0.0",
+        "vias": 0,
+        "zones": 1
+      },
+      "native": {
+        "blocking": 0,
+        "exclusions": 0,
+        "opens": 0,
+        "warnings": 26
+      },
+      "native_accepted": true,
+      "native_class_dimensions": {
+        "checked": {
+          "arcs": 0,
+          "protected": 0,
+          "segments": 91,
+          "vias": 0
+        },
+        "passed": true,
+        "policy": "exact effective native targets for new routes; protected originals unchanged"
+      },
+      "native_class_map_sha256": "d50c38de005ae9bea590c1948e80336a3a41252147ba7c6fb7aaa23fc22df923",
+      "native_report_sha256": "46b2f66edd94314aa3e3af84c2092c241974dad3411b6b4a56bff0b938dfbdde",
+      "original_design_exact": true,
+      "receipt_sha256": "c786a611631cf74841d5d19fd33760d888e9751827fc89775038fbd7639bd06c",
+      "rejection_types": [],
+      "saved_refill_reconstruction_exact": true
+    },
+    {
+      "candidate_sha256": "6f06aa80ad661874d831abe7c79cb39e866cb106bcd0de8cc20703121206d135",
+      "complete_schematic_parity_bound": true,
+      "full_warning_signature_sha256": "07a62da44a4d24589fea3b4d4881fc7d88a876b3c8d8c9e8f28e58122442651a",
+      "id": "C/own_incumbent",
+      "metrics": {
+        "copper_layers": 2,
+        "footprints": 26,
+        "pads": 63,
+        "track_length_mm": 636.9890979739066,
+        "version": "10.0.0",
+        "vias": 0,
+        "zones": 1
+      },
+      "native": {
+        "blocking": 0,
+        "exclusions": 0,
+        "opens": 0,
+        "warnings": 26
+      },
+      "native_accepted": true,
+      "native_class_dimensions": {
+        "checked": {
+          "arcs": 0,
+          "protected": 0,
+          "segments": 91,
+          "vias": 0
+        },
+        "passed": true,
+        "policy": "exact effective native targets for new routes; protected originals unchanged"
+      },
+      "native_class_map_sha256": "252e836109eba85067c1aadf43679530e5841f68ff03857e8acd69886594d01e",
+      "native_report_sha256": "18bb4b2c218ad2b04b45b556d8e074ac3af0d66c0bcac2af3f979accc646852a",
+      "original_design_exact": true,
+      "receipt_sha256": "e8ac29748a9d8e4c8a98292e06266ad63de597cd94c5d4864755cd05e98aab4c",
+      "rejection_types": [],
+      "saved_refill_reconstruction_exact": true
+    },
+    {
+      "candidate_sha256": "27772e1d6db30bb47e7fb8a46b909cf14f5db124112fdaa4def3e2af0066b36e",
+      "complete_schematic_parity_bound": true,
+      "full_warning_signature_sha256": "07a62da44a4d24589fea3b4d4881fc7d88a876b3c8d8c9e8f28e58122442651a",
+      "id": "C/trial-0000",
+      "metrics": null,
+      "native": {
+        "blocking": 3,
+        "exclusions": 0,
+        "opens": 0,
+        "warnings": 26
+      },
+      "native_accepted": false,
+      "native_class_dimensions": {
+        "checked": {
+          "arcs": 0,
+          "protected": 0,
+          "segments": 63,
+          "vias": 0
+        },
+        "passed": true,
+        "policy": "exact effective native targets for new routes; protected originals unchanged"
+      },
+      "native_class_map_sha256": "831e97ec44d9bb883d219944f42f0f2c30ec062edb5b92ed0fc0be4111f74dce",
+      "native_report_sha256": "f277fdb08df1229158e87103022084329f7017d066ed3e8b2c432b5f306934d3",
+      "original_design_exact": true,
+      "receipt_sha256": "c889f6f9c51b762f15564ede5fdbd04ebc24ca75521285ed596fbf6cc5cb83fb",
+      "rejection_types": [
+        "starved_thermal"
+      ],
+      "saved_refill_reconstruction_exact": true
+    },
+    {
+      "candidate_sha256": "c1648180cd83d93e694ad501c37803714b46b9cff2790218ff40374110cafe84",
+      "complete_schematic_parity_bound": true,
+      "full_warning_signature_sha256": "07a62da44a4d24589fea3b4d4881fc7d88a876b3c8d8c9e8f28e58122442651a",
+      "id": "C/trial-0001",
+      "metrics": {
+        "copper_layers": 2,
+        "footprints": 26,
+        "pads": 63,
+        "track_length_mm": 620.9690979739067,
+        "version": "10.0.0",
+        "vias": 0,
+        "zones": 1
+      },
+      "native": {
+        "blocking": 0,
+        "exclusions": 0,
+        "opens": 0,
+        "warnings": 26
+      },
+      "native_accepted": true,
+      "native_class_dimensions": {
+        "checked": {
+          "arcs": 0,
+          "protected": 0,
+          "segments": 90,
+          "vias": 0
+        },
+        "passed": true,
+        "policy": "exact effective native targets for new routes; protected originals unchanged"
+      },
+      "native_class_map_sha256": "95ebe48ad95e7330fb2ee47100f317423454584369ab700d19940aceb3e40d78",
+      "native_report_sha256": "317f1cc643970a508c7d0ac5682dd2dd90599f13e8d131525c491fdebc40461e",
+      "original_design_exact": true,
+      "receipt_sha256": "01bc973bf67088b01638dcd49af750b168d9cd101777b63ee35a4f7a08522430",
+      "rejection_types": [],
+      "saved_refill_reconstruction_exact": true
+    },
+    {
+      "candidate_sha256": "336caac118132576000509799446c02100c85132729c975ae19eba7ff270e899",
+      "complete_schematic_parity_bound": true,
+      "full_warning_signature_sha256": "07a62da44a4d24589fea3b4d4881fc7d88a876b3c8d8c9e8f28e58122442651a",
+      "id": "C/trial-0002",
+      "metrics": {
+        "copper_layers": 2,
+        "footprints": 26,
+        "pads": 63,
+        "track_length_mm": 605.1741979739068,
+        "version": "10.0.0",
+        "vias": 0,
+        "zones": 1
+      },
+      "native": {
+        "blocking": 0,
+        "exclusions": 0,
+        "opens": 0,
+        "warnings": 26
+      },
+      "native_accepted": true,
+      "native_class_dimensions": {
+        "checked": {
+          "arcs": 0,
+          "protected": 0,
+          "segments": 89,
+          "vias": 0
+        },
+        "passed": true,
+        "policy": "exact effective native targets for new routes; protected originals unchanged"
+      },
+      "native_class_map_sha256": "738bad9f00ff3d55b58575c0a682ea53c12d6e8b8f35a04a7899e4acea7f89d2",
+      "native_report_sha256": "2b2a036bf275d6b5c772eaeaed5c162848d72958a39dfb9f5e8bf508b761c377",
+      "original_design_exact": true,
+      "receipt_sha256": "4ea1ff238b804ff7b2114a9bcdf4dbf5dae07eefaac5ae4612719efd0857c0ed",
+      "rejection_types": [],
+      "saved_refill_reconstruction_exact": true
+    },
+    {
+      "candidate_sha256": "28479c7015df6ca44bada3ff7fc60df7780cc3798403ecb5cb936c5b1f856dfd",
+      "complete_schematic_parity_bound": true,
+      "full_warning_signature_sha256": "07a62da44a4d24589fea3b4d4881fc7d88a876b3c8d8c9e8f28e58122442651a",
+      "id": "C/trial-0003",
+      "metrics": {
+        "copper_layers": 2,
+        "footprints": 26,
+        "pads": 63,
+        "track_length_mm": 592.6371947434693,
+        "version": "10.0.0",
+        "vias": 0,
+        "zones": 1
+      },
+      "native": {
+        "blocking": 0,
+        "exclusions": 0,
+        "opens": 0,
+        "warnings": 26
+      },
+      "native_accepted": true,
+      "native_class_dimensions": {
+        "checked": {
+          "arcs": 0,
+          "protected": 0,
+          "segments": 88,
+          "vias": 0
+        },
+        "passed": true,
+        "policy": "exact effective native targets for new routes; protected originals unchanged"
+      },
+      "native_class_map_sha256": "100b43c41d62cae05adc9e76fe212e4c4200a3e0c53c96cf276a3978a45a3551",
+      "native_report_sha256": "aef38458c29b593a16ed5ec319f98673439667b72d5b7ca65bb2f2310ba58313",
+      "original_design_exact": true,
+      "receipt_sha256": "f64dc5f0ac91da62dee2c0f0e38dde85b66e988577a27460575c9f1d249526d9",
+      "rejection_types": [],
+      "saved_refill_reconstruction_exact": true
+    },
+    {
+      "candidate_sha256": "9d7192d9601f0f5a528443b7459dc7c5f85099334c4527221caf60ae05a4b7d0",
+      "complete_schematic_parity_bound": true,
+      "full_warning_signature_sha256": "07a62da44a4d24589fea3b4d4881fc7d88a876b3c8d8c9e8f28e58122442651a",
+      "id": "C/trial-0004",
+      "metrics": {
+        "copper_layers": 2,
+        "footprints": 26,
+        "pads": 63,
+        "track_length_mm": 581.2952019732371,
+        "version": "10.0.0",
+        "vias": 0,
+        "zones": 1
+      },
+      "native": {
+        "blocking": 0,
+        "exclusions": 0,
+        "opens": 0,
+        "warnings": 26
+      },
+      "native_accepted": true,
+      "native_class_dimensions": {
+        "checked": {
+          "arcs": 0,
+          "protected": 0,
+          "segments": 87,
+          "vias": 0
+        },
+        "passed": true,
+        "policy": "exact effective native targets for new routes; protected originals unchanged"
+      },
+      "native_class_map_sha256": "63228c583505d09e4a32c0f6322c2e59069b8e9e20e9e24520338841e8f0fb0a",
+      "native_report_sha256": "2d0e607dbc4e333506a2141d3486935926055d8ba06b4f7162f7773f9a475f82",
+      "original_design_exact": true,
+      "receipt_sha256": "3b9c92a3e694f551b254aea704e945dbc5a3b42a1c78b0c12a3002c637d764c9",
+      "rejection_types": [],
+      "saved_refill_reconstruction_exact": true
+    },
+    {
+      "candidate_sha256": "9d7192d9601f0f5a528443b7459dc7c5f85099334c4527221caf60ae05a4b7d0",
+      "complete_schematic_parity_bound": true,
+      "full_warning_signature_sha256": "07a62da44a4d24589fea3b4d4881fc7d88a876b3c8d8c9e8f28e58122442651a",
+      "id": "C/final",
+      "metrics": {
+        "copper_layers": 2,
+        "footprints": 26,
+        "pads": 63,
+        "track_length_mm": 581.2952019732371,
+        "version": "10.0.0",
+        "vias": 0,
+        "zones": 1
+      },
+      "native": {
+        "blocking": 0,
+        "exclusions": 0,
+        "opens": 0,
+        "warnings": 26
+      },
+      "native_accepted": true,
+      "native_class_dimensions": {
+        "checked": {
+          "arcs": 0,
+          "protected": 0,
+          "segments": 87,
+          "vias": 0
+        },
+        "passed": true,
+        "policy": "exact effective native targets for new routes; protected originals unchanged"
+      },
+      "native_class_map_sha256": "df6a18fc2b6b025cfe1f93fe5246c95e7fab6b7d5da9d9e4b6131a04ad113696",
+      "native_report_sha256": "ee361385b8958dbefc463e3e72612010aedb50d27ebde7304279582185279196",
+      "original_design_exact": true,
+      "receipt_sha256": "7b7c14be14014405b129afef1f8eefc02fd06c0937d9c1c30b446551983c0d45",
+      "rejection_types": [],
+      "saved_refill_reconstruction_exact": true
+    }
+  ],
+  "input_inventory_sha256": "cbb9efb30887438438bfc9d664c408f184adaa28f4759fcd0a6afafb4b55ccb1",
+  "limits": [
+    "Exposeddevelopment notheldout",
+    "No physical/electrical/battery/human review",
+    "RootMIT/README retained; MyFootprintsTP4056 and8models assetoriginunclosed, raw notredistributed",
+    "No generalizedcompletion-rate/independentpedigree/speedupclaim",
+    "Managedpopulation25canonical8eligible17unsupported retained; newlead trackedseparately"
+  ],
+  "measured_outer_full_cpu_seconds": 95.094482,
+  "measured_outer_wall_seconds": 113.99340387500706,
+  "native_stages_checked": 25,
+  "new_native_execution": false,
+  "new_solver_execution": false,
+  "original_qualification_charged_each_arm": {
+    "full_cpu_seconds": 13.269704,
+    "meaning": "Actual5.867319wall3.269704CPU plus failedparser5 and correctedreadback5 allowances charged toEACHarm; no originalNative rerun",
+    "wall_seconds": 15.867319041994
+  },
+  "other_process_journals_checked": 54,
+  "own_incumbent_basis": {
+    "files_sha256": {
+      "export-netclasses.json": "9eac544bb46a39bdd9c7e5739e5a041a05caca4230a1d549d9b2790430064aa8",
+      "native.dsn": "dbd266a34bd5ab155f2cd31d4417abad2837da6d5402914920d9f1259150573d",
+      "result.json": "e8ac29748a9d8e4c8a98292e06266ad63de597cd94c5d4864755cd05e98aab4c",
+      "task.dsn": "93669e320c96608329452ed29a5da99dec9058b10b2f9cecff89d5b3559d8283"
+    },
+    "policy": "native-parent-dsn-basis-v1",
+    "receipt": "incumbent/result.json"
+  },
+  "physical_electrical_or_battery_validation": false,
+  "prospective_sha256": "31b332b6171cc41204f07100d06f979330bd1c53f1126bf2b6695f4883365f45",
+  "raw_valid_shortening_mm_vs_B1": 55.69389600066961,
+  "raw_valid_shortening_mm_vs_B2_default": 55.69389600066961,
+  "readback_allowance_charged_each_arm": 15,
+  "reference_route_selection": false,
+  "results": [
+    {
+      "accepted": false,
+      "charged_full_cpu_seconds": 43.836794,
+      "charged_wall_seconds": 49.99910391800217,
+      "id": "B0",
+      "native_accepted": false,
+      "within_equal120_wall_full_cpu_caps": true
+    },
+    {
+      "accepted": true,
+      "charged_full_cpu_seconds": 45.478607999999994,
+      "charged_wall_seconds": 47.665666917993754,
+      "id": "B1",
+      "native_accepted": true,
+      "within_equal120_wall_full_cpu_caps": true
+    },
+    {
+      "accepted": true,
+      "charged_full_cpu_seconds": 52.279022,
+      "charged_wall_seconds": 54.77395879299724,
+      "id": "B2_portfolio",
+      "native_accepted": true,
+      "within_equal120_wall_full_cpu_caps": true
+    },
+    {
+      "accepted": true,
+      "charged_full_cpu_seconds": 80.90407300000001,
+      "charged_wall_seconds": 93.38998854300002,
+      "id": "C_feedback",
+      "native_accepted": true,
+      "within_equal120_wall_full_cpu_caps": true
+    }
+  ],
+  "review_process_cpu_seconds": 6.153977,
+  "review_scope": "read-only consistency/replay of completed evidence; no new native qualification, no source/runtime execution",
+  "review_wall_seconds": 6.3170213750127004,
+  "source_hardware_sha256": {
+    "ArcDice.kicad_pcb": "098e90725279e698f61d7f4a5f0281202ba32f655b9c430047c019783a60bf96",
+    "ArcDice.kicad_pro": "be12f193331f3091ef31b9df28dc968119be56269adddcd5b2ed2921523223f6",
+    "ArcDice.kicad_sch": "388bb0410c3372c2331c84b44ba8a45e10c4b34206a3b28b65cb90057129e4de"
+  },
+  "source_native": {
+    "blocking": 0,
+    "exclusions": 0,
+    "opens": 0,
+    "warnings": 26
+  },
+  "source_original_all67_routes_exact": true,
+  "source_original_corrected_readback_sha256": "fd542845a1e32a43feaee317c4ea8292826af8f986c5a998a85656d11d055870",
+  "source_original_diagnostic_receipt_sha256": "66fdba22216c723b6b6b4f45490cce3b2e81f7ba9d60de94ca30220364e8019d",
+  "source_warning_full_signature_sha256": "07a62da44a4d24589fea3b4d4881fc7d88a876b3c8d8c9e8f28e58122442651a",
+  "source_warning_types": [
+    "lib_footprint_issues"
+  ],
+  "source_whole_packet_exact": true,
+  "startup_allowance_charged_each_arm": 1,
+  "status": "passed",
+  "stock_scope": "raw stock DSN with the same class-target safety settings; not untouched Freerouting defaults",
+  "strong_three_variant_B2_superiority": false,
+  "tools_head": "6da5c4b7b06a44b845f5359a5880bc09524e9efe",
+  "trials": [
+    {
+      "accepted": false,
+      "all_steps_in_outer_cost": true,
+      "base_candidate_sha256": "6f06aa80ad661874d831abe7c79cb39e866cb106bcd0de8cc20703121206d135",
+      "candidate_sha256": "27772e1d6db30bb47e7fb8a46b909cf14f5db124112fdaa4def3e2af0066b36e",
+      "id": "trial-0000",
+      "length_mm": null,
+      "native": {
+        "blocking": 3,
+        "exclusions": 0,
+        "opens": 0,
+        "warnings": 26
+      },
+      "proposal_kind": "whole_zone_net",
+      "receipt_sha256": "c889f6f9c51b762f15564ede5fdbd04ebc24ca75521285ed596fbf6cc5cb83fb",
+      "removed_route_count": 28,
+      "status": "drc_rejected"
+    },
+    {
+      "accepted": true,
+      "all_steps_in_outer_cost": true,
+      "base_candidate_sha256": "6f06aa80ad661874d831abe7c79cb39e866cb106bcd0de8cc20703121206d135",
+      "candidate_sha256": "c1648180cd83d93e694ad501c37803714b46b9cff2790218ff40374110cafe84",
+      "id": "trial-0001",
+      "length_mm": 620.9690979739067,
+      "native": {
+        "blocking": 0,
+        "exclusions": 0,
+        "opens": 0,
+        "warnings": 26
+      },
+      "proposal_kind": "individual_segment",
+      "receipt_sha256": "01bc973bf67088b01638dcd49af750b168d9cd101777b63ee35a4f7a08522430",
+      "removed_route_count": 1,
+      "status": "improvement_validated"
+    },
+    {
+      "accepted": true,
+      "all_steps_in_outer_cost": true,
+      "base_candidate_sha256": "c1648180cd83d93e694ad501c37803714b46b9cff2790218ff40374110cafe84",
+      "candidate_sha256": "336caac118132576000509799446c02100c85132729c975ae19eba7ff270e899",
+      "id": "trial-0002",
+      "length_mm": 605.1741979739068,
+      "native": {
+        "blocking": 0,
+        "exclusions": 0,
+        "opens": 0,
+        "warnings": 26
+      },
+      "proposal_kind": "individual_segment",
+      "receipt_sha256": "4ea1ff238b804ff7b2114a9bcdf4dbf5dae07eefaac5ae4612719efd0857c0ed",
+      "removed_route_count": 1,
+      "status": "improvement_validated"
+    },
+    {
+      "accepted": true,
+      "all_steps_in_outer_cost": true,
+      "base_candidate_sha256": "336caac118132576000509799446c02100c85132729c975ae19eba7ff270e899",
+      "candidate_sha256": "28479c7015df6ca44bada3ff7fc60df7780cc3798403ecb5cb936c5b1f856dfd",
+      "id": "trial-0003",
+      "length_mm": 592.6371947434693,
+      "native": {
+        "blocking": 0,
+        "exclusions": 0,
+        "opens": 0,
+        "warnings": 26
+      },
+      "proposal_kind": "individual_segment",
+      "receipt_sha256": "f64dc5f0ac91da62dee2c0f0e38dde85b66e988577a27460575c9f1d249526d9",
+      "removed_route_count": 1,
+      "status": "improvement_validated"
+    },
+    {
+      "accepted": true,
+      "all_steps_in_outer_cost": true,
+      "base_candidate_sha256": "28479c7015df6ca44bada3ff7fc60df7780cc3798403ecb5cb936c5b1f856dfd",
+      "candidate_sha256": "9d7192d9601f0f5a528443b7459dc7c5f85099334c4527221caf60ae05a4b7d0",
+      "id": "trial-0004",
+      "length_mm": 581.2952019732371,
+      "native": {
+        "blocking": 0,
+        "exclusions": 0,
+        "opens": 0,
+        "warnings": 26
+      },
+      "proposal_kind": "individual_segment",
+      "receipt_sha256": "3b9c92a3e694f551b254aea704e945dbc5a3b42a1c78b0c12a3002c637d764c9",
+      "removed_route_count": 1,
+      "status": "improvement_validated"
+    }
+  ],
+  "unattempted_B2_variants": [
+    "via_low",
+    "via_high"
+  ]
+}
