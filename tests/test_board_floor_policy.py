@@ -1,11 +1,70 @@
 """Synthetic floor consistency and publication controls; no native execution."""
 import copy,json,shutil,tempfile,unittest
+from decimal import localcontext
 from pathlib import Path
 from unittest.mock import patch
 from autorouter import pipeline as p,sexpr as sx,board_floor as g,floor_route as f
 from autorouter.floor_context import LIMITS
 ROOT=Path(__file__).resolve().parents[1]
 FIX=ROOT/'tests/fixtures/board-floor'
+
+class PadstackPathGrammar(unittest.TestCase):
+ def setUp(self):
+  # Project-owned fixture only; these are authored shapes, not PAW source data.
+  self.project=(FIX/'fixture.kicad_pro').read_bytes()
+  self.task=g.task_from_source(sx.read(FIX/'fixture.kicad_pcb'))
+  self.native=json.loads((FIX/'export-context.json').read_text())
+  self.context=g.qualify(json.loads(self.project),self.native,self.task)
+  self.tree=g._parse_dsn((FIX/'native.dsn').read_text())
+ def shaped(self,path):
+  tree=copy.deepcopy(self.tree);stack=sx.children(sx.one(tree,'library'),'padstack')[0]
+  stack[2]=['shape',copy.deepcopy(path)]
+  return tree
+ def test_ordinary_degenerate_and_line_ovals_preserved_through_floor_edit(self):
+  for path in (['path','F.Cu','1700','0','0','0','0'],
+               ['path','B.Cu','1700','-1000','0','1000','0'],
+               ['path','F.Cu','0.001','-1000000','0.001','1000000','-0.001']):
+   with self.subTest(path=path):
+    tree=self.shaped(path);before=copy.deepcopy(tree)
+    self.assertTrue(g.audit_export(tree,self.context)['passed'])
+    raw=g._dump_dsn(tree).encode()
+    task=(sx.dump(self.task)+'\n').encode();native=copy.deepcopy(self.native)
+    # Authored context bindings for this pure transform, not Native observations.
+    native.update(dsn_sha256=g.sha(raw),board_sha256=g.sha(task),project_sha256=g.sha(self.project))
+    guided,record=g.transform(raw,native,self.project,task)
+    changed=g._parse_dsn(guided.decode());stack=sx.children(sx.one(changed,'library'),'padstack')[0]
+    self.assertEqual(sx.one(stack,'shape'),['shape',path])
+    self.assertEqual(tree,before);self.assertFalse(record['routing_accepted'])
+ def test_path_numeric_and_layer_ambiguity_rejected(self):
+  valid=['path','F.Cu','1700','0','0','0','0']
+  changes=[(2,value) for value in ('0','-1','NaN','Infinity','0.0001',
+             '0.000999999999999999999999999999999999')]
+  changes += [(1,value) for value in ('In1.Cu','signal','pcb','F.Mask','unknown')]
+  changes += [(index,value) for index in range(3,7) for value in
+              ('NaN','Infinity','-Infinity','0.0001','1000000.001','-1000000.001',
+               '0.000999999999999999999999999999999999',
+               '-0.000999999999999999999999999999999999',
+               '0.001000000000000000000000000000000001','1e-999999999')]
+  for index,value in changes:
+   with self.subTest(index=index,value=value):
+    path=valid.copy();path[index]=value
+    with self.assertRaises(ValueError):g.audit_export(self.shaped(path),self.context)
+ def test_path_exactness_does_not_depend_on_ambient_decimal_precision(self):
+  for precision in (2,6):
+   with self.subTest(precision=precision),localcontext() as ambient:
+    ambient.prec=precision
+    path=['path','B.Cu','1700.001','-1000.001','0.001','1000.001','0']
+    self.assertTrue(g.audit_export(self.shaped(path),self.context)['passed'])
+    path[3]='-0.000999999999999999999999999999999999'
+    with self.assertRaises(ValueError):g.audit_export(self.shaped(path),self.context)
+ def test_extra_missing_nested_and_unknown_geometry_rejected(self):
+  valid=['path','F.Cu','1700','0','0','0','0']
+  malformed=[valid[:-1],valid+['1'],valid+['1','1'],
+             [*valid[:3],['coordinate','0'],*valid[4:]],
+             [*valid,['rotate','0']],['future_oval','F.Cu','1700','0','0','0','0']]
+  for path in malformed:
+   with self.subTest(path=path),self.assertRaises(ValueError):
+    g.audit_export(self.shaped(path),self.context)
 
 class FloorReceipt(unittest.TestCase):
  def setUp(self):

@@ -1,8 +1,8 @@
 # Active continuation
 
 Work only in `/Users/faisal/Projects/KiCad-Autorouter-local`, on the existing
-`rebuild/local-20261010-015447` branch. Last verified checkpoint is bf286cb;
-current prepared Native evidence and prospective PAW source need the next push.
+`rebuild/local-20261010-015447` branch. Last verified checkpoint is99d1975; completed normal Native proof and frozen
+PAW source are pushed/read back. Current path fix/continuation need next push.
 No cloud, reset, competing checkout, new spending or formal publication.
 
 Completed and preserved:
@@ -22,17 +22,17 @@ Completed and preserved:
 
 Next actions, sequential heavy lane:
 
-1. Audit/commit/push/read back current Native proof and frozen PAW actor/pins.
-   Preserve new raw artifacts incrementally from the fully restored c81 base:
-   `.local-backups/checkpoint-20261014T173633Z-25df3d1147a344aaa01871c2bab8508e/receipt.json`.
-   Use existing backup helpers/guards; don't chain from a later incremental.
-2. Run `.venv/bin/python -B .runs/run-paw-format-ses-native-001.py` only after
-   checkpoint verification. New prospective protocol b03097c9c9ff4e99342be422ac102c258087864558624c1d9f74c8b20c9dd2cf;
-   actor f417bae1b5a0552c89b8e82f13bdd766f5dab227da777096d27401c8617ad813.
-   Five missing native format observations, independent zero-route task, actual
-   SES import and invalid imported-net control;120wall/fullCPU, original version
-   and constraints unchanged. No GET or completed prior DRC repeat. If a stage
-   fails, retain and resume only missing work from its real files/processes.
+1. Complete current restricted ordinary-oval DSN path correction, targeted/full061
+   regression and skeptical review closure. Preserve actual PAW001 failed audit,
+   all five completed Native format workers and zero-route export; do not rerun.
+   Actual001 outer6.000073wall5.19436CPU, no engine yet. Incremental99d1975 is
+   verified from restoredc81; later executed PAW/path evidence after cutoff.
+2. Freeze/audit/commit/push/read back the missing-stage continuation source and
+   exact existing prefix/code pins, then run fresh002. Reuse001 task/export and
+   original Native emission binding; only missing obstacles/engine/import/final
+   fullSCH and meaningful invalid imported-net control. Cumulative120wall/fullCPU
+   includes001 cost, new startup, all replay and final publication. Root and
+   production admission remain false; preserve any failure and resume missing work.
 3. Only qualified exact same-load/SES/original-rule proof can justify a bounded
    preflight format admission. Preserve every other geometry/rule gate and add
    regressions. Then test the actual normal PAW pipeline and freeze distinct

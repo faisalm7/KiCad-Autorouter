@@ -73,3 +73,5 @@ rules and PRL bytes remain; both failed prefixes/all83.264554wall62.823146CPU
 are charged. Shared reader1.913822/1.766699 plus2s allowance; no Native rerun.
 No new family/routing-quality/GUI/human/physical claim; installed026 is older.
 PAW format support and actual SES proof remain pending; frozen actor is next.
+
+PAW completed format001 adds actual five reload/export observations and independent zero-route task export. Ordinary native oval DSN path rejection is fixed narrowly with exact nanometre/bounds/outer-layer controls; no custom-pad/source-format admission or routing gain follows. [Source/failure/pure audit](evidence/paw-dsn-path-source-001.json). Current normalPRL workflow backup now verified through99d1975, [scalar receipt](evidence/backups/incremental-normal-prl-native-99d1975.json); newer executed PAW/path artifacts remain after cutoff.

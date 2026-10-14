@@ -7,7 +7,7 @@ runs original native DRC. Passing this module alone never accepts routing.
 """
 from __future__ import annotations
 import copy
-from decimal import Decimal, InvalidOperation
+from decimal import Context, Decimal, DecimalException, Inexact, InvalidOperation, Overflow, localcontext
 import hashlib
 import json
 import re
@@ -31,7 +31,7 @@ GRAMMAR={
  'keepout':{'polygon'},'plane':{'polygon'},'rule':{'width','clearance'},'clearance':{'type'},
  'placement':{'component'},'component':{'place'},'place':{'PN'},
  'library':{'image','padstack'},'image':{'outline','pin'},'outline':{'path','polygon'},
- 'pin':{'rotate'},'padstack':{'shape','attach'},'shape':{'circle','rect','polygon'},
+ 'pin':{'rotate'},'padstack':{'shape','attach'},'shape':{'circle','rect','polygon','path'},
  'network':{'net','class'},'net':{'pins'},'class':{'rule','circuit'},'circuit':{'use_via'},
 }
 LEAVES={'string_quote','space_in_quoted_tokens','host_cad','host_version','resolution','unit',
@@ -222,6 +222,28 @@ def grammar(tree):
         if head not in GRAMMAR and head not in LEAVES:raise ValueError('unknown DSN grammar: '+head)
         if head in arities and sum(isinstance(x,str) for x in node[1:])!=arities[head]:
             raise ValueError('unexpected DSN atom in '+head)
+        if head=='shape' and any(isinstance(x,list) and x and x[0]=='path' for x in node[1:]):
+            # Pinned KiCad exports ordinary oval pads as a round-ended path,
+            # including the circular/zero-centreline case. Accept only that
+            # one-segment, two-outer-layer padstack form, never a new rule or
+            # arbitrary multi-segment/custom shape scope.
+            if (path!=('pcb','library','padstack','shape') or len(node)!=2
+                    or len(node[1])!=7 or node[1][1] not in ('F.Cu','B.Cu')
+                    or any(type(x) is not str or len(x)>64 for x in node[1])):
+                raise ValueError('unqualified oval padstack path')
+            values=[]
+            try:
+                # Every atom is bounded to64 characters above. Use enough
+                # precision to keep scaling exact, independent of ambient
+                # Decimal settings; rounding must never admit fractional nm.
+                with localcontext(Context(prec=100,traps=[Inexact,InvalidOperation,Overflow])):
+                    for atom in node[1][2:]:
+                        value=Decimal(atom)*1000
+                        if not value.is_finite() or value!=value.to_integral_value() or abs(value)>1000000000:
+                            raise ValueError('bounded exact-nanometre oval path required')
+                        values.append(value)
+            except DecimalException as exc:raise ValueError('invalid oval padstack path dimension') from exc
+            if values[0]<=0:raise ValueError('positive oval padstack path width required')
         for child in node[1:]:
             if isinstance(child,list):
                 if not child or child[0] not in GRAMMAR.get(head,set()):raise ValueError('unknown DSN child scope: '+str(path))

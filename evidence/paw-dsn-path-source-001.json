@@ -1,0 +1,319 @@
+{
+  "schema": 1,
+  "kind": "restricted_native_oval_dsn_path_correctness_fix",
+  "accepted": false,
+  "format_admitted": false,
+  "production_admitted": false,
+  "new_routing_gain": false,
+  "source_sha256": {
+    "autorouter/board_floor.py": "c0c94325e2c9e90e9b7bc132d5e7bea85859db9fbf7e8b2e4b0c7403c26b68c2",
+    "tests/test_board_floor_policy.py": "e5c9b67784d09829afae4756851763f9029c24e902dfaa6f07da61b078d18fbe"
+  },
+  "actual_failed_attempt": {
+    "result_sha256": "d7a5a6129acd158b95890f6f1af3cb9b0b993bd502c6bd1427f7036e4ac4353c",
+    "error": "ValueError: unknown DSN child scope: ('pcb', 'library', 'padstack', 'shape')",
+    "format_case": {
+      "emissions": {
+        "saved": {
+          "comparison": "exact-native-emission-by-uuid-v1",
+          "non_fill_native_ast_equal": true,
+          "native_routes_equal_by_uuid": true,
+          "route_count": 220,
+          "route_list_order_equal": false,
+          "non_fill_native_ast_sha256": "cc48028f335d19eb4589e5a120a154545f33759a5829f462712f0e4faaeba67a",
+          "route_records_sha256": "7acb153483510cf1dea48b5adfc071f7f5260ca03e6d37a2456ebaf4d9ff5ace",
+          "first_route_list_sha256": "f70c3de05f0625000febc0c019fd4f0095784f3bc9334d530d55ca2956cee46f",
+          "second_route_list_sha256": "7656062ba11a4782985f837d826dc559404b1a1988634ed401bc0d5e85799c5c"
+        },
+        "shell": {
+          "comparison": "exact-native-emission-by-uuid-v1",
+          "non_fill_native_ast_equal": true,
+          "native_routes_equal_by_uuid": true,
+          "route_count": 220,
+          "route_list_order_equal": true,
+          "non_fill_native_ast_sha256": "cc48028f335d19eb4589e5a120a154545f33759a5829f462712f0e4faaeba67a",
+          "route_records_sha256": "7acb153483510cf1dea48b5adfc071f7f5260ca03e6d37a2456ebaf4d9ff5ace",
+          "first_route_list_sha256": "f70c3de05f0625000febc0c019fd4f0095784f3bc9334d530d55ca2956cee46f",
+          "second_route_list_sha256": "f70c3de05f0625000febc0c019fd4f0095784f3bc9334d530d55ca2956cee46f"
+        }
+      },
+      "original_context_sha256": "6ac09f6fa05300b7eba1143689f6808123e073c42f992b5075b6e6e71d94b3cc",
+      "original_dsn_sha256": "429278a9056f2731b3dad09dd532903040ead6dc8de0abaf2a2693735906aa36",
+      "steps": [
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 1.1174091669963673,
+          "cpu_seconds": 0.49413999999999997,
+          "max_rss_bytes": 202129408,
+          "supervisor_cpu_seconds": 0.007682999999999995,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 202113024,
+          "sampled_peak_workdir_bytes": 6701757,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 20971520,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+            "roundtrip",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/paw-format-ses-native-001/format/original-input/paw3395.kicad_pcb",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/paw-format-ses-native-001/format/original-native.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/paw-format-ses-native-001/format/original-native.log",
+          "log_bytes": 0,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/paw-format-ses-native-001/format",
+          "signal_cancellation_enabled": true,
+          "pid": 51299,
+          "name": "original-native"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.40084537499933504,
+          "cpu_seconds": 0.395846,
+          "max_rss_bytes": 201768960,
+          "supervisor_cpu_seconds": 0.0043360000000000065,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 34897920,
+          "sampled_peak_workdir_bytes": 6931592,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 20971520,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+            "roundtrip",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/paw-format-ses-native-001/format/saved-input/paw3395.kicad_pcb",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/paw-format-ses-native-001/format/saved-native.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/paw-format-ses-native-001/format/saved-native.log",
+          "log_bytes": 0,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/paw-format-ses-native-001/format",
+          "signal_cancellation_enabled": true,
+          "pid": 51301,
+          "name": "saved-native"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.3881677080062218,
+          "cpu_seconds": 0.388941,
+          "max_rss_bytes": 200425472,
+          "supervisor_cpu_seconds": 0.0038849999999999163,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 34996224,
+          "sampled_peak_workdir_bytes": 7161405,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 20971520,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+            "roundtrip",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/paw-format-ses-native-001/format/shell-input/paw3395.kicad_pcb",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/paw-format-ses-native-001/format/shell-native.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/paw-format-ses-native-001/format/shell-native.log",
+          "log_bytes": 0,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/paw-format-ses-native-001/format",
+          "signal_cancellation_enabled": true,
+          "pid": 51303,
+          "name": "shell-native"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.4047058330033906,
+          "cpu_seconds": 0.39744599999999997,
+          "max_rss_bytes": 200982528,
+          "supervisor_cpu_seconds": 0.004021000000000052,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 35930112,
+          "sampled_peak_workdir_bytes": 7285333,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 20971520,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/floor_context.py",
+            "export",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/paw-format-ses-native-001/format/saved-input/paw3395.kicad_pcb",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/paw-format-ses-native-001/format/saved-export-context.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/paw-format-ses-native-001/format/saved-export.dsn"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/paw-format-ses-native-001/format/saved-export.log",
+          "log_bytes": 0,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/paw-format-ses-native-001/format",
+          "signal_cancellation_enabled": true,
+          "pid": 51305,
+          "name": "saved-export"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.3932962499966379,
+          "cpu_seconds": 0.392629,
+          "max_rss_bytes": 201228288,
+          "supervisor_cpu_seconds": 0.0040480000000000516,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 35864576,
+          "sampled_peak_workdir_bytes": 7409399,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 20971520,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/floor_context.py",
+            "export",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/paw-format-ses-native-001/format/shell-input/paw3395.kicad_pcb",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/paw-format-ses-native-001/format/shell-export-context.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/paw-format-ses-native-001/format/shell-export.dsn"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/paw-format-ses-native-001/format/shell-export.log",
+          "log_bytes": 0,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/paw-format-ses-native-001/format",
+          "signal_cancellation_enabled": true,
+          "pid": 51307,
+          "name": "shell-export"
+        }
+      ]
+    },
+    "execution_sha256": "7d6eeb26909142113e146158a86156abc531dcea79b8b272a48946cdd1616335",
+    "wall_seconds": 6.000073082977906,
+    "total_cpu_seconds": 5.19436,
+    "engine_executed": false
+  },
+  "fix": "Pinned KiCad ordinary oval padstack shape/path: sole two-point positive aperture on F.Cu/B.Cu, finite bounded exact nanometres, bounded64character atoms. Fresh explicit Decimal context traps inexact scaling/underflow/overflow. Unknown/custom/multipoint/mixed shapes remain blocked; no source version whitelist change.",
+  "pure_retained_export_audit": {
+    "schema": 1,
+    "scope": "Pure readback of retained actual Native task export after restricted standard oval-path grammar correction; no Native/JVM/GET rerun or format/routing admission.",
+    "board_sha256": "47b65bcc3522c099b9f6b34e64974366f2c1ac8271bacb93284a73ef49bfb42b",
+    "context_sha256": "9f6d7b5b6795be8ff6c91325298931207c9b22278774dc7ce404c26a81d7fcd3",
+    "dsn_sha256": "1025923822e0374e9d8e4a6aeda1ae80983fbaec01a14c97014eb400f1d7b05f",
+    "implementation_sha256": "303ebaf20e62f4a20fe1d63ad2e2969a1d9766cea7c46183a3ef6fb5a03edeed",
+    "audit": {
+      "passed": true,
+      "policy": "board-floors-v1",
+      "guided": false,
+      "terminal_count": 56,
+      "declared_copper_terminal_nets": 16,
+      "source_class_nets": 16,
+      "via_id": "Via[0-1]_800:400_um",
+      "routing_accepted": false,
+      "physical_geometry_qualification": false
+    },
+    "accepted": false,
+    "format_admitted": false
+  },
+  "pure_audit_sha256": "79a8c93c38c83fa6d32fe5b7a54fcc6095fb9dbc2ca2eb475bed4c1860a29d85",
+  "targeted": {
+    "methods": 40,
+    "execution_sha256": "e6d133c8c5c34e74f259aa090b08fd12fa5b04f9367a34397d3b1675bf24b26c",
+    "wall_seconds": 1.6407051249989308,
+    "full_cpu_seconds": 1.612917,
+    "scope": "One targeted existing board-floor-policy module, project-owned authored oval paths and pure transform/receipt controls only; no PAW source fixture, Native/JVM/network/Git/full suite or repeated observation."
+  },
+  "full_integration": {
+    "methods": 1179,
+    "test_seconds": 46.181,
+    "wall_seconds": 46.66851466600201,
+    "full_cpu_seconds": 43.86862300000001,
+    "execution_sha256": "90f12e73d32fcf88df20ba4de1b28cda88da183e6ced0004f1ad9ac27f3ce2c9"
+  },
+  "skeptical_review": {
+    "note_sha256": "8dca72a4d93921d98386ebddb4a53403aaba8583631fef7911b8b7b3b7f0ac2a",
+    "findings_closed": [
+      "Ambient Decimal rounding near1nm: explicit precision100 context and longfraction regression",
+      "Extreme-exponent coordinate underflow: Inexact trap and regression"
+    ],
+    "primary_source": "https://github.com/KiCad/kicad-source-mirror/blob/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/pcbnew/specctra_import_export/specctra_export.cpp#L366-L405",
+    "cached_source_sha256": "069625125a481565f608a7e0780f393351bc7ce4528f1ce94ae0d80c049ab05d"
+  },
+  "continuation": "Fresh source/pins then missing SES stage002, reuse completed001 observations/export and charge all prior cost. No new Native observation generated by this pure audit."
+}

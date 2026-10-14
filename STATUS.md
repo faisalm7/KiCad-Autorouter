@@ -1,6 +1,6 @@
 # Current status
 
-Updated October 14, 2026 in the existing Mac checkout `/Users/faisal/Projects/KiCad-Autorouter-local`, branch `rebuild/local-20261010-015447`. Last verified GitHub checkpoint: `cea4f356a242f98cd24192197c806fe66443f3b3`. This is an experimental local tool. Representative coverage, confirmation and release gates remain incomplete. Prior status versions and every raw failure remain in Git history and immutable evidence.
+Updated October 14, 2026 in the existing Mac checkout `/Users/faisal/Projects/KiCad-Autorouter-local`, branch `rebuild/local-20261010-015447`. Last verified GitHub checkpoint: `99d1975840ae3776c72b6247cb8926faded60a7f`. This is an experimental local tool. Representative coverage, confirmation and release gates remain incomplete. Prior status versions and every raw failure remain in Git history and immutable evidence.
 
 ## Usable workflow
 
@@ -8,9 +8,9 @@ Normal routing runs locally without an AI account or network, using pinned KiCad
 
 Native pruning accepts `settings-init --purpose improve --output FILE`, then `improve BOARD --settings FILE --seconds 120 --scoring-preference via_high --proposal-policy feedback --output NEW`. It obtains and charges its own fresh incumbent. Whole/native/tuned/both/source_all is its current scope; use `route` for qualified partial/selected/layer choices. Locked copper remains protected. Real preset positive0/0/7/0, stale-preset negative and preview/intent/fresh-native export pass; the60-second reserve failure remains. [Actual product controls](evidence/pruning-preferences-native-product-003/SCOPE.md).
 
-Current installed qualification is source `31c0f53c69474ff361f625bbb110634e4952383d` at `.runs/installation-026/checkout`:22offline commands,72fixed plus143additional selected installed controls,20644original/535installed files, real native60mm/0via/0findings smoke and shared installed readback. Whole37.702652wall27.983788CPU; followup5.469275/5.232348; reader4.329246/2.381415 plus2s actor allowance. [Installation026](evidence/installation026-native-001.json). Existing Mac/apps/cache; no freshOS/full installedsuite/formalpackage claim. Explicit connectivity/PRL/1007 experiments are not production-admitted.
+Current installed qualification is source `31c0f53c69474ff361f625bbb110634e4952383d` at `.runs/installation-026/checkout`:22offline commands,72fixed plus143additional selected installed controls,20644original/535installed files, real native60mm/0via/0findings smoke and shared installed readback. Whole37.702652wall27.983788CPU; followup5.469275/5.232348; reader4.329246/2.381415 plus2s actor allowance. [Installation026](evidence/installation026-native-001.json). Existing Mac/apps/cache; no freshOS/full installedsuite/formalpackage claim. Connectivity/1007 experiments remain separate; the current normal PRL policy and preview source are newer than this installed qualification.
 
-External review uses separate projects and fresh native export. No live-editor overwrite, tested undo or unsaved-buffer inspection is promised. Test acceptance intent is not human PCB approval. [Earlier installed LED GUI003](evidence/installed-led-export-gui-003/SCOPE.md) actually completed full refill/parity/all filters; CLI warnings remain authoritative. Latest actual CUA attempt still reports the Mac locked (`.runs/gui-access-20261014-007`); no new preset/CellScan GUI qualification.
+External review uses separate projects and fresh native export. No live-editor overwrite, tested undo or unsaved-buffer inspection is promised. Test acceptance intent is not human PCB approval. [Earlier installed LED GUI003](evidence/installed-led-export-gui-003/SCOPE.md) actually completed full refill/parity/all filters; CLI warnings remain authoritative. Latest actual CUA attempt still reports the Mac locked (`.runs/gui-access-20261014-008`); no new preset/CellScan GUI qualification.
 
 ## Measured routing evidence
 
@@ -96,3 +96,7 @@ integration evidence on an exposed LED derivative, not new routing quality,
 board-family support, GUI or human PCB approval. Installation026 is older than
 this source; newer raw artifacts need the next incremental. The prospective
 PAW source-format/SES actor is frozen; follow the current compact `PLANS.md`.
+
+PAW format001 executed all five missing Native reload/export observations and the zero-route task export. These passed; the next pure adapter audit rejected an ordinary oval pad exported as a two-point DSN path. No engine/SES trial ran. The narrow grammar fix preserves exact outer-layer path geometry and rejects fractional-nanometre, underflow, malformed and unknown shapes; production20240108 admission remains blocked. Existing Native observations will be reused, with all001cost charged, in the missing SES continuation. [Current source/failure packet](evidence/paw-dsn-path-source-001.json).
+
+The [99d1975 incremental](evidence/backups/incremental-normal-prl-native-99d1975.json) verifies267691files/8005372207B from fully restoredc81, including the completed normal PRL workflow and frozen PAW source. Delta3194files/166117430B;235.334425wall188.081184CPU. OnMaconly by explicit owner choice, no repeated full restoration. Actual executed PAWformat001 and later path fix are after this cutoff.
