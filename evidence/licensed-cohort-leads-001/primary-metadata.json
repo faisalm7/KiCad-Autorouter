@@ -1,0 +1,1230 @@
+{
+  "kind": "public_primary_metadata_only",
+  "raw_board_downloads": 0,
+  "repositories": [
+    {
+      "author": "Franco Spitale",
+      "commit": "1bc695d2daca00fdaf9f064a13e1a7bcd721439c",
+      "commit_date": "2026-07-15T10:19:02Z",
+      "commit_message": "Add Arduino example sketch\n\nBasic 1 Hz read with Serial Plotter friendly output; documents\nprecision/heater choices and the JP1 pull-up dependency.\n\nCo-Authored-By: Claude Fable 5 <noreply@anthropic.com>",
+      "metadata_urls": {
+        "branch": "https://api.github.com/repos/FrancoSpitale/sht45-qt/branches/main",
+        "tree": "https://api.github.com/repos/FrancoSpitale/sht45-qt/git/trees/0476d43cc7dbb1d15a95afc9f051ce1584f6f1c4?recursive=1"
+      },
+      "notices": [
+        {
+          "bytes": 1071,
+          "full_text_retrieved_by_connector": true,
+          "git_blob_sha1": "9f07514fcee85622494c5f37fc1423c1c1584bf7",
+          "path": "LICENSE",
+          "url": "https://github.com/FrancoSpitale/sht45-qt/blob/1bc695d2daca00fdaf9f064a13e1a7bcd721439c/LICENSE"
+        }
+      ],
+      "repository": "FrancoSpitale/sht45-qt",
+      "tree": [
+        {
+          "bytes": 96,
+          "git_blob_sha1": "7c693991c94393020743ae755eda56c58156b06e",
+          "mode": "100644",
+          "path": ".gitignore",
+          "type": "blob"
+        },
+        {
+          "bytes": 1071,
+          "git_blob_sha1": "9f07514fcee85622494c5f37fc1423c1c1584bf7",
+          "mode": "100644",
+          "path": "LICENSE",
+          "type": "blob"
+        },
+        {
+          "bytes": 5292,
+          "git_blob_sha1": "3a3364dde4312a6fa6618a3029925d99354c63df",
+          "mode": "100644",
+          "path": "README.md",
+          "type": "blob"
+        },
+        {
+          "git_blob_sha1": "2ab211b042bc23c996c0ebefd59eddee4b3b06a1",
+          "mode": "040000",
+          "path": "docs",
+          "type": "tree"
+        },
+        {
+          "bytes": 200694,
+          "git_blob_sha1": "52d73fdb7ab209299aed685b3b1af18396c12892",
+          "mode": "100644",
+          "path": "docs/board-bottom.png",
+          "type": "blob"
+        },
+        {
+          "bytes": 343735,
+          "git_blob_sha1": "ea4a181f72448041693867471f0a33d671c375fc",
+          "mode": "100644",
+          "path": "docs/board-top.png",
+          "type": "blob"
+        },
+        {
+          "bytes": 246007,
+          "git_blob_sha1": "ec83058e3eed364346e78f9709a3369d23f57ccc",
+          "mode": "100644",
+          "path": "docs/schematic.svg",
+          "type": "blob"
+        },
+        {
+          "git_blob_sha1": "b43d6fe244fea521665c69901751df29ad9db3e2",
+          "mode": "040000",
+          "path": "examples",
+          "type": "tree"
+        },
+        {
+          "git_blob_sha1": "780bfae7656faaf687c0d0531eb821247402bd6e",
+          "mode": "040000",
+          "path": "examples/arduino",
+          "type": "tree"
+        },
+        {
+          "git_blob_sha1": "cf13773ebb593fea4411337bbcefcf8cdd3b56b6",
+          "mode": "040000",
+          "path": "examples/arduino/sht45_qt_basic",
+          "type": "tree"
+        },
+        {
+          "bytes": 1252,
+          "git_blob_sha1": "126ffd9c2904bb264979155d2d23d7e33e8a0e12",
+          "mode": "100644",
+          "path": "examples/arduino/sht45_qt_basic/sht45_qt_basic.ino",
+          "type": "blob"
+        },
+        {
+          "git_blob_sha1": "7c130318d374b9f1ae691c38e284a2f82105cc42",
+          "mode": "040000",
+          "path": "fabrication",
+          "type": "tree"
+        },
+        {
+          "git_blob_sha1": "acdc2b9484755a596c429a4ba3ad09736db20341",
+          "mode": "040000",
+          "path": "fabrication/gerbers",
+          "type": "tree"
+        },
+        {
+          "bytes": 16730,
+          "git_blob_sha1": "77b737537d370401ddad66eb249552c831b5afa4",
+          "mode": "100644",
+          "path": "fabrication/gerbers/sht45-qt-B_Cu.gbl",
+          "type": "blob"
+        },
+        {
+          "bytes": 5381,
+          "git_blob_sha1": "3cc16322332b20270fded8fa5ce2795d057554dc",
+          "mode": "100644",
+          "path": "fabrication/gerbers/sht45-qt-B_Mask.gbs",
+          "type": "blob"
+        },
+        {
+          "bytes": 450,
+          "git_blob_sha1": "5e3d4ac7525942576f23d3e0e7314d13f4e6f308",
+          "mode": "100644",
+          "path": "fabrication/gerbers/sht45-qt-B_Paste.gbp",
+          "type": "blob"
+        },
+        {
+          "bytes": 23563,
+          "git_blob_sha1": "d9765c212f33566e19c1939beecbe1aa67241ab0",
+          "mode": "100644",
+          "path": "fabrication/gerbers/sht45-qt-B_Silkscreen.gbo",
+          "type": "blob"
+        },
+        {
+          "bytes": 1232,
+          "git_blob_sha1": "47910d49a10211108175aacf92d485f3f43c1a98",
+          "mode": "100644",
+          "path": "fabrication/gerbers/sht45-qt-Edge_Cuts.gm1",
+          "type": "blob"
+        },
+        {
+          "bytes": 40179,
+          "git_blob_sha1": "ea79a79ecb9c5b11c2f0c76af965e47d3ffa64a4",
+          "mode": "100644",
+          "path": "fabrication/gerbers/sht45-qt-F_Cu.gtl",
+          "type": "blob"
+        },
+        {
+          "bytes": 24888,
+          "git_blob_sha1": "37dc7a9b16504157b97bd854a215f6760cf61630",
+          "mode": "100644",
+          "path": "fabrication/gerbers/sht45-qt-F_Mask.gts",
+          "type": "blob"
+        },
+        {
+          "bytes": 2367,
+          "git_blob_sha1": "6fbfb91a3e636cec98f6539733e62987cb093afe",
+          "mode": "100644",
+          "path": "fabrication/gerbers/sht45-qt-F_Paste.gtp",
+          "type": "blob"
+        },
+        {
+          "bytes": 45908,
+          "git_blob_sha1": "a5bae9f9b18f8fbe4a4c0760c8836dcc32d02fde",
+          "mode": "100644",
+          "path": "fabrication/gerbers/sht45-qt-F_Silkscreen.gto",
+          "type": "blob"
+        },
+        {
+          "bytes": 51152,
+          "git_blob_sha1": "5df1fc73aa0c3567248eb1a6198fe2de8baf26bf",
+          "mode": "100644",
+          "path": "fabrication/gerbers/sht45-qt-drl_map.gbr",
+          "type": "blob"
+        },
+        {
+          "bytes": 2685,
+          "git_blob_sha1": "88086cb3c14ae21d9a5c1402458db3a84fc37565",
+          "mode": "100644",
+          "path": "fabrication/gerbers/sht45-qt-job.gbrjob",
+          "type": "blob"
+        },
+        {
+          "bytes": 764,
+          "git_blob_sha1": "8da90922a3e2e7ae32c3bb8e6d4283069bda906d",
+          "mode": "100644",
+          "path": "fabrication/gerbers/sht45-qt.drl",
+          "type": "blob"
+        },
+        {
+          "bytes": 486,
+          "git_blob_sha1": "e81f7e22135ac0fb52b61d69dbee3873d9f625c3",
+          "mode": "100644",
+          "path": "fabrication/sht45-qt-bom.csv",
+          "type": "blob"
+        },
+        {
+          "bytes": 44356,
+          "git_blob_sha1": "6235e55e697f7eaab237c0c3a1dc6c0a36f13d3f",
+          "mode": "100644",
+          "path": "fabrication/sht45-qt-gerbers-jlcpcb.zip",
+          "type": "blob"
+        },
+        {
+          "bytes": 644,
+          "git_blob_sha1": "5b591dace687ab9670b9da8c23ea780b90199cf7",
+          "mode": "100644",
+          "path": "fabrication/sht45-qt-pos.csv",
+          "type": "blob"
+        },
+        {
+          "git_blob_sha1": "1b2d5d8de87fe7f670e3382921c0859e1bdd9d2b",
+          "mode": "040000",
+          "path": "hardware",
+          "type": "tree"
+        },
+        {
+          "bytes": 197,
+          "git_blob_sha1": "d8cebef25199c3bc082369261019faf25e9c05e5",
+          "mode": "100644",
+          "path": "hardware/drc.rpt",
+          "type": "blob"
+        },
+        {
+          "bytes": 115,
+          "git_blob_sha1": "942a1f0a5ef036cf82df358bb77f385d1bb881e6",
+          "mode": "100644",
+          "path": "hardware/erc.rpt",
+          "type": "blob"
+        },
+        {
+          "bytes": 107761,
+          "git_blob_sha1": "089af0d5096aba618027354d3242aca5c38616f8",
+          "mode": "100644",
+          "path": "hardware/sht45-qt.kicad_pcb",
+          "type": "blob"
+        },
+        {
+          "bytes": 8364,
+          "git_blob_sha1": "39eb292711f9dca3c57acf171dadbe6d666cdb17",
+          "mode": "100644",
+          "path": "hardware/sht45-qt.kicad_pro",
+          "type": "blob"
+        },
+        {
+          "bytes": 41909,
+          "git_blob_sha1": "9788447c02ae1ef9b0d1683dab63cd2ea86230d9",
+          "mode": "100644",
+          "path": "hardware/sht45-qt.kicad_sch",
+          "type": "blob"
+        }
+      ],
+      "tree_sha1": "0476d43cc7dbb1d15a95afc9f051ce1584f6f1c4",
+      "truncated": false
+    },
+    {
+      "author": "Yahya Abdelazim",
+      "commit": "628c8a7d80f9de07c24d86102dfca9e353c038ce",
+      "commit_date": "2026-07-01T21:58:59Z",
+      "commit_message": "Add files via upload",
+      "metadata_urls": {
+        "branch": "https://api.github.com/repos/Studented0/18650-Tester/branches/main",
+        "tree": "https://api.github.com/repos/Studented0/18650-Tester/git/trees/3e50bed9ca76f95d84ed3a09d319cec3de77c067?recursive=1"
+      },
+      "notices": [
+        {
+          "bytes": 1072,
+          "full_text_retrieved_by_connector": true,
+          "git_blob_sha1": "af62e679521739bc3d3d425517637122877aa7fb",
+          "path": "LICENSE",
+          "url": "https://github.com/Studented0/18650-Tester/blob/628c8a7d80f9de07c24d86102dfca9e353c038ce/LICENSE"
+        }
+      ],
+      "repository": "Studented0/18650-Tester",
+      "tree": [
+        {
+          "bytes": 1629,
+          "git_blob_sha1": "0ffa6454521f772c8af51b02e5c9097fe2460371",
+          "mode": "100644",
+          "path": "BOM.csv",
+          "type": "blob"
+        },
+        {
+          "bytes": 10169,
+          "git_blob_sha1": "bc02fcb690142ab71a9a515952df3e841bf9fc74",
+          "mode": "100644",
+          "path": "JOURNAL (2).md",
+          "type": "blob"
+        },
+        {
+          "bytes": 1072,
+          "git_blob_sha1": "af62e679521739bc3d3d425517637122877aa7fb",
+          "mode": "100644",
+          "path": "LICENSE",
+          "type": "blob"
+        },
+        {
+          "bytes": 4780,
+          "git_blob_sha1": "294b7bbae423225a055852b1199a8ac77c3b6b20",
+          "mode": "100644",
+          "path": "README.md",
+          "type": "blob"
+        },
+        {
+          "git_blob_sha1": "0976b30991ad69738e9a0ac9cc0332cdf621e1e0",
+          "mode": "040000",
+          "path": "firmware",
+          "type": "tree"
+        },
+        {
+          "bytes": 10241,
+          "git_blob_sha1": "dde964199860518b7931717463bde6c2e868e85f",
+          "mode": "100644",
+          "path": "firmware/CellScan.ino",
+          "type": "blob"
+        },
+        {
+          "git_blob_sha1": "166a3381cccce76d02ea36a1e51aaab161d915e0",
+          "mode": "040000",
+          "path": "hardware",
+          "type": "tree"
+        },
+        {
+          "bytes": 982968,
+          "git_blob_sha1": "db571061c6bc4eab51636c8b1897c20a6b21de37",
+          "mode": "100644",
+          "path": "hardware/CellScan_Schematic.kicad_pcb",
+          "type": "blob"
+        },
+        {
+          "bytes": 16243,
+          "git_blob_sha1": "e8dee6e6c6468efe9cbfd1b60ed780f6b07cfaa6",
+          "mode": "100644",
+          "path": "hardware/CellScan_Schematic.kicad_pro",
+          "type": "blob"
+        },
+        {
+          "bytes": 290345,
+          "git_blob_sha1": "42612c5987c30a6daa7f75b648a78ee0dc36abd0",
+          "mode": "100644",
+          "path": "hardware/CellScan_Schematic.kicad_sch",
+          "type": "blob"
+        },
+        {
+          "bytes": 360889,
+          "git_blob_sha1": "a79ca8b98a1f74762252b1af423e26e28c0ac4dd",
+          "mode": "100644",
+          "path": "hardware/CellScan_Schematic.pdf",
+          "type": "blob"
+        },
+        {
+          "git_blob_sha1": "a2ffa771756c1fec6bd92d2781f61608e672f658",
+          "mode": "040000",
+          "path": "hardware/gerbert",
+          "type": "tree"
+        },
+        {
+          "git_blob_sha1": "717b7b6c07d625a11e0260f7fef4f9232598780a",
+          "mode": "040000",
+          "path": "hardware/gerbert/gerbert",
+          "type": "tree"
+        },
+        {
+          "bytes": 1629,
+          "git_blob_sha1": "0ffa6454521f772c8af51b02e5c9097fe2460371",
+          "mode": "100644",
+          "path": "hardware/gerbert/gerbert/BOM.csv",
+          "type": "blob"
+        },
+        {
+          "bytes": 3299,
+          "git_blob_sha1": "483fc9535a8cefdc186608db324625f803c26e52",
+          "mode": "100644",
+          "path": "hardware/gerbert/gerbert/CPL.csv",
+          "type": "blob"
+        },
+        {
+          "bytes": 475,
+          "git_blob_sha1": "9853eadf626db7cac41f85f0379b6544c0ee2587",
+          "mode": "100644",
+          "path": "hardware/gerbert/gerbert/CellScan_Schematic-B_Adhesive.gba",
+          "type": "blob"
+        },
+        {
+          "bytes": 475,
+          "git_blob_sha1": "01d21f805aca7999902b2bc61c32b490861ab2e5",
+          "mode": "100644",
+          "path": "hardware/gerbert/gerbert/CellScan_Schematic-B_Adhesive.gbr",
+          "type": "blob"
+        },
+        {
+          "bytes": 259303,
+          "git_blob_sha1": "f8a068bf253b0c48b581b298d23a54145c2d1544",
+          "mode": "100644",
+          "path": "hardware/gerbert/gerbert/CellScan_Schematic-B_Cu.gbl",
+          "type": "blob"
+        },
+        {
+          "bytes": 259303,
+          "git_blob_sha1": "5a38ee0f88f2fcf2ed32a28913ac22cd66535663",
+          "mode": "100644",
+          "path": "hardware/gerbert/gerbert/CellScan_Schematic-B_Cu.gbr",
+          "type": "blob"
+        },
+        {
+          "bytes": 3296,
+          "git_blob_sha1": "5c854b904753918d7fb7ef523345708a24772620",
+          "mode": "100644",
+          "path": "hardware/gerbert/gerbert/CellScan_Schematic-B_Mask.gbr",
+          "type": "blob"
+        },
+        {
+          "bytes": 3296,
+          "git_blob_sha1": "066a0548d73f31c2d6b88edf85bd54b8741ee53f",
+          "mode": "100644",
+          "path": "hardware/gerbert/gerbert/CellScan_Schematic-B_Mask.gbs",
+          "type": "blob"
+        },
+        {
+          "bytes": 476,
+          "git_blob_sha1": "98fae9dfdece09fe36d3e334184098a7b1688978",
+          "mode": "100644",
+          "path": "hardware/gerbert/gerbert/CellScan_Schematic-B_Paste.gbp",
+          "type": "blob"
+        },
+        {
+          "bytes": 476,
+          "git_blob_sha1": "0526779706a64674437698623ad67653128917c8",
+          "mode": "100644",
+          "path": "hardware/gerbert/gerbert/CellScan_Schematic-B_Paste.gbr",
+          "type": "blob"
+        },
+        {
+          "bytes": 477,
+          "git_blob_sha1": "a4aca237db7a9d232ab41aeebdc728f2a64b2f8f",
+          "mode": "100644",
+          "path": "hardware/gerbert/gerbert/CellScan_Schematic-B_Silkscreen.gbo",
+          "type": "blob"
+        },
+        {
+          "bytes": 477,
+          "git_blob_sha1": "41b4678551d654ee7a8c8b2ec0f213e50f55951e",
+          "mode": "100644",
+          "path": "hardware/gerbert/gerbert/CellScan_Schematic-B_Silkscreen.gbr",
+          "type": "blob"
+        },
+        {
+          "bytes": 638,
+          "git_blob_sha1": "48c9a014af2556d50577d9921194c8d9970c2eb0",
+          "mode": "100644",
+          "path": "hardware/gerbert/gerbert/CellScan_Schematic-Edge_Cuts.gbr",
+          "type": "blob"
+        },
+        {
+          "bytes": 638,
+          "git_blob_sha1": "494b573d9da3b6c81f13146e8c021d60673b2e0a",
+          "mode": "100644",
+          "path": "hardware/gerbert/gerbert/CellScan_Schematic-Edge_Cuts.gm1",
+          "type": "blob"
+        },
+        {
+          "bytes": 475,
+          "git_blob_sha1": "2acedb22a974f8f64e234fc8cb03eb92c3339338",
+          "mode": "100644",
+          "path": "hardware/gerbert/gerbert/CellScan_Schematic-F_Adhesive.gbr",
+          "type": "blob"
+        },
+        {
+          "bytes": 475,
+          "git_blob_sha1": "3fb4bb8969c39927bdb0080559526bdd05022712",
+          "mode": "100644",
+          "path": "hardware/gerbert/gerbert/CellScan_Schematic-F_Adhesive.gta",
+          "type": "blob"
+        },
+        {
+          "bytes": 329175,
+          "git_blob_sha1": "27a514380f69a8c48991cddecd3e5eeac9f02ca9",
+          "mode": "100644",
+          "path": "hardware/gerbert/gerbert/CellScan_Schematic-F_Cu.gbr",
+          "type": "blob"
+        },
+        {
+          "bytes": 329175,
+          "git_blob_sha1": "ab27a8d2369bd4c21154a6da9133800bed3bd673",
+          "mode": "100644",
+          "path": "hardware/gerbert/gerbert/CellScan_Schematic-F_Cu.gtl",
+          "type": "blob"
+        },
+        {
+          "bytes": 11585,
+          "git_blob_sha1": "5b6ed1f7b94709a3650454a704ed42a44e3e27ca",
+          "mode": "100644",
+          "path": "hardware/gerbert/gerbert/CellScan_Schematic-F_Mask.gbr",
+          "type": "blob"
+        },
+        {
+          "bytes": 11585,
+          "git_blob_sha1": "c697ea56ec84430e44ce0e8218815c5033ecef2d",
+          "mode": "100644",
+          "path": "hardware/gerbert/gerbert/CellScan_Schematic-F_Mask.gts",
+          "type": "blob"
+        },
+        {
+          "bytes": 9549,
+          "git_blob_sha1": "aad8b346fd2c9aae476757a3be78d665b8c70d54",
+          "mode": "100644",
+          "path": "hardware/gerbert/gerbert/CellScan_Schematic-F_Paste.gbr",
+          "type": "blob"
+        },
+        {
+          "bytes": 9549,
+          "git_blob_sha1": "9a29cc120c9b89772ef187870e695ed6f9f4d5ee",
+          "mode": "100644",
+          "path": "hardware/gerbert/gerbert/CellScan_Schematic-F_Paste.gtp",
+          "type": "blob"
+        },
+        {
+          "bytes": 144505,
+          "git_blob_sha1": "f4d6c1c3dd851f44b688f42fc835f192bf760d3b",
+          "mode": "100644",
+          "path": "hardware/gerbert/gerbert/CellScan_Schematic-F_Silkscreen.gbr",
+          "type": "blob"
+        },
+        {
+          "bytes": 144505,
+          "git_blob_sha1": "4a776a7be4c0198b80af2db353df9cc3986d1f6b",
+          "mode": "100644",
+          "path": "hardware/gerbert/gerbert/CellScan_Schematic-F_Silkscreen.gto",
+          "type": "blob"
+        },
+        {
+          "bytes": 599,
+          "git_blob_sha1": "9097b9860a37629a1596f25c0fde086411a4996c",
+          "mode": "100644",
+          "path": "hardware/gerbert/gerbert/CellScan_Schematic-NPTH.drl",
+          "type": "blob"
+        },
+        {
+          "bytes": 4543,
+          "git_blob_sha1": "22192a8d7fb8b646f0b7eb1defcd4fd8b228689f",
+          "mode": "100644",
+          "path": "hardware/gerbert/gerbert/CellScan_Schematic-PTH.drl",
+          "type": "blob"
+        },
+        {
+          "bytes": 233,
+          "git_blob_sha1": "377bfff166cd6892c58aa15dba1c2b670b43df83",
+          "mode": "100644",
+          "path": "hardware/gerbert/gerbert/CellScan_Schematic-bottom.pos",
+          "type": "blob"
+        },
+        {
+          "bytes": 3188,
+          "git_blob_sha1": "aa69cda4a20c822a52a946e31d26cb36b92d4df4",
+          "mode": "100644",
+          "path": "hardware/gerbert/gerbert/CellScan_Schematic-job.gbrjob",
+          "type": "blob"
+        },
+        {
+          "bytes": 9461,
+          "git_blob_sha1": "0f0dbbac84e96108155052a7213314f09b923a14",
+          "mode": "100644",
+          "path": "hardware/gerbert/gerbert/CellScan_Schematic-top.pos",
+          "type": "blob"
+        },
+        {
+          "git_blob_sha1": "076577f207c3063c78eb99456204c02e0ff338ee",
+          "mode": "040000",
+          "path": "hardware/libraries",
+          "type": "tree"
+        },
+        {
+          "bytes": 3822,
+          "git_blob_sha1": "8338c7af4bdc5c7181691f127ed7a6973ec54294",
+          "mode": "100644",
+          "path": "hardware/libraries/ESP32-DevKitC-30PIN.kicad_mod",
+          "type": "blob"
+        }
+      ],
+      "tree_sha1": "3e50bed9ca76f95d84ed3a09d319cec3de77c067",
+      "truncated": false
+    },
+    {
+      "author": "Jan Vodstr\u010dil",
+      "commit": "63153ac5ca9879299f57e3fb68df606bf78d96f8",
+      "commit_date": "2026-08-22T00:24:05Z",
+      "commit_message": "Describe the PCB stackup precisely\n\n\"Double-sided\" was ambiguous between two-layer copper and double-sided\nassembly. The board file declares exactly two copper layers with filled\nGND zones on both, and 33 footprints split 22 front / 11 back, so state\nall three facts instead.",
+      "metadata_urls": {
+        "branch": "https://api.github.com/repos/vodjan/uv-dosimeter/branches/main",
+        "tree": "https://api.github.com/repos/vodjan/uv-dosimeter/git/trees/01ab7f5308081a304115ed72978e116f1005e147?recursive=1"
+      },
+      "notices": [
+        {
+          "bytes": 2221,
+          "full_text_retrieved_by_connector": true,
+          "git_blob_sha1": "12afba6178cf123231f502ad182a3e19443fb33a",
+          "path": "LICENSE",
+          "url": "https://github.com/vodjan/uv-dosimeter/blob/63153ac5ca9879299f57e3fb68df606bf78d96f8/LICENSE"
+        },
+        {
+          "bytes": 13419,
+          "full_text_retrieved_by_connector": true,
+          "git_blob_sha1": "114486fd9446c39da1b69101597e25e33877fca6",
+          "path": "hardware/LICENSE",
+          "url": "https://github.com/vodjan/uv-dosimeter/blob/63153ac5ca9879299f57e3fb68df606bf78d96f8/hardware/LICENSE"
+        }
+      ],
+      "repository": "vodjan/uv-dosimeter",
+      "tree": [
+        {
+          "bytes": 849,
+          "git_blob_sha1": "cc7a57fd6c5ed21ec95de01da0377a1e775d0ef4",
+          "mode": "100644",
+          "path": ".gitignore",
+          "type": "blob"
+        },
+        {
+          "bytes": 2221,
+          "git_blob_sha1": "12afba6178cf123231f502ad182a3e19443fb33a",
+          "mode": "100644",
+          "path": "LICENSE",
+          "type": "blob"
+        },
+        {
+          "bytes": 10682,
+          "git_blob_sha1": "ce223c0f9764d192d67571dd103ef1361aabd7a8",
+          "mode": "100644",
+          "path": "README.md",
+          "type": "blob"
+        },
+        {
+          "git_blob_sha1": "3e8c5469afcd9de6dadaae90e449b4f5e08491aa",
+          "mode": "040000",
+          "path": "app",
+          "type": "tree"
+        },
+        {
+          "bytes": 7,
+          "git_blob_sha1": "0104088a93f37ef69b3acfee50577590324a0769",
+          "mode": "100644",
+          "path": "app/.python-version",
+          "type": "blob"
+        },
+        {
+          "bytes": 35149,
+          "git_blob_sha1": "f288702d2fa16d3cdf0035b15a9fcbc552cd88e7",
+          "mode": "100644",
+          "path": "app/LICENSE",
+          "type": "blob"
+        },
+        {
+          "bytes": 3542,
+          "git_blob_sha1": "f02342cb73583957d0c1eae13e1a3ee0655b886a",
+          "mode": "100644",
+          "path": "app/ble.py",
+          "type": "blob"
+        },
+        {
+          "bytes": 2692,
+          "git_blob_sha1": "f6d2620ca3d1209951151c9fe1a4005b281b92ca",
+          "mode": "100644",
+          "path": "app/dose.py",
+          "type": "blob"
+        },
+        {
+          "bytes": 7670,
+          "git_blob_sha1": "5ddf4ec0f69310d647ba82e5b01045994840b0b1",
+          "mode": "100644",
+          "path": "app/main.py",
+          "type": "blob"
+        },
+        {
+          "bytes": 26,
+          "git_blob_sha1": "f1a0f4b8503b560797b17cc0c2a252a25759360d",
+          "mode": "100644",
+          "path": "app/requirements.txt",
+          "type": "blob"
+        },
+        {
+          "git_blob_sha1": "30bc34499ab6d33e6ed622cdcf01495149a2bf37",
+          "mode": "040000",
+          "path": "app/ui",
+          "type": "tree"
+        },
+        {
+          "bytes": 0,
+          "git_blob_sha1": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+          "mode": "100644",
+          "path": "app/ui/__init__.py",
+          "type": "blob"
+        },
+        {
+          "git_blob_sha1": "44bdd1b5b80c3ab105d2f59152b0cfda0a6f9c44",
+          "mode": "040000",
+          "path": "app/ui/home",
+          "type": "tree"
+        },
+        {
+          "bytes": 0,
+          "git_blob_sha1": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+          "mode": "100644",
+          "path": "app/ui/home/__init__.py",
+          "type": "blob"
+        },
+        {
+          "bytes": 2474,
+          "git_blob_sha1": "f77865ccc4bf4b0f52bfedd2610928f47e598b39",
+          "mode": "100644",
+          "path": "app/ui/home/dose_display.py",
+          "type": "blob"
+        },
+        {
+          "bytes": 3938,
+          "git_blob_sha1": "0949427daf1f734a1464a3fd616cbfab3832e45c",
+          "mode": "100644",
+          "path": "app/ui/home/page.py",
+          "type": "blob"
+        },
+        {
+          "bytes": 923,
+          "git_blob_sha1": "6748a81ef1300d6c871c857d539998afbe00d5a4",
+          "mode": "100644",
+          "path": "app/ui/home/uv_display.py",
+          "type": "blob"
+        },
+        {
+          "git_blob_sha1": "6fec1e6315d7bebd5a68ebd415157b43fe66e4ab",
+          "mode": "040000",
+          "path": "app/ui/settings",
+          "type": "tree"
+        },
+        {
+          "bytes": 0,
+          "git_blob_sha1": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+          "mode": "100644",
+          "path": "app/ui/settings/__init__.py",
+          "type": "blob"
+        },
+        {
+          "bytes": 7110,
+          "git_blob_sha1": "4c2a68afa7c3a59be0311d65aab8f7b24d9e92e5",
+          "mode": "100644",
+          "path": "app/ui/settings/dev_panel.py",
+          "type": "blob"
+        },
+        {
+          "bytes": 5838,
+          "git_blob_sha1": "842ad178703ceffd4f297dcd3caa25dfe30c6cd2",
+          "mode": "100644",
+          "path": "app/ui/settings/page.py",
+          "type": "blob"
+        },
+        {
+          "bytes": 2277,
+          "git_blob_sha1": "3704503ad2f0ea55f724d3e978396dbe9bbf3f3d",
+          "mode": "100644",
+          "path": "app/ui/settings/phototype_info.py",
+          "type": "blob"
+        },
+        {
+          "bytes": 1377,
+          "git_blob_sha1": "fb7656bd02358e57c2b057613fd5852f5afbebc8",
+          "mode": "100644",
+          "path": "app/ui/status_bar.py",
+          "type": "blob"
+        },
+        {
+          "bytes": 202,
+          "git_blob_sha1": "207d883d3bb520b949c7ad2918bf004e0b01949e",
+          "mode": "100644",
+          "path": "app/ui/utils.py",
+          "type": "blob"
+        },
+        {
+          "git_blob_sha1": "b3f3e88dbc8126f91eb947aa44cf9e8ee453b741",
+          "mode": "040000",
+          "path": "docs",
+          "type": "tree"
+        },
+        {
+          "bytes": 20138,
+          "git_blob_sha1": "2d58298e6eda10e7204abb52722efbc840db2390",
+          "mode": "100644",
+          "path": "docs/LICENSE",
+          "type": "blob"
+        },
+        {
+          "bytes": 3066,
+          "git_blob_sha1": "4a20893912615228bb71deb8f54d5a25d22f5e0b",
+          "mode": "100644",
+          "path": "docs/esp8266-rtos-sdk-linux.md",
+          "type": "blob"
+        },
+        {
+          "git_blob_sha1": "eecda149dee400f43137925a219467726ab9cabc",
+          "mode": "040000",
+          "path": "docs/images",
+          "type": "tree"
+        },
+        {
+          "bytes": 322327,
+          "git_blob_sha1": "297cc2a94404961ca41c8044a555753194c0d413",
+          "mode": "100644",
+          "path": "docs/images/angle-correction-analysis.png",
+          "type": "blob"
+        },
+        {
+          "bytes": 17578,
+          "git_blob_sha1": "b7ed88a42500585d30e901d55d1820c8e220f8d3",
+          "mode": "100644",
+          "path": "docs/images/app-home.png",
+          "type": "blob"
+        },
+        {
+          "bytes": 30321,
+          "git_blob_sha1": "1e82066fbc6060742bf66f567fd4618756a9e57d",
+          "mode": "100644",
+          "path": "docs/images/app-settings.png",
+          "type": "blob"
+        },
+        {
+          "bytes": 49159,
+          "git_blob_sha1": "10c8441cdaaf3710ad5141191f5de7230a2cea22",
+          "mode": "100644",
+          "path": "docs/images/app.png",
+          "type": "blob"
+        },
+        {
+          "bytes": 76674,
+          "git_blob_sha1": "ad933746935eb241bb3e62b7073c6edb6d66094d",
+          "mode": "100644",
+          "path": "docs/images/enclosure-render.png",
+          "type": "blob"
+        },
+        {
+          "bytes": 150836,
+          "git_blob_sha1": "3b07219eef8a59ddcd9247be281442a6e12cbba3",
+          "mode": "100644",
+          "path": "docs/images/pcb-bottom.png",
+          "type": "blob"
+        },
+        {
+          "bytes": 252584,
+          "git_blob_sha1": "b5d7693d7827b3f3b7fb44a027628ad3cb629640",
+          "mode": "100644",
+          "path": "docs/images/pcb-top.png",
+          "type": "blob"
+        },
+        {
+          "bytes": 416637,
+          "git_blob_sha1": "c34bea02825a3b0e2ee31e3a6005b5e3e8010ae0",
+          "mode": "100644",
+          "path": "docs/images/pcb.png",
+          "type": "blob"
+        },
+        {
+          "bytes": 207472,
+          "git_blob_sha1": "9755f1539bd754aadca4c21cf8a0824503ba4418",
+          "mode": "100644",
+          "path": "docs/images/schematic.png",
+          "type": "blob"
+        },
+        {
+          "bytes": 165936,
+          "git_blob_sha1": "7a9f76ab6b4689795d00bce074936d2e0c7c9822",
+          "mode": "100644",
+          "path": "docs/images/spectral-calibration.png",
+          "type": "blob"
+        },
+        {
+          "git_blob_sha1": "2db2930ae9e647964038cf25c2f18ac795fa56d1",
+          "mode": "040000",
+          "path": "firmware",
+          "type": "tree"
+        },
+        {
+          "bytes": 350,
+          "git_blob_sha1": "6957c14719eb2657bcfe239ac15531f6963bc6e6",
+          "mode": "100644",
+          "path": "firmware/.clangd",
+          "type": "blob"
+        },
+        {
+          "bytes": 35149,
+          "git_blob_sha1": "f288702d2fa16d3cdf0035b15a9fcbc552cd88e7",
+          "mode": "100644",
+          "path": "firmware/LICENSE",
+          "type": "blob"
+        },
+        {
+          "git_blob_sha1": "45ff21b017c0d6d9a24cd8d3fbca4ba27afc8e73",
+          "mode": "040000",
+          "path": "firmware/include",
+          "type": "tree"
+        },
+        {
+          "bytes": 1264,
+          "git_blob_sha1": "49819c0d54960b5848277cc68ab2d08169cecaf3",
+          "mode": "100644",
+          "path": "firmware/include/README",
+          "type": "blob"
+        },
+        {
+          "git_blob_sha1": "eebacd0d82737d53036cf52bafb2ba467efa9110",
+          "mode": "040000",
+          "path": "firmware/lib",
+          "type": "tree"
+        },
+        {
+          "bytes": 1054,
+          "git_blob_sha1": "93793971ffcaedf70668ba0d17d84315c350f9f7",
+          "mode": "100644",
+          "path": "firmware/lib/README",
+          "type": "blob"
+        },
+        {
+          "bytes": 1038,
+          "git_blob_sha1": "9e066b08a2afee3af4871be722d557fcae99f5e8",
+          "mode": "100644",
+          "path": "firmware/platformio.ini",
+          "type": "blob"
+        },
+        {
+          "git_blob_sha1": "687248b851547894f4d76e5ffd35a75e73d04d12",
+          "mode": "040000",
+          "path": "firmware/src",
+          "type": "tree"
+        },
+        {
+          "bytes": 3376,
+          "git_blob_sha1": "6a269aeffa36c15f498c034169c5f15b6fb276c2",
+          "mode": "100644",
+          "path": "firmware/src/ble_server.cpp",
+          "type": "blob"
+        },
+        {
+          "bytes": 1043,
+          "git_blob_sha1": "ff29e2ef7dd757a80c8993498497c949295a9caf",
+          "mode": "100644",
+          "path": "firmware/src/ble_server.h",
+          "type": "blob"
+        },
+        {
+          "bytes": 512,
+          "git_blob_sha1": "f8709915a707107496e291e98620b59f303eac15",
+          "mode": "100644",
+          "path": "firmware/src/config.h",
+          "type": "blob"
+        },
+        {
+          "bytes": 3097,
+          "git_blob_sha1": "13dff1a7abf861dea79046c42d34d929d1e55dba",
+          "mode": "100644",
+          "path": "firmware/src/main.cpp",
+          "type": "blob"
+        },
+        {
+          "bytes": 2602,
+          "git_blob_sha1": "2a91b1031fbbe8c70ddc5605ec341664ed17c17c",
+          "mode": "100644",
+          "path": "firmware/src/ring_buffer.cpp",
+          "type": "blob"
+        },
+        {
+          "bytes": 1239,
+          "git_blob_sha1": "7544f290aa8674262dcb408dd8915e41b4bb3b45",
+          "mode": "100644",
+          "path": "firmware/src/ring_buffer.h",
+          "type": "blob"
+        },
+        {
+          "bytes": 1909,
+          "git_blob_sha1": "d4b44e02b203b5277b1998be33bc85f0fb5f3869",
+          "mode": "100644",
+          "path": "firmware/src/sensors.cpp",
+          "type": "blob"
+        },
+        {
+          "bytes": 647,
+          "git_blob_sha1": "b9d9d0c27c19e6c072d0078ffea56b6098ce973b",
+          "mode": "100644",
+          "path": "firmware/src/sensors.h",
+          "type": "blob"
+        },
+        {
+          "git_blob_sha1": "db453df65b720cc24b5715d3d233758ae3112b67",
+          "mode": "040000",
+          "path": "firmware/test",
+          "type": "tree"
+        },
+        {
+          "bytes": 518,
+          "git_blob_sha1": "9b1e87bc67c90e7f09a92a3e855444b085c655a6",
+          "mode": "100644",
+          "path": "firmware/test/README",
+          "type": "blob"
+        },
+        {
+          "git_blob_sha1": "ae452e17b1e305b084b02af04b7e0375ab80f42b",
+          "mode": "040000",
+          "path": "hardware",
+          "type": "tree"
+        },
+        {
+          "bytes": 311811,
+          "git_blob_sha1": "35e11be906de35eba753608efad1adb1e3fd4d24",
+          "mode": "100644",
+          "path": "hardware/AOL_PD_2.kicad_pcb",
+          "type": "blob"
+        },
+        {
+          "bytes": 16492,
+          "git_blob_sha1": "8ef4c9d24b2f74052875dcfa92b4c04e02a73916",
+          "mode": "100644",
+          "path": "hardware/AOL_PD_2.kicad_pro",
+          "type": "blob"
+        },
+        {
+          "bytes": 115950,
+          "git_blob_sha1": "065a1a09db40a486e53d9678f04626f27902d2e5",
+          "mode": "100644",
+          "path": "hardware/AOL_PD_2.kicad_sch",
+          "type": "blob"
+        },
+        {
+          "bytes": 13419,
+          "git_blob_sha1": "114486fd9446c39da1b69101597e25e33877fca6",
+          "mode": "100644",
+          "path": "hardware/LICENSE",
+          "type": "blob"
+        },
+        {
+          "bytes": 6585,
+          "git_blob_sha1": "2c8b2e9b891eb8d2eb95c06429764c07078f3848",
+          "mode": "100644",
+          "path": "hardware/Moje_wearable.kicad_sym",
+          "type": "blob"
+        },
+        {
+          "git_blob_sha1": "5c6ebf02e1ff11fafb710d47eccdb01cf835ecf6",
+          "mode": "040000",
+          "path": "hardware/Moje_wearable.pretty",
+          "type": "tree"
+        },
+        {
+          "bytes": 4470,
+          "git_blob_sha1": "ea73b5458baafaa02b890f4c4a3ba1e529cfc381",
+          "mode": "100644",
+          "path": "hardware/Moje_wearable.pretty/Waveshare_ESP32-H2-Zero.kicad_mod",
+          "type": "blob"
+        },
+        {
+          "bytes": 137,
+          "git_blob_sha1": "f299bc6cf0cb69accdfba14ab0bfc3ee6685c39f",
+          "mode": "100644",
+          "path": "hardware/fp-lib-table",
+          "type": "blob"
+        },
+        {
+          "bytes": 141,
+          "git_blob_sha1": "6ab6749d2fa94f9b31602e944d6ba162218da4f9",
+          "mode": "100644",
+          "path": "hardware/sym-lib-table",
+          "type": "blob"
+        },
+        {
+          "git_blob_sha1": "00c8186858f9ebea068a98d99c9ad73f96b32838",
+          "mode": "040000",
+          "path": "math",
+          "type": "tree"
+        },
+        {
+          "bytes": 20138,
+          "git_blob_sha1": "2d58298e6eda10e7204abb52722efbc840db2390",
+          "mode": "100644",
+          "path": "math/LICENSE",
+          "type": "blob"
+        },
+        {
+          "bytes": 2785,
+          "git_blob_sha1": "daba7c7dcc6cc39b22b360e673f27bd874dfcc9e",
+          "mode": "100644",
+          "path": "math/UV_sensor.ino",
+          "type": "blob"
+        },
+        {
+          "bytes": 415232,
+          "git_blob_sha1": "8e2dbd51fae619986e823a474e5c29627ecea702",
+          "mode": "100644",
+          "path": "math/astmg173.xls",
+          "type": "blob"
+        },
+        {
+          "bytes": 3063,
+          "git_blob_sha1": "6d2c37f4d5bb00caf7ca58471507ba4d07fe333f",
+          "mode": "100644",
+          "path": "math/sem_project.m",
+          "type": "blob"
+        },
+        {
+          "bytes": 608,
+          "git_blob_sha1": "ad4d53758ca1f33d1bead390739115f9c0dc2d95",
+          "mode": "100644",
+          "path": "pokovond.code-workspace",
+          "type": "blob"
+        }
+      ],
+      "tree_sha1": "01ab7f5308081a304115ed72978e116f1005e147",
+      "truncated": false
+    },
+    {
+      "author": "dsjchd",
+      "commit": "ffbf608579ae29c50e1102ea38f0e6b9b9ec893f",
+      "commit_date": "2025-05-19T14:31:04Z",
+      "commit_message": "gerber file abd photo add",
+      "metadata_urls": {
+        "branch": "https://api.github.com/repos/pawangupta24/STM32-PCB-BOARD/branches/main",
+        "tree": "https://api.github.com/repos/pawangupta24/STM32-PCB-BOARD/git/trees/743251bb7d2ebffbe744816015b800eb8077abfd?recursive=1"
+      },
+      "notices": [],
+      "repository": "pawangupta24/STM32-PCB-BOARD",
+      "tree": [
+        {
+          "bytes": 175701,
+          "git_blob_sha1": "2ea358a454220cc2faea5368f92eeab1dda6d5b9",
+          "mode": "100644",
+          "path": "2d_view_1.png",
+          "type": "blob"
+        },
+        {
+          "bytes": 121660,
+          "git_blob_sha1": "5ad342878e611ae4f41573bda69fbdd4343b4495",
+          "mode": "100644",
+          "path": "2d_view_2.png",
+          "type": "blob"
+        },
+        {
+          "bytes": 124310,
+          "git_blob_sha1": "9095f3a20ef620de2abb7816c471151ea9b2d6a3",
+          "mode": "100644",
+          "path": "3d_view_1.png",
+          "type": "blob"
+        },
+        {
+          "bytes": 66213,
+          "git_blob_sha1": "0dda4ce0f9b13c8fe980b75a6d3a49a28eb9e8c6",
+          "mode": "100644",
+          "path": "3d_view_2.png",
+          "type": "blob"
+        },
+        {
+          "git_blob_sha1": "d5f8b3a6d41263732bbce39189bf4f8ed37e87aa",
+          "mode": "040000",
+          "path": "PCB Photo",
+          "type": "tree"
+        },
+        {
+          "bytes": 1376612,
+          "git_blob_sha1": "26ab0aef0579aa636524db0e9a6f9814706e9657",
+          "mode": "100644",
+          "path": "PCB Photo/Screenshot 2025-05-19 192621.png",
+          "type": "blob"
+        },
+        {
+          "bytes": 1354891,
+          "git_blob_sha1": "dac0ce23fa3a2aa4d7592fe0cf5887c82fde98b2",
+          "mode": "100644",
+          "path": "PCB Photo/Screenshot 2025-05-19 192639.png",
+          "type": "blob"
+        },
+        {
+          "bytes": 2092753,
+          "git_blob_sha1": "77ee36b2b69b4596cbf53b41677ae765defff2ce",
+          "mode": "100644",
+          "path": "PCB Photo/Screenshot 2025-05-19 192733.png",
+          "type": "blob"
+        },
+        {
+          "bytes": 247652,
+          "git_blob_sha1": "d5613d0b54a3e8ef37743e7255d89d88119a64d8",
+          "mode": "100644",
+          "path": "PCB Photo/Screenshot 2025-05-19 192829.png",
+          "type": "blob"
+        },
+        {
+          "bytes": 80479,
+          "git_blob_sha1": "855e4b022eb5bac87f6627b149b26f1a6fbfc675",
+          "mode": "100644",
+          "path": "PCB Photo/Screenshot 2025-05-19 192941.png",
+          "type": "blob"
+        },
+        {
+          "bytes": 89900,
+          "git_blob_sha1": "57eaf892f5187758b86460aca85fae9b1a83180e",
+          "mode": "100644",
+          "path": "PCB Photo/Screenshot 2025-05-19 192947.png",
+          "type": "blob"
+        },
+        {
+          "bytes": 3848,
+          "git_blob_sha1": "157c4abcac500eb653eb36f39a045c7971b28b2a",
+          "mode": "100644",
+          "path": "Readme.md",
+          "type": "blob"
+        },
+        {
+          "bytes": 1626,
+          "git_blob_sha1": "9c7c1decc93f31156680c5a896b01a635fa57df8",
+          "mode": "100644",
+          "path": "STM32 BOARD GERBER FILE.zip",
+          "type": "blob"
+        },
+        {
+          "bytes": 36451,
+          "git_blob_sha1": "354b263c13f549392028ddfaa5b36211fdfef9aa",
+          "mode": "100644",
+          "path": "schematic.png",
+          "type": "blob"
+        }
+      ],
+      "tree_sha1": "743251bb7d2ebffbe744816015b800eb8077abfd",
+      "truncated": false
+    }
+  ],
+  "schema": 1
+}

@@ -11,6 +11,7 @@ from autorouter.runner import run
 from experiments.placement_handoff_native_v1.driver import copy_bytes
 LIMIT=20*1024**2;SECONDS=90
 CASES={
+    'analog-filter':('portable-demo','kicad/analog_filter_module.kicad_pcb','6a34b221758fe32f33eca20d735e88028346753a',None),
     'interf_u':('managed-interf','interf_u.kicad_pcb','69cafb907ebc09e7722a2a464b1d466fc2e3608d',None),
     'arcdice':('arcdice-source','hardware/ArcDice.kicad_pcb','5908d99db1ef98b5996b380c75e5aee8bb8caaa6',None),
     'push-button-led':('v7','PushButtonLed.kicad_pcb','29c46b7c03d2afd9fe3a58fe2070309b12f94b42','.runs/licensed-acquisition-010-run-001/receipt.json'),
@@ -18,7 +19,7 @@ CASES={
     'ardujoy-c64':('v4','Ardujoy_HW/Ardujoy_HW.kicad_pcb','1b63471d9726fb6a38f8544ca73ebf10c7f19820','.runs/licensed-acquisition-007-run-001/receipt.json'),
     'nus-usb-led':('v5','src/usb_led.kicad_pcb','ad3fbd582e3915b585c453ea202f591720a1f427','.runs/licensed-acquisition-008-run-001/receipt.json'),
 }
-REFILLED_ORIGINALS=frozenset({'als311-clock','push-button-led','arcdice','interf_u'})
+REFILLED_ORIGINALS=frozenset({'als311-clock','push-button-led','arcdice','interf_u','analog-filter'})
 
 def capture_interf_source():
     """Read the already acquired fixed complete project; never stage or fetch."""
@@ -82,6 +83,10 @@ def experiment(project,output,*,run_native=False):
     try:
         from importlib import import_module
         if version=='managed-interf':capture=capture_interf_source
+        elif version=='portable-demo':
+            from scripts.fetch_led_demo import capture_native_source,fixed_profile
+            if fixed_profile(project)['commit']!=commit:raise p.Rejected('fixed original demo revision differs')
+            capture=lambda:capture_native_source(project,root=ROOT)[1]
         else:capture=import_module('experiments.arcdice_native_class_v1.source' if version=='arcdice-source' else 'experiments.licensed_acquisition_'+version+'.native_snapshot').capture
         files=capture();copy_bytes(files,out/'original');before=p.tree_hash(out/'original');board=out/'original'/relative
         record.update(original_hashes=before,tools=p.tool_manifest())
@@ -92,6 +97,10 @@ def experiment(project,output,*,run_native=False):
         elif version=='managed-interf':
             record.update(source_origin='already acquired fixed licensed KiCad demo; no new download',
                 source_manifest_sha256=p.sha(ROOT/'data/sources.json'),source_file_count=len(files),source_bytes=sum(map(len,files.values())))
+        elif version=='portable-demo':
+            record.update(source_origin='verified fixed public demo originals and separate notice packet; no original diagnostic download',
+                source_file_count=len(files),source_bytes=sum(map(len,files.values())),
+                source_profile_id=project,custom_asset_closure_qualified=False)
         else:record['acquisition_receipt_sha256']=p.sha(ROOT/acquisition)
         code={n:io.read_bytes(ROOT/n) for n in record['tools']['implementation_sha256']}
         for relative in ('experiments/original_project_native_v1/driver.py','experiments/placement_handoff_native_v1/driver.py'):
@@ -101,6 +110,9 @@ def experiment(project,output,*,run_native=False):
                 relative='experiments/arcdice_native_class_v1/'+name;code[relative]=io.read_bytes(ROOT/relative)
         if version=='managed-interf':
             for relative in ('data/fetch.py','data/sources.json','scripts/experiment_quality.py'):
+                code[relative]=io.read_bytes(ROOT/relative)
+        if version=='portable-demo':
+            for relative in ('scripts/fetch_led_demo.py','experiments/licensed_acquisition_v1/fetch.py'):
                 code[relative]=io.read_bytes(ROOT/relative)
         record['additional_implementation_sha256']={name:p.sha(ROOT/name) for name in code if not name.startswith('autorouter/')}
         for name,raw in code.items():

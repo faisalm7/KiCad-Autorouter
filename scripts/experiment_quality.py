@@ -41,7 +41,7 @@ FEEDBACK_ARMS = (*ARMS[:3],
     {**ARMS[3], "id": "C_feedback", "proposal_policy": "feedback"},
 )
 SCRIPT = Path(__file__).resolve()
-PROJECTS = {"sonde": "kicad-sonde-xilinx", "interf_u": "kicad-interf-u", "multichannel": "kicad-multichannel", "ardujoy-c64":"eduardofv-ArdujoyC64", "nus-usb-led":"nushackers-hsp-pcb-intro", "push-button-led":"gurusaeth12-push-button-led-kicad", "arcdice":"VorosEgyes-ArcDice"}
+PROJECTS = {"analog-filter":"Myrto-Angeliki-analog-filter", "sonde": "kicad-sonde-xilinx", "interf_u": "kicad-interf-u", "multichannel": "kicad-multichannel", "ardujoy-c64":"eduardofv-ArdujoyC64", "nus-usb-led":"nushackers-hsp-pcb-intro", "push-button-led":"gurusaeth12-push-button-led-kicad", "arcdice":"VorosEgyes-ArcDice"}
 SUPPORT = (SCRIPT, c.ROOT / "toolchain.lock.json", c.ROOT / "data/sources.json",
            c.ROOT/'scripts/fetch_led_demo.py',
            c.ROOT/'experiments/arcdice_native_class_v1/source.py',
@@ -61,16 +61,18 @@ def total_process_cpu():
 
 
 def selected_source(name):
+    if name=='analog-filter':
+        from scripts.fetch_led_demo import capture_native_source
+        base,files=capture_native_source('analog-filter',root=c.ROOT)
+        if p.tree_hash(base)!={n:hashlib.sha256(raw).hexdigest() for n,raw in files.items()}:
+            raise p.Rejected('exact fixed analog-filter notice packet required')
+        return base/'kicad/analog_filter_module.kicad_pcb','analog-filter-four-layer-development-exposed'
     if name=='arcdice':
         demo=c.ROOT/'.data/arcdice-demo-001'
         if demo.exists() or demo.is_symlink():
-            from scripts.fetch_led_demo import verify_project
-            raw=demo/'project';base=demo/'native-project'
-            raw_check=verify_project(raw,profile_id='arcdice')
-            packet_check=verify_project(base,profile_id='arcdice',native_packet=True)
-            if (p.tree_hash(base)!={n:v['sha256'] for n,v in packet_check['files'].items()}
-                    or verify_project(raw,profile_id='arcdice')!=raw_check
-                    or verify_project(base,profile_id='arcdice',native_packet=True)!=packet_check):
+            from scripts.fetch_led_demo import capture_native_source
+            base,files=capture_native_source('arcdice',root=c.ROOT)
+            if p.tree_hash(base)!={n:hashlib.sha256(raw).hexdigest() for n,raw in files.items()}:
                 raise p.Rejected('portable ArcDice source changed during read-only selection')
             return base/'hardware/ArcDice.kicad_pcb','VorosEgyes-ArcDice-development-exposed'
         from experiments.arcdice_native_class_v1 import source
