@@ -1,0 +1,7 @@
+# Exact immutable source scope
+
+Five source files161,071B are pinned by source path, commit, Git blob and SHA256. The frozen lead screen reports7FP/16pads/30segments/0vias, one original F.Cu+B.Cu GND zone and exact flat rawSCH↔PCB reference/value/footprint/property matches. That screen is not effective native field/parity/DRC proof. No custom pads, net ties, keepouts, custom DRU, excludedDRC entries, local FP/symbol tables or hierarchy sheets appear in the inspected complete repository tree. Five unique optional stock3D references remain unclosed.
+
+Current static refusal is two unknown rule-severity semantics, missing_tuning_profile warning and track_on_post_machined_layer error. Original sourcePCB20260206 and SCH20260306 must load unchanged in actual pinnedKiCad. Do not drop rule keys, change versions/severities, suppress warning scope or manufacture source repair. Complete native originals, library/field parity, connectivity, fresh savedfill, DSN/import, functional/pedigree evidence remain unverified. MIT root project scope/absence of hardware-specificREADME sentence remains recorded, and external models receive no inferred license.
+
+Pure tests use tiny temporary-owned .data roots and actual cached bytes with explicit Git seams; they also read-back the actual389file .data baseline without writes. They cannot establish installation independence, source native quality or routing improvement. Eight controls passed in0.395s during preparation; ROOT must run targeted integration/legacy controls and actual native stages separately.

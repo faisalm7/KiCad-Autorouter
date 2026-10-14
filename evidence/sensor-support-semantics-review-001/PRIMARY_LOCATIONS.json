@@ -1,0 +1,124 @@
+{
+  "cached_files_rehashed_and_receipt_verified": [
+    {
+      "bytes": 24445,
+      "commit": "0feeca2a807f428ad2b3fa7c1e39625cb769f02c",
+      "local_path": ".runs/support-scope-review-001/source/pcbnew/drc/drc_item.cpp",
+      "sha256": "ab014f2d70866bb1da53773b55fb3ce9912af501fa49c08b3a6f697dcdac3f51",
+      "upstream_path": "pcbnew/drc/drc_item.cpp",
+      "url": "https://raw.githubusercontent.com/KiCad/kicad-source-mirror/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/pcbnew/drc/drc_item.cpp"
+    },
+    {
+      "bytes": 70988,
+      "commit": "0feeca2a807f428ad2b3fa7c1e39625cb769f02c",
+      "local_path": ".runs/support-scope-review-001/source/pcbnew/board_design_settings.cpp",
+      "sha256": "1e9176e7273612767cf1ec21992ac0cc75f157f6929097c71ab160f90711a731",
+      "upstream_path": "pcbnew/board_design_settings.cpp",
+      "url": "https://raw.githubusercontent.com/KiCad/kicad-source-mirror/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/pcbnew/board_design_settings.cpp"
+    },
+    {
+      "bytes": 20847,
+      "commit": "0feeca2a807f428ad2b3fa7c1e39625cb769f02c",
+      "local_path": ".runs/support-scope-review-001/source/pcbnew/drc/drc_test_provider_misc.cpp",
+      "sha256": "1f51a3b790d287409d939d90453be6691e310ae3843ec8f39451c30f628d9388",
+      "upstream_path": "pcbnew/drc/drc_test_provider_misc.cpp",
+      "url": "https://raw.githubusercontent.com/KiCad/kicad-source-mirror/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/pcbnew/drc/drc_test_provider_misc.cpp"
+    },
+    {
+      "bytes": 130033,
+      "commit": "0feeca2a807f428ad2b3fa7c1e39625cb769f02c",
+      "local_path": ".runs/support-scope-review-001/source/pcbnew/pad.cpp",
+      "sha256": "585db35f7e35ac8f781e712507eedc90611708bc36a49606e31176ab7d86ace2",
+      "upstream_path": "pcbnew/pad.cpp",
+      "url": "https://raw.githubusercontent.com/KiCad/kicad-source-mirror/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/pcbnew/pad.cpp"
+    },
+    {
+      "bytes": 11699,
+      "commit": "0feeca2a807f428ad2b3fa7c1e39625cb769f02c",
+      "local_path": ".runs/pic-severity-scope-review-001/source/pcbnew/drc/drc_test_provider_connectivity.cpp",
+      "sha256": "4f2f14e0dfe57faab740781e2a0141e62ba0a1f57cbfec83333d6a25c45217fb",
+      "upstream_path": "pcbnew/drc/drc_test_provider_connectivity.cpp",
+      "url": "https://raw.githubusercontent.com/KiCad/kicad-source-mirror/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/pcbnew/drc/drc_test_provider_connectivity.cpp"
+    },
+    {
+      "bytes": 261784,
+      "commit": "0feeca2a807f428ad2b3fa7c1e39625cb769f02c",
+      "local_path": ".runs/placement-area-export-review-001/source/pcbnew/pcb_io/kicad_sexpr/pcb_io_kicad_sexpr_parser.cpp",
+      "sha256": "78f6380806e15b2a25300f8134c6492cd343d6dfb538546e299d60d26a62ec27",
+      "upstream_path": "pcbnew/pcb_io/kicad_sexpr/pcb_io_kicad_sexpr_parser.cpp",
+      "url": "https://raw.githubusercontent.com/KiCad/kicad-source-mirror/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/pcbnew/pcb_io/kicad_sexpr/pcb_io_kicad_sexpr_parser.cpp"
+    },
+    {
+      "bytes": 124253,
+      "commit": "0feeca2a807f428ad2b3fa7c1e39625cb769f02c",
+      "local_path": ".runs/placement-area-export-review-001/source/pcbnew/pcb_io/kicad_sexpr/pcb_io_kicad_sexpr.cpp",
+      "sha256": "bb199faa5ba4f017188dfac6e87ab75c626aa327560f9bde27989c0313faf647",
+      "upstream_path": "pcbnew/pcb_io/kicad_sexpr/pcb_io_kicad_sexpr.cpp",
+      "url": "https://raw.githubusercontent.com/KiCad/kicad-source-mirror/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/pcbnew/pcb_io/kicad_sexpr/pcb_io_kicad_sexpr.cpp"
+    }
+  ],
+  "commit": "0feeca2a807f428ad2b3fa7c1e39625cb769f02c",
+  "locations": [
+    {
+      "excerpts": [
+        "DRCE_MISSING_TUNING_PROFILE",
+        "missing_tuning_profile",
+        "DRCE_TRACK_ON_POST_MACHINED_LAYER",
+        "track_on_post_machined_layer"
+      ],
+      "lines": "305-315,349,394,472-473",
+      "path": "pcbnew/drc/drc_item.cpp",
+      "proof": "Both exact enum/settings keys are registered and included in user-editable severity list"
+    },
+    {
+      "excerpts": [
+        "m_DRCSeverities[ errorCode ] = RPT_SEVERITY_ERROR;",
+        "rule_severities",
+        "DRCE_MISSING_TUNING_PROFILE"
+      ],
+      "lines": "167-168,209,337-375",
+      "path": "pcbnew/board_design_settings.cpp",
+      "proof": "All errors initialize blocking, missing profile overrides warning; rule_severities getter/setter use registry keys"
+    },
+    {
+      "excerpts": [
+        "testMissingTuningProfiles",
+        "HasTuningProfile",
+        "DRCE_MISSING_TUNING_PROFILE"
+      ],
+      "lines": "530-565,605-612",
+      "path": "pcbnew/drc/drc_test_provider_misc.cpp",
+      "proof": "A referenced nonempty profile absent from loaded definitions emits missing-profile finding"
+    },
+    {
+      "excerpts": [
+        "IsBackdrilledOrPostMachined",
+        "DRCE_TRACK_ON_POST_MACHINED_LAYER"
+      ],
+      "lines": "117-178",
+      "path": "pcbnew/drc/drc_test_provider_connectivity.cpp",
+      "proof": "Connected track/arc to pad/via flagged backdrilled/post-machined emits exact track check"
+    },
+    {
+      "excerpts": [
+        "zone_has_net = zone->IsOnCopperLayer() && !zone->GetIsRuleArea();",
+        "zone->SetNetCode( NETINFO_LIST::UNCONNECTED );"
+      ],
+      "lines": "297-324,8156-8214,8472-8503",
+      "path": "pcbnew/pcb_io/kicad_sexpr/pcb_io_kicad_sexpr_parser.cpp",
+      "proof": "Keepout token marks rule area; rule areas force UNCONNECTED0, then nonempty legacy net_name may overwrite that reset"
+    },
+    {
+      "excerpts": [
+        "aZone->IsOnCopperLayer() && !aZone->GetIsRuleArea() && aZone->GetNetCode() > 0",
+        "island_removal_mode"
+      ],
+      "lines": "2850-2855,3005-3012",
+      "path": "pcbnew/pcb_io/kicad_sexpr/pcb_io_kicad_sexpr.cpp",
+      "proof": "Formatter omits net for every rule area; fill island-removal metadata is a separately serialized known field"
+    }
+  ],
+  "network_fetches": 0,
+  "schema": 1,
+  "tag": "10.0.0"
+}

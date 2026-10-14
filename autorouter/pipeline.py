@@ -26,6 +26,7 @@ from .runner import run
 ROUTES={'segment','via','arc'}
 DERIVED_ZONE={'filled_polygon','fill_segments'}
 CRITICAL_CHECKS={'hole_clearance','hole_to_hole','hole_near_hole','starved_thermal','zones_intersect','padstack','items_not_allowed','through_hole_pad_without_hole','unconnected_items','shorting_items','clearance','track_width','via_diameter','annular_width','drill_out_of_range','copper_edge_clearance','invalid_outline','tracks_crossing'}
+CRITICAL_CHECKS |= {'track_on_post_machined_layer'}
 
 # KiCad 10 keys observed in pinned project settings / native default report.
 KNOWN_CHECKS = CRITICAL_CHECKS | set('annular_width clearance connection_width copper_edge_clearance copper_sliver courtyards_overlap creepage diff_pair_gap_out_of_range diff_pair_uncoupled_length_too_long drill_out_of_range duplicate_footprints extra_footprint footprint footprint_filters_mismatch footprint_symbol_mismatch footprint_type_mismatch hole_clearance hole_near_hole hole_to_hole holes_co_located invalid_outline isolated_copper item_on_disabled_layer items_not_allowed length_out_of_range lib_footprint_issues lib_footprint_mismatch malformed_courtyard microvia_drill_out_of_range mirrored_text_on_front_layer missing_courtyard missing_footprint net_conflict nonmirrored_text_on_back_layer npth_inside_courtyard overlapping_pads padstack pth_inside_courtyard shorting_items silk_edge_clearance silk_over_copper silk_overlap skew_out_of_range solder_mask_bridge starved_thermal text_height text_thickness through_hole_pad_without_hole too_many_vias track_angle track_dangling track_segment_length track_width tracks_crossing unconnected_items unresolved_variable via_dangling zones_intersect track_not_centered_on_via tuning_profile_track_geometries'.split())
@@ -166,6 +167,23 @@ def check_rule_area_support(tree):
 # Registered KiCad10 metadata; global outline-text refusal remains mandatory.
 KNOWN_CHECKS |= {'text_on_edge_cuts'}
 KNOWN_CHECKS |= {'footprint_symbol_field_mismatch'}
+KNOWN_CHECKS |= {'missing_tuning_profile'}
+
+def check_hole_machining_support(tree):
+    """Recognizing KiCad10 severity names does not admit removed copper.
+
+    The pinned pad/via parser supports these four fields. Their geometry has
+    not been qualified through DSN/SES, so refuse even inactive/malformed
+    declarations rather than relying on an editable DRC severity.
+    """
+    fields={'backdrill','tertiary_drill','front_post_machining','back_post_machining'}
+    def visit(node):
+        if not isinstance(node,list) or not node:return
+        if node[0] in fields:raise Rejected('backdrilled/post-machined pads or vias not qualified')
+        for child in node[1:]:visit(child)
+    for fp in sx.children(tree,'footprint'):
+        for pad in sx.children(fp,'pad'):visit(pad)
+    for via in sx.children(tree,'via'):visit(via)
 
 def preflight(board):
     t=sx.read(board)
@@ -186,6 +204,8 @@ def preflight(board):
             if key in CRITICAL_CHECKS and val!='error' and (key,val) not in {('padstack','warning'),('hole_to_hole','warning')}: reasons.append('core native check not blocking: '+key)
     rules=board.with_suffix('.kicad_dru')
     if rules.exists() and rules.read_text().strip(): reasons.append('custom rules not qualified')
+    try: check_hole_machining_support(t)
+    except Rejected as exc: reasons.append(str(exc))
     try: check_rule_area_support(t)
     except Rejected as exc: reasons.append(str(exc))
     try: check_edge_text_support(t)
@@ -323,7 +343,7 @@ def parse_report(path, board_name):
 # Finding types are not project-setting keys: KiCad's padstack_invalid has no
 # editable severity. Keep parse_report's native summary schema unchanged so old
 # evidence can be rechecked under this stricter application acceptance policy.
-CRITICAL_FINDINGS = CRITICAL_CHECKS | {'padstack_invalid','text_on_edge_cuts','net_conflict','footprint_symbol_field_mismatch'}
+CRITICAL_FINDINGS = CRITICAL_CHECKS | {'padstack_invalid','text_on_edge_cuts','net_conflict','footprint_symbol_field_mismatch','missing_tuning_profile'}
 
 
 def native_rejection_reasons(native):
@@ -484,6 +504,7 @@ def audit_route_dimensions(tree, protected, native):
     unchanged geometry remains subject to normal native DRC. This is an exact
     target-preservation scope, not general neckdown/custom-rule support.
     """
+    check_hole_machining_support(tree)
     records={row['name']:row for row in native['nets']}
     names={node[1]:sx.unquote(node[2]) for node in sx.children(tree,'net')}
     checked={'segments':0,'arcs':0,'vias':0,'protected':0}
@@ -579,6 +600,8 @@ def validate_candidate(job, original, candidate, source_hashes, protected, *, gu
     # for every routing scope, including optimizer trials and fresh exports.
     schematic_parity=schematic_parity or Path(candidate).with_suffix('.kicad_sch').name in source_hashes
     check_rule_area_support(original)
+    check_hole_machining_support(original)
+    check_hole_machining_support(sx.read(candidate))
     if guidance_basis is not None and guidance_contract is None:raise Rejected('guidance basis requires a contract')
     if guidance_contract is not None:
         from .floor_route import validate_contract
@@ -600,6 +623,7 @@ def validate_candidate(job, original, candidate, source_hashes, protected, *, gu
     refill=job.out/'refill'/candidate.name
     job.drc('refill-drc',refill,save=True)
     sx.write(candidate,transplant_fill(sx.read(candidate),sx.read(refill)))
+    check_hole_machining_support(sx.read(candidate))
     if immutable(sx.read(candidate))!=immutable(original): raise Rejected('immutable geometry changed after refill')
     if layer_contract is not None:layer_contract['audit']=audit_layer_contract(candidate,layer_contract)
     final_hash=sha(candidate)
@@ -1323,6 +1347,7 @@ def _check_result_uncached(path):
     else:verify_candidate_files(candidate,data['source_hashes'],data['candidate_sha256'])
     original=preflight(source)
     current=sx.read(candidate)
+    check_hole_machining_support(current)
     if immutable(current)!=immutable(original): raise Rejected('immutable geometry changed')
     protected=protected_for_record(data,original)
     if any(route not in routes(current) for route in protected): raise Rejected('protected route changed')

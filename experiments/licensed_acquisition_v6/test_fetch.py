@@ -25,7 +25,7 @@ class Controls(unittest.TestCase):
  def test_profile_census_caps_and_prior_contracts(self):
   self.assertEqual((len(self.rows),sum(x['bytes'] for x in self.rows)),(10,741742));self.assertEqual((self.baseline['file_count'],self.baseline['bytes']),(379,40609257))
   self.assertEqual((f.profile('v1')['bytes'],f.profile('v5')['bytes']),(5016162,146916))
-  with self.assertRaises(ValueError):f.profile('v7')
+  with self.assertRaises(ValueError):f.profile('v8')
   changed=copy.deepcopy(self.plan);changed['caps']['max_requests']=11
   with self.assertRaises(ValueError):f.validate_protocol(changed,self.baseline,'v6')
   for key,val in [('raw_url','https://example.invalid/board'),('destination','als311-clock/other'),('commit','0'*40),('mode','100755')]:

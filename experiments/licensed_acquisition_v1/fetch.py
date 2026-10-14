@@ -52,6 +52,10 @@ PROFILES = {
            'destination_root': 'expansion009', 'directory': 'experiments/licensed_acquisition_v6',
            'output_prefix': 'licensed-acquisition-009-run-', 'files': 10, 'bytes': 741742,
            'identities': [('als311-clock', 'ugolnikovE/als311-clock', '494ab6baf40746d313fe11379425900ebe97c319')]},
+    'v7': {'protocol_sha256': '8a1d89b9f924b1d25d3ff9af855a8e486ced7d01046982fe70ab0322765ab42e',
+           'destination_root': 'expansion010', 'directory': 'experiments/licensed_acquisition_v7',
+           'output_prefix': 'licensed-acquisition-010-run-', 'files': 5, 'bytes': 161071,
+           'identities': [('push-button-led', 'gurusaeth12/push-button-led-kicad', '29c46b7c03d2afd9fe3a58fe2070309b12f94b42')]},
 }
 
 
@@ -287,12 +291,15 @@ def git_identity(root):
 def material_paths(root, here, profile_id='v1'):
     profile(profile_id)
     paths = {name: here / name for name in MATERIAL}
-    if profile_id in ('v2', 'v3', 'v4', 'v5', 'v6'):
+    if profile_id in ('v2', 'v3', 'v4', 'v5', 'v6', 'v7'):
         for name in ('fetch.py', 'test_fetch.py'):
             paths['shared/' + name] = root / PROFILES['v1']['directory'] / name
-    if profile_id in ('v3', 'v4', 'v5', 'v6'):
+    if profile_id in ('v3', 'v4', 'v5', 'v6', 'v7'):
         paths['native_snapshot.py'] = here / 'native_snapshot.py'
     if profile_id=='v6':paths['cache_transport.py']=here/'cache_transport.py'
+    if profile_id=='v7':
+        paths['shared/cache_transport.py']=root/'experiments/licensed_acquisition_v6/cache_transport.py'
+        paths['cache-source-profile.json']=here/'cache-source-profile.json'
     return paths
 
 

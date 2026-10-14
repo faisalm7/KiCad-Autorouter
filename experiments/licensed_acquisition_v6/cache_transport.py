@@ -4,9 +4,10 @@ from pathlib import Path
 from experiments.licensed_acquisition_v1 import fetch as shared
 
 class Cache:
-    def __init__(self,root,plan,rows):
+    def __init__(self,root,plan,rows,*,repository='ugolnikovE/als311-clock',commit='494ab6baf40746d313fe11379425900ebe97c319',file_count=10,profile_metadata_name='acquisition-profile-facts.json',transport_name='fixed-clock-verified-cached-response-v1'):
         self.root=Path(root);self.reuse=copy.deepcopy(plan['cache_reuse']);self.rows=copy.deepcopy(rows)
-        if self.reuse['transport']!='fixed-clock-verified-cached-response-v1' or self.reuse['new_network_requests']!=0:raise ValueError('fixed offline cache contract required')
+        self.repository=repository;self.commit=commit;self.file_count=file_count;self.profile_metadata_name=profile_metadata_name
+        if self.reuse['transport']!=transport_name or self.reuse['new_network_requests']!=0:raise ValueError('fixed offline cache contract required')
         if set(self.reuse['files'])!={r['destination'] for r in rows}:raise ValueError('complete cache population required')
         self.verify()
     def path(self,name):return shared.contained(self.root,self.root/shared.safe(name))
@@ -16,9 +17,9 @@ class Cache:
             raw=shared.bounded(self.path(name))
             if (len(raw),shared.sha(raw))!=(info['bytes'],info['sha256']):raise ValueError('frozen cache lineage metadata changed')
             metadata[Path(name).name]=shared.decode(raw)
-        receipt=metadata['fetch-receipt.json'];profile=metadata['acquisition-profile-facts.json']
-        clocks=[p for p in profile['profiles'] if p['repository']=='ugolnikovE/als311-clock' and p['commit']=='494ab6baf40746d313fe11379425900ebe97c319']
-        if len(clocks)!=1 or len(clocks[0]['files'])!=10:raise ValueError('exact original clock profile required')
+        receipt=metadata['fetch-receipt.json'];profile=metadata[self.profile_metadata_name]
+        clocks=[p for p in profile['profiles'] if p['repository']==self.repository and p['commit']==self.commit]
+        if len(clocks)!=1 or len(clocks[0]['files'])!=self.file_count:raise ValueError('exact original cached profile required')
         sources={r['path']:r for r in clocks[0]['files']}
         for row in self.rows:
             info=self.reuse['files'][row['destination']];raw=shared.bounded(self.path(info['raw_path']));shared.payload(row,raw)

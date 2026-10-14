@@ -11,6 +11,7 @@ from autorouter.runner import run
 from experiments.placement_handoff_native_v1.driver import copy_bytes
 LIMIT=20*1024**2;SECONDS=90
 CASES={
+    'push-button-led':('v7','PushButtonLed.kicad_pcb','29c46b7c03d2afd9fe3a58fe2070309b12f94b42','.runs/licensed-acquisition-010-run-001/receipt.json'),
     'als311-clock':('v6','hardware/hardware.kicad_pcb','494ab6baf40746d313fe11379425900ebe97c319','.runs/licensed-acquisition-009-run-001/receipt.json'),
     'ardujoy-c64':('v4','Ardujoy_HW/Ardujoy_HW.kicad_pcb','1b63471d9726fb6a38f8544ca73ebf10c7f19820','.runs/licensed-acquisition-007-run-001/receipt.json'),
     'nus-usb-led':('v5','src/usb_led.kicad_pcb','ad3fbd582e3915b585c453ea202f591720a1f427','.runs/licensed-acquisition-008-run-001/receipt.json'),
@@ -60,7 +61,7 @@ def experiment(project,output,*,run_native=False):
         except p.Rejected as exc:
             record.update(static_supported=False,static_unsupported_reason=str(exc))
         job=BoundJob(out/'job',SECONDS,remaining)
-        if project=='als311-clock':
+        if project in {'als311-clock','push-button-led'}:
             # Narrow new original diagnostic: no solver/export or repeated
             # source baseline. Exact original-shell candidate, fresh saved fill
             # and complete finalSCH check. Native serialization differences
