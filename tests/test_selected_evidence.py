@@ -71,12 +71,25 @@ class SelectedEvidence(unittest.TestCase):
             'effective':pref.resolve(overrides={'scope':'selected_nets','nets':['GND'],'profile':'completion-only','adapter':'both'}),
             'snapshot':pref.snapshot(overrides={'scope':'selected_nets','nets':['GND'],'profile':'completion-only','adapter':'both'})}
         path.unlink();p.capture_preferences(x.data,x.run,request)
-        base=x.run/'routing-scope-input.dsn';x.data['adapter_transformations']={'output_sha256':p.sha(base)};x.save_receipt()
+        # Model the current corrected adapter stages, including the explicit
+        # unqualified-edge record for this intentionally minimal board fixture.
+        from tests.test_native_edge import DSN
+        from autorouter import adapter,native_edge
+        native=DSN.encode();(x.run/'native.dsn').write_bytes(native)
+        adapted,adapter_record=adapter.adapt_bytes(native,'both',[])
+        corrected,edge_record=native_edge.correct(adapted,p.native_edge_context(x.run/'snapshot'/x.source.name))
+        p.save_json(x.run/'obstacles.json',[]);(x.run/'edge-adapter-input.dsn').write_bytes(adapted)
+        p.save_json(x.run/'native-edge-correction.json',edge_record)
+        base=x.run/'routing-scope-input.dsn';base.write_bytes(corrected)
+        emitted,binding=rs.partition_dsn(corrected,['GND']);(x.run/'task.dsn').write_bytes(emitted)
+        x.data.update(adapter_transformations=adapter_record,native_edge_correction=edge_record,
+            native_dsn_sha256=p.sha(x.run/'native.dsn'),task_dsn_sha256=p.sha(x.run/'task.dsn'),selected_dsn_binding=binding)
+        x.save_receipt()
         self.assertTrue(p.check_result(x.receipt)['current'])
         base.write_bytes(base.read_bytes().replace(b'width 200',b'width 100'))
         emitted,binding=rs.partition_dsn(base.read_bytes(),['GND']);(x.run/'task.dsn').write_bytes(emitted)
         x.data.update(task_dsn_sha256=p.sha(x.run/'task.dsn'),selected_dsn_binding=binding)
         x.data['adapter_transformations']['output_sha256']=p.sha(base);x.save_receipt()
-        with self.assertRaisesRegex(p.Rejected,'original network or class rules'):p.check_result(x.receipt)
+        with self.assertRaisesRegex(p.Rejected,'original network or class rules|native edge correction'):p.check_result(x.receipt)
 
 if __name__=='__main__':unittest.main()

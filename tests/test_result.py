@@ -80,6 +80,7 @@ class ResultFreshnessTests(unittest.TestCase):
             "native_report_sha256": p.sha(self.native),
             "native": p.parse_report(self.native, self.source.name),
             "scope": "whole_board_unlocked_routing",
+            "adapter": "none",  # This generic synthetic seam models raw stock exports.
             "invariants_unchanged": True,
             "whole_project_drc_clean": True,
             "metrics": metrics,

@@ -1,0 +1,14 @@
+{
+  "stage": "targeted iteration preparation",
+  "passed": false,
+  "command": ".venv/bin/python -B -m unittest tests.test_native_edge tests.test_native_edge_record tests.test_adapter tests.test_selected_receipts tests.test_native_class_readback -q",
+  "tests": 25,
+  "errors": 4,
+  "reported_seconds": 0.15,
+  "whole_command_wall_seconds": 0.200700458,
+  "reasons": [
+    "three EdgeRecord setUp errors: PROJECT fixture is dict, DSN is str; writer incorrectly treated both as bytes",
+    "one requested test_selected_receipts module does not exist"
+  ],
+  "new_native_execution": false
+}

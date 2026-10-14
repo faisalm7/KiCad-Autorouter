@@ -1,0 +1,39 @@
+{
+  "accepted": false,
+  "cause": "Preexisting completed-prefix branch assigned a metadata dictionary to allocation, shadowing the new policy parameter. Low64 ran with dictionary allocation metadata, then row verification stopped High54.",
+  "demonstrated_reason": "Rejected: trial differs from its recorded allocation",
+  "fix": "Rename only completed-prefix metadata local to prefix_allocation; keep protocol/summary completed_prefix_allocation payload and remaining policy unchanged.",
+  "full040_log_sha256": "f69de168454933dabf144b3c19069417acb8449c87ea46c65ec1089c49df41f9",
+  "kind": "demonstrated completed-prefix variable shadowing regression fix",
+  "new_engine_execution": false,
+  "new_native_execution": false,
+  "restored_control": {
+    "all_variants_attempted": true,
+    "allocation": "remaining",
+    "combined_prior_new_full_cpu_seconds": 43.0,
+    "combined_prior_new_wall_seconds": 41.0,
+    "new_variants": [
+      [
+        "via_low",
+        64.0
+      ],
+      [
+        "via_high",
+        54.0
+      ]
+    ]
+  },
+  "retained_before_fix_sha256": "b79b178ac0891f425f19f177072be372b3b86f0698c3a4b69a991fd1b3349579",
+  "schema": 1,
+  "scope": "Pure existing continuation fixture and regression controls only. Full040 failure and exact pre-fix returnedreason/dictionary remain retained. Lead owns next full integration/native qualification; no original project/trial/native evidence changed.",
+  "source_sha256": {
+    "scripts/experiment_portfolio.py": "8477cfa084bf7351eff8b18f58529a73437f1f0891513e13935628ca99ed07ff",
+    "tests/test_portfolio_allocation.py": "92a10cc6bdc0b6d2605b7526eacc526ecee94413059655606309fa5c03fd9415"
+  },
+  "targeted_tests": {
+    "command": ".venv/bin/python -B -m unittest tests.test_portfolio tests.test_portfolio_resume tests.test_portfolio_completed_resume tests.test_portfolio_allocation -q",
+    "passed": true,
+    "reported_seconds": 0.364,
+    "tests": 50
+  }
+}

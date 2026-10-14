@@ -1,0 +1,21 @@
+E
+======================================================================
+ERROR: test_retained_raw_and_adapted_exports_reject_missing_or_changed_bytes (test_result.ResultFreshnessTests.test_retained_raw_and_adapted_exports_reject_missing_or_changed_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_result.py", line 114, in test_retained_raw_and_adapted_exports_reject_missing_or_changed_bytes
+    self.assertTrue(p.check_result(self.receipt)["current"])
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 1378, in check_result
+    if state is None:return _check_result_uncached(path)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 1596, in _check_result_uncached
+    check_native_edge_transport(path.parent,data)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 829, in check_native_edge_transport
+    raise Rejected('new native adapter receipt lost its edge transport record')
+autorouter.pipeline.Rejected: new native adapter receipt lost its edge transport record
+
+----------------------------------------------------------------------
+Ran 1 test in 0.043s
+
+FAILED (errors=1)

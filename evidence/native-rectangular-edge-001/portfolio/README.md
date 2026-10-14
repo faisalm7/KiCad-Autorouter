@@ -1,0 +1,7 @@
+Opt-in balanced bounded portfolio allocation
+
+experiment(..., allocation="remaining", budget=120, outer_ceiling=900) preserves the legacy default. A new prospective caller may explicitly choose allocation="balanced" and a budget within a declared operational ceiling<=900. Each attempt divides its actual remaining wall/CPU allowance after the original15second root finalization reserve by the number of unattempted fixed Default/Low/High variants. The existing route helper retains all engine grace/native reserves; insufficient meaningful allocations skip with explicit IDs/reasons. No board identity or outcome chooses the allocation.
+
+All attempted, failed and skipped variants remain in summary coverage. all_variants_attempted is separate from existing comparison_eligible, which continues to mean selected-candidate eligibility for legacy compatibility. Strong baseline claims additionally require complete meaningful variant coverage. Trial allocation metadata and assigned native/engine budgets are replay checked; rank/frontier and receipt checks remain shared. Old resume paths remain remaining-only within120 and refuse balanced/extended budgets before prefix I/O.
+
+43 targeted portfolio/resume/allocation controls passed. The first test harness imported a unittest class directly and duplicated16 preexisting cases; the module-alias correction removed those duplicates before the final run. No Native/JVM, full suite, source-board modification, benchmark competitor or backup ran. Lead owns paired caps/inherited accounting and actual native comparisons.

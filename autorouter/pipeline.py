@@ -632,6 +632,9 @@ def check_pour_evidence(directory,data,original,candidate,*,source_hashes=None,c
         raise Rejected('missing/downgraded pour DSN correction lineage')
     from .adapter import adapt_bytes
     adapted,adapter_record=adapt_bytes(corrected,data['adapter'],f.read_json(directory/'obstacles.json'))
+    if 'native_edge_correction' in data:
+        from . import native_edge
+        adapted,_=native_edge.correct(adapted,native_edge_context(directory/'snapshot'/candidate.name))
     engine_input=directory/('routing-scope-input.dsn' if data.get('scope')=='selected_nets' else 'task.dsn')
     if read_bytes(engine_input)!=adapted or f.canonical(data.get('adapter_transformations'))!=f.canonical(adapter_record):
         raise Rejected('pour corrected-to-adapter engine input differs')
@@ -795,6 +798,52 @@ def engine_baseline(profile,adapter):
     if profile=='tuned': return 'B2_tuned'
     if profile=='standard': return 'B0' if adapter=='none' else 'B1'
     raise Rejected('unknown engine profile')
+
+
+def native_edge_context(board):
+    """Use exact original files and the existing custom-rule support boundary."""
+    from . import native_edge
+    from .placement_clearance import read_bytes
+    board=Path(board)
+    context=native_edge.derive_context(read_bytes(board),read_bytes(board.with_suffix('.kicad_pro')))
+    rules=board.with_suffix('.kicad_dru')
+    if rules.exists() or rules.is_symlink():
+        context.update(applicable=False,reason='edge transport with custom-rule companion is unqualified')
+    return context
+
+
+def check_native_edge_transport(directory,data):
+    """Replay the narrow edge-only correction from unchanged snapshot bytes."""
+    from . import native_edge,adapter
+    from .placement_clearance import read_bytes
+    from .floor_route import read_json,canonical
+    directory=Path(directory); marker=directory/'native-edge-correction.json';prior=directory/'edge-adapter-input.dsn'
+    if ('native_edge_correction' not in data and not marker.exists() and not marker.is_symlink()
+            and not prior.exists() and not prior.is_symlink()):
+        direct_native=('engine_budget' in data
+            or any((directory/name).exists() or (directory/name).is_symlink() for name in ('native.dsn','engine-process.json'))
+            or any(step.get('name')=='engine' and step.get('cwd')==str(directory) for step in data.get('steps',[])))
+        if (data.get('input_policy','native')=='native' and data.get('adapter')!='none'
+                and direct_native
+                and 'autorouter/native_edge.py' in data.get('tools',{}).get('implementation_sha256',{})):
+            raise Rejected('new native adapter receipt lost its edge transport record')
+        return
+    if data.get('input_policy','native')!='native' or data.get('adapter')=='none':
+        raise Rejected('edge correction requires corrected native adapter lineage')
+    board=directory/'snapshot'/Path(data['source']).name
+    if tree_hash(board.parent)!=data['source_hashes']:
+        raise Rejected('edge correction original snapshot differs')
+    context=native_edge_context(board)
+    base=directory/('pour-corrected.dsn' if 'pour_dsn_correction' in data else 'native.dsn')
+    adapted,adapter_record=adapter.adapt_bytes(read_bytes(base),data['adapter'],read_json(directory/'obstacles.json'))
+    corrected,record=native_edge.correct(adapted,context)
+    engine_input=directory/('routing-scope-input.dsn' if data.get('scope')=='selected_nets' else 'task.dsn')
+    if (read_bytes(prior)!=adapted or read_bytes(engine_input)!=corrected
+            or canonical(data.get('native_edge_correction'))!=canonical(record)
+            or canonical(read_json(marker))!=canonical(record)
+            or canonical(data.get('adapter_transformations'))!=canonical(adapter_record)):
+        raise Rejected('native edge correction input, source rule or metadata differs')
+    return record
 
 
 def capture_preferences(report, output, request):
@@ -1015,7 +1064,7 @@ def check_preferences_record(directory, data):
         if data['adapter']=='none':
             if read_bytes(Path(directory)/'native.dsn',20*1024**2)!=read_bytes(Path(directory)/'routing-scope-input.dsn',20*1024**2):
                 raise Rejected('selected-net unadapted export differs')
-        elif data.get('adapter_transformations',{}).get('output_sha256')!=dsn_binding['input_sha256']:
+        elif (data.get('native_edge_correction') or data.get('adapter_transformations',{})).get('output_sha256')!=dsn_binding['input_sha256']:
             raise Rejected('selected-net adapter/partition lineage differs')
         from .adapter import _parse_dsn
         if sx.one(_parse_dsn(read_bytes(Path(directory)/'native.dsn',20*1024**2).decode()),'network')!=sx.one(_parse_dsn(read_bytes(Path(directory)/'routing-scope-input.dsn',20*1024**2).decode()),'network'):
@@ -1135,6 +1184,12 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
             from .adapter import adapt_dsn
             job.native('obstacles','obstacles',candidate,output/'obstacles.json')
             report['adapter_transformations']=adapt_dsn(output/'task.dsn',adapter,json.loads((output/'obstacles.json').read_text()))
+            from . import native_edge
+            shutil.copy2(output/'task.dsn',output/'edge-adapter-input.dsn')
+            corrected,edge_record=native_edge.correct((output/'task.dsn').read_bytes(),native_edge_context(snapshot))
+            (output/'task.dsn').write_bytes(corrected)
+            save_json(output/'native-edge-correction.json',edge_record)
+            report['native_edge_correction']=edge_record
         if policy is not None:
             report['netclass_task_audit']=audit_dsn(output/'task.dsn',native_classes,json.loads(candidate.with_suffix('.kicad_pro').read_text()),parent_policy=parent_classes)
         selection_argument=None
@@ -1538,6 +1593,7 @@ def _check_result_uncached(path):
         sandboxed=input_policy in {'board-floors-v1','placement-clearance-v1','placement-search-v1',ps.POLICY})
     if any(step.get('status')=='cancelled' or step.get('cleanup_complete') is not True for step in steps): raise Rejected('cancelled or incomplete process cleanup in receipt')
     check_pour_evidence(path.parent,data,original,candidate)
+    check_native_edge_transport(path.parent,data)
     check_preferences_record(path.parent,data)
 
     if 'engine_budget' in data:

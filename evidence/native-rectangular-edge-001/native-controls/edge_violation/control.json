@@ -1,0 +1,172 @@
+{
+  "case": "edge_violation",
+  "expected_accepted": false,
+  "source_hashes": {
+    "smoke.kicad_pcb": "50f073db41d453d5fc2ae95a358a49f18edd1d768be2df8c8b2841b923107aec",
+    "smoke.kicad_pro": "a5a56c582c09873bd22924ef9798bedab09f9557542a3417a1335597f966bc5a"
+  },
+  "accepted": false,
+  "candidate_sha256": "939e039f01028c594b99b5fd650fbf0f2aaeb81aa5029fcfe4a2ca603ba8a277",
+  "native": {
+    "opens": 0,
+    "blocking": 1,
+    "warnings": 0,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "Footprint component type doesn't match footprint pads",
+        "key": "footprint_type_mismatch"
+      }
+    ],
+    "findings": [
+      {
+        "description": "Board edge clearance violation (board setup constraints edge clearance 0.3000 mm; actual 0.2500 mm)",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 5.0,
+              "y": 5.0
+            },
+            "uuid": "70fdbf7d-540b-5461-b8a6-f5012ab36873"
+          },
+          {
+            "description": "Via [GND] on F.Cu - B.Cu",
+            "pos": {
+              "x": 44.45,
+              "y": 30.0
+            },
+            "uuid": "6a538fe9-d9a4-521a-b029-c4b7f5527f3e"
+          }
+        ],
+        "severity": "error",
+        "type": "copper_edge_clearance"
+      }
+    ]
+  },
+  "native_rejection_reasons": [
+    "native blocking=1",
+    "native error finding: copper_edge_clearance",
+    "policy-critical native finding: copper_edge_clearance (error)"
+  ],
+  "steps": [
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.028678292001132,
+      "cpu_seconds": 0.395469,
+      "max_rss_bytes": 102612992,
+      "supervisor_cpu_seconds": 0.010191999999999979,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 100810752,
+      "sampled_peak_workdir_bytes": 100024,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-controls-001/edge_violation/refill-drc.json",
+        "--save-board",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-controls-001/edge_violation/refill/smoke.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-controls-001/edge_violation/refill-drc.log",
+      "log_bytes": 185,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-controls-001/edge_violation",
+      "signal_cancellation_enabled": true,
+      "pid": 156,
+      "name": "refill-drc",
+      "validated_input_sha256": "939e039f01028c594b99b5fd650fbf0f2aaeb81aa5029fcfe4a2ca603ba8a277",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-controls-001/edge_violation/refill/smoke.kicad_pcb"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.0210557499958668,
+      "cpu_seconds": 0.400251,
+      "max_rss_bytes": 102367232,
+      "supervisor_cpu_seconds": 0.007904000000000022,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 101187584,
+      "sampled_peak_workdir_bytes": 122525,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-controls-001/edge_violation/final-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-controls-001/edge_violation/final-drc-input/smoke.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-controls-001/edge_violation/final-drc.log",
+      "log_bytes": 172,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-controls-001/edge_violation",
+      "signal_cancellation_enabled": true,
+      "pid": 157,
+      "name": "final-drc",
+      "validated_input_sha256": "939e039f01028c594b99b5fd650fbf0f2aaeb81aa5029fcfe4a2ca603ba8a277",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-controls-001/edge_violation/candidate/smoke.kicad_pcb"
+    }
+  ],
+  "passed": true
+}

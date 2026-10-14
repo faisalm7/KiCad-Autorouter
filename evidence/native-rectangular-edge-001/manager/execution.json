@@ -1,0 +1,53 @@
+{
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 0.8663957500248216,
+    "cpu_seconds": 1.563704,
+    "max_rss_bytes": 223379456,
+    "supervisor_cpu_seconds": 0.005677000000000015,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 218595328,
+    "sampled_peak_workdir_bytes": 74088,
+    "resource_guards": {
+      "max_group_rss_bytes": 1073741824,
+      "max_workdir_bytes": 4194304,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java",
+      "-Xmx512m",
+      "-XX:ActiveProcessorCount=1",
+      "-Djava.awt.headless=true",
+      "--class-path",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/CellScanEdgeManagerProbe.java",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/cellscan-edge-manager-import-001",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/cellscan-edge-manager-import-001/observation.json"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/cellscan-edge-manager-import-001/command.log",
+    "log_bytes": 124,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/cellscan-edge-manager-import-001",
+    "signal_cancellation_enabled": true,
+    "pid": 99802
+  },
+  "wall_seconds": 0.8664747080183588,
+  "full_cpu_seconds": 1.569458,
+  "protocol_sha256": "d6e0dc0ecd08ad1c0118a5a19b35c1377245fd503734638dac6cb4eac4bc3048",
+  "native_engine_binaries_unchanged": true
+}

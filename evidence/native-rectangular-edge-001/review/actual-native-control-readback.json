@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "new_native_or_engine_run": false,
+  "source_tree_current": true,
+  "controls": [
+    {
+      "case": "positive",
+      "final_hash_and_native_stage_readback_passed": true,
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0
+      },
+      "report_sha256": "7239c223be43cccd66fa6df6db291a71abad99875e5bf4855dda208378f786fa"
+    },
+    {
+      "case": "edge_violation",
+      "final_hash_and_native_stage_readback_passed": true,
+      "native": {
+        "opens": 0,
+        "blocking": 1,
+        "warnings": 0,
+        "exclusions": 0
+      },
+      "report_sha256": "b310a737b8a06ebf5c30256485ecafdfbcceecce349d8365500aaaddd6997d1f"
+    },
+    {
+      "case": "rule_tamper",
+      "actual_relaxed_diagnostic_native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0
+      },
+      "semantic_rejection": "Rejected: candidate project/rules/file set changed",
+      "report_sha256": "19587f6200779032f9a1a97318063601556d4c60ab23d76bb6b6d42cebbc1523"
+    }
+  ]
+}

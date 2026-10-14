@@ -1,0 +1,80 @@
+{
+  "accepted": false,
+  "code_sha256": {
+    "autorouter/native_edge.py": "d66f287319189ca0925072a41942ec06f4d8b259966e511d16f9ebcdb52505c1",
+    "tests/test_native_edge.py": "8d0fbc803e6ad8dbb201cc17dc7cc519a5ef3bfc436dd94a949d8faad9ca3141"
+  },
+  "current_exact_source_pure_probe": {
+    "context": {
+      "applicable": true,
+      "original_min_copper_edge_clearance_mm": "0.3",
+      "policy": "native-rectangular-edge-v1",
+      "reason": "original Default-only root rectangular edge scope",
+      "rect_um": [
+        "87950",
+        "-168495",
+        "187950",
+        "-18495"
+      ],
+      "requested_clearance_um": "300",
+      "requires_no_custom_rule_companion": true,
+      "schema": 1,
+      "source_edge_sha256": "01d64c7fcdfe3f87328f9dafdfc40ebe477c08d5748ce0df296526ec10e01686",
+      "source_sha256": {
+        "board": "7ac362bbe4e5145c946ab272be56929376dc3c9227a09283de557fc7925da472",
+        "project": "5bdf6087f5b44ee3c31518d034267f1146e4db7f467b9374d89a0d036fe564e2"
+      }
+    },
+    "full_cpu_seconds": 0.135812,
+    "input_dsn_sha256": "b159e932df0de072640cb81d030863623a378ed926032bcaeeab3671c41f9784",
+    "manager_import_input_sha256": "4c08ec3225ec65374801ec56f9e4ca51f84dd8ce4cb01beca5068c1340015029",
+    "manager_import_observed_bytes_match": true,
+    "record": {
+      "applied": true,
+      "clearance_class": "kicadedge",
+      "context_sha256": "6f47fe1a91e96bcac804725e5bb9df16e4633956a0abcea9a8283b483148b0c6",
+      "exact_edge_only_ast_edit": true,
+      "input_sha256": "b159e932df0de072640cb81d030863623a378ed926032bcaeeab3671c41f9784",
+      "native_project_modified": false,
+      "original_min_copper_edge_clearance_mm": "0.3",
+      "output_sha256": "4c08ec3225ec65374801ec56f9e4ca51f84dd8ce4cb01beca5068c1340015029",
+      "policy": "native-rectangular-edge-v1",
+      "reason": "exact original edge minimum encoded for default/SMD/self pairs",
+      "rect_um": [
+        "87950",
+        "-168495",
+        "187950",
+        "-18495"
+      ],
+      "requested_clearance_um": "300",
+      "requires_no_custom_rule_companion": true,
+      "routing_accepted": false,
+      "schema": 1,
+      "source_edge_sha256": "01d64c7fcdfe3f87328f9dafdfc40ebe477c08d5748ce0df296526ec10e01686",
+      "source_sha256": {
+        "board": "7ac362bbe4e5145c946ab272be56929376dc3c9227a09283de557fc7925da472",
+        "project": "5bdf6087f5b44ee3c31518d034267f1146e4db7f467b9374d89a0d036fe564e2"
+      }
+    },
+    "wall_seconds": 0.13776183300069533
+  },
+  "kind": "pure original edge-rule context and exact DSN transform development controls",
+  "limitations": [
+    "Tests establish pure declared AST edit and rejection controls only; lead owns integration/native qualification.",
+    "Two input byte strings do not establish absence of a separate .kicad_dru file; context and record explicitly require caller preflight.",
+    "Coordinates not exact on declared integer DSN export grid reject rather than introduce unqualified rounding or padding.",
+    "Existing clearance classes, named item classes, extra rule scopes, typed unknown clearances, duplicate namespaces and ambiguous units reject.",
+    "No original source/rules, existing candidate receipts, native reports, controller/protocols or comparison acceptance criteria were modified."
+  ],
+  "new_engine_execution": false,
+  "new_native_execution": false,
+  "production_support_qualified": false,
+  "schema": 1,
+  "scope": "Default-only unassigned project; one original root axis-aligned gr_rect and no other Edge.Cuts, embedded custom rules or rounding ambiguity. Caller must gate external custom-rule companions. Explicit finite nonnegative original minimum; zero/missing/unsupported scope leaves DSN bytes untouched.",
+  "targeted_tests": {
+    "command": ".venv/bin/python -B -m unittest tests.test_native_edge tests.test_adapter -q",
+    "passed": true,
+    "reported_seconds": 0.03,
+    "tests": 18
+  }
+}

@@ -4,7 +4,7 @@ October 14, 2026 UTC. [Exact preceding matrix](docs/history/2026-10-14-c7ffada/R
 
 | Requirement | Implemented check and actual evidence | Remaining gate / limit |
 |---|---|---|
-| G0 local checkpoint | Darwin/local branch; staged audit and independent GitHub SHA/file readback, latest verified74b9e93e; new routing-failure checkpoint pending | Public audited development backups only; no formal publication |
+| G0 local checkpoint | Darwin/local branch; staged audit and independent GitHub SHA/file readback, latest verified118ece3e; new edge-correction checkpoint pending | Public audited development backups only; no formal publication |
 | Offline native routing | pipeline/native/runner, pinned KiCad10/FR2.5/Java25.0.2; actual positives/invalid controls | Qualified Mac only; no runtime AI/account/network |
 | Original constraints / protected copper | preflight/immutable/scope/layer and original-rule checks; actual protected import/invalid controls | Unknown/custom/advanced semantics block; no weakening |
 | Final native proof | saved refill/full DRC/connectivity/class targets/pour/protection/report hashes | Missing/stale/corrupt/unsupported proof rejects |
@@ -27,3 +27,5 @@ October 14, 2026 UTC. [Exact preceding matrix](docs/history/2026-10-14-c7ffada/R
 Detailed evidence, versions, costs and original warnings are in [STATUS](STATUS.md) and each linked packet. Formal release/package publication, external spending/contacts and private uploads remain unapproved. Native acceptance, whole-project DRC cleanliness and physical/electrical approval are distinct; all accepted development circuits retain warnings. Old Analog defaultC is a one-via tradeoff; separately fixed fresh-High C197.775756mm/zero vias improves over strongB2 by31.704900mm, full120caps and cumulative15audit closure pass. All data exposed, zero proven pedigrees.
 
 CellScan adds a larger measured failure, not a completion gain: all four120 arms reject; B2 Low/High remain unattempted. Distinct cumulative240 B1 completes connections but fails original0.3000mm edge clearance with actual0.2827mm gap; all209 original warnings remain. Shared final native/original checks and cumulative15 audit close. [Failure/transport evidence](evidence/cellscan-routing-failures-001/SCOPE.md). A narrow edge adapter correction remains unqualified until full-load/native controls pass; any correction goes equally to corrected baselines and C.
+
+Narrow rectangle/Default-only edge transport now has actual post-load matrix and Native positive/invalid/rule-tamper controls, plus a fixed independently reproduced metadata-removal guard. Full041 passes1041 checks/35.753986wall33.045024CPU, after retained040portfolio regression. [Current source milestone](evidence/native-rectangular-edge-001/SCOPE.md). Fresh real engine correction and installation of these later bytes remain unqualified; earlier020 handoff stays separate.

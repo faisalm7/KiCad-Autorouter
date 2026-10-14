@@ -74,6 +74,7 @@ def final_candidate_readback(folder, data, board, original, source_hashes, *, re
         raise p.Rejected('final protected copper differs')
     p.check_protected_import(folder,data,original,candidate,protected)
     p.check_pour_evidence(folder,data,original,candidate,correction=data.get('adapter') in ('planes','both'))
+    p.check_native_edge_transport(folder,data)
     if resource_parent is None:p.check_resource_accounting(data)
     else:inherited_trial_accounting(folder,data,resource_parent)
     before = dict(source_hashes)

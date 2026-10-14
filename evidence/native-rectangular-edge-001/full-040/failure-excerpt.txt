@@ -1,0 +1,19 @@
+FAIL: test_only_unattempted_variants_and_full_prior_cost (test_portfolio_completed_resume.CompletedResumeControls.test_only_unattempted_variants_and_full_prior_cost)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_portfolio_completed_resume.py", line 57, in test_only_unattempted_variants_and_full_prior_cost
+    self.assertEqual(self.calls,[('via_low',64.),('via_high',54.)])
+AssertionError: Lists differ: [('via_low', 64.0)] != [('via_low', 64.0), ('via_high', 54.0)]
+
+Second list contains 1 additional elements.
+First extra element 1:
+('via_high', 54.0)
+
+- [('via_low', 64.0)]
++ [('via_low', 64.0), ('via_high', 54.0)]
+
+----------------------------------------------------------------------
+Ran 1040 tests in 35.616s
+
+FAILED (failures=1)
+{"status": "completed", "summary": "/private/var/folders/g4/gcs4p1q561qgx6k1kqjr28600000gn/T/tmp2_57vcii/.runs/paired/paired-summary.json"}

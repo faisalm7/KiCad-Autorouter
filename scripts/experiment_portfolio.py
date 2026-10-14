@@ -27,6 +27,7 @@ from autorouter import config as c, pipeline as p, floor_route as f, placement_c
 from scripts import experiment_quality as q
 
 BUDGET = 120.0
+MAX_OPERATIONAL_BUDGET = 900.0
 FINAL_RESERVE = 15.0
 VARIANTS = ('via_default', 'via_low', 'via_high')
 SCRIPT = Path(__file__).resolve()
@@ -73,6 +74,17 @@ def verify_row(row, board, frozen):
     the retained receipt, metrics, and profile to the predeclared experiment.
     Neither function authenticates mutable JSON.
     """
+    if not q.finite_nonnegative(row.get('assigned_seconds')) or not 0 < row['assigned_seconds'] <= MAX_OPERATIONAL_BUDGET:
+        raise p.Rejected('invalid bounded assigned trial allowance')
+    allocation_keys={'allocation','remaining_wall_full_cpu_seconds_at_assignment','unattempted_variants_at_assignment'}
+    if allocation_keys & row.keys():
+        if (not allocation_keys<=row.keys() or row['allocation'] not in ('remaining','balanced')
+                or not q.finite_nonnegative(row['remaining_wall_full_cpu_seconds_at_assignment'])
+                or type(row['unattempted_variants_at_assignment']) is not int
+                or row['unattempted_variants_at_assignment']!=len(VARIANTS)-row['index']
+                or not 1<=row['unattempted_variants_at_assignment']<=len(VARIANTS)
+                or row['assigned_seconds']!=(row['remaining_wall_full_cpu_seconds_at_assignment']-FINAL_RESERVE)/(row['unattempted_variants_at_assignment'] if row['allocation']=='balanced' else 1)):
+            raise p.Rejected('trial differs from its recorded allocation')
     receipt = Path(row['result'])
     if receipt.is_symlink() or p.sha(receipt) != row['result_sha256']:
         raise p.Rejected('trial receipt changed')
@@ -142,6 +154,8 @@ def compatible_resume_freeze(old,current):
 
 def resume_basis(path,pin,board,current,budget,project_name,guidance_policy):
     """Read a prospectively pinned, single completed-default failure prefix."""
+    if not q.finite_nonnegative(budget) or not 60<=budget<=BUDGET:
+        raise p.Rejected('resume remains within its legacy120 planning budget')
     path=_resume_path(path);raw=pc.read_bytes(path,32*1024*1024)
     if hashlib.sha256(raw).hexdigest()!=pin:raise p.Rejected('resume plan pin differs')
     plan=json.loads(raw);directory=_resume_path(plan['old_directory']);base=directory.parent
@@ -187,6 +201,7 @@ def resume_basis(path,pin,board,current,budget,project_name,guidance_policy):
             or old.get('protocol_sha256')!=plan['artifacts'][str(directory/'protocol.json')]
             or any(old.get(k)!=old_budget or protocol.get(k)!=old_budget for k in ('wall_budget_seconds','cpu_budget_seconds'))
             or protocol.get('variants')!=list(VARIANTS) or protocol.get('fixed_order') is not True
+            or protocol.get('allocation','remaining')!='remaining' or old.get('allocation','remaining')!='remaining'
             or protocol.get('guidance_policy') is not None or protocol.get('source')!=str(board)
             or protocol.get('scoring')!={name:p.engine_scoring_settings(name) for name in VARIANTS}
             or protocol.get('root_finalization_reserve_seconds')!=FINAL_RESERVE
@@ -242,9 +257,15 @@ def trial_freeze(protocol,row):
 
 
 def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET,
-               resume_plan=None, resume_plan_sha256=None):
+               resume_plan=None, resume_plan_sha256=None, allocation='remaining',
+               outer_ceiling=MAX_OPERATIONAL_BUDGET):
     if guidance_policy not in (None,'placement-search-v1'):raise p.Rejected('unsupported portfolio guidance')
-    if not q.finite_nonnegative(budget) or not 60<=budget<=BUDGET:raise p.Rejected('invalid bounded portfolio allowance')
+    if (allocation not in ('remaining','balanced') or not q.finite_nonnegative(outer_ceiling)
+            or not 60<=outer_ceiling<=MAX_OPERATIONAL_BUDGET
+            or not q.finite_nonnegative(budget) or not 60<=budget<=outer_ceiling):
+        raise p.Rejected('invalid bounded portfolio allowance or allocation')
+    if resume_plan is not None and (allocation!='remaining' or budget>BUDGET):
+        raise p.Rejected('resume requires legacy remaining allocation within120')
     started, cpu_started = time.monotonic(), q.total_process_cpu()
     if (resume_plan is None)!=(resume_plan_sha256 is None):raise p.Rejected('resume requires plan and exact SHA together')
     prior_wall=prior_cpu=0.;basis=None
@@ -263,6 +284,7 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
     summary = {'schema': 1, 'kind': 'experimental_baseline_portfolio', 'status': 'incomplete',
                'comparison_eligible': False, 'selected': None, 'trials': [], 'pareto_frontier': [], 'guidance_policy':guidance_policy,
                'wall_budget_seconds': budget, 'cpu_budget_seconds': budget,
+               'allocation':allocation, 'operational_outer_ceiling_seconds':outer_ceiling,
                'cpu_enforcement': 'postcompletion acceptance cap; no total-CPU preemption',
                'selection_rule': 'minimum (native via count, native track length, fixed attempt index)',
                'started_utc': started_utc,
@@ -310,11 +332,13 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
             if p.sha(copied) != digest:
                 raise p.Rejected('frozen code changed while copying')
         protocol = {'schema': 1, 'family': family, 'source': str(board), 'freeze': frozen,
+                    'allocation':allocation, 'operational_outer_ceiling_seconds':outer_ceiling,
                     'variants': list(VARIANTS), 'fixed_order': True, 'guidance_policy':guidance_policy,
                     'scoring': {name: p.engine_scoring_settings(name) for name in VARIANTS},
                     'selection_rule': summary['selection_rule'], 'wall_budget_seconds': budget,
                     'cpu_budget_seconds': budget, 'root_finalization_reserve_seconds': FINAL_RESERVE,
-                    'attempt_allocation': 'min(remaining global wall, remaining global CPU) minus finalization reserve; route helper then withholds its engine grace/native reserves',
+                    'attempt_allocation': ('min(remaining global wall, remaining global CPU) minus finalization reserve; route helper then withholds its engine grace/native reserves' if allocation=='remaining' else
+                        '(min(remaining global wall, remaining global CPU) minus finalization reserve) / unattempted variants; route helper preserves its engine grace/native reserves'),
                     'constraints': 'same immutable source, targets, adapter, native validation, and per-board support policy for every attempt',
                     'validation': 'every accepted trial receives native validation; final selection rechecks exact unchanged receipt/candidate. No candidate is copied or mutated during selection.',
                     'cpu_accounting': 'RUSAGE_SELF + RUSAGE_CHILDREN deltas over this whole invocation, including all setup, attempts, checks, and selection; never sum nested receipt CPU into this value',
@@ -322,10 +346,10 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
         if basis:
             protocol.update(schema=2,resume=basis)
             if basis['plan']['policy']==COMPLETED_PREFIX_POLICY:
-                allocation={'policy':COMPLETED_PREFIX_POLICY,'old_budget_seconds':basis['plan']['old_budget_seconds'],
+                prefix_allocation={'policy':COMPLETED_PREFIX_POLICY,'old_budget_seconds':basis['plan']['old_budget_seconds'],
                     'new_budget_seconds':budget,'outer_arm_budget_seconds':BUDGET,'full_arm_charge_required':True,
                     'accounting_limit':'Planning budget includes full prior invocation plus new helper costs; caller must additionally charge all old/new shared, prerequisite, startup, outer and final audit costs to unchanged120wall/fullCPU before a paired claim.'}
-                protocol['completed_prefix_allocation']=allocation;summary['completed_prefix_allocation']=copy.deepcopy(allocation)
+                protocol['completed_prefix_allocation']=prefix_allocation;summary['completed_prefix_allocation']=copy.deepcopy(prefix_allocation)
         p.save_json(out / 'protocol.json', protocol)
         summary.update(protocol_sha256=p.sha(out / 'protocol.json'), source=str(board), family=family)
         def stable():
@@ -335,11 +359,16 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
         for index, variant in enumerate(VARIANTS):
             if basis and index==0:continue
             stable()
-            assigned = remaining() - FINAL_RESERVE
+            available = remaining()
+            unattempted = len(VARIANTS)-index
+            assigned = (available-FINAL_RESERVE) / (unattempted if allocation=='balanced' else 1)
             # Do not start expensive preparation when even the current engine
             # minimum cannot fit. route() repeats this check after preparation.
             if assigned < p.ENGINE_GRACE_RESERVE_SECONDS + p.ENGINE_NATIVE_RESERVE_SECONDS + 1:
                 summary['stop_reason'] = 'insufficient remaining budget for another attempt and reserves'
+                summary['skipped_variants'] = [{'id':name,'reason':summary['stop_reason'],
+                    'available_wall_full_cpu_seconds':available,'allocation':allocation,'assigned_if_started_seconds':assigned}
+                    for name in VARIANTS[index:]]
                 break
             directory = out / f'{index + 1:02d}-{variant}'
             before_wall, before_cpu = time.monotonic(), q.total_process_cpu()
@@ -351,6 +380,7 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
                 # creating its own receipt. Cancellation invalidates the whole
                 # portfolio and is never hidden by an earlier accepted trial.
                 summary['trials'].append({'index': index, 'id': variant, 'assigned_seconds': assigned, 'guidance_policy':guidance_policy,
+                    'remaining_wall_full_cpu_seconds_at_assignment':available,'unattempted_variants_at_assignment':unattempted,'allocation':allocation,
                     'status': 'cancelled' if isinstance(exc, KeyboardInterrupt) else 'invocation_error',
                     'eligible': False, 'reason': type(exc).__name__ + ': ' + str(exc),
                     'invocation_wall_seconds': time.monotonic() - before_wall,
@@ -361,6 +391,9 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
             receipt = directory / 'result.json'
             metrics = result.get('metrics', {})
             row = {'index': index, 'id': variant, 'assigned_seconds': assigned, 'guidance_policy':guidance_policy,
+                   'remaining_wall_full_cpu_seconds_at_assignment':available,
+                   'unattempted_variants_at_assignment':unattempted,
+                   'allocation':allocation,
                    'started_utc': trial_started_utc,
                    'finished_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(),
                    'status': result.get('status'), 'reason': result.get('reason'),
@@ -414,6 +447,12 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
     def account():
         wall, cpu = totals()
         summary.update(wall_seconds=wall, total_cpu_seconds=cpu)
+        attempted=[row['id'] for row in summary['trials']]
+        summary.update(attempted_variants=attempted,unattempted_variants=[name for name in VARIANTS if name not in attempted],
+                       all_variants_attempted=attempted==list(VARIANTS))
+        if summary['unattempted_variants'] and 'skipped_variants' not in summary:
+            summary['skipped_variants']=[{'id':name,'reason':summary.get('stop_reason',summary.get('reason',summary['status']))}
+                for name in summary['unattempted_variants']]
         if not all(q.finite_nonnegative(value) and value <= budget for value in (wall, cpu)):
             summary.update(status='budget_exceeded', comparison_eligible=False, selected=None)
 
@@ -462,6 +501,8 @@ def main():
     parser.add_argument('--output', required=True)
     parser.add_argument('--project', choices=tuple(q.PROJECTS), default='sonde')
     parser.add_argument('--budget',type=float,default=BUDGET)
+    parser.add_argument('--allocation',choices=('remaining','balanced'),default='remaining')
+    parser.add_argument('--outer-ceiling',type=float,default=MAX_OPERATIONAL_BUDGET)
     parser.add_argument('--resume-plan')
     parser.add_argument('--resume-plan-sha256')
     args = parser.parse_args()
@@ -476,7 +517,8 @@ def main():
         with lock_path.open('a') as lock:
             fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
             result = experiment(Path(args.output), args.project,budget=args.budget,
-                resume_plan=args.resume_plan,resume_plan_sha256=args.resume_plan_sha256)
+                resume_plan=args.resume_plan,resume_plan_sha256=args.resume_plan_sha256,
+                allocation=args.allocation,outer_ceiling=args.outer_ceiling)
         print(json.dumps({'status': result['status'], 'summary': str(Path(args.output) / 'portfolio-summary.json')}))
         return 0 if result['comparison_eligible'] else 2
     finally:

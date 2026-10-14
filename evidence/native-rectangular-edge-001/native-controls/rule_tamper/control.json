@@ -1,0 +1,92 @@
+{
+  "case": "rule_tamper",
+  "expected_accepted": false,
+  "source_hashes": {
+    "smoke.kicad_pcb": "50f073db41d453d5fc2ae95a358a49f18edd1d768be2df8c8b2841b923107aec",
+    "smoke.kicad_pro": "a5a56c582c09873bd22924ef9798bedab09f9557542a3417a1335597f966bc5a"
+  },
+  "accepted": false,
+  "relaxed_rule_diagnostic_native": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 0,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "Footprint component type doesn't match footprint pads",
+        "key": "footprint_type_mismatch"
+      }
+    ],
+    "findings": []
+  },
+  "reason": "Rejected: candidate project/rules/file set changed",
+  "steps": [
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 1.0248666249972302,
+      "cpu_seconds": 0.399398,
+      "max_rss_bytes": 102105088,
+      "supervisor_cpu_seconds": 0.005931999999999993,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 100581376,
+      "sampled_peak_workdir_bytes": 97385,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-controls-001/rule_tamper/relaxed-rule-diagnostic.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-controls-001/rule_tamper/relaxed-rule-diagnostic-input/smoke.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-controls-001/rule_tamper/relaxed-rule-diagnostic.log",
+      "log_bytes": 183,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-controls-001/rule_tamper",
+      "signal_cancellation_enabled": true,
+      "pid": 159,
+      "name": "relaxed-rule-diagnostic",
+      "validated_input_sha256": "8aca45dd2729a79e83d4694dafd028aa32a0173445aa62ac065fe4799870ee17",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-controls-001/rule_tamper/candidate/smoke.kicad_pcb"
+    }
+  ],
+  "passed": true
+}

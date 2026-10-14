@@ -1,0 +1,41 @@
+{
+  "accepted": false,
+  "code_sha256": {
+    "scripts/experiment_portfolio.py": "22ce99d2e1a967916458bb43a4ad71c18462bba3cf81a273be86f880b126d6c7",
+    "tests/test_portfolio_allocation.py": "f2c110e85e37bf79e7c50069fc5b40a377e41fcb9bd9c87d8d1c9aca097fc1b8"
+  },
+  "interface": {
+    "balanced_allocation": "(min remaining wall/fullCPU - original FINAL_RESERVE15) / number of unattempted fixed variants",
+    "default_allocation": "remaining",
+    "default_budget_seconds": 120,
+    "operational_ceiling_max_seconds": 900,
+    "optional_explicit_outer_ceiling": "outer_ceiling",
+    "resume": "remaining only and<=120; reject balanced/extended prefix before I/O"
+  },
+  "kind": "opt-in bounded balanced portfolio planning and rejection controls",
+  "limits": [
+    "Operational planning ceiling is not a comparative budget exemption: lead must prospectively freeze and charge full prior/new/source/audit/bootstrap costs per arm.",
+    "Existing comparison_eligible means selected-candidate eligibility; all_variants_attempted must additionally gate any strong B2 claim.",
+    "Selected ranking/frontier/native receipt verification remain unchanged. Trial allocation metadata is replay-checked, and skipped profile IDs/reasons remain explicit.",
+    "Pure/mocked control flow does not establish native routing correctness or measured gains.",
+    "No paired/quality/pipeline/readback helper, source board/project, Native/JVM/Git/backup or existing evidence was edited."
+  ],
+  "new_engine_execution": false,
+  "new_native_execution": false,
+  "preparations": [
+    {
+      "duplicated_old_cases": 16,
+      "explanation": "Imported unittest class was also discovered by loader. Replaced class import with module alias before the final43-case targeted result; no native trials repeated.",
+      "kind": "test harness import correction",
+      "old_reported_tests": 58
+    }
+  ],
+  "production_routing_gain_qualified": false,
+  "schema": 1,
+  "targeted_tests": {
+    "command": ".venv/bin/python -B -m unittest tests.test_portfolio tests.test_portfolio_resume tests.test_portfolio_allocation -q",
+    "passed": true,
+    "reported_seconds": 0.263,
+    "tests": 43
+  }
+}
