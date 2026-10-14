@@ -29,29 +29,23 @@ Completed, do not repeat:
 
 Execute next, continue between checkpoints:
 
-1. Audit/commit/push/readback current Audio source/prospective protocol and backup
-   receipt. Then fixed fourpayload acquisition with explicit threecachednotices:
-   `.venv/bin/python -B scripts/fetch_led_demo.py --project audio-player-my1690x --fetch --reuse-audio-notices --output .data/audio-player-my1690x-demo-001`.
-   Use existing boundedrunner/300wall/fullCPU+3MiB profile; preserve failures,
-   unknownoldmetadata costs and everyfile. No script/model/firmware download.
-2. Inspect complete immutable Audio geometry/rules/companions/referenceassets;
-   actual original-project Native/sharedreadback via existing registry. Retain
-   originalPRL even if companionguardrefuses. Native eligibility not assumed;
-   do not relax originalconstraints or sourcewarnings to admit it.
-3. Follow measured gaps toward broader30–50family audit/support and strong
-   baselines. Connectivity-only hint is falsified by realthermalcounterexample;
-   any next repair must preserve native thermal rules. Reuse sharedhelpers;
-   no chatbot/training novelty or repeated metadata screens.
-4. At next source/product integration checkpoint run fresh installation026,
-   installed newcontrols/sharedreader and actualNative smoke. Fullintegration,
-   native regressions and major restoration at established milestones/release;
-   incremental at measured milestones, no backup/audit redesign.
-5. Reconcile STATUS/REQUIREMENTS/claims, source/license/population/failures and
-   exactcosts. Prepare honest experimentalRC and family-disjoint confirmation
-   only after adequate coverage/protocol maturity. Actualhuman/physicalreview,
-   GUI access and formalpublication remain separate real gates.
+1. Preserve/checkpoint actual Audio original002, PRL positive/negative controls002,
+   their earlier failures and corrected shared reader003; no repeated Native.
+   Audio remains unsupported with six inherited courtyard errors and two warnings.
+2. Fresh installation026 from committed current source distribution, actual offline
+   Native smoke, installed new targeted regressions and shared installed reader.
+   Keep existing source/file/time/storage and native acceptance guards.
+3. Pursue broader supported families and stronger baseline/strategy comparisons
+   from actual remaining sources. Connectivity-only hint is falsified by thermal
+   counterexample; preserve all native thermal rules and benchmark costs.
+4. Incremental raw backup from restored c81 full base at next measured milestone;
+   do not chain from a6 incremental beyond existing receipt-chain byte cap.
+   Full restoration at major milestones/release, not every minor edit. On-Mac only
+   by owner choice; applied Audio/raw results are after a6 cutoff.
+5. Reconcile source/rights/population/claims, GUI and honest RC gates. Current
+   production KiCad10.0.0 unchanged, separate1007 and PRL preservation diagnostic
+   only. No human/physical/untouched confirmation/formal release claim.
 
-Milestones are checkpoints, not completion claims or reasons to stop. Read the
-actual receipts, preserve unfinished artifacts and maintain verified Git backups.
-
-Audioactual acquisition/native001 now completed as failedcompanionpreservation, not eligible:4GET/1267003B+3cached5974B,7original1272977B/9notice1278659B exact. FourCu/74FP130pads39nets/320routes/3netties/2FPareas/41modelrefs. Native rewrites8localPRLUI/schema paths; originals exact, preservationguardrejects, rawsaved0/6/2/0 unqualified, nofinalfullSCH. [Actual source/failure/guardpreparation](evidence/audio-source-native-prl-failure-001.json). Initialinspection001substringmistake retained, correctedmetadata002excludesEdge.Cuts; existinglayerpolicyformatrefusal unchanged. Opt-in immutable-PRL diagnostic guard now reviewed/fixed/tested27targeted/full0561134pass40.558834wall37.291334CPU; no productionchange/fieldwaiver. Next commit/push then actualownedpositive+disconnectedPRLNativecontrols, followedonlyifqualified by freshAudio002 --protect-local-settings. AppliedAudio/newraw artifacts aftera6bincrementalcutoff.
+Milestones are checkpoints, not completion claims or reasons to stop. Read actual
+receipts and preserve unfinished artifacts. Exact next command after checkpoint:
+`.venv/bin/python -B .runs/run-installation-026.py` (prepare from025 first).

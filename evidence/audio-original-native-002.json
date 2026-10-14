@@ -1,0 +1,1315 @@
+{
+  "schema": 1,
+  "accepted": false,
+  "production_admitted": false,
+  "scope": "Actual immutable original Audio full-schematic native observation and owned PRL preservation controls; not routing or a new supported family.",
+  "previous_source_and_failure": {
+    "path": "evidence/audio-source-native-prl-failure-001.json",
+    "sha256": "15c7ad92a557b2225fd5425732e3006edf86454c1ba612d8e79595d6c5fe7837",
+    "bytes": 92503
+  },
+  "protocols": [
+    {
+      "path": ".runs/audio-prl-guard-source-001/protocol.json",
+      "sha256": "e941354b06f3eb3e91fa7ffbf526fd5297e73c0ef3e8af077c82a58fe24e44b6",
+      "bytes": 1221
+    },
+    {
+      "path": ".runs/audio-prl-guard-source-001/protocol-002.json",
+      "sha256": "2c53780a0d57e3a63506fb44af8ba69630041934852ef538194ee78a956bad04",
+      "bytes": 1789
+    }
+  ],
+  "source_pins": [
+    {
+      "path": "experiments/original_project_native_v1/prl_controls.py",
+      "sha256": "e28ff79d04d6b8e9326b507c9ea7e9e505fd0dc8bc74045c13dc40e431fefd3c",
+      "bytes": 6135
+    },
+    {
+      "path": "experiments/original_project_native_v1/readback.py",
+      "sha256": "77dba757ce5e617e64c51719dbbd25d7939ed27ff4536c2c7f2e241e1841857e",
+      "bytes": 10361
+    },
+    {
+      "path": "experiments/original_project_native_v1/local_settings.py",
+      "sha256": "1287675619ec256e700a32e6a949127a0694772e1739476e8a3be276512ce9da",
+      "bytes": 3191
+    },
+    {
+      "path": "experiments/original_project_native_v1/driver.py",
+      "sha256": "975f3d29a9204b06578cadf911bd569ba45083a26151bbc47e927bc39ace46ba",
+      "bytes": 22943
+    }
+  ],
+  "native_controls": {
+    "receipt": {
+      "path": ".runs/native-prl-preservation-controls-002/result.json",
+      "sha256": "1ddf9e9a4c04f8708245d4264af216d974eab9901985c9c35f9a34f02737470c",
+      "bytes": 27055
+    },
+    "cases": [
+      {
+        "case": "positive",
+        "passed": true,
+        "candidate_sha256": "ddd22da0eaaa02a9227461effb67c95657b4d08d618350f0a7c5a039dcdcedb0",
+        "report_sha256": "8979224ec294f65bfae3b007797f20aa0a8974428cacfe7bf9b6c37c3dacb0d3",
+        "native": {
+          "opens": 0,
+          "blocking": 0,
+          "warnings": 0,
+          "exclusions": 0,
+          "ignored_checks": [
+            {
+              "description": "Footprint has no courtyard defined",
+              "key": "missing_courtyard"
+            },
+            {
+              "description": "Track endpoint not centered on via",
+              "key": "track_not_centered_on_via"
+            },
+            {
+              "description": "Tuning profile track geometries",
+              "key": "tuning_profile_track_geometries"
+            },
+            {
+              "description": "Footprint doesn't match symbol's footprint filters",
+              "key": "footprint_filters_mismatch"
+            },
+            {
+              "description": "Footprint component type doesn't match footprint pads",
+              "key": "footprint_type_mismatch"
+            }
+          ],
+          "findings": []
+        },
+        "protection": [
+          {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": true,
+            "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-prl-preservation-controls-002/positive/job/refill/smoke.kicad_prl",
+            "sha256": "c8434016ec8ae59e7221de4016447e3e885a51ac415150b3b805ed240ee6c124",
+            "flags_before": 0,
+            "flags_during": 2,
+            "flags_restored": true,
+            "bytes_unchanged": true
+          },
+          {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": true,
+            "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-prl-preservation-controls-002/positive/job/final-drc-input/smoke.kicad_prl",
+            "sha256": "c8434016ec8ae59e7221de4016447e3e885a51ac415150b3b805ed240ee6c124",
+            "flags_before": 0,
+            "flags_during": 2,
+            "flags_restored": true,
+            "bytes_unchanged": true
+          }
+        ]
+      },
+      {
+        "case": "disconnected",
+        "passed": true,
+        "candidate_sha256": "7ba9fac5198a9b70d4de496786f265ba1c505ab7bbdbe1f9a8cff2a194d3c4ab",
+        "report_sha256": "95de22b654c1628bec8ccbe9ee0cbc11e997e7e83031c6369c67c922d5b372da",
+        "native": {
+          "opens": 1,
+          "blocking": 0,
+          "warnings": 0,
+          "exclusions": 0,
+          "ignored_checks": [
+            {
+              "description": "Footprint has no courtyard defined",
+              "key": "missing_courtyard"
+            },
+            {
+              "description": "Track endpoint not centered on via",
+              "key": "track_not_centered_on_via"
+            },
+            {
+              "description": "Tuning profile track geometries",
+              "key": "tuning_profile_track_geometries"
+            },
+            {
+              "description": "Footprint doesn't match symbol's footprint filters",
+              "key": "footprint_filters_mismatch"
+            },
+            {
+              "description": "Footprint component type doesn't match footprint pads",
+              "key": "footprint_type_mismatch"
+            }
+          ],
+          "findings": [
+            {
+              "description": "Missing connection between items",
+              "items": [
+                {
+                  "description": "PTH pad 1 [SIGNAL_A] of J1",
+                  "pos": {
+                    "x": 10.0,
+                    "y": 10.0
+                  },
+                  "uuid": "2259717b-f87b-4741-851c-4246b16698d8"
+                },
+                {
+                  "description": "PTH pad 1 [SIGNAL_A] of J2",
+                  "pos": {
+                    "x": 40.0,
+                    "y": 10.0
+                  },
+                  "uuid": "08f93607-b33b-46bf-b3b6-1629e09d1df5"
+                }
+              ],
+              "severity": "error",
+              "type": "unconnected_items"
+            }
+          ]
+        },
+        "protection": [
+          {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": true,
+            "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-prl-preservation-controls-002/disconnected/job/refill/smoke.kicad_prl",
+            "sha256": "c8434016ec8ae59e7221de4016447e3e885a51ac415150b3b805ed240ee6c124",
+            "flags_before": 0,
+            "flags_during": 2,
+            "flags_restored": true,
+            "bytes_unchanged": true
+          },
+          {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": true,
+            "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-prl-preservation-controls-002/disconnected/job/final-drc-input/smoke.kicad_prl",
+            "sha256": "c8434016ec8ae59e7221de4016447e3e885a51ac415150b3b805ed240ee6c124",
+            "flags_before": 0,
+            "flags_during": 2,
+            "flags_restored": true,
+            "bytes_unchanged": true
+          }
+        ]
+      }
+    ]
+  },
+  "original": {
+    "receipt": {
+      "path": ".runs/audio-original-native-002/result.json",
+      "sha256": "dc54c8b83dd747f56de82686b4377276db27984efc3d3461f3ef4012b0ff2025",
+      "bytes": 26285
+    },
+    "candidate_sha256": "fb6a53c7275f255eaa110d0f73b57302c7889b7bee3cc27e59ebd6de3f9b5491",
+    "final_report_sha256": "4c6d269c8b316909c1a752c0c1ea83737b06f62925c7f236cded30a9da79fc15",
+    "saved": {
+      "opens": 0,
+      "blocking": 6,
+      "warnings": 2,
+      "exclusions": 0,
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "Silkscreen clearance",
+          "key": "silk_overlap"
+        },
+        {
+          "description": "Silkscreen clipped by solder mask",
+          "key": "silk_over_copper"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        },
+        {
+          "description": "Footprint not found in libraries",
+          "key": "lib_footprint_issues"
+        }
+      ],
+      "findings": [
+        {
+          "description": "Courtyards overlap",
+          "items": [
+            {
+              "description": "Footprint FID3",
+              "pos": {
+                "x": 135.398,
+                "y": 116.073
+              },
+              "uuid": "15867ade-bc87-4922-9129-417303565686"
+            },
+            {
+              "description": "Footprint ST3",
+              "pos": {
+                "x": 137.16,
+                "y": 114.3
+              },
+              "uuid": "6408a896-a7fb-4970-b9b8-fbca382d8503"
+            }
+          ],
+          "severity": "error",
+          "type": "courtyards_overlap"
+        },
+        {
+          "description": "Courtyards overlap",
+          "items": [
+            {
+              "description": "Footprint ST2",
+              "pos": {
+                "x": 137.16,
+                "y": 93.98
+              },
+              "uuid": "22598a38-a7e8-4d4f-b4c9-f220163267d9"
+            },
+            {
+              "description": "Footprint J5",
+              "pos": {
+                "x": 135.89,
+                "y": 97.79
+              },
+              "uuid": "3515707a-fad4-4538-adf9-f7e8b9029ac7"
+            }
+          ],
+          "severity": "error",
+          "type": "courtyards_overlap"
+        },
+        {
+          "description": "Courtyards overlap",
+          "items": [
+            {
+              "description": "Footprint ST1",
+              "pos": {
+                "x": 157.48,
+                "y": 93.98
+              },
+              "uuid": "2289ed88-b477-416d-aaee-8b1fca9820fe"
+            },
+            {
+              "description": "Footprint FID4",
+              "pos": {
+                "x": 159.247,
+                "y": 92.223
+              },
+              "uuid": "61aa0ed3-558f-4c6d-9e62-dd57c48bd5c1"
+            }
+          ],
+          "severity": "error",
+          "type": "courtyards_overlap"
+        },
+        {
+          "description": "Courtyards overlap",
+          "items": [
+            {
+              "description": "Footprint ST1",
+              "pos": {
+                "x": 157.48,
+                "y": 93.98
+              },
+              "uuid": "2289ed88-b477-416d-aaee-8b1fca9820fe"
+            },
+            {
+              "description": "Footprint J2",
+              "pos": {
+                "x": 158.75,
+                "y": 97.79
+              },
+              "uuid": "7abd4b5a-eec3-4c12-abb2-8dba66a7c083"
+            }
+          ],
+          "severity": "error",
+          "type": "courtyards_overlap"
+        },
+        {
+          "description": "Courtyards overlap",
+          "items": [
+            {
+              "description": "Footprint J5",
+              "pos": {
+                "x": 135.89,
+                "y": 97.79
+              },
+              "uuid": "3515707a-fad4-4538-adf9-f7e8b9029ac7"
+            },
+            {
+              "description": "Footprint ST3",
+              "pos": {
+                "x": 137.16,
+                "y": 114.3
+              },
+              "uuid": "6408a896-a7fb-4970-b9b8-fbca382d8503"
+            }
+          ],
+          "severity": "error",
+          "type": "courtyards_overlap"
+        },
+        {
+          "description": "Courtyards overlap",
+          "items": [
+            {
+              "description": "Footprint J3",
+              "pos": {
+                "x": 140.97,
+                "y": 113.03
+              },
+              "uuid": "5ec4956f-31ca-4a81-b09e-44b28226b9ce"
+            },
+            {
+              "description": "Footprint ST3",
+              "pos": {
+                "x": 137.16,
+                "y": 114.3
+              },
+              "uuid": "6408a896-a7fb-4970-b9b8-fbca382d8503"
+            }
+          ],
+          "severity": "error",
+          "type": "courtyards_overlap"
+        },
+        {
+          "description": "Silkscreen clipped by board edge",
+          "items": [
+            {
+              "description": "Segment on Edge.Cuts",
+              "pos": {
+                "x": 134.62,
+                "y": 91.44
+              },
+              "uuid": "0acc1d9e-32c0-41ff-bb65-642a0ca72365"
+            },
+            {
+              "description": "Polygon on B.Silkscreen",
+              "pos": {
+                "x": 134.652786,
+                "y": 99.231
+              },
+              "uuid": "59f98d39-bdb5-4832-bdd9-ae528f919630"
+            }
+          ],
+          "severity": "warning",
+          "type": "silk_edge_clearance"
+        },
+        {
+          "description": "Silkscreen clipped by board edge",
+          "items": [
+            {
+              "description": "Segment on Edge.Cuts",
+              "pos": {
+                "x": 134.62,
+                "y": 91.44
+              },
+              "uuid": "0acc1d9e-32c0-41ff-bb65-642a0ca72365"
+            },
+            {
+              "description": "Polygon on F.Silkscreen",
+              "pos": {
+                "x": 136.841003,
+                "y": 99.248403
+              },
+              "uuid": "ecc77217-dae0-4f7c-8dea-752f78c67e62"
+            }
+          ],
+          "severity": "warning",
+          "type": "silk_edge_clearance"
+        }
+      ]
+    },
+    "final": {
+      "opens": 0,
+      "blocking": 6,
+      "warnings": 2,
+      "exclusions": 0,
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "Silkscreen clearance",
+          "key": "silk_overlap"
+        },
+        {
+          "description": "Silkscreen clipped by solder mask",
+          "key": "silk_over_copper"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        },
+        {
+          "description": "Footprint not found in libraries",
+          "key": "lib_footprint_issues"
+        }
+      ],
+      "findings": [
+        {
+          "description": "Courtyards overlap",
+          "items": [
+            {
+              "description": "Footprint FID3",
+              "pos": {
+                "x": 135.398,
+                "y": 116.073
+              },
+              "uuid": "15867ade-bc87-4922-9129-417303565686"
+            },
+            {
+              "description": "Footprint ST3",
+              "pos": {
+                "x": 137.16,
+                "y": 114.3
+              },
+              "uuid": "6408a896-a7fb-4970-b9b8-fbca382d8503"
+            }
+          ],
+          "severity": "error",
+          "type": "courtyards_overlap"
+        },
+        {
+          "description": "Courtyards overlap",
+          "items": [
+            {
+              "description": "Footprint ST2",
+              "pos": {
+                "x": 137.16,
+                "y": 93.98
+              },
+              "uuid": "22598a38-a7e8-4d4f-b4c9-f220163267d9"
+            },
+            {
+              "description": "Footprint J5",
+              "pos": {
+                "x": 135.89,
+                "y": 97.79
+              },
+              "uuid": "3515707a-fad4-4538-adf9-f7e8b9029ac7"
+            }
+          ],
+          "severity": "error",
+          "type": "courtyards_overlap"
+        },
+        {
+          "description": "Courtyards overlap",
+          "items": [
+            {
+              "description": "Footprint ST1",
+              "pos": {
+                "x": 157.48,
+                "y": 93.98
+              },
+              "uuid": "2289ed88-b477-416d-aaee-8b1fca9820fe"
+            },
+            {
+              "description": "Footprint FID4",
+              "pos": {
+                "x": 159.247,
+                "y": 92.223
+              },
+              "uuid": "61aa0ed3-558f-4c6d-9e62-dd57c48bd5c1"
+            }
+          ],
+          "severity": "error",
+          "type": "courtyards_overlap"
+        },
+        {
+          "description": "Courtyards overlap",
+          "items": [
+            {
+              "description": "Footprint ST1",
+              "pos": {
+                "x": 157.48,
+                "y": 93.98
+              },
+              "uuid": "2289ed88-b477-416d-aaee-8b1fca9820fe"
+            },
+            {
+              "description": "Footprint J2",
+              "pos": {
+                "x": 158.75,
+                "y": 97.79
+              },
+              "uuid": "7abd4b5a-eec3-4c12-abb2-8dba66a7c083"
+            }
+          ],
+          "severity": "error",
+          "type": "courtyards_overlap"
+        },
+        {
+          "description": "Courtyards overlap",
+          "items": [
+            {
+              "description": "Footprint J5",
+              "pos": {
+                "x": 135.89,
+                "y": 97.79
+              },
+              "uuid": "3515707a-fad4-4538-adf9-f7e8b9029ac7"
+            },
+            {
+              "description": "Footprint ST3",
+              "pos": {
+                "x": 137.16,
+                "y": 114.3
+              },
+              "uuid": "6408a896-a7fb-4970-b9b8-fbca382d8503"
+            }
+          ],
+          "severity": "error",
+          "type": "courtyards_overlap"
+        },
+        {
+          "description": "Courtyards overlap",
+          "items": [
+            {
+              "description": "Footprint J3",
+              "pos": {
+                "x": 140.97,
+                "y": 113.03
+              },
+              "uuid": "5ec4956f-31ca-4a81-b09e-44b28226b9ce"
+            },
+            {
+              "description": "Footprint ST3",
+              "pos": {
+                "x": 137.16,
+                "y": 114.3
+              },
+              "uuid": "6408a896-a7fb-4970-b9b8-fbca382d8503"
+            }
+          ],
+          "severity": "error",
+          "type": "courtyards_overlap"
+        },
+        {
+          "description": "Silkscreen clipped by board edge",
+          "items": [
+            {
+              "description": "Segment on Edge.Cuts",
+              "pos": {
+                "x": 134.62,
+                "y": 91.44
+              },
+              "uuid": "0acc1d9e-32c0-41ff-bb65-642a0ca72365"
+            },
+            {
+              "description": "Polygon on B.Silkscreen",
+              "pos": {
+                "x": 134.652786,
+                "y": 99.231
+              },
+              "uuid": "59f98d39-bdb5-4832-bdd9-ae528f919630"
+            }
+          ],
+          "severity": "warning",
+          "type": "silk_edge_clearance"
+        },
+        {
+          "description": "Silkscreen clipped by board edge",
+          "items": [
+            {
+              "description": "Segment on Edge.Cuts",
+              "pos": {
+                "x": 134.62,
+                "y": 91.44
+              },
+              "uuid": "0acc1d9e-32c0-41ff-bb65-642a0ca72365"
+            },
+            {
+              "description": "Polygon on F.Silkscreen",
+              "pos": {
+                "x": 136.841003,
+                "y": 99.248403
+              },
+              "uuid": "ecc77217-dae0-4f7c-8dea-752f78c67e62"
+            }
+          ],
+          "severity": "warning",
+          "type": "silk_edge_clearance"
+        }
+      ]
+    },
+    "schematic_parity_findings": 0,
+    "all_original_route_records": 320,
+    "static_supported": false,
+    "static_unsupported_reason": "unsupported: net ties not qualified; netclass bindings not qualified: Netclass identifier outside narrow scope; Explicit bounded class priorities required; rule-area restrictions not qualified: footprint restricted rule areas unsupported; text/field/dimension layer semantics not qualified; unqualified board format version",
+    "saved_nonfill_ast_equal": false,
+    "saved_routes_equal": false,
+    "original_shell_exact": true,
+    "source_exact": true,
+    "steps": [
+      {
+        "name": "original-refill",
+        "process_sha256": "61b341e44b899a75557d6cdc3175e751b516947d5b3f90745a514801a7d6cada",
+        "log_sha256": "37818ba6faf2e0b8649ac0bb92ec59fff1323d4fa5b92189f85ed9481bfb5a6b",
+        "cleanup_complete": true,
+        "local_settings_protection": {
+          "policy": "mac-owned-prl-immutable-v1",
+          "present": true,
+          "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/audio-original-native-002/saved/SparkFun_Audio_Player_Breakout_MY1690X-16S.kicad_prl",
+          "sha256": "c8434016ec8ae59e7221de4016447e3e885a51ac415150b3b805ed240ee6c124",
+          "flags_before": 0,
+          "flags_during": 2,
+          "flags_restored": true,
+          "bytes_unchanged": true
+        }
+      },
+      {
+        "name": "original-final",
+        "process_sha256": "3841c1a075864678a6d4ab1be710d2af36a3ed4709877e5a5344874c831b911b",
+        "log_sha256": "ed7010c1bf7908c250ff598118795c1b7e8a84c59460628d44b7da62ba51fee1",
+        "cleanup_complete": true,
+        "local_settings_protection": {
+          "policy": "mac-owned-prl-immutable-v1",
+          "present": true,
+          "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/audio-original-native-002/job/original-final-input/SparkFun_Audio_Player_Breakout_MY1690X-16S.kicad_prl",
+          "sha256": "c8434016ec8ae59e7221de4016447e3e885a51ac415150b3b805ed240ee6c124",
+          "flags_before": 0,
+          "flags_during": 2,
+          "flags_restored": true,
+          "bytes_unchanged": true
+        }
+      }
+    ]
+  },
+  "shared_readback": {
+    "receipt": {
+      "path": ".runs/audio-original-native-readback-003/result.json",
+      "sha256": "5ec850e3c03feb1a9b91ff02be01e3523c3245bfee8254e821ee828d386592d5",
+      "bytes": 36816
+    },
+    "passed": true,
+    "reader_sha256": "77dba757ce5e617e64c51719dbbd25d7939ed27ff4536c2c7f2e241e1841857e",
+    "type_corruption_controls": [
+      {
+        "stage": 0,
+        "field": "present",
+        "rejected": true,
+        "reason": "original-refill readback: receipt differs from supplied data"
+      },
+      {
+        "stage": 0,
+        "field": "flags_before",
+        "rejected": true,
+        "reason": "original-refill readback: receipt differs from supplied data"
+      },
+      {
+        "stage": 0,
+        "field": "flags_during",
+        "rejected": true,
+        "reason": "original-refill readback: receipt differs from supplied data"
+      },
+      {
+        "stage": 0,
+        "field": "flags_restored",
+        "rejected": true,
+        "reason": "original-refill readback: receipt differs from supplied data"
+      },
+      {
+        "stage": 0,
+        "field": "bytes_unchanged",
+        "rejected": true,
+        "reason": "original-refill readback: receipt differs from supplied data"
+      },
+      {
+        "stage": 1,
+        "field": "present",
+        "rejected": true,
+        "reason": "original-refill readback: receipt differs from supplied data"
+      },
+      {
+        "stage": 1,
+        "field": "flags_before",
+        "rejected": true,
+        "reason": "original-refill readback: receipt differs from supplied data"
+      },
+      {
+        "stage": 1,
+        "field": "flags_during",
+        "rejected": true,
+        "reason": "original-refill readback: receipt differs from supplied data"
+      },
+      {
+        "stage": 1,
+        "field": "flags_restored",
+        "rejected": true,
+        "reason": "original-refill readback: receipt differs from supplied data"
+      },
+      {
+        "stage": 1,
+        "field": "bytes_unchanged",
+        "rejected": true,
+        "reason": "original-refill readback: receipt differs from supplied data"
+      },
+      {
+        "field": "original_native.opens",
+        "rejected": true,
+        "reason": "original-refill readback: receipt differs from supplied data"
+      },
+      {
+        "field": "parity_native.opens",
+        "rejected": true,
+        "reason": "original-refill readback: receipt differs from supplied data"
+      }
+    ],
+    "scope": "Twelve in-memory substitutions rejected at receipt-integrity comparison; actual files unchanged. Shared stage/report/context/byte/flag checks then pass on actual evidence. No new Native/JVM/network."
+  },
+  "actual_executions": [
+    {
+      "receipt": {
+        "path": ".runs/native-prl-preservation-controls-execution-001/execution.json",
+        "sha256": "760b36f3e383a4874ef3093723514a1348f42959cfc00e397facf0885a42eb66",
+        "bytes": 7110
+      },
+      "record": {
+        "schema": 1,
+        "process": {
+          "status": "nonzero_exit",
+          "exit_code": 2,
+          "wall_seconds": 1.8523853340011556,
+          "cpu_seconds": 0.803843,
+          "max_rss_bytes": 193839104,
+          "supervisor_cpu_seconds": 0.007177000000000017,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 184598528,
+          "sampled_peak_workdir_bytes": 93,
+          "resource_guards": {
+            "max_group_rss_bytes": 2147483648,
+            "max_workdir_bytes": 2097152,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+            "-B",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/original_project_native_v1/prl_controls.py",
+            "--run-native",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-prl-preservation-controls-001"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-prl-preservation-controls-execution-001/command.log",
+          "log_bytes": 93,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-prl-preservation-controls-execution-001",
+          "signal_cancellation_enabled": true,
+          "pid": 38489
+        },
+        "tools": {
+          "implementation_sha256": {
+            "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+            "autorouter/__main__.py": "9e34e95cf21b4ab7c872365f0a8c835876713691ef39f1049d2bd52bcb0b09e6",
+            "autorouter/adapter.py": "95211455104334e338b83c77aecf8541ee24b0b4f7cd6c3043bcb71d478ddfca",
+            "autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+            "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+            "autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+            "autorouter/floor_route.py": "a0e06ee951a08bebb393c1bbfd57ce12f0dfafa462f28f99f04dec323fc5ba33",
+            "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+            "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+            "autorouter/native.py": "7cf0f7cd8d18b59d21b365d51398f0cc99885d3644721a1a842e4f36a7306060",
+            "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+            "autorouter/native_edge.py": "c242ba402c9a981bc18a6e8d2f43e95dc936b53ef64789bfa370716b3de4618d",
+            "autorouter/netclass.py": "79d4b7e98c7b46fe924816ddcc7fa384672bf646d1c06f81e134ce6d97e0a7de",
+            "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+            "autorouter/pipeline.py": "be986fb8616396c372472b7dd497d7471b2956194bc1099754fa8548c7069ef9",
+            "autorouter/placement_clearance.py": "f846a73367bc60dfbb48386233e405cb4bf1382f056d379787d7b823c3905feb",
+            "autorouter/placement_strategy.py": "b75a2291eed37d8ddb9f052c0b715faafcc2dfd258ae32f9e2763fcd01db0e97",
+            "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+            "autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+            "autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+            "autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+            "autorouter/recovery.py": "8a2bf1470cb69e7d8d334bbe7aef18110322a7aa786b965d397a89ddbc932ee5",
+            "autorouter/review_export.py": "716b369af61faa8c15f60ef58a0846772e4b175cff4a75af0c2c5ea45f24aea7",
+            "autorouter/review_view.py": "8f765624a8527df770a98594a7b27fe88776b300ec276f809c179ec7f6f60fb7",
+            "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+            "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+            "autorouter/schematic_field_evidence.py": "d7e1012b05bb7e0fb03358bbc3573b845ff06d03760a88137cf52db71090641b",
+            "autorouter/schematic_fields.py": "7d9043a14bac69d18830b2f51cb7d118c648df9290337505db1bf8503d931a71",
+            "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+            "autorouter/strategy.py": "a7fb17f35f390430fb45d335efa43dd7190546ae9df932c75925d05fe4ab137e",
+            "autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+            "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+            "autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455"
+          },
+          "git_head": "71fef03483b2da214462ff4485abf0b05256e37c",
+          "kicad": "10.0.0",
+          "freerouting": "2.5.0",
+          "files": {
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+            "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+            "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+            "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219"
+          },
+          "network": "engine sandbox-exec deny network*"
+        },
+        "wall_seconds": 2.102239375002682,
+        "full_cpu_seconds": 0.987646,
+        "bootstrap_emission_allowance_seconds": 2,
+        "charged_wall_seconds": 4.102239375002682,
+        "charged_full_cpu_seconds": 2.987646,
+        "protocol_sha256": "e941354b06f3eb3e91fa7ffbf526fd5297e73c0ef3e8af077c82a58fe24e44b6",
+        "controller_sha256": "d9e08ec3d191f6d15f9e8387a215df3b97874ba1164d619291159361dea41faa",
+        "log_sha256": "a0a2d1746ccb1c8f7297daf5503f61b5b8b4f29d80b863b894653c2936a359bb",
+        "scope": "Actual Native positive/disconnected controls on ownedsyntheticfixture with copiedunchangedoldschemaAudioPRL protectedthroughNative/sharedreadback. No production/sourcepolicywaiver or routingquality comparison."
+      }
+    },
+    {
+      "receipt": {
+        "path": ".runs/native-prl-preservation-controls-execution-002b/execution.json",
+        "sha256": "94af14e1348e9e434ed6624c82699d6cbe7544961a1601d6cccb0a569fd9a8f0",
+        "bytes": 7126
+      },
+      "record": {
+        "schema": 1,
+        "process": {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 5.045138709014282,
+          "cpu_seconds": 2.181378,
+          "max_rss_bytes": 193888256,
+          "supervisor_cpu_seconds": 0.024119999999999975,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 184418304,
+          "sampled_peak_workdir_bytes": 91,
+          "resource_guards": {
+            "max_group_rss_bytes": 2147483648,
+            "max_workdir_bytes": 2097152,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+            "-B",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/original_project_native_v1/prl_controls.py",
+            "--run-native",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-prl-preservation-controls-002"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-prl-preservation-controls-execution-002b/command.log",
+          "log_bytes": 91,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-prl-preservation-controls-execution-002b",
+          "signal_cancellation_enabled": true,
+          "pid": 38537
+        },
+        "tools": {
+          "implementation_sha256": {
+            "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+            "autorouter/__main__.py": "9e34e95cf21b4ab7c872365f0a8c835876713691ef39f1049d2bd52bcb0b09e6",
+            "autorouter/adapter.py": "95211455104334e338b83c77aecf8541ee24b0b4f7cd6c3043bcb71d478ddfca",
+            "autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+            "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+            "autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+            "autorouter/floor_route.py": "a0e06ee951a08bebb393c1bbfd57ce12f0dfafa462f28f99f04dec323fc5ba33",
+            "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+            "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+            "autorouter/native.py": "7cf0f7cd8d18b59d21b365d51398f0cc99885d3644721a1a842e4f36a7306060",
+            "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+            "autorouter/native_edge.py": "c242ba402c9a981bc18a6e8d2f43e95dc936b53ef64789bfa370716b3de4618d",
+            "autorouter/netclass.py": "79d4b7e98c7b46fe924816ddcc7fa384672bf646d1c06f81e134ce6d97e0a7de",
+            "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+            "autorouter/pipeline.py": "be986fb8616396c372472b7dd497d7471b2956194bc1099754fa8548c7069ef9",
+            "autorouter/placement_clearance.py": "f846a73367bc60dfbb48386233e405cb4bf1382f056d379787d7b823c3905feb",
+            "autorouter/placement_strategy.py": "b75a2291eed37d8ddb9f052c0b715faafcc2dfd258ae32f9e2763fcd01db0e97",
+            "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+            "autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+            "autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+            "autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+            "autorouter/recovery.py": "8a2bf1470cb69e7d8d334bbe7aef18110322a7aa786b965d397a89ddbc932ee5",
+            "autorouter/review_export.py": "716b369af61faa8c15f60ef58a0846772e4b175cff4a75af0c2c5ea45f24aea7",
+            "autorouter/review_view.py": "8f765624a8527df770a98594a7b27fe88776b300ec276f809c179ec7f6f60fb7",
+            "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+            "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+            "autorouter/schematic_field_evidence.py": "d7e1012b05bb7e0fb03358bbc3573b845ff06d03760a88137cf52db71090641b",
+            "autorouter/schematic_fields.py": "7d9043a14bac69d18830b2f51cb7d118c648df9290337505db1bf8503d931a71",
+            "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+            "autorouter/strategy.py": "a7fb17f35f390430fb45d335efa43dd7190546ae9df932c75925d05fe4ab137e",
+            "autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+            "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+            "autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455"
+          },
+          "git_head": "71fef03483b2da214462ff4485abf0b05256e37c",
+          "kicad": "10.0.0",
+          "freerouting": "2.5.0",
+          "files": {
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+            "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+            "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+            "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219"
+          },
+          "network": "engine sandbox-exec deny network*"
+        },
+        "wall_seconds": 5.306364959018538,
+        "full_cpu_seconds": 2.3739799999999995,
+        "bootstrap_emission_allowance_seconds": 2,
+        "charged_wall_seconds": 7.306364959018538,
+        "charged_full_cpu_seconds": 4.3739799999999995,
+        "protocol_sha256": "2c53780a0d57e3a63506fb44af8ba69630041934852ef538194ee78a956bad04",
+        "controller_sha256": "7bdd9154eeb50fa1944fda63bf3984af403c8a6da79e61cc69e6b801feae2a40",
+        "log_sha256": "dba9a1a2e81c2d914f52495cc79c33e8f3b024a4f7ae7eadd8e94f3a1c34c26a",
+        "scope": "Actual Native positive/disconnected controls on ownedsyntheticfixture with copiedunchangedoldschemaAudioPRL protectedthroughNative/sharedreadback. No production/sourcepolicywaiver or routingquality comparison."
+      }
+    },
+    {
+      "receipt": {
+        "path": ".runs/audio-original-native-execution-002/execution.json",
+        "sha256": "97d25ac97f73e002e8311c57a6292190d3a60cc8de0aae7dc0c7ba31987b56c4",
+        "bytes": 2984
+      },
+      "record": {
+        "schema": 1,
+        "process": {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 8.184939958999166,
+          "cpu_seconds": 6.078951,
+          "max_rss_bytes": 269500416,
+          "supervisor_cpu_seconds": 0.027555999999999997,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 263290880,
+          "sampled_peak_workdir_bytes": 216,
+          "resource_guards": {
+            "max_group_rss_bytes": 2147483648,
+            "max_workdir_bytes": 2097152,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+            "-B",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/original_project_native_v1/driver.py",
+            "--project",
+            "audio-player-my1690x",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/audio-original-native-002",
+            "--run-native",
+            "--protect-local-settings"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/audio-original-native-execution-002/command.log",
+          "log_bytes": 216,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/audio-original-native-execution-002",
+          "signal_cancellation_enabled": true,
+          "pid": 38559
+        },
+        "git_head": "71fef03483b2da214462ff4485abf0b05256e37c",
+        "controller_sha256": "3cd2617104831b0a845f836b8e2f2d1940e36fb9521719fccb25b0251106242e",
+        "log_sha256": "abd6e3d9aed8772e0c7642d10006d2dd753859461f33e77036b097448dd46a4e",
+        "wall_seconds": 8.185236624995014,
+        "full_cpu_seconds": 6.106733000000001,
+        "control_receipt_sha256": "1ddf9e9a4c04f8708245d4264af216d974eab9901985c9c35f9a34f02737470c",
+        "scope": "Opt-in temporary immutableexistingPRL in ownedNativecopies; flagsrestored onlyafter actualchildcleanup. Alloriginalsettingsbytes/rules/companionchecks mandatory, no fieldwaiver. Actual original-only saved-refill/full-schematic/final-original-shell Native observation, all original route records/rules/nine complete source/notice inputs retained, including originalPRL/staleHardwareREADME. Static source semantics and unresolved asset/model references remain production gates; no engine/routing/native production admission or physical/independent-family approval. Failed controls preserved; wrapper success means observation completion, not board acceptance."
+      }
+    },
+    {
+      "receipt": {
+        "path": ".runs/audio-original-native-readback-execution-002/execution.json",
+        "sha256": "643f03a0c1086ced255ab30f3129accf929cb062faa2bf6a59ed53ffe9d73cd7",
+        "bytes": 6804
+      },
+      "record": {
+        "schema": 1,
+        "process": {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.9539099590037949,
+          "cpu_seconds": 0.904615,
+          "max_rss_bytes": 237895680,
+          "supervisor_cpu_seconds": 0.004525000000000001,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 234618880,
+          "sampled_peak_workdir_bytes": 97,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 16777216,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+            "-B",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/audio-original-native-readback-002/audit.py"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/audio-original-native-readback-execution-002/command.log",
+          "log_bytes": 97,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/audio-original-native-readback-execution-002",
+          "signal_cancellation_enabled": true,
+          "pid": 38689
+        },
+        "wall_seconds": 0.9539919160015415,
+        "full_cpu_seconds": 0.909222,
+        "tools": {
+          "implementation_sha256": {
+            "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+            "autorouter/__main__.py": "9e34e95cf21b4ab7c872365f0a8c835876713691ef39f1049d2bd52bcb0b09e6",
+            "autorouter/adapter.py": "95211455104334e338b83c77aecf8541ee24b0b4f7cd6c3043bcb71d478ddfca",
+            "autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+            "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+            "autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+            "autorouter/floor_route.py": "a0e06ee951a08bebb393c1bbfd57ce12f0dfafa462f28f99f04dec323fc5ba33",
+            "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+            "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+            "autorouter/native.py": "7cf0f7cd8d18b59d21b365d51398f0cc99885d3644721a1a842e4f36a7306060",
+            "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+            "autorouter/native_edge.py": "c242ba402c9a981bc18a6e8d2f43e95dc936b53ef64789bfa370716b3de4618d",
+            "autorouter/netclass.py": "79d4b7e98c7b46fe924816ddcc7fa384672bf646d1c06f81e134ce6d97e0a7de",
+            "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+            "autorouter/pipeline.py": "be986fb8616396c372472b7dd497d7471b2956194bc1099754fa8548c7069ef9",
+            "autorouter/placement_clearance.py": "f846a73367bc60dfbb48386233e405cb4bf1382f056d379787d7b823c3905feb",
+            "autorouter/placement_strategy.py": "b75a2291eed37d8ddb9f052c0b715faafcc2dfd258ae32f9e2763fcd01db0e97",
+            "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+            "autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+            "autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+            "autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+            "autorouter/recovery.py": "8a2bf1470cb69e7d8d334bbe7aef18110322a7aa786b965d397a89ddbc932ee5",
+            "autorouter/review_export.py": "716b369af61faa8c15f60ef58a0846772e4b175cff4a75af0c2c5ea45f24aea7",
+            "autorouter/review_view.py": "8f765624a8527df770a98594a7b27fe88776b300ec276f809c179ec7f6f60fb7",
+            "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+            "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+            "autorouter/schematic_field_evidence.py": "d7e1012b05bb7e0fb03358bbc3573b845ff06d03760a88137cf52db71090641b",
+            "autorouter/schematic_fields.py": "7d9043a14bac69d18830b2f51cb7d118c648df9290337505db1bf8503d931a71",
+            "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+            "autorouter/strategy.py": "a7fb17f35f390430fb45d335efa43dd7190546ae9df932c75925d05fe4ab137e",
+            "autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+            "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+            "autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455"
+          },
+          "git_head": "71fef03483b2da214462ff4485abf0b05256e37c",
+          "kicad": "10.0.0",
+          "freerouting": "2.5.0",
+          "files": {
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+            "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+            "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+            "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219"
+          },
+          "network": "engine sandbox-exec deny network*"
+        },
+        "reader_sha256": "9e964d496b38c0283aaf25a61a2f3cf1ecc6ca2c2cc3d7f51dae0e1394a28a58",
+        "controller_sha256": "e1c3593f1d6635f4614e7c5ae94a7c0aad4d3e4a9af9b2579f32dba0d28f0842",
+        "log_sha256": "31c342a37a0f4fed7917ebb557e51641727b9fb2e185932956851ead6a0a717d",
+        "scope": "Actual generic shared original-refill readback of retained Audio002; no Native/JVM/network/tests rerun. Conservative reader2sec allowance separately; development preparation unmeasured."
+      }
+    },
+    {
+      "receipt": {
+        "path": ".runs/audio-original-native-readback-execution-003/execution.json",
+        "sha256": "980e82254ffff4b20242ef0b22a955db0a1fa43a7d790f50c0872af1fc48bdbe",
+        "bytes": 6813
+      },
+      "record": {
+        "schema": 1,
+        "process": {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 1.8494467079872265,
+          "cpu_seconds": 1.754381,
+          "max_rss_bytes": 240107520,
+          "supervisor_cpu_seconds": 0.00743000000000002,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 234602496,
+          "sampled_peak_workdir_bytes": 98,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 16777216,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+            "-B",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/audio-original-native-readback-003/audit.py"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/audio-original-native-readback-execution-003/command.log",
+          "log_bytes": 98,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/audio-original-native-readback-execution-003",
+          "signal_cancellation_enabled": true,
+          "pid": 38849
+        },
+        "wall_seconds": 1.8495293330051936,
+        "full_cpu_seconds": 1.7618930000000002,
+        "tools": {
+          "implementation_sha256": {
+            "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+            "autorouter/__main__.py": "9e34e95cf21b4ab7c872365f0a8c835876713691ef39f1049d2bd52bcb0b09e6",
+            "autorouter/adapter.py": "95211455104334e338b83c77aecf8541ee24b0b4f7cd6c3043bcb71d478ddfca",
+            "autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+            "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+            "autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+            "autorouter/floor_route.py": "a0e06ee951a08bebb393c1bbfd57ce12f0dfafa462f28f99f04dec323fc5ba33",
+            "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+            "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+            "autorouter/native.py": "7cf0f7cd8d18b59d21b365d51398f0cc99885d3644721a1a842e4f36a7306060",
+            "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+            "autorouter/native_edge.py": "c242ba402c9a981bc18a6e8d2f43e95dc936b53ef64789bfa370716b3de4618d",
+            "autorouter/netclass.py": "79d4b7e98c7b46fe924816ddcc7fa384672bf646d1c06f81e134ce6d97e0a7de",
+            "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+            "autorouter/pipeline.py": "be986fb8616396c372472b7dd497d7471b2956194bc1099754fa8548c7069ef9",
+            "autorouter/placement_clearance.py": "f846a73367bc60dfbb48386233e405cb4bf1382f056d379787d7b823c3905feb",
+            "autorouter/placement_strategy.py": "b75a2291eed37d8ddb9f052c0b715faafcc2dfd258ae32f9e2763fcd01db0e97",
+            "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+            "autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+            "autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+            "autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+            "autorouter/recovery.py": "8a2bf1470cb69e7d8d334bbe7aef18110322a7aa786b965d397a89ddbc932ee5",
+            "autorouter/review_export.py": "716b369af61faa8c15f60ef58a0846772e4b175cff4a75af0c2c5ea45f24aea7",
+            "autorouter/review_view.py": "8f765624a8527df770a98594a7b27fe88776b300ec276f809c179ec7f6f60fb7",
+            "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+            "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+            "autorouter/schematic_field_evidence.py": "d7e1012b05bb7e0fb03358bbc3573b845ff06d03760a88137cf52db71090641b",
+            "autorouter/schematic_fields.py": "7d9043a14bac69d18830b2f51cb7d118c648df9290337505db1bf8503d931a71",
+            "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+            "autorouter/strategy.py": "a7fb17f35f390430fb45d335efa43dd7190546ae9df932c75925d05fe4ab137e",
+            "autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+            "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+            "autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455"
+          },
+          "git_head": "71fef03483b2da214462ff4485abf0b05256e37c",
+          "kicad": "10.0.0",
+          "freerouting": "2.5.0",
+          "files": {
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+            "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+            "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+            "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219"
+          },
+          "network": "engine sandbox-exec deny network*"
+        },
+        "reader_sha256": "eb10700db6ce46045e6709be41a164d534567b7143854889f0586e742ef646b3",
+        "controller_sha256": "a65131f4de040b46c4c815354816cb637292f63bf2ee7b0685fa97a32002cbc5",
+        "log_sha256": "90a829a430548c22f9c7ae300c42e72ccf13d4bd953fc4f8327b311b4e14a15c",
+        "scope": "Actual generic shared original-refill readback of retained Audio002; no Native/JVM/network/tests rerun. Conservative reader2sec allowance separately; development preparation unmeasured."
+      }
+    }
+  ],
+  "preserved_failures": [
+    {
+      "path": ".runs/native-prl-preservation-controls-001/result.json",
+      "sha256": "c53608c9bddca1b351fe507cdc4a59e33fa8e1d1e51fe4dc368ef370c4bccf24",
+      "bytes": 8719
+    },
+    {
+      "path": ".runs/run-native-prl-preservation-controls-002.py",
+      "sha256": "4626bdbc3d46903d12e6fd52aee0865b548a7be34532fe13d99de8514c257d5f",
+      "bytes": 2166
+    },
+    {
+      "path": ".runs/audio-original-native-readback-002/result.json",
+      "sha256": "2fba5c05a55024c4321e8ba9659558ac501b3beda0030293e10124c2e65b7154",
+      "bytes": 17656
+    },
+    {
+      "path": ".runs/original-refill-readback-preserved-001/integrated-reader-before-type-fix.py",
+      "sha256": "ba991dbdc379b22f2953548efec1bb05ec03d0b17256d96811a5851fdc71e560",
+      "bytes": 10014
+    }
+  ],
+  "limitations": [
+    "Native control001 strictly rejected saved serializer changes; corrected002 reuses existing saved-refill/original-shell/final validation. No geometry waiver.",
+    "Controls002 first wrapper failed protocol assertion before child; empty execution002 remains, corrected002b actual work accounted separately.",
+    "Readback002 predates ORR1 strict type/ORR2 late flags correction; source preserved. Readback003 binds corrected reader, no Native rerun.",
+    "Default production router unchanged; immutable-PRL option remains explicit diagnostic experiment. A killed parent may leave its owned copy flagged; unconfirmed child cleanup does not clear it.",
+    "Audio has six inherited courtyard errors/two silk-edge warnings and nine original ignored checks, all visible. Unsupported net ties/classes/FP restrictions/copper semantics/format/asset rights remain.",
+    "Applied Audio/PRL/raw results after incremental a6 cutoff; currently durable checkout only pending next incremental. Backups on Mac only by owner choice."
+  ],
+  "reader_review": {
+    "path": ".local-backups/original-refill-reader-review-001/REVIEW.md",
+    "sha256": "c41dc31ed6f064898684886edaab983b155b0acbdf382a8688c43afcb007711b",
+    "bytes": 2443
+  }
+}
