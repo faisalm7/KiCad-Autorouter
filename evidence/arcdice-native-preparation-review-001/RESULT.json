@@ -1,0 +1,78 @@
+{
+  "actual_arcdice001_independently_audited": false,
+  "corrective_copy_controls": {
+    "helper_sha256": "96b88ce04bb94b7e8e26a1103dd4d07cbbd6f77efe4f2c5c5e54ae6010e137b8",
+    "nested-replacement": "owned review output directory was replaced",
+    "nested-replacement_owner_preserved": true,
+    "positive_exact_copy": true,
+    "root-replacement": "owned review output directory was replaced",
+    "root-replacement_owner_preserved": true
+  },
+  "corrective_publication_controls": {
+    "normal": {
+      "archives": 0,
+      "error": null,
+      "native_scope_flag": true,
+      "reason": null,
+      "status": "observed",
+      "witness_calls": 6
+    },
+    "post-canonical-candidate": {
+      "archives": 2,
+      "error": "Rejected: completed original candidate/report binding changed",
+      "native_scope_flag": false,
+      "reason": "Rejected: Rejected: completed original candidate/report binding changed",
+      "status": "invalidated",
+      "witness_calls": 2
+    },
+    "post-canonical-class": {
+      "archives": 2,
+      "error": "Rejected: completed class observation/export changed",
+      "native_scope_flag": false,
+      "reason": "Rejected: Rejected: completed class observation/export changed",
+      "status": "invalidated",
+      "witness_calls": 2
+    },
+    "pre-witness-class": {
+      "archives": 1,
+      "error": "Rejected: completed class observation/export changed",
+      "native_scope_flag": false,
+      "reason": "Rejected: Rejected: completed class observation/export changed",
+      "status": "invalidated",
+      "witness_calls": 1
+    },
+    "pre-witness-report": {
+      "archives": 1,
+      "error": "Rejected: completed original candidate/report binding changed",
+      "native_scope_flag": false,
+      "reason": "Rejected: Rejected: completed original candidate/report binding changed",
+      "status": "invalidated",
+      "witness_calls": 1
+    }
+  },
+  "material_defects": [
+    {
+      "defect": "Nested source copy overwrote replacement owner",
+      "resolved": "descriptor-anchored exclusive copy with per-directory identities",
+      "severity": "high"
+    },
+    {
+      "defect": "Post-validation native/class evidence drift not rechecked",
+      "resolved": "record-bound revalidation before/after completed witness and publication",
+      "severity": "high"
+    }
+  ],
+  "native_executed": false,
+  "production_support_qualified": false,
+  "schema": 1,
+  "scope": "Preparation/controller pure controls only; all harness failures retained",
+  "source_stable": true,
+  "worker_controls": {
+    "actual_five_original_files_exact_read_only": true,
+    "closed_encodings_and_collision_negatives": true,
+    "known_parent_scalar_observation": true,
+    "no_vector_or_setter_called": true,
+    "unknown_read_error_visible": true,
+    "unsupported_structure_visible_without_admission": true
+  }
+}

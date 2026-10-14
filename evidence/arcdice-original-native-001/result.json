@@ -1,0 +1,2162 @@
+{
+  "schema": 1,
+  "kind": "original_hardware_native_diagnostic",
+  "project": "arcdice",
+  "accepted": false,
+  "physical_electrical_validation": false,
+  "status": "observed",
+  "budget_seconds": 90,
+  "cpu_budget_seconds": 90,
+  "output_cap_bytes": 20971520,
+  "source_commit": "5908d99db1ef98b5996b380c75e5aee8bb8caaa6",
+  "routing_executed": false,
+  "helper_sha256": "5c42852c176f569395e19be600fca4cb95ee121de7b5df6e87c82a5f9dee879b",
+  "original_hashes": {
+    "LICENSE": "13aa5751cc47416650ad3c976d1c001f32ca3b3d49caac777ae66e819a437298",
+    "README.md": "876a106e288ec606cf29239d6129d07b79a134005769ba50ef0d450622c1751b",
+    "hardware/ArcDice.kicad_pcb": "098e90725279e698f61d7f4a5f0281202ba32f655b9c430047c019783a60bf96",
+    "hardware/ArcDice.kicad_pro": "be12f193331f3091ef31b9df28dc968119be56269adddcd5b2ed2921523223f6",
+    "hardware/ArcDice.kicad_sch": "388bb0410c3372c2331c84b44ba8a45e10c4b34206a3b28b65cb90057129e4de"
+  },
+  "tools": {
+    "implementation_sha256": {
+      "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+      "autorouter/__main__.py": "a4f6ca97f5dadc2547825ca5bf7be585a8fb6845db1956815679a43474c26113",
+      "autorouter/adapter.py": "95211455104334e338b83c77aecf8541ee24b0b4f7cd6c3043bcb71d478ddfca",
+      "autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+      "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+      "autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+      "autorouter/floor_route.py": "787d0a309d8511628b0ada7a2f06ea7df1080fa2636b1c2ab540d182eba29b5a",
+      "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+      "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+      "autorouter/native.py": "f942bbe1f12cb1dfdaef0eda3ec4bc2f37dee6f347f00f32724a90d6ed3296bf",
+      "autorouter/netclass.py": "96a7425112bc5a5ce5d2f15f69efc334fbfbb97aa9deee1ee33ce984d25a8ea6",
+      "autorouter/pipeline.py": "7cde23f15b725a5fdef0554b2fe88bbda23dca0742ccb3b83baf611b20a0e952",
+      "autorouter/placement_clearance.py": "f846a73367bc60dfbb48386233e405cb4bf1382f056d379787d7b823c3905feb",
+      "autorouter/placement_strategy.py": "b75a2291eed37d8ddb9f052c0b715faafcc2dfd258ae32f9e2763fcd01db0e97",
+      "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+      "autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+      "autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+      "autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+      "autorouter/recovery.py": "8a2bf1470cb69e7d8d334bbe7aef18110322a7aa786b965d397a89ddbc932ee5",
+      "autorouter/review_export.py": "716b369af61faa8c15f60ef58a0846772e4b175cff4a75af0c2c5ea45f24aea7",
+      "autorouter/review_view.py": "8f765624a8527df770a98594a7b27fe88776b300ec276f809c179ec7f6f60fb7",
+      "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+      "autorouter/runner.py": "0e81ab1badf20cd84adc2fed586641dd97a489a5a6af03febe6fb597bb1d2718",
+      "autorouter/schematic_field_evidence.py": "d7e1012b05bb7e0fb03358bbc3573b845ff06d03760a88137cf52db71090641b",
+      "autorouter/schematic_fields.py": "7d9043a14bac69d18830b2f51cb7d118c648df9290337505db1bf8503d931a71",
+      "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+      "autorouter/strategy.py": "cb867d2e0c4a143931d7e4943a6219c76142437a7d7d78d8fb4b7ed710b0df17",
+      "autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+      "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+      "autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455"
+    },
+    "git_head": "9e2a761017e2f080ae078b052beb8c09323ddbb2",
+    "kicad": "10.0.0",
+    "freerouting": "2.5.0",
+    "files": {
+      "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+      "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219"
+    },
+    "network": "engine sandbox-exec deny network*"
+  },
+  "source_origin": "frozen public source lead; no managed acquisition or new download",
+  "source_metadata_sha256": {
+    "SOURCE_BINDINGS.json": "67cb6f09a225631bb7068e9e33475eaa9280607fdd50100c30e3ed6338fb93ad",
+    "inspection-001.json": "509989a6fab3913851ec8ccac76b69985f1d5046613212a398ec1812555e27bd"
+  },
+  "custom_asset_closure_qualified": false,
+  "additional_implementation_sha256": {
+    "experiments/arcdice_native_class_v1/source.py": "98bde7a79b31f3915c709c396fe766c8f3cd43351d9bff42d3bfce01e2394818",
+    "experiments/arcdice_native_class_v1/worker.py": "e74d01dd5465307d66c575df55003721126aeaac6e815118f74560631f816298"
+  },
+  "static_supported": false,
+  "static_unsupported_reason": "unsupported: netclass bindings not qualified: Only one or two fully specified netclasses qualified",
+  "class_context_sha256": "437b4cca358522658d2b1ec8e46d7ed2f867d94e33c8df5d86c177a4e37ab487",
+  "class_observation_sha256": "c00db0cec31f23e3414cba71564e0983fe957c0c74fe6f5c8b749311214f840e",
+  "original_dsn_sha256": "8332b13a90582b8c367c18eabd756e63c60ae61b912b62ffef153debc7588cf2",
+  "class_observation": {
+    "schema": 1,
+    "encoding_primary": "https://raw.githubusercontent.com/KiCad/kicad-source-mirror/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/common/netclass.cpp",
+    "encoding_scope": "GetName closed literal namespace only; no wildcard evaluation",
+    "source_class_names": [
+      "Default",
+      "POWER",
+      "SIGNAL"
+    ],
+    "nets": [
+      {
+        "name": "/BAT_MINUS",
+        "netcode": 20,
+        "effective_class_name": "POWER,Default",
+        "decoded_constituents": [
+          "POWER",
+          "Default"
+        ],
+        "effective_priority": -1,
+        "tuning_profile": "",
+        "effective_ownership_readonly": true,
+        "dimensions_nm": {
+          "width_nm": 600000,
+          "clearance_nm": 200000,
+          "via_diameter_nm": 600000,
+          "via_drill_nm": 300000
+        },
+        "parameter_parents": {
+          "width_nm": {
+            "name": "POWER",
+            "value_nm": 600000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 1,
+            "ownership_readonly": true
+          },
+          "clearance_nm": {
+            "name": "POWER",
+            "value_nm": 200000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 1,
+            "ownership_readonly": true
+          },
+          "via_diameter_nm": {
+            "name": "POWER",
+            "value_nm": 600000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 1,
+            "ownership_readonly": true
+          },
+          "via_drill_nm": {
+            "name": "POWER",
+            "value_nm": 300000,
+            "specified": true,
+            "specified_native_type": "int",
+            "priority": 1,
+            "ownership_readonly": true
+          }
+        },
+        "proposed_structure_matches": true
+      },
+      {
+        "name": "/BAT_PLUS",
+        "netcode": 19,
+        "effective_class_name": "POWER,Default",
+        "decoded_constituents": [
+          "POWER",
+          "Default"
+        ],
+        "effective_priority": -1,
+        "tuning_profile": "",
+        "effective_ownership_readonly": true,
+        "dimensions_nm": {
+          "width_nm": 600000,
+          "clearance_nm": 200000,
+          "via_diameter_nm": 600000,
+          "via_drill_nm": 300000
+        },
+        "parameter_parents": {
+          "width_nm": {
+            "name": "POWER",
+            "value_nm": 600000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 1,
+            "ownership_readonly": true
+          },
+          "clearance_nm": {
+            "name": "POWER",
+            "value_nm": 200000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 1,
+            "ownership_readonly": true
+          },
+          "via_diameter_nm": {
+            "name": "POWER",
+            "value_nm": 600000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 1,
+            "ownership_readonly": true
+          },
+          "via_drill_nm": {
+            "name": "POWER",
+            "value_nm": 300000,
+            "specified": true,
+            "specified_native_type": "int",
+            "priority": 1,
+            "ownership_readonly": true
+          }
+        },
+        "proposed_structure_matches": true
+      },
+      {
+        "name": "/BTN_ROLL",
+        "netcode": 11,
+        "effective_class_name": "SIGNAL,Default",
+        "decoded_constituents": [
+          "SIGNAL",
+          "Default"
+        ],
+        "effective_priority": -1,
+        "tuning_profile": "",
+        "effective_ownership_readonly": true,
+        "dimensions_nm": {
+          "width_nm": 250000,
+          "clearance_nm": 200000,
+          "via_diameter_nm": 600000,
+          "via_drill_nm": 300000
+        },
+        "parameter_parents": {
+          "width_nm": {
+            "name": "SIGNAL",
+            "value_nm": 250000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 0,
+            "ownership_readonly": true
+          },
+          "clearance_nm": {
+            "name": "SIGNAL",
+            "value_nm": 200000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 0,
+            "ownership_readonly": true
+          },
+          "via_diameter_nm": {
+            "name": "SIGNAL",
+            "value_nm": 600000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 0,
+            "ownership_readonly": true
+          },
+          "via_drill_nm": {
+            "name": "SIGNAL",
+            "value_nm": 300000,
+            "specified": true,
+            "specified_native_type": "int",
+            "priority": 0,
+            "ownership_readonly": true
+          }
+        },
+        "proposed_structure_matches": true
+      },
+      {
+        "name": "/GND",
+        "netcode": 1,
+        "effective_class_name": "POWER,Default",
+        "decoded_constituents": [
+          "POWER",
+          "Default"
+        ],
+        "effective_priority": -1,
+        "tuning_profile": "",
+        "effective_ownership_readonly": true,
+        "dimensions_nm": {
+          "width_nm": 600000,
+          "clearance_nm": 200000,
+          "via_diameter_nm": 600000,
+          "via_drill_nm": 300000
+        },
+        "parameter_parents": {
+          "width_nm": {
+            "name": "POWER",
+            "value_nm": 600000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 1,
+            "ownership_readonly": true
+          },
+          "clearance_nm": {
+            "name": "POWER",
+            "value_nm": 200000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 1,
+            "ownership_readonly": true
+          },
+          "via_diameter_nm": {
+            "name": "POWER",
+            "value_nm": 600000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 1,
+            "ownership_readonly": true
+          },
+          "via_drill_nm": {
+            "name": "POWER",
+            "value_nm": 300000,
+            "specified": true,
+            "specified_native_type": "int",
+            "priority": 1,
+            "ownership_readonly": true
+          }
+        },
+        "proposed_structure_matches": true
+      },
+      {
+        "name": "/RESET_N",
+        "netcode": 17,
+        "effective_class_name": "SIGNAL,Default",
+        "decoded_constituents": [
+          "SIGNAL",
+          "Default"
+        ],
+        "effective_priority": -1,
+        "tuning_profile": "",
+        "effective_ownership_readonly": true,
+        "dimensions_nm": {
+          "width_nm": 250000,
+          "clearance_nm": 200000,
+          "via_diameter_nm": 600000,
+          "via_drill_nm": 300000
+        },
+        "parameter_parents": {
+          "width_nm": {
+            "name": "SIGNAL",
+            "value_nm": 250000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 0,
+            "ownership_readonly": true
+          },
+          "clearance_nm": {
+            "name": "SIGNAL",
+            "value_nm": 200000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 0,
+            "ownership_readonly": true
+          },
+          "via_diameter_nm": {
+            "name": "SIGNAL",
+            "value_nm": 600000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 0,
+            "ownership_readonly": true
+          },
+          "via_drill_nm": {
+            "name": "SIGNAL",
+            "value_nm": 300000,
+            "specified": true,
+            "specified_native_type": "int",
+            "priority": 0,
+            "ownership_readonly": true
+          }
+        },
+        "proposed_structure_matches": true
+      },
+      {
+        "name": "/SEGMENT_CENTER",
+        "netcode": 16,
+        "effective_class_name": "SIGNAL,Default",
+        "decoded_constituents": [
+          "SIGNAL",
+          "Default"
+        ],
+        "effective_priority": -1,
+        "tuning_profile": "",
+        "effective_ownership_readonly": true,
+        "dimensions_nm": {
+          "width_nm": 250000,
+          "clearance_nm": 200000,
+          "via_diameter_nm": 600000,
+          "via_drill_nm": 300000
+        },
+        "parameter_parents": {
+          "width_nm": {
+            "name": "SIGNAL",
+            "value_nm": 250000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 0,
+            "ownership_readonly": true
+          },
+          "clearance_nm": {
+            "name": "SIGNAL",
+            "value_nm": 200000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 0,
+            "ownership_readonly": true
+          },
+          "via_diameter_nm": {
+            "name": "SIGNAL",
+            "value_nm": 600000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 0,
+            "ownership_readonly": true
+          },
+          "via_drill_nm": {
+            "name": "SIGNAL",
+            "value_nm": 300000,
+            "specified": true,
+            "specified_native_type": "int",
+            "priority": 0,
+            "ownership_readonly": true
+          }
+        },
+        "proposed_structure_matches": true
+      },
+      {
+        "name": "/SEGMENT_DIAGONAL_A",
+        "netcode": 4,
+        "effective_class_name": "SIGNAL,Default",
+        "decoded_constituents": [
+          "SIGNAL",
+          "Default"
+        ],
+        "effective_priority": -1,
+        "tuning_profile": "",
+        "effective_ownership_readonly": true,
+        "dimensions_nm": {
+          "width_nm": 250000,
+          "clearance_nm": 200000,
+          "via_diameter_nm": 600000,
+          "via_drill_nm": 300000
+        },
+        "parameter_parents": {
+          "width_nm": {
+            "name": "SIGNAL",
+            "value_nm": 250000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 0,
+            "ownership_readonly": true
+          },
+          "clearance_nm": {
+            "name": "SIGNAL",
+            "value_nm": 200000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 0,
+            "ownership_readonly": true
+          },
+          "via_diameter_nm": {
+            "name": "SIGNAL",
+            "value_nm": 600000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 0,
+            "ownership_readonly": true
+          },
+          "via_drill_nm": {
+            "name": "SIGNAL",
+            "value_nm": 300000,
+            "specified": true,
+            "specified_native_type": "int",
+            "priority": 0,
+            "ownership_readonly": true
+          }
+        },
+        "proposed_structure_matches": true
+      },
+      {
+        "name": "/SEGMENT_DIAGONAL_B",
+        "netcode": 7,
+        "effective_class_name": "SIGNAL,Default",
+        "decoded_constituents": [
+          "SIGNAL",
+          "Default"
+        ],
+        "effective_priority": -1,
+        "tuning_profile": "",
+        "effective_ownership_readonly": true,
+        "dimensions_nm": {
+          "width_nm": 250000,
+          "clearance_nm": 200000,
+          "via_diameter_nm": 600000,
+          "via_drill_nm": 300000
+        },
+        "parameter_parents": {
+          "width_nm": {
+            "name": "SIGNAL",
+            "value_nm": 250000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 0,
+            "ownership_readonly": true
+          },
+          "clearance_nm": {
+            "name": "SIGNAL",
+            "value_nm": 200000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 0,
+            "ownership_readonly": true
+          },
+          "via_diameter_nm": {
+            "name": "SIGNAL",
+            "value_nm": 600000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 0,
+            "ownership_readonly": true
+          },
+          "via_drill_nm": {
+            "name": "SIGNAL",
+            "value_nm": 300000,
+            "specified": true,
+            "specified_native_type": "int",
+            "priority": 0,
+            "ownership_readonly": true
+          }
+        },
+        "proposed_structure_matches": true
+      },
+      {
+        "name": "/SEGMENT_MIDDLE_ROW",
+        "netcode": 9,
+        "effective_class_name": "SIGNAL,Default",
+        "decoded_constituents": [
+          "SIGNAL",
+          "Default"
+        ],
+        "effective_priority": -1,
+        "tuning_profile": "",
+        "effective_ownership_readonly": true,
+        "dimensions_nm": {
+          "width_nm": 250000,
+          "clearance_nm": 200000,
+          "via_diameter_nm": 600000,
+          "via_drill_nm": 300000
+        },
+        "parameter_parents": {
+          "width_nm": {
+            "name": "SIGNAL",
+            "value_nm": 250000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 0,
+            "ownership_readonly": true
+          },
+          "clearance_nm": {
+            "name": "SIGNAL",
+            "value_nm": 200000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 0,
+            "ownership_readonly": true
+          },
+          "via_diameter_nm": {
+            "name": "SIGNAL",
+            "value_nm": 600000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 0,
+            "ownership_readonly": true
+          },
+          "via_drill_nm": {
+            "name": "SIGNAL",
+            "value_nm": 300000,
+            "specified": true,
+            "specified_native_type": "int",
+            "priority": 0,
+            "ownership_readonly": true
+          }
+        },
+        "proposed_structure_matches": true
+      },
+      {
+        "name": "/SW IN",
+        "netcode": 14,
+        "effective_class_name": "POWER,Default",
+        "decoded_constituents": [
+          "POWER",
+          "Default"
+        ],
+        "effective_priority": -1,
+        "tuning_profile": "",
+        "effective_ownership_readonly": true,
+        "dimensions_nm": {
+          "width_nm": 600000,
+          "clearance_nm": 200000,
+          "via_diameter_nm": 600000,
+          "via_drill_nm": 300000
+        },
+        "parameter_parents": {
+          "width_nm": {
+            "name": "POWER",
+            "value_nm": 600000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 1,
+            "ownership_readonly": true
+          },
+          "clearance_nm": {
+            "name": "POWER",
+            "value_nm": 200000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 1,
+            "ownership_readonly": true
+          },
+          "via_diameter_nm": {
+            "name": "POWER",
+            "value_nm": 600000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 1,
+            "ownership_readonly": true
+          },
+          "via_drill_nm": {
+            "name": "POWER",
+            "value_nm": 300000,
+            "specified": true,
+            "specified_native_type": "int",
+            "priority": 1,
+            "ownership_readonly": true
+          }
+        },
+        "proposed_structure_matches": true
+      },
+      {
+        "name": "/SYS_VCC",
+        "netcode": 13,
+        "effective_class_name": "POWER,Default",
+        "decoded_constituents": [
+          "POWER",
+          "Default"
+        ],
+        "effective_priority": -1,
+        "tuning_profile": "",
+        "effective_ownership_readonly": true,
+        "dimensions_nm": {
+          "width_nm": 600000,
+          "clearance_nm": 200000,
+          "via_diameter_nm": 600000,
+          "via_drill_nm": 300000
+        },
+        "parameter_parents": {
+          "width_nm": {
+            "name": "POWER",
+            "value_nm": 600000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 1,
+            "ownership_readonly": true
+          },
+          "clearance_nm": {
+            "name": "POWER",
+            "value_nm": 200000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 1,
+            "ownership_readonly": true
+          },
+          "via_diameter_nm": {
+            "name": "POWER",
+            "value_nm": 600000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 1,
+            "ownership_readonly": true
+          },
+          "via_drill_nm": {
+            "name": "POWER",
+            "value_nm": 300000,
+            "specified": true,
+            "specified_native_type": "int",
+            "priority": 1,
+            "ownership_readonly": true
+          }
+        },
+        "proposed_structure_matches": true
+      },
+      {
+        "name": "Net-(D1-A)",
+        "netcode": 12,
+        "effective_class_name": "Default",
+        "decoded_constituents": [
+          "Default"
+        ],
+        "effective_priority": 2147483647,
+        "tuning_profile": "",
+        "effective_ownership_readonly": true,
+        "dimensions_nm": {
+          "width_nm": 200000,
+          "clearance_nm": 200000,
+          "via_diameter_nm": 600000,
+          "via_drill_nm": 300000
+        },
+        "parameter_parents": {
+          "width_nm": {
+            "name": "Default",
+            "value_nm": 200000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 2147483647,
+            "ownership_readonly": true
+          },
+          "clearance_nm": {
+            "name": "Default",
+            "value_nm": 200000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 2147483647,
+            "ownership_readonly": true
+          },
+          "via_diameter_nm": {
+            "name": "Default",
+            "value_nm": 600000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 2147483647,
+            "ownership_readonly": true
+          },
+          "via_drill_nm": {
+            "name": "Default",
+            "value_nm": 300000,
+            "specified": true,
+            "specified_native_type": "int",
+            "priority": 2147483647,
+            "ownership_readonly": true
+          }
+        },
+        "proposed_structure_matches": true
+      },
+      {
+        "name": "Net-(D2-A)",
+        "netcode": 6,
+        "effective_class_name": "Default",
+        "decoded_constituents": [
+          "Default"
+        ],
+        "effective_priority": 2147483647,
+        "tuning_profile": "",
+        "effective_ownership_readonly": true,
+        "dimensions_nm": {
+          "width_nm": 200000,
+          "clearance_nm": 200000,
+          "via_diameter_nm": 600000,
+          "via_drill_nm": 300000
+        },
+        "parameter_parents": {
+          "width_nm": {
+            "name": "Default",
+            "value_nm": 200000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 2147483647,
+            "ownership_readonly": true
+          },
+          "clearance_nm": {
+            "name": "Default",
+            "value_nm": 200000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 2147483647,
+            "ownership_readonly": true
+          },
+          "via_diameter_nm": {
+            "name": "Default",
+            "value_nm": 600000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 2147483647,
+            "ownership_readonly": true
+          },
+          "via_drill_nm": {
+            "name": "Default",
+            "value_nm": 300000,
+            "specified": true,
+            "specified_native_type": "int",
+            "priority": 2147483647,
+            "ownership_readonly": true
+          }
+        },
+        "proposed_structure_matches": true
+      },
+      {
+        "name": "Net-(D3-A)",
+        "netcode": 8,
+        "effective_class_name": "Default",
+        "decoded_constituents": [
+          "Default"
+        ],
+        "effective_priority": 2147483647,
+        "tuning_profile": "",
+        "effective_ownership_readonly": true,
+        "dimensions_nm": {
+          "width_nm": 200000,
+          "clearance_nm": 200000,
+          "via_diameter_nm": 600000,
+          "via_drill_nm": 300000
+        },
+        "parameter_parents": {
+          "width_nm": {
+            "name": "Default",
+            "value_nm": 200000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 2147483647,
+            "ownership_readonly": true
+          },
+          "clearance_nm": {
+            "name": "Default",
+            "value_nm": 200000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 2147483647,
+            "ownership_readonly": true
+          },
+          "via_diameter_nm": {
+            "name": "Default",
+            "value_nm": 600000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 2147483647,
+            "ownership_readonly": true
+          },
+          "via_drill_nm": {
+            "name": "Default",
+            "value_nm": 300000,
+            "specified": true,
+            "specified_native_type": "int",
+            "priority": 2147483647,
+            "ownership_readonly": true
+          }
+        },
+        "proposed_structure_matches": true
+      },
+      {
+        "name": "Net-(D4-A)",
+        "netcode": 2,
+        "effective_class_name": "Default",
+        "decoded_constituents": [
+          "Default"
+        ],
+        "effective_priority": 2147483647,
+        "tuning_profile": "",
+        "effective_ownership_readonly": true,
+        "dimensions_nm": {
+          "width_nm": 200000,
+          "clearance_nm": 200000,
+          "via_diameter_nm": 600000,
+          "via_drill_nm": 300000
+        },
+        "parameter_parents": {
+          "width_nm": {
+            "name": "Default",
+            "value_nm": 200000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 2147483647,
+            "ownership_readonly": true
+          },
+          "clearance_nm": {
+            "name": "Default",
+            "value_nm": 200000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 2147483647,
+            "ownership_readonly": true
+          },
+          "via_diameter_nm": {
+            "name": "Default",
+            "value_nm": 600000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 2147483647,
+            "ownership_readonly": true
+          },
+          "via_drill_nm": {
+            "name": "Default",
+            "value_nm": 300000,
+            "specified": true,
+            "specified_native_type": "int",
+            "priority": 2147483647,
+            "ownership_readonly": true
+          }
+        },
+        "proposed_structure_matches": true
+      },
+      {
+        "name": "Net-(D5-A)",
+        "netcode": 10,
+        "effective_class_name": "Default",
+        "decoded_constituents": [
+          "Default"
+        ],
+        "effective_priority": 2147483647,
+        "tuning_profile": "",
+        "effective_ownership_readonly": true,
+        "dimensions_nm": {
+          "width_nm": 200000,
+          "clearance_nm": 200000,
+          "via_diameter_nm": 600000,
+          "via_drill_nm": 300000
+        },
+        "parameter_parents": {
+          "width_nm": {
+            "name": "Default",
+            "value_nm": 200000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 2147483647,
+            "ownership_readonly": true
+          },
+          "clearance_nm": {
+            "name": "Default",
+            "value_nm": 200000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 2147483647,
+            "ownership_readonly": true
+          },
+          "via_diameter_nm": {
+            "name": "Default",
+            "value_nm": 600000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 2147483647,
+            "ownership_readonly": true
+          },
+          "via_drill_nm": {
+            "name": "Default",
+            "value_nm": 300000,
+            "specified": true,
+            "specified_native_type": "int",
+            "priority": 2147483647,
+            "ownership_readonly": true
+          }
+        },
+        "proposed_structure_matches": true
+      },
+      {
+        "name": "Net-(D6-A)",
+        "netcode": 5,
+        "effective_class_name": "Default",
+        "decoded_constituents": [
+          "Default"
+        ],
+        "effective_priority": 2147483647,
+        "tuning_profile": "",
+        "effective_ownership_readonly": true,
+        "dimensions_nm": {
+          "width_nm": 200000,
+          "clearance_nm": 200000,
+          "via_diameter_nm": 600000,
+          "via_drill_nm": 300000
+        },
+        "parameter_parents": {
+          "width_nm": {
+            "name": "Default",
+            "value_nm": 200000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 2147483647,
+            "ownership_readonly": true
+          },
+          "clearance_nm": {
+            "name": "Default",
+            "value_nm": 200000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 2147483647,
+            "ownership_readonly": true
+          },
+          "via_diameter_nm": {
+            "name": "Default",
+            "value_nm": 600000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 2147483647,
+            "ownership_readonly": true
+          },
+          "via_drill_nm": {
+            "name": "Default",
+            "value_nm": 300000,
+            "specified": true,
+            "specified_native_type": "int",
+            "priority": 2147483647,
+            "ownership_readonly": true
+          }
+        },
+        "proposed_structure_matches": true
+      },
+      {
+        "name": "Net-(D7-A)",
+        "netcode": 3,
+        "effective_class_name": "Default",
+        "decoded_constituents": [
+          "Default"
+        ],
+        "effective_priority": 2147483647,
+        "tuning_profile": "",
+        "effective_ownership_readonly": true,
+        "dimensions_nm": {
+          "width_nm": 200000,
+          "clearance_nm": 200000,
+          "via_diameter_nm": 600000,
+          "via_drill_nm": 300000
+        },
+        "parameter_parents": {
+          "width_nm": {
+            "name": "Default",
+            "value_nm": 200000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 2147483647,
+            "ownership_readonly": true
+          },
+          "clearance_nm": {
+            "name": "Default",
+            "value_nm": 200000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 2147483647,
+            "ownership_readonly": true
+          },
+          "via_diameter_nm": {
+            "name": "Default",
+            "value_nm": 600000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 2147483647,
+            "ownership_readonly": true
+          },
+          "via_drill_nm": {
+            "name": "Default",
+            "value_nm": 300000,
+            "specified": true,
+            "specified_native_type": "int",
+            "priority": 2147483647,
+            "ownership_readonly": true
+          }
+        },
+        "proposed_structure_matches": true
+      },
+      {
+        "name": "unconnected-(SW1-C-Pad3)",
+        "netcode": 15,
+        "effective_class_name": "Default",
+        "decoded_constituents": [
+          "Default"
+        ],
+        "effective_priority": 2147483647,
+        "tuning_profile": "",
+        "effective_ownership_readonly": true,
+        "dimensions_nm": {
+          "width_nm": 200000,
+          "clearance_nm": 200000,
+          "via_diameter_nm": 600000,
+          "via_drill_nm": 300000
+        },
+        "parameter_parents": {
+          "width_nm": {
+            "name": "Default",
+            "value_nm": 200000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 2147483647,
+            "ownership_readonly": true
+          },
+          "clearance_nm": {
+            "name": "Default",
+            "value_nm": 200000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 2147483647,
+            "ownership_readonly": true
+          },
+          "via_diameter_nm": {
+            "name": "Default",
+            "value_nm": 600000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 2147483647,
+            "ownership_readonly": true
+          },
+          "via_drill_nm": {
+            "name": "Default",
+            "value_nm": 300000,
+            "specified": true,
+            "specified_native_type": "int",
+            "priority": 2147483647,
+            "ownership_readonly": true
+          }
+        },
+        "proposed_structure_matches": true
+      },
+      {
+        "name": "unconnected-(U2-IN+-Pad1)",
+        "netcode": 18,
+        "effective_class_name": "Default",
+        "decoded_constituents": [
+          "Default"
+        ],
+        "effective_priority": 2147483647,
+        "tuning_profile": "",
+        "effective_ownership_readonly": true,
+        "dimensions_nm": {
+          "width_nm": 200000,
+          "clearance_nm": 200000,
+          "via_diameter_nm": 600000,
+          "via_drill_nm": 300000
+        },
+        "parameter_parents": {
+          "width_nm": {
+            "name": "Default",
+            "value_nm": 200000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 2147483647,
+            "ownership_readonly": true
+          },
+          "clearance_nm": {
+            "name": "Default",
+            "value_nm": 200000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 2147483647,
+            "ownership_readonly": true
+          },
+          "via_diameter_nm": {
+            "name": "Default",
+            "value_nm": 600000,
+            "specified": true,
+            "specified_native_type": "bool",
+            "priority": 2147483647,
+            "ownership_readonly": true
+          },
+          "via_drill_nm": {
+            "name": "Default",
+            "value_nm": 300000,
+            "specified": true,
+            "specified_native_type": "int",
+            "priority": 2147483647,
+            "ownership_readonly": true
+          }
+        },
+        "proposed_structure_matches": true
+      }
+    ],
+    "closed_namespace_decoding_complete": true,
+    "failed_net_names": [],
+    "constituent_vector_api_called": false,
+    "production_support_qualified": false,
+    "routing_accepted": false
+  },
+  "class_transport_qualified": false,
+  "production_support_qualified": false,
+  "native_saved_nonfill_ast_equal": true,
+  "native_saved_route_records_equal": true,
+  "original_native": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 26,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "Footprint component type doesn't match footprint pads",
+        "key": "footprint_type_mismatch"
+      }
+    ],
+    "findings": [
+      {
+        "description": "The current configuration does not include the footprint library 'LED_THT'",
+        "items": [
+          {
+            "description": "Footprint D4",
+            "pos": {
+              "x": 133.73,
+              "y": 75.0
+            },
+            "uuid": "10adda4f-e2e9-4db0-b4c9-bb826d187ffa"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'LED_THT'",
+        "items": [
+          {
+            "description": "Footprint D7",
+            "pos": {
+              "x": 143.73,
+              "y": 85.0
+            },
+            "uuid": "14934184-dc81-44d9-ba6a-73aa145ab7f0"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+        "items": [
+          {
+            "description": "Footprint R7",
+            "pos": {
+              "x": 147.06,
+              "y": 90.5
+            },
+            "uuid": "21da4687-c643-40b6-8d73-857a9ff85a3b"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'MountingHole'",
+        "items": [
+          {
+            "description": "Footprint H3",
+            "pos": {
+              "x": 104.0,
+              "y": 44.0
+            },
+            "uuid": "2788a2ed-4d9f-4630-a994-021aa3447175"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'LED_THT'",
+        "items": [
+          {
+            "description": "Footprint D6",
+            "pos": {
+              "x": 123.73,
+              "y": 85.0
+            },
+            "uuid": "378a7737-67d8-49c4-9900-5ed5f92e04c1"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+        "items": [
+          {
+            "description": "Footprint R2",
+            "pos": {
+              "x": 150.5,
+              "y": 61.44
+            },
+            "uuid": "487a96b4-0ceb-4783-bc6d-d3f76336443b"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+        "items": [
+          {
+            "description": "Footprint R3",
+            "pos": {
+              "x": 119.5,
+              "y": 67.56
+            },
+            "uuid": "502212ce-a247-4c63-a135-bd5bd7102129"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+        "items": [
+          {
+            "description": "Footprint R5",
+            "pos": {
+              "x": 139.06,
+              "y": 80.75
+            },
+            "uuid": "5d7eeb68-dd82-46fa-8c32-b4e4ecc8bf65"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+        "items": [
+          {
+            "description": "Footprint R6",
+            "pos": {
+              "x": 119.75,
+              "y": 78.31
+            },
+            "uuid": "62413f4c-41a8-43c3-8d63-5487e23a014a"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Button_Switch_THT'",
+        "items": [
+          {
+            "description": "Footprint SW2",
+            "pos": {
+              "x": 131.75,
+              "y": 43.5
+            },
+            "uuid": "68ef80ed-031f-4d4a-8cd1-251eb0852ec2"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+        "items": [
+          {
+            "description": "Footprint R1",
+            "pos": {
+              "x": 140.0,
+              "y": 72.56
+            },
+            "uuid": "6fa0116f-6feb-42bf-a468-73f3dd480a5b"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Button_Switch_THT'",
+        "items": [
+          {
+            "description": "Footprint SW1",
+            "pos": {
+              "x": 155.25,
+              "y": 52.25
+            },
+            "uuid": "721b697b-dd6a-4997-b0b5-4596253006c8"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'LED_THT'",
+        "items": [
+          {
+            "description": "Footprint D1",
+            "pos": {
+              "x": 123.73,
+              "y": 65.0
+            },
+            "uuid": "7900e8d1-ca01-414e-92fe-c65a2a12c2df"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'MountingHole'",
+        "items": [
+          {
+            "description": "Footprint H4",
+            "pos": {
+              "x": 166.0,
+              "y": 106.0
+            },
+            "uuid": "7aaf7735-a5ef-4add-ae9a-2553e9976b87"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'MountingHole'",
+        "items": [
+          {
+            "description": "Footprint H1",
+            "pos": {
+              "x": 166.0,
+              "y": 44.0
+            },
+            "uuid": "7d0d67bb-5f8b-4231-8fec-b5931349d564"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+        "items": [
+          {
+            "description": "Footprint R4",
+            "pos": {
+              "x": 130.25,
+              "y": 72.81
+            },
+            "uuid": "927c9e3b-878e-4076-bf4b-4dbcc7178ece"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'LED_THT'",
+        "items": [
+          {
+            "description": "Footprint D3",
+            "pos": {
+              "x": 123.73,
+              "y": 75.0
+            },
+            "uuid": "92f867f8-a632-46e7-a0e2-40ba7ca96952"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+        "items": [
+          {
+            "description": "Footprint R8",
+            "pos": {
+              "x": 120.06,
+              "y": 44.25
+            },
+            "uuid": "a9add2dd-e09e-4274-a332-ece0be82e46b"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'MountingHole'",
+        "items": [
+          {
+            "description": "Footprint H2",
+            "pos": {
+              "x": 104.0,
+              "y": 106.0
+            },
+            "uuid": "aa3f1460-34fc-4bb3-953f-33eafa7917fd"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'LED_THT'",
+        "items": [
+          {
+            "description": "Footprint D5",
+            "pos": {
+              "x": 143.73,
+              "y": 75.0
+            },
+            "uuid": "c760fe96-8797-4456-a19b-ca9b34305d28"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'LED_THT'",
+        "items": [
+          {
+            "description": "Footprint D2",
+            "pos": {
+              "x": 143.73,
+              "y": 65.0
+            },
+            "uuid": "dc5722e8-b38d-4d33-8bd6-2f0812afd44c"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+        "items": [
+          {
+            "description": "Footprint C2",
+            "pos": {
+              "x": 108.205113,
+              "y": 55.0
+            },
+            "uuid": "698196cc-c1fd-4eea-8d24-9d78ea941632"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'MyFootprints'",
+        "items": [
+          {
+            "description": "Footprint U2",
+            "pos": {
+              "x": 150.995,
+              "y": 103.005
+            },
+            "uuid": "d5421e99-eb39-4620-9dbe-424e9040eddb"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+        "items": [
+          {
+            "description": "Footprint C1",
+            "pos": {
+              "x": 108.75,
+              "y": 49.75
+            },
+            "uuid": "d592e5e2-cf82-48c7-af74-b9af4b4a06f7"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Battery'",
+        "items": [
+          {
+            "description": "Footprint BT1",
+            "pos": {
+              "x": 121.0,
+              "y": 99.25
+            },
+            "uuid": "e7507d54-477b-4580-95f4-315f716a6fea"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Package_DIP'",
+        "items": [
+          {
+            "description": "Footprint U1",
+            "pos": {
+              "x": 120.06,
+              "y": 48.19
+            },
+            "uuid": "f8464d79-bd52-46a8-97c7-0248620e1167"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      }
+    ]
+  },
+  "parity_native": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 26,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "Footprint component type doesn't match footprint pads",
+        "key": "footprint_type_mismatch"
+      }
+    ],
+    "findings": [
+      {
+        "description": "The current configuration does not include the footprint library 'LED_THT'",
+        "items": [
+          {
+            "description": "Footprint D4",
+            "pos": {
+              "x": 133.73,
+              "y": 75.0
+            },
+            "uuid": "10adda4f-e2e9-4db0-b4c9-bb826d187ffa"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'LED_THT'",
+        "items": [
+          {
+            "description": "Footprint D7",
+            "pos": {
+              "x": 143.73,
+              "y": 85.0
+            },
+            "uuid": "14934184-dc81-44d9-ba6a-73aa145ab7f0"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+        "items": [
+          {
+            "description": "Footprint R7",
+            "pos": {
+              "x": 147.06,
+              "y": 90.5
+            },
+            "uuid": "21da4687-c643-40b6-8d73-857a9ff85a3b"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'MountingHole'",
+        "items": [
+          {
+            "description": "Footprint H3",
+            "pos": {
+              "x": 104.0,
+              "y": 44.0
+            },
+            "uuid": "2788a2ed-4d9f-4630-a994-021aa3447175"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'LED_THT'",
+        "items": [
+          {
+            "description": "Footprint D6",
+            "pos": {
+              "x": 123.73,
+              "y": 85.0
+            },
+            "uuid": "378a7737-67d8-49c4-9900-5ed5f92e04c1"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+        "items": [
+          {
+            "description": "Footprint R2",
+            "pos": {
+              "x": 150.5,
+              "y": 61.44
+            },
+            "uuid": "487a96b4-0ceb-4783-bc6d-d3f76336443b"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+        "items": [
+          {
+            "description": "Footprint R3",
+            "pos": {
+              "x": 119.5,
+              "y": 67.56
+            },
+            "uuid": "502212ce-a247-4c63-a135-bd5bd7102129"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+        "items": [
+          {
+            "description": "Footprint R5",
+            "pos": {
+              "x": 139.06,
+              "y": 80.75
+            },
+            "uuid": "5d7eeb68-dd82-46fa-8c32-b4e4ecc8bf65"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+        "items": [
+          {
+            "description": "Footprint R6",
+            "pos": {
+              "x": 119.75,
+              "y": 78.31
+            },
+            "uuid": "62413f4c-41a8-43c3-8d63-5487e23a014a"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Button_Switch_THT'",
+        "items": [
+          {
+            "description": "Footprint SW2",
+            "pos": {
+              "x": 131.75,
+              "y": 43.5
+            },
+            "uuid": "68ef80ed-031f-4d4a-8cd1-251eb0852ec2"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+        "items": [
+          {
+            "description": "Footprint R1",
+            "pos": {
+              "x": 140.0,
+              "y": 72.56
+            },
+            "uuid": "6fa0116f-6feb-42bf-a468-73f3dd480a5b"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Button_Switch_THT'",
+        "items": [
+          {
+            "description": "Footprint SW1",
+            "pos": {
+              "x": 155.25,
+              "y": 52.25
+            },
+            "uuid": "721b697b-dd6a-4997-b0b5-4596253006c8"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'LED_THT'",
+        "items": [
+          {
+            "description": "Footprint D1",
+            "pos": {
+              "x": 123.73,
+              "y": 65.0
+            },
+            "uuid": "7900e8d1-ca01-414e-92fe-c65a2a12c2df"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'MountingHole'",
+        "items": [
+          {
+            "description": "Footprint H4",
+            "pos": {
+              "x": 166.0,
+              "y": 106.0
+            },
+            "uuid": "7aaf7735-a5ef-4add-ae9a-2553e9976b87"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'MountingHole'",
+        "items": [
+          {
+            "description": "Footprint H1",
+            "pos": {
+              "x": 166.0,
+              "y": 44.0
+            },
+            "uuid": "7d0d67bb-5f8b-4231-8fec-b5931349d564"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+        "items": [
+          {
+            "description": "Footprint R4",
+            "pos": {
+              "x": 130.25,
+              "y": 72.81
+            },
+            "uuid": "927c9e3b-878e-4076-bf4b-4dbcc7178ece"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'LED_THT'",
+        "items": [
+          {
+            "description": "Footprint D3",
+            "pos": {
+              "x": 123.73,
+              "y": 75.0
+            },
+            "uuid": "92f867f8-a632-46e7-a0e2-40ba7ca96952"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+        "items": [
+          {
+            "description": "Footprint R8",
+            "pos": {
+              "x": 120.06,
+              "y": 44.25
+            },
+            "uuid": "a9add2dd-e09e-4274-a332-ece0be82e46b"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'MountingHole'",
+        "items": [
+          {
+            "description": "Footprint H2",
+            "pos": {
+              "x": 104.0,
+              "y": 106.0
+            },
+            "uuid": "aa3f1460-34fc-4bb3-953f-33eafa7917fd"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'LED_THT'",
+        "items": [
+          {
+            "description": "Footprint D5",
+            "pos": {
+              "x": 143.73,
+              "y": 75.0
+            },
+            "uuid": "c760fe96-8797-4456-a19b-ca9b34305d28"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'LED_THT'",
+        "items": [
+          {
+            "description": "Footprint D2",
+            "pos": {
+              "x": 143.73,
+              "y": 65.0
+            },
+            "uuid": "dc5722e8-b38d-4d33-8bd6-2f0812afd44c"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+        "items": [
+          {
+            "description": "Footprint C2",
+            "pos": {
+              "x": 108.205113,
+              "y": 55.0
+            },
+            "uuid": "698196cc-c1fd-4eea-8d24-9d78ea941632"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'MyFootprints'",
+        "items": [
+          {
+            "description": "Footprint U2",
+            "pos": {
+              "x": 150.995,
+              "y": 103.005
+            },
+            "uuid": "d5421e99-eb39-4620-9dbe-424e9040eddb"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+        "items": [
+          {
+            "description": "Footprint C1",
+            "pos": {
+              "x": 108.75,
+              "y": 49.75
+            },
+            "uuid": "d592e5e2-cf82-48c7-af74-b9af4b4a06f7"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Battery'",
+        "items": [
+          {
+            "description": "Footprint BT1",
+            "pos": {
+              "x": 121.0,
+              "y": 99.25
+            },
+            "uuid": "e7507d54-477b-4580-95f4-315f716a6fea"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Package_DIP'",
+        "items": [
+          {
+            "description": "Footprint U1",
+            "pos": {
+              "x": 120.06,
+              "y": 48.19
+            },
+            "uuid": "f8464d79-bd52-46a8-97c7-0248620e1167"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      }
+    ]
+  },
+  "final_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-original-native-001/candidate/ArcDice.kicad_pcb",
+  "final_candidate_sha256": "7c7194946e4e3feb4684c3b13bf5d6d4fe3b14eca2f0a5097736fb18cca3aff6",
+  "final_native_report_sha256": "85de1ee7a4650fd7686621bcff80e974e17e13ec12d27584ea626e816a80577a",
+  "original_shell_nonfill_ast_equal": true,
+  "all_original_route_records_exact": true,
+  "native_routing_scope_accepted": true,
+  "schematic_parity_findings": 0,
+  "serialization_equivalence_qualified": false,
+  "steps": [
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.642248499993002,
+      "cpu_seconds": 0.423327,
+      "max_rss_bytes": 97665024,
+      "supervisor_cpu_seconds": 0.004005000000000036,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 61997056,
+      "sampled_peak_workdir_bytes": 739714,
+      "resource_guards": {
+        "max_group_rss_bytes": 2147483648,
+        "max_workdir_bytes": 20971520,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/arcdice_native_class_v1/worker.py",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-original-native-001/job/class-source/ArcDice.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-original-native-001/job/class-context.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-original-native-001/job/original.dsn",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-original-native-001/job/class-observation.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-original-native-001/job/class-context.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-original-native-001/job",
+      "signal_cancellation_enabled": true,
+      "pid": 44682,
+      "name": "class-context"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.29686675000994,
+      "cpu_seconds": 0.641412,
+      "max_rss_bytes": 229998592,
+      "supervisor_cpu_seconds": 0.012232999999999994,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 224182272,
+      "sampled_peak_workdir_bytes": 819777,
+      "resource_guards": {
+        "max_group_rss_bytes": 2147483648,
+        "max_workdir_bytes": 20971520,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-original-native-001/job/original-refill.json",
+        "--save-board",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-original-native-001/saved/ArcDice.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-original-native-001/job/original-refill.log",
+      "log_bytes": 183,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-original-native-001/job",
+      "signal_cancellation_enabled": true,
+      "pid": 44683,
+      "name": "original-refill",
+      "validated_input_sha256": "098e90725279e698f61d7f4a5f0281202ba32f655b9c430047c019783a60bf96",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-original-native-001/saved/ArcDice.kicad_pcb"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.3208733750070678,
+      "cpu_seconds": 0.6810809999999999,
+      "max_rss_bytes": 246497280,
+      "supervisor_cpu_seconds": 0.012137000000000064,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 242827264,
+      "sampled_peak_workdir_bytes": 1396038,
+      "resource_guards": {
+        "max_group_rss_bytes": 2147483648,
+        "max_workdir_bytes": 20971520,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--schematic-parity",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-original-native-001/job/original-final.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-original-native-001/job/original-final-input/ArcDice.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-original-native-001/job/original-final.log",
+      "log_bytes": 202,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-original-native-001/job",
+      "signal_cancellation_enabled": true,
+      "pid": 44684,
+      "name": "original-final",
+      "validated_input_sha256": "7c7194946e4e3feb4684c3b13bf5d6d4fe3b14eca2f0a5097736fb18cca3aff6",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-original-native-001/candidate/ArcDice.kicad_pcb"
+    }
+  ],
+  "original_preserved": true,
+  "acquired_source_still_exact": true,
+  "wall_seconds": 4.121277124999324,
+  "total_cpu_seconds": 2.583847,
+  "output_bytes": 3693466,
+  "within_budget": true
+}

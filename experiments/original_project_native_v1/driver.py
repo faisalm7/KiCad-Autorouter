@@ -26,6 +26,17 @@ def route_records(tree):
         result[identity[1]]=row
     return result
 
+def completed_evidence(out):
+    """Bound the finished native inputs, outputs and directories through publication.
+
+    Publication files are already guarded by the shared publisher. Every
+    completed candidate/context/process/log/report remains in this witness.
+    """
+    files,directories=io.inventory(out,max_bytes=LIMIT,max_files=2048,max_entries=4096,with_directories=True)
+    files={name:digest for name,digest in files.items() if name not in {'result.json','result.json.partial'}
+           and not name.startswith(('invalidated-result-','interrupted-result-'))}
+    return {'files':files,'directories':list(directories)}
+
 def experiment(project,output,*,run_native=False):
     if run_native is not True or project not in CASES:raise p.Rejected('explicit fixed source and --run-native required')
     started=time.monotonic();cpu0=time.process_time()+f.child_cpu();out=Path(output).absolute()
@@ -43,7 +54,7 @@ def experiment(project,output,*,run_native=False):
             if remaining()<=0 or size()>LIMIT:raise p.Rejected('whole original diagnostic cap exceeded')
             return step
     record={'schema':1,'kind':'original_hardware_native_diagnostic','project':project,'accepted':False,'physical_electrical_validation':False,'status':'incomplete','budget_seconds':SECONDS,'cpu_budget_seconds':SECONDS,'output_cap_bytes':LIMIT,'source_commit':commit,'routing_executed':False,'helper_sha256':p.sha(Path(__file__))}
-    before=files=job=None
+    before=files=job=completed=bound_native=None
     try:
         from importlib import import_module
         snapshot=import_module('experiments.arcdice_native_class_v1.source' if version=='arcdice-source' else 'experiments.licensed_acquisition_'+version+'.native_snapshot')
@@ -55,10 +66,12 @@ def experiment(project,output,*,run_native=False):
                 custom_asset_closure_qualified=False)
         else:record['acquisition_receipt_sha256']=p.sha(ROOT/acquisition)
         code={n:io.read_bytes(ROOT/n) for n in record['tools']['implementation_sha256']}
+        for relative in ('experiments/original_project_native_v1/driver.py','experiments/placement_handoff_native_v1/driver.py'):
+            code[relative]=io.read_bytes(ROOT/relative)
         if project=='arcdice':
-            for name in ('source.py','worker.py'):
+            for name in ('source.py','worker.py','PROTOCOL.json'):
                 relative='experiments/arcdice_native_class_v1/'+name;code[relative]=io.read_bytes(ROOT/relative)
-            record['additional_implementation_sha256']={name:p.sha(ROOT/name) for name in code if name.startswith('experiments/')}
+        record['additional_implementation_sha256']={name:p.sha(ROOT/name) for name in code if name.startswith('experiments/')}
         for name,raw in code.items():
             committed=subprocess.run(['git','show',record['tools']['git_head']+':'+name],cwd=ROOT,capture_output=True,check=True,timeout=min(3,remaining())).stdout
             if raw!=committed:raise p.Rejected('commit exact native implementation before observations')
@@ -121,8 +134,36 @@ def experiment(project,output,*,run_native=False):
     except (Exception,KeyboardInterrupt) as exc:record.update(status='failed',error=type(exc).__name__+': '+str(exc))
     finally:
         if job is not None:record['steps']=job.steps
+        if record.get('status')=='observed':
+            def bound_native():
+                if project in {'als311-clock','push-button-led','arcdice'}:
+                    if (p.sha(candidate)!=record['final_candidate_sha256'] or p.sha(job.out/'original-final.json')!=record['final_native_report_sha256']
+                            or p.immutable(sx.read(candidate))!=p.immutable(sx.read(board))
+                            or route_records(sx.read(candidate))!=route_records(sx.read(board))):
+                        raise p.Rejected('completed original candidate/report binding changed')
+                    p.verify_candidate_files(candidate,p.tree_hash(board.parent),record['final_candidate_sha256'])
+                    for name,native_board,saved_flag,input_hashes,key in (
+                            ('original-refill',savedboard,True,saved_before,'original_native'),
+                            ('original-final',candidate,False,candidate_before,'parity_native')):
+                        native_input=native_board if saved_flag else job.out/(name+'-input')/native_board.name
+                        if f.check_drc_stage(job.out,{'steps':job.steps},name,native_board,native_input,saved_flag,input_hashes,schematic_parity=not saved_flag)!=record[key]:
+                            raise p.Rejected('completed original native stage binding changed')
+                    if project=='arcdice' and any(p.sha(path)!=record[key] for path,key in (
+                            (context,'class_context_sha256'),(observation,'class_observation_sha256'),(dsn,'original_dsn_sha256'))):
+                        raise p.Rejected('completed class observation/export changed')
+                else:
+                    for name,key,parity in (('original-drc','original_native',False),('parity-drc','parity_native',True)):
+                        if f.check_drc_stage(job.out,{'steps':job.steps},name,board,job.out/(name+'-input')/board.name,False,p.tree_hash(board.parent),schematic_parity=parity)!=record[key]:
+                            raise p.Rejected('completed original native stage changed')
+            try:
+                bound_native();completed=completed_evidence(out)
+                record['completed_evidence_sha256']=hashlib.sha256(f.canonical(completed).encode()).hexdigest()
+            except (Exception,KeyboardInterrupt) as exc:
+                record.update(status='failed',native_routing_scope_accepted=False,error=type(exc).__name__+': '+str(exc))
         def stable():
             h.owned_destination(owner)
+            if bound_native is not None:bound_native()
+            if completed is not None and completed_evidence(out)!=completed:raise p.Rejected('completed native evidence changed')
             if p.sha(Path(__file__))!=record['helper_sha256']:raise p.Rejected('original diagnostic helper changed')
             if before is not None:
                 if p.tree_hash(out/'original')!=before or snapshot.capture()!=files:raise p.Rejected('original/acquired source changed')

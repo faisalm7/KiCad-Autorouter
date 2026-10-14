@@ -3,12 +3,12 @@
 No routing, GUI, source changes, save, format support extension or live apply.
 """
 from __future__ import annotations
-import argparse,fcntl,hashlib,json,math,resource,signal,subprocess,sys,time,uuid
+import argparse,fcntl,hashlib,json,math,os,resource,signal,stat,subprocess,sys,time,unicodedata,uuid
 from pathlib import Path
 ROOT=next(x for x in Path(__file__).resolve().parents if (x/'autorouter/pipeline.py').is_file())
 HERE=Path(__file__).resolve().parent
 sys.dont_write_bytecode=True;sys.path.insert(0,str(ROOT))
-from autorouter import config as c,pipeline as p,sexpr as sx,floor_route as f,placement_clearance as io
+from autorouter import config as c,pipeline as p,sexpr as sx,floor_route as f,placement_clearance as io,handoff as h
 from autorouter.runner import run
 from experiments.placement_production_controls_v1 import driver as prior
 POLICY='placement-clearance-v1';SECONDS=60;LIMIT=20*1024*1024;RESERVE=1024*1024
@@ -34,12 +34,69 @@ def cpu():
 def hashes(files):return {name:sha(raw) for name,raw in files.items()}
 def size(path):return sum(len(v) for v in payload(path).values())
 def copy_bytes(files,target):
-    target.mkdir(exist_ok=False)
+    """Exclusive descriptor-anchored copy; never adopt a replacement directory."""
+    if not isinstance(files,dict) or len(files)>2000:raise p.Rejected('bounded captured byte dictionary required')
+    rows=[];paths={};planned_dirs=set();total=0
     for name,raw in files.items():
-        path=target/name
-        if Path(name).is_absolute() or '..' in Path(name).parts:raise p.Rejected('unsafe captured path')
-        path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(raw)
-    if inventory(target)!=hashes(files):raise p.Rejected('captured complete copy differs')
+        if (type(name) is not str or not name or '\\' in name or any(ord(c)<32 for c in name)
+                or name.startswith('/') or any(x in ('','.','..') for x in name.split('/'))
+                or unicodedata.normalize('NFC',name)!=name or type(raw) is not bytes):
+            raise p.Rejected('canonical relative captured byte path required')
+        parts=tuple(name.split('/'));rows.append((name,parts,raw));total+=len(raw)
+        for end in range(1,len(parts)+1):
+            prefix='/'.join(parts[:end]);folded=prefix.casefold()
+            if folded in paths and paths[folded]!=prefix:raise p.Rejected('captured path alias collision')
+            paths[folded]=prefix
+            if end<len(parts):planned_dirs.add(prefix)
+    if total>100*1024**2 or len(paths)>4000:raise p.Rejected('captured project byte/entry ceiling')
+    if planned_dirs&set(files):raise p.Rejected('captured file/directory collision')
+    target=h.real_path(target,existing=False);parent=h.real_path(target.parent)
+    directory_flags=os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW|getattr(os,'O_CLOEXEC',0)
+    descriptors=[];dirs={};parent_owner={};h.capture_destination(parent_owner,parent)
+    def identity(fd):
+        info=os.fstat(fd)
+        if not stat.S_ISDIR(info.st_mode):raise p.Rejected('captured real directory required')
+        return info.st_dev,info.st_ino
+    def guard():
+        h.owned_destination(parent_owner)
+        if identity(parent_fd)!=parent_owner['directory_identity']:raise p.Rejected('copy parent descriptor changed')
+        for relative,(fd,owner,up,name) in dirs.items():
+            h.owned_destination(owner);named=os.stat(name,dir_fd=up,follow_symlinks=False)
+            if (not stat.S_ISDIR(named.st_mode) or (named.st_dev,named.st_ino)!=owner['directory_identity']
+                    or identity(fd)!=owner['directory_identity']):raise p.Rejected('captured directory was replaced')
+    def create(relative,up,name,path):
+        guard();os.mkdir(name,dir_fd=up)
+        fd=os.open(name,directory_flags,dir_fd=up);descriptors.append(fd);owner={};h.capture_destination(owner,path)
+        if identity(fd)!=owner['directory_identity']:raise p.Rejected('captured directory identity changed during creation')
+        dirs[relative]=(fd,owner,up,name);guard();return fd
+    parent_fd=os.open(parent,directory_flags);descriptors.append(parent_fd)
+    try:
+        guard();root_fd=create('',parent_fd,target.name,target)
+        for name,parts,raw in rows:
+            guard();up=root_fd
+            for end,component in enumerate(parts[:-1],1):
+                relative='/'.join(parts[:end])
+                if relative not in dirs:up=create(relative,up,component,target/relative)
+                else:up=dirs[relative][0]
+            guard();fd=os.open(parts[-1],os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW|getattr(os,'O_CLOEXEC',0),0o600,dir_fd=up)
+            try:
+                guard();opened=os.fstat(fd)
+                if not stat.S_ISREG(opened.st_mode):raise p.Rejected('captured regular file required')
+                pending=memoryview(raw)
+                while pending:
+                    guard();written=os.write(fd,pending)
+                    if written<=0:raise p.Rejected('captured write made no progress')
+                    pending=pending[written:]
+                guard();actual=os.stat(parts[-1],dir_fd=up,follow_symlinks=False);finished=os.fstat(fd)
+                if (not stat.S_ISREG(actual.st_mode) or (actual.st_dev,actual.st_ino)!=(opened.st_dev,opened.st_ino)
+                        or (finished.st_dev,finished.st_ino,finished.st_size)!=(opened.st_dev,opened.st_ino,len(raw))):
+                    raise p.Rejected('captured file was replaced or changed')
+            finally:os.close(fd)
+        guard();actual,directories=io.inventory(target,max_bytes=100*1024**2,max_files=2000,max_entries=4000,with_directories=True)
+        if actual!={name:sha(raw) for name,_,raw in rows} or set(directories)!={'.',*planned_dirs}:raise p.Rejected('captured complete copy differs')
+        guard()
+    finally:
+        for fd in reversed(descriptors):os.close(fd)
 
 def bind_handoff(receipt,handoff):
     receipt=owned(receipt);handoff=owned(handoff)
