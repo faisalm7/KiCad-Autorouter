@@ -1,0 +1,72 @@
+{
+  "controls": [
+    {
+      "case": "expected-parent-and-legacy-default",
+      "original_identity_returned": true,
+      "passed": true
+    },
+    {
+      "case": "positive",
+      "exception": null,
+      "foreign_replacement_preserved": false,
+      "injection": null,
+      "new_native_jobs": 0,
+      "new_network_requests": 0,
+      "passed": true
+    },
+    {
+      "case": "parent-takeover",
+      "exception": {
+        "message": "owned review output directory was replaced",
+        "type": "Rejected"
+      },
+      "foreign_replacement_preserved": true,
+      "injection": "parent-before",
+      "new_native_jobs": 0,
+      "new_network_requests": 0,
+      "passed": true
+    },
+    {
+      "case": "project-takeover",
+      "exception": {
+        "message": "owned review output directory was replaced",
+        "type": "Rejected"
+      },
+      "foreign_replacement_preserved": true,
+      "injection": "project-after",
+      "new_native_jobs": 0,
+      "new_network_requests": 0,
+      "passed": true
+    },
+    {
+      "case": "native-takeover",
+      "exception": {
+        "message": "owned review output directory was replaced",
+        "type": "Rejected"
+      },
+      "foreign_replacement_preserved": true,
+      "injection": "native-after",
+      "new_native_jobs": 0,
+      "new_network_requests": 0,
+      "passed": true
+    }
+  ],
+  "fixture_scope": "Only authored tiny payloads in synthetic fixed-profile controls; no actual Creator payloads or fetch/native qualification",
+  "lifetime_self_cpu_seconds": 0.245732,
+  "new_git_calls": 0,
+  "new_native_jobs": 0,
+  "new_network_requests": 0,
+  "selector_scope": "Current selector still research-only; upcoming portable selector not yet reviewed",
+  "source_sha256_before_after": {
+    "autorouter/floor_route.py": "787d0a309d8511628b0ada7a2f06ea7df1080fa2636b1c2ab540d182eba29b5a",
+    "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+    "autorouter/pipeline.py": "5f593d60ac3a83a3ab98a9d742625cd5a38aa754aa5cc974a73d3d5efc6816fe",
+    "autorouter/placement_clearance.py": "f846a73367bc60dfbb48386233e405cb4bf1382f056d379787d7b823c3905feb",
+    "experiments/licensed_acquisition_v1/fetch.py": "56902cfc2b281323801279ba613cd3429b19a51810283aa31e4254d36a5c10c8",
+    "experiments/placement_handoff_native_v1/driver.py": "a84176cbab44199c5d10c80860f391d56f624b2624da2d157eb8810266796f8c",
+    "experiments/placement_production_controls_v1/driver.py": "b937cdf603b2b65b93af00f3db546b33e25dc1bf86510335b72bbedb45afaae2",
+    "scripts/fetch_led_demo.py": "c4fe6fb6c9c7efe7d2d9777c835634b0e59cc06529ec9110c38ed9aa642e9fb7"
+  },
+  "status": "passed",
+  "wall_seconds": 0.31894579200888984
+}

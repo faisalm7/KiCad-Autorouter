@@ -33,7 +33,7 @@ def cpu():
 
 def hashes(files):return {name:sha(raw) for name,raw in files.items()}
 def size(path):return sum(len(v) for v in payload(path).values())
-def copy_bytes(files,target):
+def copy_bytes(files,target,*,expected_parent_owner=None):
     """Exclusive descriptor-anchored copy; never adopt a replacement directory."""
     if not isinstance(files,dict) or len(files)>2000:raise p.Rejected('bounded captured byte dictionary required')
     rows=[];paths={};planned_dirs=set();total=0
@@ -52,7 +52,13 @@ def copy_bytes(files,target):
     if planned_dirs&set(files):raise p.Rejected('captured file/directory collision')
     target=h.real_path(target,existing=False);parent=h.real_path(target.parent)
     directory_flags=os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW|getattr(os,'O_CLOEXEC',0)
-    descriptors=[];dirs={};parent_owner={};h.capture_destination(parent_owner,parent)
+    descriptors=[];dirs={}
+    if expected_parent_owner is None:
+        parent_owner={};h.capture_destination(parent_owner,parent)
+    else:
+        parent_owner=dict(expected_parent_owner)
+        if h.owned_destination(parent_owner)!=parent:
+            raise p.Rejected('copy expected parent differs')
     def identity(fd):
         info=os.fstat(fd)
         if not stat.S_ISDIR(info.st_mode):raise p.Rejected('captured real directory required')
@@ -95,8 +101,12 @@ def copy_bytes(files,target):
         guard();actual,directories=io.inventory(target,max_bytes=100*1024**2,max_files=2000,max_entries=4000,with_directories=True)
         if actual!={name:sha(raw) for name,_,raw in rows} or set(directories)!={'.',*planned_dirs}:raise p.Rejected('captured complete copy differs')
         guard()
+        # Return the identity captured at exclusive creation. Callers must not
+        # adopt a replacement by capturing this pathname after the copy.
+        result=dict(dirs[''][1])
     finally:
         for fd in reversed(descriptors):os.close(fd)
+    return result
 
 def bind_handoff(receipt,handoff):
     receipt=owned(receipt);handoff=owned(handoff)

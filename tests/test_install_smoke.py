@@ -89,7 +89,7 @@ class InstallSmokeTests(unittest.TestCase):
 
     def test_source_capacity_is_bounded_without_changing_scratch_or_wall(self):
         self.assertEqual(m.SOURCE_MAX_BYTES, 320 * 1024**2)
-        self.assertEqual(m.SOURCE_MAX_FILES, 18000)
+        self.assertEqual(m.SOURCE_MAX_FILES, 20000)
         self.assertEqual(m.MAX_BYTES, 512 * 1024**2)
         self.assertEqual(m.TOTAL_SECONDS, 600.0)
 
@@ -321,5 +321,33 @@ class WholeInstallationFlowTests(unittest.TestCase):
                     if name != 'unchanged':
                         self.assertNotEqual(result['mutation']['before_sha256'], result['mutation']['after_sha256'])
 
+
+class DistributionScopeTests(unittest.TestCase):
+    def source_names(self):
+        return ['autorouter/pipeline.py','scripts/install_smoke.py','LICENSE','toolchain.lock.json',
+                'tests/test_arcdice_demo_fetch.py','docs/quickstart.md',m.PLACEMENT_FIXTURE,
+                'evidence/nus-additive-publication-fix-002/producer.py',
+                'evidence/nus-additive-publication-fix-002/producer.py.foreign',
+                'evidence/unrelated-history/large.json']
+    def test_distribution_retains_runtime_tests_and_required_controls(self):
+        names=self.source_names();original='\0'.join(names)+'\0'
+        selected=m.distribution_listing(original).split('\0')[:-1]
+        self.assertEqual(selected,names[:-2])
+        self.assertEqual(original,'\0'.join(names)+'\0')
+    def test_duplicate_or_line_ambiguous_paths_reject_before_setup(self):
+        names=self.source_names()
+        for extra in (names[0],'file\nother','file\rother'):
+            with self.subTest(extra=extra),self.assertRaisesRegex(RuntimeError,'ambiguous'):
+                m.distribution_listing('\0'.join([*names,extra])+'\0')
+    def test_required_runtime_cannot_be_omitted(self):
+        names=self.source_names()
+        for required in ('LICENSE','toolchain.lock.json','autorouter/pipeline.py','scripts/install_smoke.py'):
+            with self.subTest(required=required),self.assertRaisesRegex(RuntimeError,'required'):
+                m.distribution_listing('\0'.join(n for n in names if n!=required)+'\0')
+    def test_unknown_installation_mode_creates_nothing(self):
+        with tempfile.TemporaryDirectory(dir=ROOT/'.runs') as directory:
+            out=Path(directory)/'not-created'
+            with self.assertRaisesRegex(RuntimeError,'unknown'):m.install_test(out,source_mode='unexpected')
+            self.assertFalse(out.exists())
 
 if __name__ == '__main__': unittest.main()

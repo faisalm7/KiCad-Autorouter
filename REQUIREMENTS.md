@@ -20,8 +20,8 @@ October 14, 2026 UTC. [Exact preceding matrix](docs/history/2026-10-14-c7ffada/R
 | Actual GUI | installed LED GUI003/closure, earlier NUS observation | Full refill/parity/all filters observed; isolated CLI warnings retained; GUI library equivalence/undo/physical unqualified |
 | G6 learning decision | deterministic measured pruning/architecture | No justified learned selector; no training/chat feature |
 | Full integration | actual full026 at6da,958passes/source/tool exact; later targeted prefix/publication checks | Next full original suite at current portability integration |
-| Current installation / acquisition | installed017 at2d plus public LED fetch/offline workflow | Predates current core; Arc portable fetch and fresh current distribution/venv/native workflow pending |
+| Current installation / acquisition | installed017 at2d plus public LED fetch/offline workflow | Predates current core; Arc portable fetch implemented/targeted ownership/selector controls pass; actual fiveGET/current distribution native workflow pending |
 | G7 confirmatory evaluation | frozen development protocols/skeptical source/native reviews | All exposed; untouched pedigreed holdout/human PCB review unmet |
-| G8 restoration / RC | actual full9f allrefs/files/restoredCLI; incremental0fd chain/delta | New artifacts outside cutoff; new major full restore/current RC pending; private/raw onMac only |
+| G8 restoration / RC | actual full9f allrefs/files/restoredCLI; incremental0fd chain/delta | Current3a fullrestore252477files/6846087042bytes/allrefs/CLI passed; later fetch work outsidecutoff/current RC pending; private/raw onMac only |
 
 Detailed evidence, versions, costs and original warnings are in [STATUS](STATUS.md) and each linked packet. Formal release/package publication, external spending/contacts and private uploads remain unapproved. Native acceptance, whole-project DRC cleanliness and physical/electrical approval are distinct; all four accepted development circuits retain warnings.

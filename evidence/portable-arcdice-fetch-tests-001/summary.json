@@ -1,0 +1,46 @@
+{
+  "command": ".venv/bin/python -B -m unittest tests.test_led_demo_fetch tests.test_arcdice_demo_fetch experiments.placement_handoff_native_v1.test_copy -v",
+  "created_utc": "2026-10-14T06:31:40Z",
+  "exit_code": 0,
+  "ledger": "Synthetic transport/pure actual-filesystem controls; native acceptance, real download, installation and clean-suite qualification are not established.",
+  "limitations": [
+    "These sampled filesystem races are regression controls, not arbitrary hostile concurrent writer or power-loss protection.",
+    "No native/JVM/full integration/public HTTP request is run by this task."
+  ],
+  "new_controls": [
+    "After actual copier returns its original lifecycle, project/native-project is renamed and replaced by byte-identical foreign copy; content verification succeeds, ownership rejects, foreign inventory/inode remains exact and no result/correction is written.",
+    "Immediately before first copy, outer owner is renamed/replaced; original expected_parent_owner passes into actual shared copier, foreign PCB/sentinel stay exact, no project/native-project/result is created."
+  ],
+  "other_controls": [
+    "Pinned identity/clean plan no cache/network/filesystem creation",
+    "Exact source5/native7 hierarchy and creator-notice copies plus bound receipt",
+    "Response descriptor replacement between guard and exclusive open",
+    "Legitimate partial copy/first failure retained in failed receipt",
+    "Readonly verifier plus stale notice/extra directory/missing original negatives",
+    "Preexisting destination/profile prefix protection"
+  ],
+  "reported_unittest_seconds": 0.523,
+  "schema": 1,
+  "source_sha256": {
+    "autorouter/floor_route.py": "787d0a309d8511628b0ada7a2f06ea7df1080fa2636b1c2ab540d182eba29b5a",
+    "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+    "experiments/licensed_acquisition_v1/fetch.py": "56902cfc2b281323801279ba613cd3429b19a51810283aa31e4254d36a5c10c8",
+    "experiments/placement_handoff_native_v1/driver.py": "a84176cbab44199c5d10c80860f391d56f624b2624da2d157eb8810266796f8c",
+    "experiments/placement_handoff_native_v1/test_copy.py": "c1721ff546b3f8a6c0cd54ff9dd60dd0609f75f3e4ec4fb43699270c9a861d6b",
+    "scripts/fetch_led_demo.py": "c4fe6fb6c9c7efe7d2d9777c835634b0e59cc06529ec9110c38ed9aa642e9fb7",
+    "tests/test_arcdice_demo_fetch.py": "67fb5190ed928fc9353cd313cedbf0131e2affecea397d0cdacaf0009f181929",
+    "tests/test_led_demo_fetch.py": "d98713d40032d07f97155566296cffd701ae0e0e1183e44870876239b08617c5"
+  },
+  "status": "targeted_pure_controls_passed",
+  "test_log_scope": "Exact observed terminal summary retained; full per-test verbose transcript remains in tool output, not fabricated in this packet.",
+  "tests": {
+    "arcdice": 8,
+    "copy": 12,
+    "led": 14,
+    "total": 34
+  },
+  "writes_owned": [
+    "tests/test_arcdice_demo_fetch.py",
+    ".runs/portable-arcdice-fetch-tests-001"
+  ]
+}

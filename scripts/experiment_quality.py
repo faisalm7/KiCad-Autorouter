@@ -62,6 +62,17 @@ def total_process_cpu():
 
 def selected_source(name):
     if name=='arcdice':
+        demo=c.ROOT/'.data/arcdice-demo-001'
+        if demo.exists() or demo.is_symlink():
+            from scripts.fetch_led_demo import verify_project
+            raw=demo/'project';base=demo/'native-project'
+            raw_check=verify_project(raw,profile_id='arcdice')
+            packet_check=verify_project(base,profile_id='arcdice',native_packet=True)
+            if (p.tree_hash(base)!={n:v['sha256'] for n,v in packet_check['files'].items()}
+                    or verify_project(raw,profile_id='arcdice')!=raw_check
+                    or verify_project(base,profile_id='arcdice',native_packet=True)!=packet_check):
+                raise p.Rejected('portable ArcDice source changed during read-only selection')
+            return base/'hardware/ArcDice.kicad_pcb','VorosEgyes-ArcDice-development-exposed'
         from experiments.arcdice_native_class_v1 import source
         files=source.capture()
         base=c.ROOT/'.runs/arcdice-original-native-001/original'

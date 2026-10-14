@@ -1,0 +1,28 @@
+{
+  "command": ".venv/bin/python -B -m unittest tests.test_arcdice_demo_fetch -v",
+  "created_utc": "2026-10-14T06:34:56Z",
+  "exit_code": 0,
+  "limitations": [
+    "Synthetic fixed-profile hashes are explicitly patched; no public HTTP or native acceptance established.",
+    "These checks demonstrate sampled read-only/stale behavior, not arbitrary concurrent writer protection."
+  ],
+  "new_controls": [
+    "Synthetic verified project5/native7 renamed to default .data/arcdice-demo-001; actual selected_source selects native-project/hardware PCB with expected exposed identity; entire fixture inventory unchanged; legacy source.capture and shared staging copier never called.",
+    "Stale original raw project rule bytes or native creator notice independently reject actual selected_source; no source.capture fallback/staging, full fixture inventory unchanged after each failure."
+  ],
+  "previous_34_test_record_preserved": {
+    "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/portable-arcdice-fetch-tests-001/summary.json",
+    "sha256": "e68f027de3f00699e40eade67890da05aa2834434f981f04408156e648f15ef7"
+  },
+  "schema": 1,
+  "scope": "Actual read-only source selector plus synthetic/pure transport and filesystem controls; no native, JVM, network, Git or full suite.",
+  "source_sha256": {
+    "experiments/placement_handoff_native_v1/driver.py": "a84176cbab44199c5d10c80860f391d56f624b2624da2d157eb8810266796f8c",
+    "scripts/experiment_quality.py": "6d25c6d0dc2bafeefd4546ffb4b8055e8fc5db2c661609455f0aa8fcc869f17d",
+    "scripts/fetch_led_demo.py": "c4fe6fb6c9c7efe7d2d9777c835634b0e59cc06529ec9110c38ed9aa642e9fb7",
+    "tests/test_arcdice_demo_fetch.py": "af612b52095492a005e4964a4a46e9ccf00bc89ee39a045531265d914df077ef"
+  },
+  "status": "targeted_pure_selector_controls_passed",
+  "tests_run": 10,
+  "unittest_seconds": 0.501
+}

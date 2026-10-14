@@ -30,11 +30,11 @@ from autorouter.runner import run
 
 
 MAX_BYTES = 512 * 1024**2
-# Current retained source/evidence is 16,624 files / 302,098,185 bytes.
-# Preserve it under finite 18,000-file / 320 MiB source bounds; installation
-# scratch remains 512 MiB. No native acceptance or secret/path guard changes.
+# Current retained source/evidence exceeds19,000 files. Keep a finite20,000
+# file/320MiB source inventory. Distribution mode avoids copying historical
+# evidence into another installation tree; the complete source stays checked.
 SOURCE_MAX_BYTES = 320 * 1024**2
-SOURCE_MAX_FILES = 18000
+SOURCE_MAX_FILES = 20000
 TOTAL_SECONDS = 600.0
 NETWORK_DENIAL = ["/usr/bin/sandbox-exec", "-p", "(version 1)(allow default)(deny network*)"]
 
@@ -45,6 +45,23 @@ class Cancelled(Exception):
 
 GUIDANCE = ("native", "placement-clearance-v1")
 PLACEMENT_FIXTURE = "evidence/placement-area-native-001/allowed_placement/candidate/fixture.kicad_pcb"
+DISTRIBUTION_EVIDENCE = ("evidence/placement-area-native-001/allowed_placement/candidate/",
+                         "evidence/nus-additive-publication-fix-002/producer.py")
+DISTRIBUTION_TESTS = ("tests.test_runner", "tests.test_led_demo_fetch", "tests.test_arcdice_demo_fetch",
+                      "tests.test_demo_benchmark_source", "tests.test_additive_publication",
+                      "tests.test_netclass_parent_policy", "tests.test_netclass_parent_pipeline")
+
+
+def distribution_listing(listing):
+    """Fixed packaging scope; never filter routing inputs or native findings."""
+    names=[name for name in listing.split('\0') if name]
+    if len(names)!=len(set(names)) or any('\n' in name or '\r' in name for name in names):
+        raise RuntimeError('ambiguous distribution path list')
+    selected=[name for name in names if not name.startswith('evidence/')
+              or any(name==prefix or prefix.endswith('/') and name.startswith(prefix) for prefix in DISTRIBUTION_EVIDENCE)]
+    if not selected or not {'autorouter/pipeline.py','scripts/install_smoke.py','LICENSE','toolchain.lock.json'}<=set(selected):
+        raise RuntimeError('required distribution source missing')
+    return ''.join(name+'\0' for name in selected)
 
 
 def qualification(guidance):
@@ -237,7 +254,8 @@ def tracked_inventory(root, listing):
     return inventory
 
 
-def install_test(out, guidance="native"):
+def install_test(out, guidance="native", source_mode="full"):
+    if source_mode not in ('full','distribution'):raise RuntimeError('unknown source installation mode')
     selected = qualification(guidance)
     out.mkdir(parents=True, exist_ok=False)
     started = time.monotonic()
@@ -310,14 +328,31 @@ def install_test(out, guidance="native"):
                                        "mode": "copy verified official release asset; acquisition not retested"}
 
         checkout = out / "checkout"
-        command("clone", ["git", "-c", "core.hooksPath=/dev/null", "clone", "--no-local", "--no-hardlinks",
-                          "--no-checkout", "--no-tags", "--single-branch", "--branch", branch, str(c.ROOT), str(checkout)], out)
+        installed_listing=distribution_listing(listing) if source_mode=='distribution' else listing
+        installed_original={name:original[name] for name in installed_listing.split('\0') if name}
+        if source_mode=='distribution':
+            # A new local Git repository with independent objects/venv. This
+            # does not reclone or modify the owner's existing project.
+            command('init-distribution',['git','-c','core.hooksPath=/dev/null','init','--quiet',str(checkout)],out)
+            git('distribution-sparse-scope',checkout,'sparse-checkout','set','--no-cone','/*','!/evidence/',
+                *('/'+prefix for prefix in DISTRIBUTION_EVIDENCE))
+            git('fetch-pinned-local-source',checkout,'fetch','--quiet','--no-tags','--no-write-fetch-head',str(c.ROOT),head)
+        else:
+            command("clone", ["git", "-c", "core.hooksPath=/dev/null", "clone", "--no-local", "--no-hardlinks",
+                              "--no-checkout", "--no-tags", "--single-branch", "--branch", branch, str(c.ROOT), str(checkout)], out)
         git("checkout-pinned-head", checkout, "checkout", "--quiet", "--detach", head)
         if git("clone-head", checkout, "rev-parse", "HEAD").strip() != head:
             raise RuntimeError("clone HEAD differs from frozen source")
         clone_listing = git("clone-files", checkout, "ls-files", "-z")
-        if tracked_inventory(checkout, clone_listing) != original:
+        if clone_listing!=listing:raise RuntimeError('distribution Git index differs from complete pinned source')
+        clone_listing=installed_listing
+        if tracked_inventory(checkout, clone_listing) != installed_original:
             raise RuntimeError("cloned tracked files differ from source inventory")
+        report['source_installation_mode']=source_mode
+        report['installed_tracked_files']=len(installed_original)
+        report['complete_source_tracked_files']=len(original)
+        report['historical_evidence_omitted_from_installation']=source_mode=='distribution'
+        report['installation_scope']='Fresh local source-distribution checkout/venv, existing Mac/tools/cache; full original source inventory remains checked. No full-clone or fresh-OS claim.' if source_mode=='distribution' else 'Fresh full local clone/venv, existing Mac/tools/cache; not freshOS.'
         if git("clone-initial-status", checkout, "status", "--porcelain=v1", "--untracked-files=all").strip():
             raise RuntimeError("new clone is not clean")
 
@@ -345,7 +380,9 @@ def install_test(out, guidance="native"):
         if report["doctor"].get("ready") is not True:
             raise RuntimeError("fresh-checkout doctor is not ready")
         report["actions"].append(bootstrap_runs(checkout))
-        command("tests", [*NETWORK_DENIAL, python, "-m", "unittest", "discover", "-s", "tests", "-v"], checkout, timeout=180)
+        test_args=['-v',*DISTRIBUTION_TESTS] if source_mode=='distribution' else ['discover','-s','tests','-v']
+        report['installed_test_scope']=list(DISTRIBUTION_TESTS) if source_mode=='distribution' else 'full suite'
+        command("tests", [*NETWORK_DENIAL, python, "-m", "unittest", *test_args], checkout, timeout=180)
         fixture = checkout / selected["fixture"]
         fixture_hashes = p.tree_hash(fixture.parent)
         native_output = checkout / ".runs" / selected["directory"]
@@ -364,7 +401,7 @@ def install_test(out, guidance="native"):
             raise RuntimeError("native smoke modified its source fixture")
         report["native"] = {key: result.get(key) for key in ("status", "accepted", "metrics", "native", "wall_seconds", "total_cpu_seconds", "candidate_sha256", "native_report_sha256", "tools")}
         report["native_receipt"] = {"path": str(receipt), "sha256": p.sha(receipt)}
-        if tracked_inventory(checkout, clone_listing) != original or tracked_inventory(c.ROOT, listing) != original:
+        if tracked_inventory(checkout, clone_listing) != installed_original or tracked_inventory(c.ROOT, listing) != original:
             raise RuntimeError("tracked source changed during installation test")
         for name, directory in (("clone-final-status", checkout), ("source-final-status", c.ROOT)):
             if git(name, directory, "status", "--porcelain=v1", "--untracked-files=all").strip():
@@ -383,7 +420,7 @@ def install_test(out, guidance="native"):
             for directory, source_branch in ((c.ROOT, branch), (checkout, None)):
                 if git_identity(directory, head, source_branch) != identities[str(directory)]:
                     raise RuntimeError("Git HEAD/ref/index witness changed")
-            if tracked_inventory(checkout, clone_listing) != original or tracked_inventory(c.ROOT, listing) != original:
+            if tracked_inventory(checkout, clone_listing) != installed_original or tracked_inventory(c.ROOT, listing) != original:
                 raise RuntimeError("tracked source changed during publication")
             if pc.evidence_inventory(native_output) != native_inventory or p.tree_hash(fixture.parent) != fixture_hashes:
                 raise RuntimeError("native evidence or fixture changed during publication")
@@ -440,6 +477,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", default=".runs/installation-001", help="new directory under this checkout's .runs")
     parser.add_argument("--guidance", choices=GUIDANCE, default="native", help="select exactly one native fixture qualification")
+    parser.add_argument('--source-mode',choices=('full','distribution'),default='full',help='distribution installs source and required owned fixtures without duplicating historical evidence')
     args = parser.parse_args()
     raw = Path(args.output).absolute()
     if ".." in raw.parts or any(path.is_symlink() for path in (raw, *raw.parents)):
@@ -457,7 +495,7 @@ def main():
                 fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
             except BlockingIOError:
                 raise RuntimeError("another project experiment holds the shared lock")
-            return install_test(out, args.guidance)
+            return install_test(out, args.guidance,args.source_mode)
     finally:
         for sig, handler in previous.items():
             signal.signal(sig, handler)
