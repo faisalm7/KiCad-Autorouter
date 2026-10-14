@@ -1,70 +1,64 @@
-Unexecuted NUS120 diagnostic harness. Prepared in a private draft and integrated as project-owned experimental source. No core/.runs/.data/Git, Native/JVM/network/test/project-module
-execution occurred during preparation. Both Python files were syntax inspected
-with ast.parse; no test or routing result is claimed. Outer-publication material/identity continuity now has targeted filesystem mutation controls; these establish no Native routing success.
+# Native task connectivity: exposed NUS comparison
 
-The two methods each pay for their own fresh classifier60s-cap operation,
-classification readback, complete selected child routing/readback, fresh pristine
-original/source and final full-schematic native checks, metrics, publication and
-cleanup. Parent outer limits are120wall/fullCPU, with actor1s bootstrap allowance
-and20s reserved before assigning its own child. The real outer wrapper separately
-measures complete CPU/wall from its first line before imports and requires its
-own qualification and actor qualification. All failed/overbudget work remains.
+The two actual sequential120wall/fullCPU arms completed under frozen
+`protocol-stackup-v2.json` SHA256
+`7ff8dc2fa0953eb8e52644f43f30ff1d5b772cd34e5c59a9f4804cf194635a2b`.
+Source/runtime at execution:8a67859fd61c19a545051700053bfde712c787b6.
 
-Source is the exact licensed original NUS native packet (commit
-ad3fbd582e3915b585c453ea202f591720a1f427), with eight source/notice/library files
-under original/src. Full companion hashes are in protocol.json and the private draft input receipt.
-Each child must use its own classifier/task/usb_led.kicad_pcb, byte-identical to
-the pristine source after all unprotected reference routing and derived fill
-are stripped. No classifier filled candidate, B1/B2/C output, original reference
-route feature or previous metric is supplied to routing/selection.
+| Method | Actual final opens/blocking/warnings/exclusions | mm/vias | Whole wall/fullCPU seconds | Qualified |
+|---|---|---|---|---|
+|all-active|0/0/10/0|83.315882927/2|35.956295/26.107099|yes, diagnostic only|
+|native-connected|0/1/10/0|36.354501168/0|23.452824/18.648718|no, starved thermal|
 
-Control selects all six original names; treatment selects the freshly derived
-five active names, with GND inactive only if the unchanged exact classifier and
-its actual native/readback prove this again. Both use captured selected-nets
-preferences, completion-only/both/native/source_all and unchanged original rules.
-Existing qualified partition/terminal/class preservation and child receipts are
-reused. Optimizer, fanout and both neckdown paths are disabled. Child accepted,
-whole native zero opens and p.check_result are mandatory; no connectivity waiver.
+The rejected treatment has only one spoke at R3pad2/GND where the original
+rule requires two. Its shorter length is not a valid quality win. The classifier
+proved initial plane connectivity; routing changed the pour environment. This
+falsifies sufficiency of connectivity-only skipping. No policy is shipped from
+this experiment. Existing tunedB2/C comparisons remain separate configurations.
 
-The parent never mutates child evidence: it exclusively copies the accepted
-child candidate/companions. Fresh p.validate_candidate uses the pristine original
-tree/hash/rules/full schematic with no selected-scope exception. Final whole
-native must have0opens/0blocking/0exclusions and all10fresh-original warning
-signatures unchanged. Shared saved-refill/pristine-original/final DRC/process
-and original-shell reconstruction, final metric version/hash, original geometry,
-task/preset/classifier duplicates and complete child evidence are rechecked in
-the guarded publication callback. Initial failures remain even if publication
-adds a later rejection. Diagnostic accepted=False/production_admitted=False
-remain constant; method_qualified is not a shipped whole-routing receipt.
+Each arm independently pays its own fresh classifier (60s component cap), exact
+zero-route/zero-derived-fill task, existing selected-net routing and readback.
+Both retain all physical terminals, original classes/rules, zones, footprints,
+geometry and companion files. All-active selects six names; treatment selects
+freshly proven five names. Both completion-only/both/native/source_all, optimizer,
+fanout and neckdown disabled. Every child requires full native checks. A positive
+child is copied exclusively and checked afresh against pristine original rules
+and full schematic; whole0opens/0blocking/0exclusions and all10original warnings
+are mandatory. No source route, previous B1/B2/C candidate or metric is a feature.
+The actor charges1s bootstrap and reserves20s before child allocation. Outer
+supervision starts before imports and checks actual complete120wall/fullCPU,
+4GiB sampled process-group RSS,16MiB log-directory bound,2MB logs and cleanup.
 
-Current protocol SHA256:
-b3d2b3a18b068ade8a530756622f2c6b05dfd71c601dbe8454cf315531bd8b5c
+Diagnostic accepted=False/production_admitted=False always. Method qualification
+requires actor+outer status, exact identity/accounting and complete byte witnesses
+through publication. Shared final readback binds saved refills, exact original-shell
+provenance, fresh final/pristine reports, metrics, original source, tool/code/HEAD,
+preferences, child receipt and sibling classifier. NC-PAIR1's outer material gap
+was fixed and tested before any arm. Filesystem controls simulate no native pass.
 
-Lead review/integration gates: verify input pins (especially current classifier
-and core changes), retain successful grounded and ground-removal falsifiers,
-complete source/review/checkpoint, freeze this prospective protocol before first
-use, then launch one arm at a time. If integrating into experiments changes no
-bytes, source hashes remain; otherwise regenerate a new prospective protocol
-before either arm, never retrofit a completed arm. Both recorded tool/code/source
-contexts must agree. Do not compare tunedB2/C to these completion-only labels.
+Original pair001 failed before JVM at a legitimate root stackup repeated-layer
+parser error. Exact root container identity is now exempt from geometry selectors;
+all descendant/other duplicate selector checks remain. Original `protocol.json`,
+all001outputs and every failed cost are preserved. V2 was frozen before002;
+prospective status in its immutable file describes its creation time.
 
-Sequential prospective launch commands from the project root:
+[Actual results and independent shared readback](../../evidence/native-connected-pair002-native-001.json),
+[001failure/correction](../../evidence/native-connected-pair001-stackup-failure-001.json),
+[source/control/review](../../evidence/native-connected-pair-source-001.json).
+Raw `.runs/nus-native-connected120-{all,active}-002` and their classifier/execution
+siblings remain on this Mac. Independent reader at `.runs/native-pair002-reader-preserved-001`
+checks retained evidence without Native/JVM/network; its historical HEAD is exact.
+
+Reproduction requires the frozen source pins and three fresh absent sibling
+outputs per arm. Do not rerun or overwrite001/002. From repository root, with
+unmodified pinned source, use fresh003 names sequentially:
 
 ```
-.venv/bin/python -B experiments/native_connected_pair_v1/run.py --run-native --method all-active --output /Users/faisal/Projects/KiCad-Autorouter-local/.runs/nus-native-connected120-all-001 --protocol /Users/faisal/Projects/KiCad-Autorouter-local/experiments/native_connected_pair_v1/protocol.json --protocol-sha256 b3d2b3a18b068ade8a530756622f2c6b05dfd71c601dbe8454cf315531bd8b5c
-.venv/bin/python -B experiments/native_connected_pair_v1/run.py --run-native --method native-connected --output /Users/faisal/Projects/KiCad-Autorouter-local/.runs/nus-native-connected120-active-001 --protocol /Users/faisal/Projects/KiCad-Autorouter-local/experiments/native_connected_pair_v1/protocol.json --protocol-sha256 b3d2b3a18b068ade8a530756622f2c6b05dfd71c601dbe8454cf315531bd8b5c
+.venv/bin/python -B experiments/native_connected_pair_v1/run.py --run-native --method all-active --output "$PWD/.runs/nus-native-connected120-all-003" --protocol "$PWD/experiments/native_connected_pair_v1/protocol-stackup-v2.json" --protocol-sha256 7ff8dc2fa0953eb8e52644f43f30ff1d5b772cd34e5c59a9f4804cf194635a2b
+.venv/bin/python -B experiments/native_connected_pair_v1/run.py --run-native --method native-connected --output "$PWD/.runs/nus-native-connected120-active-003" --protocol "$PWD/experiments/native_connected_pair_v1/protocol-stackup-v2.json" --protocol-sha256 7ff8dc2fa0953eb8e52644f43f30ff1d5b772cd34e5c59a9f4804cf194635a2b
 ```
 
-Every output, -classifier and -execution sibling must be absent. Each retained
-classifier/task, selected-route child and original-validation worker remains
-inspectable. Actual execution plus independent readback, cancellation/staleness
-and original whole-connectivity controls remain lead-owned. Exposed one-board
-ablation only; no holdout/independence/general superiority/production claim.
-
-All autorouter implementation sources and the acquisition/handoff helper source
-closures are pinned prospectively. Positive/ground-disconnected qualification
-receipts and setup-cost scope remain explicit; no Native/JVM pair executed yet.
-
-NC-PAIR1 static review found an outer late-material gap before execution. The actor now retains both complete material inventories, and outer publication checks exact identity, finite charged accounting, all nested files, classifier receipt/sibling, original source, tool/code/HEAD pins before and after writing. Targeted filesystem mutation/removal/identity tests pass; independent focused review finds the concrete gap closed. No routing arm executed before this new prospective pin.
-
-Pair001 executed and both arms failed before JVM: duplicate singleton layer at normal root setup/stackup. All costs/files remain. A minimal parser correction preserves the exact edge rule and duplicate-geometry checks; pure actual-source before/after and regression controls pass. Fresh second pair uses protocol-stackup-v2.json SHA256 7ff8dc2fa0953eb8e52644f43f30ff1d5b772cd34e5c59a9f4804cf194635a2b; never retrofit protocol.json or pair001. Output names: nus-native-connected120-all-002 and nus-native-connected120-active-002, sequentially. The commands above document original001 only.
+Prior source acquisition, classifier qualification, tests, dependency setup,
+backup and development are separately retained costs, not zero or a speedup.
+One exposed circuit, no established independent pedigree/holdout/general superiority,
+whole-routing receipt, human or electrical/physical approval. No formal publication.
