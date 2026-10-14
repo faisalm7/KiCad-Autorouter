@@ -1,8 +1,8 @@
 # Active continuation
 
 Work only in `/Users/faisal/Projects/KiCad-Autorouter-local`, on the existing
-`rebuild/local-20261010-015447` branch. Last verified checkpoint is99d1975; completed normal Native proof and frozen
-PAW source are pushed/read back. Current path fix/continuation need next push.
+`rebuild/local-20261010-015447` branch. Last verified checkpoint isc8529dd8; completed normal Native proof and frozen
+PAW source are pushed/read back. Path correction is pushed/read back; missing-stage continuation needs next push.
 No cloud, reset, competing checkout, new spending or formal publication.
 
 Completed and preserved:
@@ -22,13 +22,14 @@ Completed and preserved:
 
 Next actions, sequential heavy lane:
 
-1. Complete current restricted ordinary-oval DSN path correction, targeted/full061
-   regression and skeptical review closure. Preserve actual PAW001 failed audit,
+1. Restricted ordinary-oval DSN path correction, targeted40/full0611179
+   regression and skeptical review closure passed and checkpointed atc8529dd8. Preserve actual PAW001 failed audit,
    all five completed Native format workers and zero-route export; do not rerun.
    Actual001 outer6.000073wall5.19436CPU, no engine yet. Incremental99d1975 is
    verified from restoredc81; later executed PAW/path evidence after cutoff.
-2. Freeze/audit/commit/push/read back the missing-stage continuation source and
-   exact existing prefix/code pins, then run fresh002. Reuse001 task/export and
+2. Review/audit/commit/push/read back frozen missing-stage continuation source
+   (actor586c25aa/protocol2c010e8a), then run fresh002 with:
+   `.venv/bin/python -B .runs/run-paw-format-ses-native-002.py`. Reuse001 task/export and
    original Native emission binding; only missing obstacles/engine/import/final
    fullSCH and meaningful invalid imported-net control. Cumulative120wall/fullCPU
    includes001 cost, new startup, all replay and final publication. Root and

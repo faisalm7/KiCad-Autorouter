@@ -1,6 +1,6 @@
 # Current status
 
-Updated October 14, 2026 in the existing Mac checkout `/Users/faisal/Projects/KiCad-Autorouter-local`, branch `rebuild/local-20261010-015447`. Last verified GitHub checkpoint: `99d1975840ae3776c72b6247cb8926faded60a7f`. This is an experimental local tool. Representative coverage, confirmation and release gates remain incomplete. Prior status versions and every raw failure remain in Git history and immutable evidence.
+Updated October 14, 2026 in the existing Mac checkout `/Users/faisal/Projects/KiCad-Autorouter-local`, branch `rebuild/local-20261010-015447`. Last verified GitHub checkpoint: `c8529dd8a5bbb85df000ddc0eef2caee676f3ba6`. This is an experimental local tool. Representative coverage, confirmation and release gates remain incomplete. Prior status versions and every raw failure remain in Git history and immutable evidence.
 
 ## Usable workflow
 
@@ -10,7 +10,7 @@ Native pruning accepts `settings-init --purpose improve --output FILE`, then `im
 
 Current installed qualification is source `31c0f53c69474ff361f625bbb110634e4952383d` at `.runs/installation-026/checkout`:22offline commands,72fixed plus143additional selected installed controls,20644original/535installed files, real native60mm/0via/0findings smoke and shared installed readback. Whole37.702652wall27.983788CPU; followup5.469275/5.232348; reader4.329246/2.381415 plus2s actor allowance. [Installation026](evidence/installation026-native-001.json). Existing Mac/apps/cache; no freshOS/full installedsuite/formalpackage claim. Connectivity/1007 experiments remain separate; the current normal PRL policy and preview source are newer than this installed qualification.
 
-External review uses separate projects and fresh native export. No live-editor overwrite, tested undo or unsaved-buffer inspection is promised. Test acceptance intent is not human PCB approval. [Earlier installed LED GUI003](evidence/installed-led-export-gui-003/SCOPE.md) actually completed full refill/parity/all filters; CLI warnings remain authoritative. Latest actual CUA attempt still reports the Mac locked (`.runs/gui-access-20261014-008`); no new preset/CellScan GUI qualification.
+External review uses separate projects and fresh native export. No live-editor overwrite, tested undo or unsaved-buffer inspection is promised. Test acceptance intent is not human PCB approval. [Earlier installed LED GUI003](evidence/installed-led-export-gui-003/SCOPE.md) actually completed full refill/parity/all filters; CLI warnings remain authoritative. Latest actual CUA attempt still reports the Mac locked (`.runs/gui-access-20261014-009`); no new preset/CellScan GUI qualification.
 
 ## Measured routing evidence
 
