@@ -106,7 +106,7 @@ def _publish_result(directory, result, stable, recheck_selected, remaining):
 
 
 
-def attempt_repair(parent_job,original_tree,candidate,source_hashes,protected_routes,native_summary,*,report_path,binding_path,remaining_seconds,out):
+def attempt_repair(parent_job,original_tree,candidate,source_hashes,protected_routes,native_summary,*,report_path,binding_path,remaining_seconds,out,experimental_contact=False):
     """Fresh candidate/report -> geometry -> <=4 proposals -> native trial.
 
     remaining_seconds() returns min remaining TOTAL wall/CPU minus the caller's
@@ -115,7 +115,15 @@ def attempt_repair(parent_job,original_tree,candidate,source_hashes,protected_ro
     Returns candidate absolute path or null, validation_passed, trials, receipt
     paths, and explicit unsupported reason. No live-board apply or final receipt.
     """
+    if type(experimental_contact) is not bool:raise p.Rejected('explicit experimental contact option required')
+    proposal_geometry=geom
+    if experimental_contact:
+        from . import thermal_contact as proposal_geometry
     started=time.monotonic();result={'schema':1,'status':'not_attempted','candidate':None,'candidate_sha256':None,'validation_passed':False,'routing_accepted':False,'comparison_eligible':False,'whole_body_certificate_qualified':False,'proposal_scene_qualified':False,'scope':'one sole native thermal; two layers; round PTH target; round physical drills; saved target-zone fill unchanged','trials':[],'geometry_receipt':None,'proposal_receipt':None,'unsupported_reason':None}
+    if experimental_contact:
+        result.update(experimental_contact=True,proposal_policy=proposal_geometry.POLICY,
+                      scope='experimental sole-thermal contact proposals; fresh whole Native acceptance required; no saved-body path certificate or electrical claim',
+                      final_refill_validation_required=True)
     finding=sole_thermal(native_summary)
     if finding is None:result.update(status='unsupported',unsupported_reason='not one sole unexcluded thermal error with no other critical finding');return result
     def remaining():
@@ -152,20 +160,24 @@ def attempt_repair(parent_job,original_tree,candidate,source_hashes,protected_ro
             if p.sha(code/name)!=watched[path]:raise p.Rejected('thermal code snapshot mismatch')
         watchtree(code);watchtree(snapshot);watchtree(candidate.parent);watch(report);watch(binding);watchtree(report.parent/'final-drc-input')
         shutil.copytree(candidate.parent,directory/'input');shutil.copy2(report,directory/'input-drc.json');shutil.copy2(code/'thermal_worker.py',directory/'worker.py')
-        p.save_json(directory/'request.json',{'schema':1,'candidate_files':expected,'final_drc_sha256':p.sha(report)})
+        request={'schema':1,'candidate_files':expected,'final_drc_sha256':p.sha(report)}
+        if experimental_contact:request['mode']=proposal_geometry.POLICY
+        p.save_json(directory/'request.json',request)
         for path in (directory/'request.json',directory/'input-drc.json',directory/'worker.py'):watch(path)
         watchtree(directory/'input');prepared=True;stable()
         worker_job.step('thermal-geometry',[cfg.PYTHON,'-B',directory/'worker.py',directory/'input'/candidate.name,directory/'request.json',directory/'geometry.json'])
         g=json.loads((directory/'geometry.json').read_text())
         if g.get('status')!='observations_complete' or g.get('source_unchanged') is not True or g.get('board_sha256')!=expected[candidate.name] or g.get('project_sha256')!=expected[candidate.with_suffix('.kicad_pro').name] or g.get('finding')!=finding:raise p.Rejected('fresh thermal native geometry incomplete/stale')
-        saved_fill=geom.fill_binding(base,g,sx);watch(directory/'geometry.json');stable()
-        proposals=geom.propose(g,remaining_seconds=remaining,binding_verified=True)
+        if experimental_contact and g.get('mode')!=proposal_geometry.POLICY:raise p.Rejected('experimental contact observation mode differs')
+        saved_fill=proposal_geometry.fill_binding(base,g,sx);watch(directory/'geometry.json');stable()
+        proposals=proposal_geometry.propose(g,remaining_seconds=remaining,binding_verified=True)
         p.save_json(directory/'proposals.json',proposals);watch(directory/'proposals.json')
         result.update(geometry_receipt=str(directory/'geometry.json'),proposal_receipt=str(directory/'proposals.json'))
-        if not proposals['path_certificate_candidates']:raise geom.Unsupported('bounded graph found no certified path')
-        geom.verify_proposals(g,proposals,remaining_seconds=remaining);stable()
+        candidates=proposals['proposals'] if experimental_contact else proposals['path_certificate_candidates']
+        if not candidates:raise geom.Unsupported('no bounded contact proposal' if experimental_contact else 'bounded graph found no certified path')
+        proposal_geometry.verify_proposals(g,proposals,remaining_seconds=remaining);stable()
         ids=geom.uuid_index(base,sx)
-        for index,proposal in enumerate(proposals['path_certificate_candidates']):
+        for index,proposal in enumerate(candidates):
             stable()
             if remaining()<6:raise p.Rejected('thermal final trial reserve exhausted')
             trial_job=_SharedJob(parent_job,directory/('trial-%02d'%(index+1)),remaining,code/'native.py');trialdir=trial_job.out;shutil.copytree(candidate.parent,trialdir/'candidate');board=trialdir/'candidate'/candidate.name
@@ -178,18 +190,18 @@ def attempt_repair(parent_job,original_tree,candidate,source_hashes,protected_ro
                 final,native=p.validate_candidate(trial_job,original_tree,board,source_hashes,protected_routes)
                 final_tree=sx.read(board)
                 if p.immutable(final_tree)!=p.immutable(base) or p.routes(final_tree)!=p.routes(base)+[node]:raise p.Rejected('thermal trial changed more than one track')
-                if geom.fill_binding(final_tree,g,sx)!=saved_fill:raise p.Rejected('thermal final saved fill changed; fresh saved-fill witness invalid')
+                if not experimental_contact and geom.fill_binding(final_tree,g,sx)!=saved_fill:raise p.Rejected('thermal final saved fill changed; fresh saved-fill witness invalid')
                 # Default-only classes also receive a fresh native map here.
                 mapping_path=trialdir/'final-netclasses.json'
                 if not mapping_path.exists():trial_job.native('thermal-final-netclasses','netclasses',board,mapping_path)
                 mapping=json.loads(mapping_path.read_text());_audit_map(board,protected_routes,mapping)
                 rows=[r for r in mapping['nets'] if r['netcode']==proposal['net_code']]
                 if len(rows)!=1 or rows[0]['width_nm']!=proposal['width_nm']:raise p.Rejected('thermal fresh native width target changed')
-                geom.verify_proposals(g,proposals,remaining_seconds=remaining)
+                proposal_geometry.verify_proposals(g,proposals,remaining_seconds=remaining)
                 _report_binding(board,trialdir/'final-drc.json',trialdir/'final-drc-binding.json',source_hashes,native)
                 warnings=lambda n:{(f['type'],tuple(sorted(i['uuid'] for i in f['items']))) for f in n['findings'] if f['severity']=='warning'}
                 valid=p.native_accepted(native) and warnings(native)<=warnings(native_summary)
-                stable();trial.update(status='validated' if valid else 'native_rejected',validation_passed=valid,candidate_sha256=final,native=native,native_report_sha256=p.sha(trialdir/'final-drc.json'),native_rejection_reasons=p.native_rejection_reasons(native),saved_fill_unchanged=True,pad_via_geometry_unchanged=True,final_map_sha256=p.sha(mapping_path))
+                stable();trial.update(status='validated' if valid else 'native_rejected',validation_passed=valid,candidate_sha256=final,native=native,native_report_sha256=p.sha(trialdir/'final-drc.json'),native_rejection_reasons=p.native_rejection_reasons(native),saved_fill_unchanged=None if experimental_contact else True,pad_via_geometry_unchanged=True,final_map_sha256=p.sha(mapping_path))
                 if valid:
                     p.verify_candidate_files(board,source_hashes,final)
                     result.update(status='validated_trial_candidate',candidate=str(board),candidate_sha256=final,validation_passed=True)
@@ -215,7 +227,9 @@ def attempt_repair(parent_job,original_tree,candidate,source_hashes,protected_ro
             if p.sha(report)!=trial['native_report_sha256'] or p.sha(mapping)!=trial['final_map_sha256'] or p.parse_report(report,selected.name)!=trial['native']:raise p.Rejected('selected thermal report/class map stale')
             _audit_map(selected,protected_routes,json.loads(mapping.read_text()))
             _report_binding(selected,report,trialdir/'final-drc-binding.json',source_hashes,trial['native'])
-            if geom.fill_binding(sx.read(selected),g,sx)!=saved_fill:raise p.Rejected('selected thermal fill changed')
+            if not experimental_contact and geom.fill_binding(sx.read(selected),g,sx)!=saved_fill:raise p.Rejected('selected thermal fill changed')
+            if experimental_contact:
+                proposal_geometry.verify_proposals(g,proposals,remaining_seconds=remaining)
         if directory is not None:
             _publish_result(directory,result,stable if prepared else lambda:None,recheck_selected,remaining)
     return result

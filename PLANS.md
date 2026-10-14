@@ -13,18 +13,20 @@ PAW SES00310opens, via_low14, retainedplanes11+4thermal and minimum0021+1thermal
 all reject. No wrongMISOstage after incompletepositive. CP2102 has13immutable pad
 gaps and3missingdevices; no routing/source repair/waiver. No completedworker repeat.
 
-1. Checkpoint actual minimum002 and installed029, then incremental from fully
-   restoredc81 and fullchainrestoration after finitefilecap270000→280000 change.
-   Keep .runs/.data/.local-reference writers idle during snapshot creation.
-   Existing8GiB/scopes/receipt/secret/path/hardlink guards unchanged; no deletion.
-   Owner chose onMac-only raw backups; no disk-failure protection claim.
-2. Strongest next hypotheses: existing nativeconnected NUS active-only route is
-   invalid solely by R3 thermal, not a gain. Review whether existing thermal
-   repair can safely handle its SMD/multi-Cu-zone geometry before any execution.
-   PAW minimum002 leaves MOTION open + U2 thermal; a new profile would be B2,
-   not novelty, and must charge at least104.372408wall108.569899CPU prior under180.
-   HSTX capture draft under .local-backups is unapplied; original Native diagnostic
-   is unrun. Copperknockout/classes/highspeed-intent remain explicit gates.
+1. Actualincremental/fullchainrestore throughfdbff8a is complete:272571files,
+   8423268906B/allGitrefs/restoredCLI,280000file/8GiBguards tested. OnMaconly.
+   Newcontactsource/full068 is aftercutoff; next incremental at actualmilestone.
+2. Contactsource/pairharness integrated,83targeted/full0681237 pass, skeptical
+   review no concreteblocker. Defaults and certifiedrepair unchanged. Commit/push
+   and remote-readback then run exactly once:
+   `.venv/bin/python -B .runs/run-native-contact120-001.py`.
+   FreshNUSclassifier+ownselectedroute+explicitsolethermal contact proposals,
+   exactwholeoriginalNative/fullSCH/finalmetrics/warnings and conditionalremoval
+   negative, actual120wall/fullCPU plusouterpublicationcharge required. Preserve
+   failedchild/geometry/API errors/allfinals; no oldfreecandidate, no generalclaim.
+   Prior active002/reader costs separatelydisclosed; oldB2/pruningC unchanged.
+   PAWminimum002 remains1open/1thermal; any newprofile charges at least104.372408/
+   108.569899 prior under180. HSTXoriginalcapture unapplied/unrun, supportgates stay.
 3. Pursue justified stronger mechanisms and broader supported families; freeze
    prospective protocol, own fresh incumbent/features, equal wall/fullCPU budgets,
    actual finalhash/fullSCH/rules/PRL/geometry/warnings/process evidence mandatory.

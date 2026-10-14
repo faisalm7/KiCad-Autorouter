@@ -1,5 +1,5 @@
 """Native read-only thermal observations on fresh job-owned copies only."""
-import hashlib,json,math,os,stat,sys
+import hashlib,json,math,os,re,stat,sys
 from pathlib import Path
 sys.dont_write_bytecode=True
 
@@ -99,6 +99,17 @@ def native_worker(board_path,request_path,output_path):
             row.setdefault('api_errors',[]).append(issue);errors.append(issue)
             return None
     layer_ids=[int(x) for x in zone.GetLayerSet().Seq() if pcbnew.IsCopperLayer(x)]
+    zone_layers=[str(pcbnew.LayerName(x)) for x in layer_ids]
+    mode=request.get('mode')
+    if mode not in (None,'native-thermal-contact-v1'):raise ValueError('unknown thermal observation mode')
+    reported_layer=None
+    if mode=='native-thermal-contact-v1':
+        match=re.fullmatch(r'Thermal relief connection to zone incomplete \(layer (F\.Cu|B\.Cu); zone min spoke count 2; actual 1\)',finding.get('description',''))
+        if match is None:raise ValueError('explicit pinned thermal report layer required')
+        reported_layer=match.group(1)
+        chosen=[x for x in layer_ids if str(pcbnew.LayerName(x))==reported_layer]
+        if len(chosen)!=1:raise ValueError('reported target layer not unique in original zone')
+        layer_ids=chosen
     layers=[{'id':l,'canonical':str(pcbnew.LayerName(l)),'board_name':str(board.GetLayerName(l))} for l in layer_ids]
     output={'schema':1,'kind':'native thermal geometry observations only','native_version':pcbnew.GetBuildVersion(),
         'units':'integer nanometres unless explicitly named otherwise','board_sha256':digest(board_path),
@@ -106,6 +117,7 @@ def native_worker(board_path,request_path,output_path):
         'zone_uuid':uid(zone),'target_pad_uuid':uid(target),'net_code':int(zone.GetNetCode()),'net_name':str(zone.GetNetname()),
         'layers':layers,'source_unchanged':False,'board_saved':False,'refill_executed':False,'drc_executed':False,'solver_executed':False,
         'proposal_scene_qualified':False,'unsupported_reasons':[],'pads':[],'vias':[],'bodies':[]}
+    if mode is not None:output.update(mode=mode,reported_layer=reported_layer,zone_copper_layers=zone_layers)
     if board.GetCopperLayerCount()!=2:raise ValueError('only two-layer thermal scope')
     if len(layer_ids)!=1:raise ValueError('target zone must have one copper layer')
     if target.GetNetCode()<=0 or target.GetNetCode()!=zone.GetNetCode():raise ValueError('target/zone native net mismatch')
@@ -134,6 +146,9 @@ def native_worker(board_path,request_path,output_path):
             layer_row={'id':layer,'canonical':str(pcbnew.LayerName(layer)),'on_layer':bool(pad.IsOnLayer(layer))}
             observe(layer_row,'flash_layer',lambda:bool(pad.FlashLayer(layer)))
             observe(layer_row,'shape_is_circle',lambda:pad.GetShape(layer)==pcbnew.PAD_SHAPE_CIRCLE)
+            if mode=='native-thermal-contact-v1':
+                observe(layer_row,'shape_is_rect',lambda:pad.GetShape(layer)==pcbnew.PAD_SHAPE_RECT)
+                observe(layer_row,'shape_is_roundrect',lambda:pad.GetShape(layer)==pcbnew.PAD_SHAPE_ROUNDRECT)
             observe(layer_row,'size_nm',lambda:xy(pad.GetSize(layer)))
             observe(layer_row,'offset_nm',lambda:xy(pad.GetOffset(layer)))
             observe(layer_row,'shape_position_nm',lambda:xy(pad.ShapePos(layer)))

@@ -1,0 +1,98 @@
+{
+  "schema": 1,
+  "kind": "experimental-native-contact-source-and-prospective-fresh-NUS120",
+  "accepted": false,
+  "production_admitted": false,
+  "native_contact_qualified": false,
+  "routing_gain": false,
+  "previous_checkpoint": "fdbff8aed294ec1873570c469be91187746a1848",
+  "change": "Separate speculative one-track contact proposal mode using actual Native report-layer and pad geometry, preserving default certified two-body repair. Existing shared source/process/Native/PRL/class-map/publication helpers retained. No new CLI option.",
+  "controls": {
+    "targeted_methods": 83,
+    "targeted_wall_seconds": 0.8072255000006407,
+    "targeted_full_cpu_seconds": 0.650423,
+    "full_methods": 1237,
+    "full_wall_seconds": 54.5019252919883,
+    "full_cpu_seconds": 50.828566,
+    "native_executed": false
+  },
+  "source": [
+    {
+      "path": "autorouter/thermal.py",
+      "sha256": "74c0103f9fb992740dbbc8ed6f04cf3c5863a203f90e0813beb974342080bed4",
+      "bytes": 19218
+    },
+    {
+      "path": "autorouter/thermal_worker.py",
+      "sha256": "fd651f44233aae2c70da0a8feab5f96a4763276684e8b0babf39860b91a9cc33",
+      "bytes": 15693
+    },
+    {
+      "path": "autorouter/thermal_contact.py",
+      "sha256": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+      "bytes": 11297
+    },
+    {
+      "path": "tests/test_native_thermal_contact.py",
+      "sha256": "681f8633a26badef8a96372e294eebceaeffe477f30c6456fd5e03c2cd002257",
+      "bytes": 5698
+    },
+    {
+      "path": "experiments/native_connected_pair_v1/driver.py",
+      "sha256": "9512c4a4671095114045e96e4e555c2670a4bb5d6ff79ae985cdcf720ae8201a",
+      "bytes": 35880
+    },
+    {
+      "path": "experiments/native_connected_pair_v1/run.py",
+      "sha256": "e37fe57afcb1411652b656c63f87b6a39a735b32efa651be3fa85717db52e133",
+      "bytes": 4403
+    },
+    {
+      "path": "experiments/native_connected_pair_v1/protocol-contact-v1.json",
+      "sha256": "f20d69e97361476cd933dc15dc00f387fb813baf446396347d39cd3b38567d70",
+      "bytes": 10778
+    }
+  ],
+  "evidence": [
+    {
+      "path": ".runs/native-contact-targeted-001/execution.json",
+      "sha256": "be848b2651b3f291fd55bff15c4c4cf9b3e60630f486de42e8c01182b2a74bf4",
+      "bytes": 3211
+    },
+    {
+      "path": ".runs/full-integration-068/execution.json",
+      "sha256": "cf5cc8230e2b61ad570dce83458c5efa0f2df21b4bcd1aaefecce9397b544f9a",
+      "bytes": 16233
+    },
+    {
+      "path": ".runs/native-contact-source-preparation-001/runner-review/findings.json",
+      "sha256": "64fe97cb19a5389a6c1a16963e9891acce390b1b4e1ee4298babc9053bba56ca",
+      "bytes": 4266
+    },
+    {
+      "path": ".runs/run-native-contact120-001.py",
+      "sha256": "07b30d6c6c2afb5e5cf1624e27ff06305698dd5f7e3abba69ad5e2fec3c9438d",
+      "bytes": 3396
+    }
+  ],
+  "protocol": {
+    "path": "experiments/native_connected_pair_v1/protocol-contact-v1.json",
+    "sha256": "f20d69e97361476cd933dc15dc00f387fb813baf446396347d39cd3b38567d70",
+    "command": ".venv/bin/python -B .runs/run-native-contact120-001.py",
+    "wall_full_cpu_cap_seconds": 120,
+    "own_controller_publication_allowance_seconds": 1,
+    "scope": "Fresh classifier/active-only selected route, rejectedchild retained, whole-original fullSCH/refill, <=4contacttrials, finalwholeNative+metrics and conditional exacttrackremovalnegative. Everyactualcost inside fresh120; priorpilotexploration separatelydisclosed/cumulative. No oldcandidate feature/reuse."
+  },
+  "review": {
+    "geometry_author": ".runs/native-contact-source-preparation-001/geometry-draft/README.md",
+    "runner_author_and_integration_reviewer": ".runs/native-contact-source-preparation-001/runner-draft/README.md",
+    "independent_runner_review": ".runs/native-contact-source-preparation-001/runner-review/README.md",
+    "finding": "No concrete falsequalification/freecandidateblocker found. Actor/outer timings precede publicationcallbacks; wholeleadcontroller charges childcompletion plus1s ownpublication. Real worker/API/Nativepositive/removalnegative unexecuted."
+  },
+  "limitations": [
+    "One exposed NUS pilot; existing shorter35.128656mm/two-via C is a different qualitytradeoff. No general superiority/confirmation/physicalclaim.",
+    "Actual originalhardminimum PAW002 remains1open/1thermal rejected, independent ofthishypothesis.",
+    "Current installed029 predates contactsource; source/Natives/policies frozenbeforeoneactualtrial.",
+    "Majorfullrestore throughfdbff8a verified; currentprototype source/raw aftercutoff."
+  ]
+}

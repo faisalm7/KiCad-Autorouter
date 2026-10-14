@@ -12,7 +12,7 @@ sys.path.insert(0,str(ROOT));sys.dont_write_bytecode=True
 from autorouter import pipeline as p,floor_route as f,handoff as h
 from autorouter.runner import run
 from experiments.native_connected_pair_v1.driver import check_outer_witness
-parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--run-native',action='store_true');parser.add_argument('--method',choices=('all-active','native-connected'),required=True);parser.add_argument('--output',type=Path,required=True);parser.add_argument('--protocol',type=Path,required=True);parser.add_argument('--protocol-sha256',required=True);a=parser.parse_args()
+parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--run-native',action='store_true');parser.add_argument('--method',choices=('all-active','native-connected','native-connected-contact'),required=True);parser.add_argument('--output',type=Path,required=True);parser.add_argument('--protocol',type=Path,required=True);parser.add_argument('--protocol-sha256',required=True);a=parser.parse_args()
 if not a.run_native:parser.error('explicit native execution required')
 out=a.output;execution=out.parent/(out.name+'-execution');here=Path(__file__).resolve().parent
 if out.parent!=ROOT/'.runs' or any(x.exists() or x.is_symlink() for x in (out,execution,out.parent/(out.name+'-classifier'))):raise p.Rejected('three fresh direct sibling outputs required')
@@ -26,6 +26,8 @@ record=dict(schema=1,kind='NUS120 connected-activity outer actual-cost diagnosti
 def remaining():return min(120-(time.monotonic()-START),120-(cpu()-CPU0))
 def account():
     record.update(wall_seconds=time.monotonic()-START,total_cpu_seconds=cpu()-CPU0,within_parent120_caps=remaining()>0)
+    if a.method=='native-connected-contact':
+        record.update(prior_pilot_costs=spec['prior_pilot_costs'],cumulative_active002_reader_and_fresh_wall_seconds=23.452824+1.841760+2+record['wall_seconds'],cumulative_active002_reader_and_fresh_full_cpu_seconds=18.648718+1.781649+2+record['total_cpu_seconds'],exploration_accounting_scope='Prior active002+sharedreader+2s allowance and this actual fresh120 outer; earlierpair001/setup and frozenB2/pruningC separate, no free incumbent/first-attempt claim')
     if record['status']!='completed' or not record['within_parent120_caps']:record['method_qualified']=False
 def stable():
     h.owned_destination(owner)
