@@ -1,0 +1,1 @@
+Finite source inspection cap20000->22000 because actual tracked inventory exceeded20000. Unchanged320MiB sourcebyte/512MiB installation/600second/all-file-copy constraints. Installed subset adds pruning-scoring contract controls. Existing28pure installation regression tests passed; installation020 still prospective. No routing acceptance criterion changed.

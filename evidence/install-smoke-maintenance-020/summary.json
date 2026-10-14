@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "status": "targeted-tests-passed",
+  "command": [
+    ".venv/bin/python",
+    "-B",
+    "-m",
+    "unittest",
+    "tests.test_install_smoke",
+    "-v"
+  ],
+  "exit_code": 0,
+  "tool_wall_seconds": 0.766200875,
+  "unittest_count": 28,
+  "unittest_wall_seconds": 0.707,
+  "source_changes": [
+    "SOURCE_MAX_FILES 20000 -> 22000; SOURCE_MAX_BYTES remains 320 MiB",
+    "DISTRIBUTION_TESTS adds tests.test_pruning_scoring"
+  ],
+  "unchanged_limits": {
+    "installation_bytes": 536870912,
+    "source_bytes": 335544320,
+    "overall_wall_seconds": 600
+  },
+  "hashes": {
+    "scripts/install_smoke.py": "8946467e9f71ad687a7b0b1a9ed045c24f9050ad409b9a92f673ecede2e836c0",
+    "docs/install-test.md": "09ba430866cbb876108fb3b91c6706535aa5af63f8f0109f918580e9f7bc9d2e",
+    "tests/test_install_smoke.py": "520e7c211089d97ed29b1dfe73a9cc921d78f361711dfe7fe43c9cd8dc3025fe"
+  },
+  "scope": "Existing pure installation regression module only. Parent updated the existing bound expectation. No new tests, installation, native execution, JVM, full suite, network or Git operation.",
+  "prospective_wrapper": ".runs/run-installation-020.py",
+  "unqualified": [
+    "installation020 has not run",
+    "new installed test subset has not run in a fresh distribution",
+    "no native or release qualification from maintenance controls"
+  ]
+}
+

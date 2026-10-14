@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "curation-only failures",
+  "errors": [
+    "first selector iteration assumed a mapping; actual files field is a list; no copies had occurred",
+    "closing an existing packet included its existing files.json in its own listing; final self-hash assertion failed"
+  ],
+  "native_bytes_changed": false,
+  "fix": "retain authored old scope and failed metadata, verify every copied source byte, rebuild only packet index excluding files.json itself",
+  "native_repeated": false
+}

@@ -1,0 +1,420 @@
+{
+  "id": "trial-0000",
+  "proposal": {
+    "kind": "whole_zone_net",
+    "net": "\"GND\"",
+    "route_ids": [
+      "ae575681ce5cd9f25d4a4015d0b1bf67c7cdf975b851421a9f8c4431008a95be",
+      "6381c724fb3bc5b3d4270d97c1e0d7ece4e15846429581d0fd0678f8613a8e9a",
+      "264a56ad5c9b76a81b5307255cac2e18b2e95670fbc6503fc70de17b56a8fa4c",
+      "96e66deed8121951b8450c23c843277561ec8717f944e10ba4dda9019a3dcd52",
+      "6350b7469e7a21d5d75cc420822346f5bea10f93949ac7fd7ab59a8fa2c6eff5",
+      "bc3b4ba86b076941cfff776c7f2bdeb620d33ae078ddc97c0b1113f8c2630fc3",
+      "a9b2ea5ee7d3bf630ca71929212b1bd29478b76b9e5a7782733d553003e686cf",
+      "c6efe975d2c6ae85ed252f47d3bd464861c75db37663cc29752f036639cc5b70",
+      "8932042b99d35086519ac0ba70012df1f753ad1065d112c9069ca3652af0cb7b",
+      "c6f268e8d2f1390ce442be98b176c210c362736eca168f964c3fce629f0b7f55",
+      "746cd60c15b53c7c8c30340d013f01e9e19b64aa5f07cc8e33ac7abff167f54a",
+      "f28e298fa64a19fa7150d1779d693c47ebc1f29f46262b44b2f9eaf1e689bba6",
+      "37db37dbd24ce016359fdf047de41e09168469b1f3db2607c34ed15fc86d1af2",
+      "037b16456d31a1ef134d961f2b7d4c5bcdeec0dd7b83ec84916e4f204960c010",
+      "8a93ecc01445e2d8ae0b44fbc2dbd157de27817ea6943c0c42608bd2d3db9af0",
+      "b028bc27798ed65262371b9c8dca677f86e2962467a7fb431eea2942fd9873dd",
+      "6f285542f47fd9ef7c9a243dbc1f814203a6486e9dffc2d0554ee4483a3a7a5d",
+      "31123824de3cbdd270e87f93c14747670364dd1d5ca38308af92464886d87b71",
+      "7ef047f44b43ae7f76df3fe9c41229d24494dc8aa28d44342a2295bdaa4ded4e",
+      "a7efa891cb5ece108170c995319580a24fad21ec2ed3278f751ad66dfbdd53d1",
+      "4abb9cafb0491e5849eb31355178ceb03bd6854740d16c51a450ebb55ebc2795",
+      "22794c451399c2136ad85a0eab18a84b27bcbb2179f34383b0f258e09d945456",
+      "ef8490251f706ad67bcd1f0523c85890b4c35b12e7f84a201e72389d093b3a41",
+      "baa1554764e43d255828ea76b05ea62dfde5bd3c84c9afe5f7b8782cb5f50edb",
+      "f812eaa108830232f48c496db15fd2a973497a7d3d5852fd5365219ed1776695",
+      "fb0f8680d7bacc90272ddfeb9a54f78c9a0b183101e3b7a3cf6b870736ee831d",
+      "ee4656fa1a60e29ff55e60243b987cbea912a4bd4dbea9353e861624bf667d62",
+      "0d5883307e8d933a69331f0982b4407b017186dab3596ac883f9357ff521674d",
+      "1009208b0727b197346db2d87f58658da2417e5405385e9a3fef90ba99c3e73c"
+    ]
+  },
+  "status": "drc_rejected",
+  "accepted": false,
+  "started_elapsed_seconds": 18.816288292000536,
+  "base_candidate_sha256": "5b22857ea479404dad0861ae427723798852280c7c1929863e329c37d58949ba",
+  "candidate_sha256": "8a8423bef35f38e5c51f5480f86ab63989f5219fcad639b040f0b35422cca27f",
+  "native": {
+    "opens": 0,
+    "blocking": 1,
+    "warnings": 14,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "Footprint component type doesn't match footprint pads",
+        "key": "footprint_type_mismatch"
+      }
+    ],
+    "findings": [
+      {
+        "description": "Thermal relief connection to zone incomplete (layer F.Cu; zone min spoke count 2; actual 1)",
+        "items": [
+          {
+            "description": "Zone [GND] on F.Cu and B.Cu, priority 0",
+            "pos": {
+              "x": 109.0,
+              "y": 79.0
+            },
+            "uuid": "61972cc0-a6c6-4f9e-bf91-12006b96cd2f"
+          },
+          {
+            "description": "Pad 2 [GND] of U1 on F.Cu",
+            "pos": {
+              "x": 117.7075,
+              "y": 91.845
+            },
+            "uuid": "7a57ae2f-d207-46d0-9a37-c9e6c1fc6d84"
+          }
+        ],
+        "severity": "error",
+        "type": "starved_thermal"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+        "items": [
+          {
+            "description": "Footprint J2",
+            "pos": {
+              "x": 114.02,
+              "y": 100.755
+            },
+            "uuid": "05a3baaa-840a-4e56-ae9b-77c073814354"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Package_TO_SOT_SMD'",
+        "items": [
+          {
+            "description": "Footprint U1",
+            "pos": {
+              "x": 118.845,
+              "y": 91.845
+            },
+            "uuid": "24b1976c-c6e5-4048-bdf1-0b782a09dd67"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Package_SO'",
+        "items": [
+          {
+            "description": "Footprint U2",
+            "pos": {
+              "x": 124.525,
+              "y": 115.035
+            },
+            "uuid": "47d26c48-8063-4262-8536-ae4085a9f8b9"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+        "items": [
+          {
+            "description": "Footprint C1",
+            "pos": {
+              "x": 113.765,
+              "y": 93.905
+            },
+            "uuid": "61fc94f9-d6b7-44fc-9087-772fd18e8ad2"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+        "items": [
+          {
+            "description": "Footprint C2",
+            "pos": {
+              "x": 128.27,
+              "y": 89.8
+            },
+            "uuid": "665d2ab0-6d9d-4080-9188-314e27d81528"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+        "items": [
+          {
+            "description": "Footprint C4",
+            "pos": {
+              "x": 117.79,
+              "y": 107.95
+            },
+            "uuid": "6689d2c3-43e2-44a0-830b-71134149a578"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+        "items": [
+          {
+            "description": "Footprint J1",
+            "pos": {
+              "x": 118.795,
+              "y": 84.245
+            },
+            "uuid": "6f3f9d12-98f5-44b8-8315-29d57db26ab2"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+        "items": [
+          {
+            "description": "Footprint C5",
+            "pos": {
+              "x": 126.9,
+              "y": 108.5
+            },
+            "uuid": "7bfb0412-4445-4bf7-82d6-6ba53378620a"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+        "items": [
+          {
+            "description": "Footprint R3",
+            "pos": {
+              "x": 127.065,
+              "y": 102.415
+            },
+            "uuid": "96dbd16b-b1d0-4994-9349-aa3a17324d3a"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+        "items": [
+          {
+            "description": "Footprint R2",
+            "pos": {
+              "x": 119.445,
+              "y": 98.115
+            },
+            "uuid": "974a713c-bf04-4adb-ae7c-27b4c98d49c2"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+        "items": [
+          {
+            "description": "Footprint J3",
+            "pos": {
+              "x": 132.385,
+              "y": 115.685
+            },
+            "uuid": "b0cd2e53-6128-4c07-a46c-f55674d76a55"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+        "items": [
+          {
+            "description": "Footprint C3",
+            "pos": {
+              "x": 130.315,
+              "y": 108.685
+            },
+            "uuid": "c6379944-3bb6-4ada-8871-4f47266b5abf"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+        "items": [
+          {
+            "description": "Footprint R1",
+            "pos": {
+              "x": 128.27,
+              "y": 84.465
+            },
+            "uuid": "d7be4b29-85a7-49c1-a913-3266332b4f71"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'LED_THT'",
+        "items": [
+          {
+            "description": "Footprint D1",
+            "pos": {
+              "x": 135.89,
+              "y": 97.79
+            },
+            "uuid": "f18cdc2d-fbc1-4a15-9394-857d14b57e01"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      }
+    ]
+  },
+  "native_report_sha256": "6b78ea17e38cf3a317b78a09d6e68231bdd51fe3c3e107f41260776518ab3888",
+  "native_rejection_reasons": [
+    "native blocking=1",
+    "native error finding: starved_thermal",
+    "policy-critical native finding: starved_thermal (error)"
+  ],
+  "steps": [
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.808998624997912,
+      "cpu_seconds": 0.594727,
+      "max_rss_bytes": 217776128,
+      "supervisor_cpu_seconds": 0.017269999999999897,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 213925888,
+      "sampled_peak_workdir_bytes": 637026,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/analog-high-incumbent-pruning-002/run/trials/trial-0000/refill-drc.json",
+        "--save-board",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/analog-high-incumbent-pruning-002/run/trials/trial-0000/refill/analog_filter_module.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/analog-high-incumbent-pruning-002/run/trials/trial-0000/refill-drc.log",
+      "log_bytes": 202,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/analog-high-incumbent-pruning-002/run/trials/trial-0000",
+      "signal_cancellation_enabled": true,
+      "pid": 89087,
+      "name": "refill-drc",
+      "validated_input_sha256": "8a8423bef35f38e5c51f5480f86ab63989f5219fcad639b040f0b35422cca27f",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/analog-high-incumbent-pruning-002/run/trials/trial-0000/refill/analog_filter_module.kicad_pcb",
+      "phase": "trial-0000"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.2123485000047367,
+      "cpu_seconds": 0.5853759999999999,
+      "max_rss_bytes": 233046016,
+      "supervisor_cpu_seconds": 0.014414999999999623,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 230293504,
+      "sampled_peak_workdir_bytes": 925229,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--schematic-parity",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/analog-high-incumbent-pruning-002/run/trials/trial-0000/final-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/analog-high-incumbent-pruning-002/run/trials/trial-0000/final-drc-input/analog_filter_module.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/analog-high-incumbent-pruning-002/run/trials/trial-0000/final-drc.log",
+      "log_bytes": 221,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/analog-high-incumbent-pruning-002/run/trials/trial-0000",
+      "signal_cancellation_enabled": true,
+      "pid": 89088,
+      "name": "final-drc",
+      "validated_input_sha256": "8a8423bef35f38e5c51f5480f86ab63989f5219fcad639b040f0b35422cca27f",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/analog-high-incumbent-pruning-002/run/trials/trial-0000/candidate/analog_filter_module.kicad_pcb",
+      "phase": "trial-0000"
+    }
+  ],
+  "finished_elapsed_seconds": 21.997605249998742,
+  "finished_observed_cpu_seconds": 17.341132
+}

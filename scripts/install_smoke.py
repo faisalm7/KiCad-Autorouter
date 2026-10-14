@@ -30,11 +30,11 @@ from autorouter.runner import run
 
 
 MAX_BYTES = 512 * 1024**2
-# Current retained source/evidence exceeds19,000 files. Keep a finite20,000
-# file/320MiB source inventory. Distribution mode avoids copying historical
-# evidence into another installation tree; the complete source stays checked.
+# The audited tree has 20,041 files / 331,580,350 bytes. A finite 22,000-file
+# bound admits that retained population without omitting files; the 320 MiB
+# byte limit remains. Distribution mode still checks the complete source.
 SOURCE_MAX_BYTES = 320 * 1024**2
-SOURCE_MAX_FILES = 20000
+SOURCE_MAX_FILES = 22000
 TOTAL_SECONDS = 600.0
 NETWORK_DENIAL = ["/usr/bin/sandbox-exec", "-p", "(version 1)(allow default)(deny network*)"]
 
@@ -49,7 +49,8 @@ DISTRIBUTION_EVIDENCE = ("evidence/placement-area-native-001/allowed_placement/c
                          "evidence/nus-additive-publication-fix-002/producer.py")
 DISTRIBUTION_TESTS = ("tests.test_runner", "tests.test_led_demo_fetch", "tests.test_arcdice_demo_fetch",
                       "tests.test_demo_benchmark_source", "tests.test_additive_publication",
-                      "tests.test_netclass_parent_policy", "tests.test_netclass_parent_pipeline")
+                      "tests.test_netclass_parent_policy", "tests.test_netclass_parent_pipeline",
+                      "tests.test_pruning_scoring")
 
 
 def distribution_listing(listing):

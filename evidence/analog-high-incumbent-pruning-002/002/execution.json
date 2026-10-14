@@ -1,0 +1,58 @@
+{
+  "schema": 1,
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 71.17857491600444,
+    "cpu_seconds": 52.061801,
+    "max_rss_bytes": 253247488,
+    "supervisor_cpu_seconds": 1.263364,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 194871296,
+    "sampled_peak_workdir_bytes": 11563005,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 67108864,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/native_high_pruning_v1/driver.py",
+      "--protocol",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/analog-high-incumbent-pruning-002-protocol.json",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/analog-high-incumbent-pruning-002",
+      "--inner"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/analog-high-incumbent-pruning-002/command.log",
+    "log_bytes": 211,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/analog-high-incumbent-pruning-002",
+    "signal_cancellation_enabled": true,
+    "pid": 89069
+  },
+  "wall_seconds": 71.55191337499127,
+  "full_cpu_seconds": 53.579944999999995,
+  "protocol_sha256": "968a78e80fbcb4d5347279ba34280615c6e10a0b11eb2b4cb4beb2f0d657c678",
+  "controller_sha256": "f61b3216ab76314c521803f3235787718e79453a7b391a628b5b8c8a2609fb7b",
+  "log_sha256": "17a159c643464186663780daecadd60254bad093d7e8d81998474aa03c9b83b6",
+  "fresh_own_high_solve": true,
+  "baseline_candidate_used_as_input": false,
+  "native_executions_sequential": true,
+  "cost_scope": "Module entry before imports through final checks; separate1startup/publication allowance charged in prospective protocol; source18+audit15 also charged. This is a separately frozen exposed hypothesis, not a <=120 continuation of prior defaultC. Total exploration costs must retain both methods."
+}
