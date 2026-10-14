@@ -41,9 +41,10 @@ FEEDBACK_ARMS = (*ARMS[:3],
     {**ARMS[3], "id": "C_feedback", "proposal_policy": "feedback"},
 )
 SCRIPT = Path(__file__).resolve()
-PROJECTS = {"sonde": "kicad-sonde-xilinx", "interf_u": "kicad-interf-u", "multichannel": "kicad-multichannel", "ardujoy-c64":"eduardofv-ArdujoyC64", "nus-usb-led":"nushackers-hsp-pcb-intro", "push-button-led":"gurusaeth12-push-button-led-kicad"}
+PROJECTS = {"sonde": "kicad-sonde-xilinx", "interf_u": "kicad-interf-u", "multichannel": "kicad-multichannel", "ardujoy-c64":"eduardofv-ArdujoyC64", "nus-usb-led":"nushackers-hsp-pcb-intro", "push-button-led":"gurusaeth12-push-button-led-kicad", "arcdice":"VorosEgyes-ArcDice"}
 SUPPORT = (SCRIPT, c.ROOT / "toolchain.lock.json", c.ROOT / "data/sources.json",
            c.ROOT/'scripts/fetch_led_demo.py',
+           c.ROOT/'experiments/arcdice_native_class_v1/source.py',
            c.ROOT/'experiments/licensed_acquisition_v4/native_snapshot.py',
            c.ROOT/'experiments/licensed_acquisition_v4/protocol.json',
            c.ROOT/'experiments/licensed_acquisition_v5/native_snapshot.py',
@@ -60,6 +61,13 @@ def total_process_cpu():
 
 
 def selected_source(name):
+    if name=='arcdice':
+        from experiments.arcdice_native_class_v1 import source
+        files=source.capture()
+        base=c.ROOT/'.runs/arcdice-original-native-001/original'
+        expected={name:hashlib.sha256(raw).hexdigest() for name,raw in files.items()}
+        if p.tree_hash(base)!=expected:raise p.Rejected('exact original notice-bearing ArcDice snapshot required')
+        return base/'hardware/ArcDice.kicad_pcb','VorosEgyes-ArcDice-development-exposed'
     if name=='push-button-led':
         base=c.ROOT/'.runs/push-button-led-original-native-001/original'
         if base.exists():

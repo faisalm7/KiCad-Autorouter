@@ -319,6 +319,10 @@ def prune(source, output, seconds=120, *, proposal_policy="single"):
             report["status"] = "incumbent_rejected"
             raise p.Rejected("B2 incumbent rejected: " + str(incumbent.get("reason", incumbent["status"])))
         p.check_result(output / "incumbent/result.json")
+        from .netclass import PARENT_POLICY
+        source_policy=p.netclass_policy(source)
+        if source_policy is not None and source_policy['mode']==PARENT_POLICY:
+            report['netclass_parent_dsn_basis']=p.parent_dsn_basis(output)
         _check_original(source, snapshot, source_hashes)
         best = Path(incumbent["candidate"])
         best_metrics, best_native = incumbent["metrics"], incumbent["native"]

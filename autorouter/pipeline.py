@@ -87,13 +87,17 @@ def netclass_policy(board):
     settings=project.get('net_settings',{})
     if not (settings.get('netclass_patterns') or settings.get('netclass_assignments') or len(settings.get('classes',[]))>1):
         return None
-    from .netclass import qualify_project
+    from .netclass import qualify_project, qualify_parent_project, PARENT_POLICY
     try:
-        policy=qualify_project(project)
+        try:policy=qualify_project(project)
+        except ValueError as literal_error:
+            try:policy=qualify_parent_project(project)
+            except ValueError as parent_error:
+                raise ValueError(str(literal_error)+'; '+str(parent_error)) from parent_error
         layers=sx.one(sx.read(board),'layers',[])
         if sum(isinstance(x,list) and len(x)>2 and re.fullmatch(r'(?:F|B|In[0-9]+)\.Cu',sx.unquote(x[1])) is not None for x in layers)!=2:
-            raise ValueError('literal netclasses currently require two copper layers')
-        if policy['mode']!='literal_two_class': raise ValueError('unqualified netclass binding mode')
+            raise ValueError('native netclasses currently require two copper layers')
+        if policy['mode'] not in {'literal_two_class',PARENT_POLICY}: raise ValueError('unqualified netclass binding mode')
         return policy
     except (ValueError,TypeError,KeyError) as exc:
         raise Rejected('unsupported: netclass bindings not qualified: '+str(exc)) from exc
@@ -542,10 +546,38 @@ def audit_candidate_netclasses(candidate, protected, native):
     if (native.get('source')!=str(candidate) or native.get('board_sha256')!=sha(candidate)
             or native.get('project_sha256')!=sha(project) or native.get('board_saved') is not False):
         raise Rejected('native netclass map is not bound to candidate and original project')
-    mapping=audit_native(native,json.loads(project.read_text()))
+    from .netclass import PARENT_POLICY
+    policy=netclass_policy(candidate)
+    mapping=audit_native(native,json.loads(project.read_text()),parent_policy=policy is not None and policy['mode']==PARENT_POLICY)
     dimensions=audit_route_dimensions(sx.read(candidate),protected,native)
     return {'native':mapping,'route_dimensions':dimensions,'candidate_sha256':sha(candidate),
             'project_sha256':sha(project)}
+
+def parent_dsn_basis(directory):
+    """Bind a pruning run to its own retained, independently checked engine input."""
+    directory=Path(directory);base=directory/'incumbent'
+    return {'policy':'native-parent-dsn-basis-v1','receipt':'incumbent/result.json',
+            'files_sha256':{name:sha(base/name) for name in
+                ('result.json','native.dsn','task.dsn','export-netclasses.json')}}
+
+def check_parent_dsn_basis(directory,data):
+    """A C label never removes the native/DSN contract in the new class scope."""
+    from .floor_route import read_json
+    from .netclass import PARENT_POLICY
+    directory=Path(directory);base=directory/'incumbent/result.json'
+    if (data.get('strategy')!='native_validated_zone_net_pruning'
+            or data.get('netclass_parent_dsn_basis')!=parent_dsn_basis(directory)):
+        raise Rejected('parent-class strategy requires its exact native/DSN incumbent basis')
+    incumbent=read_json(base)
+    if (incumbent.get('baseline')!='B2_tuned' or incumbent.get('engine_profile')!='tuned'
+            or incumbent.get('netclass_policy',{}).get('mode')!=PARENT_POLICY
+            or any(incumbent.get(key)!=data.get(key) for key in ('source','source_hashes','task_sha256','scope'))
+            or data.get('incumbent',{}).get('receipt')!=str(base)):
+        raise Rejected('parent-class incumbent task/source lineage differs')
+    inherited=[{key:value for key,value in step.items() if key!='phase'} for step in data['steps'] if step.get('phase')=='incumbent']
+    if inherited!=incumbent.get('steps'):raise Rejected('parent-class incumbent process/cost lineage differs')
+    check_result(base)
+    if data['netclass_parent_dsn_basis']!=parent_dsn_basis(directory):raise Rejected('parent-class incumbent basis changed during readback')
 
 def check_pour_evidence(directory,data,original,candidate,*,source_hashes=None,correction=True,sandboxed=None):
     """Require saved-refill/native-fill proof from source intent, never a flag."""
@@ -1011,6 +1043,10 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
         before=tree_hash(source.parent); report['source_hashes']=before
         original=preflight(source)
         selected=_preferences['effective'].get('nets') if _preferences and _preferences['effective']['scope']=='selected_nets' else None
+        from .netclass import PARENT_POLICY
+        source_policy=netclass_policy(source)
+        if selected is not None and source_policy is not None and source_policy['mode']==PARENT_POLICY:
+            raise Rejected('unsupported: selected-net composite class transport not qualified')
         parity=source.with_suffix('.kicad_sch').name in before
         report['schematic_parity']=parity_declaration(source,before)
         if selected is not None:
@@ -1035,6 +1071,10 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
         report['task_sha256']=sha(candidate)
         report['source_drc']=job.drc('source-drc',snapshot)
         policy=netclass_policy(candidate)
+        from .netclass import PARENT_POLICY
+        parent_classes=policy is not None and policy['mode']==PARENT_POLICY
+        if selected is not None and parent_classes:
+            raise Rejected('unsupported: selected-net composite class transport not qualified')
         if policy is None:
             job.native('export','export',candidate,output/'task.dsn')
             shutil.copy2(output/'task.dsn',output/'native.dsn')
@@ -1047,7 +1087,7 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
             audit_candidate_netclasses(candidate,protected,native_classes)
             shutil.copy2(output/'task.dsn',output/'native.dsn')
             report['netclass_policy']=policy
-            report['netclass_export_audit']=audit_dsn(output/'native.dsn',native_classes,json.loads(candidate.with_suffix('.kicad_pro').read_text()))
+            report['netclass_export_audit']=audit_dsn(output/'native.dsn',native_classes,json.loads(candidate.with_suffix('.kicad_pro').read_text()),parent_policy=parent_classes)
         report['native_dsn_sha256']=sha(output/'native.dsn')
         if adapter!='none':
             from . import pour_rule_area as pour
@@ -1062,7 +1102,7 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
             job.native('obstacles','obstacles',candidate,output/'obstacles.json')
             report['adapter_transformations']=adapt_dsn(output/'task.dsn',adapter,json.loads((output/'obstacles.json').read_text()))
         if policy is not None:
-            report['netclass_task_audit']=audit_dsn(output/'task.dsn',native_classes,json.loads(candidate.with_suffix('.kicad_pro').read_text()))
+            report['netclass_task_audit']=audit_dsn(output/'task.dsn',native_classes,json.loads(candidate.with_suffix('.kicad_pro').read_text()),parent_policy=parent_classes)
         selection_argument=None
         if selected is not None:
             shutil.copy2(output/'task.dsn',output/'routing-scope-input.dsn')
@@ -1372,7 +1412,10 @@ def _check_result_uncached(path):
     elif input_policy==ps.POLICY:
         ps.check_pruning_result(path.parent,data,original,candidate,protected)
     if netclass_policy(candidate) is not None:
-        from .netclass import audit_dsn, audit_native
+        from .netclass import audit_dsn, audit_native, PARENT_POLICY
+        parent_classes=netclass_policy(candidate)['mode']==PARENT_POLICY
+        if data['scope']=='selected_nets' and parent_classes:
+            raise Rejected('selected-net composite class transport not qualified')
         native_classes=evidence('final-netclasses.json')
         audited=audit_candidate_netclasses(candidate,protected,native_classes)
         audited['native_map_file_sha256']=sha(path.parent/'final-netclasses.json')
@@ -1385,6 +1428,8 @@ def _check_result_uncached(path):
         matching=[step for step in data.get('steps',[]) if step.get('name')=='final-netclasses' and step.get('cwd')==str(path.parent)]
         if len(matching)!=1 or any(matching[0].get(key)!=value for key,value in process.items()):
             raise Rejected('native netclass step differs from retained process')
+        if data.get('baseline')=='C-prototype' and parent_classes:
+            check_parent_dsn_basis(path.parent,data)
         if data.get('baseline')!='C-prototype':
             # Reconstruct the exact native export input from the frozen source,
             # never from the already-routed candidate or receipt assertions.
@@ -1403,10 +1448,10 @@ def _check_result_uncached(path):
                     or exported.get('project_sha256')!=sha(candidate.with_suffix('.kicad_pro'))
                     or exported.get('source')!=str(candidate) or exported.get('board_saved') is not False):
                 raise Rejected('export netclass map differs from original routing task')
-            audit_native(exported,project)
+            audit_native(exported,project,parent_policy=parent_classes)
             if (data.get('netclass_policy')!=netclass_policy(candidate)
-                    or data.get('netclass_export_audit')!=audit_dsn(path.parent/'native.dsn',exported,project)
-                    or data.get('netclass_task_audit')!=audit_dsn(path.parent/('routing-scope-input.dsn' if data['scope']=='selected_nets' else 'task.dsn'),exported,project)):
+                    or data.get('netclass_export_audit')!=audit_dsn(path.parent/'native.dsn',exported,project,parent_policy=parent_classes)
+                    or data.get('netclass_task_audit')!=audit_dsn(path.parent/('routing-scope-input.dsn' if data['scope']=='selected_nets' else 'task.dsn'),exported,project,parent_policy=parent_classes)):
                 raise Rejected('retained DSN netclass audits differ from exported evidence')
 
     binding=evidence('final-drc-binding.json')
