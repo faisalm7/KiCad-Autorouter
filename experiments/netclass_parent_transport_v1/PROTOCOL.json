@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "kind": "prospective native composite-class generated transport controls",
+  "source": "deterministic owned board-floor derivative with exact retained seed attribution, original hard floors, severities and exclusions",
+  "classes": [
+    "Default",
+    "POWER",
+    "SIGNAL"
+  ],
+  "patterns": [
+    "/PWR_*",
+    "/SIG_*"
+  ],
+  "native_identities_to_exercise": [
+    "Default",
+    "POWER,Default",
+    "SIGNAL,Default"
+  ],
+  "cases": [
+    "whole unprotected",
+    "partial with one original locked 5mm POWER track"
+  ],
+  "engine": "pinned Freerouting2.5.0; completion-only; single processor; exact targets; automatic neckdown and fanout disabled; network denied",
+  "stages_per_case": [
+    "original native DRC",
+    "same-load native class map and DSN export",
+    "native-to-DSN exact membership/dimensions audit",
+    "actual JAR SES routing",
+    "actual native SES import",
+    "original-shell transplant and protected reconciliation",
+    "saved native refill",
+    "final native class-parent map and exact generated width/via dimensions",
+    "final native DRC",
+    "actual wrong POWER width native check and independent exact target refusal"
+  ],
+  "protected_negative": "remove actual original locked segment: shared candidate validator must reject before native, then deliberately invalid copy must show real native disconnection",
+  "positive_predicate": "zero opens/blocking/exclusions; original warning signatures exact; all immutable fields and rules exact; source unchanged; three observed classes and all four source parents/values/priorities; at least one generated through-via; every generated width/via exactly original native class target; one protected record in protected case",
+  "wrong_width": "0.6mm POWER target reduced to0.4mm on one generated segment; original minimum0.3mm unchanged. Class target audit must reject even if native minimum DRC accepts; actual native outcome retained",
+  "wall_and_full_cpu_seconds": 180,
+  "outer_wall_and_full_cpu_seconds": 185,
+  "output_bytes": 20971520,
+  "outer_output_bytes": 23068672,
+  "workers": 1,
+  "schematic_parity": "unavailable; diagnostic fixture has no schematic",
+  "production_support_changed": false,
+  "accepted": false,
+  "limitations": [
+    "not board-family routing gain",
+    "not physical/human review",
+    "not general composite classes",
+    "selected multiclass scope not qualified",
+    "polling guards can overshoot",
+    "outer costs separately recorded",
+    "outer RSS guard covers its owned process group; native jobs create separately bounded process groups, no OS aggregate quota"
+  ],
+  "outer_process_group_rss_bytes": 2147483648,
+  "native_stage_process_group_rss_bytes": 4294967296,
+  "java_heap_bytes": 2147483648
+}

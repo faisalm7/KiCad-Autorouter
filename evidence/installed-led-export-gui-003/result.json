@@ -1,0 +1,91 @@
+{
+  "schema": 1,
+  "status": "observed_gui_validation",
+  "gui_workflow_observed": true,
+  "gui_qualified_scope": "Installed complete LED separate export opens from KiCad manager, actual PCB Editor DRC with refill/full schematic parity and all filters; actual GUI report saved",
+  "human_pcb_approval_observed": false,
+  "physical_electrical_validation": false,
+  "live_apply_or_undo_qualified": false,
+  "new_engine_execution": false,
+  "export_proof": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017/checkout/.runs/install-export-017/export.json",
+  "export_proof_sha256": "f3bc31b25f7cfb3e0f469a4a73b7fddc8d5e0497be527b1b579c8be9ad7f63e6",
+  "candidate_sha256": "cf0b0349932515d93d30c132d93f1a50414ae8744bd46a5ec6d008434c18efe5",
+  "gui_project": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installed-led-export-gui-003/project",
+  "options_observed": {
+    "refill_all_zones": true,
+    "schematic_parity": true,
+    "all": true,
+    "errors": true,
+    "warnings": true,
+    "exclusions": true
+  },
+  "gui": {
+    "violations": 0,
+    "errors": 0,
+    "warnings": 0,
+    "exclusions": 0,
+    "unconnected_items": 0,
+    "schematic_parity": 0,
+    "ignored_checks": [
+      "Footprint has no courtyard defined",
+      "Track endpoint not centered on via",
+      "Tuning profile track geometries",
+      "Footprint doesn't match symbol's footprint filters",
+      "Footprint component type doesn't match footprint pads"
+    ]
+  },
+  "cli": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 7,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "Footprint component type doesn't match footprint pads",
+        "key": "footprint_type_mismatch"
+      }
+    ]
+  },
+  "gui_report": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installed-led-export-gui-003/project/gui-native.rpt",
+  "gui_report_sha256": "acb2ed52522eddc7a92cc57c58a0a4ec640cf078a1996820c5c4ad7bb9077f63",
+  "gui_original_project_files_before": {
+    "LICENSE": "18f4f144c2d9457195bb6383cdebed6e2e99df4c3d70378363972ddcc992f7a6",
+    "PushButtonLed.kicad_pcb": "cf0b0349932515d93d30c132d93f1a50414ae8744bd46a5ec6d008434c18efe5",
+    "PushButtonLed.kicad_pro": "186a7d811ca4bf09afa7c286ce0773deb0d8ca4a6404a530658ee664e69d23e0",
+    "PushButtonLed.kicad_sch": "2fe34f261ee78cf81bc9e7751d9e1b2ca6416944d830d4f5ac50fe40409a0877",
+    "README.md": "db7a1e9afa9c288e0e5474637ab3a9d2a2abe07555f6157c06488337cf426de4"
+  },
+  "gui_original_project_files_after": {
+    "LICENSE": "18f4f144c2d9457195bb6383cdebed6e2e99df4c3d70378363972ddcc992f7a6",
+    "PushButtonLed.kicad_pcb": "cf0b0349932515d93d30c132d93f1a50414ae8744bd46a5ec6d008434c18efe5",
+    "PushButtonLed.kicad_pro": "186a7d811ca4bf09afa7c286ce0773deb0d8ca4a6404a530658ee664e69d23e0",
+    "PushButtonLed.kicad_sch": "2fe34f261ee78cf81bc9e7751d9e1b2ca6416944d830d4f5ac50fe40409a0877",
+    "README.md": "db7a1e9afa9c288e0e5474637ab3a9d2a2abe07555f6157c06488337cf426de4"
+  },
+  "export_project_unchanged": true,
+  "board_project_schematic_bytes_unchanged": true,
+  "explicit_rules_severities_exclusions_net_settings_unchanged": true,
+  "limits": [
+    "GUI libraries differ from isolated CLI; seven CLI missing-library warnings remain in acceptance evidence, never suppressed",
+    "Exact GUI library blobs/effective library context unobserved",
+    "Zone refill observed in GUI memory; no board save/live editor overwrite performed",
+    "No human review or physical qualification"
+  ],
+  "interaction": "Used native Raise action to focus exact dialog before input; previous ScreenCaptureKit failure and file-dialog attempts preserved. One unused standalone editor opened by bundle-ID lookup and closed; no project loaded there."
+}

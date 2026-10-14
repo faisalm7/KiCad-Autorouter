@@ -1,0 +1,351 @@
+{
+  "all_expected_controls": true,
+  "controls": [
+    {
+      "case": "positive_three_class",
+      "expected": "pass",
+      "inputs_unchanged": true,
+      "matched": true,
+      "membership": {
+        "DATA": "kicad_default",
+        "GND": "Power,Default",
+        "LED1": "Signal,Default"
+      },
+      "observed": "pass",
+      "routing_accepted": false
+    },
+    {
+      "case": "source_class_order_independent",
+      "expected": "pass",
+      "inputs_unchanged": true,
+      "matched": true,
+      "membership": {
+        "DATA": "kicad_default",
+        "GND": "Power,Default",
+        "LED1": "Signal,Default"
+      },
+      "observed": "pass",
+      "routing_accepted": false
+    },
+    {
+      "case": "priority_tie_separate_resolved_classes",
+      "expected": "pass",
+      "inputs_unchanged": true,
+      "matched": true,
+      "membership": {
+        "DATA": "kicad_default",
+        "GND": "Power,Default",
+        "LED1": "Signal,Default"
+      },
+      "observed": "pass",
+      "routing_accepted": false
+    },
+    {
+      "case": "unused_declared_class_is_not_active",
+      "expected": "pass",
+      "inputs_unchanged": true,
+      "matched": true,
+      "membership": {
+        "DATA": "kicad_default",
+        "GND": "Power,Default",
+        "LED1": "Signal,Default"
+      },
+      "observed": "pass",
+      "routing_accepted": false
+    },
+    {
+      "case": "zero_copper_net_still_has_class",
+      "expected": "pass",
+      "inputs_unchanged": true,
+      "matched": true,
+      "membership": {
+        "DATA": "kicad_default",
+        "GND": "Power,Default",
+        "LED1": "Signal,Default"
+      },
+      "observed": "pass",
+      "routing_accepted": false
+    },
+    {
+      "case": "zero_copper_net_membership_lost",
+      "error": "Native net missing from explicit DSN classes",
+      "error_type": "ValueError",
+      "expected": "reject",
+      "inputs_unchanged": true,
+      "matched": true,
+      "observed": "reject"
+    },
+    {
+      "case": "zero_copper_net_class_lost",
+      "error": "DSN/native class definition inventory differs",
+      "error_type": "ValueError",
+      "expected": "reject",
+      "inputs_unchanged": true,
+      "matched": true,
+      "observed": "reject"
+    },
+    {
+      "case": "unknown_empty_dsn_class",
+      "error": "Unknown DSN class definition",
+      "error_type": "ValueError",
+      "expected": "reject",
+      "inputs_unchanged": true,
+      "matched": true,
+      "observed": "reject"
+    },
+    {
+      "case": "duplicate_dsn_class",
+      "error": "Duplicate DSN class",
+      "error_type": "ValueError",
+      "expected": "reject",
+      "inputs_unchanged": true,
+      "matched": true,
+      "observed": "reject"
+    },
+    {
+      "case": "unknown_dsn_net",
+      "error": "DSN/native copper-terminal net inventory differs",
+      "error_type": "ValueError",
+      "expected": "reject",
+      "inputs_unchanged": true,
+      "matched": true,
+      "observed": "reject"
+    },
+    {
+      "case": "missing_dsn_net",
+      "error": "DSN/native copper-terminal net inventory differs",
+      "error_type": "ValueError",
+      "expected": "reject",
+      "inputs_unchanged": true,
+      "matched": true,
+      "observed": "reject"
+    },
+    {
+      "case": "unmapped_native_net",
+      "error": "DSN/native copper-terminal net inventory differs",
+      "error_type": "ValueError",
+      "expected": "reject",
+      "inputs_unchanged": true,
+      "matched": true,
+      "observed": "reject"
+    },
+    {
+      "case": "wrong_dsn_class_member",
+      "error": "DSN class differs from native mapping for GND",
+      "error_type": "ValueError",
+      "expected": "reject",
+      "inputs_unchanged": true,
+      "matched": true,
+      "observed": "reject"
+    },
+    {
+      "case": "duplicate_native_netcode",
+      "error": "Duplicate native netcode",
+      "error_type": "ValueError",
+      "expected": "reject",
+      "inputs_unchanged": true,
+      "matched": true,
+      "observed": "reject"
+    },
+    {
+      "case": "duplicate_native_netname",
+      "error": "Duplicate native net",
+      "error_type": "ValueError",
+      "expected": "reject",
+      "inputs_unchanged": true,
+      "matched": true,
+      "observed": "reject"
+    },
+    {
+      "case": "wrong_parent_name",
+      "error": "Native dimension parent differs from explicit source definition",
+      "error_type": "ValueError",
+      "expected": "reject",
+      "inputs_unchanged": true,
+      "matched": true,
+      "observed": "reject"
+    },
+    {
+      "case": "all_wrong_parents",
+      "error": "Native dimension parent differs from explicit source definition",
+      "error_type": "ValueError",
+      "expected": "reject",
+      "inputs_unchanged": true,
+      "matched": true,
+      "observed": "reject"
+    },
+    {
+      "case": "wrong_parent_priority",
+      "error": "Native dimension parent differs from explicit source definition",
+      "error_type": "ValueError",
+      "expected": "reject",
+      "inputs_unchanged": true,
+      "matched": true,
+      "observed": "reject"
+    },
+    {
+      "case": "wrong_parent_value",
+      "error": "Native dimension parent differs from explicit source definition",
+      "error_type": "ValueError",
+      "expected": "reject",
+      "inputs_unchanged": true,
+      "matched": true,
+      "observed": "reject"
+    },
+    {
+      "case": "boolean_parent_value",
+      "error": "Native dimension parent differs from explicit source definition",
+      "error_type": "ValueError",
+      "expected": "reject",
+      "inputs_unchanged": true,
+      "matched": true,
+      "observed": "reject"
+    },
+    {
+      "case": "not_specified_parent",
+      "error": "Native dimension parent differs from explicit source definition",
+      "error_type": "ValueError",
+      "expected": "reject",
+      "inputs_unchanged": true,
+      "matched": true,
+      "observed": "reject"
+    },
+    {
+      "case": "int_one_not_exact_true",
+      "error": "Native dimension parent differs from explicit source definition",
+      "error_type": "ValueError",
+      "expected": "reject",
+      "inputs_unchanged": true,
+      "matched": true,
+      "observed": "reject"
+    },
+    {
+      "case": "source_parent_width_changed",
+      "error": "Native resolved class differs from original project value: width_nm",
+      "error_type": "ValueError",
+      "expected": "reject",
+      "inputs_unchanged": true,
+      "matched": true,
+      "observed": "reject"
+    },
+    {
+      "case": "source_casefold_shadow",
+      "error": "Unique Default and casefold-safe namespace required",
+      "error_type": "ValueError",
+      "expected": "reject",
+      "inputs_unchanged": true,
+      "matched": true,
+      "observed": "reject"
+    },
+    {
+      "case": "multiple_nondefault_constituents",
+      "error": "Unqualified native constituent identity or order",
+      "error_type": "ValueError",
+      "expected": "reject",
+      "inputs_unchanged": true,
+      "matched": true,
+      "observed": "reject"
+    },
+    {
+      "case": "default_before_nondefault",
+      "error": "Unqualified native constituent identity or order",
+      "error_type": "ValueError",
+      "expected": "reject",
+      "inputs_unchanged": true,
+      "matched": true,
+      "observed": "reject"
+    },
+    {
+      "case": "unknown_composite",
+      "error": "Unqualified native constituent identity or order",
+      "error_type": "ValueError",
+      "expected": "reject",
+      "inputs_unchanged": true,
+      "matched": true,
+      "observed": "reject"
+    },
+    {
+      "case": "source_minimum_width_raised",
+      "error": "Class parameter below original board floor: width_nm",
+      "error_type": "ValueError",
+      "expected": "reject",
+      "inputs_unchanged": true,
+      "matched": true,
+      "observed": "reject"
+    },
+    {
+      "case": "unused_active_class_profile",
+      "error": "Netclass tuning profiles not qualified",
+      "error_type": "ValueError",
+      "expected": "reject",
+      "inputs_unchanged": true,
+      "matched": true,
+      "observed": "reject"
+    },
+    {
+      "case": "unused_global_profile_definition",
+      "error": "Tuning profile definitions not qualified",
+      "error_type": "ValueError",
+      "expected": "reject",
+      "inputs_unchanged": true,
+      "matched": true,
+      "observed": "reject"
+    },
+    {
+      "case": "explicit_source_assignment",
+      "error": "Explicit or inherited assignments outside parent policy",
+      "error_type": "ValueError",
+      "expected": "reject",
+      "inputs_unchanged": true,
+      "matched": true,
+      "observed": "reject"
+    },
+    {
+      "case": "default_pattern_target",
+      "error": "Unknown/default target or ambiguous native pattern definition",
+      "error_type": "ValueError",
+      "expected": "reject",
+      "inputs_unchanged": true,
+      "matched": true,
+      "observed": "reject"
+    },
+    {
+      "case": "existing_default_policy_True",
+      "matched": true
+    },
+    {
+      "case": "existing_default_policy_False",
+      "matched": true
+    },
+    {
+      "case": "new_policy_not_auto_enabled",
+      "matched": true
+    }
+  ],
+  "files_after": {
+    "autorouter/native.py": "ded5cdfceac8dac94033e7a1c249efc87c9ad7dcae450a9ea4291bbdf2fde7a1",
+    "autorouter/netclass.py": "79d4b7e98c7b46fe924816ddcc7fa384672bf646d1c06f81e134ce6d97e0a7de",
+    "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+    "tests/test_netclass.py": "ebf695ecdf631dde9869db3b1a57241b75e49da24eba10805fd0ec80d2e0f65a",
+    "tests/test_netclass_native.py": "51b688643d50ffe06de13bfb04f3a2dbc4e507da564e1e40d721a901763f082a",
+    "tests/test_netclass_parent_policy.py": "7b292f575e374f25f8e7178694c91bc56dc6b21f446460af79ed4aa4f2b2363c"
+  },
+  "files_before": {
+    "autorouter/native.py": "ded5cdfceac8dac94033e7a1c249efc87c9ad7dcae450a9ea4291bbdf2fde7a1",
+    "autorouter/netclass.py": "79d4b7e98c7b46fe924816ddcc7fa384672bf646d1c06f81e134ce6d97e0a7de",
+    "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+    "tests/test_netclass.py": "ebf695ecdf631dde9869db3b1a57241b75e49da24eba10805fd0ec80d2e0f65a",
+    "tests/test_netclass_native.py": "51b688643d50ffe06de13bfb04f3a2dbc4e507da564e1e40d721a901763f082a",
+    "tests/test_netclass_parent_policy.py": "7b292f575e374f25f8e7178694c91bc56dc6b21f446460af79ed4aa4f2b2363c"
+  },
+  "native_routing_qualification": false,
+  "nested_alias": {
+    "input_changed_by_mutating_returned_parent": false,
+    "nested_parent_same_object": false,
+    "routing_accepted": false
+  },
+  "scope": "authored pure controls only; no native, JVM, Git, network or production writes",
+  "source_unchanged": true,
+  "targeted_test_count": 15,
+  "targeted_tests_passed": true
+}

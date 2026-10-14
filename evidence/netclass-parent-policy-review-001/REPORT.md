@@ -1,0 +1,20 @@
+# Skeptical parent-policy review (frozen)
+
+The new parent policy remains experimental. No native/JVM execution, network access, Git commands, production edits, routing acceptance, or production admission occurred in this review.
+
+Two concrete findings were fixed before prospective native transport qualification:
+
+1. **Qualification-provenance blocker, resolved.** The original transport driver's final `bound()` closure omitted export/import/final-netclasses and late engine process checks. `BOUND_PROBE.py` executes the exact old closure against explicitly synthetic semantic state. A changed engine argv fails the real shared `process_check`, yet the closure accepts it and a new `completed_evidence` witness binds that changed journal. The original source SHA was `7bb99e64cdd8e3d76058e0f8ea9b7f0853acf8f31d50460e8a050b9f32d50ee7`. The corrected closure rechecks all four process journals, exact native/task DSN bytes, actual retained import/refill reconstruction, and the protected-import audit. `BOUND_POSTFIX.py` preserves a controlling positive and rejects each changed journal, DSN bytes, final candidate bytes and protected-import receipt. These are pure publication/binding controls, not simulated native correctness.
+
+2. **Mutable audit-result alias, resolved.** `audit_native` copied each row shallowly, leaving nested `parameter_parents` shared with its input. Mutating a returned parent record altered the original observation dictionary. The lead changed the return to a deep copy and added a regression. The same reviewer probe after the fix confirms both dictionaries are independent. This defect was not demonstrated as a routing-acceptance bypass; the audit always returns `routing_accepted=False`.
+
+The authored policy controls reject wrong parents, values, flags, priorities, class order/composite ambiguity, Source class case collisions, unknown or missing native/DSN members, duplicate inventories, changed floors, explicit assignments, and active/unused tuning profiles. Zero-copper nets still require explicit class membership; changing declared class order and ties across separate resolved classes remain valid. Existing one-/two-class default-policy fixtures pass, while the three-class wildcard/composite fixture still rejects without the explicit experimental flag. Fifteen narrow source tests pass after the fixes; this is validator evidence only.
+
+The scalar observer keeps all four parent proxies referenced while reading their fields, uses no constituent vector/Contains/setter/ownership mutation, and binds Source PCB/project before load and after observation/export. Actual SWIG lifetime and transport are still the lead's native gates. The closed namespace and max-one-nondefault-plus-Default contract prevents ambiguous comma decoding; native KiCad alone resolves patterns. Full assignment correctness depends on the bound native producer rather than a Python pattern evaluator.
+
+Remaining gates are the prospectively frozen real three-class DSN/JAR/SES import, final native exact dimensions and original-rule DRC, protected positive/removal controls, and equal bounded outer costs. The current production pipeline calls still use the old policy. No generalized composite, selected multiclass, board-family quality gain, schematic parity, physical validation or runtime admission is established here. The owned fixture explicitly lacks a schematic, and wrong-width DRC acceptance is permitted only as an independently rejected exact-target negative control.
+
+Final driver SHA: `0a854e29071d495af8ac4f3b9cd14c3d2122d41b57675f21928753cd00f0e008`.
+Final core/observer/worker/protocol hashes are in `SOURCE_BINDINGS.json`. Relevant sources remained byte-identical across each final probe. No additional concrete acceptance blocker was found in the assigned source-only scope.
+
+Reproduce only these pure reviewer checks from the checkout with `.venv/bin/python -B .runs/netclass-parent-policy-review-001/PROBE_POSTFIX.py`; the bound seam scripts require fresh scratch child names before another invocation. Preserve existing children and earlier findings. Do not use these commands to rerun native experiments.

@@ -4,6 +4,8 @@ import hashlib
 import sys
 from pathlib import Path
 import pcbnew
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from autorouter.netclass_native import observe_class
 
 def file_hash(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
@@ -21,10 +23,8 @@ def netclasses(board, source, before):
         if not str(name) or net.GetNetCode() <= 0:
             continue
         cls = net.GetNetClassSlow()
-        rows.append({'name': str(name), 'netcode': net.GetNetCode(), 'class': str(cls.GetName()),
-                     'width_nm': cls.GetTrackWidth(), 'clearance_nm': cls.GetClearance(),
-                     'via_diameter_nm': cls.GetViaDiameter(), 'via_drill_nm': cls.GetViaDrill(),
-                     'copper_pad_count': counts.get(str(name), 0)})
+        rows.append({'name': str(name), 'netcode': net.GetNetCode(),
+                     'copper_pad_count': counts.get(str(name), 0), **observe_class(cls)})
     project = Path(source).with_suffix('.kicad_pro')
     if before != (file_hash(source), file_hash(project)):
         raise RuntimeError('Board or project changed during native class resolution')

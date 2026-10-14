@@ -6,6 +6,7 @@ native map to its immutable source, and validates imported geometry and DRC.
 A mapping pass alone is never routing acceptance or proof of pin identities.
 """
 from decimal import Decimal, InvalidOperation
+import copy
 import hashlib
 import json
 from pathlib import Path
@@ -18,6 +19,63 @@ _DIMENSIONS = (
     ("via_diameter_nm", "via_diameter", "min_via_diameter"),
     ("via_drill_nm", "via_drill", "min_through_hole_diameter"),
 )
+PARENT_POLICY = 'native-parent-dimensions-v1'
+
+
+def qualify_parent_project(project):
+    """Experimental closed namespace; native KiCad alone resolves patterns.
+
+    This does not enable the production pipeline. Transport controls must
+    qualify the new policy before its preflight guard can admit it.
+    """
+    reject_tuning_intent(project)
+    settings = project.get('net_settings')
+    if not isinstance(settings, dict) or settings.get('netclass_assignments') not in (None, {}):
+        raise ValueError('Explicit or inherited assignments outside parent policy')
+    classes = settings.get('classes')
+    if not isinstance(classes, list) or not 2 <= len(classes) <= 16:
+        raise ValueError('Parent policy requires two through sixteen declared classes')
+    names = []
+    for cls in classes:
+        if not isinstance(cls, dict): raise ValueError('Malformed declared class')
+        name = cls.get('name')
+        if (not isinstance(name, str) or re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]{0,63}', name) is None
+                or name.casefold() in {'default', 'kicad_default'} and name != 'Default'):
+            raise ValueError('Unambiguous literal class names required')
+        names.append(name)
+        priority = cls.get('priority')
+        if type(priority) is not int or not 0 <= priority <= 2147483647:
+            raise ValueError('Explicit bounded class priorities required')
+        for _, key, _ in _DIMENSIONS: _millimetres_to_nm(cls.get(key))
+        if cls['via_drill'] >= cls['via_diameter']: raise ValueError('Via drill exceeds copper')
+    if 'Default' not in names or len(set(x.casefold() for x in names)) != len(names):
+        raise ValueError('Unique Default and casefold-safe namespace required')
+    patterns = settings.get('netclass_patterns')
+    if not isinstance(patterns, list) or not 1 <= len(patterns) <= 1024:
+        raise ValueError('Bounded native pattern definitions required')
+    seen = set()
+    for item in patterns:
+        if not isinstance(item, dict) or set(item) != {'pattern', 'netclass'}:
+            raise ValueError('Malformed native pattern definition')
+        pattern = item['pattern']
+        if (item['netclass'] not in names or item['netclass'] == 'Default' or not isinstance(pattern, str)
+                or not pattern or len(pattern.encode('utf8')) > 4096 or any(ord(x) < 32 for x in pattern)
+                or pattern in seen):
+            raise ValueError('Unknown/default target or ambiguous native pattern definition')
+        seen.add(pattern)
+    return {'mode': PARENT_POLICY, 'resolution': 'pinned native effective class and explicit parameter parents',
+            'source_class_names': names, 'pattern_evaluation_in_python': False}
+
+
+def _parent_class(row, configured):
+    """Decode pinned GetName only in the qualified comma-free namespace."""
+    encoded = row['class']
+    if len(encoded.encode('utf8')) > 4096: raise ValueError('Oversized native class identity')
+    parts = encoded.split(',')
+    if (not 1 <= len(parts) <= 2 or len(set(parts)) != len(parts) or any(x not in configured for x in parts)
+            or len(parts) == 2 and (parts[1] != 'Default' or parts[0] == 'Default')):
+        raise ValueError('Unqualified native constituent identity or order')
+    return configured[parts[0]]
 
 
 def _millimetres_to_nm(raw, *, allow_zero=False):
@@ -139,14 +197,15 @@ def qualify_project(project):
     return {"mode": "literal_two_class", "literal_assignments": assignments}
 
 
-def audit_native(native, project):
+def audit_native(native, project, *, parent_policy=False):
     """Check effective native classes against qualified original project settings.
 
     The caller must independently bind the native process/input/report hashes.
     Returned rows are copies of the validated native rows; this function does
     not infer connectivity, resolve patterns, or establish routing acceptance.
     """
-    policy = qualify_project(project)
+    if type(parent_policy) is not bool: raise ValueError('Explicit parent-policy flag required')
+    policy = qualify_parent_project(project) if parent_policy else qualify_project(project)
     if (not isinstance(native, dict) or type(native.get("schema")) is not int or native.get("schema") != 1
             or native.get("native_version") != "10.0.0" or native.get("units") != "integer nanometres"):
         raise ValueError("Unexpected native version")
@@ -167,9 +226,10 @@ def audit_native(native, project):
         codes.add(row["netcode"])
         # Only these literal names are admitted by the policy; general patterns
         # remain unqualified. Actual DSN mapping still comes from native rows.
-        expected_class = policy["literal_assignments"].get(row["name"], "Default")
-        if row["class"] != expected_class:
-            raise ValueError("Native class resolution differs from admitted literal assignment")
+        if not parent_policy:
+            expected_class = policy["literal_assignments"].get(row["name"], "Default")
+            if row["class"] != expected_class:
+                raise ValueError("Native class resolution differs from admitted literal assignment")
     records = {row["name"]: row for row in native_rows}
     if len(records) != len(native["nets"]):
         raise ValueError("Duplicate native net")
@@ -185,10 +245,23 @@ def audit_native(native, project):
     # Multi-class scope must actually exercise native nondefault resolution.
     if policy["mode"] == "literal_two_class" and observed_classes <= {"Default"}:
         raise ValueError("Native resolution did not exercise a nondefault class")
+    if parent_policy and observed_classes <= {'Default'}:
+        raise ValueError('Native parent resolution did not exercise a nondefault class')
     for row in records.values():
-        cls = configured.get(row["class"])
+        cls = _parent_class(row, configured) if parent_policy else configured.get(row["class"])
         if cls is None:
             raise ValueError("Composite/implicit native class outside this narrow audit")
+        if parent_policy:
+            parents = row.get('parameter_parents')
+            if not isinstance(parents, dict) or set(parents) != {x[0] for x in _DIMENSIONS}:
+                raise ValueError('Complete native parameter-parent observation required')
+            for native_key, json_key, _ in _DIMENSIONS:
+                parent = parents[native_key]
+                if (not isinstance(parent, dict) or set(parent) != {'name', 'value_nm', 'specified', 'priority'}
+                        or parent['name'] != cls['name'] or parent['specified'] is not True
+                        or type(parent['priority']) is not int or parent['priority'] != cls['priority']
+                        or type(parent['value_nm']) is not int or parent['value_nm'] != row[native_key]):
+                    raise ValueError('Native dimension parent differs from explicit source definition')
         for native_key, json_key, floor_key in _DIMENSIONS:
             value = Decimal(str(row[native_key]))
             if value != Decimal(str(cls[json_key])) * 1000000:
@@ -196,18 +269,20 @@ def audit_native(native, project):
             if value < minimums[floor_key]:
                 raise ValueError("Class parameter below original board floor: " + native_key)
     return {"passed": True, "policy": policy, "native_nets": len(records),
-            "nets": [dict(row) for row in native_rows], "routing_accepted": False}
+            "nets": copy.deepcopy(native_rows), "routing_accepted": False}
 
 
-def audit_mapping(tree, native, project):
+def audit_mapping(tree, native, project, *, parent_policy=False):
     """Compare DSN to native-resolved membership; never evaluate pattern strings."""
     from autorouter import sexpr as sx
     from autorouter.adapter import _check_units
 
-    verified = audit_native(native, project)
+    verified = audit_native(native, project, parent_policy=parent_policy)
     policy = verified["policy"]
     records = {row["name"]: row for row in verified["nets"]}
     configured = {item["name"]: item for item in project["net_settings"]["classes"]}
+    if parent_policy:
+        configured.update({row['class']: _parent_class(row, configured) for row in verified['nets']})
     _check_units(tree)
     network, library, structure = (sx.one(tree, key) for key in ("network", "library", "structure"))
     if any(node is None for node in (network, library, structure)):
@@ -322,7 +397,7 @@ def audit_mapping(tree, native, project):
                             "Imported route geometry and native DRC require separate validation."],
             "routing_accepted": False}
 
-def audit_dsn(path, native, project):
+def audit_dsn(path, native, project, *, parent_policy=False):
     """Return a hash-bound, non-mutating mapping audit or fail closed."""
     from autorouter.adapter import _parse_dsn
     from autorouter import sexpr as sx
@@ -330,7 +405,7 @@ def audit_dsn(path, native, project):
     if path.is_symlink() or not path.is_file() or path.stat().st_size > sx.MAX_BYTES:
         raise ValueError("Bounded regular DSN file required")
     raw = path.read_bytes()
-    result = audit_mapping(_parse_dsn(raw.decode("utf-8")), native, project)
+    result = audit_mapping(_parse_dsn(raw.decode("utf-8")), native, project, parent_policy=parent_policy)
     if path.is_symlink() or path.read_bytes() != raw:
         raise ValueError("DSN changed during mapping audit")
     result["dsn_sha256"] = hashlib.sha256(raw).hexdigest()
