@@ -36,3 +36,5 @@ The fixed-source benchmark can be reproduced from the default downloaded demo wi
 ```
 
 Keep other native/engine jobs idle. Its four arms use identical original constraints and120second wall/fullCPU budgets. Preserve every failed candidate and warning. The reported historical numbers additionally include conservative prerequisite/audit/startup charges documented with their protocol; a new run gets its own evidence and must not overwrite that record.
+
+These commands were run in fresh local installation017 at `2d456f9a798ed6875cdfe153795b96cfec65dd73`: actual five-file download, eight offline workflow commands and native export0opens/0blocking/7unchanged warnings, with source files preserved. [Qualification](../evidence/installation-017/SCOPE.md). Existing Mac applications and verified engine cache were reused; this is not a fresh OS or human PCB review. The prepared LED GUI test currently fails at screen-capture access before opening a board; prior actual NUS GUI observations have a documented library-context difference.

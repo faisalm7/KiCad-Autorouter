@@ -1,0 +1,45 @@
+{
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 0.31841274999896996,
+    "cpu_seconds": 0.11014399999999999,
+    "max_rss_bytes": 35241984,
+    "supervisor_cpu_seconds": 0.289069,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 278528,
+    "sampled_peak_workdir_bytes": 405284070,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 536870912,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017/checkout/.venv/bin/python",
+      "-B",
+      "-c",
+      "from scripts.experiment_quality import selected_source; from autorouter.pipeline import sha; import json; b,f=selected_source('push-button-led'); print(json.dumps({'board':str(b),'sha256':sha(b),'family':f,'source_selected_readonly':True}))"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017-demo-selector/command.log",
+    "log_bytes": 317,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017/checkout",
+    "signal_cancellation_enabled": true,
+    "pid": 40673
+  },
+  "scope": "Actual fresh installed fixed demo source selection with no root research cache/priorcorpus, no solver/native; source project retained."
+}

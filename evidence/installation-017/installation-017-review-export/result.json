@@ -1,0 +1,622 @@
+{
+  "schema": 1,
+  "kind": "installed-review-export-cli-v1",
+  "status": "completed",
+  "accepted": false,
+  "controls_passed": true,
+  "commands": [
+    {
+      "name": "preview",
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 0.2948254579969216,
+        "cpu_seconds": 0.099915,
+        "max_rss_bytes": 34111488,
+        "supervisor_cpu_seconds": 0.2751540000000001,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 131072,
+        "sampled_peak_workdir_bytes": 401121755,
+        "resource_guards": {
+          "max_group_rss_bytes": 2147483648,
+          "max_workdir_bytes": 536870912,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017/checkout/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "preview",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017/checkout/.data/led-demo-001/project/PushButtonLed.kicad_pcb",
+          "--adapter",
+          "both"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017-review-export/preview.log",
+        "log_bytes": 990,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017/checkout",
+        "signal_cancellation_enabled": true,
+        "pid": 40618
+      },
+      "log_sha256": "1a136f0b77f1ec996069215ca5bbab4cc9d8f1643ab66195096f87fa45155bb3"
+    },
+    {
+      "name": "route",
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 8.346792833006475,
+        "cpu_seconds": 5.344958,
+        "max_rss_bytes": 225542144,
+        "supervisor_cpu_seconds": 2.4116919999999995,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 194379776,
+        "sampled_peak_workdir_bytes": 402713877,
+        "resource_guards": {
+          "max_group_rss_bytes": 2147483648,
+          "max_workdir_bytes": 536870912,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017/checkout/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "route",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017/checkout/.data/led-demo-001/project/PushButtonLed.kicad_pcb",
+          "--adapter",
+          "both",
+          "--seconds",
+          "120",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017/checkout/.runs/install-led-route-017"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017-review-export/route.log",
+        "log_bytes": 469,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017/checkout",
+        "signal_cancellation_enabled": true,
+        "pid": 40619
+      },
+      "log_sha256": "880263a817a0c05afac3a24ae1ceccb8d9fedb5334ca0e3e426a31845f062182"
+    },
+    {
+      "name": "check-route",
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 0.32147504200111143,
+        "cpu_seconds": 0.136228,
+        "max_rss_bytes": 36798464,
+        "supervisor_cpu_seconds": 0.2685570000000004,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 147456,
+        "sampled_peak_workdir_bytes": 402713877,
+        "resource_guards": {
+          "max_group_rss_bytes": 2147483648,
+          "max_workdir_bytes": 536870912,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017/checkout/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "check-result",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017/checkout/.runs/install-led-route-017/result.json"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017-review-export/check-route.log",
+        "log_bytes": 500,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017/checkout",
+        "signal_cancellation_enabled": true,
+        "pid": 40633
+      },
+      "log_sha256": "38b26437fb02a644f38ee41b9b59995a158ba9d318b01e52cc75eb3e6f0ab13d"
+    },
+    {
+      "name": "review-copy",
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 2.7073247500084108,
+        "cpu_seconds": 2.3812409999999997,
+        "max_rss_bytes": 199245824,
+        "supervisor_cpu_seconds": 0.9253650000000011,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 41140224,
+        "sampled_peak_workdir_bytes": 403930342,
+        "resource_guards": {
+          "max_group_rss_bytes": 2147483648,
+          "max_workdir_bytes": 536870912,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017/checkout/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "review-copy",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017/checkout/.runs/install-led-route-017/result.json",
+          "--render",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017/checkout/.runs/install-review-export-017"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017-review-export/review-copy.log",
+        "log_bytes": 37776,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017/checkout",
+        "signal_cancellation_enabled": true,
+        "pid": 40634
+      },
+      "log_sha256": "cfea5b6751489ccf732b1254d1b541e608d5598ce0182e228604264db1c58505"
+    },
+    {
+      "name": "accept-intent",
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 0.6293020419980166,
+        "cpu_seconds": 0.362928,
+        "max_rss_bytes": 40484864,
+        "supervisor_cpu_seconds": 0.361148,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 40468480,
+        "sampled_peak_workdir_bytes": 403953841,
+        "resource_guards": {
+          "max_group_rss_bytes": 2147483648,
+          "max_workdir_bytes": 536870912,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017/checkout/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "review-choice",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017/checkout/.runs/install-review-export-017/review.json",
+          "--choice",
+          "accept",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017/checkout/.runs/install-intent-017"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017-review-export/accept-intent.log",
+        "log_bytes": 23499,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017/checkout",
+        "signal_cancellation_enabled": true,
+        "pid": 40653
+      },
+      "log_sha256": "47f160007a86bdf1a2eefceb312a7dd6a06c0701c4b355d4289b35f3d3790f37"
+    },
+    {
+      "name": "export",
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 4.375869416006026,
+        "cpu_seconds": 2.943448,
+        "max_rss_bytes": 225755136,
+        "supervisor_cpu_seconds": 1.3573810000000002,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 203587584,
+        "sampled_peak_workdir_bytes": 405260646,
+        "resource_guards": {
+          "max_group_rss_bytes": 2147483648,
+          "max_workdir_bytes": 536870912,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017/checkout/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "review-export",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017/checkout/.runs/install-intent-017/choice.json",
+          "--seconds",
+          "120",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017/checkout/.runs/install-export-017"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017-review-export/export.log",
+        "log_bytes": 486,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017/checkout",
+        "signal_cancellation_enabled": true,
+        "pid": 40654
+      },
+      "log_sha256": "332277312bfa61f2c31b63c90da90fafe98d75be9714a196ee6de762406fa9c1"
+    },
+    {
+      "name": "check",
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 0.7383257080073236,
+        "cpu_seconds": 0.51934,
+        "max_rss_bytes": 201785344,
+        "supervisor_cpu_seconds": 0.41400299999999923,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 199507968,
+        "sampled_peak_workdir_bytes": 405260646,
+        "resource_guards": {
+          "max_group_rss_bytes": 2147483648,
+          "max_workdir_bytes": 536870912,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017/checkout/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "review-export-check",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017/checkout/.runs/install-export-017/export.json"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017-review-export/check.log",
+        "log_bytes": 658,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017/checkout",
+        "signal_cancellation_enabled": true,
+        "pid": 40665
+      },
+      "log_sha256": "0e5029607382a90e1870ac530af1cf9dff16b8f8d4132bfa3d30199e1ace5a7e"
+    },
+    {
+      "name": "reject-intent",
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 0.6385090830008266,
+        "cpu_seconds": 0.36113399999999996,
+        "max_rss_bytes": 40468480,
+        "supervisor_cpu_seconds": 0.37833499999999987,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 40452096,
+        "sampled_peak_workdir_bytes": 405284070,
+        "resource_guards": {
+          "max_group_rss_bytes": 2147483648,
+          "max_workdir_bytes": 536870912,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017/checkout/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "review-choice",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017/checkout/.runs/install-review-export-017/review.json",
+          "--choice",
+          "reject",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017/checkout/.runs/install-reject-017"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017-review-export/reject-intent.log",
+        "log_bytes": 23424,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017/checkout",
+        "signal_cancellation_enabled": true,
+        "pid": 40667
+      },
+      "log_sha256": "81880f621114635316a0ab411d64de73ce8a0a80a5026590aacab15dda662857"
+    }
+  ],
+  "budget_seconds": 180,
+  "cpu_budget_seconds": 180,
+  "installation_head": "2d456f9a798ed6875cdfe153795b96cfec65dd73",
+  "controller_sha256": "392822fa154dd06dfc10e2dc3b675e3115687e437e0ed78a7507e5295c6e803a",
+  "human_pcb_approval_observed": false,
+  "new_solver_execution": true,
+  "scope": "Actual freshvenv installed CLI reviewcopy+fourplots+typedacceptintent+freshnativeexport+proofcheck+rejection. One fresh installed modern LED route from actual fixed public five-file fetch qualifies complete-schematic packaging; installation/workflow cost only, no new comparative experiment, no physical/GUI/freshMac qualification.",
+  "candidate_sha256": "cf0b0349932515d93d30c132d93f1a50414ae8744bd46a5ec6d008434c18efe5",
+  "native_report_sha256": "e0485330fa01b939fd6db5ca1f3156ca519bbecacb2073db9edc55fe0d7eec59",
+  "native": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 7,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "Footprint component type doesn't match footprint pads",
+        "key": "footprint_type_mismatch"
+      }
+    ],
+    "findings": [
+      {
+        "description": "The current configuration does not include the footprint library 'TestPoint'",
+        "items": [
+          {
+            "description": "Footprint J1",
+            "pos": {
+              "x": 38.5,
+              "y": 32.54
+            },
+            "uuid": "296f7c8e-c754-4884-b711-2dc24bf3a0bf"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'LED_THT'",
+        "items": [
+          {
+            "description": "Footprint D1",
+            "pos": {
+              "x": 37.73,
+              "y": 37.5
+            },
+            "uuid": "31f38b0b-b83b-4b47-be27-f6fd2486e9d8"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+        "items": [
+          {
+            "description": "Footprint R2",
+            "pos": {
+              "x": 29.595,
+              "y": 36.0
+            },
+            "uuid": "3a55d746-0d89-437b-841f-c4668a4470e5"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+        "items": [
+          {
+            "description": "Footprint R1",
+            "pos": {
+              "x": 34.5,
+              "y": 37.905
+            },
+            "uuid": "4629c2f2-d534-43dc-be82-47381b7c4d9e"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Button_Switch_THT'",
+        "items": [
+          {
+            "description": "Footprint SW1",
+            "pos": {
+              "x": 26.525,
+              "y": 27.525
+            },
+            "uuid": "8dfb541d-55c7-44cb-9655-d1781c42d69d"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+        "items": [
+          {
+            "description": "Footprint C1",
+            "pos": {
+              "x": 30.0,
+              "y": 40.5
+            },
+            "uuid": "9113b757-d8b2-4263-a15e-96375b20d3ed"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+        "items": [
+          {
+            "description": "Footprint R3",
+            "pos": {
+              "x": 26.0,
+              "y": 40.04
+            },
+            "uuid": "df9cb231-c3f5-436c-8c24-94144b67404d"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      }
+    ]
+  },
+  "metrics": {
+    "version": "10.0.0",
+    "pads": 16,
+    "footprints": 7,
+    "zones": 1,
+    "vias": 0,
+    "track_length_mm": 88.1794744486017,
+    "copper_layers": 2
+  },
+  "export_proof_sha256": "f3bc31b25f7cfb3e0f469a4a73b7fddc8d5e0497be527b1b579c8be9ad7f63e6",
+  "export_path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017/checkout/.runs/install-export-017/export.json",
+  "plots": {
+    "plot-work/before-F.Cu-input/LICENSE": "18f4f144c2d9457195bb6383cdebed6e2e99df4c3d70378363972ddcc992f7a6",
+    "plot-work/before-F.Cu-input/PushButtonLed.kicad_pcb": "a85c5b499b7803d184ec34ef396746afcd16c0557166bd63d7675beb7b61f7a3",
+    "plot-work/before-F.Cu-input/PushButtonLed.kicad_prl": "ed3f60bb7bc85b63ccf6889a6ccfcb1a33ed2b70c292a900da8ddfcda2fb4efa",
+    "plot-work/before-F.Cu-input/PushButtonLed.kicad_pro": "186a7d811ca4bf09afa7c286ce0773deb0d8ca4a6404a530658ee664e69d23e0",
+    "plot-work/before-F.Cu-input/PushButtonLed.kicad_sch": "2fe34f261ee78cf81bc9e7751d9e1b2ca6416944d830d4f5ac50fe40409a0877",
+    "plot-work/before-F.Cu-input/README.md": "db7a1e9afa9c288e0e5474637ab3a9d2a2abe07555f6157c06488337cf426de4",
+    "plot-work/before-F.Cu-input-binding.json": "c71d475b0803f157a401bc5eafc84e7dfffe456d6e7e1f0213c9f9c4248dca0f",
+    "plot-work/native-plots/before-F.Cu.svg": "77594e184e9de35490ab0f45beb4e15ba3e1a5b3de39f21386cabfdfe59b8fd7",
+    "plot-work/plots/before-F.Cu.svg": "151245f087cc6cb1fc806db6032d32b38602652f46d8f0edc42b3802eb0500df",
+    "plot-work/before-F.Cu.log": "64f6da4b6a7620774293fc21dc10e7e6d9103086c548b2e37cfe1b5cff1255f7",
+    "plot-work/before-F.Cu-process.json": "affd1e02d4b54460a4f5ed9ee6a91929bcbc65abd585c1b939fdf9a4278da22b",
+    "plot-work/after-F.Cu-input/LICENSE": "18f4f144c2d9457195bb6383cdebed6e2e99df4c3d70378363972ddcc992f7a6",
+    "plot-work/after-F.Cu-input/PushButtonLed.kicad_pcb": "cf0b0349932515d93d30c132d93f1a50414ae8744bd46a5ec6d008434c18efe5",
+    "plot-work/after-F.Cu-input/PushButtonLed.kicad_prl": "ed3f60bb7bc85b63ccf6889a6ccfcb1a33ed2b70c292a900da8ddfcda2fb4efa",
+    "plot-work/after-F.Cu-input/PushButtonLed.kicad_pro": "186a7d811ca4bf09afa7c286ce0773deb0d8ca4a6404a530658ee664e69d23e0",
+    "plot-work/after-F.Cu-input/PushButtonLed.kicad_sch": "2fe34f261ee78cf81bc9e7751d9e1b2ca6416944d830d4f5ac50fe40409a0877",
+    "plot-work/after-F.Cu-input/README.md": "db7a1e9afa9c288e0e5474637ab3a9d2a2abe07555f6157c06488337cf426de4",
+    "plot-work/after-F.Cu-input-binding.json": "0e3cb9911dfe70140b9e620265fae0f69c87cd47524615fe46b8914fa80dd6ab",
+    "plot-work/native-plots/after-F.Cu.svg": "c7ea877e87d18ac8d95fcedce955d0dac5659ff0a868e0c73c49d2071cb0f1f5",
+    "plot-work/plots/after-F.Cu.svg": "be12863d02f49b10cdc8b6a4f7cec07999bfdeecff314a9eae1b02effc5a44f3",
+    "plot-work/after-F.Cu.log": "9a16deed0cfe5ef8675ac6905f0a714aa34ff005c822619a1deed023c26ecbb8",
+    "plot-work/after-F.Cu-process.json": "2c7f3d9a87467f1cf060769726019963e2dc7e79d3d2d6eae46bc753a0f19cd4",
+    "plot-work/before-B.Cu-input/LICENSE": "18f4f144c2d9457195bb6383cdebed6e2e99df4c3d70378363972ddcc992f7a6",
+    "plot-work/before-B.Cu-input/PushButtonLed.kicad_pcb": "a85c5b499b7803d184ec34ef396746afcd16c0557166bd63d7675beb7b61f7a3",
+    "plot-work/before-B.Cu-input/PushButtonLed.kicad_prl": "ed3f60bb7bc85b63ccf6889a6ccfcb1a33ed2b70c292a900da8ddfcda2fb4efa",
+    "plot-work/before-B.Cu-input/PushButtonLed.kicad_pro": "186a7d811ca4bf09afa7c286ce0773deb0d8ca4a6404a530658ee664e69d23e0",
+    "plot-work/before-B.Cu-input/PushButtonLed.kicad_sch": "2fe34f261ee78cf81bc9e7751d9e1b2ca6416944d830d4f5ac50fe40409a0877",
+    "plot-work/before-B.Cu-input/README.md": "db7a1e9afa9c288e0e5474637ab3a9d2a2abe07555f6157c06488337cf426de4",
+    "plot-work/before-B.Cu-input-binding.json": "03f646bf84e7839c393db8bd90278e7f0a03f4ff42fa5229aa0e040a671c424c",
+    "plot-work/native-plots/before-B.Cu.svg": "5d8077999fe2a45bb8d8a945e070db4e6153be66f2c8d7bfa1960039b34fb0bc",
+    "plot-work/plots/before-B.Cu.svg": "6d1db7728ff08439d0506ade4c9a716220bcd5f1cbd326ec8a480572d346f660",
+    "plot-work/before-B.Cu.log": "0715a7f48542e9a578c3f9c8573b5c20805837c5a24a0c02c819fe201306af0b",
+    "plot-work/before-B.Cu-process.json": "ee6004acb72d296e5e3b563c0a826a2fe7e08f5b73f526f29373eb7c22882b11",
+    "plot-work/after-B.Cu-input/LICENSE": "18f4f144c2d9457195bb6383cdebed6e2e99df4c3d70378363972ddcc992f7a6",
+    "plot-work/after-B.Cu-input/PushButtonLed.kicad_pcb": "cf0b0349932515d93d30c132d93f1a50414ae8744bd46a5ec6d008434c18efe5",
+    "plot-work/after-B.Cu-input/PushButtonLed.kicad_prl": "ed3f60bb7bc85b63ccf6889a6ccfcb1a33ed2b70c292a900da8ddfcda2fb4efa",
+    "plot-work/after-B.Cu-input/PushButtonLed.kicad_pro": "186a7d811ca4bf09afa7c286ce0773deb0d8ca4a6404a530658ee664e69d23e0",
+    "plot-work/after-B.Cu-input/PushButtonLed.kicad_sch": "2fe34f261ee78cf81bc9e7751d9e1b2ca6416944d830d4f5ac50fe40409a0877",
+    "plot-work/after-B.Cu-input/README.md": "db7a1e9afa9c288e0e5474637ab3a9d2a2abe07555f6157c06488337cf426de4",
+    "plot-work/after-B.Cu-input-binding.json": "f7dc97ca89bf38e667ed199cb0780e3ca84a67fdf198873b8616a21e153926e4",
+    "plot-work/native-plots/after-B.Cu.svg": "0b149de9a642efb7181f62e1d24484125a45984c25ce9c40eecf38b9f4b93965",
+    "plot-work/plots/after-B.Cu.svg": "c0f1b42f91be6efd7f4966464f0d8993eb2ab1b043e6435333be1102a1d2437b",
+    "plot-work/after-B.Cu.log": "7cdfdb667708156dd042817ba5c3dc8481018e1283a776516327e3ad379a7048",
+    "plot-work/after-B.Cu-process.json": "8b8a56850fac932b3f25a13b0abfbf6d4f2487f95bc845790ef0e529d98c9b03",
+    "preview.html": "7889c787b7f7b9d3806fa04cb8e88e471298c71c5502b3569ae7016d7728d875"
+  },
+  "source_and_installed_tracked_unchanged": true,
+  "wall_seconds": 28.669055625010515,
+  "total_cpu_seconds": 29.132935999999997,
+  "within_budget": true
+}

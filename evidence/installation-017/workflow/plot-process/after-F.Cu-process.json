@@ -1,0 +1,51 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 0.42567075000260957,
+  "cpu_seconds": 0.419933,
+  "max_rss_bytes": 199114752,
+  "supervisor_cpu_seconds": 0.0045550000000000035,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 52609024,
+  "sampled_peak_workdir_bytes": 440048,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 536870912,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+    "pcb",
+    "export",
+    "svg",
+    "--mode-single",
+    "--layers",
+    "F.Cu,Edge.Cuts",
+    "--fit-page-to-board",
+    "--exclude-drawing-sheet",
+    "--output",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017/checkout/.runs/install-review-export-017/plot-work/native-plots/after-F.Cu.svg",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017/checkout/.runs/install-review-export-017/plot-work/after-F.Cu-input/PushButtonLed.kicad_pcb"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017/checkout/.runs/install-review-export-017/plot-work/after-F.Cu.log",
+  "log_bytes": 168,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-017/checkout/.runs/install-review-export-017/plot-work",
+  "signal_cancellation_enabled": true,
+  "pid": 40650,
+  "name": "after-F.Cu"
+}

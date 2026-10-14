@@ -1,0 +1,180 @@
+{
+  "schema": 1,
+  "scope": "Source/static pinned primary evidence only, no native/JVM/network/Git",
+  "source_commit": "5908d99db1ef98b5996b380c75e5aee8bb8caaa6",
+  "source_files": {
+    "LICENSE": "13aa5751cc47416650ad3c976d1c001f32ca3b3d49caac777ae66e819a437298",
+    "README.md": "876a106e288ec606cf29239d6129d07b79a134005769ba50ef0d450622c1751b",
+    "hardware/ArcDice.kicad_pcb": "098e90725279e698f61d7f4a5f0281202ba32f655b9c430047c019783a60bf96",
+    "hardware/ArcDice.kicad_pro": "be12f193331f3091ef31b9df28dc968119be56269adddcd5b2ed2921523223f6",
+    "hardware/ArcDice.kicad_sch": "388bb0410c3372c2331c84b44ba8a45e10c4b34206a3b28b65cb90057129e4de"
+  },
+  "current_preflight": {
+    "accepted": false,
+    "reason": "unsupported: netclass bindings not qualified: Only one or two fully specified netclasses qualified"
+  },
+  "counts": {
+    "footprints": 26,
+    "pads": 63,
+    "segments": 67,
+    "vias": 0,
+    "zones": 1,
+    "locked_routes": 0,
+    "root_keepouts": 0,
+    "footprint_zones": 0,
+    "schematic_netclass_flag_nodes": 0
+  },
+  "classes": [
+    {
+      "name": "Default",
+      "priority": 2147483647,
+      "transported_dimensions_mm": {
+        "clearance": 0.2,
+        "track_width": 0.2,
+        "via_diameter": 0.6,
+        "via_drill": 0.3
+      },
+      "missing_other_defaultable_fields": [],
+      "tuning_profile": ""
+    },
+    {
+      "name": "POWER",
+      "priority": 1,
+      "transported_dimensions_mm": {
+        "clearance": 0.2,
+        "track_width": 0.6,
+        "via_diameter": 0.6,
+        "via_drill": 0.3
+      },
+      "missing_other_defaultable_fields": [
+        "microvia_diameter",
+        "microvia_drill",
+        "diff_pair_width",
+        "diff_pair_gap"
+      ],
+      "tuning_profile": ""
+    },
+    {
+      "name": "SIGNAL",
+      "priority": 0,
+      "transported_dimensions_mm": {
+        "clearance": 0.2,
+        "track_width": 0.25,
+        "via_diameter": 0.6,
+        "via_drill": 0.3
+      },
+      "missing_other_defaultable_fields": [
+        "microvia_diameter",
+        "microvia_drill",
+        "diff_pair_width",
+        "diff_pair_gap",
+        "wire_width",
+        "bus_width"
+      ],
+      "tuning_profile": ""
+    }
+  ],
+  "patterns": [
+    {
+      "netclass": "POWER",
+      "pattern": "/SYS_VCC"
+    },
+    {
+      "netclass": "POWER",
+      "pattern": "/GND"
+    },
+    {
+      "netclass": "SIGNAL",
+      "pattern": "/SEGMENT*"
+    },
+    {
+      "netclass": "POWER",
+      "pattern": "/BAT_*"
+    },
+    {
+      "netclass": "SIGNAL",
+      "pattern": "/BTN*"
+    },
+    {
+      "netclass": "SIGNAL",
+      "pattern": "/RES*"
+    },
+    {
+      "netclass": "POWER",
+      "pattern": "/SW*"
+    }
+  ],
+  "explicit_class_assignments": null,
+  "original_dimension_floors_mm": {
+    "min_track_width": 0.2,
+    "min_clearance": 0.2,
+    "min_via_diameter": 0.5,
+    "min_through_hole_diameter": 0.3,
+    "min_via_annular_width": 0.1,
+    "min_hole_clearance": 0.25,
+    "min_copper_edge_clearance": 0.5
+  },
+  "tuning_profile_definitions": {
+    "meta": {
+      "version": 0
+    },
+    "tuning_profiles_impedance_geometric": []
+  },
+  "local_dimension_override_nodes": {
+    "clearance": 1,
+    "thermal_gap": 1,
+    "thermal_bridge_width": 1
+  },
+  "cached_primary": [
+    {
+      "path": ".runs/pic-severity-scope-review-001/source/common/project/net_settings.cpp",
+      "url": "https://raw.githubusercontent.com/KiCad/kicad-source-mirror/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/common/project/net_settings.cpp",
+      "bytes": 46498,
+      "sha256": "bbc0a1c6d197886521dae5a0f806eaf7c363c6840b6e7c87ab8bcd891cb687c0",
+      "new_network_read": false
+    },
+    {
+      "path": ".runs/pic-severity-scope-review-001/source/include/netclass.h",
+      "url": "https://raw.githubusercontent.com/KiCad/kicad-source-mirror/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/include/netclass.h",
+      "bytes": 14685,
+      "sha256": "95b4a0140f08d3b404c91065ccd027a9a64fa518200c499421d654f479924b84",
+      "new_network_read": false
+    },
+    {
+      "path": ".runs/support-scope-review-001/source/pcbnew/specctra_import_export/specctra_export.cpp",
+      "url": "https://raw.githubusercontent.com/KiCad/kicad-source-mirror/0feeca2a807f428ad2b3fa7c1e39625cb769f02c/pcbnew/specctra_import_export/specctra_export.cpp",
+      "bytes": 62520,
+      "sha256": "069625125a481565f608a7e0780f393351bc7ce4528f1ce94ae0d80c049ab05d",
+      "new_network_read": false
+    },
+    {
+      "path": ".runs/pic-clearance-api-001/source/Network.java",
+      "url": "https://raw.githubusercontent.com/freerouting/freerouting/b647a2f824cfbc54bc4dcaee71b03b7cd945eb76/src/main/java/app/freerouting/io/specctra/parser/Network.java",
+      "bytes": 56545,
+      "sha256": "410d4a82f88f3c52b7ec7b412c2fc0ce7bdb79ed97a2aff495907edeeb207e12",
+      "new_network_read": false
+    }
+  ],
+  "installed_static_wrapper": {
+    "bytes": 989468,
+    "sha256": "cd1c06c4709c653256ebd0c98c66d80cd72033767fac27c34ea01b5ec586116a",
+    "declared_methods": {
+      "GetConstituentNetclasses": true,
+      "GetTrackWidthParent": true,
+      "GetClearanceParent": true,
+      "GetViaDiameterParent": true,
+      "GetViaDrillParent": true,
+      "GetPriority": true
+    },
+    "native_call_proven": false
+  },
+  "current_code_sha256": {
+    "autorouter/netclass.py": "96a7425112bc5a5ce5d2f15f69efc334fbfbb97aa9deee1ee33ce984d25a8ea6",
+    "autorouter/native.py": "f942bbe1f12cb1dfdaef0eda3ec4bc2f37dee6f347f00f32724a90d6ed3296bf",
+    "autorouter/pipeline.py": "7cde23f15b725a5fdef0554b2fe88bbda23dca0742ccb3b83baf611b20a0e952",
+    "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e"
+  },
+  "native_qualified": false,
+  "routing_accepted": false,
+  "electrical_physical_validation": false
+}
