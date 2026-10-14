@@ -31,8 +31,8 @@ Execute next, continue between checkpoints:
 
 1. Audio original002/controls/readers/installation026 and7db9incremental completed;
    do not repeat. PAW fixed capture/targeted52 integrated: checkpoint then execute
-   missing savedrefill/originalshell/fullSCH002 via existing protected driver and
-   shared reader. Original source remains blocked for oldformat/legacyrule.
+   missing savedrefill/originalshell/fullSCH002 and shared reader COMPLETE0/0/17/0,
+   zeroSCH/all220routes exact. Original source remains blocked for oldformat/legacyrule.
 2. Legacy zone_has_empty_net Native10 misses already demonstrated; no repeated
    control. Investigate strict ordinary copperpad witness compatibility and
    source/candidate invariants; never ignore oldrule or infer fullpadcount.
