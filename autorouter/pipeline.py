@@ -110,7 +110,10 @@ def tree_hash(root):
 
 def check_storage():
     # Fresh full accepted-state scan: no cache or omitted retained evidence.
-    limit=10*1024**3; total=0; deadline=time.monotonic()+15.0
+    # Retained native evidence plus the separately signed official KiCad copy
+    # exceeded the initial 10 GiB operational default. Keep all three scopes
+    # under a finite 16 GiB aggregate; routing and per-worker limits are unchanged.
+    limit=16*1024**3; total=0; deadline=time.monotonic()+15.0
     for directory in ['.data','.tools','.runs']:
         remaining=deadline-time.monotonic()
         if remaining<=0:raise Rejected('project cache/data size scan exceeded time bound')
@@ -122,7 +125,7 @@ def check_storage():
                                  max_seconds=remaining,count_file_symlinks=True)
         except (OSError,RuntimeError) as exc:
             raise Rejected('project cache/data size scan failed: '+str(exc)) from exc
-        if total>limit:raise Rejected('10 GiB project cache/data ceiling exceeded')
+        if total>limit:raise Rejected('16 GiB project cache/data ceiling exceeded')
     if time.monotonic()>deadline:raise Rejected('project cache/data size scan exceeded time bound')
     if shutil.disk_usage(c.ROOT).free<2*1024**3:raise Rejected('less than 2 GiB disk headroom')
     return total
@@ -1323,7 +1326,7 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
     report['monitor_cpu_seconds']=sum(s.get('monitor_cpu_seconds') or 0 for s in job.steps)
     report['total_cpu_seconds']=report['parent_cpu_seconds']+report['child_cpu_seconds']+report['monitor_cpu_seconds']
     report['peak_child_rss_bytes']=max([s.get('max_rss_bytes') or 0 for s in job.steps]+[0])
-    report['resource_limitations']='One sequential worker; Java 2GiB heap; group RSS4GiB and workdir512MiB polling guards may overshoot;10GiB total cache checked before task. Peak direct-child RSS and polled group RSS are different metrics. CPU descendants only if accounted for by child wait; monitoring CPU included.'
+    report['resource_limitations']='One sequential worker; Java 2GiB heap; group RSS4GiB and workdir512MiB polling guards may overshoot;16GiB total cache checked before task. Peak direct-child RSS and polled group RSS are different metrics. CPU descendants only if accounted for by child wait; monitoring CPU included.'
     if report['wall_seconds']>seconds:
         report['accepted']=False; report['status']='timeout'
     elif report['total_cpu_seconds']>seconds:

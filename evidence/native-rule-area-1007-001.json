@@ -1,0 +1,1506 @@
+{
+  "schema": 1,
+  "accepted": false,
+  "production_admitted": false,
+  "controls_passed": true,
+  "scope": "Four owned exposed fixtures; allowed placement positive and deliberately prohibited track/via/mixed negatives. Actual saved refill and final original-shell Native checks. No engine, source repair, production migration, schematic/GUI or physical/electrical qualification.",
+  "native_receipt": {
+    "path": ".runs/native-rule-area-toolchain-001/result.json",
+    "bytes": 97109,
+    "sha256": "8705387a1089b30fce98d021eecf2617bde9adfb341c6859c2170945fe673efa"
+  },
+  "code_sha256": {
+    "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/native_rule_area_toolchain_v1/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/native_rule_area_toolchain_v1/native_areas.py": "95b7ec911a96a8df96be7024421d0ccd24320e9aeb911dedef4808ca68f4abb2",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/native_rule_area_toolchain_v1/fixture_recipe.py": "26c0a0aaf8511ded1ab895778f181413ece06b15fd00df8dd6f5620bf6f914d9",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/native_rule_area_toolchain_v1/driver.py": "057c756f29304a2f5e6545fd9545c2831c0dcc150e7b827ad7a3fdc10e991748",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/native_rule_area_toolchain_v1/native_expected.py": "825befaaa0d942522c2b07327dd3d6ab8f6a386b8647a67fe9ba7716c409b1df"
+  },
+  "tools": {
+    "implementation_sha256": {
+      "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+      "autorouter/__main__.py": "9e34e95cf21b4ab7c872365f0a8c835876713691ef39f1049d2bd52bcb0b09e6",
+      "autorouter/adapter.py": "95211455104334e338b83c77aecf8541ee24b0b4f7cd6c3043bcb71d478ddfca",
+      "autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+      "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+      "autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+      "autorouter/floor_route.py": "a0e06ee951a08bebb393c1bbfd57ce12f0dfafa462f28f99f04dec323fc5ba33",
+      "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+      "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+      "autorouter/native.py": "7cf0f7cd8d18b59d21b365d51398f0cc99885d3644721a1a842e4f36a7306060",
+      "autorouter/native_edge.py": "d66f287319189ca0925072a41942ec06f4d8b259966e511d16f9ebcdb52505c1",
+      "autorouter/netclass.py": "79d4b7e98c7b46fe924816ddcc7fa384672bf646d1c06f81e134ce6d97e0a7de",
+      "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+      "autorouter/pipeline.py": "f8eefadbc04d91520715beb7433b82058edff9002148b69b90162ace4ecbe48b",
+      "autorouter/placement_clearance.py": "f846a73367bc60dfbb48386233e405cb4bf1382f056d379787d7b823c3905feb",
+      "autorouter/placement_strategy.py": "b75a2291eed37d8ddb9f052c0b715faafcc2dfd258ae32f9e2763fcd01db0e97",
+      "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+      "autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+      "autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+      "autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+      "autorouter/recovery.py": "8a2bf1470cb69e7d8d334bbe7aef18110322a7aa786b965d397a89ddbc932ee5",
+      "autorouter/review_export.py": "716b369af61faa8c15f60ef58a0846772e4b175cff4a75af0c2c5ea45f24aea7",
+      "autorouter/review_view.py": "8f765624a8527df770a98594a7b27fe88776b300ec276f809c179ec7f6f60fb7",
+      "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+      "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+      "autorouter/schematic_field_evidence.py": "d7e1012b05bb7e0fb03358bbc3573b845ff06d03760a88137cf52db71090641b",
+      "autorouter/schematic_fields.py": "7d9043a14bac69d18830b2f51cb7d118c648df9290337505db1bf8503d931a71",
+      "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+      "autorouter/strategy.py": "a7fb17f35f390430fb45d335efa43dd7190546ae9df932c75925d05fe4ab137e",
+      "autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+      "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+      "autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455"
+    },
+    "git_head": "4b7dbbe9f6c7e423e358cb13438c45a615ad760c",
+    "kicad": "10.0.0",
+    "freerouting": "2.5.0",
+    "files": {
+      "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+      "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219"
+    },
+    "network": "engine sandbox-exec deny network*"
+  },
+  "experimental_native_toolchain": {
+    "schema": 1,
+    "mode": "experimental-native-qualification",
+    "expected_version": "10.0.7",
+    "tools": {
+      "cli": {
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+        "sha256": "0b9d96dbdac9517e7d85833f926fee07a563549ffe2c55670147bff3f562d01f"
+      },
+      "python": {
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "sha256": "fd8c2fa5393bebb9be6789dab8583acee6c5cff90d42696e8c1dbcabe02ec39f"
+      },
+      "pcbnew": {
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so",
+        "sha256": "610ae51927809192be637d0de03c32d006332638e2272cbf11a553fe65c75f6e"
+      }
+    }
+  },
+  "cases": [
+    {
+      "case": "allowed_placement",
+      "passed": true,
+      "source_sha256": "1e2216f05fd7540a2a4edf894a18addc389c056854bc6bb5fa2169f90753f7dd",
+      "candidate_sha256": "1e2216f05fd7540a2a4edf894a18addc389c056854bc6bb5fa2169f90753f7dd",
+      "original_constraints_unchanged": true,
+      "dsn_transport": {
+        "passed": true,
+        "exact_bindings": [
+          {
+            "zone_uuid": "3f4f757d-cf48-5c50-b759-32ab22feb20d",
+            "kind": "keepout",
+            "layer": "F.Cu",
+            "dsn_node": [
+              "keepout",
+              "\"\"",
+              [
+                "polygon",
+                "F.Cu",
+                "0",
+                "20000",
+                "-19000",
+                "30000",
+                "-19000",
+                "30000",
+                "-21000",
+                "20000",
+                "-21000",
+                "20000",
+                "-19000"
+              ]
+            ],
+            "all_flags_allowed": true
+          },
+          {
+            "zone_uuid": "3f4f757d-cf48-5c50-b759-32ab22feb20d",
+            "kind": "keepout",
+            "layer": "B.Cu",
+            "dsn_node": [
+              "keepout",
+              "\"\"",
+              [
+                "polygon",
+                "B.Cu",
+                "0",
+                "20000",
+                "-19000",
+                "30000",
+                "-19000",
+                "30000",
+                "-21000",
+                "20000",
+                "-21000",
+                "20000",
+                "-19000"
+              ]
+            ],
+            "all_flags_allowed": true
+          }
+        ],
+        "all_allowed_generic_keepouts": 2,
+        "genuine_restriction_keepouts": 0,
+        "dsn_modified": false,
+        "routing_accepted": false
+      },
+      "saved_refill": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": []
+      },
+      "saved_refill_targets": [],
+      "final_native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": []
+      },
+      "final_targets": [],
+      "saved_refill_report_sha256": "86b02a86418df04a9ed9fe4166bd36849814a3b97b5f26519199319880d5ff92",
+      "final_report_sha256": "9ae43d270636676901897775131959ecb78732a75ecc85f060de0db24725c54b"
+    },
+    {
+      "case": "track_prohibited",
+      "passed": true,
+      "source_sha256": "28195bb0293c89172be5a343fd2e9b64b5e27c9777345d88cb0d9b43c83cdebe",
+      "candidate_sha256": "28195bb0293c89172be5a343fd2e9b64b5e27c9777345d88cb0d9b43c83cdebe",
+      "original_constraints_unchanged": true,
+      "dsn_transport": {
+        "passed": true,
+        "exact_bindings": [
+          {
+            "zone_uuid": "e9e8ec49-c37f-5889-957e-61d7b0d20d88",
+            "kind": "wire_keepout",
+            "layer": "F.Cu",
+            "dsn_node": [
+              "wire_keepout",
+              "\"\"",
+              [
+                "polygon",
+                "F.Cu",
+                "0",
+                "24500",
+                "-19000",
+                "25500",
+                "-19000",
+                "25500",
+                "-21000",
+                "24500",
+                "-21000",
+                "24500",
+                "-19000"
+              ]
+            ],
+            "all_flags_allowed": false
+          },
+          {
+            "zone_uuid": "e9e8ec49-c37f-5889-957e-61d7b0d20d88",
+            "kind": "wire_keepout",
+            "layer": "B.Cu",
+            "dsn_node": [
+              "wire_keepout",
+              "\"\"",
+              [
+                "polygon",
+                "B.Cu",
+                "0",
+                "24500",
+                "-19000",
+                "25500",
+                "-19000",
+                "25500",
+                "-21000",
+                "24500",
+                "-21000",
+                "24500",
+                "-19000"
+              ]
+            ],
+            "all_flags_allowed": false
+          }
+        ],
+        "all_allowed_generic_keepouts": 0,
+        "genuine_restriction_keepouts": 2,
+        "dsn_modified": false,
+        "routing_accepted": false
+      },
+      "saved_refill": {
+        "opens": 0,
+        "blocking": 1,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Items not allowed",
+            "items": [
+              {
+                "description": "Track [SIGNAL_B] on F.Cu, length 30.0000 mm",
+                "pos": {
+                  "x": 40.0,
+                  "y": 20.0
+                },
+                "uuid": "0661fc24-4411-4f35-ad36-9f97c4110962"
+              }
+            ],
+            "severity": "error",
+            "type": "items_not_allowed"
+          }
+        ]
+      },
+      "saved_refill_targets": [
+        {
+          "description": "Items not allowed",
+          "items": [
+            {
+              "description": "Track [SIGNAL_B] on F.Cu, length 30.0000 mm",
+              "pos": {
+                "x": 40.0,
+                "y": 20.0
+              },
+              "uuid": "0661fc24-4411-4f35-ad36-9f97c4110962"
+            }
+          ],
+          "severity": "error",
+          "type": "items_not_allowed"
+        }
+      ],
+      "final_native": {
+        "opens": 0,
+        "blocking": 1,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Items not allowed",
+            "items": [
+              {
+                "description": "Track [SIGNAL_B] on F.Cu, length 30.0000 mm",
+                "pos": {
+                  "x": 40.0,
+                  "y": 20.0
+                },
+                "uuid": "0661fc24-4411-4f35-ad36-9f97c4110962"
+              }
+            ],
+            "severity": "error",
+            "type": "items_not_allowed"
+          }
+        ]
+      },
+      "final_targets": [
+        {
+          "description": "Items not allowed",
+          "items": [
+            {
+              "description": "Track [SIGNAL_B] on F.Cu, length 30.0000 mm",
+              "pos": {
+                "x": 40.0,
+                "y": 20.0
+              },
+              "uuid": "0661fc24-4411-4f35-ad36-9f97c4110962"
+            }
+          ],
+          "severity": "error",
+          "type": "items_not_allowed"
+        }
+      ],
+      "saved_refill_report_sha256": "e69d0bff871da31010a3fc9250f143a966e6e507a228938745d4ff70e575d7cb",
+      "final_report_sha256": "8366e3b22dda35f38cd3e15a83b4de71fb31619be50b9b9999223eba71333e78"
+    },
+    {
+      "case": "via_prohibited",
+      "passed": true,
+      "source_sha256": "bafcae0af7e92f95ad88af6b4141e699b3472c19f7c21593b534b57c20f5a882",
+      "candidate_sha256": "bafcae0af7e92f95ad88af6b4141e699b3472c19f7c21593b534b57c20f5a882",
+      "original_constraints_unchanged": true,
+      "dsn_transport": {
+        "passed": true,
+        "exact_bindings": [
+          {
+            "zone_uuid": "2af8d043-95d1-5426-972d-f9e848c737d4",
+            "kind": "via_keepout",
+            "layer": "F.Cu",
+            "dsn_node": [
+              "via_keepout",
+              "\"\"",
+              [
+                "polygon",
+                "F.Cu",
+                "0",
+                "40645",
+                "-12960",
+                "42645",
+                "-12960",
+                "42645",
+                "-14960",
+                "40645",
+                "-14960",
+                "40645",
+                "-12960"
+              ]
+            ],
+            "all_flags_allowed": false
+          },
+          {
+            "zone_uuid": "2af8d043-95d1-5426-972d-f9e848c737d4",
+            "kind": "via_keepout",
+            "layer": "B.Cu",
+            "dsn_node": [
+              "via_keepout",
+              "\"\"",
+              [
+                "polygon",
+                "B.Cu",
+                "0",
+                "40645",
+                "-12960",
+                "42645",
+                "-12960",
+                "42645",
+                "-14960",
+                "40645",
+                "-14960",
+                "40645",
+                "-12960"
+              ]
+            ],
+            "all_flags_allowed": false
+          }
+        ],
+        "all_allowed_generic_keepouts": 0,
+        "genuine_restriction_keepouts": 2,
+        "dsn_modified": false,
+        "routing_accepted": false
+      },
+      "saved_refill": {
+        "opens": 0,
+        "blocking": 1,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Items not allowed (keepout area 'diagnostic-via')",
+            "items": [
+              {
+                "description": "Via [SIGNAL_A] on F.Cu - B.Cu",
+                "pos": {
+                  "x": 41.645,
+                  "y": 13.96
+                },
+                "uuid": "692ddee1-7ca5-403d-9d6e-ef63ba59a986"
+              }
+            ],
+            "severity": "error",
+            "type": "items_not_allowed"
+          }
+        ]
+      },
+      "saved_refill_targets": [
+        {
+          "description": "Items not allowed (keepout area 'diagnostic-via')",
+          "items": [
+            {
+              "description": "Via [SIGNAL_A] on F.Cu - B.Cu",
+              "pos": {
+                "x": 41.645,
+                "y": 13.96
+              },
+              "uuid": "692ddee1-7ca5-403d-9d6e-ef63ba59a986"
+            }
+          ],
+          "severity": "error",
+          "type": "items_not_allowed"
+        }
+      ],
+      "final_native": {
+        "opens": 0,
+        "blocking": 1,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Items not allowed (keepout area 'diagnostic-via')",
+            "items": [
+              {
+                "description": "Via [SIGNAL_A] on F.Cu - B.Cu",
+                "pos": {
+                  "x": 41.645,
+                  "y": 13.96
+                },
+                "uuid": "692ddee1-7ca5-403d-9d6e-ef63ba59a986"
+              }
+            ],
+            "severity": "error",
+            "type": "items_not_allowed"
+          }
+        ]
+      },
+      "final_targets": [
+        {
+          "description": "Items not allowed (keepout area 'diagnostic-via')",
+          "items": [
+            {
+              "description": "Via [SIGNAL_A] on F.Cu - B.Cu",
+              "pos": {
+                "x": 41.645,
+                "y": 13.96
+              },
+              "uuid": "692ddee1-7ca5-403d-9d6e-ef63ba59a986"
+            }
+          ],
+          "severity": "error",
+          "type": "items_not_allowed"
+        }
+      ],
+      "saved_refill_report_sha256": "d5c8d6aaf227caae49d57a36887301a9af3fa310e1e540dfa81b2152c53d98ac",
+      "final_report_sha256": "d5c8d6aaf227caae49d57a36887301a9af3fa310e1e540dfa81b2152c53d98ac"
+    },
+    {
+      "case": "mixed",
+      "passed": true,
+      "source_sha256": "ca5135487d1f3dc6f7c976f3e17de84b794cc1e85df830367c8ab929f82f54f7",
+      "candidate_sha256": "ca5135487d1f3dc6f7c976f3e17de84b794cc1e85df830367c8ab929f82f54f7",
+      "original_constraints_unchanged": true,
+      "dsn_transport": {
+        "passed": true,
+        "exact_bindings": [
+          {
+            "zone_uuid": "3f4f757d-cf48-5c50-b759-32ab22feb20d",
+            "kind": "keepout",
+            "layer": "F.Cu",
+            "dsn_node": [
+              "keepout",
+              "\"\"",
+              [
+                "polygon",
+                "F.Cu",
+                "0",
+                "20000",
+                "-19000",
+                "30000",
+                "-19000",
+                "30000",
+                "-21000",
+                "20000",
+                "-21000",
+                "20000",
+                "-19000"
+              ]
+            ],
+            "all_flags_allowed": true
+          },
+          {
+            "zone_uuid": "3f4f757d-cf48-5c50-b759-32ab22feb20d",
+            "kind": "keepout",
+            "layer": "B.Cu",
+            "dsn_node": [
+              "keepout",
+              "\"\"",
+              [
+                "polygon",
+                "B.Cu",
+                "0",
+                "20000",
+                "-19000",
+                "30000",
+                "-19000",
+                "30000",
+                "-21000",
+                "20000",
+                "-21000",
+                "20000",
+                "-19000"
+              ]
+            ],
+            "all_flags_allowed": true
+          },
+          {
+            "zone_uuid": "e9e8ec49-c37f-5889-957e-61d7b0d20d88",
+            "kind": "wire_keepout",
+            "layer": "F.Cu",
+            "dsn_node": [
+              "wire_keepout",
+              "\"\"",
+              [
+                "polygon",
+                "F.Cu",
+                "0",
+                "24500",
+                "-19000",
+                "25500",
+                "-19000",
+                "25500",
+                "-21000",
+                "24500",
+                "-21000",
+                "24500",
+                "-19000"
+              ]
+            ],
+            "all_flags_allowed": false
+          },
+          {
+            "zone_uuid": "e9e8ec49-c37f-5889-957e-61d7b0d20d88",
+            "kind": "wire_keepout",
+            "layer": "B.Cu",
+            "dsn_node": [
+              "wire_keepout",
+              "\"\"",
+              [
+                "polygon",
+                "B.Cu",
+                "0",
+                "24500",
+                "-19000",
+                "25500",
+                "-19000",
+                "25500",
+                "-21000",
+                "24500",
+                "-21000",
+                "24500",
+                "-19000"
+              ]
+            ],
+            "all_flags_allowed": false
+          },
+          {
+            "zone_uuid": "2af8d043-95d1-5426-972d-f9e848c737d4",
+            "kind": "via_keepout",
+            "layer": "F.Cu",
+            "dsn_node": [
+              "via_keepout",
+              "\"\"",
+              [
+                "polygon",
+                "F.Cu",
+                "0",
+                "40645",
+                "-12960",
+                "42645",
+                "-12960",
+                "42645",
+                "-14960",
+                "40645",
+                "-14960",
+                "40645",
+                "-12960"
+              ]
+            ],
+            "all_flags_allowed": false
+          },
+          {
+            "zone_uuid": "2af8d043-95d1-5426-972d-f9e848c737d4",
+            "kind": "via_keepout",
+            "layer": "B.Cu",
+            "dsn_node": [
+              "via_keepout",
+              "\"\"",
+              [
+                "polygon",
+                "B.Cu",
+                "0",
+                "40645",
+                "-12960",
+                "42645",
+                "-12960",
+                "42645",
+                "-14960",
+                "40645",
+                "-14960",
+                "40645",
+                "-12960"
+              ]
+            ],
+            "all_flags_allowed": false
+          }
+        ],
+        "all_allowed_generic_keepouts": 2,
+        "genuine_restriction_keepouts": 4,
+        "dsn_modified": false,
+        "routing_accepted": false
+      },
+      "saved_refill": {
+        "opens": 0,
+        "blocking": 2,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Items not allowed (keepout area 'diagnostic-via')",
+            "items": [
+              {
+                "description": "Via [SIGNAL_A] on F.Cu - B.Cu",
+                "pos": {
+                  "x": 41.645,
+                  "y": 13.96
+                },
+                "uuid": "692ddee1-7ca5-403d-9d6e-ef63ba59a986"
+              }
+            ],
+            "severity": "error",
+            "type": "items_not_allowed"
+          },
+          {
+            "description": "Items not allowed",
+            "items": [
+              {
+                "description": "Track [SIGNAL_B] on F.Cu, length 30.0000 mm",
+                "pos": {
+                  "x": 40.0,
+                  "y": 20.0
+                },
+                "uuid": "0661fc24-4411-4f35-ad36-9f97c4110962"
+              }
+            ],
+            "severity": "error",
+            "type": "items_not_allowed"
+          }
+        ]
+      },
+      "saved_refill_targets": [
+        {
+          "description": "Items not allowed (keepout area 'diagnostic-via')",
+          "items": [
+            {
+              "description": "Via [SIGNAL_A] on F.Cu - B.Cu",
+              "pos": {
+                "x": 41.645,
+                "y": 13.96
+              },
+              "uuid": "692ddee1-7ca5-403d-9d6e-ef63ba59a986"
+            }
+          ],
+          "severity": "error",
+          "type": "items_not_allowed"
+        },
+        {
+          "description": "Items not allowed",
+          "items": [
+            {
+              "description": "Track [SIGNAL_B] on F.Cu, length 30.0000 mm",
+              "pos": {
+                "x": 40.0,
+                "y": 20.0
+              },
+              "uuid": "0661fc24-4411-4f35-ad36-9f97c4110962"
+            }
+          ],
+          "severity": "error",
+          "type": "items_not_allowed"
+        }
+      ],
+      "final_native": {
+        "opens": 0,
+        "blocking": 2,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Items not allowed (keepout area 'diagnostic-via')",
+            "items": [
+              {
+                "description": "Via [SIGNAL_A] on F.Cu - B.Cu",
+                "pos": {
+                  "x": 41.645,
+                  "y": 13.96
+                },
+                "uuid": "692ddee1-7ca5-403d-9d6e-ef63ba59a986"
+              }
+            ],
+            "severity": "error",
+            "type": "items_not_allowed"
+          },
+          {
+            "description": "Items not allowed",
+            "items": [
+              {
+                "description": "Track [SIGNAL_B] on F.Cu, length 30.0000 mm",
+                "pos": {
+                  "x": 40.0,
+                  "y": 20.0
+                },
+                "uuid": "0661fc24-4411-4f35-ad36-9f97c4110962"
+              }
+            ],
+            "severity": "error",
+            "type": "items_not_allowed"
+          }
+        ]
+      },
+      "final_targets": [
+        {
+          "description": "Items not allowed (keepout area 'diagnostic-via')",
+          "items": [
+            {
+              "description": "Via [SIGNAL_A] on F.Cu - B.Cu",
+              "pos": {
+                "x": 41.645,
+                "y": 13.96
+              },
+              "uuid": "692ddee1-7ca5-403d-9d6e-ef63ba59a986"
+            }
+          ],
+          "severity": "error",
+          "type": "items_not_allowed"
+        },
+        {
+          "description": "Items not allowed",
+          "items": [
+            {
+              "description": "Track [SIGNAL_B] on F.Cu, length 30.0000 mm",
+              "pos": {
+                "x": 40.0,
+                "y": 20.0
+              },
+              "uuid": "0661fc24-4411-4f35-ad36-9f97c4110962"
+            }
+          ],
+          "severity": "error",
+          "type": "items_not_allowed"
+        }
+      ],
+      "saved_refill_report_sha256": "50d69a37c12422a503c72794c01fcbeeefe10c9a88b029bd5dedb89167e4fb70",
+      "final_report_sha256": "50d69a37c12422a503c72794c01fcbeeefe10c9a88b029bd5dedb89167e4fb70"
+    }
+  ],
+  "actual_native": {
+    "receipt": {
+      "path": ".runs/native-rule-area-toolchain-execution-001/execution.json",
+      "bytes": 2559,
+      "sha256": "01a109df128d7bdbdb3c386e22ade47fb155b06cb7bcfccced4c99d3dcc666d7"
+    },
+    "process": {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 11.383746749983402,
+      "cpu_seconds": 9.351104,
+      "max_rss_bytes": 1877114880,
+      "supervisor_cpu_seconds": 0.031404000000000015,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 1822195712,
+      "sampled_peak_workdir_bytes": 124,
+      "resource_guards": {
+        "max_group_rss_bytes": 2147483648,
+        "max_workdir_bytes": 4194304,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/native_rule_area_toolchain_v1/driver.py",
+        "--run-native",
+        "--toolchain-proof",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/kicad-1007-bundle-qualification-001/result.json",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-rule-area-toolchain-001"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-rule-area-toolchain-execution-001/command.log",
+      "log_bytes": 124,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-rule-area-toolchain-execution-001",
+      "signal_cancellation_enabled": true,
+      "pid": 24887
+    },
+    "wall_seconds": 11.549419000017224,
+    "full_cpu_seconds": 9.508784000000002,
+    "conservative_allowance_seconds": 0
+  },
+  "shared_readback": {
+    "schema": 1,
+    "kind": "actual1007 four-case shared native readback with copied-context/version falsifiers",
+    "status": "completed",
+    "passed": true,
+    "accepted": false,
+    "production_admitted": false,
+    "new_native_execution": false,
+    "new_jvm_execution": false,
+    "new_network_requests": 0,
+    "new_test_execution": false,
+    "checks": [
+      {
+        "case": "allowed_placement",
+        "original_rules_geometry_protected_copper_exact": true,
+        "source_sha256": "1e2216f05fd7540a2a4edf894a18addc389c056854bc6bb5fa2169f90753f7dd",
+        "candidate_sha256": "1e2216f05fd7540a2a4edf894a18addc389c056854bc6bb5fa2169f90753f7dd",
+        "reports": [
+          {
+            "stage": "refill-drc",
+            "counts": {
+              "opens": 0,
+              "blocking": 0,
+              "warnings": 0,
+              "exclusions": 0
+            },
+            "raw_report_sha256": "86b02a86418df04a9ed9fe4166bd36849814a3b97b5f26519199319880d5ff92",
+            "prohibited_target_uuids": []
+          },
+          {
+            "stage": "final-drc",
+            "counts": {
+              "opens": 0,
+              "blocking": 0,
+              "warnings": 0,
+              "exclusions": 0
+            },
+            "raw_report_sha256": "9ae43d270636676901897775131959ecb78732a75ecc85f060de0db24725c54b",
+            "prohibited_target_uuids": []
+          }
+        ],
+        "processes": [
+          {
+            "name": "area-export",
+            "process_sha256": "a086fdd4bda2a6094887af0ba90ba3e02b3bcd074dbcfcedc030fb9b676ddcb7",
+            "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "exit_code": 0,
+            "cleanup_complete": true
+          },
+          {
+            "name": "refill-drc",
+            "process_sha256": "08ecbc3216f49380da8d27f8aec62f6802539a16b47fd707b33e20750c924e04",
+            "log_sha256": "e74e397730c689cde72a4848181f2723c85b215c5e24b99befe192e4ad882bc2",
+            "exit_code": 0,
+            "cleanup_complete": true
+          },
+          {
+            "name": "final-drc",
+            "process_sha256": "6c45b3c86e4e5a520975223ce2c0bd329750b6955798fac906916e272f9a39a1",
+            "log_sha256": "cb95664ddb9725b4cf9464eee102beda8436f51d6eebd34aef7ebd532fa2a20b",
+            "exit_code": 0,
+            "cleanup_complete": true
+          }
+        ]
+      },
+      {
+        "case": "track_prohibited",
+        "original_rules_geometry_protected_copper_exact": true,
+        "source_sha256": "28195bb0293c89172be5a343fd2e9b64b5e27c9777345d88cb0d9b43c83cdebe",
+        "candidate_sha256": "28195bb0293c89172be5a343fd2e9b64b5e27c9777345d88cb0d9b43c83cdebe",
+        "reports": [
+          {
+            "stage": "refill-drc",
+            "counts": {
+              "opens": 0,
+              "blocking": 1,
+              "warnings": 0,
+              "exclusions": 0
+            },
+            "raw_report_sha256": "e69d0bff871da31010a3fc9250f143a966e6e507a228938745d4ff70e575d7cb",
+            "prohibited_target_uuids": [
+              "0661fc24-4411-4f35-ad36-9f97c4110962"
+            ]
+          },
+          {
+            "stage": "final-drc",
+            "counts": {
+              "opens": 0,
+              "blocking": 1,
+              "warnings": 0,
+              "exclusions": 0
+            },
+            "raw_report_sha256": "8366e3b22dda35f38cd3e15a83b4de71fb31619be50b9b9999223eba71333e78",
+            "prohibited_target_uuids": [
+              "0661fc24-4411-4f35-ad36-9f97c4110962"
+            ]
+          }
+        ],
+        "processes": [
+          {
+            "name": "area-export",
+            "process_sha256": "89d8be25a844a722d9b5b0cdbeb465b4041ca69d246768a69e6c0f60c7929637",
+            "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "exit_code": 0,
+            "cleanup_complete": true
+          },
+          {
+            "name": "refill-drc",
+            "process_sha256": "d17ec734ba57d3eb575782a0b0cccc3f13a91868cba4196bda33637362b238bf",
+            "log_sha256": "f93396a236401cb1f5b22449c78d5320df80b3cdb4fc1c09648067b31444bf01",
+            "exit_code": 5,
+            "cleanup_complete": true
+          },
+          {
+            "name": "final-drc",
+            "process_sha256": "ef247a92ce1e38ae032ea07f8c7ae2b19e8032e7130a6af0dcf13dbb40d7cd7c",
+            "log_sha256": "e2f1e1c7beb20f19d8557a68c10322d16dcbdafb3832b534c56d1aec790b8c4f",
+            "exit_code": 5,
+            "cleanup_complete": true
+          }
+        ]
+      },
+      {
+        "case": "via_prohibited",
+        "original_rules_geometry_protected_copper_exact": true,
+        "source_sha256": "bafcae0af7e92f95ad88af6b4141e699b3472c19f7c21593b534b57c20f5a882",
+        "candidate_sha256": "bafcae0af7e92f95ad88af6b4141e699b3472c19f7c21593b534b57c20f5a882",
+        "reports": [
+          {
+            "stage": "refill-drc",
+            "counts": {
+              "opens": 0,
+              "blocking": 1,
+              "warnings": 0,
+              "exclusions": 0
+            },
+            "raw_report_sha256": "d5c8d6aaf227caae49d57a36887301a9af3fa310e1e540dfa81b2152c53d98ac",
+            "prohibited_target_uuids": [
+              "692ddee1-7ca5-403d-9d6e-ef63ba59a986"
+            ]
+          },
+          {
+            "stage": "final-drc",
+            "counts": {
+              "opens": 0,
+              "blocking": 1,
+              "warnings": 0,
+              "exclusions": 0
+            },
+            "raw_report_sha256": "d5c8d6aaf227caae49d57a36887301a9af3fa310e1e540dfa81b2152c53d98ac",
+            "prohibited_target_uuids": [
+              "692ddee1-7ca5-403d-9d6e-ef63ba59a986"
+            ]
+          }
+        ],
+        "processes": [
+          {
+            "name": "area-export",
+            "process_sha256": "3f30f95053f4dd33837fdd11d818e072129f3e6aed59f9072f702afc4cdb286e",
+            "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "exit_code": 0,
+            "cleanup_complete": true
+          },
+          {
+            "name": "refill-drc",
+            "process_sha256": "d1b1e311c4d032be6002d948b1e44f37215e636abbe36a20004de215366064c3",
+            "log_sha256": "9f7b0a54bc970eb27eb2bb39c8e6cc24525dfb7edde6574dd68c837c998fa870",
+            "exit_code": 5,
+            "cleanup_complete": true
+          },
+          {
+            "name": "final-drc",
+            "process_sha256": "7665ef1a9245c3f35c4dd094748b52f33cad1d658c48fffa34c725ecb2dd0705",
+            "log_sha256": "1cd201017db2228f056457f2f64440af6f5646bdcc67fdfc5f00c394ae3d0b13",
+            "exit_code": 5,
+            "cleanup_complete": true
+          }
+        ]
+      },
+      {
+        "case": "mixed",
+        "original_rules_geometry_protected_copper_exact": true,
+        "source_sha256": "ca5135487d1f3dc6f7c976f3e17de84b794cc1e85df830367c8ab929f82f54f7",
+        "candidate_sha256": "ca5135487d1f3dc6f7c976f3e17de84b794cc1e85df830367c8ab929f82f54f7",
+        "reports": [
+          {
+            "stage": "refill-drc",
+            "counts": {
+              "opens": 0,
+              "blocking": 2,
+              "warnings": 0,
+              "exclusions": 0
+            },
+            "raw_report_sha256": "50d69a37c12422a503c72794c01fcbeeefe10c9a88b029bd5dedb89167e4fb70",
+            "prohibited_target_uuids": [
+              "0661fc24-4411-4f35-ad36-9f97c4110962",
+              "692ddee1-7ca5-403d-9d6e-ef63ba59a986"
+            ]
+          },
+          {
+            "stage": "final-drc",
+            "counts": {
+              "opens": 0,
+              "blocking": 2,
+              "warnings": 0,
+              "exclusions": 0
+            },
+            "raw_report_sha256": "50d69a37c12422a503c72794c01fcbeeefe10c9a88b029bd5dedb89167e4fb70",
+            "prohibited_target_uuids": [
+              "0661fc24-4411-4f35-ad36-9f97c4110962",
+              "692ddee1-7ca5-403d-9d6e-ef63ba59a986"
+            ]
+          }
+        ],
+        "processes": [
+          {
+            "name": "area-export",
+            "process_sha256": "587ddb6cb2e5b6d868713328e77a8f05e27843904ed2da33a4ae27ffd32642ea",
+            "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "exit_code": 0,
+            "cleanup_complete": true
+          },
+          {
+            "name": "refill-drc",
+            "process_sha256": "4d5cfcdf1523a2fd98376e34268cc438fc571133e4a88b6b43b2d068abe7fdc0",
+            "log_sha256": "52cff34077495efe241d826d870273cf0508c6c14106072d697fc1dedcfe5aa7",
+            "exit_code": 5,
+            "cleanup_complete": true
+          },
+          {
+            "name": "final-drc",
+            "process_sha256": "a98e2232a0b8137fdfbfcfc9ab2a8d207338b99e6cb0027a79807668b898be8d",
+            "log_sha256": "70db78095a54566e6761a80d61b6fabc6ee893d7e2570cba6e8b6297c565eb02",
+            "exit_code": 5,
+            "cleanup_complete": true
+          }
+        ]
+      }
+    ],
+    "counterexamples": [
+      {
+        "case": "removed_context_explicit_reader",
+        "rejected": true,
+        "reason": "Rejected: DRC experimental toolchain binding differs"
+      },
+      {
+        "case": "removed_context_default_reader",
+        "rejected": true,
+        "reason": "Rejected: validator report identity/schema/version mismatch"
+      },
+      {
+        "case": "actual1007_report_default_version",
+        "rejected": true,
+        "reason": "Rejected: validator report identity/schema/version mismatch"
+      },
+      {
+        "case": "copied_wrong_report_version_10.0.0",
+        "rejected": true,
+        "reason": "Rejected: validator report identity/schema/version mismatch"
+      },
+      {
+        "case": "copied_wrong_report_version_10.0.8",
+        "rejected": true,
+        "reason": "Rejected: validator report identity/schema/version mismatch"
+      }
+    ],
+    "failures": [],
+    "input_sha256": {
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-rule-area-toolchain-readback-001/audit.py": "e1ef98029b02db4d11fea2f1a4fdff0bc3e4134cf56c48d7c1580b592556c96a",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-rule-area-toolchain-001/result.json": "8705387a1089b30fce98d021eecf2617bde9adfb341c6859c2170945fe673efa",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-rule-area-toolchain-execution-001/execution.json": "01a109df128d7bdbdb3c386e22ade47fb155b06cb7bcfccced4c99d3dcc666d7",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-rule-area-toolchain-execution-001/command.log": "b47dced4803b695c0fbffd05bcd4230b8bf9273569cd53e8f177fad63c6c9588",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/kicad-1007-bundle-qualification-001/result.json": "26564ecd90268e463760270902d302445d9b0e6859105d3ed06e5976a8989c73",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/evidence/placement-area-native-001/summary.json": "c61d54b5508f0508528e1236ead7bf97ad21ef336e32448994c6239db56b058f"
+    },
+    "original_raw_evidence_unchanged": true,
+    "actual_tool_context": {
+      "schema": 1,
+      "mode": "experimental-native-qualification",
+      "expected_version": "10.0.7",
+      "tools": {
+        "cli": {
+          "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+          "sha256": "0b9d96dbdac9517e7d85833f926fee07a563549ffe2c55670147bff3f562d01f"
+        },
+        "python": {
+          "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+          "sha256": "fd8c2fa5393bebb9be6789dab8583acee6c5cff90d42696e8c1dbcabe02ec39f"
+        },
+        "pcbnew": {
+          "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so",
+          "sha256": "610ae51927809192be637d0de03c32d006332638e2272cbf11a553fe65c75f6e"
+        }
+      }
+    },
+    "signature_processes": [
+      {
+        "name": "source-codesign-verify",
+        "process_sha256": "e31d0d5d790aca56f5a19f4769e3dd5136e534695c05f3a10f5c0aa1fde0dd55",
+        "log_sha256": "463864bb0d8bc4c93c6cd571b635e82bf33c13f93f2390afafaa384c7f887a6e"
+      },
+      {
+        "name": "source-signature-metadata",
+        "process_sha256": "f34b30fe028f1c58566cd0bd434c39d9159e802f72f6282dd1b25779691ff520",
+        "log_sha256": "4a4307c7c54d074bab75e8d6400acc8dd9f0d45fdc6221764cd0df9caecf5836"
+      },
+      {
+        "name": "source-gatekeeper-assess",
+        "process_sha256": "b0ec078fd78f659c6ce134e0012d6d1f57956bc0ecf9a5cbc624637708bb3a4d",
+        "log_sha256": "3dadba488f4a811a51760cf666e41f7e10fc7e3784be9ee39055bf9b25a864a2"
+      },
+      {
+        "name": "copy-app-preserve-signing",
+        "process_sha256": "1b5c3f7b463489f76376eeb2b900b9f430e90f9da484a1cf23180aa3a576cd30",
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "copied-codesign-verify",
+        "process_sha256": "22cb0f43e4163ececb0837ae79391acb17b8815f0e9f3bb7b623d9a5910ae8a5",
+        "log_sha256": "ffa85e7a9b18f04da845773ed9bccdd8c8e72e0bff1d464ac781219fd3b7629f"
+      },
+      {
+        "name": "copied-gatekeeper-assess",
+        "process_sha256": "43db62ce56f425926c9d27a84d2d2e2d7ec85f30c112b8abbb27df4870c81ac1",
+        "log_sha256": "9f1ed741a29cfe5436ec1acebe1ccb4c8f4592e9087bf6f963659a8fea42ea91"
+      },
+      {
+        "name": "cli-architecture",
+        "process_sha256": "769e0197e735c9867b1a443e8502bbfe078e20abd9af797a7d3632dec11e7652",
+        "log_sha256": "9cb483fd3739db2602d4c5bf672f4af954dc6dad82b36e8642b034af58f11c11"
+      },
+      {
+        "name": "python-architecture",
+        "process_sha256": "a1f7be2613181a07b615fdd682a066c9f2af9a489b4a01e65bfb36c61d04c8ac",
+        "log_sha256": "9cb483fd3739db2602d4c5bf672f4af954dc6dad82b36e8642b034af58f11c11"
+      },
+      {
+        "name": "pcbnew-architecture",
+        "process_sha256": "640b8a16677e3bd338020b925b69909e0c1ebe57e13db463260217fe44742f90",
+        "log_sha256": "9cb483fd3739db2602d4c5bf672f4af954dc6dad82b36e8642b034af58f11c11"
+      },
+      {
+        "name": "native-cli-version",
+        "process_sha256": "7a44f63efce56893b910c1058a77bfe09878046a8f0fd83a94cce57fa5c6d6cb",
+        "log_sha256": "c642c34c6e3ab0b0cb88918ea9e158daeb8110e323a741f7f7dbb56623acc0c7"
+      },
+      {
+        "name": "native-python-version",
+        "process_sha256": "73cb6da1c3b5fa5045c283f17a84bb32c92ba5d4e331c6d85778b3a93d71b18a",
+        "log_sha256": "1267eaa8132d388a06f9aa2f1959806695c856761b649248773056900b0f31ac"
+      },
+      {
+        "name": "detach-image",
+        "process_sha256": "39f9e484f0cae6277bc012a3fb40039f72e65390ebebbd2046afdd97efc1c273",
+        "log_sha256": "862f3376067aaf36ef74e4f5200edf103aee705f97a1624a6d194bdca96b8a22"
+      }
+    ],
+    "cost": {
+      "active_wall_seconds": 2.7478043340088334,
+      "active_full_cpu_seconds": 2.544745,
+      "conservative_preparation_bootstrap_emission_allowance_seconds": 3,
+      "actual_native_outer_wall_seconds": 11.549419000017224,
+      "actual_native_outer_full_cpu_seconds": 9.508784000000002
+    },
+    "limitations": [
+      "Four exposed authored diagnostics only; no production routing migration, full schematic/GUI/physical/electrical or general support claim.",
+      "Signed bundle proof/process/logs and selected CLI/Python/module pins read; no signing execution or whole-app re-inventory repeated.",
+      "Prior image/source research/acquisition has separate costs, not included in this120-second diagnostic-only cap; no comparative speed/quality claim.",
+      "Only exact read-only git rev-parse through existing tool_manifest allowed; no Native/JVM/GET/test or Git mutation subprocess."
+    ],
+    "within_readback_budget": true
+  },
+  "actual_reader": {
+    "receipt": {
+      "path": ".runs/native-rule-area-toolchain-readback-001/execution.json",
+      "bytes": 2262,
+      "sha256": "714bb2314d9df89a6a14db32e3dc2457d0b23eaf6be558ca6a2061883aec88b3"
+    },
+    "process": {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 3.248607457993785,
+      "cpu_seconds": 3.0300849999999997,
+      "max_rss_bytes": 1633271808,
+      "supervisor_cpu_seconds": 0.012303999999999995,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 1531871232,
+      "sampled_peak_workdir_bytes": 36670,
+      "resource_guards": {
+        "max_group_rss_bytes": 2147483648,
+        "max_workdir_bytes": 16777216,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-rule-area-toolchain-readback-001/audit.py"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-rule-area-toolchain-readback-001/command.log",
+      "log_bytes": 329,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-rule-area-toolchain-readback-001",
+      "signal_cancellation_enabled": true,
+      "pid": 25166
+    },
+    "wall_seconds": 3.3029455409850925,
+    "full_cpu_seconds": 3.086526,
+    "conservative_allowance_seconds": 3
+  },
+  "signature_proof": {
+    "path": "evidence/kicad-1007-signed-bundle-001.json",
+    "bytes": 27796,
+    "sha256": "0492405d71470e421a79a3ddfca7826fcaa3f6f5e0406d331e4b2d7d46c686d1"
+  },
+  "acquisition_proof": {
+    "path": "evidence/kicad-1007-download-001.json",
+    "bytes": 7983,
+    "sha256": "834b6686af59f6840a6a85f8bc93a1d3a9449998dce295cc5eb41989115ea84e"
+  },
+  "limits": {
+    "wall_seconds": 120,
+    "full_cpu_seconds": 120
+  },
+  "limitations": [
+    "Four exposed authored area diagnostics only. Production remains exact10.0.0. No broader board admission, route comparison, schematic/GUI, electrical or physical approval.",
+    "Raw native reports, all ignored keys, targets, process journals and unchanged original-design proofs remain in durable .runs; acquisition/setup costs have separate scopes, not a comparative speed result."
+  ]
+}

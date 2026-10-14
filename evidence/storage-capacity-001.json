@@ -1,0 +1,462 @@
+{
+  "schema": 1,
+  "accepted": false,
+  "scope": "Measured operational storage capacity correction, not routing acceptance or budget change. All retained data/tools/runs still counted. Every failure remains. Existing15second/500k entries, file-link logical counts, 2GiB headroom and per-worker guards unchanged.",
+  "before": {
+    "schema": 1,
+    "git_head": "4b7dbbe9f6c7e423e358cb13438c45a615ad760c",
+    "complete_logical_scopes": {
+      ".data": 51347940,
+      ".tools": 7397082049,
+      ".runs": 7686668757
+    },
+    "total_bytes": 15135098746,
+    "old_limit_bytes": 10737418240,
+    "proposed_limit_bytes": 17179869184,
+    "original_refusal": "10 GiB project cache/data ceiling exceeded",
+    "free_bytes": 315842482176,
+    "wall_seconds": 5.292598416999681,
+    "cpu_seconds": 5.211155,
+    "scope": "Full retained scope logical-byte metadata using existing shared scanner; no file omission, deletion, payload read or native execution. Count file symlinks and hardlinks as existing guard. Operational capacity only, no routing acceptance change."
+  },
+  "after": {
+    "schema": 1,
+    "accepted_full_scan": true,
+    "total_bytes": 15135108071,
+    "limit_bytes": 17179869184,
+    "wall_seconds": 3.5102384589845315,
+    "cpu_seconds": 3.505867,
+    "source_sha256": {
+      "autorouter/pipeline.py": "be986fb8616396c372472b7dd497d7471b2956194bc1099754fa8548c7069ef9",
+      "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+      "tests/test_storage_scan.py": "17cc5de5ed9655c83ae1a0752b91b010a620f633fc682030d4d6d3dd2a12fb60"
+    },
+    "test_log_sha256": "b1416e1ac791333d3cdf39958cd539841690ba0308addda3fbaa55432e70b924",
+    "scope": "Actual shared storage guard passes retaining all three complete scopes. Targeted wrapper inherited packaging description/frozen-file list; actual argv/log executes32storage/runner controls. This supplement binds correct storage sources. No native/routing-quality claim."
+  },
+  "actual_installation024_refusal": {
+    "schema": 2,
+    "selected_qualification": {
+      "guidance": "native",
+      "fixture": "fixtures/smoke/smoke.kicad_pcb",
+      "directory": "install-native-smoke",
+      "argv": [
+        "--seconds",
+        "120"
+      ]
+    },
+    "status": "failed",
+    "passed": false,
+    "started_utc": "2026-10-14T17:20:12.518547+00:00",
+    "source_checkout": "/Users/faisal/Projects/KiCad-Autorouter-local",
+    "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-024",
+    "commands": [],
+    "actions": [],
+    "limits": {
+      "wall_seconds": 600.0,
+      "scratch_bytes": 536870912,
+      "source_bytes": 369098752,
+      "source_files": 22000,
+      "log_bytes_per_command": 2000000,
+      "memory_guard": "4 GiB direct process-group polling; native pipeline applies its own per-worker guards"
+    },
+    "qualification": "Fresh local clone and Python venv on the existing Mac, not fresh OS/application installation. Official verified JAR cache and installed KiCad/Java/Python are reused. No pip dependencies or downloads.",
+    "concurrency": "Shared project experiment lock; one installation command at a time. Lead keeps all other native/engine experiments idle.",
+    "accounting_point": "Stored wall/CPU sample precedes final publication/freshness checks; the 600-second wall acceptance cap includes those final operations. CPU is observed, not an installation CPU cap.",
+    "reason": "Rejected: 10 GiB project cache/data ceiling exceeded",
+    "wall_seconds": 2.8584992090181913,
+    "total_cpu_seconds": 1.940003,
+    "command_cpu_seconds": 0,
+    "scratch_bytes": 0
+  },
+  "installation024_execution": {
+    "schema": 1,
+    "process": {
+      "status": "nonzero_exit",
+      "exit_code": 2,
+      "wall_seconds": 2.9288797919871286,
+      "cpu_seconds": 2.005548,
+      "max_rss_bytes": 35897344,
+      "supervisor_cpu_seconds": 0.009177999999999992,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 35717120,
+      "sampled_peak_workdir_bytes": 132,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 33554432,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/install_smoke.py",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-024",
+        "--guidance",
+        "native",
+        "--source-mode",
+        "distribution"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-024-execution/command.log",
+      "log_bytes": 132,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-024-execution",
+      "signal_cancellation_enabled": true,
+      "pid": 25343
+    },
+    "wall_seconds": 3.200682374997996,
+    "full_cpu_seconds": 2.146102,
+    "wrapper_sha256": "3e1bf784bf50eb1c5e9bc772ef206ce49ef8371401e3a1db4c21a281a35a1f8b",
+    "log_sha256": "1de173110d08a5e55d0dc740e83d1f059a65a7b78cd2596b849d967747cc9c91",
+    "git_head": "4b7dbbe9f6c7e423e358cb13438c45a615ad760c",
+    "scope": "Actual current source-distribution fresh local Git checkout/venv; fixed installed subset includes pruning-scoring contract/journal controls; new explicit Native diagnostic and Navigation modules copied exactly, additional new controls separate, then actual native fixture route/check under network denial. Complete original source inventory remains verified with 22000-file and 352 MiB byte caps; 512 MiB installation and 600-second final wall caps remain. Existing Mac/tools/cache; not full clone, full installed suite, fresh OS or formal package qualification."
+  },
+  "targeted": {
+    "schema": 1,
+    "process": {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 2.127330166986212,
+      "cpu_seconds": 0.56752,
+      "max_rss_bytes": 79134720,
+      "supervisor_cpu_seconds": 0.008817000000000005,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 57868288,
+      "sampled_peak_workdir_bytes": 4699,
+      "resource_guards": {
+        "max_group_rss_bytes": 1073741824,
+        "max_workdir_bytes": 2097152,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+        "-B",
+        "-m",
+        "unittest",
+        "tests.test_storage_scan",
+        "tests.test_runner",
+        "-v"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/storage-capacity-targeted-001/command.log",
+      "log_bytes": 4699,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/storage-capacity-targeted-001",
+      "signal_cancellation_enabled": true,
+      "pid": 25602
+    },
+    "source_sha256": {
+      "scripts/install_smoke.py": "0fa439795825183020a7cfec054d9309a024eae4b6fdecc78c16c584aba0e4e7",
+      "tests/test_install_smoke.py": "263d53b41951968c3f0f30325b08dcf185038f89f6f7d76f51a0f2f2738b1282"
+    },
+    "controller_sha256": "1ef9471d088cf630d07f0bd06fd4856784678c31c0bd0387e5804e4ca7ecb35f",
+    "log_sha256": "b1416e1ac791333d3cdf39958cd539841690ba0308addda3fbaa55432e70b924",
+    "wall_seconds": 2.127618667000206,
+    "full_cpu_seconds": 0.576624,
+    "scope": "Existing source capacity boundaries, cumulative/file guards and unsafe/missing/symlink pre-read rejection. Packaging software controls, no Native or route quality claim."
+  },
+  "targeted_actual_tests": 32,
+  "targeted_controller_description_caveat": "Inherited packaging scope/frozen list in targeted controller is stale. Actual argv/log runs32storage/runner tests; after.json binds correct storage sources. Full050 independently freezes source and runs complete suite.",
+  "full": {
+    "schema": 1,
+    "git_head": "4b7dbbe9f6c7e423e358cb13438c45a615ad760c",
+    "tools": {
+      "implementation_sha256": {
+        "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+        "autorouter/__main__.py": "9e34e95cf21b4ab7c872365f0a8c835876713691ef39f1049d2bd52bcb0b09e6",
+        "autorouter/adapter.py": "95211455104334e338b83c77aecf8541ee24b0b4f7cd6c3043bcb71d478ddfca",
+        "autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+        "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+        "autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+        "autorouter/floor_route.py": "a0e06ee951a08bebb393c1bbfd57ce12f0dfafa462f28f99f04dec323fc5ba33",
+        "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+        "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+        "autorouter/native.py": "7cf0f7cd8d18b59d21b365d51398f0cc99885d3644721a1a842e4f36a7306060",
+        "autorouter/native_edge.py": "d66f287319189ca0925072a41942ec06f4d8b259966e511d16f9ebcdb52505c1",
+        "autorouter/netclass.py": "79d4b7e98c7b46fe924816ddcc7fa384672bf646d1c06f81e134ce6d97e0a7de",
+        "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+        "autorouter/pipeline.py": "be986fb8616396c372472b7dd497d7471b2956194bc1099754fa8548c7069ef9",
+        "autorouter/placement_clearance.py": "f846a73367bc60dfbb48386233e405cb4bf1382f056d379787d7b823c3905feb",
+        "autorouter/placement_strategy.py": "b75a2291eed37d8ddb9f052c0b715faafcc2dfd258ae32f9e2763fcd01db0e97",
+        "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+        "autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+        "autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+        "autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+        "autorouter/recovery.py": "8a2bf1470cb69e7d8d334bbe7aef18110322a7aa786b965d397a89ddbc932ee5",
+        "autorouter/review_export.py": "716b369af61faa8c15f60ef58a0846772e4b175cff4a75af0c2c5ea45f24aea7",
+        "autorouter/review_view.py": "8f765624a8527df770a98594a7b27fe88776b300ec276f809c179ec7f6f60fb7",
+        "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+        "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+        "autorouter/schematic_field_evidence.py": "d7e1012b05bb7e0fb03358bbc3573b845ff06d03760a88137cf52db71090641b",
+        "autorouter/schematic_fields.py": "7d9043a14bac69d18830b2f51cb7d118c648df9290337505db1bf8503d931a71",
+        "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+        "autorouter/strategy.py": "a7fb17f35f390430fb45d335efa43dd7190546ae9df932c75925d05fe4ab137e",
+        "autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+        "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+        "autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455"
+      },
+      "git_head": "4b7dbbe9f6c7e423e358cb13438c45a615ad760c",
+      "kicad": "10.0.0",
+      "freerouting": "2.5.0",
+      "files": {
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+        "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219"
+      },
+      "network": "engine sandbox-exec deny network*"
+    },
+    "process": {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 38.721750583994435,
+      "cpu_seconds": 35.642832,
+      "max_rss_bytes": 243466240,
+      "supervisor_cpu_seconds": 0.10799700000000001,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 243466240,
+      "sampled_peak_workdir_bytes": 168234,
+      "resource_guards": {
+        "max_group_rss_bytes": 2147483648,
+        "max_workdir_bytes": 2097152,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/full-suite-local-root-019.py"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/full-integration-050/command.log",
+      "log_bytes": 168234,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/full-integration-050",
+      "signal_cancellation_enabled": true,
+      "pid": 25646
+    },
+    "wall_seconds": 38.7218518340087,
+    "full_cpu_seconds": 35.750927000000004,
+    "controller_sha256": "87851238f6eafa475da6105b9bdf204a376489084f0957890df0f3d2f0d1a2c4",
+    "log_sha256": "b27344c925274c52dec53cf7d2432b60acb65908f5b236faaf2439f38414edb3",
+    "scope": "Full integration after finite16GiB operational aggregate storage cap retaining all evidence; exact boundary and excess controls. Prior  explicit1007 diagnostic tools/version binding, guarded diagnostic final publication and fixed Navigation source/cache/direct-layout profile. Default production1000 and old profiles/constraints remain. Signed1007 bundle/version observed; actual area Native controls and Navigation acquisition not yet executed. Full04815errors retained: legacy mocked failure test bypassed Job constructor, now uses real constructor without changing assertions/native fake seam. Static blockers fixed with meaningful actual-publisher regressions; no routing quality/source support claim.",
+    "extra_source_sha256": {
+      "tests/test_storage_scan.py": "17cc5de5ed9655c83ae1a0752b91b010a620f633fc682030d4d6d3dd2a12fb60",
+      "autorouter/pipeline.py": "be986fb8616396c372472b7dd497d7471b2956194bc1099754fa8548c7069ef9",
+      "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+      "tests/test_drc_failure_binding.py": "ec22b8e688b7cf197aa52bcfc27d5c3368b14be7db9da40e09f2730cd9c149c9",
+      "tests/test_native_toolchain.py": "028e31f3701ed3d610ff526391816d0f08bb70cf2b3c903647893b894303756e",
+      "tests/test_native_diagnostic_publication.py": "fe71d235d87bc8ab3bf9bfc846dd6b880509f9051d583ab65fb9fd28ba66189f",
+      "tests/test_navigation_demo_fetch.py": "52edc3db236529dbdd7764585b8f5783166ddb87bc060812c1ab7e3a001c7355",
+      "autorouter/native.py": "7cf0f7cd8d18b59d21b365d51398f0cc99885d3644721a1a842e4f36a7306060",
+      "experiments/native_rule_area_toolchain_v1/driver.py": "057c756f29304a2f5e6545fd9545c2831c0dcc150e7b827ad7a3fdc10e991748",
+      "experiments/native_rule_area_toolchain_v1/native_areas.py": "95b7ec911a96a8df96be7024421d0ccd24320e9aeb911dedef4808ca68f4abb2",
+      "experiments/native_rule_area_toolchain_v1/native_expected.py": "825befaaa0d942522c2b07327dd3d6ab8f6a386b8647a67fe9ba7716c409b1df",
+      "experiments/native_rule_area_toolchain_v1/fixture_recipe.py": "26c0a0aaf8511ded1ab895778f181413ece06b15fd00df8dd6f5620bf6f914d9",
+      "tests/test_uv_demo_fetch.py": "95bae7f68bae363f1d15d3fd3f1e745a40952643b13ba9eb459de2fed768aaf2",
+      "tests/test_pruning_preferences_freshness.py": "acbfbb7d9d0cc570ae338335dd8387610d40111ba67df6421c5e5641546bbd56",
+      "tests/test_pruning_preferences.py": "7d27a9fae5fc64696aed13a5d484fe9b40ee8dfa80734b511f185c90b7661b83",
+      "tests/test_improve_preferences_cli.py": "12b4921aaa9514fc6d53492407073e467203b4b4ed2c3a2f77f4c7d2a9606096",
+      "autorouter/strategy.py": "a7fb17f35f390430fb45d335efa43dd7190546ae9df932c75925d05fe4ab137e",
+      "autorouter/__main__.py": "9e34e95cf21b4ab7c872365f0a8c835876713691ef39f1049d2bd52bcb0b09e6",
+      "scripts/backup.py": "557172fa7467e2f02e09554e2a5da908141869b2636ae3975df29f507dda8004",
+      "tests/test_backup_capacity.py": "2d09f6e321c1c556ec867d6c0e61a1e793d29b2e608b41ce831ca9e6d2e90aad",
+      "scripts/experiment_portfolio.py": "8477cfa084bf7351eff8b18f58529a73437f1f0891513e13935628ca99ed07ff",
+      "tests/test_portfolio_allocation.py": "92a10cc6bdc0b6d2605b7526eacc526ecee94413059655606309fa5c03fd9415",
+      "tests/test_result.py": "d18bea1f183f5a37db03aab340c39f296e1651ed0f26f5aa7e079104d92df519",
+      "autorouter/native_edge.py": "d66f287319189ca0925072a41942ec06f4d8b259966e511d16f9ebcdb52505c1",
+      "scripts/native_edge_controls.py": "ff02d209a32e8e10d14cf341f54e7b2db01f78720a658bb1d60afd2e8145b2db",
+      "tests/test_native_edge.py": "8d0fbc803e6ad8dbb201cc17dc7cc519a5ef3bfc436dd94a949d8faad9ca3141",
+      "tests/test_native_edge_record.py": "f39551a63fe3a9f4d742cf181c6afc5e0d39052c82c98bb95aaf1d8027281ef0",
+      "tests/test_selected_evidence.py": "28a9c764e7f69f4009f13d9e8f2965e9095b4ae9366607226d93e5f0b220a979",
+      "tests/test_cellscan_demo.py": "c884451f94c4a98529569be9c93c75dff2e8bbe498a9e9853f40fdddfe445dff",
+      "tests/test_pruning_scoring.py": "82e2c9fade4f5e489932dd1b8befc266f1f9850f349154ab4694d21860fb8e44",
+      "tests/test_inherited_trial_readback.py": "0b2a77936721b363c5b488c2ea9bed87401e4ae6d3acdb37ad59a12a8ebfea3f",
+      "tests/test_native_class_readback.py": "4540114a9c1292ca95998a5fb3d17467174002231c9b2ba3606f77f38d73836b",
+      "tests/test_analog_filter_demo.py": "051c3e3802054389ddf9d972f5f1cbf8c904f287495d865c68f74e478bd34b97",
+      "experiments/original_project_native_v1/driver.py": "15667d833436d4b2aa7f3967e14fde3d4a3f2bc113d11b56880aec1b860b7a6c",
+      "scripts/fetch_led_demo.py": "8d6f3997d6c3f8f5c605f7794160f31639cf6bb6b8f11627a2b9c20e1245644b",
+      "scripts/experiment_quality.py": "2485d82f6553f97fcab38e0d4f9fe29c7e42fb06c471299d1cb5228a51b090ee",
+      "scripts/install_smoke.py": "0fa439795825183020a7cfec054d9309a024eae4b6fdecc78c16c584aba0e4e7",
+      "experiments/placement_handoff_native_v1/driver.py": "a84176cbab44199c5d10c80860f391d56f624b2624da2d157eb8810266796f8c",
+      "tests/test_arcdice_demo_fetch.py": "af612b52095492a005e4964a4a46e9ccf00bc89ee39a045531265d914df077ef",
+      "tests/test_install_smoke.py": "263d53b41951968c3f0f30325b08dcf185038f89f6f7d76f51a0f2f2738b1282",
+      "tests/test_netclass_parent_policy.py": "90d55d95a568fa733b558b73736d09146b7d211233df33dac2b7a97b8c59c8ff",
+      "experiments/native_paired_v1/readback.py": "6fc7e7bc665cacc57bcfe728e026234a66876782acf84e3601a4884b7780e067"
+    }
+  },
+  "full_actual_tests": 1098,
+  "source_sha256": {
+    "autorouter/pipeline.py": "be986fb8616396c372472b7dd497d7471b2956194bc1099754fa8548c7069ef9",
+    "tests/test_storage_scan.py": "17cc5de5ed9655c83ae1a0752b91b010a620f633fc682030d4d6d3dd2a12fb60"
+  },
+  "review_pending": false,
+  "skeptical_review": {
+    "path": ".runs/storage-capacity-review-001/review.json",
+    "sha256": "57b9800bfe273c5e96e9bed4a2f327fbd7dcf9bf948d4ae17fd6713fd220f3cb",
+    "bytes": 7058,
+    "result": {
+      "schema": 1,
+      "status": "16GiB operational bound justified; lead reports targeted/full integration passed; fresh installation pending",
+      "read_only": true,
+      "tests_executed": false,
+      "new_native_execution": false,
+      "new_jvm_execution": false,
+      "new_network_requests": 0,
+      "new_git_execution": false,
+      "core_modified": false,
+      "input_pins": {
+        "autorouter/pipeline.py": {
+          "bytes": 111436,
+          "sha256": "be986fb8616396c372472b7dd497d7471b2956194bc1099754fa8548c7069ef9"
+        },
+        "autorouter/runner.py": {
+          "bytes": 22644,
+          "sha256": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e"
+        },
+        "tests/test_storage_scan.py": {
+          "bytes": 5495,
+          "sha256": "17cc5de5ed9655c83ae1a0752b91b010a620f633fc682030d4d6d3dd2a12fb60"
+        },
+        "MASTER_PROMPT.md": {
+          "bytes": 46746,
+          "sha256": "683766a6983140c37da0d8ae7206511a58b9a1b0e8eef25c79de8549cef33c95"
+        },
+        ".runs/installation-024/result.json": {
+          "bytes": 1544,
+          "sha256": "f1b5567e057cbce74de0ac25f5adb592c72bebbd28ae36afbd3fe1d855578e5d"
+        },
+        ".runs/installation-024-execution/execution.json": {
+          "bytes": 2711,
+          "sha256": "510a63ee38cccbdfbb22bb95e483c9d33bf38c68ce72e7b7bd9d719cf4640d7a"
+        },
+        ".runs/storage-capacity-001/before.json": {
+          "bytes": 709,
+          "sha256": "726972af409e8c093728332b0bb18c2465797225251b8714253749bef51f77a0"
+        },
+        ".runs/kicad-1007-bundle-qualification-001/result.json": {
+          "bytes": 24476,
+          "sha256": "26564ecd90268e463760270902d302445d9b0e6859105d3ed06e5976a8989c73"
+        },
+        ".runs/kicad-1007-acquisition-001/result.json": {
+          "bytes": 3338,
+          "sha256": "9c8a445dbc81df31f3e1bb6e740d355e7794698c6cede365dec80775eb14b129"
+        },
+        ".runs/kicad-1007-continuation-001/result.json": {
+          "bytes": 4277,
+          "sha256": "802720be1c92fdfac4c5336deb85588b07af5c00393124049122b05d3cee2532"
+        }
+      },
+      "actual_failure": {
+        "path": ".runs/installation-024/result.json",
+        "reason": "Rejected: 10 GiB project cache/data ceiling exceeded",
+        "commands_started": 0,
+        "preserved": true
+      },
+      "measured_aggregate": {
+        "schema": 1,
+        "git_head": "4b7dbbe9f6c7e423e358cb13438c45a615ad760c",
+        "complete_logical_scopes": {
+          ".data": 51347940,
+          ".tools": 7397082049,
+          ".runs": 7686668757
+        },
+        "total_bytes": 15135098746,
+        "old_limit_bytes": 10737418240,
+        "proposed_limit_bytes": 17179869184,
+        "original_refusal": "10 GiB project cache/data ceiling exceeded",
+        "free_bytes": 315842482176,
+        "wall_seconds": 5.292598416999681,
+        "cpu_seconds": 5.211155,
+        "scope": "Full retained scope logical-byte metadata using existing shared scanner; no file omission, deletion, payload read or native execution. Count file symlinks and hardlinks as existing guard. Operational capacity only, no routing acceptance change."
+      },
+      "exact_current_GiB": 14.09565913118422,
+      "proposed_headroom_bytes": 2044770438,
+      "signature_inventory": {
+        "regular_files": 39949,
+        "symlinks": 88,
+        "regular_bytes": 5099431370
+      },
+      "download_metadata": [
+        {
+          "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-universal/kicad-unified-universal-10.0.7.dmg.partial",
+          "bytes": 220773853,
+          "symlink": false,
+          "recorded_bytes": 220773853
+        },
+        {
+          "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-universal-continuation-001/kicad-unified-universal-10.0.7.dmg.partial",
+          "bytes": 1404855631,
+          "symlink": false,
+          "recorded_bytes": 1404855631
+        }
+      ],
+      "current_free_bytes": 315842768896,
+      "findings": [
+        "No demonstrated correctness defect requires omitting old evidence or changing routing. Current installation failed before its first command solely at existing aggregate capacity guard.",
+        "MASTER section4 names10GiB as an initial operational default, expressly distinct from benchmark promises/results. Raising this finite local capacity within approved work is routine engineering, not design-rule relaxation.",
+        "Full retained .data/.tools/.runs counts15,135,098,746B (14.095GiB), not14.5GiB. Existing scanner measures5.292598417wall/5.211155CPU under15s.16GiB leaves2,044,770,438B; exact future measured growth can still refuse.",
+        "Signed-copy inventory5,099,431,370regular bytes/39,949regular files/88symlinks plus completed1,404,855,631B image and retained220,773,853B failed prefix substantiate growth. No binaries were reread or downloaded in review.",
+        "Keep500,000entries per scope,15s shared deadline,depth64,no directory-link traversal/descriptor guards,logical sparse/file-link/hardlink accounting,2GiB free-disk headroom and full accepted-state scan unchanged.",
+        "Aggregate metadata is a point-in-time sampled guard, not an OS disk quota. Existing .local-backups/other scopes and per-worker512MiB/RSS/log/cancellation budgets remain separate unchanged contracts;16GiB is not a claim to cover the entire physical project.",
+        "Update stale10GiB wording in pipeline-generated resource_limitations alongside constant/refusal message. Native correctness, validation warnings, original constraints, input set, engine/time/CPU budgets and protected routing must be unchanged."
+      ],
+      "required_controls": [
+        "Satisfied per lead: exact16GiB sparse aggregate positive, returned full count; reviewer did not run the test.",
+        "Satisfied per lead: retained actual sparse16GiB+1byte aggregate rejection across.data/.runs; reviewer did not run the test.",
+        "Satisfied per lead targeted32/full0501098: unchanged scan/path/time/entry/depth/headroom controls; reviewer did not run the suites.",
+        "Run targeted storage/runner controls, full integration at milestone and fresh current installation/native smoke with exact code/tools/original-source checks; preserve failed installation024. No repeated old routing comparison is justified by capacity alone.",
+        "Retain full-population source/evidence in next checkpoint/artifact backup; restoration at established major milestone cadence, not new audit redesign."
+      ],
+      "limitations": [
+        "Static review and retained metadata only; proposed source patch/test/installation rerun were not executed here.",
+        "Full measurement is lead-recorded before.json; review did not repeat the full historical tree scan or signing/native assessment.",
+        "Storage capacity is operational resource planning, not routing quality, correctness, speedup or a completed release gate."
+      ],
+      "lead_reported_followup": {
+        "source_cap_GiB": 16,
+        "generated_resource_text_updated": true,
+        "scan_path_time_entry_depth_headroom_guards_retained": true,
+        "targeted_tests_passed": 32,
+        "full_suite_id": "full050",
+        "full_suite_passed": 1098,
+        "actual_full_guard_bytes": 15135108071,
+        "actual_full_guard_wall_seconds": 3.51,
+        "actual_full_guard_cpu_seconds": 3.506,
+        "independently_executed_by_reviewer": false,
+        "scope": "Lead message received after metadata/static review; no test or inventory rerun by reviewer."
+      }
+    }
+  }
+}
