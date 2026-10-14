@@ -1,0 +1,276 @@
+{
+  "schema": 1,
+  "kind": "actual-paw-original-hardminimum-via-low-b2-probe",
+  "source_commit": "4230f9c65500c8d8ebf3ebddddc008e63d693eee",
+  "accepted": false,
+  "qualified": false,
+  "production_admitted": false,
+  "new_routing_gain": false,
+  "status": "failed",
+  "error": "Rejected: minimum-profile candidate fails original Native acceptance",
+  "candidate_sha256": "869485853fe5fc138b2b62cdec602236a003bec28b2873a26a78d31dcfcee10e",
+  "final_report_sha256": "81839829d31ec9435f78d6c718f17b90ace2f40fdc39b1166be734780e4f5dc4",
+  "native": {
+    "opens": 1,
+    "blocking": 1,
+    "warnings": 17,
+    "exclusions": 0
+  },
+  "actual_error_findings": [
+    {
+      "description": "Thermal relief connection to zone incomplete (layer F.Cu; zone min spoke count 2; actual 1)",
+      "items": [
+        {
+          "description": "Zone [GND] on F.Cu and B.Cu, priority 0",
+          "pos": {
+            "x": 138.775,
+            "y": 76.05
+          },
+          "uuid": "d471c9f9-2d09-48a9-8587-f740a31511fb"
+        },
+        {
+          "description": "PTH pad 3 [GND] of U2",
+          "pos": {
+            "x": 141.29,
+            "y": 92.655
+          },
+          "uuid": "b6bfc80e-e1f6-46d1-80ce-3290d4b8aab4"
+        }
+      ],
+      "severity": "error",
+      "type": "starved_thermal"
+    },
+    {
+      "description": "Missing connection between items",
+      "items": [
+        {
+          "description": "PTH pad 9 [MOTION] of U2",
+          "pos": {
+            "x": 151.99,
+            "y": 102.445
+          },
+          "uuid": "2451af9f-48d8-4270-a861-34160479d6d4"
+        },
+        {
+          "description": "PTH pad 1 [MOTION] of J2",
+          "pos": {
+            "x": 153.01,
+            "y": 77.5
+          },
+          "uuid": "551d4ef4-73e6-41ee-8460-ee1d6aaca525"
+        }
+      ],
+      "severity": "error",
+      "type": "unconnected_items"
+    }
+  ],
+  "generated_route_audit": {
+    "passed": true,
+    "counts": {
+      "segment": 122,
+      "arc": 0,
+      "via": 10
+    },
+    "policy": "exact derived floor guidance for every generated route",
+    "routing_accepted": false
+  },
+  "preference_tradeoff": {
+    "original_preferred_nm": {
+      "width_nm": 250000,
+      "clearance_nm": 200000,
+      "via_diameter_nm": 800000,
+      "via_drill_nm": 400000
+    },
+    "experimental_targets_nm": {
+      "width_nm": 200000,
+      "clearance_nm": 200000,
+      "via_diameter_nm": 400000,
+      "via_drill_nm": 300000
+    },
+    "typed_smd_clearance_nm": {
+      "original": 50000,
+      "guided": 200000
+    },
+    "width_via_and_smd_clearance_change": true,
+    "electrical_adequacy_qualified": false
+  },
+  "engine_budget": {
+    "profile": "tuned",
+    "argv": [
+      "--router.autorouter.max_passes=100",
+      "--router.job_timeout=00:00:36",
+      "--router.automatic_neckdown=false",
+      "--router.fanout.enabled=false",
+      "--router.neck_width_um=0",
+      "--router.optimizer.max_threads=1",
+      "--router.optimizer.max_passes=50",
+      "--router.optimizer.timeout=00:00:36",
+      "--router.optimizer.improvement_threshold=0.001",
+      "--router.optimizer.enable_preflight_guards=false",
+      "--router.optimizer.max_consecutive_failures=100",
+      "--router.optimizer.max_consecutive_failures_pass1=100",
+      "--router.scoring.via_costs=25",
+      "--router.scoring.plane_via_costs=3"
+    ],
+    "scoring": {
+      "variant": "via_low",
+      "via_costs": 25,
+      "plane_via_costs": 3,
+      "argv": [
+        "--router.scoring.via_costs=25",
+        "--router.scoring.plane_via_costs=3"
+      ]
+    },
+    "strict_class_targets": true,
+    "remaining_outer_wall_seconds_at_assignment": 76.448555,
+    "assigned_job_timeout_seconds": 36,
+    "assigned_optimizer_timeout_seconds": 36,
+    "native_finalization_reserve_seconds": 10,
+    "engine_grace_reserve_seconds": 30,
+    "internal_deadlines": "cooperative planning caps; external supervision and measured CPU acceptance cap remain authoritative",
+    "outer_task_wall_budget_seconds": 180,
+    "outer_task_cpu_budget_seconds": 180
+  },
+  "steps": [
+    "engine",
+    "import",
+    "refill-drc",
+    "final-drc"
+  ],
+  "negative_case_executed": false,
+  "actual_outer": {
+    "wall_seconds": 15.028050791996066,
+    "total_cpu_seconds": 16.605103,
+    "cumulative_wall_seconds": 99.5322420829907,
+    "cumulative_full_cpu_seconds": 103.952726,
+    "whole_delivery_within_budget": true,
+    "source_current": true
+  },
+  "actor_charge": {
+    "charged_wall_seconds": 100.96154791599838,
+    "charged_full_cpu_seconds": 105.375646,
+    "new_wall_seconds": 13.45735662500374,
+    "new_full_cpu_seconds": 15.028023000000001,
+    "bootstrap_allowance_seconds": 3,
+    "within_budget": true
+  },
+  "shared_readback": {
+    "passed": true,
+    "checks": 159,
+    "frozen_prefix_count": 25,
+    "code_pin_count": 56,
+    "source_files": 14,
+    "source_bytes": 2163350,
+    "measured": {
+      "prior": {
+        "wall_seconds": 84.50419129099464,
+        "full_cpu_seconds": 87.347623,
+        "scope": "Conservative maximum sampledactor/actualouter cumulative through failedpreengine001, includes allSES/low/planes/newgenericNativecontrols/readers and allowances. First001 had0Native/JVMworkers. PlusBOOT3 inactor; cumulative180, noold120rescue."
+      },
+      "actor_charged_wall_seconds": 100.96154791599838,
+      "actor_charged_full_cpu_seconds": 105.375646,
+      "outer_new_wall_seconds": 15.028050791996066,
+      "outer_new_full_cpu_seconds": 16.605103,
+      "outer_cumulative_wall_seconds": 99.5322420829907,
+      "outer_cumulative_full_cpu_seconds": 103.952726
+    },
+    "reader_execution": {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 1.4107248749933206,
+      "cpu_seconds": 1.1879979999999999,
+      "max_rss_bytes": 230490112,
+      "supervisor_cpu_seconds": 0.0061200000000000004,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 227246080,
+      "sampled_peak_workdir_bytes": 54105,
+      "resource_guards": {
+        "max_group_rss_bytes": 1073741824,
+        "max_workdir_bytes": 16777216,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/.pyenv/versions/3.11.9/bin/python3",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/paw-minimum-native002-review-001/audit.py"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/paw-minimum-native002-review-001/execution.log",
+      "log_bytes": 177,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/paw-minimum-native002-review-001",
+      "signal_cancellation_enabled": true,
+      "pid": 71678,
+      "whole_reader_execution_cost": {
+        "wall_seconds": 1.4108596250007395,
+        "total_cpu_seconds": 1.194253
+      },
+      "audit_sha256": "00c0dc4005fc07cc1f678bcdb5550d57938a8ebab83f8fc8b9992baa21e4a5a5",
+      "result_sha256": "b948a14613c140d8792b0260c2d41a4bf8c1171162df8251a4f7101e732545f8"
+    }
+  },
+  "conservative_next_prior": {
+    "wall_seconds": 104.37240754099938,
+    "full_cpu_seconds": 108.569899,
+    "includes_reader_startup_allowance_seconds": 2
+  },
+  "evidence": [
+    {
+      "path": ".runs/paw-minimum-profile-native-002/result.json",
+      "sha256": "05daf8f3013d28a5531cf282bc42946daea04940584d753571c5682b544f86c8",
+      "bytes": 87757
+    },
+    {
+      "path": ".runs/paw-minimum-profile-native-002/route/case.json",
+      "sha256": "70e1b8dc1275aa1b4ba418fe02a61690ab3674502037a55acf46b7f6e3c41935",
+      "bytes": 43499
+    },
+    {
+      "path": ".runs/paw-minimum-profile-execution-002/execution.json",
+      "sha256": "a1af6e24af893062ae0fc9a9af358c8d81a0ed05ccbbaf6a77bb9232dc92a7de",
+      "bytes": 7447
+    },
+    {
+      "path": ".runs/run-paw-minimum-profile-native-002.py",
+      "sha256": "b7475915cd67d7da926a49462f1b0e65efd1777238bd8718bc88a56dee29d351",
+      "bytes": 3233
+    },
+    {
+      "path": ".runs/paw-minimum-native002-review-preserved-001/result.json",
+      "sha256": "b948a14613c140d8792b0260c2d41a4bf8c1171162df8251a4f7101e732545f8",
+      "bytes": 39666
+    },
+    {
+      "path": ".runs/paw-minimum-native002-review-preserved-001/execution.json",
+      "sha256": "4d5855d54f826bbe8ae4de13e0d669c2ffb5c80364115403c4f4b348c1766f3b",
+      "bytes": 1899
+    },
+    {
+      "path": "experiments/paw_minimum_profile_v2/driver.py",
+      "sha256": "2cbcb3bbb3edeed3ed001b5088b279a365b18fdc20d0f834dbbeae2aa69b8a3d",
+      "bytes": 31454
+    },
+    {
+      "path": "experiments/paw_minimum_profile_v2/input-pins.json",
+      "sha256": "9edfa0acc48993985878bc0342b9efd0629b37f8fa211e1751c1fca25de0a25e",
+      "bytes": 209173
+    }
+  ],
+  "interpretation": "Real122segment/10via import obeys exact200umtrack/400:300umvia dimensions, originalclearance/rules/geometry/PRL and freshfullSCH evidence. Candidate remains invalid: MOTION U2-J2 open and U2GND one-spoke thermal versus requiredtwo. This B2 configuration also strengthens typedSMD50to200um; no algorithmic gain, electricaladequacy or normal-production minimum-profile admission.",
+  "limitations": [
+    "All17originalwarning identities and ignoredchecks retained; no wrongMISOstage because positivefailed.",
+    "Priorfailed001 preengine and everyearlier PAW route costs charged. No old120budget rescued by newcumulative180.",
+    "All sources exposed; zero independentpedigree/generalcompletion/speedup/physicalclaim.",
+    "No Native/JVM/engine workers repeated for audit. OnMacrawbackup due next."
+  ]
+}

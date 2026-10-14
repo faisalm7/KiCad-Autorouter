@@ -1,41 +1,37 @@
 # Active continuation
 
-ExistinglocalMac checkout, rebuild/local-20261010-015447. Latest verifiedbd1c236.
+Existing local Mac checkout, rebuild/local-20261010-015447. Latest verified4230f9c.
 No cloud/reset/reclone/worktree/discard/spending/formalpublication. Preserve all
-failed/current source and raw evidence. Onelead≤2narrowagents, native/JVM lane
-sequential, existing sharedvalidation/process/publication/backup helpers.
+failed/current source and raw evidence. One lead, at most two narrow agents;
+Native/JVM lane sequential; reuse shared validation/process/report/backup helpers.
 
-Completed: sixexposed fixed B1/B2/Cpairs; connectivitythermalnegative; normalPRL/
-SVG/cancel/export; PAWoriginal/MISO/fivereloadexports/partialSES; scopedlegacy
-normalNativeworkflow0/0/0/0+negative2opens andmodernfullSCHfresh0/0/7/0; full066;
-installed028/source4b03a78 (22offline/72fixed+119targeted/realNative/sharedreader).
-Five hardminimumsize Nativecontrols and ten saved/finalreports pass with all
-original source/preferred/hardrules exact. Do not repeat these workers or GETs.
-PAW10/14/11+4thermal candidates reject; CP2102source13immutablegaperrors blocks.
+Completed six exposed fixed B1/B2/C pairs, all actual source/native/final checks,
+normal PRL/preview/cancel/review-export and scoped legacy workflow; hardminimum
+positive/invalid controls; full0671233softwarechecks and installed029/source4230
+(22offline/72fixed+128targeted/realNative/sharedreader). Test counts aren't quality.
+PAW SES00310opens, via_low14, retainedplanes11+4thermal and minimum0021+1thermal
+all reject. No wrongMISOstage after incompletepositive. CP2102 has13immutable pad
+gaps and3missingdevices; no routing/source repair/waiver. No completedworker repeat.
 
-1. Reviewed/frozen experiments/paw_minimum_profile_v2 actor+input-pins:
-   originalhard200width/400:300via/50annulus, clearance200 unchanged; typedSMD
-   strengthening50→200 disclosed. One B2via_low/bothadapter config, no novelty.
-   After sourcecheckpoint/push/readback run only:
-   `.venv/bin/python -B .runs/run-paw-minimum-profile-native-002.py`.
-   Cumulative180wall/fullCPU, prior84.504191wall87.347623CPU includes everyprior
-   route/failedprefix and genericnewNativecontrols/readback. No old120rescue.
-   ConditionalwrongMISO only ifrealpositivepasses. Retain actualfinalhashes,
-   originalfullSCH/rules/PRL/SES/legacy/geometry/warnings/process/proof and costs.
-2. Read actualprobe with existing sharedreaders; never interpretselfreported
-   solvercompletion asNativepass or repeatcompleted workers. Continue strongest
-   justifiedapproaches and broader unrelatedsupportedfamilies from actualoutcome.
-3. Commit verified outcome. Then actualincremental from fullyrestoredc81 and
-   fullchainrestoration required after finitefilecap270000→280000 change;
-   actualcensus270296/8.19GB,8GiB/receipt/scopes/secret/path guards unchanged.
-   Majorprevious2bce restore269340files passes; newerrawaftercutoff. Ownerchose
-   onMac-only rawbackups. Keep scopewritersidle; no evidence deletion.
-4. GUIcopy004 exactcompleteprojectprepared; Macrelockedatopencommand. Earlier
-   GUI003 remainsqualified separately. Continue independentwork without repeated
-   unlockquestions. HumanPCB/physical/representative/untouchedconfirmation gates
-   remainopen. No generalcompletion/speedup/independentpedigree/releaseclaim.
+1. Checkpoint actual minimum002 and installed029, then incremental from fully
+   restoredc81 and fullchainrestoration after finitefilecap270000→280000 change.
+   Keep .runs/.data/.local-reference writers idle during snapshot creation.
+   Existing8GiB/scopes/receipt/secret/path/hardlink guards unchanged; no deletion.
+   Owner chose onMac-only raw backups; no disk-failure protection claim.
+2. Strongest next hypotheses: existing nativeconnected NUS active-only route is
+   invalid solely by R3 thermal, not a gain. Review whether existing thermal
+   repair can safely handle its SMD/multi-Cu-zone geometry before any execution.
+   PAW minimum002 leaves MOTION open + U2 thermal; a new profile would be B2,
+   not novelty, and must charge at least104.372408wall108.569899CPU prior under180.
+   HSTX capture draft under .local-backups is unapplied; original Native diagnostic
+   is unrun. Copperknockout/classes/highspeed-intent remain explicit gates.
+3. Pursue justified stronger mechanisms and broader supported families; freeze
+   prospective protocol, own fresh incumbent/features, equal wall/fullCPU budgets,
+   actual finalhash/fullSCH/rules/PRL/geometry/warnings/process evidence mandatory.
+   Preserve all populations/failures; zero independentpedigrees established.
+4. GUIcopy004 complete project prepared, Mac locked at open. Earlier GUI003 is
+   separate qualification. Continue independent work, no repeat unlock questions.
+   Representative/untouched confirmation, humanPCB and physical gates remain open.
 
-Milestones are checkpoints, not a stoprequest. Ifareallimitinterrupts, save exact
-continuation state and preserve unfinishedwork withoutclaiming projectcomplete.
-
-Actual001 failed beforeanyNative/JVM in oldlegacywitnesscodepin replay. Sharedfix/currentsemantic+capturedproducer guards and full067pass; source001 unchanged, allfirstcostcharged inprospective002. Do not rerun001.
+Milestones are checkpoints, not stop requests. If a real limit interrupts, preserve
+exact continuation commands/state and do not claim the project complete.

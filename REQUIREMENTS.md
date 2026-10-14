@@ -1,6 +1,6 @@
 # Requirements to evidence
 
-October 14, 2026. Current installed qualification4b03a78/installation028; later classifier/pair experiments are not production-admitted; exact source/tools are bound in each receipt. Earlier matrices and all failures remain in Git history and immutable packets. Every final candidate needs actual native and original-design evidence. Tests are software coverage, not routing quality.
+October 14, 2026. Current installed qualification4230f9c/installation029; later classifier/pair experiments are not production-admitted; exact source/tools are bound in each receipt. Earlier matrices and all failures remain in Git history and immutable packets. Every final candidate needs actual native and original-design evidence. Tests are software coverage, not routing quality.
 
 | Requirement | Implementation / executable check / actual evidence | Remaining gate |
 |---|---|---|
@@ -20,8 +20,8 @@ October 14, 2026. Current installed qualification4b03a78/installation028; later 
 | Cancellation/stale/crash/tamper | Existing runner/publication native negatives; actual stale-preset control; new late-material shared-checker/publisher regressions | Sampled guards, no hostile-writer/SIGKILL/power-loss guarantee |
 | Actual GUI | [Installed LED GUI003](evidence/installed-led-export-gui-003/SCOPE.md) full refill/parity/all filters; CLI warnings retained | Later access locked; no new CellScan/preset GUI observation, live undo or physical qualification |
 | G6 learning decision | Deterministic measured pruning/architecture | No evidence justifying learning; no runtime model/chat feature |
-| Full integration | [Full066](evidence/native-minimum-source-integration-001.json):1224softwarecontrols,51.007976wall47.788919CPU; targetedsetup failures/missing-onlyclosures retained | Counts do not measure routingquality; experimentalminimum Nativepending |
-| Current installation | [Installation028](evidence/installation028-native-001.json):22offline/72fixed+119targeted installed controls,20705original/572distributionfiles, actualNative60mm0via0findings and sharedreadback | Source4b03a78; existingMac/apps/cache, no fullinstalledsuite/freshOS/GUI/package |
+| Full integration | [Full067](evidence/retained-legacy-provenance-source-001.json):1233softwarecontrols,54.387644wall50.568928CPU; targetedsetup failures/missing-onlyclosures retained | Counts do not measure routingquality; minimum002 actual1open/1thermal remains rejected |
+| Current installation | [Installation029](evidence/installation029-native-001.json):22offline/72fixed+128targeted installed controls,20718original/581distributionfiles, actualNative60mm0via0findings and sharedreadback | Source4230f9c; existingMac/apps/cache, no fullinstalledsuite/freshOS/GUI/package |
 | G7 confirmation / scrutiny | Frozen development protocols, skeptical source/native/late-material reviews; [blank human pack](evidence/analog-human-review-pack-001/SCOPE.md) | All exposed; untouched pedigreed holdout/actual human PCB review unmet |
 | G8 restoration / RC | [Major2bce fullrestore](evidence/backups/restore-fixed-placement-installation027-2bcebf.json):269340files/8164238130B/allrefs/restoredCLI; [RC scope](docs/experimental-rc.md) | Later planes/CP2102/scopedraw outsidecutoff; filecap280000 afteractual270296census needs actualbackup/fullrestore; onMaconly byownerchoice |
 
@@ -103,3 +103,5 @@ Actual [SES003/import readback](evidence/fixed-placement-ses-native003-001.json)
 [Actual hardminimum Nativequalification](evidence/native-minimum-controls-prospective-paw-001.json): ten saved/finalreports verifypositiveandwidth/via/drill/annulus negatives under exact originalrules. One prospectivelyfrozen B2minimum+SMD configuration awaits actualPAWtrial; no routinggain/novelty/DSNSESdecode/electricalapproval assumed.
 
 [Retained producing-code compatibility](evidence/retained-legacy-provenance-source-001.json) keeps strictdefault and currentsemantic rederivation, explicitly older metadata requires sixboundedcapturedproducer hashes; missing/tampered/alias/mixed witnesses refuse. Full067passes; firstminimumprobe failedbeforeNative/JVM, allcostcharged in002. No constraints/evidence rewritten.
+
+[Actual minimum002](evidence/paw-minimum-native002-001.json) preserves exactoriginalNative/geometry/rules/PRL/fullSCH and generated200/400300umdimensions but rejects1open/1thermal/17warnings/0exclusions; no gain. [Installed029](evidence/installation029-native-001.json) passes current source offline/native/targeted/sharedreader. Newrawincremental/fullrestore pending.

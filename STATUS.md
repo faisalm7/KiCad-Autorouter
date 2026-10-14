@@ -1,6 +1,6 @@
 # Current status
 
-October14,2026. Existing local Mac checkout `/Users/faisal/Projects/KiCad-Autorouter-local`, branch `rebuild/local-20261010-015447`. Last verified GitHub checkpoint `bd1c2368fa6fdaf144d03f7c930806f6cb287bc7`. Experimental local tool; representative/confirmatory/release gates remain open. Historical status versions, failed attempts and source snapshots remain in Git and raw evidence.
+October14,2026. Existing local Mac checkout `/Users/faisal/Projects/KiCad-Autorouter-local`, branch `rebuild/local-20261010-015447`. Last verified GitHub checkpoint `4230f9c65500c8d8ebf3ebddddc008e63d693eee`. Experimental local tool; representative/confirmatory/release gates remain open. Historical status versions, failed attempts and source snapshots remain in Git and raw evidence.
 
 Normal routing runs locally without an AI subscription, account or network using pinned KiCad10.0.0/Freerouting2.5.0/Java25.0.2. See [start](START_HERE.md), [quickstart](docs/quickstart.md), [persistent scope/layer/budget/scoring preferences](docs/routing-preferences.md) and [separate-project review workflow](docs/gui-workflow.md). Original rules, geometry and protected copper remain mandatory; unsupported choices refuse. Native pruning obtains and charges its own fresh incumbent. Preview, test accept/reject intent, fresh native export and real cancellation have actual controls. Separate projects only; no live apply, tested undo or unsaved-buffer inspection promise.
 
@@ -43,7 +43,7 @@ Audio0/6courtyard/2silk, UV0/0/88including14schematic, Navigation0/2courtyard/0,
 
 ## Remaining release gates
 
-Continue exact steps in [PLANS](PLANS.md): minimum-transport review/realNativecontrols/one justified cumulative B2probe, stronger approaches and unrelated supported families, current-source installation, verified incremental/fullrestore, and available GUI check. All inputs are exposed. Broad completion advantage, untouched confirmation, actual humanPCBreview and physical/electrical validation remain unmet. The blank [Analog review pack](evidence/analog-human-review-pack-001/SCOPE.md) is prepared; nobody contacted. Native acceptance, full-project cleanliness and physical approval are separate.
+Continue exact steps in [PLANS](PLANS.md): verified incremental/fullrestore, stronger approaches and unrelated supported families, then available GUI checks. All inputs are exposed. Broad completion advantage, untouched confirmation, actual humanPCBreview and physical/electrical validation remain unmet. The blank [Analog review pack](evidence/analog-human-review-pack-001/SCOPE.md) is prepared; nobody contacted. Native acceptance, full-project cleanliness and physical approval are separate.
 
 No formal release/tag/package, external spending, contacts, private uploads, background monitor or autoresume is authorized. Milestones are checkpoints, not project completion. Preserve exact unsuccessful and unfinished state; never rerun completed workers merely to replace receipts.
 
@@ -52,3 +52,7 @@ No formal release/tag/package, external spending, contacts, private uploads, bac
 [Minimumprobe001 actualfailure](evidence/paw-minimum-preengine-failure-001.json) occurs beforeanyNative/JVM/engine/candidate: old legacy-zone witness implementationpins conflict with currenthelper metadata. No provenancecheck weakened. Outer2.459077wall2.157188CPU; actor conservativecumulative84.504191wall87.347623CPU retained fornextmissing-stage budget. Shared retained-provenance fix/regressions pending; no new routing outcome.
 
 [Shared retained legacy provenance fix/full067](evidence/retained-legacy-provenance-source-001.json) passes1233softwarecontrols,54.387644wall50.568928CPU. Strictcurrentdefault retained; explicitoldmetadata requires capturedsixproducer hashes and currentsemanticwitness. First48pass/9authoredsetuperrors then9missing-onlypass retained. Prospective002 missing-engine continuation charges at least84.504191wall87.347623CPU prior under180; no newNative/gain claimed.
+
+[Actual minimum-profile002](evidence/paw-minimum-native002-001.json) rejects1MOTIONopen/1U2GNDstarvedthermal/17warnings/0exclusions. Exact122segments and10vias obey200/400300um; originalgeometry/rules/PRL/fullSCH and mandatorytransport pass. Whole15.028051wall16.605103CPU; actorconservative100.961548wall105.375646CPU plus reader1.410860/1.194253 and2startup yields nextprior104.372408/108.569899 undercumulative180. No wrongMISOstage, acceptedcandidate or gain. Do not repeat002.
+
+[Installed029/source4230f9c](evidence/installation029-native-001.json) passes22offline/72fixed+128targeted installedcontrols,20718source/581distributionfiles and actualNative60mm/0via/0findings. Whole38.337731wall27.951901CPU, targeted5.746221/5.712349, pureinstalledreader4.313473/2.612961. ExistingMac/apps/cache, no freshOS/fullinstalledsuite/GUI/formalpackage. Actual newerraw/fullrestoration follows.
