@@ -26,6 +26,7 @@ from .runner import run, _workdir_bytes
 
 ROUTES={'segment','via','arc'}
 NORMAL_DRC_LOCAL_SETTINGS_POLICY='job-owned-prl-immutable-v1'
+SELECTED_PROPOSAL_IMPORT_POLICY='selected-proposals-exact-source-v1'
 DERIVED_ZONE={'filled_polygon','fill_segments'}
 CRITICAL_CHECKS={'hole_clearance','hole_to_hole','hole_near_hole','starved_thermal','zones_intersect','padstack','items_not_allowed','through_hole_pad_without_hole','unconnected_items','shorting_items','clearance','track_width','via_diameter','annular_width','drill_out_of_range','copper_edge_clearance','invalid_outline','tracks_crossing'}
 CRITICAL_CHECKS |= {'track_on_post_machined_layer'}
@@ -338,7 +339,43 @@ def convert_route_nets(route, native_tree, original):
         else: n[:]=['net',name]
     return route
 
-def transplant_routes(original, imported, *, protected=(), audit=None, policy='exact_non_uuid_v1'):
+def transplant_routes(original, imported, *, protected=(), audit=None, policy='exact_non_uuid_v1', selected_names=None):
+    if policy==SELECTED_PROPOSAL_IMPORT_POLICY:
+        # Explicit diagnostic-only proposal selection. Imported nonselected
+        # routes are not preservation evidence; restore the exact source records.
+        from . import routing_scope as rs, board_floor as g
+        names=rs.validate_names(selected_names);protected=list(protected)
+        expected=rs.protected_routes(original,names)
+        source_names,resolve=g.source_net_identity(original)
+        _,import_resolve=g.source_net_identity(imported)
+        if protected!=expected:raise Rejected('selected proposals require the complete exact source protection')
+        if any(resolve(sx.one(route,'net')) in names for route in protected):
+            raise Rejected('selected proposals with locked selected copper are unqualified')
+        rs._route_map(imported)  # Refuse malformed/ambiguous imported route IDs and locks.
+        generated=[];selected=[];ignored=[]
+        for raw in routes(imported):
+            name=import_resolve(sx.one(raw,'net'))
+            if not name or name not in source_names:raise Rejected('imported proposal has no exact source net identity')
+            converted=convert_route_nets(raw,imported,original)
+            if resolve(sx.one(converted,'net'))!=name:raise Rejected('proposal net conversion changed native identity')
+            record={'kind':raw[0],'uuid':sx.unquote(sx.one(raw,'uuid')[1]),'net_name':name,
+                    'imported_record_sha256':hashlib.sha256(sx.dump(raw).encode()).hexdigest()}
+            if name in names:
+                generated.append(converted);selected.append({**record,'converted_record_sha256':hashlib.sha256(sx.dump(converted).encode()).hexdigest()})
+            else:ignored.append(record)
+        out=copy.deepcopy(original)
+        out[:]=[node for node in out if not isinstance(node,list) or not node or node[0] not in ROUTES]
+        out.extend(copy.deepcopy(protected));out.extend(generated)
+        rs.audit(original,out,names)  # Exact source records, generated IDs/locks/nets; never Native acceptance.
+        if audit is not None:
+            audit.update(policy=policy,requested_names=names,
+                source_immutable_sha256=hashlib.sha256(sx.dump(immutable(original)).encode()).hexdigest(),
+                protected_source_records=[{'kind':node[0],'uuid':sx.unquote(sx.one(node,'uuid')[1]),
+                    'record_sha256':hashlib.sha256(sx.dump(node).encode()).hexdigest()} for node in protected],
+                selected_proposals=selected,ignored_nonselected_proposals=ignored,
+                transplanted_routes_sha256=hashlib.sha256(sx.dump(routes(out)).encode()).hexdigest())
+        return out
+    if selected_names is not None:raise Rejected('explicit selected names require the selected proposal policy')
     if policy not in {'exact_non_uuid_v1','exact_non_uuid_lock_position_v2'}:
         raise Rejected('unknown protected import policy')
     imported_routes=[convert_route_nets(n,imported,original) for n in routes(imported)]
@@ -395,7 +432,17 @@ def transplant_routes(original, imported, *, protected=(), audit=None, policy='e
     return out
 
 
-def check_protected_import(directory, data, original, candidate, protected):
+def check_protected_import(directory, data, original, candidate, protected, *, expected_policy=None, selected_names=None):
+    binding=data.get('protected_route_import')
+    proposal_readback=(expected_policy is not None or selected_names is not None
+        or isinstance(binding,dict) and binding.get('policy')==SELECTED_PROPOSAL_IMPORT_POLICY)
+    if proposal_readback:
+        # Normal check_result has not qualified/admitted this diagnostic policy.
+        # Its actor must independently require the policy even with zero protection.
+        if (expected_policy!=SELECTED_PROPOSAL_IMPORT_POLICY or selected_names is None
+                or data.get('scope')!='selected_nets' or not isinstance(binding,dict)
+                or binding.get('policy')!=expected_policy):
+            raise Rejected('explicit selected proposal policy/readback proof required')
     if 'protected_route_import' not in data:
         if data.get('scope')=='selected_nets' and protected:
             raise Rejected('selected scope requires complete protected import reconciliation')
@@ -407,7 +454,8 @@ def check_protected_import(directory, data, original, candidate, protected):
     audit={'imported_sha256':hashlib.sha256(raw).hexdigest()}
     binding=data['protected_route_import']
     if not isinstance(binding,dict):raise Rejected('malformed protected import record')
-    rebuilt=transplant_routes(original,sx.parse(raw.decode('utf-8')),protected=protected,audit=audit,policy=binding.get('policy'))
+    rebuilt=transplant_routes(original,sx.parse(raw.decode('utf-8')),protected=protected,audit=audit,policy=binding.get('policy'),
+        **({'selected_names':selected_names} if proposal_readback else {}))
     if canonical(audit)!=canonical(data['protected_route_import']):raise Rejected('protected import reconciliation differs')
     if routes(sx.read(candidate))!=routes(rebuilt):raise Rejected('protected import routes differ from final candidate')
 
