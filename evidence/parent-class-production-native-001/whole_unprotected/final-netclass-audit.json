@@ -1,0 +1,140 @@
+{
+  "native": {
+    "passed": true,
+    "policy": {
+      "mode": "native-parent-dimensions-v1",
+      "resolution": "pinned native effective class and explicit parameter parents",
+      "source_class_names": [
+        "Default",
+        "POWER",
+        "SIGNAL"
+      ],
+      "pattern_evaluation_in_python": false
+    },
+    "native_nets": 3,
+    "nets": [
+      {
+        "name": "/DEFAULT_PAIR",
+        "netcode": 3,
+        "copper_pad_count": 2,
+        "class": "Default",
+        "parameter_parents": {
+          "width_nm": {
+            "name": "Default",
+            "value_nm": 400000,
+            "specified": true,
+            "priority": 2147483647
+          },
+          "clearance_nm": {
+            "name": "Default",
+            "value_nm": 350000,
+            "specified": true,
+            "priority": 2147483647
+          },
+          "via_diameter_nm": {
+            "name": "Default",
+            "value_nm": 1500000,
+            "specified": true,
+            "priority": 2147483647
+          },
+          "via_drill_nm": {
+            "name": "Default",
+            "value_nm": 600000,
+            "specified": true,
+            "priority": 2147483647
+          }
+        },
+        "width_nm": 400000,
+        "clearance_nm": 350000,
+        "via_diameter_nm": 1500000,
+        "via_drill_nm": 600000
+      },
+      {
+        "name": "/PWR_PAIR",
+        "netcode": 1,
+        "copper_pad_count": 2,
+        "class": "POWER,Default",
+        "parameter_parents": {
+          "width_nm": {
+            "name": "POWER",
+            "value_nm": 600000,
+            "specified": true,
+            "priority": 1
+          },
+          "clearance_nm": {
+            "name": "POWER",
+            "value_nm": 350000,
+            "specified": true,
+            "priority": 1
+          },
+          "via_diameter_nm": {
+            "name": "POWER",
+            "value_nm": 1500000,
+            "specified": true,
+            "priority": 1
+          },
+          "via_drill_nm": {
+            "name": "POWER",
+            "value_nm": 600000,
+            "specified": true,
+            "priority": 1
+          }
+        },
+        "width_nm": 600000,
+        "clearance_nm": 350000,
+        "via_diameter_nm": 1500000,
+        "via_drill_nm": 600000
+      },
+      {
+        "name": "/SIG_PAIR",
+        "netcode": 2,
+        "copper_pad_count": 2,
+        "class": "SIGNAL,Default",
+        "parameter_parents": {
+          "width_nm": {
+            "name": "SIGNAL",
+            "value_nm": 500000,
+            "specified": true,
+            "priority": 0
+          },
+          "clearance_nm": {
+            "name": "SIGNAL",
+            "value_nm": 350000,
+            "specified": true,
+            "priority": 0
+          },
+          "via_diameter_nm": {
+            "name": "SIGNAL",
+            "value_nm": 1500000,
+            "specified": true,
+            "priority": 0
+          },
+          "via_drill_nm": {
+            "name": "SIGNAL",
+            "value_nm": 600000,
+            "specified": true,
+            "priority": 0
+          }
+        },
+        "width_nm": 500000,
+        "clearance_nm": 350000,
+        "via_diameter_nm": 1500000,
+        "via_drill_nm": 600000
+      }
+    ],
+    "routing_accepted": false
+  },
+  "route_dimensions": {
+    "passed": true,
+    "checked": {
+      "segments": 8,
+      "arcs": 0,
+      "vias": 1,
+      "protected": 0
+    },
+    "policy": "exact effective native targets for new routes; protected originals unchanged"
+  },
+  "candidate_sha256": "ac943bd15d9c1a70965dfe2052e3683c06d816ad260de242cc4e77dcb25a8ff2",
+  "project_sha256": "0b672f7e5cfe58f92c0b0345985d644cf27f57b9f858a32c038d3f28a62f868f",
+  "native_map_file_sha256": "84d556b0019ea11a928006ccdf58edcfb802b7278ae26085c3845f47daff82d5"
+}

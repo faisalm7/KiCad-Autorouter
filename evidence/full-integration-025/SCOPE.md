@@ -1,0 +1,1 @@
+Full current committedc16d02e suite944passes34.955s; outer35.351614wall31.486662CPU withSource/toolfreeze equalbeforeafter. Softwarecorrectness only; realparentproductionNativequalified separately. Earlier024938preparationpass predatesfinalalias/fixes and isretained locally; do notbindit tofinalcode. No routingquality/completionclaim fromcounts.

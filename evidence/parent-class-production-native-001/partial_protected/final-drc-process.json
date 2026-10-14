@@ -1,0 +1,48 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 0.6600913339934777,
+  "cpu_seconds": 0.398177,
+  "max_rss_bytes": 91848704,
+  "supervisor_cpu_seconds": 0.009376000000000495,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 90341376,
+  "sampled_peak_workdir_bytes": 918263,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 536870912,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+    "pcb",
+    "drc",
+    "--format",
+    "json",
+    "--severity-all",
+    "--all-track-errors",
+    "--refill-zones",
+    "--exit-code-violations",
+    "--output",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/parent-class-production-native-001/partial_protected/final-drc.json",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/parent-class-production-native-001/partial_protected/final-drc-input/fixture.kicad_pcb"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/parent-class-production-native-001/partial_protected/final-drc.log",
+  "log_bytes": 185,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/parent-class-production-native-001/partial_protected",
+  "signal_cancellation_enabled": true,
+  "pid": 52183,
+  "name": "final-drc"
+}
