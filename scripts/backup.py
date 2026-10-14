@@ -18,16 +18,17 @@ from datetime import datetime, timezone
 
 ROOT = Path(__file__).resolve().parents[1]
 SCOPES = (".runs", ".data", ".local-reference")
-# Current measured scope plus retained failed015 and bounded next installation
-# forecasts227,213files/6,241,372,642B. Finite6GiB/235,000 ceilings preserve
+# Current stat forecast retains230,906files/6,330,209,063B; one bounded fresh
+# installation gives249,270files/6,867,079,975B. Finite7GiB/260,000 ceilings preserve
 # evidence without changing scopes, secret/path checks, streaming or chains.
-LIMIT = 6 * 1024 ** 3
-MAX_FILES = 235000
+LIMIT = 7 * 1024 ** 3
+MAX_FILES = 260000
 MAX_CHAIN = 16
-# The prior139,253-file receipt is39,044,114B. The next forecast nearly fills
-# 48MiB at that measured bytes-per-entry;64MiB gives finite metadata headroom.
-MAX_RECEIPT_BYTES = 64 * 1024 ** 2
-MAX_CHAIN_RECEIPT_BYTES = 128 * 1024 ** 2
+# Actual229,196-file receipt is63,984,764B. The249,270-file forecast needs
+# about70MB at that measured ratio;80MiB permits finite headroom. Two such
+# receipts fit the192MiB chain bound. No scopes or safety checks change.
+MAX_RECEIPT_BYTES = 80 * 1024 ** 2
+MAX_CHAIN_RECEIPT_BYTES = 192 * 1024 ** 2
 LIMITATION = "On-Mac only; a second folder on this disk provides no disk-failure protection."
 SECRET_NAMES = {".env", ".ssh", ".aws", ".gnupg", "credentials", "credentials.json", "secrets", "secrets.json", "id_rsa", "id_ed25519"}
 SECRET_SUFFIXES = {".pem", ".key", ".p12", ".pfx", ".keychain", ".keychain-db"}
@@ -165,7 +166,7 @@ def inventory(root):
                     raise BackupError("Hard-linked input requires explicit review before backup")
                 total += st.st_size
                 if total > LIMIT or len(files) >= MAX_FILES:
-                    raise BackupError("Non-Git snapshot exceeds the 4 GiB/file-count ceiling")
+                    raise BackupError("Non-Git snapshot exceeds the configured byte/file-count ceiling")
                 # Catch common embedded private-key/token forms, without logging
                 # their contents. This is a guard, not exhaustive secret detection.
                 h = hashlib.sha256()

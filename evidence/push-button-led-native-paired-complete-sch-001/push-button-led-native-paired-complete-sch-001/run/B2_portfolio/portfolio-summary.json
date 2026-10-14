@@ -1,0 +1,533 @@
+{
+  "schema": 1,
+  "kind": "experimental_baseline_portfolio",
+  "status": "completed",
+  "comparison_eligible": true,
+  "selected": {
+    "id": "via_default",
+    "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/push-button-led-native-paired-complete-sch-001/run/B2_portfolio/01-via_default/result.json",
+    "result_sha256": "15e43634ba9032e4a205dc7a6f9b64102b438ca33982ed07539e2835d8421ae3",
+    "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/push-button-led-native-paired-complete-sch-001/run/B2_portfolio/01-via_default/candidate/PushButtonLed.kicad_pcb",
+    "candidate_sha256": "aae61ce9fc70ab9b71485dc908fc87ba2ad0e5df382aad5693e53e3d1c94db3b",
+    "native_report_sha256": "91efacab0bc29ae380bed3aeaf165b284cb1ae054726828121db8203d0eee914",
+    "vias": 0,
+    "length_mm": 88.1794744486017,
+    "consistency": {
+      "current": true,
+      "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/push-button-led-native-paired-complete-sch-001/run/B2_portfolio/01-via_default/candidate/PushButtonLed.kicad_pcb",
+      "candidate_sha256": "aae61ce9fc70ab9b71485dc908fc87ba2ad0e5df382aad5693e53e3d1c94db3b",
+      "applied": false,
+      "authentication": "none; mutable local evidence consistency only",
+      "warning": "Fresh native validation is required before application; human PCB review and electrical/physical validation remain required."
+    }
+  },
+  "trials": [
+    {
+      "index": 0,
+      "id": "via_default",
+      "assigned_seconds": 93.91456025000662,
+      "guidance_policy": null,
+      "started_utc": "2026-10-14T01:05:52.005234+00:00",
+      "finished_utc": "2026-10-14T01:06:05.143874+00:00",
+      "status": "routing_accepted",
+      "reason": null,
+      "accepted_in_trial_receipt": true,
+      "eligible": true,
+      "invocation_wall_seconds": 13.138622415994178,
+      "invocation_cpu_seconds": 10.510825,
+      "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/push-button-led-native-paired-complete-sch-001/run/B2_portfolio/01-via_default/result.json",
+      "result_sha256": "15e43634ba9032e4a205dc7a6f9b64102b438ca33982ed07539e2835d8421ae3",
+      "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/push-button-led-native-paired-complete-sch-001/run/B2_portfolio/01-via_default/candidate/PushButtonLed.kicad_pcb",
+      "candidate_sha256": "aae61ce9fc70ab9b71485dc908fc87ba2ad0e5df382aad5693e53e3d1c94db3b",
+      "native_report_sha256": "91efacab0bc29ae380bed3aeaf165b284cb1ae054726828121db8203d0eee914",
+      "vias": 0,
+      "length_mm": 88.1794744486017,
+      "peak_child_rss_bytes": 239828992,
+      "peak_polled_group_rss_bytes": 239796224,
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 7,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "The current configuration does not include the footprint library 'TestPoint'",
+            "items": [
+              {
+                "description": "Footprint J1",
+                "pos": {
+                  "x": 38.5,
+                  "y": 32.54
+                },
+                "uuid": "296f7c8e-c754-4884-b711-2dc24bf3a0bf"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D1",
+                "pos": {
+                  "x": 37.73,
+                  "y": 37.5
+                },
+                "uuid": "31f38b0b-b83b-4b47-be27-f6fd2486e9d8"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R2",
+                "pos": {
+                  "x": 29.595,
+                  "y": 36.0
+                },
+                "uuid": "3a55d746-0d89-437b-841f-c4668a4470e5"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R1",
+                "pos": {
+                  "x": 34.5,
+                  "y": 37.905
+                },
+                "uuid": "4629c2f2-d534-43dc-be82-47381b7c4d9e"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Button_Switch_THT'",
+            "items": [
+              {
+                "description": "Footprint SW1",
+                "pos": {
+                  "x": 26.525,
+                  "y": 27.525
+                },
+                "uuid": "8dfb541d-55c7-44cb-9655-d1781c42d69d"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+            "items": [
+              {
+                "description": "Footprint C1",
+                "pos": {
+                  "x": 30.0,
+                  "y": 40.5
+                },
+                "uuid": "9113b757-d8b2-4263-a15e-96375b20d3ed"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R3",
+                "pos": {
+                  "x": 26.0,
+                  "y": 40.04
+                },
+                "uuid": "df9cb231-c3f5-436c-8c24-94144b67404d"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          }
+        ]
+      }
+    },
+    {
+      "index": 1,
+      "id": "via_low",
+      "assigned_seconds": 80.57287175000238,
+      "guidance_policy": null,
+      "started_utc": "2026-10-14T01:06:05.346923+00:00",
+      "finished_utc": "2026-10-14T01:06:18.312998+00:00",
+      "status": "routing_accepted",
+      "reason": null,
+      "accepted_in_trial_receipt": true,
+      "eligible": true,
+      "invocation_wall_seconds": 12.96605966698553,
+      "invocation_cpu_seconds": 10.500971999999997,
+      "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/push-button-led-native-paired-complete-sch-001/run/B2_portfolio/02-via_low/result.json",
+      "result_sha256": "3e0375ef32f6f1ec75c676ebe655d8f21f5788145a5eeb58fed00d72e60fa794",
+      "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/push-button-led-native-paired-complete-sch-001/run/B2_portfolio/02-via_low/candidate/PushButtonLed.kicad_pcb",
+      "candidate_sha256": "b64f9195c8eda88a74d0f256035295e3f0d815815666e9085548d9632790081a",
+      "native_report_sha256": "61255b80076649046617e0fcb9a03284c1b08e4f3f8889204d4d72fe095b3b0e",
+      "vias": 0,
+      "length_mm": 88.1794744486017,
+      "peak_child_rss_bytes": 234274816,
+      "peak_polled_group_rss_bytes": 234242048,
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 7,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "The current configuration does not include the footprint library 'TestPoint'",
+            "items": [
+              {
+                "description": "Footprint J1",
+                "pos": {
+                  "x": 38.5,
+                  "y": 32.54
+                },
+                "uuid": "296f7c8e-c754-4884-b711-2dc24bf3a0bf"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D1",
+                "pos": {
+                  "x": 37.73,
+                  "y": 37.5
+                },
+                "uuid": "31f38b0b-b83b-4b47-be27-f6fd2486e9d8"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R2",
+                "pos": {
+                  "x": 29.595,
+                  "y": 36.0
+                },
+                "uuid": "3a55d746-0d89-437b-841f-c4668a4470e5"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R1",
+                "pos": {
+                  "x": 34.5,
+                  "y": 37.905
+                },
+                "uuid": "4629c2f2-d534-43dc-be82-47381b7c4d9e"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Button_Switch_THT'",
+            "items": [
+              {
+                "description": "Footprint SW1",
+                "pos": {
+                  "x": 26.525,
+                  "y": 27.525
+                },
+                "uuid": "8dfb541d-55c7-44cb-9655-d1781c42d69d"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+            "items": [
+              {
+                "description": "Footprint C1",
+                "pos": {
+                  "x": 30.0,
+                  "y": 40.5
+                },
+                "uuid": "9113b757-d8b2-4263-a15e-96375b20d3ed"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R3",
+                "pos": {
+                  "x": 26.0,
+                  "y": 40.04
+                },
+                "uuid": "df9cb231-c3f5-436c-8c24-94144b67404d"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          }
+        ]
+      }
+    },
+    {
+      "index": 2,
+      "id": "via_high",
+      "assigned_seconds": 67.39850533401477,
+      "guidance_policy": null,
+      "started_utc": "2026-10-14T01:06:18.521318+00:00",
+      "finished_utc": "2026-10-14T01:06:31.334250+00:00",
+      "status": "routing_accepted",
+      "reason": null,
+      "accepted_in_trial_receipt": true,
+      "eligible": true,
+      "invocation_wall_seconds": 12.812911415996496,
+      "invocation_cpu_seconds": 10.476844999999997,
+      "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/push-button-led-native-paired-complete-sch-001/run/B2_portfolio/03-via_high/result.json",
+      "result_sha256": "10c6b3420201014440ccfe1c31721e115354ca90cf2edc4a98f1a2d1040d8437",
+      "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/push-button-led-native-paired-complete-sch-001/run/B2_portfolio/03-via_high/candidate/PushButtonLed.kicad_pcb",
+      "candidate_sha256": "d0a9fed6c1d12eb0ac711125938fa902de621378613cb2b3df4a8a0b34d43b81",
+      "native_report_sha256": "cb65f827d205a20eca703df1a0e128f1cc850227b1cab43d808469a59f104c8b",
+      "vias": 0,
+      "length_mm": 88.17947444860171,
+      "peak_child_rss_bytes": 238387200,
+      "peak_polled_group_rss_bytes": 238272512,
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 7,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "The current configuration does not include the footprint library 'TestPoint'",
+            "items": [
+              {
+                "description": "Footprint J1",
+                "pos": {
+                  "x": 38.5,
+                  "y": 32.54
+                },
+                "uuid": "296f7c8e-c754-4884-b711-2dc24bf3a0bf"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D1",
+                "pos": {
+                  "x": 37.73,
+                  "y": 37.5
+                },
+                "uuid": "31f38b0b-b83b-4b47-be27-f6fd2486e9d8"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R2",
+                "pos": {
+                  "x": 29.595,
+                  "y": 36.0
+                },
+                "uuid": "3a55d746-0d89-437b-841f-c4668a4470e5"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R1",
+                "pos": {
+                  "x": 34.5,
+                  "y": 37.905
+                },
+                "uuid": "4629c2f2-d534-43dc-be82-47381b7c4d9e"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Button_Switch_THT'",
+            "items": [
+              {
+                "description": "Footprint SW1",
+                "pos": {
+                  "x": 26.525,
+                  "y": 27.525
+                },
+                "uuid": "8dfb541d-55c7-44cb-9655-d1781c42d69d"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+            "items": [
+              {
+                "description": "Footprint C1",
+                "pos": {
+                  "x": 30.0,
+                  "y": 40.5
+                },
+                "uuid": "9113b757-d8b2-4263-a15e-96375b20d3ed"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R3",
+                "pos": {
+                  "x": 26.0,
+                  "y": 40.04
+                },
+                "uuid": "df9cb231-c3f5-436c-8c24-94144b67404d"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          }
+        ]
+      }
+    }
+  ],
+  "pareto_frontier": [
+    "via_default",
+    "via_low"
+  ],
+  "guidance_policy": null,
+  "wall_budget_seconds": 114.46188041700225,
+  "cpu_budget_seconds": 114.46188041700225,
+  "cpu_enforcement": "postcompletion acceptance cap; no total-CPU preemption",
+  "selection_rule": "minimum (native via count, native track length, fixed attempt index)",
+  "started_utc": "2026-10-14T01:05:46.457891+00:00",
+  "host_load_average_1_5_15_minutes_begin": [
+    5.71533203125,
+    4.474609375,
+    3.59130859375
+  ],
+  "claims_limit": "exposed development experiment; no population superiority or electrical adequacy claim",
+  "receipt_scope": "selected trial receipt charges that trial only; this summary charges the entire portfolio",
+  "physical_electrical_validation": false,
+  "applied": false,
+  "protocol_sha256": "d8435903f680f121bf4df2302d22a9200736106339fdba244cdd7c570249697c",
+  "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/push-button-led-original-native-001/original/PushButtonLed.kicad_pcb",
+  "family": "PushButtonLED-development-exposed-support-control",
+  "accounting_point": "sample before summary write; caps checked again after write; over-cap correction can finish outside cap",
+  "finished_utc": "2026-10-14T01:06:31.762816+00:00",
+  "host_load_average_1_5_15_minutes_end": [
+    4.423828125,
+    4.31103515625,
+    3.57470703125
+  ],
+  "peak_child_rss_bytes": 239828992,
+  "peak_polled_group_rss_bytes": 239796224,
+  "wall_seconds": 45.30495799999335,
+  "total_cpu_seconds": 37.76517
+}

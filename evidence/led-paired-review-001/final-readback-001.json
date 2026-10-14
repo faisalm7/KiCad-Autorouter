@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "native_execution": false,
+  "actual_final_status": "completed",
+  "comparison_eligible": true,
+  "final_candidate_sha256": "98e51d7afa0b814dd280341eab2967dd44edbb253d90a94ef5bac3d0dd231597",
+  "gain_vs_B2_mm": 24.486909598317588,
+  "costs": {
+    "B0": {
+      "accepted": false,
+      "charged_wall_seconds": 60.168619168020086,
+      "charged_full_cpu_seconds": 55.819055999999996
+    },
+    "B1": {
+      "accepted": true,
+      "charged_wall_seconds": 59.28605600200535,
+      "charged_full_cpu_seconds": 56.006286
+    },
+    "B2_portfolio": {
+      "accepted": true,
+      "charged_wall_seconds": 92.01079237600788,
+      "charged_full_cpu_seconds": 83.81249299999999
+    },
+    "C_feedback": {
+      "accepted": true,
+      "charged_wall_seconds": 75.99843221000629,
+      "charged_full_cpu_seconds": 70.096449
+    }
+  },
+  "prior_failure_retained": true,
+  "failed003_reason": "AssertionError: ",
+  "failed003_actual_execution": {
+    "wall_seconds": 0.9530872089962941,
+    "full_cpu_seconds": 0.814723,
+    "fixed_charge_seconds": 15.0,
+    "within_charged_allowance": true,
+    "result_sha256": "240a077a336e7b9f5d6ff53a2de01faf81f78c3fbf616300e67fc2ed64efb811",
+    "scope": "From before imports through canonical publication/readback; final execution write/readback also must fit fixed allowance."
+  },
+  "new_audit_actual_execution": {
+    "wall_seconds": 1.234503792002215,
+    "full_cpu_seconds": 1.0084490000000002,
+    "fixed_charge_seconds": 15.0,
+    "within_charged_allowance": true,
+    "result_sha256": "9b273897ebaf6c8add608545a2dc12ecb1e4bca3ec6d2379ff6d65550b8698ad",
+    "scope": "From before imports through canonical publication/readback; final execution write/readback also must fit fixed allowance."
+  },
+  "new_qualification_sha256": "9b273897ebaf6c8add608545a2dc12ecb1e4bca3ec6d2379ff6d65550b8698ad",
+  "new_controller_sha256": "62897eaa63badb75b3e6336fd9dba90a49a5fbacb81f3d5f531dbbb1bc19735f",
+  "new_amendment_sha256": "d5cfb47b245d155eab3de0b5292a44aa2200e679d3844cfcc438b81df6873363",
+  "corrected_assertion": "spec['audit_charge_seconds'] == 5.0 and f.read_json(ROOT / '.runs/push-button-led-native-paired-complete-sch-004-qualification-protocol.json')['new_equal_charge_seconds'] == CAP and spec['prospective'] and (spec['git_head'] == protocol['freeze']['tools']['git_head'])",
+  "current_equal_caps": 120,
+  "claims_limit": "One small exposed modern LED support/control task; no proven independent pedigree, heldout, broad completion-rate, speedup or physical claim.",
+  "accounting_limit": "Supplemental declared equal conservative allowances preserve raw unsampled supervisor windows; no exact complete-startup or speedup claim."
+}

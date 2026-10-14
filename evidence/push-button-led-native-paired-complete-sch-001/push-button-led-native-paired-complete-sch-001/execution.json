@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "git_head": "31656e1f4579ef194b1ada74b44bd8377fd483b2",
+  "started_utc": "2026-10-14T01:05:18.497349+00:00",
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 103.31772029199055,
+    "cpu_seconds": 83.89997500000001,
+    "max_rss_bytes": 369623040,
+    "supervisor_cpu_seconds": 2.112363,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 369623040,
+    "sampled_peak_workdir_bytes": 13199024,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 100663296,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/experiment_paired.py",
+      "--project",
+      "push-button-led",
+      "--system",
+      "native-all",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/push-button-led-native-paired-complete-sch-001/run"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/push-button-led-native-paired-complete-sch-001/command.log",
+    "log_bytes": 161,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/push-button-led-native-paired-complete-sch-001",
+    "signal_cancellation_enabled": true,
+    "pid": 33375
+  },
+  "wall_seconds": 103.71514508400287,
+  "full_cpu_seconds": 86.19532,
+  "wrapper_sha256": "37341783dbbb7c617080b454793d72270eccf83dc5b8b039c57bc2a3bc0ec3d5",
+  "log_sha256": "39ed35c320473cd37f86575721cea7e9b43ecff9571d730bc448132edb601bed",
+  "scope": "Four fresh sequential exposed-development arms B0/B1/B2portfolio/Cnative-feedback, each120wall/fullCPU including shared charges; same original constraints. Outer96MiB polling and540s timeout; native validation required.",
+  "outer_charge_requires_final_readback": true,
+  "prospective_protocol_sha256": "a4252444f2a4eaa6404531e5b0536fc7ab80647990c50c5540b193e4acfb904a"
+}
