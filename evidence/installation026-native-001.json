@@ -1,0 +1,632 @@
+{
+  "schema": 1,
+  "scope": "Fresh local source distribution/venv on existing Mac/apps/cache, not a freshOS/full installedsuite/movedvenv/GUI/formalpackage or routing-quality comparison.",
+  "installed_head": "31c0f53c69474ff361f625bbb110634e4952383d",
+  "installation": {
+    "path": ".runs/installation-026/result.json",
+    "sha256": "cf3a3e2fc910f4bfa0694ad80cd862956cb92f7a79f76f45ae7f0824e64636f0",
+    "bytes": 57751
+  },
+  "whole_execution": {
+    "schema": 1,
+    "process": {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 37.52032237499952,
+      "cpu_seconds": 27.753899,
+      "max_rss_bytes": 303415296,
+      "supervisor_cpu_seconds": 0.09956299999999998,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 300367872,
+      "sampled_peak_workdir_bytes": 131,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 33554432,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/install_smoke.py",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-026",
+        "--guidance",
+        "native",
+        "--source-mode",
+        "distribution"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-026-execution/command.log",
+      "log_bytes": 131,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-026-execution",
+      "signal_cancellation_enabled": true,
+      "pid": 39142
+    },
+    "wall_seconds": 37.702651625004364,
+    "full_cpu_seconds": 27.983787999999997,
+    "wrapper_sha256": "30868171e252a764445d8f93a1bd2a9cbcad09f9bd81e3d23ffea028826a5912",
+    "log_sha256": "1daeaa6eff06b53d1ce808850eb90b012880a752dea7a08c8779ce9721bf55ed",
+    "git_head": "31c0f53c69474ff361f625bbb110634e4952383d",
+    "scope": "Actual current source-distribution fresh local Git checkout/venv; fixed installed subset includes pruning-scoring contract/journal controls; new explicit Native diagnostic, stackup, Audio and PRL/readback modules copied exactly, additional new controls separate, then actual native fixture route/check under network denial. Complete original source inventory remains verified with 22000-file and 352 MiB byte caps; 512 MiB installation and 600-second final wall caps remain. Existing Mac/tools/cache; not full clone, full installed suite, fresh OS or formal package qualification."
+  },
+  "commands": 22,
+  "fixed_installed_tests": 72,
+  "complete_original_files": 20644,
+  "installed_files": 535,
+  "native_counts": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 0,
+    "exclusions": 0
+  },
+  "native_candidate_sha256": "40f591d8f0f325e8ebaed945eb6d05a0a9ed402bc75a1c83533430dcdf48c9a2",
+  "native_report_sha256": "184339515c5be153b6a1c73dcdf9576bc9b0b46dda74b8dbaf18307fffcd6606",
+  "native_metrics": {
+    "version": "10.0.0",
+    "pads": 6,
+    "footprints": 6,
+    "zones": 1,
+    "vias": 0,
+    "track_length_mm": 60.0,
+    "copper_layers": 2
+  },
+  "followup_selected_installed_tests": 143,
+  "followup": {
+    "schema": 1,
+    "process": {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 5.39903295802651,
+      "cpu_seconds": 5.008838,
+      "max_rss_bytes": 209190912,
+      "supervisor_cpu_seconds": 0.16939099999999999,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 208453632,
+      "sampled_peak_workdir_bytes": 107348128,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-026/checkout/.venv/bin/python",
+        "-B",
+        "-m",
+        "unittest",
+        "tests.test_improve_preferences_cli",
+        "tests.test_pruning_preferences",
+        "tests.test_pruning_preferences_freshness",
+        "tests.test_install_smoke",
+        "tests.test_uv_demo_fetch",
+        "tests.test_native_toolchain",
+        "tests.test_native_diagnostic_publication",
+        "tests.test_navigation_demo_fetch",
+        "tests.test_storage_scan",
+        "tests.test_native_connected",
+        "tests.test_native_connected_pair",
+        "tests.test_native_edge",
+        "tests.test_native_edge_record",
+        "tests.test_audio_demo_fetch",
+        "tests.test_local_settings_preservation",
+        "-v"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation026-preferences-followup-001/tests.log",
+      "log_bytes": 25374,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-026/checkout",
+      "signal_cancellation_enabled": true,
+      "pid": 39411
+    },
+    "log_sha256": "82b4ec3c58e90b8c02698641e269b423aa57c2acd720faa74f953b9ab15864f7",
+    "controller_sha256": "620cb8d9ef7265a56eabac554c46ae746ff8f2f49305a51a615acb60498f9139",
+    "installed_head": "31c0f53c69474ff361f625bbb110634e4952383d",
+    "wall_seconds": 5.469275207986357,
+    "full_cpu_seconds": 5.232348,
+    "scope": "Actual fresh installation026 venv and installed preference, CLI, material-freshness, packaging-capacity and fixed UV/Navigation helper, explicit experimental toolchain/publication storage, native-connected/paired metadata, exact stackup-container duplicate, Audio fixed-source and OS local-settings protection regression tests under network denial. Software controls; no new Native execution or quality comparison.",
+    "passed": true
+  },
+  "shared_installed_readback": {
+    "checks": {
+      "actual_commands_and_selected_tests": {
+        "check_result_candidate_sha256": "40f591d8f0f325e8ebaed945eb6d05a0a9ed402bc75a1c83533430dcdf48c9a2",
+        "commands": [
+          {
+            "cleanup_complete": true,
+            "cpu_seconds": 0.441414,
+            "log_bytes": 0,
+            "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "name": "source-status",
+            "network_denied": true,
+            "wall_seconds": 0.18537545800791122
+          },
+          {
+            "cleanup_complete": true,
+            "cpu_seconds": 0.013901,
+            "log_bytes": 41,
+            "log_sha256": "5914204908555d045e3e1c60a087ffe7aa5b4deb1a13623e1a3565bd5adec154",
+            "name": "source-head",
+            "network_denied": true,
+            "wall_seconds": 0.0175467089866288
+          },
+          {
+            "cleanup_complete": true,
+            "cpu_seconds": 0.013516999999999998,
+            "log_bytes": 30,
+            "log_sha256": "37f0690faa9f49a15e2ef71405d528d1a3782dae8f8f3abe8aaec8f78f045bb0",
+            "name": "source-branch",
+            "network_denied": true,
+            "wall_seconds": 0.01649050001287833
+          },
+          {
+            "cleanup_complete": true,
+            "cpu_seconds": 0.016527,
+            "log_bytes": 1482321,
+            "log_sha256": "1d0e7d29253ea7b0e0a74493bb40e0f0c0ee74ba086be029f6af6a4812374b43",
+            "name": "source-files",
+            "network_denied": true,
+            "wall_seconds": 0.019692500005476177
+          },
+          {
+            "cleanup_complete": true,
+            "cpu_seconds": 0.023077999999999998,
+            "log_bytes": 0,
+            "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "name": "init-distribution",
+            "network_denied": true,
+            "wall_seconds": 0.028792875004000962
+          },
+          {
+            "cleanup_complete": true,
+            "cpu_seconds": 0.015408999999999999,
+            "log_bytes": 0,
+            "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "name": "distribution-sparse-scope",
+            "network_denied": true,
+            "wall_seconds": 0.019373999995877966
+          },
+          {
+            "cleanup_complete": true,
+            "cpu_seconds": 1.784641,
+            "log_bytes": 0,
+            "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "name": "fetch-pinned-local-source",
+            "network_denied": true,
+            "wall_seconds": 0.8552899589994922
+          },
+          {
+            "cleanup_complete": true,
+            "cpu_seconds": 0.114314,
+            "log_bytes": 0,
+            "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "name": "checkout-pinned-head",
+            "network_denied": true,
+            "wall_seconds": 0.12625395800569095
+          },
+          {
+            "cleanup_complete": true,
+            "cpu_seconds": 0.014096999999999998,
+            "log_bytes": 41,
+            "log_sha256": "5914204908555d045e3e1c60a087ffe7aa5b4deb1a13623e1a3565bd5adec154",
+            "name": "clone-head",
+            "network_denied": true,
+            "wall_seconds": 0.022909457999048755
+          },
+          {
+            "cleanup_complete": true,
+            "cpu_seconds": 0.023041,
+            "log_bytes": 1482321,
+            "log_sha256": "1d0e7d29253ea7b0e0a74493bb40e0f0c0ee74ba086be029f6af6a4812374b43",
+            "name": "clone-files",
+            "network_denied": true,
+            "wall_seconds": 0.09626516699790955
+          },
+          {
+            "cleanup_complete": true,
+            "cpu_seconds": 0.062225,
+            "log_bytes": 0,
+            "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "name": "clone-initial-status",
+            "network_denied": true,
+            "wall_seconds": 0.0897558750002645
+          },
+          {
+            "cleanup_complete": true,
+            "cpu_seconds": 0.033464999999999995,
+            "log_bytes": 0,
+            "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "name": "venv",
+            "network_denied": true,
+            "wall_seconds": 0.053279415995348245
+          },
+          {
+            "cleanup_complete": true,
+            "cpu_seconds": 0.035234,
+            "log_bytes": 351,
+            "log_sha256": "b486a8766e4d69395d0bedfdee501d8ee5613541d98071fc01a8013768aaeb6b",
+            "name": "venv-identity",
+            "network_denied": true,
+            "wall_seconds": 0.4502808749966789
+          },
+          {
+            "cleanup_complete": true,
+            "cpu_seconds": 0.08275099999999999,
+            "log_bytes": 31,
+            "log_sha256": "863322d4f18be92713229419707462ce86bdc3e37a7784ecaac62babf8cd6232",
+            "name": "setup-engine-offline",
+            "network_denied": true,
+            "wall_seconds": 0.1544750409957487
+          },
+          {
+            "cleanup_complete": true,
+            "cpu_seconds": 0.709333,
+            "log_bytes": 1657,
+            "log_sha256": "9182ebfc58d8fd5c2073c859c459b80f80c7a5e328662de1458e3ae7210d910b",
+            "name": "doctor",
+            "network_denied": true,
+            "wall_seconds": 1.4325921670242678
+          },
+          {
+            "cleanup_complete": true,
+            "cpu_seconds": 1.598573,
+            "log_bytes": 12100,
+            "log_sha256": "5b413050dfb22c97f09bbbb33154990f2444eccfe236277c15ead5624addf7a6",
+            "name": "tests",
+            "network_denied": true,
+            "wall_seconds": 3.1982912919775117
+          },
+          {
+            "cleanup_complete": true,
+            "cpu_seconds": 4.36494,
+            "log_bytes": 447,
+            "log_sha256": "b362bfa2f3098aa9d4595f4bdbe0d73dc31c01f35011c87b3363378e2343de58",
+            "name": "route",
+            "network_denied": true,
+            "wall_seconds": 7.24022187499213
+          },
+          {
+            "cleanup_complete": true,
+            "cpu_seconds": 0.113841,
+            "log_bytes": 491,
+            "log_sha256": "3e24fc68e0349678080c33e47fa1a82aa43e139d59c33b751056f87389c213c9",
+            "name": "check-result",
+            "network_denied": true,
+            "wall_seconds": 0.1512111250194721
+          },
+          {
+            "cleanup_complete": true,
+            "cpu_seconds": 0.059806,
+            "log_bytes": 0,
+            "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "name": "clone-final-status",
+            "network_denied": true,
+            "wall_seconds": 0.08317258299211971
+          },
+          {
+            "cleanup_complete": true,
+            "cpu_seconds": 0.013805999999999999,
+            "log_bytes": 41,
+            "log_sha256": "5914204908555d045e3e1c60a087ffe7aa5b4deb1a13623e1a3565bd5adec154",
+            "name": "clone-final-status-head",
+            "network_denied": true,
+            "wall_seconds": 0.024382624978898093
+          },
+          {
+            "cleanup_complete": true,
+            "cpu_seconds": 0.189167,
+            "log_bytes": 0,
+            "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "name": "source-final-status",
+            "network_denied": true,
+            "wall_seconds": 0.12171895802021027
+          },
+          {
+            "cleanup_complete": true,
+            "cpu_seconds": 0.012565,
+            "log_bytes": 41,
+            "log_sha256": "5914204908555d045e3e1c60a087ffe7aa5b4deb1a13623e1a3565bd5adec154",
+            "name": "source-final-status-head",
+            "network_denied": true,
+            "wall_seconds": 0.02221724999253638
+          }
+        ],
+        "freshness": [
+          {
+            "cleanup_complete": true,
+            "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "receipt_sha256": "86e8a6375251dfb31917cc0ce34f54dce4598717171b82d53c1b4df9463c6304"
+          },
+          {
+            "cleanup_complete": true,
+            "log_sha256": "5914204908555d045e3e1c60a087ffe7aa5b4deb1a13623e1a3565bd5adec154",
+            "receipt_sha256": "6f444ba4d892c1b59e5a7e1fe06c982e7cc078654777a8abd6ece47abf6c9ec2"
+          },
+          {
+            "cleanup_complete": true,
+            "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "receipt_sha256": "d8e08546e37ec2259edc47b74dc767cacb4c127f9c9c427598fe94815d6894ac"
+          },
+          {
+            "cleanup_complete": true,
+            "log_sha256": "5914204908555d045e3e1c60a087ffe7aa5b4deb1a13623e1a3565bd5adec154",
+            "receipt_sha256": "ed0464bb732300fef3a454d8d01cd843748200d61aa2c97cfa29d695846c98a4"
+          },
+          {
+            "cleanup_complete": true,
+            "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "receipt_sha256": "a256d1f984eed7d9cbb0299a45186a337ed8feaf3c6c9840f1573b33c15d3937"
+          },
+          {
+            "cleanup_complete": true,
+            "log_sha256": "5914204908555d045e3e1c60a087ffe7aa5b4deb1a13623e1a3565bd5adec154",
+            "receipt_sha256": "e7b041b6458f699b4e18eac2ef47d627cde2a671ba194a939d7b963433d2dde2"
+          },
+          {
+            "cleanup_complete": true,
+            "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "receipt_sha256": "ba9c361155817428a1b1efdc10ac374adecf20dae63a8f1afd5b029eacef5dfb"
+          },
+          {
+            "cleanup_complete": true,
+            "log_sha256": "5914204908555d045e3e1c60a087ffe7aa5b4deb1a13623e1a3565bd5adec154",
+            "receipt_sha256": "64ed5e5834d12309b0ce07c0594434fc2e92546790a6319788f06924e22f60d0"
+          }
+        ],
+        "freshness_process_count": 8,
+        "installed_test_count": 72,
+        "installed_test_log_seconds": 3.033,
+        "installed_test_scope": [
+          "tests.test_runner",
+          "tests.test_led_demo_fetch",
+          "tests.test_arcdice_demo_fetch",
+          "tests.test_demo_benchmark_source",
+          "tests.test_additive_publication",
+          "tests.test_netclass_parent_policy",
+          "tests.test_netclass_parent_pipeline",
+          "tests.test_pruning_scoring"
+        ],
+        "no_network_or_auth_workflow": true,
+        "offline_command_count": 22,
+        "passed": true,
+        "scoring_control_count": 7,
+        "scoring_controls": [
+          "test_coherently_edited_full_command_and_cwd_cannot_escape_router_flags (tests.test_pruning_scoring.PruningScoring.test_coherently_edited_full_command_and_cwd_cannot_escape_router_flags) ... ok",
+          "test_different_source_profile_scope_or_tools_are_not_free_incumbents (tests.test_pruning_scoring.PruningScoring.test_different_source_profile_scope_or_tools_are_not_free_incumbents) ... ok",
+          "test_explicit_preset_requires_actual_incumbent_validation (tests.test_pruning_scoring.PruningScoring.test_explicit_preset_requires_actual_incumbent_validation) ... ok",
+          "test_legacy_default_is_preserved_but_unknown_preset_never_creates_output (tests.test_pruning_scoring.PruningScoring.test_legacy_default_is_preserved_but_unknown_preset_never_creates_output) ... ok",
+          "test_marker_downgrade_wrong_preset_or_receipt_and_worker_change_reject (tests.test_pruning_scoring.PruningScoring.test_marker_downgrade_wrong_preset_or_receipt_and_worker_change_reject) ... ok",
+          "test_relabelled_high_incumbent_cannot_be_downgraded_to_legacy_default (tests.test_pruning_scoring.PruningScoring.test_relabelled_high_incumbent_cannot_be_downgraded_to_legacy_default) ... ok",
+          "test_symlink_contract_rejects_before_any_marker_digest (tests.test_pruning_scoring.PruningScoring.test_symlink_contract_rejects_before_any_marker_digest) ... ok"
+        ]
+      },
+      "complete_source_and_installed_inventory": {
+        "clone_index_listing_sha256": "1d0e7d29253ea7b0e0a74493bb40e0f0c0ee74ba086be029f6af6a4812374b43",
+        "complete_original_source_files": 20644,
+        "complete_source_listing_sha256": "1d0e7d29253ea7b0e0a74493bb40e0f0c0ee74ba086be029f6af6a4812374b43",
+        "independent_venv_files_unchanged": true,
+        "installed_distribution_files": 535,
+        "passed": true,
+        "source_and_clone_git_identity_witnesses_current": true,
+        "source_and_installed_subset_exact": true,
+        "source_byte_cap": 369098752,
+        "source_file_cap": 22000,
+        "source_inventory_sha256": "4b0bd1d5a407a7f7640f8172366d5b0bb5c10f52d880c03d14c207e34a50d2c5"
+      },
+      "installed_actual_native_smoke_and_current_readback": {
+        "candidate_sha256": "40f591d8f0f325e8ebaed945eb6d05a0a9ed402bc75a1c83533430dcdf48c9a2",
+        "evidence_inventory_sha256": "da33e8399ebadf8b3893697dc0b7d7d08cdb1ba92b106fbd973c7a5f09968286",
+        "exact_implementation_snapshots_and_tool_bytes": true,
+        "independent_pinned_engine_copy": true,
+        "metrics": {
+          "copper_layers": 2,
+          "footprints": 6,
+          "pads": 6,
+          "track_length_mm": 60.0,
+          "version": "10.0.0",
+          "vias": 0,
+          "zones": 1
+        },
+        "native_budget_seconds": 120.0,
+        "native_counts": {
+          "blocking": 0,
+          "exclusions": 0,
+          "opens": 0,
+          "warnings": 0
+        },
+        "native_full_cpu_seconds": 4.075473000000001,
+        "native_process_cleanup_verified": true,
+        "native_wall_seconds": 6.935585416009417,
+        "native_worker_count": 7,
+        "passed": true,
+        "receipt_sha256": "c62f400f23a424a613cf43581e094356180d17233cd25f810d45929167c9a851",
+        "refill_native_counts": {
+          "blocking": 0,
+          "exclusions": 0,
+          "opens": 0,
+          "warnings": 0
+        },
+        "refill_native_report_sha256": "60dfa0d1999bc199bffddbdeede78416848e58cc08975c59f310fbd539b2f572",
+        "report_sha256": "184339515c5be153b6a1c73dcdf9576bc9b0b46dda74b8dbaf18307fffcd6606",
+        "source_and_original_constraints_unchanged": true
+      },
+      "installed_new_preferences_cli_and_freshness_followup": {
+        "execution_sha256": "213d568edb4eb51de68a793b2fcd8c0cbd38d75a1985d6fa2fe51a0d5ee2c53f",
+        "full_cpu_seconds": 5.232348,
+        "installed_interpreter": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-026/checkout/.venv/bin/python",
+        "log_sha256": "82b4ec3c58e90b8c02698641e269b423aa57c2acd720faa74f953b9ab15864f7",
+        "new_native_execution": false,
+        "passed": true,
+        "scope": "Actual fresh installation026 venv and installed preference, CLI, material-freshness, packaging-capacity and fixed UV/Navigation helper, explicit experimental toolchain/publication storage, native-connected/paired metadata, exact stackup-container duplicate, Audio fixed-source and OS local-settings protection regression tests under network denial. Software controls; no new Native execution or quality comparison.",
+        "test_count": 143,
+        "wall_seconds": 5.469275207986357
+      },
+      "outer_costs_and_publication": {
+        "actual_installation_foreground_full_cpu_seconds": 27.983787999999997,
+        "actual_installation_foreground_wall_seconds": 37.702651625004364,
+        "command_cpu_seconds": 9.735645000000002,
+        "installation_receipt_sha256": "cf3a3e2fc910f4bfa0694ad80cd862956cb92f7a79f76f45ae7f0824e64636f0",
+        "outer_execution_sha256": "63ff93e4d5e74c9d778ecc492605b0962299061db672bdf9a8bdc123f05de0d5",
+        "passed": true,
+        "publication_and_native_receipt_unchanged": true,
+        "receipt_total_cpu_seconds": 23.194661999999997,
+        "receipt_wall_seconds": 32.93233725000755,
+        "scope": "Actual current source-distribution fresh local Git checkout/venv; fixed installed subset includes pruning-scoring contract/journal controls; new explicit Native diagnostic, stackup, Audio and PRL/readback modules copied exactly, additional new controls separate, then actual native fixture route/check under network denial. Complete original source inventory remains verified with 22000-file and 352 MiB byte caps; 512 MiB installation and 600-second final wall caps remain. Existing Mac/tools/cache; not full clone, full installed suite, fresh OS or formal package qualification.",
+        "scratch_bytes": 101229440
+      },
+      "real_installed_context": {
+        "base_prefix": "/Users/faisal/.pyenv/versions/3.11.9",
+        "git_head": "31c0f53c69474ff361f625bbb110634e4952383d",
+        "install_module": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-026/checkout/scripts/install_smoke.py",
+        "module_root": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-026/checkout",
+        "passed": true,
+        "pipeline_module": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-026/checkout/autorouter/pipeline.py",
+        "python": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-026/checkout/.venv/bin/python",
+        "sys_prefix": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-026/checkout/.venv",
+        "version": "3.11.9 (main, Aug  2 2025, 11:44:47) [Clang 17.0.0 (clang-1700.0.13.5)]"
+      }
+    },
+    "cost": {
+      "active_full_cpu_seconds": 2.3399199999999998,
+      "active_wall_seconds": 4.29425325000193,
+      "bootstrap_allowance_seconds": 1,
+      "charged_full_cpu_seconds": 4.339919999999999,
+      "charged_wall_seconds": 6.29425325000193,
+      "child_cpu_seconds": 0,
+      "emission_allowance_seconds": 1,
+      "scope": "from first audit-script line before installed project imports through checks; explicit1s bootstrap/1s emission; review preparation separately unmeasured development inspection"
+    },
+    "failures": [],
+    "kind": "independent installed025 retained actual readback",
+    "limitations": [
+      "existing Mac and verified installed tool/engine cache reused",
+      "fixed72 installed tests, not full installed suite or fresh OS",
+      "no comparative routing quality claim; preparation/installation costs separate from measured experiments",
+      "local mutable evidence consistency, not adversarial authentication"
+    ],
+    "limits": {
+      "audit_wall_full_cpu_seconds": 60,
+      "selected_output_bytes": 16777216
+    },
+    "network_access": false,
+    "new_jvm_execution": false,
+    "new_native_execution": false,
+    "passed": true,
+    "schema": 1
+  },
+  "actual_reader": {
+    "schema": 1,
+    "process": {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 4.329208415991161,
+      "cpu_seconds": 2.369528,
+      "max_rss_bytes": 234995712,
+      "supervisor_cpu_seconds": 0.011848999999999998,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 212107264,
+      "sampled_peak_workdir_bytes": 34617,
+      "resource_guards": {
+        "max_group_rss_bytes": 1073741824,
+        "max_workdir_bytes": 16777216,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-026/checkout/.venv/bin/python",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/current-installation026-review-001/audit.py"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/current-installation026-review-001/command.log",
+      "log_bytes": 787,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/current-installation026-review-001",
+      "signal_cancellation_enabled": true,
+      "pid": 39465
+    },
+    "wall_seconds": 4.32924637501128,
+    "full_cpu_seconds": 2.3814149999999996,
+    "reader_sha256": "d45a6660a3f9b9d587649dea817dd3ed755fee9d9ed3262e6e7c9f2b45848162",
+    "adapted_reader_source_sha256": "db3908c001532a21743adb1430fdab01128e6f411902de043a95e166369fd3d4",
+    "controller_sha256": "5c50ec3929042a3d0e62b1e64246683e2383920ae921df9a646652758e62b6fa",
+    "log_sha256": "9d913cd54f02b0b22873f5d2b0cfd70da19ec2b1e72801ebbffc7a56d5cefdcb",
+    "checks_sha256": "37c700586b35e0d758970afe1076dbc1fb6a3d276ff0e7b6ea65d821a1c329b2",
+    "scope": "Adapted existing installed reader; actual installed interpreter and shared exact original/native/tools/process/evidence readers. No new Native/JVM/network/tests; reader forbids subprocess calls, reads Git identity bytes. Stored143selected installed controls read; not a benchmark."
+  },
+  "reader_source": {
+    "path": ".runs/current-installation026-review-001/audit.py",
+    "sha256": "d45a6660a3f9b9d587649dea817dd3ed755fee9d9ed3262e6e7c9f2b45848162",
+    "bytes": 13564
+  },
+  "reader_preparation": {
+    "path": ".runs/current-installation026-review-001/preparation.json",
+    "sha256": "26e2df9267647f82395780051e766a3052871e37107a60cd00ffe91e0d7730f2",
+    "bytes": 622
+  },
+  "original_refill_review_initial": {
+    "path": ".runs/original-refill-reader-review-preserved-001/initial.md",
+    "sha256": "c41dc31ed6f064898684886edaab983b155b0acbdf382a8688c43afcb007711b",
+    "bytes": 2443
+  },
+  "original_refill_review_closure": {
+    "path": ".runs/original-refill-reader-review-preserved-001/closure.md",
+    "sha256": "0590dcbafcff35b36e17485dda8b18c541f240bde06195471b88d8ffede8c77f",
+    "bytes": 3715
+  },
+  "supersedes_installed": {
+    "path": "evidence/installation025-native-001.json",
+    "sha256": "878270d347b2e14ce2b19d85f98e7de2f80033994beaea924c6fe23591c667d6",
+    "bytes": 28935
+  },
+  "gui_availability": {
+    "utc": "2026-10-14T19:06:37.654757+00:00",
+    "tool": "mcp__cua_repl cua.getApp(KiCad)",
+    "actual_response": "The Mac is locked and automatic unlock could not unlock it. Ask the user to unlock the Mac manually before continuing.",
+    "gui_qualified": false,
+    "scope": "Current access availability only; no GUI action/settings change. Existing user unlock replies were honored with fresh availability check; native independent work continues."
+  },
+  "limitations": [
+    "Actual installed Native once; reader does not rerun Native/JVM/network/tests.",
+    "All20644source/535installed paths/bytes, original rules/protection/refill/final Native and exact tool/code witnesses checked.",
+    "Additional143 selected controls include OS local-settings guard and Audio/stackup/classifier/paired metadata controls; no new board-family quality gain.",
+    "Original-refill review initial source is preserved exactly despite later appended closure; historical packet hash resolves to preserved initial.md.",
+    "Current production10.0.0 unchanged; explicit1007/PRL original diagnostic remains experimental. GUI007locked.",
+    "Raw artifacts aftera6incremental cutoff require next incremental; full restoration already passesc81, next full at major/release. OnMaconly byownerchoice."
+  ]
+}

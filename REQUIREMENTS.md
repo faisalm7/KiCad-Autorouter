@@ -1,6 +1,6 @@
 # Requirements to evidence
 
-October 14, 2026. Current installed qualification ae2269d/installation025; later classifier/pair experiments are not production-admitted; exact source/tools are bound in each receipt. Earlier matrices and all failures remain in Git history and immutable packets. Every final candidate needs actual native and original-design evidence. Tests are software coverage, not routing quality.
+October 14, 2026. Current installed qualification31c0f53/installation026; later classifier/pair experiments are not production-admitted; exact source/tools are bound in each receipt. Earlier matrices and all failures remain in Git history and immutable packets. Every final candidate needs actual native and original-design evidence. Tests are software coverage, not routing quality.
 
 | Requirement | Implementation / executable check / actual evidence | Remaining gate |
 |---|---|---|
@@ -21,7 +21,7 @@ October 14, 2026. Current installed qualification ae2269d/installation025; later
 | Actual GUI | [Installed LED GUI003](evidence/installed-led-export-gui-003/SCOPE.md) full refill/parity/all filters; CLI warnings retained | Later access locked; no new CellScan/preset GUI observation, live undo or physical qualification |
 | G6 learning decision | Deterministic measured pruning/architecture | No evidence justifying learning; no runtime model/chat feature |
 | Full integration | [Full045/source review](evidence/pruning-preferences-source-001/SCOPE.md); [full047/current packaging](evidence/installation-source-capacity-002.json):39.726679wall36.271945CPU; failed044 retained | Counts do not measure routing quality |
-| Current installation | [Installation023/current source](evidence/installation023-native-001.json):22offline commands/72fixed tests,20598original509installed files,native0/0/0/0; additional62installed preference/capacity/UV-helper tests; actual shared installed readback | Existing Mac/apps/cache; source distribution, not fresh OS or full installed suite |
+| Current installation | [Installation026](evidence/installation026-native-001.json):22offline commands/72fixed+143selected installed controls,20644original/535installed files, actual0/0/0/0 Native60mm0via and shared readback | Existing Mac/apps/cache; distribution/venv, not freshOS/full installedsuite/formalpackage |
 | G7 confirmation / scrutiny | Frozen development protocols, skeptical source/native/late-material reviews; [blank human pack](evidence/analog-human-review-pack-001/SCOPE.md) | All exposed; untouched pedigreed holdout/actual human PCB review unmet |
 | G8 restoration / RC | [fc921 full-chain restoration](evidence/backups/restore-cellscan360-fc921.json):260760files/7506835316B/allrefs/restoredCLI; [RC scope](docs/experimental-rc.md) | Current add9 full restoration passes262521files/7623204184B/allrefs/CLI; later GUIdocs/UV changes outside cutoff; onMaconly byownerchoice |
 
