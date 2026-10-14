@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "passed": true,
+  "accepted": false,
+  "events": [
+    {
+      "phase": "after_actual_incumbent_return",
+      "status": "routing_accepted",
+      "accepted": true,
+      "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-pruning-preset-stale-002/run/incumbent/result.json",
+      "preset_before_sha256": "6992257f69af41741ce88d4e6c0b60711f01cc15bafa9eb38f1c65f25cdab0e9",
+      "preset_after_sha256": "ac7ab609d3cea817d9b466b98d3738031cd52a83c9c620fc72c7bddc2bd43ae4"
+    }
+  ],
+  "status": "invalidated",
+  "reason": "PreferenceError: preferences changed during execution",
+  "actual_incumbent_native": {
+    "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-pruning-preset-stale-002/run/incumbent/candidate/PushButtonLed.kicad_pcb",
+    "candidate_sha256": "5e3d84a56db5e8935edb05e61d0ea3d47e50c66aa191835d03ce995131624644",
+    "native_report_sha256": "4e3ffd54417dc8a5c66021e8eb190a169219fac3fa15333535b241fea33ee30e",
+    "native_counts": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 7,
+      "exclusions": 0
+    },
+    "native_rejection_reasons": [],
+    "original_design_checks": true,
+    "complete_schematic_native_checks": true,
+    "original_native_class_targets": null,
+    "original_native_class_audit_required": false
+  },
+  "source_hashes": {
+    "LICENSE": "18f4f144c2d9457195bb6383cdebed6e2e99df4c3d70378363972ddcc992f7a6",
+    "PushButtonLed.kicad_pcb": "a85c5b499b7803d184ec34ef396746afcd16c0557166bd63d7675beb7b61f7a3",
+    "PushButtonLed.kicad_pro": "186a7d811ca4bf09afa7c286ce0773deb0d8ca4a6404a530658ee664e69d23e0",
+    "PushButtonLed.kicad_sch": "2fe34f261ee78cf81bc9e7751d9e1b2ca6416944d830d4f5ac50fe40409a0877",
+    "README.md": "db7a1e9afa9c288e0e5474637ab3a9d2a2abe07555f6157c06488337cf426de4",
+    "_licenses/creator/LICENSE": "18f4f144c2d9457195bb6383cdebed6e2e99df4c3d70378363972ddcc992f7a6",
+    "_licenses/creator/README.md": "db7a1e9afa9c288e0e5474637ab3a9d2a2abe07555f6157c06488337cf426de4"
+  },
+  "controller_sha256": "d63dc86352dcd52d171d521865a68a2d3c5b4b8fe084a80f26551b27e2b81c1a",
+  "result_sha256": "f507a866e1faba2d39709d0c1373a3bacdc22f9ed9edcbbb0dd8489f4f5ab0cc",
+  "wall_seconds": 15.474287165998248,
+  "full_cpu_seconds": 11.76395,
+  "scope": "Delegates to actual unchanged pipeline.route/native workers, then deliberately edits one owned externalpreset after real validated incumbent. No routing/validation/result mocks. Production pruning must reject and emit no finalcandidate. Complete source remains immutable; no comparative routing/physical claim."
+}

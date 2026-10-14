@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 1.6000252919911873,
+    "cpu_seconds": 1.492101,
+    "max_rss_bytes": 42631168,
+    "supervisor_cpu_seconds": 0.06039699999999999,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 42549248,
+    "sampled_peak_workdir_bytes": 106237710,
+    "resource_guards": {
+      "max_group_rss_bytes": 4294967296,
+      "max_workdir_bytes": 536870912,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-022/checkout/.venv/bin/python",
+      "-B",
+      "-m",
+      "unittest",
+      "tests.test_improve_preferences_cli",
+      "tests.test_pruning_preferences",
+      "tests.test_pruning_preferences_freshness",
+      "-v"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation022-preferences-followup-001/tests.log",
+    "log_bytes": 4878,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-022/checkout",
+    "signal_cancellation_enabled": true,
+    "pid": 15626
+  },
+  "log_sha256": "a4de67c3d32577da7bec340e76052682df9e08982e0bcd2d41cc17e4650ce41b",
+  "controller_sha256": "bd984ed9dc689a280cd5bc82ee0312488d8801579352155f479eee14911fe862",
+  "installed_head": "e6aacc8d8ff4bf2468bec1e448b262186936d102",
+  "wall_seconds": 1.7959229590196628,
+  "full_cpu_seconds": 1.621745,
+  "scope": "Actual fresh installation022 venv and installed new preference, CLI and material-freshness regression tests under network denial. Software controls; no new Native execution or quality comparison.",
+  "passed": true
+}
