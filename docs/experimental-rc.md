@@ -27,3 +27,12 @@ Fresh installation025 atae2269d passes22offline commands/72fixed tests,20614orig
 The [c81 major full restoration](../evidence/backups/restore-native-navigation-c81c1db.json) now includes installation025/area1007/Navigation raw evidence. Later connectivity prototype is experimental, unqualified for routing; its first strict Native001 refusal is retained. A stronger native task-connectivity-aware baseline remains unmeasured and could explain part of existing NUS gain. Representative coverage/untouched/human/physical gates remain. Latest actual GUI attempt still reports locked; no new GUI qualification.
 
 Current installed026/source31c0f53 supersedes previous installed statements:22offline commands,72fixed+143selected controls,20644original/535installed files, native60mm0via0/0/0/0 plus shared readback. [Actual installed proof](../evidence/installation026-native-001.json). Whole37.702652wall27.983788CPU. Current GUI007remainslocked; no new GUI observation. Six exposed comparisons remain configuration-specific, while native-connected-only comparator is rejected by a thermal error. Audio original002 rejects sixcourtyard errors/twowarnings, not new support. Fullc81restore+a6incremental supersede earlier backup next-step statements; installed026/Audio raw aftera6cutoff.
+
+Current source has [actual complete-project older-settings workflow proof](../evidence/normal-prl-native-workflow-001.json):
+normal pruning and four SVG plots preserve exact PRL bytes; fresh full-schematic
+export0/0/7/0, deliberately disconnected9/0/7/0, real SIGINT/cleanup and shared
+readback pass. Both real failures and all cumulative costs remain. Full0601175
+software checks pass. This is not another routing comparison or current GUI
+qualification. Tested installation026 is older; current installation, broader
+supported coverage and confirmatory evaluation remain gates. PAW old-format
+transport is a frozen prospective diagnostic, with production admission false.

@@ -39,3 +39,11 @@ Saving changes in the disposable GUI review can change project defaults and crea
 Actual qualification: installed LED GUI003 observed full refill/parity with every filter enabled; the isolated CLI's seven library warnings remain authoritative despite the different GUI library context. Current preset-driven pruning has a real five-command preview/accept/reject/fresh-native-export test with exact original constraints and seven warnings. Later GUI access reported the Mac locked, so current CellScan/preset candidates have no new GUI observation. See [GUI evidence](../evidence/installed-led-export-gui-003/SCOPE.md), [current product controls](../evidence/pruning-preferences-native-product-003/SCOPE.md) and [status](../STATUS.md).
 
 Native validation does not establish electrical performance, manufacturing readiness or physical safety. Human PCB review and physical validation remain outstanding. Earlier workflow implementation details and GUI failures are preserved in Git history and their original evidence packets; no failed result was reclassified by this documentation update.
+
+Current source also preserves existing local-settings files in disposable
+routing, plotting and validation copies. A real complete-project test with an
+older settings file passes preview and fresh schematic-parity export with all
+seven warnings retained; a disconnected candidate is rejected and real engine
+cancellation cleans up. See [the Native workflow evidence](../evidence/normal-prl-native-workflow-001.json).
+This extends CLI/workflow qualification; GUI008 still reports the Mac locked.
+Installation026 predates this source change.

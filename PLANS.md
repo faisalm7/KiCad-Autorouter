@@ -1,60 +1,53 @@
-# Active execution plan
+# Active continuation
 
-October14,2026; existing local Mac checkout, authorized rebuild branch. One lead,
-at most two narrow agents; Native/JVM/heavy work sequential. No Cloud/worktree,
-reset, discarded evidence, backgroundloop, new spending or formal publication.
+Work only in `/Users/faisal/Projects/KiCad-Autorouter-local`, on the existing
+`rebuild/local-20261010-015447` branch. Last verified checkpoint is bf286cb;
+current prepared Native evidence and prospective PAW source need the next push.
+No cloud, reset, competing checkout, new spending or formal publication.
 
-Completed, do not repeat:
+Completed and preserved:
 
-- Six exposed fixed B1/B2/C comparisons with actual original-rule/fullSCH checks;
-  CellScan has distinct cumulative360cap, others120. No established independent
-  pedigree, broadcompletion/speedup or untouched confirmation claim.
-- Persistent improve/route scope/layer/budget/scoring preferences, protected copper,
-  preview/intent/reject/freshseparateexport/cancel controls. Current installation025
-  sourceae2269d qualified on existing Mac/apps/cache. GUI003 earlieractual;
-  freshGUI006stilllocked. Human/physical gates remain.
-- Signed separate1007 tool/actual fourarea controls, rejected UV/Navigation native,
-  fullmajorc81restoration; old archives intact. Production10.0.0 unchanged.
-- Native classifier002positive and disconnectedground negative, independent
-  readbacks; pair001 preengine stackup failure and exact-container parserfix.
-  Full054/strictduplicateregressions pass. Original001 protocol/files preserved.
-- Pair002 all-active accepted diagnostic0/0/10/0,83.315883mm2vias; active-only
-  rejects0/1/10/0 at R3thermalminimum2/actual1spoke. Both actualcosts/readback
-  retained; no newgain/policy admitted. Do not repeat these experiments.
-- Incremental from restoredc81 verified265593files/7853057052B,1096deltafiles;
-  onMaconly byownerchoice. Every later Native/pair raw artifact througha6b and
-  Audio unapplieddraft/review included. AppliedAudio source aftercutoff.
-- Audio fixedsource profile/cache refactor applied afterreview;52targeted and
-  full0551127pass. All7original+9notice/PRL/staleREADME retained. No sourceGETyet.
+- Six exposed B1/B2/C circuit comparisons remain the measured routing evidence;
+  native-connected-only routing failed its actual original thermal constraint.
+- PAW original002/fullSCH and core PRL positive/MISO-open controls passed. The
+  independent legacy error witness is implemented. Do not repeat those trials.
+- Normal producers now require captured, bounded whole-lineage PRL protection.
+  Full059 passed after preserving and fixing synthetic full058 failures.
+- Real normal LED+legacyPRL pruning passed. Path-refusal001 and actual SVG PRL
+  rewrite002 were retained; shared guard fixes plotting. Full060/actual missing
+  Native continuation003/readback pass. Preview/export0/0/7/0, invalid9/0/7/0,
+  real engine SIGINT cancellation. Completed route and old export were not rerun.
+- Installation026/source31c0f53 remains the tested installed version. Current
+  source is newer. GUI008 is locked; earlier GUI003 qualification stays distinct.
 
-Execute next, continue between checkpoints:
+Next actions, sequential heavy lane:
 
-1. Audio original002/controls/readers/installation026 and7db9incremental completed;
-   do not repeat. PAW fixed capture/targeted52 integrated: checkpoint then execute
-   missing savedrefill/originalshell/fullSCH002 and shared reader COMPLETE0/0/17/0,
-   zeroSCH/all220routes exact. Original source remains blocked for oldformat/legacyrule.
-2. Legacy zone_has_empty_net Native10 misses already demonstrated; no repeated
-   control. Investigate strict ordinary copperpad witness compatibility and
-   source/candidate invariants; never ignore oldrule or infer fullpadcount.
-3. Pursue broader supported families and stronger baseline/strategy comparisons
-   from actual remaining sources. Connectivity-only hint is falsified by thermal
-   counterexample; preserve all native thermal rules and benchmark costs.
-4. Incremental raw backup from restored c81 full base at next measured milestone;
-   do not chain from a6 incremental beyond existing receipt-chain byte cap.
-   Full restoration at major milestones/release, not every minor edit. On-Mac only
-   by owner choice; applied Audio/raw results are after a6 cutoff.
-5. Reconcile source/rights/population/claims, GUI and honest RC gates. Current
-   production KiCad10.0.0 unchanged, separate1007 and PRL preservation diagnostic
-   only. No human/physical/untouched confirmation/formal release claim.
+1. Audit/commit/push/read back current Native proof and frozen PAW actor/pins.
+   Preserve new raw artifacts incrementally from the fully restored c81 base:
+   `.local-backups/checkpoint-20261014T173633Z-25df3d1147a344aaa01871c2bab8508e/receipt.json`.
+   Use existing backup helpers/guards; don't chain from a later incremental.
+2. Run `.venv/bin/python -B .runs/run-paw-format-ses-native-001.py` only after
+   checkpoint verification. New prospective protocol b03097c9c9ff4e99342be422ac102c258087864558624c1d9f74c8b20c9dd2cf;
+   actor f417bae1b5a0552c89b8e82f13bdd766f5dab227da777096d27401c8617ad813.
+   Five missing native format observations, independent zero-route task, actual
+   SES import and invalid imported-net control;120wall/fullCPU, original version
+   and constraints unchanged. No GET or completed prior DRC repeat. If a stage
+   fails, retain and resume only missing work from its real files/processes.
+3. Only qualified exact same-load/SES/original-rule proof can justify a bounded
+   preflight format admission. Preserve every other geometry/rule gate and add
+   regressions. Then test the actual normal PAW pipeline and freeze distinct
+   B0/B1/B2/C budgets/configurations before comparisons. No family-independence
+   or routing-quality assumption follows from a format diagnostic.
+4. Pursue further eligible unrelated source families/stronger baselines; keep
+   whole considered population, unsupported cases, inherited errors/warnings,
+   exposed-set status and all failed compute visible. No reference-route reuse.
+5. At the next integrated product/coverage milestone, run current-source clean
+   installation027, full integration/native regressions and major full restoration
+   with existing helpers. Full restore is for major milestones/release, not each
+   minor edit. Artefact backups stay on this Mac by explicit owner choice.
 
-Milestones are checkpoints, not completion claims or reasons to stop. Read actual
-receipts and preserve unfinished artifacts. Exact next command after checkpoint:
-`.venv/bin/python -B .runs/run-core-prl-native-controls-001.py` after source checkpoint.
-
-Core PRL/legacy source milestone: full057/targeted56pass; sourceformat/defaults unchanged. Execute frozen actualcore controls001 then shared readback; close forced-policy removal before normalroute enablement. PAW original002/fullSCH already complete, do not repeat.
-
-Actual coreNative001/sharedreader COMPLETE, do not repeat. Next close wholepolicy-deletion compatibility via capturedproducer provenance and enable qualified owned-copy protection in real routing paths; then oldformat gate/actualPAW B0/B1/B2/C under frozen equalbudgets. Preserve allwarnings/sourceconstraints. Exact continuation: inspect .local-backups/prl-default-policy-review-001/README.md and integrate existingpolicyhelpers, no newframework.
-
-Normal PRL policy source integration passes full0591173software controls (48.790s tests; 49.222003wall/45.072111CPU) and164targeted affected controls; failed058 synthetic integration evidence is retained. [Source and mandatory lineage proof](evidence/normal-prl-policy-source-001.json). Normal producers now request the already core-Native-qualified guard; actual new normal workflow remains pending before RC qualification. PAW20240108 format remains blocked pending current-native reload/SES proof; prior original002/corecontrols must not be repeated. GUI008stilllocked. Next exact command `.venv/bin/python -B .runs/run-normal-prl-workflow-native-001.py` after this source checkpoint.
-
-Actual normal PRL routing now passes seven real DRC workers,0/0/7/0 on the complete LED+legacyPRL owned fixture; native default guard and all copied PRL bytes/flags pass. First controller path refusal retained; continuation then exposed a genuine SVG-preview PRL rewrite and rejected it, while genuine old-receipt fresh export passed at26a. Shared owned worker guard now covers SVG too; real OS targeted62/full0601175software controls pass48.793890wall45.306124CPU. [Fix and exact prefixes](evidence/normal-prl-preview-source-002.json). Continue only missing Native stages after checkpoint: `.venv/bin/python -B .runs/run-normal-prl-workflow-continuation-003.py`; never reroute completed001 or repeat completed old export. No routing-quality/generalization/GUI/format admission follows.
+Use one lead and at most two narrow nonrecursive agents. Reuse shared validation,
+process, report and backup helpers. Native/JVM competitors remain sequential.
+Keep working through feasible gates; no automatic resumption/background loops.
+Representative/pedigreed untouched evaluation, latest GUI, actual human PCB and
+physical validation remain release gates. Do not lower or relabel them.

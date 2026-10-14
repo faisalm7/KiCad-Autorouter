@@ -84,3 +84,15 @@ Actual coreoptin PRL controls001 pass: unchangedPAW0/0/17/0/all220routes, delibe
 Normal PRL policy source integration passes full0591173software controls (48.790s tests; 49.222003wall/45.072111CPU) and164targeted affected controls; failed058 synthetic integration evidence is retained. [Source and mandatory lineage proof](evidence/normal-prl-policy-source-001.json). Normal producers now request the already core-Native-qualified guard; actual new normal workflow remains pending before RC qualification. PAW20240108 format remains blocked pending current-native reload/SES proof; prior original002/corecontrols must not be repeated. GUI008stilllocked. Next exact command `.venv/bin/python -B .runs/run-normal-prl-workflow-native-001.py` after this source checkpoint.
 
 Actual normal PRL routing now passes seven real DRC workers,0/0/7/0 on the complete LED+legacyPRL owned fixture; native default guard and all copied PRL bytes/flags pass. First controller path refusal retained; continuation then exposed a genuine SVG-preview PRL rewrite and rejected it, while genuine old-receipt fresh export passed at26a. Shared owned worker guard now covers SVG too; real OS targeted62/full0601175software controls pass48.793890wall45.306124CPU. [Fix and exact prefixes](evidence/normal-prl-preview-source-002.json). Continue only missing Native stages after checkpoint: `.venv/bin/python -B .runs/run-normal-prl-workflow-continuation-003.py`; never reroute completed001 or repeat completed old export. No routing-quality/generalization/GUI/format admission follows.
+
+Current normal PRL workflow closes in actual Native continuation003/readback:
+new complete-project preview/freshfullSCH export0/0/7/0, invalid owned candidate
+9/0/7/0, real engine SIGINT cancellation/cleanup, all four SVG workers and seven
+routing DRC workers preserve exact existing PRL and restored flags. All three
+outer attempts, including both failures, total83.264554wall62.823146CPU; separate
+shared reader1.913822wall1.766699CPU plus2s actor allowance, no Native rerun.
+[Actual current workflow](evidence/normal-prl-native-workflow-001.json). This is
+integration evidence on an exposed LED derivative, not new routing quality,
+board-family support, GUI or human PCB approval. Installation026 is older than
+this source; newer raw artifacts need the next incremental. The prospective
+PAW source-format/SES actor is frozen; follow the current compact `PLANS.md`.
