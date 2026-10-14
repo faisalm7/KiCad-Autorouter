@@ -29,7 +29,7 @@ A preset is a UTF-8 JSON object with these fields. All are required except `scor
 }
 ```
 
-Use an explicitly selected file outside the immutable input project. There is no implicit global or personal configuration search. Keep generic presets in the durable checkout for audited backups; avoid publishing private board names, paths or net names. The helper never writes a preset or changes personal KiCad/Freerouting settings.
+Use an explicitly selected file outside the immutable input project. There is no implicit global or personal configuration search. Keep generic presets in the durable checkout for audited backups; avoid publishing private board names, paths or net names. Routing does not rewrite your preset. `settings-init` creates the file you explicitly request. These commands do not change personal KiCad/Freerouting settings.
 
 | Field | Supported values and limits |
 |---|---|

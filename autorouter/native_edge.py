@@ -78,7 +78,12 @@ def derive_context(boardbytes, projectbytes):
     context['original_min_copper_edge_clearance_mm'] = a._atom_number(edge)
     context['requested_clearance_um'] = a._atom_number(edge*1000)
     if edge == 0: return skip('original edge minimum is zero; no added DSN rule')
-    edges = [node for node in _walk(board) if sx.one(node,'layer') == ['layer','"Edge.Cuts"']]
+    # The root setup/stackup contains repeated layer definitions, not a
+    # geometry layer selector. Only that exact container is exempt; its
+    # descendants and all actual geometry retain duplicate-singleton checks.
+    stackup=sx.one(sx.one(board,'setup',[]),'stackup')
+    edges = [node for node in _walk(board) if node is not stackup
+             and sx.one(node,'layer') == ['layer','"Edge.Cuts"']]
     if len(edges) != 1 or edges[0] not in board or edges[0][0] != 'gr_rect':
         return skip('requires one root Edge.Cuts rectangle and no other edge geometry')
     rectangle = edges[0]

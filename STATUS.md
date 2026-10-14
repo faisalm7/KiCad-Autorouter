@@ -1,6 +1,6 @@
 # Current status
 
-Updated October 14, 2026 in the existing Mac checkout `/Users/faisal/Projects/KiCad-Autorouter-local`, branch `rebuild/local-20261010-015447`. Last verified GitHub checkpoint: `c73bbe1ba516002de182759164aeed863e9ebcf5`. This is an experimental local tool. Representative coverage, confirmation and release gates remain incomplete. Prior status versions and every raw failure remain in Git history and immutable evidence.
+Updated October 14, 2026 in the existing Mac checkout `/Users/faisal/Projects/KiCad-Autorouter-local`, branch `rebuild/local-20261010-015447`. Last verified GitHub checkpoint: `4e7b792bffe44466784ba8b553ee0f17964896ef`. This is an experimental local tool. Representative coverage, confirmation and release gates remain incomplete. Prior status versions and every raw failure remain in Git history and immutable evidence.
 
 ## Usable workflow
 
@@ -58,3 +58,5 @@ Audited source/small evidence is pushed and independently read back on the autho
 Actual human PCB review, physical validation, representative coverage and untouched confirmation remain unmet. The [Analog human pack](evidence/analog-human-review-pack-001/SCOPE.md) has fresh native projects/four-layer plots and blank forms; nobody was contacted. No learned model is justified or required for runtime. No formal release/package/tag, new spending, contacts, private uploads, background monitor or auto-resume loop is authorized or installed.
 
 Continue from actual `PLANS.md`, `REQUIREMENTS.md`, native receipts and prospective paired protocol. Preserve all unsuccessful attempts, original constraints and actual final candidate checks. Milestones are checkpoints, not completion claims.
+
+Actual pair001 both failed before JVM at legitimate root stackup repeated-layer parser error; outer all19.518427wall13.355192CPU, active16.053900wall13.373394CPU. Exact root-container correction preserves geometry/edge semantics, strict duplicate checks and original001 protocol; targeted20/full0541122pass39.518903wall36.537157CPU, skeptical review no blocker. New prospective protocol-stackup-v2 SHA7ff8dc2fa0953eb8e52644f43f30ff1d5b772cd34e5c59a9f4804cf194635a2b; fresh002arms next. [Failure/correction/compute](evidence/native-connected-pair001-stackup-failure-001.json). Do not repeat/overwrite001 or oldprotocol. No new routing gain.

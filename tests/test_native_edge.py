@@ -158,6 +158,25 @@ class NativeEdgeTests(unittest.TestCase):
         project=copy.deepcopy(PROJECT);project['net_settings']['classes'].append({'name':'default'})
         with self.assertRaisesRegex(ValueError,'ambiguous source class'):self.context(project=project)
 
+    def test_root_stackup_repeated_layer_definitions_preserve_exact_edge_rule(self):
+        stackup=b'(setup (stackup (layer "F.Cu" (type "copper") (thickness 0.035)) (layer "dielectric 1" (type "core") (thickness 1.51)) (layer "B.Cu" (type "copper") (thickness 0.035))))'
+        board=BOARD.replace(b'(version 20241229)',b'(version 20241229) '+stackup)
+        context=self.context(board);base=self.context()
+        self.assertTrue(context['applicable'])
+        for field in ('rect_um','source_edge_sha256','requested_clearance_um','original_min_copper_edge_clearance_mm'):
+            self.assertEqual(context[field],base[field])
+        self.assertEqual(context['source_sha256']['board'],hashlib.sha256(board).hexdigest())
+        self.assertEqual(self.correct(context=context)[0],self.correct()[0])
+
+    def test_stackup_exception_does_not_hide_nested_or_other_duplicate_selectors(self):
+        for extra in (b'(footprint "part" (stackup (layer "F.Cu") (layer "B.Cu")))',
+                      b'(setup (other (layer "F.Cu") (layer "B.Cu")))',
+                      b'(setup (stackup (layer "F.Cu" (layer "Edge.Cuts") (layer "Edge.Cuts"))))',
+                      b'(setup (stackup) (stackup))'):
+            board=BOARD.replace(b'(version 20241229)',b'(version 20241229) '+extra)
+            with self.subTest(extra=extra),self.assertRaisesRegex(ValueError,'duplicate singleton'):
+                self.context(board)
+
     def test_bounded_malformed_inputs_reject(self):
         for raw in ('text',b'',b'\xff',b'(pcb incomplete'):
             with self.subTest(raw=raw),self.assertRaises((ValueError,TypeError)):edge.correct(raw,self.context())
