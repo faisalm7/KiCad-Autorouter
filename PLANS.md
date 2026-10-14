@@ -52,3 +52,5 @@ receipts and preserve unfinished artifacts. Exact next command after checkpoint:
 `.venv/bin/python -B .runs/run-core-prl-native-controls-001.py` after source checkpoint.
 
 Core PRL/legacy source milestone: full057/targeted56pass; sourceformat/defaults unchanged. Execute frozen actualcore controls001 then shared readback; close forced-policy removal before normalroute enablement. PAW original002/fullSCH already complete, do not repeat.
+
+Actual coreNative001/sharedreader COMPLETE, do not repeat. Next close wholepolicy-deletion compatibility via capturedproducer provenance and enable qualified owned-copy protection in real routing paths; then oldformat gate/actualPAW B0/B1/B2/C under frozen equalbudgets. Preserve allwarnings/sourceconstraints. Exact continuation: inspect .local-backups/prl-default-policy-review-001/README.md and integrate existingpolicyhelpers, no newframework.

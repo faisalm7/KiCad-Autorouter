@@ -1,0 +1,1839 @@
+{
+  "schema": 1,
+  "accepted": false,
+  "production_admitted": false,
+  "scope": "Actual core Job/FloorJob explicit opt-in PRL preservation qualification on original PAW and MISO-open owned negative. No engine/sourceformat/normalroute default/routing-quality/physical admission.",
+  "source_checkpoint": "92e80442b78decb6bfabe6df4f7c88d171ac17ca",
+  "source": {
+    "path": "evidence/core-prl-legacy-source-001.json",
+    "sha256": "8f969e514a9d8abae82230b0367d33e69bc2f95e01c066f17bd7692ad314495a",
+    "bytes": 22772
+  },
+  "native_receipt": {
+    "path": ".runs/core-prl-native-controls-001/result.json",
+    "sha256": "11c171e8397b08dd95db107d11045f4d6aef0c21ac208a335ee9c8ab0fa68314",
+    "bytes": 84162
+  },
+  "whole_execution": {
+    "schema": 1,
+    "process": {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 7.950319083000068,
+      "cpu_seconds": 4.9653529999999995,
+      "max_rss_bytes": 235503616,
+      "supervisor_cpu_seconds": 0.026629000000000014,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 215515136,
+      "sampled_peak_workdir_bytes": 131,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 2097152,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/original_project_native_v1/core_prl_controls.py",
+        "--run-native",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/core-prl-native-controls-001"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/core-prl-native-controls-execution-001/command.log",
+      "log_bytes": 131,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/core-prl-native-controls-execution-001",
+      "signal_cancellation_enabled": true,
+      "pid": 44654
+    },
+    "git_head": "92e80442b78decb6bfabe6df4f7c88d171ac17ca",
+    "protocol_sha256": "0f671d4bf24059ef46e3c2112b906ecbc3b8ec5037fda76cf7cb83b5e33aa96f",
+    "protocol_and_source_current": true,
+    "outer_qualified": true,
+    "outer_reason": null,
+    "controller_sha256": "d4b882c78041557fd7e506af15605dea6b715f6c19697dc46321d4952d15887d",
+    "log_sha256": "f23dbe6fbf6a1551821836e6d6e5c6f2dec985a4559237e53e33c2b49df93d5c",
+    "wall_seconds": 8.031895833002636,
+    "full_cpu_seconds": 5.072798000000001,
+    "scope": "New explicit core Job/FloorJob protection seam, actualsavedrefill/originalshell/fullSCH positive/negative only. No new GET/export/engine or format/normal-route default admission. Existing complete source/rules/PRL, independently enforced legacyzone literalerror and actualfinalNative mandatory. Existing Native original002 and legacy001controls not repeated."
+  },
+  "readonly_execution": {
+    "schema": 1,
+    "process": {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.7623916660086252,
+      "cpu_seconds": 0.6853199999999999,
+      "max_rss_bytes": 213581824,
+      "supervisor_cpu_seconds": 0.003699000000000008,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 207208448,
+      "sampled_peak_workdir_bytes": 98,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 16777216,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/core-prl-native-readback-001/audit.py"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/core-prl-native-readback-execution-001/command.log",
+      "log_bytes": 98,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/core-prl-native-readback-execution-001",
+      "signal_cancellation_enabled": true,
+      "pid": 44719
+    },
+    "wall_seconds": 0.7624774999858346,
+    "full_cpu_seconds": 0.6891039999999999,
+    "tools": {
+      "implementation_sha256": {
+        "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+        "autorouter/__main__.py": "9e34e95cf21b4ab7c872365f0a8c835876713691ef39f1049d2bd52bcb0b09e6",
+        "autorouter/adapter.py": "95211455104334e338b83c77aecf8541ee24b0b4f7cd6c3043bcb71d478ddfca",
+        "autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+        "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+        "autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+        "autorouter/floor_route.py": "559cda1d4fea6b62ef5d76c1c19def101d0003216ab7bf6063c92f9aa851b83e",
+        "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+        "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+        "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+        "autorouter/local_settings.py": "c28acd5fad1335803fcf674e677f3ad545e1871eb9638ea915e839bca3b0bc0f",
+        "autorouter/native.py": "7cf0f7cd8d18b59d21b365d51398f0cc99885d3644721a1a842e4f36a7306060",
+        "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+        "autorouter/native_edge.py": "c242ba402c9a981bc18a6e8d2f43e95dc936b53ef64789bfa370716b3de4618d",
+        "autorouter/netclass.py": "79d4b7e98c7b46fe924816ddcc7fa384672bf646d1c06f81e134ce6d97e0a7de",
+        "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+        "autorouter/pipeline.py": "93c2bbfcc5ff56863e9c8a695782c55df2368b2ab593954ec2ac644203a243c1",
+        "autorouter/placement_clearance.py": "f846a73367bc60dfbb48386233e405cb4bf1382f056d379787d7b823c3905feb",
+        "autorouter/placement_strategy.py": "02bbf23263e208f2e4ff02e2f0c7c16072518ae2239153c032f55b9f1d3d668d",
+        "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+        "autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+        "autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+        "autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+        "autorouter/recovery.py": "8a2bf1470cb69e7d8d334bbe7aef18110322a7aa786b965d397a89ddbc932ee5",
+        "autorouter/review_export.py": "716b369af61faa8c15f60ef58a0846772e4b175cff4a75af0c2c5ea45f24aea7",
+        "autorouter/review_view.py": "8f765624a8527df770a98594a7b27fe88776b300ec276f809c179ec7f6f60fb7",
+        "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+        "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+        "autorouter/schematic_field_evidence.py": "d7e1012b05bb7e0fb03358bbc3573b845ff06d03760a88137cf52db71090641b",
+        "autorouter/schematic_fields.py": "7d9043a14bac69d18830b2f51cb7d118c648df9290337505db1bf8503d931a71",
+        "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+        "autorouter/strategy.py": "a7fb17f35f390430fb45d335efa43dd7190546ae9df932c75925d05fe4ab137e",
+        "autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+        "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+        "autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455"
+      },
+      "git_head": "92e80442b78decb6bfabe6df4f7c88d171ac17ca",
+      "kicad": "10.0.0",
+      "freerouting": "2.5.0",
+      "files": {
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+        "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219"
+      },
+      "network": "engine sandbox-exec deny network*"
+    },
+    "reader_sha256": "2022ecfc5eccfbe953beb71012b0abbc3ab290f991b23a608f257418a1431a78",
+    "controller_sha256": "3265038af28a1e55a975347e56614921c97333f2ddb032c9462784bb1db187a4",
+    "log_sha256": "6bae03a4609e66906e92b9394c11b93f37bc2fb4aee6658b11e52623a9364670",
+    "scope": "Actual shared stage/process/legacy/PRL readback of retained core controls001; no Native/JVM/network/tests rerun. Conservative reader2sec allowance separately; development preparation unmeasured."
+  },
+  "shared_reader_receipt": {
+    "path": ".runs/core-prl-native-readback-001/result.json",
+    "sha256": "f320c81f941d43a3eda77642d8188698ac38c0ffab8be878be2918f8812d0c36",
+    "bytes": 3306
+  },
+  "cases": [
+    {
+      "case": "positive",
+      "candidate_sha256": "7e1afa5e1e00f61f8dc75e1a9ee668ad89c8a5998084b25b07f10473775a0a02",
+      "report_sha256": "2d3025ab60ed3f8d78e0764f720aeeecca8a7bdc83b48f819789a703864edd34",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 17,
+        "exclusions": 0
+      },
+      "all_original_routes_exact": true,
+      "independent_legacy_witness": true,
+      "workers": 2
+    },
+    {
+      "case": "miso_open",
+      "candidate_sha256": "247bb550866567c83b5f32a7bd80c91d7ac8f57b382633881718f471947485e8",
+      "report_sha256": "2ba1c4bcbb1e821b461b86f94ea742fc04fc6f40b5b1736edf024e34c1987f6c",
+      "native": {
+        "opens": 2,
+        "blocking": 0,
+        "warnings": 17,
+        "exclusions": 0
+      },
+      "all_original_routes_exact": false,
+      "independent_legacy_witness": true,
+      "workers": 2
+    }
+  ],
+  "source_hashes": {
+    ".gitignore": "45f7f3fe544780aac038d924c9465292c16b72ea434a00a8c9137e87b83a517f",
+    "LICENSE": "6e471d647db50527d0c75ee5f1a55a74012ab177c73282bef0bdc7f6562b7ded",
+    "README.md": "cf84c6835f86d50025c90e980ef135cf024f619ffe12a398d5834e50a8010950",
+    "board-3d.png": "4896c11b02d6347541c88996b97ad27b63b32931c0e06f15f3d853aa23d3fe98",
+    "board.png": "0b1c4c4adc4b0bcc9d1a63f55c49029771a90df9b3b9691b18761f59c9ae2da9",
+    "fabrication-toolkit-options.json": "ce350c9fbf50056a42d119dcf2d2e4b06f8c4cae569151e41d6789035f81447d",
+    "fp-lib-table": "2ab78b5c4bb3b7cc2c93b39453694c320ce4cf5a4a24eaca2be0c0e1c5b57718",
+    "paw3395.kicad_pcb": "c2e8cebd0da804eb3912c6559ad6b3e725c1b29f744d616e1ebb22f1229f7740",
+    "paw3395.kicad_prl": "59ef02a971d7d463743b8d497c0f10b6a9546f5c687f68f6eb464204bbd3a486",
+    "paw3395.kicad_pro": "4a0b352b482dd49a22aeea5599c44444e2d1dfad2ac77880c63152002445cdad",
+    "paw3395.kicad_sch": "ef0cb4a88b019935d896e1851cb4c4e6c4a443e04a65a182e4e3a980b428ea15",
+    "paw3395_pcb.pretty/PAW3395.kicad_mod": "6ce69d5bce48db2806300bb92105d67eb18becd8955a83b4dd77bbc7891f9b51",
+    "photo-1.jpg": "2410ed6f4eae32ddae3febe12d9c8f178d1f74050486441ae35c741044f907d5",
+    "photo-3950.jpg": "548aef29ad448ca39a5a743ebe649918b9b8b5074d81cf2aaf97b8f6adeb12b8"
+  },
+  "source_static_refusal": "unsupported: unqualified board format version",
+  "legacy_policy": {
+    "schema": 1,
+    "policy": "legacy-zone-ordinary-pad-witness-v1",
+    "native_enforcement_claimed": false,
+    "project_sha256": "4a0b352b482dd49a22aeea5599c44444e2d1dfad2ac77880c63152002445cdad",
+    "candidate_sha256": "7e1afa5e1e00f61f8dc75e1a9ee668ad89c8a5998084b25b07f10473775a0a02",
+    "witness": {
+      "schema": 1,
+      "policy": "legacy-zone-ordinary-pad-witness-v1",
+      "original_rule": {
+        "key": "zone_has_empty_net",
+        "severity": "error"
+      },
+      "basis": "exact-existing-immutable-board-AST",
+      "basis_sha256": "47b65bcc3522c099b9f6b34e64974366f2c1ac8271bacb93284a73ef49bfb42b",
+      "native_enforcement_claimed": false,
+      "zones": [
+        {
+          "zone_uuid": "d471c9f9-2d09-48a9-8587-f740a31511fb",
+          "net_code": "2",
+          "net_name": "GND",
+          "copper_layers": [
+            "B.Cu",
+            "F.Cu"
+          ],
+          "net0_exempt": false,
+          "pad_witness": {
+            "pad_uuid": "0ed10ace-9243-4fcb-86d1-2c5435f83be9",
+            "footprint_uuid": "fbc8f6d6-00a6-45a7-93be-d58c5cbf53f2",
+            "net_code": "2",
+            "net_name": "GND",
+            "pad_type": "smd",
+            "copper_layers": [
+              "F.Cu"
+            ],
+            "size_nm": [
+              900000,
+              950000
+            ],
+            "drill_nm": null
+          }
+        }
+      ]
+    },
+    "implementation_sha256": {
+      "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+      "autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+      "autorouter/floor_route.py": "559cda1d4fea6b62ef5d76c1c19def101d0003216ab7bf6063c92f9aa851b83e",
+      "autorouter/placement_clearance.py": "f846a73367bc60dfbb48386233e405cb4bf1382f056d379787d7b823c3905feb",
+      "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+      "autorouter/pipeline.py": "93c2bbfcc5ff56863e9c8a695782c55df2368b2ab593954ec2ac644203a243c1"
+    }
+  },
+  "all_native_reports": [
+    {
+      "case": "positive",
+      "final": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 17,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Text height out of range",
+            "key": "text_height"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint doesn't match copy in library",
+            "key": "lib_footprint_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+            "items": [
+              {
+                "description": "Footprint R1",
+                "pos": {
+                  "x": 151.775,
+                  "y": 79.85
+                },
+                "uuid": "01f57d9d-39e3-4696-9b28-1ceca0a2a576"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C5",
+                "pos": {
+                  "x": 146.05,
+                  "y": 84.275
+                },
+                "uuid": "0dd96f6c-daff-4be8-b802-eb59ac451b71"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C3",
+                "pos": {
+                  "x": 140.05,
+                  "y": 84.275
+                },
+                "uuid": "0dfa967b-cfba-4eb9-9e4b-c192327a12c8"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C9",
+                "pos": {
+                  "x": 148.775,
+                  "y": 79.85
+                },
+                "uuid": "1094888a-48e5-43f4-ba15-80bf467e6702"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C10",
+                "pos": {
+                  "x": 148.775,
+                  "y": 81.45
+                },
+                "uuid": "159a2a0d-0d2c-4052-8377-8ad5f593a754"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+              {
+                "description": "Footprint J1",
+                "pos": {
+                  "x": 140.3,
+                  "y": 77.5
+                },
+                "uuid": "4915dd48-aa9b-44fd-b040-523fb1bf0fe0"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C11",
+                "pos": {
+                  "x": 140.875,
+                  "y": 82.05
+                },
+                "uuid": "52c655fd-3b2f-4585-a1cd-e3f417b2c1e8"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+            "items": [
+              {
+                "description": "Footprint R3",
+                "pos": {
+                  "x": 151.775,
+                  "y": 81.45
+                },
+                "uuid": "5424ce16-2e48-4dc7-98a3-1132d8dc53af"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C1",
+                "pos": {
+                  "x": 143.05,
+                  "y": 84.275
+                },
+                "uuid": "60c33153-8bc0-4208-a32f-313206c00f8b"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+              {
+                "description": "Footprint J2",
+                "pos": {
+                  "x": 153.01,
+                  "y": 77.5
+                },
+                "uuid": "60de1088-f0ad-4d6f-b3e6-d1431dcdfda5"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C8",
+                "pos": {
+                  "x": 151.2,
+                  "y": 84.275
+                },
+                "uuid": "64e6f9d1-9938-4558-8d7f-9f434f41f06f"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C4",
+                "pos": {
+                  "x": 141.55,
+                  "y": 84.275
+                },
+                "uuid": "7099f1fd-8375-4f06-841c-0e5c2ca4d898"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+            "items": [
+              {
+                "description": "Footprint R2",
+                "pos": {
+                  "x": 152.75,
+                  "y": 84.275
+                },
+                "uuid": "73744bef-1bc8-4ff1-bfd4-35ade061ba33"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C6",
+                "pos": {
+                  "x": 147.55,
+                  "y": 84.275
+                },
+                "uuid": "89236973-0d71-4a2c-bef7-caa6b6011673"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C2",
+                "pos": {
+                  "x": 144.55,
+                  "y": 84.275
+                },
+                "uuid": "908a89b6-2669-4055-8996-b35a16bea52d"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Package_TO_SOT_SMD'",
+            "items": [
+              {
+                "description": "Footprint U1",
+                "pos": {
+                  "x": 144.9,
+                  "y": 80.908052
+                },
+                "uuid": "9f6dab53-2a66-4d26-a7a2-b67753618bed"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C7",
+                "pos": {
+                  "x": 149.7,
+                  "y": 84.275
+                },
+                "uuid": "fbc8f6d6-00a6-45a7-93be-d58c5cbf53f2"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          }
+        ]
+      },
+      "saved": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 17,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Text height out of range",
+            "key": "text_height"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint doesn't match copy in library",
+            "key": "lib_footprint_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+            "items": [
+              {
+                "description": "Footprint R1",
+                "pos": {
+                  "x": 151.775,
+                  "y": 79.85
+                },
+                "uuid": "01f57d9d-39e3-4696-9b28-1ceca0a2a576"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C5",
+                "pos": {
+                  "x": 146.05,
+                  "y": 84.275
+                },
+                "uuid": "0dd96f6c-daff-4be8-b802-eb59ac451b71"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C3",
+                "pos": {
+                  "x": 140.05,
+                  "y": 84.275
+                },
+                "uuid": "0dfa967b-cfba-4eb9-9e4b-c192327a12c8"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C9",
+                "pos": {
+                  "x": 148.775,
+                  "y": 79.85
+                },
+                "uuid": "1094888a-48e5-43f4-ba15-80bf467e6702"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C10",
+                "pos": {
+                  "x": 148.775,
+                  "y": 81.45
+                },
+                "uuid": "159a2a0d-0d2c-4052-8377-8ad5f593a754"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+              {
+                "description": "Footprint J1",
+                "pos": {
+                  "x": 140.3,
+                  "y": 77.5
+                },
+                "uuid": "4915dd48-aa9b-44fd-b040-523fb1bf0fe0"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C11",
+                "pos": {
+                  "x": 140.875,
+                  "y": 82.05
+                },
+                "uuid": "52c655fd-3b2f-4585-a1cd-e3f417b2c1e8"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+            "items": [
+              {
+                "description": "Footprint R3",
+                "pos": {
+                  "x": 151.775,
+                  "y": 81.45
+                },
+                "uuid": "5424ce16-2e48-4dc7-98a3-1132d8dc53af"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C1",
+                "pos": {
+                  "x": 143.05,
+                  "y": 84.275
+                },
+                "uuid": "60c33153-8bc0-4208-a32f-313206c00f8b"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+              {
+                "description": "Footprint J2",
+                "pos": {
+                  "x": 153.01,
+                  "y": 77.5
+                },
+                "uuid": "60de1088-f0ad-4d6f-b3e6-d1431dcdfda5"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C8",
+                "pos": {
+                  "x": 151.2,
+                  "y": 84.275
+                },
+                "uuid": "64e6f9d1-9938-4558-8d7f-9f434f41f06f"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C4",
+                "pos": {
+                  "x": 141.55,
+                  "y": 84.275
+                },
+                "uuid": "7099f1fd-8375-4f06-841c-0e5c2ca4d898"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+            "items": [
+              {
+                "description": "Footprint R2",
+                "pos": {
+                  "x": 152.75,
+                  "y": 84.275
+                },
+                "uuid": "73744bef-1bc8-4ff1-bfd4-35ade061ba33"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C6",
+                "pos": {
+                  "x": 147.55,
+                  "y": 84.275
+                },
+                "uuid": "89236973-0d71-4a2c-bef7-caa6b6011673"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C2",
+                "pos": {
+                  "x": 144.55,
+                  "y": 84.275
+                },
+                "uuid": "908a89b6-2669-4055-8996-b35a16bea52d"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Package_TO_SOT_SMD'",
+            "items": [
+              {
+                "description": "Footprint U1",
+                "pos": {
+                  "x": 144.9,
+                  "y": 80.908052
+                },
+                "uuid": "9f6dab53-2a66-4d26-a7a2-b67753618bed"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C7",
+                "pos": {
+                  "x": 149.7,
+                  "y": 84.275
+                },
+                "uuid": "fbc8f6d6-00a6-45a7-93be-d58c5cbf53f2"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          }
+        ]
+      },
+      "report_sha256": "2d3025ab60ed3f8d78e0764f720aeeecca8a7bdc83b48f819789a703864edd34",
+      "steps": [
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 1.93963787498069,
+          "cpu_seconds": 0.738416,
+          "max_rss_bytes": 217759744,
+          "supervisor_cpu_seconds": 0.017324000000000006,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 216072192,
+          "sampled_peak_workdir_bytes": 4405101,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/core-prl-native-controls-001/positive/refill-drc.json",
+            "--save-board",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/core-prl-native-controls-001/positive/refill/paw3395.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/core-prl-native-controls-001/positive/refill-drc.log",
+          "log_bytes": 184,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/core-prl-native-controls-001/positive",
+          "signal_cancellation_enabled": true,
+          "pid": 44658,
+          "name": "refill-drc",
+          "local_settings_policy": "job-owned-prl-immutable-v1",
+          "local_settings_protection": {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": true,
+            "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/core-prl-native-controls-001/positive/refill/paw3395.kicad_prl",
+            "sha256": "59ef02a971d7d463743b8d497c0f10b6a9546f5c687f68f6eb464204bbd3a486",
+            "flags_before": 0,
+            "flags_during": 2,
+            "flags_restored": true,
+            "bytes_unchanged": true
+          },
+          "validated_input_sha256": "c2e8cebd0da804eb3912c6559ad6b3e725c1b29f744d616e1ebb22f1229f7740",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/core-prl-native-controls-001/positive/refill/paw3395.kicad_pcb"
+        },
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 1.3070013750111684,
+          "cpu_seconds": 0.673275,
+          "max_rss_bytes": 235503616,
+          "supervisor_cpu_seconds": 0.013816999999999968,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 232816640,
+          "sampled_peak_workdir_bytes": 6552839,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--schematic-parity",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/core-prl-native-controls-001/positive/final-drc.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/core-prl-native-controls-001/positive/final-drc-input/paw3395.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/core-prl-native-controls-001/positive/final-drc.log",
+          "log_bytes": 203,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/core-prl-native-controls-001/positive",
+          "signal_cancellation_enabled": true,
+          "pid": 44660,
+          "name": "final-drc",
+          "local_settings_policy": "job-owned-prl-immutable-v1",
+          "local_settings_protection": {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": true,
+            "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/core-prl-native-controls-001/positive/final-drc-input/paw3395.kicad_prl",
+            "sha256": "59ef02a971d7d463743b8d497c0f10b6a9546f5c687f68f6eb464204bbd3a486",
+            "flags_before": 0,
+            "flags_during": 2,
+            "flags_restored": true,
+            "bytes_unchanged": true
+          },
+          "validated_input_sha256": "7e1afa5e1e00f61f8dc75e1a9ee668ad89c8a5998084b25b07f10473775a0a02",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/core-prl-native-controls-001/positive/candidate/paw3395.kicad_pcb"
+        }
+      ]
+    },
+    {
+      "case": "miso_open",
+      "final": {
+        "opens": 2,
+        "blocking": 0,
+        "warnings": 17,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Text height out of range",
+            "key": "text_height"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint doesn't match copy in library",
+            "key": "lib_footprint_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+            "items": [
+              {
+                "description": "Footprint R1",
+                "pos": {
+                  "x": 151.775,
+                  "y": 79.85
+                },
+                "uuid": "01f57d9d-39e3-4696-9b28-1ceca0a2a576"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C5",
+                "pos": {
+                  "x": 146.05,
+                  "y": 84.275
+                },
+                "uuid": "0dd96f6c-daff-4be8-b802-eb59ac451b71"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C3",
+                "pos": {
+                  "x": 140.05,
+                  "y": 84.275
+                },
+                "uuid": "0dfa967b-cfba-4eb9-9e4b-c192327a12c8"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C9",
+                "pos": {
+                  "x": 148.775,
+                  "y": 79.85
+                },
+                "uuid": "1094888a-48e5-43f4-ba15-80bf467e6702"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C10",
+                "pos": {
+                  "x": 148.775,
+                  "y": 81.45
+                },
+                "uuid": "159a2a0d-0d2c-4052-8377-8ad5f593a754"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+              {
+                "description": "Footprint J1",
+                "pos": {
+                  "x": 140.3,
+                  "y": 77.5
+                },
+                "uuid": "4915dd48-aa9b-44fd-b040-523fb1bf0fe0"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C11",
+                "pos": {
+                  "x": 140.875,
+                  "y": 82.05
+                },
+                "uuid": "52c655fd-3b2f-4585-a1cd-e3f417b2c1e8"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+            "items": [
+              {
+                "description": "Footprint R3",
+                "pos": {
+                  "x": 151.775,
+                  "y": 81.45
+                },
+                "uuid": "5424ce16-2e48-4dc7-98a3-1132d8dc53af"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C1",
+                "pos": {
+                  "x": 143.05,
+                  "y": 84.275
+                },
+                "uuid": "60c33153-8bc0-4208-a32f-313206c00f8b"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+              {
+                "description": "Footprint J2",
+                "pos": {
+                  "x": 153.01,
+                  "y": 77.5
+                },
+                "uuid": "60de1088-f0ad-4d6f-b3e6-d1431dcdfda5"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C8",
+                "pos": {
+                  "x": 151.2,
+                  "y": 84.275
+                },
+                "uuid": "64e6f9d1-9938-4558-8d7f-9f434f41f06f"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C4",
+                "pos": {
+                  "x": 141.55,
+                  "y": 84.275
+                },
+                "uuid": "7099f1fd-8375-4f06-841c-0e5c2ca4d898"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+            "items": [
+              {
+                "description": "Footprint R2",
+                "pos": {
+                  "x": 152.75,
+                  "y": 84.275
+                },
+                "uuid": "73744bef-1bc8-4ff1-bfd4-35ade061ba33"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C6",
+                "pos": {
+                  "x": 147.55,
+                  "y": 84.275
+                },
+                "uuid": "89236973-0d71-4a2c-bef7-caa6b6011673"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C2",
+                "pos": {
+                  "x": 144.55,
+                  "y": 84.275
+                },
+                "uuid": "908a89b6-2669-4055-8996-b35a16bea52d"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Package_TO_SOT_SMD'",
+            "items": [
+              {
+                "description": "Footprint U1",
+                "pos": {
+                  "x": 144.9,
+                  "y": 80.908052
+                },
+                "uuid": "9f6dab53-2a66-4d26-a7a2-b67753618bed"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C7",
+                "pos": {
+                  "x": 149.7,
+                  "y": 84.275
+                },
+                "uuid": "fbc8f6d6-00a6-45a7-93be-d58c5cbf53f2"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "Missing connection between items",
+            "items": [
+              {
+                "description": "PTH pad 12 [MISO] of U2",
+                "pos": {
+                  "x": 151.99,
+                  "y": 97.105
+                },
+                "uuid": "32bced51-b7dd-4bd0-bc4f-4a56e95744a6"
+              },
+              {
+                "description": "Pad 2 [MISO] of R1 on F.Cu",
+                "pos": {
+                  "x": 152.6,
+                  "y": 79.85
+                },
+                "uuid": "6c3282ad-57c3-4640-86f4-4aa0811a9a5c"
+              }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+          },
+          {
+            "description": "Missing connection between items",
+            "items": [
+              {
+                "description": "Pad 2 [MISO] of R1 on F.Cu",
+                "pos": {
+                  "x": 152.6,
+                  "y": 79.85
+                },
+                "uuid": "6c3282ad-57c3-4640-86f4-4aa0811a9a5c"
+              },
+              {
+                "description": "PTH pad 3 [MISO] of J2",
+                "pos": {
+                  "x": 147.93,
+                  "y": 77.5
+                },
+                "uuid": "5e7ab85a-f97d-4a1a-82ec-763e257bfbf3"
+              }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+          }
+        ]
+      },
+      "saved": {
+        "opens": 2,
+        "blocking": 0,
+        "warnings": 17,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Text height out of range",
+            "key": "text_height"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint doesn't match copy in library",
+            "key": "lib_footprint_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+            "items": [
+              {
+                "description": "Footprint R1",
+                "pos": {
+                  "x": 151.775,
+                  "y": 79.85
+                },
+                "uuid": "01f57d9d-39e3-4696-9b28-1ceca0a2a576"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C5",
+                "pos": {
+                  "x": 146.05,
+                  "y": 84.275
+                },
+                "uuid": "0dd96f6c-daff-4be8-b802-eb59ac451b71"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C3",
+                "pos": {
+                  "x": 140.05,
+                  "y": 84.275
+                },
+                "uuid": "0dfa967b-cfba-4eb9-9e4b-c192327a12c8"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C9",
+                "pos": {
+                  "x": 148.775,
+                  "y": 79.85
+                },
+                "uuid": "1094888a-48e5-43f4-ba15-80bf467e6702"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C10",
+                "pos": {
+                  "x": 148.775,
+                  "y": 81.45
+                },
+                "uuid": "159a2a0d-0d2c-4052-8377-8ad5f593a754"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+              {
+                "description": "Footprint J1",
+                "pos": {
+                  "x": 140.3,
+                  "y": 77.5
+                },
+                "uuid": "4915dd48-aa9b-44fd-b040-523fb1bf0fe0"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C11",
+                "pos": {
+                  "x": 140.875,
+                  "y": 82.05
+                },
+                "uuid": "52c655fd-3b2f-4585-a1cd-e3f417b2c1e8"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+            "items": [
+              {
+                "description": "Footprint R3",
+                "pos": {
+                  "x": 151.775,
+                  "y": 81.45
+                },
+                "uuid": "5424ce16-2e48-4dc7-98a3-1132d8dc53af"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C1",
+                "pos": {
+                  "x": 143.05,
+                  "y": 84.275
+                },
+                "uuid": "60c33153-8bc0-4208-a32f-313206c00f8b"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+              {
+                "description": "Footprint J2",
+                "pos": {
+                  "x": 153.01,
+                  "y": 77.5
+                },
+                "uuid": "60de1088-f0ad-4d6f-b3e6-d1431dcdfda5"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C8",
+                "pos": {
+                  "x": 151.2,
+                  "y": 84.275
+                },
+                "uuid": "64e6f9d1-9938-4558-8d7f-9f434f41f06f"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C4",
+                "pos": {
+                  "x": 141.55,
+                  "y": 84.275
+                },
+                "uuid": "7099f1fd-8375-4f06-841c-0e5c2ca4d898"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+            "items": [
+              {
+                "description": "Footprint R2",
+                "pos": {
+                  "x": 152.75,
+                  "y": 84.275
+                },
+                "uuid": "73744bef-1bc8-4ff1-bfd4-35ade061ba33"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C6",
+                "pos": {
+                  "x": 147.55,
+                  "y": 84.275
+                },
+                "uuid": "89236973-0d71-4a2c-bef7-caa6b6011673"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C2",
+                "pos": {
+                  "x": 144.55,
+                  "y": 84.275
+                },
+                "uuid": "908a89b6-2669-4055-8996-b35a16bea52d"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Package_TO_SOT_SMD'",
+            "items": [
+              {
+                "description": "Footprint U1",
+                "pos": {
+                  "x": 144.9,
+                  "y": 80.908052
+                },
+                "uuid": "9f6dab53-2a66-4d26-a7a2-b67753618bed"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C7",
+                "pos": {
+                  "x": 149.7,
+                  "y": 84.275
+                },
+                "uuid": "fbc8f6d6-00a6-45a7-93be-d58c5cbf53f2"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "Missing connection between items",
+            "items": [
+              {
+                "description": "PTH pad 12 [MISO] of U2",
+                "pos": {
+                  "x": 151.99,
+                  "y": 97.105
+                },
+                "uuid": "32bced51-b7dd-4bd0-bc4f-4a56e95744a6"
+              },
+              {
+                "description": "Pad 2 [MISO] of R1 on F.Cu",
+                "pos": {
+                  "x": 152.6,
+                  "y": 79.85
+                },
+                "uuid": "6c3282ad-57c3-4640-86f4-4aa0811a9a5c"
+              }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+          },
+          {
+            "description": "Missing connection between items",
+            "items": [
+              {
+                "description": "Pad 2 [MISO] of R1 on F.Cu",
+                "pos": {
+                  "x": 152.6,
+                  "y": 79.85
+                },
+                "uuid": "6c3282ad-57c3-4640-86f4-4aa0811a9a5c"
+              },
+              {
+                "description": "PTH pad 3 [MISO] of J2",
+                "pos": {
+                  "x": 147.93,
+                  "y": 77.5
+                },
+                "uuid": "5e7ab85a-f97d-4a1a-82ec-763e257bfbf3"
+              }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+          }
+        ]
+      },
+      "report_sha256": "2ba1c4bcbb1e821b461b86f94ea742fc04fc6f40b5b1736edf024e34c1987f6c",
+      "steps": [
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 1.2480924170231447,
+          "cpu_seconds": 0.652974,
+          "max_rss_bytes": 218890240,
+          "supervisor_cpu_seconds": 0.010423999999999989,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 215089152,
+          "sampled_peak_workdir_bytes": 4382613,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/core-prl-native-controls-001/miso_open/refill-drc.json",
+            "--save-board",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/core-prl-native-controls-001/miso_open/refill/paw3395.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/core-prl-native-controls-001/miso_open/refill-drc.log",
+          "log_bytes": 185,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/core-prl-native-controls-001/miso_open",
+          "signal_cancellation_enabled": true,
+          "pid": 44663,
+          "name": "refill-drc",
+          "local_settings_policy": "job-owned-prl-immutable-v1",
+          "local_settings_protection": {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": true,
+            "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/core-prl-native-controls-001/miso_open/refill/paw3395.kicad_prl",
+            "sha256": "59ef02a971d7d463743b8d497c0f10b6a9546f5c687f68f6eb464204bbd3a486",
+            "flags_before": 0,
+            "flags_during": 2,
+            "flags_restored": true,
+            "bytes_unchanged": true
+          },
+          "validated_input_sha256": "0865ee8e7ca331dc7128d8a1257b1af5912455a702ef33c6d69911fb2bc6dfd9",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/core-prl-native-controls-001/miso_open/refill/paw3395.kicad_pcb"
+        },
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 1.2741489589971025,
+          "cpu_seconds": 0.7019569999999999,
+          "max_rss_bytes": 235257856,
+          "supervisor_cpu_seconds": 0.014602000000000004,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 232439808,
+          "sampled_peak_workdir_bytes": 6550723,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--schematic-parity",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/core-prl-native-controls-001/miso_open/final-drc.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/core-prl-native-controls-001/miso_open/final-drc-input/paw3395.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/core-prl-native-controls-001/miso_open/final-drc.log",
+          "log_bytes": 204,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/core-prl-native-controls-001/miso_open",
+          "signal_cancellation_enabled": true,
+          "pid": 44664,
+          "name": "final-drc",
+          "local_settings_policy": "job-owned-prl-immutable-v1",
+          "local_settings_protection": {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": true,
+            "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/core-prl-native-controls-001/miso_open/final-drc-input/paw3395.kicad_prl",
+            "sha256": "59ef02a971d7d463743b8d497c0f10b6a9546f5c687f68f6eb464204bbd3a486",
+            "flags_before": 0,
+            "flags_during": 2,
+            "flags_restored": true,
+            "bytes_unchanged": true
+          },
+          "validated_input_sha256": "247bb550866567c83b5f32a7bd80c91d7ac8f57b382633881718f471947485e8",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/core-prl-native-controls-001/miso_open/candidate/paw3395.kicad_pcb"
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Positive actual0/0/17/0/all220routes; deliberately opened MISO actual2/0/17/0 and rejects. All17warning identities retained, fullSCH checks real, original source unchanged.",
+    "Four actual Native workers, all own existingPRL bytes immutable during worker and restored onlyafter cleanup; every current retained PRL flag0; no fieldwaiver or fabricated restore used.",
+    "Independent legacyrule ordinarycopperpad witness/code provenance/final artifact checked in bothcases; native10 itself still omits original legacyerror.",
+    "Core defaultFalse/normalrouting notenabled; entirepolicy deletion must be forced by captured producer provenance before defaultenablement. Oldformat20240108 remains blocked.",
+    "20MiB is retained-output cap betweenstages; actual existingworkers512MiB workdir/4GiBgroupRSS/2MBlogs finitepolling, notOS hardenforcement. Outer bounded105s; full90wall/CPU actor includes native/control/readback/emission as recorded.",
+    "No newacquisition/DSNexport/engine; priororiginal002 and legacycontrols001 not repeated to claimgain. Control Native invocations requiredfor thisnewcoreboundary.",
+    "All raw after7db9incremental cutoff; onMaconly byownerchoice. Next milestone incremental using restoredc81base, fullrestoration at major/release."
+  ]
+}
