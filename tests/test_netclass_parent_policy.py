@@ -1,7 +1,7 @@
 """Experimental closed-native class proof; pure controls are not routing proof."""
 import copy,unittest
 from autorouter import netclass as n,sexpr as sx
-from test_netclass import fixtures
+from tests.test_netclass import fixtures
 
 def example():
  tree,native,project=fixtures()
