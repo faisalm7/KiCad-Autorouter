@@ -26,6 +26,7 @@ MAX_TRIAL_SECONDS = 12.0
 MAX_TRIALS = 32
 MAX_FEEDBACK_DEPTH = 2
 MAX_FEEDBACK_ADDED_ROUTES = 8
+PRUNING_PREFERENCES_POLICY = "native-pruning-preferences-v1"
 
 
 class Cancelled(p.Rejected):
@@ -224,9 +225,65 @@ def _check_original(source, snapshot, expected):
         raise p.Rejected("source or frozen snapshot changed during pruning")
 
 
+def pruning_preferences(captured=None, overrides=None):
+    """Use shared presets, retaining the strategy's actual supported scope."""
+    from . import preferences as pref
+    effective = pref.resolve(captured, overrides)
+    return pruning_scope(effective)
+
+
+def pruning_scope(effective):
+    """Do not silently replace saved unsupported task constraints."""
+    from . import preferences as pref
+    effective = pref.validate(effective)
+    required = {'scope': 'whole_board_unlocked_routing', 'adapter': 'both',
+                'profile': 'tuned', 'guidance': 'native', 'layers': 'source_all'}
+    if any(effective[name] != value for name, value in required.items()):
+        raise p.Rejected('native pruning presets require whole-board/native/tuned/both/source_all; use route for other scopes')
+    if not 30 <= effective['seconds'] <= 900:
+        raise p.Rejected('pruning budget must be 30–900 seconds')
+    return effective
+
+
+def check_pruning_preferences(directory, data):
+    """Bind captured choices to this root and its fresh scoring contract."""
+    from . import preferences as pref
+    from .placement_clearance import read_bytes
+    directory = Path(directory)
+    path = directory/'pruning-preferences.json'
+    code = directory/'code/strategy.py'
+    required = False
+    if code.exists() or code.is_symlink():
+        raw_code = read_bytes(code, 1024*1024)
+        pin = data.get('tools', {}).get('implementation_sha256', {}).get('autorouter/strategy.py')
+        if hashlib.sha256(raw_code).hexdigest() != pin:
+            raise p.Rejected('captured pruning implementation changed')
+        required = b'PRUNING_PREFERENCES_POLICY' in raw_code
+    if not required and 'pruning_preferences' not in data and not path.exists() and not path.is_symlink():
+        return None  # Legacy receipts keep their actual, narrower evidence.
+    binding = data.get('pruning_preferences')
+    if (data.get('pruning_preferences_policy') != PRUNING_PREFERENCES_POLICY
+            or not isinstance(binding, dict) or set(binding) != {'file', 'sha256', 'effective'}
+            or binding['file'] != path.name):
+        raise p.Rejected('missing or malformed pruning preferences binding')
+    raw = read_bytes(path, pref.MAX_SNAPSHOT_BYTES)
+    if hashlib.sha256(raw).hexdigest() != binding['sha256']:
+        raise p.Rejected('pruning preferences snapshot changed')
+    effective = pref.readback(raw, binding['effective'])
+    pruning_scope(effective)
+    expected = {'scope': effective['scope'], 'adapter': effective['adapter'],
+                'engine_profile': effective['profile'], 'budget_seconds': effective['seconds'],
+                'cpu_budget_seconds': effective['seconds']}
+    if (any(data.get(name) != value for name, value in expected.items())
+            or data.get('incumbent_scoring_variant') != effective['scoring_preference']):
+        raise p.Rejected('pruning result differs from captured preferences')
+    return effective
+
+
 def check_incumbent_scoring(directory, data):
     """Bind an explicitly chosen scoring preset to the fresh charged solve."""
     from . import floor_route as f
+    check_pruning_preferences(directory, data)
     path=Path(directory)/'incumbent/result.json';inc=f.read_json(path)
     marker=Path(directory)/'pruning-scoring.json'
     variant=data.get('incumbent_scoring_variant')
@@ -252,7 +309,8 @@ def check_incumbent_scoring(directory, data):
     p.check_result(path)
 
 
-def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_scoring=None):
+def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_scoring=None,
+          settings_path=None, preference_overrides=None):
     """Run tuned B2 plus greedy pruning within one wall/CPU budget, retaining trials.
 
     A 15-second reserve is withheld from B2/trials for final emission and native
@@ -260,6 +318,26 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
     finish. Exhausting the global budget always rejects the root result.
     """
     started, cpu_started = time.monotonic(), time.process_time()
+    p.engine_scoring_settings(incumbent_scoring)  # Preserve legacy typed rejection before output.
+    if isinstance(seconds, bool) or not isinstance(seconds, (int, float)) or not math.isfinite(seconds) or not 30 <= seconds <= 900:
+        raise p.Rejected("pruning budget must be 30–900 seconds")
+    from . import preferences as pref
+    from .handoff import capture_destination, owned_destination
+    captured = pref.load(settings_path) if settings_path is not None else None
+    if settings_path is not None or preference_overrides is not None:
+        if seconds != 120 or incumbent_scoring is not None:
+            raise p.Rejected('pass pruning settings overrides through preference_overrides, not mixed arguments')
+        overrides = preference_overrides
+        if captured is None:
+            overrides = {'adapter': 'both', 'profile': 'tuned', **(overrides or {})}
+        effective = pruning_preferences(captured, overrides)
+        seconds, incumbent_scoring = effective['seconds'], effective['scoring_preference']
+    else:
+        overrides = {'adapter': 'both', 'profile': 'tuned', 'seconds': seconds,
+                     'scoring_preference': incumbent_scoring}
+        effective = pruning_preferences(None, overrides)
+    preference_bytes = pref.snapshot(captured, overrides)
+    pref.check_fresh(captured)
     p.engine_scoring_settings(incumbent_scoring)
     if not isinstance(proposal_policy, str) or proposal_policy not in {"single", "feedback"}:
         raise p.Rejected("unknown pruning proposal policy")
@@ -271,6 +349,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
         raise p.Rejected("output must be outside source project")
     deadline = started + seconds
     final_job = p.Job(output, seconds)
+    owner = {}; capture_destination(owner, output)
     final_job.started, final_job.deadline, final_job.cpu_started = started, deadline, cpu_started
     (output / "checkpoints").mkdir()
     (output / "trials").mkdir()
@@ -289,12 +368,21 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
               "started_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
               "physical_electrical_validation": False, "schematic_parity": "not checked",
               "trials": [], "checkpoints": [], "steps": [], "improvements": 0}
+    preference_path = output/'pruning-preferences.json'
+    preference_path.write_bytes(preference_bytes)
+    report['pruning_preferences_policy'] = PRUNING_PREFERENCES_POLICY
+    report['pruning_preferences'] = {'file': preference_path.name,
+        'sha256': p.sha(preference_path), 'effective': effective}
     if incumbent_scoring is not None:
         report['incumbent_scoring_variant']=incumbent_scoring
         marker=output/'pruning-scoring.json'
         p.save_json(marker,{'schema':1,'strategy':report['strategy'],'incumbent_scoring_variant':incumbent_scoring})
         report['incumbent_scoring_contract']={'file':marker.name,'sha256':p.sha(marker)}
     all_steps = []
+
+    def original_fresh(source, snapshot, expected):
+        pref.check_fresh(captured)
+        _check_original(source, snapshot, expected)
 
     def cpu_used(extra_steps=()):
         return (time.process_time() - cpu_started
@@ -336,7 +424,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
                 raise p.Rejected("implementation changed during code snapshot")
         snapshot = output / "snapshot"
         shutil.copytree(source.parent, snapshot)
-        _check_original(source, snapshot, source_hashes)
+        original_fresh(source, snapshot, source_hashes)
         incumbent_seconds = remaining_work_budget()
         if incumbent_seconds < 5:
             raise p.Rejected("insufficient budget for incumbent and finalization reserve")
@@ -361,7 +449,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
         source_policy=p.netclass_policy(source)
         if source_policy is not None and source_policy['mode']==PARENT_POLICY:
             report['netclass_parent_dsn_basis']=p.parent_dsn_basis(output)
-        _check_original(source, snapshot, source_hashes)
+        original_fresh(source, snapshot, source_hashes)
         best = Path(incumbent["candidate"])
         best_metrics, best_native = incumbent["metrics"], incumbent["native"]
         _quality(best_metrics)
@@ -372,7 +460,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
             nonlocal best, best_metrics, best_native
             if len(report["trials"]) >= MAX_TRIALS or remaining_work_budget() < MIN_TRIAL_SECONDS:
                 return False
-            _check_original(source, snapshot, source_hashes)
+            original_fresh(source, snapshot, source_hashes)
             p.check_storage()
             trial_id = f"trial-{len(report['trials']):04d}"
             trial_job = p.Job(output / "trials" / trial_id,
@@ -386,7 +474,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
                 shutil.copytree(best.parent, candidate.parent)
                 sx.write(candidate, delete_routes(sx.read(candidate), proposal["route_ids"], nets, protected))
                 digest, native = p.validate_candidate(trial_job, original, candidate, source_hashes, protected)
-                _check_original(source, snapshot, source_hashes)
+                original_fresh(source, snapshot, source_hashes)
                 record.update(candidate_sha256=digest, native=native,
                               native_report_sha256=p.sha(trial_job.out / "final-drc.json"))
                 if not _valid(native):
@@ -396,7 +484,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
                     trial_job.native("metrics", "metrics", candidate, trial_job.out / "metrics.json")
                     metrics = json.loads((trial_job.out / "metrics.json").read_text())
                     p.verify_candidate_files(candidate, source_hashes, digest)
-                    _check_original(source, snapshot, source_hashes)
+                    original_fresh(source, snapshot, source_hashes)
                     record["metrics"] = metrics
                     if time.monotonic() > trial_job.deadline:
                         record["status"] = "timeout"
@@ -420,7 +508,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
                                          "status": record["status"], "accepted": record["accepted"]})
             if _cancelled(trial_job.steps):
                 raise Cancelled("pruning trial cancelled")
-            _check_original(source, snapshot, source_hashes)
+            original_fresh(source, snapshot, source_hashes)
             checkpoint("trial_completed", best, best_metrics,
                        {"trial": trial_id, "trial_status": record["status"]})
             return record
@@ -443,7 +531,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
                             break
                         failed_dir = output / "trials" / record["id"]
                         failed = failed_dir / "candidate" / source.name
-                        _check_original(source, snapshot, source_hashes)
+                        original_fresh(source, snapshot, source_hashes)
                         p.verify_candidate_files(best, source_hashes, record["base_candidate_sha256"])
                         p.verify_candidate_files(failed, source_hashes, record["candidate_sha256"])
                         if p.sha(failed_dir / "final-drc.json") != record["native_report_sha256"]:
@@ -466,7 +554,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
                         if not record:
                             break
 
-        _check_original(source, snapshot, source_hashes)
+        original_fresh(source, snapshot, source_hashes)
         report["best_observed_metrics"] = best_metrics
         report["best_observed_candidate"] = str(best)
         report["finalization_started_elapsed_seconds"] = time.monotonic() - started
@@ -481,7 +569,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
         metrics = json.loads((output / "metrics.json").read_text())
         _quality(metrics)
         p.verify_candidate_files(candidate, source_hashes, final_hash)
-        _check_original(source, snapshot, source_hashes)
+        original_fresh(source, snapshot, source_hashes)
         for relative, expected in report["tools"]["implementation_sha256"].items():
             if p.sha(c.ROOT / relative) != expected:
                 raise p.Rejected("implementation changed during pruning")
@@ -519,13 +607,17 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
         elif report["total_cpu_seconds"] > seconds:
             report.update(accepted=False, status="cpu_limit")
 
-    account()
-    p.save_json(output / "result.json", report)
-    # Charge evidence emission too. A slow final filesystem write must not leave
-    # the completed receipt claiming an in-budget acceptance.
-    account()
-    p.save_json(output / "result.json", report)
-    if time.monotonic() - started > seconds or cpu_used() > seconds:
-        account()
-        p.save_json(output / "result.json", report)
+    def stable():
+        owned_destination(owner)
+        pref.check_fresh(captured)
+        if report.get('source_hashes') and (output/'snapshot').is_dir():
+            original_fresh(source, output/'snapshot', report['source_hashes'])
+        for relative, digest in report.get('tools', {}).get('implementation_sha256', {}).items():
+            if p.sha(c.ROOT/relative) != digest:
+                raise p.Rejected('implementation changed during pruning publication')
+
+    from .floor_route import publish
+    publish(output, report, stable, account,
+            lambda: min(deadline-time.monotonic(), seconds-cpu_used()),
+            owned=lambda: owned_destination(owner))
     return report

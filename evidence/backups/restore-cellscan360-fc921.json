@@ -1,0 +1,152 @@
+{
+  "schema": 1,
+  "kind": "actual full restoration after bounded backup capacity and exact public-test exception",
+  "receipt": ".local-backups/checkpoint-20261014T140003Z-eed911b928624a6881c5f424a850b7fc/receipt.json",
+  "receipt_sha256": "6ba513b6cc3b60eb68acf1e6381d41c29a1b4feb66b077375937e673fcb272fc",
+  "receipt_bytes": 73230574,
+  "verification_path": ".local-backups/checkpoint-20261014T140003Z-eed911b928624a6881c5f424a850b7fc/verification-b05c1db244ad4fa59c209e03ae141cce.json",
+  "verification_sha256": "920582a871622094713b91c1e756e5352faa8c3315246c4dbe2031b7b5f63931",
+  "verification": {
+    "all_refs_restored": true,
+    "chain_length": 2,
+    "cli_smoke": {
+      "command": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+        "-B",
+        "-m",
+        "autorouter",
+        "--help"
+      ],
+      "exit": 0,
+      "output": "usage: python -m autorouter [-h]\n                            {doctor,settings-init,preview,review-copy,review-choice,review-export,review-export-check,improve,recover,check-result,route}\n                            ...\n\npositional arguments:\n  {doctor,settings-init,preview,review-copy,review-choice,review-export,review-export-check,improve,recover,check-result,route}\n    settings-init       Create an explicit editable JSON preset without\n                        overwriting a file\n    preview             Preview settings, protected routing and static support\n                        without changing the board\n    review-choice       Record accept/reject intent for a separate project; no\n                        PCB approval or application\n    review-export       Fresh native validation into a new separate project\n                        after accept intent; no live apply\n    review-export-check\n                        Check stored export/source/report consistency; does\n                        not run fresh DRC\n    recover             Experimental whole-board routing with bounded thermal\n                        repair\n\noptions:\n  -h, --help            show this help message and exit\n"
+    },
+    "full_restoration_tested": true,
+    "git_bundle_verified_in_empty_repository": true,
+    "limitation": "On-Mac only; a second folder on this disk provides no disk-failure protection.",
+    "non_git_files_verified": 260760,
+    "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/checkpoint-20261014T140003Z-eed911b928624a6881c5f424a850b7fc/receipt.json",
+    "receipt_sha256": "6ba513b6cc3b60eb68acf1e6381d41c29a1b4feb66b077375937e673fcb272fc",
+    "restore_directory": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/restore-f7a25a5a3178412293f75003ddbda0de",
+    "restored_git_head": "fc92103453535e8aab310bc2b52a596ddfcac25a",
+    "schema": 1,
+    "verified": true
+  },
+  "files": 260760,
+  "total_file_bytes": 7506835316,
+  "delta_files": 3485,
+  "delta_file_bytes": 287689279,
+  "archive": {
+    "name": "non-git.tar.gz",
+    "sha256": "c4f97ce3ce7db823925db5bb3a86a914b947637c9038a56c15f201a0e2c07fc0",
+    "size": 119522618
+  },
+  "bundle": {
+    "name": "repository.bundle",
+    "sha256": "1feb4616642a758483e6a7e94352f6c6c3b4c7129c3a6c1f2c148e61a3b32d4e",
+    "size": 19226390
+  },
+  "execution": {
+    "schema": 1,
+    "process": {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 425.24264591699466,
+      "cpu_seconds": 348.004336,
+      "max_rss_bytes": 714866688,
+      "supervisor_cpu_seconds": 0.7130070000000001,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 712933376,
+      "sampled_peak_workdir_bytes": 481,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 2097152,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/backup.py",
+        "--verify",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/checkpoint-20261014T140003Z-eed911b928624a6881c5f424a850b7fc/receipt.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/cellscan360-full-restore-execution-001/command.log",
+      "log_bytes": 481,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/cellscan360-full-restore-execution-001",
+      "signal_cancellation_enabled": true,
+      "pid": 10659
+    },
+    "wall_seconds": 425.24272962499526,
+    "full_cpu_seconds": 348.71742500000005,
+    "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/checkpoint-20261014T140003Z-eed911b928624a6881c5f424a850b7fc/receipt.json",
+    "receipt_sha256": "6ba513b6cc3b60eb68acf1e6381d41c29a1b4feb66b077375937e673fcb272fc",
+    "backup_helper_sha256": "557172fa7467e2f02e09554e2a5da908141869b2636ae3975df29f507dda8004",
+    "source_head_at_launch": "fc92103453535e8aab310bc2b52a596ddfcac25a",
+    "controller_sha256": "fc2b05c128a58ec74e2a290dbaf30c7b5beed91800eae84b10caf8dd4cfd4278",
+    "log_sha256": "9a4e4ac71b4b69c1d8736f67bf54d50e6dfddc59ec5f43998162e65f656b67a8",
+    "scope": "Actual full restoration of complete fullcfa+newincremental chain into fresh private scratch. Allrawfile hashes/Gitrefs/restoredCLI tested by existingguarded verifier after necessary capacity/exactpublictest exception changes. OnMaconly; no new Native routing, formalpublication or offdiskbackup claim. Archived cutofffc921 is explicit; later sourcework is outside this restoration."
+  },
+  "incremental_execution": {
+    "schema": 1,
+    "process": {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 226.42979749999358,
+      "cpu_seconds": 181.314338,
+      "max_rss_bytes": 895827968,
+      "supervisor_cpu_seconds": 0.36804400000000004,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 782761984,
+      "sampled_peak_workdir_bytes": 482,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 2097152,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/backup.py",
+        "--incremental",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/checkpoint-20261014T110555Z-22e811625fd54ace85315faaddc99d2e/receipt.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/cellscan360-incremental-execution-002/command.log",
+      "log_bytes": 482,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/cellscan360-incremental-execution-002",
+      "signal_cancellation_enabled": true,
+      "pid": 10521
+    },
+    "wall_seconds": 226.42985233297804,
+    "full_cpu_seconds": 181.68243599999997,
+    "controller_sha256": "c2963778710708ec8855bef2171f387489de5f59f4caa3875a348fe55644bae4",
+    "log_sha256": "b4244e11adbbb89ea66ed93c7abfda9cc4c3ae98736ddef78de36c14d963e2ee",
+    "git_head": "fc92103453535e8aab310bc2b52a596ddfcac25a",
+    "parent_incremental_receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/checkpoint-20261014T110555Z-22e811625fd54ace85315faaddc99d2e/receipt.json",
+    "parent_sha256": "426b4b50087053343b837f836727c7a66e118bab43d0b098e55107c63eff1d36",
+    "scope": "Incremental private snapshot and actual delta integrity from restore-verified fullcfa base, allwriters/native/JVM idle. Includes every actual CellScan original/120/240/360B0B1B2C final/incumbent/trial Native DSN/SES/rules/worker/report/binding/fieldproof; current021installation andcontrols; all failed metadata attempts; newlicencebody receipts and the currentverifiedpublicsourcecheckpoint recordedhere. Finite8GiB270kfiles,80MiBsingle192MiBchain receipt caps/path/secret/hardlink/streaming guards unchanged. OnMaconly byownerchoice; fullrestoration is separately mandatory after capacitychange, not established by incrementaldelta verification."
+  },
+  "scope": "Restored frozenfc921 source/allrefs/all260760 rawfiles/CLI. Includes every CellScan Native final/incumbent/trial, DSN/SES/source/rules/reports/workers, installation021/controls, precedingfailures and fixed source. Later pruning CLI/preference edits outside cutoff. OnMaconly byownerchoice; no offdisk/Native rerouting/physical/release claim."
+}

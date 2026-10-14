@@ -93,6 +93,7 @@ def main():
     sub.add_parser('doctor')
     settings=sub.add_parser('settings-init',help='Create an explicit editable JSON preset without overwriting a file')
     settings.add_argument('--output',required=True)
+    settings.add_argument('--purpose',choices=['route','improve'],default='route',help='Starter settings for route or native improve')
     view=sub.add_parser('preview',help='Preview settings, protected routing and static support without changing the board')
     view.add_argument('board');preference_arguments(view)
     review=sub.add_parser('review-copy');review.add_argument('receipt');review.add_argument('--output',required=True)
@@ -103,7 +104,9 @@ def main():
     export_cmd.add_argument('choice');export_cmd.add_argument('--output',required=True);export_cmd.add_argument('--seconds',type=float,default=120)
     export_check=sub.add_parser('review-export-check',help='Check stored export/source/report consistency; does not run fresh DRC')
     export_check.add_argument('receipt')
-    improve=sub.add_parser('improve');improve.add_argument('board');improve.add_argument('--output',required=True);improve.add_argument('--seconds',type=float,default=120);improve.add_argument('--proposal-policy',choices=['single','feedback'],default=None)
+    improve=sub.add_parser('improve');improve.add_argument('board');improve.add_argument('--output',required=True);improve.add_argument('--seconds',type=float,default=None);improve.add_argument('--proposal-policy',choices=['single','feedback'],default=None)
+    improve.add_argument('--settings',help='Explicit persistent JSON preset for native improvement')
+    improve.add_argument('--scoring-preference',choices=['via_default','via_low','via_high'],default=None,help='Fixed incumbent scoring for native improvement')
     improve.add_argument('--guidance',choices=['native','placement-search-v1'],default='native',help='Explicit experimental planning policy; original rules are still enforced')
     improve.add_argument('--allocation',choices=['standard-85-v1','legacy-tuned'],default=None,help='Placement pruning budget/proposal allocation; defaults to the measured standard85 variant')
     recover=sub.add_parser('recover',help='Experimental whole-board routing with bounded thermal repair');recover.add_argument('board');recover.add_argument('--output',required=True);recover.add_argument('--seconds',type=float,default=120)
@@ -119,8 +122,10 @@ def main():
                 from . import preferences as pref
                 from .handoff import real_path
                 target=real_path(a.output,existing=False)
+                starter=dict(pref.DEFAULTS)
+                if a.purpose=='improve':starter.update(adapter='both',profile='tuned')
                 with os.fdopen(os.open(target,os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o600),'w') as stream:
-                    json.dump(pref.validate(dict(pref.DEFAULTS)),stream,indent=2);stream.write('\n')
+                    json.dump(pref.validate(starter),stream,indent=2);stream.write('\n')
                 result={'created':str(target),'usage':'Pass this file explicitly with --settings; command-line options override only their named settings.'}
             print(json.dumps(result,indent=2));return 0
         except Exception as exc:print(json.dumps({'status':'rejected','reason':str(exc)}));return 2
@@ -149,13 +154,17 @@ def main():
     try:
         if a.command=='improve':
             if a.guidance=='placement-search-v1':
+                if a.settings is not None or a.scoring_preference is not None:raise ValueError('--settings and --scoring-preference require native improvement guidance')
                 if a.proposal_policy not in (None,'feedback'):raise ValueError('placement pruning requires its declared feedback proposal policy')
                 from .placement_strategy import prune,STANDARD_ALLOCATION
-                result=prune(a.board,a.output,a.seconds,allocation=a.allocation or STANDARD_ALLOCATION)
+                result=prune(a.board,a.output,120 if a.seconds is None else a.seconds,allocation=a.allocation or STANDARD_ALLOCATION)
             else:
                 if a.allocation is not None:raise ValueError('--allocation requires placement-search-v1 guidance')
                 from .strategy import prune
-                result=prune(a.board,a.output,a.seconds,proposal_policy=a.proposal_policy or 'single')
+                if a.settings is not None or a.scoring_preference is not None:
+                    overrides={key:getattr(a,key) for key in ('seconds','scoring_preference') if getattr(a,key) is not None}
+                    result=prune(a.board,a.output,proposal_policy=a.proposal_policy or 'single',settings_path=a.settings,preference_overrides=overrides)
+                else:result=prune(a.board,a.output,120 if a.seconds is None else a.seconds,proposal_policy=a.proposal_policy or 'single')
         elif a.command=='recover':
             from .recovery import recover
             result=recover(a.board,a.output,a.seconds)

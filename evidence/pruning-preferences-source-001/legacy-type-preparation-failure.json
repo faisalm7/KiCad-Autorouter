@@ -1,0 +1,8 @@
+{
+  "command": ".venv/bin/python -B -m unittest tests.test_improve_cli tests.test_improve_preferences_cli tests.test_pruning_preferences tests.test_pruning_scoring tests.test_preferences -q",
+  "tests": 48,
+  "errors": 3,
+  "observed_log_seconds": 0.079,
+  "reason": "Legacy unknown incumbent scoring raised shared PreferenceError instead of original p.Rejected beforeoutput. Added original typed scoring guard before preset resolution; no criterion/test weakened.",
+  "new_native_execution": false
+}

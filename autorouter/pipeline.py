@@ -1443,8 +1443,11 @@ def _check_result_uncached(path):
     # Parse once strictly before policy dispatch; duplicate selectors cannot hide schema3.
     data=read_json(path)
     scoring_marker=path.parent/'pruning-scoring.json'
+    pruning_marker=path.parent/'pruning-preferences.json'
     if (data.get('strategy')=='native_validated_zone_net_pruning' or scoring_marker.exists()
-            or scoring_marker.is_symlink() or 'incumbent_scoring_contract' in data):
+            or scoring_marker.is_symlink() or 'incumbent_scoring_contract' in data
+            or 'pruning_preferences' in data or 'pruning_preferences_policy' in data
+            or pruning_marker.exists() or pruning_marker.is_symlink()):
         from .strategy import check_incumbent_scoring
         check_incumbent_scoring(path.parent,data)
     elif 'incumbent_scoring_variant' in data or 'incumbent_receipt_sha256' in data:
@@ -1461,7 +1464,9 @@ def _check_result_uncached(path):
     # Recheck after every late settings/process read; board-only layer checks
     # cannot detect a concurrently changed project file or native report.
     preferences_guarded=('routing_preferences' in data or (path.parent/'routing-preferences.json').exists()
-        or (path.parent/'routing-preferences.json').is_symlink() or layer_markers(path.parent,data))
+        or (path.parent/'routing-preferences.json').is_symlink() or layer_markers(path.parent,data)
+        or 'pruning_preferences' in data or 'pruning_preferences_policy' in data
+        or pruning_marker.exists() or pruning_marker.is_symlink())
     if preferences_guarded:
         from .placement_clearance import evidence_inventory as bounded_evidence, inventory as bounded_inventory
         readback_material=bounded_evidence(path.parent)
@@ -1623,7 +1628,7 @@ def _check_result_uncached(path):
         (ps.final_freshness if input_policy==ps.POLICY else final_freshness)(path.parent,data)
         if hashlib.sha256(bounded_bytes(path)).hexdigest()!=receipt_digest:raise Rejected('placement receipt changed during readback')
     check_preferences_record(path.parent,data)
-    if 'routing_preferences' in data or (path.parent/'routing-preferences.json').exists() or layer_markers(path.parent,data):
+    if preferences_guarded:
         if hashlib.sha256(bounded_bytes(path)).hexdigest()!=receipt_digest:
             raise Rejected('preference receipt changed during readback')
     if 'protected_route_import' in data:
