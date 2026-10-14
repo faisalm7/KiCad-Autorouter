@@ -1,0 +1,127 @@
+{
+  "schema": 1,
+  "kind": "actual_fixed_placement_ses_native003_and_next_profile",
+  "source_commit": "663cd1cb5454958384c7d6d8e28a71a7e8a08d92",
+  "status": "actual_import_preserved_candidate_incomplete",
+  "accepted": false,
+  "routing_accepted": false,
+  "format_admitted": false,
+  "production_admitted": false,
+  "new_routing_gain": false,
+  "actual_native003": {
+    "result_sha256": "0b0ffedba21775d2da719db3c0f5212e0a2a5567c4b6bdec313fc1a0aa8a6896",
+    "execution_sha256": "a90dfbf3d1fc8fbc4706488db82fc1d4f99f49b054602906a0fb7ecc691c3801",
+    "candidate_sha256": "8428f48512f34870b8f121fc87827c302f1632baa73d51e21019c748aa918468",
+    "final_report_sha256": "cca2167d702dab901f7288dc4587d18aafa56b42d2cd83793dc3aa4bc708d7d4",
+    "counts": {
+      "opens": 10,
+      "blocking": 0,
+      "warnings": 17,
+      "exclusions": 0
+    },
+    "saved_counts": {
+      "opens": 10,
+      "blocking": 0,
+      "warnings": 17,
+      "exclusions": 0
+    },
+    "new_workers": [
+      "import",
+      "refill-drc",
+      "final-drc"
+    ],
+    "negative_case_executed": false,
+    "error": "Rejected: SES candidate fails original Native acceptance",
+    "whole_wall_seconds": 6.978603291005129,
+    "whole_full_cpu_seconds": 4.917682,
+    "cumulative001002003_wall_seconds": 23.960515414975816,
+    "cumulative001002003_full_cpu_seconds": 24.587339
+  },
+  "shared_readback": {
+    "schema": 1,
+    "passed": true,
+    "accepted": false,
+    "routing_accepted": false,
+    "source_format_admitted": false,
+    "exact_native_import_geometry": true,
+    "exact_routes_except_regenerated_uuid": true,
+    "original_shell_rules_and_prl_preserved": true,
+    "full_schematic_native_checked": true,
+    "negative_case_executed": false,
+    "native": {
+      "opens": 10,
+      "blocking": 0,
+      "warnings": 17,
+      "exclusions": 0,
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "Text height out of range",
+          "key": "text_height"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        },
+        {
+          "description": "Footprint doesn't match copy in library",
+          "key": "lib_footprint_mismatch"
+        }
+      ]
+    },
+    "route_count": 56,
+    "candidate_sha256": "8428f48512f34870b8f121fc87827c302f1632baa73d51e21019c748aa918468",
+    "native_report_sha256": "cca2167d702dab901f7288dc4587d18aafa56b42d2cd83793dc3aa4bc708d7d4",
+    "source_result_sha256": "0b0ffedba21775d2da719db3c0f5212e0a2a5567c4b6bdec313fc1a0aa8a6896",
+    "controller_sha256": "feb987e5f1742518c42fe78d04b2c8d3c5d048b3185b53379f557135c4bfce96",
+    "wall_seconds": 0.5355748330184724,
+    "full_cpu_seconds": 0.509284,
+    "scope": "Pure shared-reader proof of real corrected import and actually incomplete10open fullSCH candidate. No Native/JVM/engine/GET rerun; original constraints unchanged, aggregate remains failed/no format admission."
+  },
+  "shared_readback_sha256": "5d67af71545cd2854dfcecbfca22961a63b6137e9bc12e414f3d3b3938f8d120",
+  "next_prospective": {
+    "actor": "experiments/paw_low_profile_v1/driver.py",
+    "actor_sha256": "382fcf3c63fe19e2b27c88dbf259bc9f3c1bfe8467dc26523243bc7ea3d3cb31",
+    "protocol_sha256": "d475983cb8448a0f382ffdbe29faef8787f620dc4ec8779c678eba3cdf9156fb",
+    "controller_sha256": "d0b06105162377f88356a3d3adb8f1dd487ff0919a7aee8b04bc0ed3f8da98b4",
+    "prior_charged_wall_seconds": 26.49609024799429,
+    "prior_charged_full_cpu_seconds": 27.096623,
+    "prior_reader_allowance_seconds": 2,
+    "bootstrap_allowance_seconds": 3,
+    "budget_seconds": 120,
+    "scoring_variant": "via_low",
+    "explicit_regular_plane_via_cost": [
+      25,
+      3
+    ],
+    "executed": false,
+    "no_opt_in_control_sha256": "1b00c6e08397b13a903b79bc28cc1226fcd988da479e4a961f0872d1d475edcb",
+    "review": "Static independent review found no blocking issue; whole outer must include publication/replay. No test/Native rerun during review."
+  },
+  "limitations": [
+    "One exposed board, no family independence or fair comparison claim.",
+    "Actual002 omitted via-cost flags; no measured50-to25 change is claimed.",
+    "Original width250um/clearance200um/vias800:400um and physical aperture remain unchanged.",
+    "All prior failures and warning identities remain; original fourteen files/rules/PRL and legacy witness are exact.",
+    "No raw board/model redistribution. Unique raw evidence is on this Mac; backup refresh follows outcome."
+  ]
+}

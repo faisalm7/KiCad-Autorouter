@@ -1,56 +1,40 @@
 # Active continuation
 
-Work only in `/Users/faisal/Projects/KiCad-Autorouter-local`, on the existing
-`rebuild/local-20261010-015447` branch. Last verified checkpoint isc8529dd8; completed normal Native proof and frozen
-PAW source are pushed/read back. Path correction is pushed/read back; missing-stage continuation needs next push.
-No cloud, reset, competing checkout, new spending or formal publication.
+Use the existing Mac checkout and `rebuild/local-20261010-015447`. Last verified
+source is663cd1c; preserve every source/evidence/unfinished artifact. No cloud,
+reset, new worktree, spending or formal publication.
 
-Completed and preserved:
+Completed: six exposed fixed B1/B2/C comparisons; native-connected-only thermal
+failure; normal PRL/SVG/preview/export/invalid/cancellation workflow; PAW original
+and core controls; exact oval-path fix; actual SES003 import correction. Do not
+repeat these workers. Full0641194 software controls pass; failed062063 retained.
+PAW003 exact pose/routing proof passes but actual final has10opens/0blocking/
+17warnings/0exclusions. It is rejected, with no negative imported-net case.
 
-- Six exposed B1/B2/C circuit comparisons remain the measured routing evidence;
-  native-connected-only routing failed its actual original thermal constraint.
-- PAW original002/fullSCH and core PRL positive/MISO-open controls passed. The
-  independent legacy error witness is implemented. Do not repeat those trials.
-- Normal producers now require captured, bounded whole-lineage PRL protection.
-  Full059 passed after preserving and fixing synthetic full058 failures.
-- Real normal LED+legacyPRL pruning passed. Path-refusal001 and actual SVG PRL
-  rewrite002 were retained; shared guard fixes plotting. Full060/actual missing
-  Native continuation003/readback pass. Preview/export0/0/7/0, invalid9/0/7/0,
-  real engine SIGINT cancellation. Completed route and old export were not rerun.
-- Installation026/source31c0f53 remains the tested installed version. Current
-  source is newer. GUI008 is locked; earlier GUI003 qualification stays distinct.
+1. Checkpoint the actual003 and installation027 summaries and reviewed frozen
+   `experiments/paw_low_profile_v1` source. Execute only the new explicit via_low
+   B2 configuration: `.venv/bin/python -B .runs/run-paw-low-profile-native-001.py`.
+   It reuses exact completed exports/obstacles and charges all earlier failures,
+   reader and startup within cumulative120wall/fullCPU. Native validation and a
+   solved-only fresh wrong-MISO control retain every rule and physical aperture.
+   This is tuning, no comparative or format-admission result is assumed.
+2. Read back its actual final candidate with existing shared checks. Preserve
+   incomplete outcomes and original warnings. Only qualified exact transport/
+   fullSCH/original-rule/invalid-control proof can justify tightly scoped legacy
+   format admission; then actual normal pipeline and distinct frozen baselines.
+3. Installation027 at663cd1c is complete:22offline commands/72fixed controls,
+   actual Native smoke and selected232successes+12setup errors followed by12
+   missing-only successes. The missing101 authored fixture files were copied
+   afterward; initial554-file distribution remains honestly separate. Shared
+   reader passes. Publish small sanitized summary without repeating tests.
+4. Refresh incremental artifact backup from the already fully restoredc81 base
+   after writers idle. At this integrated production/installation milestone,
+   perform full restoration with existing helpers. No backup redesign; owner
+   explicitly chose on-Mac-only artifact storage. Keep prior evidence.
+5. Continue stronger unchanged-constraint routing hypotheses, unrelated supported
+   families, actual normal workflow and reproducible evaluation. All inputs so
+   far are exposed, no independent pedigrees established. Current GUI009locked;
+   continue independent work. Human/physical/untouched confirmation remain gates.
 
-Next actions, sequential heavy lane:
-
-1. Oval path correction/full061 is pushed/read back atc8529dd8. Actual002
-   reused all001 format/export workers and completed obstacles/engine/SESimport,
-   then rejected an exact48nm U1 placement shift caused by SES100nm grid. Both
-   prefixes stay failed; no final DRC or invalid imported-net control ran.
-2. Correct fixed-placement import by dropping only optional root SES placement,
-   preserving every remaining atom and source pose. Shared captured-policy,
-   bounded worker inventory and raw/filtered/imported-board proof enforce it.
-   Preserve failed full062 synthetic fixture run and exact pinned source; close
-   real inherited-incumbent annotation and deletion gaps with regression tests.
-   After full064/review/checkpoint, run only missing import/final controls:
-   `.venv/bin/python -B .runs/run-paw-format-ses-native-003.py`.
-   Actor6de6cd1a/protocol2edfd06b, cumulative120wall/fullCPU includes both failed
-   outer prefixes16.981912wall19.669657CPU plus newbootstrap3. Existing engine,
-   obstacles/exports/format are reused, not rerun; no source-format admission.
-3. Only qualified exact same-load/SES/original-rule proof can justify a bounded
-   preflight format admission. Preserve every other geometry/rule gate and add
-   regressions. Then test the actual normal PAW pipeline and freeze distinct
-   B0/B1/B2/C budgets/configurations before comparisons. No family-independence
-   or routing-quality assumption follows from a format diagnostic.
-4. Pursue further eligible unrelated source families/stronger baselines; keep
-   whole considered population, unsupported cases, inherited errors/warnings,
-   exposed-set status and all failed compute visible. No reference-route reuse.
-5. At the next integrated product/coverage milestone, run current-source clean
-   installation027, full integration/native regressions and major full restoration
-   with existing helpers. Full restore is for major milestones/release, not each
-   minor edit. Artefact backups stay on this Mac by explicit owner choice.
-
-Use one lead and at most two narrow nonrecursive agents. Reuse shared validation,
-process, report and backup helpers. Native/JVM competitors remain sequential.
-Keep working through feasible gates; no automatic resumption/background loops.
-Representative/pedigreed untouched evaluation, latest GUI, actual human PCB and
-physical validation remain release gates. Do not lower or relabel them.
+One lead, at most two narrow nonrecursive agents; Native/JVM lane sequential.
+Reuse validation/process/report helpers. Milestones do not end the assignment.

@@ -1,6 +1,6 @@
 # Requirements to evidence
 
-October 14, 2026. Current installed qualification31c0f53/installation026; later classifier/pair experiments are not production-admitted; exact source/tools are bound in each receipt. Earlier matrices and all failures remain in Git history and immutable packets. Every final candidate needs actual native and original-design evidence. Tests are software coverage, not routing quality.
+October 14, 2026. Current installed qualification663cd1c/installation027; later classifier/pair experiments are not production-admitted; exact source/tools are bound in each receipt. Earlier matrices and all failures remain in Git history and immutable packets. Every final candidate needs actual native and original-design evidence. Tests are software coverage, not routing quality.
 
 | Requirement | Implementation / executable check / actual evidence | Remaining gate |
 |---|---|---|
@@ -77,3 +77,7 @@ PAW format support and actual SES proof remain pending; frozen actor is next.
 PAW completed format001 adds actual five reload/export observations and independent zero-route task export. Ordinary native oval DSN path rejection is fixed narrowly with exact nanometre/bounds/outer-layer controls; no custom-pad/source-format admission or routing gain follows. [Source/failure/pure audit](evidence/paw-dsn-path-source-001.json). Current normalPRL workflow backup now verified through99d1975, [scalar receipt](evidence/backups/incremental-normal-prl-native-99d1975.json); newer executed PAW/path artifacts remain after cutoff.
 
 Actual002 exact preservation check rejected48nm SES placement rounding. [Route-only fixed-placement source/continuation](evidence/fixed-placement-ses-source-001.json) preserves source pose and routing AST with forced raw/filtered/imported-board proof; no tolerance or constraint waiver. Existing001+002 observations/engine are reused in003, cumulative16.981912wall19.669657CPU before missing actual import/final controls. Old20240108 source remains blocked.
+
+Actual [SES003/import readback](evidence/fixed-placement-ses-native003-001.json) preserves exact original Native geometry but rejects10opens/0blocking/17warnings/0exclusions; no format admission/negative completion claimed. Full0641194software controls pass; exact failed062063source remains. New explicit via_low probe is prospectively pinned, retains original constraints and all prior compute; no result assumed.
+
+[Current installation027](evidence/installation027-native-001.json) passes22offline commands/fixed72/real Native60mm0via0findings,20676original/554initial distribution files. Selected232successes+12setup failures then12missing-only successes preserve all256attempts and costs;101supplemental fixture files are separate from initial distribution. Shared installed readback passes; existing Mac/apps/cache, no fullinstalledsuite/freshOS/GUI/formalpackage claim.
