@@ -11,6 +11,7 @@ from autorouter.runner import run
 from experiments.placement_handoff_native_v1.driver import copy_bytes
 LIMIT=20*1024**2;SECONDS=90
 CASES={
+    'uv-dosimeter':('portable-demo','hardware/AOL_PD_2.kicad_pcb','63153ac5ca9879299f57e3fb68df606bf78d96f8',None),
     'cellscan':('portable-demo','hardware/CellScan_Schematic.kicad_pcb','628c8a7d80f9de07c24d86102dfca9e353c038ce',None),
     'analog-filter':('portable-demo','kicad/analog_filter_module.kicad_pcb','6a34b221758fe32f33eca20d735e88028346753a',None),
     'interf_u':('managed-interf','interf_u.kicad_pcb','69cafb907ebc09e7722a2a464b1d466fc2e3608d',None),
@@ -20,7 +21,7 @@ CASES={
     'ardujoy-c64':('v4','Ardujoy_HW/Ardujoy_HW.kicad_pcb','1b63471d9726fb6a38f8544ca73ebf10c7f19820','.runs/licensed-acquisition-007-run-001/receipt.json'),
     'nus-usb-led':('v5','src/usb_led.kicad_pcb','ad3fbd582e3915b585c453ea202f591720a1f427','.runs/licensed-acquisition-008-run-001/receipt.json'),
 }
-REFILLED_ORIGINALS=frozenset({'als311-clock','push-button-led','arcdice','interf_u','analog-filter','cellscan'})
+REFILLED_ORIGINALS=frozenset({'als311-clock','push-button-led','arcdice','interf_u','analog-filter','cellscan','uv-dosimeter'})
 
 def capture_interf_source():
     """Read the already acquired fixed complete project; never stage or fetch."""

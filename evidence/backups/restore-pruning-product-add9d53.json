@@ -1,0 +1,95 @@
+{
+  "schema": 1,
+  "kind": "Actual full snapshot and restoration at persistent-pruning installed-product milestone",
+  "receipt": ".local-backups/checkpoint-20261014T150316Z-3f1e0b13ea8e435a8aca7035e762399e/receipt.json",
+  "receipt_sha256": "1bbd8451422ccfe1f902bcb5fa2cfd331c69fc853f2de0e9800834de61997779",
+  "receipt_bytes": 67739933,
+  "verification_path": ".local-backups/checkpoint-20261014T150316Z-3f1e0b13ea8e435a8aca7035e762399e/verification-01d70455e5fd42cca79a18c00b1d1230.json",
+  "verification_sha256": "60e66d238b02de69c960e760c31a2a2227f0426db11bd9dac032ffbd70c44d08",
+  "verification": {
+    "all_refs_restored": true,
+    "chain_length": 1,
+    "cli_smoke": {
+      "command": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+        "-B",
+        "-m",
+        "autorouter",
+        "--help"
+      ],
+      "exit": 0,
+      "output": "usage: python -m autorouter [-h]\n                            {doctor,settings-init,preview,review-copy,review-choice,review-export,review-export-check,improve,recover,check-result,route}\n                            ...\n\npositional arguments:\n  {doctor,settings-init,preview,review-copy,review-choice,review-export,review-export-check,improve,recover,check-result,route}\n    settings-init       Create an explicit editable JSON preset without\n                        overwriting a file\n    preview             Preview settings, protected routing and static support\n                        without changing the board\n    review-choice       Record accept/reject intent for a separate project; no\n                        PCB approval or application\n    review-export       Fresh native validation into a new separate project\n                        after accept intent; no live apply\n    review-export-check\n                        Check stored export/source/report consistency; does\n                        not run fresh DRC\n    recover             Experimental whole-board routing with bounded thermal\n                        repair\n\noptions:\n  -h, --help            show this help message and exit\n"
+    },
+    "full_restoration_tested": true,
+    "git_bundle_verified_in_empty_repository": true,
+    "limitation": "On-Mac only; a second folder on this disk provides no disk-failure protection.",
+    "non_git_files_verified": 262521,
+    "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/checkpoint-20261014T150316Z-3f1e0b13ea8e435a8aca7035e762399e/receipt.json",
+    "receipt_sha256": "1bbd8451422ccfe1f902bcb5fa2cfd331c69fc853f2de0e9800834de61997779",
+    "restore_directory": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/restore-0b5c5b0ed73440dfbc5bd3f786ee4b3a",
+    "restored_git_head": "add9d53d91f8959b47e8d1b0ee6bd1690b9493b0",
+    "schema": 1,
+    "verified": true
+  },
+  "files": 262521,
+  "non_git_file_bytes": 7623204184,
+  "bundle": {
+    "name": "repository.bundle",
+    "sha256": "19482b077ba1c96bf5f9af3e8bf645f924000a48ebb0c7b9780a45ed1237f59c",
+    "size": 19319194
+  },
+  "archive": {
+    "name": "non-git.tar.gz",
+    "sha256": "6b24dbf7b90e2d9b1beadba8188af0fd81883148684f1ed8b93215fc72504b3c",
+    "size": 2521914209
+  },
+  "execution": {
+    "schema": 1,
+    "process": {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 644.1677870420099,
+      "cpu_seconds": 534.602715,
+      "max_rss_bytes": 449462272,
+      "supervisor_cpu_seconds": 1.05146,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 449462272,
+      "sampled_peak_workdir_bytes": 481,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 2097152,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/backup.py"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/pruning-product-full-execution-001/command.log",
+      "log_bytes": 481,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/pruning-product-full-execution-001",
+      "signal_cancellation_enabled": true,
+      "pid": 16258
+    },
+    "wall_seconds": 644.1678565829934,
+    "full_cpu_seconds": 535.654243,
+    "source_head_at_launch": "add9d53d91f8959b47e8d1b0ee6bd1690b9493b0",
+    "backup_helper_sha256": "557172fa7467e2f02e09554e2a5da908141869b2636ae3975df29f507dda8004",
+    "controller_sha256": "95acee5c258f410adf2a2a2d57bdb6cd0b0f050ad8eb6ddf50efbf4adc44c304",
+    "log_sha256": "5c5b6fe8bbaaff13863d085fd4a7eaf70040f510085d68dc6ba91c77a65a3fa4",
+    "scope": "Existing full snapshot and complete actual restoration into fresh private scratch. All backup-scope writers idle during snapshot. Includes current installed/preset/native/stale/preview/export controls, failures and all prior raw experiments. Existing8GiB270k/80MiB single192MiB chain/path/secret/hardlink/archive guards unchanged. OnMac only by owner choice; no offdisk/freshOS/newNative/formalpublication claim."
+  },
+  "scope": "All frozenadd9 source/refs and raw Native/preference/stale/workflow/installation022/priorfailed evidence restored, CLI help passed. OnMaconly; no offdisk/newNative/freshOS/movedvenv/physical/formalreleaseclaim. Later GUI docs and future UV source/acquisition outside cutoff; snapshot helper unchanged."
+}

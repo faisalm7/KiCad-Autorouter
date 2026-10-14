@@ -25,7 +25,88 @@ ANALOG_PROFILE={'schema': 1, 'profile_id': 'analog-filter', 'project_id': 'analo
 
 CELL_SCAN_PROFILE={'schema': 1, 'profile_id': 'cellscan', 'project_id': 'cellscan', 'repository': 'Studented0/18650-Tester', 'commit': '628c8a7d80f9de07c24d86102dfca9e353c038ce', 'rows': [{'blob_url': 'https://github.com/Studented0/18650-Tester/blob/628c8a7d80f9de07c24d86102dfca9e353c038ce/LICENSE', 'bytes': 1072, 'commit': '628c8a7d80f9de07c24d86102dfca9e353c038ce', 'destination': 'cellscan/LICENSE', 'git_blob_sha1': 'af62e679521739bc3d3d425517637122877aa7fb', 'mode': '100644', 'raw_url': 'https://raw.githubusercontent.com/Studented0/18650-Tester/628c8a7d80f9de07c24d86102dfca9e353c038ce/LICENSE', 'repository': 'Studented0/18650-Tester', 'sha256': '15833c1331f62081f123fd35c017bb44f6697ba60c706e98116760cb3e35ddf1', 'source_path': 'LICENSE'}, {'blob_url': 'https://github.com/Studented0/18650-Tester/blob/628c8a7d80f9de07c24d86102dfca9e353c038ce/README.md', 'bytes': 4780, 'commit': '628c8a7d80f9de07c24d86102dfca9e353c038ce', 'destination': 'cellscan/README.md', 'git_blob_sha1': '294b7bbae423225a055852b1199a8ac77c3b6b20', 'mode': '100644', 'raw_url': 'https://raw.githubusercontent.com/Studented0/18650-Tester/628c8a7d80f9de07c24d86102dfca9e353c038ce/README.md', 'repository': 'Studented0/18650-Tester', 'source_path': 'README.md'}, {'blob_url': 'https://github.com/Studented0/18650-Tester/blob/628c8a7d80f9de07c24d86102dfca9e353c038ce/hardware/CellScan_Schematic.kicad_pcb', 'bytes': 982968, 'commit': '628c8a7d80f9de07c24d86102dfca9e353c038ce', 'destination': 'cellscan/hardware/CellScan_Schematic.kicad_pcb', 'git_blob_sha1': 'db571061c6bc4eab51636c8b1897c20a6b21de37', 'mode': '100644', 'raw_url': 'https://raw.githubusercontent.com/Studented0/18650-Tester/628c8a7d80f9de07c24d86102dfca9e353c038ce/hardware/CellScan_Schematic.kicad_pcb', 'repository': 'Studented0/18650-Tester', 'source_path': 'hardware/CellScan_Schematic.kicad_pcb'}, {'blob_url': 'https://github.com/Studented0/18650-Tester/blob/628c8a7d80f9de07c24d86102dfca9e353c038ce/hardware/CellScan_Schematic.kicad_pro', 'bytes': 16243, 'commit': '628c8a7d80f9de07c24d86102dfca9e353c038ce', 'destination': 'cellscan/hardware/CellScan_Schematic.kicad_pro', 'git_blob_sha1': 'e8dee6e6c6468efe9cbfd1b60ed780f6b07cfaa6', 'mode': '100644', 'raw_url': 'https://raw.githubusercontent.com/Studented0/18650-Tester/628c8a7d80f9de07c24d86102dfca9e353c038ce/hardware/CellScan_Schematic.kicad_pro', 'repository': 'Studented0/18650-Tester', 'source_path': 'hardware/CellScan_Schematic.kicad_pro'}, {'blob_url': 'https://github.com/Studented0/18650-Tester/blob/628c8a7d80f9de07c24d86102dfca9e353c038ce/hardware/CellScan_Schematic.kicad_sch', 'bytes': 290345, 'commit': '628c8a7d80f9de07c24d86102dfca9e353c038ce', 'destination': 'cellscan/hardware/CellScan_Schematic.kicad_sch', 'git_blob_sha1': '42612c5987c30a6daa7f75b648a78ee0dc36abd0', 'mode': '100644', 'raw_url': 'https://raw.githubusercontent.com/Studented0/18650-Tester/628c8a7d80f9de07c24d86102dfca9e353c038ce/hardware/CellScan_Schematic.kicad_sch', 'repository': 'Studented0/18650-Tester', 'source_path': 'hardware/CellScan_Schematic.kicad_sch'}, {'blob_url': 'https://github.com/Studented0/18650-Tester/blob/628c8a7d80f9de07c24d86102dfca9e353c038ce/hardware/libraries/ESP32-DevKitC-30PIN.kicad_mod', 'bytes': 3822, 'commit': '628c8a7d80f9de07c24d86102dfca9e353c038ce', 'destination': 'cellscan/hardware/libraries/ESP32-DevKitC-30PIN.kicad_mod', 'git_blob_sha1': '8338c7af4bdc5c7181691f127ed7a6973ec54294', 'mode': '100644', 'raw_url': 'https://raw.githubusercontent.com/Studented0/18650-Tester/628c8a7d80f9de07c24d86102dfca9e353c038ce/hardware/libraries/ESP32-DevKitC-30PIN.kicad_mod', 'repository': 'Studented0/18650-Tester', 'source_path': 'hardware/libraries/ESP32-DevKitC-30PIN.kicad_mod'}], 'directories': ['hardware', 'hardware/libraries'], 'board_path': 'hardware/CellScan_Schematic.kicad_pcb', 'output_prefix': 'cellscan-demo-', 'default_output': '.data/cellscan-demo-001', 'file_count': 6, 'bytes': 1299230, 'max_requests': 6, 'network_byte_cap': 1299236, 'max_single_response_bytes': 982969, 'output_byte_cap': 4194304, 'wall_budget_seconds': 300, 'cpu_budget_seconds': 300, 'request_wall_seconds': 30, 'native_packet_notice_copies': {'hardware/_licenses/creator/LICENSE': 'LICENSE', 'hardware/_licenses/creator/README.md': 'README.md'}, 'native_packet_files': 8, 'native_packet_bytes': 1305082, 'development_exposed': True, 'independent_ancestry_established': False, 'native_validation_performed_by_fetch': False, 'raw_assets_public': False, 'warnings': ['Raw six-file source is not acquired or native-qualified by this registration.', 'Pinned root LICENSE identity and exact README are retained on acquisition; optional assets/custom footprint provenance remain unqualified.', '18650 battery measurement/electrical/physical safety and independent ancestry remain unqualified.', 'Only the six fixed public originals are requested; no models, firmware, scripts, images or additional libraries are downloaded. Original source hierarchy/bytes are never normalized.']}
 
+
+UV_COMMIT = '63153ac5ca9879299f57e3fb68df606bf78d96f8'
+UV_REPOSITORY = 'vodjan/uv-dosimeter'
+UV_CACHE_DIRECTORY = '.runs/uv-acquisition-license-readiness-001'
+UV_CACHE_RECEIPT_SHA256 = 'bd163cbc6e247cec3e543d488b740b776c833c357ebba7f352755868a79dba58'
+UV_CACHE_PROFILE_SHA256 = 'b4ee05ba88e9c13ba6a2236dae79aabd83aba9f20d1c560aa820f2830a93d775'
+UV_LICENSE_NAMES = ('LICENSE', 'hardware/LICENSE', 'docs/LICENSE')
+UV_RIGHTS = 'Root notice explicitly assigns hardware CERN-OHL-S2.0 and root README CC-BY-SA4.0; hardware/LICENSE fulltext and docs/LICENSE must accompany respective source/notices. Jan Vodstrcil and Ondrej Pokovic credited. Solar math asset exception excluded from packet. Exact original documentation/hardware notices retained; firmware/app GPL and excluded solar-math assets not fetched. Local Waveshare module footprint/symbol origin, BLE/RF/battery/model and medical/functional adequacy remain unqualified.'
+UV_PROFILE = dict(schema=1, profile_id='uv-dosimeter', project_id='uv-dosimeter',
+    repository=UV_REPOSITORY, commit=UV_COMMIT, rows=[
+        dict(source_path=name, bytes=size, git_blob_sha1=blob, mode='100644',
+             repository=UV_REPOSITORY, commit=UV_COMMIT, destination='uv-dosimeter/'+name,
+             raw_url='https://raw.githubusercontent.com/'+UV_REPOSITORY+'/'+UV_COMMIT+'/'+name,
+             blob_url='https://github.com/'+UV_REPOSITORY+'/blob/'+UV_COMMIT+'/'+name,
+             rights_basis=UV_RIGHTS, **({'sha256':sha} if sha else {}))
+        for name,size,blob,sha in (
+            ('LICENSE', 2221, '12afba6178cf123231f502ad182a3e19443fb33a', 'cb3e52ebfb641106bf88be8787cacc1642720020b670ddfaf15c69efcacb9213'),
+            ('README.md', 10682, 'ce223c0f9764d192d67571dd103ef1361aabd7a8', None),
+            ('docs/LICENSE', 20138, '2d58298e6eda10e7204abb52722efbc840db2390', '28a9529c7d0bb4dc51f4bf5c116a3d16ef247a052f7591466768ddf563fd1cf5'),
+            ('hardware/AOL_PD_2.kicad_pcb', 311811, '35e11be906de35eba753608efad1adb1e3fd4d24', None),
+            ('hardware/AOL_PD_2.kicad_pro', 16492, '8ef4c9d24b2f74052875dcfa92b4c04e02a73916', None),
+            ('hardware/AOL_PD_2.kicad_sch', 115950, '065a1a09db40a486e53d9678f04626f27902d2e5', None),
+            ('hardware/LICENSE', 13419, '114486fd9446c39da1b69101597e25e33877fca6', 'd6475a84171f0cf7ff52667dea714df268fc65cea42f0bf328b0b70d4cd0ebab'),
+            ('hardware/Moje_wearable.kicad_sym', 6585, '2c8b2e9b891eb8d2eb95c06429764c07078f3848', None),
+            ('hardware/Moje_wearable.pretty/Waveshare_ESP32-H2-Zero.kicad_mod', 4470, 'ea73b5458baafaa02b890f4c4a3ba1e529cfc381', None),
+            ('hardware/fp-lib-table', 137, 'f299bc6cf0cb69accdfba14ab0bfc3ee6685c39f', None),
+            ('hardware/sym-lib-table', 141, '6ab6749d2fa94f9b31602e944d6ba162218da4f9', None),
+        )], directories=['docs','hardware','hardware/Moje_wearable.pretty'],
+    board_path='hardware/AOL_PD_2.kicad_pcb', output_prefix='uv-dosimeter-demo-',
+    default_output='.data/uv-dosimeter-demo-001', file_count=11, bytes=502046,
+    max_requests=11, network_byte_cap=502057, max_single_response_bytes=311812,
+    output_byte_cap=2*1024**2, wall_budget_seconds=300, cpu_budget_seconds=300,
+    request_wall_seconds=30,
+    native_packet_notice_copies={'hardware/_licenses/creator/LICENSE':'LICENSE',
+        'hardware/_licenses/creator/README.md':'README.md',
+        'hardware/_licenses/creator/DOCUMENTATION_LICENSE':'docs/LICENSE'},
+    native_packet_files=14, native_packet_bytes=535087, development_exposed=True,
+    independent_ancestry_established=False, native_validation_performed_by_fetch=False,
+    raw_assets_public=False, warnings=['Original11-file UV source not acquired/native qualified by profile registration.', 'Hardware CERN-OHL-S2 licence retained at hardware/LICENSE; root notice/README+CC-BY-SA4 documentation licence preserved beside native project.', 'Creator CTU-course mirror/author credits and local Waveshare footprint/symbol origins retained; independent ancestry/unresolved assets not proven.', 'Battery/charging/BLE/RF and analog measurement requirements remain unknown; no unrestricted reroute or medical/electrical/physical approval.', 'Only exact11public originals; no firmware/app/math/assets/models/scripts downloaded or executed. Source bytes/names/hierarchy never normalized.'])
+
+
+def uv_license_cache(root, cfg):
+    """Explicit fixed prior licence evidence only; no cache search or fallback."""
+    from autorouter.placement_clearance import read_bytes
+    if cfg['profile_id'] != 'uv-dosimeter':raise ValueError('UV licence reuse requires UV profile')
+    proof_name=UV_CACHE_DIRECTORY+'/fetch-result.json'
+    proof_raw=read_bytes(shared.contained(root,root/shared.safe(proof_name)),64*1024)
+    if shared.sha(proof_raw)!=UV_CACHE_RECEIPT_SHA256:raise ValueError('UV cached licence receipt pin differs')
+    proof=shared.decode(proof_raw)
+    requests=proof.get('requests',[])
+    if (proof.get('passed') is not True or proof.get('source_profile_sha256')!=UV_CACHE_PROFILE_SHA256
+            or proof.get('new_network_requests')!=3 or proof.get('received_bytes')!=35778
+            or len(requests)!=3 or {r.get('source_path') for r in requests}!=set(UV_LICENSE_NAMES)):
+        raise ValueError('UV cached licence receipt scope differs')
+    rows={r['source_path']:r for r in cfg['rows']}; files={}; witness={proof_name:shared.sha(proof_raw)}; caps={proof_name:64*1024}
+    for name in UV_LICENSE_NAMES:
+        row=rows[name]; prior=next(r for r in requests if r['source_path']==name)
+        relative=UV_CACHE_DIRECTORY+'/licenses/'+name
+        path=shared.contained(root,root/shared.safe(relative))
+        raw=read_bytes(path,row['bytes']); info=shared.payload(row,raw)
+        if (prior.get('url')!=row['raw_url'] or prior.get('final_url')!=row['raw_url']
+                or prior.get('http_status')!=200 or prior.get('payload_verified') is not True
+                or prior.get('bytes')!=row['bytes'] or prior.get('received_bytes')!=row['bytes']
+                or prior.get('git_blob_sha1')!=row['git_blob_sha1']
+                or prior.get('sha256')!=info['sha256'] or prior.get('response_sha256')!=info['sha256']):
+            raise ValueError('UV cached licence response provenance differs')
+        files[name]={'raw':raw,'path':relative,'sha256':info['sha256']}; witness[relative]=info['sha256']; caps[relative]=row['bytes']
+    return {'files':files,'witness':witness,'caps':caps,'prior_acquisition':{
+        'receipt':proof_name,'sha256':shared.sha(proof_raw),'new_network_requests':3,'received_bytes':35778,
+        'wall_seconds':proof['wall_seconds'],'full_cpu_seconds':proof['full_cpu_seconds'],
+        'bootstrap_emission_allowance_seconds':proof['bootstrap_emission_allowance_seconds']}}
+
+
+def check_uv_cache(root, cache):
+    if cache is None:return
+    from autorouter.placement_clearance import read_bytes
+    for name,pin in cache['witness'].items():
+        if shared.sha(read_bytes(shared.contained(root,root/shared.safe(name)),cache['caps'][name]))!=pin:
+            raise ValueError('UV cached licence input changed during acquisition')
+
 def fixed_profile(profile_id='led'):
+    if profile_id=='uv-dosimeter':return copy.deepcopy(UV_PROFILE)
     if profile_id=='cellscan':return copy.deepcopy(CELL_SCAN_PROFILE)
     if profile_id=='arcdice':return copy.deepcopy(ARC_PROFILE)
     if profile_id=='analog-filter':return copy.deepcopy(ANALOG_PROFILE)
@@ -102,16 +183,19 @@ class OwnedFile:
         try:os.stat(self.path.name,dir_fd=self.directory_fd,follow_symlinks=False);return True
         except FileNotFoundError:return False
 
-def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fetch_one,started=None,cpu_started=None):
+def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fetch_one,started=None,cpu_started=None,reuse_uv_licenses=False):
     started=time.monotonic() if started is None else started;cpu_started=cpu() if cpu_started is None else cpu_started
     cfg=fixed_profile(profile_id);root=Path(root).absolute();out=destination(root,name,profile_id=profile_id);rows=cfg['rows'];network_cap=cfg['network_byte_cap'];planned=cfg['bytes'];nested=bool(cfg['native_packet_notice_copies'])
     count=cfg.get('file_count',5);max_requests=cfg.get('max_requests',5);output_cap=cfg.get('output_byte_cap',OUTPUT_BYTES)
     if len(rows)!=count or count!=max_requests:raise ValueError('fixed source/request population differs')
+    if type(reuse_uv_licenses) is not bool or reuse_uv_licenses and profile_id!='uv-dosimeter':raise ValueError('explicit UV-only licence reuse flag required')
     if out.exists():raise ValueError('destination already exists; preserve earlier attempts')
     if fetch is not True:
         return {'schema':1,'action':'plan_only','destination':str(out),'source_commit':rows[0]['commit'],
             'planned_files':count,'planned_bytes':planned,'network_requests':0,'native_accepted':False,
-            'command':'scripts/fetch_led_demo.py --project '+profile_id+' --fetch --output '+name}
+            'planned_network_requests':count-(3 if reuse_uv_licenses else 0),'planned_cached_licenses':3 if reuse_uv_licenses else 0,
+            'command':'scripts/fetch_led_demo.py --project '+profile_id+' --fetch --output '+name+(' --reuse-uv-licenses' if reuse_uv_licenses else '')}
+    cache=uv_license_cache(root,cfg) if reuse_uv_licenses else None
     extra=ARC_MATERIAL if nested else ()
     def material():return {n:shared.sha(shared.bounded(shared.contained(root,root/n))) for n in (*MATERIAL,*extra)}
     witness=material();owner={};project_owner={};native_owner={};response_owner={};completed={};requests=[];received={};raw_fd=None
@@ -135,7 +219,7 @@ def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fe
     record={'schema':1,'kind':'fixed_public_'+profile_id.replace('-','_')+'_source_acquisition','status':'running','accepted':False,
         'native_accepted':False,'physical_electrical_validation':False,'routing_support':'unqualified',
         'destination':str(out),'project':str(project),'repository':rows[0]['repository'],'source_commit':rows[0]['commit'],
-        'source_profile':('fixed '+('six' if count==6 else 'five')+'-file public '+('ArcDice' if profile_id=='arcdice' else profile_id)+' selection') if nested else 'licensed_acquisition_v7 fixed five-file public LED selection',
+        'source_profile':('fixed '+('six' if count==6 else 'five' if count==5 else str(count))+'-file public '+('ArcDice' if profile_id=='arcdice' else profile_id)+' selection') if nested else 'licensed_acquisition_v7 fixed five-file public LED selection',
         'runtime_sha256':witness,'budget_seconds':SECONDS,'cpu_budget_seconds':SECONDS,
         'max_requests':max_requests,'network_byte_cap':network_cap,'output_byte_cap':output_cap,
         'planned_files':count,'planned_bytes':planned,'requests':requests,'files':[],
@@ -150,6 +234,7 @@ def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fe
           'Five unique stock-model references remain unclosed; no models/libraries/firmware downloaded.',
           'Original missing_tuning_profile warning and track_on_post_machined_layer error remain unchanged.'],
         'accounting':'Controller clock begins before project imports for CLI. Stored wall/fullCPU sample precedes final publication; final cap covers publication/readback. No speedup or routing-quality claim.'}
+    record.update(transfer_count=0,reused_input_files=0,reused_input_bytes=0,cache_inputs_current=True,prior_cache_acquisition=None if cache is None else cache['prior_acquisition'])
     if nested:record.update(warnings=cfg['warnings'],native_project=str(out/'native-project'),native_packet_prepared=False,native_packet_hashes=None)
     def exact_source():
         if nested:
@@ -160,7 +245,7 @@ def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fe
         return len(completed)==count
     def scan():return shared.inventory(owned(),cap=output_cap)
     def stable():
-        owned();remaining()
+        owned();remaining();check_uv_cache(root,cache)
         if material()!=witness:raise ValueError('acquisition implementation changed during execution')
         actual=scan()['files'];allowed={r['artifact'] for r in requests}|set(completed)|{'result.json','result.json.partial'}
         if nested:
@@ -176,17 +261,28 @@ def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fe
             verify_project(project,profile_id=profile_id)
         remaining();owned()
     def account():
+        cache_current=True
+        try:check_uv_cache(root,cache)
+        except Exception:cache_current=False  # Metadata only; stable() still rejects.
         owned();actual=scan();record.update(wall_seconds=time.monotonic()-started,total_cpu_seconds=cpu()-cpu_started,output_bytes=actual['bytes'],
-          new_network_requests=len(requests),received_bytes=sum(x.get('received_bytes',0) for x in requests))
+          new_network_requests=sum(x.get('transport')=='network' for x in requests),
+          received_bytes=sum(x.get('received_bytes',0) for x in requests if x.get('transport')=='network'),
+          transfer_count=len(requests),reused_input_files=sum(x.get('status')=='verified_cache_copied' for x in requests),
+          reused_input_bytes=sum(x.get('cached_bytes',0) for x in requests),cache_inputs_current=cache_current)
         record['source_files_exact']=exact_source() and all(actual['files'].get(n)==info for n,info in completed.items())
         record['within_budget']=record['wall_seconds']<=SECONDS and record['total_cpu_seconds']<=SECONDS and actual['bytes']<=output_cap and len(requests)<=max_requests and record['received_bytes']<=network_cap
-        if not record['within_budget'] or record['status']=='acquired_unqualified' and not record['source_files_exact']:record.update(status='failed',accepted=False)
+        if not record['within_budget'] or record['status']=='acquired_unqualified' and (not record['source_files_exact'] or not cache_current):record.update(status='failed',accepted=False)
     try:
         stable()
         for index,row in enumerate(rows):
-            stable();artifact=('responses/'+str(index+1).zfill(2)+'.payload') if nested else 'project/'+row['source_path'];req={'index':index,'source_path':row['source_path'],'artifact':artifact};requests.append(req)
+            stable();artifact=('responses/'+str(index+1).zfill(2)+'.payload') if nested else 'project/'+row['source_path'];req={'index':index,'source_path':row['source_path'],'artifact':artifact,'transport':'verified_cache' if cache is not None and row['source_path'] in cache['files'] else 'network'};requests.append(req)
             allowance=network_cap-sum(r.get('received_bytes',0) for r in requests)
-            raw=transport(row,req,OwnedFile(out/artifact,owned,raw_fd),allowance,remaining)
+            if req['transport']=='verified_cache':
+                item=cache['files'][row['source_path']];raw=item['raw']
+                with OwnedFile(out/artifact,owned,raw_fd).open('xb') as stream:stream.write(raw)
+                req.update(status='verified_cache_copied',received_bytes=0,cached_bytes=len(raw),response_sha256=shared.sha(raw),
+                    cache_body={'file':item['path'],'sha256':item['sha256']},prior_receipt={'file':cache['prior_acquisition']['receipt'],'sha256':cache['prior_acquisition']['sha256']})
+            else:raw=transport(row,req,OwnedFile(out/artifact,owned,raw_fd),allowance,remaining)
             owned();remaining()
             if sum(r.get('received_bytes',0) for r in requests)>network_cap:raise ValueError('network byte cap exceeded')
             info=shared.payload(row,raw)
@@ -201,6 +297,7 @@ def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fe
             for prefix,values in [('project',received),('native-project',packet)]:
                 for name,raw in values.items():completed[prefix+'/'+name]={'bytes':len(raw),'sha256':shared.sha(raw)}
             record.update(native_packet_prepared=True,native_packet_hashes=verify_project(out/'native-project',profile_id=profile_id,native_packet=True)['files'])
+        if profile_id=='uv-dosimeter':record['warnings'][0]='Exactly eleven original source files acquired; native/routing qualification remains pending.'
         record['status']='acquired_unqualified'
     except (Exception,KeyboardInterrupt) as exc:
         record.update(status='cancelled' if isinstance(exc,KeyboardInterrupt) else 'failed',first_failure=type(exc).__name__+': '+str(exc))
@@ -217,10 +314,10 @@ def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fe
         raise
 
 def main():
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--fetch',action='store_true');parser.add_argument('--project',choices=('led','arcdice','analog-filter','cellscan'),default='led');parser.add_argument('--output');args=parser.parse_args();args.output=args.output or fixed_profile(args.project)['default_output']
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--fetch',action='store_true');parser.add_argument('--project',choices=('led','arcdice','analog-filter','cellscan','uv-dosimeter'),default='led');parser.add_argument('--output');parser.add_argument('--reuse-uv-licenses',action='store_true',help='Explicitly reuse only the three pinned prior UV licence bodies; no fallback');args=parser.parse_args();args.output=args.output or fixed_profile(args.project)['default_output']
     try:
-        with shared.cancellation(),shared.alarm(SECONDS):record=fetch_demo(args.output,profile_id=args.project,fetch=args.fetch,started=START,cpu_started=CPU_START)
+        with shared.cancellation(),shared.alarm(SECONDS):record=fetch_demo(args.output,profile_id=args.project,fetch=args.fetch,started=START,cpu_started=CPU_START,reuse_uv_licenses=args.reuse_uv_licenses)
     except (Exception,KeyboardInterrupt) as exc:
         print(json.dumps({'status':'failed','reason':type(exc).__name__+': '+str(exc),'accepted':False}));return 2
-    print(json.dumps({k:record[k] for k in ('action','status','destination','project','planned_files','planned_bytes','new_network_requests','received_bytes','wall_seconds','total_cpu_seconds','source_files_exact','within_budget') if k in record}));return 0 if record.get('action')=='plan_only' or record.get('status')=='acquired_unqualified' and record.get('within_budget') and record.get('source_files_exact') else 2
+    print(json.dumps({k:record[k] for k in ('action','status','destination','project','planned_files','planned_bytes','new_network_requests','received_bytes','wall_seconds','total_cpu_seconds','source_files_exact','cache_inputs_current','within_budget') if k in record}));return 0 if record.get('action')=='plan_only' or record.get('status')=='acquired_unqualified' and record.get('within_budget') and record.get('source_files_exact') and record.get('cache_inputs_current') is True else 2
 if __name__=='__main__':raise SystemExit(main())
