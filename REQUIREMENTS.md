@@ -1,6 +1,6 @@
 # Requirements to evidence
 
-October 14, 2026. Current installed qualification663cd1c/installation027; later classifier/pair experiments are not production-admitted; exact source/tools are bound in each receipt. Earlier matrices and all failures remain in Git history and immutable packets. Every final candidate needs actual native and original-design evidence. Tests are software coverage, not routing quality.
+October 14, 2026. Current installed qualification4b03a78/installation028; later classifier/pair experiments are not production-admitted; exact source/tools are bound in each receipt. Earlier matrices and all failures remain in Git history and immutable packets. Every final candidate needs actual native and original-design evidence. Tests are software coverage, not routing quality.
 
 | Requirement | Implementation / executable check / actual evidence | Remaining gate |
 |---|---|---|
@@ -97,3 +97,5 @@ Actual [SES003/import readback](evidence/fixed-placement-ses-native003-001.json)
 [Scoped20240108 transport](evidence/legacy-transport-scope-source-001.json): exact whole/native/source_all/two-layer/literalDefault/unlocked only, defaultclosed elsewhere;83targeted/full0651203controls. Existing real PAW positive/MISOnegative/partialSES evidence supports transport, never solved routing. Actual new normal workflow control and current-source installation remain next. All failed candidates and scientific release gates remain visible.
 
 [Actual scoped workflows](evidence/scoped-native-workflows-001.json) qualify authoredlegacytag0/0/0/0, disconnected2opens, modernfullSCH0/0/7/0; exact current code/source/native reports retained. GUIcopy004locked atopen. [Diagnostic minimum source/full066](evidence/native-minimum-source-integration-001.json) leaves normaldefaults unchanged and explicitly refuses normalreceipts; actualNativepositive/invalid controls and engine remain pending. Backup280000filecap afteractual270296census requires actualincremental/fullrestore.
+
+[Current installation028](evidence/installation028-native-001.json) passes22offline commands/72fixed+119targeted installed controls, exact20705original/572distribution files and realNative60mm/0via/0findings/sharedreadback. ExistingMac/apps/cache, no fullinstalledsuite/freshOS/GUI/package claim.
