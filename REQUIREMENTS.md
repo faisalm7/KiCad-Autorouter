@@ -8,7 +8,7 @@ October 14, 2026 UTC. [Exact preceding matrix](docs/history/2026-10-14-c7ffada/R
 | Offline native routing | pipeline/native/runner, pinned KiCad10/FR2.5/Java25.0.2; actual positives/invalid controls | Qualified Mac only; no runtime AI/account/network |
 | Original constraints / protected copper | preflight/immutable/scope/layer and original-rule checks; actual protected import/invalid controls | Unknown/custom/advanced semantics block; no weakening |
 | Final native proof | saved refill/full DRC/connectivity/class targets/pour/protection/report hashes | Missing/stale/corrupt/unsupported proof rejects |
-| Complete schematic | native parity plus narrow field evidence; real mismatch negatives | Flat qualified formats only; Clock hierarchy/mismatches reject |
+| Complete schematic | native parity plus narrow field evidence; real mismatch negatives | Flat qualified formats only; Clock hierarchy/mismatches and new interf22footprint-symbol warnings reject |
 | Broader class support | native-parent-dimensions-v1, current JAR/generated/protected/invalid controls and whole/partial production CLI | Closed namespace/two-layer; selected composite classes block |
 | Licensed data / population | full394-file inventory/current011,25canonical/8staticeligible/17unsupported | Exposed data; zero established pedigrees; assets/models unresolved, no raw redistribution |
 | G3 representative failure audit | preserved failures/architecture/alternative-engine experiments |30–50 representative families unmet |
