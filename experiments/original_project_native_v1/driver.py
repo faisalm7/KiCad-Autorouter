@@ -11,12 +11,36 @@ from autorouter.runner import run
 from experiments.placement_handoff_native_v1.driver import copy_bytes
 LIMIT=20*1024**2;SECONDS=90
 CASES={
+    'interf_u':('managed-interf','interf_u.kicad_pcb','69cafb907ebc09e7722a2a464b1d466fc2e3608d',None),
     'arcdice':('arcdice-source','hardware/ArcDice.kicad_pcb','5908d99db1ef98b5996b380c75e5aee8bb8caaa6',None),
     'push-button-led':('v7','PushButtonLed.kicad_pcb','29c46b7c03d2afd9fe3a58fe2070309b12f94b42','.runs/licensed-acquisition-010-run-001/receipt.json'),
     'als311-clock':('v6','hardware/hardware.kicad_pcb','494ab6baf40746d313fe11379425900ebe97c319','.runs/licensed-acquisition-009-run-001/receipt.json'),
     'ardujoy-c64':('v4','Ardujoy_HW/Ardujoy_HW.kicad_pcb','1b63471d9726fb6a38f8544ca73ebf10c7f19820','.runs/licensed-acquisition-007-run-001/receipt.json'),
     'nus-usb-led':('v5','src/usb_led.kicad_pcb','ad3fbd582e3915b585c453ea202f591720a1f427','.runs/licensed-acquisition-008-run-001/receipt.json'),
 }
+REFILLED_ORIGINALS=frozenset({'als311-clock','push-button-led','arcdice','interf_u'})
+
+def capture_interf_source():
+    """Read the already acquired fixed complete project; never stage or fetch."""
+    from data import fetch
+    from scripts.experiment_quality import selected_source
+    manifest=fetch.load_manifest()
+    if manifest['commit']!=CASES['interf_u'][2]:raise p.Rejected('fixed interf source revision differs')
+    board,_=selected_source('interf_u')
+    rows=[row for row in manifest['files'] if row['project_id']=='kicad-interf-u']
+    before=io.inventory(board.parent,max_bytes=LIMIT,max_files=64,max_entries=128)
+    files={}
+    for row in rows:
+        source=fetch.safe_destination(row['destination'])
+        relative=str(source.relative_to(board.parent))
+        if relative in files:raise p.Rejected('duplicate interf source path')
+        raw=io.read_bytes(source);fetch.verify_bytes(raw,row);files[relative]=raw
+    expected={name:hashlib.sha256(raw).hexdigest() for name,raw in files.items()}
+    if (len(files)!=25 or sum(map(len,files.values()))!=1490971 or before!=expected
+            or io.inventory(board.parent,max_bytes=LIMIT,max_files=64,max_entries=128)!=before
+            or selected_source('interf_u')[0]!=board):
+        raise p.Rejected('fixed complete interf source changed during capture')
+    return files
 
 def route_records(tree):
     result={}
@@ -57,13 +81,17 @@ def experiment(project,output,*,run_native=False):
     before=files=job=completed=bound_native=None
     try:
         from importlib import import_module
-        snapshot=import_module('experiments.arcdice_native_class_v1.source' if version=='arcdice-source' else 'experiments.licensed_acquisition_'+version+'.native_snapshot')
-        files=snapshot.capture();copy_bytes(files,out/'original');before=p.tree_hash(out/'original');board=out/'original'/relative
+        if version=='managed-interf':capture=capture_interf_source
+        else:capture=import_module('experiments.arcdice_native_class_v1.source' if version=='arcdice-source' else 'experiments.licensed_acquisition_'+version+'.native_snapshot').capture
+        files=capture();copy_bytes(files,out/'original');before=p.tree_hash(out/'original');board=out/'original'/relative
         record.update(original_hashes=before,tools=p.tool_manifest())
         if project=='arcdice':
             record.update(source_origin='frozen public source lead; no managed acquisition or new download',
                 source_metadata_sha256={name:p.sha(ROOT/'.runs/arcdice-native-class-scope-001'/name) for name in ('SOURCE_BINDINGS.json','inspection-001.json')},
                 custom_asset_closure_qualified=False)
+        elif version=='managed-interf':
+            record.update(source_origin='already acquired fixed licensed KiCad demo; no new download',
+                source_manifest_sha256=p.sha(ROOT/'data/sources.json'),source_file_count=len(files),source_bytes=sum(map(len,files.values())))
         else:record['acquisition_receipt_sha256']=p.sha(ROOT/acquisition)
         code={n:io.read_bytes(ROOT/n) for n in record['tools']['implementation_sha256']}
         for relative in ('experiments/original_project_native_v1/driver.py','experiments/placement_handoff_native_v1/driver.py'):
@@ -71,7 +99,10 @@ def experiment(project,output,*,run_native=False):
         if project=='arcdice':
             for name in ('source.py','worker.py','PROTOCOL.json'):
                 relative='experiments/arcdice_native_class_v1/'+name;code[relative]=io.read_bytes(ROOT/relative)
-        record['additional_implementation_sha256']={name:p.sha(ROOT/name) for name in code if name.startswith('experiments/')}
+        if version=='managed-interf':
+            for relative in ('data/fetch.py','data/sources.json','scripts/experiment_quality.py'):
+                code[relative]=io.read_bytes(ROOT/relative)
+        record['additional_implementation_sha256']={name:p.sha(ROOT/name) for name in code if not name.startswith('autorouter/')}
         for name,raw in code.items():
             committed=subprocess.run(['git','show',record['tools']['git_head']+':'+name],cwd=ROOT,capture_output=True,check=True,timeout=min(3,remaining())).stdout
             if raw!=committed:raise p.Rejected('commit exact native implementation before observations')
@@ -84,7 +115,7 @@ def experiment(project,output,*,run_native=False):
         except p.Rejected as exc:
             record.update(static_supported=False,static_unsupported_reason=str(exc))
         job=BoundJob(out/'job',SECONDS,remaining)
-        if project in {'als311-clock','push-button-led','arcdice'}:
+        if project in REFILLED_ORIGINALS:
             # Narrow new original diagnostic: no solver/export or repeated
             # source baseline. Exact original-shell candidate, fresh saved fill
             # and complete finalSCH check. Native serialization differences
@@ -136,7 +167,7 @@ def experiment(project,output,*,run_native=False):
         if job is not None:record['steps']=job.steps
         if record.get('status')=='observed':
             def bound_native():
-                if project in {'als311-clock','push-button-led','arcdice'}:
+                if project in REFILLED_ORIGINALS:
                     if (p.sha(candidate)!=record['final_candidate_sha256'] or p.sha(job.out/'original-final.json')!=record['final_native_report_sha256']
                             or p.immutable(sx.read(candidate))!=p.immutable(sx.read(board))
                             or route_records(sx.read(candidate))!=route_records(sx.read(board))):
@@ -166,11 +197,11 @@ def experiment(project,output,*,run_native=False):
             if completed is not None and completed_evidence(out)!=completed:raise p.Rejected('completed native evidence changed')
             if p.sha(Path(__file__))!=record['helper_sha256']:raise p.Rejected('original diagnostic helper changed')
             if before is not None:
-                if p.tree_hash(out/'original')!=before or snapshot.capture()!=files:raise p.Rejected('original/acquired source changed')
+                if p.tree_hash(out/'original')!=before or capture()!=files:raise p.Rejected('original/acquired source changed')
             if record.get('tools') is not None and p.tool_manifest()!=record['tools']:raise p.Rejected('original diagnostic tool/code/HEAD changed')
             if any(p.sha(ROOT/name)!=digest for name,digest in record.get('additional_implementation_sha256',{}).items()):raise p.Rejected('additional original diagnostic implementation changed')
         def account():
-            if before is not None:record.update(original_preserved=p.tree_hash(out/'original')==before,acquired_source_still_exact=snapshot.capture()==files)
+            if before is not None:record.update(original_preserved=p.tree_hash(out/'original')==before,acquired_source_still_exact=capture()==files)
             record.update(wall_seconds=time.monotonic()-started,total_cpu_seconds=time.process_time()+f.child_cpu()-cpu0,output_bytes=size())
             record['within_budget']=record['wall_seconds']<=SECONDS and record['total_cpu_seconds']<=SECONDS and record['output_bytes']<=LIMIT
             if not record['within_budget'] or record.get('original_preserved') is not True or record.get('acquired_source_still_exact') is not True:record['status']='failed'
