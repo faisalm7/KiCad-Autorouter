@@ -280,13 +280,16 @@ def check_drc_stage(directory,data,name,source,input_path,saved,before,*,schemat
     if schematic_parity:argv.insert((len(SANDBOX) if sandboxed else 0)+8,'--schematic-parity')
     if saved:argv.append('--save-board')
     argv.append(str(input_path))
-    process_check(directory,data,name,argv,allowed=(5 if native['findings'] else 0,))
+    process=process_check(directory,data,name,argv,allowed=(5 if native['findings'] else 0,))
+    from .local_settings import check_event
+    check_event(directory,binding,process)
     matching=next(step for step in data['steps'] if step['name']==name and step['cwd']==str(directory))
     if matching.get('validated_input_sha256')!=before[source.name] or matching.get('emitted_candidate')!=str(source):
         raise p.Rejected('floor native stage step/input mismatch')
     from . import schematic_field_evidence as fields
     fields.check_processes(directory,data,name,input_path,sandboxed=sandboxed)
     p.experimental_native_version(native_toolchain)
+    check_event(directory,binding,process)
     return native
 
 
@@ -308,8 +311,8 @@ def audit_transport(directory,data,task,candidate):
 
 
 class FloorJob(p.Job):
-    def __init__(self,out,seconds,remaining,*,native_toolchain=None):
-        super().__init__(out,seconds,native_toolchain=native_toolchain);self.remaining=remaining
+    def __init__(self,out,seconds,remaining,*,native_toolchain=None,protect_local_settings=False):
+        super().__init__(out,seconds,native_toolchain=native_toolchain,protect_local_settings=protect_local_settings);self.remaining=remaining
         self.env={key:value for key,value in self.env.items() if key not in {'PYTHONPATH','PYTHONHOME'} and (not key.startswith('KICAD_') or key in {'KICAD_CONFIG_HOME','KICAD_CACHE_HOME','KICAD_DOCUMENTS_HOME'})}
         (self.out/'tmp').mkdir();self.env.update(PYTHONNOUSERSITE='1',PYTHONDONTWRITEBYTECODE='1',TMPDIR=str(self.out/'tmp'))
     def step(self,name,argv,allowed=(0,),*,already_sandboxed=False):

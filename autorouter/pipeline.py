@@ -268,6 +268,11 @@ def preflight(board):
         except Rejected as exc: reasons.append(str(exc).removeprefix('unsupported: '))
         if settings.get('drc_exclusions'): reasons.append('DRC exclusions not qualified')
         for key,val in settings.get('rule_severities',{}).items():
+            if key=='zone_has_empty_net' and val=='error':
+                from .legacy_zone import qualify
+                try: qualify(t,p)
+                except ValueError as exc: reasons.append(str(exc))
+                continue
             if key not in KNOWN_CHECKS or val not in {'error','warning','ignore'}: reasons.append('unknown rule severity semantics: '+key)
             if key in CRITICAL_CHECKS and val!='error' and (key,val) not in {('padstack','warning'),('hole_to_hole','warning')}: reasons.append('core native check not blocking: '+key)
     rules=board.with_suffix('.kicad_dru')
@@ -472,12 +477,21 @@ def check_drc_project(before, after, board_name, *, saved=False):
 
 
 class Job:
-    def __init__(self, out, seconds, *, native_toolchain=None):
+    def __init__(self, out, seconds, *, native_toolchain=None, protect_local_settings=False):
         experimental_native_version(native_toolchain)
         self.native_toolchain=native_toolchain
         self.native_cli=c.CLI if native_toolchain is None else native_toolchain.cli
         self.native_python=c.PYTHON if native_toolchain is None else native_toolchain.python
-        self.out=Path(out).resolve(); self.out.mkdir(parents=True,exist_ok=False)
+        if type(protect_local_settings) is not bool:raise Rejected('explicit local-settings guard option required')
+        self.protect_local_settings=protect_local_settings;self._local_settings_owner=None
+        if protect_local_settings:
+            from .local_settings import canonical
+            canonical(Path(out).absolute())
+        self.out=Path(out).absolute() if protect_local_settings else Path(out).resolve(); self.out.mkdir(parents=True,exist_ok=False)
+        if protect_local_settings:
+            canonical(self.out)
+            from . import handoff as h
+            self._local_settings_owner={};h.capture_destination(self._local_settings_owner,self.out)
         self.started=time.monotonic(); self.cpu_started=time.process_time()
         self.deadline=self.started+seconds; self.steps=[]; self.seconds=seconds
         self.env=os.environ.copy()
@@ -507,12 +521,23 @@ class Job:
     def drc(self,name,board,save=False,*,schematic_parity=False):
         if self.native_toolchain is not None and schematic_parity:
             raise Rejected('experimental area qualification does not admit schematic parity yet')
+        if self.protect_local_settings:
+            from .local_settings import canonical
+            from . import handoff as h
+            if type(name) is not str or name in ('','.','..') or '/' in name or chr(92) in name or any(ord(x)<32 for x in name):raise Rejected('canonical PRL DRC stage name required')
+            board=canonical(Path(board))
+            if h.owned_destination(self._local_settings_owner)!=self.out:raise Rejected('PRL Job root changed')
+            if save and self.out not in board.parents:raise Rejected('saved PRL Native input must belong to Job root')
         original_input=board
         before=tree_hash(board.parent)
+        local_settings_binding={'local_settings_policy':'job-owned-prl-immutable-v1'} if self.protect_local_settings else {}
         validation_before=None; phase='copy'
         try:
             if not save:
                 work=self.out/(name+'-input')
+                if self.protect_local_settings:
+                    canonical(work)
+                    if self.out not in work.parents:raise Rejected('PRL validation copy outside Job root')
                 board=work/board.name
                 shutil.copytree(original_input.parent,work)
             phase='input_snapshot'; validation_before=tree_hash(board.parent)
@@ -521,13 +546,17 @@ class Job:
             argv=[self.native_cli,'pcb','drc','--format','json','--severity-all','--all-track-errors','--refill-zones','--exit-code-violations','--output',report]
             if schematic_parity:argv.insert(8,'--schematic-parity')
             if save: argv+=['--save-board']
-            phase='native'; result=self.step(name,argv+[board],allowed=(0,5))
+            phase='native'
+            if self.protect_local_settings:
+                from .local_settings import drc_step
+                result=drc_step(self,name,argv+[board])
+            else:result=self.step(name,argv+[board],allowed=(0,5))
             phase='output_snapshot'; after=tree_hash(board.parent)
             phase='project_preservation'; check_drc_project(before,after,board.name,saved=save)
             result['validated_input_sha256']=before[board.name]
             result['emitted_candidate']=str(original_input)
             phase='binding_publication'
-            save_json(self.out/(name+'-binding.json'),{'source':str(original_input),'input':str(board),'before':before,'after':after,'saved':save,
+            save_json(self.out/(name+'-binding.json'),{'source':str(original_input),'input':str(board),'before':before,'after':after,'saved':save,**local_settings_binding,
                 **({'experimental_native_toolchain':self.native_toolchain.record()} if self.native_toolchain is not None else {})})
             phase='report_parse'; parsed=parse_report(report,board.name,native_toolchain=self.native_toolchain)
             any_findings=bool(parsed['findings'])
@@ -543,13 +572,17 @@ class Job:
                 parsed=parse_report(report,board.name,native_toolchain=self.native_toolchain)
             return parsed
         except (Exception,KeyboardInterrupt) as exc:
+            if self.protect_local_settings:
+                try:h.owned_destination(self._local_settings_owner)
+                except (Exception,KeyboardInterrupt) as ownership:
+                    exc.add_note('PRL owned root unavailable; no failure journal written: '+str(ownership));raise exc
             # Evidence only: retain the first failure and never normalize a
             # modified project or turn an unavailable report into a pass.
             errors=[]; after=None
             try: after=tree_hash(board.parent)
             except (Exception,KeyboardInterrupt) as capture:
                 errors.append('after snapshot: '+type(capture).__name__+': '+str(capture))
-            binding={'source':str(original_input),'input':str(board),'before':before,'after':after,'saved':save,
+            binding={'source':str(original_input),'input':str(board),'before':before,'after':after,'saved':save,**local_settings_binding,
                 **({'experimental_native_toolchain':self.native_toolchain.record()} if self.native_toolchain is not None else {})}
             try: save_json(self.out/(name+'-binding.json'),binding)
             except (Exception,KeyboardInterrupt) as capture:
@@ -709,6 +742,45 @@ def check_pour_evidence(directory,data,original,candidate,*,source_hashes=None,c
     if read_bytes(engine_input)!=adapted or f.canonical(data.get('adapter_transformations'))!=f.canonical(adapter_record):
         raise Rejected('pour corrected-to-adapter engine input differs')
 
+def legacy_zone_evidence(original,candidate):
+    """Independent legacy-rule witness, never a native severity alias.
+
+    Exact net/pad/zone intent is already an immutable candidate requirement.
+    Requiring the same sufficient copper-pad witness closes the old native
+    validator gap without claiming complete native pad-count equivalence.
+    """
+    from . import legacy_zone as legacy
+    from .floor_route import canonical
+    project_path=Path(candidate).with_suffix('.kicad_pro')
+    project=json.loads(project_path.read_text())
+    if legacy.KEY not in project.get('board',{}).get('design_settings',{}).get('rule_severities',{}):return None
+    try:
+        source=legacy.qualify(original,project)
+        final=legacy.qualify(sx.read(candidate),project)
+    except ValueError as exc:raise Rejected(str(exc)) from exc
+    if canonical(source)!=canonical(final):raise Rejected('legacy zone source/candidate witness changed')
+    return {'schema':1,'policy':legacy.POLICY,'native_enforcement_claimed':False,
+            'project_sha256':sha(project_path),'candidate_sha256':sha(candidate),'witness':final,
+            'implementation_sha256':{name:sha(c.ROOT/name) for name in
+                ('autorouter/legacy_zone.py','autorouter/board_floor.py','autorouter/floor_route.py',
+                 'autorouter/placement_clearance.py','autorouter/sexpr.py','autorouter/pipeline.py')}}
+
+
+def check_legacy_zone_evidence(directory,original,candidate,*,implementation=None):
+    from .floor_route import canonical,read_json
+    path=Path(directory)/'legacy-zone-witness.json'
+    expected=legacy_zone_evidence(original,candidate)
+    if expected is None:
+        if path.exists() or path.is_symlink():raise Rejected('unexpected legacy zone witness')
+    else:
+        try:actual=read_json(path)
+        except (OSError,ValueError) as exc:raise Rejected('missing or changed legacy zone witness') from exc
+        if canonical(actual)!=canonical(expected):raise Rejected('missing or changed legacy zone witness')
+        if implementation is not None and (type(implementation) is not dict
+                or any(implementation.get(name)!=pin for name,pin in expected['implementation_sha256'].items())):
+            raise Rejected('legacy zone compatibility implementation provenance missing or changed')
+
+
 def validate_candidate(job, original, candidate, source_hashes, protected, *, guidance_contract=None, guidance_basis=None, layer_contract=None, selected_names=None, schematic_parity=False):
     # A complete captured native schematic must participate in final acceptance
     # for every routing scope, including optimizer trials and fresh exports.
@@ -728,6 +800,7 @@ def validate_candidate(job, original, candidate, source_hashes, protected, *, gu
         rs.audit(original,sx.read(candidate),selected_names)
     if layer_contract is not None:layer_contract['audit']=audit_layer_contract(candidate,layer_contract)
     verify_candidate_files(candidate,source_hashes)
+    legacy_zone_evidence(original,candidate)  # Reject before any native normalization.
     from . import pour_rule_area as pour
     pour_areas=pour.qualify(original)
     if pour_areas:
@@ -756,6 +829,8 @@ def validate_candidate(job, original, candidate, source_hashes, protected, *, gu
     if selected_names is not None:rs.audit(original,sx.read(candidate),selected_names)
     native=job.drc('final-drc',candidate,schematic_parity=True) if schematic_parity else job.drc('final-drc',candidate)
     verify_candidate_files(candidate,source_hashes,final_hash)
+    legacy=legacy_zone_evidence(original,candidate)
+    if legacy is not None:save_json(job.out/'legacy-zone-witness.json',legacy)
     return final_hash,native
 
 
@@ -1377,13 +1452,13 @@ def validation_readback_session():
     identity twice. Native execution and candidate acceptance are never cached.
     Hot replacement of checker functions invalidates reuse. No disk cache exists.
     """
-    from . import (adapter,board_floor,floor_context,floor_route,layer_policy,
+    from . import (adapter,board_floor,floor_context,floor_route,layer_policy,legacy_zone,local_settings,
                    netclass,placement_clearance,placement_strategy,
                    placement_transform,pour_rule_area,preferences,runner,strategy,
                    schematic_fields,schematic_field_evidence)
     import sys
     modules=(sys.modules[__name__],c,sx,adapter,board_floor,floor_context,
-             floor_route,layer_policy,netclass,placement_clearance,
+             floor_route,layer_policy,legacy_zone,local_settings,netclass,placement_clearance,
              placement_strategy,placement_transform,pour_rule_area,preferences,runner,strategy,
              schematic_fields,schematic_field_evidence)
     existing=_readback_session.get()
@@ -1437,9 +1512,17 @@ def _readback_witness(path,data,state):
     evidence=pc.inventory(path.parent,max_bytes=limit,max_files=files,
                           max_entries=files*2,with_directories=True)
     original=pc.inventory(source.parent,with_directories=True)
+    runtime=(hashlib.sha256(pc.read_bytes(c.ROOT/'toolchain.lock.json')).hexdigest(),
+             tool_manifest(),str(c.ROOT),str(c.CLI),str(c.PYTHON),str(c.PCBNEW),str(c.JAVA),str(c.JAR))
     live=_readback_live_identity(state['modules'])
-    return (evidence,original,hashlib.sha256(pc.read_bytes(c.ROOT/'toolchain.lock.json')).hexdigest(),
-            tool_manifest(),live,str(c.ROOT),str(c.CLI),str(c.PYTHON),str(c.PCBNEW),str(c.JAVA),str(c.JAR))
+    # File flags/link counts affect the PRL contract but are outside byte hashes.
+    import stat
+    local_metadata=[]
+    for name in evidence[0]:
+        if Path(name).suffix=='.kicad_prl':
+            info=(path.parent/name).lstat()
+            local_metadata.append((name,getattr(info,'st_flags',0),info.st_nlink,stat.S_IFMT(info.st_mode)))
+    return (evidence,original,tuple(sorted(local_metadata)),runtime,live)
 
 
 def check_result(path):
@@ -1562,6 +1645,8 @@ def _check_result_uncached(path):
     current=sx.read(candidate)
     check_hole_machining_support(current)
     if immutable(current)!=immutable(original): raise Rejected('immutable geometry changed')
+    check_legacy_zone_evidence(path.parent,original,candidate,
+        implementation=data.get('tools',{}).get('implementation_sha256',{}))
     protected=protected_for_record(data,original)
     if any(route not in routes(current) for route in protected): raise Rejected('protected route changed')
     check_protected_import(path.parent,data,original,candidate,protected)
@@ -1660,6 +1745,8 @@ def _check_result_uncached(path):
         raise Rejected('native process provenance is inconsistent')
     steps=data.get('steps')
     if not isinstance(steps,list) or not steps or any(not isinstance(step,dict) for step in steps): raise Rejected('missing process history')
+    from .local_settings import check_event
+    check_event(path.parent,binding,process)
     matching=[step for step in steps if step.get('name')=='final-drc' and step.get('cwd')==str(path.parent)]
     if len(matching)!=1 or any(matching[0].get(key)!=value for key,value in process.items()) or matching[0].get('validated_input_sha256')!=data['candidate_sha256'] or matching[0].get('emitted_candidate')!=str(candidate):
         raise Rejected('final native step differs from process or input binding')
@@ -1711,4 +1798,5 @@ def _check_result_uncached(path):
             raise Rejected('source project changed during preference readback')
         if bounded_evidence(path.parent)!=readback_material:
             raise Rejected('complete preference routing evidence changed during readback')
+    check_event(path.parent,binding,process)  # Flags/link counts are outside byte witnesses.
     return result

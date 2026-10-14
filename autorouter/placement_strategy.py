@@ -145,6 +145,7 @@ def check_candidate_stage(directory,record,original,source_hashes,basis,before_t
     if str(candidate)!=record['candidate']:raise p.Rejected('pruning candidate path differs')
     pc.verify_candidate(candidate,source_hashes,record['candidate_sha256'])
     if p.immutable(sx.read(candidate))!=p.immutable(original):raise p.Rejected('pruning immutable geometry differs')
+    p.check_legacy_zone_evidence(directory,original,candidate)
     before=dict(source_hashes);before[candidate.name]=hashlib.sha256((sx.dump(before_tree)+'\n').encode()).hexdigest()
     refill=directory/'refill'/candidate.name
     f.check_drc_stage(directory,record,'refill-drc',refill,refill,True,before)

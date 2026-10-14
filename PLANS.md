@@ -49,4 +49,6 @@ Execute next, continue between checkpoints:
 
 Milestones are checkpoints, not completion claims or reasons to stop. Read actual
 receipts and preserve unfinished artifacts. Exact next command after checkpoint:
-`.venv/bin/python -B .runs/run-paw3395-original-native-002.py` (freeze protocol002 first).
+`.venv/bin/python -B .runs/run-core-prl-native-controls-001.py` after source checkpoint.
+
+Core PRL/legacy source milestone: full057/targeted56pass; sourceformat/defaults unchanged. Execute frozen actualcore controls001 then shared readback; close forced-policy removal before normalroute enablement. PAW original002/fullSCH already complete, do not repeat.

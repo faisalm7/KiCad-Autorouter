@@ -1,0 +1,294 @@
+{
+  "schema": 1,
+  "accepted": false,
+  "production_admitted": false,
+  "scope": "Independent legacy-zone sufficient ordinary-copper-pad constraint and new explicit opt-in core Job PRL boundary; pre-Native qualification only.",
+  "code_sha256": {
+    "autorouter/pipeline.py": "93c2bbfcc5ff56863e9c8a695782c55df2368b2ab593954ec2ac644203a243c1",
+    "autorouter/floor_route.py": "559cda1d4fea6b62ef5d76c1c19def101d0003216ab7bf6063c92f9aa851b83e",
+    "autorouter/placement_strategy.py": "02bbf23263e208f2e4ff02e2f0c7c16072518ae2239153c032f55b9f1d3d668d",
+    "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+    "autorouter/local_settings.py": "c28acd5fad1335803fcf674e677f3ad545e1871eb9638ea915e839bca3b0bc0f",
+    "autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+    "experiments/original_project_native_v1/driver.py": "c07fc41dda831fcaf9c952bc443fe0bb44a960bba7c73d150f10e12fb25430d4",
+    "experiments/original_project_native_v1/local_settings.py": "cefd1f3573eb209af5689564cc928f71070cdac0a1c61febd64d07afafaea465",
+    "experiments/original_project_native_v1/core_prl_controls.py": "e43153d8f067fb01c2836d97a538108da363bfd6a008f4d97c71b89fd7222f7f",
+    "experiments/placement_handoff_native_v1/driver.py": "a84176cbab44199c5d10c80860f391d56f624b2624da2d157eb8810266796f8c",
+    "experiments/licensed_acquisition_v2/native_snapshot.py": "797ad5d392c0d70a30c26700a601e025cd04af0b8925dd7770ec651cbdb7e7d0",
+    "tests/test_legacy_zone.py": "be00b330059c607226762ea08f5cf7017cc5475beab8d5dc0d9c4f61db7d1f57",
+    "tests/test_core_local_settings.py": "e2ab5966205da10c2b4ee85bdfbc69cee68bb9663478b05c42baded706b03fe7",
+    "tests/test_validation_readback.py": "703874e0646df047dddddf192a6c55fa7661360133a511b5cfe68443b177da9f"
+  },
+  "prospective_protocol": {
+    "schema": 1,
+    "accepted": false,
+    "production_admitted": false,
+    "kind": "core_opt_in_prl_native_controls",
+    "project": "fixed immutable PAW and owned MISO-open negative",
+    "argv": [
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/original_project_native_v1/core_prl_controls.py",
+      "--run-native",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/core-prl-native-controls-001"
+    ],
+    "budget_seconds": 90,
+    "cpu_budget_seconds": 90,
+    "retained_output_cap_bytes": 20971520,
+    "worker_guard": {
+      "output_bytes": 536870912,
+      "group_rss_bytes": 4294967296,
+      "log_bytes": 2000000
+    },
+    "code_sha256": {
+      "autorouter/pipeline.py": "93c2bbfcc5ff56863e9c8a695782c55df2368b2ab593954ec2ac644203a243c1",
+      "autorouter/floor_route.py": "559cda1d4fea6b62ef5d76c1c19def101d0003216ab7bf6063c92f9aa851b83e",
+      "autorouter/placement_strategy.py": "02bbf23263e208f2e4ff02e2f0c7c16072518ae2239153c032f55b9f1d3d668d",
+      "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+      "autorouter/local_settings.py": "c28acd5fad1335803fcf674e677f3ad545e1871eb9638ea915e839bca3b0bc0f",
+      "autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+      "experiments/original_project_native_v1/driver.py": "c07fc41dda831fcaf9c952bc443fe0bb44a960bba7c73d150f10e12fb25430d4",
+      "experiments/original_project_native_v1/local_settings.py": "cefd1f3573eb209af5689564cc928f71070cdac0a1c61febd64d07afafaea465",
+      "experiments/original_project_native_v1/core_prl_controls.py": "e43153d8f067fb01c2836d97a538108da363bfd6a008f4d97c71b89fd7222f7f",
+      "experiments/placement_handoff_native_v1/driver.py": "a84176cbab44199c5d10c80860f391d56f624b2624da2d157eb8810266796f8c",
+      "experiments/licensed_acquisition_v2/native_snapshot.py": "797ad5d392c0d70a30c26700a601e025cd04af0b8925dd7770ec651cbdb7e7d0",
+      "tests/test_legacy_zone.py": "be00b330059c607226762ea08f5cf7017cc5475beab8d5dc0d9c4f61db7d1f57",
+      "tests/test_core_local_settings.py": "e2ab5966205da10c2b4ee85bdfbc69cee68bb9663478b05c42baded706b03fe7",
+      "tests/test_validation_readback.py": "703874e0646df047dddddf192a6c55fa7661360133a511b5cfe68443b177da9f"
+    },
+    "expected_positive": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 17,
+      "exclusions": 0,
+      "original_routes_exact": true
+    },
+    "expected_negative": "MISO route deletion must produce actualopens>0 and reject; all warnings/errors retained.",
+    "source": {
+      "path": "evidence/paw-original-native-002.json",
+      "sha256": "5433a2552d57416dd0d40f8d0e4d72ba4ebbca429b001cd48a96e8f704acb109",
+      "bytes": 32569
+    },
+    "scope": "New explicit core Job/FloorJob protection seam, actualsavedrefill/originalshell/fullSCH positive/negative only. No new GET/export/engine or format/normal-route default admission. Existing complete source/rules/PRL, independently enforced legacyzone literalerror and actualfinalNative mandatory. Existing Native original002 and legacy001controls not repeated."
+  },
+  "prospective_protocol_ref": {
+    "path": ".runs/core-prl-legacy-preparation-001/protocol.json",
+    "sha256": "0f671d4bf24059ef46e3c2112b906ecbc3b8ec5037fda76cf7cb83b5e33aa96f",
+    "bytes": 3125
+  },
+  "full_integration": {
+    "execution": {
+      "schema": 1,
+      "git_head": "39c6a60e3286813690aa887c3d9cf9fcbec5edd8",
+      "tools": {
+        "implementation_sha256": {
+          "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+          "autorouter/__main__.py": "9e34e95cf21b4ab7c872365f0a8c835876713691ef39f1049d2bd52bcb0b09e6",
+          "autorouter/adapter.py": "95211455104334e338b83c77aecf8541ee24b0b4f7cd6c3043bcb71d478ddfca",
+          "autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+          "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+          "autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+          "autorouter/floor_route.py": "559cda1d4fea6b62ef5d76c1c19def101d0003216ab7bf6063c92f9aa851b83e",
+          "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+          "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+          "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+          "autorouter/local_settings.py": "c28acd5fad1335803fcf674e677f3ad545e1871eb9638ea915e839bca3b0bc0f",
+          "autorouter/native.py": "7cf0f7cd8d18b59d21b365d51398f0cc99885d3644721a1a842e4f36a7306060",
+          "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+          "autorouter/native_edge.py": "c242ba402c9a981bc18a6e8d2f43e95dc936b53ef64789bfa370716b3de4618d",
+          "autorouter/netclass.py": "79d4b7e98c7b46fe924816ddcc7fa384672bf646d1c06f81e134ce6d97e0a7de",
+          "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+          "autorouter/pipeline.py": "93c2bbfcc5ff56863e9c8a695782c55df2368b2ab593954ec2ac644203a243c1",
+          "autorouter/placement_clearance.py": "f846a73367bc60dfbb48386233e405cb4bf1382f056d379787d7b823c3905feb",
+          "autorouter/placement_strategy.py": "02bbf23263e208f2e4ff02e2f0c7c16072518ae2239153c032f55b9f1d3d668d",
+          "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+          "autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+          "autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+          "autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+          "autorouter/recovery.py": "8a2bf1470cb69e7d8d334bbe7aef18110322a7aa786b965d397a89ddbc932ee5",
+          "autorouter/review_export.py": "716b369af61faa8c15f60ef58a0846772e4b175cff4a75af0c2c5ea45f24aea7",
+          "autorouter/review_view.py": "8f765624a8527df770a98594a7b27fe88776b300ec276f809c179ec7f6f60fb7",
+          "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+          "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+          "autorouter/schematic_field_evidence.py": "d7e1012b05bb7e0fb03358bbc3573b845ff06d03760a88137cf52db71090641b",
+          "autorouter/schematic_fields.py": "7d9043a14bac69d18830b2f51cb7d118c648df9290337505db1bf8503d931a71",
+          "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+          "autorouter/strategy.py": "a7fb17f35f390430fb45d335efa43dd7190546ae9df932c75925d05fe4ab137e",
+          "autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+          "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+          "autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455"
+        },
+        "git_head": "39c6a60e3286813690aa887c3d9cf9fcbec5edd8",
+        "kicad": "10.0.0",
+        "freerouting": "2.5.0",
+        "files": {
+          "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+          "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+          "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+          "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219"
+        },
+        "network": "engine sandbox-exec deny network*"
+      },
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 43.55891612501,
+        "cpu_seconds": 40.159185,
+        "max_rss_bytes": 261898240,
+        "supervisor_cpu_seconds": 0.12662799999999996,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 257261568,
+        "sampled_peak_workdir_bytes": 179192,
+        "resource_guards": {
+          "max_group_rss_bytes": 2147483648,
+          "max_workdir_bytes": 2097152,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+          "-B",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/full-suite-local-root-019.py"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/full-integration-057/command.log",
+        "log_bytes": 179192,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/full-integration-057",
+        "signal_cancellation_enabled": true,
+        "pid": 43077
+      },
+      "wall_seconds": 43.55902404198423,
+      "full_cpu_seconds": 40.285917,
+      "controller_sha256": "8b26541b95e4e27b8e5765a06237c6ca6cfe89b15b5f69aa9758f29647f040e6",
+      "log_sha256": "bfd6c7f20b77c2e8d3bb448e1864d53ee205e7f20b2c446d03bd41f7d6152c43",
+      "scope": "Full integration after independent legacy-zone ordinary-copper-pad witness/error-only preflight/final/trial/readback hooks, strict dependency/cached identity/late metadata regressions, and new core Job/FloorJob explicit opt-in immutable PRL boundary. Native normalroute/default remains off; oldformat/source admission unqualified. Real owned OS denial/cleanup/retained event controls; no new Native or routing-quality claim.",
+      "extra_source_sha256": {
+        "experiments/original_project_native_v1/local_settings.py": "cefd1f3573eb209af5689564cc928f71070cdac0a1c61febd64d07afafaea465",
+        "tests/test_local_settings_preservation.py": "f0d76f021d76a5e3b190e71c6a0c51afbbb3eba850377b705a691825e3c545f8",
+        "scripts/fetch_led_demo.py": "c3e06acee5b30fa79505f7a6c979608c787f13c95fca8dc46645a95e851ef2a0",
+        "tests/test_audio_demo_fetch.py": "b4c339ed3370cd40d96e894fde98a3b3a819e8d7465a2d0edf3f756c4d7e44aa",
+        "experiments/original_project_native_v1/driver.py": "c07fc41dda831fcaf9c952bc443fe0bb44a960bba7c73d150f10e12fb25430d4",
+        "experiments/native_connected_pair_v1/driver.py": "1104048cd48a1f73b9ce012469b75d552dddfa372fec03ea73b64b24b0c3a6af",
+        "experiments/native_connected_pair_v1/run.py": "dd9f277dddd11309a6e9b2f8435b9dda91958b314db7e27c712a408a98578f0b",
+        "experiments/native_connected_pair_v1/protocol-stackup-v2.json": "7ff8dc2fa0953eb8e52644f43f30ff1d5b772cd34e5c59a9f4804cf194635a2b",
+        "tests/test_native_connected_pair.py": "1fdb8c1a9b90c6a0a6c204a097c9f4810b080218f8028d23051159e5ca23a4b2",
+        "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+        "tests/test_native_connected.py": "cda0e61bd69a53ddc6a925dd2928f6108e6d1ac2b3b02d31e392565fd354bb3f",
+        "experiments/native_connected_v1/driver.py": "1f6af65f5793d0fc7e3432f3b00612be46a0ea221c8a2bb7525836b2a542f385",
+        "tests/test_storage_scan.py": "17cc5de5ed9655c83ae1a0752b91b010a620f633fc682030d4d6d3dd2a12fb60",
+        "autorouter/pipeline.py": "93c2bbfcc5ff56863e9c8a695782c55df2368b2ab593954ec2ac644203a243c1",
+        "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+        "tests/test_drc_failure_binding.py": "ec22b8e688b7cf197aa52bcfc27d5c3368b14be7db9da40e09f2730cd9c149c9",
+        "tests/test_native_toolchain.py": "028e31f3701ed3d610ff526391816d0f08bb70cf2b3c903647893b894303756e",
+        "tests/test_native_diagnostic_publication.py": "fe71d235d87bc8ab3bf9bfc846dd6b880509f9051d583ab65fb9fd28ba66189f",
+        "tests/test_navigation_demo_fetch.py": "52edc3db236529dbdd7764585b8f5783166ddb87bc060812c1ab7e3a001c7355",
+        "autorouter/native.py": "7cf0f7cd8d18b59d21b365d51398f0cc99885d3644721a1a842e4f36a7306060",
+        "experiments/native_rule_area_toolchain_v1/driver.py": "057c756f29304a2f5e6545fd9545c2831c0dcc150e7b827ad7a3fdc10e991748",
+        "experiments/native_rule_area_toolchain_v1/native_areas.py": "95b7ec911a96a8df96be7024421d0ccd24320e9aeb911dedef4808ca68f4abb2",
+        "experiments/native_rule_area_toolchain_v1/native_expected.py": "825befaaa0d942522c2b07327dd3d6ab8f6a386b8647a67fe9ba7716c409b1df",
+        "experiments/native_rule_area_toolchain_v1/fixture_recipe.py": "26c0a0aaf8511ded1ab895778f181413ece06b15fd00df8dd6f5620bf6f914d9",
+        "tests/test_uv_demo_fetch.py": "95bae7f68bae363f1d15d3fd3f1e745a40952643b13ba9eb459de2fed768aaf2",
+        "tests/test_pruning_preferences_freshness.py": "acbfbb7d9d0cc570ae338335dd8387610d40111ba67df6421c5e5641546bbd56",
+        "tests/test_pruning_preferences.py": "7d27a9fae5fc64696aed13a5d484fe9b40ee8dfa80734b511f185c90b7661b83",
+        "tests/test_improve_preferences_cli.py": "12b4921aaa9514fc6d53492407073e467203b4b4ed2c3a2f77f4c7d2a9606096",
+        "autorouter/strategy.py": "a7fb17f35f390430fb45d335efa43dd7190546ae9df932c75925d05fe4ab137e",
+        "autorouter/__main__.py": "9e34e95cf21b4ab7c872365f0a8c835876713691ef39f1049d2bd52bcb0b09e6",
+        "scripts/backup.py": "557172fa7467e2f02e09554e2a5da908141869b2636ae3975df29f507dda8004",
+        "tests/test_backup_capacity.py": "2d09f6e321c1c556ec867d6c0e61a1e793d29b2e608b41ce831ca9e6d2e90aad",
+        "scripts/experiment_portfolio.py": "8477cfa084bf7351eff8b18f58529a73437f1f0891513e13935628ca99ed07ff",
+        "tests/test_portfolio_allocation.py": "92a10cc6bdc0b6d2605b7526eacc526ecee94413059655606309fa5c03fd9415",
+        "tests/test_result.py": "d18bea1f183f5a37db03aab340c39f296e1651ed0f26f5aa7e079104d92df519",
+        "autorouter/native_edge.py": "c242ba402c9a981bc18a6e8d2f43e95dc936b53ef64789bfa370716b3de4618d",
+        "scripts/native_edge_controls.py": "ff02d209a32e8e10d14cf341f54e7b2db01f78720a658bb1d60afd2e8145b2db",
+        "tests/test_native_edge.py": "e7aa5bf735ae0f19cc93fb24ce8f71c901d8d1a8b238b76766120a7453f8aadd",
+        "tests/test_native_edge_record.py": "f39551a63fe3a9f4d742cf181c6afc5e0d39052c82c98bb95aaf1d8027281ef0",
+        "tests/test_selected_evidence.py": "28a9c764e7f69f4009f13d9e8f2965e9095b4ae9366607226d93e5f0b220a979",
+        "tests/test_cellscan_demo.py": "c884451f94c4a98529569be9c93c75dff2e8bbe498a9e9853f40fdddfe445dff",
+        "tests/test_pruning_scoring.py": "82e2c9fade4f5e489932dd1b8befc266f1f9850f349154ab4694d21860fb8e44",
+        "tests/test_inherited_trial_readback.py": "0b2a77936721b363c5b488c2ea9bed87401e4ae6d3acdb37ad59a12a8ebfea3f",
+        "tests/test_native_class_readback.py": "4540114a9c1292ca95998a5fb3d17467174002231c9b2ba3606f77f38d73836b",
+        "tests/test_analog_filter_demo.py": "051c3e3802054389ddf9d972f5f1cbf8c904f287495d865c68f74e478bd34b97",
+        "scripts/experiment_quality.py": "2485d82f6553f97fcab38e0d4f9fe29c7e42fb06c471299d1cb5228a51b090ee",
+        "scripts/install_smoke.py": "0fa439795825183020a7cfec054d9309a024eae4b6fdecc78c16c584aba0e4e7",
+        "experiments/placement_handoff_native_v1/driver.py": "a84176cbab44199c5d10c80860f391d56f624b2624da2d157eb8810266796f8c",
+        "tests/test_arcdice_demo_fetch.py": "af612b52095492a005e4964a4a46e9ccf00bc89ee39a045531265d914df077ef",
+        "tests/test_install_smoke.py": "263d53b41951968c3f0f30325b08dcf185038f89f6f7d76f51a0f2f2738b1282",
+        "tests/test_netclass_parent_policy.py": "90d55d95a568fa733b558b73736d09146b7d211233df33dac2b7a97b8c59c8ff",
+        "experiments/native_paired_v1/readback.py": "6fc7e7bc665cacc57bcfe728e026234a66876782acf84e3601a4884b7780e067",
+        "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+        "autorouter/local_settings.py": "c28acd5fad1335803fcf674e677f3ad545e1871eb9638ea915e839bca3b0bc0f",
+        "tests/test_legacy_zone.py": "be00b330059c607226762ea08f5cf7017cc5475beab8d5dc0d9c4f61db7d1f57",
+        "tests/test_core_local_settings.py": "e2ab5966205da10c2b4ee85bdfbc69cee68bb9663478b05c42baded706b03fe7",
+        "tests/test_validation_readback.py": "703874e0646df047dddddf192a6c55fa7661360133a511b5cfe68443b177da9f",
+        "experiments/licensed_acquisition_v2/native_snapshot.py": "797ad5d392c0d70a30c26700a601e025cd04af0b8925dd7770ec651cbdb7e7d0",
+        "tests/test_paw_native_snapshot.py": "1750842f7d8d22648b710054429842249e1cb6430fdc9d7984196b7eee123b90",
+        "experiments/original_project_native_v1/readback.py": "77dba757ce5e617e64c51719dbbd25d7939ed27ff4536c2c7f2e241e1841857e",
+        "experiments/original_project_native_v1/core_prl_controls.py": "353afd7cdf6b3184a9cd601cac89b759da983154e9543917c71210e1850759e3"
+      }
+    },
+    "log": {
+      "path": ".runs/full-integration-057/command.log",
+      "sha256": "bfd6c7f20b77c2e8d3bb448e1864d53ee205e7f20b2c446d03bd41f7d6152c43",
+      "bytes": 179192
+    },
+    "methods": 1160,
+    "scope": "Actual full software/OS/metadata suite; no Native routing-quality proof. Prospective control-driver source binding and retained-output wording corrected afterward as listed."
+  },
+  "targeted": {
+    "log": {
+      "path": ".runs/core-prl-targeted-003.log",
+      "sha256": "a0e7e059d9b815ad179a4cd50f69211ded5a67e6439cf126872be6072276124f",
+      "bytes": 9726
+    },
+    "methods": 56,
+    "seconds": 13.21
+  },
+  "reviews": [
+    {
+      "path": ".runs/core-prl-legacy-preparation-001/core-prl-integration-review-001/README.md",
+      "sha256": "24f63cf7015ebc75d2f93fbab023ca29958a331c6a596fc208578df6644995e4",
+      "bytes": 6606
+    },
+    {
+      "path": ".runs/core-prl-legacy-preparation-001/core-prl-integration-skeptic-001/README.md",
+      "sha256": "bbf54000175e13a4c1e218a8b991baf864fdd2bc8f3c0910b7a70193e7de3fda",
+      "bytes": 3465
+    },
+    {
+      "path": ".runs/core-prl-legacy-preparation-001/legacy-zone-integration-review-001/README.md",
+      "sha256": "b69e71235bf71e704e8ae65b83f9adcef9f5a9093900b678d8b293b850cecd54",
+      "bytes": 6417
+    }
+  ],
+  "applicability": {
+    "path": ".runs/legacy-zone-paw-applicability-001.json",
+    "sha256": "07fc81d216bd3a33422d447d694b573b1cd955acf45758fc2a7d2a35a4aec1cd",
+    "bytes": 2261
+  },
+  "earlier_actual_missing_native_rule": {
+    "path": "evidence/legacy-zone-controls-001/summary.json",
+    "sha256": "8b58c76f4b78370c07eee6d2897d23ad89a6842674432027f30878864469104c",
+    "bytes": 45219
+  },
+  "limitations": [
+    "Core Job and FloorJob flags remain False by default; normal routing and format whitelist unchanged. Native controls still pending.",
+    "Entire opt-in policy removal is not yet forced by new receipt provenance; must close before normal routing admission.",
+    "Legacy helper independently proves an ordinary copperpad exists on each positive rootzone net, not general nativeGetPadCount equality or enforcement. Erroronly, numericnets, allsource/pad/zone invariants mandatory.",
+    "LZI1cachednewmodule/LZI2codeprovenance/trial hooks fixed; CPRL1late flag metadata sampled after tools, regressionrejects finalcallback change. Source/rules/warnings not weakened.",
+    "PAW dimension owner-text UUID reuse and exactdisabled remove_unused_layers=no observed/narrowly allowed; literalF&B.Cu zone alias qualified against actualsaved002onlyfor2outerCu. *.Cu/mixed/4Cualias/duplicate trueidentities refuse.",
+    "Savedfill/currentnative/fullSCH/binding/readback remain mandatory; no sourceheader rewrite, source repair, raw design redistribution or broader pedestal/pedigree claim.",
+    "All raw/source after7db9incremental cutoff; current source checkpoints safe/public, onMaconly raw backups byownerchoice."
+  ]
+}

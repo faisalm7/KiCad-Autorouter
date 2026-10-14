@@ -79,6 +79,47 @@ class ReadbackSession(unittest.TestCase):
             with patch.object(p,'_check_result_uncached',wraps=real) as check:
                 p.check_result(self.receipt);self.assertEqual(check.call_count,1)
 
+    def test_legacy_zone_helper_replacement_invalidates_reuse(self):
+        from autorouter import legacy_zone
+        with patch.object(p,'_check_result_uncached',wraps=p._check_result_uncached) as check,p.validation_readback_session():
+            p.check_result(self.receipt)
+            with patch.object(legacy_zone,'qualify',wraps=legacy_zone.qualify):
+                p.check_result(self.receipt)
+                self.assertEqual(check.call_count,2)
+
+    def test_prl_metadata_and_core_helper_changes_invalidate_reuse(self):
+        import os,stat,sys
+        from autorouter import local_settings
+        with patch.object(p,'_check_result_uncached',wraps=p._check_result_uncached) as check,p.validation_readback_session():
+            p.check_result(self.receipt)
+            with patch.object(local_settings,'check_event',wraps=local_settings.check_event):
+                p.check_result(self.receipt);self.assertEqual(check.call_count,2)
+        if sys.platform!='darwin' or not hasattr(os,'chflags'):return
+        prls=list(self.out.rglob('*.kicad_prl'));self.assertTrue(prls);prl=prls[0];before=prl.stat().st_flags
+        with patch.object(p,'_check_result_uncached',wraps=p._check_result_uncached) as check,p.validation_readback_session():
+            p.check_result(self.receipt)
+            try:
+                os.chflags(prl,stat.UF_IMMUTABLE,follow_symlinks=False)
+                p.check_result(self.receipt);self.assertEqual(check.call_count,2)
+            finally:os.chflags(prl,before,follow_symlinks=False)
+
+    def test_late_tool_callback_prl_flag_change_rejects_cached_witness(self):
+        import os,stat,sys
+        if sys.platform!='darwin' or not hasattr(os,'chflags'):self.skipTest('Mac flags required')
+        prls=list(self.out.rglob('*.kicad_prl'));self.assertTrue(prls);prl=prls[0];flags=prl.stat().st_flags
+        real=p.tool_manifest;calls=[0]
+        def mutate_on_final_witness():
+            calls[0]+=1
+            value=real()
+            if calls[0]==4:os.chflags(prl,stat.UF_IMMUTABLE,follow_symlinks=False)
+            return value
+        try:
+            with patch.object(p,'tool_manifest',side_effect=mutate_on_final_witness),p.validation_readback_session():
+                p.check_result(self.receipt)
+                with self.assertRaisesRegex(p.Rejected,'during cached readback'):p.check_result(self.receipt)
+                self.assertFalse(p._readback_session.get()['entries'])
+        finally:os.chflags(prl,flags,follow_symlinks=False)
+
     def test_in_memory_critical_policy_change_invalidates_hit(self):
         with patch.object(p,'_check_result_uncached',wraps=p._check_result_uncached) as check,p.validation_readback_session():
             p.check_result(self.receipt)
