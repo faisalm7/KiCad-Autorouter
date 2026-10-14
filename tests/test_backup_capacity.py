@@ -10,7 +10,7 @@ class BackupCapacity(unittest.TestCase):
                 'files':[{'path':'.runs/evidence.bin','size':size,'sha256':'0'*64}],
                 'total_file_bytes':size}
     def test_exact_finite_capacity_and_existing_population(self):
-        self.assertEqual(backup.LIMIT,7*1024**3);self.assertEqual(backup.MAX_FILES,260000)
+        self.assertEqual(backup.LIMIT,8*1024**3);self.assertEqual(backup.MAX_FILES,270000)
         self.assertEqual(backup.MAX_RECEIPT_BYTES,80*1024**2)
         self.assertEqual(backup.MAX_CHAIN_RECEIPT_BYTES,192*1024**2)
         self.assertEqual(backup.SCOPES,('.runs','.data','.local-reference'))
@@ -24,7 +24,7 @@ class BackupCapacity(unittest.TestCase):
     def test_stream_guard_rejects_first_byte_over_new_boundary(self):
         output=io.BytesIO();writer=backup.LimitedWriter(output);writer.size=backup.LIMIT-1
         self.assertEqual(writer.write(b'x'),1);self.assertEqual(writer.size,backup.LIMIT)
-        with self.assertRaises(backup.BackupError):writer.write(b'y')
+        with self.assertRaisesRegex(backup.BackupError,'configured byte ceiling'):writer.write(b'y')
         self.assertEqual(output.getvalue(),b'x')
     def test_file_count_guard_unchanged_at_scaled_boundary(self):
         manifest=self.manifest(0);manifest['files'].append({'path':'.runs/other.bin','size':0,'sha256':'0'*64})

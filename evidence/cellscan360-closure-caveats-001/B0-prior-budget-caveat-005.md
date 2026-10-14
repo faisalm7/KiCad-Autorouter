@@ -1,0 +1,7 @@
+# Frozen B0 prior-budget label caveat
+
+The B0 protocol's descriptive `prior_budget_seconds=240` was copied from the B1 template. The actual B0 prefix is the completed120-second comparison (inner allowance74.442244); no B0240attempt is claimed or used. The frozen protocol remains byte-exact and this separate caveat supplies the correct interpretation.
+
+The wrapper never reads that descriptive field. It uses the explicit checked120 prefix charges86.412053wall/100.738604fullCPU, plus new15audit/1bootstrap, giving committed102.412053/116.738604. Its actual source/profile remain stock `adapter=none`, `standard`; the new inner allowance241.261396 matches the receipt. Actual protocol and wrapper hashes match execution. Cumulative360 accounting and the final26open/3blocking rejection are unaffected. The discrepancy must remain visible in reproduction/claims records; it must not be silently rewritten into the frozen file.
+
+No Native, tests, routing, process-validation replay or prior packet edit occurred. This tiny metadata check is included in the existing reserved3-second B0 review share, with no additional off-budget charge. The lead's final comparative metadata closure is separate: first selector KeyError0.15 retained; corrected0.09059wall/0.061175CPU plus0.25bootstrap/emission fits the fixed0.75share per method. B2's later final console audit values, rather than its earlier JSON sample, remain the correct reported final timing.

@@ -1,0 +1,111 @@
+{
+  "schema": 1,
+  "passed": true,
+  "results": [
+    {
+      "name": "targeted-tests",
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 0.4466315829777159,
+        "cpu_seconds": 0.332154,
+        "max_rss_bytes": 40845312,
+        "supervisor_cpu_seconds": 0.02047700000000001,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 40271872,
+        "sampled_peak_workdir_bytes": 94320142,
+        "resource_guards": {
+          "max_group_rss_bytes": 4294967296,
+          "max_workdir_bytes": 536870912,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-021-current965/checkout/.venv/bin/python",
+          "-B",
+          "-m",
+          "unittest",
+          "tests.test_native_edge",
+          "tests.test_native_edge_record",
+          "tests.test_portfolio_allocation",
+          "tests.test_portfolio_completed_resume",
+          "-q"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation021-followup-001/targeted-tests.log",
+        "log_bytes": 98,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-021-current965/checkout",
+        "signal_cancellation_enabled": true,
+        "pid": 5592
+      },
+      "log_sha256": "5cb5dbb002be806b83503c7fddb5f4e30023abcf44333ea91ee9d70216ea29f2"
+    },
+    {
+      "name": "native-edge-controls",
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 6.154458291013725,
+        "cpu_seconds": 2.752388,
+        "max_rss_bytes": 193953792,
+        "supervisor_cpu_seconds": 0.20786500000000002,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 193904640,
+        "sampled_peak_workdir_bytes": 94732479,
+        "resource_guards": {
+          "max_group_rss_bytes": 4294967296,
+          "max_workdir_bytes": 536870912,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-021-current965/checkout/.venv/bin/python",
+          "-B",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-021-current965/checkout/scripts/native_edge_controls.py",
+          "--valid",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-021-current965/checkout/.runs/install-native-smoke/candidate/smoke.kicad_pcb",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-021-current965/checkout/.runs/installed-edge-controls-001"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation021-followup-001/native-edge-controls.log",
+        "log_bytes": 106,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-021-current965/checkout",
+        "signal_cancellation_enabled": true,
+        "pid": 5593
+      },
+      "log_sha256": "b15d701b744001ea5f6e62c4700e4429e0b3eaecdb85740174c685696c787bf5"
+    }
+  ],
+  "wall_seconds": 6.665327916998649,
+  "full_cpu_seconds": 3.3686089999999997,
+  "controller_sha256": "4a262b90c474a78399dc5ae138bdb584572fc1248411be024cb72596cbfb61c6",
+  "installed_head": "965796670d2835e185938d52ef694333e5752356",
+  "scope": "Current actual installed venv/modules under network denial. Software edge/portfolio controls plus owned original-rule native positive/edge-negative/rule-tamper controls. No comparative routing, complete schematic, fresh OS or physical claim."
+}

@@ -1,0 +1,72 @@
+{
+  "schema": 1,
+  "method": "C",
+  "accepted": false,
+  "comparison_eligible": false,
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 249.85601333298837,
+    "cpu_seconds": 243.395802,
+    "max_rss_bytes": 1640398848,
+    "supervisor_cpu_seconds": 4.198321,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 220823552,
+    "sampled_peak_workdir_bytes": 70929801,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 268435456,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/cellscan-balanced-pruning360-draft-001/controller.py",
+      "--method",
+      "C",
+      "--inner"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/cellscan-c-default-pruning-edge-budget360-001/command.log",
+    "log_bytes": 364,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/cellscan-c-default-pruning-edge-budget360-001",
+    "signal_cancellation_enabled": true,
+    "pid": 5098
+  },
+  "prospective_protocol_sha256": "066c6de9a8162401b930dbbbc36e21f4d8559c3f836dade3cd2bd428b28b1b11",
+  "wrapper_sha256": "2e2fb08f82f6996a889cb1477f15006fd297336c54e06f440c01f74e7edf6361",
+  "whole_new_wall_seconds": 250.14065874999505,
+  "whole_new_full_cpu_seconds": 247.859187,
+  "already_committed_charge": {
+    "full_cpu_seconds": 95.68507100000002,
+    "wall_seconds": 86.54934854098246
+  },
+  "combined_charged_wall_seconds": 336.6900072909775,
+  "combined_charged_full_cpu_seconds": 343.544258,
+  "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/cellscan-c-default-pruning-edge-budget360-001/trial/result.json",
+  "result_sha256": "affc5eff9dde7abcf60f2e8a6f251ec4facf24e912f7d1bec7b5f1c50018f780",
+  "inner_terminal_status": "routing_accepted",
+  "all_B2_variants_attempted": null,
+  "prior_outcomes_unchanged": true,
+  "physical_electrical_validation": false,
+  "new_native_readback_required": true,
+  "claims_limit": "One exposed larger development circuit; fixed corrected adapter given equally to B1/B2/C. Prior120/240 failures retained and charged where applicable. No untouched, adaptive-selector, general completion, physical/electrical, installed/GUI or release claim. No B1/reference candidate reuse; no new spending.",
+  "finished_utc": "2026-10-14T13:23:19.409826+00:00",
+  "timing_scope": "First controller line before project imports through retained result read; prior/new audit and bootstrap allowances are separately committed. Polling guards are not OS quotas; final small emission is covered by the charged1second bootstrap/emission allowance.",
+  "within_cumulative360_caps": true,
+  "execution_closed": true
+}

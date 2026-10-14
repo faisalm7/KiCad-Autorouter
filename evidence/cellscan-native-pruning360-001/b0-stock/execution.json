@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "process": {
+    "status": "nonzero_exit",
+    "exit_code": 2,
+    "wall_seconds": 75.98752916700323,
+    "cpu_seconds": 91.60932,
+    "max_rss_bytes": 662421504,
+    "supervisor_cpu_seconds": 0.4430569999999999,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 211779584,
+    "sampled_peak_workdir_bytes": 8319255,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 67108864,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/run-cellscan-b0-stock-budget360-001.py",
+      "--inner"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/cellscan-b0-stock-budget360-001/command.log",
+    "log_bytes": 210,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/cellscan-b0-stock-budget360-001",
+    "signal_cancellation_enabled": true,
+    "pid": 5687
+  },
+  "protocol_sha256": "7784b9e64bdc8038fb35b42b8a1cb45cac1ed01e658802beed6562ac80a90918",
+  "wrapper_sha256": "baf19e1984641ed5b0c30e31dbb28918befc6c3476dddaa8ed4a98d45ab674e6",
+  "whole_new_wall_seconds": 76.23908500000834,
+  "whole_new_full_cpu_seconds": 92.244642,
+  "already_committed_charge": {
+    "full_cpu_seconds": 116.73860400000001,
+    "wall_seconds": 102.41205262497533
+  },
+  "combined_charged_wall_seconds": 178.65113762498368,
+  "combined_charged_full_cpu_seconds": 208.983246,
+  "finished_utc": "2026-10-14T13:32:38.506443+00:00",
+  "old120_result_unchanged": true,
+  "comparison_eligible": false,
+  "claims_limit": "Exposed development comparison. Old120 stock failure remains rejected and fullycharged; corrected-edge B1/B2/C results remain separate. No broad, speedup, independentfamily or physical claim.",
+  "within_cumulative360_caps": true
+}

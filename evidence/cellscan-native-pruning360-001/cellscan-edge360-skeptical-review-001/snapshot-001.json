@@ -1,0 +1,119 @@
+{
+  "schema": 1,
+  "status": "C result observed; lead closure pending",
+  "accepted": false,
+  "comparison_eligible": false,
+  "new_native_or_engine_execution": false,
+  "checks": [
+    {
+      "method": "B2",
+      "prefix_charge_and_remaining_allocation_exact": true,
+      "prior_failed_result_kept": "no_valid_candidate",
+      "fixed_profile_or_allocation": "balanced",
+      "B1_candidate_supplied": false,
+      "protocol_sha256": "49ca87864dd108056dc0f4699cd8eaad3fe0f8ce13ebd56e06600153942487ee"
+    },
+    {
+      "method": "C",
+      "prefix_charge_and_remaining_allocation_exact": true,
+      "prior_failed_result_kept": "incumbent_rejected",
+      "fixed_profile_or_allocation": "own fresh via_default incumbent followed by feedback pruning",
+      "B1_candidate_supplied": false,
+      "protocol_sha256": "066c6de9a8162401b930dbbbc36e21f4d8559c3f836dade3cd2bd428b28b1b11"
+    }
+  ],
+  "B1_accepted_but_no_paired_claim": true,
+  "B2_trials": [
+    {
+      "id": "via_default",
+      "status": "routing_accepted",
+      "eligible": true,
+      "assigned_seconds": 81.39173251400757,
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 209,
+        "exclusions": 0
+      },
+      "vias": 111,
+      "length_mm": 5468.311757583766,
+      "candidate_sha256": "414061c9dfc54c748bb8845a5c2ea8bfe22a7527886b8b6bcb59aa4b2249f714",
+      "native_report_sha256": "245b37ace07c38202f27d738fa106260e027b6dc8c01266b448846f55a1e1e6d"
+    },
+    {
+      "id": "via_low",
+      "status": "drc_rejected",
+      "eligible": false,
+      "assigned_seconds": 92.40387600000001,
+      "native": {
+        "opens": 1,
+        "blocking": 0,
+        "warnings": 221,
+        "exclusions": 0
+      },
+      "vias": 145,
+      "length_mm": 5241.598440401339,
+      "candidate_sha256": "36e007d31a666d89a672ac384735d3ddfa12ce9514a21fb1229b76f7ca239823",
+      "native_report_sha256": "5bac5e1d91bb5cf0e07595d4d90e126b8bf2174a37e45153c9973d71c460fca9"
+    },
+    {
+      "id": "via_high",
+      "status": "drc_rejected",
+      "eligible": false,
+      "assigned_seconds": 109.40148800000003,
+      "native": {
+        "opens": 1,
+        "blocking": 0,
+        "warnings": 211,
+        "exclusions": 0
+      },
+      "vias": 99,
+      "length_mm": 5479.433671285742,
+      "candidate_sha256": "3ee17b1cf8ff2f3d7e5d1a9112389711ab8d06d753066d1bc262a88fbd3033a4",
+      "native_report_sha256": "8d86035c24e742cb582d7aa5248c0a1a6afd78a0e23e6eabd349199a251725e3"
+    }
+  ],
+  "B2_combined_whole_cost": {
+    "combined_charged_wall_seconds": 283.8185750829871,
+    "combined_charged_full_cpu_seconds": 332.160403,
+    "within_cumulative360_caps": true
+  },
+  "failed_B2_metadata_index_sha256": "425509b70404591fc292e6047f94020aff5701bc249b9443ea77b0d1e610fa6a",
+  "failed_B2_metadata_not_authoritative": true,
+  "C_observed": {
+    "status": "routing_accepted",
+    "accepted": true,
+    "improvements": 12,
+    "metrics": {
+      "version": "10.0.0",
+      "pads": 312,
+      "footprints": 65,
+      "zones": 1,
+      "vias": 111,
+      "track_length_mm": 5293.194194117413,
+      "copper_layers": 2
+    },
+    "incumbent": {
+      "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/cellscan-c-default-pruning-edge-budget360-001/trial/incumbent/result.json",
+      "status": "routing_accepted",
+      "accepted": true,
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 312,
+        "footprints": 65,
+        "zones": 1,
+        "vias": 111,
+        "track_length_mm": 5468.311757583767,
+        "copper_layers": 2
+      },
+      "wall_seconds": 115.76384445899748
+    },
+    "requires_lead_full_final_readback": true
+  },
+  "review_cost": {
+    "local_snapshot_wall_seconds": 0.016124082991154864,
+    "local_snapshot_process_cpu_seconds": 0.011356999999999999,
+    "conservative_charge_wall_full_cpu_seconds_per_method": 3,
+    "charge_scope": "Local review commands, prior short inspection/setup reads, interpreter startup and final small metadata emission. AI dialogue elapsed time and waiting are not native method runtime. Charged once inside each reserved15 audit; no new Native/JVM/tests/GET/Git."
+  }
+}

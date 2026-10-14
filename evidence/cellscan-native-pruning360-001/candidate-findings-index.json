@@ -1,0 +1,2277 @@
+{
+  "schema": 1,
+  "accepted": false,
+  "original_warning_evidence": "evidence/cellscan-routing-failures-001/candidate-findings-index.json",
+  "original_warning_evidence_sha256": "4ea73c44be04b3759847e0a97f983c375a97f44c744b0abbc8b1995ae9c5e756",
+  "candidates": [
+    {
+      "receipt": ".runs/cellscan-b0-stock-budget360-001/trial/result.json",
+      "receipt_sha256": "dbb1c40a9543971758c879fa8063e6d382c9b0efda9bdf59508b91324b956c53",
+      "status": "drc_rejected",
+      "accepted": false,
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 312,
+        "footprints": 65,
+        "zones": 1,
+        "vias": 115,
+        "track_length_mm": 4958.305942896387,
+        "copper_layers": 2
+      },
+      "candidate_sha256": "a7350e0fc4d29258823a7d2790081e89ef2e60b5717932b122577b1c46e3b4bb",
+      "native_report_sha256": "d36cdc94090e94e9ebebb5beb06d720c08d96607bfdf55f57276ca52c944a5f0",
+      "native_counts": {
+        "opens": 26,
+        "blocking": 3,
+        "warnings": 209,
+        "exclusions": 0
+      },
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ],
+      "nonwarning_findings": [
+        {
+          "description": "Board edge clearance violation (board setup constraints edge clearance 0.3000 mm; actual 0.2702 mm)",
+          "items": [
+            {
+              "description": "Rectangle on Edge.Cuts",
+              "pos": {
+                "x": 87.95,
+                "y": 18.495
+              },
+              "uuid": "06873821-d7e7-43af-b4ff-f0bb84238cfc"
+            },
+            {
+              "description": "Track [+3V3] on B.Cu, length 0.3076 mm",
+              "pos": {
+                "x": 187.5798,
+                "y": 42.0218
+              },
+              "uuid": "3f93d5c4-8dce-406c-be26-6337dd38e916"
+            }
+          ],
+          "severity": "error",
+          "type": "copper_edge_clearance"
+        },
+        {
+          "description": "Board edge clearance violation (board setup constraints edge clearance 0.3000 mm; actual 0.2702 mm)",
+          "items": [
+            {
+              "description": "Rectangle on Edge.Cuts",
+              "pos": {
+                "x": 87.95,
+                "y": 18.495
+              },
+              "uuid": "06873821-d7e7-43af-b4ff-f0bb84238cfc"
+            },
+            {
+              "description": "Track [+3V3] on B.Cu, length 0.6446 mm",
+              "pos": {
+                "x": 187.5798,
+                "y": 42.6664
+              },
+              "uuid": "c62f8b24-499a-4c21-8829-d50b4bfc69e5"
+            }
+          ],
+          "severity": "error",
+          "type": "copper_edge_clearance"
+        },
+        {
+          "description": "Board edge clearance violation (board setup constraints edge clearance 0.3000 mm; actual 0.2702 mm)",
+          "items": [
+            {
+              "description": "Rectangle on Edge.Cuts",
+              "pos": {
+                "x": 87.95,
+                "y": 18.495
+              },
+              "uuid": "06873821-d7e7-43af-b4ff-f0bb84238cfc"
+            },
+            {
+              "description": "Track [+3V3] on B.Cu, length 0.3076 mm",
+              "pos": {
+                "x": 187.3623,
+                "y": 42.8839
+              },
+              "uuid": "e6167f75-316c-4ae8-b77b-43e844b1d6ca"
+            }
+          ],
+          "severity": "error",
+          "type": "copper_edge_clearance"
+        },
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "Pad 1 [GND] of BAT3.3 on F.Cu",
+              "pos": {
+                "x": 92.52,
+                "y": 76.5
+              },
+              "uuid": "7a32fd4f-324c-4130-9cd1-7c93306b3379"
+            },
+            {
+              "description": "Zone [GND] on F.Cu and B.Cu, priority 0",
+              "pos": {
+                "x": 88.0,
+                "y": 18.5
+              },
+              "uuid": "94135357-536f-4866-b990-07de121a0a42"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        },
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "Pad 1 [GND] of BAT3.3 on F.Cu",
+              "pos": {
+                "x": 92.52,
+                "y": 76.5
+              },
+              "uuid": "7a32fd4f-324c-4130-9cd1-7c93306b3379"
+            },
+            {
+              "description": "Pad 2 [GND] of BAT3.2 on F.Cu",
+              "pos": {
+                "x": 93.52,
+                "y": 74.5
+              },
+              "uuid": "5d865c52-8bb0-4f04-bdbc-c0c33d0a5e34"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        },
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "PTH pad S1 [GND] of J3",
+              "pos": {
+                "x": 93.5,
+                "y": 36.18
+              },
+              "uuid": "43ba32bf-5b08-414b-b166-8cc45dd34c68"
+            },
+            {
+              "description": "Zone [GND] on F.Cu and B.Cu, priority 0",
+              "pos": {
+                "x": 88.0,
+                "y": 18.5
+              },
+              "uuid": "94135357-536f-4866-b990-07de121a0a42"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        },
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "PTH pad S1 [GND] of J3",
+              "pos": {
+                "x": 93.5,
+                "y": 36.18
+              },
+              "uuid": "43ba32bf-5b08-414b-b166-8cc45dd34c68"
+            },
+            {
+              "description": "Zone [GND] on F.Cu and B.Cu, priority 0",
+              "pos": {
+                "x": 88.0,
+                "y": 18.5
+              },
+              "uuid": "94135357-536f-4866-b990-07de121a0a42"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        },
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "Pad 1 [GND] of BAT2.4 on F.Cu",
+              "pos": {
+                "x": 93.52,
+                "y": 55.5
+              },
+              "uuid": "6f2ea683-6d86-4551-a4ff-93a8bbd541bc"
+            },
+            {
+              "description": "Pad 1 [GND] of BAT2.3 on F.Cu",
+              "pos": {
+                "x": 93.52,
+                "y": 53.5
+              },
+              "uuid": "a96ab82c-9c8f-42d8-b1fc-0f4dfd4cad06"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        },
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "Pad 2 [GND] of BAT1.2 on F.Cu",
+              "pos": {
+                "x": 94.01,
+                "y": 31.5
+              },
+              "uuid": "32b549f5-e0ff-431a-b85f-ee04e6e433f1"
+            },
+            {
+              "description": "Zone [GND] on F.Cu and B.Cu, priority 0",
+              "pos": {
+                "x": 88.0,
+                "y": 18.5
+              },
+              "uuid": "94135357-536f-4866-b990-07de121a0a42"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        },
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "Zone [GND] on F.Cu and B.Cu, priority 0",
+              "pos": {
+                "x": 88.0,
+                "y": 18.5
+              },
+              "uuid": "94135357-536f-4866-b990-07de121a0a42"
+            },
+            {
+              "description": "PTH pad 1 [GND] of J1",
+              "pos": {
+                "x": 155.31,
+                "y": 139.0
+              },
+              "uuid": "17990bbc-aa45-4263-8cdc-b4b62a11b692"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        },
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "Zone [GND] on F.Cu and B.Cu, priority 0",
+              "pos": {
+                "x": 88.0,
+                "y": 18.5
+              },
+              "uuid": "94135357-536f-4866-b990-07de121a0a42"
+            },
+            {
+              "description": "Pad 2 [GND] of BT2 on F.Cu",
+              "pos": {
+                "x": 179.1678,
+                "y": 52.0
+              },
+              "uuid": "54616673-01a8-41a8-8ed7-250e9dbbc99d"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        },
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "Pad 1 [GND] of U9 on F.Cu",
+              "pos": {
+                "x": 180.325,
+                "y": 79.795
+              },
+              "uuid": "ba022680-e76e-48c0-b67e-3dcd1788dc5c"
+            },
+            {
+              "description": "Zone [GND] on F.Cu and B.Cu, priority 0",
+              "pos": {
+                "x": 88.0,
+                "y": 18.5
+              },
+              "uuid": "94135357-536f-4866-b990-07de121a0a42"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        },
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "Zone [GND] on F.Cu and B.Cu, priority 0",
+              "pos": {
+                "x": 88.0,
+                "y": 18.5
+              },
+              "uuid": "94135357-536f-4866-b990-07de121a0a42"
+            },
+            {
+              "description": "Pad 2 [GND] of BT2 on F.Cu",
+              "pos": {
+                "x": 179.1678,
+                "y": 52.0
+              },
+              "uuid": "54616673-01a8-41a8-8ed7-250e9dbbc99d"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        },
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "Zone [GND] on F.Cu and B.Cu, priority 0",
+              "pos": {
+                "x": 88.0,
+                "y": 18.5
+              },
+              "uuid": "94135357-536f-4866-b990-07de121a0a42"
+            },
+            {
+              "description": "Pad 2 [GND] of ENCC2 on F.Cu",
+              "pos": {
+                "x": 181.48,
+                "y": 121.5
+              },
+              "uuid": "6b6a142c-39c0-45a0-a08c-d8b357b5aeee"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        },
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "Pad 22 [GND] of U2 on F.Cu",
+              "pos": {
+                "x": 181.3125,
+                "y": 114.5625
+              },
+              "uuid": "b04e736e-ff9f-4275-bcd8-a9a05045f189"
+            },
+            {
+              "description": "Pad 23 [GND] of U2 on F.Cu",
+              "pos": {
+                "x": 180.8125,
+                "y": 114.5625
+              },
+              "uuid": "7a86b9de-448c-47f4-be6a-7fbc1c84402f"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        },
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "Pad 22 [GND] of U2 on F.Cu",
+              "pos": {
+                "x": 181.3125,
+                "y": 114.5625
+              },
+              "uuid": "b04e736e-ff9f-4275-bcd8-a9a05045f189"
+            },
+            {
+              "description": "Zone [GND] on F.Cu and B.Cu, priority 0",
+              "pos": {
+                "x": 88.0,
+                "y": 18.5
+              },
+              "uuid": "94135357-536f-4866-b990-07de121a0a42"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        },
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "Pad 9 [GND] of U2 on F.Cu",
+              "pos": {
+                "x": 181.3125,
+                "y": 118.4375
+              },
+              "uuid": "b67fbc6d-5c9b-4d72-b77d-8e95b07d160d"
+            },
+            {
+              "description": "Pad 2 [GND] of ENCC2 on F.Cu",
+              "pos": {
+                "x": 181.48,
+                "y": 121.5
+              },
+              "uuid": "6b6a142c-39c0-45a0-a08c-d8b357b5aeee"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        },
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "Zone [GND] on F.Cu and B.Cu, priority 0",
+              "pos": {
+                "x": 88.0,
+                "y": 18.5
+              },
+              "uuid": "94135357-536f-4866-b990-07de121a0a42"
+            },
+            {
+              "description": "Pad 3 [GND] of U10 on F.Cu",
+              "pos": {
+                "x": 180.225,
+                "y": 106.835
+              },
+              "uuid": "2706567c-15a6-44b2-95f1-57138b9578de"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        },
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "Zone [GND] on F.Cu and B.Cu, priority 0",
+              "pos": {
+                "x": 88.0,
+                "y": 18.5
+              },
+              "uuid": "94135357-536f-4866-b990-07de121a0a42"
+            },
+            {
+              "description": "Pad 3 [GND] of U8 on F.Cu",
+              "pos": {
+                "x": 180.325,
+                "y": 60.335
+              },
+              "uuid": "0ca64fe8-4248-490c-9f50-0dc7c26708dc"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        },
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "Zone [GND] on F.Cu and B.Cu, priority 0",
+              "pos": {
+                "x": 88.0,
+                "y": 18.5
+              },
+              "uuid": "94135357-536f-4866-b990-07de121a0a42"
+            },
+            {
+              "description": "Pad 3 [GND] of U9 on F.Cu",
+              "pos": {
+                "x": 180.325,
+                "y": 82.335
+              },
+              "uuid": "2500f686-d849-42d1-b345-b1efb6ba4b4a"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        },
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "Pad 2 [GND] of ENCC2 on F.Cu",
+              "pos": {
+                "x": 181.48,
+                "y": 121.5
+              },
+              "uuid": "6b6a142c-39c0-45a0-a08c-d8b357b5aeee"
+            },
+            {
+              "description": "Pad 2 [GND] of ENCC1 on F.Cu",
+              "pos": {
+                "x": 183.48,
+                "y": 121.5
+              },
+              "uuid": "c6cc0765-5d94-421e-aa62-8c193d050ed6"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        },
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "Zone [GND] on F.Cu and B.Cu, priority 0",
+              "pos": {
+                "x": 88.0,
+                "y": 18.5
+              },
+              "uuid": "94135357-536f-4866-b990-07de121a0a42"
+            },
+            {
+              "description": "Pad 1 [GND] of U9 on F.Cu",
+              "pos": {
+                "x": 180.325,
+                "y": 79.795
+              },
+              "uuid": "ba022680-e76e-48c0-b67e-3dcd1788dc5c"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        },
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "Zone [GND] on F.Cu and B.Cu, priority 0",
+              "pos": {
+                "x": 88.0,
+                "y": 18.5
+              },
+              "uuid": "94135357-536f-4866-b990-07de121a0a42"
+            },
+            {
+              "description": "Zone [GND] on F.Cu and B.Cu, priority 0",
+              "pos": {
+                "x": 88.0,
+                "y": 18.5
+              },
+              "uuid": "94135357-536f-4866-b990-07de121a0a42"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        },
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "Pad 18 [GND] of U2 on F.Cu",
+              "pos": {
+                "x": 183.5,
+                "y": 115.25
+              },
+              "uuid": "a2ab00fa-2ef7-43dd-b62a-59ec6d621d96"
+            },
+            {
+              "description": "Pad 22 [GND] of U2 on F.Cu",
+              "pos": {
+                "x": 181.3125,
+                "y": 114.5625
+              },
+              "uuid": "b04e736e-ff9f-4275-bcd8-a9a05045f189"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        },
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "Pad 18 [GND] of U2 on F.Cu",
+              "pos": {
+                "x": 183.5,
+                "y": 115.25
+              },
+              "uuid": "a2ab00fa-2ef7-43dd-b62a-59ec6d621d96"
+            },
+            {
+              "description": "Pad 9 [GND] of U2 on F.Cu",
+              "pos": {
+                "x": 181.3125,
+                "y": 118.4375
+              },
+              "uuid": "b67fbc6d-5c9b-4d72-b77d-8e95b07d160d"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        },
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "Pad 6 [GND] of U5 on F.Cu",
+              "pos": {
+                "x": 184.975,
+                "y": 67.5
+              },
+              "uuid": "f204f8aa-0add-45a6-bf83-7c8b9cf31fd8"
+            },
+            {
+              "description": "Zone [GND] on F.Cu and B.Cu, priority 0",
+              "pos": {
+                "x": 88.0,
+                "y": 18.5
+              },
+              "uuid": "94135357-536f-4866-b990-07de121a0a42"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        },
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "Pad 6 [GND] of U6 on F.Cu",
+              "pos": {
+                "x": 184.975,
+                "y": 88.54
+              },
+              "uuid": "00cb66bd-7e97-44ef-a4bf-ee167abfb467"
+            },
+            {
+              "description": "Zone [GND] on F.Cu and B.Cu, priority 0",
+              "pos": {
+                "x": 88.0,
+                "y": 18.5
+              },
+              "uuid": "94135357-536f-4866-b990-07de121a0a42"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        },
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "Pad 6 [GND] of U3 on F.Cu",
+              "pos": {
+                "x": 185.475,
+                "y": 23.635
+              },
+              "uuid": "ea5a7f92-6e1c-4c7c-a3c8-f13c045effb4"
+            },
+            {
+              "description": "Zone [GND] on F.Cu and B.Cu, priority 0",
+              "pos": {
+                "x": 88.0,
+                "y": 18.5
+              },
+              "uuid": "94135357-536f-4866-b990-07de121a0a42"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        },
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "Zone [GND] on F.Cu and B.Cu, priority 0",
+              "pos": {
+                "x": 88.0,
+                "y": 18.5
+              },
+              "uuid": "94135357-536f-4866-b990-07de121a0a42"
+            },
+            {
+              "description": "Zone [GND] on F.Cu and B.Cu, priority 0",
+              "pos": {
+                "x": 88.0,
+                "y": 18.5
+              },
+              "uuid": "94135357-536f-4866-b990-07de121a0a42"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        }
+      ],
+      "added_warning_findings": [],
+      "removed_original_warning_signatures": [],
+      "exact_all209_original_warning_signatures": true
+    },
+    {
+      "receipt": ".runs/cellscan-b1-edge-budget360-001/trial/result.json",
+      "receipt_sha256": "381adfe2e57db59730294369dc520e2e309ac29f289d99fbd5654495df8f79d4",
+      "status": "routing_accepted",
+      "accepted": true,
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 312,
+        "footprints": 65,
+        "zones": 1,
+        "vias": 111,
+        "track_length_mm": 5468.311757583766,
+        "copper_layers": 2
+      },
+      "candidate_sha256": "1b93d2c775afe3279cb28f8a29517b591379d8d21b0c05643bc38d0e16c8bcc5",
+      "native_report_sha256": "77b8d118094b7fef6c5e8492b02abb8d1ed65f2a541ceb7f367e1bd6a35c6c5f",
+      "native_counts": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 209,
+        "exclusions": 0
+      },
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ],
+      "nonwarning_findings": [],
+      "added_warning_findings": [],
+      "removed_original_warning_signatures": [],
+      "exact_all209_original_warning_signatures": true
+    },
+    {
+      "receipt": ".runs/cellscan-c-default-pruning-edge-budget360-001/trial/result.json",
+      "receipt_sha256": "affc5eff9dde7abcf60f2e8a6f251ec4facf24e912f7d1bec7b5f1c50018f780",
+      "status": "routing_accepted",
+      "accepted": true,
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 312,
+        "footprints": 65,
+        "zones": 1,
+        "vias": 111,
+        "track_length_mm": 5293.194194117413,
+        "copper_layers": 2
+      },
+      "candidate_sha256": "eb82b46004b0fed52723b1f5e954c76d32d67310ea10276eda6cdc973aa68b36",
+      "native_report_sha256": "160c5e5562c1697464d333c56f8ebd99801927d84f0565b1af268ae4f392c403",
+      "native_counts": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 209,
+        "exclusions": 0
+      },
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ],
+      "nonwarning_findings": [],
+      "added_warning_findings": [],
+      "removed_original_warning_signatures": [],
+      "exact_all209_original_warning_signatures": true
+    },
+    {
+      "receipt": ".runs/cellscan-b2-balanced-edge-budget360-001/portfolio/01-via_default/result.json",
+      "receipt_sha256": "39ea71dfe54937b620590ab17cf8dc5936860b7c07a71a6b657f28bd8c5f870b",
+      "status": "routing_accepted",
+      "accepted": true,
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 312,
+        "footprints": 65,
+        "zones": 1,
+        "vias": 111,
+        "track_length_mm": 5468.311757583766,
+        "copper_layers": 2
+      },
+      "candidate_sha256": "414061c9dfc54c748bb8845a5c2ea8bfe22a7527886b8b6bcb59aa4b2249f714",
+      "native_report_sha256": "245b37ace07c38202f27d738fa106260e027b6dc8c01266b448846f55a1e1e6d",
+      "native_counts": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 209,
+        "exclusions": 0
+      },
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ],
+      "nonwarning_findings": [],
+      "added_warning_findings": [],
+      "removed_original_warning_signatures": [],
+      "exact_all209_original_warning_signatures": true
+    },
+    {
+      "receipt": ".runs/cellscan-b2-balanced-edge-budget360-001/portfolio/02-via_low/result.json",
+      "receipt_sha256": "c78a391678fef6697ffd27b01f158966b9ff1bab8e9d9fb57942ca27dfd535bf",
+      "status": "drc_rejected",
+      "accepted": false,
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 312,
+        "footprints": 65,
+        "zones": 1,
+        "vias": 145,
+        "track_length_mm": 5241.598440401339,
+        "copper_layers": 2
+      },
+      "candidate_sha256": "36e007d31a666d89a672ac384735d3ddfa12ce9514a21fb1229b76f7ca239823",
+      "native_report_sha256": "5bac5e1d91bb5cf0e07595d4d90e126b8bf2174a37e45153c9973d71c460fca9",
+      "native_counts": {
+        "opens": 1,
+        "blocking": 0,
+        "warnings": 221,
+        "exclusions": 0
+      },
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ],
+      "nonwarning_findings": [
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "Pad 20 [/SDA] of U2 on F.Cu",
+              "pos": {
+                "x": 182.3125,
+                "y": 114.5625
+              },
+              "uuid": "215cbc15-fa60-45b6-8884-bd0bd8a86738"
+            },
+            {
+              "description": "Track [/SDA] on B.Cu, length 23.1648 mm",
+              "pos": {
+                "x": 184.4984,
+                "y": 135.4784
+              },
+              "uuid": "3492f725-7efb-4558-a458-bc535d2fac8c"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        }
+      ],
+      "added_warning_findings": [
+        {
+          "description": "Via is not connected or connected on only one layer",
+          "items": [
+            {
+              "description": "Via [Net-(U2-SC0)] on F.Cu - B.Cu",
+              "pos": {
+                "x": 179.2024,
+                "y": 25.5147
+              },
+              "uuid": "7b272730-7eea-426d-a1ad-1075da3aaf0a"
+            }
+          ],
+          "severity": "warning",
+          "type": "via_dangling"
+        },
+        {
+          "description": "Via is not connected or connected on only one layer",
+          "items": [
+            {
+              "description": "Via [Net-(U2-SD0)] on F.Cu - B.Cu",
+              "pos": {
+                "x": 179.1926,
+                "y": 24.3042
+              },
+              "uuid": "0b122272-3173-4c91-9d73-dfda6ec9eaa0"
+            }
+          ],
+          "severity": "warning",
+          "type": "via_dangling"
+        },
+        {
+          "description": "Via is not connected or connected on only one layer",
+          "items": [
+            {
+              "description": "Via [+5V] on F.Cu - B.Cu",
+              "pos": {
+                "x": 92.3707,
+                "y": 29.8807
+              },
+              "uuid": "09ff6835-fea9-4dfd-8e60-bbf057e9df9c"
+            }
+          ],
+          "severity": "warning",
+          "type": "via_dangling"
+        },
+        {
+          "description": "Via is not connected or connected on only one layer",
+          "items": [
+            {
+              "description": "Via [+5V] on F.Cu - B.Cu",
+              "pos": {
+                "x": 178.9583,
+                "y": 61.0544
+              },
+              "uuid": "0e8b89a5-0cb5-4a3c-9561-ce9a9fce368f"
+            }
+          ],
+          "severity": "warning",
+          "type": "via_dangling"
+        },
+        {
+          "description": "Via is not connected or connected on only one layer",
+          "items": [
+            {
+              "description": "Via [+5V] on F.Cu - B.Cu",
+              "pos": {
+                "x": 180.725,
+                "y": 40.4273
+              },
+              "uuid": "0fe5107b-f05d-41cb-8036-986833279f24"
+            }
+          ],
+          "severity": "warning",
+          "type": "via_dangling"
+        },
+        {
+          "description": "Via is not connected or connected on only one layer",
+          "items": [
+            {
+              "description": "Via [+5V] on F.Cu - B.Cu",
+              "pos": {
+                "x": 94.8773,
+                "y": 38.98
+              },
+              "uuid": "9451f46e-b2b0-4c60-b190-6c0f672a37c3"
+            }
+          ],
+          "severity": "warning",
+          "type": "via_dangling"
+        },
+        {
+          "description": "Via is not connected or connected on only one layer",
+          "items": [
+            {
+              "description": "Via [+5V] on F.Cu - B.Cu",
+              "pos": {
+                "x": 178.8456,
+                "y": 83.605
+              },
+              "uuid": "eb1870ab-5881-4f97-93f6-d33c59d1b28f"
+            }
+          ],
+          "severity": "warning",
+          "type": "via_dangling"
+        },
+        {
+          "description": "Via is not connected or connected on only one layer",
+          "items": [
+            {
+              "description": "Via [Net-(GREEN3-K)] on F.Cu - B.Cu",
+              "pos": {
+                "x": 98.485,
+                "y": 102.6759
+              },
+              "uuid": "8ba80080-4a17-42e4-946c-06fa988cd192"
+            }
+          ],
+          "severity": "warning",
+          "type": "via_dangling"
+        },
+        {
+          "description": "Via is not connected or connected on only one layer",
+          "items": [
+            {
+              "description": "Via [Net-(RED3-K)] on F.Cu - B.Cu",
+              "pos": {
+                "x": 97.53,
+                "y": 66.8579
+              },
+              "uuid": "11726f23-e024-4cf4-a8a0-efa77419a954"
+            }
+          ],
+          "severity": "warning",
+          "type": "via_dangling"
+        },
+        {
+          "description": "Via is not connected or connected on only one layer",
+          "items": [
+            {
+              "description": "Via [Net-(RED3-K)] on F.Cu - B.Cu",
+              "pos": {
+                "x": 99.1157,
+                "y": 105.8693
+              },
+              "uuid": "7de29e1c-7fd9-4f02-9525-5ddeb4832d11"
+            }
+          ],
+          "severity": "warning",
+          "type": "via_dangling"
+        },
+        {
+          "description": "Via is not connected or connected on only one layer",
+          "items": [
+            {
+              "description": "Via [Net-(RED2-A)] on F.Cu - B.Cu",
+              "pos": {
+                "x": 186.5912,
+                "y": 58.3958
+              },
+              "uuid": "2b5cbe54-2443-4a53-954a-8052279b7041"
+            }
+          ],
+          "severity": "warning",
+          "type": "via_dangling"
+        },
+        {
+          "description": "Via is not connected or connected on only one layer",
+          "items": [
+            {
+              "description": "Via [Net-(RED3-A)] on F.Cu - B.Cu",
+              "pos": {
+                "x": 186.6704,
+                "y": 79.2735
+              },
+              "uuid": "c11e89b6-6898-4274-9855-8b0199199e0d"
+            }
+          ],
+          "severity": "warning",
+          "type": "via_dangling"
+        }
+      ],
+      "removed_original_warning_signatures": [],
+      "exact_all209_original_warning_signatures": false
+    },
+    {
+      "receipt": ".runs/cellscan-b2-balanced-edge-budget360-001/portfolio/03-via_high/result.json",
+      "receipt_sha256": "9be92cba57f8f92887db6dc964c20be8454fcbe6f51439bb97b406b210aa41da",
+      "status": "drc_rejected",
+      "accepted": false,
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 312,
+        "footprints": 65,
+        "zones": 1,
+        "vias": 99,
+        "track_length_mm": 5479.433671285742,
+        "copper_layers": 2
+      },
+      "candidate_sha256": "3ee17b1cf8ff2f3d7e5d1a9112389711ab8d06d753066d1bc262a88fbd3033a4",
+      "native_report_sha256": "8d86035c24e742cb582d7aa5248c0a1a6afd78a0e23e6eabd349199a251725e3",
+      "native_counts": {
+        "opens": 1,
+        "blocking": 0,
+        "warnings": 211,
+        "exclusions": 0
+      },
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ],
+      "nonwarning_findings": [
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "Pad 4 [Net-(U2-SC1)] of U2 on F.Cu",
+              "pos": {
+                "x": 179.625,
+                "y": 116.75
+              },
+              "uuid": "6024d368-42c1-4f43-8846-e334d9ce3ea1"
+            },
+            {
+              "description": "Track [Net-(U2-SC1)] on F.Cu, length 0.3936 mm",
+              "pos": {
+                "x": 180.9703,
+                "y": 47.3503
+              },
+              "uuid": "2678d5ad-acbb-43a4-a843-0d8899f921d6"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        }
+      ],
+      "added_warning_findings": [
+        {
+          "description": "Via is not connected or connected on only one layer",
+          "items": [
+            {
+              "description": "Via [Net-(U2-SC1)] on F.Cu - B.Cu",
+              "pos": {
+                "x": 180.9703,
+                "y": 47.7439
+              },
+              "uuid": "ba0aa226-5268-4d6c-8e41-fe07f1478fc7"
+            }
+          ],
+          "severity": "warning",
+          "type": "via_dangling"
+        },
+        {
+          "description": "Via is not connected or connected on only one layer",
+          "items": [
+            {
+              "description": "Via [Net-(U2-SD0)] on F.Cu - B.Cu",
+              "pos": {
+                "x": 179.1972,
+                "y": 114.6154
+              },
+              "uuid": "ac434b3e-a561-495b-ba1b-c9ea042e473e"
+            }
+          ],
+          "severity": "warning",
+          "type": "via_dangling"
+        }
+      ],
+      "removed_original_warning_signatures": [],
+      "exact_all209_original_warning_signatures": false
+    },
+    {
+      "receipt": ".runs/cellscan-c-default-pruning-edge-budget360-001/trial/incumbent/result.json",
+      "receipt_sha256": "785b2b92d3dd82d89f469e25e46d987cf5ec7bb67df1dd41a2d16b0b3eb004bc",
+      "status": "routing_accepted",
+      "accepted": true,
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 312,
+        "footprints": 65,
+        "zones": 1,
+        "vias": 111,
+        "track_length_mm": 5468.311757583767,
+        "copper_layers": 2
+      },
+      "candidate_sha256": "aa6f233348ba40da129bb3f0b2c2b530a29d88b9cf51da24e960422a4af3fe00",
+      "native_report_sha256": "626f3504e23f29b74d3ec87181f5266d25ad61b804b532180a98db0dcfcfce48",
+      "native_counts": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 209,
+        "exclusions": 0
+      },
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ],
+      "nonwarning_findings": [],
+      "added_warning_findings": [],
+      "removed_original_warning_signatures": [],
+      "exact_all209_original_warning_signatures": true
+    },
+    {
+      "receipt": ".runs/cellscan-c-default-pruning-edge-budget360-001/trial/trials/trial-0000/result.json",
+      "receipt_sha256": "9f74d33f435b3c489352951abe3475f6ce7c3811937567ad8d962d8122f086d0",
+      "status": "drc_rejected",
+      "accepted": false,
+      "metrics": null,
+      "candidate_sha256": "3fd49782f9bd5a4d3bdc43baf623e5b814d58799efc68d2e803ceee1016328ec",
+      "native_report_sha256": "b40a0cea6d0feb0311f536d979415f132bacfc4c0b9d5f7a7db69fc42737455b",
+      "native_counts": {
+        "opens": 9,
+        "blocking": 0,
+        "warnings": 209,
+        "exclusions": 0
+      },
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ],
+      "nonwarning_findings": [
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "Pad 2 [GND] of BAT4.2 on F.Cu",
+              "pos": {
+                "x": 93.51,
+                "y": 97.0
+              },
+              "uuid": "552f5313-a0ea-4584-a162-a49810218142"
+            },
+            {
+              "description": "Zone [GND] on F.Cu and B.Cu, priority 0",
+              "pos": {
+                "x": 88.0,
+                "y": 18.5
+              },
+              "uuid": "94135357-536f-4866-b990-07de121a0a42"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        },
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "Pad 2 [GND] of BAT1.2 on F.Cu",
+              "pos": {
+                "x": 94.01,
+                "y": 31.5
+              },
+              "uuid": "32b549f5-e0ff-431a-b85f-ee04e6e433f1"
+            },
+            {
+              "description": "Zone [GND] on F.Cu and B.Cu, priority 0",
+              "pos": {
+                "x": 88.0,
+                "y": 18.5
+              },
+              "uuid": "94135357-536f-4866-b990-07de121a0a42"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        },
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "Pad 3 [GND] of U10 on F.Cu",
+              "pos": {
+                "x": 180.225,
+                "y": 106.835
+              },
+              "uuid": "2706567c-15a6-44b2-95f1-57138b9578de"
+            },
+            {
+              "description": "Zone [GND] on F.Cu and B.Cu, priority 0",
+              "pos": {
+                "x": 88.0,
+                "y": 18.5
+              },
+              "uuid": "94135357-536f-4866-b990-07de121a0a42"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        },
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "Pad 3 [GND] of U8 on F.Cu",
+              "pos": {
+                "x": 180.325,
+                "y": 60.335
+              },
+              "uuid": "0ca64fe8-4248-490c-9f50-0dc7c26708dc"
+            },
+            {
+              "description": "Zone [GND] on F.Cu and B.Cu, priority 0",
+              "pos": {
+                "x": 88.0,
+                "y": 18.5
+              },
+              "uuid": "94135357-536f-4866-b990-07de121a0a42"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        },
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "Zone [GND] on F.Cu and B.Cu, priority 0",
+              "pos": {
+                "x": 88.0,
+                "y": 18.5
+              },
+              "uuid": "94135357-536f-4866-b990-07de121a0a42"
+            },
+            {
+              "description": "Pad 9 [GND] of U2 on F.Cu",
+              "pos": {
+                "x": 181.3125,
+                "y": 118.4375
+              },
+              "uuid": "b67fbc6d-5c9b-4d72-b77d-8e95b07d160d"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        },
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "Pad 22 [GND] of U2 on F.Cu",
+              "pos": {
+                "x": 181.3125,
+                "y": 114.5625
+              },
+              "uuid": "b04e736e-ff9f-4275-bcd8-a9a05045f189"
+            },
+            {
+              "description": "Pad 23 [GND] of U2 on F.Cu",
+              "pos": {
+                "x": 180.8125,
+                "y": 114.5625
+              },
+              "uuid": "7a86b9de-448c-47f4-be6a-7fbc1c84402f"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        },
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "Pad 9 [GND] of U2 on F.Cu",
+              "pos": {
+                "x": 181.3125,
+                "y": 118.4375
+              },
+              "uuid": "b67fbc6d-5c9b-4d72-b77d-8e95b07d160d"
+            },
+            {
+              "description": "Pad 18 [GND] of U2 on F.Cu",
+              "pos": {
+                "x": 183.5,
+                "y": 115.25
+              },
+              "uuid": "a2ab00fa-2ef7-43dd-b62a-59ec6d621d96"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        },
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "Zone [GND] on F.Cu and B.Cu, priority 0",
+              "pos": {
+                "x": 88.0,
+                "y": 18.5
+              },
+              "uuid": "94135357-536f-4866-b990-07de121a0a42"
+            },
+            {
+              "description": "Pad 3 [GND] of U9 on F.Cu",
+              "pos": {
+                "x": 180.325,
+                "y": 82.335
+              },
+              "uuid": "2500f686-d849-42d1-b345-b1efb6ba4b4a"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        },
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "Pad 18 [GND] of U2 on F.Cu",
+              "pos": {
+                "x": 183.5,
+                "y": 115.25
+              },
+              "uuid": "a2ab00fa-2ef7-43dd-b62a-59ec6d621d96"
+            },
+            {
+              "description": "Pad 22 [GND] of U2 on F.Cu",
+              "pos": {
+                "x": 181.3125,
+                "y": 114.5625
+              },
+              "uuid": "b04e736e-ff9f-4275-bcd8-a9a05045f189"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        }
+      ],
+      "added_warning_findings": [],
+      "removed_original_warning_signatures": [],
+      "exact_all209_original_warning_signatures": true
+    },
+    {
+      "receipt": ".runs/cellscan-c-default-pruning-edge-budget360-001/trial/trials/trial-0001/result.json",
+      "receipt_sha256": "b6a2b818e2173e5e81c1843722a70d8f217851df3e63c64430f3357527a5031c",
+      "status": "improvement_validated",
+      "accepted": true,
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 312,
+        "footprints": 65,
+        "zones": 1,
+        "vias": 111,
+        "track_length_mm": 5439.701757583766,
+        "copper_layers": 2
+      },
+      "candidate_sha256": "1ff5b005da3ee88c47b1a3987da5f8c6918983579ae8472d6bde72e521d040a0",
+      "native_report_sha256": "db528577d2b15d9879035ae0f03431d28d6ef47dbb8d2d93b459218cfca79f48",
+      "native_counts": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 209,
+        "exclusions": 0
+      },
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ],
+      "nonwarning_findings": [],
+      "added_warning_findings": [],
+      "removed_original_warning_signatures": [],
+      "exact_all209_original_warning_signatures": true
+    },
+    {
+      "receipt": ".runs/cellscan-c-default-pruning-edge-budget360-001/trial/trials/trial-0002/result.json",
+      "receipt_sha256": "7647047b8cc4cd9cb2130ebbc3730b7d92889c8266ebb8a43f8cde8840c545dc",
+      "status": "improvement_validated",
+      "accepted": true,
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 312,
+        "footprints": 65,
+        "zones": 1,
+        "vias": 111,
+        "track_length_mm": 5419.945194117415,
+        "copper_layers": 2
+      },
+      "candidate_sha256": "670e5103dae765d155050b0b9053e438737e2263aaed28e0f7883b027b26bfe6",
+      "native_report_sha256": "c51a35c2e7e714ded4c9149ba5e131405c69da12583a038279c56c5f2848d52a",
+      "native_counts": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 209,
+        "exclusions": 0
+      },
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ],
+      "nonwarning_findings": [],
+      "added_warning_findings": [],
+      "removed_original_warning_signatures": [],
+      "exact_all209_original_warning_signatures": true
+    },
+    {
+      "receipt": ".runs/cellscan-c-default-pruning-edge-budget360-001/trial/trials/trial-0003/result.json",
+      "receipt_sha256": "418145512cec0dc07fb6f08bacb78b58d3e7e92dc11b1988ba173dd085234d10",
+      "status": "improvement_validated",
+      "accepted": true,
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 312,
+        "footprints": 65,
+        "zones": 1,
+        "vias": 111,
+        "track_length_mm": 5400.749794117412,
+        "copper_layers": 2
+      },
+      "candidate_sha256": "f42ffaa29ca07d1f62190110b85697375b96e152d06b9b80994d77e5b61e373c",
+      "native_report_sha256": "8a6e8298c7ea6327ecb1c9700e81f12b81a658f017c8c0e32a945445339a5bfc",
+      "native_counts": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 209,
+        "exclusions": 0
+      },
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ],
+      "nonwarning_findings": [],
+      "added_warning_findings": [],
+      "removed_original_warning_signatures": [],
+      "exact_all209_original_warning_signatures": true
+    },
+    {
+      "receipt": ".runs/cellscan-c-default-pruning-edge-budget360-001/trial/trials/trial-0004/result.json",
+      "receipt_sha256": "ad7e3791efb55723ca82ba877294cff84a202c5ba0bf277bd906ef1f58929c6b",
+      "status": "improvement_validated",
+      "accepted": true,
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 312,
+        "footprints": 65,
+        "zones": 1,
+        "vias": 111,
+        "track_length_mm": 5384.148294117414,
+        "copper_layers": 2
+      },
+      "candidate_sha256": "36f2250c59f00cac483aa04bab52f71371bf772bab3d79957fb284aa45ca26c1",
+      "native_report_sha256": "0eeb025860007360356363755aa8c7a185d0425fd81a623dd098e832a2a23b6a",
+      "native_counts": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 209,
+        "exclusions": 0
+      },
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ],
+      "nonwarning_findings": [],
+      "added_warning_findings": [],
+      "removed_original_warning_signatures": [],
+      "exact_all209_original_warning_signatures": true
+    },
+    {
+      "receipt": ".runs/cellscan-c-default-pruning-edge-budget360-001/trial/trials/trial-0005/result.json",
+      "receipt_sha256": "5ea2ed3e2b347a9123a9bf8d832f50a096e915aee04eaa4e4f89e9d6f476799b",
+      "status": "improvement_validated",
+      "accepted": true,
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 312,
+        "footprints": 65,
+        "zones": 1,
+        "vias": 111,
+        "track_length_mm": 5369.576594117413,
+        "copper_layers": 2
+      },
+      "candidate_sha256": "bc9ef5f565bd29b147580a252844e7c8dfe8b8d75043997207fb65b55070c38a",
+      "native_report_sha256": "c1efd32f3e2675affca314c58633c2fa31c8b94d10f1fda39e213589da532564",
+      "native_counts": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 209,
+        "exclusions": 0
+      },
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ],
+      "nonwarning_findings": [],
+      "added_warning_findings": [],
+      "removed_original_warning_signatures": [],
+      "exact_all209_original_warning_signatures": true
+    },
+    {
+      "receipt": ".runs/cellscan-c-default-pruning-edge-budget360-001/trial/trials/trial-0006/result.json",
+      "receipt_sha256": "d1af176300d6524ddb6b7ab7eca1d9e2ee0e8578b91f99eddfefdab24128ffb1",
+      "status": "improvement_validated",
+      "accepted": true,
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 312,
+        "footprints": 65,
+        "zones": 1,
+        "vias": 111,
+        "track_length_mm": 5355.576594117413,
+        "copper_layers": 2
+      },
+      "candidate_sha256": "b416e13a20b05c33735429e6ecb9ab8334c85605ab2558319b031d913314886c",
+      "native_report_sha256": "a8f3dd1c4c56ab580399d1f7afc9f042c3f9cfedbb318975a90b2c9c86aa1bdc",
+      "native_counts": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 209,
+        "exclusions": 0
+      },
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ],
+      "nonwarning_findings": [],
+      "added_warning_findings": [],
+      "removed_original_warning_signatures": [],
+      "exact_all209_original_warning_signatures": true
+    },
+    {
+      "receipt": ".runs/cellscan-c-default-pruning-edge-budget360-001/trial/trials/trial-0007/result.json",
+      "receipt_sha256": "f2eb70deb89a0ccde7ab79c6b71315f12790b5070e8dcf86116ba3995d6f5aea",
+      "status": "improvement_validated",
+      "accepted": true,
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 312,
+        "footprints": 65,
+        "zones": 1,
+        "vias": 111,
+        "track_length_mm": 5341.576594117413,
+        "copper_layers": 2
+      },
+      "candidate_sha256": "dd02d77d176e49011f27cc7227212d7cdf6aa92e77b5111d35523ce6437f89e3",
+      "native_report_sha256": "429e7ac3eae21dd9c7ec1c3f0d8a82e30a8f51dff6257138fd19aeb982fc7a75",
+      "native_counts": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 209,
+        "exclusions": 0
+      },
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ],
+      "nonwarning_findings": [],
+      "added_warning_findings": [],
+      "removed_original_warning_signatures": [],
+      "exact_all209_original_warning_signatures": true
+    },
+    {
+      "receipt": ".runs/cellscan-c-default-pruning-edge-budget360-001/trial/trials/trial-0008/result.json",
+      "receipt_sha256": "abd1677ebe414b02eebf4def582f62567f3dc30b1607108ae0e50250ed58f32e",
+      "status": "improvement_validated",
+      "accepted": true,
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 312,
+        "footprints": 65,
+        "zones": 1,
+        "vias": 111,
+        "track_length_mm": 5328.076594117413,
+        "copper_layers": 2
+      },
+      "candidate_sha256": "ef8ce0212219df40972b9f55ebb9a37446b610a369db3820b1772bc6dcbd785b",
+      "native_report_sha256": "4868fee37125398f1d6e54c0840e0ef5c354b5078ab6449b554f52c59bc47866",
+      "native_counts": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 209,
+        "exclusions": 0
+      },
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ],
+      "nonwarning_findings": [],
+      "added_warning_findings": [],
+      "removed_original_warning_signatures": [],
+      "exact_all209_original_warning_signatures": true
+    },
+    {
+      "receipt": ".runs/cellscan-c-default-pruning-edge-budget360-001/trial/trials/trial-0009/result.json",
+      "receipt_sha256": "04bd19faf85a1910fd2a7412b9aaec6325db846b694bc2bd87b399ecac0a6976",
+      "status": "improvement_validated",
+      "accepted": true,
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 312,
+        "footprints": 65,
+        "zones": 1,
+        "vias": 111,
+        "track_length_mm": 5314.846594117412,
+        "copper_layers": 2
+      },
+      "candidate_sha256": "5c17e50f26b9699b56bdb5fe1a6eb8e1a53e4d98f22eac1f7e5ae682378f69cc",
+      "native_report_sha256": "f8f224a9c5fb56b6c48645b511e02c9ccbc98f48dcb98e78045f34d518a52eea",
+      "native_counts": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 209,
+        "exclusions": 0
+      },
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ],
+      "nonwarning_findings": [],
+      "added_warning_findings": [],
+      "removed_original_warning_signatures": [],
+      "exact_all209_original_warning_signatures": true
+    },
+    {
+      "receipt": ".runs/cellscan-c-default-pruning-edge-budget360-001/trial/trials/trial-0010/result.json",
+      "receipt_sha256": "3627191496ebe106f27b837b6ec668c821e0126f1a597fabebe51acf41b98af1",
+      "status": "improvement_validated",
+      "accepted": true,
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 312,
+        "footprints": 65,
+        "zones": 1,
+        "vias": 111,
+        "track_length_mm": 5306.7857941174125,
+        "copper_layers": 2
+      },
+      "candidate_sha256": "4ddd3d4bc829d5d9cfc368cfb3406ce6526d5cd0e0bee8e039eebfd5222f7671",
+      "native_report_sha256": "275dc6943ce39c94a4efd8cab1557c483d9f67e01a50040b1944ddd74da5f895",
+      "native_counts": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 209,
+        "exclusions": 0
+      },
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ],
+      "nonwarning_findings": [],
+      "added_warning_findings": [],
+      "removed_original_warning_signatures": [],
+      "exact_all209_original_warning_signatures": true
+    },
+    {
+      "receipt": ".runs/cellscan-c-default-pruning-edge-budget360-001/trial/trials/trial-0011/result.json",
+      "receipt_sha256": "d6f5eb3ce72e4b4356923332db6b18c6a3280e5148a7fba691c97385b17c0788",
+      "status": "improvement_validated",
+      "accepted": true,
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 312,
+        "footprints": 65,
+        "zones": 1,
+        "vias": 111,
+        "track_length_mm": 5299.954194117413,
+        "copper_layers": 2
+      },
+      "candidate_sha256": "5dc9a2d954f220f871d45074dc63fbd528087aa3a8e59f35100af023cb413378",
+      "native_report_sha256": "ee456eea5fc621475dc30af06ba8a4f6f7ff28a762a624d34713e902b84d28e4",
+      "native_counts": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 209,
+        "exclusions": 0
+      },
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ],
+      "nonwarning_findings": [],
+      "added_warning_findings": [],
+      "removed_original_warning_signatures": [],
+      "exact_all209_original_warning_signatures": true
+    },
+    {
+      "receipt": ".runs/cellscan-c-default-pruning-edge-budget360-001/trial/trials/trial-0012/result.json",
+      "receipt_sha256": "915a6bba7757878fbfee2f03036c5d3941913f40cf22aa30579c58819f5e908f",
+      "status": "improvement_validated",
+      "accepted": true,
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 312,
+        "footprints": 65,
+        "zones": 1,
+        "vias": 111,
+        "track_length_mm": 5293.194194117413,
+        "copper_layers": 2
+      },
+      "candidate_sha256": "eb82b46004b0fed52723b1f5e954c76d32d67310ea10276eda6cdc973aa68b36",
+      "native_report_sha256": "fa9802277fcdf420522a1ab05a7392d073b6348a5a809df74d3c9f98611d7078",
+      "native_counts": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 209,
+        "exclusions": 0
+      },
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ],
+      "nonwarning_findings": [],
+      "added_warning_findings": [],
+      "removed_original_warning_signatures": [],
+      "exact_all209_original_warning_signatures": true
+    }
+  ],
+  "scope": "All current20 final/incumbent/trial observations, including failures. Full final native reports, bindings, candidate/source/rules and workers remain private in durable .runs and pending snapshot; this index is not a raw backup. Original209 warning identities referenced without duplication; every added warning/error and ignored check retained."
+}

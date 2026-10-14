@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 78.02073920800467,
+    "cpu_seconds": 90.24934800000001,
+    "max_rss_bytes": 839139328,
+    "supervisor_cpu_seconds": 0.432636,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 210829312,
+    "sampled_peak_workdir_bytes": 8461463,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 67108864,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/run-cellscan-b1-edge-budget360-001.py",
+      "--inner"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/cellscan-b1-edge-budget360-001/command.log",
+    "log_bytes": 213,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/cellscan-b1-edge-budget360-001",
+    "signal_cancellation_enabled": true,
+    "pid": 4610
+  },
+  "protocol_sha256": "9660119f00898363e62c48a5162ce9324886865e72143f6390f629e3258d5a9d",
+  "wrapper_sha256": "fbe239fcc630e38484c66ec2115fb4323482771437d51de03bf08368190a4a56",
+  "whole_new_wall_seconds": 78.10499362499104,
+  "whole_new_full_cpu_seconds": 90.765368,
+  "already_committed_charge": {
+    "wall_seconds": 179.4332769169996,
+    "full_cpu_seconds": 212.889034
+  },
+  "combined_charged_wall_seconds": 257.53827054199064,
+  "combined_charged_full_cpu_seconds": 303.654402,
+  "finished_utc": "2026-10-14T12:59:42.287849+00:00",
+  "old120_result_unchanged": true,
+  "comparison_eligible": false,
+  "claims_limit": "Single exposed circuit. New fixed adapter requires actual route proof; no B2/C matched360 comparison, generalized superiority, installed/GUI/physical/electrical claim. Previous120/240outcomes remain rejected. Spending0/localonly.",
+  "within_cumulative360_caps": true
+}

@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "kind": "corrected_static_diagnostic_matcher",
+  "all_code_unchanged_except_two_capacity_assignments_and_two_diagnostic_strings": true,
+  "old_diagnostics": [
+    "Git bundle exceeds 4 GiB ceiling; retained for review",
+    "Compressed archive exceeds 4 GiB ceiling"
+  ],
+  "new_diagnostics": [
+    "Git bundle exceeds the configured byte ceiling; retained for review",
+    "Compressed archive exceeds the configured byte ceiling"
+  ],
+  "current_backup_source_sha256": "3d85ccd9ef655070d05158a628a4913597884577862d0fd374be48aa0d80e153",
+  "previous_matcher_failure_reason": "Earlier static matcher omitted the actual word the and retained-for-review suffix; no product code or tests were affected. Original false observations retained.",
+  "no_tests_or_archive_execution": true
+}

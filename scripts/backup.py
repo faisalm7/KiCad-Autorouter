@@ -18,11 +18,13 @@ from datetime import datetime, timezone
 
 ROOT = Path(__file__).resolve().parents[1]
 SCOPES = (".runs", ".data", ".local-reference")
-# Current stat forecast retains230,906files/6,330,209,063B; one bounded fresh
-# installation gives249,270files/6,867,079,975B. Finite7GiB/260,000 ceilings preserve
-# evidence without changing scopes, secret/path checks, streaming or chains.
-LIMIT = 7 * 1024 ** 3
-MAX_FILES = 260000
+# Actual October14 stat forecast retains260,600files/7,498,045,240B after
+# CellScan trials and installation021. It exceeds the old260,000file ceiling
+# and leaves only18,147,528B below7GiB before the matched stock trial. Keep
+# all evidence: finite8GiB/270,000 ceilings, unchanged scopes/secret/path guards,
+# receipt-memory caps/streaming/chains. Actual backup and full restore required.
+LIMIT = 8 * 1024 ** 3
+MAX_FILES = 270000
 MAX_CHAIN = 16
 # Actual229,196-file receipt is63,984,764B. The249,270-file forecast needs
 # about70MB at that measured ratio;80MiB permits finite headroom. Two such
@@ -197,7 +199,7 @@ class LimitedWriter:
 
     def write(self, data):
         if self.size + len(data) > LIMIT:
-            raise BackupError("Compressed archive exceeds 4 GiB ceiling")
+            raise BackupError("Compressed archive exceeds the configured byte ceiling")
         written = self.stream.write(data)
         self.size += written
         return written
@@ -373,7 +375,7 @@ def create(root=ROOT, parent=None):
     git(root, "bundle", "create", str(bundle), "--all")
     os.chmod(bundle, 0o600)
     if bundle.stat().st_size > LIMIT:
-        raise BackupError("Git bundle exceeds 4 GiB ceiling; retained for review")
+        raise BackupError("Git bundle exceeds the configured byte ceiling; retained for review")
     git(root, "bundle", "verify", str(bundle))
     archive = backup / "non-git.tar.gz"
     make_archive(root, archive, delta["inventory"] if delta else manifest)
