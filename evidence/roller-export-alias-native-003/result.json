@@ -1,0 +1,796 @@
+{
+  "schema": 1,
+  "kind": "roller-export-alias-native-v1",
+  "accepted": false,
+  "production_support": false,
+  "controls_passed": true,
+  "status": "controls_passed",
+  "engine_execution": false,
+  "seconds": 60.0,
+  "full_cpu_cap_seconds": 60.0,
+  "output_ceiling_bytes": 33554432,
+  "resume": {
+    "schema": 1,
+    "policy": "exact-source-protected-alias-continuation-v1",
+    "prospective": true,
+    "engine_execution": false,
+    "production_admission": false,
+    "native_lane": "Root only/sequential after completed currentSonde/incremental74e94f2",
+    "reuse": ".runs/roller-export-alias-native-002",
+    "retained_failed_results": true,
+    "completed_exports_reexecuted": false,
+    "retained_inventories": {
+      ".runs/roller-export-alias-native-001": [
+        {
+          "A/after.kicad_pcb": "ef541b52c7f61108c3ad418af92c60a8db964be9309c6af5ee81c06d6b1fa2e1",
+          "A/after.kicad_pro": "3ba536ff44ae5e52ecff52c44529087629664e744b85f17efdcba49b7d1d4977",
+          "A/before.kicad_pcb": "ef541b52c7f61108c3ad418af92c60a8db964be9309c6af5ee81c06d6b1fa2e1",
+          "A/before.kicad_prl": "02a8d603a2458b203a5d1c2d469f6b9ee1ac3db83d000d5d82afeddd3eb88830",
+          "A/before.kicad_pro": "bb4d80b1f8ad672088e9ad88622720967111f1543cfcad8203777c517b909f96",
+          "A/context.json": "c2db78795e3819d3d66489dea4adb424897b20febab0871a994158da4cd53c09",
+          "A/input/SparkFun_Roller_Encoder_Breakout.kicad_pcb": "3086590581f2c33fc646f8a5c5e9ffaeeec12ba7d31b31e0afb8c414d5260ff5",
+          "A/input/SparkFun_Roller_Encoder_Breakout.kicad_pro": "2a3df77393af19e5c8dfb2e8d9e44dac19f359585c17f119718751a5cc2a9bab",
+          "A/input/SparkFun_Roller_Encoder_Breakout.kicad_sch": "e3ea67a15764de4ea1062c3f8e54998d34e20bb00875773504d01bbb5285693c",
+          "A/input/_licenses/creator/LICENSE.md": "60ff0c64f197db99b0f4fe6fbcd2de308117cdd791d99a86edfcaa5c10a82bc6",
+          "A/input/_licenses/creator/README.md": "5d16e9ca7a7c7439c5add9f73f2c6cdfce4de3108bfd65f1991ba3ec761337e5",
+          "A/native.dsn": "a788d49889eb7dfc7a416a2199134fc18b20521cddc0239639469a7d78be7b04",
+          "export-A-process.json": "294c7772471776f416bb1dbc04ca7663b51a69aaa2351ecec9395064ff07f078",
+          "export-A.log": "949bf52a30c000b233cf63cfcca4d2faf6459947ac89da0364ecb663566c876f",
+          "result.json": "0e9fc0c6456a56b7412b5f0c49e1b0d3b109766dd8aa150650308811f4ca57e4"
+        },
+        [
+          ".",
+          "A",
+          "A/input",
+          "A/input/_licenses",
+          "A/input/_licenses/creator",
+          "kicad-cache",
+          "kicad-cache/kicad",
+          "kicad-cache/kicad/10.0",
+          "kicad-config",
+          "kicad-config/10.0",
+          "kicad-documents",
+          "kicad-documents/kicad",
+          "kicad-documents/kicad/10.0",
+          "tmp"
+        ]
+      ],
+      ".runs/roller-export-alias-native-001-execution": [
+        {
+          "command.log": "2efcc47322842be30e8335df256c8c559036889b1ab13e4448689c8bdc24a205",
+          "execution.json": "3aa5a1b074500700b05d4862fab87810405177e5f3477d97473d33afb7a1e5b5"
+        },
+        [
+          "."
+        ]
+      ],
+      ".runs/roller-export-alias-native-002": [
+        {
+          "A/after.kicad_pcb": "ef541b52c7f61108c3ad418af92c60a8db964be9309c6af5ee81c06d6b1fa2e1",
+          "A/after.kicad_pro": "3ba536ff44ae5e52ecff52c44529087629664e744b85f17efdcba49b7d1d4977",
+          "A/alias-evidence.json": "0389b49b7d7afe97246e6b9bfaba48e69fb5fedf1f9a6513b872f0a8ac075d56",
+          "A/before.kicad_pcb": "ef541b52c7f61108c3ad418af92c60a8db964be9309c6af5ee81c06d6b1fa2e1",
+          "A/before.kicad_prl": "02a8d603a2458b203a5d1c2d469f6b9ee1ac3db83d000d5d82afeddd3eb88830",
+          "A/before.kicad_pro": "bb4d80b1f8ad672088e9ad88622720967111f1543cfcad8203777c517b909f96",
+          "A/context.json": "1c861bd8f5b0b914e5bbdeb3baf635651c9fffa716e806e974fe5d2619eb1604",
+          "A/diagnostic.json": "ef69d2c4479d1f41784b88e4bcb5b8e63a9615241c3b793c6fc6f886e21bb6f3",
+          "A/input/SparkFun_Roller_Encoder_Breakout.kicad_pcb": "3086590581f2c33fc646f8a5c5e9ffaeeec12ba7d31b31e0afb8c414d5260ff5",
+          "A/input/SparkFun_Roller_Encoder_Breakout.kicad_pro": "2a3df77393af19e5c8dfb2e8d9e44dac19f359585c17f119718751a5cc2a9bab",
+          "A/input/SparkFun_Roller_Encoder_Breakout.kicad_sch": "e3ea67a15764de4ea1062c3f8e54998d34e20bb00875773504d01bbb5285693c",
+          "A/input/_licenses/creator/LICENSE.md": "60ff0c64f197db99b0f4fe6fbcd2de308117cdd791d99a86edfcaa5c10a82bc6",
+          "A/input/_licenses/creator/README.md": "5d16e9ca7a7c7439c5add9f73f2c6cdfce4de3108bfd65f1991ba3ec761337e5",
+          "A/native.dsn": "2d6cd2ddddcd4978d322c91913d1a01906a48ef50b69ef343c38b950a4dc1bb2",
+          "B/after.kicad_pcb": "ef541b52c7f61108c3ad418af92c60a8db964be9309c6af5ee81c06d6b1fa2e1",
+          "B/after.kicad_pro": "3ba536ff44ae5e52ecff52c44529087629664e744b85f17efdcba49b7d1d4977",
+          "B/alias-evidence.json": "ad97b0c6ba1c96e88c7b3b4d12b75dc0b5b751116f0753b3869f38b819baa2cd",
+          "B/before.kicad_pcb": "ef541b52c7f61108c3ad418af92c60a8db964be9309c6af5ee81c06d6b1fa2e1",
+          "B/before.kicad_prl": "02a8d603a2458b203a5d1c2d469f6b9ee1ac3db83d000d5d82afeddd3eb88830",
+          "B/before.kicad_pro": "bb4d80b1f8ad672088e9ad88622720967111f1543cfcad8203777c517b909f96",
+          "B/context.json": "6ee878b95ff7fc434d1931d4bd512c7a5b67b211fd82b63c7561a69e1fd08bec",
+          "B/diagnostic.json": "52ee8179d2656f40f1993a1d1ee956c98070ae5a23704dd09bb8057d1b5bb7ea",
+          "B/input/SparkFun_Roller_Encoder_Breakout.kicad_pcb": "3086590581f2c33fc646f8a5c5e9ffaeeec12ba7d31b31e0afb8c414d5260ff5",
+          "B/input/SparkFun_Roller_Encoder_Breakout.kicad_pro": "2a3df77393af19e5c8dfb2e8d9e44dac19f359585c17f119718751a5cc2a9bab",
+          "B/input/SparkFun_Roller_Encoder_Breakout.kicad_sch": "e3ea67a15764de4ea1062c3f8e54998d34e20bb00875773504d01bbb5285693c",
+          "B/input/_licenses/creator/LICENSE.md": "60ff0c64f197db99b0f4fe6fbcd2de308117cdd791d99a86edfcaa5c10a82bc6",
+          "B/input/_licenses/creator/README.md": "5d16e9ca7a7c7439c5add9f73f2c6cdfce4de3108bfd65f1991ba3ec761337e5",
+          "B/native.dsn": "eff76b36d43c0b39f51ec8abc310161a10fb398c497470d1e0c503bced158053",
+          "export-A-process.json": "2dbc99fddf2a6cee318c08b9929ec6c7c2fbcb332ed8a48f34684fbcd1524057",
+          "export-A.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "export-B-process.json": "4356d96e59aaca52ecddf0b7b1d2e1dde13e7d913f8f31389eaedebb3b444492",
+          "export-B.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "result.json": "a51c3784c5e4a9c562cf10a05ab2dfa648715c3942de7c77b36f863a81d3e687"
+        },
+        [
+          ".",
+          "A",
+          "A/input",
+          "A/input/_licenses",
+          "A/input/_licenses/creator",
+          "B",
+          "B/input",
+          "B/input/_licenses",
+          "B/input/_licenses/creator",
+          "kicad-cache",
+          "kicad-cache/kicad",
+          "kicad-cache/kicad/10.0",
+          "kicad-config",
+          "kicad-config/10.0",
+          "kicad-documents",
+          "kicad-documents/kicad",
+          "kicad-documents/kicad/10.0",
+          "tmp"
+        ]
+      ],
+      ".runs/roller-export-alias-native-002-execution": [
+        {
+          "command.log": "e0eccf355475e15b3e5595575566507c18e3c749753f604585faf68234e84087",
+          "execution.json": "9ffa3c5f4cf1230791fcb785d5a047aae6cc8b77e2debc2617d6504075fd4127"
+        },
+        [
+          "."
+        ]
+      ]
+    },
+    "retained_old_runtime_allowed_changes": [
+      "driver.py continuation checks",
+      "padless_alias.py comparison-only bound rootname plusPurePosixPath import; all native mutation/geometry functions ASTexact",
+      "retained_ses.py explicit exact-source diagnostic constructor; old native_dsn mode still rejects rounding"
+    ],
+    "prior_active_wall_seconds": 23.6264327490062,
+    "prior_full_cpu_seconds": 18.575416,
+    "wall_full_cpu_caps": 60,
+    "accounting": "Charge whole retained baseline14.591365wall/10.851915CPU + bothfailedNative001/002outer + all new childstartup/checks/import/refill/fullSCH/candidate/publication and parent wrapper. Calendar active gap, no speedup/routingquality comparison. Both cap crossingsinvalidate.",
+    "retention": "Each old001/002 tree and each newoutput directory remains independently32MiB-bound; no sidecar copy or evidence deletion. Oldretainedcombined <=64MiB, new<=32MiB,total<=96MiB plus pinned existing original-baseline evidence. Fullunique raw protected byincremental74e94f2 cutoff; later suffixneeds nextcheckpoint. Per-directory limits explicit, not a cumulative32MiBclaim.",
+    "geometry_contract": "Raw nativeDSNA/B still contain9of11trackXvalues rounded0.5um, preserveactualrejection/defaultbuild failure. For new no-solver transport control only, constructSESroutes directlyfrom all11pristineSource literalsegments, exact100nm integerSESgrid, net/layer/width/endpoint Counterexact; no via/arc/unknownnet/swap allowed. Copy complete DSNplacements (actualall23Sourcepositions exact; backrotation uses pinnedexport/import convention). Sessionbase_design retains rawAabsolute path. Striponlysixaliasedpadless place rows/empty containers; no rawDSN, source board/project/footprint/pad/model/coppertext/rules changes. Require nativepristineimport all nonroutingexact, strict shared nonUUID protected match, restoreOriginalUUID/order onlyafter fullrecords exact, savedrefill/reconstruction/finalcompleteSC0/0/same1warning and Originalseverities/ignoredchecks. Any mismatchrejects.",
+    "comparison_contract": "Canonicalcomparison may normalize only authorizedUUIDalias placementidentities plus rootnameboundto actualoldworkerargv/canonicalnonsymlinknative.dsn path with no other occurrence. Geometry/network/layer/rule nodes cannot normalize. Raw nativeDSN/SESbase_design remainuntouched.",
+    "claims_limit": "Alias B1 transport diagnostic only; no original reference-route optimization, solver/newquality gain, production routing support, physical/3D dependency closure or independentpedigree/holdout.",
+    "code_sha256": {
+      "driver.py": "1352cb6efe81c9958d4a62deb4a04aee3c350e77d8a2de0b5bc1b7d3eb06e7fd",
+      "worker.py": "7431df122c38f9b7ba14a68125861290c10944afa6e8db590d1d74350978f089",
+      "retained_ses.py": "dc731ed1c9d77b2ab1eace991094e747d155636915d759a09c135a1438440315",
+      "padless_alias.py": "0ae6d68279944d866388e02937033f5e4af619ba09017cf15e5a6b27a3cab458"
+    },
+    "original_native_pins_sha256": "ff9374117aa3d9f2ee5544ad5d07154bebb36e8a3742ac556af555c821b8bbbd",
+    "reviewed_path_source_report_sha256": "8ec27cb8cfd9f8e64c32d77a44d752b6098a2638c1bc11ec84e666a5adbe0564",
+    "wrapper_sha256": "dee35419634cb4fbe934b2f65f3985b7d5afdeadff0f3796b0dc795968b7e3e6",
+    "launcher_sha256": "bee42098d6ebb7103972700de0e0fef65b3986a6bffa359a800d552370b56733",
+    "accounting_limits": "Prior captured scopes remain as recorded; older unmeasured labhelper startup/final small writes are not fabricated. Current003 uses lifetimeSELF+waitedCHILD CPU and measuredpost-bootstrapwall+explicit1second bootstrapallowance, checks finalpublication. Knownprior+chargedcurrent costs testedagainst60; no continuouselapsed/fullhistoricalexactruntime/qualitycomparisonclaim."
+  },
+  "completed_exports_reexecuted": false,
+  "prior_active_wall_seconds": 23.6264327490062,
+  "prior_full_cpu_seconds": 18.575416,
+  "tools": {
+    "implementation_sha256": {
+      "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+      "autorouter/__main__.py": "a4f6ca97f5dadc2547825ca5bf7be585a8fb6845db1956815679a43474c26113",
+      "autorouter/adapter.py": "95211455104334e338b83c77aecf8541ee24b0b4f7cd6c3043bcb71d478ddfca",
+      "autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+      "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+      "autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+      "autorouter/floor_route.py": "787d0a309d8511628b0ada7a2f06ea7df1080fa2636b1c2ab540d182eba29b5a",
+      "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+      "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+      "autorouter/native.py": "f942bbe1f12cb1dfdaef0eda3ec4bc2f37dee6f347f00f32724a90d6ed3296bf",
+      "autorouter/netclass.py": "96a7425112bc5a5ce5d2f15f69efc334fbfbb97aa9deee1ee33ce984d25a8ea6",
+      "autorouter/pipeline.py": "3d7991e773aae05bc6af641f145bfcf61a46a556b5ea1da06c1877036e74a32d",
+      "autorouter/placement_clearance.py": "f846a73367bc60dfbb48386233e405cb4bf1382f056d379787d7b823c3905feb",
+      "autorouter/placement_strategy.py": "b75a2291eed37d8ddb9f052c0b715faafcc2dfd258ae32f9e2763fcd01db0e97",
+      "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+      "autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+      "autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+      "autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+      "autorouter/recovery.py": "8a2bf1470cb69e7d8d334bbe7aef18110322a7aa786b965d397a89ddbc932ee5",
+      "autorouter/review_export.py": "716b369af61faa8c15f60ef58a0846772e4b175cff4a75af0c2c5ea45f24aea7",
+      "autorouter/review_view.py": "8f765624a8527df770a98594a7b27fe88776b300ec276f809c179ec7f6f60fb7",
+      "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+      "autorouter/runner.py": "0e81ab1badf20cd84adc2fed586641dd97a489a5a6af03febe6fb597bb1d2718",
+      "autorouter/schematic_field_evidence.py": "d7e1012b05bb7e0fb03358bbc3573b845ff06d03760a88137cf52db71090641b",
+      "autorouter/schematic_fields.py": "7d9043a14bac69d18830b2f51cb7d118c648df9290337505db1bf8503d931a71",
+      "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+      "autorouter/strategy.py": "cb867d2e0c4a143931d7e4943a6219c76142437a7d7d78d8fb4b7ed710b0df17",
+      "autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+      "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+      "autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455"
+    },
+    "git_head": "a6ffc0637d368d507b4ffe4189a1942959397713",
+    "kicad": "10.0.0",
+    "freerouting": "2.5.0",
+    "files": {
+      "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+      "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219"
+    },
+    "network": "engine sandbox-exec deny network*"
+  },
+  "runtime_source_sha256": {
+    "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+    "autorouter/__main__.py": "a4f6ca97f5dadc2547825ca5bf7be585a8fb6845db1956815679a43474c26113",
+    "autorouter/adapter.py": "95211455104334e338b83c77aecf8541ee24b0b4f7cd6c3043bcb71d478ddfca",
+    "autorouter/board_floor.py": "85b91527ec19f82a3869a4761c3dd597ef5b18ee600a6cf022100212e07f6cea",
+    "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+    "autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+    "autorouter/floor_route.py": "787d0a309d8511628b0ada7a2f06ea7df1080fa2636b1c2ab540d182eba29b5a",
+    "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+    "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+    "autorouter/native.py": "f942bbe1f12cb1dfdaef0eda3ec4bc2f37dee6f347f00f32724a90d6ed3296bf",
+    "autorouter/netclass.py": "96a7425112bc5a5ce5d2f15f69efc334fbfbb97aa9deee1ee33ce984d25a8ea6",
+    "autorouter/pipeline.py": "3d7991e773aae05bc6af641f145bfcf61a46a556b5ea1da06c1877036e74a32d",
+    "autorouter/placement_clearance.py": "f846a73367bc60dfbb48386233e405cb4bf1382f056d379787d7b823c3905feb",
+    "autorouter/placement_strategy.py": "b75a2291eed37d8ddb9f052c0b715faafcc2dfd258ae32f9e2763fcd01db0e97",
+    "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+    "autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+    "autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+    "autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+    "autorouter/recovery.py": "8a2bf1470cb69e7d8d334bbe7aef18110322a7aa786b965d397a89ddbc932ee5",
+    "autorouter/review_export.py": "716b369af61faa8c15f60ef58a0846772e4b175cff4a75af0c2c5ea45f24aea7",
+    "autorouter/review_view.py": "8f765624a8527df770a98594a7b27fe88776b300ec276f809c179ec7f6f60fb7",
+    "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+    "autorouter/runner.py": "0e81ab1badf20cd84adc2fed586641dd97a489a5a6af03febe6fb597bb1d2718",
+    "autorouter/schematic_field_evidence.py": "d7e1012b05bb7e0fb03358bbc3573b845ff06d03760a88137cf52db71090641b",
+    "autorouter/schematic_fields.py": "7d9043a14bac69d18830b2f51cb7d118c648df9290337505db1bf8503d931a71",
+    "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+    "autorouter/strategy.py": "cb867d2e0c4a143931d7e4943a6219c76142437a7d7d78d8fb4b7ed710b0df17",
+    "autorouter/thermal.py": "edd4f297504942bf1117802f86d0477c9664259c98218e7a89b10f36a1c1a2e8",
+    "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+    "autorouter/thermal_worker.py": "14acd76ea877520ea0ca5c293203eb99740c8d94d55baa5ac2b15c6bb89f4455",
+    "experiments/roller_export_alias_v1/driver.py": "1352cb6efe81c9958d4a62deb4a04aee3c350e77d8a2de0b5bc1b7d3eb06e7fd",
+    "experiments/roller_export_alias_v1/worker.py": "7431df122c38f9b7ba14a68125861290c10944afa6e8db590d1d74350978f089",
+    "experiments/roller_export_alias_v1/retained_ses.py": "dc731ed1c9d77b2ab1eace991094e747d155636915d759a09c135a1438440315",
+    "experiments/roller_export_alias_v1/padless_alias.py": "0ae6d68279944d866388e02937033f5e4af619ba09017cf15e5a6b27a3cab458",
+    "experiments/roller_export_alias_v1/native-pins.json": "ff9374117aa3d9f2ee5544ad5d07154bebb36e8a3742ac556af555c821b8bbbd",
+    "experiments/roller_export_alias_v1/PROTOCOL.json": "83f99bced4c9d8f0ada53f7cf3ae225841fcb018be499eedeedb837e6e9a34ef",
+    "experiments/roller_export_alias_v1/CONTINUATION_PROTOCOL.json": "6eab402241dd0a22d346460356b374d7d07a2e87685f2f5e0e8d7045b857717a",
+    "toolchain.lock.json": "f04be5cdf6f64bddc16a6c5efd217b2f5e0a1341906ff44033f5807971154efe"
+  },
+  "pins": {
+    "schema": 1,
+    "files_sha256": {
+      ".data/corpus-expansion-audit-001/sparkfun__SparkFun_Roller_Encoder_Breakout/Hardware/SparkFun_Roller_Encoder_Breakout.kicad_pcb": "3086590581f2c33fc646f8a5c5e9ffaeeec12ba7d31b31e0afb8c414d5260ff5",
+      ".data/corpus-expansion-audit-001/sparkfun__SparkFun_Roller_Encoder_Breakout/Hardware/SparkFun_Roller_Encoder_Breakout.kicad_pro": "2a3df77393af19e5c8dfb2e8d9e44dac19f359585c17f119718751a5cc2a9bab",
+      ".data/corpus-expansion-audit-001/sparkfun__SparkFun_Roller_Encoder_Breakout/Hardware/SparkFun_Roller_Encoder_Breakout.kicad_sch": "e3ea67a15764de4ea1062c3f8e54998d34e20bb00875773504d01bbb5285693c",
+      ".data/corpus-expansion-audit-001/sparkfun__SparkFun_Roller_Encoder_Breakout/LICENSE.md": "60ff0c64f197db99b0f4fe6fbcd2de308117cdd791d99a86edfcaa5c10a82bc6",
+      ".data/corpus-expansion-audit-001/sparkfun__SparkFun_Roller_Encoder_Breakout/README.md": "5d16e9ca7a7c7439c5add9f73f2c6cdfce4de3108bfd65f1991ba3ec761337e5",
+      ".runs/pic-custom-ses-design-001/network-receipt.json": "687e633ed5bc2387108b13562aa328afa446e58aa78dab699c34e9edd864b5fc",
+      ".runs/pic-custom-ses-design-001/specctra_import.cpp": "d9b6965c5cb0853c943026a43d7449731fcaca36febe0cf9039d176ab50a285e",
+      ".runs/roller-no-export-continuation-001/result.json": "0370e764d11ebe1c465b05de3e37fdb034224a1c7c2ed38a0fee8a247a1fee26",
+      ".runs/support-scope-review-001/source/pcbnew/specctra_import_export/specctra_export.cpp": "069625125a481565f608a7e0780f393351bc7ce4528f1ce94ae0d80c049ab05d",
+      "autorouter/adapter.py": "95211455104334e338b83c77aecf8541ee24b0b4f7cd6c3043bcb71d478ddfca",
+      "autorouter/pipeline.py": "3d7991e773aae05bc6af641f145bfcf61a46a556b5ea1da06c1877036e74a32d",
+      "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+      "experiments/pic_mixed_transport_probe_v1/ses_checks.py": "f3d6c3ff951ea09337cedc59e950bb9d40bd324ebe91695e258d6ee62f149443",
+      "experiments/roller_support_v1/checks.py": "71bbba4b8091801d7c8b6f25e1f578ddf09c89aff67918772a50d241277b9da9",
+      "toolchain.lock.json": "f04be5cdf6f64bddc16a6c5efd217b2f5e0a1341906ff44033f5807971154efe",
+      "autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+      "autorouter/floor_route.py": "787d0a309d8511628b0ada7a2f06ea7df1080fa2636b1c2ab540d182eba29b5a",
+      "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+      "autorouter/runner.py": "0e81ab1badf20cd84adc2fed586641dd97a489a5a6af03febe6fb597bb1d2718",
+      "experiments/pic_mixed_transport_probe_v1/ses_native.py": "a56803cbe0ba9844ec1229b3f9a48fe4b54fd75167b0765b8ec1a79ec6ab0260",
+      "experiments/roller_support_v1/worker.py": "e07e9f7eda199d7172a809ee667f59bb341ed49e95bd2ff854a0f5e612a8d895"
+    },
+    "source_inventory": {
+      "Hardware/SparkFun_Roller_Encoder_Breakout.kicad_pcb": "3086590581f2c33fc646f8a5c5e9ffaeeec12ba7d31b31e0afb8c414d5260ff5",
+      "Hardware/SparkFun_Roller_Encoder_Breakout.kicad_pro": "2a3df77393af19e5c8dfb2e8d9e44dac19f359585c17f119718751a5cc2a9bab",
+      "Hardware/SparkFun_Roller_Encoder_Breakout.kicad_sch": "e3ea67a15764de4ea1062c3f8e54998d34e20bb00875773504d01bbb5285693c",
+      "LICENSE.md": "60ff0c64f197db99b0f4fe6fbcd2de308117cdd791d99a86edfcaa5c10a82bc6",
+      "README.md": "5d16e9ca7a7c7439c5add9f73f2c6cdfce4de3108bfd65f1991ba3ec761337e5"
+    },
+    "prior_baseline": {
+      "candidate_sha256": "9c3fbfaf6c23c6434312dc646ae76ae3658be4be3dd4e9f7cf39a833aa13ad24",
+      "combined_active_wall_seconds": 14.59136516599392,
+      "combined_full_cpu_seconds": 10.851915,
+      "complete_original_parity": true,
+      "native_counts": {
+        "blocking": 0,
+        "exclusions": 0,
+        "opens": 0,
+        "warnings": 1
+      },
+      "new_native_execution_by_draft_author": false,
+      "report_sha256": "bd319286d747acb680a8b53e66b3f4469300a92b25ab19545de7edd6e82d3e23",
+      "status": "observations_complete_original_export_still_failed"
+    },
+    "transformer_promotion_required": true
+  },
+  "native": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 1,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "Silkscreen clearance",
+        "key": "silk_overlap"
+      },
+      {
+        "description": "Silkscreen clipped by solder mask",
+        "key": "silk_over_copper"
+      },
+      {
+        "description": "PTH inside courtyard",
+        "key": "pth_inside_courtyard"
+      },
+      {
+        "description": "NPTH inside courtyard",
+        "key": "npth_inside_courtyard"
+      },
+      {
+        "description": "Footprint not found in libraries",
+        "key": "lib_footprint_issues"
+      }
+    ],
+    "findings": [
+      {
+        "description": "Footprint component type doesn't match footprint pads (expected 'Through hole'; actual 'SMD')",
+        "items": [
+          {
+            "description": "Footprint SW1",
+            "pos": {
+              "x": 147.6375,
+              "y": 104.775
+            },
+            "uuid": "0f902108-f567-49fd-9e93-0b9712af72ce"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_type_mismatch"
+      }
+    ]
+  },
+  "transport": {
+    "policy": "duplicate-padless-export-alias-v1",
+    "removed_padless_placements": 6,
+    "removed_sha256": "d50a816ef96e66636a225953e275c05067f8768da3e644be8e41e5de1a719f36",
+    "source_sha256": "3086590581f2c33fc646f8a5c5e9ffaeeec12ba7d31b31e0afb8c414d5260ff5",
+    "original_ses_sha256": "b6ad63b18761ccde9b128fb0527e48c422792c02f94bd9f80c320c5de282f74c",
+    "dsn_sha256": "2d6cd2ddddcd4978d322c91913d1a01906a48ef50b69ef343c38b950a4dc1bb2",
+    "routing_accepted": false,
+    "exact_original_segments": 11,
+    "solver_execution": false,
+    "reference_route_optimization": false,
+    "geometry_source": "original_protected_source",
+    "raw_native_dsn_route_diff": {
+      "equal": false,
+      "expected_segments": 11,
+      "actual_segments": 11,
+      "missing": [
+        {
+          "geometry": "('A', 'top_layer', Decimal('254.000'), (Decimal('136525.000'), Decimal('-106045.000')), (Decimal('140652.5000'), Decimal('-106045.000')))",
+          "count": 1
+        },
+        {
+          "geometry": "('A', 'top_layer', Decimal('254.000'), (Decimal('140652.5000'), Decimal('-106045.000')), (Decimal('143192.5000'), Decimal('-103505.000')))",
+          "count": 1
+        },
+        {
+          "geometry": "('A', 'top_layer', Decimal('254.000'), (Decimal('143192.5000'), Decimal('-103505.000')), (Decimal('147637.5000'), Decimal('-103505.000')))",
+          "count": 1
+        },
+        {
+          "geometry": "('B', 'top_layer', Decimal('254.000'), (Decimal('142875.000'), Decimal('-106045.000')), (Decimal('147637.5000'), Decimal('-106045.000')))",
+          "count": 1
+        },
+        {
+          "geometry": "('GND', 'bottom_layer', Decimal('254.000'), (Decimal('136525.000'), Decimal('-100965.000')), (Decimal('147637.5000'), Decimal('-100965.000')))",
+          "count": 1
+        },
+        {
+          "geometry": "('GND', 'bottom_layer', Decimal('254.000'), (Decimal('147637.5000'), Decimal('-100965.000')), (Decimal('148037.5000'), Decimal('-100565.000')))",
+          "count": 1
+        },
+        {
+          "geometry": "('GND', 'bottom_layer', Decimal('254.000'), (Decimal('148037.5000'), Decimal('-100565.000')), (Decimal('148037.5000'), Decimal('-98175.000')))",
+          "count": 1
+        },
+        {
+          "geometry": "('SWITCH', 'top_layer', Decimal('254.000'), (Decimal('136525.000'), Decimal('-103505.000')), (Decimal('140707.5000'), Decimal('-103505.000')))",
+          "count": 1
+        },
+        {
+          "geometry": "('SWITCH', 'top_layer', Decimal('254.000'), (Decimal('140707.5000'), Decimal('-103505.000')), (Decimal('146037.5000'), Decimal('-98175.000')))",
+          "count": 1
+        }
+      ],
+      "extra": [
+        {
+          "geometry": "('A', 'top_layer', Decimal('254'), (Decimal('136525'), Decimal('-106045')), (Decimal('140652'), Decimal('-106045')))",
+          "count": 1
+        },
+        {
+          "geometry": "('A', 'top_layer', Decimal('254'), (Decimal('140652'), Decimal('-106045')), (Decimal('143192'), Decimal('-103505')))",
+          "count": 1
+        },
+        {
+          "geometry": "('A', 'top_layer', Decimal('254'), (Decimal('143192'), Decimal('-103505')), (Decimal('147638'), Decimal('-103505')))",
+          "count": 1
+        },
+        {
+          "geometry": "('B', 'top_layer', Decimal('254'), (Decimal('142875'), Decimal('-106045')), (Decimal('147638'), Decimal('-106045')))",
+          "count": 1
+        },
+        {
+          "geometry": "('GND', 'bottom_layer', Decimal('254'), (Decimal('136525'), Decimal('-100965')), (Decimal('147638'), Decimal('-100965')))",
+          "count": 1
+        },
+        {
+          "geometry": "('GND', 'bottom_layer', Decimal('254'), (Decimal('147638'), Decimal('-100965')), (Decimal('148038'), Decimal('-100565')))",
+          "count": 1
+        },
+        {
+          "geometry": "('GND', 'bottom_layer', Decimal('254'), (Decimal('148038'), Decimal('-100565')), (Decimal('148038'), Decimal('-98175')))",
+          "count": 1
+        },
+        {
+          "geometry": "('SWITCH', 'top_layer', Decimal('254'), (Decimal('136525'), Decimal('-103505')), (Decimal('140708'), Decimal('-103505')))",
+          "count": 1
+        },
+        {
+          "geometry": "('SWITCH', 'top_layer', Decimal('254'), (Decimal('140708'), Decimal('-103505')), (Decimal('146038'), Decimal('-98175')))",
+          "count": 1
+        }
+      ]
+    },
+    "raw_dsn_geometry_repaired": false
+  },
+  "raw_import_immutable": {
+    "equal": true,
+    "different_top_level_keys": []
+  },
+  "protected_import": {
+    "policy": "exact_non_uuid_v1",
+    "matches": [
+      {
+        "original_uuid": "\"58e9265b-eb00-471c-9fc5-ec04e5f2f3ae\"",
+        "imported_uuid": "\"72d6f7f3-822c-45e7-9dc1-048bc84de584\"",
+        "non_uuid_sha256": "bdc086c4a171f2e6f34276a0c70a9a98daa54726c6e986d8b8d4b6a58436ac45"
+      },
+      {
+        "original_uuid": "\"997843c5-c5ad-4663-8a0e-01df768d906b\"",
+        "imported_uuid": "\"cc2d0608-f3de-457e-8ccb-80f377f1022b\"",
+        "non_uuid_sha256": "700327353634e152a08b459a3362c818a7fc670da1a70086189ab3a312e770fd"
+      },
+      {
+        "original_uuid": "\"cb039550-a95f-4713-934e-306dcb183043\"",
+        "imported_uuid": "\"c04304d1-7ca1-4eff-886c-564bc10f2ce3\"",
+        "non_uuid_sha256": "cddb1d40614a8a81930a3f69daf01895b4663849dc9f85a0b0569a9e136dc1b4"
+      },
+      {
+        "original_uuid": "\"756ac65d-96f2-469d-87de-f9465466fce1\"",
+        "imported_uuid": "\"a7c08800-ef02-47c5-b717-e30945611e8b\"",
+        "non_uuid_sha256": "9ce1df02f459204a7d4e4c4e290a4ddf93d0ebb1af2de6016e2b68f34da62e09"
+      },
+      {
+        "original_uuid": "\"8bd17ac9-8704-4309-9ca6-674c885028f6\"",
+        "imported_uuid": "\"48b718c3-3c45-40fc-855c-73d58f50ee69\"",
+        "non_uuid_sha256": "efce991e2e1c0876d30b88978b7779aedf9c7b3a9f6a04eb43617e6694e3ebff"
+      },
+      {
+        "original_uuid": "\"8e663ffc-158e-4439-bfca-9a8f44dfbc5e\"",
+        "imported_uuid": "\"ed8f48ac-f043-4c77-a7eb-edb028dfb515\"",
+        "non_uuid_sha256": "72c6797c50b851bf50376313493600600448d96c9583280d074068ea19afed7c"
+      },
+      {
+        "original_uuid": "\"2f28e00e-194f-4f3f-b0b0-ca420a1116ca\"",
+        "imported_uuid": "\"b15c0f55-8812-47d0-a600-a3822f136ad5\"",
+        "non_uuid_sha256": "465bc4d310e439cac31b68f2deac687f99a6d204a501ef233ad3445ffde9bfe4"
+      },
+      {
+        "original_uuid": "\"57bb44a7-384e-4674-97bb-01362569ac20\"",
+        "imported_uuid": "\"40f7cd8b-91fa-4734-b9a0-cd88310ca3a6\"",
+        "non_uuid_sha256": "a7bfcaceab2332ebd2e0a4ed815741b466bc2308b36056fde1870136a47dd286"
+      },
+      {
+        "original_uuid": "\"9ac34644-b41f-40e7-b2f5-16b42197f384\"",
+        "imported_uuid": "\"f5bbc3d9-180e-43da-964e-fa34da464e0a\"",
+        "non_uuid_sha256": "3f2a217dc88a27b2db0de1f3fbdc618c1d526507098fc2210ac1ad4b176fb488"
+      },
+      {
+        "original_uuid": "\"4aab8232-a2f5-437d-81e8-c28dab77b2e3\"",
+        "imported_uuid": "\"8c8fd749-7ef3-4572-b5a7-a0e91f8dd40c\"",
+        "non_uuid_sha256": "cfa43ce3a08344f9c097a2c27c8fa073cd926e249ed28ad55abf6ef54aef8662"
+      },
+      {
+        "original_uuid": "\"8f390ab1-5424-44f2-b9bb-3651f9ea5bb7\"",
+        "imported_uuid": "\"a81d33fd-f5b8-4f39-af43-003069232df2\"",
+        "non_uuid_sha256": "49d8d29fb9817b3e8285d42e2d3000fa79ad4ba0c3fe0561f35db5220cb12278"
+      }
+    ],
+    "transplanted_routes_sha256": "55aa96a82d4dd7f43f8ff87dd4f19105406b28a9f3f996b652e5efa75e0af4ed"
+  },
+  "class_proofs": {
+    "A": {
+      "passed": true,
+      "native_nets": 4,
+      "exported_terminal_nets": 4,
+      "policy": {
+        "mode": "single_default",
+        "literal_assignments": {}
+      },
+      "classes": [
+        {
+          "dsn_class": "kicad_default",
+          "member_count": 4,
+          "via": "Via[0-1]_560:300_um",
+          "dimensions_nm": {
+            "width_nm": "152400.0",
+            "clearance_nm": "152400.0",
+            "via_diameter_nm": "560000",
+            "via_drill_nm": "300000"
+          }
+        }
+      ],
+      "membership": {
+        "A": "kicad_default",
+        "B": "kicad_default",
+        "GND": "kicad_default",
+        "SWITCH": "kicad_default"
+      },
+      "limitations": [
+        "Via drill is encoded by pinned KiCad via ID.",
+        "Terminal counts do not prove pin identities.",
+        "Imported route geometry and native DRC require separate validation."
+      ],
+      "routing_accepted": false,
+      "scope": "read-only inactive-definition proof projection; exact original project retained",
+      "production_support_qualified": false
+    },
+    "B": {
+      "passed": true,
+      "native_nets": 4,
+      "exported_terminal_nets": 4,
+      "policy": {
+        "mode": "single_default",
+        "literal_assignments": {}
+      },
+      "classes": [
+        {
+          "dsn_class": "kicad_default",
+          "member_count": 4,
+          "via": "Via[0-1]_560:300_um",
+          "dimensions_nm": {
+            "width_nm": "152400.0",
+            "clearance_nm": "152400.0",
+            "via_diameter_nm": "560000",
+            "via_drill_nm": "300000"
+          }
+        }
+      ],
+      "membership": {
+        "A": "kicad_default",
+        "B": "kicad_default",
+        "GND": "kicad_default",
+        "SWITCH": "kicad_default"
+      },
+      "limitations": [
+        "Via drill is encoded by pinned KiCad via ID.",
+        "Terminal counts do not prove pin identities.",
+        "Imported route geometry and native DRC require separate validation."
+      ],
+      "routing_accepted": false,
+      "scope": "read-only inactive-definition proof projection; exact original project retained",
+      "production_support_qualified": false
+    }
+  },
+  "final_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/roller-export-alias-native-003/candidate/input/SparkFun_Roller_Encoder_Breakout.kicad_pcb",
+  "final_candidate_sha256": "9c3fbfaf6c23c6434312dc646ae76ae3658be4be3dd4e9f7cf39a833aa13ad24",
+  "final_report_sha256": "8c497c3e8d9d31ce179868c92a0422e7e8d989d2d77bb01232ec851df7cca41a",
+  "prior_baseline_reexecuted": false,
+  "artifacts_sha256": {
+    "candidate-final-binding.json": "67ad0507a73f33ed79e6f3d27783a10b25f3280a0684419e20cd3a36fcb1631a",
+    "candidate-final-input/SparkFun_Roller_Encoder_Breakout.kicad_pcb": "9c3fbfaf6c23c6434312dc646ae76ae3658be4be3dd4e9f7cf39a833aa13ad24",
+    "candidate-final-input/SparkFun_Roller_Encoder_Breakout.kicad_prl": "0cabcd8c0cbb938437640f68ab57d63dfed4c6e5f74a126bb8c33d8ac1763a99",
+    "candidate-final-input/SparkFun_Roller_Encoder_Breakout.kicad_pro": "2a3df77393af19e5c8dfb2e8d9e44dac19f359585c17f119718751a5cc2a9bab",
+    "candidate-final-input/SparkFun_Roller_Encoder_Breakout.kicad_sch": "e3ea67a15764de4ea1062c3f8e54998d34e20bb00875773504d01bbb5285693c",
+    "candidate-final-input/_licenses/creator/LICENSE.md": "60ff0c64f197db99b0f4fe6fbcd2de308117cdd791d99a86edfcaa5c10a82bc6",
+    "candidate-final-input/_licenses/creator/README.md": "5d16e9ca7a7c7439c5add9f73f2c6cdfce4de3108bfd65f1991ba3ec761337e5",
+    "candidate-final-process.json": "866e27799591ae613291e817337c714c5230a371a6431f02c194680fdb98b5ca",
+    "candidate-final.json": "8c497c3e8d9d31ce179868c92a0422e7e8d989d2d77bb01232ec851df7cca41a",
+    "candidate-final.log": "56f5e14cd543c422a7d31e117058123470789102e2952e517df4f7140ce14230",
+    "candidate-refill-binding.json": "ac1accb277dae488f7b0e074f40b0b08d5384b428ac387ddea87a72ef484c53a",
+    "candidate-refill-process.json": "633866272d2d2a67dd93a70e2fa8281f66a37d3561107679aa7710072d5f3d42",
+    "candidate-refill.json": "06355f33802bc871b2493b2234f159532c91f192879e3b9542705e47d20b28da",
+    "candidate-refill.log": "72d1363fc3e5293e021dc14a7ac6a6fee20b68dd7de53eb61c0e3facce6e724b",
+    "candidate/input/SparkFun_Roller_Encoder_Breakout.kicad_pcb": "9c3fbfaf6c23c6434312dc646ae76ae3658be4be3dd4e9f7cf39a833aa13ad24",
+    "candidate/input/SparkFun_Roller_Encoder_Breakout.kicad_pro": "2a3df77393af19e5c8dfb2e8d9e44dac19f359585c17f119718751a5cc2a9bab",
+    "candidate/input/SparkFun_Roller_Encoder_Breakout.kicad_sch": "e3ea67a15764de4ea1062c3f8e54998d34e20bb00875773504d01bbb5285693c",
+    "candidate/input/_licenses/creator/LICENSE.md": "60ff0c64f197db99b0f4fe6fbcd2de308117cdd791d99a86edfcaa5c10a82bc6",
+    "candidate/input/_licenses/creator/README.md": "5d16e9ca7a7c7439c5add9f73f2c6cdfce4de3108bfd65f1991ba3ec761337e5",
+    "filtered.ses": "397ad98822d6ef92825215494bd59c4d0cd80f28905a81504f2144ba13522fe6",
+    "imported.kicad_pcb": "5ccabf295b070175ac1b3b05135ea96fc6be4f97668ca621acbf9258cb975f1c",
+    "imported.kicad_prl": "7d9ad4476f33f37f2a7260669e933885b08555cc667b8a58a3980a10d5e0a4dd",
+    "imported.kicad_pro": "a1149932637274ae8890fd70f161a8f3bfc374867451b0784b5cc525246ea4e6",
+    "kicad-config/10.0/3d_viewer.json": "196678c94fed37c15510bb4b54d6e4eec989a0c3f9b4d30ff1be0d1425992bf3",
+    "kicad-config/10.0/cvpcb.json": "b93174a3b1470f1ce0e43c90268ce83976432c5210d906a3846ee7976ea9d272",
+    "kicad-config/10.0/eeschema.json": "ce1d47af13c60254b736992e8a387cf93b06c83f302e3aaa4c6836acb05d3502",
+    "kicad-config/10.0/fpedit.json": "e88988497732f32bf92cccd726d7d28ea7dfe1922d693448a38cb4c063f9d368",
+    "kicad-config/10.0/kicad.json": "026a2e3d05986b554bc6f5aa8590c69e847090527e0e718287e1005dbd905015",
+    "kicad-config/10.0/kicad_common.json": "45591d0144d0c87f814637bc513cd21012fa2206a005f7e806429fb4e510cc6e",
+    "kicad-config/10.0/pcbnew.json": "f0822c67ee74c2e6189603de283b6d288e77a6a201c65d2f6b60afd119c95845",
+    "kicad-config/10.0/symbol_editor.json": "a3212dc53c3cbfd170a2bb6ae42db289bc6f4c3cf6df9abc4a5c856d22d2f86a",
+    "pristine-import-process.json": "c64cd7f5062733650bccee4132224b6933dee97488499acac43053b8b969453e",
+    "pristine-import.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "retained.ses": "b6ad63b18761ccde9b128fb0527e48c422792c02f94bd9f80c320c5de282f74c",
+    "saved/SparkFun_Roller_Encoder_Breakout.kicad_pcb": "a0c8e4e51d87c7cd37ba49d105ec5a63677bcc8a785696c35af611bb03095011",
+    "saved/SparkFun_Roller_Encoder_Breakout.kicad_prl": "0cabcd8c0cbb938437640f68ab57d63dfed4c6e5f74a126bb8c33d8ac1763a99",
+    "saved/SparkFun_Roller_Encoder_Breakout.kicad_pro": "2a3df77393af19e5c8dfb2e8d9e44dac19f359585c17f119718751a5cc2a9bab",
+    "saved/SparkFun_Roller_Encoder_Breakout.kicad_sch": "e3ea67a15764de4ea1062c3f8e54998d34e20bb00875773504d01bbb5285693c",
+    "saved/_licenses/creator/LICENSE.md": "60ff0c64f197db99b0f4fe6fbcd2de308117cdd791d99a86edfcaa5c10a82bc6",
+    "saved/_licenses/creator/README.md": "5d16e9ca7a7c7439c5add9f73f2c6cdfce4de3108bfd65f1991ba3ec761337e5"
+  },
+  "wall_seconds": 5.83601295799599,
+  "full_cpu_seconds": 3.8686730000000003,
+  "steps": [
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.6859184999921126,
+      "cpu_seconds": 0.443638,
+      "max_rss_bytes": 200867840,
+      "supervisor_cpu_seconds": 0.00436599999999987,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 56147968,
+      "sampled_peak_workdir_bytes": 314026,
+      "resource_guards": {
+        "max_group_rss_bytes": 2147483648,
+        "max_workdir_bytes": 33554432,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+        "import",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/roller-export-alias-native-002/A/input/SparkFun_Roller_Encoder_Breakout.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/roller-export-alias-native-003/imported.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/roller-export-alias-native-003/filtered.ses"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/roller-export-alias-native-003/pristine-import.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/roller-export-alias-native-003",
+      "signal_cancellation_enabled": true,
+      "pid": 23366,
+      "name": "pristine-import"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.2382109169993782,
+      "cpu_seconds": 0.5301769999999999,
+      "max_rss_bytes": 214876160,
+      "supervisor_cpu_seconds": 0.013533999999999935,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 211877888,
+      "sampled_peak_workdir_bytes": 1178511,
+      "resource_guards": {
+        "max_group_rss_bytes": 2147483648,
+        "max_workdir_bytes": 33554432,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/roller-export-alias-native-003/candidate-refill.json",
+        "--save-board",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/roller-export-alias-native-003/saved/SparkFun_Roller_Encoder_Breakout.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/roller-export-alias-native-003/candidate-refill.log",
+      "log_bytes": 182,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/roller-export-alias-native-003",
+      "signal_cancellation_enabled": true,
+      "pid": 23367,
+      "name": "candidate-refill",
+      "validated_input_sha256": "ae62e772428315d5d4dffa958e96e5d2db20ba883b326807ffad03c78b9e4e97",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/roller-export-alias-native-003/saved/SparkFun_Roller_Encoder_Breakout.kicad_pcb"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.5141583340009674,
+      "cpu_seconds": 0.604975,
+      "max_rss_bytes": 228556800,
+      "supervisor_cpu_seconds": 0.01695000000000002,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 226983936,
+      "sampled_peak_workdir_bytes": 1588174,
+      "resource_guards": {
+        "max_group_rss_bytes": 2147483648,
+        "max_workdir_bytes": 33554432,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--schematic-parity",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/roller-export-alias-native-003/candidate-final.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/roller-export-alias-native-003/candidate-final-input/SparkFun_Roller_Encoder_Breakout.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/roller-export-alias-native-003/candidate-final.log",
+      "log_bytes": 201,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/roller-export-alias-native-003",
+      "signal_cancellation_enabled": true,
+      "pid": 23378,
+      "name": "candidate-final",
+      "validated_input_sha256": "9c3fbfaf6c23c6434312dc646ae76ae3658be4be3dd4e9f7cf39a833aa13ad24",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/roller-export-alias-native-003/candidate/input/SparkFun_Roller_Encoder_Breakout.kicad_pcb"
+    }
+  ],
+  "combined_active_wall_seconds": 29.4624596650101,
+  "combined_full_cpu_seconds": 22.444095
+}
