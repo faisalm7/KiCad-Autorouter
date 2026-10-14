@@ -28,13 +28,24 @@ RESOURCE_POLL_SECONDS = 0.25
 _RESOURCE_SCAN_SECONDS = 1.0
 
 
-def _workdir_bytes(root: Path, limit: int) -> int:
+def _workdir_bytes(root: Path, limit: int, *, max_entries: int = 100_000,
+                   max_seconds: float | None = None, count_file_symlinks: bool = False) -> int:
     """Count regular-file logical sizes without following directory symlinks.
 
+    By default ignore every symlink, preserving runner resource-guard behavior.
+    The explicit file-link option counts only regular-target metadata sizes.
     Return early after the bound is crossed: this is an observed lower bound,
     not a full size inventory. File additions/deletions can race this snapshot.
     Descriptor-relative O_NOFOLLOW also refuses a directory swapped for a link.
     """
+    if type(limit) is not int or limit < 0 or type(max_entries) is not int or max_entries <= 0:
+        raise ValueError("positive entry and nonnegative logical-byte scan bounds required")
+    if max_seconds is None:
+        max_seconds = _RESOURCE_SCAN_SECONDS
+    if (isinstance(max_seconds, bool) or not isinstance(max_seconds, (int, float))
+            or not math.isfinite(max_seconds) or max_seconds <= 0
+            or type(count_file_symlinks) is not bool):
+        raise ValueError("finite positive scan seconds and explicit file-link policy required")
     total = entries = 0
     started = time.monotonic()
     flags = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW
@@ -46,7 +57,7 @@ def _workdir_bytes(root: Path, limit: int) -> int:
         with os.scandir(directory_fd) as iterator:
             for entry in iterator:
                 entries += 1
-                if entries > 100_000 or time.monotonic() - started > _RESOURCE_SCAN_SECONDS:
+                if entries > max_entries or time.monotonic() - started > max_seconds:
                     raise RuntimeError("workdir scan exceeded time or entry bound")
                 try:
                     info = entry.stat(follow_symlinks=False)
@@ -54,6 +65,17 @@ def _workdir_bytes(root: Path, limit: int) -> int:
                     continue
                 if stat.S_ISREG(info.st_mode):
                     total += info.st_size
+                elif count_file_symlinks and stat.S_ISLNK(info.st_mode):
+                    # Metadata only: match Path.is_file()/stat logical accounting.
+                    # A target directory is never enumerated; dangling/cyclic links count zero.
+                    try:
+                        target = os.stat(entry.name, dir_fd=directory_fd, follow_symlinks=True)
+                    except OSError as exc:
+                        if exc.errno in (errno.ENOENT, errno.ENOTDIR, errno.ELOOP):
+                            continue
+                        raise
+                    if stat.S_ISREG(target.st_mode):
+                        total += target.st_size
                 elif stat.S_ISDIR(info.st_mode):
                     try:
                         child_fd = os.open(entry.name, flags, dir_fd=directory_fd)

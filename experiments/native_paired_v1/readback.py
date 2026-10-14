@@ -134,6 +134,7 @@ def qualify(base, prospective, output, source_receipt, source_readback):
             stable()
             assert spec['system']=='native-all' and spec['git_head']==protocol['freeze']['tools']['git_head']
             assert spec['tools']==protocol['freeze']['tools']
+            assert spec.get('external_reserve_seconds',0)==protocol.get('external_reserve_seconds',0)
             assert spec['wall_budget_per_arm_seconds']==spec['full_cpu_budget_per_arm_seconds']==120
             assert spec['source_original_native_receipt_sha256']==report['original_receipt_sha256']
             assert spec['source_original_native_readback_sha256']==report['original_readback_sha256']

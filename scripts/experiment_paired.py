@@ -182,12 +182,16 @@ def verify_thermal_incumbent(directory, result, board, frozen):
         raise p.Rejected('thermal incumbent changed during verification')
 
 
-def experiment(out, project_name='sonde', system='feedback'):
+def experiment(out, project_name='sonde', system='feedback', *, external_reserve_seconds=0):
     batch_started, batch_cpu = time.monotonic(), q.total_process_cpu()
     if system not in {'feedback','thermal','placement','placement-standard','native-all'}:
         raise p.Rejected('unknown paired system')
     placement=system in {'placement','placement-standard'}
     four_arm=placement or system=='native-all'
+    if not q.finite_nonnegative(external_reserve_seconds) or external_reserve_seconds>50:
+        raise p.Rejected('external reserve must be a finite nonboolean number from 0 through 50 seconds')
+    if external_reserve_seconds and not four_arm:
+        raise p.Rejected('external reserve is supported only for four-arm native/placement comparisons')
     c_arm = ({**C_ARM,'operation':'placement_prune','input_policy':ps.POLICY,'strategy':ps.STRATEGY} if placement else C_ARM if system in {'feedback','native-all'} else THERMAL_ARM)
     if system=='placement-standard':
         c_arm.update(engine_profile='standard',pruning_allocation=ps.STANDARD_ALLOCATION,
@@ -236,8 +240,9 @@ def experiment(out, project_name='sonde', system='feedback'):
                 'claims_limit': summary['claims_limit']}
             if four_arm:
                 protocol.update(
-                    allocation_formula='120 - max(shared setup wall, shared setup CPU) - 5; same frozen inner allowance for all four arms',
-                    wrapper_reserve_seconds=5,baseline_order=['B0stock','B1standard','B2tuned-default-low-high','Cfresh-tuned-default-feedback'])
+                    allocation_formula='120 - max(shared setup wall, shared setup CPU) - 5 - external_reserve_seconds; same frozen inner allowance for all four arms',
+                    wrapper_reserve_seconds=5,external_reserve_seconds=external_reserve_seconds,
+                    baseline_order=['B0stock','B1standard','B2tuned-default-low-high','Cfresh-tuned-default-feedback'])
                 if placement:
                     protocol.update(guidance_policy='placement-search-v1',system_contract={**c_arm,'strategy':ps.STRATEGY})
                 else:
@@ -247,8 +252,8 @@ def experiment(out, project_name='sonde', system='feedback'):
                 if system=='placement-standard':
                     protocol['baseline_order'][-1]='Cfresh-standard-max85-individual-first-reserve25-feedback'
                     protocol['pruning_allocation']=ps.STANDARD_ALLOCATION
-                protocol['inner_allowance_seconds']=BUDGET-max(time.monotonic()-batch_started,q.total_process_cpu()-batch_cpu)-5
-                if protocol['inner_allowance_seconds']<60:raise p.Rejected('shared setup leaves insufficient equal inner allowance')
+                protocol['inner_allowance_seconds']=BUDGET-max(time.monotonic()-batch_started,q.total_process_cpu()-batch_cpu)-5-external_reserve_seconds
+                if protocol['inner_allowance_seconds']<60:raise p.Rejected('shared setup and external reserve leave insufficient equal inner allowance: '+str(protocol['inner_allowance_seconds']))
             assigned=protocol.get('inner_allowance_seconds',BUDGET)
             p.save_json(out/'protocol.json', protocol)
             summary['protocol_sha256'] = p.sha(out/'protocol.json')
@@ -406,6 +411,8 @@ def main():
     parser.add_argument('--output', required=True)
     parser.add_argument('--project', choices=tuple(q.PROJECTS), default='sonde')
     parser.add_argument('--system', choices=('feedback','thermal','placement','placement-standard','native-all'), default='feedback')
+    parser.add_argument('--external-reserve-seconds',type=float,default=0,
+                        help='reserve 0..50 seconds equally outside four-arm inner work; final caps stay 120')
     args=parser.parse_args()
     lock_path=c.ROOT/'.runs/quality-experiment.lock';lock_path.parent.mkdir(exist_ok=True)
     if lock_path.is_symlink():parser.error('experiment lock must not be a symlink')
@@ -414,7 +421,7 @@ def main():
     try:
         with lock_path.open('a') as lock:
             fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
-            result=experiment(Path(args.output),args.project,args.system)
+            result=experiment(Path(args.output),args.project,args.system,external_reserve_seconds=args.external_reserve_seconds)
         print(json.dumps({'status':result['status'],'summary':str(Path(args.output)/'paired-summary.json')}))
         return 0 if result['status']=='completed' else 2
     finally:

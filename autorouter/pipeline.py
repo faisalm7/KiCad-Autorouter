@@ -21,7 +21,7 @@ import subprocess
 import time
 from types import FunctionType, MappingProxyType
 from . import config as c, sexpr as sx
-from .runner import run
+from .runner import run, _workdir_bytes
 
 ROUTES={'segment','via','arc'}
 DERIVED_ZONE={'filled_polygon','fill_segments'}
@@ -57,13 +57,22 @@ def tree_hash(root):
     return result
 
 def check_storage():
-    total=0
+    # Fresh full accepted-state scan: no cache or omitted retained evidence.
+    limit=10*1024**3; total=0; deadline=time.monotonic()+15.0
     for directory in ['.data','.tools','.runs']:
+        remaining=deadline-time.monotonic()
+        if remaining<=0:raise Rejected('project cache/data size scan exceeded time bound')
         root=c.ROOT/directory
-        for p in root.rglob('*'):
-            if p.is_file(): total+=p.stat().st_size
-    if total>10*1024**3: raise Rejected('10 GiB project cache/data ceiling exceeded')
-    if shutil.disk_usage(c.ROOT).free<2*1024**3: raise Rejected('less than 2 GiB disk headroom')
+        try:
+            try:os.lstat(root)
+            except FileNotFoundError:continue  # Only an initially absent top-level scope.
+            total+=_workdir_bytes(root,limit-total,max_entries=500_000,
+                                 max_seconds=remaining,count_file_symlinks=True)
+        except (OSError,RuntimeError) as exc:
+            raise Rejected('project cache/data size scan failed: '+str(exc)) from exc
+        if total>limit:raise Rejected('10 GiB project cache/data ceiling exceeded')
+    if time.monotonic()>deadline:raise Rejected('project cache/data size scan exceeded time bound')
+    if shutil.disk_usage(c.ROOT).free<2*1024**3:raise Rejected('less than 2 GiB disk headroom')
     return total
 
 def immutable(tree):

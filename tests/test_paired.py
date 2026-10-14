@@ -239,6 +239,7 @@ class PairedControls(unittest.TestCase):
         protocol=json.loads((self.out/'protocol.json').read_text())
         self.assertEqual(protocol['arm_order'],self.calls)
         self.assertEqual(protocol['inner_allowance_seconds'],104.)
+        self.assertEqual(protocol['external_reserve_seconds'],0)
         self.assertEqual(protocol['system_contract'],m.C_ARM)
         self.assertIsNone(protocol['guidance_policy'])
         self.assertNotIn('pruning_allocation',protocol)
@@ -248,6 +249,78 @@ class PairedControls(unittest.TestCase):
         self.assertEqual(result['shared_overhead_wall_seconds'],13.)
         self.assertEqual(result['shared_overhead_cpu_seconds'],11.)
         self.assertTrue(all(row['accepted'] for row in result['results']))
+
+    def test_external_reserve_frozen_equally_before_all_four_native_arms(self):
+        with self.native_four():result=m.experiment(self.out,system='native-all',external_reserve_seconds=40)
+        self.assertEqual(self.calls,['B0','B1','B2_portfolio','C_feedback'])
+        self.assertEqual(self.native_assignments,[64.]*4)
+        protocol=json.loads((self.out/'protocol.json').read_text())
+        self.assertEqual(protocol['external_reserve_seconds'],40)
+        self.assertEqual(protocol['wrapper_reserve_seconds'],5)
+        self.assertEqual(protocol['inner_allowance_seconds'],64.)
+        self.assertIn('- 5 - external_reserve_seconds',protocol['allocation_formula'])
+        self.assertEqual((protocol['wall_budget_per_arm_seconds'],protocol['cpu_budget_per_arm_seconds']),(120.,120.))
+        self.assertEqual(protocol['baseline_order'],['B0stock','B1standard','B2tuned-default-low-high','Cfresh-tuned-default-feedback'])
+        self.assertEqual([row['charged_wall_seconds'] for row in result['results']],[33.]*4)
+        self.assertEqual([row['charged_cpu_seconds'] for row in result['results']],[31.]*4)
+        self.assertTrue(all(row['accepted'] for row in result['results']))
+
+    def test_external_reserve_placement_modes_keep_guidance_and_equal_four_arm_allocation(self):
+        for system in ('placement','placement-standard'):
+            with self.subTest(system=system):
+                self.wall=self.cpu=0.;calls=[];self.out=self.root/'.runs'/system
+                @contextmanager
+                def session():
+                    self.wall+=1.;self.cpu+=1.
+                    try:yield
+                    finally:self.wall+=2.;self.cpu+=2.
+                def outcome(directory,seconds):
+                    directory.mkdir();(directory/'evidence.txt').write_text(directory.name)
+                    self.wall+=20.;self.cpu+=20.;calls.append((directory.name,seconds))
+                    return {'tools':{'git_head':'synthetic'},'source_hashes':{},'status':'routing_accepted','accepted':True,'steps':[]}
+                def route(board,directory,seconds,*args,**kwargs):
+                    if directory.name=='B1':self.assertEqual(kwargs,{'guidance_policy':'placement-search-v1'})
+                    return outcome(directory,seconds)
+                def prune(board,directory,seconds,**kwargs):
+                    self.assertEqual(kwargs,{'allocation':m.ps.STANDARD_ALLOCATION} if system=='placement-standard' else {})
+                    return outcome(directory,seconds)
+                def portfolio(directory,project,**kwargs):
+                    self.assertEqual(kwargs,{'guidance_policy':'placement-search-v1','budget':64.})
+                    outcome(directory,kwargs['budget'])
+                    return {'id':'B2_portfolio','status':'completed','accepted':True,'selected':{'id':'via_default'},
+                        'pareto_frontier':['via_default'],'trials':[{'id':'via_default','vias':2,'length_mm':800.,'guidance_policy':'placement-search-v1'}],
+                        'guidance_policy':'placement-search-v1','wall_budget_seconds':kwargs['budget'],'cpu_budget_seconds':kwargs['budget']}
+                def summarize(arm,*args):return {'id':arm['id'],'status':'routing_accepted','accepted':True,'vias':2,'length_mm':800.}
+                with patch.object(m.p,'validation_readback_session',session),patch.object(m.p,'route',route),patch.object(m.f,'route',route),\
+                     patch.object(m.ps,'prune',prune),patch.object(m.portfolio,'experiment',portfolio),patch.object(m.q,'summarize',summarize):
+                    result=m.experiment(self.out,project_name='multichannel',system=system,external_reserve_seconds=40)
+                self.assertEqual(calls,[('B0',64.),('B1',64.),('B2_portfolio',64.),('C_feedback',64.)])
+                self.assertEqual(result['status'],'completed')
+                protocol=json.loads((self.out/'protocol.json').read_text())
+                self.assertEqual(protocol['guidance_policy'],'placement-search-v1');self.assertEqual(protocol['external_reserve_seconds'],40)
+
+    def test_external_reserve_invalid_or_legacy_rejected_before_any_output_or_worker(self):
+        for reserve in (True,False,float('nan'),float('inf'),-1,50.0001,None,'40'):
+            with self.subTest(reserve=reserve),self.assertRaisesRegex(m.p.Rejected,'finite nonboolean'):
+                m.experiment(self.out,system='native-all',external_reserve_seconds=reserve)
+            self.assertFalse(self.out.exists());self.assertEqual(self.calls,[])
+        for system in ('feedback','thermal'):
+            with self.subTest(system=system),self.assertRaisesRegex(m.p.Rejected,'only for four-arm'):
+                m.experiment(self.out,system=system,external_reserve_seconds=40)
+            self.assertFalse(self.out.exists());self.assertEqual(self.calls,[])
+
+    def test_external_reserve_insufficient_inner_budget_fails_without_native_arms(self):
+        with self.native_four():result=m.experiment(self.out,system='native-all',external_reserve_seconds=50)
+        self.assertEqual(result['status'],'invalidated');self.assertEqual(result['results'],[])
+        self.assertIn('insufficient equal inner allowance: 54.0',result['reason'])
+        self.assertEqual(self.native_assignments,[]);self.assertEqual(self.calls,[])
+        self.assertEqual(result['comparisons'],[])
+
+    def test_external_reserve_cli_passes_keyword_to_fresh_protocol_operation(self):
+        with patch.object(m.sys,'argv',['experiment_paired.py','--output',str(self.out),'--system','native-all','--external-reserve-seconds','40']),\
+             patch.object(m,'experiment',return_value={'status':'completed'}) as experiment:
+            self.assertEqual(m.main(),0)
+        experiment.assert_called_once_with(self.out,'sonde','native-all',external_reserve_seconds=40.)
 
     def test_native_all_zero_zone_no_proposals_and_ties_remain_explicit(self):
         with self.native_four():result=m.experiment(self.out,system='native-all')

@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "draft_only": true,
+  "created_utc": "2026-10-14T04:54:05.504414+00:00",
+  "source_before": {
+    "autorouter/runner.py": {
+      "bytes": 21145,
+      "sha256": "0e81ab1badf20cd84adc2fed586641dd97a489a5a6af03febe6fb597bb1d2718"
+    },
+    "autorouter/pipeline.py": {
+      "bytes": 100060,
+      "sha256": "d949f1fabfcfbcd4c27c64cfc897ca5f17d7e0931b96aed846eb7a702fdc46e0"
+    }
+  },
+  "proposed_after": {
+    "autorouter/runner.py": {
+      "bytes": 22644,
+      "sha256": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e"
+    },
+    "autorouter/pipeline.py": {
+      "bytes": 100769,
+      "sha256": "5f593d60ac3a83a3ab98a9d742625cd5a38aa754aa5cc974a73d3d5efc6816fe"
+    }
+  },
+  "core_modified": false,
+  "syntax_parse_passed": true,
+  "native_executed": false,
+  "new_filesystem_or_performance_experiment_executed": false,
+  "fixed_storage_scope": [
+    ".data",
+    ".tools",
+    ".runs"
+  ],
+  "storage_logical_ceiling_bytes": 10737418240,
+  "free_space_minimum_bytes": 2147483648,
+  "runner_default_bounds": {
+    "max_entries": 100000,
+    "max_seconds": 1.0,
+    "depth": 64,
+    "count_file_symlinks": false
+  },
+  "storage_scan_bounds": {
+    "max_entries_per_scope": 500000,
+    "max_entries_total_upper_bound": 1500000,
+    "max_seconds_entire_three_scope_scan": 15.0,
+    "depth": 64,
+    "count_file_symlinks": true
+  },
+  "count_semantics": "fresh logical st_size per regular pathname, including each regular-target file symlink; hardlink multiplicity retained; directory links not enumerated; no contents read/cache/inventory exclusions",
+  "overflow_semantics": "stop as soon as observed lower bound exceeds ceiling, reject; accepted scans visit all three scope populations",
+  "races": "same mutable-snapshot additions/deletions limitations as existing resource scanner; O_NOFOLLOW directory opens prevent replacement-link traversal; no atomic snapshot or hostile writer guarantee",
+  "performance_claim": "None. Lead profiles actual old/new full scans and charges all scan CPU/wall to each future arm. Existing budget-rejected ArcDice result remains rejected.",
+  "missing_scope_semantics": "Only an initially absent top-level scope counts zero; FileNotFoundError during an existing-root scan rejects, never discards accumulated scope evidence."
+}
