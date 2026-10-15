@@ -1,0 +1,119 @@
+{
+  "schema": 1,
+  "kind": "actual-exposed-ir-fanout-false-stock-angle-pair",
+  "source_git_head": "02ce10890b92b9161756886b58a5aac7d8f2e118",
+  "raw_shared_replay_passed": true,
+  "declared_arms": 2,
+  "routing_accepted": 1,
+  "routing_rejected": 1,
+  "native_control_qualified": true,
+  "complete_delivered_charges": [
+    {
+      "angle": "stock45",
+      "wall_seconds": 95.29999999999998,
+      "full_cpu_seconds": 87.65,
+      "delivered_cap_seconds": 240,
+      "routing_accepted": true,
+      "cost_scope": "Complete actual process-exit preparation+ownarm+ENTIRE common reader for each arm; .01wall/.02CPU rounding each and2curation allowance. Failed arm retains all costs."
+    },
+    {
+      "angle": "NONE",
+      "wall_seconds": 184.37999999999997,
+      "full_cpu_seconds": 174.78,
+      "delivered_cap_seconds": 240,
+      "routing_accepted": false,
+      "cost_scope": "Complete actual process-exit preparation+ownarm+ENTIRE common reader for each arm; .01wall/.02CPU rounding each and2curation allowance. Failed arm retains all costs."
+    }
+  ],
+  "complete_native_prerequisite_charges_with_all_prior_failures_and_reader": {
+    "wall_seconds": 88.01,
+    "full_cpu_seconds": 76.53
+  },
+  "stock45": {
+    "track_length_mm": 171.72477976809168,
+    "vias": 2,
+    "native": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 42,
+      "exclusions": 0
+    },
+    "candidate_sha256": "554f9a73455109751da3463f40ec64c475e761b00f80b7c38c83c78ea260fea3",
+    "native_report_sha256": "71666713f47c71971286505afe3ff4110669cb7d21c9e386ae9ecd9c15bbe07f"
+  },
+  "NONE": {
+    "accepted": false,
+    "status": "budget_exceeded",
+    "reason": "Rejected: engine: timeout exit=-9",
+    "route_wall_seconds": 120.30798216699623,
+    "route_full_cpu_seconds": 109.63556,
+    "engine_wall_seconds": 112.50396649999311,
+    "engine_cpu_seconds": 102.65794000000001,
+    "engine_exit_code": -9,
+    "cleanup_complete": true,
+    "final_native_candidate": false,
+    "engine_log_observation": "Engine reports19\u21920unrouted in1.40s, then optimization stage begins with0opens0violations and no later progress before external timeout; not Native proof or mathematical unroutability."
+  },
+  "comparison": "Earlier exposed default-fanout45=170.232815432mm3vias; currentfalse45=171.724779768mm2vias:1.491964336mm longer and one fewer via, a tradeoff. CurrentNONEfalse still fails after optimizer start; earlierdefaultNONE failed earlier in observedfanout. Neither establishes C-beyond-B2 or global stock dominance. No C arm in this frozen pair.",
+  "native_scope": "Default1000/fullSCH, original7fileIRpacket and originalrules/42warnings/sevenignored preserved, exact whole/native/both/via_default, same120route/180worker/240delivered allowances. BOTH armsfanoutFalse/non-strict/defaultneckdown unchanged. Matrixsourceprotectedcensus0; separateownednon-strict positive/short preserves oneKEEP nonvacuously.",
+  "limitations": [
+    "One already-exposed IRcircuit; no new circuit/family/independence/untouched generalization, default promotion or quality claim from software/control counts.",
+    "Ownedcontrol002 reuses exact first001 Nativepositive (same byte-exact core/tools except fixed named earlierHEAD) and runs only the missing same-original physicalshort. Failed001 staysfailed; all prior actual external costs included once, currentreader included conservatively in full180qualification.",
+    "Reader90s reservation is a conditional upperbound; observed complete27.81wall26.41CPU governs final delivered charges with rounding. RawNONE Nativefailure remains regardless of delivered budget.",
+    "Every sampledproducer record remains partial for exact finalpublication tails; actual external process-exit logs authoritative. No source/rule/Native/engine reruns to repair reporting.",
+    "Native routing acceptance/wholeprojectDRC/human/electrical/physical remain distinct. Current installed source/GUI and broader confirmatory release gates stayopen.",
+    "All raw artifacts later than incremental8a73ba5 cutoff need current milestonebackup; owner keepsraw onMaconly."
+  ],
+  "files": {
+    "metadata.json": {
+      "sha256": "8bc753e8f73eb38a2aca43e2135523cef6cabf3ad6ae4a56d59dc25983bb7caf",
+      "bytes": 393080
+    },
+    "outcomes.json": {
+      "sha256": "674faa882f59521081b492c6c99e99016185d4880b55c26adc90b426b5fc5535",
+      "bytes": 607362
+    },
+    "shared-readback.json": {
+      "sha256": "f1e32e1a2ae64630544bcd2bdab2bc290605f2956bab77455f1a7503fbb5f875",
+      "bytes": 496977
+    }
+  },
+  "curation_allowance_actual_control": {
+    "total_wall_upper_seconds": 1.01,
+    "total_full_cpu_upper_seconds": 0.55,
+    "all_three_attempts_within_charged_two_seconds": true,
+    "failures": "First import path, then absent failed-route candidate key; metadata-only failures before output, no Native/solver/validation repeat.",
+    "actual": {
+      "curation": {
+        "time_log_sha256": "a0a7f183d4dd6e552443170655553ec2e9927b7d5abb0a8f1108393b4223eeab",
+        "external_values": {
+          "real": 0.07,
+          "user": 0.02,
+          "sys": 0.01
+        },
+        "command_log": "Traceback (most recent call last):\n  File \"/Users/faisal/Projects/KiCad-Autorouter-local/.runs/curate-fanout-ir-pair-actual-001.py\", line 3, in <module>\n    from autorouter import pipeline as p,floor_route as f\nModuleNotFoundError: No module named 'autorouter'\n",
+        "command_log_sha256": "66a02c1d2cfde45fee0450d007fa1e9b535577b5dde3d4d1f95202493574042a"
+      },
+      "curation002": {
+        "time_log_sha256": "b08aba7fa2e4317423647cf06ca34b9b186d616d3684d620aceee3d1d2042809",
+        "external_values": {
+          "real": 0.56,
+          "user": 0.15,
+          "sys": 0.08
+        },
+        "command_log": "Traceback (most recent call last):\n  File \"/Users/faisal/Projects/KiCad-Autorouter-local/.runs/curate-fanout-ir-pair-actual-002.py\", line 29, in <module>\n    none=outcomes['NONE'];assert none['route']['accepted'] is False and none['route']['candidate_sha256'] is None and none['engine_process']['status']=='timeout' and none['engine_process']['cleanup_complete'] is True\n                                                                        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^\nKeyError: 'candidate_sha256'\n",
+        "command_log_sha256": "bd36651ad4b89a61edf1c1afe0e02f9449ad4924c28c62401957bb0a0f224ac4"
+      },
+      "curation003": {
+        "time_log_sha256": "1a921ecf8842a925ddf77b44d335ef9b6e33be4a44b2be8c88c33c9f767c754c",
+        "external_values": {
+          "real": 0.35,
+          "user": 0.16,
+          "sys": 0.07
+        },
+        "command_log": "{\"complete_delivered_charges\": [{\"angle\": \"stock45\", \"wall_seconds\": 95.29999999999998, \"full_cpu_seconds\": 87.65, \"delivered_cap_seconds\": 240, \"routing_accepted\": true, \"cost_scope\": \"Complete actual process-exit preparation+ownarm+ENTIRE common reader for each arm; .01wall/.02CPU rounding each and2curation allowance. Failed arm retains all costs.\"}, {\"angle\": \"NONE\", \"wall_seconds\": 184.37999999999997, \"full_cpu_seconds\": 174.78, \"delivered_cap_seconds\": 240, \"routing_accepted\": false, \"cost_scope\": \"Complete actual process-exit preparation+ownarm+ENTIRE common reader for each arm; .01wall/.02CPU rounding each and2curation allowance. Failed arm retains all costs.\"}], \"native_charges\": {\"wall_seconds\": 88.01, \"full_cpu_seconds\": 76.53}, \"summary_sha256\": \"59cb70fc29d1478dd05f6b6e92f522e0e16362db07a34bd5a1bd27f8033632c8\"}\n",
+        "command_log_sha256": "55ce5eb89bfc34b979a266999b79a6e7d657e05ddd6d749354c510ecfffaa2fd"
+      }
+    }
+  }
+}
