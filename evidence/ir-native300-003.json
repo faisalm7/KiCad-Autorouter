@@ -1,0 +1,746 @@
+{
+  "schema": 1,
+  "kind": "actual-IR-corrected-missing-stage-cumulative300",
+  "qualified": true,
+  "source_git_head": "5064bdba980c405259828c80f7d16e2c43129169",
+  "runtime_byte_exact": "d53263880f20bbf2653f6cb8eb4a790c7bcf7fcf",
+  "protocol": {
+    "path": ".runs/ir-obstacle-corrected300-003-protocol.json",
+    "sha256": "b557a9b7e8e20ebb2fcc75cb5576da1fb9e6bd4f499ba7370ddb3dd76bd6c390"
+  },
+  "source_hashes": {
+    "IR_Sensor.kicad_pcb": "f52eca1575d9438b803a672088de98436e9a299b6014a3bbafca963974431774",
+    "IR_Sensor.kicad_pro": "0393908f5263db9c95388db7d749115280350ae4b6a7dc44afba203aea3a2f8a",
+    "IR_Sensor.kicad_sch": "fb2ead949c4005eda55d7ff8e48ff39293ad096bd9f1ca12a3c623fc62915786",
+    "_licenses/creator/LICENSE": "7a9ff699e91b9acf1cf6747e72f82fab1ec25ead316ece85e14b8043200ebb74",
+    "_licenses/creator/README.md": "1dd84f03c05e371507fda0f5c3be237eea52db5d991858e9c1f75e9327205926"
+  },
+  "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.data/ir-obstacle-demo-001/native-project/KiCad/IR_Sensor.kicad_pcb",
+  "equal_wall_full_cpu_cap_seconds": 300,
+  "algorithm_allowance_seconds": 120,
+  "whole_reader_cap_seconds": 60,
+  "rows": [
+    {
+      "id": "B0",
+      "status": "drc_rejected",
+      "accepted": false,
+      "length_mm": 122.18051924546474,
+      "vias": 1,
+      "opens": 1,
+      "blocking": 6,
+      "warnings": 42,
+      "candidate_sha256": "41e80d6078f2319ed41064fa8ec947dc5ba343c8215e0a17bfdb478a65f04691",
+      "native_report_sha256": "48931d8c9368f1d92d02d1e4a83a42db24b8b75ff3c23399584d33a9911f470a",
+      "charged_wall_seconds": 94.49850516597508,
+      "charged_cpu_seconds": 84.51844000000004,
+      "previous001_cost": {
+        "charged_wall_seconds": 52.689723334944574,
+        "charged_cpu_seconds": 42.08881100000002
+      },
+      "exclusions": 0
+    },
+    {
+      "id": "B1",
+      "status": "routing_accepted",
+      "accepted": true,
+      "length_mm": 170.2328154321993,
+      "vias": 3,
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 42,
+      "candidate_sha256": "838fa4b82f80966d3ee02a7e684d459bd44b68353c1eadf2a7331b5e97dc1328",
+      "native_report_sha256": "6978bec8b4c9ef98fcd51accdf7ecb681b607bd34e4151c32e6d7013a73e840c",
+      "charged_wall_seconds": 101.78432283399161,
+      "charged_cpu_seconds": 93.63629200000004,
+      "previous001_cost": {
+        "charged_wall_seconds": 38.921813585970085,
+        "charged_cpu_seconds": 34.38247300000002
+      },
+      "exclusions": 0
+    },
+    {
+      "id": "B2_portfolio",
+      "status": "completed",
+      "accepted": true,
+      "length_mm": 166.28712212284518,
+      "vias": 3,
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 42,
+      "candidate_sha256": "9682570acdb4363f053dc6c1ca7e25f5c07ed6398084636c8550a8b0325dd43f",
+      "native_report_sha256": "9fe8146b822eabcae1d22f8c19bc02bef165e9d228080467dccc3a655a6d0a6d",
+      "charged_wall_seconds": 162.2360495410103,
+      "charged_cpu_seconds": 154.33295700000002,
+      "exclusions": 0,
+      "previous001_cost": {
+        "charged_wall_seconds": 55.91076245997101,
+        "charged_cpu_seconds": 49.51261400000001
+      }
+    },
+    {
+      "id": "C_feedback",
+      "status": "routing_accepted",
+      "accepted": true,
+      "length_mm": 149.37563703757957,
+      "vias": 3,
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 42,
+      "candidate_sha256": "0b82a2624713b81e46f528fe1f0a92a87d4cd2ff7ca7e4dda1d8ee29213b9fe0",
+      "native_report_sha256": "f5f0964eb70260b33a3f885a5f14d7779d5f83ab380becfcd8843321fb865107",
+      "charged_wall_seconds": 200.32406383397756,
+      "charged_cpu_seconds": 179.248972,
+      "previous001_cost": {
+        "charged_wall_seconds": 42.37519166895072,
+        "charged_cpu_seconds": 37.85720800000001
+      },
+      "exclusions": 0
+    }
+  ],
+  "comparisons": [
+    {
+      "baseline_variant": "via_high",
+      "system": "C_feedback",
+      "baseline_selected": true,
+      "length_delta_mm": -16.91148508526561,
+      "via_delta": 0,
+      "C_dominates_with_1e_6mm_tolerance": true,
+      "baseline_dominates_with_1e_6mm_tolerance": false
+    },
+    {
+      "baseline": "B1",
+      "system": "C_feedback",
+      "length_delta_mm": -20.857178394619723,
+      "via_delta": 0,
+      "pareto_improvement": true
+    }
+  ],
+  "fresh_matrix_cost": {
+    "receipt": {
+      "path": ".runs/ir-obstacle-corrected-cumulative300-003/execution.json",
+      "sha256": "d53d47e2c663053f629677887780b06ae3d6c69be6a42fb65c80ba7a169f8388"
+    },
+    "wall_seconds": 204.44995141701656,
+    "full_cpu_seconds": 186.72868,
+    "publication_allowance_seconds": 2,
+    "process": {
+      "status": "success",
+      "exit_code": 0,
+      "cleanup_complete": true,
+      "log_truncated": false
+    },
+    "source_current": true
+  },
+  "independent_reader": {
+    "receipt": {
+      "path": ".runs/ir-obstacle-corrected300-readback-execution-003/execution.json",
+      "sha256": "18ed02459765dd6f5c4844e9e717f843854b36baa8753774712b873547c9b9d2"
+    },
+    "wall_seconds": 16.767857375001768,
+    "full_cpu_seconds": 16.223257,
+    "publication_allowance_seconds": 2.0,
+    "process": {
+      "status": "success",
+      "exit_code": 0,
+      "cleanup_complete": true,
+      "log_truncated": false
+    },
+    "source_current": true
+  },
+  "reader_result": {
+    "path": ".runs/ir-obstacle-corrected300-readback-003/result.json",
+    "sha256": "77c578a65b78ca12f477e6a8836775d93cf5b1c2590089c1a2df2ffd35ede478"
+  },
+  "previous_matrix": "evidence/ir-fractional-edge-source-001.json",
+  "failed_launch002": {
+    "receipt": {
+      "path": ".runs/ir-obstacle-corrected-cumulative300-002/execution.json",
+      "sha256": "aa0cc65e16b3a2711db78a02918aee7b83691a8063953ee3bb613eb85e58ffe7"
+    },
+    "wall_seconds": 0.9002939159981906,
+    "full_cpu_seconds": 0.8587669999999998,
+    "publication_allowance_seconds": 2,
+    "process": {
+      "status": "nonzero_exit",
+      "exit_code": 1,
+      "cleanup_complete": true,
+      "log_truncated": false
+    },
+    "source_current": true
+  },
+  "failed_launch_common_charge": [
+    3.9002939159981906,
+    3.858767
+  ],
+  "fractional_control_common_charge": [
+    13.40100212401012,
+    8.795964000000001
+  ],
+  "replacement_shared_cost": [
+    6.639922332018614,
+    12.410408000000018
+  ],
+  "accounting": "Each exact001 finalchargedrow +qualifiednewcontrols +ownnew invocation(B0zero) +ENTIREfreshouter minusSUM3newinvocations +failed002whole/startup1/pub2 +newouterpub2 +WHOLEfreshreader/startup1/pub2. Innerreader timing REPLACED by enclosingactual, notdoublecharged. Oldcommon/readers already inexactpriorrow. No retroactive240 rescue orspeedupclaim.",
+  "B2": {
+    "all_variants_attempted": true,
+    "attempted_variants": [
+      "via_default",
+      "via_low",
+      "via_high"
+    ],
+    "pareto_frontier": [
+      "via_high"
+    ],
+    "trials": [
+      {
+        "id": "via_default",
+        "status": "routing_accepted",
+        "eligible": true,
+        "length_mm": 170.23281543219926,
+        "vias": 3,
+        "candidate_sha256": "138c155646ba01f211fba3b1355dfc88cb2ee9de1d8e869617e7e75c9daae54b",
+        "native_report_sha256": "892bf6af121018e6b5bd10377a4062dbbaa752326da2788a1f82dde5c2a7816b",
+        "reason": null
+      },
+      {
+        "id": "via_low",
+        "status": "routing_accepted",
+        "eligible": true,
+        "length_mm": 169.19486019105528,
+        "vias": 3,
+        "candidate_sha256": "af2013d95499757e63a0899158b8926da14d0ec5eb6420804bc18bc1b83428c7",
+        "native_report_sha256": "b28ce32c424c26b887a028740566d62d03d505f32d3a9b3ac46f501d4fe7d872",
+        "reason": null
+      },
+      {
+        "id": "via_high",
+        "status": "routing_accepted",
+        "eligible": true,
+        "length_mm": 166.28712212284518,
+        "vias": 3,
+        "candidate_sha256": "9682570acdb4363f053dc6c1ca7e25f5c07ed6398084636c8550a8b0325dd43f",
+        "native_report_sha256": "9fe8146b822eabcae1d22f8c19bc02bef165e9d228080467dccc3a655a6d0a6d",
+        "reason": null
+      }
+    ]
+  },
+  "C": {
+    "own_fresh_incumbent": true,
+    "metrics": {
+      "version": "10.0.0",
+      "pads": 30,
+      "footprints": 12,
+      "zones": 1,
+      "vias": 3,
+      "track_length_mm": 149.37563703757957,
+      "copper_layers": 2
+    },
+    "improvements": 6,
+    "trial_count": 11,
+    "trials": [
+      {
+        "id": "trial-0000",
+        "status": "drc_rejected",
+        "accepted": false,
+        "reason": null,
+        "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-obstacle-corrected-cumulative300-003/feedback/C_feedback/trials/trial-0000/result.json",
+        "actual_receipt": {
+          "path": ".runs/ir-obstacle-corrected-cumulative300-003/feedback/C_feedback/trials/trial-0000/result.json",
+          "sha256": "a70315a1cce4be3bf2e1f1582f08cf7555c8a1bf0ccb0886467a0455ab888481"
+        },
+        "native_counts": {
+          "opens": 1,
+          "blocking": 0,
+          "warnings": 42,
+          "exclusions": 0
+        },
+        "actual_reason": null,
+        "worker_outcomes": []
+      },
+      {
+        "id": "trial-0001",
+        "status": "drc_rejected",
+        "accepted": false,
+        "reason": null,
+        "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-obstacle-corrected-cumulative300-003/feedback/C_feedback/trials/trial-0001/result.json"
+      },
+      {
+        "id": "trial-0002",
+        "status": "drc_rejected",
+        "accepted": false,
+        "reason": null,
+        "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-obstacle-corrected-cumulative300-003/feedback/C_feedback/trials/trial-0002/result.json"
+      },
+      {
+        "id": "trial-0003",
+        "status": "improvement_validated",
+        "accepted": true,
+        "reason": null,
+        "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-obstacle-corrected-cumulative300-003/feedback/C_feedback/trials/trial-0003/result.json"
+      },
+      {
+        "id": "trial-0004",
+        "status": "improvement_validated",
+        "accepted": true,
+        "reason": null,
+        "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-obstacle-corrected-cumulative300-003/feedback/C_feedback/trials/trial-0004/result.json"
+      },
+      {
+        "id": "trial-0005",
+        "status": "quality_rejected",
+        "accepted": false,
+        "reason": null,
+        "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-obstacle-corrected-cumulative300-003/feedback/C_feedback/trials/trial-0005/result.json",
+        "actual_receipt": {
+          "path": ".runs/ir-obstacle-corrected-cumulative300-003/feedback/C_feedback/trials/trial-0005/result.json",
+          "sha256": "5c00d2677117a41728c3f0d0bf64e45dffe85ba47dfff4b85f3843fbb9b407c4"
+        },
+        "native_counts": {
+          "opens": 0,
+          "blocking": 0,
+          "warnings": 43,
+          "exclusions": 0
+        },
+        "actual_reason": null,
+        "worker_outcomes": []
+      },
+      {
+        "id": "trial-0006",
+        "status": "improvement_validated",
+        "accepted": true,
+        "reason": null,
+        "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-obstacle-corrected-cumulative300-003/feedback/C_feedback/trials/trial-0006/result.json"
+      },
+      {
+        "id": "trial-0007",
+        "status": "improvement_validated",
+        "accepted": true,
+        "reason": null,
+        "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-obstacle-corrected-cumulative300-003/feedback/C_feedback/trials/trial-0007/result.json"
+      },
+      {
+        "id": "trial-0008",
+        "status": "improvement_validated",
+        "accepted": true,
+        "reason": null,
+        "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-obstacle-corrected-cumulative300-003/feedback/C_feedback/trials/trial-0008/result.json"
+      },
+      {
+        "id": "trial-0009",
+        "status": "improvement_validated",
+        "accepted": true,
+        "reason": null,
+        "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-obstacle-corrected-cumulative300-003/feedback/C_feedback/trials/trial-0009/result.json"
+      },
+      {
+        "id": "trial-0010",
+        "status": "rejected",
+        "accepted": false,
+        "reason": null,
+        "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-obstacle-corrected-cumulative300-003/feedback/C_feedback/trials/trial-0010/result.json",
+        "actual_receipt": {
+          "path": ".runs/ir-obstacle-corrected-cumulative300-003/feedback/C_feedback/trials/trial-0010/result.json",
+          "sha256": "5083a9b49dad155acfd23b1be44e9c74149da546ff8219fcdb5d3d865d31e2ed"
+        },
+        "native_counts": {
+          "opens": null,
+          "blocking": null,
+          "warnings": null,
+          "exclusions": null
+        },
+        "actual_reason": "Rejected: final-drc: timeout exit=-15",
+        "worker_outcomes": [
+          {
+            "name": "final-drc",
+            "status": "timeout",
+            "exit_code": -15,
+            "cleanup_complete": true
+          }
+        ]
+      }
+    ]
+  },
+  "actual_final_candidates": [
+    {
+      "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-obstacle-corrected-cumulative300-003/B1/result.json",
+      "accepted": true,
+      "candidate_sha256": "838fa4b82f80966d3ee02a7e684d459bd44b68353c1eadf2a7331b5e97dc1328",
+      "native_report_sha256": "6978bec8b4c9ef98fcd51accdf7ecb681b607bd34e4151c32e6d7013a73e840c",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 42,
+        "exclusions": 0
+      },
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 30,
+        "footprints": 12,
+        "zones": 1,
+        "vias": 3,
+        "track_length_mm": 170.2328154321993,
+        "copper_layers": 2
+      },
+      "original_design_checks": true,
+      "resource_failure": null
+    },
+    {
+      "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-obstacle-corrected-cumulative300-003/feedback/B2_portfolio/01-via_default/result.json",
+      "accepted": true,
+      "candidate_sha256": "138c155646ba01f211fba3b1355dfc88cb2ee9de1d8e869617e7e75c9daae54b",
+      "native_report_sha256": "892bf6af121018e6b5bd10377a4062dbbaa752326da2788a1f82dde5c2a7816b",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 42,
+        "exclusions": 0
+      },
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 30,
+        "footprints": 12,
+        "zones": 1,
+        "vias": 3,
+        "track_length_mm": 170.23281543219926,
+        "copper_layers": 2
+      },
+      "original_design_checks": true,
+      "resource_failure": null
+    },
+    {
+      "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-obstacle-corrected-cumulative300-003/feedback/B2_portfolio/02-via_low/result.json",
+      "accepted": true,
+      "candidate_sha256": "af2013d95499757e63a0899158b8926da14d0ec5eb6420804bc18bc1b83428c7",
+      "native_report_sha256": "b28ce32c424c26b887a028740566d62d03d505f32d3a9b3ac46f501d4fe7d872",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 42,
+        "exclusions": 0
+      },
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 30,
+        "footprints": 12,
+        "zones": 1,
+        "vias": 3,
+        "track_length_mm": 169.19486019105528,
+        "copper_layers": 2
+      },
+      "original_design_checks": true,
+      "resource_failure": null
+    },
+    {
+      "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-obstacle-corrected-cumulative300-003/feedback/B2_portfolio/03-via_high/result.json",
+      "accepted": true,
+      "candidate_sha256": "9682570acdb4363f053dc6c1ca7e25f5c07ed6398084636c8550a8b0325dd43f",
+      "native_report_sha256": "9fe8146b822eabcae1d22f8c19bc02bef165e9d228080467dccc3a655a6d0a6d",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 42,
+        "exclusions": 0
+      },
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 30,
+        "footprints": 12,
+        "zones": 1,
+        "vias": 3,
+        "track_length_mm": 166.28712212284518,
+        "copper_layers": 2
+      },
+      "original_design_checks": true,
+      "resource_failure": null
+    },
+    {
+      "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-obstacle-corrected-cumulative300-003/feedback/C_feedback/result.json",
+      "accepted": true,
+      "candidate_sha256": "0b82a2624713b81e46f528fe1f0a92a87d4cd2ff7ca7e4dda1d8ee29213b9fe0",
+      "native_report_sha256": "f5f0964eb70260b33a3f885a5f14d7779d5f83ab380becfcd8843321fb865107",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 42,
+        "exclusions": 0
+      },
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 30,
+        "footprints": 12,
+        "zones": 1,
+        "vias": 3,
+        "track_length_mm": 149.37563703757957,
+        "copper_layers": 2
+      },
+      "original_design_checks": true,
+      "resource_failure": null
+    },
+    {
+      "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-obstacle-corrected-cumulative300-003/feedback/C_feedback/incumbent/result.json",
+      "accepted": true,
+      "candidate_sha256": "104c45a3bef6b0656324d62efa50652753c3c7367617d134fc36844c0dfdf890",
+      "native_report_sha256": "bf919cdeff1b39bdcd6722da0fca85c5820c116fa20fdfa4d19042f92a63699a",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 42,
+        "exclusions": 0
+      },
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 30,
+        "footprints": 12,
+        "zones": 1,
+        "vias": 3,
+        "track_length_mm": 170.2328154321993,
+        "copper_layers": 2
+      },
+      "original_design_checks": true,
+      "resource_failure": null
+    },
+    {
+      "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-obstacle-corrected-cumulative300-003/feedback/C_feedback/trials/trial-0000/result.json",
+      "accepted": false,
+      "candidate_sha256": "852756b4a68638361514b54a88f567f517b13a116d871860d3e9b16cc1680202",
+      "native_report_sha256": "64d1bd678c02bdc308bead13312c8d99ca811db4e9caa52d20152d60c77f037f",
+      "native": {
+        "opens": 1,
+        "blocking": 0,
+        "warnings": 42,
+        "exclusions": 0
+      },
+      "metrics": null,
+      "original_design_checks": true,
+      "resource_failure": null
+    },
+    {
+      "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-obstacle-corrected-cumulative300-003/feedback/C_feedback/trials/trial-0001/result.json",
+      "accepted": false,
+      "candidate_sha256": "d3ebadfd0ae1b2751a315942aaac59b1085d8736c0717a6769c50baaf6e79e53",
+      "native_report_sha256": "fec37d912c34715defa013c3417829ef6f3d585a52145da760c02fb83d5305ee",
+      "native": {
+        "opens": 1,
+        "blocking": 0,
+        "warnings": 44,
+        "exclusions": 0
+      },
+      "metrics": null,
+      "original_design_checks": true,
+      "resource_failure": null
+    },
+    {
+      "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-obstacle-corrected-cumulative300-003/feedback/C_feedback/trials/trial-0002/result.json",
+      "accepted": false,
+      "candidate_sha256": "ddb51785fbfeb05ce366ddb45e1f0050a969c25aacec4092f577bbee3ec338d8",
+      "native_report_sha256": "d84e68e9c04c31474539d3ccdecb4359f828e7f63af21d9b1bf3de026af42520",
+      "native": {
+        "opens": 1,
+        "blocking": 0,
+        "warnings": 43,
+        "exclusions": 0
+      },
+      "metrics": null,
+      "original_design_checks": true,
+      "resource_failure": null
+    },
+    {
+      "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-obstacle-corrected-cumulative300-003/feedback/C_feedback/trials/trial-0003/result.json",
+      "accepted": true,
+      "candidate_sha256": "03e213c52df09da94c6ce6616ceec04e98dc3593f8ca117093b16cea3bfa3d89",
+      "native_report_sha256": "ac6342b6a9d1380a74351449ff0335dc92e0291d80b92847d5edcf99ab2c3eb8",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 42,
+        "exclusions": 0
+      },
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 30,
+        "footprints": 12,
+        "zones": 1,
+        "vias": 3,
+        "track_length_mm": 166.27697725552923,
+        "copper_layers": 2
+      },
+      "original_design_checks": true,
+      "resource_failure": null
+    },
+    {
+      "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-obstacle-corrected-cumulative300-003/feedback/C_feedback/trials/trial-0004/result.json",
+      "accepted": true,
+      "candidate_sha256": "6c10e1299f115a09bbd5defa742741e0bfee7bd41d35c93706fe3e0f0ff5c77a",
+      "native_report_sha256": "b35b4027fb1742bd33a70693f8ddb42958bbea764478492f31066da88fbab507",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 42,
+        "exclusions": 0
+      },
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 30,
+        "footprints": 12,
+        "zones": 1,
+        "vias": 3,
+        "track_length_mm": 162.40697725552926,
+        "copper_layers": 2
+      },
+      "original_design_checks": true,
+      "resource_failure": null
+    },
+    {
+      "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-obstacle-corrected-cumulative300-003/feedback/C_feedback/trials/trial-0005/result.json",
+      "accepted": false,
+      "candidate_sha256": "7e366c0e1c539a32bdbf63bd4116a8761a8ba8a44ec1330cf76385915e0ba425",
+      "native_report_sha256": "b9f7d69a1a94e69abffc53b43c9d56832577d0f15e5f238a40609affe0262c34",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 43,
+        "exclusions": 0
+      },
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 30,
+        "footprints": 12,
+        "zones": 1,
+        "vias": 3,
+        "track_length_mm": 159.10447725552925,
+        "copper_layers": 2
+      },
+      "original_design_checks": true,
+      "resource_failure": null
+    },
+    {
+      "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-obstacle-corrected-cumulative300-003/feedback/C_feedback/trials/trial-0006/result.json",
+      "accepted": true,
+      "candidate_sha256": "7fc2394fd28fc6aefe63527659332cf285ee5fbe28d6709ab587ed58a92511df",
+      "native_report_sha256": "9056a599726da235779a9295c73740a8362d0a5005b7508f91477f91fa7ab022",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 42,
+        "exclusions": 0
+      },
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 30,
+        "footprints": 12,
+        "zones": 1,
+        "vias": 3,
+        "track_length_mm": 157.9766419395367,
+        "copper_layers": 2
+      },
+      "original_design_checks": true,
+      "resource_failure": null
+    },
+    {
+      "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-obstacle-corrected-cumulative300-003/feedback/C_feedback/trials/trial-0007/result.json",
+      "accepted": true,
+      "candidate_sha256": "0dab83ac55900276251a5f78332e1031efc4118285d02e1e2062eb6c06ba0745",
+      "native_report_sha256": "44b7df365679175f77d4da8c30604a57e7c8e5303ca430fec1b2784911fc4aca",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 42,
+        "exclusions": 0
+      },
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 30,
+        "footprints": 12,
+        "zones": 1,
+        "vias": 3,
+        "track_length_mm": 154.71263703757955,
+        "copper_layers": 2
+      },
+      "original_design_checks": true,
+      "resource_failure": null
+    },
+    {
+      "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-obstacle-corrected-cumulative300-003/feedback/C_feedback/trials/trial-0008/result.json",
+      "accepted": true,
+      "candidate_sha256": "a2abbdd96314d653a16abb21ccd50b9fbf5767e29a5e83c5be539c75bebcf71c",
+      "native_report_sha256": "14b97be204784284591caf13265bd9c010b6a74e212e5fb4bde8c962e4b0aa6a",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 42,
+        "exclusions": 0
+      },
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 30,
+        "footprints": 12,
+        "zones": 1,
+        "vias": 3,
+        "track_length_mm": 151.87563703757957,
+        "copper_layers": 2
+      },
+      "original_design_checks": true,
+      "resource_failure": null
+    },
+    {
+      "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-obstacle-corrected-cumulative300-003/feedback/C_feedback/trials/trial-0009/result.json",
+      "accepted": true,
+      "candidate_sha256": "0b82a2624713b81e46f528fe1f0a92a87d4cd2ff7ca7e4dda1d8ee29213b9fe0",
+      "native_report_sha256": "60a7e16c50d2f7d173f406af762621eb7d4d15d6d96148a9cb0c3f2b5a4461f7",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 42,
+        "exclusions": 0
+      },
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 30,
+        "footprints": 12,
+        "zones": 1,
+        "vias": 3,
+        "track_length_mm": 149.37563703757957,
+        "copper_layers": 2
+      },
+      "original_design_checks": true,
+      "resource_failure": null
+    }
+  ],
+  "engineering_costs": {
+    "IR_source_research002": {
+      "whole_wall_seconds": 197.97749304771423,
+      "declared_cap_seconds": 180,
+      "passed": false,
+      "full_cpu_seconds": null
+    },
+    "distinct_new_source_lead003": {
+      "recorded_assembly_wall_seconds": 121.24151086807251,
+      "with_conservative_prestart_wall_seconds": 136.2415108680725,
+      "declared_cap_seconds": 120,
+      "passed": false,
+      "full_cpu_seconds": null,
+      "record": ".runs/normal-alias-continuation-support-001/one-next-conventional-source-lead-003/findings.json"
+    },
+    "preparation_failures": [
+      "Original fieldgate002 fixture lookup and continuation prep003 SyntaxError have uncaptured engineering timing; never treated as zero CPU.",
+      "Integration prep004 first final schema assertion used nonexistent original.native instead of parity_native after contract/stable returned; no Native/engine/old semantic reader; timing uncaptured."
+    ],
+    "scope": "Development/source research and preparation are disclosed separately from prospective method delivery; no all-development-compute or speedup claim. Exact original/common/readers already included in per-arm priorchargedrows. Actual failed routing launch002 is additionally charged to EACH delivered arm, exact whole0.9002939159981906wall/.8587669999999998CPU plusstartup1/pub2; no Native or engine began."
+  },
+  "limits": [
+    "Eighth exposed circuit improvement beyondfixedcorrected/tunedconfigurations; zeroestablishedindependentpedigrees andnountouchedconfirmation. NotbestpossibleFreerouting orpopulationcompletionclaim.",
+    "B0 isretained001rawDSN-safetywrapper outcome, notfresh/untouchedstock workflow;1open6blocking remainsfalse. B1completiongain overB0 measuresadapter support; onlyB1/B2versusC measurespruning.",
+    "Allacceptedfinals0opens0blocking42warnings0exclusions,sevenoriginalignoredchecks/fullSCH/geometry/rules500umedge preserved. Wholeprojectnotclean; no electrical/physical/humanapproval.",
+    "Ctrial0005shorter159.104477mm isquality_rejected andnotadopted; trial0010finalizationreject remains. EveryactualfinalcandidateNative/originalcheck retained.",
+    "Developmentresearch/preparation uncertaintydisclosed separately; noall-development-compute orspeedupclaim. Rawlogs/boards/toolbinaries remainlocalexcluded; newrawafterc0incrementalcutoff.",
+    "Trial0000wholeGNDdeletion has1open;0005hasnewtrack_dangling warning43andisnotadopted;0010finalDRCtimedout. Rejectionsarenotwholefinalnativepasses. Cfinal42warningincumbentremainsvalid."
+  ],
+  "worker_validation_entries": 163,
+  "distinct_worker_receipts": 104,
+  "worker_count_scope": "104distinct(cwd,name) actualprocessreceipts, replayed163validationentries throughCparent/incumbent/trials. Not163uniqueNativeexecutions.",
+  "skeptical_outcome_review": {
+    "path": ".runs/normal-alias-continuation-support-001/ir-native003-outcome-review-001/findings.json",
+    "sha256": "77dc2c9e801cfe3dac3a13bead4a40f6d8d5b928fa622b9e66a623dfbd5245d4",
+    "scope": "Exactarithmetic/claims and selected rejectedtrial inspection only; no duplicate semanticreader/Native. Worker-count correction applied; no externalhumanreview."
+  }
+}

@@ -1,0 +1,414 @@
+{
+  "schema": 1,
+  "kind": "actual-IR-current-workflow-and-GUI",
+  "qualified": true,
+  "source_git_head": "5064bdba980c405259828c80f7d16e2c43129169",
+  "new_routing_executed": false,
+  "human_pcb_approval_observed": false,
+  "live_application_qualified": false,
+  "workflow": {
+    "path": ".runs/review-export-native-ir-C-001/result.json",
+    "sha256": "797ea5f30b2d3ccf7ef7ac56df50476998c6392a9a706faade9fa4aaa6f144a4"
+  },
+  "workflow_cost": {
+    "receipt": {
+      "path": ".runs/ir-review-export-execution-001/execution.json",
+      "sha256": "874f8d0f903a9eeb5bf77ce77931c4eb43096ddfd1ddb5d99315e6f23bbdf144"
+    },
+    "wall_seconds": 41.05304583400721,
+    "full_cpu_seconds": 36.973884,
+    "publication_allowance_seconds": 2,
+    "process": {
+      "status": "success",
+      "exit_code": 0,
+      "cleanup_complete": true,
+      "log_truncated": false
+    },
+    "source_current": true
+  },
+  "independent_reader": {
+    "receipt": {
+      "path": ".runs/ir-workflow001-readback-execution-001/execution.json",
+      "sha256": "41ac71ffe2331d3f97f340bed49e966af6a0923a24385b0d3a8533da7a37f84a"
+    },
+    "wall_seconds": 6.166592042020056,
+    "full_cpu_seconds": 5.897849,
+    "publication_allowance_seconds": 2,
+    "process": {
+      "status": "success",
+      "exit_code": 0,
+      "cleanup_complete": true,
+      "log_truncated": false
+    },
+    "source_current": true
+  },
+  "reader": {
+    "path": ".runs/ir-workflow001-readback-001/result.json",
+    "sha256": "a61029dda34d633c47cf0ea91094b6611be4024fa7c48b87acf636e3098362e8"
+  },
+  "preview_and_intents": {
+    "four_native_plots": [
+      {
+        "name": "before-F.Cu",
+        "process_sha256": "23d5c4f9ddc0171963843591a0529ec912683b6e4741abc2385fb93f98df5aa2",
+        "native_svg_sha256": "37f9357eda13be60e673e4338da552260fbab0d0584dcb2b55affdf57752427f"
+      },
+      {
+        "name": "after-F.Cu",
+        "process_sha256": "ad138fe07ae967d472871c4f0e755d30c3723e61beb7e3393fd7be538845829d",
+        "native_svg_sha256": "a70b29cbed8df1e33794b45cbb07a6493e81f7128ae88f5f081a5eb85964cddd"
+      },
+      {
+        "name": "before-B.Cu",
+        "process_sha256": "333810444de169a40960394f03f9e42fdb560d4c8ba96bfcced99b9f57d8cc06",
+        "native_svg_sha256": "39e5aff4961555db78216c829cea30a97312994836e95ebd0b1be17844da66b5"
+      },
+      {
+        "name": "after-B.Cu",
+        "process_sha256": "5af269b8ee12ace776a62100900e32cd78eb35e5a7f4983ed6b78cc0f8ce8c6a",
+        "native_svg_sha256": "e05a533a8f7ece80ffe7c04ef1294fd6eee012d3b89e5ecbb64be51f00c8f376"
+      }
+    ],
+    "accept_test_intent": true,
+    "reject_test_intent": true
+  },
+  "fresh_export": {
+    "proof": {
+      "path": ".runs/review-export-native-ir-C-001/retained/export/export.json",
+      "sha256": "34cbc9b03502f18df3ecbb10f2ea2ae83049ee901ec235ac4ac6832c7e5c55d9"
+    },
+    "candidate_sha256": "0b82a2624713b81e46f528fe1f0a92a87d4cd2ff7ca7e4dda1d8ee29213b9fe0",
+    "native_report_sha256": "543e45f214e2cea074901eb3ee344ab7ec7946193bfd0502d31a9abc10070f85",
+    "counts": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 42,
+      "exclusions": 0
+    },
+    "metrics": {
+      "version": "10.0.0",
+      "pads": 30,
+      "footprints": 12,
+      "zones": 1,
+      "vias": 3,
+      "track_length_mm": 149.37563703757957,
+      "copper_layers": 2
+    },
+    "project_file": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-export-native-ir-C-001/retained/export/validation/candidate/IR_Sensor.kicad_pro"
+  },
+  "GUI": {
+    "schema": 1,
+    "kind": "actual-Mac-KiCad-IR-export-GUI-v1",
+    "observed_utc": "2026-10-15T05:57:07.367737+00:00",
+    "gui_observation_completed": true,
+    "human_pcb_approval_observed": false,
+    "physical_electrical_validation": false,
+    "live_application_qualified": false,
+    "before_sha256": "5d3e7b9f8418d25fe5db0f28113ed9a3fe34965c7f5fa801612f75c96348c5f0",
+    "export_proof": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-export-native-ir-C-001/retained/export/export.json",
+    "export_proof_sha256": "34cbc9b03502f18df3ecbb10f2ea2ae83049ee901ec235ac4ac6832c7e5c55d9",
+    "candidate_sha256": "0b82a2624713b81e46f528fe1f0a92a87d4cd2ff7ca7e4dda1d8ee29213b9fe0",
+    "actions_observed": [
+      "Opened exact disposable PRO through KiCad Manager thenTools/PCBEditor; original-format warning retained",
+      "Observed30pads/3vias/58segments/11nets/0unrouted inactualPCBEditor",
+      "Refillallzones=True andPCB/SCHparity=True, All/Errors/Warnings/Exclusions=True beforeandafteroneRunDRC",
+      "ActualGUI completed31violations/0opens/10parity/7ignored;0errors41warnings",
+      "Alltenparitywarnings areexactDatasheet ~ versus empty; warningsnotedited",
+      "Allsevenignoredtests observedinscreenshot, noneedited",
+      "Saved actualGUIreport ir-gui001.rpt",
+      "ClosedPCBEditor usingDiscardChanges fordisposableinmemoryrefill, closedautoschematic, ManagerCloseProject; final no projectloaded"
+    ],
+    "gui_counts": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 41,
+      "schematic_parity": 10,
+      "ordinary_violations": 31,
+      "ignored_checks": 7
+    },
+    "gui_finding_types": {
+      "silk_edge_clearance": 21,
+      "lib_footprint_mismatch": 10,
+      "footprint_symbol_field_mismatch": 10
+    },
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "PTH inside courtyard",
+        "key": "pth_inside_courtyard"
+      },
+      {
+        "description": "NPTH inside courtyard",
+        "key": "npth_inside_courtyard"
+      },
+      {
+        "description": "Footprint component type doesn't match footprint pads",
+        "key": "footprint_type_mismatch"
+      }
+    ],
+    "isolated_cli_counts": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 42,
+      "exclusions": 0
+    },
+    "cli_gui_context_difference": "CLI retains21silk+11missing-library+10field warnings. GUI installedlibraries retain21silk+10library-copy-mismatch+10field warnings; RV2 library matches. Neitheriswholeprojectclean. No originalconstraint/ignored/severity alteration.",
+    "report_path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-export-gui-001/project/ir-gui001.rpt",
+    "report_sha256": "d853b47e3ff74d64a27ead8c18373db7d0a20cc5063ba1de1dc83bd3516db067",
+    "authoritative_export_project_exact": true,
+    "authoritative_hashes_after": {
+      "IR_Sensor.kicad_pcb": "0b82a2624713b81e46f528fe1f0a92a87d4cd2ff7ca7e4dda1d8ee29213b9fe0",
+      "IR_Sensor.kicad_pro": "0393908f5263db9c95388db7d749115280350ae4b6a7dc44afba203aea3a2f8a",
+      "IR_Sensor.kicad_sch": "fb2ead949c4005eda55d7ff8e48ff39293ad096bd9f1ca12a3c623fc62915786",
+      "_licenses/creator/LICENSE": "7a9ff699e91b9acf1cf6747e72f82fab1ec25ead316ece85e14b8043200ebb74",
+      "_licenses/creator/README.md": "1dd84f03c05e371507fda0f5c3be237eea52db5d991858e9c1f75e9327205926"
+    },
+    "gui_original_file_changes": {
+      "IR_Sensor.kicad_pro": {
+        "before": "0393908f5263db9c95388db7d749115280350ae4b6a7dc44afba203aea3a2f8a",
+        "after": "7b009b186f8404fa38a6eb2edcb5cedc5c3108df5bfde9a38b4b245a8408bb13"
+      }
+    },
+    "gui_project_json_changes": [
+      {
+        "path": "/board/design_settings/defaults/apply_defaults_to_fp_barcodes",
+        "before": null,
+        "after": false
+      },
+      {
+        "path": "/board/design_settings/defaults/apply_defaults_to_fp_dimensions",
+        "before": null,
+        "after": false
+      },
+      {
+        "path": "/board/design_settings/rule_severities/footprint_symbol_field_mismatch",
+        "before": null,
+        "after": "warning"
+      },
+      {
+        "path": "/board/design_settings/rule_severities/missing_tuning_profile",
+        "before": null,
+        "after": "warning"
+      },
+      {
+        "path": "/board/design_settings/rule_severities/track_not_centered_on_via",
+        "before": null,
+        "after": "ignore"
+      },
+      {
+        "path": "/board/design_settings/rule_severities/track_on_post_machined_layer",
+        "before": null,
+        "after": "error"
+      },
+      {
+        "path": "/board/design_settings/rule_severities/tuning_profile_track_geometries",
+        "before": null,
+        "after": "ignore"
+      },
+      {
+        "path": "/board/ipc2581/bom_rev",
+        "before": null,
+        "after": ""
+      },
+      {
+        "path": "/board/ipc2581/sch_revision",
+        "before": null,
+        "after": ""
+      },
+      {
+        "path": "/component_class_settings",
+        "before": null,
+        "after": {
+          "assignments": [],
+          "meta": {
+            "version": 0
+          },
+          "sheet_component_classes": {
+            "enabled": false
+          }
+        }
+      },
+      {
+        "path": "/erc/rule_severities/field_name_whitespace",
+        "before": null,
+        "after": "warning"
+      },
+      {
+        "path": "/erc/rule_severities/ground_pin_not_ground",
+        "before": null,
+        "after": "warning"
+      },
+      {
+        "path": "/erc/rule_severities/isolated_pin_label",
+        "before": null,
+        "after": "warning"
+      },
+      {
+        "path": "/erc/rule_severities/stacked_pin_name",
+        "before": null,
+        "after": "warning"
+      },
+      {
+        "path": "/erc/rule_severities/undefined_netclass",
+        "before": null,
+        "after": "error"
+      },
+      {
+        "path": "/net_settings/classes",
+        "before": [
+          {
+            "bus_width": 12,
+            "clearance": 0.2,
+            "diff_pair_gap": 0.25,
+            "diff_pair_via_gap": 0.25,
+            "diff_pair_width": 0.2,
+            "line_style": 0,
+            "microvia_diameter": 0.3,
+            "microvia_drill": 0.1,
+            "name": "Default",
+            "pcb_color": "rgba(0, 0, 0, 0.000)",
+            "priority": 2147483647,
+            "schematic_color": "rgba(0, 0, 0, 0.000)",
+            "track_width": 0.2,
+            "via_diameter": 0.6,
+            "via_drill": 0.3,
+            "wire_width": 6
+          }
+        ],
+        "after": [
+          {
+            "bus_width": 12,
+            "clearance": 0.2,
+            "diff_pair_gap": 0.25,
+            "diff_pair_via_gap": 0.25,
+            "diff_pair_width": 0.2,
+            "line_style": 0,
+            "microvia_diameter": 0.3,
+            "microvia_drill": 0.1,
+            "name": "Default",
+            "pcb_color": "rgba(0, 0, 0, 0.000)",
+            "priority": 2147483647,
+            "schematic_color": "rgba(0, 0, 0, 0.000)",
+            "track_width": 0.2,
+            "tuning_profile": "",
+            "via_diameter": 0.6,
+            "via_drill": 0.3,
+            "wire_width": 6
+          }
+        ]
+      },
+      {
+        "path": "/net_settings/meta/version",
+        "before": 4,
+        "after": 5
+      },
+      {
+        "path": "/schematic/annotation",
+        "before": null,
+        "after": {
+          "method": 0,
+          "sort_order": 0
+        }
+      },
+      {
+        "path": "/schematic/bus_aliases",
+        "before": null,
+        "after": {}
+      },
+      {
+        "path": "/schematic/drawing/hop_over_size_choice",
+        "before": null,
+        "after": 0
+      },
+      {
+        "path": "/schematic/reuse_designators",
+        "before": null,
+        "after": true
+      },
+      {
+        "path": "/schematic/top_level_sheets",
+        "before": null,
+        "after": [
+          {
+            "filename": "IR_Sensor.kicad_sch",
+            "name": "IR_Sensor",
+            "uuid": "00000000-0000-0000-0000-000000000000"
+          }
+        ]
+      },
+      {
+        "path": "/schematic/used_designators",
+        "before": null,
+        "after": ""
+      },
+      {
+        "path": "/schematic/variants",
+        "before": null,
+        "after": []
+      },
+      {
+        "path": "/tuning_profiles",
+        "before": null,
+        "after": {
+          "meta": {
+            "version": 0
+          },
+          "tuning_profiles_impedance_geometric": []
+        }
+      }
+    ],
+    "gui_added_files": {
+      ".history/.git/HEAD": "f6f2b945f6c411b02ba3da9c7ace88dcf71b6af65ba2e0d89aa82900042b5a10",
+      ".history/.git/config": "dbc59dfd1198cb34a4dffa1675048fa0f822440952a0c058e098f22d0f7ea8aa",
+      ".history/.git/description": "85ab6c163d43a17ea9cf7788308bca1466f1b0a8d1cc92e26e9bf63da4062aee",
+      ".history/.git/hooks/README.sample": "7319d7f1803fda2b3416143e426b9ec4c3c3c817c75188b2b82cb3e68ff293ab",
+      ".history/.git/index": "7984e5dcde56a9a3cff06aa0a0a6b3365dd6b16cf0fa4fba4595232b4e6267ea",
+      ".history/.git/info/exclude": "fdb7dc7be17051c3c5067cdf2b8fdf2ca3a8daf2b5e91f34c6ce1ff3a94c5f6a",
+      ".history/.git/logs/HEAD": "50df65fe1a875844b0382ae819eddd55644626317fc2342222c7b21cd6a579fb",
+      ".history/.git/logs/refs/heads/master": "50df65fe1a875844b0382ae819eddd55644626317fc2342222c7b21cd6a579fb",
+      ".history/.git/objects/06/dc3c56933a13fae59d7d601a3db1e26edff72d": "c7fbf942eef7b00936f0a418ba8737a056e25e10e48e2f6cd4c4e53e7719616f",
+      ".history/.git/objects/0f/3d9aed84962363a8848577c76dff4210d01c56": "9430f022e215d8dc9424d11abfac85bbf80c46e7406f3d3a97fe6c598892b431",
+      ".history/.git/objects/29/c142489bd421cb262b2ca9f37d40f428fbde6c": "2a77b291ecdcd92236128849c54383848dbbe8bfc338bbe9f96edd08b608bf97",
+      ".history/.git/objects/4a/a5f30fff1f7584b595b85af075f071472d7935": "d40ad4c369c57b916b046dcaf0950f3a5d043ab81b0e6383fdcc8b19902ca5d6",
+      ".history/.git/objects/50/33e6008c2d249a57226c9c1d8c5f19c4370aef": "079fdb31e208da12bc2e39d86ee76294d64f33c841fce26c5de9bb94bcb430ae",
+      ".history/.git/objects/83/a5c932f59f73fa4d0134126ececc9b4d3eac10": "47467df3ce929051b1c23b81fef4725565c71676e847dc1f4238e134f8f019ba",
+      ".history/.git/objects/95/67dc53f6833c00484a072e3672213b712f7658": "e0de4bac386ae0e3b104760732c905a70ca47a1c0823552d2e3a6e82c5aa8dc8",
+      ".history/.git/objects/97/28088fb91be640565f11bd9622373f992b9ee2": "5d309c0044be6ae828fe1004c4041f13e465da891d76d5be0801536c100c064b",
+      ".history/.git/objects/99/823faa541826fcd1a02077cdc495f0031050a0": "480bf2b82df5c5139a057ff364c3a41f3c69b2c8921779475f547d33b9f02b01",
+      ".history/.git/objects/d3/2905d4a5980f35128d2f5fd81c220e552edcce": "8451e4c8f1e6319352f27d6c790262256aaccf099796026f1da3bd7a621f07c1",
+      ".history/.git/refs/heads/master": "ca54f669475b55cc055c6437e4a613e3cb2f256f42551468408f6544f85450fd",
+      ".history/.git/refs/tags/Last_Save_project": "ca54f669475b55cc055c6437e4a613e3cb2f256f42551468408f6544f85450fd",
+      ".history/.git/refs/tags/Save_project_1": "ca54f669475b55cc055c6437e4a613e3cb2f256f42551468408f6544f85450fd",
+      ".history/.gitignore": "673b333bfeca7f66e1e651e105c2b87579e36cf7048b65b283e9f802c253695c",
+      ".history/IR_Sensor.kicad_pcb": "194b122b48c4c8fb78b0c3260b53e26ddfa2490e51ef73eb52ee91781843111a",
+      ".history/IR_Sensor.kicad_sch": "9184755f7780aeb4697f20acb43993ace3901bb87988e03ceeaced0bc01f4c15",
+      ".history/README.txt": "79c41e25e7633a1deff5e5a7456573c64f0061d508b7e0e5753d985456fe29e7",
+      "IR_Sensor-backups/IR_Sensor-2026-10-14_225610.zip": "09ed2685c122a2cd4a5844d6756f907b901c00530b268fa6bf67c40c112d5db0",
+      "IR_Sensor.kicad_prl": "683bfb937e50141c94e6595e60065f3153b2c01c7882c52b110e70f1eb22af2a",
+      "ir-gui001.rpt": "d853b47e3ff74d64a27ead8c18373db7d0a20cc5063ba1de1dc83bd3516db067"
+    },
+    "saved_pcb_and_schematic_exact": true,
+    "limitations": "CuaAX/screenshot observations plus actualpersistedGUIreport andfinalbytes. Separate disposable GUI PRO migrated/defaultmetadata recorded and isunvalidated; authoritativeexport remains exacthandoff. No independenthumanPCBapproval, electrical/physicalvalidation, liveapply/undo, untouchedconfirmation ornewroutinggain."
+  },
+  "limits": [
+    "Separateprojectworkflow/explicitsoftwaretestintents; nothumanacceptance/liveapply/undo/unsavedbufferinspection.",
+    "GUI41warningsand10parityplaceholders remainvisible; isolatedCLI42warningsretained. Everyignoredcheck unchanged. Neitheriswholeprojectclean.",
+    "DisposablePRO25migration/defaultJSONdeltas recordedandunvalidated; authoritativeexportandsavedPCB/SCH exact.",
+    "No freshinstallation orNativeengine repeated; installation033/full083/currentcontrols remainseparate. Uniqueoutputsawaitnextincremental."
+  ]
+}
