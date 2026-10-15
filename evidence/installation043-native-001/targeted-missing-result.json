@@ -1,0 +1,144 @@
+{
+  "schema": 1,
+  "accepted": false,
+  "passed": true,
+  "status": "completed",
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 1.334174499992514,
+    "cpu_seconds": 1.261058,
+    "max_rss_bytes": 239616000,
+    "supervisor_cpu_seconds": 0.0072790000000000354,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 242139136,
+    "sampled_peak_workdir_bytes": 5023,
+    "resource_guards": {
+      "max_group_rss_bytes": 1073741824,
+      "max_workdir_bytes": 16777216,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-043/checkout/.venv/bin/python",
+      "-B",
+      "-c",
+      "import sys,json,unittest,subprocess,os\nfrom pathlib import Path\nCLONE=Path('/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-043/checkout')\nsys.path[:0]=[str(CLONE),str(CLONE/'tests')];sys.dont_write_bytecode=True\nfrom autorouter import config as c\nfrom importlib import import_module\nassert c.ROOT==CLONE and Path(sys.prefix).resolve()==CLONE/'.venv'\nassert Path(sys.executable)==CLONE/'.venv/bin/python' and sys.prefix!=sys.base_prefix\ndef forbidden(*a,**kw):raise AssertionError('installed software controls forbid Native/JVM/network/Git subprocess')\nreal_run,real_popen=subprocess.run,subprocess.Popen\ngit_active=False;git_observations=[]\nsafe_git=['git','-c','core.fsmonitor=false','-c','core.hooksPath=/dev/null','rev-parse','HEAD']\ndef readonly_run(argv,*args,**kw):\n global git_active\n assert argv==['git','rev-parse','HEAD'] and not args and Path(kw.get('cwd',''))==CLONE\n assert set(kw)=={'cwd','capture_output','text','check'} and all(kw[k] is True for k in ('capture_output','text','check'))\n assert not git_active\n git_active=True\n try:\n  observed=real_run(safe_git,**kw)\n  assert observed.stdout.strip()=='74ae31edc8c3e95b86c7950fcc3fc9505a57e1c1'\n  git_observations.append(dict(argv=safe_git,cwd=str(CLONE),head=observed.stdout.strip(),returncode=observed.returncode))\n  return observed\n finally:git_active=False\ndef controlled_popen(argv,*args,**kw):\n assert git_active and argv==safe_git and not args and Path(kw.get('cwd',''))==CLONE\n return real_popen(argv,**kw)\nsubprocess.run=readonly_run;subprocess.Popen=controlled_popen\nscratch=CLONE/'.local-backups'\nassert not scratch.exists() and not scratch.is_symlink()\nscratch.mkdir(mode=0o700)\n\nos.environ.pop('HFE_CONTROLLER',None)\nmodules=['tests.test_engine_angle', 'tests.test_engine_angle_native_control', 'tests.test_engine_profiles', 'tests.test_padstack_policy', 'tests.test_preference_publication', 'tests.test_pruning_preferences_freshness', 'tests.test_selected_evidence', 'tests.test_result']\nselectors=['tests.test_engine_angle.EngineAngleControls.test_current_captured_producer_cannot_drop_budget_and_worker_markers', 'tests.test_engine_angle.EngineAngleControls.test_missing_tampered_binding_task_or_geometry_refuse', 'tests.test_engine_angle.EngineAngleControls.test_policy_downgrade_and_aliases_refuse', 'tests.test_engine_angle.EngineAngleControls.test_prepare_preserves_canonical_task_and_refuses_overwrite', 'tests.test_engine_angle.EngineAngleControls.test_shared_normal_reader_requires_angle_budget_even_after_profile_downgrade', 'tests.test_padstack_policy.PolicyReceiptControls.test_handoff_rejects_before_creating_review_copy', 'tests.test_padstack_policy.PolicyReceiptControls.test_rehashed_unknown_warning_receipt_and_handoff_reject']\nwatched=[import_module(name) for name in ['autorouter.pipeline', 'autorouter.engine_angle', 'autorouter.floor_route', 'autorouter.adapter', 'autorouter.netclass', 'autorouter.netclass_native', 'autorouter.local_settings', 'autorouter.placement_clearance', 'experiments.free_angle_baseline_v1.fixture', 'experiments.free_angle_baseline_v1.controls', 'experiments.free_angle_baseline_v1.enclosure']]\nshipped={m.__name__:str(Path(m.__file__).resolve()) for m in watched}\nassert all(Path(m.__file__).resolve()==CLONE/(m.__name__.replace('.','/')+'.py') for m in watched)\nsuite=unittest.TestSuite(unittest.defaultTestLoader.loadTestsFromName(m) for m in selectors)\nplanned=suite.countTestCases()\nresult=unittest.TextTestRunner(verbosity=2).run(suite)\nassert all(Path(m.__file__).resolve().is_relative_to(CLONE) for name,m in tuple(sys.modules.items()) if name.split('.')[0] in {'autorouter','scripts','experiments','tests'} and getattr(m,'__file__',None))\npopulation=dict(modules=modules,selectors=selectors,planned=planned,ran=result.testsRun,successful=result.wasSuccessful(),skipped=len(result.skipped),shipped_modules=shipped,read_only_git_observations=git_observations,scratch_parent_created=str(scratch))\nPath('population.json').write_text(json.dumps(population,indent=2)+'\\n')\nraise SystemExit(0 if result.wasSuccessful() and planned==result.testsRun==7 and not result.skipped else 2)\n"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation043-targeted-002/tests.log",
+    "log_bytes": 1293,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation043-targeted-002",
+    "signal_cancellation_enabled": true,
+    "pid": 52648
+  },
+  "source_current": true,
+  "git_head": "74ae31edc8c3e95b86c7950fcc3fc9505a57e1c1",
+  "modules": [
+    "tests.test_engine_angle",
+    "tests.test_engine_angle_native_control",
+    "tests.test_engine_profiles",
+    "tests.test_padstack_policy",
+    "tests.test_preference_publication",
+    "tests.test_pruning_preferences_freshness",
+    "tests.test_selected_evidence",
+    "tests.test_result"
+  ],
+  "population": {
+    "modules": [
+      "tests.test_engine_angle",
+      "tests.test_engine_angle_native_control",
+      "tests.test_engine_profiles",
+      "tests.test_padstack_policy",
+      "tests.test_preference_publication",
+      "tests.test_pruning_preferences_freshness",
+      "tests.test_selected_evidence",
+      "tests.test_result"
+    ],
+    "selectors": [
+      "tests.test_engine_angle.EngineAngleControls.test_current_captured_producer_cannot_drop_budget_and_worker_markers",
+      "tests.test_engine_angle.EngineAngleControls.test_missing_tampered_binding_task_or_geometry_refuse",
+      "tests.test_engine_angle.EngineAngleControls.test_policy_downgrade_and_aliases_refuse",
+      "tests.test_engine_angle.EngineAngleControls.test_prepare_preserves_canonical_task_and_refuses_overwrite",
+      "tests.test_engine_angle.EngineAngleControls.test_shared_normal_reader_requires_angle_budget_even_after_profile_downgrade",
+      "tests.test_padstack_policy.PolicyReceiptControls.test_handoff_rejects_before_creating_review_copy",
+      "tests.test_padstack_policy.PolicyReceiptControls.test_rehashed_unknown_warning_receipt_and_handoff_reject"
+    ],
+    "planned": 7,
+    "ran": 7,
+    "successful": true,
+    "skipped": 0,
+    "shipped_modules": {
+      "autorouter.pipeline": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-043/checkout/autorouter/pipeline.py",
+      "autorouter.engine_angle": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-043/checkout/autorouter/engine_angle.py",
+      "autorouter.floor_route": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-043/checkout/autorouter/floor_route.py",
+      "autorouter.adapter": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-043/checkout/autorouter/adapter.py",
+      "autorouter.netclass": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-043/checkout/autorouter/netclass.py",
+      "autorouter.netclass_native": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-043/checkout/autorouter/netclass_native.py",
+      "autorouter.local_settings": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-043/checkout/autorouter/local_settings.py",
+      "autorouter.placement_clearance": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-043/checkout/autorouter/placement_clearance.py",
+      "experiments.free_angle_baseline_v1.fixture": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-043/checkout/experiments/free_angle_baseline_v1/fixture.py",
+      "experiments.free_angle_baseline_v1.controls": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-043/checkout/experiments/free_angle_baseline_v1/controls.py",
+      "experiments.free_angle_baseline_v1.enclosure": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-043/checkout/experiments/free_angle_baseline_v1/enclosure.py"
+    },
+    "read_only_git_observations": [
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.fsmonitor=false",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "rev-parse",
+          "HEAD"
+        ],
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-043/checkout",
+        "head": "74ae31edc8c3e95b86c7950fcc3fc9505a57e1c1",
+        "returncode": 0
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.fsmonitor=false",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "rev-parse",
+          "HEAD"
+        ],
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-043/checkout",
+        "head": "74ae31edc8c3e95b86c7950fcc3fc9505a57e1c1",
+        "returncode": 0
+      }
+    ],
+    "scratch_parent_created": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-043/checkout/.local-backups"
+  },
+  "population_sha256": "9eeb050238fdb1aec8b7cc4160f8f878a7491dd3c02ab4f82d07eda085af2380",
+  "protocol_sha256": "b5b0bfc9d4fb073c4f50d092c60b1d1a5bf16724e7d6634b22351325101c256c",
+  "installation_receipt_sha256": "122818a140c43717f13f6e6a44cb8bfb7b47a04bed9ca54a383a01023c787888",
+  "controller_sha256": "7ac4ff8b6817be335bf74e4bde8351d20f8e2614eafba868ae951223dd42f23b",
+  "log_sha256": "dc92f06411d358ae57591c83d8694a53118ca0d2479b0fc262afdfd27b64828f",
+  "wall_seconds": 8.001753833988914,
+  "full_cpu_seconds": 7.6954519999999995,
+  "publication_allowance_seconds": 2,
+  "whole_delivery_within_budget": true,
+  "historical_test_supplement": null,
+  "scope": "Missing-only7 controls from exact immutable failed00162attempts/55successes. Create owned ignored installed scratch parent; allow only exact read-only installedGitHEAD via bothrun/Popen guarded whitelist. No Native/JVM/network/otherGit worker or source/mocks/rule changes. New7mustpass; combined69attempts/62unique successful, never one62passrun. Costs all retained stage-specifically;92per delivered software cohort, not cumulative target or routing claim. SameMac/noGUI/fullinstalledsuite/family/quality claim.",
+  "completed_evidence": {
+    "population.json": "9eeb050238fdb1aec8b7cc4160f8f878a7491dd3c02ab4f82d07eda085af2380",
+    "tests.log": "dc92f06411d358ae57591c83d8694a53118ca0d2479b0fc262afdfd27b64828f"
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "schema": 1,
+  "accepted": false,
+  "passed": false,
+  "status": "failed",
+  "process": {
+    "status": "nonzero_exit",
+    "exit_code": 2,
+    "wall_seconds": 46.565393541997764,
+    "cpu_seconds": 44.19347,
+    "max_rss_bytes": 216465408,
+    "supervisor_cpu_seconds": 0.13043800000000028,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 216465408,
+    "sampled_peak_workdir_bytes": 25451,
+    "resource_guards": {
+      "max_group_rss_bytes": 1073741824,
+      "max_workdir_bytes": 16777216,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-043/checkout/.venv/bin/python",
+      "-B",
+      "-c",
+      "import sys,json,unittest,subprocess,os\nfrom pathlib import Path\nCLONE=Path('/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-043/checkout')\nsys.path[:0]=[str(CLONE),str(CLONE/'tests')];sys.dont_write_bytecode=True\nfrom autorouter import config as c\nfrom importlib import import_module\nassert c.ROOT==CLONE and Path(sys.prefix).resolve()==CLONE/'.venv'\nassert Path(sys.executable)==CLONE/'.venv/bin/python' and sys.prefix!=sys.base_prefix\ndef forbidden(*a,**kw):raise AssertionError('installed software controls forbid Native/JVM/network/Git subprocess')\nsubprocess.run=forbidden;subprocess.Popen=forbidden\nos.environ.pop('HFE_CONTROLLER',None)\nmodules=['tests.test_engine_angle', 'tests.test_engine_angle_native_control', 'tests.test_engine_profiles', 'tests.test_padstack_policy', 'tests.test_preference_publication', 'tests.test_pruning_preferences_freshness', 'tests.test_selected_evidence', 'tests.test_result']\nselectors=['tests.test_engine_angle', 'tests.test_engine_angle_native_control', 'tests.test_engine_profiles', 'tests.test_preference_publication', 'tests.test_pruning_preferences_freshness', 'tests.test_padstack_policy', 'tests.test_selected_evidence', 'tests.test_result.ResultFreshnessTests.test_current_normal_engine_budget_cannot_be_removed_with_its_worker']\nwatched=[import_module(name) for name in ['autorouter.pipeline', 'autorouter.engine_angle', 'autorouter.floor_route', 'autorouter.adapter', 'autorouter.netclass', 'autorouter.netclass_native', 'autorouter.local_settings', 'autorouter.placement_clearance', 'experiments.free_angle_baseline_v1.fixture', 'experiments.free_angle_baseline_v1.controls', 'experiments.free_angle_baseline_v1.enclosure']]\nshipped={m.__name__:str(Path(m.__file__).resolve()) for m in watched}\nassert all(Path(m.__file__).resolve()==CLONE/(m.__name__.replace('.','/')+'.py') for m in watched)\nsuite=unittest.TestSuite(unittest.defaultTestLoader.loadTestsFromName(m) for m in selectors)\nplanned=suite.countTestCases()\nresult=unittest.TextTestRunner(verbosity=2).run(suite)\nassert all(Path(m.__file__).resolve().is_relative_to(CLONE) for name,m in tuple(sys.modules.items()) if name.split('.')[0] in {'autorouter','scripts','experiments','tests'} and getattr(m,'__file__',None))\npopulation=dict(modules=modules,selectors=selectors,planned=planned,ran=result.testsRun,successful=result.wasSuccessful(),skipped=len(result.skipped),shipped_modules=shipped)\nPath('population.json').write_text(json.dumps(population,indent=2)+'\\n')\nraise SystemExit(0 if result.wasSuccessful() and planned==result.testsRun==62 and not result.skipped else 2)\n"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation043-targeted-001/tests.log",
+    "log_bytes": 22988,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation043-targeted-001",
+    "signal_cancellation_enabled": true,
+    "pid": 52488
+  },
+  "source_current": false,
+  "git_head": "74ae31edc8c3e95b86c7950fcc3fc9505a57e1c1",
+  "modules": [
+    "tests.test_engine_angle",
+    "tests.test_engine_angle_native_control",
+    "tests.test_engine_profiles",
+    "tests.test_padstack_policy",
+    "tests.test_preference_publication",
+    "tests.test_pruning_preferences_freshness",
+    "tests.test_selected_evidence",
+    "tests.test_result"
+  ],
+  "population": {
+    "modules": [
+      "tests.test_engine_angle",
+      "tests.test_engine_angle_native_control",
+      "tests.test_engine_profiles",
+      "tests.test_padstack_policy",
+      "tests.test_preference_publication",
+      "tests.test_pruning_preferences_freshness",
+      "tests.test_selected_evidence",
+      "tests.test_result"
+    ],
+    "selectors": [
+      "tests.test_engine_angle",
+      "tests.test_engine_angle_native_control",
+      "tests.test_engine_profiles",
+      "tests.test_preference_publication",
+      "tests.test_pruning_preferences_freshness",
+      "tests.test_padstack_policy",
+      "tests.test_selected_evidence",
+      "tests.test_result.ResultFreshnessTests.test_current_normal_engine_budget_cannot_be_removed_with_its_worker"
+    ],
+    "planned": 62,
+    "ran": 62,
+    "successful": false,
+    "skipped": 0,
+    "shipped_modules": {
+      "autorouter.pipeline": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-043/checkout/autorouter/pipeline.py",
+      "autorouter.engine_angle": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-043/checkout/autorouter/engine_angle.py",
+      "autorouter.floor_route": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-043/checkout/autorouter/floor_route.py",
+      "autorouter.adapter": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-043/checkout/autorouter/adapter.py",
+      "autorouter.netclass": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-043/checkout/autorouter/netclass.py",
+      "autorouter.netclass_native": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-043/checkout/autorouter/netclass_native.py",
+      "autorouter.local_settings": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-043/checkout/autorouter/local_settings.py",
+      "autorouter.placement_clearance": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-043/checkout/autorouter/placement_clearance.py",
+      "experiments.free_angle_baseline_v1.fixture": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-043/checkout/experiments/free_angle_baseline_v1/fixture.py",
+      "experiments.free_angle_baseline_v1.controls": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-043/checkout/experiments/free_angle_baseline_v1/controls.py",
+      "experiments.free_angle_baseline_v1.enclosure": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-043/checkout/experiments/free_angle_baseline_v1/enclosure.py"
+    }
+  },
+  "population_sha256": "adaaeb0495ee90ed7ed2a91ddbe34225d26d43ebe56086c1941fe6e726ca7c1f",
+  "protocol_sha256": "0c86785b92e7440613333019647c95def1b1db7ce8f287920a332f59facc8175",
+  "installation_receipt_sha256": "122818a140c43717f13f6e6a44cb8bfb7b47a04bed9ca54a383a01023c787888",
+  "controller_sha256": "ae214b70f02d3732100783bf211a6bad0d52c8e22152b7020499267d8b275cfd",
+  "log_sha256": "e4c28c28cbb5ba6d0f127a6cc5ed24fd99742339c7b5a308d9734514bcfa7a91",
+  "wall_seconds": 56.75066483300179,
+  "full_cpu_seconds": 51.464341000000005,
+  "publication_allowance_seconds": 2,
+  "whole_delivery_within_budget": true,
+  "historical_test_supplement": null,
+  "scope": "Fixed62 shipped authored controls: angle/profile, owned control process construction, reciprocal current engine journal, repaired selected/padstack/preference/pruning receipt fixtures and late publication. Installed independent prefix/modules, all expected planned=ran62 and no skips. No historical supplement, Native/JVM/network execution, full installed suite, GUI, quality or freshOS claim.",
+  "completed_evidence": {
+    "population.json": "adaaeb0495ee90ed7ed2a91ddbe34225d26d43ebe56086c1941fe6e726ca7c1f",
+    "tests.log": "e4c28c28cbb5ba6d0f127a6cc5ed24fd99742339c7b5a308d9734514bcfa7a91"
+  }
+}
