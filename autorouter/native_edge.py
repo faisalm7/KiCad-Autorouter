@@ -4,7 +4,7 @@ The caller must independently exclude custom-rule companions. These two input
 byte strings cannot establish that a separate .kicad_dru file is absent.
 """
 import copy
-from decimal import Decimal, InvalidOperation
+from decimal import Decimal, InvalidOperation, ROUND_CEILING, ROUND_FLOOR
 import json
 from . import adapter as a, sexpr as sx
 
@@ -103,7 +103,7 @@ def derive_context(boardbytes, projectbytes):
 
 
 def correct(dsnbytes, context):
-    """Add only a boundary class and its exact original default/SMD/self pairs."""
+    """Encode original edge clearance; fractional bounds may move only inward."""
     text = _bytes(dsnbytes)
     keys={'schema','policy','applicable','reason','source_sha256','requires_no_custom_rule_companion'}
     optional={'rect_um','source_edge_sha256','requested_clearance_um','original_min_copper_edge_clearance_mm'}
@@ -162,8 +162,7 @@ def correct(dsnbytes, context):
     if expected[0]>=expected[2] or expected[1]>=expected[3]: raise ValueError('invalid original rectangle context')
     precision = _number(sx.one(tree,'resolution')[2])
     if precision != precision.to_integral_value(): raise ValueError('integer DSN export precision required')
-    if any(value*precision != (value*precision).to_integral_value() for value in expected):
-        raise ValueError('source rectangle not exact at export precision')
+    fractional=any(value*precision != (value*precision).to_integral_value() for value in expected)
     corners = {(expected[0],expected[1]),(expected[0],expected[3]),(expected[2],expected[1]),(expected[2],expected[3])}
     if shape[:2] == ['rect','pcb'] and len(shape) == 6:
         x1,y1,x2,y2 = map(_number,shape[2:]); actual = {(x1,y1),(x1,y2),(x2,y1),(x2,y2)}
@@ -172,15 +171,59 @@ def correct(dsnbytes, context):
         if points[0] != points[-1] or len(actual) != 4 or any((x1==x2)==(y1==y2) for (x1,y1),(x2,y2) in zip(points,points[1:])):
             raise ValueError('DSN boundary is not a closed axis-aligned rectangle')
     else: raise ValueError('zero-width rectangular pcb boundary required')
-    if actual != corners: raise ValueError('DSN boundary differs from original corners')
+    if len(actual)!=4:raise ValueError('DSN boundary is a degenerate rectangle')
+    inward=None;replacement=None
+    if not fractional:
+        if actual != corners: raise ValueError('DSN boundary differs from original corners')
+    else:
+        # Native10 can round rectangular export bounds by up to the observed
+        # half micrometre. This is a guarded input domain, not a rounding-law
+        # claim or permission to expand the original board. The replacement is
+        # independently derived from exact source coordinates, always inward.
+        parser=sx.one(tree,'parser',[])
+        if (precision!=10 or sx.one(parser,'host_version')!=['host_version','"10.0.0"']
+                or sx.one(parser,'host_cad')!=['host_cad','"KiCad\'s Pcbnew"']
+                or any(v*1000!=(v*1000).to_integral_value() for v in expected)):
+            raise ValueError('fractional source export precision is outside qualified Native10 scope')
+        bounds=[min(x for x,y in actual),min(y for x,y in actual),max(x for x,y in actual),max(y for x,y in actual)]
+        if actual!={(bounds[0],bounds[1]),(bounds[0],bounds[3]),(bounds[2],bounds[1]),(bounds[2],bounds[3])}:
+            raise ValueError('DSN boundary is not a complete rectangle')
+        if any(abs(got-want)>Decimal('0.5') for got,want in zip(bounds,expected)):
+            raise ValueError('fractional Native rectangle exceeds observed export discrepancy domain')
+        rounded=[(v*precision).to_integral_value(rounding=ROUND_CEILING if i<2 else ROUND_FLOOR)/precision for i,v in enumerate(expected)]
+        if rounded[0]>=rounded[2] or rounded[1]>=rounded[3]:raise ValueError('inward export rectangle has no area')
+        if not (rounded[0]>=expected[0] and rounded[1]>=expected[1] and rounded[2]<=expected[2] and rounded[3]<=expected[3]):
+            raise ValueError('export rectangle would expand original design')
+        replacement=copy.deepcopy(shape);offset=2 if shape[0]=='rect' else 3
+        for i,value in enumerate(shape[offset:]):
+            axis=i%2;v=_number(value)
+            if v==bounds[axis]:replacement[offset+i]=a._atom_number(rounded[axis])
+            elif v==bounds[axis+2]:replacement[offset+i]=a._atom_number(rounded[axis+2])
+            else:raise ValueError('ambiguous fractional rectangle side')
+        if replacement[0]=='rect':
+            x1,y1,x2,y2=map(_number,replacement[2:]);emitted={(x1,y1),(x1,y2),(x2,y1),(x2,y2)}
+        else:
+            values=list(map(_number,replacement[3:]));emitted=set(zip(values[::2],values[1::2]))
+        if emitted!={(rounded[0],rounded[1]),(rounded[0],rounded[3]),(rounded[2],rounded[1]),(rounded[2],rounded[3])}:
+            raise ValueError('emitted fractional boundary differs from source-derived rectangle')
+        inward={'policy':'source-bound-inward-dsn-grid-v1','grid_um':a._atom_number(1/precision),
+            'source_bounds_um':[a._atom_number(v) for v in expected],
+            'observed_export_bounds_um':[a._atom_number(v) for v in bounds],
+            'output_bounds_um':[a._atom_number(v) for v in rounded],
+            'observed_input_discrepancy_guard_um':'0.5','native_host_version':'10.0.0',
+            'input_boundary_ast_sha256':a._digest(sx.dump(shape).encode()),
+            'output_boundary_ast_sha256':a._digest(sx.dump(replacement).encode()),
+            'output_within_original_boundary':True,'native_design_modified':False}
     value = context['requested_clearance_um']
     if _number(value) != _number(context['original_min_copper_edge_clearance_mm'])*1000 or _number(value) <= 0:
         raise ValueError('edge context changes original minimum')
     changed = copy.deepcopy(tree); target = sx.one(sx.one(changed,'structure'),'boundary')
+    if replacement is not None:target[1]=replacement
     target.append(['clearance_class',CLASS]); added = ['rule',*[['clearance',value,['type',pair]] for pair in
         ('default_'+CLASS,'smd_'+CLASS,CLASS+'_'+CLASS)]]
     sx.one(changed,'structure').append(added)
-    restored = copy.deepcopy(changed); sx.one(sx.one(restored,'structure'),'boundary').pop(); sx.one(restored,'structure').pop()
+    restored = copy.deepcopy(changed); restored_boundary=sx.one(sx.one(restored,'structure'),'boundary');restored_boundary.pop();sx.one(restored,'structure').pop()
+    if replacement is not None:restored_boundary[1]=copy.deepcopy(shape)
     encoded = a._dump_dsn(changed).encode()
     if restored != tree or len(encoded)>sx.MAX_BYTES or a._parse_dsn(encoded.decode()) != changed:
         raise ValueError('edge-only semantic reconstruction failed')
@@ -188,4 +231,7 @@ def correct(dsnbytes, context):
         output_sha256=a._digest(encoded),source_edge_sha256=context['source_edge_sha256'],
         original_min_copper_edge_clearance_mm=context['original_min_copper_edge_clearance_mm'],
         requested_clearance_um=value,clearance_class=CLASS,exact_edge_only_ast_edit=True)
+    if inward is not None:
+        record['inward_boundary']=inward
+        record['reason']='original edge minimum encoded on source-contained inward grid rectangle'
     return encoded, record

@@ -136,6 +136,65 @@ class NativeEdgeTests(unittest.TestCase):
         tiny=BOARD.replace(b'(start 0 0)',b'(start 0.00001 0)')
         with self.assertRaisesRegex(ValueError,'export precision'):self.correct(context=self.context(tiny))
 
+    def fractional(self):
+        board=BOARD.replace(b'(start 0 0) (end 20 20)',b'(start 0.00025 0) (end 20.00025 20)')
+        dsn=DSN.replace('(host_cad "KiCad\'s Pcbnew")','(host_cad "KiCad\'s Pcbnew") (host_version "10.0.0")')
+        return board,dsn,self.context(board)
+
+    def test_fractional_rectangle_is_rounded_only_inside_exact_source_and_rule_unchanged(self):
+        from decimal import Decimal
+        board,dsn,context=self.fractional();before=copy.deepcopy(context)
+        raw,record=self.correct(dsn,context);proof=record['inward_boundary']
+        self.assertEqual(context,before);self.assertTrue(proof['output_within_original_boundary'])
+        self.assertEqual(proof['output_bounds_um'],['0.3','-20000','20000.2','0'])
+        self.assertEqual(record['requested_clearance_um'],'300')
+        source=list(map(Decimal,proof['source_bounds_um']));target=list(map(Decimal,proof['output_bounds_um']))
+        self.assertTrue(target[0]>=source[0] and target[1]>=source[1] and target[2]<=source[2] and target[3]<=source[3])
+        self.assertTrue(all(v*10==(v*10).to_integral_value() for v in target))
+        tree=a._parse_dsn(raw.decode());original=a._parse_dsn(dsn);bound=sx.one(sx.one(tree,'structure'),'boundary')
+        self.assertEqual(bound[1],['rect','pcb','0.3','-20000','20000.2','0'])
+        bound.pop();bound[1]=copy.deepcopy(sx.one(sx.one(original,'structure'),'boundary')[1]);sx.one(tree,'structure').pop()
+        self.assertEqual(tree,original)
+
+    def test_fractional_path_keeps_closed_side_order_and_every_other_dsn_node(self):
+        board,dsn,context=self.fractional()
+        for path in ('0 -20000 20000 -20000 20000 0 0 0 0 -20000','20000 0 20000 -20000 0 -20000 0 0 20000 0'):
+            text=dsn.replace('(rect pcb 0 -20000 20000 0)','(path pcb 0 '+path+')')
+            raw,record=self.correct(text,context);shape=sx.one(sx.one(a._parse_dsn(raw.decode()),'structure'),'boundary')[1]
+            values=shape[3:];self.assertEqual(values[:2],values[-2:]);self.assertEqual(shape[:3],['path','pcb','0'])
+            self.assertEqual(set(values[::2]),{'0.3','20000.2'})
+            self.assertEqual(record['inward_boundary']['input_boundary_ast_sha256'],a._digest(sx.dump(sx.one(sx.one(a._parse_dsn(text),'structure'),'boundary')[1]).encode()))
+
+    def test_fractional_outside_observed_guard_or_wrong_host_grid_refuses(self):
+        board,dsn,context=self.fractional()
+        for text in (dsn.replace('(host_version "10.0.0")','(host_version "10.0.7")'),
+                dsn.replace('(host_version "10.0.0")',''),dsn.replace('(resolution um 10)','(resolution um 100)'),
+                dsn.replace('(rect pcb 0 -20000 20000 0)','(rect pcb -0.251 -20000 20000 0)')):
+            with self.subTest(text=text),self.assertRaises(ValueError):self.correct(text,context)
+        # Guard is inclusive at .5um, but target still comes solely from source.
+        raw,_=self.correct(dsn.replace('(rect pcb 0 -20000 20000 0)','(rect pcb -0.25 -20000 20000.75 0)'),context)
+        self.assertIn(b'0.3 -20000 20000.2 0',raw)
+
+    def test_degenerate_observed_rectangle_cannot_invent_a_valid_output_bound(self):
+        board,dsn,context=self.fractional();context['rect_um']=['0.05','-20000','0.25','0']
+        text=dsn.replace('(rect pcb 0 -20000 20000 0)','(rect pcb 0 -20000 0 0)')
+        with self.assertRaisesRegex(ValueError,'degenerate rectangle'):self.correct(text,context)
+
+    def test_fractional_subgrid_board_collapses_instead_of_expanding(self):
+        board,dsn,context=self.fractional();context['rect_um']=['0.01','-20000','0.09','0']
+        text=dsn.replace('(rect pcb 0 -20000 20000 0)','(rect pcb 0 -20000 0.1 0)')
+        with self.assertRaisesRegex(ValueError,'no area'):self.correct(text,context)
+
+    def test_near_threshold_grid_rounding_never_reduces_original_edge_margin(self):
+        from decimal import Decimal
+        board,dsn,context=self.fractional();_,record=self.correct(dsn,context)
+        right=Decimal(record['inward_boundary']['output_bounds_um'][2]);original_right=Decimal(record['inward_boundary']['source_bounds_um'][2]);rule=Decimal(record['requested_clearance_um'])
+        # A legal item edge at the transformed boundary's exact margin keeps
+        # at least the entire original margin. An outward nearest-grid choice
+        # would lose .05um and this geometric counterexample would fail.
+        self.assertGreaterEqual(original_right-(right-rule),rule)
+        self.assertLess(original_right-(Decimal('20000.3')-rule),rule)
+
     def test_repeat_application_and_tampered_minimum_reject(self):
         corrected,_=self.correct()
         with self.assertRaises(ValueError):edge.correct(corrected,self.context())

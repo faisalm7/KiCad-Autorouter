@@ -4,6 +4,7 @@ These are diagnostic controls, not benchmark families or complete-schematic
 qualification. All original smoke evidence remains untouched.
 """
 import argparse,copy,json,shutil,sys,time,uuid
+from decimal import Decimal
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT));sys.dont_write_bytecode=True
 from autorouter import pipeline as p,sexpr as sx,floor_route as f
@@ -13,6 +14,7 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--valid',required=True,type=Path)
     parser.add_argument('--output',required=True,type=Path)
+    parser.add_argument('--fractional-edge',action='store_true',help='New owned sub-grid rectangle plus actual Native export/transport controls')
     args=parser.parse_args();valid=args.valid.resolve();out=args.output.resolve()
     if ROOT/'.runs' not in out.parents:raise p.Rejected('controls require fresh local .runs output')
     start=time.monotonic();cpu=time.process_time()+f.child_cpu();out.mkdir()
@@ -23,7 +25,8 @@ def main():
         raise p.Rejected('exact owned smoke outline required')
     source=out/'source';source.mkdir();board=source/valid.name
     fixture=copy.deepcopy(original);fixture[:]=[n for n in fixture if n not in edges]
-    fixture.append(['gr_rect',['start','5','5'],['end','45','35'],['stroke',['width','0.05'],['type','default']],['fill','none'],['layer','"Edge.Cuts"'],['uuid',str(uuid.uuid5(uuid.NAMESPACE_URL,'kicad-autorouter-owned-edge-control'))]])
+    bounds=['5.00025','5.0005','45.00025','35.0005'] if args.fractional_edge else ['5','5','45','35']
+    fixture.append(['gr_rect',['start',*bounds[:2]],['end',*bounds[2:]],['stroke',['width','0.05'],['type','default']],['fill','none'],['layer','"Edge.Cuts"'],['uuid',str(uuid.uuid5(uuid.NAMESPACE_URL,'kicad-autorouter-owned-edge-control'))]])
     sx.write(board,fixture)
     project=json.loads(valid.with_suffix('.kicad_pro').read_text())
     project.setdefault('board',{}).setdefault('design_settings',{}).setdefault('rules',{})['min_copper_edge_clearance']=0.3
@@ -32,10 +35,30 @@ def main():
     tools=p.tool_manifest();protocol=dict(schema=1,tools=tools,controller_sha256=p.sha(Path(__file__)),base=before,source=source_hashes,
         cases=['positive','edge_violation','rule_tamper'],expected_native_gaps_mm={'positive':0.35,'edge_violation':0.25,'rule_tamper':0.25},
         original_edge_minimum_mm=0.3,scope='Owned new rectangle fixture; no schematic supplied. Source and previous native smoke immutable; no routing benchmark or complete-project claim.')
+    protocol['fractional_edge']=args.fractional_edge;protocol['rectangle_bounds_mm']=bounds
     p.save_json(out/'protocol.json',protocol);rows=[]
+    transport=None
+    if args.fractional_edge:
+        from autorouter import native_edge as edge,adapter
+        job=p.Job(out/'transport',60);shutil.copytree(source,job.out/'snapshot')
+        captured=job.out/'snapshot'/board.name
+        job.native('export','export',captured,job.out/'native.dsn')
+        job.native('obstacles','obstacles',captured,job.out/'obstacles.json')
+        adapted,adapter_record=adapter.adapt_bytes((job.out/'native.dsn').read_bytes(),'both',f.read_json(job.out/'obstacles.json'))
+        (job.out/'edge-adapter-input.dsn').write_bytes(adapted)
+        corrected,record=edge.correct(adapted,p.native_edge_context(captured))
+        (job.out/'task.dsn').write_bytes(corrected);p.save_json(job.out/'native-edge-correction.json',record)
+        if not record.get('inward_boundary',{}).get('output_within_original_boundary'):raise p.Rejected('fractional Native export did not exercise source-contained branch')
+        data=dict(adapter='both',input_policy='native',source=str(board),source_hashes=source_hashes,tools=tools,
+            steps=job.steps,native_edge_correction=record,adapter_transformations=adapter_record,accepted=False)
+        if p.check_native_edge_transport(job.out,data)!=record:raise p.Rejected('actual fractional transport replay differs')
+        for step in job.steps:f.process_check(job.out,data,step['name'],step['argv'])
+        transport=dict(passed=True,data=data,native_dsn_sha256=p.sha(job.out/'native.dsn'),corrected_dsn_sha256=p.sha(job.out/'task.dsn'),
+            source_still_exact=p.tree_hash(source)==source_hashes,scope='Actual owned fractional Native export+obstacle workers and existing shared edge transport replay; no routing engine or acceptance claim.')
+        p.save_json(job.out/'result.json',transport)
     for name in protocol['cases']:
         job=p.Job(out/name,60);target=job.out/'candidate';shutil.copytree(source,target);candidate=target/board.name
-        tree=copy.deepcopy(fixture);x='44.35' if name=='positive' else '44.45'
+        tree=copy.deepcopy(fixture);x=str(Decimal(bounds[2])-(Decimal('0.65') if name=='positive' else Decimal('0.55'))) if args.fractional_edge else ('44.35' if name=='positive' else '44.45')
         def identity(suffix):return ['uuid',str(uuid.uuid5(uuid.NAMESPACE_URL,'kicad-autorouter-edge-'+name+'-'+suffix))]
         tree.append(['via',['at',x,'30'],['size','0.6'],['drill','0.3'],['layers','"F.Cu"','"B.Cu"'],['net','"GND"'],identity('via')])
         for layer in ('F.Cu','B.Cu'):
@@ -59,7 +82,7 @@ def main():
             raise p.Rejected('control source or runtime changed')
         p.save_json(job.out/'control.json',row);rows.append(row)
         print(name,row['passed'],row.get('reason',row.get('native',{}).get('blocking')),flush=True)
-    report=dict(schema=1,accepted=False,all_passed=all(x['passed'] for x in rows),controls=rows,
+    report=dict(schema=1,accepted=False,all_passed=all(x['passed'] for x in rows),controls=rows,fractional_edge=args.fractional_edge,transport=transport,
         wall_seconds=time.monotonic()-start,full_cpu_seconds=time.process_time()+f.child_cpu()-cpu,protocol_sha256=p.sha(out/'protocol.json'),tools=tools,
         scope='Actual native positive/edge-negative/rule-tamper controls, not routing quality or schematic/physical qualification.')
     p.save_json(out/'result.json',report);return 0 if report['all_passed'] else 2
