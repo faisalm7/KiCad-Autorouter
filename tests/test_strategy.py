@@ -205,7 +205,14 @@ class StrategyControlFlowTests(unittest.TestCase):
             job.steps.append({"name": "full_validation_substitute", "status": "success", "cpu_seconds": owner.validation_cpu, "monitor_cpu_seconds": 0.1, "max_rss_bytes": 234})
             return p.sha(candidate), p.parse_report(report_path, candidate.name)
 
-        with patch.object(s.time, "monotonic", lambda: owner.clock), patch.object(s.time, "process_time", lambda: owner.process_cpu), patch.object(p, "Job", ControlledJob), patch.object(p, "route", baseline), patch.object(p, "validate_candidate", validate), patch.object(p, "tool_manifest", lambda: {"implementation_sha256": {}}), patch.object(p, "check_storage", storage), patch.object(shutil, "copytree", copytree), patch.object(p, "save_json", save), patch.object(p, "check_result", return_value={"current": True}):
+        def geometry(job, best):
+            # Synthetic control-flow geometry only; actual Native has separate controls.
+            context = {'pads': [], 'input_hashes_before': p.tree_hash(best.parent)}
+            p.save_json(job.out / 'floor-final-context.json', context)
+            job.steps.append({'name': 'geometry_substitute', 'status': 'success', 'cpu_seconds': 0.1, 'monitor_cpu_seconds': 0, 'max_rss_bytes': 123})
+            return context, p.sha(job.out / 'floor-final-context.json')
+
+        with patch.object(s, '_chain_context', side_effect=geometry), patch.object(s.time, "monotonic", lambda: owner.clock), patch.object(s.time, "process_time", lambda: owner.process_cpu), patch.object(p, "Job", ControlledJob), patch.object(p, "route", baseline), patch.object(p, "validate_candidate", validate), patch.object(p, "tool_manifest", lambda: {"implementation_sha256": {}}), patch.object(p, "check_storage", storage), patch.object(shutil, "copytree", copytree), patch.object(p, "save_json", save), patch.object(p, "check_result", return_value={"current": True}):
             return s.prune(self.source, self.output, 120, proposal_policy=proposal_policy)
 
     def test_trial_storage_cost_is_rechecked_before_creating_job(self):
@@ -418,6 +425,7 @@ class StrategyControlFlowTests(unittest.TestCase):
         self.assertFalse(self.output.exists())
 
     def test_chain_proposal_reuses_full_validation_and_cannot_accept_an_open(self):
+        self.source.write_text(self.source.read_text().replace('(net 1 "ordinary_signal")', '(net 0 "") (net 1 "ordinary_signal")'))
         real = candidate_tree
         def separated(original):
             candidate = real(original)
@@ -443,8 +451,8 @@ class StrategyControlFlowTests(unittest.TestCase):
     def test_chain_batch_cannot_bind_a_changed_incumbent(self):
         from autorouter import chain_proposals as cp
         build = cp.build
-        def changed(*args):
-            batch = build(*args)
+        def changed(*args, **kwargs):
+            batch = build(*args, **kwargs)
             best = self.output / "incumbent/candidate" / self.source.name
             best.write_bytes(best.read_bytes() + b"\n")
             return batch
@@ -452,6 +460,19 @@ class StrategyControlFlowTests(unittest.TestCase):
             result = self.exercise("chains")
         self.assertFalse(result["accepted"])
         self.assertIn("incumbent changed during chain proposal", result["reason"])
+
+    def test_changed_chain_context_after_batch_cannot_publish(self):
+        from autorouter import chain_proposals as cp
+        build = cp.build
+        def changed(*args, **kwargs):
+            batch = build(*args, **kwargs)
+            path = self.output / 'chain-context/floor-final-context.json'
+            path.write_bytes(path.read_bytes() + b'\n')
+            return batch
+        with patch.object(cp, 'build', side_effect=changed):
+            result = self.exercise('chains')
+        self.assertFalse(result['accepted'])
+        self.assertIn('chain context', result['reason'])
 
 
 class FeedbackSelectionTests(unittest.TestCase):

@@ -49,3 +49,19 @@ class ChainProposalControls(unittest.TestCase):
   batch=c.build(original,s.zone_net_ids(original),protected);wanted={s.route_id(r) for r in redundant}
   self.assertEqual(len(wanted),20);self.assertEqual(len([g for g in batch['proposals'] if set(g['route_ids'])==wanted]),1)
   self.assertEqual(len(protected),1);self.assertEqual(source.read_bytes(),before)
+ def test_native_pad_basis_requires_the_complete_source_identity_census(self):
+  from experiments.chain_pruning_v1.fixture import recipe
+  from autorouter.board_floor import task_pads
+  original,_=recipe(sx.read(Path(__file__).resolve().parents[1]/'fixtures/smoke/smoke.kicad_pcb'))
+  expected=task_pads(original);rows=[]
+  for fp in sx.children(original,'footprint'):
+   centre=c.xy(sx.one(fp,'at'))
+   for pad in sx.children(fp,'pad'):
+    uid=sx.unquote(sx.one(pad,'uuid')[1]);local=c.xy(sx.one(pad,'at'))
+    rows.append(dict(expected[uid],uuid=uid,position_nm=[centre[i]+local[i] for i in (0,1)])) # Owned fixture has zero rotations.
+  a=c.build(original,s.zone_net_ids(original),[],native_pads=rows)
+  self.assertFalse(a['declined_reason']);self.assertEqual(a['proposals'][0]['segment_count'],20)
+  for forged in (rows[:-1],rows+[rows[0]], [dict(rows[0],net='forged'),*rows[1:]], [dict(rows[0],position_nm=[True,0]),*rows[1:]]):
+   with self.subTest(forged_count=len(forged)):
+    result=c.build(original,s.zone_net_ids(original),[],native_pads=forged)
+    self.assertTrue(result['declined_reason']);self.assertEqual(result['proposals'],[])

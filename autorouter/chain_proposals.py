@@ -31,7 +31,7 @@ def xy(node):
     return nm(node[1]), nm(node[2])
 
 
-def build(tree, nets, protected):
+def build(tree, nets, protected, *, native_pads=None):
     """Return groups plus explicit refusal/skip counts for this exact incumbent.
 
     A continuation requires exactly two eligible equal-width segments at the
@@ -41,13 +41,30 @@ def build(tree, nets, protected):
     deletion hypothesis, not a claim that the copper is electrically unbranched.
     """
     from . import strategy as s
-    result = dict(schema=1,kind='endpoint-chain-proposals-v1',proposals=[],
+    result = dict(schema=2,kind='endpoint-chain-proposals-v2',proposals=[],
                   declined_reason='',oversize_groups=0,closed_cycles=0,
-                  route_count=0,pad_count=0,eligible_segments=0)
+                  route_count=0,pad_count=0,eligible_segments=0,
+                  pad_position_basis='source-footprint-envelope' if native_pads is None else 'caller-bound-native-pad-positions')
     try:
         routes=p.routes(tree);result['route_count']=len(routes)
         if len(routes)>MAX_ROUTES:
             raise ValueError('chain route census ceiling')
+        positions={}
+        if native_pads is not None:
+            from .board_floor import task_pads
+            expected=task_pads(tree)
+            if type(native_pads) is not list or len(native_pads)!=len(expected) or len(native_pads)>MAX_PADS:
+                raise ValueError('complete bounded native pad census required')
+            for row in native_pads:
+                uid=row.get('uuid') if type(row) is dict else None
+                if uid not in expected or uid in positions:raise ValueError('unknown or duplicate native pad')
+                want=expected[uid]
+                if any(row.get(k)!=want[k] for k in ('reference','number','net','copper_layers')):
+                    raise ValueError('native/source pad identity differs')
+                point=row.get('position_nm')
+                if type(point) is not list or len(point)!=2 or any(type(v) is not int or abs(v)>10**12 for v in point):
+                    raise ValueError('exact native pad position required')
+                positions[uid]=tuple(point)
         envelopes=[]
         for fp in sx.children(tree,'footprint'):
             centre=xy(sx.one(fp,'at'))
@@ -60,8 +77,11 @@ def build(tree, nets, protected):
                 if min(size)<=0:raise ValueError('positive pad envelope required')
                 # L1 bound contains the rotated/flipped local centre and pad
                 # rectangle for every orientation. It can over-split groups.
-                radius=abs(local[0])+abs(local[1])+(size[0]+size[1]+1)//2+2
-                envelopes.append((centre,radius))
+                radius=(size[0]+size[1]+1)//2+2
+                if native_pads is None:
+                    radius+=abs(local[0])+abs(local[1]);pad_centre=centre
+                else:pad_centre=positions[sx.unquote(sx.one(pad,'uuid')[1])]
+                envelopes.append((pad_centre,radius))
         def pad_boundary(point):
             return any((point[0]-centre[0])**2+(point[1]-centre[1])**2<=radius**2
                        for centre,radius in envelopes)

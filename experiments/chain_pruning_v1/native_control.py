@@ -31,6 +31,14 @@ def run(out):
   if remaining()<2:record.update(status='budget_exceeded',passed=False)
   if record['status']!='completed':record['passed']=False
  try:
+  geometry=p.Job(out/'geometry',min(12,remaining()-4),protect_local_settings=True)
+  context,context_pin=s._chain_context(geometry,board)
+  record['geometry_steps']=geometry.steps
+  record['geometry_receipt_sha256']=context_pin
+  native_batch=cp.build(original,nets,protected,native_pads=context['pads'])
+  assert p.sha(geometry.out/'floor-final-context.json')==context_pin
+  assert not native_batch['declined_reason'] and len([x for x in native_batch['proposals'] if set(x['route_ids'])==wanted])==1
+  record['native_proposal_batch']=native_batch;completed[geometry.out]=completed_inventory(geometry.out)
   incumbent=None
   for name,proposal in [('incumbent',None),('whole',whole),('single',one),('chain',matches[0])]:
    stable();job=OfflineJob(out/name,min(20,remaining()-4),protect_local_settings=True);candidate=job.out/'candidate'/board.name;shutil.copytree(source,candidate.parent)
@@ -47,7 +55,7 @@ def run(out):
      assert p.native_accepted(native) and native['warnings']==0;incumbent=(metrics,native)
     elif name=='whole':assert native['opens']>0 and not p.native_accepted(native)
     elif name=='single':assert native['opens']==0 and native['warnings']>0 and not s._improves(metrics,incumbent[0],native,incumbent[1])
-    else:assert s._improves(metrics,incumbent[0],native,incumbent[1]) and p.native_accepted(native) and abs(incumbent[0]['track_length_mm']-metrics['track_length_mm']-16.5)<1e-8
+    else:assert s._improves(metrics,incumbent[0],native,incumbent[1]) and p.native_accepted(native) and abs(incumbent[0]['track_length_mm']-metrics['track_length_mm']-13)<1e-8
     entry.update(passed=True,candidate_sha256=digest,native_report_sha256=p.sha(job.out/'final-drc.json'),native=native,metrics=metrics,protected_count=len(protected),steps=job.steps);completed[job.out]=completed_inventory(job.out)
    except BaseException:
     entry['steps']=job.steps;raise

@@ -17,7 +17,7 @@ def recipe(base):
   if sx.unquote(prop[1])=='Reference':prop[2]='"J8"'
  tree.append(fp)
  tree.append(f.segment('essential-GND-bridge',(10,30),(40,30),'GND'))
- points=[(10,30),(10,36)]+[(10+i*.25,36) for i in range(1,19)]+[(14.5,30)]
+ points=[(10,30),(10,34.25)]+[(10+i*.25,34.25) for i in range(1,19)]+[(14.5,30)]
  redundant=[]
  for i,(a,b) in enumerate(zip(points,points[1:])):
   route=f.segment('redundant-chain-'+str(i),a,b,'GND');tree.append(route);redundant.append(route)

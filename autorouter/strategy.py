@@ -221,6 +221,68 @@ def _steps(job, phase):
     return [dict(step, phase=phase) for step in job.steps]
 
 
+def _chain_context(job, best):
+    """Reuse the pinned read-only Native geometry observer on a complete copy."""
+    from . import floor_route as floor
+    before = p.tree_hash(best.parent)
+    local = job.out / 'candidate' / best.name
+    shutil.copytree(best.parent, local.parent)
+    if p.tree_hash(local.parent) != before:
+        raise p.Rejected('chain geometry input copy differs')
+    path = job.out / 'floor-final-context.json'
+    job.step('floor-final', floor.context_argv('final', local, path))
+    from .placement_clearance import read_bytes
+    raw = read_bytes(path)
+    context = json.loads(raw)
+    context_pin = hashlib.sha256(raw).hexdigest()
+    floor.context_binding(context, local, before, 'final')
+    if p.sha(path) != context_pin or p.tree_hash(best.parent) != before or p.tree_hash(local.parent) != before:
+        raise p.Rejected('chain geometry input changed')
+    return context, context_pin
+
+
+def _chain_context_inventory(folder):
+    from .placement_clearance import inventory
+    files, directories = inventory(folder, with_directories=True)
+    return {'files': files, 'directories': list(directories)}
+
+
+def _chain_context_fresh(directory, data):
+    directory=Path(directory);folder=directory/'chain-context';record=data.get('chain_pad_context')
+    if record is None:
+        if folder.exists() or folder.is_symlink():raise p.Rejected('chain context binding missing')
+        return
+    if (type(record) is not dict or set(record)!={'file','sha256','inventory'}
+        or record['file']!='chain-context/floor-final-context.json'
+        or p.sha(directory/record['file'])!=record['sha256']
+        or _chain_context_inventory(folder)!=record['inventory']):
+        raise p.Rejected('chain context changed')
+
+
+def check_chain_context(directory, data):
+    """Shared receipt readback for the optional geometry-backed proposal batch."""
+    from . import floor_route as f, chain_proposals as cp
+    directory=Path(directory)
+    _chain_context_fresh(directory,data)
+    record=data.get('chain_pad_context')
+    if record is None:
+        if data.get('proposal_policy')=='chains' and data.get('chain_context_skipped') not in {
+                'insufficient remaining work budget','no grouped zone routing opportunity'}:
+            raise p.Rejected('chain context missing without declared skip')
+        if data.get('chain_proposal_batches'):raise p.Rejected('chain batches have no bound context')
+        return
+    if data.get('proposal_policy')!='chains':raise p.Rejected('chain context on another proposal policy')
+    folder=directory/'chain-context';context_path=folder/'floor-final-context.json'
+    context=f.read_json(context_path);local=folder/'candidate'/Path(data['source']).name
+    f.context_binding(context,local,p.tree_hash(local.parent),'final')
+    f.process_check(folder,data,'floor-final',f.context_argv('final',local,context_path))
+    tree=sx.read(local)
+    batch=cp.build(tree,zone_net_ids(tree),[r for r in p.routes(tree) if p.locked(r)],native_pads=context['pads'])
+    expected=dict(batch,base_candidate_sha256=p.sha(local))
+    if data.get('chain_proposal_batches')!=[expected]:raise p.Rejected('chain context proposal replay differs')
+    _chain_context_fresh(directory,data)
+
+
 def _cancelled(steps):
     return any(step.get("status") == "cancelled" for step in steps)
 
@@ -288,6 +350,7 @@ def check_pruning_preferences(directory, data):
 def check_incumbent_scoring(directory, data):
     """Bind an explicitly chosen scoring preset to the fresh charged solve."""
     from . import floor_route as f
+    check_chain_context(directory, data)
     check_pruning_preferences(directory, data)
     path=Path(directory)/'incumbent/result.json';inc=f.read_json(path)
     marker=Path(directory)/'pruning-scoring.json'
@@ -534,9 +597,23 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
             if grouped == "chains":
                 from .chain_proposals import build
                 from .placement_clearance import read_bytes
+                if remaining_work_budget() < MIN_TRIAL_SECONDS:
+                    report['chain_context_skipped']='insufficient remaining work budget'
+                    continue
+                context_job = p.Job(output / 'chain-context', min(8.0, remaining_work_budget()), protect_local_settings=True)
+                try:
+                    context, context_pin = _chain_context(context_job, best)
+                finally:
+                    all_steps.extend(_steps(context_job, 'chain-context'))
+                context_path = context_job.out / 'floor-final-context.json'
+                report['chain_pad_context']={'file':str(context_path.relative_to(output)), 'sha256':context_pin,
+                                             'inventory':_chain_context_inventory(context_job.out)}
                 raw = read_bytes(best)
                 base_pin = hashlib.sha256(raw).hexdigest()
-                batch = build(sx.parse(raw.decode('utf-8')), nets, protected)
+                if context['input_hashes_before'] != p.tree_hash(best.parent):
+                    raise p.Rejected('chain native pad context differs from incumbent')
+                batch = build(sx.parse(raw.decode('utf-8')), nets, protected, native_pads=context['pads'])
+                _chain_context_fresh(output, report)
                 if p.sha(best) != base_pin:
                     raise p.Rejected("incumbent changed during chain proposal generation")
                 report.setdefault("chain_proposal_batches", []).append(dict(batch, base_candidate_sha256=base_pin))
@@ -639,6 +716,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
     def stable():
         owned_destination(owner)
         pref.check_fresh(captured)
+        if report.get('accepted'):_chain_context_fresh(output,report)
         if report.get('source_hashes') and (output/'snapshot').is_dir():
             original_fresh(source, output/'snapshot', report['source_hashes'])
         for relative, digest in report.get('tools', {}).get('implementation_sha256', {}).items():
