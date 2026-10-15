@@ -1,4 +1,14 @@
-# Installation qualification
+# Current installation qualification
+
+[Installation032](../evidence/installation032-native-001.json) tests runtime5f1ba4cea6bbec2a5a70e2cfd30942a53da47b9a in a fresh local source-distribution checkout and independent venv at `.runs/installation-032/checkout`. It passes22 offline commands,73 fixed software controls and a real Native60mm/zero-via/zero-finding smoke. Complete original inventory20820 files; initial distribution639files. Eight focused installed Native session-cache controls pass; no historical test supplement was copied. Existing Mac/apps/basePython/verified engine cache are reused, so this is not a freshOS or fullinstalledsuite claim.
+
+Independent reader001 preserves six successful groups but fails an obsolete72-test assertion; the current fixed suite has73 after the SUNX fetch control. Only that failed command group and its previously unreached freshness checks run in tail002. Both failure and all costs remain. No Native worker, installation, test suite or full semantic reader was repeated. Current host Roller complete-schematic/nonzero-alias export and GUI observations are separately qualified; this owned installed smoke is PCB/PRO/PRL withoutSCH and withzeroaliases.
+
+The command below remains the milestone entry point. Use fresh outputs and a clean committed source. Source capacity is currently22000 files/352MiB; distribution scope, native checks and original design rules remain unchanged. Later source-only documentation/data profiles do not imply another installed runtime qualification.
+
+## Earlier installation observations
+
+The following records describe their stated source revisions; current qualification is the receipt above.
 
 Current installation019 at `4b1e8713ecf93ec00373804206d53740d7eed55a` passed22 network-denied commands in a fresh local Git source-distribution checkout and venv. Every19,345 original tracked file and479 installed tracked file was checked before/after. Its explicitly listed65-test subset passed in2.867s; the full original981-test suite passed separately in full028. A real native smoke/check produced0opens/0blocking/0warnings,60mm/zero vias. Whole invocation30.515217wall/23.854560fullCPU seconds. [Actual qualification](../evidence/installation-019/SCOPE.md), [independent readback](../evidence/current-installation019-actual-review-001/REPORT.txt).
 

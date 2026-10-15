@@ -23,3 +23,5 @@ The next original-design gate uses the existing shared diagnostic, preserving th
 ```
 
 This runs saved original refill and complete-schematic DRC, without an export or routing engine. Acquisition or a completed diagnostic is not routing acceptance. Any unsupported constraint, warning, failure or source change remains visible; no result is assumed here.
+
+Actual original001 now completed: saved Native0opens/0blocking/15warnings; fullSCH original-shell0/0/19 withfour genuine source parity findings. Two locked mountingholes contain NPTH pads and duplicateREF** withoutboard_only; C5 DNP differs betweenSCH/PCB. Variable-dependent surface text also blocksnormalexport. All135originalroutes/fulloriginalAST/PRL remainexact in the finaldiagnostic; source repair, aliaswaiver, engine/routing admission and physical function are unqualified. [Actual source gate](../evidence/sunx-original-native-001.json). Do not repeat acquisition/Native/readback to obtain a different result.
