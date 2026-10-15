@@ -1,0 +1,784 @@
+{
+  "schema": 1,
+  "kind": "endpoint-chain-native-mechanism-and-exposed-geometry-screen",
+  "producer_git_head": "a24c09f4c87cc38ed63f2599270ac9c6ff50f266",
+  "new_routing_gain": false,
+  "production_admitted": false,
+  "actual_constructed_control_passed": true,
+  "controls": [
+    {
+      "case": "incumbent",
+      "passed": true,
+      "candidate_sha256": "a5c0fd36e578f7602eab9a6c0cd9bd9f0bb82429f3dff9a569d5de91fbdf6ec2",
+      "native_report_sha256": "18aff883bcde564b1939438f204504998899c4e99d4e4c1c0798f19b0fe4011a",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": []
+      },
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 8,
+        "footprints": 8,
+        "zones": 1,
+        "vias": 0,
+        "track_length_mm": 103.0,
+        "copper_layers": 2
+      },
+      "protected_count": 1
+    },
+    {
+      "case": "whole",
+      "passed": true,
+      "candidate_sha256": "c347959ab5db34feb25cd2d5d9f80c0a8a11d90d6eea9b0903c768cdb590b027",
+      "native_report_sha256": "0a31d72120838de700039bdecd78328ffb1fa3f53cf18e7785d9803480bb9e21",
+      "native": {
+        "opens": 1,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Missing connection between items",
+            "items": [
+              {
+                "description": "Zone [GND] on B.Cu, priority 0",
+                "pos": {
+                  "x": 6.0,
+                  "y": 25.0
+                },
+                "uuid": "5a4bb95a-e244-41cb-b650-8e9f3573eb0f"
+              },
+              {
+                "description": "Zone [GND] on B.Cu, priority 0",
+                "pos": {
+                  "x": 6.0,
+                  "y": 25.0
+                },
+                "uuid": "5a4bb95a-e244-41cb-b650-8e9f3573eb0f"
+              }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+          }
+        ]
+      },
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 8,
+        "footprints": 8,
+        "zones": 1,
+        "vias": 0,
+        "track_length_mm": 60.0,
+        "copper_layers": 2
+      },
+      "protected_count": 1
+    },
+    {
+      "case": "single",
+      "passed": true,
+      "candidate_sha256": "2885b722a8d515813a6185862f2218c5f5b20713c63383b518fdee79e076c7db",
+      "native_report_sha256": "886ff754d8c9efe5ad0c7cdc096cc754293bcb59847dba9c3be26a669f27d1c4",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 2,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Track has unconnected end",
+            "items": [
+              {
+                "description": "Track [GND] on F.Cu, length 0.2500 mm",
+                "pos": {
+                  "x": 11.75,
+                  "y": 34.25
+                },
+                "uuid": "8b43a273-6bbc-5d58-ba34-ebe9dd02a060"
+              }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+          },
+          {
+            "description": "Track has unconnected end",
+            "items": [
+              {
+                "description": "Track [GND] on F.Cu, length 0.2500 mm",
+                "pos": {
+                  "x": 12.25,
+                  "y": 34.25
+                },
+                "uuid": "a869e3e4-521a-582b-82e4-a022978a5a06"
+              }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+          }
+        ]
+      },
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 8,
+        "footprints": 8,
+        "zones": 1,
+        "vias": 0,
+        "track_length_mm": 102.75,
+        "copper_layers": 2
+      },
+      "protected_count": 1
+    },
+    {
+      "case": "chain",
+      "passed": true,
+      "candidate_sha256": "210bc331aabc2167b65b3fc941a9638707d30ccf6c09bd438cc24e0cd9e5fd72",
+      "native_report_sha256": "4ce360ab6f6e0da986050e415c568b078849ee9f8fa17497c30ad3a293eaa610",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": []
+      },
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 8,
+        "footprints": 8,
+        "zones": 1,
+        "vias": 0,
+        "track_length_mm": 90.0,
+        "copper_layers": 2
+      },
+      "protected_count": 1
+    }
+  ],
+  "scope": "Owned constructed fixture, no engine/benchmark/gain claim. Full original immutable/protected/rules/refill/final checks. PCB-only schematic unavailable. Whole deletion must remain invalid; singleton may be Native-connected but quality-invalid.",
+  "native_proposal_segments": 20,
+  "native_proposal_length_mm": 13.0,
+  "geometry_screen": [
+    {
+      "label": "NUS",
+      "prior_result": ".runs/nus-native-paired-002/run/C_feedback/result.json",
+      "prior_result_sha256": "8c7f32427a8745cd3ec9ba31eb5b3f456c95ba83b0584fa5595b5da714efb7f9",
+      "candidate_sha256": "889fb588dc4f114a050dfe5dc97dfd21357d85422c2fa1116c44655f2bc9bb6a",
+      "group_count": 0,
+      "group_sizes": [],
+      "declined_reason": "",
+      "error": null,
+      "status": null,
+      "context_sha256": "84c3bb35ceffd14a971f8e801b94d88d8c3a8572463dd2a74318d868b2212935",
+      "unsupported": null,
+      "geometry_executed": null
+    },
+    {
+      "label": "Sonde",
+      "prior_result": ".runs/sonde-native-paired-complete-sch-001/run/C_feedback/result.json",
+      "prior_result_sha256": "a757b1aa5c8e8fb17b903f883e519ef030049837328bc31d06d91b631ae3cb57",
+      "candidate_sha256": "842296014a4f65decb7c6cee0f7f06f003489a6088bb84f24503a754bf146dfa",
+      "group_count": 4,
+      "group_sizes": [
+        3,
+        2,
+        2,
+        2
+      ],
+      "declined_reason": "",
+      "error": null,
+      "status": null,
+      "context_sha256": "bfd9325d589e34386ae2ab18a698918742d37f15b20ea2aa714d1c88bd2aee22",
+      "unsupported": null,
+      "geometry_executed": null
+    },
+    {
+      "label": "LED",
+      "prior_result": ".runs/push-button-led-native-paired-complete-sch-001/run/C_feedback/result.json",
+      "prior_result_sha256": "d117b8286f514f0325fdbe57aaffb693145b83a3a7cca4203ec899bf360180b0",
+      "candidate_sha256": "98e51d7afa0b814dd280341eab2967dd44edbb253d90a94ef5bac3d0dd231597",
+      "group_count": 0,
+      "group_sizes": [],
+      "declined_reason": "",
+      "error": null,
+      "status": null,
+      "context_sha256": "29063726d13ba331f35ada48d6f7561625af862009dc847f09e7e4d50c20aca9",
+      "unsupported": null,
+      "geometry_executed": null
+    },
+    {
+      "label": "ArcDice",
+      "prior_result": ".runs/arcdice-native-paired-complete-sch-003/run/C_feedback/result.json",
+      "prior_result_sha256": "7b7c14be14014405b129afef1f8eefc02fd06c0937d9c1c30b446551983c0d45",
+      "candidate_sha256": "9d7192d9601f0f5a528443b7459dc7c5f85099334c4527221caf60ae05a4b7d0",
+      "group_count": 4,
+      "group_sizes": [
+        3,
+        3,
+        2,
+        2
+      ],
+      "declined_reason": "",
+      "error": null,
+      "status": null,
+      "context_sha256": "23b20879ef8e65fc9d7a07bdbcf017f9f3bd40b5284ae26e465e87dfa2d3d4ec",
+      "unsupported": null,
+      "geometry_executed": null
+    },
+    {
+      "label": "Analog-High",
+      "prior_result": ".runs/analog-high-incumbent-pruning-002/run/result.json",
+      "prior_result_sha256": "2d39cd1e72c71f0cf0c7017a1c82ae10415660b6cadb74aedafffabac31b7bf7",
+      "candidate_sha256": "c371a5a436dcdd6fc1327259a7e011f997d6cd76dbd7a684f1b5d1f8fa1d63a4",
+      "group_count": 0,
+      "group_sizes": [],
+      "declined_reason": null,
+      "error": null,
+      "status": null,
+      "context_sha256": null,
+      "unsupported": "existing Native geometry helper requires2Cu; actual4",
+      "geometry_executed": false
+    },
+    {
+      "label": "CellScan",
+      "prior_result": ".runs/cellscan-c-default-pruning-edge-budget360-001/trial/result.json",
+      "prior_result_sha256": "affc5eff9dde7abcf60f2e8a6f251ec4facf24e912f7d1bec7b5f1c50018f780",
+      "candidate_sha256": "eb82b46004b0fed52723b1f5e954c76d32d67310ea10276eda6cdc973aa68b36",
+      "group_count": 18,
+      "group_sizes": [
+        3,
+        5,
+        2,
+        2,
+        2,
+        2,
+        3,
+        2,
+        3,
+        4,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "declined_reason": "",
+      "error": null,
+      "status": null,
+      "context_sha256": "7bfeb7d2fb6cfd360ca7aef40b64da47d57bfe99b9b1173879d791b31d8c387a",
+      "unsupported": null,
+      "geometry_executed": null
+    },
+    {
+      "label": "Roller",
+      "prior_result": ".runs/roller-b2c-paired240-001/run/C_feedback/result.json",
+      "prior_result_sha256": "a9ef146a9de7790d8bb764cc882cb0542c6b2fa24de1209b8ef0324d2135c369",
+      "candidate_sha256": "4423c89fd450912f894d2ec1bff1cc1a4fa1e4b43e007adc409f8b0173b21761",
+      "group_count": 0,
+      "group_sizes": [],
+      "declined_reason": "ValueError: duplicate reference",
+      "error": null,
+      "status": null,
+      "context_sha256": "727eec3a03cee311c6a883085f6d6344bc80d269ce946dcb1d70dbe1941d49a0",
+      "unsupported": null,
+      "geometry_executed": null
+    },
+    {
+      "label": "Universal",
+      "prior_result": "evidence/universal-preparation950-actual-001/C-result.json",
+      "prior_result_sha256": "f9046f99d8b0898b0d6e6b9604c9ca2081126738662a81805aaaaa49c49def68",
+      "candidate_sha256": "4832519fc5820d98ae431dce10adf564c55504ac638de38aeb626ca5b5fbaf96",
+      "group_count": 29,
+      "group_sizes": [
+        4,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        3,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        3,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "declined_reason": "",
+      "error": null,
+      "status": null,
+      "context_sha256": "a6f6d96683251845c4ac0fbb8014b83e2c527a6f9ed17da2c13578ec7b7e24c2",
+      "unsupported": null,
+      "geometry_executed": null
+    },
+    {
+      "label": "IR",
+      "prior_result": ".runs/ir-obstacle-corrected-cumulative300-003/feedback/C_feedback/result.json",
+      "prior_result_sha256": "50d61e78367d5b331e6358c09ec681515611d44eb9b192a0fdd6aed745d35592",
+      "candidate_sha256": "0b82a2624713b81e46f528fe1f0a92a87d4cd2ff7ca7e4dda1d8ee29213b9fe0",
+      "group_count": 3,
+      "group_sizes": [
+        2,
+        2,
+        2
+      ],
+      "declined_reason": "",
+      "error": null,
+      "status": null,
+      "context_sha256": "d1f5008fe2c64853541e68e140c30bc689d062d4230bc27a84ece10303daa608",
+      "unsupported": null,
+      "geometry_executed": null
+    }
+  ],
+  "geometry_scope": "Exposed retained generatedC candidates only. ActualNativepadgeometry on completecopy/pinnedhelper; no newrouting/DRC/quality/acceptance claim or sourceboardwrite. Everyzero/decline retained.",
+  "raw_pins": {
+    ".runs/chain-pruning-native-control-002/result.json": "35d3795333ba01fc49d38ec4de41906a72d291663378521eca6e531c933401f3",
+    ".runs/chain-geometry-cohort003/result.json": "2f9b135fbf452146bfb662761d56b85d30425bd763bbda7d800ea02e679e2827",
+    ".runs/chain-pruning-native-control-execution-002/execution.json": "f89074ce1f2eed180c6eedb747687bf0fd2bfdd8ead1fa88f0b81101d611977d",
+    ".runs/chain-native-route-screen-002/result.json": "6b903401b37b9f44174557fd2776d9f56adfd816f1fd1fce05637f1df315dc90",
+    ".runs/chain-native-route-screen-execution-002/execution.json": "3278da41ec4eeff3ba1c8a58995ab7508f7e14c1f5e5c773d4e53c3620af4df9",
+    ".runs/chain-geometry-cohort003-execution-001/execution.json": "e7916f4e521db99c90d66feb9b5dfde467a2d5b1fdca43d133632be7652cebba",
+    ".runs/chain-geometry-cohort003-protocol.json": "a187adb93d264f2ba7d8ad93a26b07cd99e4326db21ac1b084c157d1d8877152",
+    ".runs/capture-chain-native002-actual.py": "f242bf662c7494c08bb790cbfaf9a04b7284ca189b8cfe4367a93f2414b75035"
+  },
+  "native_execution": {
+    "schema": 1,
+    "passed": true,
+    "native_executed": true,
+    "routing_executed": false,
+    "production_admitted": false,
+    "tools": {
+      "implementation_sha256": {
+        "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+        "autorouter/__main__.py": "eb48b32e74c3b25ffa7daca999cdff4c640ea7199abd990090732671bca495ea",
+        "autorouter/adapter.py": "87f3d2a69c64029011dc72a48759932b208379a9391f23b65015b48a7418c4ae",
+        "autorouter/board_floor.py": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340",
+        "autorouter/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+        "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+        "autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+        "autorouter/floor_route.py": "cf0e44b6672f56f531db7c4cc21bf79e4faedbca0d414212c1e5f1ad0e48eb24",
+        "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+        "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+        "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+        "autorouter/local_settings.py": "69fa09a68af0e794cdc5abb8d674a2117e4696a6352a2943d71744d326d8e861",
+        "autorouter/native.py": "ece3822466657c38935b15c77eb4df37c1ae82b1893dc8f335685b754bad4c23",
+        "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+        "autorouter/native_edge.py": "8a38b60f301a72b815b877f9af59d156024757d66eda7d3df8c34addbe4d0c74",
+        "autorouter/netclass.py": "899c50f86d8745c99bd314d62e3017be209137f4fc918d672d7dd2cdb3f7a4fa",
+        "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+        "autorouter/padless_alias.py": "5748f83ab88f746f65ba65462dc31b3d4bc6edf678df19169e051ab6c80b947a",
+        "autorouter/padless_alias_native.py": "7d06683b834f0211c82d87d7c982f6c39960e841627cd5e98f58a7913f501002",
+        "autorouter/pipeline.py": "8c4f3b0bcb87349a52ae94538af7650636b7e7b79b51c4f9f9e8956dea1a3eea",
+        "autorouter/placement_clearance.py": "f846a73367bc60dfbb48386233e405cb4bf1382f056d379787d7b823c3905feb",
+        "autorouter/placement_strategy.py": "765a28e5a63da3e52266665accf9b9e1f5ea586ea9a90f51291b142c4373fb32",
+        "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+        "autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+        "autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+        "autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+        "autorouter/recovery.py": "fb2866c5340b808c6f7baf6a43234c87e8e353e74f47a91b51ad6fae5c24a78d",
+        "autorouter/review_export.py": "698dc66682416579c3d44b571dce0c0ed7102244adb0cff38dceeeca0ea1489c",
+        "autorouter/review_view.py": "79f65e4d53c243f4e0f054d97bced2be2c4646537e5b86f11626ac8c5f4ce92d",
+        "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+        "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+        "autorouter/schematic_field_evidence.py": "184137676a27d67969878caf2af52a141ca419cc1a3e48cab1c9d701e67eef15",
+        "autorouter/schematic_fields.py": "7d9043a14bac69d18830b2f51cb7d118c648df9290337505db1bf8503d931a71",
+        "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+        "autorouter/strategy.py": "136c3ca8d2448b12e8f42533dc0742a55518f8d9b37001f65fe608ba26daa94a",
+        "autorouter/thermal.py": "2fa7ff7260ba6e8b5a8003d8e1f51314b5ff548ef635fb94b29bdee4c741102d",
+        "autorouter/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+        "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+        "autorouter/thermal_worker.py": "fd651f44233aae2c70da0a8feab5f96a4763276684e8b0babf39860b91a9cc33"
+      },
+      "git_head": "a24c09f4c87cc38ed63f2599270ac9c6ff50f266",
+      "kicad": "10.0.0",
+      "freerouting": "2.5.0",
+      "files": {
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+        "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219"
+      },
+      "network": "engine sandbox-exec deny network*",
+      "normal_drc_local_settings_policy": "job-owned-prl-immutable-v1",
+      "normal_selected_proposal_import_policy": "selected-proposals-exact-source-v1",
+      "normal_native_export_alias_policy": "source-bound-padless-export-v1"
+    },
+    "extra_source_sha256": {
+      "experiments/chain_pruning_v1/fixture.py": "7d64daa9f9848e4a2e2beafb14f7db5dbadb20f1c2044714e183baba7f93ef75",
+      "experiments/chain_pruning_v1/native_control.py": "4761493d6bdeba645db2e518eeb5bb25acdde0dca40e832344ae91255bf9f317",
+      "experiments/chain_pruning_v1/__init__.py": "e81c7a9cd5538fb824cae20556288081e61bd0eb087d85f8156541fc6371fa6a"
+    },
+    "wrapper_sha256": "cd1c06c4709c653256ebd0c98c66d80cd72033767fac27c34ea01b5ec586116a",
+    "controller_sha256": "4c98398cd64627228e04e234eb72d3729766033a43a6cf46e47a024cc5468a18",
+    "budget_seconds": 110,
+    "cpu_budget_seconds": 110,
+    "publication_allowance_seconds": 2,
+    "process": {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 11.978982833999908,
+      "cpu_seconds": 6.599,
+      "max_rss_bytes": 198131712,
+      "supervisor_cpu_seconds": 0.048236,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 198950912,
+      "sampled_peak_workdir_bytes": 122,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 2097152,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/chain_pruning_v1/native_control.py",
+        "--run-native",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/chain-pruning-native-control-002"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/chain-pruning-native-control-execution-002/command.log",
+      "log_bytes": 122,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/chain-pruning-native-control-execution-002",
+      "signal_cancellation_enabled": true,
+      "pid": 83850
+    },
+    "source_current": true,
+    "receipt_sha256": "35d3795333ba01fc49d38ec4de41906a72d291663378521eca6e531c933401f3",
+    "observed_status": "completed",
+    "observed_passed": true,
+    "actual_controls": 4,
+    "wall_seconds": 12.575823374994798,
+    "full_cpu_seconds": 7.28942,
+    "log_sha256": "4e122b618fc3dea4d5117ef75d66eef066b8ccfc63bf3f29bb3a6f6a0bea4a66"
+  },
+  "two_case_geometry_execution": {
+    "schema": 1,
+    "tools": {
+      "implementation_sha256": {
+        "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+        "autorouter/__main__.py": "eb48b32e74c3b25ffa7daca999cdff4c640ea7199abd990090732671bca495ea",
+        "autorouter/adapter.py": "87f3d2a69c64029011dc72a48759932b208379a9391f23b65015b48a7418c4ae",
+        "autorouter/board_floor.py": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340",
+        "autorouter/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+        "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+        "autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+        "autorouter/floor_route.py": "cf0e44b6672f56f531db7c4cc21bf79e4faedbca0d414212c1e5f1ad0e48eb24",
+        "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+        "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+        "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+        "autorouter/local_settings.py": "69fa09a68af0e794cdc5abb8d674a2117e4696a6352a2943d71744d326d8e861",
+        "autorouter/native.py": "ece3822466657c38935b15c77eb4df37c1ae82b1893dc8f335685b754bad4c23",
+        "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+        "autorouter/native_edge.py": "8a38b60f301a72b815b877f9af59d156024757d66eda7d3df8c34addbe4d0c74",
+        "autorouter/netclass.py": "899c50f86d8745c99bd314d62e3017be209137f4fc918d672d7dd2cdb3f7a4fa",
+        "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+        "autorouter/padless_alias.py": "5748f83ab88f746f65ba65462dc31b3d4bc6edf678df19169e051ab6c80b947a",
+        "autorouter/padless_alias_native.py": "7d06683b834f0211c82d87d7c982f6c39960e841627cd5e98f58a7913f501002",
+        "autorouter/pipeline.py": "8c4f3b0bcb87349a52ae94538af7650636b7e7b79b51c4f9f9e8956dea1a3eea",
+        "autorouter/placement_clearance.py": "f846a73367bc60dfbb48386233e405cb4bf1382f056d379787d7b823c3905feb",
+        "autorouter/placement_strategy.py": "765a28e5a63da3e52266665accf9b9e1f5ea586ea9a90f51291b142c4373fb32",
+        "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+        "autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+        "autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+        "autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+        "autorouter/recovery.py": "fb2866c5340b808c6f7baf6a43234c87e8e353e74f47a91b51ad6fae5c24a78d",
+        "autorouter/review_export.py": "698dc66682416579c3d44b571dce0c0ed7102244adb0cff38dceeeca0ea1489c",
+        "autorouter/review_view.py": "79f65e4d53c243f4e0f054d97bced2be2c4646537e5b86f11626ac8c5f4ce92d",
+        "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+        "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+        "autorouter/schematic_field_evidence.py": "184137676a27d67969878caf2af52a141ca419cc1a3e48cab1c9d701e67eef15",
+        "autorouter/schematic_fields.py": "7d9043a14bac69d18830b2f51cb7d118c648df9290337505db1bf8503d931a71",
+        "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+        "autorouter/strategy.py": "136c3ca8d2448b12e8f42533dc0742a55518f8d9b37001f65fe608ba26daa94a",
+        "autorouter/thermal.py": "2fa7ff7260ba6e8b5a8003d8e1f51314b5ff548ef635fb94b29bdee4c741102d",
+        "autorouter/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+        "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+        "autorouter/thermal_worker.py": "fd651f44233aae2c70da0a8feab5f96a4763276684e8b0babf39860b91a9cc33"
+      },
+      "git_head": "a24c09f4c87cc38ed63f2599270ac9c6ff50f266",
+      "kicad": "10.0.0",
+      "freerouting": "2.5.0",
+      "files": {
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+        "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219"
+      },
+      "network": "engine sandbox-exec deny network*",
+      "normal_drc_local_settings_policy": "job-owned-prl-immutable-v1",
+      "normal_selected_proposal_import_policy": "selected-proposals-exact-source-v1",
+      "normal_native_export_alias_policy": "source-bound-padless-export-v1"
+    },
+    "process": {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 1.4970245839795098,
+      "cpu_seconds": 1.433474,
+      "max_rss_bytes": 206684160,
+      "supervisor_cpu_seconds": 0.005755999999999983,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 204619776,
+      "sampled_peak_workdir_bytes": 317,
+      "resource_guards": {
+        "max_group_rss_bytes": 2147483648,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/chain-native-route-screen-002.py"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/chain-native-route-screen-execution-002/command.log",
+      "log_bytes": 317,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/chain-native-route-screen-execution-002",
+      "signal_cancellation_enabled": true,
+      "pid": 84029
+    },
+    "wall_seconds": 1.4971036250062753,
+    "full_cpu_seconds": 1.439308,
+    "source_current": true
+  },
+  "seven_case_geometry_execution": {
+    "schema": 1,
+    "tools": {
+      "implementation_sha256": {
+        "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+        "autorouter/__main__.py": "eb48b32e74c3b25ffa7daca999cdff4c640ea7199abd990090732671bca495ea",
+        "autorouter/adapter.py": "87f3d2a69c64029011dc72a48759932b208379a9391f23b65015b48a7418c4ae",
+        "autorouter/board_floor.py": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340",
+        "autorouter/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+        "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+        "autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+        "autorouter/floor_route.py": "cf0e44b6672f56f531db7c4cc21bf79e4faedbca0d414212c1e5f1ad0e48eb24",
+        "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+        "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+        "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+        "autorouter/local_settings.py": "69fa09a68af0e794cdc5abb8d674a2117e4696a6352a2943d71744d326d8e861",
+        "autorouter/native.py": "ece3822466657c38935b15c77eb4df37c1ae82b1893dc8f335685b754bad4c23",
+        "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+        "autorouter/native_edge.py": "8a38b60f301a72b815b877f9af59d156024757d66eda7d3df8c34addbe4d0c74",
+        "autorouter/netclass.py": "899c50f86d8745c99bd314d62e3017be209137f4fc918d672d7dd2cdb3f7a4fa",
+        "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+        "autorouter/padless_alias.py": "5748f83ab88f746f65ba65462dc31b3d4bc6edf678df19169e051ab6c80b947a",
+        "autorouter/padless_alias_native.py": "7d06683b834f0211c82d87d7c982f6c39960e841627cd5e98f58a7913f501002",
+        "autorouter/pipeline.py": "8c4f3b0bcb87349a52ae94538af7650636b7e7b79b51c4f9f9e8956dea1a3eea",
+        "autorouter/placement_clearance.py": "f846a73367bc60dfbb48386233e405cb4bf1382f056d379787d7b823c3905feb",
+        "autorouter/placement_strategy.py": "765a28e5a63da3e52266665accf9b9e1f5ea586ea9a90f51291b142c4373fb32",
+        "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+        "autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+        "autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+        "autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+        "autorouter/recovery.py": "fb2866c5340b808c6f7baf6a43234c87e8e353e74f47a91b51ad6fae5c24a78d",
+        "autorouter/review_export.py": "698dc66682416579c3d44b571dce0c0ed7102244adb0cff38dceeeca0ea1489c",
+        "autorouter/review_view.py": "79f65e4d53c243f4e0f054d97bced2be2c4646537e5b86f11626ac8c5f4ce92d",
+        "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+        "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+        "autorouter/schematic_field_evidence.py": "184137676a27d67969878caf2af52a141ca419cc1a3e48cab1c9d701e67eef15",
+        "autorouter/schematic_fields.py": "7d9043a14bac69d18830b2f51cb7d118c648df9290337505db1bf8503d931a71",
+        "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+        "autorouter/strategy.py": "136c3ca8d2448b12e8f42533dc0742a55518f8d9b37001f65fe608ba26daa94a",
+        "autorouter/thermal.py": "2fa7ff7260ba6e8b5a8003d8e1f51314b5ff548ef635fb94b29bdee4c741102d",
+        "autorouter/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+        "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+        "autorouter/thermal_worker.py": "fd651f44233aae2c70da0a8feab5f96a4763276684e8b0babf39860b91a9cc33"
+      },
+      "git_head": "a24c09f4c87cc38ed63f2599270ac9c6ff50f266",
+      "kicad": "10.0.0",
+      "freerouting": "2.5.0",
+      "files": {
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+        "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219"
+      },
+      "network": "engine sandbox-exec deny network*",
+      "normal_drc_local_settings_policy": "job-owned-prl-immutable-v1",
+      "normal_selected_proposal_import_policy": "selected-proposals-exact-source-v1",
+      "normal_native_export_alias_policy": "source-bound-padless-export-v1"
+    },
+    "process": {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 4.1992991250008345,
+      "cpu_seconds": 4.054723,
+      "max_rss_bytes": 208338944,
+      "supervisor_cpu_seconds": 0.014206999999999997,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 206159872,
+      "sampled_peak_workdir_bytes": 646,
+      "resource_guards": {
+        "max_group_rss_bytes": 2147483648,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/chain-geometry-cohort003.py"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/chain-geometry-cohort003-execution-001/command.log",
+      "log_bytes": 646,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/chain-geometry-cohort003-execution-001",
+      "signal_cancellation_enabled": true,
+      "pid": 84114
+    },
+    "wall_seconds": 4.199377166980412,
+    "full_cpu_seconds": 4.069006999999999,
+    "source_current": true
+  },
+  "all_raw_artifacts_on_this_Mac_only": true,
+  "limitations": [
+    "Constructed PCB-only control has no schematic parity; all five ignored checks retained.",
+    "Geometry screens execute Native geometry only, not DRC/routing or current requalification of prior candidates.",
+    "Five opportunity cases, two zero-group cases and two scope refusals remain in the nine-case population.",
+    "No engine/current-C ablation or comparative routing gain established. Installation035 predates opt-in chains.",
+    "Earlier actual001 board-edge failure remains false and preserved.",
+    "Skeptical actual control review95wallseconds, fullCPU unknown; no Native/test reruns."
+  ]
+}
