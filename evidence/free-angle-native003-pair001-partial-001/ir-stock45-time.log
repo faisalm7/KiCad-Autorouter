@@ -1,0 +1,43 @@
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/floor_route.py", line 341, in publish
+    stable();account();expected=canonical(report)
+             ^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/run-free-angle-pair-001.py", line 176, in account
+    record.update(wall_seconds=prewall+time.monotonic()-START,full_cpu_seconds=prepcpu+cpu()-CPU0,publication_allowance_seconds=2)
+                                                                               ^^^^^^^
+NameError: name 'prepcpu' is not defined
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/run-free-angle-pair-001.py", line 195, in <module>
+    raise SystemExit(worker(plan,pin,args.project,args.arm) if args.mode=='worker' else execute(plan,pin,args.project,args.arm))
+                                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/run-free-angle-pair-001.py", line 179, in execute
+    f.publish(folder,record,stable,account,remaining,owned=lambda:h.owned_destination(owner),final_check=stable)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/floor_route.py", line 357, in publish
+    account()
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/run-free-angle-pair-001.py", line 176, in account
+    record.update(wall_seconds=prewall+time.monotonic()-START,full_cpu_seconds=prepcpu+cpu()-CPU0,publication_allowance_seconds=2)
+                                                                               ^^^^^^^
+NameError: name 'prepcpu' is not defined
+real 33.35
+user 24.47
+sys 7.41
+           282771456  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+              381853  page reclaims
+                3761  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                 267  signals received
+               18874  voluntary context switches
+               25394  involuntary context switches
+         31176658012  instructions retired
+          9597030054  cycles elapsed
+           233210576  peak memory footprint

@@ -1,0 +1,49 @@
+{
+  "status": "nonzero_exit",
+  "exit_code": 1,
+  "wall_seconds": 0.5279174169991165,
+  "cpu_seconds": 1.066751,
+  "max_rss_bytes": 181501952,
+  "supervisor_cpu_seconds": 0.0046199999999999575,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 118243328,
+  "sampled_peak_workdir_bytes": 14047,
+  "resource_guards": {
+    "max_group_rss_bytes": 2147483648,
+    "max_workdir_bytes": 134217728,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java",
+    "-Xms64m",
+    "-Xmx512m",
+    "-XX:ActiveProcessorCount=1",
+    "-Djava.awt.headless=true",
+    "--class-path",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/free_angle_baseline_v1/AngleObservation.java",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/free-angle-native-enclosure-003/native/loader/misspelledNone.dsn",
+    "none"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/free-angle-native-enclosure-003/native/loader/misspelledNone.log",
+  "log_bytes": 150,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/free-angle-native-enclosure-003/native/loader",
+  "signal_cancellation_enabled": true,
+  "pid": 47600,
+  "name": "misspelledNone"
+}

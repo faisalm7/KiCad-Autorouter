@@ -1,0 +1,3526 @@
+{
+  "schema": 1,
+  "accepted": false,
+  "passed": true,
+  "status": "completed",
+  "project": "ir-obstacle",
+  "angle": "stock45",
+  "profile": "tuned",
+  "scoring_variant": "via_default",
+  "protocol_sha256": "0380b45d6aa3d3af7bf099a5121b51ed3e3591a1d48eb135723dc5cb6b1b0d2e",
+  "git_head": "95896289fe60a227883006783e3b534a803d2ae8",
+  "tools": {
+    "implementation_sha256": {
+      "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+      "autorouter/__main__.py": "eb48b32e74c3b25ffa7daca999cdff4c640ea7199abd990090732671bca495ea",
+      "autorouter/adapter.py": "a99a389f8ff8d11b5c28507e524b823f3b906d703e2faa4dd34496a642517ac3",
+      "autorouter/board_floor.py": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340",
+      "autorouter/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+      "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+      "autorouter/engine_angle.py": "900f5f7e34e25a03220664951df4e978327a02628ae0203008093e34b78b8bb0",
+      "autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+      "autorouter/floor_route.py": "eaec4f7046c7e1284bb74f709a9c82b50ceb0cbd0a11c1bdf4ae4804914e5ecc",
+      "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+      "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+      "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+      "autorouter/local_settings.py": "a2ab6296b637ace500f1cdbdd62de0cd9c1803cfc17e38906ced497c1aef21c8",
+      "autorouter/native.py": "d7e3140cee40d0a618c5c699cdada4d833a04d76f8fe06e8b823b4f490f2e9b6",
+      "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+      "autorouter/native_edge.py": "8a38b60f301a72b815b877f9af59d156024757d66eda7d3df8c34addbe4d0c74",
+      "autorouter/netclass.py": "e94d207e800e80143247ad66a44fd618fcb330c7eb6fb8f196b9b36ef72fc61b",
+      "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+      "autorouter/padless_alias.py": "f359a89e3c48703058490c22d9591b5f916cd22a8b734c50e1c9191e501c1413",
+      "autorouter/padless_alias_native.py": "7d06683b834f0211c82d87d7c982f6c39960e841627cd5e98f58a7913f501002",
+      "autorouter/pipeline.py": "9eb4c169061d3a6f184bf4cab7cc9878280b9de9dec18e49fba117f2e16dec64",
+      "autorouter/placement_clearance.py": "8fa82414fa40f80d90ed4a42f53fa2e679a52d74cfb4cfa9038239f1217aaff6",
+      "autorouter/placement_strategy.py": "765a28e5a63da3e52266665accf9b9e1f5ea586ea9a90f51291b142c4373fb32",
+      "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+      "autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+      "autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+      "autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+      "autorouter/recovery.py": "fb2866c5340b808c6f7baf6a43234c87e8e353e74f47a91b51ad6fae5c24a78d",
+      "autorouter/review_export.py": "698dc66682416579c3d44b571dce0c0ed7102244adb0cff38dceeeca0ea1489c",
+      "autorouter/review_view.py": "79f65e4d53c243f4e0f054d97bced2be2c4646537e5b86f11626ac8c5f4ce92d",
+      "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+      "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+      "autorouter/schematic_field_evidence.py": "f5c03ac0be4b5fa3960bfec5f511199f7b566de8483fc78581e39e02804dbb93",
+      "autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+      "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+      "autorouter/strategy.py": "2794344ef69e70e627c4f8a858e63347f3f2d5d79bfc98b8090bbbbc5e4c193e",
+      "autorouter/thermal.py": "2fa7ff7260ba6e8b5a8003d8e1f51314b5ff548ef635fb94b29bdee4c741102d",
+      "autorouter/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+      "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+      "autorouter/thermal_worker.py": "fd651f44233aae2c70da0a8feab5f96a4763276684e8b0babf39860b91a9cc33"
+    },
+    "git_head": "95896289fe60a227883006783e3b534a803d2ae8",
+    "kicad": "10.0.0",
+    "freerouting": "2.5.0",
+    "files": {
+      "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219",
+      "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7"
+    },
+    "network": "engine sandbox-exec deny network*",
+    "normal_drc_local_settings_policy": "job-owned-prl-immutable-v1",
+    "normal_selected_proposal_import_policy": "selected-proposals-exact-source-v1",
+    "normal_native_export_alias_policy": "source-bound-padless-export-v1"
+  },
+  "scope": "Two exposed existing circuits, ordinary native1000 whole-board corrected adapter, tuned stock45 versus NONE only. No C/portfolio, generalization, independent pedigree, raw CAD publication or default promotion.",
+  "workers": [
+    {
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/free-angle-pair-001/ir-obstacle/stock45/child/route",
+      "name": "source-drc",
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "cleanup_complete": true,
+      "completed_shared_process_check": true,
+      "native_stage": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 32,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Reference field of J1",
+                "pos": {
+                  "x": 132.91875,
+                  "y": 101.0975
+                },
+                "uuid": "df1a830b-fc01-4e37-9895-694f8ed296fe"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 127.15375,
+                  "y": 93.3175
+                },
+                "uuid": "d9a90ab3-e553-4a4a-b8c4-0d67c654828f"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 127.15375,
+                  "y": 95.8575
+                },
+                "uuid": "4ea74227-e485-43d8-a849-b11ee3970cbc"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 133.15375,
+                  "y": 92.3675
+                },
+                "uuid": "94b74fc3-51c6-4145-8791-9c0fd47107b4"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 133.15375,
+                  "y": 94.1775
+                },
+                "uuid": "2eb2bce9-d704-46db-b6f0-674cbaab2f58"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 133.15375,
+                  "y": 96.7175
+                },
+                "uuid": "9e2e0a26-2ac7-4ddd-9246-fb1d2c554949"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 133.15375,
+                  "y": 100.2075
+                },
+                "uuid": "0664d6ce-8211-446a-9295-e6e5b6404e88"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 135.91375,
+                  "y": 92.3675
+                },
+                "uuid": "2acedea3-5d68-4eea-83f6-3b8de01be510"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 135.91375,
+                  "y": 95.0175
+                },
+                "uuid": "186150c6-435f-4f24-ad61-30c0f14ce7ff"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 135.91375,
+                  "y": 97.5575
+                },
+                "uuid": "051d50c0-2871-4976-9917-db6fb4a3f524"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Rectangle of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 133.15375,
+                  "y": 99.2575
+                },
+                "uuid": "972ed5d5-10ba-4379-bc2a-a77afee74638"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of D3 on F.Silkscreen",
+                "pos": {
+                  "x": 167.00875,
+                  "y": 91.0275
+                },
+                "uuid": "5b861ad8-0362-46a2-8138-30cfcfd7bd6f"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of D3 on F.Silkscreen",
+                "pos": {
+                  "x": 167.00875,
+                  "y": 91.4275
+                },
+                "uuid": "f8373d25-d6b5-4db9-aace-b6b7a7c2a673"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of D3 on F.Silkscreen",
+                "pos": {
+                  "x": 167.00875,
+                  "y": 94.5475
+                },
+                "uuid": "1140cd95-d5d0-47ad-ba33-95d9b35416c6"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of D3 on F.Silkscreen",
+                "pos": {
+                  "x": 168.12875,
+                  "y": 91.0275
+                },
+                "uuid": "68bd03f7-4259-4f86-99a0-36cf092aa459"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of D3 on F.Silkscreen",
+                "pos": {
+                  "x": 168.12875,
+                  "y": 91.4275
+                },
+                "uuid": "000f7fac-ae2b-4c48-9418-5edcd7150220"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of D2 on F.Silkscreen",
+                "pos": {
+                  "x": 167.00875,
+                  "y": 97.0375
+                },
+                "uuid": "7bd5a41b-9132-40e4-a2cf-34845482658e"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of D2 on F.Silkscreen",
+                "pos": {
+                  "x": 167.00875,
+                  "y": 97.4375
+                },
+                "uuid": "27256427-ba71-4bfd-a861-79d3c56b5042"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of D2 on F.Silkscreen",
+                "pos": {
+                  "x": 167.00875,
+                  "y": 100.5575
+                },
+                "uuid": "620675e0-48a7-4963-830d-d86e311bf9b0"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of D2 on F.Silkscreen",
+                "pos": {
+                  "x": 168.12875,
+                  "y": 97.0375
+                },
+                "uuid": "f83a64bb-78f8-4f56-a271-100f426ef95c"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of D2 on F.Silkscreen",
+                "pos": {
+                  "x": 168.12875,
+                  "y": 97.4375
+                },
+                "uuid": "1d90e0a4-72dc-4a69-a615-b2de95a3ee32"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Potentiometer_SMD'",
+            "items": [
+              {
+                "description": "Footprint RV2",
+                "pos": {
+                  "x": 154.74375,
+                  "y": 98.0175
+                },
+                "uuid": "0d45b240-3810-4c28-a0e6-58c6bbadb367"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_SMD'",
+            "items": [
+              {
+                "description": "Footprint D4",
+                "pos": {
+                  "x": 142.62375,
+                  "y": 101.9275
+                },
+                "uuid": "349cc4fb-d3a5-475e-b277-61ead7e643fe"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+              {
+                "description": "Footprint J1",
+                "pos": {
+                  "x": 137.30375,
+                  "y": 98.8275
+                },
+                "uuid": "3871e27a-ba93-4c3b-a0f9-4704428f792c"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+            "items": [
+              {
+                "description": "Footprint R3",
+                "pos": {
+                  "x": 161.59375,
+                  "y": 94.6075
+                },
+                "uuid": "38f60dba-ec7d-4acf-a8c0-b49261403c18"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D3",
+                "pos": {
+                  "x": 165.79875,
+                  "y": 94.2575
+                },
+                "uuid": "47f2c9cd-a23d-4664-9e56-59347f05c8b5"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D2",
+                "pos": {
+                  "x": 165.79875,
+                  "y": 100.2675
+                },
+                "uuid": "590312bd-d764-42fc-ad13-0a993f580ddd"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+            "items": [
+              {
+                "description": "Footprint R1",
+                "pos": {
+                  "x": 145.26375,
+                  "y": 96.5375
+                },
+                "uuid": "5da6be57-3c70-4665-b08f-ff4251da4d85"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+            "items": [
+              {
+                "description": "Footprint R2",
+                "pos": {
+                  "x": 149.68375,
+                  "y": 93.8675
+                },
+                "uuid": "b7e70184-c3eb-447e-abd2-7cbee3404b3c"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Package_SO'",
+            "items": [
+              {
+                "description": "Footprint U1",
+                "pos": {
+                  "x": 154.82375,
+                  "y": 91.6375
+                },
+                "uuid": "b8d7aa25-76d7-43ee-9570-5b2e00615dea"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_SMD'",
+            "items": [
+              {
+                "description": "Footprint D1",
+                "pos": {
+                  "x": 142.57375,
+                  "y": 91.2475
+                },
+                "uuid": "d27aa1b8-daa6-4c4c-a002-9e50bd5913c6"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+            "items": [
+              {
+                "description": "Footprint R4",
+                "pos": {
+                  "x": 156.13375,
+                  "y": 102.1675
+                },
+                "uuid": "f623f7e8-7031-4129-9e44-ee04fe349257"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          }
+        ]
+      },
+      "process_sha256": "6c19b472adccdcb729cdffd6e781a7d894424df17ce82c3bb447fa406c6e9e59",
+      "log_sha256": "97606c4ed89c3b96183a70e65aa59babb3f6e869ddd477952a565c965d18f815"
+    },
+    {
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/free-angle-pair-001/ir-obstacle/stock45/child/route",
+      "name": "export",
+      "status": "success",
+      "exit_code": 0,
+      "cleanup_complete": true,
+      "completed_shared_process_check": true,
+      "native_stage": null,
+      "process_sha256": "615235401149e50e849edfe2e4fcebe2022eeab7c2107ab693da558889772f55",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/free-angle-pair-001/ir-obstacle/stock45/child/route",
+      "name": "obstacles",
+      "status": "success",
+      "exit_code": 0,
+      "cleanup_complete": true,
+      "completed_shared_process_check": true,
+      "native_stage": null,
+      "process_sha256": "2425ac9be10b7187aaebb9dee40a08dca1897c86acb56c5318a80d03a97b8e89",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/free-angle-pair-001/ir-obstacle/stock45/child/route",
+      "name": "engine",
+      "status": "success",
+      "exit_code": 0,
+      "cleanup_complete": true,
+      "completed_shared_process_check": true,
+      "native_stage": null,
+      "process_sha256": "a1612d368f17dab90ff84e06e5fcd175c059b2fed8c4208918729f96ecdf62ae",
+      "log_sha256": "e3849cb12fe7a3a16787072a47aac1c30176bc5ff504d5d804953b89817035d5"
+    },
+    {
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/free-angle-pair-001/ir-obstacle/stock45/child/route",
+      "name": "import",
+      "status": "success",
+      "exit_code": 0,
+      "cleanup_complete": true,
+      "completed_shared_process_check": true,
+      "native_stage": null,
+      "process_sha256": "8b5b54370688ac6cc58e4eeef7410604455148cd080204f823348574050b6f4a",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/free-angle-pair-001/ir-obstacle/stock45/child/route",
+      "name": "refill-drc",
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "cleanup_complete": true,
+      "completed_shared_process_check": true,
+      "native_stage": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 32,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Reference field of J1",
+                "pos": {
+                  "x": 132.91875,
+                  "y": 101.0975
+                },
+                "uuid": "df1a830b-fc01-4e37-9895-694f8ed296fe"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 127.15375,
+                  "y": 93.3175
+                },
+                "uuid": "d9a90ab3-e553-4a4a-b8c4-0d67c654828f"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 127.15375,
+                  "y": 95.8575
+                },
+                "uuid": "4ea74227-e485-43d8-a849-b11ee3970cbc"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 133.15375,
+                  "y": 92.3675
+                },
+                "uuid": "94b74fc3-51c6-4145-8791-9c0fd47107b4"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 133.15375,
+                  "y": 94.1775
+                },
+                "uuid": "2eb2bce9-d704-46db-b6f0-674cbaab2f58"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 133.15375,
+                  "y": 96.7175
+                },
+                "uuid": "9e2e0a26-2ac7-4ddd-9246-fb1d2c554949"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 133.15375,
+                  "y": 100.2075
+                },
+                "uuid": "0664d6ce-8211-446a-9295-e6e5b6404e88"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 135.91375,
+                  "y": 92.3675
+                },
+                "uuid": "2acedea3-5d68-4eea-83f6-3b8de01be510"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 135.91375,
+                  "y": 95.0175
+                },
+                "uuid": "186150c6-435f-4f24-ad61-30c0f14ce7ff"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 135.91375,
+                  "y": 97.5575
+                },
+                "uuid": "051d50c0-2871-4976-9917-db6fb4a3f524"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Rectangle of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 133.15375,
+                  "y": 99.2575
+                },
+                "uuid": "972ed5d5-10ba-4379-bc2a-a77afee74638"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of D3 on F.Silkscreen",
+                "pos": {
+                  "x": 167.00875,
+                  "y": 91.0275
+                },
+                "uuid": "5b861ad8-0362-46a2-8138-30cfcfd7bd6f"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of D3 on F.Silkscreen",
+                "pos": {
+                  "x": 167.00875,
+                  "y": 91.4275
+                },
+                "uuid": "f8373d25-d6b5-4db9-aace-b6b7a7c2a673"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of D3 on F.Silkscreen",
+                "pos": {
+                  "x": 167.00875,
+                  "y": 94.5475
+                },
+                "uuid": "1140cd95-d5d0-47ad-ba33-95d9b35416c6"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of D3 on F.Silkscreen",
+                "pos": {
+                  "x": 168.12875,
+                  "y": 91.0275
+                },
+                "uuid": "68bd03f7-4259-4f86-99a0-36cf092aa459"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of D3 on F.Silkscreen",
+                "pos": {
+                  "x": 168.12875,
+                  "y": 91.4275
+                },
+                "uuid": "000f7fac-ae2b-4c48-9418-5edcd7150220"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of D2 on F.Silkscreen",
+                "pos": {
+                  "x": 167.00875,
+                  "y": 97.0375
+                },
+                "uuid": "7bd5a41b-9132-40e4-a2cf-34845482658e"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of D2 on F.Silkscreen",
+                "pos": {
+                  "x": 167.00875,
+                  "y": 97.4375
+                },
+                "uuid": "27256427-ba71-4bfd-a861-79d3c56b5042"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of D2 on F.Silkscreen",
+                "pos": {
+                  "x": 167.00875,
+                  "y": 100.5575
+                },
+                "uuid": "620675e0-48a7-4963-830d-d86e311bf9b0"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of D2 on F.Silkscreen",
+                "pos": {
+                  "x": 168.12875,
+                  "y": 97.0375
+                },
+                "uuid": "f83a64bb-78f8-4f56-a271-100f426ef95c"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of D2 on F.Silkscreen",
+                "pos": {
+                  "x": 168.12875,
+                  "y": 97.4375
+                },
+                "uuid": "1d90e0a4-72dc-4a69-a615-b2de95a3ee32"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Potentiometer_SMD'",
+            "items": [
+              {
+                "description": "Footprint RV2",
+                "pos": {
+                  "x": 154.74375,
+                  "y": 98.0175
+                },
+                "uuid": "0d45b240-3810-4c28-a0e6-58c6bbadb367"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_SMD'",
+            "items": [
+              {
+                "description": "Footprint D4",
+                "pos": {
+                  "x": 142.62375,
+                  "y": 101.9275
+                },
+                "uuid": "349cc4fb-d3a5-475e-b277-61ead7e643fe"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+              {
+                "description": "Footprint J1",
+                "pos": {
+                  "x": 137.30375,
+                  "y": 98.8275
+                },
+                "uuid": "3871e27a-ba93-4c3b-a0f9-4704428f792c"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+            "items": [
+              {
+                "description": "Footprint R3",
+                "pos": {
+                  "x": 161.59375,
+                  "y": 94.6075
+                },
+                "uuid": "38f60dba-ec7d-4acf-a8c0-b49261403c18"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D3",
+                "pos": {
+                  "x": 165.79875,
+                  "y": 94.2575
+                },
+                "uuid": "47f2c9cd-a23d-4664-9e56-59347f05c8b5"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D2",
+                "pos": {
+                  "x": 165.79875,
+                  "y": 100.2675
+                },
+                "uuid": "590312bd-d764-42fc-ad13-0a993f580ddd"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+            "items": [
+              {
+                "description": "Footprint R1",
+                "pos": {
+                  "x": 145.26375,
+                  "y": 96.5375
+                },
+                "uuid": "5da6be57-3c70-4665-b08f-ff4251da4d85"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+            "items": [
+              {
+                "description": "Footprint R2",
+                "pos": {
+                  "x": 149.68375,
+                  "y": 93.8675
+                },
+                "uuid": "b7e70184-c3eb-447e-abd2-7cbee3404b3c"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Package_SO'",
+            "items": [
+              {
+                "description": "Footprint U1",
+                "pos": {
+                  "x": 154.82375,
+                  "y": 91.6375
+                },
+                "uuid": "b8d7aa25-76d7-43ee-9570-5b2e00615dea"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_SMD'",
+            "items": [
+              {
+                "description": "Footprint D1",
+                "pos": {
+                  "x": 142.57375,
+                  "y": 91.2475
+                },
+                "uuid": "d27aa1b8-daa6-4c4c-a002-9e50bd5913c6"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+            "items": [
+              {
+                "description": "Footprint R4",
+                "pos": {
+                  "x": 156.13375,
+                  "y": 102.1675
+                },
+                "uuid": "f623f7e8-7031-4129-9e44-ee04fe349257"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          }
+        ]
+      },
+      "process_sha256": "8b65e3e6e7d7756388dbde9b7be4b4e3a90cdfefb8517216521b0fca218433ce",
+      "log_sha256": "e961a5a9992fba0758aea61ec4b501096fe5ce115efe21c3df229731f8afbba7"
+    },
+    {
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/free-angle-pair-001/ir-obstacle/stock45/child/route",
+      "name": "final-drc",
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "cleanup_complete": true,
+      "completed_shared_process_check": true,
+      "native_stage": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 42,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Reference field of J1",
+                "pos": {
+                  "x": 132.91875,
+                  "y": 101.0975
+                },
+                "uuid": "df1a830b-fc01-4e37-9895-694f8ed296fe"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 127.15375,
+                  "y": 93.3175
+                },
+                "uuid": "d9a90ab3-e553-4a4a-b8c4-0d67c654828f"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 127.15375,
+                  "y": 95.8575
+                },
+                "uuid": "4ea74227-e485-43d8-a849-b11ee3970cbc"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 133.15375,
+                  "y": 92.3675
+                },
+                "uuid": "94b74fc3-51c6-4145-8791-9c0fd47107b4"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 133.15375,
+                  "y": 94.1775
+                },
+                "uuid": "2eb2bce9-d704-46db-b6f0-674cbaab2f58"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 133.15375,
+                  "y": 96.7175
+                },
+                "uuid": "9e2e0a26-2ac7-4ddd-9246-fb1d2c554949"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 133.15375,
+                  "y": 100.2075
+                },
+                "uuid": "0664d6ce-8211-446a-9295-e6e5b6404e88"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 135.91375,
+                  "y": 92.3675
+                },
+                "uuid": "2acedea3-5d68-4eea-83f6-3b8de01be510"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 135.91375,
+                  "y": 95.0175
+                },
+                "uuid": "186150c6-435f-4f24-ad61-30c0f14ce7ff"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 135.91375,
+                  "y": 97.5575
+                },
+                "uuid": "051d50c0-2871-4976-9917-db6fb4a3f524"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Rectangle of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 133.15375,
+                  "y": 99.2575
+                },
+                "uuid": "972ed5d5-10ba-4379-bc2a-a77afee74638"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of D3 on F.Silkscreen",
+                "pos": {
+                  "x": 167.00875,
+                  "y": 91.0275
+                },
+                "uuid": "5b861ad8-0362-46a2-8138-30cfcfd7bd6f"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of D3 on F.Silkscreen",
+                "pos": {
+                  "x": 167.00875,
+                  "y": 91.4275
+                },
+                "uuid": "f8373d25-d6b5-4db9-aace-b6b7a7c2a673"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of D3 on F.Silkscreen",
+                "pos": {
+                  "x": 167.00875,
+                  "y": 94.5475
+                },
+                "uuid": "1140cd95-d5d0-47ad-ba33-95d9b35416c6"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of D3 on F.Silkscreen",
+                "pos": {
+                  "x": 168.12875,
+                  "y": 91.0275
+                },
+                "uuid": "68bd03f7-4259-4f86-99a0-36cf092aa459"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of D3 on F.Silkscreen",
+                "pos": {
+                  "x": 168.12875,
+                  "y": 91.4275
+                },
+                "uuid": "000f7fac-ae2b-4c48-9418-5edcd7150220"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of D2 on F.Silkscreen",
+                "pos": {
+                  "x": 167.00875,
+                  "y": 97.0375
+                },
+                "uuid": "7bd5a41b-9132-40e4-a2cf-34845482658e"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of D2 on F.Silkscreen",
+                "pos": {
+                  "x": 167.00875,
+                  "y": 97.4375
+                },
+                "uuid": "27256427-ba71-4bfd-a861-79d3c56b5042"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of D2 on F.Silkscreen",
+                "pos": {
+                  "x": 167.00875,
+                  "y": 100.5575
+                },
+                "uuid": "620675e0-48a7-4963-830d-d86e311bf9b0"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of D2 on F.Silkscreen",
+                "pos": {
+                  "x": 168.12875,
+                  "y": 97.0375
+                },
+                "uuid": "f83a64bb-78f8-4f56-a271-100f426ef95c"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 133.13375,
+                  "y": 88.5275
+                },
+                "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+              },
+              {
+                "description": "Segment of D2 on F.Silkscreen",
+                "pos": {
+                  "x": 168.12875,
+                  "y": 97.4375
+                },
+                "uuid": "1d90e0a4-72dc-4a69-a615-b2de95a3ee32"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Potentiometer_SMD'",
+            "items": [
+              {
+                "description": "Footprint RV2",
+                "pos": {
+                  "x": 154.74375,
+                  "y": 98.0175
+                },
+                "uuid": "0d45b240-3810-4c28-a0e6-58c6bbadb367"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_SMD'",
+            "items": [
+              {
+                "description": "Footprint D4",
+                "pos": {
+                  "x": 142.62375,
+                  "y": 101.9275
+                },
+                "uuid": "349cc4fb-d3a5-475e-b277-61ead7e643fe"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+              {
+                "description": "Footprint J1",
+                "pos": {
+                  "x": 137.30375,
+                  "y": 98.8275
+                },
+                "uuid": "3871e27a-ba93-4c3b-a0f9-4704428f792c"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+            "items": [
+              {
+                "description": "Footprint R3",
+                "pos": {
+                  "x": 161.59375,
+                  "y": 94.6075
+                },
+                "uuid": "38f60dba-ec7d-4acf-a8c0-b49261403c18"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D3",
+                "pos": {
+                  "x": 165.79875,
+                  "y": 94.2575
+                },
+                "uuid": "47f2c9cd-a23d-4664-9e56-59347f05c8b5"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D2",
+                "pos": {
+                  "x": 165.79875,
+                  "y": 100.2675
+                },
+                "uuid": "590312bd-d764-42fc-ad13-0a993f580ddd"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+            "items": [
+              {
+                "description": "Footprint R1",
+                "pos": {
+                  "x": 145.26375,
+                  "y": 96.5375
+                },
+                "uuid": "5da6be57-3c70-4665-b08f-ff4251da4d85"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+            "items": [
+              {
+                "description": "Footprint R2",
+                "pos": {
+                  "x": 149.68375,
+                  "y": 93.8675
+                },
+                "uuid": "b7e70184-c3eb-447e-abd2-7cbee3404b3c"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Package_SO'",
+            "items": [
+              {
+                "description": "Footprint U1",
+                "pos": {
+                  "x": 154.82375,
+                  "y": 91.6375
+                },
+                "uuid": "b8d7aa25-76d7-43ee-9570-5b2e00615dea"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_SMD'",
+            "items": [
+              {
+                "description": "Footprint D1",
+                "pos": {
+                  "x": 142.57375,
+                  "y": 91.2475
+                },
+                "uuid": "d27aa1b8-daa6-4c4c-a002-9e50bd5913c6"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+            "items": [
+              {
+                "description": "Footprint R4",
+                "pos": {
+                  "x": 156.13375,
+                  "y": 102.1675
+                },
+                "uuid": "f623f7e8-7031-4129-9e44-ee04fe349257"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint D1",
+                "pos": {
+                  "x": 142.57375,
+                  "y": 91.2475
+                },
+                "uuid": "d27aa1b8-daa6-4c4c-a002-9e50bd5913c6"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint D2",
+                "pos": {
+                  "x": 165.79875,
+                  "y": 100.2675
+                },
+                "uuid": "590312bd-d764-42fc-ad13-0a993f580ddd"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint D3",
+                "pos": {
+                  "x": 165.79875,
+                  "y": 94.2575
+                },
+                "uuid": "47f2c9cd-a23d-4664-9e56-59347f05c8b5"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint D4",
+                "pos": {
+                  "x": 142.62375,
+                  "y": 101.9275
+                },
+                "uuid": "349cc4fb-d3a5-475e-b277-61ead7e643fe"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J1",
+                "pos": {
+                  "x": 137.30375,
+                  "y": 98.8275
+                },
+                "uuid": "3871e27a-ba93-4c3b-a0f9-4704428f792c"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint R1",
+                "pos": {
+                  "x": 145.26375,
+                  "y": 96.5375
+                },
+                "uuid": "5da6be57-3c70-4665-b08f-ff4251da4d85"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint R2",
+                "pos": {
+                  "x": 149.68375,
+                  "y": 93.8675
+                },
+                "uuid": "b7e70184-c3eb-447e-abd2-7cbee3404b3c"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint R3",
+                "pos": {
+                  "x": 161.59375,
+                  "y": 94.6075
+                },
+                "uuid": "38f60dba-ec7d-4acf-a8c0-b49261403c18"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint R4",
+                "pos": {
+                  "x": 156.13375,
+                  "y": 102.1675
+                },
+                "uuid": "f623f7e8-7031-4129-9e44-ee04fe349257"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint RV2",
+                "pos": {
+                  "x": 154.74375,
+                  "y": 98.0175
+                },
+                "uuid": "0d45b240-3810-4c28-a0e6-58c6bbadb367"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          }
+        ],
+        "field_parity": {
+          "schema": 1,
+          "policy": "datasheet-absence-only-v1",
+          "native_report_sha256": "319dffa6182e06895fe98ee2c51b0816989134bb04acd0aac794dff2eb804c0c",
+          "binding_sha256": "c6dc6505b5ed55e03991940b437a8385359e0d7ad064eacf2bd27554aad8cd9d",
+          "netlist_sha256": "29b87def2483c56af4955d6ebf7ec7060a85f20657e526aae5541b6916eabfb1",
+          "fields_sha256": "adcbf9c61c356457a733f91992cca5548cd473d814fcc0e05d0e967db8f98a21",
+          "qualification": {
+            "qualified": true,
+            "policy": "datasheet-effective-empty-v1",
+            "component_count": 11,
+            "compared_field_count": 26,
+            "comparison_map": [
+              {
+                "reference": "D1",
+                "uuid": "d27aa1b8-daa6-4c4c-a002-9e50bd5913c6",
+                "schematic_fields": {
+                  "Sim.Pins": "1=K 2=A",
+                  "Datasheet": "",
+                  "Description": "Light emitting diode"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Light emitting diode",
+                  "Sim.Pins": "1=K 2=A"
+                }
+              },
+              {
+                "reference": "D2",
+                "uuid": "590312bd-d764-42fc-ad13-0a993f580ddd",
+                "schematic_fields": {
+                  "Sim.Pins": "1=K 2=A",
+                  "Datasheet": "",
+                  "Description": "Light emitting diode"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Light emitting diode",
+                  "Sim.Pins": "1=K 2=A"
+                }
+              },
+              {
+                "reference": "D3",
+                "uuid": "47f2c9cd-a23d-4664-9e56-59347f05c8b5",
+                "schematic_fields": {
+                  "Sim.Pins": "1=K 2=A",
+                  "Datasheet": "",
+                  "Description": "Light emitting diode"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Light emitting diode",
+                  "Sim.Pins": "1=K 2=A"
+                }
+              },
+              {
+                "reference": "D4",
+                "uuid": "349cc4fb-d3a5-475e-b277-61ead7e643fe",
+                "schematic_fields": {
+                  "Sim.Pins": "1=K 2=A",
+                  "Datasheet": "",
+                  "Description": "Light emitting diode"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Light emitting diode",
+                  "Sim.Pins": "1=K 2=A"
+                }
+              },
+              {
+                "reference": "J1",
+                "uuid": "3871e27a-ba93-4c3b-a0f9-4704428f792c",
+                "schematic_fields": {
+                  "Datasheet": "",
+                  "Description": "Generic connector, single row, 01x03, script generated"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Generic connector, single row, 01x03, script generated"
+                }
+              },
+              {
+                "reference": "R1",
+                "uuid": "5da6be57-3c70-4665-b08f-ff4251da4d85",
+                "schematic_fields": {
+                  "Datasheet": "",
+                  "Description": "Resistor"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Resistor"
+                }
+              },
+              {
+                "reference": "R2",
+                "uuid": "b7e70184-c3eb-447e-abd2-7cbee3404b3c",
+                "schematic_fields": {
+                  "Datasheet": "",
+                  "Description": "Resistor"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Resistor"
+                }
+              },
+              {
+                "reference": "R3",
+                "uuid": "38f60dba-ec7d-4acf-a8c0-b49261403c18",
+                "schematic_fields": {
+                  "Datasheet": "",
+                  "Description": "Resistor"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Resistor"
+                }
+              },
+              {
+                "reference": "R4",
+                "uuid": "f623f7e8-7031-4129-9e44-ee04fe349257",
+                "schematic_fields": {
+                  "Datasheet": "",
+                  "Description": "Resistor"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Resistor"
+                }
+              },
+              {
+                "reference": "RV2",
+                "uuid": "0d45b240-3810-4c28-a0e6-58c6bbadb367",
+                "schematic_fields": {
+                  "Datasheet": "",
+                  "Description": "Potentiometer"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Potentiometer"
+                }
+              },
+              {
+                "reference": "U1",
+                "uuid": "b8d7aa25-76d7-43ee-9570-5b2e00615dea",
+                "schematic_fields": {
+                  "Datasheet": "http://www.ti.com/lit/ds/symlink/lm2904-n.pdf",
+                  "Description": "Low-Power, Dual Operational Amplifiers, DIP-8/SOIC-8/TO-99-8"
+                },
+                "pcb_fields": {
+                  "Datasheet": "http://www.ti.com/lit/ds/symlink/lm2904-n.pdf",
+                  "Description": "Low-Power, Dual Operational Amplifiers, DIP-8/SOIC-8/TO-99-8"
+                }
+              }
+            ],
+            "warning_uuids": [
+              "0d45b240-3810-4c28-a0e6-58c6bbadb367",
+              "349cc4fb-d3a5-475e-b277-61ead7e643fe",
+              "3871e27a-ba93-4c3b-a0f9-4704428f792c",
+              "38f60dba-ec7d-4acf-a8c0-b49261403c18",
+              "47f2c9cd-a23d-4664-9e56-59347f05c8b5",
+              "590312bd-d764-42fc-ad13-0a993f580ddd",
+              "5da6be57-3c70-4665-b08f-ff4251da4d85",
+              "b7e70184-c3eb-447e-abd2-7cbee3404b3c",
+              "d27aa1b8-daa6-4c4c-a002-9e50bd5913c6",
+              "f623f7e8-7031-4129-9e44-ee04fe349257"
+            ],
+            "warning_hashes": [
+              "30c490c6cab84cf329fd173f68b04783f7717ef427e5f0e62bfccd70f331069b",
+              "38850de1295700a6f7a24f2cf972807b2b0d81b75192e0a365b74f0dfe2cbb2f",
+              "5ababfee6c3f130c39aa0cec68969b14841b2755cdc8e349b059f3e5ee51502e",
+              "74dddb9291e767e31ead90223d2000cc0bc169a51e143d99be3be9c3690c5054",
+              "77bee286bf7cd54972207e2b56dca0711e4a79e578db2280abdde8c8ebed0712",
+              "7b139996d50bb68f49fc05bb35341315532bb267a0e5bb6843583e2f1d446b71",
+              "818da1f9e6ab3f23e19e1abcf56ee5dd656453399e9338891c20d50e215b3cf9",
+              "a8ae7fe030dcd0e2d744eb421009833f9b3d63cb3ae30ee1ec734d26794bfef8",
+              "cca38957baa665d7a1a2e9d822ca11eae8568d225bebf426c9fb8217d44f5088",
+              "e242429b4d79368bf36e4515968f1682ffc85566e2a8131c8a00568ecd21ba5b"
+            ],
+            "native_export_sha256": "29b87def2483c56af4955d6ebf7ec7060a85f20657e526aae5541b6916eabfb1",
+            "observer_sha256": "93c58ad8e9d841fe90930051db7b20d3cfd44d55891c713d6a28bd5652e79804",
+            "drc_report_sha256": "bde31f0bc7a3e2d583d1e4592b45d3eae298b0a18c1b917c2bee68dd6ac7ef1c"
+          },
+          "local_settings_guard_sha256": "5be9963364e380910be0f4c321bcaac435ebe03515db11a75a4b5a81a143c238",
+          "board_only_field_census": {
+            "policy": "source-bound-padless-field-census-v1",
+            "complete_footprint_count": 12,
+            "compared_footprint_count": 11,
+            "artwork": [
+              {
+                "reference": "G***",
+                "uuid": "f8e96733-69a6-4f69-9a95-427002c6c756",
+                "footprint_ast_sha256": "d7975eeeda9453bfa416d5ba276529e13952ba96ffcc29a95e2d8bd3229c3088",
+                "pad_count": 0,
+                "board_only": true
+              }
+            ],
+            "complete_observer_sha256": "f657a42f8571c4bc6f31ed316c186865d3e63fb96819ba48ffcda71105dfb892",
+            "projected_observer_sha256": "93c58ad8e9d841fe90930051db7b20d3cfd44d55891c713d6a28bd5652e79804"
+          }
+        }
+      },
+      "process_sha256": "9e91d20fdaba6be7792b56b20d4a9d6d26d8ecc07c47af2ccae1622ebc18ffba",
+      "log_sha256": "f06628b5bdf76ec4722b0df4d309d9d8313e3a578ba3f37585ed616c1deb937c"
+    },
+    {
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/free-angle-pair-001/ir-obstacle/stock45/child/route",
+      "name": "final-drc-fields-netlist",
+      "status": "success",
+      "exit_code": 0,
+      "cleanup_complete": true,
+      "completed_shared_process_check": true,
+      "native_stage": null,
+      "process_sha256": "34580cc9bad8937dd47579ca05d470d81e771d4e7f668e1e0301a8163a442cbe",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/free-angle-pair-001/ir-obstacle/stock45/child/route",
+      "name": "final-drc-fields-audit",
+      "status": "success",
+      "exit_code": 0,
+      "cleanup_complete": true,
+      "completed_shared_process_check": true,
+      "native_stage": null,
+      "process_sha256": "eafff4349e600965e43e82186bf9e9f868ce5a7c62d701085ba902da99c697bd",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/free-angle-pair-001/ir-obstacle/stock45/child/route",
+      "name": "metrics",
+      "status": "success",
+      "exit_code": 0,
+      "cleanup_complete": true,
+      "completed_shared_process_check": true,
+      "native_stage": null,
+      "process_sha256": "795f8966a950361a91da5eceb694fa2fe7eec27412b9409571a79edbd85a5bef",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "candidate": {
+    "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/free-angle-pair-001/ir-obstacle/stock45/child/route/candidate/IR_Sensor.kicad_pcb",
+    "candidate_sha256": "12bf90bdd78694ce06a5968f5ce46a87929e3f963e981eb505b83eae17d10831",
+    "native_report_sha256": "319dffa6182e06895fe98ee2c51b0816989134bb04acd0aac794dff2eb804c0c",
+    "native_counts": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 42,
+      "exclusions": 0
+    },
+    "native_rejection_reasons": [],
+    "original_design_checks": true,
+    "complete_schematic_native_checks": true,
+    "original_native_class_targets": null,
+    "original_native_class_audit_required": false,
+    "full_shared_candidate_readback": true,
+    "qualification_failure": null,
+    "saved_refill_native": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 32,
+      "exclusions": 0,
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ],
+      "findings": [
+        {
+          "description": "Silkscreen clipped by board edge",
+          "items": [
+            {
+              "description": "Rectangle on Edge.Cuts",
+              "pos": {
+                "x": 133.13375,
+                "y": 88.5275
+              },
+              "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+            },
+            {
+              "description": "Reference field of J1",
+              "pos": {
+                "x": 132.91875,
+                "y": 101.0975
+              },
+              "uuid": "df1a830b-fc01-4e37-9895-694f8ed296fe"
+            }
+          ],
+          "severity": "warning",
+          "type": "silk_edge_clearance"
+        },
+        {
+          "description": "Silkscreen clipped by board edge",
+          "items": [
+            {
+              "description": "Rectangle on Edge.Cuts",
+              "pos": {
+                "x": 133.13375,
+                "y": 88.5275
+              },
+              "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+            },
+            {
+              "description": "Segment of J1 on F.Silkscreen",
+              "pos": {
+                "x": 127.15375,
+                "y": 93.3175
+              },
+              "uuid": "d9a90ab3-e553-4a4a-b8c4-0d67c654828f"
+            }
+          ],
+          "severity": "warning",
+          "type": "silk_edge_clearance"
+        },
+        {
+          "description": "Silkscreen clipped by board edge",
+          "items": [
+            {
+              "description": "Rectangle on Edge.Cuts",
+              "pos": {
+                "x": 133.13375,
+                "y": 88.5275
+              },
+              "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+            },
+            {
+              "description": "Segment of J1 on F.Silkscreen",
+              "pos": {
+                "x": 127.15375,
+                "y": 95.8575
+              },
+              "uuid": "4ea74227-e485-43d8-a849-b11ee3970cbc"
+            }
+          ],
+          "severity": "warning",
+          "type": "silk_edge_clearance"
+        },
+        {
+          "description": "Silkscreen clipped by board edge",
+          "items": [
+            {
+              "description": "Rectangle on Edge.Cuts",
+              "pos": {
+                "x": 133.13375,
+                "y": 88.5275
+              },
+              "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+            },
+            {
+              "description": "Segment of J1 on F.Silkscreen",
+              "pos": {
+                "x": 133.15375,
+                "y": 92.3675
+              },
+              "uuid": "94b74fc3-51c6-4145-8791-9c0fd47107b4"
+            }
+          ],
+          "severity": "warning",
+          "type": "silk_edge_clearance"
+        },
+        {
+          "description": "Silkscreen clipped by board edge",
+          "items": [
+            {
+              "description": "Rectangle on Edge.Cuts",
+              "pos": {
+                "x": 133.13375,
+                "y": 88.5275
+              },
+              "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+            },
+            {
+              "description": "Segment of J1 on F.Silkscreen",
+              "pos": {
+                "x": 133.15375,
+                "y": 94.1775
+              },
+              "uuid": "2eb2bce9-d704-46db-b6f0-674cbaab2f58"
+            }
+          ],
+          "severity": "warning",
+          "type": "silk_edge_clearance"
+        },
+        {
+          "description": "Silkscreen clipped by board edge",
+          "items": [
+            {
+              "description": "Rectangle on Edge.Cuts",
+              "pos": {
+                "x": 133.13375,
+                "y": 88.5275
+              },
+              "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+            },
+            {
+              "description": "Segment of J1 on F.Silkscreen",
+              "pos": {
+                "x": 133.15375,
+                "y": 96.7175
+              },
+              "uuid": "9e2e0a26-2ac7-4ddd-9246-fb1d2c554949"
+            }
+          ],
+          "severity": "warning",
+          "type": "silk_edge_clearance"
+        },
+        {
+          "description": "Silkscreen clipped by board edge",
+          "items": [
+            {
+              "description": "Rectangle on Edge.Cuts",
+              "pos": {
+                "x": 133.13375,
+                "y": 88.5275
+              },
+              "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+            },
+            {
+              "description": "Segment of J1 on F.Silkscreen",
+              "pos": {
+                "x": 133.15375,
+                "y": 100.2075
+              },
+              "uuid": "0664d6ce-8211-446a-9295-e6e5b6404e88"
+            }
+          ],
+          "severity": "warning",
+          "type": "silk_edge_clearance"
+        },
+        {
+          "description": "Silkscreen clipped by board edge",
+          "items": [
+            {
+              "description": "Rectangle on Edge.Cuts",
+              "pos": {
+                "x": 133.13375,
+                "y": 88.5275
+              },
+              "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+            },
+            {
+              "description": "Segment of J1 on F.Silkscreen",
+              "pos": {
+                "x": 135.91375,
+                "y": 92.3675
+              },
+              "uuid": "2acedea3-5d68-4eea-83f6-3b8de01be510"
+            }
+          ],
+          "severity": "warning",
+          "type": "silk_edge_clearance"
+        },
+        {
+          "description": "Silkscreen clipped by board edge",
+          "items": [
+            {
+              "description": "Rectangle on Edge.Cuts",
+              "pos": {
+                "x": 133.13375,
+                "y": 88.5275
+              },
+              "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+            },
+            {
+              "description": "Segment of J1 on F.Silkscreen",
+              "pos": {
+                "x": 135.91375,
+                "y": 95.0175
+              },
+              "uuid": "186150c6-435f-4f24-ad61-30c0f14ce7ff"
+            }
+          ],
+          "severity": "warning",
+          "type": "silk_edge_clearance"
+        },
+        {
+          "description": "Silkscreen clipped by board edge",
+          "items": [
+            {
+              "description": "Rectangle on Edge.Cuts",
+              "pos": {
+                "x": 133.13375,
+                "y": 88.5275
+              },
+              "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+            },
+            {
+              "description": "Segment of J1 on F.Silkscreen",
+              "pos": {
+                "x": 135.91375,
+                "y": 97.5575
+              },
+              "uuid": "051d50c0-2871-4976-9917-db6fb4a3f524"
+            }
+          ],
+          "severity": "warning",
+          "type": "silk_edge_clearance"
+        },
+        {
+          "description": "Silkscreen clipped by board edge",
+          "items": [
+            {
+              "description": "Rectangle on Edge.Cuts",
+              "pos": {
+                "x": 133.13375,
+                "y": 88.5275
+              },
+              "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+            },
+            {
+              "description": "Rectangle of J1 on F.Silkscreen",
+              "pos": {
+                "x": 133.15375,
+                "y": 99.2575
+              },
+              "uuid": "972ed5d5-10ba-4379-bc2a-a77afee74638"
+            }
+          ],
+          "severity": "warning",
+          "type": "silk_edge_clearance"
+        },
+        {
+          "description": "Silkscreen clipped by board edge",
+          "items": [
+            {
+              "description": "Rectangle on Edge.Cuts",
+              "pos": {
+                "x": 133.13375,
+                "y": 88.5275
+              },
+              "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+            },
+            {
+              "description": "Segment of D3 on F.Silkscreen",
+              "pos": {
+                "x": 167.00875,
+                "y": 91.0275
+              },
+              "uuid": "5b861ad8-0362-46a2-8138-30cfcfd7bd6f"
+            }
+          ],
+          "severity": "warning",
+          "type": "silk_edge_clearance"
+        },
+        {
+          "description": "Silkscreen clipped by board edge",
+          "items": [
+            {
+              "description": "Rectangle on Edge.Cuts",
+              "pos": {
+                "x": 133.13375,
+                "y": 88.5275
+              },
+              "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+            },
+            {
+              "description": "Segment of D3 on F.Silkscreen",
+              "pos": {
+                "x": 167.00875,
+                "y": 91.4275
+              },
+              "uuid": "f8373d25-d6b5-4db9-aace-b6b7a7c2a673"
+            }
+          ],
+          "severity": "warning",
+          "type": "silk_edge_clearance"
+        },
+        {
+          "description": "Silkscreen clipped by board edge",
+          "items": [
+            {
+              "description": "Rectangle on Edge.Cuts",
+              "pos": {
+                "x": 133.13375,
+                "y": 88.5275
+              },
+              "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+            },
+            {
+              "description": "Segment of D3 on F.Silkscreen",
+              "pos": {
+                "x": 167.00875,
+                "y": 94.5475
+              },
+              "uuid": "1140cd95-d5d0-47ad-ba33-95d9b35416c6"
+            }
+          ],
+          "severity": "warning",
+          "type": "silk_edge_clearance"
+        },
+        {
+          "description": "Silkscreen clipped by board edge",
+          "items": [
+            {
+              "description": "Rectangle on Edge.Cuts",
+              "pos": {
+                "x": 133.13375,
+                "y": 88.5275
+              },
+              "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+            },
+            {
+              "description": "Segment of D3 on F.Silkscreen",
+              "pos": {
+                "x": 168.12875,
+                "y": 91.0275
+              },
+              "uuid": "68bd03f7-4259-4f86-99a0-36cf092aa459"
+            }
+          ],
+          "severity": "warning",
+          "type": "silk_edge_clearance"
+        },
+        {
+          "description": "Silkscreen clipped by board edge",
+          "items": [
+            {
+              "description": "Rectangle on Edge.Cuts",
+              "pos": {
+                "x": 133.13375,
+                "y": 88.5275
+              },
+              "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+            },
+            {
+              "description": "Segment of D3 on F.Silkscreen",
+              "pos": {
+                "x": 168.12875,
+                "y": 91.4275
+              },
+              "uuid": "000f7fac-ae2b-4c48-9418-5edcd7150220"
+            }
+          ],
+          "severity": "warning",
+          "type": "silk_edge_clearance"
+        },
+        {
+          "description": "Silkscreen clipped by board edge",
+          "items": [
+            {
+              "description": "Rectangle on Edge.Cuts",
+              "pos": {
+                "x": 133.13375,
+                "y": 88.5275
+              },
+              "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+            },
+            {
+              "description": "Segment of D2 on F.Silkscreen",
+              "pos": {
+                "x": 167.00875,
+                "y": 97.0375
+              },
+              "uuid": "7bd5a41b-9132-40e4-a2cf-34845482658e"
+            }
+          ],
+          "severity": "warning",
+          "type": "silk_edge_clearance"
+        },
+        {
+          "description": "Silkscreen clipped by board edge",
+          "items": [
+            {
+              "description": "Rectangle on Edge.Cuts",
+              "pos": {
+                "x": 133.13375,
+                "y": 88.5275
+              },
+              "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+            },
+            {
+              "description": "Segment of D2 on F.Silkscreen",
+              "pos": {
+                "x": 167.00875,
+                "y": 97.4375
+              },
+              "uuid": "27256427-ba71-4bfd-a861-79d3c56b5042"
+            }
+          ],
+          "severity": "warning",
+          "type": "silk_edge_clearance"
+        },
+        {
+          "description": "Silkscreen clipped by board edge",
+          "items": [
+            {
+              "description": "Rectangle on Edge.Cuts",
+              "pos": {
+                "x": 133.13375,
+                "y": 88.5275
+              },
+              "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+            },
+            {
+              "description": "Segment of D2 on F.Silkscreen",
+              "pos": {
+                "x": 167.00875,
+                "y": 100.5575
+              },
+              "uuid": "620675e0-48a7-4963-830d-d86e311bf9b0"
+            }
+          ],
+          "severity": "warning",
+          "type": "silk_edge_clearance"
+        },
+        {
+          "description": "Silkscreen clipped by board edge",
+          "items": [
+            {
+              "description": "Rectangle on Edge.Cuts",
+              "pos": {
+                "x": 133.13375,
+                "y": 88.5275
+              },
+              "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+            },
+            {
+              "description": "Segment of D2 on F.Silkscreen",
+              "pos": {
+                "x": 168.12875,
+                "y": 97.0375
+              },
+              "uuid": "f83a64bb-78f8-4f56-a271-100f426ef95c"
+            }
+          ],
+          "severity": "warning",
+          "type": "silk_edge_clearance"
+        },
+        {
+          "description": "Silkscreen clipped by board edge",
+          "items": [
+            {
+              "description": "Rectangle on Edge.Cuts",
+              "pos": {
+                "x": 133.13375,
+                "y": 88.5275
+              },
+              "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+            },
+            {
+              "description": "Segment of D2 on F.Silkscreen",
+              "pos": {
+                "x": 168.12875,
+                "y": 97.4375
+              },
+              "uuid": "1d90e0a4-72dc-4a69-a615-b2de95a3ee32"
+            }
+          ],
+          "severity": "warning",
+          "type": "silk_edge_clearance"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Potentiometer_SMD'",
+          "items": [
+            {
+              "description": "Footprint RV2",
+              "pos": {
+                "x": 154.74375,
+                "y": 98.0175
+              },
+              "uuid": "0d45b240-3810-4c28-a0e6-58c6bbadb367"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_SMD'",
+          "items": [
+            {
+              "description": "Footprint D4",
+              "pos": {
+                "x": 142.62375,
+                "y": 101.9275
+              },
+              "uuid": "349cc4fb-d3a5-475e-b277-61ead7e643fe"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+          "items": [
+            {
+              "description": "Footprint J1",
+              "pos": {
+                "x": 137.30375,
+                "y": 98.8275
+              },
+              "uuid": "3871e27a-ba93-4c3b-a0f9-4704428f792c"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+          "items": [
+            {
+              "description": "Footprint R3",
+              "pos": {
+                "x": 161.59375,
+                "y": 94.6075
+              },
+              "uuid": "38f60dba-ec7d-4acf-a8c0-b49261403c18"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D3",
+              "pos": {
+                "x": 165.79875,
+                "y": 94.2575
+              },
+              "uuid": "47f2c9cd-a23d-4664-9e56-59347f05c8b5"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D2",
+              "pos": {
+                "x": 165.79875,
+                "y": 100.2675
+              },
+              "uuid": "590312bd-d764-42fc-ad13-0a993f580ddd"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+          "items": [
+            {
+              "description": "Footprint R1",
+              "pos": {
+                "x": 145.26375,
+                "y": 96.5375
+              },
+              "uuid": "5da6be57-3c70-4665-b08f-ff4251da4d85"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+          "items": [
+            {
+              "description": "Footprint R2",
+              "pos": {
+                "x": 149.68375,
+                "y": 93.8675
+              },
+              "uuid": "b7e70184-c3eb-447e-abd2-7cbee3404b3c"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Package_SO'",
+          "items": [
+            {
+              "description": "Footprint U1",
+              "pos": {
+                "x": 154.82375,
+                "y": 91.6375
+              },
+              "uuid": "b8d7aa25-76d7-43ee-9570-5b2e00615dea"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_SMD'",
+          "items": [
+            {
+              "description": "Footprint D1",
+              "pos": {
+                "x": 142.57375,
+                "y": 91.2475
+              },
+              "uuid": "d27aa1b8-daa6-4c4c-a002-9e50bd5913c6"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+          "items": [
+            {
+              "description": "Footprint R4",
+              "pos": {
+                "x": 156.13375,
+                "y": 102.1675
+              },
+              "uuid": "f623f7e8-7031-4129-9e44-ee04fe349257"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        }
+      ]
+    },
+    "saved_refill_sha256": "e41b5039e55a057331b557f9ffaba6618ca783aec54d4b81a9865aeb502648c5",
+    "pre_refill_sha256": "007880f502e2b4bb800902464f82129499538dd78f07a45e9a1b32700849fd88",
+    "unchanged_original_warning_signatures": true,
+    "metrics": {
+      "version": "10.0.0",
+      "pads": 30,
+      "footprints": 12,
+      "zones": 1,
+      "vias": 3,
+      "track_length_mm": 170.2328154321993,
+      "copper_layers": 2
+    },
+    "metrics_sha256": "25dda45f31ef4862dc019915d563408bece44d1fa5512a5c423e11c2b913771f"
+  },
+  "row": {
+    "id": "stock45",
+    "adapter": "both",
+    "engine_profile": "tuned",
+    "operation": "route",
+    "status": "routing_accepted",
+    "accepted_in_receipt": true,
+    "accepted": true,
+    "reason": null,
+    "cancelled": false,
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 42,
+    "exclusions": 0,
+    "length_mm": 170.2328154321993,
+    "vias": 3,
+    "wall_seconds": 17.59091216599336,
+    "parent_cpu_seconds": 4.9910879999999995,
+    "child_cpu_seconds": 10.995887999999999,
+    "monitor_cpu_seconds": 0,
+    "total_cpu_seconds": 15.986975999999999,
+    "peak_child_rss_bytes": 282771456,
+    "peak_polled_group_rss_bytes": 282673152,
+    "invocation_wall_seconds": 17.593381750019034,
+    "invocation_cpu_seconds": 16.005327,
+    "candidate_sha256": "12bf90bdd78694ce06a5968f5ce46a87929e3f963e981eb505b83eae17d10831",
+    "native_report_sha256": "319dffa6182e06895fe98ee2c51b0816989134bb04acd0aac794dff2eb804c0c",
+    "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/free-angle-pair-001/ir-obstacle/stock45/child/route/result.json",
+    "result_sha256": "1c94c3a8fc73ad233fb57b50d8e51d7355d288ab6f6a8da10568af00d3cae114",
+    "within_equal_budgets": true,
+    "protocol_contract_verified": true,
+    "receipt_verified": true,
+    "observations": [
+      {
+        "kind": "final_result_only",
+        "elapsed_seconds": 17.593381750019034,
+        "observed_cpu_seconds": 16.005327,
+        "metrics": {
+          "version": "10.0.0",
+          "pads": 30,
+          "footprints": 12,
+          "zones": 1,
+          "vias": 3,
+          "track_length_mm": 170.2328154321993,
+          "copper_layers": 2
+        },
+        "final_delivery_accepted": true,
+        "meaning": "final completion upper bound only; earlier native success times unobserved"
+      }
+    ]
+  },
+  "route_receipt_sha256": "1c94c3a8fc73ad233fb57b50d8e51d7355d288ab6f6a8da10568af00d3cae114",
+  "resource_failure": null,
+  "completed_evidence": {
+    "files": {
+      "route/candidate/IR_Sensor.kicad_pcb": "12bf90bdd78694ce06a5968f5ce46a87929e3f963e981eb505b83eae17d10831",
+      "route/candidate/IR_Sensor.kicad_pro": "0393908f5263db9c95388db7d749115280350ae4b6a7dc44afba203aea3a2f8a",
+      "route/candidate/IR_Sensor.kicad_sch": "fb2ead949c4005eda55d7ff8e48ff39293ad096bd9f1ca12a3c623fc62915786",
+      "route/candidate/_licenses/creator/LICENSE": "7a9ff699e91b9acf1cf6747e72f82fab1ec25ead316ece85e14b8043200ebb74",
+      "route/candidate/_licenses/creator/README.md": "1dd84f03c05e371507fda0f5c3be237eea52db5d991858e9c1f75e9327205926",
+      "route/code/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+      "route/code/__main__.py": "eb48b32e74c3b25ffa7daca999cdff4c640ea7199abd990090732671bca495ea",
+      "route/code/adapter.py": "a99a389f8ff8d11b5c28507e524b823f3b906d703e2faa4dd34496a642517ac3",
+      "route/code/board_floor.py": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340",
+      "route/code/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+      "route/code/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+      "route/code/engine_angle.py": "900f5f7e34e25a03220664951df4e978327a02628ae0203008093e34b78b8bb0",
+      "route/code/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+      "route/code/floor_route.py": "eaec4f7046c7e1284bb74f709a9c82b50ceb0cbd0a11c1bdf4ae4804914e5ecc",
+      "route/code/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+      "route/code/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+      "route/code/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+      "route/code/local_settings.py": "a2ab6296b637ace500f1cdbdd62de0cd9c1803cfc17e38906ced497c1aef21c8",
+      "route/code/native.py": "d7e3140cee40d0a618c5c699cdada4d833a04d76f8fe06e8b823b4f490f2e9b6",
+      "route/code/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+      "route/code/native_edge.py": "8a38b60f301a72b815b877f9af59d156024757d66eda7d3df8c34addbe4d0c74",
+      "route/code/netclass.py": "e94d207e800e80143247ad66a44fd618fcb330c7eb6fb8f196b9b36ef72fc61b",
+      "route/code/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+      "route/code/padless_alias.py": "f359a89e3c48703058490c22d9591b5f916cd22a8b734c50e1c9191e501c1413",
+      "route/code/padless_alias_native.py": "7d06683b834f0211c82d87d7c982f6c39960e841627cd5e98f58a7913f501002",
+      "route/code/pipeline.py": "9eb4c169061d3a6f184bf4cab7cc9878280b9de9dec18e49fba117f2e16dec64",
+      "route/code/placement_clearance.py": "8fa82414fa40f80d90ed4a42f53fa2e679a52d74cfb4cfa9038239f1217aaff6",
+      "route/code/placement_strategy.py": "765a28e5a63da3e52266665accf9b9e1f5ea586ea9a90f51291b142c4373fb32",
+      "route/code/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+      "route/code/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+      "route/code/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+      "route/code/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+      "route/code/recovery.py": "fb2866c5340b808c6f7baf6a43234c87e8e353e74f47a91b51ad6fae5c24a78d",
+      "route/code/review_export.py": "698dc66682416579c3d44b571dce0c0ed7102244adb0cff38dceeeca0ea1489c",
+      "route/code/review_view.py": "79f65e4d53c243f4e0f054d97bced2be2c4646537e5b86f11626ac8c5f4ce92d",
+      "route/code/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+      "route/code/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+      "route/code/schematic_field_evidence.py": "f5c03ac0be4b5fa3960bfec5f511199f7b566de8483fc78581e39e02804dbb93",
+      "route/code/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+      "route/code/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+      "route/code/strategy.py": "2794344ef69e70e627c4f8a858e63347f3f2d5d79bfc98b8090bbbbc5e4c193e",
+      "route/code/thermal.py": "2fa7ff7260ba6e8b5a8003d8e1f51314b5ff548ef635fb94b29bdee4c741102d",
+      "route/code/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+      "route/code/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+      "route/code/thermal_worker.py": "fd651f44233aae2c70da0a8feab5f96a4763276684e8b0babf39860b91a9cc33",
+      "route/edge-adapter-input.dsn": "1209b5ec60bab6fbc31a888d634d99c3db047a00c45fdc0989d4c54e4870cc31",
+      "route/engine-config/freerouting.json": "487dc7b0671ff05ca8ba3e11120c16cc00afe7b2d923a4d6259ec179e1f2ef54",
+      "route/engine-process.json": "a1612d368f17dab90ff84e06e5fcd175c059b2fed8c4208918729f96ecdf62ae",
+      "route/engine.log": "e3849cb12fe7a3a16787072a47aac1c30176bc5ff504d5d804953b89817035d5",
+      "route/export-process.json": "615235401149e50e849edfe2e4fcebe2022eeab7c2107ab693da558889772f55",
+      "route/export.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "route/final-drc-binding.json": "c6dc6505b5ed55e03991940b437a8385359e0d7ad064eacf2bd27554aad8cd9d",
+      "route/final-drc-fields-audit-process.json": "eafff4349e600965e43e82186bf9e9f868ce5a7c62d701085ba902da99c697bd",
+      "route/final-drc-fields-audit.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "route/final-drc-fields-local-settings.json": "5be9963364e380910be0f4c321bcaac435ebe03515db11a75a4b5a81a143c238",
+      "route/final-drc-fields-netlist-process.json": "34580cc9bad8937dd47579ca05d470d81e771d4e7f668e1e0301a8163a442cbe",
+      "route/final-drc-fields-netlist.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "route/final-drc-fields-proof.json": "b445244d28fc1c0b10a029de29dc385894d062d46e99a9a3fcddf273d9fcb0a4",
+      "route/final-drc-fields.json": "adcbf9c61c356457a733f91992cca5548cd473d814fcc0e05d0e967db8f98a21",
+      "route/final-drc-fields.net": "29b87def2483c56af4955d6ebf7ec7060a85f20657e526aae5541b6916eabfb1",
+      "route/final-drc-input/IR_Sensor.kicad_pcb": "12bf90bdd78694ce06a5968f5ce46a87929e3f963e981eb505b83eae17d10831",
+      "route/final-drc-input/IR_Sensor.kicad_prl": "fc3e62db83c5dfcdb122069ab7c8adb8161bbf74b23efd4bab8ceefcd98ba4d9",
+      "route/final-drc-input/IR_Sensor.kicad_pro": "0393908f5263db9c95388db7d749115280350ae4b6a7dc44afba203aea3a2f8a",
+      "route/final-drc-input/IR_Sensor.kicad_sch": "fb2ead949c4005eda55d7ff8e48ff39293ad096bd9f1ca12a3c623fc62915786",
+      "route/final-drc-input/_licenses/creator/LICENSE": "7a9ff699e91b9acf1cf6747e72f82fab1ec25ead316ece85e14b8043200ebb74",
+      "route/final-drc-input/_licenses/creator/README.md": "1dd84f03c05e371507fda0f5c3be237eea52db5d991858e9c1f75e9327205926",
+      "route/final-drc-process.json": "9e91d20fdaba6be7792b56b20d4a9d6d26d8ecc07c47af2ccae1622ebc18ffba",
+      "route/final-drc.json": "319dffa6182e06895fe98ee2c51b0816989134bb04acd0aac794dff2eb804c0c",
+      "route/final-drc.log": "f06628b5bdf76ec4722b0df4d309d9d8313e3a578ba3f37585ed616c1deb937c",
+      "route/import-process.json": "8b5b54370688ac6cc58e4eeef7410604455148cd080204f823348574050b6f4a",
+      "route/import.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "route/imported.kicad_pcb": "99e249ceeef71bdb7c6c646ed5f5aa23e93a5ace9841491aac5e3fdaaf8428f4",
+      "route/imported.kicad_prl": "7d9ad4476f33f37f2a7260669e933885b08555cc667b8a58a3980a10d5e0a4dd",
+      "route/imported.kicad_pro": "3f765f65e381c8f6031454da00b9165d1b6c9dcd2456d310ed64639f8b7acfb9",
+      "route/imported.routes-only.json": "49e13821c5d8ef9081a501f32e22deeabe41dc0b101f1e5bd1363300fd0637ee",
+      "route/imported.routes-only.ses": "ff02a067dd85bc858e5a7c3d8b0864003e1ccab5af8ef6e277d61e27792c8dec",
+      "route/kicad-config/10.0/3d_viewer.json": "196678c94fed37c15510bb4b54d6e4eec989a0c3f9b4d30ff1be0d1425992bf3",
+      "route/kicad-config/10.0/cvpcb.json": "b93174a3b1470f1ce0e43c90268ce83976432c5210d906a3846ee7976ea9d272",
+      "route/kicad-config/10.0/eeschema.json": "ce1d47af13c60254b736992e8a387cf93b06c83f302e3aaa4c6836acb05d3502",
+      "route/kicad-config/10.0/fpedit.json": "e88988497732f32bf92cccd726d7d28ea7dfe1922d693448a38cb4c063f9d368",
+      "route/kicad-config/10.0/kicad.json": "026a2e3d05986b554bc6f5aa8590c69e847090527e0e718287e1005dbd905015",
+      "route/kicad-config/10.0/kicad_common.json": "b5eac7b6cb4000dcd720044e29566593ec2a40208adffc173d5b5b5e57b7856b",
+      "route/kicad-config/10.0/pcbnew.json": "f0822c67ee74c2e6189603de283b6d288e77a6a201c65d2f6b60afd119c95845",
+      "route/kicad-config/10.0/symbol_editor.json": "a3212dc53c3cbfd170a2bb6ae42db289bc6f4c3cf6df9abc4a5c856d22d2f86a",
+      "route/metrics-process.json": "795f8966a950361a91da5eceb694fa2fe7eec27412b9409571a79edbd85a5bef",
+      "route/metrics.json": "25dda45f31ef4862dc019915d563408bece44d1fa5512a5c423e11c2b913771f",
+      "route/metrics.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "route/native-edge-correction.json": "d96040399f2f9f6e5eee2b764cf4c8d305dd3ca9e50a61635ccd8dc54036eed4",
+      "route/native.dsn": "904c55df56b02e39f546742343133df6709c3ac457b0accdfe62f164c27f4106",
+      "route/obstacles-process.json": "2425ac9be10b7187aaebb9dee40a08dca1897c86acb56c5318a80d03a97b8e89",
+      "route/obstacles.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "route/obstacles.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "route/pre-refill.kicad_pcb": "007880f502e2b4bb800902464f82129499538dd78f07a45e9a1b32700849fd88",
+      "route/refill-drc-binding.json": "a2f4f2a7ce0f581faff4b9de26762a7740707cafd3320d44b5b701db0faddc37",
+      "route/refill-drc-process.json": "8b65e3e6e7d7756388dbde9b7be4b4e3a90cdfefb8517216521b0fca218433ce",
+      "route/refill-drc.json": "7f76d27be79164d855a5d71e6ad525559e92c857c56df6b0587867b219565f65",
+      "route/refill-drc.log": "e961a5a9992fba0758aea61ec4b501096fe5ce115efe21c3df229731f8afbba7",
+      "route/refill/IR_Sensor.kicad_pcb": "e41b5039e55a057331b557f9ffaba6618ca783aec54d4b81a9865aeb502648c5",
+      "route/refill/IR_Sensor.kicad_prl": "fc3e62db83c5dfcdb122069ab7c8adb8161bbf74b23efd4bab8ceefcd98ba4d9",
+      "route/refill/IR_Sensor.kicad_pro": "0393908f5263db9c95388db7d749115280350ae4b6a7dc44afba203aea3a2f8a",
+      "route/refill/IR_Sensor.kicad_sch": "fb2ead949c4005eda55d7ff8e48ff39293ad096bd9f1ca12a3c623fc62915786",
+      "route/refill/_licenses/creator/LICENSE": "7a9ff699e91b9acf1cf6747e72f82fab1ec25ead316ece85e14b8043200ebb74",
+      "route/refill/_licenses/creator/README.md": "1dd84f03c05e371507fda0f5c3be237eea52db5d991858e9c1f75e9327205926",
+      "route/result.json": "1c94c3a8fc73ad233fb57b50d8e51d7355d288ab6f6a8da10568af00d3cae114",
+      "route/routes.ses": "efbdaf5694c8b4e246c68e1742373e59c667106b32af1524ee9ce76cc31da345",
+      "route/snapshot/IR_Sensor.kicad_pcb": "f52eca1575d9438b803a672088de98436e9a299b6014a3bbafca963974431774",
+      "route/snapshot/IR_Sensor.kicad_pro": "0393908f5263db9c95388db7d749115280350ae4b6a7dc44afba203aea3a2f8a",
+      "route/snapshot/IR_Sensor.kicad_sch": "fb2ead949c4005eda55d7ff8e48ff39293ad096bd9f1ca12a3c623fc62915786",
+      "route/snapshot/_licenses/creator/LICENSE": "7a9ff699e91b9acf1cf6747e72f82fab1ec25ead316ece85e14b8043200ebb74",
+      "route/snapshot/_licenses/creator/README.md": "1dd84f03c05e371507fda0f5c3be237eea52db5d991858e9c1f75e9327205926",
+      "route/source-drc-binding.json": "4b4fa45486795b5fc9ea1f7e87bfe841d179deaf3aa4c7de43ca795f2c0e460f",
+      "route/source-drc-input/IR_Sensor.kicad_pcb": "f52eca1575d9438b803a672088de98436e9a299b6014a3bbafca963974431774",
+      "route/source-drc-input/IR_Sensor.kicad_prl": "fc3e62db83c5dfcdb122069ab7c8adb8161bbf74b23efd4bab8ceefcd98ba4d9",
+      "route/source-drc-input/IR_Sensor.kicad_pro": "0393908f5263db9c95388db7d749115280350ae4b6a7dc44afba203aea3a2f8a",
+      "route/source-drc-input/IR_Sensor.kicad_sch": "fb2ead949c4005eda55d7ff8e48ff39293ad096bd9f1ca12a3c623fc62915786",
+      "route/source-drc-input/_licenses/creator/LICENSE": "7a9ff699e91b9acf1cf6747e72f82fab1ec25ead316ece85e14b8043200ebb74",
+      "route/source-drc-input/_licenses/creator/README.md": "1dd84f03c05e371507fda0f5c3be237eea52db5d991858e9c1f75e9327205926",
+      "route/source-drc-process.json": "6c19b472adccdcb729cdffd6e781a7d894424df17ce82c3bb447fa406c6e9e59",
+      "route/source-drc.json": "3499dce943cc1086ccdae0165c9a99e8a86fc52a1095b251162df26f69524243",
+      "route/source-drc.log": "97606c4ed89c3b96183a70e65aa59babb3f6e869ddd477952a565c965d18f815",
+      "route/task.alias-export.json": "703c187dc5f32ba9c1412743fc82288f9e3542015fb1c955fbc790b60eea81d4",
+      "route/task.alias-source.kicad_pcb": "be611462a6ac5320b308fb9023f93538124a71bcb19ecf5ab406eade38055d93",
+      "route/task.dsn": "042d6d6249a3585cee8965a8e107ebda17283d6d1a6cd5b1a2a199a6dde9ea84"
+    },
+    "directories": [
+      ".",
+      "route",
+      "route/candidate",
+      "route/candidate/_licenses",
+      "route/candidate/_licenses/creator",
+      "route/code",
+      "route/engine-config",
+      "route/final-drc-input",
+      "route/final-drc-input/_licenses",
+      "route/final-drc-input/_licenses/creator",
+      "route/kicad-cache",
+      "route/kicad-cache/kicad",
+      "route/kicad-cache/kicad/10.0",
+      "route/kicad-config",
+      "route/kicad-config/10.0",
+      "route/kicad-config/10.0/colors",
+      "route/kicad-documents",
+      "route/kicad-documents/kicad",
+      "route/kicad-documents/kicad/10.0",
+      "route/kicad-documents/kicad/10.0/3dmodels",
+      "route/kicad-documents/kicad/10.0/3rdparty",
+      "route/kicad-documents/kicad/10.0/footprints",
+      "route/kicad-documents/kicad/10.0/plugins",
+      "route/kicad-documents/kicad/10.0/projects",
+      "route/kicad-documents/kicad/10.0/scripting",
+      "route/kicad-documents/kicad/10.0/symbols",
+      "route/kicad-documents/kicad/10.0/template",
+      "route/refill",
+      "route/refill/_licenses",
+      "route/refill/_licenses/creator",
+      "route/snapshot",
+      "route/snapshot/_licenses",
+      "route/snapshot/_licenses/creator",
+      "route/source-drc-input",
+      "route/source-drc-input/_licenses",
+      "route/source-drc-input/_licenses/creator"
+    ]
+  },
+  "wall_seconds": 23.318958667019615,
+  "full_cpu_seconds": 21.861931000000002,
+  "publication_allowance_seconds": 2
+}
