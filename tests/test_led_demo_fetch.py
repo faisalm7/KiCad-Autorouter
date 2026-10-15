@@ -59,6 +59,63 @@ class LedFetchControls(unittest.TestCase):
   from experiments.original_project_native_v1 import driver
   self.assertEqual(driver.CASES['ir-obstacle'],('portable-demo','KiCad/IR_Sensor.kicad_pcb','6399dfd3bd8d2f48878a9a7c5b2f2e7a76a2b899',None))
   self.assertIn('ir-obstacle',driver.REFILLED_ORIGINALS)
+ def test_universal_shift_fixed_plan_retains_prl_orphan_and_both_notices(self):
+  cfg=demo.fixed_profile('universal-shift-interface');by={r['source_path']:r for r in cfg['rows']}
+  self.assertEqual(cfg['commit'],'02a2698f962e3cd7c16d58167a455ad01c97e1b0')
+  self.assertEqual((len(by),cfg['bytes'],sum(r['bytes'] for r in by.values())),(7,821075,821075))
+  self.assertEqual(by['KiCad/Interface Board/USR_LED_Board.kicad_pcb']['sha256'],'4554afb88a6708b565cf2fe90a50a443d9b2ab0be80c306dff954af0e1dfa289')
+  self.assertIn('KiCad/Interface Board/USR_LED_Board.kicad_prl',by);self.assertIn('KiCad/Interface Board/.kicad_sch',by)
+  self.assertEqual((cfg['native_packet_files'],cfg['native_packet_bytes']),(9,829542))
+  self.assertEqual(set(cfg['native_packet_notice_copies'].values()),{'LICENSE','README.md'})
+  self.assertEqual((cfg['max_requests'],cfg['network_byte_cap'],cfg['max_single_response_bytes']),(7,821082,648487))
+  self.assertEqual(cfg['output_byte_cap'],4*1024**2);self.assertLess(2*cfg['bytes']+cfg['native_packet_bytes'],cfg['output_byte_cap'])
+  result=demo.fetch_demo(cfg['default_output'],profile_id=cfg['profile_id'],root=self.root,transport=lambda *a:self.fail('offline plan transported'))
+  self.assertEqual((result['action'],result['network_requests'],result['planned_network_requests'],result['planned_bytes']),('plan_only',0,7,821075));self.assertFalse((self.root/'.data').exists())
+  cfg['rows'][0]['sha256']='0'*64;self.assertNotEqual(demo.fixed_profile('universal-shift-interface')['rows'][0]['sha256'],'0'*64)
+  from experiments.original_project_native_v1 import driver
+  self.assertEqual(driver.CASES['universal-shift-interface'],('portable-demo','KiCad/Interface Board/USR_LED_Board.kicad_pcb','02a2698f962e3cd7c16d58167a455ad01c97e1b0',None));self.assertIn('universal-shift-interface',driver.REFILLED_ORIGINALS)
+ def authored_universal_shift(self):
+  # Authored transport-only text: not downloaded boards or Native evidence.
+  cfg=demo.fixed_profile('universal-shift-interface');payloads={}
+  for name in demo.ARC_MATERIAL:
+   q=self.root/name;q.parent.mkdir(parents=True,exist_ok=True);q.write_bytes((demo.ROOT/name).read_bytes())
+  for row in cfg['rows']:
+   raw=('authored fixed-packet fixture '+row['source_path']+'\n').encode();payloads[row['source_path']]=raw
+   row.update(bytes=len(raw),sha256=demo.shared.sha(raw),git_blob_sha1=hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest())
+  cfg['bytes']=sum(r['bytes'] for r in cfg['rows']);cfg['network_byte_cap']=cfg['bytes']+7;cfg['max_single_response_bytes']=max(r['bytes'] for r in cfg['rows'])+1
+  cfg['native_packet_bytes']=cfg['bytes']+sum(len(payloads[n]) for n in cfg['native_packet_notice_copies'].values())
+  patch=mock.patch.object(demo,'UNIVERSAL_SHIFT_PROFILE',cfg);patch.start();self.addCleanup(patch.stop)
+  def transport(row,record,path,allowance,remaining):
+   remaining();self.called.append(row['source_path']);raw=payloads[row['source_path']]
+   with path.open('xb') as stream:stream.write(raw)
+   record.update(received_bytes=len(raw),response_sha256=demo.shared.sha(raw),url=row['raw_url'],status='response_received',http_status=200,wall_seconds=0.0);return raw
+  return cfg,payloads,transport
+ def test_universal_shift_authored_full_capture_preserves_every_original(self):
+  cfg,payloads,transport=self.authored_universal_shift();r=demo.fetch_demo(cfg['default_output'],fetch=True,profile_id=cfg['profile_id'],root=self.root,transport=transport)
+  self.assertEqual((r['status'],r['new_network_requests']),('acquired_unqualified',7));self.assertFalse(r['accepted']);self.assertFalse(r['native_accepted'])
+  base,files=demo.capture_native_source(cfg['profile_id'],root=self.root)
+  self.assertEqual(len(files),9)
+  for name,raw in payloads.items():self.assertEqual(files[name],raw)
+  for name,origin in cfg['native_packet_notice_copies'].items():self.assertEqual(files[name],payloads[origin])
+  self.assertEqual(demo.verify_project(base,profile_id=cfg['profile_id'],native_packet=True)['bytes'],cfg['native_packet_bytes'])
+ def test_universal_shift_authored_missing_orphan_bad_notice_and_symlink_refuse(self):
+  cfg,payloads,transport=self.authored_universal_shift();demo.fetch_demo(cfg['default_output'],fetch=True,profile_id=cfg['profile_id'],root=self.root,transport=transport)
+  base=self.root/cfg['default_output']/'native-project';orphan=base/'KiCad/Interface Board/.kicad_sch';raw=orphan.read_bytes();orphan.unlink()
+  with self.assertRaises(ValueError):demo.verify_project(base,profile_id=cfg['profile_id'],native_packet=True)
+  orphan.symlink_to(base/'LICENSE')
+  with self.assertRaises(ValueError):demo.verify_project(base,profile_id=cfg['profile_id'],native_packet=True)
+  orphan.unlink();orphan.write_bytes(raw);notice=base/'KiCad/Interface Board/_licenses/creator/LICENSE';notice.write_bytes(b'changed notice')
+  with self.assertRaises(ValueError):demo.capture_native_source(cfg['profile_id'],root=self.root)
+ def test_universal_shift_authored_late_prl_change_keeps_failed_receipt(self):
+  cfg,payloads,transport=self.authored_universal_shift();real=demo.publication.publish;calls=[]
+  def stale(output,record,*args,**kwargs):
+   value=real(output,record,*args,**kwargs);calls.append(output)
+   if len(calls)==1:(output/'project/KiCad/Interface Board/USR_LED_Board.kicad_prl').write_bytes(b'late changed PRL')
+   return value
+  with mock.patch.object(demo.publication,'publish',side_effect=stale),self.assertRaises(ValueError):demo.fetch_demo(cfg['default_output'],fetch=True,profile_id=cfg['profile_id'],root=self.root,transport=transport)
+  r=demo.publication.read_json(self.root/cfg['default_output']/'result.json');self.assertEqual(r['status'],'invalidated');self.assertFalse(r['accepted']);self.assertFalse(r['source_files_exact']);self.assertEqual(r['new_network_requests'],7);self.assertIn('source_verification_error',r);self.assertTrue(list((self.root/cfg['default_output']).glob('invalidated-result-*')))
+  self.assertEqual((self.root/cfg['default_output']/'project/KiCad/Interface Board/USR_LED_Board.kicad_prl').read_bytes(),b'late changed PRL')
+  with self.assertRaises(ValueError):demo.capture_native_source(cfg['profile_id'],root=self.root)
  def test_clean_checkout_plan_has_no_data_cache_git_or_network_requirement(self):
   result=demo.fetch_demo('.data/led-demo-test',root=self.root,transport=lambda *a:(_ for _ in ()).throw(AssertionError('no network')))
   self.assertEqual(result['action'],'plan_only');self.assertEqual(result['network_requests'],0);self.assertFalse((self.root/'.data').exists());self.assertFalse((self.root/'.git').exists());self.assertFalse((self.root/'.runs').exists())

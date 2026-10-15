@@ -674,7 +674,173 @@ IR_OBSTACLE_PROFILE = {'schema': 1,
               'Prior exposed research used21HTTP/1294070B; completed record197.97749304771423s '
               'exceeded180s overall research cap. This failure is retained, not reset by acquisition.']}
 
+UNIVERSAL_SHIFT_PROFILE = {'board_path': 'KiCad/Interface Board/USR_LED_Board.kicad_pcb',
+ 'bytes': 821075,
+ 'commit': '02a2698f962e3cd7c16d58167a455ad01c97e1b0',
+ 'cpu_budget_seconds': 300,
+ 'default_output': '.data/universal-shift-interface-demo-001',
+ 'development_exposed': True,
+ 'directories': ['KiCad', 'KiCad/Interface Board'],
+ 'file_count': 7,
+ 'independent_ancestry_established': False,
+ 'max_requests': 7,
+ 'max_single_response_bytes': 648487,
+ 'native_packet_bytes': 829542,
+ 'native_packet_files': 9,
+ 'native_packet_notice_copies': {'KiCad/Interface Board/_licenses/creator/LICENSE': 'LICENSE',
+                                 'KiCad/Interface Board/_licenses/creator/README.md': 'README.md'},
+ 'native_validation_performed_by_fetch': False,
+ 'network_byte_cap': 821082,
+ 'output_byte_cap': 4194304,
+ 'output_prefix': 'universal-shift-interface-demo-',
+ 'profile_id': 'universal-shift-interface',
+ 'project_id': 'universal-shift-interface',
+ 'raw_assets_public': False,
+ 'repository': 'Natasha-Eman/32-bit-Universal-Shift-Register',
+ 'request_wall_seconds': 30,
+ 'rows': [{'blob_url': 'https://github.com/Natasha-Eman/32-bit-Universal-Shift-Register/blob/02a2698f962e3cd7c16d58167a455ad01c97e1b0/LICENSE',
+           'bytes': 1069,
+           'commit': '02a2698f962e3cd7c16d58167a455ad01c97e1b0',
+           'destination': 'universal-shift-interface/LICENSE',
+           'git_blob_sha1': 'd0e54ef65d9b098c597e558f9616172e4ca59dc4',
+           'mode': '100644',
+           'raw_url': 'https://raw.githubusercontent.com/Natasha-Eman/32-bit-Universal-Shift-Register/02a2698f962e3cd7c16d58167a455ad01c97e1b0/LICENSE',
+           'repository': 'Natasha-Eman/32-bit-Universal-Shift-Register',
+           'rights_basis': 'PinnedREADME DesignFiles section explicitly describes includedKiCadfiles '
+                           'asrequired tostudy,modify ormanufacture; License section releases '
+                           'thisproject underMIT. '
+                           'CompleteMITnoticecopyright2026Natasha-Emanmatchesstatedauthor. This '
+                           'supports redistributing the selected designsource toextentauthorownsrights; '
+                           'noasset/model/librarytitle-chainorlegalopinionclaim.',
+           'sha256': '66cb787710146719ad5ff1c2c9cc62cb9691c55233d6cae3caf4ad0748b5ae0c',
+           'source_path': 'LICENSE'},
+          {'blob_url': 'https://github.com/Natasha-Eman/32-bit-Universal-Shift-Register/blob/02a2698f962e3cd7c16d58167a455ad01c97e1b0/README.md',
+           'bytes': 7398,
+           'commit': '02a2698f962e3cd7c16d58167a455ad01c97e1b0',
+           'destination': 'universal-shift-interface/README.md',
+           'git_blob_sha1': '7b3e0371e7be7b8f7c3f66393489f1cc5c01ad43',
+           'mode': '100644',
+           'raw_url': 'https://raw.githubusercontent.com/Natasha-Eman/32-bit-Universal-Shift-Register/02a2698f962e3cd7c16d58167a455ad01c97e1b0/README.md',
+           'repository': 'Natasha-Eman/32-bit-Universal-Shift-Register',
+           'rights_basis': 'PinnedREADME DesignFiles section explicitly describes includedKiCadfiles '
+                           'asrequired tostudy,modify ormanufacture; License section releases '
+                           'thisproject underMIT. '
+                           'CompleteMITnoticecopyright2026Natasha-Emanmatchesstatedauthor. This '
+                           'supports redistributing the selected designsource toextentauthorownsrights; '
+                           'noasset/model/librarytitle-chainorlegalopinionclaim.',
+           'sha256': '67ec44397a353f3ff4df767d0fd782c6986988f37e9809c737018833c75025f5',
+           'source_path': 'README.md'},
+          {'blob_url': 'https://github.com/Natasha-Eman/32-bit-Universal-Shift-Register/blob/02a2698f962e3cd7c16d58167a455ad01c97e1b0/KiCad/Interface%20Board/.kicad_sch',
+           'bytes': 790,
+           'commit': '02a2698f962e3cd7c16d58167a455ad01c97e1b0',
+           'destination': 'universal-shift-interface/KiCad/Interface Board/.kicad_sch',
+           'git_blob_sha1': 'b05e5b79abc5d287a20587fca04f18cd29504815',
+           'mode': '100644',
+           'raw_url': 'https://raw.githubusercontent.com/Natasha-Eman/32-bit-Universal-Shift-Register/02a2698f962e3cd7c16d58167a455ad01c97e1b0/KiCad/Interface%20Board/.kicad_sch',
+           'repository': 'Natasha-Eman/32-bit-Universal-Shift-Register',
+           'rights_basis': 'PinnedREADME DesignFiles section explicitly describes includedKiCadfiles '
+                           'asrequired tostudy,modify ormanufacture; License section releases '
+                           'thisproject underMIT. '
+                           'CompleteMITnoticecopyright2026Natasha-Emanmatchesstatedauthor. This '
+                           'supports redistributing the selected designsource toextentauthorownsrights; '
+                           'noasset/model/librarytitle-chainorlegalopinionclaim.',
+           'sha256': 'd151e1d864bc187ef2692492ec896df7be7de3cbc904d291e04b549376c7a8bb',
+           'source_path': 'KiCad/Interface Board/.kicad_sch'},
+          {'blob_url': 'https://github.com/Natasha-Eman/32-bit-Universal-Shift-Register/blob/02a2698f962e3cd7c16d58167a455ad01c97e1b0/KiCad/Interface%20Board/USR_LED_Board.kicad_pcb',
+           'bytes': 648486,
+           'commit': '02a2698f962e3cd7c16d58167a455ad01c97e1b0',
+           'destination': 'universal-shift-interface/KiCad/Interface Board/USR_LED_Board.kicad_pcb',
+           'git_blob_sha1': '754e09b250854ed84b0ef4d836c33af70fe237cb',
+           'mode': '100644',
+           'raw_url': 'https://raw.githubusercontent.com/Natasha-Eman/32-bit-Universal-Shift-Register/02a2698f962e3cd7c16d58167a455ad01c97e1b0/KiCad/Interface%20Board/USR_LED_Board.kicad_pcb',
+           'repository': 'Natasha-Eman/32-bit-Universal-Shift-Register',
+           'rights_basis': 'PinnedREADME DesignFiles section explicitly describes includedKiCadfiles '
+                           'asrequired tostudy,modify ormanufacture; License section releases '
+                           'thisproject underMIT. '
+                           'CompleteMITnoticecopyright2026Natasha-Emanmatchesstatedauthor. This '
+                           'supports redistributing the selected designsource toextentauthorownsrights; '
+                           'noasset/model/librarytitle-chainorlegalopinionclaim.',
+           'sha256': '4554afb88a6708b565cf2fe90a50a443d9b2ab0be80c306dff954af0e1dfa289',
+           'source_path': 'KiCad/Interface Board/USR_LED_Board.kicad_pcb'},
+          {'blob_url': 'https://github.com/Natasha-Eman/32-bit-Universal-Shift-Register/blob/02a2698f962e3cd7c16d58167a455ad01c97e1b0/KiCad/Interface%20Board/USR_LED_Board.kicad_prl',
+           'bytes': 2639,
+           'commit': '02a2698f962e3cd7c16d58167a455ad01c97e1b0',
+           'destination': 'universal-shift-interface/KiCad/Interface Board/USR_LED_Board.kicad_prl',
+           'git_blob_sha1': '0335bc1f0e55e7ad41bf46bd4b58ee5bbf380ba1',
+           'mode': '100644',
+           'raw_url': 'https://raw.githubusercontent.com/Natasha-Eman/32-bit-Universal-Shift-Register/02a2698f962e3cd7c16d58167a455ad01c97e1b0/KiCad/Interface%20Board/USR_LED_Board.kicad_prl',
+           'repository': 'Natasha-Eman/32-bit-Universal-Shift-Register',
+           'rights_basis': 'PinnedREADME DesignFiles section explicitly describes includedKiCadfiles '
+                           'asrequired tostudy,modify ormanufacture; License section releases '
+                           'thisproject underMIT. '
+                           'CompleteMITnoticecopyright2026Natasha-Emanmatchesstatedauthor. This '
+                           'supports redistributing the selected designsource toextentauthorownsrights; '
+                           'noasset/model/librarytitle-chainorlegalopinionclaim.',
+           'sha256': '12ac63dcd74e561eeaaea5f1ef29d4c2bbe68a5b90d0b7f8e2c2361f8893865e',
+           'source_path': 'KiCad/Interface Board/USR_LED_Board.kicad_prl'},
+          {'blob_url': 'https://github.com/Natasha-Eman/32-bit-Universal-Shift-Register/blob/02a2698f962e3cd7c16d58167a455ad01c97e1b0/KiCad/Interface%20Board/USR_LED_Board.kicad_pro',
+           'bytes': 16968,
+           'commit': '02a2698f962e3cd7c16d58167a455ad01c97e1b0',
+           'destination': 'universal-shift-interface/KiCad/Interface Board/USR_LED_Board.kicad_pro',
+           'git_blob_sha1': '93eb1c36cade6c1b793e021fd9f27d644f0f2ab0',
+           'mode': '100644',
+           'raw_url': 'https://raw.githubusercontent.com/Natasha-Eman/32-bit-Universal-Shift-Register/02a2698f962e3cd7c16d58167a455ad01c97e1b0/KiCad/Interface%20Board/USR_LED_Board.kicad_pro',
+           'repository': 'Natasha-Eman/32-bit-Universal-Shift-Register',
+           'rights_basis': 'PinnedREADME DesignFiles section explicitly describes includedKiCadfiles '
+                           'asrequired tostudy,modify ormanufacture; License section releases '
+                           'thisproject underMIT. '
+                           'CompleteMITnoticecopyright2026Natasha-Emanmatchesstatedauthor. This '
+                           'supports redistributing the selected designsource toextentauthorownsrights; '
+                           'noasset/model/librarytitle-chainorlegalopinionclaim.',
+           'sha256': 'd711aae9ca29e2feef2f670ab7337432343350c9e39f07e1c09efd4dee0a6bc9',
+           'source_path': 'KiCad/Interface Board/USR_LED_Board.kicad_pro'},
+          {'blob_url': 'https://github.com/Natasha-Eman/32-bit-Universal-Shift-Register/blob/02a2698f962e3cd7c16d58167a455ad01c97e1b0/KiCad/Interface%20Board/USR_LED_Board.kicad_sch',
+           'bytes': 143725,
+           'commit': '02a2698f962e3cd7c16d58167a455ad01c97e1b0',
+           'destination': 'universal-shift-interface/KiCad/Interface Board/USR_LED_Board.kicad_sch',
+           'git_blob_sha1': 'f4008ce4b71a9cab825003390070c445e1ec3378',
+           'mode': '100644',
+           'raw_url': 'https://raw.githubusercontent.com/Natasha-Eman/32-bit-Universal-Shift-Register/02a2698f962e3cd7c16d58167a455ad01c97e1b0/KiCad/Interface%20Board/USR_LED_Board.kicad_sch',
+           'repository': 'Natasha-Eman/32-bit-Universal-Shift-Register',
+           'rights_basis': 'PinnedREADME DesignFiles section explicitly describes includedKiCadfiles '
+                           'asrequired tostudy,modify ormanufacture; License section releases '
+                           'thisproject underMIT. '
+                           'CompleteMITnoticecopyright2026Natasha-Emanmatchesstatedauthor. This '
+                           'supports redistributing the selected designsource toextentauthorownsrights; '
+                           'noasset/model/librarytitle-chainorlegalopinionclaim.',
+           'sha256': '6792fce9b400c3fd23a3b8efb945392215f4b99a0a8e17a0831bed4ce47e8763',
+           'source_path': 'KiCad/Interface Board/USR_LED_Board.kicad_sch'}],
+ 'schema': 1,
+ 'wall_budget_seconds': 300,
+ 'warnings': ['Seven exact originals include complete PRL and orphan .kicad_sch; native packet adds two '
+              'byte-identical creator notice copies.',
+              'Separate larger-file static inspection fetched exact648486B PCB; '
+              'actualPCB20260206/SCH20260306,2Cu,77footprints165pads,ordinarycircle/rect PTH/NPTH,one '
+              'rectangularrootEdge.Cuts,oneB.CuGNDzone,441unlockedroutes; no '
+              'custompads/netties/keepouts/lockedfootprints found. Purecurrentpreflight passes; these '
+              'are not Native/refill/fullSCH/serialization/routing support results.',
+              'Preserve literalDefault+activePower exactGNDpattern '
+              'andalloriginalwidth/via/drill/annulus/clearance/edge.5mm settings; '
+              'noDefault-onlyprojection orconstraintwaiver.',
+              'README explicitlylistsKiCaddesignfilesforstudy/modify/manufacture andreleasesprojectMIT, '
+              'matchingcopyright2026Natasha-Eman. Onlyauthorownedrights evidenced; '
+              'individualmodels/libraries/embeddedartwork title chains andindependentancestry '
+              'remainunknown.',
+              'README retains unresolved merge-conflict markers and says fabrication/testing '
+              'isfuturework. SelectedflatInterfaceBoard isnot the entire '
+              'separatehierarchical32bitLogicBoard; nohardwarefunctional orPCBapprovalclaim.',
+              'KICAD10 stockmodeldeclarations/REFERENCE fieldvariables preserved; '
+              'noimages/models/libraries/firmware/upstreamscripts acquired or executed.',
+              'Source research005 recorded175.852408wall plus10prestart185.852408 under240 '
+              'butmissed180target; larger-file staticstage79.814781 plus10prestart89.814781 under90 '
+              'butmissed75target. Full cumulativehostCPU wasnotmeasured acrosscommands; '
+              'nozeroCPU/speedup claim.',
+              'Existing generic nested response/project/native layout '
+              'retains821075+821075+829542=2471692B before receipts; profile-only4MiB output ceiling '
+              'preserves allthreecopies. Default/otherprofile limits unchanged.']}
+
 def fixed_profile(profile_id='led'):
+    if profile_id=='universal-shift-interface':return copy.deepcopy(UNIVERSAL_SHIFT_PROFILE)
     if profile_id=='ir-obstacle':return copy.deepcopy(IR_OBSTACLE_PROFILE)
     if profile_id=='sunx-v21':return copy.deepcopy(SUNX_PROFILE)
     if profile_id=='pico-flipper':return copy.deepcopy(FLIPPER_PROFILE)
@@ -863,7 +1029,13 @@ def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fe
           received_bytes=sum(x.get('received_bytes',0) for x in requests if x.get('transport')=='network'),
           transfer_count=len(requests),reused_input_files=sum(x.get('status')=='verified_cache_copied' for x in requests),
           reused_input_bytes=sum(x.get('cached_bytes',0) for x in requests),cache_inputs_current=cache_current)
-        record['source_files_exact']=exact_source() and all(actual['files'].get(n)==info for n,info in completed.items())
+        # Failure accounting must still publish a negative receipt when exact
+        # nested project/notice verification rejects changed or missing bytes.
+        # stable() remains authoritative and still raises on the same mutation.
+        try:source_exact=exact_source()
+        except Exception as exc:
+            source_exact=False;record.setdefault('source_verification_error',type(exc).__name__+': '+str(exc))
+        record['source_files_exact']=source_exact and all(actual['files'].get(n)==info for n,info in completed.items())
         record['within_budget']=record['wall_seconds']<=SECONDS and record['total_cpu_seconds']<=SECONDS and actual['bytes']<=output_cap and len(requests)<=max_requests and record['received_bytes']<=network_cap
         if not record['within_budget'] or record['status']=='acquired_unqualified' and (not record['source_files_exact'] or not cache_current):record.update(status='failed',accepted=False)
     try:
@@ -913,7 +1085,7 @@ def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fe
         raise
 
 def main():
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--fetch',action='store_true');parser.add_argument('--project',choices=('led','arcdice','analog-filter','cellscan','uv-dosimeter','navigation-switch','audio-player-my1690x','pico-flipper','sunx-v21','ir-obstacle'),default='led');parser.add_argument('--output');parser.add_argument('--reuse-uv-licenses',action='store_true',help='Explicitly reuse only the three pinned prior UV licence bodies; no fallback');parser.add_argument('--reuse-navigation-notices',action='store_true',help='Explicitly reuse only two pinned prior Navigation notices; old timing unmeasured, no fallback');parser.add_argument('--reuse-audio-notices',action='store_true',help='Explicit fixed Audio root notices and stale Hardware README reuse; no fallback, prior untimed cost retained');parser.add_argument('--reuse-flipper-notices',action='store_true',help='Explicitly reuse two pinned prior Flipper notices; prior metadata cost unmeasured, no fallback');args=parser.parse_args();args.output=args.output or fixed_profile(args.project)['default_output']
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--fetch',action='store_true');parser.add_argument('--project',choices=('led','arcdice','analog-filter','cellscan','uv-dosimeter','navigation-switch','audio-player-my1690x','pico-flipper','sunx-v21','ir-obstacle','universal-shift-interface'),default='led');parser.add_argument('--output');parser.add_argument('--reuse-uv-licenses',action='store_true',help='Explicitly reuse only the three pinned prior UV licence bodies; no fallback');parser.add_argument('--reuse-navigation-notices',action='store_true',help='Explicitly reuse only two pinned prior Navigation notices; old timing unmeasured, no fallback');parser.add_argument('--reuse-audio-notices',action='store_true',help='Explicit fixed Audio root notices and stale Hardware README reuse; no fallback, prior untimed cost retained');parser.add_argument('--reuse-flipper-notices',action='store_true',help='Explicitly reuse two pinned prior Flipper notices; prior metadata cost unmeasured, no fallback');args=parser.parse_args();args.output=args.output or fixed_profile(args.project)['default_output']
     try:
         with shared.cancellation(),shared.alarm(SECONDS):record=fetch_demo(args.output,profile_id=args.project,fetch=args.fetch,started=START,cpu_started=CPU_START,reuse_uv_licenses=args.reuse_uv_licenses,reuse_navigation_notices=args.reuse_navigation_notices,reuse_audio_notices=args.reuse_audio_notices,reuse_flipper_notices=args.reuse_flipper_notices)
     except (Exception,KeyboardInterrupt) as exc:

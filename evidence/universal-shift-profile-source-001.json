@@ -1,0 +1,122 @@
+{
+  "schema": 1,
+  "kind": "fixed-source-profile-and-acquisition-failure-receipt-fix",
+  "git_parent": "eb583d1995d0352ab227189fd0cc57d1a7caec62",
+  "accepted": false,
+  "production_support_added": false,
+  "source_sha256": {
+    "scripts/fetch_led_demo.py": "3cdd2c68abe4031e218267c1d93cfa4103c9e5bbdb817550fb254b19c599e8c1",
+    "experiments/original_project_native_v1/driver.py": "6e75d52e9273d6428636a3fad22e2041c311bdcb4949a191c0a64602a65fafb4",
+    "tests/test_led_demo_fetch.py": "039c7c56da93443c4c847c2d31e54a9664f5020afa11c3002e11a98b7a12ba48",
+    "experiments/ir_native_connected_baseline_v1/actor.py": "3a4b04d33b2245a8449d6be29b5db5563e94cbf8600c0519b8cc3edbcc97f178",
+    "experiments/ir_native_connected_baseline_v1/README.md": "a31fcb200bbe1f084e4a305d12faaa4dd6a9ecef96bd562b62d11ad7ea576eb2"
+  },
+  "profile": {
+    "id": "universal-shift-interface",
+    "repository": "Natasha-Eman/32-bit-Universal-Shift-Register",
+    "commit": "02a2698f962e3cd7c16d58167a455ad01c97e1b0",
+    "original_files": 7,
+    "original_bytes": 821075,
+    "native_packet_files": 9,
+    "native_packet_bytes": 829542,
+    "prl_and_orphan_preserved": true,
+    "native_performed": false,
+    "quality_registry_added": false
+  },
+  "defect": "Nested exact_source verification could throw during failure accounting after postpublication PRL mutation, archiving the positive receipt then failing to write canonical negative. Account now records source_files_exact=False and error; authoritative stable checks still reject. Targeted003 demonstrates original defect, targeted004 verifies correction and unchanged tampered bytes.",
+  "tests": {
+    "targeted_pass": 20,
+    "full085_pass": 1357,
+    "actual_original_baseline_composition_and_negative_controls": 3,
+    "notes": "Full085 core/source-profile suite completed before experimental actor addition; core runtime unchanged and actor separately checked using retained real source observations. No new Native/engine executed."
+  },
+  "executions": [
+    {
+      "path": ".runs/universal-shift-profile-targeted-001/execution.json",
+      "sha256": "df6441384241ac730ea0bb8a5fa63d7abda39ca16c8e575cccf231114a6c42c7",
+      "wall_seconds": 0.34106741700088605,
+      "full_cpu_seconds": 0.11590099999999998,
+      "process_status": "nonzero_exit",
+      "exit_code": 1,
+      "cleanup_complete": true,
+      "log_sha256": "067f8b884732e3b4706f06ae8442b1f8297e386b8b20a9695de0c26fcee1719c"
+    },
+    {
+      "path": ".runs/universal-shift-profile-targeted-002/execution.json",
+      "sha256": "79221b55d128bcbe42caa19d125aefd27b31a610abdfe6a4327b5084f0631011",
+      "wall_seconds": 0.4518334160093218,
+      "full_cpu_seconds": 0.38467399999999996,
+      "process_status": "nonzero_exit",
+      "exit_code": 2,
+      "cleanup_complete": true,
+      "log_sha256": "e4d9b03abec27ec890e2a940755353d3a825af7c9c84489a13687bfde5a4b824"
+    },
+    {
+      "path": ".runs/universal-shift-profile-targeted-003/execution.json",
+      "sha256": "ebcaa995eeefc6ff8d1841c91ac51033a3ea0ba910203ae407b61d9a0a952807",
+      "wall_seconds": 0.9489118340134155,
+      "full_cpu_seconds": 0.771463,
+      "process_status": "nonzero_exit",
+      "exit_code": 2,
+      "cleanup_complete": true,
+      "log_sha256": "4ac8bbbb377bf45d00d80d4f85b16a195eb9811b787a98fd265ca2aa9421a8fb"
+    },
+    {
+      "path": ".runs/universal-shift-profile-targeted-004/execution.json",
+      "sha256": "de00277a4fbba5af37f145d57148cfe0ad2dfc8c4e8192511665a372c46faa79",
+      "wall_seconds": 0.9151756670034956,
+      "full_cpu_seconds": 0.7592089999999998,
+      "process_status": "success",
+      "exit_code": 0,
+      "cleanup_complete": true,
+      "log_sha256": "e92e4c907eca8048927ae9be7577db889313f332df7381d471d26d3a88494c90"
+    },
+    {
+      "path": ".runs/full-integration-084/execution.json",
+      "sha256": "baf0dea88738fa3ac3347321078b9c2b0880c15d0913bcec042218ee4304105b",
+      "wall_seconds": 13.859596791997319,
+      "full_cpu_seconds": 12.044071000000002,
+      "process_status": "nonzero_exit",
+      "exit_code": -2,
+      "cleanup_complete": true,
+      "log_sha256": "5d0c81e77369846c57f261c85e320b0dff80b61088c71344aacdd66bffd02287"
+    },
+    {
+      "path": ".runs/full-integration-085/execution.json",
+      "sha256": "c48b2dae830cd77bda48855b8805db3b0a6b6061808e9209eefb65789be2f8f4",
+      "wall_seconds": 135.90084641598514,
+      "full_cpu_seconds": 121.956643,
+      "process_status": "success",
+      "exit_code": 0,
+      "cleanup_complete": true,
+      "log_sha256": "d9c1e68772ff97307fd148cbe29b7c2db0e0026bee7ba563b495a60f5fef99ef"
+    },
+    {
+      "path": ".runs/ir-native-connected-baseline-integration-001/execution.json",
+      "sha256": "aac1ebd6a39e72aa94c4626f849830d414135de4c0874139e53ba05252c5284f",
+      "wall_seconds": 0.25106612499803305,
+      "full_cpu_seconds": 0.21658699999999997,
+      "process_status": "success",
+      "exit_code": 0,
+      "cleanup_complete": true,
+      "log_sha256": "af6a2f4c840eda0df866cb3fc34311061e83ea90ad5b7ca7359536ba17444909"
+    }
+  ],
+  "experimental_baseline": "New 95s fresh-classifier/selected completion-only via_high actor integrated, not executed or cumulatively qualified. IRNC1 old sidecar blocker corrected by existing gate003 composition, reviewed static and actual retained observation controls. No full tuned optimizer or routing result claimed.",
+  "reviews": [
+    {
+      "path": ".runs/normal-alias-continuation-support-001/ir-native-connected-baseline-review-applied-001/README.md",
+      "sha256": "f0a0b5ca338cea6179863afa8b330ee9a9645ad3f7f94e9091d29a5d67cda869"
+    },
+    {
+      "path": ".runs/normal-alias-continuation-support-001/universal-shift-profile-review-001/README.md",
+      "sha256": "4cca68f64de39d118475e80fde1c15d6e637ca93c4a6deac490733ce5c027151"
+    }
+  ],
+  "limitations": [
+    "Profile preparation193.272455s exceeded180 target; retained. Static90s stage and research240s stages missed smaller targets; full cumulative preparation CPU unmeasured.",
+    "README conflict markers and future fabrication statement retained; models/stock assets/title/pedigree/physical validation unresolved. No raw board publication.",
+    "Focused001 launcher import failed;002 authored fixture missing shared helpers;003 caught real receipt defect. Full084 accidentally started before003 inspection and cancelled with cleanup; costs retained.",
+    "No routing quality result or new board admission from tests."
+  ]
+}
