@@ -1,0 +1,45 @@
+--- a/probe.py
++++ b/probe.py
+@@ -186,7 +186,7 @@
+             record['terminal_comparison']=members(io.read_bytes(netlist).decode(),board,raw_report)
+             record.update(passed=True,status='completed',observation_complete=True)
+         except (Exception,KeyboardInterrupt) as exc:
+-            record.update(passed=False,status='cancelled' if isinstance(exc,KeyboardInterrupt) else 'failed',error=type(exc).__name__+': '+str(exc))
++            record.update(passed=False,status='cancelled' if isinstance(exc,KeyboardInterrupt) or any(step.get('status')=='cancelled' for step in job.steps) else 'failed',error=type(exc).__name__+': '+str(exc))
+             if netlist.is_file() and not netlist.is_symlink():record['netlist_sha256']=p.sha(netlist)
+         witness=original.material(output);record['completed_evidence']=witness
+         def stable():
+@@ -198,8 +198,8 @@
+                     or p.tree_hash(board.parent)!=before):raise p.Rejected('probe code/source/tool/project/material changed')
+             if record['observation_complete']:
+                 proc=f.process_check(job.out,record,name,[*f.SANDBOX,*argv])
++                if p.sha(netlist)!=record['netlist_sha256']:raise p.Rejected('netlist changed')
+                 ls.check_preserved(board.with_suffix('.kicad_prl'),before,proc['local_settings_protection'])
+-                if p.sha(netlist)!=record['netlist_sha256']:raise p.Rejected('netlist changed')
+             if remaining()<=0:raise p.Rejected('probe whole wall/fullCPU budget exhausted')
+         def account():
+             record.update(wall_seconds=time.monotonic()-START,full_cpu_seconds=cpu()-CPU0,publication_allowance_seconds=2)
+--- a/run-hfe-parity-probe-enclosure-001.py
++++ b/run-hfe-parity-probe-enclosure-001.py
+@@ -6,7 +6,7 @@
+ from pathlib import Path
+ import argparse,json,sys,signal
+ ROOT=next(x for x in Path(__file__).resolve().parents if (x/'autorouter/pipeline.py').is_file());sys.path.insert(0,str(ROOT));sys.dont_write_bytecode=True
+-from autorouter import pipeline as p,floor_route as f,handoff as h
++from autorouter import pipeline as p,floor_route as f,handoff as h,local_settings as ls,schematic_field_evidence as field_evidence
+ from autorouter.runner import run
+ from experiments.hfe_original_native_v1 import driver as original
+ OUT=ROOT/'.runs/hfe-parity-probe-execution-001';CHILD=OUT/'probe';CONTROLLER=ROOT/'.runs/run-hfe-parity-probe-001.py'
+@@ -35,6 +35,12 @@
+   h.owned_destination(owner);original.clean(head);original.source()
+   if (p.tool_manifest(native_toolchain=nt)!=tools or p.sha(original.PROOF)!=original.PROOF_PIN or p.sha(CONTROLLER)!=controller_pin or p.sha(Path(__file__))!=outer_pin or original.material(OUT)!=witness or p.sha(OUT/'command.log')!=log_pin):raise p.Rejected('enclosing source/tool/material changed')
+   if child is not None and (not bound or original.material(CHILD)!=child['completed_evidence'] or p.sha(path)!=child_pin or f.canonical(f.read_json(path))!=literal):raise p.Rejected('child literal/prepublication witness changed')
++  if child and child.get('observation_complete'):
++   plan=f.read_json(CHILD/'protocol.json');job=CHILD/'job';board=job/'input'/(original.STEM+'.kicad_pcb')
++   name=field_evidence.names('parity-probe')[0]
++   expected=field_evidence.arguments(job,'parity-probe',board,native_toolchain=nt)[0]
++   proc=f.process_check(job,child,name,[*f.SANDBOX,*expected])
++   ls.check_preserved(board.with_suffix('.kicad_prl'),plan['input_with_owned_prl_sha256'],proc['local_settings_protection'])
+   if remaining()<=0:raise p.Rejected('whole diagnostic budget exhausted')
+  def account():
+   record.update(wall_seconds=time.monotonic()-START,full_cpu_seconds=cpu()-CPU0,publication_allowance_seconds=PUBLICATION)

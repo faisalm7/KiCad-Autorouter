@@ -1,0 +1,95 @@
+{
+  "passed": true,
+  "kind": "pure-synthetic-regressions-only",
+  "rows": {
+    "before": {
+      "process": {
+        "status": "nonzero_exit",
+        "exit_code": 1,
+        "wall_seconds": 0.27937699999893084,
+        "cpu_seconds": 0.192334,
+        "max_rss_bytes": 37699584,
+        "supervisor_cpu_seconds": 0.004709000000000005,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 36913152,
+        "sampled_peak_workdir_bytes": 2888,
+        "resource_guards": {
+          "max_group_rss_bytes": 536870912,
+          "max_workdir_bytes": 1048576,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+          "-B",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/hfe-parity-probe-review-001/test_probe_publication.py"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/hfe-parity-publication-controls-001/before/command.log",
+        "log_bytes": 2888,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/hfe-parity-publication-controls-001/before",
+        "signal_cancellation_enabled": true,
+        "pid": 25240
+      },
+      "log_sha256": "8ba7131e2b6309ca31ffdbb8b8203783b1f401f48766187eb4176e2025665665",
+      "control_sha256": "9097e7157d242cc6debdb5a3a725d006060c06f05144bf51fad214336491ef02",
+      "code_unchanged": true
+    },
+    "after": {
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 0.13410916601424105,
+        "cpu_seconds": 0.12426299999999998,
+        "max_rss_bytes": 39272448,
+        "supervisor_cpu_seconds": 0.0036139999999999922,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 147456,
+        "sampled_peak_workdir_bytes": 748,
+        "resource_guards": {
+          "max_group_rss_bytes": 536870912,
+          "max_workdir_bytes": 1048576,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+          "-B",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/hfe-parity-probe-review-001/test_probe_publication.py"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/hfe-parity-publication-controls-001/after/command.log",
+        "log_bytes": 748,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/hfe-parity-publication-controls-001/after",
+        "signal_cancellation_enabled": true,
+        "pid": 25241
+      },
+      "log_sha256": "99693d8f842fc600d50dcdad7b5e7960ee29df7b2fabe56126a62f96998ec505",
+      "control_sha256": "9097e7157d242cc6debdb5a3a725d006060c06f05144bf51fad214336491ef02",
+      "code_unchanged": true
+    }
+  },
+  "wall_seconds": 0.48128895901027136,
+  "full_cpu_seconds": 0.371552,
+  "no_native_execution": true
+}

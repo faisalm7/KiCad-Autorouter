@@ -1,0 +1,244 @@
+{
+  "schema": 1,
+  "kind": "actual-one-export-HFE-terminal-diagnostic",
+  "producer_git_head": "79123cdfa18dddd187d44665036824ba4101743e",
+  "diagnostic_completed": true,
+  "accepted": false,
+  "production_support_qualified": false,
+  "rename_only_hypothesis": false,
+  "complete_numbered_terminal_partitions_match": true,
+  "numbered_logical_terminals": 226,
+  "physical_pads": 234,
+  "components": 96,
+  "footprints": 96,
+  "native_nets": 52,
+  "numberless_no_net_through_hole_pads": 8,
+  "unqualified_reasons": [
+    {
+      "kind": "unmapped_numberless_electrical_pad",
+      "uuid": "3867430e-7f07-4936-86ee-ec262016b7fe"
+    },
+    {
+      "kind": "unmapped_numberless_electrical_pad",
+      "uuid": "7d6842fa-9a38-46b4-9877-508b1c3cf1fb"
+    },
+    {
+      "kind": "unmapped_numberless_electrical_pad",
+      "uuid": "eda37608-4be2-40c1-8964-e102f467882f"
+    },
+    {
+      "kind": "unmapped_numberless_electrical_pad",
+      "uuid": "e35e5e4d-40fc-4c96-9fb0-27214dad7e07"
+    },
+    {
+      "kind": "unmapped_numberless_electrical_pad",
+      "uuid": "6d366c76-b343-436e-ac02-2e0abd2f6a84"
+    },
+    {
+      "kind": "unmapped_numberless_electrical_pad",
+      "uuid": "aca5e36c-7727-4fc9-b145-04dfabd5e963"
+    },
+    {
+      "kind": "unmapped_numberless_electrical_pad",
+      "uuid": "f69f0004-30e6-49d9-bfe6-da130886d11d"
+    },
+    {
+      "kind": "unmapped_numberless_electrical_pad",
+      "uuid": "aa4d36a8-5b14-46eb-ad9a-c05ef708ea5c"
+    }
+  ],
+  "numbered_terminal_name_pairs": {
+    "Net-(Q4A-S)": "Net-(Q4NMOS-S)",
+    "Net-(Q4A-G)": "Net-(Q4NMOS-G)",
+    "Net-(Q4B-S)": "Net-(Q4PMOS-S)",
+    "Net-(Q4B-G)": "Net-(Q4PMOS-G)",
+    "Net-(Q4A-D)": "Net-(Q4NMOS-D)"
+  },
+  "derived_mismatch_physical_pad_count": 18,
+  "original_warning_count": 18,
+  "original_ignored_checks_count": 11,
+  "netlist_sha256": "e4413e32e146b59dddfef1d0bad250ea0d4ad2939847ef760532b5117348b52f",
+  "raw_child_receipt": {
+    "path": ".runs/hfe-parity-probe-execution-001/probe/result.json",
+    "sha256": "479ad5faed8020250fc850b42b90217af34eb30ed1f2457eec90a055e6f0ae49"
+  },
+  "raw_outer_receipt": {
+    "path": ".runs/hfe-parity-probe-execution-001/result.json",
+    "sha256": "1a2b409ff89a4569b424ec0974d8c3d413270728769497f0f4f4f1faf4e94643"
+  },
+  "whole_costs": {
+    "wall_seconds": 6.869423333002487,
+    "full_cpu_seconds": 4.123731,
+    "publication_allowance_seconds": 2
+  },
+  "actual_one_native_process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 3.5812690000166185,
+    "cpu_seconds": 0.423933,
+    "max_rss_bytes": 198459392,
+    "supervisor_cpu_seconds": 0.028735000000000066,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 182173696,
+    "sampled_peak_workdir_bytes": 3332255,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 134217728,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+      "sch",
+      "export",
+      "netlist",
+      "--format",
+      "kicadsexpr",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/hfe-parity-probe-execution-001/probe/job/parity-probe-fields.net",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/hfe-parity-probe-execution-001/probe/job/input/transistor-hfe-measurement-circuit.kicad_sch"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/hfe-parity-probe-execution-001/probe/job/parity-probe-fields-netlist.log",
+    "log_bytes": 0,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/hfe-parity-probe-execution-001/probe/job",
+    "signal_cancellation_enabled": true,
+    "pid": 25553,
+    "name": "parity-probe-fields-netlist",
+    "local_settings_policy": "job-owned-prl-immutable-v1",
+    "local_settings_protection": {
+      "policy": "mac-owned-prl-immutable-v1",
+      "present": true,
+      "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/hfe-parity-probe-execution-001/probe/job/input/transistor-hfe-measurement-circuit.kicad_prl",
+      "sha256": "97ec742903e070bac191b033e83b47828ae4b93aea671d87c971fd770981f7dc",
+      "flags_before": 0,
+      "flags_during": 2,
+      "flags_restored": true,
+      "bytes_unchanged": true
+    }
+  },
+  "publication_controls": {
+    "before_attempted": 4,
+    "before_failures": 3,
+    "after_passed": 4,
+    "scope": "Pure exact-AST synthetic process/event with actual owned PRL flags; no Native/routing proof."
+  },
+  "public_artifacts": [
+    {
+      "source": ".runs/run-hfe-parity-probe-001.py",
+      "path": "evidence/hfe-parity-probe-001/run-hfe-parity-probe-001.py",
+      "sha256": "454a18003f29e6d170bbf1a75214541ea7803de7657aa72d26c978a6f556d93c",
+      "bytes": 19382
+    },
+    {
+      "source": ".runs/run-hfe-parity-probe-enclosure-001.py",
+      "path": "evidence/hfe-parity-probe-001/run-hfe-parity-probe-enclosure-001.py",
+      "sha256": "e02e676d223cd41a413ad7e08dfc0eab2cd68470268a78cf828e56a395d07d63",
+      "bytes": 5700
+    },
+    {
+      "source": ".runs/hfe-parity-probe-execution-001/command.log",
+      "path": "evidence/hfe-parity-probe-001/hfe-parity-probe-execution-001--command.log",
+      "sha256": "7acc4993cb35cf29a5dc93e5800b0b7a67cfe2c20e3bfd421ec466b4b7a92fe2",
+      "bytes": 136
+    },
+    {
+      "source": ".runs/hfe-parity-probe-execution-001/probe/protocol.json",
+      "path": "evidence/hfe-parity-probe-001/hfe-parity-probe-execution-001--probe--protocol.json",
+      "sha256": "866b006e2085d50723111c5cb9cbcd3368083f9011fb2016e8ffc5e0f0b51170",
+      "bytes": 14128
+    },
+    {
+      "source": ".runs/hfe-parity-probe-execution-001/probe/job/parity-probe-fields-netlist-process.json",
+      "path": "evidence/hfe-parity-probe-001/hfe-parity-probe-execution-001--probe--job--parity-probe-fields-netlist-process.json",
+      "sha256": "4c504f9774c6945ececf76b95965c4976c8ae5c8226c7b9c5bd2ed1f57e0b926",
+      "bytes": 2557
+    },
+    {
+      "source": ".runs/hfe-parity-probe-execution-001/probe/job/parity-probe-fields-netlist.log",
+      "path": "evidence/hfe-parity-probe-001/hfe-parity-probe-execution-001--probe--job--parity-probe-fields-netlist.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "source": ".runs/hfe-parity-probe-review-001/REVIEW.md",
+      "path": "evidence/hfe-parity-probe-001/hfe-parity-probe-review-001--REVIEW.md",
+      "sha256": "f66cb225dc2916c8a95f05c4e0d7ee2d53a98007aa7f7f671b2c1e200190566f",
+      "bytes": 5998
+    },
+    {
+      "source": ".runs/hfe-parity-probe-review-001/changes.patch",
+      "path": "evidence/hfe-parity-probe-001/hfe-parity-probe-review-001--changes.patch",
+      "sha256": "8a20735284a162721aa2642cc2579d0ade433ff0c2c29494050102f24a0a88f9",
+      "bytes": 3736
+    },
+    {
+      "source": ".runs/hfe-parity-probe-review-001/test_probe_publication.py",
+      "path": "evidence/hfe-parity-probe-001/hfe-parity-probe-review-001--test_probe_publication.py",
+      "sha256": "9097e7157d242cc6debdb5a3a725d006060c06f05144bf51fad214336491ef02",
+      "bytes": 7930
+    },
+    {
+      "source": ".runs/hfe-parity-publication-controls-001/plan.json",
+      "path": "evidence/hfe-parity-probe-001/hfe-parity-publication-controls-001--plan.json",
+      "sha256": "0075bc93580f6194d729c3c11e260da5dbd1873995de64389d0081785d8302e1",
+      "bytes": 1206
+    },
+    {
+      "source": ".runs/hfe-parity-publication-controls-001/result.json",
+      "path": "evidence/hfe-parity-probe-001/hfe-parity-publication-controls-001--result.json",
+      "sha256": "9f2c580a55a6e27918e42fa754cfc17187357d2255bbf2d6d289818b1065b316",
+      "bytes": 4422
+    },
+    {
+      "source": ".runs/hfe-unit-naming-source-observation-001.json",
+      "path": "evidence/hfe-parity-probe-001/hfe-unit-naming-source-observation-001.json",
+      "sha256": "15a9a70c827c4ac48f0b385e2075ac129803e6a046307d81ff2cfb4aab2f4daf",
+      "bytes": 1261
+    },
+    {
+      "source": ".runs/hfe-parity-publication-controls-001/before/command.log",
+      "path": "evidence/hfe-parity-probe-001/hfe-parity-publication-controls-001--before--command.log",
+      "sha256": "8ba7131e2b6309ca31ffdbb8b8203783b1f401f48766187eb4176e2025665665",
+      "bytes": 2888
+    },
+    {
+      "source": ".runs/hfe-parity-publication-controls-001/before/execution.json",
+      "path": "evidence/hfe-parity-probe-001/hfe-parity-publication-controls-001--before--execution.json",
+      "sha256": "84d0199f0369669e8a31ef00a9ec961d0c89c85a1bf93f18a649ec450fb71a97",
+      "bytes": 1936
+    },
+    {
+      "source": ".runs/hfe-parity-publication-controls-001/after/command.log",
+      "path": "evidence/hfe-parity-probe-001/hfe-parity-publication-controls-001--after--command.log",
+      "sha256": "99693d8f842fc600d50dcdad7b5e7960ee29df7b2fabe56126a62f96998ec505",
+      "bytes": 748
+    },
+    {
+      "source": ".runs/hfe-parity-publication-controls-001/after/execution.json",
+      "path": "evidence/hfe-parity-probe-001/hfe-parity-publication-controls-001--after--execution.json",
+      "sha256": "9802e3424f1aa7cae6600f5c49730c2d99bc08e7f024a533a387a52b637a6785",
+      "bytes": 1937
+    }
+  ],
+  "limitations": [
+    "Only one missing schematic export; original saved-refill and fullSCH DRC workers were not repeated.",
+    "All226numbered terminal memberships/partitions agree up to five labels; eight numberless NoNet plated pads remain outside qualified schematic matching. Their purpose is not inferred. No complete whole-source equivalence/support claim.",
+    "All18original parity warnings and11ignoredchecks remain. No name edit, source repair, waiver or routing admission.",
+    "Raw netlist/full membership receipts staylocal; public copies are owned code/control logs and small diagnostic metadata. New raw probe material is after full006 cutoff and awaits compact incremental backup.",
+    "No new board-family gain, GUI, human, physical or default10.0.7 qualification."
+  ]
+}

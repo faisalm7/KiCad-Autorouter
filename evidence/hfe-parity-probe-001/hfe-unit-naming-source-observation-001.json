@@ -1,0 +1,24 @@
+{
+  "kind": "primary-source-observation-not-terminal-proof",
+  "observed_utc": "2026-10-15T18:16:21.734467+00:00",
+  "source_version": "10.0.7",
+  "sources": [
+    {
+      "url": "https://gitlab.com/kicad/code/kicad/-/raw/10.0.7/eeschema/sch_pin.cpp",
+      "observed_lines": "1381\u20131479, especially1455\u20131467",
+      "observation": "Default unnamed-net generation includes the unit-bearing symbol reference when a nonnumber pin name is used."
+    },
+    {
+      "url": "https://gitlab.com/kicad/code/kicad/-/raw/10.0.7/eeschema/sch_symbol.cpp",
+      "observed_lines": "607\u2013644 and824\u2013852",
+      "observation": "GetRef with includeUnit appends SubReference; nonempty custom unit display names override ordinary A/B suffixes."
+    }
+  ],
+  "local_source": ".runs/hfe-original-acquisition-001/source/transistor-hfe-measurement-circuit.kicad_sch",
+  "local_observation": "Cached dual-FET symbol declares unit_name NMOS and PMOS (observed at8906and9128).",
+  "limitations": [
+    "Web raw source read, no local fetched body or new SHA invented.",
+    "Supports a naming hypothesis only; no complete terminal-partition proof, warning suppression, source repair or admission.",
+    "Original fullSCH18net_conflict findings remain rejected."
+  ]
+}
