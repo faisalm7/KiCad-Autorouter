@@ -49,3 +49,7 @@ This extends CLI/workflow qualification; GUI008 still reports the Mac locked.
 Installation026 predates this source change.
 
 Current scoped-source complete-schematic export is Native-validated with all seven warnings preserved. Its exact disposable GUIcopy004 was prepared, but the Mac locked again at the open-project command. No new GUI qualification follows. [Current real controls](../evidence/scoped-native-workflows-001.json).
+
+The prepared complete-schematic scoped export now also has an actual GUI test: [GUI006](../evidence/normal-prl-export-gui006-001.json). It ran zone refill and schematic parity with every finding filter enabled, saved a report with zero GUI findings and the five original ignored checks, and preserved all original saved files. Its seven isolated CLI library warnings remain in the validation evidence. This observation closes that earlier access gate only; it does not establish human PCB approval or live-editor application/undo.
+
+Closing the complete-schematic GUI test updated `schematic.used_designators` in its disposable project file, even though the PCB was closed without saving. This is recorded separately from the successful DRC. The authoritative validated export stayed exact. Treat the opened review copy as an inspection workspace and keep the fresh validated export as the handoff; project changes need validation again.
