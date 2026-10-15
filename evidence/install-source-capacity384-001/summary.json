@@ -1,0 +1,58 @@
+{
+  "schema": 1,
+  "kind": "finite-complete-source-packaging-capacity",
+  "git_base": "43dffee75e61a93ef68597cb69954425799fcb80",
+  "source_sha256": {
+    "scripts/install_smoke.py": "8ca27d396ca972cbd835ccdbb9ed0275c85ca65c9171591e4fc3729f9ded59bb",
+    "tests/test_install_smoke.py": "39cd4448052bb8105481c7ecd4cc4ba175ef47ed785a38c29070faebef5b7861"
+  },
+  "source_census": {
+    "schema": 1,
+    "kind": "tracked-source-names-stat-capacity-forecast-not-content-audit",
+    "head": "43dffee75e61a93ef68597cb69954425799fcb80",
+    "files": 21553,
+    "bytes": 372808563,
+    "existing_file_cap": 22000,
+    "existing_byte_cap": 369098752,
+    "proposed_byte_cap": 402653184,
+    "scope": "Every tracked regular source file retained; explicit distribution scope unchanged. Metadata forecast only; actual installed source inventory remains mandatory.",
+    "wall_seconds": 0.15083445800701156
+  },
+  "source_max_bytes": 402653184,
+  "source_max_files": 22000,
+  "changes": "Only complete tracked-source byte cap352to384MiB. Every original source byte still inventoried; distribution scope,22kfile cap,512MiB scratch,600s wall,CPU/RSS/log/native/source/rule acceptance unchanged. Installation038 pre-Native size failure preserved; no fixture/source omission.",
+  "failed038": {
+    "status": "failed",
+    "reason": "RuntimeError: tracked source byte ceiling exceeded: 369112137 > 369098752 bytes at experiments/pic_custom_observer_v1/test_driver.py",
+    "native_executed": false,
+    "commands": 4,
+    "wall_seconds": 10.451433292008005,
+    "full_cpu_seconds": 7.3152610000000005,
+    "publication_allowance_seconds": 2
+  },
+  "targeted": {
+    "methods": 39,
+    "passed": true,
+    "wall_seconds": 1.0368504580110312,
+    "full_cpu_seconds": 0.926571
+  },
+  "full100": {
+    "methods": 1435,
+    "passed": true,
+    "wall_seconds": 116.96104958298383,
+    "full_cpu_seconds": 110.34704799999999
+  },
+  "files_sha256": {
+    "evidence/install-source-capacity384-001/full-integration-100--execution.json": "d470ade63cede2c086e14abfc20c3a9c6b152ee030cb04c81f12f6e007d67d75",
+    "evidence/install-source-capacity384-001/full-integration-100--command.log": "c1f12e8620d4ec626769650e02ce83ce8127e2f9c783b26f8338c90e5ffc7da4",
+    "evidence/install-source-capacity384-001/run-full-integration-100.py": "c1acba1f3817b71d0bf94c5b56d84480634b4a4c26c5350e29cfe9240a3c7d35",
+    "evidence/install-source-capacity384-001/installation-capacity-targeted-002--execution.json": "a22deb0a75485ad2a6cb799996467ae9f7a1cb7bc6a68aed8e89e155f8630baf",
+    "evidence/install-source-capacity384-001/installation-capacity-targeted-002--tests.log": "e1d18b5b3da9434f4507f482e9726b818c0e50818c3f1c48650f6ce79e2e8066",
+    "evidence/install-source-capacity384-001/run-installation-capacity-targeted-002.py": "68201a4ed0952d6a3a52b30cd7910fd8bfd32886a4a2fb787d2feae02629039d",
+    "evidence/install-source-capacity384-001/installation-038--result.json": "c0784c0e020e1307d38f9d166ac7126dac8f62a653d3e59d485b029096439305",
+    "evidence/install-source-capacity384-001/installation-038-execution--execution.json": "79eabf13187ac3fbee6e503bdb8a6e3ce2b232764f744c5ab4b90ce3eb2dc220",
+    "evidence/install-source-capacity384-001/installation038-source-capacity-census-001.json": "1ddf2dd56de2b4a6de631a0a551fb5cddd9d8c3d9b9709d0beb1e3e690f0b500"
+  },
+  "next": "Verifiedcheckpoint then new current installation039; do not repeat038. After source cleancheckpoint, existing fullrestoration005 with305k/10GiB/80MiB/192MiB and all scopewritersidle.",
+  "limits": "No new Native routing gain/installed pass/restoration/currentKiCad production/human/physical/formal-release claim. Full099/sourceNative/gains/tie/regression remain literal evidence."
+}
