@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 0.34806141699664295,
+    "cpu_seconds": 0.250533,
+    "max_rss_bytes": 43008000,
+    "supervisor_cpu_seconds": 0.007175000000000001,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 42663936,
+    "sampled_peak_workdir_bytes": 104,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 2097152,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "-c",
+      "import sys,os,unittest;sys.path.insert(0,'/Users/faisal/Projects/KiCad-Autorouter-local');os.chdir('/Users/faisal/Projects/KiCad-Autorouter-local');unittest.main(module=None)",
+      "tests.test_universal_missing_baselines"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/universal-preparation950-guard-targeted-001/command.log",
+    "log_bytes": 104,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/universal-preparation950-guard-targeted-001",
+    "signal_cancellation_enabled": true,
+    "pid": 65637
+  },
+  "wall_seconds": 0.35066737499437295,
+  "full_cpu_seconds": 0.25911300000000004,
+  "source_sha256": {
+    "autorouter/strategy.py": "e7154d6c6571b3b3018232fa585f06e41195181e28517ab7f5335bcd8849f8c6",
+    "autorouter/placement_strategy.py": "765a28e5a63da3e52266665accf9b9e1f5ea586ea9a90f51291b142c4373fb32",
+    "autorouter/pipeline.py": "8c4f3b0bcb87349a52ae94538af7650636b7e7b79b51c4f9f9e8956dea1a3eea",
+    "autorouter/local_settings.py": "69fa09a68af0e794cdc5abb8d674a2117e4696a6352a2943d71744d326d8e861",
+    "experiments/universal_shift_recovery_v1/pruning_readback.py": "d763af6fba441685cb965d576474a8bfaac0b9fd0d5cb52006d8d0a5ec064007",
+    "tests/test_universal_missing_baselines.py": "d8c6f69e62ffda657f3b32e6fe098ca82edd53765d73f4aea43cdb9c27ff0972"
+  },
+  "controller_sha256": "a91a460d8a4339e6ffe58ff05ae5350fae182cfd4f3ee2fda0c5223001d5ab95",
+  "source_current": true,
+  "scope": "Software scheduling/legacycontract/selectedbaseline-label tests. No Native routing-quality claim."
+}

@@ -5,10 +5,14 @@ from experiments.native_paired_v1 import observations as obs
 ROOT=c.ROOT
 
 def inputs(spec):
- obs.require(spec['status']=='frozen' and spec['kind'] in ('universal-own-low-pruning450-v1','universal-native-reserve750-v1'),'unfrozen own-C pruning protocol')
+ obs.require(spec['status']=='frozen' and spec['kind'] in ('universal-own-low-pruning450-v1','universal-native-reserve750-v1','universal-preparation950-v1'),'unfrozen own-C pruning protocol')
  for name,pin in spec['pins'].items():obs.require(p.sha(ROOT/name)==pin,'frozen material changed: '+name)
  source=Path(spec['source']);obs.require(p.tree_hash(source.parent)==spec['source_hashes'],'original source changed')
- old=f.read_json(ROOT/spec['prior_execution']);obs.require(old['passed'] is True and old['source_current'] is True and old['final_charged_results']==spec['prior_rows'],'completed B2 prefix changed')
+ old=f.read_json(ROOT/spec['prior_execution'])
+ if spec['kind']=='universal-preparation950-v1':
+  state=dict(passed=False,source_current=False,reason='Rejected: normal DRC retained worker population differs from steps')
+  obs.require(spec['prior_state']==state and all(spec['prior_state'][k] is False and old.get(k) is False for k in ('passed','source_current')) and {k:old.get(k) for k in state}==state and p.sha(ROOT/spec['prior_execution'])==spec['prior_execution_sha256'] and old['final_charged_results']==spec['prior_rows'],'failed750 prefix changed')
+ else:obs.require(old['passed'] is True and old['source_current'] is True and old['final_charged_results']==spec['prior_rows'],'completed B2 prefix changed')
  baseline=f.read_json(ROOT/spec['original_receipt'])['parity_native'];obs.require(p.native_accepted(baseline) and baseline['warnings']==81 and len(baseline['ignored_checks'])==5,'original Native changed')
  return source,p.preflight(source),baseline
 
