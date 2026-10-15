@@ -1,0 +1,2850 @@
+{
+  "schema": 1,
+  "accepted": false,
+  "passed": true,
+  "status": "completed",
+  "project": "arcdice",
+  "angle": "NONE",
+  "profile": "tuned-free-angle",
+  "scoring_variant": "via_default",
+  "protocol_sha256": "ad7d017022afcfbdcecf0f4721ed95823507145bf1c9d46909e0a65aabb19b90",
+  "git_head": "18082b2ae0abea84412bfca959ebe0574b6547c2",
+  "tools": {
+    "implementation_sha256": {
+      "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+      "autorouter/__main__.py": "eb48b32e74c3b25ffa7daca999cdff4c640ea7199abd990090732671bca495ea",
+      "autorouter/adapter.py": "a99a389f8ff8d11b5c28507e524b823f3b906d703e2faa4dd34496a642517ac3",
+      "autorouter/board_floor.py": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340",
+      "autorouter/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+      "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+      "autorouter/engine_angle.py": "900f5f7e34e25a03220664951df4e978327a02628ae0203008093e34b78b8bb0",
+      "autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+      "autorouter/floor_route.py": "eaec4f7046c7e1284bb74f709a9c82b50ceb0cbd0a11c1bdf4ae4804914e5ecc",
+      "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+      "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+      "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+      "autorouter/local_settings.py": "a2ab6296b637ace500f1cdbdd62de0cd9c1803cfc17e38906ced497c1aef21c8",
+      "autorouter/native.py": "d7e3140cee40d0a618c5c699cdada4d833a04d76f8fe06e8b823b4f490f2e9b6",
+      "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+      "autorouter/native_edge.py": "8a38b60f301a72b815b877f9af59d156024757d66eda7d3df8c34addbe4d0c74",
+      "autorouter/netclass.py": "e94d207e800e80143247ad66a44fd618fcb330c7eb6fb8f196b9b36ef72fc61b",
+      "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+      "autorouter/padless_alias.py": "f359a89e3c48703058490c22d9591b5f916cd22a8b734c50e1c9191e501c1413",
+      "autorouter/padless_alias_native.py": "7d06683b834f0211c82d87d7c982f6c39960e841627cd5e98f58a7913f501002",
+      "autorouter/pipeline.py": "9eb4c169061d3a6f184bf4cab7cc9878280b9de9dec18e49fba117f2e16dec64",
+      "autorouter/placement_clearance.py": "8fa82414fa40f80d90ed4a42f53fa2e679a52d74cfb4cfa9038239f1217aaff6",
+      "autorouter/placement_strategy.py": "765a28e5a63da3e52266665accf9b9e1f5ea586ea9a90f51291b142c4373fb32",
+      "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+      "autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+      "autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+      "autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+      "autorouter/recovery.py": "fb2866c5340b808c6f7baf6a43234c87e8e353e74f47a91b51ad6fae5c24a78d",
+      "autorouter/review_export.py": "698dc66682416579c3d44b571dce0c0ed7102244adb0cff38dceeeca0ea1489c",
+      "autorouter/review_view.py": "79f65e4d53c243f4e0f054d97bced2be2c4646537e5b86f11626ac8c5f4ce92d",
+      "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+      "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+      "autorouter/schematic_field_evidence.py": "f5c03ac0be4b5fa3960bfec5f511199f7b566de8483fc78581e39e02804dbb93",
+      "autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+      "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+      "autorouter/strategy.py": "2794344ef69e70e627c4f8a858e63347f3f2d5d79bfc98b8090bbbbc5e4c193e",
+      "autorouter/thermal.py": "2fa7ff7260ba6e8b5a8003d8e1f51314b5ff548ef635fb94b29bdee4c741102d",
+      "autorouter/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+      "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+      "autorouter/thermal_worker.py": "fd651f44233aae2c70da0a8feab5f96a4763276684e8b0babf39860b91a9cc33"
+    },
+    "git_head": "18082b2ae0abea84412bfca959ebe0574b6547c2",
+    "kicad": "10.0.0",
+    "freerouting": "2.5.0",
+    "files": {
+      "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219",
+      "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7"
+    },
+    "network": "engine sandbox-exec deny network*",
+    "normal_drc_local_settings_policy": "job-owned-prl-immutable-v1",
+    "normal_selected_proposal_import_policy": "selected-proposals-exact-source-v1",
+    "normal_native_export_alias_policy": "source-bound-padless-export-v1"
+  },
+  "scope": "Two exposed existing circuits, ordinary native1000 whole-board corrected adapter, tuned stock45 versus NONE only. No C/portfolio, generalization, independent pedigree, raw CAD publication or default promotion.",
+  "workers": [
+    {
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/free-angle-pair-002/arcdice/NONE/child/route",
+      "name": "source-drc",
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "cleanup_complete": true,
+      "completed_shared_process_check": true,
+      "native_stage": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 26,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D4",
+                "pos": {
+                  "x": 133.73,
+                  "y": 75.0
+                },
+                "uuid": "10adda4f-e2e9-4db0-b4c9-bb826d187ffa"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D7",
+                "pos": {
+                  "x": 143.73,
+                  "y": 85.0
+                },
+                "uuid": "14934184-dc81-44d9-ba6a-73aa145ab7f0"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R7",
+                "pos": {
+                  "x": 147.06,
+                  "y": 90.5
+                },
+                "uuid": "21da4687-c643-40b6-8d73-857a9ff85a3b"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'MountingHole'",
+            "items": [
+              {
+                "description": "Footprint H3",
+                "pos": {
+                  "x": 104.0,
+                  "y": 44.0
+                },
+                "uuid": "2788a2ed-4d9f-4630-a994-021aa3447175"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D6",
+                "pos": {
+                  "x": 123.73,
+                  "y": 85.0
+                },
+                "uuid": "378a7737-67d8-49c4-9900-5ed5f92e04c1"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R2",
+                "pos": {
+                  "x": 150.5,
+                  "y": 61.44
+                },
+                "uuid": "487a96b4-0ceb-4783-bc6d-d3f76336443b"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R3",
+                "pos": {
+                  "x": 119.5,
+                  "y": 67.56
+                },
+                "uuid": "502212ce-a247-4c63-a135-bd5bd7102129"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R5",
+                "pos": {
+                  "x": 139.06,
+                  "y": 80.75
+                },
+                "uuid": "5d7eeb68-dd82-46fa-8c32-b4e4ecc8bf65"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R6",
+                "pos": {
+                  "x": 119.75,
+                  "y": 78.31
+                },
+                "uuid": "62413f4c-41a8-43c3-8d63-5487e23a014a"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Button_Switch_THT'",
+            "items": [
+              {
+                "description": "Footprint SW2",
+                "pos": {
+                  "x": 131.75,
+                  "y": 43.5
+                },
+                "uuid": "68ef80ed-031f-4d4a-8cd1-251eb0852ec2"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R1",
+                "pos": {
+                  "x": 140.0,
+                  "y": 72.56
+                },
+                "uuid": "6fa0116f-6feb-42bf-a468-73f3dd480a5b"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Button_Switch_THT'",
+            "items": [
+              {
+                "description": "Footprint SW1",
+                "pos": {
+                  "x": 155.25,
+                  "y": 52.25
+                },
+                "uuid": "721b697b-dd6a-4997-b0b5-4596253006c8"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D1",
+                "pos": {
+                  "x": 123.73,
+                  "y": 65.0
+                },
+                "uuid": "7900e8d1-ca01-414e-92fe-c65a2a12c2df"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'MountingHole'",
+            "items": [
+              {
+                "description": "Footprint H4",
+                "pos": {
+                  "x": 166.0,
+                  "y": 106.0
+                },
+                "uuid": "7aaf7735-a5ef-4add-ae9a-2553e9976b87"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'MountingHole'",
+            "items": [
+              {
+                "description": "Footprint H1",
+                "pos": {
+                  "x": 166.0,
+                  "y": 44.0
+                },
+                "uuid": "7d0d67bb-5f8b-4231-8fec-b5931349d564"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R4",
+                "pos": {
+                  "x": 130.25,
+                  "y": 72.81
+                },
+                "uuid": "927c9e3b-878e-4076-bf4b-4dbcc7178ece"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D3",
+                "pos": {
+                  "x": 123.73,
+                  "y": 75.0
+                },
+                "uuid": "92f867f8-a632-46e7-a0e2-40ba7ca96952"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R8",
+                "pos": {
+                  "x": 120.06,
+                  "y": 44.25
+                },
+                "uuid": "a9add2dd-e09e-4274-a332-ece0be82e46b"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'MountingHole'",
+            "items": [
+              {
+                "description": "Footprint H2",
+                "pos": {
+                  "x": 104.0,
+                  "y": 106.0
+                },
+                "uuid": "aa3f1460-34fc-4bb3-953f-33eafa7917fd"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D5",
+                "pos": {
+                  "x": 143.73,
+                  "y": 75.0
+                },
+                "uuid": "c760fe96-8797-4456-a19b-ca9b34305d28"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D2",
+                "pos": {
+                  "x": 143.73,
+                  "y": 65.0
+                },
+                "uuid": "dc5722e8-b38d-4d33-8bd6-2f0812afd44c"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+            "items": [
+              {
+                "description": "Footprint C2",
+                "pos": {
+                  "x": 108.205113,
+                  "y": 55.0
+                },
+                "uuid": "698196cc-c1fd-4eea-8d24-9d78ea941632"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'MyFootprints'",
+            "items": [
+              {
+                "description": "Footprint U2",
+                "pos": {
+                  "x": 150.995,
+                  "y": 103.005
+                },
+                "uuid": "d5421e99-eb39-4620-9dbe-424e9040eddb"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+            "items": [
+              {
+                "description": "Footprint C1",
+                "pos": {
+                  "x": 108.75,
+                  "y": 49.75
+                },
+                "uuid": "d592e5e2-cf82-48c7-af74-b9af4b4a06f7"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Battery'",
+            "items": [
+              {
+                "description": "Footprint BT1",
+                "pos": {
+                  "x": 121.0,
+                  "y": 99.25
+                },
+                "uuid": "e7507d54-477b-4580-95f4-315f716a6fea"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Package_DIP'",
+            "items": [
+              {
+                "description": "Footprint U1",
+                "pos": {
+                  "x": 120.06,
+                  "y": 48.19
+                },
+                "uuid": "f8464d79-bd52-46a8-97c7-0248620e1167"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          }
+        ]
+      },
+      "process_sha256": "5492209794b9c26d2a5f4ee753ac26ad19fca7c78e121d805f7e545eba82ae61",
+      "log_sha256": "7007c301a2d7e876100fb302a7018e84b2a5b8f2cc1bd270cf001a2f3a547ddb"
+    },
+    {
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/free-angle-pair-002/arcdice/NONE/child/route",
+      "name": "export",
+      "status": "success",
+      "exit_code": 0,
+      "cleanup_complete": true,
+      "completed_shared_process_check": true,
+      "native_stage": null,
+      "process_sha256": "605cd1d2bbc3639ee4c50a354ad972bb8943c9ea518516f28865de1a792b4432",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/free-angle-pair-002/arcdice/NONE/child/route",
+      "name": "obstacles",
+      "status": "success",
+      "exit_code": 0,
+      "cleanup_complete": true,
+      "completed_shared_process_check": true,
+      "native_stage": null,
+      "process_sha256": "5f246625a3fd437a820867f27fb124a0329a843318bd90a1bb700dbbd4111fa4",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/free-angle-pair-002/arcdice/NONE/child/route",
+      "name": "engine",
+      "status": "success",
+      "exit_code": 0,
+      "cleanup_complete": true,
+      "completed_shared_process_check": true,
+      "native_stage": null,
+      "process_sha256": "e3473466fcdda0079651e89325b78546d5bf454cdfcf228accf909228041ceb3",
+      "log_sha256": "7ec6b42b83a17ce7ec70bcf1beded802fb9f8f6418112bf60b29a6226ed2784f"
+    },
+    {
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/free-angle-pair-002/arcdice/NONE/child/route",
+      "name": "import",
+      "status": "success",
+      "exit_code": 0,
+      "cleanup_complete": true,
+      "completed_shared_process_check": true,
+      "native_stage": null,
+      "process_sha256": "152cbe0c7927a56ebdb63bc59d54cc42e0effd179379ef24944e154e3af5aa58",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/free-angle-pair-002/arcdice/NONE/child/route",
+      "name": "refill-drc",
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "cleanup_complete": true,
+      "completed_shared_process_check": true,
+      "native_stage": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 26,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D4",
+                "pos": {
+                  "x": 133.73,
+                  "y": 75.0
+                },
+                "uuid": "10adda4f-e2e9-4db0-b4c9-bb826d187ffa"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D7",
+                "pos": {
+                  "x": 143.73,
+                  "y": 85.0
+                },
+                "uuid": "14934184-dc81-44d9-ba6a-73aa145ab7f0"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R7",
+                "pos": {
+                  "x": 147.06,
+                  "y": 90.5
+                },
+                "uuid": "21da4687-c643-40b6-8d73-857a9ff85a3b"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'MountingHole'",
+            "items": [
+              {
+                "description": "Footprint H3",
+                "pos": {
+                  "x": 104.0,
+                  "y": 44.0
+                },
+                "uuid": "2788a2ed-4d9f-4630-a994-021aa3447175"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D6",
+                "pos": {
+                  "x": 123.73,
+                  "y": 85.0
+                },
+                "uuid": "378a7737-67d8-49c4-9900-5ed5f92e04c1"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R2",
+                "pos": {
+                  "x": 150.5,
+                  "y": 61.44
+                },
+                "uuid": "487a96b4-0ceb-4783-bc6d-d3f76336443b"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R3",
+                "pos": {
+                  "x": 119.5,
+                  "y": 67.56
+                },
+                "uuid": "502212ce-a247-4c63-a135-bd5bd7102129"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R5",
+                "pos": {
+                  "x": 139.06,
+                  "y": 80.75
+                },
+                "uuid": "5d7eeb68-dd82-46fa-8c32-b4e4ecc8bf65"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R6",
+                "pos": {
+                  "x": 119.75,
+                  "y": 78.31
+                },
+                "uuid": "62413f4c-41a8-43c3-8d63-5487e23a014a"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Button_Switch_THT'",
+            "items": [
+              {
+                "description": "Footprint SW2",
+                "pos": {
+                  "x": 131.75,
+                  "y": 43.5
+                },
+                "uuid": "68ef80ed-031f-4d4a-8cd1-251eb0852ec2"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R1",
+                "pos": {
+                  "x": 140.0,
+                  "y": 72.56
+                },
+                "uuid": "6fa0116f-6feb-42bf-a468-73f3dd480a5b"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Button_Switch_THT'",
+            "items": [
+              {
+                "description": "Footprint SW1",
+                "pos": {
+                  "x": 155.25,
+                  "y": 52.25
+                },
+                "uuid": "721b697b-dd6a-4997-b0b5-4596253006c8"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D1",
+                "pos": {
+                  "x": 123.73,
+                  "y": 65.0
+                },
+                "uuid": "7900e8d1-ca01-414e-92fe-c65a2a12c2df"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'MountingHole'",
+            "items": [
+              {
+                "description": "Footprint H4",
+                "pos": {
+                  "x": 166.0,
+                  "y": 106.0
+                },
+                "uuid": "7aaf7735-a5ef-4add-ae9a-2553e9976b87"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'MountingHole'",
+            "items": [
+              {
+                "description": "Footprint H1",
+                "pos": {
+                  "x": 166.0,
+                  "y": 44.0
+                },
+                "uuid": "7d0d67bb-5f8b-4231-8fec-b5931349d564"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R4",
+                "pos": {
+                  "x": 130.25,
+                  "y": 72.81
+                },
+                "uuid": "927c9e3b-878e-4076-bf4b-4dbcc7178ece"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D3",
+                "pos": {
+                  "x": 123.73,
+                  "y": 75.0
+                },
+                "uuid": "92f867f8-a632-46e7-a0e2-40ba7ca96952"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R8",
+                "pos": {
+                  "x": 120.06,
+                  "y": 44.25
+                },
+                "uuid": "a9add2dd-e09e-4274-a332-ece0be82e46b"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'MountingHole'",
+            "items": [
+              {
+                "description": "Footprint H2",
+                "pos": {
+                  "x": 104.0,
+                  "y": 106.0
+                },
+                "uuid": "aa3f1460-34fc-4bb3-953f-33eafa7917fd"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D5",
+                "pos": {
+                  "x": 143.73,
+                  "y": 75.0
+                },
+                "uuid": "c760fe96-8797-4456-a19b-ca9b34305d28"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D2",
+                "pos": {
+                  "x": 143.73,
+                  "y": 65.0
+                },
+                "uuid": "dc5722e8-b38d-4d33-8bd6-2f0812afd44c"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+            "items": [
+              {
+                "description": "Footprint C2",
+                "pos": {
+                  "x": 108.205113,
+                  "y": 55.0
+                },
+                "uuid": "698196cc-c1fd-4eea-8d24-9d78ea941632"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'MyFootprints'",
+            "items": [
+              {
+                "description": "Footprint U2",
+                "pos": {
+                  "x": 150.995,
+                  "y": 103.005
+                },
+                "uuid": "d5421e99-eb39-4620-9dbe-424e9040eddb"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+            "items": [
+              {
+                "description": "Footprint C1",
+                "pos": {
+                  "x": 108.75,
+                  "y": 49.75
+                },
+                "uuid": "d592e5e2-cf82-48c7-af74-b9af4b4a06f7"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Battery'",
+            "items": [
+              {
+                "description": "Footprint BT1",
+                "pos": {
+                  "x": 121.0,
+                  "y": 99.25
+                },
+                "uuid": "e7507d54-477b-4580-95f4-315f716a6fea"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Package_DIP'",
+            "items": [
+              {
+                "description": "Footprint U1",
+                "pos": {
+                  "x": 120.06,
+                  "y": 48.19
+                },
+                "uuid": "f8464d79-bd52-46a8-97c7-0248620e1167"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          }
+        ]
+      },
+      "process_sha256": "df9289aeeb71648ef7abd4ee42d496d36c5fc2e46bd72f2dc0ef3f201b0d5cda",
+      "log_sha256": "0ae6014d6da8c228ed658c1295c2f4e1671cb1a11ef2096bc3979b8a0ec133cc"
+    },
+    {
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/free-angle-pair-002/arcdice/NONE/child/route",
+      "name": "final-netclasses",
+      "status": "success",
+      "exit_code": 0,
+      "cleanup_complete": true,
+      "completed_shared_process_check": true,
+      "native_stage": null,
+      "process_sha256": "d371efa6e5d6d1f5b0082b1afbba97b9026b85883ebf0c0275438866f716f9a8",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/free-angle-pair-002/arcdice/NONE/child/route",
+      "name": "final-drc",
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "cleanup_complete": true,
+      "completed_shared_process_check": true,
+      "native_stage": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 26,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D4",
+                "pos": {
+                  "x": 133.73,
+                  "y": 75.0
+                },
+                "uuid": "10adda4f-e2e9-4db0-b4c9-bb826d187ffa"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D7",
+                "pos": {
+                  "x": 143.73,
+                  "y": 85.0
+                },
+                "uuid": "14934184-dc81-44d9-ba6a-73aa145ab7f0"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R7",
+                "pos": {
+                  "x": 147.06,
+                  "y": 90.5
+                },
+                "uuid": "21da4687-c643-40b6-8d73-857a9ff85a3b"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'MountingHole'",
+            "items": [
+              {
+                "description": "Footprint H3",
+                "pos": {
+                  "x": 104.0,
+                  "y": 44.0
+                },
+                "uuid": "2788a2ed-4d9f-4630-a994-021aa3447175"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D6",
+                "pos": {
+                  "x": 123.73,
+                  "y": 85.0
+                },
+                "uuid": "378a7737-67d8-49c4-9900-5ed5f92e04c1"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R2",
+                "pos": {
+                  "x": 150.5,
+                  "y": 61.44
+                },
+                "uuid": "487a96b4-0ceb-4783-bc6d-d3f76336443b"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R3",
+                "pos": {
+                  "x": 119.5,
+                  "y": 67.56
+                },
+                "uuid": "502212ce-a247-4c63-a135-bd5bd7102129"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R5",
+                "pos": {
+                  "x": 139.06,
+                  "y": 80.75
+                },
+                "uuid": "5d7eeb68-dd82-46fa-8c32-b4e4ecc8bf65"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R6",
+                "pos": {
+                  "x": 119.75,
+                  "y": 78.31
+                },
+                "uuid": "62413f4c-41a8-43c3-8d63-5487e23a014a"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Button_Switch_THT'",
+            "items": [
+              {
+                "description": "Footprint SW2",
+                "pos": {
+                  "x": 131.75,
+                  "y": 43.5
+                },
+                "uuid": "68ef80ed-031f-4d4a-8cd1-251eb0852ec2"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R1",
+                "pos": {
+                  "x": 140.0,
+                  "y": 72.56
+                },
+                "uuid": "6fa0116f-6feb-42bf-a468-73f3dd480a5b"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Button_Switch_THT'",
+            "items": [
+              {
+                "description": "Footprint SW1",
+                "pos": {
+                  "x": 155.25,
+                  "y": 52.25
+                },
+                "uuid": "721b697b-dd6a-4997-b0b5-4596253006c8"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D1",
+                "pos": {
+                  "x": 123.73,
+                  "y": 65.0
+                },
+                "uuid": "7900e8d1-ca01-414e-92fe-c65a2a12c2df"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'MountingHole'",
+            "items": [
+              {
+                "description": "Footprint H4",
+                "pos": {
+                  "x": 166.0,
+                  "y": 106.0
+                },
+                "uuid": "7aaf7735-a5ef-4add-ae9a-2553e9976b87"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'MountingHole'",
+            "items": [
+              {
+                "description": "Footprint H1",
+                "pos": {
+                  "x": 166.0,
+                  "y": 44.0
+                },
+                "uuid": "7d0d67bb-5f8b-4231-8fec-b5931349d564"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R4",
+                "pos": {
+                  "x": 130.25,
+                  "y": 72.81
+                },
+                "uuid": "927c9e3b-878e-4076-bf4b-4dbcc7178ece"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D3",
+                "pos": {
+                  "x": 123.73,
+                  "y": 75.0
+                },
+                "uuid": "92f867f8-a632-46e7-a0e2-40ba7ca96952"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R8",
+                "pos": {
+                  "x": 120.06,
+                  "y": 44.25
+                },
+                "uuid": "a9add2dd-e09e-4274-a332-ece0be82e46b"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'MountingHole'",
+            "items": [
+              {
+                "description": "Footprint H2",
+                "pos": {
+                  "x": 104.0,
+                  "y": 106.0
+                },
+                "uuid": "aa3f1460-34fc-4bb3-953f-33eafa7917fd"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D5",
+                "pos": {
+                  "x": 143.73,
+                  "y": 75.0
+                },
+                "uuid": "c760fe96-8797-4456-a19b-ca9b34305d28"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D2",
+                "pos": {
+                  "x": 143.73,
+                  "y": 65.0
+                },
+                "uuid": "dc5722e8-b38d-4d33-8bd6-2f0812afd44c"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+            "items": [
+              {
+                "description": "Footprint C2",
+                "pos": {
+                  "x": 108.205113,
+                  "y": 55.0
+                },
+                "uuid": "698196cc-c1fd-4eea-8d24-9d78ea941632"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'MyFootprints'",
+            "items": [
+              {
+                "description": "Footprint U2",
+                "pos": {
+                  "x": 150.995,
+                  "y": 103.005
+                },
+                "uuid": "d5421e99-eb39-4620-9dbe-424e9040eddb"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+            "items": [
+              {
+                "description": "Footprint C1",
+                "pos": {
+                  "x": 108.75,
+                  "y": 49.75
+                },
+                "uuid": "d592e5e2-cf82-48c7-af74-b9af4b4a06f7"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Battery'",
+            "items": [
+              {
+                "description": "Footprint BT1",
+                "pos": {
+                  "x": 121.0,
+                  "y": 99.25
+                },
+                "uuid": "e7507d54-477b-4580-95f4-315f716a6fea"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Package_DIP'",
+            "items": [
+              {
+                "description": "Footprint U1",
+                "pos": {
+                  "x": 120.06,
+                  "y": 48.19
+                },
+                "uuid": "f8464d79-bd52-46a8-97c7-0248620e1167"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          }
+        ]
+      },
+      "process_sha256": "b5cb965c3314a4585b0633f609bfe0affdf1029d34f0c64384b286748d121e5e",
+      "log_sha256": "359f67ea718518502bacb8fc608729a17083474f9b27a96d96dbca09b56c65ab"
+    },
+    {
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/free-angle-pair-002/arcdice/NONE/child/route",
+      "name": "metrics",
+      "status": "success",
+      "exit_code": 0,
+      "cleanup_complete": true,
+      "completed_shared_process_check": true,
+      "native_stage": null,
+      "process_sha256": "6f20bd64b0a22621305c0dbdc95d9da1f9483ed2818207fa601e1c7c44482a9f",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "candidate": {
+    "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/free-angle-pair-002/arcdice/NONE/child/route/candidate/ArcDice.kicad_pcb",
+    "candidate_sha256": "6228870b7a0291c7bcca43d3a392d2fe46dca76023e38d9746afb5756ec23cb1",
+    "native_report_sha256": "bf069527ce34fab7ddc840a01a786d480885f5e47ff38d8f0f07e9c13a0d2c8d",
+    "native_counts": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 26,
+      "exclusions": 0
+    },
+    "native_rejection_reasons": [],
+    "original_design_checks": true,
+    "complete_schematic_native_checks": true,
+    "original_native_class_targets": {
+      "native": {
+        "passed": true,
+        "policy": {
+          "mode": "native-parent-dimensions-v1",
+          "resolution": "pinned native effective class and explicit parameter parents",
+          "source_class_names": [
+            "Default",
+            "POWER",
+            "SIGNAL"
+          ],
+          "pattern_evaluation_in_python": false
+        },
+        "native_nets": 20,
+        "nets": [
+          {
+            "name": "/BAT_MINUS",
+            "netcode": 20,
+            "copper_pad_count": 2,
+            "class": "POWER,Default",
+            "parameter_parents": {
+              "width_nm": {
+                "name": "POWER",
+                "value_nm": 600000,
+                "specified": true,
+                "priority": 1
+              },
+              "clearance_nm": {
+                "name": "POWER",
+                "value_nm": 200000,
+                "specified": true,
+                "priority": 1
+              },
+              "via_diameter_nm": {
+                "name": "POWER",
+                "value_nm": 600000,
+                "specified": true,
+                "priority": 1
+              },
+              "via_drill_nm": {
+                "name": "POWER",
+                "value_nm": 300000,
+                "specified": true,
+                "priority": 1
+              }
+            },
+            "width_nm": 600000,
+            "clearance_nm": 200000,
+            "via_diameter_nm": 600000,
+            "via_drill_nm": 300000
+          },
+          {
+            "name": "/BAT_PLUS",
+            "netcode": 19,
+            "copper_pad_count": 2,
+            "class": "POWER,Default",
+            "parameter_parents": {
+              "width_nm": {
+                "name": "POWER",
+                "value_nm": 600000,
+                "specified": true,
+                "priority": 1
+              },
+              "clearance_nm": {
+                "name": "POWER",
+                "value_nm": 200000,
+                "specified": true,
+                "priority": 1
+              },
+              "via_diameter_nm": {
+                "name": "POWER",
+                "value_nm": 600000,
+                "specified": true,
+                "priority": 1
+              },
+              "via_drill_nm": {
+                "name": "POWER",
+                "value_nm": 300000,
+                "specified": true,
+                "priority": 1
+              }
+            },
+            "width_nm": 600000,
+            "clearance_nm": 200000,
+            "via_diameter_nm": 600000,
+            "via_drill_nm": 300000
+          },
+          {
+            "name": "/BTN_ROLL",
+            "netcode": 11,
+            "copper_pad_count": 3,
+            "class": "SIGNAL,Default",
+            "parameter_parents": {
+              "width_nm": {
+                "name": "SIGNAL",
+                "value_nm": 250000,
+                "specified": true,
+                "priority": 0
+              },
+              "clearance_nm": {
+                "name": "SIGNAL",
+                "value_nm": 200000,
+                "specified": true,
+                "priority": 0
+              },
+              "via_diameter_nm": {
+                "name": "SIGNAL",
+                "value_nm": 600000,
+                "specified": true,
+                "priority": 0
+              },
+              "via_drill_nm": {
+                "name": "SIGNAL",
+                "value_nm": 300000,
+                "specified": true,
+                "priority": 0
+              }
+            },
+            "width_nm": 250000,
+            "clearance_nm": 200000,
+            "via_diameter_nm": 600000,
+            "via_drill_nm": 300000
+          },
+          {
+            "name": "/GND",
+            "netcode": 1,
+            "copper_pad_count": 14,
+            "class": "POWER,Default",
+            "parameter_parents": {
+              "width_nm": {
+                "name": "POWER",
+                "value_nm": 600000,
+                "specified": true,
+                "priority": 1
+              },
+              "clearance_nm": {
+                "name": "POWER",
+                "value_nm": 200000,
+                "specified": true,
+                "priority": 1
+              },
+              "via_diameter_nm": {
+                "name": "POWER",
+                "value_nm": 600000,
+                "specified": true,
+                "priority": 1
+              },
+              "via_drill_nm": {
+                "name": "POWER",
+                "value_nm": 300000,
+                "specified": true,
+                "priority": 1
+              }
+            },
+            "width_nm": 600000,
+            "clearance_nm": 200000,
+            "via_diameter_nm": 600000,
+            "via_drill_nm": 300000
+          },
+          {
+            "name": "/RESET_N",
+            "netcode": 17,
+            "copper_pad_count": 2,
+            "class": "SIGNAL,Default",
+            "parameter_parents": {
+              "width_nm": {
+                "name": "SIGNAL",
+                "value_nm": 250000,
+                "specified": true,
+                "priority": 0
+              },
+              "clearance_nm": {
+                "name": "SIGNAL",
+                "value_nm": 200000,
+                "specified": true,
+                "priority": 0
+              },
+              "via_diameter_nm": {
+                "name": "SIGNAL",
+                "value_nm": 600000,
+                "specified": true,
+                "priority": 0
+              },
+              "via_drill_nm": {
+                "name": "SIGNAL",
+                "value_nm": 300000,
+                "specified": true,
+                "priority": 0
+              }
+            },
+            "width_nm": 250000,
+            "clearance_nm": 200000,
+            "via_diameter_nm": 600000,
+            "via_drill_nm": 300000
+          },
+          {
+            "name": "/SEGMENT_CENTER",
+            "netcode": 16,
+            "copper_pad_count": 2,
+            "class": "SIGNAL,Default",
+            "parameter_parents": {
+              "width_nm": {
+                "name": "SIGNAL",
+                "value_nm": 250000,
+                "specified": true,
+                "priority": 0
+              },
+              "clearance_nm": {
+                "name": "SIGNAL",
+                "value_nm": 200000,
+                "specified": true,
+                "priority": 0
+              },
+              "via_diameter_nm": {
+                "name": "SIGNAL",
+                "value_nm": 600000,
+                "specified": true,
+                "priority": 0
+              },
+              "via_drill_nm": {
+                "name": "SIGNAL",
+                "value_nm": 300000,
+                "specified": true,
+                "priority": 0
+              }
+            },
+            "width_nm": 250000,
+            "clearance_nm": 200000,
+            "via_diameter_nm": 600000,
+            "via_drill_nm": 300000
+          },
+          {
+            "name": "/SEGMENT_DIAGONAL_A",
+            "netcode": 4,
+            "copper_pad_count": 3,
+            "class": "SIGNAL,Default",
+            "parameter_parents": {
+              "width_nm": {
+                "name": "SIGNAL",
+                "value_nm": 250000,
+                "specified": true,
+                "priority": 0
+              },
+              "clearance_nm": {
+                "name": "SIGNAL",
+                "value_nm": 200000,
+                "specified": true,
+                "priority": 0
+              },
+              "via_diameter_nm": {
+                "name": "SIGNAL",
+                "value_nm": 600000,
+                "specified": true,
+                "priority": 0
+              },
+              "via_drill_nm": {
+                "name": "SIGNAL",
+                "value_nm": 300000,
+                "specified": true,
+                "priority": 0
+              }
+            },
+            "width_nm": 250000,
+            "clearance_nm": 200000,
+            "via_diameter_nm": 600000,
+            "via_drill_nm": 300000
+          },
+          {
+            "name": "/SEGMENT_DIAGONAL_B",
+            "netcode": 7,
+            "copper_pad_count": 3,
+            "class": "SIGNAL,Default",
+            "parameter_parents": {
+              "width_nm": {
+                "name": "SIGNAL",
+                "value_nm": 250000,
+                "specified": true,
+                "priority": 0
+              },
+              "clearance_nm": {
+                "name": "SIGNAL",
+                "value_nm": 200000,
+                "specified": true,
+                "priority": 0
+              },
+              "via_diameter_nm": {
+                "name": "SIGNAL",
+                "value_nm": 600000,
+                "specified": true,
+                "priority": 0
+              },
+              "via_drill_nm": {
+                "name": "SIGNAL",
+                "value_nm": 300000,
+                "specified": true,
+                "priority": 0
+              }
+            },
+            "width_nm": 250000,
+            "clearance_nm": 200000,
+            "via_diameter_nm": 600000,
+            "via_drill_nm": 300000
+          },
+          {
+            "name": "/SEGMENT_MIDDLE_ROW",
+            "netcode": 9,
+            "copper_pad_count": 3,
+            "class": "SIGNAL,Default",
+            "parameter_parents": {
+              "width_nm": {
+                "name": "SIGNAL",
+                "value_nm": 250000,
+                "specified": true,
+                "priority": 0
+              },
+              "clearance_nm": {
+                "name": "SIGNAL",
+                "value_nm": 200000,
+                "specified": true,
+                "priority": 0
+              },
+              "via_diameter_nm": {
+                "name": "SIGNAL",
+                "value_nm": 600000,
+                "specified": true,
+                "priority": 0
+              },
+              "via_drill_nm": {
+                "name": "SIGNAL",
+                "value_nm": 300000,
+                "specified": true,
+                "priority": 0
+              }
+            },
+            "width_nm": 250000,
+            "clearance_nm": 200000,
+            "via_diameter_nm": 600000,
+            "via_drill_nm": 300000
+          },
+          {
+            "name": "/SW IN",
+            "netcode": 14,
+            "copper_pad_count": 2,
+            "class": "POWER,Default",
+            "parameter_parents": {
+              "width_nm": {
+                "name": "POWER",
+                "value_nm": 600000,
+                "specified": true,
+                "priority": 1
+              },
+              "clearance_nm": {
+                "name": "POWER",
+                "value_nm": 200000,
+                "specified": true,
+                "priority": 1
+              },
+              "via_diameter_nm": {
+                "name": "POWER",
+                "value_nm": 600000,
+                "specified": true,
+                "priority": 1
+              },
+              "via_drill_nm": {
+                "name": "POWER",
+                "value_nm": 300000,
+                "specified": true,
+                "priority": 1
+              }
+            },
+            "width_nm": 600000,
+            "clearance_nm": 200000,
+            "via_diameter_nm": 600000,
+            "via_drill_nm": 300000
+          },
+          {
+            "name": "/SYS_VCC",
+            "netcode": 13,
+            "copper_pad_count": 5,
+            "class": "POWER,Default",
+            "parameter_parents": {
+              "width_nm": {
+                "name": "POWER",
+                "value_nm": 600000,
+                "specified": true,
+                "priority": 1
+              },
+              "clearance_nm": {
+                "name": "POWER",
+                "value_nm": 200000,
+                "specified": true,
+                "priority": 1
+              },
+              "via_diameter_nm": {
+                "name": "POWER",
+                "value_nm": 600000,
+                "specified": true,
+                "priority": 1
+              },
+              "via_drill_nm": {
+                "name": "POWER",
+                "value_nm": 300000,
+                "specified": true,
+                "priority": 1
+              }
+            },
+            "width_nm": 600000,
+            "clearance_nm": 200000,
+            "via_diameter_nm": 600000,
+            "via_drill_nm": 300000
+          },
+          {
+            "name": "Net-(D1-A)",
+            "netcode": 12,
+            "copper_pad_count": 2,
+            "class": "Default",
+            "parameter_parents": {
+              "width_nm": {
+                "name": "Default",
+                "value_nm": 200000,
+                "specified": true,
+                "priority": 2147483647
+              },
+              "clearance_nm": {
+                "name": "Default",
+                "value_nm": 200000,
+                "specified": true,
+                "priority": 2147483647
+              },
+              "via_diameter_nm": {
+                "name": "Default",
+                "value_nm": 600000,
+                "specified": true,
+                "priority": 2147483647
+              },
+              "via_drill_nm": {
+                "name": "Default",
+                "value_nm": 300000,
+                "specified": true,
+                "priority": 2147483647
+              }
+            },
+            "width_nm": 200000,
+            "clearance_nm": 200000,
+            "via_diameter_nm": 600000,
+            "via_drill_nm": 300000
+          },
+          {
+            "name": "Net-(D2-A)",
+            "netcode": 6,
+            "copper_pad_count": 2,
+            "class": "Default",
+            "parameter_parents": {
+              "width_nm": {
+                "name": "Default",
+                "value_nm": 200000,
+                "specified": true,
+                "priority": 2147483647
+              },
+              "clearance_nm": {
+                "name": "Default",
+                "value_nm": 200000,
+                "specified": true,
+                "priority": 2147483647
+              },
+              "via_diameter_nm": {
+                "name": "Default",
+                "value_nm": 600000,
+                "specified": true,
+                "priority": 2147483647
+              },
+              "via_drill_nm": {
+                "name": "Default",
+                "value_nm": 300000,
+                "specified": true,
+                "priority": 2147483647
+              }
+            },
+            "width_nm": 200000,
+            "clearance_nm": 200000,
+            "via_diameter_nm": 600000,
+            "via_drill_nm": 300000
+          },
+          {
+            "name": "Net-(D3-A)",
+            "netcode": 8,
+            "copper_pad_count": 2,
+            "class": "Default",
+            "parameter_parents": {
+              "width_nm": {
+                "name": "Default",
+                "value_nm": 200000,
+                "specified": true,
+                "priority": 2147483647
+              },
+              "clearance_nm": {
+                "name": "Default",
+                "value_nm": 200000,
+                "specified": true,
+                "priority": 2147483647
+              },
+              "via_diameter_nm": {
+                "name": "Default",
+                "value_nm": 600000,
+                "specified": true,
+                "priority": 2147483647
+              },
+              "via_drill_nm": {
+                "name": "Default",
+                "value_nm": 300000,
+                "specified": true,
+                "priority": 2147483647
+              }
+            },
+            "width_nm": 200000,
+            "clearance_nm": 200000,
+            "via_diameter_nm": 600000,
+            "via_drill_nm": 300000
+          },
+          {
+            "name": "Net-(D4-A)",
+            "netcode": 2,
+            "copper_pad_count": 2,
+            "class": "Default",
+            "parameter_parents": {
+              "width_nm": {
+                "name": "Default",
+                "value_nm": 200000,
+                "specified": true,
+                "priority": 2147483647
+              },
+              "clearance_nm": {
+                "name": "Default",
+                "value_nm": 200000,
+                "specified": true,
+                "priority": 2147483647
+              },
+              "via_diameter_nm": {
+                "name": "Default",
+                "value_nm": 600000,
+                "specified": true,
+                "priority": 2147483647
+              },
+              "via_drill_nm": {
+                "name": "Default",
+                "value_nm": 300000,
+                "specified": true,
+                "priority": 2147483647
+              }
+            },
+            "width_nm": 200000,
+            "clearance_nm": 200000,
+            "via_diameter_nm": 600000,
+            "via_drill_nm": 300000
+          },
+          {
+            "name": "Net-(D5-A)",
+            "netcode": 10,
+            "copper_pad_count": 2,
+            "class": "Default",
+            "parameter_parents": {
+              "width_nm": {
+                "name": "Default",
+                "value_nm": 200000,
+                "specified": true,
+                "priority": 2147483647
+              },
+              "clearance_nm": {
+                "name": "Default",
+                "value_nm": 200000,
+                "specified": true,
+                "priority": 2147483647
+              },
+              "via_diameter_nm": {
+                "name": "Default",
+                "value_nm": 600000,
+                "specified": true,
+                "priority": 2147483647
+              },
+              "via_drill_nm": {
+                "name": "Default",
+                "value_nm": 300000,
+                "specified": true,
+                "priority": 2147483647
+              }
+            },
+            "width_nm": 200000,
+            "clearance_nm": 200000,
+            "via_diameter_nm": 600000,
+            "via_drill_nm": 300000
+          },
+          {
+            "name": "Net-(D6-A)",
+            "netcode": 5,
+            "copper_pad_count": 2,
+            "class": "Default",
+            "parameter_parents": {
+              "width_nm": {
+                "name": "Default",
+                "value_nm": 200000,
+                "specified": true,
+                "priority": 2147483647
+              },
+              "clearance_nm": {
+                "name": "Default",
+                "value_nm": 200000,
+                "specified": true,
+                "priority": 2147483647
+              },
+              "via_diameter_nm": {
+                "name": "Default",
+                "value_nm": 600000,
+                "specified": true,
+                "priority": 2147483647
+              },
+              "via_drill_nm": {
+                "name": "Default",
+                "value_nm": 300000,
+                "specified": true,
+                "priority": 2147483647
+              }
+            },
+            "width_nm": 200000,
+            "clearance_nm": 200000,
+            "via_diameter_nm": 600000,
+            "via_drill_nm": 300000
+          },
+          {
+            "name": "Net-(D7-A)",
+            "netcode": 3,
+            "copper_pad_count": 2,
+            "class": "Default",
+            "parameter_parents": {
+              "width_nm": {
+                "name": "Default",
+                "value_nm": 200000,
+                "specified": true,
+                "priority": 2147483647
+              },
+              "clearance_nm": {
+                "name": "Default",
+                "value_nm": 200000,
+                "specified": true,
+                "priority": 2147483647
+              },
+              "via_diameter_nm": {
+                "name": "Default",
+                "value_nm": 600000,
+                "specified": true,
+                "priority": 2147483647
+              },
+              "via_drill_nm": {
+                "name": "Default",
+                "value_nm": 300000,
+                "specified": true,
+                "priority": 2147483647
+              }
+            },
+            "width_nm": 200000,
+            "clearance_nm": 200000,
+            "via_diameter_nm": 600000,
+            "via_drill_nm": 300000
+          },
+          {
+            "name": "unconnected-(SW1-C-Pad3)",
+            "netcode": 15,
+            "copper_pad_count": 1,
+            "class": "Default",
+            "parameter_parents": {
+              "width_nm": {
+                "name": "Default",
+                "value_nm": 200000,
+                "specified": true,
+                "priority": 2147483647
+              },
+              "clearance_nm": {
+                "name": "Default",
+                "value_nm": 200000,
+                "specified": true,
+                "priority": 2147483647
+              },
+              "via_diameter_nm": {
+                "name": "Default",
+                "value_nm": 600000,
+                "specified": true,
+                "priority": 2147483647
+              },
+              "via_drill_nm": {
+                "name": "Default",
+                "value_nm": 300000,
+                "specified": true,
+                "priority": 2147483647
+              }
+            },
+            "width_nm": 200000,
+            "clearance_nm": 200000,
+            "via_diameter_nm": 600000,
+            "via_drill_nm": 300000
+          },
+          {
+            "name": "unconnected-(U2-IN+-Pad1)",
+            "netcode": 18,
+            "copper_pad_count": 1,
+            "class": "Default",
+            "parameter_parents": {
+              "width_nm": {
+                "name": "Default",
+                "value_nm": 200000,
+                "specified": true,
+                "priority": 2147483647
+              },
+              "clearance_nm": {
+                "name": "Default",
+                "value_nm": 200000,
+                "specified": true,
+                "priority": 2147483647
+              },
+              "via_diameter_nm": {
+                "name": "Default",
+                "value_nm": 600000,
+                "specified": true,
+                "priority": 2147483647
+              },
+              "via_drill_nm": {
+                "name": "Default",
+                "value_nm": 300000,
+                "specified": true,
+                "priority": 2147483647
+              }
+            },
+            "width_nm": 200000,
+            "clearance_nm": 200000,
+            "via_diameter_nm": 600000,
+            "via_drill_nm": 300000
+          }
+        ],
+        "routing_accepted": false
+      },
+      "route_dimensions": {
+        "passed": true,
+        "checked": {
+          "segments": 84,
+          "arcs": 0,
+          "vias": 1,
+          "protected": 0
+        },
+        "policy": "exact effective native targets for new routes; protected originals unchanged"
+      },
+      "candidate_sha256": "6228870b7a0291c7bcca43d3a392d2fe46dca76023e38d9746afb5756ec23cb1",
+      "project_sha256": "be12f193331f3091ef31b9df28dc968119be56269adddcd5b2ed2921523223f6"
+    },
+    "original_native_class_audit_required": true,
+    "full_shared_candidate_readback": true,
+    "qualification_failure": null,
+    "saved_refill_native": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 26,
+      "exclusions": 0,
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ],
+      "findings": [
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D4",
+              "pos": {
+                "x": 133.73,
+                "y": 75.0
+              },
+              "uuid": "10adda4f-e2e9-4db0-b4c9-bb826d187ffa"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D7",
+              "pos": {
+                "x": 143.73,
+                "y": 85.0
+              },
+              "uuid": "14934184-dc81-44d9-ba6a-73aa145ab7f0"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R7",
+              "pos": {
+                "x": 147.06,
+                "y": 90.5
+              },
+              "uuid": "21da4687-c643-40b6-8d73-857a9ff85a3b"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'MountingHole'",
+          "items": [
+            {
+              "description": "Footprint H3",
+              "pos": {
+                "x": 104.0,
+                "y": 44.0
+              },
+              "uuid": "2788a2ed-4d9f-4630-a994-021aa3447175"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D6",
+              "pos": {
+                "x": 123.73,
+                "y": 85.0
+              },
+              "uuid": "378a7737-67d8-49c4-9900-5ed5f92e04c1"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R2",
+              "pos": {
+                "x": 150.5,
+                "y": 61.44
+              },
+              "uuid": "487a96b4-0ceb-4783-bc6d-d3f76336443b"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R3",
+              "pos": {
+                "x": 119.5,
+                "y": 67.56
+              },
+              "uuid": "502212ce-a247-4c63-a135-bd5bd7102129"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R5",
+              "pos": {
+                "x": 139.06,
+                "y": 80.75
+              },
+              "uuid": "5d7eeb68-dd82-46fa-8c32-b4e4ecc8bf65"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R6",
+              "pos": {
+                "x": 119.75,
+                "y": 78.31
+              },
+              "uuid": "62413f4c-41a8-43c3-8d63-5487e23a014a"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Button_Switch_THT'",
+          "items": [
+            {
+              "description": "Footprint SW2",
+              "pos": {
+                "x": 131.75,
+                "y": 43.5
+              },
+              "uuid": "68ef80ed-031f-4d4a-8cd1-251eb0852ec2"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R1",
+              "pos": {
+                "x": 140.0,
+                "y": 72.56
+              },
+              "uuid": "6fa0116f-6feb-42bf-a468-73f3dd480a5b"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Button_Switch_THT'",
+          "items": [
+            {
+              "description": "Footprint SW1",
+              "pos": {
+                "x": 155.25,
+                "y": 52.25
+              },
+              "uuid": "721b697b-dd6a-4997-b0b5-4596253006c8"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D1",
+              "pos": {
+                "x": 123.73,
+                "y": 65.0
+              },
+              "uuid": "7900e8d1-ca01-414e-92fe-c65a2a12c2df"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'MountingHole'",
+          "items": [
+            {
+              "description": "Footprint H4",
+              "pos": {
+                "x": 166.0,
+                "y": 106.0
+              },
+              "uuid": "7aaf7735-a5ef-4add-ae9a-2553e9976b87"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'MountingHole'",
+          "items": [
+            {
+              "description": "Footprint H1",
+              "pos": {
+                "x": 166.0,
+                "y": 44.0
+              },
+              "uuid": "7d0d67bb-5f8b-4231-8fec-b5931349d564"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R4",
+              "pos": {
+                "x": 130.25,
+                "y": 72.81
+              },
+              "uuid": "927c9e3b-878e-4076-bf4b-4dbcc7178ece"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D3",
+              "pos": {
+                "x": 123.73,
+                "y": 75.0
+              },
+              "uuid": "92f867f8-a632-46e7-a0e2-40ba7ca96952"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R8",
+              "pos": {
+                "x": 120.06,
+                "y": 44.25
+              },
+              "uuid": "a9add2dd-e09e-4274-a332-ece0be82e46b"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'MountingHole'",
+          "items": [
+            {
+              "description": "Footprint H2",
+              "pos": {
+                "x": 104.0,
+                "y": 106.0
+              },
+              "uuid": "aa3f1460-34fc-4bb3-953f-33eafa7917fd"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D5",
+              "pos": {
+                "x": 143.73,
+                "y": 75.0
+              },
+              "uuid": "c760fe96-8797-4456-a19b-ca9b34305d28"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D2",
+              "pos": {
+                "x": 143.73,
+                "y": 65.0
+              },
+              "uuid": "dc5722e8-b38d-4d33-8bd6-2f0812afd44c"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+          "items": [
+            {
+              "description": "Footprint C2",
+              "pos": {
+                "x": 108.205113,
+                "y": 55.0
+              },
+              "uuid": "698196cc-c1fd-4eea-8d24-9d78ea941632"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'MyFootprints'",
+          "items": [
+            {
+              "description": "Footprint U2",
+              "pos": {
+                "x": 150.995,
+                "y": 103.005
+              },
+              "uuid": "d5421e99-eb39-4620-9dbe-424e9040eddb"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+          "items": [
+            {
+              "description": "Footprint C1",
+              "pos": {
+                "x": 108.75,
+                "y": 49.75
+              },
+              "uuid": "d592e5e2-cf82-48c7-af74-b9af4b4a06f7"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Battery'",
+          "items": [
+            {
+              "description": "Footprint BT1",
+              "pos": {
+                "x": 121.0,
+                "y": 99.25
+              },
+              "uuid": "e7507d54-477b-4580-95f4-315f716a6fea"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Package_DIP'",
+          "items": [
+            {
+              "description": "Footprint U1",
+              "pos": {
+                "x": 120.06,
+                "y": 48.19
+              },
+              "uuid": "f8464d79-bd52-46a8-97c7-0248620e1167"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        }
+      ]
+    },
+    "saved_refill_sha256": "0b63bb171848fadf7a956389febd2a2b0c53776897a55052a5d04b2dbdda49c0",
+    "pre_refill_sha256": "3c2300eb6ea6450714174bb2ec8eb9ceba8855fd4d6b49a480bd34ba5e197b0b",
+    "unchanged_original_warning_signatures": true,
+    "metrics": {
+      "version": "10.0.0",
+      "pads": 63,
+      "footprints": 26,
+      "zones": 1,
+      "vias": 1,
+      "track_length_mm": 579.5215796289411,
+      "copper_layers": 2
+    },
+    "metrics_sha256": "195686abf7576f7b96fd37b2eac6ba666ec08585c6884a62c1f602bad8504c0a"
+  },
+  "row": {
+    "id": "NONE",
+    "adapter": "both",
+    "engine_profile": "tuned-free-angle",
+    "operation": "route",
+    "status": "routing_accepted",
+    "accepted_in_receipt": true,
+    "accepted": true,
+    "reason": null,
+    "cancelled": false,
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 26,
+    "exclusions": 0,
+    "length_mm": 579.5215796289411,
+    "vias": 1,
+    "wall_seconds": 24.531596250017174,
+    "parent_cpu_seconds": 5.921363,
+    "child_cpu_seconds": 17.635749,
+    "monitor_cpu_seconds": 0,
+    "total_cpu_seconds": 23.581718000000002,
+    "peak_child_rss_bytes": 311623680,
+    "peak_polled_group_rss_bytes": 311508992,
+    "invocation_wall_seconds": 26.825361541996244,
+    "invocation_cpu_seconds": 25.799994,
+    "candidate_sha256": "6228870b7a0291c7bcca43d3a392d2fe46dca76023e38d9746afb5756ec23cb1",
+    "native_report_sha256": "bf069527ce34fab7ddc840a01a786d480885f5e47ff38d8f0f07e9c13a0d2c8d",
+    "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/free-angle-pair-002/arcdice/NONE/child/route/result.json",
+    "result_sha256": "87501d846ee69fa3b4f0b4a05cf1f364b19c429f27a7a873b0e2246e7371b0b6",
+    "within_equal_budgets": true,
+    "protocol_contract_verified": true,
+    "receipt_verified": true,
+    "observations": [
+      {
+        "kind": "final_result_only",
+        "elapsed_seconds": 26.825361541996244,
+        "observed_cpu_seconds": 25.799994,
+        "metrics": {
+          "version": "10.0.0",
+          "pads": 63,
+          "footprints": 26,
+          "zones": 1,
+          "vias": 1,
+          "track_length_mm": 579.5215796289411,
+          "copper_layers": 2
+        },
+        "final_delivery_accepted": true,
+        "meaning": "final completion upper bound only; earlier native success times unobserved"
+      }
+    ]
+  },
+  "route_receipt_sha256": "87501d846ee69fa3b4f0b4a05cf1f364b19c429f27a7a873b0e2246e7371b0b6",
+  "resource_failure": null,
+  "completed_evidence": {
+    "files": {
+      "route/candidate/ArcDice.kicad_pcb": "6228870b7a0291c7bcca43d3a392d2fe46dca76023e38d9746afb5756ec23cb1",
+      "route/candidate/ArcDice.kicad_pro": "be12f193331f3091ef31b9df28dc968119be56269adddcd5b2ed2921523223f6",
+      "route/candidate/ArcDice.kicad_sch": "388bb0410c3372c2331c84b44ba8a45e10c4b34206a3b28b65cb90057129e4de",
+      "route/candidate/_licenses/creator/LICENSE": "13aa5751cc47416650ad3c976d1c001f32ca3b3d49caac777ae66e819a437298",
+      "route/candidate/_licenses/creator/README.md": "876a106e288ec606cf29239d6129d07b79a134005769ba50ef0d450622c1751b",
+      "route/code/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+      "route/code/__main__.py": "eb48b32e74c3b25ffa7daca999cdff4c640ea7199abd990090732671bca495ea",
+      "route/code/adapter.py": "a99a389f8ff8d11b5c28507e524b823f3b906d703e2faa4dd34496a642517ac3",
+      "route/code/board_floor.py": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340",
+      "route/code/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+      "route/code/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+      "route/code/engine_angle.py": "900f5f7e34e25a03220664951df4e978327a02628ae0203008093e34b78b8bb0",
+      "route/code/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+      "route/code/floor_route.py": "eaec4f7046c7e1284bb74f709a9c82b50ceb0cbd0a11c1bdf4ae4804914e5ecc",
+      "route/code/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+      "route/code/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+      "route/code/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+      "route/code/local_settings.py": "a2ab6296b637ace500f1cdbdd62de0cd9c1803cfc17e38906ced497c1aef21c8",
+      "route/code/native.py": "d7e3140cee40d0a618c5c699cdada4d833a04d76f8fe06e8b823b4f490f2e9b6",
+      "route/code/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+      "route/code/native_edge.py": "8a38b60f301a72b815b877f9af59d156024757d66eda7d3df8c34addbe4d0c74",
+      "route/code/netclass.py": "e94d207e800e80143247ad66a44fd618fcb330c7eb6fb8f196b9b36ef72fc61b",
+      "route/code/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+      "route/code/padless_alias.py": "f359a89e3c48703058490c22d9591b5f916cd22a8b734c50e1c9191e501c1413",
+      "route/code/padless_alias_native.py": "7d06683b834f0211c82d87d7c982f6c39960e841627cd5e98f58a7913f501002",
+      "route/code/pipeline.py": "9eb4c169061d3a6f184bf4cab7cc9878280b9de9dec18e49fba117f2e16dec64",
+      "route/code/placement_clearance.py": "8fa82414fa40f80d90ed4a42f53fa2e679a52d74cfb4cfa9038239f1217aaff6",
+      "route/code/placement_strategy.py": "765a28e5a63da3e52266665accf9b9e1f5ea586ea9a90f51291b142c4373fb32",
+      "route/code/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+      "route/code/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+      "route/code/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+      "route/code/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+      "route/code/recovery.py": "fb2866c5340b808c6f7baf6a43234c87e8e353e74f47a91b51ad6fae5c24a78d",
+      "route/code/review_export.py": "698dc66682416579c3d44b571dce0c0ed7102244adb0cff38dceeeca0ea1489c",
+      "route/code/review_view.py": "79f65e4d53c243f4e0f054d97bced2be2c4646537e5b86f11626ac8c5f4ce92d",
+      "route/code/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+      "route/code/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+      "route/code/schematic_field_evidence.py": "f5c03ac0be4b5fa3960bfec5f511199f7b566de8483fc78581e39e02804dbb93",
+      "route/code/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+      "route/code/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+      "route/code/strategy.py": "2794344ef69e70e627c4f8a858e63347f3f2d5d79bfc98b8090bbbbc5e4c193e",
+      "route/code/thermal.py": "2fa7ff7260ba6e8b5a8003d8e1f51314b5ff548ef635fb94b29bdee4c741102d",
+      "route/code/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+      "route/code/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+      "route/code/thermal_worker.py": "fd651f44233aae2c70da0a8feab5f96a4763276684e8b0babf39860b91a9cc33",
+      "route/edge-adapter-input.dsn": "67c6770cb93810fc90a81ae51e84de538452e8a400eb070dd0a8e357d279fad9",
+      "route/engine-angle.json": "62a875f96cc9e9a0707a34c45408f68a7d20c3bfe9d6cc94671d83ea98b7ff44",
+      "route/engine-config/freerouting.json": "2126bc2a8e9e214104ee4fa2633112e7ec14c5781081146f524d60c292feef69",
+      "route/engine-free-angle.dsn": "f96d252814791c16682720f464a7c2cbd484ca6272afb7d742936385b6268800",
+      "route/engine-process.json": "e3473466fcdda0079651e89325b78546d5bf454cdfcf228accf909228041ceb3",
+      "route/engine.log": "7ec6b42b83a17ce7ec70bcf1beded802fb9f8f6418112bf60b29a6226ed2784f",
+      "route/export-netclasses.json": "6e74f03864750af3264fdb4477d4e72f0a3a271206aef4331009df0c6248b23c",
+      "route/export-process.json": "605cd1d2bbc3639ee4c50a354ad972bb8943c9ea518516f28865de1a792b4432",
+      "route/export.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "route/final-drc-binding.json": "c26494e8952df68bf84ffc84992971d81d7e266f9f5252fd78e3b94f88a49f40",
+      "route/final-drc-input/ArcDice.kicad_pcb": "6228870b7a0291c7bcca43d3a392d2fe46dca76023e38d9746afb5756ec23cb1",
+      "route/final-drc-input/ArcDice.kicad_prl": "4893e8317a8b32a1845ec2011c070cbd729f114f5efe0a1fe4de75b64a2ec448",
+      "route/final-drc-input/ArcDice.kicad_pro": "be12f193331f3091ef31b9df28dc968119be56269adddcd5b2ed2921523223f6",
+      "route/final-drc-input/ArcDice.kicad_sch": "388bb0410c3372c2331c84b44ba8a45e10c4b34206a3b28b65cb90057129e4de",
+      "route/final-drc-input/_licenses/creator/LICENSE": "13aa5751cc47416650ad3c976d1c001f32ca3b3d49caac777ae66e819a437298",
+      "route/final-drc-input/_licenses/creator/README.md": "876a106e288ec606cf29239d6129d07b79a134005769ba50ef0d450622c1751b",
+      "route/final-drc-process.json": "b5cb965c3314a4585b0633f609bfe0affdf1029d34f0c64384b286748d121e5e",
+      "route/final-drc.json": "bf069527ce34fab7ddc840a01a786d480885f5e47ff38d8f0f07e9c13a0d2c8d",
+      "route/final-drc.log": "359f67ea718518502bacb8fc608729a17083474f9b27a96d96dbca09b56c65ab",
+      "route/final-netclass-audit.json": "6a722ad2353ab1adeb32647c004a983e1a66844f524e6f8b3ff992be02d7136b",
+      "route/final-netclasses-process.json": "d371efa6e5d6d1f5b0082b1afbba97b9026b85883ebf0c0275438866f716f9a8",
+      "route/final-netclasses.json": "10643c6faf791221b2d2a04685af85303c298724ef6a5d567de9ca3a7d3b6e7e",
+      "route/final-netclasses.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "route/import-process.json": "152cbe0c7927a56ebdb63bc59d54cc42e0effd179379ef24944e154e3af5aa58",
+      "route/import.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "route/imported.kicad_pcb": "09fdc3cb91f0407b655c9245aa76f54a74a7a6baa6a8b6d30bfa91aad8ae04cd",
+      "route/imported.kicad_prl": "7d9ad4476f33f37f2a7260669e933885b08555cc667b8a58a3980a10d5e0a4dd",
+      "route/imported.kicad_pro": "b3a1c14287200ad97dbe8cd73fdf7eda5bf9d56b3f8b5424b25e272c74b342fd",
+      "route/imported.routes-only.json": "49f49869931c911524600c91cff1b3928b5b98697f02a2a78bb2023d4dbf9f8c",
+      "route/imported.routes-only.ses": "09ab555462a0c3bcf13c490e1af0d32b8b75176b0dbececb3b010443826a1467",
+      "route/kicad-config/10.0/3d_viewer.json": "196678c94fed37c15510bb4b54d6e4eec989a0c3f9b4d30ff1be0d1425992bf3",
+      "route/kicad-config/10.0/cvpcb.json": "b93174a3b1470f1ce0e43c90268ce83976432c5210d906a3846ee7976ea9d272",
+      "route/kicad-config/10.0/eeschema.json": "ce1d47af13c60254b736992e8a387cf93b06c83f302e3aaa4c6836acb05d3502",
+      "route/kicad-config/10.0/fpedit.json": "e88988497732f32bf92cccd726d7d28ea7dfe1922d693448a38cb4c063f9d368",
+      "route/kicad-config/10.0/kicad.json": "026a2e3d05986b554bc6f5aa8590c69e847090527e0e718287e1005dbd905015",
+      "route/kicad-config/10.0/kicad_common.json": "175dffaa533c4301f31a00014058d7f5c473c468ac85ea9e8b9167e6546f1250",
+      "route/kicad-config/10.0/pcbnew.json": "f0822c67ee74c2e6189603de283b6d288e77a6a201c65d2f6b60afd119c95845",
+      "route/kicad-config/10.0/symbol_editor.json": "a3212dc53c3cbfd170a2bb6ae42db289bc6f4c3cf6df9abc4a5c856d22d2f86a",
+      "route/metrics-process.json": "6f20bd64b0a22621305c0dbdc95d9da1f9483ed2818207fa601e1c7c44482a9f",
+      "route/metrics.json": "195686abf7576f7b96fd37b2eac6ba666ec08585c6884a62c1f602bad8504c0a",
+      "route/metrics.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "route/native-edge-correction.json": "a10ca81f11c6c946d2e5ecee73b916ba49e968dd4a21e932afb57abbc7d06864",
+      "route/native.dsn": "503592ced7f175190b36056895465821876143ba9028ddff4cf571447a55b091",
+      "route/obstacles-process.json": "5f246625a3fd437a820867f27fb124a0329a843318bd90a1bb700dbbd4111fa4",
+      "route/obstacles.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "route/obstacles.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "route/pre-refill.kicad_pcb": "3c2300eb6ea6450714174bb2ec8eb9ceba8855fd4d6b49a480bd34ba5e197b0b",
+      "route/refill-drc-binding.json": "bf3d796f6860dc0bee00c5eefe56d5e40a34d9de9f5ffb9f3d9cc214753994ee",
+      "route/refill-drc-process.json": "df9289aeeb71648ef7abd4ee42d496d36c5fc2e46bd72f2dc0ef3f201b0d5cda",
+      "route/refill-drc.json": "45d5b62e74428e50bb224e656f2c08c25c4cb34fa368480a49329817c88467f8",
+      "route/refill-drc.log": "0ae6014d6da8c228ed658c1295c2f4e1671cb1a11ef2096bc3979b8a0ec133cc",
+      "route/refill/ArcDice.kicad_pcb": "0b63bb171848fadf7a956389febd2a2b0c53776897a55052a5d04b2dbdda49c0",
+      "route/refill/ArcDice.kicad_prl": "4893e8317a8b32a1845ec2011c070cbd729f114f5efe0a1fe4de75b64a2ec448",
+      "route/refill/ArcDice.kicad_pro": "be12f193331f3091ef31b9df28dc968119be56269adddcd5b2ed2921523223f6",
+      "route/refill/ArcDice.kicad_sch": "388bb0410c3372c2331c84b44ba8a45e10c4b34206a3b28b65cb90057129e4de",
+      "route/refill/_licenses/creator/LICENSE": "13aa5751cc47416650ad3c976d1c001f32ca3b3d49caac777ae66e819a437298",
+      "route/refill/_licenses/creator/README.md": "876a106e288ec606cf29239d6129d07b79a134005769ba50ef0d450622c1751b",
+      "route/result.json": "87501d846ee69fa3b4f0b4a05cf1f364b19c429f27a7a873b0e2246e7371b0b6",
+      "route/routes.ses": "f19da0816a1d8b7aab5138a1e6081e77cf8c3c828d2b5fe4c6b6bff2be2747e5",
+      "route/snapshot/ArcDice.kicad_pcb": "098e90725279e698f61d7f4a5f0281202ba32f655b9c430047c019783a60bf96",
+      "route/snapshot/ArcDice.kicad_pro": "be12f193331f3091ef31b9df28dc968119be56269adddcd5b2ed2921523223f6",
+      "route/snapshot/ArcDice.kicad_sch": "388bb0410c3372c2331c84b44ba8a45e10c4b34206a3b28b65cb90057129e4de",
+      "route/snapshot/_licenses/creator/LICENSE": "13aa5751cc47416650ad3c976d1c001f32ca3b3d49caac777ae66e819a437298",
+      "route/snapshot/_licenses/creator/README.md": "876a106e288ec606cf29239d6129d07b79a134005769ba50ef0d450622c1751b",
+      "route/source-drc-binding.json": "3322308867dceefede819150ea0b163c17128b12d72e6703f581a27d762a0ea8",
+      "route/source-drc-input/ArcDice.kicad_pcb": "098e90725279e698f61d7f4a5f0281202ba32f655b9c430047c019783a60bf96",
+      "route/source-drc-input/ArcDice.kicad_prl": "4893e8317a8b32a1845ec2011c070cbd729f114f5efe0a1fe4de75b64a2ec448",
+      "route/source-drc-input/ArcDice.kicad_pro": "be12f193331f3091ef31b9df28dc968119be56269adddcd5b2ed2921523223f6",
+      "route/source-drc-input/ArcDice.kicad_sch": "388bb0410c3372c2331c84b44ba8a45e10c4b34206a3b28b65cb90057129e4de",
+      "route/source-drc-input/_licenses/creator/LICENSE": "13aa5751cc47416650ad3c976d1c001f32ca3b3d49caac777ae66e819a437298",
+      "route/source-drc-input/_licenses/creator/README.md": "876a106e288ec606cf29239d6129d07b79a134005769ba50ef0d450622c1751b",
+      "route/source-drc-process.json": "5492209794b9c26d2a5f4ee753ac26ad19fca7c78e121d805f7e545eba82ae61",
+      "route/source-drc.json": "589af3539c7f905778cae19ed49979110a4cb0897f3b86a23660b6864a752d9d",
+      "route/source-drc.log": "7007c301a2d7e876100fb302a7018e84b2a5b8f2cc1bd270cf001a2f3a547ddb",
+      "route/task.alias-export.json": "c014e37ad7a9a482c24f4ad0b083714680a230a2af3c97402e11aa5fe2f7294d",
+      "route/task.alias-source.kicad_pcb": "3a402619355353fcc2fe500b6eb0762c7bda73e0057e9c366e551d0d73273a95",
+      "route/task.dsn": "67c6770cb93810fc90a81ae51e84de538452e8a400eb070dd0a8e357d279fad9"
+    },
+    "directories": [
+      ".",
+      "route",
+      "route/candidate",
+      "route/candidate/_licenses",
+      "route/candidate/_licenses/creator",
+      "route/code",
+      "route/engine-config",
+      "route/final-drc-input",
+      "route/final-drc-input/_licenses",
+      "route/final-drc-input/_licenses/creator",
+      "route/kicad-cache",
+      "route/kicad-cache/kicad",
+      "route/kicad-cache/kicad/10.0",
+      "route/kicad-config",
+      "route/kicad-config/10.0",
+      "route/kicad-config/10.0/colors",
+      "route/kicad-documents",
+      "route/kicad-documents/kicad",
+      "route/kicad-documents/kicad/10.0",
+      "route/kicad-documents/kicad/10.0/3dmodels",
+      "route/kicad-documents/kicad/10.0/3rdparty",
+      "route/kicad-documents/kicad/10.0/footprints",
+      "route/kicad-documents/kicad/10.0/plugins",
+      "route/kicad-documents/kicad/10.0/projects",
+      "route/kicad-documents/kicad/10.0/scripting",
+      "route/kicad-documents/kicad/10.0/symbols",
+      "route/kicad-documents/kicad/10.0/template",
+      "route/refill",
+      "route/refill/_licenses",
+      "route/refill/_licenses/creator",
+      "route/snapshot",
+      "route/snapshot/_licenses",
+      "route/snapshot/_licenses/creator",
+      "route/source-drc-input",
+      "route/source-drc-input/_licenses",
+      "route/source-drc-input/_licenses/creator"
+    ]
+  },
+  "wall_seconds": 35.483193124993704,
+  "full_cpu_seconds": 34.57192,
+  "publication_allowance_seconds": 2
+}
