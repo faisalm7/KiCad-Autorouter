@@ -5,7 +5,7 @@ from experiments.native_paired_v1 import observations as obs
 ROOT=c.ROOT
 
 def inputs(spec):
- obs.require(spec['status']=='frozen' and spec['kind']=='universal-own-low-pruning450-v1','unfrozen own-C pruning protocol')
+ obs.require(spec['status']=='frozen' and spec['kind'] in ('universal-own-low-pruning450-v1','universal-native-reserve750-v1'),'unfrozen own-C pruning protocol')
  for name,pin in spec['pins'].items():obs.require(p.sha(ROOT/name)==pin,'frozen material changed: '+name)
  source=Path(spec['source']);obs.require(p.tree_hash(source.parent)==spec['source_hashes'],'original source changed')
  old=f.read_json(ROOT/spec['prior_execution']);obs.require(old['passed'] is True and old['source_current'] is True and old['final_charged_results']==spec['prior_rows'],'completed B2 prefix changed')
