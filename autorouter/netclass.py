@@ -78,6 +78,21 @@ def _parent_class(row, configured):
     return configured[parts[0]]
 
 
+
+def _check_parameter_parents(row, cls):
+    """Require each effective dimension's explicit same-source scalar parent."""
+    parents = row.get('parameter_parents')
+    if not isinstance(parents, dict) or set(parents) != {x[0] for x in _DIMENSIONS}:
+        raise ValueError('Complete native parameter-parent observation required')
+    for native_key, _, _ in _DIMENSIONS:
+        parent = parents[native_key]
+        if (not isinstance(parent, dict) or set(parent) != {'name', 'value_nm', 'specified', 'priority'}
+                or parent['name'] != cls['name'] or parent['specified'] is not True
+                or type(parent['priority']) is not int or parent['priority'] != cls['priority']
+                or type(parent['value_nm']) is not int or parent['value_nm'] != row[native_key]):
+            raise ValueError('Native dimension parent differs from explicit source definition')
+
+
 def _millimetres_to_nm(raw, *, allow_zero=False):
     if isinstance(raw, bool) or not isinstance(raw, (int, float)):
         raise ValueError("Finite numeric dimensions required")
@@ -222,6 +237,7 @@ def audit_native(native, project, *, parent_policy=False):
     if not isinstance(native_rows, list) or not native_rows or len(native_rows) > 10000:
         raise ValueError("Missing or oversized native net inventory")
     codes = set()
+    literal_composites = set()
     for row in native_rows:
         if not isinstance(row, dict) or not isinstance(row.get("name"), str) or not row["name"]:
             raise ValueError("Malformed native net record")
@@ -238,11 +254,19 @@ def audit_native(native, project, *, parent_policy=False):
         if not parent_policy:
             expected_class = policy["literal_assignments"].get(row["name"], "Default")
             if row["class"] != expected_class:
-                raise ValueError("Native class resolution differs from admitted literal assignment")
+                if (policy['mode'] == 'literal_two_class' and expected_class != 'Default'
+                        and row['class'] == expected_class + ',Default'):
+                    literal_composites.add(row['class'])
+                else:
+                    raise ValueError("Native class resolution differs from admitted literal assignment")
     records = {row["name"]: row for row in native_rows}
     if len(records) != len(native["nets"]):
         raise ValueError("Duplicate native net")
     configured = {item["name"]: item for item in project["net_settings"]["classes"]}
+    if literal_composites:
+        # Existing literal qualification already fixed every assignment. Reuse
+        # the explicit priority/namespace guard without admitting new patterns.
+        qualify_parent_project(project)
     try:
         floors = project["board"]["design_settings"]["rules"]
         if not isinstance(floors, dict):
@@ -259,20 +283,12 @@ def audit_native(native, project, *, parent_policy=False):
     if parent_policy and observed_classes <= {'Default'}:
         raise ValueError('Native parent resolution did not exercise a nondefault class')
     for row in records.values():
-        cls = _parent_class(row, configured) if parent_policy else configured.get(row["class"])
+        require_parents = parent_policy or row['class'] in literal_composites
+        cls = _parent_class(row, configured) if require_parents else configured.get(row["class"])
         if cls is None:
             raise ValueError("Composite/implicit native class outside this narrow audit")
-        if parent_policy:
-            parents = row.get('parameter_parents')
-            if not isinstance(parents, dict) or set(parents) != {x[0] for x in _DIMENSIONS}:
-                raise ValueError('Complete native parameter-parent observation required')
-            for native_key, json_key, _ in _DIMENSIONS:
-                parent = parents[native_key]
-                if (not isinstance(parent, dict) or set(parent) != {'name', 'value_nm', 'specified', 'priority'}
-                        or parent['name'] != cls['name'] or parent['specified'] is not True
-                        or type(parent['priority']) is not int or parent['priority'] != cls['priority']
-                        or type(parent['value_nm']) is not int or parent['value_nm'] != row[native_key]):
-                    raise ValueError('Native dimension parent differs from explicit source definition')
+        if require_parents:
+            _check_parameter_parents(row, cls)
         for native_key, json_key, floor_key in _DIMENSIONS:
             value = Decimal(str(row[native_key]))
             if value != Decimal(str(cls[json_key])) * 1000000:
@@ -292,8 +308,10 @@ def audit_mapping(tree, native, project, *, parent_policy=False):
     policy = verified["policy"]
     records = {row["name"]: row for row in verified["nets"]}
     configured = {item["name"]: item for item in project["net_settings"]["classes"]}
-    if parent_policy:
-        configured.update({row['class']: _parent_class(row, configured) for row in verified['nets']})
+    # Only audit_native-verified opaque identities may name a source definition.
+    # Preserve Native/DSN strings and membership; never rewrite an export class.
+    configured.update({row['class']: _parent_class(row, configured)
+        for row in verified['nets'] if parent_policy or row['class'] not in configured})
     _check_units(tree)
     network, library, structure = (sx.one(tree, key) for key in ("network", "library", "structure"))
     if any(node is None for node in (network, library, structure)):

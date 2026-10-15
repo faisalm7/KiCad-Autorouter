@@ -20,11 +20,13 @@ ROOT = Path(__file__).resolve().parents[1]
 SCOPES = (".runs", ".data", ".local-reference")
 # Earlier8GiB capture refused277248files/8616598202B; byte ceiling is9GiB.
 # Later full capture refused280752files/8931008060B at the280000-file cap.
-# The finite285000 limit counts files and directories; every artifact is retained.
+# After first Universal Shift matrix, names-only census285615files/9138976848B
+# exceeds285000. Finite300000 gives14385file headroom; every artifact is retained.
+# The same finite limit bounds directories; byte/receipt limits stay unchanged.
 # 80MiB receipt/192MiB chain, scopes/path/secret/archive/restore guards unchanged.
 # A new full snapshot/restoration is required for these capacity changes.
 LIMIT = 9 * 1024 ** 3
-MAX_FILES = 285000
+MAX_FILES = 300000
 MAX_CHAIN = 16
 # Actual229,196-file receipt is63,984,764B. The249,270-file forecast needs
 # about70MB at that measured ratio;80MiB permits finite headroom. Two such
