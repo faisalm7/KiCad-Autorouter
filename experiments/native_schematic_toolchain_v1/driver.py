@@ -27,6 +27,8 @@ def retained_case(directory,row,nt):
     original=sx.read(source)
     if p.immutable(original)!=p.immutable(sx.read(candidate)) or p.routes(original)!=p.routes(sx.read(candidate)):
         raise p.Rejected('original-shell control geometry/routes changed')
+    for stage in ('refill-drc','final-drc'):
+        if f.read_json(jobdir/(stage+'-binding.json')).get('field_local_settings_policy')!=p.FIELD_LOCAL_SETTINGS_POLICY:raise p.Rejected('owned control field PRL policy missing')
     parity_options=dict(schematic_parity=True,native_toolchain=nt,experimental_schematic_parity=nt is not None)
     saved=f.check_drc_stage(jobdir,row,'refill-drc',filled,filled,True,expected_source,**parity_options)
     if p.transplant_fill(original,sx.read(filled))!=sx.read(candidate):raise p.Rejected('final original-shell candidate differs from saved Native refill reconstruction')

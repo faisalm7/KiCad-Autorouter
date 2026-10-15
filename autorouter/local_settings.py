@@ -76,6 +76,26 @@ def protected_step(job,name,argv,*,allowed=(0,)):
 def drc_step(job,name,argv):
     return protected_step(job,name,argv,allowed=(0,5))
 
+def check_preserved(path,before,event):
+    """Recheck exact retained PRL bytes, metadata and one preserve() event."""
+    path=canonical(Path(path))
+    if path.suffix!='.kicad_prl':raise p.Rejected('PRL preservation path must name local settings')
+    if type(before) is not dict:raise p.Rejected('PRL expected input map required')
+    if path.exists():
+        canonical(path)
+        if not stat.S_ISREG(path.lstat().st_mode) or path.stat().st_nlink!=1 or path.stat().st_flags!=0:raise p.Rejected('PRL retained current file/flags differ')
+    if path.name not in before:
+        expected={'policy':POLICY,'present':False}
+    else:
+        if (not hasattr(stat,'UF_IMMUTABLE') or not path.exists() or not stat.S_ISREG(path.lstat().st_mode)
+                or path.stat().st_nlink!=1 or path.stat().st_flags!=0 or p.sha(path)!=before[path.name]):
+            raise p.Rejected('PRL current retained bytes/flags differ')
+        expected={'policy':POLICY,'present':True,'path':str(path),'sha256':before[path.name],'flags_before':0,'flags_during':stat.UF_IMMUTABLE,'flags_restored':True,'bytes_unchanged':True}
+    if (type(event) is not dict or set(event)!=set(expected)
+            or any(type(event[k]) is not type(v) or event[k]!=v for k,v in expected.items())):
+        raise p.Rejected('PRL guard event differs from exact Native input')
+
+
 def check_event(directory,binding,process,*,allow_worker_failure=False):
     """Strict opt-in marker/event replay; legacy unmarked receipts unchanged."""
     marker=binding.get('local_settings_policy');worker_marker=process.get('local_settings_policy')
@@ -126,19 +146,7 @@ def check_event(directory,binding,process,*,allow_worker_failure=False):
                     raise p.Rejected('PRL failed-worker artifact pin differs')
         path=board.with_suffix('.kicad_prl')
         event={key:value for key,value in event.items() if key not in {'native_error','guard_error'}}
-    if path.exists():
-        canonical(path)
-        if not stat.S_ISREG(path.lstat().st_mode) or path.stat().st_nlink!=1 or path.stat().st_flags!=0:raise p.Rejected('PRL retained current file/flags differ')
-    if path.name not in before:
-        expected={'policy':POLICY,'present':False}
-    else:
-        if (not hasattr(stat,'UF_IMMUTABLE') or not path.exists() or not stat.S_ISREG(path.lstat().st_mode)
-                or path.stat().st_nlink!=1 or path.stat().st_flags!=0 or p.sha(path)!=before[path.name]):
-            raise p.Rejected('PRL current retained bytes/flags differ')
-        expected={'policy':POLICY,'present':True,'path':str(path),'sha256':before[path.name],'flags_before':0,'flags_during':stat.UF_IMMUTABLE,'flags_restored':True,'bytes_unchanged':True}
-    if (type(event) is not dict or set(event)!=set(expected)
-            or any(type(event[k]) is not type(v) or event[k]!=v for k,v in expected.items())):
-        raise p.Rejected('PRL guard event differs from exact Native input')
+    check_preserved(path,before,event)
 
 
 def policy_declaration(raw,*,name='NORMAL_DRC_LOCAL_SETTINGS_POLICY',expected=JOB_POLICY):
@@ -179,6 +187,7 @@ def _check_normal_policy(directory,data,*,max_bytes=None,max_files=None):
     root=canonical(Path(directory));implementation=data.get('tools',{}).get('implementation_sha256',{})
     pipeline=root/'code/pipeline.py';raw=read_bytes(pipeline,1024**2)
     if p.sha(pipeline)!=implementation.get('autorouter/pipeline.py'):raise p.Rejected('normal DRC producer source pin differs')
+    field_policy=policy_declaration(raw,name='FIELD_LOCAL_SETTINGS_POLICY',expected='job-owned-field-prl-immutable-v1')
     policy=policy_declaration(raw)
     # Native export policy is independent of PRL presence and its declaration.
     # Check it before the legacy PRL return, using the same bounded census.
@@ -237,6 +246,8 @@ def _check_normal_policy(directory,data,*,max_bytes=None,max_files=None):
                     or binding.get('input')!=argv[-1]
                     or process.get('local_settings_policy')!=policy or binding.get('local_settings_policy')!=policy):
                 raise p.Rejected('normal DRC worker policy or lineage missing')
+            if field_policy is not None and '--schematic-parity' in process['argv'] and binding.get('field_local_settings_policy')!=field_policy:
+                raise p.Rejected('normal parity field local-settings policy missing or changed')
             status,exit_code=process.get('status'),process.get('exit_code')
             if ((status=='success' and (type(exit_code) is not int or exit_code!=0))
                     or (status=='nonzero_exit' and (type(exit_code) is not int or exit_code==0))

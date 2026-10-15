@@ -92,6 +92,7 @@ def experimental_native_version(toolchain):
 
 
 EXPERIMENTAL_PARITY_POLICY='explicit-pinned-flat-fields-v1'
+FIELD_LOCAL_SETTINGS_POLICY='job-owned-field-prl-immutable-v1'
 
 def experimental_parity_policy(native_toolchain, enabled):
     """Explicit diagnostic opt-in; production version and route support stay fixed."""
@@ -793,6 +794,7 @@ class Job:
         before=tree_hash(board.parent)
         local_settings_binding={'local_settings_policy':'job-owned-prl-immutable-v1'} if self.protect_local_settings else {}
         if stage_policy is not None:local_settings_binding['experimental_schematic_parity_policy']=stage_policy
+        if self.protect_local_settings and schematic_parity:local_settings_binding['field_local_settings_policy']=FIELD_LOCAL_SETTINGS_POLICY
         validation_before=None; phase='copy'
         try:
             if not save:

@@ -53,10 +53,18 @@ class SchematicTransportControls(unittest.TestCase):
         self.assertEqual(parsed['field_parity'],{'synthetic':'only-control'})
         self.assertFalse(p.native_accepted(parsed))
     def test_field_derivation_refuses_toolchain_policy_and_prl_tampering_before_input_read(self):
-        binding={'experimental_native_toolchain':self.toolchain.record(),'experimental_schematic_parity_policy':p.EXPERIMENTAL_PARITY_POLICY,'local_settings_policy':'job-owned-prl-immutable-v1'}
-        for key in ('experimental_native_toolchain','experimental_schematic_parity_policy','local_settings_policy'):
+        binding={'experimental_native_toolchain':self.toolchain.record(),'experimental_schematic_parity_policy':p.EXPERIMENTAL_PARITY_POLICY,'local_settings_policy':'job-owned-prl-immutable-v1','field_local_settings_policy':p.FIELD_LOCAL_SETTINGS_POLICY}
+        for key in ('experimental_native_toolchain','experimental_schematic_parity_policy','local_settings_policy','field_local_settings_policy'):
             bad=copy.deepcopy(binding);bad.pop(key)
             with self.subTest(key=key),patch.object(f,'read_json',return_value=bad),self.assertRaisesRegex(p.Rejected,'binding differs'):
+                fields.derive(self.root,'stage',{},native_toolchain=self.toolchain)
+    def test_experimental_field_policy_cannot_disappear_with_guard_receipt(self):
+        binding={'experimental_native_toolchain':self.toolchain.record(),
+                 'experimental_schematic_parity_policy':p.EXPERIMENTAL_PARITY_POLICY,
+                 'local_settings_policy':'job-owned-prl-immutable-v1',
+                 'input':str(self.root/'absent.kicad_pcb'),'after':{}}
+        with patch.object(f,'read_json',return_value=binding),patch.object(p,'tree_hash',side_effect=AssertionError('unprotected field input was reached')):
+            with self.assertRaisesRegex(p.Rejected,'field PRL'):
                 fields.derive(self.root,'stage',{},native_toolchain=self.toolchain)
 
 if __name__=='__main__':unittest.main()

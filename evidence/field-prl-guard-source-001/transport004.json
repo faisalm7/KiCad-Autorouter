@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "passed": true,
+  "source_current": true,
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 0.1924981669872068,
+    "cpu_seconds": 0.15057500000000001,
+    "max_rss_bytes": 43008000,
+    "supervisor_cpu_seconds": 0.0038849999999999996,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 163840,
+    "sampled_peak_workdir_bytes": 1924,
+    "resource_guards": {
+      "max_group_rss_bytes": 1073741824,
+      "max_workdir_bytes": 4194304,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "-m",
+      "unittest",
+      "tests.test_native_schematic_transport",
+      "-v"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-schematic-targeted-004/command.log",
+    "log_bytes": 1924,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-schematic-targeted-004",
+    "signal_cancellation_enabled": true,
+    "pid": 8044
+  },
+  "source_sha256": {
+    "autorouter/pipeline.py": "bc700ed7f1091293e9399b0c774ce5f54669eecceb38af66ea2737a5322dad73",
+    "autorouter/floor_route.py": "383b86c862feb4766f3e1952c380080afa2cd7d049d80a8047812fc36a59c65c",
+    "autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+    "autorouter/schematic_field_evidence.py": "f5c03ac0be4b5fa3960bfec5f511199f7b566de8483fc78581e39e02804dbb93",
+    "autorouter/local_settings.py": "1aa326e280ac98d60b5d99aa83b03275239452764b86542b9e2b034aa34cbeac",
+    "tests/test_native_schematic_transport.py": "a03e85d0a685da8af9b996c5aede42b8493ca20084a28b62d217363240d0d3df",
+    "tests/test_normal_local_settings_policy.py": "1132273f80f51753b722f75b7d6ced001cc33742d9fc3e867542073cadaea892",
+    "tests/test_result.py": "9bbfabb8a928cd3d71891866ebcd6d3e35a5bacd84d0c338adc2fab5655ce5a6"
+  },
+  "modules": [
+    "tests.test_native_schematic_transport"
+  ],
+  "wall_seconds": 0.26340791702386923,
+  "full_cpu_seconds": 0.204396,
+  "publication_allowance_seconds": 2,
+  "whole_wall_full_cpu_cap_seconds": 90,
+  "controller_sha256": "2206a35196d2da3534ec58b64e09c6e83ee130c05fceb071ad0e16e9dcfff81f",
+  "log_sha256": "8bf9982c12465706c204b560904fb6498d49375d28f9e434f4bae9ae5eeb1395",
+  "scope": "Eight transport controls after explicitexperimental fieldpolicy deletion refusal; one beforecontrol reproduced unprotectedinputaccess, other101affectedcontrols retained from002/003. ActualNative001 detected netlist export mutating copiedPRL after guardedDRC. Sharedpreserve now spansbothfieldcommands with exactattemptedjournal/cleanupcensus; guard event/rawprocesshashes bind toDRCafterinput; capturedsource declaration preventspolicydeletion downgrade. Existing PRL/error/version/default/field controls included. Software only; Native rerun remains required and firstactualfailure staysfalse."
+}

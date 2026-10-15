@@ -122,6 +122,8 @@ def derive(directory,stage,raw,*,native_toolchain=None):
     if binding.get('experimental_native_toolchain')!=expected_toolchain:raise p.Rejected('effective-field toolchain binding differs')
     if native_toolchain is not None and (binding.get('experimental_schematic_parity_policy')!=p.EXPERIMENTAL_PARITY_POLICY or binding.get('local_settings_policy')!='job-owned-prl-immutable-v1'):
         raise p.Rejected('effective-field experimental parity policy/PRL binding differs')
+    if native_toolchain is not None and binding.get('field_local_settings_policy')!=p.FIELD_LOCAL_SETTINGS_POLICY:
+        raise p.Rejected('effective-field experimental field PRL binding differs')
     board=Path(binding['input']);after=binding['after']
     if p.tree_hash(board.parent)!=after:raise p.Rejected('field observation project differs from native DRC input')
     observation=f.read_json(fields)
@@ -148,16 +150,59 @@ def derive(directory,stage,raw,*,native_toolchain=None):
     proof={'schema':1,'policy':POLICY,'native_report_sha256':p.sha(Path(directory)/(stage+'.json')),
         'binding_sha256':p.sha(Path(directory)/(stage+'-binding.json')),'netlist_sha256':p.sha(netlist),
         'fields_sha256':p.sha(fields),'qualification':qualification}
+    local_guard=check_local_settings(directory,stage,binding)
+    if local_guard is not None:proof['local_settings_guard_sha256']=local_guard
     if artwork is not None:proof['board_only_field_census']=artwork
     return proof
 
+def local_settings_path(directory,stage):
+    return Path(directory)/(stage+'-fields-local-settings.json')
+
+
+def check_local_settings(directory,stage,binding):
+    """Retain the real shared guard event and both actual child journals."""
+    from . import pipeline as p,floor_route as f,local_settings as local
+    path=local_settings_path(directory,stage);policy=binding.get('field_local_settings_policy')
+    if policy is None:
+        if path.exists() or path.is_symlink():raise p.Rejected('field PRL guard has no bound policy')
+        return None
+    if policy!=p.FIELD_LOCAL_SETTINGS_POLICY or binding.get('local_settings_policy')!=local.JOB_POLICY:
+        raise p.Rejected('field PRL policy differs')
+    guard=f.read_json(path);board=Path(binding['input']);expected=binding['after']
+    if (type(guard) is not dict or set(guard)!={'schema','policy','input','before','after','protection','processes_sha256'}
+            or type(guard['schema']) is not int or guard['schema']!=1 or guard['policy']!=policy
+            or guard['input']!=str(board) or guard['before']!=expected or guard['after']!=expected
+            or type(guard['processes_sha256']) is not dict or set(guard['processes_sha256'])!=set(names(stage))):raise p.Rejected('field PRL guard input/process binding differs')
+    for name in names(stage):
+        journal=Path(directory)/(name+'-process.json');process=f.read_json(journal)
+        if (p.sha(journal)!=guard['processes_sha256'][name] or process.get('name')!=name or process.get('cwd')!=str(directory)
+                or process.get('status')!='success' or type(process.get('exit_code')) is not int or process.get('exit_code')!=0 or process.get('cleanup_complete') is not True
+                or process.get('log_truncated') is not False):raise p.Rejected('field PRL actual process journal differs')
+    local.check_preserved(board.with_suffix('.kicad_prl'),expected,guard['protection'])
+    return p.sha(path)
+
+
 def collect(job,stage,board,raw):
-    from . import pipeline as p
-    before=p.tree_hash(board.parent)
-    a,b=arguments(job.out,stage,board,native_toolchain=job.native_toolchain)
-    job.step(names(stage)[0],a)
-    job.step(names(stage)[1],b)
-    if p.tree_hash(board.parent)!=before:raise p.Rejected('effective-field observation changed DRC project')
+    from contextlib import nullcontext
+    from . import pipeline as p,local_settings as local,handoff as h
+    before=p.tree_hash(board.parent);a,b=arguments(job.out,stage,board,native_toolchain=job.native_toolchain)
+    state={'complete':False};start=len(job.steps);attempted=[]
+    protection=(local.preserve(Path(board).with_suffix('.kicad_prl'),job.out,job._local_settings_owner,
+        cleanup_complete=lambda:state['complete']) if job.protect_local_settings else nullcontext(None))
+    with protection as event:
+        try:
+            for name,argv in zip(names(stage),(a,b)):
+                attempted.append(name);job.step(name,argv)
+        finally:
+            steps=job.steps[start:]
+            state['complete']=(bool(attempted) and [step.get('name') for step in steps]==attempted
+                and all(step.get('cleanup_complete') is True for step in steps))
+    after=p.tree_hash(board.parent)
+    if after!=before:raise p.Rejected('effective-field observation changed DRC project')
+    if job.protect_local_settings:
+        if h.owned_destination(job._local_settings_owner)!=job.out:raise p.Rejected('field PRL owned root changed')
+        p.save_json(local_settings_path(job.out,stage),dict(schema=1,policy=p.FIELD_LOCAL_SETTINGS_POLICY,input=str(board),
+            before=before,after=after,protection=event,processes_sha256={name:p.sha(job.out/(name+'-process.json')) for name in names(stage)}))
     proof=derive(job.out,stage,raw,native_toolchain=job.native_toolchain)
     p.save_json(paths(job.out,stage)[2],proof)
 
@@ -192,14 +237,13 @@ def check_availability(directory,stage,process,raw,*,required=False):
         raise p.Rejected('native schematic parity completion missing or differs from report')
 
 def check_processes(directory,data,stage,board,*,sandboxed,native_toolchain=None):
-    from . import pipeline as p
-    p.experimental_native_version(native_toolchain)
     from . import pipeline as p,floor_route as f
+    p.experimental_native_version(native_toolchain)
     raw=f.read_json(Path(directory)/(stage+'.json'))
     drc=[row for row in data.get('steps',[]) if row.get('name')==stage and row.get('cwd')==str(directory)]
     if len(drc)==1:check_availability(directory,stage,drc[0],raw)
     findings=raw['violations']+raw['unconnected_items']+raw['schematic_parity']
-    artifacts=paths(directory,stage)
+    artifacts=(*paths(directory,stage),local_settings_path(directory,stage))
     if not has_fields(findings):
         if any(x.exists() or x.is_symlink() for x in artifacts):raise p.Rejected('field proof without native field finding')
         return
@@ -208,7 +252,7 @@ def check_processes(directory,data,stage,board,*,sandboxed,native_toolchain=None
     drc=[row for row in data.get('steps',[]) if row.get('name')==stage and row.get('cwd')==str(directory)]
     if len(drc)!=1 or '--schematic-parity' not in drc[0].get('argv',[]):
         raise p.Rejected('effective-field proof requires actual complete native schematic parity')
-    if not all(x.exists() and not x.is_symlink() for x in artifacts):raise p.Rejected('native field finding requires complete effective-field proof')
+    if not all(x.exists() and not x.is_symlink() for x in artifacts[:3]):raise p.Rejected('native field finding requires complete effective-field proof')
     readback(Path(directory)/(stage+'.json'),raw,native_toolchain=native_toolchain)
     for name,argv in zip(names(stage),arguments(directory,stage,board,native_toolchain=native_toolchain)):
         f.process_check(Path(directory),data,name,[*(f.SANDBOX if sandboxed else []),*argv])

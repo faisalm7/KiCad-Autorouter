@@ -270,6 +270,7 @@ def check_drc_stage(directory,data,name,source,input_path,saved,before,*,schemat
     binding=read_json(directory/(name+'-binding.json'));after=binding.get('after')
     if binding.get('experimental_schematic_parity_policy')!=stage_policy:raise p.Rejected('DRC experimental parity policy differs')
     if stage_policy is not None and binding.get('local_settings_policy')!='job-owned-prl-immutable-v1':raise p.Rejected('experimental parity needs protected local settings')
+    if stage_policy is not None and binding.get('field_local_settings_policy')!=p.FIELD_LOCAL_SETTINGS_POLICY:raise p.Rejected('experimental field PRL policy differs')
     expected_toolchain=None if native_toolchain is None else native_toolchain.record()
     if binding.get('experimental_native_toolchain')!=expected_toolchain:raise p.Rejected('DRC experimental toolchain binding differs')
     if (binding.get('source')!=str(source) or binding.get('input')!=str(input_path)

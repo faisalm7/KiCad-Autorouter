@@ -1,0 +1,77 @@
+{
+  "schema": 1,
+  "kind": "real-netlist-export-prl-defect-and-shared-guard-fix",
+  "native_control_qualified": false,
+  "production1007_admitted": false,
+  "failed_native_source": "89c52b904da5d569284c05ef27ce8e37465df575",
+  "source_sha256": {
+    "autorouter/pipeline.py": "bc700ed7f1091293e9399b0c774ce5f54669eecceb38af66ea2737a5322dad73",
+    "autorouter/floor_route.py": "383b86c862feb4766f3e1952c380080afa2cd7d049d80a8047812fc36a59c65c",
+    "autorouter/local_settings.py": "1aa326e280ac98d60b5d99aa83b03275239452764b86542b9e2b034aa34cbeac",
+    "autorouter/schematic_field_evidence.py": "f5c03ac0be4b5fa3960bfec5f511199f7b566de8483fc78581e39e02804dbb93",
+    "tests/test_field_local_settings_event.py": "c484e76cfa87d38f5c6846c42d2ac247cd0ebd13a323e457d7192b0130eda0ff",
+    "tests/test_field_prl_collection.py": "67a7c78b6420642e47cbada558e75a60301f36dcb099a04c99a171b13f760963",
+    "tests/test_native_schematic_transport.py": "a03e85d0a685da8af9b996c5aede42b8493ca20084a28b62d217363240d0d3df",
+    "experiments/native_schematic_toolchain_v1/driver.py": "0802a6f90e0efae43e8e9683812437137ed9ac267fcbbfa274f04d3de5c8a7c4"
+  },
+  "files_sha256": {
+    "evidence/field-prl-guard-source-001/failed-native-envelope.json": "1859b17cd0e3d985b16153b243f420ca2a2269f27249786ca06c00b651d642ee",
+    "evidence/field-prl-guard-source-001/failed-native-result.json": "42373834f953fecfb273a567612f0a6ae924c51475bbfaa0b6520442d1366495",
+    "evidence/field-prl-guard-source-001/failed-native-drc.json": "3c95bf5f62bb579a2e7de2a7b13a66fc79c31d6b24182c48b37091b9850d9959",
+    "evidence/field-prl-guard-source-001/failed-native-journal.json": "7363532cb7571eeb5058524a22f8bc1924c75aaed5f084c93750d2856efdb8cd",
+    "evidence/field-prl-guard-source-001/native-failure-diagnostic.json": "13d5d358b702ae5cc4d298b84cbb56ccb7456b0eacd52692b6cad1be81b586dc",
+    "evidence/field-prl-guard-source-001/affected002.json": "09335f36f311a3731bbb9e1d4d5da3ec0b324a579c0ec763a212279f908fb835",
+    "evidence/field-prl-guard-source-001/affected002.log": "190c76639bbaf3df242357cd0ff1e7062c647c66baf4861071b6871a02f95f44",
+    "evidence/field-prl-guard-source-001/missing003.json": "2eca531e1d8c6cb1570cbe25d596406632a1e25f11c8af4be69cc3a0b4d79573",
+    "evidence/field-prl-guard-source-001/missing003.log": "942a38b55118e99bcc4f8e33ae96bf3f8dffab2d60f617be00366c29f6558a3e",
+    "evidence/field-prl-guard-source-001/policy-before.json": "09eda3a209006fd0534c3072f044beb08ac769ed0c995e33b53fe0346a97bbbd",
+    "evidence/field-prl-guard-source-001/policy-before.log": "53ab2e48a989ab9f5800c3f0b9c8b409de1bf44b955aacc5f8e92e033f0ad2fc",
+    "evidence/field-prl-guard-source-001/transport004.json": "3d0e712f626142ee784f1cf4d8af6c7a03ac493549d6ff69b53491512d69bf4e",
+    "evidence/field-prl-guard-source-001/transport004.log": "8bf9982c12465706c204b560904fb6498d49375d28f9e434f4bae9ae5eeb1395"
+  },
+  "failed_native_report_counts": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 4,
+    "exclusions": 0
+  },
+  "failed_native_enclosure_cost": {
+    "wall_seconds": 4.380039542011218,
+    "full_cpu_seconds": 2.9881249999999997,
+    "publication_allowance_seconds": 2,
+    "cost_scope": "Samples before shared guarded publication; all final callbacks and literal readbacks remain under188s wall/fullCPU with2s final allowance within190s. No comparative routing budget or speedup claim."
+  },
+  "failed_native_workers": 3,
+  "failed_native_scope": "Only1000positive savedDRC and2fieldworkers ran. FieldexportchangedcopiedPRL, guardfailuresafe; no completepositive/finalfullSCH1007control or normalreceipt qualified. Original5files unchanged.",
+  "fix": "Reuse sharedpreserve acrossbothfieldcommands; exactattempted/newjournalcleanupcensus; guardevent/currentbytes/flags/sourceaftermap/rawbothprocesssha replay; newcaptured FIELD policy makesprotectionmandatory fornewnormalparityreceipts. Explicit1007derive/DRCreader requiresfieldpolicy evenifmarker+guarddeleted. No PRL byte restoration or rule/severity/geometry relaxation.",
+  "software_results": {
+    "affected002": "101attempts98success3fixtureSetupErrors; all preserved",
+    "missing003": "only3previouslyunexecuted bodies nowpass afterborrowing save_receipt helper; no other98repeats",
+    "policy_before": "1newcontrol reproduces unprotectedinputread withoutfieldpolicy",
+    "transport004": "8transportcontrols pass afterpolicycheck; includesnewregression"
+  },
+  "software_costs": {
+    "affected002": {
+      "wall_seconds": 2.5544349169940688,
+      "full_cpu_seconds": 2.4601119999999996,
+      "publication_allowance_seconds": 2
+    },
+    "missing003": {
+      "wall_seconds": 1.2261565840162802,
+      "full_cpu_seconds": 1.1430500000000001,
+      "publication_allowance_seconds": 2
+    },
+    "transport004": {
+      "wall_seconds": 0.26340791702386923,
+      "full_cpu_seconds": 0.204396,
+      "publication_allowance_seconds": 2
+    }
+  },
+  "limitations": [
+    "Full1011449pass precedes this guardfix; full102/current Native rerun are required atintegration.",
+    "Native001failedscope/CPU/sources/changedPRL remain retained. Native002 usesfreshoutput andchangedguard, no priorcompletedcontrol is repeated.",
+    "Diagnosticcosts are not comparative-routing budgets. No routinggain, normal1007admission, newfamily, GUI, untouched/human/electrical/physical/release claim.",
+    "Current normalpreflight rejects nonemptycustomDRU; ownedfullSCHdiagnostic preservesDRUanddoesnotestablishnormalroutingeligibility.",
+    "Rawartifacts afterfull005awaitnextmilestoneincremental; no fullrestore repeat needed."
+  ]
+}

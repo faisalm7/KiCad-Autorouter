@@ -1,0 +1,25 @@
+test_experimental_field_policy_cannot_disappear_with_guard_receipt (tests.test_native_schematic_transport.SchematicTransportControls.test_experimental_field_policy_cannot_disappear_with_guard_receipt) ... FAIL
+
+======================================================================
+FAIL: test_experimental_field_policy_cannot_disappear_with_guard_receipt (tests.test_native_schematic_transport.SchematicTransportControls.test_experimental_field_policy_cannot_disappear_with_guard_receipt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native_schematic_transport.py", line 68, in test_experimental_field_policy_cannot_disappear_with_guard_receipt
+    fields.derive(self.root,'stage',{},native_toolchain=self.toolchain)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/schematic_field_evidence.py", line 126, in derive
+    if p.tree_hash(board.parent)!=after:raise p.Rejected('field observation project differs from native DRC input')
+       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/unittest/mock.py", line 1124, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/unittest/mock.py", line 1183, in _execute_mock_call
+    raise effect
+AssertionError: unprotected field input was reached
+
+----------------------------------------------------------------------
+Ran 1 test in 0.008s
+
+FAILED (failures=1)

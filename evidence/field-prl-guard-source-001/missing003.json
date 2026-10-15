@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "passed": true,
+  "source_current": true,
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 1.1594135419873055,
+    "cpu_seconds": 1.088795,
+    "max_rss_bytes": 52150272,
+    "supervisor_cpu_seconds": 0.006298999999999999,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 52084736,
+    "sampled_peak_workdir_bytes": 745,
+    "resource_guards": {
+      "max_group_rss_bytes": 1073741824,
+      "max_workdir_bytes": 4194304,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "-m",
+      "unittest",
+      "tests.test_field_local_settings_event.CapturedFieldPolicyControls",
+      "-v"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-schematic-targeted-003/command.log",
+    "log_bytes": 745,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-schematic-targeted-003",
+    "signal_cancellation_enabled": true,
+    "pid": 7946
+  },
+  "source_sha256": {
+    "autorouter/pipeline.py": "bc700ed7f1091293e9399b0c774ce5f54669eecceb38af66ea2737a5322dad73",
+    "autorouter/floor_route.py": "62f6031cfeebdd62808633ede310816142aa5ca58a6e9b5a4d6ff102ae98c766",
+    "autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+    "autorouter/schematic_field_evidence.py": "133060c0d65972194e8d7ca13984372ee1b41cc26bd60f8f5ec71e1815f899a5",
+    "autorouter/local_settings.py": "1aa326e280ac98d60b5d99aa83b03275239452764b86542b9e2b034aa34cbeac",
+    "tests/test_field_local_settings_event.py": "c484e76cfa87d38f5c6846c42d2ac247cd0ebd13a323e457d7192b0130eda0ff",
+    "tests/test_normal_local_settings_policy.py": "1132273f80f51753b722f75b7d6ced001cc33742d9fc3e867542073cadaea892",
+    "tests/test_result.py": "9bbfabb8a928cd3d71891866ebcd6d3e35a5bacd84d0c338adc2fab5655ce5a6"
+  },
+  "modules": [
+    "tests.test_field_local_settings_event.CapturedFieldPolicyControls"
+  ],
+  "wall_seconds": 1.2261565840162802,
+  "full_cpu_seconds": 1.1430500000000001,
+  "publication_allowance_seconds": 2,
+  "whole_wall_full_cpu_cap_seconds": 90,
+  "controller_sha256": "3cd7081a49e2f4212b7f5a9306e1c5cd0c72bbf08411d112fe0955248ab4685d",
+  "log_sha256": "942a38b55118e99bcc4f8e33ae96bf3f8dffab2d60f617be00366c29f6558a3e",
+  "scope": "Only3previouslyunexecutedCapturedFieldPolicyControls aftertestfixturemissing_save_receipt correction;98othermethodsfrom002are retained, no repeats. ActualNative001 detected netlist export mutating copiedPRL after guardedDRC. Sharedpreserve now spansbothfieldcommands with exactattemptedjournal/cleanupcensus; guard event/rawprocesshashes bind toDRCafterinput; capturedsource declaration preventspolicydeletion downgrade. Existing PRL/error/version/default/field controls included. Software only; Native rerun remains required and firstactualfailure staysfalse."
+}
