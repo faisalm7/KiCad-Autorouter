@@ -1,0 +1,14 @@
+from pathlib import Path
+import ast,sys
+R=Path(__file__).resolve().parents[1];sys.path.insert(0,str(R));sys.dont_write_bytecode=True
+from autorouter import pipeline as p,floor_route as f
+base=R/'.runs/current-installation037-review-001';out=R/'.runs/current-installation039-review-001'
+plan=f.read_json(R/'.runs/installation039-preparation-001/protocol.json');head=plan['git_head']
+s=(base/'audit.py').read_text().replace('installation-037','installation-039').replace('installation037','installation039').replace('installed037','installed039').replace('00d2242d4594120c466d82449a46a8e6fae48d26',head)
+s=s.replace('352*1024**2','384*1024**2').replace('16GiB total cache checked before task','18GiB total cache checked before task').replace("'known_metadata_issue':'Resource limitations description still says16GiB; actual pipeline source and tested ceiling are18GiB. Retained as an open reporting correction, no guard/Native rule waived.'","'resource_description_matches_guard':True").replace('plus78 current chain/strategy/paired methods','plus112 current chain/strategy/paired/storage/preferences methods')
+run=(base/'run.py').read_text().replace('installation-037','installation-039').replace('installation037','installation039').replace('current037','current039').replace('Installed035','Installed039').replace('Successful035','Successful037').replace("adapted_reader_source_sha256=p.sha(ROOT/'.runs/current-installation036-review-001/audit.py')","adapted_reader_source_sha256=p.sha(ROOT/'.runs/current-installation037-review-001/audit.py')")
+ast.parse(s);ast.parse(run);out.mkdir();(out/'audit.py').write_text(s);(out/'run.py').write_text(run)
+names=['.runs/installation-039/result.json','.runs/installation-039/source-tracked.json','.runs/installation-039-execution/execution.json','.runs/installation-039-execution/command.log','.runs/installation039-targeted-001/execution.json','.runs/installation039-targeted-001/population.json','.runs/installation039-targeted-001/tests.log','.runs/installation039-preparation-001/protocol.json','.runs/current-installation037-review-001/audit.py','.runs/prepare-installation039-readback-001.py']
+pins={n:p.sha(R/n) for n in names};pins.update(plan['controller_sha256']);pins.update(plan['source_sha256']);pins.update({str(x.relative_to(R)):p.sha(x) for x in (out/'audit.py',out/'run.py')})
+p.save_json(out/'input-pins.json',dict(kind='installation039-reader-inputs-v1',git_head=head,files_sha256=pins,scope='Existing all7 installed proof groups; strict footer112unique methods plus2actualCLIJSON records, complete384MiB source inventory/selected distribution/tools/PRL/refill/Native/late freshness. Correct18GiB resource description; no test/Native repeats.'))
+print(f.canonical(dict(prepared=True,files=len(pins),new_native_execution=False,new_test_execution=False)))

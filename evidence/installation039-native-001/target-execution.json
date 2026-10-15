@@ -1,0 +1,89 @@
+{
+  "schema": 1,
+  "passed": true,
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 25.637119125021854,
+    "cpu_seconds": 24.690079,
+    "max_rss_bytes": 59817984,
+    "supervisor_cpu_seconds": 0.07290799999999997,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 59817984,
+    "sampled_peak_workdir_bytes": 21206,
+    "resource_guards": {
+      "max_group_rss_bytes": 1073741824,
+      "max_workdir_bytes": 16777216,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-039/checkout/.venv/bin/python",
+      "-B",
+      "-c",
+      "import sys,json,unittest,subprocess\nfrom pathlib import Path\nCLONE=Path('/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-039/checkout')\nsys.path[:0]=[str(CLONE),str(CLONE/'tests')];sys.dont_write_bytecode=True\nfrom autorouter import config as c\nfrom importlib import import_module\nassert c.ROOT==CLONE and Path(sys.prefix).resolve()==CLONE/'.venv'\nassert Path(sys.executable)==CLONE/'.venv/bin/python' and sys.prefix!=sys.base_prefix\ndef forbidden(*a,**kw):raise AssertionError('installed software controls forbid Native/JVM/network/Git subprocess')\nsubprocess.run=forbidden;subprocess.Popen=forbidden\nmodules=['tests.test_chain_proposals', 'tests.test_strategy', 'tests.test_paired', 'tests.test_storage_scan', 'tests.test_pruning_preferences_freshness']\nwatched=[import_module(name) for name in ['autorouter.chain_proposals', 'autorouter.strategy', 'autorouter.pipeline', 'autorouter.preferences', 'scripts.experiment_paired', 'scripts.experiment_portfolio', 'scripts.experiment_quality', 'experiments.chain_pruning_v1.fixture']]\nshipped={m.__name__:str(Path(m.__file__).resolve()) for m in watched}\nassert all(Path(m.__file__).resolve()==CLONE/(m.__name__.replace('.','/')+'.py') for m in watched)\nsuite=unittest.TestSuite(unittest.defaultTestLoader.loadTestsFromName(m) for m in modules)\nplanned=suite.countTestCases()\nresult=unittest.TextTestRunner(verbosity=2).run(suite)\npopulation=dict(modules=modules,planned=planned,ran=result.testsRun,successful=result.wasSuccessful(),skipped=len(result.skipped),shipped_modules=shipped)\nPath('population.json').write_text(json.dumps(population,indent=2)+'\\n')\nraise SystemExit(0 if result.wasSuccessful() and planned==result.testsRun==112 and not result.skipped else 2)\n"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation039-targeted-001/tests.log",
+    "log_bytes": 19776,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation039-targeted-001",
+    "signal_cancellation_enabled": true,
+    "pid": 4811
+  },
+  "source_current": true,
+  "git_head": "3a5a54c3afa91b4e0526a942e4f8a2b2635016f7",
+  "modules": [
+    "tests.test_chain_proposals",
+    "tests.test_strategy",
+    "tests.test_paired",
+    "tests.test_storage_scan",
+    "tests.test_pruning_preferences_freshness"
+  ],
+  "population": {
+    "modules": [
+      "tests.test_chain_proposals",
+      "tests.test_strategy",
+      "tests.test_paired",
+      "tests.test_storage_scan",
+      "tests.test_pruning_preferences_freshness"
+    ],
+    "planned": 112,
+    "ran": 112,
+    "successful": true,
+    "skipped": 0,
+    "shipped_modules": {
+      "autorouter.chain_proposals": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-039/checkout/autorouter/chain_proposals.py",
+      "autorouter.strategy": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-039/checkout/autorouter/strategy.py",
+      "autorouter.pipeline": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-039/checkout/autorouter/pipeline.py",
+      "autorouter.preferences": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-039/checkout/autorouter/preferences.py",
+      "scripts.experiment_paired": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-039/checkout/scripts/experiment_paired.py",
+      "scripts.experiment_portfolio": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-039/checkout/scripts/experiment_portfolio.py",
+      "scripts.experiment_quality": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-039/checkout/scripts/experiment_quality.py",
+      "experiments.chain_pruning_v1.fixture": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-039/checkout/experiments/chain_pruning_v1/fixture.py"
+    }
+  },
+  "population_sha256": "0a999515d09196f0ae1f112374fbb8017a136ccc7fc87e079a877433429521a6",
+  "protocol_sha256": "d55e984d7913c64d347f9372b52b4aa0aa457befd6fb444cf952a415b904af1c",
+  "installation_receipt_sha256": "f742441d6165ab303ab9f89591d6624c097cb53e5493502a4366ed49cdfb21eb",
+  "controller_sha256": "526d564e08ecf05b7981f0c3bd513774cce1ac3f54d5e7c3307550e291116580",
+  "log_sha256": "44968607a65bfdf0ccf4c1defa3d4501b15b7438ac795bc138e1047a70b234dd",
+  "wall_seconds": 25.88957766702515,
+  "full_cpu_seconds": 25.012724,
+  "publication_allowance_seconds": 2,
+  "whole_delivery_within_budget": true,
+  "historical_test_supplement": null,
+  "scope": "Current installed chain proposal, strategy and shared paired software controls; own fresh incumbents/equal allocation/cancellation/publication guards. No historical fixture supplement, Native/JVM/network execution, full installed suite, routing gain or fresh OS claim."
+}
