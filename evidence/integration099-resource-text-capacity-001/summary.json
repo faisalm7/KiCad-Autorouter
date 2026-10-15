@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "kind": "resource-reporting-correction-and-finite-artifact-count-source",
+  "git_base": "c0021e90ff015a5e069adf1acd893f5ae8832320",
+  "source_sha256": {
+    "autorouter/pipeline.py": "698d67033f7c62a1834e12a20cdb45ba356abd8f1dc947e854f9b35680e87d77",
+    "scripts/backup.py": "2aed6df25d8e385a2a41afba289413b5b32bd4b0587c9544b702868ffffc4c8b",
+    "tests/test_backup_capacity.py": "22c33010cafb99de25dc86c54de6361e24aa95aa068386bfdbba9a37a8f2c42f"
+  },
+  "changes": [
+    "Only pipeline descriptive receipt literal16GiBto18GiB; implemented runtime limit already18GiB, no routing/Native/constraint/budget behavior change.",
+    "Finite backup file/directory count ceiling300000to305000 after299575actualfiles/425slots versus next830file installation.10GiB/80MiBreceipt/192MiBchain/scopes/path/credential/archive/restore guards unchanged. Mandatory full restoration005 pending; no backup-capacity qualification yet."
+  ],
+  "targeted": {
+    "methods": 53,
+    "passed": true,
+    "wall_seconds": 8.83717795801931,
+    "full_cpu_seconds": 7.527546999999999
+  },
+  "full099": {
+    "methods": 1435,
+    "passed": true,
+    "wall_seconds": 116.57858516601846,
+    "full_cpu_seconds": 110.606829
+  },
+  "files_sha256": {
+    "evidence/integration099-resource-text-capacity-001/full-integration-099--execution.json": "c0efb740ffa56d1c5b7674a77c0fc07313e400ed1b3aa2911117769c0c5ba35f",
+    "evidence/integration099-resource-text-capacity-001/full-integration-099--command.log": "ebbcb7bd144b47200b6ff0db13cc6b2a747f193dd5842947528eb3e789f4fa7a",
+    "evidence/integration099-resource-text-capacity-001/run-full-integration-099.py": "5fcf0f599f9e8f19f1097488fb17af10efa6b21f48c17f6eb833769d84123ec6",
+    "evidence/integration099-resource-text-capacity-001/integration099-targeted-001--execution.json": "5fdf818d6aae5b6b4391f9dfbd706bacadfe35e52bf83c7af3eda1ba04b4b2d1",
+    "evidence/integration099-resource-text-capacity-001/integration099-targeted-001--tests.log": "70a3cb84c21305d81af2fa7cad62014d9db317eba3453efc32f8d6fddfc05706",
+    "evidence/integration099-resource-text-capacity-001/run-integration099-targeted-001.py": "2bc6c7e28e194e4edde34ca4136a497363a24e103421ce064922232fb1387952",
+    "evidence/integration099-resource-text-capacity-001/adaptive-current-census-002.json": "b7e082dc66112dc874557400a21d2d1240082667a5a8faf655c7cbec22c4c732"
+  },
+  "actual_routing_unchanged": "evidence/ir-adaptive-native240-actual-001.json and evidence/arcdice-adaptive-native300-actual-001.json retain tie/regression and all exact original scopes.",
+  "next": "Verified source checkpoint, current installation038 with real Native metadata/proof, then verified clean checkpoint and existing full snapshot/restoration005 before qualifying305000capacity. No old Native experiments rerun.",
+  "release_gates": "Representative/untouched/currentKiCad10.0.7 compatibility/human/electrical/physical/formal release remain open; no all-project completion claim."
+}
