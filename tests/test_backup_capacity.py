@@ -10,7 +10,7 @@ class BackupCapacity(unittest.TestCase):
                 'files':[{'path':'.runs/evidence.bin','size':size,'sha256':'0'*64}],
                 'total_file_bytes':size}
     def test_exact_finite_capacity_and_existing_population(self):
-        self.assertEqual(backup.LIMIT,10*1024**3);self.assertEqual(backup.MAX_FILES,310000)
+        self.assertEqual(backup.LIMIT,10*1024**3+256*1024**2);self.assertEqual(backup.MAX_FILES,315000)
         self.assertEqual(backup.MAX_RECEIPT_BYTES,80*1024**2)
         self.assertEqual(backup.MAX_CHAIN_RECEIPT_BYTES,192*1024**2)
         self.assertEqual(backup.SCOPES,('.runs','.data','.local-reference'))
@@ -18,7 +18,9 @@ class BackupCapacity(unittest.TestCase):
         for size in (0,1017693214,1024**3):
             with self.subTest(size=size):self.assertEqual(backup.check_manifest(self.manifest(size))[0]['.runs/evidence.bin']['size'],size)
     def test_previous_range_and_exact_new_boundary_without_allocation(self):
-        for size in (1024**3+1,2*1024**3,2*1024**3+1,3*1024**3,4*1024**3,4*1024**3+1,5*1024**3,9*1024**3,9*1024**3+1,backup.LIMIT):
+        # Actual current snapshot plus the previous independent installation
+        # footprint exceeds the old10GiB bound without allocating large files.
+        for size in (1024**3+1,2*1024**3,2*1024**3+1,3*1024**3,4*1024**3,4*1024**3+1,5*1024**3,9*1024**3,9*1024**3+1,10670053622+112247333,backup.LIMIT):
             with self.subTest(size=size):backup.check_manifest(self.manifest(size))
         with self.assertRaises(backup.BackupError):backup.check_manifest(self.manifest(backup.LIMIT+1))
     def test_stream_guard_rejects_first_byte_over_new_boundary(self):

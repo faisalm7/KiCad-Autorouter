@@ -2,7 +2,7 @@
 import copy,os,signal,stat,sys,unittest
 from pathlib import Path
 from unittest.mock import patch
-from autorouter import pipeline as p,floor_route as f,engine_angle as angle
+from autorouter import pipeline as p,floor_route as f,engine_angle as angle,adapter as dsn,sexpr as sx
 from tests import test_engine_fanout as fanout,test_engine_angle as angle_fixture
 
 
@@ -175,6 +175,131 @@ class EngineOptimizerControls(unittest.TestCase):
             finally:
                 for sig,handler in handlers.items():signal.signal(sig,handler)
         self.assertEqual(target.stat().st_flags,old_flags)
+
+
+class EnginePlanningClearanceControls(unittest.TestCase):
+    scratch=EngineOptimizerControls.scratch
+    publication_fixture=EngineOptimizerControls.publication_fixture
+    publish_actual_stable=EngineOptimizerControls.publish_actual_stable
+
+    def raw(self,*,edge=True):
+        tree=dsn._parse_dsn(angle_fixture.RAW.decode());structure=sx.one(tree,'structure')
+        sx.one(structure,'rule').extend([['clearance','200'],['clearance','50',['type','smd_smd']]])
+        if edge:
+            sx.one(structure,'boundary').append(['clearance_class','kicadedge'])
+            structure.append(['rule',*[['clearance','500',['type',pair]] for pair in ('default_kicadedge','smd_kicadedge','kicadedge_kicadedge')]])
+        sx.one(tree,'network').append(['class','kicad_default','SIGNAL',['circuit',['use_via','round']],['rule',['width','250'],['clearance','200']]])
+        return dsn._dump_dsn(tree).encode()
+
+    def data(self):
+        budget=p.engine_profile_settings(angle.PROFILE,100,experimental_free_angle=True,fanout_enabled=False,experimental_fanout=True,optimizer_enabled=False,experimental_optimizer=True)
+        return dict(engine_profile=angle.PROFILE,engine_budget=budget,engine_fanout_override=False,engine_optimizer_override=False,
+            engine_planning_clearance_margin_nm=20000,adapter='both',scope='whole_board_unlocked_routing',baseline='B2_tuned_free_angle')
+
+    def record(self):
+        directory=self.scratch();raw=self.raw();(directory/'task.dsn').write_bytes(raw)
+        data=self.data();data['engine_angle_binding']=angle.prepare(directory,clearance_margin_nm=20000)
+        return directory,data,raw
+
+    def optimizer_publication_fixture(self):
+        case=EngineOptimizerControls.optimizer_publication_fixture(self)
+        (case.run/'task.dsn').write_bytes(self.raw())
+        (case.run/angle.RECORD).unlink();(case.run/angle.INPUT).unlink()
+        case.data.update(engine_planning_clearance_margin_nm=20000,engine_angle_binding=angle.prepare(case.run,clearance_margin_nm=20000))
+        case.save_receipt();return case
+
+    def test_default_none_preserves_bytes_and_original_record(self):
+        for raw in (angle_fixture.RAW,self.raw()):
+            self.assertEqual(angle.transform(raw),angle.transform(raw,clearance_margin_nm=None))
+            output,record=angle.transform(raw)
+            self.assertNotIn('clearance_margin_nm',record);self.assertNotIn('planning_clearance',record)
+            self.assertTrue(record['exact_only_structure_snap_angle_insert'])
+
+    def test_exact_two_decimal_atoms_and_all_other_geometry_scopes_unchanged(self):
+        for edge in (False,True):
+            raw=self.raw(edge=edge);before=dsn._parse_dsn(raw.decode());output,record=angle.transform(raw,clearance_margin_nm=20000)
+            after=dsn._parse_dsn(output.decode());targets=angle._clearance_targets(after)
+            self.assertEqual([node[1] for _,node in targets],['220','220'])
+            self.assertEqual(len(record['planning_clearance']['changes']),2)
+            self.assertEqual(record['planning_clearance']['classification'],'B1_adapter_only')
+            self.assertFalse(record['exact_only_structure_snap_angle_insert'])
+            self.assertEqual(sx.one(sx.one(after,'library'),'image'),sx.one(sx.one(before,'library'),'image'))
+            for (_,node),change in zip(targets,record['planning_clearance']['changes']):node[1]=change['before']
+            sx.one(after,'structure').remove(['snap_angle','none']);self.assertEqual(after,before)
+
+    def test_literal_type_and_value_refusal(self):
+        for value in (True,False,20000.,'20000',0,19999,20001,[],{}):
+            with self.subTest(value=value),self.assertRaises(p.Rejected):angle.transform(self.raw(),clearance_margin_nm=value)
+
+    def test_missing_duplicate_unknown_rule_class_clearance_and_unit_scopes_refuse(self):
+        for mode in ('no_generic','duplicate_generic','duplicate_class','foreign_class','class_mismatch','extra_class_child','unknown_rule','duplicate_edge','unknown_edge','nested_clearance','duplicate_unit','mm','nan','exponent'):
+            tree=dsn._parse_dsn(self.raw().decode());structure=sx.one(tree,'structure');rules=sx.children(structure,'rule');network=sx.one(tree,'network');cls=sx.one(network,'class')
+            if mode=='no_generic':structure.remove(rules[0])
+            elif mode=='duplicate_generic':structure.append(copy.deepcopy(rules[0]))
+            elif mode=='duplicate_class':network.append(copy.deepcopy(cls))
+            elif mode=='foreign_class':cls[1]='foreign'
+            elif mode=='class_mismatch':sx.one(sx.one(cls,'rule'),'clearance')[1]='201'
+            elif mode=='extra_class_child':cls.append(['layer_rule','F.Cu'])
+            elif mode=='unknown_rule':structure.append(['rule',['clearance','200']])
+            elif mode=='duplicate_edge':structure.append(copy.deepcopy(rules[1]))
+            elif mode=='unknown_edge':rules[1][1][2][1]='foreign'
+            elif mode=='nested_clearance':sx.one(tree,'library').append(['clearance','1'])
+            elif mode=='duplicate_unit':tree.append(['unit','um'])
+            elif mode=='mm':sx.one(tree,'unit')[1]='mm'
+            elif mode=='nan':rules[0][2][1]='NaN'
+            else:rules[0][2][1]='2e2'
+            with self.subTest(mode=mode),self.assertRaises(p.Rejected):angle.transform(dsn._dump_dsn(tree).encode(),clearance_margin_nm=20000)
+
+    def test_exact_prepare_check_preserves_original_task(self):
+        directory,data,raw=self.record();proof=angle.check(directory,data)
+        self.assertEqual(proof['clearance_margin_nm'],20000);self.assertEqual((directory/'task.dsn').read_bytes(),raw)
+        angle.check_scope(data,'native')
+
+    def test_reciprocal_marker_type_and_proof_erasure_refuse(self):
+        for mode in ('report_erased','proof_erased','both_erased','report_type','proof_type','extra_witness'):
+            directory,data,raw=self.record();proof=f.read_json(directory/angle.RECORD)
+            if mode in ('report_erased','both_erased'):data.pop('engine_planning_clearance_margin_nm')
+            if mode in ('proof_erased','both_erased'):proof.pop('clearance_margin_nm');proof.pop('planning_clearance')
+            if mode=='report_type':data['engine_planning_clearance_margin_nm']=20000.
+            if mode=='proof_type':proof['clearance_margin_nm']=20000.
+            if mode=='extra_witness':proof['planning_clearance']['changes'][0]['after']='221'
+            p.save_json(directory/angle.RECORD,proof);data['engine_angle_binding']['sha256']=p.sha(directory/angle.RECORD)
+            with self.subTest(mode=mode),self.assertRaises(p.Rejected):angle.check(directory,data)
+
+    def test_task_engine_width_geometry_and_typed_scope_tampering_refuse(self):
+        for mode in ('task','engine','typed'):
+            directory,data,raw=self.record();path=directory/('task.dsn' if mode=='task' else angle.INPUT)
+            tree=dsn._parse_dsn(path.read_text())
+            if mode=='typed':sx.children(sx.one(tree,'structure'),'rule')[0][3][1]='70'
+            else:sx.one(sx.children(sx.one(tree,'structure'),'rule')[0],'width')[1]='251'
+            path.write_bytes(dsn._dump_dsn(tree).encode())
+            with self.subTest(mode=mode),self.assertRaises(p.Rejected):angle.check(directory,data)
+
+    def test_private_scope_refuses_before_job_and_readers_refuse_downgrade(self):
+        for changes in (dict(_engine_clearance_margin_nm=20000.),dict(_engine_clearance_margin_nm=True),dict(_optimizer_enabled=None),dict(_fanout_enabled=None),dict(engine_profile='tuned'),dict(adapter='none'),dict(keep_existing=True),dict(settings_path='/missing'),dict(native_toolchain=object())):
+            args=dict(engine_profile=angle.PROFILE,adapter='both',_fanout_enabled=False,_optimizer_enabled=False,_engine_clearance_margin_nm=20000);args.update(changes)
+            with self.subTest(changes=changes),patch.object(p,'Job',side_effect=AssertionError('no output')),self.assertRaises(p.Rejected):p.route('/missing/owned.kicad_pcb','/missing/output',**args)
+        directory,data,_=self.record()
+        for changes in (dict(engine_optimizer_override=None),dict(engine_fanout_override=None)):
+            with self.subTest(changes=changes),self.assertRaises(p.Rejected):angle.check(directory,{**data,**changes})
+        p.save_json(directory/'result.json',{**data,'engine_profile':'tuned'})
+        with self.assertRaises(p.Rejected):p._check_result_uncached(directory/'result.json')
+
+    def test_scope_rejects_partial_preferences_strategy_and_alternate_native(self):
+        good=self.data()
+        for changes in (dict(scope='partial_completion'),dict(routing_preferences={}),dict(layer_binding={}),dict(strategy='native_validated_zone_net_pruning')):
+            with self.subTest(changes=changes),self.assertRaises(p.Rejected):angle.check_scope({**good,**changes},'native')
+        with self.assertRaises(p.Rejected):angle.check_scope(good,'native',object())
+
+    def test_actual_production_stable_with_margin_preserves_current_prl(self):
+        case=self.optimizer_publication_fixture();result,state=self.publish_actual_stable(case)
+        self.assertTrue(result['accepted']);self.assertEqual(state,dict(readbacks=1,triggered=False))
+
+    @unittest.skipUnless(sys.platform=='darwin' and hasattr(os,'chflags'),'actual Mac PRL flags required')
+    def test_actual_production_stable_rejects_late_owned_prl_flags_with_margin(self):
+        # Reuse the exact existing fault/callback/assertions and cleanup; only
+        # this class's setup includes the declared planning margin.
+        EngineOptimizerControls.test_actual_stable_late_flag_only_mutation_invalidates_optimizer_receipt(self)
 
 
 if __name__=='__main__':unittest.main()

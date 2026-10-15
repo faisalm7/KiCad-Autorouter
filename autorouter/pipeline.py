@@ -1752,10 +1752,14 @@ def check_preferences_record(directory, data):
         raise Rejected('engine argv or cwd differs from captured preferences')
 
 
-def route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native', settings_path=None, preference_overrides=None, _preferences=None, native_toolchain=None, experimental_schematic_parity=False, _fanout_enabled=None, _optimizer_enabled=None):
+def route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native', settings_path=None, preference_overrides=None, _preferences=None, native_toolchain=None, experimental_schematic_parity=False, _fanout_enabled=None, _optimizer_enabled=None, _engine_clearance_margin_nm=None):
     entry_started,entry_parent=time.monotonic(),time.process_time()
     from .floor_route import child_cpu
     operation_children=child_cpu()
+    if _engine_clearance_margin_nm is not None:
+        if type(_engine_clearance_margin_nm)is not int or _engine_clearance_margin_nm!=20000:raise Rejected('planning clearance margin accepts only None or literal integer20000nm')
+        if engine_profile!='tuned-free-angle' or _optimizer_enabled is not False or _fanout_enabled is not False:
+            raise Rejected('unsupported: planning clearance requires explicit free-angle optimizerFalse/fanoutFalse route')
     if _optimizer_enabled is not None and _optimizer_enabled is not False:raise Rejected('optimizer override accepts only None or typed False')
     if _optimizer_enabled is False and (engine_profile!='tuned-free-angle' or _fanout_enabled is not False):
         raise Rejected('unsupported: optimizer override requires explicit free-angle fanout-disabled route')
@@ -1820,6 +1824,7 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
             'tools':tool_manifest(**({'native_toolchain':native_toolchain} if native_toolchain is not None else {})),**experimental_record}
     if _fanout_enabled is False:report['engine_fanout_override']=False
     if _optimizer_enabled is False:report['engine_optimizer_override']=False
+    if _engine_clearance_margin_nm is not None:report['engine_planning_clearance_margin_nm']=_engine_clearance_margin_nm
     try:
         capture_preferences(report,output,_preferences)
         before=tree_hash(source.parent); report['source_hashes']=before
@@ -1912,7 +1917,7 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
         if selection_argument is not None:engine_settings.append(selection_argument)
         if engine_profile=='tuned-free-angle':
             from .engine_angle import prepare as prepare_engine_angle
-            report['engine_angle_binding']=prepare_engine_angle(output)
+            report['engine_angle_binding']=prepare_engine_angle(output,**({'clearance_margin_nm':_engine_clearance_margin_nm} if _engine_clearance_margin_nm is not None else {}))
         preferences_fresh(output,_preferences)
         job.step('engine',engine_argv(output,engine_settings,profile=engine_profile))
         if engine_profile in {'tuned','tuned-free-angle'}:

@@ -29,13 +29,18 @@ SCOPES = (".runs", ".data", ".local-reference")
 # The same finite limit bounds directories; byte/receipt limits stay unchanged.
 # 80MiB receipt/192MiB chain, scopes/path/secret/archive/restore guards unchanged.
 # A new full snapshot/restoration is required for these capacity changes.
-LIMIT = 10 * 1024 ** 3
+# Verified83b6295 snapshot309007files/10670053622B leaves993files/67364618B.
+# Prior independent installed043 needs998files/112247333B, already exceeding
+# both remaining bounds. Finite10.25GiB/315000 retains existing evidence and
+# allows the next installation; receipt/chain/scopes/security stay unchanged.
+# A new complete restoration must qualify these capacity changes.
+LIMIT = 10 * 1024 ** 3 + 256 * 1024 ** 2
 # Current304054rawfiles leaves946slots; prior full installed041 used979files
 # including its Native fixture. Next required installed4Cu qualification exceeds
 # 305000 without deleting evidence. Finite310000 retains all files/directories;
 # 10GiB/80MiBreceipt/192MiBchain/scopes/security remain. A complete restoration
 # of the old-full006/new-compact chain must qualify this capacity change.
-MAX_FILES = 310000
+MAX_FILES = 315000
 MAX_CHAIN = 16
 # Actual229,196-file receipt is63,984,764B. The249,270-file forecast needs
 # about70MB at that measured ratio;80MiB permits finite headroom. Two such
