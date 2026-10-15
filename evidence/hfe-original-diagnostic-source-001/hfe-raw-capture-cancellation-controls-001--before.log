@@ -1,0 +1,25 @@
+test_actual_post_stage_capture_records_cancelled_before_publication (tests.test_hfe_raw_capture_cancellation.HfeRawCaptureCancellation.test_actual_post_stage_capture_records_cancelled_before_publication) ... FAIL
+test_ordinary_raw_read_failure_stays_unqualified_error (tests.test_hfe_raw_capture_cancellation.HfeRawCaptureCancellation.test_ordinary_raw_read_failure_stays_unqualified_error) ... ok
+test_raw_stage_propagates_actual_keyboard_interrupt (tests.test_hfe_raw_capture_cancellation.HfeRawCaptureCancellation.test_raw_stage_propagates_actual_keyboard_interrupt) ... FAIL
+test_valid_raw_report_is_diagnostic_only (tests.test_hfe_raw_capture_cancellation.HfeRawCaptureCancellation.test_valid_raw_report_is_diagnostic_only) ... ok
+
+======================================================================
+FAIL: test_actual_post_stage_capture_records_cancelled_before_publication (tests.test_hfe_raw_capture_cancellation.HfeRawCaptureCancellation.test_actual_post_stage_capture_records_cancelled_before_publication)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_hfe_raw_capture_cancellation.py", line 59, in test_actual_post_stage_capture_records_cancelled_before_publication
+    self.assertIs(record['passed'],False)
+AssertionError: True is not False
+
+======================================================================
+FAIL: test_raw_stage_propagates_actual_keyboard_interrupt (tests.test_hfe_raw_capture_cancellation.HfeRawCaptureCancellation.test_raw_stage_propagates_actual_keyboard_interrupt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_hfe_raw_capture_cancellation.py", line 42, in test_raw_stage_propagates_actual_keyboard_interrupt
+    with self.assertRaises(KeyboardInterrupt):self.namespace['raw_stage'](self.job,'original-final')
+AssertionError: KeyboardInterrupt not raised
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.019s
+
+FAILED (failures=2)

@@ -1,0 +1,45 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 0.14516795900999568,
+  "cpu_seconds": 0.126579,
+  "max_rss_bytes": 42991616,
+  "supervisor_cpu_seconds": 0.0035329999999999945,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 147456,
+  "sampled_peak_workdir_bytes": 5866,
+  "resource_guards": {
+    "max_group_rss_bytes": 1073741824,
+    "max_workdir_bytes": 16777216,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+    "-B",
+    "-m",
+    "unittest",
+    "tests.test_hfe_raw_capture_cancellation",
+    "tests.test_bounded_file_read",
+    "-v"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/hfe-raw-capture-cancellation-controls-001/after.log",
+  "log_bytes": 1847,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/hfe-raw-capture-cancellation-controls-001",
+  "signal_cancellation_enabled": true,
+  "pid": 21528,
+  "controller_sha256": "129c7933031a19d1b215dee7eb230386123f09cb0e74b83e228abd09025b169c",
+  "test_sha256": "5db20d232819fdd1d2593e29977105c5faa16da929138957119210b39e5c112e",
+  "log_sha256": "7cad5c0861f197f158ae5c18c6d29d176684db75641534567d126dff020f7bee"
+}

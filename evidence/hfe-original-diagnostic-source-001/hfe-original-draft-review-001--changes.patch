@@ -1,0 +1,28 @@
+--- a/run-hfe-original-native-001.py
++++ b/run-hfe-original-native-001.py
+@@ -108,7 +108,7 @@
+         value.update(raw_version=raw.get('kicad_version'),raw_source=raw.get('source'),
+             raw_population={k:len(v) for k,v in arrays.items()},raw_severity_histogram=dict(severity),
+             raw_ignored_checks=raw.get('ignored_checks'),raw_included_severities=raw.get('included_severities'))
+-    except (Exception,KeyboardInterrupt) as exc:value['raw_capture_error']=type(exc).__name__+': '+str(exc)
++    except Exception as exc:value['raw_capture_error']=type(exc).__name__+': '+str(exc)
+     return value
+ 
+ 
+@@ -174,9 +174,13 @@
+         record['status']='completed' if record['passed'] else 'observed_unqualified'
+     except (Exception,KeyboardInterrupt) as exc:
+         record.update(passed=False,status='cancelled' if isinstance(exc,KeyboardInterrupt) or any(step.get('status')=='cancelled' for step in job.steps) else 'failed',error=type(exc).__name__+': '+str(exc))
+-    record['raw_reports']={name:raw_stage(job,name) for name,*_ in stages}
+-    for name,*_ in stages:
+-        record['raw_reports'][name]['shared_stage_replay_complete']=record['observation_complete']
++    record['raw_reports']={}
++    try:
++        for name,*_ in stages:record['raw_reports'][name]=raw_stage(job,name)
++    except KeyboardInterrupt as exc:
++        record.update(passed=False,status='cancelled',error=type(exc).__name__+': '+str(exc))
++    for captured in record['raw_reports'].values():
++        captured['shared_stage_replay_complete']=record['observation_complete']
+     completed=material(CHILD);record['completed_evidence']=completed
+     def stable():
+         h.owned_destination(owner);current(plan)
