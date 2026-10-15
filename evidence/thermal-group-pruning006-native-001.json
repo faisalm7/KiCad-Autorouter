@@ -1,0 +1,148 @@
+{
+  "schema": 1,
+  "kind": "actual-thermal-group-pruning006",
+  "source_checkpoint": "f7a4c9c30a1f1160eb26bf6bc074ff1b7463c5fe",
+  "status": "native_and_accumulated_readback_qualified",
+  "accepted": false,
+  "production_admitted": false,
+  "actual_native_qualified": true,
+  "actor": {
+    "path": ".runs/nus-thermal-group-pruning120-006/result.json",
+    "sha256": "972a402b48a4e576d753bebf9833442525b0306279316ee342af12fc1623b33a"
+  },
+  "outer": {
+    "path": ".runs/nus-thermal-group-pruning120-006-execution/execution.json",
+    "sha256": "e9c05cb1f50804482b2f3f70d96856ed3356e9c206f4e2f12239ee03733a7d82"
+  },
+  "protocol": {
+    "path": "experiments/thermal_group_pruning_v1/input-pins.json",
+    "sha256": "d6abe119ac8eefad2d577820066e6803f996c4aeb5ec558a19f9bb3612dac21f"
+  },
+  "candidate_sha256": "9a76cd508e7d57727891e0fb31a0d0ad09ffaed0624a7520c9c6740ca5a05e9b",
+  "final_native_report_sha256": "108078cb1c2019aa6c1766bd87c5fda18e5cc4cd151194139ac1565bbca1a477",
+  "native": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 10,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      }
+    ]
+  },
+  "metrics": {
+    "version": "10.0.0",
+    "pads": 22,
+    "footprints": 6,
+    "zones": 2,
+    "vias": 0,
+    "track_length_mm": 40.881251295563665,
+    "copper_layers": 2
+  },
+  "retained_positive_metrics": {
+    "version": "10.0.0",
+    "pads": 22,
+    "footprints": 6,
+    "zones": 2,
+    "vias": 0,
+    "track_length_mm": 66.87139892486306,
+    "copper_layers": 2
+  },
+  "protected_signal_count": 22,
+  "retained_ground_segments": 5,
+  "deleted_ground_segments": 13,
+  "length_reduction_from_own004_mm": 25.990147629299393,
+  "original_design_preserved": true,
+  "full_schematic_parity_actual": true,
+  "new_native_workers": [
+    {
+      "name": "refill-drc",
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "cleanup_complete": true,
+      "pid": 91960
+    },
+    {
+      "name": "pour-keepout-audit",
+      "status": "success",
+      "exit_code": 0,
+      "cleanup_complete": true,
+      "pid": 91961
+    },
+    {
+      "name": "final-drc",
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "cleanup_complete": true,
+      "pid": 91962
+    },
+    {
+      "name": "final-drc-fields-netlist",
+      "status": "success",
+      "exit_code": 0,
+      "cleanup_complete": true,
+      "pid": 91963
+    },
+    {
+      "name": "final-drc-fields-audit",
+      "status": "success",
+      "exit_code": 0,
+      "cleanup_complete": true,
+      "pid": 91964
+    },
+    {
+      "name": "metrics",
+      "status": "success",
+      "exit_code": 0,
+      "cleanup_complete": true,
+      "pid": 91965
+    }
+  ],
+  "old_workers_repeated": false,
+  "comparative_gate": {
+    "cumulative_wall_seconds": 119.26453429093817,
+    "cumulative_full_cpu_seconds": 98.357075,
+    "cap_seconds": 120,
+    "all_failed001_through005_and_both006_readers_included": true,
+    "scope": "One exposedNUS accumulatedepisode, no freshfullreplay/firstattempt/generalization claim. Native0004positive obtainedbythisarmsownclassifier/engine/selectedfeedback, neverbaselineincumbent."
+  },
+  "readback": {
+    "first_full_reader": {
+      "path": ".runs/thermal-group-pruning006-readback-001/result.json",
+      "sha256": "87d4b6f2e551c3f0da6d7dfa68616f56f14fbba116789437cdf5d63bb1044e81"
+    },
+    "first_execution": {
+      "path": ".runs/thermal-group-pruning006-readback-001/execution.json",
+      "sha256": "67916261f62986c3c4190f4feb0eac6d84998b7f014b3a0423dbb4d0ab0f63f5"
+    },
+    "first_status": "failed_after_completed_shared_checks_in_overstrict_all_exit0_postcondition",
+    "completed_shared_checks_bound_by_frozen_source_trace_and_unchanged_material": true,
+    "missing_tail": {
+      "path": ".runs/thermal-group-pruning006-tail-002/result.json",
+      "sha256": "6ec58673d0dd467a6e204a2a159f438c2d16a25818efdf7b6431f41eab08a69b"
+    },
+    "tail_source": {
+      "path": ".runs/thermal-group-pruning006-tail-002/check.py",
+      "sha256": "c3a48336ef40dc8ee19c1db483cae82e8e7dd6b3372c79e1c727d5a4cd726635"
+    },
+    "combined_qualified": true,
+    "first_failure_preserved": true,
+    "new_native_or_full_reader_repeated": false,
+    "explanation": "KiCad warning-bearing DRC usesnonzero5. Existingshared saved/final checks hadpassed beforeline55. Missingtail verifiesallowed0/5journals/6workers/logs/finalunchangedmaterial withallfirstfailurecost+2allowance andtailactual+.5allowance. TaildoesnotreplaywholeNativeproof orclaimfirstreaderpassed."
+  },
+  "limitations": [
+    "Single exposedNUS, no newfamily/normalCmode/GUI/liveapply/human/electrical/physicalqualification.",
+    "40.881251mm0via tradeslength against olderC35.128656mm2vias; doesnotdominate it.",
+    "Previously recordedB171.884325mm2vias/B271.769712mm2vias remainfixedconfiguration comparisons, not exhaustivebestbaselines or newpairedindependentexperiment.",
+    "Earlieractivepilot27.294584wall22.430367CPU remains separatelydisclosed exposedexploration.",
+    "All10warnings and2originalignoredchecks retained; wholeprojectDRCcleanfalse.",
+    "Typeddiagnostic acceptedFalse/productionFalse; newfamily/generatedroutingandnormalpromotion remaingates.",
+    "Raw006after3ecincrementalcutoff; nextincremental pending."
+  ]
+}
