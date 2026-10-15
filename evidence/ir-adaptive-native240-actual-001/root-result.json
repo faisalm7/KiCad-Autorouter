@@ -1,0 +1,4618 @@
+{
+  "schema": 1,
+  "status": "routing_accepted",
+  "accepted": true,
+  "baseline": "C-prototype",
+  "strategy": "native_validated_zone_net_pruning",
+  "adapter": "both",
+  "proposal_policy": "adaptive",
+  "feedback_max_depth": 2,
+  "feedback_max_added_routes": 8,
+  "engine_profile": "tuned",
+  "incumbent_baseline": "B2_tuned",
+  "novel_routing_algorithm_claim": false,
+  "reference_routes_used_for_selection": false,
+  "scope": "whole_board_unlocked_routing",
+  "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.data/ir-obstacle-demo-001/native-project/KiCad/IR_Sensor.kicad_pcb",
+  "budget_seconds": 114.30894749998697,
+  "cpu_budget_seconds": 114.30894749998697,
+  "cpu_budget_enforcement": "post-stage accounting and post-completion acceptance cap; not OS CPU preemption",
+  "finalization_reserve_seconds": 25.0,
+  "finalization_cpu_reserve_seconds": 25.0,
+  "started_utc": "2026-10-15T14:51:12.829868+00:00",
+  "physical_electrical_validation": false,
+  "schematic_parity": "checked by final native DRC",
+  "trials": [
+    {
+      "id": "trial-0000",
+      "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0000/result.json",
+      "status": "drc_rejected",
+      "accepted": false
+    },
+    {
+      "id": "trial-0001",
+      "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0001/result.json",
+      "status": "drc_rejected",
+      "accepted": false
+    },
+    {
+      "id": "trial-0002",
+      "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0002/result.json",
+      "status": "drc_rejected",
+      "accepted": false
+    },
+    {
+      "id": "trial-0003",
+      "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0003/result.json",
+      "status": "improvement_validated",
+      "accepted": true
+    },
+    {
+      "id": "trial-0004",
+      "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0004/result.json",
+      "status": "improvement_validated",
+      "accepted": true
+    },
+    {
+      "id": "trial-0005",
+      "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0005/result.json",
+      "status": "improvement_validated",
+      "accepted": true
+    },
+    {
+      "id": "trial-0006",
+      "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0006/result.json",
+      "status": "improvement_validated",
+      "accepted": true
+    },
+    {
+      "id": "trial-0007",
+      "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0007/result.json",
+      "status": "drc_rejected",
+      "accepted": false
+    }
+  ],
+  "checkpoints": [
+    "checkpoints/0000.json",
+    "checkpoints/0001.json",
+    "checkpoints/0002.json",
+    "checkpoints/0003.json",
+    "checkpoints/0004.json",
+    "checkpoints/0005.json",
+    "checkpoints/0006.json",
+    "checkpoints/0007.json",
+    "checkpoints/0008.json",
+    "checkpoints/0009.json"
+  ],
+  "steps": [
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.0996423750184476,
+      "cpu_seconds": 0.47357899999999997,
+      "max_rss_bytes": 211451904,
+      "supervisor_cpu_seconds": 0.010251999999999484,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 210534400,
+      "sampled_peak_workdir_bytes": 1497396,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent/source-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent/source-drc-input/IR_Sensor.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent/source-drc.log",
+      "log_bytes": 178,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent",
+      "signal_cancellation_enabled": true,
+      "pid": 98182,
+      "name": "source-drc",
+      "local_settings_policy": "job-owned-prl-immutable-v1",
+      "local_settings_protection": {
+        "policy": "mac-owned-prl-immutable-v1",
+        "present": false
+      },
+      "validated_input_sha256": "f52eca1575d9438b803a672088de98436e9a299b6014a3bbafca963974431774",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent/snapshot/IR_Sensor.kicad_pcb",
+      "phase": "incumbent"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.715761208004551,
+      "cpu_seconds": 0.508575,
+      "max_rss_bytes": 107233280,
+      "supervisor_cpu_seconds": 0.009980999999999796,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 107102208,
+      "sampled_peak_workdir_bytes": 1629842,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+        "export",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent/candidate/IR_Sensor.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent/task.dsn"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent/export.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent",
+      "signal_cancellation_enabled": true,
+      "pid": 98183,
+      "name": "export",
+      "phase": "incumbent"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.36870866699609905,
+      "cpu_seconds": 0.350234,
+      "max_rss_bytes": 89112576,
+      "supervisor_cpu_seconds": 0.006581999999999866,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 34652160,
+      "sampled_peak_workdir_bytes": 1649974,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+        "obstacles",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent/candidate/IR_Sensor.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent/obstacles.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent/obstacles.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent",
+      "signal_cancellation_enabled": true,
+      "pid": 98188,
+      "name": "obstacles",
+      "phase": "incumbent"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 5.126098625012673,
+      "cpu_seconds": 7.190656000000001,
+      "max_rss_bytes": 295944192,
+      "supervisor_cpu_seconds": 0.056811999999998974,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 295895040,
+      "sampled_peak_workdir_bytes": 1681335,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java",
+        "-Xms128m",
+        "-Xmx2g",
+        "-XX:ActiveProcessorCount=1",
+        "-Djava.awt.headless=true",
+        "-jar",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar",
+        "--gui.enabled=false",
+        "--api_server.enabled=false",
+        "--mcp_server.enabled=false",
+        "-da",
+        "--user_data_path=/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent/engine-config",
+        "--logging.file.enabled=false",
+        "--router.autorouter.max_passes=100",
+        "--router.job_timeout=00:00:37",
+        "--router.optimizer.max_threads=1",
+        "--router.optimizer.max_passes=50",
+        "--router.optimizer.timeout=00:00:37",
+        "--router.optimizer.improvement_threshold=0.001",
+        "--router.optimizer.enable_preflight_guards=false",
+        "--router.optimizer.max_consecutive_failures=100",
+        "--router.optimizer.max_consecutive_failures_pass1=100",
+        "-de",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent/task.dsn",
+        "-do",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent/routes.ses"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent/engine.log",
+      "log_bytes": 6363,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent",
+      "signal_cancellation_enabled": true,
+      "pid": 98197,
+      "name": "engine",
+      "phase": "incumbent"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.4303049159934744,
+      "cpu_seconds": 0.42036,
+      "max_rss_bytes": 98451456,
+      "supervisor_cpu_seconds": 0.005663999999999447,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 34668544,
+      "sampled_peak_workdir_bytes": 1839205,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+        "import",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent/candidate/IR_Sensor.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent/imported.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent/routes.ses"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent/import.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent",
+      "signal_cancellation_enabled": true,
+      "pid": 98198,
+      "name": "import",
+      "phase": "incumbent"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.0847550409962423,
+      "cpu_seconds": 0.489828,
+      "max_rss_bytes": 212516864,
+      "supervisor_cpu_seconds": 0.011395999999999518,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 211795968,
+      "sampled_peak_workdir_bytes": 2226234,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent/refill-drc.json",
+        "--save-board",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent/refill/IR_Sensor.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent/refill-drc.log",
+      "log_bytes": 190,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent",
+      "signal_cancellation_enabled": true,
+      "pid": 98199,
+      "name": "refill-drc",
+      "local_settings_policy": "job-owned-prl-immutable-v1",
+      "local_settings_protection": {
+        "policy": "mac-owned-prl-immutable-v1",
+        "present": false
+      },
+      "validated_input_sha256": "b5e23c4848300dbef0d000fa9d8c589061e1fde62f9363b818a2aeadca105360",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent/refill/IR_Sensor.kicad_pcb",
+      "phase": "incumbent"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.181019167008344,
+      "cpu_seconds": 0.542752,
+      "max_rss_bytes": 227016704,
+      "supervisor_cpu_seconds": 0.020453999999999084,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 224706560,
+      "sampled_peak_workdir_bytes": 2510240,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--schematic-parity",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent/final-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent/final-drc-input/IR_Sensor.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent/final-drc.log",
+      "log_bytes": 210,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent",
+      "signal_cancellation_enabled": true,
+      "pid": 98200,
+      "name": "final-drc",
+      "local_settings_policy": "job-owned-prl-immutable-v1",
+      "local_settings_protection": {
+        "policy": "mac-owned-prl-immutable-v1",
+        "present": false
+      },
+      "validated_input_sha256": "55eb37b6448e27e3e566bb79b439de8354efbcae13b77a4a82128b965a934991",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent/candidate/IR_Sensor.kicad_pcb",
+      "phase": "incumbent"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.4974392500007525,
+      "cpu_seconds": 0.479726,
+      "max_rss_bytes": 209911808,
+      "supervisor_cpu_seconds": 0.006296999999999997,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 64487424,
+      "sampled_peak_workdir_bytes": 2533654,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "sch",
+        "export",
+        "netlist",
+        "--format",
+        "kicadsexpr",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent/final-drc-fields.net",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent/final-drc-input/IR_Sensor.kicad_sch"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent/final-drc-fields-netlist.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent",
+      "signal_cancellation_enabled": true,
+      "pid": 98201,
+      "name": "final-drc-fields-netlist",
+      "phase": "incumbent"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.3678498750086874,
+      "cpu_seconds": 0.351082,
+      "max_rss_bytes": 90374144,
+      "supervisor_cpu_seconds": 0.006472999999999729,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 34684928,
+      "sampled_peak_workdir_bytes": 2538505,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+        "fields",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent/final-drc-input/IR_Sensor.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent/final-drc-fields.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent/final-drc-fields-audit.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent",
+      "signal_cancellation_enabled": true,
+      "pid": 98202,
+      "name": "final-drc-fields-audit",
+      "phase": "incumbent"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.36531066699535586,
+      "cpu_seconds": 0.349357,
+      "max_rss_bytes": 91389952,
+      "supervisor_cpu_seconds": 0.006834000000001339,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 34717696,
+      "sampled_peak_workdir_bytes": 2547339,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+        "metrics",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent/candidate/IR_Sensor.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent/metrics.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent/metrics.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent",
+      "signal_cancellation_enabled": true,
+      "pid": 98203,
+      "name": "metrics",
+      "phase": "incumbent"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.0897964159958065,
+      "cpu_seconds": 0.481602,
+      "max_rss_bytes": 213745664,
+      "supervisor_cpu_seconds": 0.007920999999999623,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 210649088,
+      "sampled_peak_workdir_bytes": 680126,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0000/refill-drc.json",
+        "--save-board",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0000/refill/IR_Sensor.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0000/refill-drc.log",
+      "log_bytes": 198,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0000",
+      "signal_cancellation_enabled": true,
+      "pid": 98205,
+      "name": "refill-drc",
+      "local_settings_policy": "job-owned-prl-immutable-v1",
+      "local_settings_protection": {
+        "policy": "mac-owned-prl-immutable-v1",
+        "present": false
+      },
+      "validated_input_sha256": "eeab0cce919cb0c572ab9a455f5f9b26ae9bd584fbed64b0907a197e8e785e5e",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0000/refill/IR_Sensor.kicad_pcb",
+      "phase": "trial-0000"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.144036582991248,
+      "cpu_seconds": 0.53694,
+      "max_rss_bytes": 226705408,
+      "supervisor_cpu_seconds": 0.014684000000000808,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 224428032,
+      "sampled_peak_workdir_bytes": 928067,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--schematic-parity",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0000/final-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0000/final-drc-input/IR_Sensor.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0000/final-drc.log",
+      "log_bytes": 218,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0000",
+      "signal_cancellation_enabled": true,
+      "pid": 98206,
+      "name": "final-drc",
+      "local_settings_policy": "job-owned-prl-immutable-v1",
+      "local_settings_protection": {
+        "policy": "mac-owned-prl-immutable-v1",
+        "present": false
+      },
+      "validated_input_sha256": "eeab0cce919cb0c572ab9a455f5f9b26ae9bd584fbed64b0907a197e8e785e5e",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0000/candidate/IR_Sensor.kicad_pcb",
+      "phase": "trial-0000"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.48866849998012185,
+      "cpu_seconds": 0.47495099999999996,
+      "max_rss_bytes": 209715200,
+      "supervisor_cpu_seconds": 0.005335000000000534,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 64307200,
+      "sampled_peak_workdir_bytes": 951535,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "sch",
+        "export",
+        "netlist",
+        "--format",
+        "kicadsexpr",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0000/final-drc-fields.net",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0000/final-drc-input/IR_Sensor.kicad_sch"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0000/final-drc-fields-netlist.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0000",
+      "signal_cancellation_enabled": true,
+      "pid": 98207,
+      "name": "final-drc-fields-netlist",
+      "phase": "trial-0000"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.4352262500033248,
+      "cpu_seconds": 0.37073100000000003,
+      "max_rss_bytes": 91652096,
+      "supervisor_cpu_seconds": 0.005326000000000164,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 34930688,
+      "sampled_peak_workdir_bytes": 956437,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+        "fields",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0000/final-drc-input/IR_Sensor.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0000/final-drc-fields.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0000/final-drc-fields-audit.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0000",
+      "signal_cancellation_enabled": true,
+      "pid": 98208,
+      "name": "final-drc-fields-audit",
+      "phase": "trial-0000"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.0898972499999218,
+      "cpu_seconds": 0.488685,
+      "max_rss_bytes": 212582400,
+      "supervisor_cpu_seconds": 0.008855000000000501,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 210944000,
+      "sampled_peak_workdir_bytes": 689030,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0001/refill-drc.json",
+        "--save-board",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0001/refill/IR_Sensor.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0001/refill-drc.log",
+      "log_bytes": 198,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0001",
+      "signal_cancellation_enabled": true,
+      "pid": 98209,
+      "name": "refill-drc",
+      "local_settings_policy": "job-owned-prl-immutable-v1",
+      "local_settings_protection": {
+        "policy": "mac-owned-prl-immutable-v1",
+        "present": false
+      },
+      "validated_input_sha256": "2e68ab51e9fef3015cc87b3123cc121f2d7a8e24c945f0135ec50b4f7f6e5cc3",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0001/refill/IR_Sensor.kicad_pcb",
+      "phase": "trial-0001"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.1466815829917323,
+      "cpu_seconds": 0.532462,
+      "max_rss_bytes": 226836480,
+      "supervisor_cpu_seconds": 0.015648999999999802,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 224608256,
+      "sampled_peak_workdir_bytes": 940466,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--schematic-parity",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0001/final-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0001/final-drc-input/IR_Sensor.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0001/final-drc.log",
+      "log_bytes": 218,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0001",
+      "signal_cancellation_enabled": true,
+      "pid": 98210,
+      "name": "final-drc",
+      "local_settings_policy": "job-owned-prl-immutable-v1",
+      "local_settings_protection": {
+        "policy": "mac-owned-prl-immutable-v1",
+        "present": false
+      },
+      "validated_input_sha256": "2e68ab51e9fef3015cc87b3123cc121f2d7a8e24c945f0135ec50b4f7f6e5cc3",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0001/candidate/IR_Sensor.kicad_pcb",
+      "phase": "trial-0001"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.49163154102279805,
+      "cpu_seconds": 0.475861,
+      "max_rss_bytes": 209600512,
+      "supervisor_cpu_seconds": 0.0054690000000015004,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 64454656,
+      "sampled_peak_workdir_bytes": 963936,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "sch",
+        "export",
+        "netlist",
+        "--format",
+        "kicadsexpr",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0001/final-drc-fields.net",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0001/final-drc-input/IR_Sensor.kicad_sch"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0001/final-drc-fields-netlist.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0001",
+      "signal_cancellation_enabled": true,
+      "pid": 98211,
+      "name": "final-drc-fields-netlist",
+      "phase": "trial-0001"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.44083108397899196,
+      "cpu_seconds": 0.371309,
+      "max_rss_bytes": 90161152,
+      "supervisor_cpu_seconds": 0.005386000000001445,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 34242560,
+      "sampled_peak_workdir_bytes": 968828,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+        "fields",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0001/final-drc-input/IR_Sensor.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0001/final-drc-fields.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0001/final-drc-fields-audit.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0001",
+      "signal_cancellation_enabled": true,
+      "pid": 98212,
+      "name": "final-drc-fields-audit",
+      "phase": "trial-0001"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.3731942499871366,
+      "cpu_seconds": 0.35656299999999996,
+      "max_rss_bytes": 92323840,
+      "supervisor_cpu_seconds": 0.0038920000000004507,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 35782656,
+      "sampled_peak_workdir_bytes": 247428,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/floor_context.py",
+        "final",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/chain-context/candidate/IR_Sensor.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/chain-context/floor-final-context.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/chain-context/floor-final.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/chain-context",
+      "signal_cancellation_enabled": true,
+      "pid": 98213,
+      "name": "floor-final",
+      "phase": "chain-context"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.1027221249823924,
+      "cpu_seconds": 0.48855899999999997,
+      "max_rss_bytes": 212615168,
+      "supervisor_cpu_seconds": 0.008368999999998294,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 210927616,
+      "sampled_peak_workdir_bytes": 688102,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0002/refill-drc.json",
+        "--save-board",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0002/refill/IR_Sensor.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0002/refill-drc.log",
+      "log_bytes": 198,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0002",
+      "signal_cancellation_enabled": true,
+      "pid": 98214,
+      "name": "refill-drc",
+      "local_settings_policy": "job-owned-prl-immutable-v1",
+      "local_settings_protection": {
+        "policy": "mac-owned-prl-immutable-v1",
+        "present": false
+      },
+      "validated_input_sha256": "de37da430ffaa7519f5f66b262e49457b558533552c43540b8615b860be6e1fc",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0002/refill/IR_Sensor.kicad_pcb",
+      "phase": "trial-0002"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.1593848330085166,
+      "cpu_seconds": 0.5469299999999999,
+      "max_rss_bytes": 226934784,
+      "supervisor_cpu_seconds": 0.015710999999999586,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 224739328,
+      "sampled_peak_workdir_bytes": 938904,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--schematic-parity",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0002/final-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0002/final-drc-input/IR_Sensor.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0002/final-drc.log",
+      "log_bytes": 218,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0002",
+      "signal_cancellation_enabled": true,
+      "pid": 98215,
+      "name": "final-drc",
+      "local_settings_policy": "job-owned-prl-immutable-v1",
+      "local_settings_protection": {
+        "policy": "mac-owned-prl-immutable-v1",
+        "present": false
+      },
+      "validated_input_sha256": "de37da430ffaa7519f5f66b262e49457b558533552c43540b8615b860be6e1fc",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0002/candidate/IR_Sensor.kicad_pcb",
+      "phase": "trial-0002"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.4921742079895921,
+      "cpu_seconds": 0.477406,
+      "max_rss_bytes": 209518592,
+      "supervisor_cpu_seconds": 0.005213000000001244,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 64241664,
+      "sampled_peak_workdir_bytes": 962384,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "sch",
+        "export",
+        "netlist",
+        "--format",
+        "kicadsexpr",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0002/final-drc-fields.net",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0002/final-drc-input/IR_Sensor.kicad_sch"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0002/final-drc-fields-netlist.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0002",
+      "signal_cancellation_enabled": true,
+      "pid": 98216,
+      "name": "final-drc-fields-netlist",
+      "phase": "trial-0002"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.4344581670011394,
+      "cpu_seconds": 0.36767999999999995,
+      "max_rss_bytes": 91209728,
+      "supervisor_cpu_seconds": 0.005131999999999692,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 34668544,
+      "sampled_peak_workdir_bytes": 967274,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+        "fields",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0002/final-drc-input/IR_Sensor.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0002/final-drc-fields.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0002/final-drc-fields-audit.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0002",
+      "signal_cancellation_enabled": true,
+      "pid": 98217,
+      "name": "final-drc-fields-audit",
+      "phase": "trial-0002"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.1006556669890415,
+      "cpu_seconds": 0.476076,
+      "max_rss_bytes": 212549632,
+      "supervisor_cpu_seconds": 0.008729999999999905,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 209403904,
+      "sampled_peak_workdir_bytes": 686786,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0003/refill-drc.json",
+        "--save-board",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0003/refill/IR_Sensor.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0003/refill-drc.log",
+      "log_bytes": 198,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0003",
+      "signal_cancellation_enabled": true,
+      "pid": 98218,
+      "name": "refill-drc",
+      "local_settings_policy": "job-owned-prl-immutable-v1",
+      "local_settings_protection": {
+        "policy": "mac-owned-prl-immutable-v1",
+        "present": false
+      },
+      "validated_input_sha256": "c44db1332af071098dfdca88d843e823593dc8b2545b436248930767526baa7f",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0003/refill/IR_Sensor.kicad_pcb",
+      "phase": "trial-0003"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.154739707999397,
+      "cpu_seconds": 0.537616,
+      "max_rss_bytes": 226787328,
+      "supervisor_cpu_seconds": 0.014769999999998618,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 224559104,
+      "sampled_peak_workdir_bytes": 936265,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--schematic-parity",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0003/final-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0003/final-drc-input/IR_Sensor.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0003/final-drc.log",
+      "log_bytes": 218,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0003",
+      "signal_cancellation_enabled": true,
+      "pid": 98219,
+      "name": "final-drc",
+      "local_settings_policy": "job-owned-prl-immutable-v1",
+      "local_settings_protection": {
+        "policy": "mac-owned-prl-immutable-v1",
+        "present": false
+      },
+      "validated_input_sha256": "c44db1332af071098dfdca88d843e823593dc8b2545b436248930767526baa7f",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0003/candidate/IR_Sensor.kicad_pcb",
+      "phase": "trial-0003"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.4914068329962902,
+      "cpu_seconds": 0.477085,
+      "max_rss_bytes": 209666048,
+      "supervisor_cpu_seconds": 0.005183999999999855,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 64716800,
+      "sampled_peak_workdir_bytes": 959734,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "sch",
+        "export",
+        "netlist",
+        "--format",
+        "kicadsexpr",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0003/final-drc-fields.net",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0003/final-drc-input/IR_Sensor.kicad_sch"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0003/final-drc-fields-netlist.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0003",
+      "signal_cancellation_enabled": true,
+      "pid": 98220,
+      "name": "final-drc-fields-netlist",
+      "phase": "trial-0003"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.44347791600739583,
+      "cpu_seconds": 0.373449,
+      "max_rss_bytes": 91062272,
+      "supervisor_cpu_seconds": 0.0053460000000029595,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 34619392,
+      "sampled_peak_workdir_bytes": 964624,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+        "fields",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0003/final-drc-input/IR_Sensor.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0003/final-drc-fields.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0003/final-drc-fields-audit.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0003",
+      "signal_cancellation_enabled": true,
+      "pid": 98221,
+      "name": "final-drc-fields-audit",
+      "phase": "trial-0003"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.36526550000417046,
+      "cpu_seconds": 0.351006,
+      "max_rss_bytes": 91471872,
+      "supervisor_cpu_seconds": 0.005307999999999424,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 34881536,
+      "sampled_peak_workdir_bytes": 973491,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+        "metrics",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0003/candidate/IR_Sensor.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0003/metrics.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0003/metrics.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0003",
+      "signal_cancellation_enabled": true,
+      "pid": 98222,
+      "name": "metrics",
+      "phase": "trial-0003"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.0790375829965342,
+      "cpu_seconds": 0.48398599999999997,
+      "max_rss_bytes": 212418560,
+      "supervisor_cpu_seconds": 0.00782999999999845,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 209240064,
+      "sampled_peak_workdir_bytes": 685918,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0004/refill-drc.json",
+        "--save-board",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0004/refill/IR_Sensor.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0004/refill-drc.log",
+      "log_bytes": 198,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0004",
+      "signal_cancellation_enabled": true,
+      "pid": 98226,
+      "name": "refill-drc",
+      "local_settings_policy": "job-owned-prl-immutable-v1",
+      "local_settings_protection": {
+        "policy": "mac-owned-prl-immutable-v1",
+        "present": false
+      },
+      "validated_input_sha256": "b6fd86220727d70173d3ecbeefbdafa48753d2a1629ce4da5d88b87ccfddcc96",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0004/refill/IR_Sensor.kicad_pcb",
+      "phase": "trial-0004"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.161883791006403,
+      "cpu_seconds": 0.5424019999999999,
+      "max_rss_bytes": 226770944,
+      "supervisor_cpu_seconds": 0.014170999999997491,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 224493568,
+      "sampled_peak_workdir_bytes": 935131,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--schematic-parity",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0004/final-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0004/final-drc-input/IR_Sensor.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0004/final-drc.log",
+      "log_bytes": 218,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0004",
+      "signal_cancellation_enabled": true,
+      "pid": 98227,
+      "name": "final-drc",
+      "local_settings_policy": "job-owned-prl-immutable-v1",
+      "local_settings_protection": {
+        "policy": "mac-owned-prl-immutable-v1",
+        "present": false
+      },
+      "validated_input_sha256": "b6fd86220727d70173d3ecbeefbdafa48753d2a1629ce4da5d88b87ccfddcc96",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0004/candidate/IR_Sensor.kicad_pcb",
+      "phase": "trial-0004"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.49032050001551397,
+      "cpu_seconds": 0.48021499999999995,
+      "max_rss_bytes": 209551360,
+      "supervisor_cpu_seconds": 0.005326000000003717,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 64323584,
+      "sampled_peak_workdir_bytes": 958610,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "sch",
+        "export",
+        "netlist",
+        "--format",
+        "kicadsexpr",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0004/final-drc-fields.net",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0004/final-drc-input/IR_Sensor.kicad_sch"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0004/final-drc-fields-netlist.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0004",
+      "signal_cancellation_enabled": true,
+      "pid": 98228,
+      "name": "final-drc-fields-netlist",
+      "phase": "trial-0004"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.4361792500130832,
+      "cpu_seconds": 0.367692,
+      "max_rss_bytes": 91111424,
+      "supervisor_cpu_seconds": 0.005181000000000324,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 34439168,
+      "sampled_peak_workdir_bytes": 963512,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+        "fields",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0004/final-drc-input/IR_Sensor.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0004/final-drc-fields.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0004/final-drc-fields-audit.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0004",
+      "signal_cancellation_enabled": true,
+      "pid": 98229,
+      "name": "final-drc-fields-audit",
+      "phase": "trial-0004"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.3649454170081299,
+      "cpu_seconds": 0.34964,
+      "max_rss_bytes": 90931200,
+      "supervisor_cpu_seconds": 0.00528500000000065,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 34684928,
+      "sampled_peak_workdir_bytes": 972377,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+        "metrics",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0004/candidate/IR_Sensor.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0004/metrics.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0004/metrics.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0004",
+      "signal_cancellation_enabled": true,
+      "pid": 98230,
+      "name": "metrics",
+      "phase": "trial-0004"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.2785649159923196,
+      "cpu_seconds": 0.522384,
+      "max_rss_bytes": 213008384,
+      "supervisor_cpu_seconds": 0.010421000000000902,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 209698816,
+      "sampled_peak_workdir_bytes": 685062,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0005/refill-drc.json",
+        "--save-board",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0005/refill/IR_Sensor.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0005/refill-drc.log",
+      "log_bytes": 198,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0005",
+      "signal_cancellation_enabled": true,
+      "pid": 98231,
+      "name": "refill-drc",
+      "local_settings_policy": "job-owned-prl-immutable-v1",
+      "local_settings_protection": {
+        "policy": "mac-owned-prl-immutable-v1",
+        "present": false
+      },
+      "validated_input_sha256": "ee90fb171c6ddbf2c479fcaea1e78fad9e7becdf609c630dc9e697f0d7457d6f",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0005/refill/IR_Sensor.kicad_pcb",
+      "phase": "trial-0005"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.1648219170165248,
+      "cpu_seconds": 0.542465,
+      "max_rss_bytes": 226705408,
+      "supervisor_cpu_seconds": 0.015948000000001628,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 224542720,
+      "sampled_peak_workdir_bytes": 933993,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--schematic-parity",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0005/final-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0005/final-drc-input/IR_Sensor.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0005/final-drc.log",
+      "log_bytes": 218,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0005",
+      "signal_cancellation_enabled": true,
+      "pid": 98234,
+      "name": "final-drc",
+      "local_settings_policy": "job-owned-prl-immutable-v1",
+      "local_settings_protection": {
+        "policy": "mac-owned-prl-immutable-v1",
+        "present": false
+      },
+      "validated_input_sha256": "ee90fb171c6ddbf2c479fcaea1e78fad9e7becdf609c630dc9e697f0d7457d6f",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0005/candidate/IR_Sensor.kicad_pcb",
+      "phase": "trial-0005"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.4980535840149969,
+      "cpu_seconds": 0.48288,
+      "max_rss_bytes": 209715200,
+      "supervisor_cpu_seconds": 0.0053740000000033206,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 64176128,
+      "sampled_peak_workdir_bytes": 957463,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "sch",
+        "export",
+        "netlist",
+        "--format",
+        "kicadsexpr",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0005/final-drc-fields.net",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0005/final-drc-input/IR_Sensor.kicad_sch"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0005/final-drc-fields-netlist.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0005",
+      "signal_cancellation_enabled": true,
+      "pid": 98235,
+      "name": "final-drc-fields-netlist",
+      "phase": "trial-0005"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.43625049997353926,
+      "cpu_seconds": 0.37057,
+      "max_rss_bytes": 91226112,
+      "supervisor_cpu_seconds": 0.005263999999996827,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 34455552,
+      "sampled_peak_workdir_bytes": 962353,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+        "fields",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0005/final-drc-input/IR_Sensor.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0005/final-drc-fields.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0005/final-drc-fields-audit.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0005",
+      "signal_cancellation_enabled": true,
+      "pid": 98236,
+      "name": "final-drc-fields-audit",
+      "phase": "trial-0005"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.39794216700829566,
+      "cpu_seconds": 0.36477,
+      "max_rss_bytes": 91357184,
+      "supervisor_cpu_seconds": 0.00555199999999445,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 34226176,
+      "sampled_peak_workdir_bytes": 971217,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+        "metrics",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0005/candidate/IR_Sensor.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0005/metrics.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0005/metrics.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0005",
+      "signal_cancellation_enabled": true,
+      "pid": 98240,
+      "name": "metrics",
+      "phase": "trial-0005"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.0775794170040172,
+      "cpu_seconds": 0.474962,
+      "max_rss_bytes": 212385792,
+      "supervisor_cpu_seconds": 0.007705000000001405,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 209108992,
+      "sampled_peak_workdir_bytes": 684206,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0006/refill-drc.json",
+        "--save-board",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0006/refill/IR_Sensor.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0006/refill-drc.log",
+      "log_bytes": 198,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0006",
+      "signal_cancellation_enabled": true,
+      "pid": 98242,
+      "name": "refill-drc",
+      "local_settings_policy": "job-owned-prl-immutable-v1",
+      "local_settings_protection": {
+        "policy": "mac-owned-prl-immutable-v1",
+        "present": false
+      },
+      "validated_input_sha256": "bcb4d19744acd40903510ea7f0c5f5a6727218391620732f18ce998c1a28a553",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0006/refill/IR_Sensor.kicad_pcb",
+      "phase": "trial-0006"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.1779078330146149,
+      "cpu_seconds": 0.5353009999999999,
+      "max_rss_bytes": 226656256,
+      "supervisor_cpu_seconds": 0.013991999999994675,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 224428032,
+      "sampled_peak_workdir_bytes": 932865,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--schematic-parity",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0006/final-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0006/final-drc-input/IR_Sensor.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0006/final-drc.log",
+      "log_bytes": 218,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0006",
+      "signal_cancellation_enabled": true,
+      "pid": 98243,
+      "name": "final-drc",
+      "local_settings_policy": "job-owned-prl-immutable-v1",
+      "local_settings_protection": {
+        "policy": "mac-owned-prl-immutable-v1",
+        "present": false
+      },
+      "validated_input_sha256": "bcb4d19744acd40903510ea7f0c5f5a6727218391620732f18ce998c1a28a553",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0006/candidate/IR_Sensor.kicad_pcb",
+      "phase": "trial-0006"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.49338408300536685,
+      "cpu_seconds": 0.47968099999999997,
+      "max_rss_bytes": 209764352,
+      "supervisor_cpu_seconds": 0.005366999999999678,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 64733184,
+      "sampled_peak_workdir_bytes": 956345,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "sch",
+        "export",
+        "netlist",
+        "--format",
+        "kicadsexpr",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0006/final-drc-fields.net",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0006/final-drc-input/IR_Sensor.kicad_sch"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0006/final-drc-fields-netlist.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0006",
+      "signal_cancellation_enabled": true,
+      "pid": 98244,
+      "name": "final-drc-fields-netlist",
+      "phase": "trial-0006"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.44210408299113624,
+      "cpu_seconds": 0.370463,
+      "max_rss_bytes": 91586560,
+      "supervisor_cpu_seconds": 0.005341000000001372,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 34553856,
+      "sampled_peak_workdir_bytes": 961247,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+        "fields",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0006/final-drc-input/IR_Sensor.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0006/final-drc-fields.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0006/final-drc-fields-audit.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0006",
+      "signal_cancellation_enabled": true,
+      "pid": 98245,
+      "name": "final-drc-fields-audit",
+      "phase": "trial-0006"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.3479119169933256,
+      "cpu_seconds": 0.342716,
+      "max_rss_bytes": 90112000,
+      "supervisor_cpu_seconds": 0.005178999999998268,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 34930688,
+      "sampled_peak_workdir_bytes": 970113,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+        "metrics",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0006/candidate/IR_Sensor.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0006/metrics.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0006/metrics.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0006",
+      "signal_cancellation_enabled": true,
+      "pid": 98246,
+      "name": "metrics",
+      "phase": "trial-0006"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.260274541011313,
+      "cpu_seconds": 0.485373,
+      "max_rss_bytes": 212320256,
+      "supervisor_cpu_seconds": 0.010034999999994909,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 209141760,
+      "sampled_peak_workdir_bytes": 685589,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0007/refill-drc.json",
+        "--save-board",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0007/refill/IR_Sensor.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0007/refill-drc.log",
+      "log_bytes": 198,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0007",
+      "signal_cancellation_enabled": true,
+      "pid": 98247,
+      "name": "refill-drc",
+      "local_settings_policy": "job-owned-prl-immutable-v1",
+      "local_settings_protection": {
+        "policy": "mac-owned-prl-immutable-v1",
+        "present": false
+      },
+      "validated_input_sha256": "935c044db313f8070bbdad43456c78c99e4d912e9da9760e879dc191bce10d13",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0007/refill/IR_Sensor.kicad_pcb",
+      "phase": "trial-0007"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.1333832920063287,
+      "cpu_seconds": 0.539291,
+      "max_rss_bytes": 226689024,
+      "supervisor_cpu_seconds": 0.011063000000000045,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 224509952,
+      "sampled_peak_workdir_bytes": 935926,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--schematic-parity",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0007/final-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0007/final-drc-input/IR_Sensor.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0007/final-drc.log",
+      "log_bytes": 218,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0007",
+      "signal_cancellation_enabled": true,
+      "pid": 98248,
+      "name": "final-drc",
+      "local_settings_policy": "job-owned-prl-immutable-v1",
+      "local_settings_protection": {
+        "policy": "mac-owned-prl-immutable-v1",
+        "present": false
+      },
+      "validated_input_sha256": "935c044db313f8070bbdad43456c78c99e4d912e9da9760e879dc191bce10d13",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0007/candidate/IR_Sensor.kicad_pcb",
+      "phase": "trial-0007"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.49568470899248496,
+      "cpu_seconds": 0.47862099999999996,
+      "max_rss_bytes": 209600512,
+      "supervisor_cpu_seconds": 0.005221999999996285,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 64487424,
+      "sampled_peak_workdir_bytes": 959396,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "sch",
+        "export",
+        "netlist",
+        "--format",
+        "kicadsexpr",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0007/final-drc-fields.net",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0007/final-drc-input/IR_Sensor.kicad_sch"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0007/final-drc-fields-netlist.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0007",
+      "signal_cancellation_enabled": true,
+      "pid": 98249,
+      "name": "final-drc-fields-netlist",
+      "phase": "trial-0007"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.43465537499287166,
+      "cpu_seconds": 0.37363399999999997,
+      "max_rss_bytes": 91373568,
+      "supervisor_cpu_seconds": 0.005312000000003536,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 34488320,
+      "sampled_peak_workdir_bytes": 964298,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+        "fields",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0007/final-drc-input/IR_Sensor.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0007/final-drc-fields.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0007/final-drc-fields-audit.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0007",
+      "signal_cancellation_enabled": true,
+      "pid": 98250,
+      "name": "final-drc-fields-audit",
+      "phase": "trial-0007"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.0952848750166595,
+      "cpu_seconds": 0.47999299999999995,
+      "max_rss_bytes": 213876736,
+      "supervisor_cpu_seconds": 0.04452399999999557,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 210681856,
+      "sampled_peak_workdir_bytes": 12750997,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/refill-drc.json",
+        "--save-board",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/refill/IR_Sensor.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/refill-drc.log",
+      "log_bytes": 180,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive",
+      "signal_cancellation_enabled": true,
+      "pid": 98251,
+      "name": "refill-drc",
+      "local_settings_policy": "job-owned-prl-immutable-v1",
+      "local_settings_protection": {
+        "policy": "mac-owned-prl-immutable-v1",
+        "present": false
+      },
+      "validated_input_sha256": "bcb4d19744acd40903510ea7f0c5f5a6727218391620732f18ce998c1a28a553",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/refill/IR_Sensor.kicad_pcb",
+      "phase": "finalization"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.1582619590044487,
+      "cpu_seconds": 0.539675,
+      "max_rss_bytes": 226869248,
+      "supervisor_cpu_seconds": 0.06347799999999637,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 224739328,
+      "sampled_peak_workdir_bytes": 12999542,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--schematic-parity",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/final-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/final-drc-input/IR_Sensor.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/final-drc.log",
+      "log_bytes": 200,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive",
+      "signal_cancellation_enabled": true,
+      "pid": 98252,
+      "name": "final-drc",
+      "local_settings_policy": "job-owned-prl-immutable-v1",
+      "local_settings_protection": {
+        "policy": "mac-owned-prl-immutable-v1",
+        "present": false
+      },
+      "validated_input_sha256": "bcb4d19744acd40903510ea7f0c5f5a6727218391620732f18ce998c1a28a553",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/candidate/IR_Sensor.kicad_pcb",
+      "phase": "finalization"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.5057458750088699,
+      "cpu_seconds": 0.47720599999999996,
+      "max_rss_bytes": 209420288,
+      "supervisor_cpu_seconds": 0.029578999999998246,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 64323584,
+      "sampled_peak_workdir_bytes": 13022887,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "sch",
+        "export",
+        "netlist",
+        "--format",
+        "kicadsexpr",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/final-drc-fields.net",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/final-drc-input/IR_Sensor.kicad_sch"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/final-drc-fields-netlist.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive",
+      "signal_cancellation_enabled": true,
+      "pid": 98253,
+      "name": "final-drc-fields-netlist",
+      "phase": "finalization"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.3732789999921806,
+      "cpu_seconds": 0.348683,
+      "max_rss_bytes": 90095616,
+      "supervisor_cpu_seconds": 0.028995999999999356,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 34766848,
+      "sampled_peak_workdir_bytes": 13027700,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+        "fields",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/final-drc-input/IR_Sensor.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/final-drc-fields.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/final-drc-fields-audit.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive",
+      "signal_cancellation_enabled": true,
+      "pid": 98254,
+      "name": "final-drc-fields-audit",
+      "phase": "finalization"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.4158565000107046,
+      "cpu_seconds": 0.37771699999999997,
+      "max_rss_bytes": 91209728,
+      "supervisor_cpu_seconds": 0.03054000000000201,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 34095104,
+      "sampled_peak_workdir_bytes": 13036495,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+        "metrics",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/candidate/IR_Sensor.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/metrics.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/metrics.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive",
+      "signal_cancellation_enabled": true,
+      "pid": 98255,
+      "name": "metrics",
+      "phase": "finalization"
+    }
+  ],
+  "improvements": 4,
+  "pruning_preferences_policy": "native-pruning-preferences-v1",
+  "pruning_preferences": {
+    "file": "pruning-preferences.json",
+    "sha256": "46ed0bc7d4fb2e5ea031f4f69440bf94fce55b855eccfc8730ccbd1ed04a0f87",
+    "effective": {
+      "schema": 1,
+      "scope": "whole_board_unlocked_routing",
+      "seconds": 114.30894749998697,
+      "adapter": "both",
+      "profile": "tuned",
+      "guidance": "native",
+      "layers": "source_all",
+      "scoring_preference": null
+    }
+  },
+  "source_hashes": {
+    "IR_Sensor.kicad_pcb": "f52eca1575d9438b803a672088de98436e9a299b6014a3bbafca963974431774",
+    "IR_Sensor.kicad_pro": "0393908f5263db9c95388db7d749115280350ae4b6a7dc44afba203aea3a2f8a",
+    "IR_Sensor.kicad_sch": "fb2ead949c4005eda55d7ff8e48ff39293ad096bd9f1ca12a3c623fc62915786",
+    "_licenses/creator/LICENSE": "7a9ff699e91b9acf1cf6747e72f82fab1ec25ead316ece85e14b8043200ebb74",
+    "_licenses/creator/README.md": "1dd84f03c05e371507fda0f5c3be237eea52db5d991858e9c1f75e9327205926"
+  },
+  "zone_net_ids": [
+    "1"
+  ],
+  "protected_routes": 0,
+  "tools": {
+    "implementation_sha256": {
+      "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+      "autorouter/__main__.py": "eb48b32e74c3b25ffa7daca999cdff4c640ea7199abd990090732671bca495ea",
+      "autorouter/adapter.py": "87f3d2a69c64029011dc72a48759932b208379a9391f23b65015b48a7418c4ae",
+      "autorouter/board_floor.py": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340",
+      "autorouter/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+      "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+      "autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+      "autorouter/floor_route.py": "cf0e44b6672f56f531db7c4cc21bf79e4faedbca0d414212c1e5f1ad0e48eb24",
+      "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+      "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+      "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+      "autorouter/local_settings.py": "69fa09a68af0e794cdc5abb8d674a2117e4696a6352a2943d71744d326d8e861",
+      "autorouter/native.py": "ece3822466657c38935b15c77eb4df37c1ae82b1893dc8f335685b754bad4c23",
+      "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+      "autorouter/native_edge.py": "8a38b60f301a72b815b877f9af59d156024757d66eda7d3df8c34addbe4d0c74",
+      "autorouter/netclass.py": "899c50f86d8745c99bd314d62e3017be209137f4fc918d672d7dd2cdb3f7a4fa",
+      "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+      "autorouter/padless_alias.py": "5748f83ab88f746f65ba65462dc31b3d4bc6edf678df19169e051ab6c80b947a",
+      "autorouter/padless_alias_native.py": "7d06683b834f0211c82d87d7c982f6c39960e841627cd5e98f58a7913f501002",
+      "autorouter/pipeline.py": "df2317f2c3f54e777ac6523860970f612e14cf906f6266d89b6c5e3748f84724",
+      "autorouter/placement_clearance.py": "f846a73367bc60dfbb48386233e405cb4bf1382f056d379787d7b823c3905feb",
+      "autorouter/placement_strategy.py": "765a28e5a63da3e52266665accf9b9e1f5ea586ea9a90f51291b142c4373fb32",
+      "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+      "autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+      "autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+      "autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+      "autorouter/recovery.py": "fb2866c5340b808c6f7baf6a43234c87e8e353e74f47a91b51ad6fae5c24a78d",
+      "autorouter/review_export.py": "698dc66682416579c3d44b571dce0c0ed7102244adb0cff38dceeeca0ea1489c",
+      "autorouter/review_view.py": "79f65e4d53c243f4e0f054d97bced2be2c4646537e5b86f11626ac8c5f4ce92d",
+      "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+      "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+      "autorouter/schematic_field_evidence.py": "184137676a27d67969878caf2af52a141ca419cc1a3e48cab1c9d701e67eef15",
+      "autorouter/schematic_fields.py": "7d9043a14bac69d18830b2f51cb7d118c648df9290337505db1bf8503d931a71",
+      "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+      "autorouter/strategy.py": "2794344ef69e70e627c4f8a858e63347f3f2d5d79bfc98b8090bbbbc5e4c193e",
+      "autorouter/thermal.py": "2fa7ff7260ba6e8b5a8003d8e1f51314b5ff548ef635fb94b29bdee4c741102d",
+      "autorouter/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+      "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+      "autorouter/thermal_worker.py": "fd651f44233aae2c70da0a8feab5f96a4763276684e8b0babf39860b91a9cc33"
+    },
+    "git_head": "00d2242d4594120c466d82449a46a8e6fae48d26",
+    "kicad": "10.0.0",
+    "freerouting": "2.5.0",
+    "files": {
+      "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+      "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219"
+    },
+    "network": "engine sandbox-exec deny network*",
+    "normal_drc_local_settings_policy": "job-owned-prl-immutable-v1",
+    "normal_selected_proposal_import_policy": "selected-proposals-exact-source-v1",
+    "normal_native_export_alias_policy": "source-bound-padless-export-v1"
+  },
+  "incumbent": {
+    "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/incumbent/result.json",
+    "status": "routing_accepted",
+    "accepted": true,
+    "metrics": {
+      "version": "10.0.0",
+      "pads": 30,
+      "footprints": 12,
+      "zones": 1,
+      "vias": 3,
+      "track_length_mm": 170.23281543219926,
+      "copper_layers": 2
+    },
+    "wall_seconds": 16.076804667012766
+  },
+  "source_drc": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 32,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "PTH inside courtyard",
+        "key": "pth_inside_courtyard"
+      },
+      {
+        "description": "NPTH inside courtyard",
+        "key": "npth_inside_courtyard"
+      },
+      {
+        "description": "Footprint component type doesn't match footprint pads",
+        "key": "footprint_type_mismatch"
+      }
+    ],
+    "findings": [
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Reference field of J1",
+            "pos": {
+              "x": 132.91875,
+              "y": 101.0975
+            },
+            "uuid": "df1a830b-fc01-4e37-9895-694f8ed296fe"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Segment of J1 on F.Silkscreen",
+            "pos": {
+              "x": 127.15375,
+              "y": 93.3175
+            },
+            "uuid": "d9a90ab3-e553-4a4a-b8c4-0d67c654828f"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Segment of J1 on F.Silkscreen",
+            "pos": {
+              "x": 127.15375,
+              "y": 95.8575
+            },
+            "uuid": "4ea74227-e485-43d8-a849-b11ee3970cbc"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Segment of J1 on F.Silkscreen",
+            "pos": {
+              "x": 133.15375,
+              "y": 92.3675
+            },
+            "uuid": "94b74fc3-51c6-4145-8791-9c0fd47107b4"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Segment of J1 on F.Silkscreen",
+            "pos": {
+              "x": 133.15375,
+              "y": 94.1775
+            },
+            "uuid": "2eb2bce9-d704-46db-b6f0-674cbaab2f58"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Segment of J1 on F.Silkscreen",
+            "pos": {
+              "x": 133.15375,
+              "y": 96.7175
+            },
+            "uuid": "9e2e0a26-2ac7-4ddd-9246-fb1d2c554949"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Segment of J1 on F.Silkscreen",
+            "pos": {
+              "x": 133.15375,
+              "y": 100.2075
+            },
+            "uuid": "0664d6ce-8211-446a-9295-e6e5b6404e88"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Segment of J1 on F.Silkscreen",
+            "pos": {
+              "x": 135.91375,
+              "y": 92.3675
+            },
+            "uuid": "2acedea3-5d68-4eea-83f6-3b8de01be510"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Segment of J1 on F.Silkscreen",
+            "pos": {
+              "x": 135.91375,
+              "y": 95.0175
+            },
+            "uuid": "186150c6-435f-4f24-ad61-30c0f14ce7ff"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Segment of J1 on F.Silkscreen",
+            "pos": {
+              "x": 135.91375,
+              "y": 97.5575
+            },
+            "uuid": "051d50c0-2871-4976-9917-db6fb4a3f524"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Rectangle of J1 on F.Silkscreen",
+            "pos": {
+              "x": 133.15375,
+              "y": 99.2575
+            },
+            "uuid": "972ed5d5-10ba-4379-bc2a-a77afee74638"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Segment of D3 on F.Silkscreen",
+            "pos": {
+              "x": 167.00875,
+              "y": 91.0275
+            },
+            "uuid": "5b861ad8-0362-46a2-8138-30cfcfd7bd6f"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Segment of D3 on F.Silkscreen",
+            "pos": {
+              "x": 167.00875,
+              "y": 91.4275
+            },
+            "uuid": "f8373d25-d6b5-4db9-aace-b6b7a7c2a673"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Segment of D3 on F.Silkscreen",
+            "pos": {
+              "x": 167.00875,
+              "y": 94.5475
+            },
+            "uuid": "1140cd95-d5d0-47ad-ba33-95d9b35416c6"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Segment of D3 on F.Silkscreen",
+            "pos": {
+              "x": 168.12875,
+              "y": 91.0275
+            },
+            "uuid": "68bd03f7-4259-4f86-99a0-36cf092aa459"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Segment of D3 on F.Silkscreen",
+            "pos": {
+              "x": 168.12875,
+              "y": 91.4275
+            },
+            "uuid": "000f7fac-ae2b-4c48-9418-5edcd7150220"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Segment of D2 on F.Silkscreen",
+            "pos": {
+              "x": 167.00875,
+              "y": 97.0375
+            },
+            "uuid": "7bd5a41b-9132-40e4-a2cf-34845482658e"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Segment of D2 on F.Silkscreen",
+            "pos": {
+              "x": 167.00875,
+              "y": 97.4375
+            },
+            "uuid": "27256427-ba71-4bfd-a861-79d3c56b5042"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Segment of D2 on F.Silkscreen",
+            "pos": {
+              "x": 167.00875,
+              "y": 100.5575
+            },
+            "uuid": "620675e0-48a7-4963-830d-d86e311bf9b0"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Segment of D2 on F.Silkscreen",
+            "pos": {
+              "x": 168.12875,
+              "y": 97.0375
+            },
+            "uuid": "f83a64bb-78f8-4f56-a271-100f426ef95c"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Segment of D2 on F.Silkscreen",
+            "pos": {
+              "x": 168.12875,
+              "y": 97.4375
+            },
+            "uuid": "1d90e0a4-72dc-4a69-a615-b2de95a3ee32"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Potentiometer_SMD'",
+        "items": [
+          {
+            "description": "Footprint RV2",
+            "pos": {
+              "x": 154.74375,
+              "y": 98.0175
+            },
+            "uuid": "0d45b240-3810-4c28-a0e6-58c6bbadb367"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'LED_SMD'",
+        "items": [
+          {
+            "description": "Footprint D4",
+            "pos": {
+              "x": 142.62375,
+              "y": 101.9275
+            },
+            "uuid": "349cc4fb-d3a5-475e-b277-61ead7e643fe"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+        "items": [
+          {
+            "description": "Footprint J1",
+            "pos": {
+              "x": 137.30375,
+              "y": 98.8275
+            },
+            "uuid": "3871e27a-ba93-4c3b-a0f9-4704428f792c"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+        "items": [
+          {
+            "description": "Footprint R3",
+            "pos": {
+              "x": 161.59375,
+              "y": 94.6075
+            },
+            "uuid": "38f60dba-ec7d-4acf-a8c0-b49261403c18"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'LED_THT'",
+        "items": [
+          {
+            "description": "Footprint D3",
+            "pos": {
+              "x": 165.79875,
+              "y": 94.2575
+            },
+            "uuid": "47f2c9cd-a23d-4664-9e56-59347f05c8b5"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'LED_THT'",
+        "items": [
+          {
+            "description": "Footprint D2",
+            "pos": {
+              "x": 165.79875,
+              "y": 100.2675
+            },
+            "uuid": "590312bd-d764-42fc-ad13-0a993f580ddd"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+        "items": [
+          {
+            "description": "Footprint R1",
+            "pos": {
+              "x": 145.26375,
+              "y": 96.5375
+            },
+            "uuid": "5da6be57-3c70-4665-b08f-ff4251da4d85"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+        "items": [
+          {
+            "description": "Footprint R2",
+            "pos": {
+              "x": 149.68375,
+              "y": 93.8675
+            },
+            "uuid": "b7e70184-c3eb-447e-abd2-7cbee3404b3c"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Package_SO'",
+        "items": [
+          {
+            "description": "Footprint U1",
+            "pos": {
+              "x": 154.82375,
+              "y": 91.6375
+            },
+            "uuid": "b8d7aa25-76d7-43ee-9570-5b2e00615dea"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'LED_SMD'",
+        "items": [
+          {
+            "description": "Footprint D1",
+            "pos": {
+              "x": 142.57375,
+              "y": 91.2475
+            },
+            "uuid": "d27aa1b8-daa6-4c4c-a002-9e50bd5913c6"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+        "items": [
+          {
+            "description": "Footprint R4",
+            "pos": {
+              "x": 156.13375,
+              "y": 102.1675
+            },
+            "uuid": "f623f7e8-7031-4129-9e44-ee04fe349257"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      }
+    ]
+  },
+  "task_sha256": "be611462a6ac5320b308fb9023f93538124a71bcb19ecf5ab406eade38055d93",
+  "incumbent_metrics": {
+    "version": "10.0.0",
+    "pads": 30,
+    "footprints": 12,
+    "zones": 1,
+    "vias": 3,
+    "track_length_mm": 170.23281543219926,
+    "copper_layers": 2
+  },
+  "chain_pad_context": {
+    "file": "chain-context/floor-final-context.json",
+    "sha256": "9494dd4eda332c378807759c1e7c55d4cc824d48237b7a00d2987265a7393090",
+    "inventory": {
+      "files": {
+        "candidate/IR_Sensor.kicad_pcb": "55eb37b6448e27e3e566bb79b439de8354efbcae13b77a4a82128b965a934991",
+        "candidate/IR_Sensor.kicad_pro": "0393908f5263db9c95388db7d749115280350ae4b6a7dc44afba203aea3a2f8a",
+        "candidate/IR_Sensor.kicad_sch": "fb2ead949c4005eda55d7ff8e48ff39293ad096bd9f1ca12a3c623fc62915786",
+        "candidate/_licenses/creator/LICENSE": "7a9ff699e91b9acf1cf6747e72f82fab1ec25ead316ece85e14b8043200ebb74",
+        "candidate/_licenses/creator/README.md": "1dd84f03c05e371507fda0f5c3be237eea52db5d991858e9c1f75e9327205926",
+        "floor-final-context.json": "9494dd4eda332c378807759c1e7c55d4cc824d48237b7a00d2987265a7393090",
+        "floor-final-process.json": "7fe01233cb0d266d2ccde2d09f2fd9ecaea0602a4a5ba017d4d00d224676c557",
+        "floor-final.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "directories": [
+        ".",
+        "candidate",
+        "candidate/_licenses",
+        "candidate/_licenses/creator",
+        "kicad-cache",
+        "kicad-cache/kicad",
+        "kicad-cache/kicad/10.0",
+        "kicad-config",
+        "kicad-config/10.0",
+        "kicad-documents",
+        "kicad-documents/kicad",
+        "kicad-documents/kicad/10.0"
+      ]
+    }
+  },
+  "chain_proposal_batches": [
+    {
+      "schema": 2,
+      "kind": "endpoint-chain-proposals-v2",
+      "proposals": [
+        {
+          "kind": "endpoint_chain",
+          "net": "1",
+          "route_ids": [
+            "3eb719ae5cbb4355792566a5a23383c657fb6ed2635826007fa41d3a40a84227",
+            "dfe679484f9db4cab9001ccd57f03a39cb5af00636575083c9500356a649936a"
+          ],
+          "segment_count": 2,
+          "ranking_length_mm": 8.335056379978077
+        },
+        {
+          "kind": "endpoint_chain",
+          "net": "1",
+          "route_ids": [
+            "b2a1e7962786c44c0a6d24539efadfedfb5cafc8e304944d86f6f68f1d77236e",
+            "df07f68cafa665c8739a909ffc0e895b224b97c85989d10b936fee030bfd1377"
+          ],
+          "segment_count": 2,
+          "ranking_length_mm": 6.101004901957092
+        },
+        {
+          "kind": "endpoint_chain",
+          "net": "1",
+          "route_ids": [
+            "29f222f60d28e419b0c6b13ef513e8425f82ef8250f14f39358002545f21fbd7",
+            "4670556a4fecfbddcde14bc27734156c7190077301d15259b52d4f44d1156c0b"
+          ],
+          "segment_count": 2,
+          "ranking_length_mm": 5.270238176670032
+        },
+        {
+          "kind": "endpoint_chain",
+          "net": "1",
+          "route_ids": [
+            "1a8dd768b359e16b6a62e632963df3a37188a96f31460ecf735cd3bc34a1f989",
+            "bd114938b2d4fe8118cdb1bfbe5d9f5f340fbdd44907ce024628e24f15f9bc17"
+          ],
+          "segment_count": 2,
+          "ranking_length_mm": 3.0582317954164893
+        },
+        {
+          "kind": "endpoint_chain",
+          "net": "1",
+          "route_ids": [
+            "01550151830558d09662b6353b312ff55dee32c9d7fa2daaf261110d52b6a2a6",
+            "e7a0309740fc3a224dbf269765abc8aefc8eff0676d139178a46b919409499ea"
+          ],
+          "segment_count": 2,
+          "ranking_length_mm": 2.9841515498084896
+        }
+      ],
+      "declined_reason": "",
+      "oversize_groups": 0,
+      "closed_cycles": 0,
+      "route_count": 68,
+      "pad_count": 30,
+      "eligible_segments": 18,
+      "pad_position_basis": "caller-bound-native-pad-positions",
+      "base_candidate_sha256": "55eb37b6448e27e3e566bb79b439de8354efbcae13b77a4a82128b965a934991"
+    }
+  ],
+  "adaptive_branch": {
+    "file": "adaptive-branch.json",
+    "sha256": "3a3917e869006715b87e7ec71091272be6de760399c8bc2252b56bf7e33d2fb8"
+  },
+  "best_observed_metrics": {
+    "version": "10.0.0",
+    "pads": 30,
+    "footprints": 12,
+    "zones": 1,
+    "vias": 3,
+    "track_length_mm": 152.81918900834714,
+    "copper_layers": 2
+  },
+  "best_observed_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/trials/trial-0006/candidate/IR_Sensor.kicad_pcb",
+  "finalization_started_elapsed_seconds": 86.51786525000352,
+  "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ir-adaptive-002-native/C_adaptive/candidate/IR_Sensor.kicad_pcb",
+  "candidate_sha256": "bcb4d19744acd40903510ea7f0c5f5a6727218391620732f18ce998c1a28a553",
+  "native_report_sha256": "3b289f0d13b8f09118787975b7e09ee34145e0b1c087d7bf7a5b645354d7c72b",
+  "native": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 42,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "PTH inside courtyard",
+        "key": "pth_inside_courtyard"
+      },
+      {
+        "description": "NPTH inside courtyard",
+        "key": "npth_inside_courtyard"
+      },
+      {
+        "description": "Footprint component type doesn't match footprint pads",
+        "key": "footprint_type_mismatch"
+      }
+    ],
+    "findings": [
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Reference field of J1",
+            "pos": {
+              "x": 132.91875,
+              "y": 101.0975
+            },
+            "uuid": "df1a830b-fc01-4e37-9895-694f8ed296fe"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Segment of J1 on F.Silkscreen",
+            "pos": {
+              "x": 127.15375,
+              "y": 93.3175
+            },
+            "uuid": "d9a90ab3-e553-4a4a-b8c4-0d67c654828f"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Segment of J1 on F.Silkscreen",
+            "pos": {
+              "x": 127.15375,
+              "y": 95.8575
+            },
+            "uuid": "4ea74227-e485-43d8-a849-b11ee3970cbc"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Segment of J1 on F.Silkscreen",
+            "pos": {
+              "x": 133.15375,
+              "y": 92.3675
+            },
+            "uuid": "94b74fc3-51c6-4145-8791-9c0fd47107b4"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Segment of J1 on F.Silkscreen",
+            "pos": {
+              "x": 133.15375,
+              "y": 94.1775
+            },
+            "uuid": "2eb2bce9-d704-46db-b6f0-674cbaab2f58"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Segment of J1 on F.Silkscreen",
+            "pos": {
+              "x": 133.15375,
+              "y": 96.7175
+            },
+            "uuid": "9e2e0a26-2ac7-4ddd-9246-fb1d2c554949"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Segment of J1 on F.Silkscreen",
+            "pos": {
+              "x": 133.15375,
+              "y": 100.2075
+            },
+            "uuid": "0664d6ce-8211-446a-9295-e6e5b6404e88"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Segment of J1 on F.Silkscreen",
+            "pos": {
+              "x": 135.91375,
+              "y": 92.3675
+            },
+            "uuid": "2acedea3-5d68-4eea-83f6-3b8de01be510"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Segment of J1 on F.Silkscreen",
+            "pos": {
+              "x": 135.91375,
+              "y": 95.0175
+            },
+            "uuid": "186150c6-435f-4f24-ad61-30c0f14ce7ff"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Segment of J1 on F.Silkscreen",
+            "pos": {
+              "x": 135.91375,
+              "y": 97.5575
+            },
+            "uuid": "051d50c0-2871-4976-9917-db6fb4a3f524"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Rectangle of J1 on F.Silkscreen",
+            "pos": {
+              "x": 133.15375,
+              "y": 99.2575
+            },
+            "uuid": "972ed5d5-10ba-4379-bc2a-a77afee74638"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Segment of D3 on F.Silkscreen",
+            "pos": {
+              "x": 167.00875,
+              "y": 91.0275
+            },
+            "uuid": "5b861ad8-0362-46a2-8138-30cfcfd7bd6f"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Segment of D3 on F.Silkscreen",
+            "pos": {
+              "x": 167.00875,
+              "y": 91.4275
+            },
+            "uuid": "f8373d25-d6b5-4db9-aace-b6b7a7c2a673"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Segment of D3 on F.Silkscreen",
+            "pos": {
+              "x": 167.00875,
+              "y": 94.5475
+            },
+            "uuid": "1140cd95-d5d0-47ad-ba33-95d9b35416c6"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Segment of D3 on F.Silkscreen",
+            "pos": {
+              "x": 168.12875,
+              "y": 91.0275
+            },
+            "uuid": "68bd03f7-4259-4f86-99a0-36cf092aa459"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Segment of D3 on F.Silkscreen",
+            "pos": {
+              "x": 168.12875,
+              "y": 91.4275
+            },
+            "uuid": "000f7fac-ae2b-4c48-9418-5edcd7150220"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Segment of D2 on F.Silkscreen",
+            "pos": {
+              "x": 167.00875,
+              "y": 97.0375
+            },
+            "uuid": "7bd5a41b-9132-40e4-a2cf-34845482658e"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Segment of D2 on F.Silkscreen",
+            "pos": {
+              "x": 167.00875,
+              "y": 97.4375
+            },
+            "uuid": "27256427-ba71-4bfd-a861-79d3c56b5042"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Segment of D2 on F.Silkscreen",
+            "pos": {
+              "x": 167.00875,
+              "y": 100.5575
+            },
+            "uuid": "620675e0-48a7-4963-830d-d86e311bf9b0"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Segment of D2 on F.Silkscreen",
+            "pos": {
+              "x": 168.12875,
+              "y": 97.0375
+            },
+            "uuid": "f83a64bb-78f8-4f56-a271-100f426ef95c"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "Silkscreen clipped by board edge",
+        "items": [
+          {
+            "description": "Rectangle on Edge.Cuts",
+            "pos": {
+              "x": 133.13375,
+              "y": 88.5275
+            },
+            "uuid": "67c7236a-8657-445e-aeda-e64e2e5445c8"
+          },
+          {
+            "description": "Segment of D2 on F.Silkscreen",
+            "pos": {
+              "x": 168.12875,
+              "y": 97.4375
+            },
+            "uuid": "1d90e0a4-72dc-4a69-a615-b2de95a3ee32"
+          }
+        ],
+        "severity": "warning",
+        "type": "silk_edge_clearance"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Potentiometer_SMD'",
+        "items": [
+          {
+            "description": "Footprint RV2",
+            "pos": {
+              "x": 154.74375,
+              "y": 98.0175
+            },
+            "uuid": "0d45b240-3810-4c28-a0e6-58c6bbadb367"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'LED_SMD'",
+        "items": [
+          {
+            "description": "Footprint D4",
+            "pos": {
+              "x": 142.62375,
+              "y": 101.9275
+            },
+            "uuid": "349cc4fb-d3a5-475e-b277-61ead7e643fe"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+        "items": [
+          {
+            "description": "Footprint J1",
+            "pos": {
+              "x": 137.30375,
+              "y": 98.8275
+            },
+            "uuid": "3871e27a-ba93-4c3b-a0f9-4704428f792c"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+        "items": [
+          {
+            "description": "Footprint R3",
+            "pos": {
+              "x": 161.59375,
+              "y": 94.6075
+            },
+            "uuid": "38f60dba-ec7d-4acf-a8c0-b49261403c18"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'LED_THT'",
+        "items": [
+          {
+            "description": "Footprint D3",
+            "pos": {
+              "x": 165.79875,
+              "y": 94.2575
+            },
+            "uuid": "47f2c9cd-a23d-4664-9e56-59347f05c8b5"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'LED_THT'",
+        "items": [
+          {
+            "description": "Footprint D2",
+            "pos": {
+              "x": 165.79875,
+              "y": 100.2675
+            },
+            "uuid": "590312bd-d764-42fc-ad13-0a993f580ddd"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+        "items": [
+          {
+            "description": "Footprint R1",
+            "pos": {
+              "x": 145.26375,
+              "y": 96.5375
+            },
+            "uuid": "5da6be57-3c70-4665-b08f-ff4251da4d85"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+        "items": [
+          {
+            "description": "Footprint R2",
+            "pos": {
+              "x": 149.68375,
+              "y": 93.8675
+            },
+            "uuid": "b7e70184-c3eb-447e-abd2-7cbee3404b3c"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Package_SO'",
+        "items": [
+          {
+            "description": "Footprint U1",
+            "pos": {
+              "x": 154.82375,
+              "y": 91.6375
+            },
+            "uuid": "b8d7aa25-76d7-43ee-9570-5b2e00615dea"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'LED_SMD'",
+        "items": [
+          {
+            "description": "Footprint D1",
+            "pos": {
+              "x": 142.57375,
+              "y": 91.2475
+            },
+            "uuid": "d27aa1b8-daa6-4c4c-a002-9e50bd5913c6"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+        "items": [
+          {
+            "description": "Footprint R4",
+            "pos": {
+              "x": 156.13375,
+              "y": 102.1675
+            },
+            "uuid": "f623f7e8-7031-4129-9e44-ee04fe349257"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint D1",
+            "pos": {
+              "x": 142.57375,
+              "y": 91.2475
+            },
+            "uuid": "d27aa1b8-daa6-4c4c-a002-9e50bd5913c6"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint D2",
+            "pos": {
+              "x": 165.79875,
+              "y": 100.2675
+            },
+            "uuid": "590312bd-d764-42fc-ad13-0a993f580ddd"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint D3",
+            "pos": {
+              "x": 165.79875,
+              "y": 94.2575
+            },
+            "uuid": "47f2c9cd-a23d-4664-9e56-59347f05c8b5"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint D4",
+            "pos": {
+              "x": 142.62375,
+              "y": 101.9275
+            },
+            "uuid": "349cc4fb-d3a5-475e-b277-61ead7e643fe"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J1",
+            "pos": {
+              "x": 137.30375,
+              "y": 98.8275
+            },
+            "uuid": "3871e27a-ba93-4c3b-a0f9-4704428f792c"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint R1",
+            "pos": {
+              "x": 145.26375,
+              "y": 96.5375
+            },
+            "uuid": "5da6be57-3c70-4665-b08f-ff4251da4d85"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint R2",
+            "pos": {
+              "x": 149.68375,
+              "y": 93.8675
+            },
+            "uuid": "b7e70184-c3eb-447e-abd2-7cbee3404b3c"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint R3",
+            "pos": {
+              "x": 161.59375,
+              "y": 94.6075
+            },
+            "uuid": "38f60dba-ec7d-4acf-a8c0-b49261403c18"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint R4",
+            "pos": {
+              "x": 156.13375,
+              "y": 102.1675
+            },
+            "uuid": "f623f7e8-7031-4129-9e44-ee04fe349257"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint RV2",
+            "pos": {
+              "x": 154.74375,
+              "y": 98.0175
+            },
+            "uuid": "0d45b240-3810-4c28-a0e6-58c6bbadb367"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      }
+    ],
+    "field_parity": {
+      "schema": 1,
+      "policy": "datasheet-absence-only-v1",
+      "native_report_sha256": "3b289f0d13b8f09118787975b7e09ee34145e0b1c087d7bf7a5b645354d7c72b",
+      "binding_sha256": "8aeb919768ab4b6e9211734038287dc5caadfb15ba3fa4c74e02b0ea5e67faee",
+      "netlist_sha256": "ec37170cfc3f96fc5d0692a304c4f5f7c9ec5306fcf01950a94efc4e359e213b",
+      "fields_sha256": "ba9563c87f813d9929336c12b36908c159c97b657e7be913d6558c4eedca960e",
+      "qualification": {
+        "qualified": true,
+        "policy": "datasheet-effective-empty-v1",
+        "component_count": 11,
+        "compared_field_count": 26,
+        "comparison_map": [
+          {
+            "reference": "D1",
+            "uuid": "d27aa1b8-daa6-4c4c-a002-9e50bd5913c6",
+            "schematic_fields": {
+              "Sim.Pins": "1=K 2=A",
+              "Datasheet": "",
+              "Description": "Light emitting diode"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Light emitting diode",
+              "Sim.Pins": "1=K 2=A"
+            }
+          },
+          {
+            "reference": "D2",
+            "uuid": "590312bd-d764-42fc-ad13-0a993f580ddd",
+            "schematic_fields": {
+              "Sim.Pins": "1=K 2=A",
+              "Datasheet": "",
+              "Description": "Light emitting diode"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Light emitting diode",
+              "Sim.Pins": "1=K 2=A"
+            }
+          },
+          {
+            "reference": "D3",
+            "uuid": "47f2c9cd-a23d-4664-9e56-59347f05c8b5",
+            "schematic_fields": {
+              "Sim.Pins": "1=K 2=A",
+              "Datasheet": "",
+              "Description": "Light emitting diode"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Light emitting diode",
+              "Sim.Pins": "1=K 2=A"
+            }
+          },
+          {
+            "reference": "D4",
+            "uuid": "349cc4fb-d3a5-475e-b277-61ead7e643fe",
+            "schematic_fields": {
+              "Sim.Pins": "1=K 2=A",
+              "Datasheet": "",
+              "Description": "Light emitting diode"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Light emitting diode",
+              "Sim.Pins": "1=K 2=A"
+            }
+          },
+          {
+            "reference": "J1",
+            "uuid": "3871e27a-ba93-4c3b-a0f9-4704428f792c",
+            "schematic_fields": {
+              "Datasheet": "",
+              "Description": "Generic connector, single row, 01x03, script generated"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Generic connector, single row, 01x03, script generated"
+            }
+          },
+          {
+            "reference": "R1",
+            "uuid": "5da6be57-3c70-4665-b08f-ff4251da4d85",
+            "schematic_fields": {
+              "Datasheet": "",
+              "Description": "Resistor"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Resistor"
+            }
+          },
+          {
+            "reference": "R2",
+            "uuid": "b7e70184-c3eb-447e-abd2-7cbee3404b3c",
+            "schematic_fields": {
+              "Datasheet": "",
+              "Description": "Resistor"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Resistor"
+            }
+          },
+          {
+            "reference": "R3",
+            "uuid": "38f60dba-ec7d-4acf-a8c0-b49261403c18",
+            "schematic_fields": {
+              "Datasheet": "",
+              "Description": "Resistor"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Resistor"
+            }
+          },
+          {
+            "reference": "R4",
+            "uuid": "f623f7e8-7031-4129-9e44-ee04fe349257",
+            "schematic_fields": {
+              "Datasheet": "",
+              "Description": "Resistor"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Resistor"
+            }
+          },
+          {
+            "reference": "RV2",
+            "uuid": "0d45b240-3810-4c28-a0e6-58c6bbadb367",
+            "schematic_fields": {
+              "Datasheet": "",
+              "Description": "Potentiometer"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Potentiometer"
+            }
+          },
+          {
+            "reference": "U1",
+            "uuid": "b8d7aa25-76d7-43ee-9570-5b2e00615dea",
+            "schematic_fields": {
+              "Datasheet": "http://www.ti.com/lit/ds/symlink/lm2904-n.pdf",
+              "Description": "Low-Power, Dual Operational Amplifiers, DIP-8/SOIC-8/TO-99-8"
+            },
+            "pcb_fields": {
+              "Datasheet": "http://www.ti.com/lit/ds/symlink/lm2904-n.pdf",
+              "Description": "Low-Power, Dual Operational Amplifiers, DIP-8/SOIC-8/TO-99-8"
+            }
+          }
+        ],
+        "warning_uuids": [
+          "0d45b240-3810-4c28-a0e6-58c6bbadb367",
+          "349cc4fb-d3a5-475e-b277-61ead7e643fe",
+          "3871e27a-ba93-4c3b-a0f9-4704428f792c",
+          "38f60dba-ec7d-4acf-a8c0-b49261403c18",
+          "47f2c9cd-a23d-4664-9e56-59347f05c8b5",
+          "590312bd-d764-42fc-ad13-0a993f580ddd",
+          "5da6be57-3c70-4665-b08f-ff4251da4d85",
+          "b7e70184-c3eb-447e-abd2-7cbee3404b3c",
+          "d27aa1b8-daa6-4c4c-a002-9e50bd5913c6",
+          "f623f7e8-7031-4129-9e44-ee04fe349257"
+        ],
+        "warning_hashes": [
+          "30c490c6cab84cf329fd173f68b04783f7717ef427e5f0e62bfccd70f331069b",
+          "38850de1295700a6f7a24f2cf972807b2b0d81b75192e0a365b74f0dfe2cbb2f",
+          "5ababfee6c3f130c39aa0cec68969b14841b2755cdc8e349b059f3e5ee51502e",
+          "74dddb9291e767e31ead90223d2000cc0bc169a51e143d99be3be9c3690c5054",
+          "77bee286bf7cd54972207e2b56dca0711e4a79e578db2280abdde8c8ebed0712",
+          "7b139996d50bb68f49fc05bb35341315532bb267a0e5bb6843583e2f1d446b71",
+          "818da1f9e6ab3f23e19e1abcf56ee5dd656453399e9338891c20d50e215b3cf9",
+          "a8ae7fe030dcd0e2d744eb421009833f9b3d63cb3ae30ee1ec734d26794bfef8",
+          "cca38957baa665d7a1a2e9d822ca11eae8568d225bebf426c9fb8217d44f5088",
+          "e242429b4d79368bf36e4515968f1682ffc85566e2a8131c8a00568ecd21ba5b"
+        ],
+        "native_export_sha256": "ec37170cfc3f96fc5d0692a304c4f5f7c9ec5306fcf01950a94efc4e359e213b",
+        "observer_sha256": "fb50ab4a937ee3a445101557c44177b1ab33d5d5bce43557fd303f0ae570e8c6",
+        "drc_report_sha256": "994692f65b38fab2084c25171ddff1712431f7d7c078623c7e765b7f68e89a84"
+      },
+      "board_only_field_census": {
+        "policy": "source-bound-padless-field-census-v1",
+        "complete_footprint_count": 12,
+        "compared_footprint_count": 11,
+        "artwork": [
+          {
+            "reference": "G***",
+            "uuid": "f8e96733-69a6-4f69-9a95-427002c6c756",
+            "footprint_ast_sha256": "d7975eeeda9453bfa416d5ba276529e13952ba96ffcc29a95e2d8bd3229c3088",
+            "pad_count": 0,
+            "board_only": true
+          }
+        ],
+        "complete_observer_sha256": "9045e51e6aa1361c095fd6d670afc4f15ecbb416cd6f1abbbcb418a46adaac62",
+        "projected_observer_sha256": "fb50ab4a937ee3a445101557c44177b1ab33d5d5bce43557fd303f0ae570e8c6"
+      }
+    }
+  },
+  "metrics": {
+    "version": "10.0.0",
+    "pads": 30,
+    "footprints": 12,
+    "zones": 1,
+    "vias": 3,
+    "track_length_mm": 152.81918900834714,
+    "copper_layers": 2
+  },
+  "invariants_unchanged": true,
+  "native_rejection_reasons": [],
+  "whole_project_drc_clean": false,
+  "child_cpu_seconds": 30.151380000000003,
+  "monitor_cpu_seconds": 0,
+  "peak_child_rss_bytes": 295944192,
+  "resource_limitations": "Global wall and measured-CPU acceptance budgets include B2, every failed trial, final native validation and monitor CPU. CPU is checked after stages/completion, not preempted by the OS. Process-group and workdir polling guards can overshoot; no process-tree memory quota or full orphan CPU accounting is claimed. Stored totals precede the last receipt write; both caps are checked after it.",
+  "wall_seconds": 90.3074942920066,
+  "parent_cpu_seconds": 46.910678999999995,
+  "total_cpu_seconds": 77.062059
+}
