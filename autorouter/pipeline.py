@@ -1246,7 +1246,7 @@ def engine_scoring_settings(variant=None):
             'argv':[f'--router.scoring.via_costs={via}',f'--router.scoring.plane_via_costs={plane}']}
 
 
-def engine_profile_settings(profile, remaining_seconds, *, strict_class_targets=False, scoring_variant=None, experimental_free_angle=False, fanout_enabled=None, experimental_fanout=False):
+def engine_profile_settings(profile, remaining_seconds, *, strict_class_targets=False, scoring_variant=None, experimental_free_angle=False, fanout_enabled=None, experimental_fanout=False, optimizer_enabled=None, experimental_optimizer=False):
     """Assign cooperative internal deadlines inside the outer wall budget.
 
     Freerouting accepts numeric seconds or HH:mm:ss, not values such as 90s.
@@ -1262,6 +1262,11 @@ def engine_profile_settings(profile, remaining_seconds, *, strict_class_targets=
     if type(experimental_fanout)is not bool:raise Rejected('typed fanout override opt-in required')
     if fanout_enabled is False and (experimental_fanout is not True or strict_class_targets is not False or profile not in {'tuned','tuned-free-angle'}):
         raise Rejected('unsupported: fanout override requires explicit non-strict tuned native baseline')
+    if optimizer_enabled is not None and optimizer_enabled is not False:raise Rejected('optimizer override accepts only None or typed False')
+    if type(experimental_optimizer)is not bool:raise Rejected('typed optimizer override opt-in required')
+    if optimizer_enabled is False and (experimental_optimizer is not True or profile!='tuned-free-angle' or fanout_enabled is not False
+            or experimental_fanout is not True or strict_class_targets is not False):
+        raise Rejected('unsupported: optimizer override requires explicit non-strict free-angle fanout-disabled baseline')
     tuned=profile in {'tuned','tuned-free-angle'}
     if type(strict_class_targets) is not bool: raise Rejected('invalid static netclass target policy')
     if isinstance(remaining_seconds,bool) or not isinstance(remaining_seconds,(int,float)) or not math.isfinite(remaining_seconds):
@@ -1288,6 +1293,7 @@ def engine_profile_settings(profile, remaining_seconds, *, strict_class_targets=
             # Actual pinned JAR probe verifies CLI fraction .001 -> internal .1%.
             args+=['--router.optimizer.improvement_threshold=0.001','--router.optimizer.enable_preflight_guards=false',
                    '--router.optimizer.max_consecutive_failures=100','--router.optimizer.max_consecutive_failures_pass1=100']
+    if optimizer_enabled is False:args+=['--router.optimizer.enabled=false']
     args+=scoring['argv']
     result={'profile':profile,'argv':args,'scoring':scoring,'strict_class_targets':strict_class_targets,'remaining_outer_wall_seconds_at_assignment':remaining_seconds,
             'assigned_job_timeout_seconds':job_cap,'assigned_optimizer_timeout_seconds':optimizer_cap,
@@ -1295,6 +1301,7 @@ def engine_profile_settings(profile, remaining_seconds, *, strict_class_targets=
             'engine_grace_reserve_seconds':ENGINE_GRACE_RESERVE_SECONDS,
             'internal_deadlines':'cooperative planning caps; external supervision and measured CPU acceptance cap remain authoritative'}
     if fanout_enabled is False:result['fanout_enabled']=False
+    if optimizer_enabled is False:result['optimizer_enabled']=False
     return result
 
 
@@ -1313,6 +1320,21 @@ def check_engine_fanout_override(data,*,input_policy=None,native_toolchain=None)
             or data.get('baseline')!=engine_baseline(data['engine_profile'],'both')
             or 'routing_preferences' in data or 'layer_binding' in data):
         raise Rejected('unsupported: fanout override requires ordinary non-strict tuned native whole-board scope')
+    return False
+
+
+def check_engine_optimizer_override(data,*,input_policy=None,native_toolchain=None):
+    """Explicit stock optimizer-disable baseline; retain all inactive optimizer caps."""
+    marker='engine_optimizer_override' in data
+    budget=data.get('engine_budget');budget_marker=type(budget)is dict and 'optimizer_enabled' in budget
+    if (marker and data['engine_optimizer_override'] is not False or budget_marker and budget['optimizer_enabled'] is not False
+            or marker!=budget_marker):raise Rejected('optimizer override marker/budget missing or invalid')
+    if not marker:return None
+    fanout=check_engine_fanout_override(data,input_policy=input_policy,native_toolchain=native_toolchain)
+    if (fanout is not False or data.get('engine_profile')!='tuned-free-angle' or budget.get('strict_class_targets') is not False
+            or type(budget.get('argv'))is not list
+            or [arg for arg in budget['argv'] if type(arg)is str and arg.startswith('--router.optimizer.enabled')]!=['--router.optimizer.enabled=false']):
+        raise Rejected('optimizer override requires exact non-strict free-angle fanout-disabled settings')
     return False
 
 
@@ -1337,6 +1359,7 @@ def check_engine_profile_record(data,directory):
     from .engine_angle import check as check_engine_angle
     check_engine_angle(directory,data)
     fanout=check_engine_fanout_override(data,input_policy='native')
+    optimizer=check_engine_optimizer_override(data,input_policy='native')
     captured=directory/'routing-preferences.json'
     if 'routing_preferences' in data or captured.exists() or captured.is_symlink():
         return check_preferences_record(directory,data)
@@ -1344,7 +1367,7 @@ def check_engine_profile_record(data,directory):
     engine=data['engine_budget']
     expected=engine_profile_settings(data['engine_profile'],engine['remaining_outer_wall_seconds_at_assignment'],
         strict_class_targets=data.get('netclass_policy') is not None or data.get('scope')=='selected_nets' or width is not None,
-        scoring_variant=data.get('scoring_variant'),experimental_free_angle=data['engine_profile']=='tuned-free-angle',fanout_enabled=fanout,experimental_fanout=fanout is False)
+        scoring_variant=data.get('scoring_variant'),experimental_free_angle=data['engine_profile']=='tuned-free-angle',fanout_enabled=fanout,experimental_fanout=fanout is False,optimizer_enabled=optimizer,experimental_optimizer=optimizer is False)
     workers=[step for step in data['steps'] if step.get('name')=='engine']
     if (any(engine.get(key)!=value for key,value in expected.items())
             or engine.get('outer_task_wall_budget_seconds')!=data['budget_seconds']
@@ -1729,10 +1752,13 @@ def check_preferences_record(directory, data):
         raise Rejected('engine argv or cwd differs from captured preferences')
 
 
-def route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native', settings_path=None, preference_overrides=None, _preferences=None, native_toolchain=None, experimental_schematic_parity=False, _fanout_enabled=None):
+def route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native', settings_path=None, preference_overrides=None, _preferences=None, native_toolchain=None, experimental_schematic_parity=False, _fanout_enabled=None, _optimizer_enabled=None):
     entry_started,entry_parent=time.monotonic(),time.process_time()
     from .floor_route import child_cpu
     operation_children=child_cpu()
+    if _optimizer_enabled is not None and _optimizer_enabled is not False:raise Rejected('optimizer override accepts only None or typed False')
+    if _optimizer_enabled is False and (engine_profile!='tuned-free-angle' or _fanout_enabled is not False):
+        raise Rejected('unsupported: optimizer override requires explicit free-angle fanout-disabled route')
     if _fanout_enabled is not None and _fanout_enabled is not False:raise Rejected('fanout override accepts only None or typed False')
     if _fanout_enabled is False and (keep_existing is not False or adapter!='both' or guidance_policy!='native'
             or settings_path is not None or preference_overrides is not None or _preferences is not None
@@ -1793,6 +1819,7 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
             'started_utc':operation_started_utc,'budget_seconds':seconds,'cpu_budget_seconds':seconds,'cpu_budget_enforcement':'postcompletion acceptance cap; no total-CPU preemption','baseline':engine_baseline(engine_profile,adapter),'adapter':adapter,'engine_profile':engine_profile,'scoring_variant':scoring_variant,'scope':'partial_completion' if keep_existing else 'whole_board_unlocked_routing',
             'tools':tool_manifest(**({'native_toolchain':native_toolchain} if native_toolchain is not None else {})),**experimental_record}
     if _fanout_enabled is False:report['engine_fanout_override']=False
+    if _optimizer_enabled is False:report['engine_optimizer_override']=False
     try:
         capture_preferences(report,output,_preferences)
         before=tree_hash(source.parent); report['source_hashes']=before
@@ -1877,7 +1904,7 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
         config_dir=output/'engine-config'; config_dir.mkdir()
         width_guard=minimum_width_guard(source,adapter)
         if width_guard is not None:report['minimum_width_guard']=width_guard
-        report['engine_budget']=engine_profile_settings(engine_profile,job.deadline-time.monotonic(),strict_class_targets=policy is not None or selected is not None or width_guard is not None,scoring_variant=scoring_variant,experimental_free_angle=engine_profile=='tuned-free-angle',fanout_enabled=_fanout_enabled,experimental_fanout=_fanout_enabled is False)
+        report['engine_budget']=engine_profile_settings(engine_profile,job.deadline-time.monotonic(),strict_class_targets=policy is not None or selected is not None or width_guard is not None,scoring_variant=scoring_variant,experimental_free_angle=engine_profile=='tuned-free-angle',fanout_enabled=_fanout_enabled,experimental_fanout=_fanout_enabled is False,optimizer_enabled=_optimizer_enabled,experimental_optimizer=_optimizer_enabled is False)
         report['engine_budget']['outer_task_wall_budget_seconds']=seconds
         report['engine_budget']['outer_task_cpu_budget_seconds']=seconds
         engine_settings=report['engine_budget']['argv']
@@ -2150,6 +2177,7 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
     from .engine_angle import check as check_engine_angle
     angle_contract=check_engine_angle(path.parent,data)  # Independent of optional legacy engine_budget dispatch.
     fanout_contract=check_engine_fanout_override(data)
+    optimizer_contract=check_engine_optimizer_override(data)
     explicit_material=tree_hash(path.parent) if native_toolchain is not None else None
     if native_minimum_markers(path.parent,data):
         raise Rejected('experimental native-minimum transport is not a normal routing receipt')
@@ -2174,13 +2202,14 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
         from .engine_angle import check_scope as check_engine_angle_scope
         check_engine_angle_scope(data,input_policy,native_toolchain)
     if fanout_contract is False:check_engine_fanout_override(data,input_policy=input_policy,native_toolchain=native_toolchain)
+    if optimizer_contract is False:check_engine_optimizer_override(data,input_policy=input_policy,native_toolchain=native_toolchain)
     if input_policy=='native' and data.get('strategy') is None:
         check_normal_engine_provenance(path.parent,data)
     # Captured-choice runs use the shared bounded reader for a complete witness,
     # including original rule copies and native evidence, before interpreting it.
     # Recheck after every late settings/process read; board-only layer checks
     # cannot detect a concurrently changed project file or native report.
-    preferences_guarded=('engine_fanout_override' in data or data.get('engine_profile')=='tuned-free-angle' or 'engine_angle_binding' in data
+    preferences_guarded=('engine_optimizer_override' in data or 'engine_fanout_override' in data or data.get('engine_profile')=='tuned-free-angle' or 'engine_angle_binding' in data
         or (path.parent/'engine-angle.json').exists() or (path.parent/'engine-free-angle.dsn').exists()
         or 'routing_preferences' in data or (path.parent/'routing-preferences.json').exists()
         or (path.parent/'routing-preferences.json').is_symlink() or layer_markers(path.parent,data)
