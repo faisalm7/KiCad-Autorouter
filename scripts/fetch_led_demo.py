@@ -414,7 +414,143 @@ def check_uv_cache(root, cache):
         if shared.sha(read_bytes(shared.contained(root,root/shared.safe(name)),cache['caps'][name]))!=pin:
             raise ValueError(cache.get('label','UV cached licence')+' input changed during acquisition')
 
+SUNX_PROFILE = {'schema': 1,
+ 'profile_id': 'sunx-v21',
+ 'project_id': 'sunx-v21',
+ 'repository': 'Open-Air-Foundation/pcb-module-SUNX',
+ 'commit': '9cee7482c6b3bbd63293f53376335bed6659457f',
+ 'rows': [{'source_path': 'LICENSE',
+           'bytes': 20138,
+           'git_blob_sha1': '2d58298e6eda10e7204abb52722efbc840db2390',
+           'sha256': '28a9529c7d0bb4dc51f4bf5c116a3d16ef247a052f7591466768ddf563fd1cf5',
+           'mode': '100644',
+           'repository': 'Open-Air-Foundation/pcb-module-SUNX',
+           'commit': '9cee7482c6b3bbd63293f53376335bed6659457f',
+           'destination': 'sunx-v21/LICENSE',
+           'raw_url': 'https://raw.githubusercontent.com/Open-Air-Foundation/pcb-module-SUNX/9cee7482c6b3bbd63293f53376335bed6659457f/LICENSE',
+           'blob_url': 'https://github.com/Open-Air-Foundation/pcb-module-SUNX/blob/9cee7482c6b3bbd63293f53376335bed6659457f/LICENSE',
+           'rights_basis': 'Pinned SUNX v2.1 README explicitly licenses hardware design files CC-BY-SA4; '
+                           'exact full LICENSE and AirGradient attribution preserved. WIP '
+                           'untested/unreleased branch, no Native/routing/physical/electrical or '
+                           'independent-ancestry claim. Mixed KiCad6/9 stock model paths and individual '
+                           'library/asset title chains remain unclosed; no models/scripts/firmware acquired. '
+                           'Existing PRL is mandatory unchanged original input.'},
+          {'source_path': 'README.md',
+           'bytes': 2825,
+           'git_blob_sha1': '8a3119d0fac301538ec37d9a0520c3bfeed057ec',
+           'sha256': '4fc8717b8dc5aaf2992688677378416f2bd5003a8f0d8cc3d5b160e9f575e6b8',
+           'mode': '100644',
+           'repository': 'Open-Air-Foundation/pcb-module-SUNX',
+           'commit': '9cee7482c6b3bbd63293f53376335bed6659457f',
+           'destination': 'sunx-v21/README.md',
+           'raw_url': 'https://raw.githubusercontent.com/Open-Air-Foundation/pcb-module-SUNX/9cee7482c6b3bbd63293f53376335bed6659457f/README.md',
+           'blob_url': 'https://github.com/Open-Air-Foundation/pcb-module-SUNX/blob/9cee7482c6b3bbd63293f53376335bed6659457f/README.md',
+           'rights_basis': 'Pinned SUNX v2.1 README explicitly licenses hardware design files CC-BY-SA4; '
+                           'exact full LICENSE and AirGradient attribution preserved. WIP '
+                           'untested/unreleased branch, no Native/routing/physical/electrical or '
+                           'independent-ancestry claim. Mixed KiCad6/9 stock model paths and individual '
+                           'library/asset title chains remain unclosed; no models/scripts/firmware acquired. '
+                           'Existing PRL is mandatory unchanged original input.'},
+          {'source_path': 'sunx/sunx.kicad_pcb',
+           'bytes': 89260,
+           'git_blob_sha1': '87d2f31e79ad9bd81df3538bec13c31aeb55b467',
+           'sha256': 'db90383cd5707a208dbeaca1205c34309108da173c319c32968d67b96a617d9f',
+           'mode': '100644',
+           'repository': 'Open-Air-Foundation/pcb-module-SUNX',
+           'commit': '9cee7482c6b3bbd63293f53376335bed6659457f',
+           'destination': 'sunx-v21/sunx/sunx.kicad_pcb',
+           'raw_url': 'https://raw.githubusercontent.com/Open-Air-Foundation/pcb-module-SUNX/9cee7482c6b3bbd63293f53376335bed6659457f/sunx/sunx.kicad_pcb',
+           'blob_url': 'https://github.com/Open-Air-Foundation/pcb-module-SUNX/blob/9cee7482c6b3bbd63293f53376335bed6659457f/sunx/sunx.kicad_pcb',
+           'rights_basis': 'Pinned SUNX v2.1 README explicitly licenses hardware design files CC-BY-SA4; '
+                           'exact full LICENSE and AirGradient attribution preserved. WIP '
+                           'untested/unreleased branch, no Native/routing/physical/electrical or '
+                           'independent-ancestry claim. Mixed KiCad6/9 stock model paths and individual '
+                           'library/asset title chains remain unclosed; no models/scripts/firmware acquired. '
+                           'Existing PRL is mandatory unchanged original input.'},
+          {'source_path': 'sunx/sunx.kicad_prl',
+           'bytes': 2418,
+           'git_blob_sha1': '20d30c2bbd984629c7df3c7ade4518617ca0101b',
+           'sha256': '06b428e24ace7b1ebd945ffed42ab7593611d402902643a66ca172456c34a3f6',
+           'mode': '100644',
+           'repository': 'Open-Air-Foundation/pcb-module-SUNX',
+           'commit': '9cee7482c6b3bbd63293f53376335bed6659457f',
+           'destination': 'sunx-v21/sunx/sunx.kicad_prl',
+           'raw_url': 'https://raw.githubusercontent.com/Open-Air-Foundation/pcb-module-SUNX/9cee7482c6b3bbd63293f53376335bed6659457f/sunx/sunx.kicad_prl',
+           'blob_url': 'https://github.com/Open-Air-Foundation/pcb-module-SUNX/blob/9cee7482c6b3bbd63293f53376335bed6659457f/sunx/sunx.kicad_prl',
+           'rights_basis': 'Pinned SUNX v2.1 README explicitly licenses hardware design files CC-BY-SA4; '
+                           'exact full LICENSE and AirGradient attribution preserved. WIP '
+                           'untested/unreleased branch, no Native/routing/physical/electrical or '
+                           'independent-ancestry claim. Mixed KiCad6/9 stock model paths and individual '
+                           'library/asset title chains remain unclosed; no models/scripts/firmware acquired. '
+                           'Existing PRL is mandatory unchanged original input.'},
+          {'source_path': 'sunx/sunx.kicad_pro',
+           'bytes': 14778,
+           'git_blob_sha1': '025777fdc3ad644e17e1c978e5af41f83e51eee2',
+           'sha256': 'fbaa97c6f1076ceafcae734d8217dfc4cb8e25b71634845bf0aeda885da5b9bb',
+           'mode': '100644',
+           'repository': 'Open-Air-Foundation/pcb-module-SUNX',
+           'commit': '9cee7482c6b3bbd63293f53376335bed6659457f',
+           'destination': 'sunx-v21/sunx/sunx.kicad_pro',
+           'raw_url': 'https://raw.githubusercontent.com/Open-Air-Foundation/pcb-module-SUNX/9cee7482c6b3bbd63293f53376335bed6659457f/sunx/sunx.kicad_pro',
+           'blob_url': 'https://github.com/Open-Air-Foundation/pcb-module-SUNX/blob/9cee7482c6b3bbd63293f53376335bed6659457f/sunx/sunx.kicad_pro',
+           'rights_basis': 'Pinned SUNX v2.1 README explicitly licenses hardware design files CC-BY-SA4; '
+                           'exact full LICENSE and AirGradient attribution preserved. WIP '
+                           'untested/unreleased branch, no Native/routing/physical/electrical or '
+                           'independent-ancestry claim. Mixed KiCad6/9 stock model paths and individual '
+                           'library/asset title chains remain unclosed; no models/scripts/firmware acquired. '
+                           'Existing PRL is mandatory unchanged original input.'},
+          {'source_path': 'sunx/sunx.kicad_sch',
+           'bytes': 61245,
+           'git_blob_sha1': '8745b998719fe7cc64b17de181956da1bb3460c7',
+           'sha256': '095fd2711cbeb1839099c9a10f5e1791c2910c6da463972f910b4996d3fc6a49',
+           'mode': '100644',
+           'repository': 'Open-Air-Foundation/pcb-module-SUNX',
+           'commit': '9cee7482c6b3bbd63293f53376335bed6659457f',
+           'destination': 'sunx-v21/sunx/sunx.kicad_sch',
+           'raw_url': 'https://raw.githubusercontent.com/Open-Air-Foundation/pcb-module-SUNX/9cee7482c6b3bbd63293f53376335bed6659457f/sunx/sunx.kicad_sch',
+           'blob_url': 'https://github.com/Open-Air-Foundation/pcb-module-SUNX/blob/9cee7482c6b3bbd63293f53376335bed6659457f/sunx/sunx.kicad_sch',
+           'rights_basis': 'Pinned SUNX v2.1 README explicitly licenses hardware design files CC-BY-SA4; '
+                           'exact full LICENSE and AirGradient attribution preserved. WIP '
+                           'untested/unreleased branch, no Native/routing/physical/electrical or '
+                           'independent-ancestry claim. Mixed KiCad6/9 stock model paths and individual '
+                           'library/asset title chains remain unclosed; no models/scripts/firmware acquired. '
+                           'Existing PRL is mandatory unchanged original input.'}],
+ 'directories': ['sunx'],
+ 'board_path': 'sunx/sunx.kicad_pcb',
+ 'output_prefix': 'sunx-v21-demo-',
+ 'default_output': '.data/sunx-v21-demo-001',
+ 'file_count': 6,
+ 'bytes': 190664,
+ 'max_requests': 6,
+ 'network_byte_cap': 190670,
+ 'max_single_response_bytes': 89261,
+ 'output_byte_cap': 2097152,
+ 'wall_budget_seconds': 300,
+ 'cpu_budget_seconds': 300,
+ 'request_wall_seconds': 30,
+ 'native_packet_notice_copies': {'sunx/_licenses/creator/LICENSE': 'LICENSE',
+                                 'sunx/_licenses/creator/README.md': 'README.md'},
+ 'native_packet_files': 8,
+ 'native_packet_bytes': 213627,
+ 'development_exposed': True,
+ 'independent_ancestry_established': False,
+ 'native_validation_performed_by_fetch': False,
+ 'raw_assets_public': False,
+ 'warnings': ['Exactly six originals including existing PRL; native notice packet adds two byte-identical '
+              'creator notice copies.',
+              'KiCad9 SUNX v2.1 branch is explicitly WIP, untested and unreleased; README retains older-main '
+              'prose. No routing or fabrication approval.',
+              'Root hardware CC-BY-SA4 scope and AirGradient attribution retained; individual '
+              'model/library/asset rights and ancestry remain unclosed.',
+              'Actual original Native saved refill/fullSCH is not established by metadata or fetch. All '
+              'findings and source constraints must remain visible.',
+              'Mixed KICAD6/KICAD9 stock model variables remain exact and unresolved; no '
+              'models/libraries/assets/scripts/firmware downloaded or executed.',
+              'Source6/190664B and native8/213627B are finite inventories, not a production-support or '
+              'independent-family count.']}
+
 def fixed_profile(profile_id='led'):
+    if profile_id=='sunx-v21':return copy.deepcopy(SUNX_PROFILE)
     if profile_id=='pico-flipper':return copy.deepcopy(FLIPPER_PROFILE)
     if profile_id=='audio-player-my1690x':return copy.deepcopy(AUDIO_PROFILE)
     if profile_id=='navigation-switch':return copy.deepcopy(NAV_PROFILE)
@@ -651,7 +787,7 @@ def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fe
         raise
 
 def main():
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--fetch',action='store_true');parser.add_argument('--project',choices=('led','arcdice','analog-filter','cellscan','uv-dosimeter','navigation-switch','audio-player-my1690x','pico-flipper'),default='led');parser.add_argument('--output');parser.add_argument('--reuse-uv-licenses',action='store_true',help='Explicitly reuse only the three pinned prior UV licence bodies; no fallback');parser.add_argument('--reuse-navigation-notices',action='store_true',help='Explicitly reuse only two pinned prior Navigation notices; old timing unmeasured, no fallback');parser.add_argument('--reuse-audio-notices',action='store_true',help='Explicit fixed Audio root notices and stale Hardware README reuse; no fallback, prior untimed cost retained');parser.add_argument('--reuse-flipper-notices',action='store_true',help='Explicitly reuse two pinned prior Flipper notices; prior metadata cost unmeasured, no fallback');args=parser.parse_args();args.output=args.output or fixed_profile(args.project)['default_output']
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--fetch',action='store_true');parser.add_argument('--project',choices=('led','arcdice','analog-filter','cellscan','uv-dosimeter','navigation-switch','audio-player-my1690x','pico-flipper','sunx-v21'),default='led');parser.add_argument('--output');parser.add_argument('--reuse-uv-licenses',action='store_true',help='Explicitly reuse only the three pinned prior UV licence bodies; no fallback');parser.add_argument('--reuse-navigation-notices',action='store_true',help='Explicitly reuse only two pinned prior Navigation notices; old timing unmeasured, no fallback');parser.add_argument('--reuse-audio-notices',action='store_true',help='Explicit fixed Audio root notices and stale Hardware README reuse; no fallback, prior untimed cost retained');parser.add_argument('--reuse-flipper-notices',action='store_true',help='Explicitly reuse two pinned prior Flipper notices; prior metadata cost unmeasured, no fallback');args=parser.parse_args();args.output=args.output or fixed_profile(args.project)['default_output']
     try:
         with shared.cancellation(),shared.alarm(SECONDS):record=fetch_demo(args.output,profile_id=args.project,fetch=args.fetch,started=START,cpu_started=CPU_START,reuse_uv_licenses=args.reuse_uv_licenses,reuse_navigation_notices=args.reuse_navigation_notices,reuse_audio_notices=args.reuse_audio_notices,reuse_flipper_notices=args.reuse_flipper_notices)
     except (Exception,KeyboardInterrupt) as exc:

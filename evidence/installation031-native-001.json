@@ -1,0 +1,167 @@
+{
+  "actual_native": {
+    "accepted": true,
+    "candidate_sha256": "efc385da9c0ed2e67afa2e1fc7c1ed7fcc0587c1c97e9ef6c7e74bb7e6d4a4c9",
+    "metrics": {
+      "copper_layers": 2,
+      "footprints": 6,
+      "pads": 6,
+      "track_length_mm": 60.0,
+      "version": "10.0.0",
+      "vias": 0,
+      "zones": 1
+    },
+    "native": {
+      "blocking": 0,
+      "exclusions": 0,
+      "findings": [],
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ],
+      "opens": 0,
+      "warnings": 0
+    },
+    "native_report_sha256": "bda5de8249c4387b3e9649311b75aec43d8414f374a46ea0c3e8b9b558aa6489",
+    "status": "routing_accepted",
+    "tools": {
+      "files": {
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+        "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-031/checkout/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7"
+      },
+      "freerouting": "2.5.0",
+      "git_head": "c329fbdf122fb0ca2bb18a8c6cd55b86d97f6f66",
+      "implementation_sha256": {
+        "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+        "autorouter/__main__.py": "eb48b32e74c3b25ffa7daca999cdff4c640ea7199abd990090732671bca495ea",
+        "autorouter/adapter.py": "87f3d2a69c64029011dc72a48759932b208379a9391f23b65015b48a7418c4ae",
+        "autorouter/board_floor.py": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340",
+        "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+        "autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+        "autorouter/floor_route.py": "cf0e44b6672f56f531db7c4cc21bf79e4faedbca0d414212c1e5f1ad0e48eb24",
+        "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+        "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+        "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+        "autorouter/local_settings.py": "69fa09a68af0e794cdc5abb8d674a2117e4696a6352a2943d71744d326d8e861",
+        "autorouter/native.py": "ece3822466657c38935b15c77eb4df37c1ae82b1893dc8f335685b754bad4c23",
+        "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+        "autorouter/native_edge.py": "c242ba402c9a981bc18a6e8d2f43e95dc936b53ef64789bfa370716b3de4618d",
+        "autorouter/netclass.py": "f7f1c31b8660c32d67f7bb5dbfeabd127da73a4c2adcf52f58bb46959e96b52f",
+        "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+        "autorouter/padless_alias.py": "5748f83ab88f746f65ba65462dc31b3d4bc6edf678df19169e051ab6c80b947a",
+        "autorouter/padless_alias_native.py": "7d06683b834f0211c82d87d7c982f6c39960e841627cd5e98f58a7913f501002",
+        "autorouter/pipeline.py": "e9b8734bd91677d8535bfaf505d3bb1fb1ba01ce28e117a875a424ff0de2fffd",
+        "autorouter/placement_clearance.py": "f846a73367bc60dfbb48386233e405cb4bf1382f056d379787d7b823c3905feb",
+        "autorouter/placement_strategy.py": "765a28e5a63da3e52266665accf9b9e1f5ea586ea9a90f51291b142c4373fb32",
+        "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+        "autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+        "autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+        "autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+        "autorouter/recovery.py": "fb2866c5340b808c6f7baf6a43234c87e8e353e74f47a91b51ad6fae5c24a78d",
+        "autorouter/review_export.py": "698dc66682416579c3d44b571dce0c0ed7102244adb0cff38dceeeca0ea1489c",
+        "autorouter/review_view.py": "79f65e4d53c243f4e0f054d97bced2be2c4646537e5b86f11626ac8c5f4ce92d",
+        "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+        "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+        "autorouter/schematic_field_evidence.py": "d7e1012b05bb7e0fb03358bbc3573b845ff06d03760a88137cf52db71090641b",
+        "autorouter/schematic_fields.py": "7d9043a14bac69d18830b2f51cb7d118c648df9290337505db1bf8503d931a71",
+        "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+        "autorouter/strategy.py": "a9a18b8e20fc5ce27cc159166202b37c91ada30805570bb245b2c0fe01376628",
+        "autorouter/thermal.py": "2fa7ff7260ba6e8b5a8003d8e1f51314b5ff548ef635fb94b29bdee4c741102d",
+        "autorouter/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+        "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+        "autorouter/thermal_worker.py": "fd651f44233aae2c70da0a8feab5f96a4763276684e8b0babf39860b91a9cc33"
+      },
+      "kicad": "10.0.0",
+      "network": "engine sandbox-exec deny network*",
+      "normal_drc_local_settings_policy": "job-owned-prl-immutable-v1",
+      "normal_native_export_alias_policy": "source-bound-padless-export-v1",
+      "normal_selected_proposal_import_policy": "selected-proposals-exact-source-v1"
+    },
+    "total_cpu_seconds": 4.6362950000000005,
+    "wall_seconds": 7.248060167010408
+  },
+  "complete_source_files": 20814,
+  "initial_distribution_files": 637,
+  "installed_targeted_modules": [
+    "tests.test_padless_alias",
+    "tests.test_padless_alias_native",
+    "tests.test_padless_alias_export",
+    "tests.test_padless_alias_policy",
+    "tests.test_netclass_unused",
+    "tests.test_netclass_pipeline",
+    "tests.test_silkscreen_knockout",
+    "tests.test_result",
+    "tests.test_normal_local_settings_policy",
+    "tests.test_normal_selected_import",
+    "tests.test_refill_route_nets",
+    "tests.test_selected_proposal_import",
+    "tests.test_selected_evidence",
+    "tests.test_preference_publication",
+    "tests.test_pruning_preferences_freshness",
+    "tests.test_review_export"
+  ],
+  "installed_targeted_tests": 163,
+  "kind": "installation031-current-routing-core-native-readback",
+  "limitations": "New source distribution/venv on existingMac/KiCad/Java/cache.22offlinecommands/72fixedtests plus163installedtargeted; oneNativePCB/PRO/PRL ownedfixture noSCH, zeroaliases,60mm0via0/0/0/0. HostRollernonzeroalias/fullSCHqualification separate. Oneexact67060B historical producer source is separately disclosed testfixture, neverexecuted/notinitialdistribution. No freshOS/fullinstalledsuite/GUI/human/physical/formalpackage claim. Subsequent source-only fetch/qualification-helper edits are outside this installation; routing-core hashes remain pinned.",
+  "measured_costs": {
+    "independent_reader_full_cpu_seconds": 5.667936,
+    "independent_reader_wall_seconds": 7.460849458002485,
+    "installation_full_cpu_seconds": 28.570518,
+    "installation_publication_allowance_seconds": 2,
+    "installation_wall_seconds": 37.0927603750024,
+    "reader_publication_allowance_seconds": 2,
+    "targeted_full_cpu_seconds": 44.27281,
+    "targeted_publication_allowance_seconds": 2,
+    "targeted_wall_seconds": 46.38684808299877
+  },
+  "passed": true,
+  "pins": [
+    {
+      "path": ".runs/installation-031/result.json",
+      "sha256": "efee453929b38928822743f5cda2d8ad53f133255ddc486fe3d709510fe1acc8"
+    },
+    {
+      "path": ".runs/installation-031-execution/execution.json",
+      "sha256": "26b4121d33e1d0eb2ac2a0e7036af3bb9a669dd24a8a4ae6e7a8c24cbaa89656"
+    },
+    {
+      "path": ".runs/installation031-targeted-001/execution.json",
+      "sha256": "669fb25ab80ee6e529a157a85d9b1e4fc9f0396807f384f03d09ffdd4063eb43"
+    },
+    {
+      "path": ".runs/installation031-targeted-001/supplement.json",
+      "sha256": "22c49a831c792ede4b9804aa4a4172be6d6a3c29c5b852677ecb64eeb1927f5b"
+    },
+    {
+      "path": ".runs/current-installation031-review-001/execution.json",
+      "sha256": "e7d311e82034ca9d71b748cc64550022577143074a4a8b09db2fd1a80e945289"
+    },
+    {
+      "path": ".runs/current-installation031-review-001/checks.json",
+      "sha256": "ded5bcdf04a8e95701a40e99a580ad023595350a82e9eef60bd49cb4759805d6"
+    }
+  ],
+  "schema": 1,
+  "source_checkpoint": "c329fbdf122fb0ca2bb18a8c6cd55b86d97f6f66"
+}

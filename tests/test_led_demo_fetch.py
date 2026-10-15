@@ -24,6 +24,20 @@ class LedFetchControls(unittest.TestCase):
  def test_fixed_public_rows_equal_frozen_v7_identity(self):
   rows=json.loads((demo.ROOT/'experiments/licensed_acquisition_v7/protocol.json').read_text())['projects'][0]['files'];keys=('source_path','repository','commit','mode','raw_url','bytes','sha256','git_blob_sha1')
   self.assertEqual([{k:r[k] for k in keys} for r in self.public_rows],[{k:r[k] for k in keys} for r in rows]);self.assertEqual(sum(r['bytes'] for r in self.public_rows),161071)
+ def test_sunx_plan_keeps_existing_prl_and_complete_notice_packet(self):
+  cfg=demo.fixed_profile('sunx-v21');rows=cfg['rows'];by={r['source_path']:r for r in rows}
+  self.assertEqual((len(rows),sum(r['bytes'] for r in rows)),(6,190664))
+  self.assertIn('sunx/sunx.kicad_prl',by)
+  self.assertEqual(by['sunx/sunx.kicad_prl']['sha256'],'06b428e24ace7b1ebd945ffed42ab7593611d402902643a66ca172456c34a3f6')
+  self.assertEqual(cfg['native_packet_files'],len(rows)+len(cfg['native_packet_notice_copies']))
+  self.assertEqual(cfg['native_packet_bytes'],cfg['bytes']+sum(by[n]['bytes'] for n in cfg['native_packet_notice_copies'].values()))
+  self.assertEqual((cfg['max_requests'],cfg['network_byte_cap']),(6,190670))
+  result=demo.fetch_demo(cfg['default_output'],profile_id='sunx-v21',root=self.root,transport=lambda *a:self.fail('offline plan transported'))
+  self.assertEqual((result['action'],result['network_requests'],result['planned_network_requests']),('plan_only',0,6))
+  self.assertFalse((self.root/'.data').exists())
+  from experiments.original_project_native_v1 import driver
+  self.assertEqual(driver.CASES['sunx-v21'],('portable-demo',cfg['board_path'],cfg['commit'],None))
+  self.assertIn('sunx-v21',driver.REFILLED_ORIGINALS)
  def test_clean_checkout_plan_has_no_data_cache_git_or_network_requirement(self):
   result=demo.fetch_demo('.data/led-demo-test',root=self.root,transport=lambda *a:(_ for _ in ()).throw(AssertionError('no network')))
   self.assertEqual(result['action'],'plan_only');self.assertEqual(result['network_requests'],0);self.assertFalse((self.root/'.data').exists());self.assertFalse((self.root/'.git').exists());self.assertFalse((self.root/'.runs').exists())

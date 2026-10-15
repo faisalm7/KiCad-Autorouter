@@ -1,5 +1,42 @@
 # Current status
 
+October14local/October15UTC,2026. Work remains in `/Users/faisal/Projects/KiCad-Autorouter-local`, branch `rebuild/local-20261010-015447`. Last verified checkpoint: `c329fbdf122fb0ca2bb18a8c6cd55b86d97f6f66`. Experimental development tool; broad confirmation and release gates remain open.
+
+Normal routing runs locally without an AI subscription/account/network using pinned KiCad10.0.0, Freerouting2.5.0 and Java25.0.2. [Start](START_HERE.md), [saved scope/layer/budget/scoring preferences](docs/routing-preferences.md), [safe separate-project workflow](docs/gui-workflow.md). Original rules, geometry, protected copper, warnings and ignored checks remain authoritative. There is no live-board overwrite/undo or unsaved-buffer inspection claim.
+
+## Latest measured result
+
+[Normal Roller comparison](evidence/roller-normal-native240-001.json) now qualifies real nonzero-alias export, generated routing, saved refill, complete-schematic Native validation, original-design/class/protection checks and independent retained readback. C obtains its own fresh incumbent and removes three redundant ground segments through one actually validated trial.
+
+| Roller arm | Length mm | Vias | Final opens / blocking / warnings | Complete cumulative wall / CPU seconds |
+|---|---:|---:|---|---:|
+| B0 raw-DSN safety-wrapper control |36.049463|0|0/0/1|131.330861 /132.731032|
+| B1 corrected adapter |50.117649|0|0/0/1|131.330861 /132.731032|
+| B2 tuned portfolio, all three variants |50.117649|0|0/0/1|209.427001 /197.420653|
+| C fresh incumbent + pruning |36.049463|0|0/0/1|186.176720 /180.636036|
+
+Each arm has the same declared cumulative240-second wall/full-CPU cap, including previous failures and complete readers. B0/B1 retain their already qualified candidates without a solver/Native replay; the new work executes only unfinished B2/C. All three B2 variants are measured. C improves on B1/B2 by14.068185mm, and ties B0. B0 uses mandatory temporary padless export identities and fixed-placement import, so it is not an untouched stock export workflow. No new stock-control win is established. Original warning and all nine ignored checks remain exact; the full project is not warning-free.
+
+The first matrix001 failed at proof publication; compact lossless JSON fixed indentation overflow under the same16MiB ceiling. The subsequent120-second experiment qualifies B0/B1 but B2/C refuse before engine because their remaining allowance cannot cover grace/finalization reserves. Both outcomes remain unchanged; cumulative240 does not rescue120 retroactively. Every final candidate, including incumbent/trial/final reports, remains bound to its actual bytes. [Failure/fix](evidence/normal-alias-encoding-failure-001.json).
+
+Together with the six earlier circuit comparisons retained below, there are seven exposed developmental comparisons against fixed corrected/tuned configurations. Zero independent pedigrees or untouched confirmations are established. No generalized completion superiority, first-ever speedup, electrical adequacy or physical approval follows.
+
+## Installation, workflow and backups
+
+[Installation031 atc329fbdf](evidence/installation031-native-001.json) passes a fresh local distribution/venv,22offline commands,72fixed+163targeted installed controls and an actual owned Native smoke:60mm/zero vias/zero findings. Whole37.092760wall28.570518CPU; targeted46.386848/44.272810; independent installed reader7.460849/5.667936, with publication allowances recorded separately. Both new alias modules ship. The installed fixture is PCB/PRO/PRL only, without SCH and with zero aliases; host Roller nonzero-alias/fullSCH evidence is separate. Same Mac/apps/cache; one exact historical source test supplement is disclosed, not part of the initial distribution and never executed. New source-only fetch/qualification-controller additions are outside that installation.
+
+Previous complete-schematic GUI006, normal selected/protected/legacy workflows and real cancellation002 stay qualified in their recorded scopes. Do not repeat them. The current Roller preview/reject/testaccept-intent/fresh export remains the next actual workflow gate; a small explicit-receipt option avoids rerunning the old five-case population. All test intent remains distinct from human PCB approval.
+
+Latest raw backup througha1f8467 preserves276271files/8573442921B; latest major full restoration throughfdbff8a preserves272571files/all Git refs/restoredCLI. A real later capture hit8GiB:277248files/8616598202B. Only byte capacity is now9GiB;280000files/80MiBreceipt/192MiBchain and other safety checks remain. A new full snapshot/restoration is REQUIRED at this milestone and has not yet run. [Actual refusal/change](evidence/backup-byte-capacity-20261015-source-001.json). Owner chose on-Mac-only raw backups; GitHub source checkpoints are separate, and no disk-failure protection is claimed.
+
+## Next release gates
+
+[Full077 integration](evidence/source-integration077-001.json) passes1329 software controls,101.480457wall97.386584CPU; it is not a routing-quality result. Finish checkpoint, current Roller workflow and the new SUNX original-only Native gate using the exact licensed six-file packet including PRL. SUNX is currently only source-prepared; no Native/routing/independence result is assumed. Preserve all earlier PAW, CP2102, Flipper, UV, Navigation, Audio, custom-pad/contact and unsupported findings. Then complete major restoration and continue broader supported routing/fair B0/B1/B2/C measurements. Thirty–fifty representative families, untouched family-disjoint confirmation, actual human PCB review and electrical/physical validation remain unmet. No runtime model/chat feature is justified. No formal release/package, spending, private uploads, contacts or background loops are authorized.
+
+## Earlier chronological status, retained for evidence
+
+# Current status
+
 October14,2026. Existing local Mac checkout `/Users/faisal/Projects/KiCad-Autorouter-local`, branch `rebuild/local-20261010-015447`. Last verified GitHub checkpoint `f6209b3dd79956d691881117a71d2aa286ccf705`. Experimental local tool; representative/confirmatory/release gates remain open. Historical status versions, failed attempts and source snapshots remain in Git and raw evidence.
 
 Normal routing runs locally without an AI subscription, account or network using pinned KiCad10.0.0/Freerouting2.5.0/Java25.0.2. See [start](START_HERE.md), [quickstart](docs/quickstart.md), [persistent scope/layer/budget/scoring preferences](docs/routing-preferences.md) and [separate-project review workflow](docs/gui-workflow.md). Original rules, geometry and protected copper remain mandatory; unsupported choices refuse. Native pruning obtains and charges its own fresh incumbent. Preview, test accept/reject intent, fresh native export and real cancellation have actual controls. Separate projects only; no live apply, tested undo or unsaved-buffer inspection promise.

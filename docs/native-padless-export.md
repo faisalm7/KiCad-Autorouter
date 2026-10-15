@@ -1,6 +1,6 @@
 # Temporary padless export identities
 
-The current source promotes the mechanism qualified by the [Roller generated-route diagnostic](../evidence/roller-generated-routing-native001-001.json). The first normal matrix rejected at proof publication: indentation of four full observations exceeded the16MiB ceiling. Compact JSON now preserves all values within the same ceiling; fresh normal-workflow qualification is still pending. The installed installation030 predates this change.
+The normal Native workflow is now qualified on the exposed [Roller project](../evidence/roller-normal-native240-001.json): actual four-observation export, generated routing, saved refill, complete-schematic DRC, original-design checks and independent readback. All warnings and ignored checks remain. The first matrix rejected an oversized indented proof; compact JSON preserves every value under the unchanged16MiB limit. Installation031 ships both modules and qualifies an ordinary zero-alias Native fixture; host nonzero-alias qualification is separate.
 
 Duplicate footprint references are allowed only when every member of that group is padless, board-only artwork with a unique UUID and a noncopper Reference field. Aliased artwork cannot have models, and variable-dependent surface text is outside this scope. The qualified geometry observer is limited to modern two-layer boards with F.Cu signal and B.Cu signal or jumper. Electrical duplicates remain unsupported.
 
