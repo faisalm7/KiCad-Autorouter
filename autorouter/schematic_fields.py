@@ -50,12 +50,13 @@ def compare(sch,pcb):
         placeholder=True
     return placeholder
 
-def components(raw_text,observer):
+def components(raw_text,observer,*,native_version='10.0.0'):
+    if type(native_version)is not str or native_version not in ('10.0.0','10.0.7'):fail('unsupported expected native version')
     if not isinstance(raw_text,str):fail('native kicadsexpr text required')
     tree=sx.parse(raw_text)
     if tree[0]!='export' or singleton(tree,'version')!='E':fail('native export schema differs')
     design=sx.one(tree,'design')
-    if design is None or singleton(design,'tool')!='Eeschema 10.0.0':fail('native exporter identity differs')
+    if design is None or singleton(design,'tool')!='Eeschema '+native_version:fail('native exporter identity differs')
     source=PurePosixPath(observer['source'])
     if singleton(design,'source')!=str(source.with_suffix('.kicad_sch')):fail('source schematic/PCB pairing differs')
     section=sx.one(tree,'components')
@@ -75,25 +76,26 @@ def components(raw_text,observer):
         result[ref]={k:v for k,v in values.items() if k not in SKIP}
     return result
 
-def derive(raw_netlist_text,observer,raw_drc_report):
+def derive(raw_netlist_text,observer,raw_drc_report,*,native_version='10.0.0'):
     """Return a field-only proof; ValueError means unqualified, never a waiver."""
+    if type(native_version)is not str or native_version not in ('10.0.0','10.0.7'):fail('unsupported expected native version')
     canonical(observer);canonical(raw_drc_report)
     required={'schema','native_version','source','board_sha256','project_sha256','schematic_sha256','board_saved','footprints'}
     if not isinstance(observer,dict) or set(observer)!=required or type(observer['schema']) is not int or observer['schema']!=1 or observer['board_saved'] is not False:fail('native field observation schema differs')
     version=text(observer['native_version'])
-    if version!='10.0.0' and not version.startswith('10.0.0 '):fail('native field observer version differs')
+    if version!=native_version and not (native_version=='10.0.0' and version.startswith('10.0.0 ')):fail('native field observer version differs')
     source=PurePosixPath(text(observer['source']))
     if not source.is_absolute() or '..' in source.parts or source.suffix!='.kicad_pcb':fail('absolute native PCB source required')
     if any(not isinstance(observer[k],str) or SHA.fullmatch(observer[k]) is None for k in ('board_sha256','project_sha256','schematic_sha256')):fail('native input hash missing')
     report=raw_drc_report
     if (not isinstance(report,dict) or report.get('$schema')!='https://schemas.kicad.org/drc.v1.json'
-            or report.get('kicad_version')!='10.0.0' or report.get('source')!=source.name):fail('native DRC identity differs')
+            or report.get('kicad_version')!=native_version or report.get('source')!=source.name):fail('native DRC identity differs')
     if report.get('included_severities')!=['error','warning','exclusion']:fail('native severity coverage differs')
     if not isinstance(report.get('ignored_checks'),list) or any(not isinstance(r,dict) or not isinstance(r.get('key'),str) or r['key']==KIND for r in report['ignored_checks']):fail('field check disabled or metadata absent')
     if any(not isinstance(report.get(k),list) for k in ('violations','unconnected_items','schematic_parity')):fail('native DRC coverage absent')
     findings=report['violations']+report['unconnected_items']+report['schematic_parity']
     if any(not isinstance(r,dict) or r.get('type')=='footprint_symbol_mismatch' for r in findings):fail('other symbol mismatch or malformed finding')
-    sch=components(raw_netlist_text,observer);pcb={};ids=set();folded=set()
+    sch=components(raw_netlist_text,observer,native_version=native_version);pcb={};ids=set();folded=set()
     if not isinstance(observer['footprints'],list):fail('complete native footprint census absent')
     for row in observer['footprints']:
         if not isinstance(row,dict) or set(row)!={'reference','uuid','fields'}:fail('native footprint schema differs')

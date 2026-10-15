@@ -90,6 +90,17 @@ def experimental_native_version(toolchain):
     toolchain.check();return toolchain.expected_version
 
 
+
+EXPERIMENTAL_PARITY_POLICY='explicit-pinned-flat-fields-v1'
+
+def experimental_parity_policy(native_toolchain, enabled):
+    """Explicit diagnostic opt-in; production version and route support stay fixed."""
+    if type(enabled) is not bool:raise Rejected('explicit experimental parity boolean required')
+    experimental_native_version(native_toolchain)
+    if not enabled:return None
+    if native_toolchain is None:raise Rejected('experimental parity needs an explicit pinned toolchain')
+    return EXPERIMENTAL_PARITY_POLICY
+
 def sha(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
@@ -648,7 +659,7 @@ def parse_report(path, board_name, *, native_toolchain=None):
             'ignored_checks':data['ignored_checks'],'findings':findings}
     from . import schematic_field_evidence as fields
     if fields.has_fields(findings):
-        proof=fields.readback(path,data)
+        proof=fields.readback(path,data,native_toolchain=native_toolchain)
         if proof is not None:result['field_parity']=proof
     return result
 
@@ -716,9 +727,12 @@ def check_drc_project(before, after, board_name, *, saved=False):
 
 
 class Job:
-    def __init__(self, out, seconds, *, native_toolchain=None, protect_local_settings=False):
+    def __init__(self, out, seconds, *, native_toolchain=None, protect_local_settings=False, experimental_schematic_parity=False):
         experimental_native_version(native_toolchain)
         self.native_toolchain=native_toolchain
+        self.experimental_schematic_parity=experimental_schematic_parity
+        if experimental_parity_policy(native_toolchain,experimental_schematic_parity) is not None and protect_local_settings is not True:
+            raise Rejected('experimental parity requires protected local settings')
         self.native_cli=c.CLI if native_toolchain is None else native_toolchain.cli
         self.native_python=c.PYTHON if native_toolchain is None else native_toolchain.python
         if type(protect_local_settings) is not bool:raise Rejected('explicit local-settings guard option required')
@@ -762,8 +776,12 @@ class Job:
         # The step still rechecks its budget; uncertain later failures stay closed.
         if self.deadline-time.monotonic()<=0:
             raise Rejected('timeout: whole task budget exhausted before DRC preparation')
-        if self.native_toolchain is not None and schematic_parity:
-            raise Rejected('experimental area qualification does not admit schematic parity yet')
+        policy=experimental_parity_policy(self.native_toolchain,self.experimental_schematic_parity)
+        if self.native_toolchain is not None and schematic_parity and policy is None:
+            raise Rejected('experimental schematic parity needs explicit diagnostic opt-in')
+        if policy is not None and self.protect_local_settings is not True:
+            raise Rejected('experimental parity requires protected local settings')
+        stage_policy=policy if schematic_parity else None
         if self.protect_local_settings:
             from .local_settings import canonical
             from . import handoff as h
@@ -774,6 +792,7 @@ class Job:
         original_input=board
         before=tree_hash(board.parent)
         local_settings_binding={'local_settings_policy':'job-owned-prl-immutable-v1'} if self.protect_local_settings else {}
+        if stage_policy is not None:local_settings_binding['experimental_schematic_parity_policy']=stage_policy
         validation_before=None; phase='copy'
         try:
             if not save:

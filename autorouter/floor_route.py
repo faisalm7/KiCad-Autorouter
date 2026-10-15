@@ -261,11 +261,15 @@ def check_floor_result(directory,data,original,candidate,protected):
     if {step.get('name') for step in data.get('steps',[])}!=required or len(data['steps'])!=len(required):raise p.Rejected('unexpected/missing floor execution stages')
 
 
-def check_drc_stage(directory,data,name,source,input_path,saved,before,*,schematic_parity=False,sandboxed=True,native_toolchain=None):
+def check_drc_stage(directory,data,name,source,input_path,saved,before,*,schematic_parity=False,sandboxed=True,native_toolchain=None,experimental_schematic_parity=False):
     """Verify a retained original-rule DRC stage, including exact saved input."""
     p.experimental_native_version(native_toolchain)
-    if native_toolchain is not None and schematic_parity:raise p.Rejected('experimental schematic parity is unqualified')
+    policy=p.experimental_parity_policy(native_toolchain,experimental_schematic_parity)
+    if native_toolchain is not None and schematic_parity and policy is None:raise p.Rejected('experimental schematic parity needs explicit diagnostic opt-in')
+    stage_policy=policy if schematic_parity else None
     binding=read_json(directory/(name+'-binding.json'));after=binding.get('after')
+    if binding.get('experimental_schematic_parity_policy')!=stage_policy:raise p.Rejected('DRC experimental parity policy differs')
+    if stage_policy is not None and binding.get('local_settings_policy')!='job-owned-prl-immutable-v1':raise p.Rejected('experimental parity needs protected local settings')
     expected_toolchain=None if native_toolchain is None else native_toolchain.record()
     if binding.get('experimental_native_toolchain')!=expected_toolchain:raise p.Rejected('DRC experimental toolchain binding differs')
     if (binding.get('source')!=str(source) or binding.get('input')!=str(input_path)
@@ -287,7 +291,7 @@ def check_drc_stage(directory,data,name,source,input_path,saved,before,*,schemat
     if matching.get('validated_input_sha256')!=before[source.name] or matching.get('emitted_candidate')!=str(source):
         raise p.Rejected('floor native stage step/input mismatch')
     from . import schematic_field_evidence as fields
-    fields.check_processes(directory,data,name,input_path,sandboxed=sandboxed)
+    fields.check_processes(directory,data,name,input_path,sandboxed=sandboxed,native_toolchain=native_toolchain)
     p.experimental_native_version(native_toolchain)
     check_event(directory,binding,process)
     return native
@@ -311,8 +315,8 @@ def audit_transport(directory,data,task,candidate):
 
 
 class FloorJob(p.Job):
-    def __init__(self,out,seconds,remaining,*,native_toolchain=None,protect_local_settings=False):
-        super().__init__(out,seconds,native_toolchain=native_toolchain,protect_local_settings=protect_local_settings);self.remaining=remaining
+    def __init__(self,out,seconds,remaining,*,native_toolchain=None,protect_local_settings=False,experimental_schematic_parity=False):
+        super().__init__(out,seconds,native_toolchain=native_toolchain,protect_local_settings=protect_local_settings,experimental_schematic_parity=experimental_schematic_parity);self.remaining=remaining
         self.env={key:value for key,value in self.env.items() if key not in {'PYTHONPATH','PYTHONHOME'} and (not key.startswith('KICAD_') or key in {'KICAD_CONFIG_HOME','KICAD_CACHE_HOME','KICAD_DOCUMENTS_HOME'})}
         (self.out/'tmp').mkdir();self.env.update(PYTHONNOUSERSITE='1',PYTHONDONTWRITEBYTECODE='1',TMPDIR=str(self.out/'tmp'))
     def step(self,name,argv,allowed=(0,),*,already_sandboxed=False):
