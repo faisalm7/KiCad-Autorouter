@@ -225,8 +225,11 @@ def netclass_policy(board):
             except ValueError as parent_error:
                 raise ValueError(str(literal_error)+'; '+str(parent_error)) from parent_error
         layers=sx.one(sx.read(board),'layers',[])
-        if sum(isinstance(x,list) and len(x)>2 and re.fullmatch(r'(?:F|B|In[0-9]+)\.Cu',sx.unquote(x[1])) is not None for x in layers)!=2:
-            raise ValueError('native netclasses currently require two copper layers')
+        copper_count=sum(isinstance(x,list) and len(x)>2 and re.fullmatch(r'(?:F|B|In[0-9]+)\.Cu',sx.unquote(x[1])) is not None for x in layers)
+        if copper_count==4:
+            from .netclass import four_copper_source_layers
+            four_copper_source_layers(sx.read(board))
+        elif copper_count!=2:raise ValueError('native netclasses require canonical two or four copper layers')
         if policy['mode'] not in {'literal_two_class',PARENT_POLICY}: raise ValueError('unqualified netclass binding mode')
         return policy
     except (ValueError,TypeError,KeyError) as exc:
@@ -975,8 +978,12 @@ def audit_candidate_netclasses(candidate, protected, native, *, native_toolchain
         raise Rejected('native netclass map is not bound to candidate and original project')
     from .netclass import PARENT_POLICY
     policy=netclass_policy(candidate)
+    source_tree=sx.read(candidate)
+    if 'copper_layers' in native or sum(isinstance(x,list) and len(x)>2 and re.fullmatch(r'(?:F|B|In[0-9]+)\.Cu',sx.unquote(x[1])) is not None for x in sx.one(source_tree,'layers',[]))==4:
+        from .netclass import four_copper_source_layers,four_copper_native_layers
+        if four_copper_source_layers(source_tree)!=four_copper_native_layers(native):raise Rejected('source/native copper layers differ')
     mapping=audit_native(native,json.loads(project.read_text()),parent_policy=policy is not None and policy['mode']==PARENT_POLICY,native_toolchain=native_toolchain)
-    dimensions=audit_route_dimensions(sx.read(candidate),protected,native)
+    dimensions=audit_route_dimensions(source_tree,protected,native)
     return {'native':mapping,'route_dimensions':dimensions,'candidate_sha256':sha(candidate),
             'project_sha256':sha(project)}
 
@@ -2185,6 +2192,9 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
                     or exported.get('project_sha256')!=sha(candidate.with_suffix('.kicad_pro'))
                     or exported.get('source')!=str(candidate) or exported.get('board_saved') is not False):
                 raise Rejected('export netclass map differs from original routing task')
+            if 'copper_layers' in exported or sum(isinstance(x,list) and len(x)>2 and re.fullmatch(r'(?:F|B|In[0-9]+)\.Cu',sx.unquote(x[1])) is not None for x in sx.one(task,'layers',[]))==4:
+                from .netclass import four_copper_source_layers,four_copper_native_layers
+                if four_copper_source_layers(task)!=four_copper_native_layers(exported):raise Rejected('export source/native copper layers differ')
             audit_native(exported,project,parent_policy=parent_classes,native_toolchain=native_toolchain)
             if (data.get('netclass_policy')!=netclass_policy(candidate)
                     or data.get('netclass_export_audit')!=audit_dsn(path.parent/'native.dsn',exported,project,parent_policy=parent_classes,native_toolchain=native_toolchain)

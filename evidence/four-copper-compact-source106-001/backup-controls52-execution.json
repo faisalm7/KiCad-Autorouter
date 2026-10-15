@@ -1,0 +1,56 @@
+{
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 11.342947666009422,
+    "cpu_seconds": 9.82877,
+    "max_rss_bytes": 33161216,
+    "supervisor_cpu_seconds": 0.03359099999999998,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 46546944,
+    "sampled_peak_workdir_bytes": 8766,
+    "resource_guards": {
+      "max_group_rss_bytes": 1073741824,
+      "max_workdir_bytes": 8388608,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "-c",
+      "import sys,unittest;sys.dont_write_bytecode=True;sys.path[:0]=['/Users/faisal/Projects/KiCad-Autorouter-local', '/Users/faisal/Projects/KiCad-Autorouter-local/tests'];unittest.main(module=None,argv=['unittest', '-v', 'tests.test_backup_compact_delta', 'tests.test_backup_incremental', 'tests.test_backup', 'tests.test_backup_capacity', 'tests.test_backup_file_capacity', 'tests.test_backup_draft_source', 'tests.test_backup_floor_fixture'])"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/backup-compact-delta-controls-002/command.log",
+    "log_bytes": 8766,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/backup-compact-delta-controls-002",
+    "signal_cancellation_enabled": true,
+    "pid": 26256
+  },
+  "wall_seconds": 11.47990895799012,
+  "full_cpu_seconds": 9.945312,
+  "code_sha256": {
+    "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/backup.py": "8bb421f2fb9da6f4c39403179c94c0a50640a6662d34cb09713242709c545347",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_backup_floor_fixture.py": "470fbf3d1c2b9df979863ea73eef3207f581d5ee0bd4db3dbf787b948ef9e052",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_backup_file_capacity.py": "d97726bae60e745b928b24012fe5c1b0ca987304b0365a38720a235a86dca8bb",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_backup_incremental.py": "0f7b86c2fec8af1b499524e82b653bdbe89188aaa93d1473b82e42bab10b95f1",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_backup.py": "39fffc805691665b89433577a633ddc6929b5d0aba13f75c1a66db8ca03cd97a",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_backup_draft_source.py": "bcce0f29d895851571c50854b593c01b900d7417601a25770f3b938f5c72e8a7",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_backup_capacity.py": "22c33010cafb99de25dc86c54de6361e24aa95aa068386bfdbba9a37a8f2c42f",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_backup_compact_delta.py": "179cd33f0673de667f5f0e3e985644b23ead68c3fbd9c066364a61ca858077b3"
+  },
+  "log_sha256": "04015359efe3e9e063e9769aea15eec874ee4fb3833c40233de7ca0da2e3df0d",
+  "source_unchanged": true,
+  "scope": "Targeted backup modules; actual small scratch archive/Git/CLI tests, no Native/JVM/project-wide backup. Initial001invalid caller scan arguments failed before runner/tests; cost unavailable, preserved separately."
+}

@@ -40,10 +40,10 @@ class NetclassPipelineControls(unittest.TestCase):
         self.assertIsNone(p.netclass_policy(self.board))
         self.assertEqual(p.preflight(self.board),self.tree)
 
-    def test_four_layer_multiclass_rejected(self):
+    def test_noncanonical_four_layer_multiclass_rejected(self):
         sx.one(self.tree,'layers').extend([['4','"In1.Cu"','signal'],['6','"In2.Cu"','signal']])
         self.write()
-        with self.assertRaisesRegex(p.Rejected,'two copper layers'): p.preflight(self.board)
+        with self.assertRaisesRegex(p.Rejected,'four-copper source physical order'): p.preflight(self.board)
 
     def test_unknown_class_binding_rejected(self):
         self.project['net_settings']['netclass_patterns'][0]['pattern']='GND*'

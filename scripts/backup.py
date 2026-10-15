@@ -40,6 +40,8 @@ MAX_CHAIN = 16
 # receipts fit the192MiB chain bound. No scopes or safety checks change.
 MAX_RECEIPT_BYTES = 80 * 1024 ** 2
 MAX_CHAIN_RECEIPT_BYTES = 192 * 1024 ** 2
+DELTA_DIRECTORIES_LEGACY = "all-target-directories-v1"
+DELTA_DIRECTORIES_COMPACT = "changed-and-new-ancestors-v1"
 LIMITATION = "On-Mac only; a second folder on this disk provides no disk-failure protection."
 SECRET_NAMES = {".env", ".ssh", ".aws", ".gnupg", "credentials", "credentials.json", "secrets", "secrets.json", "id_rsa", "id_ed25519"}
 SECRET_SUFFIXES = {".pem", ".key", ".p12", ".pfx", ".keychain", ".keychain-db"}
@@ -277,15 +279,34 @@ def check_manifest(manifest):
     return files, dirs
 
 
-def delta_inventory(previous, current):
+def delta_inventory(previous, current, *, directory_policy=None):
+    # Missing policy preserves byte-shape compatibility with legacy receipts.
+    if directory_policy is not None and directory_policy not in (
+            DELTA_DIRECTORIES_LEGACY, DELTA_DIRECTORIES_COMPACT):
+        raise BackupError("Unknown delta directory policy")
     old, old_dirs = check_manifest(previous)
     new, new_dirs = check_manifest(current)
     changed = [row for name, row in sorted(new.items()) if old.get(name) != row]
-    # All target directory names keep the existing standalone extraction guard.
-    # Directory entries carry no payload; only changed/new files are archived.
-    delta = {**current, "files": changed, "total_file_bytes": sum(row["size"] for row in changed)}
-    return {"inventory": delta, "deleted_files": sorted(set(old) - set(new)),
-            "deleted_directories": sorted(old_dirs - new_dirs)}
+    directories = current["directories"]
+    if directory_policy == DELTA_DIRECTORIES_COMPACT:
+        # Standalone extraction still needs every changed file's ancestors and
+        # every new directory (including empty ones). Unchanged branches remain
+        # in the complete target inventory, not repeated in the delta archive.
+        directories = new_dirs & set(SCOPES)
+        needed = (new_dirs - old_dirs) | {str(PurePosixPath(row["path"]).parent) for row in changed}
+        for name in needed:
+            path = PurePosixPath(name)
+            while str(path) != ".":
+                directories.add(str(path))
+                path = path.parent
+        directories = sorted(directories)
+    delta = {**current, "directories": directories, "files": changed,
+             "total_file_bytes": sum(row["size"] for row in changed)}
+    result = {"inventory": delta, "deleted_files": sorted(set(old) - set(new)),
+              "deleted_directories": sorted(old_dirs - new_dirs)}
+    if directory_policy is not None:
+        result["directory_policy"] = directory_policy
+    return result
 
 
 def archive_member(item, files, dirs, seen):
@@ -380,7 +401,8 @@ def create(root=ROOT, parent=None):
             raise BackupError("Incremental chain ceiling reached; create a new full backup")
         anchor = chain[-1]["receipt"].get("base_verification") or find_base_verification(chain[0], root)
     manifest = inventory(root)
-    delta = delta_inventory(chain[-1]["receipt"]["inventory"], manifest) if chain else None
+    delta = delta_inventory(chain[-1]["receipt"]["inventory"], manifest,
+                            directory_policy=DELTA_DIRECTORIES_COMPACT) if chain else None
     base = backups_directory(root)
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     backup = base / ("checkpoint-" + stamp + "-" + uuid.uuid4().hex)
@@ -503,7 +525,14 @@ def load_chain(receipt_path, root=ROOT):
     chain = list(reversed(reverse))
     for previous, current in zip(chain, chain[1:]):
         data = current["receipt"]
-        if data["source_root"] != previous["receipt"]["source_root"] or data["delta"] != delta_inventory(previous["receipt"]["inventory"], data["inventory"]):
+        delta = data["delta"]
+        if type(delta) is not dict:
+            raise BackupError("Invalid incremental delta")
+        policy = delta.get("directory_policy")
+        if "directory_policy" in delta and policy not in (DELTA_DIRECTORIES_LEGACY, DELTA_DIRECTORIES_COMPACT):
+            raise BackupError("Unknown delta directory policy")
+        if data["source_root"] != previous["receipt"]["source_root"] or delta != delta_inventory(
+                previous["receipt"]["inventory"], data["inventory"], directory_policy=policy):
             raise BackupError("Incremental inventory/deletion accounting mismatch")
         check_base_verification(data["base_verification"], chain[0], root)
         audit_archive(current["artifacts"]["archive"], data["delta"]["inventory"])

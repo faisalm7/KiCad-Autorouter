@@ -30,11 +30,11 @@ class ParentPipelineControls(unittest.TestCase):
   with self.assertRaisesRegex(ValueError,'dimension parent'):p.audit_candidate_netclasses(self.board,[],altered)
   tree=sx.read(self.board);tree.append(['segment',['start','10','10'],['end','15','10'],['width','0.4'],['layer','"F.Cu"'],['net','"/PWR_PAIR"'],['uuid','"00000000-0000-0000-0000-000000000001"']]);sx.write(self.board,tree)
   with self.assertRaisesRegex(p.Rejected,'native netclass target'):p.audit_candidate_netclasses(self.board,[],self.mapping())
- def test_unknown_names_and_four_layer_classes_remain_blocked(self):
+ def test_unknown_names_and_noncanonical_four_layer_classes_remain_blocked(self):
   self.project['net_settings']['classes'][1]['name']='POWER,Default';self.board.with_suffix('.kicad_pro').write_text(json.dumps(self.project))
   with self.assertRaisesRegex(p.Rejected,'class names'):p.preflight(self.board)
   files,_=fixture.prepare();self.board.with_suffix('.kicad_pro').write_bytes(files['fixture.kicad_pro']);tree=sx.read(self.board);sx.one(tree,'layers').append(['4','"In1.Cu"','signal']);sx.one(tree,'layers').append(['6','"In2.Cu"','signal']);sx.write(self.board,tree)
-  with self.assertRaisesRegex(p.Rejected,'two copper layers'):p.preflight(self.board)
+  with self.assertRaisesRegex(p.Rejected,'unqualified four-copper layer declaration'):p.preflight(self.board)
  def test_parent_strategy_label_cannot_drop_dsn_basis_or_incumbent_costs(self):
   base=self.root/'incumbent';base.mkdir();step={'name':'engine','argv':['owned-engine'],'cpu_seconds':1,'wall_seconds':1}
   incumbent={'baseline':'B2_tuned','engine_profile':'tuned','netclass_policy':{'mode':n.PARENT_POLICY},'source':str(self.board),

@@ -16,9 +16,22 @@ def file_hash(path):
 def netclasses(board, source, before):
     """Resolve native classes without saving/normalizing the source board."""
     board.SynchronizeNetsAndNetClasses(False)
+    count = board.GetCopperLayerCount()
+    if type(count) is not int or count not in (2,4): raise ValueError('two/four native copper layers required')
+    copper = [(pcbnew.F_Cu,'F.Cu'),(pcbnew.B_Cu,'B.Cu')]
+    layer_record = None
+    if count == 4:
+        copper = [(pcbnew.F_Cu,'F.Cu'),(pcbnew.In1_Cu,'In1.Cu'),(pcbnew.In2_Cu,'In2.Cu'),(pcbnew.B_Cu,'B.Cu')]
+        layer_record = []
+        for index,(layer,name) in enumerate(copper):
+            if (int(layer)!=(0,4,6,2)[index] or int(board.GetLayerID(name))!=int(layer)
+                    or str(board.GetLayerName(layer))!=name or board.IsLayerEnabled(layer) is not True
+                    or int(board.GetLayerType(layer))!=int(pcbnew.LT_SIGNAL)):
+                raise ValueError('exact canonical native four-copper signal layer required')
+            layer_record.append({'id':int(layer),'name':name,'type':'signal','index':index})
     counts = {}
     for pad in board.GetPads():
-        if pad.GetNetCode() > 0 and (pad.IsOnLayer(pcbnew.F_Cu) or pad.IsOnLayer(pcbnew.B_Cu)):
+        if pad.GetNetCode() > 0 and any(pad.IsOnLayer(layer) for layer,_ in copper):
             name = str(pad.GetNetname())
             counts[name] = counts.get(name, 0) + 1
     rows = []
@@ -31,10 +44,12 @@ def netclasses(board, source, before):
     project = Path(source).with_suffix('.kicad_pro')
     if before != (file_hash(source), file_hash(project)):
         raise RuntimeError('Board or project changed during native class resolution')
-    return {'schema': 1, 'native_version': pcbnew.GetBuildVersion(), 'units': 'integer nanometres',
+    result = {'schema': 1, 'native_version': pcbnew.GetBuildVersion(), 'units': 'integer nanometres',
             'resolution': 'BOARD.SynchronizeNetsAndNetClasses(False); NETINFO_ITEM.GetNetClassSlow()',
             'source': source, 'board_sha256': before[0], 'project_sha256': before[1],
             'board_saved': False, 'nets': sorted(rows, key=lambda row: row['name'])}
+    if layer_record is not None: result['copper_layers'] = layer_record
+    return result
 
 def main():
     if len(sys.argv)>1 and sys.argv[1]=='--experimental-native':

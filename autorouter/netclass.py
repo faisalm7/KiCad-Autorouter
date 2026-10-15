@@ -21,6 +21,94 @@ _DIMENSIONS = (
 )
 PARENT_POLICY = 'native-parent-dimensions-v1'
 
+# Prospective4Cu only: current2Cu validation/receipt branches remain unchanged.
+FOUR_COPPER_NAMES = ('F.Cu', 'In1.Cu', 'In2.Cu', 'B.Cu')
+FOUR_COPPER_IDS = (0, 4, 6, 2)
+
+
+def four_copper_source_layers(tree):
+    """Exact modern4Cu ordinary signal declaration; no routing admission alone."""
+    from . import sexpr as sx
+    from .layer_policy import NONCOPPER
+    if sx.one(tree, 'version') != ['version', '20260206']:
+        raise ValueError('four-copper class transport requires20260206 source')
+    table = sx.one(tree, 'layers')
+    if table is None: raise ValueError('four-copper source layer table required')
+    copper = []; names = set(); ids = set()
+    for row in table[1:]:
+        if (type(row) is not list or len(row) != 3 or any(type(x) is not str for x in row)
+                or not row[0].isdigit() or str(int(row[0])) != row[0]):
+            raise ValueError('unqualified four-copper layer declaration')
+        name = sx.unquote(row[1])
+        if row[0] in ids or name in names: raise ValueError('duplicate source layer identity')
+        ids.add(row[0]); names.add(name)
+        if name.endswith('.Cu') or row[2] in {'signal','power','mixed','jumper'}:
+            if row[2] != 'signal': raise ValueError('four-copper signal layers required')
+            copper.append((int(row[0]), name))
+        elif NONCOPPER.get(row[0]) != name or row[2] != 'user':
+            raise ValueError('foreign or aliased source layer identity')
+    expected = list(zip(FOUR_COPPER_IDS, FOUR_COPPER_NAMES))
+    if copper != expected or table[1:5] != [[str(i), '"'+name+'"', 'signal'] for i,name in expected]:
+        raise ValueError('four-copper source physical order/identity differs')
+    stackup = sx.one(sx.one(tree,'setup',[]),'stackup')
+    if stackup is not None:
+        observed=[]
+        for layer in sx.children(stackup,'layer'):
+            if len(layer)<2 or type(layer[1]) is not str: raise ValueError('malformed source stackup layer')
+            name=sx.unquote(layer[1]);kind=sx.one(layer,'type')
+            if name.endswith('.Cu') or kind in (['type','copper'],['type','"copper"']):
+                if kind not in (['type','copper'],['type','"copper"']): raise ValueError('four-copper stackup type differs')
+                observed.append(name)
+        if observed != list(FOUR_COPPER_NAMES): raise ValueError('four-copper stackup order differs')
+    for route in sx.children(tree,'segment')+sx.children(tree,'arc'):
+        layer=sx.one(route,'layer')
+        if layer is None or len(layer)!=2 or sx.unquote(layer[1]) not in FOUR_COPPER_NAMES:
+            raise ValueError('foreign four-copper route layer')
+    for via in sx.children(tree,'via'):
+        if (any(kind in via for kind in ('blind','buried','micro'))
+                or sx.one(via,'layers')!=['layers','"F.Cu"','"B.Cu"']
+                or sx.one(via,'padstack') is not None
+                or sx.one(via,'remove_unused_layers') not in (None,['remove_unused_layers','no'])):
+            raise ValueError('four-copper class scope requires uniform full through-vias')
+    return list(FOUR_COPPER_NAMES)
+
+
+def four_copper_native_layers(native):
+    rows=native.get('copper_layers')
+    expected=[{'id':i,'name':name,'type':'signal','index':index}
+              for index,(i,name) in enumerate(zip(FOUR_COPPER_IDS,FOUR_COPPER_NAMES))]
+    if (type(rows) is not list or len(rows)!=4
+            or any(type(row) is not dict or set(row)!=set(wanted)
+                or any(type(row[k]) is not type(value) or row[k]!=value for k,value in wanted.items())
+                for row,wanted in zip(rows,expected))):
+        raise ValueError('exact four-copper native layer identities required')
+    return list(FOUR_COPPER_NAMES)
+
+
+def _four_via_stack(via_id, stack):
+    from . import sexpr as sx
+    match=re.fullmatch(r'Via\[0-3\]_([0-9.]+):([0-9.]+)_um',via_id)
+    if match is None or stack is None: raise ValueError('four-copper full through-via ID/padstack required')
+    try:diameter,drill=(Decimal(value)*1000 for value in match.groups())
+    except InvalidOperation: raise ValueError('malformed four-copper via dimensions') from None
+    if not diameter.is_finite() or not drill.is_finite() or not 0<drill<diameter:
+        raise ValueError('invalid four-copper via diameter/drill')
+    _children_only(stack,{'shape','attach'},2)
+    if sx.one(stack,'attach')!=['attach','off']: raise ValueError('four-copper via attachment differs')
+    shapes=sx.children(stack,'shape');layers=[]
+    for shape in shapes:
+        circle=sx.one(shape,'circle')
+        if len(shape)!=2 or circle is None or len(circle)!=3 or any(type(x) is not str for x in circle):
+            raise ValueError('unqualified four-copper via shape')
+        layers.append(sx.unquote(circle[1]))
+        try:value=Decimal(circle[2])*1000
+        except InvalidOperation: raise ValueError('malformed four-copper via shape diameter') from None
+        if not value.is_finite() or value!=diameter: raise ValueError('four-copper via ID and copper shape disagree')
+    if len(layers)!=4 or len(set(layers))!=4 or set(layers)!=set(FOUR_COPPER_NAMES):
+        raise ValueError('four-copper through-via layer coverage differs')
+
+
+
 
 def qualify_parent_project(project):
     """Experimental closed namespace; native KiCad alone resolves patterns.
@@ -235,6 +323,7 @@ def audit_native(native, project, *, parent_policy=False, native_toolchain=None)
     if (not isinstance(native, dict) or type(native.get("schema")) is not int or native.get("schema") != 1
             or native.get("native_version") != expected_version or native.get("units") != "integer nanometres"):
         raise ValueError("Unexpected native version")
+    if 'copper_layers' in native: four_copper_native_layers(native)
     native_rows = native.get("nets")
     if not isinstance(native_rows, list) or not native_rows or len(native_rows) > 10000:
         raise ValueError("Missing or oversized native net inventory")
@@ -332,7 +421,14 @@ def audit_mapping(tree, native, project, *, parent_policy=False, native_toolchai
         _children_only(net, {"pins"}, 2)
     layer_nodes = sx.children(structure, "layer")
     layers = {_named(x, "DSN layer") for x in layer_nodes}
-    if len(layers) != 2 or len(layer_nodes) != 2:
+    four = 'copper_layers' in native
+    if four:
+        expected_layers = four_copper_native_layers(native)
+        if (len(layer_nodes)!=4 or [_named(x,"DSN layer") for x in layer_nodes]!=expected_layers
+                or any(len(row)!=4 or sx.one(row,'type')!=['type','signal']
+                       or sx.one(row,'property')!=['property',['index',str(i)]] for i,row in enumerate(layer_nodes))):
+            raise ValueError('four-copper DSN physical layer order/index differs')
+    elif len(layers) != 2 or len(layer_nodes) != 2:
         raise ValueError("Audit only understands two-layer through-via export")
     stacks = {_named(x, "DSN padstack"): x for x in sx.children(library, "padstack")}
     if len(stacks) != len(sx.children(library, "padstack")):
@@ -346,6 +442,8 @@ def audit_mapping(tree, native, project, *, parent_policy=False, native_toolchai
     declared_vias = set(via_names)
     if len(declared_vias) != len(via_names):
         raise ValueError("Duplicate DSN via declaration")
+    if four:
+        for via_name in via_names: _four_via_stack(via_name,stacks.get(via_name))
     membership, classes, class_names = {}, [], set()
     for cls in sx.children(network, "class"):
         name = _named(cls, "DSN class")
@@ -368,7 +466,7 @@ def audit_mapping(tree, native, project, *, parent_policy=False, native_toolchai
         if any(x is None or len(x) != 2 or not isinstance(x[1], str) for x in (width, clearance, via)):
             raise ValueError("Malformed class geometry")
         via_id = sx.unquote(via[1])
-        match = re.fullmatch(r"Via\[0-1\]_([0-9.]+):([0-9.]+)_um", via_id)
+        match = re.fullmatch(r"Via\[0-3\]_([0-9.]+):([0-9.]+)_um" if four else r"Via\[0-1\]_([0-9.]+):([0-9.]+)_um", via_id)
         if not match or via_id not in declared_vias or via_id not in stacks:
             raise ValueError("Unknown native through-via ID or padstack")
         try:
@@ -404,7 +502,7 @@ def audit_mapping(tree, native, project, *, parent_policy=False, native_toolchai
                 raise ValueError("Malformed via copper diameter") from None
             if not diameter.is_finite() or diameter != dimensions["via_diameter_nm"]:
                 raise ValueError("Via ID and actual copper shape disagree")
-        if len(shapes) != 2 or shape_layers != layers:
+        if len(shapes) != (4 if four else 2) or shape_layers != layers:
             raise ValueError("Through-via layer coverage differs")
         for net in members:
             if net not in records or net in membership:
