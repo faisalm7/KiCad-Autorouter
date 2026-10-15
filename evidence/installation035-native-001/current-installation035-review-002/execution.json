@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "passed": true,
+  "source_current": true,
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 9.349703291984042,
+    "cpu_seconds": 6.34451,
+    "max_rss_bytes": 613679104,
+    "supervisor_cpu_seconds": 0.03967399999999999,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 555040768,
+    "sampled_peak_workdir_bytes": 90816,
+    "resource_guards": {
+      "max_group_rss_bytes": 1073741824,
+      "max_workdir_bytes": 16777216,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-035/checkout/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/current-installation035-review-002/audit.py"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/current-installation035-review-002/command.log",
+    "log_bytes": 799,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/current-installation035-review-002",
+    "signal_cancellation_enabled": true,
+    "pid": 67343
+  },
+  "wall_seconds": 9.93524420898757,
+  "full_cpu_seconds": 6.770614,
+  "publication_allowance_seconds": 2,
+  "whole_delivery_within_budget": true,
+  "input_pins_sha256": "9807b3e4fa88b625fdf4e80b1e3655f12e03536dbd1f524c5436f55143241a55",
+  "reader_sha256": "df0f874d47baa35ac0facbed51996e74c465eb061800b8c67d5f3a1e7b18885e",
+  "adapted_reader_source_sha256": "cc29e65000f67deb4ed8c6ee00eb06df5e7511323e732605a95412601421686a",
+  "controller_sha256": "06f167808e803fc5ac508ecffd0429e19e82a88bcb68af7d8b3db0f278752935",
+  "log_sha256": "6ae8f01ec8579fe14fea830b4599c7e292ee07b93456741dacf620ff7dbf778f",
+  "checks_sha256": "1a7d0975cf519394cd54926f9409592d6b481ef49f9eaa469a3ce86c713abb4a",
+  "scope": "Existing035 aggregate reader fixed to bind actual preserved exit2; first reader failure retained. No Native/test repeat; existing installed034 reader retained with added targeted strategy allocation pruning modules; actual installed interpreter, no subprocess from semantic audit. All original current source/native/tool/proof/process witnesses, exact distribution and zero historical supplements. SameMac/cache PCB-only zeroalias smoke, current installed field/edge/composite/netclass/quality softwarecontrols; no Native/JVM/tests/Git/network repeat or fullSCH/freshOS/GUI/benchmark claim."
+}

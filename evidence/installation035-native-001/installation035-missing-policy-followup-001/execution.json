@@ -1,0 +1,87 @@
+{
+  "schema": 1,
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 0.35498470900347456,
+    "cpu_seconds": 0.316349,
+    "max_rss_bytes": 48693248,
+    "supervisor_cpu_seconds": 0.004858000000000001,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 44941312,
+    "sampled_peak_workdir_bytes": 183278,
+    "resource_guards": {
+      "max_group_rss_bytes": 1073741824,
+      "max_workdir_bytes": 16777216,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-035/checkout/.venv/bin/python",
+      "-B",
+      "-c",
+      "import sys,json,unittest,subprocess\nfrom pathlib import Path\nCLONE=Path('/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-035/checkout')\nsys.path[:0]=[str(CLONE),str(CLONE/'tests')];sys.dont_write_bytecode=True\nfrom autorouter import native_edge as edge,schematic_field_evidence as fields,netclass,netclass_native,strategy,placement_strategy,config as c\nfrom scripts import fetch_led_demo,experiment_quality\nfrom experiments.universal_shift_recovery_v1 import b2\nassert c.ROOT==CLONE and Path(sys.prefix).resolve()==CLONE/'.venv'\ndef forbidden(*a,**kw):raise AssertionError('installed software controls forbid Native/JVM/network/Git subprocess')\nsubprocess.run=forbidden;subprocess.Popen=forbidden\nmodules=['tests.test_normal_local_settings_policy.NormalPolicyReceiptControls.test_source_without_declaration_cannot_keep_new_tools_policy', 'tests.test_normal_local_settings_policy.PolicyDeclarationControls.test_real_frozen_pre_policy_source_remains_legacy_data']\nsuite=unittest.TestSuite(unittest.defaultTestLoader.loadTestsFromName(m) for m in modules);planned=suite.countTestCases()\nwatched=(edge,fields,netclass,netclass_native,fetch_led_demo,experiment_quality,strategy,placement_strategy,b2)\nshipped={m.__name__:str(Path(m.__file__).resolve()) for m in watched}\nassert all(Path(m.__file__).resolve()==CLONE/(m.__name__.replace('.','/')+'.py') for m in watched)\nresult=unittest.TextTestRunner(verbosity=2).run(suite)\npopulation=dict(modules=modules,planned=planned,ran=result.testsRun,successful=result.wasSuccessful(),skipped=len(result.skipped),shipped_modules=shipped)\nPath('population.json').write_text(json.dumps(population,indent=2)+'\\n')\nraise SystemExit(0 if result.wasSuccessful() and planned==result.testsRun==2 and not result.skipped else 2)\n"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation035-missing-policy-followup-001/tests.log",
+    "log_bytes": 482,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation035-missing-policy-followup-001",
+    "signal_cancellation_enabled": true,
+    "pid": 67188
+  },
+  "source_current": true,
+  "git_head": "e78f5343ec401ee7df82957eaced84fc96f2b9f3",
+  "modules": [
+    "tests.test_normal_local_settings_policy.NormalPolicyReceiptControls.test_source_without_declaration_cannot_keep_new_tools_policy",
+    "tests.test_normal_local_settings_policy.PolicyDeclarationControls.test_real_frozen_pre_policy_source_remains_legacy_data"
+  ],
+  "population": {
+    "modules": [
+      "tests.test_normal_local_settings_policy.NormalPolicyReceiptControls.test_source_without_declaration_cannot_keep_new_tools_policy",
+      "tests.test_normal_local_settings_policy.PolicyDeclarationControls.test_real_frozen_pre_policy_source_remains_legacy_data"
+    ],
+    "planned": 2,
+    "ran": 2,
+    "successful": true,
+    "skipped": 0,
+    "shipped_modules": {
+      "autorouter.native_edge": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-035/checkout/autorouter/native_edge.py",
+      "autorouter.schematic_field_evidence": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-035/checkout/autorouter/schematic_field_evidence.py",
+      "autorouter.netclass": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-035/checkout/autorouter/netclass.py",
+      "autorouter.netclass_native": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-035/checkout/autorouter/netclass_native.py",
+      "scripts.fetch_led_demo": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-035/checkout/scripts/fetch_led_demo.py",
+      "scripts.experiment_quality": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-035/checkout/scripts/experiment_quality.py",
+      "autorouter.strategy": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-035/checkout/autorouter/strategy.py",
+      "autorouter.placement_strategy": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-035/checkout/autorouter/placement_strategy.py",
+      "experiments.universal_shift_recovery_v1.b2": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-035/checkout/experiments/universal_shift_recovery_v1/b2.py"
+    }
+  },
+  "population_sha256": "31f66a67bb6ed444d187ee52d72018b5048e125c7675773400cc8b5f56c5eeb8",
+  "protocol_sha256": "7d964cc3367cb0b4ca47215addf5f4cec4394a0288b9c05ead415f011d9ea804",
+  "controller_sha256": "1579f4048be738e6db135b16617c606c61e83fc03494f80dd09685e737dfdd60",
+  "log_sha256": "f61fd1be2fee2e4c2260d85bed9de485e6708e0006e9736fcaead38b95129270",
+  "wall_seconds": 0.7052046660101041,
+  "full_cpu_seconds": 0.629416,
+  "publication_allowance_seconds": 2,
+  "whole_delivery_within_budget": true,
+  "historical_test_supplement": {
+    "evidence/default-tuning-native-001/code/pipeline.py": {
+      "sha256": "266ffd1fb0ec4fea30a4b7d73df9d387c727b690ef2b13f3eeda6870cbd6a8fa",
+      "bytes": 67060
+    }
+  },
+  "scope": "Only two previously missing historical-policy installed controls; previous244attempts/242successes/twoerrors retained. One exact committed owned source fixture supplemented after initial distribution. Exact installed source/independentinterpreter, authorednormalPRLfixture, offline andonly exactreadonlyGitHEAD permitted. One declared historical source test supplement; no fullsuite/noNative/JVM/fullinstalledsuite orroutingquality claim; One declared historical source test supplement; no fullsuite/oldinstalledtargets repeated; these changedmodules require currentinstalled qualification."
+}
