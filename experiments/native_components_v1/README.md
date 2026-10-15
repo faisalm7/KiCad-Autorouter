@@ -4,7 +4,7 @@ This observes a complete pad census and pad-seeded `GetConnectedItems(pad,0)` pa
 
 The first native controls are an owned multitrack chain, removed bridge, one zone with two pad-bearing islands after a narrow neck is removed by refill, an unbridged layer gap, a via bridge and an actual different-net short. Shared Job, Native report/process/refill, original-shell reconstruction, source inventory and publication helpers remain authoritative. Original smoke fixtures are never modified. PCB-only schematic parity is explicitly unavailable. Missing/mismatched evidence fails. The observer must never replace thermal, short, full original-design or complete-schematic validation.
 
-Pure controls reproduced and fixed unknown pad attributes/netted NPTH exclusions and duplicate UUIDs in the new fixture clone. The native Python wrapper, interpreter and extension are explicitly pinned; loaded module paths are checked. Native return conversion, transitivity, zone-island/layer behavior are still unexecuted at this source checkpoint.
+Pure controls reproduced and fixed unknown pad attributes/netted NPTH exclusions and duplicate UUIDs in the new fixture clone. The native Python wrapper, interpreter and extension are explicitly pinned; loaded module paths are checked. Native return conversion, transitivity and zone-island/layer behavior were unexecuted at the source checkpoint; actual observations are recorded below.
 
 Prelaunch review also found a stale pass flag after publication invalidation, missing freshness witnesses for completed cases, and a short control that accepted any blocking error. The first and third were reproduced before correction. Regression controls now require a failed final status to clear the pass flag, retain bounded per-case file/directory witnesses, and bind an unexcluded contact error to the deliberate bridge and crossed track UUIDs. Unrelated DRC errors cannot qualify the short control. Full091 passes1397 software controls; this is not Native API evidence.
 
@@ -16,4 +16,6 @@ After a verified source checkpoint, run the initial sequential controls once:
 .venv/bin/python -B experiments/native_components_v1/controls.py --run-native --output .runs/native-components-controls-001
 ```
 
-Every later invocation needs a fresh output. All generated controls and failures are retained. No benchmark improvement or new supported board family follows from passing this diagnostic.
+Actual001 has now passed the six cases in18.968799wall10.720455CPU, plus shared pure readback. [Retained actual evidence](../../evidence/native-components-actual-001.json) also includes five refusal controls, real SIGINT after native pad census, and an existing22-pad thermal counterexample queried without repeating its Native DRC. All six same-net groups are connected despite0opens/1starved_thermal/10warnings. The observer therefore remains diagnostic-only. Native negative001/002 setup/oversize-input failures remain failed; only unfinished cases were resumed. Five ignored checks and the layer-gap warning remain visible.
+
+Every later invocation needs a fresh output. All generated controls and failures are retained. No benchmark improvement or new supported board family follows from passing this diagnostic. The direct command requires an external finite process/resource supervisor, as used by the captured launcher.

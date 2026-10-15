@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/native_components_v1/worker.py", line 136, in <module>
+    r=main(args.request,args.output); print(json.dumps({k:r[k] for k in ('status','accepted','routing_accepted','production_admitted')})); raise SystemExit(0 if r['status']=='diagnostic_completed' else 2)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/native_components_v1/worker.py", line 67, in main
+    need(spec['wrapper_sha256'] == WRAPPER_SHA256 and digest(pc.read_bytes(wrapper,4*1024**2)) == WRAPPER_SHA256, 'pinned native Python wrapper differs')
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/native_components_v1/normalize.py", line 6, in need
+    if not value: raise ValueError(reason)
+ValueError: pinned native Python wrapper differs

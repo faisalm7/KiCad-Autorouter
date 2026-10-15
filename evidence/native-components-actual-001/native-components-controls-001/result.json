@@ -1,0 +1,1526 @@
+{
+  "schema": 1,
+  "kind": "actual-native-pad-component-controls-v1",
+  "status": "completed",
+  "passed": true,
+  "accepted": false,
+  "routing_accepted": false,
+  "production_admitted": false,
+  "tools": {
+    "implementation_sha256": {
+      "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+      "autorouter/__main__.py": "eb48b32e74c3b25ffa7daca999cdff4c640ea7199abd990090732671bca495ea",
+      "autorouter/adapter.py": "87f3d2a69c64029011dc72a48759932b208379a9391f23b65015b48a7418c4ae",
+      "autorouter/board_floor.py": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340",
+      "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+      "autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+      "autorouter/floor_route.py": "cf0e44b6672f56f531db7c4cc21bf79e4faedbca0d414212c1e5f1ad0e48eb24",
+      "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+      "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+      "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+      "autorouter/local_settings.py": "69fa09a68af0e794cdc5abb8d674a2117e4696a6352a2943d71744d326d8e861",
+      "autorouter/native.py": "ece3822466657c38935b15c77eb4df37c1ae82b1893dc8f335685b754bad4c23",
+      "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+      "autorouter/native_edge.py": "8a38b60f301a72b815b877f9af59d156024757d66eda7d3df8c34addbe4d0c74",
+      "autorouter/netclass.py": "899c50f86d8745c99bd314d62e3017be209137f4fc918d672d7dd2cdb3f7a4fa",
+      "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+      "autorouter/padless_alias.py": "5748f83ab88f746f65ba65462dc31b3d4bc6edf678df19169e051ab6c80b947a",
+      "autorouter/padless_alias_native.py": "7d06683b834f0211c82d87d7c982f6c39960e841627cd5e98f58a7913f501002",
+      "autorouter/pipeline.py": "8c4f3b0bcb87349a52ae94538af7650636b7e7b79b51c4f9f9e8956dea1a3eea",
+      "autorouter/placement_clearance.py": "f846a73367bc60dfbb48386233e405cb4bf1382f056d379787d7b823c3905feb",
+      "autorouter/placement_strategy.py": "765a28e5a63da3e52266665accf9b9e1f5ea586ea9a90f51291b142c4373fb32",
+      "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+      "autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+      "autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+      "autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+      "autorouter/recovery.py": "fb2866c5340b808c6f7baf6a43234c87e8e353e74f47a91b51ad6fae5c24a78d",
+      "autorouter/review_export.py": "698dc66682416579c3d44b571dce0c0ed7102244adb0cff38dceeeca0ea1489c",
+      "autorouter/review_view.py": "79f65e4d53c243f4e0f054d97bced2be2c4646537e5b86f11626ac8c5f4ce92d",
+      "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+      "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+      "autorouter/schematic_field_evidence.py": "184137676a27d67969878caf2af52a141ca419cc1a3e48cab1c9d701e67eef15",
+      "autorouter/schematic_fields.py": "7d9043a14bac69d18830b2f51cb7d118c648df9290337505db1bf8503d931a71",
+      "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+      "autorouter/strategy.py": "e7154d6c6571b3b3018232fa585f06e41195181e28517ab7f5335bcd8849f8c6",
+      "autorouter/thermal.py": "2fa7ff7260ba6e8b5a8003d8e1f51314b5ff548ef635fb94b29bdee4c741102d",
+      "autorouter/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+      "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+      "autorouter/thermal_worker.py": "fd651f44233aae2c70da0a8feab5f96a4763276684e8b0babf39860b91a9cc33"
+    },
+    "git_head": "334d0a293a18cad64bc091a8c0c1c8e32ec83220",
+    "kicad": "10.0.0",
+    "freerouting": "2.5.0",
+    "files": {
+      "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+      "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219"
+    },
+    "network": "engine sandbox-exec deny network*",
+    "normal_drc_local_settings_policy": "job-owned-prl-immutable-v1",
+    "normal_selected_proposal_import_policy": "selected-proposals-exact-source-v1",
+    "normal_native_export_alias_policy": "source-bound-padless-export-v1"
+  },
+  "source_sha256": {
+    "experiments/native_components_v1/worker.py": "94cd04ac27f1775cbf849b8bdbf194bb4cdc642e4a9bc76f4de99a707ff3323d",
+    "experiments/native_components_v1/controls.py": "327ab11daa99523335dc0d54b30eb60da8b123f930ee93054efaa4bf47f78ab4",
+    "experiments/native_components_v1/normalize.py": "90194570ccabc2fac1db336d4478935a2bb0d3eae07480683d2feb6932761d3b",
+    "experiments/native_components_v1/__init__.py": "064773f36882fb0c8bf7548eeb8fe165252ec64983d4cd866a751548cf90bad9",
+    "experiments/native_components_v1/fixtures.py": "6b6256c5b990481e2db3a293e86ac34606b0b9c344c7c664c299e876c46f4200",
+    "fixtures/smoke/smoke.kicad_pcb": "618b0b1d23f082283a5136b514ff64ee54b3a058f068689bf64668a436d7c5ea",
+    "fixtures/smoke/smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643",
+    "toolchain.lock.json": "f04be5cdf6f64bddc16a6c5efd217b2f5e0a1341906ff44033f5807971154efe"
+  },
+  "pcbnew_wrapper_sha256": "cd1c06c4709c653256ebd0c98c66d80cd72033767fac27c34ea01b5ec586116a",
+  "controls": [
+    {
+      "case": "chain",
+      "passed": true,
+      "native_counts": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0
+      },
+      "expected_components": [
+        [
+          "J1",
+          "J2",
+          "J7"
+        ],
+        [
+          "J3",
+          "J4"
+        ],
+        [
+          "J5",
+          "J6"
+        ]
+      ],
+      "observed_components": [
+        [
+          "J1",
+          "J2",
+          "J7"
+        ],
+        [
+          "J3",
+          "J4"
+        ],
+        [
+          "J5",
+          "J6"
+        ]
+      ],
+      "pad_count": 7,
+      "component_receipt_sha256": "292140d53574143a58ed358ff41a5099a7c57718c7245995fb10001a6d2911e2",
+      "candidate_sha256": "c8ddbe7aca27efd32d9238d64b5a9ce0bd7bb43b947d5b3cb7b497c48790a715",
+      "native_report_sha256": "3c7297650455eaadb91ab2c0813ddc2bb49461c4d69b128438f21bbb608acf80",
+      "steps": [
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 1.4595311669982038,
+          "cpu_seconds": 0.525805,
+          "max_rss_bytes": 102481920,
+          "supervisor_cpu_seconds": 0.011535000000000017,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 100646912,
+          "sampled_peak_workdir_bytes": 95959,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/chain/refill-drc.json",
+            "--save-board",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/chain/saved/smoke.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/chain/refill-drc.log",
+          "log_bytes": 182,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/chain",
+          "signal_cancellation_enabled": true,
+          "pid": 76758,
+          "name": "refill-drc",
+          "local_settings_policy": "job-owned-prl-immutable-v1",
+          "local_settings_protection": {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": false
+          },
+          "validated_input_sha256": "cf248cfe056c8088d84957bf5b11f7dc2843c79f9f03daff20d849351b970ba1",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/chain/saved/smoke.kicad_pcb"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 1.0878762080101296,
+          "cpu_seconds": 0.454244,
+          "max_rss_bytes": 102694912,
+          "supervisor_cpu_seconds": 0.011597000000000024,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 101384192,
+          "sampled_peak_workdir_bytes": 137974,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/chain/final-drc.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/chain/final-drc-input/smoke.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/chain/final-drc.log",
+          "log_bytes": 169,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/chain",
+          "signal_cancellation_enabled": true,
+          "pid": 76759,
+          "name": "final-drc",
+          "local_settings_policy": "job-owned-prl-immutable-v1",
+          "local_settings_protection": {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": false
+          },
+          "validated_input_sha256": "c8ddbe7aca27efd32d9238d64b5a9ce0bd7bb43b947d5b3cb7b497c48790a715",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/chain/candidate/smoke.kicad_pcb"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.60245458301506,
+          "cpu_seconds": 0.5075139999999999,
+          "max_rss_bytes": 201293824,
+          "supervisor_cpu_seconds": 0.006523000000000001,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 150519808,
+          "sampled_peak_workdir_bytes": 148288,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/native_components_v1/worker.py",
+            "--request",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/chain/request.json",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/chain/components"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/chain/components.log",
+          "log_bytes": 111,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/chain",
+          "signal_cancellation_enabled": true,
+          "pid": 76760,
+          "name": "components"
+        }
+      ]
+    },
+    {
+      "case": "chain-cut",
+      "passed": true,
+      "native_counts": {
+        "opens": 1,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0
+      },
+      "expected_components": [
+        [
+          "J1",
+          "J7"
+        ],
+        [
+          "J2"
+        ],
+        [
+          "J3",
+          "J4"
+        ],
+        [
+          "J5",
+          "J6"
+        ]
+      ],
+      "observed_components": [
+        [
+          "J1",
+          "J7"
+        ],
+        [
+          "J2"
+        ],
+        [
+          "J3",
+          "J4"
+        ],
+        [
+          "J5",
+          "J6"
+        ]
+      ],
+      "pad_count": 7,
+      "component_receipt_sha256": "7e663681ddfc5e19efe4317aeb873d4c2c852605ec2daf4f3861194ff8897c0b",
+      "candidate_sha256": "1fea3858118b612734eb4852e2b53518ff659e01ef494b8118f5d70303ee5c57",
+      "native_report_sha256": "bda0bfceccf2455c0c3b63e3a81173d83d97cc8fee5b71ae94bb0c59325b1878",
+      "steps": [
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 1.220240000024205,
+          "cpu_seconds": 0.429992,
+          "max_rss_bytes": 102760448,
+          "supervisor_cpu_seconds": 0.009364000000000039,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 101040128,
+          "sampled_peak_workdir_bytes": 96493,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/chain-cut/refill-drc.json",
+            "--save-board",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/chain-cut/saved/smoke.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/chain-cut/refill-drc.log",
+          "log_bytes": 186,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/chain-cut",
+          "signal_cancellation_enabled": true,
+          "pid": 76763,
+          "name": "refill-drc",
+          "local_settings_policy": "job-owned-prl-immutable-v1",
+          "local_settings_protection": {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": false
+          },
+          "validated_input_sha256": "09a1adb09988cbf09e3383763d63ebeb3e5d0dc7f095b0cf3a09e759d0b00a07",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/chain-cut/saved/smoke.kicad_pcb"
+        },
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 1.0846555829921272,
+          "cpu_seconds": 0.45032199999999994,
+          "max_rss_bytes": 102711296,
+          "supervisor_cpu_seconds": 0.010965000000000003,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 101335040,
+          "sampled_peak_workdir_bytes": 139064,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/chain-cut/final-drc.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/chain-cut/final-drc-input/smoke.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/chain-cut/final-drc.log",
+          "log_bytes": 173,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/chain-cut",
+          "signal_cancellation_enabled": true,
+          "pid": 76768,
+          "name": "final-drc",
+          "local_settings_policy": "job-owned-prl-immutable-v1",
+          "local_settings_protection": {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": false
+          },
+          "validated_input_sha256": "1fea3858118b612734eb4852e2b53518ff659e01ef494b8118f5d70303ee5c57",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/chain-cut/candidate/smoke.kicad_pcb"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.48269199999049306,
+          "cpu_seconds": 0.46230899999999997,
+          "max_rss_bytes": 194691072,
+          "supervisor_cpu_seconds": 0.004846000000000017,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 136331264,
+          "sampled_peak_workdir_bytes": 149438,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/native_components_v1/worker.py",
+            "--request",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/chain-cut/request.json",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/chain-cut/components"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/chain-cut/components.log",
+          "log_bytes": 111,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/chain-cut",
+          "signal_cancellation_enabled": true,
+          "pid": 76769,
+          "name": "components"
+        }
+      ]
+    },
+    {
+      "case": "zone-islands",
+      "passed": true,
+      "native_counts": {
+        "opens": 1,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0
+      },
+      "expected_components": [
+        [
+          "J1",
+          "J2",
+          "J7"
+        ],
+        [
+          "J3",
+          "J4"
+        ],
+        [
+          "J5"
+        ],
+        [
+          "J6"
+        ]
+      ],
+      "observed_components": [
+        [
+          "J1",
+          "J2",
+          "J7"
+        ],
+        [
+          "J3",
+          "J4"
+        ],
+        [
+          "J5"
+        ],
+        [
+          "J6"
+        ]
+      ],
+      "pad_count": 7,
+      "component_receipt_sha256": "629c64c507f38aac68731b227d61416182a04bf778d5c833415d244cebf1b95d",
+      "candidate_sha256": "c739d344d576049a2feb7132f5910345bf694942ec2979a52343610dfaebb116",
+      "native_report_sha256": "7b391c25a68c50569e8a8320126f67d7f7d112c601c4b0cdf821fff2821d73a9",
+      "steps": [
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 1.0782144579861779,
+          "cpu_seconds": 0.445781,
+          "max_rss_bytes": 102268928,
+          "supervisor_cpu_seconds": 0.010461999999999971,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 100417536,
+          "sampled_peak_workdir_bytes": 89242,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/zone-islands/refill-drc.json",
+            "--save-board",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/zone-islands/saved/smoke.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/zone-islands/refill-drc.log",
+          "log_bytes": 189,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/zone-islands",
+          "signal_cancellation_enabled": true,
+          "pid": 76772,
+          "name": "refill-drc",
+          "local_settings_policy": "job-owned-prl-immutable-v1",
+          "local_settings_protection": {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": false
+          },
+          "validated_input_sha256": "1396f3fbcca26cf4e53b360089df92c04d5c92b0776f58e79fe081718faa74a9",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/zone-islands/saved/smoke.kicad_pcb"
+        },
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 1.099231125001097,
+          "cpu_seconds": 0.429544,
+          "max_rss_bytes": 102383616,
+          "supervisor_cpu_seconds": 0.009072999999999998,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 100614144,
+          "sampled_peak_workdir_bytes": 117391,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/zone-islands/final-drc.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/zone-islands/final-drc-input/smoke.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/zone-islands/final-drc.log",
+          "log_bytes": 176,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/zone-islands",
+          "signal_cancellation_enabled": true,
+          "pid": 76773,
+          "name": "final-drc",
+          "local_settings_policy": "job-owned-prl-immutable-v1",
+          "local_settings_protection": {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": false
+          },
+          "validated_input_sha256": "c739d344d576049a2feb7132f5910345bf694942ec2979a52343610dfaebb116",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/zone-islands/candidate/smoke.kicad_pcb"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.5286863749788608,
+          "cpu_seconds": 0.475803,
+          "max_rss_bytes": 196984832,
+          "supervisor_cpu_seconds": 0.006344000000000016,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 136069120,
+          "sampled_peak_workdir_bytes": 127856,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/native_components_v1/worker.py",
+            "--request",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/zone-islands/request.json",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/zone-islands/components"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/zone-islands/components.log",
+          "log_bytes": 111,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/zone-islands",
+          "signal_cancellation_enabled": true,
+          "pid": 76774,
+          "name": "components"
+        }
+      ]
+    },
+    {
+      "case": "layer-gap",
+      "passed": true,
+      "native_counts": {
+        "opens": 1,
+        "blocking": 0,
+        "warnings": 1,
+        "exclusions": 0
+      },
+      "expected_components": [
+        [
+          "J1",
+          "J7"
+        ],
+        [
+          "J2"
+        ],
+        [
+          "J3",
+          "J4"
+        ],
+        [
+          "J5",
+          "J6"
+        ]
+      ],
+      "observed_components": [
+        [
+          "J1",
+          "J7"
+        ],
+        [
+          "J2"
+        ],
+        [
+          "J3",
+          "J4"
+        ],
+        [
+          "J5",
+          "J6"
+        ]
+      ],
+      "pad_count": 7,
+      "component_receipt_sha256": "da01d5e81cc58a9353976f24c0fecf336bd3c6c4dc016eae45384da863694cf4",
+      "candidate_sha256": "1e77a78824e638bb4d9ddc0043aad557a2ae04ff537ccc9770fcc32737fe3819",
+      "native_report_sha256": "c238140b7d885321d9b78e889a9c8752ab68ff88fef1c8e4f22cf3367d990e53",
+      "steps": [
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 1.0626135420170613,
+          "cpu_seconds": 0.434682,
+          "max_rss_bytes": 102531072,
+          "supervisor_cpu_seconds": 0.009077000000000002,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 100958208,
+          "sampled_peak_workdir_bytes": 97233,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/layer-gap/refill-drc.json",
+            "--save-board",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/layer-gap/saved/smoke.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/layer-gap/refill-drc.log",
+          "log_bytes": 186,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/layer-gap",
+          "signal_cancellation_enabled": true,
+          "pid": 76776,
+          "name": "refill-drc",
+          "local_settings_policy": "job-owned-prl-immutable-v1",
+          "local_settings_protection": {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": false
+          },
+          "validated_input_sha256": "8eea93326e74e7a1d72b24ade6305fee34e6d704f04b3b733e7aaa8184ad57db",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/layer-gap/saved/smoke.kicad_pcb"
+        },
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 1.0695661249919794,
+          "cpu_seconds": 0.44123999999999997,
+          "max_rss_bytes": 102776832,
+          "supervisor_cpu_seconds": 0.011892999999999931,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 101449728,
+          "sampled_peak_workdir_bytes": 140579,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/layer-gap/final-drc.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/layer-gap/final-drc-input/smoke.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/layer-gap/final-drc.log",
+          "log_bytes": 173,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/layer-gap",
+          "signal_cancellation_enabled": true,
+          "pid": 76777,
+          "name": "final-drc",
+          "local_settings_policy": "job-owned-prl-immutable-v1",
+          "local_settings_protection": {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": false
+          },
+          "validated_input_sha256": "1e77a78824e638bb4d9ddc0043aad557a2ae04ff537ccc9770fcc32737fe3819",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/layer-gap/candidate/smoke.kicad_pcb"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.4784407499828376,
+          "cpu_seconds": 0.45989399999999997,
+          "max_rss_bytes": 196755456,
+          "supervisor_cpu_seconds": 0.0048360000000000625,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 138362880,
+          "sampled_peak_workdir_bytes": 150929,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/native_components_v1/worker.py",
+            "--request",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/layer-gap/request.json",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/layer-gap/components"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/layer-gap/components.log",
+          "log_bytes": 111,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/layer-gap",
+          "signal_cancellation_enabled": true,
+          "pid": 76778,
+          "name": "components"
+        }
+      ]
+    },
+    {
+      "case": "via-bridge",
+      "passed": true,
+      "native_counts": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0
+      },
+      "expected_components": [
+        [
+          "J1",
+          "J2",
+          "J7"
+        ],
+        [
+          "J3",
+          "J4"
+        ],
+        [
+          "J5",
+          "J6"
+        ]
+      ],
+      "observed_components": [
+        [
+          "J1",
+          "J2",
+          "J7"
+        ],
+        [
+          "J3",
+          "J4"
+        ],
+        [
+          "J5",
+          "J6"
+        ]
+      ],
+      "pad_count": 7,
+      "component_receipt_sha256": "3cbc1f9e76116c085965a0dfdc798a5bf5982b9247ee3c533309a7643aba17d9",
+      "candidate_sha256": "dcd504db12037ab89a8e6ef1907ce94059ffb92aba0184aee97f6fa235d9f20d",
+      "native_report_sha256": "40aef1e95fdac52dd2e816ec30b91a870c7d4c6e23c98bfd2dcb0c8c75aa14e5",
+      "steps": [
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 1.060186832997715,
+          "cpu_seconds": 0.4347,
+          "max_rss_bytes": 102514688,
+          "supervisor_cpu_seconds": 0.008994999999999975,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 101400576,
+          "sampled_peak_workdir_bytes": 96206,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/via-bridge/refill-drc.json",
+            "--save-board",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/via-bridge/saved/smoke.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/via-bridge/refill-drc.log",
+          "log_bytes": 187,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/via-bridge",
+          "signal_cancellation_enabled": true,
+          "pid": 76780,
+          "name": "refill-drc",
+          "local_settings_policy": "job-owned-prl-immutable-v1",
+          "local_settings_protection": {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": false
+          },
+          "validated_input_sha256": "38535ad20138892b974805cd48a959df58a253a27a7f384dbc29f34f5a7401ef",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/via-bridge/saved/smoke.kicad_pcb"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 1.102603250008542,
+          "cpu_seconds": 0.457633,
+          "max_rss_bytes": 102809600,
+          "supervisor_cpu_seconds": 0.01284799999999997,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 101531648,
+          "sampled_peak_workdir_bytes": 138507,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/via-bridge/final-drc.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/via-bridge/final-drc-input/smoke.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/via-bridge/final-drc.log",
+          "log_bytes": 174,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/via-bridge",
+          "signal_cancellation_enabled": true,
+          "pid": 76781,
+          "name": "final-drc",
+          "local_settings_policy": "job-owned-prl-immutable-v1",
+          "local_settings_protection": {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": false
+          },
+          "validated_input_sha256": "dcd504db12037ab89a8e6ef1907ce94059ffb92aba0184aee97f6fa235d9f20d",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/via-bridge/candidate/smoke.kicad_pcb"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.5106874170014635,
+          "cpu_seconds": 0.482954,
+          "max_rss_bytes": 197197824,
+          "supervisor_cpu_seconds": 0.005464000000000024,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 136445952,
+          "sampled_peak_workdir_bytes": 148848,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/native_components_v1/worker.py",
+            "--request",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/via-bridge/request.json",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/via-bridge/components"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/via-bridge/components.log",
+          "log_bytes": 111,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/via-bridge",
+          "signal_cancellation_enabled": true,
+          "pid": 76784,
+          "name": "components"
+        }
+      ]
+    },
+    {
+      "case": "physical-short",
+      "passed": true,
+      "native_counts": {
+        "opens": 0,
+        "blocking": 1,
+        "warnings": 0,
+        "exclusions": 0
+      },
+      "expected_components": [
+        [
+          "J1",
+          "J2",
+          "J7"
+        ],
+        [
+          "J3",
+          "J4"
+        ],
+        [
+          "J5",
+          "J6"
+        ]
+      ],
+      "observed_components": [
+        [
+          "J1",
+          "J2",
+          "J7"
+        ],
+        [
+          "J3",
+          "J4"
+        ],
+        [
+          "J5",
+          "J6"
+        ]
+      ],
+      "pad_count": 7,
+      "component_receipt_sha256": "ac6fa572d54f70ce708a58f4a4fec68abc20e0e58ffdd4a0c412627d0438aa2a",
+      "candidate_sha256": "2b5ca8ef400b9282824244c0a6bca2b3ba7e5333f844c8ca11c57686b18e2746",
+      "native_report_sha256": "a5fb3431663d349e9b707a466d6d5b836d62c5253a770f5d310fde265e1ea8ad",
+      "steps": [
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 1.0663393749855459,
+          "cpu_seconds": 0.426733,
+          "max_rss_bytes": 102596608,
+          "supervisor_cpu_seconds": 0.00782600000000011,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 100974592,
+          "sampled_peak_workdir_bytes": 97039,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/physical-short/refill-drc.json",
+            "--save-board",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/physical-short/saved/smoke.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/physical-short/refill-drc.log",
+          "log_bytes": 191,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/physical-short",
+          "signal_cancellation_enabled": true,
+          "pid": 76786,
+          "name": "refill-drc",
+          "local_settings_policy": "job-owned-prl-immutable-v1",
+          "local_settings_protection": {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": false
+          },
+          "validated_input_sha256": "437b2fc10776be262d5d1d701836d7aeb6220bc2fa5de416ac7d9eccc1b12d10",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/physical-short/saved/smoke.kicad_pcb"
+        },
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 1.0660585000005085,
+          "cpu_seconds": 0.43992699999999996,
+          "max_rss_bytes": 102645760,
+          "supervisor_cpu_seconds": 0.010308999999999902,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 101908480,
+          "sampled_peak_workdir_bytes": 140168,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/physical-short/final-drc.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/physical-short/final-drc-input/smoke.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/physical-short/final-drc.log",
+          "log_bytes": 178,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/physical-short",
+          "signal_cancellation_enabled": true,
+          "pid": 76787,
+          "name": "final-drc",
+          "local_settings_policy": "job-owned-prl-immutable-v1",
+          "local_settings_protection": {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": false
+          },
+          "validated_input_sha256": "2b5ca8ef400b9282824244c0a6bca2b3ba7e5333f844c8ca11c57686b18e2746",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/physical-short/candidate/smoke.kicad_pcb"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.4919621669978369,
+          "cpu_seconds": 0.469753,
+          "max_rss_bytes": 196313088,
+          "supervisor_cpu_seconds": 0.005318000000000156,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 139034624,
+          "sampled_peak_workdir_bytes": 150579,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/native_components_v1/worker.py",
+            "--request",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/physical-short/request.json",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/physical-short/components"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/physical-short/components.log",
+          "log_bytes": 111,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-components-controls-001/physical-short",
+          "signal_cancellation_enabled": true,
+          "pid": 76788,
+          "name": "components"
+        }
+      ]
+    }
+  ],
+  "budget_seconds": 180,
+  "cpu_budget_seconds": 180,
+  "schematic_parity": "unavailable on owned PCB-only API fixtures",
+  "scope": "Actual saved refill, original-shell final Native and full pad partitions. No routing/engine execution or support admission. Every deliberate invalid source remains invalid.",
+  "wall_seconds": 17.81905129199731,
+  "full_cpu_seconds": 9.585956000000001,
+  "completed_material": {
+    "chain/candidate/smoke.kicad_pcb": "c8ddbe7aca27efd32d9238d64b5a9ce0bd7bb43b947d5b3cb7b497c48790a715",
+    "chain/candidate/smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643",
+    "chain/components/result.json": "292140d53574143a58ed358ff41a5099a7c57718c7245995fb10001a6d2911e2",
+    "chain/components-process.json": "445a8cef68379e5f651d237788cd879463ca7fce4fee84979fc02eb08cac95cb",
+    "chain/components.log": "5fd0adaf4bb33798fea7592dedfdd2d6d043ea19ea3fef27b0f80a7fa48f44f3",
+    "chain/final-drc-binding.json": "8f57b57749ccbcd8517ed4e8742c820275d179e61da0e07918a8983467352f19",
+    "chain/final-drc-input/smoke.kicad_pcb": "c8ddbe7aca27efd32d9238d64b5a9ce0bd7bb43b947d5b3cb7b497c48790a715",
+    "chain/final-drc-input/smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+    "chain/final-drc-input/smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643",
+    "chain/final-drc-process.json": "4db9e52e6feb06ac522cfa5d30c7ef37afa39d82ecf84e05cd7c27952e002a38",
+    "chain/final-drc.json": "3c7297650455eaadb91ab2c0813ddc2bb49461c4d69b128438f21bbb608acf80",
+    "chain/final-drc.log": "826099b62a1e0e8942936d9913d9d46cb976bdb5b9ab58b539b11681a0bc1d6c",
+    "chain/kicad-config/10.0/3d_viewer.json": "196678c94fed37c15510bb4b54d6e4eec989a0c3f9b4d30ff1be0d1425992bf3",
+    "chain/kicad-config/10.0/cvpcb.json": "b93174a3b1470f1ce0e43c90268ce83976432c5210d906a3846ee7976ea9d272",
+    "chain/kicad-config/10.0/eeschema.json": "ce1d47af13c60254b736992e8a387cf93b06c83f302e3aaa4c6836acb05d3502",
+    "chain/kicad-config/10.0/fpedit.json": "e88988497732f32bf92cccd726d7d28ea7dfe1922d693448a38cb4c063f9d368",
+    "chain/kicad-config/10.0/kicad.json": "026a2e3d05986b554bc6f5aa8590c69e847090527e0e718287e1005dbd905015",
+    "chain/kicad-config/10.0/kicad_common.json": "b2e8a43af87c9bfa982ef3cc13ec1d9e26a8d145289488b3cbefc3650c73c8cc",
+    "chain/kicad-config/10.0/pcbnew.json": "f0822c67ee74c2e6189603de283b6d288e77a6a201c65d2f6b60afd119c95845",
+    "chain/kicad-config/10.0/symbol_editor.json": "a3212dc53c3cbfd170a2bb6ae42db289bc6f4c3cf6df9abc4a5c856d22d2f86a",
+    "chain/original/smoke.kicad_pcb": "cf248cfe056c8088d84957bf5b11f7dc2843c79f9f03daff20d849351b970ba1",
+    "chain/original/smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643",
+    "chain/refill-drc-binding.json": "c06e3a9d2651d4cf6708b77a5387013adce6c72925fb9b12a717fd31cc459395",
+    "chain/refill-drc-process.json": "e07b29635813ce8ab84a6cb45f1dcc056e77d36c8b89f13fe1f9514a38eb4563",
+    "chain/refill-drc.json": "28ba41f38a3f62b03221736affc43f36b81cf2a3e6555177600a197b9eae3495",
+    "chain/refill-drc.log": "29d8525fc25d5bf83d575f7623ffa311b394578fd86611fcf371c1240b00d3fb",
+    "chain/request.json": "41983c58a970f5cae95b0a2c47afcb710700222eb34e61cc403b679a7a9412a7",
+    "chain/saved/smoke.kicad_pcb": "9a3a59b80f3553b7f5e9f0385406e3abbab2615cf4f6682c27c8b15c9cd3db11",
+    "chain/saved/smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+    "chain/saved/smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643",
+    "chain-cut/candidate/smoke.kicad_pcb": "1fea3858118b612734eb4852e2b53518ff659e01ef494b8118f5d70303ee5c57",
+    "chain-cut/candidate/smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643",
+    "chain-cut/components/result.json": "7e663681ddfc5e19efe4317aeb873d4c2c852605ec2daf4f3861194ff8897c0b",
+    "chain-cut/components-process.json": "703a853c645deacfd5169a8cc75868b880505d5d236a8aa521cd70705a523a06",
+    "chain-cut/components.log": "5fd0adaf4bb33798fea7592dedfdd2d6d043ea19ea3fef27b0f80a7fa48f44f3",
+    "chain-cut/final-drc-binding.json": "2dcfef07766ef74ea42b24b5ea73745582a8bbded2e3cf32d89f78d8e1e15240",
+    "chain-cut/final-drc-input/smoke.kicad_pcb": "1fea3858118b612734eb4852e2b53518ff659e01ef494b8118f5d70303ee5c57",
+    "chain-cut/final-drc-input/smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+    "chain-cut/final-drc-input/smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643",
+    "chain-cut/final-drc-process.json": "b249bd06a17e28b2573b2bb1b0217799cf9608045e17d7db4547c9a768f2b2a0",
+    "chain-cut/final-drc.json": "bda0bfceccf2455c0c3b63e3a81173d83d97cc8fee5b71ae94bb0c59325b1878",
+    "chain-cut/final-drc.log": "39c665313ca4526e750f5e6bfa292296090c1cee9984d9e5e0d06ddd3edf51aa",
+    "chain-cut/kicad-config/10.0/3d_viewer.json": "196678c94fed37c15510bb4b54d6e4eec989a0c3f9b4d30ff1be0d1425992bf3",
+    "chain-cut/kicad-config/10.0/cvpcb.json": "b93174a3b1470f1ce0e43c90268ce83976432c5210d906a3846ee7976ea9d272",
+    "chain-cut/kicad-config/10.0/eeschema.json": "ce1d47af13c60254b736992e8a387cf93b06c83f302e3aaa4c6836acb05d3502",
+    "chain-cut/kicad-config/10.0/fpedit.json": "e88988497732f32bf92cccd726d7d28ea7dfe1922d693448a38cb4c063f9d368",
+    "chain-cut/kicad-config/10.0/kicad.json": "026a2e3d05986b554bc6f5aa8590c69e847090527e0e718287e1005dbd905015",
+    "chain-cut/kicad-config/10.0/kicad_common.json": "9ba8a7fd2084f0bdf7b255d231fb6c487f4e38de3bab9ea0cfd9e7948b0a09ce",
+    "chain-cut/kicad-config/10.0/pcbnew.json": "f0822c67ee74c2e6189603de283b6d288e77a6a201c65d2f6b60afd119c95845",
+    "chain-cut/kicad-config/10.0/symbol_editor.json": "a3212dc53c3cbfd170a2bb6ae42db289bc6f4c3cf6df9abc4a5c856d22d2f86a",
+    "chain-cut/original/smoke.kicad_pcb": "09a1adb09988cbf09e3383763d63ebeb3e5d0dc7f095b0cf3a09e759d0b00a07",
+    "chain-cut/original/smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643",
+    "chain-cut/refill-drc-binding.json": "04577562a14390ceee6655647c983c3a3542ee3e6b0e99b3840fa3517ecdb3e6",
+    "chain-cut/refill-drc-process.json": "d4dcd6394dd15c2a5331130451f97855e6869e551111a0100e75d3e1951b9f0c",
+    "chain-cut/refill-drc.json": "05010333dfaf32e75f12c9b78717b8db6f6c5590295bdcef726833504be6c18b",
+    "chain-cut/refill-drc.log": "a733a15ccab62e9fe5cd6104ed53c031051dc7e6aec30f661eeb8f188bc2d509",
+    "chain-cut/request.json": "1df54b3c0e14a329e5182571e447a2eb78d60030f9a07bec8fffae91b00573af",
+    "chain-cut/saved/smoke.kicad_pcb": "2843460eadbed7ef086d1c910ad544d0291ad18c3e455ec2138a8a81a92fd287",
+    "chain-cut/saved/smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+    "chain-cut/saved/smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643",
+    "layer-gap/candidate/smoke.kicad_pcb": "1e77a78824e638bb4d9ddc0043aad557a2ae04ff537ccc9770fcc32737fe3819",
+    "layer-gap/candidate/smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643",
+    "layer-gap/components/result.json": "da01d5e81cc58a9353976f24c0fecf336bd3c6c4dc016eae45384da863694cf4",
+    "layer-gap/components-process.json": "1fcd2d627179a1ccc9e91c762bf8a8c6ee26b2b9eb12b3d1d3bcb2ecd0962f0e",
+    "layer-gap/components.log": "5fd0adaf4bb33798fea7592dedfdd2d6d043ea19ea3fef27b0f80a7fa48f44f3",
+    "layer-gap/final-drc-binding.json": "bad696c6f4b72b690b6decc9fe3ca3f807af8772a9443762a5a5fc7e1a898056",
+    "layer-gap/final-drc-input/smoke.kicad_pcb": "1e77a78824e638bb4d9ddc0043aad557a2ae04ff537ccc9770fcc32737fe3819",
+    "layer-gap/final-drc-input/smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+    "layer-gap/final-drc-input/smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643",
+    "layer-gap/final-drc-process.json": "851c18b29cd4a01c2c055078fd5f57830d3c6e67ab85c00103286365faa86ecb",
+    "layer-gap/final-drc.json": "c238140b7d885321d9b78e889a9c8752ab68ff88fef1c8e4f22cf3367d990e53",
+    "layer-gap/final-drc.log": "f8a55c3406a80d908045bd53d68468fdac3be44c78e4389dfa243b59b6ad5779",
+    "layer-gap/kicad-config/10.0/3d_viewer.json": "196678c94fed37c15510bb4b54d6e4eec989a0c3f9b4d30ff1be0d1425992bf3",
+    "layer-gap/kicad-config/10.0/cvpcb.json": "b93174a3b1470f1ce0e43c90268ce83976432c5210d906a3846ee7976ea9d272",
+    "layer-gap/kicad-config/10.0/eeschema.json": "ce1d47af13c60254b736992e8a387cf93b06c83f302e3aaa4c6836acb05d3502",
+    "layer-gap/kicad-config/10.0/fpedit.json": "e88988497732f32bf92cccd726d7d28ea7dfe1922d693448a38cb4c063f9d368",
+    "layer-gap/kicad-config/10.0/kicad.json": "026a2e3d05986b554bc6f5aa8590c69e847090527e0e718287e1005dbd905015",
+    "layer-gap/kicad-config/10.0/kicad_common.json": "a5d192d0da54b18ee00d0fc58883145eeaca9e28274f813a8b252696f8d16b5f",
+    "layer-gap/kicad-config/10.0/pcbnew.json": "f0822c67ee74c2e6189603de283b6d288e77a6a201c65d2f6b60afd119c95845",
+    "layer-gap/kicad-config/10.0/symbol_editor.json": "a3212dc53c3cbfd170a2bb6ae42db289bc6f4c3cf6df9abc4a5c856d22d2f86a",
+    "layer-gap/original/smoke.kicad_pcb": "8eea93326e74e7a1d72b24ade6305fee34e6d704f04b3b733e7aaa8184ad57db",
+    "layer-gap/original/smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643",
+    "layer-gap/refill-drc-binding.json": "d65913df471027cea7032d57e1ef66f0eba4f73d55b993943d9e855655a605b5",
+    "layer-gap/refill-drc-process.json": "65d2e54bb9459659f04f8c25182b67c3cb7124bd4ab387247a179d3f0409c9a8",
+    "layer-gap/refill-drc.json": "ae07c6771de6b286771fd6e324f7af9e06278e805bdb926e41ded5ce38377dd5",
+    "layer-gap/refill-drc.log": "58139a558e874b487a7f9be1760bd77fbcc1440012a8556c87f2821202a09bfa",
+    "layer-gap/request.json": "a56d8d537030136ace7588a22016acbeec52d2f14b43544a3ccaf42b66c63535",
+    "layer-gap/saved/smoke.kicad_pcb": "619b272dc16355d8830a2dd4c46d9330e61e7821a3c6f417f6e134e728b4c167",
+    "layer-gap/saved/smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+    "layer-gap/saved/smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643",
+    "physical-short/candidate/smoke.kicad_pcb": "2b5ca8ef400b9282824244c0a6bca2b3ba7e5333f844c8ca11c57686b18e2746",
+    "physical-short/candidate/smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643",
+    "physical-short/components/result.json": "ac6fa572d54f70ce708a58f4a4fec68abc20e0e58ffdd4a0c412627d0438aa2a",
+    "physical-short/components-process.json": "a5d967258a39bfb252370f1933f02d101393cbf0a729bc1fe56d2685d54d8dca",
+    "physical-short/components.log": "5fd0adaf4bb33798fea7592dedfdd2d6d043ea19ea3fef27b0f80a7fa48f44f3",
+    "physical-short/final-drc-binding.json": "2a50becf222e68c187e7e37d4aab6784034ff07855c85db9d5cbcbdda580523e",
+    "physical-short/final-drc-input/smoke.kicad_pcb": "2b5ca8ef400b9282824244c0a6bca2b3ba7e5333f844c8ca11c57686b18e2746",
+    "physical-short/final-drc-input/smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+    "physical-short/final-drc-input/smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643",
+    "physical-short/final-drc-process.json": "d18ed006ffeac9b9b7b24fa49744f0df2612eed96d19c45bbc491b809ea9f557",
+    "physical-short/final-drc.json": "a5fb3431663d349e9b707a466d6d5b836d62c5253a770f5d310fde265e1ea8ad",
+    "physical-short/final-drc.log": "424b62d48ebadf353b22550dc11f526b40f514e7d8e8512779123c253c788f8f",
+    "physical-short/kicad-config/10.0/3d_viewer.json": "196678c94fed37c15510bb4b54d6e4eec989a0c3f9b4d30ff1be0d1425992bf3",
+    "physical-short/kicad-config/10.0/cvpcb.json": "b93174a3b1470f1ce0e43c90268ce83976432c5210d906a3846ee7976ea9d272",
+    "physical-short/kicad-config/10.0/eeschema.json": "ce1d47af13c60254b736992e8a387cf93b06c83f302e3aaa4c6836acb05d3502",
+    "physical-short/kicad-config/10.0/fpedit.json": "e88988497732f32bf92cccd726d7d28ea7dfe1922d693448a38cb4c063f9d368",
+    "physical-short/kicad-config/10.0/kicad.json": "026a2e3d05986b554bc6f5aa8590c69e847090527e0e718287e1005dbd905015",
+    "physical-short/kicad-config/10.0/kicad_common.json": "1681ce3d44742336f2cc67f2a699d3aaace83c0eb5b65dde91986abb35636ddd",
+    "physical-short/kicad-config/10.0/pcbnew.json": "f0822c67ee74c2e6189603de283b6d288e77a6a201c65d2f6b60afd119c95845",
+    "physical-short/kicad-config/10.0/symbol_editor.json": "a3212dc53c3cbfd170a2bb6ae42db289bc6f4c3cf6df9abc4a5c856d22d2f86a",
+    "physical-short/original/smoke.kicad_pcb": "437b2fc10776be262d5d1d701836d7aeb6220bc2fa5de416ac7d9eccc1b12d10",
+    "physical-short/original/smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643",
+    "physical-short/refill-drc-binding.json": "30984e936e020ea4b5a97e52361060917827f145722acfe05135255245bc1a44",
+    "physical-short/refill-drc-process.json": "858f82e331e81bc3ef0211a36cc28caf976cb8c9e2e61cf2fefa829b9bbbb5f3",
+    "physical-short/refill-drc.json": "899d81bcca4f2f4e7a585d258321afa399b652a6592b6ec6dc43d8fc5a3196b3",
+    "physical-short/refill-drc.log": "33b92cadfc76cb71ca055bb182fc11faf653e9e39bf50d5589072d65f596ae8f",
+    "physical-short/request.json": "ef212d790e483c9b219c6924da1d42255d35162390b923de3a41737c2fa366d9",
+    "physical-short/saved/smoke.kicad_pcb": "be0470cde937b8013fd410c53ef74adfc4a3d19011e3c7b0ba11797eee9f0ed3",
+    "physical-short/saved/smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+    "physical-short/saved/smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643",
+    "via-bridge/candidate/smoke.kicad_pcb": "dcd504db12037ab89a8e6ef1907ce94059ffb92aba0184aee97f6fa235d9f20d",
+    "via-bridge/candidate/smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643",
+    "via-bridge/components/result.json": "3cbc1f9e76116c085965a0dfdc798a5bf5982b9247ee3c533309a7643aba17d9",
+    "via-bridge/components-process.json": "a4725c47e65eb511bee1f6323181548bff03373debbcfb0f3f86f2c45e5489cc",
+    "via-bridge/components.log": "5fd0adaf4bb33798fea7592dedfdd2d6d043ea19ea3fef27b0f80a7fa48f44f3",
+    "via-bridge/final-drc-binding.json": "21be9bc9c16a3d2f8d6d85c94c8fed492866e9df70d0d9215d8682e885d9b3c5",
+    "via-bridge/final-drc-input/smoke.kicad_pcb": "dcd504db12037ab89a8e6ef1907ce94059ffb92aba0184aee97f6fa235d9f20d",
+    "via-bridge/final-drc-input/smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+    "via-bridge/final-drc-input/smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643",
+    "via-bridge/final-drc-process.json": "29c19ad6a6774a08e09f77e95a6b83354600be7ab41fd393808d92a2ec5cf734",
+    "via-bridge/final-drc.json": "40aef1e95fdac52dd2e816ec30b91a870c7d4c6e23c98bfd2dcb0c8c75aa14e5",
+    "via-bridge/final-drc.log": "2661e0ebbb19b7ba49783d7a48c1d56cd227c91ef208363a5eca13d682ac7cc6",
+    "via-bridge/kicad-config/10.0/3d_viewer.json": "196678c94fed37c15510bb4b54d6e4eec989a0c3f9b4d30ff1be0d1425992bf3",
+    "via-bridge/kicad-config/10.0/cvpcb.json": "b93174a3b1470f1ce0e43c90268ce83976432c5210d906a3846ee7976ea9d272",
+    "via-bridge/kicad-config/10.0/eeschema.json": "ce1d47af13c60254b736992e8a387cf93b06c83f302e3aaa4c6836acb05d3502",
+    "via-bridge/kicad-config/10.0/fpedit.json": "e88988497732f32bf92cccd726d7d28ea7dfe1922d693448a38cb4c063f9d368",
+    "via-bridge/kicad-config/10.0/kicad.json": "026a2e3d05986b554bc6f5aa8590c69e847090527e0e718287e1005dbd905015",
+    "via-bridge/kicad-config/10.0/kicad_common.json": "ee28f44f78591aa205b11231b606b3a601dedce90009f391008054234b636fd4",
+    "via-bridge/kicad-config/10.0/pcbnew.json": "f0822c67ee74c2e6189603de283b6d288e77a6a201c65d2f6b60afd119c95845",
+    "via-bridge/kicad-config/10.0/symbol_editor.json": "a3212dc53c3cbfd170a2bb6ae42db289bc6f4c3cf6df9abc4a5c856d22d2f86a",
+    "via-bridge/original/smoke.kicad_pcb": "38535ad20138892b974805cd48a959df58a253a27a7f384dbc29f34f5a7401ef",
+    "via-bridge/original/smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643",
+    "via-bridge/refill-drc-binding.json": "45306d318e050aeb868ec8aea88ce4ec506eaa69f5238f84b93771c97a817747",
+    "via-bridge/refill-drc-process.json": "ff243aaa03b0c14ffb5900c342cce22f87c817b094c09c4ccf6cb1477adf1b0d",
+    "via-bridge/refill-drc.json": "d96f3ed169f04f263be360dd1f851563222dc778f0f9bbb53e5c25a7fbc8c039",
+    "via-bridge/refill-drc.log": "1b93d03f530745284e91c86653919e4d03360a83a9a21a920753eabb83fef88b",
+    "via-bridge/request.json": "610b97e3636222e7ad4d50a2848ae0c0e30d1b761e3a385cef67af5c9c0c0eba",
+    "via-bridge/saved/smoke.kicad_pcb": "b09a2f8beae23660023d555be0bb6de22a8eea0c40e30fdd0cec716de72abd9d",
+    "via-bridge/saved/smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+    "via-bridge/saved/smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643",
+    "zone-islands/candidate/smoke.kicad_pcb": "c739d344d576049a2feb7132f5910345bf694942ec2979a52343610dfaebb116",
+    "zone-islands/candidate/smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643",
+    "zone-islands/components/result.json": "629c64c507f38aac68731b227d61416182a04bf778d5c833415d244cebf1b95d",
+    "zone-islands/components-process.json": "d30f03ef98f14cb5c32679abf1879f5f96b1e1296d877be76b00f2e9981bc56a",
+    "zone-islands/components.log": "5fd0adaf4bb33798fea7592dedfdd2d6d043ea19ea3fef27b0f80a7fa48f44f3",
+    "zone-islands/final-drc-binding.json": "4b40429dcee612463df9aceae366c4e9866979e40b0cb61f1f9abf607f524106",
+    "zone-islands/final-drc-input/smoke.kicad_pcb": "c739d344d576049a2feb7132f5910345bf694942ec2979a52343610dfaebb116",
+    "zone-islands/final-drc-input/smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+    "zone-islands/final-drc-input/smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643",
+    "zone-islands/final-drc-process.json": "17bc35bf0018fc6baa0094f657c7bf90925b4e451537e4140c5dcbfdddd1d74b",
+    "zone-islands/final-drc.json": "7b391c25a68c50569e8a8320126f67d7f7d112c601c4b0cdf821fff2821d73a9",
+    "zone-islands/final-drc.log": "7cb8efdada588b5bf491f15cc8632e29ecd967b52f29e153dfa9f1a72a130cc2",
+    "zone-islands/kicad-config/10.0/3d_viewer.json": "196678c94fed37c15510bb4b54d6e4eec989a0c3f9b4d30ff1be0d1425992bf3",
+    "zone-islands/kicad-config/10.0/cvpcb.json": "b93174a3b1470f1ce0e43c90268ce83976432c5210d906a3846ee7976ea9d272",
+    "zone-islands/kicad-config/10.0/eeschema.json": "ce1d47af13c60254b736992e8a387cf93b06c83f302e3aaa4c6836acb05d3502",
+    "zone-islands/kicad-config/10.0/fpedit.json": "e88988497732f32bf92cccd726d7d28ea7dfe1922d693448a38cb4c063f9d368",
+    "zone-islands/kicad-config/10.0/kicad.json": "026a2e3d05986b554bc6f5aa8590c69e847090527e0e718287e1005dbd905015",
+    "zone-islands/kicad-config/10.0/kicad_common.json": "298b813214e8a6a203120ede4beee8e926fca9dee582e0d581ca55835b79ff31",
+    "zone-islands/kicad-config/10.0/pcbnew.json": "f0822c67ee74c2e6189603de283b6d288e77a6a201c65d2f6b60afd119c95845",
+    "zone-islands/kicad-config/10.0/symbol_editor.json": "a3212dc53c3cbfd170a2bb6ae42db289bc6f4c3cf6df9abc4a5c856d22d2f86a",
+    "zone-islands/original/smoke.kicad_pcb": "1396f3fbcca26cf4e53b360089df92c04d5c92b0776f58e79fe081718faa74a9",
+    "zone-islands/original/smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643",
+    "zone-islands/refill-drc-binding.json": "2a37b07ab47f8d277abd99c9698930784dc48bbcc4a6251d01b159334cfb3dd6",
+    "zone-islands/refill-drc-process.json": "9062941fa3f02019dc81e21861071838ac55c9641890fe1fe0b76a181f4e57ea",
+    "zone-islands/refill-drc.json": "34d36decf265d092b134e4223396269efce896240c7d7fd952962963579e6eb1",
+    "zone-islands/refill-drc.log": "01452d466d6a10c8169dd76d9ef4faed7523730ea4da18bc0d441af4d8aa3418",
+    "zone-islands/request.json": "826c2c87fbcd45dbee86b508cba0be8435e52b5023e22bd93c029889f72d05aa",
+    "zone-islands/saved/smoke.kicad_pcb": "df9b6c57fc390b59d2ebe7b6f6e9b0c264e8d7d199c57e07f7d9bf3c29a14d8a",
+    "zone-islands/saved/smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+    "zone-islands/saved/smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643"
+  }
+}

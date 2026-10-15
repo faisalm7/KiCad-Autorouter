@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/native_components_v1/worker.py", line 136, in <module>
+    r=main(args.request,args.output); print(json.dumps({k:r[k] for k in ('status','accepted','routing_accepted','production_admitted')})); raise SystemExit(0 if r['status']=='diagnostic_completed' else 2)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/native_components_v1/worker.py", line 70, in main
+    need(all(digest(pc.read_bytes(path,256*1024))==pin for path,pin in own.items()), 'observer implementation differs')
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/native_components_v1/normalize.py", line 6, in need
+    if not value: raise ValueError(reason)
+ValueError: observer implementation differs
