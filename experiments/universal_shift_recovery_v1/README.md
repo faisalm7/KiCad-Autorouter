@@ -40,3 +40,5 @@ non-Git artifact backup scope includes it directly. Its controller is
 `.runs/run-universal-B2-missing450-001.py`, two original-source90second
 attempts plus unchanged shared final-observation checks and cumulative450
 accounting. This is experimental evidence, not an installed production mode.
+
+B2missing450 actually qualifies via_low4556.133635mm/25vias/0opens/0blocking/81warnings; via_highfails9opens/3blocking. Next prospective C uses the actual CLI `improve --seconds 200 --proposal-policy feedback --scoring-preference via_low`, original source and its own freshly charged incumbent. The thin cli_entry.py only makes that CLI importable from its owned working directory. The enclosing .runs/run-universal-own-low-pruning450-001.py applies whole250 and cumulative450 caps, complete shared Native/worker/final observers and actual normalcheck_result. No result assumed or B2candidate borrowed.

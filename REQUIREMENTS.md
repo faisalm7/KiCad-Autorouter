@@ -178,3 +178,5 @@ IR feedback extension [repair001](evidence/ir-native-connected-repair001.json) s
 Current G8: [fullrestoration003](evidence/backups/full-restore-current-2c35f5e.json) passes287340files/allrefs/independentemptyrepo/restoredCLI through2c35f5e, finite300k/9GiB guards; onMaconly. Universal300 remains allrejected; prospective ownCdeletion450 and remainingB2 variants have no newNative result yet.
 
 G4 latest experimental observation: [ownC whole-ground deletion450](evidence/universal-own-C-ground-delete450-actual-001.json) actually rejects3opens/13thermal/81warnings after protected289signals/originaldesign/fiveignored checks. Earlier300 staysallrejected. No improvementclaim. MissingB2low/high actualNative remains next; unchanged shared candidate/worker helpers are extracted intoexperiments/native_paired_v1/observations.py.
+
+G4 strongeractualB2: [missing low/high450](evidence/universal-B2-missing450-actual-001.json) yields qualifiedlow0/0/81/4556.133635mm25vias, highreject9/3/81. Allthreevariants nowattempted; Cstillinvalid. Prospective actualproductownlowCimprove200/freshincumbent+pruning undercumulative450; no gainassumed.
