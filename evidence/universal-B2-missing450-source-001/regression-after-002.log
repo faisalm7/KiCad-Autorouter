@@ -1,0 +1,26 @@
+..E
+======================================================================
+ERROR: test_unmodified_rejected_trial_settings_are_verified (tests.test_universal_missing_baselines.MissingBaselineSettingControls.test_unmodified_rejected_trial_settings_are_verified)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_universal_missing_baselines.py", line 28, in test_unmodified_rejected_trial_settings_are_verified
+    with patch.object(b2.obs,'workers',return_value=[]):result=b2.observe(folder,data,source,None,{},None)
+                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/universal_shift_recovery_v1/b2.py", line 29, in observe
+    if engine_verified:p.check_engine_profile_record(data,folder)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 1223, in check_engine_profile_record
+    or read_json(Path(directory)/'engine-process.json')!=workers[0]):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/floor_route.py", line 42, in read_json
+    return json.loads(read_bytes(path),object_pairs_hook=pairs,parse_constant=constant)
+                      ^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/placement_clearance.py", line 30, in read_bytes
+    if any(x.is_symlink() for x in (path,*path.parents)):raise p.Rejected('placement symlink unsupported')
+                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+autorouter.pipeline.Rejected: placement symlink unsupported
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.010s
+
+FAILED (errors=1)

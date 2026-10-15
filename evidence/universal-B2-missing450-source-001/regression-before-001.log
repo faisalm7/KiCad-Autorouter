@@ -1,0 +1,27 @@
+FF
+======================================================================
+FAIL: test_rejected_low_cannot_relabel_default_engine (tests.test_universal_missing_baselines.MissingBaselineSettingControls.test_rejected_low_cannot_relabel_default_engine)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_universal_missing_baselines.py", line 23, in test_rejected_low_cannot_relabel_default_engine
+    def test_rejected_low_cannot_relabel_default_engine(self):self.assert_mislabelling_rejected('via_low')
+                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_universal_missing_baselines.py", line 22, in assert_mislabelling_rejected
+    with self.assertRaisesRegex(p.Rejected,'engine profile'):b2.observe(folder,data,source,None,{},None)
+AssertionError: Rejected not raised
+
+======================================================================
+FAIL: test_rejected_high_cannot_relabel_default_engine (tests.test_universal_missing_baselines.MissingBaselineSettingControls.test_rejected_high_cannot_relabel_default_engine)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_universal_missing_baselines.py", line 24, in test_rejected_high_cannot_relabel_default_engine
+    def test_rejected_high_cannot_relabel_default_engine(self):self.assert_mislabelling_rejected('via_high')
+                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_universal_missing_baselines.py", line 22, in assert_mislabelling_rejected
+    with self.assertRaisesRegex(p.Rejected,'engine profile'):b2.observe(folder,data,source,None,{},None)
+AssertionError: Rejected not raised
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.003s
+
+FAILED (failures=2)

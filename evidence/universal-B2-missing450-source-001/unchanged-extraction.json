@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "passed": true,
+  "source": ".runs/universal-shift-interface-native-paired300-002/reader.py",
+  "source_sha256": "faa1a5dd63393f8720cf17c94ce6dedba6707b5310065676a1acffe5317ff9fa",
+  "target": "experiments/native_paired_v1/observations.py",
+  "target_sha256": "3057d744a8a578214c58b226d984c26f3c20a02fb94b1c3c6cc82dd32de3614a",
+  "functions": [
+    "require",
+    "number",
+    "inventory",
+    "signatures",
+    "workers",
+    "candidate",
+    "resource_failure"
+  ],
+  "check": "ast.dump exact identity including function decorators/defaults/bodies; no Native/oldreader invocation"
+}

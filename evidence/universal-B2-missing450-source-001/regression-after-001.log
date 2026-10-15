@@ -1,0 +1,92 @@
+EEE............
+======================================================================
+ERROR: test_rejected_high_cannot_relabel_default_engine (tests.test_universal_missing_baselines.MissingBaselineSettingControls.test_rejected_high_cannot_relabel_default_engine)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_universal_missing_baselines.py", line 24, in test_rejected_high_cannot_relabel_default_engine
+    def test_rejected_high_cannot_relabel_default_engine(self):self.assert_mislabelling_rejected('via_high')
+                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_universal_missing_baselines.py", line 22, in assert_mislabelling_rejected
+    with self.assertRaisesRegex(p.Rejected,'engine profile'):b2.observe(folder,data,source,None,{},None)
+                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/universal_shift_recovery_v1/b2.py", line 29, in observe
+    if engine_verified:p.check_engine_profile_record(data,folder)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 1209, in check_engine_profile_record
+    width=check_minimum_width_record(data,directory)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 1496, in check_minimum_width_record
+    guard=minimum_width_guard(data['source'],data['adapter'])
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 1487, in minimum_width_guard
+    value=json.loads(project.read_text()).get('board',{}).get('design_settings',{}).get('rules',{}).get('min_track_width',0)
+                     ^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/var/folders/g4/gcs4p1q561qgx6k1kqjr28600000gn/T/tmp_vw9v3zj/original.kicad_pro'
+
+======================================================================
+ERROR: test_rejected_low_cannot_relabel_default_engine (tests.test_universal_missing_baselines.MissingBaselineSettingControls.test_rejected_low_cannot_relabel_default_engine)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_universal_missing_baselines.py", line 23, in test_rejected_low_cannot_relabel_default_engine
+    def test_rejected_low_cannot_relabel_default_engine(self):self.assert_mislabelling_rejected('via_low')
+                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_universal_missing_baselines.py", line 22, in assert_mislabelling_rejected
+    with self.assertRaisesRegex(p.Rejected,'engine profile'):b2.observe(folder,data,source,None,{},None)
+                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/universal_shift_recovery_v1/b2.py", line 29, in observe
+    if engine_verified:p.check_engine_profile_record(data,folder)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 1209, in check_engine_profile_record
+    width=check_minimum_width_record(data,directory)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 1496, in check_minimum_width_record
+    guard=minimum_width_guard(data['source'],data['adapter'])
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 1487, in minimum_width_guard
+    value=json.loads(project.read_text()).get('board',{}).get('design_settings',{}).get('rules',{}).get('min_track_width',0)
+                     ^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/var/folders/g4/gcs4p1q561qgx6k1kqjr28600000gn/T/tmpwkhp4rsx/original.kicad_pro'
+
+======================================================================
+ERROR: test_unmodified_rejected_trial_settings_are_verified (tests.test_universal_missing_baselines.MissingBaselineSettingControls.test_unmodified_rejected_trial_settings_are_verified)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_universal_missing_baselines.py", line 28, in test_unmodified_rejected_trial_settings_are_verified
+    with patch.object(b2.obs,'workers',return_value=[]):result=b2.observe(folder,data,source,None,{},None)
+                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/universal_shift_recovery_v1/b2.py", line 29, in observe
+    if engine_verified:p.check_engine_profile_record(data,folder)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 1209, in check_engine_profile_record
+    width=check_minimum_width_record(data,directory)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 1496, in check_minimum_width_record
+    guard=minimum_width_guard(data['source'],data['adapter'])
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 1487, in minimum_width_guard
+    value=json.loads(project.read_text()).get('board',{}).get('design_settings',{}).get('rules',{}).get('min_track_width',0)
+                     ^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/var/folders/g4/gcs4p1q561qgx6k1kqjr28600000gn/T/tmpug9n_fah/original.kicad_pro'
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.008s
+
+FAILED (errors=3)

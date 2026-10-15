@@ -30,3 +30,13 @@ No additional Native workers are launched for that readback. A valid C candidate
 would still require the untried B2 via_low/high settings and complete cumulative
 450 accounting before a comparative claim. Unsupported sources, inherited
 warnings and failed earlier experiments remain in the population.
+
+Actual whole-zone probe rejected3opens/13thermal/81warnings; do not repeat it.
+Its exact used protocol is preserved in
+`evidence/universal-own-C-ground-delete450-actual-001/input-pins.json`; when
+restoring that diagnostic, copy it beside actor.py before pure replay.
+The B2 missing-settings protocol instead lives under `.runs` so the existing
+non-Git artifact backup scope includes it directly. Its controller is
+`.runs/run-universal-B2-missing450-001.py`, two original-source90second
+attempts plus unchanged shared final-observation checks and cumulative450
+accounting. This is experimental evidence, not an installed production mode.
