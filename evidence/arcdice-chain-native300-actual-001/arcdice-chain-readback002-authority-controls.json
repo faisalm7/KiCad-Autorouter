@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "bounds": {
+    "elapsed_seconds": {
+      "receipt_lower_bound": 14.903232584008947,
+      "saved_sample": 15.016726250003558,
+      "enclosing_upper_bound": 16.993459541990887
+    },
+    "observed_cpu_seconds": {
+      "receipt_lower_bound": 13.804712000000002,
+      "saved_sample": 13.931977,
+      "enclosing_upper_bound": 15.865704000000001
+    }
+  },
+  "rejected_mutations": {
+    "metrics": "raw observations differ from exact checkpoints/receipt semantic replay",
+    "kind": "raw observations differ from exact checkpoints/receipt semantic replay",
+    "acceptance": "raw observations differ from exact checkpoints/receipt semantic replay",
+    "meaning": "raw observations differ from exact checkpoints/receipt semantic replay",
+    "extra_field": "raw observations differ from exact checkpoints/receipt semantic replay",
+    "below_receipt_wall": "final-only observation is outside receipt/enclosing costs: elapsed_seconds",
+    "above_invocation_cpu": "final-only observation is outside receipt/enclosing costs: observed_cpu_seconds",
+    "nonfinite": "invalid finite cost",
+    "missing_observation": "final-only observation population differs",
+    "C_feedback_checkpoint_time": "raw observations differ from exact checkpoints/receipt semantic replay",
+    "C_chains_checkpoint_time": "raw observations differ from exact checkpoints/receipt semantic replay"
+  },
+  "new_native_execution": false,
+  "new_engine_execution": false,
+  "scope": "Exact semantic replay and bounds on actual frozen records. Overall raw summary/invocation/outer pins additionally forbid all sample byte changes, even inside these numeric bounds."
+}

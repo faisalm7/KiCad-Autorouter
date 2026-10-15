@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "passed": false,
+  "new_native_execution": false,
+  "new_engine_execution": false,
+  "controller_sha256": "dfc8b8a2ad3fe21a4d58869684c3dc7add95bc16306f7ec8735a5a7ce6488f66",
+  "protocol_sha256": "b01a482592c0fbbcf0fd28e1182eabce3d0da68a382266de94df913b874035eb",
+  "publication_allowance_seconds": 2,
+  "process": {
+    "status": "nonzero_exit",
+    "exit_code": 2,
+    "wall_seconds": 10.925211958005093,
+    "cpu_seconds": 10.40521,
+    "max_rss_bytes": 257998848,
+    "supervisor_cpu_seconds": 0.03076000000000001,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 257998848,
+    "sampled_peak_workdir_bytes": 525,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 2097152,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/read-native-chain-ablation-001.py",
+      "--prospective",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-chain-native300-002-protocol.json",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-chain-native300-readback-001"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-chain-native300-readback-execution-001/command.log",
+    "log_bytes": 133,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/arcdice-chain-native300-readback-execution-001",
+    "signal_cancellation_enabled": true,
+    "pid": 89592
+  },
+  "reason": "Rejected: reader process failed",
+  "wall_seconds": 12.099358709005173,
+  "full_cpu_seconds": 11.230928
+}
