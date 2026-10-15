@@ -1,0 +1,163 @@
+{
+  "schema": 1,
+  "kind": "actual-current-source-installation033",
+  "source_git_head": "d53263880f20bbf2653f6cb8eb4a790c7bcf7fcf",
+  "qualified": true,
+  "installation": {
+    "path": ".runs/installation-033/result.json",
+    "sha256": "48e300fe80eacfb679e284f6f0366cecf839fc05776e0d7600f7b19e56aa7e22"
+  },
+  "actual_installation_cost": {
+    "receipt": {
+      "path": ".runs/installation-033-execution/execution.json",
+      "sha256": "b7f154de57dc627f4f622fa13257f67fb935f69cf280b0db68cebc3e03aeb17d"
+    },
+    "wall_seconds": 40.897494250006275,
+    "full_cpu_seconds": 28.851839000000002,
+    "publication_allowance_seconds": 2,
+    "passed": null,
+    "source_current": true,
+    "process": {
+      "status": "success",
+      "exit_code": 0,
+      "cleanup_complete": true,
+      "log_truncated": false
+    }
+  },
+  "fixed_commands": 22,
+  "fixed_test_count": 74,
+  "complete_source_tracked_files": 20828,
+  "initial_distribution_files": 639,
+  "targeted": {
+    "receipt": {
+      "path": ".runs/installation033-targeted-001/execution.json",
+      "sha256": "a01c6a1c2eec0ee2fa9d19bca950480587f2c1619db76fb1b6d87733f1882e0e"
+    },
+    "wall_seconds": 0.4327835000003688,
+    "full_cpu_seconds": 0.408343,
+    "publication_allowance_seconds": 2,
+    "passed": null,
+    "source_current": true,
+    "process": {
+      "status": "success",
+      "exit_code": 0,
+      "cleanup_complete": true,
+      "log_truncated": false
+    }
+  },
+  "targeted_population": {
+    "modules": [
+      "tests.test_schematic_fields",
+      "tests.test_schematic_field_evidence",
+      "tests.test_native_edge",
+      "tests.test_native_edge_record"
+    ],
+    "planned": 48,
+    "ran": 48,
+    "successful": true,
+    "skipped": 0,
+    "shipped_modules": {
+      "autorouter.native_edge": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-033/checkout/autorouter/native_edge.py",
+      "autorouter.schematic_field_evidence": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-033/checkout/autorouter/schematic_field_evidence.py"
+    }
+  },
+  "reader": {
+    "receipt": {
+      "path": ".runs/current-installation033-review-001/execution.json",
+      "sha256": "c56d81979bf06a98bb0614f595f1c0c8358b7aef353e76158fccb627358034b4"
+    },
+    "wall_seconds": 7.561163999984274,
+    "full_cpu_seconds": 5.464607999999999,
+    "publication_allowance_seconds": 2,
+    "passed": true,
+    "source_current": true,
+    "process": {
+      "status": "success",
+      "exit_code": 0,
+      "cleanup_complete": true,
+      "log_truncated": false
+    }
+  },
+  "reader_checks": {
+    "actual_commands_and_selected_tests": {
+      "installed_test_count": 74,
+      "passed": true
+    },
+    "complete_source_and_installed_inventory": {
+      "complete_original_source_files": 20828,
+      "installed_distribution_files": 639,
+      "passed": true,
+      "source_and_installed_subset_exact": true
+    },
+    "installed_actual_native_smoke_and_current_readback": {
+      "passed": true
+    },
+    "installed_targeted_current_changes": {
+      "passed": true,
+      "tests": 48
+    },
+    "late_complete_material_and_source": {
+      "passed": true,
+      "source_and_complete_distribution_unchanged": true
+    },
+    "outer_costs_and_publication": {
+      "passed": true
+    },
+    "real_installed_context": {
+      "passed": true
+    }
+  },
+  "actual_native": {
+    "candidate_sha256": "d94fc4f57b904ab90d81e767572d3a7c7ce2a19ab25af8538aec566b8def52ff",
+    "native_report_sha256": "cc331d9f9074271ac3328b47dcbda1f6f3d29abdf899d55b3af0825c3e4a2ab5",
+    "counts": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 0,
+      "exclusions": 0,
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ]
+    },
+    "metrics": {
+      "version": "10.0.0",
+      "pads": 6,
+      "footprints": 6,
+      "zones": 1,
+      "vias": 0,
+      "track_length_mm": 60.0,
+      "copper_layers": 2
+    },
+    "source_hashes": {
+      "smoke.kicad_pcb": "618b0b1d23f082283a5136b514ff64ee54b3a058f068689bf64668a436d7c5ea",
+      "smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+      "smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643"
+    }
+  },
+  "limitations": [
+    "Currentd532source distribution andindependentvenv/cachedseparateengine onexistingMac/apps; notfreshOS/fullinstalledsuite/formalpackage.",
+    "ActualNative60mm/0via/0findings isPCB/PRO/PRL-only zeroalias ownedfixture. No installedfullSCH/nonzeroartwork/fractionalengine claim.",
+    "48installedfield/edge softwarecontrols ran; no Nativeworkers repeated bytargets/reader, zero historicalsupplement. Sevenexistingreader groups allpass; fixed74 testcensus verifiedfromactualcurrentlog before readerfreeze.",
+    "CurrentIRmatrix001 allfourreject; sourcefractionalhostNativecontrol qualification isseparate, correctedIRcomparison/currentworkflow remainnext.",
+    "Unique raw outputsafterd2268fullcutoff; nextincremental/onMaconly byownerchoice."
+  ]
+}
