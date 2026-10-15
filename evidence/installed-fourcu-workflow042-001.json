@@ -1,0 +1,782 @@
+{
+  "schema": 1,
+  "kind": "actual-installed-four-copper-partial-workflow",
+  "qualified": true,
+  "producer_git_head": "6e68702bd335a0314e9d5dd32eeb39448811f859",
+  "routing_receipt_sha256": "517007cd19a0e63fdbdd0c3e6f157b1ffcfb6882e4a90c5072f98b2e2ac740cf",
+  "native_layers": [
+    "F.Cu",
+    "In1.Cu",
+    "In2.Cu",
+    "B.Cu"
+  ],
+  "native_plot_count": 8,
+  "accept_and_reject_test_intents_observed": true,
+  "new_routing_executed": false,
+  "gui_qualified": false,
+  "human_pcb_approval_observed": false,
+  "live_application_qualified": false,
+  "export_accepted": true,
+  "candidate_sha256": "265959a20562351461ed435e2955e9e3b6a940d0a47c3896fccc79c4181a6bd8",
+  "final_native_report_sha256": "e452602052e469f80d2f874957cd53e65990ba9d615c3a5c082cd48e236fb312",
+  "native": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 6,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      }
+    ]
+  },
+  "metrics": {
+    "version": "10.0.0",
+    "pads": 6,
+    "footprints": 6,
+    "zones": 0,
+    "vias": 4,
+    "track_length_mm": 154.35980561473033,
+    "copper_layers": 4
+  },
+  "original_design_source_rules_prl_and_all_ten_routes_preserved": true,
+  "whole_project_drc_clean": false,
+  "measured_complete_enclosure": {
+    "wall_seconds": 17.449111208989052,
+    "full_cpu_seconds": 15.987432,
+    "publication_allowance_seconds": 2,
+    "process": {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 17.095746875012992,
+      "cpu_seconds": 15.661221000000001,
+      "max_rss_bytes": 239042560,
+      "supervisor_cpu_seconds": 0.04561800000000002,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 239108096,
+      "sampled_peak_workdir_bytes": 6934,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 2097152,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-042/checkout/.venv/bin/python",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-042/checkout/scripts/qualify_review_export.py",
+        "--receipt",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-042/checkout/.runs/installation042-default1000_partial/native/route/result.json",
+        "--render",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-042/checkout/.runs/four-cu-partial-workflow-042",
+        "--run-native"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installed-fourcu-workflow042-execution-001/command.log",
+      "log_bytes": 163,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installed-fourcu-workflow042-execution-001",
+      "signal_cancellation_enabled": true,
+      "pid": 36712
+    }
+  },
+  "raw_artifacts": [
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/result.json",
+        "sha256": "dca70d25e5cb92818e40d79c277065303ad2af3038e510c985f6d8aa53f7ceb7",
+        "bytes": 22453
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--result.json",
+        "sha256": "dca70d25e5cb92818e40d79c277065303ad2af3038e510c985f6d8aa53f7ceb7",
+        "bytes": 22453
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/protocol.json",
+        "sha256": "400bd8de0c038e7b27aa87ca26d0195c61d575337a34d1acbc1a699ce5539267",
+        "bytes": 20472
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--protocol.json",
+        "sha256": "400bd8de0c038e7b27aa87ca26d0195c61d575337a34d1acbc1a699ce5539267",
+        "bytes": 20472
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installed-fourcu-workflow042-execution-001/execution.json",
+        "sha256": "442f94747aa92b6fd5ae1753e88b2ec995dfe42c10152a879d7a73e167e948aa",
+        "bytes": 8395
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installed-fourcu-workflow042-execution-001--execution.json",
+        "sha256": "442f94747aa92b6fd5ae1753e88b2ec995dfe42c10152a879d7a73e167e948aa",
+        "bytes": 8395
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installed-fourcu-workflow042-execution-001/command.log",
+        "sha256": "abe015109ae5457ad4088b3de23c6315e23284346b4f039e84e2a6dd80ec84f0",
+        "bytes": 163
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installed-fourcu-workflow042-execution-001--command.log",
+        "sha256": "abe015109ae5457ad4088b3de23c6315e23284346b4f039e84e2a6dd80ec84f0",
+        "bytes": 163
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/run-installed-fourcu-workflow-042.py",
+        "sha256": "592a9dad88b2e6a8bce0061ee827806017b5b242c0a676337237ea3af6c9503c",
+        "bytes": 3116
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/run-installed-fourcu-workflow-042.py",
+        "sha256": "592a9dad88b2e6a8bce0061ee827806017b5b242c0a676337237ea3af6c9503c",
+        "bytes": 3116
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/case.json",
+        "sha256": "ad6f3b59d5fd3af1d0ea3304d057554a2fe3f475a110df947e0b316b8d640a25",
+        "bytes": 1684
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--case.json",
+        "sha256": "ad6f3b59d5fd3af1d0ea3304d057554a2fe3f475a110df947e0b316b8d640a25",
+        "bytes": 1684
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/review.json",
+        "sha256": "4310e4b75907950af42c68effea0492f309f200b043e54b33ec7c960b14c801e",
+        "bytes": 62823
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--review.json",
+        "sha256": "4310e4b75907950af42c68effea0492f309f200b043e54b33ec7c960b14c801e",
+        "bytes": 62823
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/preview.html",
+        "sha256": "e3cfbffec33156f9875f2bb1b8387bc5bc8d6b18eda3135e60203a1dc1fe0140",
+        "bytes": 3482
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--preview.html",
+        "sha256": "e3cfbffec33156f9875f2bb1b8387bc5bc8d6b18eda3135e60203a1dc1fe0140",
+        "bytes": 3482
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/intent/choice.json",
+        "sha256": "e7c9f59322e4b27def8995d0dda0156ce16e09217112fccced24148a9f8f4f6e",
+        "bytes": 31790
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--intent--choice.json",
+        "sha256": "e7c9f59322e4b27def8995d0dda0156ce16e09217112fccced24148a9f8f4f6e",
+        "bytes": 31790
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/rejection/choice.json",
+        "sha256": "29eb463ea9a3c34c9a5d815d59c2b6d3869f5a501d6b8e89054dacac7146253f",
+        "bytes": 31702
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--rejection--choice.json",
+        "sha256": "29eb463ea9a3c34c9a5d815d59c2b6d3869f5a501d6b8e89054dacac7146253f",
+        "bytes": 31702
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/export/export.json",
+        "sha256": "75d87423da192dccb8758affeed8f2f37fb4753f810d3606b84d3244933a8332",
+        "bytes": 86475
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--export--export.json",
+        "sha256": "75d87423da192dccb8758affeed8f2f37fb4753f810d3606b84d3244933a8332",
+        "bytes": 86475
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/four-cu-gui-access-001/observation.json",
+        "sha256": "2940239979a15df6b58cc48d5077d65ffc5c30c18aa7c6726e849f2d09e8a4f4",
+        "bytes": 498
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/four-cu-gui-access-001--observation.json",
+        "sha256": "2940239979a15df6b58cc48d5077d65ffc5c30c18aa7c6726e849f2d09e8a4f4",
+        "bytes": 498
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/native-plots/after-B.Cu.svg",
+        "sha256": "63fd0a0ce6ab5dd272182ae9505953664e6cb48942f3bf29be63015b5592fdca",
+        "bytes": 2688
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--native-plots--after-B.Cu.svg",
+        "sha256": "63fd0a0ce6ab5dd272182ae9505953664e6cb48942f3bf29be63015b5592fdca",
+        "bytes": 2688
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/native-plots/after-F.Cu.svg",
+        "sha256": "44975d5cbea5c655b2c42517bd64443ed4d6a0a12cd80a27d004f30c24e9ec78",
+        "bytes": 2953
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--native-plots--after-F.Cu.svg",
+        "sha256": "44975d5cbea5c655b2c42517bd64443ed4d6a0a12cd80a27d004f30c24e9ec78",
+        "bytes": 2953
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/native-plots/after-In1.Cu.svg",
+        "sha256": "8cf406c50ec52dee6236b6e82fb4645b69b3c89ca3877ca8dc95b8b4aebe74a7",
+        "bytes": 2101
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--native-plots--after-In1.Cu.svg",
+        "sha256": "8cf406c50ec52dee6236b6e82fb4645b69b3c89ca3877ca8dc95b8b4aebe74a7",
+        "bytes": 2101
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/native-plots/after-In2.Cu.svg",
+        "sha256": "e55b8b9ace4bbde13f78123b89defd5e002e7bfc304d1c2225e0124173fe87b0",
+        "bytes": 2547
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--native-plots--after-In2.Cu.svg",
+        "sha256": "e55b8b9ace4bbde13f78123b89defd5e002e7bfc304d1c2225e0124173fe87b0",
+        "bytes": 2547
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/native-plots/before-B.Cu.svg",
+        "sha256": "ae108c88741f69a352fa1306aa0a1c61b143a54037c18c07323b24607a61a189",
+        "bytes": 2064
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--native-plots--before-B.Cu.svg",
+        "sha256": "ae108c88741f69a352fa1306aa0a1c61b143a54037c18c07323b24607a61a189",
+        "bytes": 2064
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/native-plots/before-F.Cu.svg",
+        "sha256": "681c91ff8fd43559361bc035a91f503d32e25e3ad3b4ec63efe284dada81c46c",
+        "bytes": 2063
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--native-plots--before-F.Cu.svg",
+        "sha256": "681c91ff8fd43559361bc035a91f503d32e25e3ad3b4ec63efe284dada81c46c",
+        "bytes": 2063
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/native-plots/before-In1.Cu.svg",
+        "sha256": "771fe251bb8718733d881d6d799bbf32eb5574aa4403a160d5523b0da432f004",
+        "bytes": 1653
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--native-plots--before-In1.Cu.svg",
+        "sha256": "771fe251bb8718733d881d6d799bbf32eb5574aa4403a160d5523b0da432f004",
+        "bytes": 1653
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/native-plots/before-In2.Cu.svg",
+        "sha256": "1f4918c7c6fa47dcac31242455e93c60397398a2d664c023a442a96c0698eaff",
+        "bytes": 1653
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--native-plots--before-In2.Cu.svg",
+        "sha256": "1f4918c7c6fa47dcac31242455e93c60397398a2d664c023a442a96c0698eaff",
+        "bytes": 1653
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/plots/after-B.Cu.svg",
+        "sha256": "00b33ace230a0ae6535caa3d160dc17284f2bf1d115881a1111630bd3a1bc335",
+        "bytes": 2588
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--plots--after-B.Cu.svg",
+        "sha256": "00b33ace230a0ae6535caa3d160dc17284f2bf1d115881a1111630bd3a1bc335",
+        "bytes": 2588
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/plots/after-F.Cu.svg",
+        "sha256": "313128aa394919e526f2b10faf31e22b3da361625c56f420c525401595220525",
+        "bytes": 2853
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--plots--after-F.Cu.svg",
+        "sha256": "313128aa394919e526f2b10faf31e22b3da361625c56f420c525401595220525",
+        "bytes": 2853
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/plots/after-In1.Cu.svg",
+        "sha256": "944f04e9ec997d30ef2e03220fe2abc1bf395806d74253b2b6afc8b237385df5",
+        "bytes": 2001
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--plots--after-In1.Cu.svg",
+        "sha256": "944f04e9ec997d30ef2e03220fe2abc1bf395806d74253b2b6afc8b237385df5",
+        "bytes": 2001
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/plots/after-In2.Cu.svg",
+        "sha256": "4c3a9734ca16eb445e32a75901562ef7ec50038fe0c980dfbd797704e9395852",
+        "bytes": 2447
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--plots--after-In2.Cu.svg",
+        "sha256": "4c3a9734ca16eb445e32a75901562ef7ec50038fe0c980dfbd797704e9395852",
+        "bytes": 2447
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/plots/before-B.Cu.svg",
+        "sha256": "f0eb7b71e6051801b5606fd8df6d14ef65fe5e4524efe630616759c1c321a36e",
+        "bytes": 1964
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--plots--before-B.Cu.svg",
+        "sha256": "f0eb7b71e6051801b5606fd8df6d14ef65fe5e4524efe630616759c1c321a36e",
+        "bytes": 1964
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/plots/before-F.Cu.svg",
+        "sha256": "1de0b6fc0b5cd93e4a9261d665869f00a8911804ced7697f0cc8a7c09d445430",
+        "bytes": 1963
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--plots--before-F.Cu.svg",
+        "sha256": "1de0b6fc0b5cd93e4a9261d665869f00a8911804ced7697f0cc8a7c09d445430",
+        "bytes": 1963
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/plots/before-In1.Cu.svg",
+        "sha256": "809fdad5070f2165c1e34b135b7bdd180a17eed24c86b98f7ae630570ae3ff52",
+        "bytes": 1553
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--plots--before-In1.Cu.svg",
+        "sha256": "809fdad5070f2165c1e34b135b7bdd180a17eed24c86b98f7ae630570ae3ff52",
+        "bytes": 1553
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/plots/before-In2.Cu.svg",
+        "sha256": "b9c9d6e4f05407b4151afd96f6f6c3977ba0b0198c2b7230e1098e076826de08",
+        "bytes": 1553
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--plots--before-In2.Cu.svg",
+        "sha256": "b9c9d6e4f05407b4151afd96f6f6c3977ba0b0198c2b7230e1098e076826de08",
+        "bytes": 1553
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/before-F.Cu-process.json",
+        "sha256": "72296b4dcc0efc74066fe7b4aeafced988622fc3d0acd547bccb48b661358a20",
+        "bytes": 2808
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--before-F.Cu-process.json",
+        "sha256": "72296b4dcc0efc74066fe7b4aeafced988622fc3d0acd547bccb48b661358a20",
+        "bytes": 2808
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/before-F.Cu-input-binding.json",
+        "sha256": "af72d5d3aeeb9adb88fc36c83e3bad383197815ab2bade2bb34794684bcde557",
+        "bytes": 1445
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--before-F.Cu-input-binding.json",
+        "sha256": "af72d5d3aeeb9adb88fc36c83e3bad383197815ab2bade2bb34794684bcde557",
+        "bytes": 1445
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/before-F.Cu.log",
+        "sha256": "6431dedaa07b079b01ab80ea49e00c8ae251cb783003c7081f64c0950ce325eb",
+        "bytes": 188
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--before-F.Cu.log",
+        "sha256": "6431dedaa07b079b01ab80ea49e00c8ae251cb783003c7081f64c0950ce325eb",
+        "bytes": 188
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/after-F.Cu-process.json",
+        "sha256": "c79bad30c260b88beaa2e4b75cabcf0578ff73270140b56401d664d1b7088ea5",
+        "bytes": 2792
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--after-F.Cu-process.json",
+        "sha256": "c79bad30c260b88beaa2e4b75cabcf0578ff73270140b56401d664d1b7088ea5",
+        "bytes": 2792
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/after-F.Cu-input-binding.json",
+        "sha256": "d303b0cdd562eb68ac4f017141e728f26830adb4194aba06a15680857489b966",
+        "bytes": 1445
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--after-F.Cu-input-binding.json",
+        "sha256": "d303b0cdd562eb68ac4f017141e728f26830adb4194aba06a15680857489b966",
+        "bytes": 1445
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/after-F.Cu.log",
+        "sha256": "9cea31c5214f17e57cf3ea22bc7174243a35f8cfe37ee0c89af3e2c0eb41a0ba",
+        "bytes": 187
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--after-F.Cu.log",
+        "sha256": "9cea31c5214f17e57cf3ea22bc7174243a35f8cfe37ee0c89af3e2c0eb41a0ba",
+        "bytes": 187
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/before-In1.Cu-process.json",
+        "sha256": "6bf484a1d7ff902ee89c1105910be3cd303203ee385680aec15adc3695610703",
+        "bytes": 2809
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--before-In1.Cu-process.json",
+        "sha256": "6bf484a1d7ff902ee89c1105910be3cd303203ee385680aec15adc3695610703",
+        "bytes": 2809
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/before-In1.Cu-input-binding.json",
+        "sha256": "72e8cc968d2f27f34c929636d391bd44d3a8d52b0ef0a494328bbc67d9a66535",
+        "bytes": 1447
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--before-In1.Cu-input-binding.json",
+        "sha256": "72e8cc968d2f27f34c929636d391bd44d3a8d52b0ef0a494328bbc67d9a66535",
+        "bytes": 1447
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/before-In1.Cu.log",
+        "sha256": "ee2449b86384c3e7bf4e13bab91e00e5e07d5c52f6ba9eadf7373bbed076f50e",
+        "bytes": 190
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--before-In1.Cu.log",
+        "sha256": "ee2449b86384c3e7bf4e13bab91e00e5e07d5c52f6ba9eadf7373bbed076f50e",
+        "bytes": 190
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/after-In1.Cu-process.json",
+        "sha256": "431bd4a0085e379d590a9b206cb8f903155b6892863ec0e2d44196f47839411f",
+        "bytes": 2805
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--after-In1.Cu-process.json",
+        "sha256": "431bd4a0085e379d590a9b206cb8f903155b6892863ec0e2d44196f47839411f",
+        "bytes": 2805
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/after-In1.Cu-input-binding.json",
+        "sha256": "89cf707e2f5d47a7ebd1b86e34d1f83d0475b1d3fe87955a29970e6d24f4ecf8",
+        "bytes": 1447
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--after-In1.Cu-input-binding.json",
+        "sha256": "89cf707e2f5d47a7ebd1b86e34d1f83d0475b1d3fe87955a29970e6d24f4ecf8",
+        "bytes": 1447
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/after-In1.Cu.log",
+        "sha256": "9599d9e7b4302fd535168b57f77124ecc8402f00bc069383fc6b6b843242f551",
+        "bytes": 189
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--after-In1.Cu.log",
+        "sha256": "9599d9e7b4302fd535168b57f77124ecc8402f00bc069383fc6b6b843242f551",
+        "bytes": 189
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/before-In2.Cu-process.json",
+        "sha256": "8e10666f3e3a437c9ff71910a5f5e4ac4ae9271e5f61cd78b66c71477451331f",
+        "bytes": 2822
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--before-In2.Cu-process.json",
+        "sha256": "8e10666f3e3a437c9ff71910a5f5e4ac4ae9271e5f61cd78b66c71477451331f",
+        "bytes": 2822
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/before-In2.Cu-input-binding.json",
+        "sha256": "55b96934899c2e5e3726212ca8e860ec4483ec279505e8eb3086ba991784a8d5",
+        "bytes": 1447
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--before-In2.Cu-input-binding.json",
+        "sha256": "55b96934899c2e5e3726212ca8e860ec4483ec279505e8eb3086ba991784a8d5",
+        "bytes": 1447
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/before-In2.Cu.log",
+        "sha256": "2c319c46f68002a992150bb0b1fdddea09a59f51af3d4c48f2c55bf4057c1cb6",
+        "bytes": 190
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--before-In2.Cu.log",
+        "sha256": "2c319c46f68002a992150bb0b1fdddea09a59f51af3d4c48f2c55bf4057c1cb6",
+        "bytes": 190
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/after-In2.Cu-process.json",
+        "sha256": "9de1ad57ca5fe8a6e10a2afceb2edb9b5df434389935cf405d0868c2ba2c04ca",
+        "bytes": 2805
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--after-In2.Cu-process.json",
+        "sha256": "9de1ad57ca5fe8a6e10a2afceb2edb9b5df434389935cf405d0868c2ba2c04ca",
+        "bytes": 2805
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/after-In2.Cu-input-binding.json",
+        "sha256": "4478ea84744eded96bffb22c6a71549a212671bd37c105ecc26cc6e0266063fc",
+        "bytes": 1447
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--after-In2.Cu-input-binding.json",
+        "sha256": "4478ea84744eded96bffb22c6a71549a212671bd37c105ecc26cc6e0266063fc",
+        "bytes": 1447
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/after-In2.Cu.log",
+        "sha256": "2c5651b43a5630c45544f71a16e46ca71efe9c5085b83aa11992f5d7681e2c80",
+        "bytes": 189
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--after-In2.Cu.log",
+        "sha256": "2c5651b43a5630c45544f71a16e46ca71efe9c5085b83aa11992f5d7681e2c80",
+        "bytes": 189
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/before-B.Cu-process.json",
+        "sha256": "5ef93048d90d43d454dedbda7b0b7bdf89217e980e635ee3e7c755c88ad79dec",
+        "bytes": 2798
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--before-B.Cu-process.json",
+        "sha256": "5ef93048d90d43d454dedbda7b0b7bdf89217e980e635ee3e7c755c88ad79dec",
+        "bytes": 2798
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/before-B.Cu-input-binding.json",
+        "sha256": "75144f0d84b42cb96af623b4f249450e5631346b270efdb725a131a3102c5a48",
+        "bytes": 1445
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--before-B.Cu-input-binding.json",
+        "sha256": "75144f0d84b42cb96af623b4f249450e5631346b270efdb725a131a3102c5a48",
+        "bytes": 1445
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/before-B.Cu.log",
+        "sha256": "39bccef6c7d48169cd5faf5922d5b253a634634763d9f9d7dd447ea2558b5f38",
+        "bytes": 188
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--before-B.Cu.log",
+        "sha256": "39bccef6c7d48169cd5faf5922d5b253a634634763d9f9d7dd447ea2558b5f38",
+        "bytes": 188
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/after-B.Cu-process.json",
+        "sha256": "38d2cc3d7930b2a0951412fb5dd84334bf4baae48e79f06a9764e315e6cc9a53",
+        "bytes": 2805
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--after-B.Cu-process.json",
+        "sha256": "38d2cc3d7930b2a0951412fb5dd84334bf4baae48e79f06a9764e315e6cc9a53",
+        "bytes": 2805
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/after-B.Cu-input-binding.json",
+        "sha256": "799e844f5970410a63711aea77373ef15109d4c0170be69e232a9ec20a9e308e",
+        "bytes": 1445
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--after-B.Cu-input-binding.json",
+        "sha256": "799e844f5970410a63711aea77373ef15109d4c0170be69e232a9ec20a9e308e",
+        "bytes": 1445
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/review/plot-work/after-B.Cu.log",
+        "sha256": "ab9deb19498a0a0ff8fc7ce8c51260e66efe0ae061a332a4793e50c1e539b59a",
+        "bytes": 187
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--review--plot-work--after-B.Cu.log",
+        "sha256": "ab9deb19498a0a0ff8fc7ce8c51260e66efe0ae061a332a4793e50c1e539b59a",
+        "bytes": 187
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/export/validation/refill-drc.json",
+        "sha256": "5aaf2df0dbd9f7f2c6c808bf4202a181214a11bd0a8a87999bf7c7682d6114ec",
+        "bytes": 683
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--export--validation--refill-drc.json",
+        "sha256": "5aaf2df0dbd9f7f2c6c808bf4202a181214a11bd0a8a87999bf7c7682d6114ec",
+        "bytes": 683
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/export/validation/final-drc.json",
+        "sha256": "e452602052e469f80d2f874957cd53e65990ba9d615c3a5c082cd48e236fb312",
+        "bytes": 3717
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--export--validation--final-drc.json",
+        "sha256": "e452602052e469f80d2f874957cd53e65990ba9d615c3a5c082cd48e236fb312",
+        "bytes": 3717
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/four-cu-partial-workflow-042/retained/export/validation/metrics.json",
+        "sha256": "adf9e145c897a73bbace70e1a989effd0ec9d63dd1e7a33b0a57aa1334867d19",
+        "bytes": 148
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installation-042--checkout--.runs--four-cu-partial-workflow-042--retained--export--validation--metrics.json",
+        "sha256": "adf9e145c897a73bbace70e1a989effd0ec9d63dd1e7a33b0a57aa1334867d19",
+        "bytes": 148
+      }
+    },
+    {
+      "original": {
+        "path": ".local-backups/installed-fourcu-workflow042-review-001/REVIEW.md",
+        "sha256": "0ef834f89462e0d35b8366892d852224aa345dbf3179bb43405a5a8a9602a069",
+        "bytes": 4294
+      },
+      "public": {
+        "path": "evidence/installed-fourcu-workflow042-001/installed-fourcu-workflow042-review-001--REVIEW.md",
+        "sha256": "0ef834f89462e0d35b8366892d852224aa345dbf3179bb43405a5a8a9602a069",
+        "bytes": 4294
+      }
+    }
+  ],
+  "limitations": [
+    "Additional workflow qualification compute, not part of historical routing comparisons. No solver rerun.",
+    "All eight plots are actual KiCad saved-fill plots, not new DRC themselves. Fresh export independently repeats original-rule/fullSCH Native checks.",
+    "Both choices are software test inputs, not owner approval or human PCB review. Separate exported project only; no live overwrite or undo.",
+    "Mac locked at attempted GUI access; no new GUI qualification. Prior qualified GUI cases retain their own source/tool bindings.",
+    "No new independent family or quality gain; six warnings/two ignored checks remain."
+  ]
+}

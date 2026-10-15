@@ -1,0 +1,710 @@
+{
+  "schema": 1,
+  "kind": "actual-current-installation042",
+  "qualified": true,
+  "producer_git_head": "6e68702bd335a0314e9d5dd32eeb39448811f859",
+  "offline_command_count": 22,
+  "fixed_installed_tests": 82,
+  "changed_area_installed_tests": 117,
+  "tests_overlap": true,
+  "complete_source_files": 22068,
+  "installed_distribution_files": 709,
+  "limits": {
+    "wall_seconds": 600.0,
+    "scratch_bytes": 536870912,
+    "source_bytes": 402653184,
+    "source_files": 22500,
+    "log_bytes_per_command": 2000000,
+    "memory_guard": "4 GiB direct process-group polling; native pipeline applies its own per-worker guards"
+  },
+  "seven_current_groups": [
+    "real_installed_context",
+    "actual_commands_and_selected_tests",
+    "installed_targeted_current_changes",
+    "complete_source_and_installed_inventory",
+    "installed_actual_native_smoke_and_current_readback",
+    "outer_costs_and_publication",
+    "late_complete_material_and_source"
+  ],
+  "cases": {
+    "default1000_partial": {
+      "scope": "partial_completion",
+      "candidate_sha256": "265959a20562351461ed435e2955e9e3b6a940d0a47c3896fccc79c4181a6bd8",
+      "native_report_sha256": "8ca16072334fe3c0f4d582a8681f3ff23dceaf457d00c5fede937077eb383a19",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 6,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          }
+        ]
+      },
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 6,
+        "footprints": 6,
+        "zones": 0,
+        "vias": 4,
+        "track_length_mm": 154.35980561473033,
+        "copper_layers": 4
+      },
+      "all_original_route_records_preserved": true,
+      "original_routes": 10,
+      "original_locked_routes": 9,
+      "original_unlocked_routes": 1,
+      "caller_context": "installed independent venv/module/native helpers",
+      "raw_child_sample_is_complete": false
+    },
+    "explicit1007_whole": {
+      "scope": "whole_board_unlocked_routing",
+      "candidate_sha256": "cfed59360b049f28106fc69b8e2e007f362ac7e47acdc3887530fd4cfa22d034",
+      "native_report_sha256": "bfb5ed5e73ff91b164ef1629cc658b6b6e9d16ae0cb6ccfcf61a539488219cee",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 6,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          }
+        ]
+      },
+      "metrics": {
+        "version": "10.0.7",
+        "pads": 6,
+        "footprints": 6,
+        "zones": 0,
+        "vias": 2,
+        "track_length_mm": 152.26367124472972,
+        "copper_layers": 4
+      },
+      "all_original_route_records_preserved": true,
+      "original_routes": 10,
+      "original_locked_routes": 10,
+      "original_unlocked_routes": 0,
+      "caller_context": "installed independent venv/module/native helpers",
+      "raw_child_sample_is_complete": false
+    }
+  },
+  "reader_peak_rss_bytes": 277102592,
+  "reader_guard_bytes": 1073741824,
+  "stage_costs": {
+    "base": {
+      "wall_seconds": 43.1261376249895,
+      "full_cpu_seconds": 31.382767,
+      "publication_allowance_seconds": 2
+    },
+    "target": {
+      "wall_seconds": 13.964115584007232,
+      "full_cpu_seconds": 11.743611999999999,
+      "publication_allowance_seconds": 2
+    },
+    "reader": {
+      "wall_seconds": 28.548377750004875,
+      "full_cpu_seconds": 25.852752,
+      "publication_allowance_seconds": 2
+    },
+    "default1000_partial_including_preparation": {
+      "wall_seconds": 36.21634529103176,
+      "full_cpu_seconds": 30.136125,
+      "publication_allowance_seconds": 2
+    },
+    "explicit1007_whole_including_preparation": {
+      "wall_seconds": 63.11471608301508,
+      "full_cpu_seconds": 50.413642,
+      "publication_allowance_seconds": 2
+    }
+  },
+  "charged_measured_stages": {
+    "wall_seconds": 194.96969233304844,
+    "full_cpu_seconds": 159.528898
+  },
+  "raw_artifacts": [
+    {
+      "original": {
+        "path": ".runs/installation-042/result.json",
+        "sha256": "f3cbd1dd5a8455dae4c5e98e100e42dc54c8d4163622a47c5957cd8af3852c25",
+        "bytes": 58663
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/installation-042--result.json",
+        "sha256": "f3cbd1dd5a8455dae4c5e98e100e42dc54c8d4163622a47c5957cd8af3852c25",
+        "bytes": 58663
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042-execution/result.json",
+        "sha256": "84308ec0969badca9a521abf9b25373c2cb21da85bce79d7080fe0a5a6da65d0",
+        "bytes": 8426
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/installation-042-execution--result.json",
+        "sha256": "84308ec0969badca9a521abf9b25373c2cb21da85bce79d7080fe0a5a6da65d0",
+        "bytes": 8426
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042-execution/command.log",
+        "sha256": "76feb414ffc437702de418336b2a7c992d43e7f75f1ef6f89a4b3a6f6e5d5fab",
+        "bytes": 131
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/installation-042-execution--command.log",
+        "sha256": "76feb414ffc437702de418336b2a7c992d43e7f75f1ef6f89a4b3a6f6e5d5fab",
+        "bytes": 131
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation042-targeted-001/result.json",
+        "sha256": "12d78e00b9153db196f219b1554ad55d297e8c7a10f8f6ef902546a7119f123b",
+        "bytes": 10465
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/installation042-targeted-001--result.json",
+        "sha256": "12d78e00b9153db196f219b1554ad55d297e8c7a10f8f6ef902546a7119f123b",
+        "bytes": 10465
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation042-targeted-001/tests.log",
+        "sha256": "e1bd21473061af76391454b84c5c8b9ee9c14849a46e9a502831ae678b5d1ce6",
+        "bytes": 21377
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/installation042-targeted-001--tests.log",
+        "sha256": "e1bd21473061af76391454b84c5c8b9ee9c14849a46e9a502831ae678b5d1ce6",
+        "bytes": 21377
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation042-targeted-001/population.json",
+        "sha256": "5a2737be138721161a0707f0f90501344c7fb0a5077c02de3539c2841b6d68f9",
+        "bytes": 3257
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/installation042-targeted-001--population.json",
+        "sha256": "5a2737be138721161a0707f0f90501344c7fb0a5077c02de3539c2841b6d68f9",
+        "bytes": 3257
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/current-installation042-review-001/result.json",
+        "sha256": "9fc3cdc3a2e8d240c75a360c53e81fbdb2d844bf806ab6dc14d672c5d739ce2e",
+        "bytes": 3214
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/current-installation042-review-001--result.json",
+        "sha256": "9fc3cdc3a2e8d240c75a360c53e81fbdb2d844bf806ab6dc14d672c5d739ce2e",
+        "bytes": 3214
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/current-installation042-review-001/checks/result.json",
+        "sha256": "3f0cc65d2879e219113e2fa55b1cceca83dc86db844782ddfe57f6c5b2f45690",
+        "bytes": 55316
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/current-installation042-review-001--checks--result.json",
+        "sha256": "3f0cc65d2879e219113e2fa55b1cceca83dc86db844782ddfe57f6c5b2f45690",
+        "bytes": 55316
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/current-installation042-review-001/command.log",
+        "sha256": "10e16040fee53127fb1bae46e0d985cef1cbae5392098146e37061be59a7cbe7",
+        "bytes": 795
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/current-installation042-review-001--command.log",
+        "sha256": "10e16040fee53127fb1bae46e0d985cef1cbae5392098146e37061be59a7cbe7",
+        "bytes": 795
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/current-installation042-review-001/audit.py",
+        "sha256": "b264b56b2c4094f13657145ec041ddf0933dfce1a356e6ab8c3734e68aee56b2",
+        "bytes": 25218
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/current-installation042-review-001--audit.py",
+        "sha256": "b264b56b2c4094f13657145ec041ddf0933dfce1a356e6ab8c3734e68aee56b2",
+        "bytes": 25218
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/current-installation042-review-001/run.py",
+        "sha256": "34b60584498c6c935ac97c1680c7e0c1c8bd2c0e80706f5d261357ec92072596",
+        "bytes": 7567
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/current-installation042-review-001--run.py",
+        "sha256": "34b60584498c6c935ac97c1680c7e0c1c8bd2c0e80706f5d261357ec92072596",
+        "bytes": 7567
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/current-installation042-review-001/input-pins.json",
+        "sha256": "f633e766468c43064617fadb8ef5d7f956e5f40effee20499071a75ec5a8d977",
+        "bytes": 56333
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/current-installation042-review-001--input-pins.json",
+        "sha256": "f633e766468c43064617fadb8ef5d7f956e5f40effee20499071a75ec5a8d977",
+        "bytes": 56333
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation042-preparation-001/protocol.json",
+        "sha256": "f128df64381bde0ccc025fb5309b12199a279340635ac9b88d6290f18741c64d",
+        "bytes": 19141
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/installation042-preparation-001--protocol.json",
+        "sha256": "f128df64381bde0ccc025fb5309b12199a279340635ac9b88d6290f18741c64d",
+        "bytes": 19141
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation042-targeted-preparation-launch-failure-001.json",
+        "sha256": "ba422702d76119101cda975f16941d45938014f60a8f3ee17f914f49e2499cfb",
+        "bytes": 298
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/installation042-targeted-preparation-launch-failure-001.json",
+        "sha256": "ba422702d76119101cda975f16941d45938014f60a8f3ee17f914f49e2499cfb",
+        "bytes": 298
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/run-installation-042.py",
+        "sha256": "cfdc504e6d3ca9495d11cf138e1d0108fa0f9a287803d149825e0da55df0f475",
+        "bytes": 3767
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/run-installation-042.py",
+        "sha256": "cfdc504e6d3ca9495d11cf138e1d0108fa0f9a287803d149825e0da55df0f475",
+        "bytes": 3767
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/prepare-installation042-targeted-001.py",
+        "sha256": "1fde3ca19f10568fd0cd8d57ea38fa4a850a86f3260db5114a61363b5323708c",
+        "bytes": 7519
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/prepare-installation042-targeted-001.py",
+        "sha256": "1fde3ca19f10568fd0cd8d57ea38fa4a850a86f3260db5114a61363b5323708c",
+        "bytes": 7519
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/run-installation042-targeted-001.py",
+        "sha256": "9faa3f39a22033b377faf6794829e873b8a86640ee75e768d6e5fc8fdf1ae823",
+        "bytes": 7363
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/run-installation042-targeted-001.py",
+        "sha256": "9faa3f39a22033b377faf6794829e873b8a86640ee75e768d6e5fc8fdf1ae823",
+        "bytes": 7363
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/run-installation042-native-001.py",
+        "sha256": "64baf2ca3fb85c7dca7eed05940c63bc0de8883be013db2e3dd47769a074bda2",
+        "bytes": 14621
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/run-installation042-native-001.py",
+        "sha256": "64baf2ca3fb85c7dca7eed05940c63bc0de8883be013db2e3dd47769a074bda2",
+        "bytes": 14621
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation042-installed-fourcu.py",
+        "sha256": "8b2ebd64bae6f8daf4293d44a394f545faa763b5e795a58f4c2348b3fc6f1629",
+        "bytes": 12770
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/installation042-installed-fourcu.py",
+        "sha256": "8b2ebd64bae6f8daf4293d44a394f545faa763b5e795a58f4c2348b3fc6f1629",
+        "bytes": 12770
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/run-installation042-native-complete-001.py",
+        "sha256": "52c57f71b13aeaeff85158be8cb1a97b486ecb602f3fde9cdc5203f0930f36d4",
+        "bytes": 4485
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/run-installation042-native-complete-001.py",
+        "sha256": "52c57f71b13aeaeff85158be8cb1a97b486ecb602f3fde9cdc5203f0930f36d4",
+        "bytes": 4485
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/prepare-installation042-readback-001.py",
+        "sha256": "290a513c725507d6f184b12ea6c77300ca3b2b4d45511048f9fdeac0d5638e94",
+        "bytes": 3824
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/prepare-installation042-readback-001.py",
+        "sha256": "290a513c725507d6f184b12ea6c77300ca3b2b4d45511048f9fdeac0d5638e94",
+        "bytes": 3824
+      }
+    },
+    {
+      "original": {
+        "path": ".local-backups/installation042-native-review-001/REVIEW.md",
+        "sha256": "cdec3b7757ec305aad4adbffbf17f1f781e1636466cda092c02803b4b38f388b",
+        "bytes": 4170
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/installation042-native-review-001--REVIEW.md",
+        "sha256": "cdec3b7757ec305aad4adbffbf17f1f781e1636466cda092c02803b4b38f388b",
+        "bytes": 4170
+      }
+    },
+    {
+      "original": {
+        "path": ".local-backups/installation042-actual-review-001/REVIEW.md",
+        "sha256": "4a9f98b2e98275b8f23b6def45111d5ad4ab58af3588eb6c74b0832ad117d461",
+        "bytes": 4892
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/installation042-actual-review-001--REVIEW.md",
+        "sha256": "4a9f98b2e98275b8f23b6def45111d5ad4ab58af3588eb6c74b0832ad117d461",
+        "bytes": 4892
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation042-default1000_partial-001/result.json",
+        "sha256": "6571ac1ae5fec1235b4b58b211e2d2dc0e9dc585fd8ee085f29c905471aae919",
+        "bytes": 17716
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/installation042-default1000_partial-001--result.json",
+        "sha256": "6571ac1ae5fec1235b4b58b211e2d2dc0e9dc585fd8ee085f29c905471aae919",
+        "bytes": 17716
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation042-default1000_partial-001/command.log",
+        "sha256": "a75a3f4c17968739831bc65203f38e7c660ecbfb720060c9317bad12d1d797f1",
+        "bytes": 115
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/installation042-default1000_partial-001--command.log",
+        "sha256": "a75a3f4c17968739831bc65203f38e7c660ecbfb720060c9317bad12d1d797f1",
+        "bytes": 115
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation042-default1000_partial-complete-001/result.json",
+        "sha256": "09524bb9ec7ed66f491c8362bd10f48988526bbe621866682239b67e216cc839",
+        "bytes": 34587
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/installation042-default1000_partial-complete-001--result.json",
+        "sha256": "09524bb9ec7ed66f491c8362bd10f48988526bbe621866682239b67e216cc839",
+        "bytes": 34587
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation042-default1000_partial-complete-001/command.log",
+        "sha256": "c39ece809bcf3d057fdf68a9cdfe7afc5702515f902d7bae368353dfbf366eaa",
+        "bytes": 107
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/installation042-default1000_partial-complete-001--command.log",
+        "sha256": "c39ece809bcf3d057fdf68a9cdfe7afc5702515f902d7bae368353dfbf366eaa",
+        "bytes": 107
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation042-default1000_partial-preparation-001/protocol.json",
+        "sha256": "ccf253baeab2ced591a16a349f4e00d1da871cacb9fac41617a64ce2d5dc4833",
+        "bytes": 14031
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/installation042-default1000_partial-preparation-001--protocol.json",
+        "sha256": "ccf253baeab2ced591a16a349f4e00d1da871cacb9fac41617a64ce2d5dc4833",
+        "bytes": 14031
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/installation042-default1000_partial/installed_fourcu.py",
+        "sha256": "8b2ebd64bae6f8daf4293d44a394f545faa763b5e795a58f4c2348b3fc6f1629",
+        "bytes": 12770
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/installation-042--checkout--.runs--installation042-default1000_partial--installed_fourcu.py",
+        "sha256": "8b2ebd64bae6f8daf4293d44a394f545faa763b5e795a58f4c2348b3fc6f1629",
+        "bytes": 12770
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/installation042-default1000_partial/native/result.json",
+        "sha256": "c3e8cefe1c0ffc10fb0a3f5d5757e41f2832b0a0b2ef89bdf094b7043aa3c0dc",
+        "bytes": 34428
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/installation-042--checkout--.runs--installation042-default1000_partial--native--result.json",
+        "sha256": "c3e8cefe1c0ffc10fb0a3f5d5757e41f2832b0a0b2ef89bdf094b7043aa3c0dc",
+        "bytes": 34428
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/installation042-default1000_partial/native/route/result.json",
+        "sha256": "517007cd19a0e63fdbdd0c3e6f157b1ffcfb6882e4a90c5072f98b2e2ac740cf",
+        "bytes": 52937
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/installation-042--checkout--.runs--installation042-default1000_partial--native--route--result.json",
+        "sha256": "517007cd19a0e63fdbdd0c3e6f157b1ffcfb6882e4a90c5072f98b2e2ac740cf",
+        "bytes": 52937
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/installation042-default1000_partial/native/route/source-drc.json",
+        "sha256": "570c746faed2f660b63ab4091f1e8800a0f5699fc5bbdc4ff633a0034bab73f1",
+        "bytes": 2227
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/installation-042--checkout--.runs--installation042-default1000_partial--native--route--source-drc.json",
+        "sha256": "570c746faed2f660b63ab4091f1e8800a0f5699fc5bbdc4ff633a0034bab73f1",
+        "bytes": 2227
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/installation042-default1000_partial/native/route/refill-drc.json",
+        "sha256": "58409147a97ed9d8d3b3786a0577f4a4f753744696eabdc4d8ab6c509c73f2da",
+        "bytes": 683
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/installation-042--checkout--.runs--installation042-default1000_partial--native--route--refill-drc.json",
+        "sha256": "58409147a97ed9d8d3b3786a0577f4a4f753744696eabdc4d8ab6c509c73f2da",
+        "bytes": 683
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/installation042-default1000_partial/native/route/final-drc.json",
+        "sha256": "8ca16072334fe3c0f4d582a8681f3ff23dceaf457d00c5fede937077eb383a19",
+        "bytes": 3717
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/installation-042--checkout--.runs--installation042-default1000_partial--native--route--final-drc.json",
+        "sha256": "8ca16072334fe3c0f4d582a8681f3ff23dceaf457d00c5fede937077eb383a19",
+        "bytes": 3717
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/installation042-default1000_partial/native/route/metrics.json",
+        "sha256": "adf9e145c897a73bbace70e1a989effd0ec9d63dd1e7a33b0a57aa1334867d19",
+        "bytes": 148
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/installation-042--checkout--.runs--installation042-default1000_partial--native--route--metrics.json",
+        "sha256": "adf9e145c897a73bbace70e1a989effd0ec9d63dd1e7a33b0a57aa1334867d19",
+        "bytes": 148
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation042-explicit1007_whole-001/result.json",
+        "sha256": "02d688fce86ca0a6c5be404c39b9d965bef7c8007ea351198a73fe81320fec19",
+        "bytes": 17711
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/installation042-explicit1007_whole-001--result.json",
+        "sha256": "02d688fce86ca0a6c5be404c39b9d965bef7c8007ea351198a73fe81320fec19",
+        "bytes": 17711
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation042-explicit1007_whole-001/command.log",
+        "sha256": "3161f29532b7e8ec262fc79814937974b2a02538b31c0111faf8fac7fe5b74fe",
+        "bytes": 116
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/installation042-explicit1007_whole-001--command.log",
+        "sha256": "3161f29532b7e8ec262fc79814937974b2a02538b31c0111faf8fac7fe5b74fe",
+        "bytes": 116
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation042-explicit1007_whole-complete-001/result.json",
+        "sha256": "40bc2d4ba226f35d2fbd1f779e705fca186786069a3965299dcc5fd860289f6c",
+        "bytes": 34567
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/installation042-explicit1007_whole-complete-001--result.json",
+        "sha256": "40bc2d4ba226f35d2fbd1f779e705fca186786069a3965299dcc5fd860289f6c",
+        "bytes": 34567
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation042-explicit1007_whole-complete-001/command.log",
+        "sha256": "2ea09d3df8bc01a837f9662bd44e3a9528b52351c8410c94625b6cae833749bc",
+        "bytes": 115
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/installation042-explicit1007_whole-complete-001--command.log",
+        "sha256": "2ea09d3df8bc01a837f9662bd44e3a9528b52351c8410c94625b6cae833749bc",
+        "bytes": 115
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation042-explicit1007_whole-preparation-001/protocol.json",
+        "sha256": "e81e3af174e969d840c75f7b48d6e7f129f3cc2f7b872dd76226c86508c72ee1",
+        "bytes": 17364
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/installation042-explicit1007_whole-preparation-001--protocol.json",
+        "sha256": "e81e3af174e969d840c75f7b48d6e7f129f3cc2f7b872dd76226c86508c72ee1",
+        "bytes": 17364
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/installation042-explicit1007_whole/installed_fourcu.py",
+        "sha256": "8b2ebd64bae6f8daf4293d44a394f545faa763b5e795a58f4c2348b3fc6f1629",
+        "bytes": 12770
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/installation-042--checkout--.runs--installation042-explicit1007_whole--installed_fourcu.py",
+        "sha256": "8b2ebd64bae6f8daf4293d44a394f545faa763b5e795a58f4c2348b3fc6f1629",
+        "bytes": 12770
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/installation042-explicit1007_whole/native/result.json",
+        "sha256": "8f44bfe96ee071b8159c94a9a7c2ab85f669ebbf2dd87731faf3136331330c46",
+        "bytes": 35734
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/installation-042--checkout--.runs--installation042-explicit1007_whole--native--result.json",
+        "sha256": "8f44bfe96ee071b8159c94a9a7c2ab85f669ebbf2dd87731faf3136331330c46",
+        "bytes": 35734
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/installation042-explicit1007_whole/native/route/result.json",
+        "sha256": "dab580bae68252343ae4d4b4875af21bb25fddb49f8c2ecb96d972f36df4322d",
+        "bytes": 60413
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/installation-042--checkout--.runs--installation042-explicit1007_whole--native--route--result.json",
+        "sha256": "dab580bae68252343ae4d4b4875af21bb25fddb49f8c2ecb96d972f36df4322d",
+        "bytes": 60413
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/installation042-explicit1007_whole/native/route/source-drc.json",
+        "sha256": "1a3af81c5787d1cb73e36037cab881574265ce513b6ae1642027de28c95a50ba",
+        "bytes": 2227
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/installation-042--checkout--.runs--installation042-explicit1007_whole--native--route--source-drc.json",
+        "sha256": "1a3af81c5787d1cb73e36037cab881574265ce513b6ae1642027de28c95a50ba",
+        "bytes": 2227
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/installation042-explicit1007_whole/native/route/refill-drc.json",
+        "sha256": "91bfccff3f241579ce7aacd5aefa02a431faad3d391066546116aa79785e8daf",
+        "bytes": 683
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/installation-042--checkout--.runs--installation042-explicit1007_whole--native--route--refill-drc.json",
+        "sha256": "91bfccff3f241579ce7aacd5aefa02a431faad3d391066546116aa79785e8daf",
+        "bytes": 683
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/installation042-explicit1007_whole/native/route/final-drc.json",
+        "sha256": "bfb5ed5e73ff91b164ef1629cc658b6b6e9d16ae0cb6ccfcf61a539488219cee",
+        "bytes": 3717
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/installation-042--checkout--.runs--installation042-explicit1007_whole--native--route--final-drc.json",
+        "sha256": "bfb5ed5e73ff91b164ef1629cc658b6b6e9d16ae0cb6ccfcf61a539488219cee",
+        "bytes": 3717
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/installation-042/checkout/.runs/installation042-explicit1007_whole/native/route/metrics.json",
+        "sha256": "de08f8ec0f1ec3e74df3772c3fc534cbfedaf948acc9fa50eb0dace8b99ad86f",
+        "bytes": 148
+      },
+      "public": {
+        "path": "evidence/installation042-native-001/installation-042--checkout--.runs--installation042-explicit1007_whole--native--route--metrics.json",
+        "sha256": "de08f8ec0f1ec3e74df3772c3fc534cbfedaf948acc9fa50eb0dace8b99ad86f",
+        "bytes": 148
+      }
+    }
+  ],
+  "limitations": [
+    "Same Mac, apps and cache; independent local distribution/venv, no fresh OS/full installed suite/GUI.",
+    "Default1000 partial protects all ten original tracks including one unlocked; explicit1007 whole is experimental and default checker refuses it.",
+    "Only exact canonical modern four-copper/ordinary/fullthrough source class path; aliases/older formats/inner pours/selected4/explicit layer masks4 remain unqualified or blocked.",
+    "Raw child/case timing samples omit final tails; complete enclosures above cover preparation and tails. Reader inner sample is partial; actual enclosing reader covers all final checks.",
+    "Failed omitted-argument preparation launch retained, CPU/wall unmeasured. Relative draft-dir bug was found before execution; absolute default used successfully.",
+    "No new circuit/family/routing-quality gain, production1007 promotion, human/electrical/physical approval or formal release."
+  ]
+}
