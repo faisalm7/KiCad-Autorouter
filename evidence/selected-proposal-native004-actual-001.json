@@ -1,0 +1,373 @@
+{
+  "schema": 1,
+  "kind": "actual-selected-proposal-native004-inconclusive-control",
+  "source_commit": "2124d8b80e6709c36b7d8cc02d26f6d9c6d81ccf",
+  "status": "failed",
+  "accepted": false,
+  "production_admitted": false,
+  "method_qualified": false,
+  "reason": "Rejected: wrong-net Native control failed",
+  "candidate_sha256": "166ab0196d1cfa26340f9009875e389df4384428072910d46769f70ab9638aec",
+  "native_report_sha256": "35b84117c2486a692efb473c29b91ff6691c2156a8ad8ef87d45daf603165278",
+  "native_counts": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 10,
+    "exclusions": 0
+  },
+  "metrics": {
+    "version": "10.0.0",
+    "pads": 22,
+    "footprints": 6,
+    "zones": 2,
+    "vias": 0,
+    "track_length_mm": 66.87139892486306,
+    "copper_layers": 2
+  },
+  "wrong_net_control": {
+    "status": "unexpected_native_pass",
+    "qualified": false,
+    "segment_uuid": "0419e351-c9a5-438b-a5b1-35f1a0d58689",
+    "from_net": "GND",
+    "to_net": "Net-(D1-A)",
+    "candidate_sha256": "61cc87f925f14ade356a9ee946b8b04d44c3e914bb6ef52fdd73ab9f36005d6a",
+    "native": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 10,
+      "exclusions": 0,
+      "ignored_checks": [
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        }
+      ],
+      "findings": [
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+          "items": [
+            {
+              "description": "Footprint R1",
+              "pos": {
+                "x": 158.75,
+                "y": 92.71
+              },
+              "uuid": "062ffc51-f8df-48c0-b56f-39bfdde7c55a"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Connector_USB'",
+          "items": [
+            {
+              "description": "Footprint J1",
+              "pos": {
+                "x": 142.24,
+                "y": 91.44
+              },
+              "uuid": "4775161d-c60f-42e5-ad80-435909b61f2d"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+          "items": [
+            {
+              "description": "Footprint R2",
+              "pos": {
+                "x": 148.59,
+                "y": 92.71
+              },
+              "uuid": "4a3ce698-031a-4c20-ad71-0a64d26989ba"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_SMD'",
+          "items": [
+            {
+              "description": "Footprint D1",
+              "pos": {
+                "x": 158.75,
+                "y": 90.17
+              },
+              "uuid": "99392dee-077f-4d4f-ae18-c7d97279f19d"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+          "items": [
+            {
+              "description": "Footprint R3",
+              "pos": {
+                "x": 148.59,
+                "y": 90.17
+              },
+              "uuid": "ec73cd38-13d2-4a9e-b1aa-f2ebf851cc08"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+          "items": [
+            {
+              "description": "Footprint D1",
+              "pos": {
+                "x": 158.75,
+                "y": 90.17
+              },
+              "uuid": "99392dee-077f-4d4f-ae18-c7d97279f19d"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_field_mismatch"
+        },
+        {
+          "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+          "items": [
+            {
+              "description": "Footprint R1",
+              "pos": {
+                "x": 158.75,
+                "y": 92.71
+              },
+              "uuid": "062ffc51-f8df-48c0-b56f-39bfdde7c55a"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_field_mismatch"
+        },
+        {
+          "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+          "items": [
+            {
+              "description": "Footprint R2",
+              "pos": {
+                "x": 148.59,
+                "y": 92.71
+              },
+              "uuid": "4a3ce698-031a-4c20-ad71-0a64d26989ba"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_field_mismatch"
+        },
+        {
+          "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+          "items": [
+            {
+              "description": "Footprint R3",
+              "pos": {
+                "x": 148.59,
+                "y": 90.17
+              },
+              "uuid": "ec73cd38-13d2-4a9e-b1aa-f2ebf851cc08"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_field_mismatch"
+        },
+        {
+          "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+          "items": [
+            {
+              "description": "Footprint SW1",
+              "pos": {
+                "x": 153.67,
+                "y": 91.44
+              },
+              "uuid": "af7b3bed-6f14-43e5-aa9e-a8674a39a4c1"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_field_mismatch"
+        }
+      ],
+      "field_parity": {
+        "schema": 1,
+        "policy": "datasheet-absence-only-v1",
+        "native_report_sha256": "32577f2fae2e4afb4d2042696f0fbb58bb41368b82178573fd550e75eca53ab6",
+        "binding_sha256": "94eb9d9c2c466fc60472569890afbccbbfd86ca66e89779aab4a5551d219fb53",
+        "netlist_sha256": "e8859466eebe9ae21b368892105eb4a2aab9cde6526e860169e5afd04c64e1d9",
+        "fields_sha256": "8cf7444c312bf0ffca7f250482b6b300fb42053137d235ec1d21430e207f1acb",
+        "qualification": {
+          "qualified": true,
+          "policy": "datasheet-effective-empty-v1",
+          "component_count": 6,
+          "compared_field_count": 19,
+          "comparison_map": [
+            {
+              "reference": "D1",
+              "uuid": "99392dee-077f-4d4f-ae18-c7d97279f19d",
+              "schematic_fields": {
+                "Sim.Pins": "1=K 2=A",
+                "LCSC Part #": "C2286",
+                "Datasheet": "",
+                "Description": "Light emitting diode"
+              },
+              "pcb_fields": {
+                "Datasheet": "~",
+                "Description": "Light emitting diode",
+                "Sim.Pins": "1=K 2=A",
+                "LCSC Part #": "C2286"
+              }
+            },
+            {
+              "reference": "J1",
+              "uuid": "4775161d-c60f-42e5-ad80-435909b61f2d",
+              "schematic_fields": {
+                "LCSC Part #": "C18357552",
+                "Datasheet": "https://www.usb.org/sites/default/files/documents/usb_type-c.zip",
+                "Description": "USB Power-Only 6P Type-C Receptacle connector"
+              },
+              "pcb_fields": {
+                "Datasheet": "https://www.usb.org/sites/default/files/documents/usb_type-c.zip",
+                "Description": "USB Power-Only 6P Type-C Receptacle connector",
+                "LCSC Part #": "C18357552"
+              }
+            },
+            {
+              "reference": "R1",
+              "uuid": "062ffc51-f8df-48c0-b56f-39bfdde7c55a",
+              "schematic_fields": {
+                "LCSC Part #": "C22808",
+                "Datasheet": "",
+                "Description": "Resistor"
+              },
+              "pcb_fields": {
+                "Datasheet": "~",
+                "Description": "Resistor",
+                "LCSC Part #": "C22808"
+              }
+            },
+            {
+              "reference": "R2",
+              "uuid": "4a3ce698-031a-4c20-ad71-0a64d26989ba",
+              "schematic_fields": {
+                "LCSC Part #": "C25905",
+                "Datasheet": "",
+                "Description": "Resistor"
+              },
+              "pcb_fields": {
+                "Datasheet": "~",
+                "Description": "Resistor",
+                "LCSC Part #": "C25905"
+              }
+            },
+            {
+              "reference": "R3",
+              "uuid": "ec73cd38-13d2-4a9e-b1aa-f2ebf851cc08",
+              "schematic_fields": {
+                "LCSC Part #": "C25905",
+                "Datasheet": "",
+                "Description": "Resistor"
+              },
+              "pcb_fields": {
+                "Datasheet": "~",
+                "Description": "Resistor",
+                "LCSC Part #": "C25905"
+              }
+            },
+            {
+              "reference": "SW1",
+              "uuid": "af7b3bed-6f14-43e5-aa9e-a8674a39a4c1",
+              "schematic_fields": {
+                "LCSC Part #": "C318884",
+                "Datasheet": "",
+                "Description": "Push button switch, generic, two pins"
+              },
+              "pcb_fields": {
+                "Datasheet": "~",
+                "Description": "Push button switch, generic, two pins",
+                "LCSC Part #": "C318884"
+              }
+            }
+          ],
+          "warning_uuids": [
+            "062ffc51-f8df-48c0-b56f-39bfdde7c55a",
+            "4a3ce698-031a-4c20-ad71-0a64d26989ba",
+            "99392dee-077f-4d4f-ae18-c7d97279f19d",
+            "af7b3bed-6f14-43e5-aa9e-a8674a39a4c1",
+            "ec73cd38-13d2-4a9e-b1aa-f2ebf851cc08"
+          ],
+          "warning_hashes": [
+            "557accdab8c0eb41b127f0662e744375b185ea9740bc899bb6a84e7ce1eaabe2",
+            "841380db6624f98acc7676852ded9a55822fdefbb032c852cbc049a895249368",
+            "89056ad0169ca9a94483ae3daca1642b2178b36b45f57db9dcf1ed73b03005f8",
+            "abbbf279b6533ac74d3e3fa2ec4147d89b7bf25fc412ebe6b14e925106992484",
+            "bab19c28af0fa51e1348c79331096d34062ba955ae3a67867466de1eca734e8e"
+          ],
+          "native_export_sha256": "e8859466eebe9ae21b368892105eb4a2aab9cde6526e860169e5afd04c64e1d9",
+          "observer_sha256": "e347331678684b6d6f3b8507dd80e9fca6af666b1c565201c04dcbf606f7fce8",
+          "drc_report_sha256": "afeca41af55bd22233acd0ea1f0d0911a5f055523cdad4a94e8b0c791ce4197b"
+        }
+      }
+    },
+    "report_sha256": "32577f2fae2e4afb4d2042696f0fbb58bb41368b82178573fd550e75eca53ab6"
+  },
+  "semantic_route_net_comparison": {
+    "positive": {
+      "semantic_net_changes_after_native_save": [],
+      "route_uuid_count": 40
+    },
+    "wrong-net": {
+      "semantic_net_changes_after_native_save": [
+        {
+          "uuid": "0419e351-c9a5-438b-a5b1-35f1a0d58689",
+          "before_name": "Net-(D1-A)",
+          "saved_name": "GND",
+          "final_original_shell_name": "Net-(D1-A)"
+        }
+      ],
+      "route_uuid_count": 40
+    }
+  },
+  "diagnosis": "The mislabeled segment terminates at fixed J1A12 GND copper and Native saved refill changes its resolved net from Net-(D1-A) back to GND with geometry/UUID retained. It did not establish a physical cross-net short. Both reports actually pass; preserve the failed control and unqualified method. This observation alone is not a validator bug. The original-shell wrong candidate still retains the wrong net label, so a source/saved semantic-net guard is warranted before final acceptance.",
+  "source_and_protected_geometry_preserved": true,
+  "protected_signal_records": 22,
+  "selected_GND_proposals": 18,
+  "actual_workers": 11,
+  "costs": {
+    "wall_seconds": 11.779582332994323,
+    "total_cpu_seconds": 8.746825999999999,
+    "charged_wall_seconds": 82.27123529196251,
+    "charged_full_cpu_seconds": 66.254125,
+    "whole_delivery_within_budget": true
+  },
+  "reader": {
+    "path": ".runs/selected-proposal004-native-review-preserved-001",
+    "result_sha256": "09ba5ff7ae55246d4047541d63f1d07bc80d7346f4956776f96635ed7cfab70f",
+    "execution_sha256": "7721707c7eaeb006975a74872cc296c13bcd7bbbbe70988d9ca291071a8b8f42",
+    "findings_sha256": "fa69b0411e79de647f3db94793bb16c7375155e2ff1c96f27ca55552ea92d443",
+    "both_actual_reader_costs": {
+      "wall_seconds": 2.464358249970246,
+      "full_cpu_seconds": 2.005411
+    },
+    "next_minimum_cumulative_prior": {
+      "wall_seconds": 88.73559354193276,
+      "full_cpu_seconds": 72.259536
+    }
+  },
+  "limitations": [
+    "004 remains failed/unqualified; a passing positive does not repair the negative control.",
+    "Native normalized the wrong net before filling; this label mutation did not establish a physical short.",
+    "66.871399mm/0vias is a tradeoff versus exposed prior C35.128656mm/2vias, not dominance.",
+    "The next missing-only005 control reuses actual004positive; no repeat classifier/engine/export/import/pristineoriginal/geometry/positive.",
+    "No normalworkflow admission, independent family, untouched confirmation or electrical review."
+  ]
+}
