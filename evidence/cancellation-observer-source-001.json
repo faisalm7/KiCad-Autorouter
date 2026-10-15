@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "kind": "sandboxed-owned-cancellation-observer-source",
+  "status": "source_qualified_native_cancellation_pending",
+  "source_checkpoint": "47262cd2583e8dbc19f671e056ad1b69239b6999",
+  "accepted": false,
+  "production_runtime_changed": false,
+  "runner_sha256": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+  "script_sha256": "a2cb0c5cf81bd33ea1beff1f0051c568e360d4bde71b3bbcac38a8ce4f19e591",
+  "changes": [
+    "Use bounded Darwin libproc parent/group metadata in qualification script; do not launch setuidps inside sandbox.",
+    "Exactly one caller-known selector, no command/env reads, no process signals; permission/identity/ABI/shortread/saturated or duplicate census rejects.",
+    "Strict production runtime/export currentness unchanged; identical helper moved out of runtime after reviewer demonstrated legitimate oldexportstale refusal."
+  ],
+  "final_targeted": {
+    "path": ".runs/cancellation-observer-targeted-002/output/execution.json",
+    "sha256": "9630d3eabfe41dbf18d2cd9775ddc84155e152d0be210f344a1bf63ce0707cdf",
+    "methods": 14,
+    "passed": true,
+    "real_harmless_sandboxed_child_probe": true
+  },
+  "full_suite": {
+    "path": ".runs/full-integration-074/execution.json",
+    "sha256": "559ecb867d00ed127614f0d04f0c4891de1be5216afe1c2d652144bad06ab99c",
+    "methods": 1284,
+    "passed": true,
+    "wall_seconds": 85.1186844999902,
+    "total_cpu_seconds": 80.734927
+  },
+  "preserved_attempts": [
+    ".runs/owned-process-metadata-targeted-preserved-001",
+    ".runs/cancellation-observer-targeted-001",
+    ".runs/full-integration-073",
+    ".runs/cancellation-observer-source073-preserved-001",
+    ".runs/normal-selected001-readback-review-001/initial-strict-refusal.json"
+  ],
+  "independent_readback": {
+    "path": ".runs/normal-selected001-readback-review-001/checks.json",
+    "sha256": "121a115d6b722a14c5f5b7e680383180ee39411a4ffc41f264d36a0f172151dd",
+    "all_four_routes_and_exports_current": true,
+    "wall_seconds": 8.621219207998365,
+    "total_cpu_seconds": 8.215927999999998,
+    "startup_emission_allowance_seconds": 2
+  },
+  "limitations": [
+    "Only source/observer probe and retained actual001readback qualified so far; new real engine cancellation stillpending.",
+    "Immediate PID observations do not guarantee persistent absence or prevent hostile process detachment/PID recycling.",
+    "Source/software tests are not routingquality or nativevalidation."
+  ]
+}

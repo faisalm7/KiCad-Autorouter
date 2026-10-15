@@ -8,6 +8,8 @@ is real; run only in a quiet slot after other routing experiments finish.
 from __future__ import annotations
 
 import argparse
+import ctypes
+import errno
 import json
 import os
 from pathlib import Path
@@ -25,8 +27,86 @@ MAX_LOG_BYTES = 2_000_000
 MAX_OUTPUT_BYTES = 512 * 1024**2
 
 
-def process_metadata():
-    """Read PID lineage/group metadata only; never process arguments or env."""
+class _DarwinBSDInfo(ctypes.Structure):
+    # Apple xnu bsd/sys/proc_info.h, PROC_PIDTBSDINFO (3), 136 bytes.
+    # Text/credential fields are ABI padding here; never returned or inspected.
+    _fields_ = [(name, ctypes.c_uint32) for name in (
+        'flags', 'status', 'xstatus', 'pid', 'ppid', 'uid', 'gid', 'ruid',
+        'rgid', 'svuid', 'svgid', 'reserved')]+[
+        ('unused_text', ctypes.c_char * 48),
+        ('nfiles', ctypes.c_uint32), ('pgid', ctypes.c_uint32),
+        ('jobc', ctypes.c_uint32), ('tdev', ctypes.c_uint32),
+        ('tpgid', ctypes.c_uint32), ('nice', ctypes.c_int32),
+        ('start_seconds', ctypes.c_uint64), ('start_microseconds', ctypes.c_uint64)]
+
+
+def owned_process_metadata(*, parent_pid: int | None = None,
+                           pgid: int | None = None) -> list[dict[str, int]]:
+    """Bounded Darwin PID/parent/group snapshot for a caller-owned selector.
+
+    Supply exactly one known parent PID or process group. This is metadata,
+    not ownership authentication or a persistent absence guarantee. No process
+    commands, environments, global process census or signals are accessed.
+    macOS denies setuid /bin/ps inside sandbox-exec; public unprivileged libproc
+    leaves that sandbox intact. Apple proc_listchildpids/proc_listpgrppids return
+    PID counts; PROC_PIDTBSDINFO returns the full 136-byte struct or zero/error.
+    Source: apple-oss-distributions/xnu bsd/sys/proc_info.h and
+    libsyscall/wrappers/libproc/libproc.c. A saturated or incomplete snapshot
+    rejects; only an ESRCH exit race may omit an enumerated process.
+    """
+    if ((parent_pid is None) == (pgid is None)
+            or any(value is not None and (type(value) is not int or not 0 < value < 2**31)
+                   for value in (parent_pid, pgid))):
+        raise ValueError('exactly one positive pid_t parent_pid or pgid required')
+    if sys.platform != 'darwin':
+        raise RuntimeError('owned process metadata requires Darwin libproc')
+    if ctypes.sizeof(_DarwinBSDInfo) != 136:
+        raise RuntimeError('unsupported Darwin BSD process metadata ABI')
+    library = ctypes.CDLL('/usr/lib/libproc.dylib', use_errno=True)
+    listing = library.proc_listchildpids if parent_pid is not None else library.proc_listpgrppids
+    listing.argtypes = [ctypes.c_int, ctypes.c_void_p, ctypes.c_int]
+    listing.restype = ctypes.c_int
+    library.proc_pidinfo.argtypes = [ctypes.c_int, ctypes.c_int, ctypes.c_uint64, ctypes.c_void_p, ctypes.c_int]
+    library.proc_pidinfo.restype = ctypes.c_int
+    selector = parent_pid if parent_pid is not None else pgid
+    pids = (ctypes.c_int * 4096)()
+    ctypes.set_errno(0)
+    count = listing(selector, pids, ctypes.sizeof(pids))
+    error = ctypes.get_errno()
+    if count < 0 or (error and not (count == 0 and error == errno.ESRCH)):
+        raise OSError(error or errno.EIO, 'libproc could not list selected owned processes')
+    if count >= len(pids):
+        raise RuntimeError('owned processes exceed bounded PID inventory')
+    selected = list(pids)[:count]
+    if any(pid <= 0 for pid in selected) or len(set(selected)) != len(selected):
+        raise RuntimeError('invalid or duplicate owned-process PID inventory')
+    rows = []
+    for pid in selected:
+        info = _DarwinBSDInfo()
+        ctypes.set_errno(0)
+        size = library.proc_pidinfo(pid, 3, 0, ctypes.byref(info), ctypes.sizeof(info))
+        error = ctypes.get_errno()
+        if size == 0 and error == errno.ESRCH:
+            continue
+        if size != ctypes.sizeof(info) or error:
+            raise OSError(error or errno.EIO, 'libproc returned incomplete owned-process metadata')
+        row = {'pid': int(info.pid), 'ppid': int(info.ppid), 'pgid': int(info.pgid)}
+        if (row['pid'] != pid or not 0 < row['pid'] < 2**31
+                or not 0 <= row['ppid'] < 2**31 or not 0 < row['pgid'] < 2**31
+                or (parent_pid is not None and row['ppid'] != parent_pid)
+                or (pgid is not None and row['pgid'] != pgid)):
+            raise RuntimeError('owned-process identity or selector changed during snapshot')
+        rows.append(row)
+    return sorted(rows, key=lambda row: row['pid'])
+
+
+def process_metadata(*, parent_pid=None, pgid=None):
+    """Read bounded owned PID lineage/group metadata; never commands or env."""
+    if ((parent_pid is None)==(pgid is None)
+            or any(type(value) is not int or value<=0 for value in (parent_pid,pgid) if value is not None)):
+        raise ValueError('exactly one positive owned parent PID or process group required')
+    if sys.platform=='darwin':
+        return owned_process_metadata(parent_pid=parent_pid,pgid=pgid)
     result = subprocess.run(["/bin/ps", "-axo", "pid=,ppid=,pgid="],
                             stdin=subprocess.DEVNULL, capture_output=True, text=True,
                             timeout=2, check=True, env={"PATH": "/usr/bin:/bin", "LC_ALL": "C"})
@@ -35,6 +115,7 @@ def process_metadata():
     rows = []
     for line in result.stdout.splitlines():
         pid, parent, group = map(int, line.split())
+        if parent_pid is not None and parent!=parent_pid or pgid is not None and group!=pgid:continue
         rows.append({"pid": pid, "ppid": parent, "pgid": group})
     return rows
 
@@ -110,7 +191,7 @@ def control(out, cancel_signal=signal.SIGINT):
                 # A nonempty log demonstrates the actual engine ran, whereas
                 # mere file creation precedes runner.Popen and is insufficient.
                 if engine_log.is_file() and engine_log.stat().st_size > 0 and not (route_out / "engine-process.json").exists():
-                    candidates = [row for row in process_metadata()
+                    candidates = [row for row in process_metadata(parent_pid=child.pid)
                                   if row["ppid"] == child.pid and row["pid"] == row["pgid"]]
                     if len(candidates) == 1 and child.poll() is None:
                         owned_engine = candidates[0]
@@ -135,7 +216,7 @@ def control(out, cancel_signal=signal.SIGINT):
         report["route_accepted"] = result.get("accepted")
         report["source_unchanged"] = p.tree_hash(source.parent) == before
         report["tools_and_code_unchanged"] = p.tool_manifest() == frozen
-        remaining = [row for row in process_metadata() if row["pgid"] == owned_engine["pgid"]]
+        remaining = [row for row in process_metadata(pgid=owned_engine["pgid"]) if row["pgid"] == owned_engine["pgid"]]
         report["remaining_owned_engine_group"] = remaining
         report["checks"] = {
             "cli_rejected": child.returncode == 2 and result.get("accepted") is False,
@@ -173,7 +254,7 @@ def control(out, cancel_signal=signal.SIGINT):
                 report.update(status="failed", passed=False)
         if owned_engine is not None:
             try:
-                remaining = [row for row in process_metadata() if row["pgid"] == owned_engine["pgid"]]
+                remaining = [row for row in process_metadata(pgid=owned_engine["pgid"]) if row["pgid"] == owned_engine["pgid"]]
                 report["remaining_owned_engine_group"] = remaining
                 if remaining:
                     report.update(status="cleanup_unproven", passed=False)

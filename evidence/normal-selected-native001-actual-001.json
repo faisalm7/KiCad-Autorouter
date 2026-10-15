@@ -1,0 +1,261 @@
+{
+  "schema": 1,
+  "kind": "actual-normal-selected-workflows-with-observer-failure",
+  "source_checkpoint": "47262cd2583e8dbc19f671e056ad1b69239b6999",
+  "status": "four_routes_and_exports_passed_aggregate_cancellation_unqualified",
+  "accepted": false,
+  "production_qualification_complete": false,
+  "raw_result": {
+    "path": ".runs/normal-selected-workflow-native-001/result.json",
+    "sha256": "136a838f3fae422c06e5300c1c4fecbfbd91605edcd0a86fe548efce8584a8d0"
+  },
+  "outer_execution": {
+    "path": ".runs/normal-selected-workflow-native-execution-001/execution.json",
+    "sha256": "a59250e1974d02ab73bdb7fdeeeb8e89391cfe1df5b66e1bc3f418b6fd2984ef"
+  },
+  "exports_result": {
+    "path": ".runs/review-export-native-selected-promotion-001/result.json",
+    "sha256": "f2a6642f6d2a30737a72c9495f79800d24627ed7a4bf844f9c317726de8d83ef"
+  },
+  "protocol": {
+    "path": "experiments/normal_selected_workflow_v1/input-pins.json",
+    "sha256": "73e244cf96a6c87348e779fcd822071491255bc12457cf48ece61aaf9e83dfde"
+  },
+  "cases": [
+    {
+      "name": "nus_protected",
+      "passed": true,
+      "candidate_sha256": "b564157ccd8d28f25fc5b955ce199530327a4d1ad26bd64aa0087278201d51b6",
+      "import_policy": "selected-proposals-exact-source-v1",
+      "protected_route_count": 22,
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 22,
+        "footprints": 6,
+        "zones": 2,
+        "vias": 0,
+        "track_length_mm": 66.87139892486306,
+        "copper_layers": 2
+      },
+      "wall_seconds": 19.115416459011612,
+      "total_cpu_seconds": 13.820454000000002,
+      "receipt": {
+        "path": ".runs/normal-selected-workflow-native-001/nus_protected/result.json",
+        "sha256": "9872d3984b8d04fd4ffcfbec09884f66b2f22f927951d880f700adb07917da1a"
+      },
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 10,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          }
+        ]
+      },
+      "schematic_parity": "checked by final native DRC",
+      "scope": "selected_nets",
+      "export_passed": true,
+      "export_receipt_sha256": "5026717319a73132ffea96825a7591b48d59195ea7a59adb9832dcfe17e237d1",
+      "export_native_report_sha256": "b849a565f162b455b8d60c0a11cb5b582d58b331a7c20d0c6e44f5fcc6e3bb93"
+    },
+    {
+      "name": "zero_protected",
+      "passed": true,
+      "candidate_sha256": "e25d05e2f836167dbf0304d8b38118097c90b083a4390a2a0f63048aef03b958",
+      "import_policy": "selected-proposals-exact-source-v1",
+      "protected_route_count": 0,
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 6,
+        "footprints": 6,
+        "zones": 1,
+        "vias": 0,
+        "track_length_mm": 60.0,
+        "copper_layers": 2
+      },
+      "wall_seconds": 11.523679707985139,
+      "total_cpu_seconds": 8.623861999999999,
+      "receipt": {
+        "path": ".runs/normal-selected-workflow-native-001/zero_protected/result.json",
+        "sha256": "2554f0112189f6034752d86568d25fca26445a2e7cac540c5cc6e5bb06e65005"
+      },
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ]
+      },
+      "schematic_parity": "unavailable: no native schematic in source project",
+      "scope": "selected_nets",
+      "export_passed": true,
+      "export_receipt_sha256": "24f1db7d652493515e4bd432135d1c8b30342d401cfa35216a7de59fd1cdccc8",
+      "export_native_report_sha256": "c79460bcef139be5823b0618f66795c0261e60ee0ffc9a006583afebed6e3a70"
+    },
+    {
+      "name": "locked_selected",
+      "passed": true,
+      "candidate_sha256": "104f7025b65062829de0d6647125de4fa1521a1d418c4b41d14e5f16093b313a",
+      "import_policy": "exact_non_uuid_lock_position_v2",
+      "protected_route_count": 3,
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 6,
+        "footprints": 6,
+        "zones": 1,
+        "vias": 0,
+        "track_length_mm": 60.0,
+        "copper_layers": 2
+      },
+      "wall_seconds": 11.679125291993842,
+      "total_cpu_seconds": 8.676538999999998,
+      "receipt": {
+        "path": ".runs/normal-selected-workflow-native-001/locked_selected/result.json",
+        "sha256": "dd0c96434a7bcb22cf221f315f5f6a5157d6b27f5d8e401cb1157da11d21c76c"
+      },
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ]
+      },
+      "schematic_parity": "unavailable: no native schematic in source project",
+      "scope": "selected_nets",
+      "export_passed": true,
+      "export_receipt_sha256": "1851a097d0d7a074ec6a7ad8656174a58663d619ab1053e3cfdbd234e5c4fcc2",
+      "export_native_report_sha256": "51fecd7a0942c3cae9a717b41dd70e7dc80823b121f953816294399bdaf1b96e"
+    },
+    {
+      "name": "legacy_whole",
+      "passed": true,
+      "candidate_sha256": "0529e88e4587cc8f3e445a584473546c5be298cf5e9738ba4d743ebc80235d24",
+      "import_policy": "exact_non_uuid_lock_position_v2",
+      "protected_route_count": 0,
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 6,
+        "footprints": 6,
+        "zones": 1,
+        "vias": 0,
+        "track_length_mm": 90.0,
+        "copper_layers": 2
+      },
+      "wall_seconds": 11.339809875003994,
+      "total_cpu_seconds": 8.679193999999999,
+      "receipt": {
+        "path": ".runs/normal-selected-workflow-native-001/legacy_whole/result.json",
+        "sha256": "0e8057f8e7ab0390c2a21590618948a52fbec086f8649b94849d3bcf65911ea0"
+      },
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ]
+      },
+      "schematic_parity": "unavailable: no native schematic in source project",
+      "scope": "whole_board_unlocked_routing",
+      "export_passed": true,
+      "export_receipt_sha256": "da0f49f9da78d8e89f8ebf33add4e9d3f1efd36a251adc01bc92763e18956cb2",
+      "export_native_report_sha256": "e1dd130b02ee5aa40141f6a03c7862a238c19eded7844088bc756177d233f235"
+    }
+  ],
+  "aggregate_controls_passed": false,
+  "workflow_controls_passed": true,
+  "cancellation": {
+    "passed": false,
+    "control": {
+      "path": ".runs/normal-selected-workflow-native-001/cancellation/control.json",
+      "sha256": "664247a7cef2c6255df8a0c1aba544fe304ea2a347078bccccd89ebb8152e666"
+    },
+    "reason": "PermissionError: [Errno 1] Operation not permitted: '/bin/ps'",
+    "observed_owned_engine": null,
+    "source_unchanged": true,
+    "engine_group_cleanup_observation_qualified": false
+  },
+  "outer_qualified": false,
+  "whole_wall_seconds": 139.03134245899855,
+  "whole_total_cpu_seconds": 118.623982,
+  "publication_allowance_seconds": 2,
+  "cumulative_cap_seconds": 600,
+  "per_route_cap_seconds": 120,
+  "limitations": [
+    "The original001aggregate remains false. Only missing observer qualification will run next; no route/export repeat.",
+    "NUS full schematic retains10warnings and2original ignored checks. Authored fixtures retain all5original ignored checks; no schematic is available.",
+    "Legacy fixture is current-body/tag20240108 authored control, not genuine KiCad8export.",
+    "Rendered previews/test accept/reject intents are not human PCB approval or live application.",
+    "This qualifies workflow paths, not a new independent circuit or equal-budget routing superiority.",
+    "Every original constraint/protected route/saved refill/final report remains mandatory; diagnostic005physical short remains separately qualified."
+  ]
+}
