@@ -20,7 +20,12 @@ import time
 from . import config as c, pipeline as p, sexpr as sx
 
 
+# Historical placement contracts consume this legacy value; keep their
+# stored allocations reproducible. Native pruning owns its separate reserve.
 FINAL_RESERVE_SECONDS = 15.0
+# Actual 77-footprint/full-schematic/class validation plus publication overran
+# the former 15-second tail. All total wall/CPU acceptance caps remain strict.
+NATIVE_FINAL_RESERVE_SECONDS = 25.0
 MIN_TRIAL_SECONDS = 4.0
 MAX_TRIAL_SECONDS = 12.0
 MAX_TRIALS = 32
@@ -313,7 +318,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
           settings_path=None, preference_overrides=None):
     """Run tuned B2 plus greedy pruning within one wall/CPU budget, retaining trials.
 
-    A 15-second reserve is withheld from B2/trials for final emission and native
+    A 25-second reserve is withheld from B2/trials for final emission and native
     checks. It is a planning reserve, not a promise that slow native tooling will
     finish. Exhausting the global budget always rejects the root result.
     """
@@ -365,8 +370,8 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
               "scope": "whole_board_unlocked_routing", "source": str(source),
               "budget_seconds": seconds, "cpu_budget_seconds": seconds,
               "cpu_budget_enforcement": "post-stage accounting and post-completion acceptance cap; not OS CPU preemption",
-              "finalization_reserve_seconds": FINAL_RESERVE_SECONDS,
-              "finalization_cpu_reserve_seconds": FINAL_RESERVE_SECONDS,
+              "finalization_reserve_seconds": NATIVE_FINAL_RESERVE_SECONDS,
+              "finalization_cpu_reserve_seconds": NATIVE_FINAL_RESERVE_SECONDS,
               "started_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
               "physical_electrical_validation": False, "schematic_parity": "not checked",
               "trials": [], "checkpoints": [], "steps": [], "improvements": 0}
@@ -392,8 +397,8 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
                       for step in [*all_steps, *extra_steps]))
 
     def remaining_work_budget():
-        return max(0.0, min(_remaining(deadline, FINAL_RESERVE_SECONDS),
-                            seconds - cpu_used() - FINAL_RESERVE_SECONDS))
+        return max(0.0, min(_remaining(deadline, NATIVE_FINAL_RESERVE_SECONDS),
+                            seconds - cpu_used() - NATIVE_FINAL_RESERVE_SECONDS))
 
     def checkpoint(kind, best, metrics, extra=None):
         entry = {"index": len(report["checkpoints"]), "kind": kind,
@@ -467,7 +472,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
             trial_id = f"trial-{len(report['trials']):04d}"
             trial_job = p.Job(output / "trials" / trial_id,
                               min(MAX_TRIAL_SECONDS, remaining_work_budget()), protect_local_settings=True)
-            trial_job.deadline = min(trial_job.deadline, deadline - FINAL_RESERVE_SECONDS)
+            trial_job.deadline = min(trial_job.deadline, deadline - NATIVE_FINAL_RESERVE_SECONDS)
             candidate = trial_job.out / "candidate" / source.name
             record = {"id": trial_id, "proposal": proposal, "status": "rejected", "accepted": False,
                       "started_elapsed_seconds": time.monotonic() - started,
@@ -490,7 +495,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
                     record["metrics"] = metrics
                     if time.monotonic() > trial_job.deadline:
                         record["status"] = "timeout"
-                    elif cpu_used(trial_job.steps) > seconds - FINAL_RESERVE_SECONDS:
+                    elif cpu_used(trial_job.steps) > seconds - NATIVE_FINAL_RESERVE_SECONDS:
                         record["status"] = "cpu_reserve_exhausted"
                     elif _improves(metrics, best_metrics, native, best_native):
                         record["accepted"], record["status"] = True, "improvement_validated"

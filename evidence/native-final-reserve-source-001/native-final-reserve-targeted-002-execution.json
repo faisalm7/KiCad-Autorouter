@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 25.560110958002042,
+    "cpu_seconds": 24.610167,
+    "max_rss_bytes": 54902784,
+    "supervisor_cpu_seconds": 0.086345,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 54902784,
+    "sampled_peak_workdir_bytes": 182,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 2097152,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "-c",
+      "import sys,os,unittest;sys.path.insert(0,'/Users/faisal/Projects/KiCad-Autorouter-local');os.chdir('/Users/faisal/Projects/KiCad-Autorouter-local');unittest.main(module=None)",
+      "tests.test_strategy",
+      "tests.test_placement_allocation",
+      "tests.test_pruning_scoring",
+      "tests.test_pruning_preferences",
+      "tests.test_improve_preferences_cli",
+      "tests.test_pruning_preferences_freshness",
+      "tests.test_universal_missing_baselines"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-final-reserve-targeted-002/command.log",
+    "log_bytes": 182,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-final-reserve-targeted-002",
+    "signal_cancellation_enabled": true,
+    "pid": 60347
+  },
+  "wall_seconds": 25.561659792001592,
+  "full_cpu_seconds": 24.69705,
+  "source_sha256": {
+    "autorouter/strategy.py": "9966955e04e7875eb1daa739f885071f4149e040a6f587928ca6af7bc69448de",
+    "autorouter/placement_strategy.py": "765a28e5a63da3e52266665accf9b9e1f5ea586ea9a90f51291b142c4373fb32",
+    "tests/test_strategy.py": "127c96e5fda9a305f0beb062bb443d214e8cd0b22e8d83aa93c43d35625c0727",
+    "tests/test_placement_allocation.py": "60db6b0276f37cf19d50386527a13117b5feb01bd749df4f38bb50ad08dfb1a3",
+    "tests/test_pruning_scoring.py": "82e2c9fade4f5e489932dd1b8befc266f1f9850f349154ab4694d21860fb8e44",
+    "tests/test_pruning_preferences.py": "7d27a9fae5fc64696aed13a5d484fe9b40ee8dfa80734b511f185c90b7661b83",
+    "tests/test_improve_preferences_cli.py": "12b4921aaa9514fc6d53492407073e467203b4b4ed2c3a2f77f4c7d2a9606096",
+    "tests/test_pruning_preferences_freshness.py": "b4ce1499b726977549cb1a10509003c919c284bce1ff0314ab913977daef8318",
+    "tests/test_universal_missing_baselines.py": "973be953f99f3c53589b5c3657bac7fb420921a071ea5149179d9aef148dc90f"
+  },
+  "controller_sha256": "554900a82f5260e563f999c87c2b0b9e4ed0cec3abb81e637deb059a942c2d3d",
+  "source_current": true,
+  "scope": "Software scheduling/legacycontract/selectedbaseline-label tests. No Native routing-quality claim."
+}

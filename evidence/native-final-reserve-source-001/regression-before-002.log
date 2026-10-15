@@ -1,0 +1,23 @@
+F
+======================================================================
+FAIL: test_native_final_reserve_stops_late_trial_before_publication (tests.test_strategy.StrategyControlFlowTests.test_native_final_reserve_stops_late_trial_before_publication)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_strategy.py", line 199, in test_native_final_reserve_stops_late_trial_before_publication
+    self.assertEqual(result["trials"], [])
+AssertionError: Lists differ: [{'id': 'trial-0000', 'receipt': '/Users/f[148 chars]lse}] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+{'id': 'trial-0000', 'receipt': '/Users/faisal/Projects/KiCad-Autorouter-local/.cache/strategy-tests/tmpj47hq6p_/run/trials/trial-0000/result.json', 'status': 'drc_rejected', 'accepted': False}
+
++ []
+- [{'accepted': False,
+-   'id': 'trial-0000',
+-   'receipt': '/Users/faisal/Projects/KiCad-Autorouter-local/.cache/strategy-tests/tmpj47hq6p_/run/trials/trial-0000/result.json',
+-   'status': 'drc_rejected'}]
+
+----------------------------------------------------------------------
+Ran 1 test in 0.073s
+
+FAILED (failures=1)

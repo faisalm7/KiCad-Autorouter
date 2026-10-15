@@ -190,10 +190,19 @@ class StrategyControlFlowTests(unittest.TestCase):
         with patch.object(s.time, "monotonic", lambda: owner.clock), patch.object(p, "Job", ControlledJob), patch.object(p, "route", baseline), patch.object(p, "validate_candidate", validate), patch.object(p, "tool_manifest", lambda: {"implementation_sha256": {}}), patch.object(p, "check_storage", lambda: 0), patch.object(p, "save_json", save), patch.object(p, "check_result", return_value={"current": True}):
             return s.prune(self.source, self.output, 120, proposal_policy=proposal_policy)
 
+    def test_native_final_reserve_stops_late_trial_before_publication(self):
+        # Larger native validation needs time after a nearly exhausted incumbent.
+        # This is scheduling only; real Native/publication is a separate regression.
+        self.baseline_child_cpu = 100.0
+        result = self.exercise()
+        self.assertTrue(result["accepted"], result)
+        self.assertEqual(result["trials"], [])
+        self.assertEqual(result["improvements"], 0)
+
     def test_all_attempts_accounted_and_failed_trials_retained(self):
         result = self.exercise()
         self.assertTrue(result["accepted"], result)
-        self.assertLessEqual(self.budgets[0], 120 - s.FINAL_RESERVE_SECONDS)
+        self.assertLessEqual(self.budgets[0], 120 - s.NATIVE_FINAL_RESERVE_SECONDS)
         self.assertEqual(result["improvements"], 1)
         self.assertEqual([trial["accepted"] for trial in result["trials"]], [False, True, False])
         for trial in result["trials"]:
