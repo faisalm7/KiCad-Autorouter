@@ -29,6 +29,7 @@ NORMAL_DRC_LOCAL_SETTINGS_POLICY='job-owned-prl-immutable-v1'
 SELECTED_PROPOSAL_IMPORT_POLICY='selected-proposals-exact-source-v1'
 NORMAL_SELECTED_PROPOSAL_IMPORT_POLICY='selected-proposals-exact-source-v1'
 NORMAL_NATIVE_EXPORT_ALIAS_POLICY='source-bound-padless-export-v1'
+NORMAL_ENGINE_PROVENANCE_POLICY='mandatory-normal-engine-journal-v1'
 DERIVED_ZONE={'filled_polygon','fill_segments'}
 CRITICAL_CHECKS={'hole_clearance','hole_to_hole','hole_near_hole','starved_thermal','zones_intersect','padstack','items_not_allowed','through_hole_pad_without_hole','unconnected_items','shorting_items','clearance','track_width','via_diameter','annular_width','drill_out_of_range','copper_edge_clearance','invalid_outline','tracks_crossing'}
 CRITICAL_CHECKS |= {'track_on_post_machined_layer'}
@@ -1245,7 +1246,7 @@ def engine_scoring_settings(variant=None):
             'argv':[f'--router.scoring.via_costs={via}',f'--router.scoring.plane_via_costs={plane}']}
 
 
-def engine_profile_settings(profile, remaining_seconds, *, strict_class_targets=False, scoring_variant=None):
+def engine_profile_settings(profile, remaining_seconds, *, strict_class_targets=False, scoring_variant=None, experimental_free_angle=False):
     """Assign cooperative internal deadlines inside the outer wall budget.
 
     Freerouting accepts numeric seconds or HH:mm:ss, not values such as 90s.
@@ -1253,17 +1254,21 @@ def engine_profile_settings(profile, remaining_seconds, *, strict_class_targets=
     and a native-finalization planning reserve are withheld uniformly. The
     supervisor and measured CPU acceptance cap remain authoritative.
     """
-    if profile not in {'standard','tuned','completion-only'}: raise Rejected('unknown engine profile')
+    if profile not in {'standard','tuned','completion-only','tuned-free-angle'}: raise Rejected('unknown engine profile')
+    if type(experimental_free_angle)is not bool:raise Rejected('typed experimental free-angle profile opt-in required')
+    if profile=='tuned-free-angle' and not experimental_free_angle:
+        raise Rejected('unsupported: free-angle profile requires explicit native baseline opt-in')
+    tuned=profile in {'tuned','tuned-free-angle'}
     if type(strict_class_targets) is not bool: raise Rejected('invalid static netclass target policy')
     if isinstance(remaining_seconds,bool) or not isinstance(remaining_seconds,(int,float)) or not math.isfinite(remaining_seconds):
         raise Rejected('invalid remaining engine budget')
     available=math.floor(remaining_seconds-ENGINE_NATIVE_RESERVE_SECONDS-ENGINE_GRACE_RESERVE_SECONDS)
     if available<1: raise Rejected('insufficient remaining budget for engine grace and native finalization reserves')
-    job_cap=min(100 if profile=='tuned' else 60,available)
-    optimizer_cap=None if profile=='completion-only' else min(90 if profile=='tuned' else 30,job_cap)
+    job_cap=min(100 if tuned else 60,available)
+    optimizer_cap=None if profile=='completion-only' else min(90 if tuned else 30,job_cap)
     def span(seconds): return f'{seconds//3600:02}:{seconds//60%60:02}:{seconds%60:02}'
     scoring=engine_scoring_settings(scoring_variant)
-    args=['--router.autorouter.max_passes='+('100' if profile=='tuned' else '30'),
+    args=['--router.autorouter.max_passes='+('100' if tuned else '30'),
           '--router.job_timeout='+span(job_cap)]
     if strict_class_targets:
         # Pinned micro-neckdown can run during fanout even when automatic
@@ -1272,9 +1277,9 @@ def engine_profile_settings(profile, remaining_seconds, *, strict_class_targets=
     if profile=='completion-only':
         args+=['--router.optimizer.enabled=false']
     else:
-        args+=['--router.optimizer.max_threads=1','--router.optimizer.max_passes='+('50' if profile=='tuned' else '10'),
+        args+=['--router.optimizer.max_threads=1','--router.optimizer.max_passes='+('50' if tuned else '10'),
                '--router.optimizer.timeout='+span(optimizer_cap)]
-        if profile=='tuned':
+        if tuned:
             # Actual pinned JAR probe verifies CLI fraction .001 -> internal .1%.
             args+=['--router.optimizer.improvement_threshold=0.001','--router.optimizer.enable_preflight_guards=false',
                    '--router.optimizer.max_consecutive_failures=100','--router.optimizer.max_consecutive_failures_pass1=100']
@@ -1285,10 +1290,26 @@ def engine_profile_settings(profile, remaining_seconds, *, strict_class_targets=
             'engine_grace_reserve_seconds':ENGINE_GRACE_RESERVE_SECONDS,
             'internal_deadlines':'cooperative planning caps; external supervision and measured CPU acceptance cap remain authoritative'}
 
+def check_normal_engine_provenance(directory,data):
+    """A current direct Native producer cannot omit its actual engine journal."""
+    from .local_settings import policy_declaration
+    from .placement_clearance import read_bytes
+    directory=Path(directory);code=directory/'code/pipeline.py'
+    if not code.exists() and not code.is_symlink():return  # Existing full code census rejects absent evidence later.
+    raw=read_bytes(code,1024**2)
+    if hashlib.sha256(raw).hexdigest()!=data.get('tools',{}).get('implementation_sha256',{}).get('autorouter/pipeline.py'):
+        raise Rejected('normal engine producer code differs')
+    required=policy_declaration(raw,name='NORMAL_ENGINE_PROVENANCE_POLICY',expected=NORMAL_ENGINE_PROVENANCE_POLICY)
+    if required is not None and type(data.get('engine_budget'))is not dict:
+        raise Rejected('normal engine producer requires retained engine budget/journal')
+
+
 def check_engine_profile_record(data,directory):
     """Replay declared native settings against the retained actual engine argv."""
     from .floor_route import read_json
     directory=Path(directory)
+    from .engine_angle import check as check_engine_angle
+    check_engine_angle(directory,data)
     captured=directory/'routing-preferences.json'
     if 'routing_preferences' in data or captured.exists() or captured.is_symlink():
         return check_preferences_record(directory,data)
@@ -1296,13 +1317,13 @@ def check_engine_profile_record(data,directory):
     engine=data['engine_budget']
     expected=engine_profile_settings(data['engine_profile'],engine['remaining_outer_wall_seconds_at_assignment'],
         strict_class_targets=data.get('netclass_policy') is not None or data.get('scope')=='selected_nets' or width is not None,
-        scoring_variant=data.get('scoring_variant'))
+        scoring_variant=data.get('scoring_variant'),experimental_free_angle=data['engine_profile']=='tuned-free-angle')
     workers=[step for step in data['steps'] if step.get('name')=='engine']
     if (any(engine.get(key)!=value for key,value in expected.items())
             or engine.get('outer_task_wall_budget_seconds')!=data['budget_seconds']
             or engine.get('outer_task_cpu_budget_seconds')!=data['cpu_budget_seconds']
             or len(workers)!=1
-            or workers[0].get('argv')!=engine_argv(directory,expected['argv'])
+            or workers[0].get('argv')!=engine_argv(directory,expected['argv'],profile=data['engine_profile'])
             or workers[0].get('cwd')!=str(directory)
             or workers[0].get('status')!='success' or workers[0].get('exit_code')!=0
             or workers[0].get('cleanup_complete') is not True
@@ -1313,6 +1334,7 @@ def check_engine_profile_record(data,directory):
 def engine_baseline(profile,adapter):
     if profile=='completion-only': return 'completion_only_probe'
     if profile=='tuned': return 'B2_tuned'
+    if profile=='tuned-free-angle': return 'B2_tuned_free_angle'
     if profile=='standard': return 'B0' if adapter=='none' else 'B1'
     raise Rejected('unknown engine profile')
 
@@ -1456,14 +1478,15 @@ def capture_preferences(report, output, request):
     preferences_fresh(output,request)
 
 
-def engine_argv(directory, settings):
+def engine_argv(directory, settings, *, profile=None):
     """One exact invocation for native and floor guidance, also used by readback."""
     directory=Path(directory)
+    input_name='engine-free-angle.dsn' if profile=='tuned-free-angle' else 'task.dsn'
     return ['/usr/bin/sandbox-exec','-p','(version 1)(allow default)(deny network*)',str(c.JAVA),
         '-Xms128m','-Xmx2g','-XX:ActiveProcessorCount=1','-Djava.awt.headless=true','-jar',str(c.JAR),
         '--gui.enabled=false','--api_server.enabled=false','--mcp_server.enabled=false','-da',
         '--user_data_path='+str(directory/'engine-config'),'--logging.file.enabled=false',*settings,
-        '-de',str(directory/'task.dsn'),'-do',str(directory/'routes.ses')]
+        '-de',str(directory/input_name),'-do',str(directory/'routes.ses')]
 
 
 def preferences_fresh(output, request):
@@ -1706,15 +1729,18 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
             return route(source,output,**pref.route_arguments(effective),_preferences=request)
         finally:
             for sig,handler in handlers.items():signal.signal(sig,handler)
+    if engine_profile=='tuned-free-angle' and (keep_existing is not False or adapter!='both'
+            or guidance_policy!='native' or _preferences is not None or native_toolchain is not None):
+        raise Rejected('unsupported: free-angle baseline requires ordinary native corrected whole-board route')
     if guidance_policy not in {'native','board-floors-v1','placement-clearance-v1'}: raise Rejected('unknown guidance policy')
     if guidance_policy in {'board-floors-v1','placement-clearance-v1'}:
         from .floor_route import route as floor_route
         return floor_route(source,output,seconds,keep_existing,adapter,engine_profile,scoring_variant,guidance_policy=guidance_policy,preferences=_preferences)
-    if engine_profile not in {'standard','tuned','completion-only'}: raise Rejected('unknown engine profile')
+    if engine_profile not in {'standard','tuned','completion-only','tuned-free-angle'}: raise Rejected('unknown engine profile')
     engine_scoring_settings(scoring_variant)
-    operation_started=_preferences['started'] if _preferences else entry_started if native_toolchain is not None else time.monotonic()
+    operation_started=_preferences['started'] if _preferences else entry_started if native_toolchain is not None or engine_profile=='tuned-free-angle' else time.monotonic()
     operation_started_utc=_preferences['started_utc'] if _preferences else datetime.datetime.now(datetime.timezone.utc).isoformat()
-    operation_cpu=_preferences['parent_cpu'] if _preferences else entry_parent if native_toolchain is not None else time.process_time()
+    operation_cpu=_preferences['parent_cpu'] if _preferences else entry_parent if native_toolchain is not None or engine_profile=='tuned-free-angle' else time.process_time()
     from .local_settings import canonical
     canonical(Path(source).absolute());canonical(Path(output).absolute())
     source=Path(source).resolve(strict=True); output=Path(output).resolve()
@@ -1814,15 +1840,18 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
         config_dir=output/'engine-config'; config_dir.mkdir()
         width_guard=minimum_width_guard(source,adapter)
         if width_guard is not None:report['minimum_width_guard']=width_guard
-        report['engine_budget']=engine_profile_settings(engine_profile,job.deadline-time.monotonic(),strict_class_targets=policy is not None or selected is not None or width_guard is not None,scoring_variant=scoring_variant)
+        report['engine_budget']=engine_profile_settings(engine_profile,job.deadline-time.monotonic(),strict_class_targets=policy is not None or selected is not None or width_guard is not None,scoring_variant=scoring_variant,experimental_free_angle=engine_profile=='tuned-free-angle')
         report['engine_budget']['outer_task_wall_budget_seconds']=seconds
         report['engine_budget']['outer_task_cpu_budget_seconds']=seconds
         engine_settings=report['engine_budget']['argv']
         if layers is not None:engine_settings.append(layers['binding']['engine_argument'])
         if selection_argument is not None:engine_settings.append(selection_argument)
+        if engine_profile=='tuned-free-angle':
+            from .engine_angle import prepare as prepare_engine_angle
+            report['engine_angle_binding']=prepare_engine_angle(output)
         preferences_fresh(output,_preferences)
-        job.step('engine',engine_argv(output,engine_settings))
-        if engine_profile=='tuned':
+        job.step('engine',engine_argv(output,engine_settings,profile=engine_profile))
+        if engine_profile in {'tuned','tuned-free-angle'}:
             report['optimizer_threshold_audit']=optimizer_threshold_audit(output/'engine.log',0.1)
         if not (output/'routes.ses').is_file(): raise Rejected('engine emitted no SES')
         imported=output/'imported.kicad_pcb'
@@ -1872,7 +1901,7 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
     elif report['total_cpu_seconds']>seconds:
         report['accepted']=False; report['status']='cpu_budget_exceeded'
     report['resource_accounting_point']='Summary sampled before final receipt write; wall and measured CPU acceptance caps rechecked after that write. No hard total-CPU preemption.'
-    if _preferences is not None or native_toolchain is not None:
+    if _preferences is not None or native_toolchain is not None or engine_profile=='tuned-free-angle':
         from .floor_route import publish,child_cpu,evidence_inventory
         completed=evidence_inventory(output)
         def remaining():
@@ -1919,12 +1948,12 @@ def validation_readback_session():
     identity twice. Native execution and candidate acceptance are never cached.
     Hot replacement of checker functions invalidates reuse. No disk cache exists.
     """
-    from . import (adapter,board_floor,floor_context,floor_route,handoff,layer_policy,legacy_zone,local_settings,padless_alias,padless_alias_native,
+    from . import (adapter,board_floor,engine_angle,floor_context,floor_route,handoff,layer_policy,legacy_zone,local_settings,padless_alias,padless_alias_native,
                    native_edge,netclass,placement_clearance,placement_strategy,routing_scope,thermal,thermal_geometry,
                    placement_transform,pour_rule_area,preferences,runner,strategy,
                    schematic_fields,schematic_field_evidence)
     import sys
-    modules=(sys.modules[__name__],c,sx,adapter,board_floor,floor_context,
+    modules=(sys.modules[__name__],c,sx,adapter,board_floor,engine_angle,floor_context,
              floor_route,handoff,layer_policy,legacy_zone,local_settings,padless_alias,padless_alias_native,native_edge,netclass,placement_clearance,
              placement_strategy,placement_transform,pour_rule_area,preferences,runner,strategy,
              routing_scope,thermal,thermal_geometry,schematic_fields,schematic_field_evidence)
@@ -2077,6 +2106,8 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
     # Parse once strictly before policy dispatch; duplicate selectors cannot hide schema3.
     data=read_json(path)
     check_experimental_route(data,native_toolchain,experimental_schematic_parity)
+    from .engine_angle import check as check_engine_angle
+    angle_contract=check_engine_angle(path.parent,data)  # Independent of optional legacy engine_budget dispatch.
     explicit_material=tree_hash(path.parent) if native_toolchain is not None else None
     if native_minimum_markers(path.parent,data):
         raise Rejected('experimental native-minimum transport is not a normal routing receipt')
@@ -2097,11 +2128,18 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
     from . import placement_strategy as ps
     input_policy=ps.POLICY if ps.recognize(data,path.parent) else receipt_policy(data,path.parent)
     placement_backed=input_policy in {'placement-clearance-v1','placement-search-v1',ps.POLICY}
+    if angle_contract is not None:
+        from .engine_angle import check_scope as check_engine_angle_scope
+        check_engine_angle_scope(data,input_policy,native_toolchain)
+    if input_policy=='native' and data.get('strategy') is None:
+        check_normal_engine_provenance(path.parent,data)
     # Captured-choice runs use the shared bounded reader for a complete witness,
     # including original rule copies and native evidence, before interpreting it.
     # Recheck after every late settings/process read; board-only layer checks
     # cannot detect a concurrently changed project file or native report.
-    preferences_guarded=('routing_preferences' in data or (path.parent/'routing-preferences.json').exists()
+    preferences_guarded=(data.get('engine_profile')=='tuned-free-angle' or 'engine_angle_binding' in data
+        or (path.parent/'engine-angle.json').exists() or (path.parent/'engine-free-angle.dsn').exists()
+        or 'routing_preferences' in data or (path.parent/'routing-preferences.json').exists()
         or (path.parent/'routing-preferences.json').is_symlink() or layer_markers(path.parent,data)
         or 'pruning_preferences' in data or 'pruning_preferences_policy' in data
         or pruning_marker.exists() or pruning_marker.is_symlink())

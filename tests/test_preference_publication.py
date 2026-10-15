@@ -170,6 +170,9 @@ class PreferencePublicationTests(unittest.TestCase):
         process = {'name': 'engine', 'status': 'success', 'exit_code': 0, 'cleanup_complete': True,
                    'argv': p.engine_argv(fixture.run, settings['argv']), 'cwd': str(fixture.run),
                    'wall_seconds': 0, 'cpu_seconds': 0, 'monitor_cpu_seconds': 0}
+        # Replace the inherited zero-cost generic engine during setup; the
+        # preference-bound process is the sole engine before any late fault.
+        fixture.data['steps'] = [row for row in fixture.data['steps'] if row.get('name') != 'engine']
         fixture.data.update(engine_budget=settings); fixture.data['steps'].insert(0, process)
         (fixture.run / 'engine-process.json').write_text(json.dumps(process)); fixture.save_receipt()
         return fixture

@@ -161,9 +161,12 @@ class PolicyReceiptControls(unittest.TestCase):
         data.update(adapter='both',engine_profile='tuned',scoring_variant='via_default')
         engine = p.engine_profile_settings('tuned',120,scoring_variant='via_default')
         engine.update(outer_task_wall_budget_seconds=120,outer_task_cpu_budget_seconds=120)
-        step = {'name':'engine','argv':['java',*engine['argv']],'status':'success',
+        step = {'name':'engine','argv':p.engine_argv(case.run,engine['argv']),'cwd':str(case.run),'status':'success',
                 'exit_code':0,'cleanup_complete':True,'wall_seconds':0,'cpu_seconds':0,'monitor_cpu_seconds':0}
         (case.run/'engine-process.json').write_text(json.dumps(step))
+        # This portfolio variant replaces the inherited zero-cost engine;
+        # retain one matching native argv/journal so the policy fault is read.
+        data['steps'] = [row for row in data['steps'] if row.get('name') != 'engine']
         data.update(engine_budget=engine); data['steps'].append(step); case.save_receipt()
         row = {'id':'via_default','eligible':True,'status':'routing_accepted','assigned_seconds':120,
                'result':str(case.receipt),'result_sha256':p.sha(case.receipt),

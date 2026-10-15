@@ -103,6 +103,14 @@ class ResultFreshnessTests(unittest.TestCase):
     def save_receipt(self):
         self.receipt.write_text(json.dumps(self.data))
 
+    def test_current_normal_engine_budget_cannot_be_removed_with_its_worker(self):
+        self.assertTrue(p.check_result(self.receipt)['current'])
+        self.data.pop('engine_budget')
+        self.data['steps']=[row for row in self.data['steps'] if row.get('name')!='engine']
+        (self.run/'engine-process.json').unlink()
+        self.save_receipt()
+        with self.assertRaisesRegex(p.Rejected,'requires retained engine budget/journal'):p.check_result(self.receipt)
+
     def test_matching_files_remain_current_without_applying_anything(self):
         before = p.tree_hash(self.root)
         result = p.check_result(self.receipt)
@@ -365,6 +373,7 @@ class ResultFreshnessTests(unittest.TestCase):
             with self.assertRaises(p.Rejected):
                 p.check_result(self.receipt)
         self.data["cpu_budget_seconds"] = 5
+        self.data["engine_budget"]["outer_task_cpu_budget_seconds"] = 5
         self.data.update(parent_cpu_seconds=5, total_cpu_seconds=6.1)
         self.save_receipt()
         with self.assertRaisesRegex(p.Rejected, "CPU budget"):

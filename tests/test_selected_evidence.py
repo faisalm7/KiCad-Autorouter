@@ -10,6 +10,9 @@ class SelectedEvidence(unittest.TestCase):
     def setUp(self):
         self.fixture=fixtures.ResultFreshnessTests('test_matching_files_remain_current_without_applying_anything')
         self.fixture.setUp();self.addCleanup(self.fixture.doCleanups);x=self.fixture
+        # Replace the inherited zero-cost mock engine with this fixture's own
+        # explicit selected-scope process below; this is setup before faults.
+        x.data['steps']=[row for row in x.data['steps'] if row.get('name')!='engine']
         original=sx.read(x.source);original.extend([['net','0','""'],['net','1','"GND"']])
         for index,route in enumerate(p.routes(original)):
             sx.one(route,'net')[:]=['net','1'];sx.one(route,'uuid')[:]=['uuid',json.dumps(str(uuid.uuid5(uuid.NAMESPACE_URL,'selected-receipt:'+str(index))))]
@@ -63,7 +66,7 @@ class SelectedEvidence(unittest.TestCase):
         # zero-cost export proof now, never after a tested fault.
         refresh_authored_normal_export(x.run,x.data,test_root=x.root,raw_dsn=dsn,task_dsn=emitted)
         from tests.normal_prl_fixture import mark_authored_receipt
-        mark_authored_receipt(x.run,x.data,test_root=x.root,fixed_imports=True)
+        mark_authored_receipt(x.run,x.data,test_root=x.root,fixed_imports=True,authored_engine=False)
         x.save_receipt()
 
     def test_selected_receipt_requires_both_exports_even_without_literal_classes(self):

@@ -77,6 +77,36 @@ def refresh_authored_normal_export(directory,data,*,test_root,raw_dsn=None,task_
     remove_authored_normal_export(directory,data,test_root=test_root)
     _authored_normal_export(directory,data,raw_dsn=raw_dsn,task_dsn=task_dsn)
 
+def _authored_normal_engine(directory,data):
+    """Zero-cost MOCK engine journal for owned synthetic setup, never execution.
+
+    Current normal producers retain mandatory engine budget/journal evidence.
+    Refresh only here during explicit fixture construction, never after faults.
+    """
+    if data.get('schema')!=1 or data.get('input_policy','native')!='native' or 'strategy' in data:return
+    rows=[row for row in data['steps'] if row.get('cwd')==str(directory) and row.get('name')=='engine']
+    if len(rows)>1 or any(any(row.get(k)!=value for k,value in dict(status='success',exit_code=0,cleanup_complete=True,wall_seconds=0,cpu_seconds=0,monitor_cpu_seconds=0).items()) for row in rows):
+        raise AssertionError('only authored zero-cost engine setup may be refreshed')
+    if rows and f.read_json(directory/'engine-process.json')!=rows[0]:
+        raise AssertionError('authored engine journal already differs')
+    profile=data.setdefault('engine_profile','standard')
+    if profile not in {'standard','tuned','completion-only'}:raise AssertionError('generic mock engine is not a free-angle qualification')
+    strict=(data.get('netclass_policy') is not None or data.get('scope')=='selected_nets'
+            or data.get('minimum_width_guard') is not None)
+    budget=p.engine_profile_settings(profile,data['budget_seconds']-1,strict_class_targets=strict,scoring_variant=data.get('scoring_variant'))
+    budget.update(outer_task_wall_budget_seconds=data['budget_seconds'],outer_task_cpu_budget_seconds=data['cpu_budget_seconds'])
+    data['engine_budget']=budget
+    log=directory/'engine.log'
+    if log.exists() and log.read_bytes()!=b'':raise AssertionError('only empty authored engine log may be refreshed')
+    log.write_bytes(b'')
+    worker=dict(name='engine',cwd=str(directory),status='success',exit_code=0,cleanup_complete=True,
+        wall_seconds=0,cpu_seconds=0,monitor_cpu_seconds=0,argv=p.engine_argv(directory,budget['argv']),
+        log=str(log),log_bytes=0,log_truncated=False)
+    p.save_json(directory/'engine-process.json',worker)
+    data['steps']=[row for row in data['steps'] if row not in rows]
+    data['steps'].append(copy.deepcopy(worker))
+
+
 def _authored_normal_import(directory,data):
     """Complete an explicitly opted-in software fixture, never Native evidence."""
     if (data.get('schema')!=1 or data.get('input_policy','native')!='native' or 'strategy' in data
@@ -155,7 +185,7 @@ def refresh_authored_normal_import(directory,data,*,test_root):
     return mark_authored_receipt(directory,data,test_root=test_root,fixed_imports=True)
 
 
-def mark_authored_receipt(directory,data,*,test_root,fixed_imports=False,normal_imports=False):
+def mark_authored_receipt(directory,data,*,test_root,fixed_imports=False,normal_imports=False,authored_engine=True):
     root,directory=_owned_fixture_paths(directory,data,test_root)
     policy=p.NORMAL_DRC_LOCAL_SETTINGS_POLICY
     if policy!=ls.JOB_POLICY:raise AssertionError('fixture must model the actual current normal policy')
@@ -218,4 +248,5 @@ def mark_authored_receipt(directory,data,*,test_root,fixed_imports=False,normal_
             derived.write_bytes(filtered)
             proof.update(source_session=str(session),import_session=str(derived),imported_board_sha256=p.sha(output))
             p.save_json(derived.with_suffix('.json'),proof)
+    if authored_engine:_authored_normal_engine(directory,data)
     return len(updates)

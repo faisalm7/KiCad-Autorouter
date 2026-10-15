@@ -78,6 +78,9 @@ class PruningPreferenceFreshness(unittest.TestCase):
                       status='success', exit_code=0, cleanup_complete=True,
                       wall_seconds=0, cpu_seconds=0, monitor_cpu_seconds=0)
         p.save_json(incumbent / 'engine-process.json', engine)
+        # The import refresh authors a generic zero-cost engine too. Replace
+        # it with this tuned incumbent's exact process before testing faults.
+        inc['steps'] = [row for row in inc['steps'] if row.get('name') != 'engine']
         inc.update(steps=[engine] + inc['steps'], engine_budget=settings)
         p.save_json(incumbent / 'result.json', inc)
         # C derives its candidate from that child and has only its own final
@@ -93,6 +96,10 @@ class PruningPreferenceFreshness(unittest.TestCase):
             (run / name).unlink()
         shutil.rmtree(run / 'refill')
         del data['protected_route_import']
+        # The strategy root owns no direct engine. Its complete tuned engine
+        # journal/budget now lives only in the fresh incumbent child above.
+        del data['engine_budget']
+        (run / 'engine-process.json').unlink()
         data.update(strategy='native_validated_zone_net_pruning', baseline='C-prototype',
                     adapter='both', engine_profile='tuned',
                     steps=[dict(row, phase='incumbent') for row in inc['steps']] + final_steps,
