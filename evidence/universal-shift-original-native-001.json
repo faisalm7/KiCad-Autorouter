@@ -1,0 +1,5373 @@
+{
+  "schema": 1,
+  "kind": "immutable-original-acquisition-and-native-diagnostic",
+  "git_head": "fe6c08b170e0521f40d7037be19ec2c01c12461f",
+  "accepted": false,
+  "production_support_qualified": false,
+  "project": "universal-shift-interface",
+  "native_diagnostic": {
+    "schema": 1,
+    "kind": "original_hardware_native_diagnostic",
+    "project": "universal-shift-interface",
+    "accepted": false,
+    "physical_electrical_validation": false,
+    "status": "observed",
+    "budget_seconds": 90,
+    "cpu_budget_seconds": 90,
+    "output_cap_bytes": 20971520,
+    "source_commit": "02a2698f962e3cd7c16d58167a455ad01c97e1b0",
+    "routing_executed": false,
+    "helper_sha256": "6e75d52e9273d6428636a3fad22e2041c311bdcb4949a191c0a64602a65fafb4",
+    "protect_local_settings": true,
+    "original_hashes": {
+      "KiCad/Interface Board/.kicad_sch": "d151e1d864bc187ef2692492ec896df7be7de3cbc904d291e04b549376c7a8bb",
+      "KiCad/Interface Board/USR_LED_Board.kicad_pcb": "4554afb88a6708b565cf2fe90a50a443d9b2ab0be80c306dff954af0e1dfa289",
+      "KiCad/Interface Board/USR_LED_Board.kicad_prl": "12ac63dcd74e561eeaaea5f1ef29d4c2bbe68a5b90d0b7f8e2c2361f8893865e",
+      "KiCad/Interface Board/USR_LED_Board.kicad_pro": "d711aae9ca29e2feef2f670ab7337432343350c9e39f07e1c09efd4dee0a6bc9",
+      "KiCad/Interface Board/USR_LED_Board.kicad_sch": "6792fce9b400c3fd23a3b8efb945392215f4b99a0a8e17a0831bed4ce47e8763",
+      "KiCad/Interface Board/_licenses/creator/LICENSE": "66cb787710146719ad5ff1c2c9cc62cb9691c55233d6cae3caf4ad0748b5ae0c",
+      "KiCad/Interface Board/_licenses/creator/README.md": "67ec44397a353f3ff4df767d0fd782c6986988f37e9809c737018833c75025f5",
+      "LICENSE": "66cb787710146719ad5ff1c2c9cc62cb9691c55233d6cae3caf4ad0748b5ae0c",
+      "README.md": "67ec44397a353f3ff4df767d0fd782c6986988f37e9809c737018833c75025f5"
+    },
+    "tools": {
+      "implementation_sha256": {
+        "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+        "autorouter/__main__.py": "eb48b32e74c3b25ffa7daca999cdff4c640ea7199abd990090732671bca495ea",
+        "autorouter/adapter.py": "87f3d2a69c64029011dc72a48759932b208379a9391f23b65015b48a7418c4ae",
+        "autorouter/board_floor.py": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340",
+        "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+        "autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+        "autorouter/floor_route.py": "cf0e44b6672f56f531db7c4cc21bf79e4faedbca0d414212c1e5f1ad0e48eb24",
+        "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+        "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+        "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+        "autorouter/local_settings.py": "69fa09a68af0e794cdc5abb8d674a2117e4696a6352a2943d71744d326d8e861",
+        "autorouter/native.py": "ece3822466657c38935b15c77eb4df37c1ae82b1893dc8f335685b754bad4c23",
+        "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+        "autorouter/native_edge.py": "8a38b60f301a72b815b877f9af59d156024757d66eda7d3df8c34addbe4d0c74",
+        "autorouter/netclass.py": "f7f1c31b8660c32d67f7bb5dbfeabd127da73a4c2adcf52f58bb46959e96b52f",
+        "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+        "autorouter/padless_alias.py": "5748f83ab88f746f65ba65462dc31b3d4bc6edf678df19169e051ab6c80b947a",
+        "autorouter/padless_alias_native.py": "7d06683b834f0211c82d87d7c982f6c39960e841627cd5e98f58a7913f501002",
+        "autorouter/pipeline.py": "dd5fbe1475f10d480225765680c50e24b8e4ece5aa99ae33c939f17d6ed8420b",
+        "autorouter/placement_clearance.py": "f846a73367bc60dfbb48386233e405cb4bf1382f056d379787d7b823c3905feb",
+        "autorouter/placement_strategy.py": "765a28e5a63da3e52266665accf9b9e1f5ea586ea9a90f51291b142c4373fb32",
+        "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+        "autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+        "autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+        "autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+        "autorouter/recovery.py": "fb2866c5340b808c6f7baf6a43234c87e8e353e74f47a91b51ad6fae5c24a78d",
+        "autorouter/review_export.py": "698dc66682416579c3d44b571dce0c0ed7102244adb0cff38dceeeca0ea1489c",
+        "autorouter/review_view.py": "79f65e4d53c243f4e0f054d97bced2be2c4646537e5b86f11626ac8c5f4ce92d",
+        "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+        "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+        "autorouter/schematic_field_evidence.py": "184137676a27d67969878caf2af52a141ca419cc1a3e48cab1c9d701e67eef15",
+        "autorouter/schematic_fields.py": "7d9043a14bac69d18830b2f51cb7d118c648df9290337505db1bf8503d931a71",
+        "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+        "autorouter/strategy.py": "a9a18b8e20fc5ce27cc159166202b37c91ada30805570bb245b2c0fe01376628",
+        "autorouter/thermal.py": "2fa7ff7260ba6e8b5a8003d8e1f51314b5ff548ef635fb94b29bdee4c741102d",
+        "autorouter/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+        "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+        "autorouter/thermal_worker.py": "fd651f44233aae2c70da0a8feab5f96a4763276684e8b0babf39860b91a9cc33"
+      },
+      "git_head": "fe6c08b170e0521f40d7037be19ec2c01c12461f",
+      "kicad": "10.0.0",
+      "freerouting": "2.5.0",
+      "files": {
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+        "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219"
+      },
+      "network": "engine sandbox-exec deny network*",
+      "normal_drc_local_settings_policy": "job-owned-prl-immutable-v1",
+      "normal_selected_proposal_import_policy": "selected-proposals-exact-source-v1",
+      "normal_native_export_alias_policy": "source-bound-padless-export-v1"
+    },
+    "source_origin": "verified fixed public demo originals and separate notice packet; no original diagnostic download",
+    "source_file_count": 9,
+    "source_bytes": 829542,
+    "source_profile_id": "universal-shift-interface",
+    "custom_asset_closure_qualified": false,
+    "additional_implementation_sha256": {
+      "experiments/original_project_native_v1/driver.py": "6e75d52e9273d6428636a3fad22e2041c311bdcb4949a191c0a64602a65fafb4",
+      "experiments/placement_handoff_native_v1/driver.py": "a84176cbab44199c5d10c80860f391d56f624b2624da2d157eb8810266796f8c",
+      "experiments/original_project_native_v1/local_settings.py": "cefd1f3573eb209af5689564cc928f71070cdac0a1c61febd64d07afafaea465",
+      "scripts/fetch_led_demo.py": "3cdd2c68abe4031e218267c1d93cfa4103c9e5bbdb817550fb254b19c599e8c1",
+      "experiments/licensed_acquisition_v1/fetch.py": "1f8bd087dbf7d7c63b51724c8bc7b752e3482d84e6feb9543a0fec9572dfc0dd"
+    },
+    "static_supported": true,
+    "native_saved_nonfill_ast_equal": true,
+    "native_saved_route_records_equal": true,
+    "original_native": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 77,
+      "exclusions": 0,
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ],
+      "findings": [
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R14",
+              "pos": {
+                "x": 97.32,
+                "y": 84.6
+              },
+              "uuid": "0166db12-ef42-4c14-b962-9bfcc02ea081"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R28",
+              "pos": {
+                "x": 159.8,
+                "y": 98.4
+              },
+              "uuid": "04ee72c9-3cd3-4270-b2cf-0ca1bbd7a24f"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'MountingHole'",
+          "items": [
+            {
+              "description": "Footprint H1",
+              "pos": {
+                "x": 34.0,
+                "y": 66.8
+              },
+              "uuid": "072e7332-6597-46ef-9cf7-b6b80cf95ed2"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D29",
+              "pos": {
+                "x": 194.395,
+                "y": 70.8
+              },
+              "uuid": "0a465504-76b1-4731-afcd-13f68ac5a1e1"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R10",
+              "pos": {
+                "x": 75.2,
+                "y": 85.0
+              },
+              "uuid": "0f2caff7-b92e-40cd-af1d-34996c944bcc"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R24",
+              "pos": {
+                "x": 138.8,
+                "y": 98.8
+              },
+              "uuid": "11461438-7404-43f9-998a-9acc19158187"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D14",
+              "pos": {
+                "x": 110.73,
+                "y": 80.48
+              },
+              "uuid": "1878d642-e53c-4b43-b762-549f998b5f07"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R18",
+              "pos": {
+                "x": 117.12,
+                "y": 85.4
+              },
+              "uuid": "1a9b8040-69c1-41a5-b002-224c5cb48752"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D1",
+              "pos": {
+                "x": 48.325,
+                "y": 69.4
+              },
+              "uuid": "1ac459a1-625e-4caf-a34d-d52b94d72f4f"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D5",
+              "pos": {
+                "x": 68.4,
+                "y": 68.95
+              },
+              "uuid": "1d9380ae-3153-4ae0-8661-95968436785d"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+          "items": [
+            {
+              "description": "Footprint J5",
+              "pos": {
+                "x": 233.0,
+                "y": 68.8
+              },
+              "uuid": "2065f228-1f67-4b0c-9bb3-2cae6faa1cbc"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R21",
+              "pos": {
+                "x": 138.12,
+                "y": 79.4
+              },
+              "uuid": "269f948c-e6fd-46ba-868e-a084f22889cd"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D21",
+              "pos": {
+                "x": 152.46,
+                "y": 71.2
+              },
+              "uuid": "2c7847da-4547-4532-a38b-59a3533c40e7"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D18",
+              "pos": {
+                "x": 131.485,
+                "y": 80.26
+              },
+              "uuid": "3129f0a2-33da-4e72-b464-170655430990"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+          "items": [
+            {
+              "description": "Footprint J6",
+              "pos": {
+                "x": 232.2,
+                "y": 88.2
+              },
+              "uuid": "335e36b2-8597-4ad0-8d0d-8036b197a665"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D7",
+              "pos": {
+                "x": 68.8,
+                "y": 88.95
+              },
+              "uuid": "345a8100-0571-4507-8230-3e8bea52eefb"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'MountingHole'",
+          "items": [
+            {
+              "description": "Footprint H3",
+              "pos": {
+                "x": 243.6,
+                "y": 111.0
+              },
+              "uuid": "345be8d7-f851-4eae-a495-864702215f1c"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D28",
+              "pos": {
+                "x": 174.33,
+                "y": 100.0
+              },
+              "uuid": "355f22e4-0d5c-463f-93d9-80aa1b23af97"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+          "items": [
+            {
+              "description": "Footprint J7",
+              "pos": {
+                "x": 223.0,
+                "y": 88.2
+              },
+              "uuid": "376c1a9e-587d-41c7-a1a2-fa0a5076068b"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R5",
+              "pos": {
+                "x": 55.32,
+                "y": 78.35
+              },
+              "uuid": "3a5666f8-9984-46be-be7b-c7ca651cc4b3"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D32",
+              "pos": {
+                "x": 194.46,
+                "y": 100.0
+              },
+              "uuid": "3df8f0dc-2c70-4b49-8283-03d1f065dc7d"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R15",
+              "pos": {
+                "x": 97.32,
+                "y": 91.0
+              },
+              "uuid": "400b8688-251a-4864-a8b3-4f58a17ca996"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R23",
+              "pos": {
+                "x": 138.4,
+                "y": 92.0
+              },
+              "uuid": "40f4ad6e-6e2d-4545-8a21-ddfea709347e"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+          "items": [
+            {
+              "description": "Footprint J4",
+              "pos": {
+                "x": 223.4,
+                "y": 68.8
+              },
+              "uuid": "45f90453-d32f-45da-9493-611191700d25"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D16",
+              "pos": {
+                "x": 110.93,
+                "y": 100.08
+              },
+              "uuid": "4632d28c-db9d-4a23-8ce9-4ab5dae769e2"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D27",
+              "pos": {
+                "x": 174.13,
+                "y": 90.2
+              },
+              "uuid": "5508b602-e2f9-41b8-b125-a51302b6df26"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D15",
+              "pos": {
+                "x": 111.0,
+                "y": 90.21
+              },
+              "uuid": "5acc2752-cde6-4209-ad4b-29f61f0488f7"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R26",
+              "pos": {
+                "x": 159.6,
+                "y": 85.8
+              },
+              "uuid": "61797260-9e38-497a-a2f9-863f96fde914"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R25",
+              "pos": {
+                "x": 159.68,
+                "y": 78.97
+              },
+              "uuid": "61816e44-d5f4-436d-aa41-957791b5696a"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R29",
+              "pos": {
+                "x": 180.6,
+                "y": 77.65
+              },
+              "uuid": "63daa631-eb8d-44d2-a7aa-2fbf3f3b11ee"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R16",
+              "pos": {
+                "x": 97.12,
+                "y": 97.4
+              },
+              "uuid": "6467c144-8844-417f-bf16-c9171373e015"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R19",
+              "pos": {
+                "x": 116.92,
+                "y": 91.8
+              },
+              "uuid": "667d7157-9469-4400-8c6c-07b65df9e8b5"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R12",
+              "pos": {
+                "x": 75.2,
+                "y": 97.6
+              },
+              "uuid": "68668dd5-a9aa-459a-8f7d-9d4b58c8953b"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D10",
+              "pos": {
+                "x": 90.02,
+                "y": 78.8
+              },
+              "uuid": "68715bbd-47f8-4192-9fd7-a7ed25ed22dc"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R8",
+              "pos": {
+                "x": 54.92,
+                "y": 96.8
+              },
+              "uuid": "6f84b26f-193f-402e-a011-f254167a9329"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R7",
+              "pos": {
+                "x": 55.12,
+                "y": 90.6
+              },
+              "uuid": "70b8845e-5363-4ecb-b696-f891b4dc1247"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R17",
+              "pos": {
+                "x": 116.72,
+                "y": 78.2
+              },
+              "uuid": "7a909130-fd92-4fcb-9ada-59b4c453b18a"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R31",
+              "pos": {
+                "x": 180.2,
+                "y": 90.0
+              },
+              "uuid": "7e32cb01-6e3e-45ce-b193-7a82b727e196"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R2",
+              "pos": {
+                "x": 33.64,
+                "y": 84.5
+              },
+              "uuid": "8403462b-4f64-476a-aef0-2612a84edd6b"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R1",
+              "pos": {
+                "x": 34.0,
+                "y": 78.45
+              },
+              "uuid": "8538faad-61d8-407b-a6cf-cc6118110851"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R13",
+              "pos": {
+                "x": 97.32,
+                "y": 78.0
+              },
+              "uuid": "8842161b-cbd0-4982-9a83-6d41944c3bb4"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R32",
+              "pos": {
+                "x": 180.6,
+                "y": 96.6
+              },
+              "uuid": "88dcad20-39c8-4107-987d-64e77801baed"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D17",
+              "pos": {
+                "x": 131.69,
+                "y": 70.66
+              },
+              "uuid": "8920c95e-679c-42c1-986e-3ed07f26d4c3"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D24",
+              "pos": {
+                "x": 152.86,
+                "y": 99.6
+              },
+              "uuid": "8b5fc27d-85aa-4e09-b3d4-2b7e8699c469"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R4",
+              "pos": {
+                "x": 33.84,
+                "y": 97.0
+              },
+              "uuid": "8bc4a139-7940-4900-b6cb-00629172c752"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D9",
+              "pos": {
+                "x": 90.16,
+                "y": 69.39
+              },
+              "uuid": "8d9965a6-a8fc-4f57-8739-bf65473b23e3"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D25",
+              "pos": {
+                "x": 174.27,
+                "y": 71.13
+              },
+              "uuid": "928ca56e-9275-4fd8-95d4-02d54f5b16ac"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D12",
+              "pos": {
+                "x": 90.02,
+                "y": 98.0
+              },
+              "uuid": "98df4e61-9cd0-40da-87ed-e723718742d7"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D13",
+              "pos": {
+                "x": 110.66,
+                "y": 70.48
+              },
+              "uuid": "a162a831-c116-4b43-9f4a-b4bc5e8780ef"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'MountingHole'",
+          "items": [
+            {
+              "description": "Footprint H4",
+              "pos": {
+                "x": 33.6,
+                "y": 112.2
+              },
+              "uuid": "a28297ad-a628-4448-8408-10a4b860c54a"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R22",
+              "pos": {
+                "x": 138.24,
+                "y": 85.8
+              },
+              "uuid": "a8fd6b3d-7615-4871-922f-f5cdeabe7e4e"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R11",
+              "pos": {
+                "x": 75.36,
+                "y": 91.2
+              },
+              "uuid": "a9e7ea29-c0a0-4c20-9243-25c04f66616c"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+          "items": [
+            {
+              "description": "Footprint J8",
+              "pos": {
+                "x": 214.8,
+                "y": 87.6
+              },
+              "uuid": "b5426cdd-0693-4a73-9b03-bdbee6923cd9"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D11",
+              "pos": {
+                "x": 90.02,
+                "y": 88.2
+              },
+              "uuid": "b6424829-09c8-4993-a145-dab700de1727"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+          "items": [
+            {
+              "description": "Footprint J2",
+              "pos": {
+                "x": 122.0,
+                "y": 69.2
+              },
+              "uuid": "bb766797-d42e-4279-a0c9-9bc8fb88cac4"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D31",
+              "pos": {
+                "x": 194.795,
+                "y": 89.8
+              },
+              "uuid": "bbbaadbf-d2c9-4ac2-8686-456a9855ed0c"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D19",
+              "pos": {
+                "x": 131.69,
+                "y": 90.26
+              },
+              "uuid": "bf095f82-0fba-4cf1-9280-1be021b33bb0"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D26",
+              "pos": {
+                "x": 174.2,
+                "y": 80.4
+              },
+              "uuid": "c75268e8-2aca-4e32-87b8-ece83358081d"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R6",
+              "pos": {
+                "x": 54.92,
+                "y": 84.6
+              },
+              "uuid": "c947314a-0c77-416d-a6d3-293582a5cc66"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D20",
+              "pos": {
+                "x": 132.22,
+                "y": 99.66
+              },
+              "uuid": "cb01ac03-fb03-45c7-8e6b-3d1a1de4bf4e"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D4",
+              "pos": {
+                "x": 48.53,
+                "y": 97.8
+              },
+              "uuid": "cc6a31a0-5f01-4a22-b2ea-bf14a275df85"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R20",
+              "pos": {
+                "x": 117.12,
+                "y": 98.0
+              },
+              "uuid": "cc793119-cdd7-4fc7-8d7c-c8210fc1af45"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+          "items": [
+            {
+              "description": "Footprint J3",
+              "pos": {
+                "x": 213.8,
+                "y": 69.0
+              },
+              "uuid": "d0c66158-25c8-4954-a527-0f4be459b9b0"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D23",
+              "pos": {
+                "x": 152.72,
+                "y": 90.0
+              },
+              "uuid": "d3e36a50-c92b-4fcb-8431-6971578ecd54"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'MountingHole'",
+          "items": [
+            {
+              "description": "Footprint H2",
+              "pos": {
+                "x": 244.4,
+                "y": 66.6
+              },
+              "uuid": "d406bf81-654a-446e-8692-c041fc7ca002"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R30",
+              "pos": {
+                "x": 180.0,
+                "y": 84.0
+              },
+              "uuid": "dc1a82a5-d449-4b1f-9f9e-609f5650bbab"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D8",
+              "pos": {
+                "x": 68.4,
+                "y": 98.75
+              },
+              "uuid": "de165fd3-be3e-4803-8075-ddd4504af71c"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D30",
+              "pos": {
+                "x": 194.66,
+                "y": 80.2
+              },
+              "uuid": "e5a1c437-5d1b-4c8c-a36c-e5d1714f04a5"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+          "items": [
+            {
+              "description": "Footprint J9",
+              "pos": {
+                "x": 204.4,
+                "y": 88.4
+              },
+              "uuid": "e70cfbb1-1b69-4bc8-985a-1bfb6660efd1"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R27",
+              "pos": {
+                "x": 159.4,
+                "y": 91.6
+              },
+              "uuid": "ea34a363-732b-4441-aa73-6666875ab44c"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+          "items": [
+            {
+              "description": "Footprint J1",
+              "pos": {
+                "x": 204.6,
+                "y": 68.8
+              },
+              "uuid": "ecece9a0-f5c3-42a2-8e19-88e838184543"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R9",
+              "pos": {
+                "x": 75.36,
+                "y": 78.5
+              },
+              "uuid": "f0f09ea5-34c5-4957-9254-441bbe2664ff"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D2",
+              "pos": {
+                "x": 48.525,
+                "y": 78.8
+              },
+              "uuid": "f23e4fa5-29ba-4bb7-a03b-83f0896dc762"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R3",
+              "pos": {
+                "x": 33.72,
+                "y": 90.6
+              },
+              "uuid": "f3e60130-cbb3-47ec-b29f-327cfe9a1be3"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D22",
+              "pos": {
+                "x": 152.46,
+                "y": 80.8
+              },
+              "uuid": "f57be7bf-ea6f-435f-8390-f1e231ee1fe6"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D3",
+              "pos": {
+                "x": 48.33,
+                "y": 88.2
+              },
+              "uuid": "f6141917-8a40-46e2-b49a-533d1be98a5c"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D6",
+              "pos": {
+                "x": 68.8,
+                "y": 78.75
+              },
+              "uuid": "f7619070-9b0f-4cfd-8c8e-e3aef7a91ab1"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        }
+      ]
+    },
+    "parity_native": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 81,
+      "exclusions": 0,
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ],
+      "findings": [
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R14",
+              "pos": {
+                "x": 97.32,
+                "y": 84.6
+              },
+              "uuid": "0166db12-ef42-4c14-b962-9bfcc02ea081"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R28",
+              "pos": {
+                "x": 159.8,
+                "y": 98.4
+              },
+              "uuid": "04ee72c9-3cd3-4270-b2cf-0ca1bbd7a24f"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'MountingHole'",
+          "items": [
+            {
+              "description": "Footprint H1",
+              "pos": {
+                "x": 34.0,
+                "y": 66.8
+              },
+              "uuid": "072e7332-6597-46ef-9cf7-b6b80cf95ed2"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D29",
+              "pos": {
+                "x": 194.395,
+                "y": 70.8
+              },
+              "uuid": "0a465504-76b1-4731-afcd-13f68ac5a1e1"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R10",
+              "pos": {
+                "x": 75.2,
+                "y": 85.0
+              },
+              "uuid": "0f2caff7-b92e-40cd-af1d-34996c944bcc"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R24",
+              "pos": {
+                "x": 138.8,
+                "y": 98.8
+              },
+              "uuid": "11461438-7404-43f9-998a-9acc19158187"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D14",
+              "pos": {
+                "x": 110.73,
+                "y": 80.48
+              },
+              "uuid": "1878d642-e53c-4b43-b762-549f998b5f07"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R18",
+              "pos": {
+                "x": 117.12,
+                "y": 85.4
+              },
+              "uuid": "1a9b8040-69c1-41a5-b002-224c5cb48752"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D1",
+              "pos": {
+                "x": 48.325,
+                "y": 69.4
+              },
+              "uuid": "1ac459a1-625e-4caf-a34d-d52b94d72f4f"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D5",
+              "pos": {
+                "x": 68.4,
+                "y": 68.95
+              },
+              "uuid": "1d9380ae-3153-4ae0-8661-95968436785d"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+          "items": [
+            {
+              "description": "Footprint J5",
+              "pos": {
+                "x": 233.0,
+                "y": 68.8
+              },
+              "uuid": "2065f228-1f67-4b0c-9bb3-2cae6faa1cbc"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R21",
+              "pos": {
+                "x": 138.12,
+                "y": 79.4
+              },
+              "uuid": "269f948c-e6fd-46ba-868e-a084f22889cd"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D21",
+              "pos": {
+                "x": 152.46,
+                "y": 71.2
+              },
+              "uuid": "2c7847da-4547-4532-a38b-59a3533c40e7"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D18",
+              "pos": {
+                "x": 131.485,
+                "y": 80.26
+              },
+              "uuid": "3129f0a2-33da-4e72-b464-170655430990"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+          "items": [
+            {
+              "description": "Footprint J6",
+              "pos": {
+                "x": 232.2,
+                "y": 88.2
+              },
+              "uuid": "335e36b2-8597-4ad0-8d0d-8036b197a665"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D7",
+              "pos": {
+                "x": 68.8,
+                "y": 88.95
+              },
+              "uuid": "345a8100-0571-4507-8230-3e8bea52eefb"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'MountingHole'",
+          "items": [
+            {
+              "description": "Footprint H3",
+              "pos": {
+                "x": 243.6,
+                "y": 111.0
+              },
+              "uuid": "345be8d7-f851-4eae-a495-864702215f1c"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D28",
+              "pos": {
+                "x": 174.33,
+                "y": 100.0
+              },
+              "uuid": "355f22e4-0d5c-463f-93d9-80aa1b23af97"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+          "items": [
+            {
+              "description": "Footprint J7",
+              "pos": {
+                "x": 223.0,
+                "y": 88.2
+              },
+              "uuid": "376c1a9e-587d-41c7-a1a2-fa0a5076068b"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R5",
+              "pos": {
+                "x": 55.32,
+                "y": 78.35
+              },
+              "uuid": "3a5666f8-9984-46be-be7b-c7ca651cc4b3"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D32",
+              "pos": {
+                "x": 194.46,
+                "y": 100.0
+              },
+              "uuid": "3df8f0dc-2c70-4b49-8283-03d1f065dc7d"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R15",
+              "pos": {
+                "x": 97.32,
+                "y": 91.0
+              },
+              "uuid": "400b8688-251a-4864-a8b3-4f58a17ca996"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R23",
+              "pos": {
+                "x": 138.4,
+                "y": 92.0
+              },
+              "uuid": "40f4ad6e-6e2d-4545-8a21-ddfea709347e"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+          "items": [
+            {
+              "description": "Footprint J4",
+              "pos": {
+                "x": 223.4,
+                "y": 68.8
+              },
+              "uuid": "45f90453-d32f-45da-9493-611191700d25"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D16",
+              "pos": {
+                "x": 110.93,
+                "y": 100.08
+              },
+              "uuid": "4632d28c-db9d-4a23-8ce9-4ab5dae769e2"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D27",
+              "pos": {
+                "x": 174.13,
+                "y": 90.2
+              },
+              "uuid": "5508b602-e2f9-41b8-b125-a51302b6df26"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D15",
+              "pos": {
+                "x": 111.0,
+                "y": 90.21
+              },
+              "uuid": "5acc2752-cde6-4209-ad4b-29f61f0488f7"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R26",
+              "pos": {
+                "x": 159.6,
+                "y": 85.8
+              },
+              "uuid": "61797260-9e38-497a-a2f9-863f96fde914"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R25",
+              "pos": {
+                "x": 159.68,
+                "y": 78.97
+              },
+              "uuid": "61816e44-d5f4-436d-aa41-957791b5696a"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R29",
+              "pos": {
+                "x": 180.6,
+                "y": 77.65
+              },
+              "uuid": "63daa631-eb8d-44d2-a7aa-2fbf3f3b11ee"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R16",
+              "pos": {
+                "x": 97.12,
+                "y": 97.4
+              },
+              "uuid": "6467c144-8844-417f-bf16-c9171373e015"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R19",
+              "pos": {
+                "x": 116.92,
+                "y": 91.8
+              },
+              "uuid": "667d7157-9469-4400-8c6c-07b65df9e8b5"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R12",
+              "pos": {
+                "x": 75.2,
+                "y": 97.6
+              },
+              "uuid": "68668dd5-a9aa-459a-8f7d-9d4b58c8953b"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D10",
+              "pos": {
+                "x": 90.02,
+                "y": 78.8
+              },
+              "uuid": "68715bbd-47f8-4192-9fd7-a7ed25ed22dc"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R8",
+              "pos": {
+                "x": 54.92,
+                "y": 96.8
+              },
+              "uuid": "6f84b26f-193f-402e-a011-f254167a9329"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R7",
+              "pos": {
+                "x": 55.12,
+                "y": 90.6
+              },
+              "uuid": "70b8845e-5363-4ecb-b696-f891b4dc1247"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R17",
+              "pos": {
+                "x": 116.72,
+                "y": 78.2
+              },
+              "uuid": "7a909130-fd92-4fcb-9ada-59b4c453b18a"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R31",
+              "pos": {
+                "x": 180.2,
+                "y": 90.0
+              },
+              "uuid": "7e32cb01-6e3e-45ce-b193-7a82b727e196"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R2",
+              "pos": {
+                "x": 33.64,
+                "y": 84.5
+              },
+              "uuid": "8403462b-4f64-476a-aef0-2612a84edd6b"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R1",
+              "pos": {
+                "x": 34.0,
+                "y": 78.45
+              },
+              "uuid": "8538faad-61d8-407b-a6cf-cc6118110851"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R13",
+              "pos": {
+                "x": 97.32,
+                "y": 78.0
+              },
+              "uuid": "8842161b-cbd0-4982-9a83-6d41944c3bb4"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R32",
+              "pos": {
+                "x": 180.6,
+                "y": 96.6
+              },
+              "uuid": "88dcad20-39c8-4107-987d-64e77801baed"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D17",
+              "pos": {
+                "x": 131.69,
+                "y": 70.66
+              },
+              "uuid": "8920c95e-679c-42c1-986e-3ed07f26d4c3"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D24",
+              "pos": {
+                "x": 152.86,
+                "y": 99.6
+              },
+              "uuid": "8b5fc27d-85aa-4e09-b3d4-2b7e8699c469"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R4",
+              "pos": {
+                "x": 33.84,
+                "y": 97.0
+              },
+              "uuid": "8bc4a139-7940-4900-b6cb-00629172c752"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D9",
+              "pos": {
+                "x": 90.16,
+                "y": 69.39
+              },
+              "uuid": "8d9965a6-a8fc-4f57-8739-bf65473b23e3"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D25",
+              "pos": {
+                "x": 174.27,
+                "y": 71.13
+              },
+              "uuid": "928ca56e-9275-4fd8-95d4-02d54f5b16ac"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D12",
+              "pos": {
+                "x": 90.02,
+                "y": 98.0
+              },
+              "uuid": "98df4e61-9cd0-40da-87ed-e723718742d7"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D13",
+              "pos": {
+                "x": 110.66,
+                "y": 70.48
+              },
+              "uuid": "a162a831-c116-4b43-9f4a-b4bc5e8780ef"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'MountingHole'",
+          "items": [
+            {
+              "description": "Footprint H4",
+              "pos": {
+                "x": 33.6,
+                "y": 112.2
+              },
+              "uuid": "a28297ad-a628-4448-8408-10a4b860c54a"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R22",
+              "pos": {
+                "x": 138.24,
+                "y": 85.8
+              },
+              "uuid": "a8fd6b3d-7615-4871-922f-f5cdeabe7e4e"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R11",
+              "pos": {
+                "x": 75.36,
+                "y": 91.2
+              },
+              "uuid": "a9e7ea29-c0a0-4c20-9243-25c04f66616c"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+          "items": [
+            {
+              "description": "Footprint J8",
+              "pos": {
+                "x": 214.8,
+                "y": 87.6
+              },
+              "uuid": "b5426cdd-0693-4a73-9b03-bdbee6923cd9"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D11",
+              "pos": {
+                "x": 90.02,
+                "y": 88.2
+              },
+              "uuid": "b6424829-09c8-4993-a145-dab700de1727"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+          "items": [
+            {
+              "description": "Footprint J2",
+              "pos": {
+                "x": 122.0,
+                "y": 69.2
+              },
+              "uuid": "bb766797-d42e-4279-a0c9-9bc8fb88cac4"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D31",
+              "pos": {
+                "x": 194.795,
+                "y": 89.8
+              },
+              "uuid": "bbbaadbf-d2c9-4ac2-8686-456a9855ed0c"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D19",
+              "pos": {
+                "x": 131.69,
+                "y": 90.26
+              },
+              "uuid": "bf095f82-0fba-4cf1-9280-1be021b33bb0"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D26",
+              "pos": {
+                "x": 174.2,
+                "y": 80.4
+              },
+              "uuid": "c75268e8-2aca-4e32-87b8-ece83358081d"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R6",
+              "pos": {
+                "x": 54.92,
+                "y": 84.6
+              },
+              "uuid": "c947314a-0c77-416d-a6d3-293582a5cc66"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D20",
+              "pos": {
+                "x": 132.22,
+                "y": 99.66
+              },
+              "uuid": "cb01ac03-fb03-45c7-8e6b-3d1a1de4bf4e"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D4",
+              "pos": {
+                "x": 48.53,
+                "y": 97.8
+              },
+              "uuid": "cc6a31a0-5f01-4a22-b2ea-bf14a275df85"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R20",
+              "pos": {
+                "x": 117.12,
+                "y": 98.0
+              },
+              "uuid": "cc793119-cdd7-4fc7-8d7c-c8210fc1af45"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+          "items": [
+            {
+              "description": "Footprint J3",
+              "pos": {
+                "x": 213.8,
+                "y": 69.0
+              },
+              "uuid": "d0c66158-25c8-4954-a527-0f4be459b9b0"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D23",
+              "pos": {
+                "x": 152.72,
+                "y": 90.0
+              },
+              "uuid": "d3e36a50-c92b-4fcb-8431-6971578ecd54"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'MountingHole'",
+          "items": [
+            {
+              "description": "Footprint H2",
+              "pos": {
+                "x": 244.4,
+                "y": 66.6
+              },
+              "uuid": "d406bf81-654a-446e-8692-c041fc7ca002"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R30",
+              "pos": {
+                "x": 180.0,
+                "y": 84.0
+              },
+              "uuid": "dc1a82a5-d449-4b1f-9f9e-609f5650bbab"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D8",
+              "pos": {
+                "x": 68.4,
+                "y": 98.75
+              },
+              "uuid": "de165fd3-be3e-4803-8075-ddd4504af71c"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D30",
+              "pos": {
+                "x": 194.66,
+                "y": 80.2
+              },
+              "uuid": "e5a1c437-5d1b-4c8c-a36c-e5d1714f04a5"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+          "items": [
+            {
+              "description": "Footprint J9",
+              "pos": {
+                "x": 204.4,
+                "y": 88.4
+              },
+              "uuid": "e70cfbb1-1b69-4bc8-985a-1bfb6660efd1"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R27",
+              "pos": {
+                "x": 159.4,
+                "y": 91.6
+              },
+              "uuid": "ea34a363-732b-4441-aa73-6666875ab44c"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+          "items": [
+            {
+              "description": "Footprint J1",
+              "pos": {
+                "x": 204.6,
+                "y": 68.8
+              },
+              "uuid": "ecece9a0-f5c3-42a2-8e19-88e838184543"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R9",
+              "pos": {
+                "x": 75.36,
+                "y": 78.5
+              },
+              "uuid": "f0f09ea5-34c5-4957-9254-441bbe2664ff"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D2",
+              "pos": {
+                "x": 48.525,
+                "y": 78.8
+              },
+              "uuid": "f23e4fa5-29ba-4bb7-a03b-83f0896dc762"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+          "items": [
+            {
+              "description": "Footprint R3",
+              "pos": {
+                "x": 33.72,
+                "y": 90.6
+              },
+              "uuid": "f3e60130-cbb3-47ec-b29f-327cfe9a1be3"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D22",
+              "pos": {
+                "x": 152.46,
+                "y": 80.8
+              },
+              "uuid": "f57be7bf-ea6f-435f-8390-f1e231ee1fe6"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D3",
+              "pos": {
+                "x": 48.33,
+                "y": 88.2
+              },
+              "uuid": "f6141917-8a40-46e2-b49a-533d1be98a5c"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "The current configuration does not include the footprint library 'LED_THT'",
+          "items": [
+            {
+              "description": "Footprint D6",
+              "pos": {
+                "x": 68.8,
+                "y": 78.75
+              },
+              "uuid": "f7619070-9b0f-4cfd-8c8e-e3aef7a91ab1"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_issues"
+        },
+        {
+          "description": "Extra footprint",
+          "items": [
+            {
+              "description": "Footprint H1",
+              "pos": {
+                "x": 34.0,
+                "y": 66.8
+              },
+              "uuid": "072e7332-6597-46ef-9cf7-b6b80cf95ed2"
+            }
+          ],
+          "severity": "warning",
+          "type": "extra_footprint"
+        },
+        {
+          "description": "Extra footprint",
+          "items": [
+            {
+              "description": "Footprint H3",
+              "pos": {
+                "x": 243.6,
+                "y": 111.0
+              },
+              "uuid": "345be8d7-f851-4eae-a495-864702215f1c"
+            }
+          ],
+          "severity": "warning",
+          "type": "extra_footprint"
+        },
+        {
+          "description": "Extra footprint",
+          "items": [
+            {
+              "description": "Footprint H4",
+              "pos": {
+                "x": 33.6,
+                "y": 112.2
+              },
+              "uuid": "a28297ad-a628-4448-8408-10a4b860c54a"
+            }
+          ],
+          "severity": "warning",
+          "type": "extra_footprint"
+        },
+        {
+          "description": "Extra footprint",
+          "items": [
+            {
+              "description": "Footprint H2",
+              "pos": {
+                "x": 244.4,
+                "y": 66.6
+              },
+              "uuid": "d406bf81-654a-446e-8692-c041fc7ca002"
+            }
+          ],
+          "severity": "warning",
+          "type": "extra_footprint"
+        }
+      ]
+    },
+    "final_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/universal-shift-interface-original-native-001/candidate/USR_LED_Board.kicad_pcb",
+    "final_candidate_sha256": "73f6a2d72c713236bc1353eb303e7a6288464b74454d07b7f6abc2ed122db837",
+    "final_native_report_sha256": "58410af241433348a9c773095ae6f236e4c69a9fb9ff072713774b93a5363e73",
+    "original_shell_nonfill_ast_equal": true,
+    "all_original_route_records_exact": true,
+    "native_routing_scope_accepted": true,
+    "schematic_parity_findings": 4,
+    "production_support_qualified": false,
+    "serialization_equivalence_qualified": false,
+    "steps": [
+      {
+        "status": "nonzero_exit",
+        "exit_code": 5,
+        "wall_seconds": 2.044320459011942,
+        "cpu_seconds": 0.908489,
+        "max_rss_bytes": 230113280,
+        "supervisor_cpu_seconds": 0.017542999999999975,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 216399872,
+        "sampled_peak_workdir_bytes": 104651,
+        "resource_guards": {
+          "max_group_rss_bytes": 2147483648,
+          "max_workdir_bytes": 20971520,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+          "pcb",
+          "drc",
+          "--format",
+          "json",
+          "--severity-all",
+          "--all-track-errors",
+          "--refill-zones",
+          "--exit-code-violations",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/universal-shift-interface-original-native-001/job/original-refill.json",
+          "--save-board",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/universal-shift-interface-original-native-001/saved/USR_LED_Board.kicad_pcb"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/universal-shift-interface-original-native-001/job/original-refill.log",
+        "log_bytes": 201,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/universal-shift-interface-original-native-001/job",
+        "signal_cancellation_enabled": true,
+        "pid": 46472,
+        "local_settings_protection": {
+          "policy": "mac-owned-prl-immutable-v1",
+          "present": true,
+          "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/universal-shift-interface-original-native-001/saved/USR_LED_Board.kicad_prl",
+          "sha256": "12ac63dcd74e561eeaaea5f1ef29d4c2bbe68a5b90d0b7f8e2c2361f8893865e",
+          "flags_before": 0,
+          "flags_during": 2,
+          "flags_restored": true,
+          "bytes_unchanged": true
+        },
+        "name": "original-refill",
+        "validated_input_sha256": "4554afb88a6708b565cf2fe90a50a443d9b2ab0be80c306dff954af0e1dfa289",
+        "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/universal-shift-interface-original-native-001/saved/USR_LED_Board.kicad_pcb"
+      },
+      {
+        "status": "nonzero_exit",
+        "exit_code": 5,
+        "wall_seconds": 1.46078804199351,
+        "cpu_seconds": 0.881798,
+        "max_rss_bytes": 266862592,
+        "supervisor_cpu_seconds": 0.01547900000000002,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 258621440,
+        "sampled_peak_workdir_bytes": 907370,
+        "resource_guards": {
+          "max_group_rss_bytes": 2147483648,
+          "max_workdir_bytes": 20971520,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+          "pcb",
+          "drc",
+          "--format",
+          "json",
+          "--severity-all",
+          "--all-track-errors",
+          "--refill-zones",
+          "--schematic-parity",
+          "--exit-code-violations",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/universal-shift-interface-original-native-001/job/original-final.json",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/universal-shift-interface-original-native-001/job/original-final-input/USR_LED_Board.kicad_pcb"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/universal-shift-interface-original-native-001/job/original-final.log",
+        "log_bytes": 220,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/universal-shift-interface-original-native-001/job",
+        "signal_cancellation_enabled": true,
+        "pid": 46473,
+        "local_settings_protection": {
+          "policy": "mac-owned-prl-immutable-v1",
+          "present": true,
+          "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/universal-shift-interface-original-native-001/job/original-final-input/USR_LED_Board.kicad_prl",
+          "sha256": "12ac63dcd74e561eeaaea5f1ef29d4c2bbe68a5b90d0b7f8e2c2361f8893865e",
+          "flags_before": 0,
+          "flags_during": 2,
+          "flags_restored": true,
+          "bytes_unchanged": true
+        },
+        "name": "original-final",
+        "validated_input_sha256": "73f6a2d72c713236bc1353eb303e7a6288464b74454d07b7f6abc2ed122db837",
+        "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/universal-shift-interface-original-native-001/candidate/USR_LED_Board.kicad_pcb"
+      }
+    ],
+    "completed_evidence_sha256": "41cba34a4d44eb4466c03a11413be0fcdec7bcae3801a707ce46ad06c14acc5f",
+    "original_preserved": true,
+    "acquired_source_still_exact": true,
+    "wall_seconds": 5.91667237499496,
+    "total_cpu_seconds": 3.9973449999999997,
+    "output_bytes": 4253914,
+    "within_budget": true
+  },
+  "independent_readback": {
+    "schema": 1,
+    "passed": true,
+    "accepted": false,
+    "new_native_execution": false,
+    "new_jvm_execution": false,
+    "new_gets": 0,
+    "checks": {
+      "consistent": true,
+      "accepted": false,
+      "production_admitted": false,
+      "project": "universal-shift-interface",
+      "receipt_sha256": "37e59ca3dc16d4a0aa7c995f3eb6e2a64bbb55e9626bdf9b782854313d592f1b",
+      "source_hashes": {
+        "LICENSE": "66cb787710146719ad5ff1c2c9cc62cb9691c55233d6cae3caf4ad0748b5ae0c",
+        "README.md": "67ec44397a353f3ff4df767d0fd782c6986988f37e9809c737018833c75025f5",
+        "KiCad/Interface Board/.kicad_sch": "d151e1d864bc187ef2692492ec896df7be7de3cbc904d291e04b549376c7a8bb",
+        "KiCad/Interface Board/USR_LED_Board.kicad_pcb": "4554afb88a6708b565cf2fe90a50a443d9b2ab0be80c306dff954af0e1dfa289",
+        "KiCad/Interface Board/USR_LED_Board.kicad_prl": "12ac63dcd74e561eeaaea5f1ef29d4c2bbe68a5b90d0b7f8e2c2361f8893865e",
+        "KiCad/Interface Board/USR_LED_Board.kicad_pro": "d711aae9ca29e2feef2f670ab7337432343350c9e39f07e1c09efd4dee0a6bc9",
+        "KiCad/Interface Board/USR_LED_Board.kicad_sch": "6792fce9b400c3fd23a3b8efb945392215f4b99a0a8e17a0831bed4ce47e8763",
+        "KiCad/Interface Board/_licenses/creator/LICENSE": "66cb787710146719ad5ff1c2c9cc62cb9691c55233d6cae3caf4ad0748b5ae0c",
+        "KiCad/Interface Board/_licenses/creator/README.md": "67ec44397a353f3ff4df767d0fd782c6986988f37e9809c737018833c75025f5"
+      },
+      "source_commit": "02a2698f962e3cd7c16d58167a455ad01c97e1b0",
+      "candidate_sha256": "73f6a2d72c713236bc1353eb303e7a6288464b74454d07b7f6abc2ed122db837",
+      "saved_report_sha256": "5b895c0927700ab3c2d730b60d4f53ee55c39c1606ef17abb6a992a098b64a09",
+      "final_report_sha256": "58410af241433348a9c773095ae6f236e4c69a9fb9ff072713774b93a5363e73",
+      "saved_native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 77,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R14",
+                "pos": {
+                  "x": 97.32,
+                  "y": 84.6
+                },
+                "uuid": "0166db12-ef42-4c14-b962-9bfcc02ea081"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R28",
+                "pos": {
+                  "x": 159.8,
+                  "y": 98.4
+                },
+                "uuid": "04ee72c9-3cd3-4270-b2cf-0ca1bbd7a24f"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'MountingHole'",
+            "items": [
+              {
+                "description": "Footprint H1",
+                "pos": {
+                  "x": 34.0,
+                  "y": 66.8
+                },
+                "uuid": "072e7332-6597-46ef-9cf7-b6b80cf95ed2"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D29",
+                "pos": {
+                  "x": 194.395,
+                  "y": 70.8
+                },
+                "uuid": "0a465504-76b1-4731-afcd-13f68ac5a1e1"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R10",
+                "pos": {
+                  "x": 75.2,
+                  "y": 85.0
+                },
+                "uuid": "0f2caff7-b92e-40cd-af1d-34996c944bcc"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R24",
+                "pos": {
+                  "x": 138.8,
+                  "y": 98.8
+                },
+                "uuid": "11461438-7404-43f9-998a-9acc19158187"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D14",
+                "pos": {
+                  "x": 110.73,
+                  "y": 80.48
+                },
+                "uuid": "1878d642-e53c-4b43-b762-549f998b5f07"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R18",
+                "pos": {
+                  "x": 117.12,
+                  "y": 85.4
+                },
+                "uuid": "1a9b8040-69c1-41a5-b002-224c5cb48752"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D1",
+                "pos": {
+                  "x": 48.325,
+                  "y": 69.4
+                },
+                "uuid": "1ac459a1-625e-4caf-a34d-d52b94d72f4f"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D5",
+                "pos": {
+                  "x": 68.4,
+                  "y": 68.95
+                },
+                "uuid": "1d9380ae-3153-4ae0-8661-95968436785d"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+              {
+                "description": "Footprint J5",
+                "pos": {
+                  "x": 233.0,
+                  "y": 68.8
+                },
+                "uuid": "2065f228-1f67-4b0c-9bb3-2cae6faa1cbc"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R21",
+                "pos": {
+                  "x": 138.12,
+                  "y": 79.4
+                },
+                "uuid": "269f948c-e6fd-46ba-868e-a084f22889cd"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D21",
+                "pos": {
+                  "x": 152.46,
+                  "y": 71.2
+                },
+                "uuid": "2c7847da-4547-4532-a38b-59a3533c40e7"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D18",
+                "pos": {
+                  "x": 131.485,
+                  "y": 80.26
+                },
+                "uuid": "3129f0a2-33da-4e72-b464-170655430990"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+              {
+                "description": "Footprint J6",
+                "pos": {
+                  "x": 232.2,
+                  "y": 88.2
+                },
+                "uuid": "335e36b2-8597-4ad0-8d0d-8036b197a665"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D7",
+                "pos": {
+                  "x": 68.8,
+                  "y": 88.95
+                },
+                "uuid": "345a8100-0571-4507-8230-3e8bea52eefb"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'MountingHole'",
+            "items": [
+              {
+                "description": "Footprint H3",
+                "pos": {
+                  "x": 243.6,
+                  "y": 111.0
+                },
+                "uuid": "345be8d7-f851-4eae-a495-864702215f1c"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D28",
+                "pos": {
+                  "x": 174.33,
+                  "y": 100.0
+                },
+                "uuid": "355f22e4-0d5c-463f-93d9-80aa1b23af97"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+              {
+                "description": "Footprint J7",
+                "pos": {
+                  "x": 223.0,
+                  "y": 88.2
+                },
+                "uuid": "376c1a9e-587d-41c7-a1a2-fa0a5076068b"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R5",
+                "pos": {
+                  "x": 55.32,
+                  "y": 78.35
+                },
+                "uuid": "3a5666f8-9984-46be-be7b-c7ca651cc4b3"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D32",
+                "pos": {
+                  "x": 194.46,
+                  "y": 100.0
+                },
+                "uuid": "3df8f0dc-2c70-4b49-8283-03d1f065dc7d"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R15",
+                "pos": {
+                  "x": 97.32,
+                  "y": 91.0
+                },
+                "uuid": "400b8688-251a-4864-a8b3-4f58a17ca996"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R23",
+                "pos": {
+                  "x": 138.4,
+                  "y": 92.0
+                },
+                "uuid": "40f4ad6e-6e2d-4545-8a21-ddfea709347e"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+              {
+                "description": "Footprint J4",
+                "pos": {
+                  "x": 223.4,
+                  "y": 68.8
+                },
+                "uuid": "45f90453-d32f-45da-9493-611191700d25"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D16",
+                "pos": {
+                  "x": 110.93,
+                  "y": 100.08
+                },
+                "uuid": "4632d28c-db9d-4a23-8ce9-4ab5dae769e2"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D27",
+                "pos": {
+                  "x": 174.13,
+                  "y": 90.2
+                },
+                "uuid": "5508b602-e2f9-41b8-b125-a51302b6df26"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D15",
+                "pos": {
+                  "x": 111.0,
+                  "y": 90.21
+                },
+                "uuid": "5acc2752-cde6-4209-ad4b-29f61f0488f7"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R26",
+                "pos": {
+                  "x": 159.6,
+                  "y": 85.8
+                },
+                "uuid": "61797260-9e38-497a-a2f9-863f96fde914"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R25",
+                "pos": {
+                  "x": 159.68,
+                  "y": 78.97
+                },
+                "uuid": "61816e44-d5f4-436d-aa41-957791b5696a"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R29",
+                "pos": {
+                  "x": 180.6,
+                  "y": 77.65
+                },
+                "uuid": "63daa631-eb8d-44d2-a7aa-2fbf3f3b11ee"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R16",
+                "pos": {
+                  "x": 97.12,
+                  "y": 97.4
+                },
+                "uuid": "6467c144-8844-417f-bf16-c9171373e015"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R19",
+                "pos": {
+                  "x": 116.92,
+                  "y": 91.8
+                },
+                "uuid": "667d7157-9469-4400-8c6c-07b65df9e8b5"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R12",
+                "pos": {
+                  "x": 75.2,
+                  "y": 97.6
+                },
+                "uuid": "68668dd5-a9aa-459a-8f7d-9d4b58c8953b"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D10",
+                "pos": {
+                  "x": 90.02,
+                  "y": 78.8
+                },
+                "uuid": "68715bbd-47f8-4192-9fd7-a7ed25ed22dc"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R8",
+                "pos": {
+                  "x": 54.92,
+                  "y": 96.8
+                },
+                "uuid": "6f84b26f-193f-402e-a011-f254167a9329"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R7",
+                "pos": {
+                  "x": 55.12,
+                  "y": 90.6
+                },
+                "uuid": "70b8845e-5363-4ecb-b696-f891b4dc1247"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R17",
+                "pos": {
+                  "x": 116.72,
+                  "y": 78.2
+                },
+                "uuid": "7a909130-fd92-4fcb-9ada-59b4c453b18a"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R31",
+                "pos": {
+                  "x": 180.2,
+                  "y": 90.0
+                },
+                "uuid": "7e32cb01-6e3e-45ce-b193-7a82b727e196"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R2",
+                "pos": {
+                  "x": 33.64,
+                  "y": 84.5
+                },
+                "uuid": "8403462b-4f64-476a-aef0-2612a84edd6b"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R1",
+                "pos": {
+                  "x": 34.0,
+                  "y": 78.45
+                },
+                "uuid": "8538faad-61d8-407b-a6cf-cc6118110851"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R13",
+                "pos": {
+                  "x": 97.32,
+                  "y": 78.0
+                },
+                "uuid": "8842161b-cbd0-4982-9a83-6d41944c3bb4"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R32",
+                "pos": {
+                  "x": 180.6,
+                  "y": 96.6
+                },
+                "uuid": "88dcad20-39c8-4107-987d-64e77801baed"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D17",
+                "pos": {
+                  "x": 131.69,
+                  "y": 70.66
+                },
+                "uuid": "8920c95e-679c-42c1-986e-3ed07f26d4c3"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D24",
+                "pos": {
+                  "x": 152.86,
+                  "y": 99.6
+                },
+                "uuid": "8b5fc27d-85aa-4e09-b3d4-2b7e8699c469"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R4",
+                "pos": {
+                  "x": 33.84,
+                  "y": 97.0
+                },
+                "uuid": "8bc4a139-7940-4900-b6cb-00629172c752"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D9",
+                "pos": {
+                  "x": 90.16,
+                  "y": 69.39
+                },
+                "uuid": "8d9965a6-a8fc-4f57-8739-bf65473b23e3"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D25",
+                "pos": {
+                  "x": 174.27,
+                  "y": 71.13
+                },
+                "uuid": "928ca56e-9275-4fd8-95d4-02d54f5b16ac"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D12",
+                "pos": {
+                  "x": 90.02,
+                  "y": 98.0
+                },
+                "uuid": "98df4e61-9cd0-40da-87ed-e723718742d7"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D13",
+                "pos": {
+                  "x": 110.66,
+                  "y": 70.48
+                },
+                "uuid": "a162a831-c116-4b43-9f4a-b4bc5e8780ef"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'MountingHole'",
+            "items": [
+              {
+                "description": "Footprint H4",
+                "pos": {
+                  "x": 33.6,
+                  "y": 112.2
+                },
+                "uuid": "a28297ad-a628-4448-8408-10a4b860c54a"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R22",
+                "pos": {
+                  "x": 138.24,
+                  "y": 85.8
+                },
+                "uuid": "a8fd6b3d-7615-4871-922f-f5cdeabe7e4e"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R11",
+                "pos": {
+                  "x": 75.36,
+                  "y": 91.2
+                },
+                "uuid": "a9e7ea29-c0a0-4c20-9243-25c04f66616c"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+              {
+                "description": "Footprint J8",
+                "pos": {
+                  "x": 214.8,
+                  "y": 87.6
+                },
+                "uuid": "b5426cdd-0693-4a73-9b03-bdbee6923cd9"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D11",
+                "pos": {
+                  "x": 90.02,
+                  "y": 88.2
+                },
+                "uuid": "b6424829-09c8-4993-a145-dab700de1727"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+              {
+                "description": "Footprint J2",
+                "pos": {
+                  "x": 122.0,
+                  "y": 69.2
+                },
+                "uuid": "bb766797-d42e-4279-a0c9-9bc8fb88cac4"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D31",
+                "pos": {
+                  "x": 194.795,
+                  "y": 89.8
+                },
+                "uuid": "bbbaadbf-d2c9-4ac2-8686-456a9855ed0c"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D19",
+                "pos": {
+                  "x": 131.69,
+                  "y": 90.26
+                },
+                "uuid": "bf095f82-0fba-4cf1-9280-1be021b33bb0"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D26",
+                "pos": {
+                  "x": 174.2,
+                  "y": 80.4
+                },
+                "uuid": "c75268e8-2aca-4e32-87b8-ece83358081d"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R6",
+                "pos": {
+                  "x": 54.92,
+                  "y": 84.6
+                },
+                "uuid": "c947314a-0c77-416d-a6d3-293582a5cc66"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D20",
+                "pos": {
+                  "x": 132.22,
+                  "y": 99.66
+                },
+                "uuid": "cb01ac03-fb03-45c7-8e6b-3d1a1de4bf4e"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D4",
+                "pos": {
+                  "x": 48.53,
+                  "y": 97.8
+                },
+                "uuid": "cc6a31a0-5f01-4a22-b2ea-bf14a275df85"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R20",
+                "pos": {
+                  "x": 117.12,
+                  "y": 98.0
+                },
+                "uuid": "cc793119-cdd7-4fc7-8d7c-c8210fc1af45"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+              {
+                "description": "Footprint J3",
+                "pos": {
+                  "x": 213.8,
+                  "y": 69.0
+                },
+                "uuid": "d0c66158-25c8-4954-a527-0f4be459b9b0"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D23",
+                "pos": {
+                  "x": 152.72,
+                  "y": 90.0
+                },
+                "uuid": "d3e36a50-c92b-4fcb-8431-6971578ecd54"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'MountingHole'",
+            "items": [
+              {
+                "description": "Footprint H2",
+                "pos": {
+                  "x": 244.4,
+                  "y": 66.6
+                },
+                "uuid": "d406bf81-654a-446e-8692-c041fc7ca002"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R30",
+                "pos": {
+                  "x": 180.0,
+                  "y": 84.0
+                },
+                "uuid": "dc1a82a5-d449-4b1f-9f9e-609f5650bbab"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D8",
+                "pos": {
+                  "x": 68.4,
+                  "y": 98.75
+                },
+                "uuid": "de165fd3-be3e-4803-8075-ddd4504af71c"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D30",
+                "pos": {
+                  "x": 194.66,
+                  "y": 80.2
+                },
+                "uuid": "e5a1c437-5d1b-4c8c-a36c-e5d1714f04a5"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+              {
+                "description": "Footprint J9",
+                "pos": {
+                  "x": 204.4,
+                  "y": 88.4
+                },
+                "uuid": "e70cfbb1-1b69-4bc8-985a-1bfb6660efd1"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R27",
+                "pos": {
+                  "x": 159.4,
+                  "y": 91.6
+                },
+                "uuid": "ea34a363-732b-4441-aa73-6666875ab44c"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+              {
+                "description": "Footprint J1",
+                "pos": {
+                  "x": 204.6,
+                  "y": 68.8
+                },
+                "uuid": "ecece9a0-f5c3-42a2-8e19-88e838184543"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R9",
+                "pos": {
+                  "x": 75.36,
+                  "y": 78.5
+                },
+                "uuid": "f0f09ea5-34c5-4957-9254-441bbe2664ff"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D2",
+                "pos": {
+                  "x": 48.525,
+                  "y": 78.8
+                },
+                "uuid": "f23e4fa5-29ba-4bb7-a03b-83f0896dc762"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R3",
+                "pos": {
+                  "x": 33.72,
+                  "y": 90.6
+                },
+                "uuid": "f3e60130-cbb3-47ec-b29f-327cfe9a1be3"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D22",
+                "pos": {
+                  "x": 152.46,
+                  "y": 80.8
+                },
+                "uuid": "f57be7bf-ea6f-435f-8390-f1e231ee1fe6"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D3",
+                "pos": {
+                  "x": 48.33,
+                  "y": 88.2
+                },
+                "uuid": "f6141917-8a40-46e2-b49a-533d1be98a5c"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D6",
+                "pos": {
+                  "x": 68.8,
+                  "y": 78.75
+                },
+                "uuid": "f7619070-9b0f-4cfd-8c8e-e3aef7a91ab1"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          }
+        ]
+      },
+      "final_native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 81,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R14",
+                "pos": {
+                  "x": 97.32,
+                  "y": 84.6
+                },
+                "uuid": "0166db12-ef42-4c14-b962-9bfcc02ea081"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R28",
+                "pos": {
+                  "x": 159.8,
+                  "y": 98.4
+                },
+                "uuid": "04ee72c9-3cd3-4270-b2cf-0ca1bbd7a24f"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'MountingHole'",
+            "items": [
+              {
+                "description": "Footprint H1",
+                "pos": {
+                  "x": 34.0,
+                  "y": 66.8
+                },
+                "uuid": "072e7332-6597-46ef-9cf7-b6b80cf95ed2"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D29",
+                "pos": {
+                  "x": 194.395,
+                  "y": 70.8
+                },
+                "uuid": "0a465504-76b1-4731-afcd-13f68ac5a1e1"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R10",
+                "pos": {
+                  "x": 75.2,
+                  "y": 85.0
+                },
+                "uuid": "0f2caff7-b92e-40cd-af1d-34996c944bcc"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R24",
+                "pos": {
+                  "x": 138.8,
+                  "y": 98.8
+                },
+                "uuid": "11461438-7404-43f9-998a-9acc19158187"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D14",
+                "pos": {
+                  "x": 110.73,
+                  "y": 80.48
+                },
+                "uuid": "1878d642-e53c-4b43-b762-549f998b5f07"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R18",
+                "pos": {
+                  "x": 117.12,
+                  "y": 85.4
+                },
+                "uuid": "1a9b8040-69c1-41a5-b002-224c5cb48752"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D1",
+                "pos": {
+                  "x": 48.325,
+                  "y": 69.4
+                },
+                "uuid": "1ac459a1-625e-4caf-a34d-d52b94d72f4f"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D5",
+                "pos": {
+                  "x": 68.4,
+                  "y": 68.95
+                },
+                "uuid": "1d9380ae-3153-4ae0-8661-95968436785d"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+              {
+                "description": "Footprint J5",
+                "pos": {
+                  "x": 233.0,
+                  "y": 68.8
+                },
+                "uuid": "2065f228-1f67-4b0c-9bb3-2cae6faa1cbc"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R21",
+                "pos": {
+                  "x": 138.12,
+                  "y": 79.4
+                },
+                "uuid": "269f948c-e6fd-46ba-868e-a084f22889cd"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D21",
+                "pos": {
+                  "x": 152.46,
+                  "y": 71.2
+                },
+                "uuid": "2c7847da-4547-4532-a38b-59a3533c40e7"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D18",
+                "pos": {
+                  "x": 131.485,
+                  "y": 80.26
+                },
+                "uuid": "3129f0a2-33da-4e72-b464-170655430990"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+              {
+                "description": "Footprint J6",
+                "pos": {
+                  "x": 232.2,
+                  "y": 88.2
+                },
+                "uuid": "335e36b2-8597-4ad0-8d0d-8036b197a665"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D7",
+                "pos": {
+                  "x": 68.8,
+                  "y": 88.95
+                },
+                "uuid": "345a8100-0571-4507-8230-3e8bea52eefb"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'MountingHole'",
+            "items": [
+              {
+                "description": "Footprint H3",
+                "pos": {
+                  "x": 243.6,
+                  "y": 111.0
+                },
+                "uuid": "345be8d7-f851-4eae-a495-864702215f1c"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D28",
+                "pos": {
+                  "x": 174.33,
+                  "y": 100.0
+                },
+                "uuid": "355f22e4-0d5c-463f-93d9-80aa1b23af97"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+              {
+                "description": "Footprint J7",
+                "pos": {
+                  "x": 223.0,
+                  "y": 88.2
+                },
+                "uuid": "376c1a9e-587d-41c7-a1a2-fa0a5076068b"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R5",
+                "pos": {
+                  "x": 55.32,
+                  "y": 78.35
+                },
+                "uuid": "3a5666f8-9984-46be-be7b-c7ca651cc4b3"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D32",
+                "pos": {
+                  "x": 194.46,
+                  "y": 100.0
+                },
+                "uuid": "3df8f0dc-2c70-4b49-8283-03d1f065dc7d"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R15",
+                "pos": {
+                  "x": 97.32,
+                  "y": 91.0
+                },
+                "uuid": "400b8688-251a-4864-a8b3-4f58a17ca996"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R23",
+                "pos": {
+                  "x": 138.4,
+                  "y": 92.0
+                },
+                "uuid": "40f4ad6e-6e2d-4545-8a21-ddfea709347e"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+              {
+                "description": "Footprint J4",
+                "pos": {
+                  "x": 223.4,
+                  "y": 68.8
+                },
+                "uuid": "45f90453-d32f-45da-9493-611191700d25"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D16",
+                "pos": {
+                  "x": 110.93,
+                  "y": 100.08
+                },
+                "uuid": "4632d28c-db9d-4a23-8ce9-4ab5dae769e2"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D27",
+                "pos": {
+                  "x": 174.13,
+                  "y": 90.2
+                },
+                "uuid": "5508b602-e2f9-41b8-b125-a51302b6df26"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D15",
+                "pos": {
+                  "x": 111.0,
+                  "y": 90.21
+                },
+                "uuid": "5acc2752-cde6-4209-ad4b-29f61f0488f7"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R26",
+                "pos": {
+                  "x": 159.6,
+                  "y": 85.8
+                },
+                "uuid": "61797260-9e38-497a-a2f9-863f96fde914"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R25",
+                "pos": {
+                  "x": 159.68,
+                  "y": 78.97
+                },
+                "uuid": "61816e44-d5f4-436d-aa41-957791b5696a"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R29",
+                "pos": {
+                  "x": 180.6,
+                  "y": 77.65
+                },
+                "uuid": "63daa631-eb8d-44d2-a7aa-2fbf3f3b11ee"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R16",
+                "pos": {
+                  "x": 97.12,
+                  "y": 97.4
+                },
+                "uuid": "6467c144-8844-417f-bf16-c9171373e015"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R19",
+                "pos": {
+                  "x": 116.92,
+                  "y": 91.8
+                },
+                "uuid": "667d7157-9469-4400-8c6c-07b65df9e8b5"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R12",
+                "pos": {
+                  "x": 75.2,
+                  "y": 97.6
+                },
+                "uuid": "68668dd5-a9aa-459a-8f7d-9d4b58c8953b"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D10",
+                "pos": {
+                  "x": 90.02,
+                  "y": 78.8
+                },
+                "uuid": "68715bbd-47f8-4192-9fd7-a7ed25ed22dc"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R8",
+                "pos": {
+                  "x": 54.92,
+                  "y": 96.8
+                },
+                "uuid": "6f84b26f-193f-402e-a011-f254167a9329"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R7",
+                "pos": {
+                  "x": 55.12,
+                  "y": 90.6
+                },
+                "uuid": "70b8845e-5363-4ecb-b696-f891b4dc1247"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R17",
+                "pos": {
+                  "x": 116.72,
+                  "y": 78.2
+                },
+                "uuid": "7a909130-fd92-4fcb-9ada-59b4c453b18a"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R31",
+                "pos": {
+                  "x": 180.2,
+                  "y": 90.0
+                },
+                "uuid": "7e32cb01-6e3e-45ce-b193-7a82b727e196"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R2",
+                "pos": {
+                  "x": 33.64,
+                  "y": 84.5
+                },
+                "uuid": "8403462b-4f64-476a-aef0-2612a84edd6b"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R1",
+                "pos": {
+                  "x": 34.0,
+                  "y": 78.45
+                },
+                "uuid": "8538faad-61d8-407b-a6cf-cc6118110851"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R13",
+                "pos": {
+                  "x": 97.32,
+                  "y": 78.0
+                },
+                "uuid": "8842161b-cbd0-4982-9a83-6d41944c3bb4"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R32",
+                "pos": {
+                  "x": 180.6,
+                  "y": 96.6
+                },
+                "uuid": "88dcad20-39c8-4107-987d-64e77801baed"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D17",
+                "pos": {
+                  "x": 131.69,
+                  "y": 70.66
+                },
+                "uuid": "8920c95e-679c-42c1-986e-3ed07f26d4c3"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D24",
+                "pos": {
+                  "x": 152.86,
+                  "y": 99.6
+                },
+                "uuid": "8b5fc27d-85aa-4e09-b3d4-2b7e8699c469"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R4",
+                "pos": {
+                  "x": 33.84,
+                  "y": 97.0
+                },
+                "uuid": "8bc4a139-7940-4900-b6cb-00629172c752"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D9",
+                "pos": {
+                  "x": 90.16,
+                  "y": 69.39
+                },
+                "uuid": "8d9965a6-a8fc-4f57-8739-bf65473b23e3"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D25",
+                "pos": {
+                  "x": 174.27,
+                  "y": 71.13
+                },
+                "uuid": "928ca56e-9275-4fd8-95d4-02d54f5b16ac"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D12",
+                "pos": {
+                  "x": 90.02,
+                  "y": 98.0
+                },
+                "uuid": "98df4e61-9cd0-40da-87ed-e723718742d7"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D13",
+                "pos": {
+                  "x": 110.66,
+                  "y": 70.48
+                },
+                "uuid": "a162a831-c116-4b43-9f4a-b4bc5e8780ef"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'MountingHole'",
+            "items": [
+              {
+                "description": "Footprint H4",
+                "pos": {
+                  "x": 33.6,
+                  "y": 112.2
+                },
+                "uuid": "a28297ad-a628-4448-8408-10a4b860c54a"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R22",
+                "pos": {
+                  "x": 138.24,
+                  "y": 85.8
+                },
+                "uuid": "a8fd6b3d-7615-4871-922f-f5cdeabe7e4e"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R11",
+                "pos": {
+                  "x": 75.36,
+                  "y": 91.2
+                },
+                "uuid": "a9e7ea29-c0a0-4c20-9243-25c04f66616c"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+              {
+                "description": "Footprint J8",
+                "pos": {
+                  "x": 214.8,
+                  "y": 87.6
+                },
+                "uuid": "b5426cdd-0693-4a73-9b03-bdbee6923cd9"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D11",
+                "pos": {
+                  "x": 90.02,
+                  "y": 88.2
+                },
+                "uuid": "b6424829-09c8-4993-a145-dab700de1727"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+              {
+                "description": "Footprint J2",
+                "pos": {
+                  "x": 122.0,
+                  "y": 69.2
+                },
+                "uuid": "bb766797-d42e-4279-a0c9-9bc8fb88cac4"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D31",
+                "pos": {
+                  "x": 194.795,
+                  "y": 89.8
+                },
+                "uuid": "bbbaadbf-d2c9-4ac2-8686-456a9855ed0c"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D19",
+                "pos": {
+                  "x": 131.69,
+                  "y": 90.26
+                },
+                "uuid": "bf095f82-0fba-4cf1-9280-1be021b33bb0"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D26",
+                "pos": {
+                  "x": 174.2,
+                  "y": 80.4
+                },
+                "uuid": "c75268e8-2aca-4e32-87b8-ece83358081d"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R6",
+                "pos": {
+                  "x": 54.92,
+                  "y": 84.6
+                },
+                "uuid": "c947314a-0c77-416d-a6d3-293582a5cc66"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D20",
+                "pos": {
+                  "x": 132.22,
+                  "y": 99.66
+                },
+                "uuid": "cb01ac03-fb03-45c7-8e6b-3d1a1de4bf4e"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D4",
+                "pos": {
+                  "x": 48.53,
+                  "y": 97.8
+                },
+                "uuid": "cc6a31a0-5f01-4a22-b2ea-bf14a275df85"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R20",
+                "pos": {
+                  "x": 117.12,
+                  "y": 98.0
+                },
+                "uuid": "cc793119-cdd7-4fc7-8d7c-c8210fc1af45"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+              {
+                "description": "Footprint J3",
+                "pos": {
+                  "x": 213.8,
+                  "y": 69.0
+                },
+                "uuid": "d0c66158-25c8-4954-a527-0f4be459b9b0"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D23",
+                "pos": {
+                  "x": 152.72,
+                  "y": 90.0
+                },
+                "uuid": "d3e36a50-c92b-4fcb-8431-6971578ecd54"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'MountingHole'",
+            "items": [
+              {
+                "description": "Footprint H2",
+                "pos": {
+                  "x": 244.4,
+                  "y": 66.6
+                },
+                "uuid": "d406bf81-654a-446e-8692-c041fc7ca002"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R30",
+                "pos": {
+                  "x": 180.0,
+                  "y": 84.0
+                },
+                "uuid": "dc1a82a5-d449-4b1f-9f9e-609f5650bbab"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D8",
+                "pos": {
+                  "x": 68.4,
+                  "y": 98.75
+                },
+                "uuid": "de165fd3-be3e-4803-8075-ddd4504af71c"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D30",
+                "pos": {
+                  "x": 194.66,
+                  "y": 80.2
+                },
+                "uuid": "e5a1c437-5d1b-4c8c-a36c-e5d1714f04a5"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+              {
+                "description": "Footprint J9",
+                "pos": {
+                  "x": 204.4,
+                  "y": 88.4
+                },
+                "uuid": "e70cfbb1-1b69-4bc8-985a-1bfb6660efd1"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R27",
+                "pos": {
+                  "x": 159.4,
+                  "y": 91.6
+                },
+                "uuid": "ea34a363-732b-4441-aa73-6666875ab44c"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+              {
+                "description": "Footprint J1",
+                "pos": {
+                  "x": 204.6,
+                  "y": 68.8
+                },
+                "uuid": "ecece9a0-f5c3-42a2-8e19-88e838184543"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R9",
+                "pos": {
+                  "x": 75.36,
+                  "y": 78.5
+                },
+                "uuid": "f0f09ea5-34c5-4957-9254-441bbe2664ff"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D2",
+                "pos": {
+                  "x": 48.525,
+                  "y": 78.8
+                },
+                "uuid": "f23e4fa5-29ba-4bb7-a03b-83f0896dc762"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+              {
+                "description": "Footprint R3",
+                "pos": {
+                  "x": 33.72,
+                  "y": 90.6
+                },
+                "uuid": "f3e60130-cbb3-47ec-b29f-327cfe9a1be3"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D22",
+                "pos": {
+                  "x": 152.46,
+                  "y": 80.8
+                },
+                "uuid": "f57be7bf-ea6f-435f-8390-f1e231ee1fe6"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D3",
+                "pos": {
+                  "x": 48.33,
+                  "y": 88.2
+                },
+                "uuid": "f6141917-8a40-46e2-b49a-533d1be98a5c"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+              {
+                "description": "Footprint D6",
+                "pos": {
+                  "x": 68.8,
+                  "y": 78.75
+                },
+                "uuid": "f7619070-9b0f-4cfd-8c8e-e3aef7a91ab1"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "Extra footprint",
+            "items": [
+              {
+                "description": "Footprint H1",
+                "pos": {
+                  "x": 34.0,
+                  "y": 66.8
+                },
+                "uuid": "072e7332-6597-46ef-9cf7-b6b80cf95ed2"
+              }
+            ],
+            "severity": "warning",
+            "type": "extra_footprint"
+          },
+          {
+            "description": "Extra footprint",
+            "items": [
+              {
+                "description": "Footprint H3",
+                "pos": {
+                  "x": 243.6,
+                  "y": 111.0
+                },
+                "uuid": "345be8d7-f851-4eae-a495-864702215f1c"
+              }
+            ],
+            "severity": "warning",
+            "type": "extra_footprint"
+          },
+          {
+            "description": "Extra footprint",
+            "items": [
+              {
+                "description": "Footprint H4",
+                "pos": {
+                  "x": 33.6,
+                  "y": 112.2
+                },
+                "uuid": "a28297ad-a628-4448-8408-10a4b860c54a"
+              }
+            ],
+            "severity": "warning",
+            "type": "extra_footprint"
+          },
+          {
+            "description": "Extra footprint",
+            "items": [
+              {
+                "description": "Footprint H2",
+                "pos": {
+                  "x": 244.4,
+                  "y": 66.6
+                },
+                "uuid": "d406bf81-654a-446e-8692-c041fc7ca002"
+              }
+            ],
+            "severity": "warning",
+            "type": "extra_footprint"
+          }
+        ]
+      },
+      "schematic_parity_findings": 4,
+      "all_original_route_records": 441,
+      "completed_evidence_sha256": "41cba34a4d44eb4466c03a11413be0fcdec7bcae3801a707ce46ad06c14acc5f",
+      "workers": [
+        {
+          "name": "original-refill",
+          "process_sha256": "5393ad7690a442f69c6aa711895c2a3febbb52c307c9f3e096961cb527d68f16",
+          "log_sha256": "a77dd2092b40b9e79c5bb61365e515040c0f937a8de443a70aa0c566becdf26b",
+          "cleanup_complete": true,
+          "local_settings_protection": {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": true,
+            "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/universal-shift-interface-original-native-001/saved/USR_LED_Board.kicad_prl",
+            "sha256": "12ac63dcd74e561eeaaea5f1ef29d4c2bbe68a5b90d0b7f8e2c2361f8893865e",
+            "flags_before": 0,
+            "flags_during": 2,
+            "flags_restored": true,
+            "bytes_unchanged": true
+          }
+        },
+        {
+          "name": "original-final",
+          "process_sha256": "7ee22d25b68ba656d2414748bdb94e38523d6602625e06f4b3de33a249d2b92f",
+          "log_sha256": "2228d40641431ff9f988b1e349850e4ba92f7c58e205ea21280a8b2ed4b30d7a",
+          "cleanup_complete": true,
+          "local_settings_protection": {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": true,
+            "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/universal-shift-interface-original-native-001/job/original-final-input/USR_LED_Board.kicad_prl",
+            "sha256": "12ac63dcd74e561eeaaea5f1ef29d4c2bbe68a5b90d0b7f8e2c2361f8893865e",
+            "flags_before": 0,
+            "flags_during": 2,
+            "flags_restored": true,
+            "bytes_unchanged": true
+          }
+        }
+      ],
+      "diagnostic_wall_seconds": 5.91667237499496,
+      "diagnostic_full_cpu_seconds": 3.9973449999999997,
+      "static_supported": true,
+      "static_unsupported_reason": null,
+      "new_native_execution": false,
+      "limitations": [
+        "Mutable local evidence consistency only; no new Native or routing/physical acceptance.",
+        "Native serializer differences and all warnings/errors/exclusions/ignored checks remain visible.",
+        "Optional additional class/context observations, source rights and ancestry need their separate existing evidence."
+      ]
+    },
+    "reader_sha256": "77dba757ce5e617e64c51719dbbd25d7939ed27ff4536c2c7f2e241e1841857e",
+    "actor_sha256": "b9a84040213b7a1d6d7f7a057b93fa17d4beb625fc5bd4e59f54801915fe018a",
+    "wall_seconds": 1.3876405000046361,
+    "full_cpu_seconds": 1.2184779999999997,
+    "bootstrap_emission_allowance_seconds": 2,
+    "charged_wall_seconds": 3.387640500004636,
+    "charged_full_cpu_seconds": 3.2184779999999997
+  },
+  "executions": [
+    {
+      "path": ".runs/universal-shift-interface-fetch-execution-001/execution.json",
+      "sha256": "e1a0bd0e73b5891e975a4555f4a3d5b93b34ba843c7bc51812ef55e1094a0813",
+      "wall_seconds": 2.4924323329760227,
+      "full_cpu_seconds": 0.645449,
+      "publication_allowance_seconds": 2,
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 2.19282724999357,
+        "cpu_seconds": 0.354574,
+        "max_rss_bytes": 47300608,
+        "supervisor_cpu_seconds": 0.013944000000000012,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 44285952,
+        "sampled_peak_workdir_bytes": 495,
+        "resource_guards": {
+          "max_group_rss_bytes": 1073741824,
+          "max_workdir_bytes": 2097152,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+          "-B",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/fetch_led_demo.py",
+          "--project",
+          "universal-shift-interface",
+          "--fetch",
+          "--output",
+          ".data/universal-shift-interface-demo-001"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/universal-shift-interface-fetch-execution-001/command.log",
+        "log_bytes": 495,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/universal-shift-interface-fetch-execution-001",
+        "signal_cancellation_enabled": true,
+        "pid": 46412
+      }
+    },
+    {
+      "path": ".runs/universal-shift-interface-original-native-execution-001/execution.json",
+      "sha256": "669d85b7d552f059ca74c4128db5106d2d2fbcca177e9a0c2f07ca58927f3f5a",
+      "wall_seconds": 8.44473691697931,
+      "full_cpu_seconds": 6.351008,
+      "publication_allowance_seconds": 2,
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 7.874896583001828,
+        "cpu_seconds": 5.841209,
+        "max_rss_bytes": 266862592,
+        "supervisor_cpu_seconds": 0.03588400000000003,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 250822656,
+        "sampled_peak_workdir_bytes": 214,
+        "resource_guards": {
+          "max_group_rss_bytes": 2147483648,
+          "max_workdir_bytes": 2097152,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+          "-B",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/original_project_native_v1/driver.py",
+          "--project",
+          "universal-shift-interface",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/universal-shift-interface-original-native-001",
+          "--run-native",
+          "--protect-local-settings"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/universal-shift-interface-original-native-execution-001/command.log",
+        "log_bytes": 214,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/universal-shift-interface-original-native-execution-001",
+        "signal_cancellation_enabled": true,
+        "pid": 46427
+      }
+    },
+    {
+      "path": ".runs/universal-shift-interface-original-native-readback-execution-001/execution.json",
+      "sha256": "4aeeb586621641a1aa01cb166265e633069398888926b2dcacad60ddc5703a3e",
+      "wall_seconds": 1.9341539159941021,
+      "full_cpu_seconds": 1.6561979999999998,
+      "publication_allowance_seconds": 2,
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 1.4331503749999683,
+        "cpu_seconds": 1.257026,
+        "max_rss_bytes": 227983360,
+        "supervisor_cpu_seconds": 0.008860000000000035,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 227229696,
+        "sampled_peak_workdir_bytes": 108,
+        "resource_guards": {
+          "max_group_rss_bytes": 4294967296,
+          "max_workdir_bytes": 16777216,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+          "-B",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/universal-shift-interface-original-native-readback-001/audit.py"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/universal-shift-interface-original-native-readback-execution-001/command.log",
+        "log_bytes": 108,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/universal-shift-interface-original-native-readback-execution-001",
+        "signal_cancellation_enabled": true,
+        "pid": 46491
+      }
+    }
+  ],
+  "retained_inputs_sha256": {
+    ".runs/universal-shift-interface-original-native-001/result.json": "37e59ca3dc16d4a0aa7c995f3eb6e2a64bbb55e9626bdf9b782854313d592f1b",
+    ".runs/universal-shift-interface-original-native-readback-001/result.json": "91a584a355cc22564a0ffeb7521e8d785d2cb1608c740247f807cb231959f28e",
+    ".runs/universal-shift-interface-original-preparation-001/fetch-input-pins.json": "f920e840161c68132d31e2b8cae5c35c7cbc8961312fc7963647866b5f1d42c5",
+    ".runs/universal-shift-interface-original-preparation-001/input-pins.json": "f629024f1665acea429b94badb02752f07c588c99d8baad010223afcb5702035",
+    ".runs/universal-shift-interface-original-native-readback-001/input-pins.json": "72ed13b3097f92a4a8b88edde69a0bb37ec85c6c53c6b6cd87b08c0b99d9abb9"
+  },
+  "observations": {
+    "original_route_records": 441,
+    "original_source_files": 7,
+    "native_notice_packet_files": 9,
+    "board_footprints": 77,
+    "pads": 165,
+    "source_and_saved_routes_exact": true,
+    "source_and_saved_nonfill_AST_equal": true,
+    "warnings_retained": {
+      "lib_footprint_issues": 77,
+      "extra_footprint": 4
+    },
+    "ignored_original_checks": 5
+  },
+  "limitations": [
+    "Whole-project warning-free result, individual library/model title, independent ancestry, physical/electrical/human PCB validation unqualified.",
+    "Saved nonfill/routes equality are actual observations; diagnostic serialization_equivalence_qualified/production_support_qualified remain false.",
+    "Acquisition/native/original reader are not a new routed result, added independent family or quality win.",
+    "Selected flat interface project is not full hierarchical32bit logic project; source README conflict markers and future fabrication statement preserved."
+  ]
+}

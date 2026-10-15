@@ -11,6 +11,37 @@ spec=importlib.util.spec_from_file_location('experiment_quality',Path(__file__).
 e=importlib.util.module_from_spec(spec);spec.loader.exec_module(e)
 
 class ProtocolControls(unittest.TestCase):
+ def test_fixed_universal_shift_source_preserves_prl_orphan_and_all_notices(self):
+  from scripts import fetch_led_demo as demo
+  # Authored bytes exercise selection only; they are not Native evidence.
+  with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parents[1]/'.cache') as tmp:
+   base=Path(tmp);prefix='KiCad/Interface Board/'
+   files={'LICENSE':b'creator license','README.md':b'creator readme',prefix+'.kicad_sch':b'orphan schematic',
+    prefix+'USR_LED_Board.kicad_pcb':b'original board',prefix+'USR_LED_Board.kicad_pro':b'original rules',
+    prefix+'USR_LED_Board.kicad_sch':b'flat schematic',prefix+'USR_LED_Board.kicad_prl':b'complete local settings',
+    prefix+'_licenses/creator/LICENSE':b'creator license',prefix+'_licenses/creator/README.md':b'creator readme'}
+   for name,raw in files.items():
+    path=base/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(raw)
+   before=e.p.tree_hash(base)
+   with patch.object(demo,'capture_native_source',return_value=(base,files)) as capture:
+    board,family=e.selected_source('universal-shift-interface')
+    capture.assert_called_once_with('universal-shift-interface',root=e.c.ROOT)
+    self.assertEqual(board,base/(prefix+'USR_LED_Board.kicad_pcb'));self.assertIn('development-exposed',family);self.assertIn('ancestry-unverified',family)
+    self.assertEqual(e.p.tree_hash(base),before);self.assertEqual(e.PROJECTS['universal-shift-interface'],'universal-shift-interface')
+    for name in (prefix+'USR_LED_Board.kicad_prl',prefix+'.kicad_sch','LICENSE',prefix+'_licenses/creator/README.md'):
+     with self.subTest(changed=name):
+      (base/name).write_bytes(b'changed')
+      with self.assertRaisesRegex(e.p.Rejected,'exact fixed Universal Shift'):e.selected_source('universal-shift-interface')
+      (base/name).write_bytes(files[name])
+    extra=base/(prefix+'substitute.kicad_pcb');extra.write_bytes(b'candidate')
+    with self.assertRaisesRegex(e.p.Rejected,'exact fixed Universal Shift'):e.selected_source('universal-shift-interface')
+    extra.unlink();(base/(prefix+'.kicad_sch')).unlink()
+    with self.assertRaisesRegex(e.p.Rejected,'exact fixed Universal Shift'):e.selected_source('universal-shift-interface')
+ def test_universal_shift_selection_propagates_fixed_capture_refusal_without_fallback(self):
+  from scripts import fetch_led_demo as demo
+  with patch.object(demo,'capture_native_source',side_effect=e.p.Rejected('original acquisition proof stale')) as capture:
+   with self.assertRaisesRegex(e.p.Rejected,'original acquisition proof stale'):e.selected_source('universal-shift-interface')
+   capture.assert_called_once_with('universal-shift-interface',root=e.c.ROOT)
  def test_fixed_ir_source_requires_exact_original_notice_packet(self):
   from scripts import fetch_led_demo as demo
   with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parents[1]/'.cache') as tmp:
