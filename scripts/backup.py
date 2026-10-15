@@ -30,10 +30,12 @@ SCOPES = (".runs", ".data", ".local-reference")
 # 80MiB receipt/192MiB chain, scopes/path/secret/archive/restore guards unchanged.
 # A new full snapshot/restoration is required for these capacity changes.
 LIMIT = 10 * 1024 ** 3
-# Current299575files leaves425 slots; next current installation adds about830.
-# Finite305000 file/directory cap retains all evidence; byte/receipt/chain/scopes
-# stay unchanged. Full restoration005 is mandatory before qualifying this change.
-MAX_FILES = 305000
+# Current304054rawfiles leaves946slots; prior full installed041 used979files
+# including its Native fixture. Next required installed4Cu qualification exceeds
+# 305000 without deleting evidence. Finite310000 retains all files/directories;
+# 10GiB/80MiBreceipt/192MiBchain/scopes/security remain. A complete restoration
+# of the old-full006/new-compact chain must qualify this capacity change.
+MAX_FILES = 310000
 MAX_CHAIN = 16
 # Actual229,196-file receipt is63,984,764B. The249,270-file forecast needs
 # about70MB at that measured ratio;80MiB permits finite headroom. Two such

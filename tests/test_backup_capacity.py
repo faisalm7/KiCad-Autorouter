@@ -10,7 +10,7 @@ class BackupCapacity(unittest.TestCase):
                 'files':[{'path':'.runs/evidence.bin','size':size,'sha256':'0'*64}],
                 'total_file_bytes':size}
     def test_exact_finite_capacity_and_existing_population(self):
-        self.assertEqual(backup.LIMIT,10*1024**3);self.assertEqual(backup.MAX_FILES,305000)
+        self.assertEqual(backup.LIMIT,10*1024**3);self.assertEqual(backup.MAX_FILES,310000)
         self.assertEqual(backup.MAX_RECEIPT_BYTES,80*1024**2)
         self.assertEqual(backup.MAX_CHAIN_RECEIPT_BYTES,192*1024**2)
         self.assertEqual(backup.SCOPES,('.runs','.data','.local-reference'))

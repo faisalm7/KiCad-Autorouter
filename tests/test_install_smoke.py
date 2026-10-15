@@ -89,7 +89,7 @@ class InstallSmokeTests(unittest.TestCase):
 
     def test_source_capacity_is_bounded_without_changing_scratch_or_wall(self):
         self.assertEqual(m.SOURCE_MAX_BYTES, 384 * 1024**2)
-        self.assertEqual(m.SOURCE_MAX_FILES, 22000)
+        self.assertEqual(m.SOURCE_MAX_FILES, 22500)
         self.assertEqual(m.MAX_BYTES, 512 * 1024**2)
         self.assertEqual(m.TOTAL_SECONDS, 600.0)
 

@@ -32,10 +32,12 @@ from autorouter.runner import run
 MAX_BYTES = 512 * 1024**2
 # Complete source plus the verified UV backup receipt is 335,544,661 bytes,
 # 341 bytes beyond the former 320 MiB cap. Retain every source/evidence file
-# with finite 384 MiB / 22,000-file bounds; installed scratch stays 512 MiB.
+# with finite 384 MiB source bytes; installed scratch stays 512 MiB.
 # Distribution mode still checks the complete source before selecting files.
 SOURCE_MAX_BYTES = 384 * 1024**2
-SOURCE_MAX_FILES = 22000
+# Current22014trackedfiles exceeds22000; preserve the whole source/evidence.
+# Finite22500-file cap; sourcebytes/scratch/wall/security unchanged.
+SOURCE_MAX_FILES = 22500
 TOTAL_SECONDS = 600.0
 NETWORK_DENIAL = ["/usr/bin/sandbox-exec", "-p", "(version 1)(allow default)(deny network*)"]
 
