@@ -328,7 +328,7 @@ class FloorJob(p.Job):
         return super().step(name,argv if already_sandboxed else [*SANDBOX,*argv],allowed)
 
 
-def publish(output,report,stable,account,remaining,*,owned=None,final_check=None):
+def publish(output,report,stable,account,remaining,*,owned=None,final_check=None,result_checker=None):
     """No canonical positive survives cancellation, staleness or write failure."""
     def archive():
         if owned is not None:owned()
@@ -343,7 +343,7 @@ def publish(output,report,stable,account,remaining,*,owned=None,final_check=None
         p.save_json(output/'result.json',report)
         if canonical(read_json(output/'result.json'))!=expected:raise p.Rejected('floor receipt changed after publication')
         stable()
-        if report['accepted']:p.check_result(output/'result.json')
+        if report['accepted']:(p.check_result if result_checker is None else result_checker)(output/'result.json')
         stable()
         if canonical(read_json(output/'result.json'))!=expected:raise p.Rejected('floor receipt changed during final readback')
         if report['accepted'] and remaining()<=0:raise p.Rejected('floor budget exceeded during final publication')

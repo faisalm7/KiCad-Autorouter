@@ -102,6 +102,56 @@ def experimental_parity_policy(native_toolchain, enabled):
     if native_toolchain is None:raise Rejected('experimental parity needs an explicit pinned toolchain')
     return EXPERIMENTAL_PARITY_POLICY
 
+EXPERIMENTAL_ROUTE_POLICY='explicit-pinned-native-route-v1'
+
+def native_prefix(native_toolchain=None):
+    """Exact worker prefix, selected by the caller rather than its receipt."""
+    experimental_native_version(native_toolchain)
+    if native_toolchain is None:return [str(c.PYTHON),str(c.ROOT/'autorouter/native.py')]
+    return [str(native_toolchain.python),str(c.ROOT/'autorouter/native.py'),
+            '--experimental-native',json.dumps(native_toolchain.record(),sort_keys=True)]
+
+
+def experimental_route_record(native_toolchain, enabled):
+    policy=experimental_parity_policy(native_toolchain,enabled)
+    if native_toolchain is None:return {}
+    if policy is None:raise Rejected('experimental routing requires explicit full schematic parity')
+    return {'experimental_route_policy':EXPERIMENTAL_ROUTE_POLICY,
+            'experimental_native_toolchain':native_toolchain.record(),
+            'experimental_schematic_parity_policy':policy,'production_admitted':False}
+
+
+def check_experimental_route(data,native_toolchain=None,experimental_schematic_parity=False):
+    """A marker cannot authorize another runtime or broaden the qualified scope."""
+    expected=experimental_route_record(native_toolchain,experimental_schematic_parity)
+    names=('experimental_route_policy','experimental_native_toolchain',
+           'experimental_schematic_parity_policy','production_admitted')
+    if native_toolchain is None:
+        if any(name in data for name in names) or 'experimental_native_toolchain' in data.get('tools',{}):
+            raise Rejected('experimental routing requires explicit caller toolchain context')
+        return
+    from .floor_route import canonical
+    if any(canonical(data.get(name))!=canonical(value) for name,value in expected.items()):
+        raise Rejected('experimental routing marker or explicit toolchain differs')
+    if (type(data.get('schema')) is not int or data.get('schema')!=1 or data.get('strategy') is not None or data.get('input_policy','native')!='native'
+            or data.get('scope')!='whole_board_unlocked_routing' or data.get('adapter')!='none'
+            or data.get('engine_profile')!='standard' or data.get('scoring_variant') is not None
+            or data.get('baseline')!='B0' or 'routing_preferences' in data):
+        raise Rejected('unsupported experimental routing scope')
+    if (Path(data.get('source','')).with_suffix('.kicad_sch').name not in data.get('source_hashes',{})
+            or data.get('schematic_parity')!='checked by final native DRC'):
+        raise Rejected('experimental routing requires a complete checked native schematic')
+
+
+def check_experimental_local_settings(directory,data,native_toolchain):
+    """Reuse field and whole-worker guards after the late material reads."""
+    from . import schematic_field_evidence as fields,local_settings as local
+    from .floor_route import read_json
+    if fields.has_fields(data.get('native',{}).get('findings',[])):
+        fields.check_local_settings(directory,'final-drc',read_json(Path(directory)/'final-drc-binding.json'))
+    local.check_normal_policy(directory,data,native_toolchain=native_toolchain)
+
+
 def sha(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
@@ -916,7 +966,7 @@ def audit_route_dimensions(tree, protected, native):
             checked['arcs' if route[0]=='arc' else 'segments']+=1
     return {'passed':True,'checked':checked,'policy':'exact effective native targets for new routes; protected originals unchanged'}
 
-def audit_candidate_netclasses(candidate, protected, native):
+def audit_candidate_netclasses(candidate, protected, native, *, native_toolchain=None):
     from .netclass import audit_native
     project=candidate.with_suffix('.kicad_pro')
     if (native.get('source')!=str(candidate) or native.get('board_sha256')!=sha(candidate)
@@ -924,7 +974,7 @@ def audit_candidate_netclasses(candidate, protected, native):
         raise Rejected('native netclass map is not bound to candidate and original project')
     from .netclass import PARENT_POLICY
     policy=netclass_policy(candidate)
-    mapping=audit_native(native,json.loads(project.read_text()),parent_policy=policy is not None and policy['mode']==PARENT_POLICY)
+    mapping=audit_native(native,json.loads(project.read_text()),parent_policy=policy is not None and policy['mode']==PARENT_POLICY,native_toolchain=native_toolchain)
     dimensions=audit_route_dimensions(sx.read(candidate),protected,native)
     return {'native':mapping,'route_dimensions':dimensions,'candidate_sha256':sha(candidate),
             'project_sha256':sha(project)}
@@ -1128,10 +1178,10 @@ def validate_candidate(job, original, candidate, source_hashes, protected, *, gu
     if guidance_contract is not None:
         from .floor_route import final_context
         final_context(job,original,candidate,source_hashes,protected,guidance_contract,guidance_basis=guidance_basis)
-    elif netclass_policy(candidate) is not None:
+    elif netclass_policy(candidate) is not None or getattr(job,"native_toolchain",None) is not None:
         mapping=job.out/'final-netclasses.json'
         job.native('final-netclasses','netclasses',candidate,mapping)
-        audited=audit_candidate_netclasses(candidate,protected,json.loads(mapping.read_text()))
+        audited=audit_candidate_netclasses(candidate,protected,json.loads(mapping.read_text()),native_toolchain=getattr(job,"native_toolchain",None))
         audited['native_map_file_sha256']=sha(mapping)
         save_json(job.out/'final-netclass-audit.json',audited)
     if selected_names is not None:rs.audit(original,sx.read(candidate),selected_names)
@@ -1142,21 +1192,24 @@ def validate_candidate(job, original, candidate, source_hashes, protected, *, gu
     return final_hash,native
 
 
-def tool_manifest():
+def tool_manifest(*,native_toolchain=None):
+    version=experimental_native_version(native_toolchain)
     expected=json.loads((c.ROOT/'toolchain.lock.json').read_text())['tools']
     resolved={name:c.resolve_tool_path(pin['path']) for name,pin in expected.items()}
     if resolved.get('freerouting')!=c.JAR: raise Rejected('engine pin does not identify project-local JAR')
-    files={str(p):sha(p) for p in (c.CLI,c.PYTHON,c.JAVA,c.JAR) if p.is_file()}
-    if c.PCBNEW.is_file(): files[str(c.PCBNEW)]=sha(c.PCBNEW)
+    native=(c.CLI,c.PYTHON,c.PCBNEW) if native_toolchain is None else (native_toolchain.cli,native_toolchain.python,native_toolchain.pcbnew)
+    files={str(p):sha(p) for p in (*native,c.JAVA,c.JAR) if p.is_file()}
     for name, pin in expected.items():
+        if native_toolchain is not None and name not in {'java','freerouting'}:continue
         path=resolved[name]
         if files.get(str(path))!=pin['sha256']: raise Rejected('pinned tool changed or missing: '+name)
     implementation={str(p.relative_to(c.ROOT)):sha(p) for p in sorted((c.ROOT/'autorouter').glob('*.py'))}
     git_head=subprocess.run(['git','rev-parse','HEAD'],cwd=c.ROOT,capture_output=True,text=True,check=True).stdout.strip()
-    return {'implementation_sha256':implementation,'git_head':git_head,'kicad':'10.0.0','freerouting':'2.5.0','files':files,'network':'engine sandbox-exec deny network*',
+    return {'implementation_sha256':implementation,'git_head':git_head,'kicad':version,'freerouting':'2.5.0','files':files,'network':'engine sandbox-exec deny network*',
             'normal_drc_local_settings_policy':NORMAL_DRC_LOCAL_SETTINGS_POLICY,
             'normal_selected_proposal_import_policy':NORMAL_SELECTED_PROPOSAL_IMPORT_POLICY,
-            'normal_native_export_alias_policy':NORMAL_NATIVE_EXPORT_ALIAS_POLICY}
+            'normal_native_export_alias_policy':NORMAL_NATIVE_EXPORT_ALIAS_POLICY,
+            **({'experimental_native_toolchain':native_toolchain.record()} if native_toolchain is not None else {})}
 
 def optimizer_threshold_audit(log, expected_percent):
     """Reject a logged stop threshold inconsistent with the declared profile.
@@ -1618,7 +1671,15 @@ def check_preferences_record(directory, data):
         raise Rejected('engine argv or cwd differs from captured preferences')
 
 
-def route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native', settings_path=None, preference_overrides=None, _preferences=None):
+def route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native', settings_path=None, preference_overrides=None, _preferences=None, native_toolchain=None, experimental_schematic_parity=False):
+    entry_started,entry_parent=time.monotonic(),time.process_time()
+    from .floor_route import child_cpu
+    operation_children=child_cpu()
+    experimental_record=experimental_route_record(native_toolchain,experimental_schematic_parity)
+    if native_toolchain is not None and (settings_path is not None or preference_overrides is not None
+            or _preferences is not None or keep_existing is not False or adapter!='none'
+            or engine_profile!='standard' or scoring_variant is not None or guidance_policy!='native'):
+        raise Rejected('unsupported: explicit experimental route supports only ordinary standard whole-board transport')
     if settings_path is not None or preference_overrides is not None:
         if (seconds!=120 or keep_existing is not False or adapter!='none' or engine_profile!='standard'
                 or scoring_variant is not None or guidance_policy!='native' or _preferences is not None):
@@ -1643,9 +1704,9 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
         return floor_route(source,output,seconds,keep_existing,adapter,engine_profile,scoring_variant,guidance_policy=guidance_policy,preferences=_preferences)
     if engine_profile not in {'standard','tuned','completion-only'}: raise Rejected('unknown engine profile')
     engine_scoring_settings(scoring_variant)
-    operation_started=_preferences['started'] if _preferences else time.monotonic()
+    operation_started=_preferences['started'] if _preferences else entry_started if native_toolchain is not None else time.monotonic()
     operation_started_utc=_preferences['started_utc'] if _preferences else datetime.datetime.now(datetime.timezone.utc).isoformat()
-    operation_cpu=_preferences['parent_cpu'] if _preferences else time.process_time()
+    operation_cpu=_preferences['parent_cpu'] if _preferences else entry_parent if native_toolchain is not None else time.process_time()
     from .local_settings import canonical
     canonical(Path(source).absolute());canonical(Path(output).absolute())
     source=Path(source).resolve(strict=True); output=Path(output).resolve()
@@ -1653,13 +1714,14 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
     if not math.isfinite(seconds) or seconds<5 or seconds>900: raise Rejected('budget must be 5–900 seconds')
     if sha(c.JAR)!=c.JAR_SHA256: raise Rejected('engine hash mismatch')
     check_storage()
-    job=Job(output,seconds,protect_local_settings=True)
+    job=Job(output,seconds,protect_local_settings=True,**({'native_toolchain':native_toolchain,
+        'experimental_schematic_parity':experimental_schematic_parity} if native_toolchain is not None else {}))
     job.started=operation_started; job.deadline=operation_started+seconds; job.cpu_started=operation_cpu
     code=output/'code'; code.mkdir()
     for path in (c.ROOT/'autorouter').glob('*.py'): shutil.copy2(path,code/path.name)
     report={'schema':1,'status':'validator_error','accepted':False,'physical_electrical_validation':False,'schematic_parity':'not checked','source':str(source),
             'started_utc':operation_started_utc,'budget_seconds':seconds,'cpu_budget_seconds':seconds,'cpu_budget_enforcement':'postcompletion acceptance cap; no total-CPU preemption','baseline':engine_baseline(engine_profile,adapter),'adapter':adapter,'engine_profile':engine_profile,'scoring_variant':scoring_variant,'scope':'partial_completion' if keep_existing else 'whole_board_unlocked_routing',
-            'tools':tool_manifest()}
+            'tools':tool_manifest(**({'native_toolchain':native_toolchain} if native_toolchain is not None else {})),**experimental_record}
     try:
         capture_preferences(report,output,_preferences)
         before=tree_hash(source.parent); report['source_hashes']=before
@@ -1672,6 +1734,7 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
         if selected is not None and source_policy is not None and source_policy['mode']==PARENT_POLICY:
             raise Rejected('unsupported: selected-net composite class transport not qualified')
         parity=source.with_suffix('.kicad_sch').name in before
+        if native_toolchain is not None and not parity:raise Rejected('unsupported: explicit experimental route requires complete native schematic')
         report['schematic_parity']=parity_declaration(source,before)
         if selected is not None:
             from . import routing_scope as rs
@@ -1695,7 +1758,7 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
         parent_classes=policy is not None and policy['mode']==PARENT_POLICY
         if selected is not None and parent_classes:
             raise Rejected('unsupported: selected-net composite class transport not qualified')
-        if policy is None:
+        if policy is None and native_toolchain is None:
             job.native('export','export',candidate,output/'task.dsn')
             shutil.copy2(output/'task.dsn',output/'native.dsn')
         else:
@@ -1704,10 +1767,10 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
             job.native('export','export',candidate,output/'task.dsn',mapping)
             native_classes=json.loads(mapping.read_text())
             # The task contains only protected routes, and its original rules.
-            audit_candidate_netclasses(candidate,protected,native_classes)
+            audit_candidate_netclasses(candidate,protected,native_classes,native_toolchain=native_toolchain)
             shutil.copy2(output/'task.dsn',output/'native.dsn')
             report['netclass_policy']=policy
-            report['netclass_export_audit']=audit_dsn(output/'native.dsn',native_classes,json.loads(candidate.with_suffix('.kicad_pro').read_text()),parent_policy=parent_classes)
+            report['netclass_export_audit']=audit_dsn(output/'native.dsn',native_classes,json.loads(candidate.with_suffix('.kicad_pro').read_text()),parent_policy=parent_classes,native_toolchain=native_toolchain)
         report['native_dsn_sha256']=sha(output/'native.dsn')
         if adapter!='none':
             from . import pour_rule_area as pour
@@ -1727,8 +1790,8 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
             (output/'task.dsn').write_bytes(corrected)
             save_json(output/'native-edge-correction.json',edge_record)
             report['native_edge_correction']=edge_record
-        if policy is not None:
-            report['netclass_task_audit']=audit_dsn(output/'task.dsn',native_classes,json.loads(candidate.with_suffix('.kicad_pro').read_text()),parent_policy=parent_classes)
+        if policy is not None or native_toolchain is not None:
+            report['netclass_task_audit']=audit_dsn(output/'task.dsn',native_classes,json.loads(candidate.with_suffix('.kicad_pro').read_text()),parent_policy=parent_classes,native_toolchain=native_toolchain)
         selection_argument=None
         if selected is not None:
             shutil.copy2(output/'task.dsn',output/'routing-scope-input.dsn')
@@ -1801,14 +1864,14 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
     elif report['total_cpu_seconds']>seconds:
         report['accepted']=False; report['status']='cpu_budget_exceeded'
     report['resource_accounting_point']='Summary sampled before final receipt write; wall and measured CPU acceptance caps rechecked after that write. No hard total-CPU preemption.'
-    if _preferences is not None:
+    if _preferences is not None or native_toolchain is not None:
         from .floor_route import publish,child_cpu,evidence_inventory
         completed=evidence_inventory(output)
         def remaining():
-            return min(job.deadline-time.monotonic(),seconds-(time.process_time()-job.cpu_started+child_cpu()-_preferences['child_cpu']))
+            return min(job.deadline-time.monotonic(),seconds-(time.process_time()-job.cpu_started+child_cpu()-(_preferences['child_cpu'] if _preferences else operation_children)))
         def account():
             report.update(wall_seconds=time.monotonic()-job.started,parent_cpu_seconds=time.process_time()-job.cpu_started)
-            report['control_child_cpu_seconds']=max(0,child_cpu()-_preferences['child_cpu']-report['child_cpu_seconds']-report['monitor_cpu_seconds'])
+            report['control_child_cpu_seconds']=max(0,child_cpu()-(_preferences['child_cpu'] if _preferences else operation_children)-report['child_cpu_seconds']-report['monitor_cpu_seconds'])
             report['total_cpu_seconds']=sum(report[key] for key in ('parent_cpu_seconds','child_cpu_seconds','monitor_cpu_seconds','control_child_cpu_seconds'))
             report['resource_accounting_point']='Stored totals precede guarded publication; final wall/full CPU acceptance caps include all preference intake, readback and freshness checks.'
             if report['wall_seconds']>seconds or report['total_cpu_seconds']>seconds:
@@ -1816,12 +1879,14 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
             if not report['accepted']:report['whole_project_drc_clean']=False
         def stable():
             if report['accepted']:
-                if tool_manifest()!=report['tools']:raise Rejected('runtime changed during preference publication')
+                if tool_manifest(**({'native_toolchain':native_toolchain} if native_toolchain is not None else {}))!=report['tools']:raise Rejected('runtime changed during preference publication')
                 if evidence_inventory(output)!=completed:raise Rejected('completed preference routing evidence changed')
                 if tree_hash(source.parent)!=before or tree_hash(output/'snapshot')!=before:
                     raise Rejected('source changed during preference publication')
+                if native_toolchain is not None:check_experimental_local_settings(output,report,native_toolchain)
             preferences_fresh(output,_preferences)  # Last: metadata reads above may yield to another writer.
-        return publish(output,report,stable,account,remaining)
+        return publish(output,report,stable,account,remaining,
+            result_checker=(lambda file:check_result(file,native_toolchain=native_toolchain,experimental_schematic_parity=experimental_schematic_parity)) if native_toolchain is not None else None)
     save_json(output/'result.json',report)
     # Receipt serialization/fsync must not let an accepted result cross its cap.
     # The corrective rejected receipt need not finish inside the acceptance cap.
@@ -1922,8 +1987,11 @@ def _readback_witness(path,data,state):
     return (evidence,original,tuple(sorted(local_metadata)),runtime,live)
 
 
-def check_result(path):
+def check_result(path, *, native_toolchain=None, experimental_schematic_parity=False):
     """Check evidence; optional scoped reuse never substitutes fresh native DRC."""
+    experimental_route_record(native_toolchain,experimental_schematic_parity)
+    if native_toolchain is not None:
+        return _check_result_uncached(path,native_toolchain=native_toolchain,experimental_schematic_parity=experimental_schematic_parity)
     state=_readback_session.get()
     if state is None:return _check_result_uncached(path)
     try:
@@ -1935,7 +2003,8 @@ def check_result(path):
         if (target.name!='result.json' or target!=target.resolve(strict=True)
                 or type(data.get('schema')) is not int or data['schema'] not in (1,3,4,5)
                 or data.get('accepted') is not True or data.get('status')!='routing_accepted'
-                or 'diagnostic_schema' in data or 'production_qualified' in data):
+                or 'diagnostic_schema' in data or 'production_qualified' in data
+                or any(key in data for key in ('experimental_route_policy','experimental_native_toolchain','production_admitted'))):
             return _check_result_uncached(path)
         if data['schema']==1:
             try:native=receipt_policy(data,target.parent)=='native'
@@ -1986,7 +2055,7 @@ def check_resource_accounting(data, *, child_key='child_cpu_seconds'):
         raise Rejected('inconsistent CPU accounting')
 
 
-def _check_result_uncached(path):
+def _check_result_uncached(path, *, native_toolchain=None, experimental_schematic_parity=False):
     """Check local evidence consistency; this is not authentication or fresh DRC.
 
     All receipts are mutable local JSON. A party rewriting the complete evidence
@@ -1999,6 +2068,8 @@ def _check_result_uncached(path):
     receipt_digest=hashlib.sha256(bounded_bytes(path)).hexdigest()
     # Parse once strictly before policy dispatch; duplicate selectors cannot hide schema3.
     data=read_json(path)
+    check_experimental_route(data,native_toolchain,experimental_schematic_parity)
+    explicit_material=tree_hash(path.parent) if native_toolchain is not None else None
     if native_minimum_markers(path.parent,data):
         raise Rejected('experimental native-minimum transport is not a normal routing receipt')
     scoring_marker=path.parent/'pruning-scoring.json'
@@ -2061,7 +2132,7 @@ def _check_result_uncached(path):
     if any(step.get('status')=='cancelled' or step.get('cleanup_complete') is not True for step in steps):
         raise Rejected('cancelled or incomplete process cleanup in receipt')
     from .local_settings import check_normal_policy
-    imports=check_normal_policy(path.parent,data)
+    imports=check_normal_policy(path.parent,data,native_toolchain=native_toolchain)
     import_contract=normal_import_contract(path.parent,data,imports,input_policy=input_policy,original=original)
     check_protected_import(path.parent,data,original,candidate,protected,**(import_contract or {}))
 
@@ -2083,17 +2154,17 @@ def _check_result_uncached(path):
         check_floor_result(path.parent,data,original,candidate,protected)
     elif input_policy==ps.POLICY:
         ps.check_pruning_result(path.parent,data,original,candidate,protected)
-    if netclass_policy(candidate) is not None:
+    if netclass_policy(candidate) is not None or native_toolchain is not None:
         from .netclass import audit_dsn, audit_native, PARENT_POLICY
-        parent_classes=netclass_policy(candidate)['mode']==PARENT_POLICY
+        parent_classes=netclass_policy(candidate) is not None and netclass_policy(candidate)['mode']==PARENT_POLICY
         if data['scope']=='selected_nets' and parent_classes:
             raise Rejected('selected-net composite class transport not qualified')
         native_classes=evidence('final-netclasses.json')
-        audited=audit_candidate_netclasses(candidate,protected,native_classes)
+        audited=audit_candidate_netclasses(candidate,protected,native_classes,native_toolchain=native_toolchain)
         audited['native_map_file_sha256']=sha(path.parent/'final-netclasses.json')
         if evidence('final-netclass-audit.json')!=audited: raise Rejected('retained native netclass audit differs from candidate')
         process=evidence('final-netclasses-process.json')
-        expected=[str(c.PYTHON),str(c.ROOT/'autorouter/native.py'),'netclasses',str(candidate),str(path.parent/'final-netclasses.json')]
+        expected=[*native_prefix(native_toolchain),'netclasses',str(candidate),str(path.parent/'final-netclasses.json')]
         if (process.get('argv')!=expected or process.get('cwd')!=str(path.parent) or process.get('name')!='final-netclasses'
                 or process.get('exit_code')!=0 or process.get('status')!='success' or process.get('cleanup_complete') is not True):
             raise Rejected('native netclass process provenance is inconsistent')
@@ -2113,10 +2184,10 @@ def _check_result_uncached(path):
                     or exported.get('project_sha256')!=sha(candidate.with_suffix('.kicad_pro'))
                     or exported.get('source')!=str(candidate) or exported.get('board_saved') is not False):
                 raise Rejected('export netclass map differs from original routing task')
-            audit_native(exported,project,parent_policy=parent_classes)
+            audit_native(exported,project,parent_policy=parent_classes,native_toolchain=native_toolchain)
             if (data.get('netclass_policy')!=netclass_policy(candidate)
-                    or data.get('netclass_export_audit')!=audit_dsn(path.parent/'native.dsn',exported,project,parent_policy=parent_classes)
-                    or data.get('netclass_task_audit')!=audit_dsn(path.parent/('routing-scope-input.dsn' if data['scope']=='selected_nets' else 'task.dsn'),exported,project,parent_policy=parent_classes)):
+                    or data.get('netclass_export_audit')!=audit_dsn(path.parent/'native.dsn',exported,project,parent_policy=parent_classes,native_toolchain=native_toolchain)
+                    or data.get('netclass_task_audit')!=audit_dsn(path.parent/('routing-scope-input.dsn' if data['scope']=='selected_nets' else 'task.dsn'),exported,project,parent_policy=parent_classes,native_toolchain=native_toolchain)):
                 raise Rejected('retained DSN netclass audits differ from exported evidence')
 
     binding=evidence('final-drc-binding.json')
@@ -2129,7 +2200,7 @@ def _check_result_uncached(path):
     if tree_hash(native_input.parent)!=after: raise Rejected('retained native input changed')
     if sha(path.parent/'final-drc.json')!=data['native_report_sha256']: raise Rejected('native report changed')
     if placement_backed:read_json(path.parent/'final-drc.json')
-    native=parse_report(path.parent/'final-drc.json',candidate.name)
+    native=parse_report(path.parent/'final-drc.json',candidate.name,native_toolchain=native_toolchain)
     reasons=native_rejection_reasons(native)
     if reasons: raise Rejected('native findings reject candidate: '+'; '.join(reasons))
     if ((any(step.get('phase')=='incumbent' and step.get('name')=='engine' for step in data.get('steps',[]))
@@ -2139,10 +2210,10 @@ def _check_result_uncached(path):
     if data.get('native')!=native or data.get('invariants_unchanged') is not True: raise Rejected('receipt native summary differs from raw evidence')
     if data.get('whole_project_drc_clean') is not (native['warnings']==0): raise Rejected('receipt cleanliness claim differs from native evidence')
     metrics=evidence('metrics.json')
-    if data.get('metrics')!=metrics or metrics.get('version')!='10.0.0': raise Rejected('receipt metrics differ from retained native metrics')
+    if data.get('metrics')!=metrics or metrics.get('version')!=experimental_native_version(native_toolchain): raise Rejected('receipt metrics differ from retained native metrics')
 
     process=evidence('final-drc-process.json')
-    expected_argv=[str(c.CLI),'pcb','drc','--format','json','--severity-all','--all-track-errors','--refill-zones','--exit-code-violations','--output',str(path.parent/'final-drc.json'),str(native_input)]
+    expected_argv=[str(c.CLI if native_toolchain is None else native_toolchain.cli),'pcb','drc','--format','json','--severity-all','--all-track-errors','--refill-zones','--exit-code-violations','--output',str(path.parent/'final-drc.json'),str(native_input)]
     if selected_parity_required(data,path.parent):expected_argv.insert(8,'--schematic-parity')
     if input_policy in {'board-floors-v1','placement-clearance-v1','placement-search-v1',ps.POLICY}:
         from .floor_route import SANDBOX
@@ -2159,7 +2230,7 @@ def _check_result_uncached(path):
         raise Rejected('final native step differs from process or input binding')
     from . import schematic_field_evidence as fields
     fields.check_processes(path.parent,data,'final-drc',native_input,
-        sandboxed=input_policy in {'board-floors-v1','placement-clearance-v1','placement-search-v1',ps.POLICY})
+        sandboxed=input_policy in {'board-floors-v1','placement-clearance-v1','placement-search-v1',ps.POLICY},native_toolchain=native_toolchain)
     if any(step.get('status')=='cancelled' or step.get('cleanup_complete') is not True for step in steps): raise Rejected('cancelled or incomplete process cleanup in receipt')
     check_pour_evidence(path.parent,data,original,candidate)
     check_native_edge_transport(path.parent,data)
@@ -2173,7 +2244,7 @@ def _check_result_uncached(path):
 
     tools=data.get('tools',{})
     implementation=tools.get('implementation_sha256')
-    if tools.get('kicad')!='10.0.0' or not isinstance(implementation,dict) or not implementation: raise Rejected('missing pinned implementation provenance')
+    if tools.get('kicad')!=experimental_native_version(native_toolchain) or not isinstance(implementation,dict) or not implementation: raise Rejected('missing pinned implementation provenance')
     if not {'autorouter/pipeline.py','autorouter/native.py','autorouter/runner.py','autorouter/sexpr.py'}<=set(implementation): raise Rejected('incomplete implementation provenance')
     actual_code=tree_hash(path.parent/'code')
     expected_code={}
@@ -2184,7 +2255,7 @@ def _check_result_uncached(path):
         expected_code[parts[1]]=digest
     if actual_code!=expected_code: raise Rejected('retained implementation file set differs from provenance')
     pins=json.loads((c.ROOT/'toolchain.lock.json').read_text())['tools']
-    if any(tools.get('files',{}).get(str(c.resolve_tool_path(pin['path'])))!=pin['sha256'] for pin in pins.values()): raise Rejected('recorded tool pins differ from qualified toolchain')
+    if any(tools.get('files',{}).get(str(c.resolve_tool_path(pin['path'])))!=pin['sha256'] for name,pin in pins.items() if native_toolchain is None or name in {'java','freerouting'}): raise Rejected('recorded tool pins differ from qualified toolchain')
     result={'current':True,'candidate':str(candidate),'candidate_sha256':data['candidate_sha256'],'applied':False,'authentication':'none; mutable local evidence consistency only','warning':'Fresh native validation is required before application; human PCB review and electrical/physical validation remain required.'}
     if input_policy in {'board-floors-v1','placement-clearance-v1','placement-search-v1',ps.POLICY}: result['input_policy']=input_policy
     if placement_backed:
@@ -2205,8 +2276,41 @@ def _check_result_uncached(path):
             raise Rejected('source project changed during preference readback')
         if bounded_evidence(path.parent)!=readback_material:
             raise Rejected('complete preference routing evidence changed during readback')
-    imports=check_normal_policy(path.parent,data)
+    imports=check_normal_policy(path.parent,data,native_toolchain=native_toolchain)
     import_contract=normal_import_contract(path.parent,data,imports,input_policy=input_policy,original=original)
     check_protected_import(path.parent,data,original,candidate,protected,**(import_contract or {}))
     check_event(path.parent,binding,process)  # Flags/link counts are outside byte witnesses.
+    if native_toolchain is not None:
+        # Reuse the same Native stage reader and exact original/import/refill
+        # reconstruction; the experimental receipt never authorizes its tools.
+        from .floor_route import check_drc_stage,process_check
+        options={'native_toolchain':native_toolchain,'experimental_schematic_parity':True,'sandboxed':False}
+        task=routing_task(original,data['scope'])
+        pre_refill=transplant_routes(task,sx.read(path.parent/'imported.kicad_pcb'),protected=protected,policy='exact_non_uuid_lock_position_v2')
+        pre_bytes=(sx.dump(pre_refill)+'\n').encode()
+        if bounded_bytes(path.parent/'pre-refill.kicad_pcb')!=pre_bytes:raise Rejected('experimental pre-refill input differs from exact task/import')
+        refill=path.parent/'refill'/source.name
+        refill_before=dict(data['source_hashes']);refill_before[source.name]=hashlib.sha256(pre_bytes).hexdigest()
+        observed=check_drc_stage(path.parent,data,'source-drc',path.parent/'snapshot'/source.name,path.parent/'source-drc-input'/source.name,False,data['source_hashes'],**options)
+        if data.get('source_drc')!=observed:raise Rejected('experimental source DRC summary differs')
+        check_drc_stage(path.parent,data,'refill-drc',refill,refill,True,refill_before,**options)
+        if (sx.dump(transplant_fill(pre_refill,sx.read(refill)))+'\n').encode()!=bounded_bytes(candidate):
+            raise Rejected('experimental final candidate differs from task/import/refill')
+        check_drc_stage(path.parent,data,'final-drc',candidate,native_input,False,expected,schematic_parity=True,**options)
+        for name,action,output,args in [('export','export',path.parent/'task.dsn',[path.parent/'export-netclasses.json']),
+                ('import','import',path.parent/'imported.kicad_pcb',[path.parent/'routes.ses']),
+                ('metrics','metrics',path.parent/'metrics.json',[])]:
+            process_check(path.parent,data,name,[*native_prefix(native_toolchain),action,str(candidate),str(output),*[str(x) for x in args]])
+        # Alias/import and PRL readers have already checked the full process census.
+        from . import schematic_field_evidence as fields
+        names={'source-drc','export','engine','import','refill-drc','final-netclasses','final-drc','metrics'}
+        if fields.has_fields(native['findings']):names.update(fields.names('final-drc'))
+        if len(steps)!=len(names) or {step.get('name') for step in steps}!=names:raise Rejected('experimental routing worker population differs')
+        actual_tools=tool_manifest(native_toolchain=native_toolchain)
+        if (tools.get('files')!=actual_tools['files'] or tools.get('experimental_native_toolchain')!=native_toolchain.record()
+                or tools.get('freerouting')!=actual_tools['freerouting']):raise Rejected('explicit runtime tool pins differ')
+        if (tree_hash(source.parent)!=data['source_hashes'] or tree_hash(path.parent/'snapshot')!=data['source_hashes']
+                or tree_hash(path.parent)!=explicit_material):raise Rejected('experimental evidence/source changed during readback')
+        check_experimental_local_settings(path.parent,data,native_toolchain)
+        result.update(experimental_route_policy=EXPERIMENTAL_ROUTE_POLICY,production_admitted=False)
     return result

@@ -170,13 +170,13 @@ def policy_declaration(raw,*,name='NORMAL_DRC_LOCAL_SETTINGS_POLICY',expected=JO
     return expected
 
 
-def check_normal_policy(directory,data,*,max_bytes=None,max_files=None):
-    try:return _check_normal_policy(directory,data,max_bytes=max_bytes,max_files=max_files)
+def check_normal_policy(directory,data,*,max_bytes=None,max_files=None,native_toolchain=None):
+    try:return _check_normal_policy(directory,data,max_bytes=max_bytes,max_files=max_files,native_toolchain=native_toolchain)
     except (OSError,ValueError) as exc:
         raise p.Rejected('invalid normal Native policy evidence: '+str(exc)) from exc
 
 
-def _check_normal_policy(directory,data,*,max_bytes=None,max_files=None):
+def _check_normal_policy(directory,data,*,max_bytes=None,max_files=None,native_toolchain=None):
     """Close optional-marker deletion using the mandatory captured producer.
 
     A fully rewritten consistent fabricated history is not authenticated by
@@ -184,6 +184,9 @@ def _check_normal_policy(directory,data,*,max_bytes=None,max_files=None):
     """
     from .floor_route import read_json,canonical as encode,SANDBOX
     from .placement_clearance import read_bytes,inventory
+    from .adapter import native_command_parser
+    native_command_parser(native_toolchain,data=data)  # Typed context before legacy-policy exits.
+    expected_cli=str(p.c.CLI if native_toolchain is None else native_toolchain.cli)
     root=canonical(Path(directory));implementation=data.get('tools',{}).get('implementation_sha256',{})
     pipeline=root/'code/pipeline.py';raw=read_bytes(pipeline,1024**2)
     if p.sha(pipeline)!=implementation.get('autorouter/pipeline.py'):raise p.Rejected('normal DRC producer source pin differs')
@@ -198,7 +201,7 @@ def _check_normal_policy(directory,data,*,max_bytes=None,max_files=None):
         max_files=default_files if max_files is None else max_files
     retained=inventory(root,max_bytes=max_bytes,max_files=max_files,max_entries=max_files*2)
     from .padless_alias import check_exports
-    check_exports(root,data,retained)
+    check_exports(root,data,retained,native_toolchain=native_toolchain)
     if policy is None:
         if 'normal_drc_local_settings_policy' in data.get('tools',{}):raise p.Rejected('normal DRC source declaration missing')
         return
@@ -211,11 +214,16 @@ def _check_normal_policy(directory,data,*,max_bytes=None,max_files=None):
     # refill or failed-trial row must not hide its still-retained DRC evidence.
     # Reuse the existing whole-evidence bounds, including pruning's larger cap.
     from .adapter import check_fixed_placement_import
-    imports=check_fixed_placement_import(root,data,retained)
+    imports=check_fixed_placement_import(root,data,retained,native_toolchain=native_toolchain)
     def is_drc(argv):
         if type(argv) is not list:return False
         command=argv[len(SANDBOX):] if argv[:len(SANDBOX)]==SANDBOX else argv
-        return command[:3]==[str(p.c.CLI),'pcb','drc']
+        visible=any(command[i:i+2]==['pcb','drc'] for i in range(len(command)-1))
+        if not visible:return False
+        if (any(type(value) is not str for value in command) or len(command)<4
+                or command[:3]!=[expected_cli,'pcb','drc']):
+            raise p.Rejected('unqualified caller-pinned Native DRC prefix')
+        return True
     census=set()
     for name in retained:
         if name.endswith('-process.json'):
@@ -246,6 +254,11 @@ def _check_normal_policy(directory,data,*,max_bytes=None,max_files=None):
                     or binding.get('input')!=argv[-1]
                     or process.get('local_settings_policy')!=policy or binding.get('local_settings_policy')!=policy):
                 raise p.Rejected('normal DRC worker policy or lineage missing')
+            if native_toolchain is None:
+                if 'experimental_native_toolchain' in binding:
+                    raise p.Rejected('default DRC reader refuses experimental context')
+            elif encode(binding.get('experimental_native_toolchain'))!=encode(native_toolchain.record()):
+                raise p.Rejected('DRC caller-pinned toolchain binding differs')
             if field_policy is not None and '--schematic-parity' in process['argv'] and binding.get('field_local_settings_policy')!=field_policy:
                 raise p.Rejected('normal parity field local-settings policy missing or changed')
             status,exit_code=process.get('status'),process.get('exit_code')
@@ -260,6 +273,7 @@ def _check_normal_policy(directory,data,*,max_bytes=None,max_files=None):
             stages.append((cwd,binding,process,failed))
     if not stages:raise p.Rejected('normal DRC policy has no native workers')
     if census!=declared:raise p.Rejected('normal DRC retained worker population differs from steps')
-    # Repeat current flags after all process/journal/code reads.
+    p.experimental_native_version(native_toolchain)
+    # Repeat current flags after all process/journal/code and tool-pin reads.
     for cwd,binding,process,failed in stages:check_event(cwd,binding,process,allow_worker_failure=failed)
     return imports

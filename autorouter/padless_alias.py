@@ -183,14 +183,14 @@ def export_board(board,source,output,pcbnew,*,mapping,before):
     return record
 
 
-def check_exports(root,data,retained):
+def check_exports(root,data,retained,*,native_toolchain=None):
     from . import pipeline as p
-    try:return _check_exports(root,data,retained)
+    try:return _check_exports(root,data,retained,native_toolchain=native_toolchain)
     except (OSError,ValueError,KeyError,TypeError,IndexError,AttributeError) as exc:
         raise p.Rejected('invalid Native alias export evidence: '+str(exc)) from exc
 
 
-def _check_exports(root,data,retained):
+def _check_exports(root,data,retained,*,native_toolchain=None):
     """Re-derive every current export, including explicit zero-alias exports.
 
     Native input is captured separately: the candidate is subsequently replaced
@@ -203,6 +203,9 @@ def _check_exports(root,data,retained):
     from .floor_route import read_json,canonical as encode,SANDBOX
     from .local_settings import canonical as path,policy_declaration
     from .placement_clearance import read_bytes
+    from .adapter import native_command_parser
+    command=native_command_parser(native_toolchain,data=data)
+    expected_version='10.0.0' if native_toolchain is None else native_toolchain.expected_version
     root=path(Path(root));pins=data.get('tools',{}).get('implementation_sha256',{})
     pipeline=read_bytes(root/'code/pipeline.py',1024**2)
     if sha(pipeline)!=pins.get('autorouter/pipeline.py'):raise p.Rejected('alias pipeline provenance differs')
@@ -224,15 +227,6 @@ def _check_exports(root,data,retained):
         return []  # Genuine older producer, checked by its existing contracts.
     if declaration!=POLICY or native_policy!=POLICY or marker!=POLICY:
         raise p.Rejected('alias export producer and tool policies differ')
-    def command(argv,action):
-        if type(argv) is not list:return None
-        args=argv[len(SANDBOX):] if argv[:len(SANDBOX)]==SANDBOX else argv
-        if len(args)<3 or type(args[1]) is not str or Path(args[1]).name!='native.py' or args[2]!=action:return None
-        if (len(args) not in ((5,6) if action=='export' else (6,))
-                or any(type(a) is not str for a in args)
-                or args[:2]!=[str(p.c.PYTHON),str(p.c.ROOT/'autorouter/native.py')]):
-            raise p.Rejected('unqualified alias Native command')
-        return args
     census={name[:-len('-process.json')] for name in retained if name.endswith('-process.json')
             and command(read_json(root/name).get('argv'),'export') is not None}
     exports=[(s,command(s.get('argv'),'export')) for s in data.get('steps',[])
@@ -277,6 +271,8 @@ def _check_exports(root,data,retained):
             raise p.Rejected('alias export paths escaped owned evidence')
         paths=artifact_paths(output);read_bytes(paths['proof'],MAX_PROOF);proof=read_json(paths['proof'])
         raw=read_bytes(paths['source_copy']);binding=plan(raw)
+        if native_toolchain is not None and binding['aliases']:
+            raise p.Rejected('experimental Native nonzero aliases remain unqualified')
         pro=source.with_suffix('.kicad_pro');project=read_bytes(pro)
         raw_candidates=[read_bytes(n,20*1024**2) for n in {output,cwd/'native.dsn'} if n.is_file()]
         matching=[v for v in raw_candidates if sha(v)==proof.get('dsn_sha256')]
@@ -290,7 +286,7 @@ def _check_exports(root,data,retained):
             if (mapping.get('source')!=str(source) or mapping.get('board_sha256')!=sha(raw)
                     or mapping.get('project_sha256')!=sha(project) or mapping.get('board_saved') is not False):
                 raise p.Rejected('alias classmap source differs')
-        expected=dict(schema=1,policy=POLICY,native_version='10.0.0',source=str(source),
+        expected=dict(schema=1,policy=POLICY,native_version=expected_version,source=str(source),
             source_sha256=sha(raw),project_sha256=sha(project),output=str(output),dsn_sha256=sha(dsn),
             source_copy=paths['source_copy'].name,binding=binding,native_footprints=binding['footprints'],zero_alias=not binding['aliases'],
             native_classmap=mapping,observation=proof.get('observation'),board_saved=False,routing_accepted=False)
@@ -317,6 +313,7 @@ def _check_exports(root,data,retained):
         checked.append({'cwd':str(cwd),'name':name,'source':str(source),'output':str(output),'alias_count':len(binding['aliases'])})
     if census!=declared:raise p.Rejected('retained Native alias export population differs from steps')
     if artifacts!=expected_artifacts:raise p.Rejected('orphan or missing Native alias export artifacts')
+    p.experimental_native_version(native_toolchain)
     return checked
 
 

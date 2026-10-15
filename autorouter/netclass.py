@@ -221,17 +221,19 @@ def qualify_project(project):
     return {"mode": "literal_two_class", "literal_assignments": assignments}
 
 
-def audit_native(native, project, *, parent_policy=False):
+def audit_native(native, project, *, parent_policy=False, native_toolchain=None):
     """Check effective native classes against qualified original project settings.
 
     The caller must independently bind the native process/input/report hashes.
     Returned rows are copies of the validated native rows; this function does
     not infer connectivity, resolve patterns, or establish routing acceptance.
     """
+    from . import pipeline as p
+    expected_version = p.experimental_native_version(native_toolchain)
     if type(parent_policy) is not bool: raise ValueError('Explicit parent-policy flag required')
     policy = qualify_parent_project(project) if parent_policy else qualify_project(project)
     if (not isinstance(native, dict) or type(native.get("schema")) is not int or native.get("schema") != 1
-            or native.get("native_version") != "10.0.0" or native.get("units") != "integer nanometres"):
+            or native.get("native_version") != expected_version or native.get("units") != "integer nanometres"):
         raise ValueError("Unexpected native version")
     native_rows = native.get("nets")
     if not isinstance(native_rows, list) or not native_rows or len(native_rows) > 10000:
@@ -299,12 +301,12 @@ def audit_native(native, project, *, parent_policy=False):
             "nets": copy.deepcopy(native_rows), "routing_accepted": False}
 
 
-def audit_mapping(tree, native, project, *, parent_policy=False):
+def audit_mapping(tree, native, project, *, parent_policy=False, native_toolchain=None):
     """Compare DSN to native-resolved membership; never evaluate pattern strings."""
     from autorouter import sexpr as sx
     from autorouter.adapter import _check_units
 
-    verified = audit_native(native, project, parent_policy=parent_policy)
+    verified = audit_native(native, project, parent_policy=parent_policy, native_toolchain=native_toolchain)
     policy = verified["policy"]
     records = {row["name"]: row for row in verified["nets"]}
     configured = {item["name"]: item for item in project["net_settings"]["classes"]}
@@ -426,7 +428,7 @@ def audit_mapping(tree, native, project, *, parent_policy=False):
                             "Imported route geometry and native DRC require separate validation."],
             "routing_accepted": False}
 
-def audit_dsn(path, native, project, *, parent_policy=False):
+def audit_dsn(path, native, project, *, parent_policy=False, native_toolchain=None):
     """Return a hash-bound, non-mutating mapping audit or fail closed."""
     from autorouter.adapter import _parse_dsn
     from autorouter import sexpr as sx
@@ -434,7 +436,7 @@ def audit_dsn(path, native, project, *, parent_policy=False):
     if path.is_symlink() or not path.is_file() or path.stat().st_size > sx.MAX_BYTES:
         raise ValueError("Bounded regular DSN file required")
     raw = path.read_bytes()
-    result = audit_mapping(_parse_dsn(raw.decode("utf-8")), native, project, parent_policy=parent_policy)
+    result = audit_mapping(_parse_dsn(raw.decode("utf-8")), native, project, parent_policy=parent_policy, native_toolchain=native_toolchain)
     if path.is_symlink() or path.read_bytes() != raw:
         raise ValueError("DSN changed during mapping audit")
     result["dsn_sha256"] = hashlib.sha256(raw).hexdigest()

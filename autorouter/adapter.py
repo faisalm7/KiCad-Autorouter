@@ -64,12 +64,54 @@ def fixed_placement_session(raw):
         original_footprint_poses_preserved_by_omission=True,routing_accepted=False)
 
 
-def check_fixed_placement_import(root,data,retained):
+def native_command_parser(native_toolchain=None, *, data=None):
+    """Exact caller-pinned Native prefix; normalize a local copy, never argv.
+
+    A visible Native script/experimental flag with a different prefix is an
+    error, including on unrelated Native actions scanned during a census.
+    """
+    from . import pipeline as p
+    from .floor_route import SANDBOX, canonical as encode
+    prefix=p.native_prefix(native_toolchain)
+    if data is not None:
+        if type(data) is not dict:raise p.Rejected('Native reader receipt must be an object')
+        if 'experimental_native_toolchain' in data:
+            if (native_toolchain is None or
+                    encode(data['experimental_native_toolchain'])!=encode(native_toolchain.record())):
+                raise p.Rejected('Native reader toolchain context differs')
+    def command(argv,action):
+        if type(argv) is not list:return None
+        args=argv[len(SANDBOX):] if argv[:len(SANDBOX)]==SANDBOX else argv
+        visible=('--experimental-native' in args or any(
+            type(value) is str and Path(value).name=='native.py' for value in args))
+        if not visible:return None
+        if native_toolchain is None and '--experimental-native' in args:
+            raise p.Rejected('default Native reader refuses experimental prefix')
+        if (any(type(value) is not str for value in args)
+                or args[:len(prefix)]!=prefix):
+            raise p.Rejected('unqualified caller-pinned Native command prefix')
+        tail=args[len(prefix):]
+        if not tail:raise p.Rejected('missing Native command action')
+        if tail[0].startswith('-'):raise p.Rejected('unexpected Native command flag')
+        if tail[0]!=action:return None
+        arities={'export':(3,4),'import':(4,)}
+        if action not in arities or len(tail) not in arities[action]:
+            raise p.Rejected('unqualified caller-pinned Native command arity')
+        return [*prefix[:2],*tail]
+    # Validate visible Native prefixes even before genuine legacy-policy exits.
+    if data is not None:
+        for step in data.get('steps', []):
+            if type(step) is dict:command(step.get('argv'), 'export')
+    return command
+
+
+def check_fixed_placement_import(root,data,retained,*,native_toolchain=None):
     """Reuse captured-policy and worker inventories to require every import proof."""
     from . import pipeline as p
     from .floor_route import read_json,canonical as encode,SANDBOX
     from .local_settings import canonical,policy_declaration
     from .placement_clearance import read_bytes
+    parse_command=native_command_parser(native_toolchain,data=data)
     root=canonical(Path(root));pins=data.get('tools',{}).get('implementation_sha256',{})
     producer=root/'code/native.py';raw=read_bytes(producer,1024**2)
     if _digest(raw)!=pins.get('autorouter/native.py'):raise p.Rejected('captured Native import producer differs')
@@ -77,15 +119,7 @@ def check_fixed_placement_import(root,data,retained):
     if policy is None:return  # Genuine older producers did not filter placement.
     if _digest(read_bytes(root/'code/adapter.py',1024**2))!=pins.get('autorouter/adapter.py'):
         raise p.Rejected('captured fixed-placement adapter differs')
-    def command(argv):
-        if type(argv) is not list:return None
-        args=argv[len(SANDBOX):] if argv[:len(SANDBOX)]==SANDBOX else argv
-        if len(args)<3 or type(args[1]) is not str or Path(args[1]).name!='native.py':return None
-        if args[2]!='import':return None
-        if (len(args)!=6 or any(type(a) is not str for a in args)
-                or args[:2]!=[str(p.c.PYTHON),str(p.c.ROOT/'autorouter/native.py')]):
-            raise p.Rejected('unqualified fixed-placement import command')
-        return args
+    def command(argv):return parse_command(argv,'import')
     census={name[:-len('-process.json')] for name in retained if name.endswith('-process.json')
             and command(read_json(root/name).get('argv')) is not None}
     declared=set();proofs=set();transports=set();checked=[]
@@ -131,6 +165,7 @@ def check_fixed_placement_import(root,data,retained):
                    for part in Path(name).parts[:-1])
     retained_transports={name for name in retained if Path(name).name=='imported.kicad_pcb' and not project_copy(name)}
     if retained_transports!=transports:raise p.Rejected('retained SES/imported board lost its import proof')
+    p.experimental_native_version(native_toolchain)
     return checked
 
 

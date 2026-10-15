@@ -1,0 +1,19 @@
+test_actual_route_publication_rechecks_restored_prl_flags_after_reader (tests.test_experimental_route_publication.LateRoutePublicationMetadata.test_actual_route_publication_rechecks_restored_prl_flags_after_reader) ... ok
+test_explicit_pin_validation_starts_inside_route_budget (tests.test_experimental_route_publication.LateRoutePublicationMetadata.test_explicit_pin_validation_starts_inside_route_budget) ... ERROR
+
+======================================================================
+ERROR: test_explicit_pin_validation_starts_inside_route_budget (tests.test_experimental_route_publication.LateRoutePublicationMetadata.test_explicit_pin_validation_starts_inside_route_budget)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_experimental_route_publication.py", line 36, in test_explicit_pin_validation_starts_inside_route_budget
+    exec(compile(ast.Module(body=route.body[:stop],type_ignores=[]),str(source),'exec'),namespace)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 1698
+    return route(source,output,**pref.route_arguments(effective),_preferences=request)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+SyntaxError: 'return' outside function
+
+----------------------------------------------------------------------
+Ran 2 tests in 1.399s
+
+FAILED (errors=1)

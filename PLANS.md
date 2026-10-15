@@ -4,9 +4,9 @@ Existing localMac checkout, branch `rebuild/local-20261010-015447`; no cloud/res
 
 Current next work supersedes older chronological next-step text below:
 
-1. Checkpoint [qualified ownedfullSCH/PRL/hiddenfieldcontrols](evidence/native-schematic-hidden1007-001.json), then make oneincremental from actuallyrestoredfull005 withall scopewritersidle. No redundantfullrestore; helper/capsunchanged.
-2. Implement explicit1007 ordinarytransport/shareduncachedresultreader using existinghelpers, preservingdefault1000/historicalreceipts andall argv/tool/native/class/alias/SES/refill/protection/metrics checks. The originalownedDRU is normalpreflightunsupported andmustremainintact; qualify exactpreservedrule semantics or prospectivelydeclare a different source rather than silently removingrules.
-3. Run new actualboundedtransport withrealnewrouting/class/SES/import/fullSCH/finalhash proof, then currentinstallation/workflow and integration at their milestone. Do not repeat completedbundle/area/fieldNative workers. Priorfeedback/chain/adaptive measuredties/losses remainvisible; no newgainedcircuit or speedclaim fromdiagnostics.
+1. DONE current fullSCHcheckpoint27aaa020 and oneincremental from actuallyrestoredfull005:300904files/10110969286B/442delta/chain2. Source/helper/caps unchanged; onMaconly. No redundantfullrestore.
+2. DONE explicit1007 ordinarytransport/shareduncachedresultreader source integration and reviewfixes; full1031498passes. New owned ROUTE/lockedKEEP/GND/fullSCH source has noDRU from creation. Old nonemptyDRU source remainsunchanged/unsupported. Default1000 and all argv/tool/native/class/alias/SES/refill/protection/metrics/original checks retained.
+3. NEXT audited verified sourcecheckpoint then `.venv/bin/python -B experiments/native_schematic_transport_v1/enclosure.py`; actual sourceopen→newcopper/class/SES/import/fullSCH/finalhash checks, defaultreader refusal, shared pure readback. Native UNEXECUTED. Follow currentinstallation/workflow/integration and rawincremental at establishedcadence. Preserve all001/002software/testfixture failures and measured routing regressions; no newgainedcircuit orspeedclaim from diagnostics.
 4. Continue broaderlicensed family support and fair currenttoolchain B0/B1/B2/C evaluation, untouchedconfirmation/representativeaudit/review/physical/releasegates. Formalpublication/spending/contacts stillrequire separateauthorization.
 
 Chronological completed work follows.

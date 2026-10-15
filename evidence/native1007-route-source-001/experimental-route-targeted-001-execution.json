@@ -1,0 +1,68 @@
+{
+  "schema": 1,
+  "process": {
+    "status": "nonzero_exit",
+    "exit_code": 1,
+    "wall_seconds": 1.3835727499972563,
+    "cpu_seconds": 1.224336,
+    "max_rss_bytes": 46956544,
+    "supervisor_cpu_seconds": 0.008994000000000002,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 46907392,
+    "sampled_peak_workdir_bytes": 45661,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 2097152,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "-c",
+      "import sys,os,unittest;sys.path.insert(0,'/Users/faisal/Projects/KiCad-Autorouter-local');os.chdir('/Users/faisal/Projects/KiCad-Autorouter-local');unittest.main(module=None)",
+      "tests.test_experimental_route_context",
+      "tests.test_native_schematic_transport_fixture",
+      "tests.test_native_toolchain",
+      "tests.test_native_schematic_transport",
+      "tests.test_parity_acceptance",
+      "tests.test_preference_publication",
+      "tests.test_result",
+      "tests.test_validation_readback"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/experimental-route-targeted-001/command.log",
+    "log_bytes": 45661,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/experimental-route-targeted-001",
+    "signal_cancellation_enabled": true,
+    "pid": 12025
+  },
+  "wall_seconds": 1.3851327080046758,
+  "full_cpu_seconds": 1.23401,
+  "source_sha256": {
+    "autorouter/floor_route.py": "eaec4f7046c7e1284bb74f709a9c82b50ceb0cbd0a11c1bdf4ae4804914e5ecc",
+    "autorouter/pipeline.py": "a2fa750014447e1378a52469deb937ccafa4114e07748ef5e17d0b59aa29b892",
+    "autorouter/local_settings.py": "1aa326e280ac98d60b5d99aa83b03275239452764b86542b9e2b034aa34cbeac",
+    "tests/test_experimental_route_context.py": "1a6a015b4701b9faf16ec3d2831012b9a9ae39f994a1053e3bb118c4a813fd35",
+    "tests/test_native_schematic_transport_fixture.py": "bbc0af3a515fa8b89c7f70e64d6a43d0368d241877f29951aab2c12d11efb3cb",
+    "tests/test_native_toolchain.py": "028e31f3701ed3d610ff526391816d0f08bb70cf2b3c903647893b894303756e",
+    "tests/test_native_schematic_transport.py": "a03e85d0a685da8af9b996c5aede42b8493ca20084a28b62d217363240d0d3df",
+    "tests/test_parity_acceptance.py": "b8a5ab71540969e285df9a6b1750858a8f7224dceedbab1087b3ca4bbbb415c3",
+    "tests/test_preference_publication.py": "1970ea6fba072ddcae7247c9a2734e699b916d583391278891a19ba16fa9261c",
+    "tests/test_result.py": "9bbfabb8a928cd3d71891866ebcd6d3e35a5bacd84d0c338adc2fab5655ce5a6",
+    "tests/test_validation_readback.py": "8a414ae88ff9ac687e5d7fc276697a24bb49f2a1d32a96d33ba73f5c60fed373"
+  },
+  "controller_sha256": "51970a859bd10d1355e120c01407ca09bb1315f4972d53ee14bffce72b25d35b",
+  "source_current": true,
+  "scope": "First explicit1007 route source contracts/newfixture/sharedpublication/defaultreader regression checks. No Native execution/claim."
+}
