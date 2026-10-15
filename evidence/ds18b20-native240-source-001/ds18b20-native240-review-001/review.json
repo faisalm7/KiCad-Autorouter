@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "scope": "Static prelaunch review of DS18B20 native240 draft only",
+  "reviewed_draft_sha256": {
+    "freeze-ds18b20-native-paired240-001.py": "883bd67424e7c8d71b5f096e35cf523a678612f22d4341998002584280bd1ecd",
+    "read-ds18b20-native-paired240-001.py": "25b3485b87f79908974b3d827b1a678459d94138494797ebdb8094b5f85d7f81",
+    "run-ds18b20-native-paired240-001.py": "40aa9f94285baabd8aac51c7393627820ee2d66bdf1b044c5e0ac2f9d99b2bb7",
+    "run-ds18b20-native-paired240-readback-001.py": "695dd222b817f3284332899e6dcbd6b9f24307e8ad5d8acbba0dcc05d31052ab"
+  },
+  "binding_helper_byte_text_equal_to_universal": true,
+  "finding": {
+    "id": "DS18-PRE-001",
+    "severity": "launch-blocking",
+    "initial_issue": "Reader called bind_row without any definition or import. Normal portfolio receipt causes NameError and failed readback.",
+    "fix_observed": "Lead restored existing strict bind_row before audit. Full function text is identical to existing Universal reader.",
+    "current_status": "closed by static source review; lead owns positive/forged-summary executable probe"
+  },
+  "additional_concrete_blockers_found": [],
+  "test_execution": false,
+  "native_execution": false,
+  "network": false,
+  "git_actions": false,
+  "backup_actions": false,
+  "total_cpu_seconds": null
+}

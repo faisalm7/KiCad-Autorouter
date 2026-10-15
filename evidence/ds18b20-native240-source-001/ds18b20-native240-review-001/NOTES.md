@@ -1,0 +1,17 @@
+# DS18B20 native240 prelaunch review
+
+One concrete launch blocker was found and reported before execution: the adapted reader called `bind_row` for the B2 portfolio and ordinary arm rows without defining or importing it. The new shared observations import deliberately has no `bind_row` export. A normal portfolio receipt therefore reaches an undefined name and produces a failed/ineligible readback. This is a failure-to-run defect, not a way to accept bad routing.
+
+The lead restored the strict existing helper from `.runs/read-universal-shift-interface-native-paired240-001.py` before `audit`. Static text comparison of the full restored function is identical to that source. The helper enforces boolean raw acceptance, prevents a raw accepted row from elevating an unqualified receipt, retains invocation failures as unaccepted, and binds authoritative fields. The lead plans an offline positive/forged-summary probe; this reviewer did not execute it. DS18-PRE-001 is closed by static review pending that executable lead check.
+
+No additional concrete launch blocker was found in the reviewed drafts. This is a bounded review conclusion, not proof of the experiment, Native support or routing correctness. File SHA256 values identifying the reviewed draft revision are in `review.json`.
+
+Checks performed by reading code and retained JSON only:
+
+- New root source retains exactly the six-file original/README-copy native packet in the prospective identity. Selection uses the existing exact capture helper. Source and entire acquisition packet are pinned; prerequsite receipts and original Native/readback material are pinned separately. Original acceptance, production and serializer qualification remain false.
+- `observations.py` exports the imported worker/candidate/resource helpers with the same call signatures used here. Both it and `readback.py` are prospective-pinned, copied into reader-dependencies, and checked at wrapper and reader stable callbacks. The new helper handles complete and rejected candidates; no copied candidate/worker implementation remains in the adapted reader.
+- The three retained stage receipts have wall/fullCPU 1.5384656669921242/0.474594, 4.492547667003237/2.929328 and 0.9629554580023978/0.881663 seconds. Adding the declared initial1s and publication2s for each gives common wall13.993968791997759/fullCPU11.285585s. The matrix reader and enclosure add these per arm, complete enclosing shared overhead, actual reader/enclosure time, startup1s and final publication allowances. Final bound reserves45s for remaining reader callbacks. No omitted concrete execution-stage cost was identified from these receipts and code.
+- Matrix raw inner120 caps and equal delivered240 acceptance caps remain distinct. B0/B1 source/adapter choices, B2 retained variants and C own fresh incumbent are unchanged by this substitution. No-zone cases stay in population; no quality win is presumed.
+- Freezer/wrapper/enclosure ROOT is intended for their copied `.runs` location; the current excluded draft location is not an executable launch location. This is not reported as a defect.
+
+No tests, Native/JVM/engine execution, network, Git or backup actions occurred in this review. Only this assigned review directory was written. No tracked file or .runs/.data output was edited. Full controller/model/subprocess CPU is unavailable. The first measured clock was2026-10-15 10:37:35 UTC; final measured interval is recorded in clock.json. This review does not re-qualify the lead's source Native observations or constitute human PCB review.

@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "kind": "prospective-DS18B20-existing-four-arm-matrix-source",
+  "native_executed": false,
+  "files": {
+    "evidence/ds18b20-native240-source-001/freeze-ds18b20-native-paired240-001.py": "883bd67424e7c8d71b5f096e35cf523a678612f22d4341998002584280bd1ecd",
+    "evidence/ds18b20-native240-source-001/run-ds18b20-native-paired240-readback-001.py": "695dd222b817f3284332899e6dcbd6b9f24307e8ad5d8acbba0dcc05d31052ab",
+    "evidence/ds18b20-native240-source-001/run-ds18b20-native-paired240-001.py": "40aa9f94285baabd8aac51c7393627820ee2d66bdf1b044c5e0ac2f9d99b2bb7",
+    "evidence/ds18b20-native240-source-001/read-ds18b20-native-paired240-001.py": "25b3485b87f79908974b3d827b1a678459d94138494797ebdb8094b5f85d7f81",
+    "evidence/ds18b20-native240-source-001/result.json": "f769ac26bc3e12e685aaa1650a37f78b4f25bd332f0ff03aafc6563f1e31faa9",
+    "evidence/ds18b20-native240-source-001/reader-before-bind-row-fix.py": "2f6d2c8e0df49faabdcfbff750feba80d65573b02b87b84b1de65d2d90df5b47",
+    "evidence/ds18b20-native240-source-001/ds18b20-native240-review-001/clock.json": "e4599cf2377d7916d627ab6279bdb0052c2e7d7ada90640655152debeca73233",
+    "evidence/ds18b20-native240-source-001/ds18b20-native240-review-001/NOTES.md": "3b28b79e2863dc1d0466b88298aeac101bb39c5407b23be4e4f2503ee4a0f9b7",
+    "evidence/ds18b20-native240-source-001/ds18b20-native240-review-001/review.json": "00686f0a3fd769fa50f269bf894ca394f8abe007462508d05efaf0af1eba1ad1"
+  },
+  "source_gate": "evidence/ds18b20-original-native-001.json",
+  "budget": "Existing inner120helper and equal delivered240 wall/fullCPU each of four arms, all actual sourcegate/failedwork/sharedreadback charges; sourcegate commonwall13.993968792/fullCPU11.285585 plus later actual enclosing costs. No prior generatedroute on this source.",
+  "comparison": "B0rawDSN standard shared safety, B1correctedstandard, B2threefixedcosttunedportfolio, Cownfresh tuneddefault+zonepruning. Zerozones predicted no pruninggain; retain ties/losses/failures.",
+  "shared_helpers": [
+    "scripts/experiment_paired.py",
+    "scripts/experiment_portfolio.py",
+    "experiments/native_paired_v1/observations.py",
+    "experiments/native_paired_v1/readback.py"
+  ],
+  "prelaunch_defect": "Skeptic found missing bind_row after extracting shared helpers. Before-draft inline pure call reproduces NameError; exact existing strict helper restored, genuine row and conservative rejection pass, forged length/success/nonboolean/missingfields reject. No Native or actualreader run before fix.",
+  "scope": "Reuses existing qualified source/Native/worker/PRL/candidate/budget helpers; adapts only literal source/netwarning/packet identities and explicit two-helper capture. Frozen actualprotocol created only after verified sourcecheckpoint. No source/runtime acceptance relaxation or new Native result claimed.",
+  "review_followup": "Reviewer reports no further blocker; its pending-probe text means reviewer did not run it. Lead actual .runs/ds18b20-native240-source-guards-001/result.json passes before-failure/currentauthority controls; receipt is captured here. No Native run."
+}

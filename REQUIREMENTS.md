@@ -194,3 +194,6 @@ Current actual750Native invalidated beforetrial0011worker; final0/0/81 and short
 
 
 [DS18B20 source integration](evidence/ds18b20-source-integration-001.json) adds fixed5original/6native root/singleREADME-notice profile, original-only case and no-fallback source selection.36offline authoredcontrols/full0891387pass; no DS18acquisition/Native/routing/support/ancestry yet. Explicitdesigngrant supports narrowlocaldevelopment, no standaloneLICENSE invented and publicCAD/models deferred. Existingruntime/evidence/constraints unchanged; actual950/035/currentGUI stay qualified within their stated scopes.
+
+
+[Actual DS18B20 original](evidence/ds18b20-original-native-001.json) qualifies unchangedsource/fullSCH saved+original-shell0/0/11/0/sevenignored/0parity and sharedreader.27routes/10pads retain resolved copper identities; savedformat/silkcache migrations remain serializer-unqualified. No generatedroute/support gainyet. [Prospective fourarm source](evidence/ds18b20-native240-source-001.json) reuses inner120/equaldelivered240 B0/B1/threevariantB2/ownfreshC with allactualsourcecostseacharm. Zerozones/no-pruning-gain prediction retained. Missingbind_row prelaunch finding fixed/actualpure authority controls; no Native comparison yet.

@@ -49,3 +49,5 @@ and before release; minor checkpoints use verified incrementals.
 
 Earlier chronological handoff text is preserved in
 [history](history/2026-10-15-native-preparation/experimental-rc.md).
+
+Current additional temperature-interface source: [DS18B20 original](../evidence/ds18b20-original-native-001.json) passes real saved/fullSCH checks0/0/11/0/sevenignored with unchangedoriginalshell/source/PRL/rules. Saved nonfill/route AST migrations remain unqualified. First generated-routing fourarm comparison is prospective, not another gain. Full089 softwareintegration passes1387controls111.639536wall103.777549CPU; current runtime remains byte-identical to actual950/035 qualification.
