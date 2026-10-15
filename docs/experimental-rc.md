@@ -53,3 +53,5 @@ cutoff; a local second copy does not protect against disk failure. Later prepare
 or executed artifacts do not inherit an older cutoff.
 
 The [major restored snapshot](../evidence/backups/restore-minimum-installation029-fdbff8a.json) verifies272571files/8423268906B, allGitrefs and restoredCLI throughfdbff8a. The [later verified incremental](../evidence/backups/incremental-contact-flipper-a661348.json) covers273504files/8442841170B througha661348 with its delta integrity check. New004005/normalworkflow/full071–074/installation030 are after those cutoffs and await the next incremental; no new fullrestoration is implied.
+
+The [verified current incremental](../evidence/backups/incremental-normal-selected-installation030-3ec32b5.json) now includes actual004005, currentnormalworkflows/cancellation andinstallation030 through3ec32b5:276071files/8571402650B, delta integritypass, boundedchain2. This closes that pending incremental, without implying another fullrestore. Later006preparation is aftercutoff.
