@@ -1,0 +1,121 @@
+{
+  "schema": 1,
+  "kind": "actual-current-installation030",
+  "source_checkpoint": "dddc3415f06cb4054c3f3355093826c074feada7",
+  "status": "passed",
+  "accepted": false,
+  "installation": {
+    "path": ".runs/installation-030/result.json",
+    "sha256": "80b6afb8a829b6c2fb1830d0b6968248a6e028f108d2f0a6b311c799264642bc"
+  },
+  "outer": {
+    "path": ".runs/installation-030-execution/execution.json",
+    "sha256": "96853c5ac17904943ff5d132d68c00c92cabe0ce4a702697ba5e67c203a4bfa7"
+  },
+  "offline_commands": 22,
+  "fixed_installed_software_controls": 72,
+  "complete_source_files": 20775,
+  "initial_distribution_files": 615,
+  "whole_wall_seconds": 35.96353504198487,
+  "whole_total_cpu_seconds": 28.895987,
+  "publication_allowance_seconds": 2,
+  "actual_native": {
+    "status": "routing_accepted",
+    "accepted": true,
+    "metrics": {
+      "version": "10.0.0",
+      "pads": 6,
+      "footprints": 6,
+      "zones": 1,
+      "vias": 0,
+      "track_length_mm": 60.0,
+      "copper_layers": 2
+    },
+    "native": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 0,
+      "exclusions": 0,
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ],
+      "findings": []
+    },
+    "candidate_sha256": "0b9dd5d1db48c1c43cf0a25795bb4b79d3a15130181cd4b39ba134b795903395",
+    "native_report_sha256": "3cd226bd910bebd5b6b86bb85aa5ffcd09fa8d38e2b775fbaf328474ade5d02d",
+    "wall_seconds": 7.1165064579981845,
+    "total_cpu_seconds": 4.515438
+  },
+  "installed_targeted": {
+    "execution": {
+      "path": ".runs/installation030-targeted-001/execution.json",
+      "sha256": "ea5df83acfeaafb4e27bf376bdc61e7c52e1eb00c3e5c5145849b3544192f1ba"
+    },
+    "population": {
+      "modules": [
+        "tests.test_native_minimum_transport",
+        "tests.test_legacy_transport_scope",
+        "tests.test_review_export",
+        "tests.test_pruning_preferences",
+        "tests.test_backup_capacity",
+        "tests.test_core_local_settings",
+        "tests.test_fixed_placement_session",
+        "tests.test_result",
+        "tests.test_legacy_zone_retained",
+        "tests.test_normal_selected_import",
+        "tests.test_refill_route_nets",
+        "tests.test_selected_proposal_import",
+        "tests.test_normal_local_settings_policy",
+        "tests.test_owned_process_metadata"
+      ],
+      "planned": 176,
+      "ran": 176,
+      "successful": true
+    },
+    "wall_seconds": 11.095487833983498,
+    "total_cpu_seconds": 10.721301,
+    "historical_source_test_supplement": {
+      "path": ".runs/installation030-targeted-001/supplement.json",
+      "sha256": "f459184436366df941890f77aed17cf95ead4cf2d1420c0b6b584aec061458d9"
+    }
+  },
+  "independent_shared_reader": {
+    "checks": {
+      "path": ".runs/current-installation030-review-001/checks.json",
+      "sha256": "434b4749dc97871c7c81faa68a166659f17cee1d38a948feed7be84b321b4298"
+    },
+    "execution": {
+      "path": ".runs/current-installation030-review-001/execution.json",
+      "sha256": "4c4431d0801eaea561d012b265aa7a4dfa9d5b4588070847cf77c9ab5aaef296"
+    },
+    "passed": true,
+    "wall_seconds": 4.568778290995397,
+    "total_cpu_seconds": 2.9720699999999995
+  },
+  "limitations": [
+    "Fresh source-distribution checkout and venv on existing Mac/apps/cache; no downloads/fullclone/freshOS/fullinstalledsuite/GUI/formalpackage.",
+    "Exactlyone67060byte historical project-owned producer source copied separately for software tests, not included in initial615file distribution and never executed as historical source.",
+    "Actual Native smoke is a fixture with no schematic and all5original ignored checks, not a newly solved board or comparative routing result.",
+    "New fullnormal selected/legacy/protected/preview/export/cancellation evidence is separate and retained, not rerun.",
+    "All original designs/rules/PRL/nativeprocess/report/candidate hashes are checked; no human/electrical/physical approval."
+  ]
+}

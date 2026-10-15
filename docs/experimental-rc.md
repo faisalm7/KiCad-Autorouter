@@ -1,8 +1,8 @@
 # Local experimental source handoff
 
 Use the existing local checkout. The current installed qualification is source
-`663cd1cb5454958384c7d6d8e28a71a7e8a08d92`, with its source distribution and venv
-at `.runs/installation-027/checkout`. Keep that environment at its tested path.
+`dddc3415f06cb4054c3f3355093826c074feada7`, with its source distribution and venv
+at `.runs/installation-030/checkout`. Keep that environment at its tested path.
 Normal routing runs offline without an AI account. This is an experimental
 source handoff; representative coverage and confirmatory release gates remain.
 
@@ -17,11 +17,11 @@ external workflow cannot inspect unsaved buffers or provide live-editor undo.
 
 | Executed gate | Evidence | Limits |
 |---|---|---|
-| Current source integration | [fixed-placement source/full064](../evidence/fixed-placement-ses-source-001.json) | Actual48nm SES pose change fixed without tolerance; software checks are not routing-quality evidence; failed062063 retained |
-| Current installation | [installation027](../evidence/installation027-native-001.json) |22offlinecommands/72fixed controls,20676original/554initialdistribution files and actual Native60mm/0via/0findings; existingMac/apps/cache |
-| Selected installed checks | [installation027](../evidence/installation027-native-001.json) |232successes+12setup errors, then12missing-only successes after101supplemental authored fixtures;256attempts, no fullsuite/freshOS/package claim |
+| Current source integration | [mandatory import/refill guards](../evidence/normal-selected-saved-refill-source-001.json), [final observer/full074](../evidence/cancellation-observer-source-001.json) | Original selected copper and saved-refill route nets remain exact; strict stale-result checks; source/software controls are not routingquality |
+| Current installation | [installation030](../evidence/installation030-native-001.json) |22offlinecommands/72fixed controls,20775original/615initialdistributionfiles; actual Native60mm/0via/0findings; existingMac/apps/cache |
+| Selected installed checks | [installation030](../evidence/installation030-native-001.json) |176targeted installedchecks; one exact67060Bhistoricalsource test-only fixture separately copied; no fullsuite/freshOS/package claim |
 | Persistent settings/pruning | [actual preset/stale controls](../evidence/pruning-preferences-native-product-003/SCOPE.md) |Whole/native/tuned/both/source_all; fresh own incumbent and all failed compute charged |
-| Normal preview/export/cancellation | [actual current workflow](../evidence/normal-prl-native-workflow-001.json) |PRL/rules remain exact; actual0/0/7/0 positive,9/0/7/0 invalid, fourSVG workers and realengineSIGINT/cleanup; no human approval |
+| Normal preview/export/cancellation | [actualfourpaths](../evidence/normal-selected-native001-actual-001.json), [missing-only realcancel002](../evidence/normal-selected-cancellation002-native-001.json) |Protected22signal NUS0/0/10/0, authoredzero/selectedlocked/legacywhole0/0/0/0; testintents/freshNativeexports and realSIGINT/cleanup; original001observerfailure/cost retained, no humanapproval |
 | Actual GUI | [installedLED GUI003](../evidence/installed-led-export-gui-003/SCOPE.md) |Earlier actual refill/parity/allfilters; later access remains locked, no newGUI/liveapply/undo claim |
 | Routing improvements | [six exposed circuit comparisons](../STATUS.md) |Configuration-specific length/via evidence under equal per-comparison budgets; zero established independent pedigrees, no broadcompletion/speedup claim |
 | Broader-board failure | [PAW exact-import failure](../evidence/fixed-placement-ses-native003-001.json), [via-low failure](../evidence/paw-via-low-native-001.json) |Native10opens and14opens; originalformat remains blocked, all17warnings and constraints retained |
@@ -52,4 +52,4 @@ Mac by explicit owner choice. Backup/restoration receipts state their exact
 cutoff; a local second copy does not protect against disk failure. Later prepared
 or executed artifacts do not inherit an older cutoff.
 
-The [current major restored snapshot](../evidence/backups/restore-fixed-placement-installation027-2bcebf.json) verifies269340files/8164238130B, allGitrefs and restoredCLI at2bcebf. Laternewsource/retained-plane preparation and execution are outside that cutoff.
+The [major restored snapshot](../evidence/backups/restore-minimum-installation029-fdbff8a.json) verifies272571files/8423268906B, allGitrefs and restoredCLI throughfdbff8a. The [later verified incremental](../evidence/backups/incremental-contact-flipper-a661348.json) covers273504files/8442841170B througha661348 with its delta integrity check. New004005/normalworkflow/full071–074/installation030 are after those cutoffs and await the next incremental; no new fullrestoration is implied.
