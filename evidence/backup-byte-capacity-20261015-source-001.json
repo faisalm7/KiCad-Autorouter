@@ -1,0 +1,56 @@
+{
+  "backup_created": false,
+  "change": {
+    "all_path_secret_regularfile_archive_and_restore_checks_unchanged": true,
+    "chain_receipt_limit_unchanged": 201326592,
+    "file_limit_unchanged": 280000,
+    "new_byte_limit": 9663676416,
+    "no_deleted_evidence": true,
+    "old_byte_limit": 8589934592,
+    "receipt_limit_unchanged": 83886080,
+    "scopes_unchanged": [
+      ".runs",
+      ".data",
+      ".local-reference"
+    ]
+  },
+  "failed_attempt": {
+    "cleanup_complete": true,
+    "exit_code": 2,
+    "full_cpu_seconds": 70.517409,
+    "log": "{\"verified\": false, \"error\": \"Non-Git snapshot exceeds the configured byte/file-count ceiling\", \"limitation\": \"On-Mac only; a second folder on this disk provides no disk-failure protection.\"}\n",
+    "status": "nonzero_exit",
+    "wall_seconds": 100.74169679201441
+  },
+  "full_restoration_tested": false,
+  "gate": "New full snapshot and complete hash/Git/smoke restoration required at this integration milestone after current Native/workflow/installation; no new backup or restoration pass claimed from a ceiling change.",
+  "kind": "actual-backup-byte-capacity-refusal-and-finite-source-adjustment",
+  "limitation": "Latest actual backup remains througha1f8467. Owner chose on-Mac-only raw storage. Git source checkpoint backups verified separately.",
+  "metadata_diagnosis": {
+    "configured_byte_cap": 8589934592,
+    "configured_file_cap": 280000,
+    "directories": 59964,
+    "exceeds_bytes": true,
+    "exceeds_files": false,
+    "files": 277248,
+    "full_cpu_seconds": 5.175742,
+    "hashes_or_archive": false,
+    "kind": "metadata-only-capacity-diagnosis-not-backup",
+    "schema": 1,
+    "total_file_bytes": 8616598202,
+    "wall_seconds": 5.724659375002375
+  },
+  "prior_checkpoint": "536d7641b93c102b5d1fee90b75b586514d1ee33",
+  "schema": 1,
+  "source_controls": {
+    "full_cpu_seconds": 0.16124300000000003,
+    "source_current": true,
+    "summary": {
+      "errors": 0,
+      "failures": 0,
+      "methods": 10,
+      "skipped": 0
+    },
+    "wall_seconds": 0.4849788330029696
+  }
+}

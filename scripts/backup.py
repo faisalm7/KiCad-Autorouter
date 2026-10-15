@@ -18,11 +18,11 @@ from datetime import datetime, timezone
 
 ROOT = Path(__file__).resolve().parents[1]
 SCOPES = (".runs", ".data", ".local-reference")
-# Actual October14 census after scoped transport/current Native workflows:
-# 270,296 files / 8,190,906,764 bytes. Preserve all evidence under a finite
-# 280,000-file ceiling; the8GiB byte cap, scopes, secret/path/hardlink guards,
-# receipt-memory caps and chain logic stay unchanged. Full restore required.
-LIMIT = 8 * 1024 ** 3
+# Actual October15 existing8GiB capture refused:277248files/8616598202B.
+# Preserve every artifact with a finite9GiB byte ceiling. The280000-file,
+# 80MiB receipt/192MiB chain, scopes and all path/secret guards stay unchanged.
+# A full restoration is required for this capacity change.
+LIMIT = 9 * 1024 ** 3
 MAX_FILES = 280000
 MAX_CHAIN = 16
 # Actual229,196-file receipt is63,984,764B. The249,270-file forecast needs
