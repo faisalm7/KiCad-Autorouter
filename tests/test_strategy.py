@@ -417,6 +417,42 @@ class StrategyControlFlowTests(unittest.TestCase):
                 s.prune(self.source, self.output, 120, proposal_policy="invented")
         self.assertFalse(self.output.exists())
 
+    def test_chain_proposal_reuses_full_validation_and_cannot_accept_an_open(self):
+        real = candidate_tree
+        def separated(original):
+            candidate = real(original)
+            # Keep the unrelated synthetic route away from the tested joint.
+            for route in p.routes(candidate):
+                if sx.one(route, "net")[1] == "2":
+                    for name in ("start", "end"):
+                        point = sx.one(route, name)
+                        point[2] = str(float(point[2]) + 10)
+            return candidate
+        with patch(__name__ + ".candidate_tree", side_effect=separated):
+            result = self.exercise("chains")
+        self.assertTrue(result["accepted"])
+        self.assertEqual(result["proposal_policy"], "chains")
+        self.assertEqual(len(result["chain_proposal_batches"]), 1)
+        trial = json.loads(Path(result["trials"][1]["receipt"]).read_text())
+        self.assertEqual(trial["proposal"]["kind"], "endpoint_chain")
+        self.assertEqual(trial["status"], "drc_rejected")
+        self.assertFalse(trial["accepted"])
+        self.assertEqual(trial["native"]["opens"], 1)
+        self.assertEqual(trial["steps"][0]["name"], "full_validation_substitute")
+
+    def test_chain_batch_cannot_bind_a_changed_incumbent(self):
+        from autorouter import chain_proposals as cp
+        build = cp.build
+        def changed(*args):
+            batch = build(*args)
+            best = self.output / "incumbent/candidate" / self.source.name
+            best.write_bytes(best.read_bytes() + b"\n")
+            return batch
+        with patch.object(cp, "build", side_effect=changed):
+            result = self.exercise("chains")
+        self.assertFalse(result["accepted"])
+        self.assertIn("incumbent changed during chain proposal", result["reason"])
+
 
 class FeedbackSelectionTests(unittest.TestCase):
     def setUp(self):

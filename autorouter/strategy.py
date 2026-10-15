@@ -344,7 +344,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
     preference_bytes = pref.snapshot(captured, overrides)
     pref.check_fresh(captured)
     p.engine_scoring_settings(incumbent_scoring)
-    if not isinstance(proposal_policy, str) or proposal_policy not in {"single", "feedback"}:
+    if not isinstance(proposal_policy, str) or proposal_policy not in {"single", "feedback", "chains"}:
         raise p.Rejected("unknown pruning proposal policy")
     if isinstance(seconds, bool) or not isinstance(seconds, (int, float)) or not math.isfinite(seconds) or not 30 <= seconds <= 900:
         raise p.Rejected("pruning budget must be 30–900 seconds")
@@ -530,8 +530,20 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
                        {"trial": trial_id, "trial_status": record["status"]})
             return record
 
-        for grouped in (True, False):
-            for proposal in proposals(sx.read(best), nets, protected, grouped):
+        for grouped in ((True, "chains", False) if proposal_policy == "chains" else (True, False)):
+            if grouped == "chains":
+                from .chain_proposals import build
+                from .placement_clearance import read_bytes
+                raw = read_bytes(best)
+                base_pin = hashlib.sha256(raw).hexdigest()
+                batch = build(sx.parse(raw.decode('utf-8')), nets, protected)
+                if p.sha(best) != base_pin:
+                    raise p.Rejected("incumbent changed during chain proposal generation")
+                report.setdefault("chain_proposal_batches", []).append(dict(batch, base_candidate_sha256=base_pin))
+                pending = batch["proposals"]
+            else:
+                pending = proposals(sx.read(best), nets, protected, grouped)
+            for proposal in pending:
                 # A previous whole-net success may already have removed a route.
                 available = {route_id(route) for route in eligible_routes(sx.read(best), nets, protected)}
                 if not set(proposal["route_ids"]) <= available:
@@ -539,7 +551,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
                 record = attempt(proposal)
                 if not record:
                     break
-                if proposal_policy == "feedback":
+                if proposal_policy in {"feedback", "chains"}:
                     # A failed native-valid singleton may leave redundant stubs.
                     # Every cleanup is another charged, fully validated attempt.
                     # Never use feedback from a stale board or altered report.
