@@ -1,6 +1,6 @@
 # Temporary padless export identities
 
-The current source promotes the mechanism qualified by the [Roller generated-route diagnostic](../evidence/roller-generated-routing-native001-001.json). Fresh normal-workflow qualification is still pending. The installed installation030 predates this change.
+The current source promotes the mechanism qualified by the [Roller generated-route diagnostic](../evidence/roller-generated-routing-native001-001.json). The first normal matrix rejected at proof publication: indentation of four full observations exceeded the16MiB ceiling. Compact JSON now preserves all values within the same ceiling; fresh normal-workflow qualification is still pending. The installed installation030 predates this change.
 
 Duplicate footprint references are allowed only when every member of that group is padless, board-only artwork with a unique UUID and a noncopper Reference field. Aliased artwork cannot have models, and variable-dependent surface text is outside this scope. The qualified geometry observer is limited to modern two-layer boards with F.Cu signal and B.Cu signal or jumper. Electrical duplicates remain unsupported.
 

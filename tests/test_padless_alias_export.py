@@ -2,6 +2,7 @@
 import copy,json,tempfile,unittest
 from pathlib import Path
 from types import SimpleNamespace
+from unittest import mock
 from autorouter import padless_alias as a,pipeline as p,sexpr as sx
 from tests.normal_prl_fixture import authored_zero_alias_dsn
 
@@ -42,6 +43,32 @@ class ExportCensus(unittest.TestCase):
         paths=a.artifact_paths(output);self.assertEqual(paths['source_copy'].read_bytes(),raw)
         self.assertEqual(json.loads(paths['proof'].read_text()),record)
         self.assertFalse(paths['before'].exists());self.assertFalse(paths['after'].exists())
+
+    def test_compact_proof_keeps_every_value_and_unchanged_byte_ceiling(self):
+        # A small ceiling reproduces the real four-observation indentation
+        # overflow without allocating a large synthetic Native geometry object.
+        mapping={'nested':[[[i,i+1]] for i in range(80)]}
+        for mode in ('fits_compact','oversize'):
+            with self.subTest(mode=mode):
+                source,raw,output,fp,pads,fps,board,before,_=self.fixture(mode)
+                dsn=authored_zero_alias_dsn(sx.parse(raw.decode()),output)
+                def export(value,path):Path(path).write_bytes(dsn);return True
+                api=SimpleNamespace(ExportSpecctraDSN=export,GetBuildVersion=lambda:'10.0.0')
+                ceiling=4096 if mode=='fits_compact' else 64
+                with mock.patch.object(a,'MAX_PROOF',ceiling):
+                    if mode=='oversize':
+                        with self.assertRaisesRegex(ValueError,'proof exceeds bounded output'):
+                            a.export_board(board,source,output,api,mapping=mapping,before=before)
+                        self.assertFalse(a.artifact_paths(output)['proof'].exists())
+                    else:
+                        record=a.export_board(board,source,output,api,mapping=mapping,before=before)
+                        proof=a.artifact_paths(output)['proof'].read_bytes()
+                        self.assertGreater(len(json.dumps(record,sort_keys=True,indent=2).encode()),ceiling)
+                        self.assertLessEqual(len(proof),ceiling)
+                        self.assertEqual(proof,a.canonical(record)+b'\n')
+                        self.assertEqual(json.loads(proof),record)
+                self.assertEqual(source.read_bytes(),raw)
+        self.assertEqual(a.MAX_PROOF,16*1024**2)
 
     def test_wrong_native_uuid_reference_padcount_or_parent_refuses_before_export(self):
         for mode in ('uuid','reference','padcount','dangling_parent','duplicate_uuid'):

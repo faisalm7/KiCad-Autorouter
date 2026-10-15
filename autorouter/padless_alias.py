@@ -175,7 +175,9 @@ def export_board(board,source,output,pcbnew,*,mapping,before):
         output=str(output),dsn_sha256=sha(dsn),source_copy=paths['source_copy'].name,
         binding=binding,native_footprints=native_footprints,zero_alias=not binding['aliases'],native_classmap=mapping,
         observation=observation,board_saved=False,routing_accepted=False)
-    encoded=json.dumps(record,sort_keys=True,indent=2,allow_nan=False).encode()+b'\n'
+    # Polygon vertices repeat across four required observations. Compact JSON
+    # preserves every value while avoiding indentation-driven output rejection.
+    encoded=canonical(record)+b'\n'
     if len(encoded)>MAX_PROOF:raise ValueError('Native alias proof exceeds bounded output')
     with paths['proof'].open('xb') as stream:stream.write(encoded)
     return record
