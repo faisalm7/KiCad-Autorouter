@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "passed": true,
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 4.536260249995394,
+    "cpu_seconds": 4.0752049999999995,
+    "max_rss_bytes": 1994326016,
+    "supervisor_cpu_seconds": 0.01765399999999999,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 1947992064,
+    "sampled_peak_workdir_bytes": 32707,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 16777216,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-schematic-hidden-readback-001/audit.py"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-schematic-hidden-readback-001/command.log",
+    "log_bytes": 149,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-schematic-hidden-readback-001",
+    "signal_cancellation_enabled": true,
+    "pid": 11092
+  },
+  "wall_seconds": 4.614956917008385,
+  "full_cpu_seconds": 4.149695999999999,
+  "publication_allowance_seconds": 2,
+  "whole_wall_full_cpu_reservation_seconds": 62,
+  "controller_sha256": "1f67d149517e354f208ab8e351b326fa2d0bb3a4dac6c9d0a396336c3b5a7b42",
+  "audit_sha256": "d4ed9c4eb1b80e234654e8b045bc3fb3fd2ac192c474bb148d495ea80b335900",
+  "log_sha256": "94b64b976d419e52c02d6ff72182d579c03cf30bc1ac6de29a5b7567bb331180",
+  "scope": "Existing sharedretainedNative/source/PRL/process/fieldchecks only, noNative/JVM/GET/tests. Entire62reserved in cumulative190; parentcost samplesbeforefinalreceipt."
+}

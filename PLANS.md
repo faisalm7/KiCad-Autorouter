@@ -2,6 +2,15 @@
 
 Existing localMac checkout, branch `rebuild/local-20261010-015447`; no cloud/reset/reclone/worktrees/spending/formalrelease/background loops. One lead and at most two narrow agents; Native/JVM/fullsuite/backup lane sequential. Owner chose on-Mac-only raw backups. Earlier plans preserved in docs/history/2026-10-15-universal450/PLANS.md.
 
+Current next work supersedes older chronological next-step text below:
+
+1. Checkpoint [qualified ownedfullSCH/PRL/hiddenfieldcontrols](evidence/native-schematic-hidden1007-001.json), then make oneincremental from actuallyrestoredfull005 withall scopewritersidle. No redundantfullrestore; helper/capsunchanged.
+2. Implement explicit1007 ordinarytransport/shareduncachedresultreader using existinghelpers, preservingdefault1000/historicalreceipts andall argv/tool/native/class/alias/SES/refill/protection/metrics checks. The originalownedDRU is normalpreflightunsupported andmustremainintact; qualify exactpreservedrule semantics or prospectivelydeclare a different source rather than silently removingrules.
+3. Run new actualboundedtransport withrealnewrouting/class/SES/import/fullSCH/finalhash proof, then currentinstallation/workflow and integration at their milestone. Do not repeat completedbundle/area/fieldNative workers. Priorfeedback/chain/adaptive measuredties/losses remainvisible; no newgainedcircuit or speedclaim fromdiagnostics.
+4. Continue broaderlicensed family support and fair currenttoolchain B0/B1/B2/C evaluation, untouchedconfirmation/representativeaudit/review/physical/releasegates. Formalpublication/spending/contacts stillrequire separateauthorization.
+
+Chronological completed work follows.
+
 1. DONE: first Universal240 allpreengineclass failures; literal-composite source correction/full086/actualpositive+classnegative/installation034; Universal300 allfour Native-rejected; fullrestoration003 through2c35f5e287340files/allrefs/restoredCLI. Preserve all native/source/rule/PRL/warning proofs. Do not repeat completed workers.
 2. DONE: ownCwholedelete450 rejects3opens13thermal; genuinely missing B2low/high90each nowchecked, lowvalid4556.133635mm25vias0/0/81/fiveignored, highreject9opens3blocking. AllthreeB2variants nowattempted. NewownlowC200 Native-valid4415.567736mm25vias/11improvements but finalpublication201.066591>200 REJECTED. Complete readbackpasses; latest rows C417.901627wall415.326833CPU rejected/B2314.933434wall348.655835CPU accepted under450. No ninth acceptedwin or retrorescue.
 3. DONE: native-only finalreserve25 fix; legacyplacement15 contract unchanged, totalcaps/validation unchanged. Before-regressionfailslateattempt;82targetedpass after actual first launcher/ROOTmonitor failures preserved. Full0871372softwarecontrols pass125.591495wall119.161095CPU, source7bdca current. No repeatfullsuite without a new change/failure.
