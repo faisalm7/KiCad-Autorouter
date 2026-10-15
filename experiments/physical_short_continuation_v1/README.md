@@ -1,3 +1,7 @@
+# Physical-short005 continuation source
+
+Promoted and prospectively frozen before execution. Actual run is recorded in `evidence/physical-short005-native-001.json`: short rejects0opens/4blocking/10warnings/0exclusions, diagnostic qualifies while accepted/production remainFalse. Do not repeat the completed workers. The following preserved preparation notes describe the source contract and its original draft state.
+
 # Unexecuted physical-short-only005 continuation
 
 Promote only these reviewed sources to `experiments/physical_short_continuation_v1/{actor.py,run.py,input-pins.json}`. This draft has not executed its actor, wrapper, tests or Native/JVM. The only code run during preparation was bounded existing pure inventory/hash metadata capture. Pipeline remains exactly6906c41030c4629d8cc2e7c01f3c8ef1f520f0e4c04ad7b8eaf0add7d8ff5f56. No main file was written. Source ownership is released after this note.

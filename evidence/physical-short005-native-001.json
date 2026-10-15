@@ -1,0 +1,94 @@
+{
+  "schema": 1,
+  "kind": "actual-physical-short005-qualified-diagnostic",
+  "source_commit": "ba0554716a550aa31831908cbbe6f5e756057dbe",
+  "status": "completed",
+  "method_qualified": true,
+  "accepted": false,
+  "production_admitted": false,
+  "protocol_sha256": "06ab1167ea8193972ffdebf335ffd47d7949613d9152e205c3a9fc51f77c2414",
+  "result_sha256": "4a69246d8416f73adca83b4dd1b868488472619c311fedd69351af11209266b1",
+  "lead_execution_sha256": "2c6bc3a066e2a939142b4e32fcf2c45671a54cbae0c596b1e456f9ffe7145d4f",
+  "positive_candidate_sha256": "166ab0196d1cfa26340f9009875e389df4384428072910d46769f70ab9638aec",
+  "positive_report_sha256": "35b84117c2486a692efb473c29b91ff6691c2156a8ad8ef87d45daf603165278",
+  "positive_counts": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 10,
+    "exclusions": 0
+  },
+  "positive_metrics": {
+    "version": "10.0.0",
+    "pads": 22,
+    "footprints": 6,
+    "zones": 2,
+    "vias": 0,
+    "track_length_mm": 66.87139892486306,
+    "copper_layers": 2
+  },
+  "short_control_candidate_sha256": "238eb011071267c47e451ba59261e7b41a8f8e59fe7318824da02eeb0fba9af2",
+  "short_control_report_sha256": "3ecab99ff1011565e8fb760affd006c8e4569e00713963327e3093cc9925eabc",
+  "short_control_counts": {
+    "opens": 0,
+    "blocking": 4,
+    "warnings": 10,
+    "exclusions": 0
+  },
+  "native_fault_bindings": [
+    {
+      "type": "tracks_crossing",
+      "binding": "report_uuid",
+      "item_uuids": [
+        "30ea7f2d-5761-48fb-99f2-8e925982a230",
+        "87ec53f5-05c1-5d28-9a42-338e4d1037ba"
+      ]
+    },
+    {
+      "type": "shorting_items",
+      "binding": "report_uuid",
+      "item_uuids": [
+        "85f2ad84-9d11-450f-aa77-bc209ba6ad24",
+        "87ec53f5-05c1-5d28-9a42-338e4d1037ba"
+      ]
+    },
+    {
+      "type": "shorting_items",
+      "binding": "report_uuid",
+      "item_uuids": [
+        "49eb34da-07bc-445a-94b9-294a59288a75",
+        "87ec53f5-05c1-5d28-9a42-338e4d1037ba"
+      ]
+    }
+  ],
+  "new_worker_names": [
+    "refill-drc",
+    "pour-keepout-audit",
+    "final-drc",
+    "final-drc-fields-netlist",
+    "final-drc-fields-audit"
+  ],
+  "costs": {
+    "wall_seconds": 9.758041875000345,
+    "total_cpu_seconds": 8.286357,
+    "charged_wall_seconds": 99.4936354169331,
+    "charged_full_cpu_seconds": 81.54589299999999,
+    "whole_delivery_within_budget": true
+  },
+  "scope": "Only new physicalshort Native workers; exact004positive/proof/metrics plus002original/geometry retained, no solver/baseline/positive repeat. Earlier004wronglabelfailure remainsunchanged. All40positive routes plusoriginalrules/22signals exact. Diagnosticqualified, no normaladmission/comparative/electrical/independenceclaim.",
+  "independent_pure_readback": {
+    "path": ".runs/physical-short005-native-review-preserved-001",
+    "result_sha256": "af4c7b0e43cb975b54e000fbe4f64af1aa2c0429e33463fa443824d56ed79015",
+    "execution_sha256": "939cd0af30be769dfb9f01949b6ce7ff1de964fcbb444c902858cc2b56d6aab5",
+    "readme_sha256": "7951df249cc4030b2b414d23bdf630edc36bcfed4c6a379e8a29ba4c4e1fcfb8",
+    "passed": true,
+    "Native_or_JVM_executed": false,
+    "whole_reader_costs": {
+      "wall_seconds": 1.3432987499982119,
+      "full_cpu_seconds": 1.1683430000000001
+    },
+    "next_minimum_cumulative_prior": {
+      "wall_seconds": 102.83693416693131,
+      "full_cpu_seconds": 84.714236
+    }
+  }
+}
