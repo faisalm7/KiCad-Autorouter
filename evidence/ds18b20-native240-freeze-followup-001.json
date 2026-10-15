@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "kind": "prelaunch-freezer-path-correction",
+  "old_source_sha256": "883bd67424e7c8d71b5f096e35cf523a678612f22d4341998002584280bd1ecd",
+  "failed_command": ".venv/bin/python -B .runs/freeze-ds18b20-native-paired240-001.py",
+  "error": "FileNotFoundError: .runs/ds18b20-original-native-readback-001/execution.json",
+  "observed_tool_wall_seconds": 1.20220025,
+  "whole_wall_full_cpu_measured": false,
+  "native_started": false,
+  "prospective_protocol_created": false,
+  "fix": "002 pins the actual existing original-native-readback-execution-001/execution.json; all source/worker/budget gates unchanged, no completed worker repeated. Original failed source remains unchanged.",
+  "new_source": "evidence/ds18b20-native240-freeze-followup-001/freeze-ds18b20-native-paired240-002.py",
+  "new_source_sha256": "366c7b90f4b3507830fad2bde0198d5fd5a4fdd32db9e05941a2e36b317853ec",
+  "scope": "Preparation failure, not routing outcome. Source/readback records stay accepted within their original diagnostic scope; no zero-cost or new benchmark claim."
+}
