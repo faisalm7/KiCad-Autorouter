@@ -6,7 +6,7 @@ from autorouter import pipeline as p,preferences as pref,sexpr as sx
 import tests.test_result as result_fixture
 ROOT=Path(__file__).resolve().parents[1]
 CONTEXT=('whole_board_unlocked_routing','native','source_all')
-BOARD='(kicad_pcb (version 20240108) (layers (0 "F.Cu" signal) (31 "B.Cu" signal)) (net 0 "") (net 1 "GND") (footprint "authored" (at 10 10)) (segment (start 1 1) (end 2 1) (width 0.25) (layer "F.Cu") (net 1)))\n'
+BOARD='(kicad_pcb (version 20240108) (layers (0 "F.Cu" signal) (31 "B.Cu" signal)) (net 0 "") (net 1 "GND") (footprint "authored" (at 10 10)) (segment (start 1 1) (end 2 1) (width 0.25) (layer "F.Cu") (net 1) (uuid "934a58bd-3229-4ecb-b5ca-3c26a44cfb8d")))\n'
 PROJECT={'net_settings':{'classes':[{'name':'Default','track_width':0.25,'clearance':0.2,'via_diameter':0.8,'via_drill':0.4}],'netclass_patterns':[],'netclass_assignments':None},'board':{'design_settings':{'rules':{},'rule_severities':{},'drc_exclusions':[]}}}
 
 class ScopeControls(unittest.TestCase):
@@ -55,6 +55,23 @@ class ScopeControls(unittest.TestCase):
    for name in ('routing-scope-input.dsn','engine-process.json'):
     path=self.run/name
     if path.exists():path.unlink()
+ def test_exact_zero_protection_strict_proof_does_not_hide_source_locks_or_bad_proofs(self):
+  binding={'policy':'exact_non_uuid_lock_position_v2','matches':[],
+           'transplanted_routes_sha256':'1'*64,'imported_sha256':'2'*64}
+  data={'scope':CONTEXT[0],'protected_route_import':binding}
+  context=p.task_scope_for_record(data,self.run)
+  self.assertEqual(context,CONTEXT);self.assertEqual(p.preflight(self.source,task_scope=context),sx.parse(BOARD))
+  for change in ('matches','policy','extra','missing','hash','hash_type'):
+   bad=copy.deepcopy(data);proof=bad['protected_route_import']
+   if change=='matches':proof['matches']=[{'original_uuid':'authored'}]
+   elif change=='policy':proof['policy']=p.SELECTED_PROPOSAL_IMPORT_POLICY
+   elif change=='extra':proof['selected_names']=[]
+   elif change=='missing':del proof['imported_sha256']
+   elif change=='hash':proof['imported_sha256']='not-a-digest'
+   else:proof['imported_sha256']=True
+   with self.subTest(change=change):self.reject(p.task_scope_for_record(bad,self.run))
+  self.source.write_text(BOARD.replace('(width 0.25)','(width 0.25) (locked yes)'))
+  self.reject(context)
  def test_preview_uses_resolved_choices_and_never_claims_native(self):
   from autorouter.__main__ import preview
   result=preview(self.source);self.assertTrue(result['static_preflight_passed']);self.assertFalse(result['native_validation_performed'])
@@ -76,8 +93,8 @@ class ReadbackControls(unittest.TestCase):
    (folder/x.source.name).write_text(BOARD);(folder/x.source.with_suffix('.kicad_pro').name).write_text(json.dumps(PROJECT))
   x.binding.update(before=p.tree_hash(x.candidate.parent),after=p.tree_hash(x.candidate.parent));(x.run/'final-drc-binding.json').write_text(json.dumps(x.binding))
   x.data.update(source_hashes=p.tree_hash(x.source_dir),candidate_sha256=p.sha(x.candidate));x.data['steps'][0]['validated_input_sha256']=p.sha(x.candidate)
-  from tests.normal_prl_fixture import mark_authored_receipt
-  mark_authored_receipt(x.run,x.data,test_root=x.root);x.save_receipt()
+  from tests.normal_prl_fixture import refresh_authored_normal_import
+  refresh_authored_normal_import(x.run,x.data,test_root=x.root);x.save_receipt()
  def test_existing_central_reader_admits_only_the_authored_legacy_scope(self):
   self.assertTrue(p.check_result(self.fixture.receipt)['current'])
   self.fixture.data['scope']='partial_completion';self.fixture.save_receipt()

@@ -163,6 +163,12 @@ def policy_declaration(raw,*,name='NORMAL_DRC_LOCAL_SETTINGS_POLICY',expected=JO
 
 
 def check_normal_policy(directory,data,*,max_bytes=None,max_files=None):
+    try:return _check_normal_policy(directory,data,max_bytes=max_bytes,max_files=max_files)
+    except (OSError,ValueError) as exc:
+        raise p.Rejected('invalid normal Native policy evidence: '+str(exc)) from exc
+
+
+def _check_normal_policy(directory,data,*,max_bytes=None,max_files=None):
     """Close optional-marker deletion using the mandatory captured producer.
 
     A fully rewritten consistent fabricated history is not authenticated by
@@ -192,7 +198,7 @@ def check_normal_policy(directory,data,*,max_bytes=None,max_files=None):
         max_files=default_files if max_files is None else max_files
     retained=inventory(root,max_bytes=max_bytes,max_files=max_files,max_entries=max_files*2)
     from .adapter import check_fixed_placement_import
-    check_fixed_placement_import(root,data,retained)
+    imports=check_fixed_placement_import(root,data,retained)
     def is_drc(argv):
         if type(argv) is not list:return False
         command=argv[len(SANDBOX):] if argv[:len(SANDBOX)]==SANDBOX else argv
@@ -241,3 +247,4 @@ def check_normal_policy(directory,data,*,max_bytes=None,max_files=None):
     if census!=declared:raise p.Rejected('normal DRC retained worker population differs from steps')
     # Repeat current flags after all process/journal/code reads.
     for cwd,binding,process,failed in stages:check_event(cwd,binding,process,allow_worker_failure=failed)
+    return imports

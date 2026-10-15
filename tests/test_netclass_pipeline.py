@@ -137,6 +137,10 @@ class NetclassReceiptControls(unittest.TestCase):
         f.binding.update(before=p.tree_hash(f.candidate.parent),after=p.tree_hash(f.candidate.parent))
         (f.run/'final-drc-binding.json').write_text(json.dumps(f.binding))
         f.data['steps'][0]['validated_input_sha256']=p.sha(f.candidate)
+        # Source/project edits are intentional fixture setup. Rebuild only its
+        # authored transport now; later map/process tampering stays untouched.
+        from tests.normal_prl_fixture import refresh_authored_normal_import
+        refresh_authored_normal_import(f.run,f.data,test_root=f.root)
         self.native.update(source=str(f.candidate),board_sha256=p.sha(f.candidate),project_sha256=p.sha(f.candidate.with_suffix('.kicad_pro')),board_saved=False)
         (f.run/'final-netclasses.json').write_text(json.dumps(self.native))
         protected=[route for route in p.routes(tree) if p.locked(route)]

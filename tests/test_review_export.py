@@ -43,7 +43,7 @@ class ExportControls(unittest.TestCase):
         self.tmp=tempfile.TemporaryDirectory(dir=HERE);self.addCleanup(self.tmp.cleanup);self.root=Path(self.tmp.name).resolve()
         self.source=self.root/'source';self.source.mkdir();self.run=self.root/'routing';self.run.mkdir();self.candidate=self.run/'candidate';self.candidate.mkdir()
         tree=sx.parse('(kicad_pcb (version 20241229) (layers (0 "F.Cu" signal) (31 "B.Cu" signal)) (net 1 "SIG"))')
-        self.track=sx.parse('(segment (start 0 0) (end 1 0) (width 0.25) (layer "F.Cu") (net 1) (uuid "track"))')
+        self.track=sx.parse('(segment (start 0 0) (end 1 0) (width 0.25) (layer "F.Cu") (net 1) (uuid "6e62cb01-0d92-4145-b651-83eb4e220594"))')
         sx.write(self.source/'board.kicad_pcb',tree);sx.write(self.candidate/'board.kicad_pcb',tree+[self.track])
         for folder in (self.source,self.candidate):(folder/'board.kicad_pro').write_text('{}')
         self.warning={'type':'lib_footprint_mismatch','severity':'warning','description':'pure seam warning','items':[{'uuid':'warning-item','description':'pure seam'}]}
@@ -98,7 +98,7 @@ class ExportControls(unittest.TestCase):
         result=self.export();self.assertTrue(result['export_accepted']);self.assertEqual(Path(result['project_file']).read_bytes(),(self.source/'board.kicad_pro').read_bytes())
         self.assertNotEqual(Path(result['project_file']).read_bytes(),(self.root/'review/project/board.kicad_pro').read_bytes())
     def test_protected_original_copper_and_empty_original_directories_survive_export(self):
-        protected=sx.parse('(segment (start 2 0) (end 3 0) (width 0.25) (layer "F.Cu") (net 1) (uuid "protected") (locked yes))')
+        protected=sx.parse('(segment (start 2 0) (end 3 0) (width 0.25) (layer "F.Cu") (net 1) (uuid "7ff4a242-b8a5-4397-9bc3-57db4d46ea38") (locked yes))')
         for folder in (self.source,self.candidate):
             board=folder/'board.kicad_pcb';tree=sx.read(board);tree.append(protected);sx.write(board,tree);(folder/'empty-original-directory').mkdir()
         self.metrics['track_length_mm']=2.;self.report.update(candidate_sha256=p.sha(self.candidate/'board.kicad_pcb'),source_hashes=e.witness(self.source,project=True)['files'])

@@ -29,7 +29,7 @@ class ResultFreshnessTests(unittest.TestCase):
         self.source_dir = self.root / "source"
         self.source_dir.mkdir()
         self.source = self.source_dir / "test.kicad_pcb"
-        self.source.write_text('(kicad_pcb (version 20260206) (layers (0 "F.Cu" signal) (2 "B.Cu" signal)) (footprint "fixture" (at 10 10)) (segment (start 1 1) (end 2 1) (width 0.2) (layer "F.Cu") (net "GND") (locked yes)) (segment (start 2 1) (end 3 1) (width 0.2) (layer "F.Cu") (net "GND")))\n')
+        self.source.write_text('(kicad_pcb (version 20260206) (layers (0 "F.Cu" signal) (2 "B.Cu" signal)) (footprint "fixture" (at 10 10)) (segment (start 1 1) (end 2 1) (width 0.2) (layer "F.Cu") (net "GND") (uuid "a101573d-7eaf-4fae-9db5-45d41d49694a") (locked yes)) (segment (start 2 1) (end 3 1) (width 0.2) (layer "F.Cu") (net "GND") (uuid "7dd1c31d-09f3-49b9-973b-36db2937d07e")))\n')
         self.source.with_suffix(".kicad_pro").write_text("{}\n")
         self.run = self.root / "run"
         self.run.mkdir()
@@ -96,7 +96,7 @@ class ResultFreshnessTests(unittest.TestCase):
                       "files": {str(p.c.resolve_tool_path(pin["path"])): pin["sha256"] for pin in pins.values()}},
         }
         from tests.normal_prl_fixture import mark_authored_receipt
-        mark_authored_receipt(self.run,self.data,test_root=self.root)
+        mark_authored_receipt(self.run,self.data,test_root=self.root,normal_imports=True)
         self.binding = json.loads((self.run / "final-drc-binding.json").read_text())
         self.save_receipt()
 
@@ -238,7 +238,7 @@ class ResultFreshnessTests(unittest.TestCase):
         sx.write(self.candidate, tree)
         self.data["candidate_sha256"] = p.sha(self.candidate)
         self.save_receipt()
-        with self.assertRaisesRegex(p.Rejected, "input binding"):
+        with self.assertRaisesRegex(p.Rejected, "input binding|Native refill changed route identities|normal saved refill changed original geometry or routes"):
             p.check_result(self.receipt)
 
     def test_locked_route_and_partial_completion_copper_are_protected(self):
@@ -273,7 +273,7 @@ class ResultFreshnessTests(unittest.TestCase):
         with self.assertRaisesRegex(p.Rejected, "input binding"):
             p.check_result(self.receipt)
         (self.run / "final-drc-binding.json").unlink()
-        with self.assertRaises(FileNotFoundError):
+        with self.assertRaisesRegex(p.Rejected, "invalid normal Native policy evidence"):
             p.check_result(self.receipt)
 
     def test_native_summary_and_metrics_are_not_trusted(self):
@@ -292,7 +292,7 @@ class ResultFreshnessTests(unittest.TestCase):
         process = json.loads(process_path.read_text())
         process["argv"].remove("--refill-zones")
         process_path.write_text(json.dumps(process))
-        with self.assertRaisesRegex(p.Rejected, "process provenance"):
+        with self.assertRaisesRegex(p.Rejected, "process provenance|normal DRC worker policy or lineage"):
             p.check_result(self.receipt)
 
     def test_finalization_step_selection_handles_nested_final_drc_names(self):
@@ -317,15 +317,28 @@ class ResultFreshnessTests(unittest.TestCase):
         binding = rebase(json.loads((self.run / "final-drc-binding.json").read_text()))
         p.save_json(folder / "final-drc-process.json", process)
         p.save_json(folder / "final-drc-binding.json", binding)
-        nested = rebase(copy.deepcopy(self.data["steps"][0]))
+        final_step = next(step for step in self.data["steps"]
+                          if step["name"] == "final-drc" and step["cwd"] == str(self.run))
+        nested = rebase(copy.deepcopy(final_step))
         nested["phase"] = "incumbent"
         self.data["steps"].insert(0, nested)
         self.data.update(wall_seconds=3, child_cpu_seconds=2, monitor_cpu_seconds=0.2, total_cpu_seconds=2.4)
         self.save_receipt()
         self.assertTrue(p.check_result(self.receipt)["current"])
-        self.data["steps"][-1]["validated_input_sha256"] = "1" * 64
+        final_step["validated_input_sha256"] = "1" * 64
         self.save_receipt()
         with self.assertRaisesRegex(p.Rejected, "final native step"):
+            p.check_result(self.receipt)
+
+    def test_saved_refill_step_hash_cannot_reuse_unchanged_report(self):
+        # The saved board/report bytes still match; only the declared worker
+        # input hash is false. Current imports must validate this stage too.
+        self.assertTrue(p.check_result(self.receipt)["current"])
+        refill_step = next(step for step in self.data["steps"]
+                           if step["name"] == "refill-drc" and step["cwd"] == str(self.run))
+        refill_step["validated_input_sha256"] = "1" * 64
+        self.save_receipt()
+        with self.assertRaisesRegex(p.Rejected, "floor native stage step/input mismatch"):
             p.check_result(self.receipt)
 
     def test_over_budget_cpu_inconsistency_and_cancellation_reject(self):
@@ -358,7 +371,7 @@ class ResultFreshnessTests(unittest.TestCase):
 
     def test_saved_code_or_tool_provenance_must_match(self):
         (self.run / "code" / "native.py").write_text("changed implementation")
-        with self.assertRaisesRegex(p.Rejected, "implementation differs"):
+        with self.assertRaisesRegex(p.Rejected, "implementation differs|captured Native import producer differs"):
             p.check_result(self.receipt)
         shutil.copy2(ROOT / "autorouter/native.py", self.run / "code/native.py")
         self.data["tools"]["files"][str(p.c.CLI)] = "2" * 64

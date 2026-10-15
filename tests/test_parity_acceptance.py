@@ -7,7 +7,7 @@ from autorouter import pipeline as p,sexpr as sx
 class CompleteSchematicAcceptance(unittest.TestCase):
  def test_every_scope_and_trial_final_validator_checks_captured_schematic(self):
   with tempfile.TemporaryDirectory() as tmp:
-   root=Path(tmp);candidate=root/'candidate';candidate.mkdir();board=candidate/'board.kicad_pcb'
+   root=Path(tmp).resolve();candidate=root/'candidate';candidate.mkdir();board=candidate/'board.kicad_pcb'
    tree=sx.parse('(kicad_pcb (version 20260206) (layers (0 "F.Cu" signal) (2 "B.Cu" signal)))');sx.write(board,tree)
    board.with_suffix('.kicad_pro').write_text('{}');board.with_suffix('.kicad_sch').write_text('captured native schematic: pure seam')
    hashes=p.tree_hash(candidate);calls=[]

@@ -27,6 +27,7 @@ from .runner import run, _workdir_bytes
 ROUTES={'segment','via','arc'}
 NORMAL_DRC_LOCAL_SETTINGS_POLICY='job-owned-prl-immutable-v1'
 SELECTED_PROPOSAL_IMPORT_POLICY='selected-proposals-exact-source-v1'
+NORMAL_SELECTED_PROPOSAL_IMPORT_POLICY='selected-proposals-exact-source-v1'
 DERIVED_ZONE={'filled_polygon','fill_segments'}
 CRITICAL_CHECKS={'hole_clearance','hole_to_hole','hole_near_hole','starved_thermal','zones_intersect','padstack','items_not_allowed','through_hole_pad_without_hole','unconnected_items','shorting_items','clearance','track_width','via_diameter','annular_width','drill_out_of_range','copper_edge_clearance','invalid_outline','tracks_crossing'}
 CRITICAL_CHECKS |= {'track_on_post_machined_layer'}
@@ -275,7 +276,15 @@ def task_scope_for_record(data,directory,*,input_policy=None):
         if layers!='source_all' and effective['layers']!=layers:return None
         layers=effective['layers']
     if (selected_scope_markers(directory,data) or layer_markers(directory,data)
-            or 'protected_route_import' in data or data.get('protected_routes',0)!=0):return None
+            or data.get('protected_routes',0)!=0):return None
+    if 'protected_route_import' in data:
+        # Current normal whole-board producers retain strict reconciliation even
+        # with zero protection. Its presence alone is not protected copper.
+        binding=data['protected_route_import']
+        if (type(binding) is not dict or set(binding)!={'policy','matches','transplanted_routes_sha256','imported_sha256'}
+                or binding['policy']!='exact_non_uuid_lock_position_v2' or binding['matches']!=[]
+                or any(type(binding[key]) is not str or re.fullmatch('[0-9a-f]{64}',binding[key]) is None
+                       for key in ('transplanted_routes_sha256','imported_sha256'))):return None
     return (scope,policy,layers)
 
 
@@ -339,18 +348,132 @@ def convert_route_nets(route, native_tree, original):
         else: n[:]=['net',name]
     return route
 
+def selected_proposal_protection(original,names):
+    """Require exact source protection and conservatively refuse selected locks."""
+    from . import routing_scope as rs, board_floor as g
+    names=rs.validate_names(names);protected=rs.protected_routes(original,names)
+    _,resolve=g.source_net_identity(original)
+    if any(resolve(sx.one(route,'net')) in names for route in protected):
+        raise Rejected('selected proposals with locked selected copper are unqualified')
+    return protected
+
+
+def normal_selected_import_policy(original,names):
+    """Source-derived strict fallback preserves previously supported selected locks."""
+    from . import routing_scope as rs,board_floor as g
+    names=rs.validate_names(names);protected=rs.protected_routes(original,names)
+    _,resolve=g.source_net_identity(original)
+    return ('exact_non_uuid_lock_position_v2' if any(resolve(sx.one(route,'net')) in names for route in protected)
+            else SELECTED_PROPOSAL_IMPORT_POLICY)
+
+
+def normal_import_contract(directory,data,imports,*,input_policy,original):
+    """Force current direct normal import proofs from captured producer code.
+
+    Import rows come only from the existing checked Native process census.
+    Genuine older producers retain their original strict readback contract.
+    """
+    from .local_settings import canonical,policy_declaration
+    from .placement_clearance import read_bytes
+    root=canonical(Path(directory));producer=root/'code/pipeline.py'
+    raw=read_bytes(producer,1024**2)
+    if hashlib.sha256(raw).hexdigest()!=data.get('tools',{}).get('implementation_sha256',{}).get('autorouter/pipeline.py'):
+        raise Rejected('normal selected import producer differs')
+    policy=policy_declaration(raw,name='NORMAL_SELECTED_PROPOSAL_IMPORT_POLICY',expected=SELECTED_PROPOSAL_IMPORT_POLICY)
+    marker=data.get('tools',{}).get('normal_selected_proposal_import_policy')
+    if policy is None:
+        if marker is not None:raise Rejected('normal selected import source declaration missing')
+        return None
+    if marker!=policy:raise Rejected('normal selected import tool declaration missing')
+    if imports is None:raise Rejected('normal selected import requires qualified Native import census')
+    direct=[row for row in imports if row['cwd']==str(root)]
+    # input_policy is derived by the existing receipt_policy/recognize readers,
+    # never directly from a JSON label. Nested incumbents have their own receipt.
+    if input_policy!='native':return None
+    if type(data.get('schema')) is not int or data['schema']!=1:raise Rejected('normal import requires native schema1')
+    if not direct:
+        # Only recognized native parent methods can lack an own import. A
+        # relocated process or phase annotation is not an incumbent receipt.
+        from .floor_route import read_json,canonical as encode
+        strategy=data.get('strategy');helper={'native_validated_zone_net_pruning':'strategy.py',
+            'native_validated_thermal_bridge':'recovery.py'}.get(strategy)
+        if (helper is None or data.get('baseline')!='C-prototype'
+                or data.get('scope')!='whole_board_unlocked_routing' or selected_scope_markers(root,data)):
+            raise Rejected('current normal routing requires its exact direct import population')
+        if hashlib.sha256(read_bytes(root/'code'/helper,1024**2)).hexdigest()!=data['tools']['implementation_sha256'].get('autorouter/'+helper):
+            raise Rejected('normal parent implementation provenance missing')
+        child=root/'incumbent';inc=read_json(child/'result.json')
+        if (any(inc.get(key)!=data.get(key) for key in ('source','source_hashes','tools'))
+                or type(inc.get('schema')) is not int or inc['schema']!=1 or inc.get('scope')!='whole_board_unlocked_routing'
+                or inc.get('adapter')!='both' or inc.get('input_policy') not in (None,'native')
+                or len(imports)!=1 or imports[0]['cwd']!=str(child)
+                or [dict(step,phase='incumbent') for step in inc.get('steps',[])]!=[step for step in data['steps'] if step.get('phase')=='incumbent']):
+            raise Rejected('normal parent import differs from actual incumbent receipt')
+        child_candidate=child/'candidate'/Path(data['source']).name
+        if inc.get('candidate')!=str(child_candidate):raise Rejected('normal parent incumbent candidate escaped')
+        child_contract=normal_import_contract(child,inc,imports,input_policy='native',original=original)
+        if child_contract is None:raise Rejected('normal parent incumbent lacks its direct import proof')
+        verify_candidate_files(child_candidate,data['source_hashes'],inc['candidate_sha256'])
+        if immutable(sx.read(child_candidate))!=immutable(original):raise Rejected('normal parent incumbent source geometry changed')
+        child_protected=protected_for_record(inc,original)
+        check_protected_import(child,inc,original,child_candidate,child_protected,**child_contract)
+        if strategy=='native_validated_zone_net_pruning':
+            # The calling check_result already checks scoring and this exact
+            # accepted child; repeat its shared reader, never trust a JSON flag.
+            from .strategy import check_incumbent_scoring
+            check_incumbent_scoring(root,data)
+        else:
+            from . import thermal
+            expected={'receipt':str(child/'result.json'),'receipt_sha256':sha(child/'result.json'),
+                'status':inc.get('status'),'accepted':inc.get('accepted')}
+            if (encode(data.get('incumbent'))!=encode(expected) or inc.get('engine_profile')!='completion-only'
+                    or type(inc.get('accepted')) is not bool):raise Rejected('thermal parent incumbent binding differs')
+            if inc['accepted']:check_result(child/'result.json')
+            elif inc.get('status')=='drc_rejected' and thermal.sole_thermal(inc.get('native')) is not None:
+                thermal._report_binding(child_candidate,child/'final-drc.json',child/'final-drc-binding.json',data['source_hashes'],inc['native'])
+            else:raise Rejected('thermal parent incumbent is not a qualified original Native outcome')
+        return None
+    pins=data['tools']['implementation_sha256']
+    for name in ('adapter.py','routing_scope.py','board_floor.py','preferences.py','sexpr.py'):
+        if hashlib.sha256(read_bytes(root/'code'/name,1024**2)).hexdigest()!=pins.get('autorouter/'+name):
+            raise Rejected('normal selected import helper provenance missing')
+    candidate=root/'candidate'/Path(data['source']).name
+    expected={'cwd':str(root),'name':'import','source':str(candidate),
+              'output':str(root/'imported.kicad_pcb'),'session':str(root/'routes.ses')}
+    if direct!=[expected]:raise Rejected('normal selected import direct worker identity differs')
+    # Retain the exact preimage and independently check the actual saved worker,
+    # including zone-free boards. A plausible saved board alone is not evidence.
+    from . import floor_route as f
+    before_path=root/'pre-refill.kicad_pcb';before=sx.parse(read_bytes(before_path).decode('utf-8'))
+    if immutable(before)!=immutable(original) or routes(before)!=routes(sx.read(candidate)):
+        raise Rejected('normal saved refill changed original geometry or routes')
+    refill=root/'refill'/candidate.name
+    f.check_drc_stage(root,data,'refill-drc',refill,refill,True,
+        {**data['source_hashes'],candidate.name:sha(before_path)},sandboxed=False)
+    if (sx.dump(transplant_fill(before,sx.read(refill)))+'\n').encode()!=read_bytes(candidate):
+        raise Rejected('normal saved refill reconstruction differs')
+    binding=data.get('protected_route_import')
+    if not isinstance(binding,dict):raise Rejected('current normal import requires complete proof, including zero protection')
+    names=selected_scope_names(data)
+    if names is None:
+        if binding.get('policy')!='exact_non_uuid_lock_position_v2':
+            raise Rejected('nonselected normal import requires strict policy')
+        return {}
+    required=normal_selected_import_policy(original,names)
+    if binding.get('policy')!=required:raise Rejected('normal selected import policy differs from original locks')
+    return {'expected_policy':policy,'selected_names':names} if required==policy else {}
+
+
 def transplant_routes(original, imported, *, protected=(), audit=None, policy='exact_non_uuid_v1', selected_names=None):
     if policy==SELECTED_PROPOSAL_IMPORT_POLICY:
-        # Explicit diagnostic-only proposal selection. Imported nonselected
+        # Explicit proposal selection with caller-forced scope/proof. Imported nonselected
         # routes are not preservation evidence; restore the exact source records.
         from . import routing_scope as rs, board_floor as g
         names=rs.validate_names(selected_names);protected=list(protected)
-        expected=rs.protected_routes(original,names)
+        expected=selected_proposal_protection(original,names)
         source_names,resolve=g.source_net_identity(original)
         _,import_resolve=g.source_net_identity(imported)
         if protected!=expected:raise Rejected('selected proposals require the complete exact source protection')
-        if any(resolve(sx.one(route,'net')) in names for route in protected):
-            raise Rejected('selected proposals with locked selected copper are unqualified')
         rs._route_map(imported)  # Refuse malformed/ambiguous imported route IDs and locks.
         generated=[];selected=[];ignored=[]
         for raw in routes(imported):
@@ -437,8 +560,8 @@ def check_protected_import(directory, data, original, candidate, protected, *, e
     proposal_readback=(expected_policy is not None or selected_names is not None
         or isinstance(binding,dict) and binding.get('policy')==SELECTED_PROPOSAL_IMPORT_POLICY)
     if proposal_readback:
-        # Normal check_result has not qualified/admitted this diagnostic policy.
-        # Its actor must independently require the policy even with zero protection.
+        # Qualified normal callers and diagnostic actors must force this policy
+        # independently of the optional record, including zero protection.
         if (expected_policy!=SELECTED_PROPOSAL_IMPORT_POLICY or selected_names is None
                 or data.get('scope')!='selected_nets' or not isinstance(binding,dict)
                 or binding.get('policy')!=expected_policy):
@@ -459,7 +582,26 @@ def check_protected_import(directory, data, original, candidate, protected, *, e
     if canonical(audit)!=canonical(data['protected_route_import']):raise Rejected('protected import reconciliation differs')
     if routes(sx.read(candidate))!=routes(rebuilt):raise Rejected('protected import routes differ from final candidate')
 
+def check_refill_route_nets(original, filled):
+    """A saved Native refill must validate the same route net identities.
+
+    Numbered-to-named serialization is legitimate; silently assigning a route
+    to a different net is not. Reuse strict native net/UUID decoders.
+    """
+    from . import board_floor as g, routing_scope as rs
+    def identities(tree):
+        _,resolve=g.source_net_identity(tree)
+        return {identity:(route[0],resolve(sx.one(route,'net')))
+                for identity,route in rs._route_map(tree).items()}
+    try:before,after=identities(original),identities(filled)
+    except (ValueError,KeyError,TypeError) as exc:
+        raise Rejected('ambiguous Native refill route identity: '+str(exc)) from exc
+    if before!=after:
+        raise Rejected('Native refill changed route identities or net assignments')
+
+
 def transplant_fill(original, filled):
+    check_refill_route_nets(original,filled)
     out=copy.deepcopy(original)
     fill_by_id={sx.one(z,'uuid')[1]:z for z in sx.children(filled,'zone')}
     for z in sx.children(out,'zone'):
@@ -924,6 +1066,13 @@ def validate_candidate(job, original, candidate, source_hashes, protected, *, gu
     if pour_areas:
         before_refill=job.out/'pour-before-refill.kicad_pcb'
         with before_refill.open('xb') as stream:stream.write(candidate.read_bytes())
+    # Preserve the Native save preimage for exact later worker/fill replay.
+    from .placement_clearance import read_bytes
+    preimage=job.out/'pre-refill.kicad_pcb';raw=read_bytes(candidate)
+    if preimage.exists() or preimage.is_symlink():
+        if read_bytes(preimage)!=raw:raise Rejected('retained pre-refill input differs')
+    else:
+        with preimage.open('xb') as stream:stream.write(raw)
     shutil.copytree(candidate.parent,job.out/'refill')
     refill=job.out/'refill'/candidate.name
     job.drc('refill-drc',refill,save=True)
@@ -964,7 +1113,8 @@ def tool_manifest():
     implementation={str(p.relative_to(c.ROOT)):sha(p) for p in sorted((c.ROOT/'autorouter').glob('*.py'))}
     git_head=subprocess.run(['git','rev-parse','HEAD'],cwd=c.ROOT,capture_output=True,text=True,check=True).stdout.strip()
     return {'implementation_sha256':implementation,'git_head':git_head,'kicad':'10.0.0','freerouting':'2.5.0','files':files,'network':'engine sandbox-exec deny network*',
-            'normal_drc_local_settings_policy':NORMAL_DRC_LOCAL_SETTINGS_POLICY}
+            'normal_drc_local_settings_policy':NORMAL_DRC_LOCAL_SETTINGS_POLICY,
+            'normal_selected_proposal_import_policy':NORMAL_SELECTED_PROPOSAL_IMPORT_POLICY}
 
 def optimizer_threshold_audit(log, expected_percent):
     """Reject a logged stop threshold inconsistent with the declared profile.
@@ -1569,9 +1719,11 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
         imported=output/'imported.kicad_pcb'
         job.native('import','import',candidate,imported,output/'routes.ses')
         reconciliation={}
+        import_policy=normal_selected_import_policy(original,selected) if selected is not None else 'exact_non_uuid_lock_position_v2'
         sx.write(candidate,transplant_routes(task,sx.read(imported),protected=protected,audit=reconciliation,
-            policy='exact_non_uuid_lock_position_v2'))
-        if protected:report['protected_route_import']={'imported_sha256':sha(imported),**reconciliation}
+            policy=import_policy,
+            **({'selected_names':selected} if import_policy==SELECTED_PROPOSAL_IMPORT_POLICY else {})))
+        report['protected_route_import']={'imported_sha256':sha(imported),**reconciliation}
         extra={'selected_names':selected,'schematic_parity':parity} if selected is not None else {}
         final_hash, native = validate_candidate(job, original, candidate, before, protected,layer_contract=layers,**extra)
         if selected is not None:report['selected_net_audit']=rs.audit(original,sx.read(candidate),selected)
@@ -1855,7 +2007,15 @@ def _check_result_uncached(path):
         implementation=data.get('tools',{}).get('implementation_sha256',{}))
     protected=protected_for_record(data,original)
     if any(route not in routes(current) for route in protected): raise Rejected('protected route changed')
-    check_protected_import(path.parent,data,original,candidate,protected)
+    steps=data.get('steps')
+    if not isinstance(steps,list) or not steps or any(not isinstance(step,dict) for step in steps):
+        raise Rejected('missing process history')
+    if any(step.get('status')=='cancelled' or step.get('cleanup_complete') is not True for step in steps):
+        raise Rejected('cancelled or incomplete process cleanup in receipt')
+    from .local_settings import check_normal_policy
+    imports=check_normal_policy(path.parent,data)
+    import_contract=normal_import_contract(path.parent,data,imports,input_policy=input_policy,original=original)
+    check_protected_import(path.parent,data,original,candidate,protected,**(import_contract or {}))
 
     def evidence(name):
         file=path.parent/name
@@ -1994,8 +2154,8 @@ def _check_result_uncached(path):
     if preferences_guarded:
         if hashlib.sha256(bounded_bytes(path)).hexdigest()!=receipt_digest:
             raise Rejected('preference receipt changed during readback')
-    if 'protected_route_import' in data:
-        check_protected_import(path.parent,data,original,candidate,protected)
+    if 'protected_route_import' in data or import_contract is not None:
+        check_protected_import(path.parent,data,original,candidate,protected,**(import_contract or {}))
         verify_candidate_files(candidate,data['source_hashes'],data['candidate_sha256'])
         if hashlib.sha256(bounded_bytes(path)).hexdigest()!=receipt_digest:
             raise Rejected('protected import receipt changed during readback')
@@ -2004,7 +2164,8 @@ def _check_result_uncached(path):
             raise Rejected('source project changed during preference readback')
         if bounded_evidence(path.parent)!=readback_material:
             raise Rejected('complete preference routing evidence changed during readback')
-    from .local_settings import check_normal_policy
-    check_normal_policy(path.parent,data)
+    imports=check_normal_policy(path.parent,data)
+    import_contract=normal_import_contract(path.parent,data,imports,input_policy=input_policy,original=original)
+    check_protected_import(path.parent,data,original,candidate,protected,**(import_contract or {}))
     check_event(path.parent,binding,process)  # Flags/link counts are outside byte witnesses.
     return result

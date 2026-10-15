@@ -41,33 +41,59 @@ class PruningPreferenceFreshness(unittest.TestCase):
         (run / 'code/native_edge.py').unlink()
         del data['tools']['implementation_sha256']['autorouter/native_edge.py']
         incumbent = run / 'incumbent'
-        for name in ('snapshot', 'candidate', 'final-drc-input', 'code'):
-            shutil.copytree(run / name, incumbent / name)
-        for name in ('final-drc.json', 'metrics.json'):
-            shutil.copyfile(run / name, incumbent / name)
-        inc = copy.deepcopy(data)
-        inc.update(candidate=str(incumbent / 'candidate' / case.source.name),
-                   adapter='both', engine_profile='tuned', scoring_variant=scoring)
-        binding = copy.deepcopy(case.binding)
-        binding.update(source=inc['candidate'], input=str(incumbent / 'final-drc-input' / case.source.name))
-        p.save_json(incumbent / 'final-drc-binding.json', binding)
-        process = f.read_json(run / 'final-drc-process.json')
-        process.update(cwd=str(incumbent))
-        process['argv'][-2] = str(incumbent / 'final-drc.json')
-        process['argv'][-1] = binding['input']
-        p.save_json(incumbent / 'final-drc-process.json', process)
-        native_step = dict(process, validated_input_sha256=inc['candidate_sha256'], emitted_candidate=inc['candidate'])
+        # The current captured producer requires a real owned direct-import
+        # population. Copy the complete software fixture, then rebase only its
+        # owned journal paths; no old producer declaration is removed or faked.
+        retained = list(run.iterdir())
+        incumbent.mkdir()
+        for path in retained:
+            if path.is_dir():
+                shutil.copytree(path, incumbent / path.name)
+            else:
+                shutil.copy2(path, incumbent / path.name)
+
+        def rebase(value):
+            if isinstance(value, str):
+                if value == str(run):
+                    return str(incumbent)
+                return str(incumbent) + value[len(str(run)):] if value.startswith(str(run) + '/') else value
+            if isinstance(value, list):
+                return [rebase(row) for row in value]
+            if isinstance(value, dict):
+                return {key: rebase(row) for key, row in value.items()}
+            return value
+
+        for path in incumbent.rglob('*.json'):
+            record = f.read_json(path)
+            rebased = rebase(record)
+            if rebased != record:
+                p.save_json(path, rebased)
+        inc = rebase(copy.deepcopy(data))
+        inc.update(adapter='both', engine_profile='tuned', scoring_variant=scoring)
+        from tests.normal_prl_fixture import refresh_authored_normal_import
+        refresh_authored_normal_import(incumbent, inc, test_root=case.root)
         settings = p.engine_profile_settings('tuned', 90, scoring_variant=scoring)
         settings.update(outer_task_wall_budget_seconds=120, outer_task_cpu_budget_seconds=120)
         engine = dict(name='engine', cwd=str(incumbent), argv=p.engine_argv(incumbent, settings['argv']),
                       status='success', exit_code=0, cleanup_complete=True,
                       wall_seconds=0, cpu_seconds=0, monitor_cpu_seconds=0)
         p.save_json(incumbent / 'engine-process.json', engine)
-        inc.update(steps=[engine, native_step], engine_budget=settings)
+        inc.update(steps=[engine] + inc['steps'], engine_budget=settings)
         p.save_json(incumbent / 'result.json', inc)
+        # C derives its candidate from that child and has only its own final
+        # Native stage. Keep every nested worker/proof, without claiming that
+        # C itself exported/imported the same candidate a second time.
+        final_steps = [row for row in data['steps'] if row['name'] == 'final-drc']
+        self.assertEqual(len(final_steps), 1)
+        for name in ('imported.kicad_pcb', 'imported.routes-only.ses', 'imported.routes-only.json',
+                     'routes.ses', 'import-process.json', 'pre-refill.kicad_pcb',
+                     'refill-drc.json', 'refill-drc-binding.json', 'refill-drc-process.json'):
+            (run / name).unlink()
+        shutil.rmtree(run / 'refill')
+        del data['protected_route_import']
         data.update(strategy='native_validated_zone_net_pruning', baseline='C-prototype',
                     adapter='both', engine_profile='tuned',
-                    steps=[dict(row, phase='incumbent') for row in inc['steps']] + data['steps'],
+                    steps=[dict(row, phase='incumbent') for row in inc['steps']] + final_steps,
                     wall_seconds=4, child_cpu_seconds=2, monitor_cpu_seconds=0.2, total_cpu_seconds=2.4)
         preset = case.root / 'settings.json'
         preset.write_text(json.dumps(dict(pref.DEFAULTS, adapter='both', profile='tuned', scoring_preference=scoring)))

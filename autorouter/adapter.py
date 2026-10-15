@@ -88,7 +88,7 @@ def check_fixed_placement_import(root,data,retained):
         return args
     census={name[:-len('-process.json')] for name in retained if name.endswith('-process.json')
             and command(read_json(root/name).get('argv')) is not None}
-    declared=set();proofs=set();transports=set()
+    declared=set();proofs=set();transports=set();checked=[]
     for step in data.get('steps',[]):
         args=command(step.get('argv'))
         if args is None:continue
@@ -114,6 +114,7 @@ def check_fixed_placement_import(root,data,retained):
         derived=output.with_suffix('.routes-only.ses')
         proofs.update(str(n.relative_to(root)) for n in (derived,derived.with_suffix('.json')))
         expected.update(source_session=str(session),import_session=str(derived),imported_board_sha256=imported_digest)
+        checked.append({'cwd':str(cwd),'name':name,'source':str(source),'output':str(output),'session':str(session)})
         if output.name=='imported.kicad_pcb' and session==cwd/'routes.ses':
             transports.add(str(output.relative_to(root)))
         if (read_bytes(derived)!=filtered
@@ -130,6 +131,7 @@ def check_fixed_placement_import(root,data,retained):
                    for part in Path(name).parts[:-1])
     retained_transports={name for name in retained if Path(name).name=='imported.kicad_pcb' and not project_copy(name)}
     if retained_transports!=transports:raise p.Rejected('retained SES/imported board lost its import proof')
+    return checked
 
 
 def _parse_dsn(text):

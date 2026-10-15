@@ -11,7 +11,7 @@ area=['zone',['net','0'],['net_name','""'],['uuid','"'+aid+'"'],['layer','"F.Cu"
     ['polygon',['pts',['xy','10','10'],['xy','15','10'],['xy','15','15'],['xy','10','15']]]]
 zone=['zone',['net','1'],['uuid','"'+zid+'"'],['layer','"F.Cu"'],
     ['filled_polygon',['layer','"F.Cu"'],['pts',['xy','20','20'],['xy','21','20'],['xy','21','21'],['xy','20','21']]]]
-tree=['kicad_pcb',['layers',['0','"F.Cu"','signal'],['31','"B.Cu"','signal']],area,zone]
+tree=['kicad_pcb',['net','0','""'],['net','1','"GND"'],['layers',['0','"F.Cu"','signal'],['31','"B.Cu"','signal']],area,zone]
 good=(sx.dump(tree)+'\n').encode();changed=copy.deepcopy(tree)
 sx.one(sx.one(sx.children(changed,'zone')[1],'filled_polygon'),'pts')[1:]=[
     ['xy','11','11'],['xy','12','11'],['xy','12','12'],['xy','11','12']]
@@ -47,7 +47,7 @@ class PourBindingSeams(unittest.TestCase):
     else:
      with self.assertRaisesRegex(ValueError,'across native board load'):native.audit(Board(),source,before)
  def test_native_both_layer_observation_order_is_normalized_without_source_edit(self):
-  both=copy.deepcopy(tree);both[2][both[2].index(sx.one(both[2],'layer'))]=['layers','"F.Cu"','"B.Cu"']
+  both=copy.deepcopy(tree);area_copy=sx.children(both,'zone')[0];area_copy[area_copy.index(sx.one(area_copy,'layer'))]=['layers','"F.Cu"','"B.Cu"']
   raw=(sx.dump(both)+'\n').encode();capture=(digest(raw),digest(project_bytes));aa=policy.qualify(both)
   obs=[{k:v for k,v in a.items() if k!='source_zone_ast_sha256'} for a in aa];obs[0]['layers']=['F.Cu','B.Cu']
   class BothZone(Zone):

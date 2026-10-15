@@ -70,12 +70,15 @@ class NormalPolicyReceiptControls(unittest.TestCase):
 
     def _put_prl_in_fixture(self):
         raw=b'{"authored":"unchanged source PRL"}\n'
-        for directory in (self.source_dir,self.run/'snapshot',self.candidate.parent,self.run/'final-drc-input'):
+        for directory in (self.source_dir,self.run/'snapshot',self.candidate.parent,self.run/'final-drc-input',self.run/'refill'):
             (directory/self.source.with_suffix('.kicad_prl').name).write_bytes(raw)
         self.data['source_hashes']=p.tree_hash(self.source_dir)
         binding=f.read_json(self.run/'final-drc-binding.json')
         binding['before']=p.tree_hash(self.candidate.parent);binding['after']=p.tree_hash(self.run/'final-drc-input')
         p.save_json(self.run/'final-drc-binding.json',binding)
+        binding=f.read_json(self.run/'refill-drc-binding.json')
+        binding['before']=p.tree_hash(self.candidate.parent);binding['after']=p.tree_hash(self.run/'refill')
+        p.save_json(self.run/'refill-drc-binding.json',binding)
         mark_authored_receipt(self.run,self.data,test_root=self.root)
 
     def _failed_stage(self):
