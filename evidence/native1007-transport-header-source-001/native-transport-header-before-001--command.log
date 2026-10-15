@@ -1,0 +1,24 @@
+test_native_cad_files_begin_with_root_without_comment_prefix (tests.test_native_schematic_transport_fixture.NativeSchematicTransportFixture.test_native_cad_files_begin_with_root_without_comment_prefix) ... 
+  test_native_cad_files_begin_with_root_without_comment_prefix (tests.test_native_schematic_transport_fixture.NativeSchematicTransportFixture.test_native_cad_files_begin_with_root_without_comment_prefix) (ext='.kicad_pcb') ... FAIL
+  test_native_cad_files_begin_with_root_without_comment_prefix (tests.test_native_schematic_transport_fixture.NativeSchematicTransportFixture.test_native_cad_files_begin_with_root_without_comment_prefix) (ext='.kicad_sch') ... FAIL
+
+======================================================================
+FAIL: test_native_cad_files_begin_with_root_without_comment_prefix (tests.test_native_schematic_transport_fixture.NativeSchematicTransportFixture.test_native_cad_files_begin_with_root_without_comment_prefix) (ext='.kicad_pcb')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native_schematic_transport_fixture.py", line 26, in test_native_cad_files_begin_with_root_without_comment_prefix
+    self.assertTrue(fixture.files()[fixture.STEM+ext].lstrip().startswith(b'('+kind))
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_native_cad_files_begin_with_root_without_comment_prefix (tests.test_native_schematic_transport_fixture.NativeSchematicTransportFixture.test_native_cad_files_begin_with_root_without_comment_prefix) (ext='.kicad_sch')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native_schematic_transport_fixture.py", line 26, in test_native_cad_files_begin_with_root_without_comment_prefix
+    self.assertTrue(fixture.files()[fixture.STEM+ext].lstrip().startswith(b'('+kind))
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 1 test in 0.003s
+
+FAILED (failures=2)

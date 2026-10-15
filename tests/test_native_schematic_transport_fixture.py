@@ -4,6 +4,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 Intended integration: tests/test_native_schematic_transport_fixture.py.
 """
 import copy
+import hashlib
 import json
 from pathlib import Path
 import tempfile
@@ -19,6 +20,23 @@ def props(node):
 
 
 class NativeSchematicTransportFixture(unittest.TestCase):
+    def test_native_cad_files_begin_with_root_without_comment_prefix(self):
+        for ext,kind in (('.kicad_pcb',b'kicad_pcb'),('.kicad_sch',b'kicad_sch')):
+            with self.subTest(ext=ext):
+                self.assertTrue(fixture.files()[fixture.STEM+ext].lstrip().startswith(b'('+kind))
+
+    def test_header_correction_preserves_entire_failed_source_design(self):
+        old={'.kicad_pcb':'20e381462bc3b806d52d48bd0be8a1694d4d989da8fcf6df9724f3017933ea7c',
+             '.kicad_sch':'23674cefa4a8c0d8b0bffc3d2db444d56786d72bd842ed2942d8f112f90bafb8',
+             '.kicad_pro':'34e7f86eef740735896725404399fda59d4c223c27a88a05b293c455d02bc6b1',
+             '.kicad_prl':'6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b'}
+        for ext,pin in old.items():
+            raw=fixture.files()[fixture.STEM+ext]
+            prior=(b'; SPDX-License-Identifier: GPL-3.0-or-later\n'+raw) if ext in ('.kicad_pcb','.kicad_sch') else raw
+            self.assertEqual(hashlib.sha256(prior).hexdigest(),pin)
+            if ext in ('.kicad_pcb','.kicad_sch'):
+                self.assertEqual(sx.parse(prior.decode()),sx.parse(raw.decode()))
+
     def test_complete_packet_default_rules_and_normal_preflight(self):
         material = fixture.files()
         self.assertEqual(set(material), {fixture.STEM + ext for ext in

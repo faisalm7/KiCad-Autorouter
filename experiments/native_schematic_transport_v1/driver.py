@@ -12,10 +12,26 @@ from experiments.native_schematic_transport_v1 import fixture
 from experiments.native_schematic_toolchain_v1.driver import PREREQUISITES
 
 
+REFERENCE=ROOT/'.runs/native-schematic-transport-followup-preparation-001/protocol.json'
+REFERENCE_SHA256='33f1c2d5d8bd11faacace7628351b49384517b450b61db91494ef51acf07b8a0'
+
+def reference():
+    if p.sha(REFERENCE)!=REFERENCE_SHA256:raise p.Rejected('fixed failed001 protocol changed')
+    prior=f.read_json(REFERENCE);root=Path(prior['previous'])
+    if (p.sha(root/'result.json')!=prior['receipt_sha256'] or p.tree_hash(root)!=prior['inventory']):
+        raise p.Rejected('failed001 evidence changed')
+    row=f.read_json(root/'result.json')
+    if row.get('passed') is not False or row.get('accepted') is not False:raise p.Rejected('failed001 outcome changed')
+    costs={'wall_seconds':row['wall_seconds']+2,'full_cpu_seconds':row['full_cpu_seconds']+2,'publication_allowance_seconds_each':2}
+    if costs!=prior['prior_charged_enclosure_costs']:raise p.Rejected('failed001 costs changed')
+    return root,costs
+
+
 def experiment(output):
     started,parent,children=time.monotonic(),time.process_time(),f.child_cpu()
     output=Path(output)
-    if (output.parent!=ROOT/'.runs/native-schematic-transport-execution-001'
+    prior_root,previous=reference()
+    if (output.parent!=ROOT/'.runs/native-schematic-transport-execution-002'
             or output.name!='native' or output.exists() or output.is_symlink()):
         raise p.Rejected('fixed fresh owned experiment destination required')
     for name,pin in PREREQUISITES.items():
@@ -31,12 +47,17 @@ def experiment(output):
     source=output/'source';fixture.write_project(source);board=source/(fixture.STEM+'.kicad_pcb')
     hashes={n:hashlib.sha256(raw).hexdigest() for n,raw in fixture.files().items()}
     if p.tree_hash(source)!=hashes:raise p.Rejected('new owned source packet differs')
+    for name,raw in fixture.files().items():
+        old=(prior_root/'native/source'/name).read_bytes()
+        if name.endswith(('.kicad_pcb','.kicad_sch')):
+            if old!=b'; SPDX-License-Identifier: GPL-3.0-or-later\n'+raw or sx.parse(old.decode())!=sx.parse(raw.decode()):raise p.Rejected('correction changed original design')
+        elif raw!=old:raise p.Rejected('correction changed original rules or PRL')
     original=p.preflight(board);protected=p.protected_for_record({'scope':'whole_board_unlocked_routing'},original)
     if len(protected)!=1 or not p.locked(protected[0]):raise p.Rejected('expected exact protected copper missing')
     record={'schema':1,'accepted':False,'passed':False,'status':'failed','production_admitted':False,
             'source_id':fixture.SOURCE_ID,'source_files':hashes,'source_board':str(board),'tools':tools,
             'fixture_code_sha256':code,'route_budget_seconds':120,'whole_wall_full_cpu_cap_seconds':170,
-            'prerequisites':PREREQUISITES,'full_schematic_prerequisite_sha256':p.sha(prior),
+            'prior_charged_enclosure_costs':previous,'prerequisites':PREREQUISITES,'full_schematic_prerequisite_sha256':p.sha(prior),
             'scope':'Newly authored owned six-terminal/three-net transport only. No DRU from creation; all original PRO rules preserved. Actual Native source open must become new generated copper while locked KEEP/GND zone/fullSCH/PRL/class/SES/refill/source checks remain. Source/route/failures and enclosing costs all retained; no comparative quality or production support claim.'}
     try:
         routed=p.route(board,output/'route',seconds=120,native_toolchain=nt,experimental_schematic_parity=True)
@@ -67,9 +88,10 @@ def experiment(output):
     except (Exception,KeyboardInterrupt) as exc:
         record.update(passed=False,status='cancelled' if isinstance(exc,KeyboardInterrupt) else 'failed',error=type(exc).__name__+': '+str(exc))
     material=f.evidence_inventory(output)
-    def remaining():return min(168-(time.monotonic()-started),168-(time.process_time()-parent+f.child_cpu()-children))
+    def remaining():return min(168-previous['wall_seconds']-(time.monotonic()-started),168-previous['full_cpu_seconds']-(time.process_time()-parent+f.child_cpu()-children))
     def stable():
         h.owned_destination(owner)
+        reference()
         if p.tool_manifest(native_toolchain=nt)!=tools or any(p.sha(ROOT/n)!=pin for n,pin in code.items()):raise p.Rejected('experiment tool/code/HEAD changed')
         if p.tree_hash(source)!=hashes or f.evidence_inventory(output)!=material:raise p.Rejected('experiment source/completed material changed')
         if record['passed']:

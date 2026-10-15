@@ -47,8 +47,7 @@ def pcb_property(ref, name, value, layer):
 
 
 def board():
-    rows = ['''; SPDX-License-Identifier: GPL-3.0-or-later
-(kicad_pcb (version 20260206) (generator "pcbnew")
+    rows = ['''(kicad_pcb (version 20260206) (generator "pcbnew")
   (generator_version "10.0") (general (thickness 1.6)) (paper "A4")
   (layers (0 "F.Cu" signal) (2 "B.Cu" signal)
     (13 "F.Paste" user) (15 "B.Paste" user)
@@ -98,8 +97,7 @@ def sch_property(name, value, x='0', y='0', *, hidden=True):
 
 
 def schematic():
-    rows = ['; SPDX-License-Identifier: GPL-3.0-or-later\n'
-            '(kicad_sch (version 20250114) (generator "eeschema") '
+    rows = ['(kicad_sch (version 20250114) (generator "eeschema") '
             '(generator_version "10.0") (uuid ' + q(uid('schematic-root')) +
             ') (paper "A4") (lib_symbols (symbol ' + q(LIB_ID) +
             ' (pin_names (offset 0) hide) (exclude_from_sim no) '
