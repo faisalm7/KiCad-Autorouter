@@ -1,0 +1,70 @@
+test_growth_within_ceiling_during_read_is_rejected (tests.test_bounded_file_read.BoundedFileReadTests.test_growth_within_ceiling_during_read_is_rejected) ... ok
+test_inventory_remaining_ceiling_does_not_become_per_file_read_request (tests.test_bounded_file_read.BoundedFileReadTests.test_inventory_remaining_ceiling_does_not_become_per_file_read_request) ... FAIL
+test_oversize_descriptor_is_rejected_before_any_read (tests.test_bounded_file_read.BoundedFileReadTests.test_oversize_descriptor_is_rejected_before_any_read) ... ok
+test_request_uses_observed_size_plus_one_for_large_and_exact_limits (tests.test_bounded_file_read.BoundedFileReadTests.test_request_uses_observed_size_plus_one_for_large_and_exact_limits) ... 
+  test_request_uses_observed_size_plus_one_for_large_and_exact_limits (tests.test_bounded_file_read.BoundedFileReadTests.test_request_uses_observed_size_plus_one_for_large_and_exact_limits) (length=0, limit=402653184) ... FAIL
+  test_request_uses_observed_size_plus_one_for_large_and_exact_limits (tests.test_bounded_file_read.BoundedFileReadTests.test_request_uses_observed_size_plus_one_for_large_and_exact_limits) (length=3, limit=402653184) ... FAIL
+test_same_size_late_metadata_change_is_rejected (tests.test_bounded_file_read.BoundedFileReadTests.test_same_size_late_metadata_change_is_rejected) ... ok
+test_truncation_during_read_is_rejected (tests.test_bounded_file_read.BoundedFileReadTests.test_truncation_during_read_is_rejected) ... ok
+
+======================================================================
+FAIL: test_inventory_remaining_ceiling_does_not_become_per_file_read_request (tests.test_bounded_file_read.BoundedFileReadTests.test_inventory_remaining_ceiling_does_not_become_per_file_read_request)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_bounded_file_read.py", line 56, in test_inventory_remaining_ceiling_does_not_become_per_file_read_request
+    actual = pc.inventory(self.root, max_bytes=384 * 1024**2)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/placement_clearance.py", line 56, in inventory
+    raw=read_bytes(item.path,max_bytes-total);total+=len(raw)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/placement_clearance.py", line 35, in read_bytes
+    raw=handle.read(limit+1);after=os.fstat(handle.fileno())
+        ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_bounded_file_read.py", line 31, in read
+    if before is not None: before(size)
+                           ^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_bounded_file_read.py", line 55, in <lambda>
+    with self.observed_reads(before=lambda size: self.assertLessEqual(size, 6)) as requests:
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 402653185 not less than or equal to 6
+
+======================================================================
+FAIL: test_request_uses_observed_size_plus_one_for_large_and_exact_limits (tests.test_bounded_file_read.BoundedFileReadTests.test_request_uses_observed_size_plus_one_for_large_and_exact_limits) (length=0, limit=402653184)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_bounded_file_read.py", line 49, in test_request_uses_observed_size_plus_one_for_large_and_exact_limits
+    self.assertEqual(pc.read_bytes(self.path, limit), raw)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/placement_clearance.py", line 35, in read_bytes
+    raw=handle.read(limit+1);after=os.fstat(handle.fileno())
+        ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_bounded_file_read.py", line 31, in read
+    if before is not None: before(size)
+                           ^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_bounded_file_read.py", line 48, in <lambda>
+    with self.observed_reads(before=lambda size: self.assertEqual(size, len(raw) + 1)) as requests:
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 402653185 != 1
+
+======================================================================
+FAIL: test_request_uses_observed_size_plus_one_for_large_and_exact_limits (tests.test_bounded_file_read.BoundedFileReadTests.test_request_uses_observed_size_plus_one_for_large_and_exact_limits) (length=3, limit=402653184)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_bounded_file_read.py", line 49, in test_request_uses_observed_size_plus_one_for_large_and_exact_limits
+    self.assertEqual(pc.read_bytes(self.path, limit), raw)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/placement_clearance.py", line 35, in read_bytes
+    raw=handle.read(limit+1);after=os.fstat(handle.fileno())
+        ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_bounded_file_read.py", line 31, in read
+    if before is not None: before(size)
+                           ^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_bounded_file_read.py", line 48, in <lambda>
+    with self.observed_reads(before=lambda size: self.assertEqual(size, len(raw) + 1)) as requests:
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 402653185 != 4
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.010s
+
+FAILED (failures=3)

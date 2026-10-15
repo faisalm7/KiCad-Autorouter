@@ -95,4 +95,4 @@ class ParityAndBounds(unittest.TestCase):
    def fdopen(fd,mode):
     handle=RacingFile(realopen(fd,mode));handles.append(handle);return handle
    with patch.object(pc.os,'fdopen',fdopen),self.assertRaisesRegex(Exception,'changed or exceeded'):pc.read_bytes(path,6)
-   self.assertEqual(handles[0].request,7)
+   self.assertEqual(handles[0].request,6)

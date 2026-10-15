@@ -1,0 +1,44 @@
+{
+  "status": "nonzero_exit",
+  "exit_code": 1,
+  "wall_seconds": 0.2140802089998033,
+  "cpu_seconds": 0.151245,
+  "max_rss_bytes": 42876928,
+  "supervisor_cpu_seconds": 0.003730999999999998,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 163840,
+  "sampled_peak_workdir_bytes": 5989,
+  "resource_guards": {
+    "max_group_rss_bytes": 1073741824,
+    "max_workdir_bytes": 16777216,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+    "-B",
+    "-m",
+    "unittest",
+    "tests.test_bounded_file_read",
+    "-v"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/bounded-file-read-controls-001/before.log",
+  "log_bytes": 5989,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/bounded-file-read-controls-001",
+  "signal_cancellation_enabled": true,
+  "pid": 21096,
+  "test_sha256": "d06300911a8e82465095d55bb75a568a57278a3391f42d09e93f4bd15813fc49",
+  "helper_sha256": "f846a73367bc60dfbb48386233e405cb4bf1382f056d379787d7b823c3905feb",
+  "log_sha256": "25e7e81afb670c97b1627762979521a0d56347ae62c37b71d5eac0818fe30ebc"
+}

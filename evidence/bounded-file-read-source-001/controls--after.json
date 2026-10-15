@@ -1,0 +1,64 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 7.04033358299057,
+  "cpu_seconds": 6.678084,
+  "max_rss_bytes": 239484928,
+  "supervisor_cpu_seconds": 0.023817000000000005,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 239370240,
+  "sampled_peak_workdir_bytes": 20081,
+  "resource_guards": {
+    "max_group_rss_bytes": 1073741824,
+    "max_workdir_bytes": 33554432,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+    "-B",
+    "-m",
+    "unittest",
+    "tests.test_bounded_file_read",
+    "tests.test_placement_observer",
+    "tests.test_placement_policy",
+    "tests.test_placement_clearance",
+    "tests.test_install_smoke",
+    "tests.test_native_toolchain",
+    "-v"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/bounded-file-read-controls-001/after.log",
+  "log_bytes": 12283,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/bounded-file-read-controls-001",
+  "signal_cancellation_enabled": true,
+  "pid": 21114,
+  "modules": [
+    "tests.test_bounded_file_read",
+    "tests.test_placement_observer",
+    "tests.test_placement_policy",
+    "tests.test_placement_clearance",
+    "tests.test_install_smoke",
+    "tests.test_native_toolchain"
+  ],
+  "helper_sha256": "8fa82414fa40f80d90ed4a42f53fa2e679a52d74cfb4cfa9038239f1217aaff6",
+  "test_sha256": {
+    "tests.test_bounded_file_read": "d06300911a8e82465095d55bb75a568a57278a3391f42d09e93f4bd15813fc49",
+    "tests.test_placement_observer": "c824dc2aeea036aca6c88ff00b5e762d7e75b1cdd648ee03c815d04026aa789e",
+    "tests.test_placement_policy": "65824c0b41786b509d84bd92173a7599e790a413233bb13febc6b1bcb2d40649",
+    "tests.test_placement_clearance": "8c5b2d53243576ebd569ca23d26a66a8391b440343c26045287c9495ef078c72",
+    "tests.test_install_smoke": "39cd4448052bb8105481c7ecd4cc4ba175ef47ed785a38c29070faebef5b7861",
+    "tests.test_native_toolchain": "028e31f3701ed3d610ff526391816d0f08bb70cf2b3c903647893b894303756e"
+  },
+  "log_sha256": "72910d4a1c5e9383b4d7c72f165b183a79dfa1952b96ad986cdad839aedbab39"
+}

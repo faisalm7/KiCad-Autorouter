@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "kind": "observed-size-bounded-io-source",
+  "native_qualified": false,
+  "lower_memory_proven": false,
+  "source_sha256": {
+    "autorouter/placement_clearance.py": "8fa82414fa40f80d90ed4a42f53fa2e679a52d74cfb4cfa9038239f1217aaff6",
+    "tests/test_placement_observer.py": "c824dc2aeea036aca6c88ff00b5e762d7e75b1cdd648ee03c815d04026aa789e",
+    "tests/test_bounded_file_read.py": "d06300911a8e82465095d55bb75a568a57278a3391f42d09e93f4bd15813fc49"
+  },
+  "before": {
+    "attempted_methods": 6,
+    "failed_unique_methods": 2,
+    "failure_reports_including_subtests": 3,
+    "scope": "Real descriptors; old helper requested402653185bytes for empty/tinyfile, assertions before actualbig allocation."
+  },
+  "after": {
+    "selected_methods": 75,
+    "passed": true,
+    "wall_seconds": 7.04033358299057,
+    "full_cpu_seconds": 6.678084
+  },
+  "artifacts_sha256": {
+    "evidence/bounded-file-read-source-001/controls--after.json": "a3b30a11204bbfc94586fb1b8abf24c0223c3583dac69b05429a72c667ea7c40",
+    "evidence/bounded-file-read-source-001/controls--after.log": "72910d4a1c5e9383b4d7c72f165b183a79dfa1952b96ad986cdad839aedbab39",
+    "evidence/bounded-file-read-source-001/controls--before.json": "6c3ccaa4d1a12b95bdf1f3d249964b2a3c1d4338164da9b97aba86064bebf238",
+    "evidence/bounded-file-read-source-001/controls--before.log": "25e7e81afb670c97b1627762979521a0d56347ae62c37b71d5eac0818fe30ebc",
+    "evidence/bounded-file-read-source-001/review--NOTES.md": "4ec87db7bc21f791039bf87cc6ba60b20d8c52628a7f82a1dec86baceec31a17",
+    "evidence/bounded-file-read-source-001/review--base-pins.json": "a610a44420884e3981688a89531dbbf51587b8b16ecc422066396d16dd8da1a1",
+    "evidence/bounded-file-read-source-001/review--changes.patch": "28dfee7e98846faf5d2c621c8a0d0e8fc62f4fec3feb35f43c6c2d10cf87fd50",
+    "evidence/bounded-file-read-source-001/review--draft-pins.json": "2131b73f46d4b4d997933e931399f4e9642ac51ad4e2ccf4efe52e339f13c333",
+    "evidence/bounded-file-read-source-001/review--placement_clearance.py": "8fa82414fa40f80d90ed4a42f53fa2e679a52d74cfb4cfa9038239f1217aaff6",
+    "evidence/bounded-file-read-source-001/review--test_bounded_file_read.py": "d06300911a8e82465095d55bb75a568a57278a3391f42d09e93f4bd15813fc49",
+    "evidence/bounded-file-read-source-001/review--test_placement_observer.py": "c824dc2aeea036aca6c88ff00b5e762d7e75b1cdd648ee03c815d04026aa789e"
+  },
+  "scope": "Only one shared read request changes ceiling+1 to descriptorfstat.size+1; one existing growth-test request expectation changes7\u21926. Original cap/regular file/nofollow/nonblock/byte length/device/inode/size/mtime checks unchanged. New real append/truncate/same-size metadata/oversize/exact-zero boundaries pass. Full integration, actual lower memory/current installed qualification remain unexecuted; no routing-quality or broader-source claim."
+}

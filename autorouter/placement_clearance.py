@@ -32,7 +32,7 @@ def read_bytes(path,limit=sx.MAX_BYTES):
     with os.fdopen(fd,'rb') as handle:
         before=os.fstat(handle.fileno())
         if not stat.S_ISREG(before.st_mode) or before.st_size>limit:raise p.Rejected('placement bounded regular file required')
-        raw=handle.read(limit+1);after=os.fstat(handle.fileno())
+        raw=handle.read(before.st_size+1);after=os.fstat(handle.fileno())
     if len(raw)>limit or len(raw)!=before.st_size or (before.st_dev,before.st_ino,before.st_size,before.st_mtime_ns)!=(after.st_dev,after.st_ino,after.st_size,after.st_mtime_ns):
         raise p.Rejected('placement file changed or exceeded read ceiling')
     return raw
