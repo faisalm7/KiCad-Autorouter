@@ -38,6 +38,27 @@ class LedFetchControls(unittest.TestCase):
   from experiments.original_project_native_v1 import driver
   self.assertEqual(driver.CASES['sunx-v21'],('portable-demo',cfg['board_path'],cfg['commit'],None))
   self.assertIn('sunx-v21',driver.REFILLED_ORIGINALS)
+ def test_ir_plan_pins_complete_source_notice_packet_and_original_gate(self):
+  cfg=demo.fixed_profile('ir-obstacle');rows=cfg['rows'];by={r['source_path']:r for r in rows}
+  self.assertEqual(cfg['commit'],'6399dfd3bd8d2f48878a9a7c5b2f2e7a76a2b899')
+  self.assertEqual(set(by),{'LICENSE','README.md','KiCad/IR_Sensor.kicad_pcb','KiCad/IR_Sensor.kicad_pro','KiCad/IR_Sensor.kicad_sch'})
+  self.assertEqual((len(rows),sum(r['bytes'] for r in rows)),(5,222901))
+  self.assertEqual(by['KiCad/IR_Sensor.kicad_pcb']['sha256'],'f52eca1575d9438b803a672088de98436e9a299b6014a3bbafca963974431774')
+  self.assertEqual(by['LICENSE']['sha256'],'7a9ff699e91b9acf1cf6747e72f82fab1ec25ead316ece85e14b8043200ebb74')
+  self.assertEqual(cfg['native_packet_notice_copies'],{'KiCad/_licenses/creator/LICENSE':'LICENSE','KiCad/_licenses/creator/README.md':'README.md'})
+  self.assertEqual((cfg['native_packet_files'],cfg['native_packet_bytes']),(7,227145))
+  self.assertEqual(cfg['native_packet_bytes'],cfg['bytes']+sum(by[n]['bytes'] for n in cfg['native_packet_notice_copies'].values()))
+  self.assertEqual((cfg['max_requests'],cfg['network_byte_cap'],cfg['max_single_response_bytes']),(5,222906,159648))
+  self.assertEqual((cfg['wall_budget_seconds'],cfg['cpu_budget_seconds'],cfg['output_byte_cap']),(300,300,2*1024**2))
+  self.assertFalse(any(path.endswith('.kicad_prl') for path in by))
+  result=demo.fetch_demo(cfg['default_output'],profile_id='ir-obstacle',root=self.root,transport=lambda *a:self.fail('offline plan transported'))
+  self.assertEqual((result['action'],result['network_requests'],result['planned_network_requests'],result['planned_bytes']),('plan_only',0,5,222901))
+  self.assertFalse((self.root/'.data').exists())
+  cfg['rows'][0]['sha256']='0'*64
+  self.assertEqual(demo.fixed_profile('ir-obstacle')['rows'][0]['sha256'],'7a9ff699e91b9acf1cf6747e72f82fab1ec25ead316ece85e14b8043200ebb74')
+  from experiments.original_project_native_v1 import driver
+  self.assertEqual(driver.CASES['ir-obstacle'],('portable-demo','KiCad/IR_Sensor.kicad_pcb','6399dfd3bd8d2f48878a9a7c5b2f2e7a76a2b899',None))
+  self.assertIn('ir-obstacle',driver.REFILLED_ORIGINALS)
  def test_clean_checkout_plan_has_no_data_cache_git_or_network_requirement(self):
   result=demo.fetch_demo('.data/led-demo-test',root=self.root,transport=lambda *a:(_ for _ in ()).throw(AssertionError('no network')))
   self.assertEqual(result['action'],'plan_only');self.assertEqual(result['network_requests'],0);self.assertFalse((self.root/'.data').exists());self.assertFalse((self.root/'.git').exists());self.assertFalse((self.root/'.runs').exists())

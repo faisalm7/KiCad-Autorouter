@@ -549,7 +549,133 @@ SUNX_PROFILE = {'schema': 1,
               'Source6/190664B and native8/213627B are finite inventories, not a production-support or '
               'independent-family count.']}
 
+IR_OBSTACLE_PROFILE = {'schema': 1,
+ 'profile_id': 'ir-obstacle',
+ 'project_id': 'ir-obstacle',
+ 'repository': 'AhmedOsama21998/IR-Obstacle-Avoidance-Sensor-PCB',
+ 'commit': '6399dfd3bd8d2f48878a9a7c5b2f2e7a76a2b899',
+ 'rows': [{'source_path': 'LICENSE',
+           'bytes': 1077,
+           'git_blob_sha1': '9728088fb91be640565f11bd9622373f992b9ee2',
+           'sha256': '7a9ff699e91b9acf1cf6747e72f82fab1ec25ead316ece85e14b8043200ebb74',
+           'mode': '100644',
+           'repository': 'AhmedOsama21998/IR-Obstacle-Avoidance-Sensor-PCB',
+           'commit': '6399dfd3bd8d2f48878a9a7c5b2f2e7a76a2b899',
+           'destination': 'ir-obstacle/LICENSE',
+           'raw_url': 'https://raw.githubusercontent.com/AhmedOsama21998/IR-Obstacle-Avoidance-Sensor-PCB/6399dfd3bd8d2f48878a9a7c5b2f2e7a76a2b899/LICENSE',
+           'blob_url': 'https://github.com/AhmedOsama21998/IR-Obstacle-Avoidance-Sensor-PCB/blob/6399dfd3bd8d2f48878a9a7c5b2f2e7a76a2b899/LICENSE',
+           'rights_basis': 'Pinned README explicitly applies MIT to repository project files, including '
+                           'the listed PCB/PRO/SCH, to the extent the author owns the rights; matching MIT '
+                           'copyright2026 Ahmed Osama Metwally and full README retained. '
+                           'Design-only/unfabricated; no Native/routing/electrical/physical or '
+                           'independent-ancestry claim. Unique embedded LOGO and stock model/library title '
+                           'chains remain unclosed; no images/models/libraries/scripts acquired. Prior '
+                           'source research197.97749304771423s exceeded180s and remains exposed.'},
+          {'source_path': 'README.md',
+           'bytes': 3167,
+           'git_blob_sha1': '06dc3c56933a13fae59d7d601a3db1e26edff72d',
+           'sha256': '1dd84f03c05e371507fda0f5c3be237eea52db5d991858e9c1f75e9327205926',
+           'mode': '100644',
+           'repository': 'AhmedOsama21998/IR-Obstacle-Avoidance-Sensor-PCB',
+           'commit': '6399dfd3bd8d2f48878a9a7c5b2f2e7a76a2b899',
+           'destination': 'ir-obstacle/README.md',
+           'raw_url': 'https://raw.githubusercontent.com/AhmedOsama21998/IR-Obstacle-Avoidance-Sensor-PCB/6399dfd3bd8d2f48878a9a7c5b2f2e7a76a2b899/README.md',
+           'blob_url': 'https://github.com/AhmedOsama21998/IR-Obstacle-Avoidance-Sensor-PCB/blob/6399dfd3bd8d2f48878a9a7c5b2f2e7a76a2b899/README.md',
+           'rights_basis': 'Pinned README explicitly applies MIT to repository project files, including '
+                           'the listed PCB/PRO/SCH, to the extent the author owns the rights; matching MIT '
+                           'copyright2026 Ahmed Osama Metwally and full README retained. '
+                           'Design-only/unfabricated; no Native/routing/electrical/physical or '
+                           'independent-ancestry claim. Unique embedded LOGO and stock model/library title '
+                           'chains remain unclosed; no images/models/libraries/scripts acquired. Prior '
+                           'source research197.97749304771423s exceeded180s and remains exposed.'},
+          {'source_path': 'KiCad/IR_Sensor.kicad_pcb',
+           'bytes': 159647,
+           'git_blob_sha1': 'cf3635b8d4a7e79e91626dd6d46a1697065dc54a',
+           'sha256': 'f52eca1575d9438b803a672088de98436e9a299b6014a3bbafca963974431774',
+           'mode': '100644',
+           'repository': 'AhmedOsama21998/IR-Obstacle-Avoidance-Sensor-PCB',
+           'commit': '6399dfd3bd8d2f48878a9a7c5b2f2e7a76a2b899',
+           'destination': 'ir-obstacle/KiCad/IR_Sensor.kicad_pcb',
+           'raw_url': 'https://raw.githubusercontent.com/AhmedOsama21998/IR-Obstacle-Avoidance-Sensor-PCB/6399dfd3bd8d2f48878a9a7c5b2f2e7a76a2b899/KiCad/IR_Sensor.kicad_pcb',
+           'blob_url': 'https://github.com/AhmedOsama21998/IR-Obstacle-Avoidance-Sensor-PCB/blob/6399dfd3bd8d2f48878a9a7c5b2f2e7a76a2b899/KiCad/IR_Sensor.kicad_pcb',
+           'rights_basis': 'Pinned README explicitly applies MIT to repository project files, including '
+                           'the listed PCB/PRO/SCH, to the extent the author owns the rights; matching MIT '
+                           'copyright2026 Ahmed Osama Metwally and full README retained. '
+                           'Design-only/unfabricated; no Native/routing/electrical/physical or '
+                           'independent-ancestry claim. Unique embedded LOGO and stock model/library title '
+                           'chains remain unclosed; no images/models/libraries/scripts acquired. Prior '
+                           'source research197.97749304771423s exceeded180s and remains exposed.'},
+          {'source_path': 'KiCad/IR_Sensor.kicad_pro',
+           'bytes': 15157,
+           'git_blob_sha1': '0f3d9aed84962363a8848577c76dff4210d01c56',
+           'sha256': '0393908f5263db9c95388db7d749115280350ae4b6a7dc44afba203aea3a2f8a',
+           'mode': '100644',
+           'repository': 'AhmedOsama21998/IR-Obstacle-Avoidance-Sensor-PCB',
+           'commit': '6399dfd3bd8d2f48878a9a7c5b2f2e7a76a2b899',
+           'destination': 'ir-obstacle/KiCad/IR_Sensor.kicad_pro',
+           'raw_url': 'https://raw.githubusercontent.com/AhmedOsama21998/IR-Obstacle-Avoidance-Sensor-PCB/6399dfd3bd8d2f48878a9a7c5b2f2e7a76a2b899/KiCad/IR_Sensor.kicad_pro',
+           'blob_url': 'https://github.com/AhmedOsama21998/IR-Obstacle-Avoidance-Sensor-PCB/blob/6399dfd3bd8d2f48878a9a7c5b2f2e7a76a2b899/KiCad/IR_Sensor.kicad_pro',
+           'rights_basis': 'Pinned README explicitly applies MIT to repository project files, including '
+                           'the listed PCB/PRO/SCH, to the extent the author owns the rights; matching MIT '
+                           'copyright2026 Ahmed Osama Metwally and full README retained. '
+                           'Design-only/unfabricated; no Native/routing/electrical/physical or '
+                           'independent-ancestry claim. Unique embedded LOGO and stock model/library title '
+                           'chains remain unclosed; no images/models/libraries/scripts acquired. Prior '
+                           'source research197.97749304771423s exceeded180s and remains exposed.'},
+          {'source_path': 'KiCad/IR_Sensor.kicad_sch',
+           'bytes': 43853,
+           'git_blob_sha1': 'd32905d4a5980f35128d2f5fd81c220e552edcce',
+           'sha256': 'fb2ead949c4005eda55d7ff8e48ff39293ad096bd9f1ca12a3c623fc62915786',
+           'mode': '100644',
+           'repository': 'AhmedOsama21998/IR-Obstacle-Avoidance-Sensor-PCB',
+           'commit': '6399dfd3bd8d2f48878a9a7c5b2f2e7a76a2b899',
+           'destination': 'ir-obstacle/KiCad/IR_Sensor.kicad_sch',
+           'raw_url': 'https://raw.githubusercontent.com/AhmedOsama21998/IR-Obstacle-Avoidance-Sensor-PCB/6399dfd3bd8d2f48878a9a7c5b2f2e7a76a2b899/KiCad/IR_Sensor.kicad_sch',
+           'blob_url': 'https://github.com/AhmedOsama21998/IR-Obstacle-Avoidance-Sensor-PCB/blob/6399dfd3bd8d2f48878a9a7c5b2f2e7a76a2b899/KiCad/IR_Sensor.kicad_sch',
+           'rights_basis': 'Pinned README explicitly applies MIT to repository project files, including '
+                           'the listed PCB/PRO/SCH, to the extent the author owns the rights; matching MIT '
+                           'copyright2026 Ahmed Osama Metwally and full README retained. '
+                           'Design-only/unfabricated; no Native/routing/electrical/physical or '
+                           'independent-ancestry claim. Unique embedded LOGO and stock model/library title '
+                           'chains remain unclosed; no images/models/libraries/scripts acquired. Prior '
+                           'source research197.97749304771423s exceeded180s and remains exposed.'}],
+ 'directories': ['KiCad'],
+ 'board_path': 'KiCad/IR_Sensor.kicad_pcb',
+ 'output_prefix': 'ir-obstacle-demo-',
+ 'default_output': '.data/ir-obstacle-demo-001',
+ 'file_count': 5,
+ 'bytes': 222901,
+ 'max_requests': 5,
+ 'network_byte_cap': 222906,
+ 'max_single_response_bytes': 159648,
+ 'output_byte_cap': 2097152,
+ 'wall_budget_seconds': 300,
+ 'cpu_budget_seconds': 300,
+ 'request_wall_seconds': 30,
+ 'native_packet_notice_copies': {'KiCad/_licenses/creator/LICENSE': 'LICENSE',
+                                 'KiCad/_licenses/creator/README.md': 'README.md'},
+ 'native_packet_files': 7,
+ 'native_packet_bytes': 227145,
+ 'development_exposed': True,
+ 'independent_ancestry_established': False,
+ 'native_validation_performed_by_fetch': False,
+ 'raw_assets_public': False,
+ 'warnings': ['Exactly five original creator files: full README/MIT notice and PCB/PRO/flatSCH; source has '
+              'no PRL. Native packet adds only two byte-identical notice copies.',
+              'README licenses repository project files under the included MIT to the extent of author '
+              'rights; embedded artwork/model/library provenance remains unclosed.',
+              'Publisher says design-only, unfabricated and untested. Original Native '
+              'saved-refill/fullSCH, circuit behavior and physical functionality remain unverified.',
+              'One Default class, ordinary pads and rectangle are static observations only. Keep the '
+              'original GND zone, clearances, thermal settings, model declarations and all findings '
+              'unchanged.',
+              'No source models/libraries/images/firmware/upload instructions/scripts acquired or '
+              'executed. No routing/production/independent-family claim.',
+              'Prior exposed research used21HTTP/1294070B; completed record197.97749304771423s '
+              'exceeded180s overall research cap. This failure is retained, not reset by acquisition.']}
+
 def fixed_profile(profile_id='led'):
+    if profile_id=='ir-obstacle':return copy.deepcopy(IR_OBSTACLE_PROFILE)
     if profile_id=='sunx-v21':return copy.deepcopy(SUNX_PROFILE)
     if profile_id=='pico-flipper':return copy.deepcopy(FLIPPER_PROFILE)
     if profile_id=='audio-player-my1690x':return copy.deepcopy(AUDIO_PROFILE)
@@ -787,7 +913,7 @@ def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fe
         raise
 
 def main():
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--fetch',action='store_true');parser.add_argument('--project',choices=('led','arcdice','analog-filter','cellscan','uv-dosimeter','navigation-switch','audio-player-my1690x','pico-flipper','sunx-v21'),default='led');parser.add_argument('--output');parser.add_argument('--reuse-uv-licenses',action='store_true',help='Explicitly reuse only the three pinned prior UV licence bodies; no fallback');parser.add_argument('--reuse-navigation-notices',action='store_true',help='Explicitly reuse only two pinned prior Navigation notices; old timing unmeasured, no fallback');parser.add_argument('--reuse-audio-notices',action='store_true',help='Explicit fixed Audio root notices and stale Hardware README reuse; no fallback, prior untimed cost retained');parser.add_argument('--reuse-flipper-notices',action='store_true',help='Explicitly reuse two pinned prior Flipper notices; prior metadata cost unmeasured, no fallback');args=parser.parse_args();args.output=args.output or fixed_profile(args.project)['default_output']
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--fetch',action='store_true');parser.add_argument('--project',choices=('led','arcdice','analog-filter','cellscan','uv-dosimeter','navigation-switch','audio-player-my1690x','pico-flipper','sunx-v21','ir-obstacle'),default='led');parser.add_argument('--output');parser.add_argument('--reuse-uv-licenses',action='store_true',help='Explicitly reuse only the three pinned prior UV licence bodies; no fallback');parser.add_argument('--reuse-navigation-notices',action='store_true',help='Explicitly reuse only two pinned prior Navigation notices; old timing unmeasured, no fallback');parser.add_argument('--reuse-audio-notices',action='store_true',help='Explicit fixed Audio root notices and stale Hardware README reuse; no fallback, prior untimed cost retained');parser.add_argument('--reuse-flipper-notices',action='store_true',help='Explicitly reuse two pinned prior Flipper notices; prior metadata cost unmeasured, no fallback');args=parser.parse_args();args.output=args.output or fixed_profile(args.project)['default_output']
     try:
         with shared.cancellation(),shared.alarm(SECONDS):record=fetch_demo(args.output,profile_id=args.project,fetch=args.fetch,started=START,cpu_started=CPU_START,reuse_uv_licenses=args.reuse_uv_licenses,reuse_navigation_notices=args.reuse_navigation_notices,reuse_audio_notices=args.reuse_audio_notices,reuse_flipper_notices=args.reuse_flipper_notices)
     except (Exception,KeyboardInterrupt) as exc:
