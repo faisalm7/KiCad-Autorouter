@@ -10,11 +10,13 @@ import uuid
 
 STEM = 'owned1007-fields'
 CASES = ('positive', 'hidden_later_custom_field')
+MASKED_CASE = 'hidden_later_description'
 NS = uuid.UUID('3663569e-02ea-41ba-81f6-45220a40b488')
 FIELD = 'AutorouterDiagnosticLater'
 MATCH = 'OWNED_FIELD_MATCH_J1_001'
 MISMATCH = 'OWNED_FIELD_MISMATCH_J1_001'
 DESCRIPTION = 'Project-owned single-pin terminal'
+MASKED_DESCRIPTION = 'OWNED_DESCRIPTION_MISMATCH_J1_001'
 FOOTPRINT = 'owned1007_terminal'
 # ref, PCB x/y, global net, schematic x/y, left-facing pin endpoint x.
 TERMINALS = (('J1', '10', '10', 'SIGNAL', '40.64', '40.64', '38.1'),
@@ -55,7 +57,8 @@ def positive_board():
     for ref, x, y, net, _, _, _ in TERMINALS:
         rows.append('(footprint ' + q(FOOTPRINT) + ' (layer "F.Cu") (uuid ' +
                     q(uid(ref + '-footprint')) + ') (at ' + x + ' ' + y + ')')
-        # Datasheet deliberately precedes the hidden custom field in every FP.
+        # Text order is not Native field order: the completed custom negative
+        # was reported before Datasheet. Preserve its original bytes unchanged.
         for name, value, layer in (('Reference', ref, 'F.SilkS'),
                                    ('Value', FOOTPRINT, 'F.Fab'),
                                    ('Datasheet', '~', 'F.Fab'),
@@ -91,13 +94,22 @@ def positive_board():
 
 
 def board(case):
-    if case not in CASES:
+    if case not in CASES and case != MASKED_CASE:
         raise ValueError('unknown owned field-control case')
     positive = positive_board()
     if positive.count(MATCH.encode()) != 1:
         raise ValueError('J1 field replacement must be unique')
     if case == 'positive':
         return positive
+    if case == MASKED_CASE:
+        original = pcb_property('J1', 'Description', DESCRIPTION, 'F.Fab').encode()
+        changed = pcb_property('J1', 'Description', MASKED_DESCRIPTION, 'F.Fab').encode()
+        if positive.count(original) != 1:
+            raise ValueError('unique original J1 Description property required')
+        negative = positive.replace(original, changed, 1)
+        if negative.count(changed) != 1 or negative.replace(changed, original, 1) != positive:
+            raise ValueError('negative must change only J1 Description value')
+        return negative
     negative = positive.replace(MATCH.encode(), MISMATCH.encode(), 1)
     if negative.replace(MISMATCH.encode(), MATCH.encode(), 1) != positive:
         raise ValueError('negative must change only J1 hidden custom field value')
@@ -186,7 +198,7 @@ def project():
 
 
 def files(case):
-    # Both cases share byte-identical SCH/PRO/DRU/PRL; only one PCB value differs.
+    # All cases share byte-identical SCH/PRO/DRU/PRL; only one PCB value differs.
     return {STEM + '.kicad_pcb': board(case), STEM + '.kicad_sch': schematic(),
             STEM + '.kicad_pro': project(),
             STEM + '.kicad_dru': b'''(version 1)

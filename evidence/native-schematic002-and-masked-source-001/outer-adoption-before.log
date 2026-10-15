@@ -1,0 +1,15 @@
+test_outer_guard_refuses_late_child_or_reference_mutation (__main__.HiddenOuterMaterial.test_outer_guard_refuses_late_child_or_reference_mutation) ... 
+  test_outer_guard_refuses_late_child_or_reference_mutation (__main__.HiddenOuterMaterial.test_outer_guard_refuses_late_child_or_reference_mutation) (changed='adopted_child') ... FAIL
+
+======================================================================
+FAIL: test_outer_guard_refuses_late_child_or_reference_mutation (__main__.HiddenOuterMaterial.test_outer_guard_refuses_late_child_or_reference_mutation) (changed='adopted_child')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_schematic_outer_material.py", line 31, in test_outer_guard_refuses_late_child_or_reference_mutation
+    with self.assertRaises(p.Rejected):globals['stable']()
+AssertionError: Rejected not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.013s
+
+FAILED (failures=1)

@@ -8,7 +8,7 @@ import argparse,hashlib,json,shutil,sys,time
 ROOT=next(x for x in Path(__file__).resolve().parents if (x/'autorouter/pipeline.py').is_file())
 sys.path[:0]=[str(ROOT),str(Path(__file__).resolve().parent)];sys.dont_write_bytecode=True
 from autorouter import pipeline as p,floor_route as f,sexpr as sx,handoff as h,schematic_field_evidence as fields
-import fixture
+from experiments.native_schematic_toolchain_v1 import fixture
 BOARD=fixture.STEM+'.kicad_pcb'
 PRL=fixture.STEM+'.kicad_prl'
 SECONDS=180
@@ -43,8 +43,9 @@ def retained_case(directory,row,nt):
         if row['case']=='positive':
             if not p.native_accepted(observed) or qualification.get('qualified') is not True or qualification.get('component_count')!=4:
                 raise p.Rejected('owned positive failed complete field qualification')
-        elif row['case']=='hidden_later_custom_field':
-            if p.native_accepted(observed) or qualification.get('qualified') is not False or fixture.FIELD not in qualification.get('reason',''):
+        elif row['case'] in ('hidden_later_custom_field',fixture.MASKED_CASE):
+            expected_field=fixture.FIELD if row['case']=='hidden_later_custom_field' else 'Description'
+            if p.native_accepted(observed) or qualification.get('qualified') is not False or expected_field not in qualification.get('reason',''):
                 raise p.Rejected('hidden later field did not reject for its intended reason')
         else:raise p.Rejected('unknown control case')
     for project in (source.parent,candidate.parent,filled.parent,jobdir/'final-drc-input'):
