@@ -1,0 +1,43 @@
+test_actual_qualification_late_correction_clears_nested_delivery_flags (draft_controls.ActualCostAndPublication.test_actual_qualification_late_correction_clears_nested_delivery_flags) ... ERROR
+test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation (draft_controls.ActualWorkerCancellation.test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation) ... 
+  test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation (draft_controls.ActualWorkerCancellation.test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation) (status='cancelled', raw_cancelled=False) ... FAIL
+  test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation (draft_controls.ActualWorkerCancellation.test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation) (status='rejected', raw_cancelled=False) ... FAIL
+  test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation (draft_controls.ActualWorkerCancellation.test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation) (status='rejected', raw_cancelled=True) ... FAIL
+
+======================================================================
+ERROR: test_actual_qualification_late_correction_clears_nested_delivery_flags (draft_controls.ActualCostAndPublication.test_actual_qualification_late_correction_clears_nested_delivery_flags)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/adaptive-native-draft-003/test_controller_draft.py", line 130, in test_actual_qualification_late_correction_clears_nested_delivery_flags
+    self.assertTrue(retained['final_charged_results'])
+                    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'final_charged_results'
+
+======================================================================
+FAIL: test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation (draft_controls.ActualWorkerCancellation.test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation) (status='cancelled', raw_cancelled=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/adaptive-native-draft-003/test_controller_draft.py", line 151, in test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation
+    self.assertEqual(m.worker(root/'protocol.json',spec,'pin'),expected)
+AssertionError: 0 != 130
+
+======================================================================
+FAIL: test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation (draft_controls.ActualWorkerCancellation.test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation) (status='rejected', raw_cancelled=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/adaptive-native-draft-003/test_controller_draft.py", line 151, in test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation
+    self.assertEqual(m.worker(root/'protocol.json',spec,'pin'),expected)
+AssertionError: 0 != 130
+
+======================================================================
+FAIL: test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation (draft_controls.ActualWorkerCancellation.test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation) (status='rejected', raw_cancelled=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/adaptive-native-draft-003/test_controller_draft.py", line 151, in test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation
+    self.assertEqual(m.worker(root/'protocol.json',spec,'pin'),expected)
+AssertionError: 0 != 130
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.008s
+
+FAILED (failures=3, errors=1)

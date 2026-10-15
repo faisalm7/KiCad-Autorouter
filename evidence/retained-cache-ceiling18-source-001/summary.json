@@ -1,0 +1,228 @@
+{
+  "schema": 1,
+  "kind": "finite-operational-cache-ceiling-source-and-pre-engine-refusal",
+  "git_base": "026d57369e32b5b9cd4408683b9b95ad98a41809",
+  "source_sha256": {
+    "autorouter/pipeline.py": "df2317f2c3f54e777ac6523860970f612e14cf906f6266d89b6c5e3748f84724",
+    "tests/test_storage_scan.py": "1adc7e5c12b84689ec0966b4ad0369c84cb4d99641955150db3fcb0a981b0a68"
+  },
+  "exact_source_transform": "before.replace('16*1024**3','18*1024**3').replace('16 GiB','18 GiB') == current",
+  "diagnosis": {
+    "schema": 1,
+    "kind": "actual-retained-aggregate-resource-refusal-diagnosis",
+    "scopes": {
+      ".data": 60683517,
+      ".tools": 7397082049,
+      ".runs": 9787403196
+    },
+    "total": 17245168762,
+    "existing_limit_bytes": 17179869184,
+    "proposed_limit_bytes": 19327352832,
+    "disk_free_bytes": 223428407296,
+    "wall_seconds": 4.286435707996134,
+    "parent_cpu_seconds": 3.9986149999999996,
+    "new_native_execution": false,
+    "new_engine_execution": false
+  },
+  "changes": "Only aggregate retained .data/.tools/.runs cache ceiling16to18GiB. Full fresh scan/no omitted evidence,15s scan/500k entries, symlink handling,2GiB disk headroom, original design checks and every routing/process wall/CPU/RSS/workdir guard unchanged. Backup limits/helpers unchanged; no full restoration trigger from this operational-only change.",
+  "actual_first_attempt": {
+    "outcome": "pre-engine resource refusal, no candidate or routing result",
+    "native_steps": 0,
+    "engine_steps": 0,
+    "wall_seconds": 11.153989874990657,
+    "full_cpu_seconds": 7.16206,
+    "preparation": {
+      "wall_seconds": 1.9979595830081962,
+      "full_cpu_seconds": 1.540182,
+      "scope": "Actual preparation from module entry plus separately charged startup1/publication2; development/research separate."
+    },
+    "required_carry": {
+      "wall_seconds": 19.151949457998853,
+      "full_cpu_seconds": 14.702242,
+      "scope": "two attempted operations eachstartup1/publication2; no reader ran. Uniform carry to every subsequent IR comparison row."
+    }
+  },
+  "software": {
+    "before": "Actual new sparse17GiB fixture rejected by old16GiB guard; no payload allocation.",
+    "targeted": {
+      "methods": 11,
+      "passed": true,
+      "wall_seconds": 0.16978383300011046,
+      "full_cpu_seconds": 0.162857
+    },
+    "full098": {
+      "methods": 1435,
+      "passed": true,
+      "wall_seconds": 116.52623054099968,
+      "full_cpu_seconds": 109.72463700000002
+    }
+  },
+  "controller_controls": {
+    "methods": 18,
+    "passed": true,
+    "before001": "six errors from unresolved macOS temporary paths; retained, no intended proof",
+    "before002": "three actual cancellation failures; one incomplete comparison fixture error",
+    "before_missing003": "only missing qualification nested-delivery refusal reproduced on exact old controller",
+    "after001": "all18 methods pass with canonical paths and explicit synthetic comparison stub",
+    "host001": "actual two fixed read-only Git commands succeed under Python audit/Popen guard, four forbidden commands refused before launch",
+    "no_native_or_engine": true
+  },
+  "material": [
+    {
+      "source": ".runs/retained-cache-pipeline-before-001.py",
+      "file": "evidence/retained-cache-ceiling18-source-001/retained-cache-pipeline-before-001.py",
+      "sha256": "8c4f3b0bcb87349a52ae94538af7650636b7e7b79b51c4f9f9e8956dea1a3eea",
+      "bytes": 144352
+    },
+    {
+      "source": ".runs/retained-cache-ceiling-diagnosis-001.json",
+      "file": "evidence/retained-cache-ceiling18-source-001/retained-cache-ceiling-diagnosis-001.json",
+      "sha256": "b693ed55010ba90eb6d4b821faa06f1dfe0c53c1834eb60df06efe73257ef4b7",
+      "bytes": 460
+    },
+    {
+      "source": ".runs/cache-ceiling-before-001/execution.json",
+      "file": "evidence/retained-cache-ceiling18-source-001/cache-ceiling-before-001--execution.json",
+      "sha256": "0798a4b90dfbc163bd8779f9f97ab95611ac43e70c68a93c6295c90116a1e6bf",
+      "bytes": 3014
+    },
+    {
+      "source": ".runs/cache-ceiling-before-001/tests.log",
+      "file": "evidence/retained-cache-ceiling18-source-001/cache-ceiling-before-001--tests.log",
+      "sha256": "29ceb83c82b666e28835ae2d3e8aacadb0f32d350235aeb1641955f07e49c36f",
+      "bytes": 1252
+    },
+    {
+      "source": ".runs/cache-ceiling-after-001/execution.json",
+      "file": "evidence/retained-cache-ceiling18-source-001/cache-ceiling-after-001--execution.json",
+      "sha256": "898ea600ca7c1ad8229bcfaa5a9945547a0b5ab8fdf8efa6e605eacb2d008ca7",
+      "bytes": 2850
+    },
+    {
+      "source": ".runs/cache-ceiling-after-001/tests.log",
+      "file": "evidence/retained-cache-ceiling18-source-001/cache-ceiling-after-001--tests.log",
+      "sha256": "d11cbe5364a4b84fc59e5bfe86671cf2d363a330d4bb9ce58e2ecb6374811bcc",
+      "bytes": 1909
+    },
+    {
+      "source": ".runs/full-integration-098/execution.json",
+      "file": "evidence/retained-cache-ceiling18-source-001/full-integration-098--execution.json",
+      "sha256": "438de528d5749cded9e6f443aa1dac0d7cdd7d259c4a4fd0f5c6eebed9303166",
+      "bytes": 22369
+    },
+    {
+      "source": ".runs/full-integration-098/command.log",
+      "file": "evidence/retained-cache-ceiling18-source-001/full-integration-098--command.log",
+      "sha256": "ecd1f74b5fa35aa615c8c4005e02b3c79ad02855fc7e08d84f525168f072d5ff",
+      "bytes": 228862
+    },
+    {
+      "source": ".runs/run-full-integration-098.py",
+      "file": "evidence/retained-cache-ceiling18-source-001/run-full-integration-098.py",
+      "sha256": "cfa337f2e8beb6989d6669300102e6dd6575927caf5f9bbb68a0e34b079228b7",
+      "bytes": 7752
+    },
+    {
+      "source": ".runs/run-cache-ceiling-controls-001.py",
+      "file": "evidence/retained-cache-ceiling18-source-001/run-cache-ceiling-controls-001.py",
+      "sha256": "29bf68dd291b46735277e91fe647d110e11639ca4b2f26af5adc437ab047205f",
+      "bytes": 2173
+    },
+    {
+      "source": ".runs/ir-adaptive-001-protocol.json",
+      "file": "evidence/retained-cache-ceiling18-source-001/ir-adaptive-001-protocol.json",
+      "sha256": "30ebf12518b4c6c33f197975b7a15a98ece6285144375a884b27780fcfb504e1",
+      "bytes": 42967
+    },
+    {
+      "source": ".runs/ir-adaptive-001-native/execution.json",
+      "file": "evidence/retained-cache-ceiling18-source-001/ir-adaptive-001-native--execution.json",
+      "sha256": "17e56a2b0a505ea651b43da7c3eb84db7484f59e7cf7be1984fab19a6f0e8e61",
+      "bytes": 8647
+    },
+    {
+      "source": ".runs/ir-adaptive-001-native/invocation.json",
+      "file": "evidence/retained-cache-ceiling18-source-001/ir-adaptive-001-native--invocation.json",
+      "sha256": "e1a718d23aee23fe54320ca17c152b4968dba4b9d223085257ae3ee8c23b8789",
+      "bytes": 1092
+    },
+    {
+      "source": ".runs/ir-adaptive-001-native/C_adaptive/result.json",
+      "file": "evidence/retained-cache-ceiling18-source-001/ir-adaptive-001-native--C_adaptive--result.json",
+      "sha256": "d62f6ac0857fef0f33a0a43245927c750453e951d0958956340fddc8d87f08ef",
+      "bytes": 2234
+    },
+    {
+      "source": ".runs/adaptive-controller-before-001/execution.json",
+      "file": "evidence/retained-cache-ceiling18-source-001/adaptive-controller-before-001--execution.json",
+      "sha256": "acb3527ed510b14eb4f110899a04ba018e536cb997aaae2685543566643c5ffd",
+      "bytes": 3426
+    },
+    {
+      "source": ".runs/adaptive-controller-before-001/command.log",
+      "file": "evidence/retained-cache-ceiling18-source-001/adaptive-controller-before-001--command.log",
+      "sha256": "205b31af9caa6be315e8699169481b1da3a826cfcdf2a5517e39e2a5453dd86f",
+      "bytes": 11798
+    },
+    {
+      "source": ".runs/adaptive-controller-before-002/execution.json",
+      "file": "evidence/retained-cache-ceiling18-source-001/adaptive-controller-before-002--execution.json",
+      "sha256": "dc20cf06688f32bf85740dc8df7fa00dc012c38af9be4fd49ae62e36f294e5b2",
+      "bytes": 3424
+    },
+    {
+      "source": ".runs/adaptive-controller-before-002/command.log",
+      "file": "evidence/retained-cache-ceiling18-source-001/adaptive-controller-before-002--command.log",
+      "sha256": "e723711ca0110c5883aeb33f19476c6a041107870c9f188ae822e0663c18e188",
+      "bytes": 4345
+    },
+    {
+      "source": ".runs/adaptive-controller-before-missing-003/execution.json",
+      "file": "evidence/retained-cache-ceiling18-source-001/adaptive-controller-before-missing-003--execution.json",
+      "sha256": "a66bf8b521937af26ad4146fa72c6973a87ffd580ba68b933d3491f67ca1b3d9",
+      "bytes": 3589
+    },
+    {
+      "source": ".runs/adaptive-controller-before-missing-003/command.log",
+      "file": "evidence/retained-cache-ceiling18-source-001/adaptive-controller-before-missing-003--command.log",
+      "sha256": "b699bad2d9d72fb47ac04d7579cc0d9d5b418610d094c7458ecf053b5057ca0e",
+      "bytes": 1027
+    },
+    {
+      "source": ".runs/adaptive-controller-after-001/execution.json",
+      "file": "evidence/retained-cache-ceiling18-source-001/adaptive-controller-after-001--execution.json",
+      "sha256": "cced1959e2b86dbec6bbcc446140b7b5947f760a095bc5e1988761b6e42e2f5e",
+      "bytes": 2981
+    },
+    {
+      "source": ".runs/adaptive-controller-after-001/command.log",
+      "file": "evidence/retained-cache-ceiling18-source-001/adaptive-controller-after-001--command.log",
+      "sha256": "fb747d16eddf82d9211a22a436763bf90b3bd18269705e3aaf5615cb6d8cfe98",
+      "bytes": 3265
+    },
+    {
+      "source": ".runs/adaptive-controller-host-001/execution.json",
+      "file": "evidence/retained-cache-ceiling18-source-001/adaptive-controller-host-001--execution.json",
+      "sha256": "d6a750c3c4c45dc26bfec5176a88757914ffd11afaaef787e18609cda40c52df",
+      "bytes": 3139
+    },
+    {
+      "source": ".runs/adaptive-controller-host-001/command.log",
+      "file": "evidence/retained-cache-ceiling18-source-001/adaptive-controller-host-001--command.log",
+      "sha256": "3150a8aa2de4e37438896eba6b3c0375f716269cad71422e6d023ea640635207",
+      "bytes": 385
+    }
+  ],
+  "limits": [
+    "No adaptive Native trial or routing improvement qualified. First attempt not silently retried or called a routed board.",
+    "Historical controls remain literal. Next controller must bind exact operational delta and preceding failed-operation costs, never permit arbitrary implementation drift.",
+    "Full098 is software integration; installation036 predates adaptive/ceiling changes.",
+    "All original scientific/human/electrical/physical/formal-release gates remain. Raw on-Mac only by owner choice."
+  ],
+  "historical_metadata_issue": {
+    "path": ".runs/storage-capacity-targeted-001/execution.json",
+    "sha256": "4f2480ff925af8d03f0abcca00e3a315ae13ce213005e6808f4a3a109aa03a8c",
+    "issue": "Historical log has32 storage/runner successes, but receipt pins unrelated installation sources/scope. Original tested source identities are not established by that receipt. Preserved unchanged; not used to qualify current18GiB guard.",
+    "current_authority": "Fresh cache-ceiling-after001 pins actual pipeline/test_storage_scan and passes11methods; full098 binds current pipeline/storage sources and passes1435methods. No invented historical source hashes."
+  }
+}

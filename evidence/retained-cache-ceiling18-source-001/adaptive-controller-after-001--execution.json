@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "mode": "after",
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 0.19781729197711684,
+    "cpu_seconds": 0.165125,
+    "max_rss_bytes": 43237376,
+    "supervisor_cpu_seconds": 0.004068999999999989,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 163840,
+    "sampled_peak_workdir_bytes": 3265,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 1048576,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "-c",
+      "import sys,os,unittest,importlib.util;sys.path.insert(0,'/Users/faisal/Projects/KiCad-Autorouter-local');os.chdir('/Users/faisal/Projects/KiCad-Autorouter-local');spec=importlib.util.spec_from_file_location('draft_controls','/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/adaptive-native-draft-004/test_controller_draft.py');m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);suite=unittest.defaultTestLoader.loadTestsFromModule(m);r=unittest.TextTestRunner(verbosity=2).run(suite);sys.exit(0 if r.wasSuccessful() else 1)"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/adaptive-controller-after-001/command.log",
+    "log_bytes": 3265,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/adaptive-controller-after-001",
+    "signal_cancellation_enabled": true,
+    "pid": 95984
+  },
+  "source_sha256": {
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/adaptive-native-draft-004/test_controller_draft.py": "daa8e8377c7e4b145632d557cc4b12cdd081ca244156a4362682bf6a47f5b72e",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/adaptive-native-draft-004/controller.py": "4fc95c256845d7d529292ce3b6741e47d6e4ab06b86a1a5f6fb3df7414c44fbe",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/adaptive-native-draft-001/controller.py": "dc237bb75b36992d14b31298987ba7d422d8004fb6e883d0663f38eb462d6917"
+  },
+  "wall_seconds": 0.24593779200222343,
+  "full_cpu_seconds": 0.216055,
+  "log_sha256": "fb747d16eddf82d9211a22a436763bf90b3bd18269705e3aaf5615cb6d8cfe98",
+  "controller_sha256": "237ef85a9e881fa58635cab4fdc5ff4dacc2afb00a8bd3769bea010bbd1914b9"
+}

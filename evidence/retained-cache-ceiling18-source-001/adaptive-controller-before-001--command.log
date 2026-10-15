@@ -1,0 +1,117 @@
+test_actual_qualification_late_correction_clears_nested_delivery_flags (draft_controls.ActualCostAndPublication.test_actual_qualification_late_correction_clears_nested_delivery_flags) ... ERROR
+test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation (draft_controls.ActualWorkerCancellation.test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation) ... 
+  test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation (draft_controls.ActualWorkerCancellation.test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation) (status='cancelled', raw_cancelled=False) ... ERROR
+  test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation (draft_controls.ActualWorkerCancellation.test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation) (status='rejected', raw_cancelled=False) ... ERROR
+  test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation (draft_controls.ActualWorkerCancellation.test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation) (status='rejected', raw_cancelled=True) ... ERROR
+  test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation (draft_controls.ActualWorkerCancellation.test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation) (status='drc_rejected', raw_cancelled=False) ... ERROR
+  test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation (draft_controls.ActualWorkerCancellation.test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation) (status='quality_rejected', raw_cancelled=False) ... ERROR
+
+======================================================================
+ERROR: test_actual_qualification_late_correction_clears_nested_delivery_flags (draft_controls.ActualCostAndPublication.test_actual_qualification_late_correction_clears_nested_delivery_flags)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/adaptive-native-draft-002/test_controller_draft.py", line 128, in test_actual_qualification_late_correction_clears_nested_delivery_flags
+    retained=m.f.read_json(out/'execution.json')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/floor_route.py", line 42, in read_json
+    return json.loads(read_bytes(path),object_pairs_hook=pairs,parse_constant=constant)
+                      ^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/placement_clearance.py", line 30, in read_bytes
+    if any(x.is_symlink() for x in (path,*path.parents)):raise p.Rejected('placement symlink unsupported')
+                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+autorouter.pipeline.Rejected: placement symlink unsupported
+
+======================================================================
+ERROR: test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation (draft_controls.ActualWorkerCancellation.test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation) (status='cancelled', raw_cancelled=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/adaptive-native-draft-002/test_controller_draft.py", line 151, in test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation
+    self.assertEqual(m.worker(root/'protocol.json',spec,'pin'),expected)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/adaptive-native-draft-001/controller.py", line 261, in worker
+    require(f.canonical(f.read_json(root/'invocation.json'))==f.canonical(raw),'invocation publication changed')
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/floor_route.py", line 42, in read_json
+    return json.loads(read_bytes(path),object_pairs_hook=pairs,parse_constant=constant)
+                      ^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/placement_clearance.py", line 30, in read_bytes
+    if any(x.is_symlink() for x in (path,*path.parents)):raise p.Rejected('placement symlink unsupported')
+                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+autorouter.pipeline.Rejected: placement symlink unsupported
+
+======================================================================
+ERROR: test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation (draft_controls.ActualWorkerCancellation.test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation) (status='rejected', raw_cancelled=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/adaptive-native-draft-002/test_controller_draft.py", line 151, in test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation
+    self.assertEqual(m.worker(root/'protocol.json',spec,'pin'),expected)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/adaptive-native-draft-001/controller.py", line 261, in worker
+    require(f.canonical(f.read_json(root/'invocation.json'))==f.canonical(raw),'invocation publication changed')
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/floor_route.py", line 42, in read_json
+    return json.loads(read_bytes(path),object_pairs_hook=pairs,parse_constant=constant)
+                      ^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/placement_clearance.py", line 30, in read_bytes
+    if any(x.is_symlink() for x in (path,*path.parents)):raise p.Rejected('placement symlink unsupported')
+                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+autorouter.pipeline.Rejected: placement symlink unsupported
+
+======================================================================
+ERROR: test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation (draft_controls.ActualWorkerCancellation.test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation) (status='rejected', raw_cancelled=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/adaptive-native-draft-002/test_controller_draft.py", line 151, in test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation
+    self.assertEqual(m.worker(root/'protocol.json',spec,'pin'),expected)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/adaptive-native-draft-001/controller.py", line 261, in worker
+    require(f.canonical(f.read_json(root/'invocation.json'))==f.canonical(raw),'invocation publication changed')
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/floor_route.py", line 42, in read_json
+    return json.loads(read_bytes(path),object_pairs_hook=pairs,parse_constant=constant)
+                      ^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/placement_clearance.py", line 30, in read_bytes
+    if any(x.is_symlink() for x in (path,*path.parents)):raise p.Rejected('placement symlink unsupported')
+                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+autorouter.pipeline.Rejected: placement symlink unsupported
+
+======================================================================
+ERROR: test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation (draft_controls.ActualWorkerCancellation.test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation) (status='drc_rejected', raw_cancelled=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/adaptive-native-draft-002/test_controller_draft.py", line 151, in test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation
+    self.assertEqual(m.worker(root/'protocol.json',spec,'pin'),expected)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/adaptive-native-draft-001/controller.py", line 261, in worker
+    require(f.canonical(f.read_json(root/'invocation.json'))==f.canonical(raw),'invocation publication changed')
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/floor_route.py", line 42, in read_json
+    return json.loads(read_bytes(path),object_pairs_hook=pairs,parse_constant=constant)
+                      ^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/placement_clearance.py", line 30, in read_bytes
+    if any(x.is_symlink() for x in (path,*path.parents)):raise p.Rejected('placement symlink unsupported')
+                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+autorouter.pipeline.Rejected: placement symlink unsupported
+
+======================================================================
+ERROR: test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation (draft_controls.ActualWorkerCancellation.test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation) (status='quality_rejected', raw_cancelled=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/adaptive-native-draft-002/test_controller_draft.py", line 151, in test_actual_worker_preserves_cancelled_invocation_and_returns130_only_for_cancellation
+    self.assertEqual(m.worker(root/'protocol.json',spec,'pin'),expected)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/adaptive-native-draft-001/controller.py", line 261, in worker
+    require(f.canonical(f.read_json(root/'invocation.json'))==f.canonical(raw),'invocation publication changed')
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/floor_route.py", line 42, in read_json
+    return json.loads(read_bytes(path),object_pairs_hook=pairs,parse_constant=constant)
+                      ^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/placement_clearance.py", line 30, in read_bytes
+    if any(x.is_symlink() for x in (path,*path.parents)):raise p.Rejected('placement symlink unsupported')
+                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+autorouter.pipeline.Rejected: placement symlink unsupported
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.009s
+
+FAILED (errors=6)

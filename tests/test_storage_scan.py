@@ -41,18 +41,25 @@ class StorageScanTests(unittest.TestCase):
 
     def test_actual_aggregate_sparse_overflow_rejects_without_allocating_payload(self):
         (self.root/'.data').mkdir();(self.root/'.runs').mkdir()
-        with (self.root/'.data'/'sparse').open('wb') as handle:handle.truncate(16*1024**3)
+        with (self.root/'.data'/'sparse').open('wb') as handle:handle.truncate(18*1024**3)
         (self.root/'.runs'/'extra').write_bytes(b'x')
         self.assertLess((self.root/'.data'/'sparse').stat().st_blocks*512,1024**2)
-        with patch.object(p.c,'ROOT',self.root),self.assertRaisesRegex(p.Rejected,'16 GiB'):
+        with patch.object(p.c,'ROOT',self.root),self.assertRaisesRegex(p.Rejected,'18 GiB'):
             p.check_storage()
+
+    def test_retained_artifacts_above_16_gib_fit_the_finite_18_gib_ceiling(self):
+        (self.root/'.data').mkdir()
+        with (self.root/'.data'/'retained').open('wb') as handle:handle.truncate(17*1024**3)
+        self.assertLess((self.root/'.data'/'retained').stat().st_blocks*512,1024**2)
+        with patch.object(p.c,'ROOT',self.root):
+            self.assertEqual(p.check_storage(),17*1024**3)
 
     def test_exact_aggregate_capacity_is_allowed_without_payload_allocation(self):
         (self.root/'.data').mkdir();(self.root/'.runs').mkdir()
-        with (self.root/'.data'/'sparse').open('wb') as handle:handle.truncate(16*1024**3-1)
+        with (self.root/'.data'/'sparse').open('wb') as handle:handle.truncate(18*1024**3-1)
         (self.root/'.runs'/'last-byte').write_bytes(b'x')
         with patch.object(p.c,'ROOT',self.root):
-            self.assertEqual(p.check_storage(),16*1024**3)
+            self.assertEqual(p.check_storage(),18*1024**3)
 
     def test_disk_headroom_remains_enforced(self):
         self.tree()

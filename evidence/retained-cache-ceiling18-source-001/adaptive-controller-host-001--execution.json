@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "mode": "host",
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 0.3025048749987036,
+    "cpu_seconds": 0.31915399999999994,
+    "max_rss_bytes": 37502976,
+    "supervisor_cpu_seconds": 0.0036520000000000025,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 49496064,
+    "sampled_peak_workdir_bytes": 385,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 1048576,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "-c",
+      "import importlib.util,json,subprocess\nfrom pathlib import Path\nspec=importlib.util.spec_from_file_location('host_control','/Users/faisal/Projects/KiCad-Autorouter-local/.runs/adaptive-native-controller-001.py');m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)\nwith m.pure_reader_guard(audit=True):\n head=subprocess.check_output(['git','rev-parse','HEAD'],cwd=m.ROOT).decode().strip()\n status=subprocess.check_output(['git','status','--porcelain=v1','--untracked-files=normal'],cwd=m.ROOT)\n rejected=[]\n for argv in ([str(m.c.CLI),'pcb','drc'],['java','-version'],['git','reset','--hard'],['git','status']):\n  try:subprocess.check_output(argv,cwd=m.ROOT)\n  except m.PureReaderViolation:rejected.append(argv)\n  else:raise AssertionError('forbidden command launched')\n assert len(head)==40 and status==b'' and len(rejected)==4\n print(json.dumps(dict(passed=True,head=head,clean=True,actual_two_git_commands=True,rejected_before_launch=rejected,scope='Actual same-Mac Python audit/Popen guard positive and negative; no Native or engine.')))\n"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/adaptive-controller-host-001/command.log",
+    "log_bytes": 385,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/adaptive-controller-host-001",
+    "signal_cancellation_enabled": true,
+    "pid": 95993
+  },
+  "source_sha256": {
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/adaptive-native-controller-001.py": "4fc95c256845d7d529292ce3b6741e47d6e4ab06b86a1a5f6fb3df7414c44fbe"
+  },
+  "wall_seconds": 0.36341287501272745,
+  "full_cpu_seconds": 0.37124499999999994,
+  "log_sha256": "3150a8aa2de4e37438896eba6b3c0375f716269cad71422e6d023ea640635207",
+  "controller_sha256": "237ef85a9e881fa58635cab4fdc5ff4dacc2afb00a8bd3769bea010bbd1914b9"
+}

@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "names": [
+    "tests.test_storage_scan.StorageScanTests.test_retained_artifacts_above_16_gib_fit_the_finite_18_gib_ceiling"
+  ],
+  "source_sha256": {
+    "autorouter/strategy.py": "2794344ef69e70e627c4f8a858e63347f3f2d5d79bfc98b8090bbbbc5e4c193e",
+    "tests/test_strategy.py": "59dbef2d928240c0656d7a0a558366dc63af951d641c423e4723cff1dcd82b06",
+    "tests/test_pruning_preferences_freshness.py": "81a80deb02a1e14f2834e8ea7b41379391444b1e99f2d4f662f276a83a5ceb18",
+    "autorouter/pipeline.py": "8c4f3b0bcb87349a52ae94538af7650636b7e7b79b51c4f9f9e8956dea1a3eea",
+    "tests/test_storage_scan.py": "abc38a8c78491357336bf982e85935890d991b72fc2a07bf21acc1f9c391fd84"
+  },
+  "process": {
+    "status": "nonzero_exit",
+    "exit_code": 1,
+    "wall_seconds": 0.3101230000029318,
+    "cpu_seconds": 0.109738,
+    "max_rss_bytes": 41631744,
+    "supervisor_cpu_seconds": 0.005014999999999992,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 41009152,
+    "sampled_peak_workdir_bytes": 1252,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 1048576,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "-c",
+      "import sys,os,unittest;sys.path.insert(0,'/Users/faisal/Projects/KiCad-Autorouter-local');os.chdir('/Users/faisal/Projects/KiCad-Autorouter-local');suite=unittest.defaultTestLoader.loadTestsFromNames(['tests.test_storage_scan.StorageScanTests.test_retained_artifacts_above_16_gib_fit_the_finite_18_gib_ceiling']);r=unittest.TextTestRunner(verbosity=2).run(suite);sys.exit(0 if r.wasSuccessful() else 1)"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/cache-ceiling-before-001/tests.log",
+    "log_bytes": 1252,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/cache-ceiling-before-001",
+    "signal_cancellation_enabled": true,
+    "pid": 96177
+  },
+  "wall_seconds": 0.3999776249984279,
+  "full_cpu_seconds": 0.170203,
+  "controller_sha256": "29bf68dd291b46735277e91fe647d110e11639ca4b2f26af5adc437ab047205f",
+  "log_sha256": "29ceb83c82b666e28835ae2d3e8aacadb0f32d350235aeb1641955f07e49c36f",
+  "scope": "Authored software mutation/control-flow regressions only; no Native routing evidence."
+}

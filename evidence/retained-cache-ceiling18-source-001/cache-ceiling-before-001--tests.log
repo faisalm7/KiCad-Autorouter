@@ -1,0 +1,18 @@
+test_retained_artifacts_above_16_gib_fit_the_finite_18_gib_ceiling (tests.test_storage_scan.StorageScanTests.test_retained_artifacts_above_16_gib_fit_the_finite_18_gib_ceiling) ... ERROR
+
+======================================================================
+ERROR: test_retained_artifacts_above_16_gib_fit_the_finite_18_gib_ceiling (tests.test_storage_scan.StorageScanTests.test_retained_artifacts_above_16_gib_fit_the_finite_18_gib_ceiling)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_storage_scan.py", line 55, in test_retained_artifacts_above_16_gib_fit_the_finite_18_gib_ceiling
+    self.assertEqual(p.check_storage(),17*1024**3)
+                     ^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 132, in check_storage
+    if total>limit:raise Rejected('16 GiB project cache/data ceiling exceeded')
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+autorouter.pipeline.Rejected: 16 GiB project cache/data ceiling exceeded
+
+----------------------------------------------------------------------
+Ran 1 test in 0.002s
+
+FAILED (errors=1)
