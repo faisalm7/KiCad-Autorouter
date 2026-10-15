@@ -11,6 +11,26 @@ spec=importlib.util.spec_from_file_location('experiment_quality',Path(__file__).
 e=importlib.util.module_from_spec(spec);spec.loader.exec_module(e)
 
 class ProtocolControls(unittest.TestCase):
+ def test_fixed_ds18b20_source_requires_complete_root_packet_and_only_notice(self):
+  from scripts import fetch_led_demo as demo
+  with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parents[1]/'.cache') as tmp:
+   base=Path(tmp);files={'D18BS20.kicad_pcb':b'original','D18BS20.kicad_pro':b'rules','D18BS20.kicad_prl':b'local settings','D18BS20.kicad_sch':b'schematic','README.md':b'publisher grant','_licenses/creator/README.md':b'publisher grant'}
+   for name,raw in files.items():
+    path=base/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(raw)
+   with patch.object(demo,'capture_native_source',return_value=(base,files)) as capture:
+    board,family=e.selected_source('ds18b20');self.assertEqual(board,base/'D18BS20.kicad_pcb');self.assertIn('ancestry-unverified',family);capture.assert_called_once_with('ds18b20',root=e.c.ROOT)
+    for name in files:
+     with self.subTest(name=name):
+      (base/name).write_bytes(b'changed')
+      with self.assertRaisesRegex(e.p.Rejected,'exact fixed DS18B20'):e.selected_source('ds18b20')
+      (base/name).write_bytes(files[name])
+    extra=base/'LICENSE';extra.write_bytes(b'invented notice')
+    with self.assertRaisesRegex(e.p.Rejected,'exact fixed DS18B20'):e.selected_source('ds18b20')
+ def test_ds18b20_selection_propagates_capture_failure_without_candidate_fallback(self):
+  from scripts import fetch_led_demo as demo
+  with patch.object(demo,'capture_native_source',side_effect=e.p.Rejected('pinned source stale')) as capture:
+   with self.assertRaisesRegex(e.p.Rejected,'pinned source stale'):e.selected_source('ds18b20')
+   capture.assert_called_once_with('ds18b20',root=e.c.ROOT)
  def test_fixed_universal_shift_source_preserves_prl_orphan_and_all_notices(self):
   from scripts import fetch_led_demo as demo
   # Authored bytes exercise selection only; they are not Native evidence.

@@ -41,7 +41,7 @@ FEEDBACK_ARMS = (*ARMS[:3],
     {**ARMS[3], "id": "C_feedback", "proposal_policy": "feedback"},
 )
 SCRIPT = Path(__file__).resolve()
-PROJECTS = {"universal-shift-interface":"universal-shift-interface", "ir-obstacle":"ir-obstacle", "roller-encoder":"sparkfun-SparkFun-Roller-Encoder-Breakout", "cellscan":"Studented0-18650-Tester", "analog-filter":"Myrto-Angeliki-analog-filter", "sonde": "kicad-sonde-xilinx", "interf_u": "kicad-interf-u", "multichannel": "kicad-multichannel", "ardujoy-c64":"eduardofv-ArdujoyC64", "nus-usb-led":"nushackers-hsp-pcb-intro", "push-button-led":"gurusaeth12-push-button-led-kicad", "arcdice":"VorosEgyes-ArcDice"}
+PROJECTS = {"ds18b20":"ds18b20", "universal-shift-interface":"universal-shift-interface", "ir-obstacle":"ir-obstacle", "roller-encoder":"sparkfun-SparkFun-Roller-Encoder-Breakout", "cellscan":"Studented0-18650-Tester", "analog-filter":"Myrto-Angeliki-analog-filter", "sonde": "kicad-sonde-xilinx", "interf_u": "kicad-interf-u", "multichannel": "kicad-multichannel", "ardujoy-c64":"eduardofv-ArdujoyC64", "nus-usb-led":"nushackers-hsp-pcb-intro", "push-button-led":"gurusaeth12-push-button-led-kicad", "arcdice":"VorosEgyes-ArcDice"}
 SUPPORT = (SCRIPT, c.ROOT / "toolchain.lock.json", c.ROOT / "data/sources.json",
            c.ROOT/'scripts/fetch_led_demo.py',
            c.ROOT/'experiments/arcdice_native_class_v1/source.py',
@@ -61,6 +61,14 @@ def total_process_cpu():
 
 
 def selected_source(name):
+    if name=='ds18b20':
+        # Five untouched root originals, including PRL, plus one exact README
+        # notice copy. Source selection never establishes native admission.
+        from scripts.fetch_led_demo import capture_native_source
+        base,files=capture_native_source('ds18b20',root=c.ROOT)
+        if p.tree_hash(base)!={n:hashlib.sha256(raw).hexdigest() for n,raw in files.items()}:
+            raise p.Rejected('exact fixed DS18B20 original notice packet required')
+        return base/'D18BS20.kicad_pcb','DS18B20-temperature-interface-development-exposed-ancestry-unverified'
     if name=='universal-shift-interface':
         # Original fixed seven-file source plus two exact creator notice copies;
         # PRL/orphan preserved. Original Native observation is not routing support.
@@ -352,7 +360,7 @@ def experiment(out, project_name="sonde", feedback_ablation=False):
                 raise p.Rejected("code changed while copying frozen experiment sources")
         protocol = {"schema": 1, "created_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
                     "split": "development-exposed", "family": family, "source": str(board),
-                    "license": "CC-BY-SA-4.0; exact pinned source and license files in frozen source inventory and data/sources.json",
+                    "license": "Source-specific grants and notices are retained in the frozen source inventory and retrieval records; no blanket CAD/model rights declaration. See SOURCE_LEDGER.md and the exact source profile.",
                     "freeze": frozen, "arms": arms, "arm_order": [arm["id"] for arm in arms],
                     "feedback_ablation": feedback_ablation,
                     "feedback_prediction": "Native-warning-guided compound deletion may remove redundant stubs rejected by single deletion; every follow-up consumes the same trial and total wall/CPU budgets. It may displace better proposals and lose quality; compare C_feedback directly with C_single.",

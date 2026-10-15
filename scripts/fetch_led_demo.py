@@ -839,7 +839,144 @@ UNIVERSAL_SHIFT_PROFILE = {'board_path': 'KiCad/Interface Board/USR_LED_Board.ki
               'retains821075+821075+829542=2471692B before receipts; profile-only4MiB output ceiling '
               'preserves allthreecopies. Default/otherprofile limits unchanged.']}
 
+DS18B20_PROFILE = {'schema': 1,
+ 'profile_id': 'ds18b20',
+ 'project_id': 'ds18b20',
+ 'repository': 'ampnics/DS18B20',
+ 'commit': 'c5420f538a77e0af03974031a5ee1c36a5b5e0a1',
+ 'rows': [{'source_path': 'D18BS20.kicad_pcb',
+           'bytes': 71761,
+           'git_blob_sha1': '1a9fa83e2df4732fd5adf5e41ce56187716da712',
+           'sha256': '2ce74b0cfa4863e15ff282ed6e77d628bd3f13756886fdd133cd20c5e7404f13',
+           'mode': '100644',
+           'repository': 'ampnics/DS18B20',
+           'commit': 'c5420f538a77e0af03974031a5ee1c36a5b5e0a1',
+           'destination': 'ds18b20/D18BS20.kicad_pcb',
+           'raw_url': 'https://raw.githubusercontent.com/ampnics/DS18B20/c5420f538a77e0af03974031a5ee1c36a5b5e0a1/D18BS20.kicad_pcb',
+           'blob_url': 'https://github.com/ampnics/DS18B20/blob/c5420f538a77e0af03974031a5ee1c36a5b5e0a1/D18BS20.kicad_pcb',
+           'rights_basis': 'Pinned creator README explicitly licenses this design MIT and permits use, '
+                           'modification and distribution for personal/commercial purposes with attribution '
+                           'to Md Ammar Maniyar (Ampnics). Complete pinned tree has no standalone '
+                           'LICENSE/COPYING; preserve exact README and its MIT link, never fabricate a '
+                           'creator notice. Local acquisition/development is supported by this direct design '
+                           'grant; public third-party CAD/model/library redistribution remains deferred. '
+                           'Stock KiCad geometry/model rights, ancestry, Native/schematic parity and '
+                           'electrical/physical suitability are unqualified. Prior lead research clock218s '
+                           'exceeded approximate180s target; retained, not reset by acquisition.'},
+          {'source_path': 'D18BS20.kicad_prl',
+           'bytes': 2397,
+           'git_blob_sha1': 'c45da2cae6176f44d32c25fb75c8cf08676776e0',
+           'sha256': '4c5470c0b19738593564947670c111aca22badbc28229ba0e38ceb5262fb8dbe',
+           'mode': '100644',
+           'repository': 'ampnics/DS18B20',
+           'commit': 'c5420f538a77e0af03974031a5ee1c36a5b5e0a1',
+           'destination': 'ds18b20/D18BS20.kicad_prl',
+           'raw_url': 'https://raw.githubusercontent.com/ampnics/DS18B20/c5420f538a77e0af03974031a5ee1c36a5b5e0a1/D18BS20.kicad_prl',
+           'blob_url': 'https://github.com/ampnics/DS18B20/blob/c5420f538a77e0af03974031a5ee1c36a5b5e0a1/D18BS20.kicad_prl',
+           'rights_basis': 'Pinned creator README explicitly licenses this design MIT and permits use, '
+                           'modification and distribution for personal/commercial purposes with attribution '
+                           'to Md Ammar Maniyar (Ampnics). Complete pinned tree has no standalone '
+                           'LICENSE/COPYING; preserve exact README and its MIT link, never fabricate a '
+                           'creator notice. Local acquisition/development is supported by this direct design '
+                           'grant; public third-party CAD/model/library redistribution remains deferred. '
+                           'Stock KiCad geometry/model rights, ancestry, Native/schematic parity and '
+                           'electrical/physical suitability are unqualified. Prior lead research clock218s '
+                           'exceeded approximate180s target; retained, not reset by acquisition.'},
+          {'source_path': 'D18BS20.kicad_pro',
+           'bytes': 15222,
+           'git_blob_sha1': 'd3e7ae00176cb90a793178d4e02aa44a035048b7',
+           'sha256': 'e6343efeaf6ee42a2d6f6a78b06780d6d1855271be9b4eaed0121bdc70a53924',
+           'mode': '100644',
+           'repository': 'ampnics/DS18B20',
+           'commit': 'c5420f538a77e0af03974031a5ee1c36a5b5e0a1',
+           'destination': 'ds18b20/D18BS20.kicad_pro',
+           'raw_url': 'https://raw.githubusercontent.com/ampnics/DS18B20/c5420f538a77e0af03974031a5ee1c36a5b5e0a1/D18BS20.kicad_pro',
+           'blob_url': 'https://github.com/ampnics/DS18B20/blob/c5420f538a77e0af03974031a5ee1c36a5b5e0a1/D18BS20.kicad_pro',
+           'rights_basis': 'Pinned creator README explicitly licenses this design MIT and permits use, '
+                           'modification and distribution for personal/commercial purposes with attribution '
+                           'to Md Ammar Maniyar (Ampnics). Complete pinned tree has no standalone '
+                           'LICENSE/COPYING; preserve exact README and its MIT link, never fabricate a '
+                           'creator notice. Local acquisition/development is supported by this direct design '
+                           'grant; public third-party CAD/model/library redistribution remains deferred. '
+                           'Stock KiCad geometry/model rights, ancestry, Native/schematic parity and '
+                           'electrical/physical suitability are unqualified. Prior lead research clock218s '
+                           'exceeded approximate180s target; retained, not reset by acquisition.'},
+          {'source_path': 'D18BS20.kicad_sch',
+           'bytes': 24879,
+           'git_blob_sha1': '3751af4e257e475fafea212385771c761034336a',
+           'sha256': 'f846b9dfdebd175031214cb40169ae4c3f7f8c70b1b9158b172cad1bca87ea2a',
+           'mode': '100644',
+           'repository': 'ampnics/DS18B20',
+           'commit': 'c5420f538a77e0af03974031a5ee1c36a5b5e0a1',
+           'destination': 'ds18b20/D18BS20.kicad_sch',
+           'raw_url': 'https://raw.githubusercontent.com/ampnics/DS18B20/c5420f538a77e0af03974031a5ee1c36a5b5e0a1/D18BS20.kicad_sch',
+           'blob_url': 'https://github.com/ampnics/DS18B20/blob/c5420f538a77e0af03974031a5ee1c36a5b5e0a1/D18BS20.kicad_sch',
+           'rights_basis': 'Pinned creator README explicitly licenses this design MIT and permits use, '
+                           'modification and distribution for personal/commercial purposes with attribution '
+                           'to Md Ammar Maniyar (Ampnics). Complete pinned tree has no standalone '
+                           'LICENSE/COPYING; preserve exact README and its MIT link, never fabricate a '
+                           'creator notice. Local acquisition/development is supported by this direct design '
+                           'grant; public third-party CAD/model/library redistribution remains deferred. '
+                           'Stock KiCad geometry/model rights, ancestry, Native/schematic parity and '
+                           'electrical/physical suitability are unqualified. Prior lead research clock218s '
+                           'exceeded approximate180s target; retained, not reset by acquisition.'},
+          {'source_path': 'README.md',
+           'bytes': 5259,
+           'git_blob_sha1': '96cfa10b5aa5c775158646cf6d030c3ae6a20e5b',
+           'sha256': 'c50d1cad5fe162059fd15a455b39712460ad04977de4962d37cc269257ac7a5e',
+           'mode': '100644',
+           'repository': 'ampnics/DS18B20',
+           'commit': 'c5420f538a77e0af03974031a5ee1c36a5b5e0a1',
+           'destination': 'ds18b20/README.md',
+           'raw_url': 'https://raw.githubusercontent.com/ampnics/DS18B20/c5420f538a77e0af03974031a5ee1c36a5b5e0a1/README.md',
+           'blob_url': 'https://github.com/ampnics/DS18B20/blob/c5420f538a77e0af03974031a5ee1c36a5b5e0a1/README.md',
+           'rights_basis': 'Pinned creator README explicitly licenses this design MIT and permits use, '
+                           'modification and distribution for personal/commercial purposes with attribution '
+                           'to Md Ammar Maniyar (Ampnics). Complete pinned tree has no standalone '
+                           'LICENSE/COPYING; preserve exact README and its MIT link, never fabricate a '
+                           'creator notice. Local acquisition/development is supported by this direct design '
+                           'grant; public third-party CAD/model/library redistribution remains deferred. '
+                           'Stock KiCad geometry/model rights, ancestry, Native/schematic parity and '
+                           'electrical/physical suitability are unqualified. Prior lead research clock218s '
+                           'exceeded approximate180s target; retained, not reset by acquisition.'}],
+ 'directories': [],
+ 'board_path': 'D18BS20.kicad_pcb',
+ 'output_prefix': 'ds18b20-demo-',
+ 'default_output': '.data/ds18b20-demo-001',
+ 'file_count': 5,
+ 'bytes': 119518,
+ 'max_requests': 5,
+ 'network_byte_cap': 119523,
+ 'max_single_response_bytes': 71762,
+ 'output_byte_cap': 2097152,
+ 'wall_budget_seconds': 300,
+ 'cpu_budget_seconds': 300,
+ 'request_wall_seconds': 30,
+ 'native_packet_notice_copies': {'_licenses/creator/README.md': 'README.md'},
+ 'native_packet_files': 6,
+ 'native_packet_bytes': 124777,
+ 'development_exposed': True,
+ 'independent_ancestry_established': False,
+ 'native_validation_performed_by_fetch': False,
+ 'raw_assets_public': False,
+ 'warnings': ['Exactly five current original files including existing PRL and full README; native packet '
+              'adds one exact README copy, not a fabricated LICENSE.',
+              'README expressly permits use/modify/distribute this design with attribution under MIT, but no '
+              'standalone creator MIT body/copyright notice is supplied in the complete pinned tree.',
+              'Local development acquisition is supported by the explicit design grant; public '
+              'CAD/model/library redistribution remains deferred. No third-party CAD is committed.',
+              'Source KiCad9 flat schematic,2Cu/4FP10ordinarypads/rectEdge/Default/nozones are prior '
+              'in-memory static observations only; real Native/refill/fullSCH/support/function remain '
+              'unverified.',
+              'Preserve source dimensions, pads, routes, net mapping, PRL, model declarations and all '
+              'constraints; stock KiCad9 models are unresolved and not fetched.',
+              'Only five fixed originals; no backup archives/images/docs/firmware/models/libraries/scripts '
+              'downloaded or executed.',
+              'Prior research218s exceeded approximate180s; current acquisition does not erase that cost. '
+              'Full priorCPU unmeasured.']}
+
 def fixed_profile(profile_id='led'):
+    if profile_id=='ds18b20':return copy.deepcopy(DS18B20_PROFILE)
     if profile_id=='universal-shift-interface':return copy.deepcopy(UNIVERSAL_SHIFT_PROFILE)
     if profile_id=='ir-obstacle':return copy.deepcopy(IR_OBSTACLE_PROFILE)
     if profile_id=='sunx-v21':return copy.deepcopy(SUNX_PROFILE)
@@ -1085,7 +1222,7 @@ def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fe
         raise
 
 def main():
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--fetch',action='store_true');parser.add_argument('--project',choices=('led','arcdice','analog-filter','cellscan','uv-dosimeter','navigation-switch','audio-player-my1690x','pico-flipper','sunx-v21','ir-obstacle','universal-shift-interface'),default='led');parser.add_argument('--output');parser.add_argument('--reuse-uv-licenses',action='store_true',help='Explicitly reuse only the three pinned prior UV licence bodies; no fallback');parser.add_argument('--reuse-navigation-notices',action='store_true',help='Explicitly reuse only two pinned prior Navigation notices; old timing unmeasured, no fallback');parser.add_argument('--reuse-audio-notices',action='store_true',help='Explicit fixed Audio root notices and stale Hardware README reuse; no fallback, prior untimed cost retained');parser.add_argument('--reuse-flipper-notices',action='store_true',help='Explicitly reuse two pinned prior Flipper notices; prior metadata cost unmeasured, no fallback');args=parser.parse_args();args.output=args.output or fixed_profile(args.project)['default_output']
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--fetch',action='store_true');parser.add_argument('--project',choices=('led','arcdice','analog-filter','cellscan','uv-dosimeter','navigation-switch','audio-player-my1690x','pico-flipper','sunx-v21','ir-obstacle','universal-shift-interface','ds18b20'),default='led');parser.add_argument('--output');parser.add_argument('--reuse-uv-licenses',action='store_true',help='Explicitly reuse only the three pinned prior UV licence bodies; no fallback');parser.add_argument('--reuse-navigation-notices',action='store_true',help='Explicitly reuse only two pinned prior Navigation notices; old timing unmeasured, no fallback');parser.add_argument('--reuse-audio-notices',action='store_true',help='Explicit fixed Audio root notices and stale Hardware README reuse; no fallback, prior untimed cost retained');parser.add_argument('--reuse-flipper-notices',action='store_true',help='Explicitly reuse two pinned prior Flipper notices; prior metadata cost unmeasured, no fallback');args=parser.parse_args();args.output=args.output or fixed_profile(args.project)['default_output']
     try:
         with shared.cancellation(),shared.alarm(SECONDS):record=fetch_demo(args.output,profile_id=args.project,fetch=args.fetch,started=START,cpu_started=CPU_START,reuse_uv_licenses=args.reuse_uv_licenses,reuse_navigation_notices=args.reuse_navigation_notices,reuse_audio_notices=args.reuse_audio_notices,reuse_flipper_notices=args.reuse_flipper_notices)
     except (Exception,KeyboardInterrupt) as exc:

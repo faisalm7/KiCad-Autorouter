@@ -116,6 +116,102 @@ class LedFetchControls(unittest.TestCase):
   r=demo.publication.read_json(self.root/cfg['default_output']/'result.json');self.assertEqual(r['status'],'invalidated');self.assertFalse(r['accepted']);self.assertFalse(r['source_files_exact']);self.assertEqual(r['new_network_requests'],7);self.assertIn('source_verification_error',r);self.assertTrue(list((self.root/cfg['default_output']).glob('invalidated-result-*')))
   self.assertEqual((self.root/cfg['default_output']/'project/KiCad/Interface Board/USR_LED_Board.kicad_prl').read_bytes(),b'late changed PRL')
   with self.assertRaises(ValueError):demo.capture_native_source(cfg['profile_id'],root=self.root)
+ def test_ds18b20_fixed_plan_pins_root_originals_and_single_readme_notice(self):
+  cfg=demo.fixed_profile('ds18b20');by={r['source_path']:r for r in cfg['rows']}
+  expected={
+   'D18BS20.kicad_pcb':(71761,'1a9fa83e2df4732fd5adf5e41ce56187716da712','2ce74b0cfa4863e15ff282ed6e77d628bd3f13756886fdd133cd20c5e7404f13'),
+   'D18BS20.kicad_prl':(2397,'c45da2cae6176f44d32c25fb75c8cf08676776e0','4c5470c0b19738593564947670c111aca22badbc28229ba0e38ceb5262fb8dbe'),
+   'D18BS20.kicad_pro':(15222,'d3e7ae00176cb90a793178d4e02aa44a035048b7','e6343efeaf6ee42a2d6f6a78b06780d6d1855271be9b4eaed0121bdc70a53924'),
+   'D18BS20.kicad_sch':(24879,'3751af4e257e475fafea212385771c761034336a','f846b9dfdebd175031214cb40169ae4c3f7f8c70b1b9158b172cad1bca87ea2a'),
+   'README.md':(5259,'96cfa10b5aa5c775158646cf6d030c3ae6a20e5b','c50d1cad5fe162059fd15a455b39712460ad04977de4962d37cc269257ac7a5e')}
+  commit='c5420f538a77e0af03974031a5ee1c36a5b5e0a1'
+  self.assertEqual((cfg['repository'],cfg['commit'],cfg['board_path'],cfg['directories']),('ampnics/DS18B20',commit,'D18BS20.kicad_pcb',[]))
+  self.assertEqual({n:(r['bytes'],r['git_blob_sha1'],r['sha256']) for n,r in by.items()},expected)
+  for name,row in by.items():
+   self.assertEqual((row['repository'],row['commit'],row['mode'],row['destination']),('ampnics/DS18B20',commit,'100644','ds18b20/'+name))
+   self.assertEqual(row['raw_url'],'https://raw.githubusercontent.com/ampnics/DS18B20/'+commit+'/'+name)
+  self.assertEqual((cfg['file_count'],cfg['bytes'],sum(r['bytes'] for r in by.values())),(5,119518,119518))
+  self.assertEqual(cfg['native_packet_notice_copies'],{'_licenses/creator/README.md':'README.md'})
+  self.assertEqual((cfg['output_prefix'],cfg['default_output']),('ds18b20-demo-','.data/ds18b20-demo-001'))
+  self.assertEqual((cfg['native_packet_files'],cfg['native_packet_bytes']),(6,124777))
+  self.assertEqual((cfg['max_requests'],cfg['network_byte_cap'],cfg['max_single_response_bytes']),(5,119523,71762))
+  self.assertEqual((cfg['wall_budget_seconds'],cfg['cpu_budget_seconds'],cfg['output_byte_cap']),(300,300,2*1024**2))
+  self.assertLess(2*cfg['bytes']+cfg['native_packet_bytes'],cfg['output_byte_cap'])
+  result=demo.fetch_demo(cfg['default_output'],profile_id='ds18b20',root=self.root,transport=lambda *a:self.fail('offline plan transported'))
+  self.assertEqual((result['action'],result['network_requests'],result['planned_network_requests'],result['planned_files'],result['planned_bytes']),('plan_only',0,5,5,119518))
+  self.assertFalse((self.root/'.data').exists());self.assertFalse((self.root/'.runs').exists())
+  cfg['rows'][0]['sha256']='0'*64;cfg['native_packet_notice_copies']['_licenses/creator/LICENSE']='README.md'
+  self.assertEqual(demo.fixed_profile('ds18b20')['rows'][0]['sha256'],expected['D18BS20.kicad_pcb'][2])
+  self.assertEqual(demo.fixed_profile('ds18b20')['native_packet_notice_copies'],{'_licenses/creator/README.md':'README.md'})
+  from experiments.original_project_native_v1 import driver
+  self.assertEqual(driver.CASES['ds18b20'],('portable-demo','D18BS20.kicad_pcb',commit,None));self.assertIn('ds18b20',driver.REFILLED_ORIGINALS)
+ def authored_ds18b20(self):
+  # Authored transport-only bytes exercise the root/single-notice shape, not CAD.
+  cfg=demo.fixed_profile('ds18b20');payloads={}
+  for name in demo.ARC_MATERIAL:
+   q=self.root/name;q.parent.mkdir(parents=True,exist_ok=True);q.write_bytes((demo.ROOT/name).read_bytes())
+  for row in cfg['rows']:
+   raw=('authored DS18B20 packet fixture '+row['source_path']+'\n').encode();payloads[row['source_path']]=raw
+   row.update(bytes=len(raw),sha256=demo.shared.sha(raw),git_blob_sha1=hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest())
+  cfg['bytes']=sum(r['bytes'] for r in cfg['rows']);cfg['network_byte_cap']=cfg['bytes']+len(cfg['rows']);cfg['max_single_response_bytes']=max(r['bytes'] for r in cfg['rows'])+1
+  cfg['native_packet_bytes']=cfg['bytes']+len(payloads['README.md'])
+  patch=mock.patch.object(demo,'DS18B20_PROFILE',cfg);patch.start();self.addCleanup(patch.stop)
+  def transport(row,record,path,allowance,remaining):
+   remaining();self.called.append(row['source_path']);raw=payloads[row['source_path']]
+   with path.open('xb') as stream:stream.write(raw)
+   record.update(received_bytes=len(raw),response_sha256=demo.shared.sha(raw),url=row['raw_url'],status='response_received',http_status=200,wall_seconds=0.0);return raw
+  return cfg,payloads,transport
+ def test_ds18b20_authored_capture_has_exact_five_originals_and_six_packet_files(self):
+  cfg,payloads,transport=self.authored_ds18b20();r=demo.fetch_demo(cfg['default_output'],fetch=True,profile_id='ds18b20',root=self.root,transport=transport)
+  self.assertEqual((r['status'],r['new_network_requests'],r['received_bytes']),('acquired_unqualified',5,cfg['bytes']))
+  self.assertEqual(self.called,[row['source_path'] for row in cfg['rows']]);self.assertTrue(r['source_files_exact']);self.assertTrue(r['within_budget']);self.assertFalse(r['accepted']);self.assertFalse(r['native_accepted'])
+  out=self.root/cfg['default_output'];source=out/'project';base,files=demo.capture_native_source('ds18b20',root=self.root)
+  original={n:{'bytes':len(raw),'sha256':demo.shared.sha(raw)} for n,raw in payloads.items()}
+  packet={**original,'_licenses/creator/README.md':original['README.md']}
+  source_before=demo.shared.inventory(source);packet_before=demo.shared.inventory(base)
+  self.assertEqual((source_before['files'],source_before['directories']),(original,[]))
+  self.assertEqual((packet_before['files'],packet_before['directories']),(packet,['_licenses','_licenses/creator']))
+  self.assertEqual(files,{**payloads,'_licenses/creator/README.md':payloads['README.md']})
+  self.assertEqual((demo.verify_project(source,profile_id='ds18b20')['file_count'],demo.verify_project(base,profile_id='ds18b20',native_packet=True)['file_count']),(5,6))
+  self.assertEqual(demo.verify_project(base,profile_id='ds18b20',native_packet=True)['bytes'],cfg['native_packet_bytes'])
+  self.assertEqual((demo.shared.inventory(source),demo.shared.inventory(base)),(source_before,packet_before))
+ def test_ds18b20_authored_root_prl_readme_and_only_notice_fail_closed(self):
+  cfg,payloads,transport=self.authored_ds18b20();demo.fetch_demo(cfg['default_output'],fetch=True,profile_id='ds18b20',root=self.root,transport=transport)
+  out=self.root/cfg['default_output'];clean={scope:demo.shared.inventory(out/scope) for scope in ('project','native-project')}
+  cases=[('project','D18BS20.kicad_prl','missing'),('native-project','D18BS20.kicad_prl','missing'),
+   ('project','D18BS20.kicad_prl','changed'),('project','README.md','changed'),('native-project','README.md','changed'),('native-project','_licenses/creator/README.md','changed'),
+   ('project','LICENSE','extra'),('native-project','_licenses/creator/LICENSE','extra'),('native-project','D18BS20.kicad_dru','extra'),
+   ('project','README.md','symlink'),('native-project','_licenses/creator/README.md','symlink')]
+  for scope,name,kind in cases:
+   with self.subTest(scope=scope,name=name,kind=kind):
+    base=out/scope;target=base/name;raw=target.read_bytes() if target.exists() else None
+    if kind=='missing':target.unlink()
+    elif kind=='symlink':target.unlink();target.symlink_to(out/'native-project/README.md')
+    else:target.write_bytes(b'changed pinned fixture' if kind=='changed' else b'invented extra file')
+    try:
+     with self.assertRaises(ValueError):demo.verify_project(base,profile_id='ds18b20',native_packet=scope=='native-project')
+     with self.assertRaises(ValueError):demo.capture_native_source('ds18b20',root=self.root)
+     if kind=='missing':self.assertFalse(target.exists())
+     elif kind=='symlink':self.assertTrue(target.is_symlink());self.assertEqual(target.read_bytes(),payloads['README.md'])
+     else:self.assertEqual(target.read_bytes(),b'changed pinned fixture' if kind=='changed' else b'invented extra file')
+    finally:
+     if target.exists() or target.is_symlink():target.unlink()
+     if raw is not None:target.write_bytes(raw)
+    self.assertEqual({s:demo.shared.inventory(out/s) for s in clean},clean)
+ def test_ds18b20_authored_late_only_notice_change_invalidates_without_repair(self):
+  cfg,payloads,transport=self.authored_ds18b20();real=demo.publication.publish;calls=[];originals=[]
+  def stale(output,record,*args,**kwargs):
+   value=real(output,record,*args,**kwargs);calls.append(output)
+   if len(calls)==1:
+    originals.append(demo.shared.inventory(output/'project'))
+    (output/'native-project/_licenses/creator/README.md').write_bytes(b'late changed only notice')
+   return value
+  with mock.patch.object(demo.publication,'publish',side_effect=stale),self.assertRaises(ValueError):demo.fetch_demo(cfg['default_output'],fetch=True,profile_id='ds18b20',root=self.root,transport=transport)
+  out=self.root/cfg['default_output'];r=demo.publication.read_json(out/'result.json')
+  self.assertEqual(r['status'],'invalidated');self.assertFalse(r['accepted']);self.assertFalse(r['native_accepted']);self.assertFalse(r['source_files_exact']);self.assertEqual(r['new_network_requests'],5)
+  self.assertIn('source_verification_error',r);self.assertTrue(list(out.glob('invalidated-result-*')))
+  self.assertEqual(demo.shared.inventory(out/'project'),originals[0]);self.assertEqual((out/'native-project/_licenses/creator/README.md').read_bytes(),b'late changed only notice')
+  with self.assertRaises(ValueError):demo.capture_native_source('ds18b20',root=self.root)
  def test_clean_checkout_plan_has_no_data_cache_git_or_network_requirement(self):
   result=demo.fetch_demo('.data/led-demo-test',root=self.root,transport=lambda *a:(_ for _ in ()).throw(AssertionError('no network')))
   self.assertEqual(result['action'],'plan_only');self.assertEqual(result['network_requests'],0);self.assertFalse((self.root/'.data').exists());self.assertFalse((self.root/'.git').exists());self.assertFalse((self.root/'.runs').exists())
