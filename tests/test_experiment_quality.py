@@ -11,6 +11,16 @@ spec=importlib.util.spec_from_file_location('experiment_quality',Path(__file__).
 e=importlib.util.module_from_spec(spec);spec.loader.exec_module(e)
 
 class ProtocolControls(unittest.TestCase):
+ def test_fixed_ir_source_requires_exact_original_notice_packet(self):
+  from scripts import fetch_led_demo as demo
+  with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parents[1]/'.cache') as tmp:
+   base=Path(tmp);files={'KiCad/IR_Sensor.kicad_pcb':b'original','KiCad/IR_Sensor.kicad_pro':b'rules','KiCad/IR_Sensor.kicad_sch':b'schematic','KiCad/_licenses/creator/LICENSE':b'notice'}
+   for name,raw in files.items():
+    path=base/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(raw)
+   with patch.object(demo,'capture_native_source',return_value=(base,files)):
+    board,family=e.selected_source('ir-obstacle');self.assertEqual(board,base/'KiCad/IR_Sensor.kicad_pcb');self.assertIn('development-exposed',family)
+    (base/'KiCad/_licenses/creator/LICENSE').write_bytes(b'changed')
+    with self.assertRaisesRegex(e.p.Rejected,'exact fixed IR'):e.selected_source('ir-obstacle')
  def test_fixed_ardujoy_snapshot_requires_complete_exact_notice_tree(self):
   from experiments.licensed_acquisition_v4 import native_snapshot
   with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parents[1]/'.cache') as tmp:

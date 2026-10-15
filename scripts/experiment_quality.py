@@ -41,7 +41,7 @@ FEEDBACK_ARMS = (*ARMS[:3],
     {**ARMS[3], "id": "C_feedback", "proposal_policy": "feedback"},
 )
 SCRIPT = Path(__file__).resolve()
-PROJECTS = {"roller-encoder":"sparkfun-SparkFun-Roller-Encoder-Breakout", "cellscan":"Studented0-18650-Tester", "analog-filter":"Myrto-Angeliki-analog-filter", "sonde": "kicad-sonde-xilinx", "interf_u": "kicad-interf-u", "multichannel": "kicad-multichannel", "ardujoy-c64":"eduardofv-ArdujoyC64", "nus-usb-led":"nushackers-hsp-pcb-intro", "push-button-led":"gurusaeth12-push-button-led-kicad", "arcdice":"VorosEgyes-ArcDice"}
+PROJECTS = {"ir-obstacle":"ir-obstacle", "roller-encoder":"sparkfun-SparkFun-Roller-Encoder-Breakout", "cellscan":"Studented0-18650-Tester", "analog-filter":"Myrto-Angeliki-analog-filter", "sonde": "kicad-sonde-xilinx", "interf_u": "kicad-interf-u", "multichannel": "kicad-multichannel", "ardujoy-c64":"eduardofv-ArdujoyC64", "nus-usb-led":"nushackers-hsp-pcb-intro", "push-button-led":"gurusaeth12-push-button-led-kicad", "arcdice":"VorosEgyes-ArcDice"}
 SUPPORT = (SCRIPT, c.ROOT / "toolchain.lock.json", c.ROOT / "data/sources.json",
            c.ROOT/'scripts/fetch_led_demo.py',
            c.ROOT/'experiments/arcdice_native_class_v1/source.py',
@@ -61,6 +61,13 @@ def total_process_cpu():
 
 
 def selected_source(name):
+    if name=='ir-obstacle':
+        # Exact fixed originals plus creator notices; no candidate substitution.
+        from scripts.fetch_led_demo import capture_native_source
+        base,files=capture_native_source('ir-obstacle',root=c.ROOT)
+        if p.tree_hash(base)!={n:hashlib.sha256(raw).hexdigest() for n,raw in files.items()}:
+            raise p.Rejected('exact fixed IR obstacle original notice packet required')
+        return base/'KiCad/IR_Sensor.kicad_pcb','IR-obstacle-comparator-development-exposed-ancestry-unverified'
     if name=='roller-encoder':
         # Read-only reuse of the exact original five-file notice packet from
         # the exposed support investigation. Never select its routed candidate.

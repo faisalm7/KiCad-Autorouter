@@ -155,8 +155,8 @@ result = run([sys.executable, '-c', sys.argv[2]], cwd=directory, log=directory/'
         try:
             code = "import subprocess,sys,json,time; from pathlib import Path; p=subprocess.Popen([sys.executable,'-c','import time; data=bytearray(64*1024*1024); time.sleep(10)']); Path('child.pid').write_text(str(p.pid)); p.wait()"
             result = self.run_python(code, max_group_rss_bytes=48 * 1024**2)
-            self.assertEqual(result["status"], "memory_limit")
-            self.assertGreater(result["sampled_peak_group_rss_bytes"], 48 * 1024**2)
+            self.assertEqual(result["status"], "memory_limit", result)
+            self.assertGreater(result["sampled_peak_group_rss_bytes"], 48 * 1024**2, result)
             if sys.platform == "darwin":
                 # libproc executes in the supervisor; adding it again as child
                 # monitoring CPU would double-count pipeline parent CPU.

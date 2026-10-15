@@ -1,0 +1,495 @@
+{
+  "schema": 1,
+  "kind": "source-bound-board-only-field-census-and-actual-IR-original",
+  "git_head_before_integration": "8dbd363572d2b8e18a384be40d0d4147e9b4a26b",
+  "accepted": false,
+  "routing_executed": false,
+  "source_commit": "6399dfd3bd8d2f48878a9a7c5b2f2e7a76a2b899",
+  "source_hashes": {
+    "KiCad/IR_Sensor.kicad_pcb": "f52eca1575d9438b803a672088de98436e9a299b6014a3bbafca963974431774",
+    "KiCad/IR_Sensor.kicad_pro": "0393908f5263db9c95388db7d749115280350ae4b6a7dc44afba203aea3a2f8a",
+    "KiCad/IR_Sensor.kicad_sch": "fb2ead949c4005eda55d7ff8e48ff39293ad096bd9f1ca12a3c623fc62915786",
+    "KiCad/_licenses/creator/LICENSE": "7a9ff699e91b9acf1cf6747e72f82fab1ec25ead316ece85e14b8043200ebb74",
+    "KiCad/_licenses/creator/README.md": "1dd84f03c05e371507fda0f5c3be237eea52db5d991858e9c1f75e9327205926",
+    "LICENSE": "7a9ff699e91b9acf1cf6747e72f82fab1ec25ead316ece85e14b8043200ebb74",
+    "README.md": "1dd84f03c05e371507fda0f5c3be237eea52db5d991858e9c1f75e9327205926"
+  },
+  "native_original": {
+    "path": ".runs/ir-obstacle-original-native-001/result.json",
+    "sha256": "d0b28f7e50d19d3d4b8474472a9247702655aec675f55f0dac97838edfa93051"
+  },
+  "actual_candidate_sha256": "f27125d0261234479ea35b8008b1144efc7457bc86a61fec5edccf240bd2a522",
+  "actual_native_report_sha256": "b4937f9ccce9c3c70cc27d8df6b2376d1cc4e691f9f586473d4168b0c19e5670",
+  "original_scope_accepted": false,
+  "original_scope_reason": "Complete field comparator rejected12PCBfootprints versus11SCHcomponents; raw old proof/receipt unchanged.",
+  "counts": {
+    "original_native": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 32,
+      "exclusions": 0,
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ]
+    },
+    "parity_native": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 42,
+      "exclusions": 0,
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ]
+    }
+  },
+  "original_shell_nonfill_ast_equal": true,
+  "all_original_route_records_exact": true,
+  "native_saved_nonfill_ast_equal": false,
+  "native_saved_route_records_equal": false,
+  "production_support_qualified": false,
+  "serialization_equivalence_qualified": false,
+  "actual_field_gate": {
+    "path": ".runs/ir-obstacle-original-field-gate-003/result.json",
+    "sha256": "925a91fbcd12deb9712cf1ce6f04cb43e583fdb4a0fdb19843f9aacc757e9a72"
+  },
+  "qualified_source_field_gate": true,
+  "field_census": {
+    "policy": "source-bound-padless-field-census-v1",
+    "complete_footprint_count": 12,
+    "compared_footprint_count": 11,
+    "artwork": [
+      {
+        "reference": "G***",
+        "uuid": "f8e96733-69a6-4f69-9a95-427002c6c756",
+        "footprint_ast_sha256": "d7975eeeda9453bfa416d5ba276529e13952ba96ffcc29a95e2d8bd3229c3088",
+        "pad_count": 0,
+        "board_only": true
+      }
+    ],
+    "complete_observer_sha256": "83c295bf5a14ae899febdbca332cdd163467d57026fdfd34fd802de5d20c8d8a",
+    "projected_observer_sha256": "cd3ca11bd8fa8c6283c77148f083a582150d265d0eaea9efd44b13f6b0ba4708"
+  },
+  "field_qualification": {
+    "qualified": true,
+    "policy": "datasheet-effective-empty-v1",
+    "component_count": 11,
+    "compared_field_count": 26,
+    "comparison_map": [
+      {
+        "reference": "D1",
+        "uuid": "d27aa1b8-daa6-4c4c-a002-9e50bd5913c6",
+        "schematic_fields": {
+          "Sim.Pins": "1=K 2=A",
+          "Datasheet": "",
+          "Description": "Light emitting diode"
+        },
+        "pcb_fields": {
+          "Datasheet": "~",
+          "Description": "Light emitting diode",
+          "Sim.Pins": "1=K 2=A"
+        }
+      },
+      {
+        "reference": "D2",
+        "uuid": "590312bd-d764-42fc-ad13-0a993f580ddd",
+        "schematic_fields": {
+          "Sim.Pins": "1=K 2=A",
+          "Datasheet": "",
+          "Description": "Light emitting diode"
+        },
+        "pcb_fields": {
+          "Datasheet": "~",
+          "Description": "Light emitting diode",
+          "Sim.Pins": "1=K 2=A"
+        }
+      },
+      {
+        "reference": "D3",
+        "uuid": "47f2c9cd-a23d-4664-9e56-59347f05c8b5",
+        "schematic_fields": {
+          "Sim.Pins": "1=K 2=A",
+          "Datasheet": "",
+          "Description": "Light emitting diode"
+        },
+        "pcb_fields": {
+          "Datasheet": "~",
+          "Description": "Light emitting diode",
+          "Sim.Pins": "1=K 2=A"
+        }
+      },
+      {
+        "reference": "D4",
+        "uuid": "349cc4fb-d3a5-475e-b277-61ead7e643fe",
+        "schematic_fields": {
+          "Sim.Pins": "1=K 2=A",
+          "Datasheet": "",
+          "Description": "Light emitting diode"
+        },
+        "pcb_fields": {
+          "Datasheet": "~",
+          "Description": "Light emitting diode",
+          "Sim.Pins": "1=K 2=A"
+        }
+      },
+      {
+        "reference": "J1",
+        "uuid": "3871e27a-ba93-4c3b-a0f9-4704428f792c",
+        "schematic_fields": {
+          "Datasheet": "",
+          "Description": "Generic connector, single row, 01x03, script generated"
+        },
+        "pcb_fields": {
+          "Datasheet": "~",
+          "Description": "Generic connector, single row, 01x03, script generated"
+        }
+      },
+      {
+        "reference": "R1",
+        "uuid": "5da6be57-3c70-4665-b08f-ff4251da4d85",
+        "schematic_fields": {
+          "Datasheet": "",
+          "Description": "Resistor"
+        },
+        "pcb_fields": {
+          "Datasheet": "~",
+          "Description": "Resistor"
+        }
+      },
+      {
+        "reference": "R2",
+        "uuid": "b7e70184-c3eb-447e-abd2-7cbee3404b3c",
+        "schematic_fields": {
+          "Datasheet": "",
+          "Description": "Resistor"
+        },
+        "pcb_fields": {
+          "Datasheet": "~",
+          "Description": "Resistor"
+        }
+      },
+      {
+        "reference": "R3",
+        "uuid": "38f60dba-ec7d-4acf-a8c0-b49261403c18",
+        "schematic_fields": {
+          "Datasheet": "",
+          "Description": "Resistor"
+        },
+        "pcb_fields": {
+          "Datasheet": "~",
+          "Description": "Resistor"
+        }
+      },
+      {
+        "reference": "R4",
+        "uuid": "f623f7e8-7031-4129-9e44-ee04fe349257",
+        "schematic_fields": {
+          "Datasheet": "",
+          "Description": "Resistor"
+        },
+        "pcb_fields": {
+          "Datasheet": "~",
+          "Description": "Resistor"
+        }
+      },
+      {
+        "reference": "RV2",
+        "uuid": "0d45b240-3810-4c28-a0e6-58c6bbadb367",
+        "schematic_fields": {
+          "Datasheet": "",
+          "Description": "Potentiometer"
+        },
+        "pcb_fields": {
+          "Datasheet": "~",
+          "Description": "Potentiometer"
+        }
+      },
+      {
+        "reference": "U1",
+        "uuid": "b8d7aa25-76d7-43ee-9570-5b2e00615dea",
+        "schematic_fields": {
+          "Datasheet": "http://www.ti.com/lit/ds/symlink/lm2904-n.pdf",
+          "Description": "Low-Power, Dual Operational Amplifiers, DIP-8/SOIC-8/TO-99-8"
+        },
+        "pcb_fields": {
+          "Datasheet": "http://www.ti.com/lit/ds/symlink/lm2904-n.pdf",
+          "Description": "Low-Power, Dual Operational Amplifiers, DIP-8/SOIC-8/TO-99-8"
+        }
+      }
+    ],
+    "warning_uuids": [
+      "0d45b240-3810-4c28-a0e6-58c6bbadb367",
+      "349cc4fb-d3a5-475e-b277-61ead7e643fe",
+      "3871e27a-ba93-4c3b-a0f9-4704428f792c",
+      "38f60dba-ec7d-4acf-a8c0-b49261403c18",
+      "47f2c9cd-a23d-4664-9e56-59347f05c8b5",
+      "590312bd-d764-42fc-ad13-0a993f580ddd",
+      "5da6be57-3c70-4665-b08f-ff4251da4d85",
+      "b7e70184-c3eb-447e-abd2-7cbee3404b3c",
+      "d27aa1b8-daa6-4c4c-a002-9e50bd5913c6",
+      "f623f7e8-7031-4129-9e44-ee04fe349257"
+    ],
+    "warning_hashes": [
+      "30c490c6cab84cf329fd173f68b04783f7717ef427e5f0e62bfccd70f331069b",
+      "38850de1295700a6f7a24f2cf972807b2b0d81b75192e0a365b74f0dfe2cbb2f",
+      "5ababfee6c3f130c39aa0cec68969b14841b2755cdc8e349b059f3e5ee51502e",
+      "74dddb9291e767e31ead90223d2000cc0bc169a51e143d99be3be9c3690c5054",
+      "77bee286bf7cd54972207e2b56dca0711e4a79e578db2280abdde8c8ebed0712",
+      "7b139996d50bb68f49fc05bb35341315532bb267a0e5bb6843583e2f1d446b71",
+      "818da1f9e6ab3f23e19e1abcf56ee5dd656453399e9338891c20d50e215b3cf9",
+      "a8ae7fe030dcd0e2d744eb421009833f9b3d63cb3ae30ee1ec734d26794bfef8",
+      "cca38957baa665d7a1a2e9d822ca11eae8568d225bebf426c9fb8217d44f5088",
+      "e242429b4d79368bf36e4515968f1682ffc85566e2a8131c8a00568ecd21ba5b"
+    ],
+    "native_export_sha256": "0c5739bc0c2cdcc8663d55d8257b92ed1872cc95c2c53d7197900c76ddd43b71",
+    "observer_sha256": "cd3ca11bd8fa8c6283c77148f083a582150d265d0eaea9efd44b13f6b0ba4708",
+    "drc_report_sha256": "5909184ec4937bef24e5a96385742bb9f865510c54b980d722182cd7f59b603a"
+  },
+  "negative_mutations": {
+    "omitted_artwork_observation": {
+      "rejected": true,
+      "reason": "bounded complete source/Native footprint census required"
+    },
+    "pad_bearing_board_only": {
+      "rejected": true,
+      "reason": "unmatched footprint is outside padless board-only artwork scope"
+    },
+    "not_board_only": {
+      "rejected": true,
+      "reason": "unmatched footprint is outside padless board-only artwork scope"
+    },
+    "real_component_field_mismatch": {
+      "rejected": true,
+      "reason": "unqualified field mismatch: Datasheet"
+    }
+  },
+  "actual_costs": {
+    "acquisition": {
+      "receipt": {
+        "path": ".runs/ir-obstacle-fetch-execution-001/execution.json",
+        "sha256": "594ef327b0b2811ffc589402379a2c4118ce2dbe3c001d7d0b54b69bc78a9e92"
+      },
+      "wall_seconds": 1.4931852919980884,
+      "full_cpu_seconds": 0.50801,
+      "publication_allowance_seconds": 2,
+      "passed": true,
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "cleanup_complete": true,
+        "log_truncated": false
+      }
+    },
+    "original_native": {
+      "receipt": {
+        "path": ".runs/ir-obstacle-original-native-execution-001/execution.json",
+        "sha256": "33c909d57b3c7a49fc743e0a58d44f0155a97352e568e00b4f28ba92927ca6a0"
+      },
+      "wall_seconds": 6.420256457990035,
+      "full_cpu_seconds": 4.564273999999999,
+      "publication_allowance_seconds": 2,
+      "passed": true,
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "cleanup_complete": true,
+        "log_truncated": false
+      }
+    },
+    "original_independent_reader": {
+      "receipt": {
+        "path": ".runs/ir-obstacle-original-native-readback-execution-001/execution.json",
+        "sha256": "a4f74ecb40b3a3fe0d813c3c829cc09d1bb15f11e0fcdcec768cf8ff5249339b"
+      },
+      "wall_seconds": 1.7980257089948282,
+      "full_cpu_seconds": 1.2029219999999998,
+      "publication_allowance_seconds": 2,
+      "passed": true,
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "cleanup_complete": true,
+        "log_truncated": false
+      }
+    },
+    "missing_field_gate": {
+      "receipt": {
+        "path": ".runs/ir-obstacle-original-field-gate-003/result.json",
+        "sha256": "925a91fbcd12deb9712cf1ce6f04cb43e583fdb4a0fdb19843f9aacc757e9a72"
+      },
+      "wall_seconds": 0.4956872919865418,
+      "full_cpu_seconds": 0.39526199999999995,
+      "publication_allowance_seconds": 2,
+      "passed": true,
+      "process": {
+        "status": null,
+        "exit_code": null,
+        "cleanup_complete": null,
+        "log_truncated": null
+      }
+    }
+  },
+  "targeted": [
+    {
+      "receipt": {
+        "path": ".runs/ir-board-only-field-targeted-001/execution.json",
+        "sha256": "923346b4c90a96027d3cec1c01740dab73b814604e3b76345b74d3f5eb6062d9"
+      },
+      "wall_seconds": 0.3951216249843128,
+      "full_cpu_seconds": 0.28497799999999995,
+      "publication_allowance_seconds": 0,
+      "passed": null,
+      "process": {
+        "status": "disk_limit",
+        "exit_code": null,
+        "cleanup_complete": true,
+        "log_truncated": false
+      }
+    },
+    {
+      "receipt": {
+        "path": ".runs/ir-board-only-field-targeted-002/execution.json",
+        "sha256": "4533165e12af88b5b9814f98f864c76831efb8519b31e70adaf8798a3a78a9e0"
+      },
+      "wall_seconds": 0.13437108299694955,
+      "full_cpu_seconds": 0.10214200000000001,
+      "publication_allowance_seconds": 0,
+      "passed": null,
+      "process": {
+        "status": "nonzero_exit",
+        "exit_code": 2,
+        "cleanup_complete": true,
+        "log_truncated": false
+      }
+    },
+    {
+      "receipt": {
+        "path": ".runs/ir-board-only-field-targeted-003/execution.json",
+        "sha256": "d09837f47ddad989c457b0ce0619ddffe67da10cca75de91200cd267c39c9af6"
+      },
+      "wall_seconds": 0.11195525000221096,
+      "full_cpu_seconds": 0.09953500000000001,
+      "publication_allowance_seconds": 0,
+      "passed": null,
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "cleanup_complete": true,
+        "log_truncated": false
+      }
+    }
+  ],
+  "full_integration": {
+    "receipt": {
+      "path": ".runs/full-integration-081/execution.json",
+      "sha256": "0dbfc3918d1bef817291f6d9b6f3946fef7b801c221fe85b57ac45ae098c9f3f"
+    },
+    "wall_seconds": 114.12820520802052,
+    "full_cpu_seconds": 106.666845,
+    "publication_allowance_seconds": 0,
+    "passed": null,
+    "process": {
+      "status": "success",
+      "exit_code": 0,
+      "cleanup_complete": true,
+      "log_truncated": false
+    }
+  },
+  "review_files": {
+    "README.md": "e146d247d27edc5712ccfff198dfa7f9fb0fa36dd0e9080dba8068a76d3c34fe",
+    "findings.json": "83d563a30d1be4913e652343a90b9574a88072ded61e2f2bc301dad66ba32696",
+    "prototype-review.json": "16bd6112795a36315aff1eb3cef19ae0639471a22a890f9359ffcc55557642ed"
+  },
+  "implementation_sha256": {
+    "autorouter/schematic_field_evidence.py": "184137676a27d67969878caf2af52a141ca419cc1a3e48cab1c9d701e67eef15",
+    "tests/test_schematic_field_evidence.py": "6adc2b5eee97ac5fd62a26c860c897a9aa03db5b767f2a55e515b7433609cac4",
+    "scripts/experiment_quality.py": "50f983939ce36019e821a5a05298e60c4b6a682150b3425be9c76c71f4c94584",
+    "tests/test_experiment_quality.py": "d68216d597e0032fd0a7deb27a2591a6ca6b2e05465efc457eabdc5b88010cb1"
+  },
+  "failed_full_integration": {
+    "receipt": {
+      "path": ".runs/full-integration-080/execution.json",
+      "sha256": "b0476e46dcf0bf441660b2e8290a7fbfc2954180836d703355c45da90e348c09"
+    },
+    "wall_seconds": 129.97412933400483,
+    "full_cpu_seconds": 111.835339,
+    "publication_allowance_seconds": 0,
+    "passed": null,
+    "process": {
+      "status": "nonzero_exit",
+      "exit_code": 1,
+      "cleanup_complete": true,
+      "log_truncated": false
+    }
+  },
+  "runner_isolated_failure_diagnosis": {
+    "path": ".runs/runner-memory-fixture-diagnosis-001/result.json",
+    "sha256": "0212d21862cd1c49d468ecb3e57ed371a6c4c9ac5736adaaa1949c7056f3b018"
+  },
+  "engineering_preparation_failure": {
+    "path": ".runs/ir-obstacle-original-field-gate-002/failure.json",
+    "sha256": "935539499c5ab89688e5c45f1d47ca073b3f7686f9c885e69fd5224ba616b7a8"
+  },
+  "limitations": [
+    "Source/comparator qualification only; no IRengine/routingcomparison yet.",
+    "All42warnings/sevenignored retained:21silk-edge,11library,10Datasheetplaceholder. No whole-project-clean/independentpedigree/physical/electrical claim.",
+    "Earlierfield-gate002 negative-fixtureUUID lookup failed before Native/engine/GET; its wall/fullCPU were not captured. It is exposed engineering-preparation cost, not silently zero. Fullintegration/targeted/support engineering are distinct from the prospectively measured routing comparison.",
+    "Original saved serializer changes remain unqualified; exact original-shell allroutes/full nonfill AST preserved.",
+    "Rights/sourcepacket exactMIT scope; uniqueartwork/modeltitle/ancestry not established; no raw redistribution.",
+    "Runtime helper changed after installation032/currentworkflow002; existing reports preserved, current new Native/installed qualification required.",
+    "Fullrestorethroughd2268 precedes theseactualoutputs; nextincremental required."
+  ]
+}
