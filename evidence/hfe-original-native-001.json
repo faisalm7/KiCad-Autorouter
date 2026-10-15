@@ -1,0 +1,614 @@
+{
+  "schema": 1,
+  "kind": "actual-hfe-original1007-diagnostic",
+  "accepted": false,
+  "production_support_qualified": false,
+  "producer_git_head": "edef513d2769bb847639813cc87bcd801fdbde12",
+  "source_commit": "7be61154def1890aa66368b3385ad8661447d52f",
+  "source_files_sha256": {
+    "LICENSE": "eeecc593866fa1c3b80189c7e3dc0ceb77740557fa92f81771f891cc54c579cb",
+    "README.md": "f94f23f2ffc9771a22955aecd9ce24f529cb7aa8fd4ddae9f8dd5196ce21ffb8",
+    "cc-component.kicad_sch": "412415a834bfa9f727182532f334b0cbfdd247d2d796b5b5772ab413e2d8a875",
+    "transistor-hfe-measurement-circuit.kicad_pcb": "d3d6d28a1f65d3950aa04552194c5e182adcad407c96d11a1673de19d39c0651",
+    "transistor-hfe-measurement-circuit.kicad_pro": "684f83f599188810229a3e1bcc3378daef39625db1e75f1042e367627f6671a5",
+    "transistor-hfe-measurement-circuit.kicad_sch": "8431a00b25b339919a0432a22eade01756dd6bbf45238bcab3c4a9a79b22cee8"
+  },
+  "observation_complete": true,
+  "outer_status": "failed",
+  "child_status": "observed_unqualified",
+  "source_route_count": 785,
+  "all_original_route_records_exact": true,
+  "original_shell_nonfill_ast_equal": true,
+  "native_saved_nonfill_ast_equal": true,
+  "native_saved_route_records_equal": true,
+  "native_routing_scope_accepted": false,
+  "original_refill": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 0,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "Text height out of range",
+        "key": "text_height"
+      },
+      {
+        "description": "Text thickness out of range",
+        "key": "text_thickness"
+      },
+      {
+        "description": "PTH inside courtyard",
+        "key": "pth_inside_courtyard"
+      },
+      {
+        "description": "NPTH inside courtyard",
+        "key": "npth_inside_courtyard"
+      },
+      {
+        "description": "Footprint component type doesn't match footprint pads",
+        "key": "footprint_type_mismatch"
+      },
+      {
+        "description": "Footprint not found in libraries",
+        "key": "lib_footprint_issues"
+      },
+      {
+        "description": "Footprint doesn't match copy in library",
+        "key": "lib_footprint_mismatch"
+      }
+    ]
+  },
+  "full_schematic_final": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 18,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "Text height out of range",
+        "key": "text_height"
+      },
+      {
+        "description": "Text thickness out of range",
+        "key": "text_thickness"
+      },
+      {
+        "description": "PTH inside courtyard",
+        "key": "pth_inside_courtyard"
+      },
+      {
+        "description": "NPTH inside courtyard",
+        "key": "npth_inside_courtyard"
+      },
+      {
+        "description": "Footprint component type doesn't match footprint pads",
+        "key": "footprint_type_mismatch"
+      },
+      {
+        "description": "Footprint not found in libraries",
+        "key": "lib_footprint_issues"
+      },
+      {
+        "description": "Footprint doesn't match copy in library",
+        "key": "lib_footprint_mismatch"
+      }
+    ]
+  },
+  "findings": [
+    {
+      "description": "Pad net (Net-(Q4A-S)) doesn't match net given by schematic (Net-(Q4NMOS-S))",
+      "items": [
+        {
+          "description": "Pad 1 [Net-(Q4A-S)] of Q4 on F.Cu",
+          "pos": {
+            "x": 78.645,
+            "y": 78.7125
+          },
+          "uuid": "1a183bf9-e9a3-4e5c-960b-79127b0cb43f"
+        }
+      ],
+      "severity": "warning",
+      "type": "net_conflict"
+    },
+    {
+      "description": "Pad net (Net-(Q4A-G)) doesn't match net given by schematic (Net-(Q4NMOS-G))",
+      "items": [
+        {
+          "description": "Pad 2 [Net-(Q4A-G)] of Q4 on F.Cu",
+          "pos": {
+            "x": 79.145,
+            "y": 78.7125
+          },
+          "uuid": "511aae87-c86f-43f5-9684-b300c847972c"
+        }
+      ],
+      "severity": "warning",
+      "type": "net_conflict"
+    },
+    {
+      "description": "Pad net (Net-(Q4B-S)) doesn't match net given by schematic (Net-(Q4PMOS-S))",
+      "items": [
+        {
+          "description": "Pad 4 [Net-(Q4B-S)] of Q4 on F.Cu",
+          "pos": {
+            "x": 79.645,
+            "y": 77.2875
+          },
+          "uuid": "eda8a172-94db-4cdd-af7b-6a802eec54f1"
+        }
+      ],
+      "severity": "warning",
+      "type": "net_conflict"
+    },
+    {
+      "description": "Pad net (Net-(Q4B-G)) doesn't match net given by schematic (Net-(Q4PMOS-G))",
+      "items": [
+        {
+          "description": "Pad 5 [Net-(Q4B-G)] of Q4 on F.Cu",
+          "pos": {
+            "x": 79.145,
+            "y": 77.2875
+          },
+          "uuid": "e32ab4aa-c812-4671-9144-c5387a4ab61a"
+        }
+      ],
+      "severity": "warning",
+      "type": "net_conflict"
+    },
+    {
+      "description": "Pad net (Net-(Q4A-D)) doesn't match net given by schematic (Net-(Q4NMOS-D))",
+      "items": [
+        {
+          "description": "Pad 6 [Net-(Q4A-D)] of Q4 on F.Cu",
+          "pos": {
+            "x": 78.645,
+            "y": 77.2875
+          },
+          "uuid": "0822faa1-965c-40f5-86e4-74437ca5f495"
+        }
+      ],
+      "severity": "warning",
+      "type": "net_conflict"
+    },
+    {
+      "description": "Pad net (Net-(Q4A-G)) doesn't match net given by schematic (Net-(Q4NMOS-G))",
+      "items": [
+        {
+          "description": "Pad 2 [Net-(Q4A-G)] of R13 on F.Cu",
+          "pos": {
+            "x": 73.97,
+            "y": 66.5
+          },
+          "uuid": "9f2c5436-6cb0-4385-9705-3b1186acdde4"
+        }
+      ],
+      "severity": "warning",
+      "type": "net_conflict"
+    },
+    {
+      "description": "Pad net (Net-(Q4A-G)) doesn't match net given by schematic (Net-(Q4NMOS-G))",
+      "items": [
+        {
+          "description": "Pad 1 [Net-(Q4A-G)] of R14 on F.Cu",
+          "pos": {
+            "x": 75.82,
+            "y": 66.5
+          },
+          "uuid": "ef9123b8-1096-466e-aa3c-a836760f10b8"
+        }
+      ],
+      "severity": "warning",
+      "type": "net_conflict"
+    },
+    {
+      "description": "Pad net (Net-(Q4A-S)) doesn't match net given by schematic (Net-(Q4NMOS-S))",
+      "items": [
+        {
+          "description": "Pad 2 [Net-(Q4A-S)] of R16 on F.Cu",
+          "pos": {
+            "x": 76.645,
+            "y": 78.825
+          },
+          "uuid": "b47d4698-ee97-40d9-9e6a-f5d4b7ec6c2c"
+        }
+      ],
+      "severity": "warning",
+      "type": "net_conflict"
+    },
+    {
+      "description": "Pad net (Net-(Q4B-S)) doesn't match net given by schematic (Net-(Q4PMOS-S))",
+      "items": [
+        {
+          "description": "Pad 2 [Net-(Q4B-S)] of R21 on F.Cu",
+          "pos": {
+            "x": 84.1,
+            "y": 72.425
+          },
+          "uuid": "7d871f3f-fd3a-4720-87ea-4411edb2bf8b"
+        }
+      ],
+      "severity": "warning",
+      "type": "net_conflict"
+    },
+    {
+      "description": "Pad net (Net-(Q4B-G)) doesn't match net given by schematic (Net-(Q4PMOS-G))",
+      "items": [
+        {
+          "description": "Pad 2 [Net-(Q4B-G)] of R22 on F.Cu",
+          "pos": {
+            "x": 79.67,
+            "y": 75.5
+          },
+          "uuid": "79e68438-86f2-4b41-8586-325861895d6e"
+        }
+      ],
+      "severity": "warning",
+      "type": "net_conflict"
+    },
+    {
+      "description": "Pad net (Net-(Q4B-G)) doesn't match net given by schematic (Net-(Q4PMOS-G))",
+      "items": [
+        {
+          "description": "Pad 1 [Net-(Q4B-G)] of R23 on F.Cu",
+          "pos": {
+            "x": 81.72,
+            "y": 75.5
+          },
+          "uuid": "0b6abb6b-5cbf-4bcb-b370-9a537e09f383"
+        }
+      ],
+      "severity": "warning",
+      "type": "net_conflict"
+    },
+    {
+      "description": "Pad net (Net-(Q4A-D)) doesn't match net given by schematic (Net-(Q4NMOS-D))",
+      "items": [
+        {
+          "description": "PTH pad 2 [Net-(Q4A-D)] of RV1",
+          "pos": {
+            "x": 89.145,
+            "y": 74.95
+          },
+          "uuid": "601006ce-3c1c-4970-afab-d3e16f2602f6"
+        }
+      ],
+      "severity": "warning",
+      "type": "net_conflict"
+    },
+    {
+      "description": "Pad net (Net-(Q4A-D)) doesn't match net given by schematic (Net-(Q4NMOS-D))",
+      "items": [
+        {
+          "description": "PTH pad 3 [Net-(Q4A-D)] of RV1",
+          "pos": {
+            "x": 86.645,
+            "y": 72.45
+          },
+          "uuid": "a69a3bef-68e1-4f5e-89d7-f3e0094ae749"
+        }
+      ],
+      "severity": "warning",
+      "type": "net_conflict"
+    },
+    {
+      "description": "Pad net (Net-(Q4A-S)) doesn't match net given by schematic (Net-(Q4NMOS-S))",
+      "items": [
+        {
+          "description": "PTH pad 2 [Net-(Q4A-S)] of SW1",
+          "pos": {
+            "x": 81.375,
+            "y": 92.5
+          },
+          "uuid": "7e60160f-94bf-4cf0-a923-a20450239d3a"
+        }
+      ],
+      "severity": "warning",
+      "type": "net_conflict"
+    },
+    {
+      "description": "Pad net (Net-(Q4B-S)) doesn't match net given by schematic (Net-(Q4PMOS-S))",
+      "items": [
+        {
+          "description": "PTH pad 2 [Net-(Q4B-S)] of SW2",
+          "pos": {
+            "x": 102.375,
+            "y": 92.5
+          },
+          "uuid": "3d860c40-aa6b-4b84-a8a7-5c702ab96f2f"
+        }
+      ],
+      "severity": "warning",
+      "type": "net_conflict"
+    },
+    {
+      "description": "Pad net (Net-(Q4A-G)) doesn't match net given by schematic (Net-(Q4NMOS-G))",
+      "items": [
+        {
+          "description": "PTH pad 1 [Net-(Q4A-G)] of TP3",
+          "pos": {
+            "x": 71.145,
+            "y": 62.0
+          },
+          "uuid": "499a3a9f-eada-417c-81ae-7c91a78e9105"
+        }
+      ],
+      "severity": "warning",
+      "type": "net_conflict"
+    },
+    {
+      "description": "Pad net (Net-(Q4B-G)) doesn't match net given by schematic (Net-(Q4PMOS-G))",
+      "items": [
+        {
+          "description": "PTH pad 1 [Net-(Q4B-G)] of TP4",
+          "pos": {
+            "x": 82.645,
+            "y": 79.0
+          },
+          "uuid": "49122861-7bc8-4485-aa53-0c5a181f35b5"
+        }
+      ],
+      "severity": "warning",
+      "type": "net_conflict"
+    },
+    {
+      "description": "Pad net (Net-(Q4A-D)) doesn't match net given by schematic (Net-(Q4NMOS-D))",
+      "items": [
+        {
+          "description": "Pad 5 [Net-(Q4A-D)] of U3 on F.Cu",
+          "pos": {
+            "x": 79.62,
+            "y": 72.405
+          },
+          "uuid": "5f672960-2545-4992-91e4-b846233d9bd2"
+        }
+      ],
+      "severity": "warning",
+      "type": "net_conflict"
+    }
+  ],
+  "candidate_sha256": "fe366f0b0eac7b848bf41ea7b9926d8301648977dcb0f429152898621924053f",
+  "final_native_report_sha256": "9daa9b6ffa53a801560f148ea64b530debb32e3182eb1f8fc5770cbc2060e9a0",
+  "static_refusal": "unsupported: netclass bindings not qualified: native netclasses currently require two copper layers; rule-area restrictions not qualified: pour-only area requires explicit net 0",
+  "measured_whole": {
+    "wall_seconds": 23.38708833398414,
+    "full_cpu_seconds": 28.629391000000002,
+    "publication_allowance_seconds": 2,
+    "preparation_costs": {
+      "wall_seconds": 1.2202628749946598,
+      "full_cpu_seconds": 1.3335679999999999,
+      "publication_allowance_seconds": 2
+    },
+    "process": {
+      "status": "nonzero_exit",
+      "exit_code": 2,
+      "wall_seconds": 18.82824533301755,
+      "cpu_seconds": 23.853131,
+      "max_rss_bytes": 357400576,
+      "supervisor_cpu_seconds": 0.13156900000000005,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 330317824,
+      "sampled_peak_workdir_bytes": 14251253,
+      "resource_guards": {
+        "max_group_rss_bytes": 2147483648,
+        "max_workdir_bytes": 134217728,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/hfe_original_native_v1/driver.py",
+        "--mode",
+        "worker",
+        "--source-head",
+        "edef513d2769bb847639813cc87bcd801fdbde12",
+        "--protocol-sha256",
+        "39ab9caf118edb59ab80369f78d1e21579e195845d2f44b97d19eb7b8e5b08e7"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/hfe-original-native-execution-001/command.log",
+      "log_bytes": 139,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/hfe-original-native-execution-001",
+      "signal_cancellation_enabled": true,
+      "pid": 24108
+    }
+  },
+  "raw_artifacts": [
+    {
+      "original": {
+        "path": ".runs/hfe-original-native-execution-001/result.json",
+        "sha256": "6960b7883eda8c95032fccec7433db1c4e174efdc5ba46cad432d35b08e5ef37",
+        "bytes": 73467
+      },
+      "public": {
+        "path": "evidence/hfe-original-native-001/hfe-original-native-execution-001--result.json",
+        "sha256": "6960b7883eda8c95032fccec7433db1c4e174efdc5ba46cad432d35b08e5ef37",
+        "bytes": 73467
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/hfe-original-native-execution-001/command.log",
+        "sha256": "0416112e8e4dcc06ee3c4e049116a50a7b8446712828c9acf2c85f06d4e02062",
+        "bytes": 139
+      },
+      "public": {
+        "path": "evidence/hfe-original-native-001/hfe-original-native-execution-001--command.log",
+        "sha256": "0416112e8e4dcc06ee3c4e049116a50a7b8446712828c9acf2c85f06d4e02062",
+        "bytes": 139
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/hfe-original-native-execution-001/native/result.json",
+        "sha256": "a3aaf2ea70bf687fd81a4bdfcdcba2f3db74da83c4d53fa52b7812cbea7b0cdb",
+        "bytes": 44427
+      },
+      "public": {
+        "path": "evidence/hfe-original-native-001/hfe-original-native-execution-001--native--result.json",
+        "sha256": "a3aaf2ea70bf687fd81a4bdfcdcba2f3db74da83c4d53fa52b7812cbea7b0cdb",
+        "bytes": 44427
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/hfe-original-native-preparation-001/protocol.json",
+        "sha256": "39ab9caf118edb59ab80369f78d1e21579e195845d2f44b97d19eb7b8e5b08e7",
+        "bytes": 14034
+      },
+      "public": {
+        "path": "evidence/hfe-original-native-001/hfe-original-native-preparation-001--protocol.json",
+        "sha256": "39ab9caf118edb59ab80369f78d1e21579e195845d2f44b97d19eb7b8e5b08e7",
+        "bytes": 14034
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/hfe-original-native-execution-001/native/job/original-refill.json",
+        "sha256": "60861431f45afe1ed8c99770998a1c2b29a8395f207a22a0895a3dc8d668cf9f",
+        "bytes": 1827
+      },
+      "public": {
+        "path": "evidence/hfe-original-native-001/hfe-original-native-execution-001--native--job--original-refill.json",
+        "sha256": "60861431f45afe1ed8c99770998a1c2b29a8395f207a22a0895a3dc8d668cf9f",
+        "bytes": 1827
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/hfe-original-native-execution-001/native/job/original-refill.log",
+        "sha256": "bfbc5fac18da3794b3a6bf708883d409e4017fda28b55efc606dd3b478de6a6d",
+        "bytes": 195
+      },
+      "public": {
+        "path": "evidence/hfe-original-native-001/hfe-original-native-execution-001--native--job--original-refill.log",
+        "sha256": "bfbc5fac18da3794b3a6bf708883d409e4017fda28b55efc606dd3b478de6a6d",
+        "bytes": 195
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/hfe-original-native-execution-001/native/job/original-refill-process.json",
+        "sha256": "4e790bb826358932434ab0f28248e69ba36df077990fe4223ee53bc0d16b6c89",
+        "bytes": 2300
+      },
+      "public": {
+        "path": "evidence/hfe-original-native-001/hfe-original-native-execution-001--native--job--original-refill-process.json",
+        "sha256": "4e790bb826358932434ab0f28248e69ba36df077990fe4223ee53bc0d16b6c89",
+        "bytes": 2300
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/hfe-original-native-execution-001/native/job/original-refill-binding.json",
+        "sha256": "47cec2a7b08fc9efb9e7215d1dd128ac53123714c283dc302b49c45aa4e85fdc",
+        "bytes": 2797
+      },
+      "public": {
+        "path": "evidence/hfe-original-native-001/hfe-original-native-execution-001--native--job--original-refill-binding.json",
+        "sha256": "47cec2a7b08fc9efb9e7215d1dd128ac53123714c283dc302b49c45aa4e85fdc",
+        "bytes": 2797
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/hfe-original-native-execution-001/native/job/original-final.json",
+        "sha256": "9daa9b6ffa53a801560f148ea64b530debb32e3182eb1f8fc5770cbc2060e9a0",
+        "bytes": 11430
+      },
+      "public": {
+        "path": "evidence/hfe-original-native-001/hfe-original-native-execution-001--native--job--original-final.json",
+        "sha256": "9daa9b6ffa53a801560f148ea64b530debb32e3182eb1f8fc5770cbc2060e9a0",
+        "bytes": 11430
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/hfe-original-native-execution-001/native/job/original-final.log",
+        "sha256": "28d1efd5a1816d81f43ceab89071aa44dab4d1650f542d1aeccc537ccd44d021",
+        "bytes": 215
+      },
+      "public": {
+        "path": "evidence/hfe-original-native-001/hfe-original-native-execution-001--native--job--original-final.log",
+        "sha256": "28d1efd5a1816d81f43ceab89071aa44dab4d1650f542d1aeccc537ccd44d021",
+        "bytes": 215
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/hfe-original-native-execution-001/native/job/original-final-process.json",
+        "sha256": "bf39c38048ddaa70450dde1112b97481d163aedd26e46548d3f28ad5cdc1d263",
+        "bytes": 2323
+      },
+      "public": {
+        "path": "evidence/hfe-original-native-001/hfe-original-native-execution-001--native--job--original-final-process.json",
+        "sha256": "bf39c38048ddaa70450dde1112b97481d163aedd26e46548d3f28ad5cdc1d263",
+        "bytes": 2323
+      }
+    },
+    {
+      "original": {
+        "path": ".runs/hfe-original-native-execution-001/native/job/original-final-binding.json",
+        "sha256": "1b74c33e72a9992d9ea2782b066b37cd438e1c73f97a9246a366de97e503ab08",
+        "bytes": 2958
+      },
+      "public": {
+        "path": "evidence/hfe-original-native-001/hfe-original-native-execution-001--native--job--original-final-binding.json",
+        "sha256": "1b74c33e72a9992d9ea2782b066b37cd438e1c73f97a9246a366de97e503ab08",
+        "bytes": 2958
+      }
+    }
+  ],
+  "limitations": [
+    "All original project rules, severities, eleven ignored check definitions, geometry and785routes retained. No routing engine run, source repair, suppression or rule change.",
+    "Full native parity reports18net_conflict warnings spanning five Q4A/Q4B versus Q4NMOS/Q4PMOS name pairs; normal acceptance rejects. Exact terminal-partition equivalence remains unverified.",
+    "No field-parity bridge triggered. Four-layer class and inner-pour support still refused.",
+    "No eligible new family, comparative gain, default1007 promotion, production/GUI/human/physical qualification.",
+    "Raw CAD/candidate remain local; public copies include project-owned metadata and autogenerated diagnostic reports only."
+  ]
+}

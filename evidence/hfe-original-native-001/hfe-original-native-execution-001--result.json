@@ -1,0 +1,1231 @@
+{
+  "schema": 1,
+  "accepted": false,
+  "passed": false,
+  "status": "failed",
+  "production_support_qualified": false,
+  "source_commit": "7be61154def1890aa66368b3385ad8661447d52f",
+  "source_files_sha256": {
+    "LICENSE": "eeecc593866fa1c3b80189c7e3dc0ceb77740557fa92f81771f891cc54c579cb",
+    "README.md": "f94f23f2ffc9771a22955aecd9ce24f529cb7aa8fd4ddae9f8dd5196ce21ffb8",
+    "cc-component.kicad_sch": "412415a834bfa9f727182532f334b0cbfdd247d2d796b5b5772ab413e2d8a875",
+    "transistor-hfe-measurement-circuit.kicad_pcb": "d3d6d28a1f65d3950aa04552194c5e182adcad407c96d11a1673de19d39c0651",
+    "transistor-hfe-measurement-circuit.kicad_pro": "684f83f599188810229a3e1bcc3378daef39625db1e75f1042e367627f6671a5",
+    "transistor-hfe-measurement-circuit.kicad_sch": "8431a00b25b339919a0432a22eade01756dd6bbf45238bcab3c4a9a79b22cee8"
+  },
+  "git_head": "edef513d2769bb847639813cc87bcd801fdbde12",
+  "tools": {
+    "implementation_sha256": {
+      "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+      "autorouter/__main__.py": "eb48b32e74c3b25ffa7daca999cdff4c640ea7199abd990090732671bca495ea",
+      "autorouter/adapter.py": "a99a389f8ff8d11b5c28507e524b823f3b906d703e2faa4dd34496a642517ac3",
+      "autorouter/board_floor.py": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340",
+      "autorouter/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+      "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+      "autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+      "autorouter/floor_route.py": "eaec4f7046c7e1284bb74f709a9c82b50ceb0cbd0a11c1bdf4ae4804914e5ecc",
+      "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+      "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+      "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+      "autorouter/local_settings.py": "a2ab6296b637ace500f1cdbdd62de0cd9c1803cfc17e38906ced497c1aef21c8",
+      "autorouter/native.py": "ece3822466657c38935b15c77eb4df37c1ae82b1893dc8f335685b754bad4c23",
+      "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+      "autorouter/native_edge.py": "8a38b60f301a72b815b877f9af59d156024757d66eda7d3df8c34addbe4d0c74",
+      "autorouter/netclass.py": "c7190b4f0fce2bcd338face6e7ee5bb2937258d8c00026b64dc4b18fbe8d0122",
+      "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+      "autorouter/padless_alias.py": "f359a89e3c48703058490c22d9591b5f916cd22a8b734c50e1c9191e501c1413",
+      "autorouter/padless_alias_native.py": "7d06683b834f0211c82d87d7c982f6c39960e841627cd5e98f58a7913f501002",
+      "autorouter/pipeline.py": "090a990f86787784b81b27cc07a20fade8432eb5d67cc53b4600645cba7ed415",
+      "autorouter/placement_clearance.py": "8fa82414fa40f80d90ed4a42f53fa2e679a52d74cfb4cfa9038239f1217aaff6",
+      "autorouter/placement_strategy.py": "765a28e5a63da3e52266665accf9b9e1f5ea586ea9a90f51291b142c4373fb32",
+      "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+      "autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+      "autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+      "autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+      "autorouter/recovery.py": "fb2866c5340b808c6f7baf6a43234c87e8e353e74f47a91b51ad6fae5c24a78d",
+      "autorouter/review_export.py": "698dc66682416579c3d44b571dce0c0ed7102244adb0cff38dceeeca0ea1489c",
+      "autorouter/review_view.py": "79f65e4d53c243f4e0f054d97bced2be2c4646537e5b86f11626ac8c5f4ce92d",
+      "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+      "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+      "autorouter/schematic_field_evidence.py": "f5c03ac0be4b5fa3960bfec5f511199f7b566de8483fc78581e39e02804dbb93",
+      "autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+      "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+      "autorouter/strategy.py": "2794344ef69e70e627c4f8a858e63347f3f2d5d79bfc98b8090bbbbc5e4c193e",
+      "autorouter/thermal.py": "2fa7ff7260ba6e8b5a8003d8e1f51314b5ff548ef635fb94b29bdee4c741102d",
+      "autorouter/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+      "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+      "autorouter/thermal_worker.py": "fd651f44233aae2c70da0a8feab5f96a4763276684e8b0babf39860b91a9cc33"
+    },
+    "git_head": "edef513d2769bb847639813cc87bcd801fdbde12",
+    "kicad": "10.0.7",
+    "freerouting": "2.5.0",
+    "files": {
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli": "0b9d96dbdac9517e7d85833f926fee07a563549ffe2c55670147bff3f562d01f",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "fd8c2fa5393bebb9be6789dab8583acee6c5cff90d42696e8c1dbcabe02ec39f",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "610ae51927809192be637d0de03c32d006332638e2272cbf11a553fe65c75f6e",
+      "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7"
+    },
+    "network": "engine sandbox-exec deny network*",
+    "normal_drc_local_settings_policy": "job-owned-prl-immutable-v1",
+    "normal_selected_proposal_import_policy": "selected-proposals-exact-source-v1",
+    "normal_native_export_alias_policy": "source-bound-padless-export-v1",
+    "experimental_native_toolchain": {
+      "schema": 1,
+      "mode": "experimental-native-qualification",
+      "expected_version": "10.0.7",
+      "tools": {
+        "cli": {
+          "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+          "sha256": "0b9d96dbdac9517e7d85833f926fee07a563549ffe2c55670147bff3f562d01f"
+        },
+        "python": {
+          "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+          "sha256": "fd8c2fa5393bebb9be6789dab8583acee6c5cff90d42696e8c1dbcabe02ec39f"
+        },
+        "pcbnew": {
+          "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so",
+          "sha256": "610ae51927809192be637d0de03c32d006332638e2272cbf11a553fe65c75f6e"
+        }
+      }
+    }
+  },
+  "protocol_sha256": "39ab9caf118edb59ab80369f78d1e21579e195845d2f44b97d19eb7b8e5b08e7",
+  "controller_sha256": "129c7933031a19d1b215dee7eb230386123f09cb0e74b83e228abd09025b169c",
+  "preparation_costs": {
+    "wall_seconds": 1.2202628749946598,
+    "full_cpu_seconds": 1.3335679999999999,
+    "publication_allowance_seconds": 2
+  },
+  "process": {
+    "status": "nonzero_exit",
+    "exit_code": 2,
+    "wall_seconds": 18.82824533301755,
+    "cpu_seconds": 23.853131,
+    "max_rss_bytes": 357400576,
+    "supervisor_cpu_seconds": 0.13156900000000005,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 330317824,
+    "sampled_peak_workdir_bytes": 14251253,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 134217728,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/hfe_original_native_v1/driver.py",
+      "--mode",
+      "worker",
+      "--source-head",
+      "edef513d2769bb847639813cc87bcd801fdbde12",
+      "--protocol-sha256",
+      "39ab9caf118edb59ab80369f78d1e21579e195845d2f44b97d19eb7b8e5b08e7"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/hfe-original-native-execution-001/command.log",
+    "log_bytes": 139,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/hfe-original-native-execution-001",
+    "signal_cancellation_enabled": true,
+    "pid": 24108
+  },
+  "child_receipt_sha256": "a3aaf2ea70bf687fd81a4bdfcdcba2f3db74da83c4d53fa52b7812cbea7b0cdb",
+  "child_material_bound": true,
+  "child": {
+    "schema": 1,
+    "accepted": false,
+    "passed": false,
+    "status": "observed_unqualified",
+    "observation_complete": true,
+    "production_support_qualified": false,
+    "tools": {
+      "implementation_sha256": {
+        "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+        "autorouter/__main__.py": "eb48b32e74c3b25ffa7daca999cdff4c640ea7199abd990090732671bca495ea",
+        "autorouter/adapter.py": "a99a389f8ff8d11b5c28507e524b823f3b906d703e2faa4dd34496a642517ac3",
+        "autorouter/board_floor.py": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340",
+        "autorouter/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+        "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+        "autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+        "autorouter/floor_route.py": "eaec4f7046c7e1284bb74f709a9c82b50ceb0cbd0a11c1bdf4ae4804914e5ecc",
+        "autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+        "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+        "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+        "autorouter/local_settings.py": "a2ab6296b637ace500f1cdbdd62de0cd9c1803cfc17e38906ced497c1aef21c8",
+        "autorouter/native.py": "ece3822466657c38935b15c77eb4df37c1ae82b1893dc8f335685b754bad4c23",
+        "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+        "autorouter/native_edge.py": "8a38b60f301a72b815b877f9af59d156024757d66eda7d3df8c34addbe4d0c74",
+        "autorouter/netclass.py": "c7190b4f0fce2bcd338face6e7ee5bb2937258d8c00026b64dc4b18fbe8d0122",
+        "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+        "autorouter/padless_alias.py": "f359a89e3c48703058490c22d9591b5f916cd22a8b734c50e1c9191e501c1413",
+        "autorouter/padless_alias_native.py": "7d06683b834f0211c82d87d7c982f6c39960e841627cd5e98f58a7913f501002",
+        "autorouter/pipeline.py": "090a990f86787784b81b27cc07a20fade8432eb5d67cc53b4600645cba7ed415",
+        "autorouter/placement_clearance.py": "8fa82414fa40f80d90ed4a42f53fa2e679a52d74cfb4cfa9038239f1217aaff6",
+        "autorouter/placement_strategy.py": "765a28e5a63da3e52266665accf9b9e1f5ea586ea9a90f51291b142c4373fb32",
+        "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+        "autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+        "autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+        "autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+        "autorouter/recovery.py": "fb2866c5340b808c6f7baf6a43234c87e8e353e74f47a91b51ad6fae5c24a78d",
+        "autorouter/review_export.py": "698dc66682416579c3d44b571dce0c0ed7102244adb0cff38dceeeca0ea1489c",
+        "autorouter/review_view.py": "79f65e4d53c243f4e0f054d97bced2be2c4646537e5b86f11626ac8c5f4ce92d",
+        "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+        "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+        "autorouter/schematic_field_evidence.py": "f5c03ac0be4b5fa3960bfec5f511199f7b566de8483fc78581e39e02804dbb93",
+        "autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+        "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+        "autorouter/strategy.py": "2794344ef69e70e627c4f8a858e63347f3f2d5d79bfc98b8090bbbbc5e4c193e",
+        "autorouter/thermal.py": "2fa7ff7260ba6e8b5a8003d8e1f51314b5ff548ef635fb94b29bdee4c741102d",
+        "autorouter/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+        "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+        "autorouter/thermal_worker.py": "fd651f44233aae2c70da0a8feab5f96a4763276684e8b0babf39860b91a9cc33"
+      },
+      "git_head": "edef513d2769bb847639813cc87bcd801fdbde12",
+      "kicad": "10.0.7",
+      "freerouting": "2.5.0",
+      "files": {
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli": "0b9d96dbdac9517e7d85833f926fee07a563549ffe2c55670147bff3f562d01f",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "fd8c2fa5393bebb9be6789dab8583acee6c5cff90d42696e8c1dbcabe02ec39f",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "610ae51927809192be637d0de03c32d006332638e2272cbf11a553fe65c75f6e",
+        "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7"
+      },
+      "network": "engine sandbox-exec deny network*",
+      "normal_drc_local_settings_policy": "job-owned-prl-immutable-v1",
+      "normal_selected_proposal_import_policy": "selected-proposals-exact-source-v1",
+      "normal_native_export_alias_policy": "source-bound-padless-export-v1",
+      "experimental_native_toolchain": {
+        "schema": 1,
+        "mode": "experimental-native-qualification",
+        "expected_version": "10.0.7",
+        "tools": {
+          "cli": {
+            "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+            "sha256": "0b9d96dbdac9517e7d85833f926fee07a563549ffe2c55670147bff3f562d01f"
+          },
+          "python": {
+            "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+            "sha256": "fd8c2fa5393bebb9be6789dab8583acee6c5cff90d42696e8c1dbcabe02ec39f"
+          },
+          "pcbnew": {
+            "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so",
+            "sha256": "610ae51927809192be637d0de03c32d006332638e2272cbf11a553fe65c75f6e"
+          }
+        }
+      }
+    },
+    "source_commit": "7be61154def1890aa66368b3385ad8661447d52f",
+    "source_files_sha256": {
+      "LICENSE": "eeecc593866fa1c3b80189c7e3dc0ceb77740557fa92f81771f891cc54c579cb",
+      "README.md": "f94f23f2ffc9771a22955aecd9ce24f529cb7aa8fd4ddae9f8dd5196ce21ffb8",
+      "cc-component.kicad_sch": "412415a834bfa9f727182532f334b0cbfdd247d2d796b5b5772ab413e2d8a875",
+      "transistor-hfe-measurement-circuit.kicad_pcb": "d3d6d28a1f65d3950aa04552194c5e182adcad407c96d11a1673de19d39c0651",
+      "transistor-hfe-measurement-circuit.kicad_pro": "684f83f599188810229a3e1bcc3378daef39625db1e75f1042e367627f6671a5",
+      "transistor-hfe-measurement-circuit.kicad_sch": "8431a00b25b339919a0432a22eade01756dd6bbf45238bcab3c4a9a79b22cee8"
+    },
+    "static_refusal": "unsupported: netclass bindings not qualified: native netclasses currently require two copper layers; rule-area restrictions not qualified: pour-only area requires explicit net 0",
+    "source_route_count": 785,
+    "protocol_sha256": "39ab9caf118edb59ab80369f78d1e21579e195845d2f44b97d19eb7b8e5b08e7",
+    "steps": [
+      {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 3.8757841250044294,
+        "cpu_seconds": 6.17896,
+        "max_rss_bytes": 322813952,
+        "supervisor_cpu_seconds": 0.031159000000000048,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 314228736,
+        "sampled_peak_workdir_bytes": 4074123,
+        "resource_guards": {
+          "max_group_rss_bytes": 2147483648,
+          "max_workdir_bytes": 134217728,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+          "pcb",
+          "drc",
+          "--format",
+          "json",
+          "--severity-all",
+          "--all-track-errors",
+          "--refill-zones",
+          "--exit-code-violations",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/hfe-original-native-execution-001/native/job/original-refill.json",
+          "--save-board",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/hfe-original-native-execution-001/native/job/saved/transistor-hfe-measurement-circuit.kicad_pcb"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/hfe-original-native-execution-001/native/job/original-refill.log",
+        "log_bytes": 195,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/hfe-original-native-execution-001/native/job",
+        "signal_cancellation_enabled": true,
+        "pid": 24113,
+        "name": "original-refill",
+        "local_settings_policy": "job-owned-prl-immutable-v1",
+        "local_settings_protection": {
+          "policy": "mac-owned-prl-immutable-v1",
+          "present": false
+        },
+        "validated_input_sha256": "d3d6d28a1f65d3950aa04552194c5e182adcad407c96d11a1673de19d39c0651",
+        "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/hfe-original-native-execution-001/native/job/saved/transistor-hfe-measurement-circuit.kicad_pcb"
+      },
+      {
+        "status": "nonzero_exit",
+        "exit_code": 5,
+        "wall_seconds": 3.646863875008421,
+        "cpu_seconds": 6.157622,
+        "max_rss_bytes": 357400576,
+        "supervisor_cpu_seconds": 0.024732999999999894,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 352813056,
+        "sampled_peak_workdir_bytes": 7153073,
+        "resource_guards": {
+          "max_group_rss_bytes": 2147483648,
+          "max_workdir_bytes": 134217728,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+          "pcb",
+          "drc",
+          "--format",
+          "json",
+          "--severity-all",
+          "--all-track-errors",
+          "--refill-zones",
+          "--schematic-parity",
+          "--exit-code-violations",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/hfe-original-native-execution-001/native/job/original-final.json",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/hfe-original-native-execution-001/native/job/original-final-input/transistor-hfe-measurement-circuit.kicad_pcb"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/hfe-original-native-execution-001/native/job/original-final.log",
+        "log_bytes": 215,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/hfe-original-native-execution-001/native/job",
+        "signal_cancellation_enabled": true,
+        "pid": 24114,
+        "name": "original-final",
+        "local_settings_policy": "job-owned-prl-immutable-v1",
+        "local_settings_protection": {
+          "policy": "mac-owned-prl-immutable-v1",
+          "present": false
+        },
+        "validated_input_sha256": "fe366f0b0eac7b848bf41ea7b9926d8301648977dcb0f429152898621924053f",
+        "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/hfe-original-native-execution-001/native/candidate/transistor-hfe-measurement-circuit.kicad_pcb"
+      }
+    ],
+    "scope": "Untouched original HFE diagnostic only: saved refill and all-original-route original-shell fullSCH on caller-pinned1007. No engine/export/routing, source repair, schema waiver, support admission, physical/GUI/default/tool promotion or comparative claim.",
+    "native_saved_nonfill_ast_equal": true,
+    "native_saved_route_records_equal": true,
+    "original_native": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 0,
+      "exclusions": 0,
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "Text height out of range",
+          "key": "text_height"
+        },
+        {
+          "description": "Text thickness out of range",
+          "key": "text_thickness"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        },
+        {
+          "description": "Footprint not found in libraries",
+          "key": "lib_footprint_issues"
+        },
+        {
+          "description": "Footprint doesn't match copy in library",
+          "key": "lib_footprint_mismatch"
+        }
+      ],
+      "findings": []
+    },
+    "parity_native": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 18,
+      "exclusions": 0,
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "Text height out of range",
+          "key": "text_height"
+        },
+        {
+          "description": "Text thickness out of range",
+          "key": "text_thickness"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        },
+        {
+          "description": "Footprint not found in libraries",
+          "key": "lib_footprint_issues"
+        },
+        {
+          "description": "Footprint doesn't match copy in library",
+          "key": "lib_footprint_mismatch"
+        }
+      ],
+      "findings": [
+        {
+          "description": "Pad net (Net-(Q4A-S)) doesn't match net given by schematic (Net-(Q4NMOS-S))",
+          "items": [
+            {
+              "description": "Pad 1 [Net-(Q4A-S)] of Q4 on F.Cu",
+              "pos": {
+                "x": 78.645,
+                "y": 78.7125
+              },
+              "uuid": "1a183bf9-e9a3-4e5c-960b-79127b0cb43f"
+            }
+          ],
+          "severity": "warning",
+          "type": "net_conflict"
+        },
+        {
+          "description": "Pad net (Net-(Q4A-G)) doesn't match net given by schematic (Net-(Q4NMOS-G))",
+          "items": [
+            {
+              "description": "Pad 2 [Net-(Q4A-G)] of Q4 on F.Cu",
+              "pos": {
+                "x": 79.145,
+                "y": 78.7125
+              },
+              "uuid": "511aae87-c86f-43f5-9684-b300c847972c"
+            }
+          ],
+          "severity": "warning",
+          "type": "net_conflict"
+        },
+        {
+          "description": "Pad net (Net-(Q4B-S)) doesn't match net given by schematic (Net-(Q4PMOS-S))",
+          "items": [
+            {
+              "description": "Pad 4 [Net-(Q4B-S)] of Q4 on F.Cu",
+              "pos": {
+                "x": 79.645,
+                "y": 77.2875
+              },
+              "uuid": "eda8a172-94db-4cdd-af7b-6a802eec54f1"
+            }
+          ],
+          "severity": "warning",
+          "type": "net_conflict"
+        },
+        {
+          "description": "Pad net (Net-(Q4B-G)) doesn't match net given by schematic (Net-(Q4PMOS-G))",
+          "items": [
+            {
+              "description": "Pad 5 [Net-(Q4B-G)] of Q4 on F.Cu",
+              "pos": {
+                "x": 79.145,
+                "y": 77.2875
+              },
+              "uuid": "e32ab4aa-c812-4671-9144-c5387a4ab61a"
+            }
+          ],
+          "severity": "warning",
+          "type": "net_conflict"
+        },
+        {
+          "description": "Pad net (Net-(Q4A-D)) doesn't match net given by schematic (Net-(Q4NMOS-D))",
+          "items": [
+            {
+              "description": "Pad 6 [Net-(Q4A-D)] of Q4 on F.Cu",
+              "pos": {
+                "x": 78.645,
+                "y": 77.2875
+              },
+              "uuid": "0822faa1-965c-40f5-86e4-74437ca5f495"
+            }
+          ],
+          "severity": "warning",
+          "type": "net_conflict"
+        },
+        {
+          "description": "Pad net (Net-(Q4A-G)) doesn't match net given by schematic (Net-(Q4NMOS-G))",
+          "items": [
+            {
+              "description": "Pad 2 [Net-(Q4A-G)] of R13 on F.Cu",
+              "pos": {
+                "x": 73.97,
+                "y": 66.5
+              },
+              "uuid": "9f2c5436-6cb0-4385-9705-3b1186acdde4"
+            }
+          ],
+          "severity": "warning",
+          "type": "net_conflict"
+        },
+        {
+          "description": "Pad net (Net-(Q4A-G)) doesn't match net given by schematic (Net-(Q4NMOS-G))",
+          "items": [
+            {
+              "description": "Pad 1 [Net-(Q4A-G)] of R14 on F.Cu",
+              "pos": {
+                "x": 75.82,
+                "y": 66.5
+              },
+              "uuid": "ef9123b8-1096-466e-aa3c-a836760f10b8"
+            }
+          ],
+          "severity": "warning",
+          "type": "net_conflict"
+        },
+        {
+          "description": "Pad net (Net-(Q4A-S)) doesn't match net given by schematic (Net-(Q4NMOS-S))",
+          "items": [
+            {
+              "description": "Pad 2 [Net-(Q4A-S)] of R16 on F.Cu",
+              "pos": {
+                "x": 76.645,
+                "y": 78.825
+              },
+              "uuid": "b47d4698-ee97-40d9-9e6a-f5d4b7ec6c2c"
+            }
+          ],
+          "severity": "warning",
+          "type": "net_conflict"
+        },
+        {
+          "description": "Pad net (Net-(Q4B-S)) doesn't match net given by schematic (Net-(Q4PMOS-S))",
+          "items": [
+            {
+              "description": "Pad 2 [Net-(Q4B-S)] of R21 on F.Cu",
+              "pos": {
+                "x": 84.1,
+                "y": 72.425
+              },
+              "uuid": "7d871f3f-fd3a-4720-87ea-4411edb2bf8b"
+            }
+          ],
+          "severity": "warning",
+          "type": "net_conflict"
+        },
+        {
+          "description": "Pad net (Net-(Q4B-G)) doesn't match net given by schematic (Net-(Q4PMOS-G))",
+          "items": [
+            {
+              "description": "Pad 2 [Net-(Q4B-G)] of R22 on F.Cu",
+              "pos": {
+                "x": 79.67,
+                "y": 75.5
+              },
+              "uuid": "79e68438-86f2-4b41-8586-325861895d6e"
+            }
+          ],
+          "severity": "warning",
+          "type": "net_conflict"
+        },
+        {
+          "description": "Pad net (Net-(Q4B-G)) doesn't match net given by schematic (Net-(Q4PMOS-G))",
+          "items": [
+            {
+              "description": "Pad 1 [Net-(Q4B-G)] of R23 on F.Cu",
+              "pos": {
+                "x": 81.72,
+                "y": 75.5
+              },
+              "uuid": "0b6abb6b-5cbf-4bcb-b370-9a537e09f383"
+            }
+          ],
+          "severity": "warning",
+          "type": "net_conflict"
+        },
+        {
+          "description": "Pad net (Net-(Q4A-D)) doesn't match net given by schematic (Net-(Q4NMOS-D))",
+          "items": [
+            {
+              "description": "PTH pad 2 [Net-(Q4A-D)] of RV1",
+              "pos": {
+                "x": 89.145,
+                "y": 74.95
+              },
+              "uuid": "601006ce-3c1c-4970-afab-d3e16f2602f6"
+            }
+          ],
+          "severity": "warning",
+          "type": "net_conflict"
+        },
+        {
+          "description": "Pad net (Net-(Q4A-D)) doesn't match net given by schematic (Net-(Q4NMOS-D))",
+          "items": [
+            {
+              "description": "PTH pad 3 [Net-(Q4A-D)] of RV1",
+              "pos": {
+                "x": 86.645,
+                "y": 72.45
+              },
+              "uuid": "a69a3bef-68e1-4f5e-89d7-f3e0094ae749"
+            }
+          ],
+          "severity": "warning",
+          "type": "net_conflict"
+        },
+        {
+          "description": "Pad net (Net-(Q4A-S)) doesn't match net given by schematic (Net-(Q4NMOS-S))",
+          "items": [
+            {
+              "description": "PTH pad 2 [Net-(Q4A-S)] of SW1",
+              "pos": {
+                "x": 81.375,
+                "y": 92.5
+              },
+              "uuid": "7e60160f-94bf-4cf0-a923-a20450239d3a"
+            }
+          ],
+          "severity": "warning",
+          "type": "net_conflict"
+        },
+        {
+          "description": "Pad net (Net-(Q4B-S)) doesn't match net given by schematic (Net-(Q4PMOS-S))",
+          "items": [
+            {
+              "description": "PTH pad 2 [Net-(Q4B-S)] of SW2",
+              "pos": {
+                "x": 102.375,
+                "y": 92.5
+              },
+              "uuid": "3d860c40-aa6b-4b84-a8a7-5c702ab96f2f"
+            }
+          ],
+          "severity": "warning",
+          "type": "net_conflict"
+        },
+        {
+          "description": "Pad net (Net-(Q4A-G)) doesn't match net given by schematic (Net-(Q4NMOS-G))",
+          "items": [
+            {
+              "description": "PTH pad 1 [Net-(Q4A-G)] of TP3",
+              "pos": {
+                "x": 71.145,
+                "y": 62.0
+              },
+              "uuid": "499a3a9f-eada-417c-81ae-7c91a78e9105"
+            }
+          ],
+          "severity": "warning",
+          "type": "net_conflict"
+        },
+        {
+          "description": "Pad net (Net-(Q4B-G)) doesn't match net given by schematic (Net-(Q4PMOS-G))",
+          "items": [
+            {
+              "description": "PTH pad 1 [Net-(Q4B-G)] of TP4",
+              "pos": {
+                "x": 82.645,
+                "y": 79.0
+              },
+              "uuid": "49122861-7bc8-4485-aa53-0c5a181f35b5"
+            }
+          ],
+          "severity": "warning",
+          "type": "net_conflict"
+        },
+        {
+          "description": "Pad net (Net-(Q4A-D)) doesn't match net given by schematic (Net-(Q4NMOS-D))",
+          "items": [
+            {
+              "description": "Pad 5 [Net-(Q4A-D)] of U3 on F.Cu",
+              "pos": {
+                "x": 79.62,
+                "y": 72.405
+              },
+              "uuid": "5f672960-2545-4992-91e4-b846233d9bd2"
+            }
+          ],
+          "severity": "warning",
+          "type": "net_conflict"
+        }
+      ]
+    },
+    "native_routing_scope_accepted": false,
+    "final_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/hfe-original-native-execution-001/native/candidate/transistor-hfe-measurement-circuit.kicad_pcb",
+    "final_candidate_sha256": "fe366f0b0eac7b848bf41ea7b9926d8301648977dcb0f429152898621924053f",
+    "final_native_report_sha256": "9daa9b6ffa53a801560f148ea64b530debb32e3182eb1f8fc5770cbc2060e9a0",
+    "original_shell_nonfill_ast_equal": true,
+    "all_original_route_records_exact": true,
+    "raw_reports": {
+      "original-refill": {
+        "qualified": false,
+        "report_sha256": "60861431f45afe1ed8c99770998a1c2b29a8395f207a22a0895a3dc8d668cf9f",
+        "raw_population": {
+          "violations": 0,
+          "unconnected_items": 0,
+          "schematic_parity": 0
+        },
+        "raw_version": "10.0.7",
+        "raw_source": "transistor-hfe-measurement-circuit.kicad_pcb",
+        "raw_severity_histogram": {},
+        "raw_ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Text height out of range",
+            "key": "text_height"
+          },
+          {
+            "description": "Text thickness out of range",
+            "key": "text_thickness"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          },
+          {
+            "description": "Footprint not found in libraries",
+            "key": "lib_footprint_issues"
+          },
+          {
+            "description": "Footprint doesn't match copy in library",
+            "key": "lib_footprint_mismatch"
+          }
+        ],
+        "raw_included_severities": [
+          "error",
+          "warning",
+          "exclusion"
+        ],
+        "shared_stage_replay_complete": true
+      },
+      "original-final": {
+        "qualified": false,
+        "report_sha256": "9daa9b6ffa53a801560f148ea64b530debb32e3182eb1f8fc5770cbc2060e9a0",
+        "raw_population": {
+          "violations": 0,
+          "unconnected_items": 0,
+          "schematic_parity": 18
+        },
+        "raw_version": "10.0.7",
+        "raw_source": "transistor-hfe-measurement-circuit.kicad_pcb",
+        "raw_severity_histogram": {
+          "warning": 18
+        },
+        "raw_ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Text height out of range",
+            "key": "text_height"
+          },
+          {
+            "description": "Text thickness out of range",
+            "key": "text_thickness"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          },
+          {
+            "description": "Footprint not found in libraries",
+            "key": "lib_footprint_issues"
+          },
+          {
+            "description": "Footprint doesn't match copy in library",
+            "key": "lib_footprint_mismatch"
+          }
+        ],
+        "raw_included_severities": [
+          "error",
+          "warning",
+          "exclusion"
+        ],
+        "shared_stage_replay_complete": true
+      }
+    },
+    "completed_evidence": {
+      "files": {
+        "candidate/LICENSE": "eeecc593866fa1c3b80189c7e3dc0ceb77740557fa92f81771f891cc54c579cb",
+        "candidate/README.md": "f94f23f2ffc9771a22955aecd9ce24f529cb7aa8fd4ddae9f8dd5196ce21ffb8",
+        "candidate/cc-component.kicad_sch": "412415a834bfa9f727182532f334b0cbfdd247d2d796b5b5772ab413e2d8a875",
+        "candidate/transistor-hfe-measurement-circuit.kicad_pcb": "fe366f0b0eac7b848bf41ea7b9926d8301648977dcb0f429152898621924053f",
+        "candidate/transistor-hfe-measurement-circuit.kicad_pro": "684f83f599188810229a3e1bcc3378daef39625db1e75f1042e367627f6671a5",
+        "candidate/transistor-hfe-measurement-circuit.kicad_sch": "8431a00b25b339919a0432a22eade01756dd6bbf45238bcab3c4a9a79b22cee8",
+        "control-code/autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+        "control-code/autorouter/__main__.py": "eb48b32e74c3b25ffa7daca999cdff4c640ea7199abd990090732671bca495ea",
+        "control-code/autorouter/adapter.py": "a99a389f8ff8d11b5c28507e524b823f3b906d703e2faa4dd34496a642517ac3",
+        "control-code/autorouter/board_floor.py": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340",
+        "control-code/autorouter/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+        "control-code/autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+        "control-code/autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+        "control-code/autorouter/floor_route.py": "eaec4f7046c7e1284bb74f709a9c82b50ceb0cbd0a11c1bdf4ae4804914e5ecc",
+        "control-code/autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+        "control-code/autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+        "control-code/autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+        "control-code/autorouter/local_settings.py": "a2ab6296b637ace500f1cdbdd62de0cd9c1803cfc17e38906ced497c1aef21c8",
+        "control-code/autorouter/native.py": "ece3822466657c38935b15c77eb4df37c1ae82b1893dc8f335685b754bad4c23",
+        "control-code/autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+        "control-code/autorouter/native_edge.py": "8a38b60f301a72b815b877f9af59d156024757d66eda7d3df8c34addbe4d0c74",
+        "control-code/autorouter/netclass.py": "c7190b4f0fce2bcd338face6e7ee5bb2937258d8c00026b64dc4b18fbe8d0122",
+        "control-code/autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+        "control-code/autorouter/padless_alias.py": "f359a89e3c48703058490c22d9591b5f916cd22a8b734c50e1c9191e501c1413",
+        "control-code/autorouter/padless_alias_native.py": "7d06683b834f0211c82d87d7c982f6c39960e841627cd5e98f58a7913f501002",
+        "control-code/autorouter/pipeline.py": "090a990f86787784b81b27cc07a20fade8432eb5d67cc53b4600645cba7ed415",
+        "control-code/autorouter/placement_clearance.py": "8fa82414fa40f80d90ed4a42f53fa2e679a52d74cfb4cfa9038239f1217aaff6",
+        "control-code/autorouter/placement_strategy.py": "765a28e5a63da3e52266665accf9b9e1f5ea586ea9a90f51291b142c4373fb32",
+        "control-code/autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+        "control-code/autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+        "control-code/autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+        "control-code/autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+        "control-code/autorouter/recovery.py": "fb2866c5340b808c6f7baf6a43234c87e8e353e74f47a91b51ad6fae5c24a78d",
+        "control-code/autorouter/review_export.py": "698dc66682416579c3d44b571dce0c0ed7102244adb0cff38dceeeca0ea1489c",
+        "control-code/autorouter/review_view.py": "79f65e4d53c243f4e0f054d97bced2be2c4646537e5b86f11626ac8c5f4ce92d",
+        "control-code/autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+        "control-code/autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+        "control-code/autorouter/schematic_field_evidence.py": "f5c03ac0be4b5fa3960bfec5f511199f7b566de8483fc78581e39e02804dbb93",
+        "control-code/autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+        "control-code/autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+        "control-code/autorouter/strategy.py": "2794344ef69e70e627c4f8a858e63347f3f2d5d79bfc98b8090bbbbc5e4c193e",
+        "control-code/autorouter/thermal.py": "2fa7ff7260ba6e8b5a8003d8e1f51314b5ff548ef635fb94b29bdee4c741102d",
+        "control-code/autorouter/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+        "control-code/autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+        "control-code/autorouter/thermal_worker.py": "fd651f44233aae2c70da0a8feab5f96a4763276684e8b0babf39860b91a9cc33",
+        "control-code/experiments/hfe_original_native_v1/driver.py": "129c7933031a19d1b215dee7eb230386123f09cb0e74b83e228abd09025b169c",
+        "control-code/experiments/original_project_native_v1/driver.py": "428dc6ad3ad3ae3c830e2f5740d61b6c4e11178968f6da1a34b36264c92fd3c9",
+        "control-code/experiments/placement_handoff_native_v1/driver.py": "a84176cbab44199c5d10c80860f391d56f624b2624da2d157eb8810266796f8c",
+        "control-code/prospective-protocol.json": "39ab9caf118edb59ab80369f78d1e21579e195845d2f44b97d19eb7b8e5b08e7",
+        "job/code/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+        "job/code/__main__.py": "eb48b32e74c3b25ffa7daca999cdff4c640ea7199abd990090732671bca495ea",
+        "job/code/adapter.py": "a99a389f8ff8d11b5c28507e524b823f3b906d703e2faa4dd34496a642517ac3",
+        "job/code/board_floor.py": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340",
+        "job/code/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+        "job/code/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+        "job/code/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+        "job/code/floor_route.py": "eaec4f7046c7e1284bb74f709a9c82b50ceb0cbd0a11c1bdf4ae4804914e5ecc",
+        "job/code/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+        "job/code/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+        "job/code/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+        "job/code/local_settings.py": "a2ab6296b637ace500f1cdbdd62de0cd9c1803cfc17e38906ced497c1aef21c8",
+        "job/code/native.py": "ece3822466657c38935b15c77eb4df37c1ae82b1893dc8f335685b754bad4c23",
+        "job/code/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+        "job/code/native_edge.py": "8a38b60f301a72b815b877f9af59d156024757d66eda7d3df8c34addbe4d0c74",
+        "job/code/netclass.py": "c7190b4f0fce2bcd338face6e7ee5bb2937258d8c00026b64dc4b18fbe8d0122",
+        "job/code/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+        "job/code/padless_alias.py": "f359a89e3c48703058490c22d9591b5f916cd22a8b734c50e1c9191e501c1413",
+        "job/code/padless_alias_native.py": "7d06683b834f0211c82d87d7c982f6c39960e841627cd5e98f58a7913f501002",
+        "job/code/pipeline.py": "090a990f86787784b81b27cc07a20fade8432eb5d67cc53b4600645cba7ed415",
+        "job/code/placement_clearance.py": "8fa82414fa40f80d90ed4a42f53fa2e679a52d74cfb4cfa9038239f1217aaff6",
+        "job/code/placement_strategy.py": "765a28e5a63da3e52266665accf9b9e1f5ea586ea9a90f51291b142c4373fb32",
+        "job/code/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+        "job/code/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+        "job/code/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+        "job/code/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+        "job/code/recovery.py": "fb2866c5340b808c6f7baf6a43234c87e8e353e74f47a91b51ad6fae5c24a78d",
+        "job/code/review_export.py": "698dc66682416579c3d44b571dce0c0ed7102244adb0cff38dceeeca0ea1489c",
+        "job/code/review_view.py": "79f65e4d53c243f4e0f054d97bced2be2c4646537e5b86f11626ac8c5f4ce92d",
+        "job/code/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+        "job/code/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+        "job/code/schematic_field_evidence.py": "f5c03ac0be4b5fa3960bfec5f511199f7b566de8483fc78581e39e02804dbb93",
+        "job/code/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+        "job/code/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+        "job/code/strategy.py": "2794344ef69e70e627c4f8a858e63347f3f2d5d79bfc98b8090bbbbc5e4c193e",
+        "job/code/thermal.py": "2fa7ff7260ba6e8b5a8003d8e1f51314b5ff548ef635fb94b29bdee4c741102d",
+        "job/code/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+        "job/code/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+        "job/code/thermal_worker.py": "fd651f44233aae2c70da0a8feab5f96a4763276684e8b0babf39860b91a9cc33",
+        "job/kicad-config/10.0/3d_viewer.json": "7c95b3fdd72f837a3cc49248249c40bc24c07b75bafe02d0d091a0864746b6a9",
+        "job/kicad-config/10.0/cvpcb.json": "3a24bbacab369da74efdaff851be8869d8ca2e5e4ca28304f9eb57041bdad759",
+        "job/kicad-config/10.0/eeschema.json": "ad360fd6896e8d8f65059a2aaff40139e8c37f5f758954d3b94be9033fb114fb",
+        "job/kicad-config/10.0/fpedit.json": "4d824ab97688dcfc144494386c6991dc0a31f324228d6a85cea279a474f51bb0",
+        "job/kicad-config/10.0/kicad.json": "20c9db1c1f2caacc9f2fb9bf25909f0e50dcb86f5fbda21233168c0d751bc650",
+        "job/kicad-config/10.0/kicad_common.json": "c05334ec1fab57fd05f8eb1afe71b162df0c51532a47964c5ea0da3a1ebb2ff7",
+        "job/kicad-config/10.0/pcbnew.json": "412c1fe43f0db375147a9d25f5c7da6768ae054d94300cef57c9349bd3374e7a",
+        "job/kicad-config/10.0/symbol_editor.json": "9b42635c84a17cb400a5ff58be7e9376289054294c8ab6b9d92257af7f87a8aa",
+        "job/original-final-binding.json": "1b74c33e72a9992d9ea2782b066b37cd438e1c73f97a9246a366de97e503ab08",
+        "job/original-final-input/LICENSE": "eeecc593866fa1c3b80189c7e3dc0ceb77740557fa92f81771f891cc54c579cb",
+        "job/original-final-input/README.md": "f94f23f2ffc9771a22955aecd9ce24f529cb7aa8fd4ddae9f8dd5196ce21ffb8",
+        "job/original-final-input/cc-component.kicad_sch": "412415a834bfa9f727182532f334b0cbfdd247d2d796b5b5772ab413e2d8a875",
+        "job/original-final-input/transistor-hfe-measurement-circuit.kicad_pcb": "fe366f0b0eac7b848bf41ea7b9926d8301648977dcb0f429152898621924053f",
+        "job/original-final-input/transistor-hfe-measurement-circuit.kicad_prl": "65309bdb23a76ef8a24f13417185bf3d4aea767aa423ec69812b257f806e6e19",
+        "job/original-final-input/transistor-hfe-measurement-circuit.kicad_pro": "684f83f599188810229a3e1bcc3378daef39625db1e75f1042e367627f6671a5",
+        "job/original-final-input/transistor-hfe-measurement-circuit.kicad_sch": "8431a00b25b339919a0432a22eade01756dd6bbf45238bcab3c4a9a79b22cee8",
+        "job/original-final-process.json": "bf39c38048ddaa70450dde1112b97481d163aedd26e46548d3f28ad5cdc1d263",
+        "job/original-final.json": "9daa9b6ffa53a801560f148ea64b530debb32e3182eb1f8fc5770cbc2060e9a0",
+        "job/original-final.log": "28d1efd5a1816d81f43ceab89071aa44dab4d1650f542d1aeccc537ccd44d021",
+        "job/original-refill-binding.json": "47cec2a7b08fc9efb9e7215d1dd128ac53123714c283dc302b49c45aa4e85fdc",
+        "job/original-refill-process.json": "4e790bb826358932434ab0f28248e69ba36df077990fe4223ee53bc0d16b6c89",
+        "job/original-refill.json": "60861431f45afe1ed8c99770998a1c2b29a8395f207a22a0895a3dc8d668cf9f",
+        "job/original-refill.log": "bfbc5fac18da3794b3a6bf708883d409e4017fda28b55efc606dd3b478de6a6d",
+        "job/saved/LICENSE": "eeecc593866fa1c3b80189c7e3dc0ceb77740557fa92f81771f891cc54c579cb",
+        "job/saved/README.md": "f94f23f2ffc9771a22955aecd9ce24f529cb7aa8fd4ddae9f8dd5196ce21ffb8",
+        "job/saved/cc-component.kicad_sch": "412415a834bfa9f727182532f334b0cbfdd247d2d796b5b5772ab413e2d8a875",
+        "job/saved/transistor-hfe-measurement-circuit.kicad_pcb": "0e4ae42426714b586121f45ea342718fd3f07d8a824131dcd1ac60d8be9d360b",
+        "job/saved/transistor-hfe-measurement-circuit.kicad_prl": "65309bdb23a76ef8a24f13417185bf3d4aea767aa423ec69812b257f806e6e19",
+        "job/saved/transistor-hfe-measurement-circuit.kicad_pro": "684f83f599188810229a3e1bcc3378daef39625db1e75f1042e367627f6671a5",
+        "job/saved/transistor-hfe-measurement-circuit.kicad_sch": "8431a00b25b339919a0432a22eade01756dd6bbf45238bcab3c4a9a79b22cee8",
+        "original/LICENSE": "eeecc593866fa1c3b80189c7e3dc0ceb77740557fa92f81771f891cc54c579cb",
+        "original/README.md": "f94f23f2ffc9771a22955aecd9ce24f529cb7aa8fd4ddae9f8dd5196ce21ffb8",
+        "original/cc-component.kicad_sch": "412415a834bfa9f727182532f334b0cbfdd247d2d796b5b5772ab413e2d8a875",
+        "original/transistor-hfe-measurement-circuit.kicad_pcb": "d3d6d28a1f65d3950aa04552194c5e182adcad407c96d11a1673de19d39c0651",
+        "original/transistor-hfe-measurement-circuit.kicad_pro": "684f83f599188810229a3e1bcc3378daef39625db1e75f1042e367627f6671a5",
+        "original/transistor-hfe-measurement-circuit.kicad_sch": "8431a00b25b339919a0432a22eade01756dd6bbf45238bcab3c4a9a79b22cee8"
+      },
+      "directories": [
+        ".",
+        "candidate",
+        "control-code",
+        "control-code/autorouter",
+        "control-code/experiments",
+        "control-code/experiments/hfe_original_native_v1",
+        "control-code/experiments/original_project_native_v1",
+        "control-code/experiments/placement_handoff_native_v1",
+        "job",
+        "job/code",
+        "job/kicad-cache",
+        "job/kicad-cache/kicad",
+        "job/kicad-cache/kicad/10.0",
+        "job/kicad-config",
+        "job/kicad-config/10.0",
+        "job/kicad-config/10.0/colors",
+        "job/kicad-documents",
+        "job/kicad-documents/kicad",
+        "job/kicad-documents/kicad/10.0",
+        "job/kicad-documents/kicad/10.0/3dmodels",
+        "job/kicad-documents/kicad/10.0/3rdparty",
+        "job/kicad-documents/kicad/10.0/footprints",
+        "job/kicad-documents/kicad/10.0/plugins",
+        "job/kicad-documents/kicad/10.0/projects",
+        "job/kicad-documents/kicad/10.0/scripting",
+        "job/kicad-documents/kicad/10.0/symbols",
+        "job/kicad-documents/kicad/10.0/template",
+        "job/original-final-input",
+        "job/saved",
+        "job/tmp",
+        "job/tmp/org.kicad.kicad",
+        "job/tmp/org.kicad.kicad/instances",
+        "original"
+      ]
+    },
+    "wall_seconds": 12.992240958003094,
+    "full_cpu_seconds": 17.88331,
+    "publication_allowance_seconds": 2
+  },
+  "completed_evidence": {
+    "files": {
+      "command.log": "0416112e8e4dcc06ee3c4e049116a50a7b8446712828c9acf2c85f06d4e02062",
+      "native/candidate/LICENSE": "eeecc593866fa1c3b80189c7e3dc0ceb77740557fa92f81771f891cc54c579cb",
+      "native/candidate/README.md": "f94f23f2ffc9771a22955aecd9ce24f529cb7aa8fd4ddae9f8dd5196ce21ffb8",
+      "native/candidate/cc-component.kicad_sch": "412415a834bfa9f727182532f334b0cbfdd247d2d796b5b5772ab413e2d8a875",
+      "native/candidate/transistor-hfe-measurement-circuit.kicad_pcb": "fe366f0b0eac7b848bf41ea7b9926d8301648977dcb0f429152898621924053f",
+      "native/candidate/transistor-hfe-measurement-circuit.kicad_pro": "684f83f599188810229a3e1bcc3378daef39625db1e75f1042e367627f6671a5",
+      "native/candidate/transistor-hfe-measurement-circuit.kicad_sch": "8431a00b25b339919a0432a22eade01756dd6bbf45238bcab3c4a9a79b22cee8",
+      "native/control-code/autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+      "native/control-code/autorouter/__main__.py": "eb48b32e74c3b25ffa7daca999cdff4c640ea7199abd990090732671bca495ea",
+      "native/control-code/autorouter/adapter.py": "a99a389f8ff8d11b5c28507e524b823f3b906d703e2faa4dd34496a642517ac3",
+      "native/control-code/autorouter/board_floor.py": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340",
+      "native/control-code/autorouter/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+      "native/control-code/autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+      "native/control-code/autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+      "native/control-code/autorouter/floor_route.py": "eaec4f7046c7e1284bb74f709a9c82b50ceb0cbd0a11c1bdf4ae4804914e5ecc",
+      "native/control-code/autorouter/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+      "native/control-code/autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+      "native/control-code/autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+      "native/control-code/autorouter/local_settings.py": "a2ab6296b637ace500f1cdbdd62de0cd9c1803cfc17e38906ced497c1aef21c8",
+      "native/control-code/autorouter/native.py": "ece3822466657c38935b15c77eb4df37c1ae82b1893dc8f335685b754bad4c23",
+      "native/control-code/autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+      "native/control-code/autorouter/native_edge.py": "8a38b60f301a72b815b877f9af59d156024757d66eda7d3df8c34addbe4d0c74",
+      "native/control-code/autorouter/netclass.py": "c7190b4f0fce2bcd338face6e7ee5bb2937258d8c00026b64dc4b18fbe8d0122",
+      "native/control-code/autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+      "native/control-code/autorouter/padless_alias.py": "f359a89e3c48703058490c22d9591b5f916cd22a8b734c50e1c9191e501c1413",
+      "native/control-code/autorouter/padless_alias_native.py": "7d06683b834f0211c82d87d7c982f6c39960e841627cd5e98f58a7913f501002",
+      "native/control-code/autorouter/pipeline.py": "090a990f86787784b81b27cc07a20fade8432eb5d67cc53b4600645cba7ed415",
+      "native/control-code/autorouter/placement_clearance.py": "8fa82414fa40f80d90ed4a42f53fa2e679a52d74cfb4cfa9038239f1217aaff6",
+      "native/control-code/autorouter/placement_strategy.py": "765a28e5a63da3e52266665accf9b9e1f5ea586ea9a90f51291b142c4373fb32",
+      "native/control-code/autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+      "native/control-code/autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+      "native/control-code/autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+      "native/control-code/autorouter/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+      "native/control-code/autorouter/recovery.py": "fb2866c5340b808c6f7baf6a43234c87e8e353e74f47a91b51ad6fae5c24a78d",
+      "native/control-code/autorouter/review_export.py": "698dc66682416579c3d44b571dce0c0ed7102244adb0cff38dceeeca0ea1489c",
+      "native/control-code/autorouter/review_view.py": "79f65e4d53c243f4e0f054d97bced2be2c4646537e5b86f11626ac8c5f4ce92d",
+      "native/control-code/autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+      "native/control-code/autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+      "native/control-code/autorouter/schematic_field_evidence.py": "f5c03ac0be4b5fa3960bfec5f511199f7b566de8483fc78581e39e02804dbb93",
+      "native/control-code/autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+      "native/control-code/autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+      "native/control-code/autorouter/strategy.py": "2794344ef69e70e627c4f8a858e63347f3f2d5d79bfc98b8090bbbbc5e4c193e",
+      "native/control-code/autorouter/thermal.py": "2fa7ff7260ba6e8b5a8003d8e1f51314b5ff548ef635fb94b29bdee4c741102d",
+      "native/control-code/autorouter/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+      "native/control-code/autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+      "native/control-code/autorouter/thermal_worker.py": "fd651f44233aae2c70da0a8feab5f96a4763276684e8b0babf39860b91a9cc33",
+      "native/control-code/experiments/hfe_original_native_v1/driver.py": "129c7933031a19d1b215dee7eb230386123f09cb0e74b83e228abd09025b169c",
+      "native/control-code/experiments/original_project_native_v1/driver.py": "428dc6ad3ad3ae3c830e2f5740d61b6c4e11178968f6da1a34b36264c92fd3c9",
+      "native/control-code/experiments/placement_handoff_native_v1/driver.py": "a84176cbab44199c5d10c80860f391d56f624b2624da2d157eb8810266796f8c",
+      "native/control-code/prospective-protocol.json": "39ab9caf118edb59ab80369f78d1e21579e195845d2f44b97d19eb7b8e5b08e7",
+      "native/job/code/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+      "native/job/code/__main__.py": "eb48b32e74c3b25ffa7daca999cdff4c640ea7199abd990090732671bca495ea",
+      "native/job/code/adapter.py": "a99a389f8ff8d11b5c28507e524b823f3b906d703e2faa4dd34496a642517ac3",
+      "native/job/code/board_floor.py": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340",
+      "native/job/code/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+      "native/job/code/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+      "native/job/code/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+      "native/job/code/floor_route.py": "eaec4f7046c7e1284bb74f709a9c82b50ceb0cbd0a11c1bdf4ae4804914e5ecc",
+      "native/job/code/handoff.py": "34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b",
+      "native/job/code/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+      "native/job/code/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+      "native/job/code/local_settings.py": "a2ab6296b637ace500f1cdbdd62de0cd9c1803cfc17e38906ced497c1aef21c8",
+      "native/job/code/native.py": "ece3822466657c38935b15c77eb4df37c1ae82b1893dc8f335685b754bad4c23",
+      "native/job/code/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+      "native/job/code/native_edge.py": "8a38b60f301a72b815b877f9af59d156024757d66eda7d3df8c34addbe4d0c74",
+      "native/job/code/netclass.py": "c7190b4f0fce2bcd338face6e7ee5bb2937258d8c00026b64dc4b18fbe8d0122",
+      "native/job/code/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+      "native/job/code/padless_alias.py": "f359a89e3c48703058490c22d9591b5f916cd22a8b734c50e1c9191e501c1413",
+      "native/job/code/padless_alias_native.py": "7d06683b834f0211c82d87d7c982f6c39960e841627cd5e98f58a7913f501002",
+      "native/job/code/pipeline.py": "090a990f86787784b81b27cc07a20fade8432eb5d67cc53b4600645cba7ed415",
+      "native/job/code/placement_clearance.py": "8fa82414fa40f80d90ed4a42f53fa2e679a52d74cfb4cfa9038239f1217aaff6",
+      "native/job/code/placement_strategy.py": "765a28e5a63da3e52266665accf9b9e1f5ea586ea9a90f51291b142c4373fb32",
+      "native/job/code/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+      "native/job/code/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+      "native/job/code/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+      "native/job/code/preferences.py": "e10e5afd47ff18b19f37926f480471add771adf67cb5dedecfed8479ed4ce0ab",
+      "native/job/code/recovery.py": "fb2866c5340b808c6f7baf6a43234c87e8e353e74f47a91b51ad6fae5c24a78d",
+      "native/job/code/review_export.py": "698dc66682416579c3d44b571dce0c0ed7102244adb0cff38dceeeca0ea1489c",
+      "native/job/code/review_view.py": "79f65e4d53c243f4e0f054d97bced2be2c4646537e5b86f11626ac8c5f4ce92d",
+      "native/job/code/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+      "native/job/code/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+      "native/job/code/schematic_field_evidence.py": "f5c03ac0be4b5fa3960bfec5f511199f7b566de8483fc78581e39e02804dbb93",
+      "native/job/code/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+      "native/job/code/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+      "native/job/code/strategy.py": "2794344ef69e70e627c4f8a858e63347f3f2d5d79bfc98b8090bbbbc5e4c193e",
+      "native/job/code/thermal.py": "2fa7ff7260ba6e8b5a8003d8e1f51314b5ff548ef635fb94b29bdee4c741102d",
+      "native/job/code/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+      "native/job/code/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+      "native/job/code/thermal_worker.py": "fd651f44233aae2c70da0a8feab5f96a4763276684e8b0babf39860b91a9cc33",
+      "native/job/kicad-config/10.0/3d_viewer.json": "7c95b3fdd72f837a3cc49248249c40bc24c07b75bafe02d0d091a0864746b6a9",
+      "native/job/kicad-config/10.0/cvpcb.json": "3a24bbacab369da74efdaff851be8869d8ca2e5e4ca28304f9eb57041bdad759",
+      "native/job/kicad-config/10.0/eeschema.json": "ad360fd6896e8d8f65059a2aaff40139e8c37f5f758954d3b94be9033fb114fb",
+      "native/job/kicad-config/10.0/fpedit.json": "4d824ab97688dcfc144494386c6991dc0a31f324228d6a85cea279a474f51bb0",
+      "native/job/kicad-config/10.0/kicad.json": "20c9db1c1f2caacc9f2fb9bf25909f0e50dcb86f5fbda21233168c0d751bc650",
+      "native/job/kicad-config/10.0/kicad_common.json": "c05334ec1fab57fd05f8eb1afe71b162df0c51532a47964c5ea0da3a1ebb2ff7",
+      "native/job/kicad-config/10.0/pcbnew.json": "412c1fe43f0db375147a9d25f5c7da6768ae054d94300cef57c9349bd3374e7a",
+      "native/job/kicad-config/10.0/symbol_editor.json": "9b42635c84a17cb400a5ff58be7e9376289054294c8ab6b9d92257af7f87a8aa",
+      "native/job/original-final-binding.json": "1b74c33e72a9992d9ea2782b066b37cd438e1c73f97a9246a366de97e503ab08",
+      "native/job/original-final-input/LICENSE": "eeecc593866fa1c3b80189c7e3dc0ceb77740557fa92f81771f891cc54c579cb",
+      "native/job/original-final-input/README.md": "f94f23f2ffc9771a22955aecd9ce24f529cb7aa8fd4ddae9f8dd5196ce21ffb8",
+      "native/job/original-final-input/cc-component.kicad_sch": "412415a834bfa9f727182532f334b0cbfdd247d2d796b5b5772ab413e2d8a875",
+      "native/job/original-final-input/transistor-hfe-measurement-circuit.kicad_pcb": "fe366f0b0eac7b848bf41ea7b9926d8301648977dcb0f429152898621924053f",
+      "native/job/original-final-input/transistor-hfe-measurement-circuit.kicad_prl": "65309bdb23a76ef8a24f13417185bf3d4aea767aa423ec69812b257f806e6e19",
+      "native/job/original-final-input/transistor-hfe-measurement-circuit.kicad_pro": "684f83f599188810229a3e1bcc3378daef39625db1e75f1042e367627f6671a5",
+      "native/job/original-final-input/transistor-hfe-measurement-circuit.kicad_sch": "8431a00b25b339919a0432a22eade01756dd6bbf45238bcab3c4a9a79b22cee8",
+      "native/job/original-final-process.json": "bf39c38048ddaa70450dde1112b97481d163aedd26e46548d3f28ad5cdc1d263",
+      "native/job/original-final.json": "9daa9b6ffa53a801560f148ea64b530debb32e3182eb1f8fc5770cbc2060e9a0",
+      "native/job/original-final.log": "28d1efd5a1816d81f43ceab89071aa44dab4d1650f542d1aeccc537ccd44d021",
+      "native/job/original-refill-binding.json": "47cec2a7b08fc9efb9e7215d1dd128ac53123714c283dc302b49c45aa4e85fdc",
+      "native/job/original-refill-process.json": "4e790bb826358932434ab0f28248e69ba36df077990fe4223ee53bc0d16b6c89",
+      "native/job/original-refill.json": "60861431f45afe1ed8c99770998a1c2b29a8395f207a22a0895a3dc8d668cf9f",
+      "native/job/original-refill.log": "bfbc5fac18da3794b3a6bf708883d409e4017fda28b55efc606dd3b478de6a6d",
+      "native/job/saved/LICENSE": "eeecc593866fa1c3b80189c7e3dc0ceb77740557fa92f81771f891cc54c579cb",
+      "native/job/saved/README.md": "f94f23f2ffc9771a22955aecd9ce24f529cb7aa8fd4ddae9f8dd5196ce21ffb8",
+      "native/job/saved/cc-component.kicad_sch": "412415a834bfa9f727182532f334b0cbfdd247d2d796b5b5772ab413e2d8a875",
+      "native/job/saved/transistor-hfe-measurement-circuit.kicad_pcb": "0e4ae42426714b586121f45ea342718fd3f07d8a824131dcd1ac60d8be9d360b",
+      "native/job/saved/transistor-hfe-measurement-circuit.kicad_prl": "65309bdb23a76ef8a24f13417185bf3d4aea767aa423ec69812b257f806e6e19",
+      "native/job/saved/transistor-hfe-measurement-circuit.kicad_pro": "684f83f599188810229a3e1bcc3378daef39625db1e75f1042e367627f6671a5",
+      "native/job/saved/transistor-hfe-measurement-circuit.kicad_sch": "8431a00b25b339919a0432a22eade01756dd6bbf45238bcab3c4a9a79b22cee8",
+      "native/original/LICENSE": "eeecc593866fa1c3b80189c7e3dc0ceb77740557fa92f81771f891cc54c579cb",
+      "native/original/README.md": "f94f23f2ffc9771a22955aecd9ce24f529cb7aa8fd4ddae9f8dd5196ce21ffb8",
+      "native/original/cc-component.kicad_sch": "412415a834bfa9f727182532f334b0cbfdd247d2d796b5b5772ab413e2d8a875",
+      "native/original/transistor-hfe-measurement-circuit.kicad_pcb": "d3d6d28a1f65d3950aa04552194c5e182adcad407c96d11a1673de19d39c0651",
+      "native/original/transistor-hfe-measurement-circuit.kicad_pro": "684f83f599188810229a3e1bcc3378daef39625db1e75f1042e367627f6671a5",
+      "native/original/transistor-hfe-measurement-circuit.kicad_sch": "8431a00b25b339919a0432a22eade01756dd6bbf45238bcab3c4a9a79b22cee8",
+      "native/result.json": "a3aaf2ea70bf687fd81a4bdfcdcba2f3db74da83c4d53fa52b7812cbea7b0cdb"
+    },
+    "directories": [
+      ".",
+      "native",
+      "native/candidate",
+      "native/control-code",
+      "native/control-code/autorouter",
+      "native/control-code/experiments",
+      "native/control-code/experiments/hfe_original_native_v1",
+      "native/control-code/experiments/original_project_native_v1",
+      "native/control-code/experiments/placement_handoff_native_v1",
+      "native/job",
+      "native/job/code",
+      "native/job/kicad-cache",
+      "native/job/kicad-cache/kicad",
+      "native/job/kicad-cache/kicad/10.0",
+      "native/job/kicad-config",
+      "native/job/kicad-config/10.0",
+      "native/job/kicad-config/10.0/colors",
+      "native/job/kicad-documents",
+      "native/job/kicad-documents/kicad",
+      "native/job/kicad-documents/kicad/10.0",
+      "native/job/kicad-documents/kicad/10.0/3dmodels",
+      "native/job/kicad-documents/kicad/10.0/3rdparty",
+      "native/job/kicad-documents/kicad/10.0/footprints",
+      "native/job/kicad-documents/kicad/10.0/plugins",
+      "native/job/kicad-documents/kicad/10.0/projects",
+      "native/job/kicad-documents/kicad/10.0/scripting",
+      "native/job/kicad-documents/kicad/10.0/symbols",
+      "native/job/kicad-documents/kicad/10.0/template",
+      "native/job/original-final-input",
+      "native/job/saved",
+      "native/job/tmp",
+      "native/job/tmp/org.kicad.kicad",
+      "native/job/tmp/org.kicad.kicad/instances",
+      "native/original"
+    ]
+  },
+  "log_sha256": "0416112e8e4dcc06ee3c4e049116a50a7b8446712828c9acf2c85f06d4e02062",
+  "limits": {
+    "whole_wall_full_cpu_seconds": 120,
+    "worker_wall_seconds": 90,
+    "worker_wall_full_cpu_seconds": 90,
+    "scratch_bytes": 134217728,
+    "group_rss_bytes": 2147483648,
+    "log_bytes": 262144,
+    "publication_allowance_seconds": 2
+  },
+  "scope": "Untouched original HFE diagnostic only: saved refill and all-original-route original-shell fullSCH on caller-pinned1007. No engine/export/routing, source repair, schema waiver, support admission, physical/GUI/default/tool promotion or comparative claim.",
+  "invocation_wall_seconds": 20.166818583995337,
+  "invocation_full_cpu_seconds": 25.295818,
+  "wall_seconds": 23.38708833398414,
+  "full_cpu_seconds": 28.629391000000002,
+  "publication_allowance_seconds": 2
+}
