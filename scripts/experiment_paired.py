@@ -33,6 +33,7 @@ BUDGET = 120.0
 SCRIPT = Path(__file__).resolve()
 C_ARM = {'id': 'C_feedback', 'adapter': 'both', 'engine_profile': 'tuned',
          'operation': 'prune', 'proposal_policy': 'feedback'}
+CHAIN_ARM = {**C_ARM, 'id': 'C_chains', 'proposal_policy': 'chains'}
 THERMAL_ARM = {'id': 'C_thermal', 'adapter': 'both', 'engine_profile': 'completion-only',
                'operation': 'recover', 'strategy': 'native_validated_thermal_bridge'}
 
@@ -110,26 +111,26 @@ def comparisons(rows):
     """Report every valid baseline frontier point; do not hide tradeoffs."""
     by_id = {row['id']: row for row in rows}
     baseline = by_id.get('B2_portfolio')
-    system = by_id.get('C_feedback') or by_id.get('C_thermal')
-    if not system or not system['accepted']:
-        return []
+    systems=[by_id[name] for name in ('C_feedback','C_chains','C_thermal')
+             if name in by_id and by_id[name]['accepted']]
     result = []
-    for row in (baseline['trials'] if baseline and baseline['accepted'] else []):
-        if row['id'] not in baseline['pareto_frontier']:
-            continue
-        length_delta = system['length_mm'] - row['length_mm']
-        via_delta = system['vias'] - row['vias']
-        result.append({'baseline_variant': row['id'], 'system': system['id'],
-            'baseline_selected': baseline['selected']['id'] == row['id'],
-            'length_delta_mm': length_delta, 'via_delta': via_delta,
-            'C_dominates_with_1e_6mm_tolerance': length_delta <= 1e-6 and via_delta <= 0 and (length_delta < -1e-6 or via_delta < 0),
-            'baseline_dominates_with_1e_6mm_tolerance': length_delta >= -1e-6 and via_delta >= 0 and (length_delta > 1e-6 or via_delta > 0)})
-    for name in ('B0','B1'):
-        row=by_id.get(name)
-        if row and row['accepted']:
-            length_delta=system['length_mm']-row['length_mm'];via_delta=system['vias']-row['vias']
-            result.append({'baseline':name,'system':system['id'],'length_delta_mm':length_delta,'via_delta':via_delta,
-                'pareto_improvement':length_delta<=1e-9 and via_delta<=0 and (length_delta< -1e-9 or via_delta<0)})
+    for system in systems:
+        for row in (baseline['trials'] if baseline and baseline['accepted'] else []):
+            if row['id'] not in baseline['pareto_frontier']:
+                continue
+            length_delta = system['length_mm'] - row['length_mm']
+            via_delta = system['vias'] - row['vias']
+            result.append({'baseline_variant': row['id'], 'system': system['id'],
+                'baseline_selected': baseline['selected']['id'] == row['id'],
+                'length_delta_mm': length_delta, 'via_delta': via_delta,
+                'C_dominates_with_1e_6mm_tolerance': length_delta <= 1e-6 and via_delta <= 0 and (length_delta < -1e-6 or via_delta < 0),
+                'baseline_dominates_with_1e_6mm_tolerance': length_delta >= -1e-6 and via_delta >= 0 and (length_delta > 1e-6 or via_delta > 0)})
+        for name in ('B0','B1'):
+            row=by_id.get(name)
+            if row and row['accepted']:
+                length_delta=system['length_mm']-row['length_mm'];via_delta=system['vias']-row['vias']
+                result.append({'baseline':name,'system':system['id'],'length_delta_mm':length_delta,'via_delta':via_delta,
+                    'pareto_improvement':length_delta<=1e-9 and via_delta<=0 and (length_delta< -1e-9 or via_delta<0)})
     return result
 
 
@@ -182,10 +183,12 @@ def verify_thermal_incumbent(directory, result, board, frozen):
         raise p.Rejected('thermal incumbent changed during verification')
 
 
-def experiment(out, project_name='sonde', system='feedback', *, external_reserve_seconds=0):
+def experiment(out, project_name='sonde', system='feedback', *, external_reserve_seconds=0, include_chain_ablation=False):
     batch_started, batch_cpu = time.monotonic(), q.total_process_cpu()
     if system not in {'feedback','thermal','placement','placement-standard','native-all'}:
         raise p.Rejected('unknown paired system')
+    if type(include_chain_ablation) is not bool or include_chain_ablation and system!='native-all':
+        raise p.Rejected('chain ablation requires explicit boolean and native-all system')
     placement=system in {'placement','placement-standard'}
     four_arm=placement or system=='native-all'
     if not q.finite_nonnegative(external_reserve_seconds) or external_reserve_seconds>50:
@@ -229,7 +232,7 @@ def experiment(out, project_name='sonde', system='feedback', *, external_reserve
                 if p.sha(target) != digest:
                     raise p.Rejected('code changed while preserving paired freeze')
             protocol = {'schema': 1, 'freeze': frozen, 'family': family, 'source': str(board),
-                'arm_order': (['B0','B1','B2_portfolio',c_arm['id']] if four_arm else ['B2_portfolio', c_arm['id']]), 'wall_budget_per_arm_seconds': BUDGET,
+                'arm_order': (['B0','B1','B2_portfolio',c_arm['id']]+(['C_chains'] if include_chain_ablation else []) if four_arm else ['B2_portfolio', c_arm['id']]), 'wall_budget_per_arm_seconds': BUDGET,
                 'cpu_budget_per_arm_seconds': BUDGET, 'cpu_enforcement': 'measured acceptance cap, not OS preemption',
                 'baseline': 'fixed three search-cost variants, same adapter and native constraints; full frontier retained',
                 'system': ('fresh standard default-cost incumbent capped at85 seconds, individual-first pruning and25-second final reserve' if system=='placement-standard' else 'single tuned default-cost incumbent plus feedback pruning' if system in {'feedback','placement','native-all'} else 'fresh completion-only default-cost incumbent, fresh native geometry and bounded thermal bridge recovery')+'; no free use of the portfolio winner',
@@ -260,6 +263,11 @@ def experiment(out, project_name='sonde', system='feedback', *, external_reserve
                     protocol['pruning_allocation']=ps.STANDARD_ALLOCATION
                 protocol['inner_allowance_seconds']=BUDGET-max(time.monotonic()-batch_started,q.total_process_cpu()-batch_cpu)-5-external_reserve_seconds
                 if protocol['inner_allowance_seconds']<60:raise p.Rejected('shared setup and external reserve leave insufficient equal inner allowance: '+str(protocol['inner_allowance_seconds']))
+            if include_chain_ablation:
+                protocol.update(include_chain_ablation=True,system_contracts=[dict(C_ARM),dict(CHAIN_ARM)],
+                    chain_ablation='own fresh tuned incumbent plus endpoint-chain proposals/feedback; no borrowed portfolio or feedback candidate')
+                protocol['baseline_order'].append('Cfresh-tuned-default-chains')
+                protocol['allocation_formula']=protocol['allocation_formula'].replace('all four arms','all five arms')
             assigned=protocol.get('inner_allowance_seconds',BUDGET)
             p.save_json(out/'protocol.json', protocol)
             summary['protocol_sha256'] = p.sha(out/'protocol.json')
@@ -287,7 +295,7 @@ def experiment(out, project_name='sonde', system='feedback', *, external_reserve
                             if result.get('guidance_policy') is not None or result.get('wall_budget_seconds')!=assigned or result.get('cpu_budget_seconds')!=assigned:raise p.Rejected('native portfolio allocation differs')
                             if any(x.get('guidance_policy') is not None for x in result['trials']):raise p.Rejected('mixed native portfolio trials')
                     else:
-                        selected_arm=c_arm
+                        selected_arm=CHAIN_ARM if arm_id=='C_chains' else c_arm
                         if four_arm:
                             if arm_id=='B0':
                                 selected_arm={'id':'B0','adapter':'none','engine_profile':'standard','operation':'route'}
@@ -299,7 +307,7 @@ def experiment(out, project_name='sonde', system='feedback', *, external_reserve
                             else:
                                 result=(ps.prune(board,directory,assigned,allocation=ps.STANDARD_ALLOCATION)
                                         if system=='placement-standard' else ps.prune(board,directory,assigned)
-                                        if placement else prune(board,directory,assigned,proposal_policy='feedback'))
+                                        if placement else prune(board,directory,assigned,proposal_policy=selected_arm['proposal_policy']))
                         else:
                             result = (prune(board, directory, BUDGET, proposal_policy='feedback')
                                       if system=='feedback' else recover(board, directory, BUDGET))
@@ -381,11 +389,19 @@ def experiment(out, project_name='sonde', system='feedback', *, external_reserve
                 observation['final_delivery_accepted'] = row['accepted']
         summary['comparisons'] = comparisons(summary['results']) if summary['status']=='completed' else []
     summary['shared_charge_policy'] = 'entire measured shared overhead charged to EACH arm; raw invocation measurements retained separately'
-    summary['accounting_point'] = 'sample before final summary write; full charged caps rechecked after publication; any over-cap correction is rejected and may finish outside cap'
+    summary['final_delivery_guard_reserve_seconds']=1.0
+    summary['accounting_point'] = 'stored totals are sampled before summary writes; actual source/output checks, publication and bounded final summary read are covered by the final charged-cap guard plus a declared1s tail reserve. Over-cap corrections reject every arm and may finish outside cap; returned value is the literal stored snapshot.'
+    published_snapshot=None
+    def read_published():
+        stored=f.read_json(out/'paired-summary.json')
+        if f.canonical(stored)!=published_snapshot:
+            raise p.Rejected('stored paired summary differs from final publication')
+        return stored
     try:
         if four_arm:q.verify_freeze(frozen,board);stable_arms()
         account_shared()
-        publish(out/'paired-summary.json', summary)
+        published_snapshot=f.canonical(summary)
+        publish(out/'paired-summary.json',summary)
         if four_arm:q.verify_freeze(frozen,board);stable_arms()
         published_eligibility = [row['accepted'] for row in summary['results']]
         account_shared()
@@ -399,17 +415,50 @@ def experiment(out, project_name='sonde', system='feedback', *, external_reserve
                 row['accepted'] = False
                 row['paired_publication_budget_rejected'] = True
                 for observation in row.get('observations', []):observation['final_delivery_accepted'] = False
-            publish(out/'paired-summary.json', summary)
+            published_snapshot=f.canonical(summary)
+            publish(out/'paired-summary.json',summary)
     except KeyboardInterrupt:
         cancelled_publication(out/'paired-summary.json', summary)
+        published_snapshot=f.canonical(summary)
     except Exception as exc:
         summary.update(status='invalidated',comparisons=[],reason=type(exc).__name__+': '+str(exc))
         for row in summary['results']:
             row['accepted']=False
             if system=='native-all':
                 for observation in row.get('observations',[]):observation['final_delivery_accepted']=False
+        published_snapshot=f.canonical(summary)
         publish(out/'paired-summary.json',summary)
-    return summary
+    # Do not return account_shared's later transient fields as if they had been
+    # stored. The bounded read itself is part of delivery and can cross a cap.
+    try:
+        delivered=read_published()
+        shared_wall=time.monotonic()-batch_started-sum(row.get('invocation_wall_seconds',0) for row in summary['results'])
+        shared_cpu=q.total_process_cpu()-batch_cpu-sum(row.get('invocation_cpu_seconds',0) for row in summary['results'])
+        crossed=any(row['accepted'] and (row.get('invocation_wall_seconds',0)+shared_wall+1.0>BUDGET
+                    or row.get('invocation_cpu_seconds',0)+shared_cpu+1.0>BUDGET) for row in delivered['results'])
+        if crossed:
+            account_shared()
+            summary['comparison_gate_reason']='final summary read crossed a charged cap; paired comparison invalidated'
+            summary['comparisons']=[]
+            for row in summary['results']:
+                row['accepted']=False;row['paired_publication_budget_rejected']=True
+                for observation in row.get('observations',[]):observation['final_delivery_accepted']=False
+            published_snapshot=f.canonical(summary)
+            publish(out/'paired-summary.json',summary)
+            delivered=read_published()
+        return delivered
+    except KeyboardInterrupt:
+        cancelled_publication(out/'paired-summary.json',summary)
+        published_snapshot=f.canonical(summary)
+        return read_published()
+    except Exception as exc:
+        summary.update(status='invalidated',comparisons=[],reason=type(exc).__name__+': '+str(exc))
+        for row in summary['results']:
+            row['accepted']=False
+            for observation in row.get('observations',[]):observation['final_delivery_accepted']=False
+        published_snapshot=f.canonical(summary)
+        publish(out/'paired-summary.json',summary)
+        return read_published()
 
 
 def main():
@@ -419,7 +468,9 @@ def main():
     parser.add_argument('--system', choices=('feedback','thermal','placement','placement-standard','native-all'), default='feedback')
     parser.add_argument('--external-reserve-seconds',type=float,default=0,
                         help='reserve 0..50 seconds equally outside four-arm inner work; final caps stay 120')
+    parser.add_argument('--chain-ablation',action='store_true',help='append own fresh C_chains arm; native-all only')
     args=parser.parse_args()
+    if args.chain_ablation and args.system!='native-all':parser.error('--chain-ablation requires --system native-all')
     lock_path=c.ROOT/'.runs/quality-experiment.lock';lock_path.parent.mkdir(exist_ok=True)
     if lock_path.is_symlink():parser.error('experiment lock must not be a symlink')
     def interrupted(signum,frame):raise KeyboardInterrupt
@@ -427,7 +478,9 @@ def main():
     try:
         with lock_path.open('a') as lock:
             fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
-            result=experiment(Path(args.output),args.project,args.system,external_reserve_seconds=args.external_reserve_seconds)
+            options={'external_reserve_seconds':args.external_reserve_seconds}
+            if args.chain_ablation:options['include_chain_ablation']=True
+            result=experiment(Path(args.output),args.project,args.system,**options)
         print(json.dumps({'status':result['status'],'summary':str(Path(args.output)/'paired-summary.json')}))
         return 0 if result['status']=='completed' else 2
     finally:

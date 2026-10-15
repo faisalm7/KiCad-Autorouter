@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "process": {
+    "status": "invalid_request",
+    "exit_code": null,
+    "wall_seconds": 1.0001219169935212,
+    "cpu_seconds": null,
+    "max_rss_bytes": null,
+    "supervisor_cpu_seconds": 0.8689560000000001,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": null,
+    "sampled_peak_workdir_bytes": null,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 17179869184,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/tests",
+      "-p",
+      "test_paired.py",
+      "-k",
+      "test_final_sample_return_matches_stored_after_successful_publication_cost",
+      "-v"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/paired-return-before-001/command.log",
+    "log_bytes": 0,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local",
+    "error": "RuntimeError: workdir scan exceeded time or entry bound"
+  },
+  "source_sha256": {
+    "scripts/experiment_paired.py": "730eb132ed5606adbecbfc73960e63f623ed2df9c997a70b36032d102791d644",
+    "tests/test_paired.py": "b59a3974172a1f3ed490a8f9e05770327dfbcf8c580ff2f95cb5a09c992eeb68"
+  },
+  "wall_seconds": 1.0001600830000825,
+  "full_cpu_seconds": 0.868992,
+  "expected": "One assertion failure reproduces actual returned/shared-charge metadata divergence; no Native/engine execution."
+}

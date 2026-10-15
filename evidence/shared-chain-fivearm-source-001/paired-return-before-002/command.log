@@ -1,0 +1,15 @@
+test_final_sample_return_matches_stored_after_successful_publication_cost (test_paired.PairedControls.test_final_sample_return_matches_stored_after_successful_publication_cost) ... FAIL
+
+======================================================================
+FAIL: test_final_sample_return_matches_stored_after_successful_publication_cost (test_paired.PairedControls.test_final_sample_return_matches_stored_after_successful_publication_cost)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_paired.py", line 443, in test_final_sample_return_matches_stored_after_successful_publication_cost
+    self.assertEqual(result,json.loads((self.out/'paired-summary.json').read_text()))
+AssertionError: {'sch[829 chars]s': 31.0, 'charged_cpu_seconds': 29.0, 'within[1811 chars] 9.0} != {'sch[829 chars]s': 30.0, 'charged_cpu_seconds': 28.0, 'within[1811 chars] 8.0}
+Diff is 5208 characters long. Set self.maxDiff to None to see it.
+
+----------------------------------------------------------------------
+Ran 1 test in 0.010s
+
+FAILED (failures=1)

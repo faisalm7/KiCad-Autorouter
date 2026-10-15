@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 8.743915500002913,
+    "cpu_seconds": 7.7409479999999995,
+    "max_rss_bytes": 46071808,
+    "supervisor_cpu_seconds": 0.025727,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 57999360,
+    "sampled_peak_workdir_bytes": 11167,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 2097152,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/test-paired-backup-after-001.py"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/paired-backup-after-001/command.log",
+    "log_bytes": 11167,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/paired-backup-after-001",
+    "signal_cancellation_enabled": true,
+    "pid": 86122
+  },
+  "source_sha256": {
+    "scripts/experiment_paired.py": "9b95bad75abbc7f7d811cd9e022b6b3c3e4a01c0f9946538312b96edf244ca22",
+    "scripts/backup.py": "018b9c5607d7d403281c35110dae030b3f4b54f9a936917156e50fbed42508e8",
+    "tests/test_paired.py": "b59a3974172a1f3ed490a8f9e05770327dfbcf8c580ff2f95cb5a09c992eeb68",
+    "tests/test_backup_capacity.py": "34c3e9fdee928a1667ac6d074720962faefabc760f68013c5c4524cc41fd360a"
+  },
+  "wall_seconds": 8.744231000018772,
+  "full_cpu_seconds": 7.766989,
+  "scope": "Shared fivearm driver/returnpublication/cancellation/freshness/budget and unchanged backup guards with10GiB bytecap; pure software only, no Native routing claim."
+}

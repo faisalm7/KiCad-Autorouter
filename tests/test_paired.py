@@ -177,7 +177,7 @@ class PairedControls(unittest.TestCase):
         self.assertTrue(result['results'][-1]['accepted_before_shared_charge'])
 
     @contextmanager
-    def native_four(self, *, overrides=None, failed_c=False, mutate_prior=False):
+    def native_four(self, *, overrides=None, failed_c=False, mutate_prior=False, cancel_chains=False, mutate_feedback_on_chains=False):
         """Actual wrapper flow, fake workers, and real completed-arm inventories."""
         overrides=overrides or {}
         self.native_assignments=[]
@@ -213,14 +213,17 @@ class PairedControls(unittest.TestCase):
             result.update(overrides.get('B2_portfolio',{}))
             return result
         def prune(board,directory,seconds,*,proposal_policy):
-            self.assertEqual((board,directory.name,proposal_policy),(self.board,'C_feedback','feedback'))
-            self.calls.append('C_feedback');self.native_assignments.append(seconds)
+            expected='chains' if directory.name=='C_chains' else 'feedback'
+            self.assertEqual((board,directory.name,proposal_policy),(self.board,'C_chains' if expected=='chains' else 'C_feedback',expected))
+            self.calls.append(directory.name);self.native_assignments.append(seconds)
+            if cancel_chains and directory.name=='C_chains':raise KeyboardInterrupt
             result=outcome(directory,seconds,'both','tuned')
             if failed_c:
                 self.wall+=30.;self.cpu+=35.;raise RuntimeError('deliberate native C failure')
             self.wall+=self.c_cost[0];self.cpu+=self.c_cost[1]
             result.update(zone_net_ids=[],trials=[],improvements=0)
-            result.update(overrides.get('C_feedback',{}))
+            result.update(overrides.get(directory.name,{}))
+            if mutate_feedback_on_chains and directory.name=='C_chains':(directory.parent/'C_feedback/evidence.txt').write_text('late changed feedback')
             return result
         def summarize(arm,directory,result,wall,cpu):
             return {'id':arm['id'],'status':result['status'],'accepted':result['accepted'],
@@ -401,5 +404,83 @@ class PairedControls(unittest.TestCase):
         self.assertEqual(retained['comparisons'],[])
         self.assertFalse(retained['results'][-1]['observations'][0]['final_delivery_accepted'])
 
+
+    def test_native_chain_ablation_owns_fifth_fresh_operation_and_equal_assignment(self):
+        with self.native_four():result=m.experiment(self.out,system='native-all',include_chain_ablation=True)
+        self.assertEqual(self.calls,['B0','B1','B2_portfolio','C_feedback','C_chains'])
+        self.assertEqual(self.native_assignments,[104.]*5)
+        protocol=json.loads((self.out/'protocol.json').read_text())
+        self.assertEqual(protocol['arm_order'],self.calls)
+        self.assertEqual(protocol['system_contracts'],[m.C_ARM,m.CHAIN_ARM])
+        self.assertTrue(protocol['include_chain_ablation'])
+        self.assertEqual([r['charged_cpu_seconds'] for r in result['results']],[31.]*5)
+        self.assertEqual({r['system'] for r in result['comparisons']},{'C_feedback','C_chains'})
+        for system in ('C_feedback','C_chains'):
+            self.assertEqual({r['baseline_variant'] for r in result['comparisons'] if r['system']==system and 'baseline_variant' in r},{'via_default','via_low'})
+        self.assertEqual(result,json.loads((self.out/'paired-summary.json').read_text()))
+
+    def test_chain_ablation_rejects_incompatible_or_nonboolean_before_output(self):
+        for system,value in (('feedback',True),('thermal',True),('placement',True),('placement-standard',True),('native-all',1),('native-all',None)):
+            with self.subTest(system=system,value=value),self.assertRaisesRegex(m.p.Rejected,'chain ablation'):
+                m.experiment(self.out,system=system,include_chain_ablation=value)
+            self.assertFalse(self.out.exists());self.assertEqual(self.calls,[])
+
+    def test_chain_cancellation_clears_all_five_delivery_claims(self):
+        with self.native_four(cancel_chains=True):result=m.experiment(self.out,system='native-all',include_chain_ablation=True)
+        self.assertEqual(result['status'],'cancelled');self.assertEqual(self.calls[-1],'C_chains')
+        self.assertFalse(any(r['accepted'] for r in result['results']));self.assertEqual(result['comparisons'],[])
+        self.assertEqual(result,json.loads((self.out/'paired-summary.json').read_text()))
+
+    def test_final_sample_return_matches_stored_after_successful_publication_cost(self):
+        saved=m.p.save_json;injected=False
+        def save(path,data):
+            nonlocal injected
+            saved(path,data)
+            if path.name=='paired-summary.json' and not injected:
+                self.wall+=1.;self.cpu+=1.;injected=True
+        with patch.object(m.p,'save_json',side_effect=save):result=m.experiment(self.out)
+        self.assertTrue(all(r['accepted'] for r in result['results']))
+        self.assertEqual(result,json.loads((self.out/'paired-summary.json').read_text()))
+        self.assertIn('literal stored snapshot',result['accounting_point'])
+
+    def test_final_summary_read_cost_cannot_leave_accepted_over_cap(self):
+        self.shared=(95.,95.);read=m.f.read_json;injected=False
+        def costly(path):
+            nonlocal injected
+            result=read(path)
+            if path.name=='paired-summary.json' and not injected:
+                self.wall+=6.;self.cpu+=6.;injected=True
+            return result
+        with patch.object(m.f,'read_json',side_effect=costly):result=m.experiment(self.out)
+        self.assertFalse(any(r['accepted'] for r in result['results']));self.assertEqual(result['comparisons'],[])
+        self.assertIn('final summary read',result['comparison_gate_reason'])
+        self.assertEqual(result,json.loads((self.out/'paired-summary.json').read_text()))
+
+    def test_chain_ablation_cli_passes_opt_in_only_for_native_all(self):
+        with patch.object(m.sys,'argv',['experiment_paired.py','--output',str(self.out),'--system','native-all','--chain-ablation']),patch.object(m,'experiment',return_value={'status':'completed'}) as run:
+            self.assertEqual(m.main(),0)
+        run.assert_called_once_with(self.out,'sonde','native-all',external_reserve_seconds=0,include_chain_ablation=True)
+
+    def test_fifth_worker_cannot_mutate_completed_feedback_arm(self):
+        with self.native_four(mutate_feedback_on_chains=True):result=m.experiment(self.out,system='native-all',include_chain_ablation=True)
+        self.assertEqual(result['status'],'invalidated');self.assertEqual(self.calls[-1],'C_chains')
+        self.assertFalse(any(row['accepted'] for row in result['results']))
+        self.assertIn('completed comparison arm changed',result['reason'])
+        self.assertEqual(result,json.loads((self.out/'paired-summary.json').read_text()))
+
+    def test_repeated_correction_publication_tamper_cannot_return_positive_snapshot(self):
+        self.shared=(95.,95.);saved=m.p.save_json;writes=0
+        def tamper(path,data):
+            nonlocal writes
+            saved(path,data)
+            if path.name!='paired-summary.json':return
+            writes+=1
+            if writes==1:self.wall+=6.;self.cpu+=6.
+            else:
+                forged=json.loads(path.read_text());forged['results'][0]['accepted']=True
+                saved(path,forged)
+        with patch.object(m.p,'save_json',side_effect=tamper),self.assertRaisesRegex(m.p.Rejected,'stored paired summary differs'):
+            m.experiment(self.out)
+        self.assertGreaterEqual(writes,3)
 
 if __name__=='__main__':unittest.main()
