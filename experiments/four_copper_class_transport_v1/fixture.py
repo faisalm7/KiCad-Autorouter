@@ -46,6 +46,9 @@ def files():
     pro['net_settings']['classes']=[default,
         dict(name='POWER',priority=1,track_width=.4,clearance=.25,via_diameter=1.2,via_drill=.5),
         dict(name='SIGNAL',priority=0,track_width=.35,clearance=.2,via_diameter=1.0,via_drill=.4)]
+    # KiCad10.0.0 requires explicit empty tuning_profile before loading dimensions.
+    pro['net_settings']['meta']={'version':5}
+    for cls in pro['net_settings']['classes']:cls['tuning_profile']=''
     pro['net_settings']['netclass_patterns']=[dict(pattern='ROU*',netclass='POWER'),dict(pattern='GN*',netclass='SIGNAL')]
     result[STEM+'.kicad_pcb']=(sx.dump(board)+'\n').encode()
     result[STEM+'.kicad_pro']=(json.dumps(pro,sort_keys=True,indent=2)+'\n').encode()

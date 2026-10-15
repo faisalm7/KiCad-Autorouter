@@ -1,0 +1,268 @@
+{
+  "schema": 1,
+  "kind": "actual-native-four-cu-api-class-census",
+  "native_version": "10.0.7",
+  "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/four-cu-inner-count-003/1007/input/owned-four-copper-class.kicad_pcb",
+  "source_files_sha256": {
+    "owned-four-copper-class.kicad_pcb": "110bb861bd2759bc8c0031db6dc3290d2b688ad1566a1e1b2bd2282faa00de8e",
+    "owned-four-copper-class.kicad_prl": "df6735506621cc881bb31c3e4e360a3a74801e70b14f70529c8347f84516300d",
+    "owned-four-copper-class.kicad_pro": "9cc50ccc91ead0a61affd5cf066725b46576a7b7046705d30af16c5fa14b329a",
+    "owned-four-copper-class.kicad_sch": "7be148d55572bc5e88bbd9ecd48f739b0de49ccc7840a2e71ae11ca49f187e24"
+  },
+  "layers": [
+    {
+      "name": "F.Cu",
+      "id": 0,
+      "native_type": 0,
+      "enabled": true
+    },
+    {
+      "name": "In1.Cu",
+      "id": 4,
+      "native_type": 0,
+      "enabled": true
+    },
+    {
+      "name": "In2.Cu",
+      "id": 6,
+      "native_type": 0,
+      "enabled": true
+    },
+    {
+      "name": "B.Cu",
+      "id": 2,
+      "native_type": 0,
+      "enabled": true
+    }
+  ],
+  "pads": [
+    {
+      "reference": "J1",
+      "uuid": "7596e61c-4ee0-51fd-8569-71ef8c3f6ddc",
+      "number": "1",
+      "netcode": 1,
+      "net": "ROUTE",
+      "layers": [
+        "In1.Cu"
+      ]
+    },
+    {
+      "reference": "J2",
+      "uuid": "208da4be-9279-5ba2-8ad0-bd2864b639d9",
+      "number": "1",
+      "netcode": 1,
+      "net": "ROUTE",
+      "layers": [
+        "F.Cu",
+        "In1.Cu",
+        "In2.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "reference": "J3",
+      "uuid": "8d740766-bc67-5971-8ec2-7d5aa51c17c1",
+      "number": "1",
+      "netcode": 2,
+      "net": "KEEP",
+      "layers": [
+        "F.Cu",
+        "In1.Cu",
+        "In2.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "reference": "J4",
+      "uuid": "21d41057-2893-5d75-9b52-cbe56b6263b2",
+      "number": "1",
+      "netcode": 2,
+      "net": "KEEP",
+      "layers": [
+        "F.Cu",
+        "In1.Cu",
+        "In2.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "reference": "J5",
+      "uuid": "4a126c4a-066a-57e6-8957-32eb26e0aee1",
+      "number": "1",
+      "netcode": 3,
+      "net": "GND",
+      "layers": [
+        "F.Cu",
+        "In1.Cu",
+        "In2.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "reference": "J6",
+      "uuid": "f4f9f119-47a3-5ae0-8b20-6c4c23c6f357",
+      "number": "1",
+      "netcode": 3,
+      "net": "GND",
+      "layers": [
+        "F.Cu",
+        "In1.Cu",
+        "In2.Cu",
+        "B.Cu"
+      ]
+    }
+  ],
+  "netclasses": {
+    "schema": 1,
+    "native_version": "10.0.7",
+    "units": "integer nanometres",
+    "resolution": "BOARD.SynchronizeNetsAndNetClasses(False); NETINFO_ITEM.GetNetClassSlow()",
+    "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/four-cu-inner-count-003/1007/input/owned-four-copper-class.kicad_pcb",
+    "board_sha256": "110bb861bd2759bc8c0031db6dc3290d2b688ad1566a1e1b2bd2282faa00de8e",
+    "project_sha256": "9cc50ccc91ead0a61affd5cf066725b46576a7b7046705d30af16c5fa14b329a",
+    "board_saved": false,
+    "nets": [
+      {
+        "name": "GND",
+        "netcode": 3,
+        "copper_pad_count": 2,
+        "class": "SIGNAL,Default",
+        "parameter_parents": {
+          "width_nm": {
+            "name": "SIGNAL",
+            "value_nm": 350000,
+            "specified": true,
+            "priority": 0
+          },
+          "clearance_nm": {
+            "name": "SIGNAL",
+            "value_nm": 200000,
+            "specified": true,
+            "priority": 0
+          },
+          "via_diameter_nm": {
+            "name": "SIGNAL",
+            "value_nm": 1000000,
+            "specified": true,
+            "priority": 0
+          },
+          "via_drill_nm": {
+            "name": "SIGNAL",
+            "value_nm": 400000,
+            "specified": true,
+            "priority": 0
+          }
+        },
+        "width_nm": 350000,
+        "clearance_nm": 200000,
+        "via_diameter_nm": 1000000,
+        "via_drill_nm": 400000
+      },
+      {
+        "name": "KEEP",
+        "netcode": 2,
+        "copper_pad_count": 2,
+        "class": "Default",
+        "parameter_parents": {
+          "width_nm": {
+            "name": "Default",
+            "value_nm": 300000,
+            "specified": true,
+            "priority": 2147483647
+          },
+          "clearance_nm": {
+            "name": "Default",
+            "value_nm": 200000,
+            "specified": true,
+            "priority": 2147483647
+          },
+          "via_diameter_nm": {
+            "name": "Default",
+            "value_nm": 800000,
+            "specified": true,
+            "priority": 2147483647
+          },
+          "via_drill_nm": {
+            "name": "Default",
+            "value_nm": 400000,
+            "specified": true,
+            "priority": 2147483647
+          }
+        },
+        "width_nm": 300000,
+        "clearance_nm": 200000,
+        "via_diameter_nm": 800000,
+        "via_drill_nm": 400000
+      },
+      {
+        "name": "ROUTE",
+        "netcode": 1,
+        "copper_pad_count": 2,
+        "class": "POWER,Default",
+        "parameter_parents": {
+          "width_nm": {
+            "name": "POWER",
+            "value_nm": 400000,
+            "specified": true,
+            "priority": 1
+          },
+          "clearance_nm": {
+            "name": "POWER",
+            "value_nm": 250000,
+            "specified": true,
+            "priority": 1
+          },
+          "via_diameter_nm": {
+            "name": "POWER",
+            "value_nm": 1200000,
+            "specified": true,
+            "priority": 1
+          },
+          "via_drill_nm": {
+            "name": "POWER",
+            "value_nm": 500000,
+            "specified": true,
+            "priority": 1
+          }
+        },
+        "width_nm": 400000,
+        "clearance_nm": 250000,
+        "via_diameter_nm": 1200000,
+        "via_drill_nm": 500000
+      }
+    ],
+    "copper_layers": [
+      {
+        "id": 0,
+        "name": "F.Cu",
+        "type": "signal",
+        "index": 0
+      },
+      {
+        "id": 4,
+        "name": "In1.Cu",
+        "type": "signal",
+        "index": 1
+      },
+      {
+        "id": 6,
+        "name": "In2.Cu",
+        "type": "signal",
+        "index": 2
+      },
+      {
+        "id": 2,
+        "name": "B.Cu",
+        "type": "signal",
+        "index": 3
+      }
+    ]
+  },
+  "legacy_outer_counts": {
+    "ROUTE": 1,
+    "KEEP": 2,
+    "GND": 2
+  },
+  "board_saved": false,
+  "routing_accepted": false
+}
