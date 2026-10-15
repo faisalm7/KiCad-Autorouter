@@ -14,7 +14,7 @@ from autorouter import pipeline as p,floor_route as f,handoff as h,local_setting
 from autorouter.runner import run
 from experiments.hfe_original_native_v1 import driver as shared
 from experiments.free_angle_baseline_v1 import controls as c
-OUT=ROOT/'.runs/free-angle-native-enclosure-002';CAP=200.
+OUT=ROOT/'.runs/free-angle-native-enclosure-003';CAP=200.
 
 
 def execute(head,pin):
@@ -42,7 +42,7 @@ def execute(head,pin):
         if p.sha(Path(__file__))!=selfpin or p.sha(OUT/'command.log')!=logpin or (c.OUT.is_dir() and p.tree_hash(c.OUT)!=material):raise p.Rejected('complete enclosure material changed')
         if child is not None and p.sha(path)!=childpin:raise p.Rejected('child receipt changed')
         if child is not None and child.get('positive'):
-            ls.check_normal_policy(c.OUT/'route',f.read_json(c.OUT/'route/result.json'),max_bytes=128*1024**2,max_files=2048)
+            ls.check_normal_policy(Path(child['positive']['receipt']).parent,f.read_json(Path(child['positive']['receipt'])),max_bytes=128*1024**2,max_files=2048)
         if child is not None and child.get('physical_short'):
             bad=child['physical_short']
             ls.check_normal_policy(c.OUT/'invalid-job',dict(steps=bad['steps'],source_hashes=bad['before'],tools=plan['tools']),max_bytes=128*1024**2,max_files=2048)

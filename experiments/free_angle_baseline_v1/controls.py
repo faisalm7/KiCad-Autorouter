@@ -14,8 +14,8 @@ from autorouter import pipeline as p,floor_route as f,handoff as h,placement_cle
 from experiments.hfe_original_native_v1 import driver as shared
 from experiments.placement_handoff_native_v1.driver import copy_bytes
 from experiments.free_angle_baseline_v1 import fixture
-PREP=ROOT/'.runs/free-angle-native-preparation-002';PROTOCOL=PREP/'protocol.json'
-OUT=ROOT/'.runs/free-angle-native-enclosure-002/native';WHOLE=180.;ROUTE=120.
+PREP=ROOT/'.runs/free-angle-native-preparation-003';PROTOCOL=PREP/'protocol.json'
+OUT=ROOT/'.runs/free-angle-native-enclosure-003/native';WHOLE=180.;ROUTE=120.
 
 
 def account_delivery(record,wall,full,available):
@@ -42,6 +42,8 @@ def context(plan,pin=None):
             or {n:hashlib.sha256(raw).hexdigest() for n,raw in fixture.files().items()}!=plan['source_sha256']
             or any(p.sha(ROOT/n)!=value for n,value in plan['code_sha256'].items())):
         raise p.Rejected('frozen owned free-angle context differs')
+    retained=plan.get('retained_positive')
+    if retained is not None and (p.sha(Path(retained['receipt']))!=retained['receipt_sha256'] or p.tree_hash(Path(retained['receipt']).parent)!=retained['material_sha256']):raise p.Rejected('retained complete positive changed')
     if any(p.sha(ROOT/n)!=value for n,value in plan.get('prior_attempts',{}).get('files_sha256',{}).items()):raise p.Rejected('retained prior attempt changed')
     if pin is not None and (p.sha(PROTOCOL)!=pin or f.canonical(f.read_json(PROTOCOL))!=f.canonical(plan)):
         raise p.Rejected('frozen angle protocol differs')
@@ -60,20 +62,24 @@ def prepare(head):
         tools=p.tool_manifest(),code_sha256={n:p.sha(ROOT/n) for n in sorted(names)},
         limits={'whole_wall_full_cpu':WHOLE,'route_wall_full_cpu':ROUTE,'publication':2},
         scope='One owned exposed oblique-terminal stock tuned-free-angle route/fullSCH Native positive and physical-short negative. Four actual pinned-JAR loader observations on immutable actual engine input. No new comparative result or default/CLI/GUI/installed/human qualification.')
-    old=ROOT/'.runs/free-angle-native-enclosure-001/result.json'
-    probe=ROOT/'.runs/free-angle-export-missing-probe-001/missing-publication-failure.json'
-    failed=f.read_json(old);missing=f.read_json(probe)
-    if failed.get('passed') is not False or failed.get('status')!='failed' or missing.get('status')!='rejected_native_source_target_mismatch':raise p.Rejected('retained failed attempts differ')
-    plan['prior_attempts']=dict(files_sha256={str(old.relative_to(ROOT)):p.sha(old),str(probe.relative_to(ROOT)):p.sha(probe)},
-        wall_seconds=failed['wall_seconds']+2+2,full_cpu_seconds=failed['full_cpu_seconds']+2+2,
-        scope='Actual complete001failed control+2publication, plus conservative2wall/fullCPU crashed mapped-export probe allowance; probeCPU is unmeasured, allowance is not measurement.')
+    old=ROOT/'.runs/free-angle-native-enclosure-002/result.json'
+    failed=f.read_json(old);positive=old.parent/'native/route/result.json';routed=f.read_json(positive)
+    if failed.get('passed') is not False or failed.get('status')!='failed' or routed.get('accepted') is not True:raise p.Rejected('retained002failed outer/valid positive differs')
+    p.check_result(positive)
+    if routed['source_hashes']!=plan['source_sha256'] or routed['tools']['implementation_sha256']!=plan['tools']['implementation_sha256'] or routed['tools']['files']!=plan['tools']['files']:raise p.Rejected('retained positive source or core/tool implementation differs')
+    plan['retained_positive']=dict(receipt=str(positive),receipt_sha256=p.sha(positive),material_sha256=p.tree_hash(positive.parent))
+    plan['scope']='Missing-only four actual JAR-loader observations and original-rule physical-short negative from exact retained002fullSCH/protected/non45 Native positive. No engine/source/refill/final-positive Native rerun; complete prior001002costs charged including declared probe allowance. No quality/default/family/GUI/installation/release claim.'
+    plan['prior_attempts']=dict(files_sha256={str(old.relative_to(ROOT)):p.sha(old)},
+        wall_seconds=failed['wall_seconds']+2,full_cpu_seconds=failed['full_cpu_seconds']+2,
+        scope='Actual complete failed002outer already includes001/probe/preparation; charge it once+2publication. Prior probeCPU remains unmeasured; inherited2s allowance is declaration, not measurement.')
     context(plan);plan['preparation_costs']=dict(wall_seconds=time.monotonic()-START,full_cpu_seconds=cpu()-CPU0,publication_allowance_seconds=2)
     p.save_json(PROTOCOL,plan);print(f.canonical(dict(prepared=True,protocol=str(PROTOCOL),sha256=p.sha(PROTOCOL),native_executed=False)))
 
 
 def loaders(plan,routed,remaining):
-    folder=OUT/'loader';folder.mkdir();job=shared.BoundJob(folder,WHOLE,remaining,protect_local_settings=True)
-    base=io.read_bytes(OUT/'route/task.dsn',angle.MAX_BYTES);none=io.read_bytes(OUT/'route'/angle.INPUT,angle.MAX_BYTES)
+    folder=OUT/'loader';job=shared.BoundJob(folder,WHOLE,remaining,protect_local_settings=True)
+    route=Path(routed['candidate']).parent.parent
+    base=io.read_bytes(route/'task.dsn',angle.MAX_BYTES);none=io.read_bytes(route/angle.INPUT,angle.MAX_BYTES)
     tree=dsn._parse_dsn(base.decode());explicit=sx.parse(sx.dump(tree));sx.one(explicit,'structure').append(['snap_angle','fortyfive_degree'])
     malformed=sx.parse(sx.dump(tree));sx.one(malformed,'structure').append(['snapAngle','none'])
     samples={'omitted45':(base,'45',0),'canonicalNone':(none,'none',0),
@@ -90,7 +96,7 @@ def loaders(plan,routed,remaining):
         elif 'loaded mode differs: FORTYFIVE_DEGREE' not in text:raise p.Rejected('misspelled angle control lacks actual45 refusal')
         if p.sha(path)!=pin:raise p.Rejected('loader input changed')
         rows.append(dict(name=name,input_sha256=pin,expected=expected,expected_exit=exitcode,step=step))
-    if p.sha(OUT/'route'/angle.INPUT)!=hashlib.sha256(none).hexdigest() or p.sha(OUT/'route/task.dsn')!=hashlib.sha256(base).hexdigest():
+    if p.sha(route/angle.INPUT)!=hashlib.sha256(none).hexdigest() or p.sha(route/'task.dsn')!=hashlib.sha256(base).hexdigest():
         raise p.Rejected('actual routed engine input changed during loader checks')
     return rows
 
@@ -125,9 +131,9 @@ def execute(plan,pin):
         record=dict(schema=1,accepted=False,passed=False,status='failed',git_head=plan['git_head'],tools=plan['tools'],protocol_sha256=pin,scope=plan['scope'])
         routed=None;bad=None
         try:
-            routed=p.route(PREP/'source'/(fixture.STEM+'.kicad_pcb'),OUT/'route',seconds=ROUTE,adapter='both',engine_profile=angle.PROFILE)
+            positive=Path(plan['retained_positive']['receipt']);routed=f.read_json(positive)
             if routed.get('accepted') is not True:raise p.Rejected('owned stock free-angle route refused: '+str(routed.get('reason',routed.get('status'))))
-            checked=p.check_result(OUT/'route/result.json');tree=sx.read(Path(routed['candidate']));_,resolve=g.source_net_identity(tree)
+            checked=p.check_result(positive);tree=sx.read(Path(routed['candidate']));_,resolve=g.source_net_identity(tree)
             oblique=[]
             for row in p.routes(tree):
                 if row[0]!='segment' or row in plan['protected_ast'] or resolve(sx.one(row,'net'))!='ROUTE':continue
@@ -139,7 +145,7 @@ def execute(plan,pin):
                     or routed['native'].get('field_parity',{}).get('qualification',{}).get('component_count')!=6
                     or any(row not in p.routes(tree) for row in plan['protected_ast'])):
                 raise p.Rejected('original/fullSCH/protected/non45 behavior control incomplete')
-            record.update(positive=dict(receipt_sha256=p.sha(OUT/'route/result.json'),candidate_sha256=routed['candidate_sha256'],native=routed['native'],metrics=routed['metrics'],non45_route_segments=oblique,readback=checked))
+            record.update(positive=dict(receipt=str(positive),receipt_sha256=p.sha(positive),retained_material_sha256=plan['retained_positive']['material_sha256'],candidate_sha256=routed['candidate_sha256'],native=routed['native'],metrics=routed['metrics'],non45_route_segments=oblique,readback=checked))
             record['loader_observations']=loaders(plan,routed,remaining);bad=negative(plan,routed,remaining);record['physical_short']=bad
             record.update(passed=True,status='completed')
         except (Exception,KeyboardInterrupt) as exc:
@@ -148,7 +154,7 @@ def execute(plan,pin):
         def stable():
             h.owned_destination(owner);context(plan,pin)
             if shared.material(OUT)!=witness:raise p.Rejected('completed angle evidence changed')
-            if routed and routed.get('accepted') is True:p.check_result(OUT/'route/result.json')
+            if routed and routed.get('accepted') is True:p.check_result(positive)
             if bad is not None:
                 observed=f.check_drc_stage(OUT/'invalid-job',dict(steps=bad['steps']),'invalid-final',Path(bad['candidate']),OUT/'invalid-job/invalid-final-input'/Path(bad['candidate']).name,False,bad['before'],schematic_parity=True)
                 if f.canonical(observed)!=f.canonical(bad['native']):raise p.Rejected('late physical-short evidence changed')
@@ -156,7 +162,7 @@ def execute(plan,pin):
             if shared.material(OUT)!=witness:raise p.Rejected('completed angle evidence changed late')
             # Current PRL protections last, after material/tool/code reads.
             if routed and routed.get('accepted') is True:
-                ls.check_normal_policy(OUT/'route',routed,max_bytes=128*1024**2,max_files=2048)
+                ls.check_normal_policy(positive.parent,routed,max_bytes=128*1024**2,max_files=2048)
             if bad is not None:
                 ls.check_normal_policy(OUT/'invalid-job',dict(steps=bad['steps'],source_hashes=bad['before'],tools=plan['tools']),max_bytes=128*1024**2,max_files=2048)
         def account():
