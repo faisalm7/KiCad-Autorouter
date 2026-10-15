@@ -1,0 +1,258 @@
+{
+  "schema": 1,
+  "kind": "missing-only-source-actual-coldfire-and-installed042-gui",
+  "base_head": "da255bfb15cc5881af7d591dc59c4fd5f6b27afe",
+  "fanout_first": {
+    "complete_control_qualified": false,
+    "positive_native_accepted": true,
+    "negative_executed": false,
+    "candidate_sha256": "dae4072b477f59ed88adbec96491fe41dd85149907091540bb77e81db33a2b99",
+    "native_report_sha256": "4caf41ca5ad8550cc6c8ab29822ce542c78fd3b33fed7e17fc57ed70149f0e47",
+    "metrics": {
+      "version": "10.0.0",
+      "pads": 6,
+      "footprints": 6,
+      "zones": 1,
+      "vias": 0,
+      "track_length_mm": 42.317821063276355,
+      "copper_layers": 2
+    },
+    "native": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 6,
+      "exclusions": 0
+    },
+    "actual_workers": 10,
+    "failure": "ValueError: duplicate singleton rule",
+    "evidence": {
+      "path": "evidence/fanout-missing-coldfire-gui-001/fanout-first-failed-actual.json",
+      "sha256": "7d5e54b180c501cb90a7929127050b4c5e73f2345c67e90c00a8327984140cfe"
+    }
+  },
+  "coldfire": {
+    "observation_complete": true,
+    "accepted": false,
+    "production_support_qualified": false,
+    "routing_executed": false,
+    "original_route_count": 3188,
+    "all_original_route_records_exact": true,
+    "original_shell_exact": true,
+    "native_saved_serializer_changed_nonfill": true,
+    "native_saved_serializer_changed_routes": true,
+    "original_native": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 47,
+      "exclusions": 0
+    },
+    "full_schematic_native": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 194,
+      "exclusions": 0
+    },
+    "full_schematic_warning_types": {
+      "lib_footprint_mismatch": 47,
+      "footprint_symbol_mismatch": 147
+    },
+    "candidate_sha256": "d9232e2279ca00cb29839ecf37e8fca65b595a3cf8e0f889ce6e2acc7d39d501",
+    "native_report_sha256": "dfa48fc904d7320926d660e14868999e85d93dc34b322bf0c0fe65012db79858",
+    "static_refusal": "unsupported: core native check not blocking: starved_thermal; netclass bindings not qualified: four-copper class transport requires20260206 source",
+    "pure_readback_passed": true,
+    "evidence": {
+      "path": "evidence/fanout-missing-coldfire-gui-001/coldfire-original-actual.json",
+      "sha256": "eb48e8c84d29a49efa6c611f11768cde846c6f658f40012c51a7f688858569af"
+    }
+  },
+  "gui": {
+    "installed042_disposable_copy_qualified": true,
+    "new_solver": false,
+    "violations": 0,
+    "unconnected": 0,
+    "schematic_warnings": 6,
+    "ignored": 2,
+    "all_filters": true,
+    "refill": true,
+    "full_schematic": true,
+    "all_four_layers_observed": true,
+    "authoritative_files_unchanged": true,
+    "gui_board_unchanged": true,
+    "gui_prl_and_pro_written_on_close": true,
+    "human_approval": false,
+    "live_apply_undo": false
+  },
+  "software": {
+    "full113_tests": 1580,
+    "passed": true,
+    "wall_seconds": 166.58628070898703,
+    "full_cpu_seconds": 155.326569,
+    "native_missing_continuation_executed": false
+  },
+  "timings": {
+    "fanout-command-timing-001": {
+      "native-prepare": {
+        "wall_seconds": 1.19,
+        "full_cpu_seconds": 0.87,
+        "time_log_sha256": "48df0222c564d3f8d6a2b2dd1590337f04301aacf3dcc370023b0942ab63a5cb",
+        "time_log_text": "real 1.19\nuser 0.21\nsys 0.66\n            44138496  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                3541  page reclaims\n                 126  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                2725  voluntary context switches\n                 394  involuntary context switches\n         10910140598  instructions retired\n          3210851226  cycles elapsed\n            33980920  peak memory footprint\n",
+        "command_log_sha256": "afb754e822b1c7ac072ef984b3a0b44e1ab3f6fc0391392c680e0121d8d54cb0",
+        "command_log_text": "Traceback (most recent call last):\n  File \"/Users/faisal/Projects/KiCad-Autorouter-local/.runs/run-fanout-command-001.py\", line 19, in <module>\n    record=dict(schema=1,label=label,source_git_head=args.source_head,process=proc,controller_sha256=p.sha(Path(__file__)),module_sha256=p.sha(module),log_sha256=p.sha(OUT/'command.log'),scope='Actual enclosing command exit observed by shared runner, not inner worker or pre-publication sample. Complete external /usr/bin/time log separately captures this envelope exit. Existing command Native/scratch/lane/time guards retained; accepted remains false for this execution receipt.',accepted=False)\n                                                                                                                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py\", line 157, in sha\n    return hashlib.sha256(Path(path).read_bytes()).hexdigest()\n                          ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/pathlib.py\", line 1050, in read_bytes\n    with self.open(mode='rb') as f:\n         ^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/pathlib.py\", line 1044, in open\n    return io.open(self, mode, buffering, encoding, errors, newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/fanout-command-receipts-001/native-prepare/command.log'\n"
+      },
+      "native-prepare002": {
+        "wall_seconds": 0.86,
+        "full_cpu_seconds": 0.9199999999999999,
+        "time_log_sha256": "999f932ae33f2779c07bd66e0d1682144fd69f471b537decc6bab8ca30c05f9f",
+        "time_log_text": "real 0.86\nuser 0.45\nsys 0.47\n           225230848  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n               32581  page reclaims\n                 450  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                 180  voluntary context switches\n                1969  involuntary context switches\n          1767752630  instructions retired\n           630092198  cycles elapsed\n            33964584  peak memory footprint\n",
+        "command_log_sha256": "866fc8abf354ce94e8562932af2ffa2c63baa2c8f7738097f82017b9d4721d2c",
+        "command_log_text": "{\"cleanup_complete\":true,\"cpu_seconds\":0.7611709999999999,\"exit_code\":0,\"monitor_cpu_seconds\":0.0,\"status\":\"success\",\"wall_seconds\":0.6637397920130752}\n"
+      },
+      "native-run": {
+        "wall_seconds": 26.85,
+        "full_cpu_seconds": 17.18,
+        "time_log_sha256": "1fcdf52b5c113c6c1e3f6fd4c268e7acfce2f95d01834708d8ea44a064b98f2e",
+        "time_log_text": "real 26.85\nuser 9.16\nsys 8.02\n           231686144  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n              330291  page reclaims\n                8182  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                  25  signals received\n               48910  voluntary context switches\n               43538  involuntary context switches\n          2229784347  instructions retired\n           830657830  cycles elapsed\n            34079272  peak memory footprint\n",
+        "command_log_sha256": "8729007b39f14071cdc6e6aab5de16943d680c4758c803a16789cb71736a7a05",
+        "command_log_text": "{\"cleanup_complete\":true,\"cpu_seconds\":16.94529,\"exit_code\":2,\"monitor_cpu_seconds\":0.0,\"status\":\"nonzero_exit\",\"wall_seconds\":26.682133833004627}\n"
+      }
+    },
+    "coldfire-command-timing-001": {
+      "prepare": {
+        "wall_seconds": 1.64,
+        "full_cpu_seconds": 1.64,
+        "time_log_sha256": "5a2be37f9b60470a1c527dbb436164826b91914cad0f5245111f8278deab1acf",
+        "time_log_text": "real 1.64\nuser 1.15\nsys 0.49\n           254623744  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n               39284  page reclaims\n                 218  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                 254  voluntary context switches\n                2833  involuntary context switches\n           863090450  instructions retired\n           324645228  cycles elapsed\n            28770832  peak memory footprint\n",
+        "command_log_sha256": "cb31218f85bd041eb174397d0d081da7e360097ba20c4a6cbd7fc4fb2704ac0a",
+        "command_log_text": "{\"cleanup_complete\":true,\"cpu_seconds\":1.563174,\"exit_code\":0,\"monitor_cpu_seconds\":0.0,\"status\":\"success\",\"wall_seconds\":1.5486674169951584}\n"
+      },
+      "run": {
+        "wall_seconds": 35.65,
+        "full_cpu_seconds": 35.96,
+        "time_log_sha256": "e41e9c7b3b8e42e8dfe755bd3009eb6a58e872592900e4e740b130d9c172538a",
+        "time_log_text": "real 35.65\nuser 30.26\nsys 5.70\n           409731072  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n              600581  page reclaims\n                6043  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                 402  voluntary context switches\n               78285  involuntary context switches\n          1500575957  instructions retired\n           644255960  cycles elapsed\n            28836392  peak memory footprint\n",
+        "command_log_sha256": "367bf2599e5a28b5765623389d8d5a8377621323fec0fdb4909d339fcfc87fca",
+        "command_log_text": "{\"cleanup_complete\":true,\"cpu_seconds\":35.788488,\"exit_code\":0,\"monitor_cpu_seconds\":0.0,\"status\":\"success\",\"wall_seconds\":35.56629762501689}\n"
+      },
+      "read": {
+        "wall_seconds": 4.35,
+        "full_cpu_seconds": 4.15,
+        "time_log_sha256": "9012d97b5fba94e1478fc7c3a310571c82929e0cff3ce1bfebab088239d873c9",
+        "time_log_text": "real 4.35\nuser 3.16\nsys 0.99\n           348389376  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n               91794  page reclaims\n                 189  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                 562  voluntary context switches\n                4990  involuntary context switches\n           899709766  instructions retired\n           342147802  cycles elapsed\n            28819984  peak memory footprint\n",
+        "command_log_sha256": "ba8064480d682e5dc5943fd9be5a21883b1860f604a9a3443cf7d33193b5f9cc",
+        "command_log_text": "{\"cleanup_complete\":true,\"cpu_seconds\":4.071015,\"exit_code\":0,\"monitor_cpu_seconds\":0.0,\"status\":\"success\",\"wall_seconds\":4.262393332988722}\n"
+      }
+    }
+  },
+  "continuation": "First failed fanout controller and Native positive stay immutable. New source adds corrected width300 assertion across rule groups, checks original published historical witness BEFORE adoption plus every late context, requires byte-exact unchanged core/tools except the one named oldHEAD, then runs ONLY missing same-original short. Pair consumes qualified002 on same futureNEWcleanHEAD. Target8 and missing-only witness1 pass, full113currentpass. Future Native/pair still pending.",
+  "limitations": [
+    "Neither ColdFire original geometry nor synthetic branch control is a new routed board family or comparative gain.",
+    "ColdFire194 warnings and5ignored checks stay; original critical thermal severity and old4Cu source remain production blockers.",
+    "ColdFire Native saved serializer changes original shell/routes; tested final reconstructs exact original shell/all3188routes with only native derived fill, then fullSCH Native checks that actual final hash.",
+    "GUIdatasheetplaceholderwarnings retained; disposable GUI adds/migrates109configentries on close. Its migratedPRO is not normal-native-admitted; authoritativeexport/source remain exact.",
+    "Firstfanout001failed at reporting after validpositive; no negative or completecontrol pass inferred. No engine/positiveNative repeats in continuation.",
+    "No currentfanout install/newGUI/liveapply/human/electrical/physical/frozen-confirmatory/formalrelease qualification.",
+    "Source/full112remotecheckpointverified; current raw artifacts later than incremental8a73ba5 cutoff need milestonebackup. OnMaconly."
+  ],
+  "files": {
+    "installed-fourcu-GUI.rpt": {
+      "original": ".runs/installed-fourcu-gui042-001/project/installed-fourcu-gui042-001.rpt",
+      "sha256": "d29a04fe70203d9c18731329a30f8fec808ad38676b15081c7e26df93071848f",
+      "bytes": 1321
+    },
+    "installed-fourcu-GUI.json": {
+      "original": ".runs/installed-fourcu-gui042-001/result.json",
+      "sha256": "d775a51beb234edc1c00621685889846bb96d400e7a78ac68a8a3f2bac029858",
+      "bytes": 4187
+    },
+    "GUI-copy-config-differences.json": {
+      "original": ".runs/installed-fourcu-gui042-001/gui-project-config-differences.json",
+      "sha256": "0f579631ef28a4964551a53cb6ab99cb2df2bb1a359436cdecf81e4905f2ae09",
+      "bytes": 22957
+    },
+    "coldfire-enclosure.py": {
+      "original": ".runs/run-coldfire-native-command-001.py",
+      "sha256": "f90cbb32a9a85f04522d271f7e37c243e7560f6cd43a54203641cf6170f55fce",
+      "bytes": 1964
+    },
+    "coldfire-driver.py": {
+      "original": ".runs/coldfire-native-diagnostic-support-001/driver.py",
+      "sha256": "7b87a2f8d1741c35968fc104198f2bee2de02d4a6c22891bbfbc0a6042c60be9",
+      "bytes": 17885
+    },
+    "coldfire-observation.py": {
+      "original": ".runs/coldfire-native-diagnostic-support-001/observation.py",
+      "sha256": "4c33e5b92825094702ac3b1782712376fcf8c1db198a199489bcdb05377ea967",
+      "bytes": 11377
+    },
+    "failed-fanout-enclosure.py": {
+      "original": ".runs/run-fanout-command-001.py",
+      "sha256": "b5bf04dc1c065f9e79f50d443fc279da9634a3628d6b3dc47e344177afe2e736",
+      "bytes": 2419
+    },
+    "fanout-enclosure.py": {
+      "original": ".runs/run-fanout-command-002.py",
+      "sha256": "446116a6cfeda05ee6b8067d6bdd357229e4412f4109797241da503f3b4c73ed",
+      "bytes": 2489
+    },
+    "fanout-native-missing-draft-001-NOTES.md": {
+      "original": ".local-backups/fanout-native-missing-draft-001/NOTES.md",
+      "sha256": "7ea2f855866f08cfa9d40013ae119df6859977888a4425db183e5a1c397559cf",
+      "bytes": 5877
+    },
+    "fanout-native-missing-draft-001-draft-pins.json": {
+      "original": ".local-backups/fanout-native-missing-draft-001/draft-pins.json",
+      "sha256": "5a1dd349defb30be00c624d93b69d4d4fe29766c540b2998f80664d57609284b",
+      "bytes": 1554
+    },
+    "fanout-native-missing-draft-001-timing.json": {
+      "original": ".local-backups/fanout-native-missing-draft-001/timing.json",
+      "sha256": "9e159b67fb87d48e13ff4ae5152ad005bd4caa1dd6ded716027b6985fe7a6d45",
+      "bytes": 312
+    },
+    "fanout-missing-source-review-001-REVIEW.md": {
+      "original": ".local-backups/fanout-missing-source-review-001/REVIEW.md",
+      "sha256": "94c95083178e8f6ad7e03ef695761de2cf6e772dcf1001d13cf7e14fe997e122",
+      "bytes": 4795
+    },
+    "fanout-missing-source-review-001-pins-and-timing.json": {
+      "original": ".local-backups/fanout-missing-source-review-001/pins-and-timing.json",
+      "sha256": "d9e0b0fb34e51290fe9d653e9394b9698af93b6ce1924e68219c54095958936c",
+      "bytes": 2481
+    },
+    "fanout-width-targeted-001-execution.json": {
+      "original": ".runs/fanout-width-targeted-001/execution.json",
+      "sha256": "7447eac1d26bd969839f1a0e89c50d27c85f7c0b8aebcf437e3c772ef5dd3266",
+      "bytes": 34421
+    },
+    "fanout-width-targeted-001-command.log": {
+      "original": ".runs/fanout-width-targeted-001/command.log",
+      "sha256": "9fbe2fbbd034ac853c495ec78caec1211502828e60da808ebc6b8f0f4176e113",
+      "bytes": 1500
+    },
+    "fanout-history-missing-targeted-002-execution.json": {
+      "original": ".runs/fanout-history-missing-targeted-002/execution.json",
+      "sha256": "e3c9d247da4741cdb49078eb53c242286527041758e39651d916766bfc53d385",
+      "bytes": 34512
+    },
+    "fanout-history-missing-targeted-002-command.log": {
+      "original": ".runs/fanout-history-missing-targeted-002/command.log",
+      "sha256": "2ea4c99b652390ad3c6a83e60984f7b8cdcb2ab333ea86e10ecfca5866f90d6a",
+      "bytes": 293
+    },
+    "full-integration-113-execution.json": {
+      "original": ".runs/full-integration-113/execution.json",
+      "sha256": "5bc5ee23d15fff674869770749ca3768a4daf6d927c45307432629188dfa193d",
+      "bytes": 34520
+    },
+    "full-integration-113-command.log": {
+      "original": ".runs/full-integration-113/command.log",
+      "sha256": "44c9160d4e5fff6a968be569c9023c876772ce9a8d3b0f4834418c5bcf931931",
+      "bytes": 256267
+    },
+    "full113-controller.py": {
+      "original": ".runs/run-full-integration-113.py",
+      "sha256": "abb188bdcd0209c6d023458a29ad314ea70d6cf705c2cb759c09a9f51fc66400",
+      "bytes": 9368
+    }
+  }
+}

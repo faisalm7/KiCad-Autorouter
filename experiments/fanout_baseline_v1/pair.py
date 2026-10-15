@@ -16,10 +16,10 @@ from scripts import experiment_quality as q
 from scripts.fetch_led_demo import capture_native_source
 from experiments.native_paired_v1 import observations as obs
 from experiments.hfe_original_native_v1 import driver as shared
-from experiments.fanout_baseline_v1 import native_control as owned
+from experiments.fanout_baseline_v1 import continuation as owned
 PREP=ROOT/'.runs/fanout-ir-pair-preparation-001';PROTOCOL=PREP/'protocol.json'
 OUT=ROOT/'.runs/fanout-ir-pair-001'
-CONTROL=ROOT/'.runs/fanout-native-control-001/result.json'
+CONTROL=ROOT/'.runs/fanout-native-control-002/result.json'
 ORDER=[('ir-obstacle','stock45'),('ir-obstacle','NONE')]
 PROFILES={'stock45':'tuned','NONE':'tuned-free-angle'}
 LIMITS=dict(route=120,worker=180,delivered=240,output=128*1024**2,rss=4*1024**3,log=256*1024,publication=2)
@@ -104,7 +104,7 @@ def prepare(head,control_pin,control_path):
         if p.netclass_policy(board) is not None or p.minimum_width_guard(board,'both') is not None:raise p.Rejected('IR must derive strictFalse unchanged')
         projects[project]=dict(source=str(board),family=family,packet=packet,freeze=freeze,gates=gates,gate_material={n:shared.material((ROOT/n).parent) for n in gates},baseline=baseline)
     plan=dict(schema=1,kind='fresh-ir-corrected-tuned-fanout-false-angle-pair-v1',status='frozen',git_head=head,
-        helper_sha256={n:p.sha(ROOT/n) for n in ['experiments/native_paired_v1/observations.py','experiments/native_paired_v1/readback.py','scripts/experiment_quality.py','scripts/experiment_paired.py','scripts/fetch_led_demo.py','experiments/hfe_original_native_v1/driver.py','experiments/free_angle_baseline_v1/controls.py','experiments/fanout_baseline_v1/native_control.py','experiments/fanout_baseline_v1/fixture.py','experiments/fanout_baseline_v1/__init__.py']},controller_sha256=p.sha(Path(__file__)),control_receipt=str(ls.canonical(control_path)),control_sha256=control_pin,control_binding=binding,
+        helper_sha256={n:p.sha(ROOT/n) for n in ['experiments/native_paired_v1/observations.py','experiments/native_paired_v1/readback.py','scripts/experiment_quality.py','scripts/experiment_paired.py','scripts/fetch_led_demo.py','experiments/hfe_original_native_v1/driver.py','experiments/free_angle_baseline_v1/controls.py','experiments/fanout_baseline_v1/native_control.py','experiments/fanout_baseline_v1/continuation.py','experiments/fanout_baseline_v1/fixture.py','experiments/fanout_baseline_v1/__init__.py']},controller_sha256=p.sha(Path(__file__)),control_receipt=str(ls.canonical(control_path)),control_sha256=control_pin,control_binding=binding,
         projects=projects,tools=projects['ir-obstacle']['freeze']['tools'],arm_order=[list(x) for x in ORDER],profiles=PROFILES,scoring_variant='via_default',engine_fanout_override=False,limits=LIMITS,
         source_acquisition='Existing immutable local originals; no GET or historical solver reuse. Source-preflight work is fresh inside each arm.',
         scope='One exposed existing IR circuit, ordinary native1000 whole-board corrected adapter, fresh tuned stock45 versus NONE BOTH explicitfanoutFalse. Stronger stockB2 diagnostic; no C/novelty/overallwin, family/independent pedigree/raw CAD publication/default promotion claim. Prior original source qualifications and owned Native control are historical prerequisite/development costs outside currentoperation; all new preparation/control replays/preflight/solver/reader/cleanup/publication are charged.')

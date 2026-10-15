@@ -8,7 +8,7 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
 from autorouter import pipeline as p,floor_route as f,local_settings as ls,handoff as h
 from experiments.hfe_original_native_v1 import driver as shared
-from experiments.fanout_baseline_v1 import native_control as owned
+from experiments.fanout_baseline_v1 import continuation as owned
 from tests import test_result as receipt_fixture,test_normal_local_settings_policy as prl_fixture
 PAIR=ROOT/'experiments/fanout_baseline_v1/pair.py'
 
@@ -65,7 +65,7 @@ class PrerequisitePRLControls(unittest.TestCase):
                 if name=='result.json':return childpath
                 raise AssertionError('unexpected helper endpoint '+str(name))
         helper_path=Path(owned.__file__);helper=function(helper_path,'check_prl')
-        helper_env=dict(owned.__dict__);helper_env['CHILD']=CapturedChild()
+        helper_env=dict(owned.__dict__);helper_env['CHILD']=CapturedChild();helper_env['POSITIVE']=CapturedChild()
         actual_helper=compiled(helper,helper_path,helper_env)
         captured_owned=SimpleNamespace(CHILD=CapturedChild(),check_prl=actual_helper)
         binding=dict(protocol=str(protocol),protocol_sha256=p.sha(protocol),child_receipt_sha256=p.sha(childpath),child_literal=f.canonical(child))
