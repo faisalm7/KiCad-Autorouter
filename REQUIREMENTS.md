@@ -1,6 +1,6 @@
 # Requirements to evidence
 
-October14local/October15UTC2026. Runtime d5326388 now has actual IR003 routing/current workflow/GUI and installation033 qualification. Eight exposed, configuration/cap-specific circuit length gains are not broad confirmation. Native acceptance, whole-project cleanliness and human/electrical approval remain separate.
+October15,2026. Runtime d5326388 now has actual IR003 routing/current workflow/GUI and installation033 qualification. Eight exposed, configuration/cap-specific circuit length gains are not broad confirmation. Native acceptance, whole-project cleanliness and human/electrical approval remain separate.
 
 | Requirement | Implementation / executable check / actual evidence | Remaining gate |
 |---|---|---|
@@ -166,3 +166,5 @@ Current continuation: [source-profile/failure-receipt evidence](evidence/univers
 Native source gate: [Universal Shift original001](evidence/universal-shift-original-native-001.json) binds exact7/9file source, immutable PRL/441routes, saved0/0/77/fullSCH0/0/81/5ignored and shared reader. Additional [IR native-connectivity baseline001](evidence/ir-native-connected-baseline001.json) is an honestly rejected1GNDzone-open result, with complete paid cumulative300 costs and retained pure-check failure. Follow-up repair remains unqualified until actual Native/independent readback; no test-count or new quality win implied.
 
 IR feedback extension [repair001](evidence/ir-native-connected-repair001.json) stopped before engine at the original reserve guard, preserving three real Native workers, both failed readers and completed partial003. No final Native/metrics pass; cumulative B2246.322284/C236.592638wall under300. [Universal Shift source selector](evidence/universal-shift-quality-source-001.json) adds exact-packet source registration with10focused controls; first routing comparison/full integration and workflow remain open.
+
+[Universal Shift Native-all source](evidence/universal-shift-native-all-source-001.json) retains reviewed prospective four-arm controllers and USM1/2/3 regression closures; no solver/Native result yet. Latest rawincremental througha6dd607 verifies284941files/9113742407B/chain2; finite285k file headroom59, next postmatrix integration capacity/fullrestore required. Source/quality selection only; broader scientific gates unchanged.

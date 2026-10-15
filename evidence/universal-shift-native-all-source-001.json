@@ -1,0 +1,215 @@
+{
+  "schema": 1,
+  "kind": "reviewed-unexecuted-Universal-Shift-native-all-source",
+  "accepted": false,
+  "new_native_execution": false,
+  "new_engine_execution": false,
+  "source_checkpoint_before": "a6dd607092843d941ee111af29ceded8ab097a42",
+  "core_router_bytes": "d53263880f20bbf2653f6cb8eb4a790c7bcf7fcf",
+  "controllers_sha256": {
+    "run-universal-shift-interface-native-paired240-001.py": "556ba332cce007191e1e0950f28367913fc5c527d8c43466dfb8d55336aee8e5",
+    "test-late-witnesses.py": "de6373ef972a0231cd985e84ded151072037230784d90d353c35c4da32e4e74b",
+    "run-universal-shift-interface-native-paired240-readback-001.py": "62647dc5e49578c2e8c6a769fd338bf1885d21f35299dd52ec08c9bc3a0dd310",
+    "read-universal-shift-interface-native-paired240-001.py": "39f25ffe157c6a168bf77cef69d08c4a248e5879749ac46c3e95b0bd973dd71a",
+    "universal-shift-interface-native-paired240-001-protocol.template.json": "4e47ecc134cc1cfad74e396d15c334da05078727ed4b2043b6af2dc5bfcaca76",
+    "run-controls.py": "4c073e335bd1636f606e3cc7a1416cd0f379b6e6107f292c0c1ca4d1554a7fcb",
+    "apply-review-fixes.py": "a58f996e5af1cf6b38365bbc537c085f9461c737863764fbde1a5d4e34664e10",
+    "run-controls-002.py": "bc890e4dd06005aea35c7469aa340195d7b4208955e3d121ff09d924dae63e98"
+  },
+  "prior_preparation": {
+    "schema": 1,
+    "status": "prepared-unexecuted-unfrozen",
+    "wall_seconds_from_first_call_epoch": 199.09287786483765,
+    "wall_cap_seconds": 180,
+    "within_preparation_wall_cap": false,
+    "full_task_cpu_seconds": null,
+    "syntax_only_AST_passed": true,
+    "project_imports_tests_native_network_git": false,
+    "real_runs_root_edits": false,
+    "files_sha256": {
+      "README.md": "4d0ff7a91752b4ca457bf160b06575cc29ab3d78ef9cd8c56866c83a1783959d",
+      "start.json": "b727cf7c343b85d22d4116712038301f18697c4cc350fb44fe02a3ab105aa2f4",
+      "input-pins.json": "8c7044082ca1e49ab0d4583bd3004349603ad979e9700c543fda4d6cb2ae1bb4",
+      ".runs/run-universal-shift-interface-native-paired240-001.py": "556ba332cce007191e1e0950f28367913fc5c527d8c43466dfb8d55336aee8e5",
+      ".runs/run-universal-shift-interface-native-paired240-readback-001.py": "3fd4c33a1b91bfa95e9262e9d95eacb85ad4f9a4b036ee77a2d858182184a1a1",
+      ".runs/read-universal-shift-interface-native-paired240-001.py": "a8d64b713be43c9d1d4c2ec25f2b04ff54daefbff69579d629b64cf58cce3164",
+      ".runs/universal-shift-interface-native-paired240-001-protocol.template.json": "4e47ecc134cc1cfad74e396d15c334da05078727ed4b2043b6af2dc5bfcaca76"
+    },
+    "ownership_released": true
+  },
+  "review": {
+    "schema": 1,
+    "kind": "static-Universal-Shift-native-all-preparation-review",
+    "executed": false,
+    "findings": [
+      {
+        "id": "USM1",
+        "priority": 1,
+        "path": ".local-backups/universal-shift-native-all-prep-001/.runs/read-universal-shift-interface-native-paired240-001.py",
+        "defect": "After f.publish, stable callbacks can mutate output/result.json outside its material/pins; execution then adopts freshly sampled changed resultSHA, and execution itself is not pinned across final callback.",
+        "fix": "Immediately postpublish require canonical disk result==in-memory result, capture fixed resultSHA; require it unchanged in all later callbacks. Pin written executionSHA before final stable, compare fixed result+execution afterward; retain analogous enclosure continuity.",
+        "lead_status": "Confirmed; parent plans existing prior IR003 fixed-pin closure in integration copy."
+      },
+      {
+        "id": "USM2",
+        "priority": 1,
+        "path": ".local-backups/universal-shift-native-all-prep-001/.runs/read-universal-shift-interface-native-paired240-001.py",
+        "defect": "Final tool/freeze callbacks run after Native/normal-policy PRL event checks. Final pc.inventory witnesses record bytes only, not st_flags/nlink, so late same-byte PRL flag or hardlink changes can escape.",
+        "fix": "Repeat shared ls.check_event over retained actual DRC binding/process identities after final callbacks and before final material/receipt checks; handle actual failed stages with existing allow_worker_failure contract. Keep equivalent final PRL metadata continuity in enclosing reader. No Native rerun/new validator."
+      }
+    ],
+    "checked": [
+      "Exactly7originals821075B/9native829542B and7boarddir files; complete_source_files pins all7source+9native bytes, all inspected hashes match. Full PRL/orphan/notices retained; no runtime input normalization.",
+      "No executable IR fieldgate/priorMatrix/source paths left. Raw fullSCH baseline0/0/81/0 with5ignored and4extraFootprint observations needs no field-sidecar replacement. Original support/serialization fields explicitly remainFalse.",
+      "Actual5 prerequisite enclosing costs +2each +1startup rederive33.272325289959554wall/24.448619CPU perarm. Historical HEAD remains literal; actual tool/core dictionaries and additional original fetch/helper source pins remain strict.",
+      "120inner/240delivered/540batch/45reader contract unchanged. Both inner account and enclosure require fresh overhead>=0 before adding positive shared costs. Planning common+120+10+45+1+2+2=213.27232528995955wall/204.448619CPU; no measured pass inferred.",
+      "All4raw rows, B2trials/skips, Cownincumbent/trials and completed Native worker census use shared helpers. Full saved/final original/PRL/class/metrics proof retained for rejected final candidates too; only accepted candidates must have original81 warning signatures, while rejected warning differences stay visible.",
+      "Original PRL event checks are present in shared normal/stage validators; USM2 concerns only metadata changes after their final invocation."
+    ],
+    "preparation_limits": "Released preparation199.09287786483765wall exceeded180 and remainsFalse; fullCPUunknown. This review timing/fullCPU also unmeasured; no <=180 claim.",
+    "sha256": {
+      ".local-backups/universal-shift-native-all-prep-001/.runs/run-universal-shift-interface-native-paired240-001.py": "556ba332cce007191e1e0950f28367913fc5c527d8c43466dfb8d55336aee8e5",
+      ".local-backups/universal-shift-native-all-prep-001/.runs/read-universal-shift-interface-native-paired240-001.py": "a8d64b713be43c9d1d4c2ec25f2b04ff54daefbff69579d629b64cf58cce3164",
+      ".local-backups/universal-shift-native-all-prep-001/.runs/run-universal-shift-interface-native-paired240-readback-001.py": "3fd4c33a1b91bfa95e9262e9d95eacb85ad4f9a4b036ee77a2d858182184a1a1",
+      ".local-backups/universal-shift-native-all-prep-001/.runs/universal-shift-interface-native-paired240-001-protocol.template.json": "4e47ecc134cc1cfad74e396d15c334da05078727ed4b2043b6af2dc5bfcaca76",
+      ".local-backups/universal-shift-native-all-prep-001/preparation-result.json": "0f7a4f2f0bd8a28b6ce6e67faee957227969a56100f8ab09d3e8cd252b1ac8de",
+      "autorouter/local_settings.py": "69fa09a68af0e794cdc5abb8d674a2117e4696a6352a2943d71744d326d8e861",
+      "autorouter/placement_clearance.py": "f846a73367bc60dfbb48386233e405cb4bf1382f056d379787d7b823c3905feb",
+      "experiments/native_paired_v1/readback.py": "6fc7e7bc665cacc57bcfe728e026234a66876782acf84e3601a4884b7780e067",
+      "scripts/fetch_led_demo.py": "3cdd2c68abe4031e218267c1d93cfa4103c9e5bbdb817550fb254b19c599e8c1"
+    }
+  },
+  "review_followup": {
+    "schema": 1,
+    "kind": "static-USM1-USM2-applied-review",
+    "closed": [
+      "USM1",
+      "USM2"
+    ],
+    "basis": [
+      "Inner reader requires disk result canonical==in-memory result immediately after publish, freezes resultSHA, uses it in execution, freezes executionSHA before final stable and compares both fixed pins afterward.",
+      "Enclosure freezes reader output directory before callbacks, retains fixed inner result/execution pins and freezes its own executionSHA before final callback.",
+      "Both readers call tool/freeze callbacks first, then shared ls.check_event for actual DRC process/binding rows before final byte inventories/pins. Native nonzero_exit5 remains ordinary completed DRC; genuine failures invoke strict allow_worker_failure journal semantics rather than waiving flags/cleanup."
+    ],
+    "remaining": [
+      {
+        "id": "USM3",
+        "priority": 2,
+        "path": ".local-backups/universal-shift-native-all-integration-001/.runs/run-universal-shift-interface-native-paired240-readback-001.py",
+        "problem": "Final stable/publication tail cap failure sets top passedFalse/source_currentFalse but may leave already-built final_charged_results acceptedTrue. This is a delivered-disposition inconsistency, not a bypass of top passed gate.",
+        "minimal_fix": "In final failure except clear accepted for every final_charged_results row, preserving raw Native acceptance observations separately. Final cap failure must not advertise accepted delivered rows."
+      }
+    ],
+    "executed": false,
+    "review_wall_full_cpu": "unmeasured; no budget claim",
+    "sha256": {
+      ".local-backups/universal-shift-native-all-integration-001/.runs/read-universal-shift-interface-native-paired240-001.py": "39f25ffe157c6a168bf77cef69d08c4a248e5879749ac46c3e95b0bd973dd71a",
+      ".local-backups/universal-shift-native-all-integration-001/.runs/run-universal-shift-interface-native-paired240-readback-001.py": "ea26d435d609d3d6cad67836480d1c54655d7ad7cce5ae5bbdfdb51eb10b0a50",
+      "autorouter/local_settings.py": "69fa09a68af0e794cdc5abb8d674a2117e4696a6352a2943d71744d326d8e861"
+    }
+  },
+  "closures": {
+    "USM1": "Fixed canonical result and result/execution byte witnesses before final callbacks, rechecked afterward.",
+    "USM2": "Shared ls.check_event on actual DRC stage bindings/processes after tool/freeze callbacks and before final byte inventories; only actual failed workers use strict failure replay.",
+    "USM3": "Final enclosure failure clears delivered acceptance flags; raw Native status retained."
+  },
+  "controls": [
+    {
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 0.11479429100290872,
+        "cpu_seconds": 0.09374299999999999,
+        "max_rss_bytes": 31653888,
+        "supervisor_cpu_seconds": 0.0036820000000000047,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 147456,
+        "sampled_peak_workdir_bytes": 318,
+        "resource_guards": {
+          "max_group_rss_bytes": 536870912,
+          "max_workdir_bytes": 1048576,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+          "-B",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/universal-shift-native-all-integration-001/test-late-witnesses.py"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/universal-shift-native-all-integration-001/late-witness-controls-001/command.log",
+        "log_bytes": 318,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/universal-shift-native-all-integration-001/late-witness-controls-001",
+        "signal_cancellation_enabled": true,
+        "pid": 50352
+      },
+      "wall_seconds": 0.11502374999690801,
+      "full_cpu_seconds": 0.09765399999999998,
+      "new_native_execution": false
+    },
+    {
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 0.5604285839945078,
+        "cpu_seconds": 0.149478,
+        "max_rss_bytes": 32178176,
+        "supervisor_cpu_seconds": 0.005183999999999994,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 21807104,
+        "sampled_peak_workdir_bytes": 432,
+        "resource_guards": {
+          "max_group_rss_bytes": 536870912,
+          "max_workdir_bytes": 1048576,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+          "-B",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/universal-shift-native-all-integration-001/test-late-witnesses.py"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/universal-shift-native-all-integration-001/late-witness-controls-002/command.log",
+        "log_bytes": 432,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/universal-shift-native-all-integration-001/late-witness-controls-002",
+        "signal_cancellation_enabled": true,
+        "pid": 50420
+      },
+      "wall_seconds": 0.5606314169999678,
+      "full_cpu_seconds": 0.15486,
+      "new_native_execution": false
+    }
+  ],
+  "limits": "Tests exercise actual extracted reader closure plus real Mac PRL flags/hardlinks and final disposition. No KiCad/JVM execution or routing gain. Original prep199.092877>180 remainsfailed/fullCPUunknown; integration/review engineering compute incompletely measured. Protocol template remainsUNFROZEN; fill actual committed HEAD/tools/freeze before one sequential run.",
+  "prospective": {
+    "inner_wall_full_cpu_per_arm_seconds": 120,
+    "delivered_wall_full_cpu_per_arm_seconds": 240,
+    "whole_batch_wall_full_cpu_seconds": 540,
+    "whole_reader_wall_full_cpu_seconds": 45,
+    "common_wall_seconds": 33.272325289959554,
+    "common_full_cpu_seconds": 24.448619,
+    "retain_all_four_arms": true,
+    "retain_all_variants_trials_failures": true
+  }
+}
