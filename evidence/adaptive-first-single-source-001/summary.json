@@ -1,0 +1,168 @@
+{
+  "schema": 1,
+  "kind": "optional-adaptive-pruning-source-software-qualification",
+  "git_base": "2a06ea790e364a23f372d111ec9224bd9a768e99",
+  "source_sha256": {
+    "autorouter/strategy.py": "2794344ef69e70e627c4f8a858e63347f3f2d5d79bfc98b8090bbbbc5e4c193e",
+    "tests/test_strategy.py": "59dbef2d928240c0656d7a0a558366dc63af951d641c423e4723cff1dcd82b06",
+    "tests/test_pruning_preferences_freshness.py": "81a80deb02a1e14f2834e8ea7b41379391444b1e99f2d4f662f276a83a5ceb18"
+  },
+  "proposal_policy": "adaptive",
+  "default_routing_changed": false,
+  "new_native_execution": false,
+  "changes": [
+    "Fresh own incumbent and unchanged whole-net/feedback phase, followed by one highest-ranked untried singleton/feedback sequence. Completed improvement chooses feedback singles; completed rejection chooses chains then singles; incomplete/cancelled/no-budget probe stops proposal search.",
+    "Same-base sorted route identities deduplicate attempts; changed incumbents may retry. Retained branch/prefix inventory, original Native refill/final/process proof, proposal lineage and current incumbent replay bind the choice.",
+    "Native worker checker corrected to match standard unprefixed Job journals. Shared actual retained accepted/rejected stage replay passes with synthetic in-memory adaptive guard only.",
+    "Four demonstrated regression methods: branch SHA after final inventory; final source/code callback changes invalidate stored and returned receipt; stop refuses suffix trials; duplicate chain continues to distinct charged group.",
+    "Default policies, original rules/protected geometry/whole-project checks, Native final reserve25, finite trial/depth caps, warning quality guardrails and total wall/fullCPU acceptance unchanged."
+  ],
+  "software": {
+    "first_targeted": "62 attempts:60 successes/2 fixture failures; corrected two missing-only pass; launcher001 invalid_request ran no tests. Not a single62-test pass.",
+    "full096": {
+      "attempts": 1430,
+      "successes": 1428,
+      "failures": 2,
+      "reason": "Actual compiled publication closure test namespace lacked new helper; harness fixed with real helper."
+    },
+    "review_before": {
+      "methods": 4,
+      "failures": 5,
+      "wall_seconds": 0.711728582973592
+    },
+    "target_after": {
+      "methods": 71,
+      "passed": true,
+      "wall_seconds": 24.489991458016448,
+      "full_cpu_seconds": 23.761248000000002
+    },
+    "full097": {
+      "methods": 1434,
+      "passed": true,
+      "wall_seconds": 120.04910387497512,
+      "full_cpu_seconds": 111.99650100000001
+    }
+  },
+  "reviews": [
+    {
+      "scope": "Independent read-only draft review; three defects identified and reproduced",
+      "wall_seconds": 143,
+      "full_cpu_seconds": null
+    },
+    {
+      "scope": "Independent read-only minimal fix and retained before/after verification, no remaining blocker in narrow pass",
+      "wall_seconds": 17,
+      "full_cpu_seconds": null
+    }
+  ],
+  "draft_preparation": {
+    "wall_seconds": 957.2,
+    "full_cpu_seconds": null,
+    "scope": "Preserved draft source only; no tests or Native by author"
+  },
+  "material": [
+    {
+      "source": ".runs/adaptive-native-record-interop-before001.json",
+      "file": "evidence/adaptive-first-single-source-001/adaptive-native-record-interop-before001.json",
+      "sha256": "4f03f5549fd14616ffccf82933ff6cdaba7c9ef3d1022ed8fc8d14ddae009180",
+      "bytes": 450
+    },
+    {
+      "source": ".runs/adaptive-native-record-interop-after001.json",
+      "file": "evidence/adaptive-first-single-source-001/adaptive-native-record-interop-after001.json",
+      "sha256": "c53459db613b815de36667ecfd0ef7deacedda8412ffef743369e52c2527ff7f",
+      "bytes": 1847
+    },
+    {
+      "source": ".runs/adaptive-targeted-first-001.log",
+      "file": "evidence/adaptive-first-single-source-001/adaptive-targeted-first-001.log",
+      "sha256": "02a6f04f94807bbcb733a4e617983d6ac8ecf3d80177d5c29bb1abf5890e57b7",
+      "bytes": 12459
+    },
+    {
+      "source": ".runs/adaptive-missing-controls-001/execution.json",
+      "file": "evidence/adaptive-first-single-source-001/adaptive-missing-controls-001--execution.json",
+      "sha256": "d076d99b22d036eb617b8c79eb94248dac84f49fe1463e7e67aeade9d06bb013",
+      "bytes": 7977
+    },
+    {
+      "source": ".runs/adaptive-missing-controls-002/execution.json",
+      "file": "evidence/adaptive-first-single-source-001/adaptive-missing-controls-002--execution.json",
+      "sha256": "b7eb1a439b809bf9e1eab2e1d5228e1e30742ede010430f68a24f0579c166345",
+      "bytes": 8268
+    },
+    {
+      "source": ".runs/adaptive-missing-controls-002/tests.log",
+      "file": "evidence/adaptive-first-single-source-001/adaptive-missing-controls-002--tests.log",
+      "sha256": "61fe44e1226fa8e3b0206f7242aac5075e4b2d1b2204640d6a3a0dc8363d8885",
+      "bytes": 494
+    },
+    {
+      "source": ".runs/adaptive-review-before-001/execution.json",
+      "file": "evidence/adaptive-first-single-source-001/adaptive-review-before-001--execution.json",
+      "sha256": "94ecd93c2e083037205f9119f185ca1e240c82ca54deed2bfa7f7f2a10ddaa84",
+      "bytes": 3494
+    },
+    {
+      "source": ".runs/adaptive-review-before-001/tests.log",
+      "file": "evidence/adaptive-first-single-source-001/adaptive-review-before-001--tests.log",
+      "sha256": "b18ec4e44560a8f9ca0774b84c210c9c8bf39464792c68be108b5c4a4e775746",
+      "bytes": 4394
+    },
+    {
+      "source": ".runs/adaptive-review-after-001/execution.json",
+      "file": "evidence/adaptive-first-single-source-001/adaptive-review-after-001--execution.json",
+      "sha256": "90759fac4e509db53673dbc923b8777d6655e6012df1d3eb0ef1ab1ed2f0f825",
+      "bytes": 2801
+    },
+    {
+      "source": ".runs/adaptive-review-after-001/tests.log",
+      "file": "evidence/adaptive-first-single-source-001/adaptive-review-after-001--tests.log",
+      "sha256": "b45432f894be3f80f9305c89be49254c969924676fb0c632f8b4ec5d1da6f54e",
+      "bytes": 12523
+    },
+    {
+      "source": ".runs/full-integration-096/execution.json",
+      "file": "evidence/adaptive-first-single-source-001/full-integration-096--execution.json",
+      "sha256": "9e285ecbaf50a62d8109246ab78e5d4c87a17600cc2c0fb81fa20f60a257591e",
+      "bytes": 22224
+    },
+    {
+      "source": ".runs/full-integration-096/command.log",
+      "file": "evidence/adaptive-first-single-source-001/full-integration-096--command.log",
+      "sha256": "307ee9bc4708c4c0a5d3eb97fec20c8f4d69fa5dfea177fdbf82cb5324ac8cad",
+      "bytes": 229346
+    },
+    {
+      "source": ".runs/full-integration-097/execution.json",
+      "file": "evidence/adaptive-first-single-source-001/full-integration-097--execution.json",
+      "sha256": "fe743770833b1a6af495802ff390125e1910535e843941d99c70921169b3bd99",
+      "bytes": 22325
+    },
+    {
+      "source": ".runs/full-integration-097/command.log",
+      "file": "evidence/adaptive-first-single-source-001/full-integration-097--command.log",
+      "sha256": "ef129747a15f7df8e165abf0e231d524677fe55c291fd39bbd1c89aaf588ee66",
+      "bytes": 228684
+    },
+    {
+      "source": ".runs/run-full-integration-097.py",
+      "file": "evidence/adaptive-first-single-source-001/run-full-integration-097.py",
+      "sha256": "a8616959e02f0cda3c1e6c0ffd61fe2db995a21193f8fef3b02ce5ca67217eb2",
+      "bytes": 7690
+    },
+    {
+      "source": ".runs/run-adaptive-review-controls-001.py",
+      "file": "evidence/adaptive-first-single-source-001/run-adaptive-review-controls-001.py",
+      "sha256": "25daacd4af3d33012e8c2ba9480046e93cd608e3f78695fede088af32171f5ed",
+      "bytes": 2119
+    }
+  ],
+  "limits": [
+    "Software tests establish controls, not native routing improvement. No adaptive Native candidate or installation037 qualified yet.",
+    "Nine exposed configuration-specific gained circuits remain nine; no independent pedigree/untouched confirmation/representative30-50-family audit/human/electrical/physical claim.",
+    "All failures retained. CPU-unmeasured research/review is visible and outside future prospectively frozen Native operation.",
+    "Full restoration004 remains through0423571; later source/public evidence will be Git-backed and raw artifacts captured at next Native milestone. Raw backups on this Mac only by owner choice."
+  ],
+  "next": "Commit/push/read back reviewed source; execute bounded C-only IR and Arc follow-ups at EXACT old assigned inner allowances and equal delivered caps, preserving all historical controls and complete new Native/source/original evidence."
+}

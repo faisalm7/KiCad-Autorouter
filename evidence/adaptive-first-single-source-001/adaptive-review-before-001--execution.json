@@ -1,0 +1,58 @@
+{
+  "schema": 1,
+  "names": [
+    "tests.test_strategy.StrategyControlFlowTests.test_adaptive_branch_rebinds_after_last_inventory_callback",
+    "tests.test_strategy.StrategyControlFlowTests.test_adaptive_final_source_or_code_callback_invalidates_publication",
+    "tests.test_strategy.StrategyControlFlowTests.test_adaptive_stop_decision_rejects_an_appended_trial",
+    "tests.test_strategy.StrategyControlFlowTests.test_adaptive_duplicate_chain_does_not_skip_later_distinct_group"
+  ],
+  "source_sha256": {
+    "autorouter/strategy.py": "80a2c65820ea51ac908c81701f68367aec6ad49aabe9c96a1320d8236c166bf2",
+    "tests/test_strategy.py": "59dbef2d928240c0656d7a0a558366dc63af951d641c423e4723cff1dcd82b06",
+    "tests/test_pruning_preferences_freshness.py": "617cf7b3d179edba82e02996a8e2675a4f38da535611d76c7b284e9714349497"
+  },
+  "process": {
+    "status": "nonzero_exit",
+    "exit_code": 1,
+    "wall_seconds": 0.5494435839937069,
+    "cpu_seconds": 0.355074,
+    "max_rss_bytes": 43155456,
+    "supervisor_cpu_seconds": 0.005173999999999998,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 43122688,
+    "sampled_peak_workdir_bytes": 4394,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 1048576,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "-c",
+      "import sys,os,unittest;sys.path.insert(0,'/Users/faisal/Projects/KiCad-Autorouter-local');os.chdir('/Users/faisal/Projects/KiCad-Autorouter-local');suite=unittest.defaultTestLoader.loadTestsFromNames(['tests.test_strategy.StrategyControlFlowTests.test_adaptive_branch_rebinds_after_last_inventory_callback', 'tests.test_strategy.StrategyControlFlowTests.test_adaptive_final_source_or_code_callback_invalidates_publication', 'tests.test_strategy.StrategyControlFlowTests.test_adaptive_stop_decision_rejects_an_appended_trial', 'tests.test_strategy.StrategyControlFlowTests.test_adaptive_duplicate_chain_does_not_skip_later_distinct_group']);r=unittest.TextTestRunner(verbosity=2).run(suite);sys.exit(0 if r.wasSuccessful() else 1)"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/adaptive-review-before-001/tests.log",
+    "log_bytes": 4394,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/adaptive-review-before-001",
+    "signal_cancellation_enabled": true,
+    "pid": 93901
+  },
+  "wall_seconds": 0.711728582973592,
+  "full_cpu_seconds": 0.42348600000000003,
+  "controller_sha256": "25daacd4af3d33012e8c2ba9480046e93cd608e3f78695fede088af32171f5ed",
+  "log_sha256": "b18ec4e44560a8f9ca0774b84c210c9c8bf39464792c68be108b5c4a4e775746",
+  "scope": "Authored software mutation/control-flow regressions only; no Native routing evidence."
+}

@@ -1,0 +1,51 @@
+test_adaptive_branch_rebinds_after_last_inventory_callback (tests.test_strategy.StrategyControlFlowTests.test_adaptive_branch_rebinds_after_last_inventory_callback) ... FAIL
+test_adaptive_final_source_or_code_callback_invalidates_publication (tests.test_strategy.StrategyControlFlowTests.test_adaptive_final_source_or_code_callback_invalidates_publication) ... 
+  test_adaptive_final_source_or_code_callback_invalidates_publication (tests.test_strategy.StrategyControlFlowTests.test_adaptive_final_source_or_code_callback_invalidates_publication) (callback='source') ... FAIL
+  test_adaptive_final_source_or_code_callback_invalidates_publication (tests.test_strategy.StrategyControlFlowTests.test_adaptive_final_source_or_code_callback_invalidates_publication) (callback='code') ... FAIL
+test_adaptive_stop_decision_rejects_an_appended_trial (tests.test_strategy.StrategyControlFlowTests.test_adaptive_stop_decision_rejects_an_appended_trial) ... FAIL
+test_adaptive_duplicate_chain_does_not_skip_later_distinct_group (tests.test_strategy.StrategyControlFlowTests.test_adaptive_duplicate_chain_does_not_skip_later_distinct_group) ... FAIL
+
+======================================================================
+FAIL: test_adaptive_branch_rebinds_after_last_inventory_callback (tests.test_strategy.StrategyControlFlowTests.test_adaptive_branch_rebinds_after_last_inventory_callback)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_strategy.py", line 546, in test_adaptive_branch_rebinds_after_last_inventory_callback
+    with patch.object(s,'_chain_context_inventory',side_effect=late),self.assertRaisesRegex(p.Rejected,'adaptive branch'):
+AssertionError: Rejected not raised
+
+======================================================================
+FAIL: test_adaptive_final_source_or_code_callback_invalidates_publication (tests.test_strategy.StrategyControlFlowTests.test_adaptive_final_source_or_code_callback_invalidates_publication) (callback='source')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_strategy.py", line 578, in test_adaptive_final_source_or_code_callback_invalidates_publication
+    self.assertFalse(result['accepted'])
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_adaptive_final_source_or_code_callback_invalidates_publication (tests.test_strategy.StrategyControlFlowTests.test_adaptive_final_source_or_code_callback_invalidates_publication) (callback='code')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_strategy.py", line 578, in test_adaptive_final_source_or_code_callback_invalidates_publication
+    self.assertFalse(result['accepted'])
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_adaptive_stop_decision_rejects_an_appended_trial (tests.test_strategy.StrategyControlFlowTests.test_adaptive_stop_decision_rejects_an_appended_trial)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_strategy.py", line 592, in test_adaptive_stop_decision_rejects_an_appended_trial
+    with patch.object(s,'_adaptive_trial_native',side_effect=self.authored_adaptive_native),self.assertRaisesRegex(p.Rejected,'stop.*trial'):
+AssertionError: Rejected not raised
+
+======================================================================
+FAIL: test_adaptive_duplicate_chain_does_not_skip_later_distinct_group (tests.test_strategy.StrategyControlFlowTests.test_adaptive_duplicate_chain_does_not_skip_later_distinct_group)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_strategy.py", line 612, in test_adaptive_duplicate_chain_does_not_skip_later_distinct_group
+    self.assertEqual(len(chains),1)
+AssertionError: 0 != 1
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.256s
+
+FAILED (failures=5)

@@ -162,7 +162,8 @@ class PruningPreferenceFreshness(unittest.TestCase):
         owner = {}; capture_destination(owner, case.run)
         env = dict(owned_destination=owned_destination, owner=owner, pref=pref, captured=case.captured,
                    report=case.data, output=case.run, source=case.source, p=p, c=c, _check_original=s._check_original,
-                   _chain_context_fresh=s._chain_context_fresh)
+                   _chain_context_fresh=s._chain_context_fresh,
+                   _adaptive_branch_fresh=s._adaptive_branch_fresh)
         exec(compile(ast.fix_missing_locations(ast.Module(body=closures, type_ignores=[])),
                      str(ROOT / 'autorouter/strategy.py'), 'exec'), env)
         # Fixed accounting isolates freshness; the already consistent synthetic

@@ -32,6 +32,7 @@ MAX_TRIALS = 32
 MAX_FEEDBACK_DEPTH = 2
 MAX_FEEDBACK_ADDED_ROUTES = 8
 PRUNING_PREFERENCES_POLICY = "native-pruning-preferences-v1"
+ADAPTIVE_POLICY = "charged-first-single-sequence-v1"
 
 
 class Cancelled(p.Rejected):
@@ -259,25 +260,244 @@ def _chain_context_fresh(directory, data):
         raise p.Rejected('chain context changed')
 
 
+def _adaptive_key(base, proposal):
+    ids = proposal.get('route_ids')
+    if (type(base) is not str or len(base) != 64 or type(ids) is not list or not ids
+            or len(ids) != len(set(ids)) or any(type(value) is not str for value in ids)):
+        raise p.Rejected('malformed adaptive attempt identity')
+    return base, tuple(sorted(ids))
+
+
+def _adaptive_trial_native(directory, data, record):
+    """Check a bound completed retained Native outcome; never run Native here."""
+    from . import floor_route as f
+    from .placement_clearance import read_bytes
+    if (record.get('status') not in {'improvement_validated', 'drc_rejected', 'quality_rejected'}
+            or 'reason' in record or _cancelled(record.get('steps', []))):
+        return False
+    guard = record.get('adaptive_trial_guard', {})
+    numbers = [guard.get('wall_deadline_elapsed_seconds'), guard.get('work_cpu_limit_seconds'),
+               record.get('finished_elapsed_seconds'), record.get('finished_observed_cpu_seconds')]
+    if (any(type(value) not in (int, float) or not math.isfinite(value) or value < 0 for value in numbers)
+            or numbers[2] > numbers[0] or numbers[3] > numbers[1]
+            or numbers[0] > data['budget_seconds'] - NATIVE_FINAL_RESERVE_SECONDS
+            or numbers[1] != data['cpu_budget_seconds'] - NATIVE_FINAL_RESERVE_SECONDS):
+        return False
+    if any(step.get('status') not in {'success', 'nonzero_exit'} for step in record.get('steps', [])):
+        return False
+    folder = Path(directory) / 'trials' / record['id']
+    candidate = folder / 'candidate' / Path(data['source']).name
+    p.verify_candidate_files(candidate, data['source_hashes'], record['candidate_sha256'])
+    before = dict(data['source_hashes']); before[candidate.name] = p.sha(folder / 'pre-refill.kicad_pcb')
+    refill = folder / 'refill' / candidate.name
+    f.check_drc_stage(folder, record, 'refill-drc', refill, refill, True, before, sandboxed=False)
+    rebuilt = p.transplant_fill(sx.read(folder / 'pre-refill.kicad_pcb'), sx.read(refill))
+    if (sx.dump(rebuilt) + '\n').encode() != read_bytes(candidate):
+        raise p.Rejected('adaptive trial differs from saved refill reconstruction')
+    native = f.check_drc_stage(folder, record, 'final-drc', candidate,
+        folder / 'final-drc-input' / candidate.name, False, p.tree_hash(candidate.parent),
+        schematic_parity=candidate.with_suffix('.kicad_sch').name in data['source_hashes'], sandboxed=False)
+    if (p.sha(folder / 'final-drc.json') != record['native_report_sha256']
+            or f.canonical(native) != f.canonical(record['native'])
+            or record.get('accepted') is not (record['status'] == 'improvement_validated')
+            or (record['status'] == 'drc_rejected') == _valid(native)):
+        raise p.Rejected('adaptive Native outcome identity/status differs')
+    if record['status'] != 'drc_rejected':
+        if f.read_json(folder / 'metrics.json') != record.get('metrics'):
+            raise p.Rejected('adaptive metric receipt differs')
+        f.process_check(folder, record, 'metrics', [str(c.PYTHON),
+            str(c.ROOT / 'autorouter/native.py'), 'metrics', str(candidate), str(folder / 'metrics.json')])
+        _quality(record['metrics'])
+    return True
+
+
+def _adaptive_branch_fresh(directory, data):
+    from . import floor_route as f
+    directory = Path(directory); path = directory / 'adaptive-branch.json'
+    if data.get('proposal_policy') != 'adaptive':
+        if 'adaptive_branch' in data or path.exists() or path.is_symlink():
+            raise p.Rejected('adaptive branch on another proposal policy')
+        return None
+    if data.get('adaptive_branch') != {'file':path.name, 'sha256':p.sha(path)}:
+        raise p.Rejected('adaptive branch binding missing or changed')
+    branch = f.read_json(path)
+    material = branch.get('material')
+    if type(material) is not dict or not 1 <= len(material) <= MAX_TRIALS + 1:
+        raise p.Rejected('adaptive prefix material census missing')
+    allowed = {'incumbent'} | {'trials/trial-%04d' % i for i in range(MAX_TRIALS)}
+    if not set(material) <= allowed:
+        raise p.Rejected('adaptive prefix material escaped bounded owned paths')
+    for name, expected in material.items():
+        if _chain_context_inventory(directory / name) != expected:
+            raise p.Rejected('adaptive prefix evidence changed: ' + name)
+    if data.get('adaptive_branch') != {'file':path.name, 'sha256':p.sha(path)}:
+        raise p.Rejected('adaptive branch changed during prefix inventory')
+    return branch
+
+
+def check_adaptive_policy(directory, data):
+    """Pure replay of the charged probe decision; full final Native stays separate."""
+    from . import floor_route as f
+    from .placement_clearance import read_bytes
+    directory = Path(directory); branch = _adaptive_branch_fresh(directory, data)
+    if branch is None: return None
+    keys = {'schema','policy','before_probe_trials','probe_trials','entry_candidate','entry_sha256',
+            'after_candidate','after_sha256','outcome','continuation','reason','probe_remaining_seconds',
+            'chain_remaining_seconds','material'}
+    if set(branch) != keys or branch['schema'] != 1 or branch['policy'] != ADAPTIVE_POLICY:
+        raise p.Rejected('adaptive decision schema differs')
+    rows = data.get('trials'); before = branch['before_probe_trials']; ids = branch['probe_trials']
+    if (type(rows) is not list or len(rows) > MAX_TRIALS or type(before) is not int
+            or not 0 <= before <= len(rows) or type(ids) is not list
+            or len(ids) > 1 + MAX_FEEDBACK_DEPTH
+            or ids != ['trial-%04d' % i for i in range(before, before + len(ids))]
+            or before + len(ids) > len(rows)):
+        raise p.Rejected('adaptive probe sequence census differs')
+    records = []; seen = set()
+    for i, row in enumerate(rows):
+        trial_id = 'trial-%04d' % i; receipt = directory / 'trials' / trial_id / 'result.json'
+        record = f.read_json(receipt)
+        if (type(record.get('accepted')) is not bool
+                or record['accepted'] is not (record['status']=='improvement_validated')):
+            raise p.Rejected('adaptive trial acceptance/status differs')
+        if row != {'id':trial_id,'receipt':str(receipt),'status':record['status'],'accepted':record['accepted']} or record['id'] != trial_id:
+            raise p.Rejected('adaptive trial index differs from retained receipt')
+        key = _adaptive_key(record['base_candidate_sha256'], record['proposal'])
+        if key in seen: raise p.Rejected('duplicate adaptive attempt on the same incumbent')
+        seen.add(key); records.append(record)
+    prefix = before + len(ids)
+    if set(branch['material']) != {'incumbent'} | {'trials/trial-%04d' % i for i in range(prefix)}:
+        raise p.Rejected('adaptive decision omits prefix material')
+    incumbent = f.read_json(directory / 'incumbent/result.json')
+    best = directory / 'incumbent/candidate' / Path(data['source']).name
+    if incumbent.get('candidate') != str(best): raise p.Rejected('adaptive incumbent path differs')
+    p.verify_candidate_files(best, data['source_hashes'], incumbent['candidate_sha256'])
+    best_metrics, best_native = incumbent['metrics'], incumbent['native']
+    original = sx.read(directory / 'snapshot' / best.name)
+    nets = zone_net_ids(original); protected = [r for r in p.routes(original) if p.locked(r)]
+    prior_keys = set(); sequence_complete = True
+    entry_best = None
+    for i, record in enumerate(records[:prefix]):
+        if i == before:
+            entry_best = best
+            if (branch['entry_candidate'] != str(best.relative_to(directory)) or branch['entry_sha256'] != p.sha(best)):
+                raise p.Rejected('adaptive probe entry incumbent differs')
+            ranked = [proposal for proposal in proposals(sx.read(best), nets, protected, False)
+                      if _adaptive_key(p.sha(best), proposal) not in prior_keys]
+            if not ranked or record['proposal'] != ranked[0]:
+                raise p.Rejected('adaptive probe was not the highest ranked untried singleton')
+        proposal = record['proposal']
+        if record['base_candidate_sha256'] != p.sha(best):
+            raise p.Rejected('adaptive trial does not use the current incumbent')
+        if i < before and not (proposal['kind'] == 'whole_zone_net' or proposal.get('root_kind') == 'whole_zone_net'):
+            raise p.Rejected('adaptive probe did not immediately follow the whole-net phase')
+        if i > before:
+            parent = records[i-1]; failed = directory / 'trials' / parent['id'] / 'candidate' / best.name
+            decision = feedback_proposal(sx.read(failed), parent['proposal'], parent['native'], best_native, nets, protected)
+            decision.update(parent_trial=parent['id'], failed_candidate_sha256=parent['candidate_sha256'],
+                            native_report_sha256=parent['native_report_sha256'], base_candidate_sha256=parent['base_candidate_sha256'])
+            if decision['proposed']: decision['proposal']['parent_trial'] = parent['id']
+            retained = f.read_json(directory / 'trials' / parent['id'] / 'feedback-decision.json')
+            if (parent['status'] != 'quality_rejected' or not decision['proposed'] or retained != decision
+                    or proposal != decision['proposal']): raise p.Rejected('adaptive feedback lineage differs')
+        complete = _adaptive_trial_native(directory, data, record)
+        if complete:
+            preimage = directory / 'trials' / record['id'] / 'pre-refill.kicad_pcb'
+            expected = delete_routes(sx.read(best), proposal['route_ids'], nets, protected)
+            if (sx.dump(expected) + '\n').encode() != read_bytes(preimage):
+                raise p.Rejected('adaptive trial deletion differs from its bound incumbent')
+        if complete and record['status']=='quality_rejected' and _improves(record['metrics'],best_metrics,record['native'],best_native):
+            raise p.Rejected('adaptive quality rejection hides an improving trial')
+        if i >= before: sequence_complete = sequence_complete and complete
+        if record['accepted']:
+            if not complete or not _improves(record['metrics'], best_metrics, record['native'], best_native):
+                raise p.Rejected('adaptive accepted trial does not improve its incumbent')
+            best = directory / 'trials' / record['id'] / 'candidate' / best.name
+            best_metrics, best_native = record['metrics'], record['native']
+        prior_keys.add(_adaptive_key(record['base_candidate_sha256'], proposal))
+    if entry_best is None:
+        entry_best = best
+        if branch['entry_candidate'] != str(best.relative_to(directory)) or branch['entry_sha256'] != p.sha(best):
+            raise p.Rejected('adaptive no-probe entry differs')
+    if branch['after_candidate'] != str(best.relative_to(directory)) or branch['after_sha256'] != p.sha(best):
+        raise p.Rejected('adaptive sequence result incumbent differs')
+    if not ids:
+        reason = branch['reason']; remaining = branch['probe_remaining_seconds']
+        ranked = [proposal for proposal in proposals(sx.read(best), nets, protected, False)
+                  if _adaptive_key(p.sha(best), proposal) not in prior_keys]
+        if reason == 'no_untried_singleton':
+            if ranked: raise p.Rejected('adaptive no-probe claim hides an available singleton')
+        elif reason == 'insufficient_work_budget':
+            if type(remaining) not in (int,float) or not math.isfinite(remaining) or not 0 <= remaining < MIN_TRIAL_SECONDS:
+                raise p.Rejected('adaptive no-budget skip is not bound')
+        elif reason == 'preparation_exhausted':
+            if not (type(remaining) in (int,float) and math.isfinite(remaining) and 0 <= remaining < MIN_TRIAL_SECONDS) and not (before and records[before-1].get('reason','').endswith('insufficient trial budget after preparation')):
+                raise p.Rejected('adaptive preparation skip lacks a retained exhausted attempt')
+        elif reason == 'trial_cap':
+            if before != MAX_TRIALS: raise p.Rejected('adaptive trial-cap skip differs')
+        else: raise p.Rejected('unknown adaptive no-probe reason')
+        outcome, continuation = 'no_probe', 'stop'
+    else:
+        last = records[prefix-1]
+        if last['status'] == 'quality_rejected' and last['proposal'].get('feedback_depth',0) < MAX_FEEDBACK_DEPTH:
+            decision_path = directory / 'trials' / last['id'] / 'feedback-decision.json'
+            decision = f.read_json(decision_path)
+            expected = feedback_proposal(sx.read(decision_path.parent / 'candidate' / best.name), last['proposal'], last['native'], best_native, nets, protected)
+            expected.update(parent_trial=last['id'],failed_candidate_sha256=last['candidate_sha256'],native_report_sha256=last['native_report_sha256'],base_candidate_sha256=last['base_candidate_sha256'])
+            if expected['proposed']: expected['proposal']['parent_trial']=last['id']
+            if decision != expected: raise p.Rejected('adaptive terminal feedback decision differs')
+            if decision['proposed']: sequence_complete = False
+        if not sequence_complete: outcome, continuation = 'incomplete', 'stop'
+        elif p.sha(best) != branch['entry_sha256']: outcome, continuation = 'improved', 'feedback_singles'
+        elif last['status'] in {'drc_rejected','quality_rejected'}: outcome, continuation = 'completed_rejection', 'chains_then_singles'
+        else: raise p.Rejected('adaptive terminal status is inconsistent')
+    reasons={'improved':{'completed_sequence_improved'},
+             'completed_rejection':{'completed_native_sequence_rejected'},
+             'incomplete':{'incomplete_native_sequence','insufficient_work_budget','preparation_exhausted','trial_cap','duplicate_attempt'}}
+    if outcome in reasons and branch['reason'] not in reasons[outcome]:
+        raise p.Rejected('adaptive branch reason differs from its outcome')
+    if (branch['outcome'],branch['continuation']) != (outcome,continuation):
+        raise p.Rejected('adaptive branch classification differs from the completed sequence')
+    if continuation == 'stop' and len(records) != prefix:
+        raise p.Rejected('adaptive stop decision has subsequent trials')
+    remaining = branch['chain_remaining_seconds']
+    if continuation == 'chains_then_singles':
+        if type(remaining) not in (int,float) or not math.isfinite(remaining) or remaining < 0:
+            raise p.Rejected('adaptive chain allocation sample missing')
+    elif remaining is not None: raise p.Rejected('adaptive non-chain branch claims a chain allocation')
+    _adaptive_branch_fresh(directory, data)
+    return branch
+
+
 def check_chain_context(directory, data):
     """Shared receipt readback for the optional geometry-backed proposal batch."""
     from . import floor_route as f, chain_proposals as cp
     directory=Path(directory)
+    adaptive=check_adaptive_policy(directory,data)
     _chain_context_fresh(directory,data)
     record=data.get('chain_pad_context')
     if record is None:
+        if adaptive is not None:
+            chosen=adaptive['continuation']=='chains_then_singles'
+            skip=('insufficient remaining work budget' if chosen else 'adaptive '+adaptive['outcome'])
+            if (data.get('chain_context_skipped')!=skip or chosen and adaptive['chain_remaining_seconds']>=MIN_TRIAL_SECONDS
+                    or any(f.read_json(Path(row['receipt']))['proposal']['kind']=='endpoint_chain' for row in data['trials'])):
+                raise p.Rejected('adaptive chain context missing without a bound branch skip')
         if data.get('proposal_policy')=='chains' and data.get('chain_context_skipped') not in {
                 'insufficient remaining work budget','no grouped zone routing opportunity'}:
             raise p.Rejected('chain context missing without declared skip')
         if data.get('chain_proposal_batches'):raise p.Rejected('chain batches have no bound context')
         return
-    if data.get('proposal_policy')!='chains':raise p.Rejected('chain context on another proposal policy')
+    if data.get('proposal_policy')!='chains' and (adaptive is None or adaptive['continuation']!='chains_then_singles'):
+        raise p.Rejected('chain context on another proposal policy')
     folder=directory/'chain-context';context_path=folder/'floor-final-context.json'
     context=f.read_json(context_path);local=folder/'candidate'/Path(data['source']).name
     f.context_binding(context,local,p.tree_hash(local.parent),'final')
     f.process_check(folder,data,'floor-final',f.context_argv('final',local,context_path))
     tree=sx.read(local)
     batch=cp.build(tree,zone_net_ids(tree),[r for r in p.routes(tree) if p.locked(r)],native_pads=context['pads'])
+    if adaptive is not None and p.sha(local)!=adaptive['after_sha256']:
+        raise p.Rejected('adaptive chain context differs from the probe result incumbent')
     expected=dict(batch,base_candidate_sha256=p.sha(local))
     if data.get('chain_proposal_batches')!=[expected]:raise p.Rejected('chain context proposal replay differs')
     _chain_context_fresh(directory,data)
@@ -407,7 +627,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
     preference_bytes = pref.snapshot(captured, overrides)
     pref.check_fresh(captured)
     p.engine_scoring_settings(incumbent_scoring)
-    if not isinstance(proposal_policy, str) or proposal_policy not in {"single", "feedback", "chains"}:
+    if not isinstance(proposal_policy, str) or proposal_policy not in {"single", "feedback", "chains", "adaptive"}:
         raise p.Rejected("unknown pruning proposal policy")
     if isinstance(seconds, bool) or not isinstance(seconds, (int, float)) or not math.isfinite(seconds) or not 30 <= seconds <= 900:
         raise p.Rejected("pruning budget must be 30–900 seconds")
@@ -527,10 +747,19 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
         checkpoint("incumbent_validated", best, best_metrics)
 
         preparation_exhausted = False
+        adaptive_seen = set()
+        last_attempt_skip = None
 
         def attempt(proposal):
-            nonlocal best, best_metrics, best_native, preparation_exhausted
+            nonlocal best, best_metrics, best_native, preparation_exhausted, last_attempt_skip
+            last_attempt_skip = None
             if preparation_exhausted or len(report["trials"]) >= MAX_TRIALS or remaining_work_budget() < MIN_TRIAL_SECONDS:
+                last_attempt_skip = ('trial_cap' if len(report['trials']) >= MAX_TRIALS else
+                    'preparation_exhausted' if preparation_exhausted else 'insufficient_work_budget')
+                return False
+            key = _adaptive_key(p.sha(best), proposal) if proposal_policy == 'adaptive' else None
+            if key is not None and key in adaptive_seen:
+                last_attempt_skip = 'duplicate_attempt'
                 return False
             original_fresh(source, snapshot, source_hashes)
             p.check_storage()
@@ -538,7 +767,9 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
             allowance = min(MAX_TRIAL_SECONDS, remaining_work_budget())
             if allowance < MIN_TRIAL_SECONDS:
                 preparation_exhausted = True
+                last_attempt_skip = 'insufficient_work_budget'
                 return False
+            if key is not None: adaptive_seen.add(key)
             trial_id = f"trial-{len(report['trials']):04d}"
             trial_job = p.Job(output / "trials" / trial_id,
                               allowance, protect_local_settings=True)
@@ -547,6 +778,9 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
             record = {"id": trial_id, "proposal": proposal, "status": "rejected", "accepted": False,
                       "started_elapsed_seconds": time.monotonic() - started,
                       "base_candidate_sha256": p.sha(best)}
+            if proposal_policy == "adaptive":
+                record["adaptive_trial_guard"] = {"wall_deadline_elapsed_seconds":min(seconds-NATIVE_FINAL_RESERVE_SECONDS,trial_job.deadline-started),
+                    "work_cpu_limit_seconds":seconds-NATIVE_FINAL_RESERVE_SECONDS}
             try:
                 shutil.copytree(best.parent, candidate.parent)
                 sx.write(candidate, delete_routes(sx.read(candidate), proposal["route_ids"], nets, protected))
@@ -593,72 +827,190 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
                        {"trial": trial_id, "trial_status": record["status"]})
             return record
 
-        for grouped in ((True, "chains", False) if proposal_policy == "chains" else (True, False)):
-            if grouped == "chains":
-                from .chain_proposals import build
-                from .placement_clearance import read_bytes
-                if remaining_work_budget() < MIN_TRIAL_SECONDS:
-                    report['chain_context_skipped']='insufficient remaining work budget'
-                    continue
-                context_job = p.Job(output / 'chain-context', min(8.0, remaining_work_budget()), protect_local_settings=True)
-                try:
-                    context, context_pin = _chain_context(context_job, best)
-                finally:
-                    all_steps.extend(_steps(context_job, 'chain-context'))
-                context_path = context_job.out / 'floor-final-context.json'
-                report['chain_pad_context']={'file':str(context_path.relative_to(output)), 'sha256':context_pin,
-                                             'inventory':_chain_context_inventory(context_job.out)}
-                raw = read_bytes(best)
-                base_pin = hashlib.sha256(raw).hexdigest()
-                if context['input_hashes_before'] != p.tree_hash(best.parent):
-                    raise p.Rejected('chain native pad context differs from incumbent')
-                batch = build(sx.parse(raw.decode('utf-8')), nets, protected, native_pads=context['pads'])
-                _chain_context_fresh(output, report)
-                if p.sha(best) != base_pin:
-                    raise p.Rejected("incumbent changed during chain proposal generation")
-                report.setdefault("chain_proposal_batches", []).append(dict(batch, base_candidate_sha256=base_pin))
-                pending = batch["proposals"]
-            else:
-                pending = proposals(sx.read(best), nets, protected, grouped)
-            for proposal in pending:
-                # A previous whole-net success may already have removed a route.
-                available = {route_id(route) for route in eligible_routes(sx.read(best), nets, protected)}
-                if not set(proposal["route_ids"]) <= available:
-                    continue
-                record = attempt(proposal)
-                if not record:
+        def adaptive_sequence(record):
+            complete = record is not False
+            for _ in range(MAX_FEEDBACK_DEPTH):
+                if not record or record["status"] != "quality_rejected":
                     break
-                if proposal_policy in {"feedback", "chains"}:
-                    # A failed native-valid singleton may leave redundant stubs.
-                    # Every cleanup is another charged, fully validated attempt.
-                    # Never use feedback from a stale board or altered report.
-                    for _ in range(MAX_FEEDBACK_DEPTH):
-                        if record["status"] != "quality_rejected":
-                            break
-                        failed_dir = output / "trials" / record["id"]
-                        failed = failed_dir / "candidate" / source.name
-                        original_fresh(source, snapshot, source_hashes)
-                        p.verify_candidate_files(best, source_hashes, record["base_candidate_sha256"])
-                        p.verify_candidate_files(failed, source_hashes, record["candidate_sha256"])
-                        if p.sha(failed_dir / "final-drc.json") != record["native_report_sha256"]:
-                            raise p.Rejected("native report changed before feedback proposal")
-                        failed_tree = sx.read(failed)
-                        decision = feedback_proposal(failed_tree, record["proposal"], record["native"],
-                                                     best_native, nets, protected)
-                        p.verify_candidate_files(failed, source_hashes, record["candidate_sha256"])
-                        decision["parent_trial"] = record["id"]
-                        decision["failed_candidate_sha256"] = record["candidate_sha256"]
-                        decision["native_report_sha256"] = record["native_report_sha256"]
-                        decision["base_candidate_sha256"] = record["base_candidate_sha256"]
-                        if decision["proposed"]:
-                            decision["proposal"]["parent_trial"] = record["id"]
-                        p.save_json(failed_dir / "feedback-decision.json", decision)
-                        if not decision["proposed"]:
-                            break
-                        p.verify_candidate_files(best, source_hashes, record["base_candidate_sha256"])
-                        record = attempt(decision["proposal"])
-                        if not record:
-                            break
+                failed_dir = output / "trials" / record["id"]
+                failed = failed_dir / "candidate" / source.name
+                original_fresh(source, snapshot, source_hashes)
+                p.verify_candidate_files(best, source_hashes, record["base_candidate_sha256"])
+                p.verify_candidate_files(failed, source_hashes, record["candidate_sha256"])
+                if p.sha(failed_dir / "final-drc.json") != record["native_report_sha256"]:
+                    raise p.Rejected("native report changed before feedback proposal")
+                failed_tree = sx.read(failed)
+                decision = feedback_proposal(failed_tree, record["proposal"], record["native"],
+                                             best_native, nets, protected)
+                p.verify_candidate_files(failed, source_hashes, record["candidate_sha256"])
+                decision["parent_trial"] = record["id"]
+                decision["failed_candidate_sha256"] = record["candidate_sha256"]
+                decision["native_report_sha256"] = record["native_report_sha256"]
+                decision["base_candidate_sha256"] = record["base_candidate_sha256"]
+                if decision["proposed"]:
+                    decision["proposal"]["parent_trial"] = record["id"]
+                p.save_json(failed_dir / "feedback-decision.json", decision)
+                if not decision["proposed"]:
+                    break
+                p.verify_candidate_files(best, source_hashes, record["base_candidate_sha256"])
+                next_record = attempt(decision["proposal"])
+                if not next_record:
+                    complete = False
+                    break
+                record = next_record
+            return record, complete
+
+        def adaptive_chains():
+            from .chain_proposals import build
+            from .placement_clearance import read_bytes
+            decision['chain_remaining_seconds'] = remaining_work_budget()
+            if decision['chain_remaining_seconds'] < MIN_TRIAL_SECONDS:
+                report['chain_context_skipped']='insufficient remaining work budget'
+                return []
+            context_job = p.Job(output / 'chain-context', min(8.0, remaining_work_budget()), protect_local_settings=True)
+            try:
+                context, context_pin = _chain_context(context_job, best)
+            finally:
+                all_steps.extend(_steps(context_job, 'chain-context'))
+            context_path = context_job.out / 'floor-final-context.json'
+            report['chain_pad_context']={'file':str(context_path.relative_to(output)), 'sha256':context_pin,
+                                         'inventory':_chain_context_inventory(context_job.out)}
+            raw = read_bytes(best)
+            base_pin = hashlib.sha256(raw).hexdigest()
+            if context['input_hashes_before'] != p.tree_hash(best.parent):
+                raise p.Rejected('chain native pad context differs from incumbent')
+            batch = build(sx.parse(raw.decode('utf-8')), nets, protected, native_pads=context['pads'])
+            _chain_context_fresh(output, report)
+            if p.sha(best) != base_pin:
+                raise p.Rejected("incumbent changed during chain proposal generation")
+            report.setdefault("chain_proposal_batches", []).append(dict(batch, base_candidate_sha256=base_pin))
+            pending = batch["proposals"]
+            return pending
+
+
+        if proposal_policy == 'adaptive':
+            # Whole-net work and each feedback cleanup remain fully charged.
+            for proposal in proposals(sx.read(best), nets, protected, True):
+                record = attempt(proposal)
+                if not record: break
+                adaptive_sequence(record)
+            before_probe = len(report['trials']); entry = best
+            decision = dict(schema=1,policy=ADAPTIVE_POLICY,before_probe_trials=before_probe,
+                probe_trials=[],entry_candidate=str(entry.relative_to(output)),entry_sha256=p.sha(entry),
+                after_candidate=str(entry.relative_to(output)),after_sha256=p.sha(entry),
+                outcome='no_probe',continuation='stop',reason='no_untried_singleton',
+                probe_remaining_seconds=remaining_work_budget(),chain_remaining_seconds=None)
+            ranked = [proposal for proposal in proposals(sx.read(best), nets, protected, False)
+                      if _adaptive_key(p.sha(best),proposal) not in adaptive_seen]
+            if ranked:
+                record = attempt(ranked[0])
+                if record:
+                    terminal, sequence_finished = adaptive_sequence(record)
+                    decision['probe_trials']=[row['id'] for row in report['trials'][before_probe:]]
+                    sequence=[json.loads(Path(row['receipt']).read_text()) for row in report['trials'][before_probe:]]
+                    completed=sequence_finished and all(_adaptive_trial_native(output,report,row) for row in sequence)
+                    if not completed:
+                        decision.update(outcome='incomplete',reason=last_attempt_skip or 'incomplete_native_sequence')
+                    elif p.sha(best)!=decision['entry_sha256']:
+                        decision.update(outcome='improved',continuation='feedback_singles',reason='completed_sequence_improved')
+                    elif terminal['status'] in {'drc_rejected','quality_rejected'}:
+                        decision.update(outcome='completed_rejection',continuation='chains_then_singles',reason='completed_native_sequence_rejected')
+                    else: raise p.Rejected('unclassified adaptive probe result')
+                else:
+                    decision.update(reason=last_attempt_skip,probe_remaining_seconds=remaining_work_budget())
+            decision.update(after_candidate=str(best.relative_to(output)),after_sha256=p.sha(best))
+            if decision['continuation']=='chains_then_singles':
+                for proposal in adaptive_chains():
+                    available={route_id(route) for route in eligible_routes(sx.read(best),nets,protected)}
+                    if not set(proposal['route_ids'])<=available: continue
+                    record=attempt(proposal)
+                    if not record:
+                        if last_attempt_skip == 'duplicate_attempt': continue
+                        break
+                    adaptive_sequence(record)
+            else: report['chain_context_skipped']='adaptive '+decision['outcome']
+            if decision['continuation'] in {'feedback_singles','chains_then_singles'}:
+                while True:
+                    # Rerank from each genuinely current incumbent. A failed
+                    # deletion may retry only after its base candidate changes.
+                    pending=[proposal for proposal in proposals(sx.read(best),nets,protected,False)
+                             if _adaptive_key(p.sha(best),proposal) not in adaptive_seen]
+                    if not pending: break
+                    record=attempt(pending[0])
+                    if not record: break
+                    adaptive_sequence(record)
+            prefix=before_probe+len(decision['probe_trials'])
+            decision['material']={name:_chain_context_inventory(output/name) for name in
+                ['incumbent',*('trials/trial-%04d'%i for i in range(prefix))]}
+            p.save_json(output/'adaptive-branch.json',decision)
+            report['adaptive_branch']={'file':'adaptive-branch.json','sha256':p.sha(output/'adaptive-branch.json')}
+        else:
+            for grouped in ((True, "chains", False) if proposal_policy == "chains" else (True, False)):
+                if grouped == "chains":
+                    from .chain_proposals import build
+                    from .placement_clearance import read_bytes
+                    if remaining_work_budget() < MIN_TRIAL_SECONDS:
+                        report['chain_context_skipped']='insufficient remaining work budget'
+                        continue
+                    context_job = p.Job(output / 'chain-context', min(8.0, remaining_work_budget()), protect_local_settings=True)
+                    try:
+                        context, context_pin = _chain_context(context_job, best)
+                    finally:
+                        all_steps.extend(_steps(context_job, 'chain-context'))
+                    context_path = context_job.out / 'floor-final-context.json'
+                    report['chain_pad_context']={'file':str(context_path.relative_to(output)), 'sha256':context_pin,
+                                                 'inventory':_chain_context_inventory(context_job.out)}
+                    raw = read_bytes(best)
+                    base_pin = hashlib.sha256(raw).hexdigest()
+                    if context['input_hashes_before'] != p.tree_hash(best.parent):
+                        raise p.Rejected('chain native pad context differs from incumbent')
+                    batch = build(sx.parse(raw.decode('utf-8')), nets, protected, native_pads=context['pads'])
+                    _chain_context_fresh(output, report)
+                    if p.sha(best) != base_pin:
+                        raise p.Rejected("incumbent changed during chain proposal generation")
+                    report.setdefault("chain_proposal_batches", []).append(dict(batch, base_candidate_sha256=base_pin))
+                    pending = batch["proposals"]
+                else:
+                    pending = proposals(sx.read(best), nets, protected, grouped)
+                for proposal in pending:
+                    # A previous whole-net success may already have removed a route.
+                    available = {route_id(route) for route in eligible_routes(sx.read(best), nets, protected)}
+                    if not set(proposal["route_ids"]) <= available:
+                        continue
+                    record = attempt(proposal)
+                    if not record:
+                        break
+                    if proposal_policy in {"feedback", "chains"}:
+                        # A failed native-valid singleton may leave redundant stubs.
+                        # Every cleanup is another charged, fully validated attempt.
+                        # Never use feedback from a stale board or altered report.
+                        for _ in range(MAX_FEEDBACK_DEPTH):
+                            if record["status"] != "quality_rejected":
+                                break
+                            failed_dir = output / "trials" / record["id"]
+                            failed = failed_dir / "candidate" / source.name
+                            original_fresh(source, snapshot, source_hashes)
+                            p.verify_candidate_files(best, source_hashes, record["base_candidate_sha256"])
+                            p.verify_candidate_files(failed, source_hashes, record["candidate_sha256"])
+                            if p.sha(failed_dir / "final-drc.json") != record["native_report_sha256"]:
+                                raise p.Rejected("native report changed before feedback proposal")
+                            failed_tree = sx.read(failed)
+                            decision = feedback_proposal(failed_tree, record["proposal"], record["native"],
+                                                         best_native, nets, protected)
+                            p.verify_candidate_files(failed, source_hashes, record["candidate_sha256"])
+                            decision["parent_trial"] = record["id"]
+                            decision["failed_candidate_sha256"] = record["candidate_sha256"]
+                            decision["native_report_sha256"] = record["native_report_sha256"]
+                            decision["base_candidate_sha256"] = record["base_candidate_sha256"]
+                            if decision["proposed"]:
+                                decision["proposal"]["parent_trial"] = record["id"]
+                            p.save_json(failed_dir / "feedback-decision.json", decision)
+                            if not decision["proposed"]:
+                                break
+                            p.verify_candidate_files(best, source_hashes, record["base_candidate_sha256"])
+                            record = attempt(decision["proposal"])
+                            if not record:
+                                break
 
         original_fresh(source, snapshot, source_hashes)
         report["best_observed_metrics"] = best_metrics
@@ -716,12 +1068,14 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
     def stable():
         owned_destination(owner)
         pref.check_fresh(captured)
-        if report.get('accepted'):_chain_context_fresh(output,report)
         if report.get('source_hashes') and (output/'snapshot').is_dir():
             original_fresh(source, output/'snapshot', report['source_hashes'])
         for relative, digest in report.get('tools', {}).get('implementation_sha256', {}).items():
             if p.sha(c.ROOT/relative) != digest:
                 raise p.Rejected('implementation changed during pruning publication')
+        if report.get('accepted'):
+            _chain_context_fresh(output,report)
+            _adaptive_branch_fresh(output,report)
 
     from .floor_route import publish
     publish(output, report, stable, account,

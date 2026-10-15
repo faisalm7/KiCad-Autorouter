@@ -123,6 +123,8 @@ class StrategyControlFlowTests(unittest.TestCase):
         self.feedback_scenario = False
         self.tamper_feedback_report = False
         self.tamper_feedback_base = False
+        self.adaptive_probe_event = None
+        self.publication_tools = {}
 
     def exercise(self, proposal_policy="single"):
         owner = self
@@ -194,6 +196,13 @@ class StrategyControlFlowTests(unittest.TestCase):
             owner.clock += 1
             eligible = s.eligible_routes(sx.read(candidate), {"1"}, protected)
             report_path = job.out / "final-drc.json"
+            if proposal_policy == "adaptive":
+                (job.out / "pre-refill.kicad_pcb").write_bytes(candidate.read_bytes())
+                event = owner.adaptive_probe_event if job.out.name == "trial-0001" else None
+                if event in {"exception", "timeout", "crash", "cancel"}:
+                    if event != "exception":
+                        job.steps.append({"name":"authored_probe_failure", "status":{"timeout":"timeout","crash":"signal","cancel":"cancelled"}[event], "cpu_seconds":0})
+                    raise p.Rejected("authored incomplete probe: " + event)
             raw = native_report(candidate.name, opens=0 if eligible else 1)
             if owner.feedback_scenario:
                 names = {sx.unquote(sx.one(route, "uuid")[1]) for route in eligible}
@@ -201,6 +210,8 @@ class StrategyControlFlowTests(unittest.TestCase):
                 if "tool-long" not in names and "tool-short" in names:
                     raw["violations"] = [{"type": "track_dangling", "severity": "warning",
                                            "items": [{"uuid": "tool-short"}]}]
+            if proposal_policy == "adaptive" and job.out.name == "trial-0001" and owner.adaptive_probe_event == "drc":
+                raw = native_report(candidate.name, opens=1)
             report_path.write_text(json.dumps(raw))
             job.steps.append({"name": "full_validation_substitute", "status": "success", "cpu_seconds": owner.validation_cpu, "monitor_cpu_seconds": 0.1, "max_rss_bytes": 234})
             return p.sha(candidate), p.parse_report(report_path, candidate.name)
@@ -212,7 +223,7 @@ class StrategyControlFlowTests(unittest.TestCase):
             job.steps.append({'name': 'geometry_substitute', 'status': 'success', 'cpu_seconds': 0.1, 'monitor_cpu_seconds': 0, 'max_rss_bytes': 123})
             return context, p.sha(job.out / 'floor-final-context.json')
 
-        with patch.object(s, '_chain_context', side_effect=geometry), patch.object(s.time, "monotonic", lambda: owner.clock), patch.object(s.time, "process_time", lambda: owner.process_cpu), patch.object(p, "Job", ControlledJob), patch.object(p, "route", baseline), patch.object(p, "validate_candidate", validate), patch.object(p, "tool_manifest", lambda: {"implementation_sha256": {}}), patch.object(p, "check_storage", storage), patch.object(shutil, "copytree", copytree), patch.object(p, "save_json", save), patch.object(p, "check_result", return_value={"current": True}):
+        with patch.object(s, '_adaptive_trial_native', side_effect=owner.authored_adaptive_native), patch.object(s, '_chain_context', side_effect=geometry), patch.object(s.time, "monotonic", lambda: owner.clock), patch.object(s.time, "process_time", lambda: owner.process_cpu), patch.object(p, "Job", ControlledJob), patch.object(p, "route", baseline), patch.object(p, "validate_candidate", validate), patch.object(p, "tool_manifest", lambda: {"implementation_sha256": owner.publication_tools}), patch.object(p, "check_storage", storage), patch.object(shutil, "copytree", copytree), patch.object(p, "save_json", save), patch.object(p, "check_result", return_value={"current": True}):
             return s.prune(self.source, self.output, 120, proposal_policy=proposal_policy)
 
     def test_trial_storage_cost_is_rechecked_before_creating_job(self):
@@ -473,6 +484,298 @@ class StrategyControlFlowTests(unittest.TestCase):
             result = self.exercise('chains')
         self.assertFalse(result['accepted'])
         self.assertIn('chain context', result['reason'])
+
+
+    def authored_adaptive_native(self, directory, data, record):
+        # Explicit process-proof substitute for control-flow cases only. Real
+        # refill/final/metrics/process proofs require separate Native controls.
+        if record.get('status') not in {'improvement_validated','drc_rejected','quality_rejected'} or 'reason' in record:
+            return False
+        guard=record.get('adaptive_trial_guard',{})
+        if (record['finished_elapsed_seconds']>guard['wall_deadline_elapsed_seconds']
+                or record['finished_observed_cpu_seconds']>guard['work_cpu_limit_seconds']): return False
+        folder=Path(directory)/'trials'/record['id']
+        self.assertEqual(p.sha(folder/'final-drc.json'),record['native_report_sha256'])
+        self.assertEqual(p.parse_report(folder/'final-drc.json',Path(data['source']).name),record['native'])
+        return True
+
+    def adaptive_decision(self, result):
+        from autorouter import floor_route as f
+        with patch.object(s,'_adaptive_trial_native',side_effect=self.authored_adaptive_native):
+            checked=s.check_adaptive_policy(self.output,result)
+        self.assertEqual(checked,f.read_json(self.output/'adaptive-branch.json'))
+        return checked
+
+    def adaptive_chain_failure(self, *, extra_group_terminal=False):
+        self.adaptive_probe_event='drc'
+        self.source.write_text(self.source.read_text().replace('(net 1 "ordinary_signal")','(net 0 "") (net 1 "ordinary_signal")'))
+        real=candidate_tree
+        def separated(original):
+            candidate=real(original)
+            for route in p.routes(candidate):
+                if sx.one(route,'net')[1]=='2':
+                    for name in ('start','end'):
+                        point=sx.one(route,name);point[2]=str(float(point[2])+10)
+            if extra_group_terminal:
+                # Keep the endpoint group distinct from the already attempted
+                # whole-net deletion, which the adaptive deduplicator skips.
+                candidate.append(sx.parse('(segment (start 32 22) (end 33 22) (net 1) (width 0.3) (layer "F.Cu") (uuid "separate-singleton"))'))
+            return candidate
+        with patch(__name__+'.candidate_tree',side_effect=separated):
+            return self.exercise('adaptive')
+
+    def test_adaptive_successful_first_single_skips_chains_and_keeps_final_checks(self):
+        result=self.exercise('adaptive');decision=self.adaptive_decision(result)
+        self.assertTrue(result['accepted'],result)
+        self.assertEqual((decision['outcome'],decision['continuation']),('improved','feedback_singles'))
+        self.assertEqual(decision['probe_trials'],['trial-0001'])
+        self.assertNotIn('chain_pad_context',result)
+        self.assertEqual(result['chain_context_skipped'],'adaptive improved')
+        self.assertEqual(result['finalization_reserve_seconds'],25.)
+        self.assertEqual(result['metrics']['track_length_mm'],8.)
+
+    def test_adaptive_branch_rebinds_after_last_inventory_callback(self):
+        result=self.exercise('adaptive');branch=self.adaptive_decision(result)
+        path=self.output/'adaptive-branch.json';last=self.output/list(branch['material'])[-1]
+        inventory=s._chain_context_inventory;triggered=[]
+        def late(folder):
+            value=inventory(folder)
+            if Path(folder)==last and not triggered:
+                triggered.append(True);path.write_bytes(path.read_bytes()+b' ')
+            return value
+        with patch.object(s,'_chain_context_inventory',side_effect=late),self.assertRaisesRegex(p.Rejected,'adaptive branch'):
+            s._adaptive_branch_fresh(self.output,result)
+        self.assertTrue(triggered)
+
+    def test_adaptive_final_source_or_code_callback_invalidates_publication(self):
+        from autorouter import floor_route as f
+        publish=f.publish;tree_hash=p.tree_hash;sha=p.sha
+        for callback in ('source','code'):
+            with self.subTest(callback=callback):
+                self.output=self.root/('late-'+callback);self.clock=1000.;self.process_cpu=0
+                code=ROOT/'autorouter/strategy.py'
+                self.publication_tools={'autorouter/strategy.py':sha(code)}
+                calls=[];triggered=[]
+                def mutate():
+                    if len(calls)==3 and not triggered:
+                        triggered.append(True);path=self.output/'adaptive-branch.json'
+                        path.write_bytes(path.read_bytes()+b' ')
+                def late_tree(folder):
+                    value=tree_hash(folder)
+                    if callback=='source' and Path(folder)==self.source.parent:mutate()
+                    return value
+                def late_sha(path):
+                    value=sha(path)
+                    if callback=='code' and Path(path)==code:mutate()
+                    return value
+                def guarded(output,report,stable,*args,**kwargs):
+                    def observed():
+                        calls.append(True);stable()
+                    return publish(output,report,observed,*args,**kwargs)
+                with patch.object(f,'publish',side_effect=guarded),patch.object(p,'tree_hash',side_effect=late_tree),patch.object(p,'sha',side_effect=late_sha):
+                    result=self.exercise('adaptive')
+                self.assertTrue(triggered)
+                self.assertFalse(result['accepted'])
+                self.assertFalse(json.loads((self.output/'result.json').read_text())['accepted'])
+                self.assertEqual(result['status'],'invalidated')
+
+    def test_adaptive_stop_decision_rejects_an_appended_trial(self):
+        self.adaptive_probe_event='exception'
+        result=self.exercise('adaptive');branch=self.adaptive_decision(result)
+        self.assertEqual(branch['continuation'],'stop')
+        trial_id='trial-%04d'%len(result['trials'])
+        folder=self.output/'trials'/trial_id;folder.mkdir()
+        record=json.loads(Path(result['trials'][-1]['receipt']).read_text())
+        record['id']=trial_id;record['proposal']['route_ids']=['unseen-suffix-route']
+        p.save_json(folder/'result.json',record)
+        result['trials'].append(dict(id=trial_id,receipt=str(folder/'result.json'),status=record['status'],accepted=False))
+        with patch.object(s,'_adaptive_trial_native',side_effect=self.authored_adaptive_native),self.assertRaisesRegex(p.Rejected,'stop.*trial'):
+            s.check_adaptive_policy(self.output,result)
+
+    def test_adaptive_duplicate_chain_does_not_skip_later_distinct_group(self):
+        from autorouter import chain_proposals as cp
+        build=cp.build;duplicates=[];novel=[]
+        def with_duplicate(tree,*args,**kwargs):
+            batch=build(tree,*args,**kwargs)
+            self.assertTrue(batch['proposals'])
+            group=copy.deepcopy(batch['proposals'][0]);novel.extend(group['route_ids'])
+            duplicate=copy.deepcopy(group)
+            first=json.loads((self.output/'trials/trial-0000/result.json').read_text())
+            duplicate['route_ids']=first['proposal']['route_ids'];duplicates.extend(duplicate['route_ids'])
+            batch['proposals']=[duplicate,group]
+            return batch
+        with patch.object(cp,'build',side_effect=with_duplicate):
+            result=self.adaptive_chain_failure(extra_group_terminal=True)
+        self.adaptive_decision(result)
+        trials=[json.loads(Path(row['receipt']).read_text()) for row in result['trials']]
+        chains=[row for row in trials if row['proposal']['kind']=='endpoint_chain']
+        self.assertEqual(len(chains),1)
+        self.assertEqual(chains[0]['proposal']['route_ids'],novel)
+        keys=[s._adaptive_key(row['base_candidate_sha256'],row['proposal']) for row in trials]
+        self.assertEqual(len(keys),len(set(keys)))
+        self.assertNotEqual(set(duplicates),set(novel))
+        self.assertGreater(chains[0]['finished_elapsed_seconds'],chains[0]['started_elapsed_seconds'])
+
+    def test_adaptive_initial_quality_rejection_with_feedback_success_skips_chains(self):
+        self.feedback_scenario=True
+        result=self.exercise('adaptive');decision=self.adaptive_decision(result)
+        self.assertTrue(result['accepted'],result)
+        self.assertEqual(decision['probe_trials'],['trial-0001','trial-0002'])
+        self.assertEqual(decision['outcome'],'improved')
+        self.assertNotIn('chain_pad_context',result)
+        trials=[json.loads(Path(row['receipt']).read_text()) for row in result['trials']]
+        self.assertEqual(trials[1]['status'],'quality_rejected')
+        self.assertEqual(trials[2]['status'],'improvement_validated')
+        self.assertEqual(trials[2]['proposal']['parent_trial'],trials[1]['id'])
+
+    def test_adaptive_completed_native_probe_failure_chooses_bound_chain_batch(self):
+        result=self.adaptive_chain_failure(extra_group_terminal=True);decision=self.adaptive_decision(result)
+        self.assertTrue(result['accepted'],result)
+        self.assertEqual((decision['outcome'],decision['continuation']),('completed_rejection','chains_then_singles'))
+        self.assertIn('chain_pad_context',result)
+        self.assertEqual(result['chain_proposal_batches'][0]['base_candidate_sha256'],decision['after_sha256'])
+        trials=[json.loads(Path(row['receipt']).read_text()) for row in result['trials']]
+        self.assertEqual(trials[1]['status'],'drc_rejected')
+        self.assertTrue(any(row['proposal']['kind']=='endpoint_chain' for row in trials[2:]))
+
+    def test_adaptive_incomplete_probe_never_becomes_a_chain_rejection(self):
+        for event in ('exception','timeout','crash','cancel'):
+            with self.subTest(event=event):
+                self.output=self.root/('run-'+event);self.clock=1000.;self.process_cpu=0
+                self.adaptive_probe_event=event
+                result=self.exercise('adaptive')
+                self.assertNotIn('chain_pad_context',result)
+                if event=='cancel':
+                    self.assertEqual(result['status'],'cancelled');self.assertFalse(result['accepted'])
+                else:
+                    decision=self.adaptive_decision(result)
+                    self.assertEqual((decision['outcome'],decision['continuation']),('incomplete','stop'))
+                    self.assertEqual(len(result['trials']),2)
+
+    def test_adaptive_no_probe_budget_is_explicit_and_does_not_request_context(self):
+        self.baseline_advance=85;self.trial_storage_advance=7
+        result=self.exercise('adaptive');decision=self.adaptive_decision(result)
+        self.assertTrue(result['accepted'],result)
+        self.assertEqual(decision['outcome'],'no_probe');self.assertEqual(decision['probe_trials'],[])
+        self.assertIn(decision['reason'],{'insufficient_work_budget','preparation_exhausted'})
+        self.assertNotIn('chain_pad_context',result)
+
+    def test_adaptive_duplicate_key_is_same_base_sorted_ids_and_changed_base_may_retry(self):
+        self.assertEqual(s._adaptive_key('a'*64,{'route_ids':['two','one']}),s._adaptive_key('a'*64,{'route_ids':['one','two']}))
+        self.assertNotEqual(s._adaptive_key('a'*64,{'route_ids':['one']}),s._adaptive_key('b'*64,{'route_ids':['one']}))
+        result=self.adaptive_chain_failure();self.adaptive_decision(result)
+        trials=[json.loads(Path(row['receipt']).read_text()) for row in result['trials']]
+        keys=[s._adaptive_key(row['base_candidate_sha256'],row['proposal']) for row in trials]
+        self.assertEqual(len(keys),len(set(keys)))
+        first=trials[1]['proposal']['route_ids']
+        retried=[row for row in trials if row['proposal']['route_ids']==first]
+        self.assertGreaterEqual(len(retried),2)
+        self.assertGreaterEqual(len({row['base_candidate_sha256'] for row in retried}),2)
+
+    def test_adaptive_proposals_preserve_source_protected_and_non_zone_routes(self):
+        original=self.source.read_bytes();result=self.exercise('adaptive')
+        self.assertEqual(self.source.read_bytes(),original)
+        protected=[row for row in p.routes(sx.read(self.source)) if p.locked(row)]
+        final=p.routes(sx.read(result['candidate']))
+        self.assertTrue(all(row in final for row in protected))
+        wanted=s.route_id(candidate_tree(sx.read(self.source))[-1])
+        self.assertIn(wanted,{s.route_id(row) for row in final})
+
+    def test_adaptive_bound_branch_cannot_claim_rejection_after_successful_probe(self):
+        result=self.exercise('adaptive');self.adaptive_decision(result)
+        path=self.output/'adaptive-branch.json';branch=json.loads(path.read_text())
+        branch.update(outcome='completed_rejection',continuation='chains_then_singles',reason='completed_native_sequence_rejected',chain_remaining_seconds=30.)
+        p.save_json(path,branch);result['adaptive_branch']['sha256']=p.sha(path)
+        with patch.object(s,'_adaptive_trial_native',side_effect=self.authored_adaptive_native),self.assertRaisesRegex(p.Rejected,'adaptive branch (classification|reason)'):
+            s.check_adaptive_policy(self.output,result)
+
+    def test_adaptive_changed_probe_report_or_prefix_inventory_rejects(self):
+        result=self.exercise('adaptive');self.adaptive_decision(result)
+        (self.output/'trials/trial-0001/final-drc.json').write_text('tampered Native report')
+        with self.assertRaisesRegex(p.Rejected,'prefix evidence changed'):
+            s.check_adaptive_policy(self.output,result)
+
+    def test_adaptive_selected_chain_cannot_omit_its_context_binding(self):
+        result=self.adaptive_chain_failure();self.adaptive_decision(result)
+        del result['chain_pad_context']
+        with patch.object(s,'_adaptive_trial_native',side_effect=self.authored_adaptive_native),self.assertRaisesRegex(p.Rejected,'chain context binding missing'):
+            s.check_chain_context(self.output,result)
+
+    def test_adaptive_policy_cannot_lose_branch_marker_or_downgrade_to_feedback(self):
+        result=self.exercise('adaptive');self.adaptive_decision(result)
+        del result['adaptive_branch']
+        with self.assertRaisesRegex(p.Rejected,'adaptive branch binding'):
+            s.check_adaptive_policy(self.output,result)
+        result['proposal_policy']='feedback'
+        with self.assertRaisesRegex(p.Rejected,'another proposal policy'):
+            s.check_adaptive_policy(self.output,result)
+
+    def test_adaptive_over_deadline_native_label_is_not_a_completed_probe(self):
+        record=dict(status='drc_rejected',accepted=False,steps=[],
+            adaptive_trial_guard={'wall_deadline_elapsed_seconds':12.,'work_cpu_limit_seconds':95.},
+            finished_elapsed_seconds=13.,finished_observed_cpu_seconds=1.)
+        self.assertFalse(s._adaptive_trial_native(self.output,{'budget_seconds':120.,'cpu_budget_seconds':120.},record))
+
+
+class AdaptiveNativeJournalControls(unittest.TestCase):
+    """Worker/checker interoperability with actual command builder; no Native run."""
+    def setUp(self):
+        from autorouter import floor_route as f
+        self.f = f
+        scratch = ROOT / '.cache' / 'adaptive-journal-tests'
+        scratch.mkdir(parents=True, exist_ok=True)
+        self.temp = tempfile.TemporaryDirectory(dir=scratch)
+        self.addCleanup(self.temp.cleanup)
+        self.root = Path(self.temp.name).resolve()
+        self.folder = self.root / 'trials/trial-0000'
+        self.job = p.Job(self.folder, 120, protect_local_settings=True)
+        self.candidate = self.folder / 'candidate/test.kicad_pcb'
+        self.candidate.parent.mkdir()
+        tree = sx.parse('(kicad_pcb (version 20260206) (layers (0 "F.Cu" signal) (31 "B.Cu" signal)))')
+        sx.write(self.candidate, tree)
+        self.candidate.with_suffix('.kicad_pro').write_text('{}\n')
+        shutil.copyfile(self.candidate, self.folder / 'pre-refill.kicad_pcb')
+        shutil.copytree(self.candidate.parent, self.folder / 'refill')
+        self.measure = {'track_length_mm': 10., 'vias': 0, 'version': '10.0.0'}
+        report = self.folder / 'final-drc.json'
+        report.write_text(json.dumps(native_report(self.candidate.name)))
+        self.native = p.parse_report(report, self.candidate.name)
+
+        def retained_step(name, argv):
+            # Exercise the existing Job.native argv builder, retaining its real
+            # expected journal form. The process itself is explicitly substituted.
+            worker = dict(name=name, argv=[str(x) for x in argv], cwd=str(self.folder),
+                          status='success', exit_code=0, cleanup_complete=True)
+            p.save_json(self.folder / (name + '-process.json'), worker)
+            self.job.steps.append(worker)
+            p.save_json(self.folder / 'metrics.json', self.measure)
+            return worker
+        with patch.object(self.job, 'step', side_effect=retained_step):
+            self.job.native('metrics', 'metrics', self.candidate, self.folder / 'metrics.json')
+        self.data = dict(source=str(self.root / 'source/test.kicad_pcb'),
+                         source_hashes=p.tree_hash(self.candidate.parent),
+                         budget_seconds=120., cpu_budget_seconds=120.)
+        self.record = dict(id='trial-0000', status='improvement_validated', accepted=True,
+                           adaptive_trial_guard=dict(wall_deadline_elapsed_seconds=95., work_cpu_limit_seconds=95.),
+                           finished_elapsed_seconds=1., finished_observed_cpu_seconds=1.,
+                           candidate_sha256=p.sha(self.candidate), native_report_sha256=p.sha(report),
+                           native=self.native, metrics=self.measure, steps=self.job.steps)
+
+    def stage(self, *args, **kwargs):
+        self.assertIs(kwargs.get('sandboxed'), False)
+        return self.native
+
+    def test_standard_native_worker_journal_and_drc_contract_match_checker(self):
+        with patch.object(self.f, 'check_drc_stage', side_effect=self.stage) as drc:
+            self.assertTrue(s._adaptive_trial_native(self.root, self.data, self.record))
+        self.assertEqual(drc.call_count, 2)
+
+    def test_sandbox_prefix_cannot_be_added_to_a_standard_native_metrics_journal(self):
+        changed = copy.deepcopy(self.record)
+        changed['steps'][0]['argv'] = [*self.f.SANDBOX, *changed['steps'][0]['argv']]
+        p.save_json(self.folder / 'metrics-process.json', changed['steps'][0])
+        with patch.object(self.f, 'check_drc_stage', side_effect=self.stage), self.assertRaisesRegex(p.Rejected, 'provenance'):
+            s._adaptive_trial_native(self.root, self.data, changed)
 
 
 class FeedbackSelectionTests(unittest.TestCase):
