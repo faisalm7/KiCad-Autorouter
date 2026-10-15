@@ -1,6 +1,6 @@
 # Current status
 
-October15,2026. Existing local Mac checkout `/Users/faisal/Projects/KiCad-Autorouter-local`, branch `rebuild/local-20261010-015447`. Latest verified checkpoint `e78f5343ec401ee7df82957eaced84fc96f2b9f3`. The project is experimental; representative evaluation and release gates remain open.
+October15,2026. Existing local Mac checkout `/Users/faisal/Projects/KiCad-Autorouter-local`, branch `rebuild/local-20261010-015447`. Latest verified checkpoint `2738c16ec4f8c7183184c0d7770cf9e0669d7508`. The project is experimental; representative evaluation and release gates remain open.
 
 The CLI routes locally without an AI account or route-time network using pinned KiCad10.0.0, Freerouting2.5.0 and Java25.0.2. [Start here](START_HERE.md), [saved preferences](docs/routing-preferences.md), [KiCad workflow](docs/gui-workflow.md), [handoff qualification](docs/experimental-rc.md). Original rules, geometry, protected copper, warnings and ignored checks remain authoritative. Candidates are separate projects; no live overwrite, tested undo or unsaved-buffer inspection promise.
 
@@ -48,8 +48,8 @@ The30–50representative-family audit, untouched family-disjoint confirmation, a
 
 ## Backups and continuation
 
-Audited source/small evidence has verified GitHub checkpoints. [Full restoration003](evidence/backups/full-restore-current-2c35f5e.json) verifies287340files/9277781494B/allrefs/independent empty-repository restore/restored CLI through2c35f5e, within finite300kfiles/directories/9GiB/80MiBreceipt/192MiBchain guards. Raw450/750/current-source/950/installation artifacts are after that cutoff and await the next verified incremental. Owner chose on-Mac-only raw backups, which do not protect against disk failure. No evidence was deleted.
+Audited source/small evidence has verified GitHub checkpoints. [Full restoration003](evidence/backups/full-restore-current-2c35f5e.json) verifies287340files/9277781494B/allrefs/independent empty-repository restore/restored CLI through2c35f5e, within finite300kfiles/directories/9GiB/80MiBreceipt/192MiBchain guards. [Incremental through2738c16](evidence/backups/incremental-universal950-installation035-2738c16.json) now verifies291244files/9579964678B/3904deltafiles/chain2 in315.052867wall242.528597CPU, including450/750/950/installation035/workflowGUI and all prior failures. It is delta integrity from actually restored003, not another fullrestoration. Owner chose on-Mac-only raw backups, which do not protect against disk failure. No evidence was deleted.
 
-Continue [PLANS.md](PLANS.md) from actual files/processes. The950native command has completed successfully; do not rerun it. Installation035/current workflow/GUI are complete. Next checkpoint those results and run the existing incremental backup from full003, then integrate the licensed DS18B20 source using existing helpers and actual immutable original Native checks. Do not repeat completed Native workers/readers. Full restoration is reserved for major milestones, backup-system changes and before release.
+Continue [PLANS.md](PLANS.md) from actual files/processes. The950native command has completed successfully; do not rerun it. Installation035/current workflow/GUI are complete. Current035/workflowGUI checkpoint and rawincremental are complete. Next integrate the licensed DS18B20 source using existing helpers and actual immutable original Native checks. Do not repeat completed Native workers/readers. Full restoration is reserved for major milestones, backup-system changes and before release.
 
 Earlier chronological status and requirement observations are preserved verbatim under [history](docs/history/2026-10-15-native-preparation/STATUS.md); their old next-step statements are superseded by this status and actual receipts.
