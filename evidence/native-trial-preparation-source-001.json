@@ -1,0 +1,42 @@
+{
+  "failure": "evidence/universal750-prelaunch-failure-001.json",
+  "files": {
+    "evidence/native-trial-preparation-source-001/regression-after-001/command.log": "3e04bfa32da9b51e21be3b62b5b99d943f817bce9a23a0cd08000271a59e1c6c",
+    "evidence/native-trial-preparation-source-001/regression-after-001/controller.py": "90b43ab9669abfadcbe59a065872b67f26379bd8fbe8fcd3efb1d6ad7b0784b9",
+    "evidence/native-trial-preparation-source-001/regression-after-001/execution.json": "7f59fd062ad4437b2192dfea00bf09212e8b9a1e2c90186d2b0963330840018f",
+    "evidence/native-trial-preparation-source-001/regression-before-001/command.log": "71246cc6aaa3c328a1f514038e32d106abe5ef51074925df750f2d9a291e2318",
+    "evidence/native-trial-preparation-source-001/regression-before-001/controller.py": "2c2e739106f885854bd1872b37d0a8001b0acfd4166f5c3c90db17d37064dc4a",
+    "evidence/native-trial-preparation-source-001/regression-before-001/execution.json": "a3061195547f13f61be085a806fd82fce9eec5715bdb57ccb23aedf50ffa98ee",
+    "evidence/native-trial-preparation-source-001/run-full-integration-088.py": "a22ace5c859d8776cddce1997dd76f7ea7c44c2d242ded30a98353cc0d2ce2fb",
+    "evidence/native-trial-preparation-source-001/targeted-001/command.log": "30cb23cfb098a4731c12e8c058c0660a3aa4a39a5176159f274c4fc41bde6fd4",
+    "evidence/native-trial-preparation-source-001/targeted-001/controller.py": "7cb1fc6bcdecaeaabffb650a3ec423a6b83e18812040330e67ec2afd0814e67b",
+    "evidence/native-trial-preparation-source-001/targeted-001/execution.json": "be4973326c8f2b7832333a5cdd7415b56c751aac4eaf141aafe5cf5994b3fe08",
+    "evidence/native-trial-preparation-source-001/targeted-002/command.log": "86d61a441759f8da8ea89bd3088dbfd792450c7f165c46b4f91033a63bbe1fa0",
+    "evidence/native-trial-preparation-source-001/targeted-002/controller.py": "63e2f7aa2e5aaea0e72c388a5973d409c5a9a06b4ee52c1d0ec8c8100f8c7d0b",
+    "evidence/native-trial-preparation-source-001/targeted-002/execution.json": "8446f87dd82603d3e79fd6f38cf25c8a41d04f5e3fbf76841e77f1d7b3673a50"
+  },
+  "kind": "native-trial-preparation-budget-source-regressions",
+  "regression_after": {
+    "passed": 4
+  },
+  "regression_before": {
+    "attempted": 4,
+    "failed": 4,
+    "scope": "Demonstrated expired DRC and wall-clock storage/preparation/local deadline defects reproduced"
+  },
+  "review": ".local-backups/native-prelaunch-applied-review-001/REPORT.md",
+  "runtime_pins": {
+    "autorouter/local_settings.py": "69fa09a68af0e794cdc5abb8d674a2117e4696a6352a2943d71744d326d8e861",
+    "autorouter/pipeline.py": "8c4f3b0bcb87349a52ae94538af7650636b7e7b79b51c4f9f9e8956dea1a3eea",
+    "autorouter/placement_strategy.py": "765a28e5a63da3e52266665accf9b9e1f5ea586ea9a90f51291b142c4373fb32",
+    "autorouter/strategy.py": "e7154d6c6571b3b3018232fa585f06e41195181e28517ab7f5335bcd8849f8c6"
+  },
+  "schema": 1,
+  "scope": "Prevent the measured budget-expired entry; no synthetic workers/no skipbinding/PRL release on unknowncleanup. A deadline expiring after entry can still reject conservatively; not universal graceful timeout. Native25/legacy15/min4/strict totalcaps unchanged. Full088/newactualNative/currentinstallation pending.",
+  "targeted_current": {
+    "full_cpu_seconds": 26.71975,
+    "includes_CPU_only_storage_and_preparation": true,
+    "passed": 110,
+    "wall_seconds": 28.270330792001914
+  }
+}

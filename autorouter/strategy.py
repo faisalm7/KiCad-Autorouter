@@ -463,15 +463,22 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
         report["incumbent_metrics"] = copy.deepcopy(best_metrics)
         checkpoint("incumbent_validated", best, best_metrics)
 
+        preparation_exhausted = False
+
         def attempt(proposal):
-            nonlocal best, best_metrics, best_native
-            if len(report["trials"]) >= MAX_TRIALS or remaining_work_budget() < MIN_TRIAL_SECONDS:
+            nonlocal best, best_metrics, best_native, preparation_exhausted
+            if preparation_exhausted or len(report["trials"]) >= MAX_TRIALS or remaining_work_budget() < MIN_TRIAL_SECONDS:
                 return False
             original_fresh(source, snapshot, source_hashes)
             p.check_storage()
+            # Source/storage inspection consumes the same wall and CPU budget.
+            allowance = min(MAX_TRIAL_SECONDS, remaining_work_budget())
+            if allowance < MIN_TRIAL_SECONDS:
+                preparation_exhausted = True
+                return False
             trial_id = f"trial-{len(report['trials']):04d}"
             trial_job = p.Job(output / "trials" / trial_id,
-                              min(MAX_TRIAL_SECONDS, remaining_work_budget()), protect_local_settings=True)
+                              allowance, protect_local_settings=True)
             trial_job.deadline = min(trial_job.deadline, deadline - NATIVE_FINAL_RESERVE_SECONDS)
             candidate = trial_job.out / "candidate" / source.name
             record = {"id": trial_id, "proposal": proposal, "status": "rejected", "accepted": False,
@@ -480,6 +487,9 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
             try:
                 shutil.copytree(best.parent, candidate.parent)
                 sx.write(candidate, delete_routes(sx.read(candidate), proposal["route_ids"], nets, protected))
+                if min(remaining_work_budget(), trial_job.deadline - time.monotonic()) < MIN_TRIAL_SECONDS:
+                    preparation_exhausted = True
+                    raise p.Rejected("insufficient trial budget after preparation")
                 digest, native = p.validate_candidate(trial_job, original, candidate, source_hashes, protected)
                 original_fresh(source, snapshot, source_hashes)
                 record.update(candidate_sha256=digest, native=native,

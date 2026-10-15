@@ -1,0 +1,58 @@
+{
+  "schema": 1,
+  "process": {
+    "status": "nonzero_exit",
+    "exit_code": 1,
+    "wall_seconds": 0.31916704200557433,
+    "cpu_seconds": 0.23067699999999997,
+    "max_rss_bytes": 35307520,
+    "supervisor_cpu_seconds": 0.0037849999999999967,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 34783232,
+    "sampled_peak_workdir_bytes": 4710,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 2097152,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "-c",
+      "import sys,os,unittest;sys.path.insert(0,'/Users/faisal/Projects/KiCad-Autorouter-local');os.chdir('/Users/faisal/Projects/KiCad-Autorouter-local');unittest.main(module=None)",
+      "tests.test_strategy.StrategyControlFlowTests.test_trial_storage_cost_is_rechecked_before_creating_job",
+      "tests.test_strategy.StrategyControlFlowTests.test_preparation_exhaustion_retains_trial_without_native_attempt",
+      "tests.test_strategy.StrategyControlFlowTests.test_preparation_also_respects_local_trial_deadline",
+      "tests.test_core_local_settings.CoreLocalSettingsControls.test_expired_drc_refuses_before_copy_freeze_or_worker_journal"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-trial-preparation-regression-before-001/command.log",
+    "log_bytes": 4710,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-trial-preparation-regression-before-001",
+    "signal_cancellation_enabled": true,
+    "pid": 63500
+  },
+  "wall_seconds": 0.32028654098394327,
+  "full_cpu_seconds": 0.23510099999999998,
+  "source_sha256": {
+    "autorouter/strategy.py": "9966955e04e7875eb1daa739f885071f4149e040a6f587928ca6af7bc69448de",
+    "autorouter/placement_strategy.py": "765a28e5a63da3e52266665accf9b9e1f5ea586ea9a90f51291b142c4373fb32",
+    "autorouter/pipeline.py": "dd5fbe1475f10d480225765680c50e24b8e4ece5aa99ae33c939f17d6ed8420b",
+    "tests/test_strategy.py": "8a130d52f040592e48b9765321ff36588a585a6b631b2465445fb6ebc7f085ed",
+    "tests/test_core_local_settings.py": "b26bec8d1b72031f72b1788ce625dfa857a6ce389f57504898d33497420a3b00"
+  },
+  "controller_sha256": "2c2e739106f885854bd1872b37d0a8001b0acfd4166f5c3c90db17d37064dc4a",
+  "source_current": true,
+  "scope": "Software scheduling/legacycontract/selectedbaseline-label tests. No Native routing-quality claim."
+}

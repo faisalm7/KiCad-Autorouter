@@ -758,6 +758,10 @@ class Job:
         prefix=[] if self.native_toolchain is None else ['--experimental-native',json.dumps(self.native_toolchain.record(),sort_keys=True)]
         return self.step(name,[self.native_python,c.ROOT/'autorouter/native.py',*prefix,action,board,output,*args])
     def drc(self,name,board,save=False,*,schematic_parity=False):
+        # No input copy, immutable flag or worker journal for an expired job.
+        # The step still rechecks its budget; uncertain later failures stay closed.
+        if self.deadline-time.monotonic()<=0:
+            raise Rejected('timeout: whole task budget exhausted before DRC preparation')
         if self.native_toolchain is not None and schematic_parity:
             raise Rejected('experimental area qualification does not admit schematic parity yet')
         if self.protect_local_settings:

@@ -1,0 +1,76 @@
+FFFF
+======================================================================
+FAIL: test_trial_storage_cost_is_rechecked_before_creating_job (tests.test_strategy.StrategyControlFlowTests.test_trial_storage_cost_is_rechecked_before_creating_job)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_strategy.py", line 211, in test_trial_storage_cost_is_rechecked_before_creating_job
+    self.assertEqual(result["trials"], [])
+AssertionError: Lists differ: [{'id': 'trial-0000', 'receipt': '/Users/f[148 chars]lse}] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+{'id': 'trial-0000', 'receipt': '/Users/faisal/Projects/KiCad-Autorouter-local/.cache/strategy-tests/tmpf9x8pylx/run/trials/trial-0000/result.json', 'status': 'drc_rejected', 'accepted': False}
+
++ []
+- [{'accepted': False,
+-   'id': 'trial-0000',
+-   'receipt': '/Users/faisal/Projects/KiCad-Autorouter-local/.cache/strategy-tests/tmpf9x8pylx/run/trials/trial-0000/result.json',
+-   'status': 'drc_rejected'}]
+
+======================================================================
+FAIL: test_preparation_exhaustion_retains_trial_without_native_attempt (tests.test_strategy.StrategyControlFlowTests.test_preparation_exhaustion_retains_trial_without_native_attempt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_strategy.py", line 221, in test_preparation_exhaustion_retains_trial_without_native_attempt
+    self.assertEqual(trial["steps"], [])
+AssertionError: Lists differ: [{'name': 'full_validation_substitute', 's[107 chars]00'}] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+{'name': 'full_validation_substitute', 'status': 'success', 'cpu_seconds': 2.0, 'monitor_cpu_seconds': 0.1, 'max_rss_bytes': 234, 'phase': 'trial-0000'}
+
++ []
+- [{'cpu_seconds': 2.0,
+-   'max_rss_bytes': 234,
+-   'monitor_cpu_seconds': 0.1,
+-   'name': 'full_validation_substitute',
+-   'phase': 'trial-0000',
+-   'status': 'success'}]
+
+======================================================================
+FAIL: test_preparation_also_respects_local_trial_deadline (tests.test_strategy.StrategyControlFlowTests.test_preparation_also_respects_local_trial_deadline)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_strategy.py", line 229, in test_preparation_also_respects_local_trial_deadline
+    self.assertEqual(len(result["trials"]), 1)
+AssertionError: 3 != 1
+
+======================================================================
+FAIL: test_expired_drc_refuses_before_copy_freeze_or_worker_journal (tests.test_core_local_settings.CoreLocalSettingsControls.test_expired_drc_refuses_before_copy_freeze_or_worker_journal)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/local_settings.py", line 38, in preserve
+    yield event
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/local_settings.py", line 57, in protected_step
+    try:result=job.step(name,argv,allowed=allowed)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 749, in step
+    if remaining<=0: raise Rejected('timeout: whole task budget exhausted')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+autorouter.pipeline.Rejected: timeout: whole task budget exhausted
+
+During handling of the above exception, another exception occurred:
+
+autorouter.pipeline.Rejected: PRL remains immutable: child cleanup not confirmed: /private/var/folders/g4/gcs4p1q561qgx6k1kqjr28600000gn/T/core-prl-owned-8822btml/job/drc-input/board.kicad_prl
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_core_local_settings.py", line 39, in test_expired_drc_refuses_before_copy_freeze_or_worker_journal
+    with self.assertRaisesRegex(p.Rejected,'budget exhausted before DRC preparation'):
+AssertionError: "budget exhausted before DRC preparation" does not match "PRL remains immutable: child cleanup not confirmed: /private/var/folders/g4/gcs4p1q561qgx6k1kqjr28600000gn/T/core-prl-owned-8822btml/job/drc-input/board.kicad_prl"
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.084s
+
+FAILED (failures=4)

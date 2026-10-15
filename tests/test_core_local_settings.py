@@ -31,6 +31,21 @@ class CoreLocalSettingsControls(unittest.TestCase):
                     'included_severities':['error','warning','exclusion']}
             p.save_json(job.out/(name+'.json'),report);return result
         return step
+    def test_expired_drc_refuses_before_copy_freeze_or_worker_journal(self):
+        job=self.job();job.deadline=0
+        copied=job.out/'drc-input'/self.prl.name
+        try:
+            with patch.object(p,'run',side_effect=AssertionError('expired DRC launched a worker')):
+                with self.assertRaisesRegex(p.Rejected,'budget exhausted before DRC preparation'):
+                    job.drc('drc',self.board)
+            self.assertEqual(job.steps,[])
+            self.assertFalse((job.out/'drc-input').exists())
+            self.assertFalse(list(job.out.glob('drc-*')))
+            self.assertEqual(p.tree_hash(self.source),self.original)
+            self.assertEqual(self.prl.stat().st_flags,0)
+        finally:
+            if copied.exists() and copied.stat().st_flags:os.chflags(copied,0,follow_symlinks=False)
+
     def test_opt_in_clones_only_owned_input_and_retains_guard_binding(self):
         job=self.job();job.step=self.staged_worker(job);job.drc('drc',self.board)
         binding=f.read_json(job.out/'drc-binding.json');process=f.read_json(job.out/'drc-process.json')

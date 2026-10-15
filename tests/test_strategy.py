@@ -115,6 +115,11 @@ class StrategyControlFlowTests(unittest.TestCase):
         self.slow_final_emission = False
         self.baseline_child_cpu = 3.0
         self.validation_cpu = 2.0
+        self.trial_storage_advance = 0
+        self.trial_copy_advance = 0
+        self.process_cpu = 0
+        self.trial_storage_cpu_advance = 0
+        self.trial_copy_cpu_advance = 0
         self.feedback_scenario = False
         self.tamper_feedback_report = False
         self.tamper_feedback_base = False
@@ -123,6 +128,19 @@ class StrategyControlFlowTests(unittest.TestCase):
         owner = self
         real_job = p.Job
         real_save = p.save_json
+        real_copytree = shutil.copytree
+
+        def storage():
+            if (owner.output / "incumbent/result.json").exists():
+                owner.clock += owner.trial_storage_advance
+                owner.process_cpu += owner.trial_storage_cpu_advance
+
+        def copytree(source, destination, *args, **kwargs):
+            value = real_copytree(source, destination, *args, **kwargs)
+            if Path(destination).parent.name.startswith("trial-"):
+                owner.clock += owner.trial_copy_advance
+                owner.process_cpu += owner.trial_copy_cpu_advance
+            return value
 
         def save(path, value):
             real_save(path, value)
@@ -187,8 +205,55 @@ class StrategyControlFlowTests(unittest.TestCase):
             job.steps.append({"name": "full_validation_substitute", "status": "success", "cpu_seconds": owner.validation_cpu, "monitor_cpu_seconds": 0.1, "max_rss_bytes": 234})
             return p.sha(candidate), p.parse_report(report_path, candidate.name)
 
-        with patch.object(s.time, "monotonic", lambda: owner.clock), patch.object(p, "Job", ControlledJob), patch.object(p, "route", baseline), patch.object(p, "validate_candidate", validate), patch.object(p, "tool_manifest", lambda: {"implementation_sha256": {}}), patch.object(p, "check_storage", lambda: 0), patch.object(p, "save_json", save), patch.object(p, "check_result", return_value={"current": True}):
+        with patch.object(s.time, "monotonic", lambda: owner.clock), patch.object(s.time, "process_time", lambda: owner.process_cpu), patch.object(p, "Job", ControlledJob), patch.object(p, "route", baseline), patch.object(p, "validate_candidate", validate), patch.object(p, "tool_manifest", lambda: {"implementation_sha256": {}}), patch.object(p, "check_storage", storage), patch.object(shutil, "copytree", copytree), patch.object(p, "save_json", save), patch.object(p, "check_result", return_value={"current": True}):
             return s.prune(self.source, self.output, 120, proposal_policy=proposal_policy)
+
+    def test_trial_storage_cost_is_rechecked_before_creating_job(self):
+        self.baseline_advance = 85
+        self.trial_storage_advance = 7
+        result = self.exercise()
+        self.assertTrue(result["accepted"], result)
+        self.assertEqual(result["trials"], [])
+
+    def test_preparation_exhaustion_retains_trial_without_native_attempt(self):
+        self.baseline_advance = 85
+        self.trial_copy_advance = 7
+        result = self.exercise()
+        self.assertTrue(result["accepted"], result)
+        self.assertEqual(len(result["trials"]), 1)
+        trial = json.loads(Path(result["trials"][0]["receipt"]).read_text())
+        self.assertFalse(trial["accepted"])
+        self.assertEqual(trial["steps"], [])
+        self.assertIn("insufficient trial budget after preparation", trial["reason"])
+        self.assertFalse(list(Path(result["trials"][0]["receipt"]).parent.glob("*-binding.json")))
+
+    def test_trial_storage_cpu_is_rechecked_with_wall_time_remaining(self):
+        self.baseline_child_cpu = 85.0
+        self.trial_storage_cpu_advance = 7
+        result = self.exercise()
+        self.assertTrue(result["accepted"], result)
+        self.assertEqual(result["trials"], [])
+        self.assertLess(result["wall_seconds"], 30)
+
+    def test_preparation_cpu_exhaustion_refuses_native_with_wall_time_remaining(self):
+        self.baseline_child_cpu = 85.0
+        self.trial_copy_cpu_advance = 7
+        result = self.exercise()
+        self.assertTrue(result["accepted"], result)
+        self.assertEqual(len(result["trials"]), 1)
+        trial = json.loads(Path(result["trials"][0]["receipt"]).read_text())
+        self.assertEqual(trial["steps"], [])
+        self.assertIn("insufficient trial budget after preparation", trial["reason"])
+        self.assertLess(result["wall_seconds"], 30)
+
+    def test_preparation_also_respects_local_trial_deadline(self):
+        self.trial_copy_advance = s.MAX_TRIAL_SECONDS + 1
+        result = self.exercise()
+        self.assertTrue(result["accepted"], result)
+        self.assertEqual(len(result["trials"]), 1)
+        trial = json.loads(Path(result["trials"][0]["receipt"]).read_text())
+        self.assertEqual(trial["steps"], [])
+        self.assertIn("insufficient trial budget after preparation", trial["reason"])
 
     def test_native_final_reserve_stops_late_trial_before_publication(self):
         # Larger native validation needs time after a nearly exhausted incumbent.
