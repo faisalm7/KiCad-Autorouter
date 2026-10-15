@@ -200,3 +200,5 @@ Current actual750Native invalidated beforetrial0011worker; final0/0/81 and short
 
 
 [Actual DS18B20 fourarm](evidence/ds18b20-native240-actual-001.json) qualifies all4outcomes, all3B2settings,50workers/7actualfinals, original/fullSCH/refill/rules/PRL/class and all11warnings/7ignored. C/B2tie35.511106323mm0vias, nozone/noCmove: broaderexposedsupport, no tenthgain/completion/independence/speedup claim. Equal240delivered/120innercaps; native100.097295wall80.349686CPU, pureenclosingreader12.425493wall11.661207CPU. Source/Native failures and unknown researchCPU remain visible.
+
+[Native component source controls](evidence/native-components-source-001.json): experimental PAD-seeded complete membership only, no routing/admission. Actual normalization/cloneUUID/publication/short-falsifier failures preserved; fixed ten targeted and full0911397pass135.124854wall125.621247CPU. Per-completed-case bounded inventory witnesses prevent later evidence adoption. Six actual Native/API cases and stale/refill/thermal/cancel remain prospective. Existing source/routing acceptance unchanged; diagnostic counts establish no routing gain.

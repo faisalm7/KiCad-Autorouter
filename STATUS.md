@@ -1,10 +1,12 @@
 # Current status
 
-October15,2026. Existing local Mac checkout `/Users/faisal/Projects/KiCad-Autorouter-local`, branch `rebuild/local-20261010-015447`. Latest verified checkpoint `a08c868fc5a79a973f6d7a4ad557762c1e3e5683`. The project is experimental; representative evaluation and release gates remain open.
+October15,2026. Existing local Mac checkout `/Users/faisal/Projects/KiCad-Autorouter-local`, branch `rebuild/local-20261010-015447`. Latest verified checkpoint `233584e582c1a1741eaf52491d008c1a9c0cd556`. The project is experimental; representative evaluation and release gates remain open.
 
 The CLI routes locally without an AI account or route-time network using pinned KiCad10.0.0, Freerouting2.5.0 and Java25.0.2. [Start here](START_HERE.md), [saved preferences](docs/routing-preferences.md), [KiCad workflow](docs/gui-workflow.md), [handoff qualification](docs/experimental-rc.md). Original rules, geometry, protected copper, warnings and ignored checks remain authoritative. Candidates are separate projects; no live overwrite, tested undo or unsaved-buffer inspection promise.
 
 ## Current experiment and implementation
+
+[Native pad-component source controls](evidence/native-components-source-001.json) add an experimental complete pad-membership observer and six owned Native/API control recipes. This grants no routing or support admission. Actual pure failures exposed unknown-attribute/netted-NPTH exclusions, cloned UUID collisions, publication pass-flag invalidation and an unrelated-error short falsifier; corrections retain regression controls and per-completed-case freshness witnesses. Full091 passes1397 controls135.124854wall125.621247CPU. Real KiCad API/island/layer/short qualification is next, followed by stale-fill/thermal/cancellation gates. Existing routing results are unchanged.
 
 [Actual Universal450](evidence/universal-own-low-pruning450-failure-001.json) remains rejected: final Native0opens/0blocking/81warnings at4415.567736mm/25vias, but final publication201.066591 exceeded200seconds. [Actual750](evidence/universal750-prelaunch-failure-001.json) remains rejected: standalone tuned B2longlow200 passes4556.133635mm/25vias/0opens0blocking81warnings; C finds4424.967736mm/25vias but a budget-expired trial leaves an unmatched DRC binding and immutable owned PRL. The final native counts do not override that evidence failure. Whole750276.146222wall293.111052CPU; latest C623.132819wall626.458838CPU includes all prior attempts. The new950 result below is separate; neither failed result is retroactively accepted.
 

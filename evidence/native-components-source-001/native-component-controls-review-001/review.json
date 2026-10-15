@@ -1,0 +1,58 @@
+{
+  "schema": 1,
+  "reviewed_files_sha256": {
+    "experiments/native_components_v1/__init__.py": "064773f36882fb0c8bf7548eeb8fe165252ec64983d4cd866a751548cf90bad9",
+    "experiments/native_components_v1/controls.py": "0ba0212063b8d2a2038732b88da5c5663753a29d33d258a6d1b55ae3e8f64b60",
+    "experiments/native_components_v1/fixtures.py": "6b6256c5b990481e2db3a293e86ac34606b0b9c344c7c664c299e876c46f4200",
+    "experiments/native_components_v1/normalize.py": "90194570ccabc2fac1db336d4478935a2bb0d3eae07480683d2feb6932761d3b",
+    "experiments/native_components_v1/worker.py": "94cd04ac27f1775cbf849b8bdbf194bb4cdc642e4a9bc76f4de99a707ff3323d"
+  },
+  "findings": [
+    {
+      "id": "NCC-001",
+      "priority": 1,
+      "file": "experiments/native_components_v1/controls.py",
+      "lines": [
+        30,
+        32,
+        59,
+        62,
+        69
+      ],
+      "issue": "Shared f.publish invalidation/cancellation does not clear controls-only passed flag; controls account clears it only on budget failure. After completed cases a late non-budget stable failure can leave invalidated + passedTrue and main exit0.",
+      "required_fix": "Clear passed for any noncompleted final status and require status completed AND passed for exit0. Lead should inject a pure publisher stable failure before Native launch.",
+      "executed": false
+    },
+    {
+      "id": "NCC-002",
+      "priority": 1,
+      "file": "experiments/native_components_v1/controls.py",
+      "lines": [
+        25,
+        29,
+        35,
+        55,
+        56,
+        61
+      ],
+      "issue": "Completed cases have no retained inventory witness until after all cases. Mutation of an earlier candidate/report/component receipt between case completion and the final snapshot is adopted as fresh completed material without rechecking stored entry hashes.",
+      "required_fix": "Freeze each completed Job inventory immediately and check in stable across subsequent cases; optionally recheck final per-entry authoritative evidence.",
+      "executed": false
+    },
+    {
+      "id": "NCC-003",
+      "priority": 2,
+      "file": "experiments/native_components_v1/controls.py",
+      "lines": [
+        47
+      ],
+      "issue": "physical-short passes for any blocking finding, so an unrelated invalid outline/pad/track error can satisfy the falsifier without demonstrating the deliberate different-net contact was reported.",
+      "required_fix": "Bind an actual short/contact finding to the intended SIGNAL_A/SIGNAL_B items. Freeze expected native finding semantics after inspecting the pinned raw report; do not guess a unique native type.",
+      "executed": false
+    }
+  ],
+  "tests_run": false,
+  "native_jvm_run": false,
+  "network_git_backup_actions": false,
+  "full_cpu_seconds": null
+}
