@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "passed": false,
+  "source_current": true,
+  "process": {
+    "status": "nonzero_exit",
+    "exit_code": 2,
+    "wall_seconds": 5.33608183299657,
+    "cpu_seconds": 5.069775,
+    "max_rss_bytes": 632537088,
+    "supervisor_cpu_seconds": 0.017237000000000002,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 475136000,
+    "sampled_peak_workdir_bytes": 48879,
+    "resource_guards": {
+      "max_group_rss_bytes": 1073741824,
+      "max_workdir_bytes": 16777216,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-036/checkout/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/current-installation036-review-001/audit.py"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/current-installation036-review-001/command.log",
+    "log_bytes": 1469,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/current-installation036-review-001",
+    "signal_cancellation_enabled": true,
+    "pid": 90646
+  },
+  "wall_seconds": 5.3951153329981025,
+  "full_cpu_seconds": 5.1460479999999995,
+  "publication_allowance_seconds": 2,
+  "whole_delivery_within_budget": true,
+  "input_pins_sha256": "3013f13bfce08258baf29b059bb124ded8892d0d0a36a53209c0b352126e22ab",
+  "reader_sha256": "da12bb0e949b04273d67a37c2a463cf0d6ad4dc9ec3433c56fef54c9cb7d036e",
+  "adapted_reader_source_sha256": "df0f874d47baa35ac0facbed51996e74c465eb061800b8c67d5f3a1e7b18885e",
+  "controller_sha256": "a607d3c61ba5961e63b2cd9da3b02738478f37f5d1cbc8dde2c1966e2acc680a",
+  "log_sha256": "6c284e33fccec2b065c5e7df90e17f0bdaa9f8548ca0868237d4e1e6aa9c4ff9",
+  "checks_sha256": "88662b9d676e7a0c75dbac6b23ad9fca8ae1bdaf42f413781dcda4bdb5390e9f",
+  "scope": "Successful035 complete installed reader adapted to current036 source and78 changed-area installed controls with no historical supplements; same existing seven groups and Native/source/tool/PRL/process/complete-inventory/late-material checks. Pure installed interpreter audit refuses all subprocess/network/Native/JVM/tests. No full installed suite/freshOS/fullSCH/GUI/benchmark/human claim."
+}
