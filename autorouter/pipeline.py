@@ -1815,21 +1815,21 @@ _readback_session=ContextVar('autorouter_validated_readback_session',default=Non
 
 @contextmanager
 def validation_readback_session():
-    """Reuse bounded placement consistency checks only within this invocation.
+    """Reuse bounded routing consistency checks only within this invocation.
 
     Every reuse hashes the complete evidence/source trees and actual tool/code
     identity twice. Native execution and candidate acceptance are never cached.
     Hot replacement of checker functions invalidates reuse. No disk cache exists.
     """
-    from . import (adapter,board_floor,floor_context,floor_route,layer_policy,legacy_zone,local_settings,padless_alias,padless_alias_native,
-                   netclass,placement_clearance,placement_strategy,
+    from . import (adapter,board_floor,floor_context,floor_route,handoff,layer_policy,legacy_zone,local_settings,padless_alias,padless_alias_native,
+                   native_edge,netclass,placement_clearance,placement_strategy,routing_scope,thermal,thermal_geometry,
                    placement_transform,pour_rule_area,preferences,runner,strategy,
                    schematic_fields,schematic_field_evidence)
     import sys
     modules=(sys.modules[__name__],c,sx,adapter,board_floor,floor_context,
-             floor_route,layer_policy,legacy_zone,local_settings,padless_alias,padless_alias_native,netclass,placement_clearance,
+             floor_route,handoff,layer_policy,legacy_zone,local_settings,padless_alias,padless_alias_native,native_edge,netclass,placement_clearance,
              placement_strategy,placement_transform,pour_rule_area,preferences,runner,strategy,
-             schematic_fields,schematic_field_evidence)
+             routing_scope,thermal,thermal_geometry,schematic_fields,schematic_field_evidence)
     existing=_readback_session.get()
     state=existing if existing is not None else {'entries':{},'modules':modules}
     token=_readback_session.set(state)
@@ -1876,14 +1876,17 @@ def _readback_witness(path,data,state):
     from . import placement_clearance as pc,placement_strategy as ps
     source=Path(data['source'])
     if not source.is_absolute() or source!=source.resolve(strict=True):
-        raise Rejected('noncanonical placement source in readback session')
+        raise Rejected('noncanonical routing source in readback session')
     limit,files=(ps.LIMIT,ps.MAX_FILES) if data['schema']==5 else (100*1024*1024,2000)
+    # Tool discovery can yield to another writer. Sample all retained/source
+    # bytes and PRL metadata only after this callback and current live identity.
+    tools=tool_manifest()
+    runtime=(hashlib.sha256(pc.read_bytes(c.ROOT/'toolchain.lock.json')).hexdigest(),
+             tools,str(c.ROOT),str(c.CLI),str(c.PYTHON),str(c.PCBNEW),str(c.JAVA),str(c.JAR))
+    live=_readback_live_identity(state['modules'])
     evidence=pc.inventory(path.parent,max_bytes=limit,max_files=files,
                           max_entries=files*2,with_directories=True)
     original=pc.inventory(source.parent,with_directories=True)
-    runtime=(hashlib.sha256(pc.read_bytes(c.ROOT/'toolchain.lock.json')).hexdigest(),
-             tool_manifest(),str(c.ROOT),str(c.CLI),str(c.PYTHON),str(c.PCBNEW),str(c.JAVA),str(c.JAR))
-    live=_readback_live_identity(state['modules'])
     # File flags/link counts affect the PRL contract but are outside byte hashes.
     import stat
     local_metadata=[]
@@ -1899,28 +1902,35 @@ def check_result(path):
     state=_readback_session.get()
     if state is None:return _check_result_uncached(path)
     try:
-        from .floor_route import read_json
+        from .floor_route import read_json,receipt_policy
         from .placement_clearance import read_bytes
         target=Path(path).absolute()
         raw=read_bytes(target)  # Reject symlink aliases before resolving them.
         data=read_json(target)
         if (target.name!='result.json' or target!=target.resolve(strict=True)
-                or type(data.get('schema')) is not int or data['schema'] not in (3,4,5)
+                or type(data.get('schema')) is not int or data['schema'] not in (1,3,4,5)
                 or data.get('accepted') is not True or data.get('status')!='routing_accepted'
-                or data.get('input_policy') not in {'placement-clearance-v1','placement-search-v1','placement-pruning-v1'}):
+                or 'diagnostic_schema' in data or 'production_qualified' in data):
+            return _check_result_uncached(path)
+        if data['schema']==1:
+            try:native=receipt_policy(data,target.parent)=='native'
+            except Rejected:native=False  # The full checker retains its policy refusal.
+            if (not native or data.get('strategy') not in (None,'native_validated_zone_net_pruning','native_validated_thermal_bridge')):
+                return _check_result_uncached(path)
+        elif data.get('input_policy') not in {'placement-clearance-v1','placement-search-v1','placement-pruning-v1'}:
             return _check_result_uncached(path)
         before=_readback_witness(target,data,state)
         if before[0][0].get(target.name)!=hashlib.sha256(raw).hexdigest():
-            raise Rejected('placement receipt changed before cached readback')
+            raise Rejected('routing receipt changed before cached readback')
         entry=state['entries'].get(target)
         if entry is not None and entry[0]==before:
             if _readback_witness(target,data,state)!=before:
-                raise Rejected('placement evidence changed during cached readback')
+                raise Rejected('routing evidence changed during cached readback')
             return copy.deepcopy(entry[1])
         state['entries'].pop(target,None)
         result=_check_result_uncached(target)
         if _readback_witness(target,data,state)!=before:
-            raise Rejected('placement evidence changed during full readback')
+            raise Rejected('routing evidence changed during full readback')
         if len(state['entries'])>=8:state['entries'].pop(next(iter(state['entries'])))
         state['entries'][target]=(before,copy.deepcopy(result))
         return result
