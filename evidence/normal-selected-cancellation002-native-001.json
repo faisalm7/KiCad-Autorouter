@@ -1,0 +1,136 @@
+{
+  "schema": 1,
+  "kind": "actual-missing-only-normal-selected-cancellation",
+  "source_checkpoint": "ef656ec34ce775427b41f1ae5d00be1c8700dd55",
+  "status": "qualified",
+  "accepted": false,
+  "routing_workflow_controls_qualified": true,
+  "actor": {
+    "path": ".runs/normal-selected-cancellation-native-002/result.json",
+    "sha256": "c12ee524cd483dd3321dcbe936398f2cde489d69ed2f06303b4e4405c94ee353"
+  },
+  "outer": {
+    "path": ".runs/normal-selected-cancellation-native-execution-002/execution.json",
+    "sha256": "baed2aa042b43c92c242d7eae03d63026f7abfad0169086b57201a55ac4aebfd"
+  },
+  "control": {
+    "path": ".runs/normal-selected-cancellation-native-002/cancellation/control.json",
+    "sha256": "caa7f4992c691b49f229d6a5cb3538614a05313520fce98eac9da1e965c13aef"
+  },
+  "protocol": {
+    "path": "experiments/normal_selected_workflow_v1/cancellation-input-pins.json",
+    "sha256": "64ca6419fe248fbd18e8bb571b51dcac27f544f5959dcfacf951b08e8dc393fb"
+  },
+  "retained_actual_workflow": "evidence/normal-selected-native001-actual-001.json",
+  "old001_aggregate_still_false": true,
+  "new_route_export_workers": 0,
+  "actual_new_cancellation": true,
+  "checks": {
+    "cli_rejected": true,
+    "engine_pid_bound": true,
+    "engine_cancelled_by_requested_signal": true,
+    "runner_cleanup_complete": true,
+    "engine_group_absent": true,
+    "source_unchanged": true,
+    "tools_and_code_unchanged": true
+  },
+  "observed_owned_engine": {
+    "pid": 90334,
+    "ppid": 90322,
+    "pgid": 90334
+  },
+  "signals": [
+    {
+      "pid": 90322,
+      "signal": "SIGINT",
+      "elapsed_seconds": 14.646995207993314
+    }
+  ],
+  "engine_process": {
+    "status": "cancelled",
+    "exit_code": -9,
+    "pid": 90334,
+    "cancel_signal": "SIGINT",
+    "cleanup_complete": true
+  },
+  "immediate_remaining_owned_group": [],
+  "source_unchanged": true,
+  "tools_and_code_unchanged": true,
+  "outer_qualified": true,
+  "cumulative_wall_seconds": 374.6633994570002,
+  "cumulative_total_cpu_seconds": 338.829834,
+  "cumulative_cap_seconds": 600,
+  "prior_charge": {
+    "components": [
+      {
+        "path": ".runs/normal-selected-workflow-native-execution-001/execution.json",
+        "sha256": "a59250e1974d02ab73bdb7fdeeeb8e89391cfe1df5b66e1bc3f418b6fd2984ef",
+        "wall_seconds": 139.03134245899855,
+        "total_cpu_seconds": 118.623982,
+        "publication_and_startup_allowance_seconds": 2
+      },
+      {
+        "path": ".runs/owned-process-metadata-targeted-preserved-001/output/execution.json",
+        "sha256": "bb88631a72b213795fbc049fcc820c9de19e289c9e2c9c5d475c88a938f545b1",
+        "wall_seconds": 0.3014981659944169,
+        "total_cpu_seconds": 0.223287,
+        "publication_and_startup_allowance_seconds": 2
+      },
+      {
+        "path": ".runs/cancellation-observer-targeted-001/execution.json",
+        "sha256": "ad1a9e8d7b35f92dde85ab60539a77619954a168322de3752279edccac3b8cb0",
+        "wall_seconds": 0.12961733300471678,
+        "total_cpu_seconds": 0.11737500000000001,
+        "publication_and_startup_allowance_seconds": 2
+      },
+      {
+        "path": ".runs/cancellation-observer-targeted-002/output/execution.json",
+        "sha256": "9630d3eabfe41dbf18d2cd9775ddc84155e152d0be210f344a1bf63ce0707cdf",
+        "wall_seconds": 0.48251004100893624,
+        "total_cpu_seconds": 0.324083,
+        "publication_and_startup_allowance_seconds": 2
+      },
+      {
+        "path": ".runs/full-integration-073/execution.json",
+        "sha256": "49c5be16921b0b8d26ed0c41a62bb2cb9f932a96a1d389ba0b9594887d54cdf6",
+        "wall_seconds": 84.58671850000974,
+        "total_cpu_seconds": 80.25534300000001,
+        "publication_and_startup_allowance_seconds": 2
+      },
+      {
+        "path": ".runs/full-integration-074/execution.json",
+        "sha256": "559ecb867d00ed127614f0d04f0c4891de1be5216afe1c2d652144bad06ab99c",
+        "wall_seconds": 85.1186844999902,
+        "total_cpu_seconds": 80.734927,
+        "publication_and_startup_allowance_seconds": 2
+      },
+      {
+        "path": ".runs/normal-selected001-readback-review-001/initial-refusal-execution.json",
+        "sha256": "c8dcdc2dce89cdc89a0a46dea871d6410e9f66ae8ffa79b299bb6c2de1ca9270",
+        "wall_seconds": 1.1910127500013914,
+        "total_cpu_seconds": 1.098452,
+        "publication_and_startup_allowance_seconds": 2
+      },
+      {
+        "path": ".runs/normal-selected001-readback-review-001/execution.json",
+        "sha256": "048460399df24407d61a8da08a405e8daa2e294e1f115fcaef6801bf652320a7",
+        "wall_seconds": 8.621219207998365,
+        "total_cpu_seconds": 8.215927999999998,
+        "publication_and_startup_allowance_seconds": 2
+      }
+    ],
+    "wall_seconds": 335.4626029570063,
+    "total_cpu_seconds": 305.59337700000003
+  },
+  "new_whole_wall_seconds": 37.200796499993885,
+  "new_whole_total_cpu_seconds": 31.236457,
+  "publication_allowance_seconds": 2,
+  "scope": "Actual engine-stage SIGINT with identical networkdenial plus retained allfour normal route/preview/test-intent/freshNativeexport proof. Original001false and allsource/test/refusalcosts retained; no rerouting or re-export. Workflow qualification only, no GUI/human/physical or routing superiority claim.",
+  "limitations": [
+    "Engine-stage SIGINT only; immediate owned-group absence is not persistent guarantee or hostile-detachment proof.",
+    "Separate projects, no live apply/undo/unsaved-editor-buffer qualification.",
+    "NUS retains all10warnings, authored controls have explicit absentSCH and unchanged5ignoredchecks.",
+    "Six exposed B1/B2/C qualitypairs unchanged; independent pedigrees/representative population/untouched confirmation remain unmet.",
+    "Current-source installation030 and new artifact incremental remain pending."
+  ]
+}
