@@ -28,6 +28,7 @@ ROUTES={'segment','via','arc'}
 NORMAL_DRC_LOCAL_SETTINGS_POLICY='job-owned-prl-immutable-v1'
 SELECTED_PROPOSAL_IMPORT_POLICY='selected-proposals-exact-source-v1'
 NORMAL_SELECTED_PROPOSAL_IMPORT_POLICY='selected-proposals-exact-source-v1'
+NORMAL_NATIVE_EXPORT_ALIAS_POLICY='source-bound-padless-export-v1'
 DERIVED_ZONE={'filled_polygon','fill_segments'}
 CRITICAL_CHECKS={'hole_clearance','hole_to_hole','hole_near_hole','starved_thermal','zones_intersect','padstack','items_not_allowed','through_hole_pad_without_hole','unconnected_items','shorting_items','clearance','track_width','via_diameter','annular_width','drill_out_of_range','copper_edge_clearance','invalid_outline','tracks_crossing'}
 CRITICAL_CHECKS |= {'track_on_post_machined_layer'}
@@ -189,12 +190,12 @@ def check_edge_text_support(tree):
         surface_field=key=='property' and any(sx.children(node,k) for k in ('at','effects','layer'))
         if key in text_items or surface_field:
             layers=sx.children(node,'layer')
-            silk_knockout=(len(layers)==1 and len(layers[0])==3
+            root_knockout=(len(layers)==1 and len(layers[0])==3
                 and id(node) in root_texts and key=='gr_text'
                 and isinstance(layers[0][1],str)
-                and sx.unquote(layers[0][1]) in {'F.SilkS','B.SilkS'}
+                and sx.unquote(layers[0][1]) in {'F.SilkS','B.SilkS','F.Cu','B.Cu'}
                 and layers[0][2]=='knockout')
-            if len(layers)!=1 or (len(layers[0])!=2 and not silk_knockout) or not isinstance(layers[0][1],str):
+            if len(layers)!=1 or (len(layers[0])!=2 and not root_knockout) or not isinstance(layers[0][1],str):
                 raise Rejected('text/field/dimension layer semantics not qualified')
             if sx.unquote(layers[0][1])=='Edge.Cuts':
                 raise Rejected('text/field/textbox/dimension on Edge.Cuts not qualified')
@@ -365,6 +366,21 @@ def normal_selected_import_policy(original,names):
     _,resolve=g.source_net_identity(original)
     return ('exact_non_uuid_lock_position_v2' if any(resolve(sx.one(route,'net')) in names for route in protected)
             else SELECTED_PROPOSAL_IMPORT_POLICY)
+
+
+def routing_task(original,scope,names=None):
+    """The exact fixed-placement export preimage, shared with proof readers."""
+    if scope=='selected_nets':
+        from . import routing_scope as rs
+        task=rs.task(original,names)
+    elif scope in {'whole_board_unlocked_routing','partial_completion'}:
+        task=copy.deepcopy(original)
+        if scope=='whole_board_unlocked_routing':
+            task[:]=[node for node in task if not isinstance(node,list) or not node or node[0] not in ROUTES or locked(node)]
+    else:raise Rejected('unknown original routing task scope')
+    for zone in sx.children(task,'zone'):
+        zone[:]=[node for node in zone if not isinstance(node,list) or not node or node[0] not in DERIVED_ZONE]
+    return task
 
 
 def normal_import_contract(directory,data,imports,*,input_policy,original):
@@ -1114,7 +1130,8 @@ def tool_manifest():
     git_head=subprocess.run(['git','rev-parse','HEAD'],cwd=c.ROOT,capture_output=True,text=True,check=True).stdout.strip()
     return {'implementation_sha256':implementation,'git_head':git_head,'kicad':'10.0.0','freerouting':'2.5.0','files':files,'network':'engine sandbox-exec deny network*',
             'normal_drc_local_settings_policy':NORMAL_DRC_LOCAL_SETTINGS_POLICY,
-            'normal_selected_proposal_import_policy':NORMAL_SELECTED_PROPOSAL_IMPORT_POLICY}
+            'normal_selected_proposal_import_policy':NORMAL_SELECTED_PROPOSAL_IMPORT_POLICY,
+            'normal_native_export_alias_policy':NORMAL_NATIVE_EXPORT_ALIAS_POLICY}
 
 def optimizer_threshold_audit(log, expected_percent):
     """Reject a logged stop threshold inconsistent with the declared profile.
@@ -1643,11 +1660,7 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
         shutil.copytree(source.parent,output/'snapshot'); shutil.copytree(source.parent,output/'candidate')
         snapshot=output/'snapshot'/source.name; candidate=output/'candidate'/source.name
         if tree_hash(output/'snapshot')!=before: raise Rejected('source changed during snapshot')
-        task=copy.deepcopy(original)
-        if selected is not None:task=rs.task(original,selected)
-        elif not keep_existing: task[:]=[n for n in task if not isinstance(n,list) or not n or n[0] not in ROUTES or locked(n)]
-        for z in sx.children(task,'zone'):
-            z[:]=[n for n in z if not isinstance(n,list) or not n or n[0] not in DERIVED_ZONE]
+        task=routing_task(original,report['scope'],selected)
         protected=copy.deepcopy(routes(task))
         sx.write(candidate,task)
         report['task_sha256']=sha(candidate)
@@ -1808,13 +1821,13 @@ def validation_readback_session():
     identity twice. Native execution and candidate acceptance are never cached.
     Hot replacement of checker functions invalidates reuse. No disk cache exists.
     """
-    from . import (adapter,board_floor,floor_context,floor_route,layer_policy,legacy_zone,local_settings,
+    from . import (adapter,board_floor,floor_context,floor_route,layer_policy,legacy_zone,local_settings,padless_alias,padless_alias_native,
                    netclass,placement_clearance,placement_strategy,
                    placement_transform,pour_rule_area,preferences,runner,strategy,
                    schematic_fields,schematic_field_evidence)
     import sys
     modules=(sys.modules[__name__],c,sx,adapter,board_floor,floor_context,
-             floor_route,layer_policy,legacy_zone,local_settings,netclass,placement_clearance,
+             floor_route,layer_policy,legacy_zone,local_settings,padless_alias,padless_alias_native,netclass,placement_clearance,
              placement_strategy,placement_transform,pour_rule_area,preferences,runner,strategy,
              schematic_fields,schematic_field_evidence)
     existing=_readback_session.get()
@@ -2057,14 +2070,7 @@ def _check_result_uncached(path):
         if data.get('baseline')!='C-prototype':
             # Reconstruct the exact native export input from the frozen source,
             # never from the already-routed candidate or receipt assertions.
-            task=copy.deepcopy(original)
-            if data['scope']=='selected_nets':
-                from . import routing_scope as rs
-                task=rs.task(original,selected_scope_names(data))
-            elif data['scope']=='whole_board_unlocked_routing':
-                task[:]=[node for node in task if not isinstance(node,list) or not node or node[0] not in ROUTES or locked(node)]
-            for zone in sx.children(task,'zone'):
-                zone[:]=[node for node in zone if not isinstance(node,list) or not node or node[0] not in DERIVED_ZONE]
+            task=routing_task(original,data['scope'],selected_scope_names(data))
             task_hash=hashlib.sha256((sx.dump(task)+'\n').encode()).hexdigest()
             exported=evidence('export-netclasses.json')
             project=json.loads(candidate.with_suffix('.kicad_pro').read_text())

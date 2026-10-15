@@ -238,6 +238,12 @@ def experiment(out, project_name='sonde', system='feedback', *, external_reserve
                 'fairness_limit': 'equal total budgets and constraints, different predeclared allocation policies; C is not initialized by the portfolio',
                 'editor_policy': 'operator closes PCB Editor and keeps other native/engine jobs idle',
                 'claims_limit': summary['claims_limit']}
+            if frozen['tools'].get('normal_native_export_alias_policy') is not None:
+                protocol['common_interchange_safety']=(
+                    'All arms use mandatory fixed-placement import and source-bound temporary padless export aliases when needed. '
+                    'The B0 label denotes raw-DSN standard-engine control within this safety wrapper; '
+                    'on duplicate-reference inputs it is not an unmodified stock KiCad export workflow. '
+                    'B1/B2/C share exactly the same alias policy; no gain is attributed to aliases alone.')
             if four_arm:
                 protocol.update(
                     allocation_formula='120 - max(shared setup wall, shared setup CPU) - 5 - external_reserve_seconds; same frozen inner allowance for all four arms',

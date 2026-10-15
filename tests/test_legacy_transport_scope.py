@@ -6,7 +6,7 @@ from autorouter import pipeline as p,preferences as pref,sexpr as sx
 import tests.test_result as result_fixture
 ROOT=Path(__file__).resolve().parents[1]
 CONTEXT=('whole_board_unlocked_routing','native','source_all')
-BOARD='(kicad_pcb (version 20240108) (layers (0 "F.Cu" signal) (31 "B.Cu" signal)) (net 0 "") (net 1 "GND") (footprint "authored" (at 10 10)) (segment (start 1 1) (end 2 1) (width 0.25) (layer "F.Cu") (net 1) (uuid "934a58bd-3229-4ecb-b5ca-3c26a44cfb8d")))\n'
+BOARD='(kicad_pcb (version 20240108) (layers (0 "F.Cu" signal) (31 "B.Cu" signal) (49 "F.Fab" user)) (net 0 "") (net 1 "GND") (footprint "authored" (at 10 10) (uuid "745aa611-f567-4c65-9521-a39ed0952a59") (property "Reference" "J1" (layer "F.Fab"))) (segment (start 1 1) (end 2 1) (width 0.25) (layer "F.Cu") (net 1) (uuid "934a58bd-3229-4ecb-b5ca-3c26a44cfb8d")))\n'
 PROJECT={'net_settings':{'classes':[{'name':'Default','track_width':0.25,'clearance':0.2,'via_diameter':0.8,'via_drill':0.4}],'netclass_patterns':[],'netclass_assignments':None},'board':{'design_settings':{'rules':{},'rule_severities':{},'drc_exclusions':[]}}}
 
 class ScopeControls(unittest.TestCase):

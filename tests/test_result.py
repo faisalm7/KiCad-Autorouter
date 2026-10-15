@@ -29,7 +29,7 @@ class ResultFreshnessTests(unittest.TestCase):
         self.source_dir = self.root / "source"
         self.source_dir.mkdir()
         self.source = self.source_dir / "test.kicad_pcb"
-        self.source.write_text('(kicad_pcb (version 20260206) (layers (0 "F.Cu" signal) (2 "B.Cu" signal)) (footprint "fixture" (at 10 10)) (segment (start 1 1) (end 2 1) (width 0.2) (layer "F.Cu") (net "GND") (uuid "a101573d-7eaf-4fae-9db5-45d41d49694a") (locked yes)) (segment (start 2 1) (end 3 1) (width 0.2) (layer "F.Cu") (net "GND") (uuid "7dd1c31d-09f3-49b9-973b-36db2937d07e")))\n')
+        self.source.write_text('(kicad_pcb (version 20260206) (layers (0 "F.Cu" signal) (2 "B.Cu" signal) (49 "F.Fab" user)) (footprint "fixture" (at 10 10) (uuid "921cc1e7-5e8a-4e9b-81ee-e6ae9d25bc1f") (property "Reference" "J1" (layer "F.Fab"))) (segment (start 1 1) (end 2 1) (width 0.2) (layer "F.Cu") (net "GND") (uuid "a101573d-7eaf-4fae-9db5-45d41d49694a") (locked yes)) (segment (start 2 1) (end 3 1) (width 0.2) (layer "F.Cu") (net "GND") (uuid "7dd1c31d-09f3-49b9-973b-36db2937d07e")))\n')
         self.source.with_suffix(".kicad_pro").write_text("{}\n")
         self.run = self.root / "run"
         self.run.mkdir()
@@ -112,7 +112,8 @@ class ResultFreshnessTests(unittest.TestCase):
 
     def test_retained_raw_and_adapted_exports_reject_missing_or_changed_bytes(self):
         for name, field in [("native.dsn", "native_dsn_sha256"), ("task.dsn", "task_dsn_sha256")]:
-            (self.run / name).write_text("raw export\n" if name == "native.dsn" else "adapted export\n")
+            # Use the already authored complete zero-alias export. Junk DSN
+            # bytes cannot satisfy the current captured producer's proof.
             self.data[field] = p.sha(self.run / name)
         self.save_receipt()
         self.assertTrue(p.check_result(self.receipt)["current"])
@@ -121,10 +122,10 @@ class ResultFreshnessTests(unittest.TestCase):
                 file = self.run / name
                 raw = file.read_bytes()
                 file.write_bytes(raw + b"changed\n")
-                with self.assertRaisesRegex(p.Rejected, "routing export changed"):
+                with self.assertRaisesRegex(p.Rejected, "routing export changed|raw Native alias DSN missing"):
                     p.check_result(self.receipt)
                 file.unlink()
-                with self.assertRaisesRegex(p.Rejected, "routing export changed"):
+                with self.assertRaisesRegex(p.Rejected, "routing export changed|raw Native alias DSN missing"):
                     p.check_result(self.receipt)
                 file.write_bytes(raw)
         del self.data["task_dsn_sha256"]
@@ -371,7 +372,7 @@ class ResultFreshnessTests(unittest.TestCase):
 
     def test_saved_code_or_tool_provenance_must_match(self):
         (self.run / "code" / "native.py").write_text("changed implementation")
-        with self.assertRaisesRegex(p.Rejected, "implementation differs|captured Native import producer differs"):
+        with self.assertRaisesRegex(p.Rejected, "implementation differs|captured Native import producer differs|alias Native producer provenance differs"):
             p.check_result(self.receipt)
         shutil.copy2(ROOT / "autorouter/native.py", self.run / "code/native.py")
         self.data["tools"]["files"][str(p.c.CLI)] = "2" * 64

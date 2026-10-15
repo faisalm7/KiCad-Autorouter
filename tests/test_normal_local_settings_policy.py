@@ -122,7 +122,7 @@ class NormalPolicyReceiptControls(unittest.TestCase):
         old=fixture.ROOT/'evidence/default-tuning-native-001/code/pipeline.py'
         shutil.copy2(old,self.run/'code/pipeline.py')
         self.data['tools']['implementation_sha256']['autorouter/pipeline.py']=p.sha(old)
-        with self.assertRaisesRegex(p.Rejected,'declaration missing'):ls.check_normal_policy(self.run,self.data)
+        with self.assertRaisesRegex(p.Rejected,'declaration missing|alias export producer and tool policies differ'):ls.check_normal_policy(self.run,self.data)
 
     def test_all_optional_policy_and_helper_evidence_deletion_still_rejects(self):
         self.data['tools'].pop('normal_drc_local_settings_policy')

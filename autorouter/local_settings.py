@@ -180,6 +180,16 @@ def _check_normal_policy(directory,data,*,max_bytes=None,max_files=None):
     pipeline=root/'code/pipeline.py';raw=read_bytes(pipeline,1024**2)
     if p.sha(pipeline)!=implementation.get('autorouter/pipeline.py'):raise p.Rejected('normal DRC producer source pin differs')
     policy=policy_declaration(raw)
+    # Native export policy is independent of PRL presence and its declaration.
+    # Check it before the legacy PRL return, using the same bounded census.
+    if max_bytes is None or max_files is None:
+        from . import placement_strategy as ps
+        default_bytes,default_files=(ps.LIMIT,ps.MAX_FILES) if data.get('schema')==5 else (100*1024**2,2000)
+        max_bytes=default_bytes if max_bytes is None else max_bytes
+        max_files=default_files if max_files is None else max_files
+    retained=inventory(root,max_bytes=max_bytes,max_files=max_files,max_entries=max_files*2)
+    from .padless_alias import check_exports
+    check_exports(root,data,retained)
     if policy is None:
         if 'normal_drc_local_settings_policy' in data.get('tools',{}):raise p.Rejected('normal DRC source declaration missing')
         return
@@ -191,12 +201,6 @@ def _check_normal_policy(directory,data,*,max_bytes=None,max_files=None):
     # Census retained workers as well as declared steps. A removed source,
     # refill or failed-trial row must not hide its still-retained DRC evidence.
     # Reuse the existing whole-evidence bounds, including pruning's larger cap.
-    if max_bytes is None or max_files is None:
-        from . import placement_strategy as ps
-        default_bytes,default_files=(ps.LIMIT,ps.MAX_FILES) if data.get('schema')==5 else (100*1024**2,2000)
-        max_bytes=default_bytes if max_bytes is None else max_bytes
-        max_files=default_files if max_files is None else max_files
-    retained=inventory(root,max_bytes=max_bytes,max_files=max_files,max_entries=max_files*2)
     from .adapter import check_fixed_placement_import
     imports=check_fixed_placement_import(root,data,retained)
     def is_drc(argv):

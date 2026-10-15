@@ -1,0 +1,60 @@
+{
+  "scope": "static closure review ONLY ALIAS-GEOMETRY-EMPTY; no tests/project runtime/Native/JVM/old audit executed",
+  "finding_id": "ALIAS-GEOMETRY-EMPTY",
+  "status": "closed-in-reviewed-source",
+  "source_sha256": "810926ea41e9eb1b034df46e693471aa8a50d6e492350ac1ef0df88ad5620c10",
+  "original_review_sha256": "2f61594b06a83e347df06c0c928e7127810c1f8f50afda14ed794c7a1f3a1844",
+  "closure": [
+    {
+      "lines": [
+        409,
+        413,
+        471,
+        481
+      ],
+      "reason": "Each pad and copper-bearing field/graphic uses source-derived required Cu layer keys; empty map or missing required layer fails. Ordinary shape maps require nonempty polygon lists."
+    },
+    {
+      "lines": [
+        461,
+        468
+      ],
+      "reason": "Every retained outer/hole ring requires at least three integer-nanometre vertices; empty polygon outer geometry fails."
+    },
+    {
+      "lines": [
+        419,
+        429
+      ],
+      "reason": "Zone outline must remain nonempty. Fill maps require every source zone Cu layer; empty per-layer derived containers are allowed only without sourcefilled_polygon on that layer, while sourcefilled layers require nonempty Native fill."
+    },
+    {
+      "lines": [
+        376,
+        400
+      ],
+      "reason": "Copper glyph and area outlines require nonempty bounded point populations."
+    }
+  ],
+  "retained_actual_census": {
+    "directory": ".runs/padless-alias-actual-census-004",
+    "checks_sha256": "9c7f9885a6a90bbcfbaab96533582bf3b52e55607797381e7d8877ecee0dd123",
+    "execution_sha256": "236eaa92eead25ad0c6fae54f2e1233b98621d093c3415efa4739ccbb18bdb03",
+    "passed": true,
+    "new_native": false,
+    "new_jvm": false,
+    "wall_seconds": 0.8431939579895698,
+    "full_cpu_seconds": 0.394873,
+    "source_pin_matches_review": true
+  },
+  "preserved_prior_attempts": [
+    ".runs/padless-alias-actual-census-001",
+    ".runs/padless-alias-actual-census-002",
+    ".runs/padless-alias-actual-census-003"
+  ],
+  "limits": [
+    "Only the last concrete empty-geometry finding is closed. No new general whole-core or electrical-geometry certificate is asserted.",
+    "The recorded census004 is a lead-produced pure check of retained actual during/restored payloads; this review only reads its immutable result and source binding.",
+    "Fresh current normal Native routing/export/cancellation compatibility and integration tests remain separate gates."
+  ]
+}

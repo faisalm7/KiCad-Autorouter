@@ -214,7 +214,12 @@ class PreferencePublicationTests(unittest.TestCase):
     def test_material_changes_during_final_engine_read_reject(self):
         for mutation in (None,'candidate','task_dsn'):
             with self.subTest(mutation=mutation):
-                fixture=self.receipt_fixture();dsn=fixture.run/'task.dsn';dsn.write_text('(pcb fixture)')
+                fixture=self.receipt_fixture();dsn=fixture.run/'task.dsn'
+                # Explicit owned setup rebuilds a complete current zero-alias
+                # export. The later tested mutation is never repaired.
+                from tests.normal_prl_fixture import refresh_authored_normal_export
+                refresh_authored_normal_export(fixture.run,fixture.data,test_root=fixture.root)
+                fixture.save_receipt()
                 read=f.read_json;calls=[];triggered=[]
                 def late(path):
                     value=read(path)

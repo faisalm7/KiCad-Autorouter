@@ -3,9 +3,79 @@
 Only callers' owned TemporaryDirectory copies may be changed. This declares
 what the fake worker fixture represents; it never runs Native or sets a flag.
 """
-import copy,stat,shutil
+import copy,json,stat,shutil
 from pathlib import Path
 from autorouter import pipeline as p,floor_route as f,local_settings as ls,adapter,sexpr as sx
+
+def authored_zero_alias_dsn(task,output,*,network=None):
+    """Explicit tiny DSN syntax for software fixtures, never a Native export."""
+    from autorouter import padless_alias as aliases
+    binding=aliases.plan((sx.dump(task)+'\n').encode())
+    if binding['aliases']:raise AssertionError('this authored builder models only zero aliases')
+    placement=['placement'];library=['library']
+    for index,row in enumerate(binding['footprints']):
+        image=json.dumps('authored-image-'+str(index))
+        placement.append(['component',image,['place',json.dumps(row['reference']),'0','0','front','0']])
+        library.append(['image',image])
+    tree=['pcb',json.dumps(str(output)),['parser',['string_quote',adapter._QUOTE_SENTINEL]],['unit','um'],['resolution','um','10'],
+          ['structure',['layer','F.Cu',['type','signal']],['layer','B.Cu',['type','signal']]],
+          placement,library,copy.deepcopy(network) if network is not None else ['network']]
+    return adapter._dump_dsn(tree).encode()
+
+
+def _authored_normal_export(directory,data,*,raw_dsn=None,task_dsn=None):
+    """Author current zero-alias evidence once during legitimate fixture setup."""
+    from autorouter import padless_alias as aliases
+    if data.get('schema')!=1 or data.get('input_policy','native')!='native' or 'strategy' in data:
+        raise AssertionError('authored export requires a direct normal fixture')
+    if any(s.get('cwd')==str(directory) and s.get('name')=='export' for s in data['steps']):
+        raise AssertionError('authored export already exists; use explicit setup refresh')
+    candidate=Path(data['candidate']);original=sx.read(Path(data['source']))
+    task=p.routing_task(original,data['scope'],p.selected_scope_names(data));raw=(sx.dump(task)+'\n').encode()
+    binding=aliases.plan(raw)
+    if binding['aliases']:raise AssertionError('generic receipt fixture models zero aliases only')
+    output=directory/'task.dsn';paths=aliases.artifact_paths(output)
+    if any(x.exists() or x.is_symlink() for x in (output,directory/'native.dsn',*paths.values(),directory/'export-process.json',directory/'export.log')):
+        raise AssertionError('fresh authored export files required')
+    dsn=authored_zero_alias_dsn(task,output) if raw_dsn is None else raw_dsn
+    aliases.dsn_aliases(dsn,raw,binding)
+    paths['source_copy'].write_bytes(raw);(directory/'native.dsn').write_bytes(dsn)
+    output.write_bytes(dsn if task_dsn is None else task_dsn)
+    proof=dict(schema=1,policy=aliases.POLICY,native_version='10.0.0',source=str(candidate),
+        source_sha256=aliases.sha(raw),project_sha256=p.sha(candidate.with_suffix('.kicad_pro')),
+        output=str(output),dsn_sha256=aliases.sha(dsn),source_copy=paths['source_copy'].name,binding=binding,
+        native_footprints=binding['footprints'],zero_alias=True,native_classmap=None,observation=None,board_saved=False,routing_accepted=False)
+    p.save_json(paths['proof'],proof);log=directory/'export.log';log.write_bytes(b'')
+    worker=dict(name='export',cwd=str(directory),status='success',exit_code=0,cleanup_complete=True,
+        wall_seconds=0,cpu_seconds=0,monitor_cpu_seconds=0,log=str(log),log_bytes=0,log_truncated=False,
+        argv=[str(p.c.PYTHON),str(p.c.ROOT/'autorouter/native.py'),'export',str(candidate),str(output)])
+    p.save_json(directory/'export-process.json',worker);data['steps'].append(copy.deepcopy(worker))
+    data.update(task_sha256=aliases.sha(raw),native_dsn_sha256=p.sha(directory/'native.dsn'),task_dsn_sha256=p.sha(output))
+
+
+def remove_authored_normal_export(directory,data,*,test_root):
+    """Setup-only removal of our existing zero-cost synthetic export population."""
+    from autorouter import padless_alias as aliases
+    _,directory=_owned_fixture_paths(directory,data,test_root)
+    rows=[s for s in data['steps'] if s.get('cwd')==str(directory) and s.get('name')=='export']
+    if len(rows)!=1 or any(rows[0].get(k)!=v for k,v in dict(status='success',exit_code=0,cleanup_complete=True,wall_seconds=0,cpu_seconds=0,monitor_cpu_seconds=0).items()):
+        raise AssertionError('removal requires our existing zero-cost authored export')
+    paths=aliases.artifact_paths(directory/'task.dsn');proof=f.read_json(paths['proof'])
+    if proof.get('policy')!=aliases.POLICY or proof.get('zero_alias')is not True or proof.get('observation')is not None:
+        raise AssertionError('only the authored zero-alias export may be replaced')
+    for path in (directory/'task.dsn',directory/'native.dsn',paths['source_copy'],paths['proof'],directory/'export-process.json',directory/'export.log'):
+        ls.canonical(path)
+        if not path.is_file() or path.is_symlink():raise AssertionError('authored export file missing or aliased')
+        path.unlink()
+    data['steps']=[s for s in data['steps'] if s not in rows]
+    data.pop('native_dsn_sha256',None);data.pop('task_dsn_sha256',None)
+
+
+def refresh_authored_normal_export(directory,data,*,test_root,raw_dsn=None,task_dsn=None):
+    """Explicit setup refresh; never call after a test's deliberate fault."""
+    _,directory=_owned_fixture_paths(directory,data,test_root)
+    remove_authored_normal_export(directory,data,test_root=test_root)
+    _authored_normal_export(directory,data,raw_dsn=raw_dsn,task_dsn=task_dsn)
 
 def _authored_normal_import(directory,data):
     """Complete an explicitly opted-in software fixture, never Native evidence."""
@@ -40,6 +110,7 @@ def _authored_normal_import(directory,data):
                     '--exit-code-violations','--output',str(directory/(name+'.json')),'--save-board',str(target)]}
     p.save_json(directory/(name+'-process.json'),worker)
     data['steps'].append(dict(worker,validated_input_sha256=inputs[source.name],emitted_candidate=str(target)))
+    _authored_normal_export(directory,data)
 
 
 def _owned_fixture_paths(directory,data,test_root):
@@ -61,6 +132,7 @@ def refresh_authored_normal_import(directory,data,*,test_root):
     Only the existing zero-cost direct authored transport may be replaced.
     """
     _,directory=_owned_fixture_paths(directory,data,test_root)
+    remove_authored_normal_export(directory,data,test_root=test_root)
     stages=[step for step in data['steps'] if step.get('cwd')==str(directory)
             and step.get('name') in {'import','refill-drc'}]
     if (len(stages)!=2 or {step['name'] for step in stages}!={'import','refill-drc'}
@@ -120,6 +192,7 @@ def mark_authored_receipt(directory,data,*,test_root,fixed_imports=False,normal_
     if not updates:raise AssertionError('no authored DRC stages to declare')
     data['tools']['normal_drc_local_settings_policy']=policy
     data['tools']['normal_selected_proposal_import_policy']=p.NORMAL_SELECTED_PROPOSAL_IMPORT_POLICY
+    data['tools']['normal_native_export_alias_policy']=p.NORMAL_NATIVE_EXPORT_ALIAS_POLICY
     for binding_path,binding,process_path,process,step in updates:
         p.save_json(binding_path,binding);p.save_json(process_path,process)
         step['local_settings_policy']=policy;step['local_settings_protection']=copy.deepcopy(process['local_settings_protection'])

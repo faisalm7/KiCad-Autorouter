@@ -85,6 +85,8 @@ class PruningPreferenceFreshness(unittest.TestCase):
         # C itself exported/imported the same candidate a second time.
         final_steps = [row for row in data['steps'] if row['name'] == 'final-drc']
         self.assertEqual(len(final_steps), 1)
+        from tests.normal_prl_fixture import remove_authored_normal_export
+        remove_authored_normal_export(run,data,test_root=case.root)
         for name in ('imported.kicad_pcb', 'imported.routes-only.ses', 'imported.routes-only.json',
                      'routes.ses', 'import-process.json', 'pre-refill.kicad_pcb',
                      'refill-drc.json', 'refill-drc-binding.json', 'refill-drc-process.json'):

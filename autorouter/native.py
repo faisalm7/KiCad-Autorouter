@@ -8,6 +8,7 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from autorouter.netclass_native import observe_class
 
 FIXED_PLACEMENT_SESSION_POLICY='fixed-placement-session-v1'
+EXPORT_ALIAS_POLICY='source-bound-padless-export-v1'
 
 def file_hash(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
@@ -50,15 +51,16 @@ def main():
         raise RuntimeError('production native worker requires exact10.0.0')
     action, source, output = sys.argv[1:4]
     mapping_requested = action == 'netclasses' or (action == 'export' and len(sys.argv) == 5)
-    before = (file_hash(source), file_hash(Path(source).with_suffix('.kicad_pro'))) if mapping_requested or action=='pour-audit' else None
+    before = (file_hash(source), file_hash(Path(source).with_suffix('.kicad_pro'))) if mapping_requested or action in ('export','pour-audit') else None
     field_before = tuple(file_hash(Path(source).with_suffix(suffix)) for suffix in ('.kicad_pcb','.kicad_pro','.kicad_sch')) if action=='fields' else None
     board = pcbnew.LoadBoard(source)
     if not board:
         raise RuntimeError('KiCad could not load board')
     if action == 'export':
         mapping = netclasses(board, source, before) if mapping_requested else None
-        if not pcbnew.ExportSpecctraDSN(board, output):
-            raise RuntimeError('DSN export failed')
+        from autorouter.padless_alias import export_board,POLICY
+        if POLICY!=EXPORT_ALIAS_POLICY:raise RuntimeError('Native export alias policy differs')
+        export_board(board,source,output,pcbnew,mapping=mapping,before=before)
         if mapping_requested:
             if before != (file_hash(source), file_hash(Path(source).with_suffix('.kicad_pro'))):
                 raise RuntimeError('Board or project changed during DSN export')

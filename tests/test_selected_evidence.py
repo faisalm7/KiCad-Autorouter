@@ -26,7 +26,9 @@ class SelectedEvidence(unittest.TestCase):
         request={'captured':None,'effective':pref.resolve(overrides={'scope':'selected_nets','nets':['GND'],'profile':'completion-only'}),
                  'snapshot':pref.snapshot(overrides={'scope':'selected_nets','nets':['GND'],'profile':'completion-only'})}
         p.capture_preferences(x.data,x.run,request)
-        dsn=b'(pcb fixture (parser (string_quote ")) (network (net GND (pins J1-1)) (class kicad_default GND (rule (width 200)))))\n'
+        from tests.normal_prl_fixture import authored_zero_alias_dsn,refresh_authored_normal_export
+        network=['network',['net','GND',['pins','J1-1']],['class','kicad_default','GND',['rule',['width','200']]]]
+        dsn=authored_zero_alias_dsn(p.routing_task(original,'selected_nets',['GND']),x.run/'task.dsn',network=network)
         emitted,dsn_binding=rs.partition_dsn(dsn,['GND']);x.data['selected_dsn_binding']=dsn_binding
         (x.run/'routing-scope-input.dsn').write_bytes(dsn)
         settings=p.engine_profile_settings('completion-only',100,strict_class_targets=True);settings.update(outer_task_wall_budget_seconds=120,outer_task_cpu_budget_seconds=120)
@@ -57,6 +59,9 @@ class SelectedEvidence(unittest.TestCase):
         x.data.update(child_cpu_seconds=1.2,total_cpu_seconds=1.5)
         p.transplant_routes(original,original,protected=rs.protected_routes(original,['GND']),audit=audit,policy='exact_non_uuid_lock_position_v2')
         x.data['protected_route_import']=audit
+        # Scope/source edits above are intentional setup. Rebuild the owned
+        # zero-cost export proof now, never after a tested fault.
+        refresh_authored_normal_export(x.run,x.data,test_root=x.root,raw_dsn=dsn,task_dsn=emitted)
         from tests.normal_prl_fixture import mark_authored_receipt
         mark_authored_receipt(x.run,x.data,test_root=x.root,fixed_imports=True)
         x.save_receipt()
@@ -71,7 +76,7 @@ class SelectedEvidence(unittest.TestCase):
         x.data=copy.deepcopy(good)
         for name in ('native.dsn','task.dsn'):
             path=x.run/name;original=path.read_bytes();path.write_bytes(b'unrelated task\n');x.save_receipt()
-            with self.subTest(name=name),self.assertRaisesRegex(p.Rejected,'routing export'):p.check_result(x.receipt)
+            with self.subTest(name=name),self.assertRaisesRegex(p.Rejected,'routing export|raw Native alias DSN missing'):p.check_result(x.receipt)
             path.write_bytes(original)
 
     def test_selected_protection_reconciliation_and_task_binding_are_mandatory(self):
@@ -79,7 +84,7 @@ class SelectedEvidence(unittest.TestCase):
         del x.data['protected_route_import'];x.save_receipt()
         with self.assertRaisesRegex(p.Rejected,'complete protected import|current normal import requires complete proof'):p.check_result(x.receipt)
         x.data=copy.deepcopy(good);x.data['task_sha256']='0'*64;x.save_receipt()
-        with self.assertRaisesRegex(p.Rejected,'selected-net source binding'):p.check_result(x.receipt)
+        with self.assertRaisesRegex(p.Rejected,'selected-net source binding|alias input differs from original normal task'):p.check_result(x.receipt)
 
     def test_complete_selector_removal_cannot_hide_retained_scoped_input(self):
         x=self.fixture;self.assertTrue(p.check_result(x.receipt)['current'])
@@ -97,7 +102,10 @@ class SelectedEvidence(unittest.TestCase):
         # unqualified-edge record for this intentionally minimal board fixture.
         from tests.test_native_edge import DSN
         from autorouter import adapter,native_edge
-        native=DSN.encode();(x.run/'native.dsn').write_bytes(native)
+        tree=adapter._parse_dsn(DSN)
+        sx.children(sx.one(tree,'placement'),'component')[0][2][1]='J1'
+        sx.one(sx.children(sx.one(tree,'network'),'net')[0],'pins')[1]='J1-1'
+        native=adapter._dump_dsn(tree).encode();(x.run/'native.dsn').write_bytes(native)
         adapted,adapter_record=adapter.adapt_bytes(native,'both',[])
         corrected,edge_record=native_edge.correct(adapted,p.native_edge_context(x.run/'snapshot'/x.source.name))
         p.save_json(x.run/'obstacles.json',[]);(x.run/'edge-adapter-input.dsn').write_bytes(adapted)
@@ -106,6 +114,8 @@ class SelectedEvidence(unittest.TestCase):
         emitted,binding=rs.partition_dsn(corrected,['GND']);(x.run/'task.dsn').write_bytes(emitted)
         x.data.update(adapter_transformations=adapter_record,native_edge_correction=edge_record,
             native_dsn_sha256=p.sha(x.run/'native.dsn'),task_dsn_sha256=p.sha(x.run/'task.dsn'),selected_dsn_binding=binding)
+        from tests.normal_prl_fixture import refresh_authored_normal_export
+        refresh_authored_normal_export(x.run,x.data,test_root=x.root,raw_dsn=native,task_dsn=emitted)
         x.save_receipt()
         self.assertTrue(p.check_result(x.receipt)['current'])
         base.write_bytes(base.read_bytes().replace(b'width 200',b'width 100'))

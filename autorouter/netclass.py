@@ -143,7 +143,7 @@ def reject_tuning_intent(project):
 
 
 def qualify_project(project):
-    """Admit Default alone, or Default plus one class with literal identifiers.
+    """Admit Default alone, or one active-literal/Native-proven unused class.
 
     This is an eligibility whitelist, not a general netclass resolver. Native
     KiCad remains the source of the per-net effective class map.
@@ -157,12 +157,20 @@ def qualify_project(project):
     classes = settings.get("classes")
     if not isinstance(classes, list) or len(classes) not in (1, 2):
         raise ValueError("Only one or two fully specified netclasses qualified")
+    patterns = settings.get("netclass_patterns")
+    if patterns is None:
+        patterns = []
+    if not isinstance(patterns, list):
+        raise ValueError("Malformed netclass pattern list")
+    unused_second = len(classes) == 2 and not patterns
     names = []
     for cls in classes:
         if not isinstance(cls, dict) or not isinstance(cls.get("name"), str):
             raise ValueError("Malformed netclass")
         name = cls["name"]
-        if not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", name) or name == "kicad_default":
+        pattern = r"[A-Za-z0-9_]{1,64}" if unused_second else r"[A-Za-z_][A-Za-z0-9_]*"
+        if (not re.fullmatch(pattern, name) or name == "kicad_default"
+                or unused_second and name.casefold() in {"default", "kicad_default"} and name != "Default"):
             raise ValueError("Netclass identifier outside narrow scope")
         names.append(name)
         for _, key, _ in _DIMENSIONS:
@@ -173,15 +181,16 @@ def qualify_project(project):
             raise ValueError("Netclass tuning profiles not qualified")
     if len(set(names)) != len(names) or "Default" not in names:
         raise ValueError("Unique Default class required")
-    patterns = settings.get("netclass_patterns")
-    if patterns is None:
-        patterns = []
-    if not isinstance(patterns, list):
-        raise ValueError("Malformed netclass pattern list")
+    if unused_second and len({name.casefold() for name in names}) != len(names):
+        raise ValueError("Unique unused class namespace required")
     if len(classes) == 1:
         if patterns:
             raise ValueError("Patterns require the explicit second class")
         return {"mode": "single_default", "literal_assignments": {}}
+    if unused_second:
+        # Eligibility alone cannot prove inactivity. audit_native below requires
+        # every actual Native net to remain Default, including padless nets.
+        return {"mode": "literal_two_class", "literal_assignments": {}}
     nondefault = next(name for name in names if name != "Default")
     if not isinstance(patterns, list) or not 1 <= len(patterns) <= 1024:
         raise ValueError("A bounded list of literal assignments is required")
@@ -242,8 +251,10 @@ def audit_native(native, project, *, parent_policy=False):
     except (KeyError, TypeError):
         raise ValueError("Original board dimension floors required") from None
     observed_classes = {row["class"] for row in records.values()}
-    # Multi-class scope must actually exercise native nondefault resolution.
-    if policy["mode"] == "literal_two_class" and observed_classes <= {"Default"}:
+    # Declared active assignments must exercise native nondefault resolution.
+    # Empty assignments are the separately checked unused-definition scope;
+    # its per-net expected-class check above permits only actual Default rows.
+    if policy["mode"] == "literal_two_class" and policy["literal_assignments"] and observed_classes <= {"Default"}:
         raise ValueError("Native resolution did not exercise a nondefault class")
     if parent_policy and observed_classes <= {'Default'}:
         raise ValueError('Native parent resolution did not exercise a nondefault class')

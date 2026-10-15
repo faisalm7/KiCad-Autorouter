@@ -41,7 +41,7 @@ FEEDBACK_ARMS = (*ARMS[:3],
     {**ARMS[3], "id": "C_feedback", "proposal_policy": "feedback"},
 )
 SCRIPT = Path(__file__).resolve()
-PROJECTS = {"cellscan":"Studented0-18650-Tester", "analog-filter":"Myrto-Angeliki-analog-filter", "sonde": "kicad-sonde-xilinx", "interf_u": "kicad-interf-u", "multichannel": "kicad-multichannel", "ardujoy-c64":"eduardofv-ArdujoyC64", "nus-usb-led":"nushackers-hsp-pcb-intro", "push-button-led":"gurusaeth12-push-button-led-kicad", "arcdice":"VorosEgyes-ArcDice"}
+PROJECTS = {"roller-encoder":"sparkfun-SparkFun-Roller-Encoder-Breakout", "cellscan":"Studented0-18650-Tester", "analog-filter":"Myrto-Angeliki-analog-filter", "sonde": "kicad-sonde-xilinx", "interf_u": "kicad-interf-u", "multichannel": "kicad-multichannel", "ardujoy-c64":"eduardofv-ArdujoyC64", "nus-usb-led":"nushackers-hsp-pcb-intro", "push-button-led":"gurusaeth12-push-button-led-kicad", "arcdice":"VorosEgyes-ArcDice"}
 SUPPORT = (SCRIPT, c.ROOT / "toolchain.lock.json", c.ROOT / "data/sources.json",
            c.ROOT/'scripts/fetch_led_demo.py',
            c.ROOT/'experiments/arcdice_native_class_v1/source.py',
@@ -61,6 +61,20 @@ def total_process_cpu():
 
 
 def selected_source(name):
+    if name=='roller-encoder':
+        # Read-only reuse of the exact original five-file notice packet from
+        # the exposed support investigation. Never select its routed candidate.
+        # Source revision9aeb5e878ea6ae5c3becabfbdb2607528404c4b3;
+        # CC-BY4 notices retained, asset/ancestry rights remain unestablished.
+        base=c.ROOT/'.runs/roller-semantics-native-001/original/observe-input'
+        expected={
+            'SparkFun_Roller_Encoder_Breakout.kicad_pcb':'3086590581f2c33fc646f8a5c5e9ffaeeec12ba7d31b31e0afb8c414d5260ff5',
+            'SparkFun_Roller_Encoder_Breakout.kicad_pro':'2a3df77393af19e5c8dfb2e8d9e44dac19f359585c17f119718751a5cc2a9bab',
+            'SparkFun_Roller_Encoder_Breakout.kicad_sch':'e3ea67a15764de4ea1062c3f8e54998d34e20bb00875773504d01bbb5285693c',
+            '_licenses/creator/LICENSE.md':'60ff0c64f197db99b0f4fe6fbcd2de308117cdd791d99a86edfcaa5c10a82bc6',
+            '_licenses/creator/README.md':'5d16e9ca7a7c7439c5add9f73f2c6cdfce4de3108bfd65f1991ba3ec761337e5'}
+        if p.tree_hash(base)!=expected:raise p.Rejected('exact original notice-bearing Roller packet required')
+        return base/'SparkFun_Roller_Encoder_Breakout.kicad_pcb','Roller-Encoder-development-exposed-ancestry-unverified'
     if name=='cellscan':
         from scripts.fetch_led_demo import capture_native_source
         base,files=capture_native_source('cellscan',root=c.ROOT)

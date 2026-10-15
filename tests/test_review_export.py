@@ -60,7 +60,8 @@ class ExportControls(unittest.TestCase):
         # real current code. The real Job emits each absent-PRL guard event.
         # Empty tool-file pins explicitly provide no native binary proof.
         tools={'implementation_sha256':{'autorouter/'+path.name:p.sha(path) for path in (ROOT/'autorouter').glob('*.py')},
-               'files':{},'normal_drc_local_settings_policy':p.NORMAL_DRC_LOCAL_SETTINGS_POLICY}
+               'files':{},'normal_drc_local_settings_policy':p.NORMAL_DRC_LOCAL_SETTINGS_POLICY,
+               'normal_native_export_alias_policy':p.NORMAL_NATIVE_EXPORT_ALIAS_POLICY}
         self.stack.enter_context(patch.object(p,'tool_manifest',return_value=tools))
         self.stack.enter_context(patch.object(e,'run',side_effect=self.native_run))
         h.review_copy(self.receipt,self.root/'review');self.choice=self.root/'choice/choice.json';h.review_choice(self.root/'review/review.json',self.choice.parent,'accept')
