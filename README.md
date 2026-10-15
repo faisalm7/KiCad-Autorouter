@@ -14,7 +14,7 @@ The qualified runtime is this Mac's arm64 environment, KiCad10.0.0, Freerouting2
 
 Original code and owned fixtures are GPL-3.0-or-later. Downloaded hardware and engines have separate [rights and provenance](docs/data-provenance.md); raw third-party assets/models are not redistributed. No telemetry, runtime model, training/chat feature or formal release/package publication is included. Development is ongoing under [MASTER_PROMPT](MASTER_PROMPT.md) and [AGENTS](AGENTS.md).
 
-Audited source and small evidence are pushed to the authorized rebuild branch. [Full restoration004](evidence/backups/full-restore-current-0423571.json) verifies297581non-Git files, all Gitrefs, empty-repository restoration and restored CLI through0423571. Later artifacts await the next recorded backup cutoff. The [backup helper](scripts/backup.py) retains finite capacities and safety guards. Raw archives are on this Mac only by owner choice, so they do not protect against disk failure. [Current status](STATUS.md).
+Audited source and small evidence are pushed to the authorized rebuild branch. [Full restoration005](evidence/backups/full-restore-current-46b4b1b.json) verifies300462non-Git files, all Gitrefs, empty-repository restoration and restored CLI through46b4b1b, including current installation and adaptive failures/results. Later artifacts have separate recorded cutoffs. The [backup helper](scripts/backup.py) retains finite capacities and safety guards. Raw archives are on this Mac only by owner choice, so they do not protect against disk failure. [Current status](STATUS.md).
 
 [Exact preceding README](docs/history/2026-10-14-4b1e871/README.md) preserves the historical experiments and changes in interpretation.
 
