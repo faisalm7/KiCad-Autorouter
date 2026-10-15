@@ -445,12 +445,13 @@ def routing_task(original,scope,names=None):
     return task
 
 
-def normal_import_contract(directory,data,imports,*,input_policy,original):
+def normal_import_contract(directory,data,imports,*,input_policy,original,native_toolchain=None):
     """Force current direct normal import proofs from captured producer code.
 
     Import rows come only from the existing checked Native process census.
     Genuine older producers retain their original strict readback contract.
     """
+    experimental_native_version(native_toolchain)
     from .local_settings import canonical,policy_declaration
     from .placement_clearance import read_bytes
     root=canonical(Path(directory));producer=root/'code/pipeline.py'
@@ -527,7 +528,7 @@ def normal_import_contract(directory,data,imports,*,input_policy,original):
         raise Rejected('normal saved refill changed original geometry or routes')
     refill=root/'refill'/candidate.name
     f.check_drc_stage(root,data,'refill-drc',refill,refill,True,
-        {**data['source_hashes'],candidate.name:sha(before_path)},sandboxed=False)
+        {**data['source_hashes'],candidate.name:sha(before_path)},sandboxed=False,native_toolchain=native_toolchain)
     if (sx.dump(transplant_fill(before,sx.read(refill)))+'\n').encode()!=read_bytes(candidate):
         raise Rejected('normal saved refill reconstruction differs')
     binding=data.get('protected_route_import')
@@ -2133,7 +2134,7 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
         raise Rejected('cancelled or incomplete process cleanup in receipt')
     from .local_settings import check_normal_policy
     imports=check_normal_policy(path.parent,data,native_toolchain=native_toolchain)
-    import_contract=normal_import_contract(path.parent,data,imports,input_policy=input_policy,original=original)
+    import_contract=normal_import_contract(path.parent,data,imports,input_policy=input_policy,original=original,native_toolchain=native_toolchain)
     check_protected_import(path.parent,data,original,candidate,protected,**(import_contract or {}))
 
     def evidence(name):
@@ -2277,7 +2278,7 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
         if bounded_evidence(path.parent)!=readback_material:
             raise Rejected('complete preference routing evidence changed during readback')
     imports=check_normal_policy(path.parent,data,native_toolchain=native_toolchain)
-    import_contract=normal_import_contract(path.parent,data,imports,input_policy=input_policy,original=original)
+    import_contract=normal_import_contract(path.parent,data,imports,input_policy=input_policy,original=original,native_toolchain=native_toolchain)
     check_protected_import(path.parent,data,original,candidate,protected,**(import_contract or {}))
     check_event(path.parent,binding,process)  # Flags/link counts are outside byte witnesses.
     if native_toolchain is not None:
