@@ -1,0 +1,45 @@
+test_actual_pair_final_stable_rejects_owned_prerequisite_flag_flip_during_last_material (tests.test_fanout_prerequisite_prl.PrerequisitePRLControls.test_actual_pair_final_stable_rejects_owned_prerequisite_flag_flip_during_last_material) ... FAIL
+test_complete_dispositions_keep_failed_and_unattempted_or_missing_arms_visible (tests.test_fanout_prerequisite_prl.PrerequisitePRLControls.test_complete_dispositions_keep_failed_and_unattempted_or_missing_arms_visible) ... ok
+test_actual_route_publication_rechecks_restored_prl_flags_after_reader (tests.test_experimental_route_publication.LateRoutePublicationMetadata.test_actual_route_publication_rechecks_restored_prl_flags_after_reader) ... ok
+test_explicit_pin_validation_starts_inside_route_budget (tests.test_experimental_route_publication.LateRoutePublicationMetadata.test_explicit_pin_validation_starts_inside_route_budget) ... ok
+test_actual_cancelled_journal_and_route_are_distinct_from_failure (tests.test_engine_angle_native_control.FreeAngleDeliveryControls.test_actual_cancelled_journal_and_route_are_distinct_from_failure) ... ok
+test_explicit_negative_output_rejects_outside_root_and_alias_before_native (tests.test_engine_angle_native_control.FreeAngleDeliveryControls.test_explicit_negative_output_rejects_outside_root_and_alias_before_native) ... ok
+test_late_invalidation_clears_passed_and_keeps_the_failed_receipt (tests.test_engine_angle_native_control.FreeAngleDeliveryControls.test_late_invalidation_clears_passed_and_keeps_the_failed_receipt) ... ok
+test_loader_job_uses_fresh_output_and_actual_retained_dsn_bytes (tests.test_engine_angle_native_control.FreeAngleDeliveryControls.test_loader_job_uses_fresh_output_and_actual_retained_dsn_bytes) ... ok
+test_owned_source_has_oblique_route_and_original_protected_keep (tests.test_engine_angle_native_control.FreeAngleDeliveryControls.test_owned_source_has_oblique_route_and_original_protected_keep) ... ok
+test_actual_final_stable_rejects_owned_prl_flag_only_mutation_after_readback_in_both_paths (tests.test_engine_fanout.EngineFanoutControls.test_actual_final_stable_rejects_owned_prl_flag_only_mutation_after_readback_in_both_paths) ... ok
+test_actual_stable_and_shared_publisher_keep_unchanged_owned_prl_current_in_both_paths (tests.test_engine_fanout.EngineFanoutControls.test_actual_stable_and_shared_publisher_keep_unchanged_owned_prl_current_in_both_paths) ... ok
+test_default_budget_and_profile_argv_stay_unchanged (tests.test_engine_fanout.EngineFanoutControls.test_default_budget_and_profile_argv_stay_unchanged) ... ok
+test_erased_override_with_actual_or_asserted_flag_cannot_downgrade (tests.test_engine_fanout.EngineFanoutControls.test_erased_override_with_actual_or_asserted_flag_cannot_downgrade) ... ok
+test_erasing_budget_worker_and_override_still_requires_current_producer_budget (tests.test_engine_fanout.EngineFanoutControls.test_erasing_budget_worker_and_override_still_requires_current_producer_budget) ... ok
+test_exact_settings_and_actual_journal_replay_succeeds (tests.test_engine_fanout.EngineFanoutControls.test_exact_settings_and_actual_journal_replay_succeeds) ... ok
+test_late_journal_edit_invalidates_shared_guarded_publication (tests.test_engine_fanout.EngineFanoutControls.test_late_journal_edit_invalidates_shared_guarded_publication) ... ok
+test_missing_mismatched_or_rewritten_journal_refuses (tests.test_engine_fanout.EngineFanoutControls.test_missing_mismatched_or_rewritten_journal_refuses) ... ok
+test_non_native_preferences_partial_and_experimental_refuse_before_output (tests.test_engine_fanout.EngineFanoutControls.test_non_native_preferences_partial_and_experimental_refuse_before_output) ... ok
+test_only_one_flag_changes_and_strict_derivation_stays_false (tests.test_engine_fanout.EngineFanoutControls.test_only_one_flag_changes_and_strict_derivation_stays_false) ... ok
+test_positive_width_or_class_policy_refuses_before_job (tests.test_engine_fanout.EngineFanoutControls.test_positive_width_or_class_policy_refuses_before_job) ... ok
+test_reader_scope_refuses_floors_strategy_layers_and_profile_downgrade (tests.test_engine_fanout.EngineFanoutControls.test_reader_scope_refuses_floors_strategy_layers_and_profile_downgrade) ... ok
+test_reciprocal_marker_budget_typed_and_duplicate_flag_refusals (tests.test_engine_fanout.EngineFanoutControls.test_reciprocal_marker_budget_typed_and_duplicate_flag_refusals) ... ok
+test_shared_result_entry_rejects_missing_override_budget_before_dispatch (tests.test_engine_fanout.EngineFanoutControls.test_shared_result_entry_rejects_missing_override_budget_before_dispatch) ... ok
+test_types_true_strict_and_floor_without_optin_refuse (tests.test_engine_fanout.EngineFanoutControls.test_types_true_strict_and_floor_without_optin_refuse) ... ok
+
+======================================================================
+FAIL: test_actual_pair_final_stable_rejects_owned_prerequisite_flag_flip_during_last_material (tests.test_fanout_prerequisite_prl.PrerequisitePRLControls.test_actual_pair_final_stable_rejects_owned_prerequisite_flag_flip_during_last_material)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_fanout_prerequisite_prl.py", line 72, in test_actual_pair_final_stable_rejects_owned_prerequisite_flag_flip_during_last_material
+    guard(plan)  # Real existing normal-policy checker, before any fault.
+    ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/fanout_baseline_v1/pair.py", line 65, in check_control_prl
+    owned.check_prl(spec,child)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/fanout_baseline_v1/native_control.py", line 107, in check_prl
+    ls.check_normal_policy(CHILD/'route',f.read_json(CHILD/'route/result.json'),max_bytes=128*1024**2,max_files=2048)
+                                                     ~~~~~^~~~~~~~~~~~~~~~~~~~
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_fanout_prerequisite_prl.py", line 64, in __truediv__
+    raise AssertionError('unexpected helper endpoint '+str(name))
+AssertionError: unexpected helper endpoint route/result.json
+
+----------------------------------------------------------------------
+Ran 24 tests in 4.396s
+
+FAILED (failures=1)

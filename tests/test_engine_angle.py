@@ -13,7 +13,7 @@ RAW=b'(pcb "owned" (parser (string_quote ")) (resolution um 10) (unit um) (struc
 
 class EngineAngleControls(unittest.TestCase):
     def scratch(self):
-        context=tempfile.TemporaryDirectory(dir=c.ROOT/'.local-backups');self.addCleanup(context.cleanup);return Path(context.name)
+        context=tempfile.TemporaryDirectory();self.addCleanup(context.cleanup);return Path(context.name).resolve()
     def test_only_missing_structure_angle_is_inserted_and_all_geometry_rules_survive(self):
         output,record=a.transform(RAW);before=dsn._parse_dsn(RAW.decode());after=dsn._parse_dsn(output.decode())
         self.assertEqual(sx.one(sx.one(after,'structure'),'snap_angle'),['snap_angle','none'])

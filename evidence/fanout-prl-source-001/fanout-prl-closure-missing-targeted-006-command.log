@@ -1,0 +1,20 @@
+test_actual_pair_final_stable_rejects_owned_prerequisite_flag_flip_during_last_material (tests.test_fanout_prerequisite_prl.PrerequisitePRLControls.test_actual_pair_final_stable_rejects_owned_prerequisite_flag_flip_during_last_material) ... FAIL
+
+======================================================================
+FAIL: test_actual_pair_final_stable_rejects_owned_prerequisite_flag_flip_during_last_material (tests.test_fanout_prerequisite_prl.PrerequisitePRLControls.test_actual_pair_final_stable_rejects_owned_prerequisite_flag_flip_during_last_material)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_fanout_prerequisite_prl.py", line 99, in test_actual_pair_final_stable_rejects_owned_prerequisite_flag_flip_during_last_material
+    self.assertEqual(state,dict(readbacks=1,late_material_reads=2,triggered=True),result.get('reason'))
+AssertionError: {'readbacks': 0, 'late_material_reads': 0, 'triggered': False} != {'readbacks': 1, 'late_material_reads': 2, 'triggered': True}
+- {'late_material_reads': 0, 'readbacks': 0, 'triggered': False}
+?                         ^               ^               ^^^^
+
++ {'late_material_reads': 2, 'readbacks': 1, 'triggered': True}
+?                         ^               ^               ^^^
+ : FileNotFoundError: [Errno 2] No such file or directory: '/Users/faisal/Projects/KiCad-Autorouter-local/.cache/result-tests/tmp8v3ltolv/run/route'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.351s
+
+FAILED (failures=1)

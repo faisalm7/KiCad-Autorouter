@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "diagnostic_defect_reproduced": true,
+  "routing_native_evidence": false,
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 0.7028819580154959,
+    "cpu_seconds": 0.425803,
+    "max_rss_bytes": 55361536,
+    "supervisor_cpu_seconds": 0.004635,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 54493184,
+    "sampled_peak_workdir_bytes": 0,
+    "resource_guards": {
+      "max_group_rss_bytes": 1073741824,
+      "max_workdir_bytes": 2097152,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/fanout-prl-prefix-reproducer-001.py"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/fanout-prl-prefix-execution-001/command.log",
+    "log_bytes": 0,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/fanout-prl-prefix-execution-001",
+    "signal_cancellation_enabled": true,
+    "pid": 53992
+  },
+  "child_receipt_sha256": "a4bfe0c2e38d64615d3a1b0513e444b510bb78ef5fed4707d461ce08096678d8",
+  "driver_sha256": "ab3ea033635e170cb2251349eaad16ac4dbb18b17faf24db4e1716b5b0b1e67a",
+  "controller_sha256": "bcac633d8d52c52a6a3fdf718f7690f6722221f457463be232fa36e70e1f9b23",
+  "wall_seconds": 0.814919791999273,
+  "full_cpu_seconds": 0.497409,
+  "scope": "Exact pre-fix stable callback/shared publisher and actual owned PRL flags; synthetic reports/processes never executed. Complete runner child plus enclosing sample; no routing correctness, Native quality or live application evidence."
+}

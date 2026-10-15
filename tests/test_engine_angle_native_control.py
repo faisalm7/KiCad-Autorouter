@@ -8,7 +8,7 @@ from experiments.free_angle_baseline_v1 import controls as control,fixture
 
 class FreeAngleDeliveryControls(unittest.TestCase):
     def scratch(self):
-        folder=tempfile.TemporaryDirectory(dir=p.c.ROOT/'.cache');self.addCleanup(folder.cleanup);return Path(folder.name)
+        folder=tempfile.TemporaryDirectory();self.addCleanup(folder.cleanup);return Path(folder.name).resolve()
 
     def test_late_invalidation_clears_passed_and_keeps_the_failed_receipt(self):
         out=self.scratch();source=out/'owned-source';source.write_text('original')
@@ -52,6 +52,14 @@ class FreeAngleDeliveryControls(unittest.TestCase):
             rows=control.loaders({},dict(candidate=str(route/'candidate/owned.kicad_pcb')),lambda:30)
         self.assertEqual(calls,['omitted45','canonicalNone','explicit45','misspelledNone'])
         self.assertEqual(len(rows),4);self.assertEqual(p.tree_hash(route),before)
+
+    def test_explicit_negative_output_rejects_outside_root_and_alias_before_native(self):
+        out=self.scratch();root=out/'scope';(root/'.runs').mkdir(parents=True)
+        alias=out/'alias';alias.symlink_to(root/'.runs',target_is_directory=True)
+        for target in (out,root/'.runs',alias):
+            with self.subTest(target=target),patch.object(control,'ROOT',root),patch.object(control,'copy_bytes',side_effect=AssertionError('must refuse before copying')),patch.object(control.shared,'BoundJob',side_effect=AssertionError('must refuse before Native job')),self.assertRaises(p.Rejected):
+                control.negative({}, {}, lambda:30, output=target)
+        self.assertEqual(sorted(x.name for x in out.iterdir()),['alias','scope'])
 
     def test_owned_source_has_oblique_route_and_original_protected_keep(self):
         files=fixture.files();tree=sx.parse(files[fixture.STEM+'.kicad_pcb'].decode())

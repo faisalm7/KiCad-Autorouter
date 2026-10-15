@@ -101,14 +101,17 @@ def loaders(plan,routed,remaining):
     return rows
 
 
-def negative(plan,routed,remaining):
-    board=OUT/'invalid'/(fixture.STEM+'.kicad_pcb');copy_bytes(io.inventory(Path(routed['candidate']).parent,contents=True),board.parent)
+def negative(plan,routed,remaining,*,output=None):
+    base=OUT if output is None else h.real_path(Path(output))
+    if output is not None and (base==ROOT/'.runs' or not base.is_relative_to(ROOT/'.runs')):
+        raise p.Rejected('negative output must be an owned canonical project .runs directory')
+    board=base/'invalid'/(fixture.STEM+'.kicad_pcb');copy_bytes(io.inventory(Path(routed['candidate']).parent,contents=True),board.parent)
     tree=sx.read(board);prior=sx.read(board);added=['segment',['start','12','10'],['end','12','16'],['width','0.3'],['layer','"F.Cu"'],['net','"ROUTE"'],['uuid',json.dumps(str(uuid.uuid5(fixture.NS,'physical-short')))]]
     tree.append(added);sx.write(board,tree)
     if sx.read(board)!=prior+[added] or p.immutable(tree)!=p.immutable(prior) or any(row not in p.routes(tree) for row in plan['protected_ast']):
         raise p.Rejected('physical short changed undeclared geometry/protection')
     p.verify_candidate_files(board,plan['source_sha256'],p.sha(board));before=p.tree_hash(board.parent)
-    job=shared.BoundJob(OUT/'invalid-job',WHOLE,remaining,protect_local_settings=True)
+    job=shared.BoundJob(base/'invalid-job',WHOLE,remaining,protect_local_settings=True)
     copy_bytes({Path(n).name:io.read_bytes(ROOT/n,1024**2) for n in plan['tools']['implementation_sha256']},job.out/'code')
     data=dict(schema=1,steps=job.steps,source_hashes=before,tools=plan['tools'])
     native=job.drc('invalid-final',board,schematic_parity=True)

@@ -1246,7 +1246,7 @@ def engine_scoring_settings(variant=None):
             'argv':[f'--router.scoring.via_costs={via}',f'--router.scoring.plane_via_costs={plane}']}
 
 
-def engine_profile_settings(profile, remaining_seconds, *, strict_class_targets=False, scoring_variant=None, experimental_free_angle=False):
+def engine_profile_settings(profile, remaining_seconds, *, strict_class_targets=False, scoring_variant=None, experimental_free_angle=False, fanout_enabled=None, experimental_fanout=False):
     """Assign cooperative internal deadlines inside the outer wall budget.
 
     Freerouting accepts numeric seconds or HH:mm:ss, not values such as 90s.
@@ -1258,6 +1258,10 @@ def engine_profile_settings(profile, remaining_seconds, *, strict_class_targets=
     if type(experimental_free_angle)is not bool:raise Rejected('typed experimental free-angle profile opt-in required')
     if profile=='tuned-free-angle' and not experimental_free_angle:
         raise Rejected('unsupported: free-angle profile requires explicit native baseline opt-in')
+    if fanout_enabled is not None and fanout_enabled is not False:raise Rejected('fanout override accepts only None or typed False')
+    if type(experimental_fanout)is not bool:raise Rejected('typed fanout override opt-in required')
+    if fanout_enabled is False and (experimental_fanout is not True or strict_class_targets is not False or profile not in {'tuned','tuned-free-angle'}):
+        raise Rejected('unsupported: fanout override requires explicit non-strict tuned native baseline')
     tuned=profile in {'tuned','tuned-free-angle'}
     if type(strict_class_targets) is not bool: raise Rejected('invalid static netclass target policy')
     if isinstance(remaining_seconds,bool) or not isinstance(remaining_seconds,(int,float)) or not math.isfinite(remaining_seconds):
@@ -1274,6 +1278,7 @@ def engine_profile_settings(profile, remaining_seconds, *, strict_class_targets=
         # Pinned micro-neckdown can run during fanout even when automatic
         # neckdown is false. Exact class targets therefore exclude both paths.
         args+=['--router.automatic_neckdown=false','--router.fanout.enabled=false','--router.neck_width_um=0']
+    if fanout_enabled is False:args+=['--router.fanout.enabled=false']
     if profile=='completion-only':
         args+=['--router.optimizer.enabled=false']
     else:
@@ -1284,11 +1289,32 @@ def engine_profile_settings(profile, remaining_seconds, *, strict_class_targets=
             args+=['--router.optimizer.improvement_threshold=0.001','--router.optimizer.enable_preflight_guards=false',
                    '--router.optimizer.max_consecutive_failures=100','--router.optimizer.max_consecutive_failures_pass1=100']
     args+=scoring['argv']
-    return {'profile':profile,'argv':args,'scoring':scoring,'strict_class_targets':strict_class_targets,'remaining_outer_wall_seconds_at_assignment':remaining_seconds,
+    result={'profile':profile,'argv':args,'scoring':scoring,'strict_class_targets':strict_class_targets,'remaining_outer_wall_seconds_at_assignment':remaining_seconds,
             'assigned_job_timeout_seconds':job_cap,'assigned_optimizer_timeout_seconds':optimizer_cap,
             'native_finalization_reserve_seconds':ENGINE_NATIVE_RESERVE_SECONDS,
             'engine_grace_reserve_seconds':ENGINE_GRACE_RESERVE_SECONDS,
             'internal_deadlines':'cooperative planning caps; external supervision and measured CPU acceptance cap remain authoritative'}
+    if fanout_enabled is False:result['fanout_enabled']=False
+    return result
+
+
+def check_engine_fanout_override(data,*,input_policy=None,native_toolchain=None):
+    """Reciprocal opt-in; mandatory engine provenance prevents deletion fallback."""
+    marker='engine_fanout_override' in data
+    budget=data.get('engine_budget');budget_marker=type(budget)is dict and 'fanout_enabled' in budget
+    if (marker and data['engine_fanout_override'] is not False or budget_marker and budget['fanout_enabled'] is not False
+            or marker!=budget_marker):raise Rejected('fanout override marker/budget missing or invalid')
+    if not marker:return None
+    if (budget.get('strict_class_targets') is not False or type(budget.get('argv'))is not list
+            or budget['argv'].count('--router.fanout.enabled=false')!=1):raise Rejected('fanout override requires exact non-strict disabled settings')
+    if input_policy is not None and (input_policy!='native' or data.get('adapter')!='both'
+            or data.get('scope')!='whole_board_unlocked_routing' or data.get('strategy') is not None
+            or data.get('engine_profile') not in {'tuned','tuned-free-angle'} or native_toolchain is not None
+            or data.get('baseline')!=engine_baseline(data['engine_profile'],'both')
+            or 'routing_preferences' in data or 'layer_binding' in data):
+        raise Rejected('unsupported: fanout override requires ordinary non-strict tuned native whole-board scope')
+    return False
+
 
 def check_normal_engine_provenance(directory,data):
     """A current direct Native producer cannot omit its actual engine journal."""
@@ -1310,6 +1336,7 @@ def check_engine_profile_record(data,directory):
     directory=Path(directory)
     from .engine_angle import check as check_engine_angle
     check_engine_angle(directory,data)
+    fanout=check_engine_fanout_override(data,input_policy='native')
     captured=directory/'routing-preferences.json'
     if 'routing_preferences' in data or captured.exists() or captured.is_symlink():
         return check_preferences_record(directory,data)
@@ -1317,7 +1344,7 @@ def check_engine_profile_record(data,directory):
     engine=data['engine_budget']
     expected=engine_profile_settings(data['engine_profile'],engine['remaining_outer_wall_seconds_at_assignment'],
         strict_class_targets=data.get('netclass_policy') is not None or data.get('scope')=='selected_nets' or width is not None,
-        scoring_variant=data.get('scoring_variant'),experimental_free_angle=data['engine_profile']=='tuned-free-angle')
+        scoring_variant=data.get('scoring_variant'),experimental_free_angle=data['engine_profile']=='tuned-free-angle',fanout_enabled=fanout,experimental_fanout=fanout is False)
     workers=[step for step in data['steps'] if step.get('name')=='engine']
     if (any(engine.get(key)!=value for key,value in expected.items())
             or engine.get('outer_task_wall_budget_seconds')!=data['budget_seconds']
@@ -1702,10 +1729,15 @@ def check_preferences_record(directory, data):
         raise Rejected('engine argv or cwd differs from captured preferences')
 
 
-def route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native', settings_path=None, preference_overrides=None, _preferences=None, native_toolchain=None, experimental_schematic_parity=False):
+def route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native', settings_path=None, preference_overrides=None, _preferences=None, native_toolchain=None, experimental_schematic_parity=False, _fanout_enabled=None):
     entry_started,entry_parent=time.monotonic(),time.process_time()
     from .floor_route import child_cpu
     operation_children=child_cpu()
+    if _fanout_enabled is not None and _fanout_enabled is not False:raise Rejected('fanout override accepts only None or typed False')
+    if _fanout_enabled is False and (keep_existing is not False or adapter!='both' or guidance_policy!='native'
+            or settings_path is not None or preference_overrides is not None or _preferences is not None
+            or native_toolchain is not None or experimental_schematic_parity is not False or engine_profile not in {'tuned','tuned-free-angle'}):
+        raise Rejected('unsupported: fanout override requires ordinary non-strict tuned native whole-board route')
     experimental_record=experimental_route_record(native_toolchain,experimental_schematic_parity)
     if native_toolchain is not None and (settings_path is not None or preference_overrides is not None
             or _preferences is not None or keep_existing is not False or adapter!='none'
@@ -1738,13 +1770,17 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
         return floor_route(source,output,seconds,keep_existing,adapter,engine_profile,scoring_variant,guidance_policy=guidance_policy,preferences=_preferences)
     if engine_profile not in {'standard','tuned','completion-only','tuned-free-angle'}: raise Rejected('unknown engine profile')
     engine_scoring_settings(scoring_variant)
-    operation_started=_preferences['started'] if _preferences else entry_started if native_toolchain is not None or engine_profile=='tuned-free-angle' else time.monotonic()
+    operation_started=_preferences['started'] if _preferences else entry_started if native_toolchain is not None or engine_profile=='tuned-free-angle' or _fanout_enabled is False else time.monotonic()
     operation_started_utc=_preferences['started_utc'] if _preferences else datetime.datetime.now(datetime.timezone.utc).isoformat()
-    operation_cpu=_preferences['parent_cpu'] if _preferences else entry_parent if native_toolchain is not None or engine_profile=='tuned-free-angle' else time.process_time()
+    operation_cpu=_preferences['parent_cpu'] if _preferences else entry_parent if native_toolchain is not None or engine_profile=='tuned-free-angle' or _fanout_enabled is False else time.process_time()
     from .local_settings import canonical
     canonical(Path(source).absolute());canonical(Path(output).absolute())
     source=Path(source).resolve(strict=True); output=Path(output).resolve()
     if source.parent==output or source.parent in output.parents: raise Rejected('output must be outside source project')
+    if _fanout_enabled is False:
+        preflight(source,task_scope=('whole_board_unlocked_routing','native','source_all'))
+        if netclass_policy(source) is not None or minimum_width_guard(source,adapter) is not None:
+            raise Rejected('unsupported: fanout override requires derived non-strict class/width targets')
     if not math.isfinite(seconds) or seconds<5 or seconds>900: raise Rejected('budget must be 5–900 seconds')
     if sha(c.JAR)!=c.JAR_SHA256: raise Rejected('engine hash mismatch')
     check_storage()
@@ -1756,6 +1792,7 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
     report={'schema':1,'status':'validator_error','accepted':False,'physical_electrical_validation':False,'schematic_parity':'not checked','source':str(source),
             'started_utc':operation_started_utc,'budget_seconds':seconds,'cpu_budget_seconds':seconds,'cpu_budget_enforcement':'postcompletion acceptance cap; no total-CPU preemption','baseline':engine_baseline(engine_profile,adapter),'adapter':adapter,'engine_profile':engine_profile,'scoring_variant':scoring_variant,'scope':'partial_completion' if keep_existing else 'whole_board_unlocked_routing',
             'tools':tool_manifest(**({'native_toolchain':native_toolchain} if native_toolchain is not None else {})),**experimental_record}
+    if _fanout_enabled is False:report['engine_fanout_override']=False
     try:
         capture_preferences(report,output,_preferences)
         before=tree_hash(source.parent); report['source_hashes']=before
@@ -1840,7 +1877,7 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
         config_dir=output/'engine-config'; config_dir.mkdir()
         width_guard=minimum_width_guard(source,adapter)
         if width_guard is not None:report['minimum_width_guard']=width_guard
-        report['engine_budget']=engine_profile_settings(engine_profile,job.deadline-time.monotonic(),strict_class_targets=policy is not None or selected is not None or width_guard is not None,scoring_variant=scoring_variant,experimental_free_angle=engine_profile=='tuned-free-angle')
+        report['engine_budget']=engine_profile_settings(engine_profile,job.deadline-time.monotonic(),strict_class_targets=policy is not None or selected is not None or width_guard is not None,scoring_variant=scoring_variant,experimental_free_angle=engine_profile=='tuned-free-angle',fanout_enabled=_fanout_enabled,experimental_fanout=_fanout_enabled is False)
         report['engine_budget']['outer_task_wall_budget_seconds']=seconds
         report['engine_budget']['outer_task_cpu_budget_seconds']=seconds
         engine_settings=report['engine_budget']['argv']
@@ -1901,7 +1938,7 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
     elif report['total_cpu_seconds']>seconds:
         report['accepted']=False; report['status']='cpu_budget_exceeded'
     report['resource_accounting_point']='Summary sampled before final receipt write; wall and measured CPU acceptance caps rechecked after that write. No hard total-CPU preemption.'
-    if _preferences is not None or native_toolchain is not None or engine_profile=='tuned-free-angle':
+    if _preferences is not None or native_toolchain is not None or engine_profile=='tuned-free-angle' or _fanout_enabled is False:
         from .floor_route import publish,child_cpu,evidence_inventory
         completed=evidence_inventory(output)
         def remaining():
@@ -1921,7 +1958,11 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
                 if tree_hash(source.parent)!=before or tree_hash(output/'snapshot')!=before:
                     raise Rejected('source changed during preference publication')
                 if native_toolchain is not None:check_experimental_local_settings(output,report,native_toolchain)
-            preferences_fresh(output,_preferences)  # Last: metadata reads above may yield to another writer.
+            preferences_fresh(output,_preferences)
+            if report['accepted'] and (_fanout_enabled is False or engine_profile=='tuned-free-angle'):
+                # Last: byte/tool/source/preferences reads cannot witness PRL flags.
+                from .local_settings import check_normal_policy
+                check_normal_policy(output,report)
         return publish(output,report,stable,account,remaining,
             result_checker=(lambda file:check_result(file,native_toolchain=native_toolchain,experimental_schematic_parity=experimental_schematic_parity)) if native_toolchain is not None else None)
     save_json(output/'result.json',report)
@@ -2108,6 +2149,7 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
     check_experimental_route(data,native_toolchain,experimental_schematic_parity)
     from .engine_angle import check as check_engine_angle
     angle_contract=check_engine_angle(path.parent,data)  # Independent of optional legacy engine_budget dispatch.
+    fanout_contract=check_engine_fanout_override(data)
     explicit_material=tree_hash(path.parent) if native_toolchain is not None else None
     if native_minimum_markers(path.parent,data):
         raise Rejected('experimental native-minimum transport is not a normal routing receipt')
@@ -2131,13 +2173,14 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
     if angle_contract is not None:
         from .engine_angle import check_scope as check_engine_angle_scope
         check_engine_angle_scope(data,input_policy,native_toolchain)
+    if fanout_contract is False:check_engine_fanout_override(data,input_policy=input_policy,native_toolchain=native_toolchain)
     if input_policy=='native' and data.get('strategy') is None:
         check_normal_engine_provenance(path.parent,data)
     # Captured-choice runs use the shared bounded reader for a complete witness,
     # including original rule copies and native evidence, before interpreting it.
     # Recheck after every late settings/process read; board-only layer checks
     # cannot detect a concurrently changed project file or native report.
-    preferences_guarded=(data.get('engine_profile')=='tuned-free-angle' or 'engine_angle_binding' in data
+    preferences_guarded=('engine_fanout_override' in data or data.get('engine_profile')=='tuned-free-angle' or 'engine_angle_binding' in data
         or (path.parent/'engine-angle.json').exists() or (path.parent/'engine-free-angle.dsn').exists()
         or 'routing_preferences' in data or (path.parent/'routing-preferences.json').exists()
         or (path.parent/'routing-preferences.json').is_symlink() or layer_markers(path.parent,data)

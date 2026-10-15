@@ -1,0 +1,24 @@
+test_actual_pair_final_stable_rejects_owned_prerequisite_flag_flip_during_last_material (tests.test_fanout_prerequisite_prl.PrerequisitePRLControls.test_actual_pair_final_stable_rejects_owned_prerequisite_flag_flip_during_last_material) ... ERROR
+
+======================================================================
+ERROR: test_actual_pair_final_stable_rejects_owned_prerequisite_flag_flip_during_last_material (tests.test_fanout_prerequisite_prl.PrerequisitePRLControls.test_actual_pair_final_stable_rejects_owned_prerequisite_flag_flip_during_last_material)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_fanout_prerequisite_prl.py", line 73, in test_actual_pair_final_stable_rejects_owned_prerequisite_flag_flip_during_last_material
+    guard(plan)  # Real existing normal-policy checker, before any fault.
+    ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/fanout_baseline_v1/pair.py", line 65, in check_control_prl
+    owned.check_prl(spec,child)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/fanout_baseline_v1/native_control.py", line 107, in check_prl
+    ls.check_normal_policy(CHILD/'route',f.read_json(CHILD/'route/result.json'),max_bytes=128*1024**2,max_files=2048)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/local_settings.py", line 174, in check_normal_policy
+    try:return _check_normal_policy(directory,data,max_bytes=max_bytes,max_files=max_files,native_toolchain=native_toolchain)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/local_settings.py", line 256, in _check_normal_policy
+    raise p.Rejected('normal DRC worker policy or lineage missing')
+autorouter.pipeline.Rejected: normal DRC worker policy or lineage missing
+
+----------------------------------------------------------------------
+Ran 1 test in 0.258s
+
+FAILED (errors=1)
