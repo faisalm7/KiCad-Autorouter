@@ -20,3 +20,5 @@ This is an experimental tool. Nine exposed development circuits show shorter nat
 Source and small sanitized evidence are backed up on the authorized GitHub branch. Private boards, raw experiments, downloaded tools and references stay out of Git. Their tested archives remain on this Mac by your current choice. No formal release or package has been published.
 
 The original preparation instructions are [preserved as history](docs/history/2026-10-14-4b1e871/START_HERE.md). They are not instructions to restart this checkout.
+
+An additional [temperature-interface example](docs/ds18b20-demo.md) now has actual generated-routing/full-schematic qualification. C ties its tuned baseline; no extra gain is claimed.

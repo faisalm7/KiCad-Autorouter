@@ -197,3 +197,6 @@ Current actual750Native invalidated beforetrial0011worker; final0/0/81 and short
 
 
 [Actual DS18B20 original](evidence/ds18b20-original-native-001.json) qualifies unchangedsource/fullSCH saved+original-shell0/0/11/0/sevenignored/0parity and sharedreader.27routes/10pads retain resolved copper identities; savedformat/silkcache migrations remain serializer-unqualified. No generatedroute/support gainyet. [Prospective fourarm source](evidence/ds18b20-native240-source-001.json) reuses inner120/equaldelivered240 B0/B1/threevariantB2/ownfreshC with allactualsourcecostseacharm. Zerozones/no-pruning-gain prediction retained. Missingbind_row prelaunch finding fixed/actualpure authority controls; no Native comparison yet.
+
+
+[Actual DS18B20 fourarm](evidence/ds18b20-native240-actual-001.json) qualifies all4outcomes, all3B2settings,50workers/7actualfinals, original/fullSCH/refill/rules/PRL/class and all11warnings/7ignored. C/B2tie35.511106323mm0vias, nozone/noCmove: broaderexposedsupport, no tenthgain/completion/independence/speedup claim. Equal240delivered/120innercaps; native100.097295wall80.349686CPU, pureenclosingreader12.425493wall11.661207CPU. Source/Native failures and unknown researchCPU remain visible.

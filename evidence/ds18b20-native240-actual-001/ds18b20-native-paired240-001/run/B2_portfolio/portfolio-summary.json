@@ -1,0 +1,922 @@
+{
+  "schema": 1,
+  "kind": "experimental_baseline_portfolio",
+  "status": "completed",
+  "comparison_eligible": true,
+  "selected": {
+    "id": "via_low",
+    "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ds18b20-native-paired240-001/run/B2_portfolio/02-via_low/result.json",
+    "result_sha256": "b111e29e8f4e4a0fb3d9f42c3d00f16666ecf00d28178f271619323218eb44a5",
+    "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ds18b20-native-paired240-001/run/B2_portfolio/02-via_low/candidate/D18BS20.kicad_pcb",
+    "candidate_sha256": "6dead68291853064b9fb4ba655f92a747d3140ef1ffd27779f6f4e088aa77842",
+    "native_report_sha256": "4829dc210be6bece6067119d7568fff1b104481c1feab988031510d890291b4f",
+    "vias": 0,
+    "length_mm": 35.51110632283942,
+    "consistency": {
+      "current": true,
+      "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ds18b20-native-paired240-001/run/B2_portfolio/02-via_low/candidate/D18BS20.kicad_pcb",
+      "candidate_sha256": "6dead68291853064b9fb4ba655f92a747d3140ef1ffd27779f6f4e088aa77842",
+      "applied": false,
+      "authentication": "none; mutable local evidence consistency only",
+      "warning": "Fresh native validation is required before application; human PCB review and electrical/physical validation remain required."
+    }
+  },
+  "trials": [
+    {
+      "index": 0,
+      "id": "via_default",
+      "assigned_seconds": 94.23435220797546,
+      "guidance_policy": null,
+      "remaining_wall_full_cpu_seconds_at_assignment": 109.23435220797546,
+      "unattempted_variants_at_assignment": 3,
+      "allocation": "remaining",
+      "started_utc": "2026-10-15T10:51:01.508891+00:00",
+      "finished_utc": "2026-10-15T10:51:13.061376+00:00",
+      "status": "routing_accepted",
+      "reason": null,
+      "accepted_in_trial_receipt": true,
+      "eligible": true,
+      "invocation_wall_seconds": 11.552446791989496,
+      "invocation_cpu_seconds": 9.649759999999997,
+      "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ds18b20-native-paired240-001/run/B2_portfolio/01-via_default/result.json",
+      "result_sha256": "a1200010d8d6d35303472ac97aa0264f34671a9e04cad32c5dae2fef371b4412",
+      "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ds18b20-native-paired240-001/run/B2_portfolio/01-via_default/candidate/D18BS20.kicad_pcb",
+      "candidate_sha256": "57e6f88fa190c48412c28b375e29d65440be230c47f341fad562aacac58edbde",
+      "native_report_sha256": "5da9c3d234bc854af8488ec32543f67f91ac0ee88886e49f6c164fad92136c2c",
+      "vias": 0,
+      "length_mm": 35.51110632283943,
+      "peak_child_rss_bytes": 224477184,
+      "peak_polled_group_rss_bytes": 223756288,
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 11,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 145.0,
+                  "y": 82.0
+                },
+                "uuid": "e3a2efe6-bf2b-48d3-a083-10d450aad012"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 147.28,
+                  "y": 101.905
+                },
+                "uuid": "03975d11-1083-428a-a0fe-8ddcc21eb1f3"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 145.0,
+                  "y": 82.0
+                },
+                "uuid": "e3a2efe6-bf2b-48d3-a083-10d450aad012"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 149.93,
+                  "y": 101.905
+                },
+                "uuid": "b933efaf-e463-4d89-8a89-1f094fb10aad"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 145.0,
+                  "y": 82.0
+                },
+                "uuid": "e3a2efe6-bf2b-48d3-a083-10d450aad012"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 152.47,
+                  "y": 101.905
+                },
+                "uuid": "5b8eb590-2f38-43d9-a862-62d8f0d627db"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 145.0,
+                  "y": 82.0
+                },
+                "uuid": "e3a2efe6-bf2b-48d3-a083-10d450aad012"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 155.12,
+                  "y": 104.665
+                },
+                "uuid": "596d78dc-6b1b-4113-a53c-66a4df34c5cf"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+            "items": [
+              {
+                "description": "Footprint R1",
+                "pos": {
+                  "x": 150.1,
+                  "y": 95.5
+                },
+                "uuid": "5cb4c0c5-c1f1-4fc1-a99b-7849e473874e"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+              {
+                "description": "Footprint J1",
+                "pos": {
+                  "x": 153.74,
+                  "y": 100.515
+                },
+                "uuid": "829ff916-a621-42ea-957b-b9dc9b17b16d"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C1",
+                "pos": {
+                  "x": 152.0,
+                  "y": 95.5
+                },
+                "uuid": "a871c04f-20b0-411d-b116-37e9f3f97370"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Package_TO_SOT_THT'",
+            "items": [
+              {
+                "description": "Footprint U1",
+                "pos": {
+                  "x": 149.545,
+                  "y": 91.295
+                },
+                "uuid": "fb1830c1-5056-4772-93f0-09edef088412"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "Silkscreen clearance",
+            "items": [
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 153.74,
+                  "y": 99.245
+                },
+                "uuid": "95867763-c891-464a-9b13-d3010b885a90"
+              },
+              {
+                "description": "PCB text 'VDD' on F.Silkscreen",
+                "pos": {
+                  "x": 154.375,
+                  "y": 99.5
+                },
+                "uuid": "ada122f8-caac-40ca-ba09-396f42de0ff5"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+          },
+          {
+            "description": "Silkscreen clearance",
+            "items": [
+              {
+                "description": "Reference field of C1",
+                "pos": {
+                  "x": 153.5,
+                  "y": 95.5
+                },
+                "uuid": "48944d7c-7bef-42ae-af29-06581de77e81"
+              },
+              {
+                "description": "PCB text 'VDD' on F.Silkscreen",
+                "pos": {
+                  "x": 154.375,
+                  "y": 99.5
+                },
+                "uuid": "ada122f8-caac-40ca-ba09-396f42de0ff5"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+          },
+          {
+            "description": "Silkscreen clearance",
+            "items": [
+              {
+                "description": "PCB text 'GND' on F.Silkscreen",
+                "pos": {
+                  "x": 149.3,
+                  "y": 99.5
+                },
+                "uuid": "c4938c9b-dc87-41df-b88d-3db4a9f6c2e8"
+              },
+              {
+                "description": "Reference field of R1",
+                "pos": {
+                  "x": 148.67,
+                  "y": 95.5
+                },
+                "uuid": "f075e18b-429a-4eaf-ab00-59382742ee6e"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+          }
+        ]
+      }
+    },
+    {
+      "index": 1,
+      "id": "via_low",
+      "assigned_seconds": 81.85521941698971,
+      "guidance_policy": null,
+      "remaining_wall_full_cpu_seconds_at_assignment": 96.85521941698971,
+      "unattempted_variants_at_assignment": 2,
+      "allocation": "remaining",
+      "started_utc": "2026-10-15T10:51:13.888062+00:00",
+      "finished_utc": "2026-10-15T10:51:25.926505+00:00",
+      "status": "routing_accepted",
+      "reason": null,
+      "accepted_in_trial_receipt": true,
+      "eligible": true,
+      "invocation_wall_seconds": 12.038410000008298,
+      "invocation_cpu_seconds": 9.64620999999999,
+      "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ds18b20-native-paired240-001/run/B2_portfolio/02-via_low/result.json",
+      "result_sha256": "b111e29e8f4e4a0fb3d9f42c3d00f16666ecf00d28178f271619323218eb44a5",
+      "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ds18b20-native-paired240-001/run/B2_portfolio/02-via_low/candidate/D18BS20.kicad_pcb",
+      "candidate_sha256": "6dead68291853064b9fb4ba655f92a747d3140ef1ffd27779f6f4e088aa77842",
+      "native_report_sha256": "4829dc210be6bece6067119d7568fff1b104481c1feab988031510d890291b4f",
+      "vias": 0,
+      "length_mm": 35.51110632283942,
+      "peak_child_rss_bytes": 224313344,
+      "peak_polled_group_rss_bytes": 223592448,
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 11,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 145.0,
+                  "y": 82.0
+                },
+                "uuid": "e3a2efe6-bf2b-48d3-a083-10d450aad012"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 147.28,
+                  "y": 101.905
+                },
+                "uuid": "03975d11-1083-428a-a0fe-8ddcc21eb1f3"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 145.0,
+                  "y": 82.0
+                },
+                "uuid": "e3a2efe6-bf2b-48d3-a083-10d450aad012"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 149.93,
+                  "y": 101.905
+                },
+                "uuid": "b933efaf-e463-4d89-8a89-1f094fb10aad"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 145.0,
+                  "y": 82.0
+                },
+                "uuid": "e3a2efe6-bf2b-48d3-a083-10d450aad012"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 152.47,
+                  "y": 101.905
+                },
+                "uuid": "5b8eb590-2f38-43d9-a862-62d8f0d627db"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 145.0,
+                  "y": 82.0
+                },
+                "uuid": "e3a2efe6-bf2b-48d3-a083-10d450aad012"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 155.12,
+                  "y": 104.665
+                },
+                "uuid": "596d78dc-6b1b-4113-a53c-66a4df34c5cf"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+            "items": [
+              {
+                "description": "Footprint R1",
+                "pos": {
+                  "x": 150.1,
+                  "y": 95.5
+                },
+                "uuid": "5cb4c0c5-c1f1-4fc1-a99b-7849e473874e"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+              {
+                "description": "Footprint J1",
+                "pos": {
+                  "x": 153.74,
+                  "y": 100.515
+                },
+                "uuid": "829ff916-a621-42ea-957b-b9dc9b17b16d"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C1",
+                "pos": {
+                  "x": 152.0,
+                  "y": 95.5
+                },
+                "uuid": "a871c04f-20b0-411d-b116-37e9f3f97370"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Package_TO_SOT_THT'",
+            "items": [
+              {
+                "description": "Footprint U1",
+                "pos": {
+                  "x": 149.545,
+                  "y": 91.295
+                },
+                "uuid": "fb1830c1-5056-4772-93f0-09edef088412"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "Silkscreen clearance",
+            "items": [
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 153.74,
+                  "y": 99.245
+                },
+                "uuid": "95867763-c891-464a-9b13-d3010b885a90"
+              },
+              {
+                "description": "PCB text 'VDD' on F.Silkscreen",
+                "pos": {
+                  "x": 154.375,
+                  "y": 99.5
+                },
+                "uuid": "ada122f8-caac-40ca-ba09-396f42de0ff5"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+          },
+          {
+            "description": "Silkscreen clearance",
+            "items": [
+              {
+                "description": "Reference field of C1",
+                "pos": {
+                  "x": 153.5,
+                  "y": 95.5
+                },
+                "uuid": "48944d7c-7bef-42ae-af29-06581de77e81"
+              },
+              {
+                "description": "PCB text 'VDD' on F.Silkscreen",
+                "pos": {
+                  "x": 154.375,
+                  "y": 99.5
+                },
+                "uuid": "ada122f8-caac-40ca-ba09-396f42de0ff5"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+          },
+          {
+            "description": "Silkscreen clearance",
+            "items": [
+              {
+                "description": "PCB text 'GND' on F.Silkscreen",
+                "pos": {
+                  "x": 149.3,
+                  "y": 99.5
+                },
+                "uuid": "c4938c9b-dc87-41df-b88d-3db4a9f6c2e8"
+              },
+              {
+                "description": "Reference field of R1",
+                "pos": {
+                  "x": 148.67,
+                  "y": 95.5
+                },
+                "uuid": "f075e18b-429a-4eaf-ab00-59382742ee6e"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+          }
+        ]
+      }
+    },
+    {
+      "index": 2,
+      "id": "via_high",
+      "assigned_seconds": 69.00571166697773,
+      "guidance_policy": null,
+      "remaining_wall_full_cpu_seconds_at_assignment": 84.00571166697773,
+      "unattempted_variants_at_assignment": 1,
+      "allocation": "remaining",
+      "started_utc": "2026-10-15T10:51:26.737591+00:00",
+      "finished_utc": "2026-10-15T10:51:38.927417+00:00",
+      "status": "routing_accepted",
+      "reason": null,
+      "accepted_in_trial_receipt": true,
+      "eligible": true,
+      "invocation_wall_seconds": 12.189788374991622,
+      "invocation_cpu_seconds": 9.808199999999992,
+      "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ds18b20-native-paired240-001/run/B2_portfolio/03-via_high/result.json",
+      "result_sha256": "7899140c8098b0c0f7a9c29b45c9b00bb4f58487828eb7e04d82a92a465c9b10",
+      "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ds18b20-native-paired240-001/run/B2_portfolio/03-via_high/candidate/D18BS20.kicad_pcb",
+      "candidate_sha256": "ce05086018d8c5807af0ec58e5beb132adcfd20f95867b8af8f87ba4471e7e50",
+      "native_report_sha256": "4956e1913c60c7377d15f60d0e0a60f1bade3cdfacbcf6577be018acf341a330",
+      "vias": 0,
+      "length_mm": 35.511106322839424,
+      "peak_child_rss_bytes": 224362496,
+      "peak_polled_group_rss_bytes": 217382912,
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 11,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 145.0,
+                  "y": 82.0
+                },
+                "uuid": "e3a2efe6-bf2b-48d3-a083-10d450aad012"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 147.28,
+                  "y": 101.905
+                },
+                "uuid": "03975d11-1083-428a-a0fe-8ddcc21eb1f3"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 145.0,
+                  "y": 82.0
+                },
+                "uuid": "e3a2efe6-bf2b-48d3-a083-10d450aad012"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 149.93,
+                  "y": 101.905
+                },
+                "uuid": "b933efaf-e463-4d89-8a89-1f094fb10aad"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 145.0,
+                  "y": 82.0
+                },
+                "uuid": "e3a2efe6-bf2b-48d3-a083-10d450aad012"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 152.47,
+                  "y": 101.905
+                },
+                "uuid": "5b8eb590-2f38-43d9-a862-62d8f0d627db"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 145.0,
+                  "y": 82.0
+                },
+                "uuid": "e3a2efe6-bf2b-48d3-a083-10d450aad012"
+              },
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 155.12,
+                  "y": 104.665
+                },
+                "uuid": "596d78dc-6b1b-4113-a53c-66a4df34c5cf"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+            "items": [
+              {
+                "description": "Footprint R1",
+                "pos": {
+                  "x": 150.1,
+                  "y": 95.5
+                },
+                "uuid": "5cb4c0c5-c1f1-4fc1-a99b-7849e473874e"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+              {
+                "description": "Footprint J1",
+                "pos": {
+                  "x": 153.74,
+                  "y": 100.515
+                },
+                "uuid": "829ff916-a621-42ea-957b-b9dc9b17b16d"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+              {
+                "description": "Footprint C1",
+                "pos": {
+                  "x": 152.0,
+                  "y": 95.5
+                },
+                "uuid": "a871c04f-20b0-411d-b116-37e9f3f97370"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "The current configuration does not include the footprint library 'Package_TO_SOT_THT'",
+            "items": [
+              {
+                "description": "Footprint U1",
+                "pos": {
+                  "x": 149.545,
+                  "y": 91.295
+                },
+                "uuid": "fb1830c1-5056-4772-93f0-09edef088412"
+              }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+          },
+          {
+            "description": "Silkscreen clearance",
+            "items": [
+              {
+                "description": "Segment of J1 on F.Silkscreen",
+                "pos": {
+                  "x": 153.74,
+                  "y": 99.245
+                },
+                "uuid": "95867763-c891-464a-9b13-d3010b885a90"
+              },
+              {
+                "description": "PCB text 'VDD' on F.Silkscreen",
+                "pos": {
+                  "x": 154.375,
+                  "y": 99.5
+                },
+                "uuid": "ada122f8-caac-40ca-ba09-396f42de0ff5"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+          },
+          {
+            "description": "Silkscreen clearance",
+            "items": [
+              {
+                "description": "Reference field of C1",
+                "pos": {
+                  "x": 153.5,
+                  "y": 95.5
+                },
+                "uuid": "48944d7c-7bef-42ae-af29-06581de77e81"
+              },
+              {
+                "description": "PCB text 'VDD' on F.Silkscreen",
+                "pos": {
+                  "x": 154.375,
+                  "y": 99.5
+                },
+                "uuid": "ada122f8-caac-40ca-ba09-396f42de0ff5"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+          },
+          {
+            "description": "Silkscreen clearance",
+            "items": [
+              {
+                "description": "PCB text 'GND' on F.Silkscreen",
+                "pos": {
+                  "x": 149.3,
+                  "y": 99.5
+                },
+                "uuid": "c4938c9b-dc87-41df-b88d-3db4a9f6c2e8"
+              },
+              {
+                "description": "Reference field of R1",
+                "pos": {
+                  "x": 148.67,
+                  "y": 95.5
+                },
+                "uuid": "f075e18b-429a-4eaf-ab00-59382742ee6e"
+              }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+          }
+        ]
+      }
+    }
+  ],
+  "pareto_frontier": [
+    "via_low"
+  ],
+  "guidance_policy": null,
+  "wall_budget_seconds": 114.40514012498898,
+  "cpu_budget_seconds": 114.40514012498898,
+  "allocation": "remaining",
+  "operational_outer_ceiling_seconds": 900.0,
+  "cpu_enforcement": "postcompletion acceptance cap; no total-CPU preemption",
+  "selection_rule": "minimum (native via count, native track length, fixed attempt index)",
+  "started_utc": "2026-10-15T10:50:56.338079+00:00",
+  "host_load_average_1_5_15_minutes_begin": [
+    4.9619140625,
+    6.294921875,
+    6.27001953125
+  ],
+  "claims_limit": "exposed development experiment; no population superiority or electrical adequacy claim",
+  "receipt_scope": "selected trial receipt charges that trial only; this summary charges the entire portfolio",
+  "physical_electrical_validation": false,
+  "applied": false,
+  "protocol_sha256": "9ca3e1fb1e4004e417d6c45ed1d551408a21e7740a93edba66f37e7a425b4a0b",
+  "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.data/ds18b20-demo-001/native-project/D18BS20.kicad_pcb",
+  "family": "DS18B20-temperature-interface-development-exposed-ancestry-unverified",
+  "accounting_point": "sample before summary write; caps checked again after write; over-cap correction can finish outside cap",
+  "finished_utc": "2026-10-15T10:51:40.639383+00:00",
+  "host_load_average_1_5_15_minutes_end": [
+    4.88037109375,
+    6.068359375,
+    6.18505859375
+  ],
+  "peak_child_rss_bytes": 224477184,
+  "peak_polled_group_rss_bytes": 223756288,
+  "wall_seconds": 44.3012502080237,
+  "total_cpu_seconds": 37.07969299999999,
+  "attempted_variants": [
+    "via_default",
+    "via_low",
+    "via_high"
+  ],
+  "unattempted_variants": [],
+  "all_variants_attempted": true
+}

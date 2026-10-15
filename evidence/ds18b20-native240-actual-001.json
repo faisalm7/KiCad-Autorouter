@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "kind": "actual-DS18B20-equal240-four-arm-no-pruning-gain",
+  "producer": "a08c868fc5a79a973f6d7a4ad557762c1e3e5683",
+  "passed": true,
+  "comparison_eligible": true,
+  "files": {
+    "evidence/ds18b20-native240-actual-001/ds18b20-native-paired240-001-protocol.json": "5451d8c570e93605059d9b77b926725298137d4b2f130a9683abc6f68765017c",
+    "evidence/ds18b20-native240-actual-001/ds18b20-native-paired240-001/execution.json": "72ebc4d8505d7c579398647bb433ec8c6bfcaf0ec9ff78d93801f233d6e0cfa3",
+    "evidence/ds18b20-native240-actual-001/ds18b20-native-paired240-001/run/paired-summary.json": "8513bb69d1343ff96d7e73685b1c1bdb85be63e87215d2cc4d7d1046e55e9349",
+    "evidence/ds18b20-native240-actual-001/ds18b20-native-paired240-001/run/protocol.json": "01fcf8215e98cf8dbeb4d8b80f101c6c22efed22b31e5df68cf7a5f12d5ab8b1",
+    "evidence/ds18b20-native240-actual-001/ds18b20-native-paired240-001/run/C_feedback/result.json": "1b0f1de86f911882349406e6f8784f1a2c179ec09edb6db0c38b4c805880ae86",
+    "evidence/ds18b20-native240-actual-001/ds18b20-native-paired240-001/run/B2_portfolio/portfolio-summary.json": "2fbb833617a597b747bb116c436fc069c134fc7ce674e5bfa82c8467355c3f00",
+    "evidence/ds18b20-native240-actual-001/ds18b20-native-paired240-readback-001/result.json": "83e1e1a2e728551b0829e364a9d17551e659869ac799638e35a363c841f5d64f",
+    "evidence/ds18b20-native240-actual-001/ds18b20-native-paired240-readback-001/execution.json": "e8089a97cdd0270ca8b767253b042b2f5ff6081472401751bc9bdcce0de38041",
+    "evidence/ds18b20-native240-actual-001/ds18b20-native-paired240-readback-execution-001/execution.json": "376a83829856d040b2c4d3e8578e2ff643680f43c77c07f9f5a7ff6e91f631c7"
+  },
+  "equal_wall_full_cpu_cap_seconds": 240,
+  "inner_helper_wall_full_cpu_cap_seconds": 120,
+  "source_gate_common": {
+    "wall_seconds": 13.993968791997759,
+    "full_cpu_seconds": 11.285585
+  },
+  "actual_rows": [
+    {
+      "id": "B0",
+      "accepted": true,
+      "charged_wall_seconds": 52.07132791803451,
+      "charged_cpu_seconds": 42.39687600000002,
+      "within_equal240_wall_full_cpu_caps": true,
+      "length_mm": 35.51392297506356,
+      "vias": 0
+    },
+    {
+      "id": "B1",
+      "accepted": true,
+      "charged_wall_seconds": 48.19696975100669,
+      "charged_cpu_seconds": 42.63477800000001,
+      "within_equal240_wall_full_cpu_caps": true,
+      "length_mm": 35.53181700095808,
+      "vias": 0
+    },
+    {
+      "id": "B2_portfolio",
+      "accepted": true,
+      "charged_wall_seconds": 79.49865104301716,
+      "charged_cpu_seconds": 70.37176500000002,
+      "within_equal240_wall_full_cpu_caps": true,
+      "length_mm": 35.51110632283942,
+      "vias": 0
+    },
+    {
+      "id": "C_feedback",
+      "accepted": true,
+      "charged_wall_seconds": 54.810190126037924,
+      "charged_cpu_seconds": 50.33303800000002,
+      "within_equal240_wall_full_cpu_caps": true,
+      "length_mm": 35.511106322839424,
+      "vias": 0
+    }
+  ],
+  "native_counts": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 11,
+    "exclusions": 0
+  },
+  "ignored_checks": 7,
+  "all_three_B2_settings_attempted": true,
+  "actual_worker_count": 50,
+  "final_candidate_observations": 7,
+  "all_final_candidates_actual_original_design_fullSCH_saved_refill_class_PRL_checks": true,
+  "C_own_fresh_incumbent": true,
+  "C_improvements": 0,
+  "C_trials": 0,
+  "C_original_zone_nets": 0,
+  "C_candidate_sha256": "5de71b74a8113f1a932ace6abc4cac0416db71212e9d2293e49b254c76d7db1d",
+  "C_final_native_report_sha256": "fae4dba7d6adce48a1c2152b8ac8700337423e050dea331fa4d3fe37dcf4cbf9",
+  "B2_selected": {
+    "id": "via_low",
+    "candidate_sha256": "6dead68291853064b9fb4ba655f92a747d3140ef1ffd27779f6f4e088aa77842",
+    "native_report_sha256": "4829dc210be6bece6067119d7568fff1b104481c1feab988031510d890291b4f",
+    "vias": 0,
+    "length_mm": 35.51110632283942
+  },
+  "outer_cost": {
+    "wall_seconds": 100.09729508397868,
+    "full_cpu_seconds": 80.34968600000002,
+    "outer_publication_allowance_seconds": 2
+  },
+  "reader_cost": {
+    "wall_seconds": 12.42549258301733,
+    "full_cpu_seconds": 11.661207,
+    "publication_allowance_seconds": 2
+  },
+  "new_quality_gain": false,
+  "interpretation": "C and bestB2 both35.511106322839mm/0vias, differ only floating-point summation noise. Zerozone case has zero pruningproposals/moves, no newmechanism benefit. Everyarm succeeds; no completiongain. Stock35.513922975064/B135.531817000958; tiny lengthdifferences without pruning are not attributed to C. StrongB2 pays3attempts vsCfresh1; no general speedup/quality/superiority claim. Nine earlier exposed gains remain nine.",
+  "scope": "Additional exposed temperature-interface role, zero independent pedigree/untouched confirmation. All11warnings/sevenignored/source/PRL/rules/originalgeometry/fullSCH retained. Source Native serializer differences remain false/unqualified; generated candidates preserve original AST. Preparationfreezer001 error retained separately, no Nativeworker repeated; researchCPU gaps not assigned zero. No human/electrical/physical/formalrelease claim."
+}

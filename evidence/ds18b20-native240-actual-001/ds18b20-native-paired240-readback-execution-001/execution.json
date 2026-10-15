@@ -1,0 +1,1309 @@
+{
+  "schema": 1,
+  "passed": true,
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 11.284521207999205,
+    "cpu_seconds": 10.692865,
+    "max_rss_bytes": 231964672,
+    "supervisor_cpu_seconds": 0.029474999999999973,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 231129088,
+    "sampled_peak_workdir_bytes": 73,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 1048576,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/read-ds18b20-native-paired240-001.py",
+      "--prospective",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ds18b20-native-paired240-001-protocol.json",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ds18b20-native-paired240-readback-001"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ds18b20-native-paired240-readback-execution-001/command.log",
+    "log_bytes": 73,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ds18b20-native-paired240-readback-execution-001",
+    "signal_cancellation_enabled": true,
+    "pid": 72247
+  },
+  "reader_sha256": "25b3485b87f79908974b3d827b1a678459d94138494797ebdb8094b5f85d7f81",
+  "source_current": true,
+  "publication_allowance_seconds": 2,
+  "wall_seconds": 12.42549258301733,
+  "full_cpu_seconds": 11.661207,
+  "final_charged_results": [
+    {
+      "id": "B0",
+      "accepted": true,
+      "status": "routing_accepted",
+      "started_utc": "2026-10-15T10:50:24.633675+00:00",
+      "host_load_average_1_5_15_minutes_begin": [
+        6.283203125,
+        6.68505859375,
+        6.40234375
+      ],
+      "assigned_seconds": 114.40514012498898,
+      "adapter": "none",
+      "engine_profile": "standard",
+      "operation": "route",
+      "accepted_in_receipt": true,
+      "reason": null,
+      "cancelled": false,
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 11,
+      "exclusions": 0,
+      "length_mm": 35.51392297506356,
+      "vias": 0,
+      "wall_seconds": 16.903480250010034,
+      "parent_cpu_seconds": 4.5318689999999995,
+      "child_cpu_seconds": 4.565518,
+      "monitor_cpu_seconds": 0,
+      "total_cpu_seconds": 9.097387,
+      "peak_child_rss_bytes": 224100352,
+      "peak_polled_group_rss_bytes": 223363072,
+      "invocation_wall_seconds": 17.71786712500034,
+      "invocation_cpu_seconds": 9.916883,
+      "candidate_sha256": "f27212ce9cad7245bfbf35441b5ae5115a0ec1fb9bf43c4243cacc2d6df2f013",
+      "native_report_sha256": "7ea08e33a3130b05dc0384bfbea311c6492da11db76e090b631dff5459c70f83",
+      "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ds18b20-native-paired240-001/run/B0/result.json",
+      "result_sha256": "1bbb5c2600af9d36239f5a7c9df51fcbbcf6c8bfaa8b05f2fd58b9ec4ee0e1e6",
+      "within_equal_budgets": true,
+      "protocol_contract_verified": true,
+      "receipt_verified": true,
+      "observations": [
+        {
+          "kind": "final_result_only",
+          "elapsed_seconds": 16.997394125006394,
+          "observed_cpu_seconds": 9.203805000000001,
+          "metrics": {
+            "version": "10.0.0",
+            "pads": 10,
+            "footprints": 4,
+            "zones": 0,
+            "vias": 0,
+            "track_length_mm": 35.51392297506356,
+            "copper_layers": 2
+          },
+          "final_delivery_accepted": true,
+          "meaning": "final completion upper bound only; earlier native success times unobserved"
+        }
+      ],
+      "finished_utc": "2026-10-15T10:50:42.351613+00:00",
+      "host_load_average_1_5_15_minutes_end": [
+        5.23779296875,
+        6.4140625,
+        6.31103515625
+      ],
+      "within_enclosing_budgets": true,
+      "accepted_before_shared_charge": true,
+      "charged_wall_seconds": 52.07132791803451,
+      "charged_cpu_seconds": 42.39687600000002,
+      "within_charged_budgets": true,
+      "raw_paired_accepted": true,
+      "checked_receipt_summary": {
+        "id": "B0",
+        "adapter": "none",
+        "engine_profile": "standard",
+        "operation": "route",
+        "status": "routing_accepted",
+        "accepted_in_receipt": true,
+        "accepted": true,
+        "reason": null,
+        "cancelled": false,
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 11,
+        "exclusions": 0,
+        "length_mm": 35.51392297506356,
+        "vias": 0,
+        "wall_seconds": 16.903480250010034,
+        "parent_cpu_seconds": 4.5318689999999995,
+        "child_cpu_seconds": 4.565518,
+        "monitor_cpu_seconds": 0,
+        "total_cpu_seconds": 9.097387,
+        "peak_child_rss_bytes": 224100352,
+        "peak_polled_group_rss_bytes": 223363072,
+        "invocation_wall_seconds": 17.71786712500034,
+        "invocation_cpu_seconds": 9.916883,
+        "candidate_sha256": "f27212ce9cad7245bfbf35441b5ae5115a0ec1fb9bf43c4243cacc2d6df2f013",
+        "native_report_sha256": "7ea08e33a3130b05dc0384bfbea311c6492da11db76e090b631dff5459c70f83",
+        "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ds18b20-native-paired240-001/run/B0/result.json",
+        "result_sha256": "1bbb5c2600af9d36239f5a7c9df51fcbbcf6c8bfaa8b05f2fd58b9ec4ee0e1e6",
+        "within_equal_budgets": true,
+        "protocol_contract_verified": true,
+        "receipt_verified": true
+      },
+      "within_equal240_wall_full_cpu_caps": true
+    },
+    {
+      "id": "B1",
+      "accepted": true,
+      "status": "routing_accepted",
+      "started_utc": "2026-10-15T10:50:42.360868+00:00",
+      "host_load_average_1_5_15_minutes_begin": [
+        5.23779296875,
+        6.4140625,
+        6.31103515625
+      ],
+      "assigned_seconds": 114.40514012498898,
+      "adapter": "both",
+      "engine_profile": "standard",
+      "operation": "route",
+      "accepted_in_receipt": true,
+      "reason": null,
+      "cancelled": false,
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 11,
+      "exclusions": 0,
+      "length_mm": 35.53181700095808,
+      "vias": 0,
+      "wall_seconds": 13.00492441697861,
+      "parent_cpu_seconds": 4.3653900000000005,
+      "child_cpu_seconds": 4.943118999999999,
+      "monitor_cpu_seconds": 0,
+      "total_cpu_seconds": 9.308509,
+      "peak_child_rss_bytes": 224149504,
+      "peak_polled_group_rss_bytes": 223412224,
+      "invocation_wall_seconds": 13.843508957972517,
+      "invocation_cpu_seconds": 10.154784999999997,
+      "candidate_sha256": "2c9c3f730e27ea5e550b65bc3f5fc60daf20c51365bfeb76fde4ca02a4d49e47",
+      "native_report_sha256": "dc0a2293143b75bf77df7e68fa7b68b8575ccbf213127e8a11ca6314f0ee4c68",
+      "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ds18b20-native-paired240-001/run/B1/result.json",
+      "result_sha256": "9a4ab885775fd44b2aa1b0d73fdf6e819ac83cafbab366baa369c51bc3e78824",
+      "within_equal_budgets": true,
+      "protocol_contract_verified": true,
+      "receipt_verified": true,
+      "observations": [
+        {
+          "kind": "final_result_only",
+          "elapsed_seconds": 13.109614207991399,
+          "observed_cpu_seconds": 9.426918,
+          "metrics": {
+            "version": "10.0.0",
+            "pads": 10,
+            "footprints": 4,
+            "zones": 0,
+            "vias": 0,
+            "track_length_mm": 35.53181700095808,
+            "copper_layers": 2
+          },
+          "final_delivery_accepted": true,
+          "meaning": "final completion upper bound only; earlier native success times unobserved"
+        }
+      ],
+      "finished_utc": "2026-10-15T10:50:56.204420+00:00",
+      "host_load_average_1_5_15_minutes_end": [
+        4.9619140625,
+        6.294921875,
+        6.27001953125
+      ],
+      "within_enclosing_budgets": true,
+      "accepted_before_shared_charge": true,
+      "charged_wall_seconds": 48.19696975100669,
+      "charged_cpu_seconds": 42.63477800000001,
+      "within_charged_budgets": true,
+      "raw_paired_accepted": true,
+      "checked_receipt_summary": {
+        "id": "B1",
+        "adapter": "both",
+        "engine_profile": "standard",
+        "operation": "route",
+        "status": "routing_accepted",
+        "accepted_in_receipt": true,
+        "accepted": true,
+        "reason": null,
+        "cancelled": false,
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 11,
+        "exclusions": 0,
+        "length_mm": 35.53181700095808,
+        "vias": 0,
+        "wall_seconds": 13.00492441697861,
+        "parent_cpu_seconds": 4.3653900000000005,
+        "child_cpu_seconds": 4.943118999999999,
+        "monitor_cpu_seconds": 0,
+        "total_cpu_seconds": 9.308509,
+        "peak_child_rss_bytes": 224149504,
+        "peak_polled_group_rss_bytes": 223412224,
+        "invocation_wall_seconds": 13.843508957972517,
+        "invocation_cpu_seconds": 10.154784999999997,
+        "candidate_sha256": "2c9c3f730e27ea5e550b65bc3f5fc60daf20c51365bfeb76fde4ca02a4d49e47",
+        "native_report_sha256": "dc0a2293143b75bf77df7e68fa7b68b8575ccbf213127e8a11ca6314f0ee4c68",
+        "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ds18b20-native-paired240-001/run/B1/result.json",
+        "result_sha256": "9a4ab885775fd44b2aa1b0d73fdf6e819ac83cafbab366baa369c51bc3e78824",
+        "within_equal_budgets": true,
+        "protocol_contract_verified": true,
+        "receipt_verified": true
+      },
+      "within_equal240_wall_full_cpu_caps": true
+    },
+    {
+      "id": "B2_portfolio",
+      "accepted": true,
+      "status": "completed",
+      "started_utc": "2026-10-15T10:50:56.214781+00:00",
+      "host_load_average_1_5_15_minutes_begin": [
+        4.9619140625,
+        6.294921875,
+        6.27001953125
+      ],
+      "assigned_seconds": 114.40514012498898,
+      "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ds18b20-native-paired240-001/run/B2_portfolio/portfolio-summary.json",
+      "result_sha256": "2fbb833617a597b747bb116c436fc069c134fc7ce674e5bfa82c8467355c3f00",
+      "selected": {
+        "id": "via_low",
+        "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ds18b20-native-paired240-001/run/B2_portfolio/02-via_low/result.json",
+        "result_sha256": "b111e29e8f4e4a0fb3d9f42c3d00f16666ecf00d28178f271619323218eb44a5",
+        "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ds18b20-native-paired240-001/run/B2_portfolio/02-via_low/candidate/D18BS20.kicad_pcb",
+        "candidate_sha256": "6dead68291853064b9fb4ba655f92a747d3140ef1ffd27779f6f4e088aa77842",
+        "native_report_sha256": "4829dc210be6bece6067119d7568fff1b104481c1feab988031510d890291b4f",
+        "vias": 0,
+        "length_mm": 35.51110632283942,
+        "consistency": {
+          "current": true,
+          "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ds18b20-native-paired240-001/run/B2_portfolio/02-via_low/candidate/D18BS20.kicad_pcb",
+          "candidate_sha256": "6dead68291853064b9fb4ba655f92a747d3140ef1ffd27779f6f4e088aa77842",
+          "applied": false,
+          "authentication": "none; mutable local evidence consistency only",
+          "warning": "Fresh native validation is required before application; human PCB review and electrical/physical validation remain required."
+        }
+      },
+      "pareto_frontier": [
+        "via_low"
+      ],
+      "trials": [
+        {
+          "index": 0,
+          "id": "via_default",
+          "assigned_seconds": 94.23435220797546,
+          "guidance_policy": null,
+          "remaining_wall_full_cpu_seconds_at_assignment": 109.23435220797546,
+          "unattempted_variants_at_assignment": 3,
+          "allocation": "remaining",
+          "started_utc": "2026-10-15T10:51:01.508891+00:00",
+          "finished_utc": "2026-10-15T10:51:13.061376+00:00",
+          "status": "routing_accepted",
+          "reason": null,
+          "accepted_in_trial_receipt": true,
+          "eligible": true,
+          "invocation_wall_seconds": 11.552446791989496,
+          "invocation_cpu_seconds": 9.649759999999997,
+          "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ds18b20-native-paired240-001/run/B2_portfolio/01-via_default/result.json",
+          "result_sha256": "a1200010d8d6d35303472ac97aa0264f34671a9e04cad32c5dae2fef371b4412",
+          "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ds18b20-native-paired240-001/run/B2_portfolio/01-via_default/candidate/D18BS20.kicad_pcb",
+          "candidate_sha256": "57e6f88fa190c48412c28b375e29d65440be230c47f341fad562aacac58edbde",
+          "native_report_sha256": "5da9c3d234bc854af8488ec32543f67f91ac0ee88886e49f6c164fad92136c2c",
+          "vias": 0,
+          "length_mm": 35.51110632283943,
+          "peak_child_rss_bytes": 224477184,
+          "peak_polled_group_rss_bytes": 223756288,
+          "native": {
+            "opens": 0,
+            "blocking": 0,
+            "warnings": 11,
+            "exclusions": 0,
+            "ignored_checks": [
+              {
+                "description": "Footprint has no courtyard defined",
+                "key": "missing_courtyard"
+              },
+              {
+                "description": "Track endpoint not centered on via",
+                "key": "track_not_centered_on_via"
+              },
+              {
+                "description": "Tuning profile track geometries",
+                "key": "tuning_profile_track_geometries"
+              },
+              {
+                "description": "Footprint doesn't match symbol's footprint filters",
+                "key": "footprint_filters_mismatch"
+              },
+              {
+                "description": "PTH inside courtyard",
+                "key": "pth_inside_courtyard"
+              },
+              {
+                "description": "NPTH inside courtyard",
+                "key": "npth_inside_courtyard"
+              },
+              {
+                "description": "Footprint component type doesn't match footprint pads",
+                "key": "footprint_type_mismatch"
+              }
+            ],
+            "findings": [
+              {
+                "description": "Silkscreen clipped by board edge",
+                "items": [
+                  {
+                    "description": "Rectangle on Edge.Cuts",
+                    "pos": {
+                      "x": 145.0,
+                      "y": 82.0
+                    },
+                    "uuid": "e3a2efe6-bf2b-48d3-a083-10d450aad012"
+                  },
+                  {
+                    "description": "Segment of J1 on F.Silkscreen",
+                    "pos": {
+                      "x": 147.28,
+                      "y": 101.905
+                    },
+                    "uuid": "03975d11-1083-428a-a0fe-8ddcc21eb1f3"
+                  }
+                ],
+                "severity": "warning",
+                "type": "silk_edge_clearance"
+              },
+              {
+                "description": "Silkscreen clipped by board edge",
+                "items": [
+                  {
+                    "description": "Rectangle on Edge.Cuts",
+                    "pos": {
+                      "x": 145.0,
+                      "y": 82.0
+                    },
+                    "uuid": "e3a2efe6-bf2b-48d3-a083-10d450aad012"
+                  },
+                  {
+                    "description": "Segment of J1 on F.Silkscreen",
+                    "pos": {
+                      "x": 149.93,
+                      "y": 101.905
+                    },
+                    "uuid": "b933efaf-e463-4d89-8a89-1f094fb10aad"
+                  }
+                ],
+                "severity": "warning",
+                "type": "silk_edge_clearance"
+              },
+              {
+                "description": "Silkscreen clipped by board edge",
+                "items": [
+                  {
+                    "description": "Rectangle on Edge.Cuts",
+                    "pos": {
+                      "x": 145.0,
+                      "y": 82.0
+                    },
+                    "uuid": "e3a2efe6-bf2b-48d3-a083-10d450aad012"
+                  },
+                  {
+                    "description": "Segment of J1 on F.Silkscreen",
+                    "pos": {
+                      "x": 152.47,
+                      "y": 101.905
+                    },
+                    "uuid": "5b8eb590-2f38-43d9-a862-62d8f0d627db"
+                  }
+                ],
+                "severity": "warning",
+                "type": "silk_edge_clearance"
+              },
+              {
+                "description": "Silkscreen clipped by board edge",
+                "items": [
+                  {
+                    "description": "Rectangle on Edge.Cuts",
+                    "pos": {
+                      "x": 145.0,
+                      "y": 82.0
+                    },
+                    "uuid": "e3a2efe6-bf2b-48d3-a083-10d450aad012"
+                  },
+                  {
+                    "description": "Segment of J1 on F.Silkscreen",
+                    "pos": {
+                      "x": 155.12,
+                      "y": 104.665
+                    },
+                    "uuid": "596d78dc-6b1b-4113-a53c-66a4df34c5cf"
+                  }
+                ],
+                "severity": "warning",
+                "type": "silk_edge_clearance"
+              },
+              {
+                "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+                "items": [
+                  {
+                    "description": "Footprint R1",
+                    "pos": {
+                      "x": 150.1,
+                      "y": 95.5
+                    },
+                    "uuid": "5cb4c0c5-c1f1-4fc1-a99b-7849e473874e"
+                  }
+                ],
+                "severity": "warning",
+                "type": "lib_footprint_issues"
+              },
+              {
+                "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+                "items": [
+                  {
+                    "description": "Footprint J1",
+                    "pos": {
+                      "x": 153.74,
+                      "y": 100.515
+                    },
+                    "uuid": "829ff916-a621-42ea-957b-b9dc9b17b16d"
+                  }
+                ],
+                "severity": "warning",
+                "type": "lib_footprint_issues"
+              },
+              {
+                "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+                "items": [
+                  {
+                    "description": "Footprint C1",
+                    "pos": {
+                      "x": 152.0,
+                      "y": 95.5
+                    },
+                    "uuid": "a871c04f-20b0-411d-b116-37e9f3f97370"
+                  }
+                ],
+                "severity": "warning",
+                "type": "lib_footprint_issues"
+              },
+              {
+                "description": "The current configuration does not include the footprint library 'Package_TO_SOT_THT'",
+                "items": [
+                  {
+                    "description": "Footprint U1",
+                    "pos": {
+                      "x": 149.545,
+                      "y": 91.295
+                    },
+                    "uuid": "fb1830c1-5056-4772-93f0-09edef088412"
+                  }
+                ],
+                "severity": "warning",
+                "type": "lib_footprint_issues"
+              },
+              {
+                "description": "Silkscreen clearance",
+                "items": [
+                  {
+                    "description": "Segment of J1 on F.Silkscreen",
+                    "pos": {
+                      "x": 153.74,
+                      "y": 99.245
+                    },
+                    "uuid": "95867763-c891-464a-9b13-d3010b885a90"
+                  },
+                  {
+                    "description": "PCB text 'VDD' on F.Silkscreen",
+                    "pos": {
+                      "x": 154.375,
+                      "y": 99.5
+                    },
+                    "uuid": "ada122f8-caac-40ca-ba09-396f42de0ff5"
+                  }
+                ],
+                "severity": "warning",
+                "type": "silk_overlap"
+              },
+              {
+                "description": "Silkscreen clearance",
+                "items": [
+                  {
+                    "description": "Reference field of C1",
+                    "pos": {
+                      "x": 153.5,
+                      "y": 95.5
+                    },
+                    "uuid": "48944d7c-7bef-42ae-af29-06581de77e81"
+                  },
+                  {
+                    "description": "PCB text 'VDD' on F.Silkscreen",
+                    "pos": {
+                      "x": 154.375,
+                      "y": 99.5
+                    },
+                    "uuid": "ada122f8-caac-40ca-ba09-396f42de0ff5"
+                  }
+                ],
+                "severity": "warning",
+                "type": "silk_overlap"
+              },
+              {
+                "description": "Silkscreen clearance",
+                "items": [
+                  {
+                    "description": "PCB text 'GND' on F.Silkscreen",
+                    "pos": {
+                      "x": 149.3,
+                      "y": 99.5
+                    },
+                    "uuid": "c4938c9b-dc87-41df-b88d-3db4a9f6c2e8"
+                  },
+                  {
+                    "description": "Reference field of R1",
+                    "pos": {
+                      "x": 148.67,
+                      "y": 95.5
+                    },
+                    "uuid": "f075e18b-429a-4eaf-ab00-59382742ee6e"
+                  }
+                ],
+                "severity": "warning",
+                "type": "silk_overlap"
+              }
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "id": "via_low",
+          "assigned_seconds": 81.85521941698971,
+          "guidance_policy": null,
+          "remaining_wall_full_cpu_seconds_at_assignment": 96.85521941698971,
+          "unattempted_variants_at_assignment": 2,
+          "allocation": "remaining",
+          "started_utc": "2026-10-15T10:51:13.888062+00:00",
+          "finished_utc": "2026-10-15T10:51:25.926505+00:00",
+          "status": "routing_accepted",
+          "reason": null,
+          "accepted_in_trial_receipt": true,
+          "eligible": true,
+          "invocation_wall_seconds": 12.038410000008298,
+          "invocation_cpu_seconds": 9.64620999999999,
+          "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ds18b20-native-paired240-001/run/B2_portfolio/02-via_low/result.json",
+          "result_sha256": "b111e29e8f4e4a0fb3d9f42c3d00f16666ecf00d28178f271619323218eb44a5",
+          "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ds18b20-native-paired240-001/run/B2_portfolio/02-via_low/candidate/D18BS20.kicad_pcb",
+          "candidate_sha256": "6dead68291853064b9fb4ba655f92a747d3140ef1ffd27779f6f4e088aa77842",
+          "native_report_sha256": "4829dc210be6bece6067119d7568fff1b104481c1feab988031510d890291b4f",
+          "vias": 0,
+          "length_mm": 35.51110632283942,
+          "peak_child_rss_bytes": 224313344,
+          "peak_polled_group_rss_bytes": 223592448,
+          "native": {
+            "opens": 0,
+            "blocking": 0,
+            "warnings": 11,
+            "exclusions": 0,
+            "ignored_checks": [
+              {
+                "description": "Footprint has no courtyard defined",
+                "key": "missing_courtyard"
+              },
+              {
+                "description": "Track endpoint not centered on via",
+                "key": "track_not_centered_on_via"
+              },
+              {
+                "description": "Tuning profile track geometries",
+                "key": "tuning_profile_track_geometries"
+              },
+              {
+                "description": "Footprint doesn't match symbol's footprint filters",
+                "key": "footprint_filters_mismatch"
+              },
+              {
+                "description": "PTH inside courtyard",
+                "key": "pth_inside_courtyard"
+              },
+              {
+                "description": "NPTH inside courtyard",
+                "key": "npth_inside_courtyard"
+              },
+              {
+                "description": "Footprint component type doesn't match footprint pads",
+                "key": "footprint_type_mismatch"
+              }
+            ],
+            "findings": [
+              {
+                "description": "Silkscreen clipped by board edge",
+                "items": [
+                  {
+                    "description": "Rectangle on Edge.Cuts",
+                    "pos": {
+                      "x": 145.0,
+                      "y": 82.0
+                    },
+                    "uuid": "e3a2efe6-bf2b-48d3-a083-10d450aad012"
+                  },
+                  {
+                    "description": "Segment of J1 on F.Silkscreen",
+                    "pos": {
+                      "x": 147.28,
+                      "y": 101.905
+                    },
+                    "uuid": "03975d11-1083-428a-a0fe-8ddcc21eb1f3"
+                  }
+                ],
+                "severity": "warning",
+                "type": "silk_edge_clearance"
+              },
+              {
+                "description": "Silkscreen clipped by board edge",
+                "items": [
+                  {
+                    "description": "Rectangle on Edge.Cuts",
+                    "pos": {
+                      "x": 145.0,
+                      "y": 82.0
+                    },
+                    "uuid": "e3a2efe6-bf2b-48d3-a083-10d450aad012"
+                  },
+                  {
+                    "description": "Segment of J1 on F.Silkscreen",
+                    "pos": {
+                      "x": 149.93,
+                      "y": 101.905
+                    },
+                    "uuid": "b933efaf-e463-4d89-8a89-1f094fb10aad"
+                  }
+                ],
+                "severity": "warning",
+                "type": "silk_edge_clearance"
+              },
+              {
+                "description": "Silkscreen clipped by board edge",
+                "items": [
+                  {
+                    "description": "Rectangle on Edge.Cuts",
+                    "pos": {
+                      "x": 145.0,
+                      "y": 82.0
+                    },
+                    "uuid": "e3a2efe6-bf2b-48d3-a083-10d450aad012"
+                  },
+                  {
+                    "description": "Segment of J1 on F.Silkscreen",
+                    "pos": {
+                      "x": 152.47,
+                      "y": 101.905
+                    },
+                    "uuid": "5b8eb590-2f38-43d9-a862-62d8f0d627db"
+                  }
+                ],
+                "severity": "warning",
+                "type": "silk_edge_clearance"
+              },
+              {
+                "description": "Silkscreen clipped by board edge",
+                "items": [
+                  {
+                    "description": "Rectangle on Edge.Cuts",
+                    "pos": {
+                      "x": 145.0,
+                      "y": 82.0
+                    },
+                    "uuid": "e3a2efe6-bf2b-48d3-a083-10d450aad012"
+                  },
+                  {
+                    "description": "Segment of J1 on F.Silkscreen",
+                    "pos": {
+                      "x": 155.12,
+                      "y": 104.665
+                    },
+                    "uuid": "596d78dc-6b1b-4113-a53c-66a4df34c5cf"
+                  }
+                ],
+                "severity": "warning",
+                "type": "silk_edge_clearance"
+              },
+              {
+                "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+                "items": [
+                  {
+                    "description": "Footprint R1",
+                    "pos": {
+                      "x": 150.1,
+                      "y": 95.5
+                    },
+                    "uuid": "5cb4c0c5-c1f1-4fc1-a99b-7849e473874e"
+                  }
+                ],
+                "severity": "warning",
+                "type": "lib_footprint_issues"
+              },
+              {
+                "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+                "items": [
+                  {
+                    "description": "Footprint J1",
+                    "pos": {
+                      "x": 153.74,
+                      "y": 100.515
+                    },
+                    "uuid": "829ff916-a621-42ea-957b-b9dc9b17b16d"
+                  }
+                ],
+                "severity": "warning",
+                "type": "lib_footprint_issues"
+              },
+              {
+                "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+                "items": [
+                  {
+                    "description": "Footprint C1",
+                    "pos": {
+                      "x": 152.0,
+                      "y": 95.5
+                    },
+                    "uuid": "a871c04f-20b0-411d-b116-37e9f3f97370"
+                  }
+                ],
+                "severity": "warning",
+                "type": "lib_footprint_issues"
+              },
+              {
+                "description": "The current configuration does not include the footprint library 'Package_TO_SOT_THT'",
+                "items": [
+                  {
+                    "description": "Footprint U1",
+                    "pos": {
+                      "x": 149.545,
+                      "y": 91.295
+                    },
+                    "uuid": "fb1830c1-5056-4772-93f0-09edef088412"
+                  }
+                ],
+                "severity": "warning",
+                "type": "lib_footprint_issues"
+              },
+              {
+                "description": "Silkscreen clearance",
+                "items": [
+                  {
+                    "description": "Segment of J1 on F.Silkscreen",
+                    "pos": {
+                      "x": 153.74,
+                      "y": 99.245
+                    },
+                    "uuid": "95867763-c891-464a-9b13-d3010b885a90"
+                  },
+                  {
+                    "description": "PCB text 'VDD' on F.Silkscreen",
+                    "pos": {
+                      "x": 154.375,
+                      "y": 99.5
+                    },
+                    "uuid": "ada122f8-caac-40ca-ba09-396f42de0ff5"
+                  }
+                ],
+                "severity": "warning",
+                "type": "silk_overlap"
+              },
+              {
+                "description": "Silkscreen clearance",
+                "items": [
+                  {
+                    "description": "Reference field of C1",
+                    "pos": {
+                      "x": 153.5,
+                      "y": 95.5
+                    },
+                    "uuid": "48944d7c-7bef-42ae-af29-06581de77e81"
+                  },
+                  {
+                    "description": "PCB text 'VDD' on F.Silkscreen",
+                    "pos": {
+                      "x": 154.375,
+                      "y": 99.5
+                    },
+                    "uuid": "ada122f8-caac-40ca-ba09-396f42de0ff5"
+                  }
+                ],
+                "severity": "warning",
+                "type": "silk_overlap"
+              },
+              {
+                "description": "Silkscreen clearance",
+                "items": [
+                  {
+                    "description": "PCB text 'GND' on F.Silkscreen",
+                    "pos": {
+                      "x": 149.3,
+                      "y": 99.5
+                    },
+                    "uuid": "c4938c9b-dc87-41df-b88d-3db4a9f6c2e8"
+                  },
+                  {
+                    "description": "Reference field of R1",
+                    "pos": {
+                      "x": 148.67,
+                      "y": 95.5
+                    },
+                    "uuid": "f075e18b-429a-4eaf-ab00-59382742ee6e"
+                  }
+                ],
+                "severity": "warning",
+                "type": "silk_overlap"
+              }
+            ]
+          }
+        },
+        {
+          "index": 2,
+          "id": "via_high",
+          "assigned_seconds": 69.00571166697773,
+          "guidance_policy": null,
+          "remaining_wall_full_cpu_seconds_at_assignment": 84.00571166697773,
+          "unattempted_variants_at_assignment": 1,
+          "allocation": "remaining",
+          "started_utc": "2026-10-15T10:51:26.737591+00:00",
+          "finished_utc": "2026-10-15T10:51:38.927417+00:00",
+          "status": "routing_accepted",
+          "reason": null,
+          "accepted_in_trial_receipt": true,
+          "eligible": true,
+          "invocation_wall_seconds": 12.189788374991622,
+          "invocation_cpu_seconds": 9.808199999999992,
+          "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ds18b20-native-paired240-001/run/B2_portfolio/03-via_high/result.json",
+          "result_sha256": "7899140c8098b0c0f7a9c29b45c9b00bb4f58487828eb7e04d82a92a465c9b10",
+          "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ds18b20-native-paired240-001/run/B2_portfolio/03-via_high/candidate/D18BS20.kicad_pcb",
+          "candidate_sha256": "ce05086018d8c5807af0ec58e5beb132adcfd20f95867b8af8f87ba4471e7e50",
+          "native_report_sha256": "4956e1913c60c7377d15f60d0e0a60f1bade3cdfacbcf6577be018acf341a330",
+          "vias": 0,
+          "length_mm": 35.511106322839424,
+          "peak_child_rss_bytes": 224362496,
+          "peak_polled_group_rss_bytes": 217382912,
+          "native": {
+            "opens": 0,
+            "blocking": 0,
+            "warnings": 11,
+            "exclusions": 0,
+            "ignored_checks": [
+              {
+                "description": "Footprint has no courtyard defined",
+                "key": "missing_courtyard"
+              },
+              {
+                "description": "Track endpoint not centered on via",
+                "key": "track_not_centered_on_via"
+              },
+              {
+                "description": "Tuning profile track geometries",
+                "key": "tuning_profile_track_geometries"
+              },
+              {
+                "description": "Footprint doesn't match symbol's footprint filters",
+                "key": "footprint_filters_mismatch"
+              },
+              {
+                "description": "PTH inside courtyard",
+                "key": "pth_inside_courtyard"
+              },
+              {
+                "description": "NPTH inside courtyard",
+                "key": "npth_inside_courtyard"
+              },
+              {
+                "description": "Footprint component type doesn't match footprint pads",
+                "key": "footprint_type_mismatch"
+              }
+            ],
+            "findings": [
+              {
+                "description": "Silkscreen clipped by board edge",
+                "items": [
+                  {
+                    "description": "Rectangle on Edge.Cuts",
+                    "pos": {
+                      "x": 145.0,
+                      "y": 82.0
+                    },
+                    "uuid": "e3a2efe6-bf2b-48d3-a083-10d450aad012"
+                  },
+                  {
+                    "description": "Segment of J1 on F.Silkscreen",
+                    "pos": {
+                      "x": 147.28,
+                      "y": 101.905
+                    },
+                    "uuid": "03975d11-1083-428a-a0fe-8ddcc21eb1f3"
+                  }
+                ],
+                "severity": "warning",
+                "type": "silk_edge_clearance"
+              },
+              {
+                "description": "Silkscreen clipped by board edge",
+                "items": [
+                  {
+                    "description": "Rectangle on Edge.Cuts",
+                    "pos": {
+                      "x": 145.0,
+                      "y": 82.0
+                    },
+                    "uuid": "e3a2efe6-bf2b-48d3-a083-10d450aad012"
+                  },
+                  {
+                    "description": "Segment of J1 on F.Silkscreen",
+                    "pos": {
+                      "x": 149.93,
+                      "y": 101.905
+                    },
+                    "uuid": "b933efaf-e463-4d89-8a89-1f094fb10aad"
+                  }
+                ],
+                "severity": "warning",
+                "type": "silk_edge_clearance"
+              },
+              {
+                "description": "Silkscreen clipped by board edge",
+                "items": [
+                  {
+                    "description": "Rectangle on Edge.Cuts",
+                    "pos": {
+                      "x": 145.0,
+                      "y": 82.0
+                    },
+                    "uuid": "e3a2efe6-bf2b-48d3-a083-10d450aad012"
+                  },
+                  {
+                    "description": "Segment of J1 on F.Silkscreen",
+                    "pos": {
+                      "x": 152.47,
+                      "y": 101.905
+                    },
+                    "uuid": "5b8eb590-2f38-43d9-a862-62d8f0d627db"
+                  }
+                ],
+                "severity": "warning",
+                "type": "silk_edge_clearance"
+              },
+              {
+                "description": "Silkscreen clipped by board edge",
+                "items": [
+                  {
+                    "description": "Rectangle on Edge.Cuts",
+                    "pos": {
+                      "x": 145.0,
+                      "y": 82.0
+                    },
+                    "uuid": "e3a2efe6-bf2b-48d3-a083-10d450aad012"
+                  },
+                  {
+                    "description": "Segment of J1 on F.Silkscreen",
+                    "pos": {
+                      "x": 155.12,
+                      "y": 104.665
+                    },
+                    "uuid": "596d78dc-6b1b-4113-a53c-66a4df34c5cf"
+                  }
+                ],
+                "severity": "warning",
+                "type": "silk_edge_clearance"
+              },
+              {
+                "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+                "items": [
+                  {
+                    "description": "Footprint R1",
+                    "pos": {
+                      "x": 150.1,
+                      "y": 95.5
+                    },
+                    "uuid": "5cb4c0c5-c1f1-4fc1-a99b-7849e473874e"
+                  }
+                ],
+                "severity": "warning",
+                "type": "lib_footprint_issues"
+              },
+              {
+                "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+                "items": [
+                  {
+                    "description": "Footprint J1",
+                    "pos": {
+                      "x": 153.74,
+                      "y": 100.515
+                    },
+                    "uuid": "829ff916-a621-42ea-957b-b9dc9b17b16d"
+                  }
+                ],
+                "severity": "warning",
+                "type": "lib_footprint_issues"
+              },
+              {
+                "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+                "items": [
+                  {
+                    "description": "Footprint C1",
+                    "pos": {
+                      "x": 152.0,
+                      "y": 95.5
+                    },
+                    "uuid": "a871c04f-20b0-411d-b116-37e9f3f97370"
+                  }
+                ],
+                "severity": "warning",
+                "type": "lib_footprint_issues"
+              },
+              {
+                "description": "The current configuration does not include the footprint library 'Package_TO_SOT_THT'",
+                "items": [
+                  {
+                    "description": "Footprint U1",
+                    "pos": {
+                      "x": 149.545,
+                      "y": 91.295
+                    },
+                    "uuid": "fb1830c1-5056-4772-93f0-09edef088412"
+                  }
+                ],
+                "severity": "warning",
+                "type": "lib_footprint_issues"
+              },
+              {
+                "description": "Silkscreen clearance",
+                "items": [
+                  {
+                    "description": "Segment of J1 on F.Silkscreen",
+                    "pos": {
+                      "x": 153.74,
+                      "y": 99.245
+                    },
+                    "uuid": "95867763-c891-464a-9b13-d3010b885a90"
+                  },
+                  {
+                    "description": "PCB text 'VDD' on F.Silkscreen",
+                    "pos": {
+                      "x": 154.375,
+                      "y": 99.5
+                    },
+                    "uuid": "ada122f8-caac-40ca-ba09-396f42de0ff5"
+                  }
+                ],
+                "severity": "warning",
+                "type": "silk_overlap"
+              },
+              {
+                "description": "Silkscreen clearance",
+                "items": [
+                  {
+                    "description": "Reference field of C1",
+                    "pos": {
+                      "x": 153.5,
+                      "y": 95.5
+                    },
+                    "uuid": "48944d7c-7bef-42ae-af29-06581de77e81"
+                  },
+                  {
+                    "description": "PCB text 'VDD' on F.Silkscreen",
+                    "pos": {
+                      "x": 154.375,
+                      "y": 99.5
+                    },
+                    "uuid": "ada122f8-caac-40ca-ba09-396f42de0ff5"
+                  }
+                ],
+                "severity": "warning",
+                "type": "silk_overlap"
+              },
+              {
+                "description": "Silkscreen clearance",
+                "items": [
+                  {
+                    "description": "PCB text 'GND' on F.Silkscreen",
+                    "pos": {
+                      "x": 149.3,
+                      "y": 99.5
+                    },
+                    "uuid": "c4938c9b-dc87-41df-b88d-3db4a9f6c2e8"
+                  },
+                  {
+                    "description": "Reference field of R1",
+                    "pos": {
+                      "x": 148.67,
+                      "y": 95.5
+                    },
+                    "uuid": "f075e18b-429a-4eaf-ab00-59382742ee6e"
+                  }
+                ],
+                "severity": "warning",
+                "type": "silk_overlap"
+              }
+            ]
+          }
+        }
+      ],
+      "peak_child_rss_bytes": 224477184,
+      "peak_polled_group_rss_bytes": 223756288,
+      "invocation_wall_seconds": 45.14519024998299,
+      "invocation_cpu_seconds": 37.891772,
+      "finished_utc": "2026-10-15T10:51:41.360085+00:00",
+      "host_load_average_1_5_15_minutes_end": [
+        4.88037109375,
+        6.068359375,
+        6.18505859375
+      ],
+      "within_enclosing_budgets": true,
+      "accepted_before_shared_charge": true,
+      "charged_wall_seconds": 79.49865104301716,
+      "charged_cpu_seconds": 70.37176500000002,
+      "within_charged_budgets": true,
+      "raw_paired_accepted": true,
+      "within_equal240_wall_full_cpu_caps": true
+    },
+    {
+      "id": "C_feedback",
+      "accepted": true,
+      "status": "routing_accepted",
+      "started_utc": "2026-10-15T10:51:41.394155+00:00",
+      "host_load_average_1_5_15_minutes_begin": [
+        4.88037109375,
+        6.068359375,
+        6.18505859375
+      ],
+      "assigned_seconds": 114.40514012498898,
+      "adapter": "both",
+      "engine_profile": "tuned",
+      "operation": "prune",
+      "proposal_policy": "feedback",
+      "accepted_in_receipt": true,
+      "reason": null,
+      "cancelled": false,
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 11,
+      "exclusions": 0,
+      "length_mm": 35.511106322839424,
+      "vias": 0,
+      "wall_seconds": 18.60455012501916,
+      "parent_cpu_seconds": 9.208171,
+      "child_cpu_seconds": 6.790472,
+      "monitor_cpu_seconds": 0,
+      "total_cpu_seconds": 15.998643000000001,
+      "peak_child_rss_bytes": 224264192,
+      "peak_polled_group_rss_bytes": 223412224,
+      "invocation_wall_seconds": 20.45672933300375,
+      "invocation_cpu_seconds": 17.85304500000001,
+      "candidate_sha256": "5de71b74a8113f1a932ace6abc4cac0416db71212e9d2293e49b254c76d7db1d",
+      "native_report_sha256": "fae4dba7d6adce48a1c2152b8ac8700337423e050dea331fa4d3fe37dcf4cbf9",
+      "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ds18b20-native-paired240-001/run/C_feedback/result.json",
+      "result_sha256": "1b0f1de86f911882349406e6f8784f1a2c179ec09edb6db0c38b4c805880ae86",
+      "within_equal_budgets": true,
+      "protocol_contract_verified": true,
+      "receipt_verified": true,
+      "zone_net_ids": [],
+      "pruning_trial_count": 0,
+      "pruning_improvements": 0,
+      "zone_pruning_opportunity": "no_declared_zone_nets",
+      "observations": [
+        {
+          "kind": "incumbent_validated",
+          "checkpoint": "checkpoints/0000.json",
+          "checkpoint_sha256": "8cdc1d2e2454e761dbfbdef7d4381f24b40461645929c910bf1bb0f2a57ad160",
+          "elapsed_seconds": 16.564610041008564,
+          "observed_cpu_seconds": 14.544296000000003,
+          "metrics": {
+            "version": "10.0.0",
+            "pads": 10,
+            "footprints": 4,
+            "zones": 0,
+            "vias": 0,
+            "track_length_mm": 35.511106322839424,
+            "copper_layers": 2
+          },
+          "candidate_sha256": "5de71b74a8113f1a932ace6abc4cac0416db71212e9d2293e49b254c76d7db1d",
+          "within_budgets_when_observed": true,
+          "final_delivery_accepted": true,
+          "meaning": "validated incumbent observation; does not override final budget/cancellation/receipt outcome"
+        },
+        {
+          "kind": "final_validated",
+          "checkpoint": "checkpoints/0001.json",
+          "checkpoint_sha256": "ce9a391fabfd1e350e23dccde35903173aa31eea9df0be58f138a7f7795f5f49",
+          "elapsed_seconds": 18.602477791020647,
+          "observed_cpu_seconds": 15.996593000000004,
+          "metrics": {
+            "version": "10.0.0",
+            "pads": 10,
+            "footprints": 4,
+            "zones": 0,
+            "vias": 0,
+            "track_length_mm": 35.511106322839424,
+            "copper_layers": 2
+          },
+          "candidate_sha256": "5de71b74a8113f1a932ace6abc4cac0416db71212e9d2293e49b254c76d7db1d",
+          "within_budgets_when_observed": true,
+          "final_delivery_accepted": true,
+          "meaning": "validated incumbent observation; does not override final budget/cancellation/receipt outcome"
+        }
+      ],
+      "finished_utc": "2026-10-15T10:52:01.850947+00:00",
+      "host_load_average_1_5_15_minutes_end": [
+        4.36474609375,
+        5.869140625,
+        6.1103515625
+      ],
+      "within_enclosing_budgets": true,
+      "accepted_before_shared_charge": true,
+      "charged_wall_seconds": 54.810190126037924,
+      "charged_cpu_seconds": 50.33303800000002,
+      "within_charged_budgets": true,
+      "raw_paired_accepted": true,
+      "checked_receipt_summary": {
+        "id": "C_feedback",
+        "adapter": "both",
+        "engine_profile": "tuned",
+        "operation": "prune",
+        "proposal_policy": "feedback",
+        "status": "routing_accepted",
+        "accepted_in_receipt": true,
+        "accepted": true,
+        "reason": null,
+        "cancelled": false,
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 11,
+        "exclusions": 0,
+        "length_mm": 35.511106322839424,
+        "vias": 0,
+        "wall_seconds": 18.60455012501916,
+        "parent_cpu_seconds": 9.208171,
+        "child_cpu_seconds": 6.790472,
+        "monitor_cpu_seconds": 0,
+        "total_cpu_seconds": 15.998643000000001,
+        "peak_child_rss_bytes": 224264192,
+        "peak_polled_group_rss_bytes": 223412224,
+        "invocation_wall_seconds": 20.45672933300375,
+        "invocation_cpu_seconds": 17.85304500000001,
+        "candidate_sha256": "5de71b74a8113f1a932ace6abc4cac0416db71212e9d2293e49b254c76d7db1d",
+        "native_report_sha256": "fae4dba7d6adce48a1c2152b8ac8700337423e050dea331fa4d3fe37dcf4cbf9",
+        "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/ds18b20-native-paired240-001/run/C_feedback/result.json",
+        "result_sha256": "1b0f1de86f911882349406e6f8784f1a2c179ec09edb6db0c38b4c805880ae86",
+        "within_equal_budgets": true,
+        "protocol_contract_verified": true,
+        "receipt_verified": true
+      },
+      "within_equal240_wall_full_cpu_caps": true
+    }
+  ],
+  "result_sha256": "83e1e1a2e728551b0829e364a9d17551e659869ac799638e35a363c841f5d64f",
+  "reader_execution_sha256": "e8089a97cdd0270ca8b767253b042b2f5ff6081472401751bc9bdcce0de38041"
+}
