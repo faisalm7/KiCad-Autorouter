@@ -40,4 +40,8 @@ class FreeAngleDeliveryControls(unittest.TestCase):
         self.assertEqual(at['J1'],['12','10']);self.assertEqual(at['J2'],['26','13'])
         self.assertEqual(len(p.routes(tree)),1)
         self.assertEqual(len(p.protected_for_record({'scope':'whole_board_unlocked_routing'},tree)),1)
+        import json
+        pro=json.loads(files[fixture.STEM+'.kicad_pro']);default=pro['net_settings']['classes'][0]
+        self.assertEqual(default['priority'],2147483647);self.assertEqual(default['track_width'],.3)
+        self.assertEqual(pro['board']['design_settings']['rules']['min_track_width'],.25)
         self.assertEqual(len(files),4);self.assertIn(fixture.STEM+'.kicad_sch',files)

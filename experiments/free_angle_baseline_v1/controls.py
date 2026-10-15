@@ -14,8 +14,8 @@ from autorouter import pipeline as p,floor_route as f,handoff as h,placement_cle
 from experiments.hfe_original_native_v1 import driver as shared
 from experiments.placement_handoff_native_v1.driver import copy_bytes
 from experiments.free_angle_baseline_v1 import fixture
-PREP=ROOT/'.runs/free-angle-native-preparation-001';PROTOCOL=PREP/'protocol.json'
-OUT=ROOT/'.runs/free-angle-native-enclosure-001/native';WHOLE=180.;ROUTE=120.
+PREP=ROOT/'.runs/free-angle-native-preparation-002';PROTOCOL=PREP/'protocol.json'
+OUT=ROOT/'.runs/free-angle-native-enclosure-002/native';WHOLE=180.;ROUTE=120.
 
 
 def account_delivery(record,wall,full,available):
@@ -42,6 +42,7 @@ def context(plan,pin=None):
             or {n:hashlib.sha256(raw).hexdigest() for n,raw in fixture.files().items()}!=plan['source_sha256']
             or any(p.sha(ROOT/n)!=value for n,value in plan['code_sha256'].items())):
         raise p.Rejected('frozen owned free-angle context differs')
+    if any(p.sha(ROOT/n)!=value for n,value in plan.get('prior_attempts',{}).get('files_sha256',{}).items()):raise p.Rejected('retained prior attempt changed')
     if pin is not None and (p.sha(PROTOCOL)!=pin or f.canonical(f.read_json(PROTOCOL))!=f.canonical(plan)):
         raise p.Rejected('frozen angle protocol differs')
 
@@ -59,6 +60,13 @@ def prepare(head):
         tools=p.tool_manifest(),code_sha256={n:p.sha(ROOT/n) for n in sorted(names)},
         limits={'whole_wall_full_cpu':WHOLE,'route_wall_full_cpu':ROUTE,'publication':2},
         scope='One owned exposed oblique-terminal stock tuned-free-angle route/fullSCH Native positive and physical-short negative. Four actual pinned-JAR loader observations on immutable actual engine input. No new comparative result or default/CLI/GUI/installed/human qualification.')
+    old=ROOT/'.runs/free-angle-native-enclosure-001/result.json'
+    probe=ROOT/'.runs/free-angle-export-missing-probe-001/missing-publication-failure.json'
+    failed=f.read_json(old);missing=f.read_json(probe)
+    if failed.get('passed') is not False or failed.get('status')!='failed' or missing.get('status')!='rejected_native_source_target_mismatch':raise p.Rejected('retained failed attempts differ')
+    plan['prior_attempts']=dict(files_sha256={str(old.relative_to(ROOT)):p.sha(old),str(probe.relative_to(ROOT)):p.sha(probe)},
+        wall_seconds=failed['wall_seconds']+2+2,full_cpu_seconds=failed['full_cpu_seconds']+2+2,
+        scope='Actual complete001failed control+2publication, plus conservative2wall/fullCPU crashed mapped-export probe allowance; probeCPU is unmeasured, allowance is not measurement.')
     context(plan);plan['preparation_costs']=dict(wall_seconds=time.monotonic()-START,full_cpu_seconds=cpu()-CPU0,publication_allowance_seconds=2)
     p.save_json(PROTOCOL,plan);print(f.canonical(dict(prepared=True,protocol=str(PROTOCOL),sha256=p.sha(PROTOCOL),native_executed=False)))
 

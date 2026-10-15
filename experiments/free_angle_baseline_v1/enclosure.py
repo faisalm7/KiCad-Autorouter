@@ -14,13 +14,13 @@ from autorouter import pipeline as p,floor_route as f,handoff as h,local_setting
 from autorouter.runner import run
 from experiments.hfe_original_native_v1 import driver as shared
 from experiments.free_angle_baseline_v1 import controls as c
-OUT=ROOT/'.runs/free-angle-native-enclosure-001';CAP=200.
+OUT=ROOT/'.runs/free-angle-native-enclosure-002';CAP=200.
 
 
 def execute(head,pin):
     plan=f.read_json(c.PROTOCOL);c.context(plan,pin)
     if plan['git_head']!=head or c.OUT.exists() or c.OUT.is_symlink():raise p.Rejected('frozen head and fresh Native destination required')
-    prior=plan['preparation_costs'];prewall=prior['wall_seconds']+2;precpu=prior['full_cpu_seconds']+2
+    prior=plan['preparation_costs'];prewall=prior['wall_seconds']+2+plan['prior_attempts']['wall_seconds'];precpu=prior['full_cpu_seconds']+2+plan['prior_attempts']['full_cpu_seconds']
     if prior.get('publication_allowance_seconds')!=2 or min(prewall,precpu)<2:raise p.Rejected('preparation charge differs')
     OUT.mkdir();owner={};h.capture_destination(owner,OUT);selfpin=p.sha(Path(__file__))
     def remaining():return min(CAP-2-prewall-(time.monotonic()-START),CAP-2-precpu-(cpu()-CPU0))
@@ -35,7 +35,7 @@ def execute(head,pin):
     cancelled=process['status']=='cancelled' or child is not None and child.get('status')=='cancelled'
     record=dict(schema=1,kind='actual-complete-owned-stock-free-angle-native-v1',accepted=False,passed=passed,status='completed' if passed else 'cancelled' if cancelled else 'failed',
         git_head=head,protocol_sha256=pin,controller_sha256=selfpin,process=process,child_receipt_sha256=childpin,
-        child_material_sha256=material,child_completed_evidence_bound=bound,log_sha256=logpin,preparation_costs=prior,whole_wall_full_cpu_cap_seconds=CAP,
+        child_material_sha256=material,child_completed_evidence_bound=bound,log_sha256=logpin,preparation_costs=prior,prior_attempts=plan['prior_attempts'],whole_wall_full_cpu_cap_seconds=CAP,
         scope='One exposed owned oblique control; actual complete process including preparation and all loader/Native/publication tails reached. Diagnostic qualification only, no quality/family/GUI/install/human/release claim. Child timing is partial; use these complete outer charges.')
     def stable():
         h.owned_destination(owner);c.context(plan,pin)

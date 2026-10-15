@@ -1,0 +1,102 @@
+{
+    "$schema": "https://schemas.kicad.org/drc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-10-15T13:36:17",
+    "ignored_checks": [
+        {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+        },
+        {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning",
+        "exclusion"
+    ],
+    "kicad_version": "10.0.0",
+    "schematic_parity": [],
+    "source": "owned-free-angle.kicad_pcb",
+    "unconnected_items": [],
+    "violations": [
+        {
+            "description": "Track width (board setup constraints min width 0.2500 mm; actual 0.2000 mm)",
+            "items": [
+                {
+                    "description": "Track [ROUTE] on F.Cu, length 14.3178 mm",
+                    "pos": {
+                        "x": 26.0,
+                        "y": 13.0
+                    },
+                    "uuid": "44909b94-5bf3-4077-bc90-cdb093ffa8c7"
+                }
+            ],
+            "severity": "error",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (board setup constraints min width 0.2500 mm; actual 0.2000 mm)",
+            "items": [
+                {
+                    "description": "Track [GND] on F.Cu, length 14.0000 mm",
+                    "pos": {
+                        "x": 26.0,
+                        "y": 24.0
+                    },
+                    "uuid": "78377850-53c8-47a3-8b80-e99b7f5e17a6"
+                }
+            ],
+            "severity": "error",
+            "type": "track_width"
+        },
+        {
+            "description": "Copper connection too narrow (board setup constraints minimum connection width 0.2500 mm; actual 0.2000 mm) (F.Cu)",
+            "items": [
+                {
+                    "description": "PTH pad 1 [ROUTE] of J1",
+                    "pos": {
+                        "x": 12.0,
+                        "y": 10.0
+                    },
+                    "uuid": "b2966f73-bff6-5f2e-8c3c-c94b109e8e17"
+                },
+                {
+                    "description": "Track [ROUTE] on F.Cu, length 14.3178 mm",
+                    "pos": {
+                        "x": 26.0,
+                        "y": 13.0
+                    },
+                    "uuid": "44909b94-5bf3-4077-bc90-cdb093ffa8c7"
+                }
+            ],
+            "severity": "warning",
+            "type": "connection_width"
+        },
+        {
+            "description": "Copper connection too narrow (board setup constraints minimum connection width 0.2500 mm; actual 0.2000 mm) (F.Cu)",
+            "items": [
+                {
+                    "description": "PTH pad 1 [GND] of J5",
+                    "pos": {
+                        "x": 12.0,
+                        "y": 24.0
+                    },
+                    "uuid": "a84171eb-8ede-5aeb-847e-49e39dd2d049"
+                },
+                {
+                    "description": "Track [GND] on F.Cu, length 14.0000 mm",
+                    "pos": {
+                        "x": 26.0,
+                        "y": 24.0
+                    },
+                    "uuid": "78377850-53c8-47a3-8b80-e99b7f5e17a6"
+                }
+            ],
+            "severity": "warning",
+            "type": "connection_width"
+        }
+    ]
+}

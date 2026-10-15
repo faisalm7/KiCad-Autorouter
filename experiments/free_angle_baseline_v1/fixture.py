@@ -11,9 +11,9 @@ from pathlib import Path
 from autorouter import sexpr as sx
 from experiments.native_schematic_transport_v1 import fixture as base
 
-STEM='owned-free-angle'
-SOURCE_ID='owned-free-angle-native-v1'
-NS=uuid.UUID('2cf04845-c9bf-4b50-a39d-a3fc39260beb')
+STEM='owned-free-angle-v2'
+SOURCE_ID='owned-free-angle-native-v2'
+NS=uuid.UUID('3af5d79b-08f2-4f2c-8766-bd7ee177bd1e')
 UUID=re.compile(r'[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}')
 
 
@@ -29,7 +29,8 @@ def files():
     sx.one(target[0],'at')[1:]=['26','13']
     pro=json.loads(result[STEM+'.kicad_pro'])
     pro['net_settings']['meta']={'version':5}
-    for cls in pro['net_settings']['classes']:cls['tuning_profile']=''
+    for cls in pro['net_settings']['classes']:
+        cls['tuning_profile']='';cls['priority']=2147483647
     result[STEM+'.kicad_pcb']=(sx.dump(tree)+'\n').encode()
     result[STEM+'.kicad_pro']=(json.dumps(pro,sort_keys=True,indent=2)+'\n').encode()
     return result
