@@ -1,0 +1,72 @@
+test_reader_late_complete_source_outside_shortlist (__main__.OuterPublicationControls.test_reader_late_complete_source_outside_shortlist) ... FAIL
+test_reader_late_material (__main__.OuterPublicationControls.test_reader_late_material) ... FAIL
+test_reader_positive (__main__.OuterPublicationControls.test_reader_positive) ... ok
+test_reader_slow_publication (__main__.OuterPublicationControls.test_reader_slow_publication) ... FAIL
+test_targeted_late_material (__main__.OuterPublicationControls.test_targeted_late_material) ... FAIL
+test_targeted_positive (__main__.OuterPublicationControls.test_targeted_positive) ... ok
+test_targeted_slow_publication (__main__.OuterPublicationControls.test_targeted_slow_publication) ... FAIL
+
+======================================================================
+FAIL: test_reader_late_complete_source_outside_shortlist (__main__.OuterPublicationControls.test_reader_late_complete_source_outside_shortlist)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/installation040-packet-review-001/test_outer_publication_draft.py", line 157, in test_reader_late_complete_source_outside_shortlist
+    def test_reader_late_complete_source_outside_shortlist(self): self.exercise('reader', 'whole_material')
+                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/installation040-packet-review-001/test_outer_publication_draft.py", line 149, in exercise
+    self.assertFalse(result['passed']); self.assertEqual(status, 2)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_reader_late_material (__main__.OuterPublicationControls.test_reader_late_material)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/installation040-packet-review-001/test_outer_publication_draft.py", line 155, in test_reader_late_material
+    def test_reader_late_material(self): self.exercise('reader', 'material')
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/installation040-packet-review-001/test_outer_publication_draft.py", line 149, in exercise
+    self.assertFalse(result['passed']); self.assertEqual(status, 2)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_reader_slow_publication (__main__.OuterPublicationControls.test_reader_slow_publication)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/installation040-packet-review-001/test_outer_publication_draft.py", line 156, in test_reader_slow_publication
+    def test_reader_slow_publication(self): self.exercise('reader', 'slow')
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/installation040-packet-review-001/test_outer_publication_draft.py", line 149, in exercise
+    self.assertFalse(result['passed']); self.assertEqual(status, 2)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_targeted_late_material (__main__.OuterPublicationControls.test_targeted_late_material)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/installation040-packet-review-001/test_outer_publication_draft.py", line 159, in test_targeted_late_material
+    def test_targeted_late_material(self): self.exercise('targeted', 'material')
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/installation040-packet-review-001/test_outer_publication_draft.py", line 149, in exercise
+    self.assertFalse(result['passed']); self.assertEqual(status, 2)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_targeted_slow_publication (__main__.OuterPublicationControls.test_targeted_slow_publication)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/installation040-packet-review-001/test_outer_publication_draft.py", line 160, in test_targeted_slow_publication
+    def test_targeted_slow_publication(self): self.exercise('targeted', 'slow')
+                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/installation040-packet-review-001/test_outer_publication_draft.py", line 149, in exercise
+    self.assertFalse(result['passed']); self.assertEqual(status, 2)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.075s
+
+FAILED (failures=5)

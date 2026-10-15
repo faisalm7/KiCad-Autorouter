@@ -1,0 +1,92 @@
+{
+  "schema": 1,
+  "passed": true,
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 3.7096769170020707,
+    "cpu_seconds": 3.46484,
+    "max_rss_bytes": 56967168,
+    "supervisor_cpu_seconds": 0.013275000000000148,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 56934400,
+    "sampled_peak_workdir_bytes": 10554,
+    "resource_guards": {
+      "max_group_rss_bytes": 1073741824,
+      "max_workdir_bytes": 16777216,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-040/checkout/.venv/bin/python",
+      "-B",
+      "-c",
+      "import sys,json,unittest,subprocess\nfrom pathlib import Path\nCLONE=Path('/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-040/checkout')\nsys.path[:0]=[str(CLONE),str(CLONE/'tests')];sys.dont_write_bytecode=True\nfrom autorouter import config as c\nfrom importlib import import_module\nassert c.ROOT==CLONE and Path(sys.prefix).resolve()==CLONE/'.venv'\nassert Path(sys.executable)==CLONE/'.venv/bin/python' and sys.prefix!=sys.base_prefix\ndef forbidden(*a,**kw):raise AssertionError('installed software controls forbid Native/JVM/network/Git subprocess')\nsubprocess.run=forbidden;subprocess.Popen=forbidden\nmodules=['tests.test_native_toolchain', 'tests.test_native_parser_context', 'tests.test_experimental_route_context', 'tests.test_experimental_route_publication', 'tests.test_field_local_settings_event', 'tests.test_native_import_toolchain', 'tests.test_native_schematic_transport_fixture']\nwatched=[import_module(name) for name in ['autorouter.pipeline', 'autorouter.adapter', 'autorouter.netclass', 'autorouter.padless_alias', 'autorouter.local_settings', 'autorouter.schematic_field_evidence', 'experiments.native_schematic_transport_v1.fixture']]\nshipped={m.__name__:str(Path(m.__file__).resolve()) for m in watched}\nassert all(Path(m.__file__).resolve()==CLONE/(m.__name__.replace('.','/')+'.py') for m in watched)\nsuite=unittest.TestSuite(unittest.defaultTestLoader.loadTestsFromName(m) for m in modules)\nplanned=suite.countTestCases()\nresult=unittest.TextTestRunner(verbosity=2).run(suite)\nassert all(Path(m.__file__).resolve().is_relative_to(CLONE) for name,m in tuple(sys.modules.items()) if name.split('.')[0] in {'autorouter','scripts','experiments','tests'} and getattr(m,'__file__',None))\npopulation=dict(modules=modules,planned=planned,ran=result.testsRun,successful=result.wasSuccessful(),skipped=len(result.skipped),shipped_modules=shipped)\nPath('population.json').write_text(json.dumps(population,indent=2)+'\\n')\nraise SystemExit(0 if result.wasSuccessful() and planned==result.testsRun==46 and not result.skipped else 2)\n"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation040-targeted-001/tests.log",
+    "log_bytes": 9099,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation040-targeted-001",
+    "signal_cancellation_enabled": true,
+    "pid": 18135
+  },
+  "source_current": true,
+  "git_head": "6bd0d57b596c1d55dd7df281d5d6904723cead10",
+  "modules": [
+    "tests.test_native_toolchain",
+    "tests.test_native_parser_context",
+    "tests.test_experimental_route_context",
+    "tests.test_experimental_route_publication",
+    "tests.test_field_local_settings_event",
+    "tests.test_native_import_toolchain",
+    "tests.test_native_schematic_transport_fixture"
+  ],
+  "population": {
+    "modules": [
+      "tests.test_native_toolchain",
+      "tests.test_native_parser_context",
+      "tests.test_experimental_route_context",
+      "tests.test_experimental_route_publication",
+      "tests.test_field_local_settings_event",
+      "tests.test_native_import_toolchain",
+      "tests.test_native_schematic_transport_fixture"
+    ],
+    "planned": 46,
+    "ran": 46,
+    "successful": true,
+    "skipped": 0,
+    "shipped_modules": {
+      "autorouter.pipeline": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-040/checkout/autorouter/pipeline.py",
+      "autorouter.adapter": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-040/checkout/autorouter/adapter.py",
+      "autorouter.netclass": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-040/checkout/autorouter/netclass.py",
+      "autorouter.padless_alias": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-040/checkout/autorouter/padless_alias.py",
+      "autorouter.local_settings": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-040/checkout/autorouter/local_settings.py",
+      "autorouter.schematic_field_evidence": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-040/checkout/autorouter/schematic_field_evidence.py",
+      "experiments.native_schematic_transport_v1.fixture": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-040/checkout/experiments/native_schematic_transport_v1/fixture.py"
+    }
+  },
+  "population_sha256": "08e3d018d803e8a8bff88298a8f6ee0d34c8e72d8295e96b9e4acb50dcabdabd",
+  "protocol_sha256": "13cb9b2fe32de4803ca93523ee008e7e13ad039313a3f20711254297e401b233",
+  "installation_receipt_sha256": "e269a72aa9b3087ba512cd0ec9eb3a587973d5074cd5470e9b7c6b3f899eee6a",
+  "controller_sha256": "6cde1c7ca8a14004959f79e62a1943fb043b1d4d3d35ab0e76fd2028548622d8",
+  "log_sha256": "1a405ad553aec5e405d5599a482778567feaf3a8c06da0ccd1ed8e63c41dce06",
+  "wall_seconds": 10.368719958001748,
+  "full_cpu_seconds": 8.495289999999999,
+  "publication_allowance_seconds": 2,
+  "whole_delivery_within_budget": true,
+  "historical_test_supplement": null,
+  "scope": "Seven current installed context/prefix/direct-import/PRL/effective-field/publication/owned-fixture software modules. Authored fixture controls only; no historical supplement, Native/JVM/network execution, full installed suite, production admission or fresh OS claim."
+}

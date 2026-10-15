@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "accepted": false,
+  "passed": false,
+  "status": "invalidated",
+  "source_current": false,
+  "process": {
+    "status": "memory_limit",
+    "exit_code": -15,
+    "wall_seconds": 6.536101167002926,
+    "cpu_seconds": 4.4494430000000005,
+    "max_rss_bytes": 1330266112,
+    "supervisor_cpu_seconds": 0.018811999999999995,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 1325858816,
+    "sampled_peak_workdir_bytes": 60628,
+    "resource_guards": {
+      "max_group_rss_bytes": 1073741824,
+      "max_workdir_bytes": 16777216,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-040/checkout/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/current-installation040-review-002/audit.py"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/current-installation040-review-002/command.log",
+    "log_bytes": 0,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/current-installation040-review-002",
+    "signal_cancellation_enabled": true,
+    "pid": 19559
+  },
+  "publication_allowance_seconds": 2,
+  "input_pins_sha256": "543814d95044cbad59fa009ff8e78831ba1ddef5d541863f2ccf0261fac06d55",
+  "reader_sha256": "6addbdf5ae578ef5580adba344004651fb6f96145da6c87c9461fb6b40586682",
+  "adapted_reader_source_sha256": "9cdb2d7dc73ef2991e168fd626f3ccfe9db840529b7bd9fa24fee476d8f82379",
+  "controller_sha256": "3d584ffe4d37a6231a7e1fbee68bd1ca71ba386a9c3f6bee88664cf1e28950c5",
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "checks_sha256": null,
+  "scope": "Missing-only current installed040 retained qualification under guarded publication. Original targeted pre-write receipt and actual Native outer invalidation remain unchanged. Installed current child producer/shared transport can qualify; no retroactive outer-publication completion, historical timing rewrite, new Native/JVM/test, production/default/GUI/quality claim.",
+  "whole_project_drc_clean": false,
+  "reason": "Rejected: installed reader/child checks or log changed during publication",
+  "wall_seconds": 6.628273000009358,
+  "full_cpu_seconds": 4.555630000000001,
+  "whole_delivery_within_budget": true,
+  "cost_scope": "From first outer line before imports through guarded checks; stored sample precedes shared publication, final wall/fullCPU guards stay under58 plus2 tail within60. No historical writer timing reclassification."
+}
