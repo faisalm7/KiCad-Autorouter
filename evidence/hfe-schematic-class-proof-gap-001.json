@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "kind": "retained-source-only-class-proof-gap",
+  "actual_class_mismatch_observed": false,
+  "native_executed": false,
+  "warning_exception_implemented": false,
+  "hfe_supported": false,
+  "net_conflict_warnings_remain_policy_critical": 18,
+  "findings": "Numbered terminal partitions and unassigned-pad census do not prove schematic/PCB class equivalence. Original root/child schematics have netclass_flag directives; all five renamed Q4 netlist partitions carry narrow,Analog. Existing membership comparison permits class entries but neither retains nor compares their semantics. No PCB-effective Native class map located in the identified HFE run roots.",
+  "source_refs": {
+    "netlist": {
+      "path": ".runs/hfe-parity-probe-execution-001/probe/job/parity-probe-fields.net",
+      "sha256": "e4413e32e146b59dddfef1d0bad250ea0d4ad2939847ef760532b5117348b52f"
+    },
+    "project": {
+      "path": ".runs/hfe-parity-probe-execution-001/probe/job/input/transistor-hfe-measurement-circuit.kicad_pro",
+      "sha256": "684f83f599188810229a3e1bcc3378daef39625db1e75f1042e367627f6671a5"
+    }
+  },
+  "required": "Separate bounded Native PCB-effective class/constituent/parameter-parent observation and complete per-partition schematic comparison, including name patterns/directives/hierarchy and unsupported electrical intent. Unknown/differing constraints refuse. Dimensional equality with Default alone is insufficient.",
+  "reviews": [
+    "windows_firewall_property_review: source-only skeptical review; no imports/tests/Native/writes",
+    "data_research: read-only retained netlist/project facts; no Native/export/partition rerun or writes"
+  ],
+  "backup_cutoff": "Review messages arrived after current eec artifact capture; this small continuation record is not retroactively included in that capture."
+}
