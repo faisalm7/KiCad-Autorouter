@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/curate-runtime009-duplicate-artwork-integration-001.py", line 214, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/curate-runtime009-duplicate-artwork-integration-001.py", line 34, in main
+    require(p.sha(RUNTIME/name)==p.sha(ROOT/name)==manifest['immutable_files_sha256'][name]==digest,'runtime/root module changed: '+name)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/curate-runtime009-duplicate-artwork-integration-001.py", line 18, in require
+    if not value:raise p.Rejected(reason)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^
+autorouter.pipeline.Rejected: runtime/root module changed: autorouter/gui.py
+real 0.29
+user 0.18
+sys 0.05
+
