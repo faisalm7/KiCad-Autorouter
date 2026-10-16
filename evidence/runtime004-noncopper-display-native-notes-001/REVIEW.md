@@ -1,0 +1,22 @@
+# Curated runtime004: narrow Native evidence review
+
+**No material defect found in the completed Route/geometry/negative evidence. The final fresh export preserves the exact source layer table.** Review was read-only except this owned note/table-check record. No product imports, Native/JVM, tests, Git, benchmarks, GUI or delegation. GUI056 and active jobs were not inspected.
+
+Setup, workflow and Native-control records agree on product source0eb2b4f1bf6519160a8508d222762bd25dbfcb4e and manifest3d25ad83be058aa8ece67f5bce43f8be6631ad6ecbb4d3647cfbf691ecee0ec2. The source's four file hashes still match setup; PRO/SCH/PRL also match the unmodified canonical factory. The invalid physical copy changes only inner numeric IDs4↔6 with names fixed; all companions remain identical. Setup retains the precise physical-order/identity refusal. This is a software source-identity negative, not a new Native acceptance claim.
+
+The source, route candidate and final export each have exact copper rows0/F.Cu,4/In1.Cu,6/In2.Cu,2/B.Cu in order. All four display rows survive unchanged:5 F.SilkS/F.Silkscreen,7 B.SilkS/B.Silkscreen,31 F.CrtYd/F.Courtyard and29 B.CrtYd/B.Courtyard. The helper asserted the table on the route only; independent final-export comparison fills that narrow evidence omission. In fact route/export board bytes are identical (d7e2dc8f55cd7576c692159c5b70a3542d73e47ad99212cd78077b9ca251ca56). `export-table-check.json` binds the complete AST table and source/route/export hashes; no Native rerun is needed for this metadata check.
+
+All10 original protected route ASTs remain in route and export. Of13 generated route items, ROUTE and GND each have2 In2.Cu segments;4 generated vias all span exact F.Cu↔B.Cu, including2 ROUTE vias. This proves actual new routing on In2.Cu for both required nets, not generation on every inner layer. Native export/final class markers retain exact four-layer IDs/names/order. Metrics agree:4 copper layers,4 vias,154.359805615mm. Original source has2 opens/0 blocking; route and fresh export each have0 opens/0 blocking/6 warnings/0 exclusions. The6 field-mismatch warnings remain under the existing six-component/18-field effective-empty qualification, with2 original ignored checks. Whole-project cleanliness remains false; no warning, physical/electrical or HFE parity/pour support is inferred.
+
+The same-rule invalid board is exactly the positive AST plus one declared cross-net ROUTE segment, with unchanged PRO/SCH/PRL and protected copper. Raw Native produces8 blocking errors, including2 shorting_items, plus6 warnings; opens0/exclusions0. Report/candidate hashes match, exact process exit5/cleanupTrue/nontruncated logs remain, and the retained shared stage/event readback reproduces these rejecting findings. The helper imports external administration control code, but all autorouter module origins are asserted under the curated runtime and the42 retained negative code files match its tool pins. The external helper's91e182... digest is bound; this does not establish a standalone artifact or native10.0.7 qualification.
+
+Costs remain distinct: setup reports sampled1.035197wall/.872963CPU; complete Route enclosing time is29.65wall/26.19CPU, including production Request/Workflow/CliJob/CLI, software intent, rendered review, fresh export and current/background readers. The route producer alone reports8.833543/6.655328 and must not replace complete delivery cost. Geometry/negative complete time is6.30/5.55, versus its prepublication sample6.255240/5.525163. Raw acceptedFalse with workflow_deliveredTrue/passedTrue conservatively separates qualification from final external admission. No comparative speed, actual GUI, human review or physical result follows.
+
+SHA256 pins:
+
+- `.runs/runtime-directory-004/setup.json`: `b77eed03fd41c580f5cd5ff995869159322276197bfb7edf8d99d5de7583d85f`
+- `.runs/runtime-directory-004/runtime/.runs/qualification-route/result.json`: `8494f8784547d9cefe8b4c10311cef85e527076f2dfc1580c6bc06311cce4d88`
+- `.runs/runtime-directory-004/runtime/.runs/enclosure-route/execution.json`: `98dd1c2d6ace5d9cbdab95d54ad2fa7606dadf9a99fb85047e9d71f04489dd48`
+- `.runs/runtime-directory-004/native1000/result.json`: `d49db9f6eef36be2aac417e40ec36d9e5bc97f913c746882f8c642a2bac3a00a`
+- `.runs/runtime004-geometry-negative.py`: `779b29eb7293d728fa6ecc050c6baf6c905c9d8e0f019748752eb5d057f07ecb`
+- `.runs/noncopper-display-native-skeptic-001/export-table-check.json`: `b1471485777b2518de7aee25bd32a4373ea78f98837ba24b37bdd73ec66aae04`

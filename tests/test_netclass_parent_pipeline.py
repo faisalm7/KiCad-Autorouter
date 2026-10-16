@@ -34,7 +34,11 @@ class ParentPipelineControls(unittest.TestCase):
   self.project['net_settings']['classes'][1]['name']='POWER,Default';self.board.with_suffix('.kicad_pro').write_text(json.dumps(self.project))
   with self.assertRaisesRegex(p.Rejected,'class names'):p.preflight(self.board)
   files,_=fixture.prepare();self.board.with_suffix('.kicad_pro').write_bytes(files['fixture.kicad_pro']);tree=sx.read(self.board);sx.one(tree,'layers').append(['4','"In1.Cu"','signal']);sx.one(tree,'layers').append(['6','"In2.Cu"','signal']);sx.write(self.board,tree)
-  with self.assertRaisesRegex(p.Rejected,'unqualified four-copper layer declaration'):p.preflight(self.board)
+  # Noncopper display metadata is qualified; appended copper rows still violate
+  # the required physical ordering and must refuse without rewriting source.
+  before=p.tree_hash(self.root)
+  with self.assertRaisesRegex(p.Rejected,'four-copper source physical order/identity differs'):p.preflight(self.board)
+  self.assertEqual(p.tree_hash(self.root),before)
  def test_parent_strategy_label_cannot_drop_dsn_basis_or_incumbent_costs(self):
   base=self.root/'incumbent';base.mkdir();step={'name':'engine','argv':['owned-engine'],'cpu_seconds':1,'wall_seconds':1}
   incumbent={'baseline':'B2_tuned','engine_profile':'tuned','netclass_policy':{'mode':n.PARENT_POLICY},'source':str(self.board),
