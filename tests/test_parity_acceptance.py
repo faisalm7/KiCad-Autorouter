@@ -9,7 +9,7 @@ class CompleteSchematicAcceptance(unittest.TestCase):
   with tempfile.TemporaryDirectory() as tmp:
    root=Path(tmp).resolve();candidate=root/'candidate';candidate.mkdir();board=candidate/'board.kicad_pcb'
    tree=sx.parse('(kicad_pcb (version 20260206) (layers (0 "F.Cu" signal) (2 "B.Cu" signal)))');sx.write(board,tree)
-   board.with_suffix('.kicad_pro').write_text('{}');board.with_suffix('.kicad_sch').write_text('captured native schematic: pure seam')
+   board.with_suffix('.kicad_pro').write_text('{}');board.with_suffix('.kicad_sch').write_text('(kicad_sch (version 20250114))\n')
    hashes=p.tree_hash(candidate);calls=[]
    class Job:
     out=root/'job'
@@ -20,6 +20,15 @@ class CompleteSchematicAcceptance(unittest.TestCase):
     p.validate_candidate(Job(),tree,board,hashes,[],schematic_parity=False)
    self.assertEqual(calls,[('refill-drc',True,{}),('final-drc',False,{'schematic_parity':True})])
    self.assertEqual(p.tree_hash(candidate),hashes)
+ def test_malformed_schematic_refuses_before_any_final_native_worker(self):
+  with tempfile.TemporaryDirectory() as tmp:
+   root=Path(tmp).resolve();board=root/'board.kicad_pcb'
+   tree=sx.parse('(kicad_pcb (version 20260206) (layers (0 "F.Cu" signal) (2 "B.Cu" signal)))');sx.write(board,tree)
+   board.with_suffix('.kicad_sch').write_text('malformed schematic pure negative')
+   with patch.object(p.Job,'drc') as worker:
+    with self.assertRaisesRegex(p.Rejected,'schematic class intent not qualified'):
+     p.validate_candidate(object(),tree,board,p.tree_hash(root),[])
+    worker.assert_not_called()
  def test_declaration_and_process_policy_follow_complete_original_input(self):
   for scope in ('whole_board_unlocked_routing','partial_completion','selected_nets'):
    row={'scope':scope,'source':'/project/board.kicad_pcb','source_hashes':{'board.kicad_sch':'bound'},'schematic_parity':'checked by final native DRC'}

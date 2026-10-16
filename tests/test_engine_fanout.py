@@ -138,7 +138,7 @@ class EngineFanoutControls(unittest.TestCase):
         source=p.c.ROOT/'autorouter/pipeline.py';raw=source.read_bytes()
         self.assertEqual(case.data['tools']['implementation_sha256']['autorouter/pipeline.py'],p.sha(source))
         self.assertEqual((case.run/'code/pipeline.py').read_bytes(),raw)
-        producer=next(row for row in ast.parse(raw).body if isinstance(row,ast.FunctionDef) and row.name=='route')
+        producer=next(row for row in ast.parse(raw).body if isinstance(row,ast.FunctionDef) and row.name=='_route')
         closures=[row for row in ast.walk(producer) if isinstance(row,ast.FunctionDef) and row.name=='stable']
         self.assertEqual(len(closures),1)
         state={'readbacks':0,'triggered':False};hash_tree=p.tree_hash
@@ -156,7 +156,7 @@ class EngineFanoutControls(unittest.TestCase):
             state['readbacks']+=1
         env=dict(p.__dict__)
         env.update(report=case.data,output=case.run,source=case.source,before=hash_tree(case.source_dir),
-                   completed=f.evidence_inventory(case.run),native_toolchain=None,_preferences=None,
+                   completed=f.evidence_inventory(case.run),native_toolchain=None,_preferences=None,class_requirement=None,
                    _fanout_enabled=case.data.get('engine_fanout_override'),engine_profile=case.data['engine_profile'],
                    tool_manifest=lambda **kw:case.data['tools'],evidence_inventory=f.evidence_inventory,tree_hash=current_hash)
         exec(compile(ast.fix_missing_locations(ast.Module(body=closures,type_ignores=[])),str(source),'exec'),env)

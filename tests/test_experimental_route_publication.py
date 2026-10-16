@@ -23,7 +23,9 @@ class LateRoutePublicationMetadata(unittest.TestCase):
 
     def test_explicit_pin_validation_starts_inside_route_budget(self):
         source=Path(p.__file__)
-        route=next(n for n in ast.parse(source.read_text()).body if isinstance(n,ast.FunctionDef) and n.name=='route')
+        # The public route wrapper now owns signal lifetime; the unchanged
+        # intake/publication work lives in its internal task implementation.
+        route=next(n for n in ast.parse(source.read_text()).body if isinstance(n,ast.FunctionDef) and n.name=='_route')
         # Execute only the actual intake prefix, ending before filesystem setup.
         stop=next(i for i,n in enumerate(route.body) if isinstance(n,ast.ImportFrom) and n.module=='local_settings')
         clock={'now':10.0}
@@ -46,7 +48,7 @@ class LateRoutePublicationMetadata(unittest.TestCase):
         self._put_prl_in_fixture()
         source = Path(p.__file__)
         route = next(n for n in ast.parse(source.read_text()).body
-                     if isinstance(n, ast.FunctionDef) and n.name == 'route')
+                     if isinstance(n, ast.FunctionDef) and n.name == '_route')
         stable = next(n for n in ast.walk(route)
                       if isinstance(n, ast.FunctionDef) and n.name == 'stable')
         target = self.run / 'final-drc-input' / self.source.with_suffix('.kicad_prl').name
@@ -97,7 +99,7 @@ class LateRoutePublicationMetadata(unittest.TestCase):
                     source=self.source, before=self.data['source_hashes'],
                     completed=f.evidence_inventory(self.run),
                     evidence_inventory=f.evidence_inventory,
-                    native_toolchain=nt, _preferences=None, _fanout_enabled=None, engine_profile='standard',
+                    native_toolchain=nt, _preferences=None, _fanout_enabled=None, engine_profile='standard',class_requirement=None,
                     preferences_fresh=lambda *_: None,
                     tool_manifest=manifest, check_normal_policy=policy)
                 exec(compile(ast.Module(body=[stable], type_ignores=[]),
