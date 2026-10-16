@@ -8,6 +8,24 @@ from experiments.placement_handoff_native_v1.driver import copy_bytes
 
 
 class GlobalWidthFixture(unittest.TestCase):
+    def test_width_negative_retains_every_inherited_warning_and_only_its_new_connection_warning(self):
+        inherited=[dict(type='lib_warning',severity='warning',description=str(n),items=[]) for n in range(6)]
+        extra=dict(type='connection_width',severity='warning',items=[dict(uuid='narrowed-track')])
+        positive=dict(findings=copy.deepcopy(inherited))
+        actual=dict(findings=copy.deepcopy(inherited)+[copy.deepcopy(extra)])
+        changed=[dict(uuid='narrowed-track')]
+        self.assertTrue(control.negative_warning_population(actual,positive,changed))
+        for mode in ('missing','replaced','unrelated','duplicate','wrong_track','wrong_severity'):
+            bad=copy.deepcopy(actual)
+            if mode=='missing':bad['findings'].pop(0)
+            elif mode=='replaced':bad['findings'][0]['description']='replacement'
+            elif mode=='unrelated':bad['findings'][-1]['type']='clearance'
+            elif mode=='duplicate':bad['findings'].append(copy.deepcopy(extra))
+            elif mode=='wrong_track':bad['findings'][-1]['items'][0]['uuid']='another-track'
+            else:bad['findings'][-1]['severity']='error'
+            with self.subTest(mode=mode):
+                self.assertFalse(control.negative_warning_population(bad,positive,changed))
+
     def test_exited_command_argv_cwd_cleanup_log_and_literal_are_retained(self):
         with tempfile.TemporaryDirectory() as temporary:
             root=Path(temporary).resolve();folder=root/'.runs/global-min-width-command-001/run';folder.mkdir(parents=True)

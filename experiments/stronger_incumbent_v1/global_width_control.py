@@ -199,6 +199,17 @@ def undersized(plan,routed,job,*,output=None):
         changed=changed,before=before,native=native,steps=job.steps)
     check_negative(plan,row,output=output);return row
 
+def negative_warning_population(native,positive,changed):
+    """Retain every inherited warning plus one width-induced connection warning."""
+    from collections import Counter
+    before=Counter(f.canonical(row) for row in positive['findings'] if row['severity']=='warning')
+    rows=[row for row in native['findings'] if row['severity']=='warning']
+    after=Counter(f.canonical(row) for row in rows)
+    if before-after or sum((after-before).values())!=1:return False
+    extra=next(row for row in rows if f.canonical(row) in after-before)
+    ids={row['uuid'] for row in changed}
+    return extra['type']=='connection_width' and any(item.get('uuid') in ids for item in extra.get('items',[]))
+
 def check_negative(plan,row,*,output=None):
     output=OUT if output is None else Path(output)
     folder=output/'undersized-job';board=Path(row['candidate']);positive=f.read_json(OUT/'route/result.json')
@@ -210,12 +221,14 @@ def check_negative(plan,row,*,output=None):
     data=dict(schema=1,steps=row['steps'],source_hashes=row['before'],tools=plan['tools'])
     native=f.check_drc_stage(folder,data,'undersized-final',board,folder/'undersized-final-input'/board.name,False,row['before'],schematic_parity=True)
     badids={item['uuid'] for item in changed};fields=native.get('field_parity',{}).get('qualification',{})
-    require(native==row['native'] and not p.native_accepted(native) and native['opens']==0 and native['blocking']>0
+    require(native==row['native'] and not p.native_accepted(native) and native['opens']==0 and native['blocking']==1
         and any(item['severity']=='error' and item['type']=='track_width' and any(n.get('uuid') in badids for n in item.get('items',[])) for item in native['findings'])
-        and native['ignored_checks']==positive['native']['ignored_checks'] and native['warnings']==6 and native['exclusions']==0
+        and native['ignored_checks']==positive['native']['ignored_checks'] and native['warnings']==positive['native']['warnings']+1 and native['exclusions']==0
+        and negative_warning_population(native,positive['native'],changed)
         and fields.get('component_count')==6 and fields.get('compared_field_count')==18,'actual width-specific fullSCH Native falsifier incomplete')
     require(p.sha(board)==row['candidate_sha256'] and p.sha(folder/'undersized-final.json')==row['report_sha256'],'width falsifier hash differs')
     ls.check_normal_policy(folder,data,max_bytes=128*1024**2,max_files=2048)
+
 
 def execute(plan,pin):
     context(plan,pin);OUT.mkdir();copy_bytes(io.inventory(PREP/'source',contents=True),OUT/'source')
