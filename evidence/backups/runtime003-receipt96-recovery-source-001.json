@@ -1,0 +1,64 @@
+{
+  "schema": 1,
+  "kind": "completed capture reader-bound refusal and existing-archive recovery",
+  "source_before_reader_change": "f962068ebfdbb72175f5f58f533f70e255dff61f",
+  "receipt": {
+    "receipt": ".local-backups/checkpoint-20261016T135704Z-c954e96253794615a59906f78fcb922f/receipt.json",
+    "sha256": "1144c7cd7f400941ade070835fcd92ca2fd3dd18ee66d432ea1b58831fef931f",
+    "bytes": 97699267,
+    "source_head": "f962068ebfdbb72175f5f58f533f70e255dff61f",
+    "files": 337798,
+    "logical_bytes": 12285582694,
+    "kind": "incremental",
+    "delta_files": 34385,
+    "reader96_passed": true,
+    "archive_and_full_restoration_pending": true
+  },
+  "capture_and_refused_checkpoint_cost_seconds": {
+    "wall": 310.23,
+    "cpu": 232.3
+  },
+  "reader_change": {
+    "old_max_receipt_bytes": 96468992,
+    "new_max_receipt_bytes": 100663296,
+    "chain_bytes_unchanged": 201326592,
+    "two_receipts_fit_chain_bound": true,
+    "other_guards_unchanged": true
+  },
+  "targeted": {
+    "methods": 10,
+    "passed": true,
+    "whole_wall_seconds": 0.22,
+    "whole_cpu_seconds": 0.09
+  },
+  "recapture_performed": false,
+  "full_restoration_of_this_new_target_pending": true,
+  "prior_completed_restore_repeated": false,
+  "refs": {
+    ".runs/backup-receipt96-recovery-001/runtime003-sonde007-incremental-002-command.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".runs/backup-receipt96-recovery-001/runtime003-sonde007-incremental-002-time.log": {
+      "sha256": "8c1809822e43f75772c91be2248ad81f1239021de4f4d58188d80f6bb0d91b26",
+      "bytes": 203
+    },
+    ".runs/backup-receipt96-recovery-001/runtime003-receipt96-read-001-command.log": {
+      "sha256": "bafb7e1b041bff025eb8a6b94bd796ff6de5adddb1e19e54045dc5028f2a4bc2",
+      "bytes": 423
+    },
+    ".runs/backup-receipt96-recovery-001/runtime003-receipt96-read-001-time.log": {
+      "sha256": "e2f4c20e2f21ffc9279e8afcfba7d098d7510fa749b6c0d2fcee42d8f1fdd4ea",
+      "bytes": 29
+    },
+    ".runs/backup-receipt96-recovery-001/backup-receipt96-targeted-001-command.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".runs/backup-receipt96-recovery-001/backup-receipt96-targeted-001-time.log": {
+      "sha256": "10aa0af421694f88a4efaa416913f6d11623afd33fcd82914fc15a79077cf1e8",
+      "bytes": 138
+    }
+  },
+  "on_mac_only": true
+}

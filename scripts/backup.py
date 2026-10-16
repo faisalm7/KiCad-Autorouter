@@ -66,7 +66,10 @@ MAX_CHAIN = 16
 # receipts fit the192MiB chain bound. No scopes or safety checks change.
 # Actual cohort target/delta serialization84780809B exceeds80MiB by894729B.
 # Finite88MiB fits this receipt; two-node chain remains under192MiB.
-MAX_RECEIPT_BYTES = 92 * 1024 ** 2
+# Actual337k-file capture emitted97699267B, above92MiB. Read the existing
+# completed archive with finite96MiB; two receipts still fit192MiB chain.
+# No recapture is needed; qualify by a full restoration of this new target.
+MAX_RECEIPT_BYTES = 96 * 1024 ** 2
 MAX_CHAIN_RECEIPT_BYTES = 192 * 1024 ** 2
 DELTA_DIRECTORIES_LEGACY = "all-target-directories-v1"
 DELTA_DIRECTORIES_COMPACT = "changed-and-new-ancestors-v1"

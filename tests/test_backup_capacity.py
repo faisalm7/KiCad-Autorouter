@@ -11,7 +11,7 @@ class BackupCapacity(unittest.TestCase):
                 'total_file_bytes':size}
     def test_exact_finite_capacity_and_existing_population(self):
         self.assertEqual(backup.LIMIT,12*1024**3);self.assertEqual(backup.MAX_FILES,345000)
-        self.assertEqual(backup.MAX_RECEIPT_BYTES,92*1024**2)
+        self.assertEqual(backup.MAX_RECEIPT_BYTES,96*1024**2)
         self.assertEqual(backup.MAX_CHAIN_RECEIPT_BYTES,192*1024**2)
         self.assertEqual(backup.SCOPES,('.runs','.data','.local-reference'))
     def test_measured_receipt_fits_with_two_receipts_inside_existing_chain_bound(self):
