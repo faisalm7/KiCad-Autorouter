@@ -77,8 +77,13 @@ class ExperimentalRouteContext(unittest.TestCase):
         pins={name:{'path':str(file),'sha256':p.sha(file)} for name,file in [('java',java),('freerouting',jar)]}
         pins['kicad_cli']={'path':str(source/'absent-old-cli'),'sha256':'0'*64}
         (source/'toolchain.lock.json').write_text(json.dumps({'tools':pins}))
-        with patch.multiple(c,ROOT=source,JAVA=java,JAR=jar),patch.object(p.subprocess,'run',return_value=SimpleNamespace(stdout='a'*40)):
+        identity={'kind':'git-checkout','git_head':'a'*40,'build_source':None,'manifest_sha256':None}
+        # This file-pin unit fixture is not a checkout. The separate provenance
+        # controls exercise real Git/manifest identity, including missing .git.
+        with patch.multiple(c,ROOT=source,JAVA=java,JAR=jar),patch('autorouter.provenance.source_identity',return_value=identity) as source_identity:
             actual=p.tool_manifest(native_toolchain=self.nt)
+            source_identity.assert_called_once_with(source,{'autorouter/a.py':p.sha(source/'autorouter/a.py')})
+            self.assertEqual(actual['source_provenance'],identity)
             self.assertEqual(actual['kicad'],'10.0.7');self.assertEqual(actual['experimental_native_toolchain'],self.nt.record())
             self.assertEqual(set(actual['files']),{str(x) for x in (java,jar,self.nt.cli,self.nt.python,self.nt.pcbnew)})
             java.write_text('changed')

@@ -407,10 +407,14 @@ class RelocatableToolPinTests(unittest.TestCase):
                 overrides[attribute] = file
                 pins[name] = {'path': str(file.relative_to(root)) if attribute == 'JAR' else str(file), 'sha256': p.sha(file)}
             (root / 'toolchain.lock.json').write_text(json.dumps({'tools': pins}))
-            # Only Git metadata is stubbed; path resolution and all file digests
-            # use actual files in a new checkout-shaped directory.
-            with patch.multiple(p.c, **overrides), patch.object(p.subprocess, 'run', return_value=SimpleNamespace(stdout='a' * 40 + '\n')):
+            # Only source identity is stubbed; path resolution and all file
+            # digests are real. This fixture is not a Git/runtime distribution.
+            # test_runtime_provenance exercises that separate provider for real.
+            identity={'kind':'git-checkout','git_head':'a'*40,'build_source':None,'manifest_sha256':None}
+            with patch.multiple(p.c, **overrides), patch('autorouter.provenance.source_identity',return_value=identity) as source_identity:
                 result = p.tool_manifest()
+                source_identity.assert_called_once_with(root,{'autorouter/config.py':p.sha(root/'autorouter/config.py')})
+                self.assertEqual(result['source_provenance'],identity)
                 self.assertEqual(result['files'][str(overrides['JAR'])], pins['freerouting']['sha256'])
                 self.assertEqual(p.c.resolve_tool_path(pins['freerouting']['path']), p.c.JAR)
                 overrides['JAR'].write_bytes(b'tampered engine')

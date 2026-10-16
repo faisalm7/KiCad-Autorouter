@@ -2,7 +2,7 @@
 
 An experimental open-source local KiCad routing tool. It runs without an AI account, preserves original design constraints and protected copper, validates separate candidates with native KiCad, and offers saved routing settings, preview, cancellation, acceptance/rejection intent and fresh separate-project export.
 
-[Start here](START_HERE.md) · [Curated runtime (under qualification)](docs/runtime-directory.md) · [Demo](docs/quickstart.md) · [ArcDice](docs/arcdice-demo.md) · [Saved settings](docs/routing-preferences.md) · [KiCad workflow](docs/gui-workflow.md) · [Status](STATUS.md)
+[Start here](START_HERE.md) · [Curated local runtime](docs/runtime-directory.md) · [Demo](docs/quickstart.md) · [ArcDice](docs/arcdice-demo.md) · [Saved settings](docs/routing-preferences.md) · [KiCad workflow](docs/gui-workflow.md) · [Status](STATUS.md)
 
 The [IR sensor comparison](evidence/ir-native300-003.json) adds149.375637mm/three vias versus the best of all three corrected/tuned variants166.287122mm/three vias, under equal cumulative300-second wall/full-CPU caps. All accepted outputs retain zero opens/blocking findings,42 warnings and seven ignored checks under unchanged original rules. C uses more compute; no speedup is claimed. Its [actual preview/export and KiCad GUI checks](evidence/ir-current-workflow-gui001.json) now pass on the qualified Mac.
 
@@ -14,7 +14,9 @@ The qualified runtime is this Mac's arm64 environment, KiCad10.0.0, Freerouting2
 
 Original code and owned fixtures are GPL-3.0-or-later. Downloaded hardware and engines have separate [rights and provenance](docs/data-provenance.md); raw third-party assets/models are not redistributed. No telemetry, runtime model, training/chat feature or formal release/package publication is included. Development is ongoing under [MASTER_PROMPT](MASTER_PROMPT.md) and [AGENTS](AGENTS.md).
 
-Audited source and small evidence are pushed to the authorized rebuild branch. [Current full restoration](evidence/backups/full-restore-stronger-cohort-6b84a884.json) verifies316544 non-Git files, all Git refs, empty-repository restoration and restored CLI through6b84a884, including the complete stronger cohort and installed046 GUI. The finite320000-file/10.5GiB/88MiBreceipt capacities are now actually qualified;192MiBchain and safety guards remain. Later small drafts are outside that cutoff. Raw archives are on this Mac only by owner choice, so they do not protect against disk failure. [Current status](STATUS.md).
+[Current curated runtime002](evidence/runtime002-native-workflow-001.json), source224, passes actual bareCLI and production Route/Improve→review→software intent→fresh Native export/readers, reject and actual engine cancellation. It needs existing pinned Mac applications and a fresh venv, with no Git or research archive at route time. Six warnings/two ignored checks remain. [Full133](evidence/runtime002-full133-current-001.json) passes; actual current graphical qualification remains blocked by GUI access. This is one owned fixture's product qualification, not a new comparative routing result.
+
+Audited source and small evidence are pushed to the authorized rebuild branch. [Completed restoration](evidence/backups/full-restore-runtime-be9ebceb-001.json) verifies330669non-Git files/allrefs/empty-repository bundle/restoredCLI/restored48file runtimebuilder atbe9. The335000file/12GiB/92MiBreceipt/192MiBchain capacities are qualified with existing guards. Later work needs incremental capture; completed restorations are not repeated. Raw artifacts remain on this Mac only by owner choice, without disk-failure protection. [Current status](STATUS.md).
 
 [Exact preceding README](docs/history/2026-10-14-4b1e871/README.md) preserves the historical experiments and changes in interpretation.
 
