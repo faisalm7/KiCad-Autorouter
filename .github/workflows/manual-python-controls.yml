@@ -1,10 +1,20 @@
 name: Manual pure Python controls
 on:
   workflow_dispatch:
+    inputs:
+      probe:
+        description: Pure controls or installer metadata only (never install/execute KiCad)
+        type: choice
+        required: false
+        default: pure
+        options:
+          - pure
+          - windows-metadata
 permissions:
   contents: read
 jobs:
   controls:
+    if: ${{ github.event.inputs.probe == '' || github.event.inputs.probe == 'pure' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
@@ -18,3 +28,14 @@ jobs:
           python3 -m unittest discover -s tests -p test_adapter.py -v
           python3 -m unittest discover -s tests -p test_validation.py -v
           python3 -m unittest discover -s tests -p test_handoff.py -v
+  windows-metadata:
+    if: ${{ github.event.inputs.probe == 'windows-metadata' }}
+    runs-on: windows-2022
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Download and inspect official installer without executing it
+        shell: pwsh
+        run: ./scripts/windows_toolchain_probe.ps1
