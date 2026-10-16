@@ -1,0 +1,141 @@
+{
+  "native": {
+    "passed": true,
+    "policy": {
+      "mode": "native-parent-dimensions-v1",
+      "resolution": "pinned native effective class and explicit parameter parents",
+      "source_class_names": [
+        "Default",
+        "POWER",
+        "SIGNAL",
+        "CRITICAL"
+      ],
+      "pattern_evaluation_in_python": false
+    },
+    "native_nets": 3,
+    "nets": [
+      {
+        "name": "GND",
+        "netcode": 3,
+        "copper_pad_count": 2,
+        "class": "SIGNAL,Default",
+        "parameter_parents": {
+          "width_nm": {
+            "name": "SIGNAL",
+            "value_nm": 350000,
+            "specified": true,
+            "priority": 0
+          },
+          "clearance_nm": {
+            "name": "SIGNAL",
+            "value_nm": 200000,
+            "specified": true,
+            "priority": 0
+          },
+          "via_diameter_nm": {
+            "name": "SIGNAL",
+            "value_nm": 1000000,
+            "specified": true,
+            "priority": 0
+          },
+          "via_drill_nm": {
+            "name": "SIGNAL",
+            "value_nm": 400000,
+            "specified": true,
+            "priority": 0
+          }
+        },
+        "width_nm": 350000,
+        "clearance_nm": 200000,
+        "via_diameter_nm": 1000000,
+        "via_drill_nm": 400000
+      },
+      {
+        "name": "KEEP",
+        "netcode": 2,
+        "copper_pad_count": 2,
+        "class": "Default",
+        "parameter_parents": {
+          "width_nm": {
+            "name": "Default",
+            "value_nm": 300000,
+            "specified": true,
+            "priority": 2147483647
+          },
+          "clearance_nm": {
+            "name": "Default",
+            "value_nm": 200000,
+            "specified": true,
+            "priority": 2147483647
+          },
+          "via_diameter_nm": {
+            "name": "Default",
+            "value_nm": 800000,
+            "specified": true,
+            "priority": 2147483647
+          },
+          "via_drill_nm": {
+            "name": "Default",
+            "value_nm": 400000,
+            "specified": true,
+            "priority": 2147483647
+          }
+        },
+        "width_nm": 300000,
+        "clearance_nm": 200000,
+        "via_diameter_nm": 800000,
+        "via_drill_nm": 400000
+      },
+      {
+        "name": "ROUTE",
+        "netcode": 1,
+        "copper_pad_count": 2,
+        "class": "POWER,Default",
+        "parameter_parents": {
+          "width_nm": {
+            "name": "POWER",
+            "value_nm": 400000,
+            "specified": true,
+            "priority": 1
+          },
+          "clearance_nm": {
+            "name": "POWER",
+            "value_nm": 250000,
+            "specified": true,
+            "priority": 1
+          },
+          "via_diameter_nm": {
+            "name": "POWER",
+            "value_nm": 1200000,
+            "specified": true,
+            "priority": 1
+          },
+          "via_drill_nm": {
+            "name": "POWER",
+            "value_nm": 500000,
+            "specified": true,
+            "priority": 1
+          }
+        },
+        "width_nm": 400000,
+        "clearance_nm": 250000,
+        "via_diameter_nm": 1200000,
+        "via_drill_nm": 500000
+      }
+    ],
+    "routing_accepted": false
+  },
+  "route_dimensions": {
+    "passed": true,
+    "checked": {
+      "segments": 0,
+      "arcs": 0,
+      "vias": 0,
+      "protected": 23
+    },
+    "policy": "exact effective native targets for new routes; protected originals unchanged"
+  },
+  "candidate_sha256": "4cff53329b0d6935a37f891c81c521965e5c7ae25d77c19deadaac11431bc2ad",
+  "project_sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+  "native_map_file_sha256": "e77f0d12e4e6b8f4135f71781598176784fafc168a87515dd53905f8d0aa6e7f"
+}

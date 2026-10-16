@@ -1,0 +1,127 @@
+{
+  "acceptance_requirement": "Every positive reaches the central checker; interruption or late receipt mutation leaves no accepted canonical result.",
+  "claims_limit": "FakeWorkerJob emits synthetic worker outputs. This exercises real publication and signal handlers only, and establishes no native routing correctness.",
+  "class_proof_claim": false,
+  "controls": [
+    {
+      "canonical_accepted": true,
+      "canonical_file": "before-fix-FAKE-POSITIVE-unchanged-result.json",
+      "canonical_sha256": "66a3af435e0c4be78fd34ed17ef7b80819d08b0e038d2406d7ff674fed4c477f",
+      "canonical_status": "routing_accepted",
+      "caught_exception": {
+        "message": "False is not true : positive publication must reach the central checker",
+        "type": "AssertionError"
+      },
+      "checker_reached": false,
+      "invalidated_files": [],
+      "invocation": "p.route(source / smoke.kicad_pcb, out), no preferences or class flag",
+      "mutation": null,
+      "mutation_triggered": false,
+      "returned_accepted": null,
+      "signal_handlers_restored": true,
+      "source_unchanged": true
+    },
+    {
+      "canonical_accepted": true,
+      "canonical_file": "before-fix-FAKE-POSITIVE-SIGINT-result.json",
+      "canonical_sha256": "42f6112fcdad8681d47b510c5e27b5a7d6a9c67308b1702854ae64cc7c0b8b65",
+      "canonical_status": "routing_accepted",
+      "caught_exception": {
+        "message": "",
+        "type": "KeyboardInterrupt"
+      },
+      "checker_reached": false,
+      "invalidated_files": [],
+      "invocation": "p.route(source / smoke.kicad_pcb, out), no preferences or class flag",
+      "mutation": "SIGINT",
+      "mutation_triggered": true,
+      "returned_accepted": null,
+      "signal_handlers_restored": true,
+      "source_unchanged": true
+    },
+    {
+      "canonical_accepted": true,
+      "canonical_file": "before-fix-FAKE-POSITIVE-SIGTERM-result.json",
+      "canonical_sha256": "2565e458dd3e5de9d0f61dfd134b8e5f93e11337d372cdfd72a6c29d361e5544",
+      "canonical_status": "routing_accepted",
+      "caught_exception": {
+        "message": "",
+        "type": "KeyboardInterrupt"
+      },
+      "checker_reached": false,
+      "invalidated_files": [],
+      "invocation": "p.route(source / smoke.kicad_pcb, out), no preferences or class flag",
+      "mutation": "SIGTERM",
+      "mutation_triggered": true,
+      "returned_accepted": null,
+      "signal_handlers_restored": true,
+      "source_unchanged": true
+    },
+    {
+      "canonical_accepted": true,
+      "canonical_file": "before-fix-FAKE-POSITIVE-interrupt_after_positive_write-result.json",
+      "canonical_sha256": "f56aa247221a838a07264b5f2573f2525390edb22051c17ea9e27324328dac1e",
+      "canonical_status": "routing_accepted",
+      "caught_exception": {
+        "message": "owned control",
+        "type": "KeyboardInterrupt"
+      },
+      "checker_reached": false,
+      "invalidated_files": [],
+      "invocation": "p.route(source / smoke.kicad_pcb, out), no preferences or class flag",
+      "mutation": "interrupt_after_positive_write",
+      "mutation_triggered": true,
+      "returned_accepted": null,
+      "signal_handlers_restored": true,
+      "source_unchanged": true
+    },
+    {
+      "canonical_accepted": true,
+      "canonical_file": "before-fix-FAKE-POSITIVE-canonical_after_positive_write-result.json",
+      "canonical_sha256": "4f89a816fb1a13cd748f78f3cf3adeade7072074f20089c1cefcb00cca863f86",
+      "canonical_status": "routing_accepted",
+      "caught_exception": {
+        "message": "True is not false",
+        "type": "AssertionError"
+      },
+      "checker_reached": false,
+      "invalidated_files": [],
+      "invocation": "p.route(source / smoke.kicad_pcb, out), no preferences or class flag",
+      "mutation": "canonical_after_positive_write",
+      "mutation_triggered": true,
+      "returned_accepted": null,
+      "signal_handlers_restored": true,
+      "source_unchanged": true
+    },
+    {
+      "canonical_accepted": true,
+      "canonical_file": "before-fix-FAKE-POSITIVE-canonical_after_checker-result.json",
+      "canonical_sha256": "b76a5a1d217311bc25e1313958c52e0c5677a700c92587cdcf5c850b211abb0c",
+      "canonical_status": "routing_accepted",
+      "caught_exception": {
+        "message": "False is not true",
+        "type": "AssertionError"
+      },
+      "checker_reached": false,
+      "invalidated_files": [],
+      "invocation": "p.route(source / smoke.kicad_pcb, out), no preferences or class flag",
+      "mutation": "canonical_after_checker",
+      "mutation_triggered": false,
+      "returned_accepted": null,
+      "signal_handlers_restored": true,
+      "source_unchanged": true
+    }
+  ],
+  "kind": "plain direct route publication safety counterexample with explicitly mocked workers",
+  "label": "before-fix",
+  "legacy_publication_excerpt": "    if _preferences is not None or native_toolchain is not None or engine_profile=='tuned-free-angle' or _fanout_enabled is False or class_requirement is not None:\n        from .floor_route import publish,child_cpu,evidence_inventory\n        completed=evidence_inventory(output)\n        def remaining():\n            return min(job.deadline-time.monotonic(),seconds-(time.process_time()-job.cpu_started+child_cpu()-(_preferences['child_cpu'] if _preferences else operation_children)))\n        def account():\n            report.update(wall_seconds=time.monotonic()-job.started,parent_cpu_seconds=time.process_time()-job.cpu_started)\n            report['control_child_cpu_seconds']=max(0,child_cpu()-(_preferences['child_cpu'] if _preferences else operation_children)-report['child_cpu_seconds']-report['monitor_cpu_seconds'])\n            report['total_cpu_seconds']=sum(report[key] for key in ('parent_cpu_seconds','child_cpu_seconds','monitor_cpu_seconds','control_child_cpu_seconds'))\n            report['resource_accounting_point']='Stored totals precede guarded publication; final wall/full CPU acceptance caps include all preference intake, readback and freshness checks.'\n            if report['wall_seconds']>seconds or report['total_cpu_seconds']>seconds:\n                report.update(accepted=False,status='budget_exceeded')\n            if not report['accepted']:report['whole_project_drc_clean']=False\n        def stable():\n            if report['accepted']:\n                if tool_manifest(**({'native_toolchain':native_toolchain} if native_toolchain is not None else {}))!=report['tools']:raise Rejected('runtime changed during preference publication')\n                if evidence_inventory(output)!=completed:raise Rejected('completed preference routing evidence changed')\n                if tree_hash(source.parent)!=before or tree_hash(output/'snapshot')!=before:\n                    raise Rejected('source changed during preference publication')\n                if native_toolchain is not None:check_experimental_local_settings(output,report,native_toolchain)\n            preferences_fresh(output,_preferences)\n            if report['accepted'] and (_fanout_enabled is False or engine_profile=='tuned-free-angle'):\n                # Last: byte/tool/source/preferences reads cannot witness PRL flags.\n                from .local_settings import check_normal_policy\n                check_normal_policy(output,report)\n            if report['accepted'] and class_requirement is not None:\n                check_route_class_evidence(output,report,original,candidate,class_context=class_context)\n        return publish(output,report,stable,account,remaining,\n            result_checker=(lambda file:check_result(file,native_toolchain=native_toolchain,experimental_schematic_parity=experimental_schematic_parity)) if native_toolchain is not None else None)\n    save_json(output/'result.json',report)\n    # Receipt serialization/fsync must not let an accepted result cross its cap.\n    # The corrective rejected receipt need not finish inside the acceptance cap.\n    completed_wall=time.monotonic()-job.started\n    completed_parent_cpu=time.process_time()-job.cpu_started\n    completed_cpu=completed_parent_cpu+report['child_cpu_seconds']+report['monitor_cpu_seconds']\n    if completed_wall>seconds or completed_cpu>seconds:\n        report.update(accepted=False,status='timeout' if completed_wall>seconds else 'cpu_budget_exceeded',\n                      wall_seconds=completed_wall,parent_cpu_seconds=completed_parent_cpu,total_cpu_seconds=completed_cpu)\n        save_json(output/'result.json',report)\n    return report\n",
+  "native_executed": false,
+  "routing_quality_claim": false,
+  "schema": 1,
+  "source_sha256": {
+    "autorouter/floor_route.py": "78d684e09edb1ec1816d4385b6d0f67dc34d54bf40cbe1e41bf77348a0c99b8f",
+    "autorouter/pipeline.py": "9f94a60d7162da172b3c98417ab9f9a05cf8dabc9c667d6907cf96a6078fc050",
+    "tests/test_preference_publication.py": "a1056cf27e6aa2821ab9962ce7bac85e7a01fa9b22015ee6a72c9962f974835b"
+  },
+  "source_unchanged_during_reproduction": true
+}

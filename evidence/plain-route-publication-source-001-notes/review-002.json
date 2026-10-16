@@ -1,0 +1,111 @@
+{
+  "budget_probes": [
+    {
+      "canonical_accepted": false,
+      "canonical_reason": "Rejected: floor budget exceeded during final publication",
+      "canonical_status": "budget_exceeded",
+      "canonical_whole_project_drc_clean": false,
+      "checker_reached": true,
+      "child_cpu_seconds": 0,
+      "control_child_cpu_seconds": 0,
+      "harness_positive_assertion": {
+        "message": "False is not true : {'schema': 1, 'status': 'budget_exceeded', 'accepted': False, 'physical_electrical_validation': False, 'schematic_parity': 'unavailable: no native schematic in source project', 'source': '/Users/faisal/Projects/KiCad-Autorouter-local/.cache/preference-publication-qmv0nsl2/1/project/smoke.kicad_pcb', 'started_utc': '2026-10-16T22:07:37.649825+00:00', 'budget_seconds': 120, 'cpu_budget_seconds': 120, 'cpu_budget_enforcement': 'postcompletion acceptance cap; no total-CPU preemption', 'baseline': 'B0', 'adapter': 'none', 'engine_profile': 'standard', 'scoring_variant': None, 'scope': 'whole_board_unlocked_routing', 'tools': {'implementation_sha256': {}}, 'source_hashes': {'smoke.kicad_pcb': '618b0b1d23f082283a5136b514ff64ee54b3a058f068689bf64668a436d7c5ea', 'smoke.kicad_prl': '6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6', 'smoke.kicad_pro': '3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643'}, 'task_sha256': 'd0c77f01dcfdd0b31f5cf7ed2addda31c45518b71426f4f81e07333ae6a58a0d', 'source_drc': {'warnings': 0, 'findings': []}, 'native_dsn_sha256': 'aa6c7809eb3a43e899909daaff494bb501a4a2db37298798383d437cb2c0abea', 'task_dsn_sha256': 'aa6c7809eb3a43e899909daaff494bb501a4a2db37298798383d437cb2c0abea', 'engine_budget': {'profile': 'standard', 'argv': ['--router.autorouter.max_passes=30', '--router.job_timeout=00:01:00', '--router.optimizer.max_threads=1', '--router.optimizer.max_passes=10', '--router.optimizer.timeout=00:00:30'], 'scoring': {'variant': None, 'argv': []}, 'strict_class_targets': False, 'remaining_outer_wall_seconds_at_assignment': 119.96917704195948, 'assigned_job_timeout_seconds': 60, 'assigned_optimizer_timeout_seconds': 30, 'native_finalization_reserve_seconds': 10, 'engine_grace_reserve_seconds': 30, 'internal_deadlines': 'cooperative planning caps; external supervision and measured CPU acceptance cap remain authoritative', 'outer_task_wall_budget_seconds': 120, 'outer_task_cpu_budget_seconds': 120}, 'protected_route_import': {'imported_sha256': 'd0c77f01dcfdd0b31f5cf7ed2addda31c45518b71426f4f81e07333ae6a58a0d', 'policy': 'exact_non_uuid_lock_position_v2', 'matches': [], 'transplanted_routes_sha256': '2e38e77b22c314a449e91fafed92a43826ac6aa403ae6a8acb6cf58239fbaf5d'}, 'native': {'warnings': 0, 'findings': []}, 'metrics': {'version': '10.0.0'}, 'native_report_sha256': '44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a', 'candidate_sha256': 'd0c77f01dcfdd0b31f5cf7ed2addda31c45518b71426f4f81e07333ae6a58a0d', 'candidate': '/Users/faisal/Projects/KiCad-Autorouter-local/.cache/preference-publication-qmv0nsl2/1/run/candidate/smoke.kicad_pcb', 'invariants_unchanged': True, 'native_rejection_reasons': [], 'whole_project_drc_clean': False, 'steps': [{'name': 'engine', 'argv': ['/usr/bin/sandbox-exec', '-p', '(version 1)(allow default)(deny network*)', '/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java', '-Xms128m', '-Xmx2g', '-XX:ActiveProcessorCount=1', '-Djava.awt.headless=true', '-jar', '/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar', '--gui.enabled=false', '--api_server.enabled=false', '--mcp_server.enabled=false', '-da', '--user_data_path=/Users/faisal/Projects/KiCad-Autorouter-local/.cache/preference-publication-qmv0nsl2/1/run/engine-config', '--logging.file.enabled=false', '--router.autorouter.max_passes=30', '--router.job_timeout=00:01:00', '--router.optimizer.max_threads=1', '--router.optimizer.max_passes=10', '--router.optimizer.timeout=00:00:30', '-de', '/Users/faisal/Projects/KiCad-Autorouter-local/.cache/preference-publication-qmv0nsl2/1/run/task.dsn', '-do', '/Users/faisal/Projects/KiCad-Autorouter-local/.cache/preference-publication-qmv0nsl2/1/run/routes.ses'], 'cwd': '/Users/faisal/Projects/KiCad-Autorouter-local/.cache/preference-publication-qmv0nsl2/1/run', 'status': 'success', 'exit_code': 0, 'cleanup_complete': True, 'cpu_seconds': 0.0, 'monitor_cpu_seconds': 0.0, 'wall_seconds': 0.0, 'max_rss_bytes': 0}], 'wall_seconds': 121.04431404103525, 'parent_cpu_seconds': 0.036340999999999984, 'child_cpu_seconds': 0, 'monitor_cpu_seconds': 0, 'total_cpu_seconds': 0.036340999999999984, 'peak_child_rss_bytes': 0, 'resource_limitations': 'One sequential worker; Java 2GiB heap; group RSS4GiB and workdir512MiB polling guards may overshoot;18GiB total cache checked before task. Peak direct-child RSS and polled group RSS are different metrics. CPU descendants only if accounted for by child wait; monitoring CPU included.', 'resource_accounting_point': 'Stored totals precede guarded publication; final wall/full CPU acceptance caps include all preference intake, readback and freshness checks.', 'control_child_cpu_seconds': 0, 'reason': 'Rejected: floor budget exceeded during final publication'}",
+        "type": "AssertionError"
+      },
+      "increment_point": "immediately after real positive save_json returns",
+      "invalidated_receipt_count": 1,
+      "monitor_cpu_seconds": 0,
+      "parent_cpu_seconds": 0.036340999999999984,
+      "probe": "late_wall",
+      "signal_handlers_restored": true,
+      "source_unchanged": true,
+      "synthetic_increment_seconds": 121,
+      "total_cpu_seconds": 0.036340999999999984,
+      "wall_seconds": 121.04431404103525
+    },
+    {
+      "canonical_accepted": false,
+      "canonical_reason": "Rejected: floor budget exceeded during final publication",
+      "canonical_status": "budget_exceeded",
+      "canonical_whole_project_drc_clean": false,
+      "checker_reached": true,
+      "child_cpu_seconds": 0,
+      "control_child_cpu_seconds": 0,
+      "harness_positive_assertion": {
+        "message": "False is not true : {'schema': 1, 'status': 'budget_exceeded', 'accepted': False, 'physical_electrical_validation': False, 'schematic_parity': 'unavailable: no native schematic in source project', 'source': '/Users/faisal/Projects/KiCad-Autorouter-local/.cache/preference-publication-qmv0nsl2/2/project/smoke.kicad_pcb', 'started_utc': '2026-10-16T22:07:37.696146+00:00', 'budget_seconds': 120, 'cpu_budget_seconds': 120, 'cpu_budget_enforcement': 'postcompletion acceptance cap; no total-CPU preemption', 'baseline': 'B0', 'adapter': 'none', 'engine_profile': 'standard', 'scoring_variant': None, 'scope': 'whole_board_unlocked_routing', 'tools': {'implementation_sha256': {}}, 'source_hashes': {'smoke.kicad_pcb': '618b0b1d23f082283a5136b514ff64ee54b3a058f068689bf64668a436d7c5ea', 'smoke.kicad_prl': '6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6', 'smoke.kicad_pro': '3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643'}, 'task_sha256': 'd0c77f01dcfdd0b31f5cf7ed2addda31c45518b71426f4f81e07333ae6a58a0d', 'source_drc': {'warnings': 0, 'findings': []}, 'native_dsn_sha256': 'aa6c7809eb3a43e899909daaff494bb501a4a2db37298798383d437cb2c0abea', 'task_dsn_sha256': 'aa6c7809eb3a43e899909daaff494bb501a4a2db37298798383d437cb2c0abea', 'engine_budget': {'profile': 'standard', 'argv': ['--router.autorouter.max_passes=30', '--router.job_timeout=00:01:00', '--router.optimizer.max_threads=1', '--router.optimizer.max_passes=10', '--router.optimizer.timeout=00:00:30'], 'scoring': {'variant': None, 'argv': []}, 'strict_class_targets': False, 'remaining_outer_wall_seconds_at_assignment': 119.98798924998846, 'assigned_job_timeout_seconds': 60, 'assigned_optimizer_timeout_seconds': 30, 'native_finalization_reserve_seconds': 10, 'engine_grace_reserve_seconds': 30, 'internal_deadlines': 'cooperative planning caps; external supervision and measured CPU acceptance cap remain authoritative', 'outer_task_wall_budget_seconds': 120, 'outer_task_cpu_budget_seconds': 120}, 'protected_route_import': {'imported_sha256': 'd0c77f01dcfdd0b31f5cf7ed2addda31c45518b71426f4f81e07333ae6a58a0d', 'policy': 'exact_non_uuid_lock_position_v2', 'matches': [], 'transplanted_routes_sha256': '2e38e77b22c314a449e91fafed92a43826ac6aa403ae6a8acb6cf58239fbaf5d'}, 'native': {'warnings': 0, 'findings': []}, 'metrics': {'version': '10.0.0'}, 'native_report_sha256': '44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a', 'candidate_sha256': 'd0c77f01dcfdd0b31f5cf7ed2addda31c45518b71426f4f81e07333ae6a58a0d', 'candidate': '/Users/faisal/Projects/KiCad-Autorouter-local/.cache/preference-publication-qmv0nsl2/2/run/candidate/smoke.kicad_pcb', 'invariants_unchanged': True, 'native_rejection_reasons': [], 'whole_project_drc_clean': False, 'steps': [{'name': 'engine', 'argv': ['/usr/bin/sandbox-exec', '-p', '(version 1)(allow default)(deny network*)', '/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java', '-Xms128m', '-Xmx2g', '-XX:ActiveProcessorCount=1', '-Djava.awt.headless=true', '-jar', '/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar', '--gui.enabled=false', '--api_server.enabled=false', '--mcp_server.enabled=false', '-da', '--user_data_path=/Users/faisal/Projects/KiCad-Autorouter-local/.cache/preference-publication-qmv0nsl2/2/run/engine-config', '--logging.file.enabled=false', '--router.autorouter.max_passes=30', '--router.job_timeout=00:01:00', '--router.optimizer.max_threads=1', '--router.optimizer.max_passes=10', '--router.optimizer.timeout=00:00:30', '-de', '/Users/faisal/Projects/KiCad-Autorouter-local/.cache/preference-publication-qmv0nsl2/2/run/task.dsn', '-do', '/Users/faisal/Projects/KiCad-Autorouter-local/.cache/preference-publication-qmv0nsl2/2/run/routes.ses'], 'cwd': '/Users/faisal/Projects/KiCad-Autorouter-local/.cache/preference-publication-qmv0nsl2/2/run', 'status': 'success', 'exit_code': 0, 'cleanup_complete': True, 'cpu_seconds': 0.0, 'monitor_cpu_seconds': 0.0, 'wall_seconds': 0.0, 'max_rss_bytes': 0}], 'wall_seconds': 0.025313916034065187, 'parent_cpu_seconds': 121.025011, 'child_cpu_seconds': 0, 'monitor_cpu_seconds': 0, 'total_cpu_seconds': 121.025011, 'peak_child_rss_bytes': 0, 'resource_limitations': 'One sequential worker; Java 2GiB heap; group RSS4GiB and workdir512MiB polling guards may overshoot;18GiB total cache checked before task. Peak direct-child RSS and polled group RSS are different metrics. CPU descendants only if accounted for by child wait; monitoring CPU included.', 'resource_accounting_point': 'Stored totals precede guarded publication; final wall/full CPU acceptance caps include all preference intake, readback and freshness checks.', 'control_child_cpu_seconds': 0, 'reason': 'Rejected: floor budget exceeded during final publication'}",
+        "type": "AssertionError"
+      },
+      "increment_point": "immediately after real positive save_json returns",
+      "invalidated_receipt_count": 1,
+      "monitor_cpu_seconds": 0,
+      "parent_cpu_seconds": 121.025011,
+      "probe": "late_parent_cpu",
+      "signal_handlers_restored": true,
+      "source_unchanged": true,
+      "synthetic_increment_seconds": 121,
+      "total_cpu_seconds": 121.025011,
+      "wall_seconds": 0.025313916034065187
+    },
+    {
+      "canonical_accepted": false,
+      "canonical_reason": "Rejected: floor budget exceeded during final publication",
+      "canonical_status": "budget_exceeded",
+      "canonical_whole_project_drc_clean": false,
+      "checker_reached": true,
+      "child_cpu_seconds": 0,
+      "control_child_cpu_seconds": 121.0,
+      "harness_positive_assertion": {
+        "message": "False is not true : {'schema': 1, 'status': 'budget_exceeded', 'accepted': False, 'physical_electrical_validation': False, 'schematic_parity': 'unavailable: no native schematic in source project', 'source': '/Users/faisal/Projects/KiCad-Autorouter-local/.cache/preference-publication-qmv0nsl2/3/project/smoke.kicad_pcb', 'started_utc': '2026-10-16T22:07:37.723292+00:00', 'budget_seconds': 120, 'cpu_budget_seconds': 120, 'cpu_budget_enforcement': 'postcompletion acceptance cap; no total-CPU preemption', 'baseline': 'B0', 'adapter': 'none', 'engine_profile': 'standard', 'scoring_variant': None, 'scope': 'whole_board_unlocked_routing', 'tools': {'implementation_sha256': {}}, 'source_hashes': {'smoke.kicad_pcb': '618b0b1d23f082283a5136b514ff64ee54b3a058f068689bf64668a436d7c5ea', 'smoke.kicad_prl': '6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6', 'smoke.kicad_pro': '3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643'}, 'task_sha256': 'd0c77f01dcfdd0b31f5cf7ed2addda31c45518b71426f4f81e07333ae6a58a0d', 'source_drc': {'warnings': 0, 'findings': []}, 'native_dsn_sha256': 'aa6c7809eb3a43e899909daaff494bb501a4a2db37298798383d437cb2c0abea', 'task_dsn_sha256': 'aa6c7809eb3a43e899909daaff494bb501a4a2db37298798383d437cb2c0abea', 'engine_budget': {'profile': 'standard', 'argv': ['--router.autorouter.max_passes=30', '--router.job_timeout=00:01:00', '--router.optimizer.max_threads=1', '--router.optimizer.max_passes=10', '--router.optimizer.timeout=00:00:30'], 'scoring': {'variant': None, 'argv': []}, 'strict_class_targets': False, 'remaining_outer_wall_seconds_at_assignment': 119.98917891702149, 'assigned_job_timeout_seconds': 60, 'assigned_optimizer_timeout_seconds': 30, 'native_finalization_reserve_seconds': 10, 'engine_grace_reserve_seconds': 30, 'internal_deadlines': 'cooperative planning caps; external supervision and measured CPU acceptance cap remain authoritative', 'outer_task_wall_budget_seconds': 120, 'outer_task_cpu_budget_seconds': 120}, 'protected_route_import': {'imported_sha256': 'd0c77f01dcfdd0b31f5cf7ed2addda31c45518b71426f4f81e07333ae6a58a0d', 'policy': 'exact_non_uuid_lock_position_v2', 'matches': [], 'transplanted_routes_sha256': '2e38e77b22c314a449e91fafed92a43826ac6aa403ae6a8acb6cf58239fbaf5d'}, 'native': {'warnings': 0, 'findings': []}, 'metrics': {'version': '10.0.0'}, 'native_report_sha256': '44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a', 'candidate_sha256': 'd0c77f01dcfdd0b31f5cf7ed2addda31c45518b71426f4f81e07333ae6a58a0d', 'candidate': '/Users/faisal/Projects/KiCad-Autorouter-local/.cache/preference-publication-qmv0nsl2/3/run/candidate/smoke.kicad_pcb', 'invariants_unchanged': True, 'native_rejection_reasons': [], 'whole_project_drc_clean': False, 'steps': [{'name': 'engine', 'argv': ['/usr/bin/sandbox-exec', '-p', '(version 1)(allow default)(deny network*)', '/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java', '-Xms128m', '-Xmx2g', '-XX:ActiveProcessorCount=1', '-Djava.awt.headless=true', '-jar', '/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar', '--gui.enabled=false', '--api_server.enabled=false', '--mcp_server.enabled=false', '-da', '--user_data_path=/Users/faisal/Projects/KiCad-Autorouter-local/.cache/preference-publication-qmv0nsl2/3/run/engine-config', '--logging.file.enabled=false', '--router.autorouter.max_passes=30', '--router.job_timeout=00:01:00', '--router.optimizer.max_threads=1', '--router.optimizer.max_passes=10', '--router.optimizer.timeout=00:00:30', '-de', '/Users/faisal/Projects/KiCad-Autorouter-local/.cache/preference-publication-qmv0nsl2/3/run/task.dsn', '-do', '/Users/faisal/Projects/KiCad-Autorouter-local/.cache/preference-publication-qmv0nsl2/3/run/routes.ses'], 'cwd': '/Users/faisal/Projects/KiCad-Autorouter-local/.cache/preference-publication-qmv0nsl2/3/run', 'status': 'success', 'exit_code': 0, 'cleanup_complete': True, 'cpu_seconds': 0.0, 'monitor_cpu_seconds': 0.0, 'wall_seconds': 0.0, 'max_rss_bytes': 0}], 'wall_seconds': 0.024440957990009338, 'parent_cpu_seconds': 0.024284, 'child_cpu_seconds': 0, 'monitor_cpu_seconds': 0, 'total_cpu_seconds': 121.024284, 'peak_child_rss_bytes': 0, 'resource_limitations': 'One sequential worker; Java 2GiB heap; group RSS4GiB and workdir512MiB polling guards may overshoot;18GiB total cache checked before task. Peak direct-child RSS and polled group RSS are different metrics. CPU descendants only if accounted for by child wait; monitoring CPU included.', 'resource_accounting_point': 'Stored totals precede guarded publication; final wall/full CPU acceptance caps include all preference intake, readback and freshness checks.', 'control_child_cpu_seconds': 121.0, 'reason': 'Rejected: floor budget exceeded during final publication'}",
+        "type": "AssertionError"
+      },
+      "increment_point": "immediately after real positive save_json returns",
+      "invalidated_receipt_count": 1,
+      "monitor_cpu_seconds": 0,
+      "parent_cpu_seconds": 0.024284,
+      "probe": "late_waited_child_cpu",
+      "signal_handlers_restored": true,
+      "source_unchanged": true,
+      "synthetic_increment_seconds": 121,
+      "total_cpu_seconds": 121.024284,
+      "wall_seconds": 0.024440957990009338
+    }
+  ],
+  "conclusion": "No concrete new regression found within the reviewed direct no-preferences/no-class publication scope.",
+  "edits": "Only this requested .runs review report; no source, test, documentation or Git edits.",
+  "existing_regression_evidence": {
+    "direct_scenarios": [
+      "central checker positive",
+      "owned self SIGINT",
+      "owned self SIGTERM",
+      "KeyboardInterrupt after positive write",
+      "canonical mutation after write",
+      "canonical mutation at checker return"
+    ],
+    "methods": 13,
+    "path": ".runs/direct-plain-publication-001/after-fix-suite.log",
+    "result": "passed before this review; not rerun"
+  },
+  "findings": [],
+  "kind": "bounded skeptical integration review of unconditional existing plain direct Route publisher",
+  "limits": [
+    "Workers and central checker in synthetic probes are mocked by the existing fixture; no Native/JVM routing correctness claim.",
+    "No full suite or Native execution during this review.",
+    "Accepted receipt totals are explicitly sampled before guarded publication; final acceptance cap includes later readback/freshness through remaining(). This existing shared-publisher accounting boundary was not changed.",
+    "No claim to survive process kill/power loss or a party rewriting the complete mutable local evidence set."
+  ],
+  "mechanisms_reviewed": {
+    "cancellation": "Public route retains SIGINT/SIGTERM handlers through publication and restores prior handlers in finally; shared publish catches Exception/KeyboardInterrupt, archives positive/partial receipts and writes accepted=False.",
+    "central_readback": "Plain direct positive now reaches default p.check_result via existing publish; canonical content is checked before and after readback, with stable tool/evidence/source/snapshot checks around it.",
+    "cpu_budget": "Original operation_children baseline retained; remaining() includes measured parent plus waited children, and account() reconciles retained step/monitor/control CPU without hiding extra waited work.",
+    "negative_paths": "False reports skip positive-only freshness/readback; account preserves false acceptance and clears whole_project_drc_clean.",
+    "no_preferences": "preferences_fresh(None) returns without dereferencing absent request; baseline CPU subtraction uses operation_children.",
+    "wall_budget": "Existing job.deadline retained; remaining() runs after canonical readback/freshness; each worker still has existing deadline enforcement."
+  },
+  "schema": 1,
+  "source_sha256": {
+    "autorouter/floor_route.py": "78d684e09edb1ec1816d4385b6d0f67dc34d54bf40cbe1e41bf77348a0c99b8f",
+    "autorouter/pipeline.py": "141ace13a69e85084440ba5bc88a9482d4f48cdeff034a79a60be2dc139d0f62",
+    "tests/test_preference_publication.py": "a1056cf27e6aa2821ab9962ce7bac85e7a01fa9b22015ee6a72c9962f974835b"
+  },
+  "source_unchanged_during_review": true
+}

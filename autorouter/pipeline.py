@@ -2200,46 +2200,34 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
     elif report['total_cpu_seconds']>seconds:
         report['accepted']=False; report['status']='cpu_budget_exceeded'
     report['resource_accounting_point']='Summary sampled before final receipt write; wall and measured CPU acceptance caps rechecked after that write. No hard total-CPU preemption.'
-    if _preferences is not None or native_toolchain is not None or engine_profile=='tuned-free-angle' or _fanout_enabled is False or class_requirement is not None:
-        from .floor_route import publish,child_cpu,evidence_inventory
-        completed=evidence_inventory(output)
-        def remaining():
-            return min(job.deadline-time.monotonic(),seconds-(time.process_time()-job.cpu_started+child_cpu()-(_preferences['child_cpu'] if _preferences else operation_children)))
-        def account():
-            report.update(wall_seconds=time.monotonic()-job.started,parent_cpu_seconds=time.process_time()-job.cpu_started)
-            report['control_child_cpu_seconds']=max(0,child_cpu()-(_preferences['child_cpu'] if _preferences else operation_children)-report['child_cpu_seconds']-report['monitor_cpu_seconds'])
-            report['total_cpu_seconds']=sum(report[key] for key in ('parent_cpu_seconds','child_cpu_seconds','monitor_cpu_seconds','control_child_cpu_seconds'))
-            report['resource_accounting_point']='Stored totals precede guarded publication; final wall/full CPU acceptance caps include all preference intake, readback and freshness checks.'
-            if report['wall_seconds']>seconds or report['total_cpu_seconds']>seconds:
-                report.update(accepted=False,status='budget_exceeded')
-            if not report['accepted']:report['whole_project_drc_clean']=False
-        def stable():
-            if report['accepted']:
-                if tool_manifest(**({'native_toolchain':native_toolchain} if native_toolchain is not None else {}))!=report['tools']:raise Rejected('runtime changed during preference publication')
-                if evidence_inventory(output)!=completed:raise Rejected('completed preference routing evidence changed')
-                if tree_hash(source.parent)!=before or tree_hash(output/'snapshot')!=before:
-                    raise Rejected('source changed during preference publication')
-                if native_toolchain is not None:check_experimental_local_settings(output,report,native_toolchain)
-            preferences_fresh(output,_preferences)
-            if report['accepted'] and (_fanout_enabled is False or engine_profile=='tuned-free-angle'):
-                # Last: byte/tool/source/preferences reads cannot witness PRL flags.
-                from .local_settings import check_normal_policy
-                check_normal_policy(output,report)
-            if report['accepted'] and class_requirement is not None:
-                check_route_class_evidence(output,report,original,candidate,class_context=class_context)
-        return publish(output,report,stable,account,remaining,
-            result_checker=(lambda file:check_result(file,native_toolchain=native_toolchain,experimental_schematic_parity=experimental_schematic_parity)) if native_toolchain is not None else None)
-    save_json(output/'result.json',report)
-    # Receipt serialization/fsync must not let an accepted result cross its cap.
-    # The corrective rejected receipt need not finish inside the acceptance cap.
-    completed_wall=time.monotonic()-job.started
-    completed_parent_cpu=time.process_time()-job.cpu_started
-    completed_cpu=completed_parent_cpu+report['child_cpu_seconds']+report['monitor_cpu_seconds']
-    if completed_wall>seconds or completed_cpu>seconds:
-        report.update(accepted=False,status='timeout' if completed_wall>seconds else 'cpu_budget_exceeded',
-                      wall_seconds=completed_wall,parent_cpu_seconds=completed_parent_cpu,total_cpu_seconds=completed_cpu)
-        save_json(output/'result.json',report)
-    return report
+    from .floor_route import publish,child_cpu,evidence_inventory
+    completed=evidence_inventory(output)
+    def remaining():
+        return min(job.deadline-time.monotonic(),seconds-(time.process_time()-job.cpu_started+child_cpu()-(_preferences['child_cpu'] if _preferences else operation_children)))
+    def account():
+        report.update(wall_seconds=time.monotonic()-job.started,parent_cpu_seconds=time.process_time()-job.cpu_started)
+        report['control_child_cpu_seconds']=max(0,child_cpu()-(_preferences['child_cpu'] if _preferences else operation_children)-report['child_cpu_seconds']-report['monitor_cpu_seconds'])
+        report['total_cpu_seconds']=sum(report[key] for key in ('parent_cpu_seconds','child_cpu_seconds','monitor_cpu_seconds','control_child_cpu_seconds'))
+        report['resource_accounting_point']='Stored totals precede guarded publication; final wall/full CPU acceptance caps include all preference intake, readback and freshness checks.'
+        if report['wall_seconds']>seconds or report['total_cpu_seconds']>seconds:
+            report.update(accepted=False,status='budget_exceeded')
+        if not report['accepted']:report['whole_project_drc_clean']=False
+    def stable():
+        if report['accepted']:
+            if tool_manifest(**({'native_toolchain':native_toolchain} if native_toolchain is not None else {}))!=report['tools']:raise Rejected('runtime changed during preference publication')
+            if evidence_inventory(output)!=completed:raise Rejected('completed preference routing evidence changed')
+            if tree_hash(source.parent)!=before or tree_hash(output/'snapshot')!=before:
+                raise Rejected('source changed during preference publication')
+            if native_toolchain is not None:check_experimental_local_settings(output,report,native_toolchain)
+        preferences_fresh(output,_preferences)
+        if report['accepted'] and (_fanout_enabled is False or engine_profile=='tuned-free-angle'):
+            # Last: byte/tool/source/preferences reads cannot witness PRL flags.
+            from .local_settings import check_normal_policy
+            check_normal_policy(output,report)
+        if report['accepted'] and class_requirement is not None:
+            check_route_class_evidence(output,report,original,candidate,class_context=class_context)
+    return publish(output,report,stable,account,remaining,
+        result_checker=(lambda file:check_result(file,native_toolchain=native_toolchain,experimental_schematic_parity=experimental_schematic_parity)) if native_toolchain is not None else None)
 
 
 _readback_session=ContextVar('autorouter_validated_readback_session',default=None)

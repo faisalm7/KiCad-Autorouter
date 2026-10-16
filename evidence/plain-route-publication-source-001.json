@@ -1,0 +1,121 @@
+{
+  "schema": 1,
+  "kind": "demonstrated-plain-direct-Route-publication-defect-and-shared-publisher-fix",
+  "accepted": false,
+  "production_qualified": false,
+  "Native_executed": false,
+  "JVM_executed": false,
+  "mocked_workers": true,
+  "source_sha256": {
+    "autorouter/floor_route.py": "78d684e09edb1ec1816d4385b6d0f67dc34d54bf40cbe1e41bf77348a0c99b8f",
+    "autorouter/pipeline.py": "141ace13a69e85084440ba5bc88a9482d4f48cdeff034a79a60be2dc139d0f62",
+    "tests/test_preference_publication.py": "a1056cf27e6aa2821ab9962ce7bac85e7a01fa9b22015ee6a72c9962f974835b"
+  },
+  "failure": "Plain p.route(source,out), without preferences or class intent, bypassed central publication. Actual self SIGINT/SIGTERM and KeyboardInterrupt after a synthetic positive write escaped leaving an accepted canonical receipt; a postwrite canonical mutation also remained accepted. All six before-fix controls retained.",
+  "fix": "All ordinary Route calls now use existing floor_route.publish with the existing stable/account/remaining closures and central result checker. No new framework or acceptance waiver.",
+  "targeted": {
+    "plain_methods": 4,
+    "plain_scenarios": 6,
+    "plain_wall_seconds": 0.33,
+    "plain_CPU_seconds": 0.27,
+    "suite_methods": 13,
+    "suite_test_wall_seconds": 3.789,
+    "suite_external_wall_seconds": 3.89,
+    "suite_external_CPU_seconds": 3.87
+  },
+  "after": "Unchanged synthetic positive reaches central checker; all five interruption/mutation controls invalidate canonical acceptance and archive the old receipt. Handlers restored and source unchanged.",
+  "limits": "Workers and validation are explicitly mocked. This establishes publication and signal handling only, not Native routing, class parity or route quality. Fresh full integration and Native/install/GUI remain required.",
+  "files": [
+    {
+      "path": "evidence/plain-route-publication-source-001-notes/after-fix-FAKE-POSITIVE-SIGINT-result.json",
+      "bytes": 5289,
+      "sha256": "8eb875307e7dfc146188ad72af874ac5a5c4b9a1ec2f0f7b3bdb53b74050a05b"
+    },
+    {
+      "path": "evidence/plain-route-publication-source-001-notes/after-fix-FAKE-POSITIVE-SIGTERM-result.json",
+      "bytes": 5290,
+      "sha256": "5907fe68f1e42e2d619675024f939941635baeafaab3b2f22de2cd3b1acb77df"
+    },
+    {
+      "path": "evidence/plain-route-publication-source-001-notes/after-fix-FAKE-POSITIVE-canonical_after_checker-result.json",
+      "bytes": 5326,
+      "sha256": "c753eaff604b3c55c145eae0b64182e2d7d7de57f9a3d8afff4854a6b0899861"
+    },
+    {
+      "path": "evidence/plain-route-publication-source-001-notes/after-fix-FAKE-POSITIVE-canonical_after_positive_write-result.json",
+      "bytes": 5322,
+      "sha256": "802c1f5c71156c44670b18d5ea3d2db346baff3f0c7e12b0608b62dd871a44a2"
+    },
+    {
+      "path": "evidence/plain-route-publication-source-001-notes/after-fix-FAKE-POSITIVE-interrupt_after_positive_write-result.json",
+      "bytes": 5302,
+      "sha256": "f90e7f5e07b596a574584a1a102ca51310fce5b79f306aa8b4316df1fcf02495"
+    },
+    {
+      "path": "evidence/plain-route-publication-source-001-notes/after-fix-FAKE-POSITIVE-unchanged-result.json",
+      "bytes": 5258,
+      "sha256": "e3b4a10c60b4c4bbf3663ad3b86b3a5450e7d37c68ab77d82f5e81d8e24090d4"
+    },
+    {
+      "path": "evidence/plain-route-publication-source-001-notes/after-fix-report.json",
+      "bytes": 5134,
+      "sha256": "83c92127ab3885daf89969e0697047a9d54e83d601076e1e035cdb16dd6297ff"
+    },
+    {
+      "path": "evidence/plain-route-publication-source-001-notes/after-fix-suite.log",
+      "bytes": 141,
+      "sha256": "dfae9ebe6b8c6f864e8a1a60ef5d0871bcb546d185e27692ce471ebba1907587"
+    },
+    {
+      "path": "evidence/plain-route-publication-source-001-notes/after-fix-targeted.log",
+      "bytes": 131,
+      "sha256": "e9fc456f47393b718b6134efdc966a8de752d53a9a9e5d71b3f823993689e1cb"
+    },
+    {
+      "path": "evidence/plain-route-publication-source-001-notes/before-fix-FAKE-POSITIVE-SIGINT-result.json",
+      "bytes": 5226,
+      "sha256": "42f6112fcdad8681d47b510c5e27b5a7d6a9c67308b1702854ae64cc7c0b8b65"
+    },
+    {
+      "path": "evidence/plain-route-publication-source-001-notes/before-fix-FAKE-POSITIVE-SIGTERM-result.json",
+      "bytes": 5226,
+      "sha256": "2565e458dd3e5de9d0f61dfd134b8e5f93e11337d372cdfd72a6c29d361e5544"
+    },
+    {
+      "path": "evidence/plain-route-publication-source-001-notes/before-fix-FAKE-POSITIVE-canonical_after_checker-result.json",
+      "bytes": 5226,
+      "sha256": "b76a5a1d217311bc25e1313958c52e0c5677a700c92587cdcf5c850b211abb0c"
+    },
+    {
+      "path": "evidence/plain-route-publication-source-001-notes/before-fix-FAKE-POSITIVE-canonical_after_positive_write-result.json",
+      "bytes": 4676,
+      "sha256": "4f89a816fb1a13cd748f78f3cf3adeade7072074f20089c1cefcb00cca863f86"
+    },
+    {
+      "path": "evidence/plain-route-publication-source-001-notes/before-fix-FAKE-POSITIVE-interrupt_after_positive_write-result.json",
+      "bytes": 5226,
+      "sha256": "f56aa247221a838a07264b5f2573f2525390edb22051c17ea9e27324328dac1e"
+    },
+    {
+      "path": "evidence/plain-route-publication-source-001-notes/before-fix-FAKE-POSITIVE-unchanged-result.json",
+      "bytes": 5226,
+      "sha256": "66a3af435e0c4be78fd34ed17ef7b80819d08b0e038d2406d7ff674fed4c477f"
+    },
+    {
+      "path": "evidence/plain-route-publication-source-001-notes/before-fix-report.json",
+      "bytes": 8954,
+      "sha256": "52fd7237c99b409e88a930113ae2ab65dc0e8f080a718c004b41ee3c5cc11baa"
+    },
+    {
+      "path": "evidence/plain-route-publication-source-001-notes/reproduce.py",
+      "bytes": 5558,
+      "sha256": "cbc50f548edfa67a5ef75c3755e77395c62d8421a992580623eacf0ac63768f0"
+    },
+    {
+      "path": "evidence/plain-route-publication-source-001-notes/review-002.json",
+      "bytes": 19859,
+      "sha256": "1303259e3d6f3679bb2468940bffa88a22cf6ed2f9f38fb306a6d3e3002596b4"
+    }
+  ],
+  "skeptical_review": "Separate AI read-only review found no concrete new regression. Three synthetic post-positive late wall/parent CPU/waited-child CPU probes reached central readback and invalidated acceptance with budget_exceeded; no Native/JVM or human review claim."
+}

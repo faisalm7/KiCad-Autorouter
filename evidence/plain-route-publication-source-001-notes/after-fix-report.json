@@ -1,0 +1,119 @@
+{
+  "acceptance_requirement": "Every positive reaches the central checker; interruption or late receipt mutation leaves no accepted canonical result.",
+  "claims_limit": "FakeWorkerJob emits synthetic worker outputs. This exercises real publication and signal handlers only, and establishes no native routing correctness.",
+  "class_proof_claim": false,
+  "controls": [
+    {
+      "canonical_accepted": true,
+      "canonical_file": "after-fix-FAKE-POSITIVE-unchanged-result.json",
+      "canonical_sha256": "e3b4a10c60b4c4bbf3663ad3b86b3a5450e7d37c68ab77d82f5e81d8e24090d4",
+      "canonical_status": "routing_accepted",
+      "caught_exception": null,
+      "checker_reached": true,
+      "invalidated_files": [],
+      "invocation": "p.route(source / smoke.kicad_pcb, out), no preferences or class flag",
+      "mutation": null,
+      "mutation_triggered": false,
+      "returned_accepted": true,
+      "signal_handlers_restored": true,
+      "source_unchanged": true
+    },
+    {
+      "canonical_accepted": false,
+      "canonical_file": "after-fix-FAKE-POSITIVE-SIGINT-result.json",
+      "canonical_sha256": "8eb875307e7dfc146188ad72af874ac5a5c4b9a1ec2f0f7b3bdb53b74050a05b",
+      "canonical_status": "cancelled",
+      "caught_exception": null,
+      "checker_reached": false,
+      "invalidated_files": [
+        "invalidated-result-9b3ebac2da1641268687e3a574a2994b.json"
+      ],
+      "invocation": "p.route(source / smoke.kicad_pcb, out), no preferences or class flag",
+      "mutation": "SIGINT",
+      "mutation_triggered": true,
+      "returned_accepted": false,
+      "signal_handlers_restored": true,
+      "source_unchanged": true
+    },
+    {
+      "canonical_accepted": false,
+      "canonical_file": "after-fix-FAKE-POSITIVE-SIGTERM-result.json",
+      "canonical_sha256": "5907fe68f1e42e2d619675024f939941635baeafaab3b2f22de2cd3b1acb77df",
+      "canonical_status": "cancelled",
+      "caught_exception": null,
+      "checker_reached": false,
+      "invalidated_files": [
+        "invalidated-result-731dfa5903654c6e8aaed35d6d97e2a9.json"
+      ],
+      "invocation": "p.route(source / smoke.kicad_pcb, out), no preferences or class flag",
+      "mutation": "SIGTERM",
+      "mutation_triggered": true,
+      "returned_accepted": false,
+      "signal_handlers_restored": true,
+      "source_unchanged": true
+    },
+    {
+      "canonical_accepted": false,
+      "canonical_file": "after-fix-FAKE-POSITIVE-interrupt_after_positive_write-result.json",
+      "canonical_sha256": "f90e7f5e07b596a574584a1a102ca51310fce5b79f306aa8b4316df1fcf02495",
+      "canonical_status": "cancelled",
+      "caught_exception": null,
+      "checker_reached": false,
+      "invalidated_files": [
+        "invalidated-result-cb37f8513b754349ac0682f8c43d289a.json"
+      ],
+      "invocation": "p.route(source / smoke.kicad_pcb, out), no preferences or class flag",
+      "mutation": "interrupt_after_positive_write",
+      "mutation_triggered": true,
+      "returned_accepted": false,
+      "signal_handlers_restored": true,
+      "source_unchanged": true
+    },
+    {
+      "canonical_accepted": false,
+      "canonical_file": "after-fix-FAKE-POSITIVE-canonical_after_positive_write-result.json",
+      "canonical_sha256": "802c1f5c71156c44670b18d5ea3d2db346baff3f0c7e12b0608b62dd871a44a2",
+      "canonical_status": "invalidated",
+      "caught_exception": null,
+      "checker_reached": false,
+      "invalidated_files": [
+        "invalidated-result-a594717f3bf940da95dd5d1708af4a99.json"
+      ],
+      "invocation": "p.route(source / smoke.kicad_pcb, out), no preferences or class flag",
+      "mutation": "canonical_after_positive_write",
+      "mutation_triggered": true,
+      "returned_accepted": false,
+      "signal_handlers_restored": true,
+      "source_unchanged": true
+    },
+    {
+      "canonical_accepted": false,
+      "canonical_file": "after-fix-FAKE-POSITIVE-canonical_after_checker-result.json",
+      "canonical_sha256": "c753eaff604b3c55c145eae0b64182e2d7d7de57f9a3d8afff4854a6b0899861",
+      "canonical_status": "invalidated",
+      "caught_exception": null,
+      "checker_reached": true,
+      "invalidated_files": [
+        "invalidated-result-1c0a8c0c0b7140d898b751c454899bf1.json"
+      ],
+      "invocation": "p.route(source / smoke.kicad_pcb, out), no preferences or class flag",
+      "mutation": "canonical_after_checker",
+      "mutation_triggered": true,
+      "returned_accepted": false,
+      "signal_handlers_restored": true,
+      "source_unchanged": true
+    }
+  ],
+  "kind": "plain direct route publication safety counterexample with explicitly mocked workers",
+  "label": "after-fix",
+  "legacy_publication_excerpt": null,
+  "native_executed": false,
+  "routing_quality_claim": false,
+  "schema": 1,
+  "source_sha256": {
+    "autorouter/floor_route.py": "78d684e09edb1ec1816d4385b6d0f67dc34d54bf40cbe1e41bf77348a0c99b8f",
+    "autorouter/pipeline.py": "141ace13a69e85084440ba5bc88a9482d4f48cdeff034a79a60be2dc139d0f62",
+    "tests/test_preference_publication.py": "a1056cf27e6aa2821ab9962ce7bac85e7a01fa9b22015ee6a72c9962f974835b"
+  },
+  "source_unchanged_during_reproduction": true
+}

@@ -59,7 +59,7 @@ class PreferencePublicationTests(unittest.TestCase):
         self.addCleanup(temporary.cleanup); self.root = Path(temporary.name)
         self.count = 0
 
-    def exercise_route(self, guidance='native', mutation=None, overrides=None):
+    def exercise_route(self, guidance='native', mutation=None, overrides=None, *, direct=False):
         self.count += 1
         work = self.root / str(self.count); work.mkdir()
         source = work / 'project'; shutil.copytree(ROOT / 'fixtures/smoke', source)
@@ -71,6 +71,7 @@ class PreferencePublicationTests(unittest.TestCase):
         original_sha, original_save = p.sha, p.save_json
         original_handlers = {sig: signal.getsignal(sig) for sig in (signal.SIGINT, signal.SIGTERM)}
         state = {'checked': False, 'triggered': False}
+        self.last_publication_state = state
 
         def validation(job, original, candidate, hashes, protected, **kwargs):
             (job.out / 'final-drc.json').write_text('{}')
@@ -102,6 +103,10 @@ class PreferencePublicationTests(unittest.TestCase):
                     os.kill(os.getpid(), getattr(signal, mutation))  # This owned test process only.
                 elif mutation == 'interrupt_after_positive_write':
                     state['triggered'] = True; raise KeyboardInterrupt('owned control')
+                elif mutation == 'canonical_after_positive_write':
+                    changed = json.loads(Path(path).read_text())
+                    changed['engine_profile'] = 'tuned'; Path(path).write_text(json.dumps(changed))
+                    state['triggered'] = True
 
         with ExitStack() as stack:
             replacements = [('Job', FakeWorkerJob), ('sha', lambda path: c.JAR_SHA256 if Path(path) == c.JAR else original_sha(path)),
@@ -115,8 +120,13 @@ class PreferencePublicationTests(unittest.TestCase):
             stack.enter_context(patch.object(g, 'qualify_scope', return_value=None))
             stack.enter_context(patch.object(g, 'verify_chain', return_value=None))
             stack.enter_context(patch.object(adapter, 'adapt_dsn', return_value=[]))
-            result = p.route(source / 'smoke.kicad_pcb', out, settings_path=preset,
-                             preference_overrides=overrides)
+            if direct:
+                self.assertEqual(guidance, 'native')
+                self.assertIsNone(overrides)
+                result = p.route(source / 'smoke.kicad_pcb', out)
+            else:
+                result = p.route(source / 'smoke.kicad_pcb', out, settings_path=preset,
+                                 preference_overrides=overrides)
         canonical = json.loads((out / 'result.json').read_text())
         self.assertEqual(p.tree_hash(source), before)
         for sig, handler in original_handlers.items(): self.assertEqual(signal.getsignal(sig), handler)
@@ -125,6 +135,7 @@ class PreferencePublicationTests(unittest.TestCase):
             self.assertFalse(result['accepted']); self.assertFalse(canonical['accepted'])
             self.assertTrue(list(out.glob('invalidated-result-*')))
         else:
+            self.assertTrue(state['checked'], 'positive publication must reach the central checker')
             self.assertTrue(result['accepted'], result)
             self.assertEqual(canonical, result)
         return result, out
@@ -132,6 +143,20 @@ class PreferencePublicationTests(unittest.TestCase):
     def test_native_and_floor_unchanged_controls_reach_positive_publication(self):
         for policy in ('native', 'board-floors-v1'):
             with self.subTest(policy=policy): self.exercise_route(policy)
+
+    def test_plain_direct_positive_reaches_central_checker(self):
+        self.exercise_route(direct=True)
+
+    def test_plain_direct_keyboard_interrupt_after_positive_write_invalidates(self):
+        self.exercise_route(mutation='interrupt_after_positive_write', direct=True)
+
+    def test_plain_direct_actual_self_signals_invalidate_and_restore_handlers(self):
+        for sig in ('SIGINT', 'SIGTERM'):
+            with self.subTest(signal=sig): self.exercise_route(mutation=sig, direct=True)
+
+    def test_plain_direct_canonical_change_at_write_or_checker_invalidates(self):
+        for mutation in ('canonical_after_positive_write', 'canonical_after_checker'):
+            with self.subTest(mutation=mutation): self.exercise_route(mutation=mutation, direct=True)
 
     def test_explicit_override_reaches_actual_task_budget_and_engine_argv(self):
         result, out = self.exercise_route(overrides={'seconds': 60, 'scoring_preference': 'via_low'})
