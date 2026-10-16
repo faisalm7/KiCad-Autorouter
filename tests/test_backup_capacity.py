@@ -11,13 +11,15 @@ class BackupCapacity(unittest.TestCase):
                 'total_file_bytes':size}
     def test_exact_finite_capacity_and_existing_population(self):
         self.assertEqual(backup.LIMIT,12*1024**3);self.assertEqual(backup.MAX_FILES,345000)
-        self.assertEqual(backup.MAX_RECEIPT_BYTES,96*1024**2)
+        self.assertEqual(backup.MAX_RECEIPT_BYTES,98*1024**2)
         self.assertEqual(backup.MAX_CHAIN_RECEIPT_BYTES,192*1024**2)
         self.assertEqual(backup.SCOPES,('.runs','.data','.local-reference'))
-    def test_measured_receipt_fits_with_two_receipts_inside_existing_chain_bound(self):
+    def test_measured_receipt_and_full_base_fit_independent_chain_bound(self):
         self.assertLess(88*1024**2,92746061)
         self.assertLessEqual(92746061,backup.MAX_RECEIPT_BYTES)
-        self.assertLessEqual(2*backup.MAX_RECEIPT_BYTES,backup.MAX_CHAIN_RECEIPT_BYTES)
+        self.assertLess(96*1024**2,101137161)
+        self.assertLessEqual(101137161,backup.MAX_RECEIPT_BYTES)
+        self.assertLessEqual(101137161+77959854,backup.MAX_CHAIN_RECEIPT_BYTES)
         with tempfile.TemporaryDirectory() as name:
             path=Path(name)/'receipt.json';path.write_bytes(b'{}')
             with patch.object(backup,'MAX_RECEIPT_BYTES',1),self.assertRaisesRegex(backup.BackupError,'size bounds'):

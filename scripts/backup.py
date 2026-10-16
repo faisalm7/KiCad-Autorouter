@@ -69,7 +69,12 @@ MAX_CHAIN = 16
 # Actual337k-file capture emitted97699267B, above92MiB. Read the existing
 # completed archive with finite96MiB; two receipts still fit192MiB chain.
 # No recapture is needed; qualify by a full restoration of this new target.
-MAX_RECEIPT_BYTES = 96 * 1024 ** 2
+# Runtime007 capture completed343224files with101137161B receipt, exceeding
+# 96MiB by473865B. Read that retained capture with finite98MiB; no recapture.
+# Its77959854B full-base receipt keeps the actual two-node chain below192MiB.
+# The independent aggregate chain cap still rejects oversized combinations.
+# Qualify this reader-capacity change with a full restoration of this capture.
+MAX_RECEIPT_BYTES = 98 * 1024 ** 2
 MAX_CHAIN_RECEIPT_BYTES = 192 * 1024 ** 2
 DELTA_DIRECTORIES_LEGACY = "all-target-directories-v1"
 DELTA_DIRECTORIES_COMPACT = "changed-and-new-ancestors-v1"

@@ -95,6 +95,20 @@ class CompactDeltaChainTests(unittest.TestCase):
     def write(self, path, value):
         path.write_text(json.dumps(value, sort_keys=True) + '\n')
 
+    def test_individually_valid_receipts_still_obey_aggregate_chain_bound(self):
+        full = self.base()
+        (self.root / '.runs/new.txt').write_text('retained delta')
+        latest = backup.create(self.root, parent=full)
+        sizes = [path.stat().st_size for path in (full, latest)]
+        pins = [backup.digest(path) for path in (full, latest)]
+        with patch.object(backup, 'MAX_RECEIPT_BYTES', max(sizes)):
+            with patch.object(backup, 'MAX_CHAIN_RECEIPT_BYTES', sum(sizes)-1):
+                with self.assertRaisesRegex(backup.BackupError, 'Chain receipt-memory bound'):
+                    backup.load_chain(latest, self.root)
+            with patch.object(backup, 'MAX_CHAIN_RECEIPT_BYTES', sum(sizes)):
+                self.assertEqual(len(backup.load_chain(latest, self.root)), 2)
+        self.assertEqual([backup.digest(path) for path in (full, latest)], pins)
+
     def test_actual_legacy_then_compact_chain_restores_full_target_and_keeps_base(self):
         full = self.base()
         original = {path.name: path.read_bytes() for path in full.parent.iterdir() if path.is_file()}

@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "kind": "retained-runtime007-capture-receipt-reader-refusal",
+  "integrity_checked": false,
+  "full_restoration_tested": false,
+  "source_head": "2bbff9b93c6c5692c96902175f8bd598348f404f",
+  "receipt": ".local-backups/checkpoint-20261016T171712Z-523ae11fbc204c6cb733a55ad8496e25/receipt.json",
+  "receipt_bytes": 101137161,
+  "receipt_sha256": "998689aaa809e5e2ec7b101361c3a47baa43f04d885598b401f5bba816cb1f41",
+  "captured_files": 343224,
+  "logical_bytes": 12613736937,
+  "delta_files": 39811,
+  "parent_receipt_bytes": 77959854,
+  "capture_exit": 2,
+  "capture_wall_seconds": 309.6,
+  "capture_full_CPU_seconds": 241.89,
+  "reason": "Capture emitted the retained archive/bundle/receipt, then shared integrity reader refused Receipt exceeds regular-file/size bounds under96MiB. No existing evidence deleted or recaptured.",
+  "correction": {
+    "old_receipt_bytes": 100663296,
+    "new_receipt_bytes": 102760448,
+    "unchanged": {
+      "file_cap": 345000,
+      "logical_byte_cap": 12884901888,
+      "aggregate_chain_receipt_byte_cap": 201326592,
+      "path_symlink_secret_scope_archive_guards": true
+    }
+  },
+  "targeted002": {
+    "passed": true,
+    "methods": 54,
+    "wall_seconds": 10.47,
+    "full_CPU_seconds": 8.87,
+    "log_sha256": "954946511671f2ae702e00aeb032e588428c25be68c1fe4b76d2da1d1236f40c",
+    "actual_combined_chain_bound_control": "Two individually valid real scratch receipts reject at sum-minus-one bytes and pass at exact sum; receipt hashes unchanged."
+  },
+  "next_gate": "Read the already completed capture and run one full new343224-file restoration with corrected reader. Do not recapture or repeat completed runtime006 restoration.",
+  "limitation": "On-Mac only by owner choice; no new backup-system design or Native/GUI/electrical claim."
+}
