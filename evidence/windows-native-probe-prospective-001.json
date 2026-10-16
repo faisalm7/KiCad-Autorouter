@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "kind": "prospective-windows-owned-native-capability-probe",
+  "created_utc": "2026-10-16T09:01:37.807840+00:00",
+  "native_executed": false,
+  "installer_executed": false,
+  "product_support": false,
+  "repo_verified": {
+    "public": true,
+    "default_branch": "rebuild/local-20261010-015447",
+    "push": true,
+    "actions_enabled": true,
+    "default_contents_permission": "read",
+    "settings_changed": false
+  },
+  "cost_gate": {
+    "standard_runner": "windows-2022",
+    "job_timeout_minutes": 15,
+    "incremental_spending_usd": 0,
+    "artifact_upload": false,
+    "cache_upload": false,
+    "primary_cost_source": "https://docs.github.com/en/billing/concepts/product-billing/github-actions",
+    "runner_source": "https://docs.github.com/en/actions/reference/runners/github-hosted-runners",
+    "checked_utc_date": "2026-10-16",
+    "reason": "Standard public repository runner minutes are free; logs do not count toward artifact storage. No larger runners, snapshots, caches or uploads."
+  },
+  "source_sha256": {
+    "scripts/windows_native_slice/firewall_gate.ps1": "a5405b18cad3375447ab90ea98e359ee1efad45c9794f675a4ef1dd6a218c976",
+    "scripts/windows_native_slice/SOURCE_REVIEW.md": "865194f7a4d257eef12f68eb46a5c3ab2f78fe498f6442bf0e69b0eab9dfe51a",
+    "scripts/windows_native_slice/native_worker.py": "b3e8674f9649453b95de3931d895fa0ce55cd6798d8943f3d058993694e506be",
+    "scripts/windows_native_slice/slice.py": "b992c5fe0d5f759538bdf18d7009b9ec62c28239a223f3d0bd89449c4965a5ea",
+    "scripts/windows_native_slice/README.md": "224f4ac0bc386611121c87ac59089742f76376d99e4b1f2b0583497d680955e0",
+    "scripts/windows_native_slice/windows_process.py": "6fa8fe38b11cd5ffe80bcadcb0ba9d16c5cb91f955083f6dc3e6267a89f119c7",
+    "scripts/windows_native_slice/bootstrap.ps1": "dc63b35b0c9ded0c298502427f3be4f7e53cabd0d44300ea43355c9d9da47d72",
+    ".github/workflows/manual-python-controls.yml": "ec4aefb99ff58252bc5ae8e276f79623b402495896fd5a4c723efba39f3fa15f",
+    "tests/test_windows_probe_controls.py": "605052bd2bceda3f4b9a53a81191b06c4e656020dae090cf4b78055b82ee2f37"
+  },
+  "review": {
+    "source_note": "scripts/windows_native_slice/SOURCE_REVIEW.md",
+    "source_author_wall_seconds": 692,
+    "source_author_additional_tail_seconds": null,
+    "source_author_cpu_seconds": null,
+    "review_wall_seconds_reported_by_final_message": 173,
+    "review_cpu_seconds": null,
+    "lead_corrections": "Final resource census before inactive break; exact owned universal firewall rules only; cancelled controller130; preserve original/final/negative Native reports and transport/tool logs before cleanup; cancellable download body."
+  },
+  "limits": [
+    "Unexecuted ctypes/Native/bootstrap; six pure controls cannot establish Windows OS behavior.",
+    "Always accepted/passed/product_support=false; only partial owned native_transport_observed can succeed.",
+    "Whole PowerShell/bootstrap/controller CPU is not fully measured; only owned JobObject child CPU reported.",
+    "No production portable runner, general board admission, installed GUI/review-export or Windows support."
+  ]
+}

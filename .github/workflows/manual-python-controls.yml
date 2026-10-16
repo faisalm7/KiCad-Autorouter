@@ -3,13 +3,14 @@ on:
   workflow_dispatch:
     inputs:
       probe:
-        description: Pure controls or installer metadata only (never install/execute KiCad)
+        description: Pure controls, installer identity, or owned Windows Native capability probe
         type: choice
         required: false
         default: pure
         options:
           - pure
           - windows-metadata
+          - windows-native
 permissions:
   contents: read
 jobs:
@@ -39,3 +40,15 @@ jobs:
       - name: Download and inspect official installer without executing it
         shell: pwsh
         run: ./scripts/windows_toolchain_probe.ps1
+  windows-native:
+    if: ${{ github.event.inputs.probe == 'windows-native' }}
+    runs-on: windows-2022
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Pinned official installation and owned Native capability probe
+        shell: pwsh
+        run: ./scripts/windows_native_slice/bootstrap.ps1

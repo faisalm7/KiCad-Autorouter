@@ -1,5 +1,7 @@
 # Windows portability and CI feasibility
 
+Current next probe: [prospective Windows capability001](../evidence/windows-native-probe-prospective-001.json) adds a separate manual `windows-native` input and experimental `scripts/windows_native_slice`. It verifies/installs the pinned official tool on an ephemeral standard runner before observing the matching Python/firewall/JobObject/Native gates. No Native Windows run is established by source or pure controls. Main Mac runtime is unchanged. The source review and concrete corrections are retained; remaining CPU/publication/product integration limitations are explicit.
+
 Assessment on 2026-10-15 Pacific time (2026-10-16 UTC). Windows routing is **unqualified**. Current Mac evidence does not establish Windows installation, cancellation, Native validation or GUI behavior. No Windows process, CI job, Native/JVM command, installer or dependency upgrade ran for this assessment; no repository/account settings changed.
 
 The smallest useful port is one project-owned, two-copper, complete-schematic route through the existing corrected adapter, pinned Freerouting and original-rule Native checks, followed by safe review/export. It needs platform adapters before an end-to-end Windows run. Changing paths or adding a workflow matrix alone is insufficient.

@@ -1,0 +1,40 @@
+"""Read existing installed portfolio proofs with existing shared readers; no Native run."""
+from pathlib import Path
+import json,sys,re
+ROOT=Path(__file__).resolve().parent.parent;CLONE=ROOT/'.runs/installation-050/checkout'
+sys.path.insert(0,str(CLONE));sys.dont_write_bytecode=True
+from autorouter import config as c,pipeline as p,floor_route as f,review_export as ex
+from scripts import experiment_portfolio as b,experiment_paired as paired
+assert c.ROOT==CLONE
+preparation=ROOT/'.runs/competent-portfolio005-preparation';protocol=f.read_json(preparation/'protocol.json');dispatch=f.read_json(preparation/'dispatch.json')
+assert p.sha(preparation/'protocol.json')=='c4af7cfbd4f77eacb33bd2b531c715f152fb0b98740d535e685aaa60285a6c0b'
+assert protocol['tools']==p.tool_manifest() and protocol['variants']==list(b.VARIANTS)
+for name,digest in dispatch['source_sha256'].items():assert p.sha(ROOT/name)==digest
+c004=f.read_json(ROOT/'evidence/installed-production-workflow004-native-001.json');rows=[]
+for project in dispatch['order']:
+ base=CLONE/'.runs/competent-portfolio005'/project;child=f.read_json(base/'child/result.json');outer=f.read_json(base/'execution.json');source=Path(protocol['cases'][project]['source']);directory=base/'child/portfolio'
+ assert child['status']=='completed' and child['workflow_delivered'] is True and outer['workflow_delivered'] is True
+ process=outer['process'];assert process['status']=='success' and process['exit_code']==0 and process['cleanup_complete'] is True and process['log_truncated'] is False
+ assert outer['child_sha256']==p.sha(base/'child/result.json') and child['driver_sha256']==dispatch['source_sha256']['.runs/installed-competent-portfolio005.py']
+ frozen=b.freeze(source);index=f.read_json(directory/'portfolio-summary.json');export=f.read_json(base/'child/export/export.json');route=f.read_json(Path(child['selected_route_receipt']))
+ with p.validation_readback_session():
+  selected=paired.verify_portfolio(directory,index,source,frozen)
+  assert selected==child['portfolio'] and selected['accepted'] is True
+  p.check_result(Path(child['selected_route_receipt']));ex.check_export(base/'child/export/export.json')
+ assert child['selected_route_sha256']==p.sha(Path(child['selected_route_receipt'])) and route['accepted'] is True and route['invariants_unchanged'] is True
+ assert export['export_accepted'] is True and export['original_geometry_and_routing_unchanged'] is True and child['candidate_sha256']==export['candidate_sha256']
+ assert export['metrics']==route['metrics'] and export['metrics']==child['metrics']
+ source_hashes=protocol['cases'][project]['source_hashes'];assert source_hashes==p.tree_hash(source.parent)==child['source_hashes']==route['source_hashes']
+ comparison=[row for row in c004['rows'] if row['project']==project];assert len(comparison)==2
+ for row in comparison:assert row['source_hashes']==source_hashes
+ log=ROOT/'.runs/competent-portfolio005-timing'/(project+'-time.log');pairs=re.findall(r'(?m)^(real|user|sys) ([0-9.]+)$',log.read_text());values={k:float(v) for k,v in pairs};assert len(pairs)==3 and set(values)=={'real','user','sys'} and max(values['real'],values['user']+values['sys'])<240
+ trials=[];pins={str(path.relative_to(ROOT)):p.sha(path) for path in [base/'execution.json',base/'child/result.json',directory/'protocol.json',directory/'portfolio-summary.json',base/'child/export/export.json',log]}
+ for trial in index['trials']:
+  receipt=Path(trial['result']);data=f.read_json(receipt);assert p.sha(receipt)==trial['result_sha256'] and data['source_hashes']==source_hashes
+  trials.append(dict(index=trial['index'],id=trial['id'],eligible=trial['eligible'],status=trial['status'],reason=trial.get('reason'),assigned_seconds=trial['assigned_seconds'],metrics=data.get('metrics'),native=data.get('native'),invariants_unchanged=data.get('invariants_unchanged'),schematic_parity=data.get('schematic_parity'),candidate_sha256=data.get('candidate_sha256'),native_report_sha256=data.get('native_report_sha256'),receipt=str(receipt.relative_to(ROOT)),receipt_sha256=p.sha(receipt),steps=[dict(name=x.get('name'),status=x.get('status'),exit_code=x.get('exit_code'),cleanup_complete=x.get('cleanup_complete')) for x in data.get('steps',[])]))
+  pins[str(receipt.relative_to(ROOT))]=p.sha(receipt)
+ pins.update({str(path.relative_to(ROOT)):p.sha(path) for path in (base/'child').rglob('final-drc.json')})
+ rows.append(dict(project=project,method='fixed_three_variant_portfolio',workflow_delivered=True,source_hashes=source_hashes,whole_external_wall_seconds=values['real'],whole_external_cpu_seconds=values['user']+values['sys'],sampled_process=process,selected_variant=selected['selected']['id'],portfolio_measured_wall_seconds=index['wall_seconds'],portfolio_measured_full_cpu_seconds=index['total_cpu_seconds'],trials=trials,route=dict(candidate_sha256=route['candidate_sha256'],native_report_sha256=route['native_report_sha256'],native=route['native'],metrics=route['metrics'],invariants_unchanged=route['invariants_unchanged'],schematic_parity=route['schematic_parity']),export=dict(candidate_sha256=export['candidate_sha256'],native_report_sha256=export['native_report_sha256'],native=export['native'],metrics=export['metrics'],schematic_parity=export['schematic_parity'],original_geometry_and_routing_unchanged=True,applied=export['applied'],human_pcb_approval_observed=export['human_pcb_approval_observed']),proof_sha256=pins,comparison_to_separate004=[dict(method=x['method'],length_delta_mm=x['route']['metrics']['track_length_mm']-route['metrics']['track_length_mm'],via_delta=x['route']['metrics']['vias']-route['metrics']['vias'],whole_external_wall_seconds=x['whole_external_wall_seconds'],whole_external_cpu_seconds=x['whole_external_cpu_seconds']) for x in comparison]))
+record=dict(schema=1,kind='installed-competent-portfolio-exposed-development-comparison',installed_git_head=protocol['installed_head'],runtime_sha256=protocol['tools']['implementation_sha256'],protocol_sha256=p.sha(preparation/'protocol.json'),dispatch_sha256=p.sha(preparation/'dispatch.json'),source_rights_reference='experiments/stronger_incumbent_v1/cohort/case-table.json',rows=rows,method_route_wall_and_cpu_budget_seconds=120,whole_delivery_wall_and_cpu_budget_seconds=240,portfolio_variants=protocol['variants'],allocation=protocol['allocation'],selection='Fixed minimum(vias,length,index) among individually Native-validated eligible routes; no reference route or board-specific selection.',source_staging_wall_seconds=.73,source_staging_full_cpu_seconds=.36,scope='Separate two-project exposed development B2 comparison to production004, same original packet hashes, unchanged installed9147 runtime and native tools, equal120 routing/240 whole caps. Complete native selection/review/SOFTWARE TEST intent/fresh native separate export/current shared-reader validation. No wx or human review.',limitations=['Not a completed B0/B1/B2/C untouched/unattended full matrix: incomplete001–003 remains unchanged.','No new completed boards beyond corrected adapter or competent portfolio on these two cases; no demonstrated independent-family completion advantage.','Only measured length/vias/native legality; not electrical suitability or human cleanup. All warnings/ignored checks/failed variants retained.','Portfolio shared lock was not acquired through CLI: lead verified no concurrent Native/JVM jobs; this is not concurrent product-controller qualification.','Headless production004 is a separate earlier diagnostic; no stitched first-attempt claim.','Additional source staging, independent curation/review/authoring, failed experiments and cold installation costs are separately recorded, not hidden in method times.'])
+(ROOT/'evidence/installed-competent-portfolio005-native-001.json').write_text(json.dumps(record,indent=2)+'\n')
+print(json.dumps(dict(rows=len(rows),all_selected_and_export_proofs_current=True,projects=[dict(project=x['project'],metrics=x['route']['metrics'],whole_wall=x['whole_external_wall_seconds'],whole_cpu=x['whole_external_cpu_seconds']) for x in rows])))
