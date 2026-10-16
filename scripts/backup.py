@@ -34,18 +34,23 @@ SCOPES = (".runs", ".data", ".local-reference")
 # both remaining bounds. Finite10.25GiB/315000 retains existing evidence and
 # allows the next installation; receipt/chain/scopes/security stay unchanged.
 # A new complete restoration must qualify these capacity changes.
-LIMIT = 10 * 1024 ** 3 + 256 * 1024 ** 2
+# Actual stronger-cohort census316464files/11016328975B exceeds both the
+# prior315000-file/10.25GiB bounds. Finite320000/10.5GiB retains every result.
+# The next major complete chain restoration must qualify this capacity change.
+LIMIT = 10 * 1024 ** 3 + 512 * 1024 ** 2
 # Current304054rawfiles leaves946slots; prior full installed041 used979files
 # including its Native fixture. Next required installed4Cu qualification exceeds
 # 305000 without deleting evidence. Finite310000 retains all files/directories;
 # 10GiB/80MiBreceipt/192MiBchain/scopes/security remain. A complete restoration
 # of the old-full006/new-compact chain must qualify this capacity change.
-MAX_FILES = 315000
+MAX_FILES = 320000
 MAX_CHAIN = 16
 # Actual229,196-file receipt is63,984,764B. The249,270-file forecast needs
 # about70MB at that measured ratio;80MiB permits finite headroom. Two such
 # receipts fit the192MiB chain bound. No scopes or safety checks change.
-MAX_RECEIPT_BYTES = 80 * 1024 ** 2
+# Actual cohort target/delta serialization84780809B exceeds80MiB by894729B.
+# Finite88MiB fits this receipt; two-node chain remains under192MiB.
+MAX_RECEIPT_BYTES = 88 * 1024 ** 2
 MAX_CHAIN_RECEIPT_BYTES = 192 * 1024 ** 2
 DELTA_DIRECTORIES_LEGACY = "all-target-directories-v1"
 DELTA_DIRECTORIES_COMPACT = "changed-and-new-ancestors-v1"

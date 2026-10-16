@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "kind": "finite-backup-capacity-source-software-qualification",
+  "passed": true,
+  "backup_capacity_actually_restored": false,
+  "previous_caps": {
+    "bytes": 11005853696,
+    "files_and_directories": 315000,
+    "receipt_bytes": 83886080
+  },
+  "new_caps": {
+    "bytes": 11274289152,
+    "files_and_directories": 320000,
+    "receipt_bytes": 92274688,
+    "chain_receipt_bytes": 201326592
+  },
+  "actual_metadata_census": {
+    "schema": 1,
+    "kind": "metadata-only-capacity-forecast-not-a-backup",
+    "files": 316464,
+    "directories": 72471,
+    "bytes": 11016328975,
+    "cap_files": 315000,
+    "cap_bytes": 11005853696,
+    "file_headroom": -1464,
+    "byte_headroom": -10475279,
+    "wall_seconds": 12.464400208031293,
+    "bytes_hashed": false,
+    "archive_created": false
+  },
+  "actual_inventory_receipt_forecast": {
+    "schema": 1,
+    "kind": "actual-inventory-serialized-receipt-forecast-not-backup",
+    "files": 316466,
+    "directories": 72471,
+    "raw_bytes": 11016330964,
+    "delta_files": 13053,
+    "predicted_receipt_bytes": 84780809,
+    "existing_receipt_cap": 83886080,
+    "receipt_headroom": -894729,
+    "metadata_allowance_bytes": 4096,
+    "wall_seconds": 118.68797612504568,
+    "archive_created": false,
+    "full_restoration_performed": false
+  },
+  "targeted_methods": 52,
+  "full_methods": 1649,
+  "full_test_seconds": 159.739,
+  "full_complete_wall_seconds": 160.79,
+  "full_complete_cpu_seconds": 154.39,
+  "scope": "Only3finitecapacityconstants. Scopes/path/secret/archive/restoration/security and original-routing acceptance unchanged. Current full restoration of direct legacy-full006 plusnewcompactdelta remains REQUIRED. Actual GUI and negative thermal probe separately pinned. RawbackupMaconly.",
+  "files_sha256": {
+    "scripts/backup.py": "6a7856dc3246a7125fb388fa129bee82ad73bb348c7347e57650baf8e9b7d3ac",
+    "tests/test_backup_capacity.py": "3924fa155ee16feb30a35c39f5f9d103cc021575ffcbde8f6d7aa8333ff35b97",
+    ".runs/stronger-cohort-capacity-forecast-001.json": "0d978c4c663a43657048720fe6ef1770119c909657dbaa71aa9f6c9da2a95299",
+    ".runs/stronger-cohort-receipt-forecast-001.json": "1e28b5ce935244b0065299fcb667d1c8ab362cd2126fccc5a945c1b74e44da39",
+    ".runs/full-integration-122/execution.json": "efa6abf14bbde11015fa66c0ae573eafb8634eccca46d28f091e57645a371cb5",
+    ".runs/full-integration-122/command.log": "c92694f569c6a3ceca574b5b26904173de6efdc7897961800968eeabced7f5d5",
+    ".runs/full-integration-122-time.log": "1d4c1ad01d157bd9004f6a2b59f0247b304e8b22638b34d308c45a8cd1581870",
+    ".runs/full-integration-122-command.log": "895968ce69d15817bfe936866a6f23de1e49d2c6318fdad35c1af0fbf8648f80",
+    ".runs/backup-targeted-cohort-001/execution.json": "ebf669803c7608e095fa347b9a1124314635e5a0e9e2d4d22863be0aa2bb5a52",
+    ".runs/backup-targeted-cohort-001/command.log": "2391e372ae8752f7251907e607dd8a8532224ed112060490ce2f8513e3548440",
+    ".runs/backup-targeted-cohort-001-time.log": "adfdc123a5794eaeb97383155e4e305b33be1996eaf3cb9770494810b8235dae"
+  }
+}

@@ -1,0 +1,518 @@
+{
+  "schema": 1,
+  "kind": "exposed-negative-thermal-deletion-feasibility",
+  "evidence_readback_passed": true,
+  "routing_accepted": false,
+  "original_failed_probe_stays_failed": true,
+  "original_cohort_stays_rejected": true,
+  "git_head": "00f31007df9f56fb6084167d208da74cf2056db0",
+  "proposal": "Remove33ownC-generatedGNDsegments; retain29othernetroutes including2vias.",
+  "candidate_sha256": "eeaaade21c4a6fc563ca86dd2332dd935a89c3683cf2d70243222350ae6b89fa",
+  "native_report_sha256": "37eadd551f51d421d7064ddd81c94a80ddbae35173dc4bc40b0ac10a6660beb6",
+  "native": {
+    "opens": 0,
+    "blocking": 2,
+    "warnings": 10,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      }
+    ],
+    "findings": [
+      {
+        "description": "Thermal relief connection to zone incomplete (layer F.Cu; zone min spoke count 2; actual 1)",
+        "items": [
+          {
+            "description": "Zone 'GND fill' [GND] on F.Cu and B.Cu, priority 0",
+            "pos": {
+              "x": 139.065,
+              "y": 85.725
+            },
+            "uuid": "dfa0e7ea-2a61-476a-a3f5-ea904df613e8"
+          },
+          {
+            "description": "Pad 1 [GND] of D1 on F.Cu",
+            "pos": {
+              "x": 157.875,
+              "y": 90.17
+            },
+            "uuid": "119b2026-aa38-440c-a63f-25f6c8d5cc5a"
+          }
+        ],
+        "severity": "error",
+        "type": "starved_thermal"
+      },
+      {
+        "description": "Thermal relief connection to zone incomplete (layer F.Cu; zone min spoke count 2; actual 1)",
+        "items": [
+          {
+            "description": "Zone 'GND fill' [GND] on F.Cu and B.Cu, priority 0",
+            "pos": {
+              "x": 139.065,
+              "y": 85.725
+            },
+            "uuid": "dfa0e7ea-2a61-476a-a3f5-ea904df613e8"
+          },
+          {
+            "description": "Pad 2 [GND] of R3 on F.Cu",
+            "pos": {
+              "x": 148.59,
+              "y": 89.5725
+            },
+            "uuid": "8b909a45-5ebb-474d-a115-11efeeb2dfd8"
+          }
+        ],
+        "severity": "error",
+        "type": "starved_thermal"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+        "items": [
+          {
+            "description": "Footprint R1",
+            "pos": {
+              "x": 158.75,
+              "y": 92.71
+            },
+            "uuid": "062ffc51-f8df-48c0-b56f-39bfdde7c55a"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Connector_USB'",
+        "items": [
+          {
+            "description": "Footprint J1",
+            "pos": {
+              "x": 142.24,
+              "y": 91.44
+            },
+            "uuid": "4775161d-c60f-42e5-ad80-435909b61f2d"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+        "items": [
+          {
+            "description": "Footprint R2",
+            "pos": {
+              "x": 148.59,
+              "y": 92.71
+            },
+            "uuid": "4a3ce698-031a-4c20-ad71-0a64d26989ba"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'LED_SMD'",
+        "items": [
+          {
+            "description": "Footprint D1",
+            "pos": {
+              "x": 158.75,
+              "y": 90.17
+            },
+            "uuid": "99392dee-077f-4d4f-ae18-c7d97279f19d"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+        "items": [
+          {
+            "description": "Footprint R3",
+            "pos": {
+              "x": 148.59,
+              "y": 90.17
+            },
+            "uuid": "ec73cd38-13d2-4a9e-b1aa-f2ebf851cc08"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint D1",
+            "pos": {
+              "x": 158.75,
+              "y": 90.17
+            },
+            "uuid": "99392dee-077f-4d4f-ae18-c7d97279f19d"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint R1",
+            "pos": {
+              "x": 158.75,
+              "y": 92.71
+            },
+            "uuid": "062ffc51-f8df-48c0-b56f-39bfdde7c55a"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint R2",
+            "pos": {
+              "x": 148.59,
+              "y": 92.71
+            },
+            "uuid": "4a3ce698-031a-4c20-ad71-0a64d26989ba"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint R3",
+            "pos": {
+              "x": 148.59,
+              "y": 90.17
+            },
+            "uuid": "ec73cd38-13d2-4a9e-b1aa-f2ebf851cc08"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint SW1",
+            "pos": {
+              "x": 153.67,
+              "y": 91.44
+            },
+            "uuid": "af7b3bed-6f14-43e5-aa9e-a8674a39a4c1"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      }
+    ],
+    "field_parity": {
+      "schema": 1,
+      "policy": "datasheet-absence-only-v1",
+      "native_report_sha256": "37eadd551f51d421d7064ddd81c94a80ddbae35173dc4bc40b0ac10a6660beb6",
+      "binding_sha256": "873e08b45532c494c5a5aeb567dc38a3d2b206497e7860186e38db94a8286abf",
+      "netlist_sha256": "d49e2d2dcb09daa9c8ee6f88b78aa41bcc4ef2a33e108722e4668f0bcec862cf",
+      "fields_sha256": "9cde496da349e914d786c35ab8ca69f5f476e18c408af8671d2b80a142673ffc",
+      "qualification": {
+        "qualified": true,
+        "policy": "datasheet-effective-empty-v1",
+        "component_count": 6,
+        "compared_field_count": 19,
+        "comparison_map": [
+          {
+            "reference": "D1",
+            "uuid": "99392dee-077f-4d4f-ae18-c7d97279f19d",
+            "schematic_fields": {
+              "Sim.Pins": "1=K 2=A",
+              "LCSC Part #": "C2286",
+              "Datasheet": "",
+              "Description": "Light emitting diode"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Light emitting diode",
+              "Sim.Pins": "1=K 2=A",
+              "LCSC Part #": "C2286"
+            }
+          },
+          {
+            "reference": "J1",
+            "uuid": "4775161d-c60f-42e5-ad80-435909b61f2d",
+            "schematic_fields": {
+              "LCSC Part #": "C18357552",
+              "Datasheet": "https://www.usb.org/sites/default/files/documents/usb_type-c.zip",
+              "Description": "USB Power-Only 6P Type-C Receptacle connector"
+            },
+            "pcb_fields": {
+              "Datasheet": "https://www.usb.org/sites/default/files/documents/usb_type-c.zip",
+              "Description": "USB Power-Only 6P Type-C Receptacle connector",
+              "LCSC Part #": "C18357552"
+            }
+          },
+          {
+            "reference": "R1",
+            "uuid": "062ffc51-f8df-48c0-b56f-39bfdde7c55a",
+            "schematic_fields": {
+              "LCSC Part #": "C22808",
+              "Datasheet": "",
+              "Description": "Resistor"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Resistor",
+              "LCSC Part #": "C22808"
+            }
+          },
+          {
+            "reference": "R2",
+            "uuid": "4a3ce698-031a-4c20-ad71-0a64d26989ba",
+            "schematic_fields": {
+              "LCSC Part #": "C25905",
+              "Datasheet": "",
+              "Description": "Resistor"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Resistor",
+              "LCSC Part #": "C25905"
+            }
+          },
+          {
+            "reference": "R3",
+            "uuid": "ec73cd38-13d2-4a9e-b1aa-f2ebf851cc08",
+            "schematic_fields": {
+              "LCSC Part #": "C25905",
+              "Datasheet": "",
+              "Description": "Resistor"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Resistor",
+              "LCSC Part #": "C25905"
+            }
+          },
+          {
+            "reference": "SW1",
+            "uuid": "af7b3bed-6f14-43e5-aa9e-a8674a39a4c1",
+            "schematic_fields": {
+              "LCSC Part #": "C318884",
+              "Datasheet": "",
+              "Description": "Push button switch, generic, two pins"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Push button switch, generic, two pins",
+              "LCSC Part #": "C318884"
+            }
+          }
+        ],
+        "warning_uuids": [
+          "062ffc51-f8df-48c0-b56f-39bfdde7c55a",
+          "4a3ce698-031a-4c20-ad71-0a64d26989ba",
+          "99392dee-077f-4d4f-ae18-c7d97279f19d",
+          "af7b3bed-6f14-43e5-aa9e-a8674a39a4c1",
+          "ec73cd38-13d2-4a9e-b1aa-f2ebf851cc08"
+        ],
+        "warning_hashes": [
+          "557accdab8c0eb41b127f0662e744375b185ea9740bc899bb6a84e7ce1eaabe2",
+          "841380db6624f98acc7676852ded9a55822fdefbb032c852cbc049a895249368",
+          "89056ad0169ca9a94483ae3daca1642b2178b36b45f57db9dcf1ed73b03005f8",
+          "abbbf279b6533ac74d3e3fa2ec4147d89b7bf25fc412ebe6b14e925106992484",
+          "bab19c28af0fa51e1348c79331096d34062ba955ae3a67867466de1eca734e8e"
+        ],
+        "native_export_sha256": "d49e2d2dcb09daa9c8ee6f88b78aa41bcc4ef2a33e108722e4668f0bcec862cf",
+        "observer_sha256": "00da670099754bc2d4d6eb63dc2994282f3f5cec9d07ff1cd553b792034a4a09",
+        "drc_report_sha256": "f4376e52acfd5172ce75b443568fbd1ea2a10703b2f7699938bf35dea092b4b0"
+      },
+      "local_settings_guard_sha256": "bf2a456333afaf5309743065dba399ed645a24595d172124b273e208746feed5"
+    }
+  },
+  "saved_refill_native": {
+    "opens": 0,
+    "blocking": 2,
+    "warnings": 5,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      }
+    ],
+    "findings": [
+      {
+        "description": "Thermal relief connection to zone incomplete (layer F.Cu; zone min spoke count 2; actual 1)",
+        "items": [
+          {
+            "description": "Zone 'GND fill' [GND] on F.Cu and B.Cu, priority 0",
+            "pos": {
+              "x": 139.065,
+              "y": 85.725
+            },
+            "uuid": "dfa0e7ea-2a61-476a-a3f5-ea904df613e8"
+          },
+          {
+            "description": "Pad 1 [GND] of D1 on F.Cu",
+            "pos": {
+              "x": 157.875,
+              "y": 90.17
+            },
+            "uuid": "119b2026-aa38-440c-a63f-25f6c8d5cc5a"
+          }
+        ],
+        "severity": "error",
+        "type": "starved_thermal"
+      },
+      {
+        "description": "Thermal relief connection to zone incomplete (layer F.Cu; zone min spoke count 2; actual 1)",
+        "items": [
+          {
+            "description": "Zone 'GND fill' [GND] on F.Cu and B.Cu, priority 0",
+            "pos": {
+              "x": 139.065,
+              "y": 85.725
+            },
+            "uuid": "dfa0e7ea-2a61-476a-a3f5-ea904df613e8"
+          },
+          {
+            "description": "Pad 2 [GND] of R3 on F.Cu",
+            "pos": {
+              "x": 148.59,
+              "y": 89.5725
+            },
+            "uuid": "8b909a45-5ebb-474d-a115-11efeeb2dfd8"
+          }
+        ],
+        "severity": "error",
+        "type": "starved_thermal"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+        "items": [
+          {
+            "description": "Footprint R1",
+            "pos": {
+              "x": 158.75,
+              "y": 92.71
+            },
+            "uuid": "062ffc51-f8df-48c0-b56f-39bfdde7c55a"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Connector_USB'",
+        "items": [
+          {
+            "description": "Footprint J1",
+            "pos": {
+              "x": 142.24,
+              "y": 91.44
+            },
+            "uuid": "4775161d-c60f-42e5-ad80-435909b61f2d"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+        "items": [
+          {
+            "description": "Footprint R2",
+            "pos": {
+              "x": 148.59,
+              "y": 92.71
+            },
+            "uuid": "4a3ce698-031a-4c20-ad71-0a64d26989ba"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'LED_SMD'",
+        "items": [
+          {
+            "description": "Footprint D1",
+            "pos": {
+              "x": 158.75,
+              "y": 90.17
+            },
+            "uuid": "99392dee-077f-4d4f-ae18-c7d97279f19d"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+        "items": [
+          {
+            "description": "Footprint R3",
+            "pos": {
+              "x": 148.59,
+              "y": 90.17
+            },
+            "uuid": "ec73cd38-13d2-4a9e-b1aa-f2ebf851cc08"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      }
+    ]
+  },
+  "source_hashes": {
+    "_licenses/creator/LICENSE.md": "1221d052e504de62ee82c8fdb9f10e46576264b763efddfbe8dc1260aff8de24",
+    "_licenses/creator/README.md": "d9153d78b4be0ca452372ba80ffd23f7cfda797e49fe09e27b169e4ad064ae10",
+    "footprints/usb_led.pretty/SW_Push_1P1T_XKB_TS-1187A.kicad_mod": "58c47a1c7ee9518a2862e547bf96ad8b9cd46463c90364e18eedb80e2bdb72b1",
+    "fp-lib-table": "15bf189b65b5ae2db205de28c62b43d5f70b1efeeb1546809588b65b19cc2052",
+    "sym-lib-table": "2a1efc4ebfe0099500e0b00444101581b26bc4a3352f24cb09381b9f12311701",
+    "usb_led.kicad_pcb": "a8e69c14ceec9dd0954c3027cc89ca6bbb9c0b0ec3aeede5feacfdd47736f362",
+    "usb_led.kicad_pro": "b89aeb862b5008aeb62a32b06b1b4094b5ea556d24fba5e62189814523dcc2a8",
+    "usb_led.kicad_sch": "425a817f1c236363eefd6ff8cb23365d2641a43d5f1e057191497046dcf20d75"
+  },
+  "files_sha256": {
+    ".runs/nus-thermal-deletion-probe-readback-001/result.json": "31a905bb989c552b0a2950f1716622b69e4832e3311b3c1b6a9cda8c050154eb",
+    ".runs/nus-thermal-deletion-probe-readback-command-001/execution.json": "61cbb32fa033d4b3d7d44485a42d9dd35cce103ee7f3fb1931ce100045a94aa0",
+    ".runs/read-nus-thermal-deletion-probe-001.py": "87fde6d1353e3e47b3904ffeea057923b28d8ca63f690e2d0b921ebd35272a4a",
+    ".runs/run-nus-thermal-readback-001.py": "4e779d03c50b3d9fd8fe859805f6fea4aed595dfcf61d5480e3e94d81cd85a5f",
+    ".runs/nus-thermal-deletion-readback-001-time.log": "5e0ae826907ca45e1e119558f894602ef5da72d008a26393e33debc906bd7c78",
+    ".runs/nus-thermal-deletion-readback-001-command.log": "4671c122001a1af5861e0185fd792cf2a78e08fba02e33fbada1dab2852195b0"
+  },
+  "costs": {
+    "failed_producer_complete_wall_seconds": 18.74,
+    "failed_producer_complete_full_cpu_seconds": 10.5,
+    "pure_reader_complete_wall_seconds": 2.24,
+    "pure_reader_complete_full_cpu_seconds": 2.46,
+    "rounding_allowance_per_command_seconds": 0.02,
+    "curation_upper_seconds": 2,
+    "charged_new_diagnostic_wall_seconds": 23.02,
+    "charged_new_diagnostic_full_cpu_seconds": 15.0,
+    "prior_own_C_wall_seconds": 77.45,
+    "prior_own_C_full_cpu_seconds": 75.82,
+    "new_diagnostic_cap_seconds": 90
+  },
+  "outcome": "Falsified for this retained candidate: R3 stillstarved plusnewD1starved.0opens2blocking10warnings2ignored; full6components19fields. No ruleorzonechange. No metrics/reroute/JVM/solver/repeatedoriginalDRC.",
+  "scope": "Separate exposed feasibility observation, never retroactive cohort win/newfamily/default/routingacceptance. Initial producer read-back path error retained; missing-only reader uses exact actual final-drc-input with shared validation."
+}
