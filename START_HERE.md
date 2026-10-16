@@ -30,3 +30,5 @@ Source and small sanitized evidence are backed up on the authorized GitHub branc
 The original preparation instructions are [preserved as history](docs/history/2026-10-14-4b1e871/START_HERE.md). They are not instructions to restart this checkout.
 
 An additional [temperature-interface example](docs/ds18b20-demo.md) now has actual generated-routing/full-schematic qualification. C ties its tuned baseline; no extra gain is claimed.
+
+The current prepared candidate is [runtime006](.runs/runtime-directory-006/runtime/RUNTIME_README.txt), built from source773c5271. Its CLI/controller4Cu pour Route and2Cu Improve have fresh Native/export/current-reader qualification; the graphical source matches the previously tested004/GUI056. [Current support evidence](evidence/runtime006-four-cu-pour-integration-001.json) and [reproduction](experiments/four_copper_pour_support_v1/README.md) retain warnings and limits. This is a local directory artifact, not a published package or completed release.
