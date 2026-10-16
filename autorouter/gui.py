@@ -533,6 +533,14 @@ def main(argv=None):
             if not self.busy: self.flow = None; self.inspected.SetValue(False)
             self.refresh(); event.Skip()
 
+        def refused(self, error):
+            if self.flow is not None:
+                self.flow.ready.clear(); self.flow.records.clear(); self.flow.choice = None
+            self.flow = None; self.inspected.SetValue(False)
+            self.status.SetLabel('Action refused or cancelled. Read the findings below; start a fresh preview.')
+            self.log.SetValue(str(error) + '\nNo positive state adopted. Retained files were not deleted.')
+            self.refresh()
+
         def method_changed(self, event):
             if self.busy: event.Skip(); return
             self.flow = None; self.inspected.SetValue(False)
@@ -543,9 +551,10 @@ def main(argv=None):
                         self.choices[name].SetSelection(next(i for i, (_, value) in enumerate(self.values[name]) if value == settings[name]))
                     self.status.SetLabel('Improve selected: tuned profile and both corrections. Routing protection, layers, budget and via preference are unchanged.')
             except Exception as exc:
-                self.method.SetSelection(0)
-                self.status.SetLabel('Improve refused; Route remains selected. Task constraints were not changed.')
-                wx.MessageBox(str(exc), 'Improve unavailable for these settings', wx.OK | wx.ICON_ERROR)
+                self.refused(str(exc))
+                # Cocoa commits the popup selection after this callback.
+                # Reset afterwards, without nesting a modal inside its menu loop.
+                wx.CallAfter(self.method.SetSelection, 0)
             self.refresh(); event.Skip()
 
         def load_preset(self, _):
@@ -563,7 +572,7 @@ def main(argv=None):
                         control.SetSelection(next(i for i, (_, value) in enumerate(self.values[name]) if value == config[name]))
                     self.seconds.SetValue(int(config['seconds'])); self.nets.SetValue('\n'.join(config.get('nets', [])))
                     self.flow = None; self.inspected.SetValue(False); self.refresh()
-                except Exception as exc: wx.MessageBox(str(exc), 'Settings refused', wx.OK | wx.ICON_ERROR)
+                except Exception as exc: self.refused(str(exc))
 
         def config(self):
             result = dict(pref.DEFAULTS)
@@ -590,7 +599,7 @@ def main(argv=None):
                         if target.parent == source.parent or source.parent in target.parents: raise ValueError('Save settings outside the original project.')
                     with os.fdopen(os.open(target, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600), 'w') as stream:
                         json.dump(config, stream, indent=2); stream.write('\n')
-            except Exception as exc: wx.MessageBox(str(exc), 'Settings not saved', wx.OK | wx.ICON_ERROR)
+            except Exception as exc: self.refused(str(exc))
 
         def refresh(self):
             ready = self.flow.ready if self.flow else set()
@@ -647,7 +656,7 @@ def main(argv=None):
                         retained = ' Retained workspace: ' + str(flow.workspace) if flow else ''
                         wx.CallAfter(self.finished, job, None, stage, None, str(exc) + retained)
                 threading.Thread(target=work, daemon=False).start()
-            except Exception as exc: wx.MessageBox(str(exc), 'Action refused', wx.OK | wx.ICON_ERROR)
+            except Exception as exc: self.refused(str(exc))
 
         def opened(self, kind, target, error):
             cancelled = self.job.cancel_requested
@@ -658,8 +667,8 @@ def main(argv=None):
                         import webbrowser
                         webbrowser.open(target.as_uri())
                     else: subprocess.Popen(['/usr/bin/open', '-a', str(c.CLI.parents[2]), str(target)])
-                except Exception as exc: self.status.SetLabel('Could not open retained project: ' + str(exc))
-            elif error: self.flow = None; self.status.SetLabel(error)
+                except Exception as exc: self.refused('Could not open retained project: ' + str(exc))
+            else: self.refused(error or 'Inspection was cancelled. No project was opened.')
             self.refresh()
             if self.closing: self.timer.Stop(); self.Destroy()
 
@@ -671,10 +680,7 @@ def main(argv=None):
             if error:
                 if flow is not None:
                     flow.ready.clear(); flow.records.clear(); flow.choice = None
-                self.flow = None
-                self.inspected.SetValue(False)
-                self.status.SetLabel('Action refused or cancelled. Read the findings below; start a fresh preview.')
-                self.log.SetValue(error + '\nNo positive state adopted. Retained files were not deleted.')
+                self.refused(error)
             else:
                 self.flow = flow
                 display = {**flow.records.get('route', {}), **record}

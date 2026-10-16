@@ -34,11 +34,32 @@ class GuiBudgetTests(unittest.TestCase):
         window = SimpleNamespace(job=job, flow=flow, busy=True, inspected=Mock(), status=Mock(),
                                  log=Mock(), refresh=Mock(), closing=False)
         reason = 'Routing refused: insufficient remaining budget\nFull failure receipt: /owned/result.json'
+        window.refused = lambda error: gt.window_method('refused')(window, error)
         gt.window_method('finished')(window, job, flow, 'route', None, reason)
         self.assertIsNone(window.flow); self.assertFalse(flow.ready); self.assertFalse(flow.records)
         self.assertIsNone(flow.choice)
         displayed = window.log.SetValue.call_args.args[0]
         self.assertIn(reason, displayed); self.assertIn('No positive state adopted', displayed)
+
+    def test_cancelled_inspection_does_not_open_or_retain_positive_ui(self):
+        flow = SimpleNamespace(ready={'route', 'export'}, records={'export':{}}, choice='accept')
+        window = SimpleNamespace(job=SimpleNamespace(cancel_requested=True), flow=flow, busy=True,
+                                 inspected=Mock(), status=Mock(), log=Mock(), refresh=Mock(), closing=False)
+        window.refused = lambda error: gt.window_method('refused')(window, error)
+        with patch.object(gui.subprocess, 'Popen') as launch:
+            gt.window_method('opened')(window, 'export', Path('/owned/export.kicad_pro'), None)
+        launch.assert_not_called(); self.assertIsNone(window.flow); self.assertFalse(flow.ready)
+        self.assertIn('cancelled', window.log.SetValue.call_args.args[0])
+
+    def test_failed_opener_clears_positive_ui_and_shows_retained_reason(self):
+        flow = SimpleNamespace(ready={'route', 'export'}, records={'export':{}}, choice='accept')
+        window = SimpleNamespace(job=SimpleNamespace(cancel_requested=False), flow=flow, busy=True,
+                                 inspected=Mock(), status=Mock(), log=Mock(), refresh=Mock(), closing=False)
+        window.refused = lambda error: gt.window_method('refused')(window, error)
+        with patch.object(gui.subprocess, 'Popen', side_effect=OSError('owned opener unavailable')):
+            gt.window_method('opened')(window, 'export', Path('/owned/export.kicad_pro'), None)
+        self.assertIsNone(window.flow); self.assertFalse(flow.ready); self.assertIsNone(flow.choice)
+        self.assertIn('owned opener unavailable', window.log.SetValue.call_args.args[0])
 
     def test_improve_60_refuses_before_workspace_and_90_preserves_exact_budget(self):
         for seconds in (60, 90):
@@ -101,7 +122,7 @@ class GuiBudgetTests(unittest.TestCase):
                 wx.FileDialog.return_value=dialog
                 window=SimpleNamespace(busy=False, method=Mock(), choices={'profile':Mock()},
                     values={'profile':[('Tuned','tuned')]}, seconds=Mock(), nets=Mock(), flow=object(),
-                    inspected=Mock(), refresh=Mock())
+                    inspected=Mock(), refresh=Mock(), refused=Mock())
                 window.method.GetSelection.return_value=1
                 loaded=dict(pref.DEFAULTS, profile='tuned', seconds=seconds)
                 with patch.object(gui.pref, 'load', return_value=object()), patch.object(gui.pref, 'resolve', return_value=loaded):
@@ -109,9 +130,11 @@ class GuiBudgetTests(unittest.TestCase):
                 if seconds == 60:
                     window.choices['profile'].SetSelection.assert_not_called()
                     window.seconds.SetValue.assert_not_called(); window.nets.SetValue.assert_not_called()
-                    wx.MessageBox.assert_called_once()
+                    window.refused.assert_called_once()
+                    wx.MessageBox.assert_not_called()
                 else:
                     window.seconds.SetValue.assert_called_once_with(90)
+                    window.refused.assert_not_called()
                     wx.MessageBox.assert_not_called()
                 self.assertEqual(loaded['seconds'], seconds)
 

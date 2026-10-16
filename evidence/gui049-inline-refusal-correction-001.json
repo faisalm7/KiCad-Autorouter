@@ -1,0 +1,96 @@
+{
+  "schema": 1,
+  "source_git_head": "85d4b7c063d61ddfc9f71c091d3c36322f4d63c0",
+  "installed_gui_sha256": "64900c26a1a2e2aa01280dbcb58af826fdbaf3086ffa5197653014522775080c",
+  "scope": "Independent installed049 actual toolbar + real engine cancellation pass; subsequent invalid-budget menu/preview interaction stalled in nested native modals before workspace creation. GUI qualification incomplete, not a pass.",
+  "installation": {
+    "passed": true,
+    "external_wall_seconds": 46.82,
+    "external_full_cpu_seconds": 34.33,
+    "head_typo_precondition_failure_preserved": ".runs/installation-049-head-gate-001"
+  },
+  "source_unchanged": true,
+  "source_sha256": {
+    "owned-global-min-width.kicad_pcb": "5675f1f851d35a8da1539c7979e6b578c694a029737028874e139220ec623bb8",
+    "owned-global-min-width.kicad_prl": "8eeeca97d5de78d87e3a9f8a48e0a3bdf8c6881f1f03cd10064206f41748a01b",
+    "owned-global-min-width.kicad_pro": "17bb5a2cb45cbcd270750982f60b4a2d6177bb189364452f65f36fd799518391",
+    "owned-global-min-width.kicad_sch": "8cf2b4ac9cc89861459d7d72d39b65a77e0fd3e482fc8ca4e0176a9d809923c3"
+  },
+  "cancellation": {
+    "status": "rejected",
+    "accepted": false,
+    "reason": "Rejected: engine: cancelled exit=-15",
+    "wall_seconds": 2.9931840000208467,
+    "total_cpu_seconds": 1.6715360000000001
+  },
+  "cancel_process": {
+    "exit_code": 2,
+    "cancel_requested": true,
+    "wall_seconds": 3.175103292000003
+  },
+  "worker_cleanup": true,
+  "no_remaining_job_workers_observed": true,
+  "preview_stall": {
+    "no_new_workspace": true,
+    "no_router_or_native_worker_started": true,
+    "actual_stack": [
+      "NSCocoaMenuImpl popUpMenu",
+      "wxChoice::OSXHandleClicked",
+      "wxMessageBox",
+      "wxMessageDialog::ShowModal"
+    ],
+    "owned_gui_forced_close": {
+      "schema": 1,
+      "status": "owned_controller_forced_closed",
+      "pid": 52076,
+      "verified_command": "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python -B -m autorouter.gui",
+      "verified_cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-049/checkout",
+      "no_child_processes_before_termination": true,
+      "reason": "Owned GUI stuck in nested native wxMessageBox/menu callback after pre-workspace budget refusal. Native/engine work absent; GUI Cancel/Close and TERM could not end it. SIGKILL only this verified GUI process after2s; preserves all files and KiCad manager.",
+      "wall_seconds": 2.073694374994375,
+      "routing_or_native_validation_pass": false
+    }
+  },
+  "correction": "One central inline refusal clears positive GUI state and presents full error in existing scroll panel; no routine MessageBox inside native callback. Method reset queued after Cocoa popup commit. Opener cancellation/error/failure uses same path.",
+  "corrected_gui_sha256": "d110a522f3b529a3de5a43848089773e71cb1f5665e90a094c727afc04c9c81a",
+  "targeted": {
+    "passed": true,
+    "methods": 43,
+    "log": ".runs/gui-inline-refusal-targeted-003.log",
+    "log_sha256": "9a6547766246d21074fbf5296d1c32e3999cf9d64867fb16763ebc9199dbaef8",
+    "external_wall_seconds": 1.1,
+    "external_full_cpu_seconds": 0.62
+  },
+  "final_installed_gui_qualification": "pending050; final full integration after actual interaction",
+  "whole_project_or_routing_gain_claim": false,
+  "manual_gui_full_cpu": "unmeasured",
+  "raw_evidence_sha256": {
+    ".runs/gui-installed-session049/toolbar-controller-ax.txt": "a95bb12d7c6f844c502b120175faacbb6a740bcdf673684ca7f17780c917ed30",
+    ".runs/gui-installed-session049/default-preview-ax.txt": "bdd55e8cea0b0bc31348be90a0192a9e8e4039f7ed4f32bbb2504d1cddfb3e9b",
+    ".runs/gui-installed-session049/cancel-ax.txt": "7a540befceba04accdfcb9ed68d5ad547c775b54cf85b5ed2cb2e31d8091468d",
+    ".runs/gui-installed-session049/preparation-hang-sample.txt": "aa8cd3c0f6e664dbfe3c0fb000245072062f1a64d9c186d02926e67a96cad55a",
+    ".runs/gui-installed-session049/improve60-preview-floor-completed-ax.txt": "0239dac309b6a08a28457b77764b19b40d6e815049ce1163a9621318e535a9bb",
+    ".runs/gui-installed-session049/preparation-cancel-ax.txt": "64e50d5dd1011d01871df1401c0f565f6307e9548f36166d9124b2b59ee75259",
+    ".runs/gui-installed-session049/improve60-method-refusal-repeat-ax.txt": "f7eaad078af7287e87dd524517a38de3848a09e3895d97f6572f72db84431a55",
+    ".runs/gui-installed-session049/preparation-close-ax.txt": "64e50d5dd1011d01871df1401c0f565f6307e9548f36166d9124b2b59ee75259",
+    ".runs/gui-installed-session049/improve60-refusal-ax.txt": "be8b6826bd256f8cee344ee7bfad1dc9d48bed2dd45d50f53bb9e1d4c4a5ae99",
+    ".runs/gui-installed-session049/improve60-preview-floor-ax.txt": "0239dac309b6a08a28457b77764b19b40d6e815049ce1163a9621318e535a9bb",
+    ".runs/gui-installed-session049/improve60-refusal.png": "b5de95c4d40259a9a87ed37a0dcb06efb59b6f6a3563e612dc28d5db54e66e21",
+    ".runs/gui-installed-session049/toolbar.png": "46ac84ea71375bb2d757936ec41074d7df6c17b250bdb7dc94b6bbf3de9b89b5",
+    ".runs/gui-installed-session049/budget-preview-intermediate.png": "ae7291c50bc2e59ce3559614ed7a68847e4149709b797be09f2839e7d897aed2",
+    ".runs/gui-installed-session049/forced-close.json": "8a799d640c04dfcc3d0799425b92a836f025ec08936b88936ce63f2b12c4c1f0",
+    ".runs/gui-installed-session049/jobs/autorouter-gui-5338f2160a5e45fca5f38f7fdf7090d8/settings.json": "12c3239b894919886fcabc14968b33d777e01cb53886e9874b80d52bec77a15f",
+    ".runs/gui-installed-session049/jobs/autorouter-gui-5338f2160a5e45fca5f38f7fdf7090d8/route/result.json": "cda49d378901330e83a7005e4e8c8c94694cbcdfe65c1ae3bdf68025d3c5e581",
+    ".runs/gui-installed-session049/jobs/autorouter-gui-5338f2160a5e45fca5f38f7fdf7090d8/route.command.process.json": "0b8495de1fc64f12c8a08f8bd89ae795b26cc9bb11605df45eede5a7fbcd2dcb",
+    ".runs/installation-049/result.json": "fd2e40242c2d6be81358a4051352f644ce090da177876c2e9378fa9399ea43b4",
+    ".runs/installation-049-execution/result.json": "821a525241e099d8ed7a4699880a045ea30cfe7f57b178f692b8c355e59a73b7"
+  },
+  "review": {
+    "human": false,
+    "source_only": true,
+    "wall_seconds": 101,
+    "full_cpu": "unmeasured",
+    "note_sha256": "4ba88f1af3a8a8321155043ce172af18821bcf276b3fbb1b9ce993fb16da2149",
+    "remaining_concrete_blockers_found": 0
+  }
+}

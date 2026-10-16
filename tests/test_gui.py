@@ -151,6 +151,7 @@ class CliJobTests(unittest.TestCase):
         flow = SimpleNamespace(ready={'preview'}, records={'preview': {}}, choice='accept')
         window = SimpleNamespace(job=job, busy=True, flow=flow, inspected=Mock(),
             status=Mock(), log=Mock(), refresh=Mock(), closing=False)
+        window.refused = lambda error: window_method('refused')(window, error)
         window_method('finished')(window, job, flow, 'preview', {'status': 'preview'}, None)
         self.assertIsNone(window.flow); self.assertIsNone(window.job)
         self.assertFalse(flow.ready); self.assertFalse(flow.records); self.assertIsNone(flow.choice)
@@ -164,7 +165,7 @@ class CliJobTests(unittest.TestCase):
             with self.subTest(action=action):
                 inspected = Mock(); inspected.GetValue.return_value = True
                 window = SimpleNamespace(busy=False, inspected=inspected, board=Mock(),
-                    output=Mock(), config=Mock(return_value=dict(pref.DEFAULTS)), ack=Mock(), method=Mock())
+                    output=Mock(), config=Mock(return_value=dict(pref.DEFAULTS)), ack=Mock(), method=Mock(), refused=Mock())
                 window.method.GetSelection.return_value = 0
                 # Stop after the real callback reset, before creating or launching work.
                 callback = window_method('act', Request=Mock(side_effect=ValueError('stop before worker')))

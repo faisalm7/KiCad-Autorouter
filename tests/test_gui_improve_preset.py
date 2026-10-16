@@ -28,7 +28,7 @@ class ImprovePresetTests(unittest.TestCase):
     def window(self, config):
         choices = {'profile': Mock(), 'adapter': Mock()}
         window = SimpleNamespace(busy=False, flow=object(), inspected=Mock(), method=Mock(),
-            config=Mock(return_value=config), choices=choices, status=Mock(), refresh=Mock(),
+            config=Mock(return_value=config), choices=choices, status=Mock(), refresh=Mock(), refused=Mock(),
             values={'profile': [('Standard', 'standard'), ('Tuned', 'tuned')],
                     'adapter': [('Stock', 'none'), ('Both', 'both')]})
         window.method.GetSelection.return_value = 1
@@ -44,9 +44,11 @@ class ImprovePresetTests(unittest.TestCase):
         self.assertIsNone(good.flow)
         bad = self.window(dict(pref.DEFAULTS, scope='partial_completion'))
         callback(bad, Mock())
-        bad.method.SetSelection.assert_called_once_with(0)
+        bad.method.SetSelection.assert_not_called()
+        callback.__globals__['wx'].CallAfter.assert_called_once_with(bad.method.SetSelection, 0)
         for control in bad.choices.values(): control.SetSelection.assert_not_called()
-        callback.__globals__['wx'].MessageBox.assert_called_once()
+        bad.refused.assert_called_once()
+        callback.__globals__['wx'].MessageBox.assert_not_called()
 
     def test_load_incompatible_settings_in_improve_refuses_before_widget_writes(self):
         callback = window_method('load_preset')
@@ -59,7 +61,8 @@ class ImprovePresetTests(unittest.TestCase):
             callback(window, None)
         for control in window.choices.values(): control.SetSelection.assert_not_called()
         window.seconds.SetValue.assert_not_called(); window.nets.SetValue.assert_not_called()
-        wx.MessageBox.assert_called_once()
+        window.refused.assert_called_once()
+        wx.MessageBox.assert_not_called()
 
 
 if __name__ == '__main__': unittest.main()
