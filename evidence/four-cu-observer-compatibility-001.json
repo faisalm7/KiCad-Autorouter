@@ -1,0 +1,309 @@
+{
+  "schema": 1,
+  "kind": "shared-area-observer-compatibility-correction",
+  "accepted": false,
+  "full_suite_passed": false,
+  "native_workflow005_passed": true,
+  "failed_full_source": "38567ab3efd52f81923d2aabfb690cb5df3c8468",
+  "full137": {
+    "methods": 1811,
+    "failures": 1,
+    "errors": 4,
+    "wall_seconds": 213.65,
+    "full_CPU_seconds": 204.0,
+    "execution_sha256": "739737309c6842ba49b959df94eec677f63f16780b2f72028dcf6a02f92cb125",
+    "log_sha256": "f721756cb05b50819641926aad50c8682667b906846d29d9ecdc8a80fc25abbb",
+    "reason": "Four existing empty-zone observer controls accessed previously-unused layer constants eagerly; one exact historical-AST comparison needed narrowly authenticated four-layer extension."
+  },
+  "runtime005": {
+    "source_head": "38567ab3efd52f81923d2aabfb690cb5df3c8468",
+    "workflow_delivered": true,
+    "current_readers": [
+      {
+        "current": true,
+        "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-005/runtime/.runs/qualification-route/autorouter-gui-d3553aa70bc04e5fbcb9fc1b0506edbc/route/candidate/owned-four-copper-forced-inner.kicad_pcb",
+        "candidate_sha256": "66944e4bda02f4854cc67a9152de7d39a3e8aa8c3d6f04ae6acec35f0c988d95",
+        "applied": false,
+        "authentication": "none; mutable local evidence consistency only",
+        "warning": "Fresh native validation is required before application; human PCB review and electrical/physical validation remain required."
+      },
+      {
+        "current": true,
+        "export_accepted": true,
+        "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-005/runtime/.runs/qualification-route/autorouter-gui-d3553aa70bc04e5fbcb9fc1b0506edbc/export/validation/candidate/owned-four-copper-forced-inner.kicad_pcb",
+        "candidate_sha256": "66944e4bda02f4854cc67a9152de7d39a3e8aa8c3d6f04ae6acec35f0c988d95",
+        "original_routing_receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-005/runtime/.runs/qualification-route/autorouter-gui-d3553aa70bc04e5fbcb9fc1b0506edbc/route/result.json",
+        "applied": false,
+        "fresh_native_run_performed_by_check": false,
+        "warning": "Mutable local consistency proof; no authentication, live application, human PCB or electrical/manufacturing approval."
+      }
+    ],
+    "native": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 6,
+      "exclusions": 0,
+      "ignored_checks": [
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        }
+      ],
+      "findings": [
+        {
+          "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+          "items": [
+            {
+              "description": "Footprint J1",
+              "pos": {
+                "x": 12.0,
+                "y": 10.0
+              },
+              "uuid": "e0f1e400-0345-5582-be29-ecfc38486330"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_field_mismatch"
+        },
+        {
+          "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+          "items": [
+            {
+              "description": "Footprint J2",
+              "pos": {
+                "x": 26.0,
+                "y": 10.0
+              },
+              "uuid": "4fc3d2bc-21d8-5e0f-b345-e61931018efd"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_field_mismatch"
+        },
+        {
+          "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+          "items": [
+            {
+              "description": "Footprint J3",
+              "pos": {
+                "x": 12.0,
+                "y": 16.0
+              },
+              "uuid": "c7f956cb-4807-5b32-b814-9a00b5a214cb"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_field_mismatch"
+        },
+        {
+          "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+          "items": [
+            {
+              "description": "Footprint J4",
+              "pos": {
+                "x": 26.0,
+                "y": 16.0
+              },
+              "uuid": "daa8e6d3-a954-500e-a3e8-890bab8ea182"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_field_mismatch"
+        },
+        {
+          "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+          "items": [
+            {
+              "description": "Footprint J5",
+              "pos": {
+                "x": 12.0,
+                "y": 24.0
+              },
+              "uuid": "dc506506-6ca3-5466-b5a7-8cb9e70d1fe1"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_field_mismatch"
+        },
+        {
+          "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+          "items": [
+            {
+              "description": "Footprint J6",
+              "pos": {
+                "x": 26.0,
+                "y": 24.0
+              },
+              "uuid": "e683e253-d3ba-5301-a19c-4d7511658da8"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_field_mismatch"
+        }
+      ],
+      "field_parity": {
+        "schema": 1,
+        "policy": "datasheet-absence-only-v1",
+        "native_report_sha256": "c16fcc03a86237a5241ba322fb6ef0e5ffba1af71c655b580176e3870b93bf44",
+        "binding_sha256": "425fc1b7f61a398e25439f1ad9910db5cda812daa11e933f1e98f07ed0210d26",
+        "netlist_sha256": "76bf6a3bcbcebed92ecef2d311e0f93eb19faf05924ae39842235c9a69d2492b",
+        "fields_sha256": "de6ac97a11c9c912357b262fa907b048018e64cf637f2e37277f565dd4ca1384",
+        "qualification": {
+          "qualified": true,
+          "policy": "datasheet-effective-empty-v1",
+          "component_count": 6,
+          "compared_field_count": 18,
+          "comparison_map": [
+            {
+              "reference": "J1",
+              "uuid": "e0f1e400-0345-5582-be29-ecfc38486330",
+              "schematic_fields": {
+                "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J1",
+                "Datasheet": "",
+                "Description": "Project-owned transport diagnostic one-pin terminal"
+              },
+              "pcb_fields": {
+                "Datasheet": "~",
+                "Description": "Project-owned transport diagnostic one-pin terminal",
+                "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J1"
+              }
+            },
+            {
+              "reference": "J2",
+              "uuid": "4fc3d2bc-21d8-5e0f-b345-e61931018efd",
+              "schematic_fields": {
+                "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J2",
+                "Datasheet": "",
+                "Description": "Project-owned transport diagnostic one-pin terminal"
+              },
+              "pcb_fields": {
+                "Datasheet": "~",
+                "Description": "Project-owned transport diagnostic one-pin terminal",
+                "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J2"
+              }
+            },
+            {
+              "reference": "J3",
+              "uuid": "c7f956cb-4807-5b32-b814-9a00b5a214cb",
+              "schematic_fields": {
+                "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J3",
+                "Datasheet": "",
+                "Description": "Project-owned transport diagnostic one-pin terminal"
+              },
+              "pcb_fields": {
+                "Datasheet": "~",
+                "Description": "Project-owned transport diagnostic one-pin terminal",
+                "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J3"
+              }
+            },
+            {
+              "reference": "J4",
+              "uuid": "daa8e6d3-a954-500e-a3e8-890bab8ea182",
+              "schematic_fields": {
+                "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J4",
+                "Datasheet": "",
+                "Description": "Project-owned transport diagnostic one-pin terminal"
+              },
+              "pcb_fields": {
+                "Datasheet": "~",
+                "Description": "Project-owned transport diagnostic one-pin terminal",
+                "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J4"
+              }
+            },
+            {
+              "reference": "J5",
+              "uuid": "dc506506-6ca3-5466-b5a7-8cb9e70d1fe1",
+              "schematic_fields": {
+                "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J5",
+                "Datasheet": "",
+                "Description": "Project-owned transport diagnostic one-pin terminal"
+              },
+              "pcb_fields": {
+                "Datasheet": "~",
+                "Description": "Project-owned transport diagnostic one-pin terminal",
+                "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J5"
+              }
+            },
+            {
+              "reference": "J6",
+              "uuid": "e683e253-d3ba-5301-a19c-4d7511658da8",
+              "schematic_fields": {
+                "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J6",
+                "Datasheet": "",
+                "Description": "Project-owned transport diagnostic one-pin terminal"
+              },
+              "pcb_fields": {
+                "Datasheet": "~",
+                "Description": "Project-owned transport diagnostic one-pin terminal",
+                "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J6"
+              }
+            }
+          ],
+          "warning_uuids": [
+            "4fc3d2bc-21d8-5e0f-b345-e61931018efd",
+            "c7f956cb-4807-5b32-b814-9a00b5a214cb",
+            "daa8e6d3-a954-500e-a3e8-890bab8ea182",
+            "dc506506-6ca3-5466-b5a7-8cb9e70d1fe1",
+            "e0f1e400-0345-5582-be29-ecfc38486330",
+            "e683e253-d3ba-5301-a19c-4d7511658da8"
+          ],
+          "warning_hashes": [
+            "11c7952f45ce5545d7f8df269362f47ce73052d0a7246834c5bcd3ce2739b968",
+            "319b07ba68191f14f159da72471bce67ea36c0e4692f3ec4c675f6fa1bad239e",
+            "9b0a7f32e1ccbcfc4f30c5bd69f6504002525418c3a2fa520f72b7dde1c6742a",
+            "9d4a4c9575b1202251cd304ceda22553482c6cd3e28effd92f922549129a439d",
+            "af9064e596738de4bb0ee2b6134759c308d6ffe4e87fcd7c62ed43cbda9fcf45",
+            "e958dc8f14cb9843b9143fb1a7490349c3b78bc2ca848c63eb7c327333f72e2e"
+          ],
+          "native_export_sha256": "76bf6a3bcbcebed92ecef2d311e0f93eb19faf05924ae39842235c9a69d2492b",
+          "observer_sha256": "c35373173363e92858734c520e0a52f8dc4c9d408ba946213d4bff765900ae84",
+          "drc_report_sha256": "8d104b52d16ebb0504855f48ca17871b24f03a467c069e5cf76993fa8b02e0d6"
+        },
+        "local_settings_guard_sha256": "a811c45d39548d678107d4634d890bdbd521d2c27ffe2b069fcb70af6db2cb45"
+      }
+    },
+    "metrics": {
+      "version": "10.0.0",
+      "pads": 6,
+      "footprints": 6,
+      "zones": 3,
+      "vias": 4,
+      "track_length_mm": 154.35980561473033,
+      "copper_layers": 4
+    },
+    "wall_seconds": 32.24,
+    "full_CPU_seconds": 27.79,
+    "controller_result_sha256": "6a8e8c51b63b23fa90afc3ed0c18789633f868b2e56ba356dadd63f5668f5c0d",
+    "enclosure_sha256": "bd5006083f1b30c40242af146c8bc73ac7e920646ee6374bb47971d49e354e17",
+    "scope": "Actual curated005 product workflow Route/review/software intent/fresh Native export. This predates the final observer compatibility change and does not qualify its final bytes."
+  },
+  "correction": {
+    "runtime_file": "autorouter/floor_context.py",
+    "sha256": "88dc6bf29ff536f10cd4c37575ae2476ed056b05167007d65f0fe796360ebd3d",
+    "behavior": "Validate exact optional context first; defer layer constant lookup until an actual zone is observed, restoring the historical empty-zone path.",
+    "regression": "Explicit empty-zone/no-layer-constant positive in both contexts and malformed-context negative. AST comparison authenticates exact keyword/default, guard and layer-iterator additions, then requires the complete remaining historical collector AST to match. No old evidence/collector modified.",
+    "source_net_decoder_unchanged": true,
+    "original_rules_unchanged": true
+  },
+  "targeted": {
+    "observer": {
+      "methods": 11,
+      "passed": true,
+      "wall_seconds": 0.18,
+      "full_CPU_seconds": 0.13
+    },
+    "pour": {
+      "methods": 37,
+      "passed": true,
+      "wall_seconds": 0.53,
+      "full_CPU_seconds": 0.29
+    },
+    "retained_failed_targeted001": "AST test used Dict.values() instead of its values attribute; ten methods ran with one test error; log retained. Correction did not change runtime semantics."
+  },
+  "next": "Fresh curated006 Native routing/export, 2Cu Improve and same-rule negative control, followed by full138 on final module hashes. Current-source install qualification remains pending.",
+  "independent_review": "evidence/four-cu-observer-compatibility-notes-001/SKEPTICAL-REVIEW.md"
+}

@@ -14,6 +14,13 @@ class ObserverExportTests(unittest.TestCase):
         settings=SimpleNamespace(**{value:300000 for value in d.observer.FLOORS.values()})
         self.native=SimpleNamespace(GetCopperLayerCount=lambda:2,SynchronizeNetsAndNetClasses=lambda _:None,Zones=lambda:[],GetFootprints=lambda:[],GetPads=lambda:[],GetNetsByName=lambda:{},GetTracks=lambda:[],GetDrawings=lambda:[],GetDesignSettings=lambda:settings)
     def tearDown(self):self.tmp.cleanup()
+    def test_empty_areas_do_not_request_unused_layer_constants(self):
+        pcb=SimpleNamespace(PLACEMENT_SOURCE_T_SHEETNAME=0,PLACEMENT_SOURCE_T_COMPONENT_CLASS=1,PLACEMENT_SOURCE_T_GROUP_PLACEMENT=2,PLACEMENT_SOURCE_T_DESIGN_BLOCK=3)
+        for layers in (None,('F.Cu','In1.Cu','In2.Cu','B.Cu')):
+            with self.subTest(layers=layers):
+                self.assertEqual(observer.observe_areas(self.native,pcb,copper_layers=layers),{'zones':[],'footprint_zone_count':0,'footprint_rulearea_count':0})
+        with self.assertRaisesRegex(ValueError,'explicit canonical four-copper'):
+            observer.observe_areas(self.native,pcb,copper_layers=('F.Cu','In2.Cu','In1.Cu','B.Cu'))
     def collect(self,export):
         pcb=SimpleNamespace(PLACEMENT_SOURCE_T_SHEETNAME=0,PLACEMENT_SOURCE_T_COMPONENT_CLASS=1,PLACEMENT_SOURCE_T_GROUP_PLACEMENT=2,PLACEMENT_SOURCE_T_DESIGN_BLOCK=3,GetBuildVersion=lambda:'10.0.0',LoadBoard=lambda _:self.native,ExportSpecctraDSN=export)
         with patch.dict(sys.modules,{'pcbnew':pcb}):d.observer.collect('export',str(self.board),str(self.output),str(self.dsn),str(self.areas))
@@ -63,6 +70,21 @@ class ParityAndBounds(unittest.TestCase):
   for name in ('observe_areas','native_bool'):
    first=next(x for x in current.body if isinstance(x,ast.FunctionDef) and x.name==name)
    second=next(x for x in prior.body if isinstance(x,ast.FunctionDef) and x.name==name)
+   if name=='observe_areas':
+    # Permit only the reviewed explicit four-layer extension. After removing
+    # those exact additions, the complete old two-layer collector must match.
+    self.assertEqual([x.arg for x in first.args.kwonlyargs],['copper_layers'])
+    self.assertEqual(ast.dump(first.args.kw_defaults[0]),ast.dump(ast.Constant(value=None)))
+    guard=ast.parse("if copper_layers is not None and copper_layers != ('F.Cu','In1.Cu','In2.Cu','B.Cu'):\n raise ValueError('explicit canonical four-copper observation context required')").body[0]
+    self.assertEqual(ast.dump(first.body[0]),ast.dump(guard));first.body.pop(0)
+    first.args.kwonlyargs=[];first.args.kw_defaults=[]
+    def layers(function):
+     return next(value for node in ast.walk(function) if isinstance(node,ast.Dict)
+                 for key,value in zip(node.keys,node.values) if isinstance(key,ast.Constant) and key.value=='layers')
+    actual=layers(first).generators[0];old=layers(second).generators[0]
+    expected=ast.parse("((pcbnew.F_Cu,'F.Cu'),(pcbnew.B_Cu,'B.Cu')) if copper_layers is None else ((pcbnew.F_Cu,'F.Cu'),(pcbnew.In1_Cu,'In1.Cu'),(pcbnew.In2_Cu,'In2.Cu'),(pcbnew.B_Cu,'B.Cu'))",mode='eval').body
+    self.assertEqual(ast.dump(actual.iter),ast.dump(expected))
+    self.assertEqual(ast.dump(actual.iter.body),ast.dump(old.iter));actual.iter=copy.deepcopy(old.iter)
    self.assertEqual(ast.dump(first),ast.dump(second))
  def test_entry_and_file_limit_fail_before_unbounded_population(self):
   with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parent) as name:
