@@ -1,0 +1,87 @@
+{
+  "schema": 1,
+  "kind": "Finite capacity correction; new capture/full restoration still required",
+  "source_before": "fe9a38d13ecbd7583f86efeb5450c2063a78cae1",
+  "actual_failure": {
+    "attempt": "runtime008-milestone-incremental-execution-001",
+    "exit_code": 2,
+    "reason": "345000 file ceiling exceeded before new archive",
+    "new_archive": false,
+    "outer_wall_seconds": 183.26,
+    "outer_cpu_seconds": 92.9,
+    "controller_wall_seconds": 131.48443000001134,
+    "controller_full_cpu_seconds": 92.618181,
+    "accounting_note": "Outer and controller timings retained separately; discrepancy not rewritten."
+  },
+  "metadata_only": {
+    "files": 345262,
+    "directories": 80916,
+    "logical_bytes": 12715834030,
+    "wall_seconds": 17.85,
+    "full_cpu_seconds": 12.96,
+    "not_hash_or_backup_proof": true
+  },
+  "change": {
+    "MAX_FILES_before": 345000,
+    "MAX_FILES_after": 350000,
+    "file_headroom_at_census": 4738,
+    "unchanged": {
+      "bytes": 12884901888,
+      "receipt_bytes": 102760448,
+      "chain_receipt_bytes": 201326592,
+      "scope": [
+        ".runs",
+        ".data",
+        ".local-reference"
+      ],
+      "path_secret_archive_guards": true
+    }
+  },
+  "targeted": {
+    "methods": 54,
+    "passed": true,
+    "external_wall_seconds": 9.82,
+    "external_cpu_seconds": 8.6,
+    "session_exit_code": 0
+  },
+  "next": "Commit/read back source; capture runtime008 from existing restore-verified full base directly; perform new-target full restoration and restored-source builder. Do not repeat completed007 restoration.",
+  "limitation": "On this Mac only by owner choice; no disk-failure protection. Product/routing quality unchanged.",
+  "files": [
+    {
+      "path": "evidence/backups/runtime008-file-capacity-source-001/capture-execution.json",
+      "bytes": 3019,
+      "sha256": "8c8d3eb668a32c5255d97c1cbfb995c6b545d52f8027118e8e924262ba4b2160",
+      "source": ".local-backups/runtime008-milestone-incremental-execution-001/execution.json"
+    },
+    {
+      "path": "evidence/backups/runtime008-file-capacity-source-001/capture-command.log",
+      "bytes": 192,
+      "sha256": "935eb876a88d33d514a85ff40a2cdca7c013b8d83b16724a15ca798e4d52b7dd",
+      "source": ".local-backups/runtime008-milestone-incremental-execution-001/command.log"
+    },
+    {
+      "path": "evidence/backups/runtime008-file-capacity-source-001/capture-outer-time.log",
+      "bytes": 33,
+      "sha256": "44bad426ccb79ecf533a4cf7df4e126d13b753f45aed1832353cc79f9211c4be",
+      "source": ".local-backups/runtime008-incremental-wrapper-001-time.log"
+    },
+    {
+      "path": "evidence/backups/runtime008-file-capacity-source-001/capacity-metadata.json",
+      "bytes": 662,
+      "sha256": "c38b52a3346e42a1a029c2de3a0d2d251690011e3a45f1e6031c7f098c31a0c1",
+      "source": ".local-backups/runtime008-capacity-metadata-001.json"
+    },
+    {
+      "path": "evidence/backups/runtime008-file-capacity-source-001/capacity-metadata-time.log",
+      "bytes": 30,
+      "sha256": "a1dc8f9b34befcd68213b2f937eb219beadadc8d9335c8bd735e46b80ed001cd",
+      "source": ".local-backups/runtime008-capacity-metadata-001-time.log"
+    },
+    {
+      "path": "evidence/backups/runtime008-file-capacity-source-001/targeted-tests.log",
+      "bytes": 8845,
+      "sha256": "21eb52c1ab82518e0cf650d01e783fec5be5040a80a8770023574c1770310479",
+      "source": ".local-backups/runtime008-backup-capacity-targeted-001-time.log"
+    }
+  ]
+}

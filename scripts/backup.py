@@ -59,7 +59,11 @@ LIMIT = 12 * 1024 ** 3
 # The metadata-only census is337786files/12285579044B; the byte cap still fits.
 # Finite345000 retains it and one similarly sized integration/Native milestone.
 # Receipt/chain/byte/scopes/path/secret guards remain; new full restore required.
-MAX_FILES = 345000
+# Runtime008 capture refused345000; metadata-only census found345262 files /
+# 12715834030B, still below12GiB. Finite350000 retains the complete milestone
+# with4738 file slots; byte/receipt/chain/scopes/security guards stay fixed.
+# A new full restoration must qualify this finite capacity correction.
+MAX_FILES = 350000
 MAX_CHAIN = 16
 # Actual229,196-file receipt is63,984,764B. The249,270-file forecast needs
 # about70MB at that measured ratio;80MiB permits finite headroom. Two such
