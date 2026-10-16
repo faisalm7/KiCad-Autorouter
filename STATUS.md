@@ -2,6 +2,8 @@
 
 **Runtime008 completes the tested local KiCad workflow after correcting an intermittent fresh-export refusal.** It is built from source `76d2c666`; [full141](evidence/export-cpu-roundoff-source-full141-001.json), [fresh installed Native qualification](evidence/runtime008-export-accounting-integration-001.json) and [actual GUI059](evidence/gui-runtime008-059-native-opening-001.json) are separate evidence. This is a reliability improvement, not added routing completion or a completed release.
 
+New source430451aa also [qualifies duplicate non-electrical artwork field comparison](evidence/duplicate-artwork-field-native-001.json): actual10.0.0refill/fullSCH positive passes, a hidden ordinary Description mismatch refuses despite identical6warnings/2ignored checks. [Full142](evidence/duplicate-artwork-field-full142-001.json) passes. This resolves a specific field-census blocker; runtime008 remains the previous installed artifact until fresh installation/route/export qualification. No net-tie/hierarchy admission or added completion follows.
+
 | Area | Implemented / observed | Remaining gate |
 |---|---|---|
 | Product | Offline CLI/structured Request/Workflow and current KiCad IPC toolbar. Saved identity, persistent scope/protection/layers/preferences/budget, preview, progress/cancel, rendered review, accept/reject intent and fresh separate-project export. | Saved/closed source only. Unsaved buffers, transactional live application/undo and advanced electrical requirements unqualified. |
