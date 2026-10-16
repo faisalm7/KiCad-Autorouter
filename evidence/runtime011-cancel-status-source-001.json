@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "kind": "demonstrated-native-cancellation-status-correction",
+  "accepted": false,
+  "production_qualified": false,
+  "new_Native_executed_after_fix": false,
+  "actual_failure_evidence": "evidence/runtime011-flat-class-integration-001.json",
+  "failure": "Actual installed011 CliJob cancellation killed and cleaned the engine, and accepted remained false, but Job.step wrapped runner.cancelled as Rejected. Strict whole control batch failed; individual positive Native route/export evidence remains separate.",
+  "fix": "Reuse KeyboardInterrupt cancellation path after retaining the actual worker journal. Direct API signal/publication regression also retained; no fallback or acceptance standards changed.",
+  "targeted": {
+    "methods": 80,
+    "passed": true,
+    "wall_seconds": 11.11,
+    "full_CPU_seconds": 9.05,
+    "Native_executed": false
+  },
+  "source_sha256": {
+    "autorouter/pipeline.py": "9f94a60d7162da172b3c98417ab9f9a05cf8dabc9c667d6907cf96a6078fc050",
+    "tests/test_route_signal_boundary.py": "84c32fb2e9d27a145bd58d0994d96c36eb8105d6230382282cfea3bfd7da2c2c"
+  },
+  "next": "Full145 and fresh012 installed Native/cancel/negative/GUI qualification; preserve011 failed batch without rewriting.",
+  "files": [
+    {
+      "path": "evidence/runtime011-cancel-status-source-001-notes/class-route-targeted-005-time.log",
+      "bytes": 210,
+      "sha256": "94cfe4174d19bb6116e67b14b7bc3e71d4281bf527273b02897351fa1ff413f7"
+    },
+    {
+      "path": "evidence/runtime011-cancel-status-source-001-notes/curate-runtime011-class-integration-001.py",
+      "bytes": 6346,
+      "sha256": "d77dc7bffe81aac93dfca7ac40c38cd477cc5d4c153b28fd71cb665530128acc"
+    },
+    {
+      "path": "evidence/runtime011-cancel-status-source-001-notes/curate-runtime011-class-integration-001-time.log",
+      "bytes": 29,
+      "sha256": "11cfc5521c6bb44b7b42178cc4c501eef6a09e7ad97adf8a0b734b389c1500cd"
+    }
+  ]
+}

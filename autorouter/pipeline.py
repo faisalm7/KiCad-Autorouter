@@ -949,6 +949,7 @@ class Job:
         result=run([str(a) for a in argv],cwd=self.out,log=self.out/(name+'.log'),timeout=remaining,env=self.env)
         result['name']=name; self.steps.append(result)
         save_json(self.out/(name+'-process.json'),result)
+        if result['status']=='cancelled':raise KeyboardInterrupt
         if result['status'] not in ('success','nonzero_exit') or result['exit_code'] not in allowed:
             raise Rejected(name+': '+result['status']+' exit='+str(result['exit_code']))
         experimental_native_version(self.native_toolchain)

@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "accepted": false,
+  "controls_passed": false,
+  "process": {
+    "status": "nonzero_exit",
+    "exit_code": 2,
+    "wall_seconds": 34.414247791981325,
+    "cpu_seconds": 28.731894,
+    "max_rss_bytes": 233439232,
+    "supervisor_cpu_seconds": 0.7974,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 435159040,
+    "sampled_peak_workdir_bytes": 74815869,
+    "resource_guards": {
+      "max_group_rss_bytes": 4294967296,
+      "max_workdir_bytes": 268435456,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qualify-runtime011-class-controls.py",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/setup.json"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/enclosure-class-controls-001/command.log",
+    "log_bytes": 271,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime",
+    "signal_cancellation_enabled": true,
+    "pid": 3214
+  },
+  "driver_sha256": "2462279ff6cf1c53f659bba004d900322b8d91f10b25bc92ac7510eff8bd7eca",
+  "child_sha256": "dc6ad5fd9373bcfa0e6535c97f1f6035433904fea3e89fd19860d5b35fde10d6"
+}

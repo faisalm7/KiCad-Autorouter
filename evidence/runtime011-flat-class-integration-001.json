@@ -1,0 +1,2956 @@
+{
+  "schema": 1,
+  "kind": "actual-flat-class-installed-integration-with-cancel-status-defect",
+  "source_head": "ba81a11e0d4a3afbcfe2b1b50d18c5340963890f",
+  "accepted": false,
+  "full_qualification_passed": false,
+  "Native_executed": true,
+  "JVM_executed": true,
+  "actual_GUI": false,
+  "human_review": false,
+  "positive_cases": [
+    {
+      "name": "matching",
+      "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/result.json",
+      "receipt_sha256": "81f657aed0cee5519f6d23535cbe1ce2b5af2829fc02099c19855c8de4e08bf5",
+      "export": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/export.json",
+      "export_sha256": "7cbd5b585744cf16b8c02dea7604312395e292634e329ab2ff8fa197d550fed6",
+      "candidate_sha256": "9687b83d3a17d316970290b87cfa85cfb56dee7e1faafc865ea5415d7473a826",
+      "export_candidate_sha256": "9687b83d3a17d316970290b87cfa85cfb56dee7e1faafc865ea5415d7473a826",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 6,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J1",
+                "pos": {
+                  "x": 12.0,
+                  "y": 10.0
+                },
+                "uuid": "e0f1e400-0345-5582-be29-ecfc38486330"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J2",
+                "pos": {
+                  "x": 26.0,
+                  "y": 10.0
+                },
+                "uuid": "4fc3d2bc-21d8-5e0f-b345-e61931018efd"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J3",
+                "pos": {
+                  "x": 12.0,
+                  "y": 16.0
+                },
+                "uuid": "c7f956cb-4807-5b32-b814-9a00b5a214cb"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J4",
+                "pos": {
+                  "x": 26.0,
+                  "y": 16.0
+                },
+                "uuid": "daa8e6d3-a954-500e-a3e8-890bab8ea182"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J5",
+                "pos": {
+                  "x": 12.0,
+                  "y": 24.0
+                },
+                "uuid": "dc506506-6ca3-5466-b5a7-8cb9e70d1fe1"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J6",
+                "pos": {
+                  "x": 26.0,
+                  "y": 24.0
+                },
+                "uuid": "e683e253-d3ba-5301-a19c-4d7511658da8"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          }
+        ],
+        "field_parity": {
+          "schema": 1,
+          "policy": "datasheet-absence-only-v1",
+          "native_report_sha256": "96985df913b0f0da39ef282858ff6896dd18b1f58eb5c7731859e1559fd29e04",
+          "binding_sha256": "d3173a29113c070d90324ab3ce54813e5c6a1a08c399d935bb9261c5c9b682aa",
+          "netlist_sha256": "e38e104093cf50e532a03442ad3be6829ba1e8441f63f2c1702aa32e72779ef0",
+          "fields_sha256": "0d47e415088cdd30feb26975eac9f69dc421ada25a35c42e2064ddb1ccfba0a3",
+          "qualification": {
+            "qualified": true,
+            "policy": "datasheet-effective-empty-v1",
+            "component_count": 6,
+            "compared_field_count": 18,
+            "comparison_map": [
+              {
+                "reference": "J1",
+                "uuid": "e0f1e400-0345-5582-be29-ecfc38486330",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J1",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J1"
+                }
+              },
+              {
+                "reference": "J2",
+                "uuid": "4fc3d2bc-21d8-5e0f-b345-e61931018efd",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J2",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J2"
+                }
+              },
+              {
+                "reference": "J3",
+                "uuid": "c7f956cb-4807-5b32-b814-9a00b5a214cb",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J3",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J3"
+                }
+              },
+              {
+                "reference": "J4",
+                "uuid": "daa8e6d3-a954-500e-a3e8-890bab8ea182",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J4",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J4"
+                }
+              },
+              {
+                "reference": "J5",
+                "uuid": "dc506506-6ca3-5466-b5a7-8cb9e70d1fe1",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J5",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J5"
+                }
+              },
+              {
+                "reference": "J6",
+                "uuid": "e683e253-d3ba-5301-a19c-4d7511658da8",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J6",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J6"
+                }
+              }
+            ],
+            "warning_uuids": [
+              "4fc3d2bc-21d8-5e0f-b345-e61931018efd",
+              "c7f956cb-4807-5b32-b814-9a00b5a214cb",
+              "daa8e6d3-a954-500e-a3e8-890bab8ea182",
+              "dc506506-6ca3-5466-b5a7-8cb9e70d1fe1",
+              "e0f1e400-0345-5582-be29-ecfc38486330",
+              "e683e253-d3ba-5301-a19c-4d7511658da8"
+            ],
+            "warning_hashes": [
+              "11c7952f45ce5545d7f8df269362f47ce73052d0a7246834c5bcd3ce2739b968",
+              "319b07ba68191f14f159da72471bce67ea36c0e4692f3ec4c675f6fa1bad239e",
+              "9b0a7f32e1ccbcfc4f30c5bd69f6504002525418c3a2fa520f72b7dde1c6742a",
+              "9d4a4c9575b1202251cd304ceda22553482c6cd3e28effd92f922549129a439d",
+              "af9064e596738de4bb0ee2b6134759c308d6ffe4e87fcd7c62ed43cbda9fcf45",
+              "e958dc8f14cb9843b9143fb1a7490349c3b78bc2ca848c63eb7c327333f72e2e"
+            ],
+            "native_export_sha256": "e38e104093cf50e532a03442ad3be6829ba1e8441f63f2c1702aa32e72779ef0",
+            "observer_sha256": "e266cdb76ab6d151c30c818092858a1c42025f669260217326b1b8db2d0c556c",
+            "drc_report_sha256": "bd6f26050bddfde2a80752864dbb79e788fc419e487a27ef5f20aa6813878d81"
+          },
+          "local_settings_guard_sha256": "77a6068a740ec9c6579f39a21500d7644cac3ecd01851c11e8af5d6f93f3c68d"
+        }
+      },
+      "export_native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 6,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J1",
+                "pos": {
+                  "x": 12.0,
+                  "y": 10.0
+                },
+                "uuid": "e0f1e400-0345-5582-be29-ecfc38486330"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J2",
+                "pos": {
+                  "x": 26.0,
+                  "y": 10.0
+                },
+                "uuid": "4fc3d2bc-21d8-5e0f-b345-e61931018efd"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J3",
+                "pos": {
+                  "x": 12.0,
+                  "y": 16.0
+                },
+                "uuid": "c7f956cb-4807-5b32-b814-9a00b5a214cb"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J4",
+                "pos": {
+                  "x": 26.0,
+                  "y": 16.0
+                },
+                "uuid": "daa8e6d3-a954-500e-a3e8-890bab8ea182"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J5",
+                "pos": {
+                  "x": 12.0,
+                  "y": 24.0
+                },
+                "uuid": "dc506506-6ca3-5466-b5a7-8cb9e70d1fe1"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J6",
+                "pos": {
+                  "x": 26.0,
+                  "y": 24.0
+                },
+                "uuid": "e683e253-d3ba-5301-a19c-4d7511658da8"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          }
+        ],
+        "field_parity": {
+          "schema": 1,
+          "policy": "datasheet-absence-only-v1",
+          "native_report_sha256": "1596fe25bac7456bcd24e75ea499e63996d7655bcb2e756e4fc0ce3220c8aaf9",
+          "binding_sha256": "519285199e7ffe82f76594c00b0bd6487f76b20ee182965cf7d03cf773454a7d",
+          "netlist_sha256": "8fe6d12d89a0fd2f823401a3faa4c4d31333dcee7283df194ac71a19442f0289",
+          "fields_sha256": "736cf984a72ed2884479fed17d272508bcc628c3178964f2ad341315d45af9ec",
+          "qualification": {
+            "qualified": true,
+            "policy": "datasheet-effective-empty-v1",
+            "component_count": 6,
+            "compared_field_count": 18,
+            "comparison_map": [
+              {
+                "reference": "J1",
+                "uuid": "e0f1e400-0345-5582-be29-ecfc38486330",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J1",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J1"
+                }
+              },
+              {
+                "reference": "J2",
+                "uuid": "4fc3d2bc-21d8-5e0f-b345-e61931018efd",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J2",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J2"
+                }
+              },
+              {
+                "reference": "J3",
+                "uuid": "c7f956cb-4807-5b32-b814-9a00b5a214cb",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J3",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J3"
+                }
+              },
+              {
+                "reference": "J4",
+                "uuid": "daa8e6d3-a954-500e-a3e8-890bab8ea182",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J4",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J4"
+                }
+              },
+              {
+                "reference": "J5",
+                "uuid": "dc506506-6ca3-5466-b5a7-8cb9e70d1fe1",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J5",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J5"
+                }
+              },
+              {
+                "reference": "J6",
+                "uuid": "e683e253-d3ba-5301-a19c-4d7511658da8",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J6",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J6"
+                }
+              }
+            ],
+            "warning_uuids": [
+              "4fc3d2bc-21d8-5e0f-b345-e61931018efd",
+              "c7f956cb-4807-5b32-b814-9a00b5a214cb",
+              "daa8e6d3-a954-500e-a3e8-890bab8ea182",
+              "dc506506-6ca3-5466-b5a7-8cb9e70d1fe1",
+              "e0f1e400-0345-5582-be29-ecfc38486330",
+              "e683e253-d3ba-5301-a19c-4d7511658da8"
+            ],
+            "warning_hashes": [
+              "11c7952f45ce5545d7f8df269362f47ce73052d0a7246834c5bcd3ce2739b968",
+              "319b07ba68191f14f159da72471bce67ea36c0e4692f3ec4c675f6fa1bad239e",
+              "9b0a7f32e1ccbcfc4f30c5bd69f6504002525418c3a2fa520f72b7dde1c6742a",
+              "9d4a4c9575b1202251cd304ceda22553482c6cd3e28effd92f922549129a439d",
+              "af9064e596738de4bb0ee2b6134759c308d6ffe4e87fcd7c62ed43cbda9fcf45",
+              "e958dc8f14cb9843b9143fb1a7490349c3b78bc2ca848c63eb7c327333f72e2e"
+            ],
+            "native_export_sha256": "8fe6d12d89a0fd2f823401a3faa4c4d31333dcee7283df194ac71a19442f0289",
+            "observer_sha256": "9125fc2a563961732f958baff9072748dc63652e0949b227dfca713d8381322c",
+            "drc_report_sha256": "532cd3d3d965d2e926b351aeb9ca9198dfd1138c465dd6a9fffe2a99158dd510"
+          },
+          "local_settings_guard_sha256": "9c90965c873a20e48217c65febc501a928648d18928f46dfb899d6b060cebb6f"
+        }
+      },
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 6,
+        "footprints": 6,
+        "zones": 3,
+        "vias": 4,
+        "track_length_mm": 154.35980561473033,
+        "copper_layers": 4
+      },
+      "route_compute": {
+        "wall_seconds": 11.589402999961749,
+        "total_cpu_seconds": 8.348134
+      },
+      "export_compute": {
+        "wall_seconds": 7.1903428340447135,
+        "total_cpu_seconds": 5.909250999999999
+      },
+      "protected": 10,
+      "steps": [
+        "source-drc",
+        "export",
+        "task-classes-netlist",
+        "obstacles",
+        "engine",
+        "import",
+        "refill-drc",
+        "pour-keepout-audit",
+        "final-netclasses",
+        "final-drc",
+        "final-drc-fields-netlist",
+        "final-drc-fields-audit",
+        "final-classes-netlist",
+        "metrics"
+      ]
+    },
+    {
+      "name": "clean-field-direct",
+      "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/result.json",
+      "receipt_sha256": "b21afed79ee10c8e4a79242cf4135fbfd911d7d1e6a1188fb7341c08401629c2",
+      "export": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/export.json",
+      "export_sha256": "a826bba56b2065d2500d52cae4c97ed23ec50d9603484e53c2e92e88a37b5463",
+      "candidate_sha256": "2d17c95a479f8796907eb26a4caca827461a7185914f4c3f874b731b81c74589",
+      "export_candidate_sha256": "2d17c95a479f8796907eb26a4caca827461a7185914f4c3f874b731b81c74589",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          }
+        ],
+        "findings": []
+      },
+      "export_native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          }
+        ],
+        "findings": []
+      },
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 6,
+        "footprints": 6,
+        "zones": 3,
+        "vias": 4,
+        "track_length_mm": 154.35980561473033,
+        "copper_layers": 4
+      },
+      "route_compute": {
+        "wall_seconds": 10.291140792018268,
+        "total_cpu_seconds": 7.526222000000001
+      },
+      "export_compute": {
+        "wall_seconds": 6.15932141704252,
+        "total_cpu_seconds": 4.9022510000000015
+      },
+      "protected": 10,
+      "steps": [
+        "source-drc",
+        "export",
+        "task-classes-netlist",
+        "obstacles",
+        "engine",
+        "import",
+        "refill-drc",
+        "pour-keepout-audit",
+        "final-netclasses",
+        "final-drc",
+        "final-classes-netlist",
+        "metrics"
+      ]
+    }
+  ],
+  "actual_mismatch": {
+    "accepted": false,
+    "reason": "ClassIdentityMismatch: flat class parity: class_identity_mismatch on ROUTE: SCH='CRITICAL,POWER,Default', PCB='POWER,Default'",
+    "engine_started": false,
+    "steps": [
+      "source-drc",
+      "export",
+      "task-classes-netlist"
+    ]
+  },
+  "actual_cancellation": {
+    "accepted": false,
+    "route_status": "rejected",
+    "worker_status": "cancelled",
+    "worker_cleanup_complete": true,
+    "classification_correct": false,
+    "known_defect": "Job.step wrapped a cancelled runner as Rejected instead of propagating KeyboardInterrupt; no accepted fallback, but cancelled status missing"
+  },
+  "tamper_controls": [
+    {
+      "name": "dropped_both_class_proofs",
+      "passed": true,
+      "exception": "Rejected",
+      "reason": "missing source and final schematic class proof"
+    },
+    {
+      "name": "downgraded_final_proof",
+      "passed": true,
+      "exception": "ValueError",
+      "reason": "schematic class evidence: missing, downgraded or changed class-proof metadata"
+    },
+    {
+      "name": "changed_class_proof_bytes",
+      "passed": true,
+      "reason": "ValueError: schematic class evidence: missing, downgraded or changed class-proof metadata"
+    }
+  ],
+  "batch_status": "failed",
+  "batch_error": "AssertionError: ",
+  "external_compute": {
+    "build": {
+      "wall_seconds": 1.54,
+      "full_CPU_seconds": 1.33
+    },
+    "matching_workflow": {
+      "wall_seconds": 36.14,
+      "full_CPU_seconds": 31.43
+    },
+    "controls_entire_failed_batch": {
+      "wall_seconds": 34.53,
+      "full_CPU_seconds": 29.6
+    },
+    "subsets_not_added_again": true,
+    "research_authoring_review_costs": "not measured, not zero"
+  },
+  "scope": "Two owned variants in one exposed family: actual openROUTE completion, ten protectedsegments, class task before engine/final proof/own fresh Native export. clean-field case has no field-worker stages. Six Datasheet warnings retained on matching; clean variant0warnings;2original ignored checks each. No comparative quality or independent family/Windows/physical claim.",
+  "retention": "Selected complete owned project/Native inputs,reports,bindings,processes,class proofs,engine outputs/logs copied exactly; source code is remotely backed at source_head, excluded redundant code/runtime caches from this small packet. Full local evidence retained, not deleted. All originals unchanged.",
+  "files": [
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/candidate/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "9687b83d3a17d316970290b87cfa85cfb56dee7e1faafc865ea5415d7473a826",
+      "bytes": 14991,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/candidate/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/candidate/owned-four-copper-forced-inner.kicad_prl",
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "bytes": 189,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/candidate/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/candidate/owned-four-copper-forced-inner.kicad_pro",
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "bytes": 2964,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/candidate/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/candidate/owned-four-copper-forced-inner.kicad_sch",
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13",
+      "bytes": 8783,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/candidate/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/edge-adapter-input.dsn",
+      "sha256": "94b6d80cc6fca9aae7be836493a72107ab4b676fd7647352a9411a1747a2a309",
+      "bytes": 3296,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/edge-adapter-input.dsn"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/engine-process.json",
+      "sha256": "8923ab3bb037750a2bb562b29a1f39ec19831171e2ee7c784437dd800bbf17eb",
+      "bytes": 3022,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/engine-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/engine.log",
+      "sha256": "e5932733d48abaaf910f2b958c25fb72499255fbeba08d9cad3afec5840c66ed",
+      "bytes": 7257,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/engine.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/export-netclasses.json",
+      "sha256": "2efdae002f8390d842e773928bb7e0af65b8233992522e4f16a6ca0cd1931469",
+      "bytes": 3633,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/export-netclasses.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/export-process.json",
+      "sha256": "bf260b668548a28a40a6a6dd27a7ce36cd961b4cb0081803fbebad7d1cfa86e7",
+      "bytes": 2418,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/export-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/export.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/export.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/final-classes-binding.json",
+      "sha256": "acc77a9a22f8899f32aad7d2aa3ccf47659ad88f7742bea78aab49f5f5716ae3",
+      "bytes": 4148,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/final-classes-binding.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/final-classes-input/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "9687b83d3a17d316970290b87cfa85cfb56dee7e1faafc865ea5415d7473a826",
+      "bytes": 14991,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/final-classes-input/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/final-classes-input/owned-four-copper-forced-inner.kicad_prl",
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "bytes": 189,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/final-classes-input/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/final-classes-input/owned-four-copper-forced-inner.kicad_pro",
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "bytes": 2964,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/final-classes-input/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/final-classes-input/owned-four-copper-forced-inner.kicad_sch",
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13",
+      "bytes": 8783,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/final-classes-input/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/final-classes-netlist-process.json",
+      "sha256": "e35fb618ee5436ad1c346d988e5e5b153f3637e37050a3632fe53fae593f0f25",
+      "bytes": 2188,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/final-classes-netlist-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/final-classes-netlist.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/final-classes-netlist.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/final-classes-proof.json",
+      "sha256": "1e727f1f5f375e43b3249baa5eae6e0533f9e06d604eb1155c6c60376be3beee",
+      "bytes": 5245,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/final-classes-proof.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/final-classes.net",
+      "sha256": "bbc09046be65eb0df0f4b19a6be5287c83aec09d1dde81fea4b2a0a29fb8ddb8",
+      "bytes": 9262,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/final-classes.net"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/final-drc-binding.json",
+      "sha256": "d3173a29113c070d90324ab3ce54813e5c6a1a08c399d935bb9261c5c9b682aa",
+      "bytes": 1577,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/final-drc-binding.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/final-drc-fields-audit-process.json",
+      "sha256": "ee94271631b76b7c98c812190fb79ae8f3cdd11550b48eb72e935e8a127c141f",
+      "bytes": 2274,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/final-drc-fields-audit-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/final-drc-fields-audit.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/final-drc-fields-audit.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/final-drc-fields-local-settings.json",
+      "sha256": "77a6068a740ec9c6579f39a21500d7644cac3ecd01851c11e8af5d6f93f3c68d",
+      "bytes": 2000,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/final-drc-fields-local-settings.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/final-drc-fields-netlist-process.json",
+      "sha256": "45ac2be0cf998523ada99152e06cbbed7a66498deed396b7c5aa6a76145d0778",
+      "bytes": 2193,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/final-drc-fields-netlist-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/final-drc-fields-netlist.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/final-drc-fields-netlist.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/final-drc-fields-proof.json",
+      "sha256": "0f2f697e7ca421bb3a8e8a05395b18f8d460126bc6325fdc1299d38d0715d4c7",
+      "bytes": 4998,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/final-drc-fields-proof.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/final-drc-fields.json",
+      "sha256": "0d47e415088cdd30feb26975eac9f69dc421ada25a35c42e2064ddb1ccfba0a3",
+      "bytes": 2365,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/final-drc-fields.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/final-drc-fields.net",
+      "sha256": "e38e104093cf50e532a03442ad3be6829ba1e8441f63f2c1702aa32e72779ef0",
+      "bytes": 9258,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/final-drc-fields.net"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/final-drc-input/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "9687b83d3a17d316970290b87cfa85cfb56dee7e1faafc865ea5415d7473a826",
+      "bytes": 14991,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/final-drc-input/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/final-drc-input/owned-four-copper-forced-inner.kicad_prl",
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "bytes": 189,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/final-drc-input/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/final-drc-input/owned-four-copper-forced-inner.kicad_pro",
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "bytes": 2964,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/final-drc-input/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/final-drc-input/owned-four-copper-forced-inner.kicad_sch",
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13",
+      "bytes": 8783,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/final-drc-input/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/final-drc-process.json",
+      "sha256": "3012b2a5ba52eecb6e32768f1350cbd7d0996feed09cdc209904813c624d214f",
+      "bytes": 2836,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/final-drc-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/final-drc.json",
+      "sha256": "96985df913b0f0da39ef282858ff6896dd18b1f58eb5c7731859e1559fd29e04",
+      "bytes": 3717,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/final-drc.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/final-drc.log",
+      "sha256": "876ed56862b3d6a051e267cb04030bd24e603accc04d05bb56429db40811f82f",
+      "bytes": 277,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/final-drc.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/final-netclass-audit.json",
+      "sha256": "f81bca6ef09ec6f46db7794d6a5d0e1bf25b3bab0a7206effb29e2963cc7b039",
+      "bytes": 3776,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/final-netclass-audit.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/final-netclasses-process.json",
+      "sha256": "712031c2203e47ba43351159fe38f9daed4c2ca133966cd01687c9e699229b7b",
+      "bytes": 2260,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/final-netclasses-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/final-netclasses.json",
+      "sha256": "c1d31c45bf0990527878aad915fbfbc0da7b800105ccd569e28fb18a1e2a5f31",
+      "bytes": 3633,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/final-netclasses.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/final-netclasses.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/final-netclasses.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/import-process.json",
+      "sha256": "e1a79fa8723dd96b4ba99b5c26d05fb8ad9d0c4d31c40e3d1f6e16717e139bb1",
+      "bytes": 2405,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/import-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/import.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/import.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/imported.kicad_pcb",
+      "sha256": "bd01d922ee9755e5e5e56758d9f821e606b1d6c78935ac8803407386a9076d50",
+      "bytes": 17658,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/imported.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/imported.kicad_prl",
+      "sha256": "7d9ad4476f33f37f2a7260669e933885b08555cc667b8a58a3980a10d5e0a4dd",
+      "bytes": 2295,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/imported.kicad_prl"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/imported.kicad_pro",
+      "sha256": "3631a72147c106e6b0622ae9c7c303cf9f5c3edce234223a5d149c289c09219d",
+      "bytes": 10190,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/imported.kicad_pro"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/imported.routes-only.json",
+      "sha256": "03164b7cd2dddcf54513b27ec2bde6ca3c9ac388a12b495ffd572cdb8b792176",
+      "bytes": 897,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/imported.routes-only.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/imported.routes-only.ses",
+      "sha256": "28e76918b9e6cd95590c991bcda9c9106b49122664fcb8fe3a4f1d204ec0cc73",
+      "bytes": 1258,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/imported.routes-only.ses"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/metrics-process.json",
+      "sha256": "68f3296ff57b54255319bae6883722bae01c546b3c9822141d71a85cddd35d36",
+      "bytes": 2218,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/metrics-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/metrics.json",
+      "sha256": "e6415b89c88d2d033f397c438f8bde9d04a7069337312b1a82aebb2b103b4ed4",
+      "bytes": 148,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/metrics.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/metrics.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/metrics.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/native-edge-correction.json",
+      "sha256": "933dd517877fa8089f5454882c19a72ae5194cdfb783f0eed8c21bbf1fe0d296",
+      "bytes": 701,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/native-edge-correction.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/native.dsn",
+      "sha256": "7d47ebdc02a6a3f4e9db6c518181bc84e2170def470c65f9f38c326709da882d",
+      "bytes": 4434,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/native.dsn"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/obstacles-process.json",
+      "sha256": "3fdefe3cfa061f9f538158ed3eb0d9e74ead6fc9967d234cdfcd495d6477478e",
+      "bytes": 2227,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/obstacles-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/obstacles.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "bytes": 3,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/obstacles.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/obstacles.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/obstacles.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/pour-before-refill.kicad_pcb",
+      "sha256": "4eaa613a38af618f1f6f184fa2d41fd058506fd244c334536d17cb811cb19cc2",
+      "bytes": 13703,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/pour-before-refill.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/pour-corrected.dsn",
+      "sha256": "626cb569d6230bae047e5b4197668f39c7045f83c95c410546a15483c6af68b6",
+      "bytes": 3482,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/pour-corrected.dsn"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/pour-dsn-correction.json",
+      "sha256": "7e1dc5ae0c3cde3e45cbbb36cfd1c239523aad0fad9cf41680010e583ddc4c36",
+      "bytes": 2213,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/pour-dsn-correction.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/pour-keepout-audit-process.json",
+      "sha256": "e8a5590a0092a847ff6e89b3876c6d9d92977e84ae6427363d04d2e4af050aec",
+      "bytes": 2265,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/pour-keepout-audit-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/pour-keepout-audit.json",
+      "sha256": "63f70ab6381a6f8d4ab732a674401f8c7671c1eadbca14ad2da600f656fee5ee",
+      "bytes": 4449,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/pour-keepout-audit.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/pour-keepout-audit.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/pour-keepout-audit.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/pre-refill.kicad_pcb",
+      "sha256": "4eaa613a38af618f1f6f184fa2d41fd058506fd244c334536d17cb811cb19cc2",
+      "bytes": 13703,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/pre-refill.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/refill-drc-binding.json",
+      "sha256": "e068275fcb5b24b6047eb84a41f78a76ada52762cd9846382c5f8f88c6c13e35",
+      "bytes": 1495,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/refill-drc-binding.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/refill-drc-process.json",
+      "sha256": "7214158583159b44c22adad2c2177b59508ef3f18cd7d566649c4aea4ffc0b5e",
+      "bytes": 2821,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/refill-drc-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/refill-drc.json",
+      "sha256": "a3c170ec44c04c3700c48f35806feee5963a9684b93608164bb59cca614278b3",
+      "bytes": 683,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/refill-drc.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/refill-drc.log",
+      "sha256": "5269e1df9c6ccc4808251529a15015ff609802231708ffb1d45d9682955ba522",
+      "bytes": 258,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/refill-drc.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/refill/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "7d5620021753b45116af3e085132b310b226890826ee50b895e9f83a09ee7867",
+      "bytes": 19024,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/refill/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/refill/owned-four-copper-forced-inner.kicad_prl",
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "bytes": 189,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/refill/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/refill/owned-four-copper-forced-inner.kicad_pro",
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "bytes": 2964,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/refill/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/refill/owned-four-copper-forced-inner.kicad_sch",
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13",
+      "bytes": 8783,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/refill/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/result.json",
+      "sha256": "81f657aed0cee5519f6d23535cbe1ce2b5af2829fc02099c19855c8de4e08bf5",
+      "bytes": 75124,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/result.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/routes.ses",
+      "sha256": "c5af5fba21b6e26744baef4f962b762a2d89a6184efe1985e6c9391a2b1dc661",
+      "bytes": 2549,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/routes.ses"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/routing-preferences.json",
+      "sha256": "9a5cec3de76956925dfb9262b66f24e0dfd6d5e502a7da252fc77e46eb3106a3",
+      "bytes": 776,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/routing-preferences.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/snapshot/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e",
+      "bytes": 11960,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/snapshot/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/snapshot/owned-four-copper-forced-inner.kicad_prl",
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "bytes": 189,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/snapshot/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/snapshot/owned-four-copper-forced-inner.kicad_pro",
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "bytes": 2964,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/snapshot/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/snapshot/owned-four-copper-forced-inner.kicad_sch",
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13",
+      "bytes": 8783,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/snapshot/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/source-drc-binding.json",
+      "sha256": "8a33f1151bf86e873dda75b89b097f9d45d99cf968a0587f849660aedfdea397",
+      "bytes": 1508,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/source-drc-binding.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/source-drc-input/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e",
+      "bytes": 11960,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/source-drc-input/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/source-drc-input/owned-four-copper-forced-inner.kicad_prl",
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "bytes": 189,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/source-drc-input/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/source-drc-input/owned-four-copper-forced-inner.kicad_pro",
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "bytes": 2964,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/source-drc-input/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/source-drc-input/owned-four-copper-forced-inner.kicad_sch",
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13",
+      "bytes": 8783,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/source-drc-input/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/source-drc-process.json",
+      "sha256": "7de6378bd8b18af631e8fffb70a30bc8d95e6403770d80201e34c89c3ce7439d",
+      "bytes": 2827,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/source-drc-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/source-drc.json",
+      "sha256": "a5471ff0eafe6f9d511a1f1fd1c4f84e4f5c74d3aeab134e72768c8230285801",
+      "bytes": 1463,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/source-drc.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/source-drc.log",
+      "sha256": "10f19e3ec3dd3f127b57d3034aad18f260798084874733b887dd9f678cca43c3",
+      "bytes": 246,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/source-drc.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/task-classes-binding.json",
+      "sha256": "d1f144eea6f15572a73aa4a9653166551506b8de7be3999685fbb983dd9dd730",
+      "bytes": 4324,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/task-classes-binding.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/task-classes-input/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e",
+      "bytes": 11960,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/task-classes-input/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/task-classes-input/owned-four-copper-forced-inner.kicad_prl",
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "bytes": 189,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/task-classes-input/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/task-classes-input/owned-four-copper-forced-inner.kicad_pro",
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "bytes": 2964,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/task-classes-input/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/task-classes-input/owned-four-copper-forced-inner.kicad_sch",
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13",
+      "bytes": 8783,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/task-classes-input/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/task-classes-netlist-process.json",
+      "sha256": "6a85161526541cd0f5ea6caeb3542ff446231584277862b087987bc87af51ccd",
+      "bytes": 2184,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/task-classes-netlist-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/task-classes-netlist.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/task-classes-netlist.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/task-classes-proof.json",
+      "sha256": "5f8a8c13b07b264c7420e15900d4cc4668a4afc709abe0401b8c9cbd70e3ec20",
+      "bytes": 5243,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/task-classes-proof.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/task-classes.net",
+      "sha256": "b5cd5ebbfcc99dcc5285a238cff4abeb38dc1fba1f7d9244afedc043bdcd3dd4",
+      "bytes": 9261,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/task-classes.net"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/task.alias-export.json",
+      "sha256": "a3d2cd2ad4ad8106b727dba679b4e900fe2e8059ab14a88eda29cde4770faffa",
+      "bytes": 4418,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/task.alias-export.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/task.alias-source.kicad_pcb",
+      "sha256": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e",
+      "bytes": 11960,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/task.alias-source.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-route/task.dsn",
+      "sha256": "94b6d80cc6fca9aae7be836493a72107ab4b676fd7647352a9411a1747a2a309",
+      "bytes": 3296,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/route/task.dsn"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/candidate/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "9687b83d3a17d316970290b87cfa85cfb56dee7e1faafc865ea5415d7473a826",
+      "bytes": 14991,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/candidate/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/candidate/owned-four-copper-forced-inner.kicad_prl",
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "bytes": 189,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/candidate/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/candidate/owned-four-copper-forced-inner.kicad_pro",
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "bytes": 2964,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/candidate/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/candidate/owned-four-copper-forced-inner.kicad_sch",
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13",
+      "bytes": 8783,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/candidate/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/final-classes-binding.json",
+      "sha256": "3669dcae60f7a3d0830639fb0d379050f74d258a4aa2fad130c5226478278e97",
+      "bytes": 4432,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/final-classes-binding.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/final-classes-input/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "9687b83d3a17d316970290b87cfa85cfb56dee7e1faafc865ea5415d7473a826",
+      "bytes": 14991,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/final-classes-input/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/final-classes-input/owned-four-copper-forced-inner.kicad_prl",
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "bytes": 189,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/final-classes-input/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/final-classes-input/owned-four-copper-forced-inner.kicad_pro",
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "bytes": 2964,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/final-classes-input/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/final-classes-input/owned-four-copper-forced-inner.kicad_sch",
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13",
+      "bytes": 8783,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/final-classes-input/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/final-classes-netlist-process.json",
+      "sha256": "c94b197b061b380b0d3cea456143e13926122beacb87bdf032322b8ad0c37a06",
+      "bytes": 2335,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/final-classes-netlist-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/final-classes-netlist.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/final-classes-netlist.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/final-classes-proof.json",
+      "sha256": "095b5660e030d955cbf7244f46c3992e125548d84c9a714308c0258c4a11dd38",
+      "bytes": 5269,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/final-classes-proof.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/final-classes.net",
+      "sha256": "18e05c375dc6c36458988b0deb86cdde51c93a2337e915e76c8849449fe838b9",
+      "bytes": 9274,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/final-classes.net"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/final-drc-binding.json",
+      "sha256": "519285199e7ffe82f76594c00b0bd6487f76b20ee182965cf7d03cf773454a7d",
+      "bytes": 1601,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/final-drc-binding.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/final-drc-fields-audit-process.json",
+      "sha256": "06173b5b54ee89982701fa28e58ab31888aa4ba99775a6f1c63046a9173e782c",
+      "bytes": 2409,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/final-drc-fields-audit-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/final-drc-fields-audit.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/final-drc-fields-audit.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/final-drc-fields-local-settings.json",
+      "sha256": "9c90965c873a20e48217c65febc501a928648d18928f46dfb899d6b060cebb6f",
+      "bytes": 2024,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/final-drc-fields-local-settings.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/final-drc-fields-netlist-process.json",
+      "sha256": "4860d475ea4975d267a203028be248bac1773577c1de3a794f56971d5faf974a",
+      "bytes": 2341,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/final-drc-fields-netlist-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/final-drc-fields-netlist.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/final-drc-fields-netlist.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/final-drc-fields-proof.json",
+      "sha256": "d56b5d117aa79f4be7897503e34ae02f38753fef02c5f60bd3d6f7fc7c8fe48d",
+      "bytes": 4998,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/final-drc-fields-proof.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/final-drc-fields.json",
+      "sha256": "736cf984a72ed2884479fed17d272508bcc628c3178964f2ad341315d45af9ec",
+      "bytes": 2377,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/final-drc-fields.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/final-drc-fields.net",
+      "sha256": "8fe6d12d89a0fd2f823401a3faa4c4d31333dcee7283df194ac71a19442f0289",
+      "bytes": 9270,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/final-drc-fields.net"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/final-drc-input/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "9687b83d3a17d316970290b87cfa85cfb56dee7e1faafc865ea5415d7473a826",
+      "bytes": 14991,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/final-drc-input/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/final-drc-input/owned-four-copper-forced-inner.kicad_prl",
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "bytes": 189,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/final-drc-input/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/final-drc-input/owned-four-copper-forced-inner.kicad_pro",
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "bytes": 2964,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/final-drc-input/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/final-drc-input/owned-four-copper-forced-inner.kicad_sch",
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13",
+      "bytes": 8783,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/final-drc-input/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/final-drc-process.json",
+      "sha256": "74972bbb56fc7b8a687d4dc25b986ce51edb065517e58eb7c633b2cc5221a7aa",
+      "bytes": 2995,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/final-drc-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/final-drc.json",
+      "sha256": "1596fe25bac7456bcd24e75ea499e63996d7655bcb2e756e4fc0ce3220c8aaf9",
+      "bytes": 3717,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/final-drc.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/final-drc.log",
+      "sha256": "1849ca5caa9798850dae28df6aacf2b6093a3a37f48d1ad8abb8d83d587fb682",
+      "bytes": 289,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/final-drc.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/final-netclass-audit.json",
+      "sha256": "fcb69490001802e4675cb81ffdc3a9506a6e20207529477317629b55fd16aaa8",
+      "bytes": 3776,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/final-netclass-audit.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/final-netclasses-process.json",
+      "sha256": "09f0dac22e7191aa8159703226d1e09ed1d0b9d145aa5ce61ba1ec9e1ab24cc7",
+      "bytes": 2385,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/final-netclasses-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/final-netclasses.json",
+      "sha256": "39df4b7decfb74912238924673402cd2fa4c467b138652b0e7f8ff39b4b61220",
+      "bytes": 3645,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/final-netclasses.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/final-netclasses.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/final-netclasses.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/metrics-process.json",
+      "sha256": "b8adc17d2f8395092fad264a4487a8583d0e24a20f3dfa4de036cf9d4af57797",
+      "bytes": 2354,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/metrics-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/metrics.json",
+      "sha256": "e6415b89c88d2d033f397c438f8bde9d04a7069337312b1a82aebb2b103b4ed4",
+      "bytes": 148,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/metrics.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/metrics.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/metrics.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/pour-before-refill.kicad_pcb",
+      "sha256": "9687b83d3a17d316970290b87cfa85cfb56dee7e1faafc865ea5415d7473a826",
+      "bytes": 14991,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/pour-before-refill.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/pour-keepout-audit-process.json",
+      "sha256": "ee2af107237b23502566caae07603650d92a19dcdb24cb5af10a199fd36c1075",
+      "bytes": 2402,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/pour-keepout-audit-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/pour-keepout-audit.json",
+      "sha256": "da683a750543f9db6d35568c71094d7d60a8022ac0c2aaadc54c6bf943465c19",
+      "bytes": 4461,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/pour-keepout-audit.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/pour-keepout-audit.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/pour-keepout-audit.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/pre-refill.kicad_pcb",
+      "sha256": "9687b83d3a17d316970290b87cfa85cfb56dee7e1faafc865ea5415d7473a826",
+      "bytes": 14991,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/pre-refill.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/refill-drc-binding.json",
+      "sha256": "b3ba0520c9ce7779a009ea7fc165d0d534c3aab95ba3cf386099f6efe32b83a3",
+      "bytes": 1519,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/refill-drc-binding.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/refill-drc-process.json",
+      "sha256": "5b927c7743478b3e18df7b17e1b2beae0c719cc660059b52bf8b6500acb60c50",
+      "bytes": 2969,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/refill-drc-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/refill-drc.json",
+      "sha256": "fabd0e9870684cc9b374f2fd8e937360d52ac3341901f5289432d2944b004898",
+      "bytes": 683,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/refill-drc.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/refill-drc.log",
+      "sha256": "7c2b11494c53f1c1f2d1229b19e1cd8b093debca994c13530295e55e133c9fa4",
+      "bytes": 270,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/refill-drc.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/refill/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "7d5620021753b45116af3e085132b310b226890826ee50b895e9f83a09ee7867",
+      "bytes": 19024,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/refill/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/refill/owned-four-copper-forced-inner.kicad_prl",
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "bytes": 189,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/refill/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/refill/owned-four-copper-forced-inner.kicad_pro",
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "bytes": 2964,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/refill/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/refill/owned-four-copper-forced-inner.kicad_sch",
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13",
+      "bytes": 8783,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/refill/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/snapshot/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e",
+      "bytes": 11960,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/snapshot/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/snapshot/owned-four-copper-forced-inner.kicad_prl",
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "bytes": 189,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/snapshot/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/snapshot/owned-four-copper-forced-inner.kicad_pro",
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "bytes": 2964,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/snapshot/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/matching-export/snapshot/owned-four-copper-forced-inner.kicad_sch",
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13",
+      "bytes": 8783,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/validation/snapshot/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/candidate/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "2d17c95a479f8796907eb26a4caca827461a7185914f4c3f874b731b81c74589",
+      "bytes": 14985,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/candidate/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/candidate/owned-four-copper-forced-inner.kicad_prl",
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "bytes": 189,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/candidate/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/candidate/owned-four-copper-forced-inner.kicad_pro",
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "bytes": 2964,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/candidate/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/candidate/owned-four-copper-forced-inner.kicad_sch",
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13",
+      "bytes": 8783,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/candidate/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/edge-adapter-input.dsn",
+      "sha256": "84a6deb4ef9f48e50675962ed5b8dfb76a92ec43a9e6423baef83f9bfdc39428",
+      "bytes": 3250,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/edge-adapter-input.dsn"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/engine-process.json",
+      "sha256": "5d62404239a76ead6fb15dcd5060d243139bfee568ddedc9ceede550503d7f3b",
+      "bytes": 2802,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/engine-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/engine.log",
+      "sha256": "4048709c5f72cb508cc0327cb418fa04bbf63b553a5ca0febe62d239d0814e96",
+      "bytes": 7165,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/engine.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/export-netclasses.json",
+      "sha256": "9158306ea7f62f41078aeed4c4a3522100fb3dc1a49ad028c19cd00a31d2cd9a",
+      "bytes": 3587,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/export-netclasses.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/export-process.json",
+      "sha256": "e9678a29cd19b12e8e7d22d4417bc276b01aa85f5d82d17ba08ce35626a48ac2",
+      "bytes": 2188,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/export-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/export.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/export.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/final-classes-binding.json",
+      "sha256": "71b74122b3237455e5a32408dafaa46fde02a7bd991298c7c64a706b3f351250",
+      "bytes": 3780,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/final-classes-binding.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/final-classes-input/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "2d17c95a479f8796907eb26a4caca827461a7185914f4c3f874b731b81c74589",
+      "bytes": 14985,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/final-classes-input/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/final-classes-input/owned-four-copper-forced-inner.kicad_prl",
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "bytes": 189,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/final-classes-input/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/final-classes-input/owned-four-copper-forced-inner.kicad_pro",
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "bytes": 2964,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/final-classes-input/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/final-classes-input/owned-four-copper-forced-inner.kicad_sch",
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13",
+      "bytes": 8783,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/final-classes-input/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/final-classes-netlist-process.json",
+      "sha256": "7101009ce08c9ae92594fa801036036f00cd72e507febe0bc34c1c50e6b431ce",
+      "bytes": 2016,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/final-classes-netlist-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/final-classes-netlist.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/final-classes-netlist.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/final-classes-proof.json",
+      "sha256": "041f00b2c52e36e75ba68bb94464d78986195a87e4bbf6a6a6a812e0baa667f6",
+      "bytes": 5153,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/final-classes-proof.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/final-classes.net",
+      "sha256": "1f92138c0055f135c961b209a4abf4fe0d11ad803ae6009759420b6b8e5bce55",
+      "bytes": 9216,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/final-classes.net"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/final-drc-binding.json",
+      "sha256": "4a4c0001431ce3b92267ed2017fc3aa74233c490a732db540ab58011a49639bd",
+      "bytes": 1485,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/final-drc-binding.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/final-drc-input/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "2d17c95a479f8796907eb26a4caca827461a7185914f4c3f874b731b81c74589",
+      "bytes": 14985,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/final-drc-input/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/final-drc-input/owned-four-copper-forced-inner.kicad_prl",
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "bytes": 189,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/final-drc-input/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/final-drc-input/owned-four-copper-forced-inner.kicad_pro",
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "bytes": 2964,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/final-drc-input/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/final-drc-input/owned-four-copper-forced-inner.kicad_sch",
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13",
+      "bytes": 8783,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/final-drc-input/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/final-drc-process.json",
+      "sha256": "2c7e7fd03292e5d36708058e701c69dd517c33cf538a55e3588074fc25efd599",
+      "bytes": 2624,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/final-drc-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/final-drc.json",
+      "sha256": "2eb481fd8c9f91b47728d8a2a3cf6fd13c7d38e315911a9810bac2999511b59f",
+      "bytes": 683,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/final-drc.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/final-drc.log",
+      "sha256": "77cf2b9febf03ca4a0f655d6d7e18c3857b6a210104849509920bde71d73ff7c",
+      "bytes": 231,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/final-drc.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/final-netclass-audit.json",
+      "sha256": "0878a4475519cf6f59969935a539c7095c3951d81ca69ec5b15137a7eb0c04db",
+      "bytes": 3776,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/final-netclass-audit.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/final-netclasses-process.json",
+      "sha256": "ed0f82cfa694856e764bbc2b55aa7f5e2d57c78ceaa0460bb43690b91f8b544b",
+      "bytes": 2076,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/final-netclasses-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/final-netclasses.json",
+      "sha256": "7a75114fbfa8a4c693fb28f52ded03f033d36b56ceabcf9ad68317cc881531aa",
+      "bytes": 3587,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/final-netclasses.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/final-netclasses.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/final-netclasses.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/import-process.json",
+      "sha256": "0bb5c42db08227927e1ba8665cf78f9aa588564ba19ab8543b12be0ebe29c5d7",
+      "bytes": 2175,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/import-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/import.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/import.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/imported.kicad_pcb",
+      "sha256": "f205b2e53644441f79ff9aa0bbaedd8a25ce9d0f2454983823205e8a7a0c17e9",
+      "bytes": 17652,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/imported.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/imported.kicad_prl",
+      "sha256": "7d9ad4476f33f37f2a7260669e933885b08555cc667b8a58a3980a10d5e0a4dd",
+      "bytes": 2295,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/imported.kicad_prl"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/imported.kicad_pro",
+      "sha256": "3631a72147c106e6b0622ae9c7c303cf9f5c3edce234223a5d149c289c09219d",
+      "bytes": 10190,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/imported.kicad_pro"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/imported.routes-only.json",
+      "sha256": "636d81c524c43897b56d80e65ee1546a5d235b228f7cee6d045e6163c0f615e3",
+      "bytes": 805,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/imported.routes-only.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/imported.routes-only.ses",
+      "sha256": "28e76918b9e6cd95590c991bcda9c9106b49122664fcb8fe3a4f1d204ec0cc73",
+      "bytes": 1258,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/imported.routes-only.ses"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/metrics-process.json",
+      "sha256": "6e17327f610a93af657ba093c3af38a77d970038c204a3a3536505c5238c2c1e",
+      "bytes": 2035,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/metrics-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/metrics.json",
+      "sha256": "e6415b89c88d2d033f397c438f8bde9d04a7069337312b1a82aebb2b103b4ed4",
+      "bytes": 148,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/metrics.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/metrics.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/metrics.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/native-edge-correction.json",
+      "sha256": "29358a6d0dd0bee1575d1039e50d985f2b12d3f9cec3fa6bc18d79ad264e96e6",
+      "bytes": 701,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/native-edge-correction.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/native.dsn",
+      "sha256": "b71a6198e2f942ef013abe4300fcc49484cb476eaeda5f22fe2a2fcab6cc13b2",
+      "bytes": 4388,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/native.dsn"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/obstacles-process.json",
+      "sha256": "fa06d59af1874a018c093302666c96acc62b9f3d14f05ff96e9099a9fcdd5505",
+      "bytes": 2041,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/obstacles-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/obstacles.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "bytes": 3,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/obstacles.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/obstacles.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/obstacles.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/pour-before-refill.kicad_pcb",
+      "sha256": "bb29e8d94e8fe92f19b4bb771a6a9b2904e3b4c2cb492bd898f379dcc6925442",
+      "bytes": 13697,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/pour-before-refill.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/pour-corrected.dsn",
+      "sha256": "a47ec8de0230bbed594882c7fbac16dc686403f4e276b519c48a5d40eb85ae66",
+      "bytes": 3436,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/pour-corrected.dsn"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/pour-dsn-correction.json",
+      "sha256": "38f49ad3a6c6fd3375bc13cc215fa7697c00309f945aa4fdaa8830850c38e2e3",
+      "bytes": 2213,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/pour-dsn-correction.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/pour-keepout-audit-process.json",
+      "sha256": "29eb4c8029e861d5e43cd5e1a4c4dc6c1ef5a0b78abea1529f37ec75811565ff",
+      "bytes": 2070,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/pour-keepout-audit-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/pour-keepout-audit.json",
+      "sha256": "bbe483d8e997ad0b73f0e2de69956fcfb788fa38004d3e075b0d4871974bdc92",
+      "bytes": 4403,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/pour-keepout-audit.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/pour-keepout-audit.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/pour-keepout-audit.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/pre-refill.kicad_pcb",
+      "sha256": "bb29e8d94e8fe92f19b4bb771a6a9b2904e3b4c2cb492bd898f379dcc6925442",
+      "bytes": 13697,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/pre-refill.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/refill-drc-binding.json",
+      "sha256": "871d45b36f0a6ea0a2183400f2747f9344358f3d8d0dd62b683487ea25543d9c",
+      "bytes": 1403,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/refill-drc-binding.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/refill-drc-process.json",
+      "sha256": "3a365523c6e87b23425d40434fbc5d365c5d47706ebd87c932ba7bf61fb794bb",
+      "bytes": 2591,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/refill-drc-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/refill-drc.json",
+      "sha256": "93955b93241449c48a0fccaca941172415d365865ab94a8b02d84faf1d3b74ab",
+      "bytes": 683,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/refill-drc.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/refill-drc.log",
+      "sha256": "53c6119f638c84fabbc386db000e43f1af902c1d198d191d240bec1a78bb161f",
+      "bytes": 212,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/refill-drc.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/refill/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "24a52aabe15da7e26a3c1b46b7bf15389c9562e8139a0d3ad4a1450f01aa8795",
+      "bytes": 19018,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/refill/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/refill/owned-four-copper-forced-inner.kicad_prl",
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "bytes": 189,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/refill/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/refill/owned-four-copper-forced-inner.kicad_pro",
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "bytes": 2964,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/refill/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/refill/owned-four-copper-forced-inner.kicad_sch",
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13",
+      "bytes": 8783,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/refill/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/result.json",
+      "sha256": "b21afed79ee10c8e4a79242cf4135fbfd911d7d1e6a1188fb7341c08401629c2",
+      "bytes": 59300,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/result.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/routes.ses",
+      "sha256": "c5af5fba21b6e26744baef4f962b762a2d89a6184efe1985e6c9391a2b1dc661",
+      "bytes": 2549,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/routes.ses"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/snapshot/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "8f7df1bc3ccfdfe3b5529b5c8ad8e127b5891de77c651f2611ec55b4e8f6caa1",
+      "bytes": 11954,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/snapshot/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/snapshot/owned-four-copper-forced-inner.kicad_prl",
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "bytes": 189,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/snapshot/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/snapshot/owned-four-copper-forced-inner.kicad_pro",
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "bytes": 2964,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/snapshot/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/snapshot/owned-four-copper-forced-inner.kicad_sch",
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13",
+      "bytes": 8783,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/snapshot/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/source-drc-binding.json",
+      "sha256": "db68fbecf9eecb6ac94df4159209704c8cdc7742832357ea81961e416646dd7d",
+      "bytes": 1416,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/source-drc-binding.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/source-drc-input/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "8f7df1bc3ccfdfe3b5529b5c8ad8e127b5891de77c651f2611ec55b4e8f6caa1",
+      "bytes": 11954,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/source-drc-input/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/source-drc-input/owned-four-copper-forced-inner.kicad_prl",
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "bytes": 189,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/source-drc-input/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/source-drc-input/owned-four-copper-forced-inner.kicad_pro",
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "bytes": 2964,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/source-drc-input/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/source-drc-input/owned-four-copper-forced-inner.kicad_sch",
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13",
+      "bytes": 8783,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/source-drc-input/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/source-drc-process.json",
+      "sha256": "3b1eb03e872ea386a10e739670ef6038af2d1d29c1f24f619bc8c0e7d042cfc2",
+      "bytes": 2596,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/source-drc-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/source-drc.json",
+      "sha256": "29d05231fb0fff3252ed30f8e76f719dbd78329cd0da743f6d01575234f0ba05",
+      "bytes": 1463,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/source-drc.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/source-drc.log",
+      "sha256": "7b7b278e6e44169f2230d83136719276e7250cbbb7a6e9a8b9c3e975672f62d7",
+      "bytes": 200,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/source-drc.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/task-classes-binding.json",
+      "sha256": "1f6696d041e8f1012b28ec15b25c064c31c2adedb6a911e0f2ec8c33ea71f1a0",
+      "bytes": 3910,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/task-classes-binding.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/task-classes-input/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "8f7df1bc3ccfdfe3b5529b5c8ad8e127b5891de77c651f2611ec55b4e8f6caa1",
+      "bytes": 11954,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/task-classes-input/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/task-classes-input/owned-four-copper-forced-inner.kicad_prl",
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "bytes": 189,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/task-classes-input/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/task-classes-input/owned-four-copper-forced-inner.kicad_pro",
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "bytes": 2964,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/task-classes-input/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/task-classes-input/owned-four-copper-forced-inner.kicad_sch",
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13",
+      "bytes": 8783,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/task-classes-input/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/task-classes-netlist-process.json",
+      "sha256": "1421ecf306ddec441cff6a99f17ac8dcfb100169c877a08f4861779523ad3218",
+      "bytes": 2000,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/task-classes-netlist-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/task-classes-netlist.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/task-classes-netlist.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/task-classes-proof.json",
+      "sha256": "d4ef3ab789dcc7f552dd8016b08ffeef28407753800f4a284daeda7c0f127981",
+      "bytes": 5151,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/task-classes-proof.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/task-classes.net",
+      "sha256": "34633290e3e181d6c8dc85709173261812cff0eec70b701a1ad6c21370fb4653",
+      "bytes": 9215,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/task-classes.net"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/task.alias-export.json",
+      "sha256": "24d69e728d873e94112fccc2899f0bbf86250b1bb0c768acffedf4eec0f7308c",
+      "bytes": 4280,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/task.alias-export.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/task.alias-source.kicad_pcb",
+      "sha256": "8f7df1bc3ccfdfe3b5529b5c8ad8e127b5891de77c651f2611ec55b4e8f6caa1",
+      "bytes": 11954,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/task.alias-source.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-route/task.dsn",
+      "sha256": "84a6deb4ef9f48e50675962ed5b8dfb76a92ec43a9e6423baef83f9bfdc39428",
+      "bytes": 3250,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-route/task.dsn"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/candidate/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "2d17c95a479f8796907eb26a4caca827461a7185914f4c3f874b731b81c74589",
+      "bytes": 14985,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/candidate/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/candidate/owned-four-copper-forced-inner.kicad_prl",
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "bytes": 189,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/candidate/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/candidate/owned-four-copper-forced-inner.kicad_pro",
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "bytes": 2964,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/candidate/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/candidate/owned-four-copper-forced-inner.kicad_sch",
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13",
+      "bytes": 8783,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/candidate/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/final-classes-binding.json",
+      "sha256": "91bd5a1982d2cb5169e9cae168ad707e78a3b0c25e14ce50e966c5c43da4651a",
+      "bytes": 4064,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/final-classes-binding.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/final-classes-input/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "2d17c95a479f8796907eb26a4caca827461a7185914f4c3f874b731b81c74589",
+      "bytes": 14985,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/final-classes-input/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/final-classes-input/owned-four-copper-forced-inner.kicad_prl",
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "bytes": 189,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/final-classes-input/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/final-classes-input/owned-four-copper-forced-inner.kicad_pro",
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "bytes": 2964,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/final-classes-input/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/final-classes-input/owned-four-copper-forced-inner.kicad_sch",
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13",
+      "bytes": 8783,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/final-classes-input/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/final-classes-netlist-process.json",
+      "sha256": "42ba5c7d718575ae9628c40226e8a2b9238300427e832d1e4603eae29b83f9a4",
+      "bytes": 2141,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/final-classes-netlist-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/final-classes-netlist.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/final-classes-netlist.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/final-classes-proof.json",
+      "sha256": "aa52c812ef130392d4e173871a9b96c0202e654b5977804f3c9f9fbd26c66682",
+      "bytes": 5177,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/final-classes-proof.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/final-classes.net",
+      "sha256": "b167fd0e1f0ddc73e5ef21af5d17599f2c6d15c729f7c4566e685b50315ba5b7",
+      "bytes": 9228,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/final-classes.net"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/final-drc-binding.json",
+      "sha256": "bae55e6d0dd2e4e41043dfd055a246d50b982db8fc1fdfce4bad399e1d6b63ff",
+      "bytes": 1509,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/final-drc-binding.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/final-drc-input/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "2d17c95a479f8796907eb26a4caca827461a7185914f4c3f874b731b81c74589",
+      "bytes": 14985,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/final-drc-input/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/final-drc-input/owned-four-copper-forced-inner.kicad_prl",
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "bytes": 189,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/final-drc-input/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/final-drc-input/owned-four-copper-forced-inner.kicad_pro",
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "bytes": 2964,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/final-drc-input/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/final-drc-input/owned-four-copper-forced-inner.kicad_sch",
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13",
+      "bytes": 8783,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/final-drc-input/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/final-drc-process.json",
+      "sha256": "7671441283ac2c510658e7f14684efb87653cafceb9a0680ea0b6237f827f626",
+      "bytes": 2770,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/final-drc-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/final-drc.json",
+      "sha256": "2e9900fb97492f4d571142676fe20bfc66e21f846f451688e5f3978658b1eec2",
+      "bytes": 683,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/final-drc.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/final-drc.log",
+      "sha256": "55e678dd001b409e634cc20c5e684ed6c4f596eeeec86f23b504785a86704704",
+      "bytes": 243,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/final-drc.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/final-netclass-audit.json",
+      "sha256": "ae69244c30772662eb0c803955f0e6c5229527198c7d9c31f7f0258c6d5f8707",
+      "bytes": 3776,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/final-netclass-audit.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/final-netclasses-process.json",
+      "sha256": "f0f40d2f9487a69b8671ee6061075aff8ee497e1a0bbe24e9c7e65a912f34015",
+      "bytes": 2212,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/final-netclasses-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/final-netclasses.json",
+      "sha256": "ad9f0984b3c6c21efde4d4a64c55e2385c11369f91926a5a7d35ff9592b89503",
+      "bytes": 3599,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/final-netclasses.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/final-netclasses.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/final-netclasses.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/metrics-process.json",
+      "sha256": "26aa6de6bcdc81d99d2596ab34b1d87dfdc6954692e306e2b475ff7472b2b42a",
+      "bytes": 2181,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/metrics-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/metrics.json",
+      "sha256": "e6415b89c88d2d033f397c438f8bde9d04a7069337312b1a82aebb2b103b4ed4",
+      "bytes": 148,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/metrics.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/metrics.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/metrics.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/pour-before-refill.kicad_pcb",
+      "sha256": "2d17c95a479f8796907eb26a4caca827461a7185914f4c3f874b731b81c74589",
+      "bytes": 14985,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/pour-before-refill.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/pour-keepout-audit-process.json",
+      "sha256": "2484b0bf65d6fe157110062e830ae6cf6927cc6e701f7e63b238f932f1008c4f",
+      "bytes": 2218,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/pour-keepout-audit-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/pour-keepout-audit.json",
+      "sha256": "fe3dd0b01419e2dec7f7feb715e9e7993cdbff16787630e41a6ca103fe34525b",
+      "bytes": 4415,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/pour-keepout-audit.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/pour-keepout-audit.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/pour-keepout-audit.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/pre-refill.kicad_pcb",
+      "sha256": "2d17c95a479f8796907eb26a4caca827461a7185914f4c3f874b731b81c74589",
+      "bytes": 14985,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/pre-refill.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/refill-drc-binding.json",
+      "sha256": "344e5debd5e88272a75f5698a35082c0e42225e53b06eb86ac41ff318601be12",
+      "bytes": 1427,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/refill-drc-binding.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/refill-drc-process.json",
+      "sha256": "ea6ea401896d35fe7d78b4beb1627796aa2bbdb518c3cf315f60ce93664afc57",
+      "bytes": 2738,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/refill-drc-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/refill-drc.json",
+      "sha256": "f2eca67fd1a6fda96fb77608b0a07c2e3c93a229b1c96aa007ed8d24624992bc",
+      "bytes": 683,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/refill-drc.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/refill-drc.log",
+      "sha256": "592e5ace95705333d0fcd5e4cc955087df97d3030495d25eba47b96ecf658ac7",
+      "bytes": 224,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/refill-drc.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/refill/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "24a52aabe15da7e26a3c1b46b7bf15389c9562e8139a0d3ad4a1450f01aa8795",
+      "bytes": 19018,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/refill/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/refill/owned-four-copper-forced-inner.kicad_prl",
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "bytes": 189,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/refill/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/refill/owned-four-copper-forced-inner.kicad_pro",
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "bytes": 2964,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/refill/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/refill/owned-four-copper-forced-inner.kicad_sch",
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13",
+      "bytes": 8783,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/refill/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/snapshot/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "8f7df1bc3ccfdfe3b5529b5c8ad8e127b5891de77c651f2611ec55b4e8f6caa1",
+      "bytes": 11954,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/snapshot/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/snapshot/owned-four-copper-forced-inner.kicad_prl",
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "bytes": 189,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/snapshot/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/snapshot/owned-four-copper-forced-inner.kicad_pro",
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "bytes": 2964,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/snapshot/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/clean-export/snapshot/owned-four-copper-forced-inner.kicad_sch",
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13",
+      "bytes": 8783,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/validation/snapshot/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/mismatch/candidate/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e",
+      "bytes": 11960,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/mismatch-route/candidate/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/mismatch/candidate/owned-four-copper-forced-inner.kicad_prl",
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "bytes": 189,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/mismatch-route/candidate/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/mismatch/candidate/owned-four-copper-forced-inner.kicad_pro",
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "bytes": 2964,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/mismatch-route/candidate/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/mismatch/candidate/owned-four-copper-forced-inner.kicad_sch",
+      "sha256": "8eb96d2088fbcd9202b008e85083549e198f963cf414dd4cbf1d261c65f07add",
+      "bytes": 8786,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/mismatch-route/candidate/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/mismatch/export-netclasses.json",
+      "sha256": "1cb4794d9097775dbf536afad4cc50f5990ea2ae6d7bdb725ef9629e1b3755dd",
+      "bytes": 3590,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/mismatch-route/export-netclasses.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/mismatch/export-process.json",
+      "sha256": "f53cfe12f5cbbf3149619a75a59aadf26adc70962585da9c4c62f879a35d2170",
+      "bytes": 2204,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/mismatch-route/export-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/mismatch/export.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/mismatch-route/export.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/mismatch/native.dsn",
+      "sha256": "a1762af90e0c8ff96c20dacb55fc3bc69a2740cd7c6f1c0f51a934de24c39e81",
+      "bytes": 4391,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/mismatch-route/native.dsn"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/mismatch/result.json",
+      "sha256": "0b654af9a8a99f32172a69a055974f4c6db9bd7e9c772000c58bab2391027b11",
+      "bytes": 24660,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/mismatch-route/result.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/mismatch/snapshot/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e",
+      "bytes": 11960,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/mismatch-route/snapshot/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/mismatch/snapshot/owned-four-copper-forced-inner.kicad_prl",
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "bytes": 189,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/mismatch-route/snapshot/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/mismatch/snapshot/owned-four-copper-forced-inner.kicad_pro",
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "bytes": 2964,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/mismatch-route/snapshot/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/mismatch/snapshot/owned-four-copper-forced-inner.kicad_sch",
+      "sha256": "8eb96d2088fbcd9202b008e85083549e198f963cf414dd4cbf1d261c65f07add",
+      "bytes": 8786,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/mismatch-route/snapshot/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/mismatch/source-drc-binding.json",
+      "sha256": "7b768778ffd5e6bde4778a823d26af8dfdfdc537d3a23e8a1b239ff5407b521b",
+      "bytes": 1422,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/mismatch-route/source-drc-binding.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/mismatch/source-drc-input/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e",
+      "bytes": 11960,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/mismatch-route/source-drc-input/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/mismatch/source-drc-input/owned-four-copper-forced-inner.kicad_prl",
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "bytes": 189,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/mismatch-route/source-drc-input/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/mismatch/source-drc-input/owned-four-copper-forced-inner.kicad_pro",
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "bytes": 2964,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/mismatch-route/source-drc-input/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/mismatch/source-drc-input/owned-four-copper-forced-inner.kicad_sch",
+      "sha256": "8eb96d2088fbcd9202b008e85083549e198f963cf414dd4cbf1d261c65f07add",
+      "bytes": 8786,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/mismatch-route/source-drc-input/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/mismatch/source-drc-process.json",
+      "sha256": "04cee038338efd93ce7a5c610d21c36c598514ad094ec10deb066fd2d0c61797",
+      "bytes": 2620,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/mismatch-route/source-drc-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/mismatch/source-drc.json",
+      "sha256": "9853f3a519f7ca896a172908f0969cedcd1f7ef6f0f64ef403a6fbdcfbbb84dd",
+      "bytes": 1463,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/mismatch-route/source-drc.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/mismatch/source-drc.log",
+      "sha256": "164a6e13da180a96963c35a8768aadd501745559d825bd20ceccb49c6536f159",
+      "bytes": 203,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/mismatch-route/source-drc.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/mismatch/task-classes-binding.json",
+      "sha256": "77d594e8e5bac80ffc1a22b1e2089257f1d2ee470f70521b1d8f1d937ae920cd",
+      "bytes": 3937,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/mismatch-route/task-classes-binding.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/mismatch/task-classes-input/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e",
+      "bytes": 11960,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/mismatch-route/task-classes-input/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/mismatch/task-classes-input/owned-four-copper-forced-inner.kicad_prl",
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "bytes": 189,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/mismatch-route/task-classes-input/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/mismatch/task-classes-input/owned-four-copper-forced-inner.kicad_pro",
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "bytes": 2964,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/mismatch-route/task-classes-input/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/mismatch/task-classes-input/owned-four-copper-forced-inner.kicad_sch",
+      "sha256": "8eb96d2088fbcd9202b008e85083549e198f963cf414dd4cbf1d261c65f07add",
+      "bytes": 8786,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/mismatch-route/task-classes-input/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/mismatch/task-classes-netlist-process.json",
+      "sha256": "918abc0fd501007f51324c17bea7fe73e637125665ca80f126a37c8d9b303526",
+      "bytes": 2024,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/mismatch-route/task-classes-netlist-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/mismatch/task-classes-netlist.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/mismatch-route/task-classes-netlist.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/mismatch/task-classes.net",
+      "sha256": "48aeffdde3f650de6c0e0ba369eff945cf00ae9c5c05e7bd60991b9dd09e9184",
+      "bytes": 9227,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/mismatch-route/task-classes.net"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/mismatch/task.alias-export.json",
+      "sha256": "3df001682e2aa828761d95825d754e19ce828fa560a37a9cc4cd815d99328018",
+      "bytes": 4289,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/mismatch-route/task.alias-export.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/mismatch/task.alias-source.kicad_pcb",
+      "sha256": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e",
+      "bytes": 11960,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/mismatch-route/task.alias-source.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/mismatch/task.dsn",
+      "sha256": "a1762af90e0c8ff96c20dacb55fc3bc69a2740cd7c6f1c0f51a934de24c39e81",
+      "bytes": 4391,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/mismatch-route/task.dsn"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/candidate/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "8f7df1bc3ccfdfe3b5529b5c8ad8e127b5891de77c651f2611ec55b4e8f6caa1",
+      "bytes": 11954,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/candidate/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/candidate/owned-four-copper-forced-inner.kicad_prl",
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "bytes": 189,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/candidate/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/candidate/owned-four-copper-forced-inner.kicad_pro",
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "bytes": 2964,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/candidate/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/candidate/owned-four-copper-forced-inner.kicad_sch",
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13",
+      "bytes": 8783,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/candidate/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/edge-adapter-input.dsn",
+      "sha256": "dfa886a846c9e0282e51b8cc88e4f694ff14ba88350109e9f1d8db7781371fff",
+      "bytes": 3251,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/edge-adapter-input.dsn"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/engine-process.json",
+      "sha256": "10091669a18dc775311839857efeae5b21ceb547af0635b864d1bf62b920855d",
+      "bytes": 2826,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/engine-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/engine.log",
+      "sha256": "839c53da41322aa8d490e485ab332c2b0b0eb211c1715df7d3f772b937f944b8",
+      "bytes": 75,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/engine.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/export-netclasses.json",
+      "sha256": "8dd20ded64d4dc596d710fcae0bbf381c751e79ade2bbac406887dffc71c8a91",
+      "bytes": 3588,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/export-netclasses.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/export-process.json",
+      "sha256": "c8a607943490cfda621b4c89e894e1e2627223f136f3e04c50a92888b5ff0721",
+      "bytes": 2182,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/export-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/export.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/export.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/native-edge-correction.json",
+      "sha256": "f8cb9406f438ab0f0142454cf7032efc4927e0b8094b959e4e7ed4d2475c6caf",
+      "bytes": 701,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/native-edge-correction.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/native.dsn",
+      "sha256": "58d4600cfd26a6bef81064cbf0a5937009fbef193caa7c9491534f43216188fe",
+      "bytes": 4389,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/native.dsn"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/obstacles-process.json",
+      "sha256": "ed411b72ddd67fe0522019d31e872d59347ced8ee1c0038d32e7b559a98baadd",
+      "bytes": 2045,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/obstacles-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/obstacles.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "bytes": 3,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/obstacles.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/obstacles.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/obstacles.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/pour-corrected.dsn",
+      "sha256": "bd5ee9ac637ac2384f57952ce78ee572c3a3719b8e26e0df97a78accc4670299",
+      "bytes": 3437,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/pour-corrected.dsn"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/pour-dsn-correction.json",
+      "sha256": "06b30b0909f7e6c410833304a972a8b42ac2b17c6e2fc77b2c4cac5292fc45fe",
+      "bytes": 2213,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/pour-dsn-correction.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/result.json",
+      "sha256": "ec99517c97760283b1344c31b8a90f165de2e5da576e8560b05f8a6f410bba49",
+      "bytes": 38230,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/result.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/routing-preferences.json",
+      "sha256": "a08ac89733c3ab36b11578c81e0e9e0367a9716e8575359722b72739da960c28",
+      "bytes": 300,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/routing-preferences.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/snapshot/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "8f7df1bc3ccfdfe3b5529b5c8ad8e127b5891de77c651f2611ec55b4e8f6caa1",
+      "bytes": 11954,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/snapshot/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/snapshot/owned-four-copper-forced-inner.kicad_prl",
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "bytes": 189,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/snapshot/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/snapshot/owned-four-copper-forced-inner.kicad_pro",
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "bytes": 2964,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/snapshot/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/snapshot/owned-four-copper-forced-inner.kicad_sch",
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13",
+      "bytes": 8783,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/snapshot/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/source-drc-binding.json",
+      "sha256": "a6e83fade2802739f5d5974470fc50d4a9898acfc38bd3b06681650d1e390807",
+      "bytes": 1418,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/source-drc-binding.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/source-drc-input/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "8f7df1bc3ccfdfe3b5529b5c8ad8e127b5891de77c651f2611ec55b4e8f6caa1",
+      "bytes": 11954,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/source-drc-input/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/source-drc-input/owned-four-copper-forced-inner.kicad_prl",
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "bytes": 189,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/source-drc-input/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/source-drc-input/owned-four-copper-forced-inner.kicad_pro",
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "bytes": 2964,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/source-drc-input/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/source-drc-input/owned-four-copper-forced-inner.kicad_sch",
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13",
+      "bytes": 8783,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/source-drc-input/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/source-drc-process.json",
+      "sha256": "3a839e3980403c0a4004fb60b4ad58cdc216826fc5e59ee2a7ec520fe92bb1b2",
+      "bytes": 2613,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/source-drc-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/source-drc.json",
+      "sha256": "da1f9f83ef5c9771a697e5e65bb8a6a1919b4b7bcbccd6671c8da565388454be",
+      "bytes": 1463,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/source-drc.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/source-drc.log",
+      "sha256": "5bfc7af5a19d94c3b4cea82adcd75ba33fbb02d376f54bb1044adedbab9fc355",
+      "bytes": 201,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/source-drc.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/task-classes-binding.json",
+      "sha256": "cc1f7e08bca76f2f743eb2e0259b34029a4f39731ba20c6aae2795ccf478553c",
+      "bytes": 3919,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/task-classes-binding.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/task-classes-input/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "8f7df1bc3ccfdfe3b5529b5c8ad8e127b5891de77c651f2611ec55b4e8f6caa1",
+      "bytes": 11954,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/task-classes-input/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/task-classes-input/owned-four-copper-forced-inner.kicad_prl",
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "bytes": 189,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/task-classes-input/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/task-classes-input/owned-four-copper-forced-inner.kicad_pro",
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "bytes": 2964,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/task-classes-input/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/task-classes-input/owned-four-copper-forced-inner.kicad_sch",
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13",
+      "bytes": 8783,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/task-classes-input/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/task-classes-netlist-process.json",
+      "sha256": "7a061b6c70aefe073856d834500b491633928a76ade2ff91e769d6d056bbbdeb",
+      "bytes": 2005,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/task-classes-netlist-process.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/task-classes-netlist.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/task-classes-netlist.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/task-classes-proof.json",
+      "sha256": "7f88e6d6df71e34577a73e35e5322c61938a888a1b225c242d9c756058655675",
+      "bytes": 5153,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/task-classes-proof.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/task-classes.net",
+      "sha256": "d9181b2cbb7d859b202e85d233e612b88f709a506152f640d0d9c0a9201a1ad2",
+      "bytes": 9216,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/task-classes.net"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/task.alias-export.json",
+      "sha256": "4b255911b912e9f09e4639836204e54f29535d12c5073ade53e1295450329b77",
+      "bytes": 4283,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/task.alias-export.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/task.alias-source.kicad_pcb",
+      "sha256": "8f7df1bc3ccfdfe3b5529b5c8ad8e127b5891de77c651f2611ec55b4e8f6caa1",
+      "bytes": 11954,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/task.alias-source.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/cancel-status-defect/task.dsn",
+      "sha256": "dfa886a846c9e0282e51b8cc88e4f694ff14ba88350109e9f1d8db7781371fff",
+      "bytes": 3251,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/cancel-route/task.dsn"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/source-matching/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e",
+      "bytes": 11960,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/source-matching/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/source-matching/owned-four-copper-forced-inner.kicad_prl",
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "bytes": 189,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/source-matching/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/source-matching/owned-four-copper-forced-inner.kicad_pro",
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "bytes": 2964,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/source-matching/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/source-matching/owned-four-copper-forced-inner.kicad_sch",
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13",
+      "bytes": 8783,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/source-matching/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/source-clean-fields/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "8f7df1bc3ccfdfe3b5529b5c8ad8e127b5891de77c651f2611ec55b4e8f6caa1",
+      "bytes": 11954,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/source-clean-fields/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/source-clean-fields/owned-four-copper-forced-inner.kicad_prl",
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "bytes": 189,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/source-clean-fields/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/source-clean-fields/owned-four-copper-forced-inner.kicad_pro",
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "bytes": 2964,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/source-clean-fields/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/source-clean-fields/owned-four-copper-forced-inner.kicad_sch",
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13",
+      "bytes": 8783,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/source-clean-fields/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/source-mismatch/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e",
+      "bytes": 11960,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/source-mismatch/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/source-mismatch/owned-four-copper-forced-inner.kicad_prl",
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "bytes": 189,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/source-mismatch/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/source-mismatch/owned-four-copper-forced-inner.kicad_pro",
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "bytes": 2964,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/source-mismatch/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/source-mismatch/owned-four-copper-forced-inner.kicad_sch",
+      "sha256": "8eb96d2088fbcd9202b008e85083549e198f963cf414dd4cbf1d261c65f07add",
+      "bytes": 8786,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/source-mismatch/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/setup.json",
+      "sha256": "696787c876103d78d697c09262fc61a068c59384e735bd72e3ba8b9265c0d7b2",
+      "bytes": 12789,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/setup.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/enclosure-matching/execution.json",
+      "sha256": "4d23f55cb092b3488f94a499d7975871f0caa1aca69cfb1a08ac75ad460a54ed",
+      "bytes": 3063,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/enclosure-matching/execution.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/enclosure-matching/command.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/enclosure-matching/command.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/enclosure-class-controls-001/execution.json",
+      "sha256": "3e5da0c806bb5c6b6917989471071d033b4dab353f75ad2af71314ee4f84c97d",
+      "bytes": 2248,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/enclosure-class-controls-001/execution.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/enclosure-class-controls-001/command.log",
+      "sha256": "b73cd9e21c82ba637808cafd8a052943bf74cc6d92452a10ab2068e593d2cd71",
+      "bytes": 271,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/enclosure-class-controls-001/command.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/summaries/qualification-matching-result.json",
+      "sha256": "b091ce4b2fd2e735f4c541f66777e6103d78b812e54525c96553cc730f95b96c",
+      "bytes": 29860,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/result.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/summaries/class-controls-001-result.json",
+      "sha256": "dc6ad5fd9373bcfa0e6535c97f1f6035433904fea3e89fd19860d5b35fde10d6",
+      "bytes": 14713,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/result.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/summaries/matching-export.json",
+      "sha256": "7cbd5b585744cf16b8c02dea7604312395e292634e329ab2ff8fa197d550fed6",
+      "bytes": 107023,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/qualification-matching/autorouter-gui-37021abc4c674720b29e7800c645df3e/export/export.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/summaries/clean-export-export.json",
+      "sha256": "a826bba56b2065d2500d52cae4c97ed23ec50d9603484e53c2e92e88a37b5463",
+      "bytes": 77796,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-011/runtime/.runs/class-controls-001/clean-export/export.json"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/controllers-and-logs/qualify-runtime011-class-controls.py",
+      "sha256": "2462279ff6cf1c53f659bba004d900322b8d91f10b25bc92ac7510eff8bd7eca",
+      "bytes": 7573,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qualify-runtime011-class-controls.py"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/controllers-and-logs/run-runtime011-class-controls-001.py",
+      "sha256": "223fc3977c8c5e3ea902cf0514ea68010b13f1e6ce4b21737b1956b0679b1fb0",
+      "bytes": 1545,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/run-runtime011-class-controls-001.py"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/controllers-and-logs/runtime011-class-controls-001-time.log",
+      "sha256": "f14aee25cf3223ee32b4f919b61464b491df30076ee0b9958195c6a5087f852c",
+      "bytes": 31,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime011-class-controls-001-time.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/controllers-and-logs/runtime011-class-controls-001-command.log",
+      "sha256": "8b605487b8bac7a5c59902e7fc6f5b793841bf18b5981acff4302d1c6009d27c",
+      "bytes": 69,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime011-class-controls-001-command.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/controllers-and-logs/runtime-directory011-workflow-matching-time.log",
+      "sha256": "c2a5b298f7cd7a759ab77c2297e0c88bc19aba5f1794b087f3182aed28321955",
+      "bytes": 31,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory011-workflow-matching-time.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/controllers-and-logs/runtime-directory011-workflow-matching-command.log",
+      "sha256": "9c18aebec1fdb47cba901b7b96d9d75958fec0c7d27d399606a93ed954c9f55c",
+      "bytes": 89,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory011-workflow-matching-command.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/controllers-and-logs/prepare-runtime-directory-011-time.log",
+      "sha256": "73791cb000dc3db9540b57414f9275e24a286f9cb852044be563d36c6fddcf84",
+      "bytes": 29,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/prepare-runtime-directory-011-time.log"
+    },
+    {
+      "path": "evidence/runtime011-flat-class-integration-001-notes/controllers-and-logs/prepare-runtime-directory-011-command.log",
+      "sha256": "3a3899869c9cd4edaf19d75ba1312b15275e0b8d5ae673ad520e20e8ac8da674",
+      "bytes": 144,
+      "local_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/prepare-runtime-directory-011-command.log"
+    }
+  ]
+}

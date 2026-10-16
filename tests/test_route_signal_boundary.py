@@ -17,6 +17,16 @@ from autorouter import pipeline as p
 
 
 class RouteSignalBoundary(unittest.TestCase):
+    def test_shared_native_job_propagates_cancellation_after_retaining_worker_receipt(self):
+        with tempfile.TemporaryDirectory() as directory:
+            job=p.Job(Path(directory).resolve()/'job',30,protect_local_settings=True)
+            result=dict(status='cancelled',exit_code=-9,cleanup_complete=True)
+            with patch.object(p,'run',return_value=result):
+                with self.assertRaises(KeyboardInterrupt):job.step('engine',['deliberately-not-run'])
+            self.assertEqual(job.steps[0]['status'],'cancelled')
+            retained=json.loads((job.out/'engine-process.json').read_bytes())
+            self.assertEqual(retained,job.steps[0]);self.assertTrue(retained['cleanup_complete'])
+
     def test_sigterm_after_positive_write_invalidates_direct_route_and_restores_handlers(self):
         with tempfile.TemporaryDirectory() as directory:
             folder=Path(directory).resolve()
