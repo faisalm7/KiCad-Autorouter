@@ -183,4 +183,91 @@ class FourCopperOwnedSource(unittest.TestCase):
             tree.append(via)
             with self.subTest(change=change),self.assertRaisesRegex(ValueError,'uniform full through-vias'):n.four_copper_source_layers(tree)
 
+
+class FourCopperNoncopperDisplay(unittest.TestCase):
+    def source(self):
+        return sx.parse(fixture.files()[fixture.STEM+'.kicad_pcb'].decode())
+
+    def row(self,tree,code='5'):
+        return next(row for row in sx.one(tree,'layers')[1:] if row[0]==code)
+
+    def aliases(self,tree):
+        for code,label in (('5','F.Silkscreen'),('7','B.Silkscreen'),
+                           ('31','F.Courtyard'),('29','B.Courtyard')):
+            self.row(tree,code).append(json.dumps(label))
+        return tree
+
+    def test_display_metadata_preserves_canonical_result_and_complete_ast(self):
+        tree=self.aliases(self.source());before=copy.deepcopy(tree)
+        encoded=sx.dump(tree)
+        self.assertEqual(n.four_copper_source_layers(tree),list(n.FOUR_COPPER_NAMES))
+        self.assertEqual(tree,before);self.assertEqual(sx.dump(tree),encoded)
+        # No non-layer source field, including the protected route, is changed.
+        without=copy.deepcopy(tree)
+        for row in sx.one(without,'layers')[1:]:del row[3:]
+        self.assertEqual(without,self.source())
+
+    def test_complete_owned_project_preflight_keeps_every_file_exact(self):
+        with tempfile.TemporaryDirectory() as temp:
+            folder=Path(temp).resolve()/'owned';fixture.write_project(folder)
+            board=folder/(fixture.STEM+'.kicad_pcb')
+            expected=self.aliases(sx.read(board));sx.write(board,expected)
+            before=p.tree_hash(folder)
+            self.assertEqual(p.preflight(board),expected)
+            self.assertEqual(p.netclass_policy(board)['mode'],n.PARENT_POLICY)
+            self.assertEqual(p.tree_hash(folder),before)
+
+    def test_display_bytes_and_supported_escaping_are_bounded(self):
+        for label in ('F.SilkS','a'*256,'μ'*128,'Front "silk" \\ drawing'):
+            tree=self.source();self.row(tree).append(json.dumps(label,ensure_ascii=False))
+            with self.subTest(label=label):
+                self.assertEqual(n.four_copper_source_layers(tree),list(n.FOUR_COPPER_NAMES))
+        for atom in ('"'+('a'*257)+'"','"'+('μ'*129)+'"','"'+('a'*515)+'"',
+                     'unquoted','"unterminated','"bad"quote"','"bad\\q"','""',
+                     '" leading"','"trailing "','"line\nbreak"','"tab\tbreak"',
+                     '"nul\x00byte"','"delete\x7fbyte"','"\ud800"'):
+            tree=self.source();self.row(tree).append(atom)
+            with self.subTest(atom=repr(atom)),self.assertRaisesRegex(ValueError,'display name'):
+                n.four_copper_source_layers(tree)
+
+    def test_canonical_and_display_collisions_refuse_including_later_rows(self):
+        # Reserve every supported canonical name, even an absent noncopper row.
+        for label in ('F.Cu','in1.cu','B.Cu','f.silks','B.CrtYd','User.4'):
+            tree=self.source();self.row(tree).append(json.dumps(label))
+            with self.subTest(label=label),self.assertRaisesRegex(ValueError,'colliding'):
+                n.four_copper_source_layers(tree)
+        for first,second in (('Drawing','Drawing'),('Drawing','drawing'),('Straße','STRASSE'),
+                             ('Front "silk"','Front "silk"')):
+            tree=self.source();self.row(tree).append(json.dumps(first,ensure_ascii=False))
+            self.row(tree,'7').append(json.dumps(second,ensure_ascii=False))
+            with self.subTest(labels=(first,second)),self.assertRaisesRegex(ValueError,'colliding'):
+                n.four_copper_source_layers(tree)
+
+    def test_display_atom_cannot_hide_physical_identity_or_copper_alias(self):
+        for change in ('foreign_id','wrong_canonical','wrong_type','duplicate_id',
+                       'copper_alias','nested_atom','extra_atom','physical_order','stackup','via_span'):
+            tree=self.aliases(self.source());row=self.row(tree);layers=sx.one(tree,'layers')
+            if change=='foreign_id':row[0]='999'
+            elif change=='wrong_canonical':row[1]='"F.Adhes"'
+            elif change=='wrong_type':row[2]='signal'
+            elif change=='duplicate_id':row[0]='7'
+            elif change=='copper_alias':layers[1].append('"Front copper"')
+            elif change=='nested_atom':row[3]=['display','"Front"']
+            elif change=='extra_atom':row.append('"extra"')
+            elif change=='physical_order':layers[2],layers[3]=layers[3],layers[2]
+            elif change=='stackup':sx.one(tree,'setup').append(['stackup',
+                *[['layer',json.dumps(name),['type','copper']] for name in reversed(n.FOUR_COPPER_NAMES)]])
+            else:tree.append(['via',['at','20','10'],['size','1.2'],['drill','0.5'],
+                              ['layers','"F.Cu"','"In1.Cu"'],['net','"ROUTE"']])
+            with self.subTest(change=change),self.assertRaises(ValueError):n.four_copper_source_layers(tree)
+
+    def test_preflight_rejects_display_collision_without_rewriting_project(self):
+        with tempfile.TemporaryDirectory() as temp:
+            folder=Path(temp).resolve()/'owned';fixture.write_project(folder)
+            board=folder/(fixture.STEM+'.kicad_pcb');tree=self.source()
+            self.row(tree).append('"In1.Cu"');sx.write(board,tree)
+            before=p.tree_hash(folder)
+            with self.assertRaisesRegex(p.Rejected,'colliding noncopper display name'):p.preflight(board)
+            self.assertEqual(p.tree_hash(folder),before)
+
 if __name__=='__main__':unittest.main()

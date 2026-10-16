@@ -34,19 +34,37 @@ def four_copper_source_layers(tree):
         raise ValueError('four-copper class transport requires20260206 source')
     table = sx.one(tree, 'layers')
     if table is None: raise ValueError('four-copper source layer table required')
-    copper = []; names = set(); ids = set()
+    copper = []; names = set(); ids = set(); displays = set()
+    canonical_names = {name.casefold() for name in (*FOUR_COPPER_NAMES, *NONCOPPER.values())}
     for row in table[1:]:
-        if (type(row) is not list or len(row) != 3 or any(type(x) is not str for x in row)
+        if (type(row) is not list or len(row) not in (3, 4) or any(type(x) is not str for x in row)
                 or not row[0].isdigit() or str(int(row[0])) != row[0]):
             raise ValueError('unqualified four-copper layer declaration')
         name = sx.unquote(row[1])
         if row[0] in ids or name in names: raise ValueError('duplicate source layer identity')
         ids.add(row[0]); names.add(name)
         if name.endswith('.Cu') or row[2] in {'signal','power','mixed','jumper'}:
-            if row[2] != 'signal': raise ValueError('four-copper signal layers required')
+            if row[2] != 'signal' or len(row) != 3:
+                raise ValueError('four-copper signal layers without display aliases required')
             copper.append((int(row[0]), name))
         elif NONCOPPER.get(row[0]) != name or row[2] != 'user':
             raise ValueError('foreign or aliased source layer identity')
+        elif len(row) == 4:
+            # Display metadata never substitutes for physical IDs or canonical
+            # names. Keep its original atom and all source geometry untouched.
+            atom = row[3]
+            if len(atom) > 514 or re.fullmatch(r'"(?:[^"\\]|\\["\\])*"', atom) is None:
+                raise ValueError('bounded quoted noncopper display name required')
+            display = sx.unquote(atom)
+            try: size = len(display.encode('utf-8'))
+            except UnicodeError: raise ValueError('invalid noncopper display name encoding') from None
+            if (not 0 < size <= 256 or display != display.strip()
+                    or any(ord(char) < 32 or ord(char) == 127 for char in display)):
+                raise ValueError('invalid noncopper display name')
+            folded = display.casefold()
+            if (folded in canonical_names and display != name) or folded in displays:
+                raise ValueError('colliding noncopper display name')
+            displays.add(folded)
     expected = list(zip(FOUR_COPPER_IDS, FOUR_COPPER_NAMES))
     if copper != expected or table[1:5] != [[str(i), '"'+name+'"', 'signal'] for i,name in expected]:
         raise ValueError('four-copper source physical order/identity differs')
