@@ -124,6 +124,10 @@ class GuiBudgetTests(unittest.TestCase):
                     values={'profile':[('Tuned','tuned')]}, seconds=Mock(), nets=Mock(), flow=object(),
                     inspected=Mock(), refresh=Mock(), refused=Mock())
                 window.method.GetSelection.return_value=1
+                def choose(dialog, loaded_callback):
+                    try: loaded_callback('/owned/settings.json')
+                    except Exception as exc: window.refused(str(exc))
+                window.choose_path=choose
                 loaded=dict(pref.DEFAULTS, profile='tuned', seconds=seconds)
                 with patch.object(gui.pref, 'load', return_value=object()), patch.object(gui.pref, 'resolve', return_value=loaded):
                     callback(window, None)

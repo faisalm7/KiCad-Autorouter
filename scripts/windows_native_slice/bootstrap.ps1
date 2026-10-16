@@ -29,14 +29,18 @@ try{
  $record['bundled_python_present']=[bool](Test-Path $python);$record['cli_present']=[bool](Test-Path $cli);$record['bounded_bin_inventory']=@(Get-ChildItem (Join-Path $install 'bin') -File|Where-Object {$_.Name -match '^(python|_pcbnew|pcbnew|kicad-cli)'}|Select-Object -First 100 Name,Length)
  if(-not (Test-Path $python) -or -not (Test-Path $cli)){throw 'Official matching bundled Python/CLI absent; no guessed ABI fallback'}
  if((Get-Service MpsSvc).Status -ne 'Running' -or @(Get-NetFirewallProfile -PolicyStore ActiveStore|Where-Object {$_.Enabled -ne $true}).Count){throw 'Native gate: firewall not enabled; global protections unchanged'}
- $java=Join-Path $env:JAVA_HOME_25_X64 'bin/java.exe';if(-not(Test-Path $java)){throw 'Official runner Java25 absent'}
+ . (Join-Path $repo 'scripts/windows_native_slice/java25.ps1')
+ $javaPin=Install-OwnedTemurin25 -Scratch $scratch -Fetch ${function:Fetch};$java=$javaPin.java
+ $record['java_archive_sha256']=$javaPin.archive_sha256;$record['java_expanded_bytes']=$javaPin.expanded_bytes
+ $javaManifest=Join-Path $scratch 'java-manifest.json';$javaPin|ConvertTo-Json -Depth 5|Set-Content -Encoding utf8 $javaManifest
+ $powershell=Join-Path $PSHOME 'pwsh.exe';$record['powershell_sha256']=(Get-FileHash $powershell -Algorithm SHA256).Hash.ToLowerInvariant()
  Fetch 'https://github.com/freerouting/freerouting/releases/download/v2.5.0/freerouting-2.5.0.jar' $jar 64599107 'f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7'
  foreach($program in @($python,$cli,$java)){foreach($direction in @('Inbound','Outbound')){$name='kicad-native-slice-'+[Guid]::NewGuid().ToString('N');New-NetFirewallRule -Name $name -DisplayName $name -Program $program -Direction $direction -Action Block -Enabled True -Profile Any|Out-Null;$rules+=$name;if((Get-NetFirewallRule -Name $name -PolicyStore ActiveStore).Enabled -ne 'True'){throw 'New deny rule not active'}}}
  $env:KICAD_CONFIG_HOME=Join-Path $scratch 'kicad-config';New-Item -ItemType Directory $env:KICAD_CONFIG_HOME|Out-Null
  $output=Join-Path $scratch 'output';$script=Join-Path $repo 'scripts/windows_native_slice/slice.py'
  # Native and Java calls below use suspended-assigned Job Objects. Host Python starts only the controller.
  [ordered]@{rules=@($rules | ForEach-Object { $rule=Get-NetFirewallRule -Name $_ -PolicyStore ActiveStore; $filter=$rule|Get-NetFirewallApplicationFilter; @{name=$rule.Name;program=$filter.Program;direction=[string]$rule.Direction} })} | ConvertTo-Json -Depth 4 | Set-Content -Encoding utf8 (Join-Path $scratch 'firewall.json')
- $record['native_started']=$true;& $python -B $script --repo $repo --install $install --java $java --jar $jar --output $output --firewall-manifest (Join-Path $scratch 'firewall.json')
+ $record['controller_started']=$true;& $python -B $script --repo $repo --install $install --java $java --jar $jar --output $output --firewall-manifest (Join-Path $scratch 'firewall.json') --powershell $powershell --java-manifest $javaManifest
  $code=$LASTEXITCODE
  Write-Output (@{kind='windows-native-substrate-only';source_head=$head;installer_sha256=(Get-FileHash $installer).Hash;install_path=$install;ephemeral_registration_side_effects_expected=$true;product_windows_support=$false;exit_code=$code}|ConvertTo-Json -Compress)
  $record['slice_exit']=$code;if($code -ne 0){throw 'Native substrate incomplete/refused; retain CI logs'};$record['native_transport_command_completed']=$true

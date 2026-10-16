@@ -457,6 +457,7 @@ def main(argv=None):
         def __init__(self):
             super().__init__(None, title='KiCad Autorouter — separate project', size=(820, 780))
             self.flow = None; self.job = None; self.busy = False; self.closing = False
+            self.chooser = None; self.input_generation = 0
             self.edit_controls = []
             panel = wx.Panel(self); layout = wx.BoxSizer(wx.VERTICAL)
             self.board = self.path_row(panel, layout, 'Saved PCB', args.board, False)
@@ -521,17 +522,55 @@ def main(argv=None):
             control = wx.TextCtrl(panel, value=value); row.Add(control, 1, wx.ALL, 6)
             button = wx.Button(panel, label='Browse…')
             def browse(_):
-                if self.busy: return
+                if self.busy or self.chooser is not None: return
                 dialog = wx.DirDialog(self, 'Choose output folder') if directory else wx.FileDialog(self, 'Choose saved PCB', wildcard='KiCad PCB (*.kicad_pcb)|*.kicad_pcb', style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
-                with dialog:
-                    if dialog.ShowModal() == wx.ID_OK: control.SetValue(dialog.GetPath())
+                self.choose_path(dialog, control.SetValue)
             button.Bind(wx.EVT_BUTTON, browse); self.edit_controls.append(button)
             row.Add(button, 0, wx.ALL, 6); layout.Add(row, 0, wx.EXPAND)
             return control
 
         def changed(self, event):
+            self.input_generation = getattr(self, 'input_generation', 0) + 1
             if not self.busy: self.flow = None; self.inspected.SetValue(False)
             self.refresh(); event.Skip()
+
+        def choose_path(self, dialog, on_path):
+            """Retain an asynchronous native sheet until its completion event.
+
+            A nested Cocoa ShowModal loop can still dispatch input while starving
+            our deferred worker completion. Never start a worker behind a picker.
+            """
+            if self.busy or self.chooser is not None:
+                dialog.Destroy(); return
+            lease = (dialog, self.input_generation)
+            self.chooser = lease; self.refresh()
+
+            def dispose():
+                dialog.Unbind(wx.EVT_WINDOW_MODAL_DIALOG_CLOSED, handler=completed)
+                dialog.Destroy()
+                if self.closing: self.timer.Stop(); self.Destroy()
+                else: self.refresh()
+
+            def completed(event):
+                if self.chooser is not lease or event.GetDialog() is not dialog: return
+                self.chooser = None
+                try:
+                    if not self.closing and event.GetReturnCode() == wx.ID_OK:
+                        if self.input_generation != lease[1]: raise ValueError('Inputs changed while choosing a path; choose again.')
+                        on_path(dialog.GetPath())
+                except Exception as exc: self.refused(str(exc))
+                finally: dispose()
+
+            def show():
+                if self.chooser is not lease: return
+                if self.closing:
+                    self.chooser = None; dispose(); return
+                try: dialog.ShowWindowModal()
+                except Exception as exc:
+                    self.chooser = None; self.refused(str(exc)); dispose()
+
+            dialog.Bind(wx.EVT_WINDOW_MODAL_DIALOG_CLOSED, completed)
+            wx.CallAfter(show)
 
         def refused(self, error):
             if self.flow is not None:
@@ -542,6 +581,8 @@ def main(argv=None):
             self.refresh()
 
         def method_changed(self, event):
+            self.input_generation = getattr(self, 'input_generation', 0) + 1
+            if getattr(self, 'chooser', None) is not None: event.Skip(); return
             if self.busy: event.Skip(); return
             self.flow = None; self.inspected.SetValue(False)
             try:
@@ -558,21 +599,17 @@ def main(argv=None):
             self.refresh(); event.Skip()
 
         def load_preset(self, _):
-            if self.busy: return
-            with wx.FileDialog(self, 'Load explicit settings', wildcard='JSON (*.json)|*.json', style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST) as dialog:
-                if dialog.ShowModal() != wx.ID_OK: return
-                try:
-                    config = pref.resolve(pref.load(dialog.GetPath()))
-                    if config['guidance'] != 'native': raise ValueError('This graphical workflow supports Native guidance; retain other presets for their documented CLI.')
-                    if config['seconds'] != int(config['seconds']): raise ValueError('This graphical control uses whole seconds; use the CLI for fractional budgets.')
-                    if self.method.GetSelection():
-                        check_improve_settings(config)  # Exact loaded settings; budget is never raised.
-
-                    for name, control in self.choices.items():
-                        control.SetSelection(next(i for i, (_, value) in enumerate(self.values[name]) if value == config[name]))
-                    self.seconds.SetValue(int(config['seconds'])); self.nets.SetValue('\n'.join(config.get('nets', [])))
-                    self.flow = None; self.inspected.SetValue(False); self.refresh()
-                except Exception as exc: self.refused(str(exc))
+            if self.busy or getattr(self, 'chooser', None) is not None: return
+            def loaded(path):
+                config = pref.resolve(pref.load(path))
+                if config['guidance'] != 'native': raise ValueError('This graphical workflow supports Native guidance; retain other presets for their documented CLI.')
+                if config['seconds'] != int(config['seconds']): raise ValueError('This graphical control uses whole seconds; use the CLI for fractional budgets.')
+                if self.method.GetSelection(): check_improve_settings(config)
+                indices = {name: next(i for i, (_, value) in enumerate(self.values[name]) if value == config[name]) for name in self.choices}
+                for name, control in self.choices.items(): control.SetSelection(indices[name])
+                self.seconds.SetValue(int(config['seconds'])); self.nets.SetValue('\n'.join(config.get('nets', [])))
+                self.flow = None; self.inspected.SetValue(False); self.refresh()
+            self.choose_path(wx.FileDialog(self, 'Load explicit settings', wildcard='JSON (*.json)|*.json', style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST), loaded)
 
         def config(self):
             result = dict(pref.DEFAULTS)
@@ -587,21 +624,24 @@ def main(argv=None):
             return pref.validate(result)
 
         def save_preset(self, _):
-            if self.busy: return
+            if self.busy or getattr(self, 'chooser', None) is not None: return
             try:
                 config = self.config()
-                with wx.FileDialog(self, 'Save NEW settings JSON', defaultFile='routing-settings.json', wildcard='JSON (*.json)|*.json', style=wx.FD_SAVE) as dialog:
-                    if dialog.ShowModal() != wx.ID_OK: return
-                    target = canonical(dialog.GetPath(), exists=False)
+                source_text = self.board.GetValue()
+                def saved(path):
+                    if self.config() != config or self.board.GetValue() != source_text: raise ValueError('Settings/source changed while choosing; save again.')
+                    target = canonical(path, exists=False)
                     if target.suffix != '.json': raise ValueError('Use a new .json settings filename.')
                     if self.board.GetValue():
                         source = canonical(self.board.GetValue())
                         if target.parent == source.parent or source.parent in target.parents: raise ValueError('Save settings outside the original project.')
                     with os.fdopen(os.open(target, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600), 'w') as stream:
                         json.dump(config, stream, indent=2); stream.write('\n')
+                self.choose_path(wx.FileDialog(self, 'Save NEW settings JSON', defaultFile='routing-settings.json', wildcard='JSON (*.json)|*.json', style=wx.FD_SAVE), saved)
             except Exception as exc: self.refused(str(exc))
 
         def refresh(self):
+            choosing = getattr(self, 'chooser', None) is not None
             ready = self.flow.ready if self.flow else set()
             allowed = {'preview': True, 'route': 'preview' in ready and 'route' not in ready,
                 'review': 'route' in ready and 'review' not in ready,
@@ -610,11 +650,12 @@ def main(argv=None):
                 'reject': 'review' in ready and 'choice' not in ready,
                 'export': 'choice' in ready and 'export' not in ready and self.flow.choice == 'accept' if self.flow else False,
                 'open_export': 'verify_export' in ready}
-            for name, button in self.buttons.items(): button.Enable(self.busy if name == 'cancel' else not self.busy and allowed.get(name, False))
-            for control in (self.board, self.output, self.ack, self.inspected, *self.edit_controls): control.Enable(not self.busy)
+            for name, button in self.buttons.items(): button.Enable(not choosing and (self.busy if name == 'cancel' else not self.busy and allowed.get(name, False)))
+            for control in (self.board, self.output, self.ack, self.inspected, *self.edit_controls): control.Enable(not self.busy and not choosing)
 
         def act(self, action):
             try:
+                if getattr(self, 'chooser', None) is not None: return
                 if action == 'cancel': self.job.cancel(); self.status.SetLabel('Cancellation requested; waiting for the CLI worker to finish cleanup.'); return
                 if self.busy: return
                 if action.startswith('open_'):
@@ -708,6 +749,10 @@ def main(argv=None):
                     break
 
         def close(self, event):
+            if getattr(self, 'chooser', None) is not None:
+                self.closing = True
+                self.status.SetLabel('Close the file chooser with Cancel; then this window will close. No routing job was started.')
+                event.Veto(); return
             if self.busy:
                 self.closing = True; self.job.cancel()
                 self.status.SetLabel('Closing after cancellation and CLI cleanup; retained outputs will remain.')

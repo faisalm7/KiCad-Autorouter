@@ -1,0 +1,71 @@
+{
+  "schema": 1,
+  "source_head": "9147f04aab0aa66df147ed23a501db3f57685fcb",
+  "gui_sha256": "d110a522f3b529a3de5a43848089773e71cb1f5665e90a094c727afc04c9c81a",
+  "actual_toolbar_launch": true,
+  "native_routing_started": false,
+  "events": [
+    {
+      "action": "Select Improve with visible60",
+      "observed": "Inline refusal; Route reset; no modal or positive state"
+    },
+    {
+      "action": "Visible90 then Improve",
+      "observed": "Preset accepts90 and selects Tuned/Both"
+    },
+    {
+      "action": "Edit visible60 then Preview",
+      "observed": "Inline at-least90 operational refusal, budget unchanged, jobs directory stays empty"
+    },
+    {
+      "action": "Save settings as visible90",
+      "observed": "Native NSSavePanel runModal sampled; panel not visible in CUA AX/screenshot"
+    },
+    {
+      "action": "Escape; visible bad then Preview",
+      "observed": "Controller responds with whole-number5\u2013900 inline refusal; not a demonstrated deadlock"
+    }
+  ],
+  "human_review": false,
+  "file_picker_qualification": "Pending actual visible save/load; cannot infer deadlock from modal stack alone",
+  "late_preview_observation": {
+    "CLI_exit_code": 0,
+    "CLI_wall_seconds": 0.20960170900002595,
+    "GUI_stays_busy_after_CLI_exit": true,
+    "sample": "sample-preview-publication-001.txt",
+    "main_thread_stack": "wxFileDialog::ShowModal -> NSSavePanel runModal",
+    "interpretation": "Input callbacks remained responsive, but deferred completion did not publish while the unshown native save panel remained modal. Escape did not establish completed modal cleanup. Actual broader cause remains unproved.",
+    "native_validation_performed": false
+  },
+  "raw_sha256": {
+    "sample-save-settings-001.txt": "1bb360d75a57e97f0d5913dbcc154205e1743864c66962641afab3a4cde228ef",
+    "sample-preview-publication-001.txt": "32d9668c7a036a046741e13b0519629b6342c3e175c523b1e5271d38580e5f29"
+  },
+  "cleanup": {
+    "owned_pid": 62226,
+    "argv": "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python -B -m autorouter.gui",
+    "no_children_before": true,
+    "TERM_attempted": true,
+    "KILL_required": true,
+    "process_gone": true,
+    "no_native_job_running": true,
+    "source_unchanged": true,
+    "reason": "Unshown modal native save panel retains GUI loop after completed preview; no routing acceptance"
+  },
+  "kind": "actual-installed050-native-file-panel-publication-stall",
+  "complete_GUI_qualified": false,
+  "correction": {
+    "file": "autorouter/gui.py",
+    "sha256": "6574f8c38633332562e65bfddceaf91627eeb6058c99ef8d4d279433a0363aa2",
+    "scope": "Shared deferred ShowWindowModal chooser with retained dialog/completion lease, stale-input/action/close guards; full pre-existing settings/new-file/original-source protections retained.",
+    "targeted_controls": {
+      "count": 35,
+      "wall_seconds": 0.92,
+      "full_cpu_seconds": 0.55,
+      "log": ".runs/gui-file-chooser-targeted-002.log"
+    },
+    "review": ".runs/gui-file-chooser-integration-review-001/REVIEW.md",
+    "actual_GUI_or_new_install_qualified": false
+  },
+  "limitation": "Actual050 inline budget refusals passed. Native routing/export not run; previewCLI success cannot qualify GUI completion. Actual asynchronous sheet display/recovery and Native workflow still required."
+}

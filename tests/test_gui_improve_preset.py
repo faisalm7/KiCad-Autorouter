@@ -57,6 +57,10 @@ class ImprovePresetTests(unittest.TestCase):
         dialog.ShowModal.return_value = 1; dialog.GetPath.return_value = '/owned/preset.json'
         wx.FileDialog.return_value = dialog
         window = self.window(dict(pref.DEFAULTS)); window.seconds = Mock(); window.nets = Mock()
+        def choose(dialog, loaded):
+            try: loaded('/owned/preset.json')
+            except Exception as exc: window.refused(str(exc))
+        window.choose_path = choose
         with patch.object(gui.pref, 'load', return_value=object()), patch.object(gui.pref, 'resolve', return_value=dict(pref.DEFAULTS)):
             callback(window, None)
         for control in window.choices.values(): control.SetSelection.assert_not_called()

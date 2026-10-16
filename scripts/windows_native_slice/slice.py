@@ -2,7 +2,7 @@
 import argparse,contextlib,copy,hashlib,json,os,subprocess,time,uuid
 from pathlib import Path
 from windows_process import run,preserved,digest,safe
-ap=argparse.ArgumentParser();ap.add_argument('--repo',required=True);ap.add_argument('--install',required=True);ap.add_argument('--java',required=True);ap.add_argument('--jar',required=True);ap.add_argument('--output',required=True);ap.add_argument('--firewall-manifest',required=True);a=ap.parse_args()
+ap=argparse.ArgumentParser();ap.add_argument('--repo',required=True);ap.add_argument('--install',required=True);ap.add_argument('--java',required=True);ap.add_argument('--jar',required=True);ap.add_argument('--output',required=True);ap.add_argument('--firewall-manifest',required=True);ap.add_argument('--powershell',required=True);ap.add_argument('--java-manifest',required=True);a=ap.parse_args()
 REPO=Path(a.repo).resolve();ROOT=Path(os.environ['RUNNER_TEMP']).resolve();OUT=safe(a.output,ROOT);OUT.mkdir();sysroot=Path(os.environ['SystemRoot']);started=time.monotonic()
 import sys
 sys.path.insert(0,str(REPO))
@@ -11,10 +11,18 @@ from experiments.free_angle_baseline_v1 import fixture
 install=safe(a.install,ROOT);candidates=list(install.glob('bin/python.exe'));cli=install/'bin/kicad-cli.exe';java=Path(a.java).resolve();jar=safe(a.jar,ROOT)
 if len(candidates)!=1 or not cli.is_file() or digest(jar)!='f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7':raise RuntimeError('owned Native Python/CLI or pinned JAR absent')
 python=candidates[0];worker=Path(__file__).with_name('native_worker.py');tools={str(p):digest(p) for p in [python,cli,java,jar,worker,Path(__file__),Path(__file__).with_name('windows_process.py')]};steps=[]
+powershell=Path(a.powershell).resolve(strict=True);tools[str(powershell)]=digest(powershell)
+java_manifest=safe(a.java_manifest,ROOT);java_pin=json.loads(java_manifest.read_bytes());tools[str(java_manifest)]=digest(java_manifest)
+if java_pin['java']!=str(java) or java_pin['java_sha256']!=digest(java):raise RuntimeError('owned Java pin differs')
+java_root=safe(java_pin['jre_root'],ROOT)
+for name,pin in java_pin['files_sha256'].items():
+ path=safe(java_root/name,ROOT)
+ if digest(path)!=pin:raise RuntimeError('owned JRE runtime changed')
+ tools[str(path)]=pin
 manifest=safe(a.firewall_manifest,ROOT);manifest_pin=digest(manifest);gate=Path(__file__).with_name('firewall_gate.ps1');tools[str(manifest)]=manifest_pin;tools[str(gate)]=digest(gate)
 def firewall(exe,sha):
  if digest(manifest)!=manifest_pin:raise RuntimeError('owned firewall manifest changed')
- result=subprocess.run([str(sysroot/'System32/WindowsPowerShell/v1.0/powershell.exe'),'-NoProfile','-NonInteractive','-File',str(gate),'-Manifest',str(manifest),'-Program',str(exe),'-Sha256',sha],capture_output=True,timeout=12)
+ result=subprocess.run([str(powershell),'-NoProfile','-NonInteractive','-File',str(gate),'-Manifest',str(manifest),'-Program',str(exe),'-Sha256',sha],capture_output=True,timeout=12)
  if result.returncode or len(result.stdout)>16384:raise RuntimeError('effective owned per-program firewall block unavailable: '+result.stderr.decode(errors='replace')[:300])
  return json.loads(result.stdout)
 def call(argv,name,seconds=30,cancel_after=None):
@@ -85,13 +93,13 @@ finally:
  # Retain actual owned Native reports AND failed tool logs before ephemeral cleanup.
  import base64
  paths=[OUT/name for name in ('original-drc.json','final-drc.json','disconnect-drc.json','task.dsn','task.dsn.classes.json','corrected.dsn','routes.ses','imported.kicad_pcb.ses-proof.json')]
- paths += [OUT/'candidate'/(fixture.STEM+'.kicad_pcb')]+[Path(step['log']) for step in steps]
+ paths += [java_manifest]+[OUT/'candidate'/(fixture.STEM+'.kicad_pcb')]+[Path(step['log']) for step in steps]
  total=0
  for path in paths:
   if not path.is_file():continue
   raw=path.read_bytes();total+=len(raw)
   if len(raw)>256*1024 or total>2*1024**2:
    result.update(native_transport_observed=False,error='owned CI proof/log publication bound');break
-  print('KICAD_NATIVE_PAYLOAD '+json.dumps(dict(path=str(path.relative_to(OUT)),sha256=hashlib.sha256(raw).hexdigest(),encoding='base64',data=base64.b64encode(raw).decode())))
+  print('KICAD_NATIVE_PAYLOAD '+json.dumps(dict(path=str(path.relative_to(OUT)) if path.is_relative_to(OUT) else 'java-manifest.json',sha256=hashlib.sha256(raw).hexdigest(),encoding='base64',data=base64.b64encode(raw).decode())))
  result.update(wall_seconds_before_publication=time.monotonic()-started,job_cpu_seconds=sum(x['full_job_cpu_seconds'] for x in steps));(OUT/'result.json').write_text(json.dumps(result,indent=2)+'\n');print('KICAD_NATIVE_RESULT '+json.dumps(result))
 raise SystemExit(130 if result.get('cancelled') else 0 if result.get('native_transport_observed') and result['wall_seconds_before_publication']<240 else 2)

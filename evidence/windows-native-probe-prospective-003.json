@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "kind": "prospective-Windows003-exact-PowerShell-and-JRE",
+  "native_executed": false,
+  "product_support": false,
+  "scope": "Same owned capability sequence; prior001/002 failures retained. Official current-user KiCad install now observed; actual Native Windows slice/OS guards/complete CPU/product integration remain unqualified.",
+  "source_sha256": {
+    "scripts/windows_native_slice/firewall_gate.ps1": "a5405b18cad3375447ab90ea98e359ee1efad45c9794f675a4ef1dd6a218c976",
+    "scripts/windows_native_slice/SOURCE_REVIEW.md": "865194f7a4d257eef12f68eb46a5c3ab2f78fe498f6442bf0e69b0eab9dfe51a",
+    "scripts/windows_native_slice/native_worker.py": "b3e8674f9649453b95de3931d895fa0ce55cd6798d8943f3d058993694e506be",
+    "scripts/windows_native_slice/slice.py": "1ded6033179d59b86a61fd2953d9b2a1dce75552d0a44d938d8da4dc8e54fcf1",
+    "scripts/windows_native_slice/README.md": "564cc0faf988d2b799ec9cbfb0cd51cb4a4849aa0b1469f6e801202933bb77e1",
+    "scripts/windows_native_slice/windows_process.py": "6fa8fe38b11cd5ffe80bcadcb0ba9d16c5cb91f955083f6dc3e6267a89f119c7",
+    "scripts/windows_native_slice/java25.ps1": "679c9d1c19406efe6274f5c85351f329a4be77d10ddd3e4ecae32cb08f14da0d",
+    "scripts/windows_native_slice/bootstrap.ps1": "72563a92c5df86c8870be86d7a48e4282125b8a53d2feabf0668cde69e36b904"
+  },
+  "java_archive": {
+    "url": "https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.2%2B10/OpenJDK25U-jre_x64_windows_hotspot_25.0.2_10.zip",
+    "bytes": 58426848,
+    "sha256": "1919e7e1603bc5937187139db2d65824f8d95ef42d0423ae9f9f1d9eb97842f6",
+    "scope": "Official API/release/SHA agree; no binary downloaded/executed on Mac. Actual extracted manifest and JVM version/vendor must agree before Native work."
+  },
+  "review": ".runs/windows-java25-review-001/REVIEW.md; explicit string[] SetEquals cast applied",
+  "cost_gate": "Same verified standard public windows-2022, manual15min/read-only/no artifact/cache uploads; provider001/002 billable milliseconds0.",
+  "authoring": {
+    "java_pin_author_wall_seconds": 184,
+    "java_review_wall_seconds": 112,
+    "cpu_seconds": null,
+    "metadata_GET_bytes": 592112,
+    "metadata_GET_wall_seconds": 1.568038
+  }
+}

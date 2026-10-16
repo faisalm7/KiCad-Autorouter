@@ -1,0 +1,133 @@
+{
+  "schema": 1,
+  "kind": "actual-windows002-install-pass-controller-gate-failure",
+  "passed": false,
+  "product_support": false,
+  "source_head": "ffc7cd6039625b86eb2bb561b75953a9a7853f89",
+  "run_url": "https://github.com/faisalm7/KiCad-Autorouter/actions/runs/38878738892",
+  "workflow_conclusion": "failure",
+  "timing": {
+    "billable": {
+      "WINDOWS": {
+        "total_ms": 0,
+        "jobs": 2,
+        "job_runs": [
+          {
+            "job_id": 116900031001,
+            "duration_ms": 0
+          },
+          {
+            "job_id": 116900032122,
+            "duration_ms": 0
+          }
+        ]
+      },
+      "UBUNTU": {
+        "total_ms": 0,
+        "jobs": 1,
+        "job_runs": [
+          {
+            "job_id": 116900082145,
+            "duration_ms": 0
+          }
+        ]
+      }
+    },
+    "run_duration_ms": 117000
+  },
+  "full_cpu_seconds": null,
+  "bootstrap_record": {
+    "kind": "windows-native-substrate-prototype",
+    "source_head": "ffc7cd6039625b86eb2bb561b75953a9a7853f89",
+    "passed": false,
+    "product_windows_support": false,
+    "installer_executed": true,
+    "install_exit": 0,
+    "bundled_python_present": true,
+    "native_started": true,
+    "ephemeral_registration_side_effects_expected": true,
+    "artifact_upload": false,
+    "cache_upload": false,
+    "installer_sha256": "ce3881b6a9188eb34ac1ebaaec7651149e8a025206410addfb11a1a9656ecf95",
+    "signature_status": "Valid",
+    "cli_present": true,
+    "bounded_bin_inventory": [
+      {
+        "Name": "_pcbnew.dll",
+        "Length": 31823712
+      },
+      {
+        "Name": "kicad-cli.exe",
+        "Length": 2705248
+      },
+      {
+        "Name": "pcbnew.exe",
+        "Length": 996192
+      },
+      {
+        "Name": "python.exe",
+        "Length": 103264
+      },
+      {
+        "Name": "python3.dll",
+        "Length": 67424
+      },
+      {
+        "Name": "python311.dll",
+        "Length": 6270816
+      },
+      {
+        "Name": "pythonw.exe",
+        "Length": 101216
+      }
+    ],
+    "slice_exit": 2,
+    "error": "Native substrate incomplete/refused; retain CI logs",
+    "scratch_removed": true
+  },
+  "controller_record": {
+    "schema": 1,
+    "passed": false,
+    "accepted": false,
+    "product_support": false,
+    "tool_sha256": {
+      "D:\\a\\_temp\\native-slice-9e3710d14a7541a9a8ad7aee9da02806\\KiCad\\bin\\python.exe": "335616b5bb42f1c3489b14f89d05fc3e5d097259f3cec9ff6d63941080c600c6",
+      "D:\\a\\_temp\\native-slice-9e3710d14a7541a9a8ad7aee9da02806\\KiCad\\bin\\kicad-cli.exe": "cbd8197dd1f46b9a956f3d7973edc9a6a97960298731448ae9142dffe47abc7a",
+      "C:\\hostedtoolcache\\windows\\Java_Temurin-Hotspot_jdk\\25.0.4-101.0\\x64\\bin\\java.exe": "5808527e3dfc4eb285c7664ba356bc267055ef906e83ed4660d9f7976da7349b",
+      "D:\\a\\_temp\\native-slice-9e3710d14a7541a9a8ad7aee9da02806\\freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+      "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\native_worker.py": "2773f0dafea858a213fa92a8242e4b46b5b1a3e099326d0e3b254aea9a7a0db9",
+      "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\slice.py": "9d491125765c8a2793392981e00d683d850897a638b20e843e6d84fccfb26964",
+      "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\windows_process.py": "d6ed02c398347aff206aebe365bd3552fa638180d5482c0fc4bd1ec95ac1dade",
+      "D:\\a\\_temp\\native-slice-9e3710d14a7541a9a8ad7aee9da02806\\firewall.json": "9b63db155eb0ad41a695add36bff881754e4e031217fba631eb9d92d45ff61d6",
+      "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\firewall_gate.ps1": "1a4a4c095d264326081bed3c292abc58e6f21a58127862c92a4e692af913ac74"
+    },
+    "source_sha256": {
+      "owned-free-angle-v2.kicad_pcb": "9eeda198f5c37300bbfa8cb42aa4be2210b3e4d0ed4f7175260bf35e5b9f8f37",
+      "owned-free-angle-v2.kicad_prl": "def9b251b3ed81c27cf559616d672a5e9c40836c012327408a2f8b27a113a55b",
+      "owned-free-angle-v2.kicad_pro": "abab7f87754e92ea07a2cfd4eb113fab07feb626cbc09c7c1d874b259cc6c398",
+      "owned-free-angle-v2.kicad_sch": "4da0dd9d8b91fce2fcc3e6fe27752d9e280f2309eda6cf7e7f555481ddb381ca"
+    },
+    "steps": [],
+    "native_transport_observed": false,
+    "cancelled": false,
+    "error": "RuntimeError: effective owned per-program firewall block unavailable: D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\firewall_gate.ps1 : The term 'Get-FileHash' is not \r\nrecognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if \r\na path was included, verify that the path is correct and tr",
+    "wall_seconds_before_publication": 6.295999999999992,
+    "job_cpu_seconds": 0
+  },
+  "interpretation": {
+    "official_KiCad_install_completed": true,
+    "bundled_python311_and_cli_present": true,
+    "controller_started": true,
+    "Native_worker_or_JVM_executed": false,
+    "JobObject_steps_observed": 0,
+    "reason": "Hardcoded WindowsPowerShell5 query cannot resolve Get-FileHash in the inherited PowerShell7 environment. Its fixed live firewall gate refuses before any worker is launched. No guarantee is bypassed.",
+    "runner_Java_version_path_label_only": "25.0.4-101.0, not executed/version-verified; differs from required25.0.2. New probe uses an exact official25.0.2 JRE archive instead."
+  },
+  "next": "Use/hash exact outer PSHOME/pwsh.exe; fetch/hash/bound-extract official Windowsx64 JRE25.0.2+10; all Native/JobObject/network/source/original gates unchanged.",
+  "raw_sha256": {
+    "timing.json": "836d1f06ca363079885dfdab12d7f86e9037e1eb6e704596743d6b25eb7c0178",
+    "command.log": "ca4e5e45d7bbb77fc7f3b60ed2ce7831cc4037bc84b79399def8d88254d6d341",
+    "run.json": "5c660047700432ec551951fa013c78227ca28c3fec777046e197dc0f899fb182",
+    "jobs.json": "979e6858b59e2534f8848edf13ebc3d340cd05d5897243c732c190723b90dafa"
+  }
+}
