@@ -11,6 +11,21 @@ else:
 from autorouter import handoff as h,pipeline as p,floor_route as f,sexpr as sx,placement_strategy as ps
 
 class ExportControls(unittest.TestCase):
+    def test_export_producer_reconciles_wait4_roundoff_without_relaxing_reader(self):
+        seam=self.native_run
+        def measured(*args,**kwargs):
+            result=seam(*args,**kwargs)
+            result['cpu_seconds']=[.1,.2,.3][len(self.calls)-1]
+            return result
+        # Synthetic process seams reproduce the actual058 subtraction defect.
+        # The shared transaction, accounting, publication and reader are real.
+        with patch.object(e,'run',side_effect=measured),patch.object(f,'child_cpu',side_effect=lambda:[0.,.1,.3,.6][len(self.calls)]):
+            result=self.export()
+        self.assertEqual(result['control_child_cpu_seconds'],0.)
+        self.assertGreaterEqual(result['total_cpu_seconds'],result['parent_cpu_seconds']+.6)
+        self.assertTrue(e.check_export(self.output/'export.json')['current'])
+        self.preserved()
+
     def test_impossible_parent_or_component_compute_is_rejected(self):
         self.export();path=self.output/'export.json';original=f.read_json(path)
         mutations=[{'parent_cpu_seconds':-1.,'control_child_cpu_seconds':1.,'total_cpu_seconds':0.},

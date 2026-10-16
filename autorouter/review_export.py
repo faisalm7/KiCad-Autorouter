@@ -260,10 +260,9 @@ def export(choice_path,output,seconds=SECONDS):
     job=None
     def account():
         steps=job.steps if job else [];parent=time.process_time()-parent_cpu_start;child=f.child_cpu()-child_cpu_start
-        native=sum(s.get('cpu_seconds') or 0 for s in steps);monitor=sum(s.get('monitor_cpu_seconds') or 0 for s in steps)
-        record.update(steps=steps,wall_seconds=time.monotonic()-start,total_cpu_seconds=parent+child+monitor,
-            parent_cpu_seconds=parent,child_step_cpu_seconds=native,control_child_cpu_seconds=child-native,
-            monitor_cpu_seconds=monitor,native_validation_performed=bool(steps))
+        compute=p.sequential_cpu_components(parent,child,steps)
+        compute['child_step_cpu_seconds']=compute.pop('child_cpu_seconds')
+        record.update(compute,steps=steps,wall_seconds=time.monotonic()-start,native_validation_performed=bool(steps))
         record['within_budget']=record['wall_seconds']<=seconds and record['total_cpu_seconds']<=seconds
     lifecycle.update(record=record,account=account)
     try:

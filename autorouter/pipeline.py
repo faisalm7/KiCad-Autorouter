@@ -2267,6 +2267,32 @@ def check_result(path, *, native_toolchain=None, experimental_schematic_parity=F
         raise
 
 
+def sequential_cpu_components(parent_cpu, waited_cpu, steps):
+    """Conservatively reconcile sequential wait4 totals with per-step samples.
+
+    Separate floating-point additions can differ by a few ulps. Only a deficit
+    within the existing receipt algebra tolerance may round up to zero; missing
+    CPU, negative measurements and nonfinite values still refuse publication.
+    """
+    def number(value):
+        if type(value) not in (int,float) or not math.isfinite(value) or value<0:
+            raise Rejected('invalid resource accounting')
+        return value
+    def total(values):
+        try:return number(math.fsum(values))
+        except OverflowError as exc:raise Rejected('invalid resource accounting') from exc
+    parent,waited=number(parent_cpu),number(waited_cpu)
+    child=total(number(step['cpu_seconds']) for step in steps)
+    monitor=total(number(step['monitor_cpu_seconds']) for step in steps)
+    residual=waited-child
+    if residual < -1e-6:
+        raise Rejected('waited child CPU is below recorded step CPU')
+    control=max(0.0,residual)
+    return dict(parent_cpu_seconds=parent,child_cpu_seconds=child,
+        control_child_cpu_seconds=control,monitor_cpu_seconds=monitor,
+        total_cpu_seconds=total((parent,child,monitor,control)))
+
+
 def check_resource_accounting(data, *, child_key='child_cpu_seconds'):
     """Shared sequential receipt budgets and finite parent/child CPU algebra."""
     def number(value):
