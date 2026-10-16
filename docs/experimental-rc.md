@@ -1,5 +1,7 @@
 # Local experimental source handoff
 
+Latest installed runtime evidence is [046](../evidence/installation046-native-001.json), source5949f6be: all seven reader groups, native strict-width fullSCH/protected routing, persisted settings, four Native plots and test-intent separate-project workflow pass. Current046 GUI access remains locked; earlier GUI observations have separate source/candidate scope. New stronger-incumbent cohort work is exposed development and does not close the remaining breadth, untouched evaluation, human or physical gates.
+
 Use the existing checkout at `~/Projects/KiCad-Autorouter-local`. Routing runs
 locally without an AI account or route-time network access. This is experimental
 source; representative coverage and confirmatory release gates remain open.
