@@ -1,0 +1,796 @@
+{
+  "schema": 1,
+  "kind": "actual-flat-class-parity-prerequisite-only",
+  "Native_executed": true,
+  "accepted": false,
+  "production_admitted": false,
+  "engine_executed": false,
+  "class_parity_prerequisite_passed": true,
+  "source_head": "f7d9789a88d24be0c890ae695d4f8dd7ec8db893",
+  "prospective": "evidence/flat-class-parity-prospective-001.json",
+  "protocol_sha256": "67d9dc0003147e314c49dae4a9e99b02ed3657a74ca0ea97d4dd54f4b3fde118",
+  "candidate_sha256": "097e2ba5626d1a2bedecc82e2a89c5080bb3cba4d0677e1a7dcea12e15e0c0ba",
+  "protected_routes": 23,
+  "native": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 6,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      }
+    ],
+    "findings": [
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J1",
+            "pos": {
+              "x": 12.0,
+              "y": 10.0
+            },
+            "uuid": "e0f1e400-0345-5582-be29-ecfc38486330"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J2",
+            "pos": {
+              "x": 26.0,
+              "y": 10.0
+            },
+            "uuid": "4fc3d2bc-21d8-5e0f-b345-e61931018efd"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J3",
+            "pos": {
+              "x": 12.0,
+              "y": 16.0
+            },
+            "uuid": "c7f956cb-4807-5b32-b814-9a00b5a214cb"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J4",
+            "pos": {
+              "x": 26.0,
+              "y": 16.0
+            },
+            "uuid": "daa8e6d3-a954-500e-a3e8-890bab8ea182"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J5",
+            "pos": {
+              "x": 12.0,
+              "y": 24.0
+            },
+            "uuid": "dc506506-6ca3-5466-b5a7-8cb9e70d1fe1"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J6",
+            "pos": {
+              "x": 26.0,
+              "y": 24.0
+            },
+            "uuid": "e683e253-d3ba-5301-a19c-4d7511658da8"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      }
+    ],
+    "field_parity": {
+      "schema": 1,
+      "policy": "datasheet-absence-only-v1",
+      "native_report_sha256": "fd1b9fd9b4cfd57f23070d18f7732706e41548822fd9eec368020f2c32f9b9a8",
+      "binding_sha256": "91768a7397941192a298dab4b7589f7c446351c420d4e16e0c1a73e87b519438",
+      "netlist_sha256": "de3cb2652bec119871cd9d52780312a70a2e5b04e389d2cfcf0b969776527834",
+      "fields_sha256": "c3dcfe13d8e44a731c524941dd307bf9526c79dc26a9b9384bf9dedc8e0be719",
+      "qualification": {
+        "qualified": true,
+        "policy": "datasheet-effective-empty-v1",
+        "component_count": 6,
+        "compared_field_count": 18,
+        "comparison_map": [
+          {
+            "reference": "J1",
+            "uuid": "e0f1e400-0345-5582-be29-ecfc38486330",
+            "schematic_fields": {
+              "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J1",
+              "Datasheet": "",
+              "Description": "Project-owned transport diagnostic one-pin terminal"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Project-owned transport diagnostic one-pin terminal",
+              "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J1"
+            }
+          },
+          {
+            "reference": "J2",
+            "uuid": "4fc3d2bc-21d8-5e0f-b345-e61931018efd",
+            "schematic_fields": {
+              "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J2",
+              "Datasheet": "",
+              "Description": "Project-owned transport diagnostic one-pin terminal"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Project-owned transport diagnostic one-pin terminal",
+              "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J2"
+            }
+          },
+          {
+            "reference": "J3",
+            "uuid": "c7f956cb-4807-5b32-b814-9a00b5a214cb",
+            "schematic_fields": {
+              "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J3",
+              "Datasheet": "",
+              "Description": "Project-owned transport diagnostic one-pin terminal"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Project-owned transport diagnostic one-pin terminal",
+              "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J3"
+            }
+          },
+          {
+            "reference": "J4",
+            "uuid": "daa8e6d3-a954-500e-a3e8-890bab8ea182",
+            "schematic_fields": {
+              "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J4",
+              "Datasheet": "",
+              "Description": "Project-owned transport diagnostic one-pin terminal"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Project-owned transport diagnostic one-pin terminal",
+              "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J4"
+            }
+          },
+          {
+            "reference": "J5",
+            "uuid": "dc506506-6ca3-5466-b5a7-8cb9e70d1fe1",
+            "schematic_fields": {
+              "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J5",
+              "Datasheet": "",
+              "Description": "Project-owned transport diagnostic one-pin terminal"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Project-owned transport diagnostic one-pin terminal",
+              "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J5"
+            }
+          },
+          {
+            "reference": "J6",
+            "uuid": "e683e253-d3ba-5301-a19c-4d7511658da8",
+            "schematic_fields": {
+              "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J6",
+              "Datasheet": "",
+              "Description": "Project-owned transport diagnostic one-pin terminal"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Project-owned transport diagnostic one-pin terminal",
+              "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J6"
+            }
+          }
+        ],
+        "warning_uuids": [
+          "4fc3d2bc-21d8-5e0f-b345-e61931018efd",
+          "c7f956cb-4807-5b32-b814-9a00b5a214cb",
+          "daa8e6d3-a954-500e-a3e8-890bab8ea182",
+          "dc506506-6ca3-5466-b5a7-8cb9e70d1fe1",
+          "e0f1e400-0345-5582-be29-ecfc38486330",
+          "e683e253-d3ba-5301-a19c-4d7511658da8"
+        ],
+        "warning_hashes": [
+          "11c7952f45ce5545d7f8df269362f47ce73052d0a7246834c5bcd3ce2739b968",
+          "319b07ba68191f14f159da72471bce67ea36c0e4692f3ec4c675f6fa1bad239e",
+          "9b0a7f32e1ccbcfc4f30c5bd69f6504002525418c3a2fa520f72b7dde1c6742a",
+          "9d4a4c9575b1202251cd304ceda22553482c6cd3e28effd92f922549129a439d",
+          "af9064e596738de4bb0ee2b6134759c308d6ffe4e87fcd7c62ed43cbda9fcf45",
+          "e958dc8f14cb9843b9143fb1a7490349c3b78bc2ca848c63eb7c327333f72e2e"
+        ],
+        "native_export_sha256": "de3cb2652bec119871cd9d52780312a70a2e5b04e389d2cfcf0b969776527834",
+        "observer_sha256": "4c0cd1a6a916c2f7f3654ca9a10a0c6ff9ec2a7a36d86a1f58bd93d89c4500d4",
+        "drc_report_sha256": "47f9b045c185006d920d4af71646f519ef673218de98271d95444ae55afa5b95"
+      },
+      "local_settings_guard_sha256": "522d1c47d738be8513172c224c43cb69ce574c1740124d888a5fbe137ca07a34"
+    }
+  },
+  "partitions": [
+    {
+      "net": "GND",
+      "terminals": [
+        [
+          "J5",
+          "1"
+        ],
+        [
+          "J6",
+          "1"
+        ]
+      ],
+      "class": "SIGNAL,Default",
+      "effective_nm": {
+        "width_nm": 350000,
+        "clearance_nm": 200000,
+        "via_diameter_nm": 1000000,
+        "via_drill_nm": 400000
+      },
+      "parameter_parents": {
+        "width_nm": {
+          "name": "SIGNAL",
+          "value_nm": 350000,
+          "specified": true,
+          "priority": 0
+        },
+        "clearance_nm": {
+          "name": "SIGNAL",
+          "value_nm": 200000,
+          "specified": true,
+          "priority": 0
+        },
+        "via_diameter_nm": {
+          "name": "SIGNAL",
+          "value_nm": 1000000,
+          "specified": true,
+          "priority": 0
+        },
+        "via_drill_nm": {
+          "name": "SIGNAL",
+          "value_nm": 400000,
+          "specified": true,
+          "priority": 0
+        }
+      }
+    },
+    {
+      "net": "KEEP",
+      "terminals": [
+        [
+          "J3",
+          "1"
+        ],
+        [
+          "J4",
+          "1"
+        ]
+      ],
+      "class": "Default",
+      "effective_nm": {
+        "width_nm": 300000,
+        "clearance_nm": 200000,
+        "via_diameter_nm": 800000,
+        "via_drill_nm": 400000
+      },
+      "parameter_parents": {
+        "width_nm": {
+          "name": "Default",
+          "value_nm": 300000,
+          "specified": true,
+          "priority": 2147483647
+        },
+        "clearance_nm": {
+          "name": "Default",
+          "value_nm": 200000,
+          "specified": true,
+          "priority": 2147483647
+        },
+        "via_diameter_nm": {
+          "name": "Default",
+          "value_nm": 800000,
+          "specified": true,
+          "priority": 2147483647
+        },
+        "via_drill_nm": {
+          "name": "Default",
+          "value_nm": 400000,
+          "specified": true,
+          "priority": 2147483647
+        }
+      }
+    },
+    {
+      "net": "ROUTE",
+      "terminals": [
+        [
+          "J1",
+          "1"
+        ],
+        [
+          "J2",
+          "1"
+        ]
+      ],
+      "class": "POWER,Default",
+      "effective_nm": {
+        "width_nm": 400000,
+        "clearance_nm": 250000,
+        "via_diameter_nm": 1200000,
+        "via_drill_nm": 500000
+      },
+      "parameter_parents": {
+        "width_nm": {
+          "name": "POWER",
+          "value_nm": 400000,
+          "specified": true,
+          "priority": 1
+        },
+        "clearance_nm": {
+          "name": "POWER",
+          "value_nm": 250000,
+          "specified": true,
+          "priority": 1
+        },
+        "via_diameter_nm": {
+          "name": "POWER",
+          "value_nm": 1200000,
+          "specified": true,
+          "priority": 1
+        },
+        "via_drill_nm": {
+          "name": "POWER",
+          "value_nm": 500000,
+          "specified": true,
+          "priority": 1
+        }
+      }
+    }
+  ],
+  "components": 6,
+  "terminals": 6,
+  "nets": 3,
+  "class_flags": [
+    "POWER"
+  ],
+  "retained_negative": {
+    "refused": true,
+    "kind": "ClassIdentityMismatch",
+    "reason": "flat class parity: class_identity_mismatch on ROUTE: SCH='CRITICAL,POWER,Default', PCB='POWER,Default'"
+  },
+  "retained_negative_Native_repeated": false,
+  "shared_refill_final_process_proof_readback": true,
+  "original_design_exact": true,
+  "source_companions_routes_unchanged": true,
+  "whole_costs": {
+    "external_wall_seconds": 6.77,
+    "external_full_cpu_seconds": 5.52,
+    "scope": "New preparation, one fresh positive Native/refill/fullSCH/field-netlist/scalar class map, every shared reader and publication. Child times subsets; historical006Native cost not rewritten. Source authoring/research/independent review costs unknown, separate."
+  },
+  "decision": "Prerequisite passes in this owned flat single-nondefault-parent scope. Production class/hierarchy guard stays unchanged; no route/engine/install/addedfamily/completion/electrical claim. Product integration must enforce fresh source class proof before engine and in every accepted reader/export path.",
+  "backup": "New actual outputs postdate010capture8250c18e. Entire small owned packet is curated here for audited Git checkpoint. Existing bulk source remains captured. New-target full restoration remains disk-headroom blocked.",
+  "rights": "Project-owned GPL-3.0-or-later fixtures and generated Native records. No external source CAD, engines, private input or model.",
+  "files": [
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/candidate/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 14991,
+      "sha256": "097e2ba5626d1a2bedecc82e2a89c5080bb3cba4d0677e1a7dcea12e15e0c0ba",
+      "source": ".runs/flat-class-parity-native-001/native/candidate/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/candidate/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "source": ".runs/flat-class-parity-native-001/native/candidate/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/candidate/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "source": ".runs/flat-class-parity-native-001/native/candidate/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/candidate/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8783,
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13",
+      "source": ".runs/flat-class-parity-native-001/native/candidate/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/class-parity.json",
+      "bytes": 4538,
+      "sha256": "3e036f11e23b4ad6889be4ba17cbe404dfcddfde56027cc51d603febcab15134",
+      "source": ".runs/flat-class-parity-native-001/native/class-parity.json"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/final-drc-binding.json",
+      "bytes": 1427,
+      "sha256": "91768a7397941192a298dab4b7589f7c446351c420d4e16e0c1a73e87b519438",
+      "source": ".runs/flat-class-parity-native-001/native/job/final-drc-binding.json"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/final-drc-fields-audit-process.json",
+      "bytes": 2022,
+      "sha256": "c115f0e71031c706db72f297040438ca14febc200712d97aafc57f82c02ef7c5",
+      "source": ".runs/flat-class-parity-native-001/native/job/final-drc-fields-audit-process.json"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/final-drc-fields-audit.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": ".runs/flat-class-parity-native-001/native/job/final-drc-fields-audit.log"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/final-drc-fields-local-settings.json",
+      "bytes": 1854,
+      "sha256": "522d1c47d738be8513172c224c43cb69ce574c1740124d888a5fbe137ca07a34",
+      "source": ".runs/flat-class-parity-native-001/native/job/final-drc-fields-local-settings.json"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/final-drc-fields-netlist-process.json",
+      "bytes": 2000,
+      "sha256": "71d3351f1c936c386dcd4f5944f9c2ba401b490c2a5000f3d6f31c0e7cf69865",
+      "source": ".runs/flat-class-parity-native-001/native/job/final-drc-fields-netlist-process.json"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/final-drc-fields-netlist.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": ".runs/flat-class-parity-native-001/native/job/final-drc-fields-netlist.log"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/final-drc-fields-proof.json",
+      "bytes": 4998,
+      "sha256": "c8e453803c63d7904a24e020a3697330255cf0a1e551960f407d4bbb2b7ce28f",
+      "source": ".runs/flat-class-parity-native-001/native/job/final-drc-fields-proof.json"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/final-drc-fields.json",
+      "bytes": 2292,
+      "sha256": "c3dcfe13d8e44a731c524941dd307bf9526c79dc26a9b9384bf9dedc8e0be719",
+      "source": ".runs/flat-class-parity-native-001/native/job/final-drc-fields.json"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/final-drc-fields.net",
+      "bytes": 9185,
+      "sha256": "de3cb2652bec119871cd9d52780312a70a2e5b04e389d2cfcf0b969776527834",
+      "source": ".runs/flat-class-parity-native-001/native/job/final-drc-fields.net"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/final-drc-input/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 14991,
+      "sha256": "097e2ba5626d1a2bedecc82e2a89c5080bb3cba4d0677e1a7dcea12e15e0c0ba",
+      "source": ".runs/flat-class-parity-native-001/native/job/final-drc-input/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/final-drc-input/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "source": ".runs/flat-class-parity-native-001/native/job/final-drc-input/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/final-drc-input/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "source": ".runs/flat-class-parity-native-001/native/job/final-drc-input/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/final-drc-input/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8783,
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13",
+      "source": ".runs/flat-class-parity-native-001/native/job/final-drc-input/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/final-drc-process.json",
+      "bytes": 2570,
+      "sha256": "828bd38a3095459659bfbf7cbc5ec7d854d8b6f6801d04b56132872ff2813bb2",
+      "source": ".runs/flat-class-parity-native-001/native/job/final-drc-process.json"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/final-drc.json",
+      "bytes": 3717,
+      "sha256": "fd1b9fd9b4cfd57f23070d18f7732706e41548822fd9eec368020f2c32f9b9a8",
+      "source": ".runs/flat-class-parity-native-001/native/job/final-drc.json"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/final-drc.log",
+      "bytes": 204,
+      "sha256": "f56b6b5ef93e11b79ecdcaa96dca8c03e72c588c7566c216bef82f943572aaf7",
+      "source": ".runs/flat-class-parity-native-001/native/job/final-drc.log"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/final-netclass-audit.json",
+      "bytes": 3776,
+      "sha256": "88df46890aff47f0f76e187155f75ab103f23f9f860156b54924142159920ff7",
+      "source": ".runs/flat-class-parity-native-001/native/job/final-netclass-audit.json"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/final-netclasses-process.json",
+      "bytes": 2006,
+      "sha256": "f74e732cbcdc7ea43f65f9bd127a0306aa1675b7faa6167d51865db2cef9e4fc",
+      "source": ".runs/flat-class-parity-native-001/native/job/final-netclasses-process.json"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/final-netclasses.json",
+      "bytes": 3556,
+      "sha256": "ed67048ca6edf88fa4811da4189c263d18d02ea138ece4f73e9804b07143b39c",
+      "source": ".runs/flat-class-parity-native-001/native/job/final-netclasses.json"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/final-netclasses.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": ".runs/flat-class-parity-native-001/native/job/final-netclasses.log"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/kicad-config/10.0/3d_viewer.json",
+      "bytes": 9083,
+      "sha256": "196678c94fed37c15510bb4b54d6e4eec989a0c3f9b4d30ff1be0d1425992bf3",
+      "source": ".runs/flat-class-parity-native-001/native/job/kicad-config/10.0/3d_viewer.json"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/kicad-config/10.0/cvpcb.json",
+      "bytes": 8413,
+      "sha256": "b93174a3b1470f1ce0e43c90268ce83976432c5210d906a3846ee7976ea9d272",
+      "source": ".runs/flat-class-parity-native-001/native/job/kicad-config/10.0/cvpcb.json"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/kicad-config/10.0/eeschema.json",
+      "bytes": 12258,
+      "sha256": "ce1d47af13c60254b736992e8a387cf93b06c83f302e3aaa4c6836acb05d3502",
+      "source": ".runs/flat-class-parity-native-001/native/job/kicad-config/10.0/eeschema.json"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/kicad-config/10.0/fpedit.json",
+      "bytes": 7201,
+      "sha256": "e88988497732f32bf92cccd726d7d28ea7dfe1922d693448a38cb4c063f9d368",
+      "source": ".runs/flat-class-parity-native-001/native/job/kicad-config/10.0/fpedit.json"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/kicad-config/10.0/kicad.json",
+      "bytes": 5672,
+      "sha256": "026a2e3d05986b554bc6f5aa8590c69e847090527e0e718287e1005dbd905015",
+      "source": ".runs/flat-class-parity-native-001/native/job/kicad-config/10.0/kicad.json"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/kicad-config/10.0/kicad_common.json",
+      "bytes": 2482,
+      "sha256": "9b99cd27fbebf26b554c9d68b7291123af7765fc53b98f9f5e9c5c9fac2213b1",
+      "source": ".runs/flat-class-parity-native-001/native/job/kicad-config/10.0/kicad_common.json"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/kicad-config/10.0/pcbnew.json",
+      "bytes": 13701,
+      "sha256": "f0822c67ee74c2e6189603de283b6d288e77a6a201c65d2f6b60afd119c95845",
+      "source": ".runs/flat-class-parity-native-001/native/job/kicad-config/10.0/pcbnew.json"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/kicad-config/10.0/symbol_editor.json",
+      "bytes": 4208,
+      "sha256": "a3212dc53c3cbfd170a2bb6ae42db289bc6f4c3cf6df9abc4a5c856d22d2f86a",
+      "source": ".runs/flat-class-parity-native-001/native/job/kicad-config/10.0/symbol_editor.json"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/pour-before-refill.kicad_pcb",
+      "bytes": 14991,
+      "sha256": "097e2ba5626d1a2bedecc82e2a89c5080bb3cba4d0677e1a7dcea12e15e0c0ba",
+      "source": ".runs/flat-class-parity-native-001/native/job/pour-before-refill.kicad_pcb"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/pour-keepout-audit-process.json",
+      "bytes": 2023,
+      "sha256": "fe091cd31e78809d24544088fcbdad4b94190031531fdd44ac16b5726768b46c",
+      "source": ".runs/flat-class-parity-native-001/native/job/pour-keepout-audit-process.json"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/pour-keepout-audit.json",
+      "bytes": 4372,
+      "sha256": "a18531767d095b568b743c9c28596de38e44452c1877df593c979fadfeb6d692",
+      "source": ".runs/flat-class-parity-native-001/native/job/pour-keepout-audit.json"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/pour-keepout-audit.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": ".runs/flat-class-parity-native-001/native/job/pour-keepout-audit.log"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/pre-refill.kicad_pcb",
+      "bytes": 14991,
+      "sha256": "097e2ba5626d1a2bedecc82e2a89c5080bb3cba4d0677e1a7dcea12e15e0c0ba",
+      "source": ".runs/flat-class-parity-native-001/native/job/pre-refill.kicad_pcb"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/refill/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 19024,
+      "sha256": "012f19c2ba0a25f6d275620c8da99678011a96864605caf8b42f10c803682e56",
+      "source": ".runs/flat-class-parity-native-001/native/job/refill/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/refill/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "source": ".runs/flat-class-parity-native-001/native/job/refill/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/refill/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "source": ".runs/flat-class-parity-native-001/native/job/refill/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/refill/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8783,
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13",
+      "source": ".runs/flat-class-parity-native-001/native/job/refill/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/refill-drc-binding.json",
+      "bytes": 1349,
+      "sha256": "580fe590bdc5cec96daf710b2fcef112416026694b51d4302ae75a7202ecc2d9",
+      "source": ".runs/flat-class-parity-native-001/native/job/refill-drc-binding.json"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/refill-drc-process.json",
+      "bytes": 2544,
+      "sha256": "753c3c153601c7bb026436b0189c31bd9e458117bde952a0719fabf8ddf312e8",
+      "source": ".runs/flat-class-parity-native-001/native/job/refill-drc-process.json"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/refill-drc.json",
+      "bytes": 683,
+      "sha256": "711c3696afe972f0d3958022a35bb7301966c34e2c4b573a61d05bc495a204ec",
+      "source": ".runs/flat-class-parity-native-001/native/job/refill-drc.json"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/job/refill-drc.log",
+      "bytes": 185,
+      "sha256": "fd2d91d2861fc5255267e6f753a92cb515ad50488e9b8db23e78b70af97542e5",
+      "source": ".runs/flat-class-parity-native-001/native/job/refill-drc.log"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native/result.json",
+      "bytes": 36786,
+      "sha256": "62534cc2adeac4390ec7ed2f11743b24ab4c9a29f8131d1ce307fb8f9fdcdaf3",
+      "source": ".runs/flat-class-parity-native-001/native/result.json"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/native.log",
+      "bytes": 130,
+      "sha256": "ac08630689502b18094c8da68c37dc1959701f316462ae4a6a7a24ea50058f6f",
+      "source": ".runs/flat-class-parity-native-001/native.log"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/preparation/positive/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 14991,
+      "sha256": "097e2ba5626d1a2bedecc82e2a89c5080bb3cba4d0677e1a7dcea12e15e0c0ba",
+      "source": ".runs/flat-class-parity-native-001/preparation/positive/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/preparation/positive/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "source": ".runs/flat-class-parity-native-001/preparation/positive/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/preparation/positive/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "source": ".runs/flat-class-parity-native-001/preparation/positive/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/preparation/positive/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8783,
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13",
+      "source": ".runs/flat-class-parity-native-001/preparation/positive/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/preparation/protocol.json",
+      "bytes": 10375,
+      "sha256": "67d9dc0003147e314c49dae4a9e99b02ed3657a74ca0ea97d4dd54f4b3fde118",
+      "source": ".runs/flat-class-parity-native-001/preparation/protocol.json"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/preparation/retained-negative/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 14991,
+      "sha256": "097e2ba5626d1a2bedecc82e2a89c5080bb3cba4d0677e1a7dcea12e15e0c0ba",
+      "source": ".runs/flat-class-parity-native-001/preparation/retained-negative/owned-four-copper-forced-inner.kicad_pcb"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/preparation/retained-negative/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "source": ".runs/flat-class-parity-native-001/preparation/retained-negative/owned-four-copper-forced-inner.kicad_prl"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/preparation/retained-negative/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "source": ".runs/flat-class-parity-native-001/preparation/retained-negative/owned-four-copper-forced-inner.kicad_pro"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/preparation/retained-negative/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8786,
+      "sha256": "8eb96d2088fbcd9202b008e85083549e198f963cf414dd4cbf1d261c65f07add",
+      "source": ".runs/flat-class-parity-native-001/preparation/retained-negative/owned-four-copper-forced-inner.kicad_sch"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/preparation/retained-negative-observation/native.json",
+      "bytes": 3652,
+      "sha256": "9b410a543addb6dcdb2e8c2be340bdfcb1e76a4f0aa864b7c6ac3e2fa5d92b77",
+      "source": ".runs/flat-class-parity-native-001/preparation/retained-negative-observation/native.json"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/preparation/retained-negative-observation/schematic.net",
+      "bytes": 9286,
+      "sha256": "99d9b8a36f15a089f18ef49017a6ec765865be4dff09ce509844fa07544dbc73",
+      "source": ".runs/flat-class-parity-native-001/preparation/retained-negative-observation/schematic.net"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/prepare.log",
+      "bytes": 132,
+      "sha256": "1e593650971f0cd7074665ef13328717f71e84f19ba18936c49a827d0cac35a1",
+      "source": ".runs/flat-class-parity-native-001/prepare.log"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/packet/result.json",
+      "bytes": 19341,
+      "sha256": "bb00b10a053a55df8417761b3b698f2e20ff0444f213524cee97596c34d91025",
+      "source": ".runs/flat-class-parity-native-001/result.json"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/whole-command.log",
+      "bytes": 120,
+      "sha256": "1f1b7e856b6d980890aa059c25e341f3cffc2f13ee3a23371569d5fb828fee63",
+      "source": ".runs/flat-class-parity-native-001-command.log"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/whole-time.log",
+      "bytes": 29,
+      "sha256": "fc183f165937942096c7a91876fb815c2c3dcab9d6a9bd66f2c68480682e14e1",
+      "source": ".runs/flat-class-parity-native-001-time.log"
+    },
+    {
+      "path": "evidence/flat-class-parity-native-001-notes/curation-source.py",
+      "bytes": 5241,
+      "sha256": "2bb2a2822075298f132cecf99f7adc51265fd7a024b712e15b00dfce8b5aa3c4",
+      "source": ".runs/curate-flat-class-parity-native-001.py"
+    }
+  ],
+  "skeptical_AI_review": "Separate read-only review confirmed exact source/candidate/PRO/SCH/PRL/proof/map/netlist bindings, all23protected routes, all3partitions/6terminals,6rawDatasheetwarnings/2ignored, cleanup and flags. No material finding within narrow owned prerequisite. No humanreview.",
+  "curation_cost": {
+    "wall_seconds": 0.23,
+    "full_cpu_seconds": 0.18
+  }
+}

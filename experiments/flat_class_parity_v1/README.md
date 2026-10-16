@@ -19,3 +19,5 @@ After a reviewed, clean, verified source checkpoint on the pinned Mac toolchain,
 ```
 
 The output `.runs/flat-class-parity-native-001` must not already exist. Preserve it; do not retry automatically. If Native output cannot qualify the strict comparison or the retained negative passes, defer. Even a successful prerequisite leaves production integration, fresh routing/export qualification, installation and broader effectiveness gates open. Production guards are unchanged. No Native execution exists at this prospective source checkpoint.
+
+Actual001 now passes this narrow prerequisite; see [Native evidence](../../evidence/flat-class-parity-native-001.json) and [full144](../../evidence/flat-class-parity-full144-001.json). Three partitions/six terminals and all23protected routes are preserved. Six warnings/two ignored checks remain. The retained mismatched input specifically refuses without another Native run. No production admission or routing-quality claim follows. The prospective source checkpoint above remains historical.
