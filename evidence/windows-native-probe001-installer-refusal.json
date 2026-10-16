@@ -1,0 +1,90 @@
+{
+  "schema": 1,
+  "kind": "actual-windows-native-probe-stopped-at-installer",
+  "passed": false,
+  "product_support": false,
+  "source_head": "062cc0c32ca6418733a2cba08a529beb696832c3",
+  "run_url": "https://github.com/faisalm7/KiCad-Autorouter/actions/runs/38877738281",
+  "workflow_conclusion": "failure",
+  "workflow_seconds": 74,
+  "full_cpu_seconds": null,
+  "raw_record": {
+    "kind": "windows-native-substrate-prototype",
+    "source_head": "062cc0c32ca6418733a2cba08a529beb696832c3",
+    "passed": false,
+    "product_windows_support": false,
+    "installer_executed": true,
+    "install_exit": 666660,
+    "bundled_python_present": false,
+    "native_started": false,
+    "ephemeral_registration_side_effects_expected": true,
+    "artifact_upload": false,
+    "cache_upload": false,
+    "installer_sha256": "ce3881b6a9188eb34ac1ebaaec7651149e8a025206410addfb11a1a9656ecf95",
+    "signature_status": "Valid",
+    "error": "Installer failed",
+    "scratch_removed": true
+  },
+  "interpretation": {
+    "installer_hash_and_authenticode_verified": true,
+    "installer_executed": true,
+    "installer_exit_code": 666660,
+    "native_executed": false,
+    "matching_python_presence": "unknown; initial false emitted before any inventory was reached",
+    "gui_or_windows_product_qualified": false,
+    "scratch_removed": true,
+    "cause": "Official pinned packaging source documents silent mode requires explicit currentuser/allusers; actual argv omitted it. Source-confirmed mismatch/high-confidence explanation, not a binary trace or exact build-source correspondence."
+  },
+  "next_probe": "One fresh same-pinned installer with documented /currentuser /S /D=...; unchanged Native guards, no source repair or version substitution.",
+  "cost": {
+    "standard_public_runner": true,
+    "artifact_upload": false,
+    "cache_upload": false,
+    "provider_timing": {
+      "billable": {
+        "WINDOWS": {
+          "total_ms": 0,
+          "jobs": 2,
+          "job_runs": [
+            {
+              "job_id": 116896758715,
+              "duration_ms": 0
+            },
+            {
+              "job_id": 116896760469,
+              "duration_ms": 0
+            }
+          ]
+        },
+        "UBUNTU": {
+          "total_ms": 0,
+          "jobs": 1,
+          "job_runs": [
+            {
+              "job_id": 116896760250,
+              "duration_ms": 0
+            }
+          ]
+        }
+      },
+      "run_duration_ms": 74000
+    },
+    "actual_setup_step_seconds": 51.2831706,
+    "setup_step_includes_download_verification_install_and_cleanup": true,
+    "installer_only_seconds": null,
+    "diagnosis_wall_seconds": 131,
+    "diagnosis_cpu_seconds": null,
+    "research_get_bytes": 90626,
+    "research_get_wall_seconds": 1.153785,
+    "additional_provider_web_cost_unmeasured": true
+  },
+  "retained_sha256": {
+    "timing.json": "55122a9a3b56afe8e5ab1f91c9fa6f7e533a6089346b5a0204d017306df570ab",
+    "command.log": "7fbfe04dcf062bdb7db28fff49d7d9605c9211c5b50a8d35c7d1f1eb3cafd5ef",
+    "run.json": "3298c3258f0217c56708b03632971c1e7c10a5cc021c12a97937e58638265c80",
+    "jobs.json": "a8e63bae1aae65176568d0b400929c62aed825d9eda8b0109255bb9c4fd7f637"
+  },
+  "primary_install_scope_source": "https://gitlab.com/kicad/packaging/kicad-win-builder/-/blob/a7b778ea52c30bf734853ef56db772a09e595f6e/nsis/includes/NsisMultiUser.nsh#L570-573",
+  "retained_raw_scope": ".runs/windows-native-ci001; .runs/windows-installer-exit666660-001",
+  "source_review_corrections_read_back": ".runs/windows-slice-integrated-review-001/REVIEW.md"
+}

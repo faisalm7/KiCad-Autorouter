@@ -7,7 +7,7 @@ $head=(& git -C $repo -c core.fsmonitor=false -c core.hooksPath=/dev/null rev-pa
 if($LASTEXITCODE -ne 0 -or $head -cne $env:GITHUB_SHA){throw 'Dispatched checkout mismatch'}
 $scratch=Join-Path $temp ('native-slice-'+[Guid]::NewGuid().ToString('N'));New-Item -ItemType Directory $scratch|Out-Null
 $installer=Join-Path $scratch 'kicad.exe';$install=Join-Path $scratch 'KiCad';$jar=Join-Path $scratch 'freerouting-2.5.0.jar';$rules=@()
-$record=[ordered]@{kind='windows-native-substrate-prototype';source_head=$head;passed=$false;product_windows_support=$false;installer_executed=$false;install_exit=$null;bundled_python_present=$false;native_started=$false;ephemeral_registration_side_effects_expected=$true;artifact_upload=$false;cache_upload=$false}
+$record=[ordered]@{kind='windows-native-substrate-prototype';source_head=$head;passed=$false;product_windows_support=$false;installer_executed=$false;install_exit=$null;bundled_python_present=$null;native_started=$false;ephemeral_registration_side_effects_expected=$true;artifact_upload=$false;cache_upload=$false}
 function Fetch([string]$url,[string]$dest,[long]$size,[string]$sha){
  $client=[Net.Http.HttpClient]::new();$client.Timeout=[TimeSpan]::FromMinutes(3);$input=$null;$output=$null;$cancel=[Threading.CancellationTokenSource]::new([TimeSpan]::FromMinutes(3));$response=$null
  try{$response=$client.GetAsync($url,[Net.Http.HttpCompletionOption]::ResponseHeadersRead,$cancel.Token).GetAwaiter().GetResult();if([int]$response.StatusCode -ne 200 -or $response.Content.Headers.ContentLength -ne $size){throw 'Download status/size mismatch'};$input=$response.Content.ReadAsStream();$output=[IO.File]::Open($dest,'CreateNew','Write','None');$buffer=[byte[]]::new(1MB);$count=[long]0
@@ -23,7 +23,7 @@ try{
  if($signature.Status -ne 'Valid' -or $signature.SignerCertificate.Subject -notmatch '(?:^|,\s*)CN=KICAD SERVICES CORPORATION(?:,|$)' -or $signature.SignerCertificate.Issuer -notmatch '(?:^|,\s*)CN=GlobalSign GCC R45 EV CodeSigning CA 2020(?:,|$)' -or $signature.SignerCertificate.SerialNumber -cne '39DF6B588D969CA15D8D2756'){throw 'KiCad signer differs'}
  # Application files target RunnerTemp; ordinary ephemeral registry/shortcut side effects are expected.
  # Trusted official setup is online-capable dependency installation, not normal offline routing.
- $p=Start-Process -FilePath $installer -ArgumentList @('/S',('/D='+$install)) -PassThru;$record['installer_executed']=$true
+ $p=Start-Process -FilePath $installer -ArgumentList @('/currentuser','/S',('/D='+$install)) -PassThru;$record['installer_executed']=$true
  if(-not $p.WaitForExit(300000)){$p.Kill($true);$null=$p.WaitForExit(5000);$record['installer_timeout']=$true;throw 'Installer timeout'};$record['install_exit']=$p.ExitCode;if($p.ExitCode -ne 0){throw 'Installer failed'}
  $python=Join-Path $install 'bin/python.exe';$cli=Join-Path $install 'bin/kicad-cli.exe'
  $record['bundled_python_present']=[bool](Test-Path $python);$record['cli_present']=[bool](Test-Path $cli);$record['bounded_bin_inventory']=@(Get-ChildItem (Join-Path $install 'bin') -File|Where-Object {$_.Name -match '^(python|_pcbnew|pcbnew|kicad-cli)'}|Select-Object -First 100 Name,Length)

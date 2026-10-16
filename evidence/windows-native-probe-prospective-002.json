@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "kind": "prospective-same-installer-explicit-per-user-scope-probe",
+  "native_executed": false,
+  "installer_executed": false,
+  "prior_failed_run": "https://github.com/faisalm7/KiCad-Autorouter/actions/runs/38877738281",
+  "source_sha256": {
+    "scripts/windows_native_slice/firewall_gate.ps1": "a5405b18cad3375447ab90ea98e359ee1efad45c9794f675a4ef1dd6a218c976",
+    "scripts/windows_native_slice/SOURCE_REVIEW.md": "865194f7a4d257eef12f68eb46a5c3ab2f78fe498f6442bf0e69b0eab9dfe51a",
+    "scripts/windows_native_slice/native_worker.py": "b3e8674f9649453b95de3931d895fa0ce55cd6798d8943f3d058993694e506be",
+    "scripts/windows_native_slice/slice.py": "b992c5fe0d5f759538bdf18d7009b9ec62c28239a223f3d0bd89449c4965a5ea",
+    "scripts/windows_native_slice/README.md": "224f4ac0bc386611121c87ac59089742f76376d99e4b1f2b0583497d680955e0",
+    "scripts/windows_native_slice/windows_process.py": "6fa8fe38b11cd5ffe80bcadcb0ba9d16c5cb91f955083f6dc3e6267a89f119c7",
+    "scripts/windows_native_slice/bootstrap.ps1": "4e788dd54b20f84beb4a9c1882cee9d851c8acdfb603b99387c10bbfd5ee71a6"
+  },
+  "only_behavior_change": "Add documented /currentuser to silent installer; initialize unobserved Python presence as null. Same signed/hash-pinned installer, Native/Java/constraints/guards unchanged.",
+  "cost_gate": "Same verified public standard windows-2022/read-only/manual15min/no artifact or cache uploads; first provider timing reports0billable milliseconds.",
+  "primary_source": "https://gitlab.com/kicad/packaging/kicad-win-builder/-/blob/a7b778ea52c30bf734853ef56db772a09e595f6e/nsis/includes/NsisMultiUser.nsh#L570-573",
+  "limitations": "Actual matching Native Python, firewall, Job Object, Native routing/export/cancellation and complete CPU qualification still untested. Main Windows product support false."
+}
