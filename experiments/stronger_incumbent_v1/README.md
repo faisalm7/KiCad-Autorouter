@@ -30,3 +30,9 @@ existing directories. Never remove an old run to rerun these names.
 
 Software controls and source review do not establish native acceptance or a gain.
 Fresh native integration and equal-budget comparisons have separate receipts.
+
+Actual owned integration and the matched exposed IR result are now recorded in
+`evidence/stronger-incumbent-native-001.json` and
+`evidence/stronger-incumbent-ir-native240-001.json`. The latter improves route
+length with unchanged vias under equal caps, while using more compute. See
+`matched_ir/README.md` for the exact archived callers and reproduction limits.

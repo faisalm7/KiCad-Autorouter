@@ -1,0 +1,131 @@
+{
+  "schema": 1,
+  "kind": "fresh-stronger-incumbent-C-owned-native-integration",
+  "producer_git_head": "0d20901fea0da9c11886879e291f053c78156df6",
+  "protocol_sha256": "a104ddb25c7a13fc670c5e7e1c83e686bfc22d2ebbabf5bb18b99b5a18cf8387",
+  "passed": true,
+  "accepted": false,
+  "new_benchmark_gains": 0,
+  "new_families": 0,
+  "default_promoted": false,
+  "positive": {
+    "candidate_sha256": "fbef4f8c66e58f06f1677b94ce6867183f2e19f163d9d2655b295d44a400e6f1",
+    "native_report_sha256": "4b0b104b437d0ab272d1a1ba41eb89cd997ac50a3730b56ed79481952ec64e77",
+    "native": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 6,
+      "exclusions": 0
+    },
+    "ignored_checks": [
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      }
+    ],
+    "metrics": {
+      "version": "10.0.0",
+      "pads": 6,
+      "footprints": 6,
+      "zones": 1,
+      "vias": 0,
+      "track_length_mm": 28.31782106327635,
+      "copper_layers": 2
+    },
+    "full_schematic_components": 6,
+    "compared_fields": 18,
+    "protected_KEEP_routes": 1,
+    "original_design_and_rules_preserved": true,
+    "pruning_trials": 1,
+    "pruning_improvements": 1
+  },
+  "own_fresh_incumbent": {
+    "profile": "tuned-free-angle",
+    "assigned_wall_full_cpu_seconds": 85.38979554202524,
+    "parent_wall_full_cpu_seconds": 120,
+    "native_finalization_reserve_seconds": 25.0,
+    "metrics": {
+      "version": "10.0.0",
+      "pads": 6,
+      "footprints": 6,
+      "zones": 1,
+      "vias": 0,
+      "track_length_mm": 42.317821063276355,
+      "copper_layers": 2
+    },
+    "candidate_sha256": "e2d42cdb7d9d814838b0178c2a3b42c820b9adbfb0b948a0cf26afa430f0f908",
+    "native_report_sha256": "e6fe55dd546a2d325dc2c3bb95d9afc67390f83dd0a62f900f1d37efca34287c",
+    "engine_fanout_enabled": false,
+    "engine_optimizer_enabled": false,
+    "engine_only_planning_margin_nm": 20000
+  },
+  "same_original_short": {
+    "candidate_sha256": "e405ccdda3d54dea03ddf44183e9288925a4e12a1c3b5b8133b6bd743ae7f151",
+    "native_report_sha256": "cb4ed72cbbfaf22ac2d1401da21d5c2508182d0c395e2d329dca9f38ffefbe1b",
+    "native": {
+      "opens": 0,
+      "blocking": 4,
+      "warnings": 6,
+      "exclusions": 0
+    },
+    "shorting_items_required": true
+  },
+  "pure_readback": {
+    "completed": true,
+    "new_native_or_engine": false,
+    "receipt_sha256": "cbf751edb674363613e498dd8c5b4669067afcb762004b9621784c133ca5876e",
+    "first_startup_guard_refusal_retained": true,
+    "fix": "Exact existing qualified pure_git_gate reused; no Native or engine repeated."
+  },
+  "complete_external_costs": {
+    "prepare_wall": 0.93,
+    "prepare_cpu": 0.92,
+    "run_wall": 49.42,
+    "run_cpu": 37.75,
+    "failed_reader001_wall": 0.38,
+    "failed_reader001_cpu": 0.29,
+    "reader002_wall": 6.34,
+    "reader002_cpu": 6.34,
+    "total_wall_seconds": 57.07,
+    "total_full_cpu_seconds": 45.3,
+    "conservative_rounded_wall_seconds": 57.11,
+    "conservative_rounded_full_cpu_seconds": 45.38,
+    "curation_allowance_wall_full_cpu_seconds": 2,
+    "within180_including_allowance": true
+  },
+  "independent_raw_review": {
+    "file": ".local-backups/stronger-incumbent-native-actual-review-001/review.json",
+    "sha256": "08be3293c241163c763368880cb3fa5607b1a0947233616e9cda3a1df43439a2",
+    "wall_seconds": 209.254167,
+    "full_cpu_seconds": null,
+    "no_new_native_or_tests": true,
+    "scope": "Source/hash/process/material/flags review, not human PCB or physical approval."
+  },
+  "scope": "One project-owned six-component control confirms the new parent/child integration, actual pruning, original rules/SCH/KEEP and same-original short rejection. Its14mm deletion is not a new real-board/family benchmark gain. Stronger stock configuration and20um margin retain prior narrow support; defaults/public settings unchanged. Matched exposed IR B2/C comparison now has separate evidence stronger-incumbent-ir-native240-001.json. Current installation044 and full restoration cover their prior source/cutoff only.",
+  "raw_evidence_sha256": {
+    ".runs/stronger-incumbent-native-001/result.json": "5d933b9f28642e7a7c84bc49305481d8ec3a8eb524c1c7cfe9d2d33b58d251ff",
+    ".runs/stronger-incumbent-native-001/route/result.json": "8b240bf60535df0e20a24d3ddb908f2877551bd6d83042f027451ba129b9892e",
+    ".runs/stronger-incumbent-native-001/route/incumbent/result.json": "b7108fdb37c83892893f98f699ceca7f9083f6b993e2fd2e5f4499aa0f251178",
+    ".runs/stronger-incumbent-native-preparation-001/protocol.json": "a104ddb25c7a13fc670c5e7e1c83e686bfc22d2ebbabf5bb18b99b5a18cf8387",
+    ".runs/stronger-incumbent-command-001/prepare/execution.json": "a4de99f97ab5c8b6dd81a52d73ed05bd9a99a492ba3d8e1ec89be468ffebd5a5",
+    ".runs/stronger-incumbent-command-001/run/execution.json": "fb7dccdad6ebd89056aae1e59e81722826f6e777c0a5736ba958a39bc88475e6",
+    ".runs/stronger-incumbent-native-readback-command-002/execution.json": "725a52da09ef09e055bfa6096a706efb226ef5c8041ee1290c7b50f8c7812743",
+    ".runs/stronger-incumbent-native-readback-002/result.json": "cbf751edb674363613e498dd8c5b4669067afcb762004b9621784c133ca5876e",
+    ".runs/read-stronger-incumbent-native-001.py": "101dec4731b4dfd7b4a4b87cd43ab39bd2395c11ce28a0786193e33900f19cd7",
+    ".runs/read-stronger-incumbent-native-002.py": "97ed18e345b0ec5f1273d39cf0ab031977556eea5f63af780a1620a8026e4d17",
+    ".runs/run-stronger-incumbent-native-command-001.py": "ffd29f6d779e370f90b7103824df35bc91dc75fba858c60c05337ba97067c461",
+    ".runs/run-stronger-incumbent-native-readback-002.py": "347e08a4b38bdb3f7bc61818e8e4f43a4dee96271ea04b68f57bb468c21ab5f0",
+    ".runs/stronger-incumbent-native-timing-001/prepare-time.log": "b1f6803f0812bce0271cd332710779ef35971f079e3a862e9ae1cc045dc97d66",
+    ".runs/stronger-incumbent-native-timing-001/prepare-command.log": "eb41586209d94e9324798212fc017bfb4e7e10db53ec38e177ae06a1864df27e",
+    ".runs/stronger-incumbent-native-timing-001/run-time.log": "6b534a9b6f1b916e8a6c610a3f8422daae1119a7535b3f25c441f9d33c0ca522",
+    ".runs/stronger-incumbent-native-timing-001/run-command.log": "d507249bc3282b829e21604cc3fcf0700dab73331ab8a5a105453520d195024b",
+    ".runs/stronger-incumbent-native-timing-001/read-time.log": "7c4082f5ceb68821f617cf25dbb04d99799c3a63e75ef30f28b3401407ddbfd6",
+    ".runs/stronger-incumbent-native-timing-001/read-command.log": "37b752eaa17c7b9c8c2aee2a375a9a8d023f3350591fba5cda0047f36364f5d6",
+    ".runs/stronger-incumbent-native-timing-001/read002-time.log": "a7352ed2333b72dcecee1d52f8310258d40653b0c8f4049362ca3b3c56a48314",
+    ".runs/stronger-incumbent-native-timing-001/read002-command.log": "d136801e9c0ee936792618b54dc086c0d7bacfab6b98f8b9b6dc6b3080a1abe7"
+  }
+}
