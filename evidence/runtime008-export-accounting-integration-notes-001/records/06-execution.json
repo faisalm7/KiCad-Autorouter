@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "accepted": false,
+  "workflow_delivered": true,
+  "actual_GUI": false,
+  "method": "improve",
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 48.537395249994006,
+    "cpu_seconds": 39.668562,
+    "max_rss_bytes": 265273344,
+    "supervisor_cpu_seconds": 2.241967,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 356155392,
+    "sampled_peak_workdir_bytes": 78280387,
+    "resource_guards": {
+      "max_group_rss_bytes": 4294967296,
+      "max_workdir_bytes": 268435456,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-008/runtime/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/qualify_runtime_workflow.py",
+      "--runtime",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-008/runtime",
+      "--source",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-003/source/owned-global-min-width.kicad_pcb",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-008/runtime/.runs/qualification-improve-2cu",
+      "--method",
+      "improve"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-008/runtime/.runs/enclosure-improve-2cu/command.log",
+    "log_bytes": 0,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-008/runtime",
+    "signal_cancellation_enabled": true,
+    "pid": 81058
+  },
+  "driver_sha256": "dad0cff84eb2164cc82f50ccf6703e145c889f5c9bfad7196dd707da39a1bc1e",
+  "source_hashes": {
+    "owned-global-min-width.kicad_pcb": "5675f1f851d35a8da1539c7979e6b578c694a029737028874e139220ec623bb8",
+    "owned-global-min-width.kicad_prl": "8eeeca97d5de78d87e3a9f8a48e0a3bdf8c6881f1f03cd10064206f41748a01b",
+    "owned-global-min-width.kicad_pro": "17bb5a2cb45cbcd270750982f60b4a2d6177bb189364452f65f36fd799518391",
+    "owned-global-min-width.kicad_sch": "8cf2b4ac9cc89861459d7d72d39b65a77e0fd3e482fc8ca4e0176a9d809923c3"
+  },
+  "same_source_unchanged": true,
+  "child_sha256": "bc9ac398413fb22ae132d7d259e800ea304e1c0fbdaeaadf786bc79c2226451a"
+}

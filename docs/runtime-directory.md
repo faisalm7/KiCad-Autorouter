@@ -1,13 +1,13 @@
 # Curated local runtime directory
 
-This experimental Mac installation path keeps the product separate from the retained research archive. [Current runtime003 qualification](../evidence/runtime003-native-reader-controls-001.json), built from source df20598f with regular interpreter copies, now passes bare CLI and production Route/Improve through review, explicit software test intent and fresh Native export/readers. Its actual installed NUS negative has one Native open and remains rejected by positive readers; only the disjoint diagnostic admits its rejection evidence. Reject, actual engine cancellation and the disconnected-copy control belong to previous runtime002, whose exact proofs remain retained. Six warnings and two ignored checks remain; whole-project cleanliness is false. [Full134](../evidence/full134-runtime003-integration-001.json) now passes for the new shared diagnostic reader/helpers; [previous Full133](../evidence/runtime002-full133-current-001.json) passes on source224; [Actual prior-runtime GUI054](../evidence/gui-runtime002-054-native-opening-001.json) passes toolbar, inline refusal/recovery, Native review/export and fresh-open/cancel/stale-refusal controls. It is a directory using existing pinned applications, not a standalone app or published package.
+This experimental Mac installation keeps the product separate from the retained research archive. [Current runtime008 qualification](../evidence/runtime008-export-accounting-integration-001.json), source76d2c666, passes actual protected4Cu Route and2Cu Improve through review, explicit software-test intent, fresh Native export and current readers. [Actual GUI059](../evidence/gui-runtime008-059-native-opening-001.json) launches from KiCad and opens the checked export, then visibly refuses the naturally stale project after KiCad normalization. [Full141/source correction](../evidence/export-cpu-roundoff-source-full141-001.json) passes;058's accounting refusal remains preserved and the strict reader is unchanged. Six warnings/two ignored checks remain. Earlier actual cancellation/rejection retains its separately bound scope. This fixed-path directory uses existing pinned applications; it is not a standalone app or published package.
 
 Use the existing supported Mac arm64 tools in `toolchain.lock.json`: KiCad10.0.0, Java25.0.2, Freerouting2.5 and Python3.11. The builder downloads nothing and changes no installed applications. From a committed source checkout:
 
 ```sh
 .venv/bin/python -B scripts/prepare_runtime.py --output /absolute/new-runtime --copy-local-engine
 cd /absolute/new-runtime
-python3.11 -m venv --copies .venv
+python3.11 -m venv --copies --without-pip .venv
 .venv/bin/python -B -m autorouter doctor
 .venv/bin/python -B scripts/install_gui.py --output /absolute/new-runtime/.runs/new-launcher
 ```

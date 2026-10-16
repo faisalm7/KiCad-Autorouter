@@ -1,0 +1,1081 @@
+{
+  "schema": 1,
+  "kind": "completed-original-mixer-hierarchy-diagnostic-not-production-admission",
+  "source_head": "0cf76553dc2439a001219a173b0c72f4e2289f6a",
+  "status": "diagnostic_completed",
+  "observation_complete": true,
+  "diagnostic_attempts": 1,
+  "native_observation_processes": 4,
+  "prerequisites_passed": false,
+  "accepted": false,
+  "routing_accepted": false,
+  "qualified": false,
+  "production_admitted": false,
+  "engine_executed": false,
+  "actual_GUI": false,
+  "human_PCB_review": false,
+  "physical_electrical_validation": "not performed",
+  "source": {
+    "project_id": "kicad-multichannel",
+    "split": "development_exposed",
+    "repository": "https://gitlab.com/kicad/code/kicad",
+    "mirror": "KiCad/kicad-source-mirror",
+    "commit": "69cafb907ebc09e7722a2a464b1d466fc2e3608d",
+    "source_directory": "demos/multichannel",
+    "source_ledger": "data/sources.json",
+    "source_ledger_sha256": "a2a8e9e22ff3e109de94733aa8f5e99ca5fd476ef9ec20be837c54100036eac1",
+    "captured_files": 17,
+    "captured_file_sha256": {
+      "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "channel_strip.kicad_sch": "2c98b5d37f5b60c9187474017d7b754e8b4a1d45f4115dcbecf1a745ab175e0e",
+      "fp-lib-table": "8a1e7e5ab227455c8865598b3c4c36db1e75c8abced3b2c0aee4fde54176a328",
+      "multichannel_mixer-unrouted.kicad_pcb": "149b2dce16e0f59adb78f87068f4137b7dafca0e991a0b21fdd967c873fd5ee9",
+      "multichannel_mixer.kicad_pcb": "44b7c119a0d05c98e9f294659879184038a5f6c30073c04d9536990429ca413e",
+      "multichannel_mixer.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+      "multichannel_mixer.kicad_sch": "e47aecee9416d51fb5aed36d008a0442d3d6d68abfc5224bcdb5c5bb4a690fcf",
+      "multichannel_mixer.kicad_sym": "7e0793cc48f3a20ea84f3c4c8643ffeb1be79dd05faba8ae1278dc39dbf7cf8b",
+      "multichannel_mixer.pretty/CAPC3216X140N.kicad_mod": "3e6145d55866da5a696cefe075a68d26cf30fde90403ff2e006d2e4ae1461474",
+      "multichannel_mixer.pretty/CAPPRB254-500X840.kicad_mod": "6e1ac6aeba9d1c87ba73b30104162d35ae05625364c80ed204127c90e0542775",
+      "multichannel_mixer.pretty/CLIFF_FC68148(DC-10A).kicad_mod": "96f4e07509d06c0157dfca2b336f761541ed5d2daead790baafe6b90d23e658e",
+      "multichannel_mixer.pretty/Jack_6.35mm_Neutrik_NMJ6HCD2_Horizontal.kicad_mod": "b8a282923219bb3b01bf82278a7ded099fac556385eaf8707d777fc92cc32fc3",
+      "multichannel_mixer.pretty/Potentiometer_Alps_RK09K_Single_Vertical.kicad_mod": "ce94093ebd8cd8cd35a75442db46854414f78ca9be4f3b4234a7819650b938aa",
+      "multichannel_mixer.pretty/RESC3216X65N.kicad_mod": "a12fbb5040e28dd960364f0319773d1450c0610c18ab9844d0671b6bf6c9f6d7",
+      "multichannel_mixer.pretty/SOIC127P600X175-8N.kicad_mod": "0b5f066de991d39015aab71847ce9a17e3a60394391350e46650fa8e7d274f80",
+      "sym-lib-table": "68b0633966d91fd9e81c05b7706abcddc892d1c71c9994c8cb757e38216787f7"
+    },
+    "original_board_sha256": "44b7c119a0d05c98e9f294659879184038a5f6c30073c04d9536990429ca413e",
+    "license": "CC-BY-SA-4.0",
+    "license_scope": "Pinned LICENSE.README assigns demos/* to CC BY-SA4.0; no board/library exception generalized."
+  },
+  "as_run": {
+    "controller": {
+      "path": "evidence/mixer-hierarchy-diagnostic-notes-001/source-as-run-002/controller.py",
+      "sha256": "82da157c7d629143252c982ef7a92a92dbc4dfd8cbfa093230e1ddba31b13ffa",
+      "bytes": 35707,
+      "original": ".runs/mixer-hierarchy-probe-draft-002/controller.py"
+    },
+    "protocol_sha256": "19b4f8fee195a824eb4540e45a29eb6d55d77fb88b8f24315a4b62d54905a364",
+    "outer_receipt_sha256": "a8d9ce6d5bd0b0f7b13ce3188496a6fc7b9a30b454e475f1f280429caf6d583f",
+    "child_receipt_sha256": "42fe55bf0b46725ef5b092b4c4fadaec7d17bdea058a71bcd145fca6d6209603",
+    "retained_local_output": ".runs/mixer-hierarchy-probe-native-001",
+    "before_review_001_executed": false,
+    "source_as_run_copied_verbatim": true,
+    "tool_manifest": {
+      "implementation_sha256": {
+        "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+        "autorouter/__main__.py": "0b7928c455fea4c2632d91c7fe3888301d946d1258b34b0918bd5c446feaf62f",
+        "autorouter/adapter.py": "a99a389f8ff8d11b5c28507e524b823f3b906d703e2faa4dd34496a642517ac3",
+        "autorouter/board_floor.py": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340",
+        "autorouter/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+        "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+        "autorouter/engine_angle.py": "977f392326158291cb136939576152685c6871756aec0e70e7784545dd8e393e",
+        "autorouter/floor_context.py": "88dc6bf29ff536f10cd4c37575ae2476ed056b05167007d65f0fe796360ebd3d",
+        "autorouter/floor_route.py": "78d684e09edb1ec1816d4385b6d0f67dc34d54bf40cbe1e41bf77348a0c99b8f",
+        "autorouter/gui.py": "a8cb8daf58cbb063795433a1d6ab6ba4d70a18d63af808d5a93209fda1c02bee",
+        "autorouter/handoff.py": "36632386b3f012795e86c02c330b33ade21655bef43c241759c4759b4c5a1134",
+        "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+        "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+        "autorouter/local_settings.py": "a2ab6296b637ace500f1cdbdd62de0cd9c1803cfc17e38906ced497c1aef21c8",
+        "autorouter/native.py": "d7e3140cee40d0a618c5c699cdada4d833a04d76f8fe06e8b823b4f490f2e9b6",
+        "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+        "autorouter/native_edge.py": "8a38b60f301a72b815b877f9af59d156024757d66eda7d3df8c34addbe4d0c74",
+        "autorouter/netclass.py": "a483d40e48a5774e4485afc187ec6c7fad3d1f69a74b35a6f96624223446aa0b",
+        "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+        "autorouter/padless_alias.py": "f359a89e3c48703058490c22d9591b5f916cd22a8b734c50e1c9191e501c1413",
+        "autorouter/padless_alias_native.py": "7d06683b834f0211c82d87d7c982f6c39960e841627cd5e98f58a7913f501002",
+        "autorouter/pipeline.py": "52a3c68a69c1686de5e8188d153d93d1f8a3985a8913f3417991d8fbe5213b78",
+        "autorouter/placement_clearance.py": "53f35206860617ed44fd5c5f1eb165894368b079e35fc89e060adc2f01997f41",
+        "autorouter/placement_strategy.py": "b2bee86ef41c5f98e38a0c0f60fdd1bd9148346644f72c7d754de333bd52d25d",
+        "autorouter/placement_transform.py": "cde384f548f7999f87296f071c4b1089c18abda59a02f323dfaa84c17bffee22",
+        "autorouter/pour_rule_area.py": "684aa01868d415d531761eebbd4e2aefeba5316595d8478c7fc13bcc41b571b2",
+        "autorouter/pour_rule_area_native.py": "8de8b82227d0f08a9b08eab3b9cba3ef1e025dde5d53d596ef212e93cf6304f1",
+        "autorouter/preferences.py": "d6a39475d8e13483cd74921111c5438f3a0877866a2456d0b805490326681425",
+        "autorouter/provenance.py": "bb095b5a50751f834e28d44f2f895d899fb2988e72d4b2cdf3719a888f0f16d0",
+        "autorouter/recovery.py": "871f5f52cdb6932464b9ed3f2846c3ae7e257bbc04ddf87b6eba49450596c2b9",
+        "autorouter/review_export.py": "f0f0bc55fefd5aee9bf430981b25f93e4495e752e1323c6811503f6aec80e1a6",
+        "autorouter/review_view.py": "79f65e4d53c243f4e0f054d97bced2be2c4646537e5b86f11626ac8c5f4ce92d",
+        "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+        "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+        "autorouter/schematic_field_evidence.py": "f5c03ac0be4b5fa3960bfec5f511199f7b566de8483fc78581e39e02804dbb93",
+        "autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+        "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+        "autorouter/strategy.py": "8a9ef351ff51df414245977d53cf68422d82fe4f9c94ccd8305c7025de073ea3",
+        "autorouter/thermal.py": "2fa7ff7260ba6e8b5a8003d8e1f51314b5ff548ef635fb94b29bdee4c741102d",
+        "autorouter/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+        "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+        "autorouter/thermal_worker.py": "fd651f44233aae2c70da0a8feab5f96a4763276684e8b0babf39860b91a9cc33"
+      },
+      "git_head": "0cf76553dc2439a001219a173b0c72f4e2289f6a",
+      "source_provenance": {
+        "kind": "git-checkout",
+        "git_head": "0cf76553dc2439a001219a173b0c72f4e2289f6a",
+        "build_source": null,
+        "manifest_sha256": null
+      },
+      "kicad": "10.0.0",
+      "freerouting": "2.5.0",
+      "files": {
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219",
+        "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7"
+      },
+      "network": "engine sandbox-exec deny network*",
+      "normal_drc_local_settings_policy": "job-owned-prl-immutable-v1",
+      "normal_selected_proposal_import_policy": "selected-proposals-exact-source-v1",
+      "normal_native_export_alias_policy": "source-bound-padless-export-v1"
+    },
+    "helper_code_sha256": {
+      ".runs/mixer-hierarchy-probe-draft-002/controller.py": "82da157c7d629143252c982ef7a92a92dbc4dfd8cbfa093230e1ddba31b13ffa",
+      "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+      "autorouter/__main__.py": "0b7928c455fea4c2632d91c7fe3888301d946d1258b34b0918bd5c446feaf62f",
+      "autorouter/adapter.py": "a99a389f8ff8d11b5c28507e524b823f3b906d703e2faa4dd34496a642517ac3",
+      "autorouter/board_floor.py": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340",
+      "autorouter/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+      "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+      "autorouter/engine_angle.py": "977f392326158291cb136939576152685c6871756aec0e70e7784545dd8e393e",
+      "autorouter/floor_context.py": "88dc6bf29ff536f10cd4c37575ae2476ed056b05167007d65f0fe796360ebd3d",
+      "autorouter/floor_route.py": "78d684e09edb1ec1816d4385b6d0f67dc34d54bf40cbe1e41bf77348a0c99b8f",
+      "autorouter/gui.py": "a8cb8daf58cbb063795433a1d6ab6ba4d70a18d63af808d5a93209fda1c02bee",
+      "autorouter/handoff.py": "36632386b3f012795e86c02c330b33ade21655bef43c241759c4759b4c5a1134",
+      "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+      "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+      "autorouter/local_settings.py": "a2ab6296b637ace500f1cdbdd62de0cd9c1803cfc17e38906ced497c1aef21c8",
+      "autorouter/native.py": "d7e3140cee40d0a618c5c699cdada4d833a04d76f8fe06e8b823b4f490f2e9b6",
+      "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+      "autorouter/native_edge.py": "8a38b60f301a72b815b877f9af59d156024757d66eda7d3df8c34addbe4d0c74",
+      "autorouter/netclass.py": "a483d40e48a5774e4485afc187ec6c7fad3d1f69a74b35a6f96624223446aa0b",
+      "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+      "autorouter/padless_alias.py": "f359a89e3c48703058490c22d9591b5f916cd22a8b734c50e1c9191e501c1413",
+      "autorouter/padless_alias_native.py": "7d06683b834f0211c82d87d7c982f6c39960e841627cd5e98f58a7913f501002",
+      "autorouter/pipeline.py": "52a3c68a69c1686de5e8188d153d93d1f8a3985a8913f3417991d8fbe5213b78",
+      "autorouter/placement_clearance.py": "53f35206860617ed44fd5c5f1eb165894368b079e35fc89e060adc2f01997f41",
+      "autorouter/placement_strategy.py": "b2bee86ef41c5f98e38a0c0f60fdd1bd9148346644f72c7d754de333bd52d25d",
+      "autorouter/placement_transform.py": "cde384f548f7999f87296f071c4b1089c18abda59a02f323dfaa84c17bffee22",
+      "autorouter/pour_rule_area.py": "684aa01868d415d531761eebbd4e2aefeba5316595d8478c7fc13bcc41b571b2",
+      "autorouter/pour_rule_area_native.py": "8de8b82227d0f08a9b08eab3b9cba3ef1e025dde5d53d596ef212e93cf6304f1",
+      "autorouter/preferences.py": "d6a39475d8e13483cd74921111c5438f3a0877866a2456d0b805490326681425",
+      "autorouter/provenance.py": "bb095b5a50751f834e28d44f2f895d899fb2988e72d4b2cdf3719a888f0f16d0",
+      "autorouter/recovery.py": "871f5f52cdb6932464b9ed3f2846c3ae7e257bbc04ddf87b6eba49450596c2b9",
+      "autorouter/review_export.py": "f0f0bc55fefd5aee9bf430981b25f93e4495e752e1323c6811503f6aec80e1a6",
+      "autorouter/review_view.py": "79f65e4d53c243f4e0f054d97bced2be2c4646537e5b86f11626ac8c5f4ce92d",
+      "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+      "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+      "autorouter/schematic_field_evidence.py": "f5c03ac0be4b5fa3960bfec5f511199f7b566de8483fc78581e39e02804dbb93",
+      "autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+      "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+      "autorouter/strategy.py": "8a9ef351ff51df414245977d53cf68422d82fe4f9c94ccd8305c7025de073ea3",
+      "autorouter/thermal.py": "2fa7ff7260ba6e8b5a8003d8e1f51314b5ff548ef635fb94b29bdee4c741102d",
+      "autorouter/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+      "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+      "autorouter/thermal_worker.py": "fd651f44233aae2c70da0a8feab5f96a4763276684e8b0babf39860b91a9cc33",
+      "experiments/hfe_original_native_v1/driver.py": "129c7933031a19d1b215dee7eb230386123f09cb0e74b83e228abd09025b169c",
+      "experiments/original_project_native_v1/driver.py": "428dc6ad3ad3ae3c830e2f5740d61b6c4e11178968f6da1a34b36264c92fd3c9",
+      "experiments/placement_handoff_native_v1/driver.py": "a84176cbab44199c5d10c80860f391d56f624b2624da2d157eb8810266796f8c",
+      "experiments/placement_production_controls_v1/driver.py": "b937cdf603b2b65b93af00f3db546b33e25dc1bf86510335b72bbedb45afaae2",
+      "toolchain.lock.json": "f04be5cdf6f64bddc16a6c5efd217b2f5e0a1341906ff44033f5807971154efe"
+    },
+    "consumed_inputs": {
+      "original-fullsch.json": {
+        "local_path": ".runs/mixer-hierarchy-probe-native-001/execution/worker/job/original-fullsch.json",
+        "sha256": "a6b7584e4fa257b5fc17dc68baf0b911afd384f2523ea1d6e5ce638de59d612b",
+        "bytes": 136835
+      },
+      "original-fullsch-binding.json": {
+        "local_path": ".runs/mixer-hierarchy-probe-native-001/execution/worker/job/original-fullsch-binding.json",
+        "sha256": "ea07c6eb6725a3af38b10af4f05cbcf5ad6b207b075491aa940eff04044949c4",
+        "bytes": 4523
+      },
+      "original-fullsch.log": {
+        "local_path": ".runs/mixer-hierarchy-probe-native-001/execution/worker/job/original-fullsch.log",
+        "sha256": "0b9ef530977bcd665a524f16e86e3783dc53296da5fe5d1d5d64a149ced0bcea",
+        "bytes": 229
+      },
+      "hierarchy-observation-fields.net": {
+        "local_path": ".runs/mixer-hierarchy-probe-native-001/execution/worker/job/hierarchy-observation-fields.net",
+        "sha256": "55c7275c136873e8ef973814c9a374b57a34ff2d8122b62a0f5e21325dfe1feb",
+        "bytes": 664330
+      },
+      "hierarchy-observation-fields.json": {
+        "local_path": ".runs/mixer-hierarchy-probe-native-001/execution/worker/job/hierarchy-observation-fields.json",
+        "sha256": "ce348157c1c369b5f8ec19918ad98366bf9a8bef4db5ed6b64fec34f23a0928f",
+        "bytes": 193690
+      },
+      "original-netclasses.json": {
+        "local_path": ".runs/mixer-hierarchy-probe-native-001/execution/worker/job/original-netclasses.json",
+        "sha256": "72fd143214447c77f4f8884059184bb791d59366475497d0e0d8e2e579282549",
+        "bytes": 73077
+      },
+      "original-fullsch-process.json": {
+        "local_path": ".runs/mixer-hierarchy-probe-native-001/execution/worker/job/original-fullsch-process.json",
+        "sha256": "13cb992fa435e791fa95428e1bc88b75e54715ba9927dbdcc2ba1058c970f044",
+        "bytes": 2295
+      },
+      "hierarchy-observation-fields-netlist-process.json": {
+        "local_path": ".runs/mixer-hierarchy-probe-native-001/execution/worker/job/hierarchy-observation-fields-netlist-process.json",
+        "sha256": "f8bffa9111faeca6882d694280f2abe9cec9f516ba9b6a6a919d360bd4292d70",
+        "bytes": 2076
+      },
+      "hierarchy-observation-fields-audit-process.json": {
+        "local_path": ".runs/mixer-hierarchy-probe-native-001/execution/worker/job/hierarchy-observation-fields-audit-process.json",
+        "sha256": "5a53c2bb34d9ed7758ba26a86854dd636afbf9dff59ad5ae1e5c77e88274ea91",
+        "bytes": 2122
+      },
+      "original-netclasses-process.json": {
+        "local_path": ".runs/mixer-hierarchy-probe-native-001/execution/worker/job/original-netclasses-process.json",
+        "sha256": "7733e74c9263e5dd6a3c0a68e486be31220753fca06a70c89a4412e73545d9bc",
+        "bytes": 2076
+      }
+    }
+  },
+  "read_only_curation_checks": {
+    "shared_original_rule_fullSCH_stage_readback_passed": true,
+    "shared_normal_policy_readback_passed": true,
+    "absolute_source_and_input_paths_match_retained_binding": true,
+    "current_source_and_retained_original_hashes_match_protocol": true,
+    "native_input_matches_shared_binding_after": true,
+    "only_generated_input_file": "multichannel_mixer.kicad_prl",
+    "generated_PRL_sha256": "01533ea460c27198c7171ff081d5b50b944a806a6f8dc6bfa486b809c4872f2d",
+    "current_implementation_hashes_match_as_run": true,
+    "native_or_JVM_reexecuted_for_curation": false,
+    "draft_imported_for_curation": false,
+    "meaning": "Consistency readback only; no routing correctness or support admission."
+  },
+  "actual_native_evidence": {
+    "native_version": "10.0.0",
+    "report_sha256": "a6b7584e4fa257b5fc17dc68baf0b911afd384f2523ea1d6e5ce638de59d612b",
+    "raw_report_public_artifact": {
+      "path": "evidence/mixer-hierarchy-diagnostic-notes-001/native-original-fullsch.json",
+      "sha256": "a6b7584e4fa257b5fc17dc68baf0b911afd384f2523ea1d6e5ce638de59d612b",
+      "bytes": 136835,
+      "original": ".runs/mixer-hierarchy-probe-native-001/execution/worker/job/original-fullsch.json"
+    },
+    "report_array_counts": {
+      "violations": 117,
+      "unconnected_items": 0,
+      "schematic_parity": 115
+    },
+    "all_findings_retained": 232,
+    "opens": 0,
+    "blocking": 24,
+    "warnings": 208,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "PTH inside courtyard",
+        "key": "pth_inside_courtyard"
+      },
+      {
+        "description": "NPTH inside courtyard",
+        "key": "npth_inside_courtyard"
+      },
+      {
+        "description": "Footprint component type doesn't match footprint pads",
+        "key": "footprint_type_mismatch"
+      }
+    ],
+    "finding_type_and_severity_counts": {
+      "error:clearance": 24,
+      "warning:connection_width": 6,
+      "warning:silk_edge_clearance": 1,
+      "warning:lib_footprint_mismatch": 81,
+      "warning:silk_over_copper": 4,
+      "warning:nonmirrored_text_on_back_layer": 1,
+      "warning:footprint_symbol_mismatch": 115
+    },
+    "actual_native_parity_descriptions": {
+      "multichannel_mixer:CAPPRB254-500X840 doesn't match footprint given by symbol (Capacitors THD:CAPPRB254-500X840)": 11,
+      "multichannel_mixer:CAPC3216X140N doesn't match footprint given by symbol (Capacitors SMD:CAPC3216X140N)": 29,
+      "multichannel_mixer:SOIC127P600X175-8N doesn't match footprint given by symbol (ICs And Semiconductors SMD:SOIC127P600X175-8N)": 5,
+      "multichannel_mixer:CLIFF_FC68148(DC-10A) doesn't match footprint given by symbol (Miscellaneous THD:CLIFF_FC68148(DC-10A))": 1,
+      "Value (J6) doesn't match symbol value (CH1)": 1,
+      "multichannel_mixer:Jack_6.35mm_Neutrik_NMJ6HCD2_Horizontal doesn't match footprint given by symbol (Connector_Audio:Jack_6.35mm_Neutrik_NMJ6HCD2_Horizontal)": 5,
+      "multichannel_mixer:RESC3216X65N doesn't match footprint given by symbol (Resistors SMD:RESC3216X65N)": 47,
+      "multichannel_mixer:Potentiometer_Alps_RK09K_Single_Vertical doesn't match footprint given by symbol (Potentiometer_THT:Potentiometer_Alps_RK09K_Single_Vertical)": 16
+    },
+    "interpretation": "24actual clearance errors and115actual footprint/symbol warnings remain. All232findings are retained verbatim; neither prototype path corrections nor field proofs waive them."
+  },
+  "experimental_prerequisites": {
+    "closure": {
+      "passed": true,
+      "captured_schematics": 2,
+      "repeated_leaf_instances": 4,
+      "closure": {
+        "root": "multichannel_mixer.kicad_sch",
+        "root_uuid": "203cc2bf-f6fc-43f5-9a16-6804dfef98e8",
+        "leaf": "channel_strip.kicad_sch",
+        "leaf_uuid": "5a73122b-848b-428e-af45-cd70deba9234",
+        "files_sha256": {
+          "multichannel_mixer.kicad_sch": "e47aecee9416d51fb5aed36d008a0442d3d6d68abfc5224bcdb5c5bb4a690fcf",
+          "channel_strip.kicad_sch": "2c98b5d37f5b60c9187474017d7b754e8b4a1d45f4115dcbecf1a745ab175e0e"
+        },
+        "instances": [
+          {
+            "name": "CH1",
+            "uuid": "8b945230-5f99-4834-98ec-44a11b86c8e7",
+            "file": "channel_strip.kicad_sch"
+          },
+          {
+            "name": "CH2",
+            "uuid": "28f12a69-adb8-432e-b16f-23450e62f642",
+            "file": "channel_strip.kicad_sch"
+          },
+          {
+            "name": "CH3",
+            "uuid": "b924e033-d20d-4b7d-8c8a-6be6c11f2802",
+            "file": "channel_strip.kicad_sch"
+          },
+          {
+            "name": "CH4",
+            "uuid": "eaae7191-0144-4728-9382-3abf6e7a2d68",
+            "file": "channel_strip.kicad_sch"
+          }
+        ],
+        "repeated_leaf_instances": 4,
+        "captured_file_count": 2,
+        "depth": 1,
+        "cycles": false,
+        "external_dependencies": false,
+        "structural_class_directives": false
+      },
+      "pure_falsifiers": [
+        {
+          "case": "missing_child",
+          "refused": true,
+          "reason": "exact root plus one captured leaf required",
+          "native_executed": false
+        },
+        {
+          "case": "external_child",
+          "refused": true,
+          "reason": "external, variable, aliased or missing child filename refused",
+          "native_executed": false
+        },
+        {
+          "case": "variable_child",
+          "refused": true,
+          "reason": "external, variable, aliased or missing child filename refused",
+          "native_executed": false
+        },
+        {
+          "case": "child_flag",
+          "refused": true,
+          "reason": "structural schematic class directive unsupported: channel_strip.kicad_sch",
+          "native_executed": false
+        },
+        {
+          "case": "child_cycle",
+          "refused": true,
+          "reason": "nested/cyclic leaf dependency outside frozen scope",
+          "native_executed": false
+        }
+      ]
+    },
+    "effective_fields": {
+      "experimental": true,
+      "field_prerequisite_passed": false,
+      "reason": "other symbol mismatch or malformed finding",
+      "native_netlist_sha256": "55c7275c136873e8ef973814c9a374b57a34ff2d8122b62a0f5e21325dfe1feb",
+      "native_observer_sha256": "ce348157c1c369b5f8ec19918ad98366bf9a8bef4db5ed6b64fec34f23a0928f",
+      "raw_drc_sha256": "a6b7584e4fa257b5fc17dc68baf0b911afd384f2523ea1d6e5ce638de59d612b",
+      "production_admitted": false,
+      "routing_accepted": false,
+      "normal_flat_bridge_unchanged": true
+    },
+    "default_class": {
+      "passed": false,
+      "reason": "Class parameter below original board floor: width_nm",
+      "actual_native_class_rows": 80,
+      "actual_native_encoded_class_counts": {
+        "Default": 80
+      },
+      "observed_schematic_export_class_counts": {
+        "Default": 80
+      },
+      "original_Default": {
+        "bus_width": 12,
+        "clearance": 0.2,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "Default",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 2147483647,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.2,
+        "via_diameter": 0.6,
+        "via_drill": 0.3,
+        "wire_width": 6
+      },
+      "original_board_floor_rules": {
+        "max_error": 0.005,
+        "min_clearance": 0.3,
+        "min_connection": 0.3,
+        "min_copper_edge_clearance": 0.5,
+        "min_groove_width": 0.0,
+        "min_hole_clearance": 0.25,
+        "min_hole_to_hole": 0.25,
+        "min_microvia_diameter": 0.2,
+        "min_microvia_drill": 0.1,
+        "min_resolved_spokes": 2,
+        "min_silk_clearance": 0.0,
+        "min_text_height": 0.8,
+        "min_text_thickness": 0.08,
+        "min_through_hole_diameter": 0.3,
+        "min_track_width": 0.3,
+        "min_via_annular_width": 0.3,
+        "min_via_diameter": 1.5,
+        "solder_mask_to_copper_clearance": 0.0,
+        "use_height_for_length_calcs": true
+      },
+      "first_failed_comparison": {
+        "dimension": "width_nm",
+        "native_Default_nm": 200000,
+        "original_min_track_width_nm": 300000
+      },
+      "no_dimensions_or_rules_changed": true
+    },
+    "prototype_instance_model": {
+      "passed": false,
+      "stored_identity_defers": 114,
+      "stored_reason": "native/source sheet paths differ",
+      "cause": "Prototype requires the schematic root UUID in Native sheetpaths. Actual Native sheetpaths omit that root prefix.",
+      "root_uuid": "203cc2bf-f6fc-43f5-9a16-6804dfef98e8",
+      "actual_Native_sheetpath_counts": {
+        "/": 10,
+        "/8b945230-5f99-4834-98ec-44a11b86c8e7/": 26,
+        "/28f12a69-adb8-432e-b16f-23450e62f642/": 26,
+        "/b924e033-d20d-4b7d-8c8a-6be6c11f2802/": 26,
+        "/eaae7191-0144-4728-9382-3abf6e7a2d68/": 26
+      },
+      "all114_source_expected_paths_equal_root_prefix_plus_actual_Native_path": true,
+      "source_repair_inferred": false,
+      "qualification_after_removing_prefix_demonstrated": false,
+      "limitation": "This explains the114prototype defers only. It does not remove the separate115Native parity warnings or prove the next UUID/PCB correspondence checks."
+    },
+    "prototype_terminal_model": {
+      "passed": false,
+      "numbered_terminal_comparisons": 311,
+      "exact_compared_terminals": 280,
+      "empty_PCB_net_and_absent_export_node_defers": 31,
+      "all31_have_PCB_net_empty_and_native_node_absent": true,
+      "deferred_terminals": [
+        {
+          "reference": "J1",
+          "number": "RN",
+          "pcb_pads": [
+            {
+              "uuid": "4c24e4cc-1cac-4dd6-8fa2-d6c819f297cc",
+              "net": ""
+            }
+          ],
+          "native_nets": [],
+          "exact": false
+        },
+        {
+          "reference": "J1",
+          "number": "SN",
+          "pcb_pads": [
+            {
+              "uuid": "0af42749-0bd5-4228-be25-82fa8d5bc3a6",
+              "net": ""
+            }
+          ],
+          "native_nets": [],
+          "exact": false
+        },
+        {
+          "reference": "J1",
+          "number": "TN",
+          "pcb_pads": [
+            {
+              "uuid": "9cca465b-a605-4592-afae-a19a6ced5391",
+              "net": ""
+            }
+          ],
+          "native_nets": [],
+          "exact": false
+        },
+        {
+          "reference": "J6",
+          "number": "RN",
+          "pcb_pads": [
+            {
+              "uuid": "d81cf871-152b-43f8-b27c-b1b6589aa305",
+              "net": ""
+            }
+          ],
+          "native_nets": [],
+          "exact": false
+        },
+        {
+          "reference": "J6",
+          "number": "SN",
+          "pcb_pads": [
+            {
+              "uuid": "8e05b841-cb2d-45c3-82be-b3cb076733f4",
+              "net": ""
+            }
+          ],
+          "native_nets": [],
+          "exact": false
+        },
+        {
+          "reference": "J6",
+          "number": "TN",
+          "pcb_pads": [
+            {
+              "uuid": "12843323-b67c-4dcc-84a6-3586cabc8771",
+              "net": ""
+            }
+          ],
+          "native_nets": [],
+          "exact": false
+        },
+        {
+          "reference": "J7",
+          "number": "RN",
+          "pcb_pads": [
+            {
+              "uuid": "ff998f13-c63c-402d-b851-966e979c18c3",
+              "net": ""
+            }
+          ],
+          "native_nets": [],
+          "exact": false
+        },
+        {
+          "reference": "J7",
+          "number": "SN",
+          "pcb_pads": [
+            {
+              "uuid": "d698f555-0700-4ece-8996-938fac49d2bf",
+              "net": ""
+            }
+          ],
+          "native_nets": [],
+          "exact": false
+        },
+        {
+          "reference": "J7",
+          "number": "TN",
+          "pcb_pads": [
+            {
+              "uuid": "643b86b5-af58-4f9d-821b-3174901ceae1",
+              "net": ""
+            }
+          ],
+          "native_nets": [],
+          "exact": false
+        },
+        {
+          "reference": "J8",
+          "number": "RN",
+          "pcb_pads": [
+            {
+              "uuid": "ac5bd244-e79a-44d4-ad3a-7894962b6cde",
+              "net": ""
+            }
+          ],
+          "native_nets": [],
+          "exact": false
+        },
+        {
+          "reference": "J8",
+          "number": "SN",
+          "pcb_pads": [
+            {
+              "uuid": "3be471f7-207c-4e55-a346-951eafc1038f",
+              "net": ""
+            }
+          ],
+          "native_nets": [],
+          "exact": false
+        },
+        {
+          "reference": "J8",
+          "number": "TN",
+          "pcb_pads": [
+            {
+              "uuid": "4fb2ec07-af39-415e-963c-c59964fe2df8",
+              "net": ""
+            }
+          ],
+          "native_nets": [],
+          "exact": false
+        },
+        {
+          "reference": "J9",
+          "number": "RN",
+          "pcb_pads": [
+            {
+              "uuid": "6cbab7a0-de35-4895-ad05-c4308f5816cf",
+              "net": ""
+            }
+          ],
+          "native_nets": [],
+          "exact": false
+        },
+        {
+          "reference": "J9",
+          "number": "SN",
+          "pcb_pads": [
+            {
+              "uuid": "23535666-75d0-4007-ae34-2ae396bfae54",
+              "net": ""
+            }
+          ],
+          "native_nets": [],
+          "exact": false
+        },
+        {
+          "reference": "J9",
+          "number": "TN",
+          "pcb_pads": [
+            {
+              "uuid": "8e44aa32-7e22-4c65-93b9-2ec146ff208d",
+              "net": ""
+            }
+          ],
+          "native_nets": [],
+          "exact": false
+        },
+        {
+          "reference": "RV1",
+          "number": "MP",
+          "pcb_pads": [
+            {
+              "uuid": "97e50a1c-3f21-4748-b63d-6b961be46871",
+              "net": ""
+            },
+            {
+              "uuid": "e57b22f0-86c4-4b11-909d-5d29270807b4",
+              "net": ""
+            }
+          ],
+          "native_nets": [],
+          "exact": false
+        },
+        {
+          "reference": "RV10",
+          "number": "MP",
+          "pcb_pads": [
+            {
+              "uuid": "d785c91f-6638-4435-b771-2517554b862f",
+              "net": ""
+            },
+            {
+              "uuid": "fa782a67-0112-4530-b8f1-f838a237d4fa",
+              "net": ""
+            }
+          ],
+          "native_nets": [],
+          "exact": false
+        },
+        {
+          "reference": "RV11",
+          "number": "MP",
+          "pcb_pads": [
+            {
+              "uuid": "59652619-8857-47c3-9bf3-5b4a3f35cba3",
+              "net": ""
+            },
+            {
+              "uuid": "db90fbed-3389-4d78-a421-efc5caac34da",
+              "net": ""
+            }
+          ],
+          "native_nets": [],
+          "exact": false
+        },
+        {
+          "reference": "RV12",
+          "number": "MP",
+          "pcb_pads": [
+            {
+              "uuid": "cdb22780-2ece-43e3-adb1-1b2a210ac73f",
+              "net": ""
+            },
+            {
+              "uuid": "d391f6d7-95bb-4aae-86e8-a3bae8bde518",
+              "net": ""
+            }
+          ],
+          "native_nets": [],
+          "exact": false
+        },
+        {
+          "reference": "RV13",
+          "number": "MP",
+          "pcb_pads": [
+            {
+              "uuid": "cc4f14e3-8062-41a9-9459-cfe8b4c7b4bf",
+              "net": ""
+            },
+            {
+              "uuid": "8e14d5c7-1e43-4f6e-863a-75ee7e612059",
+              "net": ""
+            }
+          ],
+          "native_nets": [],
+          "exact": false
+        },
+        {
+          "reference": "RV14",
+          "number": "MP",
+          "pcb_pads": [
+            {
+              "uuid": "305bf633-9d91-40a9-b41f-83a7bda2baa6",
+              "net": ""
+            },
+            {
+              "uuid": "e89d554c-a69b-4cfa-8ff8-0a17c9f882b9",
+              "net": ""
+            }
+          ],
+          "native_nets": [],
+          "exact": false
+        },
+        {
+          "reference": "RV15",
+          "number": "MP",
+          "pcb_pads": [
+            {
+              "uuid": "43b794c9-af58-48d0-9983-416601bcbabd",
+              "net": ""
+            },
+            {
+              "uuid": "8c7308a4-3299-42f3-8854-d86622cae72b",
+              "net": ""
+            }
+          ],
+          "native_nets": [],
+          "exact": false
+        },
+        {
+          "reference": "RV16",
+          "number": "MP",
+          "pcb_pads": [
+            {
+              "uuid": "f5a29cb9-d4e9-4eee-97eb-46d4c5d3b721",
+              "net": ""
+            },
+            {
+              "uuid": "d24f96af-219f-4ffd-8f9a-f21985107ba3",
+              "net": ""
+            }
+          ],
+          "native_nets": [],
+          "exact": false
+        },
+        {
+          "reference": "RV2",
+          "number": "MP",
+          "pcb_pads": [
+            {
+              "uuid": "c42315c4-f919-4398-a493-826ce5959949",
+              "net": ""
+            },
+            {
+              "uuid": "5c3cb9fd-1845-4872-9396-15a8e60aaeba",
+              "net": ""
+            }
+          ],
+          "native_nets": [],
+          "exact": false
+        },
+        {
+          "reference": "RV3",
+          "number": "MP",
+          "pcb_pads": [
+            {
+              "uuid": "3e47bf73-91e1-4b34-a795-f99964085cef",
+              "net": ""
+            },
+            {
+              "uuid": "53979e11-43b4-4f58-93be-32a5404127cb",
+              "net": ""
+            }
+          ],
+          "native_nets": [],
+          "exact": false
+        },
+        {
+          "reference": "RV4",
+          "number": "MP",
+          "pcb_pads": [
+            {
+              "uuid": "c2201a86-7727-4dfa-85f0-3ae8d9dfa9d3",
+              "net": ""
+            },
+            {
+              "uuid": "d595dd86-0f34-4e81-9aba-b37b7c7568be",
+              "net": ""
+            }
+          ],
+          "native_nets": [],
+          "exact": false
+        },
+        {
+          "reference": "RV5",
+          "number": "MP",
+          "pcb_pads": [
+            {
+              "uuid": "c5369afb-608c-435e-bf9c-95ca10607214",
+              "net": ""
+            },
+            {
+              "uuid": "5c53fff2-1b55-4bf5-b066-2a2afbbfffc4",
+              "net": ""
+            }
+          ],
+          "native_nets": [],
+          "exact": false
+        },
+        {
+          "reference": "RV6",
+          "number": "MP",
+          "pcb_pads": [
+            {
+              "uuid": "c1633c80-bc2f-45ea-a874-356590d215be",
+              "net": ""
+            },
+            {
+              "uuid": "f5415c34-f12e-443e-88ee-1e38b1b76f2d",
+              "net": ""
+            }
+          ],
+          "native_nets": [],
+          "exact": false
+        },
+        {
+          "reference": "RV7",
+          "number": "MP",
+          "pcb_pads": [
+            {
+              "uuid": "fb27f72f-a625-4eec-bc33-f0b8bc939d5c",
+              "net": ""
+            },
+            {
+              "uuid": "368e3119-5517-4ee6-a3d8-766d4ae918b2",
+              "net": ""
+            }
+          ],
+          "native_nets": [],
+          "exact": false
+        },
+        {
+          "reference": "RV8",
+          "number": "MP",
+          "pcb_pads": [
+            {
+              "uuid": "5308aa32-6ffb-4313-aecc-d7b9c71417c6",
+              "net": ""
+            },
+            {
+              "uuid": "b30543dd-629d-4135-84db-588542590a50",
+              "net": ""
+            }
+          ],
+          "native_nets": [],
+          "exact": false
+        },
+        {
+          "reference": "RV9",
+          "number": "MP",
+          "pcb_pads": [
+            {
+              "uuid": "c1275695-6e0e-4a5d-bee4-159191ace02e",
+              "net": ""
+            },
+            {
+              "uuid": "a022cb1f-ed69-4579-bec9-a7fc2af5c9af",
+              "net": ""
+            }
+          ],
+          "native_nets": [],
+          "exact": false
+        }
+      ],
+      "actual_native_opens": 0,
+      "source_repair_or_NoNet_exemption_inferred": false
+    },
+    "remaining_blocker_counts": {
+      "instance_identity_unqualified": 114,
+      "terminal_membership_unqualified": 31,
+      "effective_fields": 1,
+      "default_class_prerequisite": 1
+    }
+  },
+  "costs": {
+    "external_complete": {
+      "preparation_wall_seconds": 1.48,
+      "preparation_full_CPU_seconds": 1.57,
+      "run_wall_seconds": 12.51,
+      "run_full_CPU_seconds": 12.02,
+      "total_wall_seconds": 13.99,
+      "total_full_CPU_seconds": 13.59,
+      "basis": "Saved shell real/user/sys timing logs; preparation and one run summed. These complete external times take precedence over sampled publication counters."
+    },
+    "separate_budget_counter": {
+      "wall_seconds": 14.322210291982628,
+      "full_CPU_seconds": 13.682693,
+      "preparation_record": {
+        "wall_seconds": 1.4613222919870168,
+        "full_cpu_seconds": 1.548786,
+        "publication_allowance_seconds": 2
+      },
+      "invocation_wall_seconds": 10.860894958954304,
+      "invocation_full_CPU_seconds": 10.133912,
+      "includes_two_second_preparation_publication_allowance": true,
+      "not_a_second_experimental_measurement": true
+    },
+    "limits": {
+      "whole_wall_full_cpu_seconds": 120,
+      "source_files": 40,
+      "source_bytes": 16777216,
+      "worker_seconds": 110,
+      "aggregate_bytes": 134217728,
+      "group_rss_bytes": 2147483648,
+      "log_bytes": 262144,
+      "publication_allowance_seconds": 2
+    },
+    "curation_read_only_analysis_separate_from_original_experiment": true
+  },
+  "production_decision": {
+    "decision": "defer_production_admission",
+    "current_static_refusal": "unsupported: schematic class intent not qualified: schematic hierarchy dependency closure and class intent are not independently verified: multichannel_mixer.kicad_sch",
+    "actual_native_clearance_errors": 24,
+    "actual_native_parity_warnings": 115,
+    "default_class_floor_prerequisite_failed": true,
+    "experimental_field_prerequisite_failed": true,
+    "source_files_and_rules_unchanged": true,
+    "scope": "No hierarchy exception, HFE equivalence, router change, accepted candidate, GUI/physical qualification or comparative improvement claim."
+  },
+  "public_artifacts": {
+    "source-before-review-001/controller.py": {
+      "path": "evidence/mixer-hierarchy-diagnostic-notes-001/source-before-review-001/controller.py",
+      "sha256": "530a500c637d2c69f638ccee06b177f10ab6a6e2ecd90262a3cc5baa49b73d2a",
+      "bytes": 31919,
+      "original": ".runs/mixer-hierarchy-probe-draft-001/controller.py"
+    },
+    "source-before-review-001/SCOPE.md": {
+      "path": "evidence/mixer-hierarchy-diagnostic-notes-001/source-before-review-001/SCOPE.md",
+      "sha256": "4f6692ef5742da718a6e1a5d4279f1ce291fa4f9d36542f07f4fe79037fda87a",
+      "bytes": 3814,
+      "original": ".runs/mixer-hierarchy-probe-draft-001/SCOPE.md"
+    },
+    "source-as-run-002/controller.py": {
+      "path": "evidence/mixer-hierarchy-diagnostic-notes-001/source-as-run-002/controller.py",
+      "sha256": "82da157c7d629143252c982ef7a92a92dbc4dfd8cbfa093230e1ddba31b13ffa",
+      "bytes": 35707,
+      "original": ".runs/mixer-hierarchy-probe-draft-002/controller.py"
+    },
+    "source-as-run-002/SCOPE.md": {
+      "path": "evidence/mixer-hierarchy-diagnostic-notes-001/source-as-run-002/SCOPE.md",
+      "sha256": "7822671a4da5db8ef5858a0e7ffa0f4cc73c120e9d1b46badfe7c8aa9abae133",
+      "bytes": 4505,
+      "original": ".runs/mixer-hierarchy-probe-draft-002/SCOPE.md"
+    },
+    "protocol-as-run.json": {
+      "path": "evidence/mixer-hierarchy-diagnostic-notes-001/protocol-as-run.json",
+      "sha256": "19b4f8fee195a824eb4540e45a29eb6d55d77fb88b8f24315a4b62d54905a364",
+      "bytes": 17384,
+      "original": ".runs/mixer-hierarchy-probe-native-001/protocol.json"
+    },
+    "native-original-fullsch.json": {
+      "path": "evidence/mixer-hierarchy-diagnostic-notes-001/native-original-fullsch.json",
+      "sha256": "a6b7584e4fa257b5fc17dc68baf0b911afd384f2523ea1d6e5ce638de59d612b",
+      "bytes": 136835,
+      "original": ".runs/mixer-hierarchy-probe-native-001/execution/worker/job/original-fullsch.json"
+    },
+    "native-original-fullsch-binding.json": {
+      "path": "evidence/mixer-hierarchy-diagnostic-notes-001/native-original-fullsch-binding.json",
+      "sha256": "ea07c6eb6725a3af38b10af4f05cbcf5ad6b207b075491aa940eff04044949c4",
+      "bytes": 4523,
+      "original": ".runs/mixer-hierarchy-probe-native-001/execution/worker/job/original-fullsch-binding.json"
+    },
+    "native-original-netclasses.json": {
+      "path": "evidence/mixer-hierarchy-diagnostic-notes-001/native-original-netclasses.json",
+      "sha256": "72fd143214447c77f4f8884059184bb791d59366475497d0e0d8e2e579282549",
+      "bytes": 73077,
+      "original": ".runs/mixer-hierarchy-probe-native-001/execution/worker/job/original-netclasses.json"
+    },
+    "experimental-effective-fields.json": {
+      "path": "evidence/mixer-hierarchy-diagnostic-notes-001/experimental-effective-fields.json",
+      "sha256": "3b64566439a3a44e30b2149e711ba646640247c6f01685f0ab90359424597306",
+      "bytes": 503,
+      "original": ".runs/mixer-hierarchy-probe-native-001/execution/worker/experimental-effective-fields.json"
+    },
+    "experimental-instance-terminals.json": {
+      "path": "evidence/mixer-hierarchy-diagnostic-notes-001/experimental-instance-terminals.json",
+      "sha256": "155a18f01a7d2d47b21d6c70d91f0b407af85c3aa83438674ceb7f16f8912e4e",
+      "bytes": 104815,
+      "original": ".runs/mixer-hierarchy-probe-native-001/execution/worker/experimental-instance-terminals.json"
+    },
+    "experimental-default-classes.json": {
+      "path": "evidence/mixer-hierarchy-diagnostic-notes-001/experimental-default-classes.json",
+      "sha256": "2d0064c1564aa468862bda8b8408217de661d813668d1436b999a8a6d45aa7a3",
+      "bytes": 259,
+      "original": ".runs/mixer-hierarchy-probe-native-001/execution/worker/experimental-default-classes.json"
+    },
+    "prepare-command.log": {
+      "path": "evidence/mixer-hierarchy-diagnostic-notes-001/prepare-command.log",
+      "sha256": "550c01f82870c2d9c24af6b9ef89918615dcc85f45b70b51bdfef9b6d4cf3c8e",
+      "bytes": 127,
+      "original": ".runs/mixer-hierarchy-probe-prepare-001-command.log"
+    },
+    "prepare-time.log": {
+      "path": "evidence/mixer-hierarchy-diagnostic-notes-001/prepare-time.log",
+      "sha256": "655f702cbfaf35884ff3f02a7d995ea772be12e958a62bda6bd0698eef14ba08",
+      "bytes": 29,
+      "original": ".runs/mixer-hierarchy-probe-prepare-001-time.log"
+    },
+    "run-command.log": {
+      "path": "evidence/mixer-hierarchy-diagnostic-notes-001/run-command.log",
+      "sha256": "543b9cb7d8fce5be4678798fed86a52f46401c306e3206caa8094a71ecd27243",
+      "bytes": 125,
+      "original": ".runs/mixer-hierarchy-probe-run-001-command.log"
+    },
+    "run-time.log": {
+      "path": "evidence/mixer-hierarchy-diagnostic-notes-001/run-time.log",
+      "sha256": "5def4f6e30c28dcac8ce234de604e6041659808152b5349d68eb5c92776efa88",
+      "bytes": 30,
+      "original": ".runs/mixer-hierarchy-probe-run-001-time.log"
+    },
+    "LICENSE.CC-BY-SA-4.0": {
+      "path": "evidence/mixer-hierarchy-diagnostic-notes-001/LICENSE.CC-BY-SA-4.0",
+      "sha256": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "bytes": 15164,
+      "original": ".data/boards/kicad-multichannel/_licenses/LICENSE.CC-BY-SA-4.0"
+    }
+  },
+  "limitations": [
+    "One exposed development design; no new family, untouched holdout or comparative routing run.",
+    "Completed diagnostic means bound observations retained, not prerequisites passed.",
+    "Native in-memory refill/connectivity was checked with save=False; no source rewrite or final routed candidate was emitted.",
+    "Raw bulk netlist/field observations remain under the retained local run and are hash-bound, not embedded as a new board dataset.",
+    "Local evidence consistency is mutable and unauthenticated; second AI review is not human PCB review."
+  ]
+}

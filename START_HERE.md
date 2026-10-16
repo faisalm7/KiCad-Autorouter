@@ -2,7 +2,7 @@
 
 This is the existing local project at `~/Projects/KiCad-Autorouter-local`. Keep this folder and its prepared environment. Routing runs locally without Codex, an AI subscription or internet.
 
-The graphical launcher is being qualified on this Mac. In the prepared checkout, close other KiCad applications, then create a fresh local launcher once:
+The graphical launcher has been tested on this Mac within the scope below. In the prepared checkout, close other KiCad applications, then create a fresh local launcher once:
 
 ```sh
 .venv/bin/python -B scripts/install_gui.py --output .runs/autorouter-launcher-001
@@ -31,6 +31,6 @@ The original preparation instructions are [preserved as history](docs/history/20
 
 An additional [temperature-interface example](docs/ds18b20-demo.md) now has actual generated-routing/full-schematic qualification. C ties its tuned baseline; no extra gain is claimed.
 
-The current prepared candidate is [runtime007](.runs/runtime-directory-007/runtime/RUNTIME_README.txt), built from sourcee0167644. Its protected4Cu Route and2Cu Improve have fresh Native/export/current-reader qualification. [Actual evidence](evidence/runtime007-class-guard-integration-001.json) retains every warning and control. Its fresh graphical058test is currently Mac-lock blocked; prior actual057used identical GUI source. This is a local directory artifact, not a published package or completed release.
+The current prepared candidate is [runtime008](.runs/runtime-directory-008/runtime/RUNTIME_README.txt), built from source76d2c666. Protected4Cu Route,2Cu Improve and fresh separate Native exports pass. [Actual GUI059](evidence/gui-runtime008-059-native-opening-001.json) launched from KiCad and completed preview, routing, rendered review, test intent, export and checked opening. Opening subsequently changed project metadata; the next check visibly refused it as stale. [Current qualification](evidence/runtime008-export-accounting-integration-001.json) preserves every warning/control and the earlier export-accounting failure. This is a local directory artifact, not a published package or completed release.
 
-**Constraint scope:** archived006 wrongly accepted a schematic/PCB class mismatch. Current007 explicitly refuses schematic class directives and hierarchies until their complete inputs and class equivalence are verified. The exact old counterexample now refuses; no original rule was repaired or weakened. [Coverage](evidence/corpus-population015-class-guard-cohort-001/SCOPE.md) retains both newly refused hierarchical projects.
+**Constraint scope:** archived006 wrongly accepted a schematic/PCB class mismatch. Current008 explicitly refuses schematic class directives and hierarchies until their complete inputs and class equivalence are verified. The exact old counterexample now refuses; no original rule was repaired or weakened. [Coverage](evidence/corpus-population015-class-guard-cohort-001/SCOPE.md) retains both newly refused hierarchical projects.

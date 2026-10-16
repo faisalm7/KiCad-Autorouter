@@ -1,0 +1,131 @@
+{
+  "schema": 1,
+  "kind": "bounded-static-support-triage-two-existing-licensed-projects",
+  "decision": "defer_both_native_attempts_and_production_admission",
+  "notes": "evidence/support-triage-clock-ideal-diode-001/NOTES.md",
+  "scope": "Curate prior source-only decisions and freshly verify original file hashes; no new dependency investigation, project execution, source repair or policy change.",
+  "native_executed": false,
+  "engine_executed": false,
+  "tests_executed": false,
+  "project_or_dataset_code_imported": false,
+  "cad_redistributed": false,
+  "production_changed": false,
+  "qualified": false,
+  "accepted": false,
+  "routing_accepted": false,
+  "costs": {"static_inspection_wall_seconds": null, "static_inspection_full_cpu_seconds": null, "known": false},
+  "cohort": {
+    "record": "evidence/corpus-population015-class-guard-cohort-001/population.json",
+    "sha256": "ef08d9b0653a5cc5572b03d41bccbeee048c025ac58bf268b019ad3012321d96",
+    "denominator": 25,
+    "statically_eligible": 7,
+    "statically_unsupported": 18,
+    "both_projects_retained_in_denominator": true,
+    "eligibility_or_completion_gain_claimed": false
+  },
+  "source_integrity": {
+    "retained_inventory": "experiments/licensed_acquisition_v7/existing-data-inventory.json",
+    "retained_inventory_sha256": "8047cc66c6cc6bcc1320d1509ea268dbd35e11901cc5f07ea01627e30ef4c7b8",
+    "method": "Fresh system SHA-256 and size readbacks manually compared with every corresponding retained inventory entry and the saved Ideal Diode hash record.",
+    "files": 14,
+    "bytes": 3755488,
+    "all_corresponding_hashes_and_sizes_match": true,
+    "originals_written": false
+  },
+  "ideal_diode": {
+    "source": ".data/expansion004/ideal-diode/Hardware/SparkFun_Ideal_Diode_Breakout.kicad_pcb",
+    "source_files": 6,
+    "source_bytes": 3025609,
+    "pcb_version": "20240108",
+    "schematic_version": "20231120",
+    "retained_hardware_license": "CC-BY-SA-4.0 as stated in LICENSE.md",
+    "cohort015_unscoped_reason": "unsupported: unqualified board format version",
+    "cohort_reason_is_complete_description_of_scoped_product_limits": false,
+    "existing_contextual_legacy_admission": {
+      "scope": "whole_board_unlocked_routing",
+      "guidance": "native",
+      "layers": "source_all",
+      "requires_board_floor_scope_qualification": true,
+      "executed_during_this_triage": false
+    },
+    "default_dimensions_and_original_floors_mm": {
+      "width": [0.2032, 0],
+      "clearance": [0.127, 0],
+      "via_diameter": [0.45, 0.45],
+      "via_drill": [0.3, 0.3],
+      "computed_via_annulus": [0.075, 0.075]
+    },
+    "scalar_comparisons_pass_statically": true,
+    "remaining_limits": [
+      "Two unnumbered conductive F.Cu pads on FID4/FID1 retain local clearance0.25mm; existing contextual legacy board_floor.qualify_scope refuses nonzero local pad/footprint clearances.",
+      "kibuzzard-6765D292 and kibuzzard-6765D25C each occur twice; current duplicate padless-alias scope admits20241229/20260206, not this20240108 source.",
+      "If Native findings require effective-field proof, the current conditional bridge is limited to flatSCH20250114; this SCH is20231120 and the current source field census also requires unique references."
+    ],
+    "one_native_positive_invalid_pair_can_close_all_observed_limits": false,
+    "native_findings": "not observed; no source string or policy inference is a Native result",
+    "saved_static_notes": {"path": ".runs/ideal-diode-source-triage-001/NOTES.md", "sha256": "32992d3a7cb89f3f022160ebed6b264e39fc57f25dd1ba93d00ac1b2c37fb2e4"},
+    "saved_source_hashes": {"path": ".runs/ideal-diode-source-triage-001/source-hashes.json", "sha256": "5a096edbac1569870f5d0d2f039457c9c53950ab2c88dc53ff787c8087d608ac"},
+    "prior_source_inspection_basis_git_head": "0cf76553dc2439a001219a173b0c72f4e2289f6a",
+    "prior_inspected_policy_source_sha256": {
+      "autorouter/pipeline.py": "c13bfc7e9e0a79d59cb771676e310949becda43f3fbb304c0839ba1094c9267c",
+      "autorouter/board_floor.py": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340",
+      "autorouter/padless_alias.py": "f359a89e3c48703058490c22d9591b5f916cd22a8b734c50e1c9191e501c1413",
+      "autorouter/schematic_field_evidence.py": "f5c03ac0be4b5fa3960bfec5f511199f7b566de8483fc78581e39e02804dbb93"
+    },
+    "source_hashes": {
+      "Hardware/SparkFun_Ideal_Diode_Breakout.kicad_pcb": {"bytes": 278535, "sha256": "ed9a908eaf21ad72595d6de3d3cc39470ba5fbfb63270330d2221f8455e3e789"},
+      "Hardware/SparkFun_Ideal_Diode_Breakout.kicad_pro": {"bytes": 14262, "sha256": "36c86f7fda3dbfd2d190f46b54f7ef4875d9c968bf384b269942b6b910e296d0"},
+      "Hardware/SparkFun_Ideal_Diode_Breakout.kicad_sch": {"bytes": 179102, "sha256": "5c95ac5f2669dc5a4748ed8e2a533f4346767743808cbab4967a72bdccb6591a"},
+      "Hardware/SparkFun_Ideal_Diode_Breakout.step": {"bytes": 2548480, "sha256": "bc4c7786b44ab7273adc04539e9a09877354c1a263d8aae39feeb472bc906cc3"},
+      "LICENSE.md": {"bytes": 2883, "sha256": "60350b68666a0d4903a7197114c723fc6d398d72218b785cc074013e39db374d"},
+      "README.md": {"bytes": 2347, "sha256": "a8ccfde33896522882e76b319b91230cfca783bad02ba58bc7d73c5fed599854"}
+    }
+  },
+  "als311_clock": {
+    "source": ".data/expansion009/als311-clock/hardware/hardware.kicad_pcb",
+    "source_files": 8,
+    "source_bytes": 729879,
+    "pcb_version": "20241229",
+    "all_five_schematic_versions": "20250114",
+    "retained_hardware_license": "CERN-OHL-P-2.0 as stated in NOTICE; Copyright2026 Ugolnikov Evgeny",
+    "cohort015_reason": "unsupported: schematic class intent not qualified: schematic hierarchy dependency closure and class intent are not independently verified: hardware.kicad_sch",
+    "default_dimensions_and_original_floors_mm": {
+      "width": [0.2, 0],
+      "clearance": [0.2, 0],
+      "via_diameter": [0.6, 0.5],
+      "via_drill": [0.3, 0.3],
+      "computed_via_annulus": [0.15, 0.1]
+    },
+    "scalar_comparisons_pass_statically": true,
+    "source_identity_observations": [
+      {"reference": "J2", "symbol_uuid": "717f8015-dcc4-4c71-8d13-f12c24bc0aa1", "pcb_path": "/717f8015-dcc4-4c71-8d13-f12c24bc0aa1", "field": "Footprint identifier", "schematic": "Connector_USB:USB_C_Receptacle_HRO_TYPE-C-31-M-17", "pcb": "Connector_USB:USB_C no silk", "literal_equal": false},
+      {"reference": "C13", "symbol_uuid": "b2586e92-3d4f-490a-a3cd-9e7b2494b970", "pcb_path": "/c674d575-b98e-41a6-bc34-9660b51401f8/b2586e92-3d4f-490a-a3cd-9e7b2494b970", "source_sheet": "keypad.kicad_sch", "field": "Value", "schematic": "0.1uF", "pcb": "100nF", "literal_equal": false},
+      {"field": "Reference", "pcb_value": "G***", "count": 2, "source_attribute": "board_only", "schematic_counterpart_found_by_prior_bounded_text_inspection": false}
+    ],
+    "remaining_limits": [
+      "Existing production hierarchy refusal remains unchanged.",
+      "Actual source/PCB J2 Footprint identifier and C13 literal Value strings disagree on matching source identities; no equivalence or waiver is proposed.",
+      "Two board-only LOGO footprints share G*** references; current strict field census requires unique source references."
+    ],
+    "native_findings": "not observed; static source disagreements are not newly observed Native mismatches",
+    "pad_purpose_inferred": false,
+    "field_warning_waiver_proposed": false,
+    "one_original_fullsch_diagnostic_would_establish_production_support": false,
+    "source_hashes": {
+      "NOTICE": {"bytes": 459, "sha256": "714c420fa44d5e87c2fc26bd5461cf96c268fb6442f3cfe97d613d344365d318"},
+      "als311_display.kicad_sch": {"bytes": 54655, "sha256": "f344c52805dd7e4f23304b927210f18e5b118a5af7dfaa66684d0d71107177b1"},
+      "als311_driver.kicad_sch": {"bytes": 41047, "sha256": "2106fb42912aee0f262840da474e045475426f653b023935d736210480672edf"},
+      "ds3231.kicad_sch": {"bytes": 34471, "sha256": "dacc8c496a2f289052972bd1aea1f0d7db19587e681d832c5d9b22154b971998"},
+      "hardware.kicad_pcb": {"bytes": 432455, "sha256": "b3d86b9109ad4770261301251bdb5e8b225def82e32cea1b499ff4d78ab0be2e"},
+      "hardware.kicad_pro": {"bytes": 16335, "sha256": "4cabdfedaab6eed6da812c1335b414efcfb47b73e8dcb501b6fc8bfb11aa31bc"},
+      "hardware.kicad_sch": {"bytes": 119016, "sha256": "5d03618eb534fd2fc0f7b600ff69d8fc4b9219d785e4757e64ca8c32ed2a2563"},
+      "keypad.kicad_sch": {"bytes": 31441, "sha256": "c8d2ecf64d353ce79d5e2cf28ce21de08f82f553412e9882648e13812bf3e404"}
+    }
+  },
+  "claim_limits": [
+    "Static scalar floor comparisons are not a Native class/constraint-equivalence proof.",
+    "No complete Native field/terminal/dependency proof, routing completion, electrical adequacy, manufacturing or human approval is established.",
+    "The saved policy source hashes describe prior inspected bytes; this curation is not a runtime008 installation or Native qualification.",
+    "Both original projects and all cohort015 rows remain unchanged. A future Native protocol requires a separate frozen scope and lead authorization."
+  ]
+}
