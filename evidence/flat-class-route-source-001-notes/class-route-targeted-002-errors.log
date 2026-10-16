@@ -1,0 +1,16 @@
+...........E...............................................................................................
+======================================================================
+ERROR: test_empty_directory_is_bound_and_requires_new_full_check (test_validation_readback.ReadbackSession.test_empty_directory_is_bound_and_requires_new_full_check)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 41, in test_empty_directory_is_bound_and_requires_new_full_check
+    p.check_result(self.receipt);self.assertEqual(check.call_count,2)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2340, in check_result
+    raise Rejected('routing evidence changed during full readback')
+autorouter.pipeline.Rejected: routing evidence changed during full readback
+
+----------------------------------------------------------------------
+Ran 107 tests in 58.118s
+
+FAILED (errors=1)

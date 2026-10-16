@@ -36,14 +36,18 @@ def explicit_preferences(args):
     return result
 
 
-def preview(board,settings=None,overrides=None):
+def preview(board,settings=None,overrides=None,*,purpose='route'):
     """Read the same static guards as routing; no engine, native validation or writes."""
     from . import preferences as pref, pipeline as p, sexpr as sx, placement_clearance as pc
     from .handoff import real_path
     captured=pref.load(settings) if settings is not None else None
     effective=pref.resolve(captured,overrides)
     source=real_path(board);before=pc.inventory(source.parent)
-    original=p.preflight(source,task_scope=(effective['scope'],effective['guidance'],effective['layers']))
+    if purpose not in {'route','improve'}:raise p.Rejected('unknown preview purpose')
+    class_context=('native-route-flat-classes-v1' if purpose=='route' and effective['guidance']=='native'
+        and effective['scope'] in {'whole_board_unlocked_routing','partial_completion'} and effective['layers']=='source_all' else None)
+    original=p.preflight(source,task_scope=(effective['scope'],effective['guidance'],effective['layers']),class_context=class_context)
+    pending_classes=p.check_schematic_class_support(source,class_context=class_context)
     if effective['guidance']!='native':
         from . import board_floor as g
         if p.netclass_policy(source) is not None:raise p.Rejected('unsupported: floor policy requires one Default class')
@@ -69,6 +73,7 @@ def preview(board,settings=None,overrides=None):
             'copper_layers':copper,'existing_route_items':len(p.routes(original)),
             'protected_route_items':len(protected),'rerouted_route_items':len(p.routes(original))-len(protected),
             'layer_restriction':layer_preview,
+            'schematic_class_check':pending_classes,
             'scope_description':{'partial_completion':'Complete remaining connections while preserving every existing route',
                 'selected_nets':'Reroute only selected unlocked nets; preserve all other original copper. Full native DRC remains mandatory.',
                 'whole_board_unlocked_routing':'Reroute unlocked copper while preserving locked routes'}[effective['scope']],
@@ -102,6 +107,7 @@ def main():
     settings.add_argument('--purpose',choices=['route','improve'],default='route',help='Starter settings for route or native improve')
     view=sub.add_parser('preview',help='Preview settings, protected routing and static support without changing the board')
     view.add_argument('board');preference_arguments(view)
+    view.add_argument('--purpose',choices=['route','improve'],default='route',help='Preview Route or the narrower Improve capability scope')
     review=sub.add_parser('review-copy');review.add_argument('receipt');review.add_argument('--output',required=True)
     review.add_argument('--render',action='store_true',help='Add native before/after copper plots and a local HTML review')
     choice=sub.add_parser('review-choice',help='Record accept/reject intent for a separate project; no PCB approval or application')
@@ -128,7 +134,7 @@ def main():
         result=doctor();print(json.dumps(result,indent=2));return 0 if result['ready'] else 2
     if a.command in {'settings-init','preview'}:
         try:
-            if a.command=='preview':result=preview(a.board,a.settings,explicit_preferences(a))
+            if a.command=='preview':result=preview(a.board,a.settings,explicit_preferences(a),purpose=a.purpose)
             else:
                 from . import preferences as pref
                 from .handoff import real_path

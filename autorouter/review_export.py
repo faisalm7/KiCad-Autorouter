@@ -100,7 +100,7 @@ def lineage(binding,report):
 class ExportJob(f.FloorJob):
     """Existing DRC/copy/first-failure path with finite native-only process caps."""
     def step(self,name,argv,allowed=(0,),*,already_sandboxed=False):
-        if name not in {'refill-drc','pour-keepout-audit','floor-final','final-netclasses','final-drc','final-drc-fields-netlist','final-drc-fields-audit','metrics'}:
+        if name not in {'refill-drc','pour-keepout-audit','floor-final','final-netclasses','final-drc','final-drc-fields-netlist','final-drc-fields-audit','final-classes-netlist','metrics'}:
             raise p.Rejected('export prohibits solver/import/export stages')
         available=min(30,self.remaining())
         if available<=0:raise p.Rejected('export native budget exhausted')
@@ -114,13 +114,39 @@ class ExportJob(f.FloorJob):
         if self.remaining()<=0:raise p.Rejected('export wall/full CPU cap exhausted')
         return result
 
+def check_class_evidence(folder,data,binding,report):
+    """Recheck class copies/processes and non-byte PRL flags after late reads."""
+    from . import schematic_class_evidence as classes
+    if classes.present(folder,data,'task'):
+        raise p.Rejected('unexpected task class proof in fresh export')
+    class_context=p.class_context_for_record(report,Path(binding['receipt']).parent,input_policy=binding['input_policy'])
+    required=p.check_schematic_class_support(Path(binding['source']),class_context=class_context)
+    if required is not None:
+        material=witness(folder)
+        if required['source_hashes']!=binding['source_hashes']:
+            raise p.Rejected('export class source differs')
+        candidate=folder/'candidate'/Path(binding['source']).name
+        classes.check(folder,data,'final',board_raw=pc.read_bytes(candidate),source=str(candidate),
+            project_raw=pc.read_bytes(candidate.with_suffix('.kicad_pro')),schematic_raw=pc.read_bytes(candidate.with_suffix('.kicad_sch')),
+            native_map=folder/'final-netclasses.json')
+        pc.verify_candidate(candidate,binding['source_hashes'],data['candidate_sha256'])
+        if pc.inventory(Path(binding['source']).parent,max_bytes=h.PROJECT_BYTES)!=binding['source_hashes'] or witness(folder)!=material:
+            raise p.Rejected('export class evidence/source changed during replay')
+        classes.check_local_settings(folder,'final')
+    elif classes.present(folder,data,'final'):
+        raise p.Rejected('unexpected export class proof')
+    return required
+
+
 def check_stage(folder,data,binding,report,basis,contract,layers):
     """Reuse original-rule refill/final/process/native-context validators."""
     if report.get('scope')=='selected_nets' and data.get('schematic_parity')!=report.get('schematic_parity'):
         raise p.Rejected('export selected-net schematic parity declaration differs')
     if data.get('schematic_parity')!=p.parity_declaration(binding['source'],binding['source_hashes']):
         raise p.Rejected('export schematic parity declaration differs from original source')
-    original=p.preflight(Path(binding['source']),task_scope=p.task_scope_for_record(report,Path(binding['receipt']).parent,input_policy=binding['input_policy']));candidate=folder/'candidate'/Path(binding['source']).name
+    class_context=p.class_context_for_record(report,Path(binding['receipt']).parent,input_policy=binding['input_policy'])
+    original=p.preflight(Path(binding['source']),task_scope=p.task_scope_for_record(report,Path(binding['receipt']).parent,input_policy=binding['input_policy']),class_context=class_context);candidate=folder/'candidate'/Path(binding['source']).name
+    class_requirement=p.check_schematic_class_support(Path(binding['source']),class_context=class_context)
     before=sx.read(Path(binding['validated_candidate']));protected=p.protected_for_record(report,original)
     if candidate!=Path(data['candidate']):raise p.Rejected('export candidate escaped validation directory')
     pc.verify_candidate(candidate,binding['source_hashes'],data['candidate_sha256'])
@@ -158,7 +184,8 @@ def check_stage(folder,data,binding,report,basis,contract,layers):
         raise p.Rejected('fresh export native acceptance/metrics/warnings/original ignore settings differ')
     from .pour_rule_area import qualify
     from . import schematic_field_evidence as fields
-    expected_names=['refill-drc',*(['pour-keepout-audit'] if qualify(original) else []),*(['floor-final'] if contract is not None else ['final-netclasses'] if p.netclass_policy(candidate) is not None else []),'final-drc',*(fields.names('final-drc') if fields.has_fields(data['native']['findings']) else []),'metrics']
+    check_class_evidence(folder,data,binding,report)
+    expected_names=['refill-drc',*(['pour-keepout-audit'] if qualify(original) else []),*(['floor-final'] if contract is not None else ['final-netclasses'] if p.netclass_policy(candidate) is not None else []),'final-drc',*(fields.names('final-drc') if fields.has_fields(data['native']['findings']) else []),*(['final-classes-netlist'] if class_requirement is not None else []),'metrics']
     if [s['name'] for s in data['steps']]!=expected_names or any(s['cwd']!=str(folder) for s in data['steps']):raise p.Rejected('export native-only stage history differs')
     for step in data['steps']:
         log=Path(step['log'])
@@ -203,6 +230,7 @@ def _check_export(path,guard):
     check_normal_policy(path.parent/'validation',data,max_bytes=OUTPUT_BYTES,max_files=OUTPUT_FILES)
     if p.sha(path)!=before_hash or bind(binding['choice'])[0]!=binding or evidence(path.parent)!=data['export_evidence']:
         raise p.Rejected('export changed during final readback')
+    check_class_evidence(path.parent/'validation',data,binding,report)
     guard()
     return {'current':True,'export_accepted':True,'candidate':str(candidate),'candidate_sha256':data['candidate_sha256'],
         'original_routing_receipt':binding['receipt'],'applied':False,'fresh_native_run_performed_by_check':False,
@@ -277,7 +305,9 @@ def export(choice_path,output,seconds=SECONDS):
             if out.exists():raise p.Rejected('export output already exists')
             for protected in [Path(x).parent for x in (binding['source'],binding['receipt'],binding['review'],binding['choice'])]:
                 if out==protected or protected in out.parents:raise p.Rejected('export must be outside source/routing/review/choice trees')
-            source=Path(binding['source']);original=p.preflight(source,task_scope=p.task_scope_for_record(report,Path(binding['receipt']).parent,input_policy=binding['input_policy']));basis,contract,layers=lineage(binding,report)
+            source=Path(binding['source']);class_context=p.class_context_for_record(report,Path(binding['receipt']).parent,input_policy=binding['input_policy'])
+            original=p.preflight(source,task_scope=p.task_scope_for_record(report,Path(binding['receipt']).parent,input_policy=binding['input_policy']),class_context=class_context);basis,contract,layers=lineage(binding,report)
+            class_requirement=p.check_schematic_class_support(source,class_context=class_context)
             candidate_capture=pc.inventory(Path(binding['validated_candidate']).parent,contents=True);source_capture=pc.inventory(source.parent,contents=True)
             if {name:h.digest(raw) for name,raw in candidate_capture.items()}!=binding['candidate_hashes'] or {name:h.digest(raw) for name,raw in source_capture.items()}!=binding['source_hashes']:
                 raise p.Rejected('export captured authoritative projects changed')
@@ -309,7 +339,8 @@ def export(choice_path,output,seconds=SECONDS):
             extra={'selected_names':names,'schematic_parity':p.selected_parity_required(report)} if names is not None else {}
             record['schematic_parity']=p.parity_declaration(binding['source'],binding['source_hashes'])
             digest,native=p.validate_candidate(job,original,candidate,binding['source_hashes'],protected,
-                guidance_contract=contract,guidance_basis=basis,layer_contract=layers,**extra)
+                guidance_contract=contract,guidance_basis=basis,layer_contract=layers,class_context=class_context,**extra)
+            if class_requirement is not None:record['schematic_class_final']=job.schematic_class_final
             job.native('metrics','metrics',candidate,job.out/'metrics.json');metrics=f.read_json(job.out/'metrics.json');account();cap()
             record.update(inputs=binding,tools=tools,runtime_source_sha256=runtime,code_inventory=code,source_hashes=binding['source_hashes'],
                 candidate=str(candidate),candidate_sha256=digest,native=native,native_report_sha256=p.sha(job.out/'final-drc.json'),metrics=metrics,

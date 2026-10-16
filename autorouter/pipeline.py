@@ -337,13 +337,8 @@ def check_hole_machining_support(tree):
         for pad in sx.children(fp,'pad'):visit(pad)
     for via in sx.children(tree,'via'):visit(via)
 
-def task_scope_for_record(data,directory,*,input_policy=None):
-    """Derive task choices for narrow legacy syntax; never an acceptance flag.
-
-    Existing captured-choice/process readers still verify their full proofs.
-    Missing/mixed choices return no admission context. Modern preflight ignores
-    this context; 20240108 requires the exact whole/native/source_all tuple.
-    """
+def task_choices_for_record(data,*,input_policy=None):
+    """Read consistent recorded choices; all evidence readers still apply."""
     from . import preferences as pref
     if type(data) is not dict:return None
     scope=data.get('scope');policy=data.get('input_policy','native') if input_policy is None else input_policy
@@ -356,6 +351,18 @@ def task_scope_for_record(data,directory,*,input_policy=None):
         if effective['scope']!=scope or effective['guidance']!=policy:return None
         if layers!='source_all' and effective['layers']!=layers:return None
         layers=effective['layers']
+    return (scope,policy,layers)
+
+
+def task_scope_for_record(data,directory,*,input_policy=None):
+    """Derive task choices for narrow legacy syntax; never an acceptance flag.
+
+    Existing captured-choice/process readers still verify their full proofs.
+    Missing/mixed choices return no admission context. Modern preflight ignores
+    this context; 20240108 requires the exact whole/native/source_all tuple.
+    """
+    choices=task_choices_for_record(data,input_policy=input_policy)
+    if choices is None:return None
     if (selected_scope_markers(directory,data) or layer_markers(directory,data)
             or data.get('protected_routes',0)!=0):return None
     if 'protected_route_import' in data:
@@ -366,18 +373,21 @@ def task_scope_for_record(data,directory,*,input_policy=None):
                 or binding['policy']!='exact_non_uuid_lock_position_v2' or binding['matches']!=[]
                 or any(type(binding[key]) is not str or re.fullmatch('[0-9a-f]{64}',binding[key]) is None
                        for key in ('transplanted_routes_sha256','imported_sha256'))):return None
-    return (scope,policy,layers)
+    return choices
 
 
-def check_schematic_class_support(board):
-    """Refuse schematic class directives until PCB membership is verified.
+def check_schematic_class_support(board, *, class_context=None):
+    """Refuse by default; explicit Route context permits pending Native proof.
 
     Examine every captured modern schematic, including child directories.
     Native format/parity checks retain responsibility for other SCH semantics.
     """
     from .placement_clearance import inventory, read_bytes
     try:
+        if class_context is not None and (type(class_context) is not str or class_context != 'native-route-flat-classes-v1'):
+            raise ValueError('unknown schematic class context')
         root = Path(board).parent
+        pending_class_check = False
         captured = inventory(root, max_bytes=100*1024**2,
                              max_files=2000, max_entries=4000)
         for name, expected in captured.items():
@@ -399,18 +409,78 @@ def check_schematic_class_support(board):
             while pending:
                 node = pending.pop()
                 if node and node[0] == 'netclass_flag':
-                    raise ValueError('schematic netclass_flag unsupported: PCB class '
-                                     'membership and inheritance are not independently '
-                                     'verified: '+name)
+                    if class_context is None:
+                        raise ValueError('schematic netclass_flag unsupported: PCB class '
+                                         'membership and inheritance are not independently '
+                                         'verified: '+name)
+                    pending_class_check = True
                 if node and node[0] == 'sheet':
                     raise ValueError('schematic hierarchy dependency closure and class '
                                      'intent are not independently verified: '+name)
                 pending.extend(child for child in node[1:] if isinstance(child, list))
+        if pending_class_check:
+            from .schematic_class_evidence import requirement
+            required = requirement(board)
+            if required is None:
+                raise ValueError('source class directive requires Native proof')
+            return required
     except (OSError, ValueError, Rejected) as exc:
         raise Rejected('schematic class intent not qualified: '+str(exc)) from exc
 
 
-def preflight(board,*,task_scope=None):
+def class_context_for_record(data,directory,*,input_policy,native_toolchain=None):
+    """Only ordinary native Route and its checked export may request this proof.
+
+    The context permits static eligibility. Actual task/final Native evidence is
+    separately mandatory and is detected from the source, never a receipt flag.
+    """
+    if (type(data) is not dict or input_policy!='native' or native_toolchain is not None or 'strategy' in data
+            or type(data.get('schema')) is not int or data['schema']!=1
+            or data.get('engine_profile') not in {'standard','tuned','completion-only'}
+            or any(key in data for key in ('engine_fanout_override','engine_optimizer_override','engine_angle_binding',
+                'engine_planning_clearance_margin_nm','engine_global_width_policy','experimental_route_policy',
+                'experimental_native_toolchain','experimental_schematic_parity_policy','production_admitted',
+                'diagnostic_schema','production_qualified'))):
+        return None
+    choices=task_choices_for_record(data,input_policy=input_policy)
+    if choices is None or selected_scope_markers(directory,data) or layer_markers(directory,data):return None
+    scope,guidance,layers=choices
+    if scope not in {'whole_board_unlocked_routing','partial_completion'} or guidance!='native' or layers!='source_all':
+        return None
+    return 'native-route-flat-classes-v1'
+
+
+def check_route_class_evidence(directory,data,original,candidate,*,class_context):
+    """Replay both actual observations, including a reconstructed preengine task."""
+    from . import schematic_class_evidence as classes
+    required=check_schematic_class_support(Path(data['source']),class_context=class_context)
+    if required is None:
+        if any(classes.present(directory,data,stage) for stage in ('task','final')):
+            raise Rejected('unexpected schematic class evidence on an unflagged source')
+        return False
+    if class_context is None or not all(key in data for key in ('schematic_class_task','schematic_class_final')):
+        raise Rejected('missing source and final schematic class proof')
+    from .placement_clearance import read_bytes, evidence_inventory, inventory, verify_candidate
+    material=evidence_inventory(Path(directory))
+    if required['source_hashes']!=data['source_hashes']:
+        raise Rejected('class proof source project differs')
+    raw_project=read_bytes(candidate.with_suffix('.kicad_pro'));raw_schematic=read_bytes(candidate.with_suffix('.kicad_sch'))
+    task=routing_task(original,data['scope'],selected_scope_names(data))
+    task_raw=(sx.dump(task)+'\n').encode()
+    if hashlib.sha256(task_raw).hexdigest()!=data.get('task_sha256'):
+        raise Rejected('class proof routing task differs')
+    classes.check(directory,data,'task',board_raw=task_raw,source=str(candidate),project_raw=raw_project,
+        schematic_raw=raw_schematic,native_map=Path(directory)/'export-netclasses.json')
+    classes.check(directory,data,'final',board_raw=read_bytes(candidate),source=str(candidate),project_raw=raw_project,
+        schematic_raw=raw_schematic,native_map=Path(directory)/'final-netclasses.json')
+    verify_candidate(candidate,data['source_hashes'],data['candidate_sha256'])
+    if inventory(Path(data['source']).parent,max_bytes=100*1024*1024)!=data['source_hashes'] or evidence_inventory(Path(directory))!=material:
+        raise Rejected('class routing evidence/source changed during replay')
+    for stage in ('task','final'):classes.check_local_settings(directory,stage)
+    return True
+
+
+def preflight(board,*,task_scope=None,class_context=None):
     t=sx.read(board)
     reasons=[]
     if t[0]!='kicad_pcb': reasons.append('not a KiCad board')
@@ -440,7 +510,7 @@ def preflight(board,*,task_scope=None):
                 continue
             if key not in KNOWN_CHECKS or val not in {'error','warning','ignore'}: reasons.append('unknown rule severity semantics: '+key)
             if key in CRITICAL_CHECKS and val!='error' and (key,val) not in {('padstack','warning'),('hole_to_hole','warning')}: reasons.append('core native check not blocking: '+key)
-    try: check_schematic_class_support(board)
+    try: check_schematic_class_support(board,class_context=class_context)
     except Rejected as exc: reasons.append(str(exc))
     rules=board.with_suffix('.kicad_dru')
     if rules.exists() and rules.read_text().strip(): reasons.append('custom rules not qualified')
@@ -1200,10 +1270,13 @@ def check_legacy_zone_evidence(directory,original,candidate,*,implementation=Non
         if canonical(actual)!=canonical(expected):raise Rejected('missing or changed legacy zone witness')
 
 
-def validate_candidate(job, original, candidate, source_hashes, protected, *, guidance_contract=None, guidance_basis=None, layer_contract=None, selected_names=None, schematic_parity=False):
+def validate_candidate(job, original, candidate, source_hashes, protected, *, guidance_contract=None, guidance_basis=None, layer_contract=None, selected_names=None, schematic_parity=False, class_context=None):
     # A complete captured native schematic must participate in final acceptance
     # for every routing scope, including optimizer trials and fresh exports.
     schematic_parity=schematic_parity or Path(candidate).with_suffix('.kicad_sch').name in source_hashes
+    class_requirement=check_schematic_class_support(candidate,class_context=class_context)
+    if class_requirement is not None and (guidance_contract is not None or layer_contract is not None or selected_names is not None or getattr(job,'native_toolchain',None) is not None):
+        raise Rejected('unsupported: flat class proof requires ordinary native whole/partial Route')
     check_rule_area_support(original)
     check_hole_machining_support(original)
     check_hole_machining_support(sx.read(candidate))
@@ -1254,6 +1327,9 @@ def validate_candidate(job, original, candidate, source_hashes, protected, *, gu
         save_json(job.out/'final-netclass-audit.json',audited)
     if selected_names is not None:rs.audit(original,sx.read(candidate),selected_names)
     native=job.drc('final-drc',candidate,schematic_parity=True) if schematic_parity else job.drc('final-drc',candidate)
+    if class_requirement is not None:
+        from . import schematic_class_evidence as classes
+        job.schematic_class_final=classes.collect(job,'final',candidate,job.out/'final-netclasses.json')
     verify_candidate_files(candidate,source_hashes,final_hash)
     legacy=legacy_zone_evidence(original,candidate)
     if legacy is not None:save_json(job.out/'legacy-zone-witness.json',legacy)
@@ -1867,6 +1943,22 @@ def check_preferences_record(directory, data):
 
 
 def route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native', settings_path=None, preference_overrides=None, _preferences=None, native_toolchain=None, experimental_schematic_parity=False, _fanout_enabled=None, _optimizer_enabled=None, _engine_clearance_margin_nm=None, _engine_global_width_policy=None):
+    """Keep cancellation active between workers and through final publication."""
+    def interrupted(*_):raise KeyboardInterrupt
+    previous={sig:signal.getsignal(sig) for sig in (signal.SIGINT,signal.SIGTERM)}
+    try:
+        for sig in previous:signal.signal(sig,interrupted)
+        return _route(source,output,seconds,keep_existing,adapter,engine_profile,
+            scoring_variant=scoring_variant,guidance_policy=guidance_policy,settings_path=settings_path,
+            preference_overrides=preference_overrides,_preferences=_preferences,native_toolchain=native_toolchain,
+            experimental_schematic_parity=experimental_schematic_parity,_fanout_enabled=_fanout_enabled,
+            _optimizer_enabled=_optimizer_enabled,_engine_clearance_margin_nm=_engine_clearance_margin_nm,
+            _engine_global_width_policy=_engine_global_width_policy)
+    finally:
+        for sig,handler in previous.items():signal.signal(sig,handler)
+
+
+def _route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native', settings_path=None, preference_overrides=None, _preferences=None, native_toolchain=None, experimental_schematic_parity=False, _fanout_enabled=None, _optimizer_enabled=None, _engine_clearance_margin_nm=None, _engine_global_width_policy=None):
     entry_started,entry_parent=time.monotonic(),time.process_time()
     from .floor_route import child_cpu
     operation_children=child_cpu()
@@ -1946,13 +2038,21 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
     if _optimizer_enabled is False:report['engine_optimizer_override']=False
     if _engine_clearance_margin_nm is not None:report['engine_planning_clearance_margin_nm']=_engine_clearance_margin_nm
     if _engine_global_width_policy is not None:report['engine_global_width_policy']=_engine_global_width_policy
+    class_requirement=None
     try:
         capture_preferences(report,output,_preferences)
         before=tree_hash(source.parent); report['source_hashes']=before
         selected=_preferences['effective'].get('nets') if _preferences and _preferences['effective']['scope']=='selected_nets' else None
         scope=_preferences['effective']['scope'] if _preferences else report['scope']
         layers=_preferences['effective']['layers'] if _preferences else 'source_all'
-        original=preflight(source,task_scope=(scope,guidance_policy,layers))
+        class_context=('native-route-flat-classes-v1' if native_toolchain is None
+            and engine_profile in {'standard','tuned','completion-only'} and _fanout_enabled is None
+            and _optimizer_enabled is None and scope in {'whole_board_unlocked_routing','partial_completion'}
+            and guidance_policy=='native' and layers=='source_all' else None)
+        original=preflight(source,task_scope=(scope,guidance_policy,layers),class_context=class_context)
+        class_requirement=check_schematic_class_support(source,class_context=class_context)
+        if class_requirement is not None and _preferences is None:
+            job.started=entry_started;job.deadline=entry_started+seconds;job.cpu_started=entry_parent
         from .netclass import PARENT_POLICY
         source_policy=netclass_policy(source)
         if selected is not None and source_policy is not None and source_policy['mode']==PARENT_POLICY:
@@ -1995,6 +2095,9 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
             shutil.copy2(output/'task.dsn',output/'native.dsn')
             report['netclass_policy']=policy
             report['netclass_export_audit']=audit_dsn(output/'native.dsn',native_classes,json.loads(candidate.with_suffix('.kicad_pro').read_text()),parent_policy=parent_classes,native_toolchain=native_toolchain)
+        if class_requirement is not None:
+            from . import schematic_class_evidence as classes
+            report['schematic_class_task']=classes.collect(job,'task',candidate,output/'export-netclasses.json')
         report['native_dsn_sha256']=sha(output/'native.dsn')
         if adapter!='none':
             from . import pour_rule_area as pour
@@ -2056,7 +2159,9 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
             **({'selected_names':selected} if import_policy==SELECTED_PROPOSAL_IMPORT_POLICY else {})))
         report['protected_route_import']={'imported_sha256':sha(imported),**reconciliation}
         extra={'selected_names':selected,'schematic_parity':parity} if selected is not None else {}
-        final_hash, native = validate_candidate(job, original, candidate, before, protected,layer_contract=layers,**extra)
+        final_hash, native = validate_candidate(job, original, candidate, before, protected,layer_contract=layers,class_context=class_context,**extra)
+        if class_requirement is not None:
+            report['schematic_class_final']=job.schematic_class_final
         if selected is not None:report['selected_net_audit']=rs.audit(original,sx.read(candidate),selected)
         if layers is not None:report['layer_audit']=layers['audit']
         report['native']=native
@@ -2075,7 +2180,7 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
         report['whole_project_drc_clean']=valid and report['native']['warnings']==0
         preferences_fresh(output,_preferences)
     except KeyboardInterrupt:
-        if _preferences is None:raise
+        if _preferences is None and class_requirement is None:raise
         report.update(accepted=False,status='cancelled',reason='interrupted route')
     except Exception as exc:
         report['reason']=type(exc).__name__+': '+str(exc)
@@ -2094,7 +2199,7 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
     elif report['total_cpu_seconds']>seconds:
         report['accepted']=False; report['status']='cpu_budget_exceeded'
     report['resource_accounting_point']='Summary sampled before final receipt write; wall and measured CPU acceptance caps rechecked after that write. No hard total-CPU preemption.'
-    if _preferences is not None or native_toolchain is not None or engine_profile=='tuned-free-angle' or _fanout_enabled is False:
+    if _preferences is not None or native_toolchain is not None or engine_profile=='tuned-free-angle' or _fanout_enabled is False or class_requirement is not None:
         from .floor_route import publish,child_cpu,evidence_inventory
         completed=evidence_inventory(output)
         def remaining():
@@ -2119,6 +2224,8 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
                 # Last: byte/tool/source/preferences reads cannot witness PRL flags.
                 from .local_settings import check_normal_policy
                 check_normal_policy(output,report)
+            if report['accepted'] and class_requirement is not None:
+                check_route_class_evidence(output,report,original,candidate,class_context=class_context)
         return publish(output,report,stable,account,remaining,
             result_checker=(lambda file:check_result(file,native_toolchain=native_toolchain,experimental_schematic_parity=experimental_schematic_parity)) if native_toolchain is not None else None)
     save_json(output/'result.json',report)
@@ -2148,12 +2255,12 @@ def validation_readback_session():
     from . import (adapter,board_floor,engine_angle,floor_context,floor_route,handoff,layer_policy,legacy_zone,local_settings,padless_alias,padless_alias_native,
                    native_edge,netclass,placement_clearance,placement_strategy,routing_scope,thermal,thermal_geometry,
                    placement_transform,pour_rule_area,preferences,runner,strategy,
-                   schematic_fields,schematic_field_evidence)
+                   schematic_fields,schematic_field_evidence,schematic_classes,schematic_class_evidence)
     import sys
     modules=(sys.modules[__name__],c,sx,adapter,board_floor,engine_angle,floor_context,
              floor_route,handoff,layer_policy,legacy_zone,local_settings,padless_alias,padless_alias_native,native_edge,netclass,placement_clearance,
              placement_strategy,placement_transform,pour_rule_area,preferences,runner,strategy,
-             routing_scope,thermal,thermal_geometry,schematic_fields,schematic_field_evidence)
+             routing_scope,thermal,thermal_geometry,schematic_fields,schematic_field_evidence,schematic_classes,schematic_class_evidence)
     existing=_readback_session.get()
     state=existing if existing is not None else {'entries':{},'modules':modules}
     token=_readback_session.set(state)
@@ -2401,7 +2508,8 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
     # including original rule copies and native evidence, before interpreting it.
     # Recheck after every late settings/process read; board-only layer checks
     # cannot detect a concurrently changed project file or native report.
-    preferences_guarded=(_rejected_attempt or 'engine_optimizer_override' in data or 'engine_fanout_override' in data or data.get('engine_profile')=='tuned-free-angle' or 'engine_angle_binding' in data
+    preferences_guarded=(_rejected_attempt or 'schematic_class_task' in data or 'schematic_class_final' in data
+        or 'engine_optimizer_override' in data or 'engine_fanout_override' in data or data.get('engine_profile')=='tuned-free-angle' or 'engine_angle_binding' in data
         or (path.parent/'engine-angle.json').exists() or (path.parent/'engine-free-angle.dsn').exists()
         or 'routing_preferences' in data or (path.parent/'routing-preferences.json').exists()
         or (path.parent/'routing-preferences.json').is_symlink() or layer_markers(path.parent,data)
@@ -2428,7 +2536,8 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
         from .placement_clearance import verify_candidate as bounded_candidate
         bounded_candidate(candidate,data['source_hashes'],data['candidate_sha256'])
     else:verify_candidate_files(candidate,data['source_hashes'],data['candidate_sha256'])
-    original=preflight(source,task_scope=task_scope_for_record(data,path.parent,input_policy=input_policy))
+    class_context=class_context_for_record(data,path.parent,input_policy=input_policy,native_toolchain=native_toolchain)
+    original=preflight(source,task_scope=task_scope_for_record(data,path.parent,input_policy=input_policy),class_context=class_context)
     current=sx.read(candidate)
     check_hole_machining_support(current)
     if immutable(current)!=immutable(original): raise Rejected('immutable geometry changed')
@@ -2550,6 +2659,7 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
     from . import schematic_field_evidence as fields
     fields.check_processes(path.parent,data,'final-drc',native_input,
         sandboxed=input_policy in {'board-floors-v1','placement-clearance-v1','placement-search-v1',ps.POLICY},native_toolchain=native_toolchain)
+    check_route_class_evidence(path.parent,data,original,candidate,class_context=class_context)
     if any(step.get('status')=='cancelled' or step.get('cleanup_complete') is not True for step in steps): raise Rejected('cancelled or incomplete process cleanup in receipt')
     check_pour_evidence(path.parent,data,original,candidate)
     check_native_edge_transport(path.parent,data)
@@ -2599,6 +2709,7 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
     import_contract=normal_import_contract(path.parent,data,imports,input_policy=input_policy,original=original,native_toolchain=native_toolchain)
     check_protected_import(path.parent,data,original,candidate,protected,**(import_contract or {}))
     check_event(path.parent,binding,process)  # Flags/link counts are outside byte witnesses.
+    check_route_class_evidence(path.parent,data,original,candidate,class_context=class_context)
     if native_toolchain is not None:
         # Reuse the same Native stage reader and exact original/import/refill
         # reconstruction; the experimental receipt never authorizes its tools.

@@ -58,6 +58,8 @@ def human_summary(stage, record, *, receipt_path=None, findings_receipt_path=Non
                   'Existing route items: ' + str(record.get('existing_route_items', 'not reported'))
                   + '; protected: ' + str(record.get('protected_route_items', 'not reported'))
                   + '; to reroute: ' + str(record.get('rerouted_route_items', 'not reported'))]
+        if record.get('schematic_class_check') is not None:
+            lines += ['KiCad must verify schematic/PCB class bindings before routing starts.']
     if record.get('invariants_unchanged') is True:
         lines += ['Original-design checks passed; source geometry and protected routing retained.']
     matches = record.get('protected_route_import', {}).get('matches')
@@ -223,6 +225,7 @@ class Workflow:
         settings = str(self.workspace / 'settings.json')
         if stage in ('preview', 'route'):
             argv += [self.method if stage == 'route' else stage, str(self.board), '--settings', settings]
+            if stage == 'preview' and self.method == 'improve': argv += ['--purpose', 'improve']
             if stage == 'route': argv += ['--output', str(self.workspace / 'route')]
         elif stage == 'review':
             argv += ['review-copy', str(self.workspace / 'route/result.json'), '--render',
