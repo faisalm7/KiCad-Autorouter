@@ -160,6 +160,8 @@ def check_chain(directory,data):
 
 def capture_freeze(tools):
     """New runs require committed core/lock; later readback uses saved evidence."""
+    if tools.get('source_provenance',{}).get('kind','git-checkout')!='git-checkout':
+        raise p.Rejected('placement guidance requires the committed source checkout; runtime-directory support is unqualified')
     pinned={**tools['implementation_sha256'],'toolchain.lock.json':p.sha(c.ROOT/'toolchain.lock.json')}
     for relative,digest in pinned.items():
         raw=subprocess.run(['git','show',tools['git_head']+':'+relative],cwd=c.ROOT,capture_output=True,check=True,timeout=5).stdout

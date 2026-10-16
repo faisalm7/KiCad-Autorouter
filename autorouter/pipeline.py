@@ -1227,8 +1227,11 @@ def tool_manifest(*,native_toolchain=None):
         path=resolved[name]
         if files.get(str(path))!=pin['sha256']: raise Rejected('pinned tool changed or missing: '+name)
     implementation={str(p.relative_to(c.ROOT)):sha(p) for p in sorted((c.ROOT/'autorouter').glob('*.py'))}
-    git_head=subprocess.run(['git','rev-parse','HEAD'],cwd=c.ROOT,capture_output=True,text=True,check=True).stdout.strip()
-    return {'implementation_sha256':implementation,'git_head':git_head,'kicad':version,'freerouting':'2.5.0','files':files,'network':'engine sandbox-exec deny network*',
+    from .provenance import source_identity
+    try:identity=source_identity(c.ROOT,implementation)
+    except (ValueError,OSError,subprocess.SubprocessError) as exc:
+        raise Rejected('runtime source provenance unavailable: '+str(exc)) from exc
+    return {'implementation_sha256':implementation,'git_head':identity['git_head'],'source_provenance':identity,'kicad':version,'freerouting':'2.5.0','files':files,'network':'engine sandbox-exec deny network*',
             'normal_drc_local_settings_policy':NORMAL_DRC_LOCAL_SETTINGS_POLICY,
             'normal_selected_proposal_import_policy':NORMAL_SELECTED_PROPOSAL_IMPORT_POLICY,
             'normal_native_export_alias_policy':NORMAL_NATIVE_EXPORT_ALIAS_POLICY,

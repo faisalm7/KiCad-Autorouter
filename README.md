@@ -2,7 +2,7 @@
 
 An experimental open-source local KiCad routing tool. It runs without an AI account, preserves original design constraints and protected copper, validates separate candidates with native KiCad, and offers saved routing settings, preview, cancellation, acceptance/rejection intent and fresh separate-project export.
 
-[Start here](START_HERE.md) · [Demo](docs/quickstart.md) · [ArcDice](docs/arcdice-demo.md) · [Saved settings](docs/routing-preferences.md) · [KiCad workflow](docs/gui-workflow.md) · [Status](STATUS.md)
+[Start here](START_HERE.md) · [Curated runtime (under qualification)](docs/runtime-directory.md) · [Demo](docs/quickstart.md) · [ArcDice](docs/arcdice-demo.md) · [Saved settings](docs/routing-preferences.md) · [KiCad workflow](docs/gui-workflow.md) · [Status](STATUS.md)
 
 The [IR sensor comparison](evidence/ir-native300-003.json) adds149.375637mm/three vias versus the best of all three corrected/tuned variants166.287122mm/three vias, under equal cumulative300-second wall/full-CPU caps. All accepted outputs retain zero opens/blocking findings,42 warnings and seven ignored checks under unchanged original rules. C uses more compute; no speedup is claimed. Its [actual preview/export and KiCad GUI checks](evidence/ir-current-workflow-gui001.json) now pass on the qualified Mac.
 

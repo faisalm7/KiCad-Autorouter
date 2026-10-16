@@ -1,5 +1,6 @@
 """Pure regression controls for demonstrated prototype defects; not Windows proof."""
 import ast
+import json
 from pathlib import Path
 from types import SimpleNamespace
 import tempfile
@@ -8,6 +9,44 @@ import unittest
 ROOT=Path(__file__).resolve().parents[1]/'scripts/windows_native_slice'
 
 class WindowsProbeControls(unittest.TestCase):
+    def firewall_gate(self, output, result):
+        tree=ast.parse((ROOT/'slice.py').read_text())
+        fn=next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=='firewall')
+        refusal={}
+        scope=dict(digest=lambda path:'pin',manifest=output/'manifest.json',manifest_pin='pin',
+                   subprocess=SimpleNamespace(run=lambda *args,**kwargs:result),
+                   powershell='pwsh.exe',gate=ROOT/'firewall_gate.ps1',OUT=output,
+                   gate_failure=refusal,json=json)
+        exec(compile(ast.fix_missing_locations(ast.Module(body=[fn],type_ignores=[])),str(ROOT/'slice.py'),'exec'),scope)
+        return scope['firewall'],refusal
+
+    def test_refused_firewall_retains_complete_diagnostic_beyond_error_summary(self):
+        raw=b'PowerShell preamble '*30+b'{"EnforcementStatus":"unknown"}\n'
+        with tempfile.TemporaryDirectory() as tmp:
+            output=Path(tmp)
+            gate,refusal=self.firewall_gate(output,SimpleNamespace(returncode=1,stdout=b'',stderr=raw))
+            with self.assertRaisesRegex(RuntimeError,'retained firewall-refusal logs'):
+                gate('owned-tool.exe','sha')
+            self.assertEqual((output/'firewall-refusal.stderr.log').read_bytes(),raw)
+            self.assertFalse(refusal['logs_truncated'])
+            self.assertEqual(refusal['stderr_bytes'],len(raw))
+
+    def test_oversize_firewall_diagnostic_refuses_and_marks_bounded_prefix(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            output=Path(tmp)
+            gate,refusal=self.firewall_gate(output,SimpleNamespace(returncode=0,stdout=b'{}',stderr=b'x'*16385))
+            with self.assertRaises(RuntimeError):gate('owned-tool.exe','sha')
+            self.assertTrue(refusal['logs_truncated'])
+            self.assertEqual((output/'firewall-refusal.stderr.log').stat().st_size,16384)
+
+    def test_successful_firewall_preserves_response_without_refusal_logs(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            output=Path(tmp)
+            gate,refusal=self.firewall_gate(output,SimpleNamespace(returncode=0,stdout=b'{"verified": true}',stderr=b''))
+            self.assertEqual(gate('owned-tool.exe','sha'),{'verified':True})
+            self.assertEqual(refusal,{})
+            self.assertEqual(list(output.iterdir()),[])
+
     def iterate_finished_job(self, *, log_bytes=0, scratch_bytes=0, elapsed=1, cpu=0, entries=0):
         """Execute the real polling block with an already-reaped job and real files."""
         tree=ast.parse((ROOT/'windows_process.py').read_text())

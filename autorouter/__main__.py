@@ -76,15 +76,19 @@ def preview(board,settings=None,overrides=None):
 
 def doctor():
     checks={}
+    from .pipeline import tool_manifest
+    try:checks['runtime_provenance']={'verified':True,'identity':tool_manifest()['source_provenance']}
+    except Exception as exc:checks['runtime_provenance']={'verified':False,'error':str(exc)}
     for name,path in [('kicad_cli',c.CLI),('kicad_python',c.PYTHON),('java',c.JAVA),('engine',c.JAR)]:
         checks[name]={'path':str(path),'present':path.is_file()}
         if path.is_file(): checks[name]['sha256']=sha(path)
-    for name,argv in [('kicad_version',[str(c.CLI),'version']),('pcbnew_version',[str(c.PYTHON),'-c','import pcbnew; print(pcbnew.GetBuildVersion())']),('java_version',[str(c.JAVA),'-version'])]:
+    version_checks=[('kicad_version',[str(c.CLI),'version']),('pcbnew_version',[str(c.PYTHON),'-c','import pcbnew; print(pcbnew.GetBuildVersion())']),('java_version',[str(c.JAVA),'-version'])]
+    for name,argv in version_checks if checks['runtime_provenance']['verified'] is True else []:
         try:
             r=subprocess.run(argv,capture_output=True,text=True,timeout=15)
             checks[name]={'exit':r.returncode,'output':(r.stdout+r.stderr).strip()}
         except Exception as e: checks[name]={'error':str(e)}
-    ok=all(checks[k]['present'] for k in ['kicad_cli','kicad_python','java','engine']) and checks.get('kicad_version',{}).get('output')=='10.0.0' and checks.get('pcbnew_version',{}).get('output')=='10.0.0' and checks['engine'].get('sha256')==c.JAR_SHA256 and platform.system()=='Darwin' and shutil.which('sandbox-exec') is not None
+    ok=checks['runtime_provenance']['verified'] is True and all(checks[k]['present'] for k in ['kicad_cli','kicad_python','java','engine']) and checks.get('kicad_version',{}).get('output')=='10.0.0' and checks.get('pcbnew_version',{}).get('output')=='10.0.0' and checks['engine'].get('sha256')==c.JAR_SHA256 and platform.system()=='Darwin' and shutil.which('sandbox-exec') is not None
     return {'ready':ok,'platform':platform.platform(),'workspace':str(c.ROOT),'checks':checks,'qualified_scope':'experimental CLI; no GUI or comparative improvement claim','setup_network_required':True,'route_network_required':False}
 
 def main():

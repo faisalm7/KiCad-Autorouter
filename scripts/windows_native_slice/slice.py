@@ -20,10 +20,16 @@ for name,pin in java_pin['files_sha256'].items():
  if digest(path)!=pin:raise RuntimeError('owned JRE runtime changed')
  tools[str(path)]=pin
 manifest=safe(a.firewall_manifest,ROOT);manifest_pin=digest(manifest);gate=Path(__file__).with_name('firewall_gate.ps1');tools[str(manifest)]=manifest_pin;tools[str(gate)]=digest(gate)
+gate_failure={}
 def firewall(exe,sha):
  if digest(manifest)!=manifest_pin:raise RuntimeError('owned firewall manifest changed')
  result=subprocess.run([str(powershell),'-NoProfile','-NonInteractive','-File',str(gate),'-Manifest',str(manifest),'-Program',str(exe),'-Sha256',sha],capture_output=True,timeout=12)
- if result.returncode or len(result.stdout)>16384:raise RuntimeError('effective owned per-program firewall block unavailable: '+result.stderr.decode(errors='replace')[:300])
+ if result.returncode or len(result.stdout)>16384 or len(result.stderr)>16384:
+  gate_failure.update(exit_code=result.returncode,stdout_bytes=len(result.stdout),stderr_bytes=len(result.stderr),logs_truncated=max(len(result.stdout),len(result.stderr))>16384)
+  for name,raw in [('stdout',result.stdout),('stderr',result.stderr)]:
+   path=OUT/('firewall-refusal.'+name+'.log')
+   with path.open('xb') as stream:stream.write(raw[:16384])
+  raise RuntimeError('effective owned per-program firewall block unavailable; retained firewall-refusal logs: '+result.stderr.decode(errors='replace')[:300])
  return json.loads(result.stdout)
 def call(argv,name,seconds=30,cancel_after=None):
  if time.monotonic()-started>240:raise RuntimeError('whole slice wall exceeded240')
@@ -48,7 +54,7 @@ def report(board,name):
  step.update(input_sha256=before,native_report_sha256=digest(path))
  value=json.loads(path.read_text());return value
 def counts(value):return dict(opens=len(value['unconnected_items']),blocking=sum(v['severity']=='error' for v in value['violations']),warnings=sum(v['severity']=='warning' for v in value['violations']))
-source=project(OUT/'original',fixture.files()[fixture.STEM+'.kicad_pcb']);original=sx.read(source);frozen={p.name:digest(p) for p in source.parent.iterdir()};result=dict(schema=1,passed=False,accepted=False,product_support=False,tool_sha256=tools,source_sha256=frozen,steps=steps)
+source=project(OUT/'original',fixture.files()[fixture.STEM+'.kicad_pcb']);original=sx.read(source);frozen={p.name:digest(p) for p in source.parent.iterdir()};result=dict(schema=1,passed=False,accepted=False,product_support=False,tool_sha256=tools,source_sha256=frozen,steps=steps,firewall_refusal=gate_failure)
 try:
  with contextlib.ExitStack() as guards:
   for path in source.parent.iterdir():guards.enter_context(preserved(path,ROOT))
@@ -94,6 +100,7 @@ finally:
  import base64
  paths=[OUT/name for name in ('original-drc.json','final-drc.json','disconnect-drc.json','task.dsn','task.dsn.classes.json','corrected.dsn','routes.ses','imported.kicad_pcb.ses-proof.json')]
  paths += [java_manifest]+[OUT/'candidate'/(fixture.STEM+'.kicad_pcb')]+[Path(step['log']) for step in steps]
+ paths += [OUT/'firewall-refusal.stdout.log',OUT/'firewall-refusal.stderr.log']
  total=0
  for path in paths:
   if not path.is_file():continue
