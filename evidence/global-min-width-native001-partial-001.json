@@ -1,0 +1,112 @@
+{
+  "schema": 1,
+  "kind": "actual-original-global-width-positive-and-getter-reader-failure",
+  "producer_git_head": "0c3bc8424258d01ec9b7d2da8ec0a9921b4160d7",
+  "protocol_sha256": "38f1eeeff584938961b1cbb517adad28114850cc28fec55f83cfaf697dd82159",
+  "whole_receipt_sha256": "b9a4b9cc45f79471fc1d691eac294a29f5549e49c17b253ea7f6388e34117f48",
+  "whole_status": "failed",
+  "whole_passed": false,
+  "exact_error": "Rejected: actual strict getter parse/timeouts/optimizer differs",
+  "positive": {
+    "candidate_sha256": "cf7c205eb2683bedab56891e1550f5ac63bb3b32b9c593add1c9813387f44c68",
+    "native_report_sha256": "5464f47058e9b5134e7e53d35e08b0b9b93364b3dd3a2228b55dd644a60fadd9",
+    "metrics": {
+      "version": "10.0.0",
+      "pads": 6,
+      "footprints": 6,
+      "zones": 1,
+      "vias": 0,
+      "track_length_mm": 28.31782106327635,
+      "copper_layers": 2
+    },
+    "improvements": 1
+  },
+  "native": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 6,
+    "exclusions": 0
+  },
+  "positive_fields": {
+    "components": 6,
+    "compared_fields": 18
+  },
+  "protected_KEEP": 1,
+  "original_positive_minimum_mm": 0.2,
+  "original_Default_target_mm": 0.3,
+  "minimum_width_guard": {
+    "policy": "original-positive-minimum-no-automatic-neckdown-v1",
+    "min_track_width_mm": 0.2,
+    "original_project_sha256": "17bb5a2cb45cbcd270750982f60b4a2d6177bb189364452f65f36fd799518391"
+  },
+  "strict_class_targets": true,
+  "exact_strict_flags_retained": true,
+  "own_fresh_incumbent": {
+    "candidate_sha256": "cf76638077dd291c5be675fd69f0d205a26ade53c4643c0c8f6f7e1f6d5922c2",
+    "native_report_sha256": "63b3f26dbf26649bb26c6a22233918845db81087585501b86849802cc4659211",
+    "metrics": {
+      "version": "10.0.0",
+      "pads": 6,
+      "footprints": 6,
+      "zones": 1,
+      "vias": 0,
+      "track_length_mm": 42.317821063276355,
+      "copper_layers": 2
+    },
+    "budget_seconds": 86.20770837494638
+  },
+  "actual_getter": {
+    "worker": "actual pinned JAR, one completed source-mode process, no new routing job",
+    "error": "Checker compared normalized parser threshold0.1 against raw fraction0.001; effective0.1 and strictFalseFalse0 were correct.",
+    "actual_settings_sha256": "0ecbc696c670a264ed9193dbc278b88d0d2e6042006b5935ae2c6a115560fb27",
+    "actual_process_sha256": "a872eb404fe52cfed64305cdbb137685eb14d82185ed909e3d50209b8dadeab6",
+    "pure_corrected_recheck": ".runs/global-min-width-getter-retained-read-001/result.json",
+    "pure_corrected_recheck_sha256": "30b80c491b6877821b484367ca6a60cbadf0d98d7b3ba60955c926ef32603c10",
+    "jvm_repeated": false,
+    "native_repeated": false
+  },
+  "correction": {
+    "witness": ".runs/global-min-width-control-correction-001.json",
+    "witness_sha256": "089d339dde4b16007b67bb7d652612825ebf95d04381cbc57cc430a137cdcb68",
+    "corrected_source_sha256": "14c369271a89c5734c9cb46a63577113139245ac94391b77a72c456694fb59c9",
+    "scope": "Exact only3function delta: parser percent expectation plus optional destination for missing negative. All other functions unchanged; no core/Native/rule/acceptance change.",
+    "independent_source_review": {
+      "path": ".local-backups/global-min-width-getter-correction-review-001/REVIEW.md",
+      "sha256": "3f2834936c4f625ee69669af59d01679eb180d71579765596cef3c441e2fe120",
+      "wall_seconds": 57.835,
+      "full_cpu_seconds": null,
+      "source_only": true,
+      "remaining_blockers_found": false
+    }
+  },
+  "complete_external_prior_costs": {
+    "prepare": [
+      1.05,
+      0.92
+    ],
+    "run_including_failed_getter_reader": [
+      42.67,
+      33.47
+    ],
+    "pure_getter_recheck": [
+      0.59,
+      0.34
+    ],
+    "total_wall_full_cpu": [
+      44.31,
+      34.73
+    ],
+    "conservative_rounded_wall_full_cpu": [
+      44.34,
+      34.79
+    ]
+  },
+  "missing_only_undersized_native_pending": true,
+  "cumulative_whole_wall_full_cpu_cap_seconds": 180,
+  "source_backup_checkpoint": "0c3bc8424258d01ec9b7d2da8ec0a9921b4160d7",
+  "raw_artifacts_after_incremental_cutoff": true,
+  "new_benchmark_gains": 0,
+  "new_families": 0,
+  "default_promoted": false,
+  "scope": "Owned positive is genuinely Native accepted; aggregate001 stays failed. This alone does not qualify the complete new width support, comparison, installation or release. Resume missing countercontrol, never repeat route/positiveNative/JAR to repair reporting."
+}

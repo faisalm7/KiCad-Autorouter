@@ -153,8 +153,13 @@ def check_settings(plan,row):
         and jar.scheme=='file' and jar.netloc=='' and Path(unquote(jar.path)).resolve()==p.c.JAR.resolve(),
         'one actual pinned-JAR settings profile required')
     settings=profiles[0];flags=budget['argv'];parsed=dict(flag[2:].split('=',1) for flag in flags)
+    expected_parsed=dict(parsed)
+    # The pinned CLI parser stores the fraction as its internal percent string,
+    # exactly as the existing effective-setting probe already verifies.
+    key='router.optimizer.improvement_threshold'
+    if key in expected_parsed:expected_parsed[key]=str(expected_setting(key,parsed[key]))
     require(settings.get('name')==request['profiles'][0]['name'] and settings.get('argv')==flags
-        and settings.get('parsed_cli_arguments')==parsed and settings.get('autorouter_enabled') is True
+        and settings.get('parsed_cli_arguments')==expected_parsed and settings.get('autorouter_enabled') is True
         and settings.get('optimizer_enabled') is False
         and settings.get('effective_job_timeout_seconds')==budget['assigned_job_timeout_seconds']
         and settings.get('effective_optimizer_timeout_seconds')==budget['assigned_optimizer_timeout_seconds'],
@@ -179,8 +184,9 @@ def narrowed(tree):
     require(len(changed)==1,'one fresh positive signal segment required')
     return result,changed
 
-def undersized(plan,routed,job):
-    board=OUT/'undersized'/Path(routed['candidate']).name
+def undersized(plan,routed,job,*,output=None):
+    output=OUT if output is None else Path(output)
+    board=output/'undersized'/Path(routed['candidate']).name
     copy_bytes(io.inventory(Path(routed['candidate']).parent,contents=True),board.parent)
     expected,changed=narrowed(sx.read(board));sx.write(board,expected)
     require(p.immutable(expected)==p.immutable(sx.read(Path(routed['candidate'])))
@@ -191,12 +197,13 @@ def undersized(plan,routed,job):
     row=dict(candidate=str(board),candidate_sha256=p.sha(board),report_sha256=p.sha(job.out/'undersized-final.json'),
         positive_candidate_sha256=routed['candidate_sha256'],positive_receipt_sha256=p.sha(OUT/'route/result.json'),
         changed=changed,before=before,native=native,steps=job.steps)
-    check_negative(plan,row);return row
+    check_negative(plan,row,output=output);return row
 
-def check_negative(plan,row):
-    folder=OUT/'undersized-job';board=Path(row['candidate']);positive=f.read_json(OUT/'route/result.json')
+def check_negative(plan,row,*,output=None):
+    output=OUT if output is None else Path(output)
+    folder=output/'undersized-job';board=Path(row['candidate']);positive=f.read_json(OUT/'route/result.json')
     expected,changed=narrowed(sx.read(Path(positive['candidate'])))
-    require(board==OUT/'undersized'/(fixture.STEM+'.kicad_pcb') and sx.read(board)==expected and row['changed']==changed
+    require(board==output/'undersized'/(fixture.STEM+'.kicad_pcb') and sx.read(board)==expected and row['changed']==changed
         and row['positive_candidate_sha256']==positive['candidate_sha256']==p.sha(Path(positive['candidate']))
         and row['positive_receipt_sha256']==p.sha(OUT/'route/result.json'),'same-original width-only falsifier differs')
     p.verify_candidate_files(board,plan['source_sha256'],row['candidate_sha256'])
