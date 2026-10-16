@@ -133,6 +133,26 @@ def prepare(directory,*,clearance_margin_nm=None):
     return dict(file=RECORD,sha256=p.sha(directory/RECORD))
 
 
+def check_global_width_targets(directory,source):
+    """Validate exact original Default targets; never edit task widths."""
+    import json
+    from .placement_clearance import read_bytes
+    guard=p.global_width_source_guard(source)
+    project=json.loads(read_bytes(Path(source).with_suffix('.kicad_pro')).decode())
+    target=Decimal(str(project['net_settings']['classes'][0]['track_width']))*1000
+    try:
+        tree=dsn._parse_dsn(read_bytes(Path(directory)/'task.dsn',MAX_BYTES).decode())
+        _clearance_targets(tree)  # Unique ordinary global/Default scopes.
+        structure=sx.one(tree,'structure');classes=sx.children(sx.one(tree,'network'),'class')
+        values=[width[1] for rule in sx.children(structure,'rule') for width in sx.children(rule,'width')]
+        values += [sx.one(sx.one(classes[0],'rule'),'width')[1]]
+        if (len(values)!=2 or any(Decimal(value)!=target for value in values)
+                or target<Decimal(str(guard['min_track_width_mm']))*1000):
+            raise ValueError('global/Default task widths differ from original Default target/minimum')
+    except (ValueError,UnicodeError,TypeError,IndexError,InvalidOperation) as exc:
+        raise p.Rejected('unsupported global width target transport: '+str(exc)) from exc
+
+
 def marked(directory,data):
     directory=Path(directory)
     rows=data.get('steps',[])
@@ -143,7 +163,7 @@ def marked(directory,data):
         return (type(row)is dict and type(row.get('argv'))is list
             and any(type(value)is str and Path(value).name==INPUT for value in row['argv']))
     # A validated nested producer never excuses root fields/files/journals.
-    root_marked=(data.get('engine_profile')==PROFILE or 'engine_angle_binding' in data or 'engine_planning_clearance_margin_nm' in data
+    root_marked=(data.get('engine_profile')==PROFILE or 'engine_angle_binding' in data or 'engine_planning_clearance_margin_nm' in data or 'engine_global_width_policy' in data
         or any((directory/name).exists() or (directory/name).is_symlink() for name in [RECORD,INPUT])
         or uses_angle(actual))
     if root_marked:return True
@@ -152,9 +172,9 @@ def marked(directory,data):
     if (data.get('strategy')!='native_validated_zone_net_pruning' or actual is not None):return True
     # Validate the complete recognized parent/child policy before treating its
     # exact charged copied argv as nested evidence. Never trust a phase label.
-    from .strategy import check_incumbent_scoring,check_incumbent_policy,STRONG_INCUMBENT_POLICY
+    from .strategy import check_incumbent_scoring,check_incumbent_policy,STRONG_INCUMBENT_POLICIES
     check_incumbent_scoring(directory,data)
-    if check_incumbent_policy(directory,data)!=STRONG_INCUMBENT_POLICY:
+    if check_incumbent_policy(directory,data) not in STRONG_INCUMBENT_POLICIES:
         raise p.Rejected('nested search-angle worker lacks exact pruning incumbent policy')
     incumbent=read_json(directory/'incumbent/result.json')
     expected=[dict(row,phase='incumbent') for row in incumbent['steps'] if uses_angle(row)]
@@ -191,6 +211,8 @@ def check(directory,data):
             or read_bytes(engine_input,MAX_BYTES)!=emitted
             or read_bytes(marker,64*1024)!=marker_raw):
         raise p.Rejected('engine search-angle task/proof differs')
+    if p.check_engine_global_width_policy(data) is not None:
+        check_global_width_targets(directory,data['source'])
     return expected
 
 

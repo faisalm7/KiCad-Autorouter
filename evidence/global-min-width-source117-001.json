@@ -1,0 +1,80 @@
+{
+  "schema": 1,
+  "kind": "versioned-private-original-global-minimum-width-source",
+  "tested_parent_git_head": "fca5f3cbaca1568e4b47885bf82f3af45baad3a4",
+  "source_sha256": {
+    "autorouter/pipeline.py": "5c9026ea36d5c9d5fc4e4f0a1682abaf20fa0593baaa1cc74ae39610e991e669",
+    "autorouter/strategy.py": "3f1041271d9ae821f85259946a99b2fcddd59a4c6bd1507df61ef5bd1c6894b0",
+    "autorouter/engine_angle.py": "977f392326158291cb136939576152685c6871756aec0e70e7784545dd8e393e",
+    "scripts/experiment_quality.py": "02e39d381c34dd15614a0a0f7df14ee884cb6cbc8da3bdcfb0a2484c381decdb",
+    "tests/test_engine_global_width.py": "f6f6484a62e140ffa14c47dafc6d1e55815e8c16b9ad21cbdd9373dd98082957",
+    "tests/test_experimental_route_publication.py": "1c76021d23bb7f571aa7280274baaea7be0e72f51cec978666e6c13508cf3f79"
+  },
+  "policy": "original-global-minimum-width-v1",
+  "incumbent_policy": "free-angle-clearance20-global-width-v2",
+  "default_promoted": false,
+  "source_rules_changed": false,
+  "scope": "Literal single Default, original positive global track minimum, no class assignments/patterns, whole corrected native1000. Existing private v1 and public settings unchanged. Arc class scope remains unsupported.",
+  "implementation": [
+    "Original minimum_width_guard and strict_class_targets=True remain mandatory. Existing three neckdown/fanout flags emitted exactly once; optimizer disabled explicitly.",
+    "Exact reversible angle/clearance changes unchanged. New validation-only task global/class width check must equal original Default preferred width and meet original minimum. No width mutation or rule clamping.",
+    "Reciprocal typed direct report/budget markers; separately bound v2 fresh incumbent, copied exact process population and assigned budget; root direct markers forbidden.",
+    "Original Native, full schematic/effective fields, hashes, source geometry/rules/protected copper, PRL-last, accounting and publication remain mandatory."
+  ],
+  "software": {
+    "targeted_001": {
+      "methods": 194,
+      "passed": true,
+      "execution": ".runs/global-min-width-targeted-001/execution.json",
+      "external_wall_seconds": 18.45,
+      "external_cpu_seconds": 17.93
+    },
+    "full117": {
+      "methods": 1626,
+      "successes": 1625,
+      "errors": 1,
+      "passed": false,
+      "test_seconds": 166.388,
+      "external_wall_seconds": 167.91,
+      "external_cpu_seconds": 159.32,
+      "execution": ".runs/full-integration-117/execution.json",
+      "failure": "Extracted route-intake fixture lacked optional _engine_global_width_policy namespace value; no assertion or production change needed."
+    },
+    "missing_only_003": {
+      "methods": 1,
+      "passed": true,
+      "execution": ".runs/global-min-width-targeted-003/execution.json"
+    },
+    "unique_successful_integration_methods": 1626,
+    "integration_attempts": 1627,
+    "single_clean_full_run": false,
+    "fixture_only_fix": ".runs/global-min-width-fixture-fix-001.json",
+    "retained_failed_launcher_002": ".runs/global-min-width-targeted-command-002.log",
+    "retained_curation_failure": "Receipt writer initially called .sha on a Path after completing the sole fixture edit; corrected writer verifies exact old/new byte relation. No Native/JVM/full rerun."
+  },
+  "unchanged_algorithm_checks": ".runs/global-min-width-source-ast-001.json",
+  "independent_source_review": {
+    "path": ".local-backups/global-min-width-core-source-review-001/REVIEW.md",
+    "sha256": "417f605da32c7321ab9632564466b789dbb7c2fdb4f0462afa1046520fe085d0",
+    "wall_seconds": 219.635,
+    "full_cpu_seconds": null,
+    "source_only": true,
+    "initial_finding": "Original minimum alone did not bind actual task widths to original Default preferred target.",
+    "closure": "Added producer and shared-reader exact target check and .300\u2192.250 negative with .200 original minimum."
+  },
+  "fresh_native_width_controls_pending": true,
+  "actual_effective_JAR_settings_pending": true,
+  "broader_comparison_pending": true,
+  "new_routing_gains": 0,
+  "new_supported_families": 0,
+  "backup": {
+    "previous_incremental": "evidence/backups/incremental-stronger-incumbent-2ddfbeed.json",
+    "new_work_outside_cutoff": true
+  },
+  "commands": {
+    "targeted": "/usr/bin/time -l -p -o .runs/global-min-width-targeted-time-001.log .venv/bin/python -B .runs/run-global-min-width-targeted-001.py",
+    "full": "/usr/bin/time -l -p -o .runs/full-integration-time-117.log .venv/bin/python -B .runs/run-full-integration-117.py",
+    "missing": "/usr/bin/time -l -p -o .runs/global-min-width-targeted-time-003.log .venv/bin/python -B .runs/run-global-min-width-targeted-003.py"
+  },
+  "scope_limit": "Software/source inspection does not establish Native support, routing quality, install qualification, broad generalization or release completion."
+}

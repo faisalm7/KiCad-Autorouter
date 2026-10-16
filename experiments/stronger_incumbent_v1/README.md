@@ -36,3 +36,10 @@ Actual owned integration and the matched exposed IR result are now recorded in
 `evidence/stronger-incumbent-ir-native240-001.json`. The latter improves route
 length with unchanged vias under equal caps, while using more compute. See
 `matched_ir/README.md` for the exact archived callers and reproduction limits.
+
+The separately versioned private `free-angle-clearance20-global-width-v2` path
+requires an original positive global minimum and one literal Default class. It
+retains strict neckdown flags and validates both task width targets against the
+original Default target. Original v1 remains non-strict. Source/software evidence
+is in `evidence/global-min-width-source117-001.json`; actual Native controls and
+broader comparisons have separate, currently pending qualification.

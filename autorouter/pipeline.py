@@ -30,6 +30,7 @@ SELECTED_PROPOSAL_IMPORT_POLICY='selected-proposals-exact-source-v1'
 NORMAL_SELECTED_PROPOSAL_IMPORT_POLICY='selected-proposals-exact-source-v1'
 NORMAL_NATIVE_EXPORT_ALIAS_POLICY='source-bound-padless-export-v1'
 NORMAL_ENGINE_PROVENANCE_POLICY='mandatory-normal-engine-journal-v1'
+ENGINE_GLOBAL_WIDTH_POLICY='original-global-minimum-width-v1'
 DERIVED_ZONE={'filled_polygon','fill_segments'}
 CRITICAL_CHECKS={'hole_clearance','hole_to_hole','hole_near_hole','starved_thermal','zones_intersect','padstack','items_not_allowed','through_hole_pad_without_hole','unconnected_items','shorting_items','clearance','track_width','via_diameter','annular_width','drill_out_of_range','copper_edge_clearance','invalid_outline','tracks_crossing'}
 CRITICAL_CHECKS |= {'track_on_post_machined_layer'}
@@ -1246,7 +1247,7 @@ def engine_scoring_settings(variant=None):
             'argv':[f'--router.scoring.via_costs={via}',f'--router.scoring.plane_via_costs={plane}']}
 
 
-def engine_profile_settings(profile, remaining_seconds, *, strict_class_targets=False, scoring_variant=None, experimental_free_angle=False, fanout_enabled=None, experimental_fanout=False, optimizer_enabled=None, experimental_optimizer=False):
+def engine_profile_settings(profile, remaining_seconds, *, strict_class_targets=False, scoring_variant=None, experimental_free_angle=False, fanout_enabled=None, experimental_fanout=False, optimizer_enabled=None, experimental_optimizer=False, global_width_policy=None):
     """Assign cooperative internal deadlines inside the outer wall budget.
 
     Freerouting accepts numeric seconds or HH:mm:ss, not values such as 90s.
@@ -1258,14 +1259,19 @@ def engine_profile_settings(profile, remaining_seconds, *, strict_class_targets=
     if type(experimental_free_angle)is not bool:raise Rejected('typed experimental free-angle profile opt-in required')
     if profile=='tuned-free-angle' and not experimental_free_angle:
         raise Rejected('unsupported: free-angle profile requires explicit native baseline opt-in')
+    if global_width_policy is not None and (type(global_width_policy)is not str or global_width_policy!=ENGINE_GLOBAL_WIDTH_POLICY
+            or strict_class_targets is not True or profile!='tuned-free-angle' or experimental_free_angle is not True
+            or fanout_enabled is not False or experimental_fanout is not True
+            or optimizer_enabled is not False or experimental_optimizer is not True):
+        raise Rejected('global width policy requires literal strict free-angle optimizerFalse/fanoutFalse settings')
     if fanout_enabled is not None and fanout_enabled is not False:raise Rejected('fanout override accepts only None or typed False')
     if type(experimental_fanout)is not bool:raise Rejected('typed fanout override opt-in required')
-    if fanout_enabled is False and (experimental_fanout is not True or strict_class_targets is not False or profile not in {'tuned','tuned-free-angle'}):
+    if fanout_enabled is False and (experimental_fanout is not True or (strict_class_targets is not False and global_width_policy is None) or profile not in {'tuned','tuned-free-angle'}):
         raise Rejected('unsupported: fanout override requires explicit non-strict tuned native baseline')
     if optimizer_enabled is not None and optimizer_enabled is not False:raise Rejected('optimizer override accepts only None or typed False')
     if type(experimental_optimizer)is not bool:raise Rejected('typed optimizer override opt-in required')
     if optimizer_enabled is False and (experimental_optimizer is not True or profile!='tuned-free-angle' or fanout_enabled is not False
-            or experimental_fanout is not True or strict_class_targets is not False):
+            or experimental_fanout is not True or (strict_class_targets is not False and global_width_policy is None)):
         raise Rejected('unsupported: optimizer override requires explicit non-strict free-angle fanout-disabled baseline')
     tuned=profile in {'tuned','tuned-free-angle'}
     if type(strict_class_targets) is not bool: raise Rejected('invalid static netclass target policy')
@@ -1283,7 +1289,7 @@ def engine_profile_settings(profile, remaining_seconds, *, strict_class_targets=
         # Pinned micro-neckdown can run during fanout even when automatic
         # neckdown is false. Exact class targets therefore exclude both paths.
         args+=['--router.automatic_neckdown=false','--router.fanout.enabled=false','--router.neck_width_um=0']
-    if fanout_enabled is False:args+=['--router.fanout.enabled=false']
+    if fanout_enabled is False and not strict_class_targets:args+=['--router.fanout.enabled=false']
     if profile=='completion-only':
         args+=['--router.optimizer.enabled=false']
     else:
@@ -1302,7 +1308,53 @@ def engine_profile_settings(profile, remaining_seconds, *, strict_class_targets=
             'internal_deadlines':'cooperative planning caps; external supervision and measured CPU acceptance cap remain authoritative'}
     if fanout_enabled is False:result['fanout_enabled']=False
     if optimizer_enabled is False:result['optimizer_enabled']=False
+    if global_width_policy is not None:result['global_width_policy']=global_width_policy
     return result
+
+
+def global_width_source_guard(source):
+    """Narrow original positive global minimum with one literal Default target."""
+    guard=minimum_width_guard(source,'both')
+    project=json.loads(Path(source).with_suffix('.kicad_pro').read_text())
+    settings=project.get('net_settings',{})
+    classes=settings.get('classes') if type(settings)is dict else None
+    if (guard is None or type(classes)is not list or len(classes)!=1 or type(classes[0])is not dict
+            or classes[0].get('name')!='Default' or netclass_policy(source) is not None):
+        raise Rejected('global width policy requires positive original minimum and one literal Default class')
+    for name,kind in (('netclass_assignments',dict),('netclass_patterns',list)):
+        value=settings.get(name)
+        if value is not None and (type(value)is not kind or value):
+            raise Rejected('global width policy does not support class assignments or patterns')
+    target=classes[0].get('track_width')
+    if type(target) not in (int,float) or not math.isfinite(target) or target<guard['min_track_width_mm']:
+        raise Rejected('global width policy requires Default width at least the original minimum')
+    return guard
+
+
+def check_engine_global_width_policy(data):
+    """Reciprocal versioned scope; never replace the original width guard."""
+    from .floor_route import canonical
+    marker='engine_global_width_policy' in data
+    budget=data.get('engine_budget');budget_marker=type(budget)is dict and 'global_width_policy' in budget
+    if not marker and not budget_marker:return None
+    if (not marker or not budget_marker or type(data['engine_global_width_policy'])is not str
+            or data['engine_global_width_policy']!=ENGINE_GLOBAL_WIDTH_POLICY
+            or type(budget['global_width_policy'])is not str or budget['global_width_policy']!=ENGINE_GLOBAL_WIDTH_POLICY
+            or budget.get('strict_class_targets') is not True or data.get('engine_profile')!='tuned-free-angle'
+            or data.get('adapter')!='both' or data.get('scope')!='whole_board_unlocked_routing'
+            or data.get('strategy') is not None or data.get('netclass_policy') is not None
+            or data.get('engine_fanout_override') is not False or data.get('engine_optimizer_override') is not False
+            or type(data.get('engine_planning_clearance_margin_nm'))is not int or data['engine_planning_clearance_margin_nm']!=20000):
+        raise Rejected('global width policy marker/budget or scope missing or invalid')
+    guard=global_width_source_guard(data['source'])
+    if canonical(data.get('minimum_width_guard'))!=canonical(guard):
+        raise Rejected('global width policy original minimum guard differs')
+    argv=budget.get('argv')
+    for prefix,expected in (('--router.automatic_neckdown','--router.automatic_neckdown=false'),
+            ('--router.fanout.enabled','--router.fanout.enabled=false'),('--router.neck_width_um','--router.neck_width_um=0')):
+        if type(argv)is not list or [a for a in argv if type(a)is str and a.startswith(prefix)]!=[expected]:
+            raise Rejected('global width policy requires exact strict neckdown/fanout settings')
+    return ENGINE_GLOBAL_WIDTH_POLICY
 
 
 def check_engine_fanout_override(data,*,input_policy=None,native_toolchain=None):
@@ -1312,7 +1364,8 @@ def check_engine_fanout_override(data,*,input_policy=None,native_toolchain=None)
     if (marker and data['engine_fanout_override'] is not False or budget_marker and budget['fanout_enabled'] is not False
             or marker!=budget_marker):raise Rejected('fanout override marker/budget missing or invalid')
     if not marker:return None
-    if (budget.get('strict_class_targets') is not False or type(budget.get('argv'))is not list
+    width_policy=check_engine_global_width_policy(data)
+    if (budget.get('strict_class_targets') is not False and width_policy is None or type(budget.get('argv'))is not list
             or budget['argv'].count('--router.fanout.enabled=false')!=1):raise Rejected('fanout override requires exact non-strict disabled settings')
     if input_policy is not None and (input_policy!='native' or data.get('adapter')!='both'
             or data.get('scope')!='whole_board_unlocked_routing' or data.get('strategy') is not None
@@ -1331,7 +1384,7 @@ def check_engine_optimizer_override(data,*,input_policy=None,native_toolchain=No
             or marker!=budget_marker):raise Rejected('optimizer override marker/budget missing or invalid')
     if not marker:return None
     fanout=check_engine_fanout_override(data,input_policy=input_policy,native_toolchain=native_toolchain)
-    if (fanout is not False or data.get('engine_profile')!='tuned-free-angle' or budget.get('strict_class_targets') is not False
+    if (fanout is not False or data.get('engine_profile')!='tuned-free-angle' or (budget.get('strict_class_targets') is not False and check_engine_global_width_policy(data) is None)
             or type(budget.get('argv'))is not list
             or [arg for arg in budget['argv'] if type(arg)is str and arg.startswith('--router.optimizer.enabled')]!=['--router.optimizer.enabled=false']):
         raise Rejected('optimizer override requires exact non-strict free-angle fanout-disabled settings')
@@ -1367,7 +1420,7 @@ def check_engine_profile_record(data,directory):
     engine=data['engine_budget']
     expected=engine_profile_settings(data['engine_profile'],engine['remaining_outer_wall_seconds_at_assignment'],
         strict_class_targets=data.get('netclass_policy') is not None or data.get('scope')=='selected_nets' or width is not None,
-        scoring_variant=data.get('scoring_variant'),experimental_free_angle=data['engine_profile']=='tuned-free-angle',fanout_enabled=fanout,experimental_fanout=fanout is False,optimizer_enabled=optimizer,experimental_optimizer=optimizer is False)
+        scoring_variant=data.get('scoring_variant'),experimental_free_angle=data['engine_profile']=='tuned-free-angle',fanout_enabled=fanout,experimental_fanout=fanout is False,optimizer_enabled=optimizer,experimental_optimizer=optimizer is False,global_width_policy=check_engine_global_width_policy(data))
     workers=[step for step in data['steps'] if step.get('name')=='engine']
     if (any(engine.get(key)!=value for key,value in expected.items())
             or engine.get('outer_task_wall_budget_seconds')!=data['budget_seconds']
@@ -1752,10 +1805,15 @@ def check_preferences_record(directory, data):
         raise Rejected('engine argv or cwd differs from captured preferences')
 
 
-def route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native', settings_path=None, preference_overrides=None, _preferences=None, native_toolchain=None, experimental_schematic_parity=False, _fanout_enabled=None, _optimizer_enabled=None, _engine_clearance_margin_nm=None):
+def route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native', settings_path=None, preference_overrides=None, _preferences=None, native_toolchain=None, experimental_schematic_parity=False, _fanout_enabled=None, _optimizer_enabled=None, _engine_clearance_margin_nm=None, _engine_global_width_policy=None):
     entry_started,entry_parent=time.monotonic(),time.process_time()
     from .floor_route import child_cpu
     operation_children=child_cpu()
+    if _engine_global_width_policy is not None and (type(_engine_global_width_policy)is not str
+            or _engine_global_width_policy!=ENGINE_GLOBAL_WIDTH_POLICY or type(_engine_clearance_margin_nm)is not int
+            or _engine_clearance_margin_nm!=20000 or engine_profile!='tuned-free-angle'
+            or _optimizer_enabled is not False or _fanout_enabled is not False):
+        raise Rejected('unsupported: global width policy requires explicit free-angle clearance20 optimizerFalse/fanoutFalse')
     if _engine_clearance_margin_nm is not None:
         if type(_engine_clearance_margin_nm)is not int or _engine_clearance_margin_nm!=20000:raise Rejected('planning clearance margin accepts only None or literal integer20000nm')
         if engine_profile!='tuned-free-angle' or _optimizer_enabled is not False or _fanout_enabled is not False:
@@ -1809,7 +1867,8 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
     if source.parent==output or source.parent in output.parents: raise Rejected('output must be outside source project')
     if _fanout_enabled is False:
         preflight(source,task_scope=('whole_board_unlocked_routing','native','source_all'))
-        if netclass_policy(source) is not None or minimum_width_guard(source,adapter) is not None:
+        if _engine_global_width_policy is not None:global_width_source_guard(source)
+        elif netclass_policy(source) is not None or minimum_width_guard(source,adapter) is not None:
             raise Rejected('unsupported: fanout override requires derived non-strict class/width targets')
     if not math.isfinite(seconds) or seconds<5 or seconds>900: raise Rejected('budget must be 5–900 seconds')
     if sha(c.JAR)!=c.JAR_SHA256: raise Rejected('engine hash mismatch')
@@ -1825,6 +1884,7 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
     if _fanout_enabled is False:report['engine_fanout_override']=False
     if _optimizer_enabled is False:report['engine_optimizer_override']=False
     if _engine_clearance_margin_nm is not None:report['engine_planning_clearance_margin_nm']=_engine_clearance_margin_nm
+    if _engine_global_width_policy is not None:report['engine_global_width_policy']=_engine_global_width_policy
     try:
         capture_preferences(report,output,_preferences)
         before=tree_hash(source.parent); report['source_hashes']=before
@@ -1909,7 +1969,7 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
         config_dir=output/'engine-config'; config_dir.mkdir()
         width_guard=minimum_width_guard(source,adapter)
         if width_guard is not None:report['minimum_width_guard']=width_guard
-        report['engine_budget']=engine_profile_settings(engine_profile,job.deadline-time.monotonic(),strict_class_targets=policy is not None or selected is not None or width_guard is not None,scoring_variant=scoring_variant,experimental_free_angle=engine_profile=='tuned-free-angle',fanout_enabled=_fanout_enabled,experimental_fanout=_fanout_enabled is False,optimizer_enabled=_optimizer_enabled,experimental_optimizer=_optimizer_enabled is False)
+        report['engine_budget']=engine_profile_settings(engine_profile,job.deadline-time.monotonic(),strict_class_targets=policy is not None or selected is not None or width_guard is not None,scoring_variant=scoring_variant,experimental_free_angle=engine_profile=='tuned-free-angle',fanout_enabled=_fanout_enabled,experimental_fanout=_fanout_enabled is False,optimizer_enabled=_optimizer_enabled,experimental_optimizer=_optimizer_enabled is False,global_width_policy=_engine_global_width_policy)
         report['engine_budget']['outer_task_wall_budget_seconds']=seconds
         report['engine_budget']['outer_task_cpu_budget_seconds']=seconds
         engine_settings=report['engine_budget']['argv']
@@ -1917,6 +1977,9 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
         if selection_argument is not None:engine_settings.append(selection_argument)
         if engine_profile=='tuned-free-angle':
             from .engine_angle import prepare as prepare_engine_angle
+            if _engine_global_width_policy is not None:
+                from .engine_angle import check_global_width_targets
+                check_global_width_targets(output,source)
             report['engine_angle_binding']=prepare_engine_angle(output,**({'clearance_margin_nm':_engine_clearance_margin_nm} if _engine_clearance_margin_nm is not None else {}))
         preferences_fresh(output,_preferences)
         job.step('engine',engine_argv(output,engine_settings,profile=engine_profile))
@@ -2181,6 +2244,7 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
     check_experimental_route(data,native_toolchain,experimental_schematic_parity)
     from .engine_angle import check as check_engine_angle
     angle_contract=check_engine_angle(path.parent,data)  # Independent of optional legacy engine_budget dispatch.
+    check_engine_global_width_policy(data)
     fanout_contract=check_engine_fanout_override(data)
     optimizer_contract=check_engine_optimizer_override(data)
     explicit_material=tree_hash(path.parent) if native_toolchain is not None else None

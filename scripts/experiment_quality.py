@@ -249,7 +249,7 @@ def summarize(arm, directory, result, invocation_wall, invocation_cpu):
             incumbent_profile, incumbent_baseline = arm['engine_profile'], 'B2_tuned'
             if 'incumbent_policy' in arm:
                 from autorouter import strategy
-                if (arm['incumbent_policy'] != strategy.STRONG_INCUMBENT_POLICY
+                if (type(arm['incumbent_policy']) is not str or arm['incumbent_policy'] not in strategy.STRONG_INCUMBENT_POLICIES
                         or strategy.check_incumbent_policy(directory, result, incumbent) != arm['incumbent_policy']):
                     raise p.Rejected('comparison arm differs from the stronger incumbent contract')
                 incumbent_profile, incumbent_baseline = 'tuned-free-angle', 'B2_free_angle_clearance20'

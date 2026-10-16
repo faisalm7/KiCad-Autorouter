@@ -34,6 +34,8 @@ MAX_FEEDBACK_ADDED_ROUTES = 8
 PRUNING_PREFERENCES_POLICY = "native-pruning-preferences-v1"
 ADAPTIVE_POLICY = "charged-first-single-sequence-v1"
 STRONG_INCUMBENT_POLICY = "free-angle-clearance20-v1"
+STRONG_WIDTH_INCUMBENT_POLICY = "free-angle-clearance20-global-width-v2"
+STRONG_INCUMBENT_POLICIES = (STRONG_INCUMBENT_POLICY, STRONG_WIDTH_INCUMBENT_POLICY)
 
 
 class Cancelled(p.Rejected):
@@ -571,18 +573,23 @@ def check_pruning_preferences(directory, data):
 def _incumbent_route_options(policy, scoring, settings_path=None, preference_overrides=None):
     """One private, already-qualified stock configuration; no public preset."""
     if policy is None:return None
-    if (type(policy) is not str or policy != STRONG_INCUMBENT_POLICY or scoring != 'via_default'
+    if (type(policy) is not str or policy not in STRONG_INCUMBENT_POLICIES or scoring != 'via_default'
             or settings_path is not None or preference_overrides is not None):
         raise p.Rejected('stronger incumbent requires literal policy/via_default and no preferences')
-    return dict(_fanout_enabled=False, _optimizer_enabled=False, _engine_clearance_margin_nm=20000)
+    options=dict(_fanout_enabled=False, _optimizer_enabled=False, _engine_clearance_margin_nm=20000)
+    if policy==STRONG_WIDTH_INCUMBENT_POLICY:options['_engine_global_width_policy']=p.ENGINE_GLOBAL_WIDTH_POLICY
+    return options
 
 
-def _incumbent_policy_contract(directory, incumbent):
-    return dict(schema=1, policy=STRONG_INCUMBENT_POLICY, profile='tuned-free-angle',
+def _incumbent_policy_contract(directory, incumbent, policy=STRONG_INCUMBENT_POLICY):
+    contract=dict(schema=1, policy=policy, profile='tuned-free-angle',
         adapter='both', scope='whole_board_unlocked_routing', guidance='native', layers='source_all',
         scoring_variant='via_default', fanout_enabled=False, optimizer_enabled=False, clearance_margin_nm=20000,
         incumbent=dict(file='incumbent/result.json', sha256=p.sha(Path(directory)/'incumbent/result.json'),
             assigned_seconds=incumbent.get('budget_seconds'), engine_angle_binding=incumbent.get('engine_angle_binding')))
+    if policy==STRONG_WIDTH_INCUMBENT_POLICY:
+        contract.update(global_width_policy=incumbent.get('engine_global_width_policy'),minimum_width_guard=incumbent.get('minimum_width_guard'))
+    return contract
 
 
 def check_incumbent_policy(directory, data, incumbent=None):
@@ -592,18 +599,19 @@ def check_incumbent_policy(directory, data, incumbent=None):
     directory=Path(directory);path=directory/'pruning-incumbent-policy.json'
     incumbent=f.read_json(directory/'incumbent/result.json') if incumbent is None else incumbent
     child_marked=(incumbent.get('engine_profile')=='tuned-free-angle' or any(key in incumbent for key in
-        ('engine_fanout_override','engine_optimizer_override','engine_planning_clearance_margin_nm','engine_angle_binding')))
+        ('engine_fanout_override','engine_optimizer_override','engine_planning_clearance_margin_nm','engine_angle_binding','engine_global_width_policy')))
     if not (child_marked or 'incumbent_policy' in data or 'incumbent_policy_binding' in data or path.exists() or path.is_symlink()):return None
+    policy=data.get('incumbent_policy')
     binding=data.get('incumbent_policy_binding')
-    if (type(data.get('incumbent_policy')) is not str or data['incumbent_policy']!=STRONG_INCUMBENT_POLICY
+    if (type(data.get('incumbent_policy')) is not str or policy not in STRONG_INCUMBENT_POLICIES
             or type(binding) is not dict or set(binding)!={'file','sha256'} or binding.get('file')!=path.name
             or data.get('incumbent_baseline')!='B2_free_angle_clearance20' or data.get('engine_profile')!='tuned'
             or data.get('incumbent_scoring_variant')!='via_default'
-            or any(key in data for key in ('engine_budget','engine_fanout_override','engine_optimizer_override','engine_planning_clearance_margin_nm','engine_angle_binding'))
+            or any(key in data for key in ('engine_budget','engine_fanout_override','engine_optimizer_override','engine_planning_clearance_margin_nm','engine_angle_binding','engine_global_width_policy'))
             or any((directory/name).exists() or (directory/name).is_symlink() for name in ('engine-angle.json','engine-free-angle.dsn','engine-process.json'))):
         raise p.Rejected('missing or malformed parent-only stronger incumbent policy')
     raw=read_bytes(path,8192)
-    if hashlib.sha256(raw).hexdigest()!=binding['sha256'] or f.read_json(path)!=_incumbent_policy_contract(directory,incumbent):
+    if hashlib.sha256(raw).hexdigest()!=binding['sha256'] or f.read_json(path)!=_incumbent_policy_contract(directory,incumbent,policy):
         raise p.Rejected('stronger incumbent receipt/configuration contract changed')
     assigned=incumbent.get('budget_seconds')
     if (type(assigned) not in (int,float) or not math.isfinite(assigned) or assigned<5
@@ -614,11 +622,16 @@ def check_incumbent_policy(directory, data, incumbent=None):
             or type(incumbent.get('engine_planning_clearance_margin_nm')) is not int or incumbent['engine_planning_clearance_margin_nm']!=20000
             or data.get('finalization_reserve_seconds')!=NATIVE_FINAL_RESERVE_SECONDS or data.get('finalization_cpu_reserve_seconds')!=NATIVE_FINAL_RESERVE_SECONDS):
         raise p.Rejected('stronger incumbent assigned budget or qualified private configuration differs')
+    if policy==STRONG_WIDTH_INCUMBENT_POLICY:
+        if p.check_engine_global_width_policy(incumbent)!=p.ENGINE_GLOBAL_WIDTH_POLICY:
+            raise p.Rejected('stronger width incumbent lacks exact original global width policy')
+    elif ('engine_global_width_policy' in incumbent or incumbent.get('engine_budget',{}).get('strict_class_targets') is not False):
+        raise p.Rejected('original stronger incumbent requires non-strict native class/width targets')
     preferences=f.read_json(directory/'pruning-preferences.json')
     expected={'adapter':'both','profile':'tuned','seconds':data['budget_seconds'],'scoring_preference':'via_default'}
     if preferences.get('preset') is not None or preferences.get('overrides')!=expected:
         raise p.Rejected('stronger incumbent cannot adopt external/alternate preferences')
-    return STRONG_INCUMBENT_POLICY
+    return policy
 
 
 def check_incumbent_scoring(directory, data):
@@ -719,7 +732,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
               "physical_electrical_validation": False, "schematic_parity": "not checked",
               "trials": [], "checkpoints": [], "steps": [], "improvements": 0}
     if incumbent_options is not None:
-        report.update(incumbent_policy=STRONG_INCUMBENT_POLICY,incumbent_baseline='B2_free_angle_clearance20')
+        report.update(incumbent_policy=_incumbent_policy,incumbent_baseline='B2_free_angle_clearance20')
     preference_path = output/'pruning-preferences.json'
     preference_path.write_bytes(preference_bytes)
     report['pruning_preferences_policy'] = PRUNING_PREFERENCES_POLICY
@@ -761,8 +774,10 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
         p.check_storage()
         source_hashes = p.tree_hash(source.parent)
         original = p.preflight(source,task_scope=(effective['scope'],effective['guidance'],effective['layers']))
-        if incumbent_options is not None and (p.netclass_policy(source) is not None or p.minimum_width_guard(source,'both') is not None):
-            raise p.Rejected('stronger incumbent requires derived non-strict native class/width targets')
+        if incumbent_options is not None:
+            if _incumbent_policy==STRONG_WIDTH_INCUMBENT_POLICY:p.global_width_source_guard(source)
+            elif p.netclass_policy(source) is not None or p.minimum_width_guard(source,'both') is not None:
+                raise p.Rejected('stronger incumbent requires derived non-strict native class/width targets')
         protected = copy.deepcopy([route for route in p.routes(original) if p.locked(route)])
         nets = zone_net_ids(original)
         report["source_hashes"] = source_hashes
@@ -787,7 +802,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
                 scoring_variant='via_default',**incumbent_options)
             report['incumbent_receipt_sha256']=p.sha(output/'incumbent/result.json')
             policy_path=output/'pruning-incumbent-policy.json'
-            p.save_json(policy_path,_incumbent_policy_contract(output,incumbent))
+            p.save_json(policy_path,_incumbent_policy_contract(output,incumbent,_incumbent_policy))
             report['incumbent_policy_binding']={'file':policy_path.name,'sha256':p.sha(policy_path)}
         elif incumbent_scoring is None:
             incumbent = p.route(source, output / "incumbent", incumbent_seconds, False, "both", "tuned")
