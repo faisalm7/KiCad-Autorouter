@@ -180,6 +180,35 @@ def _check_installed_process(process, assigned, argv, *, negative=False):
         raise p.Rejected('installed CLI process failed, exceeded bounds or cleanup/log evidence unavailable')
 
 
+def _installed_negative_readback(receipt, board, frozen, assigned, variant):
+    """The central diagnostic reader proves failure; this binds our assignment."""
+    digest = pv.file_digest(receipt, 32 * 1024**2)[0]
+    data = f.read_json(receipt)
+    if (type(data) is not dict or type(data.get('schema')) is not int or data['schema'] != 1
+            or data.get('accepted') is not False or data.get('status') != 'drc_rejected'
+            or data.get('baseline') != 'B2_tuned' or data.get('adapter') != 'both'
+            or data.get('engine_profile') != 'tuned' or data.get('scope') != 'whole_board_unlocked_routing'
+            or data.get('source') != str(board) or data.get('source_hashes') != frozen['source_hashes']
+            or data.get('tools') != frozen['tools'] or data.get('scoring_variant') != variant
+            or not q.finite_nonnegative(assigned) or not 0 < assigned <= MAX_OPERATIONAL_BUDGET
+            or data.get('budget_seconds') != assigned or data.get('cpu_budget_seconds') != assigned):
+        raise p.Rejected('negative trial differs from frozen portfolio assignment')
+    checked = p.check_rejected_routing_attempt(receipt)
+    reasons = data.get('native_rejection_reasons')
+    if (type(checked) is not dict or checked.get('current') is not False
+            or checked.get('validated_rejection') is not True or checked.get('routing_accepted') is not False
+            or checked.get('applied') is not False or checked.get('receipt_sha256') != digest
+            or type(reasons) is not list or not reasons or any(type(reason) is not str or not reason for reason in reasons)
+            or checked.get('native_rejection_reasons') != reasons
+            or any(checked.get(key) != data.get(key) for key in ('candidate', 'candidate_sha256', 'native_report_sha256'))
+            or type(data.get('candidate')) is not str or Path(data['candidate']) != receipt.parent / 'candidate' / board.name
+            or any(type(data.get(key)) is not str or pv._DIGEST.fullmatch(data[key]) is None
+                   for key in ('candidate_sha256', 'native_report_sha256'))
+            or pv.file_digest(receipt, 32 * 1024**2)[0] != digest):
+        raise p.Rejected('negative diagnostic identity, reasons or disjoint flags differ')
+    return checked
+
+
 def _installed_attempt(context, directory, assigned, variant):
     """Only execution changes: the existing loop/independent reader select."""
     from autorouter.gui import child_environment
@@ -193,13 +222,12 @@ def _installed_attempt(context, directory, assigned, variant):
     _check_installed_process(process, assigned, argv, negative=negative)
     result = f.read_json(directory / 'result.json')
     if negative:
-        # The product reader only accepts positive receipts. Diagnostic status
-        # cannot establish a complete, constraint-preserving negative witness.
-        # Preserve and distinguish it, but do not invent a second validator or
-        # let it select an earlier winner. Legacy in-process behavior is intact.
-        if type(result) is dict and result.get('accepted') is False and result.get('status') == 'drc_rejected':
-            raise p.Rejected('normal negative routing receipt lacks independent negative reader; installed portfolio stopped fail closed')
-        raise p.Rejected('installed CLI exit2 did not retain a qualified negative routing receipt')
+        diagnostic = _installed_negative_readback(directory / 'result.json', context.board,
+            {'tools': context.tools, 'source_hashes': context.source_hashes}, assigned, variant)
+        p.save_json(directory.with_suffix('.cli-rejection.json'), diagnostic)
+        if f.canonical(f.read_json(directory / 'result.json')) != f.canonical(result):
+            raise p.Rejected('negative receipt changed during installed classification')
+        return result  # Remains rejected; only the existing loop can continue.
     if type(result) is not dict or result.get('accepted') is not True or result.get('status') != 'routing_accepted':
         raise p.Rejected('installed CLI did not retain an accepted routing receipt')
     return result
@@ -208,10 +236,36 @@ def _installed_attempt(context, directory, assigned, variant):
 def _installed_evidence(directory):
     result = {}
     for key, path in (('process', directory.with_suffix('.cli-process.json')),
-                      ('log', directory.with_suffix('.cli.log')), ('result', directory / 'result.json')):
+                      ('log', directory.with_suffix('.cli.log')), ('result', directory / 'result.json'),
+                      ('rejection', directory.with_suffix('.cli-rejection.json'))):
         if path.is_file():
             result[key] = {'file': str(path), 'sha256': pv.file_digest(path, 32 * 1024**2)[0]}
     return result
+
+
+def _verify_installed_evidence(row, board, frozen, *, negative=False):
+    receipt = Path(row['result']); runtime = Path(frozen['installed_context']['runtime'])
+    expected = {'process', 'log', 'result'} | ({'rejection'} if negative else set())
+    if (_installed_evidence(receipt.parent) != row.get('installed_cli')
+            or set(row.get('installed_cli', {})) != expected or p.sha(receipt) != row['result_sha256']):
+        raise p.Rejected('installed CLI retained process/log/result changed')
+    _check_installed_process(f.read_json(receipt.parent.with_suffix('.cli-process.json')),
+        row['assigned_seconds'], _installed_command(runtime, board, receipt.parent, row['assigned_seconds'], row['id']),
+        negative=negative)
+
+
+def verify_negative_row(row, board, frozen):
+    """Never promotes a negative to an eligible candidate or positive reader."""
+    if row.get('accepted_in_trial_receipt') is not False or row.get('eligible') is not False or row.get('id') not in VARIANTS:
+        raise p.Rejected('negative portfolio row claims acceptance or unknown variant')
+    _verify_installed_evidence(row, board, frozen, negative=True)
+    receipt = Path(row['result'])
+    checked = _installed_negative_readback(receipt, board, frozen, row['assigned_seconds'], row['id'])
+    if (f.canonical(checked) != f.canonical(f.read_json(receipt.parent.with_suffix('.cli-rejection.json')))
+            or 'negative_readback' in row and f.canonical(checked) != f.canonical(row['negative_readback'])):
+        raise p.Rejected('retained negative diagnostic changed')
+    _verify_installed_evidence(row, board, frozen, negative=True)
+    return checked
 
 
 def rank(row):
@@ -263,12 +317,7 @@ def verify_row(row, board, frozen):
             raise p.Rejected('trial differs from its recorded allocation')
     receipt = Path(row['result'])
     if 'installed_context' in frozen:
-        runtime = Path(frozen['installed_context']['runtime'])
-        if (_installed_evidence(receipt.parent) != row.get('installed_cli')
-                or set(row.get('installed_cli', {})) != {'process', 'log', 'result'}):
-            raise p.Rejected('installed CLI retained process/log/result changed')
-        _check_installed_process(f.read_json(receipt.parent.with_suffix('.cli-process.json')),
-            row['assigned_seconds'], _installed_command(runtime, board, receipt.parent, row['assigned_seconds'], row['id']))
+        _verify_installed_evidence(row, board, frozen)
     if receipt.is_symlink() or p.sha(receipt) != row['result_sha256']:
         raise p.Rejected('trial receipt changed')
     data = json.loads(receipt.read_text())
@@ -554,6 +603,17 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
             else: q.verify_freeze(frozen,board)
             if basis:verify_resume_basis(basis)
         def verified(row):return verify_row(row,board,trial_freeze(protocol,row))
+        def recheck_negative(row):
+            start_wall, start_cpu = time.monotonic(), q.total_process_cpu()
+            try:
+                return verify_negative_row(row, board, frozen)
+            finally:
+                row['negative_readback_wall_seconds'] = row.get('negative_readback_wall_seconds', 0.) + time.monotonic() - start_wall
+                row['negative_readback_cpu_seconds'] = row.get('negative_readback_cpu_seconds', 0.) + q.total_process_cpu() - start_cpu
+                charged = (row['invocation_wall_seconds'] + row['negative_readback_wall_seconds'],
+                           row['invocation_cpu_seconds'] + row['negative_readback_cpu_seconds'])
+                if not all(q.finite_nonnegative(value) and value <= row['assigned_seconds'] for value in charged):
+                    raise p.Rejected('negative trial plus diagnostic readbacks exceeded assigned wall/CPU allowance')
         for index, variant in enumerate(VARIANTS):
             if basis and index==0:continue
             stable()
@@ -614,15 +674,26 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
             summary['trials'].append(row)
             if q.cancelled(result):
                 raise KeyboardInterrupt
-            stable()
-            if row['accepted_in_trial_receipt']:
-                if not all(q.finite_nonnegative(value) and value <= assigned for value in (trial_wall, trial_cpu)):
-                    row['verification_error'] = 'trial invocation exceeded its assigned wall/CPU allowance'
-                    if installed_context is not None:
-                        raise p.Rejected('installed trial invocation exceeded assigned wall/CPU allowance')
-                else:
-                    verified(row)
-                    row['eligible'] = True
+            try:
+                stable()
+                if row['accepted_in_trial_receipt']:
+                    if not all(q.finite_nonnegative(value) and value <= assigned for value in (trial_wall, trial_cpu)):
+                        row['verification_error'] = 'trial invocation exceeded its assigned wall/CPU allowance'
+                        if installed_context is not None:
+                            raise p.Rejected('installed trial invocation exceeded assigned wall/CPU allowance')
+                    else:
+                        verified(row)
+                        row['eligible'] = True
+                elif installed_context is not None:
+                    row['negative_readback'] = verify_negative_row(row, board, frozen)
+                    row['validated_rejection'] = True
+            finally:
+                if installed_context is not None:
+                    row.update(invocation_wall_seconds=time.monotonic() - before_wall,
+                               invocation_cpu_seconds=q.total_process_cpu() - before_cpu)
+            if installed_context is not None and not all(q.finite_nonnegative(row[key]) and row[key] <= assigned
+                    for key in ('invocation_wall_seconds', 'invocation_cpu_seconds')):
+                raise p.Rejected('installed trial including diagnostic checks exceeded assigned wall/CPU allowance')
             p.save_json(out / 'portfolio-summary.json', summary)
             if remaining() <= FINAL_RESERVE:
                 summary['stop_reason'] = 'global finalization reserve reached'
@@ -632,6 +703,8 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
         for row in summary['trials']:
             if row['eligible']:
                 verified(row)
+            elif installed_context is not None and row.get('validated_rejection') is True:
+                recheck_negative(row)
         stable()
         summary['pareto_frontier'] = frontier(summary['trials'])
         candidates = [row for row in summary['trials'] if row['eligible']]
@@ -669,6 +742,9 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
         if index.exists():index.rename(out/('invalidated-portfolio-summary-'+uuid.uuid4().hex+'.json'))
 
     summary['accounting_point'] = 'sample before summary write; caps checked again after write; over-cap correction can finish outside cap'
+    if installed_context is not None:
+        summary['accounting_point'] += ('; final read-only negative/source/summary fence is included in acceptance caps '
+            'but outside stored timing/readback counters; complete external whole-process accounting is required')
     summary['finished_utc'] = datetime.datetime.now(datetime.timezone.utc).isoformat()
     summary['host_load_average_1_5_15_minutes_end'] = list(os.getloadavg())
     summary['peak_child_rss_bytes'] = max([row.get('peak_child_rss_bytes') or 0 for row in summary['trials']] + [0])
@@ -676,7 +752,13 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
     try:
         if summary['status'] == 'cancelled':
             preserve_partial()
-        if installed_context is not None: installed_context.check()
+        if installed_context is not None:
+            installed_context.check()
+            if summary['status'] in ('completed', 'no_valid_candidate'):
+                for row in summary['trials']:
+                    if row.get('validated_rejection') is True:
+                        recheck_negative(row)
+                installed_context.check()
         if basis:stable()
         account()
         p.save_json(out / 'portfolio-summary.json', summary)
@@ -690,6 +772,25 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
             installed_context.check()
             if f.canonical(f.read_json(out / 'portfolio-summary.json')) != f.canonical(summary):
                 raise p.Rejected('installed portfolio publication changed')
+            if summary['status'] in ('completed', 'no_valid_candidate') and any(
+                    row.get('validated_rejection') is True for row in summary['trials']):
+                for row in summary['trials']:
+                    if row.get('validated_rejection') is True:
+                        recheck_negative(row)
+                installed_context.check()
+                account(); p.save_json(out / 'portfolio-summary.json', summary)
+                installed_context.check()
+                if f.canonical(f.read_json(out / 'portfolio-summary.json')) != f.canonical(summary):
+                    raise p.Rejected('installed negative final-guard publication changed')
+                # Last eligible write is above. Check private copies so timing
+                # samples remain the literal stored snapshot; never reopen this
+                # fence by rewriting a positive just to include its own tail.
+                for row in summary['trials']:
+                    if row.get('validated_rejection') is True:
+                        recheck_negative(copy.deepcopy(row))
+                installed_context.check()
+                if f.canonical(f.read_json(out / 'portfolio-summary.json')) != f.canonical(summary):
+                    raise p.Rejected('installed final read-only fence summary changed')
             if remaining() < 0:
                 account(); p.save_json(out / 'portfolio-summary.json', summary)
     except KeyboardInterrupt:

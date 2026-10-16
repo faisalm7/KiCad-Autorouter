@@ -54,7 +54,8 @@ class InstalledPortfolioContextTests(unittest.TestCase):
             patch.object(sys, 'executable', str(self.runtime / '.venv/bin/python')),
             patch.object(sys, 'prefix', str(self.runtime / '.venv')),
             patch.object(m.p, 'tool_manifest', side_effect=lambda: copy.deepcopy(self.tools)),
-            patch.object(m.p, 'check_storage'), patch.object(m.p, 'check_result', side_effect=self.checked)]
+            patch.object(m.p, 'check_storage'), patch.object(m.p, 'check_result', side_effect=self.checked),
+            patch.object(m.p, 'check_rejected_routing_attempt', side_effect=self.rejected)]
         changes.extend(patch.object(module, '__file__', str(self.runtime / 'autorouter' / Path(module.__file__).name))
                        for module in modules)
         for change in changes: change.start(); self.addCleanup(change.stop)
@@ -64,6 +65,8 @@ class InstalledPortfolioContextTests(unittest.TestCase):
             self.admin / 'scripts/controller.py')
         self.wall = self.cpu = 0.; self.calls = []; self.bad_second = None; self.after_second = None
         self.negative_second = False
+        self.negative_calls = 0; self.negative_cost = 0.; self.negative_cost_at = None; self.negative_response_change = None
+        self.negative_error = None; self.negative_error_at = None; self.after_third = None
         self.output = self.runtime / '.runs/new-portfolio'
 
     def git(self, *arguments):
@@ -75,6 +78,21 @@ class InstalledPortfolioContextTests(unittest.TestCase):
         return {'current': True, 'applied': False, 'candidate': data['candidate'],
                 'candidate_sha256': data['candidate_sha256']}
 
+    def rejected(self, receipt):
+        self.negative_calls += 1
+        if self.negative_cost_at is None or self.negative_calls == self.negative_cost_at:
+            self.cpu += self.negative_cost
+        if self.negative_error and (self.negative_error_at is None or self.negative_calls == self.negative_error_at):
+            raise self.negative_error
+        data = json.loads(receipt.read_bytes())
+        checked = {'current': False, 'validated_rejection': True, 'routing_accepted': False, 'applied': False,
+            'candidate': data['candidate'], 'candidate_sha256': data['candidate_sha256'],
+            'native_report_sha256': data['native_report_sha256'],
+            'native_rejection_reasons': data['native_rejection_reasons'],
+            'receipt_sha256': hashlib.sha256(receipt.read_bytes()).hexdigest()}
+        if self.negative_response_change: checked.update(self.negative_response_change)
+        return checked
+
     def receipt(self, directory, assigned, variant):
         directory.mkdir()
         engine = m.p.engine_profile_settings('tuned', assigned, scoring_variant=variant)
@@ -83,6 +101,7 @@ class InstalledPortfolioContextTests(unittest.TestCase):
                 'exit_code': 0, 'cleanup_complete': True}
         m.p.save_json(directory / 'engine-process.json', step)
         data = {'source': str(self.board), 'source_hashes': self.source_hashes, 'tools': self.tools,
+            'schema': 1, 'baseline': 'B2_tuned',
             'status': 'routing_accepted', 'accepted': True, 'scope': 'whole_board_unlocked_routing',
             'adapter': 'both', 'engine_profile': 'tuned', 'scoring_variant': variant,
             'budget_seconds': assigned, 'cpu_budget_seconds': assigned,
@@ -106,9 +125,11 @@ class InstalledPortfolioContextTests(unittest.TestCase):
             if self.bad_second: process.update(self.bad_second)
             if self.negative_second:
                 process.update(status='nonzero_exit', exit_code=2)
-                data.update(accepted=False, status='drc_rejected')
+                data.update(accepted=False, status='drc_rejected', native_rejection_reasons=['native opens=1'])
+                data['native']['opens'] = 1
                 m.p.save_json(directory / 'result.json', data)
             if self.after_second: self.after_second()
+        if len(self.calls) == 3 and self.after_third: self.after_third()
         return process
 
     def run_portfolio(self, **extra):
@@ -205,11 +226,161 @@ class InstalledPortfolioContextTests(unittest.TestCase):
         self.assertEqual(result['status'], 'cancelled'); self.assertFalse(result['comparison_eligible'])
         self.assertIsNone(result['selected']); self.assertEqual(len(self.calls), 2)
 
-    def test_normal_negative_is_distinguished_but_cannot_bypass_absent_reader(self):
+    def test_verified_negative_remains_ineligible_and_continues_fixed_portfolio(self):
         self.negative_second = True
         result = self.run_portfolio()
+        self.assertTrue(result['comparison_eligible']); self.assertEqual(len(self.calls), 3)
+        self.assertEqual(result['selected']['id'], 'via_high')
+        row = result['trials'][1]
+        self.assertTrue(row['validated_rejection']); self.assertFalse(row['eligible'])
+        self.assertFalse(row['accepted_in_trial_receipt'])
+        self.assertFalse(row['negative_readback']['current'])
+        self.assertEqual(set(row['installed_cli']), {'process', 'log', 'result', 'rejection'})
+        self.assertGreaterEqual(self.negative_calls, 4)  # Classify, row, final selection, publication.
+
+    def test_negative_api_refusal_or_cancel_never_falls_back_to_earlier_winner(self):
+        for index, error in enumerate((m.p.Rejected('unknown Native evidence'), KeyboardInterrupt())):
+            with self.subTest(error=type(error).__name__):
+                self.output = self.runtime / f'.runs/negative-refusal-{index}'
+                self.calls = []; self.wall = self.cpu = 0.; self.negative_calls = 0
+                self.negative_second = True; self.negative_error = error
+                result = self.run_portfolio()
+                self.assertFalse(result['comparison_eligible']); self.assertIsNone(result['selected'])
+                self.assertEqual(result['status'], 'cancelled' if isinstance(error, KeyboardInterrupt) else 'invalidated')
+                self.assertEqual(len(self.calls), 2)
+
+    def test_negative_return_flags_reasons_and_identity_cannot_promote_or_hide_drift(self):
+        changes = [{'current': True}, {'validated_rejection': 1}, {'routing_accepted': True},
+            {'applied': True}, {'receipt_sha256': '0' * 64}, {'candidate': '/another/candidate'},
+            {'native_report_sha256': '0' * 64}, {'native_rejection_reasons': []}]
+        for index, change in enumerate(changes):
+            with self.subTest(change=change):
+                self.output = self.runtime / f'.runs/negative-identity-{index}'
+                self.calls = []; self.wall = self.cpu = 0.; self.negative_calls = 0
+                self.negative_second = True; self.negative_response_change = change
+                result = self.run_portfolio()
+                self.assertFalse(result['comparison_eligible']); self.assertIsNone(result['selected'])
+                self.assertIn('negative diagnostic identity', result['reason'])
+                self.assertEqual(len(self.calls), 2)
+
+    def test_negative_diagnostic_cannot_substitute_another_assignment_or_baseline(self):
+        directory = self.runtime / '.runs/negative-assignment'; data = self.receipt(directory, 100., 'via_low')
+        data.update(accepted=False, status='drc_rejected', native_rejection_reasons=['native opens=1'])
+        changes = [{'schema': True}, {'baseline': 'B1'}, {'adapter': 'none'}, {'engine_profile': 'standard'},
+            {'scope': 'partial_completion'}, {'source': '/another/source.kicad_pcb'},
+            {'source_hashes': {}}, {'tools': {}}, {'scoring_variant': 'via_default'},
+            {'budget_seconds': 99.}, {'cpu_budget_seconds': 99.}]
+        for change in changes:
+            with self.subTest(change=change):
+                m.p.save_json(directory / 'result.json', {**data, **change})
+                with self.assertRaisesRegex(m.p.Rejected, 'negative trial differs'):
+                    m._installed_negative_readback(directory / 'result.json', self.board,
+                        {'tools': self.tools, 'source_hashes': self.source_hashes}, 100., 'via_low')
+        self.assertEqual(self.negative_calls, 0)
+
+    def test_late_negative_reader_refusal_invalidates_prior_and_later_positives(self):
+        for call in (3, 4, 5, 6):
+            with self.subTest(diagnostic_call=call):
+                self.output = self.runtime / f'.runs/negative-late-{call}'
+                self.calls = []; self.wall = self.cpu = 0.; self.negative_calls = 0
+                self.negative_second = True; self.negative_error_at = call
+                self.negative_error = m.p.Rejected('late original rules or raw Native report changed')
+                result = self.run_portfolio()
+                self.assertEqual(len(self.calls), 3); self.assertEqual(self.negative_calls, call)
+                self.assertFalse(result['comparison_eligible']); self.assertIsNone(result['selected'])
+                self.assertIn('late original rules', result['reason'])
+
+    def test_late_negative_process_log_result_or_diagnostic_tamper_refuses(self):
+        for index, name in enumerate(('02-via_low.cli-process.json', '02-via_low.cli.log',
+                                     '02-via_low/result.json', '02-via_low.cli-rejection.json')):
+            with self.subTest(name=name):
+                self.output = self.runtime / f'.runs/negative-tamper-{index}'
+                self.calls = []; self.wall = self.cpu = 0.; self.negative_calls = 0
+                self.negative_second = True
+                self.after_third = lambda name=name: (self.output / name).write_bytes(b'changed negative witness')
+                result = self.run_portfolio()
+                self.assertFalse(result['comparison_eligible']); self.assertIsNone(result['selected'])
+                self.assertIn('retained process/log/result changed', result['reason'])
+                self.assertEqual(len(self.calls), 3)
+
+    def test_negative_changed_during_positive_summary_publication_invalidates_it(self):
+        self.negative_second = True; injected = []
+        save = m.p.save_json
+        def publish(path, data):
+            saved = save(path, data)
+            if (Path(path) == self.output / 'portfolio-summary.json'
+                    and data.get('comparison_eligible') is True and not injected):
+                injected.append(True)
+                (self.output / '02-via_low.cli-rejection.json').write_bytes(b'changed during publication')
+            return saved
+        with patch.object(m.p, 'save_json', side_effect=publish): result = self.run_portfolio()
+        self.assertTrue(injected)
         self.assertFalse(result['comparison_eligible']); self.assertIsNone(result['selected'])
-        self.assertIn('normal negative routing receipt lacks independent negative reader', result['reason'])
+        self.assertIn('retained process/log/result changed', result['reason'])
+        stored = json.loads((self.output / 'portfolio-summary.json').read_bytes())
+        self.assertFalse(stored['comparison_eligible'])
+
+    def test_negative_tamper_during_second_eligible_write_is_inside_final_readonly_fence(self):
+        self.negative_second = True; eligible_writes = []
+        save = m.p.save_json
+        def publish(path, data):
+            saved = save(path, data)
+            if Path(path) == self.output / 'portfolio-summary.json' and data.get('comparison_eligible') is True:
+                eligible_writes.append(True)
+                if len(eligible_writes) == 2:
+                    (self.output / '02-via_low.cli-rejection.json').write_bytes(b'changed after last eligible write')
+            return saved
+        with patch.object(m.p, 'save_json', side_effect=publish): result = self.run_portfolio()
+        self.assertEqual(len(eligible_writes), 2)
+        self.assertFalse(result['comparison_eligible']); self.assertIsNone(result['selected'])
+        self.assertIn('retained process/log/result changed', result['reason'])
+        self.assertTrue(list(self.output.glob('invalidated-portfolio-summary-*.json')))
+        stored = json.loads((self.output / 'portfolio-summary.json').read_bytes())
+        self.assertFalse(stored['comparison_eligible']); self.assertIsNone(stored['selected'])
+
+    def test_all_negative_diagnostic_cpu_is_charged_including_final_readbacks(self):
+        self.negative_second = True; self.negative_cost = 2.
+        result = self.run_portfolio()
+        self.assertTrue(result['comparison_eligible'])
+        self.assertEqual(self.cpu, 36. + 2. * self.negative_calls)
+        self.assertEqual(result['total_cpu_seconds'], self.cpu - 2.)  # Literal pre-final-fence sample.
+        self.assertIn('complete external whole-process accounting is required', result['accounting_point'])
+        row = result['trials'][1]
+        self.assertEqual(row['invocation_cpu_seconds'], 16.)
+        self.assertEqual(row['negative_readback_cpu_seconds'], 2. * (self.negative_calls - 3))
+        self.assertEqual(self.calls[2][1], 77.)
+
+    def test_final_readonly_negative_fence_enforces_assignment_without_positive_rewrite(self):
+        self.negative_second = True; self.negative_cost = 70.; self.negative_cost_at = 6
+        #120 balanced yields35s, below the unchanged41s minimum and starts no trials.
+        result = self.run_portfolio(allocation='balanced', budget=180)
+        self.assertEqual(self.negative_calls, 6)
+        self.assertFalse(result['comparison_eligible']); self.assertIsNone(result['selected'])
+        self.assertLess(result['total_cpu_seconds'], 120.)
+        self.assertIn('diagnostic readbacks exceeded assigned', result['reason'])
+
+    def test_final_readonly_fence_global_cpu_cap_cannot_rewrite_positive(self):
+        self.negative_second = True; eligible_writes = []
+        save = m.p.save_json
+        def publish(path, data):
+            saved = save(path, data)
+            if Path(path) == self.output / 'portfolio-summary.json' and data.get('comparison_eligible') is True:
+                eligible_writes.append(True)
+                if len(eligible_writes) == 2: self.cpu = 121.
+            return saved
+        with patch.object(m.p, 'save_json', side_effect=publish): result = self.run_portfolio()
+        self.assertEqual(len(eligible_writes), 2)
+        self.assertEqual(result['status'], 'budget_exceeded')
+        self.assertFalse(result['comparison_eligible']); self.assertIsNone(result['selected'])
+
+    def test_negative_diagnostic_cost_can_exhaust_assignment_before_global_cap(self):
+        self.negative_second = True; self.negative_cost = 35.
+        #180 allows real mock attempts; two35s diagnostics exceed76.5s assigned,
+        # while the whole invocation remains below its global allowance.
+        result = self.run_portfolio(allocation='balanced', budget=180)
+        self.assertFalse(result['comparison_eligible']); self.assertIsNone(result['selected'])
+        self.assertEqual(result['status'], 'invalidated'); self.assertLess(result['total_cpu_seconds'], 120.)
+        self.assertIn('including diagnostic checks exceeded assigned', result['reason'])
         self.assertEqual(len(self.calls), 2)
 
     def test_source_or_process_evidence_drift_invalidates_complete_portfolio(self):

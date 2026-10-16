@@ -75,6 +75,9 @@ def verify_portfolio(directory, returned, board, frozen):
             or protocol.get('freeze', {}).get('source_hashes') != frozen['source_hashes']
             or protocol.get('variants') != list(portfolio.VARIANTS)):
         raise p.Rejected('portfolio index differs from frozen paired protocol')
+    installed = 'installed_context' in frozen
+    if installed and protocol.get('freeze') != frozen:
+        raise p.Rejected('installed portfolio complete frozen context differs')
     cancelled = data.get('status') == 'cancelled'
     for row in data.get('trials', []):
         cancelled = cancelled or row.get('status') == 'cancelled'
@@ -84,7 +87,13 @@ def verify_portfolio(directory, returned, board, frozen):
                 raise p.Rejected('portfolio trial escaped this arm')
             cancelled = cancelled or q.cancelled(json.loads(trial_path.read_text()))
         if row.get('eligible') is True:
+            if installed and row.get('accepted_in_trial_receipt') is not True:
+                raise p.Rejected('installed portfolio eligible row is not accepted')
             portfolio.verify_row(row, board, frozen)
+        elif installed and data.get('comparison_eligible') is True:
+            if row.get('validated_rejection') is not True:
+                raise p.Rejected('installed portfolio loser lacks completed negative proof')
+            portfolio.verify_negative_row(row, board, frozen)
     if cancelled:
         raise KeyboardInterrupt
     if data.get('comparison_eligible') is True:
