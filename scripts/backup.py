@@ -49,7 +49,10 @@ SCOPES = (".runs", ".data", ".local-reference")
 # The next required independent install forecasts330618files/11927409767B.
 # Finite12GiB/335000 retains evidence and measured installation headroom;
 # receipt/chain/scopes/path/secret guards stay fixed. Full restoration required.
-LIMIT = 12 * 1024 ** 3
+# Runtime010 capture refused the byte bound: metadata census348476 files /
+# 12889307613B exceeds12GiB by4405725B. Finite12.25GiB retains this target;
+# no scope/security changes. A new-target full restoration is required.
+LIMIT = 49 * 1024 ** 3 // 4
 # Current304054rawfiles leaves946slots; prior full installed041 used979files
 # including its Native fixture. Next required installed4Cu qualification exceeds
 # 305000 without deleting evidence. Finite310000 retains all files/directories;
@@ -78,7 +81,10 @@ MAX_CHAIN = 16
 # Its77959854B full-base receipt keeps the actual two-node chain below192MiB.
 # The independent aggregate chain cap still rejects oversized combinations.
 # Qualify this reader-capacity change with a full restoration of this capture.
-MAX_RECEIPT_BYTES = 98 * 1024 ** 2
+# Runtime010 adds3211files to008's102449181B receipt, which left311267B.
+# Finite100MiB fits the enlarged inventory/delta. The independent192MiB
+# aggregate cap and350000file/directory caps remain unchanged.
+MAX_RECEIPT_BYTES = 100 * 1024 ** 2
 MAX_CHAIN_RECEIPT_BYTES = 192 * 1024 ** 2
 DELTA_DIRECTORIES_LEGACY = "all-target-directories-v1"
 DELTA_DIRECTORIES_COMPACT = "changed-and-new-ancestors-v1"

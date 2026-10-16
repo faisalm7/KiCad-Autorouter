@@ -1,0 +1,78 @@
+{
+  "schema": 1,
+  "kind": "bounded-backup-capacity-correction-new-target-restoration-required",
+  "source_before": "a327030ca3e97a113a9f6f0bdc901b3059714abe",
+  "actual_failure": {
+    "reason": "inventory byte bound exceeded before checkpoint creation",
+    "new_checkpoint_created": false,
+    "external_wall_seconds": 129.97,
+    "external_cpu_seconds": 92.4,
+    "cleanup_complete": true
+  },
+  "metadata_only": {
+    "files": 348476,
+    "directories": 81911,
+    "logical_bytes": 12889307613,
+    "old_byte_limit": 12884901888,
+    "excess_bytes": 4405725,
+    "not_hash_or_backup_proof": true,
+    "cost": "Exact CPU and standalone wall unknown; tool call including metadata census was8.1seconds."
+  },
+  "change": {
+    "logical_bytes": 13153337344,
+    "receipt_bytes": 104857600,
+    "unchanged": {
+      "files_and_directories": 350000,
+      "chain_receipt_bytes": 201326592,
+      "chain_length": 16,
+      "scopes": [
+        ".runs",
+        ".data",
+        ".local-reference"
+      ],
+      "path_link_secret_archive_guards": true
+    }
+  },
+  "targeted": {
+    "methods": 54,
+    "passed": true,
+    "command": ".venv/bin/python -B -m unittest discover -s tests -p 'test_backup*.py' -v",
+    "partial_first_check_methods": 25
+  },
+  "skeptical_review": "Read-only AI review supports the measured finite correction and existing54controls; requires actual new receipt fit, disk headroom and new-target full restoration. No humanreview claim.",
+  "next": "Audit/commit/push/readback; new010incremental capture directly from the restored full base. Check actual capacity/headroom before full restoration; do not repeat completed008or007restoration.",
+  "full_new_target_restoration": false,
+  "limitation": "Raw backups on this Mac only by owner choice; no disk-failure protection. Product/routing quality unchanged.",
+  "files": [
+    {
+      "path": "evidence/backups/runtime010-byte-capacity-source-001-notes/failed-capture-execution.json",
+      "bytes": 2975,
+      "sha256": "a98c47c7fed2642cb8a9a825eb973237f4fda86dfffe9af8b61501bdfab6dd76",
+      "source": ".local-backups/runtime010-milestone-incremental-execution-001/execution.json"
+    },
+    {
+      "path": "evidence/backups/runtime010-byte-capacity-source-001-notes/failed-capture-command.log",
+      "bytes": 192,
+      "sha256": "935eb876a88d33d514a85ff40a2cdca7c013b8d83b16724a15ca798e4d52b7dd",
+      "source": ".local-backups/runtime010-milestone-incremental-execution-001/command.log"
+    },
+    {
+      "path": "evidence/backups/runtime010-byte-capacity-source-001-notes/failed-capture-time.log",
+      "bytes": 33,
+      "sha256": "03673f29cd24ef24526810c7d0557b5a551ff5b7e454b81a78af05c2855595c1",
+      "source": ".local-backups/runtime010-incremental-001-time.log"
+    },
+    {
+      "path": "evidence/backups/runtime010-byte-capacity-source-001-notes/partial25-time.log",
+      "bytes": 153,
+      "sha256": "6569a87625d1d66fb4e343894151cd93a5425e218d3b69beb37351bcde11e846",
+      "source": ".runs/runtime010-backup-capacity-focused-001-time.log"
+    },
+    {
+      "path": "evidence/backups/runtime010-byte-capacity-source-001-notes/focused54-time.log",
+      "bytes": 8847,
+      "sha256": "7d670d465753139765ed49c790a398d96174ea6679dffd44d757c0a35abd1017",
+      "source": ".runs/runtime010-backup-capacity-focused-002-time.log"
+    }
+  ]
+}
