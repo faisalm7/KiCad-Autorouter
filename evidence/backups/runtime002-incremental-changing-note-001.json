@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "recorded_utc": "2026-10-16T12:33:05.341899+00:00",
+  "source_head": "39f4be1ef37951c6cd60288db22151271dcc3ea3",
+  "certified": false,
+  "reason": "Source changed during snapshot; partial backup retained but not certified",
+  "wall_seconds": 301.38,
+  "cpu_seconds": 223.28,
+  "retained_partial_directory": ".local-backups/checkpoint-20261016T122947Z-b6d3c3fc1e1b4b2dae485bbfd1b85ddc",
+  "known_concurrent_write": {
+    "file": ".runs/installed-negative-reader-integration-review-001/NOTES.md",
+    "mtime_utc": "2026-10-16T12:30:30.862358+00:00",
+    "context": "Source-only reviewer appended notes inside the artifact scope while capture was active. No source/HEAD change; all writers are now stopped. Exact original inventory was not published, so no assertion of an exhaustive difference list."
+  },
+  "backup_guard_changed": false,
+  "prior_full_restore_repeated": false,
+  "retry": "Same verified full parent, quiet source/HEAD and all artifact scopes; no implementation/tests until capture and integrity check finish.",
+  "refs": [
+    {
+      "path": ".local-backups/runtime002-gui054-windows005-incremental-retry-001-command.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".local-backups/runtime002-gui054-windows005-incremental-retry-001-time.log",
+      "sha256": "ef395b0efd280457ab8a4dbf95dcc64c565b9bdba3c135990516afbbd02f2913",
+      "bytes": 236
+    },
+    {
+      "path": ".runs/installed-negative-reader-integration-review-001/NOTES.md",
+      "sha256": "5a9e20417778c88d52ec4d4cf34a2b1da71040ca95d00a34903299f78f8b200f",
+      "bytes": 11904
+    }
+  ],
+  "limitations": [
+    "Failed partial archive has no certified receipt; do not treat it as a successful backup.",
+    "On-Mac only by owner choice."
+  ]
+}
