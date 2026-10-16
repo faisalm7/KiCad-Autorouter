@@ -55,7 +55,11 @@ LIMIT = 12 * 1024 ** 3
 # 305000 without deleting evidence. Finite310000 retains all files/directories;
 # 10GiB/80MiBreceipt/192MiBchain/scopes/security remain. A complete restoration
 # of the old-full006/new-compact chain must qualify this capacity change.
-MAX_FILES = 335000
+# Actual runtime003/full134/Sonde007 capture refused the335000-file limit.
+# The metadata-only census is337786files/12285579044B; the byte cap still fits.
+# Finite345000 retains it and one similarly sized integration/Native milestone.
+# Receipt/chain/byte/scopes/path/secret guards remain; new full restore required.
+MAX_FILES = 345000
 MAX_CHAIN = 16
 # Actual229,196-file receipt is63,984,764B. The249,270-file forecast needs
 # about70MB at that measured ratio;80MiB permits finite headroom. Two such

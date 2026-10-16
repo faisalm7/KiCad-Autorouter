@@ -1,0 +1,120 @@
+{
+  "schema": 1,
+  "kind": "actual backup file-capacity refusal and finite correction",
+  "source_before_change": "b62deec28e2bc3ed876442277442fc235c21b781",
+  "capture_refused": true,
+  "capture_complete": false,
+  "refusal_cost_seconds": {
+    "wall": 127.28,
+    "cpu": 88.53
+  },
+  "metadata_only_census": {
+    "metadata_only": true,
+    "backup_certified": false,
+    "files": 337786,
+    "directories": 78699,
+    "logical_bytes": 12285579044,
+    "current_file_cap": 335000,
+    "current_byte_cap": 12884901888,
+    "per_scope": {
+      ".runs": {
+        "files": 337164,
+        "directories": 78527,
+        "logical_bytes": 12224833372
+      },
+      ".data": {
+        "files": 616,
+        "directories": 171,
+        "logical_bytes": 60683517
+      },
+      ".local-reference": {
+        "files": 6,
+        "directories": 1,
+        "logical_bytes": 62155
+      }
+    }
+  },
+  "census_cost_seconds": {
+    "wall": 12.75,
+    "cpu": 11.96
+  },
+  "change": {
+    "old_MAX_FILES": 335000,
+    "new_MAX_FILES": 345000,
+    "byte_cap_unchanged": 12884901888,
+    "receipt_read_bound_unchanged_bytes": 96468992,
+    "chain_read_bound_unchanged_bytes": 201326592,
+    "scopes_and_path_link_secret_guards_unchanged": true,
+    "rationale": "Observed337786 files exceed335000.345000 retains this target plus one similarly sized integration/Native milestone; no evidence removed."
+  },
+  "targeted_initial_tests": {
+    "methods": 15,
+    "passed": true,
+    "whole_wall_seconds": 2.62,
+    "whole_cpu_seconds": 1.94
+  },
+  "remaining_incremental_capacity_controls_pending": false,
+  "new_capture_and_full_restoration_pending": true,
+  "previous_completed_restoration_repeated": false,
+  "on_mac_only": true,
+  "refs": {
+    ".runs/backup-capacity337786-001/runtime003-sonde007-incremental-001-command.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".runs/backup-capacity337786-001/runtime003-sonde007-incremental-001-time.log": {
+      "sha256": "ecf80464edce2154a9135ee6e26f6fd6c71ef2bb5aa91e6f5f5df8072e38a655",
+      "bytes": 225
+    },
+    ".runs/backup-capacity337786-001/runtime003-sonde007-capacity-census-001.json": {
+      "sha256": "744eed654e0765d2f3156a8b28166216a7bac045b476f5747cb3e1dbdce5de08",
+      "bytes": 530
+    },
+    ".runs/backup-capacity337786-001/runtime003-sonde007-capacity-census-001-time.log": {
+      "sha256": "22b14056a9c8276cffd1ba590d0aba218ff9549fd3f0d85a433ac2d986fdec40",
+      "bytes": 30
+    },
+    ".runs/backup-capacity337786-001/backup-capacity345-targeted-001-command.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".runs/backup-capacity337786-001/backup-capacity345-targeted-001-time.log": {
+      "sha256": "4711fcf580d4871bad74ccd3f31bb304f7e17d7cf0b94469717ade6c2454ddc0",
+      "bytes": 143
+    },
+    ".runs/backup-capacity337786-001/backup-capacity345-targeted-002-command.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".runs/backup-capacity337786-001/backup-capacity345-targeted-002-time.log": {
+      "sha256": "b0540652045b4465c59250ba30e2e03c70533b8a2c4cfc4368aea97f578ce805",
+      "bytes": 871
+    },
+    ".runs/backup-capacity337786-001/backup-capacity345-targeted-003-command.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".runs/backup-capacity337786-001/backup-capacity345-targeted-003-time.log": {
+      "sha256": "9fa0bf0e264a6df72e7f4610164424d40a1b6facf278ec9c38d634a7266c07f1",
+      "bytes": 127
+    }
+  },
+  "capacity_regression": {
+    "unique_methods": 53,
+    "all_pass_after_policy_declaration_update": true,
+    "initial38_method_run": {
+      "passed": 37,
+      "failed": 1,
+      "reason": "Existing exact finite policy declaration still expected335000; one source-test assertion updated to declared345000. Scaled actual capture/restore/path/secret/byte/receipt/chain controls were unchanged and passed.",
+      "wall_seconds": 7.85,
+      "cpu_seconds": 7.0
+    },
+    "corrected_one_method_run": {
+      "passed": 1,
+      "wall_seconds": 0.25,
+      "cpu_seconds": 0.1
+    },
+    "full_software_or_native_rerun": false,
+    "scope": "Only backup finite file count and policy declaration change; existing actual product Native003/full134 bytes unchanged. New actual capture/full restoration are pending."
+  }
+}
