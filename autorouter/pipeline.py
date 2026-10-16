@@ -369,6 +369,47 @@ def task_scope_for_record(data,directory,*,input_policy=None):
     return (scope,policy,layers)
 
 
+def check_schematic_class_support(board):
+    """Refuse schematic class directives until PCB membership is verified.
+
+    Examine every captured modern schematic, including child directories.
+    Native format/parity checks retain responsibility for other SCH semantics.
+    """
+    from .placement_clearance import inventory, read_bytes
+    try:
+        root = Path(board).parent
+        captured = inventory(root, max_bytes=100*1024**2,
+                             max_files=2000, max_entries=4000)
+        for name, expected in captured.items():
+            if Path(name).suffix.casefold() != '.kicad_sch':
+                continue
+            raw = read_bytes(root/name)
+            if hashlib.sha256(raw).hexdigest() != expected:
+                raise ValueError('schematic changed during class-intent check: '+name)
+            tree = sx.parse(raw.decode('utf-8'))
+            if not tree or tree[0] != 'kicad_sch':
+                raise ValueError('unknown schematic root: '+name)
+            version = sx.one(tree, 'version')
+            if (version is None or len(version) != 2
+                    or type(version[1]) is not str or len(version[1]) != 8
+                    or not version[1].isascii() or not version[1].isdecimal()
+                    or int(version[1]) <= 0):
+                raise ValueError('malformed schematic version: '+name)
+            pending = [tree]
+            while pending:
+                node = pending.pop()
+                if node and node[0] == 'netclass_flag':
+                    raise ValueError('schematic netclass_flag unsupported: PCB class '
+                                     'membership and inheritance are not independently '
+                                     'verified: '+name)
+                if node and node[0] == 'sheet':
+                    raise ValueError('schematic hierarchy dependency closure and class '
+                                     'intent are not independently verified: '+name)
+                pending.extend(child for child in node[1:] if isinstance(child, list))
+    except (OSError, ValueError, Rejected) as exc:
+        raise Rejected('schematic class intent not qualified: '+str(exc)) from exc
+
+
 def preflight(board,*,task_scope=None):
     t=sx.read(board)
     reasons=[]
@@ -399,6 +440,8 @@ def preflight(board,*,task_scope=None):
                 continue
             if key not in KNOWN_CHECKS or val not in {'error','warning','ignore'}: reasons.append('unknown rule severity semantics: '+key)
             if key in CRITICAL_CHECKS and val!='error' and (key,val) not in {('padstack','warning'),('hole_to_hole','warning')}: reasons.append('core native check not blocking: '+key)
+    try: check_schematic_class_support(board)
+    except Rejected as exc: reasons.append(str(exc))
     rules=board.with_suffix('.kicad_dru')
     if rules.exists() and rules.read_text().strip(): reasons.append('custom rules not qualified')
     try: check_hole_machining_support(t)

@@ -1,5 +1,7 @@
 # Local experimental candidate
 
+**Current critical gate:** [runtime006 accepted a schematic/PCB class mismatch](../evidence/schematic-class-false-accept-runtime006-001.json). Current source now blocks schematic class directives, with50targeted checks; full integration and fresh installation/native qualification are pending. Archived006 is not a safe candidate for these projects.
+
 The tool runs locally without an AI account. It is experimental source with working CLI and a separate-project graphical controller, not a completed confirmatory release or an electrically approved board generator.
 
 [Start here](../START_HERE.md), [graphical workflow](gui-workflow.md), [structured settings](routing-preferences.md), [current status](../STATUS.md) and [mandatory gates](../REQUIREMENTS.md) describe the actual product. The GUI configures routing/protection/layers/budget, previews support, runs outside KiCad, cancels, presents findings, and records accept/reject intent before fresh validated export. Saved/closed source acknowledgement is mandatory. There is no live-editor application, unsaved-buffer inspection or tested undo.
