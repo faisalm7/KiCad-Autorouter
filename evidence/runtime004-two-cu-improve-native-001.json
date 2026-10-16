@@ -1,0 +1,658 @@
+{
+  "schema": 1,
+  "kind": "actual-current-runtime004-production-two-copper-Improve-regression",
+  "accepted": false,
+  "qualification_passed": true,
+  "actual_GUI": false,
+  "source_head": "0eb2b4f1bf6519160a8508d222762bd25dbfcb4e",
+  "tools": {
+    "implementation_sha256": {
+      "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+      "autorouter/__main__.py": "0b7928c455fea4c2632d91c7fe3888301d946d1258b34b0918bd5c446feaf62f",
+      "autorouter/adapter.py": "a99a389f8ff8d11b5c28507e524b823f3b906d703e2faa4dd34496a642517ac3",
+      "autorouter/board_floor.py": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340",
+      "autorouter/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+      "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+      "autorouter/engine_angle.py": "977f392326158291cb136939576152685c6871756aec0e70e7784545dd8e393e",
+      "autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+      "autorouter/floor_route.py": "78d684e09edb1ec1816d4385b6d0f67dc34d54bf40cbe1e41bf77348a0c99b8f",
+      "autorouter/gui.py": "a8cb8daf58cbb063795433a1d6ab6ba4d70a18d63af808d5a93209fda1c02bee",
+      "autorouter/handoff.py": "36632386b3f012795e86c02c330b33ade21655bef43c241759c4759b4c5a1134",
+      "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+      "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+      "autorouter/local_settings.py": "a2ab6296b637ace500f1cdbdd62de0cd9c1803cfc17e38906ced497c1aef21c8",
+      "autorouter/native.py": "d7e3140cee40d0a618c5c699cdada4d833a04d76f8fe06e8b823b4f490f2e9b6",
+      "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+      "autorouter/native_edge.py": "8a38b60f301a72b815b877f9af59d156024757d66eda7d3df8c34addbe4d0c74",
+      "autorouter/netclass.py": "a483d40e48a5774e4485afc187ec6c7fad3d1f69a74b35a6f96624223446aa0b",
+      "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+      "autorouter/padless_alias.py": "f359a89e3c48703058490c22d9591b5f916cd22a8b734c50e1c9191e501c1413",
+      "autorouter/padless_alias_native.py": "7d06683b834f0211c82d87d7c982f6c39960e841627cd5e98f58a7913f501002",
+      "autorouter/pipeline.py": "289165ad31b15d6a692be19c1e628a0af41d96b99c61294549e1a5aec6e1df5c",
+      "autorouter/placement_clearance.py": "53f35206860617ed44fd5c5f1eb165894368b079e35fc89e060adc2f01997f41",
+      "autorouter/placement_strategy.py": "b2bee86ef41c5f98e38a0c0f60fdd1bd9148346644f72c7d754de333bd52d25d",
+      "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+      "autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+      "autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+      "autorouter/preferences.py": "d6a39475d8e13483cd74921111c5438f3a0877866a2456d0b805490326681425",
+      "autorouter/provenance.py": "bb095b5a50751f834e28d44f2f895d899fb2988e72d4b2cdf3719a888f0f16d0",
+      "autorouter/recovery.py": "871f5f52cdb6932464b9ed3f2846c3ae7e257bbc04ddf87b6eba49450596c2b9",
+      "autorouter/review_export.py": "f0f0bc55fefd5aee9bf430981b25f93e4495e752e1323c6811503f6aec80e1a6",
+      "autorouter/review_view.py": "79f65e4d53c243f4e0f054d97bced2be2c4646537e5b86f11626ac8c5f4ce92d",
+      "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+      "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+      "autorouter/schematic_field_evidence.py": "f5c03ac0be4b5fa3960bfec5f511199f7b566de8483fc78581e39e02804dbb93",
+      "autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+      "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+      "autorouter/strategy.py": "8a9ef351ff51df414245977d53cf68422d82fe4f9c94ccd8305c7025de073ea3",
+      "autorouter/thermal.py": "2fa7ff7260ba6e8b5a8003d8e1f51314b5ff548ef635fb94b29bdee4c741102d",
+      "autorouter/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+      "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+      "autorouter/thermal_worker.py": "fd651f44233aae2c70da0a8feab5f96a4763276684e8b0babf39860b91a9cc33"
+    },
+    "git_head": "0eb2b4f1bf6519160a8508d222762bd25dbfcb4e",
+    "source_provenance": {
+      "kind": "runtime-directory-v1",
+      "git_head": "0eb2b4f1bf6519160a8508d222762bd25dbfcb4e",
+      "build_source": {
+        "files_sha256": {
+          "LICENSE": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+          "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+          "autorouter/__main__.py": "0b7928c455fea4c2632d91c7fe3888301d946d1258b34b0918bd5c446feaf62f",
+          "autorouter/adapter.py": "a99a389f8ff8d11b5c28507e524b823f3b906d703e2faa4dd34496a642517ac3",
+          "autorouter/board_floor.py": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340",
+          "autorouter/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+          "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+          "autorouter/engine_angle.py": "977f392326158291cb136939576152685c6871756aec0e70e7784545dd8e393e",
+          "autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+          "autorouter/floor_route.py": "78d684e09edb1ec1816d4385b6d0f67dc34d54bf40cbe1e41bf77348a0c99b8f",
+          "autorouter/gui.py": "a8cb8daf58cbb063795433a1d6ab6ba4d70a18d63af808d5a93209fda1c02bee",
+          "autorouter/handoff.py": "36632386b3f012795e86c02c330b33ade21655bef43c241759c4759b4c5a1134",
+          "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+          "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+          "autorouter/local_settings.py": "a2ab6296b637ace500f1cdbdd62de0cd9c1803cfc17e38906ced497c1aef21c8",
+          "autorouter/native.py": "d7e3140cee40d0a618c5c699cdada4d833a04d76f8fe06e8b823b4f490f2e9b6",
+          "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+          "autorouter/native_edge.py": "8a38b60f301a72b815b877f9af59d156024757d66eda7d3df8c34addbe4d0c74",
+          "autorouter/netclass.py": "a483d40e48a5774e4485afc187ec6c7fad3d1f69a74b35a6f96624223446aa0b",
+          "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+          "autorouter/padless_alias.py": "f359a89e3c48703058490c22d9591b5f916cd22a8b734c50e1c9191e501c1413",
+          "autorouter/padless_alias_native.py": "7d06683b834f0211c82d87d7c982f6c39960e841627cd5e98f58a7913f501002",
+          "autorouter/pipeline.py": "289165ad31b15d6a692be19c1e628a0af41d96b99c61294549e1a5aec6e1df5c",
+          "autorouter/placement_clearance.py": "53f35206860617ed44fd5c5f1eb165894368b079e35fc89e060adc2f01997f41",
+          "autorouter/placement_strategy.py": "b2bee86ef41c5f98e38a0c0f60fdd1bd9148346644f72c7d754de333bd52d25d",
+          "autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+          "autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+          "autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+          "autorouter/preferences.py": "d6a39475d8e13483cd74921111c5438f3a0877866a2456d0b805490326681425",
+          "autorouter/provenance.py": "bb095b5a50751f834e28d44f2f895d899fb2988e72d4b2cdf3719a888f0f16d0",
+          "autorouter/recovery.py": "871f5f52cdb6932464b9ed3f2846c3ae7e257bbc04ddf87b6eba49450596c2b9",
+          "autorouter/review_export.py": "f0f0bc55fefd5aee9bf430981b25f93e4495e752e1323c6811503f6aec80e1a6",
+          "autorouter/review_view.py": "79f65e4d53c243f4e0f054d97bced2be2c4646537e5b86f11626ac8c5f4ce92d",
+          "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+          "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+          "autorouter/schematic_field_evidence.py": "f5c03ac0be4b5fa3960bfec5f511199f7b566de8483fc78581e39e02804dbb93",
+          "autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+          "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+          "autorouter/strategy.py": "8a9ef351ff51df414245977d53cf68422d82fe4f9c94ccd8305c7025de073ea3",
+          "autorouter/thermal.py": "2fa7ff7260ba6e8b5a8003d8e1f51314b5ff548ef635fb94b29bdee4c741102d",
+          "autorouter/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+          "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+          "autorouter/thermal_worker.py": "fd651f44233aae2c70da0a8feab5f96a4763276684e8b0babf39860b91a9cc33",
+          "scripts/install_gui.py": "0a7c487951c1641e4e790105939394bc3c430612a6cfe7376bd62f5acd67f56f",
+          "scripts/prepare_gui_plugin.py": "dfa0580e0ef88791601053922ba164eedadad8a9fd9a3d8935e6a75e4017798a",
+          "toolchain.lock.json": "f04be5cdf6f64bddc16a6c5efd217b2f5e0a1341906ff44033f5807971154efe"
+        },
+        "git_head": "0eb2b4f1bf6519160a8508d222762bd25dbfcb4e",
+        "kind": "git-checkout"
+      },
+      "manifest_sha256": "3d25ad83be058aa8ece67f5bce43f8be6631ad6ecbb4d3647cfbf691ecee0ec2"
+    },
+    "kicad": "10.0.0",
+    "freerouting": "2.5.0",
+    "files": {
+      "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219",
+      "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-004/runtime/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7"
+    },
+    "network": "engine sandbox-exec deny network*",
+    "normal_drc_local_settings_policy": "job-owned-prl-immutable-v1",
+    "normal_selected_proposal_import_policy": "selected-proposals-exact-source-v1",
+    "normal_native_export_alias_policy": "source-bound-padless-export-v1"
+  },
+  "source_hashes": {
+    "owned-global-min-width.kicad_pcb": "5675f1f851d35a8da1539c7979e6b578c694a029737028874e139220ec623bb8",
+    "owned-global-min-width.kicad_prl": "8eeeca97d5de78d87e3a9f8a48e0a3bdf8c6881f1f03cd10064206f41748a01b",
+    "owned-global-min-width.kicad_pro": "17bb5a2cb45cbcd270750982f60b4a2d6177bb189364452f65f36fd799518391",
+    "owned-global-min-width.kicad_sch": "8cf2b4ac9cc89861459d7d72d39b65a77e0fd3e482fc8ca4e0176a9d809923c3"
+  },
+  "source_unchanged": true,
+  "source_reused_without_rerunning_old_experiment": "Retained owned2Cu source from runtime003, actual new current004 Improve job and candidate proof. Necessary current integration regression, no new family or comparison.",
+  "native": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 6,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      }
+    ],
+    "findings": [
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J1",
+            "pos": {
+              "x": 12.0,
+              "y": 10.0
+            },
+            "uuid": "ac06cd73-d920-5d03-9967-63fd767b7718"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J2",
+            "pos": {
+              "x": 26.0,
+              "y": 13.0
+            },
+            "uuid": "198cedce-a99b-5b99-8220-1f40e740e439"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J3",
+            "pos": {
+              "x": 12.0,
+              "y": 16.0
+            },
+            "uuid": "f0db75ad-598b-5d7e-b67b-aeabcd4b31fc"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J4",
+            "pos": {
+              "x": 26.0,
+              "y": 16.0
+            },
+            "uuid": "dd22012c-f14f-5846-916f-d86bac7673c5"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J5",
+            "pos": {
+              "x": 12.0,
+              "y": 24.0
+            },
+            "uuid": "9232fd2a-4b39-5763-9275-b096ca9d208a"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J6",
+            "pos": {
+              "x": 26.0,
+              "y": 24.0
+            },
+            "uuid": "bdc9d385-5ce9-5c37-a002-98aef20e0095"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      }
+    ],
+    "field_parity": {
+      "schema": 1,
+      "policy": "datasheet-absence-only-v1",
+      "native_report_sha256": "10d3adb86da2ed2b0ac1fb48e0fcc8defaf712865669989bc25885c99203297b",
+      "binding_sha256": "3a14156423766757292a015cd566ac42a3acb9c02ba9a1d3c7627e180fe80ec6",
+      "netlist_sha256": "904312d0077e77a5e981efed7f10cc2174dcfe3adea7e8c9d0f5312b3d022895",
+      "fields_sha256": "7981bd5851340dbd3be52850ad4ae436d3c65870ac31b1387189c311f7c783fd",
+      "qualification": {
+        "qualified": true,
+        "policy": "datasheet-effective-empty-v1",
+        "component_count": 6,
+        "compared_field_count": 18,
+        "comparison_map": [
+          {
+            "reference": "J1",
+            "uuid": "ac06cd73-d920-5d03-9967-63fd767b7718",
+            "schematic_fields": {
+              "OwnedTransportIdentity": "owned-global-min-width-v1:J1",
+              "Datasheet": "",
+              "Description": "Project-owned transport diagnostic one-pin terminal"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Project-owned transport diagnostic one-pin terminal",
+              "OwnedTransportIdentity": "owned-global-min-width-v1:J1"
+            }
+          },
+          {
+            "reference": "J2",
+            "uuid": "198cedce-a99b-5b99-8220-1f40e740e439",
+            "schematic_fields": {
+              "OwnedTransportIdentity": "owned-global-min-width-v1:J2",
+              "Datasheet": "",
+              "Description": "Project-owned transport diagnostic one-pin terminal"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Project-owned transport diagnostic one-pin terminal",
+              "OwnedTransportIdentity": "owned-global-min-width-v1:J2"
+            }
+          },
+          {
+            "reference": "J3",
+            "uuid": "f0db75ad-598b-5d7e-b67b-aeabcd4b31fc",
+            "schematic_fields": {
+              "OwnedTransportIdentity": "owned-global-min-width-v1:J3",
+              "Datasheet": "",
+              "Description": "Project-owned transport diagnostic one-pin terminal"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Project-owned transport diagnostic one-pin terminal",
+              "OwnedTransportIdentity": "owned-global-min-width-v1:J3"
+            }
+          },
+          {
+            "reference": "J4",
+            "uuid": "dd22012c-f14f-5846-916f-d86bac7673c5",
+            "schematic_fields": {
+              "OwnedTransportIdentity": "owned-global-min-width-v1:J4",
+              "Datasheet": "",
+              "Description": "Project-owned transport diagnostic one-pin terminal"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Project-owned transport diagnostic one-pin terminal",
+              "OwnedTransportIdentity": "owned-global-min-width-v1:J4"
+            }
+          },
+          {
+            "reference": "J5",
+            "uuid": "9232fd2a-4b39-5763-9275-b096ca9d208a",
+            "schematic_fields": {
+              "OwnedTransportIdentity": "owned-global-min-width-v1:J5",
+              "Datasheet": "",
+              "Description": "Project-owned transport diagnostic one-pin terminal"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Project-owned transport diagnostic one-pin terminal",
+              "OwnedTransportIdentity": "owned-global-min-width-v1:J5"
+            }
+          },
+          {
+            "reference": "J6",
+            "uuid": "bdc9d385-5ce9-5c37-a002-98aef20e0095",
+            "schematic_fields": {
+              "OwnedTransportIdentity": "owned-global-min-width-v1:J6",
+              "Datasheet": "",
+              "Description": "Project-owned transport diagnostic one-pin terminal"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Project-owned transport diagnostic one-pin terminal",
+              "OwnedTransportIdentity": "owned-global-min-width-v1:J6"
+            }
+          }
+        ],
+        "warning_uuids": [
+          "198cedce-a99b-5b99-8220-1f40e740e439",
+          "9232fd2a-4b39-5763-9275-b096ca9d208a",
+          "ac06cd73-d920-5d03-9967-63fd767b7718",
+          "bdc9d385-5ce9-5c37-a002-98aef20e0095",
+          "dd22012c-f14f-5846-916f-d86bac7673c5",
+          "f0db75ad-598b-5d7e-b67b-aeabcd4b31fc"
+        ],
+        "warning_hashes": [
+          "2a2cb28c2d67c24ca7f5b11ea1520e3af836d03b60df4fa66b5e04100f780cf8",
+          "32dad2d8f544d7352a98edcdd9fe9bf0f374664a3b0e8ff4326dff8b5c9bd19f",
+          "3b743549c722f4574f99c8bd56acd5329c1bc8064a15c94b7a1cf83b577b0f50",
+          "57a5fa0d33d3527457663f84278c998b3328d97c1d0ed0a28abc5f4cfef447ba",
+          "954d4892cedbe8b14d3e36fb61ecae0b200161251aff2fb8f88ad7ccba2a529b",
+          "c7c13f6606454abcf8f32a4e4b55343e941179ee593d45c5e2054a030a37c1ae"
+        ],
+        "native_export_sha256": "904312d0077e77a5e981efed7f10cc2174dcfe3adea7e8c9d0f5312b3d022895",
+        "observer_sha256": "c4a96741656be0fcac11db50a0d84001e0093092f2bc411009c7c173d90b996c",
+        "drc_report_sha256": "7fd2600076e49cdc2f727420e566d4c023f4eb131cf071fd84cc2e07c0dd266a"
+      },
+      "local_settings_guard_sha256": "e1ef29573c1d2921a6da1a35be0923853c24949156b64b86eacef92935409460"
+    }
+  },
+  "fresh_export_native": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 6,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      }
+    ],
+    "findings": [
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J1",
+            "pos": {
+              "x": 12.0,
+              "y": 10.0
+            },
+            "uuid": "ac06cd73-d920-5d03-9967-63fd767b7718"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J2",
+            "pos": {
+              "x": 26.0,
+              "y": 13.0
+            },
+            "uuid": "198cedce-a99b-5b99-8220-1f40e740e439"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J3",
+            "pos": {
+              "x": 12.0,
+              "y": 16.0
+            },
+            "uuid": "f0db75ad-598b-5d7e-b67b-aeabcd4b31fc"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J4",
+            "pos": {
+              "x": 26.0,
+              "y": 16.0
+            },
+            "uuid": "dd22012c-f14f-5846-916f-d86bac7673c5"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J5",
+            "pos": {
+              "x": 12.0,
+              "y": 24.0
+            },
+            "uuid": "9232fd2a-4b39-5763-9275-b096ca9d208a"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J6",
+            "pos": {
+              "x": 26.0,
+              "y": 24.0
+            },
+            "uuid": "bdc9d385-5ce9-5c37-a002-98aef20e0095"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      }
+    ],
+    "field_parity": {
+      "schema": 1,
+      "policy": "datasheet-absence-only-v1",
+      "native_report_sha256": "d11a479e48c5d5ff95990274e3e7e1b1fbdd7e76ed13e8f8f815513e2093404e",
+      "binding_sha256": "7a54c22bc234e386edb2e29ac81ee1036313efc6488d759e9a549bb713ee7a2d",
+      "netlist_sha256": "4606973478cf16d68958d111b3f0d0fe14f25e92b3944b3708976e78a645824c",
+      "fields_sha256": "c3407c0b90fbcdf9a40bec53ad6cab895985391db9ab08bc9e120fe50dfd3a0f",
+      "qualification": {
+        "qualified": true,
+        "policy": "datasheet-effective-empty-v1",
+        "component_count": 6,
+        "compared_field_count": 18,
+        "comparison_map": [
+          {
+            "reference": "J1",
+            "uuid": "ac06cd73-d920-5d03-9967-63fd767b7718",
+            "schematic_fields": {
+              "OwnedTransportIdentity": "owned-global-min-width-v1:J1",
+              "Datasheet": "",
+              "Description": "Project-owned transport diagnostic one-pin terminal"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Project-owned transport diagnostic one-pin terminal",
+              "OwnedTransportIdentity": "owned-global-min-width-v1:J1"
+            }
+          },
+          {
+            "reference": "J2",
+            "uuid": "198cedce-a99b-5b99-8220-1f40e740e439",
+            "schematic_fields": {
+              "OwnedTransportIdentity": "owned-global-min-width-v1:J2",
+              "Datasheet": "",
+              "Description": "Project-owned transport diagnostic one-pin terminal"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Project-owned transport diagnostic one-pin terminal",
+              "OwnedTransportIdentity": "owned-global-min-width-v1:J2"
+            }
+          },
+          {
+            "reference": "J3",
+            "uuid": "f0db75ad-598b-5d7e-b67b-aeabcd4b31fc",
+            "schematic_fields": {
+              "OwnedTransportIdentity": "owned-global-min-width-v1:J3",
+              "Datasheet": "",
+              "Description": "Project-owned transport diagnostic one-pin terminal"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Project-owned transport diagnostic one-pin terminal",
+              "OwnedTransportIdentity": "owned-global-min-width-v1:J3"
+            }
+          },
+          {
+            "reference": "J4",
+            "uuid": "dd22012c-f14f-5846-916f-d86bac7673c5",
+            "schematic_fields": {
+              "OwnedTransportIdentity": "owned-global-min-width-v1:J4",
+              "Datasheet": "",
+              "Description": "Project-owned transport diagnostic one-pin terminal"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Project-owned transport diagnostic one-pin terminal",
+              "OwnedTransportIdentity": "owned-global-min-width-v1:J4"
+            }
+          },
+          {
+            "reference": "J5",
+            "uuid": "9232fd2a-4b39-5763-9275-b096ca9d208a",
+            "schematic_fields": {
+              "OwnedTransportIdentity": "owned-global-min-width-v1:J5",
+              "Datasheet": "",
+              "Description": "Project-owned transport diagnostic one-pin terminal"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Project-owned transport diagnostic one-pin terminal",
+              "OwnedTransportIdentity": "owned-global-min-width-v1:J5"
+            }
+          },
+          {
+            "reference": "J6",
+            "uuid": "bdc9d385-5ce9-5c37-a002-98aef20e0095",
+            "schematic_fields": {
+              "OwnedTransportIdentity": "owned-global-min-width-v1:J6",
+              "Datasheet": "",
+              "Description": "Project-owned transport diagnostic one-pin terminal"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Project-owned transport diagnostic one-pin terminal",
+              "OwnedTransportIdentity": "owned-global-min-width-v1:J6"
+            }
+          }
+        ],
+        "warning_uuids": [
+          "198cedce-a99b-5b99-8220-1f40e740e439",
+          "9232fd2a-4b39-5763-9275-b096ca9d208a",
+          "ac06cd73-d920-5d03-9967-63fd767b7718",
+          "bdc9d385-5ce9-5c37-a002-98aef20e0095",
+          "dd22012c-f14f-5846-916f-d86bac7673c5",
+          "f0db75ad-598b-5d7e-b67b-aeabcd4b31fc"
+        ],
+        "warning_hashes": [
+          "2a2cb28c2d67c24ca7f5b11ea1520e3af836d03b60df4fa66b5e04100f780cf8",
+          "32dad2d8f544d7352a98edcdd9fe9bf0f374664a3b0e8ff4326dff8b5c9bd19f",
+          "3b743549c722f4574f99c8bd56acd5329c1bc8064a15c94b7a1cf83b577b0f50",
+          "57a5fa0d33d3527457663f84278c998b3328d97c1d0ed0a28abc5f4cfef447ba",
+          "954d4892cedbe8b14d3e36fb61ecae0b200161251aff2fb8f88ad7ccba2a529b",
+          "c7c13f6606454abcf8f32a4e4b55343e941179ee593d45c5e2054a030a37c1ae"
+        ],
+        "native_export_sha256": "4606973478cf16d68958d111b3f0d0fe14f25e92b3944b3708976e78a645824c",
+        "observer_sha256": "8f9511cbcf36e2e62a1a1d5c4023ffa532f57e4e37b40a2735fc8276d83d7bd2",
+        "drc_report_sha256": "a003b96e0d77629a51f74bda364b7a16de3e30107bc7ad49ad9ef252298929a8"
+      },
+      "local_settings_guard_sha256": "845c052386494f75863fefb65e904f110a07c388e21a404ed48f91468eae9c4d"
+    }
+  },
+  "metrics": {
+    "version": "10.0.0",
+    "pads": 6,
+    "footprints": 6,
+    "zones": 1,
+    "vias": 0,
+    "track_length_mm": 29.242640687119284,
+    "copper_layers": 2
+  },
+  "route_candidate_sha256": "62118cc732ea553dea76bae6d71e76fead775c237d4e3874a42ead5c7d00a403",
+  "export_candidate_sha256": "62118cc732ea553dea76bae6d71e76fead775c237d4e3874a42ead5c7d00a403",
+  "routing_readback": {
+    "current": true,
+    "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-004/runtime/.runs/qualification-improve-2cu/autorouter-gui-6159c2ca81a54b60b747c0eec7db7c14/route/candidate/owned-global-min-width.kicad_pcb",
+    "candidate_sha256": "62118cc732ea553dea76bae6d71e76fead775c237d4e3874a42ead5c7d00a403",
+    "applied": false,
+    "authentication": "none; mutable local evidence consistency only",
+    "warning": "Fresh native validation is required before application; human PCB review and electrical/physical validation remain required."
+  },
+  "fresh_export_readback": {
+    "current": true,
+    "export_accepted": true,
+    "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-004/runtime/.runs/qualification-improve-2cu/autorouter-gui-6159c2ca81a54b60b747c0eec7db7c14/export/validation/candidate/owned-global-min-width.kicad_pcb",
+    "candidate_sha256": "62118cc732ea553dea76bae6d71e76fead775c237d4e3874a42ead5c7d00a403",
+    "original_routing_receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-004/runtime/.runs/qualification-improve-2cu/autorouter-gui-6159c2ca81a54b60b747c0eec7db7c14/route/result.json",
+    "applied": false,
+    "fresh_native_run_performed_by_check": false,
+    "warning": "Mutable local consistency proof; no authentication, live application, human PCB or electrical/manufacturing approval."
+  },
+  "complete_wall_seconds": 45.94,
+  "complete_CPU_seconds": 39.88,
+  "workflow": {
+    "path": ".runs/runtime-directory-004/runtime/.runs/qualification-improve-2cu/result.json",
+    "sha256": "e1488a875d1a4b610dc9dba097d074adf1f9a9cfe9549d17c40b8cd9807b2d34"
+  },
+  "outer_enclosure": {
+    "path": ".runs/runtime-directory-004/runtime/.runs/enclosure-improve-2cu/execution.json",
+    "sha256": "08f19a712676245d19a84592599b0ea99e1f341f0e5fdd705a654ed41a9d6714"
+  },
+  "outer_time": {
+    "path": ".runs/runtime004-improve-2cu-time.log",
+    "sha256": "acb219ec6dc99c3422ee8a1b2251cad2cc6a4e6413465ccb164a21f501b538eb"
+  },
+  "outer_log": {
+    "path": ".runs/runtime004-improve-2cu-command.log",
+    "sha256": "8369c51b71371547ddce2a37463e400682c499d4fca884b4f7055aa10ef97020"
+  },
+  "controller": {
+    "path": "scripts/qualify_runtime_workflow.py",
+    "sha256": "dad0cff84eb2164cc82f50ccf6703e145c889f5c9bfad7196dd707da39a1bc1e"
+  },
+  "enclosure_controller": {
+    "path": ".runs/run-runtime004-improve-2cu.py",
+    "sha256": "d017600fa4935c5b22fda8399f29ddf67e0f36f1b7fb017fd09bacffe5c8472a"
+  },
+  "route_receipt": {
+    "path": ".runs/runtime-directory-004/runtime/.runs/qualification-improve-2cu/autorouter-gui-6159c2ca81a54b60b747c0eec7db7c14/route/result.json",
+    "sha256": "45bd7db165f45dc8e6ef657885cfed79a8cffca0ded6388f86c418e0c4cd9e59"
+  },
+  "export_receipt": {
+    "path": ".runs/runtime-directory-004/runtime/.runs/qualification-improve-2cu/autorouter-gui-6159c2ca81a54b60b747c0eec7db7c14/export/export.json",
+    "sha256": "9a12d11f1f328d3644704741dcfbbff9e3b2b435e59c7dda8d3a6e8ba20ad805"
+  },
+  "whole_project_clean": false,
+  "limitations": [
+    "Existing Mac/apps/cache, owned diagnostic, fixed path and source manifest0eb; no standalone/relocation/Windows/general routing or speed claim.",
+    "Actual current headless2CuImprove qualification; current4CuImprove remains unqualified, not implied by4CuRoute or this case.",
+    "Native warnings and ignored checks retained; software-test accept intent is not human/electrical approval."
+  ]
+}
