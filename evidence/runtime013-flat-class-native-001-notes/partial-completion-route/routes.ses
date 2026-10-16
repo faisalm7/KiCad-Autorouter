@@ -1,0 +1,139 @@
+(session task
+  (base_design task)
+  (placement
+    (resolution um 10)
+    (component "owned_four_copper_forced_inner_terminal"
+      (place J1 120000 -100000 front 0)
+      (place J2 260000 -100000 back 180)
+      (place J3 120000 -160000 front 0)
+      (place J4 260000 -160000 front 0)
+      (place J5 120000 -240000 front 0)
+      (place J6 260000 -240000 front 0)
+    )
+  )
+  (was_is
+  )
+  (routes 
+    (resolution um 10)
+    (parser
+      (host_cad "KiCad's Pcbnew")
+      (host_version "10.0.0")
+    )
+    (library_out 
+      (padstack "Via[0-3]_800:400_um"
+        (shape
+          (circle F.Cu 8000 0 0)
+        )
+        (shape
+          (circle In1.Cu 8000 0 0)
+        )
+        (shape
+          (circle In2.Cu 8000 0 0)
+        )
+        (shape
+          (circle B.Cu 8000 0 0)
+        )
+        (attach off)
+      )
+      (padstack "Via[0-3]_1200:500_um"
+        (shape
+          (circle F.Cu 12000 0 0)
+        )
+        (shape
+          (circle In1.Cu 12000 0 0)
+        )
+        (shape
+          (circle In2.Cu 12000 0 0)
+        )
+        (shape
+          (circle B.Cu 12000 0 0)
+        )
+        (attach off)
+      )
+      (padstack "Via[0-3]_1000:400_um"
+        (shape
+          (circle F.Cu 10000 0 0)
+        )
+        (shape
+          (circle In1.Cu 10000 0 0)
+        )
+        (shape
+          (circle In2.Cu 10000 0 0)
+        )
+        (shape
+          (circle B.Cu 10000 0 0)
+        )
+        (attach off)
+      )
+    )
+    (network_out 
+      (net ROUTE
+        (via "Via[0-3]_1200:500_um" 246769 -113231
+          (type protect)
+        )
+        (via "Via[0-3]_1200:500_um" 120503 -81101
+          (type protect)
+        )
+        (wire
+          (path In2.Cu 4000
+            120503 -81101
+            214639 -81101
+            246769 -113231
+          )
+          (type protect)
+        )
+        (wire
+          (path B.Cu 4000
+            260000 -100000
+            246769 -113231
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu 4000
+            120000 -100000
+            120000 -81604
+            120503 -81101
+          )
+          (type protect)
+        )
+      )
+      (net GND
+        (via "Via[0-3]_1000:400_um" 242979 -240000
+          (type protect)
+        )
+        (via "Via[0-3]_1000:400_um" 132318 -227682
+          (type protect)
+        )
+        (wire
+          (path In2.Cu 3500
+            132318 -227682
+            230661 -227682
+          )
+          (type protect)
+        )
+        (wire
+          (path In2.Cu 3500
+            230661 -227682
+            242979 -240000
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu 3500
+            260000 -240000
+            242979 -240000
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu 3500
+            132318 -227682
+            120000 -240000
+          )
+          (type protect)
+        )
+      )
+    )
+  )
+)

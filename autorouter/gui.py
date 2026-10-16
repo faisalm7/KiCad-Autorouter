@@ -264,6 +264,8 @@ class Workflow:
             raise ValueError('Action failed or was cancelled. Evidence was retained; no positive state adopted.')
         if process['exit_code'] != 0:
             detail = failed_route_detail(self.workspace / 'route/result.json') if stage == 'route' else None
+            if stage == 'preview' and type(process['exit_code']) is int and process['exit_code'] == 2:
+                detail = failed_preview_detail(log_path)
             if stage == 'verify_export' and process['exit_code'] == 2:
                 detail = failed_export_check_detail(log_path)
             raise ValueError(detail or 'Action failed or was cancelled. Evidence was retained; no positive state adopted.')
@@ -357,6 +359,22 @@ def short_failure_reason(reason):
     if not text: return None
     if len(reason) > FAILURE_REASON_LIMIT: text += ' [detail shortened]'
     return text
+
+
+def failed_preview_detail(path):
+    """Explain the CLI's rejected preview shape without adopting any state."""
+    try:
+        record = read_record(path)
+        if (type(record) is not dict or set(record) != {'status', 'reason'}
+                or record.get('status') != 'rejected'):
+            return None
+        text = short_failure_reason(record.get('reason'))
+        if text is None: return None
+        return ('Saved-project preview refused: ' + text +
+                '\nStart a fresh preview using the intended saved project and settings. No preview or candidate was accepted.' +
+                '\nFull failure log: ' + str(path))
+    except Exception:
+        return None
 
 
 def failed_export_check_detail(path):

@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "accepted": false,
+  "controls_passed": true,
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 83.07125541602727,
+    "cpu_seconds": 66.690436,
+    "max_rss_bytes": 246956032,
+    "supervisor_cpu_seconds": 2.717818,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 250920960,
+    "sampled_peak_workdir_bytes": 80490501,
+    "resource_guards": {
+      "max_group_rss_bytes": 4294967296,
+      "max_workdir_bytes": 268435456,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-013/runtime/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qualify-runtime013-class-controls.py",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-013/runtime",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-013/setup.json"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-013/runtime/.runs/enclosure-class-controls-001/command.log",
+    "log_bytes": 433,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-013/runtime",
+    "signal_cancellation_enabled": true,
+    "pid": 44255
+  },
+  "driver_sha256": "4f2ca9180284baa21c2ed641e5a30e183df70dd495a4617ce49222584c17f2a3",
+  "child_sha256": "0ce1056833f30281f714930edf38cd2a05e0bf428cc4dc7f2ad249f55f6574be"
+}

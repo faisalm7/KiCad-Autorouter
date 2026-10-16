@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "kind": "read-only-GUI013-preview-refusal-presentation-review",
+  "status": "no_material_defect_found_in_reviewed_patch",
+  "findings": [],
+  "source_sha256": {
+    "autorouter/gui.py": "a4a5d71c188c2bf79ffac89f1f5b646c1b50dc4c4e8b033e9a4297c9fc1cb603",
+    "tests/test_gui_preview_refusal.py": "1a516d638db72ef7e8a6370f276e09e6e35fac9b0a989667e9818292ec677736"
+  },
+  "actual_failure_basis": {
+    "log": ".runs/runtime-directory-013/runtime/.runs/gui-session063/jobs/autorouter-gui-ae570113bb784998a66d809fc4b4b1b4/preview.command.log",
+    "sha256": "f995531b4b499214b7e3ecc4e2ed6f7f34c260780c0418d99af3f366ada08b50",
+    "bytes": 234,
+    "process": "preview.command.process.json beside the log",
+    "actual_command": "preview with --purpose improve",
+    "exit_code": 2,
+    "cancel_requested": false,
+    "log_truncated": false,
+    "shape": "Exactly status=rejected and a string reason reporting the schematic netclass_flag support refusal.",
+    "interpretation": "Supports displaying the retained refusal reason. It is an intended unsupported Improve preview, not a failed Native Route or permission to admit that task."
+  },
+  "source_review": [
+    "Only exact integer exit2 at preview selects the new diagnostic. Nonzero outcomes still raise before records/ready/choice adoption.",
+    "Existing source/settings freshness precedes diagnostics; cancellation requests, signal exits and truncated logs skip diagnostic parsing. CliJob live cancellation and the finished callback retain later-cancel precedence.",
+    "Existing bounded strict read_json rejects aliases, oversized input, duplicate keys and nonfinite constants. The new helper requires exactly status/reason and status=rejected; malformed/positive/conflicting shapes fall back to generic refusal.",
+    "Untrusted reason display uses the existing 512-character printable sanitizer and points to the full retained log. No diagnostic value becomes a command, project path, accepted receipt or workflow state.",
+    "The GUI refusal callback clears prior ready/records/choice state and does not open a project. Seven new test methods cover these presentation seams using constructed controls; their success was not asserted by this reviewer."
+  ],
+  "actions": {
+    "source_or_docs_edits": false,
+    "tests_or_Native_or_JVM_or_GUI_or_CI_executed": false,
+    "delegated": false,
+    "only_write": ".runs/gui013-preview-refusal-review-001.json"
+  },
+  "limits": "Source and retained-log review only. No new GUI observation, cancellation execution, Native qualification or test-pass claim."
+}

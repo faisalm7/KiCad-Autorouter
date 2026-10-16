@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "kind": "read-only-skeptical-Windows005-gate-assessment",
+  "Native_executed": false,
+  "JVM_executed": false,
+  "CI_dispatched": false,
+  "source_changed": false,
+  "decision": "Defer another Native/JVM attempt; a finite transport-only denial probe may diagnose but cannot alone qualify every-profile/whole-subtree denial.",
+  "gate": {
+    "path": "scripts/windows_native_slice/firewall_gate.ps1:14",
+    "test": "[string]$r.EnforcementStatus -ne 'Full'",
+    "actual_first_inbound": [
+      "ProfileInactive",
+      "Enforced"
+    ],
+    "outbound_and_universal_filter_reached": false,
+    "CIM_type": "uint16[]",
+    "Full": 1,
+    "InactiveProfile": 5,
+    "array_profile_mapping": "undocumented; containsEnforced or set{1,5} is insufficient"
+  },
+  "descendant_gap": "windows_process.run firewall callback checks initial executable; Job Object membership alone does not deny network for differently named children.",
+  "bounded_probe": "<=120seconds, no KiCad/JRE install: observe service/active profiles/connections/numericCIMtypes; fresh owned rules; positive before/blocked after/restored controls for IPv4/IPv6 when independently reachable; same/different exe children; actual JobObject cancellation/zero descendants; remove only ownedrules and verify global profiles unchanged. Unknown connectivity is not denial. No fabricated callback success.",
+  "unmet": "Inactive/future profiles and controlled external inbound delivery; actual Windows export/route/import/refill/validate/cancel/export remains unqualified. No safeguards waived.",
+  "permissions_refresh": [
+    "repos/faisalm7/KiCad-Autorouter",
+    "repos/faisalm7/KiCad-Autorouter/actions/permissions",
+    "repos/faisalm7/KiCad-Autorouter/actions/permissions/workflow",
+    "repos/faisalm7/KiCad-Autorouter/actions/workflows/380332367"
+  ],
+  "cost": "Previous005 public/windows-2022/contentsread/noartifact/no cache/$0 status is historical, not freshpermission/billingCPU evidence. Refresh exactworkflowSHA/visibility/standardrunner beforedispatch.",
+  "primary_sources": [
+    "https://learn.microsoft.com/en-us/windows/win32/fwp/wmi/wfascimprov/msft-netfirewallrule",
+    "https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fasp/4767a26e-0687-4c4f-ad94-8de700e5cf83",
+    "https://docs.github.com/en/actions/reference/runners/github-hosted-runners"
+  ],
+  "review": "One narrowly tasked separate AI source/evidence review; not humanreview or execution."
+}

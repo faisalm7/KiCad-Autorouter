@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "accepted": false,
+  "control_passed": true,
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 4.855898291978519,
+    "cpu_seconds": 3.341625,
+    "max_rss_bytes": 242401280,
+    "supervisor_cpu_seconds": 0.256403,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 185090048,
+    "sampled_peak_workdir_bytes": 80780535,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 134217728,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-013/runtime/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qualify-runtime013-class-invalid.py",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-013/runtime",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-013/setup.json"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-013/runtime/.runs/enclosure-class-invalid-001/command.log",
+    "log_bytes": 60,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-013/runtime",
+    "signal_cancellation_enabled": true,
+    "pid": 44943
+  },
+  "driver_sha256": "7b71bf9a9689d8ac35cfd6e82ece813a5f85ba31239b181bdd3d691030d4cd5c",
+  "child_sha256": "82fcf7530c802e30dc8e995fe37f73a590dd61e73823d84ffd26aa97d3a9ea8e"
+}

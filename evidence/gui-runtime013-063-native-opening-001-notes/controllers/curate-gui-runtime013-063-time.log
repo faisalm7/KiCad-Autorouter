@@ -1,0 +1,17 @@
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/curate-gui-runtime013-063.py", line 33, in <module>
+    proof=classes.check(folder,data,'final',board_raw=pc.read_bytes(packet/candidate.name),source=str(candidate),project_raw=pc.read_bytes(packet/candidate.with_suffix('.kicad_pro').name),schematic_raw=pc.read_bytes(packet/candidate.with_suffix('.kicad_sch').name),native_map=folder/'final-netclasses.json')
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-013/runtime/autorouter/schematic_class_evidence.py", line 298, in check
+    proof = _rederive(directory, data, stage, board_raw=board_raw, source=source,
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-013/runtime/autorouter/schematic_class_evidence.py", line 225, in _rederive
+    _companions(source, project_raw, schematic_raw)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-013/runtime/autorouter/schematic_class_evidence.py", line 193, in _companions
+    _fail('current original candidate companions changed')
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-013/runtime/autorouter/schematic_class_evidence.py", line 29, in _fail
+    raise ValueError('schematic class evidence: ' + message)
+ValueError: schematic class evidence: current original candidate companions changed
+real 2.27
+user 1.80
+sys 0.34
