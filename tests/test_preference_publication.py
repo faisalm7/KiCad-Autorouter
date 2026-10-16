@@ -105,7 +105,7 @@ class PreferencePublicationTests(unittest.TestCase):
 
         with ExitStack() as stack:
             replacements = [('Job', FakeWorkerJob), ('sha', lambda path: c.JAR_SHA256 if Path(path) == c.JAR else original_sha(path)),
-                            ('check_storage', lambda: None), ('tool_manifest', metadata),
+                            ('check_storage', lambda **kwargs: None), ('tool_manifest', metadata),
                             ('validate_candidate', validation), ('native_rejection_reasons', lambda native: []),
                             ('native_accepted', lambda native: True), ('check_result', checker), ('save_json', save)]
             for name, value in replacements: stack.enter_context(patch.object(p, name, value))

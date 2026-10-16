@@ -62,7 +62,7 @@ class Harness:
      if owner.mode=='publish_code_stale':owner.changed=True
      if owner.mode=='publish_cpu_cap':owner.advance(parent=121)
      if owner.mode=='publish_wall_cap':owner.advance(wall=121)
-  with patch.dict(sys.modules,{'autorouter.thermal':thermal}),patch.object(r.time,'monotonic',lambda:owner.clock),patch.object(r.time,'process_time',lambda:owner.parent),patch.object(r,'child_cpu',lambda:owner.child),patch.object(p,'Job',FakeJob),patch.object(p,'tool_manifest',manifest),patch.object(p,'check_storage',lambda:None),patch.object(p,'preflight',lambda path:sx.read(path)),patch.object(p,'route',owner.baseline),patch.object(p,'validate_candidate',owner.validate),patch.object(p,'check_result',owner.check),patch.object(p,'save_json',save):
+  with patch.dict(sys.modules,{'autorouter.thermal':thermal}),patch.object(r.time,'monotonic',lambda:owner.clock),patch.object(r.time,'process_time',lambda:owner.parent),patch.object(r,'child_cpu',lambda:owner.child),patch.object(p,'Job',FakeJob),patch.object(p,'tool_manifest',manifest),patch.object(p,'check_storage',lambda **kwargs:None),patch.object(p,'preflight',lambda path:sx.read(path)),patch.object(p,'route',owner.baseline),patch.object(p,'validate_candidate',owner.validate),patch.object(p,'check_result',owner.check),patch.object(p,'save_json',save):
    return r.recover(owner.source,owner.out,120)
 
 class Controls(unittest.TestCase):

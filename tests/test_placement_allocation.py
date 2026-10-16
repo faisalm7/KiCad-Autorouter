@@ -92,7 +92,7 @@ class AllocationControls(unittest.TestCase):
             return {'steps':[],'accepted':False,'status':'drc_rejected','reason':'declared synthetic incumbent rejection'}
         tools={'implementation_sha256':{}}
         with ExitStack() as stack:
-            for target,name,value in [(f,'FloorJob',job),(p,'check_storage',lambda:None),(p,'preflight',lambda _:[]),
+            for target,name,value in [(f,'FloorJob',job),(p,'check_storage',lambda **kwargs:None),(p,'preflight',lambda _:[]),
                 (ps.pc,'narrow_source',lambda _:None),(ps.pc,'inventory',lambda _:{}),(ps.pc,'evidence_inventory',lambda _:{}),
                 (p,'tool_manifest',lambda:tools),(f,'route',failed),(f,'publish',lambda out,report,*_:report)]:stack.enter_context(patch.object(target,name,value))
             stack.enter_context(patch.object(ps.time,'monotonic',return_value=0.));stack.enter_context(patch.object(ps.time,'process_time',return_value=0.));stack.enter_context(patch.object(f,'child_cpu',return_value=0.))
@@ -132,7 +132,7 @@ class AllocationControls(unittest.TestCase):
                     # and accepted final publication. Failed compute remains in trial.json.
                     clock.update(wall=99.,cpu=109.);raise p.Rejected('deliberate pure first-attempt callback rejection')
                 with ExitStack() as stack:
-                    replacements=[(f,'FloorJob',job),(p,'check_storage',lambda:None),(p,'preflight',lambda _:copy.deepcopy(original)),
+                    replacements=[(f,'FloorJob',job),(p,'check_storage',lambda **kwargs:None),(p,'preflight',lambda _:copy.deepcopy(original)),
                         (ps.pc,'narrow_source',lambda _:None),(p,'tool_manifest',lambda:{'implementation_sha256':{}}),
                         (f,'route',own_incumbent),(p,'check_result',lambda *_:{'current':True}),
                         (p,'validate_candidate',validation),(ps.time,'monotonic',lambda:clock['wall']),

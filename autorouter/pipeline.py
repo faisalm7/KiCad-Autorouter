@@ -176,16 +176,28 @@ def tree_hash(root):
             result[str(path.relative_to(root))]=sha(path)
     return result
 
-def check_storage():
-    # Fresh full accepted-state scan: no cache or omitted retained evidence.
-    # Retained native evidence plus the separately signed official KiCad copy
-    # exceeded the initial 10 GiB operational default. Keep all three scopes
-    # under a finite 18 GiB aggregate; routing and per-worker limits are unchanged.
+def check_storage(*, active_root=None):
+    """Fresh logical-size/headroom guard for active work, or explicit archive audit.
+
+    Runtime callers pass their exact job root. Retained research is not part of
+    a running job and is neither required nor traversed. The no-argument form
+    preserves the separate finite 18 GiB archive audit for setup/research tools.
+    This is a sampled guard, not a filesystem quota or hostile-writer sandbox.
+    """
     limit=18*1024**3; total=0; deadline=time.monotonic()+15.0
-    for directory in ['.data','.tools','.runs']:
+    volume=c.ROOT
+    if active_root is None:
+        scopes=[c.ROOT/name for name in ('.data','.tools','.runs')]
+    else:
+        from .local_settings import canonical
+        root=canonical(Path(active_root).absolute())
+        if root in (c.ROOT,*[c.ROOT/name for name in ('.data','.tools','.runs')]) or root==Path(root.anchor):
+            raise Rejected('active storage guard requires an individual job root')
+        scopes=[root];volume=root
+        while not volume.exists():volume=volume.parent
+    for root in scopes:
         remaining=deadline-time.monotonic()
         if remaining<=0:raise Rejected('project cache/data size scan exceeded time bound')
-        root=c.ROOT/directory
         try:
             try:os.lstat(root)
             except FileNotFoundError:continue  # Only an initially absent top-level scope.
@@ -193,9 +205,10 @@ def check_storage():
                                  max_seconds=remaining,count_file_symlinks=True)
         except (OSError,RuntimeError) as exc:
             raise Rejected('project cache/data size scan failed: '+str(exc)) from exc
-        if total>limit:raise Rejected('18 GiB project cache/data ceiling exceeded')
+        if total>limit:raise Rejected('18 GiB '+('project cache/data' if active_root is None else 'active job')+' ceiling exceeded')
     if time.monotonic()>deadline:raise Rejected('project cache/data size scan exceeded time bound')
-    if shutil.disk_usage(c.ROOT).free<2*1024**3:raise Rejected('less than 2 GiB disk headroom')
+    if shutil.disk_usage(c.ROOT).free<2*1024**3 or (volume!=c.ROOT and shutil.disk_usage(volume).free<2*1024**3):
+        raise Rejected('less than 2 GiB disk headroom')
     return total
 
 def immutable(tree):
@@ -1872,7 +1885,7 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
             raise Rejected('unsupported: fanout override requires derived non-strict class/width targets')
     if not math.isfinite(seconds) or seconds<5 or seconds>900: raise Rejected('budget must be 5–900 seconds')
     if sha(c.JAR)!=c.JAR_SHA256: raise Rejected('engine hash mismatch')
-    check_storage()
+    check_storage(active_root=output)
     job=Job(output,seconds,protect_local_settings=True,**({'native_toolchain':native_toolchain,
         'experimental_schematic_parity':experimental_schematic_parity} if native_toolchain is not None else {}))
     job.started=operation_started; job.deadline=operation_started+seconds; job.cpu_started=operation_cpu

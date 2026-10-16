@@ -100,7 +100,7 @@ def _recover(source, output, seconds):
             report["whole_project_drc_clean"] = False
 
     try:
-        p.check_storage()
+        p.check_storage(active_root=output)
         hashes = p.tree_hash(source.parent)
         original = p.preflight(source)
         protected = copy.deepcopy([r for r in p.routes(original) if p.locked(r)])

@@ -771,7 +771,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
         report["checkpoints"].append(name)
 
     try:
-        p.check_storage()
+        p.check_storage(active_root=output)
         source_hashes = p.tree_hash(source.parent)
         original = p.preflight(source,task_scope=(effective['scope'],effective['guidance'],effective['layers']))
         if incumbent_options is not None:
@@ -848,7 +848,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
                 last_attempt_skip = 'duplicate_attempt'
                 return False
             original_fresh(source, snapshot, source_hashes)
-            p.check_storage()
+            p.check_storage(active_root=output)
             # Source/storage inspection consumes the same wall and CPU budget.
             allowance = min(MAX_TRIAL_SECONDS, remaining_work_budget())
             if allowance < MIN_TRIAL_SECONDS:

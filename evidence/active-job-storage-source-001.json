@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "kind": "active-job-storage-source-and-targeted-controls",
+  "native_qualified": false,
+  "installed_qualified": false,
+  "policy": "active-job-fresh-storage-v1",
+  "legacy_archive_audit_retained": true,
+  "original_native_acceptance_unchanged": true,
+  "before": {
+    "bytes": 18418334392,
+    "wall_seconds": 9.525445458013564,
+    "parent_cpu_seconds": 4.509377
+  },
+  "after": {
+    "bytes": 94245,
+    "wall_seconds": 0.027939709019847214,
+    "parent_cpu_seconds": 0.021657999999999997
+  },
+  "profile_limitations": "Different scopes; no end-to-end speedup or routing-quality claim.",
+  "source_sha256": {
+    "autorouter/pipeline.py": "422bd461eef5f3791612586d3d2f16227c207925a2eac1302d1695a69d430493",
+    "autorouter/floor_route.py": "78d684e09edb1ec1816d4385b6d0f67dc34d54bf40cbe1e41bf77348a0c99b8f",
+    "autorouter/strategy.py": "8a9ef351ff51df414245977d53cf68422d82fe4f9c94ccd8305c7025de073ea3",
+    "autorouter/placement_strategy.py": "b2bee86ef41c5f98e38a0c0f60fdd1bd9148346644f72c7d754de333bd52d25d",
+    "autorouter/recovery.py": "871f5f52cdb6932464b9ed3f2846c3ae7e257bbc04ddf87b6eba49450596c2b9",
+    "tests/test_active_storage.py": "c5913a3cd9fb3e9a00e26fd487fd645c9ed53c6a6edc741623a128cd2b5c6529",
+    "tests/test_storage_scan.py": "1adc7e5c12b84689ec0966b4ad0369c84cb4d99641955150db3fcb0a981b0a68"
+  },
+  "targeted": {
+    "passed": true,
+    "methods": 131,
+    "complete_supervised_wall_seconds": 6.536365541978739,
+    "cpu_seconds": 5.946817,
+    "raw_execution": ".runs/active-storage-targeted-001/execution.json",
+    "raw_execution_sha256": "9cb4a4840d391a13366d91726b59b7317d93665b9d136ba2c0090900a3523f6d"
+  },
+  "remaining_gate": "Skeptical review and full/native/installed/graphical integration after final source freeze."
+}

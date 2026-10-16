@@ -434,7 +434,7 @@ def _route(source,output,seconds,profile,guidance_policy=POLICY,preferences=None
         if search:
             p.save_json(output/'placement-search.json',search_parameters)
             report['placement_search']={'file':'placement-search.json','sha256':p.sha(output/'placement-search.json')}
-        p.check_storage()
+        p.check_storage(active_root=output)
         hashes=pc.placement.inventory(pc.files(source.parent)) if new_policy else p.tree_hash(source.parent)
         original=p.preflight(source)
         if p.netclass_policy(source) is not None:raise p.Rejected('unsupported: floor policy requires one Default class')

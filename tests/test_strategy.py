@@ -132,7 +132,7 @@ class StrategyControlFlowTests(unittest.TestCase):
         real_save = p.save_json
         real_copytree = shutil.copytree
 
-        def storage():
+        def storage(**kwargs):
             if (owner.output / "incumbent/result.json").exists():
                 owner.clock += owner.trial_storage_advance
                 owner.process_cpu += owner.trial_storage_cpu_advance

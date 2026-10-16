@@ -1,0 +1,66 @@
+# Windows portability and CI feasibility
+
+Assessment on 2026-10-15 Pacific time (2026-10-16 UTC). Windows routing is **unqualified**. Current Mac evidence does not establish Windows installation, cancellation, Native validation or GUI behavior. No Windows process, CI job, Native/JVM command, installer or dependency upgrade ran for this assessment; no repository/account settings changed.
+
+The smallest useful port is one project-owned, two-copper, complete-schematic route through the existing corrected adapter, pinned Freerouting and original-rule Native checks, followed by safe review/export. It needs platform adapters before an end-to-end Windows run. Changing paths or adding a workflow matrix alone is insufficient.
+
+## Confirmed hosting and repository permissions
+
+Official GitHub documentation says standard hosted runners are free for public repositories, including standard Windows and macOS labels. Larger runners are charged even for public repositories. The current standard public Windows x64 image has 16GB RAM/14GB SSD; use a fixed available label such as `windows-2022`, not a larger runner. Keep caches/artifact storage out of the initial probe; job logs suffice for small pure controls. This does not authorize paid services or imply unlimited storage. [GitHub billing](https://docs.github.com/en/billing/concepts/product-billing/github-actions), [runner specifications](https://docs.github.com/en/actions/reference/runners/github-hosted-runners).
+
+Read-only `gh api` observations for `faisalm7/KiCad-Autorouter`:
+
+| Endpoint / observation | Actual result |
+| --- | --- |
+| Repository | public; not archived/disabled; default branch `rebuild/local-20261010-015447` |
+| Authenticated repository permissions | admin, maintain, push, pull and triage all true |
+| `/actions/permissions` | enabled=true; allowed_actions=all; sha_pinning_required=false |
+| `/actions/permissions/workflow` | default_workflow_permissions=read; can_approve_pull_request_reviews=false |
+| Sanitized OAuth response header | repo and workflow scopes present; no credential displayed |
+| `/actions/workflows` | active “Manual pure Python controls”, ID380332367, `.github/workflows/manual-python-controls.yml` |
+| `/actions/runs` | total_count=0 |
+
+There is **no demonstrated repository Actions/credential permission blocker**. Read-only workflow permissions are sufficient for checkout/test jobs; do not increase them. Manual dispatch requires write access and a workflow present on the default branch, both observed for the existing workflow. A future new Windows workflow still must be reviewed and committed to that branch before dispatch. This assessment did not dispatch it. [Official dispatch requirements](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/manually-run-a-workflow).
+
+Current YAML is manual-only, `contents: read`, pinned checkout with persisted credentials disabled, Ubuntu24.04 and five-minute timeout. It runs adapter, validation and handoff modules. Do not just replace Ubuntu with Windows: validation/handoff import Unix-only `resource`. A first genuinely portable, separate manual job can run `python -B -m unittest tests.test_netclass_native -v`, whose source imports only the scalar observer and Python standard library. That would establish only software controls on that host. It has not run remotely. No CAD, cached engine, credentials or local run tree should be uploaded for it.
+
+## Official KiCad availability
+
+The official Windows page currently offers signed KiCad10.0.7 installers for x86-64 and arm64, supports Windows10/11, describes signer verification and links older stable releases. It does not advertise a portable package; a supported project-local portable extraction and silent-install flags were **not verified**. Do not substitute an unofficial portable repack. [KiCad Windows downloads](https://www.kicad.org/download/windows/).
+
+The current ordinary pipeline pins KiCad10.0.0. First qualify an official Windows10.0.0 distribution if the linked archive supplies it, retaining installer/signature/runtime hashes. Exact archived asset availability, installer size, bundled Python/pcbnew ABI and installation path remain unverified. Windows10.0.7 instead requires explicit version/toolchain qualification; the existing Mac10.0.7 proof does not qualify Windows binaries. Do not change the checker’s expected version to match whatever is installed.
+
+Official KiCad10 documentation exposes CLI refill/full-schematic DRC and pcbnew Specctra export/import APIs. Those support the intended transport shape, but cannot establish a specific Windows build/ABI or the project’s preservation invariants. Reuse the current SES filtering/import reconciliation, not an assumed new CLI SES command. [KiCad CLI](https://docs.kicad.org/10.0/en/cli/cli.html), [pcbnew API](https://docs.kicad.org/doxygen-python-10.0/namespacepcbnew.html).
+
+## Concrete source blockers and minimal adapters
+
+| Existing code | Windows requirement, preserving the contract |
+| --- | --- |
+| `config.py:4–10`, `resolve_tool_path:20`; `pipeline.tool_manifest:1202` | Explicit per-platform tool profile for CLI, KiCad’s matching Python/pcbnew module, Java and same pinned JAR. Windows paths/`.exe`/`.pyd` and actual versions/hashes must be observed. Normalize manifest-relative separators without accepting escaping/aliased drive, UNC or device paths. Preserve default Mac profile and actual argv evidence. |
+| `pipeline.py:17`, `handoff.py:5`, `floor_route.py:12` | Replace unconditional resource imports/accounting with one typed platform provider. `resource` is Unix-only. Preserve complete parent plus exited-descendant CPU, units, bounds and limitations rather than recording zero. [Python resource](https://docs.python.org/3/library/resource.html). |
+| `runner.py:31–96,285–415` | A Windows backend for ownership, launch, pipe draining, cancellation, resource accounting and cleanup. Current code requires directory descriptors/O_NOFOLLOW, wait4, killpg and Unix pipe selectors, and explicitly refuses Windows at346. Windows selectors do not support pipes. [Python selectors](https://docs.python.org/3/library/selectors.html). |
+| `local_settings.py:22–47,81–95` | Windows-specific owned PRL protection and exact reader marker; BSD immutable flags are unavailable. A prospective CreateFileW read handle allowing read sharing but denying write/delete sharing can protect the exact PRL while Native reads it. Verify file ID/link/reparse identity, replacement/rename/write refusal, retained bytes and release only after confirmed child cleanup. This is an untested design, not an equivalent qualified guard yet. Do not use the read-only attribute as an immutable substitute or forge Mac flag events. [Microsoft sharing modes](https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilew). |
+| `placement_clearance.read_bytes:26`, `handoff` ownership/publication; installer flock | Handle-based bounded reads rejecting Windows reparse points/junctions, link aliases and replacement races; an exclusive owned-file lock for the shared lane; tested atomic publication and failed-write invalidation. Preserve canonical directory/file identities, entry/byte/depth/time caps and late source/PRL/material checks. |
+| `pipeline.engine_argv:1584`, `floor_route.SANDBOX:25`, review-export prefixes | An explicit, tested Windows worker network-denial mechanism with exact command/proof replay. Job Objects alone do not deny network. A no-network-capability AppContainer with narrowly granted scratch/tool access is a candidate, not established KiCad/Java compatibility. Do not drop sandbox prefixes, enable network silently or edit global firewall policy. [Microsoft AppContainer isolation](https://learn.microsoft.com/en-us/windows/win32/secauthz/appcontainer-isolation). |
+| `scripts/install_smoke.py:316,364–365` | Preserve the Mac installer test; add a Windows profile/companion using `Scripts/python.exe`, independent project venv and fixed Windows tool pins. The current script explicitly requires Darwin/Python3.11 and uses fcntl and Mac sandbox paths. |
+
+For the runner, Windows Job Objects provide a concrete implementation route: create the child suspended, assign it to an owned job before resuming, prohibit breakaway, request kill-on-close, bound logs/output/RSS/time, cancel the whole job and confirm zero active processes. Obtain exited-process CPU from job accounting and parent CPU separately; avoid nested-job double charging. Overlapped pipes or a bounded reader thread replace Unix selector pipes. Nested jobs and GitHub runner integration need actual controls. None is implemented here. [Microsoft Job Objects](https://learn.microsoft.com/en-us/windows/win32/procthread/job-objects).
+
+## One finite Windows vertical slice
+
+Use newly authored bytes from `experiments/native_schematic_transport_v1/fixture.py`: two copper layers, six components, complete embedded flat schematic, original.25mm minimum/.30mm Default width, one locked KEEP segment, unfilled ordinary GND zone and owned PRL. Freeze the four files before use; never convert or repair a retained source. Its historical naming includes1007, but this proposal uses only the explicitly pinned, newly qualified Windows toolchain.
+
+1. Qualify Windows process/PRL/network/path adapters with real refusal, descendant cancellation/timeout, log flood, stale source, reparse replacement and failed-publication controls. No accepted route is possible while any adapter is unavailable.
+2. In one owned output, call existing `p.route(source, out, 120, False, 'both', 'tuned', scoring_variant='via_default')` through the new platform provider. Preserve snapshot→original DRC→mapped DSN/classes→same JAR/strict settings→SES→fixed-placement route-only import→saved refill→immutable/protected checks→final fullSCH/rules/field proof→metrics/hash/readback. Use an180s complete outer and finite128MiB/2GiB/256KiB bounds; charge setup and complete exit/publication costs separately and honestly. These are prospective limits, not measured Windows feasibility.
+3. Require an actual same-original physical-short negative; cancellation must leave no accepted/applicable result and no descendants. Check original source/PRO/SCH/rules/PRL/KEEP unchanged and accepted candidate/report identity. Retain all warnings/ignored checks.
+4. Reuse `settings-init`/`preview`, `review-copy --render`, accept/reject intent and fresh `review-export`/`review-export-check` on a separate project. Bind plots/export to candidate hashes and full Native validation. Test reject/no export and mid-operation cancel. Persistent preferences stay explicit/project-local. GUI editor application/undo/human PCB approval remains a separate untested gate.
+
+This yields one Windows CLI and safe external-review integration result, not a board-family gain or generalized routing improvement. The practical first implementation is the typed process/filesystem/PRL/network boundary plus this owned fixture, not a parallel Windows router. Installer fit within hosted disk capacity and noninteractive KiCad/Python startup are additional measured gates; do not copy the Mac `.runs`/backup corpus into a runner.
+
+## Inspection record
+
+Read-only work occurred on Darwin in `/Users/faisal/Projects/KiCad-Autorouter-local`. Primary web sources above were retrieved2026-10-15 Pacific/2026-10-16 UTC; provider pages are observations at retrieval, not a guarantee of later availability. No binaries downloaded, CI dispatched, settings changed or spending incurred. HTTP payload/CPU totals were not instrumented.
+
+Assessment interval2026-10-16 04:55:57–04:59:29 UTC:212seconds wall. This is source/API/web assessment time, not Windows test or build time.
+
+Inspected source SHA256: runner `050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e`; config `0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8`; pipeline `5c9026ea36d5c9d5fc4e4f0a1682abaf20fa0593baaa1cc74ae39610e991e669`; local_settings `a2ab6296b637ace500f1cdbdd62de0cd9c1803cfc17e38906ced497c1aef21c8`; handoff `34fe447ceea0c1b2a108b611b38f129a740d248dffeeadfa52839a407cbfd98b`; review_export `698dc66682416579c3d44b571dce0c0ed7102244adb0cff38dceeeca0ea1489c`; install_smoke `e5a14b9adfce5e92ce4e998e1635fd6f3cf371419752c07d82539766b0991ae7`; manual workflow `cd38b496e5da21b8b007e84da0abfba51c91afa3ffd06f3101f63f7934912adf`.

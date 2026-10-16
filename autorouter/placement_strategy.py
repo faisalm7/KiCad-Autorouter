@@ -310,7 +310,7 @@ def _prune(source,output,seconds,*,allocation=LEGACY_ALLOCATION):
         if remaining()<=0:report.update(accepted=False,status='budget_exceeded')
         if not report['accepted']:report['whole_project_drc_clean']=False
     try:
-        p.check_storage();hashes=pc.inventory(source.parent);original=p.preflight(source);pc.narrow_source(original)
+        p.check_storage(active_root=output);hashes=pc.inventory(source.parent);original=p.preflight(source);pc.narrow_source(original)
         if any(p.locked(x) for x in p.routes(original)):raise p.Rejected('unsupported: placement pruning excludes protected routing')
         report.update(source_hashes=hashes,tools=p.tool_manifest());shutil.copytree(source.parent,output/'snapshot');(output/'code').mkdir()
         report['schematic_parity']=p.parity_declaration(source,hashes)
