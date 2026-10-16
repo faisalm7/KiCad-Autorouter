@@ -1,0 +1,95 @@
+{
+  "schema": 1,
+  "kind": "runtime010-incremental-capture-and-actual-delta-integrity",
+  "integrity_checked": true,
+  "full_restoration_tested": false,
+  "source_head": "8250c18e64431cb62a8e75fc0a8136db84c5b58e",
+  "receipt": ".local-backups/checkpoint-20261016T204252Z-bf3c31d6a258413e8f420fbaec1756f5/receipt.json",
+  "receipt_sha256": "44f2592e97fd0e197e4d141f10279e03c17620f2dec6888854d11bef84fafb11",
+  "receipt_bytes": 104560151,
+  "files": 348483,
+  "logical_bytes": 12889321501,
+  "delta_files": 45070,
+  "delta_logical_bytes": 2530326181,
+  "archive": {
+    "name": "non-git.tar.gz",
+    "sha256": "ae208800d6c90c679abb7a84fdc3afb68996269e724144f95852cac0837efbdc",
+    "size": 1728244294
+  },
+  "bundle": {
+    "name": "repository.bundle",
+    "sha256": "4bbaab7ef0f46919b42e7ba3e4db9541739e9e475c2a3a9a47bba05da45aeb58",
+    "size": 27422970
+  },
+  "parent": {
+    "name": "checkpoint-20261015T181606Z-b9d396079eb4422f9ba8aee6b1a85b28/receipt.json",
+    "sha256": "82dff0759a5a9ec89b23ee34f3f5330bd847a6f3fd65aeca5b3079db7c1787b3"
+  },
+  "chain_length": 2,
+  "capacity": {
+    "logical_bytes": 13153337344,
+    "file_and_directory_count": 350000,
+    "receipt_bytes": 104857600,
+    "aggregate_chain_receipt_bytes": 201326592
+  },
+  "external_cost": {
+    "wall_seconds": 416.93,
+    "full_cpu_seconds": 339.42
+  },
+  "headroom": {
+    "schema": 1,
+    "receipt": ".local-backups/checkpoint-20261016T204252Z-bf3c31d6a258413e8f420fbaec1756f5/receipt.json",
+    "receipt_sha256": "44f2592e97fd0e197e4d141f10279e03c17620f2dec6888854d11bef84fafb11",
+    "source_head": "8250c18e64431cb62a8e75fc0a8136db84c5b58e",
+    "target_files": 348483,
+    "target_logical_bytes": 12889321501,
+    "delta_files": 45070,
+    "delta_logical_bytes": 2530326181,
+    "receipt_bytes": 104560151,
+    "aggregate_receipt_bytes": 182520005,
+    "free_bytes": 15863050240,
+    "minimum_new_restore_payload_bytes": 15419647682,
+    "remaining_before_allocation_overhead_bytes": 443402558,
+    "operational_free_reserve_bytes": 3221225472,
+    "full_restoration_admitted": false,
+    "kind": "read-only-capacity-check-not-restoration",
+    "limitations": "Payload planning is a lower bound; filesystem allocation, bundle checkout and directory metadata need additional space. No restored files created. Do not delete evidence or repeat completed008restore."
+  },
+  "initial_refusal": "evidence/backups/runtime010-byte-capacity-source-001.json",
+  "previous_completed008_restoration_repeated": false,
+  "new_target_full_restoration_gate": "Insufficient safe disk headroom: only443402558bytes beyond target+retained delta payload, before allocation overhead. No new full restoration attempted; finite capacity change not fully restore-qualified.",
+  "cutoff": "Source8250c18e with010/061/full143 and prospectiveNetTie source. Closure and later Native results are not retroactively captured.",
+  "limitation": "On this Mac only by owner choice; no disk-failure protection. GitHub source checkpoint separately verified. Full008restoration remains valid for its historical target.",
+  "files_evidence": [
+    {
+      "path": "evidence/backups/runtime010-incremental-integrity-001-notes/integrity.json",
+      "bytes": 606,
+      "sha256": "5796c654324c04f849cee60378878e7075d7bad9bf4571db3dfc4ca6c8f940d7"
+    },
+    {
+      "path": "evidence/backups/runtime010-incremental-integrity-001-notes/capture-execution.json",
+      "bytes": 2961,
+      "sha256": "b3354888043016b1ca4eea6efc6938f9b3ae0268f5ffe49115616286faafd731"
+    },
+    {
+      "path": "evidence/backups/runtime010-incremental-integrity-001-notes/capture-command.log",
+      "bytes": 482,
+      "sha256": "3890332ba5e7159fd8abc284d5054e4979d0f7be905f05988fca3d51c008ea54"
+    },
+    {
+      "path": "evidence/backups/runtime010-incremental-integrity-001-notes/capture-time.log",
+      "bytes": 34,
+      "sha256": "92ad9dc65bebd53b1032c8dc1de2bb481c1fa2bbcad17fdfaea514218d04d6a6"
+    },
+    {
+      "path": "evidence/backups/runtime010-incremental-integrity-001-notes/capture-controller.py",
+      "bytes": 1949,
+      "sha256": "ca91e6a681f662c394b5b1947a231744f01a2fca50c180d91a64abf000b0faa8"
+    },
+    {
+      "path": "evidence/backups/runtime010-incremental-integrity-001-notes/headroom.json",
+      "bytes": 969,
+      "sha256": "a02fc7cefa9b781f35b0c67ea30ef4bf991412d175aa79a7375c6d16934151e4"
+    }
+  ]
+}
