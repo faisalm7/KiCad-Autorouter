@@ -20,6 +20,111 @@ import uuid
 from . import config as c, preferences as pref
 
 LOG_LIMIT = 2 * 1024 * 1024
+SUMMARY_LIMIT = 128 * 1024
+
+
+def human_summary(stage, record, *, receipt_path=None, findings_receipt_path=None):
+    """Presentation only; existing CLI validation and original receipts remain authoritative."""
+    title = {'preview': 'Saved-project preview', 'route': 'Routing result',
+             'review': 'Disposable review project', 'choice': 'Review intent',
+             'export': 'Fresh separate-project export', 'verify_export': 'Export readback'}.get(stage, stage)
+    status = str(record.get('status', 'current' if record.get('current') is True else 'not reported')).replace('_', ' ')
+    lines = [title, 'Status: ' + status]
+    if receipt_path is not None: lines += ['Full workflow receipt: ' + str(receipt_path)]
+    if findings_receipt_path is not None: lines += ['Full findings receipt: ' + str(findings_receipt_path)]
+    if record.get('source'): lines += ['Original saved PCB: ' + str(record['source'])]
+    project = record.get('project_file') or record.get('review_project')
+    if project: lines += ['Separate project: ' + str(project)]
+    if record.get('candidate'): lines += ['Candidate PCB: ' + str(record['candidate'])]
+    settings = record.get('effective_preferences') or record.get('routing_preferences', {}).get('effective', {})
+    scope = settings.get('scope') or record.get('scope')
+    scopes = {'whole_board_unlocked_routing': 'Reroute unlocked copper; preserve locked routing',
+              'partial_completion': 'Complete gaps; preserve all existing routing',
+              'selected_nets': 'Reroute selected unlocked nets; preserve other routing'}
+    if scope: lines += ['Routing/protection: ' + scopes.get(scope, str(scope))]
+    if settings:
+        layers = settings.get('layers', 'not reported')
+        if isinstance(layers, list): layers = ', '.join(layers)
+        lines += ['Settings: profile ' + str(settings.get('profile', 'not reported'))
+                  + '; corrections ' + str(settings.get('adapter', 'not reported'))
+                  + '; budget ' + str(settings.get('seconds', 'not reported')) + ' s'
+                  + '; layers ' + str(layers)
+                  + '; via preference ' + str(settings.get('scoring_preference') or 'engine default')]
+        if settings.get('nets'): lines += ['Selected nets: ' + ', '.join(settings['nets'])]
+    if stage == 'preview':
+        lines += ['Static preflight only; Native routing validation has not run.',
+                  'Existing route items: ' + str(record.get('existing_route_items', 'not reported'))
+                  + '; protected: ' + str(record.get('protected_route_items', 'not reported'))
+                  + '; to reroute: ' + str(record.get('rerouted_route_items', 'not reported'))]
+    if record.get('invariants_unchanged') is True:
+        lines += ['Original-design checks passed; source geometry and protected routing retained.']
+    matches = record.get('protected_route_import', {}).get('matches')
+    if isinstance(matches, list): lines += ['Protected route items retained: ' + str(len(matches))]
+    if record.get('schematic_parity'): lines += ['Schematic: ' + str(record['schematic_parity'])]
+    metrics = record.get('metrics') or record.get('saved_metrics')
+    if isinstance(metrics, dict):
+        length = metrics.get('track_length_mm')
+        length_text = format(length, '.6f') if type(length) in (int, float) else 'not reported'
+        lines += ['Route: ' + length_text + ' mm track; ' + str(metrics.get('vias', 'not reported')) + ' vias',
+                  'Board: ' + str(metrics.get('footprints', 'not reported')) + ' footprints; '
+                  + str(metrics.get('pads', 'not reported')) + ' pads; '
+                  + str(metrics.get('zones', 'not reported')) + ' zones; '
+                  + str(metrics.get('copper_layers', 'not reported')) + ' copper layers']
+    native = record.get('native') or record.get('saved_native_findings')
+    if isinstance(native, dict):
+        lines += ['Native findings: ' + str(native.get('opens', 'not reported')) + ' opens; '
+                  + str(native.get('blocking', 'not reported')) + ' blocking; '
+                  + str(native.get('warnings', 'not reported')) + ' warnings; '
+                  + str(native.get('exclusions', 'not reported')) + ' exclusions']
+        qualification = native.get('field_parity', {}).get('qualification', {})
+        if qualification.get('qualified') is True:
+            lines += ['Effective schematic fields compared: ' + str(qualification.get('component_count', 'not reported'))
+                      + ' components / ' + str(qualification.get('compared_field_count', 'not reported'))
+                      + ' fields. Listed Native warnings remain visible.']
+        if record.get('whole_project_drc_clean') is False:
+            lines += ['The whole project is not DRC-clean; inspect every finding below.']
+    if stage in ('review', 'choice', 'export', 'verify_export'):
+        lines += ['Separate-project workflow only; no live-board application or physical/electrical approval.']
+    if stage == 'review': lines += ['Inspect the separate project and every finding before recording intent. Creating this copy does not run a fresh Native check.']
+    if stage == 'choice':
+        lines += ['Recorded review intent: ' + str(record.get('choice', 'not reported')) + '. This is not PCB certification.']
+        unchanged = record.get('candidate_board_unchanged')
+        if type(unchanged) is bool:
+            lines += ['Reviewed PCB: ' + ('unchanged from the validated candidate.' if unchanged else 'changed from the validated candidate.')]
+        changes = record.get('review_project_changes')
+        if record.get('review_project_matches_recorded_candidate') is False and isinstance(changes, dict):
+            lines += ['Review project differs from the recorded candidate: '
+                      + str(len(changes.get('added', []))) + ' added; '
+                      + str(len(changes.get('removed', []))) + ' removed; '
+                      + str(len(changes.get('changed', []))) + ' changed files.',
+                      'Fresh export reconstructs original source rules and settings; review-only changes are not adopted.']
+    if stage == 'export': lines += ['Fresh original-rule Native validation; the original source is not overwritten.']
+    if record.get('error'): lines += ['Action error: ' + str(record['error'])]
+    lines += ['Physical/electrical and manufacturing validation remains separate.']
+    if isinstance(native, dict):
+        groups = [('Ignored checks', native.get('ignored_checks', [])), ('Findings', native.get('findings', []))]
+        size = sum(len(line) + 1 for line in lines)
+        omitted = 0
+        for label, rows in groups:
+            lines += ['', label + ' (' + str(len(rows)) + ' retained):']
+            if not rows: lines += ['None.']
+            for index, item in enumerate(rows, 1):
+                if label == 'Ignored checks':
+                    text = str(index) + '. ' + str(item.get('description', 'No description')) + ' [' + str(item.get('key', 'unknown')) + ']'
+                else:
+                    text = str(index) + '. ' + str(item.get('severity', 'unknown')).upper() + ': ' + str(item.get('description', 'No description')) + ' [' + str(item.get('type', 'unknown')) + ']'
+                    for detail in item.get('items', []):
+                        text += '\n   ' + str(detail.get('description', 'Item'))
+                        position = detail.get('pos')
+                        if isinstance(position, dict): text += ' at ' + str(position.get('x', '?')) + ', ' + str(position.get('y', '?')) + ' mm'
+                if size + len(text) + 1 <= SUMMARY_LIMIT:
+                    lines.append(text); size += len(text) + 1
+                else: omitted += 1
+        if omitted:
+            lines += ['', str(omitted) + ' further finding/ignored-check entries are not displayed because of the UI text bound.',
+                      'ALL entries remain in the full findings receipt. Open it before completing review: ' + str(findings_receipt_path or receipt_path or 'retained workflow receipt')]
+    return '\n'.join(lines)
+
 _REGISTERED_ACTIONS = []
 
 
@@ -422,11 +527,12 @@ def main(argv=None):
 
         def refresh(self):
             ready = self.flow.ready if self.flow else set()
-            allowed = {'preview': True, 'route': 'preview' in ready, 'review': 'route' in ready,
+            allowed = {'preview': True, 'route': 'preview' in ready and 'route' not in ready,
+                'review': 'route' in ready and 'review' not in ready,
                 'open_preview': 'review' in ready, 'open_review': 'review' in ready,
                 'accept': 'review' in ready and 'choice' not in ready,
                 'reject': 'review' in ready and 'choice' not in ready,
-                'export': 'choice' in ready and self.flow.choice == 'accept' if self.flow else False,
+                'export': 'choice' in ready and 'export' not in ready and self.flow.choice == 'accept' if self.flow else False,
                 'open_export': 'verify_export' in ready}
             for name, button in self.buttons.items(): button.Enable(self.busy if name == 'cancel' else not self.busy and allowed.get(name, False))
             for control in (self.board, self.output, self.ack, self.inspected, *self.edit_controls): control.Enable(not self.busy)
@@ -503,7 +609,14 @@ def main(argv=None):
                 self.status.SetLabel(error + ' No positive state adopted. Start a fresh preview; retained files were not deleted.')
             else:
                 self.flow = flow
-                self.log.SetValue(json.dumps(record, indent=2)[:12000])
+                display = {**flow.records.get('route', {}), **record}
+                if stage == 'export': display.update(flow.records['export'])
+                receipt_name = {'preview': 'preview.command.log', 'route': 'route/result.json',
+                    'review': 'review/review.json', 'choice': 'choice/choice.json', 'export': 'export/export.json'}[stage]
+                receipt_path = flow.workspace / receipt_name
+                findings_path = flow.workspace / 'route/result.json' if stage == 'review' else receipt_path
+                self.log.SetValue(human_summary(stage, display, receipt_path=receipt_path,
+                                               findings_receipt_path=findings_path if display.get('native') or display.get('saved_native_findings') else None))
                 self.status.SetLabel(stage + ' completed. Separate workspace: ' + str(flow.workspace))
             self.refresh()
             if self.closing: self.timer.Stop(); self.Destroy()
