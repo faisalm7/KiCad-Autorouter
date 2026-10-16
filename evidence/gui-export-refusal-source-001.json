@@ -1,0 +1,71 @@
+{
+  "schema": 1,
+  "kind": "GUI060 demonstrated stale refusal diagnostic correction",
+  "accepted": false,
+  "source_base_head": "da2db9606027d9e430ff1e6f83b0e64f55d698c9",
+  "source_sha256": {
+    "gui.py": "e7a4f87823ebfab5826f760ea2283b1acb74b9c8fdcb88c9b2a60fbab933ae24",
+    "test_gui_export_refusal.py": "04e6d4d864b301fbe850296d5eca32e2dfc27cebfa10f86e01a239683657e6b8"
+  },
+  "problem": "Actual installed GUI060 correctly refused naturally stale export, but only displayed generic failure despite specific reason in the saved CLI log.",
+  "change": "Only failed exit2 verify_export diagnostic presentation. Shared strict export reader, Native acceptance, file identity, cancellation and all original constraints are unchanged. Sanitized bounded text and full log path, no adoption of a failed record.",
+  "focused_validation": {
+    "final_methods": 28,
+    "seconds": 0.25,
+    "external_wall_seconds": 0.37,
+    "external_CPU_seconds": 0.35,
+    "passed": true,
+    "new_regressions": 4,
+    "red_control_failed_as_expected": true,
+    "red_log_method_count": 13,
+    "initial_green_method_count": 37,
+    "initial_test_discovery_limit": "Imported GuiWorkflowTests unintentionally added its9 methods to discovery. Fixed import to module alias; original red/green001 retained, green00228methods is final targeted population."
+  },
+  "installed_GUI_of_this_patch": false,
+  "full_integration_of_this_patch": false,
+  "original_GUI_runtime": "009 atda2db960; its actual successful route/export is previous code, not qualification of this patch",
+  "notes_directory": "evidence/gui-export-refusal-source-notes-001",
+  "retained_files": {
+    "gui.py": {
+      "original": "autorouter/gui.py",
+      "sha256": "e7a4f87823ebfab5826f760ea2283b1acb74b9c8fdcb88c9b2a60fbab933ae24",
+      "bytes": 50635
+    },
+    "test_gui_export_refusal.py": {
+      "original": "tests/test_gui_export_refusal.py",
+      "sha256": "04e6d4d864b301fbe850296d5eca32e2dfc27cebfa10f86e01a239683657e6b8",
+      "bytes": 3839
+    },
+    "focused-red-001.log": {
+      "original": ".runs/gui-export-refusal-focused-red-001.log",
+      "sha256": "8b81c6ab79c6434ee973756301099dc5c3cfd3f94b2712e114f1e23dc1bece2e",
+      "bytes": 2273
+    },
+    "focused-green-001.log": {
+      "original": ".runs/gui-export-refusal-focused-green-001.log",
+      "sha256": "e127fa4b87973bb8b8ee2818ed550f4e1cefa18fdcc41623ae824f36f76e04ec",
+      "bytes": 165
+    },
+    "focused-green-002.log": {
+      "original": ".runs/gui-export-refusal-focused-green-002.log",
+      "sha256": "131f2f19c02685747963658b7de7d91d072522d9c13dd015004bee8900ba08f5",
+      "bytes": 156
+    },
+    "GUI060-observations-001.json": {
+      "original": ".runs/runtime-directory-009/runtime/.runs/gui-session060/observations-001.json",
+      "sha256": "1f99eba4ead6113316048ea9b6fc785df47fb69e75bdee33c3b1f3e125ed0ac8",
+      "bytes": 2744
+    },
+    "GUI060-stale-command.log": {
+      "original": ".runs/runtime-directory-009/runtime/.runs/gui-session060/jobs/autorouter-gui-9b9f23662c8f49f2b0f4103d75063e7e/inspect-export-c6465af16d024cfe9a9c6faec208debe.command.log",
+      "sha256": "d147d9e647ae479d83edb5e8126948cbfe34b663cf46a9147b45da7dc9fcb718",
+      "bytes": 71
+    },
+    "GUI060-stale-command.process.json": {
+      "original": ".runs/runtime-directory-009/runtime/.runs/gui-session060/jobs/autorouter-gui-9b9f23662c8f49f2b0f4103d75063e7e/inspect-export-c6465af16d024cfe9a9c6faec208debe.command.process.json",
+      "sha256": "5532322b31559dac880f87d5391d018b682071c4cba073848c379dfc27592bdd",
+      "bytes": 585
+    }
+  },
+  "utc": "2026-10-16T20:04:50.033914+00:00"
+}

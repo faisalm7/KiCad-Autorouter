@@ -1,0 +1,34 @@
+.EEF.........
+======================================================================
+ERROR: test_diagnostic_is_short_printable_and_never_opens_project (tests.test_gui_export_refusal.ExportRefusalTests.test_diagnostic_is_short_printable_and_never_opens_project)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_gui_export_refusal.py", line 61, in test_diagnostic_is_short_printable_and_never_opens_project
+    detail = gui.failed_export_check_detail(log)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'autorouter.gui' has no attribute 'failed_export_check_detail'
+
+======================================================================
+ERROR: test_missing_malformed_or_positive_diagnostic_never_authorizes (tests.test_gui_export_refusal.ExportRefusalTests.test_missing_malformed_or_positive_diagnostic_never_authorizes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_gui_export_refusal.py", line 54, in test_missing_malformed_or_positive_diagnostic_never_authorizes
+    self.assertIsNone(gui.failed_export_check_detail(log))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'autorouter.gui' has no attribute 'failed_export_check_detail'
+
+======================================================================
+FAIL: test_real_cli_negative_shape_is_diagnostic_only (tests.test_gui_export_refusal.ExportRefusalTests.test_real_cli_negative_shape_is_diagnostic_only)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_gui_export_refusal.py", line 26, in test_real_cli_negative_shape_is_diagnostic_only
+    self.assertIn('changed after validation', str(error.exception))
+AssertionError: 'changed after validation' not found in 'Action failed or was cancelled. Evidence was retained; no positive state adopted.'
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.071s
+
+FAILED (failures=1, errors=2)
+real 0.24
+user 0.13
+sys 0.05

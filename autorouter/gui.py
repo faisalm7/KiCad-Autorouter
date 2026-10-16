@@ -261,6 +261,8 @@ class Workflow:
             raise ValueError('Action failed or was cancelled. Evidence was retained; no positive state adopted.')
         if process['exit_code'] != 0:
             detail = failed_route_detail(self.workspace / 'route/result.json') if stage == 'route' else None
+            if stage == 'verify_export' and process['exit_code'] == 2:
+                detail = failed_export_check_detail(log_path)
             raise ValueError(detail or 'Action failed or was cancelled. Evidence was retained; no positive state adopted.')
         if stage == 'preview':
             record = json.loads(log_path.read_bytes())
@@ -345,6 +347,31 @@ def review_close_hint(workspace):
         max_files=2000, max_entries=4000))
 
 
+def short_failure_reason(reason):
+    """Untrusted diagnostic text, bounded for the findings panel, never proof."""
+    if type(reason) is not str or not reason.strip(): return None
+    text = ''.join(char if char.isprintable() else ' ' for char in reason[:FAILURE_REASON_LIMIT]).strip()
+    if not text: return None
+    if len(reason) > FAILURE_REASON_LIMIT: text += ' [detail shortened]'
+    return text
+
+
+def failed_export_check_detail(path):
+    """Explain a failed CLI check without adopting any of its state."""
+    try:
+        record = read_record(path)
+        if type(record) is not dict or record.get('current') is not False: return None
+        text = short_failure_reason(record.get('reason'))
+        if text is None: return None
+        if record['reason'] == 'export inputs/runtime/evidence changed':
+            text = 'The export, its inputs, runtime or saved evidence changed after validation.'
+        return ('Checked export refused: ' + text +
+                '\nStart a fresh preview using the intended saved project. Retained files were not reaccepted.' +
+                '\nFull failure log: ' + str(path))
+    except Exception:
+        return None
+
+
 def failed_route_detail(path):
     """Bounded diagnostic text only; never adopts a failed receipt as evidence."""
     try:
@@ -354,10 +381,8 @@ def failed_route_detail(path):
                 or record['status'] in ('routing_accepted', 'cancelled', 'canceled')):
             return None
         reason = record.get('reason') or record.get('error')
-        if type(reason) is not str or not reason.strip(): return None
-        text = ''.join(char if char.isprintable() else ' ' for char in reason[:FAILURE_REASON_LIMIT]).strip()
-        if not text: return None
-        if len(reason) > FAILURE_REASON_LIMIT: text += ' [detail shortened]'
+        text = short_failure_reason(reason)
+        if text is None: return None
         return 'Routing refused: ' + text + '\nNo candidate accepted. Full failure receipt: ' + str(path)
     except Exception:
         return None

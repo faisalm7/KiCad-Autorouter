@@ -4,6 +4,8 @@
 
 New source430451aa also [qualifies duplicate non-electrical artwork field comparison](evidence/duplicate-artwork-field-native-001.json): actual10.0.0refill/fullSCH positive passes, a hidden ordinary Description mismatch refuses despite identical6warnings/2ignored checks. [Full142](evidence/duplicate-artwork-field-full142-001.json) passes. This resolves a specific field-census blocker; runtime008 remains the previous installed artifact until fresh installation/route/export qualification. No net-tie/hierarchy admission or added completion follows.
 
+Runtime009 CLI and actual GUI060 route/review/fresh export have now run; independent retained-evidence curation is in progress. GUI060 reproduced the generic stale-opening message. A [small presentation correction](evidence/gui-export-refusal-source-001.json) passes focused checks and preserves strict refusal/cancellation; fresh installation/GUI and full integration of that correction remain pending. The settings Save/Load round trip worked; the initial wrong-file chooser attempt is preserved as a test-navigation failure.
+
 | Area | Implemented / observed | Remaining gate |
 |---|---|---|
 | Product | Offline CLI/structured Request/Workflow and current KiCad IPC toolbar. Saved identity, persistent scope/protection/layers/preferences/budget, preview, progress/cancel, rendered review, accept/reject intent and fresh separate-project export. | Saved/closed source only. Unsaved buffers, transactional live application/undo and advanced electrical requirements unqualified. |
