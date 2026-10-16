@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "kind": "measured-backup-receipt-capacity-blocker",
+  "restoration_qualified": false,
+  "captured_source_head": "be9ebceb74292117133a860a1110c7dc5c0026d9",
+  "capture_command_exit": 2,
+  "capture_error": "Receipt exceeds regular-file/size bounds",
+  "capture_wall_seconds": 283.69,
+  "capture_full_CPU_seconds": 216.44,
+  "receipt": ".local-backups/checkpoint-20261016T105519Z-846fb967e1804867a8921f90cf78b9ce/receipt.json",
+  "receipt_bytes": 92746061,
+  "receipt_sha256": "533a7a3619fb1c1e69bb311fe4281a30b7855bb23fe85d207abe731a5d3b2072",
+  "inventory_files": 330669,
+  "inventory_logical_bytes": 11927913023,
+  "delta_files": 27256,
+  "old_receipt_bound_bytes": 92274688,
+  "new_receipt_bound_bytes": 96468992,
+  "unchanged": {
+    "max_files": 335000,
+    "max_logical_bytes": 12884901888,
+    "max_chain_receipt_bytes": 201326592,
+    "scope": [
+      ".runs",
+      ".data",
+      ".local-reference"
+    ],
+    "path_secret_link_regular_file_guards": true
+  },
+  "decision": "Captured archive/bundle/receipt alreadyexist and source was stable; finish by verifying/restoring this exact receipt with the corrected finite reader rather than recreating the capture. Newreader source is separately pushed; this captured source remainsbe9. Keep failedattempt visible.",
+  "targeted": {
+    "methods": 48,
+    "passed": true,
+    "whole_wall_seconds": 9.8,
+    "whole_CPU_seconds": 8.46,
+    "log": ".runs/backup-receipt92-targeted-001.log"
+  },
+  "source_sha256": {
+    "scripts/backup.py": "bf6249ebb536d05a3390468ab145b36c83d12f1c0c403c4f5e3ff4b4255730fb",
+    "tests/test_backup_capacity.py": "9c6a801fb837f10565b9e398f3f67946483c9c4156f8ba868babcd2ccd56f605"
+  },
+  "limitation": "On-Mac only byownerchoice. No completed prior restoration repeated. Actualnewcomplete restoration pending; no arbitrary receipt/chain bypass."
+}

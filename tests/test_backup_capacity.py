@@ -11,9 +11,17 @@ class BackupCapacity(unittest.TestCase):
                 'total_file_bytes':size}
     def test_exact_finite_capacity_and_existing_population(self):
         self.assertEqual(backup.LIMIT,12*1024**3);self.assertEqual(backup.MAX_FILES,335000)
-        self.assertEqual(backup.MAX_RECEIPT_BYTES,88*1024**2)
+        self.assertEqual(backup.MAX_RECEIPT_BYTES,92*1024**2)
         self.assertEqual(backup.MAX_CHAIN_RECEIPT_BYTES,192*1024**2)
         self.assertEqual(backup.SCOPES,('.runs','.data','.local-reference'))
+    def test_measured_receipt_fits_with_two_receipts_inside_existing_chain_bound(self):
+        self.assertLess(88*1024**2,92746061)
+        self.assertLessEqual(92746061,backup.MAX_RECEIPT_BYTES)
+        self.assertLessEqual(2*backup.MAX_RECEIPT_BYTES,backup.MAX_CHAIN_RECEIPT_BYTES)
+        with tempfile.TemporaryDirectory() as name:
+            path=Path(name)/'receipt.json';path.write_bytes(b'{}')
+            with patch.object(backup,'MAX_RECEIPT_BYTES',1),self.assertRaisesRegex(backup.BackupError,'size bounds'):
+                backup.read_json(path)
     def test_previous_one_gib_inventory_still_valid(self):
         for size in (0,1017693214,1024**3):
             with self.subTest(size=size):self.assertEqual(backup.check_manifest(self.manifest(size))[0]['.runs/evidence.bin']['size'],size)
