@@ -239,7 +239,8 @@ class Workflow:
             argv += ['review-export-check', str(self.workspace / 'export/export.json')]
         else:
             raise ValueError('Unknown workflow action.')
-        if stage in self.ready: raise ValueError('This action already completed; use its retained output.')
+        if stage in self.ready and stage != 'verify_export':
+            raise ValueError('This action already completed; use its retained output.')
         return argv
 
     def check_request(self, request):
@@ -288,7 +289,13 @@ class Workflow:
                 raise ValueError('Fresh original-rule Native export refused.')
         elif stage == 'verify_export':
             record = json.loads(log_path.read_bytes())
-            if record.get('current') is not True or record.get('export_accepted') is not True:
+            exported = self.records['export']
+            candidate = self.workspace / 'export/validation/candidate' / self.board.name
+            if (record.get('current') is not True or record.get('export_accepted') is not True
+                    or record.get('applied') is not False or record.get('candidate') != str(candidate)
+                    or exported.get('candidate') != str(candidate)
+                    or exported.get('project_file') != str(candidate.with_suffix('.kicad_pro'))
+                    or record.get('candidate_sha256') != exported.get('candidate_sha256')):
                 raise ValueError('Current exported-project readback refused.')
         else:
             raise ValueError('Unknown outcome.')
@@ -297,16 +304,24 @@ class Workflow:
         self.ready.add(stage)
         return record
 
-    def inspect_path(self, kind):
+    def inspect_path(self, kind, *, job=None):
         self.fresh()
         if 'review' not in self.ready: raise ValueError('Create a checked disposable review first.')
         if kind == 'preview': target = self.workspace / 'review/preview.html'
         elif kind == 'review': target = Path(self.records['review']['project_file'])
         elif kind == 'export':
             if 'verify_export' not in self.ready: raise ValueError('Fresh export readback must pass first.')
+            if job is None: raise ValueError('A fresh cancellable export check is required before opening.')
+            # The public reader installs signal handlers. Run its existing CLI
+            # in a child main thread, never inside this GUI inspection thread.
+            argv = self.command('verify_export')
+            log = self.workspace / ('inspect-export-' + uuid.uuid4().hex + '.command.log')
+            process = job.run(argv, log, timeout=self.timeout('verify_export'))
+            job.adopt(self, 'verify_export', process, log)
             target = Path(self.records['export']['project_file'])
         else: raise ValueError('Unknown inspection target.')
         target = canonical(target)
+        self.fresh()
         if self.workspace not in target.parents or not target.is_file():
             raise ValueError('Inspection target is outside this separate project.')
         return target
@@ -669,10 +684,11 @@ def main(argv=None):
                 if action.startswith('open_'):
                     kind = action.removeprefix('open_'); flow = self.flow
                     self.busy = True; self.job = CliJob(); self.refresh()
+                    job = self.job
                     def inspect():
                         try:
-                            target = flow.inspect_path(kind)
-                            if self.job.cancel_requested: raise ValueError('Inspection cancelled.')
+                            target = flow.inspect_path(kind, job=job)
+                            job.check_live()
                             wx.CallAfter(self.opened, kind, target, None)
                         except Exception as exc: wx.CallAfter(self.opened, kind, None, str(exc))
                     threading.Thread(target=inspect, daemon=False).start()

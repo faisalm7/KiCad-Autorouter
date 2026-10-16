@@ -1,0 +1,135 @@
+{
+  "schema": 1,
+  "kind": "actual-Windows004-fully-enforced-firewall-gate-refusal",
+  "url": "https://github.com/faisalm7/KiCad-Autorouter/actions/runs/38886669376",
+  "source_head": "e85ac1afd9d82b0be1620c6ef2c7605f6ec5cf3a",
+  "conclusion": "failure",
+  "bootstrap_receipt": {
+    "kind": "windows-native-substrate-prototype",
+    "source_head": "e85ac1afd9d82b0be1620c6ef2c7605f6ec5cf3a",
+    "passed": false,
+    "product_windows_support": false,
+    "installer_executed": true,
+    "install_exit": 0,
+    "bundled_python_present": true,
+    "native_started": false,
+    "ephemeral_registration_side_effects_expected": true,
+    "artifact_upload": false,
+    "cache_upload": false,
+    "installer_sha256": "ce3881b6a9188eb34ac1ebaaec7651149e8a025206410addfb11a1a9656ecf95",
+    "signature_status": "Valid",
+    "cli_present": true,
+    "bounded_bin_inventory": [
+      {
+        "Name": "_pcbnew.dll",
+        "Length": 31823712
+      },
+      {
+        "Name": "kicad-cli.exe",
+        "Length": 2705248
+      },
+      {
+        "Name": "pcbnew.exe",
+        "Length": 996192
+      },
+      {
+        "Name": "python.exe",
+        "Length": 103264
+      },
+      {
+        "Name": "python3.dll",
+        "Length": 67424
+      },
+      {
+        "Name": "python311.dll",
+        "Length": 6270816
+      },
+      {
+        "Name": "pythonw.exe",
+        "Length": 101216
+      }
+    ],
+    "java_archive_sha256": "1919e7e1603bc5937187139db2d65824f8d95ef42d0423ae9f9f1d9eb97842f6",
+    "java_expanded_bytes": 187673452,
+    "powershell_sha256": "bfb46af89433268872ddb43d1ca7a3f433452ee91ed356a9786940f90118e285",
+    "controller_started": true,
+    "slice_exit": 2,
+    "error": "Native substrate incomplete/refused; retain CI logs",
+    "scratch_removed": true
+  },
+  "controller_summary": {
+    "schema": 1,
+    "passed": false,
+    "accepted": false,
+    "product_support": false,
+    "steps": [],
+    "native_transport_observed": false,
+    "cancelled": false,
+    "error": "RuntimeError: effective owned per-program firewall block unavailable: \u001b[31;1mException: \u001b[0mD:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\firewall_gate.ps1:14\u001b[0m\r\n\u001b[31;1m\u001b[0m\u001b[36;1mLine |\u001b[0m\r\n\u001b[31;1m\u001b[0m\u001b[36;1m\u001b[36;1m  14 | \u001b[0m \u2026 -ne 'Full'){\u001b[36;1mthrow 'Owned live rule is not fully enforced for every pr\u001b[0m \u2026\u001b[0m\r\n\u001b[31;1m\u001b[0m\u001b[36;1m\u001b[36;1m\u001b[",
+    "wall_seconds_before_publication": 2.046999999999997,
+    "job_cpu_seconds": 0
+  },
+  "native_or_JVM_started": false,
+  "controller_started": true,
+  "PowerShell_regression_controls": {
+    "regular_passed": 4,
+    "invalid_refused": 4
+  },
+  "java": {
+    "archive_sha256": "1919e7e1603bc5937187139db2d65824f8d95ef42d0423ae9f9f1d9eb97842f6",
+    "java_exe_sha256": "d7cca9f6580a920d1e39de05b51ae09aa444fb52a0654766d2afd50485bd89a4",
+    "expanded_bytes": 187673452,
+    "runtime_files": 320,
+    "manifest_sha256": "990568d93a993b934051fcb4fd8870d45757680ba66e99f2073a52894ded13e5",
+    "executed": false
+  },
+  "provider_timing": {
+    "billable": {
+      "WINDOWS": {
+        "total_ms": 0,
+        "jobs": 2,
+        "job_runs": [
+          {
+            "job_id": 116925974943,
+            "duration_ms": 0
+          },
+          {
+            "job_id": 116925976738,
+            "duration_ms": 0
+          }
+        ]
+      },
+      "UBUNTU": {
+        "total_ms": 0,
+        "jobs": 1,
+        "job_runs": [
+          {
+            "job_id": 116925977009,
+            "duration_ms": 0
+          }
+        ]
+      }
+    },
+    "run_duration_ms": 149000
+  },
+  "outer_full_CPU_seconds": null,
+  "guard_interpretation": "Exact owned universal rule live predicate rejected atfirewall_gate.ps1:14 before anychildJobObject launch. Actualpropertyvalues were notprojected; sourcepredicate versus runnerstate cause remainsunresolved. No globalfirewall weakening or Nativefallback. Windowsremainsunsupported.",
+  "log_recovery": "gh run view --log omitted result/error lines. Independent joblogs API returned full147130bytes; retained exactresult/bootstrap and Java payload decoded/hashverified. First APIattempt refused terminalescapes and savedemptyfile; second allowedrawescapes only into a localfile, then parsed asdata. No shell control escape executed.",
+  "next": "Defer anotherWindowsinstall until Mac/productcheckpoint. If pursued, one bounded readonlyownedrulepropertyprojection before thissamefail-closedgate; noNativeunlessguardpasses.",
+  "product_support": false,
+  "raw_sha256": {
+    ".local-backups/windows-native-ci004/annotations-guessed.json": "1dcdf667bc0de700a1cd56609bedb99242e5b8bf95b1c389498656e85e9a0506",
+    ".local-backups/windows-native-ci004/controller-result.json": "ac1b770f317a4ec7da861eea4801b52fea4290f074c0203466e1fb3db447cdd2",
+    ".local-backups/windows-native-ci004/job-raw-002.log": "86e8503060060296e1b39ff21383a9a051d5e491342327688826de6782000d3b",
+    ".local-backups/windows-native-ci004/job-raw.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".local-backups/windows-native-ci004/jobs.json": "0d55bf8350c02a23521bfa35c7fbe29ad3013f63992c219299280e45d60fbed3",
+    ".local-backups/windows-native-ci004/jobs.json.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".local-backups/windows-native-ci004/payload-java-manifest.json": "990568d93a993b934051fcb4fd8870d45757680ba66e99f2073a52894ded13e5",
+    ".local-backups/windows-native-ci004/run.json": "64deb53e94c47a135c2745f6c0e50c500128ad77a1af7c0d8f47d95eb4809ddd",
+    ".local-backups/windows-native-ci004/run.json.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".local-backups/windows-native-ci004/run.log": "5115e1a40dd98530adc1584e3dc34d4bdded9fa0eac37458619879034c366d3c",
+    ".local-backups/windows-native-ci004/run.log.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".local-backups/windows-native-ci004/timing.json": "9a083ee1e825fd541984a44814304af2bebca193a6d5f506ffe11d0a1f67854f",
+    ".local-backups/windows-native-ci004/timing.json.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

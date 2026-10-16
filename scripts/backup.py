@@ -45,13 +45,17 @@ SCOPES = (".runs", ".data", ".local-reference")
 # previous325000/10.75GiB bounds without deleting any evidence. Finite330000/
 # 11GiB retains this integration; scopes/receipt/chain/security guards stay fixed.
 # New full milestone restoration is required before an RC claim.
-LIMIT = 11 * 1024 ** 3
+# Actual installed052 census329654files/11813535986B exceeds11GiB.
+# The next required independent install forecasts330618files/11927409767B.
+# Finite12GiB/335000 retains evidence and measured installation headroom;
+# receipt/chain/scopes/path/secret guards stay fixed. Full restoration required.
+LIMIT = 12 * 1024 ** 3
 # Current304054rawfiles leaves946slots; prior full installed041 used979files
 # including its Native fixture. Next required installed4Cu qualification exceeds
 # 305000 without deleting evidence. Finite310000 retains all files/directories;
 # 10GiB/80MiBreceipt/192MiBchain/scopes/security remain. A complete restoration
 # of the old-full006/new-compact chain must qualify this capacity change.
-MAX_FILES = 330000
+MAX_FILES = 335000
 MAX_CHAIN = 16
 # Actual229,196-file receipt is63,984,764B. The249,270-file forecast needs
 # about70MB at that measured ratio;80MiB permits finite headroom. Two such
