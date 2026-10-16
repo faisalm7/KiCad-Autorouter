@@ -41,13 +41,17 @@ SCOPES = (".runs", ".data", ".local-reference")
 # Prior installed043 used998files/112247333B; final048 and GUI qualification
 # exceed that file headroom. Finite325000/10.75GiB preserves every artifact;
 # receipt/chain/scopes/security unchanged. Full milestone restoration required.
-LIMIT = 10 * 1024 ** 3 + 768 * 1024 ** 2
+# Actual installed-workflow004 census325233files/11549675403B exceeds the
+# previous325000/10.75GiB bounds without deleting any evidence. Finite330000/
+# 11GiB retains this integration; scopes/receipt/chain/security guards stay fixed.
+# New full milestone restoration is required before an RC claim.
+LIMIT = 11 * 1024 ** 3
 # Current304054rawfiles leaves946slots; prior full installed041 used979files
 # including its Native fixture. Next required installed4Cu qualification exceeds
 # 305000 without deleting evidence. Finite310000 retains all files/directories;
 # 10GiB/80MiBreceipt/192MiBchain/scopes/security remain. A complete restoration
 # of the old-full006/new-compact chain must qualify this capacity change.
-MAX_FILES = 325000
+MAX_FILES = 330000
 MAX_CHAIN = 16
 # Actual229,196-file receipt is63,984,764B. The249,270-file forecast needs
 # about70MB at that measured ratio;80MiB permits finite headroom. Two such
