@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import copy
 import datetime
+from dataclasses import dataclass, field
 import fcntl
 import hashlib
 import json
@@ -24,6 +25,7 @@ import uuid
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from autorouter import config as c, pipeline as p, floor_route as f, placement_clearance as pc
+from autorouter import provenance as pv, runner as runtime_runner
 from scripts import experiment_quality as q
 
 BUDGET = 120.0
@@ -36,6 +38,180 @@ COMPLETED_PREFIX_POLICY = 'completed-default-prefix-resume-v1'
 COMPLETED_PREFIX_PROJECTS = ('arcdice',)
 COMPLETED_PREFIX_BUDGET = 100.0
 RESUME_SCRIPT = 'scripts/experiment_portfolio.py'
+
+
+@dataclass(frozen=True)
+class InstalledContext:
+    """Explicit external administration and immutable installed product binding.
+
+    Construct in the installed interpreter after importing its product modules.
+    The helper/controller checkout may use Git; the runtime never needs it.
+    Mutable caller dictionaries are sealed so changing expectations also refuses.
+    """
+    runtime: Path
+    board: Path
+    family: str
+    tools: dict
+    source_hashes: dict[str, str]
+    administration_root: Path
+    administration_head: str
+    administration_files_sha256: dict[str, str]
+    controller: Path
+    _seal: str = field(init=False, repr=False)
+
+    def __post_init__(self):
+        for name in ('runtime', 'board', 'administration_root', 'controller'):
+            if not isinstance(getattr(self, name), Path):
+                raise p.Rejected('installed context requires explicit Path fields')
+            pv.canonical(getattr(self, name))
+        if (type(self.family) is not str or not 1 <= len(self.family) <= 256
+                or type(self.tools) is not dict or type(self.administration_head) is not str
+                or pv._HEAD.fullmatch(self.administration_head) is None):
+            raise p.Rejected('malformed installed context identity')
+        provenance = self.tools.get('source_provenance')
+        if (type(provenance) is not dict or provenance.get('kind') != pv.KIND
+                or type(provenance.get('manifest_sha256')) is not str
+                or pv._DIGEST.fullmatch(provenance['manifest_sha256']) is None
+                or type(self.tools.get('implementation_sha256')) is not dict):
+            raise p.Rejected('explicit installed runtime provenance/tools required')
+        for mapping, ceiling in ((self.source_hashes, 2000), (self.administration_files_sha256, 8)):
+            if type(mapping) is not dict or not 1 <= len(mapping) <= ceiling:
+                raise p.Rejected('bounded installed context file population required')
+            for name, digest in mapping.items():
+                if (type(name) is not str or len(name) > 1024 or '\\' in name
+                        or Path(name).is_absolute() or str(Path(name)) != name
+                        or any(part in ('', '.', '..') for part in name.split('/'))
+                        or type(digest) is not str or pv._DIGEST.fullmatch(digest) is None):
+                    raise p.Rejected('noncanonical installed context file/hash')
+        if any(not name.endswith('.py') for name in self.administration_files_sha256):
+            raise p.Rejected('external administration pins must identify Python source files')
+        try:
+            sealed = f.canonical(self.record())
+        except (ValueError, TypeError, RecursionError) as exc:
+            raise p.Rejected('malformed installed context data') from exc
+        if len(sealed) > 512 * 1024:
+            raise p.Rejected('installed context data ceiling exceeded')
+        object.__setattr__(self, '_seal', sealed)
+
+    def record(self):
+        return {'kind': 'installed-cli-portfolio-context-v1', 'runtime': str(self.runtime),
+            'board': str(self.board), 'family': self.family, 'tools': self.tools,
+            'source_hashes': self.source_hashes, 'administration_root': str(self.administration_root),
+            'administration_head': self.administration_head,
+            'administration_files_sha256': self.administration_files_sha256, 'controller': str(self.controller)}
+
+    def check(self):
+        if f.canonical(self.record()) != self._seal:
+            raise p.Rejected('installed context expectations changed')
+        for path in (self.runtime, self.board, self.administration_root, self.controller):
+            pv.canonical(path)
+        if (c.ROOT != self.runtime or q.p is not p or q.c is not c
+                or any(Path(module.__file__).resolve().parents[1] != self.runtime
+                       for module in (p, pc, f, pv, runtime_runner))
+                or Path(sys.executable) != self.runtime / '.venv/bin/python'
+                or Path(sys.prefix).resolve() != self.runtime / '.venv'):
+            raise p.Rejected('installed context requires actual runtime product modules and interpreter')
+        if (self.tools.get('source_provenance', {}).get('kind') != pv.KIND
+                or p.tool_manifest() != self.tools):
+            raise p.Rejected('installed runtime provenance/tools changed')
+        if (self.board.suffix != '.kicad_pcb' or self.runtime in self.board.parents
+                or any(self.board.with_suffix(suffix).name not in self.source_hashes
+                       for suffix in ('.kicad_pcb', '.kicad_pro', '.kicad_sch'))
+                or pc.inventory(self.board.parent) != self.source_hashes
+                or any((self.board.parent / name).lstat().st_nlink != 1 for name in self.source_hashes)):
+            raise p.Rejected('complete external installed source project changed')
+        root = self.administration_root
+        if root == self.runtime or self.runtime in root.parents or pv.git_head(root) != self.administration_head:
+            raise p.Rejected('external administration checkout identity changed')
+        required = {str(path.relative_to(root)) for path in (SCRIPT, Path(q.__file__).resolve(), self.controller)}
+        if not required <= set(self.administration_files_sha256):
+            raise p.Rejected('exact portfolio/quality/controller source pins required')
+        names = sorted(self.administration_files_sha256)
+        if pv._git(root, 'status', '--porcelain=v1', '--untracked-files=all', '--', *names):
+            raise p.Rejected('commit exact external administration sources before running')
+        committed = {}
+        for row in pv._git(root, 'ls-tree', '-r', '-z', self.administration_head, '--', *names).split(b'\0'):
+            if not row: continue
+            metadata, name = row.split(b'\t', 1); mode, kind, oid = metadata.split(b' ')
+            if mode not in (b'100644', b'100755') or kind != b'blob':
+                raise p.Rejected('ordinary committed administration files required')
+            committed[name.decode()] = oid.decode()
+        if set(committed) != set(names):
+            raise p.Rejected('complete external committed administration population required')
+        for name, digest in self.administration_files_sha256.items():
+            raw = pv.read_bytes(root / name)
+            size = pv._git(root, 'cat-file', '-s', committed[name], limit=64).decode().strip()
+            if (hashlib.sha256(raw).hexdigest() != digest or not size.isdigit() or int(size) != len(raw)
+                    or pv._git(root, 'cat-file', 'blob', committed[name], limit=pv.MAX_FILE_BYTES) != raw):
+                raise p.Rejected('external committed administration bytes changed')
+        if pv.git_head(root) != self.administration_head:
+            raise p.Rejected('external administration HEAD changed while checking')
+
+    def freeze(self):
+        self.check()
+        return {'tools': copy.deepcopy(self.tools), 'source_hashes': dict(self.source_hashes),
+            'files_sha256': {**self.tools['implementation_sha256'],
+                'toolchain.lock.json': pv.file_digest(self.runtime / 'toolchain.lock.json')[0],
+                pv.MANIFEST: self.tools['source_provenance']['manifest_sha256']},
+            'installed_context': json.loads(self._seal)}
+
+
+def _installed_command(runtime, board, directory, assigned, variant):
+    python = str(runtime / '.venv/bin/python')
+    # Keep the existing runner's disk guard scoped to this portfolio, while the
+    # actual unmodified -m CLI starts in its runtime root. No shell/PYTHONPATH.
+    bootstrap = 'import os,sys; os.chdir(sys.argv[1]); os.execv(sys.executable,[sys.executable,"-B","-m","autorouter",*sys.argv[2:]])'
+    return [*f.SANDBOX, python, '-B', '-c', bootstrap, str(runtime),
+        'route', str(board), '--output', str(directory), '--seconds', str(assigned),
+        '--scope', 'whole', '--adapter', 'both', '--profile', 'tuned', '--guidance', 'native',
+        '--layers', 'source_all', '--scoring-preference', variant]
+
+
+def _check_installed_process(process, assigned, argv, *, negative=False):
+    if process.get('status') == 'cancelled' or process.get('exit_code') in (130, 143):
+        raise KeyboardInterrupt
+    costs = [process.get(key) for key in ('cpu_seconds', 'supervisor_cpu_seconds', 'monitor_cpu_seconds')]
+    if (process.get('argv') != argv or type(process.get('exit_code')) is not int
+            or process.get('status') != ('nonzero_exit' if negative else 'success')
+            or process.get('exit_code') != (2 if negative else 0)
+            or process.get('cleanup_complete') is not True or process.get('log_truncated') is not False
+            or not q.finite_nonnegative(process.get('wall_seconds')) or process['wall_seconds'] > assigned
+            or not all(q.finite_nonnegative(value) for value in costs) or sum(costs) > assigned):
+        raise p.Rejected('installed CLI process failed, exceeded bounds or cleanup/log evidence unavailable')
+
+
+def _installed_attempt(context, directory, assigned, variant):
+    """Only execution changes: the existing loop/independent reader select."""
+    from autorouter.gui import child_environment
+    argv = _installed_command(context.runtime, context.board, directory, assigned, variant)
+    log = directory.with_suffix('.cli.log'); witness = directory.with_suffix('.cli-process.json')
+    process = runtime_runner.run(argv, cwd=directory.parent, log=log, timeout=assigned,
+        max_log_bytes=2 * 1024**2, max_workdir_bytes=128 * 1024**2,
+        max_group_rss_bytes=4 * 1024**3, env=child_environment())
+    p.save_json(witness, process)
+    negative = process.get('status') == 'nonzero_exit' and process.get('exit_code') == 2
+    _check_installed_process(process, assigned, argv, negative=negative)
+    result = f.read_json(directory / 'result.json')
+    if negative:
+        # The product reader only accepts positive receipts. Diagnostic status
+        # cannot establish a complete, constraint-preserving negative witness.
+        # Preserve and distinguish it, but do not invent a second validator or
+        # let it select an earlier winner. Legacy in-process behavior is intact.
+        if type(result) is dict and result.get('accepted') is False and result.get('status') == 'drc_rejected':
+            raise p.Rejected('normal negative routing receipt lacks independent negative reader; installed portfolio stopped fail closed')
+        raise p.Rejected('installed CLI exit2 did not retain a qualified negative routing receipt')
+    if type(result) is not dict or result.get('accepted') is not True or result.get('status') != 'routing_accepted':
+        raise p.Rejected('installed CLI did not retain an accepted routing receipt')
+    return result
+
+
+def _installed_evidence(directory):
+    result = {}
+    for key, path in (('process', directory.with_suffix('.cli-process.json')),
+                      ('log', directory.with_suffix('.cli.log')), ('result', directory / 'result.json')):
+        if path.is_file():
+            result[key] = {'file': str(path), 'sha256': pv.file_digest(path, 32 * 1024**2)[0]}
+    return result
 
 
 def rank(row):
@@ -86,6 +262,13 @@ def verify_row(row, board, frozen):
                 or row['assigned_seconds']!=(row['remaining_wall_full_cpu_seconds_at_assignment']-FINAL_RESERVE)/(row['unattempted_variants_at_assignment'] if row['allocation']=='balanced' else 1)):
             raise p.Rejected('trial differs from its recorded allocation')
     receipt = Path(row['result'])
+    if 'installed_context' in frozen:
+        runtime = Path(frozen['installed_context']['runtime'])
+        if (_installed_evidence(receipt.parent) != row.get('installed_cli')
+                or set(row.get('installed_cli', {})) != {'process', 'log', 'result'}):
+            raise p.Rejected('installed CLI retained process/log/result changed')
+        _check_installed_process(f.read_json(receipt.parent.with_suffix('.cli-process.json')),
+            row['assigned_seconds'], _installed_command(runtime, board, receipt.parent, row['assigned_seconds'], row['id']))
     if receipt.is_symlink() or p.sha(receipt) != row['result_sha256']:
         raise p.Rejected('trial receipt changed')
     data = json.loads(receipt.read_text())
@@ -258,7 +441,7 @@ def trial_freeze(protocol,row):
 
 def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET,
                resume_plan=None, resume_plan_sha256=None, allocation='remaining',
-               outer_ceiling=MAX_OPERATIONAL_BUDGET):
+               outer_ceiling=MAX_OPERATIONAL_BUDGET, installed_context=None):
     if guidance_policy not in (None,'placement-search-v1'):raise p.Rejected('unsupported portfolio guidance')
     if (allocation not in ('remaining','balanced') or not q.finite_nonnegative(outer_ceiling)
             or not 60<=outer_ceiling<=MAX_OPERATIONAL_BUDGET
@@ -267,6 +450,11 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
     if resume_plan is not None and (allocation!='remaining' or budget>BUDGET):
         raise p.Rejected('resume requires legacy remaining allocation within120')
     started, cpu_started = time.monotonic(), q.total_process_cpu()
+    if installed_context is not None:
+        if (type(installed_context) is not InstalledContext or guidance_policy is not None
+                or resume_plan is not None or resume_plan_sha256 is not None):
+            raise p.Rejected('installed portfolio requires explicit context, native guidance and no resume')
+        installed_context.check()
     if (resume_plan is None)!=(resume_plan_sha256 is None):raise p.Rejected('resume requires plan and exact SHA together')
     prior_wall=prior_cpu=0.;basis=None
     started_utc = datetime.datetime.now(datetime.timezone.utc).isoformat()
@@ -315,9 +503,10 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
             if any(not q.finite_nonnegative(value) or value>budget for value in (prior_wall,prior_cpu)):
                 raise p.Rejected('invalid prior invocation costs')
             summary.update(prior_invocation_wall_seconds=prior_wall,prior_invocation_cpu_seconds=prior_cpu)
-        p.check_storage()
-        board, family = q.selected_source(project_name)
-        frozen = freeze(board)
+        p.check_storage(**({'active_root': out} if installed_context is not None else {}))
+        board, family = ((installed_context.board, installed_context.family) if installed_context is not None
+                         else q.selected_source(project_name))
+        frozen = installed_context.freeze() if installed_context is not None else freeze(board)
         if resume_plan is not None:
             basis=resume_basis(resume_plan,resume_plan_sha256,board,frozen,budget,project_name,guidance_policy)
             prior_wall,prior_cpu=basis['prior_wall_seconds'],basis['prior_cpu_seconds']
@@ -331,6 +520,14 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
             shutil.copy2(c.ROOT / relative, copied)
             if p.sha(copied) != digest:
                 raise p.Rejected('frozen code changed while copying')
+        if installed_context is not None:
+            for relative, digest in installed_context.administration_files_sha256.items():
+                copied = out / 'frozen-administration' / relative
+                copied.parent.mkdir(parents=True, exist_ok=True)
+                raw = pv.read_bytes(installed_context.administration_root / relative)
+                if hashlib.sha256(raw).hexdigest() != digest:
+                    raise p.Rejected('external administration changed while copying')
+                with copied.open('xb') as stream: stream.write(raw)
         protocol = {'schema': 1, 'family': family, 'source': str(board), 'freeze': frozen,
                     'allocation':allocation, 'operational_outer_ceiling_seconds':outer_ceiling,
                     'variants': list(VARIANTS), 'fixed_order': True, 'guidance_policy':guidance_policy,
@@ -353,7 +550,8 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
         p.save_json(out / 'protocol.json', protocol)
         summary.update(protocol_sha256=p.sha(out / 'protocol.json'), source=str(board), family=family)
         def stable():
-            q.verify_freeze(frozen,board)
+            if installed_context is not None: installed_context.check()
+            else: q.verify_freeze(frozen,board)
             if basis:verify_resume_basis(basis)
         def verified(row):return verify_row(row,board,trial_freeze(protocol,row))
         for index, variant in enumerate(VARIANTS):
@@ -374,7 +572,11 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
             before_wall, before_cpu = time.monotonic(), q.total_process_cpu()
             trial_started_utc = datetime.datetime.now(datetime.timezone.utc).isoformat()
             try:
-                result = p.route(board, directory, assigned, False, 'both', 'tuned', scoring_variant=variant) if guidance_policy is None else f.route(board,directory,assigned,False,'both','tuned',variant,guidance_policy=guidance_policy)
+                result = (_installed_attempt(installed_context, directory, assigned, variant)
+                          if installed_context is not None else
+                          p.route(board, directory, assigned, False, 'both', 'tuned', scoring_variant=variant)
+                          if guidance_policy is None else
+                          f.route(board,directory,assigned,False,'both','tuned',variant,guidance_policy=guidance_policy))
             except (Exception, KeyboardInterrupt) as exc:
                 # Preserve an invocation failure even when route() fails before
                 # creating its own receipt. Cancellation invalidates the whole
@@ -385,7 +587,8 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
                     'eligible': False, 'reason': type(exc).__name__ + ': ' + str(exc),
                     'invocation_wall_seconds': time.monotonic() - before_wall,
                     'invocation_cpu_seconds': q.total_process_cpu() - before_cpu,
-                    'directory': str(directory)})
+                    'directory': str(directory),
+                    **({'installed_cli': _installed_evidence(directory)} if installed_context is not None else {})})
                 raise
             trial_wall, trial_cpu = time.monotonic() - before_wall, q.total_process_cpu() - before_cpu
             receipt = directory / 'result.json'
@@ -407,6 +610,7 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
                    'peak_child_rss_bytes': result.get('peak_child_rss_bytes'),
                    'peak_polled_group_rss_bytes': max([step.get('sampled_peak_group_rss_bytes') or 0 for step in result.get('steps', [])] + [0]),
                    'native': result.get('native')}
+            if installed_context is not None: row['installed_cli'] = _installed_evidence(directory)
             summary['trials'].append(row)
             if q.cancelled(result):
                 raise KeyboardInterrupt
@@ -414,6 +618,8 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
             if row['accepted_in_trial_receipt']:
                 if not all(q.finite_nonnegative(value) and value <= assigned for value in (trial_wall, trial_cpu)):
                     row['verification_error'] = 'trial invocation exceeded its assigned wall/CPU allowance'
+                    if installed_context is not None:
+                        raise p.Rejected('installed trial invocation exceeded assigned wall/CPU allowance')
                 else:
                     verified(row)
                     row['eligible'] = True
@@ -470,6 +676,7 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
     try:
         if summary['status'] == 'cancelled':
             preserve_partial()
+        if installed_context is not None: installed_context.check()
         if basis:stable()
         account()
         p.save_json(out / 'portfolio-summary.json', summary)
@@ -479,6 +686,12 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
         if remaining() < 0:
             account()
             p.save_json(out / 'portfolio-summary.json', summary)
+        if installed_context is not None:
+            installed_context.check()
+            if f.canonical(f.read_json(out / 'portfolio-summary.json')) != f.canonical(summary):
+                raise p.Rejected('installed portfolio publication changed')
+            if remaining() < 0:
+                account(); p.save_json(out / 'portfolio-summary.json', summary)
     except KeyboardInterrupt:
         # Final publication is still part of the cancellable operation. Keep
         # an interrupted write as evidence before emitting a rejected summary.
@@ -490,7 +703,7 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
         p.save_json(out / 'portfolio-summary.json', summary)
     except Exception as exc:
         archive_failed_index()
-        if not basis:raise
+        if not basis and installed_context is None:raise
         summary.update(status='invalidated',comparison_eligible=False,selected=None,reason=type(exc).__name__+': '+str(exc))
         account();p.save_json(out/'portfolio-summary.json',summary)
     return summary
