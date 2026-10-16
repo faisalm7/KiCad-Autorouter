@@ -308,6 +308,17 @@ class Workflow:
         return target
 
 
+def improve_preset(config):
+    """Choose compatible algorithm settings without replacing task constraints."""
+    from .strategy import pruning_scope
+    effective = pref.validate(config)
+    candidate = dict(effective, profile='tuned', adapter='both')
+    try:
+        return pruning_scope(candidate)
+    except Exception as exc:
+        raise ValueError('Improve requires whole-board unlocked routing, all source layers, Native guidance and at least 30 seconds. Use Route for other tasks.') from exc
+
+
 class CliJob:
     """One child CLI. Cancel requests SIGINT; its existing runner owns cleanup.
 
@@ -428,7 +439,7 @@ def main(argv=None):
             grid = wx.FlexGridSizer(cols=2, vgap=4, hgap=8); grid.AddGrowableCol(1)
             grid.Add(wx.StaticText(panel, label='Method'), 0, wx.ALIGN_CENTER_VERTICAL)
             self.method = wx.Choice(panel, choices=['Route', 'Improve (experimental; tuned whole-board preset)'])
-            self.method.SetSelection(0); self.method.Bind(wx.EVT_CHOICE, self.changed)
+            self.method.SetSelection(0); self.method.Bind(wx.EVT_CHOICE, self.method_changed)
             self.edit_controls.append(self.method); grid.Add(self.method, 1, wx.EXPAND)
             self.choices = {}
             for name, label in [('scope', 'Routing and protection'), ('profile', 'Routing profile'), ('adapter', 'Interchange corrections'), ('layers', 'Allowed new copper'), ('scoring_preference', 'Via preference')]:
@@ -489,6 +500,21 @@ def main(argv=None):
             if not self.busy: self.flow = None; self.inspected.SetValue(False)
             self.refresh(); event.Skip()
 
+        def method_changed(self, event):
+            if self.busy: event.Skip(); return
+            self.flow = None; self.inspected.SetValue(False)
+            try:
+                if self.method.GetSelection():
+                    settings = improve_preset(self.config())
+                    for name in ('profile', 'adapter'):
+                        self.choices[name].SetSelection(next(i for i, (_, value) in enumerate(self.values[name]) if value == settings[name]))
+                    self.status.SetLabel('Improve selected: tuned profile and both corrections. Routing protection, layers, budget and via preference are unchanged.')
+            except Exception as exc:
+                self.method.SetSelection(0)
+                self.status.SetLabel('Improve refused; Route remains selected. Task constraints were not changed.')
+                wx.MessageBox(str(exc), 'Improve unavailable for these settings', wx.OK | wx.ICON_ERROR)
+            self.refresh(); event.Skip()
+
         def load_preset(self, _):
             if self.busy: return
             with wx.FileDialog(self, 'Load explicit settings', wildcard='JSON (*.json)|*.json', style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST) as dialog:
@@ -497,6 +523,9 @@ def main(argv=None):
                     config = pref.resolve(pref.load(dialog.GetPath()))
                     if config['guidance'] != 'native': raise ValueError('This graphical workflow supports Native guidance; retain other presets for their documented CLI.')
                     if config['seconds'] != int(config['seconds']): raise ValueError('This graphical control uses whole seconds; use the CLI for fractional budgets.')
+                    if self.method.GetSelection():
+                        from .strategy import pruning_scope
+                        pruning_scope(config)  # Exact loaded settings; no implicit preset rewriting.
                     for name, control in self.choices.items():
                         control.SetSelection(next(i for i, (_, value) in enumerate(self.values[name]) if value == config[name]))
                     self.seconds.SetValue(int(config['seconds'])); self.nets.SetValue('\n'.join(config.get('nets', [])))

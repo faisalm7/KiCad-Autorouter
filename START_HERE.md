@@ -2,7 +2,15 @@
 
 This is the existing local project at `~/Projects/KiCad-Autorouter-local`. Keep this folder and its prepared environment. Routing runs locally without Codex, an AI subscription or internet.
 
-Open Terminal in this folder and check the installed tools:
+The graphical launcher is being qualified on this Mac. In the prepared checkout, close other KiCad applications, then create a fresh local launcher once:
+
+```sh
+.venv/bin/python -B scripts/install_gui.py --output .runs/autorouter-launcher-001
+```
+
+Double-click `Launch Autorouter.command` in that folder. Open a saved project in its KiCad window, open PCB Editor and click the green autorouter icon. The routing window lets you choose scope/protection, supported layers, preferences and budget; preview support; start/cancel; review findings; record accept/reject intent; and export a freshly validated separate project. Save and close the source PCB/schematic editors before confirming their exact paths. The launcher uses local settings and requires this checkout and pinned tools to stay in place. Prepare a new launcher after a source update. [Workflow and qualification limits](docs/gui-workflow.md).
+
+The CLI remains available. Open Terminal in this folder and check the installed tools:
 
 ```sh
 cd ~/Projects/KiCad-Autorouter-local

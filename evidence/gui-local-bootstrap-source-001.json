@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "kind": "local-gui-bootstrap-and-preset-source",
+  "runtime_sha256": {
+    "autorouter/gui.py": "b9897e412a9a534e5bd7fd0a64dd58e179d67f1e028bba65c1a163faf0657a28",
+    "scripts/install_gui.py": "8bd3f1a7cd240906870f2bfb2177b80a88ebf6839f72a913eff9b6b36db44328",
+    "scripts/prepare_gui_plugin.py": "dfa0580e0ef88791601053922ba164eedadad8a9fd9a3d8935e6a75e4017798a"
+  },
+  "regression_sha256": {
+    "tests/test_gui_improve_preset.py": "01e12a2271a5f4e810151a5809f145a131064d6f7b8517b5380f43592784bb90",
+    "tests/test_gui_installer.py": "64679120bda85da221fe965fd92956766d5578258bde224e0d53fdef41dca04f",
+    "tests/test_gui_summary.py": "bb3b0c7d2f4e34936d315ce91ed1db00a570e6c11f8d2c15b5f1025e615186b3"
+  },
+  "targeted": {
+    "passed": true,
+    "methods": 35,
+    "external_wall_seconds": 0.47,
+    "external_cpu_seconds": 0.33,
+    "log": ".runs/gui-installer-targeted-001.log",
+    "log_sha256": "c2b25b29efd47fa9b56deb5995110db71104134510418f54631d7b05480bfa1f",
+    "scope": "Portable callbacks/preparation/path/config/instance refusal seams; not actual native/GUI installation qualification"
+  },
+  "changes": [
+    "Local double-click .command bootstrap with isolated config/documents/cache; no global settings or application changes/downloads",
+    "Source/tool/launcher identity checks plus bounded shared home snapshots reject pre-existing symlinks/special files and hard links",
+    "PID-only current-user KiCad manager/editor check refuses existing instances without killing apps",
+    "Improve selection sets visible tuned/both algorithm settings, preserves scope/layers/budget/via preference; incompatible tasks/presets refuse"
+  ],
+  "review": {
+    "installer_notes_sha256": "19fa08120458a5e88b2bc8b4f989846b1b41b789c44393f83c3b8cc03df78fb5",
+    "preset_notes_sha256": "63da40fddca5255feb209c3dcc6ed087e53a8d49a45672745969e24afa90d8f7",
+    "installer_wall_seconds": 112,
+    "preset_wall_seconds": 116,
+    "cpu": "unmeasured",
+    "human": false,
+    "findings_fixed": [
+      "GI001 live configuration aliases",
+      "GI002 unenforced closed-KiCad launch precondition",
+      "Improve defaultprofile mismatch"
+    ]
+  },
+  "limits": [
+    "Mac pinned10.0.0 bootstrap for the existing checkout/tools/venv, not a standalone dependency installer or published package",
+    "Mutable homes have finite512MiB/10000file/20000entry bounds each",
+    "Pre-exec sampled consistency/instance checks do not prevent hostile concurrent same-user changes or simultaneous renamed processes",
+    "Initial telemetry/update disable settings are project-local initial config, not OS network isolation",
+    "Fresh full integration, independent installed Native/GUI/in-worker cancellation/reject and real launcher test pending"
+  ]
+}

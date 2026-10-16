@@ -1,5 +1,11 @@
 # Review and keep a routed KiCad project
 
+The graphical entry point is `scripts/install_gui.py --output .runs/autorouter-launcher-001` in the prepared environment. Double-click its `Launch Autorouter.command`, open your saved project and PCB Editor, then click the green autorouter toolbar icon. This source-bound bootstrap creates local KiCad settings, plugins and cache without changing global configuration. It refuses observed other KiCad sessions or linked/oversized local state; close other KiCad windows first. [Bootstrap scope](gui-implementation-note.md). Actual708 GUI/native evidence is recorded; final new installer/summary/Improve interaction is still pending qualification.
+
+Choose **Route** for the fixed corrected-standard default. **Improve** is optional/experimental: it selects Tuned/Both algorithm settings and preserves routing protection, layers, budget and via preference. Unsupported partial/selected/layer combinations or a budget below30seconds visibly refuse; no source rule is changed. Load/Save settings persists explicit preferences outside the source project.
+
+Use Preview → Route → Create review, then Open preview and Open review project. Read every finding, including warnings and ignored checks. The window distinguishes unchanged candidate copper from review-only metadata changes. Acknowledge review before Accept intent; Reject intent never authorizes export. Fresh export reruns original-rule Native checks and writes another separate project. Cancel waits for cooperative worker cleanup. The original saved source is never overwritten, and there is no tested live-editor transaction or undo. The CLI and structured receipts underneath remain available:
+
 This workflow creates separate complete projects. Save and close your source project before routing, and select its exact `.kicad_pcb` path with the matching schematic, project and rule files beside it. The original stays preserved. Unsupported constraints stop the attempt with a reason.
 
 Use the prepared project environment from Terminal:
