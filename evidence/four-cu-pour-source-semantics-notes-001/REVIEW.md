@@ -1,0 +1,15 @@
+# Four-copper pour metadata and saved-refill diagnostic
+
+This is a bounded support investigation on an exposed, project-owned fixture. It establishes no routing improvement, HFE support or final candidate acceptance.
+
+Pinned KiCad 10.0.0 loaded three immutable complete projects: numeric net 0, numeric net 0 plus explicit island mode 0, and omitted net plus explicit island mode 0. Their native area geometry, flags and layer context matched. Each area had native net code 0, empty net name and island mode 0; actual native constants were ALWAYS=0, NEVER=1, AREA=2. The metadata-only step did not save, refill, export, route or run DRC.
+
+A subsequent saved refill under unchanged project rules produced byte-identical boards for all three sources: omitted area net and explicit island mode 0. Each actual native stage retained 0 opens, 0 blocking findings, 6 Datasheet field warnings, two ignored checks and no exclusions. Complete schematic field observation covered 6 components and 18 fields. Warnings remain visible; whole-project cleanliness is not established. Original prepared projects remained exact.
+
+The existing shared `transplant_fill` refuses both original numeric-zero forms because the strict modern named-net decoder does not qualify that rule-area reference. It succeeds on the omitted-net source while preserving original nonfill AST and route records. This supports trying a narrow omitted-net path while leaving the decoder unchanged.
+
+The saved experiment's final receipt is **invalidated**. The harness omitted producer tool pins from a complete normal-policy census call. Its outer wrapper mistakenly used the observation flag without requiring a completed receipt status. No production candidate was accepted. A read-only follow-up supplied the pins and retained a second census incompatibility: its non-DRC metadata sidecar used reserved DRC binding fields. The follow-up explicitly checks each saved Native stage through `check_drc_stage`, its actual field observation and PRL event, and the metadata process/event/hash separately. It does not claim the complete normal-policy census passed. The first follow-up failed on a misspelled expected refusal message; both attempts and costs remain recorded. No Native experiment was repeated to repair bookkeeping.
+
+Decision: revise the frozen private draft, then test the actual saved-fill matrix and an injected In2 fill intrusion without refilling it away. The same XY on In1 must remain an inapplicable-layer control. Exact DSN attribution and a complete actual router/final-candidate proof are still required. HFE also retains its independent numberless-pad/parity gate.
+
+The adjacent drivers are exact source as run, including the harness errors. They use the retained `.runs` paths and frozen private draft instrumentation; they are evidence of execution, not a self-contained public reproduction package. Raw projects, Native logs, protocols and instrumentation remain in the durable local folder and will enter the next scheduled incremental backup. This record must not be represented as public reproducibility or support qualification.
