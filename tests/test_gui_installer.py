@@ -4,6 +4,8 @@ import os
 from pathlib import Path
 import shlex
 import tempfile
+import subprocess
+import sys
 import unittest
 from unittest.mock import patch
 
@@ -11,6 +13,12 @@ from scripts import install_gui as g
 
 
 class GuiInstallerTests(unittest.TestCase):
+    def test_actual_cli_refusal_is_a_nonzero_exit(self):
+        result = subprocess.run([sys.executable, '-B', str(Path(g.__file__)), '--launch', 'not-install.json'],
+                                capture_output=True, timeout=5)
+        self.assertEqual(result.returncode, 2)
+        self.assertIn(b'Launcher refused:', result.stderr)
+
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory(); self.addCleanup(self.tmp.cleanup)
         self.root = Path(self.tmp.name).resolve()

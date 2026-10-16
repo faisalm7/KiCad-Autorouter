@@ -480,7 +480,9 @@ def main(argv=None):
                 self.choices[name] = control; self.edit_controls.append(control); grid.Add(control, 1, wx.EXPAND)
             grid.Add(wx.StaticText(panel, label='Routing budget (seconds)'), 0, wx.ALIGN_CENTER_VERTICAL)
             self.seconds = wx.SpinCtrl(panel, min=5, max=900, initial=int(pref.DEFAULTS['seconds']))
-            self.seconds.Bind(wx.EVT_SPINCTRL, self.changed); self.edit_controls.append(self.seconds); grid.Add(self.seconds)
+            self.seconds.Bind(wx.EVT_SPINCTRL, self.changed)
+            self.seconds.Bind(wx.EVT_TEXT, self.changed)
+            self.edit_controls.append(self.seconds); grid.Add(self.seconds)
             grid.Add(wx.StaticText(panel, label='Selected nets (one exact name per line)'), 0, wx.ALIGN_CENTER_VERTICAL)
             self.nets = wx.TextCtrl(panel, style=wx.TE_MULTILINE, size=(-1, 55))
             self.nets.Bind(wx.EVT_TEXT, self.changed); self.edit_controls.append(self.nets); grid.Add(self.nets, 1, wx.EXPAND)
@@ -566,7 +568,12 @@ def main(argv=None):
         def config(self):
             result = dict(pref.DEFAULTS)
             for name, control in self.choices.items(): result[name] = self.values[name][control.GetSelection()][1]
-            result['seconds'] = self.seconds.GetValue()
+            # Cocoa/accessibility text edits can precede the spin control's
+            # cached integer update. Capture the actual displayed budget.
+            raw_seconds = self.seconds.GetTextValue().strip()
+            if not raw_seconds.isascii() or not raw_seconds.isdecimal():
+                raise ValueError('Enter a whole-number routing budget from 5 to 900 seconds.')
+            result['seconds'] = int(raw_seconds)
             if result['scope'] == 'selected_nets': result['nets'] = [name for name in self.nets.GetValue().splitlines() if name]
             return pref.validate(result)
 
