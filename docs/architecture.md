@@ -28,7 +28,7 @@ Original project code and diagnostic fixtures are GPL-3.0-or-later; see LICENSE.
 
 ## Learning decision (G6, current evidence)
 
-No learning component is justified at this stage. Observed stock failures include deterministic interchange fidelity failures; the alternative engine also changes copper geometry. The current population has 25 canonical acquired boards, eight statically eligible and 17 unsupported, with no proven independent pedigrees or untouched holdout. Three complete-schematic pruning comparisons are exposed development evidence, not credible family-separated strategy-selection data. Deterministic deletion tests a concrete route-quality hypothesis without model inference. Revisit learning only after broader qualified coverage reveals complementary strategies and enough licensed episodes for family-disjoint evaluation. No weights, training accuracy, or model advantage is claimed.
+No learning component is justified at this stage. Observed stock failures include deterministic interchange fidelity failures; the alternative engine also changes copper geometry. The current population has 25 canonical acquired boards, seven statically eligible and18unsupported in retained cohort015, with no proven independent pedigrees or untouched holdout. Three complete-schematic pruning comparisons are exposed development evidence, not credible family-separated strategy-selection data. Deterministic deletion tests a concrete route-quality hypothesis without model inference. Revisit learning only after broader qualified coverage reveals complementary strategies and enough licensed episodes for family-disjoint evaluation. No weights, training accuracy, or model advantage is claimed.
 
 ## Bounded compound deletion hypothesis
 

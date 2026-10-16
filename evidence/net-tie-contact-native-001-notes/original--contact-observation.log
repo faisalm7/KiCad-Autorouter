@@ -1,0 +1,19 @@
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/net_tie_contact_v1/observer.py", line 250, in observe
+    strings = [str(v) for v in bounded(fp.GetNetTiePadGroups(), 1, 'Native groups')]
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/net_tie_contact_v1/observer.py", line 48, in bounded
+    for value in values:
+TypeError: 'SwigPyObject' object is not iterable
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/net_tie_contact_v1/worker.py", line 33, in <module>
+    if __name__ == '__main__': main()
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/net_tie_contact_v1/worker.py", line 26, in main
+    record = observer.observe_and_export(board, source, dsn, native.pcbnew,
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/net_tie_contact_v1/observer.py", line 400, in observe_and_export
+    first = observe(board, pcbnew, raw)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/net_tie_contact_v1/observer.py", line 255, in observe
+    raise Unsupported('Native group strings/map container unavailable; no inferred replacement') from exc
+experiments.net_tie_contact_v1.observer.Unsupported: Native group strings/map container unavailable; no inferred replacement

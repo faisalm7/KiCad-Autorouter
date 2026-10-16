@@ -1,0 +1,118 @@
+{
+    "$schema": "https://schemas.kicad.org/drc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-10-16T13:49:01",
+    "ignored_checks": [
+        {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+        },
+        {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning",
+        "exclusion"
+    ],
+    "kicad_version": "10.0.0",
+    "schematic_parity": [],
+    "source": "owned-net-tie-contact.kicad_pcb",
+    "unconnected_items": [],
+    "violations": [
+        {
+            "description": "Tracks crossing",
+            "items": [
+                {
+                    "description": "Track [N2_B] on F.Cu, length 16.0000 mm",
+                    "pos": {
+                        "x": 23.0,
+                        "y": 14.0
+                    },
+                    "uuid": "a72174d4-90be-57cf-9fb1-f0f8b04bc615"
+                },
+                {
+                    "description": "Track [N2_A] on F.Cu, length 4.0000 mm",
+                    "pos": {
+                        "x": 7.0,
+                        "y": 10.0
+                    },
+                    "uuid": "d8227c2a-a118-59e4-b9f9-7ebce208a444"
+                }
+            ],
+            "severity": "error",
+            "type": "tracks_crossing"
+        },
+        {
+            "description": "Items shorting two nets (nets N2_B and N2_A)",
+            "items": [
+                {
+                    "description": "PTH pad 1 [N2_B] of J2",
+                    "pos": {
+                        "x": 7.0,
+                        "y": 14.0
+                    },
+                    "uuid": "15b567c4-2ebc-5183-b5ae-1881379bec55"
+                },
+                {
+                    "description": "Track [N2_A] on F.Cu, length 4.0000 mm",
+                    "pos": {
+                        "x": 7.0,
+                        "y": 10.0
+                    },
+                    "uuid": "d8227c2a-a118-59e4-b9f9-7ebce208a444"
+                }
+            ],
+            "severity": "error",
+            "type": "shorting_items"
+        },
+        {
+            "description": "Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.0000 mm)",
+            "items": [
+                {
+                    "description": "Track [N2_A] on F.Cu, length 4.0000 mm",
+                    "pos": {
+                        "x": 7.0,
+                        "y": 10.0
+                    },
+                    "uuid": "d8227c2a-a118-59e4-b9f9-7ebce208a444"
+                },
+                {
+                    "description": "PTH pad 1 [N2_B] of J2",
+                    "pos": {
+                        "x": 7.0,
+                        "y": 14.0
+                    },
+                    "uuid": "15b567c4-2ebc-5183-b5ae-1881379bec55"
+                }
+            ],
+            "severity": "error",
+            "type": "hole_clearance"
+        },
+        {
+            "description": "Front solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "Track [N2_A] on F.Cu, length 4.0000 mm",
+                    "pos": {
+                        "x": 7.0,
+                        "y": 10.0
+                    },
+                    "uuid": "d8227c2a-a118-59e4-b9f9-7ebce208a444"
+                },
+                {
+                    "description": "PTH pad 1 [N2_B] of J2",
+                    "pos": {
+                        "x": 7.0,
+                        "y": 14.0
+                    },
+                    "uuid": "15b567c4-2ebc-5183-b5ae-1881379bec55"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        }
+    ]
+}

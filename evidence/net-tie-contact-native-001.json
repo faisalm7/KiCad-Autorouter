@@ -1,0 +1,661 @@
+{
+  "schema": 1,
+  "kind": "actual-bounded-net-tie-prerequisite-deferred",
+  "native_executed": true,
+  "engine_executed": false,
+  "qualified": false,
+  "accepted": false,
+  "production_admitted": false,
+  "source_head": "1af5a37d0c5a012a06e69a42ca75c6171ab7659e",
+  "prospective": "evidence/net-tie-contact-prospective-001.json",
+  "protocol_sha256": "d4aa2223512a1879225245ba487c0672f0d657b069f45cda47babca23bdfb9d6",
+  "outer_status": "failed",
+  "child_status": "observed_unqualified",
+  "whole_costs": {
+    "external_wall_seconds": 16.74,
+    "external_full_cpu_seconds": 14.13,
+    "scope": "Includes preparation, all three cases, failed workers and final shared publication; child times are subsets, not added twice.",
+    "research_authoring_independent_review_cpu_seconds": null
+  },
+  "cases": {
+    "original": {
+      "candidate": ".runs/net-tie-contact-native-001/native/original/candidate/SparkFun_VEML7700.kicad_pcb",
+      "candidate_sha256": "c43ebbce79bfcb77b0b24ed4ee7da6c2ec563df0bd976628ceb4b0ff213395a9",
+      "native": {
+        "opens": 0,
+        "blocking": 3,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Silkscreen clearance",
+            "key": "silk_overlap"
+          },
+          {
+            "description": "Silkscreen clipped by solder mask",
+            "key": "silk_over_copper"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          },
+          {
+            "description": "Footprint not found in libraries",
+            "key": "lib_footprint_issues"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Courtyards overlap",
+            "items": [
+              {
+                "description": "Footprint FID3",
+                "pos": {
+                  "x": 123.901,
+                  "y": 86.041
+                },
+                "uuid": "15867ade-bc87-4922-9129-417303565686"
+              },
+              {
+                "description": "Footprint ST1",
+                "pos": {
+                  "x": 125.806,
+                  "y": 87.946
+                },
+                "uuid": "d6e3a13c-269f-419f-bd67-6bdd2ca889a7"
+              }
+            ],
+            "severity": "error",
+            "type": "courtyards_overlap"
+          },
+          {
+            "description": "Courtyards overlap",
+            "items": [
+              {
+                "description": "Footprint ST3",
+                "pos": {
+                  "x": 146.126,
+                  "y": 108.266
+                },
+                "uuid": "581204c0-620a-4656-b079-613aedc55c22"
+              },
+              {
+                "description": "Footprint FID4",
+                "pos": {
+                  "x": 148.031,
+                  "y": 110.171
+                },
+                "uuid": "61aa0ed3-558f-4c6d-9e62-dd57c48bd5c1"
+              }
+            ],
+            "severity": "error",
+            "type": "courtyards_overlap"
+          },
+          {
+            "description": "Thermal relief connection to zone incomplete (layer F.Cu; zone min spoke count 2; actual 1)",
+            "items": [
+              {
+                "description": "Zone [GND] on F.Cu and B.Cu, priority 0",
+                "pos": {
+                  "x": 123.266,
+                  "y": 110.806
+                },
+                "uuid": "c43c8e43-4c50-4081-bbac-68f3d5ee0053"
+              },
+              {
+                "description": "Pad 3 [GND] of U1 on F.Cu",
+                "pos": {
+                  "x": 136.545,
+                  "y": 99.201
+                },
+                "uuid": "9d8bad0c-b414-4560-aeab-7efc4b04e8b8"
+              }
+            ],
+            "severity": "error",
+            "type": "starved_thermal"
+          }
+        ]
+      },
+      "control_passed": false,
+      "reason": "Rejected: contact-observation: nonzero_exit exit=1",
+      "shared_final_and_refill_readback": true,
+      "source_packet_sha256": {
+        "Hardware/README.md": "6add188e18eb48c055d25c6cb3c9e2865bcec753e4da3b3bc97602b7f613f683",
+        "Hardware/SparkFun_VEML7700.kicad_pcb": "d88abec2f3ca3314e694587a11872a467ef019a29cba14fdf6aa17d4b7d75e76",
+        "Hardware/SparkFun_VEML7700.kicad_pro": "eacd5299ee0be61324906600a16c07fd4ccd85491b472a657d8774bd495b8870",
+        "Hardware/SparkFun_VEML7700.kicad_sch": "316643fbce27452ab762fab59de046310ffe0d4097d8c0845151d438bedb415d",
+        "LICENSE.md": "cc2731bed1b3d28242eaa4bc9992864b28650bdc69fb4c558ce6e0b7bfc74680",
+        "README.md": "719e1f2f21332569d91790afc3424ddb7dae2325d4c2e8296c6df6b7d68011b9"
+      },
+      "protected_routes": 112
+    },
+    "positive": {
+      "candidate": ".runs/net-tie-contact-native-001/native/positive/candidate/owned-net-tie-contact.kicad_pcb",
+      "candidate_sha256": "5742cc945d39e86891d875a093df96a85664857ad8f4f6b94b711c157242c4cf",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          }
+        ],
+        "findings": []
+      },
+      "control_passed": false,
+      "reason": "Rejected: contact-observation: nonzero_exit exit=1",
+      "shared_final_and_refill_readback": true,
+      "source_packet_sha256": {
+        "owned-net-tie-contact.kicad_pcb": "6f0c5ffa547c83ae6cf89cf50d706b147f3c60e2b6ab9ed9d49ef3caf2fc800b",
+        "owned-net-tie-contact.kicad_prl": "c03701abe4af73fb747a269c49f36ad2d19ef589b75f6a2d5774b739f8ade060",
+        "owned-net-tie-contact.kicad_pro": "b812a04120a52d220754860603f203b4dcd2664f0c068f88649ae5471ce3b59d",
+        "owned-net-tie-contact.kicad_sch": "19c6c36db2ce4a98985159f8be7ef0365ad12c5357112818b2a13197e31e9006"
+      },
+      "protected_routes": 6
+    },
+    "outside_short": {
+      "candidate": ".runs/net-tie-contact-native-001/native/outside_short/candidate/owned-net-tie-contact.kicad_pcb",
+      "candidate_sha256": "6046cfbf4fda34985212dc58ae969b80f9c197c55b9decbdf1a0fde4defe78ce",
+      "native": {
+        "opens": 0,
+        "blocking": 4,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Tracks crossing",
+            "items": [
+              {
+                "description": "Track [N2_B] on F.Cu, length 16.0000 mm",
+                "pos": {
+                  "x": 23.0,
+                  "y": 14.0
+                },
+                "uuid": "a72174d4-90be-57cf-9fb1-f0f8b04bc615"
+              },
+              {
+                "description": "Track [N2_A] on F.Cu, length 4.0000 mm",
+                "pos": {
+                  "x": 7.0,
+                  "y": 10.0
+                },
+                "uuid": "d8227c2a-a118-59e4-b9f9-7ebce208a444"
+              }
+            ],
+            "severity": "error",
+            "type": "tracks_crossing"
+          },
+          {
+            "description": "Items shorting two nets (nets N2_B and N2_A)",
+            "items": [
+              {
+                "description": "PTH pad 1 [N2_B] of J2",
+                "pos": {
+                  "x": 7.0,
+                  "y": 14.0
+                },
+                "uuid": "15b567c4-2ebc-5183-b5ae-1881379bec55"
+              },
+              {
+                "description": "Track [N2_A] on F.Cu, length 4.0000 mm",
+                "pos": {
+                  "x": 7.0,
+                  "y": 10.0
+                },
+                "uuid": "d8227c2a-a118-59e4-b9f9-7ebce208a444"
+              }
+            ],
+            "severity": "error",
+            "type": "shorting_items"
+          },
+          {
+            "description": "Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.0000 mm)",
+            "items": [
+              {
+                "description": "Track [N2_A] on F.Cu, length 4.0000 mm",
+                "pos": {
+                  "x": 7.0,
+                  "y": 10.0
+                },
+                "uuid": "d8227c2a-a118-59e4-b9f9-7ebce208a444"
+              },
+              {
+                "description": "PTH pad 1 [N2_B] of J2",
+                "pos": {
+                  "x": 7.0,
+                  "y": 14.0
+                },
+                "uuid": "15b567c4-2ebc-5183-b5ae-1881379bec55"
+              }
+            ],
+            "severity": "error",
+            "type": "hole_clearance"
+          },
+          {
+            "description": "Front solder mask aperture bridges items with different nets",
+            "items": [
+              {
+                "description": "Track [N2_A] on F.Cu, length 4.0000 mm",
+                "pos": {
+                  "x": 7.0,
+                  "y": 10.0
+                },
+                "uuid": "d8227c2a-a118-59e4-b9f9-7ebce208a444"
+              },
+              {
+                "description": "PTH pad 1 [N2_B] of J2",
+                "pos": {
+                  "x": 7.0,
+                  "y": 14.0
+                },
+                "uuid": "15b567c4-2ebc-5183-b5ae-1881379bec55"
+              }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+          }
+        ]
+      },
+      "control_passed": false,
+      "reason": "Rejected: contact-observation: nonzero_exit exit=1",
+      "shared_final_and_refill_readback": true,
+      "source_packet_sha256": {
+        "owned-net-tie-contact.kicad_pcb": "1aae3979599bc2779fe1b0620bdf1714b8b96a50569f6078b451880670f0ceb4",
+        "owned-net-tie-contact.kicad_prl": "c03701abe4af73fb747a269c49f36ad2d19ef589b75f6a2d5774b739f8ade060",
+        "owned-net-tie-contact.kicad_pro": "b812a04120a52d220754860603f203b4dcd2664f0c068f88649ae5471ce3b59d",
+        "owned-net-tie-contact.kicad_sch": "19c6c36db2ce4a98985159f8be7ef0365ad12c5357112818b2a13197e31e9006"
+      },
+      "protected_routes": 7
+    }
+  },
+  "decision": "DEFER; no Native retry or production guard change. Original has independent immutable-footprint courtyard conflicts. Group container unavailable; no pointer/ownership workaround or inferred substitute.",
+  "observed_binding_failure": "All three GetNetTiePadGroups() calls return noniterable SwigPyObject. Subsequent map/GetNetTiePads, contact and DSN stages were not reached, not proven unavailable.",
+  "outside_short_frozen_control": "Controller stopped at observation before its type check. Independent raw-readback review finds tracks_crossing/hole_clearance/solder_mask_bridge outside the predeclared clearance/shorting_items types, despite pinned item UUID sets. Do not broaden retrospectively or call it a passed control.",
+  "actual_contact_or_dsn_proof": false,
+  "shared_native_readback": true,
+  "skeptical_review": "Separate read-only AI review confirmed actual raw findings, source/code/final bindings and all-false flags. No human/electrical/physical review.",
+  "unchanged_runtime": "010/source5d85f5f1 remains qualified in its existing scope. No added family/completion/quality gain.",
+  "backup_cutoff": "010capture8250c18e predates this Native run. Current raw source already captured; these new reports/candidates are not retroactively included. New-target full restoration remains disk-headroom blocked.",
+  "files": [
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/enclosure-result.json",
+      "bytes": 30317,
+      "sha256": "1216fca0e2f27820c063286b085d74f72e8aca652e1b0cf88e87f93b05cab788",
+      "source": ".runs/net-tie-contact-native-001/result.json"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/native-result.json",
+      "bytes": 62884,
+      "sha256": "f6ca502af16901bc53c764b352030af1b443b101388b008b3155a774c1b72718",
+      "source": ".runs/net-tie-contact-native-001/native/result.json"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/protocol.json",
+      "bytes": 9785,
+      "sha256": "d4aa2223512a1879225245ba487c0672f0d657b069f45cda47babca23bdfb9d6",
+      "source": ".runs/net-tie-contact-native-001/preparation/protocol.json"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/whole-command.log",
+      "bytes": 164,
+      "sha256": "58d75f14064b98db0052b2d41f721f833456403e10b88bbc1ae0ec9ae7df7850",
+      "source": ".runs/net-tie-contact-native-001-command.log"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/whole-time.log",
+      "bytes": 31,
+      "sha256": "5e7f64e791f6557c464b317462d6250e9659aff30b11968519fcc939420fbfae",
+      "source": ".runs/net-tie-contact-native-001-time.log"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/prepare.log",
+      "bytes": 132,
+      "sha256": "eccf6b531a10b81c172f567f710e32a3c3004d6853a5da333712297e479b165f",
+      "source": ".runs/net-tie-contact-native-001/prepare.log"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/native.log",
+      "bytes": 143,
+      "sha256": "95e110606760d8f27a6e2cba6c4619f3e1511039da3b0f067d7eb93b02cbdec8",
+      "source": ".runs/net-tie-contact-native-001/native.log"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/enclosure.py",
+      "bytes": 3532,
+      "sha256": "f3a574e9482df3e310c411073282c1cac8b4cf90379cb811b4f2687e3d6350fc",
+      "source": ".runs/run-net-tie-contact-native-001.py"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/original--refill-drc.json",
+      "bytes": 4032,
+      "sha256": "49f68a6639e70adc3a3691e177ecc8255d921f0d3bfe1dbb6952418e707b9493",
+      "source": ".runs/net-tie-contact-native-001/native/original/job/refill-drc.json"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/original--contact-observation-process.json",
+      "bytes": 2148,
+      "sha256": "46d6b694bf2eb5c187b55252efca569b0cae1f9e9dcfe37263d4ff8cbd4778b1",
+      "source": ".runs/net-tie-contact-native-001/native/original/job/contact-observation-process.json"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/original--final-drc-process.json",
+      "bytes": 2239,
+      "sha256": "01fb2c525350e3a170ce3a03c389dabe5d369f303299cf766993b0cf04629e15",
+      "source": ".runs/net-tie-contact-native-001/native/original/job/final-drc-process.json"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/original--refill-drc-process.json",
+      "bytes": 2227,
+      "sha256": "7c863762834758fd87bf5cffb428efd07bae13268389b1983f31849ebf1d351b",
+      "source": ".runs/net-tie-contact-native-001/native/original/job/refill-drc-process.json"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/original--refill-drc.log",
+      "bytes": 192,
+      "sha256": "adcd7baa1c8276bb8b334a15ac472f3c45b6bba88cc51c9063f8c7d9b74c3664",
+      "source": ".runs/net-tie-contact-native-001/native/original/job/refill-drc.log"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/original--final-drc.json",
+      "bytes": 4032,
+      "sha256": "a4d86b8f78638740ec2a2e76d37b2e6231da7b0ce418bbbcea28ddc4cb01b889",
+      "source": ".runs/net-tie-contact-native-001/native/original/job/final-drc.json"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/original--final-netclasses.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": ".runs/net-tie-contact-native-001/native/original/job/final-netclasses.log"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/original--final-netclasses.json",
+      "bytes": 12308,
+      "sha256": "cff08e89a13fcea57f8a24a0380d135b0b505c563182a405469f9ae0d889ca11",
+      "source": ".runs/net-tie-contact-native-001/native/original/job/final-netclasses.json"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/original--pour-keepout-audit.json",
+      "bytes": 7261,
+      "sha256": "401734525db8d8be4fbe5fb62f8065992673e7ae6b55c8e41ec96f0c59afc1c5",
+      "source": ".runs/net-tie-contact-native-001/native/original/job/pour-keepout-audit.json"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/original--pour-keepout-audit-process.json",
+      "bytes": 2028,
+      "sha256": "8b9778e75a15110247859c4d8a47d808db63a14e794cc7174607017f662870aa",
+      "source": ".runs/net-tie-contact-native-001/native/original/job/pour-keepout-audit-process.json"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/original--contact-observation.log",
+      "bytes": 1407,
+      "sha256": "d992a0bcbce8678734abf00fe4c91e4b0f6225d5e87ebfb60a5358d917b9c667",
+      "source": ".runs/net-tie-contact-native-001/native/original/job/contact-observation.log"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/original--final-netclass-audit.json",
+      "bytes": 13431,
+      "sha256": "9f5a8e043dba4fff096fcb9073f075060277d03436af3cdfea6afeb520606195",
+      "source": ".runs/net-tie-contact-native-001/native/original/job/final-netclass-audit.json"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/original--final-netclasses-process.json",
+      "bytes": 2021,
+      "sha256": "5c829a6dc567671c1f597e1540ba50f11277ded29a3afc86cd84c7d13fbdc8e1",
+      "source": ".runs/net-tie-contact-native-001/native/original/job/final-netclasses-process.json"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/original--final-drc.log",
+      "bytes": 211,
+      "sha256": "df381b621d41524dd80bdd6a79f218ecc911cdca0d1b3516236cc45f255098d2",
+      "source": ".runs/net-tie-contact-native-001/native/original/job/final-drc.log"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/original--refill-drc-binding.json",
+      "bytes": 1300,
+      "sha256": "3d124682a78e47248c9b3f35dcb626441311b621d20c9045e7f37df140eddbdd",
+      "source": ".runs/net-tie-contact-native-001/native/original/job/refill-drc-binding.json"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/original--pour-keepout-audit.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": ".runs/net-tie-contact-native-001/native/original/job/pour-keepout-audit.log"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/original--final-drc-binding.json",
+      "bytes": 1378,
+      "sha256": "025156d88e5ed7b664ab93a131c9653dd37fee8cdfcfc538f2875763cd09af1f",
+      "source": ".runs/net-tie-contact-native-001/native/original/job/final-drc-binding.json"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/positive--refill-drc.json",
+      "bytes": 674,
+      "sha256": "38132e3a77f47bf4f36a1dd11af58dd449b5cbb734599feae8f7d83384d04252",
+      "source": ".runs/net-tie-contact-native-001/native/positive/job/refill-drc.json"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/positive--contact-observation-process.json",
+      "bytes": 2153,
+      "sha256": "035dc0bd60eac888cc7dbe507f946ac576a9585999f4b28c5b6731b180eabd7d",
+      "source": ".runs/net-tie-contact-native-001/native/positive/job/contact-observation-process.json"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/positive--final-drc-process.json",
+      "bytes": 2583,
+      "sha256": "570e570d9bbceae2572d3118281243256b1a82b2e77ae5c56b8f0ca14d4f324e",
+      "source": ".runs/net-tie-contact-native-001/native/positive/job/final-drc-process.json"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/positive--refill-drc-process.json",
+      "bytes": 2561,
+      "sha256": "efe59158e3c608686b8af0fc343bf705777ccc4287a5401d6a8933395904968d",
+      "source": ".runs/net-tie-contact-native-001/native/positive/job/refill-drc-process.json"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/positive--refill-drc.log",
+      "bytes": 192,
+      "sha256": "fe9f34e922b97d9cabb52ed1eb4bdf82bcfcf4999e1cd22e59776bf0347b65a9",
+      "source": ".runs/net-tie-contact-native-001/native/positive/job/refill-drc.log"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/positive--final-drc.json",
+      "bytes": 674,
+      "sha256": "f4ef6126dbd232027b5c6e7718eb25411cac54935127367a113a6242e5d95da6",
+      "source": ".runs/net-tie-contact-native-001/native/positive/job/final-drc.json"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/positive--contact-observation.log",
+      "bytes": 1407,
+      "sha256": "d992a0bcbce8678734abf00fe4c91e4b0f6225d5e87ebfb60a5358d917b9c667",
+      "source": ".runs/net-tie-contact-native-001/native/positive/job/contact-observation.log"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/positive--final-drc.log",
+      "bytes": 211,
+      "sha256": "37728fd5bbd34f25a83f51f370854219ded3bf7b69cfbaef7919723c88e3dacc",
+      "source": ".runs/net-tie-contact-native-001/native/positive/job/final-drc.log"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/positive--refill-drc-binding.json",
+      "bytes": 1273,
+      "sha256": "2b109580a2b3ab8e354118da90a76851a6651748eda13733f55ecb7a580fd27e",
+      "source": ".runs/net-tie-contact-native-001/native/positive/job/refill-drc-binding.json"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/positive--final-drc-binding.json",
+      "bytes": 1351,
+      "sha256": "ea2b73c4206539ed484d8cd59797c4ca9eb08e1fa3f9b7c8344aecca774f4ffe",
+      "source": ".runs/net-tie-contact-native-001/native/positive/job/final-drc-binding.json"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/positive--candidate--owned-net-tie-contact.kicad_prl",
+      "bytes": 180,
+      "sha256": "c03701abe4af73fb747a269c49f36ad2d19ef589b75f6a2d5774b739f8ade060",
+      "source": ".runs/net-tie-contact-native-001/native/positive/candidate/owned-net-tie-contact.kicad_prl"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/positive--candidate--owned-net-tie-contact.kicad_pcb",
+      "bytes": 10799,
+      "sha256": "5742cc945d39e86891d875a093df96a85664857ad8f4f6b94b711c157242c4cf",
+      "source": ".runs/net-tie-contact-native-001/native/positive/candidate/owned-net-tie-contact.kicad_pcb"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/positive--candidate--owned-net-tie-contact.kicad_pro",
+      "bytes": 2191,
+      "sha256": "b812a04120a52d220754860603f203b4dcd2664f0c068f88649ae5471ce3b59d",
+      "source": ".runs/net-tie-contact-native-001/native/positive/candidate/owned-net-tie-contact.kicad_pro"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/positive--candidate--owned-net-tie-contact.kicad_sch",
+      "bytes": 10509,
+      "sha256": "19c6c36db2ce4a98985159f8be7ef0365ad12c5357112818b2a13197e31e9006",
+      "source": ".runs/net-tie-contact-native-001/native/positive/candidate/owned-net-tie-contact.kicad_sch"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/outside_short--refill-drc.json",
+      "bytes": 3893,
+      "sha256": "30e6d87ec803466d611b57db14b6b281ffb0ec6dd1848b9d369f6b3826e449b3",
+      "source": ".runs/net-tie-contact-native-001/native/outside_short/job/refill-drc.json"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/outside_short--contact-observation-process.json",
+      "bytes": 2166,
+      "sha256": "8f0f44800b8ad8ca4da39525685a0c445cad2cd33821bf6d010760370a5147c2",
+      "source": ".runs/net-tie-contact-native-001/native/outside_short/job/contact-observation-process.json"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/outside_short--final-drc-process.json",
+      "bytes": 2613,
+      "sha256": "c3b19ba8549fa0d8bc5b7db915e02ea75ed4fd10a4f5b53018ef05e1fcb8c7d6",
+      "source": ".runs/net-tie-contact-native-001/native/outside_short/job/final-drc-process.json"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/outside_short--refill-drc-process.json",
+      "bytes": 2591,
+      "sha256": "c4457468bf57bcfa3775a8774c03c87d4645a7492e404481199de39b21014254",
+      "source": ".runs/net-tie-contact-native-001/native/outside_short/job/refill-drc-process.json"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/outside_short--refill-drc.log",
+      "bytes": 197,
+      "sha256": "0591aa699f5f5db3a78dbbb8baf8f5a19697305dabb746419aefae55c3e981a7",
+      "source": ".runs/net-tie-contact-native-001/native/outside_short/job/refill-drc.log"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/outside_short--final-drc.json",
+      "bytes": 3893,
+      "sha256": "b59152081a84edfbafc591cd49de3af696e19d8276718e706b79839f2d09c3db",
+      "source": ".runs/net-tie-contact-native-001/native/outside_short/job/final-drc.json"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/outside_short--contact-observation.log",
+      "bytes": 1407,
+      "sha256": "d992a0bcbce8678734abf00fe4c91e4b0f6225d5e87ebfb60a5358d917b9c667",
+      "source": ".runs/net-tie-contact-native-001/native/outside_short/job/contact-observation.log"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/outside_short--final-drc.log",
+      "bytes": 216,
+      "sha256": "683ce77f9befc6468241c024cd205fa4a9f1999becbb68781d7af2aa40349799",
+      "source": ".runs/net-tie-contact-native-001/native/outside_short/job/final-drc.log"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/outside_short--refill-drc-binding.json",
+      "bytes": 1283,
+      "sha256": "8746399aef53b2a19b31315ce65421989f74275b243ae3af4ac6b0eb917e0e8f",
+      "source": ".runs/net-tie-contact-native-001/native/outside_short/job/refill-drc-binding.json"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/outside_short--final-drc-binding.json",
+      "bytes": 1361,
+      "sha256": "7889e1313bac6acae6c9f8444eb2de80b5d2b7aa8efb70899ccc7b8fd891dde0",
+      "source": ".runs/net-tie-contact-native-001/native/outside_short/job/final-drc-binding.json"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/outside_short--candidate--owned-net-tie-contact.kicad_prl",
+      "bytes": 180,
+      "sha256": "c03701abe4af73fb747a269c49f36ad2d19ef589b75f6a2d5774b739f8ade060",
+      "source": ".runs/net-tie-contact-native-001/native/outside_short/candidate/owned-net-tie-contact.kicad_prl"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/outside_short--candidate--owned-net-tie-contact.kicad_pcb",
+      "bytes": 10932,
+      "sha256": "6046cfbf4fda34985212dc58ae969b80f9c197c55b9decbdf1a0fde4defe78ce",
+      "source": ".runs/net-tie-contact-native-001/native/outside_short/candidate/owned-net-tie-contact.kicad_pcb"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/outside_short--candidate--owned-net-tie-contact.kicad_pro",
+      "bytes": 2191,
+      "sha256": "b812a04120a52d220754860603f203b4dcd2664f0c068f88649ae5471ce3b59d",
+      "source": ".runs/net-tie-contact-native-001/native/outside_short/candidate/owned-net-tie-contact.kicad_pro"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/outside_short--candidate--owned-net-tie-contact.kicad_sch",
+      "bytes": 10509,
+      "sha256": "19c6c36db2ce4a98985159f8be7ef0365ad12c5357112818b2a13197e31e9006",
+      "source": ".runs/net-tie-contact-native-001/native/outside_short/candidate/owned-net-tie-contact.kicad_sch"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/SparkFun-LICENSE.md",
+      "bytes": 2885,
+      "sha256": "cc2731bed1b3d28242eaa4bc9992864b28650bdc69fb4c558ce6e0b7bfc74680",
+      "source": ".data/corpus-expansion-audit-001/sparkfun__SparkFun_Ambient_Light_Sensor-VEML7700/LICENSE.md"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/ATTRIBUTION.md",
+      "bytes": 560,
+      "sha256": "a41de9297383f0aae72679ee313cb58d9d9e7c8f3970a2c0948177231cee4d06"
+    },
+    {
+      "path": "evidence/net-tie-contact-native-001-notes/curation-source.py",
+      "bytes": 5642,
+      "sha256": "c83798bac78a2566dd64db9f3463e8cc81649d59618bbb4a0c5bc508395197db"
+    }
+  ],
+  "curation_cost": {
+    "wall_seconds": 0.44,
+    "full_cpu_seconds": 0.36,
+    "scope": "First-pass shared-reader curation. Later source/attribution assembly unmeasured."
+  }
+}
