@@ -1,0 +1,792 @@
+{
+  "schema": 1,
+  "kind": "canonical-four-copper-omitted-net-pour-controls",
+  "controls_passed": true,
+  "production_pipeline_qualified": false,
+  "accepted": false,
+  "hfe_admitted": false,
+  "comparison_gain_claimed": false,
+  "source_head": "dbf1f0f3014e17016f90cabdea929a693504b06b",
+  "draft_manifest_sha256": "9f11eb4264ca3bb884bcb83698d199e5374683057af0756416451ad7514a1da6",
+  "runtime_files_sha256": {
+    "autorouter/placement_transform.py": "cde384f548f7999f87296f071c4b1089c18abda59a02f323dfaa84c17bffee22",
+    "autorouter/floor_context.py": "dd4c25bdbf9a43690beec350f0c0868ed593fdffd7caf808d283a7dd0d8ebced",
+    "autorouter/pour_rule_area.py": "684aa01868d415d531761eebbd4e2aefeba5316595d8478c7fc13bcc41b571b2",
+    "autorouter/pour_rule_area_native.py": "8de8b82227d0f08a9b08eab3b9cba3ef1e025dde5d53d596ef212e93cf6304f1"
+  },
+  "scope": "Actual pinned Native1000 through unchanged production native.py with four explicitly injected frozen modules; no engine/routing. Source-preserving candidate and exact original companion files. New source support pending real production pipeline/full integration.",
+  "positive": {
+    "schema": 2,
+    "policy": "root-four-copper-pour-only-saved-fill-v1",
+    "native_version": "10.0.0",
+    "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/inner-pour-fill-native-001/execution/worker/job/positive/owned-four-copper-class.kicad_pcb",
+    "copper_layers": [
+      {
+        "id": 0,
+        "name": "F.Cu",
+        "type": "signal",
+        "index": 0
+      },
+      {
+        "id": 4,
+        "name": "In1.Cu",
+        "type": "signal",
+        "index": 1
+      },
+      {
+        "id": 6,
+        "name": "In2.Cu",
+        "type": "signal",
+        "index": 2
+      },
+      {
+        "id": 2,
+        "name": "B.Cu",
+        "type": "signal",
+        "index": 3
+      }
+    ],
+    "native_area_nets": [
+      {
+        "uuid": "4192af6a-649e-5a30-ab9c-112407fd3832",
+        "netcode": 0,
+        "netname": "",
+        "island_removal_mode": 0
+      }
+    ],
+    "board_sha256": "fea8eda48addd277772a656a18475dd421277ae8bf823d9061859789e5cb6a7e",
+    "project_sha256": "9c2d16b8783c875254b5c3fe8901ad1436cbfa363dcb2c9537997e81ae27ab82",
+    "board_saved": false,
+    "source_areas": [
+      {
+        "uuid": "4192af6a-649e-5a30-ab9c-112407fd3832",
+        "name": "owned-inner-pour",
+        "parent": "board",
+        "is_rule_area": true,
+        "layers": [
+          "In2.Cu"
+        ],
+        "outlines_nm": [
+          [
+            [
+              18000000,
+              23000000
+            ],
+            [
+              20000000,
+              23000000
+            ],
+            [
+              20000000,
+              25000000
+            ],
+            [
+              18000000,
+              25000000
+            ]
+          ]
+        ],
+        "holes": [
+          0
+        ],
+        "arc_count": 0,
+        "outline_closed": [
+          true
+        ],
+        "disallow": {
+          "tracks": false,
+          "vias": false,
+          "pads": false,
+          "copperpour": true,
+          "footprints": false
+        },
+        "placement_enabled": false,
+        "placement_source_type": "SHEETNAME",
+        "placement_source": "/",
+        "source_zone_ast_sha256": "44bfac183313746a42be431360dcd9845dc8f96c70d778e698bd9d99381d580d"
+      }
+    ],
+    "native_areas": [
+      {
+        "uuid": "4192af6a-649e-5a30-ab9c-112407fd3832",
+        "name": "owned-inner-pour",
+        "parent": "board",
+        "is_rule_area": true,
+        "placement_enabled": false,
+        "placement_source_type": "SHEETNAME",
+        "placement_source": "/",
+        "disallow": {
+          "tracks": false,
+          "vias": false,
+          "pads": false,
+          "copperpour": true,
+          "footprints": false
+        },
+        "layers": [
+          "In2.Cu"
+        ],
+        "outlines_nm": [
+          [
+            [
+              18000000,
+              23000000
+            ],
+            [
+              20000000,
+              23000000
+            ],
+            [
+              20000000,
+              25000000
+            ],
+            [
+              18000000,
+              25000000
+            ]
+          ]
+        ],
+        "outline_closed": [
+          true
+        ],
+        "holes": [
+          0
+        ],
+        "arc_count": 0
+      }
+    ],
+    "native_zone_uuids": [
+      "04609743-0cdf-5602-885f-3810f11008d2",
+      "4192af6a-649e-5a30-ab9c-112407fd3832",
+      "c218176b-3083-59a2-a0c2-caa7ef245398"
+    ],
+    "fill_checks": [
+      {
+        "area_uuid": "4192af6a-649e-5a30-ab9c-112407fd3832",
+        "zone_uuid": "c218176b-3083-59a2-a0c2-caa7ef245398",
+        "layer": "In1.Cu",
+        "applicable": false,
+        "stored_fill_node_count": 1,
+        "stored_fill_nodes_sha256": "a12c5ef6610612620134f7a35ac38f0a2db66edffa2aeb55c9471480947a87de",
+        "native_fill_outline_count": 1,
+        "intersection": [
+          {
+            "points_nm": [
+              [
+                20000000,
+                25000000
+              ],
+              [
+                18000000,
+                25000000
+              ],
+              [
+                18000000,
+                23000000
+              ],
+              [
+                20000000,
+                23000000
+              ]
+            ],
+            "closed": true,
+            "holes": 0
+          }
+        ],
+        "passed": true
+      },
+      {
+        "area_uuid": "4192af6a-649e-5a30-ab9c-112407fd3832",
+        "zone_uuid": "04609743-0cdf-5602-885f-3810f11008d2",
+        "layer": "In2.Cu",
+        "applicable": true,
+        "stored_fill_node_count": 1,
+        "stored_fill_nodes_sha256": "7a14d78dc79ba66af872a8eac57ec0ee97b8563ad3f86284722e8aaa247f3983",
+        "native_fill_outline_count": 1,
+        "intersection": [],
+        "passed": true
+      }
+    ],
+    "passed": true
+  },
+  "negative": {
+    "schema": 2,
+    "policy": "root-four-copper-pour-only-saved-fill-v1",
+    "native_version": "10.0.0",
+    "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/inner-pour-fill-native-001/execution/worker/job/negative/owned-four-copper-class.kicad_pcb",
+    "copper_layers": [
+      {
+        "id": 0,
+        "name": "F.Cu",
+        "type": "signal",
+        "index": 0
+      },
+      {
+        "id": 4,
+        "name": "In1.Cu",
+        "type": "signal",
+        "index": 1
+      },
+      {
+        "id": 6,
+        "name": "In2.Cu",
+        "type": "signal",
+        "index": 2
+      },
+      {
+        "id": 2,
+        "name": "B.Cu",
+        "type": "signal",
+        "index": 3
+      }
+    ],
+    "native_area_nets": [
+      {
+        "uuid": "4192af6a-649e-5a30-ab9c-112407fd3832",
+        "netcode": 0,
+        "netname": "",
+        "island_removal_mode": 0
+      }
+    ],
+    "board_sha256": "03f99db65d98cb63ef53f3c305df818e37dd8b23d095cb745ce9bc8fe2deedca",
+    "project_sha256": "9c2d16b8783c875254b5c3fe8901ad1436cbfa363dcb2c9537997e81ae27ab82",
+    "board_saved": false,
+    "source_areas": [
+      {
+        "uuid": "4192af6a-649e-5a30-ab9c-112407fd3832",
+        "name": "owned-inner-pour",
+        "parent": "board",
+        "is_rule_area": true,
+        "layers": [
+          "In2.Cu"
+        ],
+        "outlines_nm": [
+          [
+            [
+              18000000,
+              23000000
+            ],
+            [
+              20000000,
+              23000000
+            ],
+            [
+              20000000,
+              25000000
+            ],
+            [
+              18000000,
+              25000000
+            ]
+          ]
+        ],
+        "holes": [
+          0
+        ],
+        "arc_count": 0,
+        "outline_closed": [
+          true
+        ],
+        "disallow": {
+          "tracks": false,
+          "vias": false,
+          "pads": false,
+          "copperpour": true,
+          "footprints": false
+        },
+        "placement_enabled": false,
+        "placement_source_type": "SHEETNAME",
+        "placement_source": "/",
+        "source_zone_ast_sha256": "44bfac183313746a42be431360dcd9845dc8f96c70d778e698bd9d99381d580d"
+      }
+    ],
+    "native_areas": [
+      {
+        "uuid": "4192af6a-649e-5a30-ab9c-112407fd3832",
+        "name": "owned-inner-pour",
+        "parent": "board",
+        "is_rule_area": true,
+        "placement_enabled": false,
+        "placement_source_type": "SHEETNAME",
+        "placement_source": "/",
+        "disallow": {
+          "tracks": false,
+          "vias": false,
+          "pads": false,
+          "copperpour": true,
+          "footprints": false
+        },
+        "layers": [
+          "In2.Cu"
+        ],
+        "outlines_nm": [
+          [
+            [
+              18000000,
+              23000000
+            ],
+            [
+              20000000,
+              23000000
+            ],
+            [
+              20000000,
+              25000000
+            ],
+            [
+              18000000,
+              25000000
+            ]
+          ]
+        ],
+        "outline_closed": [
+          true
+        ],
+        "holes": [
+          0
+        ],
+        "arc_count": 0
+      }
+    ],
+    "native_zone_uuids": [
+      "04609743-0cdf-5602-885f-3810f11008d2",
+      "4192af6a-649e-5a30-ab9c-112407fd3832",
+      "c218176b-3083-59a2-a0c2-caa7ef245398"
+    ],
+    "fill_checks": [
+      {
+        "area_uuid": "4192af6a-649e-5a30-ab9c-112407fd3832",
+        "zone_uuid": "c218176b-3083-59a2-a0c2-caa7ef245398",
+        "layer": "In1.Cu",
+        "applicable": false,
+        "stored_fill_node_count": 1,
+        "stored_fill_nodes_sha256": "a12c5ef6610612620134f7a35ac38f0a2db66edffa2aeb55c9471480947a87de",
+        "native_fill_outline_count": 1,
+        "intersection": [
+          {
+            "points_nm": [
+              [
+                20000000,
+                25000000
+              ],
+              [
+                18000000,
+                25000000
+              ],
+              [
+                18000000,
+                23000000
+              ],
+              [
+                20000000,
+                23000000
+              ]
+            ],
+            "closed": true,
+            "holes": 0
+          }
+        ],
+        "passed": true
+      },
+      {
+        "area_uuid": "4192af6a-649e-5a30-ab9c-112407fd3832",
+        "zone_uuid": "04609743-0cdf-5602-885f-3810f11008d2",
+        "layer": "In2.Cu",
+        "applicable": true,
+        "stored_fill_node_count": 2,
+        "stored_fill_nodes_sha256": "a3ccb98ce52a62fe3f847c8fe5e54e9c4e15a8b0df813ebecca2d8305834ddf8",
+        "native_fill_outline_count": 2,
+        "intersection": [
+          {
+            "points_nm": [
+              [
+                19500000,
+                24500000
+              ],
+              [
+                18500000,
+                24500000
+              ],
+              [
+                18500000,
+                23500000
+              ],
+              [
+                19500000,
+                23500000
+              ]
+            ],
+            "closed": true,
+            "holes": 0
+          }
+        ],
+        "passed": false
+      }
+    ],
+    "passed": false
+  },
+  "exact_dsn_attribution": {
+    "schema": 1,
+    "policy": "root-pour-only-dsn-v1",
+    "source_board_sha256": "bfddd155b80c0e9a86bbacd5490986047bca77f694810a62e91db6c3c3dc999d",
+    "input_dsn_sha256": "f4f5a45f9c86ada77ee858242ef674205f719d0ef2ea2cf8a1aa0e030888dc8a",
+    "native_observation_verified": false,
+    "native_fill_verified": false,
+    "routing_accepted": false,
+    "output_sha256": "ab4740ca849193cd4ef9a3beea1defa79092c3bd4d389599d49391c030346313",
+    "removed": [
+      {
+        "source_zone_uuid": "4192af6a-649e-5a30-ab9c-112407fd3832",
+        "source_zone_ast_sha256": "44bfac183313746a42be431360dcd9845dc8f96c70d778e698bd9d99381d580d",
+        "layer": "In2.Cu",
+        "structure_index": 8,
+        "entry": [
+          "keepout",
+          "\"\"",
+          [
+            "polygon",
+            "In2.Cu",
+            "0",
+            "18000",
+            "-23000",
+            "20000",
+            "-23000",
+            "20000",
+            "-25000",
+            "18000",
+            "-25000",
+            "18000",
+            "-23000"
+          ]
+        ]
+      }
+    ],
+    "removed_count": 1,
+    "kept_keepout_count": 0,
+    "untargeted_ast_identical": true,
+    "source_areas": [
+      {
+        "uuid": "4192af6a-649e-5a30-ab9c-112407fd3832",
+        "name": "owned-inner-pour",
+        "parent": "board",
+        "is_rule_area": true,
+        "layers": [
+          "In2.Cu"
+        ],
+        "outlines_nm": [
+          [
+            [
+              18000000,
+              23000000
+            ],
+            [
+              20000000,
+              23000000
+            ],
+            [
+              20000000,
+              25000000
+            ],
+            [
+              18000000,
+              25000000
+            ]
+          ]
+        ],
+        "holes": [
+          0
+        ],
+        "arc_count": 0,
+        "outline_closed": [
+          true
+        ],
+        "disallow": {
+          "tracks": false,
+          "vias": false,
+          "pads": false,
+          "copperpour": true,
+          "footprints": false
+        },
+        "placement_enabled": false,
+        "placement_source_type": "SHEETNAME",
+        "placement_source": "/",
+        "source_zone_ast_sha256": "44bfac183313746a42be431360dcd9845dc8f96c70d778e698bd9d99381d580d"
+      }
+    ],
+    "scope": "Pure exact source/export attribution only; native fill and acceptance required separately."
+  },
+  "recipe": {
+    "source_sha256": "bfddd155b80c0e9a86bbacd5490986047bca77f694810a62e91db6c3c3dc999d",
+    "saved_sha256": "26b451d3ef65dd7027e46ad5267781b0f002468ec8be6da4d807d9d5880f8e04",
+    "area_uuid": "4192af6a-649e-5a30-ab9c-112407fd3832",
+    "zone_uuid": "04609743-0cdf-5602-885f-3810f11008d2",
+    "layer": "In2.Cu",
+    "injected_node": [
+      "filled_polygon",
+      [
+        "layer",
+        "\"In2.Cu\""
+      ],
+      [
+        "pts",
+        [
+          "xy",
+          "18.5",
+          "23.5"
+        ],
+        [
+          "xy",
+          "19.5",
+          "23.5"
+        ],
+        [
+          "xy",
+          "19.5",
+          "24.5"
+        ],
+        [
+          "xy",
+          "18.5",
+          "24.5"
+        ]
+      ]
+    ],
+    "matrix": [
+      {
+        "area_uuid": "4192af6a-649e-5a30-ab9c-112407fd3832",
+        "zone_uuid": "c218176b-3083-59a2-a0c2-caa7ef245398",
+        "layer": "In1.Cu",
+        "applicable": false,
+        "stored_fill_node_count": 1,
+        "stored_fill_nodes_sha256": "a12c5ef6610612620134f7a35ac38f0a2db66edffa2aeb55c9471480947a87de"
+      },
+      {
+        "area_uuid": "4192af6a-649e-5a30-ab9c-112407fd3832",
+        "zone_uuid": "04609743-0cdf-5602-885f-3810f11008d2",
+        "layer": "In2.Cu",
+        "applicable": true,
+        "stored_fill_node_count": 1,
+        "stored_fill_nodes_sha256": "7a14d78dc79ba66af872a8eac57ec0ee97b8563ad3f86284722e8aaa247f3983"
+      }
+    ],
+    "native_executed": false,
+    "routing_accepted": false
+  },
+  "positive_hashes": {
+    "owned-four-copper-class.kicad_pcb": "fea8eda48addd277772a656a18475dd421277ae8bf823d9061859789e5cb6a7e",
+    "owned-four-copper-class.kicad_prl": "df6735506621cc881bb31c3e4e360a3a74801e70b14f70529c8347f84516300d",
+    "owned-four-copper-class.kicad_pro": "9c2d16b8783c875254b5c3fe8901ad1436cbfa363dcb2c9537997e81ae27ab82",
+    "owned-four-copper-class.kicad_sch": "7be148d55572bc5e88bbd9ecd48f739b0de49ccc7840a2e71ae11ca49f187e24"
+  },
+  "negative_hashes": {
+    "owned-four-copper-class.kicad_pcb": "03f99db65d98cb63ef53f3c305df818e37dd8b23d095cb745ce9bc8fe2deedca",
+    "owned-four-copper-class.kicad_prl": "df6735506621cc881bb31c3e4e360a3a74801e70b14f70529c8347f84516300d",
+    "owned-four-copper-class.kicad_pro": "9c2d16b8783c875254b5c3fe8901ad1436cbfa363dcb2c9537997e81ae27ab82",
+    "owned-four-copper-class.kicad_sch": "7be148d55572bc5e88bbd9ecd48f739b0de49ccc7840a2e71ae11ca49f187e24"
+  },
+  "costs": {
+    "preparation": {
+      "wall_seconds": 0.31,
+      "full_CPU_seconds": 0.24
+    },
+    "complete_control_enclosure": {
+      "wall_seconds": 2.44,
+      "full_CPU_seconds": 2.13
+    },
+    "prototype_focused_tests": {
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/inner-pour-four-layer-draft-002/run_pure.py"
+      ],
+      "exit_code": 0,
+      "jvm_executed": false,
+      "native_executed": false,
+      "source_sha256": {
+        "baseline/autorouter/floor_context.py": "0342796f6332db8f5ff8a89e19a149201d7b97e0d870e1be9c5ce6e56ab84cc7",
+        "baseline/autorouter/placement_transform.py": "bfd4ff85a92ad57a9908e46904e67b1d5fce65647689e489a566d6434260fdb5",
+        "baseline/autorouter/pour_rule_area.py": "5e11b6dadd9d6cb28e0376e7025a1d67d7f7721181bcf15947ef9afff2c97ffa",
+        "baseline/autorouter/pour_rule_area_native.py": "7776218bdaee0167873a22f8fa0d87be6a9035430f2c8bebd36835dff32efdd9",
+        "native_recipe.py": "d920dca48556c50391dd8d923c3ad94f77cbafdedddc22b59f0595492ce57f2a",
+        "owned_control.py": "fde0ab31882e6dd784b26f9b115819e0fe93075220cd308dc8a209b3ed1c0e1e",
+        "patch-tree/autorouter/floor_context.py": "dd4c25bdbf9a43690beec350f0c0868ed593fdffd7caf808d283a7dd0d8ebced",
+        "patch-tree/autorouter/placement_transform.py": "cde384f548f7999f87296f071c4b1089c18abda59a02f323dfaa84c17bffee22",
+        "patch-tree/autorouter/pour_rule_area.py": "684aa01868d415d531761eebbd4e2aefeba5316595d8478c7fc13bcc41b571b2",
+        "patch-tree/autorouter/pour_rule_area_native.py": "8de8b82227d0f08a9b08eab3b9cba3ef1e025dde5d53d596ef212e93cf6304f1",
+        "retained-tests/test_pour_binding_seams.py": "9a57016fedcacc53ca2213c0430f205508fa183123d62778c327d8b03fe70a14",
+        "retained-tests/test_pour_native_record.py": "38178e70543fa9c7ff92053df87e3ca2bbbeb9d59e6628cde980bbfc07aa2281",
+        "retained-tests/test_pour_rule_area.py": "89722242a6ac891cdc11d231d1c80ca1780aaef6f3e3b404a6375173760a207a",
+        "run_pure.py": "49fc0f139fc6bf428ab48aee356233b63f790a4a9384f7423ed50a39d2baaf70",
+        "test_inner_pour.py": "bca16466df6912c9a920bf815d62b7b21837e456c0b19b940c56cfe31c9032a6"
+      },
+      "waited_child_cpu_seconds": 0.311816,
+      "wall_seconds": 0.33772558299824595
+    },
+    "tracked_focused_tests": {
+      "methods": 37,
+      "wall_seconds": 0.29,
+      "full_CPU_seconds": 0.26
+    }
+  },
+  "processes": [
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.6365154579980299,
+      "cpu_seconds": 0.395078,
+      "max_rss_bytes": 97320960,
+      "supervisor_cpu_seconds": 0.0040030000000000066,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 65519616,
+      "sampled_peak_workdir_bytes": 50440,
+      "resource_guards": {
+        "max_group_rss_bytes": 2147483648,
+        "max_workdir_bytes": 134217728,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/inner-pour-fill-native-001.py",
+        "--native",
+        "pour-audit",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/inner-pour-fill-native-001/execution/worker/job/positive/owned-four-copper-class.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/inner-pour-fill-native-001/execution/worker/job/positive-audit.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/inner-pour-fill-native-001/execution/worker/job/positive-audit.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/inner-pour-fill-native-001/execution/worker/job",
+      "signal_cancellation_enabled": true,
+      "pid": 30950,
+      "name": "positive-audit"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 1,
+      "wall_seconds": 0.3670999580062926,
+      "cpu_seconds": 0.36059399999999997,
+      "max_rss_bytes": 97419264,
+      "supervisor_cpu_seconds": 0.003457999999999989,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 42336256,
+      "sampled_peak_workdir_bytes": 82285,
+      "resource_guards": {
+        "max_group_rss_bytes": 2147483648,
+        "max_workdir_bytes": 134217728,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/inner-pour-fill-native-001.py",
+        "--native",
+        "pour-audit",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/inner-pour-fill-native-001/execution/worker/job/negative/owned-four-copper-class.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/inner-pour-fill-native-001/execution/worker/job/negative-audit.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/inner-pour-fill-native-001/execution/worker/job/negative-audit.log",
+      "log_bytes": 1209,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/inner-pour-fill-native-001/execution/worker/job",
+      "signal_cancellation_enabled": true,
+      "pid": 30951,
+      "name": "negative-audit"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.4185237499768846,
+      "cpu_seconds": 0.40198199999999995,
+      "max_rss_bytes": 107593728,
+      "supervisor_cpu_seconds": 0.0033040000000000014,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 36634624,
+      "sampled_peak_workdir_bytes": 107597,
+      "resource_guards": {
+        "max_group_rss_bytes": 2147483648,
+        "max_workdir_bytes": 134217728,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+        "export",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/inner-pour-fill-native-001/execution/worker/job/original/owned-four-copper-class.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/inner-pour-fill-native-001/execution/worker/job/native.dsn",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/inner-pour-fill-native-001/execution/worker/job/native-classes.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/inner-pour-fill-native-001/execution/worker/job/source-export.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/inner-pour-fill-native-001/execution/worker/job",
+      "signal_cancellation_enabled": true,
+      "pid": 30952,
+      "name": "source-export"
+    }
+  ],
+  "receipts": {
+    ".runs/inner-pour-fill-native-001/protocol.json": {
+      "sha256": "959bffa999503f956c8f60a2faad119c22ed0f4e9f4a52bab7974e36e0022f21",
+      "bytes": 7778
+    },
+    ".runs/inner-pour-fill-native-001/execution/execution.json": {
+      "sha256": "bdaf615adf49fefd0b503b06b042cd215400794afad345281cbac7087040a8e2",
+      "bytes": 2188
+    },
+    ".runs/inner-pour-fill-native-001/execution/worker/result.json": {
+      "sha256": "f2c2e8834c0312e2b90b3b8f1029425a73b14e890e1bd4365c4797bb8f9ce032",
+      "bytes": 25424
+    }
+  },
+  "safety": "Original prepared projects, positive candidate and negative source copies unchanged by read-only Native steps. No refill on positive/negative audits. Negative differs only by one appended derived fill polygon; unchanged rules, original nonfill AST and routes. Numeric-zero decoder/pipeline unchanged.",
+  "remaining": [
+    "Actual full router/new final-candidate proof and fresh exported Native proof/current readers",
+    "Full integration suite at resulting product bytes",
+    "Current curated installation qualification",
+    "HFE parity/numberless-pad gate and selected Native version",
+    "Broader fair B0/B1/B2/C routing evaluation and external review"
+  ],
+  "notes": "evidence/four-cu-pour-native-controls-notes-001/SKEPTICAL-REVIEW.md"
+}

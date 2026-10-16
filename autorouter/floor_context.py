@@ -56,7 +56,13 @@ def native_bool(value):
     if type(value) is not bool:raise ValueError('native Boolean API type differs')
     return value
 
-def observe_areas(native,pcbnew):
+def observe_areas(native,pcbnew, *, copper_layers=None):
+    layer_ids = ((pcbnew.F_Cu,'F.Cu'),(pcbnew.B_Cu,'B.Cu'))
+    if copper_layers is not None:
+        if copper_layers != ('F.Cu','In1.Cu','In2.Cu','B.Cu'):
+            raise ValueError('explicit canonical four-copper observation context required')
+        layer_ids = ((pcbnew.F_Cu,'F.Cu'),(pcbnew.In1_Cu,'In1.Cu'),
+                     (pcbnew.In2_Cu,'In2.Cu'),(pcbnew.B_Cu,'B.Cu'))
     names={'tracks':'GetDoNotAllowTracks','vias':'GetDoNotAllowVias','pads':'GetDoNotAllowPads',
            'copperpour':'GetDoNotAllowZoneFills','footprints':'GetDoNotAllowFootprints'}
     types={int(pcbnew.PLACEMENT_SOURCE_T_SHEETNAME):'SHEETNAME',int(pcbnew.PLACEMENT_SOURCE_T_COMPONENT_CLASS):'COMPONENT_CLASS',
@@ -80,7 +86,7 @@ def observe_areas(native,pcbnew):
             'is_rule_area':native_bool(zone.GetIsRuleArea()),'placement_enabled':native_bool(zone.GetPlacementAreaEnabled()),
             'placement_source_type':types[typ],'placement_source':str(zone.GetPlacementAreaSource()),
             'disallow':{key:native_bool(getattr(zone,method)()) for key,method in names.items()},
-            'layers':[name for layer,name in ((pcbnew.F_Cu,'F.Cu'),(pcbnew.B_Cu,'B.Cu')) if zone.IsOnLayer(layer)],
+            'layers':[name for layer,name in layer_ids if zone.IsOnLayer(layer)],
             'outlines_nm':outlines,'outline_closed':closed,'holes':holes,'arc_count':int(poly.ArcCount())})
     footprints=list(native.GetFootprints())
     if len(footprints)>AREA_LIMITS['footprints']:raise ValueError('footprint census cap')

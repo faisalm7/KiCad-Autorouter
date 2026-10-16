@@ -117,7 +117,13 @@ def boundary(tree,edges):
     simple(points[:-1]);observed=sorted(tuple(sorted((tuple(a),tuple(b)))) for a,b in zip(points,points[1:]))
     if observed!=edges:fail('DSN/source outer rectangle mismatch')
 
-def source_zones(board):
+def source_zones(board, *, copper_layers=None):
+    # Explicit pour caller only; normal placement remains exactly F/B.
+    allowed = LAYERS
+    if copper_layers is not None:
+        if copper_layers != ('F.Cu','In1.Cu','In2.Cu','B.Cu'):
+            fail('explicit canonical four-copper context required')
+        allowed = set(copper_layers)
     if not isinstance(board,list) or board[0]!='kicad_pcb':fail('native source board required')
     if sx.children(board,'module'):fail('legacy module footprint alias unsupported')
     for fp in sx.children(board,'footprint'):
@@ -135,7 +141,7 @@ def source_zones(board):
         if (layer is None)==(layers is None):fail('exactly one zone layer selector required')
         if layer is not None and len(layer)!=2:fail('singular layer needs one atom')
         ls=[sx.unquote(x) for x in (layer or layers)[1:]]
-        if not ls or len(set(ls))!=len(ls) or not set(ls)<=LAYERS:fail('unsupported or duplicate zone layers')
+        if not ls or len(set(ls))!=len(ls) or not set(ls)<=allowed:fail('unsupported or duplicate zone layers')
         polygon=sx.one(z,'polygon');pts=sx.one(polygon,'pts') if polygon else None
         if polygon is None or len(polygon)!=2 or pts is None or any(not isinstance(pt,list) or len(pt)!=3 or pt[0]!='xy' for pt in pts[1:]):fail('one XY polygon without arcs/holes required')
         points=simple([[nm(pt[1],1000000),nm(pt[2],1000000)] for pt in pts[1:]])
