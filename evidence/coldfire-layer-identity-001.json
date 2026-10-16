@@ -1,0 +1,115 @@
+{
+  "schema": 1,
+  "kind": "read-only-coldfire-physical-versus-display-layer-observation",
+  "passed": true,
+  "accepted": false,
+  "production_support_qualified": false,
+  "source_unchanged": true,
+  "original_copied_files": 52,
+  "protocol_sha256": "ea6c69c3e9f4c0bc1a245568f00f087a37d52fbaf38860647e9b1f8c25f4aadf",
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 1.2398950419737957,
+    "cpu_seconds": 0.6811229999999999,
+    "max_rss_bytes": 132153344,
+    "supervisor_cpu_seconds": 0.008224000000000009,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 58163200,
+    "sampled_peak_workdir_bytes": 4385206,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 33554432,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/coldfire-layer-observation-001/observe.py",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/coldfire-layer-observation-001/job/original/kit-dev-coldfire-xilinx_5213.kicad_pcb"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/coldfire-layer-observation-001/job/observation.log",
+    "log_bytes": 869,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/coldfire-layer-observation-001/job",
+    "signal_cancellation_enabled": true,
+    "pid": 21645
+  },
+  "observation": {
+    "schema": 1,
+    "native_version": "10.0.0",
+    "copper_count": 4,
+    "layers": [
+      {
+        "id": 0,
+        "canonical": "F.Cu",
+        "standard_name": "F.Cu",
+        "display_name": "Top_layer",
+        "canonical_lookup_id": 0,
+        "display_lookup_id": 0,
+        "enabled": true,
+        "type": 0,
+        "signal_type": 0
+      },
+      {
+        "id": 4,
+        "canonical": "In1.Cu",
+        "standard_name": "In1.Cu",
+        "display_name": "In1.Cu",
+        "canonical_lookup_id": 4,
+        "display_lookup_id": 4,
+        "enabled": true,
+        "type": 0,
+        "signal_type": 0
+      },
+      {
+        "id": 6,
+        "canonical": "In2.Cu",
+        "standard_name": "In2.Cu",
+        "display_name": "In2.Cu",
+        "canonical_lookup_id": 6,
+        "display_lookup_id": 6,
+        "enabled": true,
+        "type": 0,
+        "signal_type": 0
+      },
+      {
+        "id": 2,
+        "canonical": "B.Cu",
+        "standard_name": "B.Cu",
+        "display_name": "B.Cu",
+        "canonical_lookup_id": 2,
+        "display_lookup_id": 2,
+        "enabled": true,
+        "type": 0,
+        "signal_type": 0
+      }
+    ],
+    "board_saved": false,
+    "export_executed": false,
+    "drc_executed": false
+  },
+  "wall_seconds": 1.7965820000390522,
+  "full_cpu_seconds": 1.3487579999999997,
+  "publication_allowance_seconds": 2,
+  "scope": "Only missing scalar getters on exact original52filecopy; no DRC/export/JVM/engine/sourceversion/rule/layer edits. Completed priorfailedexport/originalDRC untouched. Other format/thermalseverity/transport gates remain unsupported.",
+  "raw_result_sha256": "f4d5eb9b869f73e7c56d328fdf5bdd1a4f128f3b11dd2ae99a645592f7a4882f",
+  "raw_result": ".runs/coldfire-layer-observation-001/result.json",
+  "complete_external_wall_seconds": 1.96,
+  "complete_external_full_cpu_seconds": 1.46,
+  "conclusion": "Confirmed Native F.Cu displayTop_layer; staticphysicalF.Cu and bothlookups0. All4physicalIDs/order/signal/enabled agree. Failedmapped-exportguard conflateddisplaywithphysicalname; actualDSNlabels notyetobserved. ColdFireoldformat/thermalseverity/transport/fullSCHadmission remainblocked.",
+  "raw_archived_in": "evidence/backups/full-restore-stronger-cohort-6b84a884.json"
+}

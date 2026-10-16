@@ -1,0 +1,70 @@
+{
+  "schema": 1,
+  "kind": "major-full-chain-restoration-stronger-cohort",
+  "passed": true,
+  "full_restoration_tested": true,
+  "git_cutoff": "6b84a884cb31ed25d02ae9dbb2b0aa7885ce42da",
+  "raw_files": 316544,
+  "raw_directories": 72488,
+  "raw_bytes": 11021106345,
+  "delta_files": 13131,
+  "delta_bytes": 662111025,
+  "chain_length": 2,
+  "all_refs_restored": true,
+  "git_bundle_verified_in_empty_repository": true,
+  "cli_smoke": {
+    "command": [
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "-m",
+      "autorouter",
+      "--help"
+    ],
+    "exit": 0,
+    "output": "usage: python -m autorouter [-h]\n                            {doctor,settings-init,preview,review-copy,review-choice,review-export,review-export-check,improve,recover,check-result,route}\n                            ...\n\npositional arguments:\n  {doctor,settings-init,preview,review-copy,review-choice,review-export,review-export-check,improve,recover,check-result,route}\n    settings-init       Create an explicit editable JSON preset without\n                        overwriting a file\n    preview             Preview settings, protected routing and static support\n                        without changing the board\n    review-choice       Record accept/reject intent for a separate project; no\n                        PCB approval or application\n    review-export       Fresh native validation into a new separate project\n                        after accept intent; no live apply\n    review-export-check\n                        Check stored export/source/report consistency; does\n                        not run fresh DRC\n    recover             Experimental whole-board routing with bounded thermal\n                        repair\n\noptions:\n  -h, --help            show this help message and exit\n"
+  },
+  "receipt_bytes": 84819759,
+  "receipt_sha256": "4aa43422d8244c0eea987d4026f0913890a9a702b035cf5af2dedfb0bbbb9585",
+  "receipt": ".local-backups/checkpoint-20261016T043357Z-7993bf641a8d4fe6994dafeb64618faf/receipt.json",
+  "verification_sha256": "683535086902603641872f2d27b5fb0244dda9d3f4ef3d2136532e6d33fe1b9c",
+  "verification": ".local-backups/checkpoint-20261016T043357Z-7993bf641a8d4fe6994dafeb64618faf/verification-c6e16dc3e40b469ab4f660d94464651e.json",
+  "execution_sha256": "798a5f96155238943ba515de0a994569253b583aa8b42197174e231a68f1d0e2",
+  "helper_sha256": "6a7856dc3246a7125fb388fa129bee82ad73bb348c7347e57650baf8e9b7d3ac",
+  "controller_sha256": "c73d44cd077ce6fd10a884158aff70b0beca3bac2315222404b43ee823ed82a7",
+  "whole_complete_wall_seconds": 947.8,
+  "whole_complete_full_cpu_seconds": 741.9000000000001,
+  "enclosure_sample_wall_seconds": 947.3460274580284,
+  "enclosure_sample_full_cpu_seconds": 741.3104420000001,
+  "bounds": {
+    "raw_bytes": 11274289152,
+    "files_and_directories": 320000,
+    "receipt_bytes": 92274688,
+    "chain_receipt_bytes": 201326592,
+    "whole_wall_full_cpu_seconds": 1800
+  },
+  "explicitly_rechecked_support": [
+    {
+      "map": ".runs/continuation-support-installation046-gates-001/restore-map.json",
+      "sha256": "b1e7f09367f83c6b5009ff49995ac42a86d7a0fe9161d327e164ebef4db46c86",
+      "files": 31
+    },
+    {
+      "map": ".runs/continuation-support-stronger-cohort-source-001/restore-map.json",
+      "sha256": "5aec0a7de19e410e03d3f0c139f89a75a05da98d4fed748cc2ea16cc6e06827b",
+      "files": 11
+    },
+    {
+      "map": ".runs/continuation-support-stronger-cohort-actual-001/restore-map.json",
+      "sha256": "8323392edc9e197ad4b7334f6e51ccf52c79353888d7e2209325f2ffbf1f80e8",
+      "files": 13
+    }
+  ],
+  "complete_external_logs_sha256": {
+    ".local-backups/stronger-cohort-full-restoration-001-time.log": "ed23276a02387746303b2a66f865fd799a3019ff1cd7997e491d8a2d5071891f",
+    ".local-backups/stronger-cohort-full-restoration-001-command.log": "a4feaecf3973d8aac162e20976aebb1d2c73c6dd4695a19e752bf79e4a7cd1bf",
+    ".local-backups/stronger-cohort-full-restoration-execution-001/command.log": "af5fa4b9f8b09489b0ddb172683e2f8885ccbe5565022c1c101b972e867439db",
+    ".local-backups/stronger-cohort-full-restoration-execution-001/restore.log": "f8f0e77f09acb5d946c29550822e0207b31e04fa8b793d1f1eb527f41d69dd64"
+  },
+  "limitation": "On-Mac only; a second folder on this disk provides no disk-failure protection.",
+  "scope": "Direct actually restored legacy-full006 plus currentcompactdelta; all prior archives/failures retained. Captures installed046fullSCH/workflow/GUI, originalgates, complete stronger10rowcohort+failedreport+qualifiedrecovery, rejectedNUSdeletion, ColdFirescalars and frozen copiedreviews through this snapshot. Laterlayerdisplay/SMDdrafts in excluded.local-backups are outside cutoff. No routinggain/release claim."
+}
