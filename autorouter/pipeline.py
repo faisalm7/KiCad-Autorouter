@@ -2246,13 +2246,31 @@ def check_resource_accounting(data, *, child_key='child_cpu_seconds'):
         raise Rejected('inconsistent CPU accounting')
 
 
-def _check_result_uncached(path, *, native_toolchain=None, experimental_schematic_parity=False):
+def check_rejected_routing_attempt(path):
+    """Diagnose one completed ordinary tuned failure; never authorize a candidate.
+
+    This bypasses the positive readback cache. All retained Native, process,
+    source, rule and budget checks still run; no fresh Native execution occurs.
+    Cancellation, stale inputs and invalid/incomplete evidence raise.
+    """
+    from .placement_clearance import read_bytes
+    target=Path(path).absolute()
+    read_bytes(target)  # Refuse symlink aliases before the common body resolves.
+    if target.name!='result.json' or target!=target.resolve(strict=True):
+        raise Rejected('completed-negative reader requires canonical result.json')
+    return _check_result_uncached(target,_rejected_attempt=True)
+
+
+def _check_result_uncached(path, *, native_toolchain=None, experimental_schematic_parity=False,
+                           _rejected_attempt=False):
     """Check local evidence consistency; this is not authentication or fresh DRC.
 
     All receipts are mutable local JSON. A party rewriting the complete evidence
     set can fabricate a consistent history; safe application needs fresh native
     validation too. This function never applies a live-editor change.
     """
+    if type(_rejected_attempt) is not bool or (_rejected_attempt and native_toolchain is not None):
+        raise Rejected('completed-negative mode requires the ordinary production toolchain')
     path=Path(path).resolve(strict=True)
     from .floor_route import receipt_policy, read_json
     from .placement_clearance import read_bytes as bounded_bytes
@@ -2290,13 +2308,31 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
         check_engine_angle_scope(data,input_policy,native_toolchain)
     if fanout_contract is False:check_engine_fanout_override(data,input_policy=input_policy,native_toolchain=native_toolchain)
     if optimizer_contract is False:check_engine_optimizer_override(data,input_policy=input_policy,native_toolchain=native_toolchain)
+    if _rejected_attempt:
+        # Closed diagnostic scope, independent of the positive acceptance API.
+        # Derive native policy above; ordinary receipts omit input_policy.
+        if (type(data.get('schema')) is not int or data['schema']!=1
+                or data.get('accepted') is not False or data.get('status')!='drc_rejected'
+                or data.get('baseline')!='B2_tuned' or data.get('adapter')!='both'
+                or data.get('engine_profile')!='tuned' or input_policy!='native'
+                or data.get('scope')!='whole_board_unlocked_routing'
+                or any(key in data for key in ('strategy','input_policy','guidance_policy',
+                    'diagnostic_schema','production_qualified','engine_angle_binding',
+                    'engine_planning_clearance_margin_nm','engine_global_width_policy',
+                    'engine_fanout_override','engine_optimizer_override',
+                    'incumbent_scoring_contract','incumbent_scoring_variant','incumbent_receipt_sha256',
+                    'pruning_preferences','pruning_preferences_policy'))
+                or angle_contract is not None or fanout_contract is not None or optimizer_contract is not None
+                or selected_scope_markers(path.parent,data) or layer_markers(path.parent,data)
+                or any(marker.exists() or marker.is_symlink() for marker in (scoring_marker,pruning_marker))):
+            raise Rejected('unsupported completed-negative routing contract')
     if input_policy=='native' and data.get('strategy') is None:
         check_normal_engine_provenance(path.parent,data)
     # Captured-choice runs use the shared bounded reader for a complete witness,
     # including original rule copies and native evidence, before interpreting it.
     # Recheck after every late settings/process read; board-only layer checks
     # cannot detect a concurrently changed project file or native report.
-    preferences_guarded=('engine_optimizer_override' in data or 'engine_fanout_override' in data or data.get('engine_profile')=='tuned-free-angle' or 'engine_angle_binding' in data
+    preferences_guarded=(_rejected_attempt or 'engine_optimizer_override' in data or 'engine_fanout_override' in data or data.get('engine_profile')=='tuned-free-angle' or 'engine_angle_binding' in data
         or (path.parent/'engine-angle.json').exists() or (path.parent/'engine-free-angle.dsn').exists()
         or 'routing_preferences' in data or (path.parent/'routing-preferences.json').exists()
         or (path.parent/'routing-preferences.json').is_symlink() or layer_markers(path.parent,data)
@@ -2309,7 +2345,7 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
         from .placement_clearance import evidence_inventory as bounded_evidence
         (ps.evidence_inventory if input_policy==ps.POLICY else bounded_evidence)(path.parent)
         if input_policy!=ps.POLICY:bounded_bytes(path.parent/'native.dsn',20*1024*1024)
-    if data.get('schema') not in (1,2,3,4,5) or data.get('accepted') is not True or data.get('status')!='routing_accepted':
+    if not _rejected_attempt and (data.get('schema') not in (1,2,3,4,5) or data.get('accepted') is not True or data.get('status')!='routing_accepted'):
         raise Rejected('receipt is not an accepted routing result')
     source=Path(data['source'])
     source_inventory=tree_hash
@@ -2410,13 +2446,19 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
     if placement_backed:read_json(path.parent/'final-drc.json')
     native=parse_report(path.parent/'final-drc.json',candidate.name,native_toolchain=native_toolchain)
     reasons=native_rejection_reasons(native)
-    if reasons: raise Rejected('native findings reject candidate: '+'; '.join(reasons))
+    if _rejected_attempt:
+        if (native['exclusions'] or any(reason.startswith(('malformed ','missing ','unknown ','disabled '))
+                for reason in reasons)):
+            raise Rejected('unsupported or malformed Native evidence is not an ordinary completed rejection')
+        if not reasons or data.get('native_rejection_reasons')!=reasons:
+            raise Rejected('completed-negative reasons differ from raw Native findings')
+    elif reasons: raise Rejected('native findings reject candidate: '+'; '.join(reasons))
     if ((any(step.get('phase')=='incumbent' and step.get('name')=='engine' for step in data.get('steps',[]))
             or (path.parent/'incumbent/result.json').exists())
             and data.get('strategy') not in {'native_validated_zone_net_pruning','native_validated_thermal_bridge','placement-native-pruning-v1'}):
         raise Rejected('incumbent workers require their recognized strategy')
     if data.get('native')!=native or data.get('invariants_unchanged') is not True: raise Rejected('receipt native summary differs from raw evidence')
-    if data.get('whole_project_drc_clean') is not (native['warnings']==0): raise Rejected('receipt cleanliness claim differs from native evidence')
+    if data.get('whole_project_drc_clean') is not (not reasons and native['warnings']==0): raise Rejected('receipt cleanliness claim differs from native evidence')
     metrics=evidence('metrics.json')
     if data.get('metrics')!=metrics or metrics.get('version')!=experimental_native_version(native_toolchain): raise Rejected('receipt metrics differ from retained native metrics')
 
@@ -2521,4 +2563,12 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
                 or tree_hash(path.parent)!=explicit_material):raise Rejected('experimental evidence/source changed during readback')
         check_experimental_local_settings(path.parent,data,native_toolchain)
         result.update(experimental_route_policy=EXPERIMENTAL_ROUTE_POLICY,production_admitted=False)
+    if _rejected_attempt:
+        # Return only after the late evidence/source/process freshness guards.
+        return {'current':False,'validated_rejection':True,'routing_accepted':False,
+            'candidate':str(candidate),'candidate_sha256':data['candidate_sha256'],
+            'native_report_sha256':data['native_report_sha256'],
+            'native_rejection_reasons':reasons,'receipt_sha256':receipt_digest,'applied':False,
+            'authentication':'none; mutable local evidence consistency only',
+            'warning':'Completed Native rejection only; no route acceptance, infeasibility proof or fresh validation.'}
     return result
