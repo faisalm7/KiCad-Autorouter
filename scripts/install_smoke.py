@@ -35,9 +35,9 @@ MAX_BYTES = 512 * 1024**2
 # with finite 384 MiB source bytes; installed scratch stays 512 MiB.
 # Distribution mode still checks the complete source before selecting files.
 SOURCE_MAX_BYTES = 384 * 1024**2
-# Current22014trackedfiles exceeds22000; preserve the whole source/evidence.
-# Finite22500-file cap; sourcebytes/scratch/wall/security unchanged.
-SOURCE_MAX_FILES = 22500
+# Preserve the complete tracked source and evidence inventory.
+# Finite23000-file cap; sourcebytes/scratch/wall/security unchanged.
+SOURCE_MAX_FILES = 23000
 TOTAL_SECONDS = 600.0
 NETWORK_DENIAL = ["/usr/bin/sandbox-exec", "-p", "(version 1)(allow default)(deny network*)"]
 

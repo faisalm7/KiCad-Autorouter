@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "kind": "demonstrated-install-source-file-count-refusal-and-finite-correction",
+  "failed_installation": {
+    "source_git_head": "561d2eccc9a5d671507485d428b10594ab523002",
+    "receipt": ".runs/installation-045/result.json",
+    "receipt_sha256": "14f5233324d6ecafb1903b8f111a32b0425b2b867fa9334f0af405ed9aeb12eb",
+    "enclosure": ".runs/installation-045-execution/result.json",
+    "enclosure_sha256": "05ee52a9e2aa23a504a311996f36aa2fed50a56f35e44221d162d6da5d53a08b",
+    "passed": false,
+    "reason": "RuntimeError: tracked source file ceiling exceeded: 22501 > 22500 files at tests/test_schematic_outer_material.py",
+    "actual_tracked_source_files": 22518,
+    "native_or_engine_started": false,
+    "complete_external_wall_seconds": 11.48,
+    "complete_external_cpu_seconds": 7.81
+  },
+  "correction": {
+    "before_file_cap": 22500,
+    "after_file_cap": 23000,
+    "source_bytes": 402653184,
+    "scratch_bytes": 536870912,
+    "wall_seconds": 600,
+    "exact_source_delta": ".runs/install-source-cap23000-delta-final-001.json",
+    "source_sha256": "e5a14b9adfce5e92ce4e998e1635fd6f3cf371419752c07d82539766b0991ae7",
+    "test_sha256": "e4a260bba27a4c329bdb09b187e14d95b4d398fe9970f6314f69d1eaddde7257",
+    "all_tracked_source_required": true,
+    "no_exclusions_or_native_acceptance_change": true,
+    "no_backup_change": true
+  },
+  "targeted": {
+    "methods": 32,
+    "passed": true,
+    "execution": ".runs/install-source-cap23000-targeted-001/execution.json"
+  },
+  "full119": {
+    "methods": 1630,
+    "passed": true,
+    "test_seconds": 161.05,
+    "complete_external_wall_seconds": 162.5,
+    "complete_external_cpu_seconds": 157.74,
+    "execution": ".runs/full-integration-119/execution.json",
+    "comment_only_after_run": true
+  },
+  "current_installation046_pending": true,
+  "global_width_missing_negative_pending": true,
+  "new_routing_gains": 0,
+  "default_promoted": false,
+  "backup_scope": "Latest qualified full restoration unchanged; raw new Native/QA after minorincremental through2ddfbeed need nextmilestone capture.",
+  "scope": "Operational finite source inventory capacity only. Does not qualify installation046, newrouting support, GUI, comparison, broaderconfirmation or release. Failure045 retained, not relabeled pass."
+}
