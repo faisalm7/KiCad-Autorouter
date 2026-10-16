@@ -673,7 +673,8 @@ def main(argv=None):
                     flow.ready.clear(); flow.records.clear(); flow.choice = None
                 self.flow = None
                 self.inspected.SetValue(False)
-                self.status.SetLabel(error + ' No positive state adopted. Start a fresh preview; retained files were not deleted.')
+                self.status.SetLabel('Action refused or cancelled. Read the findings below; start a fresh preview.')
+                self.log.SetValue(error + '\nNo positive state adopted. Retained files were not deleted.')
             else:
                 self.flow = flow
                 display = {**flow.records.get('route', {}), **record}

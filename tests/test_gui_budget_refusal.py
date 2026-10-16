@@ -28,6 +28,18 @@ class GuiBudgetTests(unittest.TestCase):
                 gt.window_method('config')(SimpleNamespace(choices={}, seconds=control))
             control.GetValue.assert_not_called()
 
+    def test_actual_failure_replaces_old_positive_summary_with_scrollable_reason(self):
+        flow = SimpleNamespace(ready={'route'}, records={'route':{'accepted':True}}, choice='accept')
+        job = Mock()
+        window = SimpleNamespace(job=job, flow=flow, busy=True, inspected=Mock(), status=Mock(),
+                                 log=Mock(), refresh=Mock(), closing=False)
+        reason = 'Routing refused: insufficient remaining budget\nFull failure receipt: /owned/result.json'
+        gt.window_method('finished')(window, job, flow, 'route', None, reason)
+        self.assertIsNone(window.flow); self.assertFalse(flow.ready); self.assertFalse(flow.records)
+        self.assertIsNone(flow.choice)
+        displayed = window.log.SetValue.call_args.args[0]
+        self.assertIn(reason, displayed); self.assertIn('No positive state adopted', displayed)
+
     def test_improve_60_refuses_before_workspace_and_90_preserves_exact_budget(self):
         for seconds in (60, 90):
             settings = dict(self.settings, profile='tuned', seconds=seconds, scoring_preference='via_high')

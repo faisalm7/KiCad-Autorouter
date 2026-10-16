@@ -155,7 +155,9 @@ class CliJobTests(unittest.TestCase):
         self.assertIsNone(window.flow); self.assertIsNone(window.job)
         self.assertFalse(flow.ready); self.assertFalse(flow.records); self.assertIsNone(flow.choice)
         window.inspected.SetValue.assert_called_with(False)
-        window.log.SetValue.assert_not_called()
+        shown = window.log.SetValue.call_args.args[0]
+        self.assertIn('No positive state adopted', shown)
+        self.assertNotIn('Status: preview', shown)
 
     def test_new_preview_and_review_reset_prior_inspection_acknowledgement(self):
         for action in ('preview', 'review'):
