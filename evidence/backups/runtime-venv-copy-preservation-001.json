@@ -1,0 +1,296 @@
+{
+  "schema": 1,
+  "recorded_utc": "2026-10-16T12:26:42.948280+00:00",
+  "source_head": "563fecb18fb66244b7c49e93b9824c050ed60eb3",
+  "scope": "Local test venv interpreter links blocked strict incremental artifact backup; preserve links and use identical regular copies. No backup guard or historical product/proof changes.",
+  "initial_backup": {
+    "passed": false,
+    "reason": "Symlink or special file in backup scope",
+    "wall_seconds": 59.13,
+    "cpu_seconds": 42.91
+  },
+  "remediation": {
+    "passed": true,
+    "wall_seconds": 2.05,
+    "cpu_seconds": 0.94,
+    "count": 6,
+    "rows": [
+      {
+        "runtime": "001",
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-001/runtime/.venv/bin/python",
+        "original_target": "python3.11",
+        "resolved_target": "/Users/faisal/.pyenv/versions/3.11.9/bin/python3.11",
+        "interpreter_sha256": "11019d860d2db6de27cf71881546ea451f3931ad3280fcc9ae2ce18ef8d989b5",
+        "preserved_link": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/runtime-venv-original-links-001/001-python",
+        "copied": true
+      },
+      {
+        "runtime": "001",
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-001/runtime/.venv/bin/python3",
+        "original_target": "python3.11",
+        "resolved_target": "/Users/faisal/.pyenv/versions/3.11.9/bin/python3.11",
+        "interpreter_sha256": "11019d860d2db6de27cf71881546ea451f3931ad3280fcc9ae2ce18ef8d989b5",
+        "preserved_link": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/runtime-venv-original-links-001/001-python3",
+        "copied": true
+      },
+      {
+        "runtime": "001",
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-001/runtime/.venv/bin/python3.11",
+        "original_target": "/Users/faisal/.pyenv/versions/3.11.9/bin/python3.11",
+        "resolved_target": "/Users/faisal/.pyenv/versions/3.11.9/bin/python3.11",
+        "interpreter_sha256": "11019d860d2db6de27cf71881546ea451f3931ad3280fcc9ae2ce18ef8d989b5",
+        "preserved_link": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/runtime-venv-original-links-001/001-python3.11",
+        "copied": true
+      },
+      {
+        "runtime": "002",
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-002/runtime/.venv/bin/python",
+        "original_target": "python3.11",
+        "resolved_target": "/Users/faisal/.pyenv/versions/3.11.9/bin/python3.11",
+        "interpreter_sha256": "11019d860d2db6de27cf71881546ea451f3931ad3280fcc9ae2ce18ef8d989b5",
+        "preserved_link": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/runtime-venv-original-links-001/002-python",
+        "copied": true
+      },
+      {
+        "runtime": "002",
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-002/runtime/.venv/bin/python3",
+        "original_target": "python3.11",
+        "resolved_target": "/Users/faisal/.pyenv/versions/3.11.9/bin/python3.11",
+        "interpreter_sha256": "11019d860d2db6de27cf71881546ea451f3931ad3280fcc9ae2ce18ef8d989b5",
+        "preserved_link": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/runtime-venv-original-links-001/002-python3",
+        "copied": true
+      },
+      {
+        "runtime": "002",
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-002/runtime/.venv/bin/python3.11",
+        "original_target": "/Users/faisal/.pyenv/versions/3.11.9/bin/python3.11",
+        "resolved_target": "/Users/faisal/.pyenv/versions/3.11.9/bin/python3.11",
+        "interpreter_sha256": "11019d860d2db6de27cf71881546ea451f3931ad3280fcc9ae2ce18ef8d989b5",
+        "preserved_link": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/runtime-venv-original-links-001/002-python3.11",
+        "copied": true
+      }
+    ],
+    "startup_checks": [
+      {
+        "runtime": "001",
+        "process": {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.6182544999755919,
+          "cpu_seconds": 0.017847,
+          "max_rss_bytes": 13549568,
+          "supervisor_cpu_seconds": 0.0046619999999999995,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 32768,
+          "sampled_peak_workdir_bytes": 7613,
+          "resource_guards": {
+            "max_group_rss_bytes": 268435456,
+            "max_workdir_bytes": 2097152,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-001/runtime/.venv/bin/python",
+            "-B",
+            "-c",
+            "import json,sys; print(json.dumps(dict(executable=sys.executable,prefix=sys.prefix,version=list(sys.version_info[:3]))))"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-venv-copy-preservation-001/runtime001-interpreter.log",
+          "log_bytes": 241,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-venv-copy-preservation-001",
+          "signal_cancellation_enabled": true,
+          "pid": 92186
+        },
+        "log_sha256": "c9b2f308aca650463421d77d0d33ddb229f25fbba380c5cecb6a96da02e320af"
+      },
+      {
+        "runtime": "002",
+        "process": {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.036824666953179985,
+          "cpu_seconds": 0.015797,
+          "max_rss_bytes": 13598720,
+          "supervisor_cpu_seconds": 0.0021100000000000008,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 32768,
+          "sampled_peak_workdir_bytes": 7854,
+          "resource_guards": {
+            "max_group_rss_bytes": 268435456,
+            "max_workdir_bytes": 2097152,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-002/runtime/.venv/bin/python",
+            "-B",
+            "-c",
+            "import json,sys; print(json.dumps(dict(executable=sys.executable,prefix=sys.prefix,version=list(sys.version_info[:3]))))"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-venv-copy-preservation-001/runtime002-interpreter.log",
+          "log_bytes": 241,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-venv-copy-preservation-001",
+          "signal_cancellation_enabled": true,
+          "pid": 92190
+        },
+        "log_sha256": "dbe34cc23080df89bc3ca04cccf4d97afcfd83e485b22de6415f516116360192"
+      }
+    ],
+    "retained_positive_reader": {
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 1.2128755419980735,
+        "cpu_seconds": 0.6774809999999999,
+        "max_rss_bytes": 49364992,
+        "supervisor_cpu_seconds": 0.13025199999999998,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 49348608,
+        "sampled_peak_workdir_bytes": 84417548,
+        "resource_guards": {
+          "max_group_rss_bytes": 1073741824,
+          "max_workdir_bytes": 268435456,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-002/runtime/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "check-result",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-002/runtime/.runs/bare-cli/route/result.json"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-venv-copy-preservation-001/runtime002-real-positive-reader.log",
+        "log_bytes": 506,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-002/runtime",
+        "signal_cancellation_enabled": true,
+        "pid": 92192
+      },
+      "log_sha256": "94fa3d6e80099aa6432a463494ff6fb7dcafd1406f3b33cc2340186e7a90439f",
+      "current": true
+    },
+    "interpreter_sha256": "11019d860d2db6de27cf71881546ea451f3931ad3280fcc9ae2ce18ef8d989b5"
+  },
+  "backup_guard_changed": false,
+  "runtime_manifest_modules_proofs_changed": false,
+  "artifact001_still_invalid": true,
+  "full_restoration_repeated": false,
+  "incremental_retry_pending": true,
+  "future_setup": "python3.11 -m venv --copies .venv",
+  "binary_publication": false,
+  "refs": [
+    {
+      "path": ".runs/runtime-venv-copy-preservation-001/plan.json",
+      "sha256": "0d58ed5970408a8c5d088b96a087a9f33a62a9e259728b4c1f7ea9de27ab9ce5",
+      "bytes": 3620
+    },
+    {
+      "path": ".runs/runtime-venv-copy-preservation-001/progress.json",
+      "sha256": "5b24088031fafc796e35e80a0cc23f7dde2841be6172a1e73e020b8c4673ce17",
+      "bytes": 3752
+    },
+    {
+      "path": ".runs/runtime-venv-copy-preservation-001/result.json",
+      "sha256": "4b2f0c228d69e26b746188d78d691ca62ae7f7d91d083a7531eb4a7f19d3bf36",
+      "bytes": 10235
+    },
+    {
+      "path": ".runs/runtime-venv-copy-preservation-001/runtime001-interpreter.log",
+      "sha256": "c9b2f308aca650463421d77d0d33ddb229f25fbba380c5cecb6a96da02e320af",
+      "bytes": 241
+    },
+    {
+      "path": ".runs/runtime-venv-copy-preservation-001/runtime002-interpreter.log",
+      "sha256": "dbe34cc23080df89bc3ca04cccf4d97afcfd83e485b22de6415f516116360192",
+      "bytes": 241
+    },
+    {
+      "path": ".runs/runtime-venv-copy-preservation-001/runtime002-real-positive-reader.log",
+      "sha256": "94fa3d6e80099aa6432a463494ff6fb7dcafd1406f3b33cc2340186e7a90439f",
+      "bytes": 506
+    },
+    {
+      "path": ".runs/runtime-venv-copy-preservation-001.py",
+      "sha256": "c884063215fd1d0a13528538ce93c2c0c92efbdae6f87772f2c3954d9a816418",
+      "bytes": 4042
+    },
+    {
+      "path": ".runs/runtime-venv-copy-preservation-command-001.log",
+      "sha256": "ba1842571b3698ade0995fe02f41bc5145910e2f5bbf60046f2e142b11f74de3",
+      "bytes": 164
+    },
+    {
+      "path": ".runs/runtime-venv-copy-preservation-time-001.log",
+      "sha256": "4e3f9884549083693082f5556a4a9bbb195d0bcbccdb7c1c2214e32f6679c8a0",
+      "bytes": 29
+    },
+    {
+      "path": ".local-backups/runtime002-gui054-windows005-incremental-command.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".local-backups/runtime002-gui054-windows005-incremental-time.log",
+      "sha256": "f036d176b369503d547b3040008709451dcefee1cd88d57fc1d47a4d8464bb62",
+      "bytes": 199
+    }
+  ],
+  "limitations": [
+    "On-Mac only, by owner choice; no disk-failure protection.",
+    "Original link objects retained under .local-backups outside recursive artifact scope; exact targets recorded inside backed-up .runs.",
+    "Opaque .venv directories are not attested by the curated product manifest. No fresh routing or GUI run."
+  ],
+  "targeted_builder_provenance_regression": {
+    "passed": true,
+    "methods": 17,
+    "wall_seconds": 3.72,
+    "cpu_seconds": 2.94,
+    "native_rerun": false,
+    "refs": [
+      {
+        "path": ".runs/runtime-venv-copies-targeted-001.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": ".runs/runtime-venv-copies-targeted-time-001.log",
+        "sha256": "a3ca870f8ce538710ef87d1c0375b261a3cddc55177921822e556aa3bba01198",
+        "bytes": 145
+      }
+    ]
+  }
+}

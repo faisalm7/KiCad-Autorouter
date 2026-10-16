@@ -22,7 +22,8 @@ plus a new local Python 3.11 environment at .venv. Nothing is downloaded here.
 The original toolchain.lock.json remains authoritative. If the local Freerouting
 JAR was not explicitly copied at preparation, routing remains unavailable.
 
-Create the environment with Python 3.11: python3.11 -m venv .venv
+Create the environment with Python 3.11: python3.11 -m venv --copies .venv
+Use copies so strict local artifact backups can retain regular interpreter files.
 Check dependencies with: .venv/bin/python -B -m autorouter doctor
 Prepare a NEW separate GUI launcher directory with:
   .venv/bin/python -B scripts/install_gui.py --output /absolute/new-launcher
