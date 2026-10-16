@@ -139,12 +139,29 @@ def marked(directory,data):
     from .floor_route import read_json
     journal=directory/'engine-process.json'
     actual=read_json(journal) if journal.exists() or journal.is_symlink() else None
-    rows=[*(rows if type(rows)is list else []),actual]
-    visible_worker=any(type(row)is dict and type(row.get('argv'))is list
-        and any(type(value)is str and Path(value).name==INPUT for value in row['argv']) for row in rows)
-    return (data.get('engine_profile')==PROFILE or 'engine_angle_binding' in data or 'engine_planning_clearance_margin_nm' in data
+    def uses_angle(row):
+        return (type(row)is dict and type(row.get('argv'))is list
+            and any(type(value)is str and Path(value).name==INPUT for value in row['argv']))
+    # A validated nested producer never excuses root fields/files/journals.
+    root_marked=(data.get('engine_profile')==PROFILE or 'engine_angle_binding' in data or 'engine_planning_clearance_margin_nm' in data
         or any((directory/name).exists() or (directory/name).is_symlink() for name in [RECORD,INPUT])
-        or visible_worker)
+        or uses_angle(actual))
+    if root_marked:return True
+    visible=[row for row in (rows if type(rows)is list else []) if uses_angle(row)]
+    if not visible:return False
+    if (data.get('strategy')!='native_validated_zone_net_pruning' or actual is not None):return True
+    # Validate the complete recognized parent/child policy before treating its
+    # exact charged copied argv as nested evidence. Never trust a phase label.
+    from .strategy import check_incumbent_scoring,check_incumbent_policy,STRONG_INCUMBENT_POLICY
+    check_incumbent_scoring(directory,data)
+    if check_incumbent_policy(directory,data)!=STRONG_INCUMBENT_POLICY:
+        raise p.Rejected('nested search-angle worker lacks exact pruning incumbent policy')
+    incumbent=read_json(directory/'incumbent/result.json')
+    expected=[dict(row,phase='incumbent') for row in incumbent['steps'] if uses_angle(row)]
+    if not expected or visible!=expected or any(row.get('cwd')!=str(directory/'incumbent') for row in visible):
+        raise p.Rejected('orphan or changed nested search-angle worker population')
+    if journal.exists() or journal.is_symlink() or any((directory/name).exists() or (directory/name).is_symlink() for name in [RECORD,INPUT]):return True
+    return False
 
 
 def check(directory,data):

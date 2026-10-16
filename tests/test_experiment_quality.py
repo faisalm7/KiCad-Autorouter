@@ -112,6 +112,27 @@ class ProtocolControls(unittest.TestCase):
      row=e.summarize(arm,out,result,1,1)
      self.assertEqual(row['accepted'],expected)
      self.assertEqual(row['protocol_contract_verified'],expected)
+ def test_stronger_pruning_summary_requires_the_declared_actual_child_contract(self):
+  from tests import test_pruning_scoring as fixtures
+  from autorouter import strategy as s
+  helper=fixtures.StrongerIncumbentControls();self.addCleanup(helper.doCleanups)
+  child,inc,result=helper.scene();out=child.parent
+  inc['accepted']=True;e.p.save_json(child/'result.json',inc)
+  result.update(accepted=True,status='routing_accepted',wall_seconds=1,total_cpu_seconds=1,
+   proposal_policy='chains',incumbent={'receipt':str(child/'result.json')},incumbent_receipt_sha256=e.p.sha(child/'result.json'))
+  marker=out/'pruning-incumbent-policy.json';e.p.save_json(marker,s._incumbent_policy_contract(out,inc))
+  result['incumbent_policy_binding']['sha256']=e.p.sha(marker)
+  arm=dict(id='C_stronger',adapter='both',engine_profile='tuned',operation='prune',proposal_policy='chains',incumbent_policy=s.STRONG_INCUMBENT_POLICY)
+  for mode in ('valid','missing_arm_policy','wrong_arm_policy','parent_policy_erased','child_changed'):
+   record=copy.deepcopy(result);selected=copy.deepcopy(arm)
+   if mode=='missing_arm_policy':selected.pop('incumbent_policy')
+   elif mode=='wrong_arm_policy':selected['incumbent_policy']='invented'
+   elif mode=='parent_policy_erased':record.pop('incumbent_policy')
+   elif mode=='child_changed':e.p.save_json(child/'result.json',dict(inc,late_edit=True))
+   e.p.save_json(out/'result.json',record)
+   # Only summary policy binding is under test; no synthetic Native success claim.
+   with self.subTest(mode=mode),patch.object(e.p,'check_result',return_value={'current':True}):
+    self.assertEqual(e.summarize(selected,out,record,1.,1.)['accepted'],mode=='valid')
  def test_placement_pruning_summary_uses_explicit_new_contract(self):
   from autorouter import placement_strategy as ps
   with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parents[1]/'.cache') as tmp:

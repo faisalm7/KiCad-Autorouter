@@ -167,7 +167,7 @@ class PruningPreferenceFreshness(unittest.TestCase):
                     and row.name in ('original_fresh', 'stable')]
         self.assertEqual(len(closures), 2)
         owner = {}; capture_destination(owner, case.run)
-        env = dict(owned_destination=owned_destination, owner=owner, pref=pref, captured=case.captured,
+        env = dict(owned_destination=owned_destination, owner=owner, pref=pref, captured=case.captured, incumbent_options=None,
                    report=case.data, output=case.run, source=case.source, p=p, c=c, _check_original=s._check_original,
                    _chain_context_fresh=s._chain_context_fresh,
                    _adaptive_branch_fresh=s._adaptive_branch_fresh)

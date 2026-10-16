@@ -246,14 +246,21 @@ def summarize(arm, directory, result, invocation_wall, invocation_cpu):
         incumbent_path = directory / "incumbent/result.json"
         try:
             incumbent = json.loads(incumbent_path.read_text())
+            incumbent_profile, incumbent_baseline = arm['engine_profile'], 'B2_tuned'
+            if 'incumbent_policy' in arm:
+                from autorouter import strategy
+                if (arm['incumbent_policy'] != strategy.STRONG_INCUMBENT_POLICY
+                        or strategy.check_incumbent_policy(directory, result, incumbent) != arm['incumbent_policy']):
+                    raise p.Rejected('comparison arm differs from the stronger incumbent contract')
+                incumbent_profile, incumbent_baseline = 'tuned-free-angle', 'B2_free_angle_clearance20'
             row["protocol_contract_verified"] = row["protocol_contract_verified"] and (
-                result.get("incumbent_baseline") == "B2_tuned"
+                result.get("incumbent_baseline") == incumbent_baseline
                 and result.get("incumbent", {}).get("receipt") == str(incumbent_path)
                 and incumbent.get("adapter") == arm["adapter"]
-                and incumbent.get("engine_profile") == arm["engine_profile"]
+                and incumbent.get("engine_profile") == incumbent_profile
                 and incumbent.get("scope") == "whole_board_unlocked_routing"
                 and incumbent.get("accepted") is True)
-        except (OSError, ValueError):
+        except (OSError, ValueError, p.Rejected):
             row["protocol_contract_verified"] = False
     if arm["operation"] == "placement_prune":
         from autorouter import placement_strategy as ps,floor_route as f
