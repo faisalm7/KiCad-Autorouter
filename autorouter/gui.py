@@ -20,6 +20,8 @@ import uuid
 from . import config as c, preferences as pref
 
 LOG_LIMIT = 2 * 1024 * 1024
+GUI_IMPROVE_MIN_SECONDS = 90
+FAILURE_REASON_LIMIT = 512
 SUMMARY_LIMIT = 128 * 1024
 
 
@@ -175,10 +177,7 @@ class Request:
             raise ValueError('Select an existing output folder outside the source project.')
         settings = pref.validate(json.loads(self.settings_json))
         if self.method not in ('route', 'improve'): raise ValueError('Unknown routing method.')
-        if self.method == 'improve':
-            from .strategy import pruning_scope
-            pruning_scope(settings)
-            if settings['seconds'] < 30: raise ValueError('Experimental improvement needs at least 30 seconds.')
+        if self.method == 'improve': check_improve_settings(settings)
         files = source_inventory(board)
         workspace = parent / ('autorouter-gui-' + uuid.uuid4().hex)
         workspace.mkdir(mode=0o700)
@@ -255,8 +254,13 @@ class Workflow:
 
     def adopt(self, stage, process, log_path, *, choice=None):
         self.fresh()
-        if process['cancel_requested'] or process['exit_code'] != 0 or process['log_truncated']:
+        if (process['cancel_requested'] or process['log_truncated']
+                or process['exit_code'] in (130, 143)
+                or type(process['exit_code']) is int and process['exit_code'] < 0):
             raise ValueError('Action failed or was cancelled. Evidence was retained; no positive state adopted.')
+        if process['exit_code'] != 0:
+            detail = failed_route_detail(self.workspace / 'route/result.json') if stage == 'route' else None
+            raise ValueError(detail or 'Action failed or was cancelled. Evidence was retained; no positive state adopted.')
         if stage == 'preview':
             record = json.loads(log_path.read_bytes())
             if (record.get('status') != 'preview' or record.get('static_preflight_passed') is not True
@@ -308,15 +312,42 @@ class Workflow:
         return target
 
 
+def check_improve_settings(config):
+    """GUI-only operational minimum; the public strategy contract is unchanged."""
+    from .strategy import pruning_scope
+    effective = pref.validate(config)
+    pruning_scope(effective)
+    if effective['seconds'] < GUI_IMPROVE_MIN_SECONDS:
+        raise ValueError('Graphical Improve needs at least 90 seconds for incumbent and final checks. This is an operational minimum, not a completion guarantee; the budget was not changed.')
+    return effective
+
+
+def failed_route_detail(path):
+    """Bounded diagnostic text only; never adopts a failed receipt as evidence."""
+    try:
+        record = read_record(path)
+        if (type(record) is not dict or record.get('accepted') is not False
+                or type(record.get('status')) is not str or not record['status'].strip()
+                or record['status'] in ('routing_accepted', 'cancelled', 'canceled')):
+            return None
+        reason = record.get('reason') or record.get('error')
+        if type(reason) is not str or not reason.strip(): return None
+        text = ''.join(char if char.isprintable() else ' ' for char in reason[:FAILURE_REASON_LIMIT]).strip()
+        if not text: return None
+        if len(reason) > FAILURE_REASON_LIMIT: text += ' [detail shortened]'
+        return 'Routing refused: ' + text + '\nNo candidate accepted. Full failure receipt: ' + str(path)
+    except Exception:
+        return None
+
+
 def improve_preset(config):
     """Choose compatible algorithm settings without replacing task constraints."""
-    from .strategy import pruning_scope
     effective = pref.validate(config)
     candidate = dict(effective, profile='tuned', adapter='both')
     try:
-        return pruning_scope(candidate)
+        return check_improve_settings(candidate)
     except Exception as exc:
-        raise ValueError('Improve requires whole-board unlocked routing, all source layers, Native guidance and at least 30 seconds. Use Route for other tasks.') from exc
+        raise ValueError('Improve requires whole-board unlocked routing, all source layers, Native guidance and at least 90 seconds. This is not a completion guarantee. Use Route for other tasks.') from exc
 
 
 class CliJob:
@@ -524,8 +555,8 @@ def main(argv=None):
                     if config['guidance'] != 'native': raise ValueError('This graphical workflow supports Native guidance; retain other presets for their documented CLI.')
                     if config['seconds'] != int(config['seconds']): raise ValueError('This graphical control uses whole seconds; use the CLI for fractional budgets.')
                     if self.method.GetSelection():
-                        from .strategy import pruning_scope
-                        pruning_scope(config)  # Exact loaded settings; no implicit preset rewriting.
+                        check_improve_settings(config)  # Exact loaded settings; budget is never raised.
+
                     for name, control in self.choices.items():
                         control.SetSelection(next(i for i, (_, value) in enumerate(self.values[name]) if value == config[name]))
                     self.seconds.SetValue(int(config['seconds'])); self.nets.SetValue('\n'.join(config.get('nets', [])))
