@@ -10,7 +10,7 @@
 | Correctness | Actual short/fill-intrusion negatives and exact old class-counterexample refusal pass. The006 unsafe class-directive acceptance remains preserved; current class/hierarchy cases refuse.058's tiny negative CPU residual no longer rejects valid exports; strict reader unchanged. Full141passes1832methods, not a routing-quality measure. |
 | Constraints | Scope/layers/budgets/via/optimization preferences persist; locked copper always protected, completion retains all existing. Original nets/geometry/rules/severities/exclusions/zones/keepouts retained. Unsupported electrical requirements cannot be inferred from names or DRC. |
 | Effectiveness / coverage | Corrected-standard default, optional single pruning. Exposed results have narrower length gains/ties/failures; Sonde's difference is overwhelmingly GND and slower. No added completion or broad cleanup/signal/electrical gain. Cohort015retains7static eligible/18unsupported; later roots separate. Mixer/clock/Ideal Diode bounded decisions defer. |
-| Recovery | Verified GitHub checkpoints; completed007restoration343224files/allrefs/bundle/restoredCLI/48-file builder,98MiB reader/192MiB aggregate guard. No completed restoration repeated. Next008artifact increment pending; raw archives remain Mac-only by owner choice. |
+| Recovery | Verified GitHub checkpoints; [new008restoration](../evidence/backups/full-restore-runtime008-2f21-001.json)345265files/allrefs/bundle/restoredCLI/48-file builder,350000file-directory/12GiB/98MiBreader/192MiBaggregate guards. Completed007restoration not repeated; raw archives remain Mac-only by owner choice. |
 
 | Severity | Open issue / gate | Required evidence |
 |---|---|---|
