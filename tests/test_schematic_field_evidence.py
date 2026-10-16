@@ -55,6 +55,15 @@ class BoardOnlyFieldCensusControls(unittest.TestCase):
         obs['footprints'].append({'reference':'G***','uuid':'00000000-0000-0000-0000-000000000002','fields':{'Datasheet':'','Description':''}})
         return board,policy.sx.dump(tree),obs,report
     def project(self,c):return evidence.project_board_only_fields(*c)
+    def duplicate_scene(self,references=('G***','G***')):
+        """Authored unit seam: one real component and two distinct artwork UUIDs."""
+        sx=policy.sx;c=self.scene();first=sx.children(c[0],'footprint')[1]
+        second=copy.deepcopy(first);sx.one(second,'uuid')[1]='00000000-0000-0000-0000-000000000003'
+        c[0].append(second);c[2]['footprints'].append(copy.deepcopy(c[2]['footprints'][1]))
+        c[2]['footprints'][2]['uuid']='00000000-0000-0000-0000-000000000003'
+        for fp,row,ref in zip((first,second),c[2]['footprints'][1:],references):
+            sx.children(fp,'property')[0][2]=json.dumps(ref);row['reference']=ref
+        return c
     def test_complete_artwork_census_and_hashes_preserve_raw_observations_and_warnings(self):
         c=self.scene();before=copy.deepcopy(c);projected,proof=self.project(c)
         self.assertEqual(c,before);self.assertEqual(len(c[2]['footprints']),2)
@@ -62,8 +71,96 @@ class BoardOnlyFieldCensusControls(unittest.TestCase):
         self.assertEqual(proof['complete_observer_sha256'],policy.digest(policy.canonical(c[2])))
         self.assertEqual(proof['projected_observer_sha256'],policy.digest(policy.canonical(projected)))
         self.assertEqual(proof['artwork'][0]['pad_count'],0)
+        self.assertEqual(proof['policy'],'source-bound-padless-field-census-v1')
+        self.assertNotIn('duplicate_artwork_reference_groups',proof)
         q=policy.derive(c[1],projected,c[3]);self.assertTrue(policy.qualified(q,c[3]['schematic_parity']))
         self.assertNotEqual(q['observer_sha256'],proof['complete_observer_sha256'])
+    def test_duplicate_artwork_reference_groups_keep_each_source_native_uuid(self):
+        for references in (('G***','G***'),('G***','g***')):
+            c=self.duplicate_scene(references);before=copy.deepcopy(c)
+            with self.subTest(references=references):
+                projected,proof=self.project(c)
+                uuids=sorted(row['uuid'] for row in c[2]['footprints'][1:])
+                self.assertEqual(c,before);self.assertEqual(len(c[2]['footprints']),3)
+                self.assertEqual(projected['footprints'],[c[2]['footprints'][0]])
+                self.assertEqual(proof['policy'],'source-bound-padless-field-census-v2')
+                self.assertEqual(proof['duplicate_artwork_reference_groups'],[{'folded_reference':'g***','uuids':uuids}])
+                self.assertEqual(proof['complete_footprint_count'],3);self.assertEqual(proof['compared_footprint_count'],1)
+                self.assertEqual([row['uuid'] for row in proof['artwork']],uuids)
+                self.assertEqual(proof['complete_observer_sha256'],policy.digest(policy.canonical(c[2])))
+                self.assertEqual(proof['projected_observer_sha256'],policy.digest(policy.canonical(projected)))
+                for fp,record in zip(policy.sx.children(c[0],'footprint')[1:],proof['artwork']):
+                    self.assertEqual(record['footprint_ast_sha256'],policy.digest((policy.sx.dump(fp)+'\n').encode()))
+                q=policy.derive(c[1],projected,c[3])
+                self.assertTrue(policy.qualified(q,c[3]['schematic_parity']))
+                self.assertEqual(q['component_count'],1)
+    def test_consistent_artwork_casefold_collision_cannot_hide_real_component(self):
+        c=self.scene();ordinary=copy.deepcopy(c[2]['footprints'][0])
+        # Both source and Native agree: only the artwork is renamed. The real
+        # D1 and schematic stay unchanged, isolating the casefold-group guard.
+        policy.sx.children(policy.sx.children(c[0],'footprint')[1],'property')[0][2]='"d1"'
+        c[2]['footprints'][1]['reference']='d1';before=copy.deepcopy(c)
+        with self.assertRaises(ValueError):self.project(c)
+        self.assertEqual(c,before);self.assertEqual(c[2]['footprints'][0],ordinary)
+    def test_duplicate_artwork_group_cannot_hide_one_unqualified_member(self):
+        sx=policy.sx
+        for mode in ('pad','model','path','unknown','copper','variable','no_board_only','smd'):
+            c=self.duplicate_scene();fp=sx.children(c[0],'footprint')[2]
+            if mode=='pad':fp.append(sx.parse('(pad "1" smd rect (net 1 "GND"))'))
+            elif mode=='model':fp.append(sx.parse('(model "stock.step")'))
+            elif mode=='path':fp.append(sx.parse('(path "/schematic/path")'))
+            elif mode=='unknown':fp.append(sx.parse('(unknown_future_electrical_field yes)'))
+            elif mode=='copper':sx.one(sx.one(fp,'fp_poly'),'layer')[1]='"B.Cu"'
+            elif mode=='variable':sx.children(fp,'property')[1][2]='"${REFERENCE}"'
+            elif mode=='no_board_only':sx.one(fp,'attr').remove('board_only')
+            else:sx.one(fp,'attr').append('smd')
+            before=copy.deepcopy(c)
+            with self.subTest(mode=mode),self.assertRaises(ValueError):self.project(c)
+            self.assertEqual(c,before)
+    def test_duplicate_artwork_requires_complete_consistent_uuid_reference_and_fields(self):
+        sx=policy.sx
+        for mode in ('source_ref','native_ref','native_fields','missing_native_art','missing_native_real',
+                     'missing_source','duplicate_source_uuid','duplicate_native_uuid','unknown_native_uuid'):
+            c=self.duplicate_scene();fp=sx.children(c[0],'footprint')[2];row=c[2]['footprints'][2]
+            if mode=='source_ref':sx.children(fp,'property')[0][2]='"OTHER"'
+            elif mode=='native_ref':row['reference']='OTHER'
+            elif mode=='native_fields':row['fields']['Description']='DIFFERENT'
+            elif mode=='missing_native_art':c[2]['footprints'].pop()
+            elif mode=='missing_native_real':c[2]['footprints'].pop(0)
+            elif mode=='missing_source':c[0].remove(fp)
+            elif mode=='duplicate_source_uuid':sx.one(fp,'uuid')[1]=c[2]['footprints'][1]['uuid']
+            elif mode=='duplicate_native_uuid':row['uuid']=c[2]['footprints'][1]['uuid']
+            else:row['uuid']='00000000-0000-0000-0000-000000000004'
+            with self.subTest(mode=mode),self.assertRaises(ValueError):self.project(c)
+    def test_parity_finding_on_either_duplicate_artwork_member_still_refuses(self):
+        for index in (1,2):
+            c=self.duplicate_scene();uid=c[2]['footprints'][index]['uuid']
+            c[3]['schematic_parity'].append({'type':'extra_footprint','severity':'warning','items':[{'uuid':uid}]})
+            before=copy.deepcopy(c)
+            with self.subTest(index=index),self.assertRaises(ValueError):self.project(c)
+            self.assertEqual(c,before)
+    def test_duplicate_artwork_does_not_hide_ordinary_custom_or_description_mismatch(self):
+        for field in ('LCSC Part #','Description'):
+            c=self.duplicate_scene();warning=copy.deepcopy(c[3]['schematic_parity'])
+            c[2]['footprints'][0]['fields'][field]='CHANGED';projected,_=self.project(c)
+            self.assertEqual(c[3]['schematic_parity'],warning)
+            with self.subTest(field=field),self.assertRaises(ValueError):policy.derive(c[1],projected,c[3])
+    def test_duplicate_artwork_library_warning_is_retained_without_new_waiver(self):
+        c=self.duplicate_scene();warning={'type':'lib_footprint_issues','severity':'warning',
+            'description':'Authored unit-seam library warning','items':[{'uuid':c[2]['footprints'][1]['uuid']}]}
+        c[3]['violations'].append(warning);before=copy.deepcopy(c)
+        projected,proof=self.project(c);q=policy.derive(c[1],projected,c[3])
+        self.assertEqual(c,before);self.assertEqual(c[3]['violations'],[warning])
+        self.assertEqual(proof['complete_observer_sha256'],policy.digest(policy.canonical(c[2])))
+        self.assertEqual(proof['projected_observer_sha256'],policy.digest(policy.canonical(projected)))
+        self.assertEqual(q['drc_report_sha256'],policy.digest(policy.canonical(c[3])))
+        self.assertTrue(policy.qualified(q,c[3]['schematic_parity']))
+        native={'opens':0,'blocking':0,'warnings':2,'exclusions':0,'ignored_checks':[],
+            'findings':c[3]['violations']+c[3]['unconnected_items']+c[3]['schematic_parity'],
+            'field_parity':{'schema':1,'policy':evidence.POLICY,'qualification':q}}
+        self.assertTrue(p.native_accepted(native));self.assertIn(warning,native['findings'])
+        native['findings'].append({'type':'clearance','severity':'error','items':[]})
+        self.assertFalse(p.native_accepted(native))
     def test_pad_or_model_or_path_or_unknown_child_cannot_be_partitioned(self):
         from autorouter import sexpr as sx
         for child in ('(pad "1" np_thru_hole circle (size 1 1))','(pad "1" smd rect (net 1 "GND"))',

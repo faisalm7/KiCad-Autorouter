@@ -54,15 +54,15 @@ def project_board_only_fields(board,raw_netlist,observation,report,*,native_vers
     extra=[row for row in rows if isinstance(row,dict) and row.get('reference') not in sch]
     fps=sx.children(board,'footprint')
     if not 1<=len(fps)<=10000 or len(fps)!=len(rows):raise ValueError('bounded complete source/Native footprint census required')
-    source={};native={};references=set()
+    source={};native={};references={}
     for fp in fps:
         uid=fields.singleton(fp,'uuid')
         properties=sx.children(fp,'property')
         refs=[n for n in properties if len(n)>2 and sx.unquote(n[1])=='Reference']
         if len(refs)!=1 or fields.UUID.fullmatch(uid) is None or uid in source:raise ValueError('unambiguous source footprint identity required')
         ref=fields.atom(refs[0][2])
-        if not ref or ref.casefold() in references:raise ValueError('unique source footprint references required')
-        references.add(ref.casefold());source[uid]=(ref,fp)
+        if not ref:raise ValueError('nonempty source footprint reference required')
+        references.setdefault(ref.casefold(),[]).append(uid);source[uid]=(ref,fp)
     for row in rows:
         if (type(row) is not dict or set(row)!={'reference','uuid','fields'}
                 or type(row['reference']) is not str or type(row['uuid']) is not str
@@ -71,7 +71,10 @@ def project_board_only_fields(board,raw_netlist,observation,report,*,native_vers
             raise ValueError('complete source/Native field census differs')
         native[row['uuid']]=row
     if set(native)!=set(source):raise ValueError('source/Native footprint census incomplete')
-    if not extra:return observation,None
+    duplicate_groups={ref:ids for ref,ids in references.items() if len(ids)>1}
+    if not extra:
+        if duplicate_groups:raise ValueError('duplicate component footprint references are unqualified')
+        return observation,None
     if len(fps)>512:raise ValueError('board-only field partition exceeds qualified footprint scope')
     excluded=[]
     for row in extra:
@@ -103,13 +106,24 @@ def project_board_only_fields(board,raw_netlist,observation,report,*,native_vers
                 for finding in report.get('schematic_parity',[]) if isinstance(finding,dict)):
             raise ValueError('board-only artwork has a schematic parity finding')
         excluded.append({'reference':ref,'uuid':row['uuid'],'footprint_ast_sha256':fields.digest((sx.dump(fp)+'\n').encode()),'pad_count':0,'board_only':True})
-    projected=copy.deepcopy(observation)
     identities={r['uuid'] for r in excluded}
+    schematic_references={ref.casefold() for ref in sch}
+    # Reference labels on artwork are not component identities. Every member
+    # of a colliding group must independently pass the complete source/Native
+    # artwork census above; an electrical member or schematic collision cannot
+    # disappear through projection. Findings remain completely unchanged.
+    if any(not set(ids)<=identities or ref in schematic_references for ref,ids in duplicate_groups.items()):
+        raise ValueError('duplicate references require only source-proved board-only artwork, disjoint from schematic components')
+    projected=copy.deepcopy(observation)
     projected['footprints']=[r for r in projected['footprints'] if r['uuid'] not in identities]
-    return projected,{'policy':'source-bound-padless-field-census-v1','complete_footprint_count':len(rows),
+    proof={'policy':'source-bound-padless-field-census-v1','complete_footprint_count':len(rows),
         'compared_footprint_count':len(projected['footprints']),'artwork':sorted(excluded,key=lambda r:r['uuid']),
         'complete_observer_sha256':fields.digest(fields.canonical(observation)),
         'projected_observer_sha256':fields.digest(fields.canonical(projected))}
+    if duplicate_groups:
+        proof['policy']='source-bound-padless-field-census-v2'
+        proof['duplicate_artwork_reference_groups']=[{'folded_reference':ref,'uuids':sorted(ids)} for ref,ids in sorted(duplicate_groups.items())]
+    return projected,proof
 
 
 def derive(directory,stage,raw,*,native_toolchain=None):
