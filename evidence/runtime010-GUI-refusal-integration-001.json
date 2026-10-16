@@ -1,0 +1,2377 @@
+{
+  "schema": 1,
+  "kind": "runtime010-two-owned-CLI-route-export-regressions-after-GUI-refusal-correction",
+  "source_head": "5d85f5f146658aabe015ec468c07a9339e85e146",
+  "artifact_id": "runtime010",
+  "accepted": false,
+  "CLI_qualification_passed": true,
+  "actual_GUI": false,
+  "actual_GUI061_evidence_separately_linked": true,
+  "human_PCB_review": false,
+  "physical_electrical_validation": false,
+  "whole_project_DRC_clean": false,
+  "runtime": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-010/runtime",
+  "runtime_manifest": {
+    "path": ".runs/runtime-directory-010/runtime/runtime-distribution.json",
+    "sha256": "40c26ce62a914343eb00fae18f5460942053456312885332b2d674bb001d73a1",
+    "bytes": 10102
+  },
+  "tools": {
+    "implementation_sha256": {
+      "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+      "autorouter/__main__.py": "0b7928c455fea4c2632d91c7fe3888301d946d1258b34b0918bd5c446feaf62f",
+      "autorouter/adapter.py": "a99a389f8ff8d11b5c28507e524b823f3b906d703e2faa4dd34496a642517ac3",
+      "autorouter/board_floor.py": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340",
+      "autorouter/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+      "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+      "autorouter/engine_angle.py": "977f392326158291cb136939576152685c6871756aec0e70e7784545dd8e393e",
+      "autorouter/floor_context.py": "88dc6bf29ff536f10cd4c37575ae2476ed056b05167007d65f0fe796360ebd3d",
+      "autorouter/floor_route.py": "78d684e09edb1ec1816d4385b6d0f67dc34d54bf40cbe1e41bf77348a0c99b8f",
+      "autorouter/gui.py": "e7a4f87823ebfab5826f760ea2283b1acb74b9c8fdcb88c9b2a60fbab933ae24",
+      "autorouter/handoff.py": "36632386b3f012795e86c02c330b33ade21655bef43c241759c4759b4c5a1134",
+      "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+      "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+      "autorouter/local_settings.py": "a2ab6296b637ace500f1cdbdd62de0cd9c1803cfc17e38906ced497c1aef21c8",
+      "autorouter/native.py": "d7e3140cee40d0a618c5c699cdada4d833a04d76f8fe06e8b823b4f490f2e9b6",
+      "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+      "autorouter/native_edge.py": "8a38b60f301a72b815b877f9af59d156024757d66eda7d3df8c34addbe4d0c74",
+      "autorouter/netclass.py": "a483d40e48a5774e4485afc187ec6c7fad3d1f69a74b35a6f96624223446aa0b",
+      "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+      "autorouter/padless_alias.py": "f359a89e3c48703058490c22d9591b5f916cd22a8b734c50e1c9191e501c1413",
+      "autorouter/padless_alias_native.py": "7d06683b834f0211c82d87d7c982f6c39960e841627cd5e98f58a7913f501002",
+      "autorouter/pipeline.py": "c13bfc7e9e0a79d59cb771676e310949becda43f3fbb304c0839ba1094c9267c",
+      "autorouter/placement_clearance.py": "53f35206860617ed44fd5c5f1eb165894368b079e35fc89e060adc2f01997f41",
+      "autorouter/placement_strategy.py": "b2bee86ef41c5f98e38a0c0f60fdd1bd9148346644f72c7d754de333bd52d25d",
+      "autorouter/placement_transform.py": "cde384f548f7999f87296f071c4b1089c18abda59a02f323dfaa84c17bffee22",
+      "autorouter/pour_rule_area.py": "684aa01868d415d531761eebbd4e2aefeba5316595d8478c7fc13bcc41b571b2",
+      "autorouter/pour_rule_area_native.py": "8de8b82227d0f08a9b08eab3b9cba3ef1e025dde5d53d596ef212e93cf6304f1",
+      "autorouter/preferences.py": "d6a39475d8e13483cd74921111c5438f3a0877866a2456d0b805490326681425",
+      "autorouter/provenance.py": "bb095b5a50751f834e28d44f2f895d899fb2988e72d4b2cdf3719a888f0f16d0",
+      "autorouter/recovery.py": "871f5f52cdb6932464b9ed3f2846c3ae7e257bbc04ddf87b6eba49450596c2b9",
+      "autorouter/review_export.py": "f3b051fb2c4c35d058e280733b708c4c19bab251b897439386b3fb1b2413eb81",
+      "autorouter/review_view.py": "79f65e4d53c243f4e0f054d97bced2be2c4646537e5b86f11626ac8c5f4ce92d",
+      "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+      "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+      "autorouter/schematic_field_evidence.py": "d46180e82a6f6a8b8337d064ac1c5f44df995a5da347c4809579077f8c54675a",
+      "autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+      "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+      "autorouter/strategy.py": "8a9ef351ff51df414245977d53cf68422d82fe4f9c94ccd8305c7025de073ea3",
+      "autorouter/thermal.py": "2fa7ff7260ba6e8b5a8003d8e1f51314b5ff548ef635fb94b29bdee4c741102d",
+      "autorouter/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+      "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+      "autorouter/thermal_worker.py": "fd651f44233aae2c70da0a8feab5f96a4763276684e8b0babf39860b91a9cc33"
+    },
+    "git_head": "5d85f5f146658aabe015ec468c07a9339e85e146",
+    "source_provenance": {
+      "kind": "runtime-directory-v1",
+      "git_head": "5d85f5f146658aabe015ec468c07a9339e85e146",
+      "build_source": {
+        "files_sha256": {
+          "LICENSE": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+          "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+          "autorouter/__main__.py": "0b7928c455fea4c2632d91c7fe3888301d946d1258b34b0918bd5c446feaf62f",
+          "autorouter/adapter.py": "a99a389f8ff8d11b5c28507e524b823f3b906d703e2faa4dd34496a642517ac3",
+          "autorouter/board_floor.py": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340",
+          "autorouter/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+          "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+          "autorouter/engine_angle.py": "977f392326158291cb136939576152685c6871756aec0e70e7784545dd8e393e",
+          "autorouter/floor_context.py": "88dc6bf29ff536f10cd4c37575ae2476ed056b05167007d65f0fe796360ebd3d",
+          "autorouter/floor_route.py": "78d684e09edb1ec1816d4385b6d0f67dc34d54bf40cbe1e41bf77348a0c99b8f",
+          "autorouter/gui.py": "e7a4f87823ebfab5826f760ea2283b1acb74b9c8fdcb88c9b2a60fbab933ae24",
+          "autorouter/handoff.py": "36632386b3f012795e86c02c330b33ade21655bef43c241759c4759b4c5a1134",
+          "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+          "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+          "autorouter/local_settings.py": "a2ab6296b637ace500f1cdbdd62de0cd9c1803cfc17e38906ced497c1aef21c8",
+          "autorouter/native.py": "d7e3140cee40d0a618c5c699cdada4d833a04d76f8fe06e8b823b4f490f2e9b6",
+          "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+          "autorouter/native_edge.py": "8a38b60f301a72b815b877f9af59d156024757d66eda7d3df8c34addbe4d0c74",
+          "autorouter/netclass.py": "a483d40e48a5774e4485afc187ec6c7fad3d1f69a74b35a6f96624223446aa0b",
+          "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+          "autorouter/padless_alias.py": "f359a89e3c48703058490c22d9591b5f916cd22a8b734c50e1c9191e501c1413",
+          "autorouter/padless_alias_native.py": "7d06683b834f0211c82d87d7c982f6c39960e841627cd5e98f58a7913f501002",
+          "autorouter/pipeline.py": "c13bfc7e9e0a79d59cb771676e310949becda43f3fbb304c0839ba1094c9267c",
+          "autorouter/placement_clearance.py": "53f35206860617ed44fd5c5f1eb165894368b079e35fc89e060adc2f01997f41",
+          "autorouter/placement_strategy.py": "b2bee86ef41c5f98e38a0c0f60fdd1bd9148346644f72c7d754de333bd52d25d",
+          "autorouter/placement_transform.py": "cde384f548f7999f87296f071c4b1089c18abda59a02f323dfaa84c17bffee22",
+          "autorouter/pour_rule_area.py": "684aa01868d415d531761eebbd4e2aefeba5316595d8478c7fc13bcc41b571b2",
+          "autorouter/pour_rule_area_native.py": "8de8b82227d0f08a9b08eab3b9cba3ef1e025dde5d53d596ef212e93cf6304f1",
+          "autorouter/preferences.py": "d6a39475d8e13483cd74921111c5438f3a0877866a2456d0b805490326681425",
+          "autorouter/provenance.py": "bb095b5a50751f834e28d44f2f895d899fb2988e72d4b2cdf3719a888f0f16d0",
+          "autorouter/recovery.py": "871f5f52cdb6932464b9ed3f2846c3ae7e257bbc04ddf87b6eba49450596c2b9",
+          "autorouter/review_export.py": "f3b051fb2c4c35d058e280733b708c4c19bab251b897439386b3fb1b2413eb81",
+          "autorouter/review_view.py": "79f65e4d53c243f4e0f054d97bced2be2c4646537e5b86f11626ac8c5f4ce92d",
+          "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+          "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+          "autorouter/schematic_field_evidence.py": "d46180e82a6f6a8b8337d064ac1c5f44df995a5da347c4809579077f8c54675a",
+          "autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+          "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+          "autorouter/strategy.py": "8a9ef351ff51df414245977d53cf68422d82fe4f9c94ccd8305c7025de073ea3",
+          "autorouter/thermal.py": "2fa7ff7260ba6e8b5a8003d8e1f51314b5ff548ef635fb94b29bdee4c741102d",
+          "autorouter/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+          "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+          "autorouter/thermal_worker.py": "fd651f44233aae2c70da0a8feab5f96a4763276684e8b0babf39860b91a9cc33",
+          "scripts/install_gui.py": "0a7c487951c1641e4e790105939394bc3c430612a6cfe7376bd62f5acd67f56f",
+          "scripts/prepare_gui_plugin.py": "dfa0580e0ef88791601053922ba164eedadad8a9fd9a3d8935e6a75e4017798a",
+          "toolchain.lock.json": "f04be5cdf6f64bddc16a6c5efd217b2f5e0a1341906ff44033f5807971154efe"
+        },
+        "git_head": "5d85f5f146658aabe015ec468c07a9339e85e146",
+        "kind": "git-checkout"
+      },
+      "manifest_sha256": "40c26ce62a914343eb00fae18f5460942053456312885332b2d674bb001d73a1"
+    },
+    "kicad": "10.0.0",
+    "freerouting": "2.5.0",
+    "files": {
+      "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219",
+      "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-010/runtime/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7"
+    },
+    "network": "engine sandbox-exec deny network*",
+    "normal_drc_local_settings_policy": "job-owned-prl-immutable-v1",
+    "normal_selected_proposal_import_policy": "selected-proposals-exact-source-v1",
+    "normal_native_export_alias_policy": "source-bound-padless-export-v1"
+  },
+  "runtime_manifest_frozen_Git_42_implementation_pins_match": true,
+  "immutable_artifact_file_count": 47,
+  "actual_runtime009_to010_implementation_differences": {
+    "autorouter/gui.py": {
+      "runtime009_sha256": "a8cb8daf58cbb063795433a1d6ab6ba4d70a18d63af808d5a93209fda1c02bee",
+      "runtime010_sha256": "e7a4f87823ebfab5826f760ea2283b1acb74b9c8fdcb88c9b2a60fbab933ae24"
+    }
+  },
+  "unchanged_implementation_files": 41,
+  "positives": {
+    "route4Cu": {
+      "workflow_delivered": true,
+      "actual_GUI": false,
+      "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-010/source/owned-four-copper-forced-inner.kicad_pcb",
+      "source_hashes": {
+        "owned-four-copper-forced-inner.kicad_pcb": "d137a34edbd3ceb204f4c2d3d5e076a725c97c9efca5a87426227c9cd98cd627",
+        "owned-four-copper-forced-inner.kicad_prl": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+        "owned-four-copper-forced-inner.kicad_pro": "f181351b60d4be7406d882af2652c6dfc248d138492c42bc3407b389edf1ea07",
+        "owned-four-copper-forced-inner.kicad_sch": "24500c4d883af58ba531ce00130c7988f9ec73b9e7781b7f5bbd72155545e3b9"
+      },
+      "settings": {
+        "schema": 1,
+        "scope": "whole_board_unlocked_routing",
+        "seconds": 90,
+        "adapter": "both",
+        "profile": "standard",
+        "guidance": "native",
+        "layers": "source_all",
+        "scoring_preference": null
+      },
+      "whole_workflow_budget_seconds": 240,
+      "protected_route_count": 10,
+      "original_invariant_AST_exact": true,
+      "route": {
+        "candidate_sha256": "29c3d6cc1a09a7455f9c6ea81b28fd2b099c095cbd0d581f2c042fba1623dc85",
+        "native": {
+          "opens": 0,
+          "blocking": 0,
+          "warnings": 6,
+          "exclusions": 0,
+          "ignored_checks": [
+            {
+              "description": "Track endpoint not centered on via",
+              "key": "track_not_centered_on_via"
+            },
+            {
+              "description": "Tuning profile track geometries",
+              "key": "tuning_profile_track_geometries"
+            }
+          ],
+          "findings": [
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J1",
+                  "pos": {
+                    "x": 12.0,
+                    "y": 10.0
+                  },
+                  "uuid": "e0f1e400-0345-5582-be29-ecfc38486330"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J2",
+                  "pos": {
+                    "x": 26.0,
+                    "y": 10.0
+                  },
+                  "uuid": "4fc3d2bc-21d8-5e0f-b345-e61931018efd"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J3",
+                  "pos": {
+                    "x": 12.0,
+                    "y": 16.0
+                  },
+                  "uuid": "c7f956cb-4807-5b32-b814-9a00b5a214cb"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J4",
+                  "pos": {
+                    "x": 26.0,
+                    "y": 16.0
+                  },
+                  "uuid": "daa8e6d3-a954-500e-a3e8-890bab8ea182"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J5",
+                  "pos": {
+                    "x": 12.0,
+                    "y": 24.0
+                  },
+                  "uuid": "dc506506-6ca3-5466-b5a7-8cb9e70d1fe1"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J6",
+                  "pos": {
+                    "x": 26.0,
+                    "y": 24.0
+                  },
+                  "uuid": "e683e253-d3ba-5301-a19c-4d7511658da8"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            }
+          ],
+          "field_parity": {
+            "schema": 1,
+            "policy": "datasheet-absence-only-v1",
+            "native_report_sha256": "5f338a4a06096c985da35ef18d3c7aa3737d60eba88b423bd5e65f8eea16b19d",
+            "binding_sha256": "f5b70dc7acd584556d79a0c5fa11f43e6595c2d6141c370da2e9e9f65ef85045",
+            "netlist_sha256": "11d60db5de2f6c756eb6e1bba55053b692905303611b34c49e45f4fad4df901b",
+            "fields_sha256": "6d9cb680845c189261cbbe028c34562343d3b858285b326509810255698ecb52",
+            "qualification": {
+              "qualified": true,
+              "policy": "datasheet-effective-empty-v1",
+              "component_count": 6,
+              "compared_field_count": 18,
+              "comparison_map": [
+                {
+                  "reference": "J1",
+                  "uuid": "e0f1e400-0345-5582-be29-ecfc38486330",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J1",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J1"
+                  }
+                },
+                {
+                  "reference": "J2",
+                  "uuid": "4fc3d2bc-21d8-5e0f-b345-e61931018efd",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J2",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J2"
+                  }
+                },
+                {
+                  "reference": "J3",
+                  "uuid": "c7f956cb-4807-5b32-b814-9a00b5a214cb",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J3",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J3"
+                  }
+                },
+                {
+                  "reference": "J4",
+                  "uuid": "daa8e6d3-a954-500e-a3e8-890bab8ea182",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J4",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J4"
+                  }
+                },
+                {
+                  "reference": "J5",
+                  "uuid": "dc506506-6ca3-5466-b5a7-8cb9e70d1fe1",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J5",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J5"
+                  }
+                },
+                {
+                  "reference": "J6",
+                  "uuid": "e683e253-d3ba-5301-a19c-4d7511658da8",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J6",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J6"
+                  }
+                }
+              ],
+              "warning_uuids": [
+                "4fc3d2bc-21d8-5e0f-b345-e61931018efd",
+                "c7f956cb-4807-5b32-b814-9a00b5a214cb",
+                "daa8e6d3-a954-500e-a3e8-890bab8ea182",
+                "dc506506-6ca3-5466-b5a7-8cb9e70d1fe1",
+                "e0f1e400-0345-5582-be29-ecfc38486330",
+                "e683e253-d3ba-5301-a19c-4d7511658da8"
+              ],
+              "warning_hashes": [
+                "11c7952f45ce5545d7f8df269362f47ce73052d0a7246834c5bcd3ce2739b968",
+                "319b07ba68191f14f159da72471bce67ea36c0e4692f3ec4c675f6fa1bad239e",
+                "9b0a7f32e1ccbcfc4f30c5bd69f6504002525418c3a2fa520f72b7dde1c6742a",
+                "9d4a4c9575b1202251cd304ceda22553482c6cd3e28effd92f922549129a439d",
+                "af9064e596738de4bb0ee2b6134759c308d6ffe4e87fcd7c62ed43cbda9fcf45",
+                "e958dc8f14cb9843b9143fb1a7490349c3b78bc2ca848c63eb7c327333f72e2e"
+              ],
+              "native_export_sha256": "11d60db5de2f6c756eb6e1bba55053b692905303611b34c49e45f4fad4df901b",
+              "observer_sha256": "52c75c3c3f7c7670a850f208f85313538c6f59404169708e455a51c0c5a75e07",
+              "drc_report_sha256": "efa6648adfc85de9e1225774fe8c53615b7297bd941fa25ac797d3c728970c91"
+            },
+            "local_settings_guard_sha256": "41de9cab9bf449dd7b51e1b415122eec106b08b20343e1c9061e3286a32dc146"
+          }
+        },
+        "metrics": {
+          "version": "10.0.0",
+          "pads": 6,
+          "footprints": 6,
+          "zones": 3,
+          "vias": 4,
+          "track_length_mm": 154.35980561473033,
+          "copper_layers": 4
+        },
+        "current_readback": {
+          "current": true,
+          "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/candidate/owned-four-copper-forced-inner.kicad_pcb",
+          "candidate_sha256": "29c3d6cc1a09a7455f9c6ea81b28fd2b099c095cbd0d581f2c042fba1623dc85",
+          "applied": false,
+          "authentication": "none; mutable local evidence consistency only",
+          "warning": "Fresh native validation is required before application; human PCB review and electrical/physical validation remain required."
+        }
+      },
+      "export": {
+        "candidate_sha256": "29c3d6cc1a09a7455f9c6ea81b28fd2b099c095cbd0d581f2c042fba1623dc85",
+        "native": {
+          "opens": 0,
+          "blocking": 0,
+          "warnings": 6,
+          "exclusions": 0,
+          "ignored_checks": [
+            {
+              "description": "Track endpoint not centered on via",
+              "key": "track_not_centered_on_via"
+            },
+            {
+              "description": "Tuning profile track geometries",
+              "key": "tuning_profile_track_geometries"
+            }
+          ],
+          "findings": [
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J1",
+                  "pos": {
+                    "x": 12.0,
+                    "y": 10.0
+                  },
+                  "uuid": "e0f1e400-0345-5582-be29-ecfc38486330"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J2",
+                  "pos": {
+                    "x": 26.0,
+                    "y": 10.0
+                  },
+                  "uuid": "4fc3d2bc-21d8-5e0f-b345-e61931018efd"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J3",
+                  "pos": {
+                    "x": 12.0,
+                    "y": 16.0
+                  },
+                  "uuid": "c7f956cb-4807-5b32-b814-9a00b5a214cb"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J4",
+                  "pos": {
+                    "x": 26.0,
+                    "y": 16.0
+                  },
+                  "uuid": "daa8e6d3-a954-500e-a3e8-890bab8ea182"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J5",
+                  "pos": {
+                    "x": 12.0,
+                    "y": 24.0
+                  },
+                  "uuid": "dc506506-6ca3-5466-b5a7-8cb9e70d1fe1"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J6",
+                  "pos": {
+                    "x": 26.0,
+                    "y": 24.0
+                  },
+                  "uuid": "e683e253-d3ba-5301-a19c-4d7511658da8"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            }
+          ],
+          "field_parity": {
+            "schema": 1,
+            "policy": "datasheet-absence-only-v1",
+            "native_report_sha256": "6bffc8c314775667d74ee585a5cbc926d717e92a174fb8e37dc19d09e55eb95d",
+            "binding_sha256": "018e5edf2ac7219a17bc9583669bac444e1548ffd3879c042a297d647d3db314",
+            "netlist_sha256": "d819d18c23b0f00c9e94694561414df8aef17d8e73b102d5af77e1893ea2abc8",
+            "fields_sha256": "304d13f482ff1fb955935603b364c748044f92f1f4d040982ef59c53d75b8ee0",
+            "qualification": {
+              "qualified": true,
+              "policy": "datasheet-effective-empty-v1",
+              "component_count": 6,
+              "compared_field_count": 18,
+              "comparison_map": [
+                {
+                  "reference": "J1",
+                  "uuid": "e0f1e400-0345-5582-be29-ecfc38486330",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J1",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J1"
+                  }
+                },
+                {
+                  "reference": "J2",
+                  "uuid": "4fc3d2bc-21d8-5e0f-b345-e61931018efd",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J2",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J2"
+                  }
+                },
+                {
+                  "reference": "J3",
+                  "uuid": "c7f956cb-4807-5b32-b814-9a00b5a214cb",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J3",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J3"
+                  }
+                },
+                {
+                  "reference": "J4",
+                  "uuid": "daa8e6d3-a954-500e-a3e8-890bab8ea182",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J4",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J4"
+                  }
+                },
+                {
+                  "reference": "J5",
+                  "uuid": "dc506506-6ca3-5466-b5a7-8cb9e70d1fe1",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J5",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J5"
+                  }
+                },
+                {
+                  "reference": "J6",
+                  "uuid": "e683e253-d3ba-5301-a19c-4d7511658da8",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J6",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J6"
+                  }
+                }
+              ],
+              "warning_uuids": [
+                "4fc3d2bc-21d8-5e0f-b345-e61931018efd",
+                "c7f956cb-4807-5b32-b814-9a00b5a214cb",
+                "daa8e6d3-a954-500e-a3e8-890bab8ea182",
+                "dc506506-6ca3-5466-b5a7-8cb9e70d1fe1",
+                "e0f1e400-0345-5582-be29-ecfc38486330",
+                "e683e253-d3ba-5301-a19c-4d7511658da8"
+              ],
+              "warning_hashes": [
+                "11c7952f45ce5545d7f8df269362f47ce73052d0a7246834c5bcd3ce2739b968",
+                "319b07ba68191f14f159da72471bce67ea36c0e4692f3ec4c675f6fa1bad239e",
+                "9b0a7f32e1ccbcfc4f30c5bd69f6504002525418c3a2fa520f72b7dde1c6742a",
+                "9d4a4c9575b1202251cd304ceda22553482c6cd3e28effd92f922549129a439d",
+                "af9064e596738de4bb0ee2b6134759c308d6ffe4e87fcd7c62ed43cbda9fcf45",
+                "e958dc8f14cb9843b9143fb1a7490349c3b78bc2ca848c63eb7c327333f72e2e"
+              ],
+              "native_export_sha256": "d819d18c23b0f00c9e94694561414df8aef17d8e73b102d5af77e1893ea2abc8",
+              "observer_sha256": "bef0498bc9513665b827919550feed44e84e895d2d15503d89903dae8f6b0b3f",
+              "drc_report_sha256": "592dde2a65ca2c986a23b507fa2d201f0120ed6e44d7d167bddaf1f2a77753d6"
+            },
+            "local_settings_guard_sha256": "3e6781b281e7a3b6f43d82103971631b8b0c6343ec43f6c3395387141c199c9b"
+          }
+        },
+        "metrics": {
+          "version": "10.0.0",
+          "pads": 6,
+          "footprints": 6,
+          "zones": 3,
+          "vias": 4,
+          "track_length_mm": 154.35980561473033,
+          "copper_layers": 4
+        },
+        "current_readback": {
+          "current": true,
+          "export_accepted": true,
+          "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/export/validation/candidate/owned-four-copper-forced-inner.kicad_pcb",
+          "candidate_sha256": "29c3d6cc1a09a7455f9c6ea81b28fd2b099c095cbd0d581f2c042fba1623dc85",
+          "original_routing_receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/result.json",
+          "applied": false,
+          "fresh_native_run_performed_by_check": false,
+          "warning": "Mutable local consistency proof; no authentication, live application, human PCB or electrical/manufacturing approval."
+        }
+      },
+      "external_cost": {
+        "wall_seconds": 32.88,
+        "full_CPU_seconds": 29.35,
+        "user_seconds": 24.29,
+        "system_seconds": 5.06,
+        "log": {
+          "path": ".runs/runtime-directory010-workflow-route-time.log",
+          "sha256": "77000419352c1ae8ec283b3e416d44bf88b29d3b37b24bf6cca69d5714383a63",
+          "bytes": 31
+        }
+      },
+      "internal_workflow_sample": {
+        "sampled_wall_seconds": 32.59285104100127,
+        "sampled_full_cpu_seconds": 28.162979,
+        "publication_allowance_seconds": 2
+      },
+      "route_compute": {
+        "wall_seconds": 10.13210024998989,
+        "total_cpu_seconds": 7.453615,
+        "budget_seconds": 90,
+        "cpu_budget_seconds": 90
+      },
+      "export_compute": {
+        "wall_seconds": 6.741117209021468,
+        "total_cpu_seconds": 5.2394110000000005,
+        "budget_seconds": 90.0,
+        "cpu_budget_seconds": 90.0
+      },
+      "raw_route_receipt": {
+        "path": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/result.json",
+        "sha256": "9632a0801c633106e8fe6f5336d374a7462384476145dc7485ab04ef3ba5fada",
+        "bytes": 69213
+      },
+      "raw_export_receipt": {
+        "path": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/export/export.json",
+        "sha256": "9478cc34e99101dabc34920b14efe1ab09aaa1d2c6ac70dca1f4da14c7acb7a2",
+        "bytes": 99126
+      }
+    },
+    "improve2Cu": {
+      "workflow_delivered": true,
+      "actual_GUI": false,
+      "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-003/source/owned-global-min-width.kicad_pcb",
+      "source_hashes": {
+        "owned-global-min-width.kicad_pcb": "5675f1f851d35a8da1539c7979e6b578c694a029737028874e139220ec623bb8",
+        "owned-global-min-width.kicad_prl": "8eeeca97d5de78d87e3a9f8a48e0a3bdf8c6881f1f03cd10064206f41748a01b",
+        "owned-global-min-width.kicad_pro": "17bb5a2cb45cbcd270750982f60b4a2d6177bb189364452f65f36fd799518391",
+        "owned-global-min-width.kicad_sch": "8cf2b4ac9cc89861459d7d72d39b65a77e0fd3e482fc8ca4e0176a9d809923c3"
+      },
+      "settings": {
+        "schema": 1,
+        "scope": "whole_board_unlocked_routing",
+        "seconds": 90,
+        "adapter": "both",
+        "profile": "tuned",
+        "guidance": "native",
+        "layers": "source_all",
+        "scoring_preference": null
+      },
+      "whole_workflow_budget_seconds": 240,
+      "protected_route_count": 1,
+      "original_invariant_AST_exact": true,
+      "route": {
+        "candidate_sha256": "16f23e0fe87a8941b0c7f6337b0c527a6cbff462c47edce3c99770b1e07c0c2a",
+        "native": {
+          "opens": 0,
+          "blocking": 0,
+          "warnings": 6,
+          "exclusions": 0,
+          "ignored_checks": [
+            {
+              "description": "Track endpoint not centered on via",
+              "key": "track_not_centered_on_via"
+            },
+            {
+              "description": "Tuning profile track geometries",
+              "key": "tuning_profile_track_geometries"
+            }
+          ],
+          "findings": [
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J1",
+                  "pos": {
+                    "x": 12.0,
+                    "y": 10.0
+                  },
+                  "uuid": "ac06cd73-d920-5d03-9967-63fd767b7718"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J2",
+                  "pos": {
+                    "x": 26.0,
+                    "y": 13.0
+                  },
+                  "uuid": "198cedce-a99b-5b99-8220-1f40e740e439"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J3",
+                  "pos": {
+                    "x": 12.0,
+                    "y": 16.0
+                  },
+                  "uuid": "f0db75ad-598b-5d7e-b67b-aeabcd4b31fc"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J4",
+                  "pos": {
+                    "x": 26.0,
+                    "y": 16.0
+                  },
+                  "uuid": "dd22012c-f14f-5846-916f-d86bac7673c5"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J5",
+                  "pos": {
+                    "x": 12.0,
+                    "y": 24.0
+                  },
+                  "uuid": "9232fd2a-4b39-5763-9275-b096ca9d208a"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J6",
+                  "pos": {
+                    "x": 26.0,
+                    "y": 24.0
+                  },
+                  "uuid": "bdc9d385-5ce9-5c37-a002-98aef20e0095"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            }
+          ],
+          "field_parity": {
+            "schema": 1,
+            "policy": "datasheet-absence-only-v1",
+            "native_report_sha256": "9f3a1fceba70eb0a798828f09bb6ca32f3740e1dce02869b67517b2d3c91a588",
+            "binding_sha256": "9d294357c1f96388a4754516ed6518a3bbad8c2b0074a06e8e5ffcdfecffa305",
+            "netlist_sha256": "6e3289d80d32e20ba44123b31a40b00e634fe0bbcc569c445b1ff415c0fe1120",
+            "fields_sha256": "22942065465230fde18980a19ac309ccaeea31a94f8078b3cedb96f015ea964d",
+            "qualification": {
+              "qualified": true,
+              "policy": "datasheet-effective-empty-v1",
+              "component_count": 6,
+              "compared_field_count": 18,
+              "comparison_map": [
+                {
+                  "reference": "J1",
+                  "uuid": "ac06cd73-d920-5d03-9967-63fd767b7718",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-global-min-width-v1:J1",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-global-min-width-v1:J1"
+                  }
+                },
+                {
+                  "reference": "J2",
+                  "uuid": "198cedce-a99b-5b99-8220-1f40e740e439",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-global-min-width-v1:J2",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-global-min-width-v1:J2"
+                  }
+                },
+                {
+                  "reference": "J3",
+                  "uuid": "f0db75ad-598b-5d7e-b67b-aeabcd4b31fc",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-global-min-width-v1:J3",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-global-min-width-v1:J3"
+                  }
+                },
+                {
+                  "reference": "J4",
+                  "uuid": "dd22012c-f14f-5846-916f-d86bac7673c5",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-global-min-width-v1:J4",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-global-min-width-v1:J4"
+                  }
+                },
+                {
+                  "reference": "J5",
+                  "uuid": "9232fd2a-4b39-5763-9275-b096ca9d208a",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-global-min-width-v1:J5",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-global-min-width-v1:J5"
+                  }
+                },
+                {
+                  "reference": "J6",
+                  "uuid": "bdc9d385-5ce9-5c37-a002-98aef20e0095",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-global-min-width-v1:J6",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-global-min-width-v1:J6"
+                  }
+                }
+              ],
+              "warning_uuids": [
+                "198cedce-a99b-5b99-8220-1f40e740e439",
+                "9232fd2a-4b39-5763-9275-b096ca9d208a",
+                "ac06cd73-d920-5d03-9967-63fd767b7718",
+                "bdc9d385-5ce9-5c37-a002-98aef20e0095",
+                "dd22012c-f14f-5846-916f-d86bac7673c5",
+                "f0db75ad-598b-5d7e-b67b-aeabcd4b31fc"
+              ],
+              "warning_hashes": [
+                "2a2cb28c2d67c24ca7f5b11ea1520e3af836d03b60df4fa66b5e04100f780cf8",
+                "32dad2d8f544d7352a98edcdd9fe9bf0f374664a3b0e8ff4326dff8b5c9bd19f",
+                "3b743549c722f4574f99c8bd56acd5329c1bc8064a15c94b7a1cf83b577b0f50",
+                "57a5fa0d33d3527457663f84278c998b3328d97c1d0ed0a28abc5f4cfef447ba",
+                "954d4892cedbe8b14d3e36fb61ecae0b200161251aff2fb8f88ad7ccba2a529b",
+                "c7c13f6606454abcf8f32a4e4b55343e941179ee593d45c5e2054a030a37c1ae"
+              ],
+              "native_export_sha256": "6e3289d80d32e20ba44123b31a40b00e634fe0bbcc569c445b1ff415c0fe1120",
+              "observer_sha256": "4d1af98e03985bdd82814a281271a2da246075c6f72bf8818acf27f935ccdd4c",
+              "drc_report_sha256": "ec91261d889dafedb68ebcc7b2d5f883aec8dc91c790854cea7e7ca73e80c2f4"
+            },
+            "local_settings_guard_sha256": "4182f3e60e47d8201ce47330700d0a6f3de02b2e2fa653b6e36786119ad5b723"
+          }
+        },
+        "metrics": {
+          "version": "10.0.0",
+          "pads": 6,
+          "footprints": 6,
+          "zones": 1,
+          "vias": 0,
+          "track_length_mm": 29.242640687119284,
+          "copper_layers": 2
+        },
+        "current_readback": {
+          "current": true,
+          "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/route/candidate/owned-global-min-width.kicad_pcb",
+          "candidate_sha256": "16f23e0fe87a8941b0c7f6337b0c527a6cbff462c47edce3c99770b1e07c0c2a",
+          "applied": false,
+          "authentication": "none; mutable local evidence consistency only",
+          "warning": "Fresh native validation is required before application; human PCB review and electrical/physical validation remain required."
+        }
+      },
+      "export": {
+        "candidate_sha256": "16f23e0fe87a8941b0c7f6337b0c527a6cbff462c47edce3c99770b1e07c0c2a",
+        "native": {
+          "opens": 0,
+          "blocking": 0,
+          "warnings": 6,
+          "exclusions": 0,
+          "ignored_checks": [
+            {
+              "description": "Track endpoint not centered on via",
+              "key": "track_not_centered_on_via"
+            },
+            {
+              "description": "Tuning profile track geometries",
+              "key": "tuning_profile_track_geometries"
+            }
+          ],
+          "findings": [
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J1",
+                  "pos": {
+                    "x": 12.0,
+                    "y": 10.0
+                  },
+                  "uuid": "ac06cd73-d920-5d03-9967-63fd767b7718"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J2",
+                  "pos": {
+                    "x": 26.0,
+                    "y": 13.0
+                  },
+                  "uuid": "198cedce-a99b-5b99-8220-1f40e740e439"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J3",
+                  "pos": {
+                    "x": 12.0,
+                    "y": 16.0
+                  },
+                  "uuid": "f0db75ad-598b-5d7e-b67b-aeabcd4b31fc"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J4",
+                  "pos": {
+                    "x": 26.0,
+                    "y": 16.0
+                  },
+                  "uuid": "dd22012c-f14f-5846-916f-d86bac7673c5"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J5",
+                  "pos": {
+                    "x": 12.0,
+                    "y": 24.0
+                  },
+                  "uuid": "9232fd2a-4b39-5763-9275-b096ca9d208a"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J6",
+                  "pos": {
+                    "x": 26.0,
+                    "y": 24.0
+                  },
+                  "uuid": "bdc9d385-5ce9-5c37-a002-98aef20e0095"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            }
+          ],
+          "field_parity": {
+            "schema": 1,
+            "policy": "datasheet-absence-only-v1",
+            "native_report_sha256": "4270915c4bee8ec12f41bf5a1bee35015acd28d51e94b80a937bf023c1eab03f",
+            "binding_sha256": "6b78b48031c7b910900005ccf287929c12f430bbda80887b6964f810d62d9f65",
+            "netlist_sha256": "ae9ed30e9f590cc243146af9076e1575a7253819824dda0fa1969bc69c15b697",
+            "fields_sha256": "252333b97baa229bc85d776ac551f312c852863a9354e9f8992570d2b69ac09c",
+            "qualification": {
+              "qualified": true,
+              "policy": "datasheet-effective-empty-v1",
+              "component_count": 6,
+              "compared_field_count": 18,
+              "comparison_map": [
+                {
+                  "reference": "J1",
+                  "uuid": "ac06cd73-d920-5d03-9967-63fd767b7718",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-global-min-width-v1:J1",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-global-min-width-v1:J1"
+                  }
+                },
+                {
+                  "reference": "J2",
+                  "uuid": "198cedce-a99b-5b99-8220-1f40e740e439",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-global-min-width-v1:J2",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-global-min-width-v1:J2"
+                  }
+                },
+                {
+                  "reference": "J3",
+                  "uuid": "f0db75ad-598b-5d7e-b67b-aeabcd4b31fc",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-global-min-width-v1:J3",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-global-min-width-v1:J3"
+                  }
+                },
+                {
+                  "reference": "J4",
+                  "uuid": "dd22012c-f14f-5846-916f-d86bac7673c5",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-global-min-width-v1:J4",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-global-min-width-v1:J4"
+                  }
+                },
+                {
+                  "reference": "J5",
+                  "uuid": "9232fd2a-4b39-5763-9275-b096ca9d208a",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-global-min-width-v1:J5",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-global-min-width-v1:J5"
+                  }
+                },
+                {
+                  "reference": "J6",
+                  "uuid": "bdc9d385-5ce9-5c37-a002-98aef20e0095",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-global-min-width-v1:J6",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-global-min-width-v1:J6"
+                  }
+                }
+              ],
+              "warning_uuids": [
+                "198cedce-a99b-5b99-8220-1f40e740e439",
+                "9232fd2a-4b39-5763-9275-b096ca9d208a",
+                "ac06cd73-d920-5d03-9967-63fd767b7718",
+                "bdc9d385-5ce9-5c37-a002-98aef20e0095",
+                "dd22012c-f14f-5846-916f-d86bac7673c5",
+                "f0db75ad-598b-5d7e-b67b-aeabcd4b31fc"
+              ],
+              "warning_hashes": [
+                "2a2cb28c2d67c24ca7f5b11ea1520e3af836d03b60df4fa66b5e04100f780cf8",
+                "32dad2d8f544d7352a98edcdd9fe9bf0f374664a3b0e8ff4326dff8b5c9bd19f",
+                "3b743549c722f4574f99c8bd56acd5329c1bc8064a15c94b7a1cf83b577b0f50",
+                "57a5fa0d33d3527457663f84278c998b3328d97c1d0ed0a28abc5f4cfef447ba",
+                "954d4892cedbe8b14d3e36fb61ecae0b200161251aff2fb8f88ad7ccba2a529b",
+                "c7c13f6606454abcf8f32a4e4b55343e941179ee593d45c5e2054a030a37c1ae"
+              ],
+              "native_export_sha256": "ae9ed30e9f590cc243146af9076e1575a7253819824dda0fa1969bc69c15b697",
+              "observer_sha256": "d189e70a56b3d5c30b035b609a640bad7e88df09459b45c976c22eafdaa730a5",
+              "drc_report_sha256": "b186f96bf35240cb14cde17cb224422c31c4c1b64441c47ac85443981b6bb5e1"
+            },
+            "local_settings_guard_sha256": "6c25d5b8fc8f7e5167eaa09f9aed91f316c39bd72c0edf3449ea99cadc7ad2ce"
+          }
+        },
+        "metrics": {
+          "version": "10.0.0",
+          "pads": 6,
+          "footprints": 6,
+          "zones": 1,
+          "vias": 0,
+          "track_length_mm": 29.242640687119284,
+          "copper_layers": 2
+        },
+        "current_readback": {
+          "current": true,
+          "export_accepted": true,
+          "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/export/validation/candidate/owned-global-min-width.kicad_pcb",
+          "candidate_sha256": "16f23e0fe87a8941b0c7f6337b0c527a6cbff462c47edce3c99770b1e07c0c2a",
+          "original_routing_receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/route/result.json",
+          "applied": false,
+          "fresh_native_run_performed_by_check": false,
+          "warning": "Mutable local consistency proof; no authentication, live application, human PCB or electrical/manufacturing approval."
+        }
+      },
+      "external_cost": {
+        "wall_seconds": 46.09,
+        "full_CPU_seconds": 40.43,
+        "user_seconds": 32.61,
+        "system_seconds": 7.82,
+        "log": {
+          "path": ".runs/runtime010-improve-2cu-time.log",
+          "sha256": "1e18657eae6327cde91b87887fe4e6a43d088855dd277493fe1c60f032ae8f99",
+          "bytes": 31
+        }
+      },
+      "internal_workflow_sample": {
+        "sampled_wall_seconds": 45.92189924995182,
+        "sampled_full_cpu_seconds": 38.394782,
+        "publication_allowance_seconds": 2
+      },
+      "route_compute": {
+        "wall_seconds": 16.318374291993678,
+        "total_cpu_seconds": 10.617716000000001,
+        "budget_seconds": 90,
+        "cpu_budget_seconds": 90
+      },
+      "export_compute": {
+        "wall_seconds": 7.107543165970128,
+        "total_cpu_seconds": 5.810351,
+        "budget_seconds": 90.0,
+        "cpu_budget_seconds": 90.0
+      },
+      "raw_route_receipt": {
+        "path": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/route/result.json",
+        "sha256": "46a4959e6ccb409cdd37f76da37df634818792238089518dfea6cbb227350752",
+        "bytes": 83328
+      },
+      "raw_export_receipt": {
+        "path": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/export/export.json",
+        "sha256": "1b01868e9ce178d6f2362dc679c3ae2db95fe0ab33e7605811ecd1d85945707d",
+        "bytes": 104766
+      }
+    }
+  },
+  "runtime_setup_external_cost": {
+    "wall_seconds": 1.47,
+    "full_CPU_seconds": 1.12,
+    "user_seconds": 0.69,
+    "system_seconds": 0.43,
+    "log": {
+      "path": ".runs/prepare-runtime-directory-010-time.log",
+      "sha256": "02b371e1a236a6fc582feeaf2076a8bd9147a9f74e17baca078e1390aec2e663",
+      "bytes": 29
+    }
+  },
+  "runtime_setup_internal_sample": {
+    "wall_seconds": 1.3958285829867236,
+    "full_CPU_seconds": 1.061636
+  },
+  "historical_runtime009_negative_attempts": {
+    "001": {
+      "status": "failed",
+      "controls_passed": false,
+      "interpretation": "Failed harness: source Native DRC/export/obstacles ran; production refused engine/finalization reserve at30seconds, then harness expected absent source field_parity and raised KeyError. No engine, final Native field rejection or delivered candidate was demonstrated.",
+      "external_cost": {
+        "wall_seconds": 3.66,
+        "full_CPU_seconds": 2.72,
+        "user_seconds": 2.11,
+        "system_seconds": 0.61,
+        "log": {
+          "path": ".runs/runtime009-duplicate-artwork-field-negative-001-wrapper-time.log",
+          "sha256": "2bbd7e86cb58cb03456f15d75a0833f025087862ab51af0fd8a9a5d275912c27",
+          "bytes": 29
+        }
+      },
+      "retained_in": {
+        "path": "evidence/runtime009-duplicate-artwork-integration-001.json",
+        "sha256": "5ecf04e0944fef60bdda0dee85a97dc0c3094141601f8bbb31da90cfd13cc9b1",
+        "bytes": 268606
+      }
+    },
+    "002": {
+      "status": "completed",
+      "controls_passed": true,
+      "interpretation": "Actual final hidden-Description rejection, starting from routed positive with all source copper protected and90second CLI budget. Engine executed and is counted; this is not a before-engine refusal or a delivered candidate.",
+      "external_cost": {
+        "wall_seconds": 11.5,
+        "full_CPU_seconds": 8.28,
+        "user_seconds": 6.83,
+        "system_seconds": 1.45,
+        "log": {
+          "path": ".runs/runtime009-duplicate-artwork-field-negative-002-wrapper-time.log",
+          "sha256": "0eb801157fc3262c47528416e5a9a88a32d416f89a02c844cc08a5791073e006",
+          "bytes": 30
+        }
+      },
+      "retained_in": {
+        "path": "evidence/runtime009-duplicate-artwork-integration-001.json",
+        "sha256": "5ecf04e0944fef60bdda0dee85a97dc0c3094141601f8bbb31da90cfd13cc9b1",
+        "bytes": 268606
+      }
+    }
+  },
+  "new_runtime010_negative_reruns": [],
+  "original_requirement_scope": "Each accepted route and fresh export has its own original-rule Native refill/connectivity/fullSCH/field/invariant proof bound to its actual candidate. Selected complete owned original/final packets and all raw Native findings are public.",
+  "scope": "Two exposed owned CLI-driven production regression workflows after a GUI-only refusal-diagnostic correction. Separate actual GUI061 covers the duplicate-artwork Finish gaps path; no third duplicate-artwork CLI rerun is claimed.",
+  "costs_limits": "External complete wall/full CPU logs are retained for both workflows and setup. Nested child/receipt samples must not be added. Authoring/review and whole interactive GUI costs remain unknown, not zero. No new external spending or paid services used.",
+  "negative_scope": "No new010 Description, short, fill, cancel or other invalid Native control rerun. Prior009 failed001 and actual final Description rejection002 remain linked historical evidence with their own costs and limitations.",
+  "limitations": [
+    "CLI Request/Workflow/CliJob execution is not actual GUI observation. GUI061 is separately linked with its historical pre-open export proof and natural stale refusal.",
+    "Each route/export pair retains six Datasheet warnings, two original ignored checks and zero exclusions. Native routing scope acceptance is not whole-project cleanliness or electrical/human approval.",
+    "Existing Mac, pinned production10.0.0/tools/cache and fixed path. No routing gain, new independent circuit family, Windows/relocation/standalone, four-copper Improve, NetTie or class/hierarchy support expansion.",
+    "Mutable local consistency evidence is not hostile-writer or power-loss authentication. Resource polling may overshoot; no OS aggregate quota.",
+    "Only selected small raw files/owned CAD are copied. Large alias-geometry JSON remains local and hash-pinned; all four complete current shared readers validated it locally. No cache, complete code-tree, binary, third-party CAD or incidental Finder/browser content copied.",
+    "Frozen source is5d85; later current HEAD documentation/evidence changes are not used as runtime source identity.",
+    "No Native/JVM/GUI/full tests or backup execution during curation; no product/runtime/docs/HEAD edits or commit."
+  ],
+  "related_evidence": [
+    {
+      "path": "evidence/gui-runtime010-061-native-opening-001.json",
+      "sha256": "dc25a4f62791dc9bfde036f816a5c889a784e0a20d416c4a10ffd90d9a0234e2",
+      "bytes": 139870
+    },
+    {
+      "path": "evidence/gui-export-refusal-full143-001.json",
+      "sha256": "70f9a9cf97225824473debb08b9ffc3cb1e7a726cfb6593f4763007601abcc7b",
+      "bytes": 40489
+    },
+    {
+      "path": "evidence/runtime009-duplicate-artwork-integration-001.json",
+      "sha256": "5ecf04e0944fef60bdda0dee85a97dc0c3094141601f8bbb31da90cfd13cc9b1",
+      "bytes": 268606
+    }
+  ],
+  "omitted_large_local_raw_files": [],
+  "notes_directory": "evidence/runtime010-GUI-refusal-integration-001-notes",
+  "curation_source": {
+    "path": ".runs/curate-runtime010-GUI-refusal-integration-001.py",
+    "sha256": "968e0d93d65ff4b259930c6de79da887c5bdbab4a08ae224f730f7dd7b2f545f",
+    "bytes": 16798
+  },
+  "retained_files": {
+    "source-as-run/curator.py": {
+      "original": ".runs/curate-runtime010-GUI-refusal-integration-001.py",
+      "sha256": "968e0d93d65ff4b259930c6de79da887c5bdbab4a08ae224f730f7dd7b2f545f",
+      "bytes": 16798
+    },
+    "records/setup.json": {
+      "original": ".runs/runtime-directory-010/setup.json",
+      "sha256": "2b59f1cbfaf78b362d703503546bf56f6cd99adc07436723f086f519028fbd38",
+      "bytes": 7024
+    },
+    "records/runtime-distribution.json": {
+      "original": ".runs/runtime-directory-010/runtime/runtime-distribution.json",
+      "sha256": "40c26ce62a914343eb00fae18f5460942053456312885332b2d674bb001d73a1",
+      "bytes": 10102
+    },
+    "LICENSE": {
+      "original": "LICENSE",
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+      "bytes": 35149
+    },
+    "positives/route4Cu/route/final-project/owned-four-copper-forced-inner.kicad_pcb": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/candidate/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "29c3d6cc1a09a7455f9c6ea81b28fd2b099c095cbd0d581f2c042fba1623dc85",
+      "bytes": 15049
+    },
+    "positives/route4Cu/route/final-project/owned-four-copper-forced-inner.kicad_prl": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/candidate/owned-four-copper-forced-inner.kicad_prl",
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "bytes": 189
+    },
+    "positives/route4Cu/route/final-project/owned-four-copper-forced-inner.kicad_pro": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/candidate/owned-four-copper-forced-inner.kicad_pro",
+      "sha256": "f181351b60d4be7406d882af2652c6dfc248d138492c42bc3407b389edf1ea07",
+      "bytes": 2758
+    },
+    "positives/route4Cu/route/final-project/owned-four-copper-forced-inner.kicad_sch": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/candidate/owned-four-copper-forced-inner.kicad_sch",
+      "sha256": "24500c4d883af58ba531ce00130c7988f9ec73b9e7781b7f5bbd72155545e3b9",
+      "bytes": 8590
+    },
+    "positives/route4Cu/route/stage-records/edge-adapter-input.dsn": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/edge-adapter-input.dsn",
+      "sha256": "3a086b62d70218522b7fc6514bcfc6628f5b27cc0ec550635a169cce33b08f49",
+      "bytes": 3293
+    },
+    "positives/route4Cu/route/stage-records/engine-process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/engine-process.json",
+      "sha256": "7732c555a77f600df784db124be22c9a7076afd0dd6389f365b11dd6238b664a",
+      "bytes": 2996
+    },
+    "positives/route4Cu/route/stage-records/engine.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/engine.log",
+      "sha256": "e46b4ff583af150892ef7cb7fd45dbf97164e3ec2406098077ce92e44a3021db",
+      "bytes": 7251
+    },
+    "positives/route4Cu/route/stage-records/export-netclasses.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/export-netclasses.json",
+      "sha256": "e1ab5e61a5c6f87deb0a90685eb6c76de8e04d8e25556c8419045bfbbebc38d8",
+      "bytes": 3630
+    },
+    "positives/route4Cu/route/stage-records/export-process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/export-process.json",
+      "sha256": "8cfd00de5cda39a32f58e51d6ad279ebfe1d4d38e3e916f4dd75fa1f4290287d",
+      "bytes": 2404
+    },
+    "positives/route4Cu/route/stage-records/export.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/export.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "positives/route4Cu/route/stage-records/final-drc-binding.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/final-drc-binding.json",
+      "sha256": "f5b70dc7acd584556d79a0c5fa11f43e6595c2d6141c370da2e9e9f65ef85045",
+      "bytes": 1571
+    },
+    "positives/route4Cu/route/stage-records/final-drc-fields-audit-process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/final-drc-fields-audit-process.json",
+      "sha256": "4d1f6382cf8b57a8a9c177505eb2ee5100bc42265737b77e781915288e69ca06",
+      "bytes": 2253
+    },
+    "positives/route4Cu/route/stage-records/final-drc-fields-audit.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/final-drc-fields-audit.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "positives/route4Cu/route/stage-records/final-drc-fields-local-settings.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/final-drc-fields-local-settings.json",
+      "sha256": "41de9cab9bf449dd7b51e1b415122eec106b08b20343e1c9061e3286a32dc146",
+      "bytes": 1994
+    },
+    "positives/route4Cu/route/stage-records/final-drc-fields-netlist-process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/final-drc-fields-netlist-process.json",
+      "sha256": "b62a032c73be59a96f3df989f0e16e9ea1640ef99d6d7898cf7105220d639f57",
+      "bytes": 2193
+    },
+    "positives/route4Cu/route/stage-records/final-drc-fields-netlist.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/final-drc-fields-netlist.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "positives/route4Cu/route/stage-records/final-drc-fields-proof.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/final-drc-fields-proof.json",
+      "sha256": "14e3752f93f5f2cc4da67906f039a4654b4f03e126c16dba9d3bbe521d8b94e6",
+      "bytes": 4998
+    },
+    "positives/route4Cu/route/stage-records/final-drc-fields.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/final-drc-fields.json",
+      "sha256": "6d9cb680845c189261cbbe028c34562343d3b858285b326509810255698ecb52",
+      "bytes": 2362
+    },
+    "positives/route4Cu/route/stage-records/final-drc-fields.net": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/final-drc-fields.net",
+      "sha256": "11d60db5de2f6c756eb6e1bba55053b692905303611b34c49e45f4fad4df901b",
+      "bytes": 9255
+    },
+    "positives/route4Cu/route/stage-records/final-drc-process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/final-drc-process.json",
+      "sha256": "cf7fb75d07bccaa38a693daf82366239090b1c27ca27f467def063131c493da7",
+      "bytes": 2834
+    },
+    "positives/route4Cu/route/stage-records/final-drc.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/final-drc.json",
+      "sha256": "5f338a4a06096c985da35ef18d3c7aa3737d60eba88b423bd5e65f8eea16b19d",
+      "bytes": 3717
+    },
+    "positives/route4Cu/route/stage-records/final-drc.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/final-drc.log",
+      "sha256": "7280dba768013d44ac508e56ba425e799fb3bba5c120fdf870934223e4429a54",
+      "bytes": 274
+    },
+    "positives/route4Cu/route/stage-records/final-netclass-audit.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/final-netclass-audit.json",
+      "sha256": "0510094227a5acb57cab843cc9fe5d9e35c49185e05912c501a097a0eaff2b5a",
+      "bytes": 3756
+    },
+    "positives/route4Cu/route/stage-records/final-netclasses-process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/final-netclasses-process.json",
+      "sha256": "8c13ad53fed3c8b09f46305f48fe4f64e9c6ac759647eb597f5d5459d3f2b94f",
+      "bytes": 2237
+    },
+    "positives/route4Cu/route/stage-records/final-netclasses.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/final-netclasses.json",
+      "sha256": "510f174cae1ab55f138dd88f93b4cd1513ab87257bf9f13bc39833ee1d207762",
+      "bytes": 3630
+    },
+    "positives/route4Cu/route/stage-records/final-netclasses.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/final-netclasses.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "positives/route4Cu/route/stage-records/import-process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/import-process.json",
+      "sha256": "8745ad4ad04d4f82144e69c392349e6752ae3af5e11bb830b63139dfb5404c12",
+      "bytes": 2391
+    },
+    "positives/route4Cu/route/stage-records/import.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/import.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "positives/route4Cu/route/stage-records/imported.routes-only.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/imported.routes-only.json",
+      "sha256": "2f4dc98bf86b803f7590777545a180741d9153dfd960b093479945daf260f29d",
+      "bytes": 891
+    },
+    "positives/route4Cu/route/stage-records/imported.routes-only.ses": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/imported.routes-only.ses",
+      "sha256": "28e76918b9e6cd95590c991bcda9c9106b49122664fcb8fe3a4f1d204ec0cc73",
+      "bytes": 1258
+    },
+    "positives/route4Cu/route/stage-records/metrics-process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/metrics-process.json",
+      "sha256": "9c922921b9eba0c6fe7831e9befbd963729db843725c31d6e5774d33b0bc641e",
+      "bytes": 2207
+    },
+    "positives/route4Cu/route/stage-records/metrics.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/metrics.json",
+      "sha256": "e6415b89c88d2d033f397c438f8bde9d04a7069337312b1a82aebb2b103b4ed4",
+      "bytes": 148
+    },
+    "positives/route4Cu/route/stage-records/metrics.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/metrics.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "positives/route4Cu/route/stage-records/native-edge-correction.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/native-edge-correction.json",
+      "sha256": "e1e9d90a52f08f818aca3d187068e8b5e16dc31627c68369c2cd9bcdb799c326",
+      "bytes": 701
+    },
+    "positives/route4Cu/route/stage-records/native.dsn": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/native.dsn",
+      "sha256": "467b433719b096c2b4c3030de28efb9fdbb5dc30ee228fc19e6528711fad9863",
+      "bytes": 4431
+    },
+    "positives/route4Cu/route/stage-records/obstacles-process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/obstacles-process.json",
+      "sha256": "d2d8c1fb047b3d977c591f16bef74b05cd7f1127483170df5ac4574abc644192",
+      "bytes": 2227
+    },
+    "positives/route4Cu/route/stage-records/obstacles.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/obstacles.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "bytes": 3
+    },
+    "positives/route4Cu/route/stage-records/obstacles.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/obstacles.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "positives/route4Cu/route/stage-records/pour-corrected.dsn": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/pour-corrected.dsn",
+      "sha256": "c3dd1e4fdd1f0bc2ca12004bf5bc48259ef0690251117192863776d34f3bd79e",
+      "bytes": 3479
+    },
+    "positives/route4Cu/route/stage-records/pour-dsn-correction.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/pour-dsn-correction.json",
+      "sha256": "3d3560c81cdb016bffdb6273e27fe52c596c72bdd2ce1eb78775dcc301b56d6f",
+      "bytes": 2213
+    },
+    "positives/route4Cu/route/stage-records/pour-keepout-audit-process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/pour-keepout-audit-process.json",
+      "sha256": "8d80f22541c3670667ef4a46766b14ddd391e1c6632dcea3e44d9544992b1ac8",
+      "bytes": 2243
+    },
+    "positives/route4Cu/route/stage-records/pour-keepout-audit.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/pour-keepout-audit.json",
+      "sha256": "b4901af206af20ec8a304ca24a803468cc6d4523833f880ce8a266dc65e1cfd3",
+      "bytes": 4446
+    },
+    "positives/route4Cu/route/stage-records/pour-keepout-audit.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/pour-keepout-audit.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "positives/route4Cu/route/stage-records/refill-drc-binding.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/refill-drc-binding.json",
+      "sha256": "9fb70fa1bd065709eaddd466bb3b4a53fe66ceaec3adb8bda57d266197d942c9",
+      "bytes": 1489
+    },
+    "positives/route4Cu/route/stage-records/refill-drc-process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/refill-drc-process.json",
+      "sha256": "457573b44d6c9916858cafda932f3fdf151c2b1e65d192934980e595b77a8279",
+      "bytes": 2808
+    },
+    "positives/route4Cu/route/stage-records/refill-drc.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/refill-drc.json",
+      "sha256": "0959552967c2abade33d37f3788171f0c3d5016e21778eb0d303f27b8ca3c30b",
+      "bytes": 683
+    },
+    "positives/route4Cu/route/stage-records/refill-drc.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/refill-drc.log",
+      "sha256": "c918170b0cfc623ca7d9a894b93c0bbf73303b4891309867ee0fc0aee28402af",
+      "bytes": 255
+    },
+    "positives/route4Cu/route/stage-records/result.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/result.json",
+      "sha256": "9632a0801c633106e8fe6f5336d374a7462384476145dc7485ab04ef3ba5fada",
+      "bytes": 69213
+    },
+    "positives/route4Cu/route/stage-records/routes.ses": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/routes.ses",
+      "sha256": "c5af5fba21b6e26744baef4f962b762a2d89a6184efe1985e6c9391a2b1dc661",
+      "bytes": 2549
+    },
+    "positives/route4Cu/route/stage-records/routing-preferences.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/routing-preferences.json",
+      "sha256": "666c0d5023a075af2a355e4585ece52ef2d6daa566435ed07d538f1a31e0767a",
+      "bytes": 773
+    },
+    "positives/route4Cu/route/stage-records/source-drc-binding.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/source-drc-binding.json",
+      "sha256": "9e77ebf311a995291fa030ae518013718483a5e124e912e43d24066e911d4372",
+      "bytes": 1502
+    },
+    "positives/route4Cu/route/stage-records/source-drc-process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/source-drc-process.json",
+      "sha256": "cb7c962b4371d0462f5947ce48080de6b8a50942c1f45136745d11fc4c569fa8",
+      "bytes": 2813
+    },
+    "positives/route4Cu/route/stage-records/source-drc.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/source-drc.json",
+      "sha256": "495892d368c2107fbe42a5c68ffaa16138c6362c3cf94506abe2752fd9f3956c",
+      "bytes": 1463
+    },
+    "positives/route4Cu/route/stage-records/source-drc.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/source-drc.log",
+      "sha256": "12cef8473026292cf23546572e710eba519627a70d67652886a4056a2a0c914a",
+      "bytes": 243
+    },
+    "positives/route4Cu/route/stage-records/task.alias-export.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/task.alias-export.json",
+      "sha256": "7cd8434e4d85aa3aa46b6f527d846ae6f2a39577d50578bfe7ce3629ebb4cb25",
+      "bytes": 4409
+    },
+    "positives/route4Cu/route/stage-records/task.dsn": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/task.dsn",
+      "sha256": "3a086b62d70218522b7fc6514bcfc6628f5b27cc0ec550635a169cce33b08f49",
+      "bytes": 3293
+    },
+    "positives/route4Cu/route/stage-records/pre-refill.kicad_pcb": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/pre-refill.kicad_pcb",
+      "sha256": "541b0db9c0b26b1a68e7abbe12079158b2cd4e02d4ff24e16e465c5a280750dc",
+      "bytes": 13761
+    },
+    "positives/route4Cu/route/stage-records/imported.kicad_pcb": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/imported.kicad_pcb",
+      "sha256": "97ca8f6972b1a6996939c54f4b2da23284f91bdf004e22f45845ff0dc1bfcb9f",
+      "bytes": 17658
+    },
+    "positives/route4Cu/route/stage-records/native-saved-refill.kicad_pcb": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/refill/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "31f439c25676b39299a50c87a0be0c77aa1236b838f3d610233d29ddf787e275",
+      "bytes": 19024
+    },
+    "positives/route4Cu/export/final-project/owned-four-copper-forced-inner.kicad_pcb": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/export/validation/candidate/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "29c3d6cc1a09a7455f9c6ea81b28fd2b099c095cbd0d581f2c042fba1623dc85",
+      "bytes": 15049
+    },
+    "positives/route4Cu/export/final-project/owned-four-copper-forced-inner.kicad_prl": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/export/validation/candidate/owned-four-copper-forced-inner.kicad_prl",
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "bytes": 189
+    },
+    "positives/route4Cu/export/final-project/owned-four-copper-forced-inner.kicad_pro": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/export/validation/candidate/owned-four-copper-forced-inner.kicad_pro",
+      "sha256": "f181351b60d4be7406d882af2652c6dfc248d138492c42bc3407b389edf1ea07",
+      "bytes": 2758
+    },
+    "positives/route4Cu/export/final-project/owned-four-copper-forced-inner.kicad_sch": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/export/validation/candidate/owned-four-copper-forced-inner.kicad_sch",
+      "sha256": "24500c4d883af58ba531ce00130c7988f9ec73b9e7781b7f5bbd72155545e3b9",
+      "bytes": 8590
+    },
+    "positives/route4Cu/export/stage-records/final-drc-binding.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/export/validation/final-drc-binding.json",
+      "sha256": "018e5edf2ac7219a17bc9583669bac444e1548ffd3879c042a297d647d3db314",
+      "bytes": 1595
+    },
+    "positives/route4Cu/export/stage-records/final-drc-fields-audit-process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/export/validation/final-drc-fields-audit-process.json",
+      "sha256": "098907ae792f050329e73a45b674ecc1fb482aec146d13cca60a431ac5c35669",
+      "bytes": 2388
+    },
+    "positives/route4Cu/export/stage-records/final-drc-fields-audit.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/export/validation/final-drc-fields-audit.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "positives/route4Cu/export/stage-records/final-drc-fields-local-settings.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/export/validation/final-drc-fields-local-settings.json",
+      "sha256": "3e6781b281e7a3b6f43d82103971631b8b0c6343ec43f6c3395387141c199c9b",
+      "bytes": 2018
+    },
+    "positives/route4Cu/export/stage-records/final-drc-fields-netlist-process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/export/validation/final-drc-fields-netlist-process.json",
+      "sha256": "fbe0faeb2438a3832a55b8451daa968de4ec133a59d2b9ad2a3743b483f4d99c",
+      "bytes": 2318
+    },
+    "positives/route4Cu/export/stage-records/final-drc-fields-netlist.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/export/validation/final-drc-fields-netlist.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "positives/route4Cu/export/stage-records/final-drc-fields-proof.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/export/validation/final-drc-fields-proof.json",
+      "sha256": "e9b8df256ec290a3100563ed3ece6ffb961c1cb247bc7a336fc98cf0e3f20be6",
+      "bytes": 4998
+    },
+    "positives/route4Cu/export/stage-records/final-drc-fields.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/export/validation/final-drc-fields.json",
+      "sha256": "304d13f482ff1fb955935603b364c748044f92f1f4d040982ef59c53d75b8ee0",
+      "bytes": 2374
+    },
+    "positives/route4Cu/export/stage-records/final-drc-fields.net": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/export/validation/final-drc-fields.net",
+      "sha256": "d819d18c23b0f00c9e94694561414df8aef17d8e73b102d5af77e1893ea2abc8",
+      "bytes": 9267
+    },
+    "positives/route4Cu/export/stage-records/final-drc-process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/export/validation/final-drc-process.json",
+      "sha256": "ede1513f4daf36504aee11655cf1acd1e22cfb4d789c06b2166b2675d227ef8b",
+      "bytes": 2982
+    },
+    "positives/route4Cu/export/stage-records/final-drc.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/export/validation/final-drc.json",
+      "sha256": "6bffc8c314775667d74ee585a5cbc926d717e92a174fb8e37dc19d09e55eb95d",
+      "bytes": 3717
+    },
+    "positives/route4Cu/export/stage-records/final-drc.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/export/validation/final-drc.log",
+      "sha256": "c7233038e5775b00819cbc266a187c72ef05333cd25ae9ac36861ec723bee4c8",
+      "bytes": 286
+    },
+    "positives/route4Cu/export/stage-records/final-netclass-audit.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/export/validation/final-netclass-audit.json",
+      "sha256": "23570b6d7495490f1de9a0ce043042d70452f8ebadb0b5b0cfd63e2a5c2df791",
+      "bytes": 3756
+    },
+    "positives/route4Cu/export/stage-records/final-netclasses-process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/export/validation/final-netclasses-process.json",
+      "sha256": "878e5b7643c4c64ee851270c06b3f07662a4a319fed08f360f105821560c8c07",
+      "bytes": 2385
+    },
+    "positives/route4Cu/export/stage-records/final-netclasses.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/export/validation/final-netclasses.json",
+      "sha256": "3be6d55f64615a6a281896ff4299a8eaeec7877b15088275dcb3c1d97a922631",
+      "bytes": 3642
+    },
+    "positives/route4Cu/export/stage-records/final-netclasses.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/export/validation/final-netclasses.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "positives/route4Cu/export/stage-records/metrics-process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/export/validation/metrics-process.json",
+      "sha256": "e3c72e71ebc83f26da8f9511110f144335eaf4138246d9088a24644b83f9700e",
+      "bytes": 2343
+    },
+    "positives/route4Cu/export/stage-records/metrics.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/export/validation/metrics.json",
+      "sha256": "e6415b89c88d2d033f397c438f8bde9d04a7069337312b1a82aebb2b103b4ed4",
+      "bytes": 148
+    },
+    "positives/route4Cu/export/stage-records/metrics.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/export/validation/metrics.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "positives/route4Cu/export/stage-records/pour-keepout-audit-process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/export/validation/pour-keepout-audit-process.json",
+      "sha256": "2f5f811aaeff2296d73022a84d381cb7388dc0e70d280dde10a52f6f25f5abbb",
+      "bytes": 2390
+    },
+    "positives/route4Cu/export/stage-records/pour-keepout-audit.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/export/validation/pour-keepout-audit.json",
+      "sha256": "9773ea1b4511c22ad026b9c1e0b38bd542d418f1d0fd6578c44f386e1a5a7237",
+      "bytes": 4458
+    },
+    "positives/route4Cu/export/stage-records/pour-keepout-audit.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/export/validation/pour-keepout-audit.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "positives/route4Cu/export/stage-records/refill-drc-binding.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/export/validation/refill-drc-binding.json",
+      "sha256": "753fa9ceb800f7bae737c9f2fe034998a119df216b404b8036e4fdb5b42c3edf",
+      "bytes": 1513
+    },
+    "positives/route4Cu/export/stage-records/refill-drc-process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/export/validation/refill-drc-process.json",
+      "sha256": "5a278870fee451dbf658af644b8a0e927ca0902840909373e615c2ca55687f1b",
+      "bytes": 2956
+    },
+    "positives/route4Cu/export/stage-records/refill-drc.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/export/validation/refill-drc.json",
+      "sha256": "7e7cee807a0f903b81543d2d09e6e51371f5eeeac5248743c41aeea64be7f14c",
+      "bytes": 683
+    },
+    "positives/route4Cu/export/stage-records/refill-drc.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/export/validation/refill-drc.log",
+      "sha256": "e7d499c9b1bc8c578f2010286bf2d1db2f35f697ca98bceb8f8da6cdc305247d",
+      "bytes": 267
+    },
+    "positives/route4Cu/export/stage-records/pre-refill.kicad_pcb": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/export/validation/pre-refill.kicad_pcb",
+      "sha256": "29c3d6cc1a09a7455f9c6ea81b28fd2b099c095cbd0d581f2c042fba1623dc85",
+      "bytes": 15049
+    },
+    "positives/route4Cu/export/stage-records/native-saved-refill.kicad_pcb": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/export/validation/refill/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "31f439c25676b39299a50c87a0be0c77aa1236b838f3d610233d29ddf787e275",
+      "bytes": 19024
+    },
+    "positives/route4Cu/original-source/owned-four-copper-forced-inner.kicad_pcb": {
+      "original": ".runs/runtime-directory-010/source/owned-four-copper-forced-inner.kicad_pcb",
+      "sha256": "d137a34edbd3ceb204f4c2d3d5e076a725c97c9efca5a87426227c9cd98cd627",
+      "bytes": 12018
+    },
+    "positives/route4Cu/original-source/owned-four-copper-forced-inner.kicad_prl": {
+      "original": ".runs/runtime-directory-010/source/owned-four-copper-forced-inner.kicad_prl",
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+      "bytes": 189
+    },
+    "positives/route4Cu/original-source/owned-four-copper-forced-inner.kicad_pro": {
+      "original": ".runs/runtime-directory-010/source/owned-four-copper-forced-inner.kicad_pro",
+      "sha256": "f181351b60d4be7406d882af2652c6dfc248d138492c42bc3407b389edf1ea07",
+      "bytes": 2758
+    },
+    "positives/route4Cu/original-source/owned-four-copper-forced-inner.kicad_sch": {
+      "original": ".runs/runtime-directory-010/source/owned-four-copper-forced-inner.kicad_sch",
+      "sha256": "24500c4d883af58ba531ce00130c7988f9ec73b9e7781b7f5bbd72155545e3b9",
+      "bytes": 8590
+    },
+    "positives/route4Cu/CLI/review.process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/review.process.json",
+      "sha256": "7292402144cedfca314dacc50642ff599e0bf47f5a65e4f25d872b6cc45f8f5f",
+      "bytes": 780
+    },
+    "positives/route4Cu/CLI/export.process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/export.process.json",
+      "sha256": "8f270a1d615ae5b1c50e283ebdf3d5720e29339f7eab5b7350a089a4255a406c",
+      "bytes": 792
+    },
+    "positives/route4Cu/CLI/preview.process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/preview.process.json",
+      "sha256": "75b8f2d82b746d74f0d641afc078fbd2568323f366ec1ef35ff2e3800911ae6c",
+      "bytes": 718
+    },
+    "positives/route4Cu/CLI/result.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/result.json",
+      "sha256": "5d2b5e568d1e0795eae77bac8e95c194caa09c2feb162ec02c734c48557307c0",
+      "bytes": 29320
+    },
+    "positives/route4Cu/CLI/choice.process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/choice.process.json",
+      "sha256": "3f383e76e153da597cc878b0882787e2f0112aaf9ca3afe704a29f38e2fedfa4",
+      "bytes": 798
+    },
+    "positives/route4Cu/CLI/choice.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/choice.log",
+      "sha256": "1975801eeaeca66b812c1f84cf646d7be1ce91ab4fe2fc0bd8af46767ab3b94b",
+      "bytes": 34094
+    },
+    "positives/route4Cu/CLI/route.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/route.log",
+      "sha256": "ec3959b6073898727abe7447d017e2ae964ca2c8c19df53488ca449c88f36400",
+      "bytes": 534
+    },
+    "positives/route4Cu/CLI/review.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/review.log",
+      "sha256": "c1fc0bee3f9ef410bd3c41bf28b9416f746e8d98ab317494f39d2f6d506788f0",
+      "bytes": 66575
+    },
+    "positives/route4Cu/CLI/export.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/export.log",
+      "sha256": "a027226083bb8131485b7228a9be6bfea889fa56de8bb8f2f15084037cd0d0cf",
+      "bytes": 572
+    },
+    "positives/route4Cu/CLI/verify_export.process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/verify_export.process.json",
+      "sha256": "4d6e8753d69d3523c1b389e0fc0a96f4d38202bbb4b38f8c22b55bdd9f06968f",
+      "bytes": 585
+    },
+    "positives/route4Cu/CLI/verify_export.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/verify_export.log",
+      "sha256": "af9ae8d72f809aa4ab58cda05c732f5205f4198436a05f605516e477adc99f59",
+      "bytes": 791
+    },
+    "positives/route4Cu/CLI/route.process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/route.process.json",
+      "sha256": "930f25a9d7b5afa45ef44d395e38acb33fccb49a3594ce0d160083e65c3f2c4e",
+      "bytes": 899
+    },
+    "positives/route4Cu/CLI/preview.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/preview.log",
+      "sha256": "11402c859de477186add016171ba54c57a10cc9c614541ac4f0bfbd36e7251f8",
+      "bytes": 1010
+    },
+    "positives/route4Cu/enclosure.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/enclosure-route/execution.json",
+      "sha256": "324fbf9e83cbdd79a322eecb5f0caa5a48bf38d0de2f060db6e7b115919ec741",
+      "bytes": 2510
+    },
+    "positives/route4Cu/route/result.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/route/result.json",
+      "sha256": "9632a0801c633106e8fe6f5336d374a7462384476145dc7485ab04ef3ba5fada",
+      "bytes": 69213
+    },
+    "positives/route4Cu/export/export.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/export/export.json",
+      "sha256": "9478cc34e99101dabc34920b14efe1ab09aaa1d2c6ac70dca1f4da14c7acb7a2",
+      "bytes": 99126
+    },
+    "positives/route4Cu/review.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/review/review.json",
+      "sha256": "c1fc0bee3f9ef410bd3c41bf28b9416f746e8d98ab317494f39d2f6d506788f0",
+      "bytes": 66575
+    },
+    "positives/route4Cu/choice.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-route/autorouter-gui-b420ec0cf29e43a4863b772ed0d51372/choice/choice.json",
+      "sha256": "1975801eeaeca66b812c1f84cf646d7be1ce91ab4fe2fc0bd8af46767ab3b94b",
+      "bytes": 34094
+    },
+    "positives/route4Cu/external-time.log": {
+      "original": ".runs/runtime-directory010-workflow-route-time.log",
+      "sha256": "77000419352c1ae8ec283b3e416d44bf88b29d3b37b24bf6cca69d5714383a63",
+      "bytes": 31
+    },
+    "positives/improve2Cu/route/final-project/owned-global-min-width.kicad_pcb": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/route/candidate/owned-global-min-width.kicad_pcb",
+      "sha256": "16f23e0fe87a8941b0c7f6337b0c527a6cbff462c47edce3c99770b1e07c0c2a",
+      "bytes": 10312
+    },
+    "positives/improve2Cu/route/final-project/owned-global-min-width.kicad_prl": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/route/candidate/owned-global-min-width.kicad_prl",
+      "sha256": "8eeeca97d5de78d87e3a9f8a48e0a3bdf8c6881f1f03cd10064206f41748a01b",
+      "bytes": 181
+    },
+    "positives/improve2Cu/route/final-project/owned-global-min-width.kicad_pro": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/route/candidate/owned-global-min-width.kicad_pro",
+      "sha256": "17bb5a2cb45cbcd270750982f60b4a2d6177bb189364452f65f36fd799518391",
+      "bytes": 2192
+    },
+    "positives/improve2Cu/route/final-project/owned-global-min-width.kicad_sch": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/route/candidate/owned-global-min-width.kicad_sch",
+      "sha256": "8cf2b4ac9cc89861459d7d72d39b65a77e0fd3e482fc8ca4e0176a9d809923c3",
+      "bytes": 8256
+    },
+    "positives/improve2Cu/route/stage-records/final-drc-binding.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/route/final-drc-binding.json",
+      "sha256": "9d294357c1f96388a4754516ed6518a3bbad8c2b0074a06e8e5ffcdfecffa305",
+      "bytes": 1503
+    },
+    "positives/improve2Cu/route/stage-records/final-drc-fields-audit-process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/route/final-drc-fields-audit-process.json",
+      "sha256": "c4e3887f5a698ff90a2f71379644cbf03e0c1b3548729fa42b85801579442f08",
+      "bytes": 2268
+    },
+    "positives/improve2Cu/route/stage-records/final-drc-fields-audit.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/route/final-drc-fields-audit.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "positives/improve2Cu/route/stage-records/final-drc-fields-local-settings.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/route/final-drc-fields-local-settings.json",
+      "sha256": "4182f3e60e47d8201ce47330700d0a6f3de02b2e2fa653b6e36786119ad5b723",
+      "bytes": 1926
+    },
+    "positives/improve2Cu/route/stage-records/final-drc-fields-netlist-process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/route/final-drc-fields-netlist-process.json",
+      "sha256": "126013a6c078acf2288ebe68c875be0fd00710ff499eeca7ca65b2acfe273c5b",
+      "bytes": 2198
+    },
+    "positives/improve2Cu/route/stage-records/final-drc-fields-netlist.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/route/final-drc-fields-netlist.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "positives/improve2Cu/route/stage-records/final-drc-fields-proof.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/route/final-drc-fields-proof.json",
+      "sha256": "57cbbd6de87f1299b9bbc70b234e736cb7d8dbd9ded562f03e96ac2168c61c85",
+      "bytes": 4902
+    },
+    "positives/improve2Cu/route/stage-records/final-drc-fields.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/route/final-drc-fields.json",
+      "sha256": "22942065465230fde18980a19ac309ccaeea31a94f8078b3cedb96f015ea964d",
+      "bytes": 2312
+    },
+    "positives/improve2Cu/route/stage-records/final-drc-fields.net": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/route/final-drc-fields.net",
+      "sha256": "6e3289d80d32e20ba44123b31a40b00e634fe0bbcc569c445b1ff415c0fe1120",
+      "bytes": 8784
+    },
+    "positives/improve2Cu/route/stage-records/final-drc-process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/route/final-drc-process.json",
+      "sha256": "0dfdb1cf11f23fb0b82d1e66792f11b56201a01187fc036dd12b3216aa9c59f4",
+      "bytes": 2858
+    },
+    "positives/improve2Cu/route/stage-records/final-drc.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/route/final-drc.json",
+      "sha256": "9f3a1fceba70eb0a798828f09bb6ca32f3740e1dce02869b67517b2d3c91a588",
+      "bytes": 3709
+    },
+    "positives/improve2Cu/route/stage-records/final-drc.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/route/final-drc.log",
+      "sha256": "6133ec4b0892902f38d4b9bd48bab87e31b73f76027be0878c2fbc8b6a986aac",
+      "bytes": 280
+    },
+    "positives/improve2Cu/route/stage-records/metrics-process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/route/metrics-process.json",
+      "sha256": "993555554626b8d478fd395edf5bd662238fb1c255570607982f0d5dd06848d1",
+      "bytes": 2234
+    },
+    "positives/improve2Cu/route/stage-records/metrics.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/route/metrics.json",
+      "sha256": "a39403b7bacff22cc63203e98c1afaa37d0a8a7157edeb3eb7a444f1348dc5b4",
+      "bytes": 148
+    },
+    "positives/improve2Cu/route/stage-records/metrics.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/route/metrics.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "positives/improve2Cu/route/stage-records/pruning-preferences.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/route/pruning-preferences.json",
+      "sha256": "accc536e55b9c47666932670114bf3305c458c3b8a8c5f950c8c12df0262e15f",
+      "bytes": 773
+    },
+    "positives/improve2Cu/route/stage-records/refill-drc-binding.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/route/refill-drc-binding.json",
+      "sha256": "821ec33441dd5539819e3b62bc8e2cf3127c99f5ddc3214fbef3aad664f1a61e",
+      "bytes": 1421
+    },
+    "positives/improve2Cu/route/stage-records/refill-drc-process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/route/refill-drc-process.json",
+      "sha256": "5d88a499a321f312a72babcc01dcd24e977b859321c0e2dcfeeee16c055eb71c",
+      "bytes": 2820
+    },
+    "positives/improve2Cu/route/stage-records/refill-drc.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/route/refill-drc.json",
+      "sha256": "2c4c166d0204f83b066e65a07e7441bfb8b40262121ebe20d20d25928f72ffee",
+      "bytes": 675
+    },
+    "positives/improve2Cu/route/stage-records/refill-drc.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/route/refill-drc.log",
+      "sha256": "11099c8300b45a848b51e7f20707b04cdd732c74143a7557fd2feb20784937d0",
+      "bytes": 261
+    },
+    "positives/improve2Cu/route/stage-records/result.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/route/result.json",
+      "sha256": "46a4959e6ccb409cdd37f76da37df634818792238089518dfea6cbb227350752",
+      "bytes": 83328
+    },
+    "positives/improve2Cu/route/stage-records/pre-refill.kicad_pcb": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/route/pre-refill.kicad_pcb",
+      "sha256": "16f23e0fe87a8941b0c7f6337b0c527a6cbff462c47edce3c99770b1e07c0c2a",
+      "bytes": 10312
+    },
+    "positives/improve2Cu/route/stage-records/native-saved-refill.kicad_pcb": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/route/refill/owned-global-min-width.kicad_pcb",
+      "sha256": "0ac8aa68bb8e15f1367ef62f21eac0a4aca4ad65409fa834d572b700d0ced893",
+      "bytes": 13858
+    },
+    "positives/improve2Cu/export/final-project/owned-global-min-width.kicad_pcb": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/export/validation/candidate/owned-global-min-width.kicad_pcb",
+      "sha256": "16f23e0fe87a8941b0c7f6337b0c527a6cbff462c47edce3c99770b1e07c0c2a",
+      "bytes": 10312
+    },
+    "positives/improve2Cu/export/final-project/owned-global-min-width.kicad_prl": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/export/validation/candidate/owned-global-min-width.kicad_prl",
+      "sha256": "8eeeca97d5de78d87e3a9f8a48e0a3bdf8c6881f1f03cd10064206f41748a01b",
+      "bytes": 181
+    },
+    "positives/improve2Cu/export/final-project/owned-global-min-width.kicad_pro": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/export/validation/candidate/owned-global-min-width.kicad_pro",
+      "sha256": "17bb5a2cb45cbcd270750982f60b4a2d6177bb189364452f65f36fd799518391",
+      "bytes": 2192
+    },
+    "positives/improve2Cu/export/final-project/owned-global-min-width.kicad_sch": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/export/validation/candidate/owned-global-min-width.kicad_sch",
+      "sha256": "8cf2b4ac9cc89861459d7d72d39b65a77e0fd3e482fc8ca4e0176a9d809923c3",
+      "bytes": 8256
+    },
+    "positives/improve2Cu/export/stage-records/final-drc-binding.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/export/validation/final-drc-binding.json",
+      "sha256": "6b78b48031c7b910900005ccf287929c12f430bbda80887b6964f810d62d9f65",
+      "bytes": 1527
+    },
+    "positives/improve2Cu/export/stage-records/final-drc-fields-audit-process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/export/validation/final-drc-fields-audit-process.json",
+      "sha256": "0e09ee7176684919a3793e5022c8d1dde0d0bbe562e79349a0db78fbe9a9f3bf",
+      "bytes": 2404
+    },
+    "positives/improve2Cu/export/stage-records/final-drc-fields-audit.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/export/validation/final-drc-fields-audit.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "positives/improve2Cu/export/stage-records/final-drc-fields-local-settings.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/export/validation/final-drc-fields-local-settings.json",
+      "sha256": "6c25d5b8fc8f7e5167eaa09f9aed91f316c39bd72c0edf3449ea99cadc7ad2ce",
+      "bytes": 1950
+    },
+    "positives/improve2Cu/export/stage-records/final-drc-fields-netlist-process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/export/validation/final-drc-fields-netlist-process.json",
+      "sha256": "5cc59b632b4c6af1eba013f9b0fcb16519d10516d2b91a9f117b4304de37903e",
+      "bytes": 2345
+    },
+    "positives/improve2Cu/export/stage-records/final-drc-fields-netlist.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/export/validation/final-drc-fields-netlist.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "positives/improve2Cu/export/stage-records/final-drc-fields-proof.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/export/validation/final-drc-fields-proof.json",
+      "sha256": "1b3018c1256f02f0367d98940d1ad9c1fc37addd2e5bf9a8f1a76026533347f4",
+      "bytes": 4902
+    },
+    "positives/improve2Cu/export/stage-records/final-drc-fields.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/export/validation/final-drc-fields.json",
+      "sha256": "252333b97baa229bc85d776ac551f312c852863a9354e9f8992570d2b69ac09c",
+      "bytes": 2324
+    },
+    "positives/improve2Cu/export/stage-records/final-drc-fields.net": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/export/validation/final-drc-fields.net",
+      "sha256": "ae9ed30e9f590cc243146af9076e1575a7253819824dda0fa1969bc69c15b697",
+      "bytes": 8796
+    },
+    "positives/improve2Cu/export/stage-records/final-drc-process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/export/validation/final-drc-process.json",
+      "sha256": "96b1d8432b02fa185a452343c08524e80ba73786e74758af46aa326edadceca1",
+      "bytes": 2995
+    },
+    "positives/improve2Cu/export/stage-records/final-drc.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/export/validation/final-drc.json",
+      "sha256": "4270915c4bee8ec12f41bf5a1bee35015acd28d51e94b80a937bf023c1eab03f",
+      "bytes": 3709
+    },
+    "positives/improve2Cu/export/stage-records/final-drc.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/export/validation/final-drc.log",
+      "sha256": "a9d601eb97a4ff883cd66a678b9c2e36ae04cf41d2b4f84bd996c2c92efafa6f",
+      "bytes": 292
+    },
+    "positives/improve2Cu/export/stage-records/metrics-process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/export/validation/metrics-process.json",
+      "sha256": "e3f4e119b1cd2d174cef545a1e5e5a1268023dfc5edec160a6504acdd0b874b8",
+      "bytes": 2359
+    },
+    "positives/improve2Cu/export/stage-records/metrics.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/export/validation/metrics.json",
+      "sha256": "a39403b7bacff22cc63203e98c1afaa37d0a8a7157edeb3eb7a444f1348dc5b4",
+      "bytes": 148
+    },
+    "positives/improve2Cu/export/stage-records/metrics.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/export/validation/metrics.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "positives/improve2Cu/export/stage-records/refill-drc-binding.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/export/validation/refill-drc-binding.json",
+      "sha256": "3ea374f035d62001935acaf98388b05501a77ac38b9853c87be4560008ec4c72",
+      "bytes": 1445
+    },
+    "positives/improve2Cu/export/stage-records/refill-drc-process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/export/validation/refill-drc-process.json",
+      "sha256": "3c20eeac9c8648033bc2946db6d39f866b8cbe3eadf633f2259241a64a00f409",
+      "bytes": 2970
+    },
+    "positives/improve2Cu/export/stage-records/refill-drc.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/export/validation/refill-drc.json",
+      "sha256": "7c6335f2d7b804ec04edc5e109ab4ae1944be25f8f343c876b52b2d6219de8e9",
+      "bytes": 675
+    },
+    "positives/improve2Cu/export/stage-records/refill-drc.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/export/validation/refill-drc.log",
+      "sha256": "e442af77951e9689518f8076a45969d1feafe19bf7b6e57da2807e249a62817c",
+      "bytes": 273
+    },
+    "positives/improve2Cu/export/stage-records/pre-refill.kicad_pcb": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/export/validation/pre-refill.kicad_pcb",
+      "sha256": "16f23e0fe87a8941b0c7f6337b0c527a6cbff462c47edce3c99770b1e07c0c2a",
+      "bytes": 10312
+    },
+    "positives/improve2Cu/export/stage-records/native-saved-refill.kicad_pcb": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/export/validation/refill/owned-global-min-width.kicad_pcb",
+      "sha256": "0ac8aa68bb8e15f1367ef62f21eac0a4aca4ad65409fa834d572b700d0ced893",
+      "bytes": 13858
+    },
+    "positives/improve2Cu/original-source/owned-global-min-width.kicad_pcb": {
+      "original": ".runs/runtime-directory-003/source/owned-global-min-width.kicad_pcb",
+      "sha256": "5675f1f851d35a8da1539c7979e6b578c694a029737028874e139220ec623bb8",
+      "bytes": 9716
+    },
+    "positives/improve2Cu/original-source/owned-global-min-width.kicad_prl": {
+      "original": ".runs/runtime-directory-003/source/owned-global-min-width.kicad_prl",
+      "sha256": "8eeeca97d5de78d87e3a9f8a48e0a3bdf8c6881f1f03cd10064206f41748a01b",
+      "bytes": 181
+    },
+    "positives/improve2Cu/original-source/owned-global-min-width.kicad_pro": {
+      "original": ".runs/runtime-directory-003/source/owned-global-min-width.kicad_pro",
+      "sha256": "17bb5a2cb45cbcd270750982f60b4a2d6177bb189364452f65f36fd799518391",
+      "bytes": 2192
+    },
+    "positives/improve2Cu/original-source/owned-global-min-width.kicad_sch": {
+      "original": ".runs/runtime-directory-003/source/owned-global-min-width.kicad_sch",
+      "sha256": "8cf2b4ac9cc89861459d7d72d39b65a77e0fd3e482fc8ca4e0176a9d809923c3",
+      "bytes": 8256
+    },
+    "positives/improve2Cu/CLI/review.process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/review.process.json",
+      "sha256": "1225f495ca8efa40cd31e2f9ccd5f92e6aecaa55d2e56827eb9432f318a11258",
+      "bytes": 792
+    },
+    "positives/improve2Cu/CLI/export.process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/export.process.json",
+      "sha256": "ce3a8edd297899ef9e11fcf7c40c0046d7c39d60422ad385fed94dc17343adf4",
+      "bytes": 804
+    },
+    "positives/improve2Cu/CLI/preview.process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/preview.process.json",
+      "sha256": "2278fb6c09fc6543b26c376aca4869fe7410dee3d951e92d8a45591b70765b3b",
+      "bytes": 715
+    },
+    "positives/improve2Cu/CLI/result.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/result.json",
+      "sha256": "cdfef8744fb4d401e290c65dd7f0708c009eebcad3199c09f77f8ec82d77b9ee",
+      "bytes": 29233
+    },
+    "positives/improve2Cu/CLI/choice.process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/choice.process.json",
+      "sha256": "a5c9289ca69e6cf0717574b26ce42788700358702a28cb0ef36626e60d11f6dc",
+      "bytes": 810
+    },
+    "positives/improve2Cu/CLI/choice.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/choice.log",
+      "sha256": "145769a0e8aed7e839374d3f4a3f8f914583fd9b25cf7a395db94feba1c8663d",
+      "bytes": 50356
+    },
+    "positives/improve2Cu/CLI/route.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/route.log",
+      "sha256": "8d1ebbed718ccfdd309a5b0dacc82900f430fa8e7677927f6d64b50231679ac9",
+      "bytes": 543
+    },
+    "positives/improve2Cu/CLI/review.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/review.log",
+      "sha256": "d79be4c14b285e1f12617bef8b1d5ec4acaaf04b4626185f9bc0c8c1820d7637",
+      "bytes": 62521
+    },
+    "positives/improve2Cu/CLI/export.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/export.log",
+      "sha256": "99d4ff643294d6a5b6028b520d30901ef4940e02bc2d98248a8c04adf00acbbd",
+      "bytes": 560
+    },
+    "positives/improve2Cu/CLI/verify_export.process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/verify_export.process.json",
+      "sha256": "d474b265d6272c316826295e5b5e11bef295e3c3e28ff1efaee60854b4de96d7",
+      "bytes": 591
+    },
+    "positives/improve2Cu/CLI/verify_export.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/verify_export.log",
+      "sha256": "55213ecc5b2c685e69944c58f9f60bbb7bf340a081db06fe34a6c19382f6e6d0",
+      "bytes": 795
+    },
+    "positives/improve2Cu/CLI/route.process.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/route.process.json",
+      "sha256": "a82690bee23a3f661ee668ccbf76a2934f1020512ed664be4be62b643487dcf1",
+      "bytes": 904
+    },
+    "positives/improve2Cu/CLI/preview.log": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/preview.log",
+      "sha256": "744da5fc8a27c9521ba990360142be6b8091b2d2b8d062102d38e10271b47a05",
+      "bytes": 969
+    },
+    "positives/improve2Cu/enclosure.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/enclosure-improve-2cu/execution.json",
+      "sha256": "4afcbe54e242f1212b3be88769764cc3c781ea0bd58ed24cd6189b8fe2f30283",
+      "bytes": 3017
+    },
+    "positives/improve2Cu/route/result.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/route/result.json",
+      "sha256": "46a4959e6ccb409cdd37f76da37df634818792238089518dfea6cbb227350752",
+      "bytes": 83328
+    },
+    "positives/improve2Cu/export/export.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/export/export.json",
+      "sha256": "1b01868e9ce178d6f2362dc679c3ae2db95fe0ab33e7605811ecd1d85945707d",
+      "bytes": 104766
+    },
+    "positives/improve2Cu/review.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/review/review.json",
+      "sha256": "d79be4c14b285e1f12617bef8b1d5ec4acaaf04b4626185f9bc0c8c1820d7637",
+      "bytes": 62521
+    },
+    "positives/improve2Cu/choice.json": {
+      "original": ".runs/runtime-directory-010/runtime/.runs/qualification-improve-2cu/autorouter-gui-4edb598b1e164b25bbf5c76fada3ec6d/choice/choice.json",
+      "sha256": "145769a0e8aed7e839374d3f4a3f8f914583fd9b25cf7a395db94feba1c8663d",
+      "bytes": 50356
+    },
+    "positives/improve2Cu/external-time.log": {
+      "original": ".runs/runtime010-improve-2cu-time.log",
+      "sha256": "1e18657eae6327cde91b87887fe4e6a43d088855dd277493fe1c60f032ae8f99",
+      "bytes": 31
+    },
+    "source-as-run/prepare-runtime-directory-010.py": {
+      "original": ".runs/prepare-runtime-directory-010.py",
+      "sha256": "d6d7b729ad3394490d479543afbb61f2a16dbd29340c64efaa39e81b2634b9e2",
+      "bytes": 5030
+    },
+    "source-as-run/run-runtime-directory010-workflow.py": {
+      "original": ".runs/run-runtime-directory010-workflow.py",
+      "sha256": "c6443c39a6039bb277da1678832bcce506444946656aa0be83aec7fdd0618875",
+      "bytes": 1839
+    },
+    "source-as-run/run-runtime010-improve-2cu.py": {
+      "original": ".runs/run-runtime010-improve-2cu.py",
+      "sha256": "6a34427ce05c4435781c54801a3195c057c9e94278403b8fae49a8c050151ae6",
+      "bytes": 2059
+    },
+    "source-as-run/scripts--qualify_runtime_workflow.py": {
+      "original": "scripts/qualify_runtime_workflow.py",
+      "sha256": "dad0cff84eb2164cc82f50ccf6703e145c889f5c9bfad7196dd707da39a1bc1e",
+      "bytes": 4492
+    },
+    "source-as-run/experiments--stronger_incumbent_v1--global_width_fixture.py": {
+      "original": "experiments/stronger_incumbent_v1/global_width_fixture.py",
+      "sha256": "b91daf90527fbb8135efd9d07f9b90450123e637a8537d3b37f5b599487ae0e8",
+      "bytes": 1758
+    },
+    "source-as-run/experiments--four_copper_pour_support_v1--fixture.py": {
+      "original": "experiments/four_copper_pour_support_v1/fixture.py",
+      "sha256": "88641bdc5cbfb4bfdcf0766a04a1781059fe48d4e7719f116db2acc2a4237aac",
+      "bytes": 1798
+    },
+    "records/runtime-preparation-time.log": {
+      "original": ".runs/prepare-runtime-directory-010-time.log",
+      "sha256": "02b371e1a236a6fc582feeaf2076a8bd9147a9f74e17baca078e1390aec2e663",
+      "bytes": 29
+    },
+    "related/full143.json": {
+      "original": "evidence/gui-export-refusal-full143-001.json",
+      "sha256": "70f9a9cf97225824473debb08b9ffc3cb1e7a726cfb6593f4763007601abcc7b",
+      "bytes": 40489
+    },
+    "related/GUI061.json": {
+      "original": "evidence/gui-runtime010-061-native-opening-001.json",
+      "sha256": "dc25a4f62791dc9bfde036f816a5c889a784e0a20d416c4a10ffd90d9a0234e2",
+      "bytes": 139870
+    }
+  },
+  "utc": "2026-10-16T20:27:49.996528+00:00"
+}

@@ -1,0 +1,20 @@
+# Runtime010 CLI regressions after GUI refusal correction
+
+These are two completed exposed owned production CLI workflows in runtime010, built from `5d85f5f146658aabe015ec468c07a9339e85e146`. They exercise four-copper Route and two-copper Improve, each followed by review, software-test Accept intent, fresh Native export and current export checking. Actual GUI061 duplicate-artwork Finish gaps is separately linked; there is no third duplicate-artwork CLI rerun here.
+
+| Workflow | Complete external wall / CPU seconds | Protected source routes | Candidate SHA256 shared by its own route/export |
+| --- | --- | --- | --- |
+| Four-copper Route | 32.88 / 29.35 | 10 | `29c3d6cc1a09a7455f9c6ea81b28fd2b099c095cbd0d581f2c042fba1623dc85` |
+| Two-copper Improve | 46.09 / 40.43 | 1 | `16f23e0fe87a8941b0c7f6337b0c527a6cbff462c47edce3c99770b1e07c0c2a` |
+
+All four installed010 current route/export readers passed. Each actual final candidate has its own original-rule Native refill/connectivity/fullSCH/field proof, bound to its hash and process/input records. Each has zero opens, zero blocking findings, six retained Datasheet warnings, zero exclusions and two original ignored checks. Eighteen ordinary fields across six components qualify. Complete original invariant ASTs and all protected copper remain exact. Whole-project DRC cleanliness is false. The CLI exports were not opened in KiCad and remain current; the separately opened GUI061 export is stale by design.
+
+The notes retain actual owned original packets and final route/export packets, saved-refill PCBs, raw findings, bindings, field observers/netlists/proofs, stage/process logs, engine journals, workflow/review/choice receipts, source-as-run controllers/factories, runtime manifest and GPL license. Large alias-geometry JSON files remain Mac-local with hashes; all four complete shared readers validated them locally. No archives, caches, engine binaries, third-party CAD or incidental browser/Finder content are copied.
+
+The42 runtime implementation hashes match frozen5d Git objects and the runtime manifest; all47 immutable artifact hashes match. Full143's42 code pins also match. Comparison with actual retained009 implementation pins finds exactly one changed file: `autorouter/gui.py` (`a8cb8daf58cbb063795433a1d6ab6ba4d70a18d63af808d5a93209fda1c02bee` → `e7a4f87823ebfab5826f760ea2283b1acb74b9c8fdcb88c9b2a60fbab933ae24`). The other41 files are unchanged. Source identity uses frozen5d, not the later documentation/evidence HEAD. The separately linked GUI061 record demonstrates the specific inline stale-refusal cause, fresh-preview guidance and failure-log path. This CLI record is not actual GUI observation.
+
+Prior009 negative001 and002 remain historical, with their exact interpretations and costs linked. Attempt001 spent Native source/export/obstacles work, hit the30-second engine/finalization reserve, then its harness failed on absent source `field_parity`; it is not final hidden-field rejection evidence (3.66 wall /2.72 CPU seconds). Attempt002 used the routed positive, protected all copper and ran a90-second engine attempt; final Description proof rejected it despite zero opens/blocking (11.50/8.28). No new010 Description, short, fill, cancel or other invalid Native rerun is claimed.
+
+Runtime setup external cost is1.47 wall /1.12 CPU seconds. Read-only curation succeeded on its first attempt at5.82/5.55. All command/time logs and nested receipt/process samples remain distinct; do not sum nested samples into a benchmark. Whole interactive GUI and complete authoring/review costs are unknown, not zero. No new external spending or paid services were used.
+
+This is correctness/integration regression evidence after a GUI-only diagnostic change. It establishes no routing gain, new independent circuit family, human PCB approval, electrical/physical validation, four-copper Improve, NetTie/class/hierarchy expansion, other-platform/relocation/standalone qualification or formal release. Curation ran no Native/JVM/GUI/tests/backup and made no product/runtime/source/docs/HEAD changes or commit.
