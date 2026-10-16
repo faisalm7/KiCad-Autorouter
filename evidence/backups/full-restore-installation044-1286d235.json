@@ -1,0 +1,210 @@
+{
+  "schema": 1,
+  "kind": "actual-current-installed044-full-chain-restoration",
+  "verified": true,
+  "full_restoration_tested": true,
+  "git_head": "1286d235ee5e125e0c9fe3dfde96c898a4754fea",
+  "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/checkpoint-20261015T235251Z-022517995b8e41bcba4eaeba26c676cf/receipt.json",
+  "receipt_sha256": "0e21133c66a887e15ad63d75143906feab54debdb8dd57f69d1cadfb78fba546",
+  "receipt_bytes": 81657693,
+  "verification": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/checkpoint-20261015T235251Z-022517995b8e41bcba4eaeba26c676cf/verification-38a8ea02aea74e229693a7bd8fe74ee7.json",
+  "verification_sha256": "85577e4ab5e9fae984ea9ce7f7a0efd01286fd7acffcf85d73453ed606f4d62e",
+  "restore_directory": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/restore-0f7a33cfee494f7c93e89bced7f36aa2",
+  "non_git_files": 310786,
+  "non_git_directories": 70704,
+  "non_git_bytes": 10798323558,
+  "delta_files": 7373,
+  "delta_directories": 1933,
+  "directory_policy": "changed-and-new-ancestors-v1",
+  "chain_length": 2,
+  "all_refs_restored": true,
+  "git_bundle_verified_in_empty_repository": true,
+  "cli_smoke": {
+    "command": [
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "-m",
+      "autorouter",
+      "--help"
+    ],
+    "exit": 0,
+    "output": "usage: python -m autorouter [-h]\n                            {doctor,settings-init,preview,review-copy,review-choice,review-export,review-export-check,improve,recover,check-result,route}\n                            ...\n\npositional arguments:\n  {doctor,settings-init,preview,review-copy,review-choice,review-export,review-export-check,improve,recover,check-result,route}\n    settings-init       Create an explicit editable JSON preset without\n                        overwriting a file\n    preview             Preview settings, protected routing and static support\n                        without changing the board\n    review-choice       Record accept/reject intent for a separate project; no\n                        PCB approval or application\n    review-export       Fresh native validation into a new separate project\n                        after accept intent; no live apply\n    review-export-check\n                        Check stored export/source/report consistency; does\n                        not run fresh DRC\n    recover             Experimental whole-board routing with bounded thermal\n                        repair\n\noptions:\n  -h, --help            show this help message and exit\n"
+  },
+  "complete_external_wall_seconds": 1009.13,
+  "complete_external_full_cpu_seconds": 802.04,
+  "complete_external_time_log": "real 1009.13\nuser 627.77\nsys 174.27\n           770850816  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n             1251029  page reclaims\n               11815  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n             1954239  voluntary context switches\n             3119834  involuntary context switches\n         25754453629  instructions retired\n         13830292395  cycles elapsed\n           357368600  peak memory footprint\n",
+  "sampled_controller_wall_seconds": 1008.630829791975,
+  "sampled_controller_full_cpu_seconds": 801.4206670000001,
+  "capacity_change_now_qualified": true,
+  "capacities": {
+    "bytes": 11005853696,
+    "files_and_directories": 315000,
+    "receipt_bytes": 83886080,
+    "chain_receipt_bytes": 201326592
+  },
+  "backup_helper_sha256": "88a657f4ceb06930854bbba115431ecf9f341baac550843639f625d97400e92d",
+  "controller_sha256": "1c230f2db9ad62d62c816d9ad551238b8b58f1105660ae4b64e4ad3a06aac521",
+  "controller_source": "\"\"\"One-shot compact incremental plus full old/new chain restoration using existing backup CLI; current finite10.25GiB/315000 caps.\n\nPreparation only until the lead releases all scope writers and supplies the\nverified clean checkpoint. No timer, retry, background loop or evidence deletion.\n\"\"\"\nfrom pathlib import Path\nimport time,resource\nSTART=time.monotonic()\ndef cpu():\n    own=resource.getrusage(resource.RUSAGE_SELF);child=resource.getrusage(resource.RUSAGE_CHILDREN)\n    return own.ru_utime+own.ru_stime+child.ru_utime+child.ru_stime\nCPU0=cpu()\nimport argparse,fcntl,hashlib,json,os,re,stat,sys\nROOT=next(x for x in Path(__file__).resolve().parents if (x/'scripts/backup.py').is_file())\nsys.path.insert(0,str(ROOT));sys.dont_write_bytecode=True\nfrom scripts import backup\nfrom autorouter import pipeline as p\nfrom autorouter.runner import run\nCAP=1800.;PUBLICATION=2.\nOUT=ROOT/'.local-backups/clearance20-installation044-full-restoration-execution-001'\nHELPER=ROOT/'scripts/backup.py'\nPARENT=ROOT/'.local-backups/checkpoint-20261015T181606Z-b9d396079eb4422f9ba8aee6b1a85b28/receipt.json'\nPARENT_PIN='82dff0759a5a9ec89b23ee34f3f5330bd847a6f3fd65aeca5b3079db7c1787b3'\n\n\ndef require(value,reason):\n    if not value:raise RuntimeError(reason)\n\n\ndef main():\n    parser=argparse.ArgumentParser(description=__doc__)\n    parser.add_argument('--expected-head',required=True)\n    parser.add_argument('--expected-helper-sha256',required=True)\n    parser.add_argument('--writers-idle',action='store_true',required=True,\n        help='Lead confirms all .runs/.data/.local-reference/source writers are stopped for this one snapshot/restore.')\n    args=parser.parse_args()\n    require(re.fullmatch('[0-9a-f]{40}',args.expected_head) and re.fullmatch('[0-9a-f]{64}',args.expected_helper_sha256),'exact verified checkpoint/helper pins required')\n    backup.backups_directory(ROOT)\n    OUT.mkdir(mode=0o700,exist_ok=False)\n    record=dict(schema=1,kind='one-shot-current-compact-incremental-and-full-chain-restoration',verified=False,full_restoration_tested=False,\n        expected_git_head=args.expected_head,helper_sha256=args.expected_helper_sha256,controller_sha256=backup.digest(Path(__file__)),\n        process=None,writer_idle_declaration=args.writers_idle,shared_experiment_lock_held=False,\n        whole_wall_full_cpu_acceptance_cap_seconds=CAP,publication_allowance_seconds=PUBLICATION,\n        limitation=backup.LIMITATION,\n        scope='Existing backup CLI creates one compact schema2 delta from restored legacy full006, then fully restores both nodes/allrefs/alltarget artifacts once. Complete target inventories, security and all current finite10.25GiB/315000 caps. Every prior archive/failure retained. OnMaconly. No Native/routing/GUI/release claim.')\n    lock_path=ROOT/'.runs/quality-experiment.lock'\n    lock=None;witnesses={}\n    def stable():\n        require(backup.digest(HELPER)==args.expected_helper_sha256,'backup helper changed')\n        require(backup.digest(PARENT)==PARENT_PIN,'restored full006 parent changed')\n        require(backup.git(ROOT,'rev-parse','HEAD')==args.expected_head,'source checkpoint changed')\n        require(not backup.git(ROOT,'status','--porcelain=v1','--untracked-files=normal'),'source not clean')\n        require(backup.digest(Path(__file__))==record['controller_sha256'],'launcher changed')\n        for path,pin in witnesses.items():require(backup.digest(path)==pin,'captured receipt/integrity/verification proof changed')\n        require(max(time.monotonic()-START,cpu()-CPU0)+PUBLICATION<=CAP,'whole snapshot/restoration publication cap exhausted')\n    try:\n        require(sys.platform=='darwin' and ROOT.resolve()==ROOT,'selected local Mac checkout required')\n        require((backup.LIMIT,backup.MAX_FILES,backup.MAX_RECEIPT_BYTES,backup.MAX_CHAIN_RECEIPT_BYTES)==\n            (10*1024**3+256*1024**2,315000,80*1024**2,192*1024**2),'existing finite backup capacities changed')\n        require(not any(x.is_symlink() for x in (lock_path,*lock_path.parents)),'shared lock alias')\n        fd=os.open(lock_path,os.O_RDWR|os.O_CREAT|os.O_NOFOLLOW,0o600);lock=os.fdopen(fd,'r+')\n        info=os.fstat(lock.fileno());require(stat.S_ISREG(info.st_mode) and info.st_nlink==1,'ordinary exclusive lock required')\n        fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);record['shared_experiment_lock_held']=True\n        stable()\n        # Exercise backward-readable old FULL plus new compact DELTA without another full snapshot.\n        record['process']=run([str(ROOT/'.venv/bin/python'),'-B',str(HELPER),'--incremental',str(PARENT)],cwd=OUT,log=OUT/'command.log',\n            timeout=max(.001,CAP-PUBLICATION-(time.monotonic()-START)),max_log_bytes=128*1024,\n            max_workdir_bytes=2*1024**2,max_group_rss_bytes=4*1024**3)\n        process=record['process']\n        require(process['status']=='success' and process['exit_code']==0 and process['cleanup_complete'] is True\n            and process['log_truncated'] is False,'full snapshot/restoration command failed; raw output retained')\n        payload=json.loads((OUT/'command.log').read_text())\n        receipt=Path(payload['receipt']);proof_path=Path(payload['integrity_check'])\n        require(receipt.is_absolute() and receipt.resolve(strict=True)==receipt and receipt.parent.parent==ROOT/'.local-backups'\n            and receipt.name=='receipt.json' and proof_path.parent==receipt.parent\n            and proof_path.name.startswith('integrity-') and proof_path.suffix=='.json','backup output paths differ')\n        integrity,integrity_pin,_=backup.read_json(proof_path);witnesses[proof_path]=integrity_pin\n        require(payload['full_restoration_tested'] is False and integrity['integrity_checked'] is True\n            and integrity['full_restoration_tested'] is False and integrity['chain_length']==2\n            and integrity['receipt']==str(receipt) and integrity['receipt_sha256']==backup.digest(receipt),'compact incremental integrity proof failed')\n        current,receipt_pin,_=backup.read_json(receipt);witnesses[receipt]=receipt_pin\n        require(current['delta']['directory_policy']==backup.DELTA_DIRECTORIES_COMPACT,'new delta is not compact format')\n        record.update(incremental_integrity_checked=True,receipt=str(receipt),receipt_sha256=receipt_pin,\n            integrity=str(proof_path),integrity_sha256=integrity_pin,full_parent=str(PARENT),full_parent_sha256=PARENT_PIN)\n        stable()\n        record['restore_process']=run([str(ROOT/'.venv/bin/python'),'-B',str(HELPER),'--verify',str(receipt)],cwd=OUT,log=OUT/'restore.log',\n            timeout=max(.001,CAP-PUBLICATION-(time.monotonic()-START)),max_log_bytes=128*1024,\n            max_workdir_bytes=2*1024**2,max_group_rss_bytes=4*1024**3)\n        proc=record['restore_process']\n        require(proc['status']=='success' and proc['exit_code']==0 and proc['cleanup_complete'] is True and proc['log_truncated'] is False,\n            'compact delta full chain restoration command failed; all partial evidence retained')\n        restored=json.loads((OUT/'restore.log').read_text());proof_path=Path(restored['verification'])\n        require(proof_path.parent==receipt.parent and proof_path.name.startswith('verification-') and proof_path.suffix=='.json','full chain verification path differs')\n        proof,pin,_=backup.read_json(proof_path);witnesses[proof_path]=pin\n        require(restored['full_restoration_tested'] is True and proof['verified'] is True and proof['full_restoration_tested'] is True\n            and proof['all_refs_restored'] is True and proof['git_bundle_verified_in_empty_repository'] is True\n            and proof['receipt']==str(receipt) and proof['receipt_sha256']==receipt_pin\n            and proof['restored_git_head']==args.expected_head and proof['cli_smoke']['exit']==0\n            and proof['chain_length']==2 and proof['non_git_files_verified']==len(current['inventory']['files']),\n            'new compact old/full chain restoration proof failed')\n        stable()\n        require(max(time.monotonic()-START,cpu()-CPU0)+PUBLICATION<=CAP,'whole snapshot/restoration delivery exceeds bounded cap')\n        record.update(verified=True,full_restoration_tested=True,receipt=str(receipt),receipt_sha256=receipt_pin,\n            verification=str(proof_path),verification_sha256=pin,restore_directory=proof['restore_directory'],\n            non_git_files_verified=proof['non_git_files_verified'],all_refs_restored=True,source_clean_after=True)\n    except BaseException as exc:\n        record.update(verified=False,full_restoration_tested=False,error=type(exc).__name__+': '+str(exc))\n    finally:\n        record.update(wall_seconds=time.monotonic()-START,full_cpu_seconds=cpu()-CPU0)\n        if (OUT/'command.log').is_file():record['log_sha256']=backup.digest(OUT/'command.log')\n        if (OUT/'restore.log').is_file():record['restore_log_sha256']=backup.digest(OUT/'restore.log')\n        if max(record['wall_seconds'],record['full_cpu_seconds'])+PUBLICATION>CAP:\n            record.update(verified=False,full_restoration_tested=False,error='whole snapshot/restoration publication cap exceeded')\n        if record['verified']:\n            try:backup.publish_check(OUT/'execution.json',record,stable)\n            except BaseException as exc:\n                record.update(verified=False,full_restoration_tested=False,error='execution publication refused: '+type(exc).__name__+': '+str(exc))\n                p.save_json(OUT/'execution.json',record)\n        else:p.save_json(OUT/'execution.json',record)\n        if lock is not None:lock.close()\n    print(json.dumps({key:record.get(key) for key in ('verified','full_restoration_tested','receipt','verification','wall_seconds','full_cpu_seconds','error')}))\n    return 0 if record['verified'] else 2\n\n\nif __name__=='__main__':raise SystemExit(main())\n",
+  "actual_execution": {
+    "all_refs_restored": true,
+    "controller_sha256": "1c230f2db9ad62d62c816d9ad551238b8b58f1105660ae4b64e4ad3a06aac521",
+    "expected_git_head": "1286d235ee5e125e0c9fe3dfde96c898a4754fea",
+    "full_cpu_seconds": 801.4206670000001,
+    "full_parent": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/checkpoint-20261015T181606Z-b9d396079eb4422f9ba8aee6b1a85b28/receipt.json",
+    "full_parent_sha256": "82dff0759a5a9ec89b23ee34f3f5330bd847a6f3fd65aeca5b3079db7c1787b3",
+    "full_restoration_tested": true,
+    "helper_sha256": "88a657f4ceb06930854bbba115431ecf9f341baac550843639f625d97400e92d",
+    "incremental_integrity_checked": true,
+    "integrity": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/checkpoint-20261015T235251Z-022517995b8e41bcba4eaeba26c676cf/integrity-f5299ca85f7149688f332935fc8defc9.json",
+    "integrity_sha256": "6fc636a5144511e3ce1e63c948e74f03c476dcb7248b3f18028bb53233700830",
+    "kind": "one-shot-current-compact-incremental-and-full-chain-restoration",
+    "limitation": "On-Mac only; a second folder on this disk provides no disk-failure protection.",
+    "log_sha256": "ae70e2e4b101bb19441bbd604c22106dd0d5ac84e4eddcf773e72047b5335d27",
+    "non_git_files_verified": 310786,
+    "process": {
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/backup.py",
+        "--incremental",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/checkpoint-20261015T181606Z-b9d396079eb4422f9ba8aee6b1a85b28/receipt.json"
+      ],
+      "cleanup_complete": true,
+      "cpu_seconds": 267.251598,
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/clearance20-installation044-full-restoration-execution-001",
+      "exit_code": 0,
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/clearance20-installation044-full-restoration-execution-001/command.log",
+      "log_bytes": 482,
+      "log_truncated": false,
+      "max_rss_bytes": 729235456,
+      "monitor_cpu_seconds": 0.0,
+      "pid": 79041,
+      "resource_accounting": {
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "memory_limit_enforced": false,
+        "method": "wait4 child rusage",
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds",
+        "native_rss_unit": "bytes",
+        "rss_scope": "kernel peak, not simultaneous process-tree total"
+      },
+      "resource_guards": {
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed.",
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 2097152,
+        "os_enforced": false,
+        "poll_interval_seconds": 0.25
+      },
+      "sampled_peak_group_rss_bytes": 724942848,
+      "sampled_peak_workdir_bytes": 482,
+      "signal_cancellation_enabled": true,
+      "status": "success",
+      "supervisor_cpu_seconds": 1.1286070000000001,
+      "wall_seconds": 348.74267833301565
+    },
+    "publication_allowance_seconds": 2.0,
+    "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/checkpoint-20261015T235251Z-022517995b8e41bcba4eaeba26c676cf/receipt.json",
+    "receipt_sha256": "0e21133c66a887e15ad63d75143906feab54debdb8dd57f69d1cadfb78fba546",
+    "restore_directory": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/restore-0f7a33cfee494f7c93e89bced7f36aa2",
+    "restore_log_sha256": "bd9be50d6519586a7042dab79332e13c7e63b4b706c7e1f00aa46f36efe89554",
+    "restore_process": {
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/backup.py",
+        "--verify",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/checkpoint-20261015T235251Z-022517995b8e41bcba4eaeba26c676cf/receipt.json"
+      ],
+      "cleanup_complete": true,
+      "cpu_seconds": 529.2547089999999,
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/clearance20-installation044-full-restoration-execution-001",
+      "exit_code": 0,
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/clearance20-installation044-full-restoration-execution-001/restore.log",
+      "log_bytes": 481,
+      "log_truncated": false,
+      "max_rss_bytes": 770850816,
+      "monitor_cpu_seconds": 0.0,
+      "pid": 79478,
+      "resource_accounting": {
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "memory_limit_enforced": false,
+        "method": "wait4 child rusage",
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds",
+        "native_rss_unit": "bytes",
+        "rss_scope": "kernel peak, not simultaneous process-tree total"
+      },
+      "resource_guards": {
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed.",
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 2097152,
+        "os_enforced": false,
+        "poll_interval_seconds": 0.25
+      },
+      "sampled_peak_group_rss_bytes": 770850816,
+      "sampled_peak_workdir_bytes": 963,
+      "signal_cancellation_enabled": true,
+      "status": "success",
+      "supervisor_cpu_seconds": 2.138559,
+      "wall_seconds": 658.5555706669984
+    },
+    "schema": 1,
+    "scope": "Existing backup CLI creates one compact schema2 delta from restored legacy full006, then fully restores both nodes/allrefs/alltarget artifacts once. Complete target inventories, security and all current finite10.25GiB/315000 caps. Every prior archive/failure retained. OnMaconly. No Native/routing/GUI/release claim.",
+    "shared_experiment_lock_held": true,
+    "source_clean_after": true,
+    "verification": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/checkpoint-20261015T235251Z-022517995b8e41bcba4eaeba26c676cf/verification-38a8ea02aea74e229693a7bd8fe74ee7.json",
+    "verification_sha256": "85577e4ab5e9fae984ea9ce7f7a0efd01286fd7acffcf85d73453ed606f4d62e",
+    "verified": true,
+    "wall_seconds": 1008.630829791975,
+    "whole_wall_full_cpu_acceptance_cap_seconds": 1800.0,
+    "writer_idle_declaration": true
+  },
+  "actual_integrity": {
+    "chain_length": 2,
+    "delta_files_verified": 7373,
+    "full_restoration_tested": false,
+    "integrity_checked": true,
+    "limitation": "On-Mac only; a second folder on this disk provides no disk-failure protection.",
+    "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/checkpoint-20261015T235251Z-022517995b8e41bcba4eaeba26c676cf/receipt.json",
+    "receipt_sha256": "0e21133c66a887e15ad63d75143906feab54debdb8dd57f69d1cadfb78fba546",
+    "schema": 2,
+    "scratch_directory": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/delta-check-2411413505274fcb802c0035ec1f9f8c"
+  },
+  "actual_verification": {
+    "all_refs_restored": true,
+    "chain_length": 2,
+    "cli_smoke": {
+      "command": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+        "-B",
+        "-m",
+        "autorouter",
+        "--help"
+      ],
+      "exit": 0,
+      "output": "usage: python -m autorouter [-h]\n                            {doctor,settings-init,preview,review-copy,review-choice,review-export,review-export-check,improve,recover,check-result,route}\n                            ...\n\npositional arguments:\n  {doctor,settings-init,preview,review-copy,review-choice,review-export,review-export-check,improve,recover,check-result,route}\n    settings-init       Create an explicit editable JSON preset without\n                        overwriting a file\n    preview             Preview settings, protected routing and static support\n                        without changing the board\n    review-choice       Record accept/reject intent for a separate project; no\n                        PCB approval or application\n    review-export       Fresh native validation into a new separate project\n                        after accept intent; no live apply\n    review-export-check\n                        Check stored export/source/report consistency; does\n                        not run fresh DRC\n    recover             Experimental whole-board routing with bounded thermal\n                        repair\n\noptions:\n  -h, --help            show this help message and exit\n"
+    },
+    "full_restoration_tested": true,
+    "git_bundle_verified_in_empty_repository": true,
+    "limitation": "On-Mac only; a second folder on this disk provides no disk-failure protection.",
+    "non_git_files_verified": 310786,
+    "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/checkpoint-20261015T235251Z-022517995b8e41bcba4eaeba26c676cf/receipt.json",
+    "receipt_sha256": "0e21133c66a887e15ad63d75143906feab54debdb8dd57f69d1cadfb78fba546",
+    "restore_directory": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/restore-0f7a33cfee494f7c93e89bced7f36aa2",
+    "restored_git_head": "1286d235ee5e125e0c9fe3dfde96c898a4754fea",
+    "schema": 1,
+    "verified": true
+  },
+  "restored_excluded_support_maps": [
+    {
+      "map": ".runs/continuation-support-clearance20-installation044-001/restore-map.json",
+      "map_sha256": "18b5b286d340f4ccc32c6f37dc4d1710b17c98012026b95548ebf56bb110604a",
+      "preserved_files_verified": 62
+    },
+    {
+      "map": ".runs/continuation-support-installation044-review-001/restore-map.json",
+      "map_sha256": "0a52e00806ae5241bcae4cbf368def83cac3af4191911c111057f39f03e8389d",
+      "preserved_files_verified": 2
+    }
+  ],
+  "limitation": "On-Mac only; a second folder on this disk provides no disk-failure protection.",
+  "scope": "One existing compact delta from restored legacyfull006 plus FULLtwo-node restoration through1286d235, including clearance20 source/nativecorner/positive/short/guardedIR/allreader failures/currentinstallation044/settings/workflow/GUI and copiedsource/review/prospect005 artifacts. All target hashes/allGitrefs/emptyrepo/CLIhelp verified. Required current315k10.25GiB backupcapacity qualification passes; no other limits/security/scopes changed; everyoldarchive retained. OnMaconly ownerchoice. New MiniPIC diagnostic/review/wrapper drafts created during this run in excluded.local-backups are AFTERcutoff and need later milestone capture. No newNative/routing/GUI/quality/human/physical/formalrelease claim."
+}
