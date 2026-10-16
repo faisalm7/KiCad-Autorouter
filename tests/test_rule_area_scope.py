@@ -44,7 +44,7 @@ class RuleAreaScope(unittest.TestCase):
 
     def test_preflight_rejects_before_candidate_or_native_work(self):
         with tempfile.TemporaryDirectory() as tmp:
-            board=Path(tmp)/'fixture.kicad_pcb'
+            board=Path(tmp).resolve()/'fixture.kicad_pcb'
             tree=['kicad_pcb',['version','20260206'],['layers',['0','"F.Cu"','signal'],['2','"B.Cu"','signal']],zone()]
             board.with_suffix('.kicad_pro').write_text(json.dumps({}))
             sx.write(board,tree);self.assertEqual(p.preflight(board),tree)
@@ -59,7 +59,7 @@ class RuleAreaScope(unittest.TestCase):
 
     def test_legacy_module_alias_cannot_hide_footprint_constraints(self):
         with tempfile.TemporaryDirectory() as tmp:
-            board=Path(tmp)/'fixture.kicad_pcb'
+            board=Path(tmp).resolve()/'fixture.kicad_pcb'
             tree=['kicad_pcb',['version','20260206'],['layers',['0','"F.Cu"','signal'],['2','"B.Cu"','signal']],['module','"owned"',zone()]]
             board.with_suffix('.kicad_pro').write_text('{}')
             for prohibited in (False,True):

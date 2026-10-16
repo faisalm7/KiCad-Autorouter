@@ -8,7 +8,7 @@ from autorouter.pipeline import preflight,Rejected
 class PreflightTests(unittest.TestCase):
     def test_copper_identity_is_not_layer_type(self):
         with tempfile.TemporaryDirectory() as tmp:
-            p=Path(tmp)/'board.kicad_pcb'
+            p=Path(tmp).resolve()/'board.kicad_pcb'
             # Copper layers may be power; user drawing layers can be signal.
             p.write_text('(kicad_pcb (version 20260206) (layers (0 "F.Cu" power) (2 "B.Cu" signal) (50 "User.1" signal)))')
             p.with_suffix('.kicad_pro').write_text('{}')

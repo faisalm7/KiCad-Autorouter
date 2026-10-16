@@ -65,7 +65,7 @@ class NativePolicyControls(unittest.TestCase):
 
     def test_preflight_admits_only_padstack_warning_exception_and_never_edits_project(self):
         with tempfile.TemporaryDirectory() as tmp:
-            board = Path(tmp)/'board.kicad_pcb'
+            board = Path(tmp).resolve()/'board.kicad_pcb'
             board.write_text('(kicad_pcb (version 20260206) (layers (0 "F.Cu" signal) (2 "B.Cu" signal)))')
             for key, severity, permitted in [('padstack','warning',True), ('padstack','error',True),
                 ('padstack','ignore',False), ('clearance','warning',False),

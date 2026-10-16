@@ -81,7 +81,7 @@ class TuningIntentGuard(unittest.TestCase):
 class DefaultPreflightGuard(unittest.TestCase):
     def check_project(self, value, expected_error=None):
         with tempfile.TemporaryDirectory() as tmp:
-            board = Path(tmp)/FIXTURE.name
+            board = Path(tmp).resolve()/FIXTURE.name
             board.write_bytes(FIXTURE.read_bytes())
             pro = board.with_suffix('.kicad_pro'); pro.write_text(json.dumps(value))
             before = (board.read_bytes(), pro.read_bytes())

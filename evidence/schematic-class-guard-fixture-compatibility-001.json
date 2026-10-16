@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "kind": "schematic-class-guard-canonical-fixture-correction",
+  "accepted": false,
+  "native_or_routing_run": false,
+  "failed_full139": {
+    "source_head": "e86668c5c182046d9d950704b0eb43be446f8847",
+    "methods": 1824,
+    "errors": 5,
+    "failures": 0,
+    "process": {
+      "status": "nonzero_exit",
+      "exit_code": 1,
+      "wall_seconds": 213.98306595900794,
+      "cpu_seconds": 204.57492200000002,
+      "max_rss_bytes": 310165504,
+      "supervisor_cpu_seconds": 0.46744600000000003,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 308871168,
+      "sampled_peak_workdir_bytes": 306302,
+      "resource_guards": {
+        "max_group_rss_bytes": 2147483648,
+        "max_workdir_bytes": 2097152,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/full-suite-local-root-019.py"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/full-integration-139/command.log",
+      "log_bytes": 306302,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/full-integration-139",
+      "signal_cancellation_enabled": true,
+      "pid": 49710
+    },
+    "wall_seconds": 214.57,
+    "full_CPU_seconds": 205.49,
+    "execution_sha256": "eee3b19664ff449a73147041ef46ff8fe1e5b16cad6598f8475d5d975ad28207",
+    "log_sha256": "1e4d92b02f44cd317e7daa1e3b0930cc1be45ac30efb69d20cf9624d008efb8c"
+  },
+  "cause": "Four older test modules construct unresolved macOS /var temporary paths. New bounded schematic inventory rejects their symlink ancestor. Five positive subcases failed; no production acceptance bypass was observed. Public route/floor/placement entrypoints already resolve sources; preview/GUI require canonical paths. Direct preflight on an aliased path is now stricter.",
+  "correction": "Canonicalize only the test-owned temporary roots before creating fixture files. Production class/hierarchy/symlink/file-byte-entry safeguards unchanged. Deliberate symlink tests remain unnormalized.",
+  "targeted005": {
+    "passed": true,
+    "methods": 41,
+    "wall_seconds": 3.76,
+    "full_CPU_seconds": 3.38,
+    "log_sha256": "1edc4d107943a3ed3ad4ce92dac828d5142ede5713aa4bc105bfefc2290763ac"
+  },
+  "independent_review": "Read-only AI inspection of failed fixtures and public callsites supports test-root-only correction; no human review, no routing-quality claim.",
+  "next_gate": "Fresh full140 and installed runtime007 Native positive/negative and unchanged class counterexample refusal pending."
+}
