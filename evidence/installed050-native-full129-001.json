@@ -1,0 +1,114 @@
+{
+  "schema": 1,
+  "kind": "final-inline-refusal-software-and-installed-native-qualification",
+  "git_head": "9147f04aab0aa66df147ed23a501db3f57685fcb",
+  "scope": "Same Mac, pinned KiCad10.0.0 arm64, independent source distribution/venv and engine copy. Software/process controls and native default smoke; actual latest GUI remains pending.",
+  "full_suite": {
+    "methods": 1702,
+    "passed": true,
+    "complete_exit": 0,
+    "wall_seconds": 164.55,
+    "total_cpu_seconds": 158.6,
+    "sampled_wall_seconds": 164.35383416700643,
+    "sampled_full_cpu_seconds": 158.4742
+  },
+  "installation": {
+    "passed": true,
+    "complete_exit": 0,
+    "wall_seconds": 46.39,
+    "total_cpu_seconds": 34.35,
+    "sampled_wall_seconds": 46.09105204202933,
+    "sampled_full_cpu_seconds": 34.069325,
+    "tracked_source_unchanged": true,
+    "cloned_tracked_files_unchanged": true,
+    "native_receipt": {
+      "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/installation-050/checkout/.runs/install-native-smoke/result.json",
+      "sha256": "8dcd91ecfb49d2eebb665068f73aeb66b8554651d8aedbbee36b19429ac02f56"
+    },
+    "candidate_sha256": "781327219738d6741fb16a3399cd18fec8d0db682240005c19f5ae4736790cf2",
+    "native": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 0,
+      "exclusions": 0,
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "Footprint component type doesn't match footprint pads",
+          "key": "footprint_type_mismatch"
+        }
+      ],
+      "findings": []
+    },
+    "metrics": {
+      "version": "10.0.0",
+      "pads": 6,
+      "footprints": 6,
+      "zones": 1,
+      "vias": 0,
+      "track_length_mm": 90.0,
+      "copper_layers": 2
+    }
+  },
+  "gui": {
+    "status": "pending_locked_Mac",
+    "controller_started": false,
+    "source_opened": false,
+    "prepared_session": ".runs/gui-installed-session050",
+    "prior_sources_keep_their_own_qualification": true
+  },
+  "evidence": [
+    {
+      "path": ".runs/full-integration-129/execution.json",
+      "sha256": "4a347d90455e960948555a8ce2e94bc4d2bc495376d604b04735b76cb582582e"
+    },
+    {
+      "path": ".runs/full-integration-129/command.log",
+      "sha256": "201c780396e19eeafea3fb97b8dbd7c1721d4c83afb61374a94a8f303af3f5c6"
+    },
+    {
+      "path": ".runs/full-integration-129-time.log",
+      "sha256": "2b486cb46bc28b98b37e038a12e9dc52ab5a9bfe50ffaf296fdce98535b2802e"
+    },
+    {
+      "path": ".runs/installation-050/result.json",
+      "sha256": "896ab0d318ff7d785012e5fa8ecbd39c94415adcdc7d251b0f2b4b86712b9670"
+    },
+    {
+      "path": ".runs/installation-050-execution/result.json",
+      "sha256": "38f7fa842a4d9423aa2c158ea5e5dfd5dca3066855fa0d395641eb334602a773"
+    },
+    {
+      "path": ".runs/gui-installed-session050/locked-access.json",
+      "sha256": "80cf2f64395572d1cf4f7d32b3f9489391fe3d45e402d37186b9b38aebd3c2f1"
+    }
+  ],
+  "runtime_sha256": {
+    "autorouter/gui.py": "d110a522f3b529a3de5a43848089773e71cb1f5665e90a094c727afc04c9c81a",
+    "autorouter/pipeline.py": "422bd461eef5f3791612586d3d2f16227c207925a2eac1302d1695a69d430493",
+    "autorouter/strategy.py": "8a9ef351ff51df414245977d53cf68422d82fe4f9c94ccd8305c7025de073ea3",
+    "autorouter/placement_strategy.py": "b2bee86ef41c5f98e38a0c0f60fdd1bd9148346644f72c7d754de333bd52d25d",
+    "scripts/install_gui.py": "0a7c487951c1641e4e790105939394bc3c430612a6cfe7376bd62f5acd67f56f"
+  },
+  "limitations": [
+    "No actual050 GUI pass yet.",
+    "No Windows native qualification, fresh OS or independent human/physical qualification.",
+    "No routing-comparison or general improvement inference from software tests or owned smoke.",
+    "Raw artifacts are on this Mac; incremental capture and new major restoration still pending."
+  ]
+}
