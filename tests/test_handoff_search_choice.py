@@ -56,6 +56,23 @@ class Controls(unittest.TestCase):
         self.review();(self.root/'review/project/board.kicad_pcb').write_text('(edited)')
         with self.assertRaisesRegex(Rejected,'board changed'):self.choose()
         result=self.choose('reject','reject');self.assertEqual(result['choice'],'reject');self.assertFalse(result['candidate_board_unchanged']);self.assertTrue((self.root/'review/project/board.kicad_pcb').exists())
+    def test_open_review_refuses_accept_without_output_but_reject_remains_available(self):
+        self.review();lock=self.root/'review/project/~board.kicad_pro.lck';lock.write_text('owned lock control')
+        with self.assertRaisesRegex(h.ReviewProjectOpen,'Close Project'):self.choose()
+        self.assertFalse((self.root/'choice').exists());self.assertTrue(lock.exists())
+        self.assertEqual(self.choose('reject','reject-open')['choice'],'reject')
+        lock.unlink();(self.root/'review/project/board-backups').mkdir()
+        (self.root/'review/project/board-backups/owned.zip').write_bytes(b'owned backup control')
+        result=self.choose();self.assertEqual(result['choice'],'accept')
+        self.assertIn('board-backups/owned.zip',result['observed_review_project_hashes'])
+    def test_lock_added_during_accept_still_invalidates_instead_of_being_ignored(self):
+        self.review();self.check.reset_mock();verified=copy.deepcopy(self.check.return_value)
+        def changing(_):
+            if self.check.call_count==1:(self.root/'review/project/~board.kicad_pro.lck').write_text('opened late')
+            return verified
+        self.check.side_effect=changing
+        with self.assertRaisesRegex(Rejected,'material changed'):self.choose()
+        self.assertFalse((self.root/'choice').exists())
     def test_unknown_choice_and_nonready_review_fail_before_output(self):
         self.review()
         with self.assertRaisesRegex(Rejected,'accept or reject'):self.choose(True)

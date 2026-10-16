@@ -87,7 +87,7 @@ def human_summary(stage, record, *, receipt_path=None, findings_receipt_path=Non
             lines += ['The whole project is not DRC-clean; inspect every finding below.']
     if stage in ('review', 'choice', 'export', 'verify_export'):
         lines += ['Separate-project workflow only; no live-board application or physical/electrical approval.']
-    if stage == 'review': lines += ['Inspect the separate project and every finding before recording intent. Creating this copy does not run a fresh Native check.']
+    if stage == 'review': lines += ['Inspect the separate project and every finding. Before Accept intent, close its PCB/schematic editors and use File > Close Project in KiCad project manager. Creating this copy does not run a fresh Native check.']
     if stage == 'choice':
         lines += ['Recorded review intent: ' + str(record.get('choice', 'not reported')) + '. This is not PCB certification.']
         unchanged = record.get('candidate_board_unchanged')
@@ -322,6 +322,14 @@ def check_improve_settings(config):
     return effective
 
 
+def review_close_hint(workspace):
+    """Operational hint only; CLI choice/export still perform full validation."""
+    from . import handoff as h
+    project = canonical(Path(workspace) / 'review/project')
+    h.require_closed_review(h.pc.inventory(project, max_bytes=h.PROJECT_BYTES,
+        max_files=2000, max_entries=4000))
+
+
 def failed_route_detail(path):
     """Bounded diagnostic text only; never adopts a failed receipt as evidence."""
     try:
@@ -495,7 +503,7 @@ def main(argv=None):
             layout.Add(presets)
             self.ack = wx.CheckBox(panel, label='I saved and CLOSED the source PCB and schematic editors. The exact paths above are correct.')
             layout.Add(self.ack, 0, wx.ALL, 6)
-            self.inspected = wx.CheckBox(panel, label='I inspected the disposable project and all findings. My choice is review intent, not PCB certification.')
+            self.inspected = wx.CheckBox(panel, label='I inspected all findings and CLOSED the review editors/project. My choice is intent, not PCB certification.')
             layout.Add(self.inspected, 0, wx.ALL, 6)
             self.buttons = {}
             for names in ((('Preview', 'preview'), ('Route', 'route'), ('Create review', 'review'), ('Cancel', 'cancel')),
@@ -670,7 +678,19 @@ def main(argv=None):
                     threading.Thread(target=inspect, daemon=False).start()
                     return
                 if action == 'accept' and not self.inspected.GetValue():
-                    raise ValueError('Inspect the complete disposable project and findings, then acknowledge review intent.')
+                    self.status.SetLabel('Inspect and close the review project, then acknowledge review intent.')
+                    self.log.SetValue('Inspect the disposable project and findings, close its editors and use File > Close Project, then check the review acknowledgement.\nThe existing route/review is retained; no acceptance or export was adopted.')
+                    self.refresh(); return
+                if action == 'accept':
+                    from .handoff import ReviewProjectOpen
+                    try: review_close_hint(self.flow.workspace)
+                    except ReviewProjectOpen as exc:
+                        # A recoverable close-project precondition must not discard
+                        # the valid route/review and force another routing attempt.
+                        self.inspected.SetValue(False)
+                        self.status.SetLabel('Close the review project, then acknowledge and retry Accept intent.')
+                        self.log.SetValue(str(exc) + '\nThe existing route/review is retained; no acceptance or export was adopted.')
+                        self.refresh(); return
                 choice = action if action in ('accept', 'reject') else None
                 stage = 'choice' if choice else action
                 if stage in ('preview', 'review'): self.inspected.SetValue(False)

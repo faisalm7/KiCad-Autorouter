@@ -2,6 +2,7 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference='Stop'
 if(-not $IsWindows -or $env:RUNNER_OS -cne 'Windows'){throw 'Ephemeral Windows runner required'}
+& (Join-Path $PSScriptRoot 'test_java25.ps1')
 $repo=[IO.Path]::GetFullPath($env:GITHUB_WORKSPACE);$temp=[IO.Path]::GetFullPath($env:RUNNER_TEMP)
 $head=(& git -C $repo -c core.fsmonitor=false -c core.hooksPath=/dev/null rev-parse HEAD).Trim()
 if($LASTEXITCODE -ne 0 -or $head -cne $env:GITHUB_SHA){throw 'Dispatched checkout mismatch'}

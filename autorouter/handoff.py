@@ -53,6 +53,19 @@ def evidence_witness(path):
     return {'files': files, 'directories': list(directories)}
 
 
+class ReviewProjectOpen(Rejected):
+    """Observed KiCad lock: closing the review is an operational precondition."""
+
+
+def require_closed_review(project_hashes):
+    # An absent lock is not proof that every editor is closed. Keep the explicit
+    # user acknowledgement and all exact material checks, including backups.
+    if any(Path(name).suffix.casefold() == '.lck' for name in project_hashes):
+        raise ReviewProjectOpen('Close the disposable review PCB and schematic editors, then use '
+            'File > Close Project in KiCad project manager before Accept intent. '
+            'A KiCad lock file is still present; no acceptance was recorded.')
+
+
 def review_policy(report, directory):
     """Same explicit policy dispatch as the central checker; no inferred downgrade."""
     from . import placement_strategy as ps
@@ -364,6 +377,7 @@ def _review_choice(review_path, output, choice, start, cpu_start, lifecycle=None
                 or candidate_hashes.get(source.name) != report['candidate_sha256']):
             raise Rejected('reviewed source, candidate or routing evidence changed')
         board_same = project_hashes.get(source.name) == report['candidate_sha256']
+        if choice == 'accept': require_closed_review(project_hashes)
         if choice == 'accept' and not board_same:
             raise Rejected('reviewed board changed; obtain a newly validated review before accepting')
         runtime = runtime_inventory(); preview = review.get('preview')

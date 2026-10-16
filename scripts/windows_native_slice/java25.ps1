@@ -1,4 +1,13 @@
 # Source-only draft. Dot-source after review; invoke only on the ephemeral Windows runner.
+function ConvertTo-OwnedZipAttributes {
+ param([Parameter(Mandatory)][int]$Value)
+ # ZIP exposes a signed Int32. PowerShell's hexadecimal 0xffffffff is -1;
+ # use a positive Int64 mask before converting the same 32 bits to UInt32.
+ $attributes=[uint32]([long]$Value -band 4294967295L)
+ if((($attributes -shr 16) -band 0xf000) -eq 0xa000 -or ($attributes -band 0x400)){throw 'Archive symlink/reparse member refused'}
+ return $attributes
+}
+
 function Install-OwnedTemurin25 {
  param([Parameter(Mandatory)][string]$Scratch,[Parameter(Mandatory)][scriptblock]$Fetch)
  if(-not $IsWindows -or $env:RUNNER_OS -cne 'Windows'){throw 'Ephemeral Windows runner only'}
@@ -28,8 +37,7 @@ function Install-OwnedTemurin25 {
    foreach($part in $parts){if(-not $part -or $part -in @('.','..') -or $part -match '[. ]$|[<>"|?*\x00-\x1f]' -or $part -match '^(CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(\..*)?$'){throw 'Ambiguous/reserved archive path'}}
    if(-not $seen.Add($name.TrimEnd('/'))){throw 'Case-folded duplicate archive member'};$null=$tops.Add($parts[0])
    if(-not $name.EndsWith('/')){$null=$members.Add($name)}
-   $attributes=[uint32]([long]$entry.ExternalAttributes -band 0xffffffff)
-   if((($attributes -shr 16) -band 0xf000) -eq 0xa000 -or ($attributes -band 0x400)){throw 'Archive symlink/reparse member refused'}
+   $null=ConvertTo-OwnedZipAttributes -Value $entry.ExternalAttributes
    if($entry.Length -lt 0 -or $entry.Length -gt 128MB){throw 'Archive member size bound'};$declared+=$entry.Length
    if($declared -gt 256MB){throw 'Archive expanded-byte bound'}
   }

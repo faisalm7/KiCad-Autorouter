@@ -115,6 +115,10 @@ class ExportControls(unittest.TestCase):
         record=json.loads(self.choice.read_text());record['choice']='reject';self.choice.write_text(json.dumps(record))
         with self.assertRaises(p.Rejected):self.export()
         self.assertEqual(self.calls,[]);self.assertFalse(self.output.exists())
+    def test_open_review_lock_rejects_export_before_native(self):
+        (self.root/'review/project/~board.kicad_pro.lck').write_text('owned lock control')
+        with self.assertRaisesRegex(h.ReviewProjectOpen,'Close Project'):self.export()
+        self.assertEqual(self.calls,[]);self.assertFalse(self.output.exists())
     def test_stale_original_receipt_review_board_gui_metadata_or_empty_evidence_directory_blocks(self):
         for path,body in [(self.source/'board.kicad_pro',b'{"changed":true}'),(self.receipt,b'{}'),(self.root/'review/project/board.kicad_pcb',b'edited'),(self.root/'review/project/board.kicad_pro',b'edited')]:
             with self.subTest(path=path):

@@ -52,6 +52,7 @@ def bind(choice_path):
         or any(x!=report['candidate_sha256'] for x in (choice.get('validated_candidate_sha256'),review.get('verified_candidate_sha256'),review.get('candidate_sha256')))):
         raise p.Rejected('choice/review/routing identity changed')
     sw=witness(source.parent,project=True);cw=witness(candidate.parent,project=True);rw=witness(project,project=True)
+    h.require_closed_review(rw['files'])
     if (sw['files']!=choice['original_source_hashes'] or sw['files']!=review['source_project_hashes']
         or cw['files']!=review['initial_project_hashes'] or rw['files']!=choice['observed_review_project_hashes']
         or rw['files'].get(source.name)!=report['candidate_sha256'] or cw['files'].get(source.name)!=report['candidate_sha256']

@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "kind": "prospective-Windows004-signed-ZIP-attribute-correction",
+  "executed": false,
+  "native_or_JVM_executed": false,
+  "product_support": false,
+  "prior_failure": "evidence/windows-native-probe003-zip-attribute-refusal.json",
+  "mechanism": "PowerShell0xffffffff is signedInt32-1; positiveInt64 4294967295L preserves unsigned ZIP bits before the unchanged symlink/reparse predicate.",
+  "comparison": "Actualtest_java25.ps1 invokes the same helper for4regular/4invalid signed/unsigned attributes beforeanydownload. Then same owned Windows slice/dependencies/guards; no fallback or relaxedrule.",
+  "source_sha256": {
+    "scripts/windows_native_slice/README.md": "3d720e050e819da69933706cd3491160714ff00060f9d78b9f64db81f9414413",
+    "scripts/windows_native_slice/SOURCE_REVIEW.md": "865194f7a4d257eef12f68eb46a5c3ab2f78fe498f6442bf0e69b0eab9dfe51a",
+    "scripts/windows_native_slice/bootstrap.ps1": "e261293dc0c4d7402d13b25be1adc355881d02e72c099a6c9a35577882843215",
+    "scripts/windows_native_slice/firewall_gate.ps1": "a5405b18cad3375447ab90ea98e359ee1efad45c9794f675a4ef1dd6a218c976",
+    "scripts/windows_native_slice/java25.ps1": "8cb53c268fa6361a8d7b9671a102f1e573ced35b77f17430af1c77d2a7adb6f6",
+    "scripts/windows_native_slice/native_worker.py": "b3e8674f9649453b95de3931d895fa0ce55cd6798d8943f3d058993694e506be",
+    "scripts/windows_native_slice/slice.py": "1ded6033179d59b86a61fd2953d9b2a1dce75552d0a44d938d8da4dc8e54fcf1",
+    "scripts/windows_native_slice/test_java25.ps1": "bae03b139c1dfe329491d2e04aed7447716ba87f7209576da92e397e9b83e504",
+    "scripts/windows_native_slice/windows_process.py": "6fa8fe38b11cd5ffe80bcadcb0ba9d16c5cb91f955083f6dc3e6267a89f119c7"
+  },
+  "cost_gate": "Standardpublicwindows-2022/manual15min/contentsread/pinnedcheckout/noartifacts/caches; provider003WINDOWSbillablems0. ActualcompleteouterCPUunknown.",
+  "review": ".runs/windows-zip-attributes003-review/REVIEW.md; source/language review only, not execution"
+}
