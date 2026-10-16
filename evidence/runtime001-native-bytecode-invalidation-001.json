@@ -1,0 +1,304 @@
+{
+  "schema": 1,
+  "kind": "actual-runtime001-native-bytecode-invalidation-and-central-environment-fix",
+  "failed_source_head": "4e76aaadfbe6723e724d5d5a0af0e726d26bbe9d",
+  "actual_native": true,
+  "actual_GUI": false,
+  "accepted": false,
+  "failed_artifact_preserved": true,
+  "source_unchanged": true,
+  "native_candidate_sha256": "0ba2126b7eb02502a26debee395677ea3b69a3417be6317c10ec85a7637df106",
+  "native": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 6,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      }
+    ],
+    "findings": [
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J1",
+            "pos": {
+              "x": 12.0,
+              "y": 10.0
+            },
+            "uuid": "ac06cd73-d920-5d03-9967-63fd767b7718"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J2",
+            "pos": {
+              "x": 26.0,
+              "y": 13.0
+            },
+            "uuid": "198cedce-a99b-5b99-8220-1f40e740e439"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J3",
+            "pos": {
+              "x": 12.0,
+              "y": 16.0
+            },
+            "uuid": "f0db75ad-598b-5d7e-b67b-aeabcd4b31fc"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J4",
+            "pos": {
+              "x": 26.0,
+              "y": 16.0
+            },
+            "uuid": "dd22012c-f14f-5846-916f-d86bac7673c5"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J5",
+            "pos": {
+              "x": 12.0,
+              "y": 24.0
+            },
+            "uuid": "9232fd2a-4b39-5763-9275-b096ca9d208a"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J6",
+            "pos": {
+              "x": 26.0,
+              "y": 24.0
+            },
+            "uuid": "bdc9d385-5ce9-5c37-a002-98aef20e0095"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      }
+    ],
+    "field_parity": {
+      "schema": 1,
+      "policy": "datasheet-absence-only-v1",
+      "native_report_sha256": "2bc6482e84cde48bae6fd87fc40690537b3989b3b1a739b578b9fbcc2d94e687",
+      "binding_sha256": "0b82afd1d3959c31b89e4e5f117da4f747304c49f04db7ae6619dfd932adeccf",
+      "netlist_sha256": "4ac5ca425f1aa0ce4499dd83fa87bf97929b74b4562b57ab9fd2b230e4f6c6d4",
+      "fields_sha256": "43271b20d31873a656a772b9531b86d7a908281b8f874158bb188e577c3f0860",
+      "qualification": {
+        "qualified": true,
+        "policy": "datasheet-effective-empty-v1",
+        "component_count": 6,
+        "compared_field_count": 18,
+        "comparison_map": [
+          {
+            "reference": "J1",
+            "uuid": "ac06cd73-d920-5d03-9967-63fd767b7718",
+            "schematic_fields": {
+              "OwnedTransportIdentity": "owned-global-min-width-v1:J1",
+              "Datasheet": "",
+              "Description": "Project-owned transport diagnostic one-pin terminal"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Project-owned transport diagnostic one-pin terminal",
+              "OwnedTransportIdentity": "owned-global-min-width-v1:J1"
+            }
+          },
+          {
+            "reference": "J2",
+            "uuid": "198cedce-a99b-5b99-8220-1f40e740e439",
+            "schematic_fields": {
+              "OwnedTransportIdentity": "owned-global-min-width-v1:J2",
+              "Datasheet": "",
+              "Description": "Project-owned transport diagnostic one-pin terminal"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Project-owned transport diagnostic one-pin terminal",
+              "OwnedTransportIdentity": "owned-global-min-width-v1:J2"
+            }
+          },
+          {
+            "reference": "J3",
+            "uuid": "f0db75ad-598b-5d7e-b67b-aeabcd4b31fc",
+            "schematic_fields": {
+              "OwnedTransportIdentity": "owned-global-min-width-v1:J3",
+              "Datasheet": "",
+              "Description": "Project-owned transport diagnostic one-pin terminal"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Project-owned transport diagnostic one-pin terminal",
+              "OwnedTransportIdentity": "owned-global-min-width-v1:J3"
+            }
+          },
+          {
+            "reference": "J4",
+            "uuid": "dd22012c-f14f-5846-916f-d86bac7673c5",
+            "schematic_fields": {
+              "OwnedTransportIdentity": "owned-global-min-width-v1:J4",
+              "Datasheet": "",
+              "Description": "Project-owned transport diagnostic one-pin terminal"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Project-owned transport diagnostic one-pin terminal",
+              "OwnedTransportIdentity": "owned-global-min-width-v1:J4"
+            }
+          },
+          {
+            "reference": "J5",
+            "uuid": "9232fd2a-4b39-5763-9275-b096ca9d208a",
+            "schematic_fields": {
+              "OwnedTransportIdentity": "owned-global-min-width-v1:J5",
+              "Datasheet": "",
+              "Description": "Project-owned transport diagnostic one-pin terminal"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Project-owned transport diagnostic one-pin terminal",
+              "OwnedTransportIdentity": "owned-global-min-width-v1:J5"
+            }
+          },
+          {
+            "reference": "J6",
+            "uuid": "bdc9d385-5ce9-5c37-a002-98aef20e0095",
+            "schematic_fields": {
+              "OwnedTransportIdentity": "owned-global-min-width-v1:J6",
+              "Datasheet": "",
+              "Description": "Project-owned transport diagnostic one-pin terminal"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Project-owned transport diagnostic one-pin terminal",
+              "OwnedTransportIdentity": "owned-global-min-width-v1:J6"
+            }
+          }
+        ],
+        "warning_uuids": [
+          "198cedce-a99b-5b99-8220-1f40e740e439",
+          "9232fd2a-4b39-5763-9275-b096ca9d208a",
+          "ac06cd73-d920-5d03-9967-63fd767b7718",
+          "bdc9d385-5ce9-5c37-a002-98aef20e0095",
+          "dd22012c-f14f-5846-916f-d86bac7673c5",
+          "f0db75ad-598b-5d7e-b67b-aeabcd4b31fc"
+        ],
+        "warning_hashes": [
+          "2a2cb28c2d67c24ca7f5b11ea1520e3af836d03b60df4fa66b5e04100f780cf8",
+          "32dad2d8f544d7352a98edcdd9fe9bf0f374664a3b0e8ff4326dff8b5c9bd19f",
+          "3b743549c722f4574f99c8bd56acd5329c1bc8064a15c94b7a1cf83b577b0f50",
+          "57a5fa0d33d3527457663f84278c998b3328d97c1d0ed0a28abc5f4cfef447ba",
+          "954d4892cedbe8b14d3e36fb61ecae0b200161251aff2fb8f88ad7ccba2a529b",
+          "c7c13f6606454abcf8f32a4e4b55343e941179ee593d45c5e2054a030a37c1ae"
+        ],
+        "native_export_sha256": "4ac5ca425f1aa0ce4499dd83fa87bf97929b74b4562b57ab9fd2b230e4f6c6d4",
+        "observer_sha256": "dc4d4f0df96dba6f75ac15234dfd79cb1360960603b1ed7f9c0ed605a5fc7839",
+        "drc_report_sha256": "730756ea06d77c63548965bd9ea4bcff03686e3306588ec3070f63bb77f72f93"
+      },
+      "local_settings_guard_sha256": "7e58dac152e6cbbcc6c5b670677b8f3caa77cb94abdc372a8ea657c1a2d057fc"
+    }
+  },
+  "metrics": {
+    "version": "10.0.0",
+    "pads": 6,
+    "footprints": 6,
+    "zones": 1,
+    "vias": 0,
+    "track_length_mm": 43.242640687119284,
+    "copper_layers": 2
+  },
+  "original_invariants_unchanged": true,
+  "route_status": "invalidated",
+  "route_reason": "Rejected: runtime source provenance unavailable: runtime directory file population differs",
+  "generated_bytecode": {
+    "autorouter/__pycache__/__init__.cpython-39.pyc": "9b56479d5b551cbd02c62625ee64eb17ea2db040c84b10456a1977b2bd019da3",
+    "autorouter/__pycache__/padless_alias.cpython-39.pyc": "b11dbc8de520879d829d1fa9c0c3f43219bd9cf58da425790a92f515d840e5b5",
+    "autorouter/__pycache__/netclass_native.cpython-39.pyc": "14c1b6187c73df132c171e541d5ad12895056636ac6ea2da2fee41858890743f",
+    "autorouter/__pycache__/runner.cpython-39.pyc": "5e3641f68f59e2d184b093be64d38bd543b82ec508a7483fd535e69111312741",
+    "autorouter/__pycache__/floor_context.cpython-39.pyc": "1b03b7997d4389b25d1e540d6a62e1d3003295e2cde9fa2b3e2cd3794a762cda",
+    "autorouter/__pycache__/pipeline.cpython-39.pyc": "99985e16b67694c1ea98de9ea8953721b07b735354ba899912956ee6e1923e1a",
+    "autorouter/__pycache__/adapter.cpython-39.pyc": "01ba4ee15236261e87c8344625d359ded13672b82685fbd02da828a0ef843d60",
+    "autorouter/__pycache__/placement_clearance.cpython-39.pyc": "8ad3a18eb1accb39efa30af0969e9525027121db478fcbfb7e6484f7dafea785",
+    "autorouter/__pycache__/board_floor.cpython-39.pyc": "7cc4813e49e4113dcf5b448ac72856261ae420fd4724ac73cd3852f3507c51f2",
+    "autorouter/__pycache__/netclass.cpython-39.pyc": "657c95ac5a7290cccb5ec2e725dd1358612ffb44967700fa421ac9ad1f46deca",
+    "autorouter/__pycache__/placement_transform.cpython-39.pyc": "8e0280c3303b0057d85e47854a9ddd12e55f54d8de6ac84d7bd00f5fa87c73e6",
+    "autorouter/__pycache__/config.cpython-39.pyc": "f4d14ffb17b47798559938d9586480211ad74db2e2730c170bb05c57537fac13",
+    "autorouter/__pycache__/sexpr.cpython-39.pyc": "47f63b006ba92c09ac10a92c0301cc9d8413db73763db078628b53454322ab3b"
+  },
+  "artifact_current": false,
+  "fix": "Always set PYTHONDONTWRITEBYTECODE1 in shared NativeJob childenvironment. Parent -B does not propagate to the separate pinnedPythonworker. No cache ignorelist, removal, constraint change or weakened manifest guard.",
+  "targeted": {
+    "methods": 31,
+    "passed": true,
+    "whole_wall_seconds": 5.99,
+    "whole_CPU_seconds": 5.22,
+    "log": ".runs/runtime-bytecode-env-targeted-001.log",
+    "actual_child_import_positive_control": true
+  },
+  "costs": {
+    "setup_whole_wall_seconds": 1.26,
+    "setup_whole_CPU_seconds": 1.07,
+    "Native_probe_whole_wall_seconds": 10.62,
+    "Native_probe_whole_CPU_seconds": 6.19,
+    "prior_parent_instrumentation_failure": {
+      "wall_seconds": 0.06,
+      "CPU_seconds": 0.02,
+      "reason": "Parenthelper lacked source sys.path; no NativeorCLI invocation. Corrected before actualartifact attempt. Bothlogs retained."
+    }
+  },
+  "source_sha256": {
+    "autorouter/pipeline.py": "58672954c72755f520b44d4297a3a8d3d4b6b9aac2479c860f17ee963a42ca0f",
+    "tests/test_native_bytecode_environment.py": "fcb1be937f8fcf9ae9276f5124b4770da4fc68abffedc8eaa43b304bd055ce13"
+  },
+  "proof_sha256": {
+    ".runs/runtime-directory-001/setup.json": "1adec768a76d7afa9d197d492ded9b9143b6806a7fb6a8f46ff9089b55455a2c",
+    ".runs/runtime-directory-001/bare-cli-probe-001.json": "1319bbb5d34ef5cd3112de872f97242386065990f0f7e0cdbdf93cd89c200c7e",
+    ".runs/runtime-directory-001/runtime/.runs/bare-cli/route/result.json": "92a8f287b20a24505b2db28a178941a5213f3d167bfd64db8c7186898a14dc53",
+    ".runs/runtime-directory-001/runtime/runtime-distribution.json": "606b613962bf258c25efcd026f40178f9ac7b051c1c278ab38936317ffc3f93a"
+  },
+  "next_gate": "Build newartifact002 fromaudited/pushedsource and run the same bareCLI, then full132 and Route/Improve/review/fresh export/cancellation/GUI qualification. Source/targetedfix is not that qualification.",
+  "scope": "Owned fullSCH fixture, real Native0opens/0blocking with6warnings/2ignoredchecks and43.242640687mm/0vias; finalruntime-integrity invalidation correctly prevents delivery. No routing-quality/completion/superiority or independenthuman claim.",
+  "independent_source_review": {
+    "path": ".runs/runtime-bytecode-env-review-001/REVIEW.md",
+    "no_material_finding": true,
+    "tests_or_Native_executed_by_reviewer": false
+  }
+}

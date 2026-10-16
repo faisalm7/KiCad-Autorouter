@@ -818,7 +818,9 @@ class Job:
         self.started=time.monotonic(); self.cpu_started=time.process_time()
         self.deadline=self.started+seconds; self.steps=[]; self.seconds=seconds
         self.env=os.environ.copy()
-        self.env.update(LANG='C',LC_ALL='C')  # Stable pinned native diagnostics.
+        # Parent -B is not inherited by KiCad's separate Python workers. Keep
+        # derived bytecode out of the manifest-bound product directory.
+        self.env.update(LANG='C',LC_ALL='C',PYTHONDONTWRITEBYTECODE='1')
         if native_toolchain is not None:
             for key in ('PYTHONPATH','PYTHONHOME'):self.env.pop(key,None)
             self.env.update(PYTHONNOUSERSITE='1',PYTHONDONTWRITEBYTECODE='1')
