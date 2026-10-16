@@ -26,10 +26,10 @@ class LayerIntegration(unittest.TestCase):
         self.tree=sx.read(self.candidate)
         self.tree.append(sx.parse('(segment (start 10 10) (end 15 10) (width 0.25) (layer "F.Cu") (net "A") (uuid "abc"))'))
         sx.write(self.candidate,self.tree)
-        self.effective=pref.resolve(overrides={'profile':'completion-only','layers':['F.Cu']})
+        self.effective=pref.resolve(overrides={'profile':'completion-only','layers':['F.Cu'],'adapter':'none'})
         self.contract=p.layer_contract(self.run,self.source,self.effective)
         self.data={'source':str(self.source),'candidate':str(self.candidate)}
-        request={'captured':None,'effective':self.effective,'snapshot':pref.snapshot(overrides={'profile':'completion-only','layers':['F.Cu']})}
+        request={'captured':None,'effective':self.effective,'snapshot':pref.snapshot(overrides={'profile':'completion-only','layers':['F.Cu'],'adapter':'none'})}
         p.capture_preferences(self.data,self.run,request)
         self.data.update(scope='whole_board_unlocked_routing',budget_seconds=120,cpu_budget_seconds=120,
             adapter='none',engine_profile='completion-only',scoring_variant=None,

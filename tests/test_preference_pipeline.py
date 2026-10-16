@@ -17,7 +17,7 @@ class PreferenceIntegration(unittest.TestCase):
         self.temp=tempfile.TemporaryDirectory(prefix='preference-integration-',dir=c.ROOT/'.runs')
         self.addCleanup(self.temp.cleanup);self.root=Path(self.temp.name)
         self.preset=self.root/'settings.json'
-        self.preset.write_text(json.dumps(dict(pref.DEFAULTS)))
+        self.preset.write_text(json.dumps(dict(pref.DEFAULTS,adapter='none')))
         captured=pref.load(self.preset)
         self.request={'captured':captured,'snapshot':pref.snapshot(captured),
                       'effective':pref.resolve(captured)}

@@ -1,0 +1,76 @@
+{
+  "schema": 1,
+  "kind": "actual-windows-hosted-installer-identity",
+  "passed": true,
+  "accepted": false,
+  "windows_routing_qualified": false,
+  "run_url": "https://github.com/faisalm7/KiCad-Autorouter/actions/runs/38854088010",
+  "run_id": 38854088010,
+  "git_head": "4c3161e24107f7af60fd2f1383e0e1f36d22a2f5",
+  "standard_runner": "windows-2022",
+  "job_wall_seconds": 71,
+  "complete_workflow_wall_seconds": 77,
+  "full_cpu_seconds": null,
+  "metadata": {
+    "schema": 1,
+    "kind": "windows-official-installer-metadata-only",
+    "passed": true,
+    "source_head": "4c3161e24107f7af60fd2f1383e0e1f36d22a2f5",
+    "script_sha256": "e9c36a112f892a3703030208ce81173ef07a00bcd5625f6638c7aace1b2db499",
+    "expected_version_label": "10.0.7",
+    "url": "https://kicad-downloads.s3.cern.ch/windows/stable/kicad-10.0.7-x86_64.exe",
+    "expected_bytes": 968953784,
+    "expected_signer_common_name": "KICAD SERVICES CORPORATION",
+    "expected_issuer_common_name": "GlobalSign GCC R45 EV CodeSigning CA 2020",
+    "expected_serial": "39DF6B588D969CA15D8D2756",
+    "downloaded_bytes": 968953784,
+    "installer_executed": false,
+    "installed": false,
+    "native_executed": false,
+    "runtime_version_observed": false,
+    "product_support_qualified": false,
+    "prospective_sha256_only": true,
+    "artifact_upload": false,
+    "cache_upload": false,
+    "scope": "Metadata acquisition only. A separate reviewed SHA-pinned install/native probe is still required.",
+    "workflow_sha256": "93a7a33d7b6665d1b0c2542bcbeb5551d2809e773303400b9121a630b542827e",
+    "disk_free_before_bytes": 157365084160,
+    "content_length_bytes": 968953784,
+    "content_type": "application/x-msdownload",
+    "sha256": "ce3881b6a9188eb34ac1ebaaec7651149e8a025206410addfb11a1a9656ecf95",
+    "signature_status": "Valid",
+    "certificate": {
+      "subject": "E=seth@kipro-pcb.com, CN=KICAD SERVICES CORPORATION, O=KICAD SERVICES CORPORATION, L=Long Beach, S=California, C=US, OID.1.3.6.1.4.1.311.60.2.1.2=California, OID.1.3.6.1.4.1.311.60.2.1.3=US, SERIALNUMBER=4276589, OID.2.5.4.15=Private Organization",
+      "issuer": "CN=GlobalSign GCC R45 EV CodeSigning CA 2020, O=GlobalSign nv-sa, C=BE",
+      "serial_number": "39DF6B588D969CA15D8D2756",
+      "thumbprint": "4FF2AE9EC27A37207CBEB533EFCEE1F689C9AAAC",
+      "not_before_utc": "2024-12-20T16:31:12.0000000Z",
+      "not_after_utc": "2028-03-06T17:31:39.0000000Z"
+    },
+    "file_version_metadata": "10.0.7",
+    "product_version_metadata": "10.0.7",
+    "file_description_metadata": "Installer for the KiCad EDA Suite",
+    "installer_removed": true,
+    "disk_free_after_bytes": 157365084160,
+    "wall_seconds_before_log_publication": 51.3266797
+  },
+  "source_line_endings": {
+    "scripts/windows_toolchain_probe.ps1": {
+      "committed_lf_sha256": "0822f5f82367fb2d8e7a0148c576cc9bd39dd0663a33eeba1b35ab2993cc3d3e",
+      "actual_windows_crlf_sha256": "e9c36a112f892a3703030208ce81173ef07a00bcd5625f6638c7aace1b2db499"
+    },
+    ".github/workflows/manual-python-controls.yml": {
+      "committed_lf_sha256": "b6112c4d5e7733e008184c5111ed126c202cf3af854cc33e03a7bab2a65aedd9",
+      "actual_windows_crlf_sha256": "93a7a33d7b6665d1b0c2542bcbeb5551d2809e773303400b9121a630b542827e"
+    }
+  },
+  "ci_log_sha256": "0be45c62ee4ffa94c26c60457862aace8cd2e200d2f0b0e4faec4998a63ce93d",
+  "zero_cost_scope": "Public repository standard hosted runner, read-only contents, no paid runner, no cache/artifact upload; artifacts/cache both zero before dispatch. No settings/billing changes.",
+  "limitations": [
+    "Installer was never executed or installed; Native KiCad/route/DRC/cancellation/export not tested.",
+    "Full Windows CPU costs unmeasured, no routing/performance claim.",
+    "Actual Windows checkout uses CRLF; both script and workflow exact hashes proved against committed LF blobs converted to CRLF.",
+    "Windows JobObject, PRL share-denial, handle-based path protection and worker network isolation remain concrete unqualified platform changes."
+  ],
+  "next_gate": "Separate reviewed SHA-pinned Windows native slice and equivalent platform adapters; continue independent Mac integration meanwhile."
+}

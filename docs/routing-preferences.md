@@ -12,7 +12,7 @@ Create a preset once, edit its values, then preview and route using that file:
 
 Use a new output directory for each route. Preview lists the resolved choices, source copper layers and existing routes that will be protected or rerouted. It reads the board without running a router or KiCad validation. A passing preview does not promise routing success. The resulting candidate still needs native validation and manual review through `review-copy`.
 
-An explicit command option overrides only that choice for the current run. For example, add `--seconds 180 --scope partial` to preserve all existing routes with a 180-second budget. `--keep-existing` remains an alias for partial scope. Other choices are `--adapter`, `--profile`, `--guidance`, `--scoring-preference` and `--layers`. These overrides do not rewrite the saved preset. Without `--settings`, the command uses the documented defaults; no personal configuration is loaded automatically.
+An explicit command option overrides only that choice for the current run. For example, add `--seconds 180 --scope partial` to preserve all existing routes with a 180-second budget. `--keep-existing` remains an alias for partial scope. Other choices are `--adapter`, `--profile`, `--guidance`, `--scoring-preference` and `--layers`. These overrides do not rewrite the saved preset. Without `--settings`, the command uses corrected geometry/planes (`both`) with the standard profile and120seconds. This fixed conservative product policy is based on adapter development evidence; optional pruning remains explicit, and no per-board best result is selected. Historical schema1 snapshots retain their original stock defaults; new schema2 snapshots name `corrected-standard-v1`. This default still needs current native/install qualification. Without `--settings`, no personal preset is required; no personal configuration is loaded automatically.
 
 A preset is a UTF-8 JSON object with these fields. All are required except `scoring_preference`, whose default is `null`:
 
@@ -21,7 +21,7 @@ A preset is a UTF-8 JSON object with these fields. All are required except `scor
   "schema": 1,
   "scope": "whole_board_unlocked_routing",
   "seconds": 120,
-  "adapter": "none",
+  "adapter": "both",
   "profile": "standard",
   "guidance": "native",
   "layers": "source_all",

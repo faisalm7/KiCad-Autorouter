@@ -1,0 +1,70 @@
+{
+  "schema": 1,
+  "kind": "graphical-workflow-development-source",
+  "passed_targeted": true,
+  "native_workflow_qualified": false,
+  "installed_qualified": false,
+  "source_sha256": {
+    "autorouter/gui.py": "70819298b150e2a810e7290abe1578ecabc76b912bbf3a41fab5955c87f8ae69",
+    "autorouter/preferences.py": "d6a39475d8e13483cd74921111c5438f3a0877866a2456d0b805490326681425",
+    "autorouter/__main__.py": "a8b9e866beefa1f98d81bdf7e131d67fac2e0d1a54f80117bee9bea0902d2e01",
+    "scripts/prepare_gui_plugin.py": "dfa0580e0ef88791601053922ba164eedadad8a9fd9a3d8935e6a75e4017798a",
+    "tests/test_gui.py": "6ee07f0e9b67a82a1ffbe7e919f1e3294c32f749702d96aeab25f1107a006eb3",
+    "tests/test_gui_plugin.py": "3382a54c1f402b85749605bcbb4ed6b67bfa66d1284d4d01908833df752a4cf0",
+    "tests/test_preferences.py": "cd4d8ea4cb58b7113f748b71d0d71b1d83742049be4cd04c3aa6c3e0f1e46536"
+  },
+  "targeted_methods": 34,
+  "raw_targeted_log": ".runs/gui-default-targeted-006.log",
+  "raw_targeted_sha256": "3a1141a8ad685c442fc0d3665ff4d7cc0d618ad6306ceac33bf6abd3a6004000",
+  "first_actual_wx_pilot": {
+    "source_sha256": "552b2ad07ce7447f7d8a4f61a9ad660f73340f13e729a7978d1c9d19ca5f7012",
+    "controls_observed": true,
+    "native_job_executed": false,
+    "controls_ax_sha256": "98787059efae2233d61bb5ff47b94097739ebca5b9b55e81ae953ab57ce79e8d",
+    "screenshot_sha256": "a5ba8f64a6df8e074f791b24314bac16f572ba95ea82f2d35c6f01ea5508c59f"
+  },
+  "actual_ipc_registration": {
+    "kicad": "10.0.0",
+    "isolated_configuration": true,
+    "global_application_changed": false,
+    "screenshot_sha256": "d8eb5cb4ac3a8dee10babcf86edfb2180c051ccc6106b11dc4f35c940a8940b5",
+    "visible_launcher_and_click_not_yet_qualified": true,
+    "corrected_plugin_suffix": "KiCad/10.0/plugins",
+    "icons_added": true
+  },
+  "skeptical_review": {
+    "raw": ".runs/gui-skeptical-review-001/REVIEW.md",
+    "sha256": "63a0d8b32614a401f9bfdafe48ebc0815dd7f720132ad1b7e26fd18ede50a17e",
+    "fixed": [
+      "Cancel-after-snapshot/adoption/queued-completion race",
+      "Review acknowledgement carried to another candidate"
+    ],
+    "review_wall_seconds": 301,
+    "review_cpu_seconds": null,
+    "author_wall_seconds_approximate": 840,
+    "author_cpu_seconds": null
+  },
+  "full_integration": {
+    "run123": {
+      "status": "failed",
+      "methods": 1674,
+      "errors": 3,
+      "complete_wall_seconds": 172.58,
+      "complete_cpu_seconds": 159.89,
+      "reason": "Synthetic selected fixtures omitted explicit old stock default; corrected without changing runtime acceptance."
+    },
+    "run124": {
+      "status": "timeout",
+      "complete_wall_seconds": 238.24,
+      "complete_cpu_seconds": 196.3,
+      "cleanup_complete": true,
+      "reason": "238second software-suite limit reached; no completion claimed. KiCad GUI was open concurrently; no routing benchmark ran. Rerun final frozen source in quiet lane with bounded360second software test cap."
+    }
+  },
+  "limitations": [
+    "No completed GUI routing/cancellation/review/export workflow yet.",
+    "No installed or current default Native qualification yet; previous installed046 remains separate.",
+    "Cooperative cancellation waits for existing CLI cleanup; not hostile-writer/SIGKILL/power-loss isolation.",
+    "Modern exec launcher uses explicit saved project selection/closed editor acknowledgement, without IPC live-buffer access or undo."
+  ]
+}

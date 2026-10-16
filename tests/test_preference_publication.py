@@ -162,7 +162,7 @@ class PreferencePublicationTests(unittest.TestCase):
         with patch.object(module.tempfile, 'TemporaryDirectory', side_effect=lambda **kwargs: temporary(dir=self.root)):
             fixture.setUp()
         self.addCleanup(fixture.doCleanups)
-        request = {'captured': None, 'snapshot': pref.snapshot(), 'effective': pref.resolve()}
+        request = {'captured': None, 'snapshot': pref.snapshot(overrides={'adapter':'none'}), 'effective': pref.resolve(overrides={'adapter':'none'})}
         p.capture_preferences(fixture.data, fixture.run, request)
         fixture.data.update(adapter='none', engine_profile='standard', scoring_variant=None)
         settings = p.engine_profile_settings('standard', 100)

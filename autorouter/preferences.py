@@ -17,9 +17,13 @@ MAX_PRESET_BYTES = 16 * 1024
 MAX_SNAPSHOT_BYTES = 64 * 1024
 DEFAULTS = MappingProxyType({
     'schema': 1, 'scope': 'whole_board_unlocked_routing', 'seconds': 120,
-    'adapter': 'none', 'profile': 'standard', 'guidance': 'native',
+    'adapter': 'both', 'profile': 'standard', 'guidance': 'native',
     'layers': 'source_all', 'scoring_preference': None,
 })
+# Schema1 snapshots keep their original stock defaults forever. Changing the
+# product default must not reinterpret prior stored choices.
+LEGACY_DEFAULTS = MappingProxyType({**DEFAULTS, 'adapter': 'none'})
+DEFAULT_POLICY = 'corrected-standard-v1'
 REQUIRED = frozenset(DEFAULTS) - {'scoring_preference'}
 CHOICES = {
     'scope': {'whole_board_unlocked_routing', 'partial_completion', 'selected_nets'},
@@ -182,7 +186,7 @@ def snapshot(captured=None, overrides=None):
         'path': str(captured.path), 'raw_utf8': captured.raw.decode('utf-8'),
         'sha256': hashlib.sha256(captured.raw).hexdigest(),
     }
-    raw = _canonical({'schema': 1, 'preset': preset, 'overrides': explicit, 'effective': effective}) + b'\n'
+    raw = _canonical({'schema': 2, 'defaults_policy': DEFAULT_POLICY, 'preset': preset, 'overrides': explicit, 'effective': effective}) + b'\n'
     if len(raw) > MAX_SNAPSHOT_BYTES:
         raise PreferenceError('preferences snapshot exceeds bound')
     return raw
@@ -191,9 +195,17 @@ def snapshot(captured=None, overrides=None):
 def readback(snapshot_bytes, expected_effective=None):
     """Recompute captured choices; current external preset edits are irrelevant."""
     record = _parse(snapshot_bytes, MAX_SNAPSHOT_BYTES)
-    if (type(record) is not dict or set(record) != {'schema', 'preset', 'overrides', 'effective'}
-            or type(record['schema']) is not int or record['schema'] != 1):
+    if type(record) is not dict or type(record.get('schema')) is not int:
         raise PreferenceError('invalid preferences snapshot schema')
+    fields = {'schema', 'preset', 'overrides', 'effective'}
+    if record['schema'] == 2:
+        fields.add('defaults_policy')
+        if record.get('defaults_policy') != DEFAULT_POLICY:
+            raise PreferenceError('unknown preferences defaults policy')
+    elif record['schema'] != 1:
+        raise PreferenceError('invalid preferences snapshot schema')
+    if set(record) != fields:
+        raise PreferenceError('invalid preferences snapshot fields')
     captured = None
     preset = record['preset']
     if preset is not None:
@@ -210,7 +222,8 @@ def readback(snapshot_bytes, expected_effective=None):
         captured = CapturedPreset(path, raw, preset['sha256'], {})
     if type(record['overrides']) is not dict:
         raise PreferenceError('snapshot overrides must be an explicit object')
-    effective = resolve(captured, record['overrides'])
+    effective = (validate({**LEGACY_DEFAULTS, **_overrides(record['overrides'])})
+                 if captured is None and record['schema'] == 1 else resolve(captured, record['overrides']))
     if _canonical(record['effective']) != _canonical(effective):
         raise PreferenceError('snapshot effective preferences differ from captured input and overrides')
     if expected_effective is not None:

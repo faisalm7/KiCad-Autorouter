@@ -26,8 +26,8 @@ class SelectedEvidence(unittest.TestCase):
                       task_sha256=rs.bind(raw,['GND'])['task_sha256'])
         x.binding.update(before=p.tree_hash(x.candidate.parent),after=p.tree_hash(x.candidate.parent));p.save_json(x.run/'final-drc-binding.json',x.binding)
         x.data['steps'][0]['validated_input_sha256']=p.sha(x.candidate)
-        request={'captured':None,'effective':pref.resolve(overrides={'scope':'selected_nets','nets':['GND'],'profile':'completion-only'}),
-                 'snapshot':pref.snapshot(overrides={'scope':'selected_nets','nets':['GND'],'profile':'completion-only'})}
+        request={'captured':None,'effective':pref.resolve(overrides={'scope':'selected_nets','nets':['GND'],'profile':'completion-only','adapter':'none'}),
+                 'snapshot':pref.snapshot(overrides={'scope':'selected_nets','nets':['GND'],'profile':'completion-only','adapter':'none'})}
         p.capture_preferences(x.data,x.run,request)
         from tests.normal_prl_fixture import authored_zero_alias_dsn,refresh_authored_normal_export
         network=['network',['net','GND',['pins','J1-1']],['class','kicad_default','GND',['rule',['width','200']]]]

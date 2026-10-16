@@ -91,6 +91,8 @@ def main():
     p=argparse.ArgumentParser(prog='python -m autorouter')
     sub=p.add_subparsers(dest='command',required=True)
     sub.add_parser('doctor')
+    graphical=sub.add_parser('gui',help='Open the separate-project graphical workflow with KiCad bundled Python')
+    graphical.add_argument('--board',default='',help='Exact saved source hint; editors must be closed before routing')
     settings=sub.add_parser('settings-init',help='Create an explicit editable JSON preset without overwriting a file')
     settings.add_argument('--output',required=True)
     settings.add_argument('--purpose',choices=['route','improve'],default='route',help='Starter settings for route or native improve')
@@ -113,6 +115,11 @@ def main():
     verify=sub.add_parser('check-result');verify.add_argument('receipt')
     r=sub.add_parser('route');r.add_argument('board');r.add_argument('--output',required=True);preference_arguments(r)
     a=p.parse_args()
+    if a.command=='gui':
+        from .gui import launch_gui
+        child=launch_gui(a.board)
+        print(json.dumps({'gui_pid':child.pid,'workflow':'separate-project','live_application':False}))
+        return 0
     if a.command=='doctor':
         result=doctor();print(json.dumps(result,indent=2));return 0 if result['ready'] else 2
     if a.command in {'settings-init','preview'}:

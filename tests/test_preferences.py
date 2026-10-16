@@ -191,6 +191,20 @@ class PreferencesTests(unittest.TestCase):
         for invalid in (b'',b' '*(pref.MAX_SNAPSHOT_BYTES+1),bytearray(raw),raw[:-2]+b',"schema":1}'):
             with self.assertRaises(pref.PreferenceError):pref.readback(invalid)
 
+    def test_default_change_does_not_reinterpret_historical_stock_snapshots(self):
+        old={'schema':1,'preset':None,'overrides':{},'effective':dict(pref.LEGACY_DEFAULTS)}
+        self.assertEqual(pref.readback(self.encode(old))['adapter'],'none')
+        old['overrides']={'adapter':'both'};old['effective']['adapter']='both'
+        self.assertEqual(pref.readback(self.encode(old))['adapter'],'both')
+        old['overrides']={}
+        with self.assertRaises(pref.PreferenceError):pref.readback(self.encode(old))
+        current=json.loads(pref.snapshot())
+        self.assertEqual(current['defaults_policy'],'corrected-standard-v1')
+        self.assertEqual(pref.readback(self.encode(current))['adapter'],'both')
+        for policy in (None,True,'stock','future-default'):
+            changed=dict(current,defaults_policy=policy)
+            with self.subTest(policy=policy),self.assertRaises(pref.PreferenceError):pref.readback(self.encode(changed))
+
     def test_override_mutation_does_not_rewrite_captured_snapshot(self):
         captured=self.write();overrides={'seconds':60}
         raw=pref.snapshot(captured,overrides);overrides['seconds']=900
