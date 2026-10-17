@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/freeze-named-edge-installed-pair-001.py", line 23, in <module>
+    coordinator=query('coordinator',[coordinator_python,'-B',outer,'--coordinator-metadata'],ROOT)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/freeze-named-edge-installed-pair-001.py", line 20, in query
+    processes.append(result);assert result['exit_code']==0 and result['cleanup_complete'] and not result['log_truncated'],result
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'status': 'disk_limit', 'exit_code': None, 'wall_seconds': 0.00088825001148507, 'cpu_seconds': None, 'max_rss_bytes': None, 'supervisor_cpu_seconds': 0.0008879999999999999, 'monitor_cpu_seconds': 0.0, 'sampled_peak_group_rss_bytes': None, 'sampled_peak_workdir_bytes': 1050904, 'resource_guards': {'max_group_rss_bytes': 536870912, 'max_workdir_bytes': 1048576, 'poll_interval_seconds': 0.25, 'os_enforced': False, 'limitations': 'Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed.'}, 'argv': ['/usr/bin/sandbox-exec', '-p', '(version 1)(allow default)(deny network*)', '/Users/faisal/.pyenv/versions/3.11.9/bin/python3.11', '-B', '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/named-edge-installed-pair-001/run-installed-arm.py', '--coordinator-metadata'], 'log': '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/named-edge-installed-pair-001/metadata-001/coordinator.json', 'log_bytes': 0, 'log_truncated': False, 'cleanup_complete': True, 'resource_accounting': {'method': 'wait4 child rusage', 'cpu_scope': 'direct child plus descendants accounted for by child wait', 'rss_scope': 'kernel peak, not simultaneous process-tree total', 'native_rss_unit': 'bytes', 'memory_limit_enforced': False, 'monitor_cpu_scope': 'macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds'}, 'cwd': '/Users/faisal/Projects/KiCad-Autorouter-local'}
+real 0.32
+user 0.15
+sys 0.09
