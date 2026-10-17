@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "kind": "known-named-original-edge-native-threshold-v1",
+  "status": "prospective-not-executed",
+  "accepted": false,
+  "production_admitted": false,
+  "routing_executed": false,
+  "mechanism": "Qualified known named-class edge transport still requires actual original-rule Native copper threshold controls; the current production correction remains Default-only.",
+  "prerequisite": {
+    "path": ".runs/native-edge-named-preparation-001/import-execution-004/result.json",
+    "required_import_protocol_sha256": "67766d0b978dc47ac1398bb3d0891125cfb83ef3b41d0855e6e8e972500920be",
+    "required_actual_imports": 9,
+    "required_passed": true,
+    "receipt_sha256": "c73ce88b36c7efb11092db55f918f08c1aaaa638dbd4468a8678dd25cacb591a",
+    "observation_sha256": "98103ab1c739aabaf191a97376077d9767b66ed0ae208f0e6e9bc083d953d076"
+  },
+  "source": ".runs/native-edge-named-preparation-001/sources/literal300/owned-named-edge-literal300.kicad_pcb",
+  "source_rule_mm": "0.3",
+  "source_power_targets_mm": {"width": "0.4", "via_diameter": "1.2", "via_drill": "0.5"},
+  "source_default_width_mm": "0.3",
+  "source_left_edge_mm": "6",
+  "source_expected_unrouted_connections": 2,
+  "source_protected": "Exact original KEEP track from12,16 to26,16, width0.3mm; immutable original source and companions.",
+  "cases": [
+    {"name": "track_allowed_035", "kind": "track", "x_mm": "6.55", "intended_copper_gap_mm": "0.35", "native_expected": "accepted"},
+    {"name": "track_below_025", "kind": "track", "x_mm": "6.45", "intended_copper_gap_mm": "0.25", "native_expected": "copper_edge_clearance_only"},
+    {"name": "via_allowed_035", "kind": "via", "x_mm": "6.95", "intended_copper_gap_mm": "0.35", "native_expected": "accepted"},
+    {"name": "via_below_025", "kind": "via", "x_mm": "6.85", "intended_copper_gap_mm": "0.25", "native_expected": "copper_edge_clearance_only"}
+  ],
+  "candidate_construction": "Complete ROUTE and GND with exact original source class dimensions; preserve KEEP. Track path12,10 -> x,10 -> x,8 ->26,8 ->26,10 onF.Cu. Via path12,10 ->12,8 ->x,8 onF.Cu; one original1.2/0.5mm throughvia atx,8; x,8 ->26,8 ->26,10 onB.Cu. GND12,24 ->26,24 onF.Cu at original0.3mm.",
+  "mandatory_per_candidate": [
+    "Shared pipeline.validate_candidate with protected original KEEP and original-design invariants before/after actual refill.",
+    "Fresh actual Native final netclass map and exact source class dimensions, process bindings and final-netclass-audit replay.",
+    "Own actual original-rule saved refill and full-schematic final Native DRC; exact final candidate hash, original PRO/SCH/PRL and no DRU removal.",
+    "Shared floor_route.check_drc_stage/field helpers, immutable/protected replay, actual saved refill reconstruction, full evidence witness and late PRL protection checks.",
+    "No opens/exclusions; source warnings and ignored findings retained. Positive must satisfy unchanged native_accepted. Negative must fail only intended copper_edge_clearance and never be accepted."
+  ],
+  "bounds": {
+    "whole_native_wall_seconds": 180,
+    "whole_native_full_cpu_seconds": 180,
+    "foreground_native_workers": 1,
+    "native_step_seconds": 30,
+    "whole_output_acceptance_bytes": 67108864,
+    "per_worker_polled_rss_bytes": 4294967296,
+    "per_worker_polled_workdir_bytes": 536870912,
+    "network": "existing sandbox-exec deny network*",
+    "publication_reserve_seconds": 4,
+    "limitations": "Existing polling guards can overshoot and are not hard aggregate CPU/RSS/disk quotas; no paid or background resources."
+  },
+  "decision": "All four controls and source/qualification invariants must pass before proposing a named adapter routing comparison. Any unqualified importer, unexpected source conflict, unrelated error, warning change, class/immutable/protected failure, missing/stale proof, cancellation or over-budget result fails/defer; no tuning or silent case exclusion.",
+  "nonclaims": ["No CellScan rerun", "No router execution", "No C-strategy gain", "No product named-edge opt-in", "No broad superiority or human/physical/electrical approval"]
+}

@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "verified": true,
+  "checked_at_utc": "2026-10-17T05:23:24.244855+00:00",
+  "records": [
+    {
+      "evidence": "evidence/backups/full-restore-runtime008-2f21-001.json",
+      "raw_metadata": [
+        {
+          "path": ".local-backups/checkpoint-20261016T184713Z-03592b87ace045b48763a483a647e7d7/receipt.json",
+          "sha256": "1a04fa182a130b6feec0b92dc63cbc77e119ffdb99e507fba77601c58c819b98",
+          "bytes": 102449181
+        },
+        {
+          "path": ".local-backups/checkpoint-20261016T184713Z-03592b87ace045b48763a483a647e7d7/verification-beff38c5b0004b049d8504c746cb6469.json",
+          "sha256": "f014535730e3f1f0001cbb32a0927d044e88a589a6cad929aefa3a3d958c770b",
+          "bytes": 2300
+        }
+      ],
+      "scope": "Existing008 completed restoration"
+    },
+    {
+      "evidence": "evidence/backups/runtime010-incremental-integrity-001.json",
+      "raw_metadata": [
+        {
+          "path": ".local-backups/checkpoint-20261016T204252Z-bf3c31d6a258413e8f420fbaec1756f5/receipt.json",
+          "sha256": "44f2592e97fd0e197e4d141f10279e03c17620f2dec6888854d11bef84fafb11",
+          "bytes": 104560151
+        }
+      ],
+      "scope": "Existing010 capture/delta integrity only; no full restore"
+    }
+  ],
+  "restoration_repeated": false,
+  "archive_payload_rehashed": false,
+  "new_restore_pass_claimed": false,
+  "limitation": "Readback of retained record/metadata only; original historical test scope and later headroom gate unchanged."
+}
