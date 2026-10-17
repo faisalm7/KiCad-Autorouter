@@ -36,10 +36,8 @@ class PruningPreferenceFreshness(unittest.TestCase):
             case.setUp()
         self.addCleanup(case.doCleanups)
         run, data = case.run, case.data
-        # Isolate preference consistency from the separate edge-transport
-        # module. Every retained implementation file still matches its pin.
-        (run / 'code/native_edge.py').unlink()
-        del data['tools']['implementation_sha256']['autorouter/native_edge.py']
+        # Keep the current complete captured producer. The shared authored
+        # fixture models its required no-op edge proof on this rule-free input.
         incumbent = run / 'incumbent'
         # The current captured producer requires a real owned direct-import
         # population. Copy the complete software fixture, then rebase only its

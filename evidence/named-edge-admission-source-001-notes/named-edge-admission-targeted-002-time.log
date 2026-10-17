@@ -1,0 +1,25 @@
+....E..............................................
+======================================================================
+ERROR: test_pour_chain_replays_same_named_context_as_edge_reader (tests.test_named_edge_admission.NamedEdgeAdmission.test_pour_chain_replays_same_named_context_as_edge_reader)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_named_edge_admission.py", line 130, in test_pour_chain_replays_same_named_context_as_edge_reader
+    p.check_pour_evidence(self.folder,self.data,tree,candidate,_known_named_edge=self.policy())
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 1159, in check_pour_evidence
+    audit=f.read_json(directory/'pour-keepout-audit.json')
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/floor_route.py", line 33, in read_json
+    if path.is_symlink() or path.stat().st_size>sx.MAX_BYTES:raise p.Rejected('invalid bounded floor evidence')
+                            ^^^^^^^^^^^
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/pathlib.py", line 1013, in stat
+    return os.stat(self, follow_symlinks=follow_symlinks)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/faisal/Projects/KiCad-Autorouter-local/.cache/edge-record-tests/tmpy61zxhaz/pour-keepout-audit.json'
+
+----------------------------------------------------------------------
+Ran 51 tests in 1.375s
+
+FAILED (errors=1)
+real 1.57
+user 0.95
+sys 0.23

@@ -1,0 +1,154 @@
+EEFFFFFFFFFFF.F.................................................
+======================================================================
+ERROR: test_default_and_explicit_scoring_roots_remain_current (tests.test_pruning_preferences_freshness.PruningPreferenceFreshness.test_default_and_explicit_scoring_roots_remain_current) (scoring=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_pruning_preferences_freshness.py", line 185, in test_default_and_explicit_scoring_roots_remain_current
+    self.assertTrue(p.check_result(case.receipt)['current'])
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2381, in check_result
+    if state is None:return _check_result_uncached(path)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2516, in _check_result_uncached
+    check_incumbent_scoring(path.parent,data)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 665, in check_incumbent_scoring
+    p.check_result(path)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2381, in check_result
+    if state is None:return _check_result_uncached(path)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2602, in _check_result_uncached
+    known_named_edge=check_named_edge_policy(path.parent,data,input_policy=input_policy,
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 1642, in check_named_edge_policy
+    if data.get(marker)!=policy:raise Rejected('missing or changed named edge admission policy')
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+autorouter.pipeline.Rejected: missing or changed named edge admission policy
+
+======================================================================
+ERROR: test_default_and_explicit_scoring_roots_remain_current (tests.test_pruning_preferences_freshness.PruningPreferenceFreshness.test_default_and_explicit_scoring_roots_remain_current) (scoring='via_high')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_pruning_preferences_freshness.py", line 185, in test_default_and_explicit_scoring_roots_remain_current
+    self.assertTrue(p.check_result(case.receipt)['current'])
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2381, in check_result
+    if state is None:return _check_result_uncached(path)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2516, in _check_result_uncached
+    check_incumbent_scoring(path.parent,data)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 665, in check_incumbent_scoring
+    p.check_result(path)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2381, in check_result
+    if state is None:return _check_result_uncached(path)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2602, in _check_result_uncached
+    known_named_edge=check_named_edge_policy(path.parent,data,input_policy=input_policy,
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 1642, in check_named_edge_policy
+    if data.get(marker)!=policy:raise Rejected('missing or changed named edge admission policy')
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+autorouter.pipeline.Rejected: missing or changed named edge admission policy
+
+======================================================================
+FAIL: test_each_late_material_mutation_rejects_full_readback (tests.test_pruning_preferences_freshness.PruningPreferenceFreshness.test_each_late_material_mutation_rejects_full_readback) (mutation='preferences')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_pruning_preferences_freshness.py", line 198, in test_each_late_material_mutation_rejects_full_readback
+    self.assertTrue(triggered)
+AssertionError: [] is not true
+
+======================================================================
+FAIL: test_each_late_material_mutation_rejects_full_readback (tests.test_pruning_preferences_freshness.PruningPreferenceFreshness.test_each_late_material_mutation_rejects_full_readback) (mutation='native-report')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_pruning_preferences_freshness.py", line 198, in test_each_late_material_mutation_rejects_full_readback
+    self.assertTrue(triggered)
+AssertionError: [] is not true
+
+======================================================================
+FAIL: test_each_late_material_mutation_rejects_full_readback (tests.test_pruning_preferences_freshness.PruningPreferenceFreshness.test_each_late_material_mutation_rejects_full_readback) (mutation='source-project')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_pruning_preferences_freshness.py", line 198, in test_each_late_material_mutation_rejects_full_readback
+    self.assertTrue(triggered)
+AssertionError: [] is not true
+
+======================================================================
+FAIL: test_each_late_material_mutation_rejects_full_readback (tests.test_pruning_preferences_freshness.PruningPreferenceFreshness.test_each_late_material_mutation_rejects_full_readback) (mutation='source-rules')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_pruning_preferences_freshness.py", line 198, in test_each_late_material_mutation_rejects_full_readback
+    self.assertTrue(triggered)
+AssertionError: [] is not true
+
+======================================================================
+FAIL: test_each_late_material_mutation_rejects_full_readback (tests.test_pruning_preferences_freshness.PruningPreferenceFreshness.test_each_late_material_mutation_rejects_full_readback) (mutation='candidate-project')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_pruning_preferences_freshness.py", line 198, in test_each_late_material_mutation_rejects_full_readback
+    self.assertTrue(triggered)
+AssertionError: [] is not true
+
+======================================================================
+FAIL: test_each_late_material_mutation_rejects_full_readback (tests.test_pruning_preferences_freshness.PruningPreferenceFreshness.test_each_late_material_mutation_rejects_full_readback) (mutation='candidate-rules')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_pruning_preferences_freshness.py", line 198, in test_each_late_material_mutation_rejects_full_readback
+    self.assertTrue(triggered)
+AssertionError: [] is not true
+
+======================================================================
+FAIL: test_each_late_material_mutation_rejects_full_readback (tests.test_pruning_preferences_freshness.PruningPreferenceFreshness.test_each_late_material_mutation_rejects_full_readback) (mutation='snapshot-project')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_pruning_preferences_freshness.py", line 198, in test_each_late_material_mutation_rejects_full_readback
+    self.assertTrue(triggered)
+AssertionError: [] is not true
+
+======================================================================
+FAIL: test_each_late_material_mutation_rejects_full_readback (tests.test_pruning_preferences_freshness.PruningPreferenceFreshness.test_each_late_material_mutation_rejects_full_readback) (mutation='snapshot-rules')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_pruning_preferences_freshness.py", line 198, in test_each_late_material_mutation_rejects_full_readback
+    self.assertTrue(triggered)
+AssertionError: [] is not true
+
+======================================================================
+FAIL: test_each_late_material_mutation_rejects_full_readback (tests.test_pruning_preferences_freshness.PruningPreferenceFreshness.test_each_late_material_mutation_rejects_full_readback) (mutation='native-input-project')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_pruning_preferences_freshness.py", line 198, in test_each_late_material_mutation_rejects_full_readback
+    self.assertTrue(triggered)
+AssertionError: [] is not true
+
+======================================================================
+FAIL: test_each_late_material_mutation_rejects_full_readback (tests.test_pruning_preferences_freshness.PruningPreferenceFreshness.test_each_late_material_mutation_rejects_full_readback) (mutation='receipt')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_pruning_preferences_freshness.py", line 198, in test_each_late_material_mutation_rejects_full_readback
+    self.assertTrue(triggered)
+AssertionError: [] is not true
+
+======================================================================
+FAIL: test_late_publication_budget_expiry_invalidates (tests.test_pruning_preferences_freshness.PruningPreferenceFreshness.test_late_publication_budget_expiry_invalidates)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_pruning_preferences_freshness.py", line 220, in test_late_publication_budget_expiry_invalidates
+    self.assertIn('budget exceeded', report['reason'])
+AssertionError: 'budget exceeded' not found in 'Rejected: missing or changed named edge admission policy'
+
+======================================================================
+FAIL: test_publication_preserves_positive_and_invalidates_each_late_mutation (tests.test_pruning_preferences_freshness.PruningPreferenceFreshness.test_publication_preserves_positive_and_invalidates_each_late_mutation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_pruning_preferences_freshness.py", line 202, in test_publication_preserves_positive_and_invalidates_each_late_mutation
+    self.assertTrue(self.publish(case)['accepted'])
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 54 tests in 17.808s
+
+FAILED (failures=12, errors=2)
+real 17.98
+user 16.00
+sys 1.51

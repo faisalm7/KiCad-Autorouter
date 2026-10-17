@@ -1,0 +1,53 @@
+EEE........
+======================================================================
+ERROR: test_deleted_or_foreign_child_marker_cannot_hide_behind_parent_hash_update (tests.test_named_edge_parent.RejectedThermalIncumbentNamedEdge.test_deleted_or_foreign_child_marker_cannot_hide_behind_parent_hash_update)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_named_edge_parent.py", line 140, in test_deleted_or_foreign_child_marker_cannot_hide_behind_parent_hash_update
+    _, work, _, child, check = self.parent_fixture()
+                               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_named_edge_parent.py", line 25, in parent_fixture
+    root, child, original, candidate, _ = self.make(
+                                          ^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_normal_selected_import.py", line 23, in make
+    p.routes(imported)[0][:]=copy.deepcopy(p.routes(original)[0])
+                                           ~~~~~~~~~~~~~~~~~~^^^
+IndexError: list index out of range
+
+======================================================================
+ERROR: test_intact_marker_still_requires_child_edge_engine_input (tests.test_named_edge_parent.RejectedThermalIncumbentNamedEdge.test_intact_marker_still_requires_child_edge_engine_input)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_named_edge_parent.py", line 154, in test_intact_marker_still_requires_child_edge_engine_input
+    _, work, _, _, check = self.parent_fixture()
+                           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_named_edge_parent.py", line 25, in parent_fixture
+    root, child, original, candidate, _ = self.make(
+                                          ^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_normal_selected_import.py", line 23, in make
+    p.routes(imported)[0][:]=copy.deepcopy(p.routes(original)[0])
+                                           ~~~~~~~~~~~~~~~~~~^^^
+IndexError: list index out of range
+
+======================================================================
+ERROR: test_sole_thermal_parent_replays_actual_child_admission_and_named_edge (tests.test_named_edge_parent.RejectedThermalIncumbentNamedEdge.test_sole_thermal_parent_replays_actual_child_admission_and_named_edge)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_named_edge_parent.py", line 119, in test_sole_thermal_parent_replays_actual_child_admission_and_named_edge
+    root, work, parent, child, check = self.parent_fixture()
+                                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_named_edge_parent.py", line 25, in parent_fixture
+    root, child, original, candidate, _ = self.make(
+                                          ^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_normal_selected_import.py", line 23, in make
+    p.routes(imported)[0][:]=copy.deepcopy(p.routes(original)[0])
+                                           ~~~~~~~~~~~~~~~~~~^^^
+IndexError: list index out of range
+
+----------------------------------------------------------------------
+Ran 11 tests in 5.709s
+
+FAILED (errors=3)
+real 5.92
+user 5.51
+sys 0.31

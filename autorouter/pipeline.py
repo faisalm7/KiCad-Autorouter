@@ -30,6 +30,7 @@ SELECTED_PROPOSAL_IMPORT_POLICY='selected-proposals-exact-source-v1'
 NORMAL_SELECTED_PROPOSAL_IMPORT_POLICY='selected-proposals-exact-source-v1'
 NORMAL_NATIVE_EXPORT_ALIAS_POLICY='source-bound-padless-export-v1'
 NORMAL_ENGINE_PROVENANCE_POLICY='mandatory-normal-engine-journal-v1'
+NAMED_EDGE_ADMISSION_POLICY='known-named-whole-native-edge-v1'
 ENGINE_GLOBAL_WIDTH_POLICY='original-global-minimum-width-v1'
 DERIVED_ZONE={'filled_polygon','fill_segments'}
 CRITICAL_CHECKS={'hole_clearance','hole_to_hole','hole_near_hole','starved_thermal','zones_intersect','padstack','items_not_allowed','through_hole_pad_without_hole','unconnected_items','shorting_items','clearance','track_width','via_diameter','annular_width','drill_out_of_range','copper_edge_clearance','invalid_outline','tracks_crossing'}
@@ -641,6 +642,9 @@ def normal_import_contract(directory,data,imports,*,input_policy,original,native
             if inc['accepted']:check_result(child/'result.json')
             elif inc.get('status')=='drc_rejected' and thermal.sole_thermal(inc.get('native')) is not None:
                 thermal._report_binding(child_candidate,child/'final-drc.json',child/'final-drc-binding.json',data['source_hashes'],inc['native'])
+                known_named=check_named_edge_policy(child,inc,input_policy='native',direct_import=True)
+                check_pour_evidence(child,inc,original,child_candidate,_known_named_edge=known_named)
+                check_native_edge_transport(child,inc,_known_named_edge=known_named)
             else:raise Rejected('thermal parent incumbent is not a qualified original Native outcome')
         return None
     pins=data['tools']['implementation_sha256']
@@ -1144,7 +1148,7 @@ def check_parent_dsn_basis(directory,data):
     check_result(base)
     if data['netclass_parent_dsn_basis']!=parent_dsn_basis(directory):raise Rejected('parent-class incumbent basis changed during readback')
 
-def check_pour_evidence(directory,data,original,candidate,*,source_hashes=None,correction=True,sandboxed=None):
+def check_pour_evidence(directory,data,original,candidate,*,source_hashes=None,correction=True,sandboxed=None,_known_named_edge=False):
     """Require saved-refill/native-fill proof from source intent, never a flag."""
     from . import pour_rule_area as pour, floor_route as f
     from .placement_clearance import read_bytes
@@ -1190,7 +1194,7 @@ def check_pour_evidence(directory,data,original,candidate,*,source_hashes=None,c
     adapted,adapter_record=adapt_bytes(corrected,data['adapter'],f.read_json(directory/'obstacles.json'))
     if 'native_edge_correction' in data:
         from . import native_edge
-        adapted,_=native_edge.correct(adapted,native_edge_context(directory/'snapshot'/candidate.name))
+        adapted,_=native_edge.correct(adapted,native_edge_context(directory/'snapshot'/candidate.name,known_named=_known_named_edge))
     engine_input=directory/('routing-scope-input.dsn' if data.get('scope')=='selected_nets' else 'task.dsn')
     if read_bytes(engine_input)!=adapted or f.canonical(data.get('adapter_transformations'))!=f.canonical(adapter_record):
         raise Rejected('pour corrected-to-adapter engine input differs')
@@ -1580,16 +1584,63 @@ def engine_baseline(profile,adapter):
     raise Rejected('unknown engine profile')
 
 
-def native_edge_context(board):
+def native_edge_context(board,*,known_named=False):
     """Use exact original files and the existing custom-rule support boundary."""
     from . import native_edge
     from .placement_clearance import read_bytes
     board=Path(board)
-    context=native_edge.derive_context(read_bytes(board),read_bytes(board.with_suffix('.kicad_pro')))
+    context=native_edge.derive_context(read_bytes(board),read_bytes(board.with_suffix('.kicad_pro')),
+        experimental_named_classes=known_named)
     rules=board.with_suffix('.kicad_dru')
     if rules.exists() or rules.is_symlink():
         context.update(applicable=False,reason='edge transport with custom-rule companion is unqualified')
     return context
+
+
+def named_edge_scope(directory,data):
+    """Initial admission covers ordinary whole-board/source-all routing only.
+
+    Captured preferences and retained scope/layer process markers must agree.
+    This is shared by the producer and the centrally qualified receipt reader.
+    """
+    if (data.get('scope')!='whole_board_unlocked_routing'
+            or data.get('engine_profile') not in {'standard','tuned','completion-only'}
+            or any(key in data for key in ('engine_fanout_override','engine_optimizer_override',
+                'engine_angle_binding','experimental_route_policy'))
+            or selected_scope_markers(directory,data) or layer_markers(directory,data)
+            or native_minimum_markers(directory,data)):
+        return False
+    from . import preferences as pref
+    for key in ('routing_preferences','pruning_preferences'):
+        if key in data:
+            effective=pref.validate(data[key]['effective'])
+            if (effective['scope'],effective['guidance'],effective['layers'])!=('whole_board_unlocked_routing','native','source_all'):
+                return False
+    return True
+
+
+def check_named_edge_policy(directory,data,*,input_policy,direct_import,native_toolchain=None):
+    """Derive authority from pinned captured code and the checked import census.
+
+    A marker alone, a stock run, or a parent strategy cannot enable named scope.
+    Legacy captured producers keep the byte-exact Default-only interpretation.
+    The public check_result has no caller-supplied admission override.
+    """
+    from .local_settings import policy_declaration
+    from .placement_clearance import read_bytes
+    producer=Path(directory)/'code/pipeline.py';raw=read_bytes(producer,1024**2)
+    if type(direct_import) is not bool:raise Rejected('checked direct import decision required')
+    if hashlib.sha256(raw).hexdigest()!=data.get('tools',{}).get('implementation_sha256',{}).get('autorouter/pipeline.py'):
+        raise Rejected('named edge producer source pin differs')
+    policy=policy_declaration(raw,name='NAMED_EDGE_ADMISSION_POLICY',expected=NAMED_EDGE_ADMISSION_POLICY)
+    direct=(input_policy=='native' and direct_import and data.get('adapter') in {'graphics','planes','both'}
+            and data.get('strategy') is None and native_toolchain is None)
+    marker='native_edge_admission_policy'
+    if policy is None or not direct:
+        if marker in data:raise Rejected('named edge policy without qualified direct producer')
+        return False
+    if data.get(marker)!=policy:raise Rejected('missing or changed named edge admission policy')
+    return named_edge_scope(directory,data)
 
 
 def native_minimum_markers(directory,data):
@@ -1661,7 +1712,7 @@ def check_native_minimum_transport(directory,data):
     return check_native_edge_transport(directory,data)
 
 
-def check_native_edge_transport(directory,data):
+def check_native_edge_transport(directory,data,*,_known_named_edge=False):
     """Replay the narrow edge-only correction from unchanged snapshot bytes."""
     from . import native_edge,adapter
     from .placement_clearance import read_bytes
@@ -1676,7 +1727,8 @@ def check_native_edge_transport(directory,data):
             or any(step.get('name')=='engine' and step.get('cwd')==str(directory) for step in data.get('steps',[])))
         if (data.get('input_policy','native')=='native' and data.get('adapter')!='none'
                 and direct_native
-                and 'autorouter/native_edge.py' in data.get('tools',{}).get('implementation_sha256',{})):
+                and ('native_edge_admission_policy' in data
+                    or 'autorouter/native_edge.py' in data.get('tools',{}).get('implementation_sha256',{}))):
             raise Rejected('new native adapter receipt lost its edge transport record')
         return
     if data.get('input_policy','native')!='native' or data.get('adapter')=='none':
@@ -1684,7 +1736,7 @@ def check_native_edge_transport(directory,data):
     board=directory/'snapshot'/Path(data['source']).name
     if tree_hash(board.parent)!=data['source_hashes']:
         raise Rejected('edge correction original snapshot differs')
-    context=native_edge_context(board)
+    context=native_edge_context(board,known_named=_known_named_edge)
     if minimum:
         from . import board_floor as g
         base,contract=native_minimum_contract(directory,data)
@@ -2035,6 +2087,8 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
     report={'schema':1,'status':'validator_error','accepted':False,'physical_electrical_validation':False,'schematic_parity':'not checked','source':str(source),
             'started_utc':operation_started_utc,'budget_seconds':seconds,'cpu_budget_seconds':seconds,'cpu_budget_enforcement':'postcompletion acceptance cap; no total-CPU preemption','baseline':engine_baseline(engine_profile,adapter),'adapter':adapter,'engine_profile':engine_profile,'scoring_variant':scoring_variant,'scope':'partial_completion' if keep_existing else 'whole_board_unlocked_routing',
             'tools':tool_manifest(**({'native_toolchain':native_toolchain} if native_toolchain is not None else {})),**experimental_record}
+    if native_toolchain is None and adapter!='none':
+        report['native_edge_admission_policy']=NAMED_EDGE_ADMISSION_POLICY
     if _fanout_enabled is False:report['engine_fanout_override']=False
     if _optimizer_enabled is False:report['engine_optimizer_override']=False
     if _engine_clearance_margin_nm is not None:report['engine_planning_clearance_margin_nm']=_engine_clearance_margin_nm
@@ -2114,7 +2168,8 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
             report['adapter_transformations']=adapt_dsn(output/'task.dsn',adapter,json.loads((output/'obstacles.json').read_text()))
             from . import native_edge
             shutil.copy2(output/'task.dsn',output/'edge-adapter-input.dsn')
-            corrected,edge_record=native_edge.correct((output/'task.dsn').read_bytes(),native_edge_context(snapshot))
+            corrected,edge_record=native_edge.correct((output/'task.dsn').read_bytes(),native_edge_context(snapshot,
+                known_named=native_toolchain is None and named_edge_scope(output,report)))
             (output/'task.dsn').write_bytes(corrected)
             save_json(output/'native-edge-correction.json',edge_record)
             report['native_edge_correction']=edge_record
@@ -2497,7 +2552,8 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
     # including original rule copies and native evidence, before interpreting it.
     # Recheck after every late settings/process read; board-only layer checks
     # cannot detect a concurrently changed project file or native report.
-    preferences_guarded=(_rejected_attempt or 'schematic_class_task' in data or 'schematic_class_final' in data
+    preferences_guarded=(_rejected_attempt or 'native_edge_admission_policy' in data
+        or 'schematic_class_task' in data or 'schematic_class_final' in data
         or 'engine_optimizer_override' in data or 'engine_fanout_override' in data or data.get('engine_profile')=='tuned-free-angle' or 'engine_angle_binding' in data
         or (path.parent/'engine-angle.json').exists() or (path.parent/'engine-free-angle.dsn').exists()
         or 'routing_preferences' in data or (path.parent/'routing-preferences.json').exists()
@@ -2543,6 +2599,8 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
     imports=check_normal_policy(path.parent,data,native_toolchain=native_toolchain)
     import_contract=normal_import_contract(path.parent,data,imports,input_policy=input_policy,original=original,native_toolchain=native_toolchain)
     check_protected_import(path.parent,data,original,candidate,protected,**(import_contract or {}))
+    known_named_edge=check_named_edge_policy(path.parent,data,input_policy=input_policy,
+        direct_import=import_contract is not None,native_toolchain=native_toolchain)
 
     def evidence(name):
         file=path.parent/name
@@ -2650,8 +2708,8 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
         sandboxed=input_policy in {'board-floors-v1','placement-clearance-v1','placement-search-v1',ps.POLICY},native_toolchain=native_toolchain)
     check_route_class_evidence(path.parent,data,original,candidate,class_context=class_context)
     if any(step.get('status')=='cancelled' or step.get('cleanup_complete') is not True for step in steps): raise Rejected('cancelled or incomplete process cleanup in receipt')
-    check_pour_evidence(path.parent,data,original,candidate)
-    check_native_edge_transport(path.parent,data)
+    check_pour_evidence(path.parent,data,original,candidate,_known_named_edge=known_named_edge)
+    check_native_edge_transport(path.parent,data,_known_named_edge=known_named_edge)
     check_preferences_record(path.parent,data)
 
     if 'engine_budget' in data:
@@ -2689,14 +2747,12 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
         verify_candidate_files(candidate,data['source_hashes'],data['candidate_sha256'])
         if hashlib.sha256(bounded_bytes(path)).hexdigest()!=receipt_digest:
             raise Rejected('protected import receipt changed during readback')
-    if preferences_guarded:
-        if bounded_inventory(source.parent,max_bytes=100*1024*1024)!=data['source_hashes']:
-            raise Rejected('source project changed during preference readback')
-        if bounded_evidence(path.parent)!=readback_material:
-            raise Rejected('complete preference routing evidence changed during readback')
     imports=check_normal_policy(path.parent,data,native_toolchain=native_toolchain)
     import_contract=normal_import_contract(path.parent,data,imports,input_policy=input_policy,original=original,native_toolchain=native_toolchain)
     check_protected_import(path.parent,data,original,candidate,protected,**(import_contract or {}))
+    if known_named_edge!=check_named_edge_policy(path.parent,data,input_policy=input_policy,
+            direct_import=import_contract is not None,native_toolchain=native_toolchain):
+        raise Rejected('named edge admission changed during readback')
     check_event(path.parent,binding,process)  # Flags/link counts are outside byte witnesses.
     check_route_class_evidence(path.parent,data,original,candidate,class_context=class_context)
     if native_toolchain is not None:
@@ -2732,6 +2788,15 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
                 or tree_hash(path.parent)!=explicit_material):raise Rejected('experimental evidence/source changed during readback')
         check_experimental_local_settings(path.parent,data,native_toolchain)
         result.update(experimental_route_policy=EXPERIMENTAL_ROUTE_POLICY,production_admitted=False)
+    if preferences_guarded:
+        # Final callbacks above may inspect the complete captured import/native
+        # lineage. Keep the existing bounded witness after every such reader,
+        # including plain API jobs with no captured preferences or class flags.
+        if bounded_inventory(source.parent,max_bytes=100*1024*1024)!=data['source_hashes']:
+            raise Rejected('source project changed during preference readback')
+        if bounded_evidence(path.parent)!=readback_material:
+            raise Rejected('complete preference routing evidence changed during readback')
+        check_event(path.parent,binding,process)
     if _rejected_attempt:
         # Return only after the late evidence/source/process freshness guards.
         return {'current':False,'validated_rejection':True,'routing_accepted':False,

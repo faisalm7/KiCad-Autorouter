@@ -105,6 +105,21 @@ def _authored_normal_engine(directory,data):
     p.save_json(directory/'engine-process.json',worker)
     data['steps']=[row for row in data['steps'] if row not in rows]
     data['steps'].append(copy.deepcopy(worker))
+    if data.get('adapter') in {'graphics','planes','both'}:
+        # Model the current direct corrected producer explicitly. This is
+        # authored software evidence, never a Native exporter/engine result.
+        data['native_edge_admission_policy']=p.NAMED_EDGE_ADMISSION_POLICY
+        if 'native_edge_correction' not in data:
+            from autorouter import native_edge
+            board=directory/'snapshot'/Path(data['source']).name
+            raw=(directory/'native.dsn').read_bytes()
+            adapted,record=adapter.adapt_bytes(raw,data['adapter'],[])
+            corrected,edge=native_edge.correct(adapted,p.native_edge_context(board,
+                known_named=p.named_edge_scope(directory,data)))
+            (directory/'edge-adapter-input.dsn').write_bytes(adapted)
+            (directory/'task.dsn').write_bytes(corrected)
+            p.save_json(directory/'obstacles.json',[]);p.save_json(directory/'native-edge-correction.json',edge)
+            data.update(adapter_transformations=record,native_edge_correction=edge,task_dsn_sha256=p.sha(directory/'task.dsn'))
 
 
 def _authored_normal_import(directory,data):

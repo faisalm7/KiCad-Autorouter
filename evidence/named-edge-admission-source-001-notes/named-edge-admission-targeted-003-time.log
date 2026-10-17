@@ -1,0 +1,91 @@
+....E.FFFFF.
+======================================================================
+ERROR: test_pour_chain_replays_same_named_context_as_edge_reader (tests.test_named_edge_admission.NamedEdgeAdmission.test_pour_chain_replays_same_named_context_as_edge_reader)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/routing_scope.py", line 126, in _uuid
+    parsed = uuid.UUID(raw)
+             ^^^^^^^^^^^^^^
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/uuid.py", line 178, in __init__
+    raise ValueError('badly formed hexadecimal UUID string')
+ValueError: badly formed hexadecimal UUID string
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_named_edge_admission.py", line 131, in test_pour_chain_replays_same_named_context_as_edge_reader
+    p.check_pour_evidence(self.folder,self.data,tree,candidate,_known_named_edge=self.policy())
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 1168, in check_pour_evidence
+    if (sx.dump(transplant_fill(before,sx.read(refill)))+'\n').encode()!=read_bytes(candidate):raise Rejected('pour saved-refill reconstruction differs')
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 815, in transplant_fill
+    check_refill_route_nets(original,filled)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 807, in check_refill_route_nets
+    try:before,after=identities(original),identities(filled)
+                     ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 806, in identities
+    for identity,route in rs._route_map(tree).items()}
+                          ^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/routing_scope.py", line 149, in _route_map
+    immutable_ids = _immutable_uuid_ids(tree)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/routing_scope.py", line 143, in _immutable_uuid_ids
+    walk(p.immutable(tree))
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/routing_scope.py", line 142, in walk
+    walk(child)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/routing_scope.py", line 142, in walk
+    walk(child)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/routing_scope.py", line 139, in walk
+    identity, _ = _uuid(node)
+                  ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/routing_scope.py", line 128, in _uuid
+    raise p.Rejected('route requires a valid unique UUID') from exc
+autorouter.pipeline.Rejected: route requires a valid unique UUID
+
+======================================================================
+FAIL: test_source_snapshot_and_receipt_changes_after_last_import_check_refuse (tests.test_named_edge_admission.NamedEdgeAdmission.test_source_snapshot_and_receipt_changes_after_last_import_check_refuse) (target='source')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_named_edge_admission.py", line 161, in test_source_snapshot_and_receipt_changes_after_last_import_check_refuse
+    with patch.object(p,'normal_import_contract',side_effect=late),self.assertRaises(p.Rejected):
+AssertionError: Rejected not raised
+
+======================================================================
+FAIL: test_source_snapshot_and_receipt_changes_after_last_import_check_refuse (tests.test_named_edge_admission.NamedEdgeAdmission.test_source_snapshot_and_receipt_changes_after_last_import_check_refuse) (target='snapshot')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_named_edge_admission.py", line 161, in test_source_snapshot_and_receipt_changes_after_last_import_check_refuse
+    with patch.object(p,'normal_import_contract',side_effect=late),self.assertRaises(p.Rejected):
+AssertionError: Rejected not raised
+
+======================================================================
+FAIL: test_source_snapshot_and_receipt_changes_after_last_import_check_refuse (tests.test_named_edge_admission.NamedEdgeAdmission.test_source_snapshot_and_receipt_changes_after_last_import_check_refuse) (target='candidate')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_named_edge_admission.py", line 161, in test_source_snapshot_and_receipt_changes_after_last_import_check_refuse
+    with patch.object(p,'normal_import_contract',side_effect=late),self.assertRaises(p.Rejected):
+AssertionError: Rejected not raised
+
+======================================================================
+FAIL: test_source_snapshot_and_receipt_changes_after_last_import_check_refuse (tests.test_named_edge_admission.NamedEdgeAdmission.test_source_snapshot_and_receipt_changes_after_last_import_check_refuse) (target='receipt')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_named_edge_admission.py", line 161, in test_source_snapshot_and_receipt_changes_after_last_import_check_refuse
+    with patch.object(p,'normal_import_contract',side_effect=late),self.assertRaises(p.Rejected):
+AssertionError: Rejected not raised
+
+======================================================================
+FAIL: test_source_snapshot_and_receipt_changes_after_last_import_check_refuse (tests.test_named_edge_admission.NamedEdgeAdmission.test_source_snapshot_and_receipt_changes_after_last_import_check_refuse) (target='code')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_named_edge_admission.py", line 161, in test_source_snapshot_and_receipt_changes_after_last_import_check_refuse
+    with patch.object(p,'normal_import_contract',side_effect=late),self.assertRaises(p.Rejected):
+AssertionError: Rejected not raised
+
+----------------------------------------------------------------------
+Ran 8 tests in 5.985s
+
+FAILED (failures=5, errors=1)
+real 6.16
+user 5.49
+sys 0.27

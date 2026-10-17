@@ -1,0 +1,94 @@
+...EEE..E.E............................................
+======================================================================
+ERROR: test_current_literal_and_parent_replay_and_legacy_named_skip (tests.test_named_edge_admission.NamedEdgeAdmission.test_current_literal_and_parent_replay_and_legacy_named_skip) (parent=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_named_edge_admission.py", line 44, in test_current_literal_and_parent_replay_and_legacy_named_skip
+    record=self.named(parent=parent)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_named_edge_admission.py", line 31, in named
+    adapted,adapter_record=a.adapt_bytes(self.raw,'both',[])
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/adapter.py", line 292, in adapt_bytes
+    raise ValueError("DSN " + required + " is required")
+ValueError: DSN placement is required
+
+======================================================================
+ERROR: test_current_literal_and_parent_replay_and_legacy_named_skip (tests.test_named_edge_admission.NamedEdgeAdmission.test_current_literal_and_parent_replay_and_legacy_named_skip) (parent=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_named_edge_admission.py", line 44, in test_current_literal_and_parent_replay_and_legacy_named_skip
+    record=self.named(parent=parent)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_named_edge_admission.py", line 31, in named
+    adapted,adapter_record=a.adapt_bytes(self.raw,'both',[])
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/adapter.py", line 292, in adapt_bytes
+    raise ValueError("DSN " + required + " is required")
+ValueError: DSN placement is required
+
+======================================================================
+ERROR: test_custom_companion_and_higher_clearance_are_still_skipped (tests.test_named_edge_admission.NamedEdgeAdmission.test_custom_companion_and_higher_clearance_are_still_skipped)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_named_edge_admission.py", line 109, in test_custom_companion_and_higher_clearance_are_still_skipped
+    self.named();rules=self.board.with_suffix('.kicad_dru');rules.write_text('(version 1)')
+    ^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_named_edge_admission.py", line 31, in named
+    adapted,adapter_record=a.adapt_bytes(self.raw,'both',[])
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/adapter.py", line 292, in adapt_bytes
+    raise ValueError("DSN " + required + " is required")
+ValueError: DSN placement is required
+
+======================================================================
+ERROR: test_pour_chain_replays_same_named_context_as_edge_reader (tests.test_named_edge_admission.NamedEdgeAdmission.test_pour_chain_replays_same_named_context_as_edge_reader)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_named_edge_admission.py", line 119, in test_pour_chain_replays_same_named_context_as_edge_reader
+    self.named();candidate=self.board
+    ^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_named_edge_admission.py", line 31, in named
+    adapted,adapter_record=a.adapt_bytes(self.raw,'both',[])
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/adapter.py", line 292, in adapt_bytes
+    raise ValueError("DSN " + required + " is required")
+ValueError: DSN placement is required
+
+======================================================================
+ERROR: test_unqualified_task_scopes_stay_default_only_with_mandatory_version (tests.test_named_edge_admission.NamedEdgeAdmission.test_unqualified_task_scopes_stay_default_only_with_mandatory_version) (changes={'routing_preferences': {'effective': {'schema': 1, 'scope': 'whole_board_unlocked_routing', 'seconds': 120, 'adapter': 'both', 'profile': 'standard', 'guidance': 'native', 'layers': ['F.Cu'], 'scoring_preference': None}}})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/preferences.py", line 131, in validate
+    result['layers'] = validate_request(result['layers'], scope=result['scope'],
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/layer_policy.py", line 52, in validate_request
+    raise ValueError('explicit layers require native completion-only routing')
+ValueError: explicit layers require native completion-only routing
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_named_edge_admission.py", line 102, in test_unqualified_task_scopes_stay_default_only_with_mandatory_version
+    self.assertFalse(self.policy(data=data))
+                     ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_named_edge_admission.py", line 24, in policy
+    return p.check_named_edge_policy(self.folder,self.data if data is None else data,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 1639, in check_named_edge_policy
+    return named_edge_scope(directory,data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 1613, in named_edge_scope
+    effective=pref.validate(data[key]['effective'])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/preferences.py", line 134, in validate
+    raise PreferenceError(str(exc)) from exc
+autorouter.preferences.PreferenceError: explicit layers require native completion-only routing
+
+----------------------------------------------------------------------
+Ran 54 tests in 1.408s
+
+FAILED (errors=5)
+real 1.61
+user 0.97
+sys 0.23
