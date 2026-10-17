@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "kind": "read-only-actual-native015-corrected-delivery-review",
+  "decision": "completed-caller-pinned-owned1007-delivery-prerequisite-within-frozen-scope",
+  "findings": [],
+  "bindings_sha256": {
+    "outer_result": "067e3a1e8bbc5b4f3bf1d60b1dd70c0897d79e0cc7c3adb310b56161e5316ba3",
+    "canonical_child_result": "daa3c7e773096c2f3fd28ae78c8726efb190d753069bc37744b3aefbcbc569b0",
+    "route_result": "4588ded557e9f4dc75b92f64f2f1483518faea6f62fccf8662be421a62be0a0e",
+    "export_receipt": "85123ae666db4564929ce6cd804ab81fe391e8befbdea79f5c5ddc7866d98fdc",
+    "protocol004": "61d2c6d03efce6d126aaed3386ee233177804546ceb6c3637ce12697ce788e31",
+    "controller004": "522420cc1c32cbdfda6e11e55af11dbcbb65f776d766c42aed4a1d20605e0047",
+    "child003": "53db973ec50c73395718e24820197ce260326cd28a14f89cbe04dc63c955c62c"
+  },
+  "final_status": "Outer and canonical child both completed/passed=true/accepted=false; actual coordinator exit0, cancel_requested=false, log_truncated=false. Outer child copy equals canonical child exactly; child tools equal frozen runtime_tools exactly. No production admission, actual GUI, human review or application is claimed.",
+  "costs": {
+    "charged_outer_wall_seconds": 134.57701758405892,
+    "charged_outer_full_cpu_seconds": 129.31957400000002,
+    "execution_wall_seconds_sample": 128.71543929202016,
+    "execution_full_cpu_seconds_sample": 123.724709,
+    "charged_preparation_wall_seconds": 5.861554209026508,
+    "charged_preparation_full_cpu_seconds": 5.5948530000000005,
+    "note": "Charged preparation includes the conservative4s publication charge. Outer totals include final child readback and satisfy180s. Child receipt's120.827680s wall/115.540208s CPU samples precede its final semantic publication check; they are subsets, not additional cost or the complete slice time. Actual coordinator128.411276s wall is also a subset."
+  },
+  "native_and_source": {
+    "source_head": "73de3151b4ca81319a537595e68dc461b73b1664",
+    "version": "10.0.7",
+    "source": "Fresh four-file owned packet hashes match protocol: PCB0e0f18d4..., SCH61f4271c..., PRO34e7f86e..., PRL6d62252c....",
+    "source_counts": {"opens": 1, "blocking": 0, "warnings": 0, "exclusions": 0},
+    "route_and_export_final_counts_each": {"opens": 0, "blocking": 0, "warnings": 6, "exclusions": 0, "ignored_checks": 2},
+    "candidate_sha256": "d66e561d9eef51a2a90a73926fb550e4dac6f4e1e21e0cf5557395397c3c84b9",
+    "binding": "Route and fresh export candidate files hash identically to their receipts. Both final-DRC bindings have saved=false and exact before=after four-file maps: candidate PCB plus unchanged original SCH/PRO/PRL. Raw DRC, binding, fields netlist and fields observer hashes match each receipt's field proof.",
+    "route_raw_drc_sha256": "72fea0215dd95429f6934ad896b48f8e48d28221863ff68a385e68c112bb2c7f",
+    "export_raw_drc_sha256": "aab1df00df251bb1e3cf3e86f65120547bc4e91c03ad9d98079ac63a9864c28b",
+    "actual_workers": "Route and export retain successful refill, final netclasses, full --schematic-parity final DRC, effective-field netlist/audit and metrics workers. Final DRC exits5 retain the six warnings; all recorded worker cleanup_complete flags are true and logs untruncated. Fresh export Native argv uses sandbox plus selected caller1007 CLI/Python/native.py context.",
+    "fields": "Six raw Datasheet '~' versus empty warnings remain; effective-field proof records6components/18fields. No warning waiver or whole-project DRC-clean claim.",
+    "protected": "One exact locked KEEP segment retained through the protected-import match; metrics6footprints/6pads/1zone/2Cu/0vias/28mm.",
+    "delivery": "F.Cu/B.Cu rendered review, software accept intent, fresh Native export and final central readback retained; all four default-context consumers specifically refused experimental context."
+  },
+  "scope": "One exposed owned experimental explicit1007 B0 separate-project delivery prerequisite only. Production1000 pins, actual GUI/Windows support, new board-family coverage, routing superiority, physical/electrical approval and permanent descendant-cleanup certification remain outside this result. Prior execution003 remains failed and retained; this corrected protocol does not rewrite it.",
+  "review_actions": "Read-only receipts/raw bindings/source hashes/frozen-controller inspection. Sole write is this review; no project imports, tests, Native/JVM/GUI/Git/delegation or rerun. No new central current check was executed by reviewer."
+}

@@ -1,0 +1,1792 @@
+{
+  "schema": 1,
+  "kind": "actual-runtime015-explicit-caller1007-complete-delivery",
+  "accepted": false,
+  "passed": true,
+  "production_admitted": false,
+  "actual_GUI": false,
+  "human_review": false,
+  "Native_executed": true,
+  "source_head": "73de3151b4ca81319a537595e68dc461b73b1664",
+  "protocol_sha256": "61d2c6d03efce6d126aaed3386ee233177804546ceb6c3637ce12697ce788e31",
+  "charged_whole_wall_seconds": 134.57701758405892,
+  "charged_whole_full_cpu_seconds": 129.31957400000002,
+  "external_execution_wall_seconds": 128.98,
+  "external_execution_full_cpu_seconds": 123.98,
+  "cold_preparation_and_publication_charge": {
+    "wall_seconds": 5.861554209026508,
+    "full_cpu_seconds": 5.5948530000000005,
+    "publication_charge_seconds": 4
+  },
+  "own_candidate_native": [
+    {
+      "stage": "route",
+      "candidate_sha256": "d66e561d9eef51a2a90a73926fb550e4dac6f4e1e21e0cf5557395397c3c84b9",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 6,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J1",
+                "pos": {
+                  "x": 12.0,
+                  "y": 10.0
+                },
+                "uuid": "953eb9d9-83f3-5938-a1a1-ab40cf790dcb"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J2",
+                "pos": {
+                  "x": 26.0,
+                  "y": 10.0
+                },
+                "uuid": "f4913284-f8a5-5128-b764-06e77958c4a1"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J3",
+                "pos": {
+                  "x": 12.0,
+                  "y": 16.0
+                },
+                "uuid": "2b280790-8d91-51a2-affb-a76a36ae1174"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J4",
+                "pos": {
+                  "x": 26.0,
+                  "y": 16.0
+                },
+                "uuid": "e2fc6e88-4ab1-596b-8517-d1c0bedff6d9"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J5",
+                "pos": {
+                  "x": 12.0,
+                  "y": 24.0
+                },
+                "uuid": "89e2782e-2510-59eb-b4c0-ee82be15e2bb"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J6",
+                "pos": {
+                  "x": 26.0,
+                  "y": 24.0
+                },
+                "uuid": "02babc61-17bc-5833-b61b-d96ffbac8b85"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          }
+        ],
+        "field_parity": {
+          "schema": 1,
+          "policy": "datasheet-absence-only-v1",
+          "native_report_sha256": "72fea0215dd95429f6934ad896b48f8e48d28221863ff68a385e68c112bb2c7f",
+          "binding_sha256": "fc99412ff2bfcddf3e4bbfee14f0863874afc2eb8cc7bc5b47080ca96dffe082",
+          "netlist_sha256": "dbccb96ba823760bd7b15962f5c20cef87b8148cce37cc8a39a207999de072db",
+          "fields_sha256": "85c1e4c01565bb780a2e65f8972ae6b5407f7f798063a1e2c529b6228e2da793",
+          "qualification": {
+            "qualified": true,
+            "policy": "datasheet-effective-empty-v1",
+            "component_count": 6,
+            "compared_field_count": 18,
+            "comparison_map": [
+              {
+                "reference": "J1",
+                "uuid": "953eb9d9-83f3-5938-a1a1-ab40cf790dcb",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned1007-protected-transport-v1:J1",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned1007-protected-transport-v1:J1"
+                }
+              },
+              {
+                "reference": "J2",
+                "uuid": "f4913284-f8a5-5128-b764-06e77958c4a1",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned1007-protected-transport-v1:J2",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned1007-protected-transport-v1:J2"
+                }
+              },
+              {
+                "reference": "J3",
+                "uuid": "2b280790-8d91-51a2-affb-a76a36ae1174",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned1007-protected-transport-v1:J3",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned1007-protected-transport-v1:J3"
+                }
+              },
+              {
+                "reference": "J4",
+                "uuid": "e2fc6e88-4ab1-596b-8517-d1c0bedff6d9",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned1007-protected-transport-v1:J4",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned1007-protected-transport-v1:J4"
+                }
+              },
+              {
+                "reference": "J5",
+                "uuid": "89e2782e-2510-59eb-b4c0-ee82be15e2bb",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned1007-protected-transport-v1:J5",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned1007-protected-transport-v1:J5"
+                }
+              },
+              {
+                "reference": "J6",
+                "uuid": "02babc61-17bc-5833-b61b-d96ffbac8b85",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned1007-protected-transport-v1:J6",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned1007-protected-transport-v1:J6"
+                }
+              }
+            ],
+            "warning_uuids": [
+              "02babc61-17bc-5833-b61b-d96ffbac8b85",
+              "2b280790-8d91-51a2-affb-a76a36ae1174",
+              "89e2782e-2510-59eb-b4c0-ee82be15e2bb",
+              "953eb9d9-83f3-5938-a1a1-ab40cf790dcb",
+              "e2fc6e88-4ab1-596b-8517-d1c0bedff6d9",
+              "f4913284-f8a5-5128-b764-06e77958c4a1"
+            ],
+            "warning_hashes": [
+              "3a36464aff9d3138aad33ee043a2058f51026001bb8f4c6ab45b04de99762c7b",
+              "584843c790cab2169aecada8e7dde4f393292f4208ca59ca1df1350c81cb0925",
+              "6b8b67f53dae016681d54a3f14f4aada27b36eb15780cb2e819149713499dba7",
+              "76e34000c09fa74fc58737f4d920cde5559214b9ff5cbfa9482f1aef013c9846",
+              "861d6b34b76471d05e2fac8fc1d7388a887e95ba8e4274f4e943e161918ffac8",
+              "bea7cb34f1edf95eb09b931932cf0c52b950ff48d554fcafc2fddc6493a64818"
+            ],
+            "native_export_sha256": "dbccb96ba823760bd7b15962f5c20cef87b8148cce37cc8a39a207999de072db",
+            "observer_sha256": "350dc2c3c9ea29fdcad14fd6c7b5f7ceabf78e6eb1439000c6978e6b9aced436",
+            "drc_report_sha256": "852cb1fc38a41b1e7e179fe7f5134ad716842727b1b141196dd0ecad8f209819"
+          },
+          "local_settings_guard_sha256": "683c0b4419c0f7a569f18c6ab2b5d7aa8df4644d940d0d5d8cafaf193527e699"
+        }
+      },
+      "metrics": {
+        "version": "10.0.7",
+        "pads": 6,
+        "footprints": 6,
+        "zones": 1,
+        "vias": 0,
+        "track_length_mm": 28.0,
+        "copper_layers": 2
+      },
+      "sample_wall_seconds": 10.844966667005792,
+      "sample_full_cpu_seconds": 8.303473
+    },
+    {
+      "stage": "export",
+      "candidate_sha256": "d66e561d9eef51a2a90a73926fb550e4dac6f4e1e21e0cf5557395397c3c84b9",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 6,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J1",
+                "pos": {
+                  "x": 12.0,
+                  "y": 10.0
+                },
+                "uuid": "953eb9d9-83f3-5938-a1a1-ab40cf790dcb"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J2",
+                "pos": {
+                  "x": 26.0,
+                  "y": 10.0
+                },
+                "uuid": "f4913284-f8a5-5128-b764-06e77958c4a1"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J3",
+                "pos": {
+                  "x": 12.0,
+                  "y": 16.0
+                },
+                "uuid": "2b280790-8d91-51a2-affb-a76a36ae1174"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J4",
+                "pos": {
+                  "x": 26.0,
+                  "y": 16.0
+                },
+                "uuid": "e2fc6e88-4ab1-596b-8517-d1c0bedff6d9"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J5",
+                "pos": {
+                  "x": 12.0,
+                  "y": 24.0
+                },
+                "uuid": "89e2782e-2510-59eb-b4c0-ee82be15e2bb"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J6",
+                "pos": {
+                  "x": 26.0,
+                  "y": 24.0
+                },
+                "uuid": "02babc61-17bc-5833-b61b-d96ffbac8b85"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          }
+        ],
+        "field_parity": {
+          "schema": 1,
+          "policy": "datasheet-absence-only-v1",
+          "native_report_sha256": "aab1df00df251bb1e3cf3e86f65120547bc4e91c03ad9d98079ac63a9864c28b",
+          "binding_sha256": "4650448a4dcdbf15f7b03e8e0a5bbc00662e61e513c166d46b13039227f8cba5",
+          "netlist_sha256": "dc03017981e00bcc73528af0d0decdfccb8f330d44cdb615d21a49ae8feeb40a",
+          "fields_sha256": "77206d49bf6952439e5c523bad799881523662ccc50270cbad67edf99492e65e",
+          "qualification": {
+            "qualified": true,
+            "policy": "datasheet-effective-empty-v1",
+            "component_count": 6,
+            "compared_field_count": 18,
+            "comparison_map": [
+              {
+                "reference": "J1",
+                "uuid": "953eb9d9-83f3-5938-a1a1-ab40cf790dcb",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned1007-protected-transport-v1:J1",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned1007-protected-transport-v1:J1"
+                }
+              },
+              {
+                "reference": "J2",
+                "uuid": "f4913284-f8a5-5128-b764-06e77958c4a1",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned1007-protected-transport-v1:J2",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned1007-protected-transport-v1:J2"
+                }
+              },
+              {
+                "reference": "J3",
+                "uuid": "2b280790-8d91-51a2-affb-a76a36ae1174",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned1007-protected-transport-v1:J3",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned1007-protected-transport-v1:J3"
+                }
+              },
+              {
+                "reference": "J4",
+                "uuid": "e2fc6e88-4ab1-596b-8517-d1c0bedff6d9",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned1007-protected-transport-v1:J4",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned1007-protected-transport-v1:J4"
+                }
+              },
+              {
+                "reference": "J5",
+                "uuid": "89e2782e-2510-59eb-b4c0-ee82be15e2bb",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned1007-protected-transport-v1:J5",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned1007-protected-transport-v1:J5"
+                }
+              },
+              {
+                "reference": "J6",
+                "uuid": "02babc61-17bc-5833-b61b-d96ffbac8b85",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned1007-protected-transport-v1:J6",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned1007-protected-transport-v1:J6"
+                }
+              }
+            ],
+            "warning_uuids": [
+              "02babc61-17bc-5833-b61b-d96ffbac8b85",
+              "2b280790-8d91-51a2-affb-a76a36ae1174",
+              "89e2782e-2510-59eb-b4c0-ee82be15e2bb",
+              "953eb9d9-83f3-5938-a1a1-ab40cf790dcb",
+              "e2fc6e88-4ab1-596b-8517-d1c0bedff6d9",
+              "f4913284-f8a5-5128-b764-06e77958c4a1"
+            ],
+            "warning_hashes": [
+              "3a36464aff9d3138aad33ee043a2058f51026001bb8f4c6ab45b04de99762c7b",
+              "584843c790cab2169aecada8e7dde4f393292f4208ca59ca1df1350c81cb0925",
+              "6b8b67f53dae016681d54a3f14f4aada27b36eb15780cb2e819149713499dba7",
+              "76e34000c09fa74fc58737f4d920cde5559214b9ff5cbfa9482f1aef013c9846",
+              "861d6b34b76471d05e2fac8fc1d7388a887e95ba8e4274f4e943e161918ffac8",
+              "bea7cb34f1edf95eb09b931932cf0c52b950ff48d554fcafc2fddc6493a64818"
+            ],
+            "native_export_sha256": "dc03017981e00bcc73528af0d0decdfccb8f330d44cdb615d21a49ae8feeb40a",
+            "observer_sha256": "a257caac4fded670aa207ba2dc7ee28c9ad094917e170527e8c9b9faa5cae738",
+            "drc_report_sha256": "e5ed7e414c86d1cf2f48a599787b9236aa5e119e499d7a38ae3321abef23fa6d"
+          },
+          "local_settings_guard_sha256": "7986f69ab460cebe7f5232a58a98d8c7a156695bb6c7f92f17b7e38ca80773e5"
+        }
+      },
+      "metrics": {
+        "version": "10.0.7",
+        "pads": 6,
+        "footprints": 6,
+        "zones": 1,
+        "vias": 0,
+        "track_length_mm": 28.0,
+        "copper_layers": 2
+      },
+      "sample_wall_seconds": 29.318274999968708,
+      "sample_full_cpu_seconds": 27.486465
+    }
+  ],
+  "original_source_unchanged": true,
+  "original_design_and_protected_routes_retained": true,
+  "protected_route_items": 1,
+  "default_consumer_refusals": {
+    "route": "experimental routing requires explicit caller toolchain context",
+    "review": "experimental delivery requires explicit caller toolchain context",
+    "choice": "experimental delivery requires explicit caller toolchain context",
+    "export": "experimental delivery requires explicit caller toolchain context"
+  },
+  "caveats": [
+    "One exposed owned2Cu full-schematic/ordinary-zone fixture; no new independent-family, routing-quality, comparative speed, cleanup, human or physical/electrical claim.",
+    "First001 failed its final budget/cancellation gate and remains separately retained;002 is a corrected experimental finalization attempt, not an unattended first attempt.",
+    "Only explicit caller-pinned10.0.7 API delivery is qualified here. Production pin10.0.0 and actualGUI014 support are unchanged; no Windows/current-stable broad matrix promotion.",
+    "Complete central export proof is checked initially and once as the last publication check; every Native source/candidate/refill/fullSCH/class/field/protected-copper requirement is retained.",
+    "Shared cooperative cancellation/watchdog/inner guards; no hard whole-time quota, aggregate RSS or permanent descendant-absence certification. Charged total includes original/revised preparation and4second conservative publication allowance. Research/authoring/review/profile/failed001 costs remain separate and are not zero."
+  ],
+  "files": [
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/choice/choice.json",
+      "bytes": 34218,
+      "sha256": "1e991e7c01c2a18292adecc5108631929e3df5d7154dd1e0cc9e98210d6c1b67"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/export.json",
+      "bytes": 95327,
+      "sha256": "85123ae666db4564929ce6cd804ab81fe391e8befbdea79f5c5ddc7866d98fdc"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/candidate/owned1007-transport.kicad_pcb",
+      "bytes": 10207,
+      "sha256": "d66e561d9eef51a2a90a73926fb550e4dac6f4e1e21e0cf5557395397c3c84b9"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/candidate/owned1007-transport.kicad_prl",
+      "bytes": 178,
+      "sha256": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/candidate/owned1007-transport.kicad_pro",
+      "bytes": 2088,
+      "sha256": "34e7f86eef740735896725404399fda59d4c223c27a88a05b293c455d02bc6b1"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/candidate/owned1007-transport.kicad_sch",
+      "bytes": 8280,
+      "sha256": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/__init__.py",
+      "bytes": 107,
+      "sha256": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/__main__.py",
+      "bytes": 15345,
+      "sha256": "ff5ea2792dd70e321b61d6cd47f9f03bdebdd6383817587f836e0e563bd2798c"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/adapter.py",
+      "bytes": 21577,
+      "sha256": "a99a389f8ff8d11b5c28507e524b823f3b906d703e2faa4dd34496a642517ac3"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/board_floor.py",
+      "bytes": 33888,
+      "sha256": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/chain_proposals.py",
+      "bytes": 7539,
+      "sha256": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/config.py",
+      "bytes": 1681,
+      "sha256": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/engine_angle.py",
+      "bytes": 15052,
+      "sha256": "977f392326158291cb136939576152685c6871756aec0e70e7784545dd8e393e"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/floor_context.py",
+      "bytes": 12830,
+      "sha256": "88dc6bf29ff536f10cd4c37575ae2476ed056b05167007d65f0fe796360ebd3d"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/floor_route.py",
+      "bytes": 35832,
+      "sha256": "78d684e09edb1ec1816d4385b6d0f67dc34d54bf40cbe1e41bf77348a0c99b8f"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/gui.py",
+      "bytes": 51738,
+      "sha256": "a4a5d71c188c2bf79ffac89f1f5b646c1b50dc4c4e8b033e9a4297c9fc1cb603"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/handoff.py",
+      "bytes": 33637,
+      "sha256": "2edd0ef49dfef96542eadc9eb0f57b3cb9c158f4be40ba977800399345afbd85"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/layer_policy.py",
+      "bytes": 13053,
+      "sha256": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/legacy_zone.py",
+      "bytes": 9409,
+      "sha256": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/local_settings.py",
+      "bytes": 18648,
+      "sha256": "a2ab6296b637ace500f1cdbdd62de0cd9c1803cfc17e38906ced497c1aef21c8"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/native.py",
+      "bytes": 8811,
+      "sha256": "d7e3140cee40d0a618c5c699cdada4d833a04d76f8fe06e8b823b4f490f2e9b6"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/native_connected.py",
+      "bytes": 17292,
+      "sha256": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/native_edge.py",
+      "bytes": 16439,
+      "sha256": "8a38b60f301a72b815b877f9af59d156024757d66eda7d3df8c34addbe4d0c74"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/netclass.py",
+      "bytes": 32508,
+      "sha256": "a483d40e48a5774e4485afc187ec6c7fad3d1f69a74b35a6f96624223446aa0b"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/netclass_native.py",
+      "bytes": 2826,
+      "sha256": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/padless_alias.py",
+      "bytes": 36868,
+      "sha256": "f359a89e3c48703058490c22d9591b5f916cd22a8b734c50e1c9191e501c1413"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/padless_alias_native.py",
+      "bytes": 11543,
+      "sha256": "7d06683b834f0211c82d87d7c982f6c39960e841627cd5e98f58a7913f501002"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/pipeline.py",
+      "bytes": 188489,
+      "sha256": "141ace13a69e85084440ba5bc88a9482d4f48cdeff034a79a60be2dc139d0f62"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/placement_clearance.py",
+      "bytes": 12036,
+      "sha256": "53f35206860617ed44fd5c5f1eb165894368b079e35fc89e060adc2f01997f41"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/placement_strategy.py",
+      "bytes": 31730,
+      "sha256": "b2bee86ef41c5f98e38a0c0f60fdd1bd9148346644f72c7d754de333bd52d25d"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/placement_transform.py",
+      "bytes": 18902,
+      "sha256": "cde384f548f7999f87296f071c4b1089c18abda59a02f323dfaa84c17bffee22"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/pour_rule_area.py",
+      "bytes": 17636,
+      "sha256": "684aa01868d415d531761eebbd4e2aefeba5316595d8478c7fc13bcc41b571b2"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/pour_rule_area_native.py",
+      "bytes": 4945,
+      "sha256": "8de8b82227d0f08a9b08eab3b9cba3ef1e025dde5d53d596ef212e93cf6304f1"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/preferences.py",
+      "bytes": 10901,
+      "sha256": "d6a39475d8e13483cd74921111c5438f3a0877866a2456d0b805490326681425"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/provenance.py",
+      "bytes": 14386,
+      "sha256": "bb095b5a50751f834e28d44f2f895d899fb2988e72d4b2cdf3719a888f0f16d0"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/recovery.py",
+      "bytes": 11225,
+      "sha256": "871f5f52cdb6932464b9ed3f2846c3ae7e257bbc04ddf87b6eba49450596c2b9"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/review_export.py",
+      "bytes": 37365,
+      "sha256": "ec98a363395f656792312b8ff81f07e3328c0ff8904a85de007bfc2374b6e029"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/review_view.py",
+      "bytes": 14200,
+      "sha256": "467e16028a49c75801ba5a11cfe13443a85a6f76b78fde61f698251b78130bac"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/routing_scope.py",
+      "bytes": 14108,
+      "sha256": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/runner.py",
+      "bytes": 22644,
+      "sha256": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/schematic_class_evidence.py",
+      "bytes": 20108,
+      "sha256": "370908bf8dd0b27a41bf2ccf27b45ebc445bb3ed42b4425113f585a5d84e64cb"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/schematic_classes.py",
+      "bytes": 22959,
+      "sha256": "58404d334902061493499972e092c9064bb116fbfe96caf031b8d4af475e30a9"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/schematic_field_evidence.py",
+      "bytes": 18889,
+      "sha256": "d46180e82a6f6a8b8337d064ac1c5f44df995a5da347c4809579077f8c54675a"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/schematic_fields.py",
+      "bytes": 9958,
+      "sha256": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/sexpr.py",
+      "bytes": 2045,
+      "sha256": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/strategy.py",
+      "bytes": 73195,
+      "sha256": "8a9ef351ff51df414245977d53cf68422d82fe4f9c94ccd8305c7025de073ea3"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/thermal.py",
+      "bytes": 19650,
+      "sha256": "2fa7ff7260ba6e8b5a8003d8e1f51314b5ff548ef635fb94b29bdee4c741102d"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/thermal_contact.py",
+      "bytes": 11297,
+      "sha256": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/thermal_geometry.py",
+      "bytes": 22611,
+      "sha256": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/code/thermal_worker.py",
+      "bytes": 15693,
+      "sha256": "fd651f44233aae2c70da0a8feab5f96a4763276684e8b0babf39860b91a9cc33"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/final-drc-binding.json",
+      "bytes": 2461,
+      "sha256": "4650448a4dcdbf15f7b03e8e0a5bbc00662e61e513c166d46b13039227f8cba5"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/final-drc-fields-audit-process.json",
+      "bytes": 3170,
+      "sha256": "c1806ed5fc11ff2198a9933d92b8e6b190e0603b0ff0b0b66d5e2f076e2679d9"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/final-drc-fields-audit.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/final-drc-fields-local-settings.json",
+      "bytes": 1820,
+      "sha256": "7986f69ab460cebe7f5232a58a98d8c7a156695bb6c7f92f17b7e38ca80773e5"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/final-drc-fields-netlist-process.json",
+      "bytes": 2189,
+      "sha256": "07c615b004b3c62a167811c6fd2b74a05b1f369c3383142f39a60ca474a12b2c"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/final-drc-fields-netlist.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/final-drc-fields-proof.json",
+      "bytes": 4986,
+      "sha256": "714327596deb31ebe6c28bbb2a65690ba4091585a77a35ae92fdcd6cb6d12f3d"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/final-drc-fields.json",
+      "bytes": 2313,
+      "sha256": "77206d49bf6952439e5c523bad799881523662ccc50270cbad67edf99492e65e"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/final-drc-fields.net",
+      "bytes": 8920,
+      "sha256": "dc03017981e00bcc73528af0d0decdfccb8f330d44cdb615d21a49ae8feeb40a"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/final-drc-input/owned1007-transport.kicad_pcb",
+      "bytes": 10207,
+      "sha256": "d66e561d9eef51a2a90a73926fb550e4dac6f4e1e21e0cf5557395397c3c84b9"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/final-drc-input/owned1007-transport.kicad_prl",
+      "bytes": 178,
+      "sha256": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/final-drc-input/owned1007-transport.kicad_pro",
+      "bytes": 2088,
+      "sha256": "34e7f86eef740735896725404399fda59d4c223c27a88a05b293c455d02bc6b1"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/final-drc-input/owned1007-transport.kicad_sch",
+      "bytes": 8280,
+      "sha256": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/final-drc-process.json",
+      "bytes": 2796,
+      "sha256": "335b90f7c7e4d74ed9d9928fb9e77024f80669824470a5e825fb87574e0bfa3d"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/final-drc.json",
+      "bytes": 3706,
+      "sha256": "aab1df00df251bb1e3cf3e86f65120547bc4e91c03ad9d98079ac63a9864c28b"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/final-drc.log",
+      "bytes": 242,
+      "sha256": "20db9b53f635ad38325c428e11909eac2e00158962b26d0ab957f0784bd67359"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/final-netclass-audit.json",
+      "bytes": 3525,
+      "sha256": "b73ae0f58cb6189355a089b274000078395dee2111f7c550a8d23d0f1976a8be"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/final-netclasses-process.json",
+      "bytes": 3158,
+      "sha256": "ae34ec4b5ea9e36425c07edc070928b7ce61f2f02b0eb4fd21d64f8762fd3e0b"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/final-netclasses.json",
+      "bytes": 3165,
+      "sha256": "78499ab5f62ac56856058b3a79b4a423d4f9dc3cbddc800e1e40921d551f0666"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/final-netclasses.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/metrics-process.json",
+      "bytes": 3126,
+      "sha256": "a582b9c3e09ac3b425abec616577de4df95d35e42c8895b178ba7d6d1c9f982b"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/metrics.json",
+      "bytes": 134,
+      "sha256": "eb6f66acbeb910847b356f5ff96187e03b8dfb2f420cee106570291063649d97"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/metrics.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/pre-refill.kicad_pcb",
+      "bytes": 10207,
+      "sha256": "d66e561d9eef51a2a90a73926fb550e4dac6f4e1e21e0cf5557395397c3c84b9"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/refill/owned1007-transport.kicad_pcb",
+      "bytes": 13767,
+      "sha256": "5463b2900423ea9042ab8924bb515a7fb83cce408117117a7cbaeb175821931c"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/refill/owned1007-transport.kicad_prl",
+      "bytes": 178,
+      "sha256": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/refill/owned1007-transport.kicad_pro",
+      "bytes": 2088,
+      "sha256": "34e7f86eef740735896725404399fda59d4c223c27a88a05b293c455d02bc6b1"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/refill/owned1007-transport.kicad_sch",
+      "bytes": 8280,
+      "sha256": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/refill-drc-binding.json",
+      "bytes": 2303,
+      "sha256": "6b95dab739000066b96c3c7a862d03b60679ea2a337a7ab2b6dd292815ecd5ae"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/refill-drc-process.json",
+      "bytes": 2767,
+      "sha256": "c59c0e039fe69064b8d321fe089580c9dfebee3f3a6dc5a215b932674e61e59c"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/refill-drc.json",
+      "bytes": 672,
+      "sha256": "d899cea1dbaa86124715ecf3670e26fe94f8fb0aacf3970a2942a08384da230c"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/refill-drc.log",
+      "bytes": 223,
+      "sha256": "bc647d409dc633a3f75b905920c0cabf6a7bc73f3bcbc03c25c9e0b5216c48c9"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/snapshot/owned1007-transport.kicad_pcb",
+      "bytes": 9760,
+      "sha256": "0e0f18d47d5624d31abd6fec1a6aa97346199c3fcc3b880bfef784afb3e3a179"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/snapshot/owned1007-transport.kicad_prl",
+      "bytes": 178,
+      "sha256": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/snapshot/owned1007-transport.kicad_pro",
+      "bytes": 2088,
+      "sha256": "34e7f86eef740735896725404399fda59d4c223c27a88a05b293c455d02bc6b1"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/export/validation/snapshot/owned1007-transport.kicad_sch",
+      "bytes": 8280,
+      "sha256": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/result.json",
+      "bytes": 55066,
+      "sha256": "daa3c7e773096c2f3fd28ae78c8726efb190d753069bc37744b3aefbcbc569b0"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/before/owned1007-transport.kicad_pcb",
+      "bytes": 9760,
+      "sha256": "0e0f18d47d5624d31abd6fec1a6aa97346199c3fcc3b880bfef784afb3e3a179"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/before/owned1007-transport.kicad_prl",
+      "bytes": 178,
+      "sha256": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/before/owned1007-transport.kicad_pro",
+      "bytes": 2088,
+      "sha256": "34e7f86eef740735896725404399fda59d4c223c27a88a05b293c455d02bc6b1"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/before/owned1007-transport.kicad_sch",
+      "bytes": 8280,
+      "sha256": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/plot-work/after-B.Cu-input/owned1007-transport.kicad_pcb",
+      "bytes": 10207,
+      "sha256": "d66e561d9eef51a2a90a73926fb550e4dac6f4e1e21e0cf5557395397c3c84b9"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/plot-work/after-B.Cu-input/owned1007-transport.kicad_prl",
+      "bytes": 178,
+      "sha256": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/plot-work/after-B.Cu-input/owned1007-transport.kicad_pro",
+      "bytes": 2088,
+      "sha256": "34e7f86eef740735896725404399fda59d4c223c27a88a05b293c455d02bc6b1"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/plot-work/after-B.Cu-input/owned1007-transport.kicad_sch",
+      "bytes": 8280,
+      "sha256": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/plot-work/after-B.Cu-input-binding.json",
+      "bytes": 1315,
+      "sha256": "59d96fb0ae0f91c11824754a1f02d0e10554dcf306e8d7bbea59b0e0ef7e57c3"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/plot-work/after-B.Cu-process.json",
+      "bytes": 2778,
+      "sha256": "24d5fdcc230afff2d08af01f46a09f93431c8c591eaa1be7e13f3a22de206bf0"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/plot-work/after-B.Cu.log",
+      "bytes": 177,
+      "sha256": "012c710b481553a3bee544a39f58225a5b5da8211cac5d0b5288212bd1e6dbfe"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/plot-work/after-F.Cu-input/owned1007-transport.kicad_pcb",
+      "bytes": 10207,
+      "sha256": "d66e561d9eef51a2a90a73926fb550e4dac6f4e1e21e0cf5557395397c3c84b9"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/plot-work/after-F.Cu-input/owned1007-transport.kicad_prl",
+      "bytes": 178,
+      "sha256": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/plot-work/after-F.Cu-input/owned1007-transport.kicad_pro",
+      "bytes": 2088,
+      "sha256": "34e7f86eef740735896725404399fda59d4c223c27a88a05b293c455d02bc6b1"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/plot-work/after-F.Cu-input/owned1007-transport.kicad_sch",
+      "bytes": 8280,
+      "sha256": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/plot-work/after-F.Cu-input-binding.json",
+      "bytes": 1315,
+      "sha256": "5c223b91320a065ffb7dd4e26c30be9df1582ff15641f9f41d75926af11c3daf"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/plot-work/after-F.Cu-process.json",
+      "bytes": 2787,
+      "sha256": "cf616ffbd347da9518aaf70f69ed9da38b7d7d38c8fc71b9ce43ba7e382e98fa"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/plot-work/after-F.Cu.log",
+      "bytes": 177,
+      "sha256": "588e1b031fccfe5a84a58fec990391c1461b6bcd49c821e37c31c74c04474f87"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/plot-work/before-B.Cu-input/owned1007-transport.kicad_pcb",
+      "bytes": 9760,
+      "sha256": "0e0f18d47d5624d31abd6fec1a6aa97346199c3fcc3b880bfef784afb3e3a179"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/plot-work/before-B.Cu-input/owned1007-transport.kicad_prl",
+      "bytes": 178,
+      "sha256": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/plot-work/before-B.Cu-input/owned1007-transport.kicad_pro",
+      "bytes": 2088,
+      "sha256": "34e7f86eef740735896725404399fda59d4c223c27a88a05b293c455d02bc6b1"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/plot-work/before-B.Cu-input/owned1007-transport.kicad_sch",
+      "bytes": 8280,
+      "sha256": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/plot-work/before-B.Cu-input-binding.json",
+      "bytes": 1315,
+      "sha256": "0dab47488a48a53fb84aa53263ccee54eaa437b3853288839e912be536671203"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/plot-work/before-B.Cu-process.json",
+      "bytes": 2782,
+      "sha256": "2f0cdab1566c656536519841b24304f36d78c086aa68aabc2cd341c86eee55c5"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/plot-work/before-B.Cu.log",
+      "bytes": 178,
+      "sha256": "dde9ece5a1cdef64fc4e4a10023256c7313ce2635edf130d8a82e9f737a2a14a"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/plot-work/before-F.Cu-input/owned1007-transport.kicad_pcb",
+      "bytes": 9760,
+      "sha256": "0e0f18d47d5624d31abd6fec1a6aa97346199c3fcc3b880bfef784afb3e3a179"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/plot-work/before-F.Cu-input/owned1007-transport.kicad_prl",
+      "bytes": 178,
+      "sha256": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/plot-work/before-F.Cu-input/owned1007-transport.kicad_pro",
+      "bytes": 2088,
+      "sha256": "34e7f86eef740735896725404399fda59d4c223c27a88a05b293c455d02bc6b1"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/plot-work/before-F.Cu-input/owned1007-transport.kicad_sch",
+      "bytes": 8280,
+      "sha256": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/plot-work/before-F.Cu-input-binding.json",
+      "bytes": 1315,
+      "sha256": "fc678e841ae1791b5b1ee8e7724b54151eca0b56320322fd71e6663b21d876f5"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/plot-work/before-F.Cu-process.json",
+      "bytes": 2781,
+      "sha256": "d41fe817e5404a7e0b3cc5e146a57038ff552fac6e204043f1f2391be6bca1d4"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/plot-work/before-F.Cu.log",
+      "bytes": 178,
+      "sha256": "185d60d0c9933b66abad9f21e6330cb1f403090b51056fa9ffccac5581ec745a"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/plot-work/native-plots/after-B.Cu.svg",
+      "bytes": 2310,
+      "sha256": "4378c2cec1c7c3feb2397c7d25e0b897c8a060684e4ef68f4f7c6c43b95ac344"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/plot-work/native-plots/after-F.Cu.svg",
+      "bytes": 2192,
+      "sha256": "15734d9357e1290d2e17e0e76dd6add81813e487237258db36193bf073def207"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/plot-work/native-plots/before-B.Cu.svg",
+      "bytes": 1971,
+      "sha256": "8ab46d999593d007765a593816208a6903904681d2708b9ea6e9c36f619faba9"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/plot-work/native-plots/before-F.Cu.svg",
+      "bytes": 2148,
+      "sha256": "7b4d21f8a014465758748e5d8259d975915d8432b2478e83828dcafbcbb79065"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/plot-work/plots/after-B.Cu.svg",
+      "bytes": 2210,
+      "sha256": "85e42cfca134af77be241378dce970f3b38ef46c803f2df12b80ead0c6591746"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/plot-work/plots/after-F.Cu.svg",
+      "bytes": 2092,
+      "sha256": "eb63bb64cb7ac66358bc321bc24e0bc550554da610e28ca97762e1bc0396f941"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/plot-work/plots/before-B.Cu.svg",
+      "bytes": 1871,
+      "sha256": "a43f1a553af706f358594ca255a17b178e5902f43fc78a559bbc898f4d0d58fa"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/plot-work/plots/before-F.Cu.svg",
+      "bytes": 2048,
+      "sha256": "80f980dfece7fe0c5bc927c84d1a55772fc029441e4058e99b93fd5f2f833c72"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/preview.html",
+      "bytes": 2867,
+      "sha256": "100b8deb852115004a6e2be3025d5c7fc1de54871d25f74e8a5e77d35f03f781"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/project/owned1007-transport.kicad_pcb",
+      "bytes": 10207,
+      "sha256": "d66e561d9eef51a2a90a73926fb550e4dac6f4e1e21e0cf5557395397c3c84b9"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/project/owned1007-transport.kicad_prl",
+      "bytes": 178,
+      "sha256": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/project/owned1007-transport.kicad_pro",
+      "bytes": 2088,
+      "sha256": "34e7f86eef740735896725404399fda59d4c223c27a88a05b293c455d02bc6b1"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/project/owned1007-transport.kicad_sch",
+      "bytes": 8280,
+      "sha256": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/review/review.json",
+      "bytes": 46761,
+      "sha256": "12a06f14b871015ff114265c73fe4e7b7e022fe3065fd05aa53bc0ebd8d810a7"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/candidate/owned1007-transport.kicad_pcb",
+      "bytes": 10207,
+      "sha256": "d66e561d9eef51a2a90a73926fb550e4dac6f4e1e21e0cf5557395397c3c84b9"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/candidate/owned1007-transport.kicad_prl",
+      "bytes": 178,
+      "sha256": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/candidate/owned1007-transport.kicad_pro",
+      "bytes": 2088,
+      "sha256": "34e7f86eef740735896725404399fda59d4c223c27a88a05b293c455d02bc6b1"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/candidate/owned1007-transport.kicad_sch",
+      "bytes": 8280,
+      "sha256": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/__init__.py",
+      "bytes": 107,
+      "sha256": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/__main__.py",
+      "bytes": 15345,
+      "sha256": "ff5ea2792dd70e321b61d6cd47f9f03bdebdd6383817587f836e0e563bd2798c"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/adapter.py",
+      "bytes": 21577,
+      "sha256": "a99a389f8ff8d11b5c28507e524b823f3b906d703e2faa4dd34496a642517ac3"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/board_floor.py",
+      "bytes": 33888,
+      "sha256": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/chain_proposals.py",
+      "bytes": 7539,
+      "sha256": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/config.py",
+      "bytes": 1681,
+      "sha256": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/engine_angle.py",
+      "bytes": 15052,
+      "sha256": "977f392326158291cb136939576152685c6871756aec0e70e7784545dd8e393e"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/floor_context.py",
+      "bytes": 12830,
+      "sha256": "88dc6bf29ff536f10cd4c37575ae2476ed056b05167007d65f0fe796360ebd3d"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/floor_route.py",
+      "bytes": 35832,
+      "sha256": "78d684e09edb1ec1816d4385b6d0f67dc34d54bf40cbe1e41bf77348a0c99b8f"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/gui.py",
+      "bytes": 51738,
+      "sha256": "a4a5d71c188c2bf79ffac89f1f5b646c1b50dc4c4e8b033e9a4297c9fc1cb603"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/handoff.py",
+      "bytes": 33637,
+      "sha256": "2edd0ef49dfef96542eadc9eb0f57b3cb9c158f4be40ba977800399345afbd85"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/layer_policy.py",
+      "bytes": 13053,
+      "sha256": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/legacy_zone.py",
+      "bytes": 9409,
+      "sha256": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/local_settings.py",
+      "bytes": 18648,
+      "sha256": "a2ab6296b637ace500f1cdbdd62de0cd9c1803cfc17e38906ced497c1aef21c8"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/native.py",
+      "bytes": 8811,
+      "sha256": "d7e3140cee40d0a618c5c699cdada4d833a04d76f8fe06e8b823b4f490f2e9b6"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/native_connected.py",
+      "bytes": 17292,
+      "sha256": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/native_edge.py",
+      "bytes": 16439,
+      "sha256": "8a38b60f301a72b815b877f9af59d156024757d66eda7d3df8c34addbe4d0c74"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/netclass.py",
+      "bytes": 32508,
+      "sha256": "a483d40e48a5774e4485afc187ec6c7fad3d1f69a74b35a6f96624223446aa0b"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/netclass_native.py",
+      "bytes": 2826,
+      "sha256": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/padless_alias.py",
+      "bytes": 36868,
+      "sha256": "f359a89e3c48703058490c22d9591b5f916cd22a8b734c50e1c9191e501c1413"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/padless_alias_native.py",
+      "bytes": 11543,
+      "sha256": "7d06683b834f0211c82d87d7c982f6c39960e841627cd5e98f58a7913f501002"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/pipeline.py",
+      "bytes": 188489,
+      "sha256": "141ace13a69e85084440ba5bc88a9482d4f48cdeff034a79a60be2dc139d0f62"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/placement_clearance.py",
+      "bytes": 12036,
+      "sha256": "53f35206860617ed44fd5c5f1eb165894368b079e35fc89e060adc2f01997f41"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/placement_strategy.py",
+      "bytes": 31730,
+      "sha256": "b2bee86ef41c5f98e38a0c0f60fdd1bd9148346644f72c7d754de333bd52d25d"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/placement_transform.py",
+      "bytes": 18902,
+      "sha256": "cde384f548f7999f87296f071c4b1089c18abda59a02f323dfaa84c17bffee22"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/pour_rule_area.py",
+      "bytes": 17636,
+      "sha256": "684aa01868d415d531761eebbd4e2aefeba5316595d8478c7fc13bcc41b571b2"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/pour_rule_area_native.py",
+      "bytes": 4945,
+      "sha256": "8de8b82227d0f08a9b08eab3b9cba3ef1e025dde5d53d596ef212e93cf6304f1"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/preferences.py",
+      "bytes": 10901,
+      "sha256": "d6a39475d8e13483cd74921111c5438f3a0877866a2456d0b805490326681425"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/provenance.py",
+      "bytes": 14386,
+      "sha256": "bb095b5a50751f834e28d44f2f895d899fb2988e72d4b2cdf3719a888f0f16d0"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/recovery.py",
+      "bytes": 11225,
+      "sha256": "871f5f52cdb6932464b9ed3f2846c3ae7e257bbc04ddf87b6eba49450596c2b9"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/review_export.py",
+      "bytes": 37365,
+      "sha256": "ec98a363395f656792312b8ff81f07e3328c0ff8904a85de007bfc2374b6e029"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/review_view.py",
+      "bytes": 14200,
+      "sha256": "467e16028a49c75801ba5a11cfe13443a85a6f76b78fde61f698251b78130bac"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/routing_scope.py",
+      "bytes": 14108,
+      "sha256": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/runner.py",
+      "bytes": 22644,
+      "sha256": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/schematic_class_evidence.py",
+      "bytes": 20108,
+      "sha256": "370908bf8dd0b27a41bf2ccf27b45ebc445bb3ed42b4425113f585a5d84e64cb"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/schematic_classes.py",
+      "bytes": 22959,
+      "sha256": "58404d334902061493499972e092c9064bb116fbfe96caf031b8d4af475e30a9"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/schematic_field_evidence.py",
+      "bytes": 18889,
+      "sha256": "d46180e82a6f6a8b8337d064ac1c5f44df995a5da347c4809579077f8c54675a"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/schematic_fields.py",
+      "bytes": 9958,
+      "sha256": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/sexpr.py",
+      "bytes": 2045,
+      "sha256": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/strategy.py",
+      "bytes": 73195,
+      "sha256": "8a9ef351ff51df414245977d53cf68422d82fe4f9c94ccd8305c7025de073ea3"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/thermal.py",
+      "bytes": 19650,
+      "sha256": "2fa7ff7260ba6e8b5a8003d8e1f51314b5ff548ef635fb94b29bdee4c741102d"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/thermal_contact.py",
+      "bytes": 11297,
+      "sha256": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/thermal_geometry.py",
+      "bytes": 22611,
+      "sha256": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/code/thermal_worker.py",
+      "bytes": 15693,
+      "sha256": "fd651f44233aae2c70da0a8feab5f96a4763276684e8b0babf39860b91a9cc33"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/engine-process.json",
+      "bytes": 2677,
+      "sha256": "ff25670e3dab98718ea90e7bdd59c7a123d49fc673a6b0cb7fd8a4f4bf2eba59"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/engine.log",
+      "bytes": 2452,
+      "sha256": "3250fa87cab2c5f41108aace11525371b980bff3a2fc887098885eb750ad319d"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/export-netclasses.json",
+      "bytes": 3153,
+      "sha256": "27940b68936009305d875e00b4b8a03cfc36372ea88f676aae5875417cf6288c"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/export-process.json",
+      "bytes": 3144,
+      "sha256": "b7c27cb6329e1e99dd7787f2871fe757f478515caf386a0f8daaa67c5eb616f6"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/export.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/final-drc-binding.json",
+      "bytes": 2437,
+      "sha256": "fc99412ff2bfcddf3e4bbfee14f0863874afc2eb8cc7bc5b47080ca96dffe082"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/final-drc-fields-audit-process.json",
+      "bytes": 3036,
+      "sha256": "68d35ed17b687eae75c8876845b86e7b7ea6bf1aac45c33c1e8debe439b61b81"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/final-drc-fields-audit.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/final-drc-fields-local-settings.json",
+      "bytes": 1796,
+      "sha256": "683c0b4419c0f7a569f18c6ab2b5d7aa8df4644d940d0d5d8cafaf193527e699"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/final-drc-fields-netlist-process.json",
+      "bytes": 2050,
+      "sha256": "15bbb412fa4698a8d0ae09eee6c3512268eeb0c25ad5f8eec16335a325c76f1f"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/final-drc-fields-netlist.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/final-drc-fields-proof.json",
+      "bytes": 4986,
+      "sha256": "27449ceb131b77e65eb3f4242b176680495a77099ec7788eb3248101d45a20a9"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/final-drc-fields.json",
+      "bytes": 2301,
+      "sha256": "85c1e4c01565bb780a2e65f8972ae6b5407f7f798063a1e2c529b6228e2da793"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/final-drc-fields.net",
+      "bytes": 8908,
+      "sha256": "dbccb96ba823760bd7b15962f5c20cef87b8148cce37cc8a39a207999de072db"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/final-drc-input/owned1007-transport.kicad_pcb",
+      "bytes": 10207,
+      "sha256": "d66e561d9eef51a2a90a73926fb550e4dac6f4e1e21e0cf5557395397c3c84b9"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/final-drc-input/owned1007-transport.kicad_prl",
+      "bytes": 178,
+      "sha256": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/final-drc-input/owned1007-transport.kicad_pro",
+      "bytes": 2088,
+      "sha256": "34e7f86eef740735896725404399fda59d4c223c27a88a05b293c455d02bc6b1"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/final-drc-input/owned1007-transport.kicad_sch",
+      "bytes": 8280,
+      "sha256": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/final-drc-process.json",
+      "bytes": 2648,
+      "sha256": "2c806f77e124f74c68fc1c70bf3fd305f2130623ce4f9e5dc165ca2dfcdcb2ac"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/final-drc.json",
+      "bytes": 3706,
+      "sha256": "72fea0215dd95429f6934ad896b48f8e48d28221863ff68a385e68c112bb2c7f"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/final-drc.log",
+      "bytes": 230,
+      "sha256": "c4101093e11ad2f105de1a683a724b2049c35bb833f7e23d8b5612c63c44707c"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/final-netclass-audit.json",
+      "bytes": 3525,
+      "sha256": "6bfad300f47c5110ecdf1701e87df6112e4f4df94af0591f36ffd090deffc559"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/final-netclasses-process.json",
+      "bytes": 3032,
+      "sha256": "ab7ea52dab3265abfd4711adfb04eb16f5f138e99b83d6f7cf2ae4f773e1f40d"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/final-netclasses.json",
+      "bytes": 3153,
+      "sha256": "218864d42c5736d49377827f8af9950139dc7c9551a13a9e03a99ffe1305a11e"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/final-netclasses.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/import-process.json",
+      "bytes": 3140,
+      "sha256": "980d99f68db8b5f289d6b2a0405a0ee89f599f98eb38440c8fdd1b02ef7ac410"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/import.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/imported.kicad_pcb",
+      "bytes": 13390,
+      "sha256": "307194c4352295d0beb6b51cf3e1a8c498bc2860080bc960853aef2bdf472e44"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/imported.kicad_prl",
+      "bytes": 2295,
+      "sha256": "7d9ad4476f33f37f2a7260669e933885b08555cc667b8a58a3980a10d5e0a4dd"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/imported.kicad_pro",
+      "bytes": 9769,
+      "sha256": "9398950bfb855c96fcbb82fb0f7b16d7c5b67d9f1586acfa6465471a3194597e"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/imported.routes-only.json",
+      "bytes": 803,
+      "sha256": "111209238e99607fdfe806e06651def7a740b20a0a9e0bd890227c49515cbab1"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/imported.routes-only.ses",
+      "bytes": 334,
+      "sha256": "7e92c67d9e064f40f37114803989df8d18e227af67ee659873d64b765680bf0b"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/metrics-process.json",
+      "bytes": 2992,
+      "sha256": "17282bf2a1781bdc4a1e32e68497dcdd8b0d4dff77b63e14e322174758f70963"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/metrics.json",
+      "bytes": 134,
+      "sha256": "eb6f66acbeb910847b356f5ff96187e03b8dfb2f420cee106570291063649d97"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/metrics.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/native.dsn",
+      "bytes": 2161,
+      "sha256": "ccfd8507dbb738fa0ed41c94445105c78721a0fbef4a13b9333d61abd3eef82a"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/pre-refill.kicad_pcb",
+      "bytes": 9857,
+      "sha256": "12fb20a0e9b404db38e915b863f2130446ad16c016799bc6bb218bedf4f9d48a"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/refill/owned1007-transport.kicad_pcb",
+      "bytes": 13767,
+      "sha256": "5463b2900423ea9042ab8924bb515a7fb83cce408117117a7cbaeb175821931c"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/refill/owned1007-transport.kicad_prl",
+      "bytes": 178,
+      "sha256": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/refill/owned1007-transport.kicad_pro",
+      "bytes": 2088,
+      "sha256": "34e7f86eef740735896725404399fda59d4c223c27a88a05b293c455d02bc6b1"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/refill/owned1007-transport.kicad_sch",
+      "bytes": 8280,
+      "sha256": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/refill-drc-binding.json",
+      "bytes": 2279,
+      "sha256": "0ab9f088520ea895b5542d1dea329edc8efb13ee700bea20ea13359d5ec5a4b0"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/refill-drc-process.json",
+      "bytes": 2631,
+      "sha256": "80f60fa76c62ea3d0f458f9df065ff08b99dc64194df1cdb46cf598651e79175"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/refill-drc.json",
+      "bytes": 672,
+      "sha256": "fcaea4678c07f60dcfd0d2f8e21eb1c49fd5540b33b3f01a13d276bb43cccd20"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/refill-drc.log",
+      "bytes": 211,
+      "sha256": "28535dfb3be7bfa102ad17905fa8fe307ee4605d5b885bceb9f4cd6cda863a94"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/result.json",
+      "bytes": 60586,
+      "sha256": "4588ded557e9f4dc75b92f64f2f1483518faea6f62fccf8662be421a62be0a0e"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/routes.ses",
+      "bytes": 874,
+      "sha256": "4727ee4cc071a3dbcb6dc22a44324d700e09abfdff0c6e65c0d37e71ea148c7a"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/snapshot/owned1007-transport.kicad_pcb",
+      "bytes": 9760,
+      "sha256": "0e0f18d47d5624d31abd6fec1a6aa97346199c3fcc3b880bfef784afb3e3a179"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/snapshot/owned1007-transport.kicad_prl",
+      "bytes": 178,
+      "sha256": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/snapshot/owned1007-transport.kicad_pro",
+      "bytes": 2088,
+      "sha256": "34e7f86eef740735896725404399fda59d4c223c27a88a05b293c455d02bc6b1"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/snapshot/owned1007-transport.kicad_sch",
+      "bytes": 8280,
+      "sha256": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/source-drc-binding.json",
+      "bytes": 2292,
+      "sha256": "ec1a104ef5861588a77c41e856ee1b562621ec130098af3fdec59eec01cf6f4d"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/source-drc-input/owned1007-transport.kicad_pcb",
+      "bytes": 9760,
+      "sha256": "0e0f18d47d5624d31abd6fec1a6aa97346199c3fcc3b880bfef784afb3e3a179"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/source-drc-input/owned1007-transport.kicad_prl",
+      "bytes": 178,
+      "sha256": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/source-drc-input/owned1007-transport.kicad_pro",
+      "bytes": 2088,
+      "sha256": "34e7f86eef740735896725404399fda59d4c223c27a88a05b293c455d02bc6b1"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/source-drc-input/owned1007-transport.kicad_sch",
+      "bytes": 8280,
+      "sha256": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/source-drc-process.json",
+      "bytes": 2624,
+      "sha256": "30e8504b53723d094272e4d1d75d27bf52d71efac67564326711ec1a4ccdf439"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/source-drc.json",
+      "bytes": 1444,
+      "sha256": "c29d15e1dbfa66e54f4e490e1d20e8cc8f83a47a87da159a5e99a27efc27d7a4"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/source-drc.log",
+      "bytes": 199,
+      "sha256": "7d28cede43d63d8bcdb7d29f116e5f7a0b3216a71f35dde4e00fa141b318584a"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/task.alias-export.json",
+      "bytes": 4008,
+      "sha256": "80452163e8b37d0404f1af2be5611ac55dc55f8c589a499dc4a7b7fc21f9fb75"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/task.alias-source.kicad_pcb",
+      "bytes": 9734,
+      "sha256": "532570eea165f77cd27fb714aa664fd515f2c6f55f6d01060504fe2b5bf2b122"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/route/task.dsn",
+      "bytes": 2161,
+      "sha256": "ccfd8507dbb738fa0ed41c94445105c78721a0fbef4a13b9333d61abd3eef82a"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/source/owned1007-transport.kicad_pcb",
+      "bytes": 9760,
+      "sha256": "0e0f18d47d5624d31abd6fec1a6aa97346199c3fcc3b880bfef784afb3e3a179"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/source/owned1007-transport.kicad_prl",
+      "bytes": 178,
+      "sha256": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/source/owned1007-transport.kicad_pro",
+      "bytes": 2088,
+      "sha256": "34e7f86eef740735896725404399fda59d4c223c27a88a05b293c455d02bc6b1"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/delivery/source/owned1007-transport.kicad_sch",
+      "bytes": 8280,
+      "sha256": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/enclosure/command.log",
+      "bytes": 131,
+      "sha256": "3233e6bf72f22c8fa71a1f6b08187dfcb51277273255b3e65ebfc2b2de74cad2"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/enclosure/command.process.json",
+      "bytes": 799,
+      "sha256": "f0d793aa28440dd7beaa3afc10cac8dce29fa9b0f28f94e5b3a406f2a5881d23"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/enclosure/result.json",
+      "bytes": 133770,
+      "sha256": "067e3a1e8bbc5b4f3bf1d60b1dd70c0897d79e0cc7c3adb310b56161e5316ba3"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/cost/native1007-delivery-execution-004-command.log",
+      "bytes": 116,
+      "sha256": "b494192aff7e5e2b8730cdda9b873d886b54409fac42b6489e74b99a174fdbba"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/cost/native1007-delivery-execution-004-time.log",
+      "bytes": 33,
+      "sha256": "e064d9deca4cc7d8f856e70c4db34f7bf18706b036529afe8f7fd8239f3d22d9"
+    },
+    {
+      "path": "evidence/runtime015-explicit1007-delivery-001-notes/review/actual-review-002.json",
+      "bytes": 4513,
+      "sha256": "27e0d05c0a3a7488c28ceb2ec1beff90e58911abc1dd19bb3bb8564a1f44d215"
+    }
+  ]
+}
