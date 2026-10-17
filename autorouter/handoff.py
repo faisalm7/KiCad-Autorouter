@@ -7,7 +7,7 @@ import signal
 import stat
 import time
 import uuid
-from . import config as c, floor_route as f, placement_clearance as pc
+from . import config as c, floor_route as f, placement_clearance as pc, pipeline as p
 from .pipeline import Rejected, check_result, save_json, validation_readback_session
 
 SECONDS = 30
@@ -66,8 +66,63 @@ def require_closed_review(project_hashes):
             'A KiCad lock file is still present; no acceptance was recorded.')
 
 
-def review_policy(report, directory):
+def delivery_kwargs(native_toolchain=None, experimental_schematic_parity=False):
+    """Caller authority only; never construct tools from a delivery receipt."""
+    p.experimental_route_record(native_toolchain, experimental_schematic_parity)
+    return ({} if native_toolchain is None else
+            dict(native_toolchain=native_toolchain,
+                 experimental_schematic_parity=experimental_schematic_parity))
+
+
+def check_delivery_context(record, native_toolchain=None, experimental_schematic_parity=False):
+    expected = p.experimental_route_record(native_toolchain, experimental_schematic_parity)
+    if native_toolchain is None:
+        if 'native_delivery_context' in record:
+            raise Rejected('experimental delivery requires explicit caller toolchain context')
+        p.check_experimental_route(record)
+    elif f.canonical(record.get('native_delivery_context')) != f.canonical(expected):
+        raise Rejected('experimental delivery context differs from caller')
+
+
+def delivery_record(native_toolchain=None, experimental_schematic_parity=False):
+    expected = p.experimental_route_record(native_toolchain, experimental_schematic_parity)
+    return {'native_delivery_context': expected} if expected else {}
+
+
+def delivery_guards(receipt, report, native_toolchain, preview=None, destination=None, *, additional=(), material=None):
+    """Replay existing non-byte guards after all delivery material/tool reads."""
+    if native_toolchain is None:
+        if preview is not None:check_delivery_context(preview)
+        return
+    pairs = []
+    if preview is not None:
+        from .review_view import check_experimental_preview
+        pairs = check_experimental_preview(destination, preview, native_toolchain, True)
+    packets = [(Path(receipt).parent, report), *additional]
+    for folder, data in packets:
+        p.check_experimental_local_settings(folder, data, native_toolchain)
+    if material is not None:material()
+    from . import local_settings as local, schematic_field_evidence as fields
+    # The central checks above validate complete lineage and tool bytes. Finish
+    # with existing PRL-only readers for all roots, including plot-input copies.
+    for folder, data in packets:
+        if fields.has_fields(data.get('native', {}).get('findings', [])):
+            fields.check_local_settings(folder, 'final-drc', f.read_json(Path(folder) / 'final-drc-binding.json'))
+        for step in data.get('steps', []):
+            argv = step.get('argv', [])
+            if (argv[:3] == [str(native_toolchain.cli), 'pcb', 'drc']
+                    or argv[:len(f.SANDBOX) + 3] == [*f.SANDBOX, str(native_toolchain.cli), 'pcb', 'drc']):
+                root = Path(step['cwd']); name = step['name']
+                binding = f.read_json(root / (name + '-binding.json'))
+                process = f.process_check(root, data, name, argv, allowed=(0, 5))
+                pairs.append((root, binding, process))
+    for root, binding, process in pairs:
+        local.check_event(root, binding, process)
+
+
+def review_policy(report, directory, *, native_toolchain=None, experimental_schematic_parity=False):
     """Same explicit policy dispatch as the central checker; no inferred downgrade."""
+    p.check_experimental_route(report, native_toolchain, experimental_schematic_parity)
     from . import placement_strategy as ps
     policy = ps.POLICY if ps.recognize(report, directory) else f.receipt_policy(report, directory)
     schemas = {'native': 1, pc.POLICY: 3, f.SEARCH_POLICY: 4, ps.POLICY: 5}
@@ -128,11 +183,13 @@ def failed_session(lifecycle, exc):
     except BaseException:retain()  # No current positive after corrective-write failure.
 
 
-def _review_copy(receipt, output, start, cpu_start, render=False, lifecycle=None):
+def _review_copy(receipt, output, start, cpu_start, render=False, lifecycle=None, *, native_toolchain=None, experimental_schematic_parity=False):
+    ctx = delivery_kwargs(native_toolchain, experimental_schematic_parity)
     destination = None; created = False; before_created = False; preview = None
     record = {'schema': 1, 'status': 'rejected', 'native_validation_performed': False,
               'budget_seconds': SECONDS, 'cpu_budget_seconds': SECONDS,
               'accounting_point': 'Stored totals precede final publication checks; final wall and parent-plus-waited-child CPU caps include them. These are observed acceptance ceilings, not OS quotas.'}
+    record.update(delivery_record(native_toolchain, experimental_schematic_parity))
     if lifecycle is not None:lifecycle.update(record=record,name='review.json')
 
     def cap():
@@ -187,14 +244,14 @@ def _review_copy(receipt, output, start, cpu_start, render=False, lifecycle=None
         captured = inventory(candidate.parent, contents=True)
         candidate_hashes = {name: digest(value) for name, value in captured.items()}
         runtime_hashes = runtime_inventory(); cap()
-        policy = review_policy(report, receipt.parent)
+        policy = review_policy(report, receipt.parent, **ctx)
         identity = {'candidate': str(candidate), 'candidate_sha256': report['candidate_sha256'],
                     'input_policy': policy}
         if candidate_hashes.get(candidate.name) != identity['candidate_sha256']:
             raise Rejected('captured candidate differs from receipt')
         project = destination / 'project'
 
-        def material():
+        def byte_material():
             cap()
             if runtime_inventory() != runtime_hashes:
                 raise Rejected('review runtime source or toolchain lock changed')
@@ -212,7 +269,7 @@ def _review_copy(receipt, output, start, cpu_start, render=False, lifecycle=None
                 raise Rejected('copied original changed while preparing review preview')
             if preview is not None:
                 from .pipeline import sha
-                if sha(c.CLI) != preview['plotter_sha256']:
+                if native_toolchain is None and sha(c.CLI) != preview['plotter_sha256']:
                     raise Rejected('review plotter changed after rendering')
                 for name, expected in preview.get('input_trees', {}).items():
                     if inventory(destination / name) != expected:
@@ -222,9 +279,13 @@ def _review_copy(receipt, output, start, cpu_start, render=False, lifecycle=None
                         raise Rejected('review preview changed after rendering')
             cap()
 
+        def material():
+            byte_material()
+            delivery_guards(receipt, report, native_toolchain, preview, destination, material=byte_material)
+
         def central_check():
             material()
-            verified = check_result(receipt); cap()
+            verified = check_result(receipt, **ctx); cap()
             if (verified.get('current') is not True or verified.get('applied') is not False
                     or any(verified.get(key, 'native' if key == 'input_policy' else None) != value
                            for key, value in identity.items())):
@@ -252,7 +313,7 @@ def _review_copy(receipt, output, start, cpu_start, render=False, lifecycle=None
             material()
             from .review_view import render as render_view
             remaining = lambda: max(0, min(SECONDS - (time.monotonic() - start), SECONDS - (cpu_seconds() - cpu_start)))
-            preview = render_view(destination, before / source.name, project / candidate.name, report, remaining, material)
+            preview = render_view(destination, before / source.name, project / candidate.name, report, remaining, material, **ctx)
             material(); record['preview'] = preview
         record.update(status='ready_for_manual_review', input_policy=policy,
                       source_receipt_schema=report['schema'], receipt=str(receipt),
@@ -294,9 +355,10 @@ def _review_copy(receipt, output, start, cpu_start, render=False, lifecycle=None
         raise
 
 
-def review_copy(receipt, output, *, render=False):
+def review_copy(receipt, output, *, render=False, native_toolchain=None, experimental_schematic_parity=False):
     """Create one new disposable project from centrally verified captured bytes."""
     start = time.monotonic(); cpu_start = cpu_seconds()
+    ctx = delivery_kwargs(native_toolchain, experimental_schematic_parity)
     previous = {sig: signal.getsignal(sig) for sig in (signal.SIGINT, signal.SIGTERM)}
     lifecycle={}
 
@@ -309,7 +371,7 @@ def review_copy(receipt, output, *, render=False):
         if type(render) is not bool:
             raise Rejected('render must be a Boolean')
         with validation_readback_session():
-            record = _review_copy(receipt, output, start, cpu_start, render, lifecycle)
+            record = _review_copy(receipt, output, start, cpu_start, render, lifecycle, **ctx)
             lifecycle['completed']=True
         return finish_session(record, output, start, cpu_start, 'review.json',lifecycle)
     except BaseException as exc:
@@ -323,14 +385,16 @@ def review_copy(receipt, output, *, render=False):
             signal.signal(sig, handler)
 
 
-def _review_choice(review_path, output, choice, start, cpu_start, lifecycle=None):
+def _review_choice(review_path, output, choice, start, cpu_start, lifecycle=None, *, native_toolchain=None, experimental_schematic_parity=False):
     """Record a design choice; it never approves/applies a PCB or invokes KiCad."""
+    ctx = delivery_kwargs(native_toolchain, experimental_schematic_parity)
     destination = None; created = False
     record = {'schema': 1, 'status': 'rejected', 'choice_recorded': False,
               'routing_accepted': False, 'applied': False,
               'native_validation_performed': False, 'human_pcb_approval_observed': False,
               'fresh_native_validation_required': True,
               'budget_seconds': SECONDS, 'cpu_budget_seconds': SECONDS}
+    record.update(delivery_record(native_toolchain, experimental_schematic_parity))
     if lifecycle is not None:lifecycle.update(record=record,name='choice.json')
     def cap():
         if time.monotonic() - start > SECONDS or cpu_seconds() - cpu_start > SECONDS:
@@ -353,13 +417,14 @@ def _review_choice(review_path, output, choice, start, cpu_start, lifecycle=None
             raise Rejected('review choice must be accept or reject')
         review_path = real_path(review_path); review_hash = digest(pc.read_bytes(review_path, PROJECT_BYTES))
         review = f.read_json(review_path)
+        check_delivery_context(review, native_toolchain, experimental_schematic_parity)
         if (type(review.get('schema')) is not int or review['schema'] != 1
                 or review.get('status') != 'ready_for_manual_review'):
             raise Rejected('current ready review record required')
         receipt = real_path(review['receipt']); receipt_hash = digest(pc.read_bytes(receipt, PROJECT_BYTES))
         if receipt_hash != review['receipt_sha256']:
             raise Rejected('reviewed routing receipt changed')
-        report = f.read_json(receipt); policy = review_policy(report, receipt.parent)
+        report = f.read_json(receipt); policy = review_policy(report, receipt.parent, **ctx)
         source = real_path(report['source']); candidate = real_path(report['candidate'])
         project = real_path(review['project'])
         if (candidate != receipt.parent / 'candidate' / source.name
@@ -386,7 +451,7 @@ def _review_choice(review_path, output, choice, start, cpu_start, lifecycle=None
         def preview_material():
             if preview is None: return
             from .pipeline import sha
-            if sha(c.CLI) != preview['plotter_sha256']:
+            if native_toolchain is None and sha(c.CLI) != preview['plotter_sha256']:
                 raise Rejected('review plotter pin changed')
             if inventory(review_path.parent / 'before') != source_hashes:
                 raise Rejected('reviewed original preview changed')
@@ -399,7 +464,7 @@ def _review_choice(review_path, output, choice, start, cpu_start, lifecycle=None
                 if not path.is_relative_to(review_path.parent) or digest(pc.read_bytes(path, PROJECT_BYTES)) != expected:
                     raise Rejected('review preview changed')
         identity = {'candidate': str(candidate), 'candidate_sha256': report['candidate_sha256'], 'input_policy': policy}
-        def material():
+        def byte_material():
             cap()
             if (digest(pc.read_bytes(review_path, PROJECT_BYTES)) != review_hash
                     or digest(pc.read_bytes(receipt, PROJECT_BYTES)) != receipt_hash
@@ -409,8 +474,11 @@ def _review_choice(review_path, output, choice, start, cpu_start, lifecycle=None
                     or inventory(candidate.parent) != candidate_hashes or inventory(project) != project_hashes):
                 raise Rejected('review choice material changed')
             preview_material(); cap()
+        def material():
+            byte_material()
+            delivery_guards(receipt, report, native_toolchain, preview, review_path.parent, material=byte_material)
         def central_check():
-            material(); verified = check_result(receipt); cap()
+            material(); verified = check_result(receipt, **ctx); cap()
             if (verified.get('current') is not True or verified.get('applied') is not False
                     or any(verified.get(key, 'native' if key == 'input_policy' else None) != value for key, value in identity.items())):
                 raise Rejected('central reviewed candidate identity changed')
@@ -460,16 +528,17 @@ def _review_choice(review_path, output, choice, start, cpu_start, lifecycle=None
         raise
 
 
-def review_choice(review, output, choice):
+def review_choice(review, output, choice, *, native_toolchain=None, experimental_schematic_parity=False):
     """Persist accept/reject intent with stale checks; no PCB application/approval."""
     start = time.monotonic(); cpu_start = cpu_seconds()
+    ctx = delivery_kwargs(native_toolchain, experimental_schematic_parity)
     previous = {sig: signal.getsignal(sig) for sig in (signal.SIGINT, signal.SIGTERM)}
     lifecycle={}
     def interrupted(*_): raise KeyboardInterrupt
     try:
         for sig in previous: signal.signal(sig, interrupted)
         with validation_readback_session():
-            record = _review_choice(review, output, choice, start, cpu_start,lifecycle)
+            record = _review_choice(review, output, choice, start, cpu_start,lifecycle, **ctx)
             lifecycle['completed']=True
         return finish_session(record, output, start, cpu_start, 'choice.json',lifecycle)
     except BaseException as exc:

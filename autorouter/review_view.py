@@ -50,18 +50,85 @@ def write_bound(path, raw):
     return expected
 
 
-def render(destination, source, candidate, report, remaining, material):
+def check_experimental_preview(destination, preview, native_toolchain=None, experimental_schematic_parity=False):
+    """Replay existing SVG process/PRL proofs using only caller-selected tools."""
+    from . import handoff as h
+    h.delivery_kwargs(native_toolchain, experimental_schematic_parity)
+    h.check_delivery_context(preview, native_toolchain, experimental_schematic_parity)
+    if native_toolchain is None:
+        return
+    destination = h.real_path(destination)
+    before = pc.inventory(destination / 'before')
+    boards = [name for name in before if Path(name).suffix == '.kicad_pcb']
+    if len(boards) != 1 or Path(boards[0]).name != boards[0]:
+        raise p.Rejected('experimental preview needs one exact original PCB')
+    board = boards[0]; tree = sx.read(destination / 'before' / board)
+    layers = [sx.unquote(x[1]) for x in sx.one(tree, 'layers')[1:]
+              if isinstance(x, list) and len(x) > 2 and re.fullmatch(r'(F|B|In[0-9]+)\.Cu', sx.unquote(x[1]))]
+    if (len(layers) not in (2, 4) or len(set(layers)) != len(layers)
+            or preview.get('layers') != layers or preview.get('plotter') != str(native_toolchain.cli)
+            or preview.get('plotter_sha256') != native_toolchain.cli_sha256):
+        raise p.Rejected('experimental preview layers or caller plotter differ')
+    root = destination / 'plot-work'; pairs = []; names = []; required = {'preview.html'}
+    for layer in layers:
+        for label in ('before', 'after'):
+            name = label + '-' + layer; names.append(name)
+            source = destination / ('before' if label == 'before' else 'project') / board
+            work = root / (name + '-input'); target = root / 'native-plots' / (name + '.svg')
+            required.update(str(path.relative_to(destination)) for path in (root / (name + '-input-binding.json'),
+                root / (name + '-process.json'), root / (name + '.log'), target, root / 'plots' / (name + '.svg')))
+            binding = f.read_json(root / (name + '-input-binding.json'))
+            if (binding.get('source') != str(source) or binding.get('input') != str(work / board)
+                    or binding.get('saved') is not False or binding.get('local_settings_policy') != ls.JOB_POLICY
+                    or binding.get('before') != pc.inventory(source.parent)
+                    or binding.get('after') != pc.inventory(work)
+                    or preview.get('input_trees', {}).get(str(work.relative_to(destination))) != binding['after']):
+                raise p.Rejected('experimental preview input binding changed')
+            required.update(str((work / key).relative_to(destination)) for key in binding['after'])
+            p.check_drc_project(binding['before'], binding['after'], board)
+            argv = [*f.SANDBOX, str(native_toolchain.cli), 'pcb', 'export', 'svg', '--mode-single',
+                    '--layers', layer + ',Edge.Cuts', '--fit-page-to-board', '--exclude-drawing-sheet',
+                    '--output', str(target), str(work / board)]
+            process = f.process_check(root, preview, name, argv)
+            if (process.get('local_settings_policy') != ls.JOB_POLICY
+                    or process.get('log') != str(root / (name + '.log'))
+                    or process.get('log_truncated') is not False
+                    or len(pc.read_bytes(root / (name + '.log'), 512 * 1024)) != process.get('log_bytes')):
+                raise p.Rejected('experimental preview process/log binding changed')
+            ls.check_event(root, binding, process)
+            pairs.append((binding, process))
+    if ([step.get('name') for step in preview.get('steps', [])] != names
+            or set(preview.get('input_trees', {})) != {str((root / (name + '-input')).relative_to(destination)) for name in names}):
+        raise p.Rejected('experimental preview stage census differs')
+    if (set(preview.get('files', {})) != required or preview.get('html') != str(destination / 'preview.html')
+            or preview.get('native_validation_performed') is not False or preview.get('zone_refill_performed') is not False):
+        raise p.Rejected('experimental preview proof file census differs')
+    p.experimental_native_version(native_toolchain)
+    # Flags and link counts are not byte hashes. Recheck after the last tool read.
+    for binding, process in pairs:
+        ls.check_event(root, binding, process)
+    return [(root, binding, process) for binding, process in pairs]
+
+
+def render(destination, source, candidate, report, remaining, material, *, native_toolchain=None, experimental_schematic_parity=False):
     """Called inside handoff's existing bounded freshness/publication transaction."""
     destination = Path(destination)
-    pin = f.read_json(c.ROOT / 'toolchain.lock.json')['tools']['kicad_cli']
-    if c.resolve_tool_path(pin['path']) != c.CLI or p.sha(c.CLI) != pin['sha256']:
-        raise p.Rejected('pinned KiCad plotter changed')
+    from . import handoff as h
+    ctx = h.delivery_kwargs(native_toolchain, experimental_schematic_parity)
+    if native_toolchain is None:
+        pin = f.read_json(c.ROOT / 'toolchain.lock.json')['tools']['kicad_cli']
+        plotter = c.CLI
+        if c.resolve_tool_path(pin['path']) != plotter or p.sha(plotter) != pin['sha256']:
+            raise p.Rejected('pinned KiCad plotter changed')
+    else:
+        plotter = native_toolchain.cli
+        pin = {'sha256': native_toolchain.cli_sha256}
     tree = sx.read(source)
     layers = [sx.unquote(x[1]) for x in sx.one(tree, 'layers')[1:]
               if isinstance(x, list) and len(x) > 2 and re.fullmatch(r'(F|B|In[0-9]+)\.Cu', sx.unquote(x[1]))]
     if len(layers) not in (2, 4) or len(layers) != len(set(layers)):
         raise p.Rejected('review plots require two or four distinct copper layers')
-    job = f.FloorJob(destination / 'plot-work', remaining(), remaining, protect_local_settings=True)
+    job = f.FloorJob(destination / 'plot-work', remaining(), remaining, protect_local_settings=True, **ctx)
     plots = job.out / 'plots'; plots.mkdir()
     native_plots = job.out / 'native-plots'; native_plots.mkdir()
     rows = []; frozen = {}; input_trees = {}
@@ -83,7 +150,7 @@ def render(destination, source, candidate, report, remaining, material):
             if pc.inventory(work) != before:
                 raise p.Rejected('native plot input copy differs')
             target = native_plots / (name + '.svg')
-            process = ls.protected_step(job, name, [c.CLI, 'pcb', 'export', 'svg', '--mode-single',
+            process = ls.protected_step(job, name, [plotter, 'pcb', 'export', 'svg', '--mode-single',
                      '--layers', layer + ',Edge.Cuts', '--fit-page-to-board', '--exclude-drawing-sheet',
                      '--output', target, work / board.name])
             after = pc.inventory(work)
@@ -132,11 +199,16 @@ def render(destination, source, candidate, report, remaining, material):
             '</pre></details>' + ''.join(rows) + '</html>')
     frozen['preview.html'] = write_bound(destination / 'preview.html', html.encode())
     stable()
-    if p.sha(c.CLI) != pin['sha256']:
+    if p.sha(plotter) != pin['sha256']:
         raise p.Rejected('KiCad plotter changed during rendering')
-    return {'plotter_sha256': pin['sha256'], 'layers': layers, 'steps': job.steps,
+    result = {'plotter_sha256': pin['sha256'], 'layers': layers, 'steps': job.steps,
             'html': str(destination / 'preview.html'), 'native_validation_performed': False,
             'zone_refill_performed': False, 'rendered_input_routes': len(p.routes(tree)),
             'display_derivation': 'Exact native SVG bytes with only the observed standard SVG1.1 DOCTYPE removed; raw native plots retained separately. No external DTD or entity is loaded.',
             'input_trees': {str(directory.relative_to(destination)): expected for directory, expected in input_trees.items()},
             'files': frozen}
+
+    if native_toolchain is not None:
+        result.update(h.delivery_record(native_toolchain, experimental_schematic_parity), plotter=str(plotter))
+        check_experimental_preview(destination, result, **ctx)
+    return result

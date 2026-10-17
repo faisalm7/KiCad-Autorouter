@@ -4,7 +4,7 @@
 
 [Full148](evidence/gui-preview-refusal-full148-001.json) passes at the same source. All43runtime modules other than `gui.py` exactly match013. [Native013](evidence/runtime013-flat-class-native-001.json) separately retains broader whole/clean/partial/plain API and2Cu Improve/export pairs, mismatch-before-engine, actual cancelled engine and deliberate-short controls. Those controls were not rerun or relabeled as014. Prior failed145/011 and013’s generic preview message remain preserved.
 
-The next bounded product gap is current-stable KiCad10.0.7 separate-project delivery: primitive Native routing is already demonstrated, but review/export consumers still assume10.0.0. Keep production pins unchanged while implementing explicit caller-pinned context, targeted refusals and one fresh owned delivery slice. This adds version compatibility evidence, not routing-quality superiority. Broader completion gains remain unproved.
+**Current source adds an unqualified explicit10.0.7 delivery API.** [Source and focused controls](evidence/native1007-delivery-source-001.json) thread the caller’s pinned tools/full-schematic context through existing review/export helpers, while defaults still refuse experimental records. Skeptical findings about late source/export/plot checks and controller reporting are source-fixed. Full149, curated015 and the single frozen owned180second Native delivery slice remain pending. Production pins and the tested014GUI artifact are unchanged. This is version compatibility work; broader routing completion gains remain unproved.
 
 | Area | Implemented / measured | Remaining gate |
 |---|---|---|

@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "kind": "bounded-read-only-prospective1007-delivery-review",
+  "status": "one-proposal-closure-gap-before-freeze",
+  "proposal": "PROPOSAL.md",
+  "proposal_sha256": "b5dda210cb6f7f312e2e4d152b2ff962efd13bad3b4bc0647acc5defaeed70be",
+  "findings": [
+    {
+      "priority": "P2",
+      "title": "Explicitly close late non-byte guards for every rendered plot input",
+      "proposal_lines": [131, 135],
+      "code_basis": "review_view.render creates separate plot-work/{before,after}-{layer}-input projects and records each protected SVG worker's input-binding. ls.check_event currently checks a plot input once immediately after that worker. These plot copies are outside the source route and fresh-export validation roots.",
+      "gap": "Step4 asks for experimental preview process/PRL replay, but the late-guard paragraph explicitly replays only source-route p.check_experimental_local_settings and fresh-export guards. It does not require plot-input PRL replay after final tool/material callbacks in rendering, review-copy, choice and export binding. Byte inventories do not detect retained PRL flags or hardlink changes.",
+      "counterexample_control": "After the ordinary preview proof replay, have the last caller-tool/material callback set UF_IMMUTABLE on review/plot-work/before-F.Cu-input/owned1007-transport.kicad_prl. Keep all bytes and source-route PRLs unchanged. The specified source-route guard and byte witnesses remain equal, so they alone cannot refuse the altered plot-input guard state.",
+      "required_closure": "After all late tool/full-material reads, replay ls.check_event for each already-bound actual SVG input/process pair. Apply that final non-byte check to render completion and every consumer that retains preview proof. Reuse the existing bindings/events; no new verifier framework or production scope expansion.",
+      "focused_regression": "Inject that flag mutation after the last tool/material callback in review-copy, review-choice and export-bind/readback, and require refusal/invalidation without a positive canonical outcome. Include plot-input hardlink refusal where the existing host control is supported.",
+      "scope_limit": "This is a missing explicit prospective closure requirement, not a claim that an implemented1007 patch has executed or failed."
+    }
+  ],
+  "other_reviewed_seams": [
+    "Caller-selected existing ExperimentalNativeToolchain plus literal full-parity opt-in remains authority; nested receipt context cannot select tools.",
+    "Default rejection and exact review/choice/binding/export/preview context propagation are specified, including removal/downgrade negatives.",
+    "Default-only explicit export must retain final-netclasses and exact experimental worker prefixes; proposal identifies this producer/reader asymmetry.",
+    "Saved-refill/final DRC context and final fullSCH requirements match existing APIs.",
+    "Explicit pour-rule-area refusal avoids the current production-only auxiliary reader path; no source repair or version waiver is proposed.",
+    "Fresh same-run lineage avoids relocating/rebinding old installed041 evidence; whole180 wall/fullCPU and stage contracts remain prospective bounds."
+  ],
+  "source_sha256": {
+    "autorouter/handoff.py": "36632386b3f012795e86c02c330b33ade21655bef43c241759c4759b4c5a1134",
+    "autorouter/review_view.py": "79f65e4d53c243f4e0f054d97bced2be2c4646537e5b86f11626ac8c5f4ce92d",
+    "autorouter/review_export.py": "d4b98a7b16805880bcf7bde761bd666738d015d1ad7d4d552abf334098860ccb",
+    "autorouter/pipeline.py": "141ace13a69e85084440ba5bc88a9482d4f48cdeff034a79a60be2dc139d0f62",
+    "autorouter/local_settings.py": "a2ab6296b637ace500f1cdbdd62de0cd9c1803cfc17e38906ced497c1aef21c8"
+  },
+  "actions": {
+    "project_source_or_docs_edits": false,
+    "tests_Native_JVM_CI_GUI_Git": false,
+    "delegation": false,
+    "only_write": ".runs/native1007-delivery-prospective-001/skeptical-review.json"
+  },
+  "limitations": "Read-only source/proposal review. No completed controls were reinvestigated or rerun. No Native correctness, product admission or test-pass claim."
+}

@@ -23,9 +23,24 @@ def evidence(out):
 
 def finite(x):return type(x) in (int,float) and math.isfinite(x) and x>=0
 
-def bind(choice_path):
+def bound_material(binding):
+    """Repeat existing byte witnesses without invoking tools or another consumer."""
+    small={str(Path(binding[key]).parent) for key in ('source','validated_candidate')}
+    for name,expected in binding['input_witnesses'].items():
+        if witness(h.real_path(name),project=name in small)!=expected:
+            raise p.Rejected('bound delivery input changed after tool checks')
+    for key in ('choice','review','receipt'):
+        if p.sha(h.real_path(binding[key]))!=binding[key+'_sha256']:
+            raise p.Rejected('bound delivery receipt changed after tool checks')
+    if (binding['input_witnesses'][str(Path(binding['source']).parent)]['files']!=binding['source_hashes']
+        or binding['input_witnesses'][str(Path(binding['validated_candidate']).parent)]['files']!=binding['candidate_hashes']):
+        raise p.Rejected('bound delivery source/candidate capture changed')
+
+def bind(choice_path, *, native_toolchain=None, experimental_schematic_parity=False):
     """Shared handoff contract/current checker plus exact recorded intent identity."""
+    ctx=h.delivery_kwargs(native_toolchain,experimental_schematic_parity)
     choice_path=h.real_path(choice_path);choice=f.read_json(choice_path)
+    h.check_delivery_context(choice,native_toolchain,experimental_schematic_parity)
     if (choice_path.name!='choice.json' or type(choice.get('schema')) is not int or choice['schema']!=1
         or choice.get('status')!='disposition_recorded' or choice.get('choice_recorded') is not True or choice.get('choice')!='accept'
         or any(choice.get(k) is not False for k in ('routing_accepted','applied','native_validation_performed','human_pcb_approval_observed'))
@@ -34,7 +49,8 @@ def bind(choice_path):
         or choice.get('within_budget') is not True or any(not finite(choice.get(k)) or choice[k]>h.SECONDS for k in ('wall_seconds','total_cpu_seconds'))):
         raise p.Rejected('current bounded accept-intent record required; no approval inferred')
     review_path=h.real_path(choice['review']);review=f.read_json(review_path)
-    receipt=h.real_path(choice['receipt']);report=f.read_json(receipt);policy=h.review_policy(report,receipt.parent)
+    h.check_delivery_context(review,native_toolchain,experimental_schematic_parity)
+    receipt=h.real_path(choice['receipt']);report=f.read_json(receipt);policy=h.review_policy(report,receipt.parent,**ctx)
     source=h.real_path(report['source']);candidate=h.real_path(report['candidate']);project=h.real_path(review['project'])
     if (review_path.name!='review.json' or review.get('schema')!=1 or type(review['schema']) is not int
         or review.get('status')!='ready_for_manual_review' or review.get('receipt')!=str(receipt)
@@ -62,7 +78,7 @@ def bind(choice_path):
     preview=review.get('preview')
     if (review_path.parent/'preview.html').exists() and not isinstance(preview,dict):raise p.Rejected('review preview binding missing')
     if preview is not None:
-        if p.sha(c.CLI)!=preview['plotter_sha256'] or witness(review_path.parent/'before',project=True)['files']!=sw['files']:
+        if (native_toolchain is None and p.sha(c.CLI)!=preview['plotter_sha256']) or witness(review_path.parent/'before',project=True)['files']!=sw['files']:
             raise p.Rejected('review original/plotter preview binding changed')
         for name,expected in preview['input_trees'].items():
             path=h.real_path(review_path.parent/name)
@@ -70,7 +86,7 @@ def bind(choice_path):
         for name,expected in preview['files'].items():
             path=h.real_path(review_path.parent/name)
             if not path.is_relative_to(review_path.parent) or p.sha(path)!=expected:raise p.Rejected('review preview bytes changed')
-    verified=p.check_result(receipt)
+    verified=p.check_result(receipt,**ctx)
     if (verified.get('current') is not True or verified.get('applied') is not False or verified.get('candidate')!=str(candidate)
         or verified.get('candidate_sha256')!=report['candidate_sha256'] or verified.get('input_policy','native')!=policy):
         raise p.Rejected('central original routing receipt rejected or changed')
@@ -81,11 +97,20 @@ def bind(choice_path):
         'receipt':str(receipt),'receipt_sha256':p.sha(receipt),'source':str(source),'validated_candidate':str(candidate),
         'validated_candidate_sha256':report['candidate_sha256'],'input_policy':policy,'source_receipt_schema':report['schema'],
         'source_hashes':sw['files'],'candidate_hashes':cw['files'],'input_witnesses':inputs}
+    binding.update(h.delivery_record(native_toolchain,experimental_schematic_parity))
+    h.delivery_guards(receipt,report,native_toolchain,preview,review_path.parent,material=lambda:bound_material(binding))
     return binding,report
 
-def lineage(binding,report):
+def lineage(binding,report, *, native_toolchain=None, experimental_schematic_parity=False):
     """Use the existing bound guidance/layer/native-class paths, never a new task."""
+    h.delivery_kwargs(native_toolchain,experimental_schematic_parity)
+    h.check_delivery_context(binding,native_toolchain,experimental_schematic_parity)
     receipt=Path(binding['receipt']);policy=binding['input_policy'];source=Path(binding['source'])
+    if native_toolchain is not None:
+        p.check_experimental_route(report,native_toolchain,experimental_schematic_parity)
+        from .pour_rule_area import qualify
+        if policy!='native' or p.layer_markers(receipt.parent,report) or qualify(sx.read(source)):
+            raise p.Rejected('experimental delivery supports ordinary native zones only')
     if policy=='native':basis=None;contract=None
     else:
         basis=receipt.parent/'incumbent' if policy==ps.POLICY else receipt.parent
@@ -102,6 +127,7 @@ class ExportJob(f.FloorJob):
     def step(self,name,argv,allowed=(0,),*,already_sandboxed=False):
         if name not in {'refill-drc','pour-keepout-audit','floor-final','final-netclasses','final-drc','final-drc-fields-netlist','final-drc-fields-audit','final-classes-netlist','metrics'}:
             raise p.Rejected('export prohibits solver/import/export stages')
+        p.experimental_native_version(self.native_toolchain)
         available=min(30,self.remaining())
         if available<=0:raise p.Rejected('export native budget exhausted')
         actual=[str(x) for x in (argv if already_sandboxed else [*f.SANDBOX,*argv])]
@@ -111,15 +137,17 @@ class ExportJob(f.FloorJob):
         if result['status']=='cancelled':raise KeyboardInterrupt
         if result['status'] not in ('success','nonzero_exit') or result['exit_code'] not in allowed or result.get('cleanup_complete') is not True:
             raise p.Rejected(name+': '+result['status']+' exit='+str(result['exit_code']))
+        p.experimental_native_version(self.native_toolchain)
         if self.remaining()<=0:raise p.Rejected('export wall/full CPU cap exhausted')
         return result
 
-def check_class_evidence(folder,data,binding,report):
+def check_class_evidence(folder,data,binding,report, *, native_toolchain=None, experimental_schematic_parity=False):
     """Recheck class copies/processes and non-byte PRL flags after late reads."""
+    h.delivery_kwargs(native_toolchain,experimental_schematic_parity)
     from . import schematic_class_evidence as classes
     if classes.present(folder,data,'task'):
         raise p.Rejected('unexpected task class proof in fresh export')
-    class_context=p.class_context_for_record(report,Path(binding['receipt']).parent,input_policy=binding['input_policy'])
+    class_context=p.class_context_for_record(report,Path(binding['receipt']).parent,input_policy=binding['input_policy'],native_toolchain=native_toolchain)
     required=p.check_schematic_class_support(Path(binding['source']),class_context=class_context)
     if required is not None:
         material=witness(folder)
@@ -138,13 +166,19 @@ def check_class_evidence(folder,data,binding,report):
     return required
 
 
-def check_stage(folder,data,binding,report,basis,contract,layers):
+def check_stage(folder,data,binding,report,basis,contract,layers, *, native_toolchain=None, experimental_schematic_parity=False):
     """Reuse original-rule refill/final/process/native-context validators."""
+    ctx=h.delivery_kwargs(native_toolchain,experimental_schematic_parity)
+    h.check_delivery_context(data,native_toolchain,experimental_schematic_parity)
+    h.check_delivery_context(binding,native_toolchain,experimental_schematic_parity)
+    p.check_experimental_route(report,native_toolchain,experimental_schematic_parity)
+    if native_toolchain is not None and (basis is not None or contract is not None or layers is not None):
+        raise p.Rejected('experimental export cannot use strategy or layer context')
     if report.get('scope')=='selected_nets' and data.get('schematic_parity')!=report.get('schematic_parity'):
         raise p.Rejected('export selected-net schematic parity declaration differs')
     if data.get('schematic_parity')!=p.parity_declaration(binding['source'],binding['source_hashes']):
         raise p.Rejected('export schematic parity declaration differs from original source')
-    class_context=p.class_context_for_record(report,Path(binding['receipt']).parent,input_policy=binding['input_policy'])
+    class_context=p.class_context_for_record(report,Path(binding['receipt']).parent,input_policy=binding['input_policy'],native_toolchain=native_toolchain)
     original=p.preflight(Path(binding['source']),task_scope=p.task_scope_for_record(report,Path(binding['receipt']).parent,input_policy=binding['input_policy']),class_context=class_context);candidate=folder/'candidate'/Path(binding['source']).name
     class_requirement=p.check_schematic_class_support(Path(binding['source']),class_context=class_context)
     before=sx.read(Path(binding['validated_candidate']));protected=p.protected_for_record(report,original)
@@ -157,19 +191,22 @@ def check_stage(folder,data,binding,report,basis,contract,layers):
     else:
         expected=dict(binding['source_hashes']);expected[candidate.name]=binding['validated_candidate_sha256']
         refill=folder/'refill'/candidate.name
-        f.check_drc_stage(folder,data,'refill-drc',refill,refill,True,expected)
+        f.check_drc_stage(folder,data,'refill-drc',refill,refill,True,expected,**ctx)
         if (sx.dump(p.transplant_fill(before,sx.read(refill)))+'\n').encode()!=pc.read_bytes(candidate):raise p.Rejected('export refill reconstruction changed')
         expected[candidate.name]=data['candidate_sha256']
         extra={'schematic_parity':True} if data.get('schematic_parity')=='checked by final native DRC' else {}
-        native=f.check_drc_stage(folder,data,'final-drc',candidate,folder/'final-drc-input'/candidate.name,False,expected,**extra)
+        native=f.check_drc_stage(folder,data,'final-drc',candidate,folder/'final-drc-input'/candidate.name,False,expected,**extra,**ctx)
         if native!=data['native']:raise p.Rejected('export actual final native report differs')
-        if p.netclass_policy(candidate) is not None:
-            native_classes=f.read_json(folder/'final-netclasses.json');audited=p.audit_candidate_netclasses(candidate,protected,native_classes)
+        if p.netclass_policy(candidate) is not None or native_toolchain is not None:
+            native_classes=f.read_json(folder/'final-netclasses.json');audited=p.audit_candidate_netclasses(candidate,protected,native_classes,**({'native_toolchain':native_toolchain} if native_toolchain is not None else {}))
             audited['native_map_file_sha256']=p.sha(folder/'final-netclasses.json')
             if f.read_json(folder/'final-netclass-audit.json')!=audited:raise p.Rejected('export original native class targets changed')
-            f.process_check(folder,data,'final-netclasses',[*f.SANDBOX,str(c.PYTHON),str(c.ROOT/'autorouter/native.py'),'netclasses',str(candidate),str(folder/'final-netclasses.json')])
-        f.process_check(folder,data,'metrics',[*f.SANDBOX,str(c.PYTHON),str(c.ROOT/'autorouter/native.py'),'metrics',str(candidate),str(folder/'metrics.json')])
+            f.process_check(folder,data,'final-netclasses',[*f.SANDBOX,*p.native_prefix(native_toolchain),'netclasses',str(candidate),str(folder/'final-netclasses.json')])
+        f.process_check(folder,data,'metrics',[*f.SANDBOX,*p.native_prefix(native_toolchain),'metrics',str(candidate),str(folder/'metrics.json')])
     if any(r not in p.routes(sx.read(candidate)) for r in protected):raise p.Rejected('export protected copper changed')
+    from .pour_rule_area import qualify
+    if native_toolchain is not None and qualify(original):
+        raise p.Rejected('experimental delivery supports ordinary native zones only')
     p.check_pour_evidence(folder,data,original,candidate,source_hashes=binding['source_hashes'],correction=False,sandboxed=True)
     names=p.selected_scope_names(report)
     if names is not None:
@@ -178,14 +215,14 @@ def check_stage(folder,data,binding,report,basis,contract,layers):
             raise p.Rejected('export selected-net copper audit differs')
     if layers is not None and p.audit_layer_contract(candidate,layers)!=data.get('layer_audit'):raise p.Rejected('export captured layer contract changed')
     metrics=f.read_json(folder/'metrics.json')
-    if (p.sha(folder/'final-drc.json')!=data['native_report_sha256'] or metrics!=data['metrics'] or metrics.get('version')!='10.0.0'
+    if (p.sha(folder/'final-drc.json')!=data['native_report_sha256'] or metrics!=data['metrics'] or metrics.get('version')!=p.experimental_native_version(native_toolchain)
         or metrics!=report['metrics'] or not p.native_accepted(data['native'])
         or data['native']['ignored_checks']!=report['native']['ignored_checks'] or not ps.warnings(data['native'])<=ps.warnings(report['native'])):
         raise p.Rejected('fresh export native acceptance/metrics/warnings/original ignore settings differ')
     from .pour_rule_area import qualify
     from . import schematic_field_evidence as fields
-    check_class_evidence(folder,data,binding,report)
-    expected_names=['refill-drc',*(['pour-keepout-audit'] if qualify(original) else []),*(['floor-final'] if contract is not None else ['final-netclasses'] if p.netclass_policy(candidate) is not None else []),'final-drc',*(fields.names('final-drc') if fields.has_fields(data['native']['findings']) else []),*(['final-classes-netlist'] if class_requirement is not None else []),'metrics']
+    check_class_evidence(folder,data,binding,report,**ctx)
+    expected_names=['refill-drc',*(['pour-keepout-audit'] if qualify(original) else []),*(['floor-final'] if contract is not None else ['final-netclasses'] if p.netclass_policy(candidate) is not None or native_toolchain is not None else []),'final-drc',*(fields.names('final-drc') if fields.has_fields(data['native']['findings']) else []),*(['final-classes-netlist'] if class_requirement is not None else []),'metrics']
     if [s['name'] for s in data['steps']]!=expected_names or any(s['cwd']!=str(folder) for s in data['steps']):raise p.Rejected('export native-only stage history differs')
     for step in data['steps']:
         log=Path(step['log'])
@@ -203,10 +240,12 @@ def check_stage(folder,data,binding,report,basis,contract,layers):
         raise p.Rejected('export delivery fields differ from validated project')
     return candidate
 
-def _check_export(path,guard):
+def _check_export(path,guard, *, native_toolchain=None, experimental_schematic_parity=False):
     """Stored proof consistency only; reruns original checker, never native or solver."""
+    ctx=h.delivery_kwargs(native_toolchain,experimental_schematic_parity)
     guard()
     path=h.real_path(path);before_hash=p.sha(path);data=f.read_json(path)
+    h.check_delivery_context(data,native_toolchain,experimental_schematic_parity)
     if (path.name!='export.json' or data.get('schema')!=1 or type(data['schema']) is not int or data.get('kind')!=KIND
         or data.get('status')!='export_validated' or data.get('export_accepted') is not True
         or data.get('native_validation_performed') is not True or data.get('routing_receipt_accepted') is not True
@@ -214,38 +253,46 @@ def _check_export(path,guard):
         or not finite(data.get('budget_seconds')) or not 30<=data['budget_seconds']<=SECONDS or data.get('cpu_budget_seconds')!=data['budget_seconds']
         or data.get('within_budget') is not True or any(not finite(data.get(k)) or data[k]>data['budget_seconds'] for k in ('wall_seconds','total_cpu_seconds'))):
         raise p.Rejected('current bounded fresh export proof required')
-    binding,report=bind(data['inputs']['choice']);guard()
-    current_tools=p.tool_manifest()
+    binding,report=bind(data['inputs']['choice'],**ctx);guard()
+    current_tools=p.tool_manifest(**({"native_toolchain":native_toolchain} if native_toolchain is not None else {}))
     if any(data['tools'].get(key)!=value for key,value in current_tools.items() if key!='git_head'):
         raise p.Rejected('export helper/native pin manifest changed')
     if binding!=data['inputs'] or evidence(path.parent)!=data['export_evidence'] or h.runtime_inventory()!=data['runtime_source_sha256']:
         raise p.Rejected('export inputs/runtime/evidence changed')
     for name,digest in data['tools']['files'].items():
         if p.sha(h.real_path(name))!=digest:raise p.Rejected('export native tool pin changed')
-    basis,contract,layers=lineage(binding,report);candidate=check_stage(path.parent/'validation',data,binding,report,basis,contract,layers)
+    basis,contract,layers=lineage(binding,report,**ctx);candidate=check_stage(path.parent/'validation',data,binding,report,basis,contract,layers,**ctx)
     if witness(path.parent/'validation/snapshot',project=True)!=binding['input_witnesses'][str(Path(binding['source']).parent)]:raise p.Rejected('export original snapshot changed')
     expected_code={Path(name).name:digest for name,digest in data['tools']['implementation_sha256'].items()}
     if pc.inventory(path.parent/'validation/code')!=data['code_inventory'] or data['code_inventory']!=expected_code:raise p.Rejected('export helper snapshot changed')
     from .local_settings import check_normal_policy
-    check_normal_policy(path.parent/'validation',data,max_bytes=OUTPUT_BYTES,max_files=OUTPUT_FILES)
-    if p.sha(path)!=before_hash or bind(binding['choice'])[0]!=binding or evidence(path.parent)!=data['export_evidence']:
+    check_normal_policy(path.parent/'validation',data,max_bytes=OUTPUT_BYTES,max_files=OUTPUT_FILES,**({'native_toolchain':native_toolchain} if native_toolchain is not None else {}))
+    if p.sha(path)!=before_hash or bind(binding['choice'],**ctx)[0]!=binding or evidence(path.parent)!=data['export_evidence']:
         raise p.Rejected('export changed during final readback')
-    check_class_evidence(path.parent/'validation',data,binding,report)
+    check_class_evidence(path.parent/'validation',data,binding,report,**ctx)
+    if native_toolchain is not None:
+        def material():
+            bound_material(binding)
+            if (p.sha(path)!=before_hash or evidence(path.parent)!=data['export_evidence']
+                    or h.runtime_inventory()!=data['runtime_source_sha256']):
+                raise p.Rejected('export changed after final tool checks')
+        h.delivery_guards(binding['receipt'],report,native_toolchain,f.read_json(binding['review']).get('preview'),Path(binding['review']).parent,additional=((path.parent/'validation',data),),material=material)
     guard()
-    return {'current':True,'export_accepted':True,'candidate':str(candidate),'candidate_sha256':data['candidate_sha256'],
+    return {**({'native_delivery_context':data['native_delivery_context']} if native_toolchain is not None else {}),'current':True,'export_accepted':True,'candidate':str(candidate),'candidate_sha256':data['candidate_sha256'],
         'original_routing_receipt':binding['receipt'],'applied':False,'fresh_native_run_performed_by_check':False,
         'warning':'Mutable local consistency proof; no authentication, live application, human PCB or electrical/manufacturing approval.'}
 
 
-def check_export(path):
+def check_export(path, *, native_toolchain=None, experimental_schematic_parity=False):
     """Bounded read-only proof check; no fresh native run or solver is invoked."""
     start=time.monotonic();cpu=h.cpu_seconds();previous={sig:signal.getsignal(sig) for sig in (signal.SIGINT,signal.SIGTERM)}
     def interrupted(*_):raise KeyboardInterrupt
     def cap():
         if time.monotonic()-start>SECONDS or h.cpu_seconds()-cpu>SECONDS:raise p.Rejected('export readback wall/full CPU ceiling exceeded')
     try:
+        ctx=h.delivery_kwargs(native_toolchain,experimental_schematic_parity)
         for sig in previous:signal.signal(sig,interrupted)
-        with p.validation_readback_session():result=_check_export(path,cap)
+        with p.validation_readback_session():result=_check_export(path,cap,**ctx)
         cap();return result
     except KeyboardInterrupt as exc:raise p.Rejected('export readback cancelled') from exc
     finally:
@@ -274,12 +321,14 @@ def invalidate(lifecycle,exc):
         try:archive()
         except BaseException as ownership:exc.add_note('No archival correction: '+str(ownership))
 
-def export(choice_path,output,seconds=SECONDS):
+def export(choice_path,output,seconds=SECONDS, *, native_toolchain=None, experimental_schematic_parity=False):
     """Validate the original bound candidate into a new project; never copy GUI rules."""
     start=time.monotonic();parent_cpu_start=time.process_time();child_cpu_start=f.child_cpu();cpu_start=parent_cpu_start+child_cpu_start
+    ctx=h.delivery_kwargs(native_toolchain,experimental_schematic_parity)
     lifecycle={};record={'schema':1,'kind':KIND,'status':'rejected','export_accepted':False,
         'routing_receipt_accepted':False,'native_validation_performed':False,'applied':False,'new_engine_execution':False,
         'human_pcb_approval_observed':False,'physical_electrical_validation':False,'schematic_parity':'not checked'}
+    record.update(h.delivery_record(native_toolchain,experimental_schematic_parity))
     previous={sig:signal.getsignal(sig) for sig in (signal.SIGINT,signal.SIGTERM)}
     def interrupted(*_):raise KeyboardInterrupt
     def remaining():return max(0,min(seconds-(time.monotonic()-start),seconds-(h.cpu_seconds()-cpu_start)))
@@ -301,26 +350,34 @@ def export(choice_path,output,seconds=SECONDS):
             output_ceiling_bytes=OUTPUT_BYTES,output_file_ceiling=OUTPUT_FILES)
         for sig in previous:signal.signal(sig,interrupted)
         with p.validation_readback_session():
-            cap();binding,report=bind(choice_path);out=h.real_path(output,existing=False)
+            cap();binding,report=bind(choice_path,**ctx);out=h.real_path(output,existing=False)
             if out.exists():raise p.Rejected('export output already exists')
             for protected in [Path(x).parent for x in (binding['source'],binding['receipt'],binding['review'],binding['choice'])]:
                 if out==protected or protected in out.parents:raise p.Rejected('export must be outside source/routing/review/choice trees')
-            source=Path(binding['source']);class_context=p.class_context_for_record(report,Path(binding['receipt']).parent,input_policy=binding['input_policy'])
-            original=p.preflight(source,task_scope=p.task_scope_for_record(report,Path(binding['receipt']).parent,input_policy=binding['input_policy']),class_context=class_context);basis,contract,layers=lineage(binding,report)
+            source=Path(binding['source']);class_context=p.class_context_for_record(report,Path(binding['receipt']).parent,input_policy=binding['input_policy'],native_toolchain=native_toolchain)
+            original=p.preflight(source,task_scope=p.task_scope_for_record(report,Path(binding['receipt']).parent,input_policy=binding['input_policy']),class_context=class_context);basis,contract,layers=lineage(binding,report,**ctx)
             class_requirement=p.check_schematic_class_support(source,class_context=class_context)
             candidate_capture=pc.inventory(Path(binding['validated_candidate']).parent,contents=True);source_capture=pc.inventory(source.parent,contents=True)
             if {name:h.digest(raw) for name,raw in candidate_capture.items()}!=binding['candidate_hashes'] or {name:h.digest(raw) for name,raw in source_capture.items()}!=binding['source_hashes']:
                 raise p.Rejected('export captured authoritative projects changed')
-            tools=p.tool_manifest();runtime=h.runtime_inventory();cap()
+            tools=p.tool_manifest(**({"native_toolchain":native_toolchain} if native_toolchain is not None else {}));runtime=h.runtime_inventory();cap()
             def stable():
                 cap()
                 if lifecycle.get('created'):h.owned_destination(lifecycle)
-                if bind(binding['choice'])[0]!=binding or h.runtime_inventory()!=runtime or p.tool_manifest()!=tools:raise p.Rejected('export original inputs/runtime/tools changed')
+                if bind(binding['choice'],**ctx)[0]!=binding or h.runtime_inventory()!=runtime or p.tool_manifest(**({"native_toolchain":native_toolchain} if native_toolchain is not None else {}))!=tools:raise p.Rejected('export original inputs/runtime/tools changed')
                 if job and witness(job.out/'snapshot',project=True)!=binding['input_witnesses'][str(source.parent)]:raise p.Rejected('export original snapshot changed')
                 if lifecycle.get('evidence') is not None and evidence(out)!=lifecycle['evidence']:raise p.Rejected('export completed evidence changed')
+                if native_toolchain is not None:
+                    additional=((job.out,record),) if job and lifecycle.get('evidence') is not None else ()
+                    def material():
+                        bound_material(binding)
+                        if h.runtime_inventory()!=runtime:raise p.Rejected('export runtime changed after tool checks')
+                        if job and witness(job.out/'snapshot',project=True)!=binding['input_witnesses'][str(source.parent)]:raise p.Rejected('export snapshot changed after tool checks')
+                        if lifecycle.get('evidence') is not None and evidence(out)!=lifecycle['evidence']:raise p.Rejected('export evidence changed after tool checks')
+                    h.delivery_guards(binding['receipt'],report,native_toolchain,f.read_json(binding['review']).get('preview'),Path(binding['review']).parent,additional=additional,material=material)
                 cap()
             stable();out.mkdir(parents=True,exist_ok=False);h.capture_destination(lifecycle,out)
-            job=ExportJob(out/'validation',seconds,remaining,protect_local_settings=True)
+            job=ExportJob(out/'validation',seconds,remaining,protect_local_settings=True,**ctx)
             for folder,capture,original_path in [(job.out/'snapshot',source_capture,source.parent),(job.out/'candidate',candidate_capture,Path(binding['validated_candidate']).parent)]:
                 folder.mkdir()
                 for name in binding['input_witnesses'][str(original_path)]['directories']:(folder/name).mkdir(parents=True,exist_ok=True)
@@ -354,11 +411,11 @@ def export(choice_path,output,seconds=SECONDS):
                 acceptance_meaning='Fresh native original-rule validation of the same route/design into a separate project after recorded intent; no GUI rules adopted, source overwritten, live editor applied or human PCB/electrical approval inferred.',
                 accounting_point='Prepublication stored sample; entire function and scoped-cache cleanup are measured against wall/full parent-plus-waited-child CPU ceilings. Native process caps poll and can overshoot; no OS aggregate quota or hostile-writer/power-loss authentication.')
             if layers is not None:record['layer_audit']=layers['audit']
-            check_stage(job.out,record,binding,report,basis,contract,layers);stable();account();cap()
+            check_stage(job.out,record,binding,report,basis,contract,layers,**ctx);stable();account();cap()
             record.update(status='export_validated',export_accepted=True);lifecycle['evidence']=evidence(out);record['export_evidence']=lifecycle['evidence']
             expected=f.canonical(record);h.owned_destination(lifecycle);p.save_json(out/'export.json',record)
             if f.canonical(f.read_json(out/'export.json'))!=expected:raise p.Rejected('export publication changed')
-            _check_export(out/'export.json',cap);stable()
+            _check_export(out/'export.json',cap,**ctx);stable()
             if f.canonical(record)!=expected or f.canonical(f.read_json(out/'export.json'))!=expected:raise p.Rejected('export final metadata changed')
             cap()
         h.owned_destination(lifecycle);cap()  # Include session exit/ownership/cleanup in delivery.

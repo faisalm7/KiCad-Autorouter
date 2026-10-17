@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "kind": "bounded-read-only-explicit1007-delivery-closure-review",
+  "status": "reviewed-source-findings-resolved-no-additional-material-blocker-found",
+  "source_sha256": {
+    "autorouter/handoff.py": "2edd0ef49dfef96542eadc9eb0f57b3cb9c158f4be40ba977800399345afbd85",
+    "autorouter/review_export.py": "ec98a363395f656792312b8ff81f07e3328c0ff8904a85de007bfc2374b6e029",
+    "autorouter/review_view.py": "69fc1b829fec1198012152943c74e6d6fc5c9fa30cbb38cd47c56fd0f245d52f",
+    ".runs/native1007-delivery-child-001.py": "f0db30fe6c42159e2743be1ef7cb83bae56241ec4c20cedc121764274293e6b6"
+  },
+  "findings": [],
+  "resolved_product_findings": [
+    {
+      "title": "Source Route DRC omitted from final PRL-only census",
+      "readback": "handoff.delivery_guards now recognizes only the exact caller CLI bare DRC prefix or its exact shared SANDBOX prefix. Each matching source/export step is replayed through f.process_check with allowed exit codes 0 and 5, then its binding/process pair is included in the final local.check_event pass.",
+      "status": "source-resolved; regression execution belongs to lead"
+    },
+    {
+      "title": "Tool-bearing delivery checks ran after the final complete byte witness",
+      "readback": "handoff.delivery_guards performs check_experimental_preview and every p.check_experimental_local_settings call before invoking material. The remaining field-local-settings, process and local.check_event readers do not call the selected tool checker. Review copy/choice split byte_material from the semantic material call; explicit CLI validation remains in the semantic phase. Export bound_material repeats the independently captured source/candidate/receipt/review/choice witnesses and receipt hashes without tool calls. Export stable and readback supply these pure callbacks, including completed export evidence/runtime checks. _check_export returns the already checked native_delivery_context without another delivery_record/tool hash call after final guards.",
+      "status": "source-resolved; no Native or callback regression executed by reviewer"
+    }
+  ],
+  "child_findings_resolved_during_review": [
+    {
+      "title": "Custom passed flag and exit code survived shared publication invalidation",
+      "original_counterexample": "A successful body sets passed=true, then f.publish encounters a late freshness/readback failure and changes status to invalidated. The initial child account callback did not clear passed for that status, and its return code checked passed alone.",
+      "readback": "account now clears passed whenever status is not completed; the return code requires both passed and completed. This also covers cancelled and invalidated outcomes raised by f.publish.",
+      "status": "source-resolved"
+    },
+    {
+      "title": "Protocol board_name could name a board outside the owned fixture packet",
+      "original_counterexample": "The initial child validated fixture_files names but joined an unchecked absolute or parent-relative board_name to source. That could route a different source while stable continued checking the unused freshly written fixture packet.",
+      "readback": "board_name now must be a flat .kicad_pcb string present in both fixture_files and fixture_sha256. After route, the receipt source must equal that owned board and source_hashes must equal the freshly written packet inventory.",
+      "status": "source-resolved"
+    }
+  ],
+  "child_scope_reviewed": [
+    "Frozen caller protocol SHA and exact curated interpreter/venv checks precede toolchain construction; tool context comes from the caller protocol, not a delivery receipt.",
+    "Fresh output, owned destination, immutable source packet, protocol/tool/runtime stability checks, and retained whole evidence inventory are required.",
+    "The intended fresh Route, rendered review, software accept intent, fresh Native export and current shared export reader remain distinct; source/open, final finding counts, pinned metrics version and locked KEEP route predictions are explicit.",
+    "Default Route, review-context, choice binding and export consumers must specifically raise p.Rejected for the explicit experimental records.",
+    "Software intent remains distinct from human approval/application. The child retains accepted=false, production_admitted=false, actual_GUI=false and human_review=false.",
+    "The child enforces a 172-second remaining wall/full-CPU allowance, reserves export/publication time, and asks f.publish for a final replay. A frozen outer controller is still required to enforce the complete prepare-through-cleanup budget, shared foreground lock, one worker, network denial, process/RSS/log/scratch limits, and terminal process/status/flag qualification. Those outer provisions were not yet reviewed or run."
+  ],
+  "qualification": {
+    "Native_execution_performed": false,
+    "tests_executed_by_reviewer": false,
+    "production_or_toolchain_support_qualified": false,
+    "Native_run_authorized_by_this_review": false,
+    "GUI_or_physical_validation_claim": false
+  },
+  "actions": {
+    "source_edits": false,
+    "tests_Native_JVM_GUI_CI_Git": false,
+    "delegation": false,
+    "only_write": ".runs/native1007-delivery-prospective-001/implementation-review-002.json"
+  },
+  "limits": "Bounded source closure review only. No completed controls rerun, no claim of authentication against fabricated local history, and no measured new runtime or routing-quality result. Lead must freeze the actual enclosure and protocol before deciding whether to execute the prospective slice."
+}

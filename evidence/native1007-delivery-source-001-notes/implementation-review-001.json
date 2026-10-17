@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "kind": "bounded-read-only-explicit1007-delivery-implementation-review",
+  "status": "one-material-freshness-finding-open",
+  "source_sha256": {
+    "autorouter/handoff.py": "4db5d0008bae3c981e5ed5bff1b5aaa53681c63231f4cdfefdde3858e428ec7a",
+    "autorouter/review_view.py": "69fc1b829fec1198012152943c74e6d6fc5c9fa30cbb38cd47c56fd0f245d52f",
+    "autorouter/review_export.py": "c21074927b4d2a6dab59d50f8f039a4da0d64e73d8371980bed0a4e656aae534"
+  },
+  "proposal_sha256": "b5dda210cb6f7f312e2e4d152b2ff962efd13bad3b4bc0647acc5defaeed70be",
+  "findings": [
+    {
+      "priority": "P1",
+      "title": "Tool-bearing delivery guard runs after the last complete byte freshness witness",
+      "locations": [
+        "autorouter/handoff.py:_review_copy.material",
+        "autorouter/handoff.py:_review_choice.material lines463-474",
+        "autorouter/review_export.py:bind",
+        "autorouter/review_export.py:_check_export lines257-263",
+        "autorouter/review_export.py:export.stable"
+      ],
+      "path": "Each caller checks bound source/candidate/evidence bytes, then invokes delivery_guards. That helper replays the preview and p.check_experimental_local_settings, both of which call experimental_native_version/nt.check and read caller tools. The caller does not recheck complete bound bytes after those late callbacks. PRL-only checks cannot establish source/current-candidate freshness.",
+      "precise_counterexample": "During the final _review_choice material call, after source/evidence/candidate/review-project inventories pass, inject a callback in the last nt.check reached through delivery_guards that appends a newline to the live original source .kicad_pro, then returns unchanged tool hashes. The source project is outside the source route evidence root; its source-route PRL/process guards do not reread that live original PRO. Final material can return and choice can remain disposition_recorded against stale source. Analogously, mutate the fresh export's live candidate during the final delivery_guards call after _check_export's evidence comparison; it can return current=True for changed bytes.",
+      "recommended_fix": "Separate semantic/tool replay from final PRL-only replay. After the semantic/tool phase, repeat the caller's independently bound source/candidate/receipt/complete-evidence witnesses; finish with the already-bound plot/source/export PRL events without further tool callbacks. Preserve all late non-byte checks.",
+      "focused_regressions": [
+        "Late source PRO mutation during the final tool callback in review-copy and choice refuses or invalidates the positive publication.",
+        "Late live export candidate/evidence mutation during the final tool callback in check_export refuses current=True and export publication invalidates.",
+        "PRL flag mutations during the new final byte witness are still caught by the final PRL-only pass."
+      ],
+      "execution_status": "Source-derived counterexamples only; no tests or Native executed by reviewer."
+    }
+  ],
+  "resolved_during_review": [
+    {
+      "title": "Source Route DRC omitted from final PRL-only census",
+      "original_gap": "Initial delivery_guards recognized only sandboxed DRC argv, while explicit p.route source/refill/final workers use the bare caller CLI prefix.",
+      "current_readback": "Now accepts the exact bare or sandboxed caller-CLI DRC prefixes, replays f.process_check with allowed0/5, and adds each bound source/export DRC event to the final PRL pass.",
+      "status": "source-fixed; reviewer did not execute regression"
+    }
+  ],
+  "other_seams_reviewed": [
+    "Default calls retain empty kwargs and reject native_delivery_context/root experimental markers through existing authority checks.",
+    "Explicit caller context, literal full-parity opt-in and exact review/choice/binding/export context remain separate from receipt-selected tools.",
+    "Default-only explicit export final-netclasses, exact sandbox plus native_prefix argv, metrics version and stage order are reciprocally checked.",
+    "Saved-refill/final fullSCH readers receive the explicit context; unsupported flat-class/pour/strategy paths retain refusal.",
+    "Public review/choice/export wrappers retain signal handlers, owned correction paths and elapsed/fullCPU checks; no additional concrete cancellation/default regression found in this bounded read."
+  ],
+  "actions": {
+    "source_edits": false,
+    "tests_Native_JVM_GUI_CI_Git": false,
+    "delegation": false,
+    "only_write": ".runs/native1007-delivery-prospective-001/implementation-review-001.json"
+  },
+  "limits": "One narrow source review; no completed controls rerun, no product or Native qualification, no authentication claim against full history fabrication."
+}
