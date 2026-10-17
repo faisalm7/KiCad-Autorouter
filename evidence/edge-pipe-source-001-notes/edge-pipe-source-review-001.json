@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "read-only-root-pipe-cleanup-and-named-edge-prototype-review",
+  "status": "no-material-source-blocker-found-in-requested-scope",
+  "findings": [],
+  "source_sha256": {
+    "autorouter/gui.py": "b63e0fd836117fd4942c2a90d7f37e437d925cb275538ba2dfa14020c24972a7",
+    "autorouter/native_edge.py": "6e20b523ab7676289b7083feae8d842738f9b33979e9aa3b1218d3fa6742df5b",
+    "tests/test_gui.py": "d1093b6617f2a7b1a2a5b35dc6ba85edc5f099d1f5537a9a49e2d62db4aa7895",
+    "tests/test_native_edge_named.py": "66d98315807d43cc9d750e14ee7d8ead4eab35af3106d80531b70fe5ebec8b5b"
+  },
+  "pipe_cleanup": "Compared with frozen015, gui.py changes exactly one line: captured stdout is closed in the existing finally after watchdog cancel/join. Successful children have already been drained/reaped; exceptional close is idempotent with the existing exception path. Cancel, wait, log bounds and adoption semantics remain unchanged. The new real-process regression uses the current interpreter, checks reaping and stdout.closed, and sys is imported. Reviewer did not run it or independently establish the parent-reported targeted pass.",
+  "default_compatibility": "derive_context adds a keyword-only experimental_named_classes=False and rejects non-Boolean values. With default/False, named/assigned/patterned projects still return the exact prior 'outside Default-only unassigned project scope' reason and unchanged bytes. The Default-only context/output shape and edge-only edit remain. All production callsites found under autorouter use pipeline.native_edge_context without the experimental keyword. check_native_edge_transport reconstructs that default context and exact expected record from unchanged snapshot bytes, so a saved experimental named record cannot activate the ordinary reader.",
+  "prototype_boundaries": "Explicit True reuses the qualified literal/parent project whitelists, bounds the namespace, rejects engine-name collisions, unknown/reversed composite identities and class/circuit/rule overrides, and refuses class clearance above the proposed inherited edge clearance. The transform preserves class/network/nonedge AST, adding only the existing edge namespace/rule and any existing inward-only boundary adjustment. It does not independently prove effective Native membership, parameter parents, via identity or loaded importer inheritance; native_class_mapping_required=true, loaded_named_matrix_qualified=false and routing_accepted=false make that remaining gate explicit. No Native/JAR/full-load matrix or production support claim follows from these pure controls.",
+  "tests_read": "Named tests cover default/False/no-op behavior, non-Boolean refusal, literal/parent mapping, exact nonedge AST, underscore names, unsupported classes/overrides, class-clearance floor, context tampering and absent/unobserved classes. Tests are source boundary controls; actual pinned full-load matrix/item/Native evidence remains separate.",
+  "actions_and_limits": "Read-only diff against frozen015, requested source/tests, narrow production callsites and existing netclass helpers. Sole write is this review. No tests/imports/Native/JVM/GUI/Git/delegation or unfinished experiments/native_edge_named_v1 controller inspection. Frozen015 remains unchanged; neither the root pipe fix nor prototype is Native-qualified by this source review."
+}

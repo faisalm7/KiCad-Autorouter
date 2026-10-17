@@ -4,6 +4,7 @@ import io
 import json
 from pathlib import Path
 import signal
+import sys
 import tempfile
 from types import SimpleNamespace
 import unittest
@@ -129,6 +130,15 @@ class GuiWorkflowTests(unittest.TestCase):
 
 
 class CliJobTests(unittest.TestCase):
+    def test_real_success_closes_captured_output_after_reaping(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            job = gui.CliJob()
+            result = job.run([sys.executable, '-B', '-c', 'print("owned output")'],
+                             Path(tmp) / 'run.log', timeout=5)
+            self.assertEqual(result['exit_code'], 0)
+            self.assertIsNotNone(job.process.poll())
+            self.assertTrue(job.process.stdout.closed)
+
     def test_late_cancel_before_and_during_adoption_rejects_old_snapshot(self):
         process = dict(cancel_requested=False, exit_code=0, log_truncated=False)
         for when in ('before', 'during'):

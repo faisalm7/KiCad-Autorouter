@@ -6,10 +6,14 @@ byte strings cannot establish that a separate .kicad_dru file is absent.
 import copy
 from decimal import Decimal, InvalidOperation, ROUND_CEILING, ROUND_FLOOR
 import json
+import re
 from . import adapter as a, sexpr as sx
 
 POLICY = 'native-rectangular-edge-v1'
 CLASS = 'kicadedge'
+NAMED_POLICY = 'known-named-inherited-edge-prototype-v1'
+_ENGINE_CLASSES = {'default', 'kicad_default', 'null', 'wire', 'smd', 'via', 'pin', 'area',
+                   CLASS, 'board_edge'}
 
 
 def _bytes(raw):
@@ -41,8 +45,107 @@ def _pairs(pairs):
     return result
 
 
-def derive_context(boardbytes, projectbytes):
+def _named_scope(projectbytes):
+    """Reuse the source whitelist; never resolve net patterns or Native parents."""
+    from . import netclass as nc
+    # The shared class whitelist intentionally accepts only JSON int/float.
+    # The main parser separately keeps the original edge decimal exact.
+    project = json.loads(_bytes(projectbytes), object_pairs_hook=_pairs,
+                         parse_constant=lambda _: (_ for _ in ()).throw(ValueError('nonfinite project value')))
+    try:
+        policy = nc.qualify_project(project)
+    except ValueError:
+        policy = nc.qualify_parent_project(project)
+    if policy['mode'] not in ('literal_two_class', nc.PARENT_POLICY):
+        raise ValueError('known named class policy required')
+    composite = False
+    try:
+        nc.qualify_parent_project(project)
+        composite = True
+    except ValueError:
+        pass
+    classes = {}
+    for row in project['net_settings']['classes']:
+        name = row['name']
+        if name != 'Default' and name.casefold() in _ENGINE_CLASSES:
+            raise ValueError('source class collides with an engine clearance namespace')
+        classes[name] = {key: a._atom_number(Decimal(nc._millimetres_to_nm(row[source])) / 1000)
+                         for key, source in (('width_um', 'track_width'), ('clearance_um', 'clearance'))}
+    return {'policy': NAMED_POLICY, 'source_policy': policy['mode'], 'source_classes': classes,
+            'allow_default_composites': composite}
+
+
+def _check_named_scope(scope):
+    from . import netclass as nc
+    if (type(scope) is not dict or set(scope) != {'policy', 'source_policy', 'source_classes', 'allow_default_composites'}
+            or scope['policy'] != NAMED_POLICY or scope['source_policy'] not in ('literal_two_class', nc.PARENT_POLICY)
+            or type(scope['allow_default_composites']) is not bool or type(scope['source_classes']) is not dict
+            or not 2 <= len(scope['source_classes']) <= 16 or 'Default' not in scope['source_classes']):
+        raise ValueError('unknown named edge scope')
+    names = scope['source_classes']
+    if len({name.casefold() for name in names if type(name) is str}) != len(names):
+        raise ValueError('ambiguous named edge namespace')
+    for name, row in names.items():
+        if (type(name) is not str or re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]{0,63}', name) is None
+                or name != 'Default' and name.casefold() in _ENGINE_CLASSES
+                or type(row) is not dict or set(row) != {'width_um', 'clearance_um'}
+                or any(type(value) is not str or _number(value) <= 0 for value in row.values())):
+            raise ValueError('unqualified named edge class parameters')
+    if scope['source_policy'] == 'literal_two_class' and len(names) != 2:
+        raise ValueError('literal named edge scope needs two classes')
+    return names
+
+
+def _named_rules(classes, scope):
+    """Keep class rows/rules untouched; their fresh matrix rows inherit the edge.
+
+    Eager named edge pairs would create matrix rows before Network's normal
+    initialization, changing nonedge clearances and default item assignments.
+    Actual full-load matrix/item checks remain a separate qualification gate.
+    """
+    from . import netclass as nc
+    configured = _check_named_scope(scope)
+    if not 1 <= len(classes) <= 31:
+        raise ValueError('bounded known DSN class inventory required')
+    names = set(); rules = []
+    for cls in classes:
+        if len(cls) < 3 or type(cls[1]) is not str:
+            raise ValueError('malformed named DSN class')
+        name = sx.unquote(cls[1])
+        if name in names: raise ValueError('duplicate named DSN class')
+        names.add(name)
+        if name == 'kicad_default':
+            source = configured['Default']
+        elif name in configured and name != 'Default':
+            source = configured[name]
+        elif scope['allow_default_composites']:
+            source = nc._parent_class({'class': name}, configured)
+        else:
+            raise ValueError('unknown or unqualified named DSN class identity')
+        if (name == 'Default' or any(type(node) is not str and
+                (not isinstance(node, list) or not node or node[0] not in {'rule', 'circuit'}) for node in cls[2:])):
+            raise ValueError('unqualified named DSN class override')
+        rule, circuit = sx.one(cls, 'rule'), sx.one(cls, 'circuit')
+        if rule is None or len(rule) != 3 or circuit is None or len(circuit) != 2:
+            raise ValueError('exact class width/clearance and via circuit required')
+        nc._children_only(rule, {'width', 'clearance'})
+        via = sx.one(circuit, 'use_via')
+        if via is None or len(via) != 2 or type(via[1]) is not str:
+            raise ValueError('unknown named DSN circuit override')
+        for key, expected in (('width', source['width_um']), ('clearance', source['clearance_um'])):
+            actual = sx.one(rule, key)
+            if actual is None or len(actual) != 2 or type(actual[1]) is not str or _number(actual[1]) != _number(expected):
+                raise ValueError('named DSN class differs from source parameters')
+        rules.append(rule)
+    if 'kicad_default' not in names:
+        raise ValueError('exact KiCad default DSN class required')
+    return rules, sorted(names)
+
+
+def derive_context(boardbytes, projectbytes, *, experimental_named_classes=False):
     """Return eligible original scope or an explicit unchanged-path reason."""
+    if type(experimental_named_classes) is not bool:
+        raise ValueError('explicit experimental named edge Boolean required')
     board = sx.parse(_bytes(boardbytes))
     project = json.loads(_bytes(projectbytes), object_pairs_hook=_pairs, parse_float=Decimal,
                          parse_constant=lambda _: (_ for _ in ()).throw(ValueError('nonfinite project value')))
@@ -60,8 +163,15 @@ def derive_context(boardbytes, projectbytes):
     names = [row.get('name') for row in classes]
     if any(not isinstance(name,str) for name in names) or len(set(name.casefold() for name in names)) != len(names):
         raise ValueError('ambiguous source class namespace')
+    named_scope = None
     if names != ['Default'] or settings.get('netclass_assignments') not in (None,{}) or settings.get('netclass_patterns') not in (None,[]):
-        return skip('outside Default-only unassigned project scope')
+        if not experimental_named_classes:
+            return skip('outside Default-only unassigned project scope')
+        try:
+            named_scope = _named_scope(projectbytes)
+            _check_named_scope(named_scope)
+        except (ValueError, TypeError, KeyError):
+            return skip('outside qualified named edge class scope')
     project_board = project.get('board', {})
     if not isinstance(project_board,dict): raise ValueError('malformed project board settings')
     design = project_board.get('design_settings', {})
@@ -75,6 +185,9 @@ def derive_context(boardbytes, projectbytes):
     if not isinstance(value,(int,Decimal)) or isinstance(value,bool): raise ValueError('numeric original edge minimum required')
     edge = _number(value)
     if edge < 0: raise ValueError('negative original edge minimum')
+    if named_scope is not None and any(_number(row['clearance_um']) > edge * 1000
+                                      for row in named_scope['source_classes'].values()):
+        return skip('named class clearance exceeds exact inherited edge scope')
     context['original_min_copper_edge_clearance_mm'] = a._atom_number(edge)
     context['requested_clearance_um'] = a._atom_number(edge*1000)
     if edge == 0: return skip('original edge minimum is zero; no added DSN rule')
@@ -99,6 +212,9 @@ def derive_context(boardbytes, projectbytes):
         rect_um=[a._atom_number(value*1000) for value in bounds],
         source_edge_sha256=a._digest(sx.dump(rectangle).encode()),
         requested_clearance_um=a._atom_number(edge*1000))
+    if named_scope is not None:
+        context.update(named_class_scope=named_scope,
+                       reason='prototype known named classes with exact inherited rectangular edge')
     return context
 
 
@@ -106,7 +222,8 @@ def correct(dsnbytes, context):
     """Encode original edge clearance; fractional bounds may move only inward."""
     text = _bytes(dsnbytes)
     keys={'schema','policy','applicable','reason','source_sha256','requires_no_custom_rule_companion'}
-    optional={'rect_um','source_edge_sha256','requested_clearance_um','original_min_copper_edge_clearance_mm'}
+    geometry={'rect_um','source_edge_sha256','requested_clearance_um','original_min_copper_edge_clearance_mm'}
+    optional=geometry|{'named_class_scope'}
     digest=lambda value:isinstance(value,str) and len(value)==64 and set(value)<=set('0123456789abcdef')
     if (not isinstance(context,dict) or not keys<=context.keys() or context.keys()-keys-optional
             or type(context['schema']) is not int or context['schema'] != 1 or context['policy'] != POLICY
@@ -115,8 +232,14 @@ def correct(dsnbytes, context):
             or not isinstance(context['source_sha256'],dict) or set(context['source_sha256'])!={'board','project'}
             or not all(digest(value) for value in context['source_sha256'].values())):
         raise ValueError('unknown edge context')
-    if context['applicable'] and (context.keys()!=keys|optional or not digest(context['source_edge_sha256'])
+    if context['applicable'] and (not (keys|geometry) <= context.keys() or not digest(context['source_edge_sha256'])
             or not isinstance(context['rect_um'],list) or len(context['rect_um'])!=4): raise ValueError('incomplete edge context')
+    named_scope=context.get('named_class_scope')
+    if 'named_class_scope' in context:
+        configured=_check_named_scope(named_scope)
+        if (not context['applicable'] or any(_number(row['clearance_um']) > _number(context['requested_clearance_um'])
+                                            for row in configured.values())):
+            raise ValueError('outside exact inherited named edge scope')
     record = dict(schema=1, policy=POLICY, applied=False, reason=context['reason'],
         source_sha256=copy.deepcopy(context['source_sha256']), input_sha256=a._digest(dsnbytes),
         output_sha256=a._digest(dsnbytes), native_project_modified=False, routing_accepted=False,
@@ -132,22 +255,27 @@ def correct(dsnbytes, context):
     if structure is None or network is None: raise ValueError('DSN structure and network required')
     boundary, rule = sx.one(structure,'boundary'), sx.one(structure,'rule')
     classes = sx.children(network,'class')
-    if boundary is None or len(boundary) != 2 or len(classes) != 1 or len(classes[0])<2 or classes[0][1] != 'kicad_default':
-        raise ValueError('one unclassified boundary and default DSN class required')
-    class_rule = sx.one(classes[0],'rule')
+    if boundary is None or len(boundary) != 2:
+        raise ValueError('one unclassified boundary required')
+    if named_scope is None:
+        if len(classes) != 1 or len(classes[0])<2 or classes[0][1] != 'kicad_default':
+            raise ValueError('one default DSN class required')
+        class_rules=[sx.one(classes[0],'rule')];class_names=None
+    else:
+        class_rules,class_names=_named_rules(classes,named_scope)
     nodes = list(_walk(tree))
     if any(len([node for node in nodes if node[0]==key]) != 1 for key in ('unit','resolution')):
         raise ValueError('nested or duplicate DSN units')
     if any(node[0] in {'clearance_class','layer_rule','class_class'} or
            any(isinstance(atom,str) and sx.unquote(atom) == CLASS for atom in node) for node in nodes):
         raise ValueError('existing or reserved edge clearance namespace')
-    if any(node[0] == 'rule' and node is not rule and node is not class_rule for node in nodes):
+    if any(node[0] == 'rule' and node is not rule and not any(node is item for item in class_rules) for node in nodes):
         raise ValueError('unknown DSN rule scope')
-    if any(node[0] == 'class' and node is not classes[0] for node in nodes):
+    if any(node[0] == 'class' and not any(node is item for item in classes) for node in nodes):
         raise ValueError('unknown named DSN item class')
-    if rule is None or len(rule)!=4 or len(sx.children(rule,'clearance')) != 2 or class_rule is None or len(class_rule)!=3:
+    if rule is None or len(rule)!=4 or len(sx.children(rule,'clearance')) != 2 or any(item is None or len(item)!=3 for item in class_rules):
         raise ValueError('normal default and SMD matrix required')
-    for ruleset in (rule,class_rule):
+    for ruleset in (rule,*class_rules):
         width=sx.one(ruleset,'width')
         if width is None or len(width)!=2 or _number(width[1])<=0: raise ValueError('positive DSN rule width required')
     clearances = sx.children(rule,'clearance')
@@ -155,7 +283,7 @@ def correct(dsnbytes, context):
         raise ValueError('unknown default/SMD clearance type')
     for node in nodes:
         if node[0] == 'clearance':
-            if not any(node is item for item in [*clearances,*sx.children(class_rule,'clearance')]): raise ValueError('unknown clearance scope')
+            if not any(node is item for item in [*clearances,*(entry for cls in class_rules for entry in sx.children(cls,'clearance'))]): raise ValueError('unknown clearance scope')
             if len(node) != 2 and node is not clearances[1]: raise ValueError('unknown typed clearance')
             if _number(node[1]) < 0: raise ValueError('negative DSN clearance')
     shape = boundary[1]; expected = list(map(_number,context['rect_um']))
@@ -231,6 +359,9 @@ def correct(dsnbytes, context):
         output_sha256=a._digest(encoded),source_edge_sha256=context['source_edge_sha256'],
         original_min_copper_edge_clearance_mm=context['original_min_copper_edge_clearance_mm'],
         requested_clearance_um=value,clearance_class=CLASS,exact_edge_only_ast_edit=True)
+    if named_scope is not None:
+        record.update(named_class_scope=copy.deepcopy(named_scope), dsn_class_identities=class_names,
+                      native_class_mapping_required=True, loaded_named_matrix_qualified=False)
     if inward is not None:
         record['inward_boundary']=inward
         record['reason']='original edge minimum encoded on source-contained inward grid rectangle'

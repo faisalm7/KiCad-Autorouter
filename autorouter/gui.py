@@ -481,6 +481,7 @@ class CliJob:
                 raise
             finally:
                 deadline.cancel(); deadline.join()
+                self.process.stdout.close()
         result = dict(argv=argv, exit_code=code, cancel_requested=self.cancel_requested,
                       log_truncated=truncated, log_bytes=size,
                       wall_seconds=time.monotonic()-started,

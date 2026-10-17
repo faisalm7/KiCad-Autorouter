@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "kind": "read-only-runtime015-production-controller-source-review",
+  "status": "startup-cancellation-and-owned-source-seams-require-new-protocol",
+  "review_recorded_at_utc": "2026-10-17 04:21:34 UTC",
+  "review_timing": "The reviewer first completed actual explicit1007 review002, then read these production001 sources and sent the startup finding. The lead subsequently reported production001 had already completed positively and been checkpointed at b027dbbf before receiving this source review. This is a post-execution source finding, not a pre-execution approval or independently reviewed production001 actual receipt. Preserve001 source/protocol/artifacts unchanged; its uncancelled positive does not qualify this cancellation seam.",
+  "source_sha256": {
+    ".runs/prepare-runtime015-production-001.py": "54988ba22f1512019097f6c84b239e3b2216851910d737099539d5e692820ae9",
+    ".runs/qualify-runtime015-production-001.py": "8c6332414f23f34ad18e21fe73ba5f9ae716f0a6ff21cff55bb0ac211abbcfdb",
+    ".runs/runtime-directory-015/runtime/.runs/qualify-runtime015-production-001.py": "8c6332414f23f34ad18e21fe73ba5f9ae716f0a6ff21cff55bb0ac211abbcfdb",
+    ".runs/run-runtime015-production-001.py": "b2674694e237a2b1eccc97e3cc3a7ed965e7e8bac503558127e1b59d50ec3ede",
+    ".runs/runtime-directory-015/production-delivery-protocol-001.json": "f075256c2ebe577c1f1fa6a92f0ea2060c1d765e84968b402c58d3e251475f31"
+  },
+  "findings": [
+    {
+      "priority": "P1",
+      "title": "Inner main-thread CliJob startup is outside its cancellation cleanup region",
+      "locations": [".runs/qualify-runtime015-production-001.py:38-42", "autorouter/gui.py:CliJob.run locked Popen startup before try/except BaseException"],
+      "precise_path": "The outer cooperative CliJob sends SIGINT to the qualifier coordinator. The qualifier invokes each inner CliJob.run on its main thread with default SIGINT handling. That signal can raise KeyboardInterrupt during the locked Popen startup, before self.process assignment and before CliJob.run's cleanup try begins. A just-created CLI process may therefore continue while the qualifier catches KeyboardInterrupt, publishes a failed diagnostic and exits; the outer lane does not own that CLI's Native/engine groups. This is not the already-reviewed queued startup-safe signal shape.",
+      "required_resolution": "In a new preserved controller/protocol, reuse the reviewed queued signal bridge or equivalent deferred product cancellation around the inner CLI startup, and retain live cancellation through adoption and final publication. Add the targeted startup-boundary control without executing Native. Do not claim actual001 exercised or passed cancellation.",
+      "evidence_status": "Source-derived race; no leaked process, cancellation test or Native rerun observed by reviewer."
+    },
+    {
+      "priority": "P2",
+      "title": "Owned board identity is not enforced by the new production child",
+      "locations": [".runs/qualify-runtime015-production-001.py:21-27", ".runs/qualify-runtime015-production-001.py:43-49"],
+      "precise_path": "fixture_files names are checked as flat, but board_name is joined without requiring a flat .kicad_pcb key present in both fixture maps. An absolute or parent-relative name could select another project while stable continues checking the unused freshly written source packet. The child also lacks an explicit route.source/source_hashes comparison to that packet.",
+      "current_frozen_protocol": "Actual protocol001 names the correct flat owned-four-copper-forced-inner.kicad_pcb. This is a controller/protocol-mistake refusal seam, not evidence that the actual uncancelled001 used another board.",
+      "required_resolution": "Mirror the earlier explicit1007 correction in a new version: flat PCB name in both frozen maps, then require route.source and route.source_hashes equal the freshly written owned packet. Preserve001 artifacts unchanged."
+    }
+  ],
+  "scope_readback": "Frozen runtime/source73de3151 and default10.0.0 context match the prepared protocol; child copy hash matches. Settings are standard/both/native/source_all,90s, whole-board. The fixture is the previously exposed owned matching4Cu class case with10protected routes. Shipped GUI model/CLI stage use is explicit; no actual GUI, new family, quality advantage, new source qualification or experimental1007 production promotion is claimed. Production preparation is explicitly separate setup; child240/outer245watchdog/260acceptance budgets are execution scope, not the explicit1007 preparation-inclusive180s contract.",
+  "actions": "Read-only source, protocol and SHA inspection only. Sole write is this review. No imports, tests, Native/JVM/GUI/Git/delegation, source changes or reinterpretation of actual001 outcome. Lead owns the new002 correction and any future execution."
+}

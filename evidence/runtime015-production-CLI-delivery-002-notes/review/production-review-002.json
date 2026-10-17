@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "kind": "read-only-runtime015-production002-closure-review",
+  "status": "prior-source-findings-resolved-no-additional-material-blocker-found",
+  "findings": [],
+  "verified_sha256": {
+    ".runs/qualify-runtime015-production-002.py": "2315258fb95536a87cb9dbe0d7f97f301db74717cd9b27c401aab9fe9b4237d0",
+    ".runs/runtime-directory-015/runtime/.runs/qualify-runtime015-production-002.py": "2315258fb95536a87cb9dbe0d7f97f301db74717cd9b27c401aab9fe9b4237d0",
+    ".runs/run-runtime015-production-002.py": "70c48fc0c3b4614ae971c52be9817f366870451e09be694701a12097324b152a",
+    ".runs/runtime-directory-015/production-delivery-protocol-002.json": "ecc2be9d2a3f01daa389240f4529d29f4c072d826bc0e5b7531b29606bc50b71",
+    ".runs/run-native1007-delivery-004.py": "522420cc1c32cbdfda6e11e55af11dbcbb65f776d766c42aed4a1d20605e0047",
+    ".runs/runtime-directory-015/runtime/runtime-distribution.json": "951de88d5f41509120c9583fef60e9d7fcee79896b9a560aff0f4ff1d7bd9f3b"
+  },
+  "resolved_findings": [
+    {
+      "title": "Inner main-thread CLI startup cancellation",
+      "readback": "The qualifier creates one CliJob and enters the already-reviewed queued-Boolean cancellation_bridge before every CLI startup, retaining it through all stages, final readback and publication. The frozen helper path/SHA is checked before child import and in stable. The handler does not synchronously acquire CliJob locks; broker dispatch reaches a process assigned under the startup lock. A queued request survives stage boundaries because the same CliJob is reused.",
+      "publication": "stable uses live before and after material checks; account reads queued and cancel_requested and clears passed/status. A final late live failure is corrected through f.publish, preserving archival/false canonical publication. Existing child and outer terminal-status/process/cancellation/truncation gates remain.",
+      "status": "source-resolved"
+    },
+    {
+      "title": "Owned board identity",
+      "readback": "board_name must now be a flat .kicad_pcb string present in both fixture_files and fixture_sha256. The generated source inventory must equal the frozen fixture map, and the actual route.source and route.source_hashes must equal that exact fresh owned packet.",
+      "status": "source-resolved"
+    }
+  ],
+  "scope_and_invariants": {
+    "comparison_to001": "runtime_tools, complete fixture bytes/hashes, settings, runtime manifest and child/outer budgets compare exactly equal to protocol001; prior protocol SHA is retained.",
+    "source_head": "73de3151b4ca81319a537595e68dc461b73b1664",
+    "native_version": "10.0.0",
+    "workflow": "Existing shipped CLI preview/Route/review/software intent/fresh Native export/readback through unchanged GUI model. Same exposed owned4Cu class fixture and10protected routes; no new family, quality advantage, actual GUI, human/physical approval, experimental1007 promotion or new product-source qualification.",
+    "publication": "Final positive central export readback remains last in the child publication check; tool/material/PRL acceptance code in the frozen015 runtime is unchanged. Shared lane and cooperative no-forced-coordinator-kill lifetime remain outside the child and enclose final readback/publication.",
+    "limits": "Preparation is separately disclosed setup; execution budgets remain child240/outerwatchdog245/outeracceptance260 with elapsed/fullCPU remaining checks. No permanent descendant certification, aggregate RSS or hard whole-time quota claim added."
+  },
+  "control_and_pipe_scope": "Lead reports actual local SIGINT/SIGTERM locked-Popen controls launched/reaped owned /bin/sleep and passed, with a raw ResourceWarning retained. Reviewer did not run or independently establish these controls. The separately reported root gui stdout-pipe fix and regression are outside unchanged frozen015; neither its new source nor a new Native/GUI product scope is qualified by this review. Production001 uncancelled positive remains retained and is not reinterpreted as startup-cancellation qualification.",
+  "review_actions": "Read-only002 source/protocol/SHA and001-vs002 JSON comparison only. Sole write is this review. No imports, tests, Native/JVM/GUI/Git/delegation or broad investigation. Lead stated002 had not executed at task dispatch; no actual002 outcome is asserted here."
+}
