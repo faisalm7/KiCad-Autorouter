@@ -1,10 +1,10 @@
 # Curated local runtime directory
 
-The current local candidate is **runtime019**, source `321bc5bfdcb85c6975ee5b7e2accf09b6f43da84`. [Fresh preparation/full156/installed doctor](../evidence/runtime019-preflight-full156-001.json) and [actual installed CLI delivery](../evidence/runtime019-production-CLI-delivery-001.json) pass. Route and fresh export each retain their own Native/full-schematic/original-design proof, zero opens/blocking findings, six warnings, two ignored checks and ten protected items. The [019GUI launcher](../evidence/gui-runtime019-067-prepared-001.json) is prepared only; latest actual GUI evidence remains [014/064](../evidence/gui-runtime014-064-native-opening-001.json).
+The current local candidate is **runtime019**, source `321bc5bfdcb85c6975ee5b7e2accf09b6f43da84`. [Fresh preparation/full156/installed doctor](../evidence/runtime019-preflight-full156-001.json) and [actual installed CLI delivery](../evidence/runtime019-production-CLI-delivery-001.json) pass. Route and fresh export each retain their own Native/full-schematic/original-design proof, zero opens/blocking findings, six warnings, two ignored checks and ten protected items. The [019 GUI launcher](../evidence/gui-runtime019-067-prepared-001.json) is prepared only; latest actual GUI evidence remains [014/064](../evidence/gui-runtime014-064-native-opening-001.json).
 
 On this Mac the existing directory is `.runs/runtime-directory-019/runtime`. Keep it at that absolute location and use its copied `.venv/bin/python -B`. Its prepared launcher is `.runs/gui-launcher067/Launch Autorouter.command` inside that directory. Close other KiCad applications before launch; the installer refuses conflicts and does not kill them. See the [workflow](gui-workflow.md) and [installation limits](install-test.md).
 
-To prepare another directory from committed selected source, use the existing supported Mac arm64 tools in `toolchain.lock.json`: KiCad10.0.0, Java25.0.2, Freerouting2.5.0 and Python3.11. The builder downloads nothing and changes no installed applications:
+To prepare another directory from committed selected source, use the existing supported Mac arm64 tools in `toolchain.lock.json`: KiCad 10.0.0, Java 25.0.2, Freerouting 2.5.0 and Python 3.11. The builder downloads nothing and changes no installed applications:
 
 ```sh
 .venv/bin/python -B scripts/prepare_runtime.py --output /absolute/new-runtime --copy-local-engine
