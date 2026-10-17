@@ -1,0 +1,42 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 0.48399504099506885,
+  "cpu_seconds": 0.24777100000000002,
+  "max_rss_bytes": 135217152,
+  "supervisor_cpu_seconds": 0.0038670000000000093,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 132743168,
+  "sampled_peak_workdir_bytes": 5955,
+  "resource_guards": {
+    "max_group_rss_bytes": 1073741824,
+    "max_workdir_bytes": 2097152,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Users/faisal/.pyenv/versions/3.11.9/bin/python3.11",
+    "-B",
+    "-c",
+    "import sys,json,importlib.util;sys.dont_write_bytecode=True;sys.path.insert(0,'/Users/faisal/Projects/KiCad-Autorouter-local');from autorouter import pipeline as p;spec=importlib.util.spec_from_file_location('retained_pair_metadata','/Users/faisal/Projects/KiCad-Autorouter-local/.runs/named-edge-installed-pair-001/run-installed-arm.py');m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);print(json.dumps(dict(tools=p.tool_manifest(),python=m.coordinator_python_context()),sort_keys=True))"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-019/delivery-preparation-002/metadata/coordinator.json",
+  "log_bytes": 5955,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-019/delivery-preparation-002/metadata",
+  "signal_cancellation_enabled": true,
+  "pid": 54730
+}

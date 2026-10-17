@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "passed": true,
+  "accepted": false,
+  "actual_installed_doctor": true,
+  "report_sha256": "4c81b9756dd5e75aaf884c53b972d65cfa72f3de23976bae63cc66a0657e2a73",
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 1.6259190409909934,
+    "cpu_seconds": 0.847719,
+    "max_rss_bytes": 135757824,
+    "supervisor_cpu_seconds": 0.007832000000000006,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 165888000,
+    "sampled_peak_workdir_bytes": 7395,
+    "resource_guards": {
+      "max_group_rss_bytes": 536870912,
+      "max_workdir_bytes": 1048576,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-019/runtime/.venv/bin/python",
+      "-B",
+      "-c",
+      "import sys,runpy;sys.path.insert(0,'/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-019/runtime');sys.argv=[\"autorouter\",\"doctor\"];runpy.run_module(\"autorouter\",run_name=\"__main__\")"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime019-doctor-001/command.log",
+    "log_bytes": 7395,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime019-doctor-001",
+    "signal_cancellation_enabled": true,
+    "pid": 54172
+  },
+  "scope": "Actual healthy019installedCLI doctor/tool version probes only, not Native board routing/validation or missing-Java execution qualification. Missing/failing tools are authored regression controls separately."
+}

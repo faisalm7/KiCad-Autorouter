@@ -1,0 +1,19 @@
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/prepare-runtime019-delivery-001.py", line 122, in <module>
+    args=parser.parse_args();QUALIFIED=args.qualified_head;require(re.fullmatch('[0-9a-f]{40}',QUALIFIED) is not None,'exact audited source checkpoint required');prepare(args.full156_sha256,args.setup_sha256,args.manifest_sha256)
+                                                                                                                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/prepare-runtime019-delivery-001.py", line 71, in prepare
+    coordinator_python=shared.coordinator_python_context();installed_file=shared.python_file_context(RUNTIME/'.venv/bin/python')
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/named-edge-installed-pair-001/run-installed-arm.py", line 29, in coordinator_python_context
+    return dict(**python_file_context(Path(sys.executable)),version=list(sys.version_info[:3]),implementation=sys.implementation.name)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/named-edge-installed-pair-001/run-installed-arm.py", line 25, in python_file_context
+    path=pv.canonical(Path(path).absolute());digest,size=pv.file_digest(path,128*1024**2)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/provenance.py", line 40, in canonical
+    raise ValueError('runtime provenance requires canonical paths without symlinks')
+ValueError: runtime provenance requires canonical paths without symlinks
+real 0.33
+user 0.20
+sys 0.09
