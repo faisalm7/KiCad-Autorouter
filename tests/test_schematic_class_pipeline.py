@@ -289,7 +289,7 @@ class SchematicClassPipelineControls(unittest.TestCase):
 
     def test_export_allows_only_final_class_step_and_keeps_existing_process_limits(self):
         folder = self.root/'export-step'; folder.mkdir()
-        job = SimpleNamespace(out=folder, steps=[], env={}, remaining=lambda: 120.)
+        job = SimpleNamespace(out=folder, steps=[], env={}, remaining=lambda: 120., native_toolchain=None)
         argv = [str(p.c.CLI), 'sch', 'export', 'netlist', '--format', 'kicadsexpr',
                 '--output', str(folder/'final-classes.net'), str(self.candidate.with_suffix('.kicad_sch'))]
         synthetic = {'status': 'success', 'exit_code': 0, 'cleanup_complete': True,

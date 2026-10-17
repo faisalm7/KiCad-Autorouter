@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "kind": "bounded-read-only-explicit1007-delivery-enclosure-review",
+  "status": "two-pre-freeze-gaps-open",
+  "source_sha256": {
+    ".runs/run-native1007-delivery-001.py": "81cf9f821bcc653288a988840e3cb9cd8035a88e62fcebdef4455bc0ddf3e525",
+    ".runs/native1007-delivery-child-001.py": "f0db30fe6c42159e2743be1ef7cb83bae56241ec4c20cedc121764274293e6b6",
+    ".runs/native1007-delivery-prospective-001/PROPOSAL.md": "b5dda210cb6f7f312e2e4d152b2ff962efd13bad3b4bc0647acc5defaeed70be"
+  },
+  "findings": [
+    {
+      "priority": "P1",
+      "title": "Outer cleanup only owns the coordinator group, while ordinary inner workers create separate groups",
+      "locations": [
+        ".runs/run-native1007-delivery-001.py:83-91",
+        "autorouter/runner.py:run subprocess.Popen(start_new_session=True), signal_group and group_exists"
+      ],
+      "precise_path": "The outer shared runner creates a session for the curated Python coordinator. Every nested p.Job/FloorJob shared runner creates a new session for its Native or JVM worker. Consequently the outer os.killpg(coordinator_pid, signal) and group_exists(coordinator_pid) do not include these ordinary inner workers. Both runner levels escalate after 0.2 seconds. If outer cancellation or timeout kills the coordinator before its inner runner completes cleanup, the inner worker can remain in its separate process group while outer cleanup_complete is true for the coordinator group. The enclosing Native-lane lock is then released when execute returns.",
+      "impact": "The positive qualification correctly fails on cancellation, but a failure does not establish that all owned Native/JVM workers stopped. This matters before reusing the single Native lane; outer group-RSS observation also does not include the separate inner groups.",
+      "required_resolution": "Use a bounded enclosure-specific ownership record and verify/clean only the actual owned nested process groups before releasing the lane, or reuse an existing enclosure that already provides this descendant ownership guarantee. Do not infer complete tree cleanup from the outer runner's coordinator-group cleanup_complete. Do not scan or kill unrelated processes.",
+      "execution_status": "Source-derived cancellation/timeout race; no Native, test or process experiment executed."
+    },
+    {
+      "priority": "P2",
+      "title": "Execution-only 180-second scope differs from the unchanged preparation-inclusive proposal",
+      "locations": [
+        ".runs/run-native1007-delivery-001.py:31-66",
+        ".runs/run-native1007-delivery-001.py:64",
+        ".runs/run-native1007-delivery-001.py:68-105",
+        ".runs/native1007-delivery-prospective-001/PROPOSAL.md:Whole slice acceptance ceiling"
+      ],
+      "precise_path": "The original proposal caps wall and full parent-plus-waited-child CPU from before controller imports/preparation through final publication and cleanup. --prepare records costs in one process; execute starts a new START/CPU0 and never adds plan.preparation_wall_seconds or preparation_full_cpu_seconds to acceptance or result totals. Its scope text instead excludes cold build/preparation. Two individually bounded runs can therefore exceed the original 180-second combined allowance and still pass the execution gate.",
+      "required_resolution": "Before freezing, either preserve the original cap by accounting/subtracting preparation costs, or explicitly revise the prospective protocol to define a separate cold-build cost and an execution-only ceiling. In the latter case retain separate cold, execution and combined costs and do not claim the original preparation-inclusive bound was established. Successful f.publish account samples precede final publication checks, so label those samples accurately and retain the actual complete outer command cost as well.",
+      "execution_status": "No preparation or execution performed."
+    }
+  ],
+  "other_seams_reviewed": [
+    "The caller-selected signed/notarized prerequisite SHA and exact CLI/Python/pcbnew pins remain independent of delivery receipts.",
+    "The runtime builder uses the existing committed snapshot and provenance reader; the expected 44-module census restricts product changes relative to runtime014 to handoff, review_export and review_view.",
+    "The selected child, protocol and runtime manifest are checked before execution. The child's complete tool/runtime comparison and immutable owned source checks remain present.",
+    "The child binds a flat owned PCB name to both fixture maps and verifies the actual route source/hash identity; its positive flags and exit code require completed status, including shared publication invalidation.",
+    "The outer positive requires child completed/passed, accepted=false, production_admitted=false, exact tools, successful process exit, coordinator-group cleanup_complete and no truncated outer log. Publication account clears passed on noncompleted status.",
+    "The actual execution worker is network denied, the shared foreground lock is nonblocking and checked as a single-link regular file, scratch is bounded at the runtime .runs root, and ordinary source/route/review/export acceptance remains delegated to the existing product readers. No production pin or supported scope is broadened by this controller."
+  ],
+  "actions": {
+    "source_edits": false,
+    "tests_Native_JVM_GUI_CI_Git": false,
+    "delegation": false,
+    "only_write": ".runs/native1007-delivery-prospective-001/enclosure-review-001.json"
+  },
+  "limits": "Narrow source preflight review only; no --prepare or Native execution, no measured new cost, no completed controls repeated, no broad process-ownership framework investigation. Findings bind the listed bytes and may be closed by a subsequent source readback."
+}
