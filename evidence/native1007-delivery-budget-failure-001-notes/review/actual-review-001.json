@@ -1,0 +1,46 @@
+{
+  "schema": 1,
+  "kind": "read-only-actual-native015-delivery-review",
+  "decision": "overall-delivery-unqualified-retain-failed-attempt",
+  "correctness_finding": "No false-positive canonical publication or Native DRC failure demonstrated; the frozen final delivery/cancellation gate failed closed.",
+  "bindings_sha256": {
+    "outer_result": "9310c5e681b0720e3b0f6d6ded1e343a6b2521b0011209c1a3a203e0c63e817c",
+    "canonical_child_result": "6c734088988bb9a59b3b1d897ceb6e88d9995b10db7988f8f4a0a490e169cc25",
+    "archived_child_positive": "eb77ef5db323380d7b9c19fbd226bdcedbba99a446613a8f3e0362e23a1643bd",
+    "route_result": "3036598715eceda75cfce389a48d17ed423072af45411d3e15edf80b3f352edc",
+    "export_receipt": "27fe1dcacdf75176aacc16a9d7375d599df76255e6b89c3c8c67f2956ad7c99a",
+    "controller003": "60014d0dbde9836fd40c21620e05ffaf847ab6394817b84b174706058e468d19",
+    "child002": "8f4c9f430eab1fd99f095fe3336ed6ff920878a39a832fc26c08a9f71bc994dd",
+    "protocol003": "e32ede344f2dbf184271f2735c372c934e94d269c4407b84101ba8430d5ebd70"
+  },
+  "final_status": {
+    "outer": {"status": "cancelled", "passed": false, "accepted": false, "coordinator_exit_code": 2, "cancel_requested": true, "log_truncated": false},
+    "child": {"status": "budget_exceeded", "passed": false, "accepted": false, "reason": "Rejected: export readback cancelled"},
+    "archived_child": "Earlier completed/passed=true receipt at charged136.642663s was moved to invalidated-result-9e1e26a35a794de1a70d1522c2998100.json. It is historical evidence, not the canonical result.",
+    "cleanup_scope": "Existing CLI worker cleanup only; outer receipt does not certify descendant cleanup."
+  },
+  "cost_readback": {
+    "charged_outer_wall_seconds": 176.10073862504214,
+    "charged_outer_full_cpu_seconds": 164.37486499999997,
+    "outer_execution_wall_seconds_sample": 172.43110575003084,
+    "outer_execution_full_cpu_seconds_sample": 160.92624299999997,
+    "charged_preparation_wall_seconds": 3.6696172500378452,
+    "charged_preparation_full_cpu_seconds": 3.448616,
+    "child_charged_wall_seconds": 175.38071725005284,
+    "child_charged_full_cpu_seconds": 163.97148299999998,
+    "interpretation": "These totals include the conservative2s preparation-publication charge. Outer total stayed below180s, but the watchdog fired and child exceeded its frozen172s charged acceptance allowance. Terminal status/process gates therefore still refuse the slice."
+  },
+  "retained_prerequisites": {
+    "route": "routing_accepted; source1open, final0opens/0blocking/6warnings/0exclusions; receipt sample17.384473s wall/8.834012s CPU",
+    "export": "export_validated/export_accepted=true; own refill/fullSCH/netclasses/metrics workers retained, final0opens/0blocking/6warnings/0exclusions; receipt sample28.280186s wall/26.954533s CPU",
+    "common_candidate_sha256": "901490af7d90efe8c16e6cfd8e996548d39da3842f35bafda07314ce99f92f00",
+    "native_version": "10.0.7",
+    "warnings": "Six raw Datasheet '~' versus empty schematic field warnings remain, with effective-field proof; no warning waiver or whole-project cleanliness claim.",
+    "review": "Rendered F.Cu/B.Cu review and software accept intent retained; no human approval/application.",
+    "default_consumers": "Route, review-context, choice binding and export each specifically refused missing explicit caller context.",
+    "earlier_checked_export": "current=true was recorded before the later cancelled readback; this is a retained earlier observation, not a newly established current proof."
+  },
+  "source_assessment": "child002.fresh calls full ex.check_export and is passed as both f.publish stable and final_check, so publication may perform four full semantic replays after the earlier explicit check_export. Each reader itself rebinds and rechecks complete source/review/export/tool evidence. Repeated work is a concrete performance concern; the stored records do not identify the exact interrupted repeat or provide a profile, so no per-call timing or cache repair is asserted. Cancellation converted to Rejected('export readback cancelled'); f.publish archived the earlier positive and account cleared passed. No demonstrated source/electrical mismatch or acceptance downgrade is exposed here.",
+  "remaining_gate": "A completed frozen final delivery/publication/readback within every declared wall/full-CPU reserve remains unmet. Do not reinterpret this failed attempt as a passed slice, raise its ceiling retroactively, discard checks to obtain a pass, or rerun this exposed protocol silently.",
+  "review_actions": "Read-only JSON/log/frozen-source inspection and SHA checks only; sole write is this review. No imports, tests, Native/JVM/GUI/Git/delegation or rerun."
+}
