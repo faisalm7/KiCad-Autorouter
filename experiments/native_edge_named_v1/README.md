@@ -1,7 +1,7 @@
 # Prospective known-named edge importer prerequisite
 
-Unexecuted source. No Java compilation, pinned-JAR load, Native worker or routing
-result has been obtained for this experiment. Ordinary production callers of
+Java remains uncompiled and unexecuted. The lead completed three actual Native
+export/map prerequisites; no importer matrix or routing result has been obtained. Ordinary production callers of
 native_edge.derive_context keep experimental_named_classes=False and the original
 Default-only behavior/reason. Only the experiment may pass literal Boolean true.
 
@@ -66,7 +66,7 @@ Loaded inheritance remains a hypothesis until this prerequisite passes.
 The outer frozen protocol validates the eight positive and one negative input
 hashes; the observer emits the actual bytes' hashes. The finite `driver.py` now
 provides the phase-separated controller below. Java remains uncompiled and the
-Native preparation and importer phases remain unexecuted.
+importer phase remains unexecuted; the completed Native export preparation is reused.
 
 Passing this observer closes only importer matrix inheritance. Next, separately
 freeze actual unchanged-rule Native track/via allowed/below-threshold controls,
@@ -109,73 +109,75 @@ are exposed importer controls, not new benchmark families or repaired source
 boards. Source and generated design files are GPL-3.0-or-later; no acquisitions,
 external assets or private inputs are involved.
 
-The pure initial freeze was executed once without workers and is retained as an
-unexecuted superseded draft:
-`.runs/native-edge-named-preparation-001/source-plan.json`, SHA256
-`73e5aa1a627e55d271c97ced05d79547bc7d89135a538a57407a30604b57e096`.
-It pins all runtime Python, experiment Python/Java, owned generator and lock bytes;
-all exact Native/Java/JAR dependency hashes; retained source/process/alias/raw proof;
-and the new source packet hashes. It costs0.254s observed tool wall; receipt costs
-are recorded separately. Authoring/review costs were not measured. A changed
-implementation invalidates this freeze and must be recorded as a new prospective
-freeze without overwriting this evidence.
+The current source freeze is
+`.runs/native-edge-named-preparation-001/source-plan-003.json`, SHA256
+`177127094aced9c28656bb545adb36f961f256ccc8c9e8d6ef04beb745d4eaac`.
+The prior002 freeze and actual completed Native preparation remain intact. The
+Native preparation result SHA256 is
+`6580eaf8f83a7a60d007f6c8898b07260b3671137cd32c8ce13acedcc7f6cad5`;
+its actual costs are2.952459wall/2.631385fullCPU seconds. Lead reported external
+supervisor costs3.56wall/3.22CPU separately. These are Native export/map preparation
+costs, not routing or candidate validation. No exports were repeated.
 
-The current source freeze is `source-plan-002.json` in the same preparation
-folder, SHA256 `aa894a2385930c59f2dde55da4f01175391ef89b5aed661e62a4524875795b3b`.
-It reuses all three byte-identical source packets and records the prior draft hash.
-It closes phase-wide cancellation and explicit budget-exhaustion status; three
-pure authored controller controls passed with real self-SIGINT/SIGTERM and mocked
-workers/tools/proofs. Logs are `controller-controls-002{.log,-time.log}` in that
-folder (.010s tests/.18s wall/.12s CPU). These controls do not establish Native
-correctness. Temporary whole-phase signal handlers use the product pattern and
-restore previous handlers; the shared runner still owns active-child cancellation.
+Pure freeze001 failed before any JVM because a singleton rule lookup saw the
+intentional original+edge rule pair. The three partial files survive unchanged in
+`import-inputs-failed-001/`; `import-freeze-failure-001.json` records the reported
+exception and that original stdout/stderr and pure failure costs were not retained.
+No log or missing cost was reconstructed. The bounded correction now selects only
+an exact original width/default/SMD rule followed by the exact added edge block.
+Unknown/missing/reversed/additional rules refuse. Two targeted pure controls pass
+(.033test/.20wall/.15CPU), retained as `pure-freeze-controls-003{.log,-time.log}`.
+They test the two-rule defect and rejection of changed Native code, alias/class
+semantics, source packet or tools; they establish no loaded matrix correctness.
 
-The observer no longer assumes Class0 is unreachable. It observes every actual
+New003 explicitly links prior002 and the exact actual Native-preparation receipt.
+Reuse requires every original source packet, all runtime modules (including
+native.py, alias and class helpers), Java observer, generator, lock and dependency
+pins to remain exact. Only this pure driver and its regression file may differ.
+All three actual export process/log/zero-alias/class proofs are replayed, and the
+complete preparation tree is frozen. Changed/missing/corrupt evidence refuses.
+`prepare-native` now explicitly refuses rerunning this linked completed preparation.
+All original draft/source evidence is preserved.
+
+The successful new pure import freeze is `import-protocol.json`, SHA256
+`052fe7a2896645ea3dfa0981a29a97a6b59b2d904c1f9402785f1207645202a4`.
+It freezes nine actual raw/corrected/eager DSNs plus four correction records,
+original/current source hashes, before/after class proofs, byte-exact Default/False
+refusals and reconstructed nonedge AST. Source-plan003 pure freeze cost0.219s external
+wall and import freeze0.177s external wall; research authoring/review costs were not
+measured. This corrected continuation is not an unattended first-attempt result.
+
+The controller keeps temporary whole-phase SIGINT/SIGTERM handlers through final
+publication and restores previous handlers; the shared runner owns active-child
+cancellation. Expired whole wall/fullCPU budget reports `budget_exceeded`. Three
+prior authored controller controls passed with real self-signals and mocked workers
+(`controller-controls-002{.log,-time.log}`, .010test/.18wall/.12CPU). Those are process
+controls, not Native/importer proof.
+
+The observer does not assume Class0 is unreachable. It observes every actual
 non-outline imported item, trace class, routed default and via-info override and
 refuses Class0, unnamed or outline class assignments. Only the explicit NONE enum
 is nonroutable. The exact pinned enum fields NONE/TRACE/VIA/PIN/SMD/AREA were read
 statically from the retained JAR, not executed (enum class SHA256
 `972d84f7646d32b3516e706b4ca8a6b5f0939cd68c0d5a62cad1fc4df1615a37`). Unknown enums
-refuse. Raw class-index and reachability observations are retained alongside the
-name-normalized comparison; a fixed case that reaches Class0 will fail rather than
-receive a waiver.
+refuse. Raw class-index and reachability observations accompany normalized
+comparisons; a fixed case reaching Class0 fails rather than receiving a waiver.
 
-After lead review/checkpoint and an explicitly available foreground lane, run
-from the repository root, one command at a time:
-
-```sh
-.venv/bin/python -B experiments/native_edge_named_v1/driver.py prepare-native --sha256 aa894a2385930c59f2dde55da4f01175391ef89b5aed661e62a4524875795b3b --allow-native
-```
-
-This starts only three sequential existing Native export/map helpers and retains
-its result at `native-preparation/result.json` below that preparation folder.
-It requires exact committed runtime provenance and the existing shared
-`.runs/quality-experiment.lock`, verifies fresh actual process/log/zero-alias/source
-bindings and shared class audit, and has a separate whole60s wall/fullCPU budget.
-It does not run DRC, routing, GUI, SCHexport or candidate acceptance. Expected opens
-are not invalid source designs. Retained parent300 is not re-executed.
-
-After that result passes, compute its actual SHA256 and substitute it below. This
-phase starts no workers and freezes all nine inputs, exact before/after class
-proofs, byte-exact Default/False refusal controls and reconstructed nonedge AST:
+After lead review, source/protocol checkpoint and an explicitly available
+foreground lane, the only remaining worker command is:
 
 ```sh
-.venv/bin/python -B experiments/native_edge_named_v1/driver.py freeze-import --sha256 aa894a2385930c59f2dde55da4f01175391ef89b5aed661e62a4524875795b3b --preparation-sha256 ACTUAL_PREPARATION_RESULT_SHA256
+.venv/bin/python -B experiments/native_edge_named_v1/driver.py run-import --sha256 052fe7a2896645ea3dfa0981a29a97a6b59b2d904c1f9402785f1207645202a4 --allow-jvm
 ```
 
-After reviewing/checkpointing the new `import-protocol.json`, pass its actual hash:
-
-```sh
-.venv/bin/python -B experiments/native_edge_named_v1/driver.py run-import --sha256 ACTUAL_IMPORT_PROTOCOL_SHA256 --allow-jvm
-```
-
-The existing runner executes just one sandboxed Java source-launcher command, nine
+The existing runner executes one sandboxed Java source-launcher command with nine
 fixed full-manager loads, no routing. Whole phase wall/fullCPU cap60s includes
 verification, compile/load and publication, with a2s publication reserve. Native
-preparation/source-freeze costs remain separate research costs in the final record;
-they are not hidden or represented as router runtime. The shared runner provides
-cancellation/process-group cleanup and polled1GiBgroupRSS/32MiBworkdir bounds; these
-are not hard aggregate CPU/memory quotas. The final actual process, untruncated log,
-observation and frozen inputs remain byte-bound through the shared publisher.
-`accepted`, `production_admitted`, `routing_executed` and `native_executed` remain
-false in the importer result even if importer checks pass.
+preparation/source-freeze costs remain separately visible research costs in the
+final record. The existing shared lane lock, denied network, cancellation/group
+cleanup and polled1GiBgroupRSS/32MiBworkdir bounds remain mandatory. Polling is not a
+hard aggregate CPU/memory quota. The actual process, untruncated log, observation
+and frozen inputs stay byte-bound through the shared publisher. `accepted`,
+`production_admitted`, `routing_executed` and `native_executed` remain false in the
+importer result even if importer checks pass. The original fixed-fixture and later
+unchanged-rule Native/candidate gates above are not waived.

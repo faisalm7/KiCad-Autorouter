@@ -28,7 +28,13 @@ from autorouter.runner import run
 from experiments.native_edge_named_v1 import fixture
 
 BASE = ROOT / '.runs/native-edge-named-preparation-001'
-PLAN = BASE / 'source-plan-002.json'
+PLAN = BASE / 'source-plan-003.json'
+PRIOR_PLAN = BASE / 'source-plan-002.json'
+PRIOR_PLAN_PIN = 'aa894a2385930c59f2dde55da4f01175391ef89b5aed661e62a4524875795b3b'
+PREPARATION_PIN = '6580eaf8f83a7a60d007f6c8898b07260b3671137cd32c8ce13acedcc7f6cad5'
+PURE_FREEZE_CORRECTION_FILES = frozenset((
+    'experiments/native_edge_named_v1/driver.py',
+    'experiments/native_edge_named_v1/test_controller.py'))
 HERE = Path(__file__).resolve().parent
 RETAINED = ROOT / '.runs/four-cu-class-native-001/native1000'
 CASES = ('literal300', 'parent300', 'underscore300', 'literal250')
@@ -84,6 +90,9 @@ def check_source_plan(plan):
         require(inventory(source) == plan['sources'][name], 'owned source packet changed')
         require({key: digest(raw) for key, raw in fixture.files(name).items()} == plan['sources'][name], 'owned source recipe changed')
     require(check_retained() == plan['retained_control'], 'retained original proof changed')
+    if 'reused_native_preparation' in plan:
+        _, link = check_preparation_reuse(plan)
+        require(link == plan['reused_native_preparation'], 'reused Native preparation provenance changed')
 
 
 def export_proof(directory, data, board, dsn, mapping, *, historical_source=None, sandboxed=True):
@@ -131,13 +140,68 @@ def check_retained():
                 reused_actual_native=True, fresh_native_execution=False, full_candidate_revalidation=False)
 
 
+def check_preparation_reuse(plan):
+    """Replay the exact completed exports; only the pure freeze driver changed.
+
+    No old receipt selects tools or excuses changed Native code, source packets,
+    process evidence, alias observations or class semantics. The full runtime,
+    Java observer, owned generator and lock pin populations must remain exact.
+    """
+    prior = frozen(PRIOR_PLAN, PRIOR_PLAN_PIN)
+    require(prior.get('schema') == 1 and prior.get('kind') == 'named-edge-source-plan-v1'
+            and prior.get('accepted') is False and prior.get('production_admitted') is False,
+            'prior Native source plan scope differs')
+    old, current = prior['code_sha256'], plan['code_sha256']
+    require(set(old) == set(current), 'Native prerequisite code population changed')
+    changed = sorted(name for name in old if old[name] != current[name])
+    require(set(changed) <= PURE_FREEZE_CORRECTION_FILES,
+            'only the pure freeze driver and its regression may change for export reuse')
+    require(plan['sources'] == prior['sources'] and plan['tool_sha256'] == prior['tool_sha256']
+            and plan['retained_sha256'] == prior['retained_sha256']
+            and plan['retained_control'] == prior['retained_control'],
+            'original source/tool/retained prerequisite changed')
+    checked_pins({name: pin for name, pin in old.items() if name not in PURE_FREEZE_CORRECTION_FILES})
+    prepared = frozen(BASE/'native-preparation/result.json', PREPARATION_PIN)
+    require(prepared.get('schema') == 1 and prepared.get('kind') == 'named-edge-native-preparation-v1'
+            and prepared.get('passed') is True and prepared.get('status') == 'completed'
+            and prepared.get('accepted') is False and prepared.get('production_admitted') is False
+            and prepared.get('routing_executed') is False and prepared.get('budget_seconds') == CAP
+            and prepared.get('source_plan_sha256') == PRIOR_PLAN_PIN,
+            'exact completed Native preparation required')
+    require(all(type(prepared.get(key)) in (int, float) and 0 <= prepared[key] < CAP
+                for key in ('wall_seconds', 'full_cpu_seconds')), 'Native preparation exceeded its budget')
+    require(prepared['tools']['kicad'] == '10.0.0'
+            and prepared['tools']['files'] == prior['tool_sha256']
+            and prepared['tools']['implementation_sha256'] ==
+                {name: pin for name, pin in old.items() if name.startswith('autorouter/')},
+            'completed Native helper/tool provenance differs')
+    require(len(prepared['rows']) == 3
+            and [row['case'] for row in prepared['rows']] == list(fixture.CASES),
+            'exact three completed Native exports required')
+    proofs = {}
+    for row in prepared['rows']:
+        folder = BASE/'native-preparation'/row['case']
+        board = next((BASE/'sources'/row['case']).glob('*.kicad_pcb'))
+        require(inventory(board.parent) == prior['sources'][row['case']], 'completed export source packet changed')
+        observed = export_proof(folder, row, board, folder/'native.dsn', folder/'native-netclasses.json')
+        require(observed == row['proof'], 'completed Native export process/source/alias/class proof changed')
+        proofs[row['case']] = observed
+    return prepared, dict(prior_source_plan=str(PRIOR_PLAN), prior_source_plan_sha256=PRIOR_PLAN_PIN,
+                         native_preparation=str(BASE/'native-preparation/result.json'),
+                         native_preparation_sha256=PREPARATION_PIN,
+                         native_preparation_material_sha256=inventory(BASE/'native-preparation'),
+                         permitted_changed_pure_files=changed, export_proofs=proofs,
+                         unchanged_all_runtime_helpers_observer_generator_lock_and_tools=True,
+                         native_exports_reused=3, native_exports_rerun=False)
+
+
 def source_freeze():
-    require(not PLAN.exists() and not PLAN.is_symlink(), 'fresh source-plan002 required')
+    require(not PLAN.exists() and not PLAN.is_symlink(), 'fresh source-plan003 required')
     h.real_path(BASE, existing=BASE.exists())
     BASE.mkdir(exist_ok=True); (BASE / 'sources').mkdir(exist_ok=True)
     result = dict(schema=1, kind='named-edge-source-plan-v1', accepted=False, production_admitted=False,
                   code_sha256=code_pins(), tool_sha256=tools_pins(), sources={}, retained_control=check_retained(),
-                  native_exports_required=list(fixture.CASES), native_export_budget_seconds=CAP,
+                  native_exports_required=[], native_export_budget_seconds=CAP,
                   importer_budget_seconds=CAP, importer_loads=9, cases=list(CASES),
                   phase_separation='Native export preparation and importer execution separately frozen/costed. No routing, no product acceptance.')
     for name in fixture.CASES:
@@ -152,10 +216,11 @@ def source_freeze():
     retained_paths += list((RETAINED / 'source').iterdir())
     retained_paths += [RETAINED / 'route/task.dsn', RETAINED / 'route/task.alias-export.json', RETAINED / 'route/task.alias-source.kicad_pcb']
     result['retained_sha256'] = pins(retained_paths)
+    _, result['reused_native_preparation'] = check_preparation_reuse(result)
     check_source_plan(result)
     result.update(preparation_wall_seconds=time.monotonic()-START, preparation_full_cpu_seconds=cpu()-CPU0)
-    draft=BASE/'source-plan.json'
-    if draft.exists():result['supersedes_unexecuted_source_plan']=dict(path=str(draft),sha256=digest(read(draft)))
+    draft=PRIOR_PLAN
+    if draft.exists():result['supersedes_source_plan_after_pure_freeze_failure']=dict(path=str(draft),sha256=digest(read(draft)))
     save(PLAN, result)
     return dict(source_plan=str(PLAN), sha256=digest(read(PLAN)), workers_executed=False)
 
@@ -192,6 +257,7 @@ def cancellable_phase(action):
 @cancellable_phase
 def prepare_native(pin):
     plan = frozen(PLAN, pin); check_source_plan(plan)
+    require('reused_native_preparation' not in plan, 'completed Native exports must be reused, not rerun')
     out = BASE / 'native-preparation'; require(not out.exists(), 'fresh Native preparation required'); out.mkdir()
     owner = {}; h.capture_destination(owner, out); tools = p.tool_manifest(); rows = []
     record = dict(schema=1, kind='named-edge-native-preparation-v1', accepted=False, passed=False,
@@ -222,11 +288,27 @@ def prepare_native(pin):
     return record
 
 
+def original_rule_for_eager_control(structure):
+    """Select the original rule from the exact original+edge rule pair."""
+    rules = sx.children(structure, 'rule')
+    expected = ['rule', *[['clearance', '300', ['type', pair]] for pair in
+                         ('default_'+edge.CLASS, 'smd_'+edge.CLASS, edge.CLASS+'_'+edge.CLASS)]]
+    require(len(rules) == 2 and rules[1] == expected, 'exact original and added edge rules required')
+    original = rules[0]; clearances = sx.children(original, 'clearance'); width = sx.one(original, 'width')
+    require(len(original) == 4 and width is not None and len(width) == 2
+            and len(clearances) == 2 and len(clearances[0]) == 2
+            and len(clearances[1]) == 3 and clearances[1][2] == ['type', 'smd_smd'],
+            'exact original global width/default/SMD rule required')
+    return original
+
+
 def import_freeze(plan_pin, preparation_pin):
     plan = frozen(PLAN,plan_pin); check_source_plan(plan)
     prepared = frozen(BASE/'native-preparation/result.json',preparation_pin)
     require(prepared.get('passed') is True and prepared.get('status') == 'completed'
-            and prepared.get('source_plan_sha256') == plan_pin and prepared.get('accepted') is False
+            and preparation_pin == plan['reused_native_preparation']['native_preparation_sha256']
+            and prepared.get('source_plan_sha256') == plan['reused_native_preparation']['prior_source_plan_sha256']
+            and prepared.get('accepted') is False
             and prepared.get('production_admitted') is False, 'Native preparation did not complete')
     require(len(prepared['rows']) == 3 and [r['case'] for r in prepared['rows']] == list(fixture.CASES), 'exact three Native prerequisites required')
     out = BASE/'import-inputs'; require(not out.exists(), 'fresh import freeze required'); out.mkdir(); cases=[]
@@ -257,7 +339,9 @@ def import_freeze(plan_pin, preparation_pin):
         cases.append(dict(case=name,source=str(source),source_hashes=inventory(source.parent),export_proof=proof,
                           original_edge_um=context['requested_clearance_um'], correction=correction,corrected_class_audit=after_audit))
         if name=='literal300':
-            eager=a._parse_dsn(changed.decode()); structure=sx.one(eager,'structure'); global_gap=edge._number(sx.children(sx.one(structure,'rule'),'clearance')[0][1])
+            eager=a._parse_dsn(changed.decode()); structure=sx.one(eager,'structure')
+            original_rule=original_rule_for_eager_control(structure)
+            global_gap=edge._number(sx.children(original_rule,'clearance')[0][1])
             classes=sx.children(sx.one(eager,'network'),'class'); named=[cls for cls in classes if sx.unquote(cls[1])!='kicad_default']
             require(len(named)==1 and edge._number(sx.one(sx.one(named[0],'rule'),'clearance')[1])>global_gap, 'eager-row negative needs a named clearance above global')
             pair=sx.unquote(named[0][1])+'_'+edge.CLASS
@@ -265,6 +349,8 @@ def import_freeze(plan_pin, preparation_pin):
             write(out/'literal300-eager-control.dsn',a._dump_dsn(eager).encode())
     record=dict(schema=1,kind='named-edge-import-protocol-v1',accepted=False,production_admitted=False,
                 source_plan_sha256=plan_pin,native_preparation_sha256=preparation_pin,source_plan_code_sha256=plan['code_sha256'],
+                native_preparation_source_plan_sha256=prepared['source_plan_sha256'],
+                reused_native_preparation=plan['reused_native_preparation'],
                 tool_sha256=plan['tool_sha256'],cases=cases,input_sha256=inventory(out),importer_loads=9,
                 budget_seconds=CAP,max_log_bytes=512*1024,max_group_rss_bytes=1024**3,max_workdir_bytes=LIMIT,
                 scope='One actual full-manager inheritance prerequisite. Retained parent export reused without Native rerun; three new Native exports separate preparation cost. No routing or product admission.')
